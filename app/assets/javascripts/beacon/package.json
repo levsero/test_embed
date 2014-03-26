@@ -1,0 +1,21 @@
+{
+  "name": "zendesk_beacon",
+  "version": "0.1.0",
+  "description": "JavaScript beacon",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "devDependencies": {
+    "gulp": "~3.5.6",
+    "gulp-uglify": "~0.2.1",
+    "gulp-jshint": "~1.5.1",
+    "gulp-concat": "~2.2.0",
+    "gulp-es6-module-transpiler": "~0.1.0",
+    "through": "~2.3.4",
+    "es6-module-transpiler": "~0.3.6",
+    "gulp-browserify": "~0.5.0"
+  }
+}
