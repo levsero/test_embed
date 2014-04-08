@@ -1,6 +1,6 @@
 import { sendData } from './backend';
 import { getBuid, store, retrieve, parseUrl, win, document } from './utils';
-console.log(win, document);
+
 var url = location.origin;
 var now = Date.now();
 var buid = getBuid();
@@ -20,7 +20,7 @@ if(referrer.origin === url && previousTime) {
 }
 
 beacon({
-    url: url,
+    url: location.href,
     buid: buid,
     useragent: navigator.userAgent,
     referrer: referrer.href,
@@ -28,7 +28,7 @@ beacon({
     metrics: ['beacon']
 });
 
-win.Zenbox = module.exports = {
+win.Zd = module.exports = {
     buid: buid
 };
 

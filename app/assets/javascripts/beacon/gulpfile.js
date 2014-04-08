@@ -27,7 +27,7 @@ gulp.task('default', ['lint'], function() {
     gulp.src('src/main.js')
         .pipe(browserify({
             transform: [compile()],
-            standalone: 'Zenbox'
+            standalone: 'Zd'
         }))
         .pipe(uglify())
         .pipe(gulp.dest('./dist'));
