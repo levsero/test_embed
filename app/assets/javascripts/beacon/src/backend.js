@@ -1,21 +1,18 @@
-function addExtraInfo(data) {
-    data._ApplicationId = "EFXR24zTZGMEf3EZ8WCAPdNGEh9eISUXJ0RmHQI6";
-    data._JavaScriptKey = "e4feSQABtV0hI1xOc0bxclhaaDwmZwXc8M5MBJ5c";
-    delete data.name;
-
+function processData(data) {
     return JSON.stringify(data);
 }
 
 export function sendData(data, callback) {
     var xhr = new XMLHttpRequest();
 
-    xhr.open('POST', 'https://api.parse.com/1/classes/' + data.name, true);
+    xhr.open('POST', 'http://heroku-postgres-a674bb93.herokuapp.com/api/blips', true);
     xhr.addEventListener('readystatechange', function(e) {
         if(xhr.readyState === 4 && xhr.status >= 200 && xhr.status <= 300) {
             callback(xhr.responseText);
         }
     }, false);
+    xhr.setRequestHeader('Content-Type', 'application/json');
 
-    xhr.send(addExtraInfo(data));
+    xhr.send(processData(data));
 }
 
