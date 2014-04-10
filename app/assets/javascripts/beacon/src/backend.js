@@ -5,7 +5,7 @@ function processData(data) {
 export function sendData(data, callback) {
     var xhr = new XMLHttpRequest();
 
-    xhr.open('POST', 'http://heroku-postgres-a674bb93.herokuapp.com/api/blips', true);
+    xhr.open('POST', 'http://zensnow.herokuapp.com/api/blips', true);
     xhr.addEventListener('readystatechange', function(e) {
         if(xhr.readyState === 4 && xhr.status >= 200 && xhr.status <= 300) {
             callback(xhr.responseText);
