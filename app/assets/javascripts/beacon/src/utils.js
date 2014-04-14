@@ -9,10 +9,10 @@ function hex() {
 
 function generateBuid() {
     return [
-        hex(), hex(), '-',
-        hex(), '-',
-        hex(), '-',
-        hex(), '-',
+        hex(), hex(),
+        hex(),
+        hex(),
+        hex(),
         hex(), hex(), hex()
     ].join('');
 }

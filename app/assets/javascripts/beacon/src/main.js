@@ -14,17 +14,18 @@ var beacon = function(opts) {
     });
 };
 
-store('currentTime', now, 'session');
-if(referrer.origin === url && previousTime) {
-    var timeOnLastPage = (now - previousTime);
+function timeOnLastPage() {
+    return referrer.origin === url && previousTime ? (now - previousTime) : 0;
 }
+
+store('currentTime', now, 'session');
 
 beacon({
     url: location.href,
     buid: buid,
     useragent: navigator.userAgent,
     referrer: referrer.href,
-    time: timeOnLastPage ? timeOnLastPage : 0,
+    time: timeOnLastPage(),
     metrics: ['beacon']
 });
 

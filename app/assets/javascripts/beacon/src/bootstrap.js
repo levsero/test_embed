@@ -1,3 +1,4 @@
+// Code taken from http://www.lognormal.com/blog/2012/12/12/the-script-loader-pattern/
 (function(url){
 // Section 1
   var dom,doc,where,iframe = document.createElement('iframe');

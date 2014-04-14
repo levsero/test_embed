@@ -1,12 +1,11 @@
 var gulp = require('gulp');
 var uglify = require('gulp-uglify');
 var jshint = require('gulp-jshint');
-var concat = require('gulp-concat');
 var browserify = require('gulp-browserify');
 var through = require('through');
 var Compiler = require('es6-module-transpiler').Compiler;
 
-function compile(opts) {
+function ES6ModuleCompile(opts) {
     var buf = '';
     return function () {
         return through(write, end);
@@ -23,14 +22,18 @@ function compile(opts) {
     }
 }
 
-gulp.task('default', ['lint'], function() {
+gulp.task('build', ['lint'], function() {
     gulp.src('src/main.js')
         .pipe(browserify({
-            transform: [compile()],
-            standalone: 'Zd'
+            transform: [ES6ModuleCompile()]
         }))
         .pipe(uglify())
         .pipe(gulp.dest('./dist'));
+});
+
+gulp.task('copyToStaticFolder', ['build'], function() {
+    gulp.src('dist/*.js')
+        .pipe(gulp.dest('../../../../public/static'));
 });
 
 gulp.task('lint', function() {
@@ -38,3 +41,5 @@ gulp.task('lint', function() {
         .pipe(jshint())
         .pipe(jshint.reporter('default'));
 });
+
+gulp.task('default', ['build']);
