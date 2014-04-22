@@ -1,0 +1,14 @@
+language: node_js
+node_js:
+  - "0.10"
+
+before_script:
+  - npm install -g gulp
+  - gulp build
+script:
+  - gulp test
+
+notifications:
+  email: false
+  flowdock: f619a91a70a2620c4e9dba9c267cddbdi
+  webhooks: https://samson.zende.sk/integrations/travis/b127503546dbc459293e47fbae026af2
