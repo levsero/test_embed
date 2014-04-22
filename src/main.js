@@ -8,29 +8,29 @@ var buid = getBuid();
 var referrer = parseUrl(document.referrer);
 var previousTime = retrieve('currentTime', 'session') || 0;
 var beacon = function(opts) {
-    url = opts.url || '';
+  url = opts.url || '';
 
-    sendData(opts, function(response) {
-        console.log(response);
-    });
+  sendData(opts, function(response) {
+    console.log(response);
+  });
 };
 
 function timeOnLastPage() {
-    return referrer.origin === url && previousTime ? (now - previousTime) : 0;
+  return referrer.origin === url && previousTime ? (now - previousTime) : 0;
 }
 
 store('currentTime', now, 'session');
 
 beacon({
-    url: location.href,
-    buid: buid,
-    useragent: navigator.userAgent,
-    referrer: referrer.href,
-    time: timeOnLastPage(),
-    metrics: ['beacon']
+  url: location.href,
+  buid: buid,
+  useragent: navigator.userAgent,
+  referrer: referrer.href,
+  time: timeOnLastPage(),
+  metrics: ['beacon']
 });
 
 win.Zd = module.exports = {
-    identity: identity
+  identity: identity
 };
 
