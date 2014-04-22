@@ -37,5 +37,9 @@ gulp.task('lint', function() {
     .pipe(jshint.reporter('default'));
 });
 
+gulp.task('watch', ['build'], function() {
+  gulp.watch(['src/**/*.js'], ['build']);
+});
+
 gulp.task('default', ['build']);
 
