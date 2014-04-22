@@ -1,5 +1,6 @@
-import { sendData } from './backend';
-import { getBuid, store, retrieve, parseUrl, win, document } from './utils';
+import { sendData } from './utils/backend';
+import { getBuid, store, retrieve, parseUrl, win, document } from './utils/utils';
+import { identity } from './identity';
 
 var url = location.origin;
 var now = Date.now();
@@ -30,6 +31,6 @@ beacon({
 });
 
 win.Zd = module.exports = {
-    buid: buid
+    identity: identity
 };
 

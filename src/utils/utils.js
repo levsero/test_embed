@@ -1,5 +1,7 @@
-export var win = window.top;
-export var document = win.document;
+var win = window.top;
+var document = win.document;
+
+export { win, document };
 
 var anchor = document.createElement('a');
 
@@ -17,8 +19,8 @@ function generateBuid() {
     ].join('');
 }
 
-export function getBuid() {
-    var buid = localStorage.getItem('ZD-buid');
+function getBuid() {
+    var buid = retrieve('buid');
 
     if(!buid) {
         buid = generateBuid();
@@ -28,7 +30,7 @@ export function getBuid() {
     return buid;
 }
 
-export function store(name, data, type) {
+function store(name, data, type) {
     type = type || 'local';
     if(typeof data === 'object') {
         data = JSON.stringify(data);
@@ -36,7 +38,7 @@ export function store(name, data, type) {
     win[type + 'Storage'].setItem('ZD-'+name, data);
 }
 
-export function retrieve(name, type) {
+function retrieve(name, type) {
     type = type || 'local';
     var item = win[type + 'Storage'].getItem('ZD-' + name);
     try {
@@ -46,10 +48,10 @@ export function retrieve(name, type) {
     }
 }
 
-export function parseUrl(url) {
+function parseUrl(url) {
     anchor.href = url;
 
     return anchor;
 }
 
-
+export { getBuid, store, retrieve, parseUrl };

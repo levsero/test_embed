@@ -2,8 +2,14 @@ var gulp = require('gulp');
 var uglify = require('gulp-uglify');
 var jshint = require('gulp-jshint');
 var browserify = require('gulp-browserify');
+var karma = require('gulp-karma');
 var through = require('through');
 var Compiler = require('es6-module-transpiler').Compiler;
+
+var testFiles = [
+    'dist/main.js',
+    'test/**/*.js'
+];
 
 function ES6ModuleCompile(opts) {
     var buf = '';
@@ -23,17 +29,12 @@ function ES6ModuleCompile(opts) {
 }
 
 gulp.task('build', ['lint'], function() {
-    gulp.src('src/main.js')
+    return gulp.src('src/main.js')
         .pipe(browserify({
             transform: [ES6ModuleCompile()]
         }))
         .pipe(uglify())
         .pipe(gulp.dest('./dist'));
-});
-
-gulp.task('copyToStaticFolder', ['build'], function() {
-    gulp.src('dist/*.js')
-        .pipe(gulp.dest('../../../../public/static'));
 });
 
 gulp.task('lint', function() {
@@ -42,4 +43,26 @@ gulp.task('lint', function() {
         .pipe(jshint.reporter('default'));
 });
 
+gulp.task('test', function() {
+    return gulp.src(testFiles)
+        .pipe(karma({
+            configFile: 'karma.conf.js',
+            action: 'run'
+        }))
+        .on('error', function(err) {
+            throw err;
+        });
+});
+
 gulp.task('default', ['build']);
+
+gulp.task('watch', function() {
+    gulp.watch('src/*.js', ['build']);
+});
+
+ //nasty hack to end process
+gulp.on('stop', function() {
+    process.nextTick(function() {
+        process.exit(0);
+    });
+});
