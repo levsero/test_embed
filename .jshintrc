@@ -1,0 +1,42 @@
+{
+  "predef":    [
+    "module", "require",
+    "process",
+    "Zd",
+    "before", "after",
+    "expect", "it", "describe", "xit", "xdescribe", "beforeEach", "afterEach",
+    "jasmine", "spyOn", "runs", "waitsFor"
+  ],
+
+  "bitwise":   true,
+  "newcap":    false,
+  "eqeqeq":    false,
+  "eqnull":    true,
+  "immed":     true,
+  "nomen":     false,
+  "onevar":    false,
+  "plusplus":  false,
+  "regexp":    false,
+  "strict":    false,
+  "undef":     true,
+  "white":     false,
+  "scripturl": true,
+
+  "debug":     false,
+  "evil":      false,
+  "forin":     false,
+  "laxbreak":  false,
+  "sub":       false,
+
+  "maxlen":     200,
+  "indent":     2,
+  "maxerr":     50,
+  "passfail":   false,
+  "browser":    true,
+  "node":       true,
+  "rhino":      false,
+  "devel":      true,
+  "lastsemic":  false,
+  "expr":       true,
+  "esnext":     true
+}
