@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var uglify = require('gulp-uglify');
 var jshint = require('gulp-jshint');
 var browserify = require('gulp-browserify');
+var reactify = require('reactify');
 var through = require('through');
 var Compiler = require('es6-module-transpiler').Compiler;
 var karma = require('gulp-karma');
@@ -24,6 +25,7 @@ function ES6ModuleCompile(opts) {
 }
 
 var testFiles = [
+  'node_modules/es5-shim/es5-shim.js',
   'dist/main.js',
   'test/**/*.js'
 ];
@@ -31,7 +33,7 @@ var testFiles = [
 gulp.task('build', ['lint'], function() {
   return gulp.src('src/main.js')
     .pipe(browserify({
-      transform: [ES6ModuleCompile()]
+      transform: [reactify, ES6ModuleCompile()]
     }))
     .pipe(uglify())
     .pipe(gulp.dest('./dist'));
