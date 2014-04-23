@@ -1,4 +1,5 @@
-# Engagement Framework
+# Engagement Framework [![Build Status](https://magnum.travis-ci.com/zendesk/engagement_framework.svg?token=eFe58axP7zq8qUuk6pMA&branch=master)](https://magnum.travis-ci.com/zendesk/engagement_framework)
+
 
 A 3rd party engagement framework that handles brining Zendesk outside of the agent view and onto 3rd party websites.
 
