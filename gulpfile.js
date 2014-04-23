@@ -28,7 +28,7 @@ var testFiles = [
   'test/**/*.js'
 ];
 
-gulp.task('build', ['lint', 'test'], function() {
+gulp.task('build', ['lint'], function() {
   return gulp.src('src/main.js')
     .pipe(browserify({
       transform: [ES6ModuleCompile()]
@@ -37,7 +37,7 @@ gulp.task('build', ['lint', 'test'], function() {
     .pipe(gulp.dest('./dist'));
 });
 
-gulp.task('test', function() {
+gulp.task('test', ['build'], function() {
   return gulp.src(testFiles)
     .pipe(karma({
       configFile: 'karma.conf.js',
@@ -46,10 +46,10 @@ gulp.task('test', function() {
     .on('error', function(err) {
       throw err;
     });
-})
+});
 
 gulp.task('lint', function() {
-  gulp.src('src/*.js')
+  return gulp.src('src/*.js')
     .pipe(jshint())
     .pipe(jshint.reporter('default'));
 });
