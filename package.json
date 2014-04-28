@@ -10,7 +10,7 @@
   "license": "All Rights Reserved",
   "dependencies": {
     "lodash": "~2.4.1",
-    "react": "~0.9"
+    "react": "~0.10"
   },
 
   "devDependencies": {
