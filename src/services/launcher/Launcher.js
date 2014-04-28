@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 import { _ } from 'lodash';
 module React from 'react';
-import { Frame } from './Frame.js';
+import { Frame } from '../../components/Frame.js';
 
 var launchers = {};
 
