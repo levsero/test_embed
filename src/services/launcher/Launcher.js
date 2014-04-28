@@ -7,18 +7,32 @@ var launchers = {};
 
 var Launcher = React.createClass({
   render: function() {
-      var iframeStyle = {
+      var base = {
           border: 'none',
           height: '50px',
           width: '50px',
           position: 'fixed',
-          bottom: '10px',
-          right: '20px'
+          bottom: '10px'
       };
+      var iframeStyle,
+          className;
+
+      if (this.props.position === "left") {
+          iframeStyle = _.extend(base, {
+              left: '20px'
+          });
+          className = "Launcher Launcher--left";
+      }
+      else {
+          iframeStyle = _.extend(base, {
+              right: '20px'
+          });
+          className = "Launcher";
+      }
 
     return (
       <Frame style={iframeStyle}>
-        <div onClick={this.props.onClick} className="Launcher--default">
+        <div onClick={this.props.onClick} className={className}>
           <div>?</div>
         </div>
       </Frame>
@@ -27,7 +41,7 @@ var Launcher = React.createClass({
 });
 
 function create(name, config) {
-  launchers[name] = <Launcher name={name} onClick={config.onClick} />;
+  launchers[name] = <Launcher name={name} onClick={config.onClick} position={config.position} />;
 }
 
 function list() {

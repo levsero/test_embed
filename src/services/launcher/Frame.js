@@ -10,7 +10,7 @@ export var Frame = React.createClass({
          padding: 0px;     \
          background: none; \
       }                    \
-      .Launcher--default {             \
+      .Launcher {             \
          position: fixed;              \
          width: 50px;                  \
          height: 50px;                 \
@@ -22,8 +22,11 @@ export var Frame = React.createClass({
          fontSize: 12px;               \
          border-radius: 25px 25px 3px; \
          cursor: pointer;              \
-      }                                \
-      .Launcher--default > div {       \
+      }\
+      .Launcher--left { \
+        border-radius: 25px 25px 25px 3px; \
+      }\
+      .Launcher > div {       \
          font-family: sans-serif; \
          font-weight: normal; \
          font-size: 26px; \

@@ -62,6 +62,13 @@ Ut accumsan tincidunt leo, id bibendum risus egestas vel. Etiam egestas convalli
 <script>
   var L = Zd.services.launcher;
 
+  L.create("delilah", {
+    position: 'left',
+    onClick: function() {
+      alert('hello world');
+    }
+  });
+
   L.create("samson", {
     onClick: function() {
       alert('hello');
@@ -69,6 +76,7 @@ Ut accumsan tincidunt leo, id bibendum risus egestas vel. Etiam egestas convalli
   });
 
   L.render('samson');
+  L.render('delilah');
 
 </script>
 
