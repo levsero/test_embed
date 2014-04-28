@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <title>main.js loader</title>
 </head>
-<body>
+<style>
+* {color: #000}
+</style>
+<body style='background-color:#fff'>
 <h1>main.js loader boom</h1>
 
 <div id="lipsum">
@@ -59,35 +62,13 @@ Ut accumsan tincidunt leo, id bibendum risus egestas vel. Etiam egestas convalli
 <script>
   var L = Zd.services.launcher;
 
-  //console.log(Zd.identity.getBuid());
-
-  L.create("samson", "side-right", function() {
-    console.log("hi i'm samson");
+  L.create("samson", {
+    onClick: function() {
+      alert('hello');
+    }
   });
-
-  L.create("delilah", "bottom-right", function() {
-    console.log("hi i'm delilah");
-  });
-
-  L.create("neil", "bottom-left", function() {
-    alert('i am alert neil');
-  });
-
-  L.create("orion", "side-left", function() {
-
-  });
-  
-  console.log(L.list());
-  console.log(L.get('samson'));
 
   L.render('samson');
-  L.render('delilah');
-  L.render('neil');
-  L.render('orion');
-
-  //L.get('samson').render();
-  
-  //L.get('neil').render();
 
 </script>
 
