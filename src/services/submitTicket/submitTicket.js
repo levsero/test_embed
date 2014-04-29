@@ -1,11 +1,28 @@
 /** @jsx React.DOM */
 
 module React from 'react';
+import { Frame } from '../../components/Frame.js';
 
 var SubmitTicket = React.createClass({
+
+
   render: function() {
+    var base = {
+          border: 'solid',
+          height: '500px',
+          width: '700px',
+          position: 'fixed',
+          top: '50%',
+          left: '50%',
+          margin: '-250px 0px 0px -350px',
+          background: "white"
+      };
     return (
-      <h1>testing</h1>
+      <Frame style={base}>
+        <div>
+          <div></div>
+        </div>
+      </Frame>
     );
   }
 });
