@@ -41,15 +41,17 @@ var Launcher = React.createClass({
 });
 
 function create(name, config) {
+  var configDefaults = {
+    onClick: function() {},
+    position: "right"
+  };
+  config = _.extend(configDefaults, config);
+
   launchers[name] = <Launcher name={name} onClick={config.onClick} position={config.position} />;
 }
 
 function list() {
   return launchers;
-}
-
-function listKeys() {
-  return _.keys(launchers);
 }
 
 function get(name) {
@@ -65,7 +67,6 @@ function render(name) {
 export var launcher = {
   create: create,
   list: list,
-  listKeys: listKeys,
   render: render,
   get: get
 };
