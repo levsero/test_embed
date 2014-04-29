@@ -4,8 +4,6 @@ module React from 'react';
 import { Frame } from '../../components/Frame.js';
 
 var SubmitTicket = React.createClass({
-
-
   render: function() {
     var base = {
           border: 'solid',
@@ -19,8 +17,40 @@ var SubmitTicket = React.createClass({
       };
     return (
       <Frame style={base}>
-        <div>
-          <div></div>
+         <div class="Container u-nbfc">
+          <h1>How can I help you?</h1>
+          <form action="https://<%= @host %>/requests/embedded/create/" method="post" class='Form'>
+            <div class="Form-container">
+              <div class="Grid">
+                <Input name="Description"/>
+              </div>
+              <div class="Grid">
+                <div class="Grid-cell Form-field">
+                  <label class="u-block Form-field-label">Message<abbr title="Requied">*</abbr></label>
+                  <textarea id="description" name="description" placeholder="Give us details here..." required rows="6" title="Please fill out this field." class="u-sizeFull Form-field-element"></textarea>
+                </div>
+              </div>
+              <div class="Grid Grid--withGutter">
+                <div class="Grid-cell u-size1of2 Form-field">
+                  <label class="u-block Form-field-label">Name<abbr title="Requied">*</abbr></label>
+                  <input id="name" name="name" required title="Please fill out this field." type="text" class="u-sizeFull Form-field-element" />
+                </div>
+                <div class="Grid-cell u-size1of2 Form-field">
+                  <label class="u-block Form-field-label">Your email address<abbr title="Requied">*</abbr></label>
+                  <input id="email" name="email" required title="Please fill out this field." type="email" class="u-sizeFull Form-field-element" />
+                </div>
+              </div>
+            </div>
+
+            <input id="locale_id" name="locale_id" type="hidden" value="1" />
+            <input id="set_tags" name="set_tags" type="hidden" value="dropbox buid-<%= @buid %>" />
+            <input id="via_id" name="via_id" type="hidden" value="17" />
+            <input id="client" name="client" type="hidden" value="" />
+            <input id="submitted_from" name="submitted_from" type="hidden" value="" />
+            <input id="ticket_from_search" name="ticket_from_search" type="hidden" value="" />
+
+            <input type="submit" class="Button Button--default u-pullRight" />
+          </form>
         </div>
       </Frame>
     );
@@ -37,6 +67,23 @@ function render() {
     React.renderComponent(<SubmitTicket />, el);
   }
 
+var Input = React.createClass ({
+    getInitialState: function() {
+       return {value: ''};
+    },
+    handleChange: function(event) {
+      this.setState({value: event.target.value});
+    },
+    render: function() {
+      var value = this.state.value;
+    return (
+      <div class="Grid-cell Form-field">
+      <label class="u-block Form-field-label">{this.props.name}<abbr title="Requied">*</abbr></label>
+      <input id="subject" value={value} onChange={this.handleChange} name="subject" placeholder="What do you need help with?" required title="Please fill out this field." type="text" class="u-sizeFull Form-field-element" />
+     </div>
+    );
+  }
+});
 
 export var submitTicket = {
   create: create,
