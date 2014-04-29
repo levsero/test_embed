@@ -22,22 +22,21 @@ var SubmitTicket = React.createClass({
           <form action="https://<%= @host %>/requests/embedded/create/" method="post" class='Form'>
             <div class="Form-container">
               <div class="Grid">
-                <Input name="Description"/>
+                <div class="Grid-cell Form-field">
+                <Input name="Description" placeholder="What do you need help with?"/>
+                </div>
               </div>
               <div class="Grid">
                 <div class="Grid-cell Form-field">
-                  <label class="u-block Form-field-label">Message<abbr title="Requied">*</abbr></label>
-                  <textarea id="description" name="description" placeholder="Give us details here..." required rows="6" title="Please fill out this field." class="u-sizeFull Form-field-element"></textarea>
+                  <Message />
                 </div>
               </div>
               <div class="Grid Grid--withGutter">
                 <div class="Grid-cell u-size1of2 Form-field">
-                  <label class="u-block Form-field-label">Name<abbr title="Requied">*</abbr></label>
-                  <input id="name" name="name" required title="Please fill out this field." type="text" class="u-sizeFull Form-field-element" />
+                  <Input name="Name" placeholder=""/>
                 </div>
                 <div class="Grid-cell u-size1of2 Form-field">
-                  <label class="u-block Form-field-label">Your email address<abbr title="Requied">*</abbr></label>
-                  <input id="email" name="email" required title="Please fill out this field." type="email" class="u-sizeFull Form-field-element" />
+                  <Email />
                 </div>
               </div>
             </div>
@@ -77,10 +76,46 @@ var Input = React.createClass ({
     render: function() {
       var value = this.state.value;
     return (
-      <div class="Grid-cell Form-field">
+      <div>
       <label class="u-block Form-field-label">{this.props.name}<abbr title="Requied">*</abbr></label>
-      <input id="subject" value={value} onChange={this.handleChange} name="subject" placeholder="What do you need help with?" required title="Please fill out this field." type="text" class="u-sizeFull Form-field-element" />
+      <input id="" value={value} onChange={this.handleChange} name="" placeholder={this.props.placeholder} required title="Please fill out this field." type="text" class="u-sizeFull Form-field-element" />
      </div>
+    );
+  }
+});
+
+var Email = React.createClass ({
+    getInitialState: function() {
+       return {value: ''};
+    },
+    handleChange: function(event) {
+      this.setState({value: event.target.value});
+    },
+    render: function() {
+      var value = this.state.value;
+    return (
+      <div>
+      <label class="u-block Form-field-label">Email<abbr title="Requied">*</abbr></label>
+      <input id="email" value={value} onChange={this.handleChange} name="email" required title="Please fill out this field." type="text" class="u-sizeFull Form-field-element" />
+     </div>
+    );
+  }
+});
+
+var Message = React.createClass ({
+    getInitialState: function() {
+       return {value: ''};
+    },
+    handleChange: function(event) {
+      this.setState({value: event.target.value});
+    },
+    render: function() {
+      var value = this.state.value;
+    return (
+      <div>
+        <label class="u-block Form-field-label">Message<abbr title="Requied">*</abbr></label>
+        <textarea id="description" value={value} onChange={this.handleChange} name="description" placeholder="Give us details here..." required rows="6" title="Please fill out this field." class="u-sizeFull Form-field-element"></textarea>
+      </div>
     );
   }
 });
