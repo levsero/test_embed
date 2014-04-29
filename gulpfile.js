@@ -36,7 +36,7 @@ gulp.task('build', ['lint'], function() {
     .pipe(browserify({
       transform: [reactify, ES6ModuleCompile()]
     }))
-    .pipe(uglify())
+    //.pipe(uglify())
     .pipe(gulp.dest('./dist'));
 });
 

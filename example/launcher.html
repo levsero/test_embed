@@ -31,11 +31,14 @@
 
     <script>
       var launcher = Zd.services.launcher;
+          form = Zd.services.submitTicket;
 
       launcher.create("delilah", {
         position: 'left',
         onClick: function() {
-          alert('hello world');
+          //console.log(form);
+          //console.log(launcher);
+          form.render();
         }
       });
 

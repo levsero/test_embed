@@ -2,7 +2,8 @@ import { _ } from 'lodash'; /* jslint ignore:line */
 import { sendData } from './utils/backend';
 import { getBuid, store, retrieve, parseUrl, win, document } from './utils/utils';
 import { identity } from './identity';
-import { launcher } from './services/launcher/Launcher';
+import { launcher } from "./services/launcher/Launcher";
+import { submitTicket } from "./services/submitTicket/submitTicket";
 
 var url = location.origin;
 var now = Date.now();
@@ -35,6 +36,7 @@ beacon({
 win.Zd = module.exports = {
   identity: identity,
   services: {
-    launcher: launcher
+    launcher: launcher,
+    submitTicket: submitTicket
   }
 };
