@@ -3,6 +3,25 @@
 module React from 'react';
 import { Frame } from '../../components/Frame.js';
 
+
+var notEmptyCondition = {
+  test: function (value) { return value !== '' }
+, message: 'Field cannot be empty'
+};
+
+var maxLengthCondition = function(length) {
+    return {
+        test: function(value) {
+            return value.length <= length;
+        },
+        message: "Value exceeds " + length + " characters."
+    };
+};
+
+var baseValidation = [notEmptyCondition, maxLengthCondition(100), maxLengthCondition(5), maxLengthCondition(10)];
+
+var emailConditions= [notEmptyCondition, maxLengthCondition(200)];
+
 var SubmitTicket = React.createClass({
   render: function() {
     var base = {
@@ -23,20 +42,20 @@ var SubmitTicket = React.createClass({
             <div class="Form-container">
               <div class="Grid">
                 <div class="Grid-cell Form-field">
-                <Input name="Description" placeholder="What do you need help with?"/>
+                <Input name="Description" validate={baseValidation} placeholder="What do you need help with?"/>
                 </div>
               </div>
               <div class="Grid">
                 <div class="Grid-cell Form-field">
-                  <Message />
+                  <Message validate={baseValidation} />
                 </div>
               </div>
               <div class="Grid Grid--withGutter">
                 <div class="Grid-cell u-size1of2 Form-field">
-                  <Input name="Name" placeholder=""/>
+                  <Input name="Name" placeholder="" validate={baseValidation}/>
                 </div>
                 <div class="Grid-cell u-size1of2 Form-field">
-                  <Email />
+                  <Input name="Email" placeholder="" validate={emailConditions}/>
                 </div>
               </div>
             </div>
@@ -48,8 +67,8 @@ var SubmitTicket = React.createClass({
             <input id="submitted_from" name="submitted_from" type="hidden" value="" />
             <input id="ticket_from_search" name="ticket_from_search" type="hidden" value="" />
 
-            <input type="submit" class="Button Button--default u-pullRight" />
           </form>
+        <Button />
         </div>
       </Frame>
     );
@@ -66,61 +85,86 @@ function render() {
     React.renderComponent(<SubmitTicket />, el);
   }
 
+// validation mixin
+var ValidationMixin = {
+  getDefaultProps: function () {
+    return {
+      validate: []
+    }
+  }
+, hasErrors: function () {
+    var errors = []
+    console.log(this.props.validate)
+
+    this.props.validate.forEach(function (condition) {
+      if (!condition.test(this.state.value))
+        errors.push(condition.message)
+    }, this)
+
+    return errors.length ? errors : false
+  }
+}
+
 var Input = React.createClass ({
+    mixins: [ValidationMixin],
     getInitialState: function() {
-       return {value: ''};
+       return {value: '', errors: []};
     },
     handleChange: function(event) {
       this.setState({value: event.target.value});
     },
+    handleBlur: function(event) {
+        var errors = this.hasErrors();
+        console.log(errors);
+        this.setState({errors: errors});
+    },
+
     render: function() {
       var value = this.state.value;
+      var errorLIs = this.state.errors.map(function(item) {
+          return <li>{item}</li>;
+      });
     return (
       <div>
       <label class="u-block Form-field-label">{this.props.name}<abbr title="Requied">*</abbr></label>
-      <input id="" value={value} onChange={this.handleChange} name="" placeholder={this.props.placeholder} required title="Please fill out this field." type="text" class="u-sizeFull Form-field-element" />
-     </div>
-    );
-  }
-});
-
-var Email = React.createClass ({
-    getInitialState: function() {
-       return {value: ''};
-    },
-    handleChange: function(event) {
-      this.setState({value: event.target.value});
-    },
-    render: function() {
-      var value = this.state.value;
-    return (
+      <input id="" value={value}  onChange={this.handleChange} onBlur={this.handleBlur} name="" placeholder={this.props.placeholder} required title="Please fill out this field." type="text" class="u-sizeFull Form-field-element" />
       <div>
-      <label class="u-block Form-field-label">Email<abbr title="Requied">*</abbr></label>
-      <input id="email" value={value} onChange={this.handleChange} name="email" required title="Please fill out this field." type="text" class="u-sizeFull Form-field-element" />
+       <ul>{errorLIs}</ul>
+      </div>
      </div>
     );
   }
 });
 
 var Message = React.createClass ({
+    mixins: [ValidationMixin],
     getInitialState: function() {
        return {value: ''};
     },
     handleChange: function(event) {
       this.setState({value: event.target.value});
     },
+    handleBlur: function(event) {
+        var errors = this.hasErrors();
+        console.log(errors);
+    },
     render: function() {
       var value = this.state.value;
     return (
       <div>
         <label class="u-block Form-field-label">Message<abbr title="Requied">*</abbr></label>
-        <textarea id="description" value={value} onChange={this.handleChange} name="description" placeholder="Give us details here..." required rows="6" title="Please fill out this field." class="u-sizeFull Form-field-element"></textarea>
+        <textarea id="description" value={value} onBlur={this.handleBlur} onChange={this.handleChange} name="description" placeholder="Give us details here..." required rows="6" title="Please fill out this field." class="u-sizeFull Form-field-element"></textarea>
       </div>
     );
   }
 });
 
+var Button = React.createClass ({
+    render: function() {
+       return  <input type="submit" class="Button Button--default u-pullRight"/>;
+    }
+});
+
 export var submitTicket = {
-  create: create,
   render: render
 };
