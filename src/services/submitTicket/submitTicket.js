@@ -17,8 +17,17 @@ var maxLengthCondition = function(length) {
   };
 };
 
+var symbolIncludedCondition = function(symbol) {
+  return {
+    test: function(value) {
+      return value.indexOf(symbol) > -1;
+    },
+    message: "Missing " + symbol + " symbol"
+  };
+};
+
 var baseValidation = [notEmptyCondition];
-var emailValidation = [notEmptyCondition];
+var emailValidation = [notEmptyCondition, symbolIncludedCondition('@'), symbolIncludedCondition('.')];
 
 var SubmitTicket = React.createClass({
   render: function() {
@@ -91,7 +100,7 @@ var ValidationMixin = {
         errors.push(condition.message)
     }, this)
 
-    return errors.length ? errors : false
+    return errors.length ? errors : []
   }
 }
 
