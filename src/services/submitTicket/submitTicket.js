@@ -3,59 +3,57 @@
 module React from 'react';
 import { Frame } from '../../components/Frame.js';
 
-
 var notEmptyCondition = {
-  test: function (value) { return value !== '' }
-, message: 'Field cannot be empty'
+  test: function (value) { return value !== '' },
+  message: 'Field cannot be empty'
 };
 
 var maxLengthCondition = function(length) {
-    return {
-        test: function(value) {
-            return value.length <= length;
-        },
-        message: "Value exceeds " + length + " characters."
-    };
+  return {
+    test: function(value) {
+      return value.length <= length;
+    },
+    message: "Value exceeds " + length + " characters."
+  };
 };
 
-var baseValidation = [notEmptyCondition, maxLengthCondition(100), maxLengthCondition(5), maxLengthCondition(10)];
-
-var emailConditions= [notEmptyCondition, maxLengthCondition(200)];
+var baseValidation = [notEmptyCondition];
+var emailValidation = [notEmptyCondition];
 
 var SubmitTicket = React.createClass({
   render: function() {
     var base = {
-          border: 'solid',
-          height: '500px',
-          width: '700px',
-          position: 'fixed',
-          top: '50%',
-          left: '50%',
-          margin: '-250px 0px 0px -350px',
-          background: "white"
-      };
+      border: 'solid',
+      height: '500px',
+      width: '700px',
+      position: 'fixed',
+      top: '50%',
+      left: '50%',
+      margin: '-250px 0px 0px -350px',
+      background: "white"
+    };
     return (
       <Frame style={base}>
-         <div class="Container u-nbfc">
+        <div class="Container u-nbfc">
           <h1>How can I help you?</h1>
-          <form action="https://<%= @host %>/requests/embedded/create/" method="post" class='Form'>
-            <div class="Form-container">
+          <form action="https://<%= @host %>/requests/embedded/create/" method="post" class='Text'>
+            <div class="Text-container">
               <div class="Grid">
-                <div class="Grid-cell Form-field">
-                <Input name="Description" validate={baseValidation} placeholder="What do you need help with?"/>
+                <div class="Grid-cell Text-field">
+                  <TextInput name="Description" validate={baseValidation} placeholder="What do you need help with?"/>
                 </div>
               </div>
               <div class="Grid">
-                <div class="Grid-cell Form-field">
-                  <Message validate={baseValidation} />
+                <div class="Grid-cell Text-field">
+                  <TextAreaInput validate={baseValidation} />
                 </div>
               </div>
               <div class="Grid Grid--withGutter">
-                <div class="Grid-cell u-size1of2 Form-field">
-                  <Input name="Name" placeholder="" validate={baseValidation}/>
+                <div class="Grid-cell u-size1of2 Text-field">
+                  <TextInput name="Name" placeholder="" validate={baseValidation}/>
                 </div>
-                <div class="Grid-cell u-size1of2 Form-field">
-                  <Input name="Email" placeholder="" validate={emailConditions}/>
+                <div class="Grid-cell u-size1of2 Text-field">
+                  <TextInput name="Email" placeholder="" validate={emailValidation}/>
                 </div>
               </div>
             </div>
@@ -65,7 +63,6 @@ var SubmitTicket = React.createClass({
             <input id="via_id" name="via_id" type="hidden" value="17" />
             <input id="client" name="client" type="hidden" value="" />
             <input id="submitted_from" name="submitted_from" type="hidden" value="" />
-            <input id="ticket_from_search" name="ticket_from_search" type="hidden" value="" />
 
           </form>
         <Button />
@@ -75,26 +72,19 @@ var SubmitTicket = React.createClass({
   }
 });
 
-function create() {
-  //submitTicket = <submitTicket />;
-  //this.render();
+function render() {
+  var el = document.body.appendChild(document.createElement('div'));
+  React.renderComponent(<SubmitTicket />, el);
 }
 
-function render() {
-    var el = document.body.appendChild(document.createElement('div'));
-    React.renderComponent(<SubmitTicket />, el);
-  }
-
-// validation mixin
 var ValidationMixin = {
   getDefaultProps: function () {
     return {
       validate: []
     }
-  }
-, hasErrors: function () {
+  },
+  hasErrors: function () {
     var errors = []
-    console.log(this.props.validate)
 
     this.props.validate.forEach(function (condition) {
       if (!condition.test(this.state.value))
@@ -105,66 +95,73 @@ var ValidationMixin = {
   }
 }
 
-var Input = React.createClass ({
-    mixins: [ValidationMixin],
-    getInitialState: function() {
-       return {value: '', errors: []};
-    },
-    handleChange: function(event) {
-      this.setState({value: event.target.value});
-    },
-    handleBlur: function(event) {
-        var errors = this.hasErrors();
-        console.log(errors);
-        this.setState({errors: errors});
-    },
-
-    render: function() {
-      var value = this.state.value;
-      var errorLIs = this.state.errors.map(function(item) {
-          return <li>{item}</li>;
-      });
+var TextInput = React.createClass ({
+  mixins: [ValidationMixin],
+  getInitialState: function() {
+     return {value: '', errors: []};
+  },
+  handleChange: function(event) {
+    this.setState({value: event.target.value});
+  },
+  handleBlur: function(event) {
+    var errors = this.hasErrors();
+    console.log(errors);
+    this.setState({errors: errors});
+  },
+  render: function() {
+    var value = this.state.value;
+    var errorList = this.state.errors.map(function(item) {
+      return <li>{item}</li>;
+    });
     return (
       <div>
-      <label class="u-block Form-field-label">{this.props.name}<abbr title="Requied">*</abbr></label>
-      <input id="" value={value}  onChange={this.handleChange} onBlur={this.handleBlur} name="" placeholder={this.props.placeholder} required title="Please fill out this field." type="text" class="u-sizeFull Form-field-element" />
-      <div>
-       <ul>{errorLIs}</ul>
+        <label class="u-block Text-field-label">{this.props.name}<abbr title="Requied">*</abbr></label>
+        <input id="" value={value}  onChange={this.handleChange} onBlur={this.handleBlur} name="" placeholder={this.props.placeholder} required title="Please fill out this field." type="text" class="u-sizeFull Text-field-element" />
+        <div>
+          <ul>{errorList}</ul>
+        </div>
       </div>
-     </div>
     );
   }
 });
 
-var Message = React.createClass ({
-    mixins: [ValidationMixin],
-    getInitialState: function() {
-       return {value: ''};
-    },
-    handleChange: function(event) {
-      this.setState({value: event.target.value});
-    },
-    handleBlur: function(event) {
-        var errors = this.hasErrors();
-        console.log(errors);
-    },
-    render: function() {
-      var value = this.state.value;
+var TextAreaInput = React.createClass ({
+  mixins: [ValidationMixin],
+  getInitialState: function() {
+     return {value: '', errors: []};
+  },
+  handleChange: function(event) {
+    this.setState({value: event.target.value});
+  },
+  handleBlur: function(event) {
+    var errors = this.hasErrors();
+    console.log(errors);
+    this.setState({errors: errors});
+  },
+  render: function() {
+    var value = this.state.value;
+    var errorList = this.state.errors.map(function(item) {
+      return <li>{item}</li>;
+    });
     return (
       <div>
-        <label class="u-block Form-field-label">Message<abbr title="Requied">*</abbr></label>
-        <textarea id="description" value={value} onBlur={this.handleBlur} onChange={this.handleChange} name="description" placeholder="Give us details here..." required rows="6" title="Please fill out this field." class="u-sizeFull Form-field-element"></textarea>
+        <label class="u-block Text-field-label">Message<abbr title="Requied">*</abbr></label>
+        <textarea id="description" value={value} onBlur={this.handleBlur} onChange={this.handleChange} name="description" placeholder="Give us details here..." required rows="6" title="Please fill out this field." class="u-sizeFull Text-field-element"></textarea>
+        <div>
+          <ul>{errorList}</ul>
+        </div>
       </div>
     );
   }
 });
 
 var Button = React.createClass ({
-    render: function() {
-       return  <input type="submit" class="Button Button--default u-pullRight"/>;
-    }
+  render: function() {
+    return  <input type="submit" class="Button Button--default u-pullRight"/>;
+  }
 });
 
 export var submitTicket = {
   render: render
 };
+
