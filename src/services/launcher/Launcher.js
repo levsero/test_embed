@@ -60,7 +60,6 @@ function get(name) {
 
 function render(name) {
   var el = document.body.appendChild(document.createElement('div'));
-  var iframe;
   React.renderComponent(launchers[name], el);
 }
 
