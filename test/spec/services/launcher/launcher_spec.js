@@ -1,8 +1,7 @@
 describe('launcher', function() {
   var root     = window.top,
       Zd       = root.Zd,
-      launcher = Zd.services.launcher,
-      d        = window.document;
+      launcher = Zd.services.launcher;
 
   describe('create', function() {
     it('should create and store a launcher', function() {
@@ -47,17 +46,17 @@ describe('launcher', function() {
   
   describe('render', function() {
     it('should add an iframe to the document', function () {
-      spyOn(d.body, 'appendChild').andCallThrough();
+      spyOn(document.body, 'appendChild').andCallThrough();
 
-      var initialIframeCount = d.body.getElementsByTagName("iframe").length;
+      var initialIframeCount = document.body.getElementsByTagName("iframe").length;
 
       launcher.create("launcher1", {});
       launcher.render("launcher1");
 
-      expect(d.body.appendChild)
+      expect(document.body.appendChild)
         .toHaveBeenCalled();
 
-      expect(d.body.getElementsByTagName("iframe").length)
+      expect(document.body.getElementsByTagName("iframe").length)
         .toEqual(initialIframeCount + 1);
     });
   });
