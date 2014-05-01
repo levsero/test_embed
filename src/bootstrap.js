@@ -28,3 +28,7 @@
   doc.write('<body onload="document._l();">');
   doc.close();
 })('http://localhost:1337/dist/main.js');
+
+Zd.init({
+  zendesk_id: "{{zendeskId}}"
+});
