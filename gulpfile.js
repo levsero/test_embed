@@ -37,7 +37,7 @@ gulp.task('build', ['lint'], function() {
     .pipe(gulp.dest('./dist'));
 });
 
-gulp.task('bootstrap', ['build'], function() {
+gulp.task('bootstrap', function() {
   return gulp.src('src/bootstrap.js')
     .pipe(uglify())
     .pipe(gulp.dest('./dist'));
