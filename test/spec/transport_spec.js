@@ -60,13 +60,13 @@ describe('transport', function() {
     });
 
     it('should trigger only the done callback upon success', function() {
-      var doneCallback = jasmine.createSpy();
-      var failCallback = jasmine.createSpy();
+      var doneFn = jasmine.createSpy();
+      var failFn = jasmine.createSpy();
 
       var responseText = 'successful request';
       var responseStatus = 200;
-      payload.callbacks.done = doneCallback;
-      payload.callbacks.fail = failCallback;
+      payload.callbacks.done = doneFn;
+      payload.callbacks.fail = failFn;
 
       transport.send(payload);
 
@@ -75,24 +75,24 @@ describe('transport', function() {
         responseText: responseText
       });
 
-      expect(doneCallback)
+      expect(doneFn)
         .toHaveBeenCalledWith(
           responseText, 
           responseStatus, 
           jasmine.Ajax.requests.mostRecent()
         );
 
-      expect(failCallback).not.toHaveBeenCalled();
+      expect(failFn).not.toHaveBeenCalled();
     });
 
     it('should trigger only the fail callback upon failure', function() {
-      var doneCallback = jasmine.createSpy();
-      var failCallback = jasmine.createSpy();
+      var doneFn = jasmine.createSpy();
+      var failFn = jasmine.createSpy();
 
       var responseText = 'failed request';
       var responseStatus = 400;
 
-      payload.callbacks.fail = failCallback;
+      payload.callbacks.fail = failFn;
 
       transport.send(payload);
 
@@ -100,12 +100,12 @@ describe('transport', function() {
         status: responseStatus
       });
 
-      expect(failCallback).toHaveBeenCalledWith(
+      expect(failFn).toHaveBeenCalledWith(
         jasmine.Ajax.requests.mostRecent(),
         responseStatus
       );
 
-      expect(doneCallback).not.toHaveBeenCalled();
+      expect(doneFn).not.toHaveBeenCalled();
     });
 
   });
