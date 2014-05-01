@@ -28,11 +28,17 @@ var testFiles = [
   'test/**/*.js'
 ];
 
-gulp.task('build', ['lint', 'test'], function() {
+gulp.task('build', ['lint'], function() {
   return gulp.src('src/main.js')
     .pipe(browserify({
       transform: [ES6ModuleCompile()]
     }))
+    .pipe(uglify())
+    .pipe(gulp.dest('./dist'));
+});
+
+gulp.task('bootstrap', ['build'], function() {
+  return gulp.src('src/bootstrap.js')
     .pipe(uglify())
     .pipe(gulp.dest('./dist'));
 });
