@@ -18,8 +18,8 @@ export var Frame = React.createClass({
          text-align: center;           \
          color: #fff;                  \
          padding: 0;                   \
-         fontFamily: sans-serif;       \
-         fontSize: 12px;               \
+         font-family: sans-serif;       \
+         font-size: 12px;               \
          border-radius: 25px 25px 3px; \
          cursor: pointer;              \
       }\
