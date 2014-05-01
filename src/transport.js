@@ -16,10 +16,10 @@ function send(payload) {
   xhr.onreadystatechange = function(e) {
     if(xhr.readyState === 4)  {
       if (xhr.status >= 200 && xhr.status <= 300) {
-        payload.callbacks.done();
+        payload.callbacks.done(xhr.responseText, xhr.status, xhr);
       }
       else if (xhr.status >= 400) {
-        payload.callbacks.fail();
+        payload.callbacks.fail(xhr, xhr.status);
       }
     }
   };

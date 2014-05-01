@@ -59,34 +59,54 @@ describe('transport', function() {
 
     });
 
-    it('should trigger the done callback upon success', function() {
+    it('should trigger only the done callback upon success', function() {
       var doneCallback = jasmine.createSpy();
+      var failCallback = jasmine.createSpy();
 
+      var responseText = 'successful request';
+      var responseStatus = 200;
       payload.callbacks.done = doneCallback;
+      payload.callbacks.fail = failCallback;
 
       transport.send(payload);
 
       jasmine.Ajax.requests.mostRecent().response({
-        "status": 200
+        status: responseStatus,
+        responseText: responseText
       });
 
-      expect(doneCallback).toHaveBeenCalled();
+      expect(doneCallback)
+        .toHaveBeenCalledWith(
+          responseText, 
+          responseStatus, 
+          jasmine.Ajax.requests.mostRecent()
+        );
+
+      expect(failCallback).not.toHaveBeenCalled();
     });
 
-    it('should trigger the fail callback upon failure', function() {
+    it('should trigger only the fail callback upon failure', function() {
+      var doneCallback = jasmine.createSpy();
       var failCallback = jasmine.createSpy();
+
+      var responseText = 'failed request';
+      var responseStatus = 400;
 
       payload.callbacks.fail = failCallback;
 
       transport.send(payload);
 
       jasmine.Ajax.requests.mostRecent().response({
-        "status": 400
+        status: responseStatus
       });
 
-      expect(failCallback).toHaveBeenCalled();
-    });
+      expect(failCallback).toHaveBeenCalledWith(
+        jasmine.Ajax.requests.mostRecent(),
+        responseStatus
+      );
 
+      expect(doneCallback).not.toHaveBeenCalled();
+    });
 
   });
 });
