@@ -43,7 +43,7 @@ export var Frame = React.createClass({
   componentDidMount: function() {
     var head;
     React.renderComponent(this.props.children, this.getDOMNode().contentDocument.body);
-    head = this.getDOMNode().contentDocument.getElementsByTagName("head")[0];
+    head = this.getDOMNode().contentDocument.head;
 
     var styleTag = document.createElement('style');
     head.appendChild(styleTag);
