@@ -2,6 +2,7 @@ import { _ } from 'lodash'; /* jslint ignore:line */
 import { sendData } from './utils/backend';
 import { getBuid, store, retrieve, parseUrl, win, document } from './utils/utils';
 import { identity } from './identity';
+import { transport } from "./transport";
 import { launcher } from './services/launcher/Launcher';
 
 var url = location.origin;
@@ -42,6 +43,7 @@ launcher.render('demoLauncher');
 
 win.Zd = module.exports = {
   identity: identity,
+  transport: transport,
   services: {
     launcher: launcher
   }
