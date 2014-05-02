@@ -2,7 +2,7 @@ import { _ } from 'lodash';
 import { sendData } from './utils/backend';
 import { getBuid, store, retrieve, parseUrl, win, document } from './utils/utils';
 import { identity } from './identity';
-import { launcher } from "./services/launcher/Launcher";
+import { launcher } from './services/launcher/Launcher';
 
 var url = location.origin;
 var now = Date.now();
