@@ -1,29 +1,12 @@
 var gulp = require('gulp');
 var uglify = require('gulp-uglify');
 var jshint = require('gulp-jshint');
-var browserify = require('gulp-browserify');
 var reactify = require('reactify');
-var through = require('through');
-var Compiler = require('es6-module-transpiler').Compiler;
 var karma = require('gulp-karma');
-var react = require('gulp-react');
-
-function ES6ModuleCompile(opts) {
-  var buf = '';
-  return function () {
-    return through(write, end);
-  };
-
-  function write(data) {
-    buf += data;
-  }
-
-  function end() {
-    this.queue((new Compiler(buf, '', opts)).toCJS());
-    this.queue(null);
-    buf = '';
-  }
-}
+var gutil = require("gulp-util");
+var webpack = require("webpack");
+var WebpackDevServer = require("webpack-dev-server");
+var webpackConfig = require("./webpack.config.js");
 
 var testFiles = [
   'node_modules/es5-shim/es5-shim.js',
@@ -31,13 +14,23 @@ var testFiles = [
   'test/**/*.js'
 ];
 
-gulp.task('build', ['lint'], function() {
-  return gulp.src('src/main.js')
-    .pipe(browserify({
-      transform: [reactify, ES6ModuleCompile()]
-    }))
-    .pipe(uglify())
-    .pipe(gulp.dest('./dist'));
+gulp.task('build', ['lint', 'webpack', 'test']);
+
+gulp.task("webpack", function(callback) {
+  // modify some webpack config options
+  var myConfig = Object.create(webpackConfig);
+  myConfig.plugins = [
+    new webpack.optimize.DedupePlugin(),
+    new webpack.optimize.UglifyJsPlugin()
+  ];
+
+  webpack(myConfig, function(err, stats) {
+    if(err) throw new gutil.PluginError("webpack", err);
+    gutil.log("[webpack]", stats.toString({
+      colors: true
+    }));
+    callback();
+  });
 });
 
 gulp.task('test', ['build'], function() {
@@ -57,7 +50,23 @@ gulp.task('lint', function() {
     .pipe(gulp.dest('lint_build/'))
     .pipe(jshint())
     .pipe(jshint.reporter('default'))
-    .pipe(jshint.reporter('fail'));
+});
+
+gulp.task("webpack-dev-server", function(callback) {
+  // modify some webpack config options
+  var myConfig = Object.create(webpackConfig);
+  myConfig.devtool = "eval";
+  myConfig.debug = true;
+
+  // Start a webpack-dev-server
+  new WebpackDevServer(webpack(myConfig), {
+    stats: {
+      colors: true
+    }
+  }).listen(1337, "localhost", function(err) {
+    if(err) throw new gutil.PluginError("webpack-dev-server", err);
+    gutil.log("[webpack-dev-server]", "http://localhost:1337/webpack-dev-server/example/index.html");
+  });
 });
 
 gulp.task('watch', ['build'], function() {
