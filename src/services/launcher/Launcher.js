@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 import { _ } from 'lodash';
-module React from 'react';
+module React from 'react'; /* jshint ignore:line */
 import { Frame } from '../../components/Frame.js';
 
 var launchers = {};
@@ -17,33 +17,35 @@ var Launcher = React.createClass({
     iframeStyle,
     className;
 
-    if (this.props.position === "left") {
+    if (this.props.position === 'left') {
       iframeStyle = _.extend(base, {
         left: '20px'
       });
-      className = "Launcher Launcher--left";
+      className = 'Launcher Launcher--left';
     }
     else {
       iframeStyle = _.extend(base, {
         right: '20px'
       });
-      className = "Launcher";
+      className = 'Launcher';
     }
+
 
     return (
       <Frame style={iframeStyle}>
         <div onClick={this.props.onClick} className={className}>
-          <div>?</div>
+          <div>?</div>{/* jshint ignore:line */}
         </div>
       </Frame>
     );
+
   }
 });
 
 function create(name, config) {
   var configDefaults = {
     onClick: function() {},
-    position: "right"
+    position: 'right'
   };
   config = _.extend(configDefaults, config);
 

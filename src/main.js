@@ -1,4 +1,4 @@
-import { _ } from 'lodash';
+import { _ } from 'lodash'; /* jslint ignore:line */
 import { sendData } from './utils/backend';
 import { getBuid, store, retrieve, parseUrl, win, document } from './utils/utils';
 import { identity } from './identity';

@@ -6,7 +6,7 @@ export function sendData(data, callback) {
   var xhr = new XMLHttpRequest();
 
   xhr.open('POST', 'http://zensnow.herokuapp.com/api/blips', true);
-  xhr.addEventListener('readystatechange', function(e) {
+  xhr.addEventListener('readystatechange', function() {
     if(xhr.readyState === 4 && xhr.status >= 200 && xhr.status <= 300) {
       callback(xhr.responseText);
     }

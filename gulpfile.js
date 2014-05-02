@@ -6,6 +6,7 @@ var reactify = require('reactify');
 var through = require('through');
 var Compiler = require('es6-module-transpiler').Compiler;
 var karma = require('gulp-karma');
+var react = require('gulp-react');
 
 function ES6ModuleCompile(opts) {
   var buf = '';
@@ -51,9 +52,12 @@ gulp.task('test', ['build'], function() {
 });
 
 gulp.task('lint', function() {
-  return gulp.src('src/*.js')
+  return gulp.src(['src/**/*.js'])
+    .pipe(react())
+    .pipe(gulp.dest('lint_build/'))
     .pipe(jshint())
-    .pipe(jshint.reporter('default'));
+    .pipe(jshint.reporter('default'))
+    .pipe(jshint.reporter('fail'));
 });
 
 gulp.task('watch', ['build'], function() {

@@ -1,11 +1,13 @@
 /** @jsx React.DOM */
+/* jshint multistr:true */
+
 import { _ } from 'lodash';
-module React from 'react';
+module React from 'react'; /* jshint ignore:line */
 
 export var Frame = React.createClass({
   documentNormalizer: function() {
     return (
-      "body {              \
+      'body {              \
          margin:0;         \
          padding: 0px;     \
          background: none; \
@@ -31,7 +33,7 @@ export var Frame = React.createClass({
          font-weight: normal; \
          font-size: 26px; \
          margin-top: 11px; \
-      }");
+      }');
   },
 
   render: function() {
@@ -47,7 +49,7 @@ export var Frame = React.createClass({
 
     var styleTag = document.createElement('style');
     head.appendChild(styleTag);
-    styleTag.innerHTML = this.documentNormalizer() + " " + this.props.documentStyle;
+    styleTag.innerHTML = this.documentNormalizer() + ' ' + this.props.documentStyle;
   },
 
   componentDidUpdate: function() {
