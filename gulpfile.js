@@ -1,7 +1,6 @@
 var gulp = require('gulp');
 var uglify = require('gulp-uglify');
 var jshint = require('gulp-jshint');
-var reactify = require('reactify');
 var karma = require('gulp-karma');
 var gutil = require("gulp-util");
 var webpack = require("webpack");

@@ -7,10 +7,13 @@ module.exports = {
         filename: "main.js"
     },
     module: {
+        preLoaders: [
+          { test: /\.js$/, loader: "jsx-loader" },
+          { test: /\.js$/, exclude: 'node_modules', loader: 'jshint-loader' }
+        ],
         loaders: [
             { test: /\.css$/, loader: "css" },
-            { test: /\.js$/, loader: "es6-loader" },
-            { test: /\.js$/, loader: "jsx-loader" }
+            { test: /\.js$/, loader: "es6-loader" }
         ]
     },
     resolve: {

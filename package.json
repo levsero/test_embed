@@ -9,10 +9,13 @@
   "author": "Zendesk",
   "license": "All Rights Reserved",
   "dependencies": {
-    "lodash": "~2.4.1",
-    "react": "~0.10"
+    "suitcss-components-grid": "^1.2.0",
+    "normalize.css": "^3.0.1",
+    "suitcss-utils": "^0.8.0",
+    "lodash": "^2.4.1",
+    "envify": "^1.2.1",
+    "react": "^0.10.0"
   },
-
   "devDependencies": {
     "gulp": "~3.6.0",
     "gulp-uglify": "~0.2.1",
@@ -32,11 +35,7 @@
     "gulp-util": "^2.2.14",
     "webpack": "^1.1.8",
     "webpack-dev-server": "^1.2.7",
-    "jsx-loader": "^0.10.0"
-  },
-  "dependencies": {
-    "suitcss-components-grid": "^1.2.0",
-    "normalize.css": "^3.0.1",
-    "suitcss-utils": "^0.8.0"
+    "jsx-loader": "^0.10.0",
+    "jshint-loader": "^0.6.0"
   }
 }
