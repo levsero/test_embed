@@ -9,7 +9,8 @@ module.exports = {
     module: {
         loaders: [
             { test: /\.css$/, loader: "css" },
-            { test: /\.js$/, loader: "es6-loader" }
+            { test: /\.js$/, loader: "es6-loader" },
+            { test: /\.js$/, loader: "jsx-loader" }
         ]
     },
     resolve: {
