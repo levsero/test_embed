@@ -52,7 +52,7 @@ gulp.task('test', ['build'], function() {
 });
 
 gulp.task('lint', function() {
-  return gulp.src(['src/**/*.js'])
+  return gulp.src(['src/**/*.js', 'test/**/*.js'])
     .pipe(react())
     .pipe(gulp.dest('lint_build/'))
     .pipe(jshint())
