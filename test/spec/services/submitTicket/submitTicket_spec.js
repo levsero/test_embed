@@ -1,8 +1,10 @@
+/** @jsx React.DOM */
+
 describe('submit ticket form', function() {
   var root = window.top,
       Zd   = root.Zd,
       form = Zd.services.submitTicket,
-      doc  = window.document;
+      doc  = window.document
 
   describe('create', function() {
     it('should create a form', function() {
@@ -26,6 +28,7 @@ describe('submit ticket form', function() {
 
       expect(doc.body.getElementsByTagName('iframe').length)
         .toEqual(initialIframeCount + 1);
+
     });
   });
 
