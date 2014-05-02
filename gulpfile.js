@@ -2,9 +2,11 @@ var gulp = require('gulp');
 var uglify = require('gulp-uglify');
 var jshint = require('gulp-jshint');
 var browserify = require('gulp-browserify');
+var reactify = require('reactify');
 var through = require('through');
 var Compiler = require('es6-module-transpiler').Compiler;
 var karma = require('gulp-karma');
+var react = require('gulp-react');
 
 function ES6ModuleCompile(opts) {
   var buf = '';
@@ -24,20 +26,21 @@ function ES6ModuleCompile(opts) {
 }
 
 var testFiles = [
+  'node_modules/es5-shim/es5-shim.js',
   'dist/main.js',
   'test/**/*.js'
 ];
 
-gulp.task('build', ['lint', 'test'], function() {
+gulp.task('build', ['lint'], function() {
   return gulp.src('src/main.js')
     .pipe(browserify({
-      transform: [ES6ModuleCompile()]
+      transform: [reactify, ES6ModuleCompile()]
     }))
     .pipe(uglify())
     .pipe(gulp.dest('./dist'));
 });
 
-gulp.task('test', function() {
+gulp.task('test', ['build'], function() {
   return gulp.src(testFiles)
     .pipe(karma({
       configFile: 'karma.conf.js',
@@ -46,12 +49,15 @@ gulp.task('test', function() {
     .on('error', function(err) {
       throw err;
     });
-})
+});
 
 gulp.task('lint', function() {
-  gulp.src('src/*.js')
+  return gulp.src(['src/**/*.js', 'test/**/*.js'])
+    .pipe(react())
+    .pipe(gulp.dest('lint_build/'))
     .pipe(jshint())
-    .pipe(jshint.reporter('default'));
+    .pipe(jshint.reporter('default'))
+    .pipe(jshint.reporter('fail'));
 });
 
 gulp.task('watch', ['build'], function() {

@@ -22,6 +22,6 @@ describe('utilities', function() {
       Zd.identity.getBuid();
       expect(root.localStorage.setItem.mostRecentCall.args[0]).toEqual('ZD-buid');
       expect(root.localStorage.setItem.mostRecentCall.args[1].length).toEqual(32);
-    })
+    });
   });
 });
