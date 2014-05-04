@@ -7,7 +7,7 @@ describe('transport', function() {
 
     it('should be configured at init() with the api hostname', function() {
       var config = {
-        'zendesk_host': 'isaacsu.zendesk.com'
+        'zendeskHost': 'isaacsu.zendesk.com'
       };
       transport.init(config);
     });
@@ -37,7 +37,7 @@ describe('transport', function() {
       };
 
       transport.init({
-        'zendesk_host': 'isaacsu.zendesk.com'
+        'zendeskHost': 'isaacsu.zendesk.com'
       });
 
     });
@@ -47,6 +47,7 @@ describe('transport', function() {
     });
 
     it('should accept a payload', function() {
+      var request;
 
       transport.send(payload);
 
@@ -77,8 +78,8 @@ describe('transport', function() {
 
       expect(doneFn)
         .toHaveBeenCalledWith(
-          responseText, 
-          responseStatus, 
+          responseText,
+          responseStatus,
           jasmine.Ajax.requests.mostRecent()
         );
 
@@ -97,7 +98,8 @@ describe('transport', function() {
       transport.send(payload);
 
       jasmine.Ajax.requests.mostRecent().response({
-        status: responseStatus
+        status: responseStatus,
+        body: responseText
       });
 
       expect(failFn).toHaveBeenCalledWith(
