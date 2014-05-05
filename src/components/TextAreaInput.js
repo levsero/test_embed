@@ -23,7 +23,7 @@ export var TextAreaInput = React.createClass ({
     return (
       <div>
         <label class='u-block Text-field-label'>Message<abbr title='Requied'>*</abbr></label>
-        <textarea id='description' value={value} onBlur={this.handleBlur} onChange={this.handleChange} name='description' placeholder='Give us details here...' required rows='6' title='Please fill out this field.' class='u-sizeFull Text-field-element'></textarea>
+        <textarea ref='inputText' id='description' value={value} onBlur={this.handleBlur} onChange={this.handleChange} name='description' placeholder='Give us details here...' required rows='6' title='Please fill out this field.' class='u-sizeFull Text-field-element'></textarea>
         <div>
           <ul>{errorList}</ul>
         </div>

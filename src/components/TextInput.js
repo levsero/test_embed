@@ -23,7 +23,7 @@ export var TextInput = React.createClass ({
     return (
       <div>
         <label class='u-block Text-field-label'>{this.props.name}<abbr title='Requied'>*</abbr></label>
-        <input value={value}  onChange={this.handleChange} onBlur={this.handleBlur} placeholder={this.props.placeholder} required title='Please fill out this field.' type='text' class='u-sizeFull Text-field-element' />
+        <input ref='inputText' value={value}  onChange={this.handleChange} onBlur={this.handleBlur} placeholder={this.props.placeholder} required title='Please fill out this field.' type='text' class='u-sizeFull Text-field-element' />
         <div>
           <ul>{errorList}</ul>
         </div>
