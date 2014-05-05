@@ -2,6 +2,7 @@
 import { _ } from 'lodash';
 module React from 'react'; /* jshint ignore:line */
 import { Frame } from '../../components/Frame.js';
+import { document } from '../../utils/utils';
 
 var launchers = {};
 
@@ -61,7 +62,7 @@ function get(name) {
 }
 
 function render(name) {
-  var el = window.top.document.body.appendChild(document.createElement('div'));
+  var el = document.body.appendChild(document.createElement('div'));
   React.renderComponent(launchers[name], el);
 }
 
