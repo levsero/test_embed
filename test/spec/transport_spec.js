@@ -15,16 +15,14 @@ describe('transport', function() {
   });
 
   describe('send', function() {
-
-    var payload;
+    var payload, zendeskHost;
 
     beforeEach(function() {
       jasmine.Ajax.install();
-
       payload = {
         method: 'post',
         path: '/api/ticket_submission',
-        parameters: {
+        params: {
           name: 'Awesome J. Customer',
           email: 'awesome@customer.com',
           subject: 'Test Subject',
@@ -36,19 +34,20 @@ describe('transport', function() {
         }
       };
 
-      transport.init({
-        'zendeskHost': 'isaacsu.zendesk.com'
-      });
+      zendeskHost = 'test.zendesk.com';
 
+      transport.init({
+        zendeskHost: zendeskHost
+      });
     });
 
     afterEach(function() {
       jasmine.Ajax.uninstall();
     });
 
-    it('should accept a payload', function() {
-      var request;
-
+    it('should append zendeskHost to the payload', function() {
+      var request, expectedParams;
+      
       transport.send(payload);
 
       jasmine.Ajax.requests.mostRecent().response({
@@ -56,8 +55,8 @@ describe('transport', function() {
       });
 
       request = jasmine.Ajax.requests.mostRecent();
-      expect(request.params).toBe(payload.parameters);
-
+      expectedParams = _.extend(payload.params, {'zendesk_host': zendeskHost});
+      expect(request.params).toBe(JSON.stringify(expectedParams));
     });
 
     it('should trigger only the done callback upon success', function() {

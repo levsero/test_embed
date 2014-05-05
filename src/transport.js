@@ -1,8 +1,13 @@
+import { _ } from 'lodash';
+
 var xhr = require('xhr'),
-    config = {};
+    config = {
+      scheme: 'https',
+      snowflakeHost: 'zensnow.herokuapp.com'
+    };
 
 function init(_config) {
-  config = _config;
+  config = _.extend(config, _config);
 }
 
 function send(payload) {
@@ -11,7 +16,7 @@ function send(payload) {
     uri:    buildFullUrl(payload.path),
     xhr:    new XMLHttpRequest(),
     method: payload.method.toUpperCase(),
-    data:   payload.parameters,
+    json:   _.extend(payload.params, {'zendesk_host': config.zendeskHost}),
     cors:   true
   },
 
@@ -28,7 +33,7 @@ function send(payload) {
 }
 
 function buildFullUrl(path) {
-  return 'https://' + config.zendeskHost + path;
+  return config.scheme + '://' + config.snowflakeHost + path;
 }
 
 export var transport = {
