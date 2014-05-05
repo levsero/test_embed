@@ -29,8 +29,8 @@ describe('transport', function() {
           description: 'Test description sentence as always.'
         },
         callbacks: {
-          done: function(data, status, xhr) {},
-          fail: function(data, status, xhr) {}
+          done: function(data, status, xhr) {}, /* jshint ignore:line */
+          fail: function(data, status, xhr) {}  /* jshint ignore:line */
         }
       };
 
