@@ -32,6 +32,14 @@ beacon({
   metrics: ['beacon']
 });
 
+launcher.create('demoLauncher', {
+  onClick: function() {
+    alert('This is Demo Launcher');
+  }
+});
+
+launcher.render('demoLauncher');
+
 win.Zd = module.exports = {
   identity: identity,
   services: {
