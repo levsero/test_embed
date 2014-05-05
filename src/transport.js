@@ -12,7 +12,7 @@ function init(_config) {
 
 function send(payload) {
   superagent(payload.method.toUpperCase(), 
-          buildFullUrl(payload.path))
+             buildFullUrl(payload.path))
     .type('json')
     .send(_.extend(payload.params,{'zendesk_host': config.zendeskHost}))
     .end(function(res) {
