@@ -2,32 +2,10 @@
 
 module React from 'react';
 import { Frame } from '../../components/Frame.js';
+import { validations } from '../../mixins/validation.js';
 
-var notEmptyCondition = {
-  test: function (value) { return value !== '' },
-  message: 'Field cannot be empty'
-};
-
-var maxLengthCondition = function(length) {
-  return {
-    test: function(value) {
-      return value.length <= length;
-    },
-    message: "Value exceeds " + length + " characters."
-  };
-};
-
-var symbolIncludedCondition = function(symbol) {
-  return {
-    test: function(value) {
-      return value.indexOf(symbol) > -1;
-    },
-    message: "Missing " + symbol + " symbol"
-  };
-};
-
-var baseValidation = [notEmptyCondition];
-var emailValidation = [notEmptyCondition, symbolIncludedCondition('@'), symbolIncludedCondition('.')];
+var baseValidation = [validations.notEmptyCondition];
+var emailValidation = [validations.notEmptyCondition, validations.symbolIncludedCondition('@'), validations.symbolIncludedCondition('.')];
 
 var SubmitTicket = React.createClass({
   render: function() {
@@ -67,11 +45,11 @@ var SubmitTicket = React.createClass({
               </div>
             </div>
 
-            <input id="locale_id" name="locale_id" type="hidden" value="1" />
-            <input id="set_tags" name="set_tags" type="hidden" value="dropbox buid-<%= @buid %>" />
-            <input id="via_id" name="via_id" type="hidden" value="17" />
-            <input id="client" name="client" type="hidden" value="" />
-            <input id="submitted_from" name="submitted_from" type="hidden" value="" />
+            <input id='locale_id' name='locale_id' type='hidden' value='1' />
+            <input id='set_tags' name='set_tags' type='hidden' value='dropbox buid-xxx' />
+            <input id='via_id' name='via_id' type='hidden' value='17' />
+            <input id='client' name='client' type='hidden' value='' />
+            <input id='submitted_from' name='submitted_from' type='hidden' value='' />
 
           </form>
         <Button />
@@ -86,26 +64,9 @@ function render() {
   React.renderComponent(<SubmitTicket />, el);
 }
 
-var ValidationMixin = {
-  getDefaultProps: function () {
-    return {
-      validate: []
-    }
-  },
-  hasErrors: function () {
-    var errors = []
-
-    this.props.validate.forEach(function (condition) {
-      if (!condition.test(this.state.value))
-        errors.push(condition.message)
-    }, this)
-
-    return errors.length ? errors : []
-  }
-}
 
 var TextInput = React.createClass ({
-  mixins: [ValidationMixin],
+  mixins: [validations.ValidationMixin],
   getInitialState: function() {
      return {value: '', errors: []};
   },
@@ -124,8 +85,8 @@ var TextInput = React.createClass ({
     });
     return (
       <div>
-        <label class="u-block Text-field-label">{this.props.name}<abbr title="Requied">*</abbr></label>
-        <input id="" value={value}  onChange={this.handleChange} onBlur={this.handleBlur} name="" placeholder={this.props.placeholder} required title="Please fill out this field." type="text" class="u-sizeFull Text-field-element" />
+        <label class='u-block Text-field-label'>{this.props.name}<abbr title='Requied'>*</abbr></label>
+        <input value={value}  onChange={this.handleChange} onBlur={this.handleBlur} placeholder={this.props.placeholder} required title='Please fill out this field.' type='text' class='u-sizeFull Text-field-element' />
         <div>
           <ul>{errorList}</ul>
         </div>
@@ -135,7 +96,7 @@ var TextInput = React.createClass ({
 });
 
 var TextAreaInput = React.createClass ({
-  mixins: [ValidationMixin],
+  mixins: [validations.ValidationMixin],
   getInitialState: function() {
      return {value: '', errors: []};
   },
