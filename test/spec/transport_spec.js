@@ -29,8 +29,8 @@ describe('transport', function() {
           description: 'Test description sentence as always.'
         },
         callbacks: {
-          done: function() {},
-          fail: function() {}
+          done: function(data, status, xhr) {},
+          fail: function(data, status, xhr) {}
         }
       };
 
@@ -98,12 +98,13 @@ describe('transport', function() {
 
       jasmine.Ajax.requests.mostRecent().response({
         status: responseStatus,
-        body: responseText
+        responseText: responseText
       });
 
       expect(failFn).toHaveBeenCalledWith(
-        jasmine.Ajax.requests.mostRecent(),
-        responseStatus
+        responseText,
+        responseStatus,
+        jasmine.Ajax.requests.mostRecent()
       );
 
       expect(doneFn).not.toHaveBeenCalled();

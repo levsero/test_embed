@@ -1,6 +1,6 @@
 import { _ } from 'lodash';
 
-var xhr = require('xhr'),
+var superagent = require('superagent'),
     config = {
       scheme: 'https',
       snowflakeHost: 'zensnow.herokuapp.com'
@@ -11,25 +11,18 @@ function init(_config) {
 }
 
 function send(payload) {
-
-  var options = {
-    uri:    buildFullUrl(payload.path),
-    xhr:    new XMLHttpRequest(),
-    method: payload.method.toUpperCase(),
-    json:   _.extend(payload.params, {'zendesk_host': config.zendeskHost}),
-    cors:   true
-  },
-
-  callback = function(err, xhr) {
-    if (xhr.statusCode >= 200 && xhr.statusCode <= 300) {
-      payload.callbacks.done(xhr.responseText, xhr.statusCode, xhr);
-    }
-    else if (xhr.statusCode >= 400) {
-      payload.callbacks.fail(xhr, xhr.statusCode);
-    }
-  };
-
-  xhr(options, callback);
+  superagent(payload.method.toUpperCase(), 
+          buildFullUrl(payload.path))
+    .type('json')
+    .send(_.extend(payload.params,{'zendesk_host': config.zendeskHost}))
+    .end(function(res) {
+      if (res.ok) {
+        payload.callbacks.done(res.text, res.status, res.xhr);
+      }
+      else if (res.error) {
+        payload.callbacks.fail(res.text, res.status, res.xhr);
+      }
+    });
 }
 
 function buildFullUrl(path) {
