@@ -7,6 +7,7 @@ var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var webpackConfig = require('./webpack.config.js');
 var react = require('gulp-react');
+var _ = require('lodash');
 
 var testFiles = [
   'node_modules/lodash/lodash.js',
@@ -18,11 +19,13 @@ var testFiles = [
 ];
 
  var componentTestFiles = [
-   'node_modules/es5-shim/es5-shim.js',
-   'dist/main.js',
    'test/helpers/react-with-addons.js',
    'test/jsx_spec/*.js'
   ];
+var servicesTestFiles = [
+   'test/spec/**/*',
+   '!test/spec/components/*'
+];
 
 gulp.task('build', ['lint', 'bootstrap'], function(callback) {
   var myConfig = Object.create(webpackConfig);
@@ -47,7 +50,7 @@ gulp.task('bootstrap', function() {
 });
 
 gulp.task('test-services', ['build'], function() {
-  return gulp.src(testFiles)
+  return gulp.src(_.union(testFiles, servicesTestFiles))
     .pipe(karma({
       configFile: 'karma.conf.js',
       action: 'run'
@@ -58,7 +61,7 @@ gulp.task('test-services', ['build'], function() {
 });
 
 gulp.task('test-components', ['build_jsx'], function() {
-  return gulp.src(componentTestFiles)
+  return gulp.src(_.union(testFiles, componentTestFiles))
     .pipe(karma({
       configFile: 'karma.conf.js',
       action: 'run'
