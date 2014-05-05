@@ -17,11 +17,12 @@ var testFiles = [
   '!test/spec/components/*'
 ];
 
-var componentTestFiles = [
-  'node_modules/es5-shim/es5-shim.js',
-  'test/helpers/react-with-addons.js',
-  'build_jsx/**/*.js'
-];
+ var componentTestFiles = [
+   'node_modules/es5-shim/es5-shim.js',
+   'dist/main.js',
+   'test/helpers/react-with-addons.js',
+   'test/jsx_spec/*.js'
+  ];
 
 gulp.task('build', ['lint', 'bootstrap'], function(callback) {
   var myConfig = Object.create(webpackConfig);
@@ -56,7 +57,7 @@ gulp.task('test-services', ['build'], function() {
     });
 });
 
-gulp.task('test-components', ['compile-jsx'], function() {
+gulp.task('test-components', ['build_jsx'], function() {
   return gulp.src(componentTestFiles)
     .pipe(karma({
       configFile: 'karma.conf.js',
@@ -67,16 +68,16 @@ gulp.task('test-components', ['compile-jsx'], function() {
     });
 });
 
-gulp.task('compile-jsx', function() {
-  return gulp.src(['test/spec/components/*.js'])
-    .pipe(browserify({
-      transform: [reactify, ES6ModuleCompile()]
-    }))
-    .pipe(react())
-    .on('error', function(err) {
-      throw err;
-    })
-    .pipe(gulp.dest('./build_jsx/test/components/'))
+gulp.task('build_jsx', function() {
+  return gulp.src('./test/spec/components/*.js')
+     .pipe(react())
+     .pipe(browserify({
+       transform: [reactify, ES6ModuleCompile()]
+     }))
+     .on('error', function(err) {
+       throw err;
+     })
+     .pipe(gulp.dest('./test/jsx_spec/'))
 });
 
 gulp.task('lint', function() {
