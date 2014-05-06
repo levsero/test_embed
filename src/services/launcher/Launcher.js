@@ -1,8 +1,8 @@
 /** @jsx React.DOM */
+import { document } from '../../utils/globals';
 import { _ } from 'lodash';
 module React from 'react'; /* jshint ignore:line */
-import { Frame } from '../../components/Frame.js';
-import { document } from '../../utils/utils';
+import { Frame } from '../../components/Frame';
 
 var launchers = {};
 

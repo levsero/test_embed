@@ -1,7 +1,4 @@
-var win = window.top;
-var document = win.document; /* jslint ignore:line */
-
-export { win, document };
+import { store } from './persistence';
 
 var anchor = document.createElement('a');
 
@@ -16,32 +13,13 @@ function generateBuid() {
 }
 
 function getBuid() {
-  var buid = retrieve('buid');
+  var buid = store.get('buid');
 
   if(!buid) {
-    buid = generateBuid();
-    store('buid', buid);
+    buid = store.set('buid', generateBuid());
   }
 
   return buid;
-}
-
-function store(name, data, type) {
-  type = type || 'local';
-  if(typeof data === 'object') {
-    data = JSON.stringify(data);
-  }
-  win[type + 'Storage'].setItem('ZD-'+name, data);
-}
-
-function retrieve(name, type) {
-  type = type || 'local';
-  var item = win[type + 'Storage'].getItem('ZD-' + name);
-  try {
-    return JSON.parse(item);
-  } catch(e) {
-    return item;
-  }
 }
 
 function parseUrl(url) {
@@ -50,4 +28,4 @@ function parseUrl(url) {
   return anchor;
 }
 
-export { getBuid, store, retrieve, parseUrl };
+export { getBuid, parseUrl };
