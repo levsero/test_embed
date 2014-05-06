@@ -1,8 +1,11 @@
 import { win, document, navigator } from './utils/globals.js';
+import { _ } from 'lodash'; /* jslint ignore:line */
 import { sendData } from './utils/backend';
 import { getBuid, parseUrl  } from './utils/utils';
 import { store } from './utils/persistence';
 import { identity } from './identity';
+import { transport } from './transport';
+import { launcher } from './services/launcher/Launcher';
 
 var url = win.location.origin;
 var now = Date.now();
@@ -32,7 +35,20 @@ beacon({
   metrics: ['beacon']
 });
 
-win.Zd = module.exports = {
-  identity: identity
-};
+launcher.create('demoLauncher', {
+  onClick: function() {
+    alert('This is Demo Launcher');
+  }
+});
 
+launcher.render('demoLauncher');
+
+transport.init({ zendeskHost: 'isaacsu.zendesk.com' });
+
+win.Zd = module.exports = {
+  identity: identity,
+  transport: transport,
+  services: {
+    launcher: launcher
+  }
+};
