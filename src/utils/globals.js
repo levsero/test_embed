@@ -1,6 +1,6 @@
 var win = window.top;
-var document = win.document;
-var navigator = win.navigator;
+var document = win.document; /* jshint ignore:line */
+var navigator = win.navigator; /* jshint ignore:line */
 
 export { win, document, navigator };
 
