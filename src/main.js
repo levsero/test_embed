@@ -1,4 +1,4 @@
-import { win, document, navigator } from './utils/globals.js';
+import { win, document, navigator } from './utils/globals';
 import { _ } from 'lodash'; /* jslint ignore:line */
 import { sendData } from './utils/backend';
 import { getBuid, parseUrl  } from './utils/utils';
