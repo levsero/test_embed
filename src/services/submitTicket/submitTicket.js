@@ -1,10 +1,11 @@
 /** @jsx React.DOM */
 
 module React from 'react';
-import { Frame } from '../../components/Frame.js';
-import { validations } from '../../mixins/validation.js';
-import { TextAreaInput } from '../../components/TextAreaInput.js';
-import { TextInput } from '../../components/TextInput.js';
+import { _ } from 'lodash'; /* jslint ignore:line */
+import { Frame } from '../../components/Frame';
+import { validations } from '../../mixins/validation';
+import { TextAreaInput } from '../../components/TextAreaInput';
+import { TextInput } from '../../components/TextInput';
 
 
 var baseValidation = [validations.notEmptyCondition];
@@ -12,11 +13,27 @@ var emailValidation = [validations.notEmptyCondition, validations.symbolIncluded
 
 var SubmitTicket = React.createClass({
   handleClick: function(e) {
-    var description = this.refs.descriptionField.refs.inputText.getDOMNode().value,
-        name = this.refs.nameField.refs.inputText.getDOMNode().value,
-        email = this.refs.emailField.refs.inputText.getDOMNode().value,
-        info = this.refs.infoField.refs.inputText.getDOMNode().value;
-    console.log(description, name, email, info);
+    var descriptionInput = this.refs.descriptionField.refs.inputText.getDOMNode().value,
+        nameInput = this.refs.nameField.refs.inputText.getDOMNode().value,
+        emailInput = this.refs.emailField.refs.inputText.getDOMNode().value,
+        infoInput = this.refs.infoField.refs.inputText.getDOMNode().value,
+        descriptionErrors = this.refs.descriptionField.state.errors,
+        nameErrors = this.refs.nameField.state.errors,
+        emailErrors = this.refs.emailField.state.errors,
+        infoErrors = this.refs.infoField.state.errors,
+        errors = _.union(descriptionErrors, nameErrors, emailErrors, infoErrors);
+
+    if (errors.length !== 0) {
+      console.log('fail');
+      return;
+    }
+    var payload = {
+      email: emailInput,
+      name: nameInput,
+      subject: descriptionInput,
+      description: infoField
+    };
+    //Zd.send(payload);
   },
 
   render: function() {
