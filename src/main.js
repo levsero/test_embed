@@ -50,6 +50,7 @@ transport.init({ zendeskHost: 'isaacsu.zendesk.com' });
 
 win.Zd = module.exports = {
   identity: identity,
+  transport: transport,
   services: {
     launcher: launcher,
     submitTicket: submitTicket
