@@ -1,6 +1,6 @@
 /* jshint curly: false */
 // Code taken from http://www.lognormal.com/blog/2012/12/12/the-script-loader-pattern/
-(function(url){
+Zd || (function(url){
 // Section 1
   var dom,doc,where,iframe = document.createElement('iframe');
   iframe.src = 'javascript:false';
@@ -27,8 +27,5 @@
   };
   doc.write('<body onload="document._l();">');
   doc.close();
-})('http://localhost:1337/dist/main.js');
+})('{{frameworkUrl}}');
 
-Zd.init({
-  zendesk_id: "{{zendeskId}}"
-});
