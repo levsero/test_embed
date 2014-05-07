@@ -13,7 +13,7 @@ var maxLengthCondition = function(length) {
   };
 };
 
-var symbolIncludedCondition = function(symbol) {
+var regexMatcherCondition = function(symbol) {
   return {
     test: function(value) {
       return value.indexOf(symbol) > -1;
@@ -45,6 +45,6 @@ var ValidationMixin = {
 export var validations = {
   notEmptyCondition: notEmptyCondition,
   maxLengthCondition: maxLengthCondition,
-  symbolIncludedCondition: symbolIncludedCondition,
+  regexMatcherCondition: regexMatcherCondition,
   ValidationMixin: ValidationMixin
 };

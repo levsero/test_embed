@@ -15,17 +15,20 @@ var baseValidation = [
 ];
 var emailValidation = [
   validations.notEmptyCondition,
-  validations.symbolIncludedCondition('@'),
-  validations.symbolIncludedCondition('.')
+  validations.regexMatcherCondition('@'),
+  validations.regexMatcherCondition('.')
 ];
 /* jshint ignore:end */
 
 var SubmitTicket = React.createClass({
   handleClick: function() {
-    var subjectInput = this.refs.subjectField.refs.inputText.getDOMNode().value,
-        nameInput = this.refs.nameField.refs.inputText.getDOMNode().value,
-        emailInput = this.refs.emailField.refs.inputText.getDOMNode().value,
-        descriptionInput = this.refs.descriptionField.refs.inputText.getDOMNode().value,
+    var formParams = {
+          subject: this.refs.subjectField.refs.inputText.getDOMNode().value,
+          name: this.refs.nameField.refs.inputText.getDOMNode().value,
+          email: this.refs.emailField.refs.inputText.getDOMNode().value,
+          description: this.refs.descriptionField.refs.inputText.getDOMNode().value,
+          set_tags: 'buid-' + identity.getBuid() /* jshint ignore:line */
+        },
         errors = _.union(
           this.refs.subjectField.state.errors,
           this.refs.nameField.state.errors,
@@ -40,13 +43,7 @@ var SubmitTicket = React.createClass({
     var payload = {
       method: 'POST',
       path: '/api/ticket_submission',
-      params: {
-        email: emailInput,
-        name: nameInput,
-        subject: subjectInput,
-        description: descriptionInput,
-        set_tags: 'buid-' + identity.getBuid() /* jshint ignore:line */
-      },
+      params: formParams,
       callbacks: {
         done: function(data, status, xhr) {}, /* jshint ignore:line */
         fail: function(data, status, xhr) {} /* jshint ignore:line */
