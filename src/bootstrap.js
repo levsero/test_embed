@@ -1,6 +1,6 @@
 /* jshint curly: false */
 // Code taken from http://www.lognormal.com/blog/2012/12/12/the-script-loader-pattern/
-Zd || (function(url){
+Zd || (function(options){
 // Section 1
   var dom,
       doc,
