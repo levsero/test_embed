@@ -1,15 +1,16 @@
-import { win, document, navigator } from './utils/globals';
-import { _ } from 'lodash'; /* jslint ignore:line */
-import { sendData } from './utils/backend';
-import { getBuid, parseUrl  } from './utils/utils';
-import { store } from './utils/persistence';
-import { identity } from './identity';
+import { win, 
+         document, 
+         navigator } from './utils/globals';
+import { _         } from 'lodash'; /* jslint ignore:line */
+import { sendData  } from './utils/backend';
+import { parseUrl  } from './utils/utils';
+import { store     } from './utils/persistence';
+import { identity  } from './identity';
 import { transport } from './transport';
-import { launcher } from './services/launcher/Launcher';
+import { launcher  } from './services/launcher/Launcher';
 
 var url = win.location.origin;
 var now = Date.now();
-var buid = getBuid();
 var referrer = parseUrl(document.referrer);
 var previousTime = store.get('currentTime', true) || 0;
 var beacon = function(opts) {
@@ -28,7 +29,7 @@ store.set('currentTime', now, true);
 
 beacon({
   url: location.href,
-  buid: buid,
+  buid: identity.getBuid(),
   useragent: navigator.userAgent,
   referrer: referrer.href,
   time: timeOnLastPage(),
