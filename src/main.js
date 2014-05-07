@@ -44,7 +44,7 @@ launcher.create('demoLauncher', {
 
 launcher.render('demoLauncher');
 
-transport.init({ zendeskHost: 'isaacsu.zendesk.com' });
+transport.init({ zendeskHost: window.zendeskHost });
 
 win.Zd = module.exports = {
   identity: identity,
