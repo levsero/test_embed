@@ -42,6 +42,12 @@ gulp.task('build', ['lint'], function() {
     .pipe(gulp.dest('./dist'));
 });
 
+gulp.task('bootstrap', ['build'], function() {
+  return gulp.src('src/bootstrap.js')
+    .pipe(uglify())
+    .pipe(gulp.dest('./dist'));
+});
+
 gulp.task('test', ['build'], function() {
   return gulp.src(testFiles)
     .pipe(karma({
