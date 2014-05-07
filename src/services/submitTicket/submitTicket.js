@@ -22,15 +22,15 @@ var emailValidation = [
 
 var SubmitTicket = React.createClass({
   handleClick: function() {
-    var descriptionInput = this.refs.descriptionField.refs.inputText.getDOMNode().value,
+    var subjectInput = this.refs.subjectField.refs.inputText.getDOMNode().value,
         nameInput = this.refs.nameField.refs.inputText.getDOMNode().value,
         emailInput = this.refs.emailField.refs.inputText.getDOMNode().value,
-        infoInput = this.refs.infoField.refs.inputText.getDOMNode().value,
+        descriptionInput = this.refs.descriptionField.refs.inputText.getDOMNode().value,
         errors = _.union(
-          this.refs.descriptionField.state.errors,
+          this.refs.subjectField.state.errors,
           this.refs.nameField.state.errors,
           this.refs.emailField.state.errors,
-          this.refs.infoField.state.errors
+          this.refs.descriptionField.state.errors
         );
 
     if (errors.length !== 0) {
@@ -43,8 +43,8 @@ var SubmitTicket = React.createClass({
       params: {
         email: emailInput,
         name: nameInput,
-        subject: descriptionInput,
-        description: infoInput,
+        subject: subjectInput,
+        description: descriptionInput,
         set_tags: 'buid-' + identity.getBuid() /* jshint ignore:line */
       },
       callbacks: {
@@ -75,12 +75,12 @@ var SubmitTicket = React.createClass({
             <div class='Text-container'>
               <div class='Grid'>
                 <div class='Grid-cell Text-field'>
-                  <TextInput ref='descriptionField' name='Description' validate={baseValidation} placeholder='What do you need help with?'/>
+                  <TextInput ref='subjectField' name='Subject' validate={baseValidation} placeholder='What do you need help with?'/>
                 </div>
               </div>
               <div class='Grid'>
                 <div class='Grid-cell Text-field'>
-                  <TextAreaInput ref='infoField' validate={baseValidation} />
+                  <TextAreaInput ref='descriptionField' validate={baseValidation} />
                 </div>
               </div>
               <div class='Grid Grid--withGutter'>
