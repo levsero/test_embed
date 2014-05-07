@@ -1,6 +1,6 @@
 
 var notEmptyCondition = {
-  test: function (value) { return value !== '' },
+  test: function (value) { return value !== ''; },
   message: 'Field cannot be empty'
 };
 
@@ -27,19 +27,20 @@ var ValidationMixin = {
   getDefaultProps: function () {
     return {
       validate: []
-    }
+    };
   },
   hasErrors: function () {
-    var errors = []
+    var errors = [];
 
     this.props.validate.forEach(function (condition) {
-      if (!condition.test(this.state.value))
-        errors.push(condition.message)
-    }, this)
+      if (!condition.test(this.state.value)) {
+        errors.push(condition.message);
+      }
+    }, this);
 
-    return errors.length ? errors : []
+    return errors.length ? errors : [];
   }
-}
+};
 
 export var validations = {
   notEmptyCondition: notEmptyCondition,

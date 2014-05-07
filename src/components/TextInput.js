@@ -10,12 +10,13 @@ export var TextInput = React.createClass ({
   handleChange: function(event) {
     this.setState({value: event.target.value});
   },
-  handleBlur: function(event) {
+  handleBlur: function() {
     var errors = this.hasErrors();
     console.log(errors);
     this.setState({errors: errors});
   },
   render: function() {
+    /* jshint ignore:start */
     var value = this.state.value;
     var errorList = this.state.errors.map(function(item) {
       return <li>{item}</li>;
@@ -29,5 +30,6 @@ export var TextInput = React.createClass ({
         </div>
       </div>
     );
+    /* jshint ignore:end */
   }
 });

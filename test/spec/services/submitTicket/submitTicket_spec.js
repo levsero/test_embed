@@ -6,10 +6,10 @@ describe('submit ticket form', function() {
 
   describe('create', function() {
     it('should create a form', function() {
-      form.render()
+      form.render();
 
       expect(typeof form)
-        .toEqual("object");
+        .toEqual('object');
     });
   });
 
@@ -18,15 +18,15 @@ describe('submit ticket form', function() {
 
       spyOn(doc.body, 'appendChild').andCallThrough();
 
-      var initialIframeCount = doc.body.getElementsByTagName("iframe").length;
+      var initialIframeCount = doc.body.getElementsByTagName('iframe').length;
       form.render();
 
       expect(doc.body.appendChild)
         .toHaveBeenCalled();
 
-      expect(doc.body.getElementsByTagName("iframe").length)
+      expect(doc.body.getElementsByTagName('iframe').length)
         .toEqual(initialIframeCount + 1);
     });
   });
 
-})
+});
