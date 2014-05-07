@@ -1,1 +1,1 @@
-/** @jsx React.DOM */
+// Feedback component would contain view
