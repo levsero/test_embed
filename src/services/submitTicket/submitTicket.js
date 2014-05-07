@@ -1,12 +1,14 @@
 /** @jsx React.DOM */
 
-module React from 'react'; /* jslint ignore:line */
-import { _ } from 'lodash'; /* jslint ignore:line */
+/* jshint ignore:start */
+module React from 'react';
+import { _ } from 'lodash';
 import { Frame } from '../../components/Frame';
 import { validations } from '../../mixins/validation';
 import { TextAreaInput } from '../../components/TextAreaInput';
 import { TextInput } from '../../components/TextInput';
-
+import { transport } from '../../transport';
+import { identity } from '../../identity';
 
 var baseValidation = [
   validations.notEmptyCondition
@@ -16,6 +18,7 @@ var emailValidation = [
   validations.symbolIncludedCondition('@'),
   validations.symbolIncludedCondition('.')
 ];
+/* jshint ignore:end */
 
 var SubmitTicket = React.createClass({
   handleClick: function() {
@@ -35,12 +38,21 @@ var SubmitTicket = React.createClass({
       return;
     }
     var payload = {
-      email: emailInput,
-      name: nameInput,
-      subject: descriptionInput,
-      description: infoInput
+      method: 'POST',
+      path: '/api/ticket_submission',
+      params: {
+        email: emailInput,
+        name: nameInput,
+        subject: descriptionInput,
+        description: infoInput,
+        set_tags: 'buid-' + identity.getBuid() /* jshint ignore:line */
+      },
+      callbacks: {
+        done: function(data, status, xhr) {}, /* jshint ignore:line */
+        fail: function(data, status, xhr) {} /* jshint ignore:line */
+      }
     };
-    //Zd.send(payload);
+    transport.send(payload); /* jshint ignore:line */
   },
 
   render: function() {
