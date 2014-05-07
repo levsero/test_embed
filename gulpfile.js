@@ -33,7 +33,7 @@ var testFiles = [
   'test/**/*.js'
 ];
 
-gulp.task('build', ['lint'], function() {
+gulp.task('build', ['lint', 'bootstrap'], function() {
   return gulp.src('src/main.js')
     .pipe(browserify({
       transform: [reactify, ES6ModuleCompile()]
