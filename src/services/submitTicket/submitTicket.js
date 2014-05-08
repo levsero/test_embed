@@ -14,8 +14,7 @@ var baseValidation = [
 ];
 var emailValidation = [
   validations.notEmptyCondition,
-  validations.regexMatcherCondition('@'),
-  validations.regexMatcherCondition('.')
+  validations.regexMatcherCondition(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/, 'email address') /* jshint ignore:line */
 ];
 
 var SubmitTicket = React.createClass({

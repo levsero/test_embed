@@ -13,12 +13,12 @@ var maxLengthCondition = function(length) {
   };
 };
 
-var regexMatcherCondition = function(symbol) {
+var regexMatcherCondition = function(regex, type) {
   return {
     test: function(value) {
-      return value.indexOf(symbol) > -1;
+      return regex.test(value);
     },
-    message: 'Missing ' + symbol + ' symbol'
+    message: 'Not a valid ' + type
   };
 };
 
