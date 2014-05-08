@@ -84,12 +84,11 @@ var SubmitTicket = React.createClass({
                 />
               </div>
               <div class='Grid'>
-                <div class='Grid-cell Form-field'>
-                  <TextAreaInput
-                    ref='descriptionField'
-                    validate={baseValidation}
-                  />
-                </div>
+                <TextAreaInput
+                  ref='descriptionField'
+                  validate={baseValidation}
+                  style='Grid-cell Form-field'
+                />
               </div>
               <div class='Grid Grid--withGutter'>
                 <TextInput
@@ -134,8 +133,8 @@ var DoneScreen = React.createClass({
 });
 
 function render() {
-  var el = document.body.appendChild(document.createElement('div'));
-  React.renderComponent(<SubmitTicket />, el);
+  var element = document.body.appendChild(document.createElement('div'));
+  React.renderComponent(<SubmitTicket />, element);
 }
 
 export var submitTicket = {

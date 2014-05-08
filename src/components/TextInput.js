@@ -12,22 +12,19 @@ export var TextInput = React.createClass ({
   },
   handleBlur: function() {
     var errors = this.hasErrors();
-    console.log(errors);
     this.setState({errors: errors});
   },
   render: function() {
-    /* jshint quotmark:false */
     var value = this.state.value;
     var errorList = this.state.errors.map(function(item) {
       return <li>{item}</li>;
     });
     return (
+      /* jshint quotmark:false */
       <div class={this.props.style}>
         <label class='u-block Text-field-label'>
           {this.props.name}
-          <abbr title='Requied'>
-            *
-          </abbr>
+          <abbr title='Requied'>*</abbr>
         </label>
         <input
           ref='inputText'
