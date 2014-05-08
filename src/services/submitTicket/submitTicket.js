@@ -42,8 +42,14 @@ var SubmitTicket = React.createClass({
       path: '/api/ticket_submission',
       params: formParams,
       callbacks: {
-        done: function(data, status, xhr) {}, /* jshint ignore:line */
-        fail: function(data, status, xhr) {} /* jshint ignore:line */
+        done: function(data, status, xhr) { /* jshint ignore:line */
+          refs.screen.props.message = 'Done!';
+          refs.screen.forceUpdate();
+        },
+        fail: function(data, status, xhr) { /* jshint ignore:line */
+          refs.screen.props.message = 'Failed!';
+          refs.screen.forceUpdate();
+        }
       }
     };
     transport.send(payload);
@@ -65,6 +71,7 @@ var SubmitTicket = React.createClass({
       <Frame style={base}>
         <div class='Container u-nbfc'>
           <h1>How can I help you?</h1>
+          <DoneScreen ref='screen' message='' />
           <form action='' method='post' class='Form'>
             <div class='Text-container'>
               <div class='Grid'>
@@ -109,6 +116,19 @@ var SubmitTicket = React.createClass({
         />
         </div>
       </Frame>
+    );
+  }
+});
+
+var DoneScreen = React.createClass({
+  render: function() {
+    /* jshint quotmark:false */
+    return (
+      <div class="Notify u-isHidden">
+        <div class="Notify-body Notify-body--success">
+          <h1 class="Notify-title u-textCenter">{this.props.message}</h1>
+        </div>
+      </div>
     );
   }
 });
