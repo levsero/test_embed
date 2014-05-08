@@ -1,4 +1,4 @@
-import { _ } from 'lodash';
+var _ = require('lodash');
 
 var superagent = require('superagent'),
     config = {
@@ -11,7 +11,7 @@ function init(_config) {
 }
 
 function send(payload) {
-  superagent(payload.method.toUpperCase(), 
+  superagent(payload.method.toUpperCase(),
              buildFullUrl(payload.path))
     .type('json')
     .send(_.extend(payload.params,{'zendesk_host': config.zendeskHost}))
