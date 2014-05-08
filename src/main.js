@@ -1,13 +1,14 @@
-import { win, 
-         document, 
+import { win,
+         document,
          navigator } from './utils/globals';
-import { _         } from 'lodash'; /* jslint ignore:line */
 import { sendData  } from './utils/backend';
 import { parseUrl  } from './utils/utils';
 import { store     } from './utils/persistence';
 import { identity  } from './identity';
 import { transport } from './transport';
 import { launcher  } from './services/launcher/Launcher';
+
+require('imports?_=lodash!lodash');
 
 var url = win.location.origin;
 var now = Date.now();

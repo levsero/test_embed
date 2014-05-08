@@ -1,41 +1,13 @@
 /** @jsx React.DOM */
 /* jshint multistr:true */
 
-import { _ } from 'lodash';
 module React from 'react'; /* jshint ignore:line */
 
-export var Frame = React.createClass({
-  documentNormalizer: function() {
-    return (
-      'body {              \
-         margin:0;         \
-         padding: 0px;     \
-         background: none; \
-      }                    \
-      .Launcher {             \
-         position: fixed;              \
-         width: 50px;                  \
-         height: 50px;                 \
-         background: rgba(0,0,0,.7);   \
-         text-align: center;           \
-         color: #fff;                  \
-         padding: 0;                   \
-         font-family: sans-serif;       \
-         font-size: 12px;               \
-         border-radius: 25px 25px 3px; \
-         cursor: pointer;              \
-      }\
-      .Launcher--left { \
-        border-radius: 25px 25px 25px 3px; \
-      }\
-      .Launcher > div {       \
-         font-family: sans-serif; \
-         font-weight: normal; \
-         font-size: 26px; \
-         margin-top: 11px; \
-      }');
-  },
+// lodash needs to shimmed using imports loader
+require('imports?_=lodash!lodash');
+var baseCSS = require('baseCSS');
 
+export var Frame = React.createClass({
   render: function() {
     var base = { border: 'none' },
     iframeStyle = _.extend(base, this.props.style);
@@ -43,21 +15,24 @@ export var Frame = React.createClass({
   },
 
   componentDidMount: function() {
-    var head;
-    React.renderComponent(this.props.children, this.getDOMNode().contentDocument.body);
-    head = this.getDOMNode().contentDocument.head;
-
-    var styleTag = document.createElement('style');
-    head.appendChild(styleTag);
-    styleTag.innerHTML = this.documentNormalizer() + ' ' + this.props.documentStyle;
+    // In order for iframe correctly render we need to do it on nextTick
+    if(this.getDOMNode().contentWindow.document.readyState === 'complete') {
+      this.renderFrameContent();
+    } else {
+      setTimeout(this.renderFrameContent, 100);
+    }
   },
 
-  componentDidUpdate: function() {
-    React.renderComponent(this.props.children, this.getDOMNode().contentDocument.body);
+  renderFrameContent: function() {
+    var head = this.getDOMNode().contentDocument.head,
+        styleTag = document.createElement('style');
+
+    head.appendChild(styleTag);
+    styleTag.innerHTML = baseCSS;
+    React.renderComponent(this.props.children, this.getDOMNode().contentWindow.document.body);
   },
 
   componentWillUnmount: function() {
     React.unmountComponentAtNode(this.getDOMNode().contentDocument.body);
   }
-
 });
