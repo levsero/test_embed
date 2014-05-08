@@ -22,18 +22,19 @@ var emailValidation = [
 
 var SubmitTicket = React.createClass({
   handleClick: function() {
-    var formParams = {
-          subject: this.refs.subjectField.refs.inputText.getDOMNode().value,
-          name: this.refs.nameField.refs.inputText.getDOMNode().value,
-          email: this.refs.emailField.refs.inputText.getDOMNode().value,
-          description: this.refs.descriptionField.refs.inputText.getDOMNode().value,
+    var refs = this.refs,
+        formParams = {
+          subject: refs.subjectField.refs.inputText.getDOMNode().value,
+          name: refs.nameField.refs.inputText.getDOMNode().value,
+          email: refs.emailField.refs.inputText.getDOMNode().value,
+          description: refs.descriptionField.refs.inputText.getDOMNode().value,
           set_tags: 'buid-' + identity.getBuid() /* jshint ignore:line */
         },
         errors = _.union(
-          this.refs.subjectField.state.errors,
-          this.refs.nameField.state.errors,
-          this.refs.emailField.state.errors,
-          this.refs.descriptionField.state.errors
+          refs.subjectField.state.errors,
+          refs.nameField.state.errors,
+          refs.emailField.state.errors,
+          refs.descriptionField.state.errors
         );
 
     if (errors.length !== 0) {
@@ -68,33 +69,29 @@ var SubmitTicket = React.createClass({
       <Frame style={base}>
         <div class='Container u-nbfc'>
           <h1>How can I help you?</h1>
-          <form action='' method='post' class='Text'>
+          <form action='' method='post' class='Form'>
             <div class='Text-container'>
               <div class='Grid'>
-                <div class='Grid-cell Text-field'>
+                <div class='Grid-cell Form-field'>
                   <TextInput ref='subjectField' name='Subject' validate={baseValidation} placeholder='What do you need help with?'/>
                 </div>
               </div>
               <div class='Grid'>
-                <div class='Grid-cell Text-field'>
+                <div class='Grid-cell Form-field'>
                   <TextAreaInput ref='descriptionField' validate={baseValidation} />
                 </div>
               </div>
               <div class='Grid Grid--withGutter'>
-                <div class='Grid-cell u-size1of2 Text-field'>
+                <div class='Grid-cell u-size1of2 Form-field'>
                   <TextInput ref='nameField' name='Name' placeholder='' validate={baseValidation}/>
                 </div>
-                <div class='Grid-cell u-size1of2 Text-field'>
+                <div class='Grid-cell u-size1of2 Form-field'>
                   <TextInput ref='emailField' name='Email' placeholder='' validate={emailValidation}/>
                 </div>
               </div>
             </div>
 
-            <input id='locale_id' name='locale_id' type='hidden' value='1' />
             <input id='set_tags' name='set_tags' type='hidden' value='dropbox buid-{placeholder}' />
-            <input id='via_id' name='via_id' type='hidden' value='17' />
-            <input id='client' name='client' type='hidden' value='' />
-            <input id='submitted_from' name='submitted_from' type='hidden' value='' />
 
           </form>
         <input type='submit' onClick={this.handleClick} class='Button Button--default u-pullRight'/>
