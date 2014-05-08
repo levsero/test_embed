@@ -1,15 +1,15 @@
 /** @jsx React.DOM */
 
-/* jshint ignore:start */
-module React from 'react';
+module React from 'react'; /* jshint ignore:line */
 import { _ } from 'lodash';
-import { Frame } from '../../components/Frame';
-import { validations } from '../../mixins/validation';
-import { TextAreaInput } from '../../components/TextAreaInput';
-import { TextInput } from '../../components/TextInput';
+import { Frame } from '../../components/Frame'; /* jshint ignore:line */
+import { validations } from '../../mixins/validation'; /* jshint ignore:line */
+import { TextAreaInput } from '../../components/TextAreaInput'; /* jshint ignore:line */
+import { TextInput } from '../../components/TextInput'; /* jshint ignore:line */
 import { transport } from '../../transport';
 import { identity } from '../../identity';
 
+/* jshint ignore:start */
 var baseValidation = [
   validations.notEmptyCondition
 ];
@@ -50,7 +50,7 @@ var SubmitTicket = React.createClass({
         fail: function(data, status, xhr) {} /* jshint ignore:line */
       }
     };
-    transport.send(payload); /* jshint ignore:line */
+    transport.send(payload);
   },
 
   render: function() {
