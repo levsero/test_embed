@@ -1,44 +1,54 @@
 /** @jsx React.DOM */
-import { _ } from 'lodash';
 module React from 'react'; /* jshint ignore:line */
-import { Frame } from '../../components/Frame.js';
+import { Frame } from 'Frame';
 
-var launchers = {};
+var _ = require('lodash');
+var launcherCSS = require('components/Button.css');
+
+var launchers = {},
+    classSet = React.addons.classSet;
 
 var Launcher = React.createClass({
   render: function() {
     var base = {
-      border: 'none',
-      height: '50px',
-      width: '50px',
-      position: 'fixed',
-      bottom: '10px'
+        border: 'none',
+        height: '50px',
+        width: '50px',
+        position: 'fixed',
+        bottom: '10px'
     },
     iframeStyle,
-    className;
+    posObj,
+    position = this.props.position;
 
-    if (this.props.position === 'left') {
-      iframeStyle = _.extend(base, {
-        left: '20px'
-      });
-      className = 'Launcher Launcher--left';
-    }
-    else {
-      iframeStyle = _.extend(base, {
-        right: '20px'
-      });
-      className = 'Launcher';
+    var classes = classSet({
+      'Button Button--launcher Arrange-sizeFill u-textCenter u-tableCell': true,
+      'Button--launcherAlt': position === 'left'
+    });
+
+    if(position === 'left') {
+      posObj = {
+        'left': '20px'
+      };
+    } else {
+      posObj = {
+        'right': '20px'
+      };
     }
 
+    iframeStyle = _.extend(base, posObj);
 
     return (
+      /* jshint quotmark: false */
       <Frame style={iframeStyle}>
-        <div onClick={this.props.onClick} className={className}>
-          <div>?</div>{/* jshint ignore:line */}
+        <div>
+          <style>{launcherCSS}</style>
+          <div onClick={this.props.onClick} className='Arrange Arrange--middle'>
+            <div className={classes}>?</div>
+          </div>
         </div>
       </Frame>
     );
-
   }
 });
 

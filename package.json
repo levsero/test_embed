@@ -9,9 +9,6 @@
   "author": "Zendesk",
   "license": "All Rights Reserved",
   "dependencies": {
-    "suitcss-components-grid": "^1.2.0",
-    "normalize.css": "^3.0.1",
-    "suitcss-utils": "^0.8.0",
     "lodash": "^2.4.1",
     "envify": "^1.2.1",
     "react": "^0.10.0"
@@ -36,6 +33,6 @@
     "webpack": "^1.1.8",
     "webpack-dev-server": "^1.2.7",
     "jsx-loader": "^0.10.0",
-    "jshint-loader": "^0.6.0"
+    "gulp-concat": "~2.2.0"
   }
 }

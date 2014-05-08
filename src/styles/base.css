@@ -1,6 +1,2 @@
-@import "~normalize";
-@import "~align-util.css";
+@import "~suit";
 
-body {
-  background: red;
-}

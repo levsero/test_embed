@@ -2,10 +2,11 @@ var gulp = require('gulp');
 var uglify = require('gulp-uglify');
 var jshint = require('gulp-jshint');
 var karma = require('gulp-karma');
-var gutil = require("gulp-util");
-var webpack = require("webpack");
-var WebpackDevServer = require("webpack-dev-server");
-var webpackConfig = require("./webpack.config.js");
+var gutil = require('gulp-util');
+var webpack = require('webpack');
+var WebpackDevServer = require('webpack-dev-server');
+var webpackConfig = require('./webpack.config.js');
+var react = require('gulp-react');
 
 var testFiles = [
   'node_modules/es5-shim/es5-shim.js',
@@ -15,8 +16,7 @@ var testFiles = [
 
 gulp.task('build', ['lint', 'webpack', 'test']);
 
-gulp.task("webpack", function(callback) {
-  // modify some webpack config options
+gulp.task('webpack', function(callback) {
   var myConfig = Object.create(webpackConfig);
   myConfig.plugins = [
     new webpack.optimize.DedupePlugin(),
@@ -24,15 +24,15 @@ gulp.task("webpack", function(callback) {
   ];
 
   webpack(myConfig, function(err, stats) {
-    if(err) throw new gutil.PluginError("webpack", err);
-    gutil.log("[webpack]", stats.toString({
+    if(err) throw new gutil.PluginError('webpack', err);
+    gutil.log('[webpack]', stats.toString({
       colors: true
     }));
     callback();
   });
 });
 
-gulp.task('test', ['build'], function() {
+gulp.task('test', ['webpack'], function() {
   return gulp.src(testFiles)
     .pipe(karma({
       configFile: 'karma.conf.js',
@@ -46,7 +46,6 @@ gulp.task('test', ['build'], function() {
 gulp.task('lint', function() {
   return gulp.src(['src/**/*.js', 'test/**/*.js'])
     .pipe(react())
-    .pipe(gulp.dest('lint_build/'))
     .pipe(jshint())
     .pipe(jshint.reporter('default'))
 });
@@ -62,9 +61,9 @@ gulp.task("webpack-dev-server", function(callback) {
     stats: {
       colors: true
     }
-  }).listen(1337, "localhost", function(err) {
-    if(err) throw new gutil.PluginError("webpack-dev-server", err);
-    gutil.log("[webpack-dev-server]", "http://localhost:1337/webpack-dev-server/example/index.html");
+  }).listen(1337, 'localhost', function(err) {
+    if(err) throw new gutil.PluginError('webpack-dev-server', err);
+    gutil.log('[webpack-dev-server]', 'http://localhost:1337/webpack-dev-server/example/index.html');
   });
 });
 

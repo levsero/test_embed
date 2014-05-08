@@ -1,6 +1,7 @@
 var path = require('path');
 
 module.exports = {
+    cache: true,
     entry: "./src/main.js",
     output: {
         path: path.join(__dirname, 'dist'),
@@ -8,8 +9,7 @@ module.exports = {
     },
     module: {
         preLoaders: [
-          { test: /\.js$/, loader: "jsx-loader" },
-          { test: /\.js$/, exclude: 'node_modules', loader: 'jshint-loader' }
+          { test: /\.js$/, loader: "jsx-loader" }
         ],
         loaders: [
             { test: /\.css$/, loader: "css" },
@@ -18,9 +18,13 @@ module.exports = {
     },
     resolve: {
         alias: {
-            base: path.join(__dirname, 'src/styles/base.css'),
-            normalize: 'normalize.css/normalize.css',
-            'align-util.css': 'suitcss-utils/node_modules/suitcss-utils-align/align.css'
-        }
+            react: 'react/addons.js',
+            Frame: path.join(__dirname, 'src/components/Frame.js'),
+            // CSS Components
+            baseCSS: path.join(__dirname, 'src/styles/base.css'),
+            suit: 'suit/index.css',
+            components: path.join(__dirname, 'src/styles/components')
+        },
+        modulesDirectories: ['node_modules', 'bower_components']
     }
 };
