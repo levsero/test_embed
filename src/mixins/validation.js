@@ -38,7 +38,7 @@ var ValidationMixin = {
       }
     }, this);
 
-    return errors.length ? errors : [];
+    return errors;
   }
 };
 

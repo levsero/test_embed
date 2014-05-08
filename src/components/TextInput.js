@@ -16,20 +16,33 @@ export var TextInput = React.createClass ({
     this.setState({errors: errors});
   },
   render: function() {
-    /* jshint ignore:start */
+    /* jshint quotmark:false */
     var value = this.state.value;
     var errorList = this.state.errors.map(function(item) {
       return <li>{item}</li>;
     });
     return (
-      <div>
-        <label class='u-block Text-field-label'>{this.props.name}<abbr title='Requied'>*</abbr></label>
-        <input ref='inputText' value={value}  onChange={this.handleChange} onBlur={this.handleBlur} placeholder={this.props.placeholder} required title='Please fill out this field.' type='text' class='u-sizeFull Text-field-element' />
+      <div class={this.props.style}>
+        <label class='u-block Text-field-label'>
+          {this.props.name}
+          <abbr title='Requied'>
+            *
+          </abbr>
+        </label>
+        <input
+          ref='inputText'
+          value={value}
+          onChange={this.handleChange}
+          onBlur={this.handleBlur}
+          placeholder={this.props.placeholder}
+          required title='Please fill out this field.'
+          type='text'
+          class='u-sizeFull Text-field-element'
+        />
         <div>
           <ul>{errorList}</ul>
         </div>
       </div>
     );
-    /* jshint ignore:end */
   }
 });

@@ -2,14 +2,13 @@
 
 module React from 'react'; /* jshint ignore:line */
 import { _ } from 'lodash';
-import { Frame } from '../../components/Frame'; /* jshint ignore:line */
-import { validations } from '../../mixins/validation'; /* jshint ignore:line */
-import { TextAreaInput } from '../../components/TextAreaInput'; /* jshint ignore:line */
-import { TextInput } from '../../components/TextInput'; /* jshint ignore:line */
+import { Frame } from '../../components/Frame';
+import { validations } from '../../mixins/validation';
+import { TextAreaInput } from '../../components/TextAreaInput';
+import { TextInput } from '../../components/TextInput';
 import { transport } from '../../transport';
 import { identity } from '../../identity';
 
-/* jshint ignore:start */
 var baseValidation = [
   validations.notEmptyCondition
 ];
@@ -18,7 +17,6 @@ var emailValidation = [
   validations.regexMatcherCondition('@'),
   validations.regexMatcherCondition('.')
 ];
-/* jshint ignore:end */
 
 var SubmitTicket = React.createClass({
   handleClick: function() {
@@ -38,7 +36,6 @@ var SubmitTicket = React.createClass({
         );
 
     if (errors.length !== 0) {
-      console.log('fail');
       return;
     }
     var payload = {
@@ -54,7 +51,7 @@ var SubmitTicket = React.createClass({
   },
 
   render: function() {
-    /* jshint ignore:start */
+    /* jshint quotmark:false */
     var base = {
       border: 'solid',
       height: '500px',
@@ -72,33 +69,48 @@ var SubmitTicket = React.createClass({
           <form action='' method='post' class='Form'>
             <div class='Text-container'>
               <div class='Grid'>
-                <div class='Grid-cell Form-field'>
-                  <TextInput ref='subjectField' name='Subject' validate={baseValidation} placeholder='What do you need help with?'/>
-                </div>
+                <TextInput
+                  ref='subjectField'
+                  name='Subject'
+                  validate={baseValidation}
+                  placeholder='What do you need help with?'
+                  style='Grid-cell Form-field'
+                />
               </div>
               <div class='Grid'>
                 <div class='Grid-cell Form-field'>
-                  <TextAreaInput ref='descriptionField' validate={baseValidation} />
+                  <TextAreaInput
+                    ref='descriptionField'
+                    validate={baseValidation}
+                  />
                 </div>
               </div>
               <div class='Grid Grid--withGutter'>
-                <div class='Grid-cell u-size1of2 Form-field'>
-                  <TextInput ref='nameField' name='Name' placeholder='' validate={baseValidation}/>
-                </div>
-                <div class='Grid-cell u-size1of2 Form-field'>
-                  <TextInput ref='emailField' name='Email' placeholder='' validate={emailValidation}/>
-                </div>
+                <TextInput
+                  ref='nameField'
+                  name='Name'
+                  placeholder=''
+                  validate={baseValidation}
+                  style='Grid-cell u-size1of2 Form-field'
+                />
+                <TextInput
+                  ref='emailField'
+                  name='Email'
+                  placeholder=''
+                  validate={emailValidation}
+                  style='Grid-cell u-size1of2 Form-field'
+                />
               </div>
             </div>
-
-            <input id='set_tags' name='set_tags' type='hidden' value='dropbox buid-{placeholder}' />
-
           </form>
-        <input type='submit' onClick={this.handleClick} class='Button Button--default u-pullRight'/>
+        <input
+          type='submit'
+          onClick={this.handleClick}
+          class='Button Button--default u-pullRight'
+        />
         </div>
       </Frame>
     );
-  /* jshint ignore:end */
   }
 });
 
