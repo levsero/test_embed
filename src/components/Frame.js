@@ -3,7 +3,8 @@
 
 module React from 'react'; /* jshint ignore:line */
 
-var _ = require('lodash');
+// lodash needs to shimmed using imports loader
+require('imports?_=lodash!lodash');
 var baseCSS = require('baseCSS');
 
 export var Frame = React.createClass({
@@ -15,7 +16,11 @@ export var Frame = React.createClass({
 
   componentDidMount: function() {
     // In order for iframe correctly render we need to do it on nextTick
-    setTimeout(this.renderFrameContent, 10);
+    if(this.getDOMNode().contentWindow.document.readyState === 'complete') {
+      this.renderFrameContent();
+    } else {
+      setTimeout(this.renderFrameContent, 100);
+    }
   },
 
   renderFrameContent: function() {
@@ -24,7 +29,7 @@ export var Frame = React.createClass({
 
     head.appendChild(styleTag);
     styleTag.innerHTML = baseCSS;
-    React.renderComponent(this.props.children, this.getDOMNode().contentDocument.body);
+    React.renderComponent(this.props.children, this.getDOMNode().contentWindow.document.body);
   },
 
   componentWillUnmount: function() {

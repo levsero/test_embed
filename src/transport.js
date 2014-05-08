@@ -1,4 +1,4 @@
-var _ = require('lodash');
+require('imports?_=lodash!lodash');
 
 var superagent = require('superagent'),
     config = {

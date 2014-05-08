@@ -16,15 +16,7 @@ var testFiles = [
   'test/**/*.js'
 ];
 
-gulp.task('build', ['lint', 'bootstrap', 'webpack', 'test']);
-
-gulp.task('bootstrap', function() {
-  return gulp.src('src/bootstrap.js')
-    .pipe(uglify())
-    .pipe(gulp.dest('./dist'));
-});
-
-gulp.task('webpack', function(callback) {
+gulp.task('build', ['lint', 'bootstrap'], function(callback) {
   var myConfig = Object.create(webpackConfig);
   myConfig.plugins = [
     new webpack.optimize.DedupePlugin(),
@@ -38,6 +30,12 @@ gulp.task('webpack', function(callback) {
     }));
     callback();
   });
+});
+
+gulp.task('bootstrap', function() {
+  return gulp.src('src/bootstrap.js')
+    .pipe(uglify())
+    .pipe(gulp.dest('./dist'));
 });
 
 gulp.task('test', ['webpack'], function() {
@@ -56,6 +54,7 @@ gulp.task('lint', function() {
     .pipe(react())
     .pipe(jshint())
     .pipe(jshint.reporter('default'))
+    .pipe(jshint.reporter('fail'));
 });
 
 gulp.task("webpack-dev-server", function(callback) {

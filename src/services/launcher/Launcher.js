@@ -3,7 +3,7 @@ import { document } from '../../utils/globals';
 module React from 'react'; /* jshint ignore:line */
 import { Frame } from 'Frame';
 
-var _ = require('lodash');
+require('imports?_=lodash!lodash');
 var launcherCSS = require('components/Button.css');
 
 var launchers = {},
@@ -12,11 +12,11 @@ var launchers = {},
 var Launcher = React.createClass({
   render: function() {
     var base = {
-        border: 'none',
-        height: '50px',
-        width: '50px',
-        position: 'fixed',
-        bottom: '10px'
+      border: 'none',
+      height: '50px',
+      width: '50px',
+      position: 'fixed',
+      bottom: '10px'
     },
     iframeStyle,
     posObj,
