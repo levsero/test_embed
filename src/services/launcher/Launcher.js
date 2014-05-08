@@ -1,4 +1,5 @@
 /** @jsx React.DOM */
+import { document } from '../../utils/globals';
 module React from 'react'; /* jshint ignore:line */
 import { Frame } from 'Frame';
 

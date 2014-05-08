@@ -9,12 +9,20 @@ var webpackConfig = require('./webpack.config.js');
 var react = require('gulp-react');
 
 var testFiles = [
+  'node_modules/lodash/lodash.js',
   'node_modules/es5-shim/es5-shim.js',
+  'node_modules/jasmine-ajax/lib/mock-ajax.js',
   'dist/main.js',
   'test/**/*.js'
 ];
 
-gulp.task('build', ['lint', 'webpack', 'test']);
+gulp.task('build', ['lint', 'bootstrap', 'webpack', 'test']);
+
+gulp.task('bootstrap', function() {
+  return gulp.src('src/bootstrap.js')
+    .pipe(uglify())
+    .pipe(gulp.dest('./dist'));
+});
 
 gulp.task('webpack', function(callback) {
   var myConfig = Object.create(webpackConfig);

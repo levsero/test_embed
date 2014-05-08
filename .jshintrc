@@ -4,6 +4,7 @@
     "process",
     "React",
     "Zd",
+    "_",
     "before", "after",
     "expect", "it", "describe", "xit", "xdescribe", "beforeEach", "afterEach",
     "jasmine", "spyOn", "runs", "waitsFor"

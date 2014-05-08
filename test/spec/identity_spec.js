@@ -1,4 +1,4 @@
-describe('utilities', function() {
+describe('identity', function() {
   var buid = '8c80bfcdaed9a4b33d93479f4d6acf22';
   var root = window.top;
   var Zd = root.Zd;
@@ -8,7 +8,8 @@ describe('utilities', function() {
     spyOn(root.localStorage, 'setItem').andCallThrough();
   });
 
-  describe('buid', function() {
+  describe('getBuid', function() {
+
     beforeEach(function() {
       root.localStorage.clear();
     });
@@ -24,4 +25,5 @@ describe('utilities', function() {
       expect(root.localStorage.setItem.mostRecentCall.args[1].length).toEqual(32);
     });
   });
+
 });

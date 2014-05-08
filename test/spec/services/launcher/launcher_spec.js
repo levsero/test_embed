@@ -1,7 +1,8 @@
 describe('launcher', function() {
   var root     = window.top,
       Zd       = root.Zd,
-      launcher = Zd.services.launcher;
+      launcher = Zd.services.launcher,
+      document = root.document;
 
   describe('create', function() {
     it('should create and store a launcher', function() {
