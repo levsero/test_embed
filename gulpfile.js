@@ -38,7 +38,7 @@ gulp.task('bootstrap', function() {
     .pipe(gulp.dest('./dist'));
 });
 
-gulp.task('test', ['webpack'], function() {
+gulp.task('test', ['build'], function() {
   return gulp.src(testFiles)
     .pipe(karma({
       configFile: 'karma.conf.js',
