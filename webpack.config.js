@@ -2,18 +2,19 @@ var path = require('path');
 
 module.exports = {
   cache: true,
-  entry: "./src/main.js",
+  entry: './src/main.js',
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: "main.js"
+    filename: 'main.js'
   },
   module: {
     preLoaders: [
-      { test: /\.js$/, loader: "jsx-loader" }
+      { test: /\.js$/, loader: 'jsx-loader' }
     ],
     loaders: [
-      { test: /\.css$/, loader: "css" },
-      { test: /\.js$/, loader: "es6-loader" }
+      { test: /\.scss$/, loader: 'css!sass-loader' },
+      { test: /base\.css$/, loader: 'css' },
+      { test: /\.js$/, loader: 'es6-loader' }
     ]
   },
   resolve: {
