@@ -59,22 +59,22 @@ var SubmitTicket = React.createClass({
     /* jshint quotmark:false */
     var base = {
       border: 'solid',
-      height: '500px',
+      height: '600px',
       width: '700px',
       position: 'fixed',
       top: '50%',
       left: '50%',
-      margin: '-250px 0px 0px -350px',
+      margin: '-300px 0px 0px -350px',
       background: 'white'
     };
     return (
       <Frame style={base}>
-        <div class='Container u-nbfc'>
+        <div className='Container u-nbfc'>
           <h1>How can I help you?</h1>
           <DoneScreen ref='screen' message='' />
-          <form action='' method='post' class='Form'>
-            <div class='Text-container'>
-              <div class='Grid'>
+          <form action='' method='post' className='Form'>
+            <div className='Text-container'>
+              <div className='Grid'>
                 <TextInput
                   ref='subjectField'
                   name='Subject'
@@ -83,14 +83,14 @@ var SubmitTicket = React.createClass({
                   style='Grid-cell Form-field'
                 />
               </div>
-              <div class='Grid'>
+              <div className='Grid'>
                 <TextAreaInput
                   ref='descriptionField'
                   validate={baseValidation}
                   style='Grid-cell Form-field'
                 />
               </div>
-              <div class='Grid Grid--withGutter'>
+              <div className='Grid Grid--withGutter'>
                 <TextInput
                   ref='nameField'
                   name='Name'
@@ -111,7 +111,7 @@ var SubmitTicket = React.createClass({
         <input
           type='submit'
           onClick={this.handleClick}
-          class='Button Button--default u-pullRight'
+          className='Button Button--default u-pullRight'
         />
         </div>
       </Frame>
@@ -123,9 +123,9 @@ var DoneScreen = React.createClass({
   render: function() {
     /* jshint quotmark:false */
     return (
-      <div class="Notify u-isHidden">
-        <div class="Notify-body Notify-body--success">
-          <h1 class="Notify-title u-textCenter">{this.props.message}</h1>
+      <div className="Notify u-isHidden">
+        <div className="Notify-body Notify-body--success">
+          <h1 className="Notify-title u-textCenter">{this.props.message}</h1>
         </div>
       </div>
     );

@@ -24,6 +24,7 @@ module.exports = {
       Frame: path.join(__dirname, 'src/components/Frame.js'),
       // CSS Components
       baseCSS: path.join(__dirname, 'src/styles/base.css'),
+      mainCSS: path.join(__dirname, 'src/styles/main.scss'),
       suit: 'suit/index.css',
       components: path.join(__dirname, 'src/styles/components')
     },

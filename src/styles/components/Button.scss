@@ -1,4 +1,11 @@
 $Button-baseFontSize: 26px;
+$default-btn-color: #1a6690;
+
+.Button--default {
+    color: $default-btn-color;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
 
 .Button--launcher {
   width: 50px;

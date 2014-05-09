@@ -21,8 +21,8 @@ export var TextAreaInput = React.createClass ({
     });
     return (
       /* jshint quotmark:false */
-      <div class={this.props.style}>
-        <label class='u-block Text-field-label'>
+      <div className={this.props.style}>
+        <label className='u-block Form-field-label'>
           Message
           <abbr title='Requied'>*</abbr>
         </label>
@@ -36,7 +36,7 @@ export var TextAreaInput = React.createClass ({
           placeholder='Give us details here...'
           required rows='6'
           title='Please fill out this field.'
-          class='u-sizeFull Text-field-element'
+          className='u-sizeFull Form-field-element'
         ></textarea>
         <div>
           <ul>{errorList}</ul>

@@ -21,8 +21,8 @@ export var TextInput = React.createClass ({
     });
     return (
       /* jshint quotmark:false */
-      <div class={this.props.style}>
-        <label class='u-block Text-field-label'>
+      <div className={this.props.style}>
+        <label className='u-block Form-field-label'>
           {this.props.name}
           <abbr title='Requied'>*</abbr>
         </label>
@@ -34,7 +34,7 @@ export var TextInput = React.createClass ({
           placeholder={this.props.placeholder}
           required title='Please fill out this field.'
           type='text'
-          class='u-sizeFull Text-field-element'
+          className='u-sizeFull Form-field-element'
         />
         <div>
           <ul>{errorList}</ul>
