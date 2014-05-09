@@ -25,11 +25,11 @@ var SubmitTicket = React.createClass({
   handleClick: function() {
     var refs = this.refs,
         formParams = {
-          subject: refs.subjectField.refs.inputText.getDOMNode().value,
-          name: refs.nameField.refs.inputText.getDOMNode().value,
-          email: refs.emailField.refs.inputText.getDOMNode().value,
-          description: refs.descriptionField.refs.inputText.getDOMNode().value,
-          set_tags: 'buid-' + identity.getBuid() /* jshint ignore:line */
+          'subject': refs.subjectField.refs.inputText.getDOMNode().value,
+          'name': refs.nameField.refs.inputText.getDOMNode().value,
+          'email': refs.emailField.refs.inputText.getDOMNode().value,
+          'description': refs.descriptionField.refs.inputText.getDOMNode().value,
+          'set_tags': 'buid-' + identity.getBuid()
         },
         errors = _.union(
           refs.subjectField.state.errors,
@@ -61,20 +61,8 @@ var SubmitTicket = React.createClass({
 
   render: function() {
     /* jshint quotmark:false */
-    var base = {
-      border: 'solid',
-      height: '600px',
-      width: '700px',
-      position: 'fixed',
-      top: '50%',
-      left: '50%',
-      margin: '-300px 0px 0px -350px',
-      background: 'white'
-    };
     var notifyVisibility = (this.state.showNotification) ?  '' : 'u-isHidden';
     var formVisibility = (this.state.showNotification) ? 'u-isHidden' : '';
-    console.log(notifyVisibility);
-    console.log(this.state.showNotification);
 
     return (
         <div className='Container u-nbfc'>
