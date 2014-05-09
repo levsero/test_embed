@@ -24,7 +24,7 @@ export var TextAreaInput = React.createClass ({
       <div className={this.props.style}>
         <label className='u-block Form-field-label'>
           Message
-          <abbr title='Requied'>*</abbr>
+          <abbr title='Required'>*</abbr>
         </label>
         <textarea
           ref='inputText'

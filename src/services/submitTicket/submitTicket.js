@@ -1,13 +1,14 @@
 /** @jsx React.DOM */
 
 module React from 'react'; /* jshint ignore:line */
-import { _ } from 'lodash';
 import { Frame } from '../../components/Frame';
 import { validations } from '../../mixins/validation';
 import { TextAreaInput } from '../../components/TextAreaInput';
 import { TextInput } from '../../components/TextInput';
 import { transport } from '../../transport';
 import { identity } from '../../identity';
+
+require('imports?_=lodash!lodash');
 
 var baseValidation = [
   validations.notEmptyCondition
@@ -18,6 +19,9 @@ var emailValidation = [
 ];
 
 var SubmitTicket = React.createClass({
+  getInitialState: function() {
+    return {showNotification: false, message: ''};
+  },
   handleClick: function() {
     var refs = this.refs,
         formParams = {
@@ -37,18 +41,18 @@ var SubmitTicket = React.createClass({
     if (errors.length !== 0) {
       return;
     }
+    var form = this;
     var payload = {
       method: 'POST',
       path: '/api/ticket_submission',
       params: formParams,
       callbacks: {
         done: function(data, status, xhr) { /* jshint ignore:line */
-          refs.screen.props.message = 'Done!';
-          refs.screen.forceUpdate();
+          form.setState({showNotification: true, message: 'Ticket Submitted! Thanks!' });
+          form.forceUpdate();
         },
         fail: function(data, status, xhr) { /* jshint ignore:line */
-          refs.screen.props.message = 'Failed!';
-          refs.screen.forceUpdate();
+          form.setState({showNotification: true, message: 'Something went wrong!' });
         }
       }
     };
@@ -67,13 +71,22 @@ var SubmitTicket = React.createClass({
       margin: '-300px 0px 0px -350px',
       background: 'white'
     };
+    var notifyVisibility = (this.state.showNotification) ?  '' : 'u-isHidden';
+    var formVisibility = (this.state.showNotification) ? 'u-isHidden' : '';
+    console.log(notifyVisibility);
+    console.log(this.state.showNotification);
+
     return (
-      <Frame style={base}>
         <div className='Container u-nbfc'>
-          <h1>How can I help you?</h1>
-          <DoneScreen ref='screen' message='' />
-          <form action='' method='post' className='Form'>
-            <div className='Text-container'>
+          <h1 className={formVisibility}>How can I help you? </h1>
+          <div className={"Notify " + notifyVisibility}>
+            <div className="Notify-body Notify-body--success">
+              <h1 className="Notify-title u-textCenter">{this.state.message}</h1>
+            </div>
+          </div>
+          <div className={'Form ' + formVisibility}>
+          <form action='' method='post'>
+            <div className='Form-container'>
               <div className='Grid'>
                 <TextInput
                   ref='subjectField'
@@ -114,7 +127,7 @@ var SubmitTicket = React.createClass({
           className='Button Button--default u-pullRight'
         />
         </div>
-      </Frame>
+        </div>
     );
   }
 });
@@ -133,8 +146,18 @@ var DoneScreen = React.createClass({
 });
 
 function render() {
+    var base = {
+      border: 'solid',
+      height: '600px',
+      width: '700px',
+      position: 'fixed',
+      top: '50%',
+      left: '50%',
+      margin: '-300px 0px 0px -350px',
+      background: 'white'
+    };
   var element = document.body.appendChild(document.createElement('div'));
-  React.renderComponent(<SubmitTicket />, element);
+  React.renderComponent(<Frame style={base}><SubmitTicket /></Frame>, element);
 }
 
 export var submitTicket = {

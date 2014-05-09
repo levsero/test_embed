@@ -24,7 +24,7 @@ export var TextInput = React.createClass ({
       <div className={this.props.style}>
         <label className='u-block Form-field-label'>
           {this.props.name}
-          <abbr title='Requied'>*</abbr>
+          <abbr title='Required'>*</abbr>
         </label>
         <input
           ref='inputText'
