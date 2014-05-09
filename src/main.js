@@ -1,7 +1,6 @@
 import { win,
          document,
          navigator    } from './utils/globals';
-import { _            } from 'lodash'; /* jslint ignore:line */
 import { sendData     } from './utils/backend';
 import { parseUrl     } from './utils/utils';
 import { store        } from './utils/persistence';
@@ -10,6 +9,7 @@ import { transport    } from './transport';
 import { launcher     } from './services/launcher/Launcher';
 import { submitTicket } from './services/submitTicket/submitTicket';
 
+require('imports?_=lodash!lodash');
 
 var url = win.location.origin;
 var now = Date.now();
@@ -46,7 +46,7 @@ launcher.create('demoLauncher', {
 
 launcher.render('demoLauncher');
 
-transport.init({ zendeskHost: 'isaacsu.zendesk.com' });
+transport.init({ zendeskHost: window.zendeskHost });
 
 win.Zd = module.exports = {
   identity: identity,
