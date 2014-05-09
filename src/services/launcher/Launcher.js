@@ -4,7 +4,7 @@ module React from 'react'; /* jshint ignore:line */
 import { Frame } from 'Frame';
 
 require('imports?_=lodash!lodash');
-var launcherCSS = require('components/Button.css');
+var launcherCSS = require('components/Button.scss');
 
 var launchers = {},
     classSet = React.addons.classSet;
