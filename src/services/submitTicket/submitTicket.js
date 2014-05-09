@@ -47,12 +47,17 @@ var SubmitTicket = React.createClass({
       path: '/api/ticket_submission',
       params: formParams,
       callbacks: {
-        done: function(data, status, xhr) { /* jshint ignore:line */
-          form.setState({showNotification: true, message: 'Ticket Submitted! Thanks!' });
-          form.forceUpdate();
+        done: function() {
+          form.setState( {
+            showNotification: true,
+            message: 'Ticket Submitted! Thanks!'
+          });
         },
-        fail: function(data, status, xhr) { /* jshint ignore:line */
-          form.setState({showNotification: true, message: 'Something went wrong!' });
+        fail: function(data, status) {
+          form.setState( {
+            showNotification: true,
+            message: 'Error ' + status + ': ' + JSON.parse(data).error
+          });
         }
       }
     };
@@ -116,19 +121,6 @@ var SubmitTicket = React.createClass({
         />
         </div>
         </div>
-    );
-  }
-});
-
-var DoneScreen = React.createClass({
-  render: function() {
-    /* jshint quotmark:false */
-    return (
-      <div className="Notify u-isHidden">
-        <div className="Notify-body Notify-body--success">
-          <h1 className="Notify-title u-textCenter">{this.props.message}</h1>
-        </div>
-      </div>
     );
   }
 });
