@@ -65,19 +65,19 @@ var SubmitTicket = React.createClass({
   },
 
   render: function() {
-    /* jshint quotmark:false */
     var notifyVisibility = (this.state.showNotification) ?  '' : 'u-isHidden';
     var formVisibility = (this.state.showNotification) ? 'u-isHidden' : '';
 
     return (
-        <div className='Container u-nbfc'>
-          <h1 className={formVisibility}>How can I help you? </h1>
-          <div className={"Notify " + notifyVisibility}>
-            <div className="Notify-body Notify-body--success">
-              <h1 className="Notify-title u-textCenter">{this.state.message}</h1>
-            </div>
+      /* jshint quotmark:false */
+      <div className='Container u-nbfc'>
+        <h1 className={formVisibility}>How can I help you? </h1>
+        <div className={"Notify " + notifyVisibility}>
+          <div className="Notify-body Notify-body--success">
+            <h1 className="Notify-title u-textCenter">{this.state.message}</h1>
           </div>
-          <div className={'Form ' + formVisibility}>
+        </div>
+        <div className={'Form ' + formVisibility}>
           <form action='' method='post'>
             <div className='Form-container'>
               <div className='Grid'>
@@ -120,7 +120,7 @@ var SubmitTicket = React.createClass({
           className='Button Button--default u-pullRight'
         />
         </div>
-        </div>
+      </div>
     );
   }
 });
