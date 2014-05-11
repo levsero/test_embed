@@ -6,35 +6,35 @@ $Form-base-font-size: 1rem;
 $Form-spacing: 10px;
 
 .Form {
-    color: $Form-color;
-    font-size: $Form-base-font-size;
-    border: 'solid';
-    height: '500px';
-    width: '700px';
-    position: 'fixed';
-    top: '50%';
-    left: '50%';
-    margin: '-250px 0px 0px -350px';
-    background: 'white';
+  color: $Form-color;
+  font-size: $Form-base-font-size;
+  border: 'solid';
+  height: '500px';
+  width: '700px';
+  position: 'fixed';
+  top: '50%';
+  left: '50%';
+  margin: '-250px 0px 0px -350px';
+  background: 'white';
 }
 
 .Form-container {
-    padding: $Form-spacing * 2;
-    border: 1px solid $Form-border-color;
-    border-radius: 5px;
-    margin-bottom: $Form-spacing;
+  padding: $Form-spacing * 2;
+  border: 1px solid $Form-border-color;
+  border-radius: 5px;
+  margin-bottom: $Form-spacing;
 }
 
 .Form-field {
-    margin-bottom: $Form-spacing * 2;
+  margin-bottom: $Form-spacing * 2;
 }
 
 .Form-field-element {
-    background: $Form-field-background;
-    border: 1px solid $Form-border-color;
-    padding: $Form-spacing;
+  background: $Form-field-background;
+  border: 1px solid $Form-border-color;
+  padding: $Form-spacing;
 }
 
 .Form-field-label {
-    margin-bottom: $Form-spacing;
+  margin-bottom: $Form-spacing;
 }
