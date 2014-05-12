@@ -8,19 +8,16 @@ $Form-spacing: 10px;
 .Form {
   color: $Form-color;
   font-size: $Form-base-font-size;
-  border: 'solid';
-  height: '500px';
-  width: '700px';
-  position: 'fixed';
-  top: '50%';
-  left: '50%';
-  margin: '-250px 0px 0px -350px';
-  background: 'white';
+  height: 500px;
+  width: 700px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin: -250px 0px 0px -350px;
 }
 
 .Form-container {
   padding: $Form-spacing * 2;
-  border: 1px solid $Form-border-color;
   border-radius: 5px;
   margin-bottom: $Form-spacing;
 }
