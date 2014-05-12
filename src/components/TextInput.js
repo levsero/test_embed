@@ -11,8 +11,7 @@ export var TextInput = React.createClass ({
     this.setState({value: event.target.value});
   },
   handleBlur: function() {
-    var errors = this.hasErrors();
-    this.setState({errors: errors});
+    this.setState({errors: this.hasErrors()});
   },
   render: function() {
     var value = this.state.value;
