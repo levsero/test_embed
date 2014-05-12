@@ -7,8 +7,8 @@ import { beacon       } from './services/beacon';
 
 require('imports?_=lodash!lodash');
 
-beacon.init();
 transport.init({ zendeskHost: window.zendeskHost });
+beacon.init();
 
 launcher.create('demoLauncher', {
   onClick: function() {
