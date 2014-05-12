@@ -9,6 +9,7 @@ import { parseUrl  } from '../utils/utils';
 function init() {
   var now = Date.now();
   store.set('currentTime', now, true);
+  return this;
 }
 
 function send() {

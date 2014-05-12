@@ -8,7 +8,7 @@ import { beacon       } from './services/beacon';
 require('imports?_=lodash!lodash');
 
 transport.init({ zendeskHost: window.zendeskHost });
-beacon.init();
+beacon.init().send();
 
 launcher.create('demoLauncher', {
   onClick: function() {
@@ -17,8 +17,6 @@ launcher.create('demoLauncher', {
 });
 
 launcher.render('demoLauncher');
-
-beacon.send();
 
 win.Zd = module.exports = {
   identity: identity,
