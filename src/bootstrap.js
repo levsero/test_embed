@@ -1,13 +1,13 @@
 /* jshint curly: false */
 // Code taken from http://www.lognormal.com/blog/2012/12/12/the-script-loader-pattern/
-Zd || (function(options){
+window.Zd || (function(options){
 // Section 1
   var dom,
       doc,
       where,
       iframe = document.createElement('iframe'),
-      iWin = iframe.contentWindow,
-      iDoc = iWin.document;
+      iWin,
+      iDoc;
 
   iframe.src = 'javascript:false';
   iframe.title = ''; iframe.role='presentation';  // a11y
@@ -16,6 +16,8 @@ Zd || (function(options){
   where = where[where.length - 1];
   where.parentNode.insertBefore(iframe, where);
 
+  iWin = iframe.contentWindow;
+  iDoc = iWin.document;
 // Section 2
   try {
     doc = iDoc;
@@ -34,8 +36,8 @@ Zd || (function(options){
   };
   doc.write('<body onload="document._l();">');
   doc.close();
-})({
+}({
   url: '{{zendeskFrameworkUrl}}',
   zendeskHost: '{{zendeskHost}}'
-});
+}));
 
