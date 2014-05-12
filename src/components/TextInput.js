@@ -1,9 +1,9 @@
 /** @jsx React.DOM */
 module React from 'react'; /* jshint ignore:line */
-import { Validations } from 'ValidationMixin';
+import { validations } from 'mixin/validation';
 
 export var TextInput = React.createClass ({
-  mixins: [Validations.ValidationMixin],
+  mixins: [validations.ValidationMixin],
   getInitialState: function() {
      return {value: '', errors: []};
   },

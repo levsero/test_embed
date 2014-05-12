@@ -1,9 +1,9 @@
 /** @jsx React.DOM */
 module React from 'react'; /* jshint ignore:line */
-import { Validations } from 'ValidationMixin';
+import { validations } from 'mixin/validation';
 
 export var TextAreaInput = React.createClass ({
-  mixins: [Validations.ValidationMixin],
+  mixins: [validations.ValidationMixin],
   getInitialState: function() {
      return {value: '', errors: []};
   },
@@ -31,7 +31,6 @@ export var TextAreaInput = React.createClass ({
           value={value}
           onBlur={this.handleBlur}
           onChange={this.handleChange}
-          name='description'
           placeholder='Give us details here...'
           rows='6'
           title='Please fill out this field.'

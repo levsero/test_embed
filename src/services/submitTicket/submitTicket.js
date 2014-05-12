@@ -1,20 +1,20 @@
 /** @jsx React.DOM */
 
 module React from 'react'; /* jshint ignore:line */
-import { TextAreaInput } from '../../components/TextAreaInput';
-import { TextInput } from '../../components/TextInput';
-import { transport } from '../../transport';
-import { identity } from '../../identity';
-import { Frame } from 'Frame';
-import { Validations } from 'ValidationMixin';
+import { TextAreaInput } from 'component/TextAreaInput';
+import { TextInput } from 'component/TextInput';
+import { transport } from 'src/transport';
+import { identity } from 'src/identity';
+import { Frame } from 'component/Frame';
+import { validations } from 'mixin/validation';
 require('imports?_=lodash!lodash');
 
 var baseValidation = [
-  Validations.notEmptyCondition
+  validations.notEmptyCondition
 ];
 var emailValidation = [
-  Validations.notEmptyCondition,
-  Validations.regexMatcherCondition(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/, 'email address') /* jshint ignore:line */
+  validations.notEmptyCondition,
+  validations.regexMatcherCondition(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/, 'email address') /* jshint ignore:line */
 ];
 
 var SubmitTicket = React.createClass({
@@ -47,13 +47,13 @@ var SubmitTicket = React.createClass({
       params: formParams,
       callbacks: {
         done: function() {
-          form.setState( {
+          form.setState({
             showNotification: true,
             message: 'Ticket Submitted! Thanks!'
           });
         },
         fail: function(data, status) {
-          form.setState( {
+          form.setState({
             showNotification: true,
             message: 'Error ' + status + ': ' + JSON.parse(data).error
           });

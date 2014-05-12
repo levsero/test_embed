@@ -7,9 +7,9 @@ module React from 'react'; /* jshint ignore:line */
 require('imports?_=lodash!lodash');
 var baseCSS = require('baseCSS');
 var mainCSS = require('mainCSS');
-var componentsCSS = require('components/Form.scss') + ' ' +
-                    require('components/Container.scss') + ' ' +
-                    require('components/Button.scss') + ' ';
+var componentsCSS = require('componentCSS/Form.scss') + ' ' +
+                    require('componentCSS/Container.scss') + ' ' +
+                    require('componentCSS/Button.scss') + ' ';
 
 export var Frame = React.createClass({
   render: function() {

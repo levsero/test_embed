@@ -21,13 +21,14 @@ module.exports = {
     alias: {
       react: 'react/addons.js',
       lodash: 'lodash/dist/lodash.underscore.js',
-      Frame: path.join(__dirname, 'src/components/Frame.js'),
-      ValidationMixin: path.join(__dirname, 'src/mixins/validation.js'),
+      src: path.join(__dirname, 'src'),
+      mixin: path.join(__dirname, 'src/mixins'),
+      component: path.join(__dirname, 'src/components'),
       // CSS Components
       baseCSS: path.join(__dirname, 'src/styles/base.css'),
       mainCSS: path.join(__dirname, 'src/styles/main.scss'),
       suit: 'suit/index.css',
-      components: path.join(__dirname, 'src/styles/components')
+      componentCSS: path.join(__dirname, 'src/styles/components')
     },
     modulesDirectories: ['node_modules', 'bower_components']
   }

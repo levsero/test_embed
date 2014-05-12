@@ -42,7 +42,7 @@ var ValidationMixin = {
   }
 };
 
-export var Validations = {
+export var validations = {
   notEmptyCondition: notEmptyCondition,
   maxLengthCondition: maxLengthCondition,
   regexMatcherCondition: regexMatcherCondition,
