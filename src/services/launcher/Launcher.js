@@ -31,12 +31,34 @@ var Launcher = React.createClass({
 });
 
 function create(name, config) {
+  var configDefaults = {
+        onClick: function() {},
+        position: 'right'
+      };
+      config = _.extend(configDefaults, config);
+
+  launchers[name] = {
+    component: <Launcher onClick={config.onClick} position={config.position} />,
+    config: config
+  };
+}
+
+function list() {
+  return launchers;
+}
+
+function get(name) {
+  return launchers[name];
+}
+
+function render(name) {
   var base = {
     height: '50px',
     width: '50px',
     position: 'fixed',
     bottom: '10px'
   },
+  config = launchers[name].config,
   posObj;
 
   if(config.position === 'left') {
@@ -49,27 +71,16 @@ function create(name, config) {
     };
   }
 
-  var iframeStyle = _.extend(base, posObj);
+  var iframeStyle = _.extend(base, posObj),
+      element = document.body.appendChild(document.createElement('div')),
+      component = (
+        /* jshint quotmark:false */
+        <Frame style={iframeStyle} css={launcherCSS}>
+          {launchers[name].component}
+        </Frame>
+      );
 
-  launchers[name] = (
-    <Frame style={iframeStyle} css={launcherCSS}>
-      <Launcher onClick={config.onClick} position={config.position} />
-    </Frame>
-  );
-}
-
-function list() {
-  return launchers;
-}
-
-function get(name) {
-  return launchers[name];
-}
-
-function render(name) {
-  var element = document.body.appendChild(document.createElement('div'));
-
-  React.renderComponent(launchers[name], element);
+  React.renderComponent(component, element);
 }
 
 export var launcher = {
