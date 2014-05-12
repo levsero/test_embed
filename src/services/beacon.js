@@ -6,9 +6,12 @@ import { identity  } from '../identity';
 import { store     } from '../utils/persistence';
 import { parseUrl  } from '../utils/utils';
 
+function init() {
+  var now = Date.now();
+  store.set('currentTime', now, true);
+}
 
 function send() {
-
   var now = Date.now(),
       referrer = parseUrl(document.referrer),
       previousTime = store.get('currentTime', true) || 0,
@@ -40,5 +43,6 @@ function send() {
 }
 
 export var beacon = {
+  init: init,
   send: send
 };

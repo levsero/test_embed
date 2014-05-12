@@ -1,5 +1,4 @@
 import { win          } from './utils/globals';
-import { store        } from './utils/persistence';
 import { identity     } from './identity';
 import { transport    } from './transport';
 import { launcher     } from './services/launcher/Launcher';
@@ -8,10 +7,8 @@ import { beacon       } from './services/beacon';
 
 require('imports?_=lodash!lodash');
 
+beacon.init();
 transport.init({ zendeskHost: window.zendeskHost });
-var now = Date.now();
-
-store.set('currentTime', now, true);
 
 launcher.create('demoLauncher', {
   onClick: function() {
