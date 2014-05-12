@@ -38,6 +38,7 @@
     "jsx-loader": "^0.10.0",
     "gulp-concat": "~2.2.0",
     "imports-loader": "~0.6.2",
-    "sass-loader": "~0.1.1"
+    "sass-loader": "~0.1.1",
+    "autoprefixer-loader": "~0.1.1"
   }
 }
