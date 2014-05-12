@@ -22,6 +22,7 @@ module.exports = {
       react: 'react/addons.js',
       lodash: 'lodash/dist/lodash.underscore.js',
       Frame: path.join(__dirname, 'src/components/Frame.js'),
+      ValidationMixin: path.join(__dirname, 'src/mixins/validation.js'),
       // CSS Components
       baseCSS: path.join(__dirname, 'src/styles/base.css'),
       mainCSS: path.join(__dirname, 'src/styles/main.scss'),

@@ -1,9 +1,9 @@
 /** @jsx React.DOM */
 module React from 'react'; /* jshint ignore:line */
-import { validations } from '../mixins/validation.js';
+import { Validations } from 'ValidationMixin';
 
 export var TextAreaInput = React.createClass ({
-  mixins: [validations.ValidationMixin],
+  mixins: [Validations.ValidationMixin],
   getInitialState: function() {
      return {value: '', errors: []};
   },
@@ -33,7 +33,7 @@ export var TextAreaInput = React.createClass ({
           onChange={this.handleChange}
           name='description'
           placeholder='Give us details here...'
-          required rows='6'
+          rows='6'
           title='Please fill out this field.'
           className='u-sizeFull Form-field-element'
         ></textarea>
