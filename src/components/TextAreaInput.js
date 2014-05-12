@@ -6,7 +6,11 @@ import { validations } from 'mixin/validation';
 export var TextAreaInput = React.createClass ({
   mixins: [validations.ValidationMixin],
   getInitialState: function() {
-    return {value: '', errors: [], id: _.uniqueId('description_')};
+    return {
+      value: '',
+      errors: [],
+      id: _.uniqueId('description_')
+    };
   },
   handleChange: function(event) {
     this.setState({value: event.target.value});

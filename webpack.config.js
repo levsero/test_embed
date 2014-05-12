@@ -22,6 +22,7 @@ module.exports = {
       react: 'react/addons.js',
       lodash: 'lodash/dist/lodash.underscore.js',
       src: path.join(__dirname, 'src'),
+      utils: path.join(__dirname, 'src/utils'),
       mixin: path.join(__dirname, 'src/mixins'),
       component: path.join(__dirname, 'src/components'),
       // CSS Components

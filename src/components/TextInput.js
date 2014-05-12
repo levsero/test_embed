@@ -6,7 +6,11 @@ require('imports?_=lodash!lodash');
 export var TextInput = React.createClass ({
   mixins: [validations.ValidationMixin],
   getInitialState: function() {
-     return {value: '', errors: [], id: _.uniqueId('input_')};
+     return {
+       value: '',
+       errors: [],
+       id: _.uniqueId('input_')
+     };
   },
   handleChange: function(event) {
     this.setState({value: event.target.value});
@@ -33,7 +37,7 @@ export var TextInput = React.createClass ({
           onChange={this.handleChange}
           onBlur={this.handleBlur}
           placeholder={this.props.placeholder}
-          required title='Please fill out this field.'
+          title='Please fill out this field.'
           type='text'
           className='u-sizeFull Form-field-element'
         />
