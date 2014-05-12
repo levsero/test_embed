@@ -4,15 +4,6 @@ var notEmptyCondition = {
   message: 'Field cannot be empty'
 };
 
-var maxLengthCondition = function(length) {
-  return {
-    test: function(value) {
-      return value.length <= length;
-    },
-    message: 'Value exceeds ' + length + ' characters.'
-  };
-};
-
 var regexMatcherCondition = function(regex, type) {
   return {
     test: function(value) {
@@ -22,7 +13,7 @@ var regexMatcherCondition = function(regex, type) {
   };
 };
 
-//The validation mixin
+// The validation mixin
 var ValidationMixin = {
   getDefaultProps: function () {
     return {
@@ -42,9 +33,16 @@ var ValidationMixin = {
   }
 };
 
+var baseValidation = [
+  notEmptyCondition
+];
+var emailValidation = [
+  notEmptyCondition,
+  regexMatcherCondition(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/, 'email address') /* jshint ignore:line */
+];
+
 export var validations = {
-  notEmptyCondition: notEmptyCondition,
-  maxLengthCondition: maxLengthCondition,
-  regexMatcherCondition: regexMatcherCondition,
+  baseValidation: baseValidation,
+  emailValidation: emailValidation,
   ValidationMixin: ValidationMixin
 };

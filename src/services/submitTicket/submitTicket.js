@@ -1,68 +1,13 @@
 /** @jsx React.DOM */
 
 module React from 'react'; /* jshint ignore:line */
-import { TextAreaInput } from 'component/TextAreaInput';
-import { TextInput } from 'component/TextInput';
-import { transport } from 'src/transport';
-import { identity } from 'src/identity';
+import { SubmitTicketForm } from 'component/SubmitTicketForm';
 import { Frame } from 'component/Frame';
-import { validations } from 'mixin/validation';
-require('imports?_=lodash!lodash');
 
-var baseValidation = [
-  validations.notEmptyCondition
-];
-var emailValidation = [
-  validations.notEmptyCondition,
-  validations.regexMatcherCondition(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/, 'email address') /* jshint ignore:line */
-];
-
-var SubmitTicket = React.createClass({
+export var SubmitTicket = React.createClass({
   getInitialState: function() {
     return {showNotification: false, message: ''};
   },
-  handleClick: function() {
-    var refs = this.refs,
-        formParams = {
-          'subject': refs.subjectField.refs.inputText.getDOMNode().value,
-          'name': refs.nameField.refs.inputText.getDOMNode().value,
-          'email': refs.emailField.refs.inputText.getDOMNode().value,
-          'description': refs.descriptionField.refs.inputText.getDOMNode().value,
-          'set_tags': 'buid-' + identity.getBuid()
-        },
-        errors = _.union(
-          refs.subjectField.state.errors,
-          refs.nameField.state.errors,
-          refs.emailField.state.errors,
-          refs.descriptionField.state.errors
-        );
-
-    if (errors.length !== 0) {
-      return;
-    }
-    var form = this;
-    var payload = {
-      method: 'POST',
-      path: '/api/ticket_submission',
-      params: formParams,
-      callbacks: {
-        done: function() {
-          form.setState({
-            showNotification: true,
-            message: 'Ticket Submitted! Thanks!'
-          });
-        },
-        fail: function(data, status) {
-          form.setState({
-            showNotification: true,
-            message: 'Error ' + status + ': ' + JSON.parse(data).error
-          });
-        }
-      }
-    };
-    transport.send(payload);
-  },
-
   render: function() {
     var notifyVisibility = (this.state.showNotification) ?  '' : 'u-isHidden';
     var formVisibility = (this.state.showNotification) ? 'u-isHidden' : '';
@@ -77,47 +22,7 @@ var SubmitTicket = React.createClass({
           </div>
         </div>
         <div className={'Form ' + formVisibility}>
-          <form action='' method='post'>
-            <div className='Form-container'>
-              <div className='Grid'>
-                <TextInput
-                  ref='subjectField'
-                  name='Subject'
-                  validate={baseValidation}
-                  placeholder='What do you need help with?'
-                  style='Grid-cell Form-field'
-                />
-              </div>
-              <div className='Grid'>
-                <TextAreaInput
-                  ref='descriptionField'
-                  validate={baseValidation}
-                  style='Grid-cell Form-field'
-                />
-              </div>
-              <div className='Grid Grid--withGutter'>
-                <TextInput
-                  ref='nameField'
-                  name='Name'
-                  placeholder=''
-                  validate={baseValidation}
-                  style='Grid-cell u-size1of2 Form-field'
-                />
-                <TextInput
-                  ref='emailField'
-                  name='Email'
-                  placeholder=''
-                  validate={emailValidation}
-                  style='Grid-cell u-size1of2 Form-field'
-                />
-              </div>
-            </div>
-          </form>
-        <input
-          type='submit'
-          onClick={this.handleClick}
-          className='Button Button--default u-pullRight'
-        />
+          <SubmitTicketForm />
         </div>
       </div>
     );

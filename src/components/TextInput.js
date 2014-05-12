@@ -1,11 +1,12 @@
 /** @jsx React.DOM */
 module React from 'react'; /* jshint ignore:line */
 import { validations } from 'mixin/validation';
+require('imports?_=lodash!lodash');
 
 export var TextInput = React.createClass ({
   mixins: [validations.ValidationMixin],
   getInitialState: function() {
-     return {value: '', errors: []};
+     return {value: '', errors: [], id: _.uniqueId('input_')};
   },
   handleChange: function(event) {
     this.setState({value: event.target.value});
@@ -20,13 +21,14 @@ export var TextInput = React.createClass ({
     });
     return (
       /* jshint quotmark:false */
-      <div className={this.props.style}>
-        <label className='u-block Form-field-label'>
+      <div className={this.props.className}>
+        <label for={this.state.id} className='u-block Form-field-label'>
           {this.props.name}
           <abbr title='Required'>*</abbr>
         </label>
         <input
           ref='inputText'
+          id={this.props.id}
           value={value}
           onChange={this.handleChange}
           onBlur={this.handleBlur}
