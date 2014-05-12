@@ -1,12 +1,13 @@
 import { win,
          document,
-         navigator } from './utils/globals';
-import { sendData  } from './utils/backend';
-import { parseUrl  } from './utils/utils';
-import { store     } from './utils/persistence';
-import { identity  } from './identity';
-import { transport } from './transport';
-import { launcher  } from './services/launcher/Launcher';
+         navigator    } from './utils/globals';
+import { sendData     } from './utils/backend';
+import { parseUrl     } from './utils/utils';
+import { store        } from './utils/persistence';
+import { identity     } from './identity';
+import { transport    } from './transport';
+import { launcher     } from './services/launcher/Launcher';
+import { submitTicket } from './services/submitTicket/submitTicket';
 
 require('imports?_=lodash!lodash');
 
@@ -51,6 +52,7 @@ win.Zd = module.exports = {
   identity: identity,
   transport: transport,
   services: {
-    launcher: launcher
+    launcher: launcher,
+    submitTicket: submitTicket
   }
 };

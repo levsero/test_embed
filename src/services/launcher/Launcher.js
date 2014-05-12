@@ -1,10 +1,10 @@
 /** @jsx React.DOM */
-import { document } from '../../utils/globals';
+import { document } from 'utils/globals';
 module React from 'react'; /* jshint ignore:line */
-import { Frame } from 'Frame';
+import { Frame } from 'component/Frame';
 
 require('imports?_=lodash!lodash');
-var launcherCSS = require('components/Button.scss');
+var launcherCSS = require('componentCSS/Button.scss');
 
 var launchers = {},
     classSet = React.addons.classSet;

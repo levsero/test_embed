@@ -6,6 +6,10 @@ module React from 'react'; /* jshint ignore:line */
 // lodash needs to shimmed using imports loader
 require('imports?_=lodash!lodash');
 var baseCSS = require('baseCSS');
+var mainCSS = require('mainCSS');
+var componentsCSS = require('componentCSS/Form.scss') + ' ' +
+                    require('componentCSS/Container.scss') + ' ' +
+                    require('componentCSS/Button.scss') + ' ';
 
 export var Frame = React.createClass({
   render: function() {
@@ -28,7 +32,7 @@ export var Frame = React.createClass({
         styleTag = document.createElement('style');
 
     head.appendChild(styleTag);
-    styleTag.innerHTML = baseCSS;
+    styleTag.innerHTML = baseCSS + ' ' + mainCSS + ' ' + componentsCSS;
     React.renderComponent(this.props.children, this.getDOMNode().contentWindow.document.body);
   },
 

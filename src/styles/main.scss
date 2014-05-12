@@ -1,0 +1,58 @@
+$background-base: inherit;
+$color-base: inherit;
+$link-color-base: #069;
+$link-color-hover-base: $link-color-base;
+
+$font-size: 16px;
+$font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+$font-weight: 300;
+$line-height: 1.4;
+$font-base: #{$font-size}/#{$line-height} $font-family;
+
+/**
+ * A thin layer on top of normalize.css that provides a starting point more
+ * suitable for web applications. Removes the default spacing and border for
+ * appropriate elements.
+ */
+
+html {
+  background: $background-base;
+  color: $color-base;
+  font: $font-base;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+}
+
+a {
+  color: $link-color-base;
+  text-decoration: none;
+}
+
+a:hover,
+a:focus,
+a:active {
+  color: $link-color-hover-base;
+  text-decoration: underline;
+}
+
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+iframe {
+  border: 0;
+}
+
+/**
+ * Suppress the focus outline on links that cannot be accessed via keyboard.
+ * This prevents an unwanted focus outline from appearing around elements that
+ * might still respond to pointer events.
+ */
+
+[tabindex="-1"]:focus {
+  outline: none !important;
+}
