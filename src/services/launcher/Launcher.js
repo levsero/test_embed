@@ -32,10 +32,11 @@ var Launcher = React.createClass({
 
 function create(name, config) {
   var configDefaults = {
-        onClick: function() {},
-        position: 'right'
-      };
-      config = _.extend(configDefaults, config);
+    onClick: function() {},
+    position: 'right'
+  };
+
+  config = _.extend(configDefaults, config);
 
   launchers[name] = {
     component: <Launcher onClick={config.onClick} position={config.position} />,
@@ -48,18 +49,18 @@ function list() {
 }
 
 function get(name) {
-  return launchers[name].component;
+  return launchers[name];
 }
 
 function render(name) {
   var base = {
-    height: '50px',
-    width: '50px',
-    position: 'fixed',
-    bottom: '10px'
-  },
-  config = launchers[name].config,
-  posObj;
+        height: '50px',
+        width: '50px',
+        position: 'fixed',
+        bottom: '10px'
+      },
+      config = launchers[name].config,
+      posObj;
 
   if(config.position === 'left') {
     posObj = {

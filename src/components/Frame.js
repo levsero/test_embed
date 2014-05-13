@@ -16,7 +16,8 @@ export var Frame = React.createClass({
 
   render: function() {
     var base = { border: 'none' },
-    iframeStyle = _.extend(base, this.props.style);
+        iframeStyle = _.extend(base, this.props.style);
+
     return <iframe style={iframeStyle} />;
   },
 
@@ -31,12 +32,14 @@ export var Frame = React.createClass({
 
   componentDidUpdate: function() {
     var doc = this.getDOMNode().contentWindow.document;
+
     React.renderComponent(this.props.children, doc.body);
   },
 
   renderFrameContent: function() {
     var doc = this.getDOMNode().contentWindow.document,
-    css = <style dangerouslySetInnerHTML={{__html: baseCSS + mainCSS + this.props.css}} />;
+        cssText = baseCSS + mainCSS + this.props.css,
+        css = <style dangerouslySetInnerHTML={{ __html: cssText }} />;
 
     React.renderComponent(css, doc.head);
     React.renderComponent(this.props.children, doc.body);
