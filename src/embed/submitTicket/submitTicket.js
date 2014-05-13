@@ -9,7 +9,7 @@ import { transport     } from 'service/transport';
 import { identity      } from 'service/identity';
 require('imports?_=lodash!lodash');
 
-var submitTicketCSS = require('./SubmitTicket.scss');
+var submitTicketCSS = require('./submitTicket.scss');
 
 export var SubmitTicket = React.createClass({
   getInitialState: function() {

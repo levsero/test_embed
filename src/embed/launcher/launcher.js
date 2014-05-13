@@ -1,34 +1,13 @@
 /** @jsx React.DOM */
 import { document } from 'util/globals';
 module React from 'react'; /* jshint ignore:line */
-import { Frame } from 'component/Frame';
+import { Frame    } from 'component/Frame';
+import { Launcher } from 'component/Launcher';
 
 require('imports?_=lodash!lodash');
-var launcherCSS = require('./Launcher.scss');
 
-var launchers = {},
-    classSet = React.addons.classSet;
-
-var Launcher = React.createClass({
-  propTypes: {
-    onClick: React.PropTypes.func,
-    position: React.PropTypes.string
-  },
-
-  render: function() {
-    var classes = classSet({
-      'Button Button--launcher Arrange-sizeFill u-textCenter u-tableCell': true,
-      'Button--launcherAlt': this.props.position === 'left'
-    });
-
-    return (
-      /* jshint quotmark: false */
-      <div onClick={this.props.onClick} className='Arrange Arrange--middle'>
-        <div className={classes}>?</div>
-      </div>
-    );
-  }
-});
+var launcherCSS = require('./launcher.scss'),
+    launchers = {};
 
 function create(name, config) {
   var configDefaults = {
