@@ -1,15 +1,12 @@
 /** @jsx React.DOM */
 
 module React from 'react'; /* jshint ignore:line */
-import { Frame } from 'component/Frame';
-import { validations } from 'mixin/validation';
+import { identity      } from 'service/identity';
 import { TextAreaInput } from 'component/TextAreaInput';
-import { TextInput } from 'component/TextInput';
-import { transport } from 'src/transport';
-import { identity } from 'src/identity';
+import { TextInput     } from 'component/TextInput';
+import { transport     } from 'service/transport';
+import { validation    } from 'mixin/validation';
 require('imports?_=lodash!lodash');
-
-var submitTicketCSS = require('./SubmitTicket.scss');
 
 export var SubmitTicket = React.createClass({
   getInitialState: function() {
@@ -76,7 +73,7 @@ export var SubmitTicket = React.createClass({
                 <TextInput
                   ref='subjectField'
                   name='Subject'
-                  validate={validations.baseValidation}
+                  validate={validation.baseValidation}
                   placeholder='What do you need help with?'
                   className='Grid-cell Form-field'
                 />
@@ -84,7 +81,7 @@ export var SubmitTicket = React.createClass({
               <div className='Grid'>
                 <TextAreaInput
                   ref='descriptionField'
-                  validate={validations.baseValidation}
+                  validate={validation.baseValidation}
                   className='Grid-cell Form-field'
                 />
               </div>
@@ -93,14 +90,14 @@ export var SubmitTicket = React.createClass({
                   ref='nameField'
                   name='Name'
                   placeholder=''
-                  validate={validations.baseValidation}
+                  validate={validation.baseValidation}
                   className='Grid-cell u-size1of2 Form-field'
                 />
                 <TextInput
                   ref='emailField'
                   name='Email'
                   placeholder=''
-                  validate={validations.emailValidation}
+                  validate={validation.emailValidation}
                   className='Grid-cell u-size1of2 Form-field'
                 />
               </div>
@@ -116,23 +113,3 @@ export var SubmitTicket = React.createClass({
     );
   }
 });
-
-function render() {
-    var base = {
-      border: 'solid',
-      height: '600px',
-      width: '700px',
-      position: 'fixed',
-      top: '50%',
-      left: '50%',
-      margin: '-300px 0px 0px -350px',
-      background: 'white'
-    };
-  var element = document.body.appendChild(document.createElement('div'));
-  React.renderComponent(<Frame style={base} css={submitTicketCSS}><SubmitTicket /></Frame>, element);
-}
-
-export var submitTicket = {
-  render: render
-};
-

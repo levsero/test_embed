@@ -1,16 +1,16 @@
 /** @jsx React.DOM */
 module React from 'react'; /* jshint ignore:line */
+import { validation } from 'mixin/validation';
 require('imports?_=lodash!lodash');
-import { validations } from 'mixin/validation';
 
-export var TextAreaInput = React.createClass ({
-  mixins: [validations.ValidationMixin],
+export var TextInput = React.createClass ({
+  mixins: [validation.ValidationMixin],
   getInitialState: function() {
-    return {
-      value: '',
-      errors: [],
-      id: _.uniqueId('description_')
-    };
+     return {
+       value: '',
+       errors: [],
+       id: _.uniqueId('input_')
+     };
   },
   handleChange: function(event) {
     this.setState({value: event.target.value});
@@ -27,20 +27,20 @@ export var TextAreaInput = React.createClass ({
       /* jshint quotmark:false */
       <div className={this.props.className}>
         <label htmlFor={this.state.id} className='u-block Form-field-label'>
-          Message
+          {this.props.name}
           <abbr title='Required'>*</abbr>
         </label>
-        <textarea
+        <input
           ref='inputText'
           id={this.state.id}
           value={value}
-          onBlur={this.handleBlur}
           onChange={this.handleChange}
-          placeholder='Give us details here...'
-          rows='6'
+          onBlur={this.handleBlur}
+          placeholder={this.props.placeholder}
           title='Please fill out this field.'
+          type='text'
           className='u-sizeFull Form-field-element'
-        ></textarea>
+        />
         <div>
           <ul>{errorList}</ul>
         </div>
