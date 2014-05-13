@@ -13,13 +13,10 @@ describe('launcher', function() {
         position: 'expected_position'
       });
 
-      launcher1 = launcher.get('launcher1');
+      launcher1 = launcher.get('launcher1').component;
 
       expect(typeof launcher1)
         .toEqual('object');
-
-      expect(launcher1.props.name)
-        .toEqual('launcher1');
 
       expect(launcher1.props.onClick())
         .toEqual('expected_onclick');
@@ -32,7 +29,7 @@ describe('launcher', function() {
       var launcher1;
 
       launcher.create('launcher1');
-      launcher1 = launcher.get('launcher1');
+      launcher1 = launcher.get('launcher1').component;
 
       expect(typeof launcher1)
         .toEqual('object');
@@ -44,7 +41,7 @@ describe('launcher', function() {
         .toEqual('function');
     });
   });
-  
+
   describe('render', function() {
     it('should add an iframe to the document', function () {
       spyOn(document.body, 'appendChild').andCallThrough();

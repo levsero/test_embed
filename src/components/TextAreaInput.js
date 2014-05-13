@@ -26,7 +26,7 @@ export var TextAreaInput = React.createClass ({
     return (
       /* jshint quotmark:false */
       <div className={this.props.className}>
-        <label for={this.state.id} className='u-block Form-field-label'>
+        <label htmlFor={this.state.id} className='u-block Form-field-label'>
           Message
           <abbr title='Required'>*</abbr>
         </label>

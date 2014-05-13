@@ -9,6 +9,8 @@ import { transport } from 'src/transport';
 import { identity } from 'src/identity';
 require('imports?_=lodash!lodash');
 
+var submitTicketCSS = require('./SubmitTicket.scss');
+
 export var SubmitTicket = React.createClass({
   getInitialState: function() {
     return {showNotification: false, message: ''};
@@ -127,7 +129,7 @@ function render() {
       background: 'white'
     };
   var element = document.body.appendChild(document.createElement('div'));
-  React.renderComponent(<Frame style={base}><SubmitTicket /></Frame>, element);
+  React.renderComponent(<Frame style={base} css={submitTicketCSS}><SubmitTicket /></Frame>, element);
 }
 
 export var submitTicket = {

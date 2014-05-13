@@ -7,14 +7,17 @@ module React from 'react'; /* jshint ignore:line */
 require('imports?_=lodash!lodash');
 var baseCSS = require('baseCSS');
 var mainCSS = require('mainCSS');
-var componentsCSS = require('componentCSS/Form.scss') + ' ' +
-                    require('componentCSS/Container.scss') + ' ' +
-                    require('componentCSS/Button.scss') + ' ';
 
 export var Frame = React.createClass({
+  propTypes: {
+    style: React.PropTypes.object.isRequired,
+    css:   React.PropTypes.string.isRequired
+  },
+
   render: function() {
     var base = { border: 'none' },
-    iframeStyle = _.extend(base, this.props.style);
+        iframeStyle = _.extend(base, this.props.style);
+
     return <iframe style={iframeStyle} />;
   },
 
@@ -27,13 +30,19 @@ export var Frame = React.createClass({
     }
   },
 
-  renderFrameContent: function() {
-    var head = this.getDOMNode().contentDocument.head,
-        styleTag = document.createElement('style');
+  componentDidUpdate: function() {
+    var doc = this.getDOMNode().contentWindow.document;
 
-    head.appendChild(styleTag);
-    styleTag.innerHTML = baseCSS + ' ' + mainCSS + ' ' + componentsCSS;
-    React.renderComponent(this.props.children, this.getDOMNode().contentWindow.document.body);
+    React.renderComponent(this.props.children, doc.body);
+  },
+
+  renderFrameContent: function() {
+    var doc = this.getDOMNode().contentWindow.document,
+        cssText = baseCSS + mainCSS + this.props.css,
+        css = <style dangerouslySetInnerHTML={{ __html: cssText }} />;
+
+    React.renderComponent(css, doc.head);
+    React.renderComponent(this.props.children, doc.body);
   },
 
   componentWillUnmount: function() {
