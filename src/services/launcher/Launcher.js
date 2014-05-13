@@ -48,7 +48,7 @@ function list() {
 }
 
 function get(name) {
-  return launchers[name];
+  return launchers[name].component;
 }
 
 function render(name) {

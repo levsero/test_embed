@@ -13,7 +13,7 @@ describe('launcher', function() {
         position: 'expected_position'
       });
 
-      launcher1 = launcher.get('launcher1').component;
+      launcher1 = launcher.get('launcher1');
 
       expect(typeof launcher1)
         .toEqual('object');
@@ -29,7 +29,7 @@ describe('launcher', function() {
       var launcher1;
 
       launcher.create('launcher1');
-      launcher1 = launcher.get('launcher1').component;
+      launcher1 = launcher.get('launcher1');
 
       expect(typeof launcher1)
         .toEqual('object');
