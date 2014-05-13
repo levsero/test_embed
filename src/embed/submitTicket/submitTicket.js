@@ -3,6 +3,7 @@
 module React from 'react'; /* jshint ignore:line */
 import { Frame        } from 'component/Frame';
 import { SubmitTicket } from 'component/SubmitTicket';
+import { CloseHandler } from 'component/CloseHandler';
 
 var submitTicketCSS = require('./submitTicket.scss');
 
@@ -19,7 +20,14 @@ function render() {
       },
       element = document.body.appendChild(document.createElement('div'));
 
-  React.renderComponent(<Frame style={base} css={submitTicketCSS}><SubmitTicket /></Frame>, element);
+  React.renderComponent(
+    <CloseHandler>
+      <Frame style={base} css={submitTicketCSS}>
+        <SubmitTicket />
+      </Frame>
+    </CloseHandler>,
+    element
+  );
 }
 
 export var submitTicket = {
