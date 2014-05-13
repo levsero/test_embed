@@ -1,9 +1,9 @@
-import { win          } from './utils/globals';
-import { identity     } from './identity';
-import { transport    } from './transport';
-import { launcher     } from './services/launcher/Launcher';
-import { submitTicket } from './services/submitTicket/submitTicket';
-import { beacon       } from './services/beacon';
+import { win          } from 'util/globals';
+import { identity     } from 'service/identity';
+import { transport    } from 'service/transport';
+import { launcher     } from 'embed/launcher/launcher';
+import { submitTicket } from 'embed/submitTicket/submitTicket';
+import { beacon       } from 'service/beacon';
 
 require('imports?_=lodash!lodash');
 

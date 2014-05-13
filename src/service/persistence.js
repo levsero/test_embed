@@ -1,4 +1,4 @@
-import { win } from './globals';
+import { win } from 'util/globals';
 
 var prefix = 'ZD-';
 

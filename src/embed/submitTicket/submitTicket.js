@@ -1,12 +1,12 @@
 /** @jsx React.DOM */
 
 module React from 'react'; /* jshint ignore:line */
-import { Frame } from 'component/Frame';
-import { validations } from 'mixin/validation';
+import { Frame         } from 'component/Frame';
+import { validations   } from 'mixin/validation';
 import { TextAreaInput } from 'component/TextAreaInput';
-import { TextInput } from 'component/TextInput';
-import { transport } from 'src/transport';
-import { identity } from 'src/identity';
+import { TextInput     } from 'component/TextInput';
+import { transport     } from 'service/transport';
+import { identity      } from 'service/identity';
 require('imports?_=lodash!lodash');
 
 var submitTicketCSS = require('./SubmitTicket.scss');

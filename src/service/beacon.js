@@ -1,10 +1,10 @@
 import { win,
          document,
-         navigator } from '../utils/globals';
-import { transport } from '../transport';
-import { identity  } from '../identity';
-import { store     } from '../utils/persistence';
-import { parseUrl  } from '../utils/utils';
+         navigator } from 'util/globals';
+import { transport } from 'service/transport';
+import { identity  } from 'service/identity';
+import { store     } from 'service/persistence';
+import { parseUrl  } from 'util/utils';
 
 function init() {
   var now = Date.now();
