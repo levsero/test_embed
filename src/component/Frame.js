@@ -34,10 +34,15 @@ export var Frame = React.createClass({
     // In order for iframe correctly render in some browsers we need to do it on nextTick
     if(doc.readyState === 'complete') {
       var cssText = baseCSS + mainCSS + this.props.css,
-          css = <style dangerouslySetInnerHTML={{ __html: cssText }} />;
+          css = <style dangerouslySetInnerHTML={{ __html: cssText }} />,
+          contents = (
+            <div>
+              {css}
+              {this.props.children}
+            </div>
+          );
 
-      React.renderComponent(css, doc.head);
-      React.renderComponent(this.props.children, doc.body);
+      React.renderComponent(contents, doc.body);
     } else {
       setTimeout(this.renderFrameContent, 0);
     }
