@@ -41,7 +41,7 @@ var emailValidation = [
   regexMatcherCondition(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/, 'email address') /* jshint ignore:line */
 ];
 
-export var validations = {
+export var validation = {
   baseValidation: baseValidation,
   emailValidation: emailValidation,
   ValidationMixin: ValidationMixin

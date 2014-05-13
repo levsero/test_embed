@@ -1,9 +1,8 @@
 /** @jsx React.DOM */
-import { document } from 'util/globals';
 module React from 'react'; /* jshint ignore:line */
+import { document } from 'util/globals';
 import { Frame    } from 'component/Frame';
 import { Launcher } from 'component/Launcher';
-
 require('imports?_=lodash!lodash');
 
 var launcherCSS = require('./launcher.scss'),
