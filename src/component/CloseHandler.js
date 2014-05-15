@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 module React from 'react'; /* jshint ignore:line */
 
-import { ReactLayeredComponentMixin } from 'mixin/reactLayeredComponent';
+import { ReactLayeredComponentMixin } from 'mixin/ReactLayeredComponent';
 import { Modal } from 'component/Modal';
 
 export var CloseHandler = React.createClass({
