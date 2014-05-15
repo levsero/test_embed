@@ -30,24 +30,21 @@
     <script src="/dist/main.js"></script>
 
     <script>
-      var launcher = Zd.services.launcher,
-          form = Zd.services.submitTicket;
+      var launcher     = Zd.services.launcher,
+          submitTicket = Zd.services.submitTicket;
+
+      submitTicket.create('submitTicket1')
+        .render('submitTicket1');
 
       launcher.create("delilah", {
         position: 'left',
         onClick: function() {
-          form.render();
+          submitTicket.toggleVisibility('submitTicket1');
         }
       });
 
-      launcher.create("samson", {
-        onClick: function() {
-          alert('hello');
-        }
-      });
-
-      launcher.render('samson');
       launcher.render('delilah');
+
     </script>
 
   </body>

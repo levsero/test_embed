@@ -1,31 +1,22 @@
 describe('submit ticket form', function() {
   var root = window.top,
       Zd   = root.Zd,
-      form = Zd.services.submitTicket,
-      doc  = window.document;
+      form = Zd.services.submitTicket;
+
 
   describe('create', function() {
     it('should create a form', function() {
-      form.render();
+      form.create('form1')
+        .render('form1');
 
-      expect(typeof form)
+      expect(typeof form.get('form1').component)
         .toEqual('object');
     });
   });
 
-  describe('render', function() {
-    it('should add one extra iframe to the document', function () {
-
-      spyOn(doc.body, 'appendChild').andCallThrough();
-
-      var initialIframeCount = doc.body.getElementsByTagName('iframe').length;
-      form.render();
-
-      expect(doc.body.appendChild)
-        .toHaveBeenCalled();
-
-      expect(doc.body.getElementsByTagName('iframe').length)
-        .toEqual(initialIframeCount + 1);
+  afterEach(function() {
+    [].slice.call(document.querySelectorAll('body > div')).forEach(function(div) {
+      div.parentNode.removeChild(div);
     });
   });
 

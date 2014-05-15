@@ -3,10 +3,12 @@
 module React from 'react'; /* jshint ignore:line */
 import { Frame        } from 'component/Frame';
 import { SubmitTicket } from 'component/SubmitTicket';
+import { Modal        } from 'component/Modal';
 
-var submitTicketCSS = require('./submitTicket.scss');
+var submitTicketCSS = require('./submitTicket.scss'),
+    submitTickets = {};
 
-function render() {
+function create(name) {
   var base = {
         border: 'solid',
         height: '600px',
@@ -17,12 +19,52 @@ function render() {
         margin: '-300px 0px 0px -350px',
         background: 'white'
       },
-      element = document.body.appendChild(document.createElement('div'));
+      requestClose = function() {
+        hide(name);
+      };
 
-  React.renderComponent(<Frame style={base} css={submitTicketCSS}><SubmitTicket /></Frame>, element);
+  submitTickets[name] = {
+    component: (
+      /* jshint quotmark:false */
+      <Modal onRequestClose={requestClose}>
+        <Frame style={base} css={submitTicketCSS}>
+          <SubmitTicket />
+        </Frame>
+      </Modal>
+    )
+  };
+
+  return this;
+}
+
+function render(name) {
+  var element = document.body.appendChild(document.createElement('div'));
+  React.renderComponent(submitTickets[name].component, element);
+}
+
+function get(name) {
+  return submitTickets[name];
+}
+
+function show(name) {
+  submitTickets[name].component.setState({show: true});
+}
+
+function hide(name) {
+  submitTickets[name].component.setState({show: false});
+}
+
+function toggleVisibility(name) {
+  var component = submitTickets[name].component;
+  component.setState({show: !component.state.show});
 }
 
 export var submitTicket = {
-  render: render
+  create: create,
+  render: render,
+  get: get,
+  show: show,
+  hide: hide,
+  toggleVisibility: toggleVisibility
 };
 
