@@ -19,7 +19,6 @@ function create(name) {
         margin: '-300px 0px 0px -350px',
         background: 'white'
       },
-
       requestClose = function() {
         hide(name);
       };
@@ -34,6 +33,7 @@ function create(name) {
       </Modal>
     )
   };
+
   return this;
 }
 
