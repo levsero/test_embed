@@ -19,20 +19,20 @@ function create(name) {
         left: '50%',
         margin: '-300px 0px 0px -350px',
         background: 'white'
-      };
+      },
 
-  var requestClose = function() {
-    submitTicket.hide(name);
-  };
+      requestClose = function() {
+        submitTicket.hide(name);
+      };
 
   submitTickets[name] = {
     component: (
       /* jshint quotmark:false */
-        <Modal onRequestClose={requestClose}>
-          <Frame style={base} css={submitTicketCSS}>
-            <SubmitTicket />
-          </Frame>
-        </Modal>
+      <Modal onRequestClose={requestClose}>
+        <Frame style={base} css={submitTicketCSS}>
+          <SubmitTicket />
+        </Frame>
+      </Modal>
     )
   };
   return this;
