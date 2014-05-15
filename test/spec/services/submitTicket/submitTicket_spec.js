@@ -1,14 +1,15 @@
 describe('submit ticket form', function() {
   var root = window.top,
       Zd   = root.Zd,
-      form = Zd.services.submitTicket,
-      doc  = window.document;
+      form = Zd.services.submitTicket;
+
 
   describe('create', function() {
     it('should create a form', function() {
-      form.render();
+      form.create('form1')
+        .render('form1');
 
-      expect(typeof form)
+      expect(typeof form.get('form1').component)
         .toEqual('object');
     });
   });
