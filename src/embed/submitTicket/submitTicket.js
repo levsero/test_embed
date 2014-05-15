@@ -8,6 +8,7 @@ import { CloseHandler } from 'component/CloseHandler';
 var submitTicketCSS = require('./submitTicket.scss');
 
 function render() {
+
   var base = {
         border: 'solid',
         height: '600px',
@@ -19,6 +20,12 @@ function render() {
         background: 'white'
       },
       element = document.body.appendChild(document.createElement('div'));
+
+  element.id = 'reactForm';
+  if(React.unmountComponentAtNode(document.getElementById('reactForm'))) {
+    var elem = document.getElementById('reactForm');
+    elem.parentNode.removeChild(elem);
+  }
 
   React.renderComponent(
     <CloseHandler>
