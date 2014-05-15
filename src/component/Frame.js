@@ -5,8 +5,8 @@ module React from 'react'; /* jshint ignore:line */
 
 // lodash needs to shimmed using imports loader
 require('imports?_=lodash!lodash');
-var baseCSS = require('baseCSS');
-var mainCSS = require('mainCSS');
+var baseCSS = require('baseCSS'),
+    mainCSS = require('mainCSS');
 
 export var Frame = React.createClass({
   propTypes: {
@@ -22,27 +22,30 @@ export var Frame = React.createClass({
   },
 
   componentDidMount: function() {
-    // In order for iframe correctly render we need to do it on nextTick
-    if(this.getDOMNode().contentWindow.document.readyState === 'complete') {
-      this.renderFrameContent();
-    } else {
-      setTimeout(this.renderFrameContent, 100);
-    }
+    this.renderFrameContent();
   },
 
   componentDidUpdate: function() {
-    var doc = this.getDOMNode().contentWindow.document;
-
-    React.renderComponent(this.props.children, doc.body);
+    this.renderFrameContent();
   },
 
   renderFrameContent: function() {
-    var doc = this.getDOMNode().contentWindow.document,
-        cssText = baseCSS + mainCSS + this.props.css,
-        css = <style dangerouslySetInnerHTML={{ __html: cssText }} />;
+    var doc = this.getDOMNode().contentWindow.document;
+    // In order for iframe correctly render in some browsers we need to do it on nextTick
+    if(doc.readyState === 'complete') {
+      var cssText = baseCSS + mainCSS + this.props.css,
+          css = <style dangerouslySetInnerHTML={{ __html: cssText }} />,
+          contents = (
+            <div>
+              {css}
+              {this.props.children}
+            </div>
+          );
 
-    React.renderComponent(css, doc.head);
-    React.renderComponent(this.props.children, doc.body);
+      React.renderComponent(contents, doc.body);
+    } else {
+      setTimeout(this.renderFrameContent, 0);
+    }
   },
 
   componentWillUnmount: function() {
