@@ -1,3 +1,4 @@
+// jshint ignore: start
 /**
  * React (with addons) v0.11.0-alpha
  */
@@ -3892,7 +3893,6 @@ function _assertCheckedLink(input) {
  * @param {SyntheticEvent} e change event to handle
  */
 function _handleLinkedValueChange(e) {
-  /*jshint validthis:true */
   this.props.valueLink.requestChange(e.target.value);
 }
 
@@ -3900,7 +3900,6 @@ function _handleLinkedValueChange(e) {
   * @param {SyntheticEvent} e change event to handle
   */
 function _handleLinkedCheckChange(e) {
-  /*jshint validthis:true */
   this.props.checkedLink.requestChange(e.target.checked);
 }
 

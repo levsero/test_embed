@@ -13,15 +13,14 @@ var testFiles = [
   'node_modules/lodash/lodash.js',
   'node_modules/es5-shim/es5-shim.js',
   'node_modules/jasmine-ajax/lib/mock-ajax.js',
-  'dist/main.js',
-  'test/spec/**/*',
-  '!test/spec/components/*'
+  'dist/main.js'
 ];
 
- var componentTestFiles = [
+var componentTestFiles = [
    'test/helpers/react-with-addons.js',
    'test/jsx_spec/*.js'
-  ];
+];
+
 var servicesTestFiles = [
    'test/spec/**/*',
    '!test/spec/components/*'
@@ -74,9 +73,6 @@ gulp.task('test-components', ['build_jsx'], function() {
 gulp.task('build_jsx', function() {
   return gulp.src('./test/spec/components/*.js')
      .pipe(react())
-     .pipe(browserify({
-       transform: [reactify, ES6ModuleCompile()]
-     }))
      .on('error', function(err) {
        throw err;
      })

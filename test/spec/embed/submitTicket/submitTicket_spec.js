@@ -4,7 +4,7 @@ describe('submit ticket form', function() {
   var root = window.top,
       Zd   = root.Zd,
       form = Zd.services.submitTicket,
-      doc  = window.document
+      doc  = window.document;
 
   describe('create', function() {
     it('should create a form', function() {
