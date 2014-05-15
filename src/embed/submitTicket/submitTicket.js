@@ -43,6 +43,10 @@ function render(name) {
   React.renderComponent(submitTickets[name].component, element);
 }
 
+function get(name) {
+  return submitTickets[name];
+}
+
 function show(name) {
   submitTickets[name].component.setState({show: true});
 }
@@ -51,21 +55,17 @@ function hide(name) {
   submitTickets[name].component.setState({show: false});
 }
 
-function get(name) {
-  return submitTickets[name];
-}
-
 function toggleVisibility(name) {
   var component = submitTickets[name].component;
   component.setState({show: !component.state.show});
 }
 
 export var submitTicket = {
-  show: show,
-  get: get,
-  hide: hide,
-  toggleVisibility: toggleVisibility,
   create: create,
-  render: render
+  render: render,
+  get: get,
+  show: show,
+  hide: hide,
+  toggleVisibility: toggleVisibility
 };
 
