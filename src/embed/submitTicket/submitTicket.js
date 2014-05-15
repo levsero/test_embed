@@ -6,7 +6,6 @@ import { SubmitTicket } from 'component/SubmitTicket';
 import { Modal        } from 'component/Modal';
 
 var submitTicketCSS = require('./submitTicket.scss'),
-    submitTicket = this,
     submitTickets = {};
 
 function create(name) {
@@ -22,7 +21,7 @@ function create(name) {
       },
 
       requestClose = function() {
-        submitTicket.hide(name);
+        hide(name);
       };
 
   submitTickets[name] = {
