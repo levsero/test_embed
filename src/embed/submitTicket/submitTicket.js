@@ -5,7 +5,8 @@ import { Frame        } from 'component/Frame';
 import { SubmitTicket } from 'component/SubmitTicket';
 import { CloseHandler } from 'component/CloseHandler';
 
-var submitTicketCSS = require('./submitTicket.scss');
+var submitTicketCSS = require('./submitTicket.scss'),
+    element;
 
 function render() {
 
@@ -18,14 +19,10 @@ function render() {
         left: '50%',
         margin: '-300px 0px 0px -350px',
         background: 'white'
-      },
-      element = document.body.appendChild(document.createElement('div'));
+      };
+  element = element || document.body.appendChild(document.createElement('div'));
 
-  element.id = 'reactForm';
-  if(React.unmountComponentAtNode(document.getElementById('reactForm'))) {
-    var elem = document.getElementById('reactForm');
-    elem.parentNode.removeChild(elem);
-  }
+  React.unmountComponentAtNode(element);
 
   React.renderComponent(
     <CloseHandler>
