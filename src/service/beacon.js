@@ -24,9 +24,11 @@ function send() {
       params = {
         'url': win.location.href,
         'buid': identity.getBuid(),
-        'useragent': navigator.userAgent,
+        'user_agent': navigator.userAgent,
         'referrer': referrer.href,
         'time': timeOnLastPage(),
+        'navigator_language': navigator.language,
+        'page_title': document.title,
         'metrics': ['beacon']
       };
 
