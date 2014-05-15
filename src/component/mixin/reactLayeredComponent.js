@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 module React from 'react'; /* jshint ignore:line */
 
 export var ReactLayeredComponentMixin = {
