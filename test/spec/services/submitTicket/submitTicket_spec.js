@@ -25,7 +25,7 @@ describe('submit ticket form', function() {
         .toHaveBeenCalled();
 
       expect(doc.body.getElementsByTagName('iframe').length)
-        .toEqual(initialIframeCount + 1);
+        .toEqual(initialIframeCount + 2);
     });
   });
 
