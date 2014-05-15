@@ -25,7 +25,7 @@ export var Modal = React.createClass({
     var visibilityRule = (this.state.show) ? {} : {display: 'none'};
     backdropStyle = _.extend(backdropStyle, visibilityRule);
 
-    return this.transferPropsTo(
+    return (
       /* jshint quotmark: false */
       <div style={backdropStyle} onClick={this.props.onRequestClose}>
         <div onClick={this.killClick}>
