@@ -21,15 +21,10 @@ export var Modal = React.createClass({
         bottom: '0',
         background: 'rgba(0,0,0,0.5)'
       };
-      var ContentStyle = {
-        background: 'white',
-        margin: 'auto',
-        width: '400px'
-      };
       return this.transferPropsTo(
         /* jshint quotmark: false */
         <div className="ModalBackdrop" style={BackdropStyle} onClick={this.handleClick}>
-          <div className="ModalContent" style={ContentStyle} onClick={this.killClick}>
+          <div className="ModalContent" onClick={this.killClick}>
             {this.props.children}
           </div>
         </div>
