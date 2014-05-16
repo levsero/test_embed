@@ -9,6 +9,7 @@ var webpackConfig = require('./webpack.config.js');
 var react = require('gulp-react');
 var inlineSource = require('gulp-inline-source');
 var replace = require('gulp-replace');
+var rename = require('gulp-rename');
 
 var testFiles = [
   'node_modules/lodash/lodash.js',
@@ -41,7 +42,7 @@ gulp.task('bootstrap', function() {
 });
 
 gulp.task('inlinebootstrap', ['bootstrap'], function() {
-  return gulp.src('./example/*.html')
+  return gulp.src('./example/*-template.html')
     .pipe(inlineSource())
     .pipe(replace(/{{(\w+)}}/g, function(match, key) {
       if(key === 'zendeskFrameworkUrl') {
@@ -50,7 +51,10 @@ gulp.task('inlinebootstrap', ['bootstrap'], function() {
         return 'ahrjay.zendesk.com';
       }
     }))
-    .pipe(gulp.dest('dist/example'));
+    .pipe(rename(function(path) {
+        path.basename = path.basename.replace('-template', '');
+    }))
+    .pipe(gulp.dest('./example'));
 })
 
 gulp.task('test', ['build'], function() {
