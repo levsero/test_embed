@@ -33,7 +33,7 @@ describe('beacon', function() {
           parseUrl: function() {
             return {
               href: 'http://document.referrer'
-            }
+            };
           }
       },
 
@@ -77,7 +77,8 @@ describe('beacon', function() {
 
   describe('#send', function() {
     it('sends correct payload using transport.send', function() {
-      var payload;
+      var payload, params;
+
       spyOn(mockIdentity.identity, 'getBuid').andReturn('abc123');
 
       beacon.init();
@@ -89,12 +90,14 @@ describe('beacon', function() {
       expect(payload.path).toBe('/api/blips');
 
       params = payload.params;
-      expect(params.url).toBe(mockGlobals.win.location.href);
-      expect(params.buid).toBe('abc123');
-      expect(params.user_agent).toBe(mockGlobals.navigator.userAgent);
-      expect(params.referrer).toBe(mockUtils.parseUrl().href);
-      expect(params.navigator_language).toBe(mockGlobals.navigator.language);
-      expect(params.page_title).toBe(mockGlobals.document.title);
+
+      /* jshint sub:true */
+      expect(params['url']).toBe(mockGlobals.win.location.href);
+      expect(params['buid']).toBe('abc123');
+      expect(params['user_agent']).toBe(mockGlobals.navigator.userAgent);
+      expect(params['referrer']).toBe(mockUtils.parseUrl().href);
+      expect(params['navigator_language']).toBe(mockGlobals.navigator.language);
+      expect(params['page_title']).toBe(mockGlobals.document.title);
     });
   });
 

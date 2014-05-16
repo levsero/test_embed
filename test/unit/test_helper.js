@@ -8,5 +8,5 @@ global.basePath = function(path) {
 };
 
 global.buildPath = function(path) {
-  return basePath('build/unes6/' + path);
+  return basePath('build/unit/' + path);
 };

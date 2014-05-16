@@ -32,7 +32,7 @@ describe('identity', function() {
   });
 
   it('sets a new buid if none is available', function() {
-    var recentCall;
+    var buid, recentCall;
 
     spyOn(mockPersistence.store, 'get').andReturn(undefined);
     spyOn(mockPersistence.store, 'set');
