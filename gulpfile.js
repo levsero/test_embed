@@ -3,6 +3,7 @@ var uglify = require('gulp-uglify');
 var jshint = require('gulp-jshint');
 var karma = require('gulp-karma');
 var gutil = require('gulp-util');
+var jasmine = require('gulp-jasmine');
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var webpackConfig = require('./webpack.config.js');
@@ -10,6 +11,7 @@ var react = require('gulp-react');
 var inlineSource = require('gulp-inline-source');
 var replace = require('gulp-replace');
 var rename = require('gulp-rename');
+var es6ModuleTranspiler = require("gulp-es6-module-transpiler");
 
 var testFiles = [
   'node_modules/lodash/lodash.js',
@@ -67,6 +69,17 @@ gulp.task('test', ['build'], function() {
     .on('error', function(err) {
       throw err;
     });
+});
+
+gulp.task('unes6module', function() {
+  return gulp.src(['src/service/*.js'])
+    .pipe(es6ModuleTranspiler({type: 'cjs'}))
+    .pipe(gulp.dest('build/unes6/service'));
+});
+
+gulp.task('unittest', ['unes6module'], function() {
+  return gulp.src('test/unit/**/*.js')
+    .pipe(jasmine());
 });
 
 gulp.task('lint', function() {
