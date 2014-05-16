@@ -1,7 +1,7 @@
 // This file is autoloaded by jasmine
 // because it has 'helper' in its name.
 
-console.log('loading testHelper');
+console.log('loading test_helper');
 
 global.basePath = function(path) {
   return __dirname + '/../../' + path;
