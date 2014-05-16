@@ -31,25 +31,22 @@
 
     <script>
       Zd.ready(function() {
-        var launcher = Zd.services.launcher,
-            form = Zd.services.submitTicket;
+        var launcher     = Zd.services.launcher,
+            submitTicket = Zd.services.submitTicket;
 
-        launcher.create("delilah", {
+        submitTicket.create('submitTicket1')
+          .render('submitTicket1');
+
+        launcher.create('delilah', {
           position: 'left',
           onClick: function() {
-            form.render();
+            submitTicket.toggleVisibility('submitTicket1');
           }
         });
 
-        launcher.create("samson", {
-          onClick: function() {
-            alert('hello');
-          }
-        });
-
-        launcher.render('samson');
         launcher.render('delilah');
       });
+
     </script>
 
   </body>
