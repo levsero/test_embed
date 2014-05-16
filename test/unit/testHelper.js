@@ -5,8 +5,8 @@ console.log('loading testHelper');
 
 global.basePath = function(path) {
   return __dirname + '/../../' + path;
-}
+};
 
 global.buildPath = function(path) {
   return basePath('build/unes6/' + path);
-}
+};
