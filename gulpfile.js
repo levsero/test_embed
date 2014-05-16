@@ -11,6 +11,7 @@ var react = require('gulp-react');
 var inlineSource = require('gulp-inline-source');
 var replace = require('gulp-replace');
 var rename = require('gulp-rename');
+var es6ModuleTranspiler = require("gulp-es6-module-transpiler");
 
 var testFiles = [
   'node_modules/lodash/lodash.js',
@@ -86,7 +87,6 @@ gulp.task('test:unit', ['build:test'], function() {
   return gulp.src('test/unit/**/*.js')
     .pipe(jasmine());
 });
-
 
 gulp.task('lint', function() {
   return gulp.src(['src/**/*.js', 'test/**/*.js'])
