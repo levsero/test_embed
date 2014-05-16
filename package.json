@@ -39,6 +39,8 @@
     "gulp-concat": "~2.2.0",
     "imports-loader": "~0.6.2",
     "sass-loader": "~0.1.1",
-    "autoprefixer-loader": "~0.1.1"
+    "autoprefixer-loader": "~0.1.1",
+    "gulp-inline-source": "0.0.2",
+    "gulp-replace": "~0.3.0"
   }
 }

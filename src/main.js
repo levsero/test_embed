@@ -18,6 +18,8 @@ launcher.create('demoLauncher', {
 
 launcher.render('demoLauncher');
 
+var readyCallback = win.Zd.readyCallback;
+
 win.Zd = module.exports = {
   identity: identity,
   transport: transport,
@@ -26,3 +28,8 @@ win.Zd = module.exports = {
     submitTicket: submitTicket
   }
 };
+
+if(readyCallback && typeof readyCallback === 'function') {
+  readyCallback();
+}
+

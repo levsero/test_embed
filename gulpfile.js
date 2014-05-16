@@ -7,6 +7,8 @@ var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var webpackConfig = require('./webpack.config.js');
 var react = require('gulp-react');
+var inlineSource = require('gulp-inline-source');
+var replace = require('gulp-replace');
 
 var testFiles = [
   'node_modules/lodash/lodash.js',
@@ -16,7 +18,7 @@ var testFiles = [
   'test/**/*.js'
 ];
 
-gulp.task('build', ['lint', 'bootstrap'], function(callback) {
+gulp.task('build', ['lint', 'inlinebootstrap'], function(callback) {
   var myConfig = Object.create(webpackConfig);
   myConfig.plugins = [
     new webpack.optimize.DedupePlugin(),
@@ -37,6 +39,19 @@ gulp.task('bootstrap', function() {
     .pipe(uglify())
     .pipe(gulp.dest('./dist'));
 });
+
+gulp.task('inlinebootstrap', ['bootstrap'], function() {
+  return gulp.src('./example/*.html')
+    .pipe(inlineSource())
+    .pipe(replace(/{{(\w+)}}/g, function(match, key) {
+      if(key === 'zendeskFrameworkUrl') {
+        return '/dist/main.js';
+      } else {
+        return 'ahrjay.zendesk.com';
+      }
+    }))
+    .pipe(gulp.dest('dist/example'));
+})
 
 gulp.task('test', ['build'], function() {
   return gulp.src(testFiles)
@@ -70,7 +85,7 @@ gulp.task("webpack-dev-server", function(callback) {
     }
   }).listen(1337, 'localhost', function(err) {
     if(err) throw new gutil.PluginError('webpack-dev-server', err);
-    gutil.log('[webpack-dev-server]', 'http://localhost:1337/webpack-dev-server/example/index.html');
+    gutil.log('[webpack-dev-server]', 'http://localhost:1337/webpack-dev-server/dist/example/index.html');
   });
 });
 
