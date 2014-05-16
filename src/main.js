@@ -18,7 +18,7 @@ launcher.create('demoLauncher', {
 
 launcher.render('demoLauncher');
 
-var readyCallback = win.Zd.readyCallback;
+var readyCallback = win.Zd && win.Zd.readyCallback;
 
 win.Zd = module.exports = {
   identity: identity,
