@@ -1,12 +1,22 @@
 var mockery = require('mockery');
 
-
 describe('beacon', function() {
   var beacon,
       mockGlobals = {
-        win: jasmine.createSpy(),
-        document: jasmine.createSpyObj('document', ['referrer']),
-        navigator: jasmine.createSpy()
+        win: {
+          location: {
+            origin: 'http://window.location.origin',
+            href: 'http://window.location.href'
+          }
+        },
+        document: {
+          referrer: 'http://document.referrer',
+          title: 'Document Title',
+        },
+        navigator: {
+          language: 'navigator.language',
+          userAgent: 'navigator.userAgent'
+        }
       },
       mockPersistence = {
         store: jasmine.createSpyObj('store', ['set', 'get'])
@@ -14,18 +24,29 @@ describe('beacon', function() {
       mockTransport = {
         transport: jasmine.createSpyObj('transport', ['send'])
       },
+      mockIdentity = {
+        identity: {
+          getBuid: function() {}
+        }
+      },
+      mockUtils = {
+          parseUrl: function() {
+            return {
+              href: 'http://document.referrer'
+            }
+          }
+      },
+
       beaconPath = buildPath('service/beacon');
 
   beforeEach(function() {
-    mockery.enable({
-      warnOnReplace: false
-    });
+    mockery.enable();
     
     mockery.registerMock('service/transport', mockTransport);
     mockery.registerMock('util/globals', mockGlobals);
-    mockery.registerMock('service/identity', {});
+    mockery.registerMock('service/identity', mockIdentity);
     mockery.registerMock('service/persistence', mockPersistence);
-    mockery.registerMock('util/utils', {});
+    mockery.registerMock('util/utils', mockUtils);
 
     mockery.registerAllowable(beaconPath);
     beacon = require(beaconPath).beacon;
@@ -55,10 +76,25 @@ describe('beacon', function() {
   });
 
   describe('#send', function() {
-    it('uses transport.send', function() {
-      //beacon.init();
-      //beacon.send({});
-      //expect(mockTransport.transport.send).toHaveBeenCalled();
+    it('sends correct payload using transport.send', function() {
+      var payload;
+      spyOn(mockIdentity.identity, 'getBuid').andReturn('abc123');
+
+      beacon.init();
+      beacon.send();
+      expect(mockTransport.transport.send).toHaveBeenCalled();
+
+      payload = mockTransport.transport.send.mostRecentCall.args[0];
+      expect(payload.method).toBe('POST');
+      expect(payload.path).toBe('/api/blips');
+
+      params = payload.params;
+      expect(params.url).toBe(mockGlobals.win.location.href);
+      expect(params.buid).toBe('abc123');
+      expect(params.user_agent).toBe(mockGlobals.navigator.userAgent);
+      expect(params.referrer).toBe(mockUtils.parseUrl().href);
+      expect(params.navigator_language).toBe(mockGlobals.navigator.language);
+      expect(params.page_title).toBe(mockGlobals.document.title);
     });
   });
 
