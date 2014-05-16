@@ -72,9 +72,10 @@ gulp.task('test', ['build'], function() {
 });
 
 gulp.task('unes6module', function() {
-  return gulp.src(['src/service/*.js'])
+  return gulp.src('src/**/*.js')
+    .pipe(react())
     .pipe(es6ModuleTranspiler({type: 'cjs'}))
-    .pipe(gulp.dest('build/unes6/service'));
+    .pipe(gulp.dest('build/unes6'));
 });
 
 gulp.task('unittest', ['unes6module'], function() {
