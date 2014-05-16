@@ -1,7 +1,7 @@
 var mockery = require('mockery');
 
-describe('beacon', function() {
 
+describe('beacon', function() {
   var beacon,
       mockGlobals = {
         win: jasmine.createSpy(),
@@ -14,7 +14,7 @@ describe('beacon', function() {
       mockTransport = {
         transport: jasmine.createSpyObj('transport', ['send'])
       },
-      beaconPath = '../../build/unes6/service/beacon';
+      beaconPath = buildPath('service/beacon');
 
   beforeEach(function() {
     mockery.enable({
@@ -63,3 +63,4 @@ describe('beacon', function() {
   });
 
 });
+
