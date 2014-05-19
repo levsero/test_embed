@@ -90,7 +90,7 @@ gulp.task("webpack-dev-server", function(callback) {
     }
   }).listen(1337, 'localhost', function(err) {
     if(err) throw new gutil.PluginError('webpack-dev-server', err);
-    gutil.log('[webpack-dev-server]', 'http://localhost:1337/webpack-dev-server/dist/example/index.html');
+    gutil.log('[webpack-dev-server]', 'http://localhost:1337/webpack-dev-server/example/index.html');
   });
 });
 
