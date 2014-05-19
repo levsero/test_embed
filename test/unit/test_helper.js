@@ -10,3 +10,5 @@ global.basePath = function(path) {
 global.buildPath = function(path) {
   return basePath('build/unit/' + path);
 };
+
+global._ = require('lodash');
