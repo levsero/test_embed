@@ -1,6 +1,7 @@
 /** @jsx React.DOM */
 
 module React from 'react'; /* jshint ignore:line */
+import { document     } from 'util/globals';
 import { Frame        } from 'component/Frame';
 import { SubmitTicket } from 'component/SubmitTicket';
 import { Modal        } from 'component/Modal';

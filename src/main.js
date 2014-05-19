@@ -10,13 +10,7 @@ require('imports?_=lodash!lodash');
 transport.init({ zendeskHost: window.zendeskHost });
 beacon.init().send();
 
-launcher.create('demoLauncher', {
-  onClick: function() {
-    alert('This is Demo Launcher');
-  }
-});
-
-launcher.render('demoLauncher');
+var readyCallback = win.Zd && win.Zd.readyCallback;
 
 win.Zd = module.exports = {
   identity: identity,
@@ -26,3 +20,8 @@ win.Zd = module.exports = {
     submitTicket: submitTicket
   }
 };
+
+if(readyCallback && typeof readyCallback === 'function') {
+  readyCallback();
+}
+

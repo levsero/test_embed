@@ -7,6 +7,9 @@ var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var webpackConfig = require('./webpack.config.js');
 var react = require('gulp-react');
+var inlineSource = require('gulp-inline-source');
+var replace = require('gulp-replace');
+var rename = require('gulp-rename');
 
 var testFiles = [
   'node_modules/lodash/lodash.js',
@@ -16,7 +19,7 @@ var testFiles = [
   'test/**/*.js'
 ];
 
-gulp.task('build', ['lint', 'bootstrap'], function(callback) {
+gulp.task('build', ['lint', 'inlinebootstrap'], function(callback) {
   var myConfig = Object.create(webpackConfig);
   myConfig.plugins = [
     new webpack.optimize.DedupePlugin(),
@@ -37,6 +40,23 @@ gulp.task('bootstrap', function() {
     .pipe(uglify())
     .pipe(gulp.dest('./dist'));
 });
+
+gulp.task('inlinebootstrap', ['bootstrap'], function() {
+  return gulp.src('./example/*-template.html')
+    .pipe(inlineSource())
+    .pipe(replace(/{{(\w+)}}/g, function(match, key) {
+        var replaceMap = {
+          'zendeskFrameworkUrl': '/dist/main.js',
+          'zendeskHost'        : 'ahrjay.zendesk.com'
+        };
+
+        return replaceMap[key];
+    }))
+    .pipe(rename(function(path) {
+        path.basename = path.basename.replace('-template', '');
+    }))
+    .pipe(gulp.dest('./example'));
+})
 
 gulp.task('test', ['build'], function() {
   return gulp.src(testFiles)
