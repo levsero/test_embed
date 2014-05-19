@@ -45,11 +45,12 @@ gulp.task('inlinebootstrap', ['bootstrap'], function() {
   return gulp.src('./example/*-template.html')
     .pipe(inlineSource())
     .pipe(replace(/{{(\w+)}}/g, function(match, key) {
-      if(key === 'zendeskFrameworkUrl') {
-        return '/dist/main.js';
-      } else {
-        return 'ahrjay.zendesk.com';
-      }
+        var replaceMap = {
+          'zendeskFrameworkUrl': '/dist/main.js',
+          'zendeskHost'        : 'ahrjay.zendesk.com'
+        };
+
+        return replaceMap[key];
     }))
     .pipe(rename(function(path) {
         path.basename = path.basename.replace('-template', '');
