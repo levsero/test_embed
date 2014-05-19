@@ -1,5 +1,3 @@
-var mockery = require('mockery');
-
 describe('store', function() {
   var store,
       prefix = 'ZD-',

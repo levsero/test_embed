@@ -12,3 +12,7 @@ global.buildPath = function(path) {
 };
 
 global._ = require('lodash');
+
+global.mockery = require('mockery');
+
+global.React = require('react');

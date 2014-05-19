@@ -1,5 +1,3 @@
-var mockery = require('mockery');
-
 describe('identity', function() {
   var identity,
       mockPersistence = {

@@ -1,5 +1,3 @@
-var mockery = require('mockery');
-
 describe('beacon', function() {
   var beacon,
       mockGlobals = {
