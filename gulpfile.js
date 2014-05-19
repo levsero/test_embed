@@ -19,16 +19,6 @@ var testFiles = [
   'dist/main.js'
 ];
 
-var componentTestFiles = [
-   'test/helpers/react-with-addons.js',
-   'test/jsx_spec/*.js'
-];
-
-var servicesTestFiles = [
-   'test/spec/**/*',
-   '!test/spec/components/*'
-];
-
 gulp.task('unes6module', function() {
   return gulp.src(['src/**/*.js', 'test/helpers/react-with-addons.js'])
     .pipe(react())
@@ -61,25 +51,6 @@ gulp.task('bootstrap', function() {
   return gulp.src('src/bootstrap.js')
     .pipe(uglify())
     .pipe(gulp.dest('./dist'));
-});
-
-gulp.task('test-services', ['build'], function() {
-  return gulp.src(_.union(testFiles, servicesTestFiles))
-    .pipe(karma({
-      configFile: 'karma.conf.js',
-      action: 'run'
-    }))
-    .on('error', function(err) {
-      throw err;
-    });
-});
-
-gulp.task('test-components', ['build_jsx'], function() {
-  return gulp.src(componentTestFiles)
-    .pipe(jasmine())
-    .on('error', function(err) {
-      throw err;
-    });
 });
 
 gulp.task('build_jsx', function() {
@@ -121,6 +92,5 @@ gulp.task('watch', ['build'], function() {
   gulp.watch(['test/**/*.js'], ['test']);
 });
 
-gulp.task('test', ['test-services', 'test-components'])
 gulp.task('default', ['build']);
 

@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 describe('submit ticket form', function() {
   var root = window.top,
       Zd   = root.Zd,
@@ -28,7 +26,6 @@ describe('submit ticket form', function() {
 
       expect(doc.body.getElementsByTagName('iframe').length)
         .toEqual(initialIframeCount + 1);
-
     });
   });
 

@@ -21,6 +21,8 @@ describe('Launcher component', function() {
     mockery.registerAllowable('../../build/unes6/component/Launcher');
     mockery.registerAllowable('react');
     mockery.registerAllowable('./lib/React');
+    mockery.registerAllowable('./jsdom/selectors/index');
+    mockery.registerAllowable('react/addons');
     Launcher = require('../../build/unes6/component/Launcher').Launcher;
   });
 
