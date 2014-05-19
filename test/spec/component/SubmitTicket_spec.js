@@ -1,7 +1,6 @@
 /** @jsx React.DOM */
 var React;
 var ReactTestUtils;
-//var ReactTestUtils = React.addons.ReactTestUtils;
 var mockery = require('mockery');
 var jsdom = require("jsdom");
 var reactMocks = require('../helpers/mocks');
@@ -19,7 +18,6 @@ describe('submit ticket form', function() {
     mockery.enable({
       warnOnReplace:false
     });
-
 
     mockery.registerMock('service/identity', {});
     mockery.registerMock('service/transport', {});
@@ -44,10 +42,8 @@ describe('submit ticket form', function() {
   });
 
   it('should be added to the document when called', function () {
-    var form = <SubmitTicket />;
-    expect(ReactTestUtils.isDOMComponent(form)).toBe(false);
-    var formRendered = React.renderComponent(form, global.document.body);
-    expect(formRendered.getDOMNode()).toBeDefined();
+    var form = React.renderComponent(<SubmitTicket />, global.document.body);
+    expect(form.getDOMNode()).toBeDefined();
   });
 });
 

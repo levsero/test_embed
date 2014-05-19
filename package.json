@@ -42,6 +42,7 @@
     "autoprefixer-loader": "~0.1.1",
     "mockery": "~1.4.0",
     "gulp-es6-module-transpiler": "~0.1.1",
-    "jsdom": "~0.10.5"
+    "jsdom": "~0.10.5",
+    "gulp-jasmine": "~0.2.0"
   }
 }

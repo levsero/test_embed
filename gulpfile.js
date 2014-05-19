@@ -8,6 +8,7 @@ var WebpackDevServer = require('webpack-dev-server');
 var webpackConfig = require('./webpack.config.js');
 var react = require('gulp-react');
 var es6ModuleTranspiler = require('gulp-es6-module-transpiler');
+var jasmine = require('gulp-jasmine');
 var jsdom = require('jsdom');
 var _ = require('lodash');
 
