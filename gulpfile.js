@@ -3,6 +3,7 @@ var uglify = require('gulp-uglify');
 var jshint = require('gulp-jshint');
 var karma = require('gulp-karma');
 var gutil = require('gulp-util');
+var jasmine = require('gulp-jasmine');
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var webpackConfig = require('./webpack.config.js');
@@ -16,7 +17,7 @@ var testFiles = [
   'node_modules/es5-shim/es5-shim.js',
   'node_modules/jasmine-ajax/lib/mock-ajax.js',
   'dist/main.js',
-  'test/**/*.js'
+  'test/spec/*.js'
 ];
 
 gulp.task('build', ['lint', 'inlinebootstrap'], function(callback) {
@@ -34,6 +35,7 @@ gulp.task('build', ['lint', 'inlinebootstrap'], function(callback) {
     callback();
   });
 });
+
 
 gulp.task('bootstrap', function() {
   return gulp.src('src/bootstrap.js')
@@ -69,6 +71,23 @@ gulp.task('test', ['build'], function() {
     });
 });
 
+
+gulp.task('build:test', function() {
+  // defined in here because defining globally breaks webpack's es6-loader
+  var es6ModuleTranspiler = require('gulp-es6-module-transpiler');
+  return gulp.src('src/**/*.js')
+    .pipe(react())
+    .pipe(es6ModuleTranspiler({type: 'cjs'}))
+    .pipe(gulp.dest('build/unit'));
+});
+
+
+gulp.task('test:unit', ['build:test'], function() {
+  return gulp.src('test/unit/**/*.js')
+    .pipe(jasmine());
+});
+
+
 gulp.task('lint', function() {
   return gulp.src(['src/**/*.js', 'test/**/*.js'])
     .pipe(react())
@@ -77,10 +96,11 @@ gulp.task('lint', function() {
     .pipe(jshint.reporter('fail'));
 });
 
+
 gulp.task("webpack-dev-server", function(callback) {
   // modify some webpack config options
   var myConfig = Object.create(webpackConfig);
-  myConfig.devtool = "eval";
+  myConfig.devtool = 'eval';
   myConfig.debug = true;
 
   // Start a webpack-dev-server
@@ -94,10 +114,12 @@ gulp.task("webpack-dev-server", function(callback) {
   });
 });
 
+
 gulp.task('watch', ['build'], function() {
   gulp.watch(['src/**/*.js'], ['build']);
   gulp.watch(['test/**/*.js'], ['test']);
 });
+
 
 gulp.task('default', ['build']);
 

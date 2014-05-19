@@ -7,7 +7,7 @@
     "_",
     "before", "after",
     "expect", "it", "describe", "xit", "xdescribe", "beforeEach", "afterEach",
-    "jasmine", "spyOn", "runs", "waitsFor"
+    "jasmine", "spyOn", "runs", "waitsFor", "buildPath", "basePath"
   ],
 
   "bitwise":   true,
