@@ -39,6 +39,9 @@
     "gulp-concat": "~2.2.0",
     "imports-loader": "~0.6.2",
     "sass-loader": "~0.1.1",
-    "autoprefixer-loader": "~0.1.1"
+    "autoprefixer-loader": "~0.1.1",
+    "mockery": "~1.4.0",
+    "gulp-es6-module-transpiler": "~0.1.1",
+    "jsdom": "~0.10.5"
   }
 }

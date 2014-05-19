@@ -7,6 +7,8 @@ var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var webpackConfig = require('./webpack.config.js');
 var react = require('gulp-react');
+var es6ModuleTranspiler = require('gulp-es6-module-transpiler');
+var jsdom = require('jsdom');
 var _ = require('lodash');
 
 var testFiles = [
@@ -26,7 +28,19 @@ var servicesTestFiles = [
    '!test/spec/components/*'
 ];
 
-gulp.task('build', ['lint', 'bootstrap'], function(callback) {
+gulp.task('unes6module', function() {
+  return gulp.src(['src/**/*.js', 'test/helpers/react-with-addons.js'])
+    .pipe(react())
+    .pipe(es6ModuleTranspiler({type: 'cjs'}))
+    .pipe(gulp.dest('build/unes6'));
+});
+
+gulp.task('testcomponents', ['unes6module', 'build_jsx'], function() {
+  return gulp.src(['test/jsx_spec/*.js' ])
+    .pipe(jasmine());
+});
+
+gulp.task('build', ['bootstrap'], function(callback) {
   var myConfig = Object.create(webpackConfig);
   myConfig.plugins = [
     new webpack.optimize.DedupePlugin(),
@@ -60,18 +74,15 @@ gulp.task('test-services', ['build'], function() {
 });
 
 gulp.task('test-components', ['build_jsx'], function() {
-  return gulp.src(_.union(testFiles, componentTestFiles))
-    .pipe(karma({
-      configFile: 'karma.conf.js',
-      action: 'run'
-    }))
+  return gulp.src(componentTestFiles)
+    .pipe(jasmine())
     .on('error', function(err) {
       throw err;
     });
 });
 
 gulp.task('build_jsx', function() {
-  return gulp.src('./test/spec/components/*.js')
+  return gulp.src('./test/spec/component/*_spec.js')
      .pipe(react())
      .on('error', function(err) {
        throw err;
