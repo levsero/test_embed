@@ -27,27 +27,26 @@
       Aliquam varius ante magna, a adipiscing sapien vehicula ut. Phasellus mattis, ligula sed faucibus vehicula, nunc mi pharetra elit, ac aliquet arcu risus in diam. Vestibulum bibendum feugiat felis, a venenatis risus auctor vitae. Nulla nisl massa, fringilla non tempor et, aliquet vel mi. Nunc volutpat purus nulla, ut fermentum diam suscipit vel. Mauris et libero eget lectus dapibus interdum. Nam vel diam enim.
     </p>
 
-    <script src="/dist/main.js"></script>
+    <script src="/dist/bootstrap.js" inline></script>
 
     <script>
-      var launcher = Zd.services.launcher,
-          form = Zd.services.submitTicket;
+      Zd.ready(function() {
+        var launcher     = Zd.services.launcher,
+            submitTicket = Zd.services.submitTicket;
 
-      launcher.create("delilah", {
-        position: 'left',
-        onClick: function() {
-          form.render();
-        }
+        submitTicket.create('submitTicket1')
+          .render('submitTicket1');
+
+        launcher.create('delilah', {
+          position: 'left',
+          onClick: function() {
+            submitTicket.toggleVisibility('submitTicket1');
+          }
+        });
+
+        launcher.render('delilah');
       });
 
-      launcher.create("samson", {
-        onClick: function() {
-          alert('hello');
-        }
-      });
-
-      launcher.render('samson');
-      launcher.render('delilah');
     </script>
 
   </body>

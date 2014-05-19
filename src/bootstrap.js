@@ -18,6 +18,12 @@ window.Zd || (function(options){
 
   iWin = iframe.contentWindow;
   iDoc = iWin.document;
+
+  window.Zd = {
+    ready: function(cb) {
+      this.readyCallback = cb;
+    }
+  };
 // Section 2
   try {
     doc = iDoc;

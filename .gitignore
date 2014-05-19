@@ -1,4 +1,7 @@
-node_modules
-bower_components
+node_modules/
+bower_components/
 dist/
 test/jsx_spec/
+example
+!example/*-template.html
+build/

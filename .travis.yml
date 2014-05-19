@@ -6,7 +6,9 @@ before_script:
   - npm install
   - ./node_modules/.bin/bower install
   - ./node_modules/.bin/gulp build
+
 script:
+  - gulp test:unit
   - gulp test
 
 notifications:
