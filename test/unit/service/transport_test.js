@@ -33,7 +33,7 @@ describe('transport', function() {
         };
 
     beforeEach(function() {
-      spyOn(_, 'merge').andCallThrough();
+      spyOn(_, 'extend').andCallThrough();
     });
 
     it('makes use of default config values', function() {
@@ -42,7 +42,7 @@ describe('transport', function() {
 
       transport.init();
 
-      recentCall = _.merge.mostRecentCall;
+      recentCall = _.extend.mostRecentCall;
       
       // verifying config defaults
       expect(recentCall.args[0])
@@ -61,7 +61,7 @@ describe('transport', function() {
 
       transport.init(testConfig);
 
-      recentCall = _.merge.mostRecentCall;
+      recentCall = _.extend.mostRecentCall;
 
       expect(recentCall.args[1])
         .toEqual(testConfig);
