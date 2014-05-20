@@ -25,6 +25,7 @@
     "superagent": "~0.18.0",
     "gulp-karma": "0.0.4",
     "gulp-es6-module-transpiler": "~0.1.1",
+    "jsdom": "~0.10.5",
     "jasmine-ajax": "pivotal/jasmine-ajax#v2.0.0.rc1",
     "gulp-jasmine": "~0.2.0",
     "mockery": "~1.4.0",

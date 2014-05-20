@@ -44,6 +44,7 @@ gulp.task('bootstrap', function() {
     .pipe(gulp.dest('./dist'));
 });
 
+
 gulp.task('inlinebootstrap', ['bootstrap'], function() {
   return gulp.src('./example/*-template.html')
     .pipe(inlineSource())
@@ -72,19 +73,31 @@ gulp.task('test', ['build'], function() {
     });
 });
 
-
 gulp.task('build:test', function() {
+  var es6ModuleTranspiler = require('gulp-es6-module-transpiler');
+
+  gulp.src(['test/**/*.js', '!test/helper/*'])
+    .pipe(react())
+    .pipe(es6ModuleTranspiler({type: 'cjs'}))
+    .pipe(gulp.dest('build/test'));
+
+  gulp.src('test/helper/*')
+    .pipe(gulp.dest('build/test/helper/'));
+})
+
+
+gulp.task('build:src', function() {
   // defined in here because defining globally breaks webpack's es6-loader
   var es6ModuleTranspiler = require('gulp-es6-module-transpiler');
   return gulp.src('src/**/*.js')
     .pipe(react())
     .pipe(es6ModuleTranspiler({type: 'cjs'}))
-    .pipe(gulp.dest('build/unit'));
+    .pipe(gulp.dest('build/src'));
 });
 
 
-gulp.task('test:unit', ['build:test'], function() {
-  return gulp.src('test/unit/**/*.js')
+gulp.task('test:unit',['build:src', 'build:test'], function() {
+  return gulp.src('build/test/unit/**/*.js')
     .pipe(jasmine());
 });
 
