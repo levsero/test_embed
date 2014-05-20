@@ -28,7 +28,7 @@ describe('transport', function() {
   describe('#init', function() {
 
     var configDefaults = {
-          scheme: 'https', 
+          scheme: 'https',
           snowflakeHost: 'zensnow.herokuapp.com'
         };
 
@@ -43,7 +43,7 @@ describe('transport', function() {
       transport.init();
 
       recentCall = _.extend.mostRecentCall;
-      
+
       // verifying config defaults
       expect(recentCall.args[0])
         .toEqual(configDefaults);
@@ -51,7 +51,7 @@ describe('transport', function() {
       expect(recentCall.args[1])
         .toBeUndefined();
     });
-    
+
     it('merges supplied config param with defaults', function() {
 
       var recentCall,
@@ -70,7 +70,7 @@ describe('transport', function() {
 
   describe('#send', function() {
 
-    var payload, 
+    var payload,
         config;
 
     beforeEach(function() {
@@ -104,10 +104,10 @@ describe('transport', function() {
 
       transport.init(config);
       transport.send(payload);
-       
+
       expect(mockSuperagent)
         .toHaveBeenCalledWith(
-          'GET', 
+          'GET',
           'https://zensnow.herokuapp.com/test/path');
     });
 
@@ -135,7 +135,7 @@ describe('transport', function() {
       recentCall = mockMethods.send.mostRecentCall;
 
       /* jshint sub:true */
-      expect(recentCall.args[0]['zendesk_host']) 
+      expect(recentCall.args[0]['zendesk_host'])
         .toBe(config.zendeskHost);
 
     });
@@ -161,7 +161,7 @@ describe('transport', function() {
 
     it('triggers the done callback if response is successful', function() {
 
-      var recentCall, 
+      var recentCall,
           callback;
 
       spyOn(payload.callbacks, 'done');
@@ -173,7 +173,7 @@ describe('transport', function() {
 
       expect(mockMethods.end).toHaveBeenCalled();
       recentCall = mockMethods.end.mostRecentCall;
-      
+
       callback = recentCall.args[0];
       callback({ok: true});
 
@@ -181,12 +181,12 @@ describe('transport', function() {
         .toHaveBeenCalled();
 
       expect(payload.callbacks.fail)
-        .not.toHaveBeenCalled();      
+        .not.toHaveBeenCalled();
     });
 
     it('triggers the fail callback if response is successful', function() {
 
-      var recentCall, 
+      var recentCall,
           callback;
 
       spyOn(payload.callbacks, 'fail');
@@ -200,7 +200,7 @@ describe('transport', function() {
         .toHaveBeenCalled();
 
       recentCall = mockMethods.end.mostRecentCall;
-      
+
       callback = recentCall.args[0];
       callback({error: true});
 
@@ -209,7 +209,7 @@ describe('transport', function() {
 
       expect(payload.callbacks.done)
         .not.toHaveBeenCalled();
-      
+
     });
 
   });
