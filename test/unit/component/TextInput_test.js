@@ -1,5 +1,5 @@
 /** @jsx React.DOM */
-var TextInput;
+var TextInput, baseTextInput, propsTextInput, name, validation, placeholder, className;
 
 describe('TextInput component', function() {
   beforeEach(function() {
@@ -22,6 +22,14 @@ describe('TextInput component', function() {
     mockery.registerAllowable(textInputPath);
 
     TextInput = require(textInputPath).TextInput;
+
+    baseTextInput = React.renderComponent(<TextInput />, global.document.body);
+    name = 'bob';
+    validation = [];
+    placeholder = 'testing';
+    className = 'styles';
+    propsTextInput = <TextInput name={name} validation={validation} placeholder={placeholder} className={className} />;
+
   });
 
   afterEach(function() {
@@ -30,29 +38,19 @@ describe('TextInput component', function() {
   });
 
   it('should be added to the document when called', function () {
-    var textInput = React.renderComponent(<TextInput />, global.document.body);
-
-    expect(textInput.getDOMNode()).toBeDefined();
+    expect(baseTextInput.getDOMNode()).toBeDefined();
   });
 
   it('should have the correct props when defined', function () {
-    var textInput1 = <TextInput />;
+    expect(baseTextInput.props.name).toBeUndefined();
+    expect(baseTextInput.props.validation).toBeUndefined();
+    expect(baseTextInput.props.placeholder).toBeUndefined();
+    expect(baseTextInput.props.className).toBeUndefined();
 
-    expect(textInput1.props.name).toBeUndefined();
-    expect(textInput1.props.validation).toBeUndefined();
-    expect(textInput1.props.placeholder).toBeUndefined();
-    expect(textInput1.props.className).toBeUndefined();
-
-    var name = 'bob',
-        validation = [],
-        placeholder = 'testing',
-        className = 'styles',
-        textInput2 = <TextInput name={name} validation={validation} placeholder={placeholder} className={className} />;
-
-    expect(textInput2.props.name).toEqual(name);
-    expect(textInput2.props.validation).toEqual(validation);
-    expect(textInput2.props.placeholder).toEqual(placeholder);
-    expect(textInput2.props.className).toEqual(className);
+    expect(propsTextInput.props.name).toEqual(name);
+    expect(propsTextInput.props.validation).toEqual(validation);
+    expect(propsTextInput.props.placeholder).toEqual(placeholder);
+    expect(propsTextInput.props.className).toEqual(className);
   });
 
 });

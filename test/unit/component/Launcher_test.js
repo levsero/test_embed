@@ -1,5 +1,5 @@
 /** @jsx React.DOM */
-var Launcher;
+var Launcher, baseLauncher, propsLauncher, pos;
 
 describe('Launcher component', function() {
   beforeEach(function() {
@@ -16,6 +16,12 @@ describe('Launcher component', function() {
     mockery.registerAllowable('./jsdom/selectors/index');
     mockery.registerAllowable('react/addons');
     Launcher = require(launcherPath).Launcher;
+
+    var onClick = function(){};
+    pos = 'left';
+    baseLauncher = React.renderComponent(<Launcher />, global.document.body);
+    propsLauncher = <Launcher position={pos} onClick={onClick} />;
+
   });
 
   afterEach(function() {
@@ -24,33 +30,26 @@ describe('Launcher component', function() {
   });
 
   it('should be added to the document when called', function () {
-    var launcher = React.renderComponent(<Launcher />, global.document.body);
-
-    expect(launcher.getDOMNode()).toBeDefined();
+    expect(baseLauncher.getDOMNode()).toBeDefined();
   });
 
   it('should have the correct props when defined', function () {
-    var launcher1 = <Launcher />;
+    var baseLauncher = <Launcher />;
 
-    expect(launcher1.props.position).toBeUndefined();
-    expect(launcher1.props.onClick).toBeUndefined();
+    expect(baseLauncher.props.position).toBeUndefined();
+    expect(baseLauncher.props.onClick).toBeUndefined();
 
-    var pos = 'left',
-        func = function(){},
-        launcher2 = <Launcher position={pos} onClick={func} />;
-
-    expect(launcher2.props.position).toEqual(pos);
-    expect(launcher2.props.onClick).toBeDefined();
-
+    expect(propsLauncher.props.position).toEqual(pos);
+    expect(propsLauncher.props.onClick).toBeDefined();
   });
 
   it('should active the onClick function when clicked on', function () {
-    var func = jasmine.createSpy(function(){}),
-        launcher = React.renderComponent(<Launcher onClick={func}/>, global.document.body);
+    var onClick = jasmine.createSpy(function(){}),
+        launcher = React.renderComponent(<Launcher onClick={onClick}/>, global.document.body);
 
     ReactTestUtils.Simulate.click(launcher.refs.l);
 
-    expect(func).toHaveBeenCalled();
+    expect(onClick).toHaveBeenCalled();
   });
 
 });
