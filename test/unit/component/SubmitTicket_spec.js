@@ -33,6 +33,11 @@ describe('submit ticket form', function() {
     SubmitTicket = require(submitTicketPath).SubmitTicket;
   });
 
+  afterEach(function() {
+    mockery.deregisterAll();
+    mockery.disable();
+  });
+
   it('should be added to the document when called', function () {
     var form = React.renderComponent(<SubmitTicket />, global.document.body);
     expect(form.getDOMNode()).toBeDefined();

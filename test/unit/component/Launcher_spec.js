@@ -18,6 +18,11 @@ describe('Launcher component', function() {
     Launcher = require(launcherPath).Launcher;
   });
 
+  afterEach(function() {
+    mockery.deregisterAll();
+    mockery.disable();
+  });
+
   it('should be added to the document when called', function () {
     var launcher = React.renderComponent(<Launcher />, global.document.body);
 
