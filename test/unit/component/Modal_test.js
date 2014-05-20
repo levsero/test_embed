@@ -1,5 +1,5 @@
 /** @jsx React.DOM */
-var Modal, baseModal, propsModal;
+var Modal, baseModal, propsModal, div;
 
 describe('Modal component', function() {
   beforeEach(function() {
@@ -24,17 +24,23 @@ describe('Modal component', function() {
     Modal = require(modalPath).Modal;
 
     var onRequestClose = function(){};
-    baseModal = React.renderComponent(<Modal />, global.document.body);
+    div = document.body.appendChild(document.createElement('div'));
+    baseModal = <Modal />;
     propsModal = <Modal onRequestClose={onRequestClose} />;
   });
 
   afterEach(function() {
     mockery.deregisterAll();
     mockery.disable();
+
+    if(div) {
+      div.parentNode.removeChild(div);
+    }
   });
 
   it('should be added to the document when called', function () {
-    expect(baseModal.getDOMNode()).toBeDefined();
+    var modal = React.renderComponent(baseModal, div);
+    expect(modal.getDOMNode()).toBeDefined();
   });
 
   it('should have the correct props when defined', function () {
@@ -45,7 +51,7 @@ describe('Modal component', function() {
 
   it('should call the onRequestClose function when clicked on', function () {
     var onRequestClose = jasmine.createSpy(function(){}),
-        modal = React.renderComponent(<Modal onRequestClose={onRequestClose} />, global.document.body);
+        modal = React.renderComponent(<Modal onRequestClose={onRequestClose} />, div);
 
     ReactTestUtils.Simulate.click(modal.refs.m);
 
@@ -53,7 +59,8 @@ describe('Modal component', function() {
   });
 
   it('should correctly set the initial states when created', function () {
-    expect(baseModal.state.show).toBe(false);
+    var modal = React.renderComponent(baseModal, div);
+    expect(modal.state.show).toBe(false);
   });
 });
 

@@ -1,5 +1,5 @@
 /** @jsx React.DOM */
-var TextInput, baseTextInput, propsTextInput, name, validation, placeholder, className;
+var TextInput, baseTextInput, propsTextInput, name, validation, placeholder, className, div;
 
 describe('TextInput component', function() {
   beforeEach(function() {
@@ -23,11 +23,12 @@ describe('TextInput component', function() {
 
     TextInput = require(textInputPath).TextInput;
 
-    baseTextInput = React.renderComponent(<TextInput />, global.document.body);
     name = 'bob';
     validation = [];
     placeholder = 'testing';
     className = 'styles';
+    div = document.body.appendChild(document.createElement('div'));
+    baseTextInput = <TextInput />;
     propsTextInput = <TextInput name={name} validation={validation} placeholder={placeholder} className={className} />;
 
   });
@@ -35,10 +36,15 @@ describe('TextInput component', function() {
   afterEach(function() {
     mockery.deregisterAll();
     mockery.disable();
+
+    if(div) {
+      div.parentNode.removeChild(div);
+    }
   });
 
   it('should be added to the document when called', function () {
-    expect(baseTextInput.getDOMNode()).toBeDefined();
+    var textInput = React.renderComponent(baseTextInput, div);
+    expect(textInput.getDOMNode()).toBeDefined();
   });
 
   it('should have the correct props when defined', function () {

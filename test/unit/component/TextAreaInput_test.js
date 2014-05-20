@@ -1,5 +1,5 @@
 /** @jsx React.DOM */
-var TextAreaInput, baseTextAreaInput, propsTextAreaInput, validation, className;
+var TextAreaInput, baseTextAreaInput, propsTextAreaInput, validation, className, div;
 
 describe('TextAreaInput component', function() {
   beforeEach(function() {
@@ -25,17 +25,23 @@ describe('TextAreaInput component', function() {
 
     validation = [];
     className = 'styles';
-    baseTextAreaInput = React.renderComponent(<TextAreaInput />, global.document.body);
+    div = document.body.appendChild(document.createElement('div'));
+    baseTextAreaInput = <TextAreaInput />;
     propsTextAreaInput = <TextAreaInput validation={validation} className={className} />;
   });
 
   afterEach(function() {
     mockery.deregisterAll();
     mockery.disable();
+
+    if(div) {
+      div.parentNode.removeChild(div);
+    }
   });
 
   it('should be added to the document when called', function () {
-    expect(baseTextAreaInput.getDOMNode()).toBeDefined();
+    var textAreaInput = React.renderComponent(baseTextAreaInput, div);
+    expect(textAreaInput.getDOMNode()).toBeDefined();
   });
 
   it('should have the correct props when defined', function () {

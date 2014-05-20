@@ -1,5 +1,5 @@
 /** @jsx React.DOM */
-var Launcher, baseLauncher, propsLauncher, pos;
+var Launcher, baseLauncher, propsLauncher, pos, div;
 
 describe('Launcher component', function() {
   beforeEach(function() {
@@ -19,7 +19,8 @@ describe('Launcher component', function() {
 
     var onClick = function(){};
     pos = 'left';
-    baseLauncher = React.renderComponent(<Launcher />, global.document.body);
+    div = document.body.appendChild(document.createElement('div'));
+    baseLauncher = <Launcher />;
     propsLauncher = <Launcher position={pos} onClick={onClick} />;
 
   });
@@ -27,15 +28,18 @@ describe('Launcher component', function() {
   afterEach(function() {
     mockery.deregisterAll();
     mockery.disable();
+
+    if(div) {
+      div.parentNode.removeChild(div);
+    }
   });
 
   it('should be added to the document when called', function () {
-    expect(baseLauncher.getDOMNode()).toBeDefined();
+    var launcher = React.renderComponent(baseLauncher, div);
+    expect(launcher.getDOMNode()).toBeDefined();
   });
 
   it('should have the correct props when defined', function () {
-    var baseLauncher = <Launcher />;
-
     expect(baseLauncher.props.position).toBeUndefined();
     expect(baseLauncher.props.onClick).toBeUndefined();
 
@@ -45,7 +49,7 @@ describe('Launcher component', function() {
 
   it('should active the onClick function when clicked on', function () {
     var onClick = jasmine.createSpy(function(){}),
-        launcher = React.renderComponent(<Launcher onClick={onClick}/>, global.document.body);
+        launcher = React.renderComponent(<Launcher onClick={onClick}/>, div);
 
     ReactTestUtils.Simulate.click(launcher.refs.l);
 
