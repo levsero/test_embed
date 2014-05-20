@@ -1,5 +1,3 @@
-var mockery = require('mockery');
-
 describe('beacon', function() {
   var beacon,
       mockGlobals = {
@@ -59,8 +57,10 @@ describe('beacon', function() {
 
   describe('#init', function() {
     it('Saves the currentTime', function() {
-      var currentTime = Date.now();
-      var recentCall;
+      var currentTime = Date.now(),
+          recentCall,
+          resultTime;
+      
       beacon.init();
       
       expect(mockPersistence.store.set)
@@ -70,8 +70,14 @@ describe('beacon', function() {
 
       expect(recentCall.args[0])
         .toEqual('currentTime');
-      expect(recentCall.args[1])
-        .toBeCloseTo(currentTime, 1);
+
+      resultTime = recentCall.args[1];
+
+      expect(resultTime > (currentTime - 1))
+        .toBeTruthy();
+
+      expect(resultTime < (currentTime + 1))
+        .toBeTruthy();
     });
   });
 
