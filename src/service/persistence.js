@@ -31,13 +31,15 @@ function remove(name, session) {
 }
 
 function clear(session) {
-  var keys = _.keys(storage(session));
+  var backend = storage(session),
+      keys = _.keys(backend);
+
   _.chain(keys)
     .filter(function(key) { 
       return key.indexOf(prefix) === 0;
     })
     .each(function(key) {
-      storage(session).removeItem(key);
+      backend.removeItem(key);
     });
 }
 
