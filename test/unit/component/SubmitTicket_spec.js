@@ -1,23 +1,15 @@
 /** @jsx React.DOM */
-var React;
-var ReactTestUtils;
-var mockery = require('mockery');
-var jsdom = require("jsdom");
-var reactMocks = require('../helpers/mocks');
 var SubmitTicket;
 
 describe('submit ticket form', function() {
 
   beforeEach(function() {
-    global.window = jsdom.jsdom().createWindow('<html><body></body></html>');
-    global.document = global.window.document;
-    global.navigator = global.window.navigator;
-    React = require('react/addons');
-    ReactTestUtils = React.addons.TestUtils;
 
     mockery.enable({
       warnOnReplace:false
     });
+
+    var submitTicketPath = buildPath('component/SubmitTicket');
 
     mockery.registerMock('service/identity', {});
     mockery.registerMock('service/transport', {});
@@ -35,10 +27,10 @@ describe('submit ticket form', function() {
     mockery.registerMock('component/TextInput', {
       TextInput: reactMocks.getMockFunction()
     });
-    mockery.registerAllowable('../../build/unes6/component/SubmitTicket');
+    mockery.registerAllowable(submitTicketPath);
     mockery.registerAllowable('react');
     mockery.registerAllowable('./lib/React');
-    SubmitTicket = require('../../build/unes6/component/SubmitTicket').SubmitTicket;
+    SubmitTicket = require(submitTicketPath).SubmitTicket;
   });
 
   it('should be added to the document when called', function () {

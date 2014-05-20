@@ -22,20 +22,6 @@ var testFiles = [
   'dist/main.js'
 ];
 
-gulp.task('unes6module', function() {
-  return gulp.src(['src/**/*.js', 'test/helpers/react-with-addons.js'])
-    .pipe(react())
-    .pipe(es6ModuleTranspiler({type: 'cjs'}))
-    .pipe(gulp.dest('build/unes6'));
-});
-
-
-gulp.task('testcomponents', ['unes6module', 'build_jsx'], function() {
-  return gulp.src(['test/jsx_spec/*.js' ])
-    .pipe(jasmine());
-});
-
-
 gulp.task('build', ['lint', 'inlinebootstrap'], function(callback) {
   var myConfig = Object.create(webpackConfig);
   myConfig.plugins = [
@@ -59,15 +45,6 @@ gulp.task('bootstrap', function() {
     .pipe(gulp.dest('./dist'));
 });
 
-
-gulp.task('build_jsx', function() {
-  return gulp.src('./test/spec/component/*_spec.js')
-     .pipe(react())
-     .on('error', function(err) {
-       throw err;
-     })
-     .pipe(gulp.dest('./test/jsx_spec/'));
-});
 
 gulp.task('inlinebootstrap', ['bootstrap'], function() {
   return gulp.src('./example/*-template.html')
@@ -98,19 +75,31 @@ gulp.task('test', ['build'], function() {
     });
 });
 
-
 gulp.task('build:test', function() {
+  var es6ModuleTranspiler = require('gulp-es6-module-transpiler');
+
+  gulp.src(['test/**/*.js', '!test/helper/*'])
+    .pipe(react())
+    .pipe(es6ModuleTranspiler({type: 'cjs'}))
+    .pipe(gulp.dest('build/test'));
+
+  gulp.src('test/helper/*')
+    .pipe(gulp.dest('build/test/helper/'));
+})
+
+
+gulp.task('build:src', function() {
   // defined in here because defining globally breaks webpack's es6-loader
   var es6ModuleTranspiler = require('gulp-es6-module-transpiler');
   return gulp.src('src/**/*.js')
     .pipe(react())
     .pipe(es6ModuleTranspiler({type: 'cjs'}))
-    .pipe(gulp.dest('build/unit'));
+    .pipe(gulp.dest('build/src'));
 });
 
 
-gulp.task('test:unit', ['build:test'], function() {
-  return gulp.src('test/unit/**/*.js')
+gulp.task('test:unit',['build:src', 'build:test'], function() {
+  return gulp.src('build/test/unit/**/*.js')
     .pipe(jasmine());
 });
 
