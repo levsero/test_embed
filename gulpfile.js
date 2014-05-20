@@ -16,6 +16,7 @@ var testFiles = [
   'node_modules/lodash/lodash.js',
   'node_modules/es5-shim/es5-shim.js',
   'node_modules/jasmine-ajax/lib/mock-ajax.js',
+  'test/spec/boot.js',
   'dist/main.js',
   'test/spec/*.js'
 ];
