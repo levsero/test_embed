@@ -1,4 +1,5 @@
 import { win } from 'util/globals';
+require('imports?_=lodash!lodash');
 
 var prefix = 'ZD-';
 
@@ -6,9 +7,7 @@ var store = {
   get: get,
   set: set,
   remove: remove,
-  clear: clear,
-  serialize: serialize,
-  deserialize:  deserialize
+  clear: clear
 };
 
 function storage(session) {
@@ -31,8 +30,17 @@ function remove(name, session) {
   storage(session).removeItem(prefix + name);
 }
 
-function clear(name, session) {
-  storage(session).clear();
+function clear(session) {
+  var backend = storage(session),
+      keys = _.keys(backend);
+
+  _.chain(keys)
+    .filter(function(key) { 
+      return key.indexOf(prefix) === 0;
+    })
+    .each(function(key) {
+      backend.removeItem(key);
+    });
 }
 
 function serialize(data) {
