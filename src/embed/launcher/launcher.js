@@ -31,6 +31,9 @@ function get(name) {
 }
 
 function render(name) {
+  if (!launchers[name]) {
+    throw 'Launcher "' + name + '" does not exist or has not been created.';
+  }
   var base = {
         height: '50px',
         width: '50px',
