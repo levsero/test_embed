@@ -84,7 +84,7 @@ gulp.task('inlinebootstrap', ['bootstrap'], function() {
         path.basename = path.basename.replace('-template', '');
     }))
     .pipe(gulp.dest('./example'));
-})
+});
 
 
 gulp.task('test', ['build'], function() {
