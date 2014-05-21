@@ -186,7 +186,7 @@ describe('transport', function() {
         .not.toHaveBeenCalled();
     });
 
-    it('triggers the fail callback if response is successful', function() {
+    it('triggers the fail callback if response is unsuccessful', function() {
 
       var recentCall,
           callback;
