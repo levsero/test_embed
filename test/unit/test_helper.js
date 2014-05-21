@@ -23,5 +23,3 @@ global.navigator = global.window.navigator;
 
 global.React = require('react/addons');
 global.ReactTestUtils = React.addons.TestUtils;
-
-global.reactMocks = require('../helper/mocks');
