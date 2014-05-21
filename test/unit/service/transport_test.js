@@ -171,7 +171,9 @@ describe('transport', function() {
       transport.init(config);
       transport.send(payload);
 
-      expect(mockMethods.end).toHaveBeenCalled();
+      expect(mockMethods.end)
+        .toHaveBeenCalled();
+
       recentCall = mockMethods.end.mostRecentCall;
 
       callback = recentCall.args[0];
