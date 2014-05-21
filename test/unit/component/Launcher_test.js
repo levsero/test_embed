@@ -38,7 +38,7 @@ describe('Launcher component', function() {
 
   it('should use the correct className when position prop is right', function () {
     var rightpos = 'right',
-        result
+        result;
 
     React.renderComponent(
       <Launcher position={rightpos} />,
