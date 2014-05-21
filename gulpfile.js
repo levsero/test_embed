@@ -102,7 +102,7 @@ gulp.task('test:unit',['build:src', 'build:test'], function() {
 
 
 gulp.task('lint', function() {
-  return gulp.src(['src/**/*.js', 'test/**/*.js'])
+  gulp.src(['src/**/*.js', 'test/**/*.js'])
     .pipe(react())
     .pipe(jshint())
     .pipe(jshint.reporter('default'))
