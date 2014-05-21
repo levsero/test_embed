@@ -1,1 +1,1 @@
-window.zendeskHost = 'test.zendesk.host';
+document.zendeskHost = 'test.zendesk.host';
