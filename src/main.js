@@ -7,7 +7,7 @@ import { beacon       } from 'service/beacon';
 
 require('imports?_=lodash!lodash');
 
-transport.init({ zendeskHost: window.zendeskHost });
+transport.init({ zendeskHost: document.zendeskHost });
 beacon.init().send();
 
 var readyCallback = win.Zd && win.Zd.readyCallback;
