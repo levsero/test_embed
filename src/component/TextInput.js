@@ -5,6 +5,12 @@ require('imports?_=lodash!lodash');
 
 export var TextInput = React.createClass ({
   mixins: [validation.ValidationMixin],
+  propTypes: {
+    name: React.PropTypes.string,
+    validate: React.PropTypes.array,
+    placeholder: React.PropTypes.string,
+    className: React.PropTypes.string
+  },
   getInitialState: function() {
      return {
        value: '',
