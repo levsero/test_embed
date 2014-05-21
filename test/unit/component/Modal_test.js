@@ -10,9 +10,9 @@ describe('Modal component', function() {
     });
     mockery.registerMock('mixin/validation', {
       validation: {
-        baseValidation: [{test: function() {}, message: ''}],
-        emailValidation: function() {},
-        ValidationMixin: function() {}
+        baseValidation: noop,
+        emailValidation: noop,
+        ValidationMixin: noop
       }
     });
     mockery.registerMock('imports?_=lodash!lodash', _ );
@@ -34,7 +34,7 @@ describe('Modal component', function() {
     var onRequestClose = jasmine.createSpy(),
         modal = React.renderComponent(<Modal onRequestClose={onRequestClose} />, global.document.body);
 
-    ReactTestUtils.Simulate.click(modal.refs.m);
+    ReactTestUtils.Simulate.click(modal.getDOMNode());
 
     expect(onRequestClose).toHaveBeenCalled();
   });

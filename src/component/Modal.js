@@ -27,7 +27,7 @@ export var Modal = React.createClass({
 
     return (
       /* jshint quotmark: false */
-      <div ref='m' style={backdropStyle} onClick={this.props.onRequestClose}>
+      <div style={backdropStyle} onClick={this.props.onRequestClose}>
         <div onClick={this.killClick}>
           {this.props.children}
         </div>

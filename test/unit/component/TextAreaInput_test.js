@@ -10,9 +10,9 @@ describe('TextAreaInput component', function() {
     });
     mockery.registerMock('mixin/validation', {
       validation: {
-        baseValidation: [{test: function() {}, message: ''}],
-        emailValidation: function() {},
-        ValidationMixin: function() {}
+        baseValidation: noop,
+        emailValidation: noop,
+        ValidationMixin: noop
       }
     });
     mockery.registerMock('imports?_=lodash!lodash', _);

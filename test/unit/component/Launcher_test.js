@@ -14,7 +14,7 @@ describe('Launcher component', function() {
     var onClick = jasmine.createSpy(),
         launcher = React.renderComponent(<Launcher onClick={onClick} />, global.document.body);
 
-    ReactTestUtils.Simulate.click(launcher.refs.l);
+    ReactTestUtils.Simulate.click(launcher.getDOMNode());
 
     expect(onClick).toHaveBeenCalled();
   });
