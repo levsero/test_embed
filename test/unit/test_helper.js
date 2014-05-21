@@ -17,7 +17,8 @@ global.mockery = require('mockery');
 
 global.jsdom = require('jsdom');
 
-global.window = jsdom.jsdom().createWindow('<html><body></body></html>'); /* jshint ignore:line */
+global.window = jsdom.jsdom().createWindow('<html><body></body></html>');
+
 global.document = global.window.document;
 global.navigator = global.window.navigator;
 
@@ -29,3 +30,4 @@ global.noop = function() {};
 global.resetDOM = function() {
   global.document.body.innerHTML = '';
 };
+

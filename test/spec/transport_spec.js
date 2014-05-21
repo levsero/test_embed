@@ -47,7 +47,7 @@ describe('transport', function() {
 
     it('should append zendeskHost to the payload', function() {
       var request, expectedParams;
-      
+
       transport.send(payload);
 
       jasmine.Ajax.requests.mostRecent().response({

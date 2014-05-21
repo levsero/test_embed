@@ -18,6 +18,7 @@ var testFiles = [
   'node_modules/lodash/lodash.js',
   'node_modules/es5-shim/es5-shim.js',
   'node_modules/jasmine-ajax/lib/mock-ajax.js',
+  'test/spec/boot.js',
   'dist/main.js',
   'test/spec/**/*.js'
 ];
@@ -74,6 +75,7 @@ gulp.task('test', ['build'], function() {
       throw err;
     });
 });
+
 
 gulp.task('build:test', function() {
   var es6ModuleTranspiler = require('gulp-es6-module-transpiler');
