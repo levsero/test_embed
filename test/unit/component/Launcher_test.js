@@ -18,4 +18,17 @@ describe('Launcher component', function() {
 
     expect(onClick).toHaveBeenCalled();
   });
+
+  it('should use the correct className based on its position prop', function () {
+    var leftpos = 'left',
+        rightpos = 'right';
+
+    React.renderComponent(<Launcher position={rightpos} />, global.document.body);
+    expect(global.document.body.querySelectorAll('.Button--launcherAlt').length).toBe(0);
+
+    resetDOM();
+
+    React.renderComponent(<Launcher position={leftpos} />, global.document.body);
+    expect(global.document.body.querySelectorAll('.Button--launcherAlt').length).toBe(1);
+  });
 });

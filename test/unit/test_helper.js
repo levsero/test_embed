@@ -27,5 +27,5 @@ global.ReactTestUtils = React.addons.TestUtils;
 global.noop = function() {};
 
 global.resetDOM = function() {
-  global.window = jsdom.jsdom().createWindow('<html><body></body></html>');
+  global.document.body.innerHTML = '';
 };
