@@ -35,18 +35,32 @@ describe('TextInput component', function() {
   });
 
   it('should correctly set the initial states when created', function () {
-    var textInput = React.renderComponent(<TextInput />, global.document.body);
-    expect(textInput.state.value).toBe('');
-    expect(textInput.state.errors.length).toBe(0);
-    expect(textInput.state.id).toContain('input_');
+    var textInput = React.renderComponent(
+      <TextInput />,
+      global.document.body
+    );
+
+    expect(textInput.state.value)
+      .toBe('');
+    expect(textInput.state.errors.length)
+      .toBe(0);
+    expect(textInput.state.id)
+      .toContain('input_');
   });
 
   it('should add an item to its errors array when onBlur is called', function() {
-    var textInput = React.renderComponent(<TextInput />, global.document.body);
+    var textInput = React.renderComponent(
+      <TextInput />,
+      global.document.body
+    );
 
-   expect(textInput.state.errors.length).toBe(0);
-   ReactTestUtils.Simulate.blur(global.document.querySelector('input'));
-   expect(textInput.state.errors.length).toBe(1);
+    expect(textInput.state.errors.length)
+      .toBe(0);
+
+    ReactTestUtils.Simulate.blur(global.document.querySelector('input'));
+
+    expect(textInput.state.errors.length)
+      .toBe(1);
   });
 });
 

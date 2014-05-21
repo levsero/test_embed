@@ -31,17 +31,26 @@ describe('Modal component', function() {
   });
 
   it('should call the onRequestClose function when clicked on', function () {
-    var onRequestClose = jasmine.createSpy(),
-        modal = React.renderComponent(<Modal onRequestClose={onRequestClose} />, global.document.body);
+    var onRequestClose = jasmine.createSpy(noop),
+        modal = React.renderComponent(
+          <Modal onRequestClose={onRequestClose} />,
+          global.document.body
+        );
 
     ReactTestUtils.Simulate.click(modal.getDOMNode());
 
-    expect(onRequestClose).toHaveBeenCalled();
+    expect(onRequestClose)
+      .toHaveBeenCalled();
   });
 
   it('should correctly set the initial states when created', function () {
-    var modal = React.renderComponent(<Modal />, global.document.body);
-    expect(modal.state.show).toBe(false);
+    var modal = React.renderComponent(
+      <Modal onRequestClose={noop} />,
+      global.document.body
+    );
+
+    expect(modal.state.show)
+      .toBe(false);
   });
 });
 

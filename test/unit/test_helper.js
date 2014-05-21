@@ -15,9 +15,9 @@ global._ = require('lodash');
 
 global.mockery = require('mockery');
 
-global.jsdom = require("jsdom");
+global.jsdom = require('jsdom');
 
-global.window = jsdom.jsdom().createWindow('<html><body></body></html>');
+global.window = jsdom.jsdom().createWindow('<html><body></body></html>'); /* jshint ignore:line */
 global.document = global.window.document;
 global.navigator = global.window.navigator;
 
