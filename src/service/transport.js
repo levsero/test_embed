@@ -11,10 +11,14 @@ function init(_config) {
 }
 
 function send(payload) {
+  if (!config.zendeskHost) {
+    throw 'Missing zendeskHost config param.';
+  }
+
   superagent(payload.method.toUpperCase(),
              buildFullUrl(payload.path))
     .type('json')
-    .send(_.extend(payload.params,{'zendesk_host': config.zendeskHost}))
+    .send(_.extend(payload.params || {}, {'zendesk_host': config.zendeskHost}))
     .end(function(res) {
       if (res.ok) {
         payload.callbacks.done(res.text, res.status, res.xhr);
