@@ -78,13 +78,10 @@ gulp.task('test', ['build'], function() {
 gulp.task('build:test', function() {
   var es6ModuleTranspiler = require('gulp-es6-module-transpiler');
 
-  gulp.src(['test/**/*.js', '!test/helper/*'])
+  gulp.src('test/**/*.js')
     .pipe(react())
     .pipe(es6ModuleTranspiler({type: 'cjs'}))
     .pipe(gulp.dest('build/test'));
-
-  gulp.src('test/helper/*')
-    .pipe(gulp.dest('build/test/helper/'));
 })
 
 
