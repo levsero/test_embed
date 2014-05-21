@@ -31,22 +31,28 @@
 
     <script>
       Zd.ready(function() {
-        var launcher     = Zd.services.launcher,
-            submitTicket = Zd.services.submitTicket;
-
-        submitTicket.create('submitTicket1')
-          .render('submitTicket1');
-
-        launcher.create('delilah', {
-          position: 'left',
-          onClick: function() {
-            submitTicket.toggleVisibility('submitTicket1');
+        Zd.devRender({
+          "ticketSubmissionForm": {
+            "embed": "submitTicket"
+          },
+          "xticketSubmissionLauncher": {
+            "embed": "launcher",
+            "props": {
+              "position": "left"
+            }
+          },
+          "ticketSubmissionLauncher": {
+            "embed": "launcher",
+            "props": {
+              "position": "right",
+              "onClick": {
+                name: "ticketSubmissionForm",
+                method: "show"
+              }
+            }
           }
         });
-
-        launcher.render('delilah');
       });
-
     </script>
 
   </body>
