@@ -25,3 +25,7 @@ global.React = require('react/addons');
 global.ReactTestUtils = React.addons.TestUtils;
 
 global.reactMocks = require('../helper/mocks');
+
+global.resetDOM = function() {
+  global.window = jsdom.jsdom().createWindow('<html><body></body></html>');
+};
