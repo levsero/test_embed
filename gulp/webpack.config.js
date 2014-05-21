@@ -1,10 +1,11 @@
 var path = require('path');
+var prefix = process.cwd();
 
 module.exports = {
   cache: true,
-  entry: './src/main.js',
+  entry: path.join(prefix, '/src/main.js'),
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: path.join(prefix, 'dist'),
     filename: 'main.js'
   },
   module: {
@@ -22,16 +23,16 @@ module.exports = {
       react: 'react/addons.js',
       lodash: 'lodash/dist/lodash.underscore.js',
       // Framework
-      component: path.join(__dirname, 'src/component'),
-      embed: path.join(__dirname, 'src/embed'),
-      mixin: path.join(__dirname, 'src/component/mixin'),
-      service: path.join(__dirname, 'src/service'),
-      src: path.join(__dirname, 'src'),
-      util: path.join(__dirname, 'src/util'),
+      component: path.join(prefix + '/src/component'),
+      embed: path.join(prefix + '/src/embed'),
+      mixin: path.join(prefix + '/src/component/mixin'),
+      service: path.join(prefix + '/src/service'),
+      src: path.join(prefix + '/src'),
+      util: path.join(prefix + '/src/util'),
       // CSS Components
-      baseCSS: path.join(__dirname, 'src/styles/base.css'),
-      componentCSS: path.join(__dirname, 'src/styles/components'),
-      mainCSS: path.join(__dirname, 'src/styles/main.scss'),
+      baseCSS: path.join(prefix + '/src/styles/base.css'),
+      componentCSS: path.join(prefix + '/src/styles/components'),
+      mainCSS: path.join(prefix + '/src/styles/main.scss'),
       suit: 'suit/index.css'
     },
     modulesDirectories: ['node_modules', 'bower_components']
