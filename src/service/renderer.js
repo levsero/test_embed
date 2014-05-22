@@ -1,5 +1,5 @@
 import { submitTicket } from 'embed/submitTicket/submitTicket';
-import { launcher } from 'embed/launcher/launcher';
+import { launcher     } from 'embed/launcher/launcher';
 require('imports?_=lodash!lodash');
 
 var embedsMap = {
@@ -11,35 +11,33 @@ function parseConfig(config) {
   var rendererConfig = _.clone(config, true);
 
   _.forEach(rendererConfig, function(configItem) {
-    if(configItem.props) {
-      configItem.props = _.reduce(configItem.props, function(result, value, key) {
-        if(_.isObject(value)) {
-          result[key] = function() {
-            embedsMap[config[value.name].embed][value.method](value.name);
-          };
-        } else {
-          result[key] = value;
-        }
-        return result;
-      }, {});
-    }
+    configItem.props = _.reduce(configItem.props, function(result, value, key) {
+      result[key] = (_.isObject(value))
+                  /* jshint laxbreak: true */
+                  ? function() {
+                    embedsMap[config[value.name].embed][value.method](value.name);
+                  }
+                  : value;
+
+      return result;
+    }, {});
   });
 
   return rendererConfig;
 }
 
-export var renderer = {
-  init: function(config) {
-    var parsedConfig = parseConfig(config);
-
-    _.forEach(parsedConfig, function(configItem, embedName) {
+function init(config) {
+    _.forEach(parseConfig(config), function(configItem, embedName) {
       try {
-        embedsMap[configItem.embed].create(embedName, configItem.props || {});
+        embedsMap[configItem.embed].create(embedName, configItem.props);
         embedsMap[configItem.embed].render(embedName);
       } catch (err) {
         // TODO: revisit what this does when error tracking is in place
-        //console.error('captured error: ', err);
+        console.error('captured error: ', err);
       }
     });
-  }
+}
+
+export var renderer = {
+  init: init
 };
