@@ -64,22 +64,22 @@ describe('embed.launcher', function() {
 
       launcher.create('alice');
 
+      expect(mockLauncher)
+        .toHaveBeenCalled();
+    
       expect(_.keys(launcher.list()).length)
         .toBe(1);
 
       alice = launcher.get('alice');
 
-      expect(mockLauncher)
-        .toHaveBeenCalled();
-    
       expect(alice)
-        .not.toBeUndefined();
+        .toBeDefined();
 
       expect(alice.component)
-        .not.toBeUndefined();
+        .toBeDefined();
 
       expect(alice.config)
-        .not.toBeUndefined();
+        .toBeDefined();
     });
 
     it('should apply the configs', function() {
