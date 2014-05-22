@@ -1,45 +1,54 @@
 describe('beacon', function() {
   var beacon,
-      mockGlobals = {
-        win: {
-          location: {
-            origin: 'http://window.location.origin',
-            href: 'http://window.location.href'
-          }
-        },
-        document: {
-          referrer: 'http://document.referrer',
-          title: 'Document Title',
-        },
-        navigator: {
-          language: 'navigator.language',
-          userAgent: 'navigator.userAgent'
-        }
-      },
-      mockPersistence = {
-        store: jasmine.createSpyObj('store', ['set', 'get'])
-      },
-      mockTransport = {
-        transport: jasmine.createSpyObj('transport', ['send'])
-      },
-      mockIdentity = {
-        identity: {
-          getBuid: noop
-        }
-      },
-      mockUtils = {
-          parseUrl: function() {
-            return {
-              href: 'http://document.referrer'
-            };
-          }
-      },
-
+      mockGlobals,
+      mockPersistence,
+      mockTransport,
+      mockIdentity,
+      mockUtils,
       beaconPath = buildPath('service/beacon');
 
   beforeEach(function() {
-    mockery.enable();
-    
+    mockery.enable({ useCleanCache: true });
+
+    mockGlobals = {
+      win: {
+        location: {
+          origin: 'http://window.location.origin',
+          href: 'http://window.location.href'
+        }
+      },
+      document: {
+        referrer: 'http://document.referrer',
+        title: 'Document Title',
+      },
+      navigator: {
+        language: 'navigator.language',
+        userAgent: 'navigator.userAgent'
+      }
+    };
+
+    mockPersistence = {
+      store: jasmine.createSpyObj('store', ['set', 'get'])
+    };
+
+    mockTransport = {
+      transport: jasmine.createSpyObj('transport', ['send'])
+    };
+
+    mockIdentity = {
+      identity: {
+        getBuid: noop
+      }
+    };
+
+    mockUtils = {
+        parseUrl: function() {
+          return {
+            href: 'http://document.referrer'
+          };
+        }
+    };
+  
     mockery.registerMock('service/transport', mockTransport);
     mockery.registerMock('util/globals', mockGlobals);
     mockery.registerMock('service/identity', mockIdentity);
@@ -73,10 +82,10 @@ describe('beacon', function() {
 
       resultTime = recentCall.args[1];
 
-      expect(resultTime > (currentTime - 1))
+      expect(resultTime > (currentTime - 30))
         .toBeTruthy();
 
-      expect(resultTime < (currentTime + 1))
+      expect(resultTime < (currentTime + 30))
         .toBeTruthy();
     });
   });
@@ -107,5 +116,32 @@ describe('beacon', function() {
     });
   });
 
+  describe('#track', function() {
+    it('sends the correct payload', function() {
+      var payload, params;
+
+      spyOn(mockIdentity.identity, 'getBuid').andReturn('abc123');
+
+      beacon.init();
+      beacon.track('Category', 'Action', 'Label', 'Value');
+
+      expect(mockTransport.transport.send).toHaveBeenCalled();
+
+      payload = mockTransport.transport.send.mostRecentCall.args[0];
+
+      expect(payload.method).toBe('POST');
+      expect(payload.path).toBe('/api/blips');
+
+      params = payload.params;
+
+      expect(params.buid).toBe('abc123');
+      expect(params.url).toBe(mockGlobals.win.location.href);
+      expect(params.userAction.category).toBe('Category');
+      expect(params.userAction.action).toBe('Action');
+      expect(params.userAction.label).toBe('Label');
+      expect(params.userAction.value).toBe('Value');
+
+    });
+  });
 });
 

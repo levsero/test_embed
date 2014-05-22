@@ -45,7 +45,30 @@ function send() {
   transport.send(payload);
 }
 
+function track(category, action, label, value) {
+  var params = {
+    'buid': identity.getBuid(),
+    'category': category,
+    'action': action,
+    'label': label,
+    'value': value
+  };
+
+  var payload = {
+    method: 'POST',
+    path: '/api/blips',
+    params: params,
+    callbacks: {
+      done: function() {},
+      fail: function() {}
+    }
+  };
+
+  transport.send(payload);
+}
+
 export var beacon = {
   init: init,
-  send: send
+  send: send,
+  track: track
 };
