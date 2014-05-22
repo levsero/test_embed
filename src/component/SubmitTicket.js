@@ -1,6 +1,7 @@
 /** @jsx React.DOM */
 
 module React from 'react'; /* jshint ignore:line */
+import { win           } from 'util/globals';
 import { identity      } from 'service/identity';
 import { TextAreaInput } from 'component/TextAreaInput';
 import { TextInput     } from 'component/TextInput';
@@ -14,12 +15,14 @@ export var SubmitTicket = React.createClass({
   },
   handleClick: function() {
     var refs = this.refs,
+        tags = 'buid-' + identity.getBuid() + ' ' + 'DROPBOX',
         formParams = {
           'subject': refs.subjectField.refs.inputText.getDOMNode().value,
           'name': refs.nameField.refs.inputText.getDOMNode().value,
           'email': refs.emailField.refs.inputText.getDOMNode().value,
           'description': refs.descriptionField.refs.inputText.getDOMNode().value,
-          'set_tags': 'buid-' + identity.getBuid()
+          'set_tags': tags,
+          'submitted_from': win.location.href
         },
         errors = _.union(
           refs.subjectField.state.errors,
