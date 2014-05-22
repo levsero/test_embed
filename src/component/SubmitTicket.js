@@ -70,8 +70,8 @@ export var SubmitTicket = React.createClass({
           </div>
         </div>
         <div className={'Form ' + formVisibility}>
-          <form action='' method='post'>
-            <div className='Form-container'>
+          <div className='Form-container u-nbfc'>
+            <form action='' method='post'>
               <div className='Grid'>
                 <TextInput
                   ref='subjectField'
@@ -104,13 +104,13 @@ export var SubmitTicket = React.createClass({
                   className='Grid-cell u-size1of2 Form-field'
                 />
               </div>
-            </div>
-          </form>
-        <input
-          type='submit'
-          onClick={this.handleClick}
-          className='Button Button--default u-pullRight'
-        />
+            </form>
+            <input
+              type='submit'
+              onClick={this.handleClick}
+              className='Button Button--default u-pullRight'
+            />
+         </div>
         </div>
       </div>
     );
