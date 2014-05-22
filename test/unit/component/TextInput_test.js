@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
-var TextInput;
 
 describe('TextInput component', function() {
+  var TextInput;
   beforeEach(function() {
     resetDOM();
 

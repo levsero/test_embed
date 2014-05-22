@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
-var Modal;
 
 describe('Modal component', function() {
+  var Modal;
   beforeEach(function() {
     resetDOM();
 
