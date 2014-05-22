@@ -24,7 +24,7 @@ describe('beacon', function() {
       },
       mockIdentity = {
         identity: {
-          getBuid: function() {}
+          getBuid: noop
         }
       },
       mockUtils = {

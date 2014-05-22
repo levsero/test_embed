@@ -2,10 +2,10 @@ describe('store', function() {
   var store,
       prefix = 'ZD-',
       mockLocalStorage = {
-        getItem: function() {},
-        setItem: function() {},
-        removeItem: function() {},
-        clear: function() {}
+        getItem: noop,
+        setItem: noop,
+        removeItem: noop,
+        clear: noop
       },
       mockSessionStorage = _.extend({}, mockLocalStorage),
       mockGlobals = {

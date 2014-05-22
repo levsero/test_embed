@@ -2,8 +2,8 @@ describe('identity', function() {
   var identity,
       mockPersistence = {
         store: { 
-          get: function() {},
-          set: function() {}
+          get: noop,
+          set: noop
         }
       };
 
