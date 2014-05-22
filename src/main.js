@@ -1,5 +1,6 @@
 import { win          } from 'util/globals';
 import { identity     } from 'service/identity';
+import { renderer     } from 'service/renderer';
 import { transport    } from 'service/transport';
 import { launcher     } from 'embed/launcher/launcher';
 import { submitTicket } from 'embed/submitTicket/submitTicket';
@@ -18,7 +19,8 @@ win.Zd = module.exports = {
   services: {
     launcher: launcher,
     submitTicket: submitTicket
-  }
+  },
+  devRender: renderer.init
 };
 
 if(readyCallback && typeof readyCallback === 'function') {
