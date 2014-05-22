@@ -3,6 +3,9 @@ module React from 'react'; /* jshint ignore:line */
 require('imports?_=lodash!lodash');
 
 export var Modal = React.createClass({
+  propTypes: {
+    onRequestClose: React.PropTypes.func.isRequired
+  },
   killClick: function(e) {
     // clicks on the content shouldn't close the modal
     e.stopPropagation();

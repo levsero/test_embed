@@ -8,6 +8,8 @@ var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var webpackConfig = require('./webpack.config.js');
 var react = require('gulp-react');
+var jasmine = require('gulp-jasmine');
+var jsdom = require('jsdom');
 var inlineSource = require('gulp-inline-source');
 var replace = require('gulp-replace');
 var rename = require('gulp-rename');
@@ -18,7 +20,7 @@ var testFiles = [
   'node_modules/jasmine-ajax/lib/mock-ajax.js',
   'test/spec/boot.js',
   'dist/main.js',
-  'test/spec/*.js'
+  'test/spec/**/*.js'
 ];
 
 gulp.task('build', ['lint', 'inlinebootstrap'], function(callback) {
@@ -60,7 +62,8 @@ gulp.task('inlinebootstrap', ['bootstrap'], function() {
         path.basename = path.basename.replace('-template', '');
     }))
     .pipe(gulp.dest('./example'));
-})
+});
+
 
 gulp.task('test', ['build'], function() {
   return gulp.src(testFiles)
@@ -73,10 +76,11 @@ gulp.task('test', ['build'], function() {
     });
 });
 
+
 gulp.task('build:test', function() {
   var es6ModuleTranspiler = require('gulp-es6-module-transpiler');
 
-  gulp.src(['test/**/*.js'])
+  gulp.src('test/**/*.js')
     .pipe(react())
     .pipe(es6ModuleTranspiler({type: 'cjs'}))
     .pipe(gulp.dest('build/test'));
@@ -100,7 +104,7 @@ gulp.task('test:unit',['build:src', 'build:test'], function() {
 
 
 gulp.task('lint', function() {
-  return gulp.src(['src/**/*.js', 'test/**/*.js'])
+  gulp.src(['src/**/*.js', 'test/**/*.js'])
     .pipe(react())
     .pipe(jshint())
     .pipe(jshint.reporter('default'))

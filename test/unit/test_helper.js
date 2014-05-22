@@ -18,8 +18,16 @@ global.mockery = require('mockery');
 global.jsdom = require('jsdom');
 
 global.window = jsdom.jsdom().createWindow('<html><body></body></html>');
+
 global.document = global.window.document;
 global.navigator = global.window.navigator;
 
 global.React = require('react/addons');
 global.ReactTestUtils = React.addons.TestUtils;
+
+global.noop = function() {};
+
+global.resetDOM = function() {
+  global.document.body.innerHTML = '';
+};
+
