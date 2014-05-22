@@ -17,6 +17,7 @@ describe('renderer', function() {
       show: jasmine.createSpy(),
       render: jasmine.createSpy()
     };
+
     mockLauncher = {
       create: jasmine.createSpy(),
       render: jasmine.createSpy()
@@ -59,26 +60,26 @@ describe('renderer', function() {
             }
           },
           launcherProps = configJSON.ticketSubmissionLauncher.props,
-          recentCall = mockLauncher.create.mostRecentCall;
+          mockLauncherRecentCall = mockLauncher.create.mostRecentCall;
 
       renderer.init(configJSON);
 
       expect(mockSubmitTicket.create)
         .toHaveBeenCalledWith('ticketSubmissionForm', jasmine.any(Object));
 
-      expect(recentCall.args[1].position)
+      expect(mockLauncherRecentCall.args[1].position)
         .toEqual(launcherProps.position);
+
+      // Access onClick callback and trigger it
+      mockLauncherRecentCall.args[1].onClick();
+      expect(mockSubmitTicket.show)
+        .toHaveBeenCalledWith('ticketSubmissionForm');
 
       expect(mockSubmitTicket.render)
         .toHaveBeenCalledWith('ticketSubmissionForm');
 
       expect(mockLauncher.render)
         .toHaveBeenCalledWith('ticketSubmissionLauncher');
-
-      // Access onClick callback and trigger it
-      mockLauncher.create.mostRecentCall.args[1].onClick();
-      expect(mockSubmitTicket.show)
-        .toHaveBeenCalledWith('ticketSubmissionForm');
     });
 
     it('should handle dodgy config values', function() {

@@ -12,11 +12,11 @@ function parseConfig(config) {
 
   _.forEach(rendererConfig, function(configItem) {
     configItem.props = _.reduce(configItem.props, function(result, value, key) {
+      /* jshint laxbreak: true */
       result[key] = (_.isObject(value))
-                  /* jshint laxbreak: true */
                   ? function() {
-                    embedsMap[config[value.name].embed][value.method](value.name);
-                  }
+                      embedsMap[config[value.name].embed][value.method](value.name);
+                    }
                   : value;
 
       return result;
@@ -27,15 +27,15 @@ function parseConfig(config) {
 }
 
 function init(config) {
-    _.forEach(parseConfig(config), function(configItem, embedName) {
-      try {
-        embedsMap[configItem.embed].create(embedName, configItem.props);
-        embedsMap[configItem.embed].render(embedName);
-      } catch (err) {
-        // TODO: revisit what this does when error tracking is in place
-        console.error('captured error: ', err);
-      }
-    });
+  _.forEach(parseConfig(config), function(configItem, embedName) {
+    try {
+      embedsMap[configItem.embed].create(embedName, configItem.props);
+      embedsMap[configItem.embed].render(embedName);
+    } catch (err) {
+      // TODO: revisit what this does when error tracking is in place
+      console.error('captured error: ', err);
+    }
+  });
 }
 
 export var renderer = {
