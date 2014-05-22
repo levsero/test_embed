@@ -3,7 +3,8 @@ describe('main.js', function() {
       Zd   = root.Zd;
 
   it('should export to the global Zd namespace', function() {
-    expect(Zd).toBeDefined();
+    expect(Zd)
+      .toBeDefined();
   });
 
 });

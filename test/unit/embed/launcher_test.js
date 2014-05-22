@@ -25,7 +25,8 @@ describe('embed.launcher', function() {
                 <div className='mock-launcher' />
               ); 
             }
-          })),
+          })
+        ),
       mockLauncherCss = jasmine.createSpy('mockLauncherCss'),
       launcherPath = buildPath('embed/launcher/launcher');
 
@@ -142,10 +143,10 @@ describe('embed.launcher', function() {
       launcher.create('alice');
       launcher.render('alice');
 
-      expect(document.querySelectorAll('div > .mock-frame').length)
+      expect(document.querySelectorAll('body > div > .mock-frame').length)
         .toBe(1);
 
-      expect(document.querySelectorAll('div > .mock-frame > .mock-launcher').length)
+      expect(document.querySelectorAll('body > div > .mock-frame > .mock-launcher').length)
         .toBe(1);
     });
 
@@ -179,34 +180,34 @@ describe('embed.launcher', function() {
 
     it('is positioned "right" if no position value is set', function() {
 
-      var recentCall;
+      var mockFrameStyle;
 
       launcher.create('alice');
       launcher.render('alice');
 
-      recentCall = mockFrame.mostRecentCall;
+      mockFrameStyle = mockFrame.mostRecentCall.args[0].style;
 
-      expect(recentCall.args[0].style.left)
+      expect(mockFrameStyle.left)
         .toBeUndefined();
 
-      expect(recentCall.args[0].style.right)
+      expect(mockFrameStyle.right)
         .toBeDefined();
 
     });
 
     it('can be positioned "left"', function() {
 
-      var recentCall;
+      var mockFrameStyle;
 
       launcher.create('alice', {position: 'left'});
       launcher.render('alice');
 
-      recentCall = mockFrame.mostRecentCall;
+      mockFrameStyle = mockFrame.mostRecentCall.args[0].style;
 
-      expect(recentCall.args[0].style.left)
+      expect(mockFrameStyle.left)
         .toBeDefined();
 
-      expect(recentCall.args[0].style.right)
+      expect(mockFrameStyle.right)
         .toBeUndefined();
 
     });
