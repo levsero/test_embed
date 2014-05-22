@@ -15,7 +15,7 @@ export var SubmitTicket = React.createClass({
   },
   handleClick: function() {
     var refs = this.refs,
-        tags = 'buid-' + identity.getBuid() + ' ' + 'DROPBOX',
+        tags = ['buid-' + identity.getBuid() , 'DROPBOX'].join(' '),
         formParams = {
           'subject': refs.subjectField.refs.inputText.getDOMNode().value,
           'name': refs.nameField.refs.inputText.getDOMNode().value,
