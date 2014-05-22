@@ -15,7 +15,7 @@ describe('Modal component', function() {
         ValidationMixin: noop
       }
     });
-    mockery.registerMock('imports?_=lodash!lodash', _ );
+    mockery.registerMock('imports?_=lodash!lodash', _);
 
     var modalPath = buildPath('component/Modal');
 
