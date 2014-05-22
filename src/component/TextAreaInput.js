@@ -7,7 +7,7 @@ export var TextAreaInput = React.createClass ({
   mixins: [validation.ValidationMixin],
   propTypes: {
     validate: React.PropTypes.array,
-    classname: React.PropTypes.string
+    className: React.PropTypes.string
   },
   getInitialState: function() {
     return {

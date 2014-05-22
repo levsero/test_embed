@@ -34,32 +34,37 @@ describe('TextInput component', function() {
     mockery.disable();
   });
 
-  it('should correctly set the initial states when created', function () {
+  it('should correctly set the initial state when created', function () {
     var textInput = React.renderComponent(
-      <TextInput />,
-      global.document.body
-    );
+         <TextInput />,
+         global.document.body
+       ),
+       state = textInput.state;
 
-    expect(textInput.state.value)
+    expect(state.value)
       .toBe('');
-    expect(textInput.state.errors.length)
+
+    expect(state.errors.length)
       .toBe(0);
-    expect(textInput.state.id)
+
+    expect(state.id)
       .toContain('input_');
   });
 
   it('should add an item to its errors array when onBlur is called', function() {
     var textInput = React.renderComponent(
-      <TextInput />,
-      global.document.body
-    );
+         <TextInput />,
+         global.document.body
+       ),
+       state = textInput.state;
 
-    expect(textInput.state.errors.length)
+    expect(state.errors.length)
       .toBe(0);
 
     ReactTestUtils.Simulate.blur(global.document.querySelector('input'));
+    state = textInput.state;
 
-    expect(textInput.state.errors.length)
+    expect(state.errors.length)
       .toBe(1);
   });
 });

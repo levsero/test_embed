@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
-var TextAreaInput;
 
 describe('TextAreaInput component', function() {
+  var TextAreaInput;
   beforeEach(function() {
     resetDOM();
 
@@ -34,32 +34,37 @@ describe('TextAreaInput component', function() {
     mockery.disable();
   });
 
-  it('should correctly set the initial states when created', function () {
+  it('should correctly set the initial state when created', function () {
     var textAreaInput = React.renderComponent(
-      <TextAreaInput />,
-      global.document.body
-    );
+          <TextAreaInput />,
+          global.document.body
+        ),
+        state = textAreaInput.state;
 
-    expect(textAreaInput.state.value)
+    expect(state.value)
       .toBe('');
-    expect(textAreaInput.state.errors.length)
+
+    expect(state.errors.length)
       .toBe(0);
-    expect(textAreaInput.state.id)
+
+    expect(state.id)
       .toContain('description_');
   });
 
   it('should add an item to its errors array when onBlur is called', function() {
     var textAreaInput = React.renderComponent(
-      <TextAreaInput />,
-      global.document.body
-    );
+         <TextAreaInput />,
+         global.document.body
+       ),
+       state = textAreaInput.state;
 
-   expect(textAreaInput.state.errors.length)
+   expect(state.errors.length)
      .toBe(0);
 
    ReactTestUtils.Simulate.blur(global.document.querySelector('textarea'));
+   state = textAreaInput.state;
 
-   expect(textAreaInput.state.errors.length)
+   expect(state.errors.length)
      .toBe(1);
   });
 });

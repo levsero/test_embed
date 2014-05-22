@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
-var Launcher;
 
 describe('Launcher component', function() {
+  var Launcher;
   beforeEach(function() {
     resetDOM();
 
@@ -23,7 +23,7 @@ describe('Launcher component', function() {
       .toHaveBeenCalled();
   });
 
-  it('should use the correct className when position prop is left', function () {
+  it('should use the correct className when position prop is "left"', function () {
     var leftpos = 'left',
         result;
 
@@ -36,7 +36,7 @@ describe('Launcher component', function() {
       .toBe(1);
   });
 
-  it('should use the correct className when position prop is right', function () {
+  it('should use the correct className when position prop is "right"', function () {
     var rightpos = 'right',
         result;
 
