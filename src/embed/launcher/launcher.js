@@ -31,6 +31,9 @@ function get(name) {
 }
 
 function render(name) {
+  if (!launchers[name]) {
+    throw 'Launcher "' + name + '" does not exist or has not been created.';
+  }
   var base = {
         height: '50px',
         width: '50px',
@@ -53,7 +56,6 @@ function render(name) {
   var iframeStyle = _.extend(base, posObj),
       element = document.body.appendChild(document.createElement('div')),
       component = (
-        /* jshint quotmark:false */
         <Frame style={iframeStyle} css={launcherCSS}>
           {launchers[name].component}
         </Frame>

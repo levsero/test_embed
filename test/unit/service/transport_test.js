@@ -81,8 +81,8 @@ describe('transport', function() {
           name: 'John Doe'
         },
         callbacks: {
-          done: function() {},
-          fail: function() {}
+          done: noop,
+          fail: noop
         }
       };
 
