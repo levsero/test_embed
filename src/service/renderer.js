@@ -7,9 +7,11 @@ var embedsMap = {
   'launcher': launcher
 };
 
-export var renderer = {
-  init: function(config) {
-    _.forEach(config, function(configItem, embedName) {
+function parseConfig(config) {
+  var rendererConfig = _.clone(config, true);
+
+  _.forEach(rendererConfig, function(configItem) {
+    if(configItem.props) {
       configItem.props = _.reduce(configItem.props, function(result, value, key) {
         if(_.isObject(value)) {
           result[key] = function() {
@@ -20,9 +22,24 @@ export var renderer = {
         }
         return result;
       }, {});
+    }
+  });
 
-      embedsMap[configItem.embed].create(embedName, configItem.props || {});
-      embedsMap[configItem.embed].render(embedName);
+  return rendererConfig;
+}
+
+export var renderer = {
+  init: function(config) {
+    var parsedConfig = parseConfig(config);
+
+    _.forEach(parsedConfig, function(configItem, embedName) {
+      try {
+        embedsMap[configItem.embed].create(embedName, configItem.props || {});
+        embedsMap[configItem.embed].render(embedName);
+      } catch (err) {
+        // TODO: revisit what this does when error tracking is in place
+        //console.error('captured error: ', err);
+      }
     });
   }
 };
