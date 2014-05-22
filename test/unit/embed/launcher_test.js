@@ -15,7 +15,8 @@ describe('embed.launcher', function() {
                 </div>
               );
             }
-          })),
+          })
+        ),
       mockLauncher = jasmine.createSpy('mockLauncher')
         .andCallFake(
           React.createClass({
@@ -166,14 +167,14 @@ describe('embed.launcher', function() {
 
     it('applies launcher.scss to the frame', function() {
 
-      var recentCall;
+      var mockFrameCss;
 
       launcher.create('alice');
       launcher.render('alice');
 
-      recentCall = mockFrame.mostRecentCall;
+      mockFrameCss = mockFrame.mostRecentCall.args[0].css;
 
-      expect(recentCall.args[0].css)
+      expect(mockFrameCss)
         .toBe(mockLauncherCss);
       
     });
