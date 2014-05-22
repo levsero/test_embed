@@ -3,7 +3,7 @@ var gutil = require('gulp-util');
 var webpack = require('webpack');
 var webpackConfig = require('../webpack.config.js');
 
-gulp.task('build', ['lint', 'inlinebootstrap'], function(callback) {
+gulp.task('build', ['clean', 'lint', 'inlinebootstrap'], function(callback) {
   var myConfig = Object.create(webpackConfig);
   myConfig.plugins = [
     new webpack.optimize.DedupePlugin(),

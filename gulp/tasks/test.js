@@ -3,7 +3,6 @@ var karma = require('gulp-karma');
 var react = require('gulp-react');
 var jasmine = require('gulp-jasmine');
 
-
 var prefix = process.cwd(),
     testFiles = [
       prefix + '/node_modules/lodash/lodash.js',
@@ -44,7 +43,7 @@ gulp.task('build:src', function() {
 });
 
 
-gulp.task('test:unit',['build:src', 'build:test'], function() {
+gulp.task('test:unit', ['clean', 'build:src', 'build:test'], function() {
   return gulp.src('build/test/unit/**/*.js')
     .pipe(jasmine());
 });
