@@ -56,7 +56,6 @@ function render(name) {
   var iframeStyle = _.extend(base, posObj),
       element = document.body.appendChild(document.createElement('div')),
       component = (
-        /* jshint quotmark:false */
         <Frame style={iframeStyle} css={launcherCSS}>
           {launchers[name].component}
         </Frame>

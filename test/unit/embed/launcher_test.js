@@ -4,22 +4,34 @@ describe('embed.launcher', function() {
       mockGlobals = {
         document: global.document
       },
-      mockReact =  {
-        renderComponent: jasmine.createSpy()
-      },
       mockFrame = jasmine.createSpy('mockFrame')
         .andCallFake(
           React.createClass({
-            render: function() { return (<div className='mock-frame'>{this.props.children}</div>); }
+            render: function() { 
+              return (
+                /* jshint quotmark:false */
+                <div className='mock-frame'>
+                  {this.props.children}
+                </div>
+              );
+            }
           })),
       mockLauncher = jasmine.createSpy('mockLauncher')
         .andCallFake(
           React.createClass({
-            render: function() { return (<div className='mock-launcher' />); }
+            render: function() { 
+              return (
+                /* jshint quotmark:false */
+                <div className='mock-launcher' />
+              ); 
+            }
           })),
+      mockLauncherCss = jasmine.createSpy('mockLauncherCss'),
       launcherPath = buildPath('embed/launcher/launcher');
 
   beforeEach(function() {
+
+    resetDOM();
 
     mockery.enable();
     mockery.registerMock('util/globals', mockGlobals);
@@ -29,7 +41,7 @@ describe('embed.launcher', function() {
     mockery.registerMock('component/Launcher', {
       Launcher: mockLauncher
     });
-    mockery.registerMock('./launcher.scss', {});
+    mockery.registerMock('./launcher.scss', mockLauncherCss);
     mockery.registerMock('imports?_=lodash!lodash', _);
     mockery.registerAllowable('react');
     mockery.registerAllowable('./lib/React');
@@ -73,7 +85,7 @@ describe('embed.launcher', function() {
     it('should apply the configs', function() {
       var alice,
           config = {
-            onClick: function() {},
+            onClick: noop,
             position: 'test_position'
           };
       
@@ -150,5 +162,54 @@ describe('embed.launcher', function() {
       }).toThrow();
 
     });
+
+    it('applies launcher.scss to the frame', function() {
+
+      var recentCall;
+
+      launcher.create('alice');
+      launcher.render('alice');
+
+      recentCall = mockFrame.mostRecentCall;
+
+      expect(recentCall.args[0].css)
+        .toBe(mockLauncherCss);
+      
+    });
+
+    it('is positioned "right" if no position value is set', function() {
+
+      var recentCall;
+
+      launcher.create('alice');
+      launcher.render('alice');
+
+      recentCall = mockFrame.mostRecentCall;
+
+      expect(recentCall.args[0].style.left)
+        .toBeUndefined();
+
+      expect(recentCall.args[0].style.right)
+        .toBeDefined();
+
+    });
+
+    it('can be positioned "left"', function() {
+
+      var recentCall;
+
+      launcher.create('alice', {position: 'left'});
+      launcher.render('alice');
+
+      recentCall = mockFrame.mostRecentCall;
+
+      expect(recentCall.args[0].style.left)
+        .toBeDefined();
+
+      expect(recentCall.args[0].style.right)
+        .toBeUndefined();
+
+    });
+
   });
 });
