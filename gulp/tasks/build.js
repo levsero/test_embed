@@ -6,6 +6,18 @@ var gulp = require('gulp'),
     runSequence = require('run-sequence'),
     webpackConfig = require('../webpack.config.js');
 
+function webpackCallback(callback) {
+  return function(err, stats) {
+    if(err) {
+      throw new gutil.PluginError('webpack', err);
+    }
+    gutil.log('[webpack]', stats.toString({
+      colors: true
+    }));
+    callback();
+  };
+}
+
 gulp.task('build:prod', function(callback) {
   var myConfig = Object.create(webpackConfig);
   myConfig.plugins = [
@@ -13,27 +25,11 @@ gulp.task('build:prod', function(callback) {
     new webpack.optimize.UglifyJsPlugin()
   ];
 
-  return webpack(myConfig, function(err, stats) {
-    if(err) {
-      throw new gutil.PluginError('webpack', err);
-    }
-    gutil.log('[webpack]', stats.toString({
-      colors: true
-    }));
-    callback();
-  });
+  return webpack(myConfig, webpackCallback(callback));
 });
 
 gulp.task('build:debug', function(callback) {
-  webpack(webpackConfig, function(err, stats) {
-    if(err) {
-      throw new gutil.PluginError('webpack', err);
-    }
-    gutil.log('[webpack]', stats.toString({
-      colors: true
-    }));
-    callback();
-  });
+  webpack(webpackConfig, webpackCallback(callback));
 });
 
 gulp.task('build:test', function() {
