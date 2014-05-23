@@ -1,7 +1,7 @@
-var gulp = require('gulp');
-var clean = require('gulp-clean');
+var gulp = require('gulp'),
+    clean = require('gulp-clean');
 
 gulp.task('clean', function() {
-  return gulp.src(['build', 'dist'], { read: false })
+  gulp.src(['build', 'dist', 'example/*.html', '!example/*-template.html'], { read: false })
     .pipe(clean());
-})
+});

@@ -13,7 +13,14 @@ module.exports = {
       { test: /\.js$/, loader: 'jsx-loader' }
     ],
     loaders: [
-      { test: /\.scss$/, loader: 'css!autoprefixer-loader?browsers=last 2 versions, > 1%, Firefox ESR, ie >= 9!sass-loader?includePaths[]=src/styles/components/' },
+      {
+        test: /\.scss$/,
+        loader: [
+          'css',
+          '!autoprefixer-loader?browsers=last 2 versions, > 1%, Firefox ESR, ie >= 9',
+          '!sass-loader?includePaths[]=src/styles/components/'
+        ].join('')
+      },
       { test: /base\.css$/, loader: 'css', minimize: true },
       { test: /\.js$/, loader: 'es6-loader' }
     ]

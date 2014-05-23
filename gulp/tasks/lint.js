@@ -1,9 +1,9 @@
-var gulp = require('gulp');
-var react = require('gulp-react');
-var jshint = require('gulp-jshint');
+var gulp = require('gulp'),
+    react = require('gulp-react'),
+    jshint = require('gulp-jshint');
 
 gulp.task('lint', function() {
-  return gulp.src(['src/**/*.js', 'test/**/*.js'])
+  gulp.src(['src/**/*.js', 'test/**/*.js', 'gulp/**/*.js'])
     .pipe(react())
     .pipe(jshint())
     .pipe(jshint.reporter('default'))

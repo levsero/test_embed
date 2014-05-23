@@ -1,4 +1,4 @@
-var path = require("path");
+var path = require('path');
 
 // Filters out non .js files. Prevents
 // accidental inclusion of possible hidden files
