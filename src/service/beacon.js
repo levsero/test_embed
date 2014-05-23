@@ -6,10 +6,21 @@ import { identity  } from 'service/identity';
 import { store     } from 'service/persistence';
 import { parseUrl  } from 'util/utils';
 
+function noop() {}
+
 function init() {
   var now = Date.now();
   store.set('currentTime', now, true);
   return this;
+}
+
+function commonParams() {
+  return {
+    'url': win.location.href,
+    'buid': identity.getBuid(),
+    'timestamp': (new Date()).toISOString(),
+    'user_agent': navigator.userAgent
+  };
 }
 
 function send() {
@@ -22,11 +33,8 @@ function send() {
       },
 
       params = {
-        'url': win.location.href,
-        'buid': identity.getBuid(),
-        'user_agent': navigator.userAgent,
-        'referrer': referrer.href,
         'time': timeOnLastPage(),
+        'referrer': referrer.href,
         'navigator_language': navigator.language,
         'page_title': document.title,
         'metrics': ['beacon']
@@ -35,10 +43,10 @@ function send() {
   var payload = {
     method: 'POST',
     path: '/api/blips',
-    params: params,
+    params: _.extend(commonParams(), params),
     callbacks: {
-      done: function() {},
-      fail: function() {}
+      done: noop,
+      fail: noop
     }
   };
 
@@ -46,21 +54,23 @@ function send() {
 }
 
 function track(category, action, label, value) {
+
   var params = {
-    'buid': identity.getBuid(),
-    'category': category,
-    'action': action,
-    'label': label,
-    'value': value
+    'userAction': {
+      'category': category,
+      'action': action,
+      'label': label,
+      'value': value
+    }
   };
 
   var payload = {
     method: 'POST',
     path: '/api/blips',
-    params: params,
+    params: _.extend(commonParams(), params),
     callbacks: {
-      done: function() {},
-      fail: function() {}
+      done: noop,
+      fail: noop
     }
   };
 

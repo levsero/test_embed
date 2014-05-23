@@ -92,7 +92,8 @@ describe('beacon', function() {
 
   describe('#send', function() {
     it('sends correct payload using transport.send', function() {
-      var payload, params;
+      var payload,
+          params;
 
       spyOn(mockIdentity.identity, 'getBuid').andReturn('abc123');
 
@@ -118,12 +119,25 @@ describe('beacon', function() {
 
   describe('#track', function() {
     it('sends the correct payload', function() {
-      var payload, params;
-
+      var payload,
+          params,
+          userActionParams = {
+            'category': 'Category01',
+            'action': 'Action02',
+            'label': 'Label03',
+            'value': 'Value04'
+          };
+      
       spyOn(mockIdentity.identity, 'getBuid').andReturn('abc123');
 
       beacon.init();
-      beacon.track('Category', 'Action', 'Label', 'Value');
+      
+      beacon.track(
+        userActionParams.category,
+        userActionParams.action,
+        userActionParams.label,
+        userActionParams.value
+      );
 
       expect(mockTransport.transport.send).toHaveBeenCalled();
 
@@ -136,11 +150,7 @@ describe('beacon', function() {
 
       expect(params.buid).toBe('abc123');
       expect(params.url).toBe(mockGlobals.win.location.href);
-      expect(params.userAction.category).toBe('Category');
-      expect(params.userAction.action).toBe('Action');
-      expect(params.userAction.label).toBe('Label');
-      expect(params.userAction.value).toBe('Value');
-
+      expect(params.userAction).toEqual(userActionParams);
     });
   });
 });
