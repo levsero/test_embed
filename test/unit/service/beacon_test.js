@@ -103,18 +103,33 @@ describe('beacon', function() {
       expect(mockTransport.transport.send).toHaveBeenCalled();
 
       payload = mockTransport.transport.send.mostRecentCall.args[0];
-      expect(payload.method).toBe('POST');
-      expect(payload.path).toBe('/api/blips');
+
+      expect(payload.method)
+        .toBe('POST');
+
+      expect(payload.path)
+        .toBe('/api/blips');
 
       params = payload.params;
 
       /* jshint sub:true */
-      expect(params['url']).toBe(mockGlobals.win.location.href);
-      expect(params['buid']).toBe('abc123');
-      expect(params['user_agent']).toBe(mockGlobals.navigator.userAgent);
-      expect(params['referrer']).toBe(mockUtils.parseUrl().href);
-      expect(params['navigator_language']).toBe(mockGlobals.navigator.language);
-      expect(params['page_title']).toBe(mockGlobals.document.title);
+      expect(params['url'])
+        .toBe(mockGlobals.win.location.href);
+
+      expect(params['buid'])
+        .toBe('abc123');
+
+      expect(params['user_agent'])
+        .toBe(mockGlobals.navigator.userAgent);
+
+      expect(params['referrer'])
+        .toBe(mockUtils.parseUrl().href);
+
+      expect(params['navigator_language'])
+        .toBe(mockGlobals.navigator.language);
+
+      expect(params['page_title'])
+        .toBe(mockGlobals.document.title);
     });
   });
 
@@ -126,7 +141,8 @@ describe('beacon', function() {
       beacon.track(undefined, 'second param');
       beacon.track(undefined, undefined, 'third param');
 
-      expect(mockTransport.transport.send).not.toHaveBeenCalled();
+      expect(mockTransport.transport.send)
+        .not.toHaveBeenCalled();
     });
 
 
@@ -151,18 +167,27 @@ describe('beacon', function() {
         userActionParams.value
       );
 
-      expect(mockTransport.transport.send).toHaveBeenCalled();
+      expect(mockTransport.transport.send)
+        .toHaveBeenCalled();
 
       payload = mockTransport.transport.send.mostRecentCall.args[0];
 
-      expect(payload.method).toBe('POST');
-      expect(payload.path).toBe('/api/blips');
+      expect(payload.method)
+        .toBe('POST');
+
+      expect(payload.path)
+        .toBe('/api/blips');
 
       params = payload.params;
 
-      expect(params.buid).toBe('abc123');
-      expect(params.url).toBe(mockGlobals.win.location.href);
-      expect(params.userAction).toEqual(userActionParams);
+      expect(params.buid)
+        .toBe('abc123');
+
+      expect(params.url)
+        .toBe(mockGlobals.win.location.href);
+
+      expect(params.userAction)
+        .toEqual(userActionParams);
     });
   });
 });
