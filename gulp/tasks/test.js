@@ -1,7 +1,7 @@
 var gulp = require('gulp'),
     karma = require('gulp-karma'),
-    react = require('gulp-react'),
     gulpJasmine = require('gulp-jasmine'),
+    runSequence = require('run-sequence'),
     prefix = process.cwd(),
     testFiles = [
       prefix + '/node_modules/lodash/lodash.js',
@@ -12,8 +12,8 @@ var gulp = require('gulp'),
       prefix + '/test/spec/*.js'
     ];
 
-gulp.task('test', ['build'], function() {
-  gulp.src(testFiles)
+gulp.task('test:spec', function() {
+  return gulp.src(testFiles)
     .pipe(karma({
       configFile: 'karma.conf.js',
       action: 'run'
@@ -23,27 +23,25 @@ gulp.task('test', ['build'], function() {
     });
 });
 
-gulp.task('build:test', function() {
-  var es6ModuleTranspiler = require('gulp-es6-module-transpiler');
-
-  gulp.src(['test/**/*.js'])
-    .pipe(react())
-    .pipe(es6ModuleTranspiler({type: 'cjs'}))
-    .pipe(gulp.dest('build/test'));
-});
-
-gulp.task('build:src', function() {
-  // defined in here because defining globally breaks webpack's es6-loader
-  var es6ModuleTranspiler = require('gulp-es6-module-transpiler');
-
-  gulp.src('src/**/*.js')
-    .pipe(react())
-    .pipe(es6ModuleTranspiler({type: 'cjs'}))
-    .pipe(gulp.dest('build/src'));
-});
-
-gulp.task('test:unit', ['build:src', 'build:test'], function() {
-  gulp.src('build/test/unit/**/*.js')
+gulp.task('test:unit', function() {
+  return gulp.src('build/test/unit/**/*.js')
     .pipe(gulpJasmine());
+});
+
+gulp.task('test', function(callback) {
+  runSequence(
+    'build:src',
+    'build:test',
+    'test:unit',
+    callback
+  );
+});
+
+gulp.task('test-spec', function(callback) {
+  runSequence(
+    'build:prod',
+    'test:spec',
+    callback
+  );
 });
 
