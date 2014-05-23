@@ -3,7 +3,7 @@ var gulp = require('gulp'),
     webpack = require('webpack'),
     webpackConfig = require('../webpack.config.js');
 
-gulp.task('build', ['clean', 'lint', 'inlinebootstrap'], function(callback) {
+gulp.task('build', ['lint', 'inlinebootstrap'], function(callback) {
   var myConfig = Object.create(webpackConfig);
   myConfig.plugins = [
     new webpack.optimize.DedupePlugin(),
@@ -21,7 +21,7 @@ gulp.task('build', ['clean', 'lint', 'inlinebootstrap'], function(callback) {
   });
 });
 
-gulp.task('build-debug', ['clean', 'inlinebootstrap'], function(callback) {
+gulp.task('build-debug', ['inlinebootstrap'], function(callback) {
   webpack(webpackConfig, function(err, stats) {
     if(err) {
       throw new gutil.PluginError('webpack', err);

@@ -42,7 +42,7 @@ gulp.task('build:src', function() {
     .pipe(gulp.dest('build/src'));
 });
 
-gulp.task('test:unit', ['clean', 'build:src', 'build:test'], function() {
+gulp.task('test:unit', ['build:src', 'build:test'], function() {
   gulp.src('build/test/unit/**/*.js')
     .pipe(gulpJasmine());
 });
