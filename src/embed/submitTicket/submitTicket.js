@@ -26,7 +26,6 @@ function create(name) {
 
   submitTickets[name] = {
     component: (
-      /* jshint quotmark:false */
       <Modal onRequestClose={requestClose}>
         <Frame style={base} css={submitTicketCSS}>
           <SubmitTicket />

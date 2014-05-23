@@ -20,6 +20,9 @@ export var TextInput = React.createClass ({
   },
   handleChange: function(event) {
     this.setState({value: event.target.value});
+    if(this.state.errors.length !== 0) {
+      this.setState({errors: this.hasErrors()});
+    }
   },
   handleBlur: function() {
     this.setState({errors: this.hasErrors()});
