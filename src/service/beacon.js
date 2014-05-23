@@ -5,8 +5,7 @@ import { transport } from 'service/transport';
 import { identity  } from 'service/identity';
 import { store     } from 'service/persistence';
 import { parseUrl  } from 'util/utils';
-
-function noop() {}
+require('imports?_=lodash!lodash');
 
 function init() {
   var now = Date.now();
@@ -45,8 +44,8 @@ function send() {
     path: '/api/blips',
     params: _.extend(commonParams(), params),
     callbacks: {
-      done: noop,
-      fail: noop
+      done: _.noop,
+      fail: _.noop
     }
   };
 
@@ -69,8 +68,8 @@ function track(category, action, label, value) {
     path: '/api/blips',
     params: _.extend(commonParams(), params),
     callbacks: {
-      done: noop,
-      fail: noop
+      done: _.noop,
+      fail: _.noop
     }
   };
 

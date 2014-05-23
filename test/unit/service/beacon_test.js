@@ -54,6 +54,7 @@ describe('beacon', function() {
     mockery.registerMock('service/identity', mockIdentity);
     mockery.registerMock('service/persistence', mockPersistence);
     mockery.registerMock('util/utils', mockUtils);
+    mockery.registerMock('imports?_=lodash!lodash', _);
 
     mockery.registerAllowable(beaconPath);
     beacon = require(beaconPath).beacon;
