@@ -54,6 +54,10 @@ function send() {
 
 function track(category, action, label, value) {
 
+  if (_.isUndefined(action) || _.isUndefined(category)) {
+    return false;
+  }
+
   var params = {
     'userAction': {
       'category': category,

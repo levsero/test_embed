@@ -119,6 +119,17 @@ describe('beacon', function() {
   });
 
   describe('#track', function() {
+    it('should not send anything if the first two params are not provided', function() {
+
+      beacon.track();
+      beacon.track('only one param');
+      beacon.track(undefined, 'second param');
+      beacon.track(undefined, undefined, 'third param');
+
+      expect(mockTransport.transport.send).not.toHaveBeenCalled();
+    });
+
+
     it('sends the correct payload', function() {
       var payload,
           params,
