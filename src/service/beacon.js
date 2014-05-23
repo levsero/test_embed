@@ -32,8 +32,8 @@ function send() {
       },
 
       params = {
-        'time': timeOnLastPage(),
         'referrer': referrer.href,
+        'time': timeOnLastPage(),
         'navigator_language': navigator.language,
         'page_title': document.title,
         'metrics': ['beacon']

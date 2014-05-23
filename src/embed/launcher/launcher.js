@@ -4,7 +4,6 @@ import { document } from 'util/globals';
 import { Frame    } from 'component/Frame';
 import { Launcher } from 'component/Launcher';
 import { beacon   } from 'service/beacon';
-
 require('imports?_=lodash!lodash');
 
 var launcherCSS = require('./launcher.scss'),
@@ -51,15 +50,10 @@ function render(name) {
       config = launchers[name].config,
       posObj;
 
-  if(config.position === 'left') {
-    posObj = {
-      'left': '20px'
-    };
-  } else {
-    posObj = {
-      'right': '20px'
-    };
-  }
+  /* jshint laxbreak: true */
+  posObj = (config.position === 'left')
+         ? { 'left':  '20px' }
+         : { 'right': '20px' };
 
   var iframeStyle = _.extend(base, posObj),
       element = document.body.appendChild(document.createElement('div')),

@@ -99,7 +99,6 @@ describe('embed.launcher', function() {
 
       alice = launcher.get('alice');
 
-
       expect(alice.config).toEqual(config);
 
       expect(mockLauncher).toHaveBeenCalled();
