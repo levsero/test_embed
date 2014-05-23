@@ -1,6 +1,7 @@
 var gulp = require('gulp'),
     gutil = require('gulp-util'),
     react = require('gulp-react'),
+    uglify = require('gulp-uglify'),
     webpack = require('webpack'),
     runSequence = require('run-sequence'),
     webpackConfig = require('../webpack.config.js');
@@ -37,6 +38,7 @@ gulp.task('build:debug', function(callback) {
 
 gulp.task('build:test', function() {
   var es6ModuleTranspiler = require('gulp-es6-module-transpiler');
+
   return gulp.src(['test/**/*.js'])
     .pipe(react())
     .pipe(es6ModuleTranspiler({type: 'cjs'}))
@@ -45,16 +47,23 @@ gulp.task('build:test', function() {
 
 gulp.task('build:src', function() {
   var es6ModuleTranspiler = require('gulp-es6-module-transpiler');
+
   return gulp.src('src/**/*.js')
     .pipe(react())
     .pipe(es6ModuleTranspiler({type: 'cjs'}))
     .pipe(gulp.dest('build/src'));
 });
 
+gulp.task('build:bootstrap', function() {
+  return gulp.src('src/bootstrap.js')
+    .pipe(uglify())
+    .pipe(gulp.dest('./dist'));
+});
+
 gulp.task('build', function(callback) {
   runSequence(
     'lint',
-    'bootstrap',
+    'build:bootstrap',
     'build:prod',
     callback
   );
