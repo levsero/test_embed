@@ -14,7 +14,6 @@ export var SubmitTicket = React.createClass({
     return {showNotification: false, message: ''};
   },
   handleSubmit: function(e) {
-    e.preventDefault();
     var refs = this.refs,
         tags = ['buid-' + identity.getBuid() , 'DROPBOX'].join(' '),
         formParams = {
@@ -32,6 +31,7 @@ export var SubmitTicket = React.createClass({
           refs.descriptionField.state.errors
         );
 
+    e.preventDefault();
     if (errors.length !== 0) {
       return;
     }
