@@ -24,7 +24,7 @@ var ValidationMixin = {
     var errors = [];
 
     this.props.validate.forEach(function (condition) {
-      if (!condition.test(this.state.value)) {
+      if(!condition.test(this.state.value)) {
         errors.push(condition.message);
       }
     }, this);

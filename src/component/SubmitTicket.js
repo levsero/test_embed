@@ -31,7 +31,7 @@ export var SubmitTicket = React.createClass({
           refs.descriptionField.state.errors
         );
 
-    if (errors.length !== 0) {
+    if(errors.length !== 0) {
       return;
     }
     var form = this;
