@@ -34,7 +34,7 @@ window.Zd || (function(options){
   }
   doc.open()._l = function() {
     var js = this.createElement('script');
-    if(dom) this.domain = dom;
+    if (dom) this.domain = dom;
     js.id = 'js-iframe-async';
     js.src = options.url;
     this.zendeskHost = options.zendeskHost;

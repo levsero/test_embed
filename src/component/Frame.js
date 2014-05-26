@@ -32,7 +32,7 @@ export var Frame = React.createClass({
   renderFrameContent: function() {
     var doc = this.getDOMNode().contentWindow.document;
     // In order for iframe correctly render in some browsers we need to do it on nextTick
-    if(doc.readyState === 'complete') {
+    if (doc.readyState === 'complete') {
       var cssText = baseCSS + mainCSS + this.props.css,
           css = <style dangerouslySetInnerHTML={{ __html: cssText }} />,
           contents = (

@@ -13,7 +13,7 @@ function generateBuid() {
 function getBuid() {
   var buid = store.get('buid');
 
-  if(!buid) {
+  if (!buid) {
     buid = store.set('buid', generateBuid());
   }
 
