@@ -3,6 +3,7 @@ module React from 'react'; /* jshint ignore:line */
 import { document } from 'util/globals';
 import { Frame    } from 'component/Frame';
 import { Launcher } from 'component/Launcher';
+import { beacon   } from 'service/beacon';
 require('imports?_=lodash!lodash');
 
 var launcherCSS = require('./launcher.scss'),
@@ -10,14 +11,20 @@ var launcherCSS = require('./launcher.scss'),
 
 function create(name, config) {
   var configDefaults = {
-    onClick: function() {},
-    position: 'right'
-  };
-
+        onClick: _.noop,
+        position: 'right'
+      },
+      onClickHandler;
+  
   config = _.extend(configDefaults, config);
 
+  onClickHandler = function() {
+    config.onClick();
+    beacon.track('launcher', 'click', name);
+  };
+
   launchers[name] = {
-    component: <Launcher onClick={config.onClick} position={config.position} />,
+    component: <Launcher onClick={onClickHandler} position={config.position} />,
     config: config
   };
 }
@@ -43,15 +50,10 @@ function render(name) {
       config = launchers[name].config,
       posObj;
 
-  if(config.position === 'left') {
-    posObj = {
-      'left': '20px'
-    };
-  } else {
-    posObj = {
-      'right': '20px'
-    };
-  }
+  /* jshint laxbreak: true */
+  posObj = (config.position === 'left')
+         ? { 'left':  '20px' }
+         : { 'right': '20px' };
 
   var iframeStyle = _.extend(base, posObj),
       element = document.body.appendChild(document.createElement('div')),
@@ -67,7 +69,7 @@ function render(name) {
 export var launcher = {
   create: create,
   list: list,
-  render: render,
-  get: get
+  get: get,
+  render: render
 };
 

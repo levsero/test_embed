@@ -5,11 +5,21 @@ import { transport } from 'service/transport';
 import { identity  } from 'service/identity';
 import { store     } from 'service/persistence';
 import { parseUrl  } from 'util/utils';
+require('imports?_=lodash!lodash');
 
 function init() {
   var now = Date.now();
   store.set('currentTime', now, true);
   return this;
+}
+
+function commonParams() {
+  return {
+    'url': win.location.href,
+    'buid': identity.getBuid(),
+    'timestamp': (new Date()).toISOString(),
+    'user_agent': navigator.userAgent
+  };
 }
 
 function send() {
@@ -22,9 +32,6 @@ function send() {
       },
 
       params = {
-        'url': win.location.href,
-        'buid': identity.getBuid(),
-        'user_agent': navigator.userAgent,
         'referrer': referrer.href,
         'time': timeOnLastPage(),
         'navigator_language': navigator.language,
@@ -35,10 +42,38 @@ function send() {
   var payload = {
     method: 'POST',
     path: '/api/blips',
-    params: params,
+    params: _.extend(commonParams(), params),
     callbacks: {
-      done: function() {},
-      fail: function() {}
+      done: _.noop,
+      fail: _.noop
+    }
+  };
+
+  transport.send(payload);
+}
+
+function track(category, action, label, value) {
+
+  if (_.isUndefined(action) || _.isUndefined(category)) {
+    return false;
+  }
+
+  var params = {
+    'userAction': {
+      'category': category,
+      'action': action,
+      'label': label,
+      'value': value
+    }
+  };
+
+  var payload = {
+    method: 'POST',
+    path: '/api/blips',
+    params: _.extend(commonParams(), params),
+    callbacks: {
+      done: _.noop,
+      fail: _.noop
     }
   };
 
@@ -47,5 +82,6 @@ function send() {
 
 export var beacon = {
   init: init,
-  send: send
+  send: send,
+  track: track
 };

@@ -29,6 +29,7 @@ describe('embed.launcher', function() {
           })
         ),
       mockLauncherCss = jasmine.createSpy('mockLauncherCss'),
+      mockBeacon = jasmine.createSpyObj('mockBeacon', ['track']),
       launcherPath = buildPath('embed/launcher/launcher');
 
   beforeEach(function() {
@@ -42,6 +43,9 @@ describe('embed.launcher', function() {
     });
     mockery.registerMock('component/Launcher', {
       Launcher: mockLauncher
+    });
+    mockery.registerMock('service/beacon', {
+      beacon: mockBeacon
     });
     mockery.registerMock('./launcher.scss', mockLauncherCss);
     mockery.registerMock('imports?_=lodash!lodash', _);
@@ -87,7 +91,7 @@ describe('embed.launcher', function() {
     it('should apply the configs', function() {
       var alice,
           config = {
-            onClick: noop,
+            onClick: jasmine.createSpy(),
             position: 'test_position'
           };
       
@@ -102,8 +106,13 @@ describe('embed.launcher', function() {
       expect(alice.component.props.position)
         .toBe(config.position);
 
-      expect(alice.component.props.onClick)
-        .toBe(config.onClick);
+      alice.component.props.onClick();
+
+      expect(config.onClick)
+        .toHaveBeenCalled();
+
+      expect(mockBeacon.track)
+        .toHaveBeenCalledWith('launcher', 'click', 'alice');
     });
 
   });
