@@ -51,12 +51,32 @@ function show(name) {
 }
 
 function hide(name) {
-  submitTickets[name].component.setState({show: false});
+  var component = submitTickets[name].component;
+  component.setState({show: false});
+  if(component.props.children.props.children.state.showNotification === true) {
+    reset(name);
+  }
 }
 
 function toggleVisibility(name) {
   var component = submitTickets[name].component;
   component.setState({show: !component.state.show});
+  if(component.props.children.props.children.state.showNotification === true) {
+    reset(name);
+  }
+}
+
+function reset(name) {
+  var component = submitTickets[name].component,
+      frame = component.props.children,
+      submitTicket = frame.props.children,
+      refs = submitTicket.refs;
+
+  submitTicket.setState({showNotification: false, message: ''});
+  refs.subjectField.setState({value: ''});
+  refs.nameField.setState({value: ''});
+  refs.emailField.setState({value: ''});
+  refs.descriptionField.setState({value: ''});
 }
 
 export var submitTicket = {
