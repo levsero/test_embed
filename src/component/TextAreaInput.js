@@ -18,7 +18,7 @@ export var TextAreaInput = React.createClass ({
   },
   handleChange: function(event) {
     this.setState({value: event.target.value});
-    if(this.state.errors.length !== 0) {
+    if (this.state.errors.length !== 0) {
       this.setState({errors: this.hasErrors()});
     }
   },
