@@ -14,7 +14,7 @@ win.Zd = module.exports = {
   devRender: renderer.init
 };
 
-if(readyCallback && typeof readyCallback === 'function') {
+if (readyCallback && typeof readyCallback === 'function') {
   readyCallback();
 }
 
