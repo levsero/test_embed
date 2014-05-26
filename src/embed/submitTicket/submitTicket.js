@@ -51,9 +51,8 @@ function show(name) {
 }
 
 function hide(name) {
-  var component = get(name).component;
-  component.setState({show: false});
-  if(getFormComponent(name).state.showNotification) {
+  get(name).component.setState({show: false});
+  if (getFormComponent(name).state.showNotification) {
     reset(name);
   }
 }
@@ -61,7 +60,7 @@ function hide(name) {
 function toggleVisibility(name) {
   var component = get(name).component;
   component.setState({show: !component.state.show});
-  if(getFormComponent(name).state.showNotification === true) {
+  if (getFormComponent(name).state.showNotification === true) {
     reset(name);
   }
 }
