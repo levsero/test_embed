@@ -7,6 +7,22 @@ describe('beacon', function() {
       mockUtils,
       beaconPath = buildPath('service/beacon');
 
+
+  function assertCommonParams(params) {
+    /* jshint sub:true */
+    expect(params['buid'])
+      .toBe('abc123');
+
+    expect(params['url'])
+      .toBe(mockGlobals.win.location.href);
+
+    expect(typeof params['timestamp'])
+      .toBe('string');
+
+    expect(params['timestamp'])
+      .toBe((new Date(Date.parse(params['timestamp']))).toISOString());
+  }
+
   beforeEach(function() {
     mockery.enable({ useCleanCache: true });
 
@@ -37,7 +53,7 @@ describe('beacon', function() {
 
     mockIdentity = {
       identity: {
-        getBuid: noop
+        getBuid: jasmine.createSpy('getBuid').andReturn('abc123')
       }
     };
 
@@ -99,8 +115,6 @@ describe('beacon', function() {
       var payload,
           params;
 
-      spyOn(mockIdentity.identity, 'getBuid').andReturn('abc123');
-
       beacon.init();
       beacon.send();
       expect(mockTransport.transport.send).toHaveBeenCalled();
@@ -115,13 +129,9 @@ describe('beacon', function() {
 
       params = payload.params;
 
+      assertCommonParams(params);
+
       /* jshint sub:true */
-      expect(params['url'])
-        .toBe(mockGlobals.win.location.href);
-
-      expect(params['buid'])
-        .toBe('abc123');
-
       expect(params['user_agent'])
         .toBe(mockGlobals.navigator.userAgent);
 
@@ -160,8 +170,6 @@ describe('beacon', function() {
             'value': 'Value04'
           };
       
-      spyOn(mockIdentity.identity, 'getBuid').andReturn('abc123');
-
       beacon.init();
       
       beacon.track(
@@ -184,11 +192,7 @@ describe('beacon', function() {
 
       params = payload.params;
 
-      expect(params.buid)
-        .toBe('abc123');
-
-      expect(params.url)
-        .toBe(mockGlobals.win.location.href);
+      assertCommonParams(params);
 
       expect(params.userAction)
         .toEqual(userActionParams);
