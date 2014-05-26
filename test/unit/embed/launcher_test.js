@@ -7,7 +7,7 @@ describe('embed.launcher', function() {
       mockFrame = jasmine.createSpy('mockFrame')
         .andCallFake(
           React.createClass({
-            render: function() { 
+            render: function() {
               return (
                 /* jshint quotmark:false */
                 <div className='mock-frame'>
@@ -20,11 +20,11 @@ describe('embed.launcher', function() {
       mockLauncher = jasmine.createSpy('mockLauncher')
         .andCallFake(
           React.createClass({
-            render: function() { 
+            render: function() {
               return (
                 /* jshint quotmark:false */
                 <div className='mock-launcher' />
-              ); 
+              );
             }
           })
         ),
@@ -72,7 +72,7 @@ describe('embed.launcher', function() {
 
       expect(mockLauncher)
         .toHaveBeenCalled();
-    
+
       expect(_.keys(launcher.list()).length)
         .toBe(1);
 
@@ -94,7 +94,7 @@ describe('embed.launcher', function() {
             onClick: jasmine.createSpy(),
             position: 'test_position'
           };
-      
+
       launcher.create('alice', config);
 
       alice = launcher.get('alice');
@@ -125,13 +125,13 @@ describe('embed.launcher', function() {
             position: 'test_alice_position',
             onClick: function() { return 'alice'; }
           };
-      
+
       launcher.create('alice', config);
       alice = launcher.get('alice');
-      
+
       expect(alice)
         .not.toBeUndefined();
-      
+
       expect(alice.config)
         .toEqual(config);
     });
@@ -185,7 +185,7 @@ describe('embed.launcher', function() {
 
       expect(mockFrameCss)
         .toBe(mockLauncherCss);
-      
+
     });
 
     it('is positioned "right" if no position value is set', function() {
