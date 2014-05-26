@@ -29,7 +29,6 @@ export var TextInput = React.createClass ({
   },
   render: function() {
     var value = this.state.value,
-        input = this,
         errorList = this.state.errors.map(function(item) {
           return <li key={_.uniqueId('error_')}>{item}</li>;
         });

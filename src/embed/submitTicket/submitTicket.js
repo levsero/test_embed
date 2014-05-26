@@ -67,7 +67,7 @@ function toggleVisibility(name) {
 }
 
 function reset(name) {
-  var component = getFormComponent(name)
+  var component = getFormComponent(name);
   component.replaceState(component.getInitialState());
 }
 

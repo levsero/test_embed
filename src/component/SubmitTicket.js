@@ -107,8 +107,9 @@ export var SubmitTicket = React.createClass({
               <button
                 type='button'
                 onClick={this.handleClick}
-                className='Button Button--default u-pullRight'
-              >Submit</button>
+                className='Button Button--default u-pullRight'>
+              Submit
+              </button>
             </form>
          </div>
         </div>
