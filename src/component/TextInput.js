@@ -15,8 +15,7 @@ export var TextInput = React.createClass ({
      return {
        value: '',
        errors: [],
-       id: _.uniqueId('input_'),
-       errorId: _.uniqueId('errors_')
+       id: _.uniqueId('input_')
      };
   },
   handleChange: function(event) {
@@ -32,7 +31,7 @@ export var TextInput = React.createClass ({
     var value = this.state.value,
         input = this,
         errorList = this.state.errors.map(function(item) {
-          return <li key={input.state.errorId}>{item}</li>;
+          return <li key={_.uniqueId('error_')}>{item}</li>;
         });
 
     return (

@@ -47,36 +47,32 @@ function get(name) {
 }
 
 function show(name) {
-  submitTickets[name].component.setState({show: true});
+  get(name).component.setState({show: true});
 }
 
 function hide(name) {
-  var component = submitTickets[name].component;
+  var component = get(name).component;
   component.setState({show: false});
-  if(component.props.children.props.children.state.showNotification === true) {
+  if(getFormComponent(name).state.showNotification) {
     reset(name);
   }
 }
 
 function toggleVisibility(name) {
-  var component = submitTickets[name].component;
+  var component = get(name).component;
   component.setState({show: !component.state.show});
-  if(component.props.children.props.children.state.showNotification === true) {
+  if(getFormComponent(name).state.showNotification === true) {
     reset(name);
   }
 }
 
 function reset(name) {
-  var component = submitTickets[name].component,
-      frame = component.props.children,
-      submitTicket = frame.props.children,
-      refs = submitTicket.refs;
+  var component = getFormComponent(name)
+  component.replaceState(component.getInitialState());
+}
 
-  submitTicket.setState({showNotification: false, message: ''});
-  refs.subjectField.setState({value: ''});
-  refs.nameField.setState({value: ''});
-  refs.emailField.setState({value: ''});
-  refs.descriptionField.setState({value: ''});
+function getFormComponent(name) {
+  return get(name).component.props.children.props.children;
 }
 
 export var submitTicket = {

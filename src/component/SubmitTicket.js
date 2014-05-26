@@ -62,7 +62,7 @@ export var SubmitTicket = React.createClass({
 
     return (
       /* jshint quotmark:false */
-      <div className='Container u-nbfc'>
+      <div className='Container u-nbfc' key={_.uniqueId('submitTicketForm_')}>
         <h1 className={formVisibility}>How can I help you? </h1>
         <div className={"Notify " + notifyVisibility}>
           <div className="Notify-body Notify-body--success">

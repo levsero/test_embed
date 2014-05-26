@@ -34,7 +34,7 @@ describe('TextAreaInput component', function() {
     mockery.disable();
   });
 
-  it('should correctly set the initial state when created', function () {
+  it('should correctly set the initial state when created', function() {
     var textAreaInput = React.renderComponent(
           <TextAreaInput />,
           global.document.body
@@ -49,9 +49,6 @@ describe('TextAreaInput component', function() {
 
     expect(state.id)
       .toContain('description_');
-
-    expect(state.errorId)
-      .toContain('errors_');
   });
 
   it('should add an item to its errors array when onBlur is called', function() {
@@ -61,13 +58,13 @@ describe('TextAreaInput component', function() {
        ),
        state = textAreaInput.state;
 
-   expect(state.errors.length)
-     .toBe(0);
+    expect(state.errors.length)
+      .toBe(0);
 
-   ReactTestUtils.Simulate.blur(global.document.querySelector('textarea'));
-   state = textAreaInput.state;
+    ReactTestUtils.Simulate.blur(global.document.querySelector('textarea'));
+    state = textAreaInput.state;
 
-   expect(state.errors.length)
-     .toBe(1);
+    expect(state.errors.length)
+      .toBe(1);
   });
 });

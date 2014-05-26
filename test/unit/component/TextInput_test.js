@@ -34,7 +34,7 @@ describe('TextInput component', function() {
     mockery.disable();
   });
 
-  it('should correctly set the initial state when created', function () {
+  it('should correctly set the initial state when created', function() {
     var textInput = React.renderComponent(
          <TextInput />,
          global.document.body
@@ -49,9 +49,6 @@ describe('TextInput component', function() {
 
     expect(state.id)
       .toContain('input_');
-
-    expect(state.errorId)
-      .toContain('errors_');
   });
 
   it('should add an item to its errors array when onBlur is called', function() {
