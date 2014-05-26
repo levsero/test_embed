@@ -13,7 +13,8 @@ export var TextAreaInput = React.createClass ({
     return {
       value: '',
       errors: [],
-      id: _.uniqueId('description_')
+      id: _.uniqueId('description_'),
+      errorId: _.uniqueId('errors_')
     };
   },
   handleChange: function(event) {
@@ -26,10 +27,11 @@ export var TextAreaInput = React.createClass ({
     this.setState({errors: this.hasErrors()});
   },
   render: function() {
-    var value = this.state.value;
-    var errorList = this.state.errors.map(function(item) {
-      return <li>{item}</li>;
-    });
+    var value = this.state.value,
+        input = this,
+        errorList = this.state.errors.map(function(item) {
+          return <li key={input.state.errorId}>{item}</li>;
+        });
     return (
       /* jshint quotmark:false */
       <div className={this.props.className}>

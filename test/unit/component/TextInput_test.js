@@ -49,6 +49,9 @@ describe('TextInput component', function() {
 
     expect(state.id)
       .toContain('input_');
+
+    expect(state.errorId)
+      .toContain('errors_');
   });
 
   it('should add an item to its errors array when onBlur is called', function() {
