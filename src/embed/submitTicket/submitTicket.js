@@ -60,7 +60,7 @@ function hide(name) {
 function toggleVisibility(name) {
   var component = get(name).component;
   component.setState({show: !component.state.show});
-  if (getFormComponent(name).state.showNotification === true) {
+  if (getFormComponent(name).state.showNotification) {
     reset(name);
   }
 }
