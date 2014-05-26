@@ -1,0 +1,43 @@
+#!/bin/sh
+
+set -e
+
+heading() {
+  echo "$1... \c";
+}
+
+bold() {
+  echo "\033[1m$1\033[0m"
+}
+
+pass() {
+  bold "DONE"
+}
+
+fail() {
+  bold "FAIL"
+  echo
+}
+
+fail_and_exit() {
+  fail
+  exit -1
+}
+
+try() {
+  heading "$1"
+  if eval "$2"
+  then
+    pass
+  else
+    fail_and_exit
+  fi
+}
+
+try "Installing gulp & bower" "npm install -g --quiet gulp bower > /dev/null"
+try "Installing npm & bower packages" "npm install --quiet > /dev/null && bower install --quiet > /dev/null"
+try "Building Engagement Framework" "gulp build-dev > /dev/null"
+try "Setting up pre-commit hooks" "ln -s ../../script/pre-commit .git/hooks/pre-commit > /dev/null && chmod +x .git/hooks/pre-commit < /dev/null"
+
+echo
+bold "All systems are go!"
