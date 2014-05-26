@@ -32,6 +32,7 @@ export var TextAreaInput = React.createClass ({
         errorList = this.state.errors.map(function(item) {
           return <li key={input.state.errorId}>{item}</li>;
         });
+
     return (
       /* jshint quotmark:false */
       <div className={this.props.className}>
