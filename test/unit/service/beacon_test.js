@@ -66,6 +66,7 @@ describe('beacon', function() {
   });
 
   describe('#init', function() {
+
     it('Saves the currentTime', function() {
       var currentTime = Date.now(),
           recentCall,
@@ -89,9 +90,11 @@ describe('beacon', function() {
       expect(resultTime < (currentTime + 30))
         .toBeTruthy();
     });
+
   });
 
   describe('#send', function() {
+
     it('sends correct payload using transport.send', function() {
       var payload,
           params;
@@ -131,9 +134,11 @@ describe('beacon', function() {
       expect(params['page_title'])
         .toBe(mockGlobals.document.title);
     });
+
   });
 
   describe('#track', function() {
+
     it('should not send anything if the first two params are not provided', function() {
 
       beacon.track();
@@ -144,7 +149,6 @@ describe('beacon', function() {
       expect(mockTransport.transport.send)
         .not.toHaveBeenCalled();
     });
-
 
     it('sends the correct payload', function() {
       var payload,
@@ -189,6 +193,6 @@ describe('beacon', function() {
       expect(params.userAction)
         .toEqual(userActionParams);
     });
+
   });
 });
-
