@@ -30,24 +30,22 @@ function send() {
       timeOnLastPage = function () {
         return referrer.origin === url && previousTime ? (now - previousTime) : 0;
       },
-
       params = {
         'referrer': referrer.href,
         'time': timeOnLastPage(),
         'navigator_language': navigator.language,
         'page_title': document.title,
         'metrics': ['beacon']
+      },
+      payload = {
+        method: 'POST',
+        path: '/api/blips',
+        params: _.extend(commonParams(), params),
+        callbacks: {
+          done: _.noop,
+          fail: _.noop
+        }
       };
-
-  var payload = {
-    method: 'POST',
-    path: '/api/blips',
-    params: _.extend(commonParams(), params),
-    callbacks: {
-      done: _.noop,
-      fail: _.noop
-    }
-  };
 
   transport.send(payload);
 }
@@ -59,23 +57,22 @@ function track(category, action, label, value) {
   }
 
   var params = {
-    'userAction': {
-      'category': category,
-      'action': action,
-      'label': label,
-      'value': value
-    }
-  };
-
-  var payload = {
-    method: 'POST',
-    path: '/api/blips',
-    params: _.extend(commonParams(), params),
-    callbacks: {
-      done: _.noop,
-      fail: _.noop
-    }
-  };
+        'userAction': {
+          'category': category,
+          'action': action,
+          'label': label,
+          'value': value
+        }
+      },
+      payload = {
+        method: 'POST',
+        path: '/api/blips',
+        params: _.extend(commonParams(), params),
+        callbacks: {
+          done: _.noop,
+          fail: _.noop
+        }
+      };
 
   transport.send(payload);
 }
