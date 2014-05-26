@@ -13,7 +13,8 @@ export var SubmitTicket = React.createClass({
   getInitialState: function() {
     return {showNotification: false, message: ''};
   },
-  handleClick: function() {
+  handleSubmit: function(e) {
+    e.preventDefault();
     var refs = this.refs,
         tags = ['buid-' + identity.getBuid() , 'DROPBOX'].join(' '),
         formParams = {
@@ -71,7 +72,7 @@ export var SubmitTicket = React.createClass({
         </div>
         <div className={'Form ' + formVisibility}>
           <div className='Form-container u-nbfc'>
-            <form>
+            <form onSubmit={this.handleSubmit}>
               <div className='Grid'>
                 <TextInput
                   ref='subjectField'
@@ -104,12 +105,10 @@ export var SubmitTicket = React.createClass({
                   className='Grid-cell u-size1of2 Form-field'
                 />
               </div>
-              <button
-                type='button'
-                onClick={this.handleClick}
-                className='Button Button--default u-pullRight'>
-              Submit
-              </button>
+              <input
+                type='submit'
+                className='Button Button--default u-pullRight'
+              />
             </form>
          </div>
         </div>
