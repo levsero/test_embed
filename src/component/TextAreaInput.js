@@ -18,15 +18,19 @@ export var TextAreaInput = React.createClass ({
   },
   handleChange: function(event) {
     this.setState({value: event.target.value});
+    if (this.state.errors.length !== 0) {
+      this.setState({errors: this.hasErrors()});
+    }
   },
   handleBlur: function() {
     this.setState({errors: this.hasErrors()});
   },
   render: function() {
-    var value = this.state.value;
-    var errorList = this.state.errors.map(function(item) {
-      return <li>{item}</li>;
-    });
+    var value = this.state.value,
+        errorList = this.state.errors.map(function(item) {
+          return <li key={_.uniqueId('error_')}>{item}</li>;
+        });
+
     return (
       /* jshint quotmark:false */
       <div className={this.props.className}>

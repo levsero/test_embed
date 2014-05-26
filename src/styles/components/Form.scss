@@ -1,19 +1,11 @@
 $Form-border-color: #DDD;
 $Form-field-background: #F6F6F6;
-$Form-color: #555;
 $Form-base-font-size: 1rem;
 
 $Form-spacing: 10px;
 
 .Form {
-  color: $Form-color;
   font-size: $Form-base-font-size;
-  height: 500px;
-  width: 700px;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  margin: -250px 0px 0px -350px;
 }
 
 .Form-container {

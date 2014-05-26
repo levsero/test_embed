@@ -34,7 +34,7 @@ describe('TextAreaInput component', function() {
     mockery.disable();
   });
 
-  it('should correctly set the initial state when created', function () {
+  it('should correctly set the initial state when created', function() {
     var textAreaInput = React.renderComponent(
           <TextAreaInput />,
           global.document.body
@@ -58,13 +58,13 @@ describe('TextAreaInput component', function() {
        ),
        state = textAreaInput.state;
 
-   expect(state.errors.length)
-     .toBe(0);
+    expect(state.errors.length)
+      .toBe(0);
 
-   ReactTestUtils.Simulate.blur(global.document.querySelector('textarea'));
-   state = textAreaInput.state;
+    ReactTestUtils.Simulate.blur(global.document.querySelector('textarea'));
+    state = textAreaInput.state;
 
-   expect(state.errors.length)
-     .toBe(1);
+    expect(state.errors.length)
+      .toBe(1);
   });
 });

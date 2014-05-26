@@ -34,7 +34,7 @@ describe('TextInput component', function() {
     mockery.disable();
   });
 
-  it('should correctly set the initial state when created', function () {
+  it('should correctly set the initial state when created', function() {
     var textInput = React.renderComponent(
          <TextInput />,
          global.document.body

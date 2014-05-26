@@ -13,7 +13,7 @@ export var SubmitTicket = React.createClass({
   getInitialState: function() {
     return {showNotification: false, message: ''};
   },
-  handleClick: function() {
+  handleSubmit: function(e) {
     var refs = this.refs,
         tags = ['buid-' + identity.getBuid() , 'DROPBOX'].join(' '),
         formParams = {
@@ -31,6 +31,7 @@ export var SubmitTicket = React.createClass({
           refs.descriptionField.state.errors
         );
 
+    e.preventDefault();
     if (errors.length !== 0) {
       return;
     }
@@ -62,7 +63,7 @@ export var SubmitTicket = React.createClass({
 
     return (
       /* jshint quotmark:false */
-      <div className='Container u-nbfc'>
+      <div className='Container u-nbfc' key={_.uniqueId('submitTicketForm_')}>
         <h1 className={formVisibility}>How can I help you? </h1>
         <div className={"Notify " + notifyVisibility}>
           <div className="Notify-body Notify-body--success">
@@ -70,8 +71,8 @@ export var SubmitTicket = React.createClass({
           </div>
         </div>
         <div className={'Form ' + formVisibility}>
-          <form action='' method='post'>
-            <div className='Form-container'>
+          <div className='Form-container u-nbfc'>
+            <form onSubmit={this.handleSubmit}>
               <div className='Grid'>
                 <TextInput
                   ref='subjectField'
@@ -104,13 +105,12 @@ export var SubmitTicket = React.createClass({
                   className='Grid-cell u-size1of2 Form-field'
                 />
               </div>
-            </div>
-          </form>
-        <input
-          type='submit'
-          onClick={this.handleClick}
-          className='Button Button--default u-pullRight'
-        />
+              <input
+                type='submit'
+                className='Button Button--default u-pullRight'
+              />
+            </form>
+         </div>
         </div>
       </div>
     );

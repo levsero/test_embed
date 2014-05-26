@@ -26,7 +26,6 @@ function create(name) {
 
   submitTickets[name] = {
     component: (
-      /* jshint quotmark:false */
       <Modal onRequestClose={requestClose}>
         <Frame style={base} css={submitTicketCSS}>
           <SubmitTicket />
@@ -48,16 +47,31 @@ function get(name) {
 }
 
 function show(name) {
-  submitTickets[name].component.setState({show: true});
+  get(name).component.setState({show: true});
 }
 
 function hide(name) {
-  submitTickets[name].component.setState({show: false});
+  get(name).component.setState({show: false});
+  if (getFormComponent(name).state.showNotification) {
+    reset(name);
+  }
 }
 
 function toggleVisibility(name) {
-  var component = submitTickets[name].component;
+  var component = get(name).component;
   component.setState({show: !component.state.show});
+  if (getFormComponent(name).state.showNotification) {
+    reset(name);
+  }
+}
+
+function reset(name) {
+  var component = getFormComponent(name);
+  component.replaceState(component.getInitialState());
+}
+
+function getFormComponent(name) {
+  return get(name).component.props.children.props.children;
 }
 
 export var submitTicket = {
