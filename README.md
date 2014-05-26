@@ -11,12 +11,6 @@ This assumes you already have node installed. Run the following commands inside 
 ./script/bootstrap
 ```
 
-Note: you may need to make this bootstrap file executable by running:
-
-```bash
-chmod +x script/bootstrap
-```
-
 The bootstrap file will do the following:
 
 * Install gulp and bower globally
