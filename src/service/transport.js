@@ -20,11 +20,17 @@ function send(payload) {
     .type('json')
     .send(_.extend(payload.params || {}, {'zendesk_host': config.zendeskHost}))
     .end(function(res) {
-      if (res.ok) {
-        payload.callbacks.done(res.text, res.status, res.xhr);
-      }
-      else if (res.error) {
-        payload.callbacks.fail(res.text, res.status, res.xhr);
+      if (payload.callbacks) {
+        if (res.ok) {
+          if (typeof payload.callbacks.done === 'function') {
+            payload.callbacks.done(res.text, res.status, res.xhr);
+          }
+        }
+        else if (res.error) {
+          if (typeof payload.callbacks.fail === 'function') {
+            payload.callbacks.fail(res.text, res.status, res.xhr);
+          }
+        }
       }
     });
 }

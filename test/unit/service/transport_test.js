@@ -214,6 +214,68 @@ describe('transport', function() {
 
     });
 
+    it('will not die if callbacks object is not present', function() {
+
+      var recentCall,
+          callback;
+
+      spyOn(mockMethods, 'end').andCallThrough();
+
+      delete(payload.callbacks);
+
+      transport.init(config);
+      transport.send(payload);
+
+      recentCall = mockMethods.end.mostRecentCall;
+
+      callback = recentCall.args[0];
+
+      expect(function() {
+        callback({ok: true});
+      }).not.toThrow();
+    });
+
+    it('will not die if callbacks.done is not present', function() {
+
+      var recentCall,
+          callback;
+
+      spyOn(mockMethods, 'end').andCallThrough();
+
+      delete(payload.callbacks.done);
+
+      transport.init(config);
+      transport.send(payload);
+
+      recentCall = mockMethods.end.mostRecentCall;
+
+      callback = recentCall.args[0];
+
+      expect(function() {
+        callback({ok: true});
+      }).not.toThrow();
+    });
+
+    it('will not die if callbacks.fail is not present', function() {
+
+      var recentCall,
+          callback;
+
+      spyOn(mockMethods, 'end').andCallThrough();
+
+      delete(payload.callbacks.fail);
+
+      transport.init(config);
+      transport.send(payload);
+
+      recentCall = mockMethods.end.mostRecentCall;
+
+      callback = recentCall.args[0];
+
+      expect(function() {
+        callback({error: true});
+      }).not.toThrow();
+    });
   });
 
 });
