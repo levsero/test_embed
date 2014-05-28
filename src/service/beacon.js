@@ -40,11 +40,7 @@ function send() {
       payload = {
         method: 'POST',
         path: '/api/blips',
-        params: _.extend(commonParams(), params),
-        callbacks: {
-          done: _.noop,
-          fail: _.noop
-        }
+        params: _.extend(commonParams(), params)
       };
 
   transport.send(payload);
@@ -67,11 +63,7 @@ function track(category, action, label, value) {
       payload = {
         method: 'POST',
         path: '/api/blips',
-        params: _.extend(commonParams(), params),
-        callbacks: {
-          done: _.noop,
-          fail: _.noop
-        }
+        params: _.extend(commonParams(), params)
       };
 
   transport.send(payload);
