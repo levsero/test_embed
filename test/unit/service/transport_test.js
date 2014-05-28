@@ -144,7 +144,7 @@ describe('transport', function() {
 
       var recentCall;
 
-      delete(payload.params);
+      delete payload.params;
 
       spyOn(mockMethods, 'send').andCallThrough();
 
@@ -221,7 +221,7 @@ describe('transport', function() {
 
       spyOn(mockMethods, 'end').andCallThrough();
 
-      delete(payload.callbacks);
+      delete payload.callbacks;
 
       transport.init(config);
       transport.send(payload);
@@ -242,7 +242,7 @@ describe('transport', function() {
 
       spyOn(mockMethods, 'end').andCallThrough();
 
-      delete(payload.callbacks.done);
+      delete payload.callbacks.done;
 
       transport.init(config);
       transport.send(payload);
@@ -263,7 +263,7 @@ describe('transport', function() {
 
       spyOn(mockMethods, 'end').andCallThrough();
 
-      delete(payload.callbacks.fail);
+      delete payload.callbacks.fail;
 
       transport.init(config);
       transport.send(payload);

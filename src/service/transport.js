@@ -22,12 +22,12 @@ function send(payload) {
     .end(function(res) {
       if (payload.callbacks) {
         if (res.ok) {
-          if (typeof payload.callbacks.done === 'function') {
+          if (_.isFunction(payload.callbacks.done)) {
             payload.callbacks.done(res.text, res.status, res.xhr);
           }
         }
         else if (res.error) {
-          if (typeof payload.callbacks.fail === 'function') {
+          if (_.isFunction(payload.callbacks.fail)) {
             payload.callbacks.fail(res.text, res.status, res.xhr);
           }
         }
