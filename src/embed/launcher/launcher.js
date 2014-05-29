@@ -15,7 +15,7 @@ function create(name, config) {
         position: 'right'
       },
       onClickHandler;
-  
+
   config = _.extend(configDefaults, config);
 
   onClickHandler = function() {
@@ -24,7 +24,12 @@ function create(name, config) {
   };
 
   launchers[name] = {
-    component: <Launcher onClick={onClickHandler} position={config.position} />,
+    component: (
+      <Launcher
+        onClick={onClickHandler}
+        onTouchEnd={onClickHandler}
+        position={config.position} />
+    ),
     config: config
   };
 }
