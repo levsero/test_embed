@@ -3,9 +3,10 @@ import { launcher     } from 'embed/launcher/launcher';
 require('imports?_=lodash!lodash');
 
 var embedsMap = {
-  'submitTicket': submitTicket,
-  'launcher': launcher
-};
+      'submitTicket': submitTicket,
+      'launcher': launcher
+    },
+    initialised = false;
 
 function parseConfig(config) {
   var rendererConfig = _.clone(config, true);
@@ -27,15 +28,19 @@ function parseConfig(config) {
 }
 
 function init(config) {
-  _.forEach(parseConfig(config), function(configItem, embedName) {
-    try {
-      embedsMap[configItem.embed].create(embedName, configItem.props);
-      embedsMap[configItem.embed].render(embedName);
-    } catch (err) {
-      // TODO: revisit what this does when error tracking is in place
-      console.error('captured error: ', err);
-    }
-  });
+  if (!initialised) {
+    _.forEach(parseConfig(config), function(configItem, embedName) {
+      try {
+        embedsMap[configItem.embed].create(embedName, configItem.props);
+        embedsMap[configItem.embed].render(embedName);
+      } catch (err) {
+        // TODO: revisit what this does when error tracking is in place
+        console.error('captured error: ', err);
+      }
+    });
+  }
+
+  initialised = true;
 }
 
 export var renderer = {

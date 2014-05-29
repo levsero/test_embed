@@ -139,5 +139,43 @@ describe('renderer', function() {
     expect(renderer.init)
       .not.toThrow();
   });
+
+  it('should not call renderer.init more than once', function() {
+      renderer.init({
+        'thing': {
+          'embed': 'submitTicket'
+        },
+        'thingLauncher': {
+          'embed': 'launcher',
+          'props': {
+            'onDoubleClick': {
+              'name': 'thing',
+              'method': 'show'
+            }
+          }
+        }
+      });
+
+      renderer.init({
+        'thing': {
+          'embed': 'submitTicket'
+        },
+        'thingLauncher': {
+          'embed': 'launcher',
+          'props': {
+            'onDoubleClick': {
+              'name': 'thing',
+              'method': 'show'
+            }
+          }
+        }
+      });
+
+      expect(mockLauncher.create.callCount)
+        .toEqual(1);
+
+      expect(mockLauncher.render.callCount)
+        .toEqual(1);
+  });
 });
 
