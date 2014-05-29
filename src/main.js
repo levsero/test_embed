@@ -1,9 +1,12 @@
-import { win       } from 'util/globals';
+module React from 'react';
+import { beacon    } from 'service/beacon';
 import { renderer  } from 'service/renderer';
 import { transport } from 'service/transport';
-import { beacon    } from 'service/beacon';
+import { win       } from 'util/globals';
 
 require('imports?_=lodash!lodash');
+
+React.initializeTouchEvents(true);
 
 transport.init({ zendeskHost: document.zendeskHost });
 beacon.init().send();

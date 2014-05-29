@@ -17,7 +17,10 @@ export var Launcher = React.createClass({
 
     return (
       /* jshint quotmark: false */
-      <div onClick={this.props.onClick} className='Arrange Arrange--middle'>
+      <div
+        onClick={this.props.onClick}
+        onTouchEnd={this.props.onClick}
+        className='Arrange Arrange--middle'>
         <div className={classes}>?</div>
       </div>
     );
