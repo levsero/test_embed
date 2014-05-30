@@ -1,7 +1,42 @@
-var gulp = require('gulp');
+var gulp = require('gulp'),
+    path = require('path'),
+    lr = require('tiny-lr'),
+    express = require('express'),
+    connectlr = require('connect-livereload'),
+    gutil = require('gulp-util'),
+    server = lr(),
+    EXPRESS_PORT = 1337,
+    ROOT = process.cwd(),
+    LIVERELOAD_PORT = 35729;
 
-gulp.task('watch', ['build'], function() {
-  gulp.watch(['src/**/*.js'], ['build']);
-  gulp.watch(['test/**/*.js'], ['test']);
+function startExpress() {
+  var app = express();
+
+  app.use(connectlr());
+  app.use(express.static(ROOT));
+  app.listen(EXPRESS_PORT);
+}
+
+function startLR() {
+  server.listen(LIVERELOAD_PORT);
+}
+
+function pingLR(event) {
+  var fileName = path.relative(ROOT, event.path);
+
+  server.changed({
+    body: {
+      files: [fileName]
+    }
+  });
+}
+
+gulp.task('watch', ['build-dev'], function() {
+  startExpress();
+  startLR();
+  gulp.watch('src/**/*', ['build-dev']);
+  gulp.watch('dist/main.js').on('change', pingLR);
+
+  gutil.log('[server started]', 'http://localhost:' + EXPRESS_PORT + '/example/index.html');
 });
 

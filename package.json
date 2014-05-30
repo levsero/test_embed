@@ -48,6 +48,9 @@
     "gulp-replace": "~0.3.0",
     "gulp-rename": "~1.2.0",
     "gulp-clean": "~0.2.4",
-    "run-sequence": "~0.3.6"
+    "run-sequence": "~0.3.6",
+    "tiny-lr": "0.0.7",
+    "connect-livereload": "~0.4.0",
+    "express": "~4.3.2"
   }
 }
