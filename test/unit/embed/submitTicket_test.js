@@ -87,7 +87,7 @@ describe('embed.submitTicket', function() {
       var bob;
 
       expect(_.keys(submitTicket.list()).length)
-        .toBe(0);
+        .toEqual(0);
 
       submitTicket.create('bob');
 
@@ -95,7 +95,7 @@ describe('embed.submitTicket', function() {
         .toHaveBeenCalled();
 
       expect(_.keys(submitTicket.list()).length)
-        .toBe(1);
+        .toEqual(1);
 
       bob = submitTicket.get('bob');
 
@@ -115,7 +115,7 @@ describe('embed.submitTicket', function() {
       bob = submitTicket.get('bob');
 
       expect(bob)
-        .not.toBeUndefined();
+        .toBeDefined();
     });
   });
 
@@ -127,7 +127,7 @@ describe('embed.submitTicket', function() {
       bob = submitTicket.getFormComponent('bob');
 
       expect(bob)
-        .not.toBeUndefined();
+        .toBeDefined();
     });
   });
 
@@ -144,13 +144,13 @@ describe('embed.submitTicket', function() {
       submitTicket.render('bob');
 
       expect(document.querySelectorAll('.mock-modal').length)
-        .toBe(1);
+        .toEqual(1);
 
       expect(document.querySelectorAll('.mock-modal > .mock-frame').length)
-        .toBe(1);
+        .toEqual(1);
 
       expect(document.querySelectorAll('.mock-modal > .mock-frame > .mock-submitTicket').length)
-        .toBe(1);
+        .toEqual(1);
     });
 
     it('should only be allowed to render an submitTicket form once', function() {
@@ -180,53 +180,24 @@ describe('embed.submitTicket', function() {
 
   describe('show', function() {
     it('should change the forms state to show it', function() {
-      var state;
-
       submitTicket.create('bob');
       submitTicket.render('bob');
-
-      state = submitTicket.get('bob').component.state.show;
-
       submitTicket.show('bob');
 
       expect(submitTicket.get('bob').component.state.show)
-        .not.toBe(state);
+        .toEqual(true);
     });
   });
 
   describe('hide', function() {
     it('should change the forms state to hide it', function() {
-      var state;
-
       submitTicket.create('bob');
       submitTicket.render('bob');
       submitTicket.show('bob');
-
-      state = submitTicket.get('bob').component.state.show;
-
       submitTicket.hide('bob');
 
       expect(submitTicket.get('bob').component.state.show)
-        .not.toBe(state);
-    });
-
-    it('should reset the state of the form if show notification is true', function() {
-      var component;
-
-      submitTicket.create('bob');
-      submitTicket.render('bob');
-      submitTicket.show('bob');
-
-      component = submitTicket.getFormComponent('bob');
-      component.setState({showNotification: true, message: 'something'});
-
-      expect(component.state)
-        .not.toEqual(component.getInitialState());
-
-      submitTicket.hide('bob');
-
-      expect(component.state)
-        .toEqual(component.getInitialState());
+        .toEqual(false);
     });
   });
 
@@ -242,12 +213,12 @@ describe('embed.submitTicket', function() {
       submitTicket.toggleVisibility('bob');
 
       expect(submitTicket.get('bob').component.state.show)
-        .not.toBe(state);
+        .not.toEqual(state);
 
       submitTicket.toggleVisibility('bob');
 
       expect(submitTicket.get('bob').component.state.show)
-        .toBe(state);
+        .toEqual(state);
     });
 
     it('should reset the state of the form if show notification is true', function() {
@@ -262,7 +233,6 @@ describe('embed.submitTicket', function() {
       expect(component.state)
         .not.toEqual(component.getInitialState());
 
-      submitTicket.toggleVisibility('bob');
       submitTicket.toggleVisibility('bob');
 
       expect(component.state)

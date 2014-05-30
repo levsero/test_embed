@@ -3,6 +3,16 @@
 describe('Submit ticket component', function() {
   var SubmitTicket,
       defaultValue = '123abc',
+      mockValidation = {
+        baseValidation: noop,
+        emailValidation: noop,
+        ValidationMixin: noop
+      },
+      mockIdentity = {
+        getBuid: function() {
+          return 'abc123';
+        }
+      },
       mockComponent = React.createClass({
         getInitialState: function() {
           return {value: defaultValue, errors: []};
@@ -42,9 +52,7 @@ describe('Submit ticket component', function() {
     var submitTicketPath = buildPath('component/SubmitTicket');
 
     mockery.registerMock('service/identity', {
-      identity: {
-        getBuid: function() {return 'abc123';}
-      }
+      identity: mockIdentity
     });
     mockery.registerMock('service/transport', {transport: transport});
     mockery.registerMock('util/globals', {win: document});
@@ -53,11 +61,7 @@ describe('Submit ticket component', function() {
       TextAreaInput: mockComponent
     });
     mockery.registerMock('mixin/validation', {
-      validation: {
-        baseValidation: noop,
-        emailValidation: noop,
-        ValidationMixin: noop
-      }
+      validation: mockValidation
     });
     mockery.registerMock('component/TextInput', {
       TextInput: mockComponent
@@ -82,10 +86,10 @@ describe('Submit ticket component', function() {
     );
 
     expect(submitTicket.state.showNotification)
-      .toBe(false);
+      .toEqual(false);
 
     expect(submitTicket.state.message)
-      .toBe('');
+      .toEqual('');
   });
 
   it('should hide the form when the showNotification state is changed', function() {
@@ -95,15 +99,17 @@ describe('Submit ticket component', function() {
     );
 
     expect(global.document.body.querySelectorAll('.u-isHidden').length)
-      .toBe(1);
+      .toEqual(1);
 
     submitTicket.setState({showNotification: true});
 
     expect(global.document.body.querySelectorAll('.u-isHidden').length)
-      .toBe(2);
+      .toEqual(2);
   });
 
-  it('should call handleSubmit when the button is pressed', function() {
+  it('should call handleSubmit when the is submitted with the correct payload', function() {
+    var recentCall;
+
     React.renderComponent(
       <SubmitTicket />,
       global.document.body
@@ -113,23 +119,14 @@ describe('Submit ticket component', function() {
 
     expect(transport.send)
       .toHaveBeenCalled();
-  });
 
-  it('should send through the correct payload', function() {
-    React.renderComponent(
-      <SubmitTicket />,
-      global.document.body
-     );
-
-    ReactTestUtils.Simulate.submit(global.document.body.querySelector('input'));
-
-    var recentCall = transport.send.mostRecentCall;
+    recentCall = transport.send.mostRecentCall;
 
     expect(recentCall.args[0].params)
       .toEqual(payload.params);
   });
 
-  it('not send if there are errors', function() {
+  it('should not send if there are errors', function() {
     var submitTicket = React.renderComponent(
           <SubmitTicket />,
           global.document.body
