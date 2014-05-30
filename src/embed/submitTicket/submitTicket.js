@@ -46,6 +46,10 @@ function get(name) {
   return submitTickets[name];
 }
 
+function list() {
+  return submitTickets;
+}
+
 function show(name) {
   get(name).component.setState({show: true});
 }
@@ -78,8 +82,11 @@ export var submitTicket = {
   create: create,
   render: render,
   get: get,
+  list: list,
   show: show,
   hide: hide,
-  toggleVisibility: toggleVisibility
+  toggleVisibility: toggleVisibility,
+  reset: reset,
+  getFormComponent: getFormComponent
 };
 
