@@ -143,13 +143,13 @@ describe('embed.submitTicket', function() {
       submitTicket.create('bob');
       submitTicket.render('bob');
 
-      expect(document.querySelectorAll('body > div > .mock-modal').length)
+      expect(document.querySelectorAll('.mock-modal').length)
         .toBe(1);
 
-      expect(document.querySelectorAll('body > div > .mock-modal > .mock-frame').length)
+      expect(document.querySelectorAll('.mock-modal > .mock-frame').length)
         .toBe(1);
 
-      expect(document.querySelectorAll('body > div > .mock-modal > .mock-frame > .mock-submitTicket').length)
+      expect(document.querySelectorAll('.mock-modal > .mock-frame > .mock-submitTicket').length)
         .toBe(1);
     });
 
@@ -189,7 +189,8 @@ describe('embed.submitTicket', function() {
 
       submitTicket.show('bob');
 
-      expect(submitTicket.get('bob').component.state.show).not.toBe(state);
+      expect(submitTicket.get('bob').component.state.show)
+        .not.toBe(state);
     });
   });
 
@@ -205,7 +206,8 @@ describe('embed.submitTicket', function() {
 
       submitTicket.hide('bob');
 
-      expect(submitTicket.get('bob').component.state.show).not.toBe(state);
+      expect(submitTicket.get('bob').component.state.show)
+        .not.toBe(state);
     });
 
     it('should reset the state of the form if show notification is true', function() {
@@ -218,11 +220,13 @@ describe('embed.submitTicket', function() {
       component = submitTicket.getFormComponent('bob');
       component.setState({showNotification: true, message: 'something'});
 
-      expect(component.state).not.toEqual(component.getInitialState());
+      expect(component.state)
+        .not.toEqual(component.getInitialState());
 
       submitTicket.hide('bob');
 
-      expect(component.state).toEqual(component.getInitialState());
+      expect(component.state)
+        .toEqual(component.getInitialState());
     });
   });
 
@@ -237,11 +241,13 @@ describe('embed.submitTicket', function() {
 
       submitTicket.toggleVisibility('bob');
 
-      expect(submitTicket.get('bob').component.state.show).not.toBe(state);
+      expect(submitTicket.get('bob').component.state.show)
+        .not.toBe(state);
 
       submitTicket.toggleVisibility('bob');
 
-      expect(submitTicket.get('bob').component.state.show).toBe(state);
+      expect(submitTicket.get('bob').component.state.show)
+        .toBe(state);
     });
 
     it('should reset the state of the form if show notification is true', function() {
@@ -253,12 +259,14 @@ describe('embed.submitTicket', function() {
       component = submitTicket.getFormComponent('bob');
       component.setState({showNotification: true, message: 'something'});
 
-      expect(component.state).not.toEqual(component.getInitialState());
+      expect(component.state)
+        .not.toEqual(component.getInitialState());
 
       submitTicket.toggleVisibility('bob');
       submitTicket.toggleVisibility('bob');
 
-      expect(component.state).toEqual(component.getInitialState());
+      expect(component.state)
+        .toEqual(component.getInitialState());
     });
   });
 
@@ -274,7 +282,8 @@ describe('embed.submitTicket', function() {
 
       submitTicket.reset('bob');
 
-      expect(component.state).toEqual(component.getInitialState());
+      expect(component.state)
+        .toEqual(component.getInitialState());
     });
   });
 });

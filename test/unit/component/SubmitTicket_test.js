@@ -2,14 +2,12 @@
 
 describe('Submit ticket component', function() {
   var SubmitTicket,
-      mockGlobals = {
-        win: global.window.top
-      },
       mockComponent = React.createClass({
         getInitialState: function() {
           return {value: 'x@x.com', errors: []};
         },
         render: function() {
+          /* jshint quotmark: false */
           return <input ref='inputText' value={this.state.value}></input>;
         }
       }),
@@ -27,18 +25,8 @@ describe('Submit ticket component', function() {
         path: '/api/ticket_submission',
         params: formParams,
         callbacks: {
-          done: function() {
-            form.setState({
-              showNotification: true,
-              message: 'Ticket Submitted! Thanks!'
-            });
-          },
-          fail: function(data, status) {
-            form.setState({
-              showNotification: true,
-              message: 'Error ' + status + ': ' + JSON.parse(data).error
-            });
-          }
+          done: noop,
+          fail: noop
         }
       },
       transport = jasmine.createSpyObj('mockTransport', ['send']);
@@ -115,27 +103,29 @@ describe('Submit ticket component', function() {
   });
 
   it('should call handleSubmit when the button is pressed', function() {
-    var submitTicket = React.renderComponent(
-          <SubmitTicket />,
-          global.document.body
-        );
+    React.renderComponent(
+      <SubmitTicket />,
+      global.document.body
+    );
 
     ReactTestUtils.Simulate.submit(global.document.body.querySelector('input'));
 
-    expect(transport.send).toHaveBeenCalled();
+    expect(transport.send)
+      .toHaveBeenCalled();
   });
 
   it('should send through the correct payload', function() {
-    var submitTicket = React.renderComponent(
-          <SubmitTicket />,
-          global.document.body
-        );
+    React.renderComponent(
+      <SubmitTicket />,
+      global.document.body
+     );
 
     ReactTestUtils.Simulate.submit(global.document.body.querySelector('input'));
 
     var recentCall = transport.send.mostRecentCall;
 
-    expect(recentCall.args[0].params).toEqual(payload.params);
+    expect(recentCall.args[0].params)
+      .toEqual(payload.params);
   });
 
   it('not send the payload if there are errors', function() {
@@ -148,6 +138,7 @@ describe('Submit ticket component', function() {
 
     ReactTestUtils.Simulate.submit(global.document.body.querySelector('input'));
 
-    expect(transport.send).not.toHaveBeenCalled();
+    expect(transport.send)
+      .not.toHaveBeenCalled();
   });
 });
