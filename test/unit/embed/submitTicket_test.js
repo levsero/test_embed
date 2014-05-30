@@ -1,4 +1,5 @@
 /** @jsx React.DOM */
+
 describe('embed.submitTicket', function() {
   var submitTicket,
       mockGlobals = {
@@ -33,7 +34,7 @@ describe('embed.submitTicket', function() {
             }
           })
         ),
-      mockComponent = jasmine.createSpy('mockComponent')
+      mockSubmitTicket = jasmine.createSpy('mockSubmitTicket')
         .andCallFake(
           React.createClass({
             getInitialState: function() {
@@ -59,7 +60,7 @@ describe('embed.submitTicket', function() {
       Frame: mockFrame
     });
     mockery.registerMock('component/SubmitTicket', {
-      SubmitTicket: mockComponent
+      SubmitTicket: mockSubmitTicket
     });
     mockery.registerMock('component/Modal', {
       Modal: mockModal
@@ -72,6 +73,7 @@ describe('embed.submitTicket', function() {
     mockery.registerAllowable('./properties/width');
     mockery.registerAllowable('./parsers');
     mockery.registerAllowable(submitTicketPath);
+
     submitTicket = require(submitTicketPath).submitTicket;
   });
 
@@ -89,7 +91,7 @@ describe('embed.submitTicket', function() {
 
       submitTicket.create('bob');
 
-      expect(mockComponent)
+      expect(mockSubmitTicket)
         .toHaveBeenCalled();
 
       expect(_.keys(submitTicket.list()).length)
@@ -115,7 +117,6 @@ describe('embed.submitTicket', function() {
       expect(bob)
         .not.toBeUndefined();
     });
-
   });
 
   describe('getFormComponent', function() {
@@ -128,7 +129,6 @@ describe('embed.submitTicket', function() {
       expect(bob)
         .not.toBeUndefined();
     });
-
   });
 
   describe('render', function() {

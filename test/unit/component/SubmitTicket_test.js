@@ -2,22 +2,22 @@
 
 describe('Submit ticket component', function() {
   var SubmitTicket,
+      defaultValue = '123abc',
       mockComponent = React.createClass({
         getInitialState: function() {
-          return {value: 'x@x.com', errors: []};
+          return {value: defaultValue, errors: []};
         },
         render: function() {
           /* jshint quotmark: false */
           return <input ref='inputText' value={this.state.value}></input>;
         }
       }),
-      tags = ['buid-' + 'abc123' , 'DROPBOX'].join(' '),
       formParams = {
-        'subject': 'x@x.com',
-        'name': 'x@x.com',
-        'email': 'x@x.com',
-        'description': 'x@x.com',
-        'set_tags': tags,
+        'subject': defaultValue,
+        'name': defaultValue,
+        'email': defaultValue,
+        'description': defaultValue,
+        'set_tags': 'buid-abc123 DROPBOX',
         'submitted_from': global.window.location.href
       },
       payload = {
@@ -29,24 +29,26 @@ describe('Submit ticket component', function() {
           fail: noop
         }
       },
-      transport = jasmine.createSpyObj('mockTransport', ['send']);
+      transport = jasmine.createSpyObj('transport', ['send']);
 
   beforeEach(function() {
 
     mockery.enable({
       warnOnReplace:false
     });
+
     transport.send.reset();
 
     var submitTicketPath = buildPath('component/SubmitTicket');
 
     mockery.registerMock('service/identity', {
       identity: {
-        getBuid: jasmine.createSpy('getBuid').andReturn('abc123')
+        getBuid: function() {return 'abc123';}
       }
     });
     mockery.registerMock('service/transport', {transport: transport});
     mockery.registerMock('util/globals', {win: document});
+    mockery.registerMock('imports?_=lodash!lodash', {});
     mockery.registerMock('component/TextAreaInput', {
       TextAreaInput: mockComponent
     });
@@ -57,15 +59,14 @@ describe('Submit ticket component', function() {
         ValidationMixin: noop
       }
     });
-    mockery.registerMock('imports?_=lodash!lodash', {});
     mockery.registerMock('component/TextInput', {
       TextInput: mockComponent
     });
     mockery.registerAllowable(submitTicketPath);
-
     mockery.registerAllowable('react');
     mockery.registerAllowable('./lib/React');
     mockery.registerAllowable('util/globals');
+
     SubmitTicket = require(submitTicketPath).SubmitTicket;
   });
 
@@ -128,7 +129,7 @@ describe('Submit ticket component', function() {
       .toEqual(payload.params);
   });
 
-  it('not send the payload if there are errors', function() {
+  it('not send if there are errors', function() {
     var submitTicket = React.renderComponent(
           <SubmitTicket />,
           global.document.body
