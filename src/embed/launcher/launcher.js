@@ -47,8 +47,8 @@ function render(name) {
     throw 'Launcher "' + name + '" does not exist or has not been created.';
   }
   var base = {
-        height: '50px',
-        width: '50px',
+        height: '30px',
+        width: '80px',
         position: 'fixed',
         bottom: '10px'
       },
