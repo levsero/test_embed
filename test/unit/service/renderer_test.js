@@ -3,6 +3,7 @@ describe('renderer', function() {
       mockSubmitTicket,
       mockLauncher,
       mockHelpCenter,
+      mockChat,
       mockGlobals = {
         win: {},
         document: {}
@@ -29,9 +30,11 @@ describe('renderer', function() {
     mockery.registerMock('embed/launcher/launcher', {
       launcher: mockLauncher
     });
-
     mockery.registerMock('embed/helpCenter/helpCenter', {
       helpCenter: mockHelpCenter
+    });
+    mockery.registerMock('embed/chat/chat', {
+      chat: mockChat
     });
 
     mockery.registerAllowable(rendererPath);
