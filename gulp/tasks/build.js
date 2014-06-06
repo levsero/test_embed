@@ -21,15 +21,28 @@ function webpackCallback(callback) {
 gulp.task('build:prod', function(callback) {
   var myConfig = Object.create(webpackConfig);
   myConfig.plugins = [
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify('production')
+      }
+    }),
     new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.UglifyJsPlugin()
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        'drop_console': true,
+        'drop_debugger': true,
+        'warnings': false
+      }
+    })
   ];
 
   return webpack(myConfig, webpackCallback(callback));
 });
 
+var debugBuild = webpack(webpackConfig);
+
 gulp.task('build:debug', function(callback) {
-  webpack(webpackConfig, webpackCallback(callback));
+  debugBuild.run(webpackCallback(callback));
 });
 
 gulp.task('build:test', function() {
