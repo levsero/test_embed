@@ -22,6 +22,9 @@ describe('Submit ticket component', function() {
           return <input ref='inputText' value={this.state.value}></input>;
         }
       }),
+      mockGlobals = {
+        win: window
+      },
       formParams = {
         'subject': defaultValue,
         'name': defaultValue,
@@ -54,8 +57,10 @@ describe('Submit ticket component', function() {
     mockery.registerMock('service/identity', {
       identity: mockIdentity
     });
-    mockery.registerMock('service/transport', {transport: transport});
-    mockery.registerMock('util/globals', {win: document});
+    mockery.registerMock('service/transport', {
+      transport: transport
+    });
+    mockery.registerMock('util/globals', mockGlobals);
     mockery.registerMock('imports?_=lodash!lodash', {});
     mockery.registerMock('component/TextAreaInput', {
       TextAreaInput: mockComponent
@@ -134,7 +139,7 @@ describe('Submit ticket component', function() {
 
     submitTicket.refs.emailField.setState({errors:['something']});
 
-    ReactTestUtils.Simulate.submit(global.document.body.querySelector('input'));
+    ReactTestUtils.Simulate.submit(global.document.body.querySelector('form'));
 
     expect(transport.send)
       .not.toHaveBeenCalled();
