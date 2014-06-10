@@ -11,24 +11,41 @@ var launcherCSS = require('./launcher.scss'),
 
 function create(name, config) {
   var configDefaults = {
-        onClick: _.noop,
+        onClick: function() {},
         position: 'right'
       },
-      onClickHandler;
+      onClickHandler,
+      base = {
+        height: '30px',
+        width: '80px',
+        position: 'fixed',
+        bottom: '10px'
+      },
+      posObj,
+      iframeStyle;
 
   config = _.extend(configDefaults, config);
 
   onClickHandler = function() {
+    hide(name);
     config.onClick();
     beacon.track('launcher', 'click', name);
   };
 
+  /* jshint laxbreak: true */
+  posObj = (config.position === 'left')
+         ? { 'left':  '20px' }
+         : { 'right': '20px' };
+
+  iframeStyle = _.extend(base, posObj);
   launchers[name] = {
     component: (
-      <Launcher
-        onClick={onClickHandler}
-        onTouchEnd={onClickHandler}
-        position={config.position} />
+      <Frame style={iframeStyle} css={launcherCSS}>
+        <Launcher
+          onClick={onClickHandler}
+          onTouchEnd={onClickHandler}
+          position={config.position} />
+      </Frame>
     ),
     config: config
   };
@@ -42,39 +59,28 @@ function get(name) {
   return launchers[name];
 }
 
+function hide(name) {
+  get(name).component.setState({show: false});
+}
+
+function show(name) {
+  get(name).component.setState({show: true});
+}
+
 function render(name) {
   if (!launchers[name]) {
     throw 'Launcher "' + name + '" does not exist or has not been created.';
   }
-  var base = {
-        height: '30px',
-        width: '80px',
-        position: 'fixed',
-        bottom: '10px'
-      },
-      config = launchers[name].config,
-      posObj;
-
-  /* jshint laxbreak: true */
-  posObj = (config.position === 'left')
-         ? { 'left':  '20px' }
-         : { 'right': '20px' };
-
-  var iframeStyle = _.extend(base, posObj),
-      element = document.body.appendChild(document.createElement('div')),
-      component = (
-        <Frame style={iframeStyle} css={launcherCSS}>
-          {launchers[name].component}
-        </Frame>
-      );
-
-  React.renderComponent(component, element);
+  var element = document.body.appendChild(document.createElement('div'));
+  React.renderComponent(launchers[name].component, element);
 }
 
 export var launcher = {
   create: create,
   list: list,
   get: get,
-  render: render
+  render: render,
+  hide: hide,
+  show: show
 };
 
