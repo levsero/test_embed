@@ -1,0 +1,40 @@
+@font-face {
+  font-family: 'icomoon';
+  src:url('../../asset/font/chat/icomoon.eot');
+  src:url('../../asset/font/chat/icomoon.eot') format('embedded-opentype'),
+      url('../../asset/font/chat/icomoon.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'icomoon';
+  src:url('../../asset/font/email/icomoon.eot');
+  src:url('../../asset/font/email/icomoon.eot') format('embedded-opentype'),
+      url('../../asset/font/email/icomoon.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.Icon {
+  font-family: 'icomoon';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  margin-right: 3px;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.Icon:before {
+  content: '\e600';
+}
+
+.Icon--mail:before {
+  content: "\e601";
+}

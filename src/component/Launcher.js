@@ -11,8 +11,7 @@ export var Launcher = React.createClass({
 
   render: function() {
     var classes = classSet({
-      'Button Button--launcher Arrange-sizeFill u-textCenter u-tableCell': true,
-      'Button--launcherAlt': this.props.position === 'left'
+      'Button Button--launcher Arrange-sizeFill u-textCenter u-tableCell': true
     });
 
     return (
@@ -21,7 +20,10 @@ export var Launcher = React.createClass({
         onClick={this.props.onClick}
         onTouchEnd={this.props.onClick}
         className='Arrange Arrange--middle'>
-        <div className={classes}>Support</div>
+          <div className={classes}>
+            <i className='Icon Icon--mail u-inlineBlock' />
+            Help
+          </div>
       </div>
     );
   }
