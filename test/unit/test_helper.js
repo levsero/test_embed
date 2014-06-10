@@ -1,8 +1,6 @@
 // This file is autoloaded by jasmine
 // because it has 'helper' in its name.
 
-console.log('loading test_helper');
-
 global.basePath = function(path) {
   return __dirname + '/../../../' + path;
 };
@@ -26,6 +24,10 @@ global.React = require('react/addons');
 global.ReactTestUtils = React.addons.TestUtils;
 
 global.noop = function() {};
+
+// TODO: This suppresses the warnings and errors in put tests for now.
+// Once the components and component tests are refactored this should be removed.
+console.warn = console.error = noop;
 
 global.resetDOM = function() {
   global.document.body.innerHTML = '';
