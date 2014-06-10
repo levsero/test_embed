@@ -120,7 +120,7 @@ describe('Submit ticket component', function() {
       global.document.body
     );
 
-    ReactTestUtils.Simulate.submit(global.document.body.querySelector('input'));
+    ReactTestUtils.Simulate.submit(global.document.body.querySelector('form'));
 
     expect(transport.send)
       .toHaveBeenCalled();
