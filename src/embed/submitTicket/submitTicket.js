@@ -4,7 +4,6 @@ module React from 'react'; /* jshint ignore:line */
 import { document     } from 'util/globals';
 import { Frame        } from 'component/Frame';
 import { SubmitTicket } from 'component/SubmitTicket';
-import { Modal        } from 'component/Modal';
 
 var submitTicketCSS = require('./submitTicket.scss'),
     submitTickets = {};
@@ -20,17 +19,13 @@ function create(name) {
         margin: '-300px 0px 0px -350px',
         background: 'white'
       },
-      requestClose = function() {
-        hide(name);
-      };
+      visibility = false;
 
   submitTickets[name] = {
     component: (
-      <Modal onRequestClose={requestClose}>
-        <Frame style={base} css={submitTicketCSS}>
+        <Frame style={base} css={submitTicketCSS} visibility={visibility}>
           <SubmitTicket />
         </Frame>
-      </Modal>
     )
   };
 

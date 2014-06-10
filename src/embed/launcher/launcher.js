@@ -22,7 +22,8 @@ function create(name, config) {
         bottom: '10px'
       },
       posObj,
-      iframeStyle;
+      iframeStyle,
+      visibility = true;
 
   config = _.extend(configDefaults, config);
 
@@ -40,7 +41,7 @@ function create(name, config) {
   iframeStyle = _.extend(base, posObj);
   launchers[name] = {
     component: (
-      <Frame style={iframeStyle} css={launcherCSS}>
+      <Frame style={iframeStyle} css={launcherCSS} visibility={visibility}>
         <Launcher
           onClick={onClickHandler}
           onTouchEnd={onClickHandler}

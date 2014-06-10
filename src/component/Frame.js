@@ -15,14 +15,13 @@ export var Frame = React.createClass({
   },
 
   getInitialState: function() {
-    return {show: true};
+    return {show: this.props.visibility};
   },
 
   render: function() {
     var visibilityRule = (this.state.show) ? {} : {display: 'none'},
         base = { border: 'none' },
-        iframeStyle = _.extend(base, this.props.style),
-        iframeStyle = _.extend(base, visibilityRule);
+        iframeStyle = _.extend(base, this.props.style, visibilityRule);
 
     return <iframe style={iframeStyle} />;
   },
