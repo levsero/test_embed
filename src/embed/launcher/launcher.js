@@ -12,7 +12,9 @@ var launcherCSS = require('./launcher.scss'),
 function create(name, config) {
   var configDefaults = {
         onClick: function() {},
-        position: 'right'
+        position: 'right',
+        message: 'Help',
+        icon: ''
       },
       onClickHandler,
       base = {
@@ -23,7 +25,7 @@ function create(name, config) {
       },
       posObj,
       iframeStyle,
-      visibility = true;
+      Wrapper;
 
   config = _.extend(configDefaults, config);
 
@@ -39,15 +41,37 @@ function create(name, config) {
          : { 'right': '20px' };
 
   iframeStyle = _.extend(base, posObj);
+
+  Wrapper = React.createClass({
+    toggleVisibility: function() {
+      this.refs.frame.toggleVisibility();
+    },
+    changeIcon: function(icon) {
+      this.refs.launcher.changeIcon(icon);
+    },
+    render: function() {
+      var show = true;
+      return (
+        /* jshint quotmark: true */
+        <Frame ref='frame'
+          style={iframeStyle}
+          css={launcherCSS}
+          visibility={show}>
+          <Launcher
+            ref='launcher'
+            onClick={onClickHandler}
+            onTouchEnd={onClickHandler}
+            position={config.position}
+            message={config.message}
+            icon={config.icon}
+          />
+        </Frame>
+      );
+    }
+  });
+
   launchers[name] = {
-    component: (
-      <Frame style={iframeStyle} css={launcherCSS} visibility={visibility}>
-        <Launcher
-          onClick={onClickHandler}
-          onTouchEnd={onClickHandler}
-          position={config.position} />
-      </Frame>
-    ),
+    component: <Wrapper />,
     config: config
   };
 }
@@ -61,11 +85,15 @@ function get(name) {
 }
 
 function hide(name) {
-  get(name).component.setState({show: false});
+  get(name).instance.toggleVisibility();
 }
 
 function show(name) {
-  get(name).component.setState({show: true});
+  get(name).instance.toggleVisibility();
+}
+
+function changeIcon(name, icon) {
+  get(name).instance.changeIcon(icon);
 }
 
 function render(name) {
@@ -73,7 +101,7 @@ function render(name) {
     throw 'Launcher "' + name + '" does not exist or has not been created.';
   }
   var element = document.body.appendChild(document.createElement('div'));
-  React.renderComponent(launchers[name].component, element);
+  launchers[name].instance = React.renderComponent(launchers[name].component, element);
 }
 
 export var launcher = {
@@ -82,6 +110,7 @@ export var launcher = {
   get: get,
   render: render,
   hide: hide,
-  show: show
+  show: show,
+  changeIcon: changeIcon
 };
 
