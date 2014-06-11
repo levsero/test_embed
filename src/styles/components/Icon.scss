@@ -1,17 +1,8 @@
 @font-face {
   font-family: 'icomoon';
-  src:url('../../asset/font/chat/icomoon.eot');
-  src:url('../../asset/font/chat/icomoon.eot') format('embedded-opentype'),
-      url('../../asset/font/chat/icomoon.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'icomoon';
-  src:url('../../asset/font/email/icomoon.eot');
-  src:url('../../asset/font/email/icomoon.eot') format('embedded-opentype'),
-      url('../../asset/font/email/icomoon.woff') format('woff');
+  src:url('../../asset/font/icomoon.eot');
+  src:url('../../asset/font/icomoon.eot') format('embedded-opentype'),
+      url('../../asset/font/icomoon.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
@@ -36,5 +27,5 @@
 }
 
 .Icon--mail:before {
-  content: "\e601";
+  content: '\e601';
 }
