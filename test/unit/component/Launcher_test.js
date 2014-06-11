@@ -24,6 +24,7 @@ describe('Launcher component', function() {
   });
 
   it('should correctly set the initial state when created', function() {
+    /* jshint quotmark: false */
     var launcher = React.renderComponent(
       <Launcher icon='testIcon' />,
       global.document.body
