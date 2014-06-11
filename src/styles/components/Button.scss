@@ -1,5 +1,6 @@
 $Button-baseFontSize: 14px;
 $default-btn-color: #1a6690;
+$default-launcher-color: rgba(116,178,0,.8);
 
 .Button--default {
   color: $default-btn-color;
@@ -9,7 +10,7 @@ $default-btn-color: #1a6690;
 
 .Button--launcher {
   height: 30px;
-  background: rgba(116,178,0,.8);
+  background: #default-launcher-color;
   color: #fff;
   padding: 0;
   font-size: $Button-baseFontSize;

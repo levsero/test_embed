@@ -25,11 +25,11 @@ export var Launcher = React.createClass({
 
   render: function() {
     var buttonClasses = classSet({
-      'Button Button--launcher Arrange-sizeFill u-textCenter u-tableCell': true
-    }),
+          'Button Button--launcher Arrange-sizeFill u-textCenter u-tableCell': true
+        }),
         iconClasses = classSet({
-      'u-inlineBlock Icon ': true
-    });
+          'u-inlineBlock Icon ': true
+        });
 
     return (
       /* jshint quotmark: false */
