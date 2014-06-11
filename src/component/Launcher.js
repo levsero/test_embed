@@ -25,7 +25,7 @@ export var Launcher = React.createClass({
 
   render: function() {
     var buttonClasses = classSet({
-          'Button Button--launcher Arrange-sizeFill u-textCenter u-tableCell': true
+          'Button Button--launcher u-textCenter u-inlineBlock': true
         }),
         iconClasses = classSet({
           'u-inlineBlock Icon ': true
@@ -33,15 +33,12 @@ export var Launcher = React.createClass({
 
     return (
       /* jshint quotmark: false */
-      <div
+          <div className={buttonClasses}
         onClick={this.props.onClick}
-        onTouchEnd={this.props.onClick}
-        className='Arrange Arrange--middle'>
-          <div className={buttonClasses}>
+        onTouchEnd={this.props.onClick}>
             <i className={iconClasses + this.state.icon} />
             {this.props.message}
           </div>
-      </div>
     );
   }
 });

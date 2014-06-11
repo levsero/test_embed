@@ -18,8 +18,8 @@ function create(name, config) {
       },
       onClickHandler,
       base = {
-        height: '30px',
         width: '80px',
+        height: '50px',
         position: 'fixed',
         bottom: '10px'
       },
