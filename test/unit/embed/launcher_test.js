@@ -7,6 +7,7 @@ describe('embed.launcher', function() {
       mockFrame = jasmine.createSpy('mockFrame')
         .andCallFake(
           React.createClass({
+            toggleVisibility: noop,
             render: function() {
               return (
                 /* jshint quotmark:false */
@@ -20,6 +21,7 @@ describe('embed.launcher', function() {
       mockLauncher = jasmine.createSpy('mockLauncher')
         .andCallFake(
           React.createClass({
+            toggleVisibility: noop,
             render: function() {
               return (
                 /* jshint quotmark:false */
@@ -69,6 +71,7 @@ describe('embed.launcher', function() {
         .toBe(0);
 
       launcher.create('alice');
+      launcher.render('alice');
 
       expect(mockLauncher)
         .toHaveBeenCalled();
@@ -92,10 +95,13 @@ describe('embed.launcher', function() {
       var alice,
           config = {
             onClick: jasmine.createSpy(),
-            position: 'test_position'
+            position: 'test_position',
+            message: 'Help',
+            icon: ''
           };
 
       launcher.create('alice', config);
+      launcher.render('alice', config);
 
       alice = launcher.get('alice');
 
@@ -103,10 +109,10 @@ describe('embed.launcher', function() {
 
       expect(mockLauncher).toHaveBeenCalled();
 
-      expect(alice.component.props.position)
+      expect(alice.instance.refs.launcher.props.position)
         .toBe(config.position);
 
-      alice.component.props.onClick();
+      alice.instance.refs.launcher.props.onClick();
 
       expect(config.onClick)
         .toHaveBeenCalled();
@@ -123,7 +129,9 @@ describe('embed.launcher', function() {
       var alice,
           config = {
             position: 'test_alice_position',
-            onClick: function() { return 'alice'; }
+            onClick: function() { return 'alice'; },
+            message: 'Help',
+            icon: ''
           };
 
       launcher.create('alice', config);
