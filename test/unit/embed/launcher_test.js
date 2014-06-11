@@ -7,7 +7,14 @@ describe('embed.launcher', function() {
       mockFrame = jasmine.createSpy('mockFrame')
         .andCallFake(
           React.createClass({
-            toggleVisibility: noop,
+            toggleVisibility: function() {
+              this.setState({show: !this.state.show});
+            },
+            getInitialState: function() {
+              return {
+                show: this.props.visibility
+              };
+            },
             render: function() {
               return (
                 /* jshint quotmark:false */
@@ -21,7 +28,6 @@ describe('embed.launcher', function() {
       mockLauncher = jasmine.createSpy('mockLauncher')
         .andCallFake(
           React.createClass({
-            toggleVisibility: noop,
             render: function() {
               return (
                 /* jshint quotmark:false */
@@ -157,6 +163,7 @@ describe('embed.launcher', function() {
     });
 
     it('renders a launcher to the document', function() {
+      var alice;
 
       launcher.create('alice');
       launcher.render('alice');
@@ -166,6 +173,11 @@ describe('embed.launcher', function() {
 
       expect(document.querySelectorAll('body > div > .mock-frame > .mock-launcher').length)
         .toBe(1);
+
+      alice = launcher.get('alice');
+
+      expect(alice.instance)
+        .toBeDefined();
     });
 
     it('should only be allowed to render an launcher once', function() {
@@ -228,6 +240,30 @@ describe('embed.launcher', function() {
       expect(mockFrameStyle.right)
         .toBeUndefined();
 
+    });
+
+  });
+  describe('show and hide', function() {
+
+    it('should show and hide the launcher', function() {
+      var alice;
+
+      launcher.create('alice');
+      launcher.render('alice');
+      alice = launcher.get('alice');
+
+      expect(alice.instance.refs.frame.state.show)
+        .toEqual(true);
+
+      launcher.hide('alice');
+
+      expect(alice.instance.refs.frame.state.show)
+        .toEqual(false);
+
+      launcher.show('alice');
+
+      expect(alice.instance.refs.frame.state.show)
+        .toEqual(true);
     });
 
   });
