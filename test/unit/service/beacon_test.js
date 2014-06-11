@@ -132,17 +132,20 @@ describe('beacon', function() {
       assertCommonParams(params);
 
       /* jshint sub:true */
-      expect(params['user_agent'])
+      expect(params.pageView.userAgent)
         .toBe(mockGlobals.navigator.userAgent);
 
-      expect(params['referrer'])
+      expect(params.pageView.referrer)
         .toBe(mockUtils.parseUrl().href);
 
-      expect(params['navigator_language'])
+      expect(params.pageView.navigatorLanguage)
         .toBe(mockGlobals.navigator.language);
 
-      expect(params['page_title'])
+      expect(params.pageView.pageTitle)
         .toBe(mockGlobals.document.title);
+
+      expect(params.pageView.time)
+        .toBeDefined();
     });
 
   });
@@ -164,10 +167,10 @@ describe('beacon', function() {
       var payload,
           params,
           userActionParams = {
-            'category': 'Category01',
-            'action': 'Action02',
-            'label': 'Label03',
-            'value': 'Value04'
+            category: 'Category01',
+            action: 'Action02',
+            label: 'Label03',
+            value: 'Value04'
           };
       
       beacon.init();
