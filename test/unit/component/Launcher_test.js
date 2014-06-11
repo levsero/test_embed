@@ -23,8 +23,28 @@ describe('Launcher component', function() {
       .toHaveBeenCalled();
   });
 
+  it('should correctly set the initial state when created', function() {
+    var launcher = React.renderComponent(
+      <Launcher icon='testIcon' />,
+      global.document.body
+    );
 
+    expect(launcher.state.icon)
+      .toEqual('testIcon');
+  });
 
+  it('should change the icon when change icon is called', function () {
+    var launcher = React.renderComponent(
+          <Launcher />,
+          global.document.body
+        );
 
+    expect(global.document.body.querySelectorAll('.newIcon').length)
+      .toEqual(0);
+
+    launcher.changeIcon('newIcon');
+
+    expect(global.document.body.querySelectorAll('.newIcon').length)
+      .toEqual(1);
   });
 });
