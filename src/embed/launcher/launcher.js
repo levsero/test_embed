@@ -30,7 +30,6 @@ function create(name, config) {
   config = _.extend(configDefaults, config);
 
   onClickHandler = function() {
-    hide(name);
     config.onClick();
     beacon.track('launcher', 'click', name);
   };
