@@ -3,17 +3,17 @@
  */
 
 $Button-baseFontSize: 14px;
-$default-btn-color: #1a6690;
-$default-launcher-color: rgba(116,178,0,.8);
+$Button-color: #1a6690;
+$Button-launcherColor: rgba(116,178,0,.8);
 
 .Button--default {
-  color: $default-btn-color;
+  color: $Button-color;
   border-radius: 5px;
   padding: 5px 10px;
 }
 
 .Button--launcher {
-  background: $default-launcher-color;
+  background: $Button-launcherColor;
   color: #fff;
   padding: 0;
   font-size: $Button-baseFontSize;
