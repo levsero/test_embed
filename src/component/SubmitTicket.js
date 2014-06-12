@@ -11,22 +11,28 @@ require('imports?_=lodash!lodash');
 
 export var SubmitTicket = React.createClass({
   getInitialState: function() {
-    return {showNotification: false, message: ''};
+    return {
+      showNotification: false,
+      message: '',
+      showEmail: false,
+      uid: _.uniqueId('submitTicketForm_')
+    };
   },
+
+  showField: function() {
+    this.setState({showEmail: true});
+  },
+
   handleSubmit: function(e) {
     var refs = this.refs,
         tags = ['buid-' + identity.getBuid() , 'DROPBOX'].join(' '),
         formParams = {
-          'subject': refs.subjectField.refs.inputText.getDOMNode().value,
-          'name': refs.nameField.refs.inputText.getDOMNode().value,
           'email': refs.emailField.refs.inputText.getDOMNode().value,
           'description': refs.descriptionField.refs.inputText.getDOMNode().value,
           'set_tags': tags,
           'submitted_from': win.location.href
         },
         errors = _.union(
-          refs.subjectField.state.errors,
-          refs.nameField.state.errors,
           refs.emailField.state.errors,
           refs.descriptionField.state.errors
         );
@@ -60,11 +66,11 @@ export var SubmitTicket = React.createClass({
   render: function() {
     var notifyVisibility = (this.state.showNotification) ?  '' : 'u-isHidden';
     var formVisibility = (this.state.showNotification) ? 'u-isHidden' : '';
+    var emailVisibility = (this.state.showEmail) ? 'FadeIn--active' : '';
 
     return (
       /* jshint quotmark:false */
-      <div className='Container u-nbfc' key={_.uniqueId('submitTicketForm_')}>
-        <h1 className={formVisibility}>How can I help you? </h1>
+      <div className='Container u-nbfc u-posRelative' key={this.state.uid}>
         <div className={"Notify " + notifyVisibility}>
           <div className="Notify-body Notify-body--success">
             <h1 className="Notify-title u-textCenter">{this.state.message}</h1>
@@ -74,35 +80,19 @@ export var SubmitTicket = React.createClass({
           <div className='Form-container u-nbfc'>
             <form onSubmit={this.handleSubmit}>
               <div className='Grid'>
-                <TextInput
-                  ref='subjectField'
-                  name='Subject'
-                  validate={validation.baseValidation}
-                  placeholder='What do you need help with?'
-                  className='Grid-cell Form-field'
-                />
-              </div>
-              <div className='Grid'>
                 <TextAreaInput
                   ref='descriptionField'
                   validate={validation.baseValidation}
                   className='Grid-cell Form-field'
+                  showField={this.showField}
                 />
               </div>
-              <div className='Grid Grid--withGutter'>
-                <TextInput
-                  ref='nameField'
-                  name='Name'
-                  placeholder=''
-                  validate={validation.baseValidation}
-                  className='Grid-cell u-size1of2 Form-field'
-                />
+              <div className='Grid'>
                 <TextInput
                   ref='emailField'
                   name='Email'
-                  placeholder=''
                   validate={validation.emailValidation}
-                  className='Grid-cell u-size1of2 Form-field'
+                  className={'Grid-cell Form-field FadeIn ' + emailVisibility}
                 />
               </div>
               <input

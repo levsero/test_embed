@@ -1,29 +1,38 @@
-$Form-border-color: #DDD;
-$Form-field-background: #F6F6F6;
-$Form-base-font-size: 1rem;
+$Form-color: #404040;
+$Form-field-background: #F0F0F0;
+$Form-base-font-size: 1rem; // 12px
 
 $Form-spacing: 10px;
+$Form-field-border-radius: 10px;
 
 .Form {
   font-size: $Form-base-font-size;
+  color: $Form-color;
 }
 
 .Form-container {
-  padding: $Form-spacing * 2;
-  border-radius: 5px;
   margin-bottom: $Form-spacing;
 }
 
 .Form-field {
   margin-bottom: $Form-spacing * 2;
+
 }
+
 
 .Form-field-element {
   background: $Form-field-background;
-  border: 1px solid $Form-border-color;
+  border: none;
+  border-radius: $Form-field-border-radius;
   padding: $Form-spacing;
+
+  &:focus {
+    appearance: none;
+    outline: none;
+  }
 }
 
 .Form-field-label {
   margin-bottom: $Form-spacing;
+  font-weight: 700;
 }

@@ -3,33 +3,44 @@ module React from 'react'; /* jshint ignore:line */
 require('imports?_=lodash!lodash');
 import { validation } from 'mixin/validation';
 
-export var TextAreaInput = React.createClass ({
+export var TextAreaInput = React.createClass({
   mixins: [validation.ValidationMixin],
   propTypes: {
     validate: React.PropTypes.array,
     className: React.PropTypes.string
   },
-  getInitialState: function() {
+  getInitialState() {
     return {
       value: '',
       errors: [],
       id: _.uniqueId('description_')
     };
   },
-  handleChange: function(event) {
-    this.setState({value: event.target.value});
+  handleChange(event) {
+    var value = event.target.value;
+
+    this.setState({value: value});
+
+    if(value.length >= 5) {
+      this.props.showField();
+    }
+
     if (this.state.errors.length !== 0) {
       this.setState({errors: this.hasErrors()});
     }
   },
-  handleBlur: function() {
+  handleBlur() {
     this.setState({errors: this.hasErrors()});
   },
-  render: function() {
+  render() {
+    /*jshint quotmark:false, laxcomma:true */
     var value = this.state.value,
-        errorList = this.state.errors.map(function(item) {
-          return <li key={_.uniqueId('error_')}>{item}</li>;
-        });
+        errorList = this.state.errors.map(item => (
+          <li
+            key={_.uniqueId('error_')}
+            className='Error-item'
+            >{item}</li>
+        ));
 
     return (
       /* jshint quotmark:false */
@@ -49,7 +60,7 @@ export var TextAreaInput = React.createClass ({
           title='Please fill out this field.'
           className='u-sizeFull Form-field-element'
         ></textarea>
-        <div>
+        <div className='Error'>
           <ul>{errorList}</ul>
         </div>
       </div>

@@ -4,33 +4,31 @@ module React from 'react'; /* jshint ignore:line */
 import { document     } from 'util/globals';
 import { Frame        } from 'component/Frame';
 import { SubmitTicket } from 'component/SubmitTicket';
-import { Modal        } from 'component/Modal';
 
 var submitTicketCSS = require('./submitTicket.scss'),
     submitTickets = {};
 
-function create(name) {
+function create(name, config) {
   var base = {
-        border: 'solid',
-        height: '600px',
-        width: '700px',
+        minHeight: '320px',
+        borderRadius: '10px 10px 0 0',
+        boxShadow: '1px 1px 5px rgba(0,0,0,0.5)',
+        width: '320px',
         position: 'fixed',
-        top: '50%',
-        left: '50%',
-        margin: '-300px 0px 0px -350px',
+        bottom: 0,
         background: 'white'
       },
-      requestClose = function() {
-        hide(name);
-      };
+      /* jshint laxbreak: true */
+      posObj = (config.position === 'left')
+             ? { 'left':  '20px' }
+             : { 'right': '20px' },
+      iframeStyle = _.extend(base, posObj);
 
   submitTickets[name] = {
     component: (
-      <Modal onRequestClose={requestClose}>
-        <Frame style={base} css={submitTicketCSS}>
-          <SubmitTicket />
-        </Frame>
-      </Modal>
+      <Frame style={iframeStyle} hide={false} closable={true} css={submitTicketCSS}>
+        <SubmitTicket />
+      </Frame>
     )
   };
 
