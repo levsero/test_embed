@@ -15,9 +15,9 @@ function init() {
 
 function commonParams() {
   return {
-    'url': win.location.href,
-    'buid': identity.getBuid(),
-    'timestamp': (new Date()).toISOString()
+    url: win.location.href,
+    buid: identity.getBuid(),
+    timestamp: (new Date()).toISOString()
   };
 }
 
