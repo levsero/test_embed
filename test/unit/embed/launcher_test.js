@@ -7,8 +7,11 @@ describe('embed.launcher', function() {
       mockFrame = jasmine.createSpy('mockFrame')
         .andCallFake(
           React.createClass({
-            toggleVisibility: function() {
-              this.setState({show: !this.state.show});
+            hide: function() {
+              this.setState({show: false});
+            },
+            show: function() {
+              this.setState({show: true});
             },
             getInitialState: function() {
               return {
@@ -28,6 +31,7 @@ describe('embed.launcher', function() {
       mockLauncher = jasmine.createSpy('mockLauncher')
         .andCallFake(
           React.createClass({
+            changeIcon: noop,
             render: function() {
               return (
                 /* jshint quotmark:false */
@@ -243,9 +247,30 @@ describe('embed.launcher', function() {
     });
 
   });
-  describe('show and hide', function() {
 
-    it('should show and hide the launcher', function() {
+  describe('show', function() {
+
+    it('should show the launcher', function() {
+      var alice;
+
+      launcher.create('alice');
+      launcher.render('alice');
+      alice = launcher.get('alice');
+
+      expect(alice.instance.refs.frame.state.show)
+        .toEqual(true);
+
+      launcher.hide('alice');
+      launcher.show('alice');
+
+      expect(alice.instance.refs.frame.state.show)
+        .toEqual(true);
+    });
+  });
+
+  describe('hide', function() {
+
+    it('should hide the launcher', function() {
       var alice;
 
       launcher.create('alice');
@@ -259,11 +284,6 @@ describe('embed.launcher', function() {
 
       expect(alice.instance.refs.frame.state.show)
         .toEqual(false);
-
-      launcher.show('alice');
-
-      expect(alice.instance.refs.frame.state.show)
-        .toEqual(true);
     });
 
   });

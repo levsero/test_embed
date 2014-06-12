@@ -29,9 +29,15 @@ export var Frame = React.createClass({
     return <iframe style={iframeStyle} />;
   },
 
-  toggleVisibility: function() {
+  show: function() {
     this.setState({
-      show: !this.state.show
+      show: true
+    });
+  },
+
+  hide: function() {
+    this.setState({
+      show: false
     });
   },
 

@@ -43,8 +43,11 @@ function create(name, config) {
   iframeStyle = _.extend(base, posObj);
 
   Wrapper = React.createClass({
-    toggleVisibility: function() {
-      this.refs.frame.toggleVisibility();
+    hide: function() {
+      this.refs.frame.hide();
+    },
+    show: function() {
+      this.refs.frame.show();
     },
     changeIcon: function(icon) {
       this.refs.launcher.changeIcon(icon);
@@ -85,11 +88,11 @@ function get(name) {
 }
 
 function hide(name) {
-  get(name).instance.toggleVisibility();
+  get(name).instance.hide();
 }
 
 function show(name) {
-  get(name).instance.toggleVisibility();
+  get(name).instance.show();
 }
 
 function changeIcon(name, icon) {
