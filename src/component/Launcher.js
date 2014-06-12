@@ -33,12 +33,12 @@ export var Launcher = React.createClass({
 
     return (
       /* jshint quotmark: false */
-          <div className={buttonClasses}
+      <div className={buttonClasses}
         onClick={this.props.onClick}
         onTouchEnd={this.props.onClick}>
-            <i className={iconClasses + this.state.icon} />
-            {this.props.message}
-          </div>
+        <i className={iconClasses + this.state.icon} />
+        {this.props.message}
+      </div>
     );
   }
 });
