@@ -10,7 +10,7 @@ describe('Launcher component', function() {
     Launcher = require(launcherPath).Launcher;
   });
 
-  it('should activate the onClick function when clicked on', function () {
+  it('should activate the onClick function when clicked on', function() {
     var onClick = jasmine.createSpy(),
         launcher = React.renderComponent(
           <Launcher onClick={onClick} />,
@@ -34,7 +34,7 @@ describe('Launcher component', function() {
       .toEqual('testIcon');
   });
 
-  it('should change the icon when change icon is called', function () {
+  it('should change the icon when change icon is called', function() {
     var launcher = React.renderComponent(
           <Launcher />,
           global.document.body
