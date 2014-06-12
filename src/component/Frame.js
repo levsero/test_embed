@@ -11,14 +11,34 @@ var baseCSS = require('baseCSS'),
 export var Frame = React.createClass({
   propTypes: {
     style: React.PropTypes.object.isRequired,
-    css:   React.PropTypes.string.isRequired
+    css:   React.PropTypes.string.isRequired,
+    visibility: React.PropTypes.bool.isRequired
+  },
+
+  getInitialState: function() {
+    return {
+      show: this.props.visibility
+    };
   },
 
   render: function() {
-    var base = { border: 'none' },
-        iframeStyle = _.extend(base, this.props.style);
+    var visibilityRule = (this.state.show) ? {} : {display: 'none'},
+        base = { border: 'none' },
+        iframeStyle = _.extend(base, this.props.style, visibilityRule);
 
     return <iframe style={iframeStyle} />;
+  },
+
+  show: function() {
+    this.setState({
+      show: true
+    });
+  },
+
+  hide: function() {
+    this.setState({
+      show: false
+    });
   },
 
   componentDidMount: function() {

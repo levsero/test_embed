@@ -10,7 +10,7 @@ describe('Launcher component', function() {
     Launcher = require(launcherPath).Launcher;
   });
 
-  it('should activate the onClick function when clicked on', function () {
+  it('should activate the onClick function when clicked on', function() {
     var onClick = jasmine.createSpy(),
         launcher = React.renderComponent(
           <Launcher onClick={onClick} />,
@@ -23,30 +23,29 @@ describe('Launcher component', function() {
       .toHaveBeenCalled();
   });
 
-  it('should use the correct className when position prop is "left"', function () {
-    var leftpos = 'left',
-        result;
-
-    React.renderComponent(
-      <Launcher position={leftpos} />,
+  it('should correctly set the initial state when created', function() {
+    /* jshint quotmark: false */
+    var launcher = React.renderComponent(
+      <Launcher icon='testIcon' />,
       global.document.body
     );
-    result = global.document.body.querySelectorAll('.Button--launcherAlt');
-    expect(result.length)
-      .toBe(1);
+
+    expect(launcher.state.icon)
+      .toEqual('testIcon');
   });
 
-  it('should use the correct className when position prop is "right"', function () {
-    var rightpos = 'right',
-        result;
+  it('should change the icon when change icon is called', function() {
+    var launcher = React.renderComponent(
+          <Launcher />,
+          global.document.body
+        );
 
-    React.renderComponent(
-      <Launcher position={rightpos} />,
-      global.document.body
-    );
+    expect(global.document.body.querySelectorAll('.newIcon').length)
+      .toEqual(0);
 
-    result = global.document.body.querySelectorAll('.Button--launcherAlt');
-    expect(result.length)
-      .toBe(0);
+    launcher.changeIcon('newIcon');
+
+    expect(global.document.body.querySelectorAll('.newIcon').length)
+      .toEqual(1);
   });
 });
