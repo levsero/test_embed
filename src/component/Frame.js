@@ -27,10 +27,33 @@ export var Frame = React.createClass({
     };
   },
 
+  getDefaultProps: function() {
+    return {
+      style: null,
+      css: null,
+      hide: false,
+      closable: false
+    };
+  },
+
+  getInitialState: function() {
+    return {
+      show: true
+    };
+  },
+
+  toggleVisibility: function() {
+    this.setState({show: !this.state.show});
+  },
+
   render: function() {
     var visibleRule = (this.state.visible) ? {} : {display: 'none'},
         base = { border: 'none' },
         iframeStyle = _.extend(base, this.props.style, visibleRule);
+
+    if(!this.state.show) {
+      iframeStyle = _.extend(iframeStyle, {display: 'none'});
+    }
 
     return <iframe style={iframeStyle} />;
   },
@@ -48,8 +71,8 @@ export var Frame = React.createClass({
   },
 
   componentWillMount: function() {
-    if(!this.props.visible) {
-      this.hide();
+    if(this.props.hide) {
+      this.setState({show: false});
     }
   },
 
@@ -68,15 +91,22 @@ export var Frame = React.createClass({
 
     var doc = this.getDOMNode().contentWindow.document;
     // In order for iframe correctly render in some browsers we need to do it on nextTick
-    /* jshint quotmark:false */
+    /* jshint quotmark:false, laxcomma:true */
     if (doc.readyState === 'complete') {
       var cssText = baseCSS + mainCSS + this.props.css,
+          classes = this.props.closable ? '' : 'u-isHidden',
           css = <style dangerouslySetInnerHTML={{ __html: cssText }} />,
           contents = (
             /* jshint quotmark: false */
             <div className='u-pullLeft'>
               {css}
-              <div className='u-cf'>{this.props.children}</div>
+              <div
+                  className={classes + ' u-posAbsolute u-posEnd'}
+                  onClick={this.toggleVisibility}
+              >
+                X
+              </div>
+              {this.props.children}
             </div>
           );
 

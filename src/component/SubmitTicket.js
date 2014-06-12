@@ -18,6 +18,7 @@ export var SubmitTicket = React.createClass({
     return {
       showNotification: false,
       message: '',
+      showEmail: false,
       uid: _.uniqueId('submitTicketForm_')
     };
   },
@@ -27,6 +28,10 @@ export var SubmitTicket = React.createClass({
     this.props.reset();
 
     e.preventDefault();
+  },
+
+  showField: function() {
+    this.setState({showEmail: true});
   },
 
   handleSubmit(e, data) {
@@ -64,10 +69,10 @@ export var SubmitTicket = React.createClass({
 
     transport.send(payload);
   },
-
-  render() {
-    var formVisibility = (this.state.showNotification) ? 'u-isHidden' : '',
-        notifyVisibility = (formVisibility) ?  '' : 'u-isHidden';
+  render: function() {
+    var notifyVisibility = (this.state.showNotification) ?  '' : 'u-isHidden';
+    var formVisibility = (this.state.showNotification) ? 'u-isHidden' : '';
+    var emailVisibility = (this.state.showEmail) ? 'FadeIn--active' : '';
 
     return (
       /* jshint quotmark:false */
@@ -97,7 +102,7 @@ export var SubmitTicket = React.createClass({
           </div>
         </ZdForm>
 
-      </div>
+    </div>
     );
   }
 });
