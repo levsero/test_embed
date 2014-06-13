@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 /* jshint multistr:true */
 
-module React from 'react'; /* jshint ignore:line */
+module React from 'react/addons'; /* jshint ignore:line */
 
 // lodash needs to shimmed using imports loader
 require('imports?_=lodash!lodash');

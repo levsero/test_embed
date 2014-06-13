@@ -10,7 +10,7 @@ module.exports = {
   },
   module: {
     preLoaders: [
-      { test: /\.js$/, loader: 'jsx-loader' }
+      { test: /\.js$/, loader: 'jsx-loader?harmony' }
     ],
     loaders: [
       {
@@ -28,7 +28,6 @@ module.exports = {
   },
   resolve: {
     alias: {
-      react: 'react/addons.js',
       lodash: 'lodash/dist/lodash.underscore.js',
       // Framework
       component: path.join(prefix + '/src/component'),

@@ -1,5 +1,5 @@
 /** @jsx React.DOM */
-module React from 'react'; /* jshint ignore:line */
+module React from 'react/addons'; /* jshint ignore:line */
 
 var classSet = React.addons.classSet;
 
