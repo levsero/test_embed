@@ -18,18 +18,48 @@ function create(name, config) {
         bottom: 0,
         background: 'white'
       },
-      /* jshint laxbreak: true */
-      posObj = (config.position === 'left')
-             ? { 'left':  '20px' }
-             : { 'right': '20px' },
-      iframeStyle = _.extend(base, posObj);
+      configDefaults = {
+        position: 'right'
+      },
+      Wrapper,
+      posObj,
+      iframeStyle;
+
+  config = _.extend(configDefaults, config);
+
+  /* jshint laxbreak: true */
+  posObj = (config.position === 'left')
+         ? { 'left':  '20px' }
+         : { 'right': '20px' };
+
+  iframeStyle = _.extend(base, posObj);
+
+  Wrapper = React.createClass({
+    hide: function() {
+      this.refs.frame.hide();
+    },
+    show: function() {
+      this.refs.frame.show();
+    },
+    toggleVisibility: function() {
+      this.refs.frame.toggleVisibility();
+    },
+    render: function() {
+      return (
+        /* jshint quotmark: false */
+        <Frame ref='frame'
+          style={iframeStyle}
+          hide={false}
+          closable={true}
+          css={submitTicketCSS}>
+          <SubmitTicket ref='submitTicket' />
+        </Frame>
+      );
+    }
+  });
 
   submitTickets[name] = {
-    component: (
-      <Frame style={iframeStyle} hide={false} closable={true} css={submitTicketCSS}>
-        <SubmitTicket />
-      </Frame>
-    )
+    component: <Wrapper />
   };
 
   return this;
@@ -37,7 +67,7 @@ function create(name, config) {
 
 function render(name) {
   var element = document.body.appendChild(document.createElement('div'));
-  React.renderComponent(submitTickets[name].component, element);
+  submitTickets[name].instance = React.renderComponent(submitTickets[name].component, element);
 }
 
 function get(name) {
@@ -49,31 +79,26 @@ function list() {
 }
 
 function show(name) {
-  get(name).component.setState({show: true});
+  get(name).instance.show();
 }
 
 function hide(name) {
-  get(name).component.setState({show: false});
-  if (getFormComponent(name).state.showNotification) {
+  get(name).instance.hide();
+  if (get(name).instance.refs.submitTicket.state.showNotification) {
     reset(name);
   }
 }
 
 function toggleVisibility(name) {
-  var component = get(name).component;
-  component.setState({show: !component.state.show});
-  if (getFormComponent(name).state.showNotification) {
+  get(name).instance.toggleVisibility();
+  if (get(name).instance.refs.submitTicket.state.showNotification) {
     reset(name);
   }
 }
 
 function reset(name) {
-  var component = getFormComponent(name);
-  component.replaceState(component.getInitialState());
-}
-
-function getFormComponent(name) {
-  return get(name).component.props.children.props.children;
+  // TODO add new way to reset the form
+  return name;
 }
 
 export var submitTicket = {

@@ -26,8 +26,6 @@ describe('Submit ticket component', function() {
         win: window
       },
       formParams = {
-        'subject': defaultValue,
-        'name': defaultValue,
         'email': defaultValue,
         'description': defaultValue,
         'set_tags': 'buid-abc123 DROPBOX',

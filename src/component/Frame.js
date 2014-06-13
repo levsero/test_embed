@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 /* jshint multistr:true */
 
-module React from 'react/addons'; /* jshint ignore:line */
+module React from 'react'; /* jshint ignore:line */
 
 // lodash needs to shimmed using imports loader
 require('imports?_=lodash!lodash');
@@ -10,7 +10,7 @@ var baseCSS = require('baseCSS'),
 
 export var Frame = React.createClass({
   propTypes: {
-    style: React.PropTypes.object.isRequired,
+    style:    React.PropTypes.object.isRequired,
     css:   React.PropTypes.string.isRequired,
     visibility: React.PropTypes.bool.isRequired
   },

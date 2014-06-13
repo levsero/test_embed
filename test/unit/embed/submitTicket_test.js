@@ -8,6 +8,20 @@ describe('embed.submitTicket', function() {
       mockFrame = jasmine.createSpy('mockFrame')
         .andCallFake(
           React.createClass({
+            hide: function() {
+              this.setState({show: false});
+            },
+            show: function() {
+              this.setState({show: true});
+            },
+            getInitialState: function() {
+              return {
+                show: true
+              };
+            },
+            toggleVisibility: function() {
+              this.setState({show: !this.state.show});
+            },
             render: function() {
               return (
                 /* jshint quotmark:false */
@@ -18,27 +32,11 @@ describe('embed.submitTicket', function() {
             }
           })
         ),
-      mockModal = jasmine.createSpy('mockModal')
-        .andCallFake(
-          React.createClass({
-            getInitialState: function() {
-              return {show: false};
-            },
-            render: function() {
-              return (
-                /* jshint quotmark:false */
-                <div className='mock-modal'>
-                  {this.props.children}
-                </div>
-              );
-            }
-          })
-        ),
       mockSubmitTicket = jasmine.createSpy('mockSubmitTicket')
         .andCallFake(
           React.createClass({
             getInitialState: function() {
-              return {showNotification: false, message: ''};
+              return {showNotification: false, message: '', showEmail: false};
             },
             render: function() {
               return (
@@ -61,9 +59,6 @@ describe('embed.submitTicket', function() {
     });
     mockery.registerMock('component/SubmitTicket', {
       SubmitTicket: mockSubmitTicket
-    });
-    mockery.registerMock('component/Modal', {
-      Modal: mockModal
     });
     mockery.registerMock('./submitTicket.scss', mockCss);
     mockery.registerMock('util/globals', mockGlobals);
@@ -90,6 +85,7 @@ describe('embed.submitTicket', function() {
         .toEqual(0);
 
       submitTicket.create('bob');
+      submitTicket.render('bob');
 
       expect(mockSubmitTicket)
         .toHaveBeenCalled();
@@ -119,18 +115,6 @@ describe('embed.submitTicket', function() {
     });
   });
 
-  describe('getFormComponent', function() {
-    it('should return the correct submitTicket component', function() {
-      var bob;
-
-      submitTicket.create('bob');
-      bob = submitTicket.getFormComponent('bob');
-
-      expect(bob)
-        .toBeDefined();
-    });
-  });
-
   describe('render', function() {
     it('should throw an exception if SubmitTicket does not exist', function() {
 
@@ -143,13 +127,10 @@ describe('embed.submitTicket', function() {
       submitTicket.create('bob');
       submitTicket.render('bob');
 
-      expect(document.querySelectorAll('.mock-modal').length)
+      expect(document.querySelectorAll( '.mock-frame').length)
         .toEqual(1);
 
-      expect(document.querySelectorAll('.mock-modal > .mock-frame').length)
-        .toEqual(1);
-
-      expect(document.querySelectorAll('.mock-modal > .mock-frame > .mock-submitTicket').length)
+      expect(document.querySelectorAll( '.mock-frame > .mock-submitTicket').length)
         .toEqual(1);
     });
 
@@ -184,7 +165,7 @@ describe('embed.submitTicket', function() {
       submitTicket.render('bob');
       submitTicket.show('bob');
 
-      expect(submitTicket.get('bob').component.state.show)
+      expect(submitTicket.get('bob').instance.refs.frame.state.show)
         .toEqual(true);
     });
   });
@@ -196,7 +177,7 @@ describe('embed.submitTicket', function() {
       submitTicket.show('bob');
       submitTicket.hide('bob');
 
-      expect(submitTicket.get('bob').component.state.show)
+      expect(submitTicket.get('bob').instance.refs.frame.state.show)
         .toEqual(false);
     });
   });
@@ -208,52 +189,18 @@ describe('embed.submitTicket', function() {
       submitTicket.create('bob');
       submitTicket.render('bob');
 
-      state = submitTicket.get('bob').component.state.show;
+      state = submitTicket.get('bob').instance.refs.frame.state.show;
 
       submitTicket.toggleVisibility('bob');
 
-      expect(submitTicket.get('bob').component.state.show)
+      expect(submitTicket.get('bob').instance.refs.frame.state.show)
         .not.toEqual(state);
 
       submitTicket.toggleVisibility('bob');
 
-      expect(submitTicket.get('bob').component.state.show)
+      expect(submitTicket.get('bob').instance.refs.frame.state.show)
         .toEqual(state);
     });
-
-    it('should reset the state of the form if show notification is true', function() {
-      var component;
-
-      submitTicket.create('bob');
-      submitTicket.render('bob');
-
-      component = submitTicket.getFormComponent('bob');
-      component.setState({showNotification: true, message: 'something'});
-
-      expect(component.state)
-        .not.toEqual(component.getInitialState());
-
-      submitTicket.toggleVisibility('bob');
-
-      expect(component.state)
-        .toEqual(component.getInitialState());
-    });
   });
 
-  describe('reset', function() {
-    it('should reset the form back it its initial state', function() {
-      var component;
-
-      submitTicket.create('bob');
-      submitTicket.render('bob');
-
-      component = submitTicket.getFormComponent('bob');
-      component.setState({showNotification: true, message: 'something'});
-
-      submitTicket.reset('bob');
-
-      expect(component.state)
-        .toEqual(component.getInitialState());
-    });
-  });
 });
