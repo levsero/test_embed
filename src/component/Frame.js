@@ -25,7 +25,7 @@ export var Frame = React.createClass({
     return {
       style: null,
       css: null,
-      hide: false,
+      visibility: true,
       closable: false
     };
   },
@@ -65,8 +65,8 @@ export var Frame = React.createClass({
   },
 
   componentWillMount: function() {
-    if(this.props.hide) {
-      this.setState({show: false});
+    if(!this.props.visibility) {
+      this.hide();
     }
   },
 
@@ -90,12 +90,12 @@ export var Frame = React.createClass({
             <div>
               {css}
               <div
-                  className={classes + ' u-posAbsolute u-posEnd'}
-                  onClick={this.toggleVisibility}
+                  className={classes + 'u-after1of12 u-pullRight'}
+                  onClick={this.hide}
               >
                 X
               </div>
-              {this.props.children}
+              <div className='u-cf'>{this.props.children}</div>
             </div>
           );
 

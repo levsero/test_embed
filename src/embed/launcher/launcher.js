@@ -52,13 +52,11 @@ function create(name, config) {
       this.refs.launcher.changeIcon(icon);
     },
     render: function() {
-      var show = true;
       return (
         /* jshint quotmark: true */
         <Frame ref='frame'
           style={iframeStyle}
-          css={launcherCSS}
-          visibility={show}>
+          css={launcherCSS}>
           <Launcher
             ref='launcher'
             onClick={onClickHandler}

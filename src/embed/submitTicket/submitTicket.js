@@ -36,9 +36,11 @@ function create(name, config) {
 
   Wrapper = React.createClass({
     hide: function() {
+      this.props.onHide();
       this.refs.frame.hide();
     },
     show: function() {
+      this.props.onShow();
       this.refs.frame.show();
     },
     toggleVisibility: function() {
@@ -48,9 +50,9 @@ function create(name, config) {
       return (
         /* jshint quotmark: false */
         <Frame ref='frame'
-          style={iframeStyle}
-          hide={false}
+          visibility={false}
           closable={true}
+          style={iframeStyle}
           css={submitTicketCSS}>
           <SubmitTicket ref='submitTicket' />
         </Frame>
@@ -59,7 +61,7 @@ function create(name, config) {
   });
 
   submitTickets[name] = {
-    component: <Wrapper />
+    component: <Wrapper onShow={config.onShow} onHide={config.onHide} />
   };
 
   return this;
