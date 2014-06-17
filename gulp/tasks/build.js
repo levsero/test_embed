@@ -5,7 +5,20 @@ var gulp = require('gulp'),
     webpack = require('webpack'),
     runSequence = require('run-sequence'),
     webpackConfig = require('../webpack.config.js'),
-    es6Transpiler = require('gulp-es6-transpiler');
+    es6Transpiler = require('gulp-es6-transpiler'),
+    fs = require('fs'),
+    path = require('path'),
+    predef = JSON.parse(fs.readFileSync(path.join(process.cwd(), '.jshintrc'), 'utf8')).predef;
+
+function getGlobals() {
+  var globals = {};
+
+  predef.forEach(function(global) {
+    globals[global] = true;
+  });
+
+  return globals;
+}
 
 function webpackCallback(callback) {
   return function(err, stats) {
@@ -52,7 +65,6 @@ gulp.task('build:test', function() {
   return gulp.src(['test/**/*.js'])
     .pipe(react())
     .pipe(es6ModuleTranspiler({type: 'cjs'}))
-    .pipe(es6Transpiler())
     .pipe(gulp.dest('build/test'));
 });
 
@@ -62,7 +74,9 @@ gulp.task('build:src', function() {
   return gulp.src('src/**/*.js')
     .pipe(react())
     .pipe(es6ModuleTranspiler({type: 'cjs'}))
-    .pipe(es6Transpiler())
+    .pipe(es6Transpiler({
+      globals: getGlobals()
+    }))
     .pipe(gulp.dest('build/src'));
 });
 

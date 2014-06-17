@@ -35,8 +35,9 @@ function create(name, config) {
   iframeStyle = _.extend(base, posObj);
 
   Wrapper = React.createClass({
-    hide: function() {
+    hidee: function() {
       this.props.onHide();
+      console.log(this.props.onHide);
       this.refs.frame.hide();
     },
     show: function() {
@@ -47,13 +48,20 @@ function create(name, config) {
       this.refs.frame.toggleVisibility();
     },
     render: function() {
+      var classes = this.props.closable ? '' : 'u-isHidden';
+
       return (
         /* jshint quotmark: false */
         <Frame ref='frame'
-          visibility={false}
+          visibility={true}
           closable={true}
           style={iframeStyle}
           css={submitTicketCSS}>
+          <div className={classes + ' u-textRight u-marginVS'}>
+            <strong
+              onClick={this.hidee}
+              className='u-textCTA u-isActionable'>HIDE</strong>
+          </div>
           <SubmitTicket ref='submitTicket' />
         </Frame>
       );
@@ -61,7 +69,12 @@ function create(name, config) {
   });
 
   submitTickets[name] = {
-    component: <Wrapper onShow={config.onShow} onHide={config.onHide} />
+    component: (
+      <Wrapper
+        onShow={config.onShow}
+        onHide={config.onHide}
+        closable={true} />
+      )
   };
 
   return this;

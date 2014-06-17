@@ -25,8 +25,7 @@ export var Frame = React.createClass({
     return {
       style: null,
       css: null,
-      visibility: true,
-      closable: false
+      visibility: true
     };
   },
 
@@ -84,17 +83,10 @@ export var Frame = React.createClass({
     /* jshint quotmark:false, laxcomma:true */
     if (doc.readyState === 'complete') {
       var cssText = baseCSS + mainCSS + this.props.css,
-          classes = this.props.closable ? '' : 'u-isHidden',
           css = <style dangerouslySetInnerHTML={{ __html: cssText }} />,
           contents = (
             <div>
               {css}
-              <div
-                  className={classes + 'u-after1of12 u-pullRight'}
-                  onClick={this.hide}
-              >
-                X
-              </div>
               <div className='u-cf'>{this.props.children}</div>
             </div>
           );

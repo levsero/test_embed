@@ -1,14 +1,13 @@
 /** @jsx React.DOM */
 
 module React from 'react/addons'; /* jshint ignore:line */
-module ReactForms from 'react-forms';
 import { win                } from 'util/globals';
 import { identity           } from 'service/identity';
 import { transport          } from 'service/transport';
-import { ZdForm, EmailField } from 'component/ZdForm';
+import { ZdForm             } from 'component/ZdForm';
+import { submitTicketSchema } from 'component/SubmitTicketSchema';
 require('imports?_=lodash!lodash');
 
-var { Schema, Property } = ReactForms.schema;
 
 export var SubmitTicket = React.createClass({
   getInitialState: function() {
@@ -56,21 +55,8 @@ export var SubmitTicket = React.createClass({
   },
 
   render: function() {
-    var submitTicketSchema = (
-      /* jshint quotmark:false */
-      <Schema>
-        <Property
-          name='description'
-          label='Message'
-          ref='message'
-          required
-          input={<textarea rows='5' placeholder='Give us details here...' />}
-        />
-        <EmailField required />
-      </Schema>
-    );
-    var formVisibility = (this.state.showNotification) ? 'u-isHidden' : '';
-    var notifyVisibility = (formVisibility) ?  '' : 'u-isHidden';
+    var formVisibility = (this.state.showNotification) ? 'u-isHidden' : '',
+        notifyVisibility = (formVisibility) ?  '' : 'u-isHidden';
 
     return (
       /* jshint quotmark:false */

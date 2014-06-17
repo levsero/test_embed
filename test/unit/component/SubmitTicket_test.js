@@ -3,36 +3,35 @@
 describe('Submit ticket component', function() {
   var SubmitTicket,
       defaultValue = '123abc',
-      mockValidation = {
-        baseValidation: noop,
-        emailValidation: noop,
-        ValidationMixin: noop
-      },
       mockIdentity = {
         getBuid: function() {
           return 'abc123';
         }
       },
-      mockComponent = React.createClass({
-        getInitialState: function() {
-          return {value: defaultValue, errors: []};
-        },
-        render: function() {
-          /* jshint quotmark: false */
-          return <input ref='inputText' value={this.state.value}></input>;
-        }
-      }),
+      mockComponent = jasmine.createSpy('mockComponent')
+        .andCallFake(React.createClass({
+          getInitialState: function() {
+            return {value: defaultValue, errors: []};
+          },
+          render: function() {
+            /* jshint quotmark: false */
+            return <form onSubmit={this.props.handleSubmit} />;
+          }
+        })),
+      mockSchema = {
+        submitTicketSchema: noop
+      },
       mockGlobals = {
         win: window
       },
       formParams = {
-        'email': defaultValue,
-        'description': defaultValue,
         'set_tags': 'buid-abc123 DROPBOX',
-        'submitted_from': global.window.location.href
+        'submitted_from': global.window.location.href,
+        'email': defaultValue,
+        'description': defaultValue
       },
       payload = {
-        method: 'POST',
+        method: 'post',
         path: '/api/ticket_submission',
         params: formParams,
         callbacks: {
@@ -48,10 +47,22 @@ describe('Submit ticket component', function() {
       warnOnReplace:false
     });
 
+    this.addMatchers({
+      toBeJSONEqual: function(expected) {
+        return JSON.stringify(this.actual) === JSON.stringify(expected);
+      }
+    });
+
     transport.send.reset();
 
     var submitTicketPath = buildPath('component/SubmitTicket');
 
+    mockery.registerMock('component/ZdForm', {
+      ZdForm: mockComponent,
+      MessageFieldset: noop,
+      EmailField: noop
+    });
+    mockery.registerMock('component/SubmitTicketSchema', mockSchema);
     mockery.registerMock('service/identity', {
       identity: mockIdentity
     });
@@ -60,15 +71,6 @@ describe('Submit ticket component', function() {
     });
     mockery.registerMock('util/globals', mockGlobals);
     mockery.registerMock('imports?_=lodash!lodash', {});
-    mockery.registerMock('component/TextAreaInput', {
-      TextAreaInput: mockComponent
-    });
-    mockery.registerMock('mixin/validation', {
-      validation: mockValidation
-    });
-    mockery.registerMock('component/TextInput', {
-      TextInput: mockComponent
-    });
     mockery.registerAllowable(submitTicketPath);
     mockery.registerAllowable('react');
     mockery.registerAllowable('./lib/React');
@@ -83,6 +85,7 @@ describe('Submit ticket component', function() {
   });
 
   it('should correctly set the initial states when created', function() {
+    console.log(typeof React.renderComponent);
     var submitTicket = React.renderComponent(
       <SubmitTicket />,
       global.document.body
@@ -95,51 +98,53 @@ describe('Submit ticket component', function() {
       .toEqual('');
   });
 
-  it('should hide the form when the showNotification state is changed', function() {
-    var submitTicket = React.renderComponent(
+  it('should pass schema and submit callback props to ZdForm component', function() {
+    React.renderComponent(
       <SubmitTicket />,
       global.document.body
     );
+    var mostRecentCall = mockComponent.mostRecentCall.args[0];
 
-    expect(global.document.body.querySelectorAll('.u-isHidden').length)
-      .toEqual(1);
+    expect(typeof mostRecentCall.schema)
+      .toEqual('function');
 
-    submitTicket.setState({showNotification: true});
-
-    expect(global.document.body.querySelectorAll('.u-isHidden').length)
-      .toEqual(2);
+    expect(typeof mostRecentCall.submit)
+      .toEqual('function');
   });
 
-  it('should call handleSubmit when the is submitted with the correct payload', function() {
-    var recentCall;
+  it('should not submit form when invalid', function() {
+    React.renderComponent(
+      <SubmitTicket />,
+      global.document.body
+    );
+    var mostRecentCall = mockComponent.mostRecentCall.args[0];
 
+    mostRecentCall.submit({preventDefault: noop}, {isFormInvalid: true});
+
+    expect(transport.send)
+      .not.toHaveBeenCalled();
+  });
+
+  it('should submit form when valid', function() {
     React.renderComponent(
       <SubmitTicket />,
       global.document.body
     );
 
-    ReactTestUtils.Simulate.submit(global.document.body.querySelector('form'));
+    var mockComponentRecentCall = mockComponent.mostRecentCall.args[0],
+        transportRecentCall;
 
-    expect(transport.send)
-      .toHaveBeenCalled();
+    mockComponentRecentCall.submit({preventDefault: noop}, {
+      isFormInvalid: false,
+      value: {
+        email: defaultValue,
+        description: defaultValue
+      }
+    });
 
-    recentCall = transport.send.mostRecentCall;
+    transportRecentCall = transport.send.mostRecentCall.args[0];
 
-    expect(recentCall.args[0].params)
-      .toEqual(payload.params);
-  });
-
-  it('should not send if there are errors', function() {
-    var submitTicket = React.renderComponent(
-          <SubmitTicket />,
-          global.document.body
-        );
-
-    submitTicket.refs.emailField.setState({errors:['something']});
-
-    ReactTestUtils.Simulate.submit(global.document.body.querySelector('form'));
-
-    expect(transport.send)
-      .not.toHaveBeenCalled();
+    expect(transportRecentCall)
+      .toBeJSONEqual(payload);
   });
 });
