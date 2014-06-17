@@ -19,6 +19,7 @@ function send(payload) {
              buildFullUrl(payload.path))
     .type('json')
     .send(_.extend(payload.params || {}, {'zendesk_host': config.zendeskHost}))
+    .query(_.extend(payload.query || {}, {'zendesk_host': config.zendeskHost}))
     .end(function(res) {
       if (payload.callbacks) {
         if (res.ok) {
