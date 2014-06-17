@@ -16,7 +16,6 @@ function create(name, config) {
         message: 'Help',
         icon: ''
       },
-      onClickHandler,
       base = {
         width: '80px',
         height: '50px',
@@ -29,11 +28,6 @@ function create(name, config) {
 
   config = _.extend(configDefaults, config);
 
-  onClickHandler = function() {
-    config.onClick();
-    beacon.track('launcher', 'click', name);
-  };
-
   /* jshint laxbreak: true */
   posObj = (config.position === 'left')
          ? { 'left':  '20px' }
@@ -42,6 +36,36 @@ function create(name, config) {
   iframeStyle = _.extend(base, posObj);
 
   Wrapper = React.createClass({
+    getInitialState: function() {
+      return ({
+        iframeDimensions: {
+          height: 0,
+          width: 0
+        }
+      });
+    },
+    onClickHandler: function() {
+      config.onClick();
+      beacon.track('launcher', 'click', name);
+    },
+    updateFrameSize: function() {
+      var win = this.refs.frame.getDOMNode().contentWindow,
+          dimensions;
+
+      if (!win.document.getElementsByTagName('div')[0]) {
+       return false;
+      }
+
+      dimensions = function() {
+        var element = win.document.getElementsByTagName('div');
+        return ({
+          width:  Math.max(element.clientWidth,  element.offsetWidth),
+          height: Math.max(element.clientHeight, element.offsetHeight)
+        });
+      };
+
+      this.setState({iframeDimensions: dimensions()});
+    },
     hide: function() {
       this.refs.frame.hide();
     },
@@ -59,8 +83,9 @@ function create(name, config) {
           css={launcherCSS}>
           <Launcher
             ref='launcher'
-            onClick={onClickHandler}
-            onTouchEnd={onClickHandler}
+            onClick={this.onClickHandler}
+            onTouchEnd={this.onClickHandler}
+            updateFrameSize={this.updateFrameSize}
             position={config.position}
             message={config.message}
             icon={config.icon}

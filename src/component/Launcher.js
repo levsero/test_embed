@@ -6,6 +6,7 @@ var classSet = React.addons.classSet;
 export var Launcher = React.createClass({
   propTypes: {
     onClick: React.PropTypes.func,
+    updateFrameSize: React.PropTypes.func,
     position: React.PropTypes.string,
     message: React.PropTypes.string,
     icon: React.PropTypes.string
@@ -31,11 +32,16 @@ export var Launcher = React.createClass({
           'u-inlineBlock Icon ': true
         });
 
+    setTimeout(function() {
+      this.props.updateFrameSize(); 
+    }.bind(this), 1);
+
     return (
       /* jshint quotmark: false */
       <div className={buttonClasses}
         onClick={this.props.onClick}
-        onTouchEnd={this.props.onClick}>
+        onTouchEnd={this.props.onClick}
+        style={{'white-space': 'nowrap'}}>
         <i className={iconClasses + this.state.icon} />
         {this.props.message}
       </div>
