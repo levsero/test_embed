@@ -4,6 +4,8 @@ import { document } from 'util/globals';
 import { Frame    } from 'component/Frame';
 import { Launcher } from 'component/Launcher';
 import { beacon   } from 'service/beacon';
+import { frameFactory } from 'embed/frameFactory';
+
 require('imports?_=lodash!lodash');
 
 var launcherCSS = require('./launcher.scss'),
@@ -24,7 +26,7 @@ function create(name, config) {
       },
       posObj,
       iframeStyle,
-      Wrapper;
+      Embed;
 
   config = _.extend(configDefaults, config);
 
@@ -35,68 +37,33 @@ function create(name, config) {
 
   iframeStyle = _.extend(base, posObj);
 
-  Wrapper = React.createClass({
-    getInitialState: function() {
-      return ({
-        iframeDimensions: {
-          height: 0,
-          width: 0
-        }
-      });
-    },
-    onClickHandler: function() {
-      config.onClick();
-      beacon.track('launcher', 'click', name);
-    },
-    updateFrameSize: function() {
-      var win = this.refs.frame.getDOMNode().contentWindow,
-          dimensions;
-
-      if (!win.document.firstChild) {
-       return false;
+  Embed = React.createClass(frameFactory({
+    style: iframeStyle,
+    css: launcherCSS,
+    child: function(arg) {return (
+        <Launcher
+          ref='launcher'
+          onClick={arg.onClickHandler}
+          onTouchEnd={arg.onClickHandler}
+          updateFrameSize={arg.updateFrameSize}
+          position={config.position}
+          message={config.message}
+          icon={config.icon}
+        />
+    )},
+    extend: {
+      changeIcon: function(icon) {
+        this.refs.launcher.changeIcon(icon);
+      },
+      onClickHandler: function() {
+        config.onClick();
+        beacon.track('launcher', 'click', name);      
       }
-
-      dimensions = function() {
-        var el = win.document.body.firstChild;
-        return ({
-          width:  Math.max(el.clientWidth,  el.offsetWidth, el.clientWidth),
-          height: Math.max(el.clientHeight, el.offsetHeight, el.clientHeight)
-        });
-      };
-
-      this.setState({iframeDimensions: dimensions()});
-    },
-    hide: function() {
-      this.refs.frame.hide();
-    },
-    show: function() {
-      this.refs.frame.show();
-    },
-    changeIcon: function(icon) {
-      this.refs.launcher.changeIcon(icon);
-    },
-    render: function() {
-      return (
-        /* jshint quotmark: true */
-        <Frame ref='frame'
-          style={iframeStyle}
-          css={launcherCSS}>
-          <Launcher
-            ref='launcher'
-            onClick={this.onClickHandler}
-            onTouchEnd={this.onClickHandler}
-            updateFrameSize={this.updateFrameSize}
-            position={config.position}
-            message={config.message}
-            icon={config.icon}
-          />
-        </Frame>
-      );
     }
-  });
+  }));
 
   launchers[name] = {
-    component: <Wrapper />,
+    component: <Embed />,
     config: config
   };
 }
@@ -118,7 +85,7 @@ function show(name) {
 }
 
 function changeIcon(name, icon) {
-  get(name).instance.changeIcon(icon);
+  get(name).instance.getChild().refs.launcher.changeIcon(icon);
 }
 
 function render(name) {

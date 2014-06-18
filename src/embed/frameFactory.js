@@ -1,0 +1,118 @@
+/** @jsx React.DOM */
+module React from 'react'; /* jshint ignore:line */
+//import { Frame } from 'component/Frame';
+
+require('imports?_=lodash!lodash');
+
+var baseCSS = require('baseCSS'),
+    mainCSS = require('mainCSS'),
+    child;
+
+export var frameFactory = function(params) {
+  return {
+    getInitialState: function() {
+      return ({
+        show: true,
+        _rendered: false,
+        iframeDimensions: {
+          height: 0,
+          width: 0
+        }
+      });
+    },
+
+    getChild: function() {
+      return child;
+    },
+
+    updateFrameSize: function() {
+      var win = this.getDOMNode().contentWindow,
+          dimensions;
+
+      if (!win.document.firstChild) {
+       return false;
+      }
+
+      dimensions = function() {
+        var el = win.document.body.firstChild;
+        return ({
+          width:  Math.max(el.clientWidth,  el.offsetWidth, el.clientWidth),
+          height: Math.max(el.clientHeight, el.offsetHeight, el.clientHeight)
+        });
+      };
+
+      this.setState({iframeDimensions: dimensions()});
+    },
+
+    show: function() {
+      this.setState({
+        show: true
+      });
+    },
+
+    hide: function() {
+      this.setState({
+        show: false
+      });
+    },
+
+    render: function() {
+      var visibilityRule = (this.state.show) ? {} : {display: 'none'},
+      base = { border: 'none' },
+      iframeStyle = _.extend(
+        base, 
+        params.style, 
+        visibilityRule, 
+        this.state.iframeDimensions
+      );
+
+      return <iframe style={iframeStyle} />;
+    },
+
+
+    componentDidMount: function() {
+      this.renderFrameContent();
+    },
+     
+    componentDidUpdate: function() {
+      this.renderFrameContent();
+    },
+     
+    renderFrameContent: function() {
+      if (this.state._rendered) {
+        return false;
+      }
+     
+      var doc = this.getDOMNode().contentWindow.document;
+      // In order for iframe correctly render in some browsers we need to do it on nextTick
+      if (doc.readyState === 'complete') {
+        var cssText = baseCSS + mainCSS + params.css,
+            css = <style dangerouslySetInnerHTML={{ __html: cssText }} />,
+            root = this,
+            Component = React.createClass(_.extend({
+              render: function() {
+                return (
+                    <div style={{float: 'left'}}>
+                    {css}
+                  {params.child({
+                    updateFrameSize: root.updateFrameSize,
+                    onClickHandler: this.onClickHandler                
+                  })}
+                  </div>
+                );
+              }
+            }, params.extend));
+     
+        child = React.renderComponent(<Component />, doc.body);
+        this.setState({_rendered: true});
+      } else {
+        setTimeout(this.renderFrameContent, 0);
+      }
+    },
+     
+    componentWillUnmount: function() {
+      React.unmountComponentAtNode(this.getDOMNode().contentDocument.body);
+    }
+
+  };
+}
