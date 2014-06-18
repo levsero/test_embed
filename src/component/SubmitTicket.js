@@ -8,9 +8,8 @@ import { ZdForm             } from 'component/ZdForm';
 import { submitTicketSchema } from 'component/SubmitTicketSchema';
 require('imports?_=lodash!lodash');
 
-
 export var SubmitTicket = React.createClass({
-  getInitialState: function() {
+  getInitialState() {
     return {
       showNotification: false,
       message: '',
@@ -54,7 +53,7 @@ export var SubmitTicket = React.createClass({
     transport.send(payload);
   },
 
-  render: function() {
+  render() {
     var formVisibility = (this.state.showNotification) ? 'u-isHidden' : '',
         notifyVisibility = (formVisibility) ?  '' : 'u-isHidden';
 
@@ -67,10 +66,24 @@ export var SubmitTicket = React.createClass({
           </div>
         </div>
         <ZdForm
+          ref='zdform'
           className={formVisibility}
           schema={submitTicketSchema}
-          submit={this.handleSubmit}
-        />
+          submit={this.handleSubmit}>
+          <div className='Arrange Arrange--middle'>
+            <strong
+              onClick={this.props.reset}
+              className='Arrange-sizeFill u-isActionable u-textSecondary'>
+                Cancel
+            </strong>
+            <input
+              type='submit'
+              value='Submit Ticket'
+              className='Button Button--default Button--cta Arrange-sizeFit u-textNoWrap'
+            />
+          </div>
+        </ZdForm>
+
       </div>
     );
   }

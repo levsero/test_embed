@@ -15,7 +15,7 @@ describe('embed.launcher', function() {
             },
             getInitialState: function() {
               return {
-                show: this.props.visibility
+                show: true
               };
             },
             render: function() {

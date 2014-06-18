@@ -3,9 +3,11 @@
 module React from 'react/addons';
 module ReactForms from 'react-forms';
 import { validation } from 'mixin/validation.js';
+require('imports?_=lodash!lodash');
 
 var { FormFor, Form } = ReactForms,
-    Property = ReactForms.schema.Property;
+    Property = ReactForms.schema.Property,
+    Animate = React.addons.CSSTransitionGroup;
 
 export var ZdForm = React.createClass({
   handleSubmit(e) {
@@ -27,17 +29,7 @@ export var ZdForm = React.createClass({
     return (
       <form onSubmit={this.handleSubmit} className={'Form ' + this.props.className}>
         {form}
-        <div className='Arrange Arrange--middle'>
-          <strong
-            className='Arrange-sizeFill u-isActionable u-textSecondary'>
-              Cancel
-          </strong>
-          <input
-            type='submit'
-            value='Submit Ticket'
-            className='Button Button--default Button--cta Arrange-sizeFit u-textNoWrap'
-          />
-        </div>
+        {this.props.children}
       </form>
     );
   }
@@ -46,22 +38,34 @@ export var ZdForm = React.createClass({
 export var MessageFieldset = React.createClass({
   mixins: [ReactForms.FieldsetMixin],
 
-  messageLength: function(name) {
+  getInitialState() {
+    return {
+      emailKey: _.uniqueId('email_')
+    };
+  },
+
+  messageLength(name) {
     var val = this.value().value[name];
     return val && val.length >= 5;
   },
 
-  showEmail: function() {
+  showEmail() {
     /* jshint quotmark:false */
-    return this.messageLength('description') && <FormFor name='email' />;
+    return (
+      this.messageLength('description') &&
+      // Empty span is rendered so the Animate component won't throw
+      <FormFor key={this.state.emailKey} name='email' /> || <span />
+    );
   },
 
-  render: function() {
+  render() {
     /* jshint quotmark:false */
     return (
       <div>
         <FormFor name='description' />
-        {this.showEmail()}
+        <Animate transitionName='FadeIn' transitionLeave={false} component={React.DOM.div}>
+          {this.showEmail()}
+        </Animate>
       </div>
     );
   }

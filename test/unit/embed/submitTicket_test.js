@@ -5,6 +5,10 @@ describe('embed.submitTicket', function() {
       mockGlobals = {
         document: global.document
       },
+      frameConfig = {
+        onShow: noop,
+        onHide: noop
+      },
       mockFrame = jasmine.createSpy('mockFrame')
         .andCallFake(
           React.createClass({
@@ -18,9 +22,6 @@ describe('embed.submitTicket', function() {
               return {
                 show: true
               };
-            },
-            toggleVisibility: function() {
-              this.setState({show: !this.state.show});
             },
             render: function() {
               return (
@@ -53,6 +54,9 @@ describe('embed.submitTicket', function() {
 
     resetDOM();
 
+    spyOn(frameConfig, 'onShow').andCallThrough();
+    spyOn(frameConfig, 'onHide').andCallThrough();
+
     mockery.enable();
     mockery.registerMock('component/Frame', {
       Frame: mockFrame
@@ -84,7 +88,7 @@ describe('embed.submitTicket', function() {
       expect(_.keys(submitTicket.list()).length)
         .toEqual(0);
 
-      submitTicket.create('bob');
+      submitTicket.create('bob', frameConfig);
       submitTicket.render('bob');
 
       expect(mockSubmitTicket)
@@ -107,7 +111,7 @@ describe('embed.submitTicket', function() {
     it('should return the correct submitTicket form', function() {
       var bob;
 
-      submitTicket.create('bob');
+      submitTicket.create('bob', frameConfig);
       bob = submitTicket.get('bob');
 
       expect(bob)
@@ -124,7 +128,7 @@ describe('embed.submitTicket', function() {
     });
 
     it('renders a submitTicket form to the document', function() {
-      submitTicket.create('bob');
+      submitTicket.create('bob', frameConfig);
       submitTicket.render('bob');
 
       expect(document.querySelectorAll( '.mock-frame').length)
@@ -135,7 +139,7 @@ describe('embed.submitTicket', function() {
     });
 
     it('should only be allowed to render an submitTicket form once', function() {
-      submitTicket.create('bob');
+      submitTicket.create('bob', frameConfig);
 
       expect(function() {
         submitTicket.render('bob');
@@ -149,7 +153,7 @@ describe('embed.submitTicket', function() {
     it('applies submitTicket.scss to the frame', function() {
       var mockFrameCss;
 
-      submitTicket.create('bob');
+      submitTicket.create('bob', frameConfig);
       submitTicket.render('bob');
 
       mockFrameCss = mockFrame.mostRecentCall.args[0].css;
@@ -161,46 +165,26 @@ describe('embed.submitTicket', function() {
 
   describe('show', function() {
     it('should change the forms state to show it', function() {
-      submitTicket.create('bob');
+      submitTicket.create('bob', frameConfig);
       submitTicket.render('bob');
       submitTicket.show('bob');
 
       expect(submitTicket.get('bob').instance.refs.frame.state.show)
         .toEqual(true);
+
+      expect(frameConfig.onShow)
+        .toHaveBeenCalled();
     });
   });
 
   describe('hide', function() {
     it('should change the forms state to hide it', function() {
-      submitTicket.create('bob');
+      submitTicket.create('bob', frameConfig);
       submitTicket.render('bob');
-      submitTicket.show('bob');
       submitTicket.hide('bob');
 
       expect(submitTicket.get('bob').instance.refs.frame.state.show)
         .toEqual(false);
     });
   });
-
-  describe('toggleVisibility', function() {
-    it('should change the forms state', function() {
-      var state;
-
-      submitTicket.create('bob');
-      submitTicket.render('bob');
-
-      state = submitTicket.get('bob').instance.refs.frame.state.show;
-
-      submitTicket.toggleVisibility('bob');
-
-      expect(submitTicket.get('bob').instance.refs.frame.state.show)
-        .not.toEqual(state);
-
-      submitTicket.toggleVisibility('bob');
-
-      expect(submitTicket.get('bob').instance.refs.frame.state.show)
-        .toEqual(state);
-    });
-  });
-
 });

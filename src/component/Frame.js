@@ -29,16 +29,6 @@ export var Frame = React.createClass({
     };
   },
 
-  getInitialState: function() {
-    return {
-      show: true
-    };
-  },
-
-  toggleVisibility: function() {
-    this.setState({show: !this.state.show});
-  },
-
   render: function() {
     var visibilityRule = (this.state.show) ? {} : {display: 'none'},
         base = { border: 'none' },

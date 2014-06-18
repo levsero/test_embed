@@ -1,7 +1,11 @@
-.example-enter {
+.FadeIn-enter {
   opacity: 0.01;
-  transition: opacity .5s ease-in;
+  transform: translateY(-20%);
+  transition: opacity .5s, transform .3s;
 
-
+  &.FadeIn-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 

@@ -35,34 +35,39 @@ function create(name, config) {
   iframeStyle = _.extend(base, posObj);
 
   Wrapper = React.createClass({
-    hidee: function() {
-      this.props.onHide();
-      console.log(this.props.onHide);
-      this.refs.frame.hide();
+    getInitialState() {
+      return {
+        name: name
+      };
     },
-    show: function() {
+    hide() {
+      this.props.onHide();
+      hide(this.state.name);
+    },
+    resetForm() {
+      this.hide();
+      reset(this.state.name);
+    },
+    show() {
       this.props.onShow();
       this.refs.frame.show();
     },
-    toggleVisibility: function() {
-      this.refs.frame.toggleVisibility();
-    },
-    render: function() {
+    render() {
       var classes = this.props.closable ? '' : 'u-isHidden';
 
       return (
         /* jshint quotmark: false */
         <Frame ref='frame'
-          visibility={true}
+          visibility={false}
           closable={true}
           style={iframeStyle}
           css={submitTicketCSS}>
           <div className={classes + ' u-textRight u-marginVS'}>
             <strong
-              onClick={this.hidee}
+              onClick={this.hide}
               className='u-textCTA u-isActionable'>HIDE</strong>
           </div>
-          <SubmitTicket ref='submitTicket' />
+          <SubmitTicket ref='submitTicket' reset={this.resetForm} />
         </Frame>
       );
     }
@@ -98,22 +103,21 @@ function show(name) {
 }
 
 function hide(name) {
-  get(name).instance.hide();
-  if (get(name).instance.refs.submitTicket.state.showNotification) {
-    reset(name);
-  }
-}
+  var refs = get(name).instance.refs;
 
-function toggleVisibility(name) {
-  get(name).instance.toggleVisibility();
-  if (get(name).instance.refs.submitTicket.state.showNotification) {
+  refs.frame.hide();
+  if (refs.submitTicket.state.showNotification) {
     reset(name);
   }
 }
 
 function reset(name) {
-  // TODO add new way to reset the form
-  return name;
+  var refs = get(name).instance.refs,
+      submitTicket = refs.submitTicket,
+      reactForm = submitTicket.refs.zdform.refs.form;
+
+  submitTicket.setState({showNotification: false});
+  reactForm.updateValue([null]);
 }
 
 export var submitTicket = {
@@ -123,8 +127,6 @@ export var submitTicket = {
   list: list,
   show: show,
   hide: hide,
-  toggleVisibility: toggleVisibility,
-  reset: reset,
-  getFormComponent: getFormComponent
+  reset: reset
 };
 
