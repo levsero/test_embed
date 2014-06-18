@@ -52,15 +52,15 @@ function create(name, config) {
       var win = this.refs.frame.getDOMNode().contentWindow,
           dimensions;
 
-      if (!win.document.getElementsByTagName('div')[0]) {
+      if (!win.document.firstChild) {
        return false;
       }
 
       dimensions = function() {
-        var element = win.document.getElementsByTagName('div');
+        var el = win.document.body.firstChild;
         return ({
-          width:  Math.max(element.clientWidth,  element.offsetWidth),
-          height: Math.max(element.clientHeight, element.offsetHeight)
+          width:  Math.max(el.clientWidth,  el.offsetWidth, el.clientWidth),
+          height: Math.max(el.clientHeight, el.offsetHeight, el.clientHeight)
         });
       };
 
