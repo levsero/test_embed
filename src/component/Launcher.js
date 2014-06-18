@@ -32,9 +32,11 @@ export var Launcher = React.createClass({
           'u-inlineBlock Icon ': true
         });
 
-    setTimeout(function() {
-      this.props.updateFrameSize(); 
-    }.bind(this), 1);
+    if (this.props.updateFrameSize) {
+      setTimeout(function() {
+        this.props.updateFrameSize(); 
+      }.bind(this), 1);
+    }
 
     return (
       /* jshint quotmark: false */
