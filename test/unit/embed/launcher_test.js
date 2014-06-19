@@ -40,17 +40,24 @@ describe('embed.launcher', function() {
             }
           })
         ),
-      mockFrameFactory = {
-        frameFactory: jasmine.createSpy().andCallFake(
+      mockFrameMethods = {
+        show: jasmine.createSpy('mockFrameShow'),
+        hide: jasmine.createSpy('mockFrameHide')
+      },
+      mockFrameFactory = jasmine.createSpy('mockFrameFactory').andCallFake(
           function(child, params) {
             return _.extend({
+              show: mockFrameMethods.show,
+              hide: mockFrameMethods.hide,
               render: function() {
-                return (<div className='mock-frame'>{child(params.extend)}</div>);
+                return (
+                  <div ref='frame' className='mock-frame'>
+                    {child(params.extend)}
+                  </div>);
               }
             }, params.extend);
           }
-        )
-      },
+      ),
       mockLauncherCss = jasmine.createSpy('mockLauncherCss'),
       mockBeacon = jasmine.createSpyObj('mockBeacon', ['track']),
       launcherPath = buildPath('embed/launcher/launcher');
@@ -71,7 +78,9 @@ describe('embed.launcher', function() {
       beacon: mockBeacon
     });
     mockery.registerMock('./launcher.scss', mockLauncherCss);
-    mockery.registerMock('embed/frameFactory', mockFrameFactory);
+    mockery.registerMock('embed/frameFactory', {
+      frameFactory: mockFrameFactory
+    });
     mockery.registerMock('imports?_=lodash!lodash', _);
     mockery.registerAllowable('react');
     mockery.registerAllowable('./lib/React');
@@ -211,15 +220,12 @@ describe('embed.launcher', function() {
     });
 
     it('applies launcher.scss to the frame', function() {
-
       var mockFrameCss;
 
       launcher.create('alice');
       launcher.render('alice');
 
-      expect(mockFrameFactory.frameFactory).toHaveBeenCalled();
-
-      mockFrameCss = mockFrameFactory.frameFactory.mostRecentCall.args[1].css;
+      mockFrameCss = mockFrameFactory.mostRecentCall.args[1].css;
 
       expect(mockFrameCss)
         .toBe(mockLauncherCss);
@@ -233,7 +239,7 @@ describe('embed.launcher', function() {
       launcher.create('alice');
       launcher.render('alice');
 
-      mockFrameStyle = mockFrame.mostRecentCall.args[0].style;
+      mockFrameStyle = mockFrameFactory.mostRecentCall.args[1].style;
 
       expect(mockFrameStyle.left)
         .toBeUndefined();
@@ -250,7 +256,7 @@ describe('embed.launcher', function() {
       launcher.create('alice', {position: 'left'});
       launcher.render('alice');
 
-      mockFrameStyle = mockFrame.mostRecentCall.args[0].style;
+      mockFrameStyle = mockFrameFactory.mostRecentCall.args[1].style;
 
       expect(mockFrameStyle.left)
         .toBeDefined();
@@ -269,16 +275,9 @@ describe('embed.launcher', function() {
 
       launcher.create('alice');
       launcher.render('alice');
-      alice = launcher.get('alice');
-
-      expect(alice.instance.refs.frame.state.show)
-        .toEqual(true);
-
-      launcher.hide('alice');
       launcher.show('alice');
 
-      expect(alice.instance.refs.frame.state.show)
-        .toEqual(true);
+      expect(mockFrameMethods.show).toHaveBeenCalled();
     });
   });
 
@@ -289,15 +288,9 @@ describe('embed.launcher', function() {
 
       launcher.create('alice');
       launcher.render('alice');
-      alice = launcher.get('alice');
-
-      expect(alice.instance.refs.frame.state.show)
-        .toEqual(true);
-
       launcher.hide('alice');
 
-      expect(alice.instance.refs.frame.state.show)
-        .toEqual(false);
+      expect(mockFrameMethods.hide).toHaveBeenCalled();
     });
 
   });
