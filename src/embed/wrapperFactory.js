@@ -53,4 +53,4 @@ export var wrapperFactory = function(params) {
       );
     }
   }, params.extend);
-}
+};

@@ -1,7 +1,6 @@
 /** @jsx React.DOM */
 module React from 'react'; /* jshint ignore:line */
 import { document } from 'util/globals';
-import { Frame    } from 'component/Frame';
 import { Launcher } from 'component/Launcher';
 import { beacon   } from 'service/beacon';
 import { frameFactory } from 'embed/frameFactory';
@@ -41,6 +40,7 @@ function create(name, config) {
     style: iframeStyle,
     css: launcherCSS,
     child: function(arg) {return (
+        /* jshint quotmark:false */
         <Launcher
           ref='launcher'
           onClick={arg.onClickHandler}
@@ -50,7 +50,7 @@ function create(name, config) {
           message={config.message}
           icon={config.icon}
         />
-    )},
+    );},
     extend: {
       changeIcon: function(icon) {
         this.refs.launcher.changeIcon(icon);

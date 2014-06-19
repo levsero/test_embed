@@ -126,4 +126,4 @@ export var frameFactory = function(params) {
     }
 
   };
-}
+};
