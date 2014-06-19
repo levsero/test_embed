@@ -28,15 +28,15 @@ export var frameFactory = function(params) {
     },
 
     updateFrameSize: function() {
-      var win = this.getDOMNode().contentWindow,
+      var doc = this.getDOMNode().contentDocument,
           dimensions;
 
-      if (!win.document.firstChild) {
+      if (!doc.firstChild) {
        return false;
       }
 
       dimensions = function() {
-        var el = win.document.body.firstChild;
+        var el = doc.body.firstChild;
         return ({
           width:  Math.max(el.clientWidth,  el.offsetWidth, el.clientWidth),
           height: Math.max(el.clientHeight, el.offsetHeight, el.clientHeight)
@@ -62,9 +62,9 @@ export var frameFactory = function(params) {
       var visibilityRule = (this.state.show) ? {} : {display: 'none'},
       base = { border: 'none' },
       iframeStyle = _.extend(
-        base, 
-        params.style, 
-        visibilityRule, 
+        base,
+        params.style,
+        visibilityRule,
         this.state.iframeDimensions
       );
 
@@ -75,16 +75,16 @@ export var frameFactory = function(params) {
     componentDidMount: function() {
       this.renderFrameContent();
     },
-     
+
     componentDidUpdate: function() {
       this.renderFrameContent();
     },
-     
+
     renderFrameContent: function() {
       if (this.state._rendered) {
         return false;
       }
-     
+
       var doc = this.getDOMNode().contentWindow.document;
       // In order for iframe correctly render in some browsers we need to do it on nextTick
       if (doc.readyState === 'complete') {
@@ -93,7 +93,7 @@ export var frameFactory = function(params) {
             root = this,
             Component,
             childParams;
-        
+
         childParams = _.reduce(params.extend, function(res, val, key) {
           res[key] = val.bind(root);
           return res;
@@ -102,7 +102,7 @@ export var frameFactory = function(params) {
         childParams = _.extend(childParams, {
           updateFrameSize: root.updateFrameSize
         });
-        
+
         Component = React.createClass(_.extend({
           render: function() {
             return (
@@ -113,14 +113,14 @@ export var frameFactory = function(params) {
             );
           }
         }, params.extend));
-     
+
         child = React.renderComponent(<Component />, doc.body);
         this.setState({_rendered: true});
       } else {
         setTimeout(this.renderFrameContent, 0);
       }
     },
-     
+
     componentWillUnmount: function() {
       React.unmountComponentAtNode(this.getDOMNode().contentDocument.body);
     }
