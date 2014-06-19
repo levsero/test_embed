@@ -36,31 +36,33 @@ function create(name, config) {
 
   iframeStyle = _.extend(base, posObj);
 
-  Embed = React.createClass(frameFactory({
-    style: iframeStyle,
-    css: launcherCSS,
-    child: function(arg) {return (
+  Embed = React.createClass(frameFactory(
+    function(params) {
+      return (
         /* jshint quotmark:false */
         <Launcher
           ref='launcher'
-          onClick={arg.onClickHandler}
-          onTouchEnd={arg.onClickHandler}
-          updateFrameSize={arg.updateFrameSize}
+          onClick={params.onClickHandler}
+          onTouchEnd={params.onClickHandler}
+          updateFrameSize={params.updateFrameSize}
           position={config.position}
           message={config.message}
-          icon={config.icon}
-        />
-    );},
-    extend: {
-      changeIcon: function(icon) {
-        this.refs.launcher.changeIcon(icon);
-      },
-      onClickHandler: function() {
-        config.onClick();
-        beacon.track('launcher', 'click', name);      
+          icon={config.icon} />
+      );
+    },
+    {
+      style: iframeStyle,
+      css: launcherCSS,
+      extend: {
+        changeIcon: function(icon) {
+          this.refs.launcher.changeIcon(icon);
+        },
+        onClickHandler: function() {
+          config.onClick();
+          beacon.track('launcher', 'click', name);      
+        }
       }
-    }
-  }));
+    }));
 
   launchers[name] = {
     component: <Embed />,

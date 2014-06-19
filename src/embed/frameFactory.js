@@ -1,15 +1,13 @@
 /** @jsx React.DOM */
 module React from 'react'; /* jshint ignore:line */
-//import { Frame } from 'component/Frame';
 
 require('imports?_=lodash!lodash');
 
 var baseCSS = require('baseCSS'),
     mainCSS = require('mainCSS');
 
-
-export var frameFactory = function(params) {
-  var child;
+export var frameFactory = function(child, params) {
+  var _child;
 
   return {
     getInitialState: function() {
@@ -24,7 +22,7 @@ export var frameFactory = function(params) {
     },
 
     getChild: function() {
-      return child;
+      return _child;
     },
 
     updateFrameSize: function() {
@@ -86,7 +84,9 @@ export var frameFactory = function(params) {
       }
 
       var doc = this.getDOMNode().contentWindow.document;
-      // In order for iframe correctly render in some browsers we need to do it on nextTick
+
+      // In order for iframe correctly render in some browsers
+      // we need to do it on nextTick
       if (doc.readyState === 'complete') {
         var cssText = baseCSS + mainCSS + params.css,
             css = <style dangerouslySetInnerHTML={{ __html: cssText }} />,
@@ -108,14 +108,16 @@ export var frameFactory = function(params) {
             return (
                 <div style={{float: 'left'}}>
                 {css}
-              {params.child(childParams)}
+              {child(childParams)}
               </div>
             );
           }
         }, params.extend));
 
         child = React.renderComponent(<Component />, doc.body);
+
         this.setState({_rendered: true});
+
       } else {
         setTimeout(this.renderFrameContent, 0);
       }
