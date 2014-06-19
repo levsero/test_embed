@@ -93,7 +93,7 @@ export var frameFactory = function(params) {
             childParams;
         
         childParams = _.reduce(params.extend, function(res, val, key) {
-          res[key] = val;
+          res[key] = val.bind(root);
           return res;
         }, {});
 
