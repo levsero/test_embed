@@ -11,7 +11,11 @@ describe('Submit ticket component', function() {
       mockComponent = jasmine.createSpy('mockComponent')
         .andCallFake(React.createClass({
           getInitialState: function() {
-            return {value: defaultValue, errors: []};
+            return {
+              showNotification: false,
+              message: false,
+              uid: defaultValue
+            };
           },
           render: function() {
             /* jshint quotmark: false */
@@ -85,7 +89,6 @@ describe('Submit ticket component', function() {
   });
 
   it('should correctly set the initial states when created', function() {
-    console.log(typeof React.renderComponent);
     var submitTicket = React.renderComponent(
       <SubmitTicket />,
       global.document.body
@@ -126,13 +129,20 @@ describe('Submit ticket component', function() {
   });
 
   it('should submit form when valid', function() {
-    React.renderComponent(
-      <SubmitTicket />,
-      global.document.body
-    );
+    var submitTicket = React.renderComponent(
+          <SubmitTicket />,
+          global.document.body
+        ),
+        mockComponentRecentCall = mockComponent.mostRecentCall.args[0],
+        transportRecentCall,
+        notificationElem = ReactTestUtils.findRenderedDOMComponentWithClass(submitTicket, 'Notify');
 
-    var mockComponentRecentCall = mockComponent.mostRecentCall.args[0],
-        transportRecentCall;
+    transport.send.andCallFake(function(){
+      submitTicket.setState({showNotification: true});
+    });
+
+    expect(notificationElem.props.className)
+      .toContain('u-isHidden');
 
     mockComponentRecentCall.submit({preventDefault: noop}, {
       isFormInvalid: false,
@@ -146,5 +156,11 @@ describe('Submit ticket component', function() {
 
     expect(transportRecentCall)
       .toBeJSONEqual(payload);
+
+    expect(notificationElem.props.className)
+      .not.toContain('u-isHidden');
+
+    expect(submitTicket.state.showNotification)
+      .toEqual(true);
   });
 });

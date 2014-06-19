@@ -27,7 +27,10 @@ export var ZdForm = React.createClass({
     );
 
     return (
-      <form onSubmit={this.handleSubmit} className={'Form ' + this.props.className}>
+      <form
+        noValidate
+        onSubmit={this.handleSubmit}
+        className={'Form ' + this.props.className}>
         {form}
         {this.props.children}
       </form>
@@ -80,8 +83,8 @@ export function EmailField(props) {
       label={props.name || 'Email'}
       required={props.required ? true : false}
       input={<input type='email' />}
-      validate={function(v) {
-        validation.validateEmail(v);
+      validate={function(value) {
+        return validation.validateEmail(value);
       }}
     />
   );

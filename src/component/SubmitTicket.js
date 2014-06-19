@@ -26,27 +26,27 @@ export var SubmitTicket = React.createClass({
     }
 
     var tags = ['buid-' + identity.getBuid(), 'DROPBOX'].join(' '),
-        formParams = {
+        formParams = _.extend({
           'set_tags': tags,
           'submitted_from': win.location.href
+        }, data.value),
+        resCallback = (msg) => {
+          this.setState({
+            showNotification: true,
+            message: msg
+          });
         },
         payload = {
           method: 'post',
           path: '/api/ticket_submission',
-          params: _.extend(formParams, data.value),
+          params: formParams,
           callbacks: {
-            done: function() {
-              this.setState({
-                showNotification: true,
-                message: 'Ticket Submitted! Thanks!'
-              });
-            }.bind(this),
-            fail: function(data, status) {
-              this.setState({
-                showNotification: true,
-                message: 'Error ' + status + ': ' + JSON.parse(data).error
-              });
-            }.bind(this)
+            done() {
+              resCallback('Ticket Submitted! Thanks!');
+            },
+            fail(data, status) {
+              resCallback('Error ' + status + ': ' + JSON.parse(data).error);
+            }
           }
         };
 

@@ -35,51 +35,50 @@ function create(name, config) {
   iframeStyle = _.extend(base, posObj);
 
   Wrapper = React.createClass({
-    getInitialState() {
-      return {
-        name: name
-      };
-    },
-    hide() {
-      this.props.onHide();
-      hide(this.state.name);
-    },
-    resetForm() {
-      this.hide();
-      reset(this.state.name);
-    },
     show() {
-      this.props.onShow();
+      if(_.isFunction(config.onShow())) {
+        config.onShow();
+      }
       this.refs.frame.show();
     },
-    render() {
-      var classes = this.props.closable ? '' : 'u-isHidden';
+    hide() {
+      var refs = this.refs;
 
+      if(_.isFunction(config.onHide())) {
+        config.onHide();
+      }
+      refs.frame.hide();
+      if (refs.submitTicket.state.showNotification) {
+        this.reset();
+      }
+    },
+    reset() {
+      var submitTicket = this.refs.submitTicket;
+
+      this.hide();
+      submitTicket.setState({showNotification: false});
+      submitTicket.refs.zdform.refs.form.updateValue([null]);
+    },
+    render() {
       return (
         /* jshint quotmark: false */
         <Frame ref='frame'
-          visibility={false}
-          closable={true}
+          visible={false}
           style={iframeStyle}
           css={submitTicketCSS}>
-          <div className={classes + ' u-textRight u-marginVS'}>
+          <div className='u-textRight u-marginVS'>
             <strong
               onClick={this.hide}
               className='u-textCTA u-isActionable'>HIDE</strong>
           </div>
-          <SubmitTicket ref='submitTicket' reset={this.resetForm} />
+          <SubmitTicket ref='submitTicket' reset={this.reset} />
         </Frame>
       );
     }
   });
 
   submitTickets[name] = {
-    component: (
-      <Wrapper
-        onShow={config.onShow}
-        onHide={config.onHide}
-        closable={true} />
-      )
+    component: <Wrapper />
   };
 
   return this;
@@ -103,21 +102,11 @@ function show(name) {
 }
 
 function hide(name) {
-  var refs = get(name).instance.refs;
-
-  refs.frame.hide();
-  if (refs.submitTicket.state.showNotification) {
-    reset(name);
-  }
+  get(name).instance.hide();
 }
 
 function reset(name) {
-  var refs = get(name).instance.refs,
-      submitTicket = refs.submitTicket,
-      reactForm = submitTicket.refs.zdform.refs.form;
-
-  submitTicket.setState({showNotification: false});
-  reactForm.updateValue([null]);
+  get(name).instance.reset();
 }
 
 export var submitTicket = {

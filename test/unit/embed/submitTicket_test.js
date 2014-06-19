@@ -2,6 +2,7 @@
 
 describe('embed.submitTicket', function() {
   var submitTicket,
+      defaultValue = 'abc123',
       mockGlobals = {
         document: global.document
       },
@@ -37,7 +38,7 @@ describe('embed.submitTicket', function() {
         .andCallFake(
           React.createClass({
             getInitialState: function() {
-              return {showNotification: false, message: '', showEmail: false};
+              return {showNotification: false, message: '', uid: defaultValue};
             },
             render: function() {
               return (
@@ -136,6 +137,9 @@ describe('embed.submitTicket', function() {
 
       expect(document.querySelectorAll( '.mock-frame > .mock-submitTicket').length)
         .toEqual(1);
+
+      expect(ReactTestUtils.isCompositeComponent(submitTicket.get('bob').instance))
+        .toEqual(true);
     });
 
     it('should only be allowed to render an submitTicket form once', function() {
