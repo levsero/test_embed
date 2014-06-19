@@ -95,7 +95,7 @@ export var frameFactory = function(params) {
         childParams = _.reduce(params.extend, function(res, val, key) {
           res[key] = val;
           return res;
-        });
+        }, {});
 
         childParams = _.extend(childParams, {
           updateFrameSize: root.updateFrameSize
