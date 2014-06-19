@@ -40,6 +40,17 @@ describe('embed.launcher', function() {
             }
           })
         ),
+      mockFrameFactory = {
+        frameFactory: jasmine.createSpy().andCallFake(
+          function(child, params) {
+            return _.extend({
+              render: function() {
+                return (<div className='mock-frame'>{child(params.extend)}</div>);
+              }
+            }, params.extend);
+          }
+        )
+      },
       mockLauncherCss = jasmine.createSpy('mockLauncherCss'),
       mockBeacon = jasmine.createSpyObj('mockBeacon', ['track']),
       launcherPath = buildPath('embed/launcher/launcher');
@@ -60,6 +71,7 @@ describe('embed.launcher', function() {
       beacon: mockBeacon
     });
     mockery.registerMock('./launcher.scss', mockLauncherCss);
+    mockery.registerMock('embed/frameFactory', mockFrameFactory);
     mockery.registerMock('imports?_=lodash!lodash', _);
     mockery.registerAllowable('react');
     mockery.registerAllowable('./lib/React');
@@ -205,7 +217,9 @@ describe('embed.launcher', function() {
       launcher.create('alice');
       launcher.render('alice');
 
-      mockFrameCss = mockFrame.mostRecentCall.args[0].css;
+      expect(mockFrameFactory.frameFactory).toHaveBeenCalled();
+
+      mockFrameCss = mockFrameFactory.frameFactory.mostRecentCall.args[1].css;
 
       expect(mockFrameCss)
         .toBe(mockLauncherCss);
