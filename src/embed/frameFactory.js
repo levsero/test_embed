@@ -5,10 +5,12 @@ module React from 'react'; /* jshint ignore:line */
 require('imports?_=lodash!lodash');
 
 var baseCSS = require('baseCSS'),
-    mainCSS = require('mainCSS'),
-    child;
+    mainCSS = require('mainCSS');
+
 
 export var frameFactory = function(params) {
+  var child;
+
   return {
     getInitialState: function() {
       return ({
