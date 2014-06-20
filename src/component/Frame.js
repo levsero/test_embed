@@ -27,44 +27,21 @@ export var Frame = React.createClass({
     };
   },
 
-  getDefaultProps: function() {
-    return {
-      style: null,
-      css: null,
-      hide: false,
-      closable: false
-    };
-  },
-
-  getInitialState: function() {
-    return {
-      show: true
-    };
-  },
-
-  toggleVisibility: function() {
-    this.setState({show: !this.state.show});
-  },
-
   render: function() {
     var visibleRule = (this.state.visible) ? {} : {display: 'none'},
         base = { border: 'none' },
         iframeStyle = _.extend(base, this.props.style, visibleRule);
 
-    if(!this.state.show) {
-      iframeStyle = _.extend(iframeStyle, {display: 'none'});
-    }
-
     return <iframe style={iframeStyle} />;
   },
 
-  show: function() {
+  show() {
     this.setState({
       visible: true
     });
   },
 
-  hide: function() {
+  hide() {
     this.setState({
       visible: false
     });

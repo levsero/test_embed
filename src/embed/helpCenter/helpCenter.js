@@ -27,7 +27,6 @@ function create(name, config) {
       iframeStyle;
 
   config = _.extend(configDefaults, config);
-  console.log('creating the help centre');
 
   /* jshint laxbreak: true */
   posObj = (config.position === 'left')
@@ -38,11 +37,15 @@ function create(name, config) {
 
   Wrapper = React.createClass({
     hide: function() {
-      this.props.onHide();
+      if(_.isFunction(config.onHide())) {
+        config.onHide();
+      }
       this.refs.frame.hide();
     },
     show: function() {
-      this.props.onShow();
+      if(_.isFunction(config.onShow())) {
+        config.onShow();
+      }
       this.refs.frame.show();
     },
     toggleVisibility: function() {
@@ -52,10 +55,14 @@ function create(name, config) {
       return (
         /* jshint quotmark: false */
         <Frame ref='frame'
-          visibility={false}
-          closable={true}
+          visible={false}
           style={iframeStyle}
           css={helpCenterCSS}>
+          <div className='u-textRight u-marginVS'>
+            <strong
+              onClick={this.hide}
+              className='u-textCTA u-isActionable'>HIDE</strong>
+          </div>
           <HelpCenter ref='helpCenter' />
         </Frame>
       );
