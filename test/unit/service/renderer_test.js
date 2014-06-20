@@ -2,6 +2,7 @@ describe('renderer', function() {
   var renderer,
       mockSubmitTicket,
       mockLauncher,
+      mockHelpCenter,
       mockGlobals = {
         win: {},
         document: {}
@@ -15,12 +16,22 @@ describe('renderer', function() {
     mockSubmitTicket = {
       create: jasmine.createSpy(),
       show: jasmine.createSpy(),
-      render: jasmine.createSpy()
+      render: jasmine.createSpy(),
+      hide: jasmine.createSpy()
     };
 
     mockLauncher = {
       create: jasmine.createSpy(),
+      show: jasmine.createSpy(),
+      hide: jasmine.createSpy(),
       render: jasmine.createSpy()
+    };
+
+    mockHelpCenter = {
+      create: jasmine.createSpy(),
+      show: jasmine.createSpy(),
+      render: jasmine.createSpy(),
+      hide: jasmine.createSpy()
     };
 
     mockery.registerMock('util/globals', mockGlobals);
@@ -31,6 +42,10 @@ describe('renderer', function() {
 
     mockery.registerMock('embed/launcher/launcher', {
       launcher: mockLauncher
+    });
+
+    mockery.registerMock('embed/helpCenter/helpCenter', {
+      helpCenter: mockHelpCenter
     });
 
     mockery.registerAllowable(rendererPath);
@@ -45,6 +60,29 @@ describe('renderer', function() {
   describe('#init', function() {
     it('should call and render correct embeds from config', function() {
       var configJSON = {
+            'helpCenterForm': {
+              'embed': 'helpCenter',
+              'props': {
+               'onShow': {
+                  'name': 'helpCenterLauncher',
+                  'method': 'hide'
+                },
+                'onHide': {
+                  'name': 'helpCenterLauncher',
+                  'method': 'show'
+                }
+              }
+            },
+            'helpCenterLauncher': {
+              'embed': 'launcher',
+              'props': {
+                'position': 'right',
+                'onClick': {
+                  'name': 'helpCenterForm',
+                  'method': 'show'
+                }
+              }
+            },
             'ticketSubmissionForm': {
               'embed': 'submitTicket'
             },
@@ -67,6 +105,12 @@ describe('renderer', function() {
       expect(mockSubmitTicket.create)
         .toHaveBeenCalledWith('ticketSubmissionForm', jasmine.any(Object));
 
+      expect(mockHelpCenter.create)
+        .toHaveBeenCalledWith('helpCenterForm', jasmine.any(Object));
+
+      expect(mockLauncher.create.callCount)
+        .toBe(2);
+
       expect(mockLauncherRecentCall.args[1].position)
         .toEqual(launcherProps.position);
 
@@ -77,6 +121,9 @@ describe('renderer', function() {
 
       expect(mockSubmitTicket.render)
         .toHaveBeenCalledWith('ticketSubmissionForm');
+
+      expect(mockHelpCenter.render)
+        .toHaveBeenCalledWith('helpCenterForm');
 
       expect(mockLauncher.render)
         .toHaveBeenCalledWith('ticketSubmissionLauncher');

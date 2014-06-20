@@ -48,9 +48,6 @@ function create(name, config) {
       }
       this.refs.frame.show();
     },
-    toggleVisibility: function() {
-      this.refs.frame.toggleVisibility();
-    },
     render: function() {
       return (
         /* jshint quotmark: false */

@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 
-module React from 'react'; /* jshint ignore:line */
+module React from 'react/addons';
 module ReactForms from 'react-forms';
 import { transport } from 'service/transport';
 import { ZdForm    } from 'component/ZdForm';
