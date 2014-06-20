@@ -2,7 +2,7 @@
 
 module React from 'react/addons';
 module ReactForms from 'react-forms';
-import { validation } from 'mixin/validation.js';
+import { validation } from 'mixin/validation';
 require('imports?_=lodash!lodash');
 
 var { FormFor, Form } = ReactForms,

@@ -2,7 +2,10 @@ var reEmail = /[a-z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~\-`'
 
 export var validation = {
   validateEmail: function(value) {
-    return reEmail.test(value);
+    /* jshint laxbreak: true */
+    return reEmail.test(value)
+      ? true
+      : 'invalid email format';
   }
 };
 
