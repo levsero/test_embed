@@ -26,22 +26,24 @@ export var frameFactory = function(child, params) {
     },
 
     updateFrameSize: function() {
-      var doc = this.getDOMNode().contentDocument,
+      var frameWin = this.getDOMNode().contentWindow,
+          frameDoc = this.getDOMNode().contentDocument,
           dimensions;
 
-      if (!doc.firstChild) {
+      if (!frameDoc.firstChild) {
        return false;
       }
 
       dimensions = function() {
-        var el = doc.body.firstChild;
+        var el = frameDoc.body.firstChild;
         return ({
           width:  Math.max(el.clientWidth,  el.offsetWidth, el.clientWidth),
           height: Math.max(el.clientHeight, el.offsetHeight, el.clientHeight)
         });
       };
-
-      this.setState({iframeDimensions: dimensions()});
+      frameWin.setTimeout(function() {
+        this.setState({iframeDimensions: dimensions()});
+      }.bind(this), 0);
     },
 
     show: function() {

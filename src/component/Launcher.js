@@ -35,7 +35,7 @@ export var Launcher = React.createClass({
     if (this.props.updateFrameSize) {
       setTimeout(function() {
         this.props.updateFrameSize(); 
-      }.bind(this), 1);
+      }.bind(this), 0);
     }
 
     return (
