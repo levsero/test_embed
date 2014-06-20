@@ -51,6 +51,7 @@ describe('embed.launcher', function() {
               hide: mockFrameMethods.hide,
               render: function() {
                 return (
+                  /* jshint quotmark:false */
                   <div ref='frame' className='mock-frame'>
                     {child(params.extend)}
                   </div>);
@@ -271,7 +272,6 @@ describe('embed.launcher', function() {
   describe('show', function() {
 
     it('should show the launcher', function() {
-      var alice;
 
       launcher.create('alice');
       launcher.render('alice');
@@ -284,7 +284,6 @@ describe('embed.launcher', function() {
   describe('hide', function() {
 
     it('should hide the launcher', function() {
-      var alice;
 
       launcher.create('alice');
       launcher.render('alice');
