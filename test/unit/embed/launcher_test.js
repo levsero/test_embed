@@ -31,7 +31,7 @@ describe('embed.launcher', function() {
       mockLauncher = jasmine.createSpy('mockLauncher')
         .andCallFake(
           React.createClass({
-            changeIcon: noop,
+            changeIcon: jasmine.createSpy('mockChangeIcon'),
             render: function() {
               return (
                 /* jshint quotmark:false */
@@ -50,10 +50,15 @@ describe('embed.launcher', function() {
               show: mockFrameMethods.show,
               hide: mockFrameMethods.hide,
               render: function() {
+                var root = this;
+                var childParams = _.reduce(params.extend, function(res, val, key) {
+                  res[key] = val.bind(root);
+                  return res;
+                }, {});
                 return (
                   /* jshint quotmark:false */
                   <div ref='frame' className='mock-frame'>
-                    {child(params.extend)}
+                    {child(childParams)}
                   </div>);
               }
             }, params.extend);
@@ -142,7 +147,7 @@ describe('embed.launcher', function() {
       expect(mockLauncher).toHaveBeenCalled();
 
       expect(alice.instance.refs.launcher.props.position)
-        .toBe(config.position);
+        .toEqual(config.position);
 
       alice.instance.refs.launcher.props.onClick();
 
@@ -153,6 +158,41 @@ describe('embed.launcher', function() {
         .toHaveBeenCalledWith('launcher', 'click', 'alice');
     });
 
+    it('passes Launcher correctly into frameFactory', function() {
+
+      var child, 
+          mockClickHandler = function() {},
+          payload,
+          launcherInstance,
+          alice;
+
+      launcher.create('alice');
+
+      child = mockFrameFactory.mostRecentCall.args[0];
+
+      mockClickHandler = function() {};
+
+      payload = child({
+        onClickHandler: mockClickHandler
+      });
+
+      expect(payload.props.onClick)
+        .toBe(mockClickHandler);
+      expect(payload.props.onTouchEnd)
+        .toBe(mockClickHandler);
+
+      launcher.render('alice');
+
+      alice = launcher.get('alice');
+      launcherInstance = alice.instance.refs.launcher;
+
+      expect(alice.instance.onClickHandler).toBeDefined();
+      expect(alice.instance.changeIcon).toBeDefined();
+
+      alice.instance.changeIcon();
+
+      expect(launcherInstance.changeIcon.__reactBoundMethod).toHaveBeenCalled();
+    });
   });
 
   describe('get', function() {
