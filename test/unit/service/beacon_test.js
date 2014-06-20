@@ -5,7 +5,7 @@ describe('beacon', function() {
       mockTransport,
       mockIdentity,
       mockUtils,
-      beaconPath = buildPath('service/beacon');
+      beaconPath = buildSrcPath('service/beacon');
 
 
   function assertCommonParams(params) {

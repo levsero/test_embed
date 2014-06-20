@@ -5,8 +5,12 @@ global.basePath = function(path) {
   return __dirname + '/../../../' + path;
 };
 
-global.buildPath = function(path) {
+global.buildSrcPath = function(path) {
   return basePath('build/src/' + path);
+};
+
+global.buildTestPath = function(path) {
+  return basePath('build/test/' + path);
 };
 
 global._ = require('lodash');

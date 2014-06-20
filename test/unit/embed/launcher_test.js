@@ -40,11 +40,11 @@ describe('embed.launcher', function() {
             }
           })
         ),
-      mockFrameMethods = require(buildPath('../test/unit/mockFrameFactory')).mockFrameMethods,
-      mockFrameFactory = require(buildPath('../test/unit/mockFrameFactory')).mockFrameFactory,
+      mockFrameMethods = require(buildTestPath('unit/mockFrameFactory')).mockFrameMethods,
+      mockFrameFactory = require(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
       mockLauncherCss = jasmine.createSpy('mockLauncherCss'),
       mockBeacon = jasmine.createSpyObj('mockBeacon', ['track']),
-      launcherPath = buildPath('embed/launcher/launcher');
+      launcherPath = buildSrcPath('embed/launcher/launcher');
 
   beforeEach(function() {
 

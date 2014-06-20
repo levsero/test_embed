@@ -10,8 +10,8 @@ describe('identity', function() {
   beforeEach(function() {
     mockery.enable();
     mockery.registerMock('service/persistence', mockPersistence);
-    mockery.registerAllowable(buildPath('service/identity'));
-    identity = require(buildPath('service/identity')).identity;
+    mockery.registerAllowable(buildSrcPath('service/identity'));
+    identity = require(buildSrcPath('service/identity')).identity;
   });
 
   afterEach(function() {

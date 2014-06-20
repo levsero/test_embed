@@ -14,7 +14,7 @@ describe('store', function() {
           sessionStorage: mockSessionStorage
         }
       },
-      persistencePath = buildPath('service/persistence');
+      persistencePath = buildSrcPath('service/persistence');
 
   beforeEach(function() {
     mockery.enable();

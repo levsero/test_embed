@@ -5,7 +5,7 @@ describe('Launcher component', function() {
   beforeEach(function() {
     resetDOM();
 
-    var launcherPath = buildPath('component/Launcher');
+    var launcherPath = buildSrcPath('component/Launcher');
 
     Launcher = require(launcherPath).Launcher;
   });
