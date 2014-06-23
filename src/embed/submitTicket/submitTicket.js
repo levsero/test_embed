@@ -71,6 +71,7 @@ function create(name, config) {
           <div className='u-textRight u-marginVS'>
             <strong
               onClick={this.hide}
+              onTouchEnd={this.hide}
               className='u-textCTA u-isActionable'>HIDE</strong>
           </div>
           <SubmitTicket

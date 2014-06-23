@@ -83,6 +83,7 @@ export var SubmitTicket = React.createClass({
           <div className='Arrange Arrange--middle'>
             <strong
               onClick={this.handleCancel}
+              onTouchEnd={this.handleCancel}
               className='Arrange-sizeFill u-isActionable u-textSecondary'>
                 Cancel
             </strong>
