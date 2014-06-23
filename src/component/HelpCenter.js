@@ -50,7 +50,7 @@ export var HelpCenter = React.createClass({
     if (str.length >= 5 && str[str.length-1] === ' ') {
       filteredStr = filter(str);
 
-      if (filteredStr !== null) {
+      if (filteredStr !== '') {
         this.handleSearch(filteredStr);
       }
     }

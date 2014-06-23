@@ -1,23 +1,14 @@
 import { stopWords } from 'mixin/stopWords';
 
 export var filter = function(str) {
-  var words;
+  var words = str.replace(/\W/g, ' ').split(' ');
 
-  str = str.replace(/[\.,-\/#!$%\^&\*;:{}=\-_`~()]/g,' ')
-           .replace(/\s{2,}/g,' ');
-
-  words = str.match(/[^\s]+|\s+[^\s+]$/g);
-
-  _.forEach(words, function(word, i) {
-    _.forEach(stopWords, function(stopWord) {
-      if(word.toLowerCase() === stopWord) {
-        words[i] = '';
-      }
-    });
+  words = _.filter(words, function(word) {
+    if(stopWords.indexOf(word.toLowerCase()) === -1) {
+      return word;
+    }
   });
 
-  str = words.join(' ');
-
-  return str;
+  return words.join(' ');
 };
 
