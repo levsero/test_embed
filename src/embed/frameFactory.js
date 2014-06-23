@@ -10,9 +10,14 @@ export var frameFactory = function(child, params) {
   var _child;
 
   return {
+    getDefaultProps: function() {
+      return {
+        visible: true
+      };
+    },
     getInitialState: function() {
       return ({
-        show: true,
+        visible: this.props.visible,
         _rendered: false,
         iframeDimensions: {
           height: 0,
@@ -48,18 +53,18 @@ export var frameFactory = function(child, params) {
 
     show: function() {
       this.setState({
-        show: true
+        visible: true
       });
     },
 
     hide: function() {
       this.setState({
-        show: false
+        visible: false
       });
     },
 
     render: function() {
-      var visibilityRule = (this.state.show) ? {} : {display: 'none'},
+      var visibilityRule = (this.state.visible) ? {} : {display: 'none'},
       base = { border: 'none' },
       iframeStyle = _.extend(
         base,
@@ -108,6 +113,7 @@ export var frameFactory = function(child, params) {
         Component = React.createClass(_.extend({
           render: function() {
             return (
+              /* jshint quotmark: false */
               <div className='u-pullLeft'>
                 {css}
                 {child(childParams)}

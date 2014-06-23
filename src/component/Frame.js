@@ -73,6 +73,7 @@ export var Frame = React.createClass({
       var cssText = baseCSS + mainCSS + this.props.css,
           css = <style dangerouslySetInnerHTML={{ __html: cssText }} />,
           contents = (
+            /* jshint quotmark: false */
             <div className='u-pullLeft'>
               {css}
               <div className='u-cf'>{this.props.children}</div>
