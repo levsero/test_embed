@@ -26,7 +26,7 @@ export var Launcher = React.createClass({
 
   render: function() {
     var buttonClasses = classSet({
-          'Button Button--launcher u-textCenter u-inlineBlock': true
+          'Button Button--launcher u-textCenter u-inlineBlock u-textNoWrap': true
         }),
         iconClasses = classSet({
           'u-inlineBlock Icon ': true
@@ -42,8 +42,7 @@ export var Launcher = React.createClass({
       /* jshint quotmark: false */
       <div className={buttonClasses}
         onClick={this.props.onClick}
-        onTouchEnd={this.props.onClick}
-        style={{'white-space': 'nowrap'}}>
+        onTouchEnd={this.props.onClick}>
         <i className={iconClasses + this.state.icon} />
         {this.props.message}
       </div>

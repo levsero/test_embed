@@ -116,7 +116,7 @@ export var frameFactory = function(child, params) {
           }
         }, params.extend));
 
-        child = React.renderComponent(<Component />, doc.body);
+        _child = React.renderComponent(<Component />, doc.body);
 
         this.setState({_rendered: true});
 
