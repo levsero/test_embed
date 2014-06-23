@@ -21,7 +21,7 @@ export var SubmitTicket = React.createClass({
     e.preventDefault();
 
     if(data.isFormInvalid) {
-      console.log('invalid form');
+      // TODO: Handle invalid form submission
       return;
     }
 
