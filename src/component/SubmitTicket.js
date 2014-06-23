@@ -9,12 +9,22 @@ import { submitTicketSchema } from 'component/SubmitTicketSchema';
 require('imports?_=lodash!lodash');
 
 export var SubmitTicket = React.createClass({
+  propTypes: {
+    hide: React.PropTypes.func.isRequired,
+    reset: React.PropTypes.func.isRequired
+  },
+
   getInitialState() {
     return {
       showNotification: false,
       message: '',
       uid: _.uniqueId('submitTicketForm_')
     };
+  },
+
+  handleCancel() {
+    this.props.hide();
+    this.props.reset();
   },
 
   handleSubmit(e, data) {
@@ -72,7 +82,7 @@ export var SubmitTicket = React.createClass({
           submit={this.handleSubmit}>
           <div className='Arrange Arrange--middle'>
             <strong
-              onClick={this.props.reset}
+              onClick={this.handleCancel}
               className='Arrange-sizeFill u-isActionable u-textSecondary'>
                 Cancel
             </strong>

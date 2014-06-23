@@ -41,6 +41,7 @@ function create(name, config) {
       }
       this.refs.frame.show();
     },
+
     hide() {
       var refs = this.refs;
 
@@ -52,13 +53,14 @@ function create(name, config) {
         this.reset();
       }
     },
+
     reset() {
       var submitTicket = this.refs.submitTicket;
 
-      this.hide();
       submitTicket.setState({showNotification: false});
       submitTicket.refs.zdform.refs.form.updateValue([null]);
     },
+
     render() {
       return (
         /* jshint quotmark: false */
@@ -71,7 +73,10 @@ function create(name, config) {
               onClick={this.hide}
               className='u-textCTA u-isActionable'>HIDE</strong>
           </div>
-          <SubmitTicket ref='submitTicket' reset={this.reset} />
+          <SubmitTicket
+            ref='submitTicket'
+            hide={this.hide}
+            reset={this.reset} />
         </Frame>
       );
     }

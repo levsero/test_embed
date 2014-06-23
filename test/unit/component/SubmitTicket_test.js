@@ -23,7 +23,7 @@ describe('Submit ticket component', function() {
           }
         })),
       mockSchema = {
-        submitTicketSchema: noop
+        submitTicketSchema: jasmine.createSpy()
       },
       mockGlobals = {
         win: window
@@ -107,12 +107,13 @@ describe('Submit ticket component', function() {
       global.document.body
     );
     var mostRecentCall = mockComponent.mostRecentCall.args[0];
+    mostRecentCall.schema('token_schema');
 
-    expect(typeof mostRecentCall.schema)
-      .toEqual('function');
+    expect(mockSchema.submitTicketSchema)
+      .toHaveBeenCalledWith('token_schema');
 
-    expect(typeof mostRecentCall.submit)
-      .toEqual('function');
+    expect(mockSchema.submitTicketSchema.callCount)
+      .toEqual(1);
   });
 
   it('should not submit form when invalid', function() {
@@ -159,8 +160,5 @@ describe('Submit ticket component', function() {
 
     expect(notificationElem.props.className)
       .not.toContain('u-isHidden');
-
-    expect(submitTicket.state.showNotification)
-      .toEqual(true);
   });
 });

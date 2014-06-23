@@ -18,13 +18,13 @@ describe('ZdForm component', function() {
           },
           render: function() {
             /* jshint quotmark: false */
-            var form = <div ref='form' />;
+            var formBody = <div ref='form' />;
             return (
               <form
                 noValidate
                 onSubmit={onSubmit}
                 className='Form'>
-                {form}
+                {formBody}
               </form>
             );
           }
