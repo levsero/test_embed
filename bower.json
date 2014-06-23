@@ -17,6 +17,6 @@
     "tests"
   ],
   "dependencies": {
-    "suit": "https://github.com/suitcss/suit/releases/download/0.4.0/suit.css"
+    "suit": "https://github.com/suitcss/suit/releases/download/0.4.0/suitcss.css"
   }
 }
