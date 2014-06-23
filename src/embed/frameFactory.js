@@ -108,9 +108,9 @@ export var frameFactory = function(child, params) {
         Component = React.createClass(_.extend({
           render: function() {
             return (
-                <div style={{float: 'left'}}>
+              <div className='u-pullLeft'>
                 {css}
-              {child(childParams)}
+                {child(childParams)}
               </div>
             );
           }
