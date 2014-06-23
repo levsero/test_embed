@@ -139,7 +139,7 @@ describe('embed.launcher', function() {
     it('passes Launcher correctly into frameFactory', function() {
 
       var child, 
-          mockClickHandler = function() {},
+          mockClickHandler = noop,
           payload,
           launcherInstance,
           alice;
@@ -147,8 +147,6 @@ describe('embed.launcher', function() {
       launcher.create('alice');
 
       child = mockFrameFactory.mostRecentCall.args[0];
-
-      mockClickHandler = function() {};
 
       payload = child({
         onClickHandler: mockClickHandler
