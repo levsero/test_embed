@@ -4,34 +4,87 @@ module React from 'react'; /* jshint ignore:line */
 import { document     } from 'util/globals';
 import { Frame        } from 'component/Frame';
 import { SubmitTicket } from 'component/SubmitTicket';
-import { Modal        } from 'component/Modal';
 
 var submitTicketCSS = require('./submitTicket.scss'),
     submitTickets = {};
 
-function create(name) {
+function create(name, config) {
   var base = {
-        border: 'solid',
-        height: '600px',
-        width: '700px',
+        minHeight: '320px',
+        borderRadius: '10px 10px 0 0',
+        boxShadow: '1px 1px 5px rgba(0,0,0,0.5)',
+        width: '320px',
         position: 'fixed',
-        top: '50%',
-        left: '50%',
-        margin: '-300px 0px 0px -350px',
+        bottom: 0,
         background: 'white'
       },
-      requestClose = function() {
-        hide(name);
-      };
+      configDefaults = {
+        position: 'right'
+      },
+      Wrapper,
+      posObj,
+      iframeStyle;
+
+  config = _.extend(configDefaults, config);
+
+  /* jshint laxbreak: true */
+  posObj = (config.position === 'left')
+         ? { 'left':  '20px' }
+         : { 'right': '20px' };
+
+  iframeStyle = _.extend(base, posObj);
+
+  Wrapper = React.createClass({
+    show() {
+      if(_.isFunction(config.onShow())) {
+        config.onShow();
+      }
+      this.refs.frame.show();
+    },
+
+    hide() {
+      var refs = this.refs;
+
+      if(_.isFunction(config.onHide())) {
+        config.onHide();
+      }
+      refs.frame.hide();
+      if (refs.submitTicket.state.showNotification) {
+        this.reset();
+      }
+    },
+
+    reset() {
+      var submitTicket = this.refs.submitTicket;
+
+      submitTicket.setState({showNotification: false});
+      submitTicket.refs.zdform.refs.form.updateValue([null]);
+    },
+
+    render() {
+      return (
+        /* jshint quotmark: false */
+        <Frame ref='frame'
+          visible={false}
+          style={iframeStyle}
+          css={submitTicketCSS}>
+          <div className='u-textRight u-marginVS'>
+            <strong
+              onClick={this.hide}
+              onTouchEnd={this.hide}
+              className='u-textCTA u-isActionable'>HIDE</strong>
+          </div>
+          <SubmitTicket
+            ref='submitTicket'
+            hide={this.hide}
+            reset={this.reset} />
+        </Frame>
+      );
+    }
+  });
 
   submitTickets[name] = {
-    component: (
-      <Modal onRequestClose={requestClose}>
-        <Frame style={base} css={submitTicketCSS}>
-          <SubmitTicket />
-        </Frame>
-      </Modal>
-    )
+    component: <Wrapper />
   };
 
   return this;
@@ -39,7 +92,7 @@ function create(name) {
 
 function render(name) {
   var element = document.body.appendChild(document.createElement('div'));
-  React.renderComponent(submitTickets[name].component, element);
+  submitTickets[name].instance = React.renderComponent(submitTickets[name].component, element);
 }
 
 function get(name) {
@@ -51,31 +104,15 @@ function list() {
 }
 
 function show(name) {
-  get(name).component.setState({show: true});
+  get(name).instance.show();
 }
 
 function hide(name) {
-  get(name).component.setState({show: false});
-  if (getFormComponent(name).state.showNotification) {
-    reset(name);
-  }
-}
-
-function toggleVisibility(name) {
-  var component = get(name).component;
-  component.setState({show: !component.state.show});
-  if (getFormComponent(name).state.showNotification) {
-    reset(name);
-  }
+  get(name).instance.hide();
 }
 
 function reset(name) {
-  var component = getFormComponent(name);
-  component.replaceState(component.getInitialState());
-}
-
-function getFormComponent(name) {
-  return get(name).component.props.children.props.children;
+  get(name).instance.reset();
 }
 
 export var submitTicket = {
@@ -85,8 +122,6 @@ export var submitTicket = {
   list: list,
   show: show,
   hide: hide,
-  toggleVisibility: toggleVisibility,
-  reset: reset,
-  getFormComponent: getFormComponent
+  reset: reset
 };
 

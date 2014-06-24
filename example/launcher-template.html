@@ -33,7 +33,17 @@
       Zd.ready(function() {
         Zd.devRender({
           "ticketSubmissionForm": {
-            "embed": "submitTicket"
+            "embed": "submitTicket",
+            "props": {
+              "onShow": {
+                name: "ticketSubmissionLauncher",
+                method: "hide"
+              },
+              "onHide": {
+                name: "ticketSubmissionLauncher",
+                method: "show"
+              }
+            }
           },
           "xLauncher": {
             "embed": "launcher",

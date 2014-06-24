@@ -4,5 +4,5 @@ $Container-spacing: 1rem;
 
 .Container {
   background: $Container-background-base;
-  padding: $Container-spacing;
+  padding: 0 $Container-spacing $Container-spacing;
 }

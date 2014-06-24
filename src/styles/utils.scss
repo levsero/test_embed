@@ -1,0 +1,35 @@
+/**
+ * Extra utility classes beyond built-in suit css ones
+ */
+
+/**
+ * Positions
+ */
+.u-posEnd {
+  right: 0;
+}
+
+.u-posStart {
+  left: 0;
+}
+
+/**
+ * Vertical and horizontal offsets
+ * type[]
+ */
+
+.u-marginVS {
+  margin: 1rem;
+}
+
+/**
+ * Text properties
+ */
+
+.u-textCTA {
+  color: $color-cta;
+}
+
+.u-textSecondary {
+  color: $color-secondary;
+}

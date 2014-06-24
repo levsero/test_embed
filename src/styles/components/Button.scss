@@ -5,11 +5,19 @@
 $Button-baseFontSize: 14px;
 $Button-color: #1a6690;
 $Button-launcherColor: rgba(116,178,0,.8);
+$Button-ctaColor: #FFFFFF;
+$Button-ctaBgColor: #83c400;
 
 .Button--default {
   color: $Button-color;
   border-radius: 5px;
   padding: 5px 10px;
+}
+
+.Button--cta {
+  background: $Button-ctaBgColor;
+  color: $Button-ctaColor;
+  font-weight: 700;
 }
 
 .Button--launcher {

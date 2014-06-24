@@ -1,117 +1,102 @@
 /** @jsx React.DOM */
 
-module React from 'react'; /* jshint ignore:line */
-import { win           } from 'util/globals';
-import { identity      } from 'service/identity';
-import { TextAreaInput } from 'component/TextAreaInput';
-import { TextInput     } from 'component/TextInput';
-import { transport     } from 'service/transport';
-import { validation    } from 'mixin/validation';
+module React from 'react/addons'; /* jshint ignore:line */
+import { win                } from 'util/globals';
+import { identity           } from 'service/identity';
+import { transport          } from 'service/transport';
+import { ZdForm             } from 'component/ZdForm';
+import { submitTicketSchema } from 'component/SubmitTicketSchema';
 require('imports?_=lodash!lodash');
 
 export var SubmitTicket = React.createClass({
-  getInitialState: function() {
-    return {showNotification: false, message: ''};
+  propTypes: {
+    hide: React.PropTypes.func.isRequired,
+    reset: React.PropTypes.func.isRequired
   },
-  handleSubmit: function(e) {
-    var refs = this.refs,
-        tags = ['buid-' + identity.getBuid() , 'DROPBOX'].join(' '),
-        formParams = {
-          'subject': refs.subjectField.refs.inputText.getDOMNode().value,
-          'name': refs.nameField.refs.inputText.getDOMNode().value,
-          'email': refs.emailField.refs.inputText.getDOMNode().value,
-          'description': refs.descriptionField.refs.inputText.getDOMNode().value,
-          'set_tags': tags,
-          'submitted_from': win.location.href
-        },
-        errors = _.union(
-          refs.subjectField.state.errors,
-          refs.nameField.state.errors,
-          refs.emailField.state.errors,
-          refs.descriptionField.state.errors
-        );
+
+  getInitialState() {
+    return {
+      showNotification: false,
+      message: '',
+      uid: _.uniqueId('submitTicketForm_')
+    };
+  },
+
+  handleCancel(e) {
+    this.props.hide();
+    this.props.reset();
 
     e.preventDefault();
-    if (errors.length !== 0) {
+  },
+
+  handleSubmit(e, data) {
+    e.preventDefault();
+
+    if(data.isFormInvalid) {
+      // TODO: Handle invalid form submission
       return;
     }
-    var form = this;
-    var payload = {
-      method: 'POST',
-      path: '/api/ticket_submission',
-      params: formParams,
-      callbacks: {
-        done: function() {
-          form.setState({
+
+    var tags = ['buid-' + identity.getBuid(), 'DROPBOX'].join(' '),
+        formParams = _.extend({
+          'set_tags': tags,
+          'submitted_from': win.location.href
+        }, data.value),
+        resCallback = (msg) => {
+          this.setState({
             showNotification: true,
-            message: 'Ticket Submitted! Thanks!'
+            message: msg
           });
         },
-        fail: function(data, status) {
-          form.setState({
-            showNotification: true,
-            message: 'Error ' + status + ': ' + JSON.parse(data).error
-          });
-        }
-      }
-    };
+        payload = {
+          method: 'post',
+          path: '/api/ticket_submission',
+          params: formParams,
+          callbacks: {
+            done() {
+              resCallback('Ticket Submitted! Thanks!');
+            },
+            fail(data, status) {
+              resCallback('Error ' + status + ': ' + JSON.parse(data).error);
+            }
+          }
+        };
+
     transport.send(payload);
   },
-  render: function() {
-    var notifyVisibility = (this.state.showNotification) ?  '' : 'u-isHidden';
-    var formVisibility = (this.state.showNotification) ? 'u-isHidden' : '';
+
+  render() {
+    var formVisibility = (this.state.showNotification) ? 'u-isHidden' : '',
+        notifyVisibility = (formVisibility) ?  '' : 'u-isHidden';
 
     return (
       /* jshint quotmark:false */
-      <div className='Container u-nbfc' key={_.uniqueId('submitTicketForm_')}>
-        <h1 className={formVisibility}>How can I help you? </h1>
+      <div className='Container u-nbfc u-posRelative' key={this.state.uid}>
         <div className={"Notify " + notifyVisibility}>
           <div className="Notify-body Notify-body--success">
             <h1 className="Notify-title u-textCenter">{this.state.message}</h1>
           </div>
         </div>
-        <div className={'Form ' + formVisibility}>
-          <div className='Form-container u-nbfc'>
-            <form onSubmit={this.handleSubmit}>
-              <div className='Grid'>
-                <TextInput
-                  ref='subjectField'
-                  name='Subject'
-                  validate={validation.baseValidation}
-                  placeholder='What do you need help with?'
-                  className='Grid-cell Form-field'
-                />
-              </div>
-              <div className='Grid'>
-                <TextAreaInput
-                  ref='descriptionField'
-                  validate={validation.baseValidation}
-                  className='Grid-cell Form-field'
-                />
-              </div>
-              <div className='Grid Grid--withGutter'>
-                <TextInput
-                  ref='nameField'
-                  name='Name'
-                  placeholder=''
-                  validate={validation.baseValidation}
-                  className='Grid-cell u-size1of2 Form-field'
-                />
-                <TextInput
-                  ref='emailField'
-                  name='Email'
-                  placeholder=''
-                  validate={validation.emailValidation}
-                  className='Grid-cell u-size1of2 Form-field'
-                />
-              </div>
-              <input
-                type='submit'
-                className='Button Button--default u-pullRight'
-              />
-            </form>
-         </div>
-        </div>
+        <ZdForm
+          ref='zdform'
+          className={formVisibility}
+          schema={submitTicketSchema}
+          submit={this.handleSubmit}>
+          <div className='Arrange Arrange--middle'>
+            <strong
+              onClick={this.handleCancel}
+              onTouchEnd={this.handleCancel}
+              className='Arrange-sizeFill u-isActionable u-textSecondary'>
+                Cancel
+            </strong>
+            <input
+              type='submit'
+              value='Submit Ticket'
+              className='Button Button--default Button--cta Arrange-sizeFit u-textNoWrap'
+            />
+          </div>
+        </ZdForm>
+
       </div>
     );
   }

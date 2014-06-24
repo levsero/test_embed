@@ -11,34 +11,46 @@ var baseCSS = require('baseCSS'),
 export var Frame = React.createClass({
   propTypes: {
     style: React.PropTypes.object.isRequired,
-    css:   React.PropTypes.string.isRequired,
-    visibility: React.PropTypes.bool.isRequired
+    css: React.PropTypes.string.isRequired,
+    visible: React.PropTypes.bool
   },
 
   getInitialState: function() {
     return {
-      show: this.props.visibility
+      visible: this.props.visible
+    };
+  },
+
+  getDefaultProps: function() {
+    return {
+      visible: true
     };
   },
 
   render: function() {
-    var visibilityRule = (this.state.show) ? {} : {display: 'none'},
+    var visibleRule = (this.state.visible) ? {} : {display: 'none'},
         base = { border: 'none' },
-        iframeStyle = _.extend(base, this.props.style, visibilityRule);
+        iframeStyle = _.extend(base, this.props.style, visibleRule);
 
     return <iframe style={iframeStyle} />;
   },
 
   show: function() {
     this.setState({
-      show: true
+      visible: true
     });
   },
 
   hide: function() {
     this.setState({
-      show: false
+      visible: false
     });
+  },
+
+  componentWillMount: function() {
+    if(!this.props.visible) {
+      this.hide();
+    }
   },
 
   componentDidMount: function() {
@@ -52,13 +64,14 @@ export var Frame = React.createClass({
   renderFrameContent: function() {
     var doc = this.getDOMNode().contentWindow.document;
     // In order for iframe correctly render in some browsers we need to do it on nextTick
+    /* jshint quotmark:false */
     if (doc.readyState === 'complete') {
       var cssText = baseCSS + mainCSS + this.props.css,
           css = <style dangerouslySetInnerHTML={{ __html: cssText }} />,
           contents = (
             <div>
               {css}
-              {this.props.children}
+              <div className='u-cf'>{this.props.children}</div>
             </div>
           );
 
