@@ -154,6 +154,7 @@ describe('embed.launcher', function() {
 
       expect(payload.props.onClick)
         .toBe(mockClickHandler);
+
       expect(payload.props.onTouchEnd)
         .toBe(mockClickHandler);
 
@@ -162,13 +163,18 @@ describe('embed.launcher', function() {
       alice = launcher.get('alice');
       launcherInstance = alice.instance.refs.launcher;
 
-      expect(alice.instance.onClickHandler).toBeDefined();
-      expect(alice.instance.changeIcon).toBeDefined();
+      expect(alice.instance.onClickHandler)
+        .toBeDefined();
+
+      expect(alice.instance.changeIcon)
+        .toBeDefined();
 
       alice.instance.changeIcon();
 
-      expect(launcherInstance.changeIcon.__reactBoundMethod).toHaveBeenCalled();
+      expect(launcherInstance.changeIcon.__reactBoundMethod)
+        .toHaveBeenCalled();
     });
+
   });
 
   describe('get', function() {
@@ -293,8 +299,10 @@ describe('embed.launcher', function() {
       launcher.render('alice');
       launcher.show('alice');
 
-      expect(mockFrameMethods.show).toHaveBeenCalled();
+      expect(mockFrameMethods.show)
+        .toHaveBeenCalled();
     });
+
   });
 
   describe('hide', function() {
@@ -305,7 +313,8 @@ describe('embed.launcher', function() {
       launcher.render('alice');
       launcher.hide('alice');
 
-      expect(mockFrameMethods.hide).toHaveBeenCalled();
+      expect(mockFrameMethods.hide)
+        .toHaveBeenCalled();
     });
 
   });

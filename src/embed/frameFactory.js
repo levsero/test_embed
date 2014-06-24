@@ -15,6 +15,7 @@ export var frameFactory = function(child, params) {
         visible: true
       };
     },
+
     getInitialState: function() {
       return ({
         visible: this.props.visible,
@@ -65,13 +66,13 @@ export var frameFactory = function(child, params) {
 
     render: function() {
       var visibilityRule = (this.state.visible) ? {} : {display: 'none'},
-      base = { border: 'none' },
-      iframeStyle = _.extend(
-        base,
-        params.style,
-        visibilityRule,
-        this.state.iframeDimensions
-      );
+          base = { border: 'none' },
+          iframeStyle = _.extend(
+            base,
+            params.style,
+            visibilityRule,
+            this.state.iframeDimensions
+          );
 
       return <iframe style={iframeStyle} />;
     },
