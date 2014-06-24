@@ -6,7 +6,7 @@ var classSet = React.addons.classSet;
 export var Launcher = React.createClass({
   propTypes: {
     onClick: React.PropTypes.func,
-    updateFrameSize: React.PropTypes.func,
+    updateFrameSize: React.PropTypes.func.isRequired,
     position: React.PropTypes.string,
     message: React.PropTypes.string,
     icon: React.PropTypes.string
