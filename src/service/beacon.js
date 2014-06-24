@@ -15,10 +15,9 @@ function init() {
 
 function commonParams() {
   return {
-    'url': win.location.href,
-    'buid': identity.getBuid(),
-    'timestamp': (new Date()).toISOString(),
-    'user_agent': navigator.userAgent
+    url: win.location.href,
+    buid: identity.getBuid(),
+    timestamp: (new Date()).toISOString()
   };
 }
 
@@ -31,11 +30,13 @@ function send() {
         return referrer.origin === url && previousTime ? (now - previousTime) : 0;
       },
       params = {
-        'referrer': referrer.href,
-        'time': timeOnLastPage(),
-        'navigator_language': navigator.language,
-        'page_title': document.title,
-        'metrics': ['beacon']
+        pageView: {
+          referrer: referrer.href,
+          time: timeOnLastPage(),
+          navigatorLanguage: navigator.language,
+          pageTitle: document.title,
+          userAgent: navigator.userAgent
+        }
       },
       payload = {
         method: 'POST',
@@ -53,11 +54,11 @@ function track(category, action, label, value) {
   }
 
   var params = {
-        'userAction': {
-          'category': category,
-          'action': action,
-          'label': label,
-          'value': value
+        userAction: {
+          category: category,
+          action: action,
+          label: label,
+          value: value
         }
       },
       payload = {

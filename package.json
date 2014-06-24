@@ -26,7 +26,7 @@
     "gulp-karma": "0.0.4",
     "gulp-es6-module-transpiler": "~0.1.1",
     "jsdom": "~0.10.5",
-    "jasmine-ajax": "git://github.com/pivotal/jasmine-ajax#v2.0.0.rc1",
+    "jasmine-ajax": "git://github.com/pivotal/jasmine-ajax#v2.0.0.rc2",
     "gulp-jasmine": "~0.2.0",
     "mockery": "~1.4.0",
     "karma-chrome-launcher": "~0.1.3",
