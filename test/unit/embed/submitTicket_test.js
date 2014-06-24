@@ -173,7 +173,7 @@ describe('embed.submitTicket', function() {
 
   describe('show', function() {
     it('should change the forms state to show it', function() {
-      submitTicket.create('bob');
+      submitTicket.create('bob', frameConfig);
       submitTicket.render('bob');
       submitTicket.show('bob');
 
@@ -187,7 +187,7 @@ describe('embed.submitTicket', function() {
 
   describe('hide', function() {
     it('should change the forms state to hide it', function() {
-      submitTicket.create('bob');
+      submitTicket.create('bob', frameConfig);
       submitTicket.render('bob');
       submitTicket.hide('bob');
 
