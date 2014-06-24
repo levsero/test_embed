@@ -6,6 +6,7 @@ import { validation } from 'mixin/validation';
 require('imports?_=lodash!lodash');
 
 var { FormFor, Form } = ReactForms,
+    ZdFormBody = Form,
     Property = ReactForms.schema.Property,
     Animate = React.addons.CSSTransitionGroup;
 
@@ -22,8 +23,8 @@ export var ZdForm = React.createClass({
 
   render() {
     /* jshint quotmark:false */
-    var form = this.transferPropsTo(
-      <Form ref='form' component={React.DOM.div} />
+    var formBody = this.transferPropsTo(
+      <ZdFormBody ref='form' component={React.DOM.div} />
     );
 
     return (
@@ -31,7 +32,7 @@ export var ZdForm = React.createClass({
         noValidate
         onSubmit={this.handleSubmit}
         className={'Form ' + this.props.className}>
-        {form}
+        {formBody}
         {this.props.children}
       </form>
     );
@@ -53,11 +54,11 @@ export var MessageFieldset = React.createClass({
   },
 
   showEmail() {
-    /* jshint quotmark:false */
+    /* jshint quotmark:false, laxbreak: true */
     return (
-      this.messageLength('description') &&
-      // Empty span is rendered so the Animate component won't throw
-      <FormFor key={this.state.emailKey} name='email' /> || <span />
+      this.messageLength('description')
+        ? <FormFor key={this.state.emailKey} name='email' />
+        : <span />
     );
   },
 

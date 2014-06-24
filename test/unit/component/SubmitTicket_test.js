@@ -130,20 +130,13 @@ describe('Submit ticket component', function() {
   });
 
   it('should submit form when valid', function() {
-    var submitTicket = React.renderComponent(
-          <SubmitTicket />,
-          global.document.body
-        ),
-        mockComponentRecentCall = mockComponent.mostRecentCall.args[0],
-        transportRecentCall,
-        notificationElem = ReactTestUtils.findRenderedDOMComponentWithClass(submitTicket, 'Notify');
+    var mockComponentRecentCall = mockComponent.mostRecentCall.args[0],
+        transportRecentCall;
 
-    transport.send.andCallFake(function(){
-      submitTicket.setState({showNotification: true});
-    });
-
-    expect(notificationElem.props.className)
-      .toContain('u-isHidden');
+    React.renderComponent(
+      <SubmitTicket />,
+      global.document.body
+    );
 
     mockComponentRecentCall.submit({preventDefault: noop}, {
       isFormInvalid: false,
@@ -157,6 +150,19 @@ describe('Submit ticket component', function() {
 
     expect(transportRecentCall)
       .toBeJSONEqual(payload);
+  });
+
+  it('should unhide notification element on state change', function() {
+    var submitTicket = React.renderComponent(
+          <SubmitTicket />,
+          global.document.body
+        ),
+        notificationElem = ReactTestUtils.findRenderedDOMComponentWithClass(submitTicket, 'Notify');
+
+    expect(notificationElem.props.className)
+      .toContain('u-isHidden');
+
+    submitTicket.setState({showNotification: true});
 
     expect(notificationElem.props.className)
       .not.toContain('u-isHidden');

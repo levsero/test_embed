@@ -38,7 +38,11 @@ describe('embed.submitTicket', function() {
         .andCallFake(
           React.createClass({
             getInitialState: function() {
-              return {showNotification: false, message: '', uid: defaultValue};
+              return {
+                showNotification: false,
+                message: '',
+                uid: defaultValue
+              };
             },
             render: function() {
               return (
@@ -89,7 +93,7 @@ describe('embed.submitTicket', function() {
       expect(_.keys(submitTicket.list()).length)
         .toEqual(0);
 
-      submitTicket.create('bob', frameConfig);
+      submitTicket.create('bob');
       submitTicket.render('bob');
 
       expect(mockSubmitTicket)
@@ -112,7 +116,7 @@ describe('embed.submitTicket', function() {
     it('should return the correct submitTicket form', function() {
       var bob;
 
-      submitTicket.create('bob', frameConfig);
+      submitTicket.create('bob');
       bob = submitTicket.get('bob');
 
       expect(bob)
@@ -129,7 +133,7 @@ describe('embed.submitTicket', function() {
     });
 
     it('renders a submitTicket form to the document', function() {
-      submitTicket.create('bob', frameConfig);
+      submitTicket.create('bob');
       submitTicket.render('bob');
 
       expect(document.querySelectorAll( '.mock-frame').length)
@@ -143,7 +147,7 @@ describe('embed.submitTicket', function() {
     });
 
     it('should only be allowed to render an submitTicket form once', function() {
-      submitTicket.create('bob', frameConfig);
+      submitTicket.create('bob');
 
       expect(function() {
         submitTicket.render('bob');
@@ -157,7 +161,7 @@ describe('embed.submitTicket', function() {
     it('applies submitTicket.scss to the frame', function() {
       var mockFrameCss;
 
-      submitTicket.create('bob', frameConfig);
+      submitTicket.create('bob');
       submitTicket.render('bob');
 
       mockFrameCss = mockFrame.mostRecentCall.args[0].css;
@@ -169,7 +173,7 @@ describe('embed.submitTicket', function() {
 
   describe('show', function() {
     it('should change the forms state to show it', function() {
-      submitTicket.create('bob', frameConfig);
+      submitTicket.create('bob');
       submitTicket.render('bob');
       submitTicket.show('bob');
 
@@ -183,7 +187,7 @@ describe('embed.submitTicket', function() {
 
   describe('hide', function() {
     it('should change the forms state to hide it', function() {
-      submitTicket.create('bob', frameConfig);
+      submitTicket.create('bob');
       submitTicket.render('bob');
       submitTicket.hide('bob');
 
