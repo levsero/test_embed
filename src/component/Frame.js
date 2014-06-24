@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 /* jshint multistr:true */
 
-module React from 'react/addons'; /* jshint ignore:line */
+module React from 'react'; /* jshint ignore:line */
 
 // lodash needs to shimmed using imports loader
 require('imports?_=lodash!lodash');
@@ -35,21 +35,21 @@ export var Frame = React.createClass({
     return <iframe style={iframeStyle} />;
   },
 
-  show() {
+  show: function() {
     this.setState({
       visible: true
     });
   },
 
-  hide() {
+  hide: function() {
     this.setState({
       visible: false
     });
   },
 
   componentWillMount: function() {
-    if(this.props.hide) {
-      this.setState({show: false});
+    if(!this.props.visible) {
+      this.hide();
     }
   },
 
@@ -68,22 +68,15 @@ export var Frame = React.createClass({
 
     var doc = this.getDOMNode().contentWindow.document;
     // In order for iframe correctly render in some browsers we need to do it on nextTick
-    /* jshint quotmark:false, laxcomma:true */
+    /* jshint quotmark:false */
     if (doc.readyState === 'complete') {
       var cssText = baseCSS + mainCSS + this.props.css,
-          classes = this.props.closable ? '' : 'u-isHidden',
           css = <style dangerouslySetInnerHTML={{ __html: cssText }} />,
           contents = (
             /* jshint quotmark: false */
             <div className='u-pullLeft'>
               {css}
-              <div
-                  className={classes + ' u-posAbsolute u-posEnd'}
-                  onClick={this.toggleVisibility}
-              >
-                X
-              </div>
-              {this.props.children}
+              <div className='u-cf'>{this.props.children}</div>
             </div>
           );
 
