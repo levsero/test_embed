@@ -1,13 +1,11 @@
 /** @jsx React.DOM */
 
 module React from 'react/addons';
-module ReactForms from 'react-forms';
-import { transport } from 'service/transport';
-import { ZdForm    } from 'component/ZdForm';
-import { filter    } from 'mixin/searchFilter';
+import { transport        } from 'service/transport';
+import { ZdForm           } from 'component/ZdForm';
+import { filter           } from 'mixin/searchFilter';
+import { helpCenterSchema } from 'component/HelpCenterSchema';
 require('imports?_=lodash!lodash');
-
-var { Schema, Property } = ReactForms.schema;
 
 export var HelpCenter = React.createClass({
   getInitialState: function() {
@@ -16,9 +14,10 @@ export var HelpCenter = React.createClass({
     };
   },
 
-  handleSubmit: function(event) {
+  handleSubmit: function(e, data) {
+    e.preventDefault();
     //TODO pass data back to submit ticket form
-    return event.description;
+    return data.value.description;
   },
 
   handleSearch: function(string) {
@@ -33,7 +32,7 @@ export var HelpCenter = React.createClass({
       },
       callbacks: {
         done: function(data) {
-          this.setState({topics: JSON.parse(data).results});
+          this.setState({topics: JSON.parse(data).results.slice(0,3)});
         }.bind(this)
       }
     });
@@ -58,31 +57,27 @@ export var HelpCenter = React.createClass({
 
   render: function() {
     /* jshint quotmark:false */
-    var schema = (
-          <Schema >
-            <Property
-              name='description'
-              label='Message'
-              ref='message'
-              input={<textarea rows='5' placeholder='Give us details here...' />}
-            />
-          </Schema>
-        ),
-        messageClass,
-        topics = this.state.topics.map(function(topic) {
-          return (
-            /* jshint camelcase:false */
-            <li key={_.uniqueId('topic_')}>
-              <p><a href={topic.html_url} target='_blank'>{topic.title}</a></p>
-            </li>
-          );
-        });
-    topics = topics.slice(0,3);
+        var messageClass,
+            topics = this.state.topics.map(function(topic) {
+              return (
+                /* jshint camelcase:false */
+                <li key={_.uniqueId('topic_')}>
+                  <p><a href={topic.html_url} target='_blank'>{topic.title}</a></p>
+                </li>
+              );
+            });
+
     messageClass = (topics.length !== 0) ? '' : 'u-isHidden';
+
     return (
       <div className='Container u-nbfc u-posRelative'>
-        <ZdForm onChange={this.handleChange} submit={this.handleSubmit} schema={schema}>
-          <h3 className={messageClass + ' rf-Field__label'}>Are any of these helpful?</h3>
+        <ZdForm
+          onChange={this.handleChange}
+          submit={this.handleSubmit}
+          schema={helpCenterSchema}>
+          <h3 className={messageClass + ' rf-Field__label'}>
+            Are any of these helpful?
+          </h3>
           {topics}
           <div className='u-textRight'>
             <input
