@@ -24,7 +24,17 @@ if (readyCallback && typeof readyCallback === 'function') {
 // Until transport config is setup we hard code the config call
 renderer.init({
   'ticketSubmissionForm': {
-    'embed': 'submitTicket'
+    'embed': 'submitTicket',
+    'props': {
+      'onShow': {
+        name: 'ticketSubmissionLauncher',
+        method: 'hide'
+      },
+      'onHide': {
+        name: 'ticketSubmissionLauncher',
+        method: 'show'
+      }
+    }
   },
   'ticketSubmissionLauncher': {
     'embed': 'launcher',
