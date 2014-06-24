@@ -47,9 +47,7 @@ export var frameFactory = function(child, params) {
           height: Math.max(el.clientHeight, el.offsetHeight, el.clientHeight)
         });
       };
-      frameWin.setTimeout(function() {
-        this.setState({iframeDimensions: dimensions()});
-      }.bind(this), 0);
+      frameWin.setTimeout( () => this.setState({iframeDimensions: dimensions()}), 0);
     },
 
     show: function() {
@@ -98,17 +96,19 @@ export var frameFactory = function(child, params) {
       if (doc.readyState === 'complete') {
         var cssText = baseCSS + mainCSS + params.css,
             css = <style dangerouslySetInnerHTML={{ __html: cssText }} />,
-            root = this,
             Component,
             childParams;
 
-        childParams = _.reduce(params.extend, function(res, val, key) {
-          res[key] = val.bind(root);
-          return res;
-        }, {});
+        childParams = _.reduce(
+          params.extend, 
+          (res, val, key) => {
+            res[key] = val.bind(this);
+            return res;
+          },
+          {});
 
         childParams = _.extend(childParams, {
-          updateFrameSize: root.updateFrameSize
+          updateFrameSize: this.updateFrameSize
         });
 
         Component = React.createClass(_.extend({
