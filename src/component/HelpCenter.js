@@ -81,16 +81,17 @@ export var HelpCenter = React.createClass({
     messageClass = (topics.length !== 0) ? '' : 'u-isHidden';
     return (
       <div className='Container u-nbfc u-posRelative'>
-        <ZdForm onChange={this.handleChange} submit={this.handleSubmit} schema={schema} />
-        <h3 className={messageClass + ' rf-Field__label'}>Are any of these helpful?</h3>
-        {topics}
-        <div className='u-textRight'>
-          <input
-            type='submit'
-            value='Next'
-            className='Button Button--default Button--cta Arrange-sizeFit u-textNoWrap'
-          />
-        </div>
+        <ZdForm onChange={this.handleChange} submit={this.handleSubmit} schema={schema}>
+          <h3 className={messageClass + ' rf-Field__label'}>Are any of these helpful?</h3>
+          {topics}
+          <div className='u-textRight'>
+            <input
+              type='submit'
+              value='Next'
+              className='Button Button--default Button--cta Arrange-sizeFit u-textNoWrap'
+            />
+          </div>
+        </ZdForm>
       </div>
     );
   }
