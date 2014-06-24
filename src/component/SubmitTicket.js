@@ -22,9 +22,11 @@ export var SubmitTicket = React.createClass({
     };
   },
 
-  handleCancel() {
+  handleCancel(e) {
     this.props.hide();
     this.props.reset();
+
+    e.preventDefault();
   },
 
   handleSubmit(e, data) {
