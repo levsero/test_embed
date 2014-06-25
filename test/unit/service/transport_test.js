@@ -8,7 +8,7 @@ describe('transport', function() {
       mockSuperagent = jasmine.createSpy().andCallFake(function() {
         return mockMethods;
       }),
-      transportPath = buildPath('service/transport');
+      transportPath = buildSrcPath('service/transport');
 
   beforeEach(function() {
     mockery.enable();

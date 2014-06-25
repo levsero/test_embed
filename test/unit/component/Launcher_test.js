@@ -5,7 +5,7 @@ describe('Launcher component', function() {
   beforeEach(function() {
     resetDOM();
 
-    var launcherPath = buildPath('component/Launcher');
+    var launcherPath = buildSrcPath('component/Launcher');
 
     Launcher = require(launcherPath).Launcher;
   });
@@ -47,5 +47,21 @@ describe('Launcher component', function() {
 
     expect(global.document.body.querySelectorAll('.newIcon').length)
       .toEqual(1);
+  });
+
+  it('should call the updateFrameSize prop on render if it exists', function() {
+
+    var mockUpdateFrameSize = jasmine.createSpy('mockUpdateFrameSize');
+
+    jasmine.Clock.useMock();
+
+    React.renderComponent(
+      <Launcher updateFrameSize = {mockUpdateFrameSize} />,
+      global.document.body
+    );
+
+    jasmine.Clock.tick(10);
+
+    expect(mockUpdateFrameSize).toHaveBeenCalled();
   });
 });

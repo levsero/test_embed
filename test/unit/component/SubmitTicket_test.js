@@ -59,7 +59,7 @@ describe('Submit ticket component', function() {
 
     transport.send.reset();
 
-    var submitTicketPath = buildPath('component/SubmitTicket');
+    var submitTicketPath = buildSrcPath('component/SubmitTicket');
 
     mockery.registerMock('component/ZdForm', {
       ZdForm: mockComponent,

@@ -1,9 +1,10 @@
 /** @jsx React.DOM */
 module React from 'react'; /* jshint ignore:line */
 import { document } from 'util/globals';
-import { Frame    } from 'component/Frame';
 import { Launcher } from 'component/Launcher';
 import { beacon   } from 'service/beacon';
+import { frameFactory } from 'embed/frameFactory';
+
 require('imports?_=lodash!lodash');
 
 var launcherCSS = require('./launcher.scss'),
@@ -16,7 +17,6 @@ function create(name, config) {
         message: 'Help',
         icon: ''
       },
-      onClickHandler,
       base = {
         width: '80px',
         height: '50px',
@@ -25,14 +25,9 @@ function create(name, config) {
       },
       posObj,
       iframeStyle,
-      Wrapper;
+      Embed;
 
   config = _.extend(configDefaults, config);
-
-  onClickHandler = function() {
-    config.onClick();
-    beacon.track('launcher', 'click', name);
-  };
 
   /* jshint laxbreak: true */
   posObj = (config.position === 'left')
@@ -41,37 +36,36 @@ function create(name, config) {
 
   iframeStyle = _.extend(base, posObj);
 
-  Wrapper = React.createClass({
-    hide: function() {
-      this.refs.frame.hide();
-    },
-    show: function() {
-      this.refs.frame.show();
-    },
-    changeIcon: function(icon) {
-      this.refs.launcher.changeIcon(icon);
-    },
-    render: function() {
+  Embed = React.createClass(frameFactory(
+    function(params) {
       return (
-        /* jshint quotmark: true */
-        <Frame ref='frame'
-          style={iframeStyle}
-          css={launcherCSS}>
-          <Launcher
-            ref='launcher'
-            onClick={onClickHandler}
-            onTouchEnd={onClickHandler}
-            position={config.position}
-            message={config.message}
-            icon={config.icon}
-          />
-        </Frame>
+        /* jshint quotmark:false */
+        <Launcher
+          ref='launcher'
+          onClick={params.onClickHandler}
+          onTouchEnd={params.onClickHandler}
+          updateFrameSize={params.updateFrameSize}
+          position={config.position}
+          message={config.message}
+          icon={config.icon} />
       );
-    }
-  });
+    },
+    {
+      style: iframeStyle,
+      css: launcherCSS,
+      extend: {
+        changeIcon: function(icon) {
+          this.refs.launcher.changeIcon(icon);
+        },
+        onClickHandler: function() {
+          config.onClick();
+          beacon.track('launcher', 'click', name);      
+        }
+      }
+    }));
 
   launchers[name] = {
-    component: <Wrapper />,
+    component: <Embed />,
     config: config
   };
 }
@@ -93,7 +87,7 @@ function show(name) {
 }
 
 function changeIcon(name, icon) {
-  get(name).instance.changeIcon(icon);
+  get(name).instance.getChild().refs.launcher.changeIcon(icon);
 }
 
 function render(name) {

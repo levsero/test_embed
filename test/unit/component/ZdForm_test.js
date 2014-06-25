@@ -36,7 +36,7 @@ describe('ZdForm component', function() {
       warnOnReplace:false
     });
 
-    var zdFormPath = buildPath('component/ZdForm');
+    var zdFormPath = buildSrcPath('component/ZdForm');
 
     mockery.registerMock('react-forms', {
       Form: mockComponent,

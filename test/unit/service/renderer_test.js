@@ -6,7 +6,7 @@ describe('renderer', function() {
         win: {},
         document: {}
       },
-      rendererPath = buildPath('service/renderer');
+      rendererPath = buildSrcPath('service/renderer');
 
 
   beforeEach(function() {

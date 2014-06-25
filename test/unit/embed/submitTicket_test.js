@@ -53,7 +53,7 @@ describe('embed.submitTicket', function() {
           })
         ),
       mockCss = jasmine.createSpy('mockCss'),
-      submitTicketPath = buildPath('embed/submitTicket/submitTicket');
+      submitTicketPath = buildSrcPath('embed/submitTicket/submitTicket');
 
   beforeEach(function() {
 

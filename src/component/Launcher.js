@@ -6,6 +6,7 @@ var classSet = React.addons.classSet;
 export var Launcher = React.createClass({
   propTypes: {
     onClick: React.PropTypes.func,
+    updateFrameSize: React.PropTypes.func.isRequired,
     position: React.PropTypes.string,
     message: React.PropTypes.string,
     icon: React.PropTypes.string
@@ -25,11 +26,15 @@ export var Launcher = React.createClass({
 
   render: function() {
     var buttonClasses = classSet({
-          'Button Button--launcher u-textCenter u-inlineBlock': true
+          'Button Button--launcher u-textCenter u-inlineBlock u-textNoWrap': true
         }),
         iconClasses = classSet({
           'u-inlineBlock Icon ': true
         });
+
+    if (this.props.updateFrameSize) {
+      setTimeout( () => this.props.updateFrameSize(), 0);
+    }
 
     return (
       /* jshint quotmark: false */

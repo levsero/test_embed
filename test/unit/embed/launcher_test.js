@@ -31,7 +31,7 @@ describe('embed.launcher', function() {
       mockLauncher = jasmine.createSpy('mockLauncher')
         .andCallFake(
           React.createClass({
-            changeIcon: noop,
+            changeIcon: jasmine.createSpy('mockChangeIcon'),
             render: function() {
               return (
                 /* jshint quotmark:false */
@@ -40,9 +40,11 @@ describe('embed.launcher', function() {
             }
           })
         ),
+      mockFrameMethods = require(buildTestPath('unit/mockFrameFactory')).mockFrameMethods,
+      mockFrameFactory = require(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
       mockLauncherCss = jasmine.createSpy('mockLauncherCss'),
       mockBeacon = jasmine.createSpyObj('mockBeacon', ['track']),
-      launcherPath = buildPath('embed/launcher/launcher');
+      launcherPath = buildSrcPath('embed/launcher/launcher');
 
   beforeEach(function() {
 
@@ -60,6 +62,9 @@ describe('embed.launcher', function() {
       beacon: mockBeacon
     });
     mockery.registerMock('./launcher.scss', mockLauncherCss);
+    mockery.registerMock('embed/frameFactory', {
+      frameFactory: mockFrameFactory
+    });
     mockery.registerMock('imports?_=lodash!lodash', _);
     mockery.registerAllowable('react');
     mockery.registerAllowable('./lib/React');
@@ -120,7 +125,7 @@ describe('embed.launcher', function() {
       expect(mockLauncher).toHaveBeenCalled();
 
       expect(alice.instance.refs.launcher.props.position)
-        .toBe(config.position);
+        .toEqual(config.position);
 
       alice.instance.refs.launcher.props.onClick();
 
@@ -129,6 +134,45 @@ describe('embed.launcher', function() {
 
       expect(mockBeacon.track)
         .toHaveBeenCalledWith('launcher', 'click', 'alice');
+    });
+
+    it('passes Launcher correctly into frameFactory', function() {
+
+      var child, 
+          mockClickHandler = noop,
+          payload,
+          launcherInstance,
+          alice;
+
+      launcher.create('alice');
+
+      child = mockFrameFactory.mostRecentCall.args[0];
+
+      payload = child({
+        onClickHandler: mockClickHandler
+      });
+
+      expect(payload.props.onClick)
+        .toBe(mockClickHandler);
+
+      expect(payload.props.onTouchEnd)
+        .toBe(mockClickHandler);
+
+      launcher.render('alice');
+
+      alice = launcher.get('alice');
+      launcherInstance = alice.instance.refs.launcher;
+
+      expect(alice.instance.onClickHandler)
+        .toBeDefined();
+
+      expect(alice.instance.changeIcon)
+        .toBeDefined();
+
+      alice.instance.changeIcon();
+
+      expect(launcherInstance.changeIcon.__reactBoundMethod)
+        .toHaveBeenCalled();
     });
 
   });
@@ -199,13 +243,12 @@ describe('embed.launcher', function() {
     });
 
     it('applies launcher.scss to the frame', function() {
-
       var mockFrameCss;
 
       launcher.create('alice');
       launcher.render('alice');
 
-      mockFrameCss = mockFrame.mostRecentCall.args[0].css;
+      mockFrameCss = mockFrameFactory.mostRecentCall.args[1].css;
 
       expect(mockFrameCss)
         .toBe(mockLauncherCss);
@@ -219,7 +262,7 @@ describe('embed.launcher', function() {
       launcher.create('alice');
       launcher.render('alice');
 
-      mockFrameStyle = mockFrame.mostRecentCall.args[0].style;
+      mockFrameStyle = mockFrameFactory.mostRecentCall.args[1].style;
 
       expect(mockFrameStyle.left)
         .toBeUndefined();
@@ -236,7 +279,7 @@ describe('embed.launcher', function() {
       launcher.create('alice', {position: 'left'});
       launcher.render('alice');
 
-      mockFrameStyle = mockFrame.mostRecentCall.args[0].style;
+      mockFrameStyle = mockFrameFactory.mostRecentCall.args[1].style;
 
       expect(mockFrameStyle.left)
         .toBeDefined();
@@ -251,39 +294,27 @@ describe('embed.launcher', function() {
   describe('show', function() {
 
     it('should show the launcher', function() {
-      var alice;
 
       launcher.create('alice');
       launcher.render('alice');
-      alice = launcher.get('alice');
-
-      expect(alice.instance.refs.frame.state.show)
-        .toEqual(true);
-
-      launcher.hide('alice');
       launcher.show('alice');
 
-      expect(alice.instance.refs.frame.state.show)
-        .toEqual(true);
+      expect(mockFrameMethods.show)
+        .toHaveBeenCalled();
     });
+
   });
 
   describe('hide', function() {
 
     it('should hide the launcher', function() {
-      var alice;
 
       launcher.create('alice');
       launcher.render('alice');
-      alice = launcher.get('alice');
-
-      expect(alice.instance.refs.frame.state.show)
-        .toEqual(true);
-
       launcher.hide('alice');
 
-      expect(alice.instance.refs.frame.state.show)
-        .toEqual(false);
+      expect(mockFrameMethods.hide)
+        .toHaveBeenCalled();
     });
 
   });
