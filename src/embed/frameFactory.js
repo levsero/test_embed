@@ -4,10 +4,28 @@ module React from 'react'; /* jshint ignore:line */
 require('imports?_=lodash!lodash');
 
 var baseCSS = require('baseCSS'),
-    mainCSS = require('mainCSS');
+    mainCSS = require('mainCSS'),
+    defaultParams = {
+      style: {}
+    };
 
-export var frameFactory = function(child, params) {
-  var _child;
+function validateChildFn(fn) {
+  if (!_.isFunction(fn)) {
+    throw 'childFn should be a function';
+  }
+
+  try {
+    fn().__realComponentInstance;
+  }
+  catch(e) {
+    e.message = 'childFn should be a function that returns a React component';
+    throw e; 
+  }
+}
+
+export var frameFactory = function(childFn, params) {
+  var child;
+  
 
   return {
     getDefaultProps: function() {
@@ -28,7 +46,7 @@ export var frameFactory = function(child, params) {
     },
 
     getChild: function() {
-      return _child;
+      return child;
     },
 
     updateFrameSize: function() {
@@ -54,12 +72,20 @@ export var frameFactory = function(child, params) {
       this.setState({
         visible: true
       });
+
+      if (params.onShow) {
+        params.onShow();
+      }
     },
 
     hide: function() {
       this.setState({
         visible: false
       });
+
+      if (params.onHide) {
+        params.onHide();
+      }
     },
 
     render: function() {
@@ -122,13 +148,13 @@ export var frameFactory = function(child, params) {
               /* jshint quotmark: false */
               <div className='u-pullLeft'>
                 {css}
-                {child(childParams)}
+                {childFn(childParams)}
               </div>
             );
           }
         });
 
-        _child = React.renderComponent(<Component />, doc.body);
+        child = React.renderComponent(<Component />, doc.body);
 
         this.setState({_rendered: true});
 
