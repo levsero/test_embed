@@ -99,6 +99,9 @@ export var frameFactory = function(child, params) {
             Component,
             childParams;
 
+        // 1. Loop over functions in params.extend
+        // 2. Re-bind them to `this` context
+        // 3. Store in childParams
         childParams = _.reduce(
           params.extend, 
           (res, val, key) => {
@@ -107,11 +110,13 @@ export var frameFactory = function(child, params) {
           },
           {});
 
+        // Forcefully injects this.updateFrameSize
+        // into childParams
         childParams = _.extend(childParams, {
           updateFrameSize: this.updateFrameSize
         });
 
-        Component = React.createClass(_.extend({
+        Component = React.createClass({
           render: function() {
             return (
               /* jshint quotmark: false */
@@ -121,7 +126,7 @@ export var frameFactory = function(child, params) {
               </div>
             );
           }
-        }, params.extend));
+        });
 
         _child = React.renderComponent(<Component />, doc.body);
 
