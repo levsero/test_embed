@@ -49,18 +49,21 @@ function create(name, config) {
       this.refs.frame.show();
     },
     render: function() {
+      //TODO when moving this to frame factory find a better way to set the min width and not inline
       return (
         /* jshint quotmark: false */
         <Frame ref='frame'
           visible={false}
           style={iframeStyle}
           css={helpCenterCSS}>
+          <div style={{minWidth: '320px'}}>
           <div className='u-textRight u-marginVS'>
             <strong
               onClick={this.hide}
               className='u-textCTA u-isActionable'>HIDE</strong>
           </div>
           <HelpCenter ref='helpCenter' />
+          </div>
         </Frame>
       );
     }
