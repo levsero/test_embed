@@ -9,13 +9,13 @@ var baseCSS = require('baseCSS'),
       style: {}
     };
 
-function validateChildFn(fn) {
+function validateChildFn(fn, params) {
   if (!_.isFunction(fn)) {
     throw 'childFn should be a function';
   }
 
   try {
-    fn().__realComponentInstance;
+    fn(params.extend).__realComponentInstance;
   }
   catch(e) {
     e.message = 'childFn should be a function that returns a React component';
@@ -23,9 +23,11 @@ function validateChildFn(fn) {
   }
 }
 
-export var frameFactory = function(childFn, params) {
+export var frameFactory = function(childFn, _params) {
   var child;
-  
+  var params = _.extend(defaultParams, _params);
+
+  validateChildFn(childFn, params);
 
   return {
     getDefaultProps: function() {
