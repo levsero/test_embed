@@ -36,19 +36,19 @@ function create(name, config) {
   iframeStyle = _.extend(base, posObj);
 
   Wrapper = React.createClass({
-    hide: function() {
-      if(_.isFunction(config.onHide())) {
+    hide() {
+      if(_.isFunction(config.onHide)) {
         config.onHide();
       }
       this.refs.frame.hide();
     },
-    show: function() {
-      if(_.isFunction(config.onShow())) {
+    show() {
+      if(_.isFunction(config.onShow)) {
         config.onShow();
       }
       this.refs.frame.show();
     },
-    render: function() {
+    render() {
       //TODO when moving this to frame factory find a better way to set the min width and not inline
       return (
         /* jshint quotmark: false */

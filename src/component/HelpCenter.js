@@ -3,24 +3,24 @@
 module React from 'react/addons';
 import { transport        } from 'service/transport';
 import { ZdForm           } from 'component/ZdForm';
-import { filter           } from 'mixin/searchFilter';
+import { stopWordsFilter  } from 'mixin/searchFilter';
 import { helpCenterSchema } from 'component/HelpCenterSchema';
 require('imports?_=lodash!lodash');
 
 export var HelpCenter = React.createClass({
-  getInitialState: function() {
+  getInitialState() {
     return {
       topics: []
     };
   },
 
-  handleSubmit: function(e, data) {
+  handleSubmit(e, data) {
     e.preventDefault();
     //TODO pass data back to submit ticket form
     return data.value.description;
   },
 
-  handleSearch: function(string) {
+  handleSearch(string) {
     /* jshint camelcase:false */
     transport.send({
       method: 'get',
@@ -32,22 +32,23 @@ export var HelpCenter = React.createClass({
       },
       callbacks: {
         done: function(data) {
-          this.setState({topics: JSON.parse(data).results.slice(0,3)});
+          var topics = JSON.parse(data).results;
+          this.setState({topics: _.first(topics, 3)});
         }.bind(this)
       }
     });
   },
 
-  handleChange: function(event) {
+  handleChange(event) {
     var str = event.description,
         filteredStr;
 
-    if (str === null) {
+    if (_.isEmpty(str)) {
       return;
     }
 
-    if (str.length >= 5 && str[str.length-1] === ' ') {
-      filteredStr = filter(str);
+    if (str.length >= 5 && _.last(str) === ' ') {
+      filteredStr = stopWordsFilter(str);
 
       if (filteredStr !== '') {
         this.handleSearch(filteredStr);
@@ -55,10 +56,10 @@ export var HelpCenter = React.createClass({
     }
   },
 
-  render: function() {
+  render() {
     /* jshint quotmark:false */
         var messageClass,
-            topics = this.state.topics.map(function(topic) {
+            topicTemplate = function(topic) {
               return (
                 /* jshint camelcase:false */
                 <li key={_.uniqueId('topic_')}>
@@ -69,7 +70,8 @@ export var HelpCenter = React.createClass({
                   </p>
                 </li>
               );
-            });
+            },
+            topics = this.state.topics.map(topicTemplate);
 
     messageClass = (topics.length !== 0) ? '' : 'u-isHidden';
 

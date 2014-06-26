@@ -1,6 +1,6 @@
 import { stopWords } from 'mixin/stopWords';
 
-export var filter = function(str) {
+export var stopWordsFilter = function(str) {
   var words = str.replace(/\W/g, ' ').split(' ');
 
   words = _.filter(words, function(word) {
