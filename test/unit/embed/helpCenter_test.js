@@ -19,9 +19,6 @@ describe('embed.helpCenter', function() {
                 show: true
               };
             },
-            toggleVisibility: function() {
-              this.setState({show: !this.state.show});
-            },
             render: function() {
               return (
                 /* jshint quotmark:false */
@@ -48,7 +45,7 @@ describe('embed.helpCenter', function() {
         onHide: noop
       },
       mockCss = jasmine.createSpy('mockCss'),
-      helpCenterPath = buildPath('embed/helpCenter/helpCenter');
+      helpCenterPath = buildSrcPath('embed/helpCenter/helpCenter');
 
   beforeEach(function() {
 
@@ -134,7 +131,7 @@ describe('embed.helpCenter', function() {
       expect(document.querySelectorAll( '.mock-frame').length)
         .toEqual(1);
 
-      expect(document.querySelectorAll( '.mock-frame > .mock-helpCenter').length)
+      expect(document.querySelectorAll( '.mock-frame > div > .mock-helpCenter').length)
         .toEqual(1);
     });
 

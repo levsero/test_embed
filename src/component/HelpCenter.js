@@ -62,7 +62,11 @@ export var HelpCenter = React.createClass({
               return (
                 /* jshint camelcase:false */
                 <li key={_.uniqueId('topic_')}>
-                  <p><a href={topic.html_url} target='_blank'>{topic.title}</a></p>
+                  <p>
+                    <a href={topic.html_url} target='_blank'>
+                      {topic.title}
+                    </a>
+                  </p>
                 </li>
               );
             });

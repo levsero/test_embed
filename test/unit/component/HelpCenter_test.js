@@ -2,11 +2,15 @@
 
 describe('Help center component', function() {
   var HelpCenter,
-      mockComponent = React.createClass({
-        render: function() {
-          return <div></div>;
-        }
-      }),
+      mockComponent = jasmine.createSpy('mockComponent')
+        .andCallFake(React.createClass({
+          render: function() {
+            return <form onSubmit={this.props.handleSubmit} />;
+          }
+        })),
+      mockSchema = {
+        helpCenterSchema: jasmine.createSpy()
+      },
       transport = jasmine.createSpyObj('transport', ['send']);
 
   beforeEach(function() {
@@ -17,7 +21,7 @@ describe('Help center component', function() {
       warnOnReplace:false
     });
 
-    var helpCenterPath = buildPath('component/HelpCenter');
+    var helpCenterPath = buildSrcPath('component/HelpCenter');
 
     mockery.registerMock('imports?_=lodash!lodash', {});
     mockery.registerMock('react-forms', {
@@ -35,6 +39,7 @@ describe('Help center component', function() {
     mockery.registerMock('service/transport', {
       transport: transport
     });
+    mockery.registerMock('component/HelpCenterSchema', mockSchema);
     mockery.registerAllowable(helpCenterPath);
     mockery.registerAllowable('react');
     mockery.registerAllowable('react-forms');
@@ -97,5 +102,19 @@ describe('Help center component', function() {
     });
   });
 
+  it('should pass schema and submit callback props to ZdForm component', function() {
+    React.renderComponent(
+      <HelpCenter />,
+      global.document.body
+    );
+    var mostRecentCall = mockComponent.mostRecentCall.args[0];
+    mostRecentCall.schema('token_schema');
+
+    expect(mockSchema.helpCenterSchema)
+      .toHaveBeenCalledWith('token_schema');
+
+    expect(mockSchema.helpCenterSchema.callCount)
+      .toEqual(1);
+  });
 
 });
