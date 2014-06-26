@@ -30,8 +30,8 @@ function create(name, config) {
 
   /* jshint laxbreak: true */
   posObj = (config.position === 'left')
-         ? { 'left':  '20px' }
-         : { 'right': '20px' };
+         ? { left:  '20px' }
+         : { right: '20px' };
 
   iframeStyle = _.extend(base, posObj);
 
@@ -52,17 +52,18 @@ function create(name, config) {
       //TODO when moving this to frame factory find a better way to set the min width and not inline
       return (
         /* jshint quotmark: false */
-        <Frame ref='frame'
+        <Frame
+          ref='frame'
           visible={false}
           style={iframeStyle}
           css={helpCenterCSS}>
           <div style={{minWidth: '320px'}}>
-          <div className='u-textRight u-marginVS'>
-            <strong
-              onClick={this.hide}
-              className='u-textCTA u-isActionable'>HIDE</strong>
-          </div>
-          <HelpCenter ref='helpCenter' />
+            <div className='u-textRight u-marginVS'>
+              <strong
+                onClick={this.hide}
+                className='u-textCTA u-isActionable'>HIDE</strong>
+            </div>
+            <HelpCenter ref='helpCenter' />
           </div>
         </Frame>
       );

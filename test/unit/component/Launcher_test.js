@@ -1,11 +1,11 @@
 /** @jsx React.DOM */
 
 describe('Launcher component', function() {
-  var Launcher;
+  var Launcher,
+      launcherPath = buildSrcPath('component/Launcher');
+
   beforeEach(function() {
     resetDOM();
-
-    var launcherPath = buildSrcPath('component/Launcher');
 
     Launcher = require(launcherPath).Launcher;
   });

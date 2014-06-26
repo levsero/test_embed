@@ -11,7 +11,8 @@ describe('Help center component', function() {
       mockSchema = {
         helpCenterSchema: jasmine.createSpy()
       },
-      transport = jasmine.createSpyObj('transport', ['send']);
+      transport = jasmine.createSpyObj('transport', ['send']),
+      helpCenterPath = buildSrcPath('component/HelpCenter');
 
   beforeEach(function() {
 
@@ -20,8 +21,6 @@ describe('Help center component', function() {
     mockery.enable({
       warnOnReplace:false
     });
-
-    var helpCenterPath = buildSrcPath('component/HelpCenter');
 
     mockery.registerMock('imports?_=lodash!lodash', {});
     mockery.registerMock('react-forms', {
@@ -34,7 +33,7 @@ describe('Help center component', function() {
       ZdForm: mockComponent
     });
     mockery.registerMock('mixin/searchFilter', {
-      filter: noop
+      stopWordsFilter: noop
     });
     mockery.registerMock('service/transport', {
       transport: transport
@@ -70,32 +69,29 @@ describe('Help center component', function() {
             <HelpCenter />,
             global.document.body
           ),
-          searchString = 'help, I\'ve fallen and can\'t get up! ',
-          event = {description: searchString};
+          searchString = 'help, I\'ve fallen and can\'t get up! ';
 
-      helpCenter.handleChange(event);
+      helpCenter.handleChange({description: searchString});
 
       expect(transport.send)
         .toHaveBeenCalled();
 
     });
 
-    it('should call handle search if the string isn\'t valid', function() {
+    it('shouldn\t call handle search if the string isn\'t valid', function() {
       var helpCenter = React.renderComponent(
             <HelpCenter />,
             global.document.body
           ),
-          searchStringToShort = 'hi! ',
-          searchStringNoSpace = 'help, I\'ve fallen and can\'t get up!',
-          event = {description: searchStringToShort};
+          searchStringTooShort = 'hi! ',
+          searchStringNoSpace = 'help, I\'ve fallen and can\'t get up!';
 
-      helpCenter.handleChange(event);
+      helpCenter.handleChange({description: searchStringTooShort});
 
       expect(transport.send)
         .not.toHaveBeenCalled();
 
-      event = {description: searchStringNoSpace};
-      helpCenter.handleChange(event);
+      helpCenter.handleChange({description: searchStringNoSpace});
 
       expect(transport.send)
         .not.toHaveBeenCalled();

@@ -28,15 +28,14 @@ describe('ZdForm component', function() {
               </form>
             );
           }
-        }));
+        })),
+      zdFormPath = buildSrcPath('component/ZdForm');
 
   beforeEach(function() {
 
     mockery.enable({
       warnOnReplace:false
     });
-
-    var zdFormPath = buildSrcPath('component/ZdForm');
 
     mockery.registerMock('react-forms', {
       Form: mockComponent,

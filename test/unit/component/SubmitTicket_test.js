@@ -43,7 +43,8 @@ describe('Submit ticket component', function() {
           fail: noop
         }
       },
-      transport = jasmine.createSpyObj('transport', ['send']);
+      transport = jasmine.createSpyObj('transport', ['send']),
+      submitTicketPath = buildSrcPath('component/SubmitTicket');
 
   beforeEach(function() {
 
@@ -58,8 +59,6 @@ describe('Submit ticket component', function() {
     });
 
     transport.send.reset();
-
-    var submitTicketPath = buildSrcPath('component/SubmitTicket');
 
     mockery.registerMock('component/ZdForm', {
       ZdForm: mockComponent,
