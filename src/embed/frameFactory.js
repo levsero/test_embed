@@ -6,13 +6,13 @@ require('imports?_=lodash!lodash');
 var baseCSS = require('baseCSS'),
     mainCSS = require('mainCSS');
 
-function validateChildFn(fn, params) {
-  if (!_.isFunction(fn)) {
+function validateChildFn(childFn, params) {
+  if (!_.isFunction(childFn)) {
     throw 'childFn should be a function';
   }
 
   try {
-    fn(params.extend).__realComponentInstance;
+    childFn(params.extend).__realComponentInstance;
   }
   catch(e) {
     e.message = 'childFn should be a function that returns a React component';
