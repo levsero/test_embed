@@ -59,7 +59,7 @@ function create(name, config) {
         },
         onClickHandler: function() {
           config.onClick();
-          beacon.track('launcher', 'click', name);      
+          beacon.track('launcher', 'click', name);
         }
       }
     }));

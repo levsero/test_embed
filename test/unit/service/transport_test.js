@@ -3,6 +3,7 @@ describe('transport', function() {
       mockMethods = {
           type: function() { return mockMethods; },
           send: function() { return mockMethods; },
+          query: function() { return mockMethods; },
           end:  function() { return mockMethods; }
       },
       mockSuperagent = jasmine.createSpy().andCallFake(function() {

@@ -29,6 +29,10 @@ export var SubmitTicket = React.createClass({
     e.preventDefault();
   },
 
+  showField: function() {
+    this.setState({showEmail: true});
+  },
+
   handleSubmit(e, data) {
     e.preventDefault();
 
