@@ -23,7 +23,8 @@ function validateChildFn(childFn, params) {
 export var frameFactory = function(childFn, _params) {
   var child,
       defaultParams = {
-        style: {}
+        style: {},
+        css: ''
       },
       params = _.extend(defaultParams, _params);
 
