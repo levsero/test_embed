@@ -13,6 +13,10 @@ global.buildTestPath = function(path) {
   return basePath('build/test/' + path);
 };
 
+global.embedMocker = function(name) {
+  return jasmine.createSpyObj(name, ['create', 'render', 'show', 'hide']);
+};
+
 global._ = require('lodash');
 
 global.mockery = require('mockery');

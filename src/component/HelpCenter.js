@@ -58,20 +58,20 @@ export var HelpCenter = React.createClass({
 
   render() {
     /* jshint quotmark:false */
-        var messageClass,
-            topicTemplate = function(topic) {
-              return (
-                /* jshint camelcase:false */
-                <li key={_.uniqueId('topic_')}>
-                  <p>
-                    <a href={topic.html_url} target='_blank'>
-                      {topic.title}
-                    </a>
-                  </p>
-                </li>
-              );
-            },
-            topics = this.state.topics.map(topicTemplate);
+    var messageClass,
+        topicTemplate = function(topic) {
+          return (
+            /* jshint camelcase:false */
+            <li key={_.uniqueId('topic_')}>
+              <p>
+                <a href={topic.html_url} target='_blank'>
+                  {topic.title}
+                </a>
+              </p>
+            </li>
+          );
+        },
+        topics = this.state.topics.map(topicTemplate);
 
     messageClass = (topics.length !== 0) ? '' : 'u-isHidden';
 

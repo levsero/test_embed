@@ -9,30 +9,12 @@ describe('renderer', function() {
       },
       rendererPath = buildSrcPath('service/renderer');
 
-
   beforeEach(function() {
     mockery.enable({useCleanCache: true});
 
-    mockSubmitTicket = {
-      create: jasmine.createSpy(),
-      show: jasmine.createSpy(),
-      render: jasmine.createSpy(),
-      hide: jasmine.createSpy()
-    };
-
-    mockLauncher = {
-      create: jasmine.createSpy(),
-      show: jasmine.createSpy(),
-      hide: jasmine.createSpy(),
-      render: jasmine.createSpy()
-    };
-
-    mockHelpCenter = {
-      create: jasmine.createSpy(),
-      show: jasmine.createSpy(),
-      render: jasmine.createSpy(),
-      hide: jasmine.createSpy()
-    };
+    mockSubmitTicket = embedMocker('mockSubmitTicket');
+    mockLauncher = embedMocker('mockLauncher');
+    mockHelpCenter = embedMocker('mockHelpCenter');
 
     mockery.registerMock('util/globals', mockGlobals);
     mockery.registerMock('imports?_=lodash!lodash', _);

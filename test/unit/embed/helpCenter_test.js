@@ -40,11 +40,7 @@ describe('embed.helpCenter', function() {
             }
           })
         ),
-      mockConfig = {
-        onShow: noop,
-        onHide: noop
-      },
-      mockCss = jasmine.createSpy('mockCss'),
+      mockCss = 'mockCss',
       helpCenterPath = buildSrcPath('embed/helpCenter/helpCenter');
 
   beforeEach(function() {
@@ -76,17 +72,13 @@ describe('embed.helpCenter', function() {
   });
 
   describe('create', function() {
-    it('show add a new help center embed to the helpCenter array', function() {
+    it('should add a new help center component to the helpCenter array', function() {
       var carlos;
 
       expect(_.keys(helpCenter.list()).length)
         .toEqual(0);
 
       helpCenter.create('carlos');
-      helpCenter.render('carlos');
-
-      expect(mockHelpCenter)
-        .toHaveBeenCalled();
 
       expect(_.keys(helpCenter.list()).length)
         .toEqual(1);
@@ -99,8 +91,6 @@ describe('embed.helpCenter', function() {
       expect(carlos.component)
         .toBeDefined();
 
-      expect(carlos.instance)
-        .toBeDefined();
     });
   });
 
@@ -125,14 +115,24 @@ describe('embed.helpCenter', function() {
     });
 
     it('renders a helpCenter form to the document', function() {
+      var carlos;
+
       helpCenter.create('carlos');
       helpCenter.render('carlos');
+
+      expect(mockHelpCenter)
+        .toHaveBeenCalled();
 
       expect(document.querySelectorAll( '.mock-frame').length)
         .toEqual(1);
 
       expect(document.querySelectorAll( '.mock-frame > div > .mock-helpCenter').length)
         .toEqual(1);
+
+      carlos = helpCenter.get('carlos');
+
+      expect(carlos.instance)
+        .toBeDefined();
     });
 
     it('should only be allowed to render an helpCenter form once', function() {
@@ -156,13 +156,13 @@ describe('embed.helpCenter', function() {
       mockFrameCss = mockFrame.mostRecentCall.args[0].css;
 
       expect(mockFrameCss)
-        .toBe(mockCss);
+        .toEqual(mockCss);
     });
   });
 
   describe('show', function() {
     it('should change the forms state to show it', function() {
-      helpCenter.create('carlos', mockConfig);
+      helpCenter.create('carlos');
       helpCenter.render('carlos');
       helpCenter.show('carlos');
 
@@ -173,7 +173,7 @@ describe('embed.helpCenter', function() {
 
   describe('hide', function() {
     it('should change the forms state to hide it', function() {
-      helpCenter.create('carlos', mockConfig);
+      helpCenter.create('carlos');
       helpCenter.render('carlos');
       helpCenter.hide('carlos');
 
