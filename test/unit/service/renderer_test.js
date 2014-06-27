@@ -7,7 +7,11 @@ describe('renderer', function() {
         win: {},
         document: {}
       },
-      rendererPath = buildSrcPath('service/renderer');
+      rendererPath = buildSrcPath('service/renderer'),
+      embedMocker = function(name) {
+        return jasmine.createSpyObj(name, ['create', 'render', 'show', 'hide']);
+      };
+
 
   beforeEach(function() {
     mockery.enable({useCleanCache: true});
