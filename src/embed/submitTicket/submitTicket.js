@@ -31,8 +31,8 @@ function create(name, config) {
 
   /* jshint laxbreak: true */
   posObj = (config.position === 'left')
-         ? { 'left':  '20px' }
-         : { 'right': '20px' };
+         ? { left:  '20px' }
+         : { right: '20px' };
 
   iframeStyle = _.extend(base, posObj, containerBase);
 

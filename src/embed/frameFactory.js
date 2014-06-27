@@ -4,10 +4,7 @@ module React from 'react'; /* jshint ignore:line */
 require('imports?_=lodash!lodash');
 
 var baseCSS = require('baseCSS'),
-    mainCSS = require('mainCSS'),
-    defaultParams = {
-      style: {}
-    };
+    mainCSS = require('mainCSS');
 
 function validateChildFn(fn, params) {
   if (!_.isFunction(fn)) {
@@ -19,13 +16,16 @@ function validateChildFn(fn, params) {
   }
   catch(e) {
     e.message = 'childFn should be a function that returns a React component';
-    throw e; 
+    throw e;
   }
 }
 
 export var frameFactory = function(childFn, _params) {
-  var child;
-  var params = _.extend(defaultParams, _params);
+  var child,
+      defaultParams = {
+        style: {}
+      },
+      params = _.extend(defaultParams, _params);
 
   validateChildFn(childFn, params);
 
@@ -131,7 +131,7 @@ export var frameFactory = function(childFn, _params) {
         // 2. Re-bind them to `this` context
         // 3. Store in childParams
         childParams = _.reduce(
-          params.extend, 
+          params.extend,
           (res, val, key) => {
             res[key] = val.bind(this);
             return res;
