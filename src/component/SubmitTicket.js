@@ -73,6 +73,10 @@ export var SubmitTicket = React.createClass({
     var formVisibility = (this.state.showNotification) ? 'u-isHidden' : '',
         notifyVisibility = (formVisibility) ?  '' : 'u-isHidden';
 
+    if (this.props.updateFrameSize) {
+      setTimeout( () => this.props.updateFrameSize(), 0);
+    }
+
     return (
       /* jshint quotmark:false */
       <div className='Container u-nbfc u-posRelative' key={this.state.uid}>
