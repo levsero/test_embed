@@ -96,7 +96,7 @@ export var frameFactory = function(childFn, _params) {
     },
 
     render: function() {
-      var visibilityRule = (this.state.visible) ? {} : {display: 'none'},
+      var visibilityRule = (this.state.visible) ? {display: 'block'} : {display: 'none'},
           base = { border: 'none' },
           iframeStyle = _.extend(
             base,
