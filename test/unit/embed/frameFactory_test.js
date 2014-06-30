@@ -282,21 +282,18 @@ describe('frameFactory', function() {
   });
 
   describe('renderFrameContent', function() {
-
+    
     it('adds a <style> block with relevant rules to the iframe document', function() {
       var payload = frameFactory(mockChildFn, {
             css: '.params-css {} '
           }),
-          Embed = React.createClass(payload);
-
-      var instance = React.renderComponent(
-          <Embed />,
-        global.document.body
-      );
-
-      var child = instance.getChild();
-
-      var styleBlock = child.getDOMNode().getElementsByTagName('style')[0];
+          Embed = React.createClass(payload),
+          instance = React.renderComponent(
+            <Embed />,
+            global.document.body
+          ),
+          child = instance.getChild(),
+          styleBlock = child.getDOMNode().getElementsByTagName('style')[0];
 
       expect(styleBlock.innerHTML.indexOf('.base-css-file {}') >= 0)
         .toBeTruthy();
@@ -312,21 +309,22 @@ describe('frameFactory', function() {
       var mockClickHandler = jasmine.createSpy('mockClickHandler'),
           mockSubmitHandler = jasmine.createSpy('mockSubmitHandler'),
           payload = frameFactory(
-          function(params) {
-            return (
-              /* jshint quotmark:false */
-              <mockComponent
-                ref='mockComponent'
-                onClick={params.onClickHandler}
-                onSubmit={params.onSubmitHandler} />
-            );
-          },
-          {
-            extend: {
-              onClickHandler: mockClickHandler,
-              onSubmitHandler: mockSubmitHandler
+            function(params) {
+              return (
+                /* jshint quotmark:false */
+                <mockComponent
+                  ref='mockComponent'
+                  onClick={params.onClickHandler}
+                  onSubmit={params.onSubmitHandler} />
+              );
+            },
+            {
+              extend: {
+                onClickHandler: mockClickHandler,
+                onSubmitHandler: mockSubmitHandler
+              }
             }
-          }),
+          ),
           Embed = React.createClass(payload),
           instance = React.renderComponent(
             <Embed />,
@@ -379,13 +377,13 @@ describe('frameFactory', function() {
 
       jasmine.Clock.tick(10);
 
-      // shouldn't call the injected updateFrameSize prop
-      expect(mockUpdateFrameSize).not.toHaveBeenCalled();
-
       // should have called the internal updateFrameSize
       // which updates the iframeDimensions state
       expect(instance.state.iframeDimensions)
         .toEqual({width: 0, height: 0});
+
+      // shouldn't call the injected updateFrameSize prop
+      expect(mockUpdateFrameSize).not.toHaveBeenCalled();
     });
 
     it('renders the child component to the document', function() {
