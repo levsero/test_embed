@@ -62,12 +62,16 @@ export var frameFactory = function(childFn, _params) {
       }
 
       dimensions = function() {
-        var el = frameDoc.body.firstChild;
+        var el = frameDoc.body.firstChild,
+            width  = Math.max(el.clientWidth,  el.offsetWidth ),
+            height = Math.max(el.clientHeight, el.offsetHeight);
+        
         return ({
-          width:  Math.max(el.clientWidth,  el.offsetWidth, el.clientWidth),
-          height: Math.max(el.clientHeight, el.offsetHeight, el.clientHeight)
+          width:  _.isFinite(width)  ? width  : 0,
+          height: _.isFinite(height) ? height : 0
         });
       };
+
       frameWin.setTimeout( () => this.setState({iframeDimensions: dimensions()}), 0);
     },
 
