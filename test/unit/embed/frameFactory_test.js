@@ -35,20 +35,22 @@ describe('frameFactory', function() {
     mockery.disable();
   });
 
-  it('throws if childFn is not a function', function() {
-    expect(function() {
-      frameFactory({});
-    }).toThrow();
+  describe('input arguments validation', function() {
+    it('throws if childFn is not a function', function() {
+      expect(function() {
+        frameFactory({});
+      }).toThrow();
 
-    expect(function() {
-      frameFactory('1');
-    }).toThrow();
-  });
+      expect(function() {
+        frameFactory('1');
+      }).toThrow();
+    });
 
-  it('throws if childFn does not return a React component', function() {
-    expect(function() {
-      frameFactory(noop, {});
-    }).toThrow();
+    it('throws if childFn does not return a React component', function() {
+      expect(function() {
+        frameFactory(noop, {});
+      }).toThrow();
+    });
   });
 
   describe('getDefaultProps', function() {
