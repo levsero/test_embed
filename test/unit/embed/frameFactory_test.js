@@ -13,7 +13,7 @@ describe('frameFactory', function() {
         return (
           /* jshint quotmark:false */
           <mockComponent
-            ref='mockComponent' />
+            ref='aliceComponent' />
         );
       },
       frameFactoryPath = buildSrcPath('embed/frameFactory');
@@ -234,7 +234,7 @@ describe('frameFactory', function() {
           Embed = React.createClass(payload);
 
       instance = React.renderComponent(
-          <Embed />,
+        <Embed />,
         global.document.body
       );
     });
@@ -250,12 +250,10 @@ describe('frameFactory', function() {
       expect(iframe.style.display)
         .toEqual('block');
 
-
       instance.setState({visible: false});
 
       expect(iframe.style.display)
         .toEqual('none');
-
 
       instance.setState({visible: true});
 
@@ -315,7 +313,7 @@ describe('frameFactory', function() {
               return (
                 /* jshint quotmark:false */
                 <mockComponent
-                  ref='mockComponent'
+                  ref='aliceComponent'
                   onClick={params.onClickHandler}
                   onSubmit={params.onSubmitHandler} />
               );
@@ -332,7 +330,7 @@ describe('frameFactory', function() {
             <Embed />,
             global.document.body
           ),
-          child = instance.getChild().refs.mockComponent;
+          child = instance.getChild().refs.aliceComponent;
 
       child.props.onClick('click param');
 
@@ -352,7 +350,7 @@ describe('frameFactory', function() {
             return (
               /* jshint quotmark:false */
               <mockComponent
-                ref='mockComponent'
+                ref='aliceComponent'
                 updateFrameSize={params.updateFrameSize} />
             );
           },
@@ -366,7 +364,7 @@ describe('frameFactory', function() {
             <Embed />,
             global.document.body
           ),
-          child = instance.getChild().refs.mockComponent;
+          child = instance.getChild().refs.aliceComponent;
 
       jasmine.Clock.useMock();
 
@@ -396,7 +394,7 @@ describe('frameFactory', function() {
             global.document.body
           );
 
-      expect(instance.getChild().refs.mockComponent)
+      expect(instance.getChild().refs.aliceComponent)
         .toBeDefined();
     });
 
