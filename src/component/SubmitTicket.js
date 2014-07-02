@@ -24,9 +24,14 @@ export var SubmitTicket = React.createClass({
 
   handleCancel(e) {
     this.props.hide();
-    this.props.reset();
+    this.reset();
 
     e.preventDefault();
+  },
+
+  reset() {
+    this.setState({showNotification: false});
+    this.refs.zdform.refs.form.updateValue([null]);
   },
 
   showField: function() {

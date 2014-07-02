@@ -2,13 +2,10 @@
 
 describe('embed.submitTicket', function() {
   var submitTicket,
+      frameConfig,
       defaultValue = 'abc123',
       mockGlobals = {
         document: global.document
-      },
-      frameConfig = {
-        onShow: jasmine.createSpy('onShow'),
-        onHide: jasmine.createSpy('onHide')
       },
       mockSubmitTicket = jasmine.createSpy('mockSubmitTicket')
         .andCallFake(
@@ -31,7 +28,6 @@ describe('embed.submitTicket', function() {
       mockFrameFactory = require(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
       mockFrameMethods = require(buildTestPath('unit/mockFrameFactory')).mockFrameMethods,
       mockHideHandler = jasmine.createSpy(),
-      mockResetHandler = jasmine.createSpy(),
       mockCss = jasmine.createSpy('mockCss'),
       submitTicketPath = buildSrcPath('embed/submitTicket/submitTicket');
 
@@ -56,6 +52,11 @@ describe('embed.submitTicket', function() {
     mockery.registerAllowable(submitTicketPath);
 
     submitTicket = require(submitTicketPath).submitTicket;
+
+    frameConfig = {
+      onShow: jasmine.createSpy('onShow'),
+      onHide: jasmine.createSpy('onHide')
+    };
   });
 
   afterEach(function() {
@@ -84,7 +85,7 @@ describe('embed.submitTicket', function() {
         .toBeDefined();
     });
 
-    describe('mockFrameFactoryRecentCalls', function() {
+    describe('mockFrameFactoryRecentCall', function() {
       var mockFrameFactoryRecentCalls;
 
       beforeEach(function() {
@@ -94,55 +95,42 @@ describe('embed.submitTicket', function() {
 
       it('passes SubmitTicket correctly into frameFactory', function() {
 
-        var childFn,
-            component,
-            submitTicketInstance,
-            body = global.document.body;
-
-        childFn = mockFrameFactoryRecentCalls[0];
-
-        component = React.createClass({
-          render: function() {
-            return childFn({
-              hideHandler: mockHideHandler,
-              resetHandler: mockResetHandler
-            });
-          }
-        });
-
-        submitTicketInstance = React.renderComponent(<component />, body)
-          .refs
-          .submitTicket;
+        var body = global.document.body,
+            childFn = mockFrameFactoryRecentCalls[0],
+            component = React.createClass({
+              render: function() {
+                return childFn({
+                  hideHandler: mockHideHandler
+                });
+              }
+            }),
+            submitTicketInstance = React.renderComponent(<component />, body)
+              .refs
+              .submitTicket;
 
         expect(submitTicketInstance.props.hide)
           .toBe(mockHideHandler);
-
-        expect(submitTicketInstance.props.reset)
-          .toBe(mockResetHandler);
-
       });
 
       it('calling hideHandler on embed calls frameFactory methods', function() {
-        var params = mockFrameFactoryRecentCalls[1];
-
-        var mockSubmitTicketHide = jasmine.createSpy('mockSubmitTicketHide');
-        var mockSubmitTicketReset = jasmine.createSpy('mockSubmitTicketReset');
-
-        var mockFrameFactoryScope = {
-          getChild: function() {
-            return {
-              refs: {
-                submitTicket: {
-                  state: {
-                    showNotification: true
+        var params = mockFrameFactoryRecentCalls[1],
+            mockSubmitTicketHide = jasmine.createSpy('mockSubmitTicketHide'),
+            mockSubmitTicketReset = jasmine.createSpy('mockSubmitTicketReset'),
+            mockFrameFactoryScope = {
+              getChild: function() {
+                return {
+                  refs: {
+                    submitTicket: {
+                      state: {
+                        showNotification: true
+                      },
+                      reset: mockSubmitTicketReset
+                    }
                   }
-                }
-              }
+                };
+              },
+              hide: mockSubmitTicketHide
             };
-          },
-          hide: mockSubmitTicketHide,
-          reset: mockSubmitTicketReset
-        };
 
         params.extend.hideHandler.bind(mockFrameFactoryScope)();
 

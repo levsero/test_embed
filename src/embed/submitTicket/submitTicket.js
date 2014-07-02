@@ -50,8 +50,7 @@ function create(name, config) {
           <SubmitTicket
             ref='submitTicket'
             updateFrameSize={params.updateFrameSize}
-            hide={params.hideHandler}
-            reset={params.resetHandler} />
+            hide={params.hideHandler} />
         </div>
       );
     },
@@ -70,14 +69,8 @@ function create(name, config) {
 
           this.hide();
           if (refs.submitTicket.state.showNotification) {
-            this.reset();
+            refs.submitTicket.reset();
           }
-        },
-        resetHandler() {
-          var submitTicket = this.getChild().refs.submitTicket;
-
-          submitTicket.setState({showNotification: false});
-          submitTicket.refs.zdform.refs.form.updateValue([null]);
         }
       }
     }));
