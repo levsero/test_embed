@@ -86,17 +86,17 @@ describe('embed.submitTicket', function() {
     });
 
     describe('mockFrameFactoryRecentCall', function() {
-      var mockFrameFactoryRecentCalls;
+      var mockFrameFactoryRecentCall;
 
       beforeEach(function() {
         submitTicket.create('bob', frameConfig);
-        mockFrameFactoryRecentCalls = mockFrameFactory.mostRecentCall.args;
+        mockFrameFactoryRecentCall = mockFrameFactory.mostRecentCall.args;
       });
 
       it('passes SubmitTicket correctly into frameFactory', function() {
 
         var body = global.document.body,
-            childFn = mockFrameFactoryRecentCalls[0],
+            childFn = mockFrameFactoryRecentCall[0],
             component = React.createClass({
               render: function() {
                 return childFn({
@@ -113,7 +113,7 @@ describe('embed.submitTicket', function() {
       });
 
       it('calling hideHandler on embed calls frameFactory methods', function() {
-        var params = mockFrameFactoryRecentCalls[1],
+        var params = mockFrameFactoryRecentCall[1],
             mockSubmitTicketHide = jasmine.createSpy('mockSubmitTicketHide'),
             mockSubmitTicketReset = jasmine.createSpy('mockSubmitTicketReset'),
             mockFrameFactoryScope = {
@@ -142,7 +142,7 @@ describe('embed.submitTicket', function() {
       });
 
       it('should call onHide/Show config methods if passed in', function() {
-        var params = mockFrameFactoryRecentCalls[1];
+        var params = mockFrameFactoryRecentCall[1];
 
         params.onShow();
 
