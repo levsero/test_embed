@@ -6,8 +6,28 @@ require('imports?_=lodash!lodash');
 var baseCSS = require('baseCSS'),
     mainCSS = require('mainCSS');
 
-export var frameFactory = function(child, params) {
-  var _child;
+function validateChildFn(fn, params) {
+  if (!_.isFunction(fn)) {
+    throw 'childFn should be a function';
+  }
+
+  try {
+    fn(params.extend).__realComponentInstance;
+  }
+  catch(e) {
+    e.message = 'childFn should be a function that returns a React component';
+    throw e;
+  }
+}
+
+export var frameFactory = function(childFn, _params) {
+  var child,
+      defaultParams = {
+        style: {}
+      },
+      params = _.extend(defaultParams, _params);
+
+  validateChildFn(childFn, params);
 
   return {
     getDefaultProps: function() {
@@ -28,7 +48,7 @@ export var frameFactory = function(child, params) {
     },
 
     getChild: function() {
-      return _child;
+      return child;
     },
 
     updateFrameSize: function() {
@@ -54,12 +74,20 @@ export var frameFactory = function(child, params) {
       this.setState({
         visible: true
       });
+
+      if (params.onShow) {
+        params.onShow();
+      }
     },
 
     hide: function() {
       this.setState({
         visible: false
       });
+
+      if (params.onHide) {
+        params.onHide();
+      }
     },
 
     render: function() {
@@ -103,7 +131,7 @@ export var frameFactory = function(child, params) {
         // 2. Re-bind them to `this` context
         // 3. Store in childParams
         childParams = _.reduce(
-          params.extend, 
+          params.extend,
           (res, val, key) => {
             res[key] = val.bind(this);
             return res;
@@ -122,13 +150,13 @@ export var frameFactory = function(child, params) {
               /* jshint quotmark: false */
               <div className='u-pullLeft'>
                 {css}
-                {child(childParams)}
+                {childFn(childParams)}
               </div>
             );
           }
         });
 
-        _child = React.renderComponent(<Component />, doc.body);
+        child = React.renderComponent(<Component />, doc.body);
 
         this.setState({_rendered: true});
 

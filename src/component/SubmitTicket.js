@@ -24,9 +24,14 @@ export var SubmitTicket = React.createClass({
 
   handleCancel(e) {
     this.props.hide();
-    this.props.reset();
+    this.reset();
 
     e.preventDefault();
+  },
+
+  reset() {
+    this.setState({showNotification: false});
+    this.refs.zdform.refs.form.updateValue([null]);
   },
 
   showField: function() {
@@ -72,6 +77,10 @@ export var SubmitTicket = React.createClass({
   render() {
     var formVisibility = (this.state.showNotification) ? 'u-isHidden' : '',
         notifyVisibility = (formVisibility) ?  '' : 'u-isHidden';
+
+    if (this.props.updateFrameSize) {
+      setTimeout( () => this.props.updateFrameSize(), 0);
+    }
 
     return (
       /* jshint quotmark:false */

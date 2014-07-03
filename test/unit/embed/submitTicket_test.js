@@ -2,38 +2,11 @@
 
 describe('embed.submitTicket', function() {
   var submitTicket,
+      frameConfig,
       defaultValue = 'abc123',
       mockGlobals = {
         document: global.document
       },
-      frameConfig = {
-        onShow: noop,
-        onHide: noop
-      },
-      mockFrame = jasmine.createSpy('mockFrame')
-        .andCallFake(
-          React.createClass({
-            hide: function() {
-              this.setState({show: false});
-            },
-            show: function() {
-              this.setState({show: true});
-            },
-            getInitialState: function() {
-              return {
-                show: true
-              };
-            },
-            render: function() {
-              return (
-                /* jshint quotmark:false */
-                <div className='mock-frame'>
-                  {this.props.children}
-                </div>
-              );
-            }
-          })
-        ),
       mockSubmitTicket = jasmine.createSpy('mockSubmitTicket')
         .andCallFake(
           React.createClass({
@@ -52,6 +25,9 @@ describe('embed.submitTicket', function() {
             }
           })
         ),
+      mockFrameFactory = require(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
+      mockFrameMethods = require(buildTestPath('unit/mockFrameFactory')).mockFrameMethods,
+      mockHideHandler = jasmine.createSpy(),
       mockCss = jasmine.createSpy('mockCss'),
       submitTicketPath = buildSrcPath('embed/submitTicket/submitTicket');
 
@@ -59,17 +35,14 @@ describe('embed.submitTicket', function() {
 
     resetDOM();
 
-    spyOn(frameConfig, 'onShow').andCallThrough();
-    spyOn(frameConfig, 'onHide').andCallThrough();
-
     mockery.enable();
-    mockery.registerMock('component/Frame', {
-      Frame: mockFrame
-    });
     mockery.registerMock('component/SubmitTicket', {
       SubmitTicket: mockSubmitTicket
     });
     mockery.registerMock('./submitTicket.scss', mockCss);
+    mockery.registerMock('embed/frameFactory', {
+      frameFactory: mockFrameFactory
+    });
     mockery.registerMock('util/globals', mockGlobals);
     mockery.registerMock('imports?_=lodash!lodash', _);
     mockery.registerAllowable('react');
@@ -79,6 +52,11 @@ describe('embed.submitTicket', function() {
     mockery.registerAllowable(submitTicketPath);
 
     submitTicket = require(submitTicketPath).submitTicket;
+
+    frameConfig = {
+      onShow: jasmine.createSpy('onShow'),
+      onHide: jasmine.createSpy('onHide')
+    };
   });
 
   afterEach(function() {
@@ -94,10 +72,6 @@ describe('embed.submitTicket', function() {
         .toEqual(0);
 
       submitTicket.create('bob');
-      submitTicket.render('bob');
-
-      expect(mockSubmitTicket)
-        .toHaveBeenCalled();
 
       expect(_.keys(submitTicket.list()).length)
         .toEqual(1);
@@ -109,6 +83,77 @@ describe('embed.submitTicket', function() {
 
       expect(bob.component)
         .toBeDefined();
+    });
+
+    describe('mockFrameFactoryRecentCall', function() {
+      var mockFrameFactoryRecentCall;
+
+      beforeEach(function() {
+        submitTicket.create('bob', frameConfig);
+        mockFrameFactoryRecentCall = mockFrameFactory.mostRecentCall.args;
+      });
+
+      it('passes SubmitTicket correctly into frameFactory', function() {
+
+        var body = global.document.body,
+            childFn = mockFrameFactoryRecentCall[0],
+            component = React.createClass({
+              render: function() {
+                return childFn({
+                  hideHandler: mockHideHandler
+                });
+              }
+            }),
+            submitTicketInstance = React.renderComponent(<component />, body)
+              .refs
+              .submitTicket;
+
+        expect(submitTicketInstance.props.hide)
+          .toBe(mockHideHandler);
+      });
+
+      it('calling hideHandler on embed calls frameFactory methods', function() {
+        var params = mockFrameFactoryRecentCall[1],
+            mockSubmitTicketHide = jasmine.createSpy('mockSubmitTicketHide'),
+            mockSubmitTicketReset = jasmine.createSpy('mockSubmitTicketReset'),
+            mockFrameFactoryScope = {
+              getChild: function() {
+                return {
+                  refs: {
+                    submitTicket: {
+                      state: {
+                        showNotification: true
+                      },
+                      reset: mockSubmitTicketReset
+                    }
+                  }
+                };
+              },
+              hide: mockSubmitTicketHide
+            };
+
+        params.extend.hideHandler.bind(mockFrameFactoryScope)();
+
+        expect(mockSubmitTicketHide)
+          .toHaveBeenCalled();
+
+        expect(mockSubmitTicketReset)
+          .toHaveBeenCalled();
+      });
+
+      it('should call onHide/Show config methods if passed in', function() {
+        var params = mockFrameFactoryRecentCall[1];
+
+        params.onShow();
+
+        expect(frameConfig.onShow)
+          .toHaveBeenCalled();
+
+        params.onHide();
+
+        expect(frameConfig.onHide)
+          .toHaveBeenCalled();
+      });
     });
   });
 
@@ -139,11 +184,14 @@ describe('embed.submitTicket', function() {
       expect(document.querySelectorAll( '.mock-frame').length)
         .toEqual(1);
 
-      expect(document.querySelectorAll( '.mock-frame > .mock-submitTicket').length)
+      expect(document.querySelectorAll( '.mock-frame .mock-submitTicket').length)
         .toEqual(1);
 
       expect(ReactTestUtils.isCompositeComponent(submitTicket.get('bob').instance))
         .toEqual(true);
+
+      expect(mockSubmitTicket)
+        .toHaveBeenCalled();
     });
 
     it('should only be allowed to render an submitTicket form once', function() {
@@ -159,40 +207,37 @@ describe('embed.submitTicket', function() {
     });
 
     it('applies submitTicket.scss to the frame', function() {
-      var mockFrameCss;
+      var mockFrameFactoryCss;
 
       submitTicket.create('bob');
       submitTicket.render('bob');
 
-      mockFrameCss = mockFrame.mostRecentCall.args[0].css;
+      mockFrameFactoryCss = mockFrameFactory.mostRecentCall.args[1].css;
 
-      expect(mockFrameCss)
+      expect(mockFrameFactoryCss)
         .toBe(mockCss);
     });
   });
 
   describe('show', function() {
-    it('should change the forms state to show it', function() {
-      submitTicket.create('bob', frameConfig);
+    it('should call show on the embed', function() {
+      submitTicket.create('bob');
       submitTicket.render('bob');
       submitTicket.show('bob');
 
-      expect(submitTicket.get('bob').instance.refs.frame.state.show)
-        .toEqual(true);
-
-      expect(frameConfig.onShow)
+      expect(mockFrameMethods.show)
         .toHaveBeenCalled();
     });
   });
 
   describe('hide', function() {
-    it('should change the forms state to hide it', function() {
-      submitTicket.create('bob', frameConfig);
+    it('should call hide on embed', function() {
+      submitTicket.create('bob');
       submitTicket.render('bob');
       submitTicket.hide('bob');
 
-      expect(submitTicket.get('bob').instance.refs.frame.state.show)
-        .toEqual(false);
+      expect(mockFrameMethods.hide)
+        .toHaveBeenCalled();
     });
   });
 });
