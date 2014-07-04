@@ -38,21 +38,20 @@ function create(name, config) {
   iframeStyle = _.extend(base, posObj, containerBase);
 
   Embed = React.createClass(frameFactory(
-  (params) => {
+    (params) => {
       return (
         /* jshint quotmark: false */
-          <div style={containerBase}>
-            <div className='u-textRight u-marginVS'>
-              <strong
-                ref='hidebutton'
-                onClick={params.hideHandler}
-                onTouchEnd={params.hideHandler}
-                className='u-textCTA u-isActionable'>HIDE</strong>
-            </div>
-            <HelpCenter
-              ref='helpCenter'
-            />
+        <div style={containerBase}>
+          <div className='u-textRight u-marginVS'>
+            <strong
+              ref='hideButton'
+              onClick={params.hideHandler}
+              onTouchEnd={params.hideHandler}
+              className='u-textCTA u-isActionable'>HIDE</strong>
           </div>
+          <HelpCenter
+            ref='helpCenter' />
+        </div>
       );
     },
     {

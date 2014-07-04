@@ -16,19 +16,20 @@ describe('embed.helpCenter', function() {
             }
           })
         ),
-      frameFactoryConfig = {
-        onShow: jasmine.createSpy('onShow'),
-        onHide: jasmine.createSpy('onHide')
-      },
+      frameFactoryConfig,
       mockCss = 'mockCss',
       mockFrameFactory = require(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
       mockFrameMethods = require(buildTestPath('unit/mockFrameFactory')).mockFrameMethods,
-      mockHideHandler = jasmine.createSpy(),
       helpCenterPath = buildSrcPath('embed/helpCenter/helpCenter');
 
   beforeEach(function() {
 
     resetDOM();
+
+    frameFactoryConfig = {
+      onShow: jasmine.createSpy('onShow'),
+      onHide: jasmine.createSpy('onHide')
+    },
 
     mockery.enable();
     mockery.registerMock('embed/frameFactory', {
@@ -77,27 +78,28 @@ describe('embed.helpCenter', function() {
     });
 
     describe('mockFrameFactoryRecentCalls', function() {
-      var mockFrameFactoryRecentCalls;
+      var mockFrameFactoryRecentCall;
 
       beforeEach(function() {
         helpCenter.create('carlos', frameFactoryConfig);
-        mockFrameFactoryRecentCalls = mockFrameFactory.mostRecentCall.args;
+        mockFrameFactoryRecentCall = mockFrameFactory.mostRecentCall.args;
       });
 
       it('passes HelpCenter correctly into frameFactory', function() {
-        var component = React.createClass({
+        var mockHideHandler = noop,
+            component = React.createClass({
               render: function() {
                 return childFn({
                   hideHandler: mockHideHandler
                 });
               }
             }),
-            childFn = mockFrameFactoryRecentCalls[0],
+            childFn = mockFrameFactoryRecentCall[0],
             helpCenter = React.renderComponent(
               <component />,
               global.document.body
             ),
-            hideButton = helpCenter.refs.hidebutton.props;
+            hideButton = helpCenter.refs.hideButton.props;
 
         expect(hideButton.onClick)
           .toBe(mockHideHandler);
@@ -107,7 +109,7 @@ describe('embed.helpCenter', function() {
       });
 
       it('should call onHide/Show config methods if passed in', function() {
-        var params = mockFrameFactoryRecentCalls[1];
+        var params = mockFrameFactoryRecentCall[1];
 
         params.onShow();
 
