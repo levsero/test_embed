@@ -1,9 +1,9 @@
 /** @jsx React.DOM */
 
 module React from 'react'; /* jshint ignore:line */
-import { document   } from 'util/globals';
-import { Frame      } from 'component/Frame';
-import { HelpCenter } from 'component/HelpCenter';
+import { document     } from 'util/globals';
+import { frameFactory } from 'embed/frameFactory';
+import { HelpCenter   } from 'component/HelpCenter';
 require('imports?_=lodash!lodash');
 
 var helpCenterCSS = require('./helpCenter.scss'),
@@ -11,18 +11,20 @@ var helpCenterCSS = require('./helpCenter.scss'),
 
 function create(name, config) {
   var base = {
-        minHeight: '320px',
+        minHeight: 320,
         borderRadius: '10px 10px 0 0',
         boxShadow: '1px 1px 5px rgba(0,0,0,0.5)',
-        width: '320px',
         position: 'fixed',
         bottom: 0,
         background: 'white'
       },
+      containerBase = {
+        minWidth: 320
+      },
       configDefaults = {
         position: 'right'
       },
-      Wrapper,
+      Embed,
       posObj,
       iframeStyle;
 
@@ -33,45 +35,43 @@ function create(name, config) {
          ? { left:  '20px' }
          : { right: '20px' };
 
-  iframeStyle = _.extend(base, posObj);
+  iframeStyle = _.extend(base, posObj, containerBase);
 
-  Wrapper = React.createClass({
-    hide() {
-      if(_.isFunction(config.onHide)) {
-        config.onHide();
-      }
-      this.refs.frame.hide();
-    },
-    show() {
-      if(_.isFunction(config.onShow)) {
-        config.onShow();
-      }
-      this.refs.frame.show();
-    },
-    render() {
-      //TODO when moving this to frame factory find a better way to set the min width and not inline
+  Embed = React.createClass(frameFactory(
+    (params) => {
       return (
         /* jshint quotmark: false */
-        <Frame
-          ref='frame'
-          visible={false}
-          style={iframeStyle}
-          css={helpCenterCSS}>
-          <div style={{minWidth: '320px'}}>
-            <div className='u-textRight u-marginVS'>
-              <strong
-                onClick={this.hide}
-                className='u-textCTA u-isActionable'>HIDE</strong>
-            </div>
-            <HelpCenter ref='helpCenter' />
+        <div style={containerBase}>
+          <div className='u-textRight u-marginVS'>
+            <strong
+              ref='hideButton'
+              onClick={params.hideHandler}
+              onTouchEnd={params.hideHandler}
+              className='u-textCTA u-isActionable'>HIDE</strong>
           </div>
-        </Frame>
+          <HelpCenter ref='helpCenter' />
+        </div>
       );
+    },
+    {
+      style: iframeStyle,
+      css: helpCenterCSS,
+      onHide() {
+        config.onHide();
+      },
+      onShow() {
+        config.onShow();
+      },
+      extend: {
+        hideHandler() {
+          this.hide();
+        }
+      }
     }
-  });
+  ));
 
   helpCenters[name] = {
-    component: <Wrapper onShow={config.onShow} onHide={config.onHide} />
+    component: <Embed visible={false} />
   };
 
   return this;

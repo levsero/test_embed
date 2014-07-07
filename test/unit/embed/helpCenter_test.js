@@ -5,30 +5,6 @@ describe('embed.helpCenter', function() {
       mockGlobals = {
         document: global.document
       },
-      mockFrame = jasmine.createSpy('mockFrame')
-        .andCallFake(
-          React.createClass({
-            hide: function() {
-              this.setState({show: false});
-            },
-            show: function() {
-              this.setState({show: true});
-            },
-            getInitialState: function() {
-              return {
-                show: true
-              };
-            },
-            render: function() {
-              return (
-                /* jshint quotmark:false */
-                <div className='mock-frame'>
-                  {this.props.children}
-                </div>
-              );
-            }
-          })
-        ),
       mockHelpCenter = jasmine.createSpy('mockHelpCenter')
         .andCallFake(
           React.createClass({
@@ -40,16 +16,24 @@ describe('embed.helpCenter', function() {
             }
           })
         ),
+      frameFactoryConfig,
       mockCss = 'mockCss',
+      mockFrameFactory = require(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
+      mockFrameMethods = require(buildTestPath('unit/mockFrameFactory')).mockFrameMethods,
       helpCenterPath = buildSrcPath('embed/helpCenter/helpCenter');
 
   beforeEach(function() {
 
     resetDOM();
 
+    frameFactoryConfig = {
+      onShow: jasmine.createSpy('onShow'),
+      onHide: jasmine.createSpy('onHide')
+    },
+
     mockery.enable();
-    mockery.registerMock('component/Frame', {
-      Frame: mockFrame
+    mockery.registerMock('embed/frameFactory', {
+      frameFactory: mockFrameFactory
     });
     mockery.registerMock('component/HelpCenter', {
       HelpCenter: mockHelpCenter
@@ -91,6 +75,52 @@ describe('embed.helpCenter', function() {
       expect(carlos.component)
         .toBeDefined();
 
+    });
+
+    describe('mockFrameFactoryRecentCall', function() {
+      var mockFrameFactoryRecentCall;
+
+      beforeEach(function() {
+        helpCenter.create('carlos', frameFactoryConfig);
+        mockFrameFactoryRecentCall = mockFrameFactory.mostRecentCall.args;
+      });
+
+      it('passes HelpCenter correctly into frameFactory', function() {
+        var mockHideHandler = noop,
+            component = React.createClass({
+              render: function() {
+                return childFn({
+                  hideHandler: mockHideHandler
+                });
+              }
+            }),
+            childFn = mockFrameFactoryRecentCall[0],
+            helpCenter = React.renderComponent(
+              <component />,
+              global.document.body
+            ),
+            hideButton = helpCenter.refs.hideButton.props;
+
+        expect(hideButton.onClick)
+          .toBe(mockHideHandler);
+
+        expect(hideButton.onTouchEnd)
+          .toBe(mockHideHandler);
+      });
+
+      it('should call onHide/Show config methods if passed in', function() {
+        var params = mockFrameFactoryRecentCall[1];
+
+        params.onShow();
+
+        expect(frameFactoryConfig.onShow)
+          .toHaveBeenCalled();
+
+        params.onHide();
+
+        expect(frameFactoryConfig.onHide)
+          .toHaveBeenCalled();
+      });
     });
   });
 
@@ -147,38 +177,38 @@ describe('embed.helpCenter', function() {
       }).toThrow();
     });
 
-    it('applies helpCenter.scss to the frame', function() {
-      var mockFrameCss;
+    it('applies helpCenter.scss to the frame factory', function() {
+      var mockFrameFactoryCss;
 
       helpCenter.create('carlos');
       helpCenter.render('carlos');
 
-      mockFrameCss = mockFrame.mostRecentCall.args[0].css;
+      mockFrameFactoryCss = mockFrameFactory.mostRecentCall.args[1].css;
 
-      expect(mockFrameCss)
+      expect(mockFrameFactoryCss)
         .toEqual(mockCss);
     });
   });
 
   describe('show', function() {
-    it('should change the forms state to show it', function() {
+    it('should trigger the show function on the parent frame', function() {
       helpCenter.create('carlos');
       helpCenter.render('carlos');
       helpCenter.show('carlos');
 
-      expect(helpCenter.get('carlos').instance.refs.frame.state.show)
-        .toEqual(true);
+      expect(mockFrameMethods.show)
+        .toHaveBeenCalled();
     });
   });
 
   describe('hide', function() {
-    it('should change the forms state to hide it', function() {
+    it('should trigger the hide function of the parent frame', function() {
       helpCenter.create('carlos');
       helpCenter.render('carlos');
       helpCenter.hide('carlos');
 
-      expect(helpCenter.get('carlos').instance.refs.frame.state.show)
-        .toEqual(false);
+      expect(mockFrameMethods.hide)
+        .toHaveBeenCalled();
     });
   });
 
