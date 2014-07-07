@@ -191,7 +191,7 @@ describe('embed.helpCenter', function() {
   });
 
   describe('show', function() {
-    it('should call show on embed', function() {
+    it('should trigger the show function on the parent frame', function() {
       helpCenter.create('carlos');
       helpCenter.render('carlos');
       helpCenter.show('carlos');
@@ -202,7 +202,7 @@ describe('embed.helpCenter', function() {
   });
 
   describe('hide', function() {
-    it('should call hide on embed', function() {
+    it('should trigger the hide function of the parent frame', function() {
       helpCenter.create('carlos');
       helpCenter.render('carlos');
       helpCenter.hide('carlos');
