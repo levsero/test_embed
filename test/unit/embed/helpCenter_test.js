@@ -77,7 +77,7 @@ describe('embed.helpCenter', function() {
 
     });
 
-    describe('mockFrameFactoryRecentCalls', function() {
+    describe('mockFrameFactoryRecentCall', function() {
       var mockFrameFactoryRecentCall;
 
       beforeEach(function() {

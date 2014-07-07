@@ -49,8 +49,7 @@ function create(name, config) {
               onTouchEnd={params.hideHandler}
               className='u-textCTA u-isActionable'>HIDE</strong>
           </div>
-          <HelpCenter
-            ref='helpCenter' />
+          <HelpCenter ref='helpCenter' />
         </div>
       );
     },
