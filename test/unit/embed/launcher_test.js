@@ -202,6 +202,9 @@ describe('embed.launcher', function() {
       launcher.create('alice');
       launcher.render('alice');
 
+      expect(mockLauncher)
+        .toHaveBeenCalled();
+
       expect(document.querySelectorAll('body > div > .mock-frame').length)
         .toBe(1);
 
