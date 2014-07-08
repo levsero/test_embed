@@ -114,9 +114,6 @@ describe('embed.launcher', function() {
 
       childParams.extend.onClickHandler();
 
-      expect(config.onClick)
-        .toHaveBeenCalled();
-
       expect(config.onClick.callCount)
         .toEqual(1);
 
