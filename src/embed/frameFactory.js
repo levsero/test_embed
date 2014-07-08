@@ -11,10 +11,13 @@ function validateChildFn(childFn, params) {
     throw 'childFn should be a function';
   }
 
-  try {
-    childFn(params.extend).__realComponentInstance;
-  }
-  catch(e) {
+  var component = childFn(params.extend);
+
+  if (typeof component.render !== 'function' ||
+      typeof component.setState !== 'function' ||
+      typeof component.mountComponent !== 'function') {
+
+    var e = new TypeError();
     e.message = 'childFn should be a function that returns a React component';
     throw e;
   }
