@@ -13,10 +13,9 @@ function validateChildFn(childFn, params) {
 
   var component = childFn(params.extend);
 
-  if (typeof component.render !== 'function' ||
-      typeof component.setState !== 'function' ||
-      typeof component.mountComponent !== 'function') {
-
+  if (!_.isFunction(component.render) ||
+      !_.isFunction(component.setState) ||
+      !_.isFunction(component.mountComponent)) {
     var e = new TypeError();
     e.message = 'childFn should be a function that returns a React component';
     throw e;
