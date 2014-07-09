@@ -2,15 +2,8 @@
 
 describe('Help center component', function() {
   var HelpCenter,
-      mockComponent = jasmine.createSpy('mockComponent')
-        .andCallFake(React.createClass({
-          render: function() {
-            return <form onSubmit={this.props.handleSubmit} />;
-          }
-        })),
-      mockSchema = {
-        helpCenterSchema: jasmine.createSpy()
-      },
+      mockComponent,
+      mockSchema,
       transport = jasmine.createSpyObj('transport', ['send']),
       helpCenterPath = buildSrcPath('component/HelpCenter');
 
@@ -19,10 +12,24 @@ describe('Help center component', function() {
     transport.send.reset();
 
     mockery.enable({
-      warnOnReplace:false
+      useCleanCache: true
     });
 
+    mockery.resetCache();
+
+    mockComponent = jasmine.createSpy('mockComponent')
+      .andCallFake(React.createClass({
+        render: function() {
+          return <form onSubmit={this.props.handleSubmit} />;
+        }
+      }));
+
+    mockSchema = {
+      helpCenterSchema: jasmine.createSpy()
+    };
+
     mockery.registerMock('imports?_=lodash!lodash', {});
+
     mockery.registerMock('react-forms', {
       schema: {
         Property: mockComponent,
@@ -30,7 +37,7 @@ describe('Help center component', function() {
       }
     });
     mockery.registerMock('component/ZdForm', {
-      ZdForm: mockComponent
+      ZdForm: mockComponent,
     });
     mockery.registerMock('mixin/searchFilter', {
       stopWordsFilter: noop
@@ -39,10 +46,8 @@ describe('Help center component', function() {
       transport: transport
     });
     mockery.registerMock('component/HelpCenterSchema', mockSchema);
+    mockery.registerMock('react/addons', React);
     mockery.registerAllowable(helpCenterPath);
-    mockery.registerAllowable('react');
-    mockery.registerAllowable('react-forms');
-    mockery.registerAllowable('./lib/React');
 
     HelpCenter = require(helpCenterPath).HelpCenter;
   });
@@ -99,11 +104,13 @@ describe('Help center component', function() {
   });
 
   it('should pass schema and submit callback props to ZdForm component', function() {
+    var mostRecentCall;
     React.renderComponent(
       <HelpCenter />,
       global.document.body
     );
-    var mostRecentCall = mockComponent.mostRecentCall.args[0];
+
+    mostRecentCall = mockComponent.mostRecentCall.args[0];
     mostRecentCall.schema('token_schema');
 
     expect(mockSchema.helpCenterSchema)
