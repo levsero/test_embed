@@ -2,16 +2,7 @@
 
 describe('Submit ticket component', function() {
   var SubmitTicket,
-      mockIdentity = {
-        getBuid: function() {
-          return 'abc123';
-        }
-      },
-      mockZdForm,
-      mockSubmitTicketSchema,
-      mockGlobals = {
-        win: window
-      },
+      mockRegistry,
       formParams = {
         'set_tags': 'buid-abc123 DROPBOX',
         'submitted_from': global.window.location.href,
@@ -27,11 +18,9 @@ describe('Submit ticket component', function() {
           fail: noop
         }
       },
-      transport,
       submitTicketPath = buildSrcPath('component/SubmitTicket');
 
   beforeEach(function() {
-    var mockRegistry;
 
     resetDOM();
 
@@ -45,33 +34,31 @@ describe('Submit ticket component', function() {
       }
     });
 
-    mockZdForm = jasmine.createSpy('mockZdForm')
-      .andCallFake(React.createClass({
-      render: function() {
-        return <form onSubmit={this.props.handleSubmit} />;
-      }
-    }));
-
-    mockSubmitTicketSchema = jasmine.createSpy();
-
-    transport = jasmine.createSpyObj('transport', ['send']),
-
     mockRegistry = {
       'react/addons': React,
-      'util/globals': mockGlobals,
+      'util/globals': { win: window },
       'component/ZdForm': {
-        ZdForm: mockZdForm,
+        ZdForm: jasmine.createSpy('mockZdForm')
+          .andCallFake(React.createClass({
+            render: function() {
+              return <form onSubmit={this.props.handleSubmit} />;
+            }
+          })),
         MessageFieldset: noop,
         EmailField: noop
       },
       'service/identity': {
-        identity: mockIdentity
+        identity: {
+          getBuid: function() {
+            return 'abc123';
+          }
+        }
       },
       'service/transport': {
-        transport: transport
+        transport: jasmine.createSpyObj('transport', ['send']),
       },
       'component/SubmitTicketSchema': {
-        submitTicketSchema: mockSubmitTicketSchema
+        submitTicketSchema: jasmine.createSpy()
       },
       'imports?_=lodash!lodash': _
     };
@@ -104,7 +91,10 @@ describe('Submit ticket component', function() {
   });
 
   it('should pass schema and submit callback props to ZdForm component', function() {
-    var mostRecentCall;
+    var mostRecentCall,
+        mockZdForm = mockRegistry['component/ZdForm'].ZdForm,
+        mockSubmitTicketSchema = mockRegistry['component/SubmitTicketSchema']
+          .submitTicketSchema;
 
     React.renderComponent(
       <SubmitTicket />,
@@ -122,7 +112,9 @@ describe('Submit ticket component', function() {
   });
 
   it('should not submit form when invalid', function() {
-    var mostRecentCall;
+    var mostRecentCall,
+        mockZdForm = mockRegistry['component/ZdForm'].ZdForm,
+        mockTransport = mockRegistry['service/transport'].transport;
 
     React.renderComponent(
       <SubmitTicket />,
@@ -133,12 +125,14 @@ describe('Submit ticket component', function() {
 
     mostRecentCall.submit({preventDefault: noop}, {isFormInvalid: true});
 
-    expect(transport.send)
+    expect(mockTransport.send)
       .not.toHaveBeenCalled();
   });
 
   it('should submit form when valid', function() {
     var mostRecentCall,
+        mockZdForm = mockRegistry['component/ZdForm'].ZdForm,
+        mockTransport = mockRegistry['service/transport'].transport,
         transportRecentCall;
 
     React.renderComponent(
@@ -151,12 +145,12 @@ describe('Submit ticket component', function() {
     mostRecentCall.submit({preventDefault: noop}, {
       isFormInvalid: false,
       value: {
-        email: formParams['email'],
-        description: formParams['description']
+        email: formParams.email,
+        description: formParams.description
       }
     });
 
-    transportRecentCall = transport.send.mostRecentCall.args[0];
+    transportRecentCall = mockTransport.send.mostRecentCall.args[0];
 
     expect(transportRecentCall)
       .toBeJSONEqual(payload);
