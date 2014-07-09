@@ -2,51 +2,49 @@
 
 describe('Help center component', function() {
   var HelpCenter,
-      mockComponent,
-      mockSchema,
-      transport = jasmine.createSpyObj('transport', ['send']),
+      mockRegistry,
       helpCenterPath = buildSrcPath('component/HelpCenter');
 
   beforeEach(function() {
 
-    transport.send.reset();
+    resetDOM();
 
     mockery.enable({
       useCleanCache: true
     });
 
-    mockery.resetCache();
-
-    mockComponent = jasmine.createSpy('mockComponent')
-      .andCallFake(React.createClass({
-        render: function() {
-          return <form onSubmit={this.props.handleSubmit} />;
+    mockRegistry = {
+      'react/addons': React,
+      'service/transport': {
+        transport: jasmine.createSpyObj('transport', ['send'])
+      },
+      'component/ZdForm': {
+        ZdForm: jasmine.createSpy('mockZdForm')
+          .andCallFake(React.createClass({
+            render: function() {
+              return <form onSubmit={this.props.handleSubmit} />;
+            }
+          }))
+      },
+      'mixin/searchFilter': {
+        stopWordsFilter: noop
+      },
+      'react-forms': {
+        schema: {
+          Property: jasmine.createSpy('mockReactFormsSchemaProperty'),
+          Schema: jasmine.createSpy('mockReactFormsSchemaSchema')
         }
-      }));
-
-    mockSchema = {
-      helpCenterSchema: jasmine.createSpy()
+      },
+      'component/HelpCenterSchema': {
+        helpCenterSchema: jasmine.createSpy('mockHelpCenterSchema')
+      },
+      'imports?_=lodash!lodash': _
     };
 
-    mockery.registerMock('imports?_=lodash!lodash', {});
+    _.forEach(mockRegistry, function(value, key) {
+      mockery.registerMock(key, value);
+    });
 
-    mockery.registerMock('react-forms', {
-      schema: {
-        Property: mockComponent,
-        Schema: mockComponent
-      }
-    });
-    mockery.registerMock('component/ZdForm', {
-      ZdForm: mockComponent,
-    });
-    mockery.registerMock('mixin/searchFilter', {
-      stopWordsFilter: noop
-    });
-    mockery.registerMock('service/transport', {
-      transport: transport
-    });
-    mockery.registerMock('component/HelpCenterSchema', mockSchema);
-    mockery.registerMock('react/addons', React);
     mockery.registerAllowable(helpCenterPath);
 
     HelpCenter = require(helpCenterPath).HelpCenter;
@@ -74,11 +72,12 @@ describe('Help center component', function() {
             <HelpCenter />,
             global.document.body
           ),
+          mockTransport = mockRegistry['service/transport'].transport,
           searchString = 'help, I\'ve fallen and can\'t get up! ';
 
       helpCenter.handleChange({description: searchString});
 
-      expect(transport.send)
+      expect(mockTransport.send)
         .toHaveBeenCalled();
 
     });
@@ -88,29 +87,33 @@ describe('Help center component', function() {
             <HelpCenter />,
             global.document.body
           ),
+          mockTransport = mockRegistry['service/transport'].transport,
           searchStringTooShort = 'hi! ',
           searchStringNoSpace = 'help, I\'ve fallen and can\'t get up!';
 
       helpCenter.handleChange({description: searchStringTooShort});
 
-      expect(transport.send)
+      expect(mockTransport.send)
         .not.toHaveBeenCalled();
 
       helpCenter.handleChange({description: searchStringNoSpace});
 
-      expect(transport.send)
+      expect(mockTransport.send)
         .not.toHaveBeenCalled();
     });
   });
 
   it('should pass schema and submit callback props to ZdForm component', function() {
-    var mostRecentCall;
+    var mostRecentCall,
+        mockZdForm = mockRegistry['component/ZdForm'].ZdForm,
+        mockSchema = mockRegistry['component/HelpCenterSchema'];
+
     React.renderComponent(
       <HelpCenter />,
       global.document.body
     );
 
-    mostRecentCall = mockComponent.mostRecentCall.args[0];
+    mostRecentCall = mockZdForm.mostRecentCall.args[0];
     mostRecentCall.schema('token_schema');
 
     expect(mockSchema.helpCenterSchema)
