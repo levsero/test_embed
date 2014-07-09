@@ -34,7 +34,7 @@ describe('Submit ticket component', function() {
       }
     });
 
-    mockRegistry = {
+    mockRegistry = initMockRegistry({
       'react/addons': React,
       'util/globals': { win: window },
       'component/ZdForm': {
@@ -61,10 +61,6 @@ describe('Submit ticket component', function() {
         submitTicketSchema: jasmine.createSpy()
       },
       'imports?_=lodash!lodash': _
-    };
-
-    _.forEach(mockRegistry, function(value, key) {
-      mockery.registerMock(key, value);
     });
 
     mockery.registerAllowable(submitTicketPath);

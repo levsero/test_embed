@@ -37,3 +37,9 @@ global.resetDOM = function() {
   global.document.body.innerHTML = '';
 };
 
+global.initMockRegistry = function(registry) {
+  _.forEach(registry, function(value, key) {
+    mockery.registerMock(key, value);
+  });
+  return registry;
+};

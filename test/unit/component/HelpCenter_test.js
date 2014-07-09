@@ -13,7 +13,7 @@ describe('Help center component', function() {
       useCleanCache: true
     });
 
-    mockRegistry = {
+    mockRegistry = initMockRegistry({
       'react/addons': React,
       'service/transport': {
         transport: jasmine.createSpyObj('transport', ['send'])
@@ -39,10 +39,6 @@ describe('Help center component', function() {
         helpCenterSchema: jasmine.createSpy('mockHelpCenterSchema')
       },
       'imports?_=lodash!lodash': _
-    };
-
-    _.forEach(mockRegistry, function(value, key) {
-      mockery.registerMock(key, value);
     });
 
     mockery.registerAllowable(helpCenterPath);
