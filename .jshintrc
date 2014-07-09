@@ -8,7 +8,7 @@
     "before", "after", "noop", "resetDOM", "ReactTestUtils", "jsdom",
     "expect", "it", "describe", "xit", "xdescribe", "beforeEach", "afterEach",
     "jasmine", "spyOn", "runs", "waitsFor", "buildSrcPath", "buildTestPath",
-    "basePath", "mockery"
+    "basePath", "mockery", "initMockRegistry"
   ],
 
   "bitwise":   true,

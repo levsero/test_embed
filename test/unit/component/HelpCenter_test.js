@@ -78,7 +78,7 @@ describe('Help center component', function() {
 
     });
 
-    it('shouldn\t call handle search if the string isn\'t valid', function() {
+    it('shouldn\'t call handle search if the string isn\'t valid', function() {
       var helpCenter = React.renderComponent(
             <HelpCenter />,
             global.document.body
