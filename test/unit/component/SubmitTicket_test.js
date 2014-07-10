@@ -2,37 +2,12 @@
 
 describe('Submit ticket component', function() {
   var SubmitTicket,
-      defaultValue = '123abc',
-      mockIdentity = {
-        getBuid: function() {
-          return 'abc123';
-        }
-      },
-      mockComponent = jasmine.createSpy('mockComponent')
-        .andCallFake(React.createClass({
-          getInitialState: function() {
-            return {
-              showNotification: false,
-              message: false,
-              uid: defaultValue
-            };
-          },
-          render: function() {
-            /* jshint quotmark: false */
-            return <form onSubmit={this.props.handleSubmit} />;
-          }
-        })),
-      mockSchema = {
-        submitTicketSchema: jasmine.createSpy()
-      },
-      mockGlobals = {
-        win: window
-      },
+      mockRegistry,
       formParams = {
         'set_tags': 'buid-abc123 DROPBOX',
         'submitted_from': global.window.location.href,
-        'email': defaultValue,
-        'description': defaultValue
+        'email': 'mock@email.com',
+        'description': 'Mock Description'
       },
       payload = {
         method: 'post',
@@ -43,13 +18,14 @@ describe('Submit ticket component', function() {
           fail: noop
         }
       },
-      transport = jasmine.createSpyObj('transport', ['send']),
       submitTicketPath = buildSrcPath('component/SubmitTicket');
 
   beforeEach(function() {
 
+    resetDOM();
+
     mockery.enable({
-      warnOnReplace:false
+      useCleanCache: true
     });
 
     this.addMatchers({
@@ -58,26 +34,36 @@ describe('Submit ticket component', function() {
       }
     });
 
-    transport.send.reset();
+    mockRegistry = initMockRegistry({
+      'react/addons': React,
+      'util/globals': { win: window },
+      'component/ZdForm': {
+        ZdForm: jasmine.createSpy('mockZdForm')
+          .andCallFake(React.createClass({
+            render: function() {
+              return <form onSubmit={this.props.handleSubmit} />;
+            }
+          })),
+        MessageFieldset: noop,
+        EmailField: noop
+      },
+      'service/identity': {
+        identity: {
+          getBuid: function() {
+            return 'abc123';
+          }
+        }
+      },
+      'service/transport': {
+        transport: jasmine.createSpyObj('transport', ['send']),
+      },
+      'component/SubmitTicketSchema': {
+        submitTicketSchema: jasmine.createSpy()
+      },
+      'imports?_=lodash!lodash': _
+    });
 
-    mockery.registerMock('component/ZdForm', {
-      ZdForm: mockComponent,
-      MessageFieldset: noop,
-      EmailField: noop
-    });
-    mockery.registerMock('component/SubmitTicketSchema', mockSchema);
-    mockery.registerMock('service/identity', {
-      identity: mockIdentity
-    });
-    mockery.registerMock('service/transport', {
-      transport: transport
-    });
-    mockery.registerMock('util/globals', mockGlobals);
-    mockery.registerMock('imports?_=lodash!lodash', {});
     mockery.registerAllowable(submitTicketPath);
-    mockery.registerAllowable('react');
-    mockery.registerAllowable('./lib/React');
-    mockery.registerAllowable('util/globals');
 
     SubmitTicket = require(submitTicketPath).SubmitTicket;
   });
@@ -101,35 +87,48 @@ describe('Submit ticket component', function() {
   });
 
   it('should pass schema and submit callback props to ZdForm component', function() {
+    var mostRecentCall,
+        mockZdForm = mockRegistry['component/ZdForm'].ZdForm,
+        mockSubmitTicketSchema = mockRegistry['component/SubmitTicketSchema']
+          .submitTicketSchema;
+
     React.renderComponent(
       <SubmitTicket />,
       global.document.body
     );
-    var mostRecentCall = mockComponent.mostRecentCall.args[0];
+
+    mostRecentCall = mockZdForm.mostRecentCall.args[0];
     mostRecentCall.schema('token_schema');
 
-    expect(mockSchema.submitTicketSchema)
+    expect(mockSubmitTicketSchema)
       .toHaveBeenCalledWith('token_schema');
 
-    expect(mockSchema.submitTicketSchema.callCount)
+    expect(mockSubmitTicketSchema.callCount)
       .toEqual(1);
   });
 
   it('should not submit form when invalid', function() {
+    var mostRecentCall,
+        mockZdForm = mockRegistry['component/ZdForm'].ZdForm,
+        mockTransport = mockRegistry['service/transport'].transport;
+
     React.renderComponent(
       <SubmitTicket />,
       global.document.body
     );
-    var mostRecentCall = mockComponent.mostRecentCall.args[0];
+
+    mostRecentCall = mockZdForm.mostRecentCall.args[0];
 
     mostRecentCall.submit({preventDefault: noop}, {isFormInvalid: true});
 
-    expect(transport.send)
+    expect(mockTransport.send)
       .not.toHaveBeenCalled();
   });
 
   it('should submit form when valid', function() {
-    var mockComponentRecentCall = mockComponent.mostRecentCall.args[0],
+    var mostRecentCall,
+        mockZdForm = mockRegistry['component/ZdForm'].ZdForm,
+        mockTransport = mockRegistry['service/transport'].transport,
         transportRecentCall;
 
     React.renderComponent(
@@ -137,15 +136,17 @@ describe('Submit ticket component', function() {
       global.document.body
     );
 
-    mockComponentRecentCall.submit({preventDefault: noop}, {
+    mostRecentCall = mockZdForm.mostRecentCall.args[0],
+
+    mostRecentCall.submit({preventDefault: noop}, {
       isFormInvalid: false,
       value: {
-        email: defaultValue,
-        description: defaultValue
+        email: formParams.email,
+        description: formParams.description
       }
     });
 
-    transportRecentCall = transport.send.mostRecentCall.args[0];
+    transportRecentCall = mockTransport.send.mostRecentCall.args[0];
 
     expect(transportRecentCall)
       .toBeJSONEqual(payload);
@@ -156,7 +157,8 @@ describe('Submit ticket component', function() {
           <SubmitTicket />,
           global.document.body
         ),
-        notificationElem = ReactTestUtils.findRenderedDOMComponentWithClass(submitTicket, 'Notify');
+        notificationElem = ReactTestUtils
+          .findRenderedDOMComponentWithClass(submitTicket, 'Notify');
 
     expect(notificationElem.props.className)
       .toContain('u-isHidden');
