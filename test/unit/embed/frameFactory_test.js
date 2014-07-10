@@ -58,7 +58,8 @@ describe('frameFactory', function() {
       var payload = frameFactory(mockChildFn),
       defaultProps = payload.getDefaultProps();
 
-      expect(defaultProps.visible).toEqual(true);
+      expect(defaultProps.visible)
+        .toEqual(true);
     });
   });
 
@@ -69,7 +70,9 @@ describe('frameFactory', function() {
           <Embed visible={false} />,
         global.document.body
       );
-      expect(instance.state.visible).toEqual(false);
+
+      expect(instance.state.visible)
+        .toEqual(false);
     });
   });
 
@@ -166,7 +169,8 @@ describe('frameFactory', function() {
     it('triggers params.onShow if set', function() {
       instance.show();
 
-      expect(mockOnShow).toHaveBeenCalled();
+      expect(mockOnShow)
+        .toHaveBeenCalled();
     });
   });
 
@@ -204,7 +208,8 @@ describe('frameFactory', function() {
     it('triggers params.onHide if set', function() {
       instance.hide();
 
-      expect(mockOnHide).toHaveBeenCalled();
+      expect(mockOnHide)
+        .toHaveBeenCalled();
     });
   });
 
@@ -370,7 +375,8 @@ describe('frameFactory', function() {
         .toEqual({width: 0, height: 0});
 
       // shouldn't call the injected updateFrameSize prop
-      expect(mockUpdateFrameSize).not.toHaveBeenCalled();
+      expect(mockUpdateFrameSize)
+        .not.toHaveBeenCalled();
     });
 
     it('renders the child component to the document', function() {
