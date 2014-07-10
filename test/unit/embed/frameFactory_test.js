@@ -51,6 +51,24 @@ describe('frameFactory', function() {
         frameFactory(noop, {});
       }).toThrow();
     });
+
+    it('should not throw if childFn returns a React component', function() {
+      var childFn = function() {
+        return <mockComponent />;
+      };
+      expect(function() {
+        frameFactory(childFn);
+      }).not.toThrow();
+    });
+
+    it('should not throw if childFn returns a React DOM component', function() {
+      var childFn = function() {
+        return <div />;
+      };
+      expect(function() {
+        frameFactory(childFn);
+      }).not.toThrow();
+    });
   });
 
   describe('getDefaultProps', function() {
