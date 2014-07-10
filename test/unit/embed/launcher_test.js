@@ -4,30 +4,6 @@ describe('embed.launcher', function() {
       mockGlobals = {
         document: global.document
       },
-      mockFrame = jasmine.createSpy('mockFrame')
-        .andCallFake(
-          React.createClass({
-            hide: function() {
-              this.setState({show: false});
-            },
-            show: function() {
-              this.setState({show: true});
-            },
-            getInitialState: function() {
-              return {
-                show: true
-              };
-            },
-            render: function() {
-              return (
-                /* jshint quotmark:false */
-                <div className='mock-frame'>
-                  {this.props.children}
-                </div>
-              );
-            }
-          })
-        ),
       mockLauncher = jasmine.createSpy('mockLauncher')
         .andCallFake(
           React.createClass({
@@ -52,9 +28,6 @@ describe('embed.launcher', function() {
 
     mockery.enable();
     mockery.registerMock('util/globals', mockGlobals);
-    mockery.registerMock('component/Frame', {
-      Frame: mockFrame
-    });
     mockery.registerMock('component/Launcher', {
       Launcher: mockLauncher
     });
@@ -86,10 +59,6 @@ describe('embed.launcher', function() {
         .toBe(0);
 
       launcher.create('alice');
-      launcher.render('alice');
-
-      expect(mockLauncher)
-        .toHaveBeenCalled();
 
       expect(_.keys(launcher.list()).length)
         .toBe(1);
@@ -113,32 +82,49 @@ describe('embed.launcher', function() {
             position: 'test_position',
             message: 'Help',
             icon: ''
-          };
+          },
+          mockFrameFactoryRecentCall,
+          childFn,
+          payload,
+          childParams;
 
       launcher.create('alice', config);
-      launcher.render('alice', config);
+
+      mockFrameFactoryRecentCall = mockFrameFactory.mostRecentCall.args;
+
+      childFn = mockFrameFactoryRecentCall[0];
 
       alice = launcher.get('alice');
 
-      expect(alice.config).toEqual(config);
+      expect(alice.config)
+        .toEqual(config);
 
-      expect(mockLauncher).toHaveBeenCalled();
+      payload = childFn({});
 
-      expect(alice.instance.refs.launcher.props.position)
+      expect(payload.props.position)
         .toEqual(config.position);
 
-      alice.instance.refs.launcher.props.onClick();
+      expect(payload.props.icon)
+        .toEqual(config.icon);
 
-      expect(config.onClick)
-        .toHaveBeenCalled();
+      expect(payload.props.message)
+        .toEqual(config.message);
+
+      childParams = mockFrameFactoryRecentCall[1];
+
+      childParams.extend.onClickHandler();
+
+      expect(config.onClick.callCount)
+        .toEqual(1);
 
       expect(mockBeacon.track)
         .toHaveBeenCalledWith('launcher', 'click', 'alice');
+
     });
 
     it('passes Launcher correctly into frameFactory', function() {
 
-      var child, 
+      var childFn,
           mockClickHandler = noop,
           payload,
           launcherInstance,
@@ -146,9 +132,9 @@ describe('embed.launcher', function() {
 
       launcher.create('alice');
 
-      child = mockFrameFactory.mostRecentCall.args[0];
+      childFn = mockFrameFactory.mostRecentCall.args[0];
 
-      payload = child({
+      payload = childFn({
         onClickHandler: mockClickHandler
       });
 
@@ -215,6 +201,9 @@ describe('embed.launcher', function() {
 
       launcher.create('alice');
       launcher.render('alice');
+
+      expect(mockLauncher)
+        .toHaveBeenCalled();
 
       expect(document.querySelectorAll('body > div > .mock-frame').length)
         .toBe(1);
