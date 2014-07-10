@@ -15,6 +15,7 @@ function validateChildFn(childFn, params) {
       isComponent,
       isDOMComponent;
 
+  /* jshint laxbreak: true */
   isComponent = (
     _.isFunction(component.render)
     && _.isFunction(component.setState)
