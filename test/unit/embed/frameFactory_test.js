@@ -79,29 +79,16 @@ describe('frameFactory', function() {
           instance = React.renderComponent(
             <Embed />,
             global.document.body
-          ),
-          children = instance
-            .getChild()
-            ._renderedComponent
-            .props
-            .children,
-          mockComponentIsPresent;
+          );
 
-      // Epic traversal to verify that
-      // mockComponent shows up as one
-      // of the children inside `instance`
-      mockComponentIsPresent = _.some(children, function(child) {
-        if (child && child._renderedComponent) {
-          return child
-            .__realComponentInstance
-            ._renderedComponent
-            .props
-            .className === 'mock-component';
-        }
-        return false;
-      });
+      expect(function() {
+        ReactTestUtils
+          .findRenderedDOMComponentWithClass(
+            instance.getChild(), 
+            'mock-component'
+          );
+      }).not.toThrow();
 
-      expect(mockComponentIsPresent).toEqual(true);
     });
   });
 
