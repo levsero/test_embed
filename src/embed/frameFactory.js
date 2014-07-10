@@ -6,15 +6,17 @@ require('imports?_=lodash!lodash');
 var baseCSS = require('baseCSS'),
     mainCSS = require('mainCSS');
 
-function validateChildFn(fn, params) {
-  if (!_.isFunction(fn)) {
+function validateChildFn(childFn, params) {
+  if (!_.isFunction(childFn)) {
     throw 'childFn should be a function';
   }
 
-  try {
-    fn(params.extend).__realComponentInstance;
-  }
-  catch(e) {
+  var component = childFn(params.extend);
+
+  if (!_.isFunction(component.render) ||
+      !_.isFunction(component.setState) ||
+      !_.isFunction(component.mountComponent)) {
+    var e = new TypeError();
     e.message = 'childFn should be a function that returns a React component';
     throw e;
   }
@@ -23,7 +25,8 @@ function validateChildFn(fn, params) {
 export var frameFactory = function(childFn, _params) {
   var child,
       defaultParams = {
-        style: {}
+        style: {},
+        css: ''
       },
       params = _.extend(defaultParams, _params);
 
@@ -61,12 +64,16 @@ export var frameFactory = function(childFn, _params) {
       }
 
       dimensions = function() {
-        var el = frameDoc.body.firstChild;
+        var el = frameDoc.body.firstChild,
+            width  = Math.max(el.clientWidth,  el.offsetWidth ),
+            height = Math.max(el.clientHeight, el.offsetHeight);
+        
         return ({
-          width:  Math.max(el.clientWidth,  el.offsetWidth, el.clientWidth),
-          height: Math.max(el.clientHeight, el.offsetHeight, el.clientHeight)
+          width:  _.isFinite(width)  ? width  : 0,
+          height: _.isFinite(height) ? height : 0
         });
       };
+
       frameWin.setTimeout( () => this.setState({iframeDimensions: dimensions()}), 0);
     },
 
@@ -91,7 +98,7 @@ export var frameFactory = function(childFn, _params) {
     },
 
     render: function() {
-      var visibilityRule = (this.state.visible) ? {} : {display: 'none'},
+      var visibilityRule = (this.state.visible) ? {display: 'block'} : {display: 'none'},
           base = { border: 'none' },
           iframeStyle = _.extend(
             base,
