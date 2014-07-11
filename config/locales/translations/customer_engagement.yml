@@ -1,0 +1,12 @@
+title: "Customer Engagement Framework"
+packages:
+  - default
+  - customer_engagement
+
+parts:
+  # Launcher embed
+  - translation:
+      key: "launcher.label.help"
+      title: "Help Label for launcher button"
+      value: "Help"
+      wip: true
