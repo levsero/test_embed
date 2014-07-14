@@ -11,8 +11,6 @@ React.initializeTouchEvents(true);
 transport.init({ zendeskHost: document.zendeskHost });
 beacon.init().send();
 
-var readyCallback = win.Zd && win.Zd.readyCallback;
-
 win.Zd = module.exports = {
   devRender: renderer.init
 };
