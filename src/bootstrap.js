@@ -2,12 +2,17 @@
 // Code taken from http://www.lognormal.com/blog/2012/12/12/the-script-loader-pattern/
 window.Zd || (function(options){
 // Section 1
-  var dom,
+  var queue = [],
+      dom,
       doc,
       where,
       iframe = document.createElement('iframe'),
       iWin,
       iDoc;
+
+  window.Zd = function() {
+    queue.push(arguments);
+  };
 
   iframe.src = 'javascript:false';
   iframe.title = ''; iframe.role='presentation';  // a11y
@@ -19,11 +24,6 @@ window.Zd || (function(options){
   iWin = iframe.contentWindow;
   iDoc = iWin.document;
 
-  window.Zd = {
-    ready: function(cb) {
-      this.readyCallback = cb;
-    }
-  };
 // Section 2
   try {
     doc = iDoc;
@@ -38,6 +38,7 @@ window.Zd || (function(options){
     js.id = 'js-iframe-async';
     js.src = options.url;
     this.zendeskHost = options.zendeskHost;
+    this.ZdQueue = queue;
     this.body.appendChild(js);
   };
   doc.write('<body onload="document._l();">');

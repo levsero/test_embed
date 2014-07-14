@@ -17,9 +17,11 @@ win.Zd = module.exports = {
   devRender: renderer.init
 };
 
-if (readyCallback && typeof readyCallback === 'function') {
-  readyCallback();
-}
+_.each(document.ZdQueue, function(item) {
+  if (item[0] === 'ready') {
+    item[1](win.Zd);
+  }
+});
 
 // Until transport config is setup we hard code the config call
 renderer.init({
