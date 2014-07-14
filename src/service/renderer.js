@@ -37,7 +37,13 @@ function init(config) {
         embedsMap[configItem.embed].render(embedName);
       } catch (err) {
         // TODO: revisit what this does when error tracking is in place
-        console.error('captured error: ', err);
+        console.error(
+          'captured error: ', 
+          {
+            embedName: embedName,
+            configItem: configItem,
+            err: err
+          });
       }
     });
   }
