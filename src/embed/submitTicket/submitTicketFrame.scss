@@ -1,0 +1,38 @@
+$SubmitTicketFrame-height: 320px;
+$SubmitTicketFrame-arrowFullWidth: 20;
+$SubmitTicketFrame-arrowWidth: $SubmitTicketFrame-arrowFullWidth/2;
+
+.SubmitTicketFrame {
+  min-height: 320px;
+  border-radius: 8px;
+  border: 1px solid #dbdbdb;
+  box-shadow: 1px 1px 15px rgba(0, 0, 0, .1);
+  position: fixed;
+  bottom: #{$SubmitTicketFrame-arrowFullWidth * 3}px;
+  background: #FFFFFF;
+
+  &:after, &:before {
+    top: 100%;
+    right: #{$SubmitTicketFrame-arrowFullWidth}px;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+  }
+
+  &:after {
+    border-color: rgba(255, 255, 255, 0);
+    border-top-color: #fff;
+    border-width: #{$SubmitTicketFrame-arrowWidth}px;
+    margin-left: -#{$SubmitTicketFrame-arrowWidth}px;
+  }
+
+  &:before {
+    border-color: rgba(219, 219, 219, 0);
+    border-top-color: #dbdbdb;
+    border-width: #{($SubmitTicketFrame-arrowWidth + 1)}px;
+    margin-left: -#{($SubmitTicketFrame-arrowWidth + 1)}px;
+  }
+}

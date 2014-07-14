@@ -43,6 +43,7 @@ export var SubmitTicket = React.createClass({
 
     if(data.isFormInvalid) {
       // TODO: Handle invalid form submission
+      console.log(data);
       return;
     }
 
@@ -96,15 +97,15 @@ export var SubmitTicket = React.createClass({
           schema={submitTicketSchema}
           submit={this.handleSubmit}>
           <div className='Arrange Arrange--middle'>
-            <strong
-              onClick={this.handleCancel}
-              onTouchEnd={this.handleCancel}
-              className='Arrange-sizeFill u-isActionable u-textSecondary'>
-                Cancel
-            </strong>
+            <a
+              href='https://www.zendesk.com'
+              target='_blank'
+              className='Arrange-sizeFill'>
+                zendesk
+            </a>
             <input
               type='submit'
-              value='Submit Ticket'
+              value='Send'
               className='Button Button--default Button--cta Arrange-sizeFit u-textNoWrap'
             />
           </div>

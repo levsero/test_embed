@@ -2,21 +2,36 @@
 
 module React from 'react/addons';
 module ReactForms from 'react-forms';
-import { MessageFieldset, EmailField } from 'component/ZdForm';
+import { MessageFieldset, EmailField, IconField } from 'component/ZdForm';
 
-var { Schema, Property } = ReactForms.schema;
+var { Schema } = ReactForms.schema;
 
 export var submitTicketSchema = (
   /* jshint quotmark:false */
   <Schema component={MessageFieldset}>
-    <Property
-      name='description'
-      label='Message'
-      ref='message'
-      required
-      input={<textarea rows='5' placeholder='Give us details here...' />}
+    <IconField
+      name='fullname'
+      ref='fullname'
+      icon='avatar'
+      placeholder='Your name'
     />
-    <EmailField required />
+    <EmailField
+      required
+      icon='mail'
+    />
+    <IconField
+      name='description'
+      ref='message'
+      icon='foo u-alignTop'
+      required
+      input={
+        <textarea
+          rows='5'
+          className='Arrange-sizeFill'
+          placeholder='Give us details here...'
+        />
+      }
+    />
   </Schema>
 );
 

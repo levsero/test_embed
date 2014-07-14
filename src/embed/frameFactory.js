@@ -52,9 +52,14 @@ export var frameFactory = function(childFn, _params) {
       return child;
     },
 
+    getIframe: function() {
+      return this.getDOMNode().querySelector('iframe');
+    },
+
     updateFrameSize: function() {
-      var frameWin = this.getDOMNode().contentWindow,
-          frameDoc = this.getDOMNode().contentDocument,
+      var iframe = this.getIframe(),
+          frameWin = iframe.contentWindow,
+          frameDoc = iframe.contentDocument,
           dimensions;
 
       if (!frameDoc.firstChild) {
@@ -98,14 +103,22 @@ export var frameFactory = function(childFn, _params) {
     render: function() {
       var visibilityRule = (this.state.visible) ? {display: 'block'} : {display: 'none'},
           base = { border: 'none' },
+          containerStyle = _.extend(
+            params.style,
+            visibilityRule
+          ),
           iframeStyle = _.extend(
             base,
             params.style,
-            visibilityRule,
             this.state.iframeDimensions
           );
 
-      return <iframe style={iframeStyle} />;
+          return (
+            <div className={params.className} style={containerStyle}>
+              <style dangerouslySetInnerHTML={{ __html: params.frameCSS }} />
+              <iframe style={iframeStyle} />
+            </div>
+          );
     },
 
 
@@ -122,7 +135,8 @@ export var frameFactory = function(childFn, _params) {
         return false;
       }
 
-      var doc = this.getDOMNode().contentWindow.document;
+      var iframe = this.getIframe(),
+          doc = iframe.contentWindow.document;
 
       // In order for iframe correctly render in some browsers
       // we need to do it on nextTick

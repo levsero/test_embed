@@ -5,12 +5,13 @@ module ReactForms from 'react-forms';
 import { validation } from 'mixin/validation';
 require('imports?_=lodash!lodash');
 
-var { FormFor, Form } = ReactForms,
+var { FormFor, Form, FieldMixin } = ReactForms,
     ZdFormBody = Form,
     Property = ReactForms.schema.Property,
-    Animate = React.addons.CSSTransitionGroup;
+    isFailure = ReactForms.validation.isFailure,
+    classSet = React.addons.classSet;
 
-export var ZdForm = React.createClass({
+var ZdForm = React.createClass({
   handleSubmit(e) {
     var form = this.refs.form,
         formValue = form.value();
@@ -39,7 +40,7 @@ export var ZdForm = React.createClass({
   }
 });
 
-export var MessageFieldset = React.createClass({
+var MessageFieldset = React.createClass({
   mixins: [ReactForms.FieldsetMixin],
 
   getInitialState() {
@@ -48,45 +49,102 @@ export var MessageFieldset = React.createClass({
     };
   },
 
-  messageLength(name) {
-    var val = this.value().value[name];
-    return val && val.length >= 5;
-  },
-
-  showEmail() {
-    /* jshint quotmark:false, laxbreak: true */
-    return (
-      this.messageLength('description')
-        ? <FormFor key={this.state.emailKey} name='email' />
-        : <span />
-    );
-  },
-
   render() {
     /* jshint quotmark:false */
     return (
       <div>
+        <FormFor name='fullname' />
         <FormFor name='description' />
-        <Animate transitionName='FadeIn' transitionLeave={false} component={React.DOM.div}>
-          {this.showEmail()}
-        </Animate>
+        <FormFor name='email' />
       </div>
     );
   }
 });
 
-export function EmailField(props) {
-  /* jshint quotmark:false */
+var FocusField = React.createClass({
+  mixins: [FieldMixin],
+
+  getInitialState() {
+    return {
+      focused: false
+    };
+  },
+
+  onFocus() {
+    this.setState({
+      focused: true
+    });
+  },
+
+  onBlur() {
+    this.setState({
+      focused: false
+    });
+  },
+
+  render() {
+    var value = this.value(),
+        isInvalid = isFailure(value.validation),
+        classNames = classSet({
+          'Arrange Arrange--middle rf-Field': true,
+          'rf-Field--focused': this.state.focused,
+          'rf-Field--invalid': isInvalid,
+          'rf-Field--dirty': !value.isUndefined
+        });
+
+console.log(this.input);
+    return (
+      <div className={classNames}>
+        <i className={'Arrange-sizeFit Icon Icon--' + this.props.name} />
+        {this.transferPropsTo(this.renderInputComponent({
+          onFocus: this.onFocus,
+          onBlur: this.onBlur
+        }))}
+      </div>
+    );
+  }
+});
+
+function IconField(props) {
   props = props || {};
+
+  /* jshint quotmark:false */
   return (
     <Property
-      name={props.name || 'email'}
-      label={props.name || 'Email'}
-      required={props.required ? true : false}
-      input={<input type='email' />}
-      validate={function(value) {
-        return validation.validateEmail(value);
-      }}
+      name={props.name}
+      ref={props.ref}
+      required={!!props.required}
+      icon={props.icon || ''}
+      input={
+        props.input ||
+        <input placeholder={props.placeholder} className='Arrange-sizeFill' />
+      }
+      validate={props.validate || ''}
+      component={FocusField}
     />
   );
 }
+
+function EmailField(props) {
+  var type = 'email';
+
+  return IconField({
+    name: props.name || type,
+    ref: props.ref || type,
+    required: !!props.required,
+    icon: props.icon,
+    input: (
+      /* jshint quotmark:false */
+      <input
+        type={type}
+        placeholder='Email address'
+        className='Arrange-sizeFill' />
+    ),
+    validate: function(value) {
+      return validation.validateEmail(value);
+    }
+  });
+}
+
+export { ZdForm, MessageFieldset, FocusField, IconField, EmailField };
+

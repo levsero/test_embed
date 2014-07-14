@@ -6,19 +6,12 @@ import { SubmitTicket } from 'component/SubmitTicket';
 import { frameFactory } from 'embed/frameFactory';
 
 var submitTicketCSS = require('./submitTicket.scss'),
+    submitTicketFrameCSS = require('./submitTicketFrame.scss'),
     submitTickets = {};
 
 function create(name, config) {
   var containerBase = {
         minWidth: 320
-      },
-      base = {
-        minHeight: '320px',
-        borderRadius: '10px 10px 0 0',
-        boxShadow: '1px 1px 5px rgba(0,0,0,0.5)',
-        position: 'fixed',
-        bottom: 0,
-        background: 'white'
       },
       configDefaults = {
         position: 'right'
@@ -34,19 +27,16 @@ function create(name, config) {
          ? { left:  '20px' }
          : { right: '20px' };
 
-  iframeStyle = _.extend(base, posObj, containerBase);
+  iframeStyle = _.extend(posObj, containerBase);
 
   Embed = React.createClass(frameFactory(
     (params) => {
       /* jshint quotmark:false */
       return (
         <div style={containerBase}>
-          <div className='u-textRight u-marginVS'>
-            <strong
-              onClick={params.hideHandler}
-              onTouchEnd={params.hideHandler}
-              className='u-textCTA u-isActionable'>HIDE</strong>
-          </div>
+          <h1 className='u-marginVS u-textSizeMed'>
+            Leave us a message
+          </h1>
           <SubmitTicket
             ref='submitTicket'
             updateFrameSize={params.updateFrameSize}
@@ -56,6 +46,8 @@ function create(name, config) {
     },
     {
       style: iframeStyle,
+      className: 'SubmitTicketFrame',
+      frameCSS: submitTicketFrameCSS,
       css: submitTicketCSS,
       onShow() {
         config.onShow();

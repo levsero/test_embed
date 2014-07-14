@@ -7,12 +7,19 @@ $Button-color: #1a6690;
 $Button-launcherColor: rgba(116,178,0,.8);
 $Button-launcherActiveColor: #474747;
 $Button-ctaColor: #FFFFFF;
-$Button-ctaBgColor: #83c400;
+$Button-disabledColor: #DBDBDB;
+$Button-ctaBgColor: #78A100;
+
+.Button {
+  &:disabled {
+    background: $Button-disabledColor;
+  }
+}
 
 .Button--default {
   color: $Button-color;
   border-radius: 5px;
-  padding: 5px 10px;
+  padding: 12px 30px;
 }
 
 .Button--cta {
