@@ -56,7 +56,7 @@ describe('frameFactory', function() {
   describe('getDefaultProps', function() {
     it('has default prop value for `visible` set to true', function() {
       var payload = frameFactory(mockChildFn),
-      defaultProps = payload.getDefaultProps();
+          defaultProps = payload.getDefaultProps();
 
       expect(defaultProps.visible)
         .toEqual(true);
@@ -66,7 +66,7 @@ describe('frameFactory', function() {
   describe('getInitialState', function() {
     it('picks up initial state for `visible` from the `visible` prop', function() {
       var Embed = React.createClass(frameFactory(mockChildFn)),
-      instance = React.renderComponent(
+          instance = React.renderComponent(
           <Embed visible={false} />,
         global.document.body
       );
