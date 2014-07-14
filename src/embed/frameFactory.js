@@ -11,11 +11,23 @@ function validateChildFn(childFn, params) {
     throw 'childFn should be a function';
   }
 
-  var component = childFn(params.extend);
+  var component = childFn(params.extend),
+      isComponent,
+      isDOMComponent;
 
-  if (!_.isFunction(component.render) ||
-      !_.isFunction(component.setState) ||
-      !_.isFunction(component.mountComponent)) {
+  /* jshint laxbreak: true */
+  isComponent = (
+    _.isFunction(component.render)
+    && _.isFunction(component.setState)
+    && _.isFunction(component.mountComponent)
+  );
+
+  isDOMComponent = (
+    _.isFunction(component.mountComponent)
+    && !!(component.tagName)
+  );
+
+  if ((isComponent || isDOMComponent) === false) {
     var e = new TypeError();
     e.message = 'childFn should be a function that returns a React component';
     throw e;
