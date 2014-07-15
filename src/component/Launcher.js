@@ -51,7 +51,7 @@ export var Launcher = React.createClass({
         onClick={this.props.onClick}
         onTouchEnd={this.props.onClick}>
         <i className={iconClasses + this.state.icon} />
-        {this.state.message}
+        <span className='u-inlineBlock u-alignTop'>{this.state.message}</span>
       </div>
     );
   }

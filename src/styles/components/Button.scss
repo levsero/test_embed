@@ -24,15 +24,15 @@ $Button-ctaBgColor: #83c400;
 .Button--launcher {
   background-color: $Button-launcherColor;
   color: #fff;
-  padding: 0;
   font-size: $Button-baseFontSize;
   border-radius: 999rem; /* 1  */
   cursor: pointer;
   border: 0;
-  padding: 10px;
+  padding: 10 15;
 }
 
 .Button--launcherActive {
   background-color: $Button-launcherActiveColor;
   margin-right: 10;
+  padding: 10;
 }
