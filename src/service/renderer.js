@@ -38,12 +38,13 @@ function init(config) {
       } catch (err) {
         // TODO: revisit what this does when error tracking is in place
         console.error(
-          'captured error: ', 
+          'captured error: ',
           {
             embedName: embedName,
             configItem: configItem,
             err: err
-          });
+          }
+        );
       }
     });
   }
