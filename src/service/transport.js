@@ -39,7 +39,7 @@ function send(payload) {
 function bustCache() {
   var iframe = document.createElement('iframe'),
       onMessage = function(message) {
-        if (message.data == 'cache_bust_done') {
+        if (message.data === 'cache_bust_done') {
           document.body.removeChild(iframe);
           window.removeEventListener('message', this);
         }

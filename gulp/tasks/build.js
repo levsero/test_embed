@@ -80,6 +80,11 @@ gulp.task('build:src', function() {
     .pipe(gulp.dest('build/src'));
 });
 
+gulp.task('build:cachebuster', function() {
+  return gulp.src('src/update.html')
+    .pipe(gulp.dest('./dist'));
+});
+
 gulp.task('build:bootstrap', function() {
   return gulp.src('src/bootstrap.js')
     .pipe(uglify())
@@ -89,6 +94,7 @@ gulp.task('build:bootstrap', function() {
 gulp.task('build', function(callback) {
   runSequence(
     'lint',
+    'build:cachebuster',
     'build:bootstrap',
     'build:prod',
     callback
