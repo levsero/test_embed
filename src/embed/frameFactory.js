@@ -63,7 +63,7 @@ export var frameFactory = function(childFn, _params) {
           dimensions;
 
       if (!frameDoc.firstChild) {
-       return false;
+        return false;
       }
 
       dimensions = function() {
@@ -101,16 +101,16 @@ export var frameFactory = function(childFn, _params) {
     },
 
     render: function() {
-      var visibilityRule = (this.state.visible) ? {display: 'block'} : {display: 'none'},
+      var visibilityRule = (this.state.visible) ? {visibility: 'visible'} : {visibility: 'hidden'},
           base = { border: 'none' },
           containerStyle = _.extend(
             params.style,
-            visibilityRule
+            visibilityRule,
+            this.state.iframeDimensions
           ),
           iframeStyle = _.extend(
             base,
-            params.style,
-            this.state.iframeDimensions
+            {width: '100%', height: '100%'}
           );
 
           return (

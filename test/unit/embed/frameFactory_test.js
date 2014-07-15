@@ -105,7 +105,7 @@ describe('frameFactory', function() {
       expect(function() {
         ReactTestUtils
           .findRenderedDOMComponentWithClass(
-            instance.getChild(), 
+            instance.getChild(),
             'mock-component'
           );
       }).not.toThrow();
@@ -122,17 +122,18 @@ describe('frameFactory', function() {
             <Embed />,
             global.document.body
           ),
-          iframe = global.document.body.getElementsByTagName('iframe')[0];
+          frameContainer = global.document.body.getElementsByTagName('iframe')[0].parentNode,
+          frameContainerStyle = frameContainer.style;
 
       jasmine.Clock.useMock();
 
       // This is the "dirty" state
       instance.setState({iframeDimensions: {width:999, height: 999}});
 
-      expect(iframe.style.width)
+      expect(frameContainerStyle.width)
         .toEqual('999px');
 
-      expect(iframe.style.height)
+      expect(frameContainerStyle.height)
         .toEqual('999px');
 
       // jsdom doesn't actually attempt to render a document
@@ -143,10 +144,10 @@ describe('frameFactory', function() {
 
       // best we can do is check that that the width and height
       // have been updated from 999 to 0.
-      expect(iframe.style.width)
+      expect(frameContainerStyle.width)
         .toEqual('0px');
 
-      expect(iframe.style.height)
+      expect(frameContainerStyle.height)
         .toEqual('0px');
 
       // TODO: real browser tests that work off client*/offset* values.
@@ -238,8 +239,9 @@ describe('frameFactory', function() {
       var payload = frameFactory(mockChildFn, {
             style: {
               backgroundColor: '#abc',
-              display: 'none'
-            }
+              visibility: 'hidden'
+            },
+            className: 'mockComponentFrame'
           }),
           Embed = React.createClass(payload);
 
@@ -254,21 +256,27 @@ describe('frameFactory', function() {
         .toEqual(1);
     });
 
-    it('uses `state.visible` to determine its css `display` rule', function() {
-      var iframe = global.document.body.getElementsByTagName('iframe')[0];
+    it('has `className` set to frame container', function() {
+      expect(global.document.body.getElementsByTagName('iframe')[0].parentNode.className)
+        .toEqual('mockComponentFrame');
+    });
 
-      expect(iframe.style.display)
-        .toEqual('block');
+    it('uses `state.visible` to determine its css `display` rule', function() {
+      var frameContainer = global.document.body.getElementsByTagName('iframe')[0].parentNode,
+          frameContainerStyle = frameContainer.style;
+
+      expect(frameContainerStyle.visibility)
+        .toEqual('visible');
 
       instance.setState({visible: false});
 
-      expect(iframe.style.display)
-        .toEqual('none');
+      expect(frameContainerStyle.visibility)
+        .toEqual('hidden');
 
       instance.setState({visible: true});
 
-      expect(iframe.style.display)
-        .toEqual('block');
+      expect(frameContainerStyle.visibility)
+        .toEqual('visible');
     });
 
     it('has `border` css rule set to none', function() {
@@ -279,20 +287,21 @@ describe('frameFactory', function() {
     });
 
     it('merges in css rules from params.style with correct precedence', function() {
-      var iframe = global.document.body.getElementsByTagName('iframe')[0];
+      var frameContainer = global.document.body.getElementsByTagName('iframe')[0].parentNode,
+          frameContainerStyle = frameContainer.style;
 
-      expect(iframe.style.backgroundColor)
+      expect(frameContainerStyle.backgroundColor)
         .toEqual('#abc');
 
-      expect(iframe.style.display)
-        .toEqual('block');
+      expect(frameContainerStyle.visibility)
+        .toEqual('visible');
 
     });
 
   });
 
   describe('renderFrameContent', function() {
-    
+
     it('adds a <style> block with relevant rules to the iframe document', function() {
       var payload = frameFactory(mockChildFn, {
             css: '.params-css {} '

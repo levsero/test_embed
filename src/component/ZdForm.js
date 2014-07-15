@@ -12,6 +12,12 @@ var { FormFor, Form, FieldMixin } = ReactForms,
     classSet = React.addons.classSet;
 
 var ZdForm = React.createClass({
+  getInitialState() {
+    return {
+      isValid: false
+    };
+  },
+
   handleSubmit(e) {
     var form = this.refs.form,
         formValue = form.value();
@@ -22,10 +28,17 @@ var ZdForm = React.createClass({
     });
   },
 
+  handleUpdate(values, isValid) {
+    this.setState({isValid: isValid});
+  },
+
   render() {
     /* jshint quotmark:false */
     var formBody = this.transferPropsTo(
-      <ZdFormBody ref='form' component={React.DOM.div} />
+      <ZdFormBody
+        ref='form'
+        onUpdate={this.handleUpdate}
+        component={React.DOM.div} />
     );
 
     return (
@@ -33,8 +46,17 @@ var ZdForm = React.createClass({
         noValidate
         onSubmit={this.handleSubmit}
         className={'Form ' + this.props.className}>
+        <h1 className='u-marginVS u-textSizeMed'>
+          Leave us a message
+        </h1>
         {formBody}
-        {this.props.children}
+        <input
+          type='submit'
+          value='Send'
+          ref='submitButton'
+          disabled={!this.state.isValid}
+          className='Button Button--default Button--cta u-pullRight u-textNoWrap'
+        />
       </form>
     );
   }
@@ -54,12 +76,19 @@ var MessageFieldset = React.createClass({
     return (
       <div>
         <FormFor name='fullname' />
-        <FormFor name='description' />
         <FormFor name='email' />
+        <FormFor name='description' />
       </div>
     );
   }
 });
+
+function focusFieldFactory(props) {
+  props = props || {};
+  return function () {
+    return FocusField(props);
+  };
+}
 
 var FocusField = React.createClass({
   mixins: [FieldMixin],
@@ -86,21 +115,22 @@ var FocusField = React.createClass({
     var value = this.value(),
         isInvalid = isFailure(value.validation),
         classNames = classSet({
-          'Arrange Arrange--middle rf-Field': true,
+          'Arrange Arrange--middle rf-Field u-isSelectable': true,
           'rf-Field--focused': this.state.focused,
           'rf-Field--invalid': isInvalid,
           'rf-Field--dirty': !value.isUndefined
-        });
+        }),
+        id = this.props.name;
 
-console.log(this.input);
     return (
-      <div className={classNames}>
-        <i className={'Arrange-sizeFit Icon Icon--' + this.props.name} />
+      <label for={id} className={classNames}>
+        <i className={'Arrange-sizeFit u-isActionable Icon Icon--' + this.props.icon} />
         {this.transferPropsTo(this.renderInputComponent({
+          id: id,
           onFocus: this.onFocus,
           onBlur: this.onBlur
         }))}
-      </div>
+      </label>
     );
   }
 });
@@ -120,7 +150,7 @@ function IconField(props) {
         <input placeholder={props.placeholder} className='Arrange-sizeFill' />
       }
       validate={props.validate || ''}
-      component={FocusField}
+      component={focusFieldFactory(props)}
     />
   );
 }
@@ -146,5 +176,5 @@ function EmailField(props) {
   });
 }
 
-export { ZdForm, MessageFieldset, FocusField, IconField, EmailField };
+export { ZdForm, MessageFieldset, IconField, EmailField };
 

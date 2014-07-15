@@ -34,9 +34,6 @@ function create(name, config) {
       /* jshint quotmark:false */
       return (
         <div style={containerBase}>
-          <h1 className='u-marginVS u-textSizeMed'>
-            Leave us a message
-          </h1>
           <SubmitTicket
             ref='submitTicket'
             updateFrameSize={params.updateFrameSize}

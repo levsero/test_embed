@@ -43,7 +43,6 @@ export var SubmitTicket = React.createClass({
 
     if(data.isFormInvalid) {
       // TODO: Handle invalid form submission
-      console.log(data);
       return;
     }
 
@@ -57,6 +56,7 @@ export var SubmitTicket = React.createClass({
             showNotification: true,
             message: msg
           });
+          this.props.updateFrameSize();
         },
         payload = {
           method: 'post',
@@ -64,7 +64,7 @@ export var SubmitTicket = React.createClass({
           params: formParams,
           callbacks: {
             done() {
-              resCallback('Ticket Submitted! Thanks!');
+              resCallback('Message sent');
             },
             fail(data, status) {
               resCallback('Error ' + status + ': ' + JSON.parse(data).error);
@@ -88,29 +88,25 @@ export var SubmitTicket = React.createClass({
       <div className='Container u-nbfc u-posRelative' key={this.state.uid}>
         <div className={"Notify " + notifyVisibility}>
           <div className="Notify-body Notify-body--success">
-            <h1 className="Notify-title u-textCenter">{this.state.message}</h1>
+            <div className="Notify-title u-textCenter">
+              <div className='u-textSizeLrg'>
+                &#x2713;
+              </div>
+              {this.state.message}
+            </div>
           </div>
         </div>
         <ZdForm
           ref='zdform'
           className={formVisibility}
           schema={submitTicketSchema}
-          submit={this.handleSubmit}>
-          <div className='Arrange Arrange--middle'>
-            <a
-              href='https://www.zendesk.com'
-              target='_blank'
-              className='Arrange-sizeFill'>
-                zendesk
-            </a>
-            <input
-              type='submit'
-              value='Send'
-              className='Button Button--default Button--cta Arrange-sizeFit u-textNoWrap'
-            />
-          </div>
-        </ZdForm>
-
+          submit={this.handleSubmit} />
+        <a
+          href='https://www.zendesk.com'
+          target='_blank'
+          className='u-posAbsolute u-posStart u-posEnd--vert'>
+            zendesk
+        </a>
       </div>
     );
   }

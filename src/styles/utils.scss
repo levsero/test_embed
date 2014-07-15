@@ -6,11 +6,19 @@
  * Positions
  */
 .u-posEnd {
-  right: 0;
+  right: 1rem;
 }
 
 .u-posStart {
-  left: 0;
+  left: 1rem;
+}
+
+.u-posStart--vert {
+  top: 1rem;
+}
+
+.u-posEnd--vert {
+  bottom: 1rem;
 }
 
 /**
@@ -19,7 +27,7 @@
  */
 
 .u-marginVS {
-  margin: 1rem;
+  margin: 1rem 0;
 }
 
 /**
@@ -37,3 +45,16 @@
 .u-textSizeMed {
   font-size: 1rem;
 }
+
+.u-textSizeLrg {
+  font-size: 5rem;
+}
+
+/**
+ * States
+ */
+
+.u-isSelectable {
+  cursor: text;
+}
+

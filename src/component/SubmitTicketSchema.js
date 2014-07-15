@@ -22,7 +22,7 @@ export var submitTicketSchema = (
     <IconField
       name='description'
       ref='message'
-      icon='foo u-alignTop'
+      icon='msg u-alignTop'
       required
       input={
         <textarea

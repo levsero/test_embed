@@ -11,6 +11,7 @@ $Button-disabledColor: #DBDBDB;
 $Button-ctaBgColor: #78A100;
 
 .Button {
+  transition: background 0.5s ease;
   &:disabled {
     background: $Button-disabledColor;
   }

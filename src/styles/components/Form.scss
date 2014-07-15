@@ -24,6 +24,7 @@ $Form-field-border-radius: 4px;
   textarea, input {
     border: none;
     background: none;
+    resize: none;
 
     &:focus {
       appearance: none;
@@ -42,10 +43,6 @@ $Form-field-border-radius: 4px;
   &.rf-Field--dirty.rf-Field--invalid {
     border: 1px solid red;
   }
-}
-
-.rf-Message {
-  display: none;
 }
 
 .rf-Field__label {

@@ -29,6 +29,7 @@ describe('embed.submitTicket', function() {
       mockFrameMethods = require(buildTestPath('unit/mockFrameFactory')).mockFrameMethods,
       mockHideHandler = jasmine.createSpy(),
       mockCss = jasmine.createSpy('mockCss'),
+      mockFrameCss = jasmine.createSpy('mockFrameCss'),
       submitTicketPath = buildSrcPath('embed/submitTicket/submitTicket');
 
   beforeEach(function() {
@@ -40,6 +41,7 @@ describe('embed.submitTicket', function() {
       SubmitTicket: mockSubmitTicket
     });
     mockery.registerMock('./submitTicket.scss', mockCss);
+    mockery.registerMock('./submitTicketFrame.scss', mockFrameCss);
     mockery.registerMock('embed/frameFactory', {
       frameFactory: mockFrameFactory
     });
