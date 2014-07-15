@@ -40,8 +40,8 @@ function bustCache() {
   var iframe = document.createElement('iframe'),
       onMessage = function(message) {
         if (message.data === 'cache_bust_done') {
-          document.body.removeChild(iframe);
-          window.removeEventListener('message', this);
+          iframe.parentNode.removeChild(iframe);
+          window.removeEventListener('message', onMessage);
         }
       },
       scriptSrc = document.getElementById('js-iframe-async').src;
