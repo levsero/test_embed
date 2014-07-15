@@ -1,7 +1,8 @@
 /* jshint curly: false */
 // Code taken from http://www.lognormal.com/blog/2012/12/12/the-script-loader-pattern/
-window.Zd || (function(options){
-// Section 1
+window.Zd || (function(options) {
+
+  // Part 1: Creating and appending <iframe /> to the document
   var queue = [],
       dom,
       doc,
@@ -24,7 +25,8 @@ window.Zd || (function(options){
   iWin = iframe.contentWindow;
   iDoc = iWin.document;
 
-// Section 2
+
+  // Part 2: Loading main.js in the <iframe />
   try {
     doc = iDoc;
   } catch(e) {
