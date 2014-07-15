@@ -18,7 +18,9 @@ function parseConfig(config) {
       /* jshint laxbreak: true */
       result[key] = (_.isObject(value))
                   ? function() {
-                      embedsMap[config[value.name].embed][value.method](value.name);
+                      var args = [].slice.call(arguments);
+                      args.unshift(value.name);
+                      return embedsMap[config[value.name].embed][value.method].apply(null, args);
                     }
                   : value;
 

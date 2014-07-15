@@ -64,4 +64,20 @@ describe('Launcher component', function() {
 
     expect(mockUpdateFrameSize).toHaveBeenCalled();
   });
+
+  it('should change the message when changeMessage is called', function() {
+    /* jshint quotmark: false */
+    var launcher = React.renderComponent(
+          <Launcher message='help'/>,
+          global.document.body
+        );
+
+    expect(launcher.state.message)
+      .toEqual('help');
+
+    launcher.changeMessage('support');
+
+    expect(launcher.state.message)
+      .toEqual('support');
+  });
 });

@@ -54,11 +54,11 @@ function create(name, config) {
       style: iframeStyle,
       css: launcherCSS,
       extend: {
-        changeIcon: function(icon) {
-          this.refs.launcher.changeIcon(icon);
-        },
         onClickHandler: function() {
-          config.onClick();
+          var activeState = (this.getChild().refs.launcher.state.message === '') ?
+                      true :
+                      false;
+          config.onClick(activeState);
           beacon.track('launcher', 'click', name);
         }
       }
@@ -98,6 +98,23 @@ function render(name) {
   launchers[name].instance = React.renderComponent(launchers[name].component, element);
 }
 
+function changeMessage(name, message) {
+  get(name).instance.getChild().refs.launcher.changeMessage(message);
+}
+
+function update(name) {
+  var launcher = get(name).instance.getChild().refs.launcher;
+
+  if (launcher.state.message === '') {
+    changeMessage(name, 'Help');
+    changeIcon(name, 'Icon');
+  }
+  else {
+    changeMessage(name, '');
+    changeIcon(name, 'Icon--cross');
+  }
+}
+
 export var launcher = {
   create: create,
   list: list,
@@ -105,6 +122,7 @@ export var launcher = {
   render: render,
   hide: hide,
   show: show,
-  changeIcon: changeIcon
+  changeIcon: changeIcon,
+  update: update
 };
 

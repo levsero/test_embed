@@ -13,18 +13,31 @@
   font-weight: normal;
   font-variant: normal;
   text-transform: none;
+  font-size: 14;
   line-height: 1;
-  margin-right: 5px;
+  margin-right: 5;
 
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+.Icon--active {
+  margin-right: 0;
+}
+
 .Icon:before {
+  content: '\e605';
+}
+
+.Icon--chat:before {
   content: '\e600';
 }
 
 .Icon--mail:before {
   content: '\e601';
+}
+
+.Icon--cross:before {
+  content: '\e602';
 }

@@ -2,9 +2,10 @@
  * 1. Set to a very large number to give the pill shape
  */
 
-$Button-baseFontSize: 14px;
+$Button-baseFontSize: 12px;
 $Button-color: #1a6690;
 $Button-launcherColor: rgba(116,178,0,.8);
+$Button-launcherActiveColor: #474747;
 $Button-ctaColor: #FFFFFF;
 $Button-ctaBgColor: #83c400;
 
@@ -21,7 +22,7 @@ $Button-ctaBgColor: #83c400;
 }
 
 .Button--launcher {
-  background: $Button-launcherColor;
+  background-color: $Button-launcherColor;
   color: #fff;
   padding: 0;
   font-size: $Button-baseFontSize;
@@ -29,4 +30,9 @@ $Button-ctaBgColor: #83c400;
   cursor: pointer;
   border: 0;
   padding: 10px;
+}
+
+.Button--launcherActive {
+  background-color: $Button-launcherActiveColor;
+  margin-right: 10;
 }

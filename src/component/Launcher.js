@@ -14,8 +14,15 @@ export var Launcher = React.createClass({
 
   getInitialState: function() {
     return {
-      icon: this.props.icon
+      icon: this.props.icon,
+      message: this.props.message
     };
+  },
+
+  changeMessage: function(message) {
+    this.setState({
+      message: message
+    });
   },
 
   changeIcon: function(icon) {
@@ -26,10 +33,12 @@ export var Launcher = React.createClass({
 
   render: function() {
     var buttonClasses = classSet({
-          'Button Button--launcher u-textCenter u-inlineBlock u-textNoWrap': true
+          'Button Button--launcher u-textCenter u-inlineBlock u-textNoWrap': true,
+          'Button--launcherActive ': !this.state.message
         }),
         iconClasses = classSet({
-          'u-inlineBlock Icon ': true
+          'u-inlineBlock Icon ': true,
+          'Icon--active ': !this.state.message
         });
 
     if (this.props.updateFrameSize) {
@@ -42,7 +51,7 @@ export var Launcher = React.createClass({
         onClick={this.props.onClick}
         onTouchEnd={this.props.onClick}>
         <i className={iconClasses + this.state.icon} />
-        {this.props.message}
+        {this.state.message}
       </div>
     );
   }
