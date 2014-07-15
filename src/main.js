@@ -12,7 +12,8 @@ transport.init({ zendeskHost: document.zendeskHost });
 beacon.init().send();
 
 win.Zd = module.exports = {
-  devRender: renderer.init
+  devRender: renderer.init,
+  bustCache: transport.bustCache
 };
 
 _.each(document.ZdQueue, function(item) {
