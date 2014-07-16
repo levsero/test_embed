@@ -4,14 +4,13 @@ module React from 'react/addons'; /* jshint ignore:line */
 import { win                } from 'util/globals';
 import { identity           } from 'service/identity';
 import { transport          } from 'service/transport';
-import { ZdForm             } from 'component/ZdForm';
 import { submitTicketSchema } from 'component/SubmitTicketSchema';
+import { SubmitTicketForm   } from 'component/ZdForm';
 require('imports?_=lodash!lodash');
-
+console.log(submitTicketSchema)
 export var SubmitTicket = React.createClass({
   propTypes: {
-    hide: React.PropTypes.func.isRequired,
-    reset: React.PropTypes.func.isRequired
+    hide: React.PropTypes.func.isRequired
   },
 
   getInitialState() {
@@ -96,10 +95,9 @@ export var SubmitTicket = React.createClass({
             </div>
           </div>
         </div>
-        <ZdForm
+        <SubmitTicketForm
           ref='zdform'
           className={formVisibility}
-          schema={submitTicketSchema}
           submit={this.handleSubmit} />
         <a
           href='https://www.zendesk.com'

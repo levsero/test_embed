@@ -8,7 +8,7 @@ var { Schema } = ReactForms.schema;
 
 export var submitTicketSchema = (
   /* jshint quotmark:false */
-  <Schema component={MessageFieldset}>
+  <Schema>
     <IconField
       name='fullname'
       ref='fullname'

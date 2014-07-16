@@ -3,15 +3,18 @@
 module React from 'react/addons';
 module ReactForms from 'react-forms';
 import { validation } from 'mixin/validation';
+import { submitTicketSchema } from 'component/SubmitTicketSchema';
 require('imports?_=lodash!lodash');
 
-var { FormFor, Form, FieldMixin } = ReactForms,
-    ZdFormBody = Form,
+var { Form, FieldMixin } = ReactForms,
+    SubmitTicketFormBody = Form,
     Property = ReactForms.schema.Property,
     isFailure = ReactForms.validation.isFailure,
     classSet = React.addons.classSet;
 
-var ZdForm = React.createClass({
+    console.log(submitTicketSchema)
+
+var SubmitTicketForm = React.createClass({
   getInitialState() {
     return {
       isValid: false
@@ -35,8 +38,9 @@ var ZdForm = React.createClass({
   render() {
     /* jshint quotmark:false */
     var formBody = this.transferPropsTo(
-      <ZdFormBody
+      <SubmitTicketFormBody
         ref='form'
+        schema={submitTicketSchema}
         onUpdate={this.handleUpdate}
         component={React.DOM.div} />
     );
@@ -176,5 +180,5 @@ function EmailField(props) {
   });
 }
 
-export { ZdForm, MessageFieldset, IconField, EmailField };
+export { SubmitTicketForm, MessageFieldset, IconField, EmailField };
 
