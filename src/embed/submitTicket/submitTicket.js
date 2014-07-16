@@ -107,11 +107,10 @@ function reset(name) {
   get(name).instance.reset();
 }
 
-function update(name, state) {
-  if(state) {
+function update(name, isVisible) {
+  if(isVisible) {
     hide(name);
-  }
-  else {
+  } else {
     show(name);
   }
 }

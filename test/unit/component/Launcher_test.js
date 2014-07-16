@@ -34,7 +34,7 @@ describe('Launcher component', function() {
       .toEqual('testIcon');
   });
 
-  it('should change the icon when change icon is called', function() {
+  it('should change the icon when set icon is called', function() {
     var launcher = React.renderComponent(
           <Launcher />,
           global.document.body
@@ -43,7 +43,7 @@ describe('Launcher component', function() {
     expect(global.document.body.querySelectorAll('.newIcon').length)
       .toEqual(0);
 
-    launcher.changeIcon('newIcon');
+    launcher.setIcon('newIcon');
 
     expect(global.document.body.querySelectorAll('.newIcon').length)
       .toEqual(1);
@@ -65,7 +65,7 @@ describe('Launcher component', function() {
     expect(mockUpdateFrameSize).toHaveBeenCalled();
   });
 
-  it('should change the message when changeMessage is called', function() {
+  it('should change the message when setMessage is called', function() {
     /* jshint quotmark: false */
     var launcher = React.renderComponent(
           <Launcher message='help'/>,
@@ -75,7 +75,7 @@ describe('Launcher component', function() {
     expect(launcher.state.message)
       .toEqual('help');
 
-    launcher.changeMessage('support');
+    launcher.setMessage('support');
 
     expect(launcher.state.message)
       .toEqual('support');

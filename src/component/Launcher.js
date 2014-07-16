@@ -19,13 +19,13 @@ export var Launcher = React.createClass({
     };
   },
 
-  changeMessage: function(message) {
+  setMessage: function(message) {
     this.setState({
       message: message
     });
   },
 
-  changeIcon: function(icon) {
+  setIcon: function(icon) {
     this.setState({
       icon: icon
     });
@@ -34,9 +34,10 @@ export var Launcher = React.createClass({
   render: function() {
     var buttonClasses = classSet({
           'Button Button--launcher u-textCenter u-inlineBlock u-textNoWrap': true,
-          'Button--launcherActive ': !this.state.message
+          'Button--launcherActive': !this.state.message
         }),
         iconClasses = classSet({
+          // spaces needed for class concatenation
           'u-inlineBlock Icon ': true,
           'Icon--active ': !this.state.message
         });

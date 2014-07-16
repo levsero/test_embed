@@ -55,10 +55,9 @@ function create(name, config) {
       css: launcherCSS,
       extend: {
         onClickHandler: function() {
-          var activeState = (this.getChild().refs.launcher.state.message === '') ?
-                      true :
-                      false;
-          config.onClick(activeState);
+          var isActive = !this.getChild().refs.launcher.state.message;
+
+          config.onClick(isActive);
           beacon.track('launcher', 'click', name);
         }
       }
@@ -78,6 +77,10 @@ function get(name) {
   return launchers[name];
 }
 
+function getChildRefs(name) {
+  return get(name).instance.getChild().refs;
+}
+
 function hide(name) {
   get(name).instance.hide();
 }
@@ -86,8 +89,8 @@ function show(name) {
   get(name).instance.show();
 }
 
-function changeIcon(name, icon) {
-  get(name).instance.getChild().refs.launcher.changeIcon(icon);
+function setIcon(name, icon) {
+  getChildRefs(name).launcher.setIcon(icon);
 }
 
 function render(name) {
@@ -98,20 +101,19 @@ function render(name) {
   launchers[name].instance = React.renderComponent(launchers[name].component, element);
 }
 
-function changeMessage(name, message) {
-  get(name).instance.getChild().refs.launcher.changeMessage(message);
+function setMessage(name, message) {
+  getChildRefs(name).launcher.setMessage(message);
 }
 
 function update(name) {
-  var launcher = get(name).instance.getChild().refs.launcher;
+  var launcher = getChildRefs(name).launcher;
 
-  if (launcher.state.message === '') {
-    changeMessage(name, 'Help');
-    changeIcon(name, 'Icon');
-  }
-  else {
-    changeMessage(name, '');
-    changeIcon(name, 'Icon--cross');
+  if (launcher.state.message) {
+    setMessage(name, '');
+    setIcon(name, 'Icon--cross');
+  } else {
+    setMessage(name, 'Help');
+    setIcon(name, 'Icon');
   }
 }
 
@@ -122,7 +124,7 @@ export var launcher = {
   render: render,
   hide: hide,
   show: show,
-  changeIcon: changeIcon,
+  setIcon: setIcon,
   update: update
 };
 

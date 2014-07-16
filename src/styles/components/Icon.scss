@@ -13,9 +13,9 @@
   font-weight: normal;
   font-variant: normal;
   text-transform: none;
-  font-size: 16;
+  font-size: #{(16/12)}rem;
   line-height: 1;
-  margin-right: 5;
+  margin-right: 5px;
 
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;

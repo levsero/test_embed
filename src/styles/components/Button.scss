@@ -28,11 +28,11 @@ $Button-ctaBgColor: #83c400;
   border-radius: 999rem; /* 1  */
   cursor: pointer;
   border: 0;
-  padding: 10 15;
+  padding: 10px 15px;
 }
 
 .Button--launcherActive {
   background-color: $Button-launcherActiveColor;
-  margin-right: 10;
-  padding: 10;
+  margin-right: 10px;
+  padding: 10px;
 }
