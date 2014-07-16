@@ -44,11 +44,15 @@ function bustCache() {
           window.removeEventListener('message', onMessage);
         }
       },
-      scriptSrc = document.getElementById('js-iframe-async').src;
+      scriptSrc = document.getElementById('js-iframe-async').src,
+      updatePath = [
+        'update.html?', 
+        (new Date()).getTime(), 
+        '#placeholder-commit-hash'
+      ].join(''),
+      updateUrl = scriptSrc.replace('main.js', updatePath);
 
-  iframe.src = scriptSrc.replace(
-    'main.js', 
-    'update.html?' + (new Date()).getTime()) + '#placeholder-commit-hash';
+  iframe.src = updateUrl;
 
   document.body.appendChild(iframe);
 
