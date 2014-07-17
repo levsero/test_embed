@@ -107,6 +107,14 @@ function reset(name) {
   get(name).instance.reset();
 }
 
+function update(name, isVisible) {
+  if(isVisible) {
+    hide(name);
+  } else {
+    show(name);
+  }
+}
+
 export var submitTicket = {
   create: create,
   render: render,
@@ -114,6 +122,7 @@ export var submitTicket = {
   list: list,
   show: show,
   hide: hide,
-  reset: reset
+  reset: reset,
+  update: update
 };
 

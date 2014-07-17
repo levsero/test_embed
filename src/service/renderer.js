@@ -17,8 +17,9 @@ function parseConfig(config) {
     configItem.props = _.reduce(configItem.props, function(result, value, key) {
       /* jshint laxbreak: true */
       result[key] = (_.isObject(value))
-                  ? function() {
-                      embedsMap[config[value.name].embed][value.method](value.name);
+                  ? function(...args) {
+                      args.unshift(value.name);
+                      return embedsMap[config[value.name].embed][value.method].apply(null, args);
                     }
                   : value;
 

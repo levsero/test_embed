@@ -83,6 +83,20 @@ describe('embed.launcher', function() {
             message: 'Help',
             icon: ''
           },
+          mockFrameFactoryScope = {
+            getChild: function() {
+              return {
+                refs: {
+                  launcher: {
+                    state: {
+                      message: ''
+                    }
+                  }
+                }
+              };
+            },
+            onClickHandler: jasmine.createSpy()
+          },
           mockFrameFactoryRecentCall,
           childFn,
           payload,
@@ -112,7 +126,7 @@ describe('embed.launcher', function() {
 
       childParams = mockFrameFactoryRecentCall[1];
 
-      childParams.extend.onClickHandler();
+      childParams.extend.onClickHandler.bind(mockFrameFactoryScope)();
 
       expect(config.onClick.callCount)
         .toEqual(1);
@@ -151,14 +165,6 @@ describe('embed.launcher', function() {
 
       expect(alice.instance.onClickHandler)
         .toBeDefined();
-
-      expect(alice.instance.changeIcon)
-        .toBeDefined();
-
-      alice.instance.changeIcon();
-
-      expect(launcherInstance.changeIcon.__reactBoundMethod)
-        .toHaveBeenCalled();
     });
 
   });
