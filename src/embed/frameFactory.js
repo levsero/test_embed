@@ -38,26 +38,23 @@ export var frameFactory = function(childFn, _params) {
     },
 
     getInitialState: function() {
-      return ({
+      return {
         visible: this.props.visible,
         _rendered: false,
         iframeDimensions: {
           height: 0,
           width: 0
-        }
-      });
+        },
+        increaseDimensions: [0, 0]
+      };
     },
 
     getChild: function() {
       return child;
     },
 
-    getIframe: function() {
-      return this.getDOMNode().querySelector('iframe');
-    },
-
-    updateFrameSize: function() {
-      var iframe = this.getIframe(),
+    updateFrameSize: function(increaseWidth = 0, increaseHeight = 0) {
+      var iframe = this.getDOMNode(),
           frameWin = iframe.contentWindow,
           frameDoc = iframe.contentDocument,
           dimensions;
@@ -68,8 +65,8 @@ export var frameFactory = function(childFn, _params) {
 
       dimensions = function() {
         var el = frameDoc.body.firstChild,
-            width  = Math.max(el.clientWidth,  el.offsetWidth ),
-            height = Math.max(el.clientHeight, el.offsetHeight);
+            width  = Math.max(el.clientWidth,  el.offsetWidth) + increaseWidth,
+            height = Math.max(el.clientHeight, el.offsetHeight) + increaseHeight;
 
         return ({
           width:  _.isFinite(width)  ? width  : 0,
@@ -102,22 +99,15 @@ export var frameFactory = function(childFn, _params) {
 
     render: function() {
       var visibilityRule = (this.state.visible) ? {visibility: 'visible'} : {visibility: 'hidden'},
-          base = { border: 'none' },
-          containerStyle = _.extend(
+          iframeStyle = _.extend(
+            { border: 'none', background: 'transparent !important' },
             params.style,
             visibilityRule,
             this.state.iframeDimensions
-          ),
-          iframeStyle = _.extend(
-            base,
-            {width: '100%', height: '100%'}
           );
 
           return (
-            <div className={params.className} style={containerStyle}>
-              <style dangerouslySetInnerHTML={{ __html: params.frameCSS }} />
-              <iframe style={iframeStyle} />
-            </div>
+            <iframe style={iframeStyle} />
           );
     },
 
@@ -135,7 +125,7 @@ export var frameFactory = function(childFn, _params) {
         return false;
       }
 
-      var iframe = this.getIframe(),
+      var iframe = this.getDOMNode(),
           doc = iframe.contentWindow.document;
 
       // In order for iframe correctly render in some browsers

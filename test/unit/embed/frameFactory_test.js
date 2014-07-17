@@ -122,7 +122,7 @@ describe('frameFactory', function() {
             <Embed />,
             global.document.body
           ),
-          frameContainer = global.document.body.getElementsByTagName('iframe')[0].parentNode,
+          frameContainer = global.document.body.getElementsByTagName('iframe')[0],
           frameContainerStyle = frameContainer.style;
 
       jasmine.Clock.useMock();
@@ -240,8 +240,7 @@ describe('frameFactory', function() {
             style: {
               backgroundColor: '#abc',
               visibility: 'hidden'
-            },
-            className: 'mockComponentFrame'
+            }
           }),
           Embed = React.createClass(payload);
 
@@ -256,13 +255,8 @@ describe('frameFactory', function() {
         .toEqual(1);
     });
 
-    it('has `className` set to frame container', function() {
-      expect(global.document.body.getElementsByTagName('iframe')[0].parentNode.className)
-        .toEqual('mockComponentFrame');
-    });
-
     it('uses `state.visible` to determine its css `display` rule', function() {
-      var frameContainer = global.document.body.getElementsByTagName('iframe')[0].parentNode,
+      var frameContainer = global.document.body.getElementsByTagName('iframe')[0],
           frameContainerStyle = frameContainer.style;
 
       expect(frameContainerStyle.visibility)
@@ -287,7 +281,7 @@ describe('frameFactory', function() {
     });
 
     it('merges in css rules from params.style with correct precedence', function() {
-      var frameContainer = global.document.body.getElementsByTagName('iframe')[0].parentNode,
+      var frameContainer = global.document.body.getElementsByTagName('iframe')[0],
           frameContainerStyle = frameContainer.style;
 
       expect(frameContainerStyle.backgroundColor)

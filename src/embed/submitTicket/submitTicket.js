@@ -11,6 +11,12 @@ var submitTicketCSS = require('./submitTicket.scss'),
 
 function create(name, config) {
   var containerBase = {
+        minWidth: 320,
+        margin: 15
+      },
+      base = {
+        position: 'fixed',
+        bottom: 48,
         minWidth: 320
       },
       configDefaults = {
@@ -24,10 +30,10 @@ function create(name, config) {
 
   /* jshint laxbreak: true */
   posObj = (config.position === 'left')
-         ? { left:  '20px' }
-         : { right: '20px' };
+         ? { left:  5 }
+         : { right: 5 };
 
-  iframeStyle = _.extend(posObj, containerBase);
+  iframeStyle = _.extend(base, posObj);
 
   Embed = React.createClass(frameFactory(
     (params) => {
