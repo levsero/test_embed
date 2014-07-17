@@ -37,7 +37,7 @@ function create(name, config) {
   iframeStyle = _.extend(base, posObj);
 
   Embed = React.createClass(frameFactory(
-    function(params) {
+    (params) => {
       return (
         /* jshint quotmark:false */
         <Launcher
@@ -47,7 +47,8 @@ function create(name, config) {
           updateFrameSize={params.updateFrameSize}
           position={config.position}
           message={config.message}
-          icon={config.icon} />
+          icon={config.icon}
+        />
       );
     },
     {

@@ -11,23 +11,9 @@ function validateChildFn(childFn, params) {
     throw 'childFn should be a function';
   }
 
-  var component = childFn(params.extend),
-      isComponent,
-      isDOMComponent;
+  var component = childFn(params.extend);
 
-  /* jshint laxbreak: true */
-  isComponent = (
-    _.isFunction(component.render)
-    && _.isFunction(component.setState)
-    && _.isFunction(component.mountComponent)
-  );
-
-  isDOMComponent = (
-    _.isFunction(component.mountComponent)
-    && !!(component.tagName)
-  );
-
-  if ((isComponent || isDOMComponent) === false) {
+  if (!React.isValidComponent(component)) {
     var e = new TypeError();
     e.message = 'childFn should be a function that returns a React component';
     throw e;
@@ -79,7 +65,7 @@ export var frameFactory = function(childFn, _params) {
         var el = frameDoc.body.firstChild,
             width  = Math.max(el.clientWidth,  el.offsetWidth ),
             height = Math.max(el.clientHeight, el.offsetHeight);
-        
+
         return ({
           width:  _.isFinite(width)  ? width  : 0,
           height: _.isFinite(height) ? height : 0
