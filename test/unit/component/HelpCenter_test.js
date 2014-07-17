@@ -18,8 +18,8 @@ describe('Help center component', function() {
       'service/transport': {
         transport: jasmine.createSpyObj('transport', ['send'])
       },
-      'component/ZdForm': {
-        ZdForm: jasmine.createSpy('mockZdForm')
+      'component/SubmitTicketForm': {
+        SubmitTicketForm: jasmine.createSpy('mockSubmitTicketForm')
           .andCallFake(React.createClass({
             render: function() {
               return <form onSubmit={this.props.handleSubmit} />;
@@ -99,9 +99,9 @@ describe('Help center component', function() {
     });
   });
 
-  it('should pass schema and submit callback props to ZdForm component', function() {
+  it('should pass schema and submit callback props to SubmitTicketForm component', function() {
     var mostRecentCall,
-        mockZdForm = mockRegistry['component/ZdForm'].ZdForm,
+        mockSubmitTicketForm = mockRegistry['component/SubmitTicketForm'].SubmitTicketForm,
         mockSchema = mockRegistry['component/HelpCenterSchema'];
 
     React.renderComponent(
@@ -109,7 +109,7 @@ describe('Help center component', function() {
       global.document.body
     );
 
-    mostRecentCall = mockZdForm.mostRecentCall.args[0];
+    mostRecentCall = mockSubmitTicketForm.mostRecentCall.args[0];
     mostRecentCall.schema('token_schema');
 
     expect(mockSchema.helpCenterSchema)

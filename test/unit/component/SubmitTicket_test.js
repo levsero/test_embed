@@ -37,8 +37,8 @@ describe('Submit ticket component', function() {
     mockRegistry = initMockRegistry({
       'react/addons': React,
       'util/globals': { win: window },
-      'component/ZdForm': {
-        ZdForm: jasmine.createSpy('mockZdForm')
+      'component/SubmitTicketForm': {
+        SubmitTicketForm: jasmine.createSpy('mockSubmitTicketForm')
           .andCallFake(React.createClass({
             render: function() {
               return <form onSubmit={this.props.handleSubmit} />;
@@ -56,9 +56,6 @@ describe('Submit ticket component', function() {
       },
       'service/transport': {
         transport: jasmine.createSpyObj('transport', ['send']),
-      },
-      'component/SubmitTicketSchema': {
-        submitTicketSchema: jasmine.createSpy()
       },
       'imports?_=lodash!lodash': _
     });
@@ -86,30 +83,9 @@ describe('Submit ticket component', function() {
       .toEqual('');
   });
 
-  it('should pass schema and submit callback props to ZdForm component', function() {
-    var mostRecentCall,
-        mockZdForm = mockRegistry['component/ZdForm'].ZdForm,
-        mockSubmitTicketSchema = mockRegistry['component/SubmitTicketSchema']
-          .submitTicketSchema;
-
-    React.renderComponent(
-      <SubmitTicket />,
-      global.document.body
-    );
-
-    mostRecentCall = mockZdForm.mostRecentCall.args[0];
-    mostRecentCall.schema('token_schema');
-
-    expect(mockSubmitTicketSchema)
-      .toHaveBeenCalledWith('token_schema');
-
-    expect(mockSubmitTicketSchema.callCount)
-      .toEqual(1);
-  });
-
   it('should not submit form when invalid', function() {
     var mostRecentCall,
-        mockZdForm = mockRegistry['component/ZdForm'].ZdForm,
+        mockSubmitTicketForm = mockRegistry['component/SubmitTicketForm'].SubmitTicketForm,
         mockTransport = mockRegistry['service/transport'].transport;
 
     React.renderComponent(
@@ -117,7 +93,7 @@ describe('Submit ticket component', function() {
       global.document.body
     );
 
-    mostRecentCall = mockZdForm.mostRecentCall.args[0];
+    mostRecentCall = mockSubmitTicketForm.mostRecentCall.args[0];
 
     mostRecentCall.submit({preventDefault: noop}, {isFormInvalid: true});
 
@@ -127,7 +103,7 @@ describe('Submit ticket component', function() {
 
   it('should submit form when valid', function() {
     var mostRecentCall,
-        mockZdForm = mockRegistry['component/ZdForm'].ZdForm,
+        mockSubmitTicketForm = mockRegistry['component/SubmitTicketForm'].SubmitTicketForm,
         mockTransport = mockRegistry['service/transport'].transport,
         transportRecentCall;
 
@@ -136,7 +112,7 @@ describe('Submit ticket component', function() {
       global.document.body
     );
 
-    mostRecentCall = mockZdForm.mostRecentCall.args[0],
+    mostRecentCall = mockSubmitTicketForm.mostRecentCall.args[0],
 
     mostRecentCall.submit({preventDefault: noop}, {
       isFormInvalid: false,

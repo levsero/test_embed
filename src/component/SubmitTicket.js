@@ -4,10 +4,9 @@ module React from 'react/addons'; /* jshint ignore:line */
 import { win                } from 'util/globals';
 import { identity           } from 'service/identity';
 import { transport          } from 'service/transport';
-import { submitTicketSchema } from 'component/SubmitTicketSchema';
-import { SubmitTicketForm   } from 'component/ZdForm';
+import { SubmitTicketForm   } from 'component/SubmitTicketForm';
 require('imports?_=lodash!lodash');
-console.log(submitTicketSchema)
+
 export var SubmitTicket = React.createClass({
   propTypes: {
     hide: React.PropTypes.func.isRequired
@@ -96,7 +95,7 @@ export var SubmitTicket = React.createClass({
           </div>
         </div>
         <SubmitTicketForm
-          ref='zdform'
+          ref='submitTicketForm'
           className={formVisibility}
           submit={this.handleSubmit} />
         <a

@@ -1,9 +1,14 @@
 $Form-color: #919191;
 $Form-field-background: #FFFFFF;
+$Form-field-error: #FF0000;
 $Form-base-font-size: 1rem; // 12px
 
 $Form-spacing: 10px;
 $Form-field-border-radius: 4px;
+
+@mixin error-state($thickness) {
+  border: $thickness solid $Form-field-error;
+}
 
 .Form {
   font-size: $Form-base-font-size;
@@ -33,16 +38,16 @@ $Form-field-border-radius: 4px;
   }
 }
 
-.rf-Field--invalid {
-  /*color: red;*/
-}
-
 .rf-Field--focused {
   border: 1px solid #78a100;
 
   &.rf-Field--dirty.rf-Field--invalid {
-    border: 1px solid red;
+    @include error-state(1px);
   }
+}
+
+.rf-Field--blurred.rf-Field--invalid {
+  @include error-state(1px);
 }
 
 .rf-Field__label {

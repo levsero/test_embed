@@ -2,7 +2,7 @@
 
 module React from 'react/addons';
 module ReactForms from 'react-forms';
-import { MessageFieldset, EmailField, IconField } from 'component/ZdForm';
+import { EmailField, IconField } from 'component/FormField';
 
 var { Schema } = ReactForms.schema;
 

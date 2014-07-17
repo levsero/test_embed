@@ -1,13 +1,8 @@
 /** @jsx React.DOM */
 
-describe('ZdForm component', function() {
-  var ZdForm,
+describe('SubmitTicketForm component', function() {
+  var SubmitTicketForm,
       defaultValue = '123abc',
-      mockValidation = {
-        validateEmail: function() {
-          return 'abc123';
-        }
-      },
       onSubmit = jasmine.createSpy(),
       mockComponent = jasmine.createSpy('mockComponent')
         .andCallFake(React.createClass({
@@ -29,7 +24,7 @@ describe('ZdForm component', function() {
             );
           }
         })),
-      zdFormPath = buildSrcPath('component/ZdForm');
+      submitTicketFormPath = buildSrcPath('component/SubmitTicketForm');
 
   beforeEach(function() {
 
@@ -49,16 +44,16 @@ describe('ZdForm component', function() {
         }
       }
     });
-    mockery.registerMock('mixin/validation', {
-      validation: mockValidation
+    mockery.registerMock('component/SubmitTicketSchema', {
+      submitTicketSchema: noop
     });
     mockery.registerMock('imports?_=lodash!lodash', {});
-    mockery.registerAllowable(zdFormPath);
+    mockery.registerAllowable(submitTicketFormPath);
     mockery.registerAllowable('react/addons');
     mockery.registerAllowable('./lib/ReactWithAddons');
     mockery.registerAllowable('util/globals');
 
-    ZdForm = require(zdFormPath).ZdForm;
+    SubmitTicketForm = require(submitTicketFormPath).SubmitTicketForm;
   });
 
   afterEach(function() {
@@ -68,7 +63,7 @@ describe('ZdForm component', function() {
 
   it('should correctly render form with noValidate attribute', function() {
     var zdForm = React.renderComponent(
-      <ZdForm />,
+      <SubmitTicketForm />,
       global.document.body
     );
 
@@ -78,7 +73,7 @@ describe('ZdForm component', function() {
 
   it('should call parent component submit when form is submitted', function() {
     var zdForm = React.renderComponent(
-      <ZdForm submit={onSubmit} />,
+      <SubmitTicketForm submit={onSubmit} />,
       global.document.body
     );
 
