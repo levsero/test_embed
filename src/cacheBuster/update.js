@@ -1,7 +1,7 @@
 var script = document.createElement('script');
 
 script.async = true;
-script.src='main.js';
+script.src = 'main.js';
 
 if (location.hash !== '#DONE') { 
   location.hash = 'DONE'; 
