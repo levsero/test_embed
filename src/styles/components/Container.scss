@@ -1,11 +1,12 @@
-$Container-spacing: 1rem;
-$Container--popover-height: 320px;
+@import '../_vars.scss';
+
+$Container-spacing: 20/$font-size;
 $Container--popover-arrowFullWidth: 20;
 $Container--popover-arrowWidth: $Container--popover-arrowFullWidth/2;
 $Container--popover-shadowSpread: 15px;
 
 .Container {
-  padding: 0 $Container-spacing $Container-spacing;
+  padding: #{$Container-spacing}rem;
 }
 
 .Container--popover {

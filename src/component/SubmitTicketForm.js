@@ -43,17 +43,17 @@ var SubmitTicketForm = React.createClass({
       <form
         noValidate
         onSubmit={this.handleSubmit}
-        className={'Form ' + this.props.className}>
-        <h1 className='u-marginVS u-textSizeMed'>
+        className={'Form u-cf ' + this.props.className}>
+        <legend className='Form-legend u-marginBS u-textBold u-extSizeMed'>
           Leave us a message
-        </h1>
+        </legend>
         {formBody}
         <input
           type='submit'
           value='Send'
           ref='submitButton'
           disabled={!this.state.isValid}
-          className='Button Button--default Button--cta u-pullRight u-textNoWrap'
+          className='Button Button--cta Anim-color u-pullRight u-textNoWrap'
         />
       </form>
     );

@@ -64,7 +64,7 @@ function IconField(props) {
       required={!!props.required}
       input={
         props.input ||
-        <input placeholder={props.placeholder} className='Arrange-sizeFill' />
+        <input placeholder={props.placeholder} className='Arrange-sizeFill u-vsizeAll' />
       }
       validate={props.validate || ''}
       component={<FocusField icon={props.icon} />}
@@ -85,7 +85,7 @@ function EmailField(props) {
       <input
         type={type}
         placeholder='Email address'
-        className='Arrange-sizeFill' />
+        className='Arrange-sizeFill u-vsizeAll' />
     ),
     validate: function(value) {
       return validation.validateEmail(value);

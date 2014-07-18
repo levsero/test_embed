@@ -44,8 +44,7 @@ export var frameFactory = function(childFn, _params) {
         iframeDimensions: {
           height: 0,
           width: 0
-        },
-        increaseDimensions: [0, 0]
+        }
       };
     },
 
@@ -53,7 +52,7 @@ export var frameFactory = function(childFn, _params) {
       return child;
     },
 
-    updateFrameSize: function(increaseWidth = 0, increaseHeight = 0) {
+    updateFrameSize: function(offsetWidth = 0, offsetHeight = 0) {
       var iframe = this.getDOMNode(),
           frameWin = iframe.contentWindow,
           frameDoc = iframe.contentDocument,
@@ -65,8 +64,8 @@ export var frameFactory = function(childFn, _params) {
 
       dimensions = function() {
         var el = frameDoc.body.firstChild,
-            width  = Math.max(el.clientWidth,  el.offsetWidth) + increaseWidth,
-            height = Math.max(el.clientHeight, el.offsetHeight) + increaseHeight;
+            width  = Math.max(el.clientWidth,  el.offsetWidth) + offsetWidth,
+            height = Math.max(el.clientHeight, el.offsetHeight) + offsetHeight;
 
         return ({
           width:  _.isFinite(width)  ? width  : 0,

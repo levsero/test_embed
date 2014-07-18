@@ -6,18 +6,17 @@ import { SubmitTicket } from 'component/SubmitTicket';
 import { frameFactory } from 'embed/frameFactory';
 
 var submitTicketCSS = require('./submitTicket.scss'),
-    submitTicketFrameCSS = require('./submitTicketFrame.scss'),
     submitTickets = {};
 
 function create(name, config) {
   var containerBase = {
-        minWidth: 320,
+        minWidth: 350,
         margin: 15
       },
       base = {
         position: 'fixed',
         bottom: 48,
-        minWidth: 320
+        minWidth: 350
       },
       configDefaults = {
         position: 'right'
@@ -49,8 +48,6 @@ function create(name, config) {
     },
     {
       style: iframeStyle,
-      className: 'SubmitTicketFrame',
-      frameCSS: submitTicketFrameCSS,
       css: submitTicketCSS,
       onShow() {
         config.onShow();

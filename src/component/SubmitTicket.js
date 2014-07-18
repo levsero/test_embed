@@ -86,15 +86,9 @@ export var SubmitTicket = React.createClass({
       <div
         className='Container Container--popover u-nbfcAlt u-posRelative'
         key={this.state.uid}>
-        <div className={"Notify " + notifyVisibility}>
-          <div className="Notify-body Notify-body--success">
-            <div className="Notify-title u-textCenter">
-              <div className='u-textSizeLrg'>
-                &#x2713;
-              </div>
-              {this.state.message}
-            </div>
-          </div>
+        <div className={"Notify u-textCenter " + notifyVisibility }>
+          <div className='Icon Icon--tick u-inlineBlock' />
+          <div className='u-textBold'>{this.state.message}</div>
         </div>
         <SubmitTicketForm
           ref='submitTicketForm'
@@ -103,8 +97,8 @@ export var SubmitTicket = React.createClass({
         <a
           href='https://www.zendesk.com'
           target='_blank'
-          className='u-posAbsolute u-posStart u-posEnd--vert'>
-            zendesk
+          className='Icon Icon--zendesk u-posAbsolute u-posStar'>
+          <span className='u-isHiddenVisually'>zendesk</span>
         </a>
       </div>
     );
