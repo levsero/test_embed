@@ -36,11 +36,35 @@ function send(payload) {
     });
 }
 
+function bustCache() {
+  var iframe = document.createElement('iframe'),
+      onMessage = function(message) {
+        if (message.data === 'cache_bust_done') {
+          iframe.parentNode.removeChild(iframe);
+          window.removeEventListener('message', onMessage);
+        }
+      },
+      scriptSrc = document.getElementById('js-iframe-async').src,
+      updatePath = [
+        'update.html?', 
+        (new Date()).getTime(), 
+        '#placeholder-commit-hash'
+      ].join(''),
+      updateUrl = scriptSrc.replace('main.js', updatePath);
+
+  iframe.src = updateUrl;
+
+  document.body.appendChild(iframe);
+
+  window.addEventListener('message', onMessage, false);
+}
+
 function buildFullUrl(path) {
   return config.scheme + '://' + config.snowflakeHost + path;
 }
 
 export var transport = {
   init: init,
-  send: send
+  send: send,
+  bustCache: bustCache
 };

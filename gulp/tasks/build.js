@@ -2,6 +2,9 @@ var gulp = require('gulp'),
     gutil = require('gulp-util'),
     react = require('gulp-react'),
     uglify = require('gulp-uglify'),
+    inlineSource = require('gulp-inline-source'),
+    minifyHTML = require('gulp-minify-html'),
+    rimraf = require('gulp-rimraf'),
     webpack = require('webpack'),
     runSequence = require('run-sequence'),
     webpackConfig = require('../webpack.config.js'),
@@ -80,6 +83,33 @@ gulp.task('build:src', function() {
     .pipe(gulp.dest('build/src'));
 });
 
+gulp.task('build:cachebuster-js', function() {
+  return gulp.src('src/cacheBuster/update.js')
+    .pipe(uglify())
+    .pipe(gulp.dest('./dist'));
+});
+
+gulp.task('build:cachebuster-html', function() {
+  return gulp.src('src/cacheBuster/update.html')
+    .pipe(inlineSource())
+    .pipe(minifyHTML())
+    .pipe(gulp.dest('./dist'));
+});
+
+gulp.task('build:cachebuster-clean', function() {
+  return gulp.src('./dist/update.js')
+    .pipe(rimraf());
+});
+
+gulp.task('build:cachebuster', function(callback) {
+  runSequence(
+    'build:cachebuster-js',
+    'build:cachebuster-html',
+    'build:cachebuster-clean',
+    callback
+  );
+});
+
 gulp.task('build:bootstrap', function() {
   return gulp.src('src/bootstrap.js')
     .pipe(uglify())
@@ -89,6 +119,7 @@ gulp.task('build:bootstrap', function() {
 gulp.task('build', function(callback) {
   runSequence(
     'lint',
+    'build:cachebuster',
     'build:bootstrap',
     'build:prod',
     callback
