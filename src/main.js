@@ -28,11 +28,11 @@ renderer.init({
     'props': {
       'onShow': {
         name: 'ticketSubmissionLauncher',
-        method: 'hide'
+        method: 'update'
       },
       'onHide': {
         name: 'ticketSubmissionLauncher',
-        method: 'show'
+        method: 'update'
       }
     }
   },
@@ -42,7 +42,7 @@ renderer.init({
       'position': 'right',
       'onClick': {
         name: 'ticketSubmissionForm',
-        method: 'show'
+        method: 'update'
       }
     }
   }

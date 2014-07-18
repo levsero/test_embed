@@ -44,7 +44,7 @@ export var SubmitTicket = React.createClass({
       return;
     }
 
-    var tags = ['buid-' + identity.getBuid(), 'DROPBOX'].join(' '),
+    var tags = ['buid-' + identity.getBuid(), 'DROPBOX', 'CEToolkit'].join(' '),
         formParams = _.extend({
           'set_tags': tags,
           'submitted_from': win.location.href
