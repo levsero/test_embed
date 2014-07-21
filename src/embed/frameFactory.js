@@ -64,13 +64,13 @@ export var frameFactory = function(childFn, _params) {
 
       dimensions = function() {
         var el = frameDoc.body.firstChild,
-            width  = Math.max(el.clientWidth,  el.offsetWidth) + offsetWidth,
-            height = Math.max(el.clientHeight, el.offsetHeight) + offsetHeight;
+            width  = Math.max(el.clientWidth,  el.offsetWidth),
+            height = Math.max(el.clientHeight, el.offsetHeight);
 
-        return ({
-          width:  _.isFinite(width)  ? width  : 0,
-          height: _.isFinite(height) ? height : 0
-        });
+        return {
+          width:  (_.isFinite(width)  ? width  : 0) + offsetWidth,
+          height: (_.isFinite(height) ? height : 0) + offsetHeight
+        };
       };
 
       frameWin.setTimeout( () => this.setState({iframeDimensions: dimensions()}), 0);
@@ -97,7 +97,10 @@ export var frameFactory = function(childFn, _params) {
     },
 
     render: function() {
-      var visibilityRule = (this.state.visible) ? {visibility: 'visible'} : {visibility: 'hidden'},
+      /* jshint laxbreak: true */
+      var visibilityRule = (this.state.visible)
+                         ? {visibility: 'visible'}
+                         : {visibility: 'hidden'},
           iframeStyle = _.extend(
             { border: 'none', background: 'transparent !important' },
             params.style,
