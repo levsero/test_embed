@@ -41,8 +41,7 @@ function create(name, config) {
         <div style={containerBase}>
           <SubmitTicket
             ref='submitTicket'
-            updateFrameSize={params.updateFrameSize}
-            hide={params.hideHandler} />
+            updateFrameSize={params.updateFrameSize} />
         </div>
       );
     },
@@ -55,16 +54,7 @@ function create(name, config) {
       onHide() {
         config.onHide();
       },
-      extend: {
-        hideHandler() {
-          var refs = this.getChild().refs;
-
-          this.hide();
-          if (refs.submitTicket.state.showNotification) {
-            refs.submitTicket.reset();
-          }
-        }
-      }
+      extend: {}
     }));
 
   submitTickets[name] = {
@@ -100,8 +90,15 @@ function reset(name) {
 }
 
 function update(name, isVisible) {
+  var submitTicket = get(name).instance.getChild().refs.submitTicket,
+      isSuccessState = submitTicket.state.showNotification;
+
   if(isVisible) {
     hide(name);
+
+    if(isSuccessState) {
+      submitTicket.reset();
+    }
   } else {
     show(name);
   }

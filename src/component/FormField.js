@@ -31,6 +31,15 @@ var FocusField = React.createClass({
     });
   },
 
+  componentWillReceiveProps() {
+    var value = this.value(),
+        isValid = !isFailure(value.validation);
+
+    if(this.state.blurred && isValid) {
+      this.setState({blurred: false});
+    }
+  },
+
   render() {
     var value = this.value(),
         isInvalid = isFailure(value.validation),

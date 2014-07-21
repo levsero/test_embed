@@ -7,10 +7,6 @@ import { SubmitTicketForm   } from 'component/SubmitTicketForm';
 require('imports?_=lodash!lodash');
 
 export var SubmitTicket = React.createClass({
-  propTypes: {
-    hide: React.PropTypes.func.isRequired
-  },
-
   getInitialState() {
     return {
       showNotification: false,
@@ -19,16 +15,9 @@ export var SubmitTicket = React.createClass({
     };
   },
 
-  handleCancel(e) {
-    this.props.hide();
-    this.reset();
-
-    e.preventDefault();
-  },
-
   reset() {
     this.setState({showNotification: false});
-    this.refs.zdform.refs.form.updateValue([null]);
+    this.refs.submitTicketForm.refs.form.updateValue([null]);
   },
 
   showField: function() {
