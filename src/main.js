@@ -9,6 +9,8 @@ require('imports?_=lodash!lodash');
 function boot() {
   React.initializeTouchEvents(true);
 
+  transport.bustCache();
+
   transport.init({ zendeskHost: document.zendeskHost });
   beacon.init().send();
    

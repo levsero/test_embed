@@ -44,19 +44,21 @@ function bustCache() {
           window.removeEventListener('message', onMessage);
         }
       },
-      scriptSrc = document.getElementById('js-iframe-async').src,
+      scriptSrc,
+      updateUrl,
       updatePath = [
         'update.html?', 
         (new Date()).getTime(), 
         '#placeholder-commit-hash'
-      ].join(''),
-      updateUrl = scriptSrc.replace('main.js', updatePath);
+      ].join('');
 
-  iframe.src = updateUrl;
-
-  document.body.appendChild(iframe);
-
-  window.addEventListener('message', onMessage, false);
+  if (document.getElementById('js-iframe-async')) {
+    scriptSrc = document.getElementById('js-iframe-async').src;
+    updateUrl = scriptSrc.replace('main.js', updatePath);
+    iframe.src = updateUrl;
+    document.body.appendChild(iframe);
+    window.addEventListener('message', onMessage, false);
+  }
 }
 
 function buildFullUrl(path) {
