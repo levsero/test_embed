@@ -2,7 +2,6 @@
 
 module React from 'react/addons'; /* jshint ignore:line */
 import { win                } from 'util/globals';
-import { identity           } from 'service/identity';
 import { transport          } from 'service/transport';
 import { SubmitTicketForm   } from 'component/SubmitTicketForm';
 require('imports?_=lodash!lodash');
@@ -44,7 +43,7 @@ export var SubmitTicket = React.createClass({
       return;
     }
 
-    var tags = ['buid-' + identity.getBuid(), 'DROPBOX', 'CEToolkit'].join(' '),
+    var tags = ['DROPBOX', 'CEToolkit'].join(' '),
         formParams = _.extend({
           'set_tags': tags,
           'submitted_from': win.location.href

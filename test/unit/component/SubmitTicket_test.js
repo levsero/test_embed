@@ -4,7 +4,7 @@ describe('Submit ticket component', function() {
   var SubmitTicket,
       mockRegistry,
       formParams = {
-        'set_tags': 'buid-abc123 DROPBOX CEToolkit',
+        'set_tags': 'DROPBOX CEToolkit',
         'submitted_from': global.window.location.href,
         'email': 'mock@email.com',
         'description': 'Mock Description'
