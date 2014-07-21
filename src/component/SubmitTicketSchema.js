@@ -28,7 +28,7 @@ export var submitTicketSchema = (
         <textarea
           rows='5'
           className='Arrange-sizeFill u-vsizeAll'
-          placeholder='Give us details here...'
+          placeholder='How can we help you?'
         />
       }
     />
