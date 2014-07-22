@@ -1,43 +1,91 @@
+@import '../_vars.scss';
+
 @font-face {
-  font-family: 'icomoon';
-  src:url('../../asset/font/icomoon.eot') format('embedded-opentype'),
-      url('../../asset/font/icomoon.woff') format('woff');
+  font-family: 'untitled-font-1';
+  src:url('../../asset/font/fonts.eot') format('embedded-opentype'),
+      url('../../asset/font/fonts.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
 
 .Icon {
-  font-family: 'icomoon';
+  font-family: 'untitled-font-1';
   speak: none;
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
   text-transform: none;
-  font-size: #{(16/12)}rem;
+  font-size: #{16/$font-size}rem;
+  width: #{20/$font-size}rem;
   line-height: 1;
-  margin-right: 5px;
+  padding-right: #{8/$font-size}rem;
+  font-size: #{20/$font-size}rem;
+  color: $icon-color;
 
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+}
+
+.Icon--help {
+  padding-right: #{5/$font-size}rem;
 }
 
 .Icon--active {
-  margin-right: 0;
+  padding-right: 0;
+
+  &:before {
+    content: 'a';
+  }
 }
 
 .Icon:before {
-  content: '\e605';
+  content: 'c';
 }
 
 .Icon--chat:before {
-  content: '\e600';
+  content: 'd';
 }
 
-.Icon--email:before {
-  content: '\e601';
+.Icon--mail:before {
+  content: 'b';
+}
+
+.Icon--avatar:before {
+  content: 'f';
+}
+
+.Icon--msg:before {
+  content: 'd';
 }
 
 .Icon--cross:before {
-  content: '\e602';
+  content: 'a';
+}
+
+.Icon--tick {
+  border: 1px solid $icon-color;
+  padding: #{20/$font-size}rem;
+  margin-bottom: #{15/$font-size}rem;
+  border-radius: 50%;
+  color: $cta-color;
+
+  &:before {
+    content: 'e';
+  }
+}
+
+.Icon--zendesk {
+  width: auto;
+  bottom: 0;
+
+  &:hover, &:active, &:focus {
+    color: $cta-color;
+  }
+
+  &:before {
+    content: 'g';
+    font-size: #{60/$font-size}rem;
+  }
 }
