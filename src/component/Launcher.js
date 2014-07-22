@@ -46,11 +46,11 @@ export var Launcher = React.createClass({
           'Arrange Arrange--middle': true,
           'u-isActionable u-textLeft u-inlineBlock u-textNoWrap': true,
           'Button--launcherActive': this.state.active
-        }),
+       }),
         iconClasses = classSet({
           // spaces needed for class concatenation
           'Arrange-sizeFit Icon u-textInheritColor ': true,
-          'Icon--active u-block Icon--cross ': this.state.active
+          'Icon--active u-textCenter Icon--cross ': this.state.active
         }),
         labelClasses = classSet({
           'u-textInheritColor': true,
