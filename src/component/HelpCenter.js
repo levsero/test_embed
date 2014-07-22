@@ -2,7 +2,7 @@
 
 module React from 'react/addons';
 import { transport        } from 'service/transport';
-import { ZdForm           } from 'component/ZdForm';
+import { SubmitTicketForm } from 'component/SubmitTicketForm';
 import { stopWordsFilter  } from 'mixin/searchFilter';
 import { helpCenterSchema } from 'component/HelpCenterSchema';
 require('imports?_=lodash!lodash');
@@ -77,7 +77,7 @@ export var HelpCenter = React.createClass({
 
     return (
       <div className='Container u-nbfc u-posRelative'>
-        <ZdForm
+        <SubmitTicketForm
           onChange={this.handleChange}
           submit={this.handleSubmit}
           schema={helpCenterSchema}>
@@ -92,7 +92,7 @@ export var HelpCenter = React.createClass({
               className='Button Button--default Button--cta Arrange-sizeFit u-textNoWrap'
             />
           </div>
-        </ZdForm>
+        </SubmitTicketForm>
       </div>
     );
   }

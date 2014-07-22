@@ -1,38 +1,38 @@
 /**
  * 1. Set to a very large number to give the pill shape
  */
+@import '../_vars.scss';
 
-$Button-baseFontSize: 12px;
-$Button-color: #1a6690;
-$Button-launcherColor: rgba(116,178,0,.8);
-$Button-launcherActiveColor: #474747;
-$Button-ctaColor: #FFFFFF;
-$Button-ctaBgColor: #83c400;
+$Button-baseFontSize: #{14/$font-size}rem;
+$Button-nudge: 5;
+$Button-widthOffset: #{(50-$Button-nudge)/$font-size}rem;
 
-.Button--default {
-  color: $Button-color;
-  border-radius: 5px;
-  padding: 5px 10px;
+.Button {
+  font-size: $Button-baseFontSize;
+  padding: #{14/$font-size}rem #{20/$font-size}rem;
+  border-radius: #{5/$font-size}rem;
+  color: $base-color;
+  &:disabled {
+    background: $inactive-color;
+  }
 }
 
 .Button--cta {
-  background: $Button-ctaBgColor;
-  color: $Button-ctaColor;
+  background: $cta-color;
+  color: $base-color;
   font-weight: 700;
 }
 
 .Button--launcher {
-  background-color: $Button-launcherColor;
-  color: #fff;
-  font-size: $Button-baseFontSize;
   border-radius: 999rem; /* 1  */
-  cursor: pointer;
   border: 0;
-  padding: 10px 15px;
+  letter-spacing: 0.6;
 }
 
 .Button--launcherActive {
-  background-color: $Button-launcherActiveColor;
-  margin-right: 10px;
-  padding: 10px;
+  background-color: $active-color;
+  margin-right: #{$Button-nudge/$font-size}rem;
+  padding: #{14/$font-size}rem;
+  width: $Button-widthOffset;
+  height: #{50/$font-size}rem;
 }

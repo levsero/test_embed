@@ -13,18 +13,18 @@ function boot() {
 
   transport.init({ zendeskHost: document.zendeskHost });
   beacon.init().send();
-   
+
   win.Zd = module.exports = {
     devRender: renderer.init,
     bustCache: transport.bustCache
   };
-   
+
   _.each(document.ZdQueue, function(item) {
     if (item[0] === 'ready') {
       item[1](win.Zd);
     }
   });
-   
+
   // Until transport config is setup we hard code the config call
   renderer.init({
     'ticketSubmissionForm': {
@@ -32,11 +32,11 @@ function boot() {
       'props': {
         'onShow': {
           name: 'ticketSubmissionLauncher',
-          method: 'hide'
+          method: 'update'
         },
         'onHide': {
           name: 'ticketSubmissionLauncher',
-          method: 'show'
+          method: 'update'
         }
       }
     },
@@ -46,7 +46,7 @@ function boot() {
         'position': 'right',
         'onClick': {
           name: 'ticketSubmissionForm',
-          method: 'show'
+          method: 'update'
         }
       }
     }

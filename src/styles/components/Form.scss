@@ -1,28 +1,37 @@
-$Form-color: #404040;
-$Form-field-background: #F0F0F0;
-$Form-base-font-size: 1rem; // 12px
+@import '../_vars.scss';
 
 $Form-spacing: 10px;
-$Form-field-border-radius: 10px;
+$Form-field-border-radius: 4px;
+
+@mixin error-state($thickness) {
+  border: $thickness solid $error-color;
+}
 
 .Form {
-  font-size: $Form-base-font-size;
-  color: $Form-color;
+  margin: 0;
+}
+
+.Form-legend {
+  font-size: #{14/$font-size}rem;
 }
 
 .rf-Fieldset {
-  margin-bottom: $Form-spacing;
 }
 
 .rf-Field {
-  margin-bottom: $Form-spacing * 2;
+  margin-bottom: #{18/$font-size}rem;
+  background: $base-color;
+  border: 1px solid $stroke-color;
+  border-radius: $Form-field-border-radius;
+  padding: $Form-spacing;
+  color: $secondary-color;
 
   textarea, input {
-    background: $Form-field-background;
     border: none;
-    border-radius: $Form-field-border-radius;
-    padding: $Form-spacing;
-    width: 100%;
+    background: none;
+    resize: none;
+    color: $body-color;
+    font-size: #{13/$font-size}rem;
 
     &:focus {
       appearance: none;
@@ -31,8 +40,16 @@ $Form-field-border-radius: 10px;
   }
 }
 
-.rf-Field--invalid {
-  /*color: red;*/
+.rf-Field--focused {
+  border: 1px solid $cta-color;
+
+  &.rf-Field--dirty.rf-Field--invalid {
+    @include error-state(1px);
+  }
+}
+
+.rf-Field--blurred.rf-Field--invalid {
+  @include error-state(1px);
 }
 
 .rf-Field__label {

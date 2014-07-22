@@ -10,15 +10,13 @@ var submitTicketCSS = require('./submitTicket.scss'),
 
 function create(name, config) {
   var containerBase = {
-        minWidth: 320
+        minWidth: 350,
+        margin: 15
       },
       base = {
-        minHeight: '320px',
-        borderRadius: '10px 10px 0 0',
-        boxShadow: '1px 1px 5px rgba(0,0,0,0.5)',
         position: 'fixed',
-        bottom: 0,
-        background: 'white'
+        bottom: 48,
+        minWidth: 350
       },
       configDefaults = {
         position: 'right'
@@ -31,26 +29,19 @@ function create(name, config) {
 
   /* jshint laxbreak: true */
   posObj = (config.position === 'left')
-         ? { left:  '20px' }
-         : { right: '20px' };
+         ? { left:  5 }
+         : { right: 5 };
 
-  iframeStyle = _.extend(base, posObj, containerBase);
+  iframeStyle = _.extend(base, posObj);
 
   Embed = React.createClass(frameFactory(
     (params) => {
       /* jshint quotmark:false */
       return (
         <div style={containerBase}>
-          <div className='u-textRight u-marginVS'>
-            <strong
-              onClick={params.hideHandler}
-              onTouchEnd={params.hideHandler}
-              className='u-textCTA u-isActionable'>HIDE</strong>
-          </div>
           <SubmitTicket
             ref='submitTicket'
-            updateFrameSize={params.updateFrameSize}
-            hide={params.hideHandler} />
+            updateFrameSize={params.updateFrameSize} />
         </div>
       );
     },
@@ -63,16 +54,7 @@ function create(name, config) {
       onHide() {
         config.onHide();
       },
-      extend: {
-        hideHandler() {
-          var refs = this.getChild().refs;
-
-          this.hide();
-          if (refs.submitTicket.state.showNotification) {
-            refs.submitTicket.reset();
-          }
-        }
-      }
+      extend: {}
     }));
 
   submitTickets[name] = {
@@ -108,8 +90,15 @@ function reset(name) {
 }
 
 function update(name, isVisible) {
+  var submitTicket = get(name).instance.getChild().refs.submitTicket,
+      isSuccessState = submitTicket.state.showNotification;
+
   if(isVisible) {
     hide(name);
+
+    if(isSuccessState) {
+      submitTicket.reset();
+    }
   } else {
     show(name);
   }

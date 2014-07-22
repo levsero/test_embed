@@ -15,7 +15,7 @@ function create(name, config) {
         onClick: function() {},
         position: 'right',
         message: 'Help',
-        icon: ''
+        icon: 'Icon--help'
       },
       base = {
         width: '80px',

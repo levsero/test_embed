@@ -2,18 +2,11 @@
 
 module React from 'react/addons'; /* jshint ignore:line */
 import { win                } from 'util/globals';
-import { identity           } from 'service/identity';
 import { transport          } from 'service/transport';
-import { ZdForm             } from 'component/ZdForm';
-import { submitTicketSchema } from 'component/SubmitTicketSchema';
+import { SubmitTicketForm   } from 'component/SubmitTicketForm';
 require('imports?_=lodash!lodash');
 
 export var SubmitTicket = React.createClass({
-  propTypes: {
-    hide: React.PropTypes.func.isRequired,
-    reset: React.PropTypes.func.isRequired
-  },
-
   getInitialState() {
     return {
       showNotification: false,
@@ -22,16 +15,9 @@ export var SubmitTicket = React.createClass({
     };
   },
 
-  handleCancel(e) {
-    this.props.hide();
-    this.reset();
-
-    e.preventDefault();
-  },
-
   reset() {
     this.setState({showNotification: false});
-    this.refs.zdform.refs.form.updateValue([null]);
+    this.refs.submitTicketForm.refs.form.updateValue([null]);
   },
 
   showField: function() {
@@ -46,7 +32,7 @@ export var SubmitTicket = React.createClass({
       return;
     }
 
-    var tags = ['buid-' + identity.getBuid(), 'DROPBOX'].join(' '),
+    var tags = ['DROPBOX', 'CEToolkit'].join(' '),
         formParams = _.extend({
           'set_tags': tags,
           'submitted_from': win.location.href
@@ -56,6 +42,7 @@ export var SubmitTicket = React.createClass({
             showNotification: true,
             message: msg
           });
+          this.props.updateFrameSize();
         },
         payload = {
           method: 'post',
@@ -63,7 +50,7 @@ export var SubmitTicket = React.createClass({
           params: formParams,
           callbacks: {
             done() {
-              resCallback('Ticket Submitted! Thanks!');
+              resCallback('Message sent');
             },
             fail(data, status) {
               resCallback('Error ' + status + ': ' + JSON.parse(data).error);
@@ -79,37 +66,28 @@ export var SubmitTicket = React.createClass({
         notifyVisibility = (formVisibility) ?  '' : 'u-isHidden';
 
     if (this.props.updateFrameSize) {
-      setTimeout( () => this.props.updateFrameSize(), 0);
+      setTimeout( () => this.props.updateFrameSize(0, 10), 0);
     }
 
     return (
       /* jshint quotmark:false */
-      <div className='Container u-nbfc u-posRelative' key={this.state.uid}>
-        <div className={"Notify " + notifyVisibility}>
-          <div className="Notify-body Notify-body--success">
-            <h1 className="Notify-title u-textCenter">{this.state.message}</h1>
-          </div>
+      <div
+        className='Container Container--popover u-nbfcAlt u-posRelative'
+        key={this.state.uid}>
+        <div className={"Notify u-textCenter " + notifyVisibility }>
+          <div className='Icon Icon--tick u-inlineBlock' />
+          <div className='u-textBold'>{this.state.message}</div>
         </div>
-        <ZdForm
-          ref='zdform'
+        <SubmitTicketForm
+          ref='submitTicketForm'
           className={formVisibility}
-          schema={submitTicketSchema}
-          submit={this.handleSubmit}>
-          <div className='Arrange Arrange--middle'>
-            <strong
-              onClick={this.handleCancel}
-              onTouchEnd={this.handleCancel}
-              className='Arrange-sizeFill u-isActionable u-textSecondary'>
-                Cancel
-            </strong>
-            <input
-              type='submit'
-              value='Submit Ticket'
-              className='Button Button--default Button--cta Arrange-sizeFit u-textNoWrap'
-            />
-          </div>
-        </ZdForm>
-
+          submit={this.handleSubmit} />
+        <a
+          href={'http://www.zendesk.com/?utm_medium=cetoolkit&utm_campaign=embeddables'}
+          target='_blank'
+          className='Icon Icon--zendesk u-posAbsolute u-posStart'>
+          <span className='u-isHiddenVisually'>zendesk</span>
+        </a>
       </div>
     );
   }

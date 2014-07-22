@@ -38,38 +38,39 @@ export var frameFactory = function(childFn, _params) {
     },
 
     getInitialState: function() {
-      return ({
+      return {
         visible: this.props.visible,
         _rendered: false,
         iframeDimensions: {
           height: 0,
           width: 0
         }
-      });
+      };
     },
 
     getChild: function() {
       return child;
     },
 
-    updateFrameSize: function() {
-      var frameWin = this.getDOMNode().contentWindow,
-          frameDoc = this.getDOMNode().contentDocument,
+    updateFrameSize: function(offsetWidth = 0, offsetHeight = 0) {
+      var iframe = this.getDOMNode(),
+          frameWin = iframe.contentWindow,
+          frameDoc = iframe.contentDocument,
           dimensions;
 
       if (!frameDoc.firstChild) {
-       return false;
+        return false;
       }
 
       dimensions = function() {
         var el = frameDoc.body.firstChild,
-            width  = Math.max(el.clientWidth,  el.offsetWidth ),
+            width  = Math.max(el.clientWidth,  el.offsetWidth),
             height = Math.max(el.clientHeight, el.offsetHeight);
 
-        return ({
-          width:  _.isFinite(width)  ? width  : 0,
-          height: _.isFinite(height) ? height : 0
-        });
+        return {
+          width:  (_.isFinite(width)  ? width  : 0) + offsetWidth,
+          height: (_.isFinite(height) ? height : 0) + offsetHeight
+        };
       };
 
       frameWin.setTimeout( () => this.setState({iframeDimensions: dimensions()}), 0);
@@ -96,16 +97,20 @@ export var frameFactory = function(childFn, _params) {
     },
 
     render: function() {
-      var visibilityRule = (this.state.visible) ? {display: 'block'} : {display: 'none'},
-          base = { border: 'none' },
+      /* jshint laxbreak: true */
+      var visibilityRule = (this.state.visible)
+                         ? {visibility: 'visible'}
+                         : {visibility: 'hidden'},
           iframeStyle = _.extend(
-            base,
+            { border: 'none', background: 'transparent !important' },
             params.style,
             visibilityRule,
             this.state.iframeDimensions
           );
 
-      return <iframe style={iframeStyle} />;
+          return (
+            <iframe style={iframeStyle} />
+          );
     },
 
 
@@ -122,7 +127,8 @@ export var frameFactory = function(childFn, _params) {
         return false;
       }
 
-      var doc = this.getDOMNode().contentWindow.document;
+      var iframe = this.getDOMNode(),
+          doc = iframe.contentWindow.document;
 
       // In order for iframe correctly render in some browsers
       // we need to do it on nextTick

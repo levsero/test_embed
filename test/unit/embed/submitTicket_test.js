@@ -27,8 +27,8 @@ describe('embed.submitTicket', function() {
         ),
       mockFrameFactory = require(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
       mockFrameMethods = require(buildTestPath('unit/mockFrameFactory')).mockFrameMethods,
-      mockHideHandler = jasmine.createSpy(),
       mockCss = jasmine.createSpy('mockCss'),
+      mockFrameCss = jasmine.createSpy('mockFrameCss'),
       submitTicketPath = buildSrcPath('embed/submitTicket/submitTicket');
 
   beforeEach(function() {
@@ -40,6 +40,7 @@ describe('embed.submitTicket', function() {
       SubmitTicket: mockSubmitTicket
     });
     mockery.registerMock('./submitTicket.scss', mockCss);
+    mockery.registerMock('./submitTicketFrame.scss', mockFrameCss);
     mockery.registerMock('embed/frameFactory', {
       frameFactory: mockFrameFactory
     });
@@ -91,54 +92,6 @@ describe('embed.submitTicket', function() {
       beforeEach(function() {
         submitTicket.create('bob', frameConfig);
         mockFrameFactoryRecentCall = mockFrameFactory.mostRecentCall.args;
-      });
-
-      it('passes SubmitTicket correctly into frameFactory', function() {
-
-        var body = global.document.body,
-            childFn = mockFrameFactoryRecentCall[0],
-            component = React.createClass({
-              render: function() {
-                return childFn({
-                  hideHandler: mockHideHandler
-                });
-              }
-            }),
-            submitTicketInstance = React.renderComponent(<component />, body)
-              .refs
-              .submitTicket;
-
-        expect(submitTicketInstance.props.hide)
-          .toBe(mockHideHandler);
-      });
-
-      it('calling hideHandler on embed calls frameFactory methods', function() {
-        var params = mockFrameFactoryRecentCall[1],
-            mockSubmitTicketHide = jasmine.createSpy('mockSubmitTicketHide'),
-            mockSubmitTicketReset = jasmine.createSpy('mockSubmitTicketReset'),
-            mockFrameFactoryScope = {
-              getChild: function() {
-                return {
-                  refs: {
-                    submitTicket: {
-                      state: {
-                        showNotification: true
-                      },
-                      reset: mockSubmitTicketReset
-                    }
-                  }
-                };
-              },
-              hide: mockSubmitTicketHide
-            };
-
-        params.extend.hideHandler.bind(mockFrameFactoryScope)();
-
-        expect(mockSubmitTicketHide)
-          .toHaveBeenCalled();
-
-        expect(mockSubmitTicketReset)
-          .toHaveBeenCalled();
       });
 
       it('should call onHide/Show config methods if passed in', function() {
