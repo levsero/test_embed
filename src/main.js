@@ -6,45 +6,53 @@ import { win       } from 'util/globals';
 
 require('imports?_=lodash!lodash');
 
-React.initializeTouchEvents(true);
+function boot() {
+  React.initializeTouchEvents(true);
 
-transport.init({ zendeskHost: document.zendeskHost });
-beacon.init().send();
+  transport.bustCache();
 
-win.Zd = module.exports = {
-  devRender: renderer.init
-};
+  transport.init({ zendeskHost: document.zendeskHost });
+  beacon.init().send();
 
-_.each(document.ZdQueue, function(item) {
-  if (item[0] === 'ready') {
-    item[1](win.Zd);
-  }
-});
+  win.Zd = module.exports = {
+    devRender: renderer.init,
+    bustCache: transport.bustCache
+  };
 
-// Until transport config is setup we hard code the config call
-renderer.init({
-  'ticketSubmissionForm': {
-    'embed': 'submitTicket',
-    'props': {
-      'onShow': {
-        name: 'ticketSubmissionLauncher',
-        method: 'update'
-      },
-      'onHide': {
-        name: 'ticketSubmissionLauncher',
-        method: 'update'
+  _.each(document.ZdQueue, function(item) {
+    if (item[0] === 'ready') {
+      item[1](win.Zd);
+    }
+  });
+
+  // Until transport config is setup we hard code the config call
+  renderer.init({
+    'ticketSubmissionForm': {
+      'embed': 'submitTicket',
+      'props': {
+        'onShow': {
+          name: 'ticketSubmissionLauncher',
+          method: 'update'
+        },
+        'onHide': {
+          name: 'ticketSubmissionLauncher',
+          method: 'update'
+        }
+      }
+    },
+    'ticketSubmissionLauncher': {
+      'embed': 'launcher',
+      'props': {
+        'position': 'right',
+        'onClick': {
+          name: 'ticketSubmissionForm',
+          method: 'update'
+        }
       }
     }
-  },
-  'ticketSubmissionLauncher': {
-    'embed': 'launcher',
-    'props': {
-      'position': 'right',
-      'onClick': {
-        name: 'ticketSubmissionForm',
-        method: 'update'
-      }
-    }
-  }
-});
+  });
+}
 
+if (!_.isUndefined(document.zendeskHost)) {
+  boot();
+}

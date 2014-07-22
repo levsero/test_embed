@@ -83,7 +83,7 @@ export var SubmitTicket = React.createClass({
           className={formVisibility}
           submit={this.handleSubmit} />
         <a
-          href='http://www.zendesk.com/?utm_medium=cetoolkit&utm_campaign=embeddables'
+          href={'http://www.zendesk.com/?utm_medium=cetoolkit&utm_campaign=embeddables'}
           target='_blank'
           className='Icon Icon--zendesk u-posAbsolute u-posStart'>
           <span className='u-isHiddenVisually'>zendesk</span>
