@@ -1,13 +1,17 @@
+import { document } from 'util/globals';
 require('imports?_=lodash!lodash');
 
 var superagent = require('superagent'),
-    config = {
-      scheme: 'https',
-      snowflakeHost: 'zensnow.herokuapp.com'
-    };
+    config;
 
 function init(_config) {
-  config = _.extend(config, _config);
+  var protocol = document.location.protocol.replace(':', ''),
+      defaultConfig = {
+        scheme: protocol,
+        snowflakeHost: 'zensnow.herokuapp.com'
+      };
+
+  config = _.extend(defaultConfig, _config);
 }
 
 function send(payload) {
@@ -47,8 +51,8 @@ function bustCache() {
       scriptSrc,
       updateUrl,
       updatePath = [
-        'update.html?', 
-        (new Date()).getTime(), 
+        'update.html?',
+        (new Date()).getTime(),
         '#placeholder-commit-hash'
       ].join('');
 

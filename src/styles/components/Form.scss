@@ -11,11 +11,12 @@ $Form-field-border-radius: 4px;
   margin: 0;
 }
 
-.Form-legend {
-  font-size: #{14/$font-size}rem;
+.rf-Form {
+  margin-bottom: #{18/$font-size}rem;
 }
 
-.rf-Fieldset {
+.Form-legend {
+  font-size: #{14/$font-size}rem;
 }
 
 .rf-Field {
@@ -37,6 +38,10 @@ $Form-field-border-radius: 4px;
       appearance: none;
       outline: none;
     }
+  }
+
+  &:last-child {
+    margin-bottom: 0;
   }
 }
 

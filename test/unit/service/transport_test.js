@@ -1,21 +1,31 @@
 describe('transport', function() {
   var transport,
-      mockMethods = {
-          type: function() { return mockMethods; },
-          send: function() { return mockMethods; },
-          query: function() { return mockMethods; },
-          end:  function() { return mockMethods; }
-      },
-      mockSuperagent = jasmine.createSpy().andCallFake(function() {
-        return mockMethods;
-      }),
+      mockMethods,
+      mockRegistry,
       transportPath = buildSrcPath('service/transport');
 
   beforeEach(function() {
-    mockery.enable();
-
-    mockery.registerMock('superagent', mockSuperagent);
-    mockery.registerMock('imports?_=lodash!lodash', _);
+    mockery.enable({useCleanCache: true});
+    mockMethods = {
+        type: function() { return mockMethods; },
+        send: function() { return mockMethods; },
+        query: function() { return mockMethods; },
+        end:  function() { return mockMethods; }
+    };
+    mockRegistry = initMockRegistry({
+      'react/addons': React,
+      'util/globals': {
+        document: {
+          location: {
+            protocol: 'http:'
+          }
+        }
+      },
+      'superagent': jasmine.createSpy().andCallFake(function() {
+          return mockMethods;
+      }),
+      'imports?_=lodash!lodash': _
+    });
 
     mockery.registerAllowable(transportPath);
     transport = require(transportPath).transport;
@@ -27,11 +37,6 @@ describe('transport', function() {
   });
 
   describe('#init', function() {
-
-    var configDefaults = {
-          scheme: 'https',
-          snowflakeHost: 'zensnow.herokuapp.com'
-        };
 
     beforeEach(function() {
       spyOn(_, 'extend').andCallThrough();
@@ -46,9 +51,6 @@ describe('transport', function() {
       recentCall = _.extend.mostRecentCall;
 
       // verifying config defaults
-      expect(recentCall.args[0])
-        .toEqual(configDefaults);
-
       expect(recentCall.args[1])
         .toBeUndefined();
     });
@@ -102,6 +104,21 @@ describe('transport', function() {
     });
 
     it('sets the correct http method and url on superagent', function() {
+      var mockSuperagent = mockRegistry.superagent;
+
+      transport.init(config);
+      transport.send(payload);
+
+      expect(mockSuperagent)
+        .toHaveBeenCalledWith(
+          'GET',
+          'http://zensnow.herokuapp.com/test/path');
+    });
+
+    it('should respect host page protocol', function() {
+      var mockSuperagent = mockRegistry.superagent;
+
+      mockRegistry['util/globals'].document.location.protocol = 'https:';
 
       transport.init(config);
       transport.send(payload);
