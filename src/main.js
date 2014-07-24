@@ -7,6 +7,8 @@ import { win       } from 'util/globals';
 require('imports?_=lodash!lodash');
 
 function boot() {
+  var publicApi;
+
   React.initializeTouchEvents(true);
 
   transport.bustCache();
@@ -14,14 +16,20 @@ function boot() {
   transport.init({ zendeskHost: document.zendeskHost });
   beacon.init().send();
 
-  win.Zd = module.exports = {
+  publicApi = {
     devRender: renderer.init,
     bustCache: transport.bustCache
   };
 
-  _.each(document.ZdQueue, function(item) {
+  if (win.zE === win.zEmbed) {
+    win.zE = win.zEmbed = publicApi;
+  } else {
+    win.zEmbed = publicApi;
+  }
+  
+  _.each(document.zEQueue, function(item) {
     if (item[0] === 'ready') {
-      item[1](win.Zd);
+      item[1](win.zEmbed);
     }
   });
 
