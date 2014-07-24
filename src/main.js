@@ -14,8 +14,7 @@ function boot() {
   transport.init({ zendeskHost: document.zendeskHost });
   beacon.init().send();
 
-  win.Zd = module.exports = {
-  win.zEmbed = module.exports = {
+  win.zEmbed = {
     devRender: renderer.init,
     bustCache: transport.bustCache
   };
