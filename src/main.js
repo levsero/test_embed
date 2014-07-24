@@ -15,13 +15,16 @@ function boot() {
   beacon.init().send();
 
   win.Zd = module.exports = {
+  win.zEmbed = module.exports = {
     devRender: renderer.init,
     bustCache: transport.bustCache
   };
 
-  _.each(document.ZdQueue, function(item) {
+  win.zE = win.zE || win.zEmbed;
+  
+  _.each(document.zEQueue, function(item) {
     if (item[0] === 'ready') {
-      item[1](win.Zd);
+      item[1](win.zEmbed);
     }
   });
 

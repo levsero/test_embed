@@ -1,9 +1,13 @@
 describe('main.js', function() {
   var root = window.top,
-      Zd   = root.Zd;
+      zEmbed = root.zEmbed,
+      zE = root.zE;
 
-  it('should export to the global Zd namespace', function() {
-    expect(Zd)
+  it('should export to the global namespace', function() {
+    expect(zE)
+      .toBeDefined();
+
+    expect(zEmbed)
       .toBeDefined();
   });
 
