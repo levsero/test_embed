@@ -10,8 +10,8 @@ export var submitTicketSchema = (
   /* jshint quotmark:false */
   <Schema>
     <IconField
-      name='fullname'
-      ref='fullname'
+      name='name'
+      ref='name'
       icon='avatar'
       placeholder='Your name'
     />
