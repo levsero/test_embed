@@ -35,6 +35,7 @@ export var SubmitTicket = React.createClass({
     var tags = ['DROPBOX', 'CEToolkit'].join(' '),
         formParams = _.extend({
           'set_tags': tags,
+          'via_id': 17,
           'submitted_from': win.location.href
         }, data.value),
         resCallback = (msg) => {
