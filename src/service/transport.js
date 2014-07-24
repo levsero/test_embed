@@ -1,11 +1,11 @@
-import { document } from 'util/globals';
+import { document as doc } from 'util/globals';
 require('imports?_=lodash!lodash');
 
 var superagent = require('superagent'),
     config;
 
 function init(_config) {
-  var protocol = document.location.protocol.replace(':', ''),
+  var protocol = doc.location.protocol.replace(':', ''),
       defaultConfig = {
         scheme: protocol,
         snowflakeHost: 'zensnow.herokuapp.com'
