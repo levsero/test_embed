@@ -55,8 +55,9 @@ function create(name, config) {
       style: iframeStyle,
       css: launcherCSS,
       extend: {
-        onClickHandler: function() {
+        onClickHandler: function(e) {
           var isActive = !this.getChild().refs.launcher.state.message;
+          e.preventDefault();
 
           config.onClick(isActive);
           beacon.track('launcher', 'click', name);

@@ -97,6 +97,7 @@ describe('embed.launcher', function() {
             },
             onClickHandler: jasmine.createSpy()
           },
+          eventObj = jasmine.createSpyObj('e', ['preventDefault']),
           mockFrameFactoryRecentCall,
           childFn,
           payload,
@@ -126,7 +127,7 @@ describe('embed.launcher', function() {
 
       childParams = mockFrameFactoryRecentCall[1];
 
-      childParams.extend.onClickHandler.bind(mockFrameFactoryScope)();
+      childParams.extend.onClickHandler.bind(mockFrameFactoryScope, eventObj)();
 
       expect(config.onClick.callCount)
         .toEqual(1);
