@@ -66,6 +66,7 @@ function render(name) {
 
   /* jshint maxlen: false   */
   /* jshint quotmark: false */
+  /* jshint laxbreak: true */
   snippet = "window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s= d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set. _.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute('charset','utf-8'); $.src='//v2.zopim.com/?<%= zopimId %>';z.t=+new Date;$. type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');$zopim(function(){"
           + "$zopim.livechat.hideAll();"
           + "$zopim.livechat.clearAll();"
@@ -87,6 +88,7 @@ export var chat  = {
   list: list,
   get: get,
   show: show,
+  hide: hide,
   toggleVisibility: toggleVisibility,
   render: render
 };
