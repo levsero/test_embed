@@ -20,6 +20,7 @@
   font-variant: normal;
   text-transform: none;
   font-size: #{16/$font-size}rem;
+  width: #{20/$font-size}rem;
   min-width: #{20/$font-size}rem;
   line-height: 1;
   padding-right: #{8/$font-size}rem;
@@ -69,7 +70,7 @@
 }
 
 .Icon--tick {
-  border: 1px solid $icon-color;
+  border: #{1/$font-size} solid $icon-color;
   padding: #{20/$font-size}rem;
   margin-bottom: #{15/$font-size}rem;
   border-radius: 50%;

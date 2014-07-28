@@ -3,18 +3,16 @@
 $Container-spacing: 20/$font-size;
 $Container--popover-arrowFullWidth: 20;
 $Container--popover-arrowWidth: $Container--popover-arrowFullWidth/2;
-$Container--popover-shadowSpread: 15px;
 
 .Container {
   padding: #{$Container-spacing}rem;
 }
 
 .Container--popover {
-  border-radius: 8px;
-  border: 1px solid #dbdbdb;
-  box-shadow: 1px 1px $Container--popover-shadowSpread rgba(0, 0, 0, .1);
-  margin: $Container--popover-shadowSpread;
-  background: #FFFFFF;
+  border-radius: #{8/$font-size}rem;
+  border: #{1/$font-size}rem solid $stroke-color;
+  box-shadow: 0 0 #{6/$font-size}rem 0 rgba($base-shadow, .1);
+  background: $base-color;
 
   &:after, &:before {
     top: 100%;
@@ -28,15 +26,15 @@ $Container--popover-shadowSpread: 15px;
   }
 
   &:after {
-    border-color: rgba(255, 255, 255, 0);
-    border-top-color: #fff;
+    border-color: transparent;
+    border-top-color: $base-color;
     border-width: #{$Container--popover-arrowWidth}px;
     margin-left: -#{$Container--popover-arrowWidth}px;
   }
 
   &:before {
-    border-color: rgba(219, 219, 219, 0);
-    border-top-color: #dbdbdb;
+    border-color: transparent;
+    border-top-color: $stroke-color;
     border-width: #{($Container--popover-arrowWidth + 1)}px;
     margin-left: -#{($Container--popover-arrowWidth + 1)}px;
   }

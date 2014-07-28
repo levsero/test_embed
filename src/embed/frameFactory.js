@@ -1,10 +1,13 @@
 /** @jsx React.DOM */
-module React from 'react'; /* jshint ignore:line */
+module React from 'react';
+import { getSizingRatio } from 'util/devices';
 
 require('imports?_=lodash!lodash');
 
 var baseCSS = require('baseCSS'),
-    mainCSS = require('mainCSS');
+    mainCSS = require('mainCSS'),
+    sizingRatio = 12 * getSizingRatio(), /* jshint ignore:line */
+    baseFontCSS = `html { font-size: ${sizingRatio}px }`;
 
 function validateChildFn(childFn, params) {
   if (!_.isFunction(childFn)) {
@@ -133,7 +136,7 @@ export var frameFactory = function(childFn, _params) {
       // In order for iframe correctly render in some browsers
       // we need to do it on nextTick
       if (doc.readyState === 'complete') {
-        var cssText = baseCSS + mainCSS + params.css,
+        var cssText = baseCSS + mainCSS + params.css + baseFontCSS,
             css = <style dangerouslySetInnerHTML={{ __html: cssText }} />,
             Component,
             childParams;
