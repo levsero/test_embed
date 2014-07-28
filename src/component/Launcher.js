@@ -32,7 +32,8 @@ export var Launcher = React.createClass({
   },
 
   render: function() {
-    var buttonClasses = classSet({
+    var displayIcon,
+        buttonClasses = classSet({
           'Button Button--launcher Button--cta': true,
           'Arrange Arrange--middle': true,
           'u-isActionable u-textLeft u-inlineBlock u-textNoWrap': true,
@@ -41,7 +42,7 @@ export var Launcher = React.createClass({
         iconClasses = classSet({
           // spaces needed for class concatenation
           'Arrange-sizeFit Icon u-textInheritColor ': true,
-          'Icon--active u-block ': !this.state.message
+          'Icon--active u-block Icon--cross ': !this.state.message
         }),
         messageClasses = classSet({
           'u-textInheritColor': true,
@@ -52,12 +53,17 @@ export var Launcher = React.createClass({
       setTimeout( () => this.props.updateFrameSize(5, 0), 0);
     }
 
+    /* jshint laxbreak:true */
+    displayIcon = (this.state.message)
+                ? this.state.icon
+                : '';
+
     return (
       /* jshint quotmark: false */
       <div className={buttonClasses}
         onClick={this.props.onClick}
         onTouchEnd={this.props.onClick}>
-        <i className={iconClasses + this.state.icon} />
+        <i className={iconClasses + displayIcon} />
         <span className={messageClasses}>{this.state.message}</span>
       </div>
     );

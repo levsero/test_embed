@@ -70,6 +70,13 @@ function render(name) {
   */
   var zopimId = get(name).config.zopimId,
       scriptTag,
+      onChange = function(status) {
+        if(status === 'online') {
+          get(name).config.changeIcon('icon--chat');
+        } else {
+          get(name).config.changeIcon('icon');
+        }
+      },
       snippet = `
         window.$zopim||
         (function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s= d.createElement(s),e=d.getElementsByTagName(s)[0];
@@ -86,6 +93,11 @@ function render(name) {
   document.body.appendChild(scriptTag);
 
   scriptTag.innerHTML = snippet;
+
+  win.$zopim(function() {
+    win.$zopim.livechat.hideAll();
+    win.$zopim.livechat.setOnStatus(onChange);
+  });
 }
 
 export var chat  = {

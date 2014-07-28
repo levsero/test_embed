@@ -112,10 +112,8 @@ function update(name) {
 
   if (launcher.state.message) {
     setMessage(name, '');
-    setIcon(name, 'Icon--cross');
   } else {
     setMessage(name, 'Help');
-    setIcon(name, 'Icon');
   }
 }
 
