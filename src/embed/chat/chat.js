@@ -52,8 +52,7 @@ function toggleVisibility(name, isActive) {
   win.$zopim(function() {
     if (isActive && win.$zopim.livechat.window.getDisplay()) {
       hide(name);
-    }
-    else {
+    } else {
       show(name);
     }
   });
@@ -77,7 +76,10 @@ function render(name) {
   document.body.appendChild(scriptTag);
 
   scriptTag.innerHTML = _.template(snippet, {zopimId: zopimId});
-  hide(name);
+
+  win.$zopim(function() {
+    win.$zopim.livechat.hideAll();
+  });
 }
 
 export var chat  = {
