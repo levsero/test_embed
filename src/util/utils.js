@@ -29,6 +29,7 @@ function initViewportMeta(active) {
   if (viewportMetas.length > 0) {
     return _.last(viewportMetas);
   } 
+
   else if (active) {
     newViewportMeta = doc.createElement('meta');
     newViewportMeta.setAttribute('name', 'viewport');
@@ -41,6 +42,7 @@ function initViewportMeta(active) {
 function setScaleLock(active) {
   var meta = initViewportMeta(active),
       viewportObj;
+
   if (meta) {
     viewportObj = metaStringToObj(meta.getAttribute('content'));
 
