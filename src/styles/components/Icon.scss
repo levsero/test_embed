@@ -5,15 +5,16 @@
 @import '../_vars.scss';
 
 @font-face {
-  font-family: 'untitled-font-1';
-  src:url('../../asset/font/fonts.eot') format('embedded-opentype'),
-      url('../../asset/font/fonts.woff') format('woff');
+  font-family: 'embed-icon';
+  src:url('../../asset/font/embed-icon.eot') format('embedded-opentype'),
+      url('../../asset/font/embed-icon.woff') format('woff'),
+      url('../../asset/font/embed-icon.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 
 .Icon {
-  font-family: 'untitled-font-1';
+  font-family: 'embed-icon';
   speak: none;
   font-style: normal;
   font-weight: normal;
@@ -46,27 +47,27 @@
 }
 
 .Icon:before {
-  content: 'c';
+  content: '\6a';
 }
 
 .Icon--chat:before {
-  content: 'd';
+  content: '\61';
 }
 
 .Icon--mail:before {
-  content: 'b';
+  content: '\64';
 }
 
 .Icon--avatar:before {
-  content: 'f';
+  content: '\67';
 }
 
 .Icon--msg:before {
-  content: 'd';
+  content: '\66';
 }
 
 .Icon--cross:before {
-  content: 'a';
+  content: '\73';
 }
 
 .Icon--tick {
@@ -77,7 +78,7 @@
   color: $cta-color;
 
   &:before {
-    content: 'e';
+    content: '\68';
   }
 }
 
@@ -90,7 +91,7 @@
   }
 
   &:before {
-    content: 'g';
+    content: '\6b';
     font-size: #{60/$font-size}rem;
   }
 }

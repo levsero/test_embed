@@ -35,8 +35,9 @@ describe('Launcher component', function() {
   });
 
   it('should change the icon when set icon is called', function() {
+    /* jshint quotmark: false */
     var launcher = React.renderComponent(
-          <Launcher />,
+          <Launcher message='help' />,
           global.document.body
         );
 
