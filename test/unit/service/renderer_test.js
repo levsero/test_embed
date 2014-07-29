@@ -1,5 +1,6 @@
 describe('renderer', function() {
   var renderer,
+      mockRegistry,
       mockSubmitTicket,
       mockLauncher,
       mockHelpCenter,
@@ -21,21 +22,22 @@ describe('renderer', function() {
     mockLauncher = embedMocker('mockLauncher');
     mockHelpCenter = embedMocker('mockHelpCenter');
 
-    mockery.registerMock('util/globals', mockGlobals);
-    mockery.registerMock('imports?_=lodash!lodash', _);
-    mockery.registerMock('embed/submitTicket/submitTicket', {
-      submitTicket: mockSubmitTicket
-    });
-
-    mockery.registerMock('embed/launcher/launcher', {
-      launcher: mockLauncher
-    });
-    mockery.registerMock('embed/helpCenter/helpCenter', {
-      helpCenter: mockHelpCenter
-    });
-    mockery.registerMock('embed/chat/chat', {
-      chat: mockChat
-    });
+    mockRegistry = initMockRegistry({
+      'embed/submitTicket/submitTicket': {
+        submitTicket: mockSubmitTicket
+      },
+      'embed/launcher/launcher': {
+        launcher: mockLauncher
+      },
+      'embed/helpCenter/helpCenter': {
+        helpCenter: mockHelpCenter
+      },
+      'embed/chat/chat': {
+        chat: mockChat
+      },
+      'util/globals': mockGlobals,
+      'imports?_=lodash!lodash': _
+    })
 
     mockery.registerAllowable(rendererPath);
     renderer = require(rendererPath).renderer;
@@ -83,6 +85,17 @@ describe('renderer', function() {
                   'name': 'ticketSubmissionForm',
                   'method': 'show'
                 }
+              }
+            },
+            'zopimChat': {
+              'embed': 'chat',
+              'props': {
+                'zopimId': '2EkTn0An31opxOLXuGgRCy5nPnSNmpe6',
+                'position': 'br',
+                'onShow': {
+                  name: 'ticketSubmissionLauncher',
+                  method: 'update'
+                },
               }
             }
           },

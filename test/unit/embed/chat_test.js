@@ -1,5 +1,6 @@
 describe('embed.chat', function() {
   var chat,
+      mockRegistry,
       mockGlobals = {
         document: global.document,
         win: {
@@ -12,8 +13,12 @@ describe('embed.chat', function() {
     resetDOM();
 
     mockery.enable();
-    mockery.registerMock('util/globals', mockGlobals);
-    mockery.registerMock('imports?_=lodash!lodash', _);
+
+    mockRegistry = initMockRegistry({
+      'util/globals': mockGlobals,
+      'imports?_=lodash!lodash': _
+    });
+
     mockery.registerAllowable(chatPath);
     chat = require(chatPath).chat;
   });
