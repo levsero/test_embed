@@ -77,6 +77,5 @@ function parseUrl(url) {
 export { 
   parseUrl, 
   setScaleLock, 
-  metaObjToString, 
   metaStringToObj 
 };

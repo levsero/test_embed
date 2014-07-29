@@ -1,6 +1,5 @@
 describe('util.setScaleLock', function() {
   var setScaleLock,
-      metaObjToString,
       metaStringToObj,
       mockRegistry,
       metaTag,
@@ -22,7 +21,6 @@ describe('util.setScaleLock', function() {
 
     setScaleLock = require(utilPath).setScaleLock;
     metaStringToObj = require(utilPath).metaStringToObj;
-    metaObjToString = require(utilPath).metaObjToString;
     
     metaTag = document.createElement('meta');
     metaTag.name='viewport';
@@ -71,6 +69,7 @@ describe('util.setScaleLock', function() {
 
       expect(viewportContent['user-scalable'])
         .toEqual('no');
+
       expect(viewportContent['initial-scale'])
         .toEqual('1.0');
     });
