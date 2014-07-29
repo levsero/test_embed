@@ -27,5 +27,9 @@ function shouldGoFullscreen() {
   return getSizingRatio() && isMobileBrowser();
 }
 
-export { getSizingRatio, isMobileBrowser, shouldGoFullscreen };
+export {
+  getSizingRatio,
+  isMobileBrowser,
+  shouldGoFullscreen
+};
 
