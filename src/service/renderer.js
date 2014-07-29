@@ -8,7 +8,8 @@ var embedsMap = {
       'launcher':     launcher,
       'helpCenter':   helpCenter
     },
-    initialised = false;
+    initialised = false,
+    renderedEmbeds;
 
 function parseConfig(config) {
   var rendererConfig = _.clone(config, true);
@@ -26,6 +27,8 @@ function parseConfig(config) {
       return result;
     }, {});
   });
+
+  renderedEmbeds = rendererConfig;
 
   return rendererConfig;
 }
@@ -53,6 +56,18 @@ function init(config) {
   initialised = true;
 }
 
+function propagateFontRatio(ratio) {
+  var fontSize = (12 * ratio) + 'px',
+      currentEmbed;
+
+  _.each(renderedEmbeds, function(embed, name) {
+    currentEmbed = embedsMap[embed.embed].get(name).instance;
+    currentEmbed.updateBaseFontSize(fontSize);
+    currentEmbed.updateFrameSize();
+  });
+}
+
 export var renderer = {
-  init: init
+  init: init,
+  propagateFontRatio: propagateFontRatio
 };
