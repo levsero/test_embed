@@ -52,14 +52,35 @@ function hide(name) {
   }
 }
 
-function toggleVisibility(name, isActive) {
+function checkOnline(name) {
+  return get(name).isOnline;
+}
+
+function update(name, isActive) {
   win.$zopim(function() {
     if (isActive && win.$zopim.livechat.window.getDisplay()) {
       hide(name);
     } else {
-      show(name);
+
+      if(checkOnline(name) && !get(name).isForm) {
+        show(name);
+      } else {
+        handleForm(name);
+      }
     }
   });
+}
+
+function handleForm(name) {
+  var chat = get(name);
+
+  if(chat.isForm) {
+    chat.isForm = false;
+    chat.config.updateForm(true);
+  } else {
+    chat.isForm = true;
+    chat.config.updateForm(false);
+  }
 }
 
 function render(name) {
@@ -72,8 +93,10 @@ function render(name) {
       scriptTag,
       onChange = function(status) {
         if(status === 'online') {
+          get(name).isOnline = true;
           get(name).config.changeIcon('icon--chat');
         } else {
+          get(name).isOnline = false;
           get(name).config.changeIcon('icon');
         }
       },
@@ -106,6 +129,6 @@ export var chat  = {
   get: get,
   show: show,
   hide: hide,
-  toggleVisibility: toggleVisibility,
+  update: update,
   render: render
 };

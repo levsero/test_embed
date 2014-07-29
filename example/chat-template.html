@@ -47,6 +47,10 @@
               "changeIcon": {
                 name: "chatLauncher",
                 method: "setIcon"
+              },
+              "updateForm": {
+                name: "ticketSubmissionForm",
+                method: "update"
               }
             }
           },
@@ -56,7 +60,20 @@
               "position": "right",
               "onClick": {
                 name: "zopimChat",
-                method: "toggleVisibility"
+                method: "update"
+              }
+            }
+          },
+          "ticketSubmissionForm": {
+            "embed": "submitTicket",
+            "props": {
+              "onShow": {
+                name: "chatLauncher",
+                method: "update"
+              },
+              "onHide": {
+                name: "chatLauncher",
+                method: "update"
               }
             }
           }
