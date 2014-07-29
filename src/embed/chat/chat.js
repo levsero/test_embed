@@ -23,10 +23,11 @@ function get(name) {
 }
 
 function show(name) {
-  var config = get(name).config;
+  var config = get(name).config,
+      zopim = win.$zopim;
 
-  win.$zopim(function() {
-    var zopimWin = win.$zopim.livechat.window;
+  zopim(function() {
+    var zopimWin = zopim.livechat.window;
 
     zopimWin.setPosition(config.position);
     zopimWin.setOffsetVertical(config.offsetVertical);
@@ -39,10 +40,11 @@ function show(name) {
 }
 
 function hide(name) {
-  var config = get(name).config;
+  var config = get(name).config,
+      zopim = win.$zopim;
 
-  win.$zopim(function() {
-    win.$zopim.livechat.hideAll();
+  zopim(function() {
+    zopim.livechat.hideAll();
   });
 
   if(_.isFunction(config.onHide)) {
