@@ -26,9 +26,11 @@ function show(name) {
   var config = get(name).config;
 
   win.$zopim(function() {
-    win.$zopim.livechat.window.setPosition(config.position);
-    win.$zopim.livechat.window.setOffsetVertical(config.offsetVertical);
-    win.$zopim.livechat.window.show();
+    var zopimWin = win.$zopim.livechat.window;
+
+    zopimWin.setPosition(config.position);
+    zopimWin.setOffsetVertical(config.offsetVertical);
+    zopimWin.show();
   });
 
   if(_.isFunction(config.onShow)) {
@@ -59,31 +61,29 @@ function toggleVisibility(name, isActive) {
 }
 
 function render(name) {
-
-  var zopimId = get(name).config.zopimId,
-      scriptTag,
-      snippet;
-
   /* jshint maxlen: false,
             quotmark: false,
-            laxbreak: true
+            laxbreak: true,
+            unused:false
   */
-  snippet = [
-    "window.$zopim||",
-    "(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s= d.createElement(s),e=d.getElementsByTagName(s)[0];",
-    "z.set=function(o){z.set. _.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute('charset','utf-8'); ",
-    "$.src='//v2.zopim.com/?<%= zopimId %>';",
-    "z.t=+new Date;$. type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');$zopim(function(){",
-    "$zopim.livechat.hideAll();",
-    "$zopim.livechat.clearAll();",
-    "});"
-  ].join('');
+  var zopimId = get(name).config.zopimId,
+      scriptTag,
+      snippet = `
+        window.$zopim||
+        (function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s= d.createElement(s),e=d.getElementsByTagName(s)[0];
+        z.set=function(o){z.set. _.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute('charset','utf-8');
+        $.src='//v2.zopim.com/?${zopimId}';
+        z.t=+new Date;$. type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');$zopim(function(){
+        $zopim.livechat.hideAll();
+        $zopim.livechat.clearAll();
+        });
+      `;
 
   scriptTag = document.createElement('script');
   scriptTag.type='text/javascript';
   document.body.appendChild(scriptTag);
 
-  scriptTag.innerHTML = _.template(snippet, {zopimId: zopimId});
+  scriptTag.innerHTML = snippet;
 }
 
 export var chat  = {

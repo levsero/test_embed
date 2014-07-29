@@ -37,7 +37,7 @@ describe('renderer', function() {
       },
       'util/globals': mockGlobals,
       'imports?_=lodash!lodash': _
-    })
+    });
 
     mockery.registerAllowable(rendererPath);
     renderer = require(rendererPath).renderer;
