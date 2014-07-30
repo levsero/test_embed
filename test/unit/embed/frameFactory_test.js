@@ -26,7 +26,11 @@ describe('frameFactory', function() {
     mockery.registerMock('baseCSS', '.base-css-file {} ');
     mockery.registerMock('mainCSS', '.main-css-file {} ');
     mockery.registerMock('imports?_=lodash!lodash', _);
-
+    mockery.registerMock('util/devices', {
+      getSizingRatio: function() {
+        return 1;
+      }
+    });
     frameFactory = require(frameFactoryPath).frameFactory;
   });
 
