@@ -58,19 +58,23 @@ function checkOnline(name) {
 }
 
 function update(name, isActive) {
-  var zopim = win.$zopim;
+  var zopim = win.$zopim,
+      chat = get(name),
+      config = chat.config;
 
   zopim(function() {
     if (isActive && zopim.livechat.window.getDisplay()) {
       hide(name);
+
       if(get(name).isOnline) {
-        get(name).config.setMessage('Chat');
+        config.setMessage('Chat');
       } else {
-        get(name).config.setMessage('Support');
+        config.setMessage('Support');
       }
+
     } else {
 
-      if(checkOnline(name) && !get(name).isForm) {
+      if(checkOnline(name) && !chat.isForm) {
         show(name);
       } else {
         handleForm(name);
@@ -91,6 +95,14 @@ function handleForm(name) {
   }
 }
 
+function setStatus(name, isOnline, icon, message) {
+  var config = get(name).config;
+
+  get(name).isOnline = isOnline;
+  config.setIcon(icon);
+  config.setMessage(message);
+}
+
 function render(name) {
   /* jshint maxlen: false,
             quotmark: false,
@@ -99,16 +111,11 @@ function render(name) {
   */
   var config = get(name).config,
       zopimId = config.zopimId,
-      scriptTag,
       onChange = function(status) {
         if(status === 'online' && get(name).connected) {
-          get(name).isOnline = true;
-          config.setIcon('icon--chat');
-          config.setMessage('Chat');
+          setStatus(name, true, 'icon--chat', 'Chat');
         } else {
-          get(name).isOnline = false;
-          config.setIcon('icon');
-          config.setMessage('Support');
+          setStatus(name, false, 'icon', 'Support');
         }
       },
       onConnect = function() {
@@ -125,23 +132,28 @@ function render(name) {
         z.set=function(o){z.set. _.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute('charset','utf-8');
         $.src='//v2.zopim.com/?${zopimId}';
         z.t=+new Date;$. type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');$zopim(function(){
-        $zopim.livechat.hideAll();
         $zopim.livechat.clearAll();
         });
-      `;
+      `,
+      scriptTag,
+      zopim;
 
   scriptTag = document.createElement('script');
   scriptTag.type='text/javascript';
   document.body.appendChild(scriptTag);
 
   scriptTag.innerHTML = snippet;
+  zopim = win.$zopim;
 
-  win.$zopim(function() {
-    win.$zopim.livechat.setOnConnected(_.debounce(onConnect, 2500));
-    win.$zopim.livechat.hideAll();
-    win.$zopim.livechat.setOnStatus(onChange);
-    win.$zopim.livechat.theme.setColor(config.color);
-    win.$zopim.livechat.setOnUnreadMsgs(onMsgChange);
+  zopim(function() {
+    var zopimLive = win.$zopim.livechat;
+
+    zopimLive.setOnConnected(_.debounce(onConnect, 2500));
+    zopimLive.hideAll();
+    zopimLive.setOnStatus(onChange);
+    zopimLive.theme.setColor(config.color);
+    zopimLive.theme.setTheme('classic');
+    zopimLive.setOnUnreadMsgs(onMsgChange);
   });
 }
 
