@@ -93,10 +93,10 @@ function update(name, isVisible) {
   var submitTicket = get(name).instance.getChild().refs.submitTicket,
       isSuccessState = submitTicket.state.showNotification;
 
-  if(isVisible) {
+  if (isVisible) {
     hide(name);
 
-    if(isSuccessState) {
+    if (isSuccessState) {
       submitTicket.reset();
     }
   } else {

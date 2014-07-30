@@ -35,7 +35,7 @@ function show(name) {
     zopimWin.show();
   });
 
-  if(_.isFunction(config.onShow)) {
+  if (_.isFunction(config.onShow)) {
     config.onShow();
   }
 }
@@ -48,7 +48,7 @@ function hide(name) {
     zopim.livechat.hideAll();
   });
 
-  if(_.isFunction(config.onHide)) {
+  if (_.isFunction(config.onHide)) {
     config.onHide();
   }
 }
@@ -66,7 +66,7 @@ function update(name, isActive) {
     if (isActive && zopim.livechat.window.getDisplay()) {
       hide(name);
 
-      if(get(name).isOnline) {
+      if (get(name).isOnline) {
         config.setMessage('Chat');
       } else {
         config.setMessage('Support');
@@ -74,7 +74,7 @@ function update(name, isActive) {
 
     } else {
 
-      if(checkOnline(name) && !chat.isForm) {
+      if (checkOnline(name) && !chat.isForm) {
         show(name);
       } else {
         handleForm(name);
@@ -86,7 +86,7 @@ function update(name, isActive) {
 function handleForm(name) {
   var chat = get(name);
 
-  if(chat.isForm) {
+  if (chat.isForm) {
     chat.isForm = false;
     chat.config.updateForm(true);
   } else {
@@ -112,7 +112,7 @@ function render(name) {
   var config = get(name).config,
       zopimId = config.zopimId,
       onChange = function(status) {
-        if(status === 'online' && get(name).connected) {
+        if (status === 'online' && get(name).connected) {
           setStatus(name, true, 'icon--chat', 'Chat');
         } else {
           setStatus(name, false, 'icon', 'Support');
@@ -122,7 +122,7 @@ function render(name) {
         get(name).connected = true;
       },
       onMsgChange = function(number) {
-        if(number > 0) {
+        if (number > 0) {
           config.setMessage(`${number} New`);
         }
       },

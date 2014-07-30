@@ -48,7 +48,7 @@ export var Frame = React.createClass({
   },
 
   componentWillMount: function() {
-    if(!this.props.visible) {
+    if (!this.props.visible) {
       this.hide();
     }
   },
