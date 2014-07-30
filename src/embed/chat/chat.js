@@ -63,6 +63,11 @@ function update(name, isActive) {
   zopim(function() {
     if (isActive && zopim.livechat.window.getDisplay()) {
       hide(name);
+      if(get(name).isOnline) {
+        get(name).config.setMessage('Chat');
+      } else {
+        get(name).config.setMessage('Support');
+      }
     } else {
 
       if(checkOnline(name) && !get(name).isForm) {
@@ -109,6 +114,11 @@ function render(name) {
       onConnect = function() {
         get(name).connected = true;
       },
+      onMsgChange = function(number) {
+        if(number > 0) {
+          config.setMessage(`${number} New`);
+        }
+      },
       snippet = `
         window.$zopim||
         (function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s= d.createElement(s),e=d.getElementsByTagName(s)[0];
@@ -131,6 +141,7 @@ function render(name) {
     win.$zopim.livechat.hideAll();
     win.$zopim.livechat.setOnStatus(onChange);
     win.$zopim.livechat.theme.setColor(config.color);
+    win.$zopim.livechat.setOnUnreadMsgs(onMsgChange);
   });
 }
 
