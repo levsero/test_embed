@@ -1,5 +1,5 @@
 /** @jsx React.DOM */
-module React from 'react';
+module React from 'react/addons';
 import { getSizingRatio } from 'util/devices';
 
 require('imports?_=lodash!lodash');

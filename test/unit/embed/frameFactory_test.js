@@ -3,34 +3,45 @@
 describe('frameFactory', function() {
 
   var frameFactory,
-      mockComponent = React.createClass({
-        render: function() {
-          /* jshint quotmark:false */
-          return <div className='mock-component' />;
-        }
-      }),
-      mockChildFn = function() {
-        return (
-          /* jshint quotmark:false */
-          <mockComponent
-            ref='aliceComponent' />
-        );
-      },
+      mockRegistry,
+      mockComponent,
+      mockChildFn,
       frameFactoryPath = buildSrcPath('embed/frameFactory');
 
   beforeEach(function() {
     resetDOM();
 
-    mockery.enable();
+    mockery.enable({
+      useCleanCache: true
+    });
 
-    mockery.registerMock('baseCSS', '.base-css-file {} ');
-    mockery.registerMock('mainCSS', '.main-css-file {} ');
-    mockery.registerMock('imports?_=lodash!lodash', _);
-    mockery.registerMock('util/devices', {
-      getSizingRatio: function() {
-        return 1;
+    mockRegistry = initMockRegistry({
+      'react/addons': React,
+      'util/devices': {
+        getSizingRatio: function() {
+          return 1;
+        }
+      },
+      'imports?_=lodash!lodash': _,
+      'baseCSS': '.base-css-file {} ',
+      'mainCSS': '.main-css-file {} '
+    });
+
+    mockComponent = React.createClass({
+      render: function() {
+        /* jshint quotmark:false */
+        return <div className='mock-component' />;
       }
     });
+
+    mockChildFn = function() {
+      return (
+        /* jshint quotmark:false */
+        <mockComponent
+          ref='aliceComponent' />
+      );
+    };
+
     frameFactory = require(frameFactoryPath).frameFactory;
   });
 
