@@ -5,7 +5,7 @@
     "React",
     "Zd",
     "_",
-    "before", "after", "noop", "resetDOM", "ReactTestUtils", "jsdom",
+    "before", "after", "noop", "resetDOM", "ReactTestUtils", "jsdom", "dispatchEvent",
     "expect", "it", "describe", "xit", "xdescribe", "beforeEach", "afterEach",
     "jasmine", "spyOn", "runs", "waitsFor", "buildSrcPath", "buildTestPath",
     "basePath", "mockery", "initMockRegistry"
