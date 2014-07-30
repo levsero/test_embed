@@ -63,9 +63,9 @@ function boot() {
   });
 
   function propagateFontRatioChange() {
-      setTimeout(() => {
-        renderer.propagateFontRatio(getSizingRatio(true));
-      }, 0);
+    setTimeout(() => {
+      renderer.propagateFontRatio(getSizingRatio(true));
+    }, 0);
   }
 
   win.addEventListener('touchmove', (e) => {
