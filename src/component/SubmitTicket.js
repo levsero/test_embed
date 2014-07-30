@@ -4,13 +4,18 @@ module React from 'react/addons'; /* jshint ignore:line */
 import { win                } from 'util/globals';
 import { transport          } from 'service/transport';
 import { SubmitTicketForm   } from 'component/SubmitTicketForm';
+import { getSizingRatio, isMobileBrowser } from 'util/devices';
+
 require('imports?_=lodash!lodash');
+
+var classSet = React.addons.classSet;
 
 export var SubmitTicket = React.createClass({
   getInitialState() {
     return {
       showNotification: false,
       message: '',
+      fullscreen: getSizingRatio() > 1 && isMobileBrowser(),
       uid: _.uniqueId('submitTicketForm_')
     };
   },
@@ -43,7 +48,7 @@ export var SubmitTicket = React.createClass({
             showNotification: true,
             message: msg
           });
-          this.props.updateFrameSize();
+          this.props.updateFrameSize(0,0,true);
         },
         payload = {
           method: 'post',
@@ -64,16 +69,23 @@ export var SubmitTicket = React.createClass({
 
   render() {
     var formVisibility = (this.state.showNotification) ? 'u-isHidden' : '',
-        notifyVisibility = (formVisibility) ?  '' : 'u-isHidden';
+        notifyVisibility = (formVisibility) ?  '' : 'u-isHidden',
+        containerClasses = classSet({
+          'Container': true,
+          'Container--popover': !this.state.fullscreen,
+          'Container--fullscreen': this.state.fullscreen,
+          'u-nbfcAlt': true,
+          'u-posRelative': true
+        });
 
     if (this.props.updateFrameSize) {
-      setTimeout( () => this.props.updateFrameSize(0, 10), 0);
+      setTimeout( () => this.props.updateFrameSize(0, 10, true), 0);
     }
 
     return (
       /* jshint quotmark:false */
       <div
-        className='Container Container--popover u-nbfcAlt u-posRelative'
+        className={containerClasses}
         key={this.state.uid}>
         <div className={"Notify u-textCenter " + notifyVisibility }>
           <div className='Icon Icon--tick u-inlineBlock' />

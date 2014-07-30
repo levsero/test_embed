@@ -1,6 +1,7 @@
 /** @jsx React.DOM */
 module React from 'react/addons';
-import { getSizingRatio } from 'util/devices';
+import { win } from 'util/globals';
+import { getSizingRatio, isMobileBrowser } from 'util/devices';
 
 require('imports?_=lodash!lodash');
 
@@ -55,26 +56,48 @@ export var frameFactory = function(childFn, _params) {
       return child;
     },
 
-    updateFrameSize: function(offsetWidth = 0, offsetHeight = 0) {
+    updateFrameSize: function(offsetWidth, offsetHeight, fullscreen) {
       var iframe = this.getDOMNode(),
           frameWin = iframe.contentWindow,
           frameDoc = iframe.contentDocument,
           dimensions;
 
+      offsetWidth = offsetWidth || 0;
+      offsetHeight = offsetHeight || 0;
+      fullscreen = fullscreen || false;
+
       if (!frameDoc.firstChild) {
         return false;
       }
 
-      dimensions = function() {
-        var el = frameDoc.body.firstChild,
-            width  = Math.max(el.clientWidth,  el.offsetWidth),
-            height = Math.max(el.clientHeight, el.offsetHeight);
+      dimensions = ((getSizingRatio() > 1 || isMobileBrowser()) && fullscreen)
+                 ? function() {
+                     var el = frameDoc.body.firstChild,
+                         height  = Math.max(el.clientHeight,  el.offsetHeight);
 
-        return {
-          width:  (_.isFinite(width)  ? width  : 0) + offsetWidth,
-          height: (_.isFinite(height) ? height : 0) + offsetHeight
-        };
-      };
+                     return {
+                       width: '100%',
+                       //height: (_.isFinite(height) ? height : 0),
+                       height: '100%',
+                       bottom:0,
+                       background:'#fff',
+                       zIndex: 5
+                     };
+                   }
+                 : function() {
+                     var el = frameDoc.body.firstChild,
+                     width  = Math.max(el.clientWidth,  el.offsetWidth),
+                     height = Math.max(el.clientHeight, el.offsetHeight);
+
+                     return {
+                       width:  (_.isFinite(width)  ? width  : 0) + offsetWidth,
+                       height: (_.isFinite(height) ? height : 0) + offsetHeight
+                     };
+                   };
+
+      if (fullscreen) {
+        frameDoc.body.firstChild.setAttribute('style', 'height:100%; overflow:scroll; -webkit-overflow-scrolling: touch');
+      }
 
       frameWin.setTimeout( () => this.setState({iframeDimensions: dimensions()}), 0);
     },
@@ -84,6 +107,9 @@ export var frameFactory = function(childFn, _params) {
         visible: true
       });
 
+      if (isMobileBrowser()) {
+        win.scrollBy(0, 0);
+      }
       if (params.onShow) {
         params.onShow();
       }
@@ -103,14 +129,15 @@ export var frameFactory = function(childFn, _params) {
       /* jshint laxbreak: true */
       var visibilityRule = (this.state.visible)
                          ? {visibility: 'visible'}
-                         : {visibility: 'hidden'},
+                         : {visibility: 'hidden', top: '-9999px'},
           iframeStyle = _.extend(
-            { border: 'none', background: 'transparent !important' },
+            { border: 'none', background: 'transparent' },
             params.style,
             visibilityRule,
             this.state.iframeDimensions
           );
 
+      console.log(iframeStyle);
           return (
             <iframe style={iframeStyle} />
           );
