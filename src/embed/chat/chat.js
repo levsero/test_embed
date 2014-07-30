@@ -6,6 +6,7 @@ var chats = {};
 function create(name, config) {
   var configDefaults = {
     position: 'br',
+    color: '#78A300',
     offsetVertical: 70
   };
 
@@ -89,16 +90,19 @@ function render(name) {
             laxbreak: true,
             unused:false
   */
-  var zopimId = get(name).config.zopimId,
+  var config = get(name).config,
       scriptTag,
       onChange = function(status) {
-        if(status === 'online') {
+        if(status === 'online' && get(name).connected) {
           get(name).isOnline = true;
           get(name).config.changeIcon('icon--chat');
         } else {
           get(name).isOnline = false;
           get(name).config.changeIcon('icon');
         }
+      },
+      onConnect = function() {
+        get(name).connected = true;
       },
       snippet = `
         window.$zopim||
@@ -118,8 +122,10 @@ function render(name) {
   scriptTag.innerHTML = snippet;
 
   win.$zopim(function() {
+    win.$zopim.livechat.setOnConnected(_.debounce(onConnect, 2500));
     win.$zopim.livechat.hideAll();
     win.$zopim.livechat.setOnStatus(onChange);
+    win.$zopim.livechat.theme.setColor(config.color);
   });
 }
 
