@@ -58,8 +58,10 @@ function checkOnline(name) {
 }
 
 function update(name, isActive) {
-  win.$zopim(function() {
-    if (isActive && win.$zopim.livechat.window.getDisplay()) {
+  var zopim = win.$zopim;
+
+  zopim(function() {
+    if (isActive && zopim.livechat.window.getDisplay()) {
       hide(name);
     } else {
 
@@ -91,14 +93,17 @@ function render(name) {
             unused:false
   */
   var config = get(name).config,
+      zopimId = config.zopimId,
       scriptTag,
       onChange = function(status) {
         if(status === 'online' && get(name).connected) {
           get(name).isOnline = true;
-          get(name).config.changeIcon('icon--chat');
+          config.setIcon('icon--chat');
+          config.setMessage('Chat');
         } else {
           get(name).isOnline = false;
-          get(name).config.changeIcon('icon');
+          config.setIcon('icon');
+          config.setMessage('Support');
         }
       },
       onConnect = function() {

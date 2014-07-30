@@ -14,7 +14,7 @@ function create(name, config) {
   var configDefaults = {
         onClick: function() {},
         position: 'right',
-        message: 'Help',
+        message: 'Support',
         icon: 'Icon--help'
       },
       base = {
@@ -56,7 +56,7 @@ function create(name, config) {
       css: launcherCSS,
       extend: {
         onClickHandler: function(e) {
-          var isActive = !this.getChild().refs.launcher.state.message;
+          var isActive = !this.getChild().refs.launcher.state.display;
           e.preventDefault();
 
           config.onClick(isActive);
@@ -110,11 +110,7 @@ function setMessage(name, message) {
 function update(name) {
   var launcher = getChildRefs(name).launcher;
 
-  if (launcher.state.message) {
-    setMessage(name, '');
-  } else {
-    setMessage(name, 'Help');
-  }
+  launcher.setDisplay(!launcher.state.display);
 }
 
 export var launcher = {
@@ -125,6 +121,7 @@ export var launcher = {
   hide: hide,
   show: show,
   setIcon: setIcon,
+  setMessage: setMessage,
   update: update
 };
 

@@ -15,8 +15,15 @@ export var Launcher = React.createClass({
   getInitialState: function() {
     return {
       icon: this.props.icon,
-      message: this.props.message
+      message: this.props.message,
+      display: true
     };
+  },
+
+  setDisplay: function(value) {
+    this.setState({
+      display: value
+    });
   },
 
   setMessage: function(message) {
@@ -33,20 +40,21 @@ export var Launcher = React.createClass({
 
   render: function() {
     var displayIcon,
+        displayMessage,
         buttonClasses = classSet({
           'Button Button--launcher Button--cta': true,
           'Arrange Arrange--middle': true,
           'u-isActionable u-textLeft u-inlineBlock u-textNoWrap': true,
-          'Button--launcherActive': !this.state.message
+          'Button--launcherActive': !this.state.display
         }),
         iconClasses = classSet({
           // spaces needed for class concatenation
           'Arrange-sizeFit Icon u-textInheritColor ': true,
-          'Icon--active u-block Icon--cross ': !this.state.message
+          'Icon--active u-block Icon--cross ': !this.state.display
         }),
         messageClasses = classSet({
           'u-textInheritColor': true,
-          'Arrange-sizeFit': this.state.message
+          'Arrange-sizeFit': this.state.display
         });
 
     if (this.props.updateFrameSize) {
@@ -54,8 +62,11 @@ export var Launcher = React.createClass({
     }
 
     /* jshint laxbreak:true */
-    displayIcon = (this.state.message)
+    displayIcon = (this.state.display)
                 ? this.state.icon
+                : '';
+    displayMessage = (this.state.display)
+                ? this.state.message
                 : '';
 
     return (
@@ -64,7 +75,7 @@ export var Launcher = React.createClass({
         onClick={this.props.onClick}
         onTouchEnd={this.props.onClick}>
         <i className={iconClasses + displayIcon} />
-        <span className={messageClasses}>{this.state.message}</span>
+        <span className={messageClasses}>{displayMessage}</span>
       </div>
     );
   }
