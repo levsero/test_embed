@@ -21,6 +21,7 @@ describe('renderer', function() {
     mockSubmitTicket = embedMocker('mockSubmitTicket');
     mockLauncher = embedMocker('mockLauncher');
     mockHelpCenter = embedMocker('mockHelpCenter');
+    mockChat = embedMocker('mockChat');
 
     mockRegistry = initMockRegistry({
       'embed/submitTicket/submitTicket': {
@@ -109,6 +110,9 @@ describe('renderer', function() {
 
       expect(mockHelpCenter.create)
         .toHaveBeenCalledWith('helpCenterForm', jasmine.any(Object));
+
+      expect(mockChat.create)
+        .toHaveBeenCalledWith('zopimChat', jasmine.any(Object));
 
       expect(mockLauncher.create.callCount)
         .toBe(2);
