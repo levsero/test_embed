@@ -20,11 +20,7 @@ export var SubmitTicket = React.createClass({
 
     this.setState({showNotification: false});
     submitTicketForm.refs.form.updateValue([null]);
-    submitTicketForm.setState({
-      buttonMessage: 'Send',
-      isSubmitting: false,
-      isValid: false
-    });
+    submitTicketForm.setState(submitTicketForm.getInitialState());
   },
 
   showField: function() {
