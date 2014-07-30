@@ -28,7 +28,7 @@ function initViewportMeta(active) {
 
   if (viewportMetas.length > 0) {
     return _.last(viewportMetas);
-  } 
+  }
 
   else if (active) {
     newViewportMeta = doc.createElement('meta');
@@ -61,7 +61,7 @@ function setScaleLock(active) {
         delete viewportObj['original-user-scalable'];
       }
     }
-     
+
     meta.setAttribute('content', metaObjToString(viewportObj));
   }
 }
@@ -74,8 +74,8 @@ function parseUrl(url) {
 }
 
 
-export { 
-  parseUrl, 
-  setScaleLock, 
-  metaStringToObj 
+export {
+  parseUrl,
+  setScaleLock,
+  metaStringToObj
 };

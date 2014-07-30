@@ -21,7 +21,7 @@ describe('util.setScaleLock', function() {
 
     setScaleLock = require(utilPath).setScaleLock;
     metaStringToObj = require(utilPath).metaStringToObj;
-    
+
     metaTag = document.createElement('meta');
     metaTag.name='viewport';
 
@@ -94,7 +94,7 @@ describe('util.setScaleLock', function() {
       var viewportContent;
       metaTag.content = 'original-user-scalable=no, user-scalable=NO_CHANGE';
       document.head.appendChild(metaTag);
-      
+
       setScaleLock(true);
 
       viewportContent = metaStringToObj(metaTag.content);
@@ -107,7 +107,7 @@ describe('util.setScaleLock', function() {
       var viewportContent;
       metaTag.content = 'user-scalable=SAVE_ME';
       document.head.appendChild(metaTag);
-      
+
       setScaleLock(true);
 
       viewportContent = metaStringToObj(metaTag.content);
@@ -123,7 +123,7 @@ describe('util.setScaleLock', function() {
 
   describe('setScaleLock(false)', function() {
 
-    it('does not add a <meta name="viewport" /> tag if one does not exists', function() {
+    it('does not add a <meta name="viewport" /> tag if one does not exist', function() {
       expect(document.querySelectorAll('meta[name="viewport"]').length)
         .toEqual(0);
 
@@ -137,7 +137,7 @@ describe('util.setScaleLock', function() {
       var viewportContent;
       metaTag.content = 'user-scalable=NO_CHANGE';
       document.head.appendChild(metaTag);
-      
+
       setScaleLock(false);
 
       viewportContent = metaStringToObj(metaTag.content);
@@ -150,28 +150,26 @@ describe('util.setScaleLock', function() {
       var viewportContent;
       metaTag.content = 'original-user-scalable=ORIGINAL_VALUE, user-scalable=no';
       document.head.appendChild(metaTag);
-      
+
       setScaleLock(false);
 
       viewportContent = metaStringToObj(metaTag.content);
 
       expect(viewportContent['user-scalable'])
         .toEqual('ORIGINAL_VALUE');
-
     });
 
     it('unsets `original-user-scalable`', function() {
       var viewportContent;
       metaTag.content = 'original-user-scalable=ORIGINAL_VALUE, user-scalable=no';
       document.head.appendChild(metaTag);
-      
+
       setScaleLock(false);
 
       viewportContent = metaStringToObj(metaTag.content);
 
       expect(viewportContent['original-user-scalable'])
         .toBeUndefined();
-
     });
 
   });
