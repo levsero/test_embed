@@ -16,8 +16,11 @@ export var SubmitTicket = React.createClass({
   },
 
   reset() {
+    var submitTicketForm = this.refs.submitTicketForm;
+
     this.setState({showNotification: false});
-    this.refs.submitTicketForm.refs.form.updateValue([null]);
+    submitTicketForm.refs.form.updateValue([null]);
+    submitTicketForm.setState(submitTicketForm.getInitialState());
   },
 
   showField: function() {
