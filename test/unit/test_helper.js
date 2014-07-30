@@ -34,6 +34,7 @@ global.noop = function() {};
 console.warn = console.error = noop;
 
 global.resetDOM = function() {
+  global.document.head.innerHTML = '';
   global.document.body.innerHTML = '';
 };
 
