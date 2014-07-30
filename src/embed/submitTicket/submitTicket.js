@@ -4,6 +4,7 @@ module React from 'react'; /* jshint ignore:line */
 import { document     } from 'util/globals';
 import { SubmitTicket } from 'component/SubmitTicket';
 import { frameFactory } from 'embed/frameFactory';
+import { setScaleLock } from 'util/utils';
 
 var submitTicketCSS = require('./submitTicket.scss'),
     submitTickets = {};
@@ -78,10 +79,12 @@ function list() {
 }
 
 function show(name) {
+  setScaleLock(true);
   get(name).instance.show();
 }
 
 function hide(name) {
+  setScaleLock(false);
   get(name).instance.hide();
 }
 
