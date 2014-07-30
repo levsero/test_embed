@@ -1,8 +1,10 @@
 describe('renderer', function() {
   var renderer,
+      mockRegistry,
       mockSubmitTicket,
       mockLauncher,
       mockHelpCenter,
+      mockChat,
       mockGlobals = {
         win: {},
         document: {}
@@ -19,19 +21,23 @@ describe('renderer', function() {
     mockSubmitTicket = embedMocker('mockSubmitTicket');
     mockLauncher = embedMocker('mockLauncher');
     mockHelpCenter = embedMocker('mockHelpCenter');
+    mockChat = embedMocker('mockChat');
 
-    mockery.registerMock('util/globals', mockGlobals);
-    mockery.registerMock('imports?_=lodash!lodash', _);
-    mockery.registerMock('embed/submitTicket/submitTicket', {
-      submitTicket: mockSubmitTicket
-    });
-
-    mockery.registerMock('embed/launcher/launcher', {
-      launcher: mockLauncher
-    });
-
-    mockery.registerMock('embed/helpCenter/helpCenter', {
-      helpCenter: mockHelpCenter
+    mockRegistry = initMockRegistry({
+      'embed/submitTicket/submitTicket': {
+        submitTicket: mockSubmitTicket
+      },
+      'embed/launcher/launcher': {
+        launcher: mockLauncher
+      },
+      'embed/helpCenter/helpCenter': {
+        helpCenter: mockHelpCenter
+      },
+      'embed/chat/chat': {
+        chat: mockChat
+      },
+      'util/globals': mockGlobals,
+      'imports?_=lodash!lodash': _
     });
 
     mockery.registerAllowable(rendererPath);
@@ -81,6 +87,17 @@ describe('renderer', function() {
                   'method': 'show'
                 }
               }
+            },
+            'zopimChat': {
+              'embed': 'chat',
+              'props': {
+                'zopimId': '2EkTn0An31opxOLXuGgRCy5nPnSNmpe6',
+                'position': 'br',
+                'onShow': {
+                  name: 'ticketSubmissionLauncher',
+                  method: 'update'
+                },
+              }
             }
           },
           launcherProps = configJSON.ticketSubmissionLauncher.props,
@@ -93,6 +110,9 @@ describe('renderer', function() {
 
       expect(mockHelpCenter.create)
         .toHaveBeenCalledWith('helpCenterForm', jasmine.any(Object));
+
+      expect(mockChat.create)
+        .toHaveBeenCalledWith('zopimChat', jasmine.any(Object));
 
       expect(mockLauncher.create.callCount)
         .toBe(2);
