@@ -68,12 +68,12 @@ export var SubmitTicket = React.createClass({
   render() {
     var formVisibility = (this.state.showNotification) ? 'u-isHidden' : '',
         notifyVisibility = (formVisibility) ?  '' : 'u-isHidden',
-        marketingUrl = ['//www.zendesk.com/lp/just-one-click/',
-                   '?utm_source=launcher&utm_medium=poweredbyzendesk&utm_campaign=text'
-                  ].join(''),
         logoUrl = ['//www.zendesk.com/lp/just-one-click/',
                    '?utm_source=launcher&utm_medium=poweredbyzendesk&utm_campaign=image'
-                  ].join('');
+                  ].join(''),
+        marketingUrl = ['//www.zendesk.com/lp/just-one-click/',
+                        '?utm_source=launcher&utm_medium=poweredbyzendesk&utm_campaign=text'
+                       ].join('');
 
     if (this.props.updateFrameSize) {
       setTimeout( () => this.props.updateFrameSize(0, 10), 0);
