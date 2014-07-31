@@ -15,7 +15,7 @@ export var SubmitTicket = React.createClass({
     return {
       showNotification: false,
       message: '',
-      fullscreen: getSizingRatio() > 1 && isMobileBrowser(),
+      fullscreen: isMobileBrowser(),
       uid: _.uniqueId('submitTicketForm_')
     };
   },

@@ -19,7 +19,8 @@ describe('Submit ticket component', function() {
           fail: noop
         }
       },
-      submitTicketPath = buildSrcPath('component/SubmitTicket');
+      submitTicketPath = buildSrcPath('component/SubmitTicket'),
+      mockGetSizingRatio;
 
   beforeEach(function() {
 
@@ -35,6 +36,10 @@ describe('Submit ticket component', function() {
       }
     });
 
+    mockGetSizingRatio = function() {
+      return 1;
+    };
+
     mockRegistry = initMockRegistry({
       'react/addons': React,
       'util/globals': { win: window },
@@ -43,7 +48,7 @@ describe('Submit ticket component', function() {
           return 1;
         },
         isMobileBrowser: function() {
-          return true;
+          return false;
         }
       },
       'component/SubmitTicketForm': {
@@ -153,4 +158,149 @@ describe('Submit ticket component', function() {
     expect(notificationElem.props.className)
       .not.toContain('u-isHidden');
   });
+
+  describe('fullscreen state', function() {
+    it('should be true if isMobileBrowser() is true', function() {
+
+      mockRegistry['util/devices'].isMobileBrowser = function() {
+        return true;
+      };
+
+      mockery.resetCache();
+      SubmitTicket = require(submitTicketPath).SubmitTicket;
+
+      var submitTicket = React.renderComponent(
+          <SubmitTicket />,
+        global.document.body
+      );
+      
+      expect(submitTicket.state.fullscreen)
+        .toEqual(true);
+    });
+
+    it('should be false if isMobileBrowser() is false', function() {
+
+      mockRegistry['util/devices'].isMobileBrowser = function() {
+        return false;
+      };
+
+      mockery.resetCache();
+      SubmitTicket = require(submitTicketPath).SubmitTicket;
+
+      var submitTicket = React.renderComponent(
+          <SubmitTicket />,
+        global.document.body
+      );
+      
+      expect(submitTicket.state.fullscreen)
+        .toEqual(false);
+    });
+  });
+
+  describe('container <div> class names', function() {
+    it('should have the `fullscreen` classnames when fullscreen is true', function() {
+
+      var submitTicket = React.renderComponent(
+              <SubmitTicket />,
+            global.document.body
+          ),
+          containerNode = submitTicket.getDOMNode().parentNode.firstChild,
+          containerClasses;
+
+      submitTicket.setState({fullscreen: true});
+
+      containerClasses = containerNode.getAttribute('class');
+
+      expect(containerClasses.indexOf('Container--fullscreen') >= 0)
+        .toEqual(true);
+
+      expect(containerClasses.indexOf('Container--popover'))
+        .toEqual(-1);
+    });
+
+    it('should have the `popover` classnames when fullscreen is false', function() {
+
+      var submitTicket = React.renderComponent(
+              <SubmitTicket />,
+            global.document.body
+          ),
+          containerNode = submitTicket.getDOMNode().parentNode.firstChild,
+          containerClasses;
+
+      submitTicket.setState({fullscreen: false});
+
+      containerClasses = containerNode.getAttribute('class');
+
+      expect(containerClasses.indexOf('Container--popover') >= 0)
+        .toEqual(true);
+
+      expect(containerClasses.indexOf('Container--fullscreen'))
+        .toEqual(-1);
+    });
+
+  });
+
+  describe('logo class names', function() {
+    it('should have the `fullscreen` classnames when fullscreen is true', function() {
+
+      var submitTicket = React.renderComponent(
+              <SubmitTicket />,
+            global.document.body
+          ),
+          logoNode = submitTicket.getDOMNode().parentNode.querySelector('a.Icon--zendesk'),
+          logoClasses;
+
+      submitTicket.setState({fullscreen: true});
+
+      logoClasses = logoNode.getAttribute('class');
+
+      expect(logoClasses.indexOf('u-posAbsolute'))
+        .toEqual(-1);
+
+      expect(logoClasses.indexOf('u-posStart'))
+        .toEqual(-1);
+      
+    });
+
+    it('should not have the `fullscreen` classnames when fullscreen is false', function() {
+
+      var submitTicket = React.renderComponent(
+              <SubmitTicket />,
+            global.document.body
+          ),
+          logoNode = submitTicket.getDOMNode().parentNode.querySelector('a.Icon--zendesk'),
+          logoClasses;
+
+      submitTicket.setState({fullscreen: false});
+
+      logoClasses = logoNode.getAttribute('class');
+
+      expect(logoClasses.indexOf('u-posAbsolute') >= 0)
+        .toEqual(true);
+
+      expect(logoClasses.indexOf('u-posStart') >= 0)
+        .toEqual(true);
+       
+    });
+
+  });
+
+  it('should pass on fullscreen to submitTicketForm', function() {
+    var mostRecentCall,
+        submitTicket,
+        mockSubmitTicketForm = mockRegistry['component/SubmitTicketForm'].SubmitTicketForm;
+
+    submitTicket = React.renderComponent(
+      <SubmitTicket />,
+      global.document.body
+    );
+
+    submitTicket.setState({fullscreen: 'VALUE'});
+    mostRecentCall = mockSubmitTicketForm.mostRecentCall.args[0];
+
+    expect(mostRecentCall.fullscreen)
+      .toEqual('VALUE');
+  });
+    
+
 });
