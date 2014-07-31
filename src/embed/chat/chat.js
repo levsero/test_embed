@@ -157,7 +157,7 @@ function init(name) {
     zopimLive.setOnStatus(onChange);
     zopimLive.setOnUnreadMsgs(onMsgChange);
     zopimLive.theme.setColor(config.color);
-    zopimLive.theme.setTheme('classic');
+    zopimLive.theme.setTheme('zendesk');
   });
 }
 
