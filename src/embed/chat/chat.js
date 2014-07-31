@@ -53,7 +53,7 @@ function hide(name) {
   }
 }
 
-function checkOnline(name) {
+function isOnline(name) {
   return get(name).isOnline;
 }
 
@@ -66,7 +66,7 @@ function update(name, isActive) {
     if (isActive && zopim.livechat.window.getDisplay()) {
       hide(name);
 
-      if (get(name).isOnline) {
+      if (isOnline(name)) {
         config.setLabel('Chat');
       } else {
         config.setLabel('Support');
@@ -74,7 +74,7 @@ function update(name, isActive) {
 
     } else {
 
-      if (checkOnline(name) && !chat.isForm) {
+      if (isOnline(name) && !chat.isForm) {
         show(name);
       } else {
         handleForm(name);
@@ -96,9 +96,10 @@ function handleForm(name) {
 }
 
 function setStatus(name, isOnline, icon, label) {
-  var config = get(name).config;
+  var chat = get(name),
+      config = chat.config;
 
-  get(name).isOnline = isOnline;
+  chat.isOnline = isOnline;
   config.setIcon(icon);
   config.setLabel(label);
 }
@@ -111,14 +112,11 @@ function render(name) {
         (function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s= d.createElement(s),e=d.getElementsByTagName(s)[0];
         z.set=function(o){z.set. _.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute('charset','utf-8');
         $.src='//v2.zopim.com/?${zopimId}';
-        z.t=+new Date;$. type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');$zopim(function(){
-        $zopim.livechat.clearAll();
-        });
+        z.t=+new Date;$. type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');
       `,
       scriptTag;
 
   scriptTag = document.createElement('script');
-  scriptTag.type='text/javascript';
   document.body.appendChild(scriptTag);
 
   scriptTag.innerHTML = snippet;
@@ -128,16 +126,17 @@ function render(name) {
 
 function init(name) {
   var zopim = win.$zopim,
-      config = get(name).config,
+      chat = get(name),
+      config = chat.config,
       onChange = function(status) {
-        if (status === 'online' && get(name).connected) {
+        if (status === 'online' && chat.connected) {
           setStatus(name, true, 'icon--chat', 'Chat');
         } else {
           setStatus(name, false, 'icon', 'Support');
         }
       },
       onConnect = function() {
-        get(name).connected = true;
+        chat.connected = true;
       },
       onMsgChange = function(number) {
         if (number > 0) {
@@ -148,12 +147,17 @@ function init(name) {
   zopim(function() {
     var zopimLive = win.$zopim.livechat;
 
+    // TODO: once zopim api is updated the debounce
+    // shouldn't be needed and we can remove it.
     zopimLive.setOnConnected(_.debounce(onConnect, 2500));
+
     zopimLive.hideAll();
+    zopimLive.clearAll();
+
     zopimLive.setOnStatus(onChange);
+    zopimLive.setOnUnreadMsgs(onMsgChange);
     zopimLive.theme.setColor(config.color);
     zopimLive.theme.setTheme('classic');
-    zopimLive.setOnUnreadMsgs(onMsgChange);
   });
 }
 
