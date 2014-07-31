@@ -28,8 +28,6 @@ function parseConfig(config) {
     }, {});
   });
 
-  renderedEmbeds = rendererConfig;
-
   return rendererConfig;
 }
 
@@ -51,6 +49,8 @@ function init(config) {
         );
       }
     });
+
+    renderedEmbeds = config;
   }
 
   initialised = true;
@@ -60,7 +60,7 @@ function propagateFontRatio(ratio) {
   var fontSize = (12 * ratio) + 'px',
       currentEmbed;
 
-  _.each(renderedEmbeds, function(embed, name) {
+  _.forEach(renderedEmbeds, function(embed, name) {
     currentEmbed = embedsMap[embed.embed].get(name).instance;
     currentEmbed.updateBaseFontSize(fontSize);
     currentEmbed.updateFrameSize();

@@ -29,7 +29,7 @@ function boot() {
     win.zEmbed = publicApi;
   }
 
-  _.each(document.zEQueue, function(item) {
+  _.forEach(document.zEQueue, function(item) {
     if (item[0] === 'ready') {
       item[1](win.zEmbed);
     }
@@ -76,7 +76,7 @@ function boot() {
 
   win.addEventListener('touchend', (e) => {
     // iOS has the scale property to detect pinching gestures
-    if(isPinching || e.scale && e.scale !== 1) {
+    if (isPinching || e.scale && e.scale !== 1) {
       propagateFontRatioChange();
     }
   });
