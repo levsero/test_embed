@@ -13,8 +13,9 @@ function getSizingRatio(isPinching) {
   // Unless we're triggering this from a gesture then take
   // ratio calculation.
   /* jshint laxbreak:true */
+
   return (ratio > 1)
-    ? Math.max(isPinching ? 0 : defaultRatio, Math.round(ratio))
+    ? Math.max(isPinching ? 0 : defaultRatio, ratio)
     : 1;
 }
 
