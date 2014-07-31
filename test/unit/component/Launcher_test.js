@@ -66,7 +66,7 @@ describe('Launcher component', function() {
     expect(mockUpdateFrameSize).toHaveBeenCalled();
   });
 
-  it('should change the message when setMessage is called', function() {
+  it('should change the label when setLabel is called', function() {
     /* jshint quotmark: false */
     var launcher = React.renderComponent(
           <Launcher label='help'/>,
