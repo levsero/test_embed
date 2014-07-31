@@ -69,29 +69,22 @@ export var frameFactory = function(childFn, _params) {
       if (!frameDoc.firstChild) {
         return false;
       }
-      dimensions = ((getSizingRatio() > 1 || isMobileBrowser()) && params.fullscreenable)
-                 ? function() {
-                     var el = frameDoc.body.firstChild,
-                         height = Math.max(el.clientHeight,  el.offsetHeight);
-                     return {
-                       width: '100%',
-                       height: '100%',
-                       top:0,
-                       left:0,
-                       background:'#fff',
-                       zIndex: 5
-                     };
-                   }
-                 : function() {
-                     var el = frameDoc.body.firstChild,
-                     width  = Math.max(el.clientWidth,  el.offsetWidth),
-                     height = Math.max(el.clientHeight, el.offsetHeight);
 
-                     return {
-                       width:  (_.isFinite(width)  ? width  : 0) + offsetWidth,
-                       height: (_.isFinite(height) ? height : 0) + offsetHeight
-                     };
-                   };
+      dimensions = function() {
+        var el = frameDoc.body.firstChild,
+            width  = Math.max(el.clientWidth,  el.offsetWidth),
+            height = Math.max(el.clientHeight, el.offsetHeight);
+
+        return ((getSizingRatio() > 1 || isMobileBrowser()) && params.fullscreenable)
+             ? { width: '100%',
+                 height: '100%',
+                 top:0,
+                 left:0,
+                 background:'#fff',
+                 zIndex: 5 }
+             : { width:  (_.isFinite(width)  ? width  : 0) + offsetWidth,
+                 height: (_.isFinite(height) ? height : 0) + offsetHeight };
+      }
 
       if (params.fullscreenable && isMobileBrowser()) {
         frameDoc.body.firstChild.setAttribute('style', 'height:100%; overflow:scroll; -webkit-overflow-scrolling: touch');
