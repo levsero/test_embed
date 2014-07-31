@@ -37,7 +37,7 @@ describe('Launcher component', function() {
   it('should change the icon when set icon is called', function() {
     /* jshint quotmark: false */
     var launcher = React.renderComponent(
-          <Launcher message='help' />,
+          <Launcher label='help' />,
           global.document.body
         );
 
@@ -69,16 +69,16 @@ describe('Launcher component', function() {
   it('should change the message when setMessage is called', function() {
     /* jshint quotmark: false */
     var launcher = React.renderComponent(
-          <Launcher message='help'/>,
+          <Launcher label='help'/>,
           global.document.body
         );
 
-    expect(launcher.state.message)
+    expect(launcher.state.label)
       .toEqual('help');
 
-    launcher.setMessage('support');
+    launcher.setLabel('support');
 
-    expect(launcher.state.message)
+    expect(launcher.state.label)
       .toEqual('support');
   });
 });

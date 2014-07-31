@@ -67,9 +67,9 @@ function update(name, isActive) {
       hide(name);
 
       if (get(name).isOnline) {
-        config.setMessage('Chat');
+        config.setLabel('Chat');
       } else {
-        config.setMessage('Support');
+        config.setLabel('Support');
       }
 
     } else {
@@ -95,12 +95,12 @@ function handleForm(name) {
   }
 }
 
-function setStatus(name, isOnline, icon, message) {
+function setStatus(name, isOnline, icon, label) {
   var config = get(name).config;
 
   get(name).isOnline = isOnline;
   config.setIcon(icon);
-  config.setMessage(message);
+  config.setLabel(label);
 }
 
 function render(name) {
@@ -123,7 +123,7 @@ function render(name) {
       },
       onMsgChange = function(number) {
         if (number > 0) {
-          config.setMessage(`${number} New`);
+          config.setLabel(`${number} New`);
         }
       },
       snippet = `
