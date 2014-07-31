@@ -28,7 +28,8 @@ export var frameFactory = function(childFn, _params) {
   var child,
       defaultParams = {
         style: {},
-        css: ''
+        css: '',
+        fullscreenable: false,
       },
       params = _.extend(defaultParams, _params);
 
@@ -177,6 +178,12 @@ export var frameFactory = function(childFn, _params) {
           },
           {});
 
+        var closeButton = (params.fullscreenable && isMobileBrowser())
+                        ? (<div onClick={this.hide} 
+                                   onTouchEnd={this.hide} 
+                                   className='u-posAbsolute u-posEnd u-posStart--vert Icon Icon--cross u-isActionable'></div>)
+                        : null;
+
         // Forcefully injects this.updateFrameSize
         // into childParams
         childParams = _.extend(childParams, {
@@ -190,6 +197,7 @@ export var frameFactory = function(childFn, _params) {
               <div className='u-pullLeft'>
                 {css}
                 {childFn(childParams)}
+                {closeButton}
               </div>
             );
           }

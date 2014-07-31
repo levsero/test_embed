@@ -47,6 +47,11 @@ describe('embed.submitTicket', function() {
     mockery.registerMock('util/utils', {
       setScaleLock: function() {}
     });
+    mockery.registerMock('util/devices', {
+      isMobileBrowser: function() { 
+        return false;
+      }
+    });
     mockery.registerMock('util/globals', mockGlobals);
     mockery.registerMock('imports?_=lodash!lodash', _);
     mockery.registerAllowable('react');

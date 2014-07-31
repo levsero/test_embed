@@ -5,16 +5,14 @@ import { document     } from 'util/globals';
 import { SubmitTicket } from 'component/SubmitTicket';
 import { frameFactory } from 'embed/frameFactory';
 import { setScaleLock } from 'util/utils';
+import { isMobileBrowser } from 'util/devices';
 
 var submitTicketCSS = require('./submitTicket.scss'),
     submitTickets = {};
 
 function create(name, config) {
-  var containerBase = {
-        minWidth: 350,
-        margin: 15
-      },
-      base = {
+  var containerStyle,
+      iframeBase = {
         position: 'fixed',
         bottom: 48,
         minWidth: 350
@@ -33,13 +31,17 @@ function create(name, config) {
          ? { left:  5 }
          : { right: 5 };
 
-  iframeStyle = _.extend(base, posObj);
+  containerStyle = (isMobileBrowser())
+                 ? {}
+                 : { minWidth: 350, margin: 15 };
+
+  iframeStyle = _.extend(iframeBase, posObj);
 
   Embed = React.createClass(frameFactory(
     (params) => {
       /* jshint quotmark:false */
       return (
-        <div style={containerBase}>
+        <div style={containerStyle}>
           <SubmitTicket
             ref='submitTicket'
             updateFrameSize={params.updateFrameSize} />
@@ -49,10 +51,13 @@ function create(name, config) {
     {
       style: iframeStyle,
       css: submitTicketCSS,
+      fullscreenable: true,
       onShow() {
+        setScaleLock(true);
         config.onShow();
       },
       onHide() {
+        setScaleLock(false);
         config.onHide();
       },
       extend: {}
@@ -79,12 +84,10 @@ function list() {
 }
 
 function show(name) {
-  setScaleLock(true);
   get(name).instance.show();
 }
 
 function hide(name) {
-  setScaleLock(false);
   get(name).instance.hide();
 }
 
