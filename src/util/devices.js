@@ -1,14 +1,20 @@
 import { win, navigator } from 'util/globals';
 
-function getSizingRatio() {
-  var ratio = win.innerWidth / win.screen.availWidth;
+function getSizingRatio(isPinching) {
+  var landscape = Math.abs(win.orientation) === 90,
+      screen = win.screen,
+      deviceWidth = landscape ? screen.availHeight : screen.availWidth,
+      ratio = win.innerWidth / deviceWidth,
+      defaultRatio = landscape ? 2 : 3;
 
   // A scale of 3 is a good base if the ratio is smaller
   // Android devices will return a smaller ratio compared
-  // to iOS.
+  // to iOS. If loaded in landscape go for 2 ratio.
+  // Unless we're triggering this from a gesture then take
+  // ratio calculation.
   /* jshint laxbreak:true */
   return (ratio > 1)
-    ? Math.max(3, Math.floor(ratio))
+    ? Math.max(isPinching ? 0 : defaultRatio, Math.round(ratio))
     : 1;
 }
 

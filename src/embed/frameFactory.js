@@ -89,6 +89,13 @@ export var frameFactory = function(childFn, _params) {
       }
     },
 
+    updateBaseFontSize(fontSize) {
+      var iframe = this.getDOMNode(),
+          htmlElem = iframe.contentDocument.documentElement;
+
+      htmlElem.style.fontSize = fontSize;
+    },
+
     hide: function() {
       this.setState({
         visible: false

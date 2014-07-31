@@ -44,3 +44,11 @@ global.initMockRegistry = function(registry) {
   });
   return registry;
 };
+
+global.dispatchEvent = function(eventName, node) {
+  var event = global.document.createEvent('HTMLEvents');
+
+  event.initEvent(eventName, true, true);
+  event.touches = [0,0];
+  node.dispatchEvent(event);
+};
