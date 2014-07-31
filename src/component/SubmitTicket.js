@@ -48,7 +48,7 @@ export var SubmitTicket = React.createClass({
             showNotification: true,
             message: msg
           });
-          this.props.updateFrameSize(0,0,true);
+          this.props.updateFrameSize(0,0);
         },
         payload = {
           method: 'post',
@@ -86,7 +86,7 @@ export var SubmitTicket = React.createClass({
         });
 
     if (this.props.updateFrameSize) {
-      setTimeout( () => this.props.updateFrameSize(0, 10, true), 0);
+      setTimeout( () => this.props.updateFrameSize(0, 10), 0);
     }
 
     return (

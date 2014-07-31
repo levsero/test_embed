@@ -27,13 +27,15 @@ function create(name, config) {
   config = _.extend(configDefaults, config);
 
   /* jshint laxbreak: true */
-  posObj = (config.position === 'left')
-         ? { left:  5 }
-         : { right: 5 };
-
-  containerStyle = (isMobileBrowser())
-                 ? {}
-                 : { minWidth: 350, margin: 15 };
+  if (isMobileBrowser()) {
+    posObj = {};
+    containerStyle = { minWidth: 350, margin: 15 };
+  } else {
+    posObj = (config.position === 'left')
+           ? { left:  5 }
+           : { right: 5 };
+    containerStyle = {};
+  }
 
   iframeStyle = _.extend(iframeBase, posObj);
 

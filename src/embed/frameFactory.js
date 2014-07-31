@@ -57,7 +57,7 @@ export var frameFactory = function(childFn, _params) {
       return child;
     },
 
-    updateFrameSize: function(offsetWidth, offsetHeight, fullscreen) {
+    updateFrameSize: function(offsetWidth, offsetHeight) {
       var iframe = this.getDOMNode(),
           frameWin = iframe.contentWindow,
           frameDoc = iframe.contentDocument,
@@ -65,21 +65,19 @@ export var frameFactory = function(childFn, _params) {
 
       offsetWidth = offsetWidth || 0;
       offsetHeight = offsetHeight || 0;
-      fullscreen = fullscreen || false;
 
       if (!frameDoc.firstChild) {
         return false;
       }
-
-      dimensions = ((getSizingRatio() > 1 || isMobileBrowser()) && fullscreen)
+      dimensions = ((getSizingRatio() > 1 || isMobileBrowser()) && params.fullscreenable)
                  ? function() {
                      var el = frameDoc.body.firstChild,
-                         height  = Math.max(el.clientHeight,  el.offsetHeight);
-
+                         height = Math.max(el.clientHeight,  el.offsetHeight);
                      return {
                        width: '100%',
                        height: '100%',
-                       bottom:0,
+                       top:0,
+                       left:0,
                        background:'#fff',
                        zIndex: 5
                      };
@@ -95,7 +93,7 @@ export var frameFactory = function(childFn, _params) {
                      };
                    };
 
-      if (fullscreen && isMobileBrowser()) {
+      if (params.fullscreenable && isMobileBrowser()) {
         frameDoc.body.firstChild.setAttribute('style', 'height:100%; overflow:scroll; -webkit-overflow-scrolling: touch');
       }
 
@@ -140,8 +138,8 @@ export var frameFactory = function(childFn, _params) {
           iframeStyle = _.extend(
             { border: 'none', background: 'transparent' },
             params.style,
-            visibilityRule,
-            this.state.iframeDimensions
+            this.state.iframeDimensions,
+            visibilityRule
           );
 
           return (
