@@ -38,6 +38,14 @@ describe('Submit ticket component', function() {
     mockRegistry = initMockRegistry({
       'react/addons': React,
       'util/globals': { win: window },
+      'util/devices': {
+        getSizingRatio: function() {
+          return 1;
+        },
+        isMobileBrowser: function() {
+          return true;
+        }
+      },
       'component/SubmitTicketForm': {
         SubmitTicketForm: jasmine.createSpy('mockSubmitTicketForm')
           .andCallFake(React.createClass({

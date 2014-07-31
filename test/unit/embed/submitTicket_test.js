@@ -44,6 +44,9 @@ describe('embed.submitTicket', function() {
     mockery.registerMock('embed/frameFactory', {
       frameFactory: mockFrameFactory
     });
+    mockery.registerMock('util/utils', {
+      setScaleLock: function() {}
+    });
     mockery.registerMock('util/globals', mockGlobals);
     mockery.registerMock('imports?_=lodash!lodash', _);
     mockery.registerAllowable('react');

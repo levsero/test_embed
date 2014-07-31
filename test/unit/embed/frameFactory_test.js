@@ -17,9 +17,15 @@ describe('frameFactory', function() {
 
     mockRegistry = initMockRegistry({
       'react/addons': React,
+      'util/globals': {
+        win: window
+      },
       'util/devices': {
         getSizingRatio: function() {
           return 1;
+        },
+        isMobileBrowser: function() {
+          return false;
         }
       },
       'imports?_=lodash!lodash': _,
