@@ -87,13 +87,13 @@ export var SubmitTicket = React.createClass({
         <div className={"Notify u-textCenter " + notifyVisibility }>
           <div className='Icon Icon--tick u-inlineBlock' />
           <p className='u-textBold'>{this.state.message}</p>
-		  		<p>
-					<a 
-						href={marketingUrl} 
-						target='_blank'>
-						Want this on your website?
-					</a>
-					</p>
+          <p>
+            <a
+              href={marketingUrl}
+              target='_blank'>
+              Want this on your website?
+            </a>
+          </p>
         </div>
         <SubmitTicketForm
           ref='submitTicketForm'
