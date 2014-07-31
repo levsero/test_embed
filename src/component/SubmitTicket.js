@@ -68,6 +68,9 @@ export var SubmitTicket = React.createClass({
   render() {
     var formVisibility = (this.state.showNotification) ? 'u-isHidden' : '',
         notifyVisibility = (formVisibility) ?  '' : 'u-isHidden',
+        marketingUrl = ['//www.zendesk.com/lp/just-one-click/',
+                   '?utm_source=launcher&utm_medium=poweredbyzendesk&utm_campaign=text'
+                  ].join(''),
         logoUrl = ['//www.zendesk.com/lp/just-one-click/',
                    '?utm_source=launcher&utm_medium=poweredbyzendesk&utm_campaign=image'
                   ].join('');
@@ -83,7 +86,14 @@ export var SubmitTicket = React.createClass({
         key={this.state.uid}>
         <div className={"Notify u-textCenter " + notifyVisibility }>
           <div className='Icon Icon--tick u-inlineBlock' />
-          <div className='u-textBold'>{this.state.message}</div>
+          <p className='u-textBold'>{this.state.message}</p>
+		  		<p>
+					<a 
+						href={marketingUrl} 
+						target='_blank'>
+						Want this on your website?
+					</a>
+					</p>
         </div>
         <SubmitTicketForm
           ref='submitTicketForm'

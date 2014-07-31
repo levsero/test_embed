@@ -4,7 +4,7 @@ $background-base: inherit;
 $color-base: #555;
 $color-cta: #8DC900;
 $color-secondary: #CFCFCF;
-$link-color-base: #069;
+$link-color-base: $color-cta;
 $link-color-hover-base: $link-color-base;
 
 $font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
@@ -32,6 +32,10 @@ h1, h2, h3, h4, h5, h6 {
 a {
   color: $link-color-base;
   text-decoration: none;
+}
+
+p {
+	margin-bottom: #{15/$font-size}rem;
 }
 
 a:hover,
