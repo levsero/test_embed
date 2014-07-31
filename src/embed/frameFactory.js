@@ -101,8 +101,11 @@ export var frameFactory = function(childFn, _params) {
       var visibilityRule = (this.state.visible)
                          ? {visibility: 'visible'}
                          : {visibility: 'hidden'},
-          iframeStyle = _.extend(
-            { border: 'none', background: 'transparent !important' },
+          iframeStyle = _.extend({
+              border: 'none',
+              background: 'transparent !important',
+              zIndex: 999999
+            },
             params.style,
             visibilityRule,
             this.state.iframeDimensions
