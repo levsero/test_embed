@@ -1,8 +1,8 @@
 module React from 'react';
-import { beacon    } from 'service/beacon';
-import { renderer  } from 'service/renderer';
-import { transport } from 'service/transport';
-import { win       } from 'util/globals';
+import { beacon         } from 'service/beacon';
+import { renderer       } from 'service/renderer';
+import { transport      } from 'service/transport';
+import { win            } from 'util/globals';
 import { getSizingRatio } from 'util/devices';
 
 require('imports?_=lodash!lodash');
