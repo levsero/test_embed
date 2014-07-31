@@ -104,13 +104,31 @@ function setStatus(name, isOnline, icon, label) {
 }
 
 function render(name) {
-  /* jshint maxlen: false,
-            quotmark: false,
-            laxbreak: true,
-            unused:false
-  */
-  var config = get(name).config,
-      zopimId = config.zopimId,
+  /* jshint maxlen: false, unused:false */
+  var zopimId = get(name).config.zopimId,
+      snippet = `
+        window.$zopim||
+        (function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s= d.createElement(s),e=d.getElementsByTagName(s)[0];
+        z.set=function(o){z.set. _.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute('charset','utf-8');
+        $.src='//v2.zopim.com/?${zopimId}';
+        z.t=+new Date;$. type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');$zopim(function(){
+        $zopim.livechat.clearAll();
+        });
+      `,
+      scriptTag;
+
+  scriptTag = document.createElement('script');
+  scriptTag.type='text/javascript';
+  document.body.appendChild(scriptTag);
+
+  scriptTag.innerHTML = snippet;
+
+  init(name);
+}
+
+function init(name) {
+  var zopim = win.$zopim,
+      config = get(name).config,
       onChange = function(status) {
         if (status === 'online' && get(name).connected) {
           setStatus(name, true, 'icon--chat', 'Chat');
@@ -125,25 +143,7 @@ function render(name) {
         if (number > 0) {
           config.setLabel(`${number} New`);
         }
-      },
-      snippet = `
-        window.$zopim||
-        (function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s= d.createElement(s),e=d.getElementsByTagName(s)[0];
-        z.set=function(o){z.set. _.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute('charset','utf-8');
-        $.src='//v2.zopim.com/?${zopimId}';
-        z.t=+new Date;$. type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');$zopim(function(){
-        $zopim.livechat.clearAll();
-        });
-      `,
-      scriptTag,
-      zopim;
-
-  scriptTag = document.createElement('script');
-  scriptTag.type='text/javascript';
-  document.body.appendChild(scriptTag);
-
-  scriptTag.innerHTML = snippet;
-  zopim = win.$zopim;
+      };
 
   zopim(function() {
     var zopimLive = win.$zopim.livechat;
