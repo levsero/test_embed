@@ -77,7 +77,6 @@ export var frameFactory = function(childFn, _params) {
 
                      return {
                        width: '100%',
-                       //height: (_.isFinite(height) ? height : 0),
                        height: '100%',
                        bottom:0,
                        background:'#fff',
@@ -95,7 +94,7 @@ export var frameFactory = function(childFn, _params) {
                      };
                    };
 
-      if (fullscreen) {
+      if (fullscreen && isMobileBrowser()) {
         frameDoc.body.firstChild.setAttribute('style', 'height:100%; overflow:scroll; -webkit-overflow-scrolling: touch');
       }
 
