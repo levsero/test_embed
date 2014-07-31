@@ -44,7 +44,7 @@
   width: #{50/$font-size}rem;
 
   &:before {
-    content: 'j';
+    content: '\73';
   }
 }
 
@@ -86,7 +86,7 @@
 
 .Icon--zendesk {
   width: auto;
-  bottom: #{21/$font-size}rem;
+  bottom: 0;
 
   &:hover, &:active, &:focus {
     color: $cta-color;
@@ -94,6 +94,6 @@
 
   &:before {
     content: '\6b';
-    font-size: #{12/$font-size}rem;
+    font-size: #{60/$font-size}rem;
   }
 }
