@@ -76,6 +76,13 @@ export var SubmitTicket = React.createClass({
           'Container--fullscreen': this.state.fullscreen,
           'u-nbfcAlt': true,
           'u-posRelative': true
+        }),
+        logoClasses = classSet({
+          'Icon': true,
+          'Icon--zendesk': true,
+          'u-linkClean': true,
+          'u-posAbsolute': !this.state.fullscreen,
+          'u-posStart': !this.state.fullscreen
         });
 
     if (this.props.updateFrameSize) {
@@ -92,15 +99,18 @@ export var SubmitTicket = React.createClass({
           <div className='u-textBold'>{this.state.message}</div>
         </div>
         <SubmitTicketForm
+          fullscreen={this.state.fullscreen}
           ref='submitTicketForm'
           className={formVisibility}
           submit={this.handleSubmit} />
-        <a
-          href={'http://www.zendesk.com/?utm_medium=cetoolkit&utm_campaign=embeddables'}
-          target='_blank'
-          className='Icon Icon--zendesk u-linkClean u-posAbsolute u-posStart'>
-          <span className='u-isHiddenVisually'>zendesk</span>
-        </a>
+        <div className='u-nbfc'>
+          <a
+            href={'http://www.zendesk.com/?utm_medium=cetoolkit&utm_campaign=embeddables'}
+            target='_blank'
+            className={logoClasses}>
+            <span className='u-isHiddenVisually'>zendesk</span>
+          </a>
+        </div>
       </div>
     );
   }

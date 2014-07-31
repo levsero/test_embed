@@ -137,7 +137,6 @@ export var frameFactory = function(childFn, _params) {
             this.state.iframeDimensions
           );
 
-      console.log(iframeStyle);
           return (
             <iframe style={iframeStyle} />
           );
