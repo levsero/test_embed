@@ -29,12 +29,12 @@ function create(name, config) {
   /* jshint laxbreak: true */
   if (isMobileBrowser()) {
     posObj = {};
-    containerStyle = { minWidth: 350, margin: 15 };
+    containerStyle = {};
   } else {
     posObj = (config.position === 'left')
            ? { left:  5 }
            : { right: 5 };
-    containerStyle = {};
+    containerStyle = { minWidth: 350, margin: 15 };
   }
 
   iframeStyle = _.extend(iframeBase, posObj);
