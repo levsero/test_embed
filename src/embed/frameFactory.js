@@ -5,7 +5,8 @@ import { getSizingRatio, isMobileBrowser } from 'util/devices';
 
 require('imports?_=lodash!lodash');
 
-var baseCSS = require('baseCSS'),
+var classSet = React.addons.classSet,
+    baseCSS = require('baseCSS'),
     mainCSS = require('mainCSS'),
     sizingRatio = 12 * getSizingRatio(), /* jshint ignore:line */
     baseFontCSS = `html { font-size: ${sizingRatio}px }`;
@@ -71,6 +72,7 @@ export var frameFactory = function(childFn, _params) {
       }
 
       dimensions = function() {
+        /* jshint laxbreak: true */
         var el = frameDoc.body.firstChild,
             width  = Math.max(el.clientWidth,  el.offsetWidth),
             height = Math.max(el.clientHeight, el.offsetHeight);
@@ -84,10 +86,13 @@ export var frameFactory = function(childFn, _params) {
                  zIndex: 5 }
              : { width:  (_.isFinite(width)  ? width  : 0) + offsetWidth,
                  height: (_.isFinite(height) ? height : 0) + offsetHeight };
-      }
+      };
 
       if (params.fullscreenable && isMobileBrowser()) {
-        frameDoc.body.firstChild.setAttribute('style', 'height:100%; overflow:scroll; -webkit-overflow-scrolling: touch');
+        frameDoc.body.firstChild.setAttribute(
+          'style',
+          'height:100%; overflow:scroll; -webkit-overflow-scrolling: touch'
+        );
       }
 
       frameWin.setTimeout( () => this.setState({iframeDimensions: dimensions()}), 0);
@@ -160,10 +165,25 @@ export var frameFactory = function(childFn, _params) {
       // In order for iframe correctly render in some browsers
       // we need to do it on nextTick
       if (doc.readyState === 'complete') {
+
+        /* jshint laxbreak: true */
         var cssText = baseCSS + mainCSS + params.css + baseFontCSS,
             css = <style dangerouslySetInnerHTML={{ __html: cssText }} />,
             Component,
-            childParams;
+            childParams,
+            closeClasses = classSet({
+              'u-posAbsolute': true,
+              'u-posEnd': true,
+              'u-posStart--vert': true,
+              'Icon': true,
+              'Icon--cross': true,
+              'u-isActionable': true,
+            }),
+            closeButton = (params.fullscreenable && isMobileBrowser())
+                        ? (<div onClick={this.hide}
+                                onTouchEnd={this.hide}
+                                className={closeClasses}></div>)
+                        : null;
 
         // 1. Loop over functions in params.extend
         // 2. Re-bind them to `this` context
@@ -176,11 +196,7 @@ export var frameFactory = function(childFn, _params) {
           },
           {});
 
-        var closeButton = (params.fullscreenable && isMobileBrowser())
-                        ? (<div onClick={this.hide} 
-                                   onTouchEnd={this.hide} 
-                                   className='u-posAbsolute u-posEnd u-posStart--vert Icon Icon--cross u-isActionable'></div>)
-                        : null;
+
 
         // Forcefully injects this.updateFrameSize
         // into childParams

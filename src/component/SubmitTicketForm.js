@@ -19,7 +19,7 @@ var SubmitTicketForm = React.createClass({
   getDefaultProps() {
     return {
       fullscreen: false
-    }
+    };
   },
 
   handleSubmit(e) {
