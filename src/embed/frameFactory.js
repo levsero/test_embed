@@ -8,7 +8,7 @@ require('imports?_=lodash!lodash');
 var classSet = React.addons.classSet,
     baseCSS = require('baseCSS'),
     mainCSS = require('mainCSS'),
-    sizingRatio = 12 * getSizingRatio(), /* jshint ignore:line */
+    sizingRatio = 12 * getSizingRatio(false, true), /* jshint ignore:line */
     baseFontCSS = `html { font-size: ${sizingRatio}px }`;
 
 function validateChildFn(childFn, params) {
