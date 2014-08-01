@@ -58,14 +58,11 @@ export var frameFactory = function(childFn, _params) {
       return child;
     },
 
-    updateFrameSize: function(offsetWidth, offsetHeight) {
+    updateFrameSize: function(offsetWidth = 0, offsetHeight = 0) {
       var iframe = this.getDOMNode(),
           frameWin = iframe.contentWindow,
           frameDoc = iframe.contentDocument,
           dimensions;
-
-      offsetWidth = offsetWidth || 0;
-      offsetHeight = offsetHeight || 0;
 
       if (!frameDoc.firstChild) {
         return false;
@@ -195,8 +192,6 @@ export var frameFactory = function(childFn, _params) {
             return res;
           },
           {});
-
-
 
         // Forcefully injects this.updateFrameSize
         // into childParams
