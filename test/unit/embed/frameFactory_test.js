@@ -173,6 +173,59 @@ describe('frameFactory', function() {
 
       // TODO: real browser tests that work off client*/offset* values.
     });
+
+    it('respects the fullscreenable parameter', function() {
+      var payload,
+          Embed,
+          instance,
+          frameContainer,
+          frameContainerStyle;
+      
+      mockRegistry['util/devices'].isMobileBrowser = function() {
+        return true;
+      };
+
+      jasmine.Clock.useMock();
+
+      mockery.resetCache();
+
+      frameFactory = require(frameFactoryPath).frameFactory;
+
+      payload = frameFactory(mockChildFn, {
+        fullscreenable: true
+      });
+
+      Embed = React.createClass(payload);
+      instance = React.renderComponent(
+          <Embed />,
+        global.document.body
+      );
+
+      frameContainer = global.document.body.getElementsByTagName('iframe')[0];
+      frameContainerStyle = frameContainer.style;
+
+      jasmine.Clock.useMock();
+
+      instance.updateFrameSize();
+
+      jasmine.Clock.tick(10);
+
+      expect(frameContainerStyle.width)
+        .toEqual('100%');
+
+      expect(frameContainerStyle.height)
+        .toEqual('100%');
+
+      expect(frameContainerStyle.top)
+        .toEqual('0px');
+
+      expect(frameContainerStyle.left)
+        .toEqual('0px');
+
+      expect(frameContainerStyle.zIndex > 0)
+        .toEqual(true);
+    });
+      
   });
 
   describe('show', function() {
