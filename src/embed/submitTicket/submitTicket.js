@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 
-module React from 'react'; /* jshint ignore:line */
+module React from 'react/addons';
 import { document     } from 'util/globals';
 import { SubmitTicket } from 'component/SubmitTicket';
 import { frameFactory } from 'embed/frameFactory';

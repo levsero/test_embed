@@ -2,62 +2,61 @@
 
 describe('embed.submitTicket', function() {
   var submitTicket,
+      mockRegistry,
       frameConfig,
       defaultValue = 'abc123',
-      mockGlobals = {
-        document: global.document
-      },
-      mockSubmitTicket = jasmine.createSpy('mockSubmitTicket')
-        .andCallFake(
-          React.createClass({
-            getInitialState: function() {
-              return {
-                showNotification: false,
-                message: '',
-                uid: defaultValue
-              };
-            },
-            render: function() {
-              return (
-                /* jshint quotmark:false */
-                <div className='mock-submitTicket' />
-              );
-            }
-          })
-        ),
-      mockFrameFactory = require(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
-      mockFrameMethods = require(buildTestPath('unit/mockFrameFactory')).mockFrameMethods,
-      mockCss = jasmine.createSpy('mockCss'),
-      mockFrameCss = jasmine.createSpy('mockFrameCss'),
       submitTicketPath = buildSrcPath('embed/submitTicket/submitTicket');
 
   beforeEach(function() {
 
     resetDOM();
 
-    mockery.enable();
-    mockery.registerMock('component/SubmitTicket', {
-      SubmitTicket: mockSubmitTicket
+    mockery.enable({
+      useCleanCache: true
     });
-    mockery.registerMock('./submitTicket.scss', mockCss);
-    mockery.registerMock('./submitTicketFrame.scss', mockFrameCss);
-    mockery.registerMock('embed/frameFactory', {
-      frameFactory: mockFrameFactory
+
+    mockRegistry = initMockRegistry({
+      'react/addons': React,
+      'component/SubmitTicket': {
+        SubmitTicket: jasmine.createSpy('mockSubmitTicket')
+          .andCallFake(
+            React.createClass({
+              getInitialState: function() {
+                return {
+                  showNotification: false,
+                  message: '',
+                  uid: defaultValue
+                };
+              },
+              render: function() {
+                return (
+                  /* jshint quotmark:false */
+                  <div className='mock-submitTicket' />
+                );
+              }
+            })
+          )
+      },
+      './submitTicket.scss': jasmine.createSpy('mockCss'),
+      './submitTicketFrame.scss': jasmine.createSpy('mockFrameCss'),
+      'embed/frameFactory': {
+        frameFactory: require(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
+        frameMethods: require(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
+      },
+      'util/utils': {
+        setScaleLock: function() {}
+      },
+      'util/devices': {
+        isMobileBrowser: function() {
+          return false;
+        }
+      },
+      'util/globals': {
+        document: global.document
+      },
+      'imports?_=lodash!lodash': _
     });
-    mockery.registerMock('util/utils', {
-      setScaleLock: function() {}
-    });
-    mockery.registerMock('util/devices', {
-      isMobileBrowser: function() { 
-        return false;
-      }
-    });
-    mockery.registerMock('util/globals', mockGlobals);
-    mockery.registerMock('imports?_=lodash!lodash', _);
-    mockery.registerAllowable('react');
-    mockery.registerAllowable('./lib/React');
-    mockery.registerAllowable('./properties/width');
-    mockery.registerAllowable('./parsers');
+
     mockery.registerAllowable(submitTicketPath);
 
     submitTicket = require(submitTicketPath).submitTicket;
@@ -95,9 +94,11 @@ describe('embed.submitTicket', function() {
     });
 
     describe('mockFrameFactoryRecentCall', function() {
-      var mockFrameFactoryRecentCall;
+      var mockFrameFactory,
+          mockFrameFactoryRecentCall;
 
       beforeEach(function() {
+        mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
         submitTicket.create('bob', frameConfig);
         mockFrameFactoryRecentCall = mockFrameFactory.mostRecentCall.args;
       });
@@ -116,6 +117,60 @@ describe('embed.submitTicket', function() {
           .toHaveBeenCalled();
       });
     });
+
+    it('should switch iframe styles based on isMobileBrowser()', function() {
+     var mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory,
+         mockFrameFactoryRecentCall,
+         iframeStyle;
+
+      mockery.registerMock('util/devices', {
+        isMobileBrowser: function() {
+          return true;
+        }
+      });
+      mockery.resetCache();
+      submitTicket = require(submitTicketPath).submitTicket;
+      submitTicket.create('bob');
+
+      mockFrameFactoryRecentCall = mockFrameFactory.mostRecentCall.args;
+
+      iframeStyle = mockFrameFactoryRecentCall[1].style;
+
+      expect(iframeStyle.left)
+        .toBeUndefined();
+
+      expect(iframeStyle.right)
+        .toBeUndefined();
+    });
+
+    it('should switch container styles based on isMobileBrowser()', function() {
+      var mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory,
+          mockFrameFactoryRecentCall,
+          childFnParams = {
+            updateFrameSize: function() {}
+          },
+          payload;
+
+      mockery.registerMock('util/devices', {
+        isMobileBrowser: function() {
+          return true;
+        }
+      });
+
+      mockery.resetCache();
+
+      submitTicket = require(submitTicketPath).submitTicket;
+
+      submitTicket.create('bob');
+
+      mockFrameFactoryRecentCall = mockFrameFactory.mostRecentCall.args;
+
+      payload = mockFrameFactoryRecentCall[0](childFnParams);
+
+      expect(payload.props.style)
+        .toEqual({});
+    });
+
   });
 
   describe('get', function() {
@@ -139,6 +194,8 @@ describe('embed.submitTicket', function() {
     });
 
     it('renders a submitTicket form to the document', function() {
+      var mockSubmitTicket = mockRegistry['component/SubmitTicket'].SubmitTicket;
+
       submitTicket.create('bob');
       submitTicket.render('bob');
 
@@ -168,7 +225,9 @@ describe('embed.submitTicket', function() {
     });
 
     it('applies submitTicket.scss to the frame', function() {
-      var mockFrameFactoryCss;
+      var mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory,
+          mockCss = mockRegistry['./submitTicket.scss'],
+          mockFrameFactoryCss;
 
       submitTicket.create('bob');
       submitTicket.render('bob');
@@ -182,6 +241,8 @@ describe('embed.submitTicket', function() {
 
   describe('show', function() {
     it('should call show on the embed', function() {
+      var mockFrameMethods = mockRegistry['embed/frameFactory'].frameMethods;
+
       submitTicket.create('bob');
       submitTicket.render('bob');
       submitTicket.show('bob');
@@ -193,6 +254,8 @@ describe('embed.submitTicket', function() {
 
   describe('hide', function() {
     it('should call hide on embed', function() {
+      var mockFrameMethods = mockRegistry['embed/frameFactory'].frameMethods;
+
       submitTicket.create('bob');
       submitTicket.render('bob');
       submitTicket.hide('bob');
