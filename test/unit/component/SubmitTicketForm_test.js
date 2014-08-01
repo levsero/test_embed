@@ -2,58 +2,62 @@
 
 describe('SubmitTicketForm component', function() {
   var SubmitTicketForm,
-      defaultValue = '123abc',
-      onSubmit = jasmine.createSpy(),
-      mockComponent = jasmine.createSpy('mockComponent')
-        .andCallFake(React.createClass({
-          value: function() {
-            return {
-              value: defaultValue
-            };
-          },
-          render: function() {
-            /* jshint quotmark: false */
-            var formBody = <div ref='form' />;
-            return (
-              <form
-                noValidate
-                onSubmit={onSubmit}
-                className='Form'>
-                {formBody}
-              </form>
-            );
-          }
-        })),
+      onSubmit,
+      mockRegistry,
       submitTicketFormPath = buildSrcPath('component/SubmitTicketForm');
 
   beforeEach(function() {
+
+    var mockComponent = React.createClass({
+      value: function() {
+        return '123';
+      },
+      render: function() {
+        /* jshint quotmark: false */
+        var formBody = <div ref='form' />;
+        return (
+          <form
+            noValidate
+            onSubmit={onSubmit}
+            className='Form'>
+            {formBody}
+          </form>
+        );
+      }
+    });
+
+    onSubmit = jasmine.createSpy();
 
     mockery.enable({
       warnOnReplace:false
     });
 
-    mockery.registerMock('react-forms', {
-      Form: mockComponent,
-      FormFor: mockComponent,
-      schema: {
-        Property: mockComponent
-      },
-      validation: {
-        isFailure: function() {
-          return false;
+    mockRegistry = initMockRegistry({
+      'react/addons': React,
+      'react-forms': {
+        Form: mockComponent,
+        FormFor: mockComponent,
+        schema: {
+          Property: mockComponent
+        },
+        validation: {
+          isFailure: function() {
+            return false;
+          }
         }
-      }
+      },
+      'component/SubmitTicketSchema': {
+        submitTicketSchema: noop
+      },
+      'imports?_=lodash!lodash': _,
+
     });
-    mockery.registerMock('component/SubmitTicketSchema', {
-      submitTicketSchema: noop
-    });
-    mockery.registerMock('imports?_=lodash!lodash', {});
-    mockery.registerAllowable(submitTicketFormPath);
-    mockery.registerAllowable('react/addons');
-    mockery.registerAllowable('./lib/ReactWithAddons');
+
     mockery.registerAllowable('util/globals');
+    mockery.registerAllowable(submitTicketFormPath);
 
     SubmitTicketForm = require(submitTicketFormPath).SubmitTicketForm;
+
   });
 
   afterEach(function() {
@@ -82,4 +86,40 @@ describe('SubmitTicketForm component', function() {
     expect(onSubmit)
       .toHaveBeenCalled();
   });
+
+  describe('Send button classes', function() {
+
+    it('should have fullscreen classes when fullscreen is true', function() {
+      var zdForm = React.renderComponent(
+            <SubmitTicketForm submit={onSubmit} fullscreen={true} />,
+            global.document.body
+          ),
+          buttonNode = zdForm.getDOMNode().parentNode.querySelector('.Button'),
+          buttonClasses = buttonNode.getAttribute('class');
+
+      expect(buttonClasses.indexOf('u-sizeFull') >= 0)
+        .toEqual(true);
+
+      expect(buttonClasses.indexOf('u-pullRight'))
+        .toEqual(-1);
+    });
+
+    it('should have fullscreen classes when fullscreen is false', function() {
+      var zdForm = React.renderComponent(
+            <SubmitTicketForm submit={onSubmit} fullscreen={false} />,
+            global.document.body
+          ),
+          buttonNode = zdForm.getDOMNode().parentNode.querySelector('.Button'),
+          buttonClasses = buttonNode.getAttribute('class');
+
+      expect(buttonClasses.indexOf('u-pullRight') >= 0)
+        .toEqual(true);
+
+      expect(buttonClasses.indexOf('u-sizeFull'))
+        .toEqual(-1);
+    });
+
+  });
+
+
 });
