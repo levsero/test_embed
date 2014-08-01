@@ -95,8 +95,9 @@ function handleForm(name) {
   }
 }
 
-function setStatus(name, isOnline, icon, label) {
-  var chat = get(name),
+function setStatus(opts) {
+  var { name, isOnline, icon, label } = opts,
+      chat = get(name),
       config = chat.config;
 
   chat.isOnline = isOnline;
@@ -130,9 +131,19 @@ function init(name) {
       config = chat.config,
       onChange = function(status) {
         if (status === 'online' && chat.connected) {
-          setStatus(name, true, 'icon--chat', 'Chat');
+          setStatus({
+            name: name,
+            isOnline: true,
+            icon: 'Icon--chat',
+            label: 'Chat'
+          });
         } else {
-          setStatus(name, false, 'icon', 'Support');
+          setStatus({
+            name: name,
+            isOnline: false,
+            icon: 'Icon',
+            label: 'Support'
+          });
         }
       },
       onConnect = function() {
