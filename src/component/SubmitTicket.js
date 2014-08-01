@@ -1,10 +1,10 @@
 /** @jsx React.DOM */
 
 module React from 'react/addons'; /* jshint ignore:line */
-import { win                } from 'util/globals';
-import { transport          } from 'service/transport';
-import { SubmitTicketForm   } from 'component/SubmitTicketForm';
-import { getSizingRatio, isMobileBrowser } from 'util/devices';
+import { win              } from 'util/globals';
+import { transport        } from 'service/transport';
+import { SubmitTicketForm } from 'component/SubmitTicketForm';
+import { isMobileBrowser  } from 'util/devices';
 
 require('imports?_=lodash!lodash');
 
