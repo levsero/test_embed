@@ -62,18 +62,32 @@ function boot() {
   };
 
   // Until transport config is dynamic we need to alter what gets rendered on the zopim page
-  if (location.host === 'www.zendesk.com' && location.pathname === '/zopim') {
+  if ((location.host === 'www.zendesk.com' && location.pathname === '/zopim') ||
+      (location.host === 'snow.hashttp.com' && location.pathname === '/chat')) {
+
     rendererConfig = {
-      'chat': {
+      'zopimChat': {
         'embed': 'chat',
         'props': {
-          'zopimId': '27EQHzyono7cSNYm055tx1uiGhA8Shar',
+          'zopimId': '2EkTn0An31opxOLXuGgRCy5nPnSNmpe6',
           'onShow': {
             name: 'chatLauncher',
             method: 'update'
           },
           'onHide': {
             name: 'chatLauncher',
+            method: 'update'
+          },
+          'setIcon': {
+            name: 'chatLauncher',
+            method: 'setIcon'
+          },
+          'setLabel': {
+            name: 'chatLauncher',
+            method: 'setLabel'
+          },
+          'updateForm': {
+            name: 'ticketSubmissionForm',
             method: 'update'
           }
         }
@@ -82,9 +96,23 @@ function boot() {
         'embed': 'launcher',
         'props': {
           'position': 'right',
+          'label': 'Support',
           'onClick': {
-            name: 'chat',
-            method: 'toggleVisibility'
+            name: 'zopimChat',
+            method: 'update'
+          }
+        }
+      },
+      'ticketSubmissionForm': {
+        'embed': 'submitTicket',
+        'props': {
+          'onShow': {
+            name: 'chatLauncher',
+            method: 'update'
+          },
+          'onHide': {
+            name: 'chatLauncher',
+            method: 'update'
           }
         }
       }

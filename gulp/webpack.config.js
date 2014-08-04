@@ -23,7 +23,7 @@ module.exports = {
       },
       { test: /base\.css$/, loader: 'css', minimize: true },
       { test: /\.js$/, loader: 'es6-loader' },
-      { test: /\.(woff|eot)$/, loader: 'url' }
+      { test: /\.(woff|eot|ttf)$/, loader: 'url' }
     ]
   },
   resolve: {

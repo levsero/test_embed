@@ -30,7 +30,7 @@ export var SubmitTicket = React.createClass({
   handleSubmit(e, data) {
     e.preventDefault();
 
-    if(data.isFormInvalid) {
+    if (data.isFormInvalid) {
       // TODO: Handle invalid form submission
       return;
     }

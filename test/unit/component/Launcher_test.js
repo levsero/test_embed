@@ -35,8 +35,9 @@ describe('Launcher component', function() {
   });
 
   it('should change the icon when set icon is called', function() {
+    /* jshint quotmark: false */
     var launcher = React.renderComponent(
-          <Launcher />,
+          <Launcher label='help' />,
           global.document.body
         );
 
@@ -65,19 +66,40 @@ describe('Launcher component', function() {
     expect(mockUpdateFrameSize).toHaveBeenCalled();
   });
 
-  it('should change the message when setMessage is called', function() {
+  it('should change the label when setLabel is called', function() {
     /* jshint quotmark: false */
     var launcher = React.renderComponent(
-          <Launcher message='help'/>,
+          <Launcher label='help'/>,
           global.document.body
         );
 
-    expect(launcher.state.message)
+    expect(launcher.state.label)
       .toEqual('help');
 
-    launcher.setMessage('support');
+    launcher.setLabel('support');
 
-    expect(launcher.state.message)
+    expect(launcher.state.label)
       .toEqual('support');
+  });
+
+  it('should change the icon when setActive is changed', function() {
+    /* jshint quotmark: false */
+    var launcher = React.renderComponent(
+          <Launcher icon='testIcon'/>,
+          global.document.body
+        );
+
+    expect(global.document.body.querySelectorAll('.Icon--cross').length)
+      .toEqual(0);
+
+    launcher.setActive(true);
+
+    expect(global.document.body.querySelectorAll('.Icon--cross').length)
+      .toEqual(1);
+
+    launcher.setActive(false);
+
+    expect(global.document.body.querySelectorAll('.Icon--cross').length)
+      .toEqual(0);
   });
 });

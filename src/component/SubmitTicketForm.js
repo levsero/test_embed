@@ -22,7 +22,7 @@ var SubmitTicketForm = React.createClass({
         formValue = form.value(),
         isFormInvalid = isFailure(formValue.validation);
 
-    if(!isFormInvalid) {
+    if (!isFormInvalid) {
       this.setState({
         buttonMessage: 'Submitting...',
         isSubmitting: true

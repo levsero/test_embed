@@ -5,21 +5,21 @@
 @import '../_vars.scss';
 
 @font-face {
-  font-family: 'untitled-font-1';
-  src:url('../../asset/font/fonts.eot') format('embedded-opentype'),
-      url('../../asset/font/fonts.woff') format('woff');
+  font-family: 'embed-font-5';
+  src:url('../../asset/font/embed-font-5.eot') format('embedded-opentype'),
+      url('../../asset/font/embed-font-5.woff') format('woff'),
+      url('../../asset/font/embed-font-5.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 
 .Icon {
-  font-family: 'untitled-font-1';
+  font-family: 'embed-font-5';
   speak: none;
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
   text-transform: none;
-  font-size: #{16/$font-size}rem;
   min-width: #{20/$font-size}rem; /* 1 */
   width: #{20/$font-size}rem;
   line-height: 1;
@@ -39,34 +39,33 @@
 
 .Icon--active {
   padding-right: 0;
-
-  &:before {
-    content: 'a';
-  }
+  height: #{50/$font-size}rem;
+  width: #{50/$font-size}rem;
+  font-size: #{16/$font-size}rem;
 }
 
 .Icon:before {
-  content: 'c';
+  content: '\69';
 }
 
 .Icon--chat:before {
-  content: 'd';
+  content: '\61';
 }
 
 .Icon--mail:before {
-  content: 'b';
+  content: '\64';
 }
 
 .Icon--avatar:before {
-  content: 'f';
+  content: '\67';
 }
 
 .Icon--msg:before {
-  content: 'd';
+  content: '\66';
 }
 
 .Icon--cross:before {
-  content: 'a';
+  content: '\73';
 }
 
 .Icon--tick {
@@ -77,7 +76,7 @@
   color: $cta-color;
 
   &:before {
-    content: 'e';
+    content: '\68';
   }
 }
 
@@ -90,7 +89,7 @@
   }
 
   &:before {
-    content: 'g';
+    content: '\6b';
     font-size: #{60/$font-size}rem;
   }
 }

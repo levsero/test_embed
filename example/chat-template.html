@@ -43,6 +43,18 @@
               "onHide": {
                 name: "chatLauncher",
                 method: "update"
+              },
+              "setIcon": {
+                name: "chatLauncher",
+                method: "setIcon"
+              },
+              "setLabel": {
+                name: "chatLauncher",
+                method: "setLabel"
+              },
+              "updateForm": {
+                name: "ticketSubmissionForm",
+                method: "update"
               }
             }
           },
@@ -50,9 +62,23 @@
             "embed": "launcher",
             "props": {
               "position": "right",
+              "label": "Support",
               "onClick": {
                 name: "zopimChat",
-                method: "toggleVisibility"
+                method: "update"
+              }
+            }
+          },
+          "ticketSubmissionForm": {
+            "embed": "submitTicket",
+            "props": {
+              "onShow": {
+                name: "chatLauncher",
+                method: "update"
+              },
+              "onHide": {
+                name: "chatLauncher",
+                method: "update"
               }
             }
           }
