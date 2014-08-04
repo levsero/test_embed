@@ -168,7 +168,7 @@ describe('embed.submitTicket', function() {
       payload = mockFrameFactoryRecentCall[0](childFnParams);
 
       expect(payload.props.style)
-        .toEqual({});
+        .toEqual({height: '100%', width: '100%'});
     });
 
   });

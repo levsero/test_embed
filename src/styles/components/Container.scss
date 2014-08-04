@@ -43,4 +43,7 @@ $Container--popover-arrowWidth: $Container--popover-arrowFullWidth/2;
 .Container--fullscreen {
   background: $base-color;
   border: none;
+  box-sizing: border-box;
+  width:100%;
+  height: 100%;
 }

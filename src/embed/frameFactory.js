@@ -126,16 +126,10 @@ export var frameFactory = function(childFn, _params) {
     },
 
     close: function() {
-      this.setState({
-        visible: false
-      });
+      this.hide();
 
       if (params.onClose) {
         params.onClose();
-      }
-
-      if (params.onHide) {
-        params.onHide();
       }
     },
 

@@ -29,7 +29,7 @@ function create(name, config) {
   /* jshint laxbreak: true */
   if (isMobileBrowser()) {
     posObj = {};
-    containerStyle = {};
+    containerStyle = { width: '100%', height: '100%' };
   } else {
     posObj = (config.position === 'left')
            ? { left:  5 }
