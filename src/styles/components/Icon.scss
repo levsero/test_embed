@@ -5,16 +5,16 @@
 @import '../_vars.scss';
 
 @font-face {
-  font-family: 'embed-icon';
-  src:url('../../asset/font/embed-icon.eot') format('embedded-opentype'),
-      url('../../asset/font/embed-icon.woff') format('woff'),
-      url('../../asset/font/embed-icon.ttf') format('truetype');
+  font-family: 'embed-font-5';
+  src:url('../../asset/font/embed-font-5.eot') format('embedded-opentype'),
+      url('../../asset/font/embed-font-5.woff') format('woff'),
+      url('../../asset/font/embed-font-5.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 
 .Icon {
-  font-family: 'embed-icon';
+  font-family: 'embed-font-5';
   speak: none;
   font-style: normal;
   font-weight: normal;
@@ -49,7 +49,7 @@
 }
 
 .Icon:before {
-  content: '\6a';
+  content: '\69';
 }
 
 .Icon--chat:before {

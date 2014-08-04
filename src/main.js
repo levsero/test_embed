@@ -66,53 +66,53 @@ function boot() {
       (location.host === 'snow.hashttp.com' && location.pathname === '/chat')) {
 
     rendererConfig = {
-      "zopimChat": {
-        "embed": "chat",
-        "props": {
-          "zopimId": "2EkTn0An31opxOLXuGgRCy5nPnSNmpe6",
-          "onShow": {
-            name: "chatLauncher",
-            method: "update"
+      'zopimChat': {
+        'embed': 'chat',
+        'props': {
+          'zopimId': '2EkTn0An31opxOLXuGgRCy5nPnSNmpe6',
+          'onShow': {
+            name: 'chatLauncher',
+            method: 'update'
           },
-          "onHide": {
-            name: "chatLauncher",
-            method: "update"
+          'onHide': {
+            name: 'chatLauncher',
+            method: 'update'
           },
-          "setIcon": {
-            name: "chatLauncher",
-            method: "setIcon"
+          'setIcon': {
+            name: 'chatLauncher',
+            method: 'setIcon'
           },
-          "setLabel": {
-            name: "chatLauncher",
-            method: "setLabel"
+          'setLabel': {
+            name: 'chatLauncher',
+            method: 'setLabel'
           },
-          "updateForm": {
-            name: "ticketSubmissionForm",
-            method: "update"
+          'updateForm': {
+            name: 'ticketSubmissionForm',
+            method: 'update'
           }
         }
       },
-      "chatLauncher": {
-        "embed": "launcher",
-        "props": {
-          "position": "right",
-          "label": "Support",
-          "onClick": {
-            name: "zopimChat",
-            method: "update"
+      'chatLauncher': {
+        'embed': 'launcher',
+        'props': {
+          'position': 'right',
+          'label': 'Support',
+          'onClick': {
+            name: 'zopimChat',
+            method: 'update'
           }
         }
       },
-      "ticketSubmissionForm": {
-        "embed": "submitTicket",
-        "props": {
-          "onShow": {
-            name: "chatLauncher",
-            method: "update"
+      'ticketSubmissionForm': {
+        'embed': 'submitTicket',
+        'props': {
+          'onShow': {
+            name: 'chatLauncher',
+            method: 'update'
           },
-          "onHide": {
-            name: "chatLauncher",
-            method: "update"
+          'onHide': {
+            name: 'chatLauncher',
+            method: 'update'
           }
         }
       }
