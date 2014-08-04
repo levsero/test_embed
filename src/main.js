@@ -1,13 +1,14 @@
 module React from 'react';
-import { beacon    } from 'service/beacon';
-import { renderer  } from 'service/renderer';
-import { transport } from 'service/transport';
-import { win       } from 'util/globals';
+import { beacon        } from 'service/beacon';
+import { renderer      } from 'service/renderer';
+import { transport     } from 'service/transport';
+import { win, location } from 'util/globals';
 
 require('imports?_=lodash!lodash');
 
 function boot() {
-  var publicApi;
+  var publicApi,
+      rendererConfig;
 
   React.initializeTouchEvents(true);
 
@@ -26,7 +27,7 @@ function boot() {
   } else {
     win.zEmbed = publicApi;
   }
-  
+
   _.each(document.zEQueue, function(item) {
     if (item[0] === 'ready') {
       item[1](win.zEmbed);
@@ -34,7 +35,7 @@ function boot() {
   });
 
   // Until transport config is setup we hard code the config call
-  renderer.init({
+  rendererConfig = {
     'ticketSubmissionForm': {
       'embed': 'submitTicket',
       'props': {
@@ -58,7 +59,39 @@ function boot() {
         }
       }
     }
-  });
+  };
+
+  // Until transport config is dynamic we need to alter what gets rendered on the zopim page
+  if (location.host === 'www.zendesk.com' && location.pathname === '/zopim') {
+    rendererConfig = {
+      'chat': {
+        'embed': 'chat',
+        'props': {
+          'zopimId': '27EQHzyono7cSNYm055tx1uiGhA8Shar',
+          'onShow': {
+            name: 'chatLauncher',
+            method: 'update'
+          },
+          'onHide': {
+            name: 'chatLauncher',
+            method: 'update'
+          }
+        }
+      },
+      'chatLauncher': {
+        'embed': 'launcher',
+        'props': {
+          'position': 'right',
+          'onClick': {
+            name: 'chat',
+            method: 'toggleVisibility'
+          }
+        }
+      }
+    };
+  }
+
+  renderer.init(rendererConfig);
 }
 
 if (!_.isUndefined(document.zendeskHost)) {
