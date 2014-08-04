@@ -204,12 +204,13 @@ describe('Submit ticket component', function() {
             <SubmitTicket />,
             global.document.body
           ),
-          containerNode = submitTicket.getDOMNode().parentNode.firstChild,
+          containerNode = ReactTestUtils
+            .findRenderedDOMComponentWithClass(submitTicket, 'Container'),
           containerClasses;
 
       submitTicket.setState({fullscreen: true});
 
-      containerClasses = containerNode.getAttribute('class');
+      containerClasses = containerNode.props.className;
 
       expect(containerClasses.indexOf('Container--fullscreen') >= 0)
         .toEqual(true);
@@ -224,12 +225,13 @@ describe('Submit ticket component', function() {
             <SubmitTicket />,
             global.document.body
           ),
-          containerNode = submitTicket.getDOMNode().parentNode.firstChild,
+          containerNode = ReactTestUtils
+            .findRenderedDOMComponentWithClass(submitTicket, 'Container'),
           containerClasses;
 
       submitTicket.setState({fullscreen: false});
 
-      containerClasses = containerNode.getAttribute('class');
+      containerClasses = containerNode.props.className;
 
       expect(containerClasses.indexOf('Container--popover') >= 0)
         .toEqual(true);
@@ -247,12 +249,13 @@ describe('Submit ticket component', function() {
             <SubmitTicket />,
             global.document.body
           ),
-          logoNode = submitTicket.getDOMNode().parentNode.querySelector('a.Icon--zendesk'),
+          logoNode = ReactTestUtils
+            .findRenderedDOMComponentWithClass(submitTicket, 'Icon--zendesk'),
           logoClasses;
 
       submitTicket.setState({fullscreen: true});
 
-      logoClasses = logoNode.getAttribute('class');
+      logoClasses = logoNode.props.className;
 
       expect(logoClasses.indexOf('u-posAbsolute'))
         .toEqual(-1);
@@ -268,12 +271,13 @@ describe('Submit ticket component', function() {
             <SubmitTicket />,
             global.document.body
           ),
-          logoNode = submitTicket.getDOMNode().parentNode.querySelector('a.Icon--zendesk'),
+          logoNode = ReactTestUtils
+            .findRenderedDOMComponentWithClass(submitTicket, 'Icon--zendesk'),
           logoClasses;
 
       submitTicket.setState({fullscreen: false});
 
-      logoClasses = logoNode.getAttribute('class');
+      logoClasses = logoNode.props.className;
 
       expect(logoClasses.indexOf('u-posAbsolute') >= 0)
         .toEqual(true);

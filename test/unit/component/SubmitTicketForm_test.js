@@ -93,10 +93,9 @@ describe('SubmitTicketForm component', function() {
             <SubmitTicketForm submit={onSubmit} fullscreen={true} />,
             global.document.body
           ),
-          buttonNode = ReactTestUtils
-            .findRenderedDOMComponentWithClass(submitTicketForm, 'Button')
-            .getDOMNode(),
-          buttonClasses = buttonNode.getAttribute('class');
+          button = ReactTestUtils
+            .findRenderedDOMComponentWithClass(submitTicketForm, 'Button'),
+          buttonClasses = button.props.className;
 
       expect(buttonClasses.indexOf('u-sizeFull') >= 0)
         .toEqual(true);
@@ -110,10 +109,9 @@ describe('SubmitTicketForm component', function() {
             <SubmitTicketForm submit={onSubmit} fullscreen={false} />,
             global.document.body
           ),
-          buttonNode = ReactTestUtils
-            .findRenderedDOMComponentWithClass(submitTicketForm, 'Button')
-            .getDOMNode(),
-          buttonClasses = buttonNode.getAttribute('class');
+          button = ReactTestUtils
+            .findRenderedDOMComponentWithClass(submitTicketForm, 'Button'),
+          buttonClasses = button.props.className;
 
       expect(buttonClasses.indexOf('u-pullRight') >= 0)
         .toEqual(true);
