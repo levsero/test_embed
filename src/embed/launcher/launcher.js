@@ -14,7 +14,7 @@ function create(name, config) {
   var configDefaults = {
         onClick: function() {},
         position: 'right',
-        label: 'Support',
+        label: 'Help',
         icon: 'Icon--help'
       },
       base = {
