@@ -65,8 +65,12 @@
   content: 'd';
 }
 
-.Icon--cross:before {
-  content: 'a';
+.Icon--cross {
+  padding-right: 0;
+
+  &:before {
+    content: 'a';
+  }
 }
 
 .Icon--tick {

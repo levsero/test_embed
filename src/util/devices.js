@@ -1,11 +1,19 @@
 import { win, navigator } from 'util/globals';
 
-function getSizingRatio(isPinching) {
+function getSizingRatio(isPinching, isFirstRun) {
   var landscape = Math.abs(win.orientation) === 90,
       screen = win.screen,
       deviceWidth = landscape ? screen.availHeight : screen.availWidth,
       ratio = win.innerWidth / deviceWidth,
-      defaultRatio = landscape ? 2 : 3;
+      ratioThreshold = 2,
+      defaultRatio = landscape ? ratioThreshold : 3;
+
+  // On first run check the ratio is below threshold
+  // for defaulting to a smaller default font-size for
+  // tablets so the button isn't enormous
+  if(!isPinching && ratio < ratioThreshold && isFirstRun) {
+    defaultRatio = (ratio).toFixed(1);
+  }
 
   // A scale of 3 is a good base if the ratio is smaller
   // Android devices will return a smaller ratio compared
@@ -13,8 +21,9 @@ function getSizingRatio(isPinching) {
   // Unless we're triggering this from a gesture then take
   // ratio calculation.
   /* jshint laxbreak:true */
+
   return (ratio > 1)
-    ? Math.max(isPinching ? 0 : defaultRatio, Math.round(ratio))
+    ? Math.max(isPinching ? 0 : defaultRatio, ratio)
     : 1;
 }
 

@@ -39,3 +39,10 @@ $Container--popover-arrowWidth: $Container--popover-arrowFullWidth/2;
     margin-left: -#{($Container--popover-arrowWidth + 1)}px;
   }
 }
+
+.Container--fullscreen {
+  background: $base-color;
+  border: none;
+  width: 100%;
+  height: 100%;
+}
