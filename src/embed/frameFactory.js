@@ -125,6 +125,20 @@ export var frameFactory = function(childFn, _params) {
       }
     },
 
+    close: function() {
+      this.setState({
+        visible: false
+      });
+
+      if (params.onClose) {
+        params.onClose();
+      }
+
+      if (params.onHide) {
+        params.onHide();
+      }
+    },
+
     render: function() {
       /* jshint laxbreak: true */
       var visibilityRule = (this.state.visible)
@@ -177,8 +191,8 @@ export var frameFactory = function(childFn, _params) {
               'u-isActionable': true,
             }),
             closeButton = (params.fullscreenable && isMobileBrowser())
-                        ? (<div onClick={this.hide}
-                                onTouchEnd={this.hide}
+                        ? (<div onClick={this.close}
+                                onTouchEnd={this.close}
                                 className={closeClasses}></div>)
                         : null;
 

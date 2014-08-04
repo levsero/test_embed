@@ -62,6 +62,9 @@ function create(name, config) {
         setScaleLock(false);
         config.onHide();
       },
+      onClose() {
+        update(name, true);
+      },
       extend: {}
     }));
 
