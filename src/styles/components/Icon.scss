@@ -20,7 +20,6 @@
   font-weight: normal;
   font-variant: normal;
   text-transform: none;
-  font-size: #{16/$font-size}rem;
   min-width: #{20/$font-size}rem; /* 1 */
   width: #{20/$font-size}rem;
   line-height: 1;
@@ -42,10 +41,7 @@
   padding-right: 0;
   height: #{50/$font-size}rem;
   width: #{50/$font-size}rem;
-
-  &:before {
-    content: '\73';
-  }
+  font-size: #{16/$font-size}rem;
 }
 
 .Icon:before {
