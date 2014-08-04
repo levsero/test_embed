@@ -69,8 +69,9 @@ export var SubmitTicket = React.createClass({
   },
 
   render() {
-    var formVisibility = (this.state.showNotification) ? 'u-isHidden' : '',
-        notifyVisibility = (formVisibility) ?  '' : 'u-isHidden',
+    var formClasses = classSet({
+          'u-isHidden': this.state.showNotification
+        }),
         containerClasses = classSet({
           'Container': true,
           'Container--popover': !this.state.fullscreen,
@@ -111,7 +112,7 @@ export var SubmitTicket = React.createClass({
         <SubmitTicketForm
           fullscreen={this.state.fullscreen}
           ref='submitTicketForm'
-          className={formVisibility}
+          className={formClasses}
           submit={this.handleSubmit} />
         <div className='u-nbfc'>
           <a
