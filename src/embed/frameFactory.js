@@ -1,7 +1,8 @@
 /** @jsx React.DOM */
 module React from 'react/addons';
-import { win } from 'util/globals';
-import { getSizingRatio, isMobileBrowser } from 'util/devices';
+import { win             } from 'util/globals';
+import { getSizingRatio,
+         isMobileBrowser } from 'util/devices';
 
 require('imports?_=lodash!lodash');
 
@@ -30,7 +31,7 @@ export var frameFactory = function(childFn, _params) {
       defaultParams = {
         style: {},
         css: '',
-        fullscreenable: false,
+        fullscreenable: false
       },
       params = _.extend(defaultParams, _params);
 
@@ -72,17 +73,26 @@ export var frameFactory = function(childFn, _params) {
         /* jshint laxbreak: true */
         var el = frameDoc.body.firstChild,
             width  = Math.max(el.clientWidth,  el.offsetWidth),
-            height = Math.max(el.clientHeight, el.offsetHeight);
+            height = Math.max(el.clientHeight, el.offsetHeight),
+            fullscreen = (
+              (getSizingRatio() > 1 || isMobileBrowser()) && params.fullscreenable
+            ),
+            fullscreenStyle = {
+              width: '100%',
+              height: '100%',
+              top:0,
+              left:0,
+              background:'#fff',
+              zIndex: 1
+            },
+            popoverStyle = {
+              width:  (_.isFinite(width)  ? width  : 0) + offsetWidth,
+              height: (_.isFinite(height) ? height : 0) + offsetHeight
+            };
 
-        return ((getSizingRatio() > 1 || isMobileBrowser()) && params.fullscreenable)
-             ? { width: '100%',
-                 height: '100%',
-                 top:0,
-                 left:0,
-                 background:'#fff',
-                 zIndex: 5 }
-             : { width:  (_.isFinite(width)  ? width  : 0) + offsetWidth,
-                 height: (_.isFinite(height) ? height : 0) + offsetHeight };
+        return fullscreen
+             ? fullscreenStyle
+             : popoverStyle;
       };
 
       if (params.fullscreenable && isMobileBrowser()) {
@@ -177,11 +187,8 @@ export var frameFactory = function(childFn, _params) {
             Component,
             childParams,
             closeClasses = classSet({
-              'u-posAbsolute': true,
-              'u-posEnd': true,
-              'u-posStart--vert': true,
-              'Icon': true,
-              'Icon--cross': true,
+              'Icon Icon--cross': true,
+              'u-posAbsolute u-posEnd u-posStart--vert': true,
               'u-isActionable': true,
             }),
             closeButton = (params.fullscreenable && isMobileBrowser())

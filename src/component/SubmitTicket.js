@@ -74,20 +74,15 @@ export var SubmitTicket = React.createClass({
         }),
         containerClasses = classSet({
           'Container': true,
-          'Container--popover': !this.state.fullscreen,
+          'Container--popover u-nbfcAlt': !this.state.fullscreen,
           'Container--fullscreen': this.state.fullscreen,
-          'u-nbfcAlt': !this.state.fullscreen,
-          'Arrange': this.state.fullscreen,
-          'Arrange--middle': this.state.fullscreen,
+          'Arrange Arrange--middle': this.state.fullscreen,
           'u-posRelative': true
         }),
         logoClasses = classSet({
-          'Icon': true,
-          'Icon--zendesk': true,
-          'u-linkClean': true,
+          'Icon Icon--zendesk u-linkClean': true,
           'u-posAbsolute': !this.state.fullscreen || this.state.showNotification,
-          'u-posStart': !this.state.fullscreen || this.state.showNotification,
-          'u-posEnd--vert': !this.state.fullscreen || this.state.showNotification
+          'u-posStart u-posEnd--vert': !this.state.fullscreen || this.state.showNotification,
         }),
         notifyClasses = classSet({
           'Notify': true,

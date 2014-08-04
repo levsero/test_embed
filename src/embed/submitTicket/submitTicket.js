@@ -1,10 +1,10 @@
 /** @jsx React.DOM */
 
 module React from 'react/addons';
-import { document     } from 'util/globals';
-import { SubmitTicket } from 'component/SubmitTicket';
-import { frameFactory } from 'embed/frameFactory';
-import { setScaleLock } from 'util/utils';
+import { document        } from 'util/globals';
+import { SubmitTicket    } from 'component/SubmitTicket';
+import { frameFactory    } from 'embed/frameFactory';
+import { setScaleLock    } from 'util/utils';
 import { isMobileBrowser } from 'util/devices';
 
 var submitTicketCSS = require('./submitTicket.scss'),
@@ -28,7 +28,6 @@ function create(name, config) {
 
   /* jshint laxbreak: true */
   if (isMobileBrowser()) {
-    posObj = {};
     containerStyle = { width: '100%', height: '100%' };
   } else {
     posObj = (config.position === 'left')

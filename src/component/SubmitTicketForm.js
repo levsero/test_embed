@@ -5,9 +5,8 @@ module ReactForms from 'react-forms';
 import { submitTicketSchema } from 'component/SubmitTicketSchema';
 require('imports?_=lodash!lodash');
 
-var classSet = React.addons.classSet;
-
-var SubmitTicketFormBody = ReactForms.Form;
+var classSet = React.addons.classSet,
+    SubmitTicketFormBody = ReactForms.Form;
 
 var SubmitTicketForm = React.createClass({
   getInitialState() {
@@ -16,6 +15,7 @@ var SubmitTicketForm = React.createClass({
       autoFocus: false
     };
   },
+
   getDefaultProps() {
     return {
       fullscreen: false
@@ -46,11 +46,8 @@ var SubmitTicketForm = React.createClass({
             component={React.DOM.div} />
         ),
         buttonClasses = classSet({
-          'Button': true,
-          'Button--cta': true,
-          'Anim-color': true,
+          'Button Button--cta Anim-color u-textNoWrap': true,
           'u-pullRight': !this.props.fullscreen,
-          'u-textNoWrap': true,
           'u-sizeFull': this.props.fullscreen
         });
 
