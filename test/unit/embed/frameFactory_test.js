@@ -180,7 +180,7 @@ describe('frameFactory', function() {
           instance,
           frameContainer,
           frameContainerStyle;
-      
+
       mockRegistry['util/devices'].isMobileBrowser = function() {
         return true;
       };
@@ -204,8 +204,6 @@ describe('frameFactory', function() {
       frameContainer = global.document.body.getElementsByTagName('iframe')[0];
       frameContainerStyle = frameContainer.style;
 
-      jasmine.Clock.useMock();
-
       instance.updateFrameSize();
 
       jasmine.Clock.tick(10);
@@ -225,7 +223,7 @@ describe('frameFactory', function() {
       expect(frameContainerStyle.zIndex > 0)
         .toEqual(true);
     });
-      
+
   });
 
   describe('show', function() {

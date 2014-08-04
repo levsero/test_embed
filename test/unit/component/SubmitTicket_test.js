@@ -170,10 +170,10 @@ describe('Submit ticket component', function() {
       SubmitTicket = require(submitTicketPath).SubmitTicket;
 
       var submitTicket = React.renderComponent(
-          <SubmitTicket />,
+        <SubmitTicket />,
         global.document.body
       );
-      
+
       expect(submitTicket.state.fullscreen)
         .toEqual(true);
     });
@@ -188,10 +188,10 @@ describe('Submit ticket component', function() {
       SubmitTicket = require(submitTicketPath).SubmitTicket;
 
       var submitTicket = React.renderComponent(
-          <SubmitTicket />,
+        <SubmitTicket />,
         global.document.body
       );
-      
+
       expect(submitTicket.state.fullscreen)
         .toEqual(false);
     });
@@ -201,7 +201,7 @@ describe('Submit ticket component', function() {
     it('should have the `fullscreen` classnames when fullscreen is true', function() {
 
       var submitTicket = React.renderComponent(
-              <SubmitTicket />,
+            <SubmitTicket />,
             global.document.body
           ),
           containerNode = submitTicket.getDOMNode().parentNode.firstChild,
@@ -221,7 +221,7 @@ describe('Submit ticket component', function() {
     it('should have the `popover` classnames when fullscreen is false', function() {
 
       var submitTicket = React.renderComponent(
-              <SubmitTicket />,
+            <SubmitTicket />,
             global.document.body
           ),
           containerNode = submitTicket.getDOMNode().parentNode.firstChild,
@@ -244,7 +244,7 @@ describe('Submit ticket component', function() {
     it('should have the `fullscreen` classnames when fullscreen is true', function() {
 
       var submitTicket = React.renderComponent(
-              <SubmitTicket />,
+            <SubmitTicket />,
             global.document.body
           ),
           logoNode = submitTicket.getDOMNode().parentNode.querySelector('a.Icon--zendesk'),
@@ -259,13 +259,13 @@ describe('Submit ticket component', function() {
 
       expect(logoClasses.indexOf('u-posStart'))
         .toEqual(-1);
-      
+
     });
 
     it('should not have the `fullscreen` classnames when fullscreen is false', function() {
 
       var submitTicket = React.renderComponent(
-              <SubmitTicket />,
+            <SubmitTicket />,
             global.document.body
           ),
           logoNode = submitTicket.getDOMNode().parentNode.querySelector('a.Icon--zendesk'),
@@ -280,7 +280,7 @@ describe('Submit ticket component', function() {
 
       expect(logoClasses.indexOf('u-posStart') >= 0)
         .toEqual(true);
-       
+
     });
 
   });
@@ -301,6 +301,6 @@ describe('Submit ticket component', function() {
     expect(mostRecentCall.fullscreen)
       .toEqual('VALUE');
   });
-    
+
 
 });

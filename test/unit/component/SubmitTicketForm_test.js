@@ -49,8 +49,7 @@ describe('SubmitTicketForm component', function() {
       'component/SubmitTicketSchema': {
         submitTicketSchema: noop
       },
-      'imports?_=lodash!lodash': _,
-
+      'imports?_=lodash!lodash': _
     });
 
     mockery.registerAllowable('util/globals');
@@ -66,22 +65,22 @@ describe('SubmitTicketForm component', function() {
   });
 
   it('should correctly render form with noValidate attribute', function() {
-    var zdForm = React.renderComponent(
+    var submitTicketForm = React.renderComponent(
       <SubmitTicketForm />,
       global.document.body
     );
 
-    expect(zdForm.getDOMNode().getAttribute('novalidate'))
+    expect(submitTicketForm.getDOMNode().getAttribute('novalidate'))
       .toEqual('');
   });
 
   it('should call parent component submit when form is submitted', function() {
-    var zdForm = React.renderComponent(
+    var submitTicketForm = React.renderComponent(
       <SubmitTicketForm submit={onSubmit} />,
       global.document.body
     );
 
-    ReactTestUtils.Simulate.submit(zdForm.getDOMNode());
+    ReactTestUtils.Simulate.submit(submitTicketForm.getDOMNode());
 
     expect(onSubmit)
       .toHaveBeenCalled();
@@ -90,11 +89,13 @@ describe('SubmitTicketForm component', function() {
   describe('Send button classes', function() {
 
     it('should have fullscreen classes when fullscreen is true', function() {
-      var zdForm = React.renderComponent(
+      var submitTicketForm = React.renderComponent(
             <SubmitTicketForm submit={onSubmit} fullscreen={true} />,
             global.document.body
           ),
-          buttonNode = zdForm.getDOMNode().parentNode.querySelector('.Button'),
+          buttonNode = ReactTestUtils
+            .findRenderedDOMComponentWithClass(submitTicketForm, 'Button')
+            .getDOMNode(),
           buttonClasses = buttonNode.getAttribute('class');
 
       expect(buttonClasses.indexOf('u-sizeFull') >= 0)
@@ -104,12 +105,14 @@ describe('SubmitTicketForm component', function() {
         .toEqual(-1);
     });
 
-    it('should have fullscreen classes when fullscreen is false', function() {
-      var zdForm = React.renderComponent(
+    it('should not have fullscreen classes when fullscreen is false', function() {
+      var submitTicketForm = React.renderComponent(
             <SubmitTicketForm submit={onSubmit} fullscreen={false} />,
             global.document.body
           ),
-          buttonNode = zdForm.getDOMNode().parentNode.querySelector('.Button'),
+          buttonNode = ReactTestUtils
+            .findRenderedDOMComponentWithClass(submitTicketForm, 'Button')
+            .getDOMNode(),
           buttonClasses = buttonNode.getAttribute('class');
 
       expect(buttonClasses.indexOf('u-pullRight') >= 0)
