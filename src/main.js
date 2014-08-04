@@ -62,7 +62,7 @@ function boot() {
   };
 
   // Until transport config is dynamic we need to alter what gets rendered on the zopim page
-  if(location.host === 'www.zendesk.com' && location.pathname === '/zopim') {
+  if (location.host === 'www.zendesk.com' && location.pathname === '/zopim') {
     rendererConfig = {
       'chat': {
         'embed': 'chat',
