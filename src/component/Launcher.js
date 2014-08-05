@@ -49,11 +49,11 @@ export var Launcher = React.createClass({
         }),
         iconClasses = classSet({
           // spaces needed for class concatenation
-          'Arrange-sizeFit Icon u-textInheritColor ': true,
+          'Arrange-sizeFit Icon u-textInheritColor u-inlineBlock ': true,
           'Icon--active u-textCenter Icon--cross ': this.state.active
         }),
         labelClasses = classSet({
-          'u-textInheritColor': true,
+          'u-textInheritColor u-inlineBlock': true,
           'Arrange-sizeFit': !this.state.active
         });
 
