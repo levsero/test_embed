@@ -83,7 +83,7 @@ export var frameFactory = function(childFn, _params) {
               top:0,
               left:0,
               background:'#fff',
-              zIndex: 1
+              zIndex: 999999
             },
             popoverStyle = {
               width:  (_.isFinite(width)  ? width  : 0) + offsetWidth,
@@ -151,7 +151,7 @@ export var frameFactory = function(childFn, _params) {
           iframeStyle = _.extend({
               border: 'none',
               background: 'transparent !important',
-              zIndex: 999999
+              zIndex: 999998
             },
             params.style,
             this.state.iframeDimensions,
