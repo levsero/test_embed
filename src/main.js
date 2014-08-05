@@ -10,7 +10,9 @@ require('imports?_=lodash!lodash');
 function boot() {
   var publicApi,
       isPinching,
-      rendererConfig;
+      rendererConfig,
+      host = location.host,
+      path = location.path;
 
   React.initializeTouchEvents(true);
 
@@ -87,11 +89,11 @@ function boot() {
   });
 
   // Until transport config is dynamic we need to alter what gets rendered on the zopim page
-  if ((location.host === 'www.zendesk.com' && location.pathname === '/zopim') ||
-      (location.host === 'snow.hashttp.com' && location.pathname === '/chat')) {
+  if ((host === 'www.zendesk.com' && path === '/zopim') ||
+      (host === 'snow.hashttp.com' && path === '/chat')) {
 
     /* jshint laxbreak: true */
-    var zopimId = (location.host === 'www.zendesk.com')
+    var zopimId = (host === 'www.zendesk.com')
                 ? '27EQHzyono7cSNYm055tx1uiGhA8Shar'
                 : '2EkTn0An31opxOLXuGgRCy5nPnSNmpe6';
 
