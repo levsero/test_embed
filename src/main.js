@@ -90,11 +90,16 @@ function boot() {
   if ((location.host === 'www.zendesk.com' && location.pathname === '/zopim') ||
       (location.host === 'snow.hashttp.com' && location.pathname === '/chat')) {
 
+    /* jshint laxbreak: true */
+    var zopimId = (location.host === 'www.zendesk.com')
+                ? '27EQHzyono7cSNYm055tx1uiGhA8Shar'
+                : '2EkTn0An31opxOLXuGgRCy5nPnSNmpe6';
+
     rendererConfig = {
       'zopimChat': {
         'embed': 'chat',
         'props': {
-          'zopimId': '2EkTn0An31opxOLXuGgRCy5nPnSNmpe6',
+          'zopimId': zopimId,
           'onShow': {
             name: 'chatLauncher',
             method: 'update'
