@@ -35,7 +35,7 @@ var FocusField = React.createClass({
     var value = this.value(),
         isValid = !isFailure(value.validation);
 
-    if(this.state.blurred && isValid) {
+    if (this.state.blurred && isValid) {
       this.setState({blurred: false});
     }
   },

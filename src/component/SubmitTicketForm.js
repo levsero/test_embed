@@ -6,13 +6,15 @@ import { submitTicketSchema } from 'component/SubmitTicketSchema';
 require('imports?_=lodash!lodash');
 
 var classSet = React.addons.classSet,
-    SubmitTicketFormBody = ReactForms.Form;
+    SubmitTicketFormBody = ReactForms.Form,
+    isFailure = ReactForms.validation.isFailure;
 
 var SubmitTicketForm = React.createClass({
   getInitialState() {
     return {
       isValid: false,
-      autoFocus: false
+      buttonMessage: 'Send',
+      isSubmitting: false
     };
   },
 
@@ -24,10 +26,18 @@ var SubmitTicketForm = React.createClass({
 
   handleSubmit(e) {
     var form = this.refs.form,
-        formValue = form.value();
+        formValue = form.value(),
+        isFormInvalid = isFailure(formValue.validation);
+
+    if (!isFormInvalid) {
+      this.setState({
+        buttonMessage: 'Submitting...',
+        isSubmitting: true
+      });
+    }
 
     this.props.submit(e, {
-      isFormInvalid: ReactForms.validation.isFailure(formValue.validation),
+      isFormInvalid: isFormInvalid,
       value: formValue.value
     });
   },
@@ -62,9 +72,9 @@ var SubmitTicketForm = React.createClass({
         {formBody}
         <input
           type='submit'
-          value='Send'
+          value={this.state.buttonMessage}
           ref='submitButton'
-          disabled={!this.state.isValid}
+          disabled={!this.state.isValid || this.state.isSubmitting}
           className={buttonClasses}
         />
       </form>

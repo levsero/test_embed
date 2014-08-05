@@ -28,6 +28,8 @@ describe('SubmitTicketForm component', function() {
 
     onSubmit = jasmine.createSpy();
 
+    resetDOM();
+
     mockery.enable({
       warnOnReplace:false
     });
@@ -122,5 +124,34 @@ describe('SubmitTicketForm component', function() {
 
   });
 
+  it('should change state and alter submit button on valid submit', function() {
+    var submitTicketForm = React.renderComponent(
+          <SubmitTicketForm submit={onSubmit} />,
+          global.document.body
+        ),
+        submitTicketFormNode = submitTicketForm.getDOMNode(),
+        submitElem = submitTicketFormNode.querySelector('input[type="submit"]');
 
+    expect(submitElem.disabled)
+      .toEqual(true);
+
+    submitTicketForm.setState({isValid: true});
+
+    expect(submitElem.disabled)
+      .toEqual(false);
+
+    expect(submitTicketForm.state.isSubmitting)
+      .toEqual(false);
+
+    ReactTestUtils.Simulate.submit(submitTicketForm.getDOMNode());
+
+    expect(submitTicketForm.state.buttonMessage)
+      .toEqual('Submitting...');
+
+    expect(submitTicketForm.state.isSubmitting)
+      .toEqual(true);
+
+    expect(submitElem.disabled)
+      .toEqual(true);
+  });
 });

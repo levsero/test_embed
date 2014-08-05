@@ -14,7 +14,7 @@ function create(name, config) {
   var configDefaults = {
         onClick: function() {},
         position: 'right',
-        message: 'Help',
+        label: 'Help',
         icon: 'Icon--help'
       },
       base = {
@@ -46,7 +46,7 @@ function create(name, config) {
           onTouchEnd={params.onClickHandler}
           updateFrameSize={params.updateFrameSize}
           position={config.position}
-          message={config.message}
+          label={config.label}
           icon={config.icon}
         />
       );
@@ -57,7 +57,7 @@ function create(name, config) {
       fullscreenable: false,
       extend: {
         onClickHandler: function(e) {
-          var isActive = !this.getChild().refs.launcher.state.message;
+          var isActive = this.getChild().refs.launcher.state.active;
           e.preventDefault();
 
           config.onClick(isActive);
@@ -104,20 +104,14 @@ function render(name) {
   launchers[name].instance = React.renderComponent(launchers[name].component, element);
 }
 
-function setMessage(name, message) {
-  getChildRefs(name).launcher.setMessage(message);
+function setLabel(name, label) {
+  getChildRefs(name).launcher.setLabel(label);
 }
 
 function update(name) {
   var launcher = getChildRefs(name).launcher;
 
-  if (launcher.state.message) {
-    setMessage(name, '');
-    setIcon(name, 'Icon--cross');
-  } else {
-    setMessage(name, 'Help');
-    setIcon(name, 'Icon');
-  }
+  launcher.setActive(!launcher.state.active);
 }
 
 export var launcher = {
@@ -128,6 +122,7 @@ export var launcher = {
   hide: hide,
   show: show,
   setIcon: setIcon,
+  setLabel: setLabel,
   update: update
 };
 

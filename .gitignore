@@ -4,3 +4,4 @@ dist/
 example/*
 !example/*-template.html
 build/
+.DS_Store

@@ -80,7 +80,7 @@ describe('embed.launcher', function() {
           config = {
             onClick: jasmine.createSpy(),
             position: 'test_position',
-            message: 'Help',
+            label: 'Help',
             icon: ''
           },
           mockFrameFactoryScope = {
@@ -89,7 +89,7 @@ describe('embed.launcher', function() {
                 refs: {
                   launcher: {
                     state: {
-                      message: ''
+                      label: ''
                     }
                   }
                 }
@@ -122,8 +122,8 @@ describe('embed.launcher', function() {
       expect(payload.props.icon)
         .toEqual(config.icon);
 
-      expect(payload.props.message)
-        .toEqual(config.message);
+      expect(payload.props.label)
+        .toEqual(config.label);
 
       childParams = mockFrameFactoryRecentCall[1];
 
@@ -180,7 +180,7 @@ describe('embed.launcher', function() {
           config = {
             position: 'test_alice_position',
             onClick: function() { return 'alice'; },
-            message: 'Help',
+            label: 'Help',
             icon: ''
           };
 

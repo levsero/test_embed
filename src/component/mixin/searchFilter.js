@@ -4,7 +4,7 @@ export var stopWordsFilter = function(str) {
   var words = str.replace(/\W/g, ' ').split(' ');
 
   words = _.filter(words, function(word) {
-    if(stopWords.indexOf(word.toLowerCase()) === -1) {
+    if (stopWords.indexOf(word.toLowerCase()) === -1) {
       return word;
     }
   });

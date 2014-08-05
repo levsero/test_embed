@@ -1,12 +1,15 @@
 import { submitTicket } from 'embed/submitTicket/submitTicket';
 import { launcher     } from 'embed/launcher/launcher';
 import { helpCenter   } from 'embed/helpCenter/helpCenter';
+import { chat         } from 'embed/chat/chat';
+
 require('imports?_=lodash!lodash');
 
 var embedsMap = {
       'submitTicket': submitTicket,
-      'launcher':     launcher,
-      'helpCenter':   helpCenter
+      'launcher'    : launcher,
+      'helpCenter'  : helpCenter,
+      'chat'        : chat
     },
     initialised = false,
     renderedEmbeds;

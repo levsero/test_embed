@@ -2,14 +2,15 @@ module React from 'react';
 import { beacon         } from 'service/beacon';
 import { renderer       } from 'service/renderer';
 import { transport      } from 'service/transport';
-import { win            } from 'util/globals';
+import { win, location  } from 'util/globals';
 import { getSizingRatio } from 'util/devices';
 
 require('imports?_=lodash!lodash');
 
 function boot() {
   var publicApi,
-      isPinching;
+      isPinching,
+      rendererConfig;
 
   React.initializeTouchEvents(true);
 
@@ -36,7 +37,7 @@ function boot() {
   });
 
   // Until transport config is setup we hard code the config call
-  renderer.init({
+  rendererConfig = {
     'ticketSubmissionForm': {
       'embed': 'submitTicket',
       'props': {
@@ -60,7 +61,7 @@ function boot() {
         }
       }
     }
-  });
+  };
 
   function propagateFontRatioChange() {
     setTimeout(() => {
@@ -85,6 +86,65 @@ function boot() {
     propagateFontRatioChange();
   });
 
+  // Until transport config is dynamic we need to alter what gets rendered on the zopim page
+  if ((location.host === 'www.zendesk.com' && location.pathname === '/zopim') ||
+      (location.host === 'snow.hashttp.com' && location.pathname === '/chat')) {
+
+    rendererConfig = {
+      'zopimChat': {
+        'embed': 'chat',
+        'props': {
+          'zopimId': '2EkTn0An31opxOLXuGgRCy5nPnSNmpe6',
+          'onShow': {
+            name: 'chatLauncher',
+            method: 'update'
+          },
+          'onHide': {
+            name: 'chatLauncher',
+            method: 'update'
+          },
+          'setIcon': {
+            name: 'chatLauncher',
+            method: 'setIcon'
+          },
+          'setLabel': {
+            name: 'chatLauncher',
+            method: 'setLabel'
+          },
+          'updateForm': {
+            name: 'ticketSubmissionForm',
+            method: 'update'
+          }
+        }
+      },
+      'chatLauncher': {
+        'embed': 'launcher',
+        'props': {
+          'position': 'right',
+          'label': 'Support',
+          'onClick': {
+            name: 'zopimChat',
+            method: 'update'
+          }
+        }
+      },
+      'ticketSubmissionForm': {
+        'embed': 'submitTicket',
+        'props': {
+          'onShow': {
+            name: 'chatLauncher',
+            method: 'update'
+          },
+          'onHide': {
+            name: 'chatLauncher',
+            method: 'update'
+          }
+        }
+      }
+    };
+  }
+
+  renderer.init(rendererConfig);
 }
 
 if (!_.isUndefined(document.zendeskHost)) {

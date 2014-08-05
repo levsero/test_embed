@@ -21,9 +21,11 @@ export var SubmitTicket = React.createClass({
   },
 
   reset() {
+    var submitTicketForm = this.refs.submitTicketForm;
+
     this.setState({showNotification: false});
-    this.refs.submitTicketForm.refs.form.updateValue([null]);
-    this.refs.submitTicketForm.setState({isValid: false});
+    submitTicketForm.refs.form.updateValue([null]);
+    submitTicketForm.setState(submitTicketForm.getInitialState());
   },
 
   showField: function() {
@@ -33,7 +35,7 @@ export var SubmitTicket = React.createClass({
   handleSubmit(e, data) {
     e.preventDefault();
 
-    if(data.isFormInvalid) {
+    if (data.isFormInvalid) {
       // TODO: Handle invalid form submission
       return;
     }
@@ -89,7 +91,13 @@ export var SubmitTicket = React.createClass({
           'u-textCenter': true,
           'Arrange-sizeFill': this.state.fullscreen,
           'u-isHidden': !this.state.showNotification
-        });
+        }),
+        logoUrl = ['//www.zendesk.com/lp/just-one-click/',
+                   '?utm_source=launcher&utm_medium=poweredbyzendesk&utm_campaign=image'
+                  ].join(''),
+        marketingUrl = ['//www.zendesk.com/lp/just-one-click/',
+                        '?utm_source=launcher&utm_medium=poweredbyzendesk&utm_campaign=text'
+                       ].join('');
 
     if (this.props.updateFrameSize) {
       setTimeout( () => this.props.updateFrameSize(0, 10), 0);
@@ -102,7 +110,14 @@ export var SubmitTicket = React.createClass({
         key={this.state.uid}>
         <div className={notifyClasses}>
           <div className='Icon Icon--tick u-inlineBlock' />
-          <div className='u-textBold'>{this.state.message}</div>
+          <p className='u-textBold'>{this.state.message}</p>
+          <p>
+            <a
+              href={marketingUrl}
+              target='_blank'>
+              Want this on your website?
+            </a>
+          </p>
         </div>
         <SubmitTicketForm
           fullscreen={this.state.fullscreen}
@@ -111,7 +126,7 @@ export var SubmitTicket = React.createClass({
           submit={this.handleSubmit} />
         <div className='u-nbfc'>
           <a
-            href={'http://www.zendesk.com/?utm_medium=cetoolkit&utm_campaign=embeddables'}
+            href={logoUrl}
             target='_blank'
             className={logoClasses}>
             <span className='u-isHiddenVisually'>zendesk</span>

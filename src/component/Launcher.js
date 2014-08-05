@@ -8,20 +8,27 @@ export var Launcher = React.createClass({
     onClick: React.PropTypes.func,
     updateFrameSize: React.PropTypes.func.isRequired,
     position: React.PropTypes.string,
-    message: React.PropTypes.string,
+    label: React.PropTypes.string,
     icon: React.PropTypes.string
   },
 
   getInitialState: function() {
     return {
       icon: this.props.icon,
-      message: this.props.message
+      label: this.props.label,
+      active: false
     };
   },
 
-  setMessage: function(message) {
+  setActive: function(value) {
     this.setState({
-      message: message
+      active: value
+    });
+  },
+
+  setLabel: function(label) {
+    this.setState({
+      label: label
     });
   },
 
@@ -32,33 +39,43 @@ export var Launcher = React.createClass({
   },
 
   render: function() {
-    var buttonClasses = classSet({
+    var displayIcon,
+        displayLabel,
+        buttonClasses = classSet({
           'Button Button--launcher Button--cta': true,
           'Arrange Arrange--middle': true,
           'u-isActionable u-textLeft u-inlineBlock u-textNoWrap': true,
-          'Button--launcherActive': !this.state.message
+          'Button--launcherActive': this.state.active
         }),
         iconClasses = classSet({
           // spaces needed for class concatenation
           'Arrange-sizeFit Icon u-textInheritColor ': true,
-          'Icon--active u-block ': !this.state.message
+          'Icon--active u-textCenter Icon--cross ': this.state.active
         }),
-        messageClasses = classSet({
+        labelClasses = classSet({
           'u-textInheritColor': true,
-          'Arrange-sizeFit': this.state.message
+          'Arrange-sizeFit': !this.state.active
         });
 
     if (this.props.updateFrameSize) {
       setTimeout( () => this.props.updateFrameSize(5, 0), 0);
     }
 
+    /* jshint laxbreak:true */
+    displayIcon = (!this.state.active)
+                ? this.state.icon
+                : '';
+    displayLabel = (!this.state.active)
+                ? this.state.label
+                : '';
+
     return (
       /* jshint quotmark: false */
       <div className={buttonClasses}
         onClick={this.props.onClick}
         onTouchEnd={this.props.onClick}>
-        <i className={iconClasses + this.state.icon} />
-        <span className={messageClasses}>{this.state.message}</span>
+        <i className={iconClasses + displayIcon} />
+        <span className={labelClasses}>{displayLabel}</span>
       </div>
     );
   }
