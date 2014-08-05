@@ -34,6 +34,7 @@ global.noop = function() {};
 console.warn = console.error = noop;
 
 global.resetDOM = function() {
+  global.document.head.innerHTML = '';
   global.document.body.innerHTML = '';
 };
 
@@ -42,4 +43,12 @@ global.initMockRegistry = function(registry) {
     mockery.registerMock(key, value);
   });
   return registry;
+};
+
+global.dispatchEvent = function(eventName, node) {
+  var event = global.document.createEvent('HTMLEvents');
+
+  event.initEvent(eventName, true, true);
+  event.touches = [0,0];
+  node.dispatchEvent(event);
 };

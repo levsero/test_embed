@@ -1,13 +1,15 @@
 module React from 'react';
-import { beacon        } from 'service/beacon';
-import { renderer      } from 'service/renderer';
-import { transport     } from 'service/transport';
-import { win, location } from 'util/globals';
+import { beacon         } from 'service/beacon';
+import { renderer       } from 'service/renderer';
+import { transport      } from 'service/transport';
+import { win, location  } from 'util/globals';
+import { getSizingRatio } from 'util/devices';
 
 require('imports?_=lodash!lodash');
 
 function boot() {
   var publicApi,
+      isPinching,
       rendererConfig;
 
   React.initializeTouchEvents(true);
@@ -28,7 +30,7 @@ function boot() {
     win.zEmbed = publicApi;
   }
 
-  _.each(document.zEQueue, function(item) {
+  _.forEach(document.zEQueue, function(item) {
     if (item[0] === 'ready') {
       item[1](win.zEmbed);
     }
@@ -60,6 +62,29 @@ function boot() {
       }
     }
   };
+
+  function propagateFontRatioChange() {
+    setTimeout(() => {
+      renderer.propagateFontRatio(getSizingRatio(true));
+    }, 0);
+  }
+
+  win.addEventListener('touchmove', (e) => {
+    // Touch end won't tell you if multiple touches are detected
+    // so we store the touches length on move and check on end
+    isPinching = e.touches.length > 1;
+  });
+
+  win.addEventListener('touchend', (e) => {
+    // iOS has the scale property to detect pinching gestures
+    if (isPinching || e.scale && e.scale !== 1) {
+      propagateFontRatioChange();
+    }
+  });
+
+  win.addEventListener('orientationchange', () => {
+    propagateFontRatioChange();
+  });
 
   // Until transport config is dynamic we need to alter what gets rendered on the zopim page
   if ((location.host === 'www.zendesk.com' && location.pathname === '/zopim') ||

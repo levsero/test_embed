@@ -2,32 +2,31 @@
 
 describe('SubmitTicketForm component', function() {
   var SubmitTicketForm,
+      onSubmit,
       mockRegistry,
-      defaultValue = '123abc',
-      onSubmit = jasmine.createSpy(),
-      mockComponent = jasmine.createSpy('mockComponent')
-        .andCallFake(React.createClass({
-          value: function() {
-            return {
-              value: defaultValue
-            };
-          },
-          render: function() {
-            /* jshint quotmark: false */
-            var formBody = <div ref='form' />;
-            return (
-              <form
-                noValidate
-                onSubmit={onSubmit}
-                className='Form'>
-                {formBody}
-              </form>
-            );
-          }
-        })),
       submitTicketFormPath = buildSrcPath('component/SubmitTicketForm');
 
   beforeEach(function() {
+
+    var mockComponent = React.createClass({
+      value: function() {
+        return '123';
+      },
+      render: function() {
+        /* jshint quotmark: false */
+        var formBody = <div ref='form' />;
+        return (
+          <form
+            noValidate
+            onSubmit={onSubmit}
+            className='Form'>
+            {formBody}
+          </form>
+        );
+      }
+    });
+
+    onSubmit = jasmine.createSpy();
 
     resetDOM();
 
@@ -55,10 +54,11 @@ describe('SubmitTicketForm component', function() {
       'imports?_=lodash!lodash': _
     });
 
-    mockery.registerAllowable(submitTicketFormPath);
     mockery.registerAllowable('util/globals');
+    mockery.registerAllowable(submitTicketFormPath);
 
     SubmitTicketForm = require(submitTicketFormPath).SubmitTicketForm;
+
   });
 
   afterEach(function() {
@@ -86,6 +86,42 @@ describe('SubmitTicketForm component', function() {
 
     expect(onSubmit)
       .toHaveBeenCalled();
+  });
+
+  describe('Send button classes', function() {
+
+    it('should have fullscreen classes when fullscreen is true', function() {
+      var submitTicketForm = React.renderComponent(
+            <SubmitTicketForm submit={onSubmit} fullscreen={true} />,
+            global.document.body
+          ),
+          button = ReactTestUtils
+            .findRenderedDOMComponentWithClass(submitTicketForm, 'Button'),
+          buttonClasses = button.props.className;
+
+      expect(buttonClasses.indexOf('u-sizeFull') >= 0)
+        .toEqual(true);
+
+      expect(buttonClasses.indexOf('u-pullRight'))
+        .toEqual(-1);
+    });
+
+    it('should not have fullscreen classes when fullscreen is false', function() {
+      var submitTicketForm = React.renderComponent(
+            <SubmitTicketForm submit={onSubmit} fullscreen={false} />,
+            global.document.body
+          ),
+          button = ReactTestUtils
+            .findRenderedDOMComponentWithClass(submitTicketForm, 'Button'),
+          buttonClasses = button.props.className;
+
+      expect(buttonClasses.indexOf('u-pullRight') >= 0)
+        .toEqual(true);
+
+      expect(buttonClasses.indexOf('u-sizeFull'))
+        .toEqual(-1);
+    });
+
   });
 
   it('should change state and alter submit button on valid submit', function() {

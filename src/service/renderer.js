@@ -11,7 +11,8 @@ var embedsMap = {
       'helpCenter'  : helpCenter,
       'chat'        : chat
     },
-    initialised = false;
+    initialised = false,
+    renderedEmbeds;
 
 function parseConfig(config) {
   var rendererConfig = _.clone(config, true);
@@ -51,11 +52,25 @@ function init(config) {
         );
       }
     });
+
+    renderedEmbeds = config;
   }
 
   initialised = true;
 }
 
+function propagateFontRatio(ratio) {
+  var fontSize = (12 * ratio) + 'px',
+      currentEmbed;
+
+  _.forEach(renderedEmbeds, function(embed, name) {
+    currentEmbed = embedsMap[embed.embed].get(name).instance;
+    currentEmbed.updateBaseFontSize(fontSize);
+    currentEmbed.updateFrameSize();
+  });
+}
+
 export var renderer = {
-  init: init
+  init: init,
+  propagateFontRatio: propagateFontRatio
 };

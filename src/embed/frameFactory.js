@@ -1,10 +1,16 @@
 /** @jsx React.DOM */
-module React from 'react'; /* jshint ignore:line */
+module React from 'react/addons';
+import { win             } from 'util/globals';
+import { getSizingRatio,
+         isMobileBrowser } from 'util/devices';
 
 require('imports?_=lodash!lodash');
 
-var baseCSS = require('baseCSS'),
-    mainCSS = require('mainCSS');
+var classSet = React.addons.classSet,
+    baseCSS = require('baseCSS'),
+    mainCSS = require('mainCSS'),
+    sizingRatio = 12 * getSizingRatio(false, true), /* jshint ignore:line */
+    baseFontCSS = `html { font-size: ${sizingRatio}px }`;
 
 function validateChildFn(childFn, params) {
   if (!_.isFunction(childFn)) {
@@ -24,7 +30,8 @@ export var frameFactory = function(childFn, _params) {
   var child,
       defaultParams = {
         style: {},
-        css: ''
+        css: '',
+        fullscreenable: false
       },
       params = _.extend(defaultParams, _params);
 
@@ -63,15 +70,37 @@ export var frameFactory = function(childFn, _params) {
       }
 
       dimensions = function() {
+        /* jshint laxbreak: true */
         var el = frameDoc.body.firstChild,
             width  = Math.max(el.clientWidth,  el.offsetWidth),
-            height = Math.max(el.clientHeight, el.offsetHeight);
+            height = Math.max(el.clientHeight, el.offsetHeight),
+            fullscreen = (
+              (getSizingRatio() > 1 || isMobileBrowser()) && params.fullscreenable
+            ),
+            fullscreenStyle = {
+              width: '100%',
+              height: '100%',
+              top:0,
+              left:0,
+              background:'#fff',
+              zIndex: 999999
+            },
+            popoverStyle = {
+              width:  (_.isFinite(width)  ? width  : 0) + offsetWidth,
+              height: (_.isFinite(height) ? height : 0) + offsetHeight
+            };
 
-        return {
-          width:  (_.isFinite(width)  ? width  : 0) + offsetWidth,
-          height: (_.isFinite(height) ? height : 0) + offsetHeight
-        };
+        return fullscreen
+             ? fullscreenStyle
+             : popoverStyle;
       };
+
+      if (params.fullscreenable && isMobileBrowser()) {
+        frameDoc.body.firstChild.setAttribute(
+          'style',
+          'width: 100%; height:100%; overflow:scroll; -webkit-overflow-scrolling: touch'
+        );
+      }
 
       frameWin.setTimeout( () => this.setState({iframeDimensions: dimensions()}), 0);
     },
@@ -81,9 +110,19 @@ export var frameFactory = function(childFn, _params) {
         visible: true
       });
 
+      if (isMobileBrowser()) {
+        win.scrollBy(0, 0);
+      }
       if (params.onShow) {
         params.onShow();
       }
+    },
+
+    updateBaseFontSize(fontSize) {
+      var iframe = this.getDOMNode(),
+          htmlElem = iframe.contentDocument.documentElement;
+
+      htmlElem.style.fontSize = fontSize;
     },
 
     hide: function() {
@@ -96,19 +135,27 @@ export var frameFactory = function(childFn, _params) {
       }
     },
 
+    close: function() {
+      this.hide();
+
+      if (params.onClose) {
+        params.onClose();
+      }
+    },
+
     render: function() {
       /* jshint laxbreak: true */
       var visibilityRule = (this.state.visible)
                          ? {visibility: 'visible'}
-                         : {visibility: 'hidden'},
+                         : {visibility: 'hidden', top: '-9999px'},
           iframeStyle = _.extend({
               border: 'none',
-              background: 'transparent !important',
-              zIndex: 999999
+              background: 'transparent',
+              zIndex: 999998
             },
             params.style,
-            visibilityRule,
-            this.state.iframeDimensions
+            this.state.iframeDimensions,
+            visibilityRule
           );
 
           return (
@@ -136,10 +183,22 @@ export var frameFactory = function(childFn, _params) {
       // In order for iframe correctly render in some browsers
       // we need to do it on nextTick
       if (doc.readyState === 'complete') {
-        var cssText = baseCSS + mainCSS + params.css,
+
+        /* jshint laxbreak: true */
+        var cssText = baseCSS + mainCSS + params.css + baseFontCSS,
             css = <style dangerouslySetInnerHTML={{ __html: cssText }} />,
             Component,
-            childParams;
+            childParams,
+            closeClasses = classSet({
+              'Icon Icon--cross': true,
+              'u-posAbsolute u-posEnd u-posStart--vert': true,
+              'u-isActionable': true,
+            }),
+            closeButton = (params.fullscreenable && isMobileBrowser())
+                        ? (<div onClick={this.close}
+                                onTouchEnd={this.close}
+                                className={closeClasses}></div>)
+                        : null;
 
         // 1. Loop over functions in params.extend
         // 2. Re-bind them to `this` context
@@ -165,6 +224,7 @@ export var frameFactory = function(childFn, _params) {
               <div className='u-pullLeft'>
                 {css}
                 {childFn(childParams)}
+                {closeButton}
               </div>
             );
           }

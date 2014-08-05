@@ -54,6 +54,7 @@ function create(name, config) {
     {
       style: iframeStyle,
       css: launcherCSS,
+      fullscreenable: false,
       extend: {
         onClickHandler: function(e) {
           var isActive = this.getChild().refs.launcher.state.active;

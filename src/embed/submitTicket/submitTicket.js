@@ -1,19 +1,18 @@
 /** @jsx React.DOM */
 
-module React from 'react'; /* jshint ignore:line */
-import { document     } from 'util/globals';
-import { SubmitTicket } from 'component/SubmitTicket';
-import { frameFactory } from 'embed/frameFactory';
+module React from 'react/addons';
+import { document        } from 'util/globals';
+import { SubmitTicket    } from 'component/SubmitTicket';
+import { frameFactory    } from 'embed/frameFactory';
+import { setScaleLock    } from 'util/utils';
+import { isMobileBrowser } from 'util/devices';
 
 var submitTicketCSS = require('./submitTicket.scss'),
     submitTickets = {};
 
 function create(name, config) {
-  var containerBase = {
-        minWidth: 350,
-        margin: 15
-      },
-      base = {
+  var containerStyle,
+      iframeBase = {
         position: 'fixed',
         bottom: 48,
         minWidth: 350
@@ -28,17 +27,22 @@ function create(name, config) {
   config = _.extend(configDefaults, config);
 
   /* jshint laxbreak: true */
-  posObj = (config.position === 'left')
-         ? { left:  5 }
-         : { right: 5 };
+  if (isMobileBrowser()) {
+    containerStyle = { width: '100%', height: '100%' };
+  } else {
+    posObj = (config.position === 'left')
+           ? { left:  5 }
+           : { right: 5 };
+    containerStyle = { minWidth: 350, margin: 15 };
+  }
 
-  iframeStyle = _.extend(base, posObj);
+  iframeStyle = _.extend(iframeBase, posObj);
 
   Embed = React.createClass(frameFactory(
     (params) => {
       /* jshint quotmark:false */
       return (
-        <div style={containerBase}>
+        <div style={containerStyle}>
           <SubmitTicket
             ref='submitTicket'
             updateFrameSize={params.updateFrameSize} />
@@ -48,11 +52,17 @@ function create(name, config) {
     {
       style: iframeStyle,
       css: submitTicketCSS,
+      fullscreenable: true,
       onShow() {
+        setScaleLock(true);
         config.onShow();
       },
       onHide() {
+        setScaleLock(false);
         config.onHide();
+      },
+      onClose() {
+        update(name, true);
       },
       extend: {}
     }));

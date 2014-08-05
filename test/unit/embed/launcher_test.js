@@ -127,6 +127,9 @@ describe('embed.launcher', function() {
 
       childParams = mockFrameFactoryRecentCall[1];
 
+      expect(childParams.fullscreenable)
+        .toEqual(false);
+
       childParams.extend.onClickHandler.bind(mockFrameFactoryScope, eventObj)();
 
       expect(config.onClick.callCount)

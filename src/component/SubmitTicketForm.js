@@ -5,7 +5,8 @@ module ReactForms from 'react-forms';
 import { submitTicketSchema } from 'component/SubmitTicketSchema';
 require('imports?_=lodash!lodash');
 
-var SubmitTicketFormBody = ReactForms.Form,
+var classSet = React.addons.classSet,
+    SubmitTicketFormBody = ReactForms.Form,
     isFailure = ReactForms.validation.isFailure;
 
 var SubmitTicketForm = React.createClass({
@@ -14,6 +15,12 @@ var SubmitTicketForm = React.createClass({
       isValid: false,
       buttonMessage: 'Send',
       isSubmitting: false
+    };
+  },
+
+  getDefaultProps() {
+    return {
+      fullscreen: false
     };
   },
 
@@ -42,12 +49,17 @@ var SubmitTicketForm = React.createClass({
   render() {
     /* jshint quotmark:false */
     var formBody = this.transferPropsTo(
-      <SubmitTicketFormBody
-        ref='form'
-        schema={submitTicketSchema}
-        onUpdate={this.handleUpdate}
-        component={React.DOM.div} />
-    );
+          <SubmitTicketFormBody
+            ref='form'
+            schema={submitTicketSchema}
+            onUpdate={this.handleUpdate}
+            component={React.DOM.div} />
+        ),
+        buttonClasses = classSet({
+          'Button Button--cta Anim-color u-textNoWrap': true,
+          'u-pullRight': !this.props.fullscreen,
+          'u-sizeFull': this.props.fullscreen
+        });
 
     return (
       <form
@@ -63,7 +75,7 @@ var SubmitTicketForm = React.createClass({
           value={this.state.buttonMessage}
           ref='submitButton'
           disabled={!this.state.isValid || this.state.isSubmitting}
-          className='Button Button--cta Anim-color u-pullRight u-textNoWrap'
+          className={buttonClasses}
         />
       </form>
     );

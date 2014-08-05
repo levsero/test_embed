@@ -1,10 +1,12 @@
 @import '../_vars.scss';
 
-$Form-spacing: 10px;
-$Form-field-border-radius: 4px;
+$Form-stroke: #{1/$font-size}rem;
+$Form-spacing: #{10/$font-size}rem;
+$Form-gutter: #{18/$font-size}rem;
+$Form-fontSize: #{13/$font-size}rem;
 
 @mixin error-state($thickness) {
-  border: $thickness solid $error-color;
+  border: #{$thickness/$font-size}rem solid $error-color;
 }
 
 .Form {
@@ -12,7 +14,7 @@ $Form-field-border-radius: 4px;
 }
 
 .rf-Form {
-  margin-bottom: #{18/$font-size}rem;
+  margin-bottom: $Form-gutter;
 }
 
 .Form-legend {
@@ -20,10 +22,10 @@ $Form-field-border-radius: 4px;
 }
 
 .rf-Field {
-  margin-bottom: #{18/$font-size}rem;
+  margin-bottom: $Form-gutter;
   background: $base-color;
-  border: 1px solid $stroke-color;
-  border-radius: $Form-field-border-radius;
+  border: $Form-stroke solid $stroke-color;
+  border-radius: #{4/$font-size}rem;
   padding: $Form-spacing;
   color: $secondary-color;
 
@@ -32,7 +34,7 @@ $Form-field-border-radius: 4px;
     background: none;
     resize: none;
     color: $body-color;
-    font-size: #{13/$font-size}rem;
+    font-size: $Form-fontSize;
 
     &:focus {
       appearance: none;
@@ -46,15 +48,15 @@ $Form-field-border-radius: 4px;
 }
 
 .rf-Field--focused {
-  border: 1px solid $cta-color;
+  border: $Form-stroke solid $cta-color;
 
   &.rf-Field--dirty.rf-Field--invalid {
-    @include error-state(1px);
+    @include error-state(1);
   }
 }
 
 .rf-Field--blurred.rf-Field--invalid {
-  @include error-state(1px);
+  @include error-state(1);
 }
 
 .rf-Field__label {

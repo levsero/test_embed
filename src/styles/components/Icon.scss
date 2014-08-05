@@ -64,12 +64,16 @@
   content: '\66';
 }
 
-.Icon--cross:before {
-  content: '\73';
+.Icon--cross {
+  padding-right: 0;
+
+  &:before {
+    content: '\73';
+  }
 }
 
 .Icon--tick {
-  border: 1px solid $icon-color;
+  border: #{1/$font-size}rem solid $icon-color;
   padding: #{20/$font-size}rem;
   margin-bottom: #{15/$font-size}rem;
   border-radius: 50%;

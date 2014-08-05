@@ -5,13 +5,30 @@ describe('renderer', function() {
       mockLauncher,
       mockHelpCenter,
       mockChat,
+      updateBaseFontSize = jasmine.createSpy(),
+      updateFrameSize = jasmine.createSpy(),
       mockGlobals = {
         win: {},
         document: {}
       },
       rendererPath = buildSrcPath('service/renderer'),
       embedMocker = function(name) {
-        return jasmine.createSpyObj(name, ['create', 'render', 'show', 'hide']);
+        var mock = jasmine.createSpyObj(name, [
+          'create',
+          'render',
+          'show',
+          'hide',
+          'get'
+        ]);
+
+        mock.get.andReturn({
+          instance: {
+            updateBaseFontSize: updateBaseFontSize,
+            updateFrameSize: updateFrameSize
+          }
+        });
+
+        return mock;
       };
 
 
@@ -229,6 +246,97 @@ describe('renderer', function() {
 
       expect(mockLauncher.render.callCount)
         .toEqual(1);
+  });
+
+  describe('#propagateFontRatio', function() {
+    it('should loop over all rendered embeds and update base font-size based on ratio', function() {
+      renderer.init({
+        'thing': {
+          'embed': 'submitTicket'
+        },
+        'thingLauncher': {
+          'embed': 'launcher',
+          'props': {
+            'onDoubleClick': {
+              'name': 'thing',
+              'method': 'show'
+            }
+          }
+        }
+      });
+
+      renderer.propagateFontRatio(2);
+
+      expect(updateBaseFontSize)
+        .toHaveBeenCalledWith('24px');
+
+      expect(updateBaseFontSize.callCount)
+        .toEqual(2);
+
+      expect(updateFrameSize)
+        .toHaveBeenCalled();
+
+      expect(updateFrameSize.callCount)
+        .toEqual(2);
+    });
+
+    it('should trigger propagateFontRatio call on orientationchange', function() {
+      renderer.init({
+        'thing': {
+          'embed': 'submitTicket'
+        },
+        'thingLauncher': {
+          'embed': 'launcher',
+          'props': {
+            'onDoubleClick': {
+              'name': 'thing',
+              'method': 'show'
+            }
+          }
+        }
+      });
+
+      jasmine.Clock.useMock();
+
+      dispatchEvent('orientationchange', window);
+
+      jasmine.Clock.tick(10);
+
+      expect(updateBaseFontSize)
+        .toHaveBeenCalled();
+
+      expect(updateFrameSize)
+        .toHaveBeenCalled();
+    });
+
+    it('should trigger propagateFontRatio call on pinch zoom gensture', function() {
+      renderer.init({
+        'thing': {
+          'embed': 'submitTicket'
+        },
+        'thingLauncher': {
+          'embed': 'launcher',
+          'props': {
+            'onDoubleClick': {
+              'name': 'thing',
+              'method': 'show'
+            }
+          }
+        }
+      });
+
+      jasmine.Clock.useMock();
+
+      dispatchEvent('touchend', window);
+
+      jasmine.Clock.tick(10);
+
+      expect(updateBaseFontSize)
+        .toHaveBeenCalled();
+
+      expect(updateFrameSize)
+        .toHaveBeenCalled();
+    });
   });
 });
 
