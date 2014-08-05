@@ -1,9 +1,10 @@
 /** @jsx React.DOM */
 module React from 'react'; /* jshint ignore:line */
-import { document } from 'util/globals';
-import { Launcher } from 'component/Launcher';
-import { beacon   } from 'service/beacon';
-import { frameFactory } from 'embed/frameFactory';
+import { document        } from 'util/globals';
+import { Launcher        } from 'component/Launcher';
+import { beacon          } from 'service/beacon';
+import { frameFactory    } from 'embed/frameFactory';
+import { isMobileBrowser } from 'util/devices';
 
 require('imports?_=lodash!lodash');
 
@@ -30,9 +31,15 @@ function create(name, config) {
   config = _.extend(configDefaults, config);
 
   /* jshint laxbreak: true */
-  posObj = (config.position === 'left')
-         ? { 'left':  '20px' }
-         : { 'right': '20px' };
+  if (isMobileBrowser()) {
+    posObj = (config.position === 'left')
+           ? { 'left':  '10px' }
+           : { 'right': '5px' };
+  } else {
+    posObj = (config.position === 'left')
+           ? { 'left':  '20px' }
+           : { 'right': '20px' };
+  }
 
   iframeStyle = _.extend(base, posObj);
 

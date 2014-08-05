@@ -38,6 +38,11 @@ describe('embed.launcher', function() {
     mockery.registerMock('embed/frameFactory', {
       frameFactory: mockFrameFactory
     });
+    mockery.registerMock('util/devices', {
+      isMobileBrowser: function() {
+        return false;
+      }
+    });
     mockery.registerMock('imports?_=lodash!lodash', _);
     mockery.registerAllowable('react');
     mockery.registerAllowable('./lib/React');

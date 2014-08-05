@@ -14,8 +14,7 @@ function create(name, config) {
   var containerStyle,
       iframeBase = {
         position: 'fixed',
-        bottom: 48,
-        minWidth: 350
+        bottom: 48
       },
       configDefaults = {
         position: 'right'
@@ -33,6 +32,7 @@ function create(name, config) {
     posObj = (config.position === 'left')
            ? { left:  5 }
            : { right: 5 };
+    iframeBase.minWidth = 350;
     containerStyle = { minWidth: 350, margin: 15 };
   }
 
