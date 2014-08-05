@@ -150,7 +150,7 @@ export var frameFactory = function(childFn, _params) {
                          : {visibility: 'hidden', top: '-9999px'},
           iframeStyle = _.extend({
               border: 'none',
-              background: 'transparent !important',
+              background: 'transparent',
               zIndex: 999998
             },
             params.style,
