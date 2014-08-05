@@ -126,7 +126,6 @@ function boot() {
         'embed': 'launcher',
         'props': {
           'position': 'right',
-          'label': 'Support',
           'onClick': {
             name: 'zopimChat',
             method: 'update'

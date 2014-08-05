@@ -6,6 +6,7 @@ var chats = {};
 function create(name, config) {
   var configDefaults = {
     position: 'br',
+    title: 'Zendesk Support',
     color: '#78A300',
     offsetVertical: 70
   };
@@ -31,6 +32,7 @@ function show(name) {
     var zopimWin = zopim.livechat.window;
 
     zopimWin.setPosition(config.position);
+    zopimWin.setTitle(config.title);
     zopimWin.setOffsetVertical(config.offsetVertical);
     zopimWin.show();
   });
@@ -69,7 +71,7 @@ function update(name, isActive) {
       if (isOnline(name)) {
         config.setLabel('Chat');
       } else {
-        config.setLabel('Support');
+        config.setLabel('Help');
       }
 
     } else {
@@ -142,7 +144,7 @@ function init(name) {
             name: name,
             isOnline: false,
             icon: 'Icon',
-            label: 'Support'
+            label: 'Help'
           });
         }
       },
