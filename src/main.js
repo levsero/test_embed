@@ -12,7 +12,7 @@ function boot() {
       isPinching,
       rendererConfig,
       host = location.host,
-      path = location.path;
+      path = location.pathname;
 
   React.initializeTouchEvents(true);
 
