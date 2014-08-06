@@ -48,7 +48,7 @@ function setScaleLock(active) {
 
     if (active) {
       if (_.isUndefined(viewportObj['user-scalable'])) {
-        viewportObj['original-user-scalable'] = 'yes';
+        viewportObj['original-user-scalable'] = 'UNDEFINED';
         viewportObj['user-scalable'] = 'no';
       }
       else if (!viewportObj['original-user-scalable']) {
@@ -57,7 +57,11 @@ function setScaleLock(active) {
       }
     } else {
       if (viewportObj['original-user-scalable']) {
-        viewportObj['user-scalable'] = viewportObj['original-user-scalable'];
+        if (viewportObj['original-user-scalable'] === 'UNDEFINED') {
+          delete viewportObj['user-scalable'];
+        } else {
+          viewportObj['user-scalable'] = viewportObj['original-user-scalable'];
+        }
         delete viewportObj['original-user-scalable'];
       }
     }
