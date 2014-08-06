@@ -74,7 +74,7 @@ describe('util.setScaleLock', function() {
         .toEqual('1.0');
     });
 
-    it('sets `original-user-scalable` to "yes" if `user-scalable` does not exist', function() {
+    it('sets `original-user-scalable` to "UNDEFINED" if `user-scalable` does not exist', function() {
       var viewportContent;
       metaTag.content = '';
       document.head.appendChild(metaTag);
@@ -87,7 +87,7 @@ describe('util.setScaleLock', function() {
         .toEqual('no');
 
       expect(viewportContent['original-user-scalable'])
-        .toEqual('yes');
+        .toEqual('UNDEFINED');
     });
 
     it('does nothing if `original-user-scalable` exists', function() {
@@ -169,6 +169,21 @@ describe('util.setScaleLock', function() {
       viewportContent = metaStringToObj(metaTag.content);
 
       expect(viewportContent['original-user-scalable'])
+        .toBeUndefined();
+    });
+
+    it('unsets `user-scalable` if `original-user-scalable` is UNDEFINED', function() {
+      var viewportContent;
+      metaTag.content = 'original-user-scalable=UNDEFINED, user-scalable=no';
+      document.head.appendChild(metaTag);
+
+      setScaleLock(false);
+
+      viewportContent = metaStringToObj(metaTag.content);
+
+      expect(viewportContent['original-user-scalable'])
+        .toBeUndefined();
+      expect(viewportContent['user-scalable'])
         .toBeUndefined();
     });
 
