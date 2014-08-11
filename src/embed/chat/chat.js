@@ -1,4 +1,5 @@
-import { document, win } from 'util/globals';
+import { document, win   } from 'util/globals';
+import { isMobileBrowser } from 'util/devices';
 require('imports?_=lodash!lodash');
 
 var chats = {};
@@ -152,9 +153,16 @@ function init(name) {
         chat.connected = true;
       },
       onMsgChange = function(number) {
+        if(chat.chatStarted && number > 0 && !isMobileBrowser() ) {
+          show(name);
+          chat.chatStarted = false;
+        }
         if (number > 0) {
           config.setLabel(`${number} New`);
         }
+      },
+      onChatStart = function() {
+        chat.chatStarted = true;
       };
 
   zopim(function() {
@@ -169,6 +177,7 @@ function init(name) {
 
     zopimLive.setOnStatus(onChange);
     zopimLive.setOnUnreadMsgs(onMsgChange);
+    zopimLive.setOnChatStart(onChatStart);
     zopimLive.theme.setColor(config.color);
     zopimLive.theme.setTheme('zendesk');
   });
