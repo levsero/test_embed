@@ -162,10 +162,9 @@ function init(name) {
 
     // TODO: once zopim api is updated the debounce
     // shouldn't be needed and we can remove it.
-    zopimLive.setOnConnected(_.debounce(onConnect, 2500));
+    zopimLive.setOnConnected(_.debounce(onConnect, 10));
 
     zopimLive.hideAll();
-    zopimLive.clearAll();
 
     zopimLive.setOnStatus(onChange);
     zopimLive.setOnUnreadMsgs(onMsgChange);
