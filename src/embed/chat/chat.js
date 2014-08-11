@@ -162,7 +162,7 @@ function init(name) {
           config.setLabel(`${unreadMessageCount} New`);
         }
       },
-      onChatStart = function(p) {
+      onChatStart = function() {
         chat.chatStarted = true;
       };
 

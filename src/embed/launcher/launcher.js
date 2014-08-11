@@ -118,7 +118,9 @@ function setLabel(name, label) {
 function update(name) {
   var launcher = getChildRefs(name).launcher;
 
-  launcher.setActive(!launcher.state.active);
+  if (!isMobileBrowser()) {
+    launcher.setActive(!launcher.state.active);
+  }
 }
 
 export var launcher = {
