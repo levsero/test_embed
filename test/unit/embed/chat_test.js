@@ -1,6 +1,9 @@
 describe('embed.chat', function() {
   var chat,
       mockRegistry,
+      mockDevices = {
+        isMobileBrowser: noop
+      },
       mockGlobals = {
         document: global.document,
         win: {
@@ -16,6 +19,7 @@ describe('embed.chat', function() {
 
     mockRegistry = initMockRegistry({
       'util/globals': mockGlobals,
+      'util/devices': mockDevices,
       'imports?_=lodash!lodash': _
     });
 

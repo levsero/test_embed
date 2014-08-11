@@ -1,4 +1,5 @@
-import { document, win } from 'util/globals';
+import { document, win   } from 'util/globals';
+import { isMobileBrowser } from 'util/devices';
 require('imports?_=lodash!lodash');
 
 var chats = {};
@@ -131,7 +132,7 @@ function init(name) {
   var zopim = win.$zopim,
       chat = get(name),
       config = chat.config,
-      onChange = function(status) {
+      onStatus = function(status) {
         if (status === 'online' && chat.connected) {
           setStatus({
             name: name,
@@ -151,10 +152,18 @@ function init(name) {
       onConnect = function() {
         chat.connected = true;
       },
-      onMsgChange = function(number) {
-        if (number > 0) {
-          config.setLabel(`${number} New`);
+      onUnreadMsgs = function(unreadMessageCount) {
+        if (chat.chatStarted && unreadMessageCount > 0 && !isMobileBrowser()) {
+          show(name);
+          chat.chatStarted = false;
         }
+
+        if (unreadMessageCount > 0) {
+          config.setLabel(`${unreadMessageCount} New`);
+        }
+      },
+      onChatStart = function() {
+        chat.chatStarted = true;
       };
 
   zopim(function() {
@@ -166,8 +175,9 @@ function init(name) {
 
     zopimLive.hideAll();
 
-    zopimLive.setOnStatus(onChange);
-    zopimLive.setOnUnreadMsgs(onMsgChange);
+    zopimLive.setOnStatus(onStatus);
+    zopimLive.setOnUnreadMsgs(onUnreadMsgs);
+    zopimLive.setOnChatStart(onChatStart);
     zopimLive.theme.setColor(config.color);
     zopimLive.theme.setTheme('zendesk');
   });
