@@ -2,7 +2,8 @@ import { document, win   } from 'util/globals';
 import { isMobileBrowser } from 'util/devices';
 require('imports?_=lodash!lodash');
 
-var chats = {};
+var chats = {},
+    styleTag = document.createElement('style');
 
 function create(name, config) {
   var configDefaults = {
@@ -38,8 +39,8 @@ function show(name) {
     zopimWin.show();
   });
 
-  if(!document.querySelector('.zopim-active')) {
-    document.querySelector('.zopim[__jx__id] + .zopim[__jx__id]').className += ' zopim-active';
+  if (styleTag.parentNode) {
+    styleTag.parentNode.removeChild(styleTag);
   }
 
   if (_.isFunction(config.onShow)) {
@@ -124,13 +125,9 @@ function render(name) {
       `,
       css = `
         .zopim[__jx__id] {
-          display: none!important;
-        }
-        .zopim[__jx__id].zopim-active {
-          display: block !important;
+          display: none !important;
         }
       `,
-      styleTag = document.createElement('style'),
       scriptTag = document.createElement('script');
 
   document.body.appendChild(scriptTag);
