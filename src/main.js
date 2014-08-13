@@ -15,10 +15,10 @@ function boot() {
       path = location.pathname,
       chatPages = [
       '/zopim',
-      //'/product/pricing',
-      //'/register',
+      '/product/pricing',
+      '/register',
       '/plus',
-      //'/enterprise'
+      '/enterprise'
       ];
 
   React.initializeTouchEvents(true);
@@ -101,7 +101,7 @@ function boot() {
 
     /* jshint laxbreak: true */
     var zopimId = (host === 'www.zendesk.com')
-                ? '2EkTn0An31opxOLXuGgRCy5nPnSNmpe6' //'27EQHzyono7cSNYm055tx1uiGhA8Shar'
+                ? '27EQHzyono7cSNYm055tx1uiGhA8Shar'
                 : '2EkTn0An31opxOLXuGgRCy5nPnSNmpe6';
 
     rendererConfig = {
