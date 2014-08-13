@@ -39,7 +39,7 @@ function show(name) {
   });
 
   if(!document.querySelector('.zopim-active')) {
-    document.querySelector('.zopim + .zopim').className = 'zopim-active';
+    document.querySelector('.zopim[__jx__id] + .zopim[__jx__id]').className += 'zopim-active';
   }
 
   if (_.isFunction(config.onShow)) {
@@ -113,7 +113,7 @@ function setStatus(opts) {
 }
 
 function render(name) {
-  /* jshint maxlen: false, unused:false */
+  /* jshint maxlen: false, unused:false, quotmark:false */
   var zopimId = get(name).config.zopimId,
       snippet = `
         window.$zopim||
@@ -123,18 +123,16 @@ function render(name) {
         z.t=+new Date;$. type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');
       `,
       css = `
-        .zopim {
+        .zopim[__jx__id] {
           display: none!important;
         }
-        .zopim.zopim-active {
+        .zopim[__jx__id].zopim-active {
           display: block !important;
         }
       `,
-      styleTag,
-      scriptTag;
+      styleTag = document.createElement('style'),
+      scriptTag = document.createElement('script');
 
-  scriptTag = document.createElement('script');
-  styleTag = document.createElement('style');
   document.body.appendChild(scriptTag);
   document.body.appendChild(styleTag);
 

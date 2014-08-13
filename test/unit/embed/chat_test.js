@@ -95,7 +95,12 @@ describe('embed.chat', function() {
       var mockConfig = {
         zopimId: 'abc123',
         onShow: jasmine.createSpy()
-      };
+      },
+      mockDom = '<div class="zopim" __jx__id></div><div class="zopim" __jx__id></div>';
+
+      // Adds the zopim classes to the dom so the query
+      // selector in show has something to grab
+      global.document.body.innerHTML = mockDom;
 
       chat.create('dave', mockConfig);
 
