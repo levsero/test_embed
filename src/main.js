@@ -15,10 +15,10 @@ function boot() {
       path = location.pathname,
       chatPages = [
       '/zopim',
-      '/product/pricing',
-      '/register',
+      //'/product/pricing',
+      //'/register',
       '/plus',
-      '/enterprise'
+      //'/enterprise'
       ];
 
   React.initializeTouchEvents(true);
