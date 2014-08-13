@@ -38,6 +38,10 @@ function show(name) {
     zopimWin.show();
   });
 
+  if(!document.querySelector('.zopim-active')) {
+    document.querySelector('.zopim + .zopim').className = 'zopim-active';
+  }
+
   if (_.isFunction(config.onShow)) {
     config.onShow();
   }
@@ -118,12 +122,24 @@ function render(name) {
         $.src='//v2.zopim.com/?${zopimId}';
         z.t=+new Date;$. type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');
       `,
+      css = `
+        .zopim {
+          display: none!important;
+        }
+        .zopim.zopim-active {
+          display: block !important;
+        }
+      `,
+      styleTag,
       scriptTag;
 
   scriptTag = document.createElement('script');
+  styleTag = document.createElement('style');
   document.body.appendChild(scriptTag);
+  document.body.appendChild(styleTag);
 
   scriptTag.innerHTML = snippet;
+  styleTag.innerHTML = css;
 
   init(name);
 }
