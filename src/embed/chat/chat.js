@@ -39,7 +39,7 @@ function show(name) {
   });
 
   if(!document.querySelector('.zopim-active')) {
-    document.querySelector('.zopim[__jx__id] + .zopim[__jx__id]').className += 'zopim-active';
+    document.querySelector('.zopim[__jx__id] + .zopim[__jx__id]').className += ' zopim-active';
   }
 
   if (_.isFunction(config.onShow)) {
