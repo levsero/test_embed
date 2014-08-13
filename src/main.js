@@ -12,7 +12,14 @@ function boot() {
       isPinching,
       rendererConfig,
       host = location.host,
-      path = location.pathname;
+      path = location.pathname,
+      chatPages = [
+      '/zopim',
+      '/product/pricing',
+      '/register',
+      '/plus',
+      '/enterprise'
+      ];
 
   React.initializeTouchEvents(true);
 
@@ -89,7 +96,7 @@ function boot() {
   });
 
   // Until transport config is dynamic we need to alter what gets rendered on the zopim page
-  if ((host === 'www.zendesk.com' && path === '/zopim') ||
+  if ((host === 'www.zendesk.com' && _.contains(chatPages, path)) ||
       (host === 'snow.hashttp.com' && path === '/chat')) {
 
     /* jshint laxbreak: true */
