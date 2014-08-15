@@ -101,7 +101,7 @@ function boot() {
 
     /* jshint laxbreak: true */
     var zopimId = (host === 'www.zendesk.com')
-                ? '25a9y1btM6rnjyOk0tRGQ8B9XMnqKAEG' //'2ItCA9Tu3W5bksDB4EJzPSCz4kIymONo'
+                ? '2ItCA9Tu3W5bksDB4EJzPSCz4kIymONo'
                 : '2EkTn0An31opxOLXuGgRCy5nPnSNmpe6';
 
     rendererConfig = {
