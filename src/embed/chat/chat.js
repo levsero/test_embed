@@ -178,13 +178,18 @@ function init(name) {
       };
 
   zopim(function() {
-    var zopimLive = win.$zopim.livechat;
+    var zopimLive = win.$zopim.livechat,
+        zopimWin = zopimLive.window;
 
     // TODO: once zopim api is updated the debounce
     // shouldn't be needed and we can remove it.
     zopimLive.setOnConnected(_.debounce(onConnect, 10));
 
-    zopimLive.hideAll();
+    if(!zopimWin.getDisplay()) {
+      zopimLive.hideAll();
+    } else {
+      show(name);
+    }
 
     zopimLive.setOnStatus(onStatus);
     zopimLive.setOnUnreadMsgs(onUnreadMsgs);
