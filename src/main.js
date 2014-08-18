@@ -16,6 +16,7 @@ function boot() {
       chatPages = [
       '/zopim',
       '/product/pricing',
+      '/product/tour',
       '/register',
       '/plus',
       '/enterprise'
