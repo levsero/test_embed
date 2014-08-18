@@ -115,7 +115,7 @@ export var SubmitTicket = React.createClass({
             <a
               href={marketingUrl}
               target='_blank'>
-              Want this on your website?
+              Give this experience to your customers
             </a>
           </p>
         </div>
