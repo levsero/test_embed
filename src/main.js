@@ -1,5 +1,6 @@
 module React from 'react';
 import { beacon         } from 'service/beacon';
+import { logging        } from 'service/logging';
 import { renderer       } from 'service/renderer';
 import { transport      } from 'service/transport';
 import { win, location  } from 'util/globals';
@@ -23,9 +24,11 @@ function boot() {
 
   React.initializeTouchEvents(true);
 
-  transport.bustCache();
+  logging.errors();
 
+  transport.bustCache();
   transport.init({ zendeskHost: document.zendeskHost });
+
   beacon.init().send();
 
   publicApi = {
@@ -161,5 +164,11 @@ function boot() {
 }
 
 if (!_.isUndefined(document.zendeskHost)) {
-  boot();
+  try {
+    boot();
+  } catch (err) {
+    win.Airbrake.push({
+      error: err
+    });
+  }
 }
