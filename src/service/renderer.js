@@ -2,7 +2,6 @@ import { submitTicket } from 'embed/submitTicket/submitTicket';
 import { launcher     } from 'embed/launcher/launcher';
 import { helpCenter   } from 'embed/helpCenter/helpCenter';
 import { chat         } from 'embed/chat/chat';
-import { win          } from 'util/globals';
 
 require('imports?_=lodash!lodash');
 
@@ -42,7 +41,7 @@ function init(config) {
         embedsMap[configItem.embed].create(embedName, configItem.props);
         embedsMap[configItem.embed].render(embedName);
       } catch (err) {
-        win.Airbrake.push({
+        Airbrake.push({
           error: err,
           context: {
             embedName: embedName,

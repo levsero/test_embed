@@ -24,7 +24,7 @@ function boot() {
 
   React.initializeTouchEvents(true);
 
-  logging.errors();
+  logging.init();
 
   transport.bustCache();
   transport.init({ zendeskHost: document.zendeskHost });
@@ -81,18 +81,18 @@ function boot() {
     }, 0);
   }
 
-  win.addEventListener('touchmove', (e) => {
+  win.addEventListener('touchmove', Airbrake.wrap((e) => {
     // Touch end won't tell you if multiple touches are detected
     // so we store the touches length on move and check on end
     isPinching = e.touches.length > 1;
-  });
+  }));
 
-  win.addEventListener('touchend', (e) => {
+  win.addEventListener('touchend', Airbrake.wrap((e) => {
     // iOS has the scale property to detect pinching gestures
     if (isPinching || e.scale && e.scale !== 1) {
       propagateFontRatioChange();
     }
-  });
+  }));
 
   win.addEventListener('orientationchange', () => {
     propagateFontRatioChange();
@@ -167,7 +167,7 @@ if (!_.isUndefined(document.zendeskHost)) {
   try {
     boot();
   } catch (err) {
-    win.Airbrake.push({
+    Airbrake.push({
       error: err
     });
   }
