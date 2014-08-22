@@ -104,9 +104,6 @@ function setIcon(name, icon) {
 }
 
 function render(name) {
-  if (!launchers[name]) {
-    throw new Error('Launcher "' + name + '" does not exist or has not been created.');
-  }
   var element = document.body.appendChild(document.createElement('div'));
   launchers[name].instance = React.renderComponent(launchers[name].component, element);
 }
