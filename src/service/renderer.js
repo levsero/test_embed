@@ -41,15 +41,13 @@ function init(config) {
         embedsMap[configItem.embed].create(embedName, configItem.props);
         embedsMap[configItem.embed].render(embedName);
       } catch (err) {
-        // TODO: revisit what this does when error tracking is in place
-        console.error(
-          'captured error: ',
-          {
+        Airbrake.push({
+          error: err,
+          context: {
             embedName: embedName,
-            configItem: configItem,
-            err: err
+            configItem: configItem
           }
-        );
+        });
       }
     });
 

@@ -1,5 +1,6 @@
 module React from 'react';
 import { beacon         } from 'service/beacon';
+import { logging        } from 'service/logging';
 import { renderer       } from 'service/renderer';
 import { transport      } from 'service/transport';
 import { win, location  } from 'util/globals';
@@ -24,9 +25,11 @@ function boot() {
 
   React.initializeTouchEvents(true);
 
-  transport.bustCache();
+  logging.init();
 
+  transport.bustCache();
   transport.init({ zendeskHost: document.zendeskHost });
+
   beacon.init().send();
 
   publicApi = {
@@ -79,18 +82,18 @@ function boot() {
     }, 0);
   }
 
-  win.addEventListener('touchmove', (e) => {
+  win.addEventListener('touchmove', Airbrake.wrap((e) => {
     // Touch end won't tell you if multiple touches are detected
     // so we store the touches length on move and check on end
     isPinching = e.touches.length > 1;
-  });
+  }));
 
-  win.addEventListener('touchend', (e) => {
+  win.addEventListener('touchend', Airbrake.wrap((e) => {
     // iOS has the scale property to detect pinching gestures
     if (isPinching || e.scale && e.scale !== 1) {
       propagateFontRatioChange();
     }
-  });
+  }));
 
   win.addEventListener('orientationchange', () => {
     propagateFontRatioChange();
@@ -162,5 +165,11 @@ function boot() {
 }
 
 if (!_.isUndefined(document.zendeskHost)) {
-  boot();
+  try {
+    boot();
+  } catch (err) {
+    Airbrake.push({
+      error: err
+    });
+  }
 }

@@ -7,10 +7,6 @@ describe('renderer', function() {
       mockChat,
       updateBaseFontSize = jasmine.createSpy(),
       updateFrameSize = jasmine.createSpy(),
-      mockGlobals = {
-        win: {},
-        document: {}
-      },
       rendererPath = buildSrcPath('service/renderer'),
       embedMocker = function(name) {
         var mock = jasmine.createSpyObj(name, [
@@ -53,7 +49,6 @@ describe('renderer', function() {
       'embed/chat/chat': {
         chat: mockChat
       },
-      'util/globals': mockGlobals,
       'imports?_=lodash!lodash': _
     });
 
@@ -183,6 +178,9 @@ describe('renderer', function() {
       expect(renderer.init)
         .not.toThrow();
 
+      expect(Airbrake.push)
+        .toHaveBeenCalled();
+
       expect(mockLauncher.create)
         .toHaveBeenCalled();
 
@@ -309,7 +307,7 @@ describe('renderer', function() {
         .toHaveBeenCalled();
     });
 
-    it('should trigger propagateFontRatio call on pinch zoom gensture', function() {
+    it('should trigger propagateFontRatio call on pinch zoom gesture', function() {
       renderer.init({
         'thing': {
           'embed': 'submitTicket'
