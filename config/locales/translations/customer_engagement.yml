@@ -1,7 +1,7 @@
 title: "Customer Engagement Framework"
 packages:
   - default
-  - customer_engagement
+  - ce_toolkit
 
 parts:
   # Launcher embed
@@ -9,26 +9,22 @@ parts:
       key: "launcher.label.help"
       title: "Help Label for launcher button"
       value: "Help"
-      wip: true
   - translation:
       key: "launcher.label.chat"
       title: "Chat Label for launcher button"
       value: "Chat"
-      wip: true
 
   # Chat embed
   - translation:
       key: "chat.title"
       title: "The name of the chat window"
       value: "Zendesk Support"
-      wip: true
 
   # Submit Ticket component
   - translation:
       key: "submitTicket.notify.message.success"
       title: "Success message on submit ticket send"
       value: "Message Sent"
-      wip: true
   - translation:
       key: "submitTicket.notify.message.fail"
       title: "Fail message on submit ticket send"
@@ -45,33 +41,27 @@ parts:
       key: "submitTicket.form.title"
       title: "The title on the submit ticket form"
       value: "Leave us a message"
-      wip: true
   - translation:
       key: "submitTicket.form.button.label"
       title: "The label on the button in the submit ticket form"
       value: "Send"
-      wip: true
   - translation:
       key: "submitTicket.form.button.label.sending"
       title: "The label on the button in the submit ticket form when its sending"
       value: "Submitting..."
-      wip: true
 
   # Submit Ticket Schema component
   - translation:
       key: "submitTicket.schema.field.name.placeholder"
       title: "The placeholder in the name field of the submit ticket form"
       value: "Your name"
-      wip: true
   - translation:
       key: "submitTicket.schema.field.description.placeholder"
       title: "The placeholder in the description field of the submit ticket form"
       value: "How can we help you?"
-      wip: true
 
   # Form Field component
   - translation:
       key: "form.field.email.placeholder"
       title: "The placeholder in the email field"
       value: "Email Address"
-      wip: true
