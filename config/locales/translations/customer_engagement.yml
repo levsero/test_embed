@@ -19,6 +19,7 @@ parts:
       key: "chat.title"
       title: "The name of the chat window"
       value: "Zendesk Support"
+      wip: true
 
   # Submit Ticket component
   - translation:
