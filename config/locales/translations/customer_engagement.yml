@@ -32,7 +32,7 @@ parts:
   - translation:
       key: "submitTicket.notify.message.fail"
       title: "Fail message on submit ticket send"
-      value: "Error %(status)s %(error_msg)s"
+      value: "Error %(status)s %(errorMsg)s"
       wip: true
   - translation:
       key: "submitTicket.marketing.message"
@@ -69,3 +69,40 @@ parts:
       key: "form.field.email.label"
       title: "The placeholder in the email field"
       value: "Email Address"
+
+  # Help Center component
+  - translation:
+      key: "helpCenter.search.label"
+      title: "The placeholder in the search bar for help center"
+      value: "Search help articles"
+  - translation:
+      key: "helpCenter.submitButton.label.chat"
+      title: "The label on the button in help center when a chat agent is online"
+      value: "Live Chat"
+  - translation:
+      key: "helpCenter.submitButton.label.submitTicket"
+      title: "The label on the button in help center when no chat agents are online"
+      value: "Submit a Ticket"
+  - translation:
+      key: "helpCenter.label.default"
+      title: "The title for help center when first loaded"
+      value: "Common Questions"
+  - translation:
+      key: "helpCenter.label.results"
+      title: "The title for help center after user has searched for something"
+      value: "Top Results"
+  - translation:
+      key: "helpCenter.label.showAll"
+      title: "The link that displays after user has searched and there are more then 3 results"
+      value: "View all (%(count)s)"
+
+  # Mobile
+  - translation:
+      key: "navigation.back"
+      title: "The link to go back a page"
+      value: "Back"
+  - translation:
+      key: "navigation.close"
+      title: "The link to close the embeddable"
+      value: "Back"
+
