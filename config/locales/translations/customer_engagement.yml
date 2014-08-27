@@ -18,7 +18,12 @@ parts:
   - translation:
       key: "chat.title"
       title: "The name of the chat window"
-      value: "Zendesk Support"
+      value: "Live Chat"
+      wip: true
+  - translation:
+      key: "chat.notification"
+      title: "The notification message that appears on launcher when a new message is received"
+      value: "%(count)s new"
       wip: true
 
   # Submit Ticket component
@@ -29,7 +34,7 @@ parts:
   - translation:
       key: "submitTicket.notify.message.fail"
       title: "Fail message on submit ticket send"
-      value: "Error"
+      value: "Error %(status)s %(error_msg)s"
       wip: true
   - translation:
       key: "submitTicket.marketing.message"
@@ -43,26 +48,26 @@ parts:
       title: "The title on the submit ticket form"
       value: "Leave us a message"
   - translation:
-      key: "submitTicket.form.button.label"
+      key: "submitTicket.form.submitButton.label"
       title: "The label on the button in the submit ticket form"
       value: "Send"
   - translation:
-      key: "submitTicket.form.button.label.sending"
-      title: "The label on the button in the submit ticket form when its sending"
+      key: "submitTicket.form.submitButton.label.sending"
+      title: "The label on the button in the submit ticket form when it's sending"
       value: "Submitting..."
 
   # Submit Ticket Schema component
   - translation:
-      key: "submitTicket.schema.field.name.placeholder"
+      key: "submitTicket.field.name.label"
       title: "The placeholder in the name field of the submit ticket form"
       value: "Your name"
   - translation:
-      key: "submitTicket.schema.field.description.placeholder"
+      key: "submitTicket.field.description.label"
       title: "The placeholder in the description field of the submit ticket form"
       value: "How can we help you?"
 
   # Form Field component
   - translation:
-      key: "form.field.email.placeholder"
+      key: "form.field.email.label"
       title: "The placeholder in the email field"
       value: "Email Address"
