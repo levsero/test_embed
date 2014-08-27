@@ -8,7 +8,7 @@ var chats = {},
 function create(name, config) {
   var configDefaults = {
     position: 'br',
-    title: 'Zendesk Support',
+    title: 'Live Chat',
     color: '#78A300',
     offsetVertical: 70
   };
