@@ -19,12 +19,10 @@ parts:
       key: "chat.title"
       title: "The name of the chat window"
       value: "Live Chat"
-      wip: true
   - translation:
       key: "chat.notification"
       title: "The notification message that appears on launcher when a new message is received"
       value: "%(count)s new"
-      wip: true
 
   # Submit Ticket component
   - translation:
