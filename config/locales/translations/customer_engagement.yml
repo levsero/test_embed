@@ -82,7 +82,7 @@ parts:
   - translation:
       key: "helpCenter.submitButton.label.submitTicket"
       title: "The label on the button in help center when no chat agents are online"
-      value: "Submit a Ticket"
+      value: "Leave us a Message"
   - translation:
       key: "helpCenter.label.default"
       title: "The title for help center when first loaded"
@@ -104,5 +104,5 @@ parts:
   - translation:
       key: "navigation.close"
       title: "The link to close the embeddable"
-      value: "Back"
+      value: "Close"
 
