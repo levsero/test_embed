@@ -22,7 +22,7 @@
     "gulp-minify-html": "~0.1.4",
     "gulp-jshint": "~1.8.0",
     "gulp-react": "~0.3.3",
-    "es5-shim": "~3.3.0",
+    "es5-shim": "~3.4.0",
     "reactify": "~0.11.0",
     "gulp-karma": "0.0.4",
     "gulp-es6-module-transpiler": "~0.1.1",
