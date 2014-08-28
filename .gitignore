@@ -4,4 +4,5 @@ dist/
 example/*
 !example/*-template.html
 build/
+src/translations/*
 .DS_Store
