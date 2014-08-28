@@ -2,107 +2,107 @@ title: "Customer Engagement Framework"
 packages:
   - default
   - ce_toolkit
+  - help_center
 
 parts:
   # Launcher embed
   - translation:
       key: "launcher.label.help"
-      title: "Help Label for launcher button"
+      title: "Generic label for the launcher button so customers know this will not be live chat"
       value: "Help"
   - translation:
       key: "launcher.label.chat"
-      title: "Chat Label for launcher button"
+      title: "Label for the launcher button when a chat agent is online so customers know they will be sent to a live chat session"
       value: "Chat"
 
   # Chat embed
   - translation:
       key: "chat.title"
-      title: "The name of the chat window"
+      title: "The name of the live chat window, will be displayed in out Zopim widget"
       value: "Live Chat"
   - translation:
       key: "chat.notification"
-      title: "The notification message that appears on launcher when a new message is received"
+      title: "The notification message that appears on the launcher button when a new message is received. Count will be the number of messages"
       value: "%(count)s new"
 
   # Submit Ticket component
   - translation:
       key: "submitTicket.notify.message.success"
-      title: "Success message on submit ticket send"
+      title: "Success message that displays after submit ticket is sent"
       value: "Message Sent"
   - translation:
-      key: "submitTicket.notify.message.fail"
-      title: "Fail message on submit ticket send"
-      value: "Error %(status)s %(errorMsg)s"
-      wip: true
+      key: "submitTicket.notify.message.timeout"
+      title: "Fails message that displays after submit ticket is sent and it times out. Time out will occur after 30 seconds. This will popup above the send button"
+      value: "It seems like you have hit an internet blackspot! Please try again"
   - translation:
       key: "submitTicket.marketing.message"
-      title: "Message to customers on submit ticket send"
+      title: "Message to customers that displays after submit ticket is sent"
       value: "Give this experience to your customers"
       wip: true
 
   # Submit Ticket Form component
   - translation:
       key: "submitTicket.form.title"
-      title: "The title on the submit ticket form"
+      title: "The title of the submit ticket form"
       value: "Leave us a message"
   - translation:
       key: "submitTicket.form.submitButton.label"
-      title: "The label on the button in the submit ticket form"
+      title: "The label on the button to submit the form in the submit ticket form"
       value: "Send"
   - translation:
       key: "submitTicket.form.submitButton.label.sending"
-      title: "The label on the button in the submit ticket form when it's sending"
+      title: "The label on the button to submit the form in the submit ticket form when it's sending, as feedback for the customer so they know that their ticket is sending"
       value: "Submitting..."
 
   # Submit Ticket Schema component
   - translation:
       key: "submitTicket.field.name.label"
-      title: "The placeholder in the name field of the submit ticket form"
+      title: "The placeholder in the name field of the submit ticket form. Asking for the customers name"
       value: "Your name"
   - translation:
       key: "submitTicket.field.description.label"
-      title: "The placeholder in the description field of the submit ticket form"
+      title: "The placeholder in the description field of the submit ticket form. Asking for some information on the problem the customer has"
       value: "How can we help you?"
 
   # Form Field component
   - translation:
       key: "form.field.email.label"
-      title: "The placeholder in the email field"
+      title: "The placeholder in a generic email field for all our forms that need it"
       value: "Email Address"
 
   # Help Center component
   - translation:
       key: "helpCenter.search.label"
-      title: "The placeholder in the search bar for help center"
+      title: "The placeholder in the search bar in help center widget"
       value: "Search help articles"
   - translation:
       key: "helpCenter.submitButton.label.chat"
-      title: "The label on the button in help center when a chat agent is online"
+      title: "The label on the button in help center widget when a chat agent is online to let customers know that if they click it they will go to live chat"
       value: "Live Chat"
   - translation:
       key: "helpCenter.submitButton.label.submitTicket"
-      title: "The label on the button in help center when no chat agents are online"
+      title: "The label on the button in help center when no chat agents are online to let customers know that if they click it they will go to the submit ticket form"
       value: "Leave us a Message"
   - translation:
       key: "helpCenter.label.default"
-      title: "The title for help center when first loaded"
+      title: "The title for the help center widget when it is loaded and the user hasn't searched anything yet. Top articles will appear in a list below it"
       value: "Common Questions"
   - translation:
       key: "helpCenter.label.results"
-      title: "The title for help center after user has searched for something"
+      title: "The title for the help center widget after user has searched for something. The top search results will appear in a list below it"
       value: "Top Results"
   - translation:
       key: "helpCenter.label.showAll"
-      title: "The link that displays after user has searched and there are more then 3 results"
+      title: "The link that displays after user has searched and there are more then 3 results. Will be shown next to the help center title. Count will be the number of extra help center articles"
       value: "View all (%(count)s)"
 
   # Mobile
   - translation:
       key: "navigation.back"
-      title: "The link to go back a page"
+      title: "The link to go back a page. Displays at the top left of the widget if there is the option to go back"
       value: "Back"
   - translation:
       key: "navigation.close"
-      title: "The link to close the embeddable"
+      title: "The link to close the embeddable. Displays at the top right of the widget"
       value: "Close"
 
