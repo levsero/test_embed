@@ -1,4 +1,4 @@
-import { win } from 'util/globals';
+import { win } from 'utility/globals';
 require('imports?_=lodash!lodash');
 
 var prefix = 'ZD-';
@@ -35,7 +35,7 @@ function clear(session) {
       keys = _.keys(backend);
 
   _.chain(keys)
-    .filter(function(key) { 
+    .filter(function(key) {
       return key.indexOf(prefix) === 0;
     })
     .each(function(key) {

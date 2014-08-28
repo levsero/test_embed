@@ -39,7 +39,7 @@ describe('embed.helpCenter', function() {
       HelpCenter: mockHelpCenter
     });
     mockery.registerMock('./helpCenter.scss', mockCss);
-    mockery.registerMock('util/globals', mockGlobals);
+    mockery.registerMock('utility/globals', mockGlobals);
     mockery.registerMock('imports?_=lodash!lodash', _);
     mockery.registerAllowable('react');
     mockery.registerAllowable('./lib/React');

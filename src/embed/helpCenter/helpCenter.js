@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 
 module React from 'react'; /* jshint ignore:line */
-import { document     } from 'util/globals';
+import { document     } from 'utility/globals';
 import { frameFactory } from 'embed/frameFactory';
 import { HelpCenter   } from 'component/HelpCenter';
 require('imports?_=lodash!lodash');

@@ -18,8 +18,11 @@ describe('embed.chat', function() {
     mockery.enable();
 
     mockRegistry = initMockRegistry({
-      'util/globals': mockGlobals,
-      'util/devices': mockDevices,
+      'utility/globals': mockGlobals,
+      'utility/devices': mockDevices,
+      'service/i18n': {
+        i18n: jasmine.createSpyObj('i18n', ['init', 'setLocale', 'translate'])
+      },
       'imports?_=lodash!lodash': _
     });
 

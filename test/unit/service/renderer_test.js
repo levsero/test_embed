@@ -49,6 +49,9 @@ describe('renderer', function() {
       'embed/chat/chat': {
         chat: mockChat
       },
+      'service/i18n': {
+        i18n: jasmine.createSpyObj('i18n', ['init', 'setLocale', 'translate'])
+      },
       'imports?_=lodash!lodash': _
     });
 

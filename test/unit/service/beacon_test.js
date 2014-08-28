@@ -66,10 +66,10 @@ describe('beacon', function() {
     };
   
     mockery.registerMock('service/transport', mockTransport);
-    mockery.registerMock('util/globals', mockGlobals);
+    mockery.registerMock('utility/globals', mockGlobals);
     mockery.registerMock('service/identity', mockIdentity);
     mockery.registerMock('service/persistence', mockPersistence);
-    mockery.registerMock('util/utils', mockUtils);
+    mockery.registerMock('utility/utils', mockUtils);
     mockery.registerMock('imports?_=lodash!lodash', _);
 
     mockery.registerAllowable(beaconPath);

@@ -1,4 +1,4 @@
-import { win, navigator } from 'util/globals';
+import { win, navigator } from 'utility/globals';
 
 function getSizingRatio(isPinching, isFirstRun) {
   var landscape = Math.abs(win.orientation) === 90,

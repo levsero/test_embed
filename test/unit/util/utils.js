@@ -13,7 +13,7 @@ describe('util.setScaleLock', function() {
     });
 
     mockRegistry = initMockRegistry({
-      'util/globals': {
+      'utility/globals': {
         document: document
       },
       'imports?_=lodash!lodash': _

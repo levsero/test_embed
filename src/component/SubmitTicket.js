@@ -1,10 +1,11 @@
 /** @jsx React.DOM */
 
 module React from 'react/addons'; /* jshint ignore:line */
-import { win              } from 'util/globals';
+import { win              } from 'utility/globals';
 import { transport        } from 'service/transport';
 import { SubmitTicketForm } from 'component/SubmitTicketForm';
-import { isMobileBrowser  } from 'util/devices';
+import { isMobileBrowser  } from 'utility/devices';
+import { i18n             } from  'service/i18n';
 
 require('imports?_=lodash!lodash');
 
@@ -59,10 +60,13 @@ export var SubmitTicket = React.createClass({
           params: formParams,
           callbacks: {
             done() {
-              resCallback('Message sent');
+              resCallback(i18n.translate('submitTicket.success.header'));
             },
             fail(data, status) {
-              resCallback('Error ' + status + ': ' + JSON.parse(data).error);
+              resCallback(i18n.translate('submitTicket.error.message', {
+                status: status,
+                errorMsg: JSON.parse(data).error
+              }));
             }
           }
         };
@@ -115,7 +119,7 @@ export var SubmitTicket = React.createClass({
             <a
               href={marketingUrl}
               target='_blank'>
-              Give this experience to your customers
+              {i18n.translate('submitTicket.success.info')}
             </a>
           </p>
         </div>

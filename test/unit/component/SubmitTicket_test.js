@@ -42,8 +42,8 @@ describe('Submit ticket component', function() {
 
     mockRegistry = initMockRegistry({
       'react/addons': React,
-      'util/globals': { win: window },
-      'util/devices': {
+      'utility/globals': { win: window },
+      'utility/devices': {
         getSizingRatio: function() {
           return 1;
         },
@@ -67,6 +67,9 @@ describe('Submit ticket component', function() {
             return 'abc123';
           }
         }
+      },
+      'service/i18n': {
+        i18n: jasmine.createSpyObj('i18n', ['init', 'setLocale', 'translate'])
       },
       'service/transport': {
         transport: jasmine.createSpyObj('transport', ['send']),
@@ -162,7 +165,7 @@ describe('Submit ticket component', function() {
   describe('fullscreen state', function() {
     it('should be true if isMobileBrowser() is true', function() {
 
-      mockRegistry['util/devices'].isMobileBrowser = function() {
+      mockRegistry['utility/devices'].isMobileBrowser = function() {
         return true;
       };
 
@@ -180,7 +183,7 @@ describe('Submit ticket component', function() {
 
     it('should be false if isMobileBrowser() is false', function() {
 
-      mockRegistry['util/devices'].isMobileBrowser = function() {
+      mockRegistry['utility/devices'].isMobileBrowser = function() {
         return false;
       };
 

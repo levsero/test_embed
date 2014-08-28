@@ -17,10 +17,10 @@ describe('frameFactory', function() {
 
     mockRegistry = initMockRegistry({
       'react/addons': React,
-      'util/globals': {
+      'utility/globals': {
         win: window
       },
-      'util/devices': {
+      'utility/devices': {
         getSizingRatio: function() {
           return 1;
         },
@@ -181,7 +181,7 @@ describe('frameFactory', function() {
           frameContainer,
           frameContainerStyle;
 
-      mockRegistry['util/devices'].isMobileBrowser = function() {
+      mockRegistry['utility/devices'].isMobileBrowser = function() {
         return true;
       };
 

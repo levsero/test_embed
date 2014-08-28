@@ -1,10 +1,11 @@
 /** @jsx React.DOM */
-module React from 'react'; /* jshint ignore:line */
-import { document        } from 'util/globals';
+module React from 'react/addons'; /* jshint ignore:line */
+import { document        } from 'utility/globals';
 import { Launcher        } from 'component/Launcher';
 import { beacon          } from 'service/beacon';
 import { frameFactory    } from 'embed/frameFactory';
-import { isMobileBrowser } from 'util/devices';
+import { isMobileBrowser } from 'utility/devices';
+import { i18n            } from 'service/i18n';
 
 require('imports?_=lodash!lodash');
 
@@ -15,7 +16,7 @@ function create(name, config) {
   var configDefaults = {
         onClick: function() {},
         position: 'right',
-        label: 'Help',
+        label: i18n.translate('launcher.label.help'),
         icon: 'Icon--help'
       },
       base = {

@@ -18,11 +18,13 @@ $font-base: #{$font-size}px/#{$line-height} $font-family;
  * A thin layer on top of normalize.css that provides a starting point more
  * suitable for web applications. Removes the default spacing and border for
  * appropriate elements.
+ * 1. With the translation keys sometimes the launcher will show scroll bars
  */
 
 html {
   color: $body-color;
   font: $font-base;
+  overflow: hidden; /* 1 */
 }
 
 h1, h2, h3, h4, h5, h6 {

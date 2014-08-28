@@ -14,7 +14,7 @@ describe('transport', function() {
     };
     mockRegistry = initMockRegistry({
       'react/addons': React,
-      'util/globals': {
+      'utility/globals': {
         document: {
           location: {
             protocol: 'http:'
@@ -118,7 +118,7 @@ describe('transport', function() {
     it('should respect host page protocol', function() {
       var mockSuperagent = mockRegistry.superagent;
 
-      mockRegistry['util/globals'].document.location.protocol = 'https:';
+      mockRegistry['utility/globals'].document.location.protocol = 'https:';
 
       transport.init(config);
       transport.send(payload);
