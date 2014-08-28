@@ -5,3 +5,5 @@ example/*
 !example/*-template.html
 build/
 .DS_Store
+vendor/bundle
+.bundle
