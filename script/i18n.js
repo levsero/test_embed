@@ -4,7 +4,7 @@ var when  = require('when'),
     fs    = require('fs'),
     puts  = require('sys').puts,
     print = require('sys').print,
-    outputPath = __dirname + "/../src/translations/translations.json";
+    outputPath = __dirname + "/../src/translation/translations.json";
 
 function fetchLocale(locale) {
   var url = locale.url + '?include=translations&packages=ce_toolkit';
@@ -39,7 +39,7 @@ rest('https://support.zendesk.com/api/v2/rosetta/locales/agent.json')
         }, {})
         .value();
 
-      puts("\nWriting src/translations/translations.json");
+      puts("\nWriting to " + outputPath);
 
       fs.writeFile(
         outputPath,
