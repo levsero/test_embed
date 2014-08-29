@@ -58,8 +58,6 @@ describe('SubmitTicketForm component', function() {
       'imports?_=lodash!lodash': _
     });
 
-    mockRegistry['service/i18n'].i18n.translate.andReturn('Foo');
-
     mockery.registerAllowable('utility/globals');
     mockery.registerAllowable(submitTicketFormPath);
 
@@ -151,8 +149,8 @@ describe('SubmitTicketForm component', function() {
       .toEqual(false);
 
     ReactTestUtils.Simulate.submit(submitTicketForm.getDOMNode());
-    expect(i18n.translate)
 
+    expect(i18n.translate)
       .toHaveBeenCalledWith('submitTicket.form.submitButtonSending');
 
     expect(submitTicketForm.state.isSubmitting)

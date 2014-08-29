@@ -16,7 +16,7 @@ export var submitTicketSchema = (
       name='name'
       ref='name'
       icon='avatar'
-      placeholder={i18n.translate('submitTicket.label.field.name')}
+      placeholder={i18n.translate('submitTicket.field.name.label')}
     />
     <EmailField
       required
@@ -31,7 +31,7 @@ export var submitTicketSchema = (
         <textarea
           rows='5'
           className='Arrange-sizeFill u-vsizeAll'
-          placeholder={i18n.translate('submitTicket.label.field.body')}
+          placeholder={i18n.translate('submitTicket.field.description.label')}
         />
       }
     />

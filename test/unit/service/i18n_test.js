@@ -34,9 +34,7 @@ describe('i18n', function() {
   });
 
   it('should grab the german strings when locale is changed', function() {
-    var locale = 'de';
-
-    i18n.setLocale(locale);
+    i18n.setLocale('de');
 
     expect(i18n.translate('launcher.label.hello'))
       .toEqual('Hallo');

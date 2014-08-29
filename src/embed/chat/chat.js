@@ -10,7 +10,7 @@ var chats = {},
 function create(name, config) {
   var configDefaults = {
     position: 'br',
-    title: 'Live Chat',
+    title: i18n.translate('chat.title'),
     color: '#78A300',
     offsetVertical: 70
   };
@@ -172,7 +172,7 @@ function init(name) {
         }
 
         if (unreadMessageCount > 0) {
-          config.setLabel(i18n.translate('launcher.label.chat.msg.count', {
+          config.setLabel(i18n.translate('chat.notification', {
             count: unreadMessageCount
           }));
         }

@@ -14,7 +14,7 @@ var SubmitTicketForm = React.createClass({
   getInitialState() {
     return {
       isValid: false,
-      buttonMessage: i18n.translate('submitTicket.form.submitButton'),
+      buttonMessage: i18n.translate('submitTicket.form.submitButton.label'),
       isSubmitting: false
     };
   },
@@ -32,7 +32,7 @@ var SubmitTicketForm = React.createClass({
 
     if (!isFormInvalid) {
       this.setState({
-        buttonMessage: i18n.translate('submitTicket.form.submitButtonSending'),
+        buttonMessage: i18n.translate('submitTicket.form.submitButton.label.sending'),
         isSubmitting: true
       });
     }
@@ -68,7 +68,7 @@ var SubmitTicketForm = React.createClass({
         onSubmit={this.handleSubmit}
         className={'Form u-cf ' + this.props.className}>
         <legend className='Form-legend u-marginBS u-textBold u-extSizeMed'>
-          {i18n.translate('submitTicket.label.header')}
+          {i18n.translate('submitTicket.form.title')}
         </legend>
         {formBody}
         <input
