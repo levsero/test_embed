@@ -137,6 +137,8 @@ describe('SubmitTicketForm component', function() {
         submitElem = submitTicketFormNode.querySelector('input[type="submit"]'),
         i18n = mockRegistry['service/i18n'].i18n;
 
+    i18n.t.andReturn('Foobar...');
+
     expect(submitElem.disabled)
       .toEqual(true);
 
@@ -150,8 +152,8 @@ describe('SubmitTicketForm component', function() {
 
     ReactTestUtils.Simulate.submit(submitTicketForm.getDOMNode());
 
-    expect(i18n.t)
-      .toHaveBeenCalledWith('embeddable_framework.submitTicket.form.submitButton.label.sending');
+    expect(submitTicketForm.state.buttonMessage)
+      .toEqual('Foobar...');
 
     expect(submitTicketForm.state.isSubmitting)
       .toEqual(true);

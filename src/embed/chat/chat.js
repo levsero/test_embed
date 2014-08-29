@@ -1,6 +1,6 @@
-import { document, win   } from 'utility/globals';
+import { document, win }   from 'utility/globals';
 import { isMobileBrowser } from 'utility/devices';
-import { i18n            } from 'service/i18n';
+import { i18n }            from 'service/i18n';
 
 require('imports?_=lodash!lodash');
 
@@ -189,7 +189,7 @@ function init(name) {
     // shouldn't be needed and we can remove it.
     zopimLive.setOnConnected(_.debounce(onConnect, 10));
 
-    if(!zopimWin.getDisplay()) {
+    if (!zopimWin.getDisplay()) {
       zopimLive.hideAll();
     } else {
       show(name);

@@ -3,7 +3,7 @@
 module React from 'react/addons';
 module ReactForms from 'react-forms';
 import { validation } from 'mixin/validation';
-import { i18n       } from 'service/i18n';
+import { i18n }       from 'service/i18n';
 
 var { FieldMixin } = ReactForms,
     Property = ReactForms.schema.Property,

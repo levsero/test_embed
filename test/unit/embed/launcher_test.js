@@ -105,15 +105,7 @@ describe('embed.launcher', function() {
         var alice,
             mockFrameFactoryScope = {
               getChild: function() {
-                return {
-                  refs: {
-                    launcher: {
-                      state: {
-                        label: ''
-                      }
-                    }
-                  }
-                };
+                return { refs: { launcher: { state: { label: '' }}}};
               },
               onClickHandler: jasmine.createSpy()
             },
@@ -165,8 +157,6 @@ describe('embed.launcher', function() {
             launcherInstance,
             alice;
 
-        mockery.resetCache();
-        launcher = require(launcherPath).launcher;
         launcher.create('alice');
 
         childFn = mockFrameFactoryRecentCall[0];

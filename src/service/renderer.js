@@ -7,13 +7,13 @@ import { i18n         } from 'service/i18n';
 require('imports?_=lodash!lodash');
 
 var embedsMap = {
-    'submitTicket': submitTicket,
-    'launcher'    : launcher,
-    'helpCenter'  : helpCenter,
-    'chat'        : chat
-  },
-  initialised = false,
-  renderedEmbeds;
+      'submitTicket': submitTicket,
+      'launcher'    : launcher,
+      'helpCenter'  : helpCenter,
+      'chat'        : chat
+    },
+    initialised = false,
+    renderedEmbeds;
 
 function parseConfig(config) {
   var rendererConfig = _.clone(config, true);
@@ -36,12 +36,8 @@ function parseConfig(config) {
 }
 
 function init(config) {
-  var parsedConfig = parseConfig(config);
-
-  i18n.setLocale(parseConfig.locale);
-
   if (!initialised) {
-    _.forEach(parsedConfig, function(configItem, embedName) {
+    _.forEach(parseConfig(config), function(configItem, embedName) {
       try {
         embedsMap[configItem.embed].create(embedName, configItem.props);
         embedsMap[configItem.embed].render(embedName);
@@ -56,7 +52,7 @@ function init(config) {
       }
     });
 
-    renderedEmbeds = parsedConfig;
+    renderedEmbeds = config;
   }
 
   initialised = true;

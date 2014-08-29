@@ -11,7 +11,7 @@ function getSizingRatio(isPinching, isFirstRun) {
   // On first run check the ratio is below threshold
   // for defaulting to a smaller default font-size for
   // tablets so the button isn't enormous
-  if(!isPinching && ratio < ratioThreshold && isFirstRun) {
+  if (!isPinching && ratio < ratioThreshold && isFirstRun) {
     defaultRatio = (ratio).toFixed(1);
   }
 

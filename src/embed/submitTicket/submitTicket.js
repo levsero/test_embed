@@ -75,7 +75,7 @@ function create(name, config) {
 }
 
 function render(name) {
-  if(submitTickets[name] && submitTickets[name].instance) {
+  if (submitTickets[name] && submitTickets[name].instance) {
     throw new Error(`SubmitTicket ${name} has already been rendered.`);
   }
 

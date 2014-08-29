@@ -1,11 +1,11 @@
 /** @jsx React.DOM */
 
 module React from 'react/addons'; /* jshint ignore:line */
-import { win              } from 'utility/globals';
-import { transport        } from 'service/transport';
+import { win }              from 'utility/globals';
+import { transport }        from 'service/transport';
 import { SubmitTicketForm } from 'component/SubmitTicketForm';
-import { isMobileBrowser  } from 'utility/devices';
-import { i18n             } from  'service/i18n';
+import { isMobileBrowser }  from 'utility/devices';
+import { i18n }             from 'service/i18n';
 
 require('imports?_=lodash!lodash');
 

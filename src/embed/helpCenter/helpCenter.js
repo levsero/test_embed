@@ -94,7 +94,7 @@ function hide(name) {
 }
 
 function render(name) {
-  if(helpCenters[name] && helpCenters[name].instance) {
+  if (helpCenters[name] && helpCenters[name].instance) {
     throw new Error(`HelpCenter ${name} has already been rendered.`);
   }
 

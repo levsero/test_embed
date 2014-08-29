@@ -1,9 +1,9 @@
 /** @jsx React.DOM */
-
 module React from 'react/addons';
 module ReactForms from 'react-forms';
+
 import { EmailField, IconField } from 'component/FormField';
-import { i18n                  } from 'service/i18n';
+import { i18n }                  from 'service/i18n';
 
 i18n.init();
 

@@ -1,11 +1,11 @@
 /** @jsx React.DOM */
 module React from 'react/addons'; /* jshint ignore:line */
-import { document        } from 'utility/globals';
-import { Launcher        } from 'component/Launcher';
-import { beacon          } from 'service/beacon';
-import { frameFactory    } from 'embed/frameFactory';
+import { document }        from 'utility/globals';
+import { Launcher }        from 'component/Launcher';
+import { beacon   }        from 'service/beacon';
+import { frameFactory }    from 'embed/frameFactory';
 import { isMobileBrowser } from 'utility/devices';
-import { i18n            } from 'service/i18n';
+import { i18n }            from 'service/i18n';
 
 require('imports?_=lodash!lodash');
 
@@ -105,7 +105,7 @@ function setIcon(name, icon) {
 }
 
 function render(name) {
-  if(launchers[name] && launchers[name].instance) {
+  if (launchers[name] && launchers[name].instance) {
     throw new Error(`Launcher ${name} has already been rendered.`);
   }
 
