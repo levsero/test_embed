@@ -38,6 +38,7 @@ try "Installing gulp & bower" "npm install -g --quiet gulp bower > /dev/null"
 try "Installing npm & bower packages" "npm install --quiet > /dev/null && bower install --quiet > /dev/null"
 try "Building Engagement Framework" "gulp build-dev > /dev/null"
 try "Setting up pre-commit hooks" "ln -s ../../script/pre-commit .git/hooks/pre-commit > /dev/null && chmod +x .git/hooks/pre-commit < /dev/null"
+try "Downloading translations" "script/fetch_i18n"
 
 echo
 bold "All systems are go!"
