@@ -7,7 +7,7 @@ var when  = require('when'),
     outputPath = __dirname + "/../src/translation/translations.json";
 
 function fetchLocale(locale) {
-  var url = locale.url + '?include=translations&packages=ce_toolkit';
+  var url = locale.url + '?include=translations&packages=embeddable_framework';
   return rest(url)
     .then(function(response) {
       print('.');
