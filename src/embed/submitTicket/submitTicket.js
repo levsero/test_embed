@@ -75,6 +75,10 @@ function create(name, config) {
 }
 
 function render(name) {
+  if(submitTickets[name] && submitTickets[name].instance) {
+    throw new Error(`SubmitTicket ${name} has already been rendered.`);
+  }
+
   var element = document.body.appendChild(document.createElement('div'));
   submitTickets[name].instance = React.renderComponent(submitTickets[name].component, element);
 }

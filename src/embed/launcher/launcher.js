@@ -105,6 +105,10 @@ function setIcon(name, icon) {
 }
 
 function render(name) {
+  if(launchers[name] && launchers[name].instance) {
+    throw new Error(`Launcher ${name} has already been rendered.`);
+  }
+
   var element = document.body.appendChild(document.createElement('div'));
   launchers[name].instance = React.renderComponent(launchers[name].component, element);
 }

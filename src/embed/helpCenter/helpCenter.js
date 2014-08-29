@@ -94,8 +94,8 @@ function hide(name) {
 }
 
 function render(name) {
-  if (!helpCenters[name]) {
-    throw 'HelpCenter "' + name + '" does not exist or has not been created.';
+  if(helpCenters[name] && helpCenters[name].instance) {
+    throw new Error(`HelpCenter ${name} has already been rendered.`);
   }
 
   var element = document.body.appendChild(document.createElement('div'));
