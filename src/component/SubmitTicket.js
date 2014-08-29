@@ -60,10 +60,10 @@ export var SubmitTicket = React.createClass({
           params: formParams,
           callbacks: {
             done() {
-              resCallback(i18n.translate('submitTicket.notify.message.success'));
+              resCallback(i18n.t('embeddable_framework.submitTicket.notify.message.success'));
             },
-            fail(data, status) {
-              resCallback(i18n.translate('submitTicket.notify.message.timeout'));
+            fail() {
+              resCallback(i18n.t('embeddable_framework.submitTicket.notify.message.timeout'));
             }
           }
         };
@@ -116,7 +116,7 @@ export var SubmitTicket = React.createClass({
             <a
               href={marketingUrl}
               target='_blank'>
-              {i18n.translate('submitTicket.marketing.message')}
+              {i18n.t('embeddable_framework.submitTicket.marketing.message')}
             </a>
           </p>
         </div>

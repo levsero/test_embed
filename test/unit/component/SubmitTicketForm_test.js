@@ -53,7 +53,7 @@ describe('SubmitTicketForm component', function() {
         submitTicketSchema: noop
       },
       'service/i18n': {
-        i18n: jasmine.createSpyObj('i18n', ['translate', 'setLocale', 'init'])
+        i18n: jasmine.createSpyObj('i18n', ['t', 'setLocale', 'init'])
       },
       'imports?_=lodash!lodash': _
     });
@@ -150,8 +150,8 @@ describe('SubmitTicketForm component', function() {
 
     ReactTestUtils.Simulate.submit(submitTicketForm.getDOMNode());
 
-    expect(i18n.translate)
-      .toHaveBeenCalledWith('submitTicket.form.submitButtonSending');
+    expect(i18n.t)
+      .toHaveBeenCalledWith('embeddable_framework.submitTicket.form.submitButton.label.sending');
 
     expect(submitTicketForm.state.isSubmitting)
       .toEqual(true);

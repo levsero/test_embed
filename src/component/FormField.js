@@ -94,7 +94,7 @@ function EmailField(props) {
       /* jshint quotmark:false */
       <input
         type={type}
-        placeholder={i18n.translate('form.field.email.label')}
+        placeholder={i18n.t('embeddable_framework.form.field.email.label')}
         className='Arrange-sizeFill u-vsizeAll' />
     ),
     validate: function(value) {

@@ -16,7 +16,7 @@ function setLocale(locale = 'en-US') {
 
 export var i18n = {
   init: init,
-  translate: translate,
+  t: translate,
   setLocale: setLocale
 };
 

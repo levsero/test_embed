@@ -16,7 +16,7 @@ export var submitTicketSchema = (
       name='name'
       ref='name'
       icon='avatar'
-      placeholder={i18n.translate('submitTicket.field.name.label')}
+      placeholder={i18n.t('embeddable_framework.submitTicket.field.name.label')}
     />
     <EmailField
       required
@@ -31,7 +31,7 @@ export var submitTicketSchema = (
         <textarea
           rows='5'
           className='Arrange-sizeFill u-vsizeAll'
-          placeholder={i18n.translate('submitTicket.field.description.label')}
+          placeholder={i18n.t('embeddable_framework.submitTicket.field.description.label')}
         />
       }
     />

@@ -46,7 +46,7 @@ describe('embed.launcher', function() {
       },
       'imports?_=lodash!lodash': _,
       'service/i18n': {
-        i18n: jasmine.createSpyObj('i18n', ['init', 'setLocale', 'translate'])
+        i18n: jasmine.createSpyObj('i18n', ['init', 'setLocale', 't'])
       }
     });
 

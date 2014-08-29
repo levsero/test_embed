@@ -10,7 +10,7 @@ var chats = {},
 function create(name, config) {
   var configDefaults = {
     position: 'br',
-    title: i18n.translate('chat.title'),
+    title: i18n.t('embeddable_framework.chat.title'),
     color: '#78A300',
     offsetVertical: 70
   };
@@ -77,9 +77,9 @@ function update(name, isActive) {
       hide(name);
 
       if (isOnline(name)) {
-        config.setLabel(i18n.translate('launcher.label.chat'));
+        config.setLabel(i18n.t('embeddable_framework.launcher.label.chat'));
       } else {
-        config.setLabel(i18n.translate('launcher.label.help'));
+        config.setLabel(i18n.t('embeddable_framework.launcher.label.help'));
       }
 
     } else {
@@ -151,14 +151,14 @@ function init(name) {
             name: name,
             isOnline: true,
             icon: 'Icon--chat',
-            label: i18n.translate('launcher.label.chat')
+            label: i18n.t('embeddable_framework.launcher.label.chat')
           });
         } else {
           setStatus({
             name: name,
             isOnline: false,
             icon: 'Icon',
-            label: i18n.translate('launcher.label.help')
+            label: i18n.t('embeddable_framework.launcher.label.help')
           });
         }
       },
@@ -172,7 +172,7 @@ function init(name) {
         }
 
         if (unreadMessageCount > 0) {
-          config.setLabel(i18n.translate('chat.notification', {
+          config.setLabel(i18n.t('embeddable_framework.chat.notification', {
             count: unreadMessageCount
           }));
         }

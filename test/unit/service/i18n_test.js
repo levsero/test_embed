@@ -29,14 +29,14 @@ describe('i18n', function() {
   it('should default setLocale to en-US on init', function() {
     i18n.init();
 
-    expect(i18n.translate('launcher.label.hello'))
+    expect(i18n.t('launcher.label.hello'))
       .toEqual('Hello');
   });
 
   it('should grab the german strings when locale is changed', function() {
     i18n.setLocale('de');
 
-    expect(i18n.translate('launcher.label.hello'))
+    expect(i18n.t('launcher.label.hello'))
       .toEqual('Hallo');
   });
 

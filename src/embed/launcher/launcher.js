@@ -16,7 +16,7 @@ function create(name, config) {
   var configDefaults = {
         onClick: function() {},
         position: 'right',
-        label: i18n.translate('launcher.label.help'),
+        label: i18n.t('embeddable_framework.launcher.label.help'),
         icon: 'Icon--help'
       },
       base = {

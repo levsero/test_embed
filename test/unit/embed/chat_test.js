@@ -21,7 +21,7 @@ describe('embed.chat', function() {
       'utility/globals': mockGlobals,
       'utility/devices': mockDevices,
       'service/i18n': {
-        i18n: jasmine.createSpyObj('i18n', ['init', 'setLocale', 'translate'])
+        i18n: jasmine.createSpyObj('i18n', ['init', 'setLocale', 't'])
       },
       'imports?_=lodash!lodash': _
     });
