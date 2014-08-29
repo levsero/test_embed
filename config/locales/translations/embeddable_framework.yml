@@ -1,0 +1,107 @@
+title: "Embeddable Framework"
+packages:
+  - embeddable_framework
+  - help_center
+
+parts:
+  # Launcher embed
+  - translation:
+      key: "embeddable_framework.launcher.label.help"
+      title: "Generic label for the launcher button so customers know this will not be live chat, if over 15 characters only the icon will display (tinyurl.com/k647stc)"
+      value: "Help"
+  - translation:
+      key: "embeddable_framework.launcher.label.chat"
+      title: "Label for the launcher button when a chat agent is online so customers know they will be sent to a live chat session, if over 15 characters only the icon will display (tinyurl.com/mevpgux)"
+      value: "Chat"
+
+  # Chat embed
+  - translation:
+      key: "embeddable_framework.chat.title"
+      title: "The name of the live chat window provided by Zopim that the Widget serves when chat agents are online. If text exceeds widget width, text will be cut off and the characters ... appended (tinyurl.com/nbhwvcc)"
+      value: "Live Chat"
+  - translation:
+      key: "embeddable_framework.chat.notification"
+      title: "The notification message that appears on the launcher button when a new message is received. Count will be the number of messages. %()s stands for string and does not need to be translated (tinyurl.com/kzchjkw)"
+      value: "%(count)s new"
+
+  # Submit Ticket component
+  - translation:
+      key: "embeddable_framework.submitTicket.notify.message.success"
+      title: "Success message that displays after ticket is sent. Text will wrap as needed if width exceeded (tinyurl.com/o8hvzzm)"
+      value: "Message Sent"
+  - translation:
+      key: "embeddable_framework.submitTicket.notify.message.timeout"
+      title: "Error message that displays after a user tries to send a ticket and it times out. Time out will occur after 30 seconds. Text will wrap as needed. This error message will be displayed in red above the send button (tinyurl.com/ou8qp9g)"
+      value: "It seems you have hit an internet blackspot! Please try again"
+  - translation:
+      key: "embeddable_framework.submitTicket.marketing.message"
+      title: "Message to customers that displays after submit ticket is sent"
+      value: "Give this experience to your customers"
+      wip: true
+
+  # Submit Ticket Form component
+  - translation:
+      key: "embeddable_framework.submitTicket.form.title"
+      title: "The title of the submit ticket form, will wrap as needed (tinyurl.com/o3r3uxj)"
+      value: "Leave us a message"
+  - translation:
+      key: "embeddable_framework.submitTicket.form.submitButton.label"
+      title: "The label on the button to submit the form in the submit ticket form, will wrap if needed"
+      value: "Send"
+  - translation:
+      key: "embeddable_framework.submitTicket.form.submitButton.label.sending"
+      title: "The label on the button to submit the form in the submit ticket form when it's sending, as feedback for the customer so they know that their ticket is sending. Will wrap if to long (tinyurl.com/k8pabo8)"
+      value: "Submitting..."
+
+  # Submit Ticket Schema component
+  - translation:
+      key: "embeddable_framework.submitTicket.field.name.label"
+      title: "The placeholder in the name field of the submit ticket form. Asking for the customers name. Will get cut off if too long"
+      value: "Your name"
+  - translation:
+      key: "embeddable_framework.submitTicket.field.description.label"
+      title: "The placeholder in the description field of the submit ticket form. Asking for some information on the problem the customer has. Will wrap if needed"
+      value: "How can we help you?"
+
+  # Form Field component
+  - translation:
+      key: "embeddable_framework.form.field.email.label"
+      title: "The placeholder in a generic email field for all our forms that need it. Will get cut off if too long"
+      value: "Email Address"
+
+  # Help Center component
+  - translation:
+      key: "embeddable_framework.helpCenter.search.label"
+      title: "The placeholder text in the search bar to prompt users that they can search the knowledge base by typing their query in this space. Will get cut off if to long (tinyurl.com/kjubpdk)"
+      value: "Search help articles"
+  - translation:
+      key: "embeddable_framework.helpCenter.submitButton.label.chat"
+      title: "The label on the button in help center widget when a chat agent is online to let customers know that if they click it they will go to live chat. Will wrap if needed (tinyurl.com/kf8gpbb)"
+      value: "Live Chat"
+  - translation:
+      key: "embeddable_framework.helpCenter.submitButton.label.submitTicket"
+      title: "The label on the button in help center when no chat agents are online to let customers know that if they click it they will go to the submit ticket form. Will wrap if needed"
+      value: "Leave us a Message"
+  - translation:
+      key: "embeddable_framework.helpCenter.label.default"
+      title: "The title for the help center widget when it is loaded and the user hasn't searched anything yet. Top articles will appear in a list below it. Will wrap if needed"
+      value: "Common Questions"
+  - translation:
+      key: "embeddable_framework.helpCenter.label.results"
+      title: "The title for the help center widget after user has searched for something. The top search results will appear in a list below it. Will wrap as needed (tinyurl.com/kdgfvbw)"
+      value: "Top Results"
+  - translation:
+      key: "embeddable_framework.helpCenter.label.showAll"
+      title: "The link that displays after user has searched and there are more then 3 results. Will be shown next to the help center title. Count will be the number of extra help center articles. Will move to a new line and wrap if needed. %()s stands for string and does not need to be translated (tinyurl.com/le5tu52)"
+      value: "View all (%(count)s)"
+
+  # Mobile
+  - translation:
+      key: "embeddable_framework.navigation.back"
+      title: "The link to go back a page. Displays at the top left of the widget if there is the option to go back. If over 5 characters will just display icon (tinyurl.com/nj6lvhl)"
+      value: "Back"
+  - translation:
+      key: "embeddable_framework.navigation.close"
+      title: "The link to close the embeddable. Displays at the top right of the widget. If over 5 characters will just display icon (tinyurl.com/p33xnz2)"
+      value: "Close"
+
