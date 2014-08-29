@@ -8,31 +8,31 @@ parts:
   # Launcher embed
   - translation:
       key: "launcher.label.help"
-      title: "Generic label for the launcher button so customers know this will not be live chat"
+      title: "Generic label for the launcher button so customers know this will not be live chat, if over 15 characters only the icon will display (tinyurl.com/k647stc)"
       value: "Help"
   - translation:
       key: "launcher.label.chat"
-      title: "Label for the launcher button when a chat agent is online so customers know they will be sent to a live chat session"
+      title: "Label for the launcher button when a chat agent is online so customers know they will be sent to a live chat session, if over 15 characters only the icon will display (tinyurl.com/mevpgux)"
       value: "Chat"
 
   # Chat embed
   - translation:
       key: "chat.title"
-      title: "The name of the live chat window, will be displayed in out Zopim widget"
+      title: "The name of the live chat window, will be displayed in out Zopim widget, if longer then widget length will get cut off (tinyurl.com/ofrfuut)"
       value: "Live Chat"
   - translation:
       key: "chat.notification"
-      title: "The notification message that appears on the launcher button when a new message is received. Count will be the number of messages"
+      title: "The notification message that appears on the launcher button when a new message is received. Count will be the number of messages (tinyurl.com/kzchjkw)"
       value: "%(count)s new"
 
   # Submit Ticket component
   - translation:
       key: "submitTicket.notify.message.success"
-      title: "Success message that displays after submit ticket is sent"
+      title: "Success message that displays after submit ticket is sent. Will wrap as needed (tinyurl.com/qax8fd2)"
       value: "Message Sent"
   - translation:
       key: "submitTicket.notify.message.timeout"
-      title: "Fails message that displays after submit ticket is sent and it times out. Time out will occur after 30 seconds. This will popup above the send button"
+      title: "Fails message that displays after submit ticket is sent and it times out. Time out will occur after 30 seconds. Will wrap as needed. This will popup above the send button"
       value: "It seems like you have hit an internet blackspot! Please try again"
   - translation:
       key: "submitTicket.marketing.message"
@@ -43,66 +43,66 @@ parts:
   # Submit Ticket Form component
   - translation:
       key: "submitTicket.form.title"
-      title: "The title of the submit ticket form"
+      title: "The title of the submit ticket form, will wrap as needed (tinyurl.com/pqwguav)"
       value: "Leave us a message"
   - translation:
       key: "submitTicket.form.submitButton.label"
-      title: "The label on the button to submit the form in the submit ticket form"
+      title: "The label on the button to submit the form in the submit ticket form, will wrap if needed"
       value: "Send"
   - translation:
       key: "submitTicket.form.submitButton.label.sending"
-      title: "The label on the button to submit the form in the submit ticket form when it's sending, as feedback for the customer so they know that their ticket is sending"
+      title: "The label on the button to submit the form in the submit ticket form when it's sending, as feedback for the customer so they know that their ticket is sending. Will wrap if to long (tinyurl.com/l5la7ph)"
       value: "Submitting..."
 
   # Submit Ticket Schema component
   - translation:
       key: "submitTicket.field.name.label"
-      title: "The placeholder in the name field of the submit ticket form. Asking for the customers name"
+      title: "The placeholder in the name field of the submit ticket form. Asking for the customers name. Will get cut off if to long"
       value: "Your name"
   - translation:
       key: "submitTicket.field.description.label"
-      title: "The placeholder in the description field of the submit ticket form. Asking for some information on the problem the customer has"
+      title: "The placeholder in the description field of the submit ticket form. Asking for some information on the problem the customer has. Will wrap if needed"
       value: "How can we help you?"
 
   # Form Field component
   - translation:
       key: "form.field.email.label"
-      title: "The placeholder in a generic email field for all our forms that need it"
+      title: "The placeholder in a generic email field for all our forms that need it. Will get cut off if to long"
       value: "Email Address"
 
   # Help Center component
   - translation:
       key: "helpCenter.search.label"
-      title: "The placeholder in the search bar in help center widget"
+      title: "The placeholder in the search bar in help center widget. Will get cut off if to long (tinyurl.com/mkytxdl)"
       value: "Search help articles"
   - translation:
       key: "helpCenter.submitButton.label.chat"
-      title: "The label on the button in help center widget when a chat agent is online to let customers know that if they click it they will go to live chat"
+      title: "The label on the button in help center widget when a chat agent is online to let customers know that if they click it they will go to live chat. Will wrap if needed (tinyurl.com/mrr9mhe)"
       value: "Live Chat"
   - translation:
       key: "helpCenter.submitButton.label.submitTicket"
-      title: "The label on the button in help center when no chat agents are online to let customers know that if they click it they will go to the submit ticket form"
+      title: "The label on the button in help center when no chat agents are online to let customers know that if they click it they will go to the submit ticket form. Will wrap if needed"
       value: "Leave us a Message"
   - translation:
       key: "helpCenter.label.default"
-      title: "The title for the help center widget when it is loaded and the user hasn't searched anything yet. Top articles will appear in a list below it"
+      title: "The title for the help center widget when it is loaded and the user hasn't searched anything yet. Top articles will appear in a list below it. Will wrap if needed"
       value: "Common Questions"
   - translation:
       key: "helpCenter.label.results"
-      title: "The title for the help center widget after user has searched for something. The top search results will appear in a list below it"
+      title: "The title for the help center widget after user has searched for something. The top search results will appear in a list below it. Will wrap as needed (tinyurl.com/lju4k75)"
       value: "Top Results"
   - translation:
       key: "helpCenter.label.showAll"
-      title: "The link that displays after user has searched and there are more then 3 results. Will be shown next to the help center title. Count will be the number of extra help center articles"
+      title: "The link that displays after user has searched and there are more then 3 results. Will be shown next to the help center title. Count will be the number of extra help center articles. Will move to a new line and wrap if needed"
       value: "View all (%(count)s)"
 
   # Mobile
   - translation:
       key: "navigation.back"
-      title: "The link to go back a page. Displays at the top left of the widget if there is the option to go back"
+      title: "The link to go back a page. Displays at the top left of the widget if there is the option to go back. If over 5 characters will just display icon (tinyurl.com/kjhcpuf)"
       value: "Back"
   - translation:
       key: "navigation.close"
-      title: "The link to close the embeddable. Displays at the top right of the widget"
+      title: "The link to close the embeddable. Displays at the top right of the widget. If over 5 characters will just display icon"
       value: "Close"
 
