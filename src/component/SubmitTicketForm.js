@@ -2,6 +2,7 @@
 
 module React from 'react/addons';
 module ReactForms from 'react-forms';
+
 import { submitTicketSchema } from 'component/SubmitTicketSchema';
 import { i18n }               from 'service/i18n';
 require('imports?_=lodash!lodash');
