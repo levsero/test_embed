@@ -18,11 +18,11 @@ parts:
   # Chat embed
   - translation:
       key: "chat.title"
-      title: "The name of the live chat window, will be displayed in out Zopim widget, if longer then widget length will get cut off (tinyurl.com/ofrfuut)"
+      title: "The name of the live chat window, will be displayed in out Zopim widget, if longer then widget length will get cut off (tinyurl.com/p33eyk8)"
       value: "Live Chat"
   - translation:
       key: "chat.notification"
-      title: "The notification message that appears on the launcher button when a new message is received. Count will be the number of messages (tinyurl.com/kzchjkw)"
+      title: "The notification message that appears on the launcher button when a new message is received. Count will be the number of messages. %()s stands for string, the s doesn't need to be translated (tinyurl.com/kzchjkw)"
       value: "%(count)s new"
 
   # Submit Ticket component
@@ -93,7 +93,7 @@ parts:
       value: "Top Results"
   - translation:
       key: "helpCenter.label.showAll"
-      title: "The link that displays after user has searched and there are more then 3 results. Will be shown next to the help center title. Count will be the number of extra help center articles. Will move to a new line and wrap if needed"
+      title: "The link that displays after user has searched and there are more then 3 results. Will be shown next to the help center title. Count will be the number of extra help center articles. Will move to a new line and wrap if needed. %()s stands for string, the s doesn't need to be translated"
       value: "View all (%(count)s)"
 
   # Mobile
