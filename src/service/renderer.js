@@ -2,7 +2,6 @@ import { submitTicket } from 'embed/submitTicket/submitTicket';
 import { launcher }     from 'embed/launcher/launcher';
 import { helpCenter }   from 'embed/helpCenter/helpCenter';
 import { chat }         from 'embed/chat/chat';
-import { i18n }         from 'service/i18n';
 
 require('imports?_=lodash!lodash');
 
