@@ -2,6 +2,7 @@ import { submitTicket } from 'embed/submitTicket/submitTicket';
 import { launcher }     from 'embed/launcher/launcher';
 import { helpCenter }   from 'embed/helpCenter/helpCenter';
 import { chat }         from 'embed/chat/chat';
+import { mediator }     from 'service/mediator';
 
 require('imports?_=lodash!lodash');
 
@@ -36,6 +37,7 @@ function parseConfig(config) {
 
 function init(config) {
   if (!initialised) {
+    console.log(config);
     _.forEach(parseConfig(config), function(configItem, embedName) {
       try {
         embedsMap[configItem.embed].create(embedName, configItem.props);
@@ -53,6 +55,25 @@ function init(config) {
 
     renderedEmbeds = config;
   }
+
+
+
+  var state = {
+    'ticketSubmissionForm.isVisible': false
+  };
+
+  mediator.channel.subscribe('ticketSubmissionLauncher.onClick', function() {
+    if (state['ticketSubmissionForm.isVisible']) {
+      mediator.channel.broadcast('ticketSubmissionForm.hide');
+      mediator.channel.broadcast('ticketSubmissionLauncher.deactivate');
+      state['ticketSubmissionForm.isVisible'] = false;
+    }
+    else {
+      mediator.channel.broadcast('ticketSubmissionForm.show');
+      mediator.channel.broadcast('ticketSubmissionLauncher.activate');
+      state['ticketSubmissionForm.isVisible'] = true;
+    }
+  });
 
   initialised = true;
 }

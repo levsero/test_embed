@@ -8,6 +8,7 @@ import { frameFactory }    from 'embed/frameFactory';
 import { setScaleLock }    from 'utility/utils';
 import { isMobileBrowser } from 'utility/devices';
 import { beacon }          from 'service/beacon';
+import { mediator }        from 'service/mediator';
 
 var submitTicketCSS = require('./submitTicket.scss'),
     submitTickets = {};
@@ -66,11 +67,11 @@ function create(name, config) {
       fullscreenable: true,
       onShow() {
         setScaleLock(true);
-        config.onShow();
+        //config.onShow();
       },
       onHide() {
         setScaleLock(false);
-        config.onHide();
+        //config.onHide();
       },
       onClose() {
         update(name, true);
@@ -93,6 +94,14 @@ function render(name) {
 
   var element = document.body.appendChild(document.createElement('div'));
   submitTickets[name].instance = React.renderComponent(submitTickets[name].component, element);
+
+  mediator.channel.subscribe(name + '.show', function() {
+    show(name);
+  });
+
+  mediator.channel.subscribe(name + '.hide', function() {
+    hide(name);
+  });
 }
 
 function get(name) {

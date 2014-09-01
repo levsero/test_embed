@@ -7,6 +7,7 @@ import { beacon }          from 'service/beacon';
 import { frameFactory }    from 'embed/frameFactory';
 import { isMobileBrowser } from 'utility/devices';
 import { i18n }            from 'service/i18n';
+import { mediator }        from 'service/mediator';
 
 require('imports?_=lodash!lodash');
 
@@ -66,11 +67,8 @@ function create(name, config) {
       fullscreenable: false,
       extend: {
         onClickHandler: function(e) {
-          var isActive = this.getChild().refs.launcher.state.active;
           e.preventDefault();
-
-          config.onClick(isActive);
-          beacon.track('launcher', 'click', name);
+          mediator.channel.broadcast(name + '.onClick');
         }
       }
     }));
@@ -112,6 +110,13 @@ function render(name) {
 
   var element = document.body.appendChild(document.createElement('div'));
   launchers[name].instance = React.renderComponent(launchers[name].component, element);
+  mediator.channel.subscribe(name + '.activate', function() {
+    getChildRefs(name).launcher.setActive(true);
+  });
+  mediator.channel.subscribe(name + '.deactivate', function() {
+    getChildRefs(name).launcher.setActive(false);
+  });
+
 }
 
 function setLabel(name, label) {
@@ -121,9 +126,9 @@ function setLabel(name, label) {
 function update(name) {
   var launcher = getChildRefs(name).launcher;
 
-  if (!isMobileBrowser()) {
-    launcher.setActive(!launcher.state.active);
-  }
+  //if (!isMobileBrowser()) {
+  //  launcher.setActive(!launcher.state.active);
+  //}
 }
 
 export var launcher = {
