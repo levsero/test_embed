@@ -110,11 +110,22 @@ function render(name) {
 
   var element = document.body.appendChild(document.createElement('div'));
   launchers[name].instance = React.renderComponent(launchers[name].component, element);
+
   mediator.channel.subscribe(name + '.activate', function() {
     getChildRefs(name).launcher.setActive(true);
   });
   mediator.channel.subscribe(name + '.deactivate', function() {
     getChildRefs(name).launcher.setActive(false);
+  });
+
+  mediator.channel.subscribe(name + '.setLabelChat', function() {
+    setIcon(name, 'Icon--chat');
+    setLabel(name, i18n.t('embeddable_framework.launcher.label.chat'));
+  });
+
+  mediator.channel.subscribe(name + '.setLabelHelp', function() {
+    setIcon(name, 'Icon');
+    setLabel(name, i18n.t('embeddable_framework.launcher.label.help'));
   });
 
 }

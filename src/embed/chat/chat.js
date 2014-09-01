@@ -1,6 +1,7 @@
 import { document, win }   from 'utility/globals';
 import { isMobileBrowser } from 'utility/devices';
 import { i18n }            from 'service/i18n';
+import { mediator }        from 'service/mediator';
 
 require('imports?_=lodash!lodash');
 
@@ -154,6 +155,14 @@ function render(name) {
   styleTag.innerHTML = css;
 
   init(name);
+
+  mediator.channel.subscribe(name + '.show', function() {
+    show(name);
+  });
+
+  mediator.channel.subscribe(name + '.hide', function() {
+    hide(name);
+  });
 }
 
 function init(name) {
@@ -162,19 +171,21 @@ function init(name) {
       config = chat.config,
       onStatus = function(status) {
         if (status === 'online' && chat.connected) {
-          setStatus({
-            name: name,
-            isOnline: true,
-            icon: 'Icon--chat',
-            label: i18n.t('embeddable_framework.launcher.label.chat')
-          });
+          mediator.channel.broadcast('zopimChat.onOnline');
+          //setStatus({
+          //  name: name,
+          //  isOnline: true,
+          //  icon: 'Icon--chat',
+          //  label: i18n.t('embeddable_framework.launcher.label.chat')
+          //});
         } else {
-          setStatus({
-            name: name,
-            isOnline: false,
-            icon: 'Icon',
-            label: i18n.t('embeddable_framework.launcher.label.help')
-          });
+          mediator.channel.broadcast('zopimChat.onOffline');
+          //setStatus({
+          //  name: name,
+          //  isOnline: false,
+          //  icon: 'Icon',
+          //  label: i18n.t('embeddable_framework.launcher.label.help')
+          //});
         }
       },
       onConnect = function() {

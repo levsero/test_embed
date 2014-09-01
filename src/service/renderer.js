@@ -59,8 +59,45 @@ function init(config) {
 
 
   var state = {
-    'ticketSubmissionForm.isVisible': false
+    'ticketSubmissionForm.isVisible': false,
+    'zopimChat.isVisible': false,
+    'zopimChat.isOnline': false
   };
+
+  mediator.channel.subscribe('zopimChat.onOnline', function() {
+    state['zopimChat.isOnline'] = true;
+    mediator.channel.broadcast('chatLauncher.setLabelChat');
+  });
+
+  mediator.channel.subscribe('zopimChat.onOffline', function() {
+    state['zopimChat.isOnline'] = false;
+    mediator.channel.broadcast('chatLauncher.setLabelHelp');
+  });
+
+  mediator.channel.subscribe('chatLauncher.onClick', function() {
+    if (state['zopimChat.isVisible'] || state['ticketSubmissionForm.isVisible']) {
+      if (state['zopimChat.isVisible']) {
+        mediator.channel.broadcast('zopimChat.hide');
+        state['zopimChat.isVisible'] = false;
+      }
+      if (state['ticketSubmissionForm.isVisible']) {
+        mediator.channel.broadcast('ticketSubmissionForm.hide');
+        state['ticketSubmissionForm.isVisible'] = false;
+      }
+      mediator.channel.broadcast('chatLauncher.deactivate');
+    }
+    else {
+      if (state['zopimChat.isOnline']) {
+        mediator.channel.broadcast('zopimChat.show');
+        state['zopimChat.isVisible'] = true;
+      }
+      else {
+        mediator.channel.broadcast('ticketSubmissionForm.show');
+        state['ticketSubmissionForm.isVisible'] = true;
+      }
+      mediator.channel.broadcast('chatLauncher.activate');
+    }
+  });
 
   mediator.channel.subscribe('ticketSubmissionLauncher.onClick', function() {
     if (state['ticketSubmissionForm.isVisible']) {
