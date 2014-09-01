@@ -7,7 +7,7 @@ describe('i18n', function() {
     mockery.enable({useCleanCache: true});
     mockRegistry = initMockRegistry({
       'translation/translations.json': {
-        'en-US': {
+        'en': {
           'launcher.label.hello': 'Hello'
         },
         'de': {
@@ -26,7 +26,7 @@ describe('i18n', function() {
   });
 
 
-  it('should default setLocale to en-US on init', function() {
+  it('should default setLocale to en on init', function() {
     i18n.init();
 
     expect(i18n.t('launcher.label.hello'))

@@ -9,7 +9,7 @@ function init() {
   setLocale();
 }
 
-function setLocale(locale = 'en-US') {
+function setLocale(locale = 'en') {
   translate.setLocale(locale);
   translate.registerTranslations(locale, translations[locale]);
 }
