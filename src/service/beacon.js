@@ -1,10 +1,11 @@
 import { win,
          document,
-         navigator } from 'util/globals';
+         navigator } from 'utility/globals';
 import { transport } from 'service/transport';
-import { identity  } from 'service/identity';
-import { store     } from 'service/persistence';
-import { parseUrl  } from 'util/utils';
+import { identity }  from 'service/identity';
+import { store }     from 'service/persistence';
+import { parseUrl }  from 'utility/utils';
+
 require('imports?_=lodash!lodash');
 
 function init() {

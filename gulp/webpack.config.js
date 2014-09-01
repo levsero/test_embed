@@ -23,6 +23,7 @@ module.exports = {
       },
       { test: /base\.css$/, loader: 'css', minimize: true },
       { test: /\.js$/, loader: 'es6-loader' },
+      { test: /\.json$/, loader: 'json-loader' },
       { test: /\.(woff|eot|ttf)$/, loader: 'url' }
     ]
   },
@@ -35,7 +36,8 @@ module.exports = {
       mixin: path.join(prefix + '/src/component/mixin'),
       service: path.join(prefix + '/src/service'),
       src: path.join(prefix + '/src'),
-      util: path.join(prefix + '/src/util'),
+      utility: path.join(prefix + '/src/util'),
+      translation: path.join(prefix + '/src/translation'),
       // CSS Components
       baseCSS: path.join(prefix + '/src/styles/base.css'),
       componentCSS: path.join(prefix + '/src/styles/components'),

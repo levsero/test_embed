@@ -31,7 +31,8 @@ describe('SubmitTicketForm component', function() {
     resetDOM();
 
     mockery.enable({
-      warnOnReplace:false
+      warnOnReplace:false,
+      useCleanCache: true
     });
 
     mockRegistry = initMockRegistry({
@@ -51,10 +52,13 @@ describe('SubmitTicketForm component', function() {
       'component/SubmitTicketSchema': {
         submitTicketSchema: noop
       },
+      'service/i18n': {
+        i18n: jasmine.createSpyObj('i18n', ['t', 'setLocale', 'init'])
+      },
       'imports?_=lodash!lodash': _
     });
 
-    mockery.registerAllowable('util/globals');
+    mockery.registerAllowable('utility/globals');
     mockery.registerAllowable(submitTicketFormPath);
 
     SubmitTicketForm = require(submitTicketFormPath).SubmitTicketForm;
@@ -130,7 +134,10 @@ describe('SubmitTicketForm component', function() {
           global.document.body
         ),
         submitTicketFormNode = submitTicketForm.getDOMNode(),
-        submitElem = submitTicketFormNode.querySelector('input[type="submit"]');
+        submitElem = submitTicketFormNode.querySelector('input[type="submit"]'),
+        i18n = mockRegistry['service/i18n'].i18n;
+
+    i18n.t.andReturn('Foobar...');
 
     expect(submitElem.disabled)
       .toEqual(true);
@@ -146,7 +153,7 @@ describe('SubmitTicketForm component', function() {
     ReactTestUtils.Simulate.submit(submitTicketForm.getDOMNode());
 
     expect(submitTicketForm.state.buttonMessage)
-      .toEqual('Submitting...');
+      .toEqual('Foobar...');
 
     expect(submitTicketForm.state.isSubmitting)
       .toEqual(true);

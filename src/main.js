@@ -1,10 +1,11 @@
 module React from 'react';
+
 import { beacon         } from 'service/beacon';
 import { logging        } from 'service/logging';
 import { renderer       } from 'service/renderer';
 import { transport      } from 'service/transport';
-import { win, location  } from 'util/globals';
-import { getSizingRatio } from 'util/devices';
+import { win, location  } from 'utility/globals';
+import { getSizingRatio } from 'utility/devices';
 
 require('imports?_=lodash!lodash');
 

@@ -43,15 +43,15 @@ describe('embed.submitTicket', function() {
         frameFactory: require(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
         frameMethods: require(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
       },
-      'util/utils': {
+      'utility/utils': {
         setScaleLock: function() {}
       },
-      'util/devices': {
+      'utility/devices': {
         isMobileBrowser: function() {
           return false;
         }
       },
-      'util/globals': {
+      'utility/globals': {
         document: global.document
       },
       'imports?_=lodash!lodash': _
@@ -123,7 +123,7 @@ describe('embed.submitTicket', function() {
          mockFrameFactoryRecentCall,
          iframeStyle;
 
-      mockery.registerMock('util/devices', {
+      mockery.registerMock('utility/devices', {
         isMobileBrowser: function() {
           return true;
         }
@@ -151,7 +151,7 @@ describe('embed.submitTicket', function() {
           },
           payload;
 
-      mockery.registerMock('util/devices', {
+      mockery.registerMock('utility/devices', {
         isMobileBrowser: function() {
           return true;
         }

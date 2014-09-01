@@ -18,7 +18,7 @@ describe('store', function() {
 
   beforeEach(function() {
     mockery.enable();
-    mockery.registerMock('util/globals', mockGlobals);
+    mockery.registerMock('utility/globals', mockGlobals);
     mockery.registerMock('imports?_=lodash!lodash', _);
     mockery.registerAllowable(persistencePath);
     store = require(persistencePath).store;

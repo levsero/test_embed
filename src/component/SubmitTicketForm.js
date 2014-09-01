@@ -2,7 +2,9 @@
 
 module React from 'react/addons';
 module ReactForms from 'react-forms';
+
 import { submitTicketSchema } from 'component/SubmitTicketSchema';
+import { i18n }               from 'service/i18n';
 require('imports?_=lodash!lodash');
 
 var classSet = React.addons.classSet,
@@ -13,7 +15,7 @@ var SubmitTicketForm = React.createClass({
   getInitialState() {
     return {
       isValid: false,
-      buttonMessage: 'Send',
+      buttonMessage: i18n.t('embeddable_framework.submitTicket.form.submitButton.label'),
       isSubmitting: false
     };
   },
@@ -31,7 +33,7 @@ var SubmitTicketForm = React.createClass({
 
     if (!isFormInvalid) {
       this.setState({
-        buttonMessage: 'Submitting...',
+        buttonMessage: i18n.t('embeddable_framework.submitTicket.form.submitButton.label.sending'),
         isSubmitting: true
       });
     }
@@ -67,7 +69,7 @@ var SubmitTicketForm = React.createClass({
         onSubmit={this.handleSubmit}
         className={'Form u-cf ' + this.props.className}>
         <legend className='Form-legend u-marginBS u-textBold u-extSizeMed'>
-          Leave us a message
+          {i18n.t('embeddable_framework.submitTicket.form.title')}
         </legend>
         {formBody}
         <input

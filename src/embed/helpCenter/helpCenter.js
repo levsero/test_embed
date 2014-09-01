@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 
 module React from 'react'; /* jshint ignore:line */
-import { document     } from 'util/globals';
+import { document     } from 'utility/globals';
 import { frameFactory } from 'embed/frameFactory';
 import { HelpCenter   } from 'component/HelpCenter';
 require('imports?_=lodash!lodash');
@@ -94,8 +94,8 @@ function hide(name) {
 }
 
 function render(name) {
-  if (!helpCenters[name]) {
-    throw 'HelpCenter "' + name + '" does not exist or has not been created.';
+  if (helpCenters[name] && helpCenters[name].instance) {
+    throw new Error(`HelpCenter ${name} has already been rendered.`);
   }
 
   var element = document.body.appendChild(document.createElement('div'));

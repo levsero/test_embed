@@ -1,4 +1,4 @@
-import { document as doc } from 'util/globals';
+import { document as doc } from 'utility/globals';
 require('imports?_=lodash!lodash');
 
 var superagent = require('superagent'),

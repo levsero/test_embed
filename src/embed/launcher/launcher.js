@@ -1,10 +1,12 @@
 /** @jsx React.DOM */
-module React from 'react'; /* jshint ignore:line */
-import { document        } from 'util/globals';
-import { Launcher        } from 'component/Launcher';
-import { beacon          } from 'service/beacon';
-import { frameFactory    } from 'embed/frameFactory';
-import { isMobileBrowser } from 'util/devices';
+module React from 'react/addons';
+
+import { document }        from 'utility/globals';
+import { Launcher }        from 'component/Launcher';
+import { beacon }          from 'service/beacon';
+import { frameFactory }    from 'embed/frameFactory';
+import { isMobileBrowser } from 'utility/devices';
+import { i18n }            from 'service/i18n';
 
 require('imports?_=lodash!lodash');
 
@@ -15,7 +17,7 @@ function create(name, config) {
   var configDefaults = {
         onClick: function() {},
         position: 'right',
-        label: 'Help',
+        label: i18n.t('embeddable_framework.launcher.label.help'),
         icon: 'Icon--help'
       },
       base = {
@@ -104,6 +106,10 @@ function setIcon(name, icon) {
 }
 
 function render(name) {
+  if (launchers[name] && launchers[name].instance) {
+    throw new Error(`Launcher ${name} has already been rendered.`);
+  }
+
   var element = document.body.appendChild(document.createElement('div'));
   launchers[name].instance = React.renderComponent(launchers[name].component, element);
 }

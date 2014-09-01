@@ -1,8 +1,9 @@
 /** @jsx React.DOM */
 module React from 'react/addons';
-import { win             } from 'util/globals';
+
+import { win }             from 'utility/globals';
 import { getSizingRatio,
-         isMobileBrowser } from 'util/devices';
+         isMobileBrowser } from 'utility/devices';
 
 require('imports?_=lodash!lodash');
 

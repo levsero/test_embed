@@ -1,5 +1,7 @@
-import { document, win   } from 'util/globals';
-import { isMobileBrowser } from 'util/devices';
+import { document, win }   from 'utility/globals';
+import { isMobileBrowser } from 'utility/devices';
+import { i18n }            from 'service/i18n';
+
 require('imports?_=lodash!lodash');
 
 var chats = {},
@@ -8,7 +10,7 @@ var chats = {},
 function create(name, config) {
   var configDefaults = {
     position: 'br',
-    title: 'Live Chat',
+    title: i18n.t('embeddable_framework.chat.title'),
     color: '#78A300',
     offsetVertical: 70
   };
@@ -75,9 +77,9 @@ function update(name, isActive) {
       hide(name);
 
       if (isOnline(name)) {
-        config.setLabel('Chat');
+        config.setLabel(i18n.t('embeddable_framework.launcher.label.chat'));
       } else {
-        config.setLabel('Help');
+        config.setLabel(i18n.t('embeddable_framework.launcher.label.help'));
       }
 
     } else {
@@ -149,14 +151,14 @@ function init(name) {
             name: name,
             isOnline: true,
             icon: 'Icon--chat',
-            label: 'Chat'
+            label: i18n.t('embeddable_framework.launcher.label.chat')
           });
         } else {
           setStatus({
             name: name,
             isOnline: false,
             icon: 'Icon',
-            label: 'Help'
+            label: i18n.t('embeddable_framework.launcher.label.help')
           });
         }
       },
@@ -170,7 +172,9 @@ function init(name) {
         }
 
         if (unreadMessageCount > 0) {
-          config.setLabel(`${unreadMessageCount} New`);
+          config.setLabel(i18n.t('embeddable_framework.chat.notification', {
+            count: unreadMessageCount
+          }));
         }
       },
       onChatStart = function() {
@@ -185,7 +189,7 @@ function init(name) {
     // shouldn't be needed and we can remove it.
     zopimLive.setOnConnected(_.debounce(onConnect, 10));
 
-    if(!zopimWin.getDisplay()) {
+    if (!zopimWin.getDisplay()) {
       zopimLive.hideAll();
     } else {
       show(name);
