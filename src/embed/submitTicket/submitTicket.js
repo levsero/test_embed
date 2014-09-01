@@ -104,6 +104,10 @@ function reset(name) {
   get(name).instance.reset();
 }
 
+function transition(name) {
+  get(name).instance.transition();
+}
+
 function update(name, isVisible) {
   var submitTicket = get(name).instance.getChild().refs.submitTicket,
       isSuccessState = submitTicket.state.showNotification;
@@ -127,6 +131,7 @@ export var submitTicket = {
   show: show,
   hide: hide,
   reset: reset,
-  update: update
+  update: update,
+  transition: transition
 };
 

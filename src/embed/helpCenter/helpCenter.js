@@ -1,5 +1,6 @@
 /** @jsx React.DOM */
 
+
 module React from 'react/addons';
 
 import { document }        from 'utility/globals';
@@ -18,12 +19,28 @@ function create(name, config) {
         position: 'fixed',
         bottom: 48
       },
+      iframeBase = {
+        position: 'fixed',
+        bottom: 80
+      },
       configDefaults = {
         position: 'right'
       },
       posObj,
       iframeStyle,
-      Embed;
+      Embed,
+      onSubmit = function() {
+        var helpCenter = get(name);
+
+        if(helpCenter.chatStatus) {
+          config.updateChat(false, true);
+          helpCenter.embedShown = 'chat';
+        } else {
+          config.transitionSubmitTicket();
+          helpCenter.embedShown = 'submitTicket';
+        }
+        transition(name);
+      };
 
   config = _.extend(configDefaults, config);
 
@@ -50,6 +67,7 @@ function create(name, config) {
           <HelpCenter
             ref='helpCenter'
             zendeskHost={document.zendeskHost}
+            onSubmit={onSubmit}
             updateFrameSize={params.updateFrameSize} />
         </div>
       );
@@ -70,7 +88,8 @@ function create(name, config) {
     }));
 
   helpCenters[name] = {
-    component: <Embed visible={false} />
+    component: <Embed visible={false} />,
+    config: config
   };
 
   return this;
@@ -92,12 +111,47 @@ function hide(name) {
   get(name).instance.hide();
 }
 
+function transition(name) {
+  get(name).instance.transition();
+}
+
 function update(name, isVisible) {
+  var helpCenter = get(name),
+      config = helpCenter.config;
+
   if (isVisible) {
-    hide(name);
+    switch (helpCenter.embedShown) {
+      case 'chat':
+        config.updateChat(true);
+        break;
+      case 'submitTicket':
+        config.updateSubmitTicket(true);
+        break;
+      default:
+        hide(name);
+    }
   } else {
-    show(name);
+    switch (helpCenter.embedShown) {
+      case 'chat':
+        config.updateChat(false);
+        break;
+      case 'submitTicket':
+        config.updateSubmitTicket(false);
+        break;
+      default:
+        show(name);
+    }
   }
+}
+
+function setChatStatus(name, status) {
+  get(name).chatStatus = status;
+}
+
+function isChatting(name) {
+  get(name).embedShown = 'chat';
+  hide(name);
+  get(name).config.onShow();
 }
 
 function render(name) {
@@ -115,6 +169,8 @@ export var helpCenter = {
   get: get,
   show: show,
   hide: hide,
+  render: render,
   update: update,
-  render: render
+  isChatting: isChatting,
+  setChatStatus: setChatStatus
 };

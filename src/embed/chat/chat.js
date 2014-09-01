@@ -28,7 +28,7 @@ function get(name) {
   return chats[name];
 }
 
-function show(name) {
+function show(name, disableOnShow) {
   var config = get(name).config,
       zopim = win.$zopim;
 
@@ -45,7 +45,7 @@ function show(name) {
     styleTag.parentNode.removeChild(styleTag);
   }
 
-  if (_.isFunction(config.onShow)) {
+  if (_.isFunction(config.onShow) && !disableOnShow) {
     config.onShow();
   }
 }
@@ -65,6 +65,14 @@ function hide(name) {
 
 function isOnline(name) {
   return get(name).isOnline;
+}
+
+function HCupdate(name, isVisible, disableOnShow=false) {
+  if (isVisible) {
+    hide(name);
+  } else {
+    show(name, disableOnShow);
+  }
 }
 
 function update(name, isActive) {
@@ -111,8 +119,12 @@ function setStatus(opts) {
       config = chat.config;
 
   chat.isOnline = isOnline;
-  config.setIcon(icon);
-  config.setLabel(label);
+  if (config.setLabel) {
+    config.setLabel(label);
+  } else {
+    config.setIcon(icon);
+    config.setStatus(isOnline);
+  }
 }
 
 function render(name) {
@@ -193,6 +205,7 @@ function init(name) {
       zopimLive.hideAll();
     } else {
       show(name);
+      config.isChatting();
     }
 
     zopimLive.setOnStatus(onStatus);
@@ -210,5 +223,6 @@ export var chat  = {
   show: show,
   hide: hide,
   update: update,
+  HCupdate: HCupdate,
   render: render
 };
