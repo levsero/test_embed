@@ -1,20 +1,19 @@
 require 'zendesk/deployment'
 require 'airbrake/capistrano'
 
-set :application, "engagement_framework"
-set :repository, "git@github.com:zendesk/engagement_framework"
-set :email_notification, ["deploys@zendesk.com"]
+set :application, "embeddable_framework"
+set :repository, "git@github.com:zendesk/embeddable_framework"
+set :email_notification, ["deploys@zendesk.com",
+                          "taipan@zendesk.com",
+                          "engagement@zendesk.flowdock.com"]
 
-set(:assets_path) { File.join(deploy_to, 'assets') }
-set(:framework_path) { File.join(assets_path, 'framework') }
-set(:current_version_path) { File.join(framework_path, 'current') }
-set(:build_version) { (tag && tag.gsub(/^v/, '')) || fetch(:branch, nil) || local_head_revision }
+set(:framework_path) { File.join(deploy_to, 'dist') }
 
 set(:real_revision) { Zendesk::Deployment::Committish.new(revision).sha }
 
-before 'engagement_framework:deploy', 'deploy:verify_local_git_status'
-before 'engagement_framework:update_current', 'deploy:verify_local_git_status'
-after  'engagement_framework:deploy', 'deploy:notify'
+before 'embeddable_framework:deploy', 'deploy:verify_local_git_status'
+before 'embeddable_framework:update_current', 'deploy:verify_local_git_status'
+after  'embeddable_framework:deploy', 'deploy:notify'
 
 def sh(command)
   logger.trace "executing locally: #{command.inspect}" if logger
@@ -31,20 +30,17 @@ namespace :deploy do
   end
 end
 
-namespace :engagement_framework do
+namespace :embeddable_framework do
 
   task :deploy do
     logger.info "Generating assets"
-    sh "sed -i -e 's/0.1.0/#{build_version}.0.0/' package.json"
     sh "npm install"
     sh "bower install"
     sh "bin/gulp build"
 
     logger.info "Uploading assets"
-    run "mkdir -p #{deploy_to}/assets/framework/#{build_version}"
-    upload "dist/#{build_version}/framework.js",     "#{framework_path}/#{build_version}/framework.js", :via => :scp
-    upload "dist/#{build_version}/framework.min.js", "#{framework_path}/#{build_version}/framework.min.js", :via => :scp
-    upload "dist/#{build_version}/framework.min.map", "#{framework_path}/#{build_version}/framework.min.map", :via => :scp
+    upload "dist/main.js",     "#{framework_path}/main.js", :via => :scp
+    upload "dist/update.html", "#{framework_path}/update.html", :via => :scp
   end
 
 end
