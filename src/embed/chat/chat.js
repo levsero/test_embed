@@ -172,20 +172,8 @@ function init(name) {
       onStatus = function(status) {
         if (status === 'online' && chat.connected) {
           mediator.channel.broadcast('zopimChat.onOnline');
-          //setStatus({
-          //  name: name,
-          //  isOnline: true,
-          //  icon: 'Icon--chat',
-          //  label: i18n.t('embeddable_framework.launcher.label.chat')
-          //});
         } else {
           mediator.channel.broadcast('zopimChat.onOffline');
-          //setStatus({
-          //  name: name,
-          //  isOnline: false,
-          //  icon: 'Icon',
-          //  label: i18n.t('embeddable_framework.launcher.label.help')
-          //});
         }
       },
       onConnect = function() {
@@ -195,6 +183,7 @@ function init(name) {
         if (chat.chatStarted && unreadMessageCount > 0) {
           if (!isMobileBrowser()) {
             show(name);
+            mediator.channel.broadcast(name + '.onShow');
           }
           if (_.isFunction(config.isChatting)) {
             config.isChatting();
@@ -203,9 +192,7 @@ function init(name) {
         }
 
         if (unreadMessageCount > 0) {
-          config.setLabel(i18n.t('embeddable_framework.chat.notification', {
-            count: unreadMessageCount
-          }));
+          mediator.channel.broadcast(name + '.onUnreadMsgs', unreadMessageCount);
         }
       },
       onChatStart = function() {
@@ -241,6 +228,7 @@ function init(name) {
       if (_.isFunction(config.isChatting)) {
         config.isChatting();
       }
+      mediator.channel.broadcast(name + '.onShow');
     }
 
     zopimWin.onHide(onHide);

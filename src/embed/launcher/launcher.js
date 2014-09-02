@@ -128,6 +128,14 @@ function render(name) {
     setLabel(name, i18n.t('embeddable_framework.launcher.label.help'));
   });
 
+  mediator.channel.subscribe(name + '.setLabelUnreadMsgs', function(unreadMsgs) {
+    var label = i18n.t(
+      'embeddable_framework.chat.notification',
+      {count: unreadMsgs}
+    );
+    setLabel(name, label);
+  });
+
 }
 
 function setLabel(name, label) {

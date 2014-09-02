@@ -67,14 +67,12 @@ function create(name, config) {
       fullscreenable: true,
       onShow() {
         setScaleLock(true);
-        //config.onShow();
       },
       onHide() {
         setScaleLock(false);
-        //config.onHide();
       },
       onClose() {
-        update(name, true);
+        mediator.channel.broadcast(name + '.onClose');
       },
       extend: {}
     }));
