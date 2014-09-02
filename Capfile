@@ -7,7 +7,10 @@ set :email_notification, ["deploys@zendesk.com",
                           "taipan@zendesk.com",
                           "engagement@zendesk.flowdock.com"]
 
-set(:framework_path) { File.join(deploy_to, 'dist') }
+set(:assets_path) { File.join(deploy_to, 'assets') }
+set(:framework_path) { File.join(assets_path, 'embeddable_framework') }
+set(:current_version_path) { File.join(framework_path, 'current') }
+set(:build_version) { (tag && tag.gsub(/^v/, '')) || fetch(:branch, nil) || local_head_revision }
 
 set(:real_revision) { Zendesk::Deployment::Committish.new(revision).sha }
 
@@ -40,8 +43,21 @@ namespace :embeddable_framework do
     sh "bin/gulp build"
 
     logger.info "Uploading assets"
-    upload "dist/main.js",     "#{framework_path}/main.js", :via => :scp
-    upload "dist/update.html", "#{framework_path}/update.html", :via => :scp
+    run "mkdir -p #{framework_path}/#{build_version}"
+    upload "dist", "#{framework_path}/#{build_version}", :via => :scp, :recursive => true
+  end
+
+  desc "Update the 'live' version of embeddable_framework"
+  task :update_current do
+    logger.info "Updating current framework version"
+    begin
+      run "test -f #{framework_path}/#{build_version}/main.js"
+      run "test -f #{framework_path}/#{build_version}/update.html"
+    rescue Capistrano::CommandError
+      logger.important "ERROR: One of the target release file does not exist!"
+      exit
+    end
+    run "ln -snf #{framework_path}/#{build_version} #{current_version_path}"
   end
 
 end
