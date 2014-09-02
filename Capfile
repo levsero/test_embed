@@ -36,6 +36,7 @@ namespace :embeddable_framework do
     logger.info "Generating assets"
     sh "npm install"
     sh "bower install"
+    sh "script/fetch_i18n"
     sh "bin/gulp build"
 
     logger.info "Uploading assets"
