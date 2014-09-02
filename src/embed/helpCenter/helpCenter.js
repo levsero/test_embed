@@ -115,6 +115,11 @@ function transition(name) {
   get(name).instance.transition();
 }
 
+function transitionBack(name) {
+  transition(name);
+  get(name).embedShown = 'helpCenter';
+}
+
 function update(name, isVisible) {
   var helpCenter = get(name),
       config = helpCenter.config;

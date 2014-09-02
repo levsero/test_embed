@@ -22,7 +22,11 @@ function create(name, config) {
       },
       posObj,
       iframeStyle,
-      Embed;
+      Embed,
+      handleBack = function() {
+        config.goBack();
+        transition(name);
+      };
 
   config = _.extend(configDefaults, config);
 
@@ -46,7 +50,8 @@ function create(name, config) {
         <div style={containerStyle}>
           <SubmitTicket
             ref='submitTicket'
-            updateFrameSize={params.updateFrameSize} />
+            updateFrameSize={params.updateFrameSize}
+            handleBack = {handleBack}/>
         </div>
       );
     },
