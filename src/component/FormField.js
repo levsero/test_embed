@@ -107,24 +107,5 @@ function EmailField(props) {
   });
 }
 
-function SearchField(props) {
-  var isLoading = props.loading
-                  ? <Loading className='u-posAbsolute u-posEnd u-posEnd--flush u-posCenter--vert' />
-                  : '';
-
-  return IconField({
-    name: props.name,
-    ref: props.ref,
-    icon: 'search',
-    input: (
-      /* jshint quotmark:false */
-      <div className='Arrange-sizeFill u-vsizeAll u-posRelative'>
-        <input className='Arrange-sizeFill u-paddingR' placeholder={props.placeholder}/>
-        {isLoading}
-      </div>
-    )
-  });
-}
-
-export { IconField, EmailField, SearchField };
+export { IconField, EmailField };
 

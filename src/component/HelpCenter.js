@@ -16,8 +16,13 @@ export var HelpCenter = React.createClass({
     return {
       topics: [],
       searchTitle: i18n.t('embeddable_framework.helpCenter.label.default'),
-      searchCount: 0
+      searchCount: 0,
+      searchTerm: ''
     };
+  },
+
+  getViewAllUrl() {
+      return `http://${document.zendeskHost}/hc/search?query=${this.state.searchTerm}`
   },
 
   componentWillMount() {
@@ -40,18 +45,19 @@ export var HelpCenter = React.createClass({
 
   handleSubmit(e, data) {
     e.preventDefault();
-  console.log(this.refs);
-    this.handleSearch(data.value.helpCenterSearchField, true);
+    this.handleSearch(data.value, true);
   },
 
   makeSearch(searchString) {
-    console.log(this.refs);
+    this.setState({
+      isLoading: true,
+      searchTerm: searchString
+    });
     /* jshint camelcase:false */
     transport.send({
       method: 'get',
       path: '/api/proxy',
       query: {
-        include: 'translations',
         query: searchString,
         zendesk_path: '/api/v2/help_center/search.json'
       },
@@ -63,7 +69,8 @@ export var HelpCenter = React.createClass({
           this.setState({
             topics: _.first(topics, 3),
             searchTitle: i18n.t('embeddable_framework.helpCenter.label.results'),
-            searchCount: json.count
+            searchCount: json.count,
+            isLoading: false
           });
         }
       }
@@ -136,10 +143,20 @@ export var HelpCenter = React.createClass({
           ref='helpCenterForm'
           className='Container-pullout u-nbfc'
           onSearch={this.handleSearch}
+          isLoading={this.state.isLoading}
           submit={this.handleSubmit}>
           <h1 className='Form-legend u-marginTS Arrange Arrange--middle'>
             <span className='Arrange-sizeFill'>{this.state.searchTitle}</span>
-            <a href='' className={viewAllClasses}>View all ({this.state.searchCount})</a>
+            <a
+              href={this.getViewAllUrl()}
+              className={viewAllClasses}
+              target='_blank'>
+              {
+                i18n.t('embeddable_framework.helpCenter.label.showAll',{
+                 count:this.state.searchCount
+                })
+              }
+            </a>
           </h1>
           {topics}
         </HelpCenterForm>

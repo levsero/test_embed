@@ -3,7 +3,7 @@
 module React from 'react/addons';
 module ReactForms from 'react-forms';
 
-import { helpCenterSchema } from 'component/HelpCenterSchema';
+import { Loading }          from 'component/Loading';
 import { i18n }             from 'service/i18n';
 
 require('imports?_=lodash!lodash');
@@ -28,45 +28,47 @@ var HelpCenterForm = React.createClass({
   },
 
   handleSubmit(e) {
-    var form = this.refs.helpCenterForm,
-        formValue = form.value(),
-        isFormInvalid = isFailure(formValue.validation);
+    var formValue = this.refs.helpCenterSearchField.state.value;
 
     this.props.submit(e, {
-      isFormInvalid: isFormInvalid,
-      value: formValue.value
+      value: formValue
     });
   },
 
-  handleUpdate(values, isValid) {
-    this.setState({isValid: isValid});
-    this.props.onSearch(values.helpCenterForm)
+  handleUpdate(e) {
+    this.props.onSearch(e.target.value)
   },
 
   render() {
     /* jshint quotmark:false */
-    var formBody = this.transferPropsTo(
-          <HelpCenterFormBody
-            ref='helpCenterForm'
-            schema={helpCenterSchema}
-            className='Form-cta'
-            onUpdate={this.handleUpdate}
-            component={React.DOM.div} />
-        ),
-        buttonClasses = classSet({
+    var buttonClasses = classSet({
           'Button Button--cta Anim-color u-textNoWrap': true,
           'u-pullRight': !this.props.fullscreen,
           'u-sizeFull': this.props.fullscreen
-        });
+        }),
+        loadingClasses = classSet({
+          'u-posAbsolute u-posEnd--flush u-posCenter--vert': true,
+          'u-isHidden': !this.props.isLoading
+        })
 
     return (
       <form
         noValidate
         onSubmit={this.handleSubmit}
-        className={'Form u-cf'}>
-        {formBody}
-        <div class="Form-cta Container-pullout u-nbfc">
-
+        className='Form u-cf'>
+        <div className="Form-cta Container-pullout u-nbfc">
+          <label className='Arrange Arrange--middle rf-Field u-isSelectable'>
+            <i className="Arrange-sizeFit u-isActionable Icon Icon--search"></i>
+            <div className="Arrange-sizeFill u-vsizeAll u-posRelative">
+              <input
+                className="Arrange-sizeFill u-paddingR"
+                ref='helpCenterSearchField'
+                onChange={this.handleUpdate}
+                placeholder={i18n.t('embeddable_framework.helpCenter.search.label')}
+                type="text" />
+              <Loading className={loadingClasses} />
+            </div>
+          </label>
         </div>
         {this.props.children}
         <input
