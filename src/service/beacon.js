@@ -41,7 +41,7 @@ function send() {
       },
       payload = {
         method: 'POST',
-        path: '/api/blips',
+        path: '/embeddable/api/blips',
         params: _.extend(commonParams(), params)
       };
 
