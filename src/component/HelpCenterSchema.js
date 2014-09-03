@@ -3,17 +3,19 @@
 module React from 'react/addons';
 module ReactForms from 'react-forms';
 
-var { Schema, Property } = ReactForms.schema;
+import { SearchField } from 'component/FormField';
+import { i18n }      from 'service/i18n';
 
- export var helpCenterSchema = (
+var { Schema } = ReactForms.schema;
+
+export var helpCenterSchema = (
   /* jshint quotmark:false */
-  <Schema >
-    <Property
-      name='description'
-      label='Message'
-      ref='message'
-      input={<textarea rows='5' placeholder='Give us details here...' />}
+  <Schema>
+    <SearchField
+      name='helpCenterSearchField'
+      ref='helpCenterSearchField'
+      autoComplete='off'
+      placeholder={i18n.t('embeddable_framework.helpCenter.search.label')}
     />
   </Schema>
 );
-

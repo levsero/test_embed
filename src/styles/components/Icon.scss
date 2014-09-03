@@ -46,30 +46,34 @@
 }
 
 .Icon:before {
-  content: '\69';
+  content: '\e603';
 }
 
 .Icon--chat:before {
-  content: '\61';
+  content: '\e600';
 }
 
 .Icon--mail:before {
-  content: '\64';
+  content: '\e602';
 }
 
 .Icon--avatar:before {
-  content: '\67';
+  content: '\e605';
 }
 
 .Icon--msg:before {
-  content: '\66';
+  content: '\e604';
+}
+
+.Icon--search:before {
+  content: '\e609';
 }
 
 .Icon--cross {
   padding-right: 0;
 
   &:before {
-    content: '\73';
+    content: '\e601';
   }
 }
 
@@ -81,7 +85,7 @@
   color: $cta-color;
 
   &:before {
-    content: '\68';
+    content: '\e606';
   }
 }
 
@@ -94,7 +98,7 @@
   }
 
   &:before {
-    content: '\6b';
+    content: '\e608';
     font-size: #{60/$font-size}rem;
   }
 }

@@ -4,6 +4,7 @@ module React from 'react/addons';
 module ReactForms from 'react-forms';
 import { validation } from 'mixin/validation';
 import { i18n }       from 'service/i18n';
+import { Loading }    from 'component/Loading';
 
 var { FieldMixin } = ReactForms,
     Property = ReactForms.schema.Property,
@@ -74,7 +75,10 @@ function IconField(props) {
       required={!!props.required}
       input={
         props.input ||
-        <input placeholder={props.placeholder} className='Arrange-sizeFill u-vsizeAll' />
+        <input
+          placeholder={props.placeholder}
+          autoComplete={props.autoComplete || 'on'}
+          className='Arrange-sizeFill u-vsizeAll' />
       }
       validate={props.validate || ''}
       component={<FocusField icon={props.icon} />}
@@ -103,5 +107,24 @@ function EmailField(props) {
   });
 }
 
-export { IconField, EmailField };
+function SearchField(props) {
+  var isLoading = props.loading
+                  ? <Loading className='u-posAbsolute u-posEnd u-posEnd--flush u-posCenter--vert' />
+                  : '';
+
+  return IconField({
+    name: props.name,
+    ref: props.ref,
+    icon: 'search',
+    input: (
+      /* jshint quotmark:false */
+      <div className='Arrange-sizeFill u-vsizeAll u-posRelative'>
+        <input className='Arrange-sizeFill u-paddingR' placeholder={props.placeholder}/>
+        {isLoading}
+      </div>
+    )
+  });
+}
+
+export { IconField, EmailField, SearchField };
 
