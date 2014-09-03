@@ -21,7 +21,7 @@ function send(payload) {
   superagent(payload.method.toUpperCase(),
              buildFullUrl(payload.path))
     .type('json')
-    .send(payload.params)
+    .send(payload.params || {})
     .query(payload.query || {})
     .end(function(res) {
       if (payload.callbacks) {

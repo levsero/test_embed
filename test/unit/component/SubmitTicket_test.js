@@ -12,7 +12,7 @@ describe('Submit ticket component', function() {
       },
       payload = {
         method: 'post',
-        path: '/api/ticket_submission',
+        path: '/embeddable/api/ticket_submission',
         params: formParams,
         callbacks: {
           done: noop,
