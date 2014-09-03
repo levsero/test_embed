@@ -13,6 +13,7 @@ function boot() {
   var publicApi,
       isPinching,
       rendererConfig,
+      payload,
       host = location.host,
       path = location.pathname,
       chatPages = [
@@ -29,7 +30,7 @@ function boot() {
   logging.init();
 
   transport.bustCache();
-  transport.init({ zendeskHost: document.zendeskHost });
+  transport.init({ zendeskHost: dev.zendesk.dev });
 
   beacon.init().send();
 
@@ -50,32 +51,123 @@ function boot() {
     }
   });
 
-  // Until transport config is setup we hard code the config call
-  rendererConfig = {
-    'ticketSubmissionForm': {
-      'embed': 'submitTicket',
-      'props': {
-        'onShow': {
-          name: 'ticketSubmissionLauncher',
-          method: 'update'
-        },
-        'onHide': {
-          name: 'ticketSubmissionLauncher',
-          method: 'update'
-        }
-      }
-    },
-    'ticketSubmissionLauncher': {
-      'embed': 'launcher',
-      'props': {
-        'position': 'right',
-        'onClick': {
-          name: 'ticketSubmissionForm',
-          method: 'update'
-        }
+  payload = {
+    method: 'get',
+    path: '/embeddable/api/config',
+    callbacks: {
+      done(args) {
+        renderer.init(JSON.parse(args));
+      },
+      fail(text) {
+        Airbrake.push({
+          error: text,
+          context: {
+            account: document.zendeskHost
+          }
+        });
       }
     }
   };
+
+  if (host === 'support.zendesk.com' || host === 'snow.hashttp.com' ||
+      host === 'developer.zendesk.com' || host === 'herculespreprod.zendesk.com') {
+    rendererConfig = {
+      'ticketSubmissionForm': {
+        'embed': 'submitTicket',
+        'props': {
+          'onShow': {
+            name: 'ticketSubmissionLauncher',
+            method: 'update'
+          },
+          'onHide': {
+            name: 'ticketSubmissionLauncher',
+            method: 'update'
+          }
+        }
+      },
+      'ticketSubmissionLauncher': {
+        'embed': 'launcher',
+        'props': {
+          'position': 'right',
+          'onClick': {
+            name: 'ticketSubmissionForm',
+            method: 'update'
+          }
+        }
+      }
+    };
+    // Until transport config is dynamic we need to alter what gets rendered on the zopim page
+    if ((host === 'www.zendesk.com' && _.contains(chatPages, path)) ||
+        (host === 'snow.hashttp.com' && path === '/chat') ||
+        (host === 'developer.zendesk.com') ||
+        (host === 'herculespreprod.zendesk.com')) {
+
+      var zopimId;
+
+      if (host === 'www.zendesk.com') {
+        zopimId = '2ItCA9Tu3W5bksDB4EJzPSCz4kIymONo';
+      } else if (host === 'developer.zendesk.com' || host === 'herculespreprod.zendesk.com') {
+        zopimId = '1uJgTSshB9yCQX0rbNnPCE7pttL4R3fb';
+      } else {
+        zopimId = '2EkTn0An31opxOLXuGgRCy5nPnSNmpe6';
+      }
+
+      rendererConfig = {
+        'zopimChat': {
+          'embed': 'chat',
+          'props': {
+            'zopimId': zopimId,
+            'onShow': {
+              name: 'chatLauncher',
+              method: 'update'
+            },
+            'onHide': {
+              name: 'chatLauncher',
+              method: 'update'
+            },
+            'setIcon': {
+              name: 'chatLauncher',
+              method: 'setIcon'
+            },
+            'setLabel': {
+              name: 'chatLauncher',
+              method: 'setLabel'
+            },
+            'updateForm': {
+              name: 'ticketSubmissionForm',
+              method: 'update'
+            }
+          }
+        },
+        'chatLauncher': {
+          'embed': 'launcher',
+          'props': {
+            'position': 'right',
+            'onClick': {
+              name: 'zopimChat',
+              method: 'update'
+            }
+          }
+        },
+        'ticketSubmissionForm': {
+          'embed': 'submitTicket',
+          'props': {
+            'onShow': {
+              name: 'chatLauncher',
+              method: 'update'
+            },
+            'onHide': {
+              name: 'chatLauncher',
+              method: 'update'
+            }
+          }
+        }
+      };
+    }
+    renderer.init(rendererConfig);
+  } else {
+    transport.send(payload);
+  }
 
   function propagateFontRatioChange() {
     setTimeout(() => {
@@ -99,77 +191,6 @@ function boot() {
   win.addEventListener('orientationchange', () => {
     propagateFontRatioChange();
   });
-
-  // Until transport config is dynamic we need to alter what gets rendered on the zopim page
-  if ((host === 'www.zendesk.com' && _.contains(chatPages, path)) ||
-      (host === 'snow.hashttp.com' && path === '/chat') ||
-      (host === 'developer.zendesk.com') ||
-      (host === 'herculespreprod.zendesk.com')) {
-
-    var zopimId;
-
-    if (host === 'www.zendesk.com') {
-      zopimId = '2ItCA9Tu3W5bksDB4EJzPSCz4kIymONo';
-    } else if (host === 'developer.zendesk.com' || host === 'herculespreprod.zendesk.com') {
-      zopimId = '1uJgTSshB9yCQX0rbNnPCE7pttL4R3fb';
-    } else {
-      zopimId = '2EkTn0An31opxOLXuGgRCy5nPnSNmpe6';
-    }
-
-    rendererConfig = {
-      'zopimChat': {
-        'embed': 'chat',
-        'props': {
-          'zopimId': zopimId,
-          'onShow': {
-            name: 'chatLauncher',
-            method: 'update'
-          },
-          'onHide': {
-            name: 'chatLauncher',
-            method: 'update'
-          },
-          'setIcon': {
-            name: 'chatLauncher',
-            method: 'setIcon'
-          },
-          'setLabel': {
-            name: 'chatLauncher',
-            method: 'setLabel'
-          },
-          'updateForm': {
-            name: 'ticketSubmissionForm',
-            method: 'update'
-          }
-        }
-      },
-      'chatLauncher': {
-        'embed': 'launcher',
-        'props': {
-          'position': 'right',
-          'onClick': {
-            name: 'zopimChat',
-            method: 'update'
-          }
-        }
-      },
-      'ticketSubmissionForm': {
-        'embed': 'submitTicket',
-        'props': {
-          'onShow': {
-            name: 'chatLauncher',
-            method: 'update'
-          },
-          'onHide': {
-            name: 'chatLauncher',
-            method: 'update'
-          }
-        }
-      }
-    };
-  }
-
-  renderer.init(rendererConfig);
 }
 
 if (!_.isUndefined(document.zendeskHost)) {
