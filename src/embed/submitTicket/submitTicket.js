@@ -98,7 +98,11 @@ function render(name) {
   });
 
   mediator.channel.subscribe(name + '.hide', function() {
+    var submitTicket = get(name).instance.getChild().refs.submitTicket;
     hide(name);
+    if (submitTicket.state.showNotification) {
+      submitTicket.reset();
+    }
   });
 }
 
