@@ -22,7 +22,7 @@ export var HelpCenter = React.createClass({
   },
 
   getViewAllUrl() {
-      return `http://${document.zendeskHost}/hc/search?query=${this.state.searchTerm}`
+      return `http://${document.zendeskHost}/hc/search?query=${this.state.searchTerm}`;
   },
 
   componentWillMount() {
@@ -64,12 +64,20 @@ export var HelpCenter = React.createClass({
       callbacks: {
         done: (data) => {
           var json = JSON.parse(data),
-              topics = json.results;
+              topics = _.first(json.results, 3),
+              count = json.count,
+              searchTitle;
+
+          if(!count) {
+            searchTitle = 'No results';
+          } else {
+            searchTitle = i18n.t('embeddable_framework.helpCenter.label.results');
+          }
 
           this.setState({
-            topics: _.first(topics, 3),
-            searchTitle: i18n.t('embeddable_framework.helpCenter.label.results'),
-            searchCount: json.count,
+            topics: topics,
+            searchTitle: searchTitle,
+            searchCount: count,
             isLoading: false
           });
         }
@@ -110,9 +118,6 @@ export var HelpCenter = React.createClass({
             {this.state.topics.map(contentTemplate)}
           </ul>
         ),
-        messageClasses = classSet({
-          'u-isHidden': topics.length
-        }),
         containerClasses = classSet({
           'Container': true,
           'Container--popover u-nbfcAlt': !this.state.fullscreen,

@@ -1,16 +1,13 @@
 /** @jsx React.DOM */
 
 module React from 'react/addons';
-module ReactForms from 'react-forms';
 
 import { Loading }          from 'component/Loading';
 import { i18n }             from 'service/i18n';
 
 require('imports?_=lodash!lodash');
 
-var classSet = React.addons.classSet,
-    HelpCenterFormBody = ReactForms.Form,
-    isFailure = ReactForms.validation.isFailure;
+var classSet = React.addons.classSet;
 
 var HelpCenterForm = React.createClass({
   getInitialState() {
@@ -36,7 +33,7 @@ var HelpCenterForm = React.createClass({
   },
 
   handleUpdate(e) {
-    this.props.onSearch(e.target.value)
+    this.props.onSearch(e.target.value);
   },
 
   render() {
@@ -49,7 +46,7 @@ var HelpCenterForm = React.createClass({
         loadingClasses = classSet({
           'u-posAbsolute u-posEnd--flush u-posCenter--vert': true,
           'u-isHidden': !this.props.isLoading
-        })
+        });
 
     return (
       <form

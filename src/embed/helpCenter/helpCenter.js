@@ -5,7 +5,6 @@ module React from 'react/addons';
 import { document }        from 'utility/globals';
 import { frameFactory }    from 'embed/frameFactory';
 import { HelpCenter }      from 'component/HelpCenter';
-import { setScaleLock }    from 'utility/utils';
 import { isMobileBrowser } from 'utility/devices';
 
 require('imports?_=lodash!lodash');
