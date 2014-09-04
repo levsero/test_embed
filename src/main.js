@@ -28,7 +28,7 @@ function boot() {
 
   logging.init();
 
-  transport.bustCache();
+  transport.bustCache('@@versionHash@@');
   transport.init({ zendeskHost: document.zendeskHost });
 
   beacon.init().send();

@@ -9,8 +9,10 @@ var gulp = require('gulp'),
     runSequence = require('run-sequence'),
     webpackConfig = require('../webpack.config.js'),
     es6Transpiler = require('gulp-es6-transpiler'),
+    replace = require('gulp-replace'),
     fs = require('fs'),
     path = require('path'),
+    shell = require('gulp-shell'),
     predef = JSON.parse(fs.readFileSync(path.join(process.cwd(), '.jshintrc'), 'utf8')).predef;
 
 function getGlobals() {
@@ -83,17 +85,30 @@ gulp.task('build:src', function() {
     .pipe(gulp.dest('build/src'));
 });
 
+gulp.task('build:version:generate', shell.task(
+  'git rev-parse --short HEAD > ./dist/VERSION_HASH'
+));
+
+gulp.task('build:version:clean', function() {
+  return gulp.src('./dist/VERSION_HASH')
+    .pipe(rimraf());
+});
+
 gulp.task('build:cachebuster-js', function() {
   return gulp.src('src/cacheBuster/update.js')
+    .pipe(replace(
+      /@@versionHash@@/g,
+      String(fs.readFileSync('dist/VERSION_HASH')).trim()
+    ))
     .pipe(uglify())
     .pipe(gulp.dest('./dist'));
 });
 
 gulp.task('build:cachebuster-html', function() {
-  return gulp.src('src/cacheBuster/update.html')
-    .pipe(inlineSource())
-    .pipe(minifyHTML())
-    .pipe(gulp.dest('./dist'));
+   return gulp.src('src/cacheBuster/update.html')
+     .pipe(inlineSource())
+     .pipe(minifyHTML())
+     .pipe(gulp.dest('./dist'));
 });
 
 gulp.task('build:cachebuster-clean', function() {
@@ -101,7 +116,7 @@ gulp.task('build:cachebuster-clean', function() {
     .pipe(rimraf());
 });
 
-gulp.task('build:cachebuster', function(callback) {
+gulp.task('build:cachebuster', ['build:version:generate'], function(callback) {
   runSequence(
     'build:cachebuster-js',
     'build:cachebuster-html',
@@ -116,12 +131,24 @@ gulp.task('build:bootstrap', function() {
     .pipe(gulp.dest('./dist'));
 });
 
+gulp.task('build:inject-version', ['build:version:generate'], function() {
+  return gulp.src(['./dist/main.js'])
+    .pipe(replace(
+      /@@versionHash@@/g,
+      String(fs.readFileSync('dist/VERSION_HASH')).trim()
+    ))
+    .pipe(gulp.dest('./dist/'));
+});
+
+
 gulp.task('build', function(callback) {
   runSequence(
     'lint',
     'build:cachebuster',
     'build:bootstrap',
     'build:prod',
+    'build:inject-version',
+    'build:version:clean',
     callback
   );
 });
@@ -130,6 +157,8 @@ gulp.task('build-dev', function(callback) {
   runSequence(
     'bootstrap',
     'build:debug',
+    'build:inject-version',
+    'build:version:clean',
     callback
   );
 });
