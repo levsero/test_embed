@@ -53,7 +53,7 @@ function boot() {
 
   payload = {
     method: 'get',
-    path: '/embeddable/api/config',
+    path: '/embeddable/config',
     callbacks: {
       done(args) {
         renderer.init(JSON.parse(args));
