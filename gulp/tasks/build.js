@@ -37,10 +37,13 @@ function webpackCallback(callback) {
   };
 }
 
-gulp.task('build:prod', function(callback) {
-  var myConfig = Object.create(webpackConfig);
-  myConfig.plugins = [
+gulp.task('build:prod', ['build:version:generate'], function(callback) {
+  var version = String(fs.readFileSync('dist/VERSION_HASH')).trim(),
+      config = Object.create(webpackConfig);
+
+  config.plugins = [
     new webpack.DefinePlugin({
+      __EMBEDDABLE_VERSION__: JSON.stringify(version),
       'process.env': {
         'NODE_ENV': JSON.stringify('production')
       }
@@ -55,13 +58,20 @@ gulp.task('build:prod', function(callback) {
     })
   ];
 
-  return webpack(myConfig, webpackCallback(callback));
+  return webpack(config, webpackCallback(callback));
 });
 
-var debugBuild = webpack(webpackConfig);
+gulp.task('build:debug', ['build:version:generate'], function(callback) {
+  var version = String(fs.readFileSync('dist/VERSION_HASH')).trim(),
+      config = Object.create(webpackConfig);
 
-gulp.task('build:debug', function(callback) {
-  debugBuild.run(webpackCallback(callback));
+  config.plugins = [
+    new webpack.DefinePlugin({
+      __EMBEDDABLE_VERSION__: JSON.stringify(version)
+    })
+  ];
+
+  return webpack(config, webpackCallback(callback));
 });
 
 gulp.task('build:test', function() {
@@ -97,7 +107,7 @@ gulp.task('build:version:clean', function() {
 gulp.task('build:cachebuster-js', function() {
   return gulp.src('src/cacheBuster/update.js')
     .pipe(replace(
-      /@@versionHash@@/g,
+      /{{versionHash}}/g,
       String(fs.readFileSync('dist/VERSION_HASH')).trim()
     ))
     .pipe(uglify())
@@ -131,23 +141,12 @@ gulp.task('build:bootstrap', function() {
     .pipe(gulp.dest('./dist'));
 });
 
-gulp.task('build:inject-version', ['build:version:generate'], function() {
-  return gulp.src(['./dist/main.js'])
-    .pipe(replace(
-      /@@versionHash@@/g,
-      String(fs.readFileSync('dist/VERSION_HASH')).trim()
-    ))
-    .pipe(gulp.dest('./dist/'));
-});
-
-
 gulp.task('build', function(callback) {
   runSequence(
     'lint',
     'build:cachebuster',
     'build:bootstrap',
     'build:prod',
-    'build:inject-version',
     'build:version:clean',
     callback
   );
@@ -157,7 +156,6 @@ gulp.task('build-dev', function(callback) {
   runSequence(
     'bootstrap',
     'build:debug',
-    'build:inject-version',
     'build:version:clean',
     callback
   );
