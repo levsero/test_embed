@@ -72,8 +72,12 @@ $Base-posOffset: #{20/$font-size}rem;
   color: $secondary-color;
 }
 
+.u-textSizeSml {
+  font-size: #{12/$font-size}rem !important;
+}
+
 .u-textSizeMed {
-  font-size: 1rem;
+  font-size: #{14/$font-size}rem !important;
 }
 
 .u-textSizeLrg {

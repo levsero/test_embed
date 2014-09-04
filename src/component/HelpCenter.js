@@ -17,7 +17,8 @@ export var HelpCenter = React.createClass({
       topics: [],
       searchTitle: i18n.t('embeddable_framework.helpCenter.label.default'),
       searchCount: 0,
-      searchTerm: ''
+      searchTerm: '',
+      hideNoResultsMsg: true
     };
   },
 
@@ -55,7 +56,7 @@ export var HelpCenter = React.createClass({
         searchTitle;
 
     if(!count) {
-      searchTitle = 'No results';
+      searchTitle = i18n.t('embeddable_framework.helpCenter.label.noResults');
     } else {
       searchTitle = i18n.t('embeddable_framework.helpCenter.label.results');
     }
@@ -64,7 +65,8 @@ export var HelpCenter = React.createClass({
       topics: topics,
       searchTitle: searchTitle,
       searchCount: count,
-      isLoading: false
+      isLoading: false,
+      hideNoResultsMsg: count
     });
   },
 
@@ -115,8 +117,12 @@ export var HelpCenter = React.createClass({
             </li>
             );
         },
+        listClasses = classSet({
+          'List': true,
+          'u-isHidden': !this.state.topics.length
+        }),
         topics = (
-          <ul className='List'>
+          <ul className={listClasses}>
             {this.state.topics.map(contentTemplate)}
           </ul>
         ),
@@ -135,6 +141,10 @@ export var HelpCenter = React.createClass({
         viewAllClasses = classSet({
           'Arrange-sizeFit u-textNormal u-textNoWrap': true,
           'u-isHidden': this.state.searchCount <= 3
+        }),
+        noResultsClasses = classSet({
+          'u-textSizeMed u-marginTS u-marginBS': true,
+          'u-isHidden': this.state.hideNoResultsMsg
         }),
         logoUrl = ['//www.zendesk.com/lp/just-one-click/',
           '?utm_source=launcher&utm_medium=poweredbyzendesk&utm_campaign=image'
@@ -165,6 +175,9 @@ export var HelpCenter = React.createClass({
               }
             </a>
           </h1>
+          <p className={noResultsClasses}>
+            {i18n.t('embeddable_framework.helpCenter.label.noResultsParagraph')}
+          </p>
           {topics}
         </HelpCenterForm>
         <div className='u-nbfc'>

@@ -55,6 +55,10 @@ $Form-fontSize: #{13/$font-size}rem;
   }
 }
 
+.rf-Field--search {
+  padding: #{11/$font-size}rem $Form-spacing;
+}
+
 .rf-Field--focused {
   border: $Form-stroke solid $cta-color;
 

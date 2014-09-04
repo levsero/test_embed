@@ -52,7 +52,7 @@ var HelpCenterForm = React.createClass({
   render() {
     /* jshint quotmark:false */
     var buttonClasses = classSet({
-          'Button Button--cta Anim-color u-textNoWrap': true,
+          'Button Button--cta Anim-color u-textNoWrap u-textSizeSml': true,
           'u-pullRight': !this.props.fullscreen,
           'u-sizeFull': this.props.fullscreen
         }),
@@ -61,7 +61,7 @@ var HelpCenterForm = React.createClass({
           'u-isHidden': !this.props.isLoading
         }),
         searchInputClasses = classSet({
-          'Arrange Arrange--middle rf-Field u-isSelectable': true,
+          'Arrange Arrange--middle rf-Field rf-Field--search u-isSelectable': true,
           'rf-Field--focused': this.state.focused
         });
 
@@ -75,7 +75,7 @@ var HelpCenterForm = React.createClass({
             <i className='Arrange-sizeFit u-isActionable Icon Icon--search'></i>
             <div className='Arrange-sizeFill u-vsizeAll u-posRelative'>
               <input
-                className='Arrange-sizeFill u-paddingR'
+                className='Arrange-sizeFill u-paddingR u-textSizeMed'
                 ref='helpCenterSearchField'
                 onChange={this.handleUpdate}
                 onFocus={this.onFocus}
