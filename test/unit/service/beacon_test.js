@@ -125,7 +125,7 @@ describe('beacon', function() {
         .toBe('POST');
 
       expect(payload.path)
-        .toBe('/embeddable/api/blips');
+        .toBe('/embeddable/blips');
 
       params = payload.params;
 
@@ -191,7 +191,7 @@ describe('beacon', function() {
         .toBe('POST');
 
       expect(payload.path)
-        .toBe('/api/blips');
+        .toBe('/embeddable/blips');
 
       params = payload.params;
 
