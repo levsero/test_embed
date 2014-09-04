@@ -2,52 +2,67 @@
 
 describe('embed.helpCenter', function() {
   var helpCenter,
-      mockGlobals = {
-        document: global.document
-      },
-      mockHelpCenter = jasmine.createSpy('mockHelpCenter')
-        .andCallFake(
-          React.createClass({
-            render: function() {
-              return (
-                /* jshint quotmark:false */
-                <div className='mock-helpCenter' />
-              );
-            }
-          })
-        ),
-      frameFactoryConfig,
-      mockCss = 'mockCss',
-      mockFrameFactory = require(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
-      mockFrameMethods = require(buildTestPath('unit/mockFrameFactory')).mockFrameMethods,
+      mockRegistry,
+      frameConfig,
       helpCenterPath = buildSrcPath('embed/helpCenter/helpCenter');
 
   beforeEach(function() {
 
     resetDOM();
 
-    frameFactoryConfig = {
-      onShow: jasmine.createSpy('onShow'),
-      onHide: jasmine.createSpy('onHide')
-    },
+    mockery.enable({
+      useCleanCache: true
+    });
 
-    mockery.enable();
-    mockery.registerMock('embed/frameFactory', {
-      frameFactory: mockFrameFactory
+    mockRegistry = initMockRegistry({
+      'react/addons': React,
+      'component/HelpCenter': {
+        HelpCenter: jasmine.createSpy('mockHelpCenter')
+          .andCallFake(
+            React.createClass({
+              getInitialState: function() {
+                return {
+                  topics: [],
+                  searchTitle: 'abc123',
+                  searchCount: 0,
+                  searchTerm: ''
+                };
+              },
+              render: function() {
+                return (
+                  /* jshint quotmark:false */
+                  <div className='mock-helpCenter' />
+                );
+              }
+            })
+          )
+      },
+      './helpCenter.scss': jasmine.createSpy('mockCss'),
+      './helpCenterFrame.scss': jasmine.createSpy('mockFrameCss'),
+      'embed/frameFactory': {
+        frameFactory: require(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
+        frameMethods: require(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
+      },
+      'utility/devices': {
+        isMobileBrowser: function() {
+          return false;
+        }
+      },
+      'utility/globals': {
+        document: global.document
+      },
+      'imports?_=lodash!lodash': _
     });
-    mockery.registerMock('component/HelpCenter', {
-      HelpCenter: mockHelpCenter
-    });
-    mockery.registerMock('./helpCenter.scss', mockCss);
-    mockery.registerMock('utility/globals', mockGlobals);
-    mockery.registerMock('imports?_=lodash!lodash', _);
-    mockery.registerAllowable('react');
-    mockery.registerAllowable('./lib/React');
-    mockery.registerAllowable('./properties/width');
-    mockery.registerAllowable('./parsers');
+
+
     mockery.registerAllowable(helpCenterPath);
 
     helpCenter = require(helpCenterPath).helpCenter;
+
+    frameConfig = {
+      onShow: jasmine.createSpy('onShow'),
+      onHide: jasmine.createSpy('onHide')
+    };
   });
 
   afterEach(function() {
@@ -78,34 +93,13 @@ describe('embed.helpCenter', function() {
     });
 
     describe('mockFrameFactoryRecentCall', function() {
-      var mockFrameFactoryRecentCall;
+      var mockFrameFactory,
+          mockFrameFactoryRecentCall;
 
       beforeEach(function() {
-        helpCenter.create('carlos', frameFactoryConfig);
+        mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
+        helpCenter.create('bob', frameConfig);
         mockFrameFactoryRecentCall = mockFrameFactory.mostRecentCall.args;
-      });
-
-      it('passes HelpCenter correctly into frameFactory', function() {
-        var mockHideHandler = noop,
-            component = React.createClass({
-              render: function() {
-                return childFn({
-                  hideHandler: mockHideHandler
-                });
-              }
-            }),
-            childFn = mockFrameFactoryRecentCall[0],
-            helpCenter = React.renderComponent(
-              <component />,
-              global.document.body
-            ),
-            hideButton = helpCenter.refs.hideButton.props;
-
-        expect(hideButton.onClick)
-          .toBe(mockHideHandler);
-
-        expect(hideButton.onTouchEnd)
-          .toBe(mockHideHandler);
       });
 
       it('should call onHide/Show config methods if passed in', function() {
@@ -113,12 +107,12 @@ describe('embed.helpCenter', function() {
 
         params.onShow();
 
-        expect(frameFactoryConfig.onShow)
+        expect(frameConfig.onShow)
           .toHaveBeenCalled();
 
         params.onHide();
 
-        expect(frameFactoryConfig.onHide)
+        expect(frameConfig.onHide)
           .toHaveBeenCalled();
       });
     });
@@ -145,24 +139,22 @@ describe('embed.helpCenter', function() {
     });
 
     it('renders a helpCenter form to the document', function() {
-      var carlos;
+      var mockHelpCenter = mockRegistry['component/HelpCenter'].HelpCenter;
 
-      helpCenter.create('carlos');
-      helpCenter.render('carlos');
-
-      expect(mockHelpCenter)
-        .toHaveBeenCalled();
+      helpCenter.create('bob');
+      helpCenter.render('bob');
 
       expect(document.querySelectorAll( '.mock-frame').length)
         .toEqual(1);
 
-      expect(document.querySelectorAll( '.mock-frame > div > .mock-helpCenter').length)
+      expect(document.querySelectorAll( '.mock-frame .mock-helpCenter').length)
         .toEqual(1);
 
-      carlos = helpCenter.get('carlos');
+      expect(ReactTestUtils.isCompositeComponent(helpCenter.get('bob').instance))
+        .toEqual(true);
 
-      expect(carlos.instance)
-        .toBeDefined();
+      expect(mockHelpCenter)
+        .toHaveBeenCalled();
     });
 
     it('should only be allowed to render an helpCenter form once', function() {
@@ -178,20 +170,24 @@ describe('embed.helpCenter', function() {
     });
 
     it('applies helpCenter.scss to the frame factory', function() {
-      var mockFrameFactoryCss;
+      var mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory,
+          mockCss = mockRegistry['./helpCenter.scss'],
+          mockFrameFactoryCss;
 
-      helpCenter.create('carlos');
-      helpCenter.render('carlos');
+      helpCenter.create('bob');
+      helpCenter.render('bob');
 
       mockFrameFactoryCss = mockFrameFactory.mostRecentCall.args[1].css;
 
       expect(mockFrameFactoryCss)
-        .toEqual(mockCss);
+        .toBe(mockCss);
     });
   });
 
   describe('show', function() {
     it('should trigger the show function on the parent frame', function() {
+      var mockFrameMethods = mockRegistry['embed/frameFactory'].frameMethods;
+
       helpCenter.create('carlos');
       helpCenter.render('carlos');
       helpCenter.show('carlos');
@@ -203,6 +199,8 @@ describe('embed.helpCenter', function() {
 
   describe('hide', function() {
     it('should trigger the hide function of the parent frame', function() {
+      var mockFrameMethods = mockRegistry['embed/frameFactory'].frameMethods;
+
       helpCenter.create('carlos');
       helpCenter.render('carlos');
       helpCenter.hide('carlos');

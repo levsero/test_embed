@@ -61,6 +61,10 @@ $Form-fontSize: #{13/$font-size}rem;
   &.rf-Field--dirty.rf-Field--invalid {
     @include error-state(1);
   }
+
+  > .Icon--search {
+    color: $cta-color;
+  }
 }
 
 .rf-Field--blurred.rf-Field--invalid {

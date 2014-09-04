@@ -14,7 +14,8 @@ var HelpCenterForm = React.createClass({
     return {
       isValid: false,
       buttonMessage: 'Send',
-      isSubmitting: false
+      isSubmitting: false,
+      focused: false
     };
   },
 
@@ -22,6 +23,18 @@ var HelpCenterForm = React.createClass({
     return {
       fullscreen: false
     };
+  },
+
+  onFocus() {
+    this.setState({
+      focused: true
+    });
+  },
+
+  onBlur() {
+    this.setState({
+      focused: false
+    });
   },
 
   handleSubmit(e) {
@@ -46,6 +59,10 @@ var HelpCenterForm = React.createClass({
         loadingClasses = classSet({
           'u-posAbsolute u-posEnd--flush u-posCenter--vert': true,
           'u-isHidden': !this.props.isLoading
+        }),
+        searchInputClasses = classSet({
+          'Arrange Arrange--middle rf-Field u-isSelectable': true,
+          'rf-Field--focused': this.state.focused
         });
 
     return (
@@ -53,16 +70,18 @@ var HelpCenterForm = React.createClass({
         noValidate
         onSubmit={this.handleSubmit}
         className='Form u-cf'>
-        <div className="Form-cta Container-pullout u-nbfc">
-          <label className='Arrange Arrange--middle rf-Field u-isSelectable'>
-            <i className="Arrange-sizeFit u-isActionable Icon Icon--search"></i>
-            <div className="Arrange-sizeFill u-vsizeAll u-posRelative">
+        <div className='Form-cta Container-pullout u-nbfc'>
+          <label className={searchInputClasses}>
+            <i className='Arrange-sizeFit u-isActionable Icon Icon--search'></i>
+            <div className='Arrange-sizeFill u-vsizeAll u-posRelative'>
               <input
-                className="Arrange-sizeFill u-paddingR"
+                className='Arrange-sizeFill u-paddingR'
                 ref='helpCenterSearchField'
                 onChange={this.handleUpdate}
+                onFocus={this.onFocus}
+                onBlur={this.onBlur}
                 placeholder={i18n.t('embeddable_framework.helpCenter.search.label')}
-                type="text" />
+                type='text' />
               <Loading className={loadingClasses} />
             </div>
           </label>

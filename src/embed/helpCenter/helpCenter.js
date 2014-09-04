@@ -103,7 +103,6 @@ function render(name) {
     throw new Error(`HelpCenter ${name} has already been rendered.`);
   }
 
-  console.log(document.body);
   var element = document.body.appendChild(document.createElement('div'));
   helpCenters[name].instance = React.renderComponent(helpCenters[name].component, element);
 }

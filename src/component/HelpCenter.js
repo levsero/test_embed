@@ -48,6 +48,26 @@ export var HelpCenter = React.createClass({
     this.handleSearch(data.value, true);
   },
 
+  updateResults(data) {
+    var json = JSON.parse(data),
+        topics = _.first(json.results, 3),
+        count = json.count,
+        searchTitle;
+
+    if(!count) {
+      searchTitle = 'No results';
+    } else {
+      searchTitle = i18n.t('embeddable_framework.helpCenter.label.results');
+    }
+
+    this.setState({
+      topics: topics,
+      searchTitle: searchTitle,
+      searchCount: count,
+      isLoading: false
+    });
+  },
+
   makeSearch(searchString) {
     this.setState({
       isLoading: true,
@@ -62,25 +82,7 @@ export var HelpCenter = React.createClass({
         zendesk_path: '/api/v2/help_center/search.json'
       },
       callbacks: {
-        done: (data) => {
-          var json = JSON.parse(data),
-              topics = _.first(json.results, 3),
-              count = json.count,
-              searchTitle;
-
-          if(!count) {
-            searchTitle = 'No results';
-          } else {
-            searchTitle = i18n.t('embeddable_framework.helpCenter.label.results');
-          }
-
-          this.setState({
-            topics: topics,
-            searchTitle: searchTitle,
-            searchCount: count,
-            isLoading: false
-          });
-        }
+        done: this.updateResults
       }
     });
   },
@@ -131,8 +133,8 @@ export var HelpCenter = React.createClass({
           'u-posStart u-posEnd--vert': !this.state.fullscreen || this.state.showNotification,
         }),
         viewAllClasses = classSet({
-          'Arrange-sizeFit u-textSizeMed u-textNormal u-textNoWrap': true,
-          'u-isHidden': this.state.searchCount < 3
+          'Arrange-sizeFit u-textNormal u-textNoWrap': true,
+          'u-isHidden': this.state.searchCount <= 3
         }),
         logoUrl = ['//www.zendesk.com/lp/just-one-click/',
           '?utm_source=launcher&utm_medium=poweredbyzendesk&utm_campaign=image'
