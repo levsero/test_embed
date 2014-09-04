@@ -160,6 +160,7 @@ export var HelpCenter = React.createClass({
           className='Container-pullout u-nbfc'
           onSearch={this.handleSearch}
           isLoading={this.state.isLoading}
+          onSubmit={this.props.onSubmit}
           submit={this.handleSubmit}>
           <h1 className='Form-legend u-marginTS Arrange Arrange--middle'>
             <span className='Arrange-sizeFill'>{this.state.searchTitle}</span>

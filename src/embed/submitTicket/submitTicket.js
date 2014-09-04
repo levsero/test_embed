@@ -74,7 +74,8 @@ function create(name, config) {
     }));
 
   submitTickets[name] = {
-    component: <Embed visible={false} />
+    component: <Embed visible={false} />,
+    config: config
   };
 
   return this;
@@ -110,7 +111,13 @@ function reset(name) {
 }
 
 function transition(name) {
-  get(name).instance.transition();
+  var submitTicket = get(name).instance,
+      submitTicketForm = submitTicket.getChild().refs.submitTicket.refs.submitTicketForm;
+
+  submitTicket.transition();
+  submitTicketForm.setState({
+    showBack: true
+  });
 }
 
 function update(name, isVisible) {

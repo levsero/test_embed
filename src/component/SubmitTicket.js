@@ -127,11 +127,11 @@ export var SubmitTicket = React.createClass({
             </a>
           </p>
         </div>
-        <button onClick={this.handleBackClick}>Back</button>
         <SubmitTicketForm
           fullscreen={this.state.fullscreen}
           ref='submitTicketForm'
           className={formClasses}
+          onBackClick={this.handleBackClick}
           submit={this.handleSubmit} />
         <div className='u-nbfc'>
           <a

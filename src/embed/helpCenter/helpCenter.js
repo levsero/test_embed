@@ -1,12 +1,13 @@
 /** @jsx React.DOM */
 
-
 module React from 'react/addons';
 
 import { document }        from 'utility/globals';
 import { frameFactory }    from 'embed/frameFactory';
 import { HelpCenter }      from 'component/HelpCenter';
 import { isMobileBrowser } from 'utility/devices';
+import { beacon }          from 'service/beacon';
+import { i18n }            from 'service/i18n';
 
 require('imports?_=lodash!lodash');
 
@@ -19,20 +20,15 @@ function create(name, config) {
         position: 'fixed',
         bottom: 48
       },
-      iframeBase = {
-        position: 'fixed',
-        bottom: 80
-      },
       configDefaults = {
         position: 'right'
       },
       posObj,
       iframeStyle,
-      Embed,
-      onSubmit = function() {
+      onSubmit = function(search) {
         var helpCenter = get(name);
 
-        if(helpCenter.chatStatus) {
+        if (helpCenter.chatStatus) {
           config.updateChat(false, true);
           helpCenter.embedShown = 'chat';
         } else {
@@ -40,7 +36,9 @@ function create(name, config) {
           helpCenter.embedShown = 'submitTicket';
         }
         transition(name);
-      };
+        beacon.track('helpCenter', 'search', search);
+      },
+      Embed;
 
   config = _.extend(configDefaults, config);
 
@@ -151,6 +149,20 @@ function update(name, isVisible) {
 
 function setChatStatus(name, status) {
   get(name).chatStatus = status;
+  updateHelpCenterButton(name, status);
+}
+
+function updateHelpCenterButton(name, status) {
+  var helpCenter = get(name).instance.getChild().refs.helpCenter,
+      helpCenterForm = helpCenter.refs.helpCenterForm,
+      labelChat = i18n.t('embeddable_framework.helpCenter.submitButton.label.chat'),
+      labelSubmitTicket = i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket'),
+      message = (status) ? labelChat
+                         : labelSubmitTicket;
+
+  helpCenterForm.setState({
+    buttonMessage: message
+  });
 }
 
 function isChatting(name) {
@@ -177,5 +189,6 @@ export var helpCenter = {
   render: render,
   update: update,
   isChatting: isChatting,
-  setChatStatus: setChatStatus
+  setChatStatus: setChatStatus,
+  transitionBack: transitionBack
 };

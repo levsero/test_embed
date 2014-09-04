@@ -16,7 +16,8 @@ var SubmitTicketForm = React.createClass({
     return {
       isValid: false,
       buttonMessage: i18n.t('embeddable_framework.submitTicket.form.submitButton.label.send'),
-      isSubmitting: false
+      isSubmitting: false,
+      showBack: false
     };
   },
 
@@ -48,6 +49,10 @@ var SubmitTicketForm = React.createClass({
     this.setState({isValid: isValid});
   },
 
+  handleBackClick() {
+    this.props.onBackClick();
+  },
+
   render() {
     /* jshint quotmark:false */
     var formBody = this.transferPropsTo(
@@ -57,10 +62,18 @@ var SubmitTicketForm = React.createClass({
             onUpdate={this.handleUpdate}
             component={React.DOM.div} />
         ),
+        navigationButtonClasses = classSet({
+          'Button Button--nav u-inlineBlock u-marginBS': true,
+          'u-isHidden': !this.state.showBack
+        }),
         buttonClasses = classSet({
           'Button Button--cta Anim-color u-textNoWrap': true,
           'u-pullRight': !this.props.fullscreen,
           'u-sizeFull': this.props.fullscreen
+        }),
+        titleClasses = classSet({
+          'Form-legend u-marginBS u-textBold u-extSizeMed': true,
+          'u-posAbsolute u-posCenter u-posStart--vert': this.state.showBack
         });
 
     return (
@@ -68,7 +81,13 @@ var SubmitTicketForm = React.createClass({
         noValidate
         onSubmit={this.handleSubmit}
         className={'Form u-cf ' + this.props.className}>
-        <legend className='Form-legend u-marginBS u-textBold u-extSizeMed'>
+        <button
+          onClick={this.handleBackClick}
+          className={navigationButtonClasses}>
+          <i className='Icon Icon--arrow' />
+          {i18n.t('embeddable_framework.navigation.back')}
+        </button>
+        <legend className={titleClasses}>
           {i18n.t('embeddable_framework.submitTicket.form.title')}
         </legend>
         {formBody}

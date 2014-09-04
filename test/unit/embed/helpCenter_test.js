@@ -16,6 +16,8 @@ describe('embed.helpCenter', function() {
 
     mockRegistry = initMockRegistry({
       'react/addons': React,
+      'service/beacon': noop,
+      'service/i18n': noop,
       'component/HelpCenter': {
         HelpCenter: jasmine.createSpy('mockHelpCenter')
           .andCallFake(

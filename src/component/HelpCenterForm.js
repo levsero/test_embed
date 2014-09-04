@@ -13,7 +13,7 @@ var HelpCenterForm = React.createClass({
   getInitialState() {
     return {
       isValid: false,
-      buttonMessage: 'Send',
+      buttonMessage: i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket'),
       isSubmitting: false,
       focused: false
     };
@@ -47,6 +47,10 @@ var HelpCenterForm = React.createClass({
 
   handleUpdate(e) {
     this.props.onSearch(e.target.value);
+  },
+
+  onSubmit() {
+    this.props.onSubmit();
   },
 
   render() {
@@ -88,9 +92,10 @@ var HelpCenterForm = React.createClass({
         </div>
         {this.props.children}
         <input
-          type='submit'
-          value={i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket')}
+          type='button'
+          value={this.state.buttonMessage}
           ref='submitButton'
+          onClick={this.onSubmit}
           className={buttonClasses}
         />
       </form>
