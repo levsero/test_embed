@@ -119,6 +119,24 @@ describe('Help center component', function() {
         .toNotContain('u-isHidden');
     });
 
+    it('should show no results message when search returns no results', function() {
+      var helpCenter = React.renderComponent(
+            <HelpCenter />,
+            global.document.body
+          ),
+          mockTransport = mockRegistry['service/transport'].transport,
+          searchString = 'abcd',
+          callbackPayload = '{"results": [],"count": 0}',
+          noResultsMsg = ReactTestUtils.scryRenderedDOMComponentsWithTag(helpCenter, 'p')[0];
+
+      helpCenter.handleSubmit({preventDefault: noop}, { value: searchString });
+      mockTransport.send.mostRecentCall.args[0].callbacks.done(callbackPayload);
+
+      expect(helpCenter.state.hideNoResultsMsg).toBeFalsy();
+      expect(noResultsMsg.props.className)
+        .toNotContain('u-isHidden');
+    });
+
     it('shouldn\'t call handle search if the string isn\'t valid', function() {
       var helpCenter = React.renderComponent(
             <HelpCenter />,

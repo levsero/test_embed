@@ -2,8 +2,8 @@
 
 module React from 'react/addons';
 
-import { Loading }          from 'component/Loading';
-import { i18n }             from 'service/i18n';
+import { Loading } from 'component/Loading';
+import { i18n }    from 'service/i18n';
 
 require('imports?_=lodash!lodash');
 
