@@ -1,10 +1,10 @@
 module React from 'react';
 
-import { beacon         } from 'service/beacon';
-import { logging        } from 'service/logging';
-import { renderer       } from 'service/renderer';
-import { transport      } from 'service/transport';
-import { win, location  } from 'utility/globals';
+import { beacon }         from 'service/beacon';
+import { logging }        from 'service/logging';
+import { renderer }       from 'service/renderer';
+import { transport }      from 'service/transport';
+import { win, location }  from 'utility/globals';
 import { getSizingRatio } from 'utility/devices';
 
 require('imports?_=lodash!lodash');
@@ -55,12 +55,12 @@ function boot() {
     method: 'get',
     path: '/embeddable/config',
     callbacks: {
-      done(args) {
-        renderer.init(JSON.parse(args));
+      done(config) {
+        renderer.init(JSON.parse(config));
       },
-      fail(text) {
+      fail(error) {
         Airbrake.push({
-          error: text,
+          error: error,
           context: {
             account: document.zendeskHost
           }
