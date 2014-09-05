@@ -73,7 +73,6 @@ gulp.task('build:debug', ['build:version:generate'], function(callback) {
   ];
 
   if (typeof debugBuild === 'undefined') {
-    console.log('building webpack');
     debugBuild = webpack(config);
   }
 
