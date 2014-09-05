@@ -102,12 +102,19 @@ function boot() {
 
   // Until transport config is dynamic we need to alter what gets rendered on the zopim page
   if ((host === 'www.zendesk.com' && _.contains(chatPages, path)) ||
-      (host === 'snow.hashttp.com' && path === '/chat')) {
+      (host === 'snow.hashttp.com' && path === '/chat') ||
+      (host === 'developer.zendesk.com') ||
+      (host === 'developer.zendesk-staging.com')) {
 
-    /* jshint laxbreak: true */
-    var zopimId = (host === 'www.zendesk.com')
-                ? '2ItCA9Tu3W5bksDB4EJzPSCz4kIymONo'
-                : '2EkTn0An31opxOLXuGgRCy5nPnSNmpe6';
+    var zopimId;
+
+    if (host === 'www.zendesk.com') {
+      zopimId = '2ItCA9Tu3W5bksDB4EJzPSCz4kIymONo';
+    } else if (host === 'developer.zendesk.com' || 'developer.zendesk-staging.com') {
+      zopimId = '1uJgTSshB9yCQX0rbNnPCE7pttL4R3fb';
+    } else {
+      zopimId = '2EkTn0An31opxOLXuGgRCy5nPnSNmpe6';
+    }
 
     rendererConfig = {
       'zopimChat': {
