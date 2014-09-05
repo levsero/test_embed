@@ -15,7 +15,7 @@ var SubmitTicketForm = React.createClass({
   getInitialState() {
     return {
       isValid: false,
-      buttonMessage: i18n.t('embeddable_framework.submitTicket.form.submitButton.label'),
+      buttonMessage: i18n.t('embeddable_framework.submitTicket.form.submitButton.label.send'),
       isSubmitting: false
     };
   },
