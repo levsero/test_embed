@@ -7,6 +7,9 @@ set :ruby_version, File.read(".ruby-version").chomp
 set :email_notification, ["deploys@zendesk.com",
                           "taipan@zendesk.com",
                           "engagement@zendesk.flowdock.com"]
+set :framework_files,    ["main.js",
+                          "update.html",
+                          "bootstrap.js"]
 
 set(:framework_deploy_path) { File.join(deploy_to, 'assets', 'embeddable_framework') }
 set(:build_version) { (tag && tag.gsub(/^v/, '')) || fetch(:branch, nil) || local_head_revision }
@@ -14,7 +17,6 @@ set(:build_version) { (tag && tag.gsub(/^v/, '')) || fetch(:branch, nil) || loca
 set(:real_revision) { Zendesk::Deployment::Committish.new(revision).sha }
 
 before 'embeddable_framework:deploy', 'deploy:verify_local_git_status'
-before 'embeddable_framework:update_current', 'deploy:verify_local_git_status'
 after  'embeddable_framework:deploy', 'deploy:notify'
 
 def sh(command)
@@ -43,15 +45,19 @@ namespace :embeddable_framework do
 
     logger.info "Uploading assets"
     run "mkdir -p #{framework_deploy_path}/#{build_version}"
-    upload "dist", "#{framework_deploy_path}/#{build_version}", :via => :scp, :recursive => true
+    framework_files.each do |file|
+      upload "dist/#{file}", "#{framework_deploy_path}/#{build_version}/#{file}", :via => scp
+    end
+    find_and_execute_task "update_current"
   end
 
   desc "Update the 'live' version of embeddable_framework"
   task :update_current do
     logger.info "Updating current framework version"
     begin
-      run "test -f #{framework_deploy_path}/#{build_version}/main.js"
-      run "test -f #{framework_deploy_path}/#{build_version}/update.html"
+      framework_files.each do |file|
+        run "test -f #{framework_deploy_path}/#{build_version}/#{file}"
+      end
     rescue Capistrano::CommandError
       logger.important "ERROR: One of the target release file does not exist!"
       exit
