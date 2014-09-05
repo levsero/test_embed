@@ -13,7 +13,8 @@ var gulp = require('gulp'),
     fs = require('fs'),
     path = require('path'),
     shell = require('gulp-shell'),
-    predef = JSON.parse(fs.readFileSync(path.join(process.cwd(), '.jshintrc'), 'utf8')).predef;
+    predef = JSON.parse(fs.readFileSync(path.join(process.cwd(), '.jshintrc'), 'utf8')).predef,
+    debugBuild;
 
 function getGlobals() {
   var globals = {};
@@ -71,7 +72,12 @@ gulp.task('build:debug', ['build:version:generate'], function(callback) {
     })
   ];
 
-  return webpack(config, webpackCallback(callback));
+  if (typeof debugBuild === 'undefined') {
+    console.log('building webpack');
+    debugBuild = webpack(config);
+  }
+
+  return debugBuild.run(webpackCallback(callback));
 });
 
 gulp.task('build:test', function() {
