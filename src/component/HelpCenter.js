@@ -5,6 +5,7 @@ module React from 'react/addons';
 import { transport }       from 'service/transport';
 import { stopWordsFilter } from 'mixin/searchFilter';
 import { HelpCenterForm }  from 'component/HelpCenterForm';
+import { isMobileBrowser }  from 'utility/devices';
 import { i18n }            from 'service/i18n';
 
 require('imports?_=lodash!lodash');
@@ -17,7 +18,8 @@ export var HelpCenter = React.createClass({
       topics: [],
       searchTitle: i18n.t('embeddable_framework.helpCenter.label.default'),
       resultCount: 0,
-      searchTerm: ''
+      searchTerm: '',
+      fullscreen: isMobileBrowser()
     };
   },
 
@@ -123,7 +125,8 @@ export var HelpCenter = React.createClass({
         },
         listClasses = classSet({
           'List': true,
-          'u-isHidden': !this.state.topics.length
+          'u-isHidden': !this.state.topics.length,
+          'u-borderNone': this.state.fullscreen
         }),
         containerClasses = classSet({
           'Container': true,
@@ -131,6 +134,10 @@ export var HelpCenter = React.createClass({
           'Container--fullscreen': this.state.fullscreen,
           'Arrange Arrange--middle': this.state.fullscreen,
           'u-posRelative': true
+        }),
+        containerBarClasses = classSet({
+          'Container-bar Container-pullout': true,
+          'u-isHidden': !this.state.fullscreen
         }),
         logoClasses = classSet({
           'Icon Icon--zendesk u-linkClean': true,
@@ -145,6 +152,10 @@ export var HelpCenter = React.createClass({
           'u-textSizeMed u-marginTS u-marginBS': true,
           'u-isHidden': this.state.resultCount
         }),
+        formClasses = classSet({
+          'u-nbfc': true,
+          'Container-pullout': !this.state.fullscreen
+        }),
         logoUrl = ['//www.zendesk.com/lp/just-one-click/',
           '?utm_source=launcher&utm_medium=poweredbyzendesk&utm_campaign=image'
         ].join('');
@@ -155,9 +166,13 @@ export var HelpCenter = React.createClass({
 
     return (
       <div className={containerClasses}>
+        <div className={containerBarClasses}>
+
+        </div>
         <HelpCenterForm
+          fullscreen={this.state.fullscreen}
           ref='helpCenterForm'
-          className='Container-pullout u-nbfc'
+          className={formClasses}
           onSearch={this.handleSearch}
           isLoading={this.state.isLoading}
           onButtonClick={this.props.onButtonClick}

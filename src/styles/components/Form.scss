@@ -13,6 +13,12 @@ $Form-fontSize: #{13/$font-size}rem;
   margin: 0;
 }
 
+.Form--fullscreen {
+  display: flex;
+  flex-flow: column;
+  height: calc(100% - (#{60/$font-size}rem));
+}
+
 .rf-Form {
   margin-bottom: $Form-gutter;
 }
@@ -26,7 +32,12 @@ $Form-fontSize: #{13/$font-size}rem;
   border-radius: #{8/$font-size}rem #{8/$font-size}rem 0 0;
   padding: #{15/$font-size}rem #{20/$font-size}rem;
   background: $form-cta-color;
-  border-bottom: 1px solid $base-border-color;
+  border-bottom: #{1/$font-size}rem solid $base-border-color;
+}
+
+.Form-cta--fullscreen {
+  background: none;
+  border-width: #{1/$font-size}rem 0 0;
 }
 
 .rf-Field {

@@ -60,9 +60,21 @@ var HelpCenterForm = React.createClass({
           'u-pullRight': !this.props.fullscreen,
           'u-sizeFull': this.props.fullscreen
         }),
+        buttonContainerClasses = classSet({
+          'u-borderTop u-marginTA u-paddingTM': this.props.fullscreen
+        }),
+        formClasses = classSet({
+          'Form u-cf': true,
+          'Form--fullscreen': this.props.fullscreen
+        }),
         loadingClasses = classSet({
           'u-posAbsolute u-posEnd--flush u-posCenter--vert': true,
           'u-isHidden': !this.props.isLoading
+        }),
+        searchContainerClasses = classSet({
+          'Form-cta u-nbfc': true,
+          'Form-cta--fullscreen u-paddingHN u-paddingBN': this.props.fullscreen,
+          'Container-pullout': !this.props.fullscreen
         }),
         searchInputClasses = classSet({
           'Arrange Arrange--middle rf-Field rf-Field--search u-isSelectable': true,
@@ -73,8 +85,8 @@ var HelpCenterForm = React.createClass({
       <form
         noValidate
         onSubmit={this.handleSubmit}
-        className='Form u-cf'>
-        <div className='Form-cta Container-pullout u-nbfc'>
+        className={formClasses}>
+        <div className={searchContainerClasses}>
           <label className={searchInputClasses}>
             <i className='Arrange-sizeFit u-isActionable Icon Icon--search'></i>
             <div className='Arrange-sizeFill u-vsizeAll u-posRelative'>
@@ -91,13 +103,15 @@ var HelpCenterForm = React.createClass({
           </label>
         </div>
         {this.props.children}
-        <input
-          type='button'
-          value={this.state.buttonLabel}
-          ref='submitButton'
-          onClick={this.onClick}
-          className={buttonClasses}
-        />
+        <div className={buttonContainerClasses}>
+          <input
+            type='button'
+            value={this.state.buttonLabel}
+            ref='submitButton'
+            onClick={this.onClick}
+            className={buttonClasses}
+          />
+        </div>
       </form>
     );
   }

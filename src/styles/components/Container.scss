@@ -50,3 +50,9 @@ $Container--popover-arrowWidth: $Container--popover-arrowFullWidth/2;
 .Container-pullout {
   margin: (-#{$Container-spacing}rem) (-#{$Container-spacing}rem) 0;
 }
+
+.Container-bar {
+  height: #{44/$font-size}rem;
+  background: #F5F5F5;
+}
+

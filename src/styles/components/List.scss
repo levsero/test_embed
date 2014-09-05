@@ -7,6 +7,10 @@
   border-bottom: #{1/$font-size}rem solid $base-border-color;
 }
 
+.List--fullscreen {
+  /*border: none;*/
+}
+
 .List-item {
   color: $list-color;
   list-style: disc;

@@ -52,12 +52,29 @@ $Base-posOffset: #{20/$font-size}rem;
   margin-top: #{20/$font-size}rem;
 }
 
+.u-marginTA {
+  margin-top: auto !important;
+}
+
 /**
  * Vertical and horizontal offsets padding
  */
 
 .u-paddingR {
   padding-right: #{25/$font-size}rem;
+}
+
+.u-paddingTM {
+  padding-top: #{20/$font-size}rem;
+}
+
+.u-paddingHN {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.u-paddingBN {
+  padding-bottom: 0 !important;
 }
 
 /**
@@ -106,5 +123,13 @@ $Base-posOffset: #{20/$font-size}rem;
 
 .u-vsizeAll {
   height: 100% !important;
+}
+
+.u-borderNone {
+  border: none !important;
+}
+
+.u-borderTop {
+  border-top: #{1/$font-size}rem solid $base-border-color;
 }
 
