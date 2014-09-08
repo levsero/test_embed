@@ -120,10 +120,10 @@ gulp.task('build:cachebuster-js', function() {
 });
 
 gulp.task('build:cachebuster-html', function() {
-   return gulp.src('src/cacheBuster/update.html')
-     .pipe(inlineSource())
-     .pipe(minifyHTML())
-     .pipe(gulp.dest('./dist'));
+  return gulp.src('src/cacheBuster/update.html')
+    .pipe(inlineSource())
+    .pipe(minifyHTML())
+    .pipe(gulp.dest('./dist'));
 });
 
 gulp.task('build:cachebuster-clean', function() {
