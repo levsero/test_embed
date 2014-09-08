@@ -13,7 +13,7 @@ function boot() {
   var publicApi,
       isPinching,
       rendererConfig,
-      payload,
+      rendererPayload,
       host = location.host,
       path = location.pathname,
       chatPages = [
@@ -30,7 +30,7 @@ function boot() {
   logging.init();
 
   transport.bustCache();
-  transport.init({ zendeskHost: dev.zendesk.dev });
+  transport.init({ zendeskHost: document.zendeskHost });
 
   beacon.init().send();
 
@@ -51,7 +51,7 @@ function boot() {
     }
   });
 
-  payload = {
+  rendererPayload = {
     method: 'get',
     path: '/embeddable/config',
     callbacks: {
@@ -70,7 +70,8 @@ function boot() {
   };
 
   if (host === 'support.zendesk.com' || host === 'snow.hashttp.com' ||
-      host === 'developer.zendesk.com' || host === 'herculespreprod.zendesk.com') {
+      host === 'developer.zendesk.com' || host === 'www.zendesk.com' ||
+      host === 'herculespreprod.zendesk.com') {
     rendererConfig = {
       'ticketSubmissionForm': {
         'embed': 'submitTicket',
@@ -166,7 +167,7 @@ function boot() {
     }
     renderer.init(rendererConfig);
   } else {
-    transport.send(payload);
+    transport.send(rendererPayload);
   }
 
   function propagateFontRatioChange() {
