@@ -41,7 +41,7 @@ export var SubmitTicket = React.createClass({
       return;
     }
 
-    var tags = ['DROPBOX', 'CEToolkit'].join(' '),
+    var tags = ['DROPBOX', 'zendesk_widget'].join(' '),
         formParams = _.extend({
           'set_tags': tags,
           'via_id': 17,
