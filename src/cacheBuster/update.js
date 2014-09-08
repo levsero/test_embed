@@ -1,13 +1,8 @@
-var script = document.createElement('script');
-
-script.async = true;
-script.src = 'main.js';
-
-if (location.hash !== '#DONE') { 
-  location.hash = 'DONE'; 
+var currentVersion = '{{versionHash}}';
+if (location.hash !== ('#' + currentVersion)) {
+  location.hash = currentVersion;
   location.reload(true);
-} else { 
-  document.documentElement.appendChild(script);
+} else {
   window.addEventListener('load', function() {
     parent.postMessage('cache_bust_done', '*');
   });

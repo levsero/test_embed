@@ -10,7 +10,7 @@
     "before", "after", "noop", "resetDOM", "ReactTestUtils", "jsdom", "dispatchEvent",
     "expect", "it", "describe", "xit", "xdescribe", "beforeEach", "afterEach",
     "jasmine", "spyOn", "runs", "waitsFor", "buildSrcPath", "buildTestPath",
-    "basePath", "mockery", "initMockRegistry"
+    "basePath", "mockery", "initMockRegistry", "__EMBEDDABLE_VERSION__"
   ],
 
   "bitwise":   true,
