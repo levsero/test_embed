@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 
 module React from 'react/addons'; /* jshint ignore:line */
-import { win }              from 'utility/globals';
+import { win, location }    from 'utility/globals';
 import { transport }        from 'service/transport';
 import { SubmitTicketForm } from 'component/SubmitTicketForm';
 import { isMobileBrowser }  from 'utility/devices';
@@ -93,6 +93,9 @@ export var SubmitTicket = React.createClass({
           'Arrange-sizeFill': this.state.fullscreen,
           'u-isHidden': !this.state.showNotification
         }),
+        marketingClasses = classSet({
+          'u-isHidden': location.origin !== 'https://www.zendesk.com'
+        }),
         logoUrl = ['//www.zendesk.com/lp/just-one-click/',
                    '?utm_source=launcher&utm_medium=poweredbyzendesk&utm_campaign=image'
                   ].join(''),
@@ -112,7 +115,7 @@ export var SubmitTicket = React.createClass({
         <div className={notifyClasses}>
           <div className='Icon Icon--tick u-inlineBlock' />
           <p className='u-textBold'>{this.state.message}</p>
-          <p>
+          <p className={marketingClasses}>
             <a
               href={marketingUrl}
               target='_blank'>
