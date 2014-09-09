@@ -16,9 +16,8 @@ export var HelpCenter = React.createClass({
     return {
       topics: [],
       searchTitle: i18n.t('embeddable_framework.helpCenter.label.default'),
-      searchCount: 0,
-      searchTerm: '',
-      hideNoResultsMsg: true
+      resultCount: 0,
+      searchTerm: ''
     };
   },
 
@@ -41,7 +40,7 @@ export var HelpCenter = React.createClass({
 
           this.setState({
             topics: _.first(json.categories, 3),
-            searchCount: json.count
+            resultCount: json.count
           });
         }
       }
@@ -67,7 +66,7 @@ export var HelpCenter = React.createClass({
     this.setState({
       topics: topics,
       searchTitle: searchTitle,
-      searchCount: json.count,
+      resultCount: json.count,
       isLoading: false
     });
   },
@@ -138,11 +137,11 @@ export var HelpCenter = React.createClass({
         }),
         viewAllClasses = classSet({
           'Arrange-sizeFit u-textNormal u-textNoWrap': true,
-          'u-isHidden': this.state.searchCount <= 3
+          'u-isHidden': this.state.resultCount <= 3
         }),
         noResultsClasses = classSet({
           'u-textSizeMed u-marginTS u-marginBS': true,
-          'u-isHidden': this.state.searchCount
+          'u-isHidden': this.state.resultCount
         }),
         logoUrl = ['//www.zendesk.com/lp/just-one-click/',
           '?utm_source=launcher&utm_medium=poweredbyzendesk&utm_campaign=image'
@@ -168,7 +167,7 @@ export var HelpCenter = React.createClass({
               target='_blank'>
               {
                 i18n.t('embeddable_framework.helpCenter.label.showAll',{
-                 count: this.state.searchCount
+                 count: this.state.resultCount
                 })
               }
             </a>
