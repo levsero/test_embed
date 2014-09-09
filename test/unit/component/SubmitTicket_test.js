@@ -42,7 +42,10 @@ describe('Submit ticket component', function() {
 
     mockRegistry = initMockRegistry({
       'react/addons': React,
-      'utility/globals': { win: window },
+      'utility/globals': {
+        win: window,
+        location: location
+      },
       'utility/devices': {
         getSizingRatio: function() {
           return 1;
