@@ -48,7 +48,7 @@ namespace :embeddable_framework do
     framework_files.each do |file|
       upload "dist/#{file}", "#{framework_deploy_path}/#{build_version}/#{file}", :via => :scp
     end
-    find_and_execute_task "update_current"
+    find_and_execute_task "embeddable_framework:update_current"
   end
 
   desc "Update the 'live' version of embeddable_framework"
