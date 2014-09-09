@@ -46,7 +46,7 @@ namespace :embeddable_framework do
     logger.info "Uploading assets"
     run "mkdir -p #{framework_deploy_path}/#{build_version}"
     framework_files.each do |file|
-      upload "dist/#{file}", "#{framework_deploy_path}/#{build_version}/#{file}", :via => scp
+      upload "dist/#{file}", "#{framework_deploy_path}/#{build_version}/#{file}", :via => :scp
     end
     find_and_execute_task "update_current"
   end
