@@ -60,7 +60,9 @@ export var HelpCenter = React.createClass({
     if (json.count) {
       searchTitle = i18n.t('embeddable_framework.helpCenter.label.results');
     } else {
-      searchTitle = i18n.t('embeddable_framework.helpCenter.label.noResults');
+      searchTitle = i18n.t('embeddable_framework.helpCenter.label.noResults', {
+        fallback: 'Sorry, no results found'
+      });
     }
 
     this.setState({
@@ -173,7 +175,9 @@ export var HelpCenter = React.createClass({
             </a>
           </h1>
           <p className={noResultsClasses}>
-            {i18n.t('embeddable_framework.helpCenter.label.noResultsParagraph')}
+            {i18n.t('embeddable_framework.helpCenter.label.noResultsParagraph', {
+              fallback: 'Try getting in touch below for more help.'
+            })}
           </p>
           <ul className={listClasses}>
             {_.chain(this.state.topics).first(3).map(topicTemplate).value()}
