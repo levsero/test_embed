@@ -1,6 +1,7 @@
 /**
  * 1. Set min-width for old browsers that don't load icons
  *    before launcher is loaded so calculate iframe size wrong.
+ * 2. Set to 50% to create circle
  */
 @import '../_vars.scss';
 
@@ -92,6 +93,19 @@
   &:before {
     content: '\e601';
   }
+}
+
+.Icon--clearInput {
+  @extend .Icon--cross;
+
+  height: #{16/$font-size}rem;
+  width: #{16/$font-size}rem;
+  min-width: #{16/$font-size}rem;
+  line-height: #{16/$font-size}rem;
+  font-size: #{8/$font-size}rem;
+  background: $stroke-color;
+  color: $base-color;
+  border-radius: 50%; /* 2  */
 }
 
 .Icon--tick {

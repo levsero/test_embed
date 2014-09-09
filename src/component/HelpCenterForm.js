@@ -15,7 +15,8 @@ var HelpCenterForm = React.createClass({
       isValid: false,
       buttonLabel: i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket'),
       isSubmitting: false,
-      focused: false
+      focused: false,
+      searchInputVal: ''
     };
   },
 
@@ -38,7 +39,7 @@ var HelpCenterForm = React.createClass({
   },
 
   handleSubmit(e) {
-    var formValue = this.refs.helpCenterSearchField.state.value;
+    var formValue = this.state.searchInputVal;
 
     this.props.submit(e, {
       value: formValue
@@ -46,7 +47,25 @@ var HelpCenterForm = React.createClass({
   },
 
   handleUpdate(e) {
-    this.props.onSearch(e.target.value);
+    var value = e.target.value;
+
+    if (value !== '') {
+      this.setState({clearInput: true});
+    }
+
+    this.setState({searchInputVal: value});
+    this.props.onSearch(value);
+  },
+
+  clearInput(e) {
+    e.preventDefault();
+
+    this.setState({
+      searchInputVal: '',
+      clearInput: false
+    });
+
+    this.refs.helpCenterSearchField.getDOMNode().focus();
   },
 
   onClick() {
@@ -79,7 +98,12 @@ var HelpCenterForm = React.createClass({
         searchInputClasses = classSet({
           'Arrange Arrange--middle rf-Field rf-Field--search u-isSelectable': true,
           'rf-Field--focused': this.state.focused
-        });
+        }),
+        clearInputClasses = classSet({
+          'Icon Icon--clearInput': true,
+          'u-posAbsolute u-posEnd--flush u-posCenter--vert u-isActionable u-textCenter': true,
+          'u-isHidden': !this.state.clearInput || this.props.isLoading
+        })
 
     return (
       <form
@@ -94,11 +118,13 @@ var HelpCenterForm = React.createClass({
                 className='Arrange-sizeFill u-paddingR u-textSizeMed'
                 ref='helpCenterSearchField'
                 onChange={this.handleUpdate}
+                value={this.state.searchInputVal}
                 onFocus={this.onFocus}
                 onBlur={this.onBlur}
                 placeholder={i18n.t('embeddable_framework.helpCenter.search.label')}
-                type='text' />
+                type='search' />
               <Loading className={loadingClasses} />
+              <div className={clearInputClasses} onClick={this.clearInput} onTouchEnd={this.clearInput} />
             </div>
           </label>
         </div>

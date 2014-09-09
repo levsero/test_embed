@@ -58,3 +58,9 @@ iframe {
 [tabindex="-1"]:focus {
   outline: none !important;
 }
+
+input[type="search"] {
+  box-sizing: border-box;
+  border-radius: 0;
+  -webkit-appearance: none;
+}
