@@ -23,7 +23,7 @@ export var HelpCenter = React.createClass({
   },
 
   getViewAllUrl() {
-      return `http://${document.zendeskHost}/hc/search?query=${this.state.searchTerm}`;
+      return `http://${this.props.zendeskHost}/hc/search?query=${this.state.searchTerm}`;
   },
 
   componentWillMount() {
@@ -37,8 +37,12 @@ export var HelpCenter = React.createClass({
       },
       callbacks: {
         done: (data) => {
-          var categories = JSON.parse(data).categories;
-          this.setState({topics: _.first(categories, 3)});
+          var json = JSON.parse(data);
+
+          this.setState({
+            topics: _.first(json.categories, 3),
+            searchCount: json.count
+          });
         }
       }
     });
@@ -51,22 +55,20 @@ export var HelpCenter = React.createClass({
 
   updateResults(data) {
     var json = JSON.parse(data),
-        topics = _.first(json.results, 3),
-        count = json.count,
+        topics = json.results,
         searchTitle;
 
-    if(!count) {
-      searchTitle = i18n.t('embeddable_framework.helpCenter.label.noResults');
-    } else {
+    if (json.count) {
       searchTitle = i18n.t('embeddable_framework.helpCenter.label.results');
+    } else {
+      searchTitle = i18n.t('embeddable_framework.helpCenter.label.noResults');
     }
 
     this.setState({
       topics: topics,
       searchTitle: searchTitle,
-      searchCount: count,
-      isLoading: false,
-      hideNoResultsMsg: count
+      searchCount: json.count,
+      isLoading: false
     });
   },
 
@@ -75,12 +77,13 @@ export var HelpCenter = React.createClass({
       isLoading: true,
       searchTerm: searchString
     });
-    /* jshint camelcase:false */
+
     transport.send({
       method: 'get',
       path: '/api/proxy',
       query: {
         query: searchString,
+        /* jshint camelcase:false */
         zendesk_path: '/api/v2/help_center/search.json'
       },
       callbacks: {
@@ -107,7 +110,7 @@ export var HelpCenter = React.createClass({
 
   render() {
     /* jshint quotmark:false */
-    var contentTemplate = function(topic) {
+    var topicTemplate = function(topic) {
         return (
             /* jshint camelcase:false */
             <li key={_.uniqueId('topic_')} className='List-item'>
@@ -121,11 +124,6 @@ export var HelpCenter = React.createClass({
           'List': true,
           'u-isHidden': !this.state.topics.length
         }),
-        topics = (
-          <ul className={listClasses}>
-            {this.state.topics.map(contentTemplate)}
-          </ul>
-        ),
         containerClasses = classSet({
           'Container': true,
           'Container--popover u-nbfcAlt': !this.state.fullscreen,
@@ -144,7 +142,7 @@ export var HelpCenter = React.createClass({
         }),
         noResultsClasses = classSet({
           'u-textSizeMed u-marginTS u-marginBS': true,
-          'u-isHidden': this.state.hideNoResultsMsg
+          'u-isHidden': this.state.searchCount
         }),
         logoUrl = ['//www.zendesk.com/lp/just-one-click/',
           '?utm_source=launcher&utm_medium=poweredbyzendesk&utm_campaign=image'
@@ -170,7 +168,7 @@ export var HelpCenter = React.createClass({
               target='_blank'>
               {
                 i18n.t('embeddable_framework.helpCenter.label.showAll',{
-                 count:this.state.searchCount
+                 count: this.state.searchCount
                 })
               }
             </a>
@@ -178,13 +176,15 @@ export var HelpCenter = React.createClass({
           <p className={noResultsClasses}>
             {i18n.t('embeddable_framework.helpCenter.label.noResultsParagraph')}
           </p>
-          {topics}
+          <ul className={listClasses}>
+            {_.chain(this.state.topics).first(3).map(topicTemplate).value()}
+          </ul>
         </HelpCenterForm>
         <div className='u-nbfc'>
           <a
-          href={logoUrl}
-          target='_blank'
-          className={logoClasses}>
+            href={logoUrl}
+            target='_blank'
+            className={logoClasses}>
             <span className='u-isHiddenVisually'>zendesk</span>
           </a>
         </div>

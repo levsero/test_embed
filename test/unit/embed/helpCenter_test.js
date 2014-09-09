@@ -98,7 +98,7 @@ describe('embed.helpCenter', function() {
 
       beforeEach(function() {
         mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
-        helpCenter.create('bob', frameConfig);
+        helpCenter.create('carlos', frameConfig);
         mockFrameFactoryRecentCall = mockFrameFactory.mostRecentCall.args;
       });
 
@@ -141,8 +141,8 @@ describe('embed.helpCenter', function() {
     it('renders a helpCenter form to the document', function() {
       var mockHelpCenter = mockRegistry['component/HelpCenter'].HelpCenter;
 
-      helpCenter.create('bob');
-      helpCenter.render('bob');
+      helpCenter.create('carlos');
+      helpCenter.render('carlos');
 
       expect(document.querySelectorAll( '.mock-frame').length)
         .toEqual(1);
@@ -150,7 +150,7 @@ describe('embed.helpCenter', function() {
       expect(document.querySelectorAll( '.mock-frame .mock-helpCenter').length)
         .toEqual(1);
 
-      expect(ReactTestUtils.isCompositeComponent(helpCenter.get('bob').instance))
+      expect(ReactTestUtils.isCompositeComponent(helpCenter.get('carlos').instance))
         .toEqual(true);
 
       expect(mockHelpCenter)
@@ -174,8 +174,8 @@ describe('embed.helpCenter', function() {
           mockCss = mockRegistry['./helpCenter.scss'],
           mockFrameFactoryCss;
 
-      helpCenter.create('bob');
-      helpCenter.render('bob');
+      helpCenter.create('carlos');
+      helpCenter.render('carlos');
 
       mockFrameFactoryCss = mockFrameFactory.mostRecentCall.args[1].css;
 

@@ -96,7 +96,7 @@ parts:
       value: "View all (%(count)s)"
   - translation:
       key: "embeddable_framework.helpCenter.label.noResults"
-      title: "The title for the help center widget when there are no results returned from search (http://tinyurl.com/pb3nrgy)"
+      title: "The title for the help center widget when there are no results returned from search. Will wrap as needed (http://tinyurl.com/pb3nrgy)"
       value: "Sorry, no results found"
   - translation:
       key: "embeddable_framework.helpCenter.label.noResultsParagraph"

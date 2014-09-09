@@ -132,7 +132,9 @@ describe('Help center component', function() {
       helpCenter.handleSubmit({preventDefault: noop}, { value: searchString });
       mockTransport.send.mostRecentCall.args[0].callbacks.done(callbackPayload);
 
-      expect(helpCenter.state.hideNoResultsMsg).toBeFalsy();
+      expect(helpCenter.state.searchCount)
+        .toBeFalsy();
+
       expect(noResultsMsg.props.className)
         .toNotContain('u-isHidden');
     });

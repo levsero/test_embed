@@ -32,8 +32,9 @@ function create(name, config) {
     containerStyle = { width: '100%', height: '100%' };
   } else {
     posObj = (config.position === 'left')
-      ? { left:  5 }
-      : { right: 5 };
+           ? { left:  5 }
+           : { right: 5 };
+
     iframeBase.minWidth = 350;
     containerStyle = { minWidth: 350, margin: 15 };
   }
@@ -48,6 +49,7 @@ function create(name, config) {
         <div style={containerStyle}>
           <HelpCenter
             ref='helpCenter'
+            zendeskHost={document.zendeskHost}
             updateFrameSize={params.updateFrameSize} />
         </div>
       );
