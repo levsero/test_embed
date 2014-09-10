@@ -71,5 +71,6 @@ function buildFullUrl(path) {
 export var transport = {
   init: init,
   send: send,
+  get: send,
   bustCache: bustCache
 };

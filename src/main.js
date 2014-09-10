@@ -165,7 +165,7 @@ function boot() {
     }
     renderer.init(rendererConfig);
   } else {
-    transport.send(rendererPayload);
+    transport.get(rendererPayload);
   }
 
   function propagateFontRatioChange() {
