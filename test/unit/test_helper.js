@@ -25,6 +25,7 @@ global.window = jsdom.jsdom().createWindow('<html><body></body></html>');
 
 global.document = global.window.document;
 global.navigator = global.window.navigator;
+global.location = global.window.location;
 
 global.React = require('react/addons');
 global.ReactTestUtils = React.addons.TestUtils;

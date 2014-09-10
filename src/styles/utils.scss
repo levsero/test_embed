@@ -14,8 +14,17 @@ $Base-posOffset: #{20/$font-size}rem;
   right: $Base-posOffset;
 }
 
+.u-posEnd--flush {
+  right: 0;
+}
+
 .u-posStart {
   left: $Base-posOffset;
+}
+
+.u-posCenter {
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .u-posStart--vert {
@@ -26,13 +35,29 @@ $Base-posOffset: #{20/$font-size}rem;
   bottom: $Base-posOffset;
 }
 
+.u-posCenter--vert {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 /**
- * Vertical and horizontal offsets
- * type[]
+ * Vertical and horizontal offsets margin
  */
 
 .u-marginBS {
   margin-bottom: #{20/$font-size}rem;
+}
+
+.u-marginTS {
+  margin-top: #{20/$font-size}rem;
+}
+
+/**
+ * Vertical and horizontal offsets padding
+ */
+
+.u-paddingR {
+  padding-right: #{25/$font-size}rem;
 }
 
 /**
@@ -40,15 +65,19 @@ $Base-posOffset: #{20/$font-size}rem;
  */
 
 .u-textCTA {
-  color: $color-cta;
+  color: $cta-color;
 }
 
 .u-textSecondary {
-  color: $color-secondary;
+  color: $secondary-color;
+}
+
+.u-textSizeSml {
+  font-size: #{12/$font-size}rem !important;
 }
 
 .u-textSizeMed {
-  font-size: 1rem;
+  font-size: #{14/$font-size}rem !important;
 }
 
 .u-textSizeLrg {
@@ -57,6 +86,10 @@ $Base-posOffset: #{20/$font-size}rem;
 
 .u-textBold {
   font-weight: 700;
+}
+
+.u-textNormal {
+  font-weight: normal;
 }
 
 /**

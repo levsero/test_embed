@@ -1,55 +1,56 @@
 /** @jsx React.DOM */
 
-module React from 'react'; /* jshint ignore:line */
-import { document     } from 'utility/globals';
-import { frameFactory } from 'embed/frameFactory';
-import { HelpCenter   } from 'component/HelpCenter';
+module React from 'react/addons';
+
+import { document }        from 'utility/globals';
+import { frameFactory }    from 'embed/frameFactory';
+import { HelpCenter }      from 'component/HelpCenter';
+import { isMobileBrowser } from 'utility/devices';
+
 require('imports?_=lodash!lodash');
 
 var helpCenterCSS = require('./helpCenter.scss'),
     helpCenters = {};
 
 function create(name, config) {
-  var base = {
-        minHeight: 320,
-        borderRadius: '10px 10px 0 0',
-        boxShadow: '1px 1px 5px rgba(0,0,0,0.5)',
+  var containerStyle,
+      iframeBase = {
         position: 'fixed',
-        bottom: 0,
-        background: 'white'
-      },
-      containerBase = {
-        minWidth: 320
+        bottom: 48
       },
       configDefaults = {
         position: 'right'
       },
-      Embed,
       posObj,
-      iframeStyle;
+      iframeStyle,
+      Embed;
 
   config = _.extend(configDefaults, config);
 
   /* jshint laxbreak: true */
-  posObj = (config.position === 'left')
-         ? { left:  '20px' }
-         : { right: '20px' };
+  if (isMobileBrowser()) {
+    containerStyle = { width: '100%', height: '100%' };
+  } else {
+    posObj = (config.position === 'left')
+           ? { left:  5 }
+           : { right: 5 };
 
-  iframeStyle = _.extend(base, posObj, containerBase);
+    iframeBase.minWidth = 350;
+    containerStyle = { minWidth: 350, margin: 15 };
+  }
+
+  iframeStyle = _.extend(iframeBase, posObj);
+
 
   Embed = React.createClass(frameFactory(
     (params) => {
       return (
         /* jshint quotmark: false */
-        <div style={containerBase}>
-          <div className='u-textRight u-marginVS'>
-            <strong
-              ref='hideButton'
-              onClick={params.hideHandler}
-              onTouchEnd={params.hideHandler}
-              className='u-textCTA u-isActionable'>HIDE</strong>
-          </div>
-          <HelpCenter ref='helpCenter' />
+        <div style={containerStyle}>
+          <HelpCenter
+            ref='helpCenter'
+            zendeskHost={document.zendeskHost}
+            updateFrameSize={params.updateFrameSize} />
         </div>
       );
     },
@@ -62,13 +63,11 @@ function create(name, config) {
       onShow() {
         config.onShow();
       },
-      extend: {
-        hideHandler() {
-          this.hide();
-        }
-      }
-    }
-  ));
+      onClose() {
+        update(name, true);
+      },
+      extend: {}
+    }));
 
   helpCenters[name] = {
     component: <Embed visible={false} />
@@ -93,6 +92,14 @@ function hide(name) {
   get(name).instance.hide();
 }
 
+function update(name, isVisible) {
+  if (isVisible) {
+    hide(name);
+  } else {
+    show(name);
+  }
+}
+
 function render(name) {
   if (helpCenters[name] && helpCenters[name].instance) {
     throw new Error(`HelpCenter ${name} has already been rendered.`);
@@ -108,5 +115,6 @@ export var helpCenter = {
   get: get,
   show: show,
   hide: hide,
+  update: update,
   render: render
 };

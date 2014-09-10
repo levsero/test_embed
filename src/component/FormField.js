@@ -74,7 +74,10 @@ function IconField(props) {
       required={!!props.required}
       input={
         props.input ||
-        <input placeholder={props.placeholder} className='Arrange-sizeFill u-vsizeAll' />
+        <input
+          placeholder={props.placeholder}
+          autoComplete={props.autoComplete || 'on'}
+          className='Arrange-sizeFill u-vsizeAll' />
       }
       validate={props.validate || ''}
       component={<FocusField icon={props.icon} />}
