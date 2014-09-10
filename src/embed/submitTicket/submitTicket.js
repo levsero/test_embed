@@ -25,7 +25,7 @@ function create(name, config) {
       Embed,
       handleBack = function() {
         config.goBack();
-        transition(name);
+        toggleVisibility(name);
       };
 
   config = _.extend(configDefaults, config);
@@ -51,7 +51,7 @@ function create(name, config) {
           <SubmitTicket
             ref='submitTicket'
             updateFrameSize={params.updateFrameSize}
-            handleBack = {handleBack}/>
+            handleBack={handleBack}/>
         </div>
       );
     },
@@ -110,11 +110,11 @@ function reset(name) {
   get(name).instance.reset();
 }
 
-function transition(name) {
+function toggleVisibility(name) {
   var submitTicket = get(name).instance,
       submitTicketForm = submitTicket.getChild().refs.submitTicket.refs.submitTicketForm;
 
-  submitTicket.transition();
+  submitTicket.toggleVisibility();
   submitTicketForm.setState({
     showBack: true
   });
@@ -144,6 +144,6 @@ export var submitTicket = {
   hide: hide,
   reset: reset,
   update: update,
-  transition: transition
+  toggleVisibility: toggleVisibility
 };
 

@@ -144,7 +144,7 @@ export var frameFactory = function(childFn, _params) {
       }
     },
 
-    transition: function() {
+    toggleVisibility: function() {
       this.setState({
         visible: !this.state.visible
       });

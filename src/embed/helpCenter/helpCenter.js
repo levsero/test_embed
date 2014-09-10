@@ -25,17 +25,17 @@ function create(name, config) {
       },
       posObj,
       iframeStyle,
-      onSubmit = function(search) {
+      onButtonClick = function(search) {
         var helpCenter = get(name);
 
         if (helpCenter.chatStatus) {
           config.updateChat(false, true);
-          helpCenter.embedShown = 'chat';
+          helpCenter.activeEmbed = 'chat';
         } else {
-          config.transitionSubmitTicket();
-          helpCenter.embedShown = 'submitTicket';
+          config.toggleSubmitTicket();
+          helpCenter.activeEmbed = 'submitTicket';
         }
-        transition(name);
+        toggleVisibility(name);
         beacon.track('helpCenter', 'search', search);
       },
       Embed;
@@ -65,7 +65,7 @@ function create(name, config) {
           <HelpCenter
             ref='helpCenter'
             zendeskHost={document.zendeskHost}
-            onSubmit={onSubmit}
+            onButtonClick={onButtonClick}
             updateFrameSize={params.updateFrameSize} />
         </div>
       );
@@ -109,40 +109,28 @@ function hide(name) {
   get(name).instance.hide();
 }
 
-function transition(name) {
-  get(name).instance.transition();
+function toggleVisibility(name) {
+  get(name).instance.toggleVisibility();
 }
 
 function transitionBack(name) {
-  transition(name);
-  get(name).embedShown = 'helpCenter';
+  toggleVisibility(name);
+  get(name).activeEmbed = 'helpCenter';
 }
 
 function update(name, isVisible) {
   var helpCenter = get(name),
       config = helpCenter.config;
 
-  if (isVisible) {
-    switch (helpCenter.embedShown) {
-      case 'chat':
-        config.updateChat(true);
-        break;
-      case 'submitTicket':
-        config.updateSubmitTicket(true);
-        break;
-      default:
-        hide(name);
-    }
+  if (helpCenter.activeEmbed === 'chat') {
+    config.updateChat(isVisible);
+  } else if (helpCenter.activeEmbed === 'submitTicket') {
+    config.updateSubmitTicket(isVisible);
   } else {
-    switch (helpCenter.embedShown) {
-      case 'chat':
-        config.updateChat(false);
-        break;
-      case 'submitTicket':
-        config.updateSubmitTicket(false);
-        break;
-      default:
-        show(name);
+    if(isVisible) {
+      hide(name);
+    } else {
+      show(name);
     }
   }
 }
@@ -155,18 +143,16 @@ function setChatStatus(name, status) {
 function updateHelpCenterButton(name, status) {
   var helpCenter = get(name).instance.getChild().refs.helpCenter,
       helpCenterForm = helpCenter.refs.helpCenterForm,
-      labelChat = i18n.t('embeddable_framework.helpCenter.submitButton.label.chat'),
-      labelSubmitTicket = i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket'),
-      message = (status) ? labelChat
-                         : labelSubmitTicket;
+      label = (status) ? i18n.t('embeddable_framework.helpCenter.submitButton.label.chat')
+                       : i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket');
 
   helpCenterForm.setState({
-    buttonMessage: message
+    buttonLabel: label
   });
 }
 
 function isChatting(name) {
-  get(name).embedShown = 'chat';
+  get(name).activeEmbed = 'chat';
   hide(name);
   get(name).config.onShow();
 }

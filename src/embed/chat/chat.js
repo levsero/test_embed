@@ -67,7 +67,7 @@ function isOnline(name) {
   return get(name).isOnline;
 }
 
-function HCupdate(name, isVisible, disableOnShow=false) {
+function toggleVisibility(name, isVisible, disableOnShow = false) {
   if (isVisible) {
     hide(name);
   } else {
@@ -223,6 +223,6 @@ export var chat  = {
   show: show,
   hide: hide,
   update: update,
-  HCupdate: HCupdate,
+  toggleVisibility: toggleVisibility,
   render: render
 };
