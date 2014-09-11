@@ -52,6 +52,7 @@ function boot() {
     callbacks: {
       done(config) {
         renderer.init(JSON.parse(config));
+        handleQueue();
       },
       fail(error) {
         Airbrake.push({
@@ -161,7 +162,6 @@ function boot() {
     renderer.init(rendererConfig);
     handleQueue();
   } else {
-    handleQueue();
     transport.get(rendererPayload);
   }
 
