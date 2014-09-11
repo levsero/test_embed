@@ -2,7 +2,6 @@
 
 module React from 'react/addons';
 
-import { Loading } from 'component/Loading';
 import { i18n }    from 'service/i18n';
 
 require('imports?_=lodash!lodash');
@@ -15,8 +14,7 @@ var HelpCenterForm = React.createClass({
       isValid: false,
       buttonLabel: i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket'),
       isSubmitting: false,
-      focused: false,
-      searchInputVal: ''
+      focused: false
     };
   },
 
@@ -26,46 +24,12 @@ var HelpCenterForm = React.createClass({
     };
   },
 
-  onFocus() {
-    this.setState({
-      focused: true
-    });
-  },
-
-  onBlur() {
-    this.setState({
-      focused: false
-    });
-  },
-
   handleSubmit(e) {
-    var formValue = this.state.searchInputVal;
-
-    this.props.submit(e, {
-      value: formValue
-    });
+    this.props.submit(e);
   },
 
-  handleUpdate(e) {
-    var value = e.target.value;
-
-    if (value !== '') {
-      this.setState({clearInput: true});
-    }
-
-    this.setState({searchInputVal: value});
-    this.props.onSearch(value);
-  },
-
-  clearInput(e) {
-    e.preventDefault();
-
-    this.setState({
-      searchInputVal: '',
-      clearInput: false
-    });
-
-    this.refs.helpCenterSearchField.getDOMNode().focus();
+  handleUpdate() {
+    this.props.onSearch();
   },
 
   onClick() {
@@ -75,9 +39,9 @@ var HelpCenterForm = React.createClass({
   render() {
     /* jshint quotmark:false */
     var buttonClasses = classSet({
-          'Button Button--cta Anim-color u-textNoWrap u-textSizeSml': true,
+          'Button Button--cta Anim-color u-textNoWrap': true,
           'u-pullRight': !this.props.fullscreen,
-          'u-sizeFull': this.props.fullscreen
+          'u-sizeFull u-textSizeBaseMobile': this.props.fullscreen
         }),
         buttonContainerClasses = classSet({
           'u-borderTop u-marginTA u-paddingTM': this.props.fullscreen
@@ -85,49 +49,14 @@ var HelpCenterForm = React.createClass({
         formClasses = classSet({
           'Form u-cf': true,
           'Form--fullscreen': this.props.fullscreen
-        }),
-        loadingClasses = classSet({
-          'u-posAbsolute u-posEnd--flush u-posCenter--vert': true,
-          'u-isHidden': !this.props.isLoading
-        }),
-        searchContainerClasses = classSet({
-          'Form-cta u-nbfc': true,
-          'Form-cta--fullscreen u-paddingHN u-paddingBN': this.props.fullscreen,
-          'Container-pullout': !this.props.fullscreen
-        }),
-        searchInputClasses = classSet({
-          'Arrange Arrange--middle rf-Field rf-Field--search u-isSelectable': true,
-          'rf-Field--focused': this.state.focused
-        }),
-        clearInputClasses = classSet({
-          'Icon Icon--clearInput': true,
-          'u-posAbsolute u-posEnd--flush u-posCenter--vert u-isActionable u-textCenter': true,
-          'u-isHidden': !this.state.clearInput || this.props.isLoading
-        })
+        });
 
     return (
       <form
         noValidate
         onSubmit={this.handleSubmit}
+        onChange={this.handleUpdate}
         className={formClasses}>
-        <div className={searchContainerClasses}>
-          <label className={searchInputClasses}>
-            <i className='Arrange-sizeFit u-isActionable Icon Icon--search'></i>
-            <div className='Arrange-sizeFill u-vsizeAll u-posRelative'>
-              <input
-                className='Arrange-sizeFill u-paddingR u-textSizeMed'
-                ref='helpCenterSearchField'
-                onChange={this.handleUpdate}
-                value={this.state.searchInputVal}
-                onFocus={this.onFocus}
-                onBlur={this.onBlur}
-                placeholder={i18n.t('embeddable_framework.helpCenter.search.label')}
-                type='search' />
-              <Loading className={loadingClasses} />
-              <div className={clearInputClasses} onClick={this.clearInput} onTouchEnd={this.clearInput} />
-            </div>
-          </label>
-        </div>
         {this.props.children}
         <div className={buttonContainerClasses}>
           <input

@@ -2,21 +2,13 @@
 
 .List {
   padding: #{8/$font-size}rem 0 #{19/$font-size}rem #{14/$font-size}rem;
-  margin: 0 0 #{15/$font-size}rem #{3/$font-size}rem;
+  margin: 0 0 #{15/$font-size}rem;
   font-size: #{17/$font-size}rem;
   border-bottom: #{1/$font-size}rem solid $base-border-color;
-}
-
-.List--fullscreen {
-  /*border: none;*/
 }
 
 .List-item {
   color: $list-color;
   list-style: disc;
   margin-bottom: #{7/$font-size}rem;
-
-  a {
-    font-size: #{14/$font-size}rem;
-  }
 }

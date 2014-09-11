@@ -5,7 +5,8 @@ module React from 'react/addons';
 import { transport }       from 'service/transport';
 import { stopWordsFilter } from 'mixin/searchFilter';
 import { HelpCenterForm }  from 'component/HelpCenterForm';
-import { isMobileBrowser }  from 'utility/devices';
+import { SearchField }     from 'component/FormField';
+import { isMobileBrowser } from 'utility/devices';
 import { i18n }            from 'service/i18n';
 
 require('imports?_=lodash!lodash');
@@ -49,9 +50,10 @@ export var HelpCenter = React.createClass({
     });
   },
 
-  handleSubmit(e, data) {
+  handleSubmit(e) {
     e.preventDefault();
-    this.handleSearch(data.value, true);
+    this.refs.searchField.blur();
+    this.handleSearch(true);
   },
 
   updateResults(data) {
@@ -95,8 +97,9 @@ export var HelpCenter = React.createClass({
     });
   },
 
-  handleSearch(searchString, isSubmit) {
-    var filteredStr;
+  handleSearch(isSubmit) {
+    var filteredStr,
+        searchString = this.refs.searchField.getValue();
 
     if (_.isEmpty(searchString)) {
       return;
@@ -116,7 +119,7 @@ export var HelpCenter = React.createClass({
     var topicTemplate = function(topic) {
         return (
             /* jshint camelcase:false */
-            <li key={_.uniqueId('topic_')} className='List-item'>
+            <li key={_.uniqueId('topic_')} className={listItemClasses}>
               <a href={topic.html_url} target='_blank'>
                   {topic.title || topic.name}
               </a>
@@ -126,7 +129,12 @@ export var HelpCenter = React.createClass({
         listClasses = classSet({
           'List': true,
           'u-isHidden': !this.state.topics.length,
-          'u-borderNone': this.state.fullscreen
+          'u-borderNone u-marginBS': this.state.fullscreen
+        }),
+        listItemClasses = classSet({
+          'List-item': true,
+          'u-textSizeMed': !this.state.fullscreen,
+          'u-textSizeBaseMobile': this.state.fullscreen
         }),
         containerClasses = classSet({
           'Container': true,
@@ -144,12 +152,16 @@ export var HelpCenter = React.createClass({
           'u-posAbsolute': !this.state.fullscreen || this.state.showNotification,
           'u-posStart u-posEnd--vert': !this.state.fullscreen || this.state.showNotification,
         }),
+        formLegendClasses = classSet({
+          'Form-legend u-marginTS Arrange Arrange--middle': true,
+          'u-textSizeBaseMobile': this.state.fullscreen
+        }),
         viewAllClasses = classSet({
           'Arrange-sizeFit u-textNormal u-textNoWrap': true,
           'u-isHidden': this.state.resultCount <= 3
         }),
         noResultsClasses = classSet({
-          'u-textSizeMed u-marginTS u-marginBS': true,
+          'u-textSizeMed u-marginTS u-marginBM': true,
           'u-isHidden': this.state.resultCount
         }),
         formClasses = classSet({
@@ -177,7 +189,11 @@ export var HelpCenter = React.createClass({
           isLoading={this.state.isLoading}
           onButtonClick={this.props.onButtonClick}
           submit={this.handleSubmit}>
-          <h1 className='Form-legend u-marginTS Arrange Arrange--middle'>
+          <SearchField
+            ref='searchField'
+            fullscreen={this.state.fullscreen}
+            isLoading={this.state.isLoading} />
+          <h1 className={formLegendClasses}>
             <span className='Arrange-sizeFill'>{this.state.searchTitle}</span>
             <a
               href={this.getViewAllUrl()}

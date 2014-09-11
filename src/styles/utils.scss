@@ -45,6 +45,10 @@ $Base-posOffset: #{20/$font-size}rem;
  */
 
 .u-marginBS {
+  margin-bottom: #{10/$font-size}rem !important;
+}
+
+.u-marginBM {
   margin-bottom: #{20/$font-size}rem;
 }
 
@@ -95,6 +99,10 @@ $Base-posOffset: #{20/$font-size}rem;
 
 .u-textSizeMed {
   font-size: #{14/$font-size}rem !important;
+}
+
+.u-textSizeBaseMobile {
+  font-size: #{16/$font-size}rem !important;
 }
 
 .u-textSizeLrg {
