@@ -46,12 +46,6 @@ function boot() {
     win.zEmbed = publicApi;
   }
 
-  _.forEach(document.zEQueue, function(item) {
-    if (item[0] === 'ready') {
-      item[1](win.zEmbed);
-    }
-  });
-
   rendererPayload = {
     method: 'get',
     path: '/embeddable/config',
@@ -167,6 +161,12 @@ function boot() {
   } else {
     transport.get(rendererPayload);
   }
+
+  _.forEach(document.zEQueue, function(item) {
+    if (item[0] === 'ready') {
+      item[1](win.zEmbed);
+    }
+  });
 
   function propagateFontRatioChange() {
     setTimeout(() => {
