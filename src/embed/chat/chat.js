@@ -119,8 +119,11 @@ function setStatus(opts) {
       config = chat.config;
 
   chat.isOnline = isOnline;
-  if (config.setLabel) {
+
+  // If hc exists this method will be true
+  if (!config.setStatus) {
     config.setLabel(label);
+    config.setIcon(icon);
   } else {
     config.setIcon(icon);
     config.setStatus(isOnline);
@@ -180,6 +183,9 @@ function init(name) {
       onUnreadMsgs = function(unreadMessageCount) {
         if (chat.chatStarted && unreadMessageCount > 0 && !isMobileBrowser()) {
           show(name);
+          if (config.isChatting) {
+            config.isChatting(false);
+          }
           chat.chatStarted = false;
         }
 

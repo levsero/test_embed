@@ -17,7 +17,7 @@ var SubmitTicketForm = React.createClass({
       isValid: false,
       buttonMessage: i18n.t('embeddable_framework.submitTicket.form.submitButton.label.send'),
       isSubmitting: false,
-      showBack: false
+      showBackButton: false
     };
   },
 
@@ -64,7 +64,7 @@ var SubmitTicketForm = React.createClass({
         ),
         navigationButtonClasses = classSet({
           'Button Button--nav u-inlineBlock u-marginBS': true,
-          'u-isHidden': !this.state.showBack
+          'u-isHidden': !this.state.showBackButton
         }),
         buttonClasses = classSet({
           'Button Button--cta Anim-color u-textNoWrap': true,
@@ -73,7 +73,7 @@ var SubmitTicketForm = React.createClass({
         }),
         titleClasses = classSet({
           'Form-legend u-marginBS u-textBold u-extSizeMed': true,
-          'u-posAbsolute u-posCenter u-posStart--vert': this.state.showBack
+          'u-posAbsolute u-posCenter u-posStart--vert': this.state.showBackButton
         });
 
     return (

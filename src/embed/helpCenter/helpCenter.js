@@ -124,6 +124,7 @@ function update(name, isVisible) {
 
   if (helpCenter.activeEmbed === 'chat') {
     config.updateChat(isVisible);
+    config.setLabel(i18n.t('embeddable_framework.launcher.label.help'));
   } else if (helpCenter.activeEmbed === 'submitTicket') {
     config.updateSubmitTicket(isVisible);
   } else {
@@ -141,20 +142,23 @@ function setChatStatus(name, status) {
 }
 
 function updateHelpCenterButton(name, status) {
+  /* jshint unused:false */
   var helpCenter = get(name).instance.getChild().refs.helpCenter,
       helpCenterForm = helpCenter.refs.helpCenterForm,
-      label = (status) ? i18n.t('embeddable_framework.helpCenter.submitButton.label.chat')
-                       : i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket');
+      labelKey = status ? 'chat' : 'submitTicket',
+      label = i18n.t(`embeddable_framework.helpCenter.submitButton.label.${labelKey}`);
 
   helpCenterForm.setState({
     buttonLabel: label
   });
 }
 
-function isChatting(name) {
+function isChatting(name, hideEmbed = true) {
   get(name).activeEmbed = 'chat';
-  hide(name);
-  get(name).config.onShow();
+  if (hideEmbed) {
+    hide(name);
+    get(name).config.onShow();
+  }
 }
 
 function render(name) {
