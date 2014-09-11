@@ -90,6 +90,7 @@ function boot() {
         }
       }
     };
+
     // Until transport config is dynamic we need to alter what gets rendered on the zopim page
     if ((host === 'www.zendesk.com' && _.contains(chatPages, path)) ||
         (host === 'snow.hashttp.com' && path === '/chat') ||
@@ -158,20 +159,24 @@ function boot() {
       };
     }
     renderer.init(rendererConfig);
+    handleQueue();
   } else {
+    handleQueue();
     transport.get(rendererPayload);
   }
-
-  _.forEach(document.zEQueue, function(item) {
-    if (item[0] === 'ready') {
-      item[1](win.zEmbed);
-    }
-  });
 
   function propagateFontRatioChange() {
     setTimeout(() => {
       renderer.propagateFontRatio(getSizingRatio(true));
     }, 0);
+  }
+
+  function handleQueue() {
+    _.forEach(document.zEQueue, function(item) {
+      if (item[0] === 'ready') {
+        item[1](win.zEmbed);
+      }
+    });
   }
 
   win.addEventListener('touchmove', Airbrake.wrap((e) => {
