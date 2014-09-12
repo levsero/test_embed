@@ -117,7 +117,7 @@ var SearchField = React.createClass({
           'u-isHidden': !this.props.isLoading
         }),
         searchContainerClasses = classSet({
-          'Form-cta u-nbfc': true,
+          'Form-cta u-cf': true,
           'Form-cta--fullscreen u-paddingHN u-paddingBN': this.props.fullscreen,
           'Container-pullout': !this.props.fullscreen
         }),

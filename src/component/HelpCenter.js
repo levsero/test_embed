@@ -140,7 +140,6 @@ export var HelpCenter = React.createClass({
           'Container': true,
           'Container--popover u-nbfcAlt': !this.state.fullscreen,
           'Container--fullscreen': this.state.fullscreen,
-          'Arrange Arrange--middle': this.state.fullscreen,
           'u-posRelative': true
         }),
         containerBarClasses = classSet({
