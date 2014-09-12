@@ -5,16 +5,16 @@
 @import '../_vars.scss';
 
 @font-face {
-  font-family: 'embed-font-5';
-  src:url('../../asset/font/embed-font-5.eot') format('embedded-opentype'),
-      url('../../asset/font/embed-font-5.woff') format('woff'),
-      url('../../asset/font/embed-font-5.ttf') format('truetype');
+  font-family: 'icomoon';
+  src:url('../../asset/font/icomoon.eot') format('embedded-opentype'),
+      url('../../asset/font/icomoon.woff') format('woff'),
+      url('../../asset/font/icomoon.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 
 .Icon {
-  font-family: 'embed-font-5';
+  font-family: 'icomoon';
   speak: none;
   font-style: normal;
   font-weight: normal;
@@ -63,6 +63,16 @@
 
 .Icon--msg:before {
   content: '\e604';
+}
+
+.Icon--arrow {
+  font-size: #{10/$font-size}rem;
+  padding-right: #{3/$font-size}rem;
+  color: $cta-color;
+  
+  &:before {
+    content: '\e610';
+  }
 }
 
 .Icon--search {
