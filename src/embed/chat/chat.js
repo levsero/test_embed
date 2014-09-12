@@ -28,7 +28,7 @@ function get(name) {
   return chats[name];
 }
 
-function show(name, disableOnShow) {
+function show(name, skipOnShow) {
   var config = get(name).config,
       zopim = win.$zopim;
 
@@ -45,7 +45,7 @@ function show(name, disableOnShow) {
     styleTag.parentNode.removeChild(styleTag);
   }
 
-  if (_.isFunction(config.onShow) && !disableOnShow) {
+  if (_.isFunction(config.onShow) && !skipOnShow) {
     config.onShow();
   }
 }
@@ -67,11 +67,11 @@ function isOnline(name) {
   return get(name).isOnline;
 }
 
-function toggleVisibility(name, isVisible, disableOnShow = false) {
+function toggleVisibility(name, isVisible, skipOnShow = false) {
   if (isVisible) {
     hide(name);
   } else {
-    show(name, disableOnShow);
+    show(name, skipOnShow);
   }
 }
 
@@ -120,13 +120,13 @@ function setStatus(opts) {
 
   chat.isOnline = isOnline;
 
-  // If hc exists this method will be true
-  if (!config.setStatus) {
-    config.setLabel(label);
-    config.setIcon(icon);
-  } else {
+  // If hc exists this method will exist
+  if (_.isFunction(config.setStatus)) {
     config.setIcon(icon);
     config.setStatus(isOnline);
+  } else {
+    config.setLabel(label);
+    config.setIcon(icon);
   }
 }
 
@@ -185,7 +185,7 @@ function init(name) {
           if(!isMobileBrowser()) {
             show(name);
           }
-          if (config.isChatting) {
+          if (_.isFunction(config.isChatting)) {
             config.isChatting();
           }
           chat.chatStarted = false;
@@ -201,7 +201,7 @@ function init(name) {
         chat.chatStarted = true;
       },
       onChatEnd = function() {
-        if (config.chatEnd) {
+        if (_.isFunction(config.chatEnd)) {
           config.chatEnd(false);
           hide(name);
         }
@@ -219,7 +219,9 @@ function init(name) {
       zopimLive.hideAll();
     } else {
       show(name);
-      config.isChatting();
+      if (_.isFunction(config.isChatting)) {
+        config.isChatting();
+      }
     }
 
     zopimLive.setOnStatus(onStatus);
