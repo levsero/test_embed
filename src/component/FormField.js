@@ -89,15 +89,11 @@ var SearchField = React.createClass({
     this.setState({searchInputVal: value});
   },
 
-  clearInput(e) {
-    e.preventDefault();
-
+  clearInput() {
     this.setState({
       searchInputVal: '',
       clearInput: false
     });
-
-    this.focus();
   },
 
   getSearchField() {
@@ -118,7 +114,6 @@ var SearchField = React.createClass({
 
   render() {
     var loadingClasses = classSet({
-          'u-posAbsolute u-posEnd--flush u-posCenter--vert': true,
           'u-isHidden': !this.props.isLoading
         }),
         searchContainerClasses = classSet({
@@ -137,14 +132,14 @@ var SearchField = React.createClass({
         }),
         clearInputClasses = classSet({
           'Icon Icon--clearInput': true,
-          'u-posAbsolute u-posEnd--flush u-posCenter--vert u-isActionable u-textCenter': true,
-          'u-isHidden': !this.state.clearInput || this.props.isLoading
+          'u-isActionable u-textCenter': true,
+          'u-isHidden': !this.state.clearInput || this.props.isLoading || !this.state.focused
         });
 
     return (
       /* jshint quotmark:false */
       <div className={searchContainerClasses}>
-        <label className={searchInputClasses}>
+        <div className={searchInputClasses}>
           <i className='Arrange-sizeFit u-isActionable Icon Icon--search'></i>
           <div className='Arrange-sizeFill u-vsizeAll u-posRelative'>
             <input
@@ -156,13 +151,14 @@ var SearchField = React.createClass({
               onBlur={this.onBlur}
               placeholder={i18n.t('embeddable_framework.helpCenter.search.label')}
               type='search' />
+          </div>
+          <div className='Arrange-sizeFit u-isActionable'>
             <Loading className={loadingClasses} />
             <div
-              className={clearInputClasses}
               onClick={this.clearInput}
-              onTouchEnd={this.clearInput} />
+              className={clearInputClasses} />
           </div>
-        </label>
+        </div>
       </div>
     );
   }

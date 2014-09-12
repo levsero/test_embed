@@ -3,6 +3,8 @@
 describe('Help center component', function() {
   var HelpCenter,
       mockRegistry,
+      searchFieldBlur = jasmine.createSpy(),
+      searchFieldGetValue = jasmine.createSpy().andReturn('Foobar'),
       helpCenterPath = buildSrcPath('component/HelpCenter');
 
   beforeEach(function() {
@@ -25,6 +27,19 @@ describe('Help center component', function() {
               return (<form onSubmit={this.handleSubmit}>
                 {this.props.children}
               </form>);
+            }
+          }))
+      },
+      'component/FormField': {
+        SearchField: jasmine.createSpy('mockSearchField')
+          .andCallFake(React.createClass({
+            blur: searchFieldBlur,
+            getValue: searchFieldGetValue,
+            render: function() {
+              /* jshint quotmark:false */
+              return (
+                <input ref='searchField' type='search' />
+              );
             }
           }))
       },
@@ -84,18 +99,23 @@ describe('Help center component', function() {
             global.document.body
           ),
           mockTransport = mockRegistry['service/transport'].transport,
-          searchString = 'help, I\'ve fallen and can\'t get up!',
           callbackPayload = '{"results": [1,2,3],"count": 3}';
 
-      helpCenter.handleSubmit({preventDefault: noop}, { value: searchString });
+      helpCenter.handleSubmit({preventDefault: noop});
 
       expect(helpCenter.state.isLoading)
         .toBeTruthy();
 
       expect(helpCenter.state.searchTerm)
-        .toEqual(searchString);
+        .toEqual('Foobar');
 
       expect(mockTransport.send)
+        .toHaveBeenCalled();
+
+      expect(searchFieldBlur)
+        .toHaveBeenCalled();
+
+      expect(searchFieldGetValue)
         .toHaveBeenCalled();
 
       mockTransport.send.mostRecentCall.args[0].callbacks.done(callbackPayload);
@@ -153,11 +173,16 @@ describe('Help center component', function() {
             global.document.body
           ),
           mockTransport = mockRegistry['service/transport'].transport,
+          returnSearchTerm = function(term) { return term; },
+          mockGetValue = helpCenter.refs.searchField.getValue,
           searchStringTooShort = 'hi! ',
           searchStringNoSpace = 'help, I\'ve fallen and can\'t get up!';
 
-      helpCenter.handleSearch(searchStringTooShort);
-      helpCenter.handleSearch(searchStringNoSpace);
+      mockGetValue = returnSearchTerm.bind(this, searchStringTooShort);
+      helpCenter.handleSearch();
+
+      mockGetValue = returnSearchTerm.bind(this, searchStringNoSpace);
+      helpCenter.handleSearch();
 
       expect(mockTransport.send.callCount)
         .toEqual(1);

@@ -134,7 +134,7 @@ describe('embed.helpCenter', function() {
       });
       mockery.resetCache();
       helpCenter = require(helpCenterPath).helpCenter;
-      helpCenter.create('bob');
+      helpCenter.create('carlos');
 
       mockFrameFactoryRecentCall = mockFrameFactory.mostRecentCall.args;
 
@@ -165,7 +165,7 @@ describe('embed.helpCenter', function() {
 
       helpCenter = require(helpCenterPath).helpCenter;
 
-      helpCenter.create('bob');
+      helpCenter.create('carlos');
 
       mockFrameFactoryRecentCall = mockFrameFactory.mostRecentCall.args;
 

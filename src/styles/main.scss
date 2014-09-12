@@ -11,6 +11,8 @@ $line-height: 1.4;
  * suitable for web applications. Removes the default spacing and border for
  * appropriate elements.
  * 1. With the translation keys sometimes the launcher will show scroll bars
+ * 2. Set iOS/Android tap highlight to be transparent using rgba
+ * 3. Some androids need transparent keyword over rbga value
  */
 
 html {
@@ -63,4 +65,6 @@ input[type="search"] {
   box-sizing: border-box;
   border-radius: 0;
   -webkit-appearance: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0); /* 2 */
+  -webkit-tap-highlight-color: transparent; /* 3 */
 }
