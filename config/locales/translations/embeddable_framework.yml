@@ -101,7 +101,7 @@ parts:
   - translation:
       key: "embeddable_framework.helpCenter.label.noResultsParagraph"
       title: "The paragraph for the help center widget when there are no results returned from search. Will wrap as needed (http://tinyurl.com/pb3nrgy)"
-      value: "Try getting in touch below for more help."
+      value: "Submit a request below for more help."
 
   # Mobile
   - translation:
