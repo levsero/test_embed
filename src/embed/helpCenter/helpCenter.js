@@ -102,11 +102,18 @@ function get(name) {
 }
 
 function show(name) {
-  get(name).instance.show();
+  var helpCenter = get(name);
+
+  helpCenter.visible = true;
+  helpCenter.instance.show();
+  helpCenter.activeEmbed = 'helpCenter';
 }
 
 function hide(name) {
-  get(name).instance.hide();
+  var helpCenter = get(name);
+
+  helpCenter.instance.hide();
+  helpCenter.visible = false;
 }
 
 function toggleVisibility(name) {
@@ -128,7 +135,7 @@ function update(name, isVisible) {
   } else if (helpCenter.activeEmbed === 'submitTicket') {
     config.updateSubmitTicket(isVisible);
   } else {
-    if(isVisible) {
+    if (isVisible) {
       hide(name);
     } else {
       show(name);
@@ -153,11 +160,16 @@ function updateHelpCenterButton(name, status) {
   });
 }
 
-function isChatting(name, hideEmbed = true) {
-  get(name).activeEmbed = 'chat';
-  if (hideEmbed) {
+function isChatting(name) {
+  var helpCenter = get(name);
+
+  helpCenter.activeEmbed = 'chat';
+
+  if (helpCenter.visible) {
     hide(name);
-    get(name).config.onShow();
+  } else {
+    hide(name);
+    helpCenter.config.onShow();
   }
 }
 

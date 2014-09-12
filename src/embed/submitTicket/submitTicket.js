@@ -116,7 +116,7 @@ function toggleVisibility(name) {
 
   submitTicket.toggleVisibility();
   submitTicketForm.setState({
-    showBack: true
+    showBackButton: true
   });
 }
 

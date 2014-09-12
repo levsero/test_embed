@@ -184,7 +184,7 @@ function init(name) {
         if (chat.chatStarted && unreadMessageCount > 0 && !isMobileBrowser()) {
           show(name);
           if (config.isChatting) {
-            config.isChatting(false);
+            config.isChatting();
           }
           chat.chatStarted = false;
         }
@@ -197,6 +197,12 @@ function init(name) {
       },
       onChatStart = function() {
         chat.chatStarted = true;
+      },
+      onChatEnd = function() {
+        if (config.chatEnd) {
+          config.chatEnd(false);
+          hide(name);
+        }
       };
 
   zopim(function() {
@@ -217,6 +223,7 @@ function init(name) {
     zopimLive.setOnStatus(onStatus);
     zopimLive.setOnUnreadMsgs(onUnreadMsgs);
     zopimLive.setOnChatStart(onChatStart);
+    zopimLive.setOnChatEnd(onChatEnd);
     zopimLive.theme.setColor(config.color);
     zopimLive.theme.setTheme('zendesk');
   });
