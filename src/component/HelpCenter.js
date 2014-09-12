@@ -22,7 +22,7 @@ export var HelpCenter = React.createClass({
   },
 
   getViewAllUrl() {
-    return `http://${this.props.zendeskHost}/hc/search?query=${this.state.searchTerm}`;
+    return `https://${this.props.zendeskHost}/hc/search?query=${this.state.searchTerm}`;
   },
 
   componentWillMount() {

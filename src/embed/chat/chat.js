@@ -182,7 +182,7 @@ function init(name) {
       },
       onUnreadMsgs = function(unreadMessageCount) {
         if (chat.chatStarted && unreadMessageCount > 0) {
-          if(!isMobileBrowser()) {
+          if (!isMobileBrowser()) {
             show(name);
           }
           if (_.isFunction(config.isChatting)) {
