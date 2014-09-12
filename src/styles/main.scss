@@ -1,18 +1,10 @@
 @import '_vars.scss';
-
-$background-base: inherit;
-$color-base: #555;
-$color-cta: #8DC900;
-$color-secondary: #CFCFCF;
-$link-color-base: $color-cta;
-$link-color-hover-base: $link-color-base;
+@import 'utils.scss';
 
 $font-family: Helvetica, Arial, "Lucida Grande", sans-serif;
 $font-weight: 300;
 $line-height: 1.4;
-$font-base: #{$font-size}px/#{$line-height} $font-family;
 
-@import './utils.scss';
 
 /**
  * A thin layer on top of normalize.css that provides a starting point more
@@ -23,7 +15,7 @@ $font-base: #{$font-size}px/#{$line-height} $font-family;
 
 html {
   color: $body-color;
-  font: $font-base;
+  font: #{$font-size}px/#{$line-height} $font-family;
   overflow: hidden; /* 1 */
 }
 
@@ -32,7 +24,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 a {
-  color: $link-color-base;
+  color: $cta-color;
   text-decoration: none;
 }
 
@@ -43,7 +35,7 @@ p {
 a:hover,
 a:focus,
 a:active {
-  color: $link-color-hover-base;
+  color: $cta-color;
   text-decoration: underline;
 }
 

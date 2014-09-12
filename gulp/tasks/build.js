@@ -9,9 +9,12 @@ var gulp = require('gulp'),
     runSequence = require('run-sequence'),
     webpackConfig = require('../webpack.config.js'),
     es6Transpiler = require('gulp-es6-transpiler'),
+    replace = require('gulp-replace'),
     fs = require('fs'),
     path = require('path'),
-    predef = JSON.parse(fs.readFileSync(path.join(process.cwd(), '.jshintrc'), 'utf8')).predef;
+    shell = require('gulp-shell'),
+    predef = JSON.parse(fs.readFileSync(path.join(process.cwd(), '.jshintrc'), 'utf8')).predef,
+    debugBuild;
 
 function getGlobals() {
   var globals = {};
@@ -35,10 +38,13 @@ function webpackCallback(callback) {
   };
 }
 
-gulp.task('build:prod', function(callback) {
-  var myConfig = Object.create(webpackConfig);
-  myConfig.plugins = [
+gulp.task('build:prod', ['build:version:generate'], function(callback) {
+  var version = String(fs.readFileSync('dist/VERSION_HASH')).trim(),
+      config = Object.create(webpackConfig);
+
+  config.plugins = [
     new webpack.DefinePlugin({
+      __EMBEDDABLE_VERSION__: JSON.stringify(version),
       'process.env': {
         'NODE_ENV': JSON.stringify('production')
       }
@@ -53,13 +59,24 @@ gulp.task('build:prod', function(callback) {
     })
   ];
 
-  return webpack(myConfig, webpackCallback(callback));
+  return webpack(config, webpackCallback(callback));
 });
 
-var debugBuild = webpack(webpackConfig);
+gulp.task('build:debug', ['build:version:generate'], function(callback) {
+  var version = String(fs.readFileSync('dist/VERSION_HASH')).trim(),
+      config = Object.create(webpackConfig);
 
-gulp.task('build:debug', function(callback) {
-  debugBuild.run(webpackCallback(callback));
+  config.plugins = [
+    new webpack.DefinePlugin({
+      __EMBEDDABLE_VERSION__: JSON.stringify(version)
+    })
+  ];
+
+  if (typeof debugBuild === 'undefined') {
+    debugBuild = webpack(config);
+  }
+
+  return debugBuild.run(webpackCallback(callback));
 });
 
 gulp.task('build:test', function() {
@@ -83,8 +100,21 @@ gulp.task('build:src', function() {
     .pipe(gulp.dest('build/src'));
 });
 
+gulp.task('build:version:generate', shell.task(
+  'git rev-parse --short HEAD > ./dist/VERSION_HASH'
+));
+
+gulp.task('build:version:clean', function() {
+  return gulp.src('./dist/VERSION_HASH')
+    .pipe(rimraf());
+});
+
 gulp.task('build:cachebuster-js', function() {
   return gulp.src('src/cacheBuster/update.js')
+    .pipe(replace(
+      /{{versionHash}}/g,
+      String(fs.readFileSync('dist/VERSION_HASH')).trim()
+    ))
     .pipe(uglify())
     .pipe(gulp.dest('./dist'));
 });
@@ -101,7 +131,7 @@ gulp.task('build:cachebuster-clean', function() {
     .pipe(rimraf());
 });
 
-gulp.task('build:cachebuster', function(callback) {
+gulp.task('build:cachebuster', ['build:version:generate'], function(callback) {
   runSequence(
     'build:cachebuster-js',
     'build:cachebuster-html',
@@ -122,6 +152,7 @@ gulp.task('build', function(callback) {
     'build:cachebuster',
     'build:bootstrap',
     'build:prod',
+    'build:version:clean',
     callback
   );
 });
@@ -130,6 +161,7 @@ gulp.task('build-dev', function(callback) {
   runSequence(
     'bootstrap',
     'build:debug',
+    'build:version:clean',
     callback
   );
 });

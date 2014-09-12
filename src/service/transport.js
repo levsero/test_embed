@@ -39,7 +39,7 @@ function send(payload) {
     });
 }
 
-function bustCache() {
+function bustCache(versionHash) {
   var iframe = document.createElement('iframe'),
       onMessage = function(message) {
         if (message.data === 'cache_bust_done') {
@@ -52,7 +52,7 @@ function bustCache() {
       updatePath = [
         'update.html?',
         (new Date()).getTime(),
-        '#placeholder-commit-hash'
+        `#${versionHash}`,
       ].join('');
 
   if (document.getElementById('js-iframe-async')) {

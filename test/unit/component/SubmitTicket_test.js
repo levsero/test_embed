@@ -4,7 +4,7 @@ describe('Submit ticket component', function() {
   var SubmitTicket,
       mockRegistry,
       formParams = {
-        'set_tags': 'DROPBOX CEToolkit',
+        'set_tags': 'DROPBOX zendesk_widget',
         'via_id': 17,
         'submitted_from': global.window.location.href,
         'email': 'mock@email.com',
@@ -42,7 +42,10 @@ describe('Submit ticket component', function() {
 
     mockRegistry = initMockRegistry({
       'react/addons': React,
-      'utility/globals': { win: window },
+      'utility/globals': {
+        win: window,
+        location: location
+      },
       'utility/devices': {
         getSizingRatio: function() {
           return 1;

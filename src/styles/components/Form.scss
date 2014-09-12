@@ -21,6 +21,14 @@ $Form-fontSize: #{13/$font-size}rem;
   font-size: #{14/$font-size}rem;
 }
 
+
+.Form-cta {
+  border-radius: #{8/$font-size}rem #{8/$font-size}rem 0 0;
+  padding: #{15/$font-size}rem #{20/$font-size}rem;
+  background: $form-cta-color;
+  border-bottom: 1px solid $base-border-color;
+}
+
 .rf-Field {
   margin-bottom: $Form-gutter;
   background: $base-color;
@@ -47,11 +55,19 @@ $Form-fontSize: #{13/$font-size}rem;
   }
 }
 
+.rf-Field--search {
+  padding: #{11/$font-size}rem $Form-spacing;
+}
+
 .rf-Field--focused {
   border: $Form-stroke solid $cta-color;
 
   &.rf-Field--dirty.rf-Field--invalid {
     @include error-state(1);
+  }
+
+  > .Icon--search {
+    color: $cta-color;
   }
 }
 
