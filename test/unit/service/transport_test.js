@@ -14,13 +14,6 @@ describe('transport', function() {
     };
     mockRegistry = initMockRegistry({
       'react/addons': React,
-      'utility/globals': {
-        document: {
-          location: {
-            protocol: 'http:'
-          }
-        }
-      },
       'superagent': jasmine.createSpy().andCallFake(function() {
           return mockMethods;
       }),
@@ -105,20 +98,6 @@ describe('transport', function() {
 
     it('sets the correct http method and url on superagent', function() {
       var mockSuperagent = mockRegistry.superagent;
-
-      transport.init(config);
-      transport.send(payload);
-
-      expect(mockSuperagent)
-        .toHaveBeenCalledWith(
-          'GET',
-          'http://zensnow.herokuapp.com/test/path');
-    });
-
-    it('should respect host page protocol', function() {
-      var mockSuperagent = mockRegistry.superagent;
-
-      mockRegistry['utility/globals'].document.location.protocol = 'https:';
 
       transport.init(config);
       transport.send(payload);
