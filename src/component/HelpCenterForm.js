@@ -24,10 +24,6 @@ var HelpCenterForm = React.createClass({
     };
   },
 
-  handleSubmit(e) {
-    this.props.submit(e);
-  },
-
   handleUpdate() {
     this.props.onSearch();
   },
@@ -54,7 +50,7 @@ var HelpCenterForm = React.createClass({
     return (
       <form
         noValidate
-        onSubmit={this.handleSubmit}
+        onSubmit={this.props.onSubmit}
         onChange={this.handleUpdate}
         className={formClasses}>
         {this.props.children}

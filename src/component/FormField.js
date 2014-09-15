@@ -75,24 +75,29 @@ var SearchField = React.createClass({
 
   getInitialState() {
     return {
-      searchInputVal: ''
+      searchInputVal: '',
+      isClearable: false
     };
   },
 
   handleUpdate(e) {
-    var value = e.target.value;
+    var value = e.target.value,
+        state = {
+          isClearable: false,
+          searchInputVal: value
+        };
 
     if (value !== '' && isMobileBrowser()) {
-      this.setState({clearInput: true});
+      state.isClearable = true;
     }
 
-    this.setState({searchInputVal: value});
+    this.setState(state);
   },
 
   clearInput() {
     this.setState({
       searchInputVal: '',
-      clearInput: false
+      isClearable: false
     });
   },
 
@@ -101,7 +106,7 @@ var SearchField = React.createClass({
   },
 
   getValue() {
-    return this.state.searchInputVal;
+    return this.getSearchField().value;
   },
 
   focus() {
@@ -133,7 +138,7 @@ var SearchField = React.createClass({
         clearInputClasses = classSet({
           'Icon Icon--clearInput': true,
           'u-isActionable u-textCenter': true,
-          'u-isHidden': !this.state.clearInput || this.props.isLoading || !this.state.focused
+          'u-isHidden': !this.state.isClearable || this.props.isLoading || !this.state.focused
         });
 
     return (

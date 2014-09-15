@@ -77,7 +77,7 @@ export var HelpCenter = React.createClass({
     });
   },
 
-  makeSearch(searchString) {
+  performSearch(searchString) {
     this.setState({
       isLoading: true,
       searchTerm: searchString
@@ -97,7 +97,7 @@ export var HelpCenter = React.createClass({
     });
   },
 
-  handleSearch(isSubmit) {
+  handleSearch(forceSearch) {
     var filteredStr,
         searchString = this.refs.searchField.getValue();
 
@@ -105,11 +105,11 @@ export var HelpCenter = React.createClass({
       return;
     }
 
-    if (searchString.length >= 5 && _.last(searchString) === ' ' || isSubmit) {
+    if (searchString.length >= 5 && _.last(searchString) === ' ' || forceSearch) {
       filteredStr = stopWordsFilter(searchString);
 
       if (filteredStr !== '') {
-        this.makeSearch(filteredStr);
+        this.performSearch(filteredStr);
       }
     }
   },
@@ -187,7 +187,7 @@ export var HelpCenter = React.createClass({
           onSearch={this.handleSearch}
           isLoading={this.state.isLoading}
           onButtonClick={this.props.onButtonClick}
-          submit={this.handleSubmit}>
+          onSubmit={this.handleSubmit}>
           <SearchField
             ref='searchField'
             fullscreen={this.state.fullscreen}
