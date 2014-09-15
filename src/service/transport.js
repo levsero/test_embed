@@ -19,18 +19,23 @@ function send(payload) {
   superagent(payload.method.toUpperCase(),
              buildFullUrl(payload.path))
     .type('json')
-    .send(payload.params || {})
-    .query(payload.query || {})
-    .end(function(res) {
+    .send(_.extend(payload.params || {}, {'zendesk_host': config.zendeskHost}))
+    .query(_.extend(payload.query || {}, {'zendesk_host': config.zendeskHost}))
+    .timeout(10000)
+    .end(function(err, res) {
       if (payload.callbacks) {
-        if (res.ok) {
-          if (_.isFunction(payload.callbacks.done)) {
-            payload.callbacks.done(res.text, res.status, res.xhr);
+        if (res) {
+          if (res.ok) {
+            if (_.isFunction(payload.callbacks.done)) {
+              payload.callbacks.done(res.text, res.status, res.xhr);
+            }
           }
         }
-        else if (res.error) {
-          if (_.isFunction(payload.callbacks.fail)) {
-            payload.callbacks.fail(res.text, res.status, res.xhr);
+        else if (err) {
+          if (err.timeout) {
+            if (_.isFunction(payload.callbacks.timeout)) {
+              payload.callbacks.timeout();
+            }
           }
         }
       }

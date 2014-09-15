@@ -17,6 +17,7 @@ export var SubmitTicket = React.createClass({
       showNotification: false,
       message: '',
       fullscreen: isMobileBrowser(),
+      showTimeoutMsg: false,
       uid: _.uniqueId('submitTicketForm_')
     };
   },
@@ -36,6 +37,7 @@ export var SubmitTicket = React.createClass({
   handleSubmit(e, data) {
     e.preventDefault();
 
+    this.setState({showTimeoutMsg: false});
     if (data.isFormInvalid) {
       // TODO: Handle invalid form submission
       return;
@@ -54,6 +56,13 @@ export var SubmitTicket = React.createClass({
           });
           this.props.updateFrameSize(0,0);
         },
+        timeoutCallback = () => {
+          this.setState({showTimeoutMsg: true});
+          this.refs.submitTicketForm.setState({
+            isSubmitting: false,
+            buttonMessage: i18n.t('embeddable_framework.submitTicket.form.submitButton.label.send')
+          });
+        },
         payload = {
           method: 'post',
           path: '/embeddable/ticket_submission',
@@ -62,8 +71,8 @@ export var SubmitTicket = React.createClass({
             done() {
               resCallback(i18n.t('embeddable_framework.submitTicket.notify.message.success'));
             },
-            fail() {
-              resCallback(i18n.t('embeddable_framework.submitTicket.notify.message.timeout'));
+            timeout() {
+              timeoutCallback();
             }
           }
         };
@@ -100,6 +109,9 @@ export var SubmitTicket = React.createClass({
         marketingClasses = classSet({
           'u-isHidden': location.origin !== 'https://www.zendesk.com'
         }),
+        timeoutClasses = classSet({
+          'u-isHidden': !this.state.showTimeoutMsg
+        }),
         logoUrl = ['//www.zendesk.com/lp/just-one-click/',
                    '?utm_source=launcher&utm_medium=poweredbyzendesk&utm_campaign=image'
                   ].join(''),
@@ -132,7 +144,11 @@ export var SubmitTicket = React.createClass({
           ref='submitTicketForm'
           className={formClasses}
           onBackClick={this.handleBackClick}
-          submit={this.handleSubmit} />
+          submit={this.handleSubmit} >
+        <p className={timeoutClasses}>
+          {i18n.t('embeddable_framework.submitTicket.notify.message.timeout')}
+        </p>
+        </SubmitTicketForm>
         <div className='u-nbfc'>
           <a
             href={logoUrl}
