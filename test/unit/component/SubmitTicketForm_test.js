@@ -100,7 +100,7 @@ describe('SubmitTicketForm component', function() {
             global.document.body
           ),
           button = ReactTestUtils
-            .findRenderedDOMComponentWithClass(submitTicketForm, 'Button'),
+            .findRenderedDOMComponentWithClass(submitTicketForm, 'Button--cta'),
           buttonClasses = button.props.className;
 
       expect(buttonClasses.indexOf('u-sizeFull') >= 0)
@@ -116,7 +116,7 @@ describe('SubmitTicketForm component', function() {
             global.document.body
           ),
           button = ReactTestUtils
-            .findRenderedDOMComponentWithClass(submitTicketForm, 'Button'),
+            .findRenderedDOMComponentWithClass(submitTicketForm, 'Button--cta'),
           buttonClasses = button.props.className;
 
       expect(buttonClasses.indexOf('u-pullRight') >= 0)

@@ -19,7 +19,7 @@ window.zEmbed || (function(url, host) {
 
   iframe.src = 'javascript:false';
   iframe.title = ''; iframe.role='presentation';  // a11y
-  (iframe.frameElement || iframe).style.cssText = 'width: 0; height: 0; border: 0';
+  (iframe.frameElement || iframe).style.cssText = 'display: none';
   where = document.getElementsByTagName('script');
   where = where[where.length - 1];
   where.parentNode.insertBefore(iframe, where);

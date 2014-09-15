@@ -28,7 +28,7 @@ function get(name) {
   return chats[name];
 }
 
-function show(name) {
+function show(name, skipOnShow) {
   var config = get(name).config,
       zopim = win.$zopim;
 
@@ -45,7 +45,7 @@ function show(name) {
     styleTag.parentNode.removeChild(styleTag);
   }
 
-  if (_.isFunction(config.onShow)) {
+  if (_.isFunction(config.onShow) && !skipOnShow) {
     config.onShow();
   }
 }
@@ -65,6 +65,14 @@ function hide(name) {
 
 function isOnline(name) {
   return get(name).isOnline;
+}
+
+function toggleVisibility(name, isVisible, skipOnShow = false) {
+  if (isVisible) {
+    hide(name);
+  } else {
+    show(name, skipOnShow);
+  }
 }
 
 function update(name, isActive) {
@@ -111,8 +119,15 @@ function setStatus(opts) {
       config = chat.config;
 
   chat.isOnline = isOnline;
-  config.setIcon(icon);
-  config.setLabel(label);
+
+  // If hc exists this method will exist
+  if (_.isFunction(config.setStatus)) {
+    config.setIcon(icon);
+    config.setStatus(isOnline);
+  } else {
+    config.setLabel(label);
+    config.setIcon(icon);
+  }
 }
 
 function render(name) {
@@ -166,8 +181,13 @@ function init(name) {
         chat.connected = true;
       },
       onUnreadMsgs = function(unreadMessageCount) {
-        if (chat.chatStarted && unreadMessageCount > 0 && !isMobileBrowser()) {
-          show(name);
+        if (chat.chatStarted && unreadMessageCount > 0) {
+          if (!isMobileBrowser()) {
+            show(name);
+          }
+          if (_.isFunction(config.isChatting)) {
+            config.isChatting();
+          }
           chat.chatStarted = false;
         }
 
@@ -179,6 +199,12 @@ function init(name) {
       },
       onChatStart = function() {
         chat.chatStarted = true;
+      },
+      onChatEnd = function() {
+        if (_.isFunction(config.chatEnd)) {
+          config.chatEnd(false);
+          hide(name);
+        }
       };
 
   zopim(function() {
@@ -193,11 +219,15 @@ function init(name) {
       zopimLive.hideAll();
     } else {
       show(name);
+      if (_.isFunction(config.isChatting)) {
+        config.isChatting();
+      }
     }
 
     zopimLive.setOnStatus(onStatus);
     zopimLive.setOnUnreadMsgs(onUnreadMsgs);
     zopimLive.setOnChatStart(onChatStart);
+    zopimLive.setOnChatEnd(onChatEnd);
     zopimLive.theme.setColor(config.color);
     zopimLive.theme.setTheme('zendesk');
   });
@@ -210,5 +240,6 @@ export var chat  = {
   show: show,
   hide: hide,
   update: update,
+  toggleVisibility: toggleVisibility,
   render: render
 };

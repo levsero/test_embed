@@ -22,7 +22,7 @@ export var HelpCenter = React.createClass({
   },
 
   getViewAllUrl() {
-      return `http://${this.props.zendeskHost}/hc/search?query=${this.state.searchTerm}`;
+    return `https://${this.props.zendeskHost}/hc/search?query=${this.state.searchTerm}`;
   },
 
   componentWillMount() {
@@ -160,6 +160,7 @@ export var HelpCenter = React.createClass({
           className='Container-pullout u-nbfc'
           onSearch={this.handleSearch}
           isLoading={this.state.isLoading}
+          onButtonClick={this.props.onButtonClick}
           submit={this.handleSubmit}>
           <h1 className='Form-legend u-marginTS Arrange Arrange--middle'>
             <span className='Arrange-sizeFill'>{this.state.searchTitle}</span>

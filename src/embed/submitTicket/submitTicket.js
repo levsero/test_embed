@@ -22,7 +22,11 @@ function create(name, config) {
       },
       posObj,
       iframeStyle,
-      Embed;
+      Embed,
+      handleBack = function() {
+        config.goBack();
+        toggleVisibility(name);
+      };
 
   config = _.extend(configDefaults, config);
 
@@ -46,7 +50,8 @@ function create(name, config) {
         <div style={containerStyle}>
           <SubmitTicket
             ref='submitTicket'
-            updateFrameSize={params.updateFrameSize} />
+            updateFrameSize={params.updateFrameSize}
+            handleBack={handleBack}/>
         </div>
       );
     },
@@ -69,7 +74,8 @@ function create(name, config) {
     }));
 
   submitTickets[name] = {
-    component: <Embed visible={false} />
+    component: <Embed visible={false} />,
+    config: config
   };
 
   return this;
@@ -104,6 +110,16 @@ function reset(name) {
   get(name).instance.reset();
 }
 
+function toggleVisibility(name) {
+  var submitTicket = get(name).instance,
+      submitTicketForm = submitTicket.getChild().refs.submitTicket.refs.submitTicketForm;
+
+  submitTicket.toggleVisibility();
+  submitTicketForm.setState({
+    showBackButton: true
+  });
+}
+
 function update(name, isVisible) {
   var submitTicket = get(name).instance.getChild().refs.submitTicket,
       isSuccessState = submitTicket.state.showNotification;
@@ -127,6 +143,7 @@ export var submitTicket = {
   show: show,
   hide: hide,
   reset: reset,
-  update: update
+  update: update,
+  toggleVisibility: toggleVisibility
 };
 

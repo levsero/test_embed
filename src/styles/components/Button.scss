@@ -23,6 +23,12 @@ $Button-widthOffset: #{(50-$Button-nudge)/$font-size}rem;
   font-weight: 700;
 }
 
+.Button--nav {
+  color: $cta-color;
+  padding: 0;
+  border: 0;
+}
+
 .Button--launcher {
   border-radius: 999rem; /* 1  */
   border: 0;

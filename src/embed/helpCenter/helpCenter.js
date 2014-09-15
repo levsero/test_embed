@@ -6,6 +6,8 @@ import { document }        from 'utility/globals';
 import { frameFactory }    from 'embed/frameFactory';
 import { HelpCenter }      from 'component/HelpCenter';
 import { isMobileBrowser } from 'utility/devices';
+import { beacon }          from 'service/beacon';
+import { i18n }            from 'service/i18n';
 
 require('imports?_=lodash!lodash');
 
@@ -23,6 +25,19 @@ function create(name, config) {
       },
       posObj,
       iframeStyle,
+      onButtonClick = function(search) {
+        var helpCenter = get(name);
+
+        if (helpCenter.chatStatus) {
+          config.updateChat(false, true);
+          helpCenter.activeEmbed = 'chat';
+        } else {
+          config.toggleSubmitTicket();
+          helpCenter.activeEmbed = 'submitTicket';
+        }
+        toggleVisibility(name);
+        beacon.track('helpCenter', 'search', search);
+      },
       Embed;
 
   config = _.extend(configDefaults, config);
@@ -50,6 +65,7 @@ function create(name, config) {
           <HelpCenter
             ref='helpCenter'
             zendeskHost={document.zendeskHost}
+            onButtonClick={onButtonClick}
             updateFrameSize={params.updateFrameSize} />
         </div>
       );
@@ -70,7 +86,8 @@ function create(name, config) {
     }));
 
   helpCenters[name] = {
-    component: <Embed visible={false} />
+    component: <Embed visible={false} />,
+    config: config
   };
 
   return this;
@@ -85,18 +102,74 @@ function get(name) {
 }
 
 function show(name) {
-  get(name).instance.show();
+  var helpCenter = get(name);
+
+  helpCenter.visible = true;
+  helpCenter.instance.show();
+  helpCenter.activeEmbed = 'helpCenter';
 }
 
 function hide(name) {
-  get(name).instance.hide();
+  var helpCenter = get(name);
+
+  helpCenter.instance.hide();
+  helpCenter.visible = false;
+}
+
+function toggleVisibility(name) {
+  get(name).instance.toggleVisibility();
+}
+
+function transitionBack(name) {
+  toggleVisibility(name);
+  get(name).activeEmbed = 'helpCenter';
 }
 
 function update(name, isVisible) {
-  if (isVisible) {
+  var helpCenter = get(name),
+      config = helpCenter.config;
+
+  if (helpCenter.activeEmbed === 'chat') {
+    config.updateChat(isVisible);
+    config.setLabel(i18n.t('embeddable_framework.launcher.label.help'));
+  } else if (helpCenter.activeEmbed === 'submitTicket') {
+    config.updateSubmitTicket(isVisible);
+  } else {
+    if (isVisible) {
+      hide(name);
+    } else {
+      show(name);
+    }
+  }
+}
+
+function setChatStatus(name, status) {
+  get(name).chatStatus = status;
+  updateHelpCenterButton(name, status);
+}
+
+function updateHelpCenterButton(name, status) {
+  /* jshint unused:false */
+  var helpCenter = get(name).instance.getChild().refs.helpCenter,
+      helpCenterForm = helpCenter.refs.helpCenterForm,
+      labelKey = status ? 'chat' : 'submitTicket',
+      label = i18n.t(`embeddable_framework.helpCenter.submitButton.label.${labelKey}`);
+
+  helpCenterForm.setState({
+    buttonLabel: label
+  });
+}
+
+function isChatting(name) {
+  var helpCenter = get(name);
+
+  helpCenter.activeEmbed = 'chat';
+
+  if (helpCenter.visible) {
     hide(name);
   } else {
-    show(name);
+    hide(name);
+    helpCenter.config.onShow();
   }
 }
 
@@ -115,6 +188,9 @@ export var helpCenter = {
   get: get,
   show: show,
   hide: hide,
+  render: render,
   update: update,
-  render: render
+  isChatting: isChatting,
+  setChatStatus: setChatStatus,
+  transitionBack: transitionBack
 };

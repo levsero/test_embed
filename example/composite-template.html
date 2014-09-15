@@ -9,7 +9,7 @@
   </head>
 
   <body style='background-color:#fff'>
-    <h1>help center boom</h1>
+    <h1>All three components boom</h1>
 
     <p>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tristique quis nisi a lobortis. Proin et malesuada orci, ut malesuada risus. Etiam eget tellus in est viverra aliquam vitae non felis. Vivamus vestibulum elit arcu. Vivamus a vehicula leo, id venenatis massa. Sed eget mi ultricies, ultricies sapien semper, porta nisl. Fusce accumsan risus a diam fermentum, ac consectetur erat pulvinar. Nulla vitae purus ac erat mollis feugiat.
@@ -47,6 +47,14 @@
                 name: "ticketSubmissionForm",
                 method: "update"
               },
+              "setLabel": {
+                name: "hcLauncher",
+                method: "setLabel"
+              },
+              "updateChat": {
+                name: "zopimChat",
+                method: "toggleVisibility"
+              },
               "toggleSubmitTicket": {
                 name: "ticketSubmissionForm",
                 method: "toggleVisibility"
@@ -60,6 +68,40 @@
               "onClick": {
                 name: "helpCenterForm",
                 method: "update"
+              }
+            }
+          },
+          "zopimChat": {
+            "embed": "chat",
+            "props": {
+              "zopimId": "2EkTn0An31opxOLXuGgRCy5nPnSNmpe6",
+              "onShow": {
+                name: "hcLauncher",
+                method: "update"
+              },
+              "onHide": {
+                name: "hcLauncher",
+                method: "update"
+              },
+              "setIcon": {
+                name: "hcLauncher",
+                method: "setIcon"
+              },
+              "setLabel": {
+                name: "hcLauncher",
+                method: "setLabel"
+              },
+              "setStatus": {
+                name: "helpCenterForm",
+                method: "setChatStatus"
+              },
+              "isChatting": {
+                name: "helpCenterForm",
+                method: "isChatting"
+              },
+              "chatEnd": {
+                name: "helpCenterForm",
+                method: "show"
               }
             }
           },

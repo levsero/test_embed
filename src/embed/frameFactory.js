@@ -144,6 +144,12 @@ export var frameFactory = function(childFn, _params) {
       }
     },
 
+    toggleVisibility: function() {
+      this.setState({
+        visible: !this.state.visible
+      });
+    },
+
     render: function() {
       /* jshint laxbreak: true */
       var visibilityRule = (this.state.visible)
