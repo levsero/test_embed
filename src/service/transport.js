@@ -1,13 +1,11 @@
-import { document as doc } from 'utility/globals';
 require('imports?_=lodash!lodash');
 
 var superagent = require('superagent'),
     config;
 
 function init(_config) {
-  var protocol = doc.location.protocol.replace(':', ''),
-      defaultConfig = {
-        scheme: protocol
+  var defaultConfig = {
+        scheme: 'https'
       };
 
   config = _.extend(defaultConfig, _config);
