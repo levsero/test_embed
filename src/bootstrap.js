@@ -9,8 +9,7 @@ window.zEmbed || (function(url, host) {
       where,
       iframe = document.createElement('iframe'),
       iWin,
-      iDoc,
-      styles = 'width: 0; height: 0; border: 0; position: absolute';
+      iDoc;
 
   window.zEmbed = function() {
     queue.push(arguments);
@@ -20,7 +19,7 @@ window.zEmbed || (function(url, host) {
 
   iframe.src = 'javascript:false';
   iframe.title = ''; iframe.role='presentation';  // a11y
-  (iframe.frameElement || iframe).style.cssText = styles;
+  (iframe.frameElement || iframe).style.cssText = 'display: none';
   where = document.getElementsByTagName('script');
   where = where[where.length - 1];
   where.parentNode.insertBefore(iframe, where);
