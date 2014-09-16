@@ -4,6 +4,7 @@ module React from 'react/addons';
 import { win }             from 'utility/globals';
 import { getSizingRatio,
          isMobileBrowser } from 'utility/devices';
+import { clickBusterRegister } from 'utility/utils';
 
 require('imports?_=lodash!lodash');
 
@@ -136,9 +137,11 @@ export var frameFactory = function(childFn, _params) {
       }
     },
 
-    close: function() {
+    close: function(ev) {
+      if (isMobileBrowser()) {
+        clickBusterRegister(ev.touches[0].clientX, ev.touches[0].clientY);
+      }
       this.hide();
-
       if (params.onClose) {
         params.onClose();
       }
@@ -203,7 +206,7 @@ export var frameFactory = function(childFn, _params) {
             }),
             closeButton = (params.fullscreenable && isMobileBrowser())
                         ? (<div onClick={this.close}
-                                onTouchEnd={this.close}
+                                onTouchStart={this.close}
                                 className={closeClasses}></div>)
                         : null;
 

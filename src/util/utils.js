@@ -1,6 +1,8 @@
 import { document as doc } from 'utility/globals';
 require('imports?_=lodash!lodash');
 
+var clickBusterClicks = [];
+
 function metaStringToObj(str) {
   if (_.isEmpty(str)) {
     return {};
@@ -77,9 +79,26 @@ function parseUrl(url) {
   return anchor;
 }
 
+function clickBusterRegister(x, y) {
+  clickBusterClicks.push([x, y]);
+}
+
+function clickBusterHandler(ev) {
+  var x, y;
+  if (clickBusterClicks.length > 0) {
+    [x, y] = clickBusterClicks.pop();
+    if (Math.abs(x - ev.clientX) < 25 &&
+        Math.abs(y - ev.clientY) < 25) {
+      ev.stopPropagation();
+      ev.preventDefault();
+    }
+  }
+}
 
 export {
   parseUrl,
   setScaleLock,
+  clickBusterRegister,
+  clickBusterHandler,
   metaStringToObj
 };

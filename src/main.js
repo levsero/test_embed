@@ -5,7 +5,8 @@ import { logging }        from 'service/logging';
 import { renderer }       from 'service/renderer';
 import { transport }      from 'service/transport';
 import { win, location }  from 'utility/globals';
-import { getSizingRatio } from 'utility/devices';
+import { getSizingRatio, isMobileBrowser } from 'utility/devices';
+import { clickBusterHandler } from 'utility/utils';
 
 require('imports?_=lodash!lodash');
 
@@ -195,6 +196,11 @@ function boot() {
   win.addEventListener('orientationchange', () => {
     propagateFontRatioChange();
   });
+
+  if (isMobileBrowser()) {
+    win.document.addEventListener('click', clickBusterHandler, true);
+  }
+
 }
 
 if (!_.isUndefined(document.zendeskHost)) {
