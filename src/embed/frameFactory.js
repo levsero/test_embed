@@ -5,6 +5,7 @@ import { win }                 from 'utility/globals';
 import { getSizingRatio,
          isMobileBrowser }     from 'utility/devices';
 import { clickBusterRegister } from 'utility/utils';
+import { i18n }                from 'service/i18n';
 
 require('imports?_=lodash!lodash');
 
@@ -195,19 +196,23 @@ export var frameFactory = function(childFn, _params) {
       if (doc.readyState === 'complete') {
 
         /* jshint laxbreak: true */
+        /* jshint quotmark: false */
         var cssText = baseCSS + mainCSS + params.css + baseFontCSS,
             css = <style dangerouslySetInnerHTML={{ __html: cssText }} />,
             Component,
             childParams,
             closeClasses = classSet({
-              'Icon Icon--cross': true,
-              'u-posAbsolute u-posEnd u-posStart--vert': true,
+              'Button Button--nav u-posAbsolute u-posEnd u-posStart--vert': true,
               'u-isActionable': true,
             }),
             closeButton = (params.fullscreenable && isMobileBrowser())
-                        ? (<div onClick={this.close}
-                                onTouchStart={this.close}
-                                className={closeClasses}></div>)
+                        ? (<div
+                             onClick={this.close}
+                             onTouchStart={this.close}
+                             className={closeClasses}>
+                             {i18n.t('embeddable_framework.navigation.close')}
+                             <i className='Icon Icon--close' />
+                           </div>)
                         : null;
 
         // 1. Loop over functions in params.extend
