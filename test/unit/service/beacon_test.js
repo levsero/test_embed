@@ -64,7 +64,7 @@ describe('beacon', function() {
           };
         }
     };
-  
+
     mockery.registerMock('service/transport', mockTransport);
     mockery.registerMock('utility/globals', mockGlobals);
     mockery.registerMock('service/identity', mockIdentity);
@@ -87,9 +87,9 @@ describe('beacon', function() {
       var currentTime = Date.now(),
           recentCall,
           resultTime;
-      
+
       beacon.init();
-      
+
       expect(mockPersistence.store.set)
         .toHaveBeenCalled();
 
@@ -125,7 +125,7 @@ describe('beacon', function() {
         .toBe('POST');
 
       expect(payload.path)
-        .toBe('/api/blips');
+        .toBe('/embeddable/blips');
 
       params = payload.params;
 
@@ -172,9 +172,9 @@ describe('beacon', function() {
             label: 'Label03',
             value: 'Value04'
           };
-      
+
       beacon.init();
-      
+
       beacon.track(
         userActionParams.category,
         userActionParams.action,
@@ -191,7 +191,7 @@ describe('beacon', function() {
         .toBe('POST');
 
       expect(payload.path)
-        .toBe('/api/blips');
+        .toBe('/embeddable/blips');
 
       params = payload.params;
 

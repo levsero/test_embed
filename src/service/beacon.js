@@ -41,7 +41,7 @@ function send() {
       },
       payload = {
         method: 'POST',
-        path: '/api/blips',
+        path: '/embeddable/blips',
         params: _.extend(commonParams(), params)
       };
 
@@ -64,7 +64,7 @@ function track(category, action, label, value) {
       },
       payload = {
         method: 'POST',
-        path: '/api/blips',
+        path: '/embeddable/blips',
         params: _.extend(commonParams(), params)
       };
 

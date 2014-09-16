@@ -9,6 +9,7 @@ import { setScaleLock }    from 'utility/utils';
 import { isMobileBrowser } from 'utility/devices';
 import { beacon }          from 'service/beacon';
 import { i18n }            from 'service/i18n';
+import { transport }       from 'service/transport';
 
 require('imports?_=lodash!lodash');
 
@@ -65,7 +66,7 @@ function create(name, config) {
         <div style={containerStyle}>
           <HelpCenter
             ref='helpCenter'
-            zendeskHost={document.zendeskHost}
+            zendeskHost={transport.getZendeskHost()}
             onButtonClick={onButtonClick}
             updateFrameSize={params.updateFrameSize} />
         </div>

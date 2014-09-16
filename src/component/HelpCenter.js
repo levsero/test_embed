@@ -32,7 +32,7 @@ export var HelpCenter = React.createClass({
     /* jshint camelcase:false */
     transport.send({
       method: 'get',
-      path: '/api/proxy',
+      path: '/embeddable/proxy',
       query: {
         include: 'translations',
         zendesk_path: '/api/v2/help_center/categories.json'
@@ -85,7 +85,7 @@ export var HelpCenter = React.createClass({
 
     transport.send({
       method: 'get',
-      path: '/api/proxy',
+      path: '/embeddable/proxy',
       query: {
         query: searchString,
         /* jshint camelcase:false */

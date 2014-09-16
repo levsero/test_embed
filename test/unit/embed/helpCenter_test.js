@@ -18,6 +18,13 @@ describe('embed.helpCenter', function() {
       'react/addons': React,
       'service/beacon': noop,
       'service/i18n': noop,
+      'service/transport': {
+        transport: {
+          getZendeskHost: function() {
+            return 'zendesk.host';
+          }
+        }
+      },
       'component/HelpCenter': {
         HelpCenter: jasmine.createSpy('mockHelpCenter')
           .andCallFake(
@@ -105,6 +112,18 @@ describe('embed.helpCenter', function() {
         mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
         helpCenter.create('carlos', frameConfig);
         mockFrameFactoryRecentCall = mockFrameFactory.mostRecentCall.args;
+      });
+
+      it('should pass in zendeskHost from transport.getZendeskHost', function() {
+        var childFn,
+            payload;
+
+        childFn = mockFrameFactoryRecentCall[0];
+
+        payload = childFn({});
+
+        expect(payload.props.children.props.zendeskHost)
+          .toEqual('zendesk.host');
       });
 
       it('should call onHide/Show config methods if passed in', function() {
