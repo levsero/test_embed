@@ -3,8 +3,9 @@
 module React from 'react/addons';
 
 import { document as doc } from 'utility/globals';
-import { frameFactory }    from 'embed/frameFactory';
 import { HelpCenter }      from 'component/HelpCenter';
+import { frameFactory }    from 'embed/frameFactory';
+import { setScaleLock }    from 'utility/utils';
 import { isMobileBrowser } from 'utility/devices';
 import { beacon }          from 'service/beacon';
 import { i18n }            from 'service/i18n';
@@ -74,10 +75,13 @@ function create(name, config) {
     {
       style: iframeStyle,
       css: helpCenterCSS,
+      fullscreenable: true,
       onHide() {
+        setScaleLock(false);
         config.onHide();
       },
       onShow() {
+        setScaleLock(true);
         config.onShow();
       },
       onClose() {

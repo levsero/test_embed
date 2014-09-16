@@ -57,6 +57,9 @@ describe('embed.helpCenter', function() {
           return false;
         }
       },
+      'utility/utils': {
+        setScaleLock: noop
+      },
       'utility/globals': {
         document: global.document
       },
@@ -136,6 +139,59 @@ describe('embed.helpCenter', function() {
         expect(frameConfig.onHide)
           .toHaveBeenCalled();
       });
+    });
+
+    it('should switch iframe styles based on isMobileBrowser()', function() {
+     var mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory,
+         mockFrameFactoryRecentCall,
+         iframeStyle;
+
+      mockery.registerMock('utility/devices', {
+        isMobileBrowser: function() {
+          return true;
+        }
+      });
+      mockery.resetCache();
+      helpCenter = require(helpCenterPath).helpCenter;
+      helpCenter.create('carlos');
+
+      mockFrameFactoryRecentCall = mockFrameFactory.mostRecentCall.args;
+
+      iframeStyle = mockFrameFactoryRecentCall[1].style;
+
+      expect(iframeStyle.left)
+        .toBeUndefined();
+
+      expect(iframeStyle.right)
+        .toBeUndefined();
+    });
+
+    it('should switch container styles based on isMobileBrowser()', function() {
+      var mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory,
+          mockFrameFactoryRecentCall,
+          childFnParams = {
+            updateFrameSize: function() {}
+          },
+          payload;
+
+      mockery.registerMock('utility/devices', {
+        isMobileBrowser: function() {
+          return true;
+        }
+      });
+
+      mockery.resetCache();
+
+      helpCenter = require(helpCenterPath).helpCenter;
+
+      helpCenter.create('carlos');
+
+      mockFrameFactoryRecentCall = mockFrameFactory.mostRecentCall.args;
+
+      payload = mockFrameFactoryRecentCall[0](childFnParams);
+
+      expect(payload.props.style)
+        .toEqual({height: '100%', width: '100%'});
     });
   });
 
