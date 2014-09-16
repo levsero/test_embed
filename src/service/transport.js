@@ -66,9 +66,14 @@ function buildFullUrl(path) {
   return config.scheme + '://' + config.zendeskHost + path;
 }
 
+function getZendeskHost() {
+  return config.zendeskHost;
+}
+
 export var transport = {
   init: init,
   send: send,
   get: send,
+  getZendeskHost: getZendeskHost,
   bustCache: bustCache
 };
