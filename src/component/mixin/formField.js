@@ -1,7 +1,8 @@
 export var formField = {
   getInitialState() {
     return {
-      focused: false
+      focused: false,
+      blurred: false
     };
   },
 

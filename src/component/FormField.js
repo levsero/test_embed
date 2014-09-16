@@ -81,17 +81,12 @@ var SearchField = React.createClass({
   },
 
   handleUpdate(e) {
-    var value = e.target.value,
-        state = {
-          isClearable: false,
-          searchInputVal: value
-        };
+    var value = e.target.value;
 
-    if (value !== '' && isMobileBrowser()) {
-      state.isClearable = true;
-    }
-
-    this.setState(state);
+    this.setState({
+      isClearable: (value !== '' && isMobileBrowser()),
+      searchInputVal: value
+    });
   },
 
   clearInput() {

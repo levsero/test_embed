@@ -2,7 +2,7 @@
 
 module React from 'react/addons';
 
-import { i18n }    from 'service/i18n';
+import { i18n } from 'service/i18n';
 
 require('imports?_=lodash!lodash');
 

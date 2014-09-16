@@ -41,7 +41,24 @@ $Base-posOffset: #{20/$font-size}rem;
 }
 
 /**
- * Vertical and horizontal offsets margin
+ * Used to adjust the default spacing between components
+ * Use with great care!
+ *
+ * u-<type><direction><size>
+ *
+ * A = all
+ * T = top
+ * R = right
+ * B = bottom
+ * L = left
+ * H = horizontal
+ * V = vertical
+ *
+ * A = auto
+ * N = none
+ * S = small
+ * M = medium
+ * L = large
  */
 
 .u-marginBS {
@@ -59,10 +76,6 @@ $Base-posOffset: #{20/$font-size}rem;
 .u-marginTA {
   margin-top: auto !important;
 }
-
-/**
- * Vertical and horizontal offsets padding
- */
 
 .u-paddingR {
   padding-right: #{25/$font-size}rem;

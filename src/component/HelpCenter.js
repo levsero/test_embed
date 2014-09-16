@@ -177,9 +177,7 @@ export var HelpCenter = React.createClass({
 
     return (
       <div className={containerClasses}>
-        <div className={containerBarClasses}>
-
-        </div>
+        <div className={containerBarClasses} />
         <HelpCenterForm
           fullscreen={this.state.fullscreen}
           ref='helpCenterForm'
