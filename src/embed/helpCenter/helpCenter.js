@@ -2,12 +2,13 @@
 
 module React from 'react/addons';
 
-import { document }        from 'utility/globals';
+import { document as doc } from 'utility/globals';
 import { frameFactory }    from 'embed/frameFactory';
 import { HelpCenter }      from 'component/HelpCenter';
 import { isMobileBrowser } from 'utility/devices';
 import { beacon }          from 'service/beacon';
 import { i18n }            from 'service/i18n';
+import { transport }       from 'service/transport';
 
 require('imports?_=lodash!lodash');
 
@@ -64,7 +65,7 @@ function create(name, config) {
         <div style={containerStyle}>
           <HelpCenter
             ref='helpCenter'
-            zendeskHost={document.zendeskHost}
+            zendeskHost={transport.getZendeskHost()}
             onButtonClick={onButtonClick}
             updateFrameSize={params.updateFrameSize} />
         </div>
@@ -178,7 +179,7 @@ function render(name) {
     throw new Error(`HelpCenter ${name} has already been rendered.`);
   }
 
-  var element = document.body.appendChild(document.createElement('div'));
+  var element = doc.body.appendChild(doc.createElement('div'));
   helpCenters[name].instance = React.renderComponent(helpCenters[name].component, element);
 }
 
