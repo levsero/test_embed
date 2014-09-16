@@ -110,6 +110,7 @@ export var SubmitTicket = React.createClass({
           'u-isHidden': location.origin !== 'https://www.zendesk.com'
         }),
         timeoutClasses = classSet({
+          'Error': true,
           'u-isHidden': !this.state.showTimeoutMsg
         }),
         logoUrl = ['//www.zendesk.com/lp/just-one-click/',

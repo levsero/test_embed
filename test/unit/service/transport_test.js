@@ -10,6 +10,7 @@ describe('transport', function() {
         type: function() { return mockMethods; },
         send: function() { return mockMethods; },
         query: function() { return mockMethods; },
+        timeout: function() { return mockMethods; },
         end:  function() { return mockMethods; }
     };
     mockRegistry = initMockRegistry({
