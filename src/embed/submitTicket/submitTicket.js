@@ -107,7 +107,14 @@ function hide(name) {
 }
 
 function reset(name) {
-  get(name).instance.reset();
+  var config = get(name).config,
+      submitTicket = get(name).instance.getChild().refs.submitTicket,
+      submitTicketForm = submitTicket.refs.submitTicketForm;
+
+  if (submitTicketForm.state.showBackButton) {
+    config.goBack(false);
+  }
+  submitTicket.reset();
 }
 
 function toggleVisibility(name) {
@@ -128,7 +135,7 @@ function update(name, isVisible) {
     hide(name);
 
     if (isSuccessState) {
-      submitTicket.reset();
+      reset(name);
     }
   } else {
     show(name);
