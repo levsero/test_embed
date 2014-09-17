@@ -24,17 +24,21 @@ function send(payload) {
     .timeout(10000)
     .end(function(err, res) {
       if (payload.callbacks) {
-        if (res) {
-          if (res.ok) {
-            if (_.isFunction(payload.callbacks.done)) {
-              payload.callbacks.done(res.text, res.status, res.xhr);
-            }
-          }
-        }
-        else if (err) {
+        if (err) {
           if (err.timeout) {
             if (_.isFunction(payload.callbacks.timeout)) {
               payload.callbacks.timeout();
+            }
+          }
+          else {
+            if (_.isFunction(payload.callbacks.fail)) {
+              payload.callbacks.fail();
+            }
+          }
+        } else {
+          if (res.ok) {
+            if (_.isFunction(payload.callbacks.done)) {
+              payload.callbacks.done(res.text, res.status, res.xhr);
             }
           }
         }

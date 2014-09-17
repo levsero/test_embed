@@ -79,7 +79,8 @@ describe('transport', function() {
         },
         callbacks: {
           done: noop,
-          fail: noop
+          fail: noop,
+          timeout: noop
         }
       };
 
@@ -157,7 +158,8 @@ describe('transport', function() {
       recentCall = mockMethods.end.mostRecentCall;
 
       callback = recentCall.args[0];
-      callback({ok: true});
+
+      callback(undefined, {ok: true});
 
       expect(payload.callbacks.done)
         .toHaveBeenCalled();
@@ -184,12 +186,45 @@ describe('transport', function() {
       recentCall = mockMethods.end.mostRecentCall;
 
       callback = recentCall.args[0];
-      callback({error: true});
+
+      callback({error: true}, undefined);
 
       expect(payload.callbacks.fail)
         .toHaveBeenCalled();
 
       expect(payload.callbacks.done)
+        .not.toHaveBeenCalled();
+
+    });
+
+    it('triggers the timeout callback if response takes to long', function() {
+
+      var recentCall,
+          callback;
+
+      spyOn(payload.callbacks, 'timeout');
+      spyOn(payload.callbacks, 'fail');
+      spyOn(payload.callbacks, 'done');
+      spyOn(mockMethods, 'end').andCallThrough();
+
+      transport.init(config);
+      transport.send(payload);
+
+      expect(mockMethods.end)
+        .toHaveBeenCalled();
+
+      recentCall = mockMethods.end.mostRecentCall;
+
+      callback = recentCall.args[0];
+      callback({timeout: 1000}, undefined);
+
+      expect(payload.callbacks.timeout)
+        .toHaveBeenCalled();
+
+      expect(payload.callbacks.done)
+        .not.toHaveBeenCalled();
+
+      expect(payload.callbacks.fail)
         .not.toHaveBeenCalled();
 
     });
@@ -211,7 +246,7 @@ describe('transport', function() {
       callback = recentCall.args[0];
 
       expect(function() {
-        callback({ok: true});
+        callback(undefined, {ok: true});
       }).not.toThrow();
     });
 
@@ -232,7 +267,7 @@ describe('transport', function() {
       callback = recentCall.args[0];
 
       expect(function() {
-        callback({ok: true});
+        callback(undefined, {ok: true});
       }).not.toThrow();
     });
 
@@ -253,7 +288,7 @@ describe('transport', function() {
       callback = recentCall.args[0];
 
       expect(function() {
-        callback({error: true});
+        callback({error: true}, undefined);
       }).not.toThrow();
     });
   });

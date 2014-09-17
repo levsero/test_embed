@@ -38,6 +38,7 @@ export var SubmitTicket = React.createClass({
     e.preventDefault();
 
     this.setState({showTimeoutMsg: false});
+
     if (data.isFormInvalid) {
       // TODO: Handle invalid form submission
       return;
@@ -146,9 +147,9 @@ export var SubmitTicket = React.createClass({
           className={formClasses}
           onBackClick={this.handleBackClick}
           submit={this.handleSubmit} >
-        <p className={timeoutClasses}>
-          {i18n.t('embeddable_framework.submitTicket.notify.message.timeout')}
-        </p>
+          <p className={timeoutClasses}>
+            {i18n.t('embeddable_framework.submitTicket.notify.message.timeout')}
+          </p>
         </SubmitTicketForm>
         <div className='u-nbfc'>
           <a
