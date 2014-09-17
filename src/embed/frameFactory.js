@@ -195,8 +195,7 @@ export var frameFactory = function(childFn, _params) {
       // we need to do it on nextTick
       if (doc.readyState === 'complete') {
 
-        /* jshint laxbreak: true */
-        /* jshint quotmark: false */
+        /* jshint laxbreak: true, quotmark: false */
         var cssText = baseCSS + mainCSS + params.css + baseFontCSS,
             css = <style dangerouslySetInnerHTML={{ __html: cssText }} />,
             Component,
@@ -235,7 +234,6 @@ export var frameFactory = function(childFn, _params) {
         Component = React.createClass({
           render: function() {
             return (
-              /* jshint quotmark: false */
               <div className='u-pullLeft'>
                 {css}
                 {childFn(childParams)}

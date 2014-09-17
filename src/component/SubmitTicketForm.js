@@ -64,7 +64,7 @@ var SubmitTicketForm = React.createClass({
         ),
         navigationButtonClasses = classSet({
           'Button Button--nav': true,
-          'u-inlineBlock u-marginBS': !this.props.fullscreen,
+          'u-inlineBlock u-marginBS u-posEndS--vert': !this.props.fullscreen,
           'u-posAbsolute u-posStart--vert': this.props.fullscreen,
           'u-isHidden': !this.state.showBackButton
         }),
