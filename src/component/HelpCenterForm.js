@@ -2,8 +2,7 @@
 
 module React from 'react/addons';
 
-import { Loading } from 'component/Loading';
-import { i18n }    from 'service/i18n';
+import { i18n } from 'service/i18n';
 
 require('imports?_=lodash!lodash');
 
@@ -25,28 +24,8 @@ var HelpCenterForm = React.createClass({
     };
   },
 
-  onFocus() {
-    this.setState({
-      focused: true
-    });
-  },
-
-  onBlur() {
-    this.setState({
-      focused: false
-    });
-  },
-
-  handleSubmit(e) {
-    var formValue = this.refs.helpCenterSearchField.state.value;
-
-    this.props.submit(e, {
-      value: formValue
-    });
-  },
-
-  handleUpdate(e) {
-    this.props.onSearch(e.target.value);
+  handleUpdate() {
+    this.props.onSearch();
   },
 
   onClick() {
@@ -56,48 +35,34 @@ var HelpCenterForm = React.createClass({
   render() {
     /* jshint quotmark:false */
     var buttonClasses = classSet({
-          'Button Button--cta Anim-color u-textNoWrap u-textSizeSml': true,
+          'Button Button--cta Anim-color u-textNoWrap': true,
           'u-pullRight': !this.props.fullscreen,
-          'u-sizeFull': this.props.fullscreen
+          'u-sizeFull u-textSizeBaseMobile': this.props.fullscreen
         }),
-        loadingClasses = classSet({
-          'u-posAbsolute u-posEnd--flush u-posCenter--vert': true,
-          'u-isHidden': !this.props.isLoading
+        buttonContainerClasses = classSet({
+          'u-borderTop u-marginTA u-paddingTM': this.props.fullscreen
         }),
-        searchInputClasses = classSet({
-          'Arrange Arrange--middle rf-Field rf-Field--search u-isSelectable': true,
-          'rf-Field--focused': this.state.focused
+        formClasses = classSet({
+          'Form u-cf': true,
+          'Form--fullscreen': this.props.fullscreen
         });
 
     return (
       <form
         noValidate
-        onSubmit={this.handleSubmit}
-        className='Form u-cf'>
-        <div className='Form-cta Container-pullout u-nbfc'>
-          <label className={searchInputClasses}>
-            <i className='Arrange-sizeFit u-isActionable Icon Icon--search'></i>
-            <div className='Arrange-sizeFill u-vsizeAll u-posRelative'>
-              <input
-                className='Arrange-sizeFill u-paddingR u-textSizeMed'
-                ref='helpCenterSearchField'
-                onChange={this.handleUpdate}
-                onFocus={this.onFocus}
-                onBlur={this.onBlur}
-                placeholder={i18n.t('embeddable_framework.helpCenter.search.label')}
-                type='text' />
-              <Loading className={loadingClasses} />
-            </div>
-          </label>
-        </div>
+        onSubmit={this.props.onSubmit}
+        onChange={this.handleUpdate}
+        className={formClasses}>
         {this.props.children}
-        <input
-          type='button'
-          value={this.state.buttonLabel}
-          ref='submitButton'
-          onClick={this.onClick}
-          className={buttonClasses}
-        />
+        <div className={buttonContainerClasses}>
+          <input
+            type='button'
+            value={this.state.buttonLabel}
+            ref='submitButton'
+            onClick={this.onClick}
+            className={buttonClasses}
+          />
+        </div>
       </form>
     );
   }

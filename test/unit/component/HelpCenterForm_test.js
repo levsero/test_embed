@@ -54,7 +54,7 @@ describe('HelpCenterForm component', function() {
 
   it('should call parent component submit when form is submitted', function() {
     var helpCenterForm = React.renderComponent(
-      <HelpCenterForm submit={onSubmit} />,
+      <HelpCenterForm onSubmit={onSubmit} />,
       global.document.body
     );
 

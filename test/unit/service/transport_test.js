@@ -105,7 +105,7 @@ describe('transport', function() {
       expect(mockSuperagent)
         .toHaveBeenCalledWith(
           'GET',
-          'https://zensnow.herokuapp.com/test/path');
+          'https://test.zendesk.host/test/path');
     });
 
     it('sets the json type', function() {
@@ -117,24 +117,6 @@ describe('transport', function() {
 
       expect(mockMethods.type)
         .toHaveBeenCalledWith('json');
-    });
-
-    it('appends the zendesk_host params to the params posted', function() {
-
-      var recentCall;
-      spyOn(mockMethods, 'send').andCallThrough();
-
-      transport.init(config);
-      transport.send(payload);
-
-      expect(mockMethods.send);
-
-      recentCall = mockMethods.send.mostRecentCall;
-
-      /* jshint sub:true */
-      expect(recentCall.args[0]['zendesk_host'])
-        .toBe(config.zendeskHost);
-
     });
 
     it('sets payload.params to {} if no params are passed through', function() {

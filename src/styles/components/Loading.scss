@@ -4,7 +4,7 @@
 @import '../_vars.scss';
 
 .Loading {
-
+  min-width: #{20/$font-size}rem;
 }
 
 .Loading-item {

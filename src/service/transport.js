@@ -5,8 +5,7 @@ var superagent = require('superagent'),
 
 function init(_config) {
   var defaultConfig = {
-        scheme: 'https',
-        snowflakeHost: 'zensnow.herokuapp.com'
+        scheme: 'https'
       };
 
   config = _.extend(defaultConfig, _config);
@@ -20,8 +19,8 @@ function send(payload) {
   superagent(payload.method.toUpperCase(),
              buildFullUrl(payload.path))
     .type('json')
-    .send(_.extend(payload.params || {}, {'zendesk_host': config.zendeskHost}))
-    .query(_.extend(payload.query || {}, {'zendesk_host': config.zendeskHost}))
+    .send(payload.params || {})
+    .query(payload.query || {})
     .end(function(res) {
       if (payload.callbacks) {
         if (res.ok) {
@@ -64,11 +63,17 @@ function bustCache(versionHash) {
 }
 
 function buildFullUrl(path) {
-  return config.scheme + '://' + config.snowflakeHost + path;
+  return config.scheme + '://' + config.zendeskHost + path;
+}
+
+function getZendeskHost() {
+  return config.zendeskHost;
 }
 
 export var transport = {
   init: init,
   send: send,
+  get: send,
+  getZendeskHost: getZendeskHost,
   bustCache: bustCache
 };

@@ -2,8 +2,12 @@
 
 module React from 'react/addons';
 module ReactForms from 'react-forms';
-import { validation } from 'mixin/validation';
-import { i18n }       from 'service/i18n';
+
+import { Loading }         from 'component/Loading';
+import { validation }      from 'mixin/validation';
+import { formField }       from 'mixin/formField';
+import { isMobileBrowser } from 'utility/devices';
+import { i18n }            from 'service/i18n';
 
 var { FieldMixin } = ReactForms,
     Property = ReactForms.schema.Property,
@@ -11,26 +15,7 @@ var { FieldMixin } = ReactForms,
     classSet = React.addons.classSet;
 
 var FocusField = React.createClass({
-  mixins: [FieldMixin],
-
-  getInitialState() {
-    return {
-      focused: false
-    };
-  },
-
-  onFocus() {
-    this.setState({
-      focused: true
-    });
-  },
-
-  onBlur() {
-    this.setState({
-      focused: false,
-      blurred: true
-    });
-  },
+  mixins: [FieldMixin, formField],
 
   componentWillReceiveProps() {
     var value = this.value(),
@@ -85,6 +70,100 @@ function IconField(props) {
   );
 }
 
+var SearchField = React.createClass({
+  mixins: [formField],
+
+  getInitialState() {
+    return {
+      searchInputVal: '',
+      isClearable: false
+    };
+  },
+
+  handleUpdate(e) {
+    var value = e.target.value;
+
+    this.setState({
+      isClearable: (value !== '' && isMobileBrowser()),
+      searchInputVal: value
+    });
+  },
+
+  clearInput() {
+    this.setState({
+      searchInputVal: '',
+      isClearable: false
+    });
+  },
+
+  getSearchField() {
+    return this.refs.searchFieldInput.getDOMNode();
+  },
+
+  getValue() {
+    return this.getSearchField().value;
+  },
+
+  focus() {
+    return this.getSearchField().focus();
+  },
+
+  blur() {
+    return this.getSearchField().blur();
+  },
+
+  render() {
+    var loadingClasses = classSet({
+          'u-isHidden': !this.props.isLoading
+        }),
+        searchContainerClasses = classSet({
+          'Form-cta u-cf': true,
+          'Form-cta--fullscreen u-paddingHN u-paddingBN': this.props.fullscreen,
+          'Container-pullout': !this.props.fullscreen
+        }),
+        searchInputClasses = classSet({
+          'Arrange Arrange--middle rf-Field rf-Field--search u-isSelectable': true,
+          'rf-Field--focused': this.state.focused
+        }),
+        searchInputFieldClasses = classSet({
+          'Arrange-sizeFill u-paddingR u-textSizeMed': true,
+          'u-textSizeBaseMobile': this.props.fullscreen,
+          'u-textSizeMed': !this.props.fullscreen
+        }),
+        clearInputClasses = classSet({
+          'Icon Icon--clearInput': true,
+          'u-isActionable u-textCenter': true,
+          'u-isHidden': !this.state.isClearable || this.props.isLoading || !this.state.focused
+        });
+
+    return (
+      /* jshint quotmark:false */
+      <div className={searchContainerClasses}>
+        <div className={searchInputClasses}>
+          <i className='Arrange-sizeFit u-isActionable Icon Icon--search'></i>
+          <div className='Arrange-sizeFill u-vsizeAll u-posRelative'>
+            <input
+              className={searchInputFieldClasses}
+              ref='searchFieldInput'
+              onChange={this.handleUpdate}
+              value={this.state.searchInputVal}
+              onFocus={this.onFocus}
+              onBlur={this.onBlur}
+              placeholder={i18n.t('embeddable_framework.helpCenter.search.label')}
+              type='search' />
+          </div>
+          <div className='Arrange-sizeFit u-isActionable'>
+            <Loading className={loadingClasses} />
+            <div
+              onClick={this.clearInput}
+              className={clearInputClasses} />
+          </div>
+        </div>
+      </div>
+    );
+  }
+});
+
 function EmailField(props) {
   var type = 'email';
 
@@ -106,5 +185,5 @@ function EmailField(props) {
   });
 }
 
-export { IconField, EmailField };
+export { IconField, EmailField, SearchField };
 

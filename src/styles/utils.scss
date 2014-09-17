@@ -41,10 +41,31 @@ $Base-posOffset: #{20/$font-size}rem;
 }
 
 /**
- * Vertical and horizontal offsets margin
+ * Used to adjust the default spacing between components
+ * Use with great care!
+ *
+ * u-<type><direction><size>
+ *
+ * A = all
+ * T = top
+ * R = right
+ * B = bottom
+ * L = left
+ * H = horizontal
+ * V = vertical
+ *
+ * A = auto
+ * N = none
+ * S = small
+ * M = medium
+ * L = large
  */
 
 .u-marginBS {
+  margin-bottom: #{10/$font-size}rem !important;
+}
+
+.u-marginBM {
   margin-bottom: #{20/$font-size}rem;
 }
 
@@ -52,12 +73,25 @@ $Base-posOffset: #{20/$font-size}rem;
   margin-top: #{20/$font-size}rem;
 }
 
-/**
- * Vertical and horizontal offsets padding
- */
+.u-marginTA {
+  margin-top: auto !important;
+}
 
 .u-paddingR {
   padding-right: #{25/$font-size}rem;
+}
+
+.u-paddingTM {
+  padding-top: #{20/$font-size}rem;
+}
+
+.u-paddingHN {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.u-paddingBN {
+  padding-bottom: 0 !important;
 }
 
 /**
@@ -78,6 +112,10 @@ $Base-posOffset: #{20/$font-size}rem;
 
 .u-textSizeMed {
   font-size: #{14/$font-size}rem !important;
+}
+
+.u-textSizeBaseMobile {
+  font-size: #{16/$font-size}rem !important;
 }
 
 .u-textSizeLrg {
@@ -106,5 +144,13 @@ $Base-posOffset: #{20/$font-size}rem;
 
 .u-vsizeAll {
   height: 100% !important;
+}
+
+.u-borderNone {
+  border: none !important;
+}
+
+.u-borderTop {
+  border-top: #{1/$font-size}rem solid $base-border-color;
 }
 
