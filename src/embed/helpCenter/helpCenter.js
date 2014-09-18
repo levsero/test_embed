@@ -125,8 +125,10 @@ function toggleVisibility(name) {
   get(name).instance.toggleVisibility();
 }
 
-function transitionBack(name) {
-  toggleVisibility(name);
+function transitionBack(name, showEmbed = true) {
+  if (showEmbed) {
+    toggleVisibility(name);
+  }
   get(name).activeEmbed = 'helpCenter';
 }
 
