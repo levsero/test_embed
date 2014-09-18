@@ -40,6 +40,12 @@ function create(name, config) {
         toggleVisibility(name);
         beacon.track('helpCenter', 'search', search);
       },
+      onLinkClick = function(ev) {
+        beacon.track('helpCenter', 'click', name, ev.target.href);
+      },
+      trackSearch = function(searchString) {
+        beacon.track('helpCenter', 'search', name, searchString);
+      },
       Embed;
 
   config = _.extend(configDefaults, config);
@@ -68,6 +74,8 @@ function create(name, config) {
             ref='helpCenter'
             zendeskHost={transport.getZendeskHost()}
             onButtonClick={onButtonClick}
+            onLinkClick={onLinkClick}
+            trackSearch={trackSearch}
             updateFrameSize={params.updateFrameSize} />
         </div>
       );
