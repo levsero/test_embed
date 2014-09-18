@@ -80,7 +80,6 @@ describe('transport', function() {
         callbacks: {
           done: noop,
           fail: noop,
-          timeout: noop
         }
       };
 
@@ -159,7 +158,7 @@ describe('transport', function() {
 
       callback = recentCall.args[0];
 
-      callback(undefined, {ok: true});
+      callback(null, {ok: true});
 
       expect(payload.callbacks.done)
         .toHaveBeenCalled();
@@ -197,38 +196,6 @@ describe('transport', function() {
 
     });
 
-    it('triggers the timeout callback if response takes to long', function() {
-
-      var recentCall,
-          callback;
-
-      spyOn(payload.callbacks, 'timeout');
-      spyOn(payload.callbacks, 'fail');
-      spyOn(payload.callbacks, 'done');
-      spyOn(mockMethods, 'end').andCallThrough();
-
-      transport.init(config);
-      transport.send(payload);
-
-      expect(mockMethods.end)
-        .toHaveBeenCalled();
-
-      recentCall = mockMethods.end.mostRecentCall;
-
-      callback = recentCall.args[0];
-      callback({timeout: 1000}, undefined);
-
-      expect(payload.callbacks.timeout)
-        .toHaveBeenCalled();
-
-      expect(payload.callbacks.done)
-        .not.toHaveBeenCalled();
-
-      expect(payload.callbacks.fail)
-        .not.toHaveBeenCalled();
-
-    });
-
     it('will not die if callbacks object is not present', function() {
 
       var recentCall,
@@ -246,7 +213,7 @@ describe('transport', function() {
       callback = recentCall.args[0];
 
       expect(function() {
-        callback(undefined, {ok: true});
+        callback(null, {ok: true});
       }).not.toThrow();
     });
 
@@ -267,7 +234,7 @@ describe('transport', function() {
       callback = recentCall.args[0];
 
       expect(function() {
-        callback(undefined, {ok: true});
+        callback(null, {ok: true});
       }).not.toThrow();
     });
 

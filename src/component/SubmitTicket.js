@@ -17,7 +17,7 @@ export var SubmitTicket = React.createClass({
       showNotification: false,
       message: '',
       fullscreen: isMobileBrowser(),
-      showTimeoutMsg: false,
+      errorMessage: '',
       uid: _.uniqueId('submitTicketForm_')
     };
   },
@@ -37,7 +37,7 @@ export var SubmitTicket = React.createClass({
   handleSubmit(e, data) {
     e.preventDefault();
 
-    this.setState({showTimeoutMsg: false});
+    this.setState({errorMessage: ''});
 
     if (data.isFormInvalid) {
       // TODO: Handle invalid form submission
@@ -50,18 +50,26 @@ export var SubmitTicket = React.createClass({
           'via_id': 17,
           'submitted_from': win.location.href
         }, data.value),
-        resCallback = (msg) => {
+        resCallback = () => {
           this.setState({
             showNotification: true,
-            message: msg
+            message: i18n.t('embeddable_framework.submitTicket.notify.message.success')
           });
           this.props.updateFrameSize(0,0);
         },
         timeoutCallback = () => {
-          this.setState({showTimeoutMsg: true});
+          this.setState({
+            errorMessage: i18n.t('embeddable_framework.submitTicket.notify.message.timeout')
+          });
+
           this.refs.submitTicketForm.setState({
             isSubmitting: false,
             buttonMessage: i18n.t('embeddable_framework.submitTicket.form.submitButton.label.send')
+          });
+        },
+        failCallback = () => {
+          this.setState({
+            errorMessage: i18n.t('embeddable_framework.submitTicket.notify.message.error')
           });
         },
         payload = {
@@ -69,11 +77,19 @@ export var SubmitTicket = React.createClass({
           path: '/embeddable/ticket_submission',
           params: formParams,
           callbacks: {
-            done() {
-              resCallback(i18n.t('embeddable_framework.submitTicket.notify.message.success'));
+            done(res) {
+              if (res.error) {
+                failCallback();
+              } else {
+                resCallback();
+              }
             },
-            timeout() {
-              timeoutCallback();
+            fail(err) {
+              if (err.timeout) {
+                timeoutCallback();
+              } else {
+                failCallback();
+              }
             }
           }
         };
@@ -110,9 +126,9 @@ export var SubmitTicket = React.createClass({
         marketingClasses = classSet({
           'u-isHidden': location.origin !== 'https://www.zendesk.com'
         }),
-        timeoutClasses = classSet({
+        errorClasses = classSet({
           'Error': true,
-          'u-isHidden': !this.state.showTimeoutMsg
+          'u-isHidden': !this.state.errorMessage
         }),
         logoUrl = ['//www.zendesk.com/lp/just-one-click/',
                    '?utm_source=launcher&utm_medium=poweredbyzendesk&utm_campaign=image'
@@ -147,8 +163,8 @@ export var SubmitTicket = React.createClass({
           className={formClasses}
           onBackClick={this.handleBackClick}
           submit={this.handleSubmit} >
-          <p className={timeoutClasses}>
-            {i18n.t('embeddable_framework.submitTicket.notify.message.timeout')}
+          <p className={errorClasses}>
+            {this.state.errorMessage}
           </p>
         </SubmitTicketForm>
         <div className='u-nbfc'>

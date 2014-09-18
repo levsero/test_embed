@@ -34,6 +34,10 @@ parts:
       title: "Error message that displays after a user tries to send a ticket and it times out. Time out will occur after 30 seconds. Text will wrap as needed. This error message will be displayed in red above the send button (tinyurl.com/ou8qp9g)"
       value: "There was a problem. Please try again."
   - translation:
+      key: "embeddable_framework.submitTicket.notify.message.error"
+      title: "Error message that displays after a user tries to send a ticket and something goes wrong. It will be a generic catch all error message. Text will wrap as needed. This error message will be displayed in red above the send button (tinyurl.com/ou8qp9g)"
+      value: "There was a error processing your request. Please try again later"
+  - translation:
       key: "embeddable_framework.submitTicket.marketing.message"
       title: "Message to customers that displays after submit ticket is sent"
       value: "Do you have a business? Get this for your website or product."

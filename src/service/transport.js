@@ -25,21 +25,12 @@ function send(payload) {
     .end(function(err, res) {
       if (payload.callbacks) {
         if (err) {
-          if (err.timeout) {
-            if (_.isFunction(payload.callbacks.timeout)) {
-              payload.callbacks.timeout();
-            }
-          }
-          else {
-            if (_.isFunction(payload.callbacks.fail)) {
-              payload.callbacks.fail();
-            }
+          if (_.isFunction(payload.callbacks.fail)) {
+            payload.callbacks.fail(err);
           }
         } else {
-          if (res.ok) {
-            if (_.isFunction(payload.callbacks.done)) {
-              payload.callbacks.done(res.text, res.status, res.xhr);
-            }
+          if (_.isFunction(payload.callbacks.done)) {
+            payload.callbacks.done(res);
           }
         }
       }
