@@ -1,9 +1,9 @@
 /** @jsx React.DOM */
 module React from 'react/addons';
 
-import { win }             from 'utility/globals';
+import { win }                 from 'utility/globals';
 import { getSizingRatio,
-         isMobileBrowser } from 'utility/devices';
+         isMobileBrowser }     from 'utility/devices';
 import { clickBusterRegister } from 'utility/utils';
 
 require('imports?_=lodash!lodash');

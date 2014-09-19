@@ -85,7 +85,8 @@ function clickBusterRegister(x, y) {
 
 function clickBusterHandler(ev) {
   var x, y;
-  if (clickBusterClicks.length > 0) {
+
+  if (clickBusterClicks.length) {
     [x, y] = clickBusterClicks.pop();
     if (Math.abs(x - ev.clientX) < 25 &&
         Math.abs(y - ev.clientY) < 25) {

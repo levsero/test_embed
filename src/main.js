@@ -1,11 +1,12 @@
 module React from 'react';
 
-import { beacon }         from 'service/beacon';
-import { logging }        from 'service/logging';
-import { renderer }       from 'service/renderer';
-import { transport }      from 'service/transport';
-import { win, location }  from 'utility/globals';
-import { getSizingRatio, isMobileBrowser } from 'utility/devices';
+import { beacon }             from 'service/beacon';
+import { logging }            from 'service/logging';
+import { renderer }           from 'service/renderer';
+import { transport }          from 'service/transport';
+import { win, location }      from 'utility/globals';
+import { getSizingRatio,
+         isMobileBrowser }    from 'utility/devices';
 import { clickBusterHandler } from 'utility/utils';
 
 require('imports?_=lodash!lodash');
@@ -180,25 +181,25 @@ function boot() {
     });
   }
 
-  win.addEventListener('touchmove', Airbrake.wrap((e) => {
-    // Touch end won't tell you if multiple touches are detected
-    // so we store the touches length on move and check on end
-    isPinching = e.touches.length > 1;
-  }));
-
-  win.addEventListener('touchend', Airbrake.wrap((e) => {
-    // iOS has the scale property to detect pinching gestures
-    if (isPinching || e.scale && e.scale !== 1) {
-      propagateFontRatioChange();
-    }
-  }));
-
-  win.addEventListener('orientationchange', () => {
-    propagateFontRatioChange();
-  });
-
   if (isMobileBrowser()) {
-    win.document.addEventListener('click', clickBusterHandler, true);
+    win.addEventListener('touchmove', Airbrake.wrap((e) => {
+      // Touch end won't tell you if multiple touches are detected
+      // so we store the touches length on move and check on end
+      isPinching = e.touches.length > 1;
+    }));
+
+    win.addEventListener('touchend', Airbrake.wrap((e) => {
+      // iOS has the scale property to detect pinching gestures
+      if (isPinching || e.scale && e.scale !== 1) {
+        propagateFontRatioChange();
+      }
+    }));
+
+    win.addEventListener('orientationchange', () => {
+      propagateFontRatioChange();
+    });
+
+    win.addEventListener('click', clickBusterHandler, true);
   }
 
 }
