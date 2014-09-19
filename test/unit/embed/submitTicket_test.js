@@ -17,6 +17,7 @@ describe('embed.submitTicket', function() {
 
     mockRegistry = initMockRegistry({
       'react/addons': React,
+      'service/beacon': noop,
       'component/SubmitTicket': {
         SubmitTicket: jasmine.createSpy('mockSubmitTicket')
           .andCallFake(

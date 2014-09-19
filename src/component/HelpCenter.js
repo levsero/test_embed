@@ -78,7 +78,7 @@ export var HelpCenter = React.createClass({
   },
 
   performSearch(searchString) {
-    this.props.trackSearch(searchString);
+    this.props.onSearch(searchString);
     this.setState({
       isLoading: true,
       searchTerm: searchString

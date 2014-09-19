@@ -69,6 +69,7 @@ export var SubmitTicket = React.createClass({
         };
 
     transport.send(payload);
+    this.props.onSubmit();
   },
 
   handleBackClick() {

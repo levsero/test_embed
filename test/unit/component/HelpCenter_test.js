@@ -94,8 +94,9 @@ describe('Help center component', function() {
   describe('handle change', function() {
 
     it('should fire off call to search api when handleSubmit is called', function() {
-      var helpCenter = React.renderComponent(
-            <HelpCenter />,
+      var mockBeacon = jasmine.createSpy('mockOnSearch'),
+          helpCenter = React.renderComponent(
+            <HelpCenter onSearch={mockBeacon} />,
             global.document.body
           ),
           mockTransport = mockRegistry['service/transport'].transport,
@@ -122,11 +123,13 @@ describe('Help center component', function() {
 
       expect(helpCenter.state.isLoading)
         .toBeFalsy();
+
+      expect(mockBeacon).toHaveBeenCalled();
     });
 
     it('should render list of results from api', function() {
       var helpCenter = React.renderComponent(
-            <HelpCenter />,
+            <HelpCenter onSearch={noop} />,
             global.document.body
           ),
           mockTransport = mockRegistry['service/transport'].transport,
@@ -149,7 +152,7 @@ describe('Help center component', function() {
 
     it('should show no results message when search returns no results', function() {
       var helpCenter = React.renderComponent(
-            <HelpCenter />,
+            <HelpCenter onSearch={noop} />,
             global.document.body
           ),
           mockTransport = mockRegistry['service/transport'].transport,
