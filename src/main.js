@@ -52,8 +52,8 @@ function boot() {
     method: 'get',
     path: '/embeddable/config',
     callbacks: {
-      done(config) {
-        renderer.init(JSON.parse(config));
+      done(res) {
+        renderer.init(res.body);
         handleQueue();
       },
       fail(error) {

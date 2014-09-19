@@ -99,7 +99,7 @@ describe('Help center component', function() {
             global.document.body
           ),
           mockTransport = mockRegistry['service/transport'].transport,
-          callbackPayload = '{"results": [1,2,3],"count": 3}';
+          responsePayload = {body: {results: [1,2,3], count: 3}};
 
       helpCenter.handleSubmit({preventDefault: noop});
 
@@ -118,7 +118,7 @@ describe('Help center component', function() {
       expect(searchFieldGetValue)
         .toHaveBeenCalled();
 
-      mockTransport.send.mostRecentCall.args[0].callbacks.done(callbackPayload);
+      mockTransport.send.mostRecentCall.args[0].callbacks.done(responsePayload);
 
       expect(helpCenter.state.isLoading)
         .toBeFalsy();
@@ -131,7 +131,7 @@ describe('Help center component', function() {
           ),
           mockTransport = mockRegistry['service/transport'].transport,
           searchString = 'help, I\'ve fallen and can\'t get up!',
-          callbackPayload = '{"results": [1,2,3],"count": 4}',
+          responsePayload = {body: {results: [1,2,3], count: 4}},
           viewAllAnchor = ReactTestUtils.scryRenderedDOMComponentsWithTag(helpCenter, 'a')[0],
           listAnchor = ReactTestUtils.findRenderedDOMComponentWithClass(helpCenter, 'List');
 
@@ -139,7 +139,7 @@ describe('Help center component', function() {
         .toContain('u-isHidden');
 
       helpCenter.handleSubmit({preventDefault: noop}, { value: searchString });
-      mockTransport.send.mostRecentCall.args[0].callbacks.done(callbackPayload);
+      mockTransport.send.mostRecentCall.args[0].callbacks.done(responsePayload);
 
       expect(listAnchor.props.className)
         .toNotContain('u-isHidden');
@@ -155,12 +155,12 @@ describe('Help center component', function() {
           ),
           mockTransport = mockRegistry['service/transport'].transport,
           searchString = 'abcd',
-          callbackPayload = '{"results": [],"count": 0}',
+          responsePayload = {body: {results: [], count: 0}},
           viewAllAnchor = ReactTestUtils.scryRenderedDOMComponentsWithTag(helpCenter, 'a')[0],
           listAnchor = ReactTestUtils.findRenderedDOMComponentWithClass(helpCenter, 'List');
 
       helpCenter.handleSubmit({preventDefault: noop}, { value: searchString });
-      mockTransport.send.mostRecentCall.args[0].callbacks.done(callbackPayload);
+      mockTransport.send.mostRecentCall.args[0].callbacks.done(responsePayload);
 
       expect(helpCenter.state.searchCount)
         .toBeFalsy();
