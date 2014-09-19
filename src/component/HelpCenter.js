@@ -38,8 +38,8 @@ export var HelpCenter = React.createClass({
         zendesk_path: '/api/v2/help_center/categories.json'
       },
       callbacks: {
-        done: (data) => {
-          var json = JSON.parse(data);
+        done: (res) => {
+          var json = res.body;
 
           // we don't want the view all button to show for common questions so
           // the resultCount is set to 3 if more then 3 results are returned
@@ -58,8 +58,8 @@ export var HelpCenter = React.createClass({
     this.handleSearch(true);
   },
 
-  updateResults(data) {
-    var json = JSON.parse(data),
+  updateResults(res) {
+    var json = res.body,
         topics = json.results,
         searchTitle;
 
