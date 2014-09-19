@@ -19,8 +19,8 @@ function send(payload) {
   superagent(payload.method.toUpperCase(),
              buildFullUrl(payload.path))
     .type('json')
-    .send(_.extend(payload.params || {}, {'zendesk_host': config.zendeskHost}))
-    .query(_.extend(payload.query || {}, {'zendesk_host': config.zendeskHost}))
+    .send(payload.params || {})
+    .query(payload.query || {})
     .timeout(10000)
     .end(function(err, res) {
       if (payload.callbacks) {

@@ -79,7 +79,7 @@ describe('transport', function() {
         },
         callbacks: {
           done: noop,
-          fail: noop,
+          fail: noop
         }
       };
 

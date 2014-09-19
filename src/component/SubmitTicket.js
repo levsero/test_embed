@@ -162,7 +162,7 @@ export var SubmitTicket = React.createClass({
           ref='submitTicketForm'
           className={formClasses}
           onBackClick={this.handleBackClick}
-          submit={this.handleSubmit} >
+          submit={this.handleSubmit}>
           <p className={errorClasses}>
             {this.state.errorMessage}
           </p>
