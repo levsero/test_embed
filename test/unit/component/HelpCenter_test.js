@@ -132,7 +132,8 @@ describe('Help center component', function() {
           mockTransport = mockRegistry['service/transport'].transport,
           searchString = 'help, I\'ve fallen and can\'t get up!',
           callbackPayload = '{"results": [1,2,3],"count": 4}',
-          viewAllAnchor = ReactTestUtils.scryRenderedDOMComponentsWithTag(helpCenter, 'a')[0];
+          viewAllAnchor = ReactTestUtils.scryRenderedDOMComponentsWithTag(helpCenter, 'a')[0],
+          listAnchor = ReactTestUtils.findRenderedDOMComponentWithClass(helpCenter, 'List');
 
       expect(viewAllAnchor.props.className)
         .toContain('u-isHidden');
@@ -140,14 +141,14 @@ describe('Help center component', function() {
       helpCenter.handleSubmit({preventDefault: noop}, { value: searchString });
       mockTransport.send.mostRecentCall.args[0].callbacks.done(callbackPayload);
 
-      expect(ReactTestUtils.findRenderedDOMComponentWithClass(helpCenter, 'List'))
-        .toBeDefined();
+      expect(listAnchor.props.className)
+        .toNotContain('u-isHidden');
 
       expect(viewAllAnchor.props.className)
         .toNotContain('u-isHidden');
     });
 
-    it('should show no results message when search returns no results', function() {
+    it('should show no results when search returns no results', function() {
       var helpCenter = React.renderComponent(
             <HelpCenter />,
             global.document.body
@@ -155,7 +156,8 @@ describe('Help center component', function() {
           mockTransport = mockRegistry['service/transport'].transport,
           searchString = 'abcd',
           callbackPayload = '{"results": [],"count": 0}',
-          noResultsMsg = ReactTestUtils.scryRenderedDOMComponentsWithTag(helpCenter, 'p')[0];
+          viewAllAnchor = ReactTestUtils.scryRenderedDOMComponentsWithTag(helpCenter, 'a')[0],
+          listAnchor = ReactTestUtils.findRenderedDOMComponentWithClass(helpCenter, 'List');
 
       helpCenter.handleSubmit({preventDefault: noop}, { value: searchString });
       mockTransport.send.mostRecentCall.args[0].callbacks.done(callbackPayload);
@@ -163,8 +165,11 @@ describe('Help center component', function() {
       expect(helpCenter.state.searchCount)
         .toBeFalsy();
 
-      expect(noResultsMsg.props.className)
-        .toNotContain('u-isHidden');
+      expect(listAnchor.props.className)
+        .toContain('u-isHidden');
+
+      expect(viewAllAnchor.props.className)
+        .toContain('u-isHidden');
     });
 
     it('shouldn\'t call handle search if the string isn\'t valid', function() {
