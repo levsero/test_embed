@@ -40,7 +40,7 @@ var HelpCenterForm = React.createClass({
           'u-sizeFull u-textSizeBaseMobile': this.props.fullscreen
         }),
         buttonContainerClasses = classSet({
-          'u-borderTop u-marginTA u-paddingTM': this.props.fullscreen
+          'u-marginTA u-paddingTM': this.props.fullscreen
         }),
         formClasses = classSet({
           'Form u-cf': true,

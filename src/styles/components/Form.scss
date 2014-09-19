@@ -2,7 +2,7 @@
 
 $Form-stroke: #{1/$font-size}rem;
 $Form-spacing: #{10/$font-size}rem;
-$Form-gutter: #{18/$font-size}rem;
+$Form-gutter: #{15/$font-size}rem;
 $Form-fontSize: #{13/$font-size}rem;
 
 @mixin error-state($thickness) {

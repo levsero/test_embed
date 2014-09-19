@@ -202,7 +202,7 @@ export var frameFactory = function(childFn, _params) {
             childParams,
             closeClasses = classSet({
               'Button Button--nav u-posAbsolute u-posEnd u-posStart--vert': true,
-              'u-isActionable': true,
+              'u-isActionable u-textSizeBaseMobile': true,
             }),
             closeButton = (params.fullscreenable && isMobileBrowser())
                         ? (<div
