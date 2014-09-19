@@ -43,7 +43,7 @@ export var HelpCenter = React.createClass({
 
           this.setState({
             topics: _.first(json.categories, 3),
-            resultCount: json.count
+            resultCount: (json.count >= 3) ? 3 : json.count
           });
         }
       }
