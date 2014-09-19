@@ -145,7 +145,7 @@ export var HelpCenter = React.createClass({
           'u-posRelative': true
         }),
         containerBarClasses = classSet({
-          'Container-bar Container-pullout': true,
+          'Container-bar Container-pullout u-borderBottom': true,
           'u-isHidden': !this.state.fullscreen
         }),
         logoClasses = classSet({
@@ -162,7 +162,7 @@ export var HelpCenter = React.createClass({
           'u-isHidden': this.state.resultCount <= 3
         }),
         noResultsClasses = classSet({
-          'u-textSizeMed u-marginTS u-marginBM': true,
+          'u-marginTS u-marginBM': true,
           'u-isHidden': this.state.resultCount
         }),
         formClasses = classSet({
@@ -205,11 +205,7 @@ export var HelpCenter = React.createClass({
               }
             </a>
           </h1>
-          <p className={noResultsClasses}>
-            {i18n.t('embeddable_framework.helpCenter.label.noResultsParagraph', {
-              fallback: 'Try getting in touch below for more help.'
-            })}
-          </p>
+          <div className={noResultsClasses} />
           <ul className={listClasses}>
             {_.chain(this.state.topics).first(3).map(topicTemplate).value()}
           </ul>

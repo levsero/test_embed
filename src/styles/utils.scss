@@ -28,11 +28,15 @@ $Base-posOffset: #{20/$font-size}rem;
 }
 
 .u-posStart--vert {
-  top: $Base-posOffset;
+  top: #{15/$font-size}rem;
 }
 
 .u-posEnd--vert {
   bottom: $Base-posOffset;
+}
+
+.u-posEndS--vert {
+  bottom: #{3/$font-size}rem;
 }
 
 .u-posCenter--vert {
@@ -152,5 +156,9 @@ $Base-posOffset: #{20/$font-size}rem;
 
 .u-borderTop {
   border-top: #{1/$font-size}rem solid $base-border-color;
+}
+
+.u-borderBottom {
+  border-bottom: #{1/$font-size}rem solid $base-border-color;
 }
 

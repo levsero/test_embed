@@ -67,10 +67,10 @@
 }
 
 .Icon--arrow {
-  font-size: #{10/$font-size}rem;
+  font-size: #{12/$font-size}rem;
   padding-right: #{3/$font-size}rem;
   color: $cta-color;
-  
+
   &:before {
     content: '\e610';
   }
@@ -93,6 +93,14 @@
   &:before {
     content: '\e601';
   }
+}
+
+.Icon--close {
+  @extend .Icon--cross;
+
+  font-size: #{12/$font-size}rem;
+  padding-left: #{5/$font-size}rem;
+  color: $cta-color;
 }
 
 .Icon--clearInput {

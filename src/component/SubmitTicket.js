@@ -117,6 +117,10 @@ export var SubmitTicket = React.createClass({
           'u-posAbsolute': !this.state.fullscreen || this.state.showNotification,
           'u-posStart u-posEnd--vert': !this.state.fullscreen || this.state.showNotification,
         }),
+        containerBarClasses = classSet({
+          'Container-bar Container-pullout u-borderBottom': true,
+          'u-isHidden': !this.state.fullscreen
+        }),
         notifyClasses = classSet({
           'Notify': true,
           'u-textCenter': true,
@@ -146,6 +150,7 @@ export var SubmitTicket = React.createClass({
       <div
         className={containerClasses}
         key={this.state.uid}>
+        <div className={containerBarClasses} />
         <div className={notifyClasses}>
           <div className='Icon Icon--tick u-inlineBlock' />
           <p className='u-textBold'>{this.state.message}</p>

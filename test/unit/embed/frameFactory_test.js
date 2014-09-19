@@ -31,6 +31,9 @@ describe('frameFactory', function() {
           return false;
         }
       },
+      'service/i18n': {
+        i18n: jasmine.createSpyObj('i18n', ['t'])
+      },
       'imports?_=lodash!lodash': _,
       'baseCSS': '.base-css-file {} ',
       'mainCSS': '.main-css-file {} '
