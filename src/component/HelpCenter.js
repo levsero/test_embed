@@ -41,6 +41,8 @@ export var HelpCenter = React.createClass({
         done: (data) => {
           var json = JSON.parse(data);
 
+          // we don't want the view all button to show for common questions so
+          // the resultCount is set to 3 if more then 3 results are returned
           this.setState({
             topics: _.first(json.categories, 3),
             resultCount: (json.count >= 3) ? 3 : json.count
