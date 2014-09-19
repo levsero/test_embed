@@ -10,6 +10,7 @@ describe('transport', function() {
         type: function() { return mockMethods; },
         send: function() { return mockMethods; },
         query: function() { return mockMethods; },
+        timeout: function() { return mockMethods; },
         end:  function() { return mockMethods; }
     };
     mockRegistry = initMockRegistry({
@@ -156,7 +157,8 @@ describe('transport', function() {
       recentCall = mockMethods.end.mostRecentCall;
 
       callback = recentCall.args[0];
-      callback({ok: true});
+
+      callback(null, {ok: true});
 
       expect(payload.callbacks.done)
         .toHaveBeenCalled();
@@ -183,7 +185,8 @@ describe('transport', function() {
       recentCall = mockMethods.end.mostRecentCall;
 
       callback = recentCall.args[0];
-      callback({error: true});
+
+      callback({error: true}, undefined);
 
       expect(payload.callbacks.fail)
         .toHaveBeenCalled();
@@ -210,7 +213,7 @@ describe('transport', function() {
       callback = recentCall.args[0];
 
       expect(function() {
-        callback({ok: true});
+        callback(null, {ok: true});
       }).not.toThrow();
     });
 
@@ -231,7 +234,7 @@ describe('transport', function() {
       callback = recentCall.args[0];
 
       expect(function() {
-        callback({ok: true});
+        callback(null, {ok: true});
       }).not.toThrow();
     });
 
@@ -252,7 +255,7 @@ describe('transport', function() {
       callback = recentCall.args[0];
 
       expect(function() {
-        callback({error: true});
+        callback({error: true}, undefined);
       }).not.toThrow();
     });
   });

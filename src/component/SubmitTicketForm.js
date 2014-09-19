@@ -91,6 +91,7 @@ var SubmitTicketForm = React.createClass({
           {i18n.t('embeddable_framework.submitTicket.form.title')}
         </legend>
         {formBody}
+        {this.props.children}
         <input
           type='submit'
           value={this.state.buttonMessage}

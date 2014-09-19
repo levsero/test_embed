@@ -21,16 +21,16 @@ function send(payload) {
     .type('json')
     .send(payload.params || {})
     .query(payload.query || {})
-    .end(function(res) {
+    .timeout(10000)
+    .end(function(err, res) {
       if (payload.callbacks) {
-        if (res.ok) {
-          if (_.isFunction(payload.callbacks.done)) {
-            payload.callbacks.done(res.text, res.status, res.xhr);
-          }
-        }
-        else if (res.error) {
+        if (err) {
           if (_.isFunction(payload.callbacks.fail)) {
-            payload.callbacks.fail(res.text, res.status, res.xhr);
+            payload.callbacks.fail(err);
+          }
+        } else {
+          if (_.isFunction(payload.callbacks.done)) {
+            payload.callbacks.done(res);
           }
         }
       }
