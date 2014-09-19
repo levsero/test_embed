@@ -24,7 +24,7 @@ function create(name, config) {
       posObj,
       iframeStyle,
       onSubmit = function() {
-        beacon.track('submitTicket', 'send');
+        beacon.track('submitTicket', 'send', name);
       },
       Embed,
       handleBack = function() {
