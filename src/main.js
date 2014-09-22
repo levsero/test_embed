@@ -17,16 +17,7 @@ function boot() {
       rendererConfig,
       rendererPayload,
       host = location.host,
-      path = location.pathname,
-      chatPages = [
-      '/zopim',
-      '/product/pricing',
-      '/product/tour',
-      '/register',
-      '/plus',
-      '/enterprise'
-      ],
-      reSpecialDomains = /^((support|developer|www)?(\.zendesk\.com)|snow\.hashttp\.com)$/;
+      zopimId;
 
   React.initializeTouchEvents(true);
 
@@ -67,100 +58,62 @@ function boot() {
     }
   };
 
-  if (reSpecialDomains.test(host)) {
+  //The config for zendesk.com
+  if (host === 'www.zendesk.com' ) {
+
+    zopimId = '2ItCA9Tu3W5bksDB4EJzPSCz4kIymONo';
+
     rendererConfig = {
-      'ticketSubmissionForm': {
-        'embed': 'submitTicket',
+      'zopimChat': {
+        'embed': 'chat',
         'props': {
+          'zopimId': zopimId,
           'onShow': {
-            name: 'ticketSubmissionLauncher',
+            name: 'chatLauncher',
             method: 'update'
           },
           'onHide': {
-            name: 'ticketSubmissionLauncher',
+            name: 'chatLauncher',
+            method: 'update'
+          },
+          'setIcon': {
+            name: 'chatLauncher',
+            method: 'setIcon'
+          },
+          'setLabel': {
+            name: 'chatLauncher',
+            method: 'setLabel'
+          },
+          'updateForm': {
+            name: 'ticketSubmissionForm',
             method: 'update'
           }
         }
       },
-      'ticketSubmissionLauncher': {
+      'chatLauncher': {
         'embed': 'launcher',
         'props': {
           'position': 'right',
           'onClick': {
-            name: 'ticketSubmissionForm',
+            name: 'zopimChat',
+            method: 'update'
+          }
+        }
+      },
+      'ticketSubmissionForm': {
+        'embed': 'submitTicket',
+        'props': {
+          'onShow': {
+            name: 'chatLauncher',
+            method: 'update'
+          },
+          'onHide': {
+            name: 'chatLauncher',
             method: 'update'
           }
         }
       }
     };
-
-    // Until transport config is dynamic we need to alter what gets rendered on the zopim page
-    if ((host === 'www.zendesk.com' && _.contains(chatPages, path)) ||
-        (host === 'snow.hashttp.com' && path === '/chat') ||
-        (host === 'developer.zendesk.com')) {
-
-      var zopimId;
-
-      if (host === 'www.zendesk.com') {
-        zopimId = '2ItCA9Tu3W5bksDB4EJzPSCz4kIymONo';
-      } else if (host === 'developer.zendesk.com') {
-        zopimId = '1uJgTSshB9yCQX0rbNnPCE7pttL4R3fb';
-      } else {
-        zopimId = '2EkTn0An31opxOLXuGgRCy5nPnSNmpe6';
-      }
-
-      rendererConfig = {
-        'zopimChat': {
-          'embed': 'chat',
-          'props': {
-            'zopimId': zopimId,
-            'onShow': {
-              name: 'chatLauncher',
-              method: 'update'
-            },
-            'onHide': {
-              name: 'chatLauncher',
-              method: 'update'
-            },
-            'setIcon': {
-              name: 'chatLauncher',
-              method: 'setIcon'
-            },
-            'setLabel': {
-              name: 'chatLauncher',
-              method: 'setLabel'
-            },
-            'updateForm': {
-              name: 'ticketSubmissionForm',
-              method: 'update'
-            }
-          }
-        },
-        'chatLauncher': {
-          'embed': 'launcher',
-          'props': {
-            'position': 'right',
-            'onClick': {
-              name: 'zopimChat',
-              method: 'update'
-            }
-          }
-        },
-        'ticketSubmissionForm': {
-          'embed': 'submitTicket',
-          'props': {
-            'onShow': {
-              name: 'chatLauncher',
-              method: 'update'
-            },
-            'onHide': {
-              name: 'chatLauncher',
-              method: 'update'
-            }
-          }
-        }
-      };
-    }
     renderer.init(rendererConfig);
     handleQueue();
   } else {
