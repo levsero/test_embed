@@ -13,13 +13,6 @@ $Form-fontSize: #{13/$font-size}rem;
   margin: 0;
 }
 
-.Form--fullscreen {
-  display: flex;
-  flex-flow: column;
-  height: 85%;
-  height: calc(100% - (#{60/$font-size}rem));
-}
-
 .rf-Form {
   margin-bottom: $Form-gutter;
 }
