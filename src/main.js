@@ -17,6 +17,15 @@ function boot() {
       rendererConfig,
       rendererPayload,
       host = location.host,
+      path = location.pathname,
+      chatPages = [
+      '/zopim',
+      '/product/pricing',
+      '/product/tour',
+      '/register',
+      '/plus',
+      '/enterprise'
+      ],
       zopimId;
 
   React.initializeTouchEvents(true);
@@ -59,7 +68,7 @@ function boot() {
   };
 
   //The config for zendesk.com
-  if (host === 'www.zendesk.com' ) {
+  if (host === 'www.zendesk.com' && _.contains(chatPages, path)) {
 
     zopimId = '2ItCA9Tu3W5bksDB4EJzPSCz4kIymONo';
 
