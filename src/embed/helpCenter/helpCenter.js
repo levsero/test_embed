@@ -27,7 +27,7 @@ function create(name, config) {
       },
       posObj,
       iframeStyle,
-      onButtonClick = function(search) {
+      onButtonClick = function() {
         var helpCenter = get(name);
 
         if (helpCenter.chatStatus) {
@@ -38,7 +38,12 @@ function create(name, config) {
           helpCenter.activeEmbed = 'submitTicket';
         }
         toggleVisibility(name);
-        beacon.track('helpCenter', 'search', search);
+      },
+      onLinkClick = function(ev) {
+        beacon.track('helpCenter', 'click', name, ev.target.href);
+      },
+      onSearch = function(searchString) {
+        beacon.track('helpCenter', 'search', name, searchString);
       },
       Embed;
 
@@ -68,6 +73,8 @@ function create(name, config) {
             ref='helpCenter'
             zendeskHost={transport.getZendeskHost()}
             onButtonClick={onButtonClick}
+            onLinkClick={onLinkClick}
+            onSearch={onSearch}
             updateFrameSize={params.updateFrameSize} />
         </div>
       );

@@ -80,6 +80,7 @@ export var HelpCenter = React.createClass({
   },
 
   performSearch(searchString) {
+    this.props.onSearch(searchString);
     this.setState({
       isLoading: true,
       searchTerm: searchString
@@ -122,7 +123,7 @@ export var HelpCenter = React.createClass({
         return (
             /* jshint camelcase:false */
             <li key={_.uniqueId('topic_')} className={listItemClasses}>
-              <a href={topic.html_url} target='_blank'>
+              <a href={topic.html_url} target='_blank' onClick={this.props.onLinkClick}>
                   {topic.title || topic.name}
               </a>
             </li>
@@ -207,7 +208,7 @@ export var HelpCenter = React.createClass({
           </h1>
           <div className={noResultsClasses} />
           <ul className={listClasses}>
-            {_.chain(this.state.topics).first(3).map(topicTemplate).value()}
+            {_.chain(this.state.topics).first(3).map(topicTemplate.bind(this)).value()}
           </ul>
         </HelpCenterForm>
         <div className='u-nbfc'>

@@ -7,6 +7,7 @@ import { SubmitTicket }    from 'component/SubmitTicket';
 import { frameFactory }    from 'embed/frameFactory';
 import { setScaleLock }    from 'utility/utils';
 import { isMobileBrowser } from 'utility/devices';
+import { beacon }          from 'service/beacon';
 
 var submitTicketCSS = require('./submitTicket.scss'),
     submitTickets = {};
@@ -22,6 +23,9 @@ function create(name, config) {
       },
       posObj,
       iframeStyle,
+      onSubmit = function() {
+        beacon.track('submitTicket', 'send', name);
+      },
       Embed,
       handleBack = function() {
         config.goBack();
@@ -51,6 +55,7 @@ function create(name, config) {
           <SubmitTicket
             ref='submitTicket'
             updateFrameSize={params.updateFrameSize}
+            onSubmit={onSubmit}
             handleBack={handleBack}/>
         </div>
       );
