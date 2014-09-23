@@ -6,7 +6,8 @@ import { renderer }           from 'service/renderer';
 import { transport }          from 'service/transport';
 import { win, location }      from 'utility/globals';
 import { getSizingRatio,
-         isMobileBrowser }    from 'utility/devices';
+         isMobileBrowser,
+         isBlacklisted }      from 'utility/devices';
 import { clickBusterHandler } from 'utility/utils';
 
 require('imports?_=lodash!lodash');
@@ -46,31 +47,33 @@ function boot() {
     win.zEmbed = publicApi;
   }
 
-  rendererPayload = {
-    method: 'get',
-    path: '/embeddable/config',
-    callbacks: {
-      done(res) {
-        renderer.init(res.body);
-        handleQueue();
-      },
-      fail(error) {
-        Airbrake.push({
-          error: error,
-          context: {
-            account: document.zendeskHost
-          }
-        });
+  if (!isBlacklisted()) {
+    rendererPayload = {
+      method: 'get',
+      path: '/embeddable/config',
+      callbacks: {
+        done(res) {
+          renderer.init(res.body);
+          handleQueue();
+        },
+        fail(error) {
+          Airbrake.push({
+            error: error,
+            context: {
+              account: document.zendeskHost
+            }
+          });
+        }
       }
-    }
-  };
+    };
 
-  //The config for zendesk.com
-  if (host === 'www.zendesk.com' && _.contains(chatPages, path)) {
-    renderer.init(renderer.hardcodedConfigs.zendeskWithChat);
-    handleQueue();
-  } else {
-    transport.get(rendererPayload);
+    //The config for zendesk.com
+    if (host === 'www.zendesk.com' && _.contains(chatPages, path)) {
+      renderer.init(renderer.hardcodedConfigs.zendeskWithChat);
+      handleQueue();
+    } else {
+      transport.get(rendererPayload);
+    }
   }
 
   function propagateFontRatioChange() {
