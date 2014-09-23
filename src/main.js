@@ -14,7 +14,6 @@ require('imports?_=lodash!lodash');
 function boot() {
   var publicApi,
       isPinching,
-      rendererConfig,
       rendererPayload,
       host = location.host,
       path = location.pathname,
@@ -25,8 +24,7 @@ function boot() {
       '/register',
       '/plus',
       '/enterprise'
-      ],
-      zopimId;
+      ];
 
   React.initializeTouchEvents(true);
 
@@ -69,61 +67,7 @@ function boot() {
 
   //The config for zendesk.com
   if (host === 'www.zendesk.com' && _.contains(chatPages, path)) {
-
-    zopimId = '2ItCA9Tu3W5bksDB4EJzPSCz4kIymONo';
-
-    rendererConfig = {
-      'zopimChat': {
-        'embed': 'chat',
-        'props': {
-          'zopimId': zopimId,
-          'onShow': {
-            name: 'chatLauncher',
-            method: 'update'
-          },
-          'onHide': {
-            name: 'chatLauncher',
-            method: 'update'
-          },
-          'setIcon': {
-            name: 'chatLauncher',
-            method: 'setIcon'
-          },
-          'setLabel': {
-            name: 'chatLauncher',
-            method: 'setLabel'
-          },
-          'updateForm': {
-            name: 'ticketSubmissionForm',
-            method: 'update'
-          }
-        }
-      },
-      'chatLauncher': {
-        'embed': 'launcher',
-        'props': {
-          'position': 'right',
-          'onClick': {
-            name: 'zopimChat',
-            method: 'update'
-          }
-        }
-      },
-      'ticketSubmissionForm': {
-        'embed': 'submitTicket',
-        'props': {
-          'onShow': {
-            name: 'chatLauncher',
-            method: 'update'
-          },
-          'onHide': {
-            name: 'chatLauncher',
-            method: 'update'
-          }
-        }
-      }
-    };
-    renderer.init(rendererConfig);
+    renderer.init(renderer.hardcodedConfigs.zendeskWithChat);
     handleQueue();
   } else {
     transport.get(rendererPayload);

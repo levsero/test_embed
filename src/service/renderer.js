@@ -68,7 +68,62 @@ function propagateFontRatio(ratio) {
   });
 }
 
+var hardcodedConfigs = {
+  zendeskWithChat: {
+    'zopimChat': {
+      'embed': 'chat',
+      'props': {
+        'zopimId': '2ItCA9Tu3W5bksDB4EJzPSCz4kIymONo',
+        'onShow': {
+          name: 'chatLauncher',
+          method: 'update'
+        },
+        'onHide': {
+          name: 'chatLauncher',
+          method: 'update'
+        },
+        'setIcon': {
+          name: 'chatLauncher',
+          method: 'setIcon'
+        },
+        'setLabel': {
+          name: 'chatLauncher',
+          method: 'setLabel'
+        },
+        'updateForm': {
+          name: 'ticketSubmissionForm',
+          method: 'update'
+        }
+      }
+    },
+    'chatLauncher': {
+      'embed': 'launcher',
+      'props': {
+        'position': 'right',
+        'onClick': {
+          name: 'zopimChat',
+          method: 'update'
+        }
+      }
+    },
+    'ticketSubmissionForm': {
+      'embed': 'submitTicket',
+      'props': {
+        'onShow': {
+          name: 'chatLauncher',
+          method: 'update'
+        },
+        'onHide': {
+          name: 'chatLauncher',
+          method: 'update'
+        }
+      }
+    }
+  }
+};
+
 export var renderer = {
   init: init,
-  propagateFontRatio: propagateFontRatio
+  propagateFontRatio: propagateFontRatio,
+  hardcodedConfigs: hardcodedConfigs
 };
