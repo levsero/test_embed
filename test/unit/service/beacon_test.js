@@ -1,4 +1,4 @@
-describe('beacon', function() {
+ddescribe('beacon', function() {
   var beacon,
       mockGlobals,
       mockPersistence,
@@ -53,7 +53,7 @@ describe('beacon', function() {
 
     mockIdentity = {
       identity: {
-        getBuid: jasmine.createSpy('getBuid').andReturn('abc123')
+        getBuid: jasmine.createSpy('getBuid').and.returnValue('abc123')
       }
     };
 
@@ -93,7 +93,7 @@ describe('beacon', function() {
       expect(mockPersistence.store.set)
         .toHaveBeenCalled();
 
-      recentCall = mockPersistence.store.set.mostRecentCall;
+      recentCall = mockPersistence.store.set.calls.mostRecent();
 
       expect(recentCall.args[0])
         .toEqual('currentTime');
@@ -119,7 +119,7 @@ describe('beacon', function() {
       beacon.send();
       expect(mockTransport.transport.send).toHaveBeenCalled();
 
-      payload = mockTransport.transport.send.mostRecentCall.args[0];
+      payload = mockTransport.transport.send.calls.mostRecent().args[0];
 
       expect(payload.method)
         .toBe('POST');
@@ -185,7 +185,7 @@ describe('beacon', function() {
       expect(mockTransport.transport.send)
         .toHaveBeenCalled();
 
-      payload = mockTransport.transport.send.mostRecentCall.args[0];
+      payload = mockTransport.transport.send.calls.mostRecent().args[0];
 
       expect(payload.method)
         .toBe('POST');

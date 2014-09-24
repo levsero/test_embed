@@ -23,9 +23,35 @@ gulp.task('test:spec', function() {
     });
 });
 
+var DieReporter = function() {
+  var failureCount;
+  this.jasmineStarted = function(specInfo) {
+    failureCount = 0;
+    console.log('starting');
+  };
+  this.jasmineDone = function() {
+    console.log('here');
+    if (failureCount != 0) {
+      process.exit(1);
+    }
+  };
+  this.specDone = function(result) {
+    if (result.status == 'failed') failureCount++;
+  }
+};
+
 gulp.task('test:unit', function() {
-  return gulp.src('build/test/unit/**/*.js')
-    .pipe(gulpJasmine());
+  return gulp.src([
+    'build/test/unit/**/*.js',
+    '!build/test/unit/component/*.js',
+    '!build/test/unit/embed/*.js',
+    '!build/test/unit/embed/frameFactory_test.js',
+    '!build/test/unit/service/*.js',
+//    'build/test/unit/util/*.js'
+])
+    .pipe(gulpJasmine({
+//      reporter: [new DieReporter()]
+    }));
 });
 
 gulp.task('test', function(callback) {
