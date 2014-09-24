@@ -43,8 +43,7 @@ var HelpCenterForm = React.createClass({
           'u-marginTA u-paddingTM': this.props.fullscreen
         }),
         formClasses = classSet({
-          'Form u-cf': true,
-          'Form--fullscreen': this.props.fullscreen
+          'Form u-cf': true
         });
 
     return (
