@@ -202,8 +202,16 @@ function init(name) {
       },
       onChatEnd = function() {
         if (_.isFunction(config.chatEnd)) {
-          config.chatEnd(false);
+          config.chatEnd();
           hide(name);
+        }
+      },
+      onHide = function() {
+        if (!chat.isOnline) {
+          config.onHide();
+          if (_.isFunction(config.chatEnd)) {
+            config.chatEnd();
+          }
         }
       };
 
@@ -224,6 +232,7 @@ function init(name) {
       }
     }
 
+    zopimWin.onHide(onHide);
     zopimLive.setOnStatus(onStatus);
     zopimLive.setOnUnreadMsgs(onUnreadMsgs);
     zopimLive.setOnChatStart(onChatStart);
