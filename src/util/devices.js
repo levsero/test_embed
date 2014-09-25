@@ -42,9 +42,19 @@ function shouldGoFullscreen() {
   return getSizingRatio() && isMobileBrowser();
 }
 
+function isBlacklisted() {
+  // Until iphone chrome on ios 8 is fixed to display content instead of a black space
+  if (navigator.userAgent.indexOf('CriOS') !== -1 && navigator.userAgent.indexOf('OS 8') !== -1) {
+    return true;
+  }
+
+  return false;
+}
+
 export {
   getSizingRatio,
   isMobileBrowser,
-  shouldGoFullscreen
+  shouldGoFullscreen,
+  isBlacklisted
 };
 
