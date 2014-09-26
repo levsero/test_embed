@@ -36,7 +36,7 @@ parts:
   - translation:
       key: "embeddable_framework.submitTicket.notify.message.error"
       title: "Error message that displays after a user tries to send a ticket and something goes wrong. It will be a generic catch all error message. Text will wrap as needed. This error message will be displayed in red above the send button (tinyurl.com/ou8qp9g)"
-      value: "There was a error processing your request. Please try again later"
+      value: "There was an error processing your request. Please try again later"
   - translation:
       key: "embeddable_framework.submitTicket.marketing.message"
       title: "Message to customers that displays after submit ticket is sent"
