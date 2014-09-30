@@ -35,10 +35,13 @@ describe('Submit ticket component', function() {
         return {
           compare: function(actual, expected) {
             var result= {};
-            result.pass = util.equals(JSON.stringify(actual), JSON.stringify(expected),customEqualityTesters);
+            result.pass = util.equals(
+              JSON.stringify(actual),
+              JSON.stringify(expected),
+              customEqualityTesters);
             return result;
           }
-        }
+        };
       }
     });
 
