@@ -30,9 +30,15 @@ describe('Submit ticket component', function() {
       useCleanCache: true
     });
 
-    this.addMatchers({
-      toBeJSONEqual: function(expected) {
-        return JSON.stringify(this.actual) === JSON.stringify(expected);
+    jasmine.addMatchers({
+      toBeJSONEqual: function(util, customEqualityTesters) {
+        return {
+          compare: function(actual, expected) {
+            var result= {};
+            result.pass = util.equals(JSON.stringify(actual), JSON.stringify(expected),customEqualityTesters);
+            return result;
+          }
+        }
       }
     });
 
@@ -56,7 +62,7 @@ describe('Submit ticket component', function() {
       },
       'component/SubmitTicketForm': {
         SubmitTicketForm: jasmine.createSpy('mockSubmitTicketForm')
-          .andCallFake(React.createClass({
+          .and.callFake(React.createClass({
             render: function() {
               return <form onSubmit={this.props.handleSubmit} />;
             }
@@ -113,7 +119,7 @@ describe('Submit ticket component', function() {
       global.document.body
     );
 
-    mostRecentCall = mockSubmitTicketForm.mostRecentCall.args[0];
+    mostRecentCall = mockSubmitTicketForm.calls.mostRecent().args[0];
 
     mostRecentCall.submit({preventDefault: noop}, {isFormInvalid: true});
 
@@ -133,7 +139,7 @@ describe('Submit ticket component', function() {
       global.document.body
     );
 
-    mostRecentCall = mockSubmitTicketForm.mostRecentCall.args[0],
+    mostRecentCall = mockSubmitTicketForm.calls.mostRecent().args[0],
 
     mostRecentCall.submit({preventDefault: noop}, {
       isFormInvalid: false,
@@ -143,7 +149,7 @@ describe('Submit ticket component', function() {
       }
     });
 
-    transportRecentCall = mockTransport.send.mostRecentCall.args[0];
+    transportRecentCall = mockTransport.send.calls.mostRecent().args[0];
 
     expect(transportRecentCall)
       .toBeJSONEqual(payload);
@@ -308,7 +314,7 @@ describe('Submit ticket component', function() {
     );
 
     submitTicket.setState({fullscreen: 'VALUE'});
-    mostRecentCall = mockSubmitTicketForm.mostRecentCall.args[0];
+    mostRecentCall = mockSubmitTicketForm.calls.mostRecent().args[0];
 
     expect(mostRecentCall.fullscreen)
       .toEqual('VALUE');
