@@ -27,7 +27,7 @@ describe('embed.helpCenter', function() {
       },
       'component/HelpCenter': {
         HelpCenter: jasmine.createSpy('mockHelpCenter')
-          .andCallFake(
+          .and.callFake(
             React.createClass({
               getInitialState: function() {
                 return {
@@ -111,7 +111,7 @@ describe('embed.helpCenter', function() {
       beforeEach(function() {
         mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
         helpCenter.create('carlos', frameConfig);
-        mockFrameFactoryRecentCall = mockFrameFactory.mostRecentCall.args;
+        mockFrameFactoryRecentCall = mockFrameFactory.calls.mostRecent().args;
       });
 
       it('should pass in zendeskHost from transport.getZendeskHost', function() {
@@ -155,7 +155,7 @@ describe('embed.helpCenter', function() {
       helpCenter = require(helpCenterPath).helpCenter;
       helpCenter.create('carlos');
 
-      mockFrameFactoryRecentCall = mockFrameFactory.mostRecentCall.args;
+      mockFrameFactoryRecentCall = mockFrameFactory.calls.mostRecent().args;
 
       iframeStyle = mockFrameFactoryRecentCall[1].style;
 
@@ -186,7 +186,7 @@ describe('embed.helpCenter', function() {
 
       helpCenter.create('carlos');
 
-      mockFrameFactoryRecentCall = mockFrameFactory.mostRecentCall.args;
+      mockFrameFactoryRecentCall = mockFrameFactory.calls.mostRecent().args;
 
       payload = mockFrameFactoryRecentCall[0](childFnParams);
 
@@ -254,7 +254,7 @@ describe('embed.helpCenter', function() {
       helpCenter.create('carlos');
       helpCenter.render('carlos');
 
-      mockFrameFactoryCss = mockFrameFactory.mostRecentCall.args[1].css;
+      mockFrameFactoryCss = mockFrameFactory.calls.mostRecent().args[1].css;
 
       expect(mockFrameFactoryCss)
         .toBe(mockCss);

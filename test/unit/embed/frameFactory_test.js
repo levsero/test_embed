@@ -152,7 +152,7 @@ describe('frameFactory', function() {
           frameContainer = global.document.body.getElementsByTagName('iframe')[0],
           frameContainerStyle = frameContainer.style;
 
-      jasmine.Clock.useMock();
+      jasmine.clock().install();
 
       // This is the "dirty" state
       instance.setState({iframeDimensions: {width:999, height: 999}});
@@ -167,7 +167,7 @@ describe('frameFactory', function() {
       // so client*/offset* will give use NaN which then gets ||'ed with 0.
       instance.updateFrameSize();
 
-      jasmine.Clock.tick(10);
+      jasmine.clock().tick(10);
 
       // best we can do is check that that the width and height
       // have been updated from 999 to 0.
@@ -191,7 +191,7 @@ describe('frameFactory', function() {
         return true;
       };
 
-      jasmine.Clock.useMock();
+      jasmine.clock().install();
 
       mockery.resetCache();
 
@@ -212,7 +212,7 @@ describe('frameFactory', function() {
 
       instance.updateFrameSize();
 
-      jasmine.Clock.tick(10);
+      jasmine.clock().tick(10);
 
       expect(frameContainerStyle.width)
         .toEqual('100%');
@@ -457,7 +457,7 @@ describe('frameFactory', function() {
           ),
           child = instance.getChild().refs.aliceComponent;
 
-      jasmine.Clock.useMock();
+      jasmine.clock().install();
 
       // setup "dirty" state
       instance.setState({
@@ -466,7 +466,7 @@ describe('frameFactory', function() {
 
       child.props.updateFrameSize();
 
-      jasmine.Clock.tick(10);
+      jasmine.clock().tick(10);
 
       // should have called the internal updateFrameSize
       // which updates the iframeDimensions state

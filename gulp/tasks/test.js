@@ -43,8 +43,8 @@ gulp.task('test:unit', function() {
   return gulp.src([
     'build/test/unit/**/*.js',
     '!build/test/unit/component/*.js',
-    '!build/test/unit/embed/*.js',
-    '!build/test/unit/embed/frameFactory_test.js',
+    'build/test/unit/embed/*.js',
+    'build/test/unit/embed/frameFactory_test.js',
 //    '!build/test/unit/service/*.js',
 //    'build/test/unit/util/*.js'
 ])
