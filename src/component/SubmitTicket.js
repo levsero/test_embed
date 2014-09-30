@@ -74,7 +74,7 @@ export var SubmitTicket = React.createClass({
         },
         payload = {
           method: 'post',
-          path: '/embeddable/ticket_submission',
+          path: '/requests/embedded/create',
           params: formParams,
           callbacks: {
             done(res) {
