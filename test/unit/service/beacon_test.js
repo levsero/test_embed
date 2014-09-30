@@ -1,4 +1,4 @@
-ddescribe('beacon', function() {
+describe('beacon', function() {
   var beacon,
       mockGlobals,
       mockPersistence,

@@ -27,11 +27,10 @@ var DieReporter = function() {
   var failureCount;
   this.jasmineStarted = function(specInfo) {
     failureCount = 0;
-    console.log('starting');
   };
   this.jasmineDone = function() {
-    console.log('here');
     if (failureCount != 0) {
+//      console.log('exit(1)');
       process.exit(1);
     }
   };
@@ -46,11 +45,13 @@ gulp.task('test:unit', function() {
     '!build/test/unit/component/*.js',
     '!build/test/unit/embed/*.js',
     '!build/test/unit/embed/frameFactory_test.js',
-    '!build/test/unit/service/*.js',
+//    '!build/test/unit/service/*.js',
 //    'build/test/unit/util/*.js'
 ])
     .pipe(gulpJasmine({
-//      reporter: [new DieReporter()]
+      verbose:true,
+      includeStackTrace: true,
+      reporter: [new DieReporter()]
     }));
 });
 
