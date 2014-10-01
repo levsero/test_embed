@@ -17,6 +17,10 @@ function setLocale(locale = 'en-US') {
 
 function uppercaseRegionCode(locale) {
   var dashIndex = locale.indexOf('-') + 1;
+
+  if (dashIndex <= 0) {
+    return locale;
+  }
   return locale.substring(0, dashIndex) + locale.substring(dashIndex).toUpperCase();
 }
 
