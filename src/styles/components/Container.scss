@@ -1,7 +1,7 @@
 @import '../_vars.scss';
 
-$Container-spacing: 20/$font-size;
-$Container--popover-arrowFullWidth: 20;
+$Container-spacing: 25/$font-size;
+$Container--popover-arrowFullWidth: 18;
 $Container--popover-arrowWidth: $Container--popover-arrowFullWidth/2;
 
 .Container {
@@ -28,15 +28,14 @@ $Container--popover-arrowWidth: $Container--popover-arrowFullWidth/2;
   &:after {
     border-color: transparent;
     border-top-color: $base-color;
-    border-width: #{$Container--popover-arrowWidth}px;
-    margin-left: -#{$Container--popover-arrowWidth}px;
+    border-width: #{$Container--popover-arrowWidth + 2}px #{($Container--popover-arrowWidth)}px 0;
   }
 
   &:before {
     border-color: transparent;
     border-top-color: $base-border-color;
-    border-width: #{($Container--popover-arrowWidth + 1)}px;
-    margin-left: -#{($Container--popover-arrowWidth + 1)}px;
+    border-width: #{($Container--popover-arrowWidth) + 4}px #{($Container--popover-arrowWidth) + 2}px 0;
+    right: #{($Container--popover-arrowFullWidth) - 2}px;
   }
 }
 

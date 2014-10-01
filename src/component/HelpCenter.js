@@ -17,65 +17,35 @@ export var HelpCenter = React.createClass({
   getInitialState() {
     return {
       topics: [],
-      searchTitle: i18n.t('embeddable_framework.helpCenter.label.default'),
       resultCount: 0,
       searchTerm: '',
-      fullscreen: isMobileBrowser()
+      fullscreen: isMobileBrowser(),
+      hasSearched: false
     };
+  },
+
+  focusField() {
+    this.refs.helpCenter.refs.searchField.focus()
   },
 
   getViewAllUrl() {
     return `https://${this.props.zendeskHost}/hc/search?query=${this.state.searchTerm}`;
   },
 
-  componentWillMount() {
-    /* jshint camelcase:false */
-    transport.send({
-      method: 'get',
-      path: '/embeddable/proxy',
-      query: {
-        include: 'translations',
-        zendesk_path: '/api/v2/help_center/categories.json'
-      },
-      callbacks: {
-        done: (res) => {
-          var json = res.body;
-
-          // we don't want the view all button to show for common questions so
-          // the resultCount is set to 3 if more then 3 results are returned
-          this.setState({
-            topics: _.first(json.categories, 3),
-            resultCount: (json.count >= 3) ? 3 : json.count
-          });
-        }
-      }
-    });
-  },
-
   handleSubmit(e) {
     e.preventDefault();
-    this.refs.searchField.blur();
     this.handleSearch(true);
   },
 
   updateResults(res) {
     var json = res.body,
-        topics = json.results,
-        searchTitle;
-
-    if (json.count) {
-      searchTitle = i18n.t('embeddable_framework.helpCenter.label.results');
-    } else {
-      searchTitle = i18n.t('embeddable_framework.helpCenter.label.noResults', {
-        fallback: 'Sorry, no results found'
-      });
-    }
+        topics = json.results;
 
     this.setState({
       topics: topics,
-      searchTitle: searchTitle,
       resultCount: json.count,
-      isLoading: false
+      isLoading: false,
+      hasSearched: true
     });
   },
 
@@ -155,16 +125,13 @@ export var HelpCenter = React.createClass({
           'u-posStart u-posEnd--vert': !this.state.fullscreen || this.state.showNotification,
         }),
         formLegendClasses = classSet({
-          'Form-legend u-marginTS Arrange Arrange--middle': true,
-          'u-textSizeBaseMobile': this.state.fullscreen
-        }),
-        viewAllClasses = classSet({
-          'Arrange-sizeFit u-textNormal u-textNoWrap': true,
-          'u-isHidden': this.state.resultCount <= 3
+          'u-textSizeMed u-marginT24 Arrange Arrange--middle u-textBody': true,
+          'u-textSizeBaseMobile': this.state.fullscreen,
+          'u-isHidden': !this.state.topics.length
         }),
         noResultsClasses = classSet({
-          'u-marginTS u-marginBM': true,
-          'u-isHidden': this.state.resultCount
+          'u-marginTM u-marginB14 u-textCenter u-borderBottom u-textSizeMed': true,
+          'u-isHidden': this.state.resultCount || !this.state.hasSearched
         }),
         formClasses = classSet({
           'u-nbfc': true,
@@ -187,26 +154,32 @@ export var HelpCenter = React.createClass({
           className={formClasses}
           onSearch={this.handleSearch}
           isLoading={this.state.isLoading}
+          hasSearched={this.state.hasSearched}
           onButtonClick={this.props.onButtonClick}
           onSubmit={this.handleSubmit}>
           <SearchField
             ref='searchField'
             fullscreen={this.state.fullscreen}
+            hasSearched={this.state.hasSearched}
             isLoading={this.state.isLoading} />
           <h1 className={formLegendClasses}>
-            <span className='Arrange-sizeFill'>{this.state.searchTitle}</span>
-            <a
-              href={this.getViewAllUrl()}
-              className={viewAllClasses}
-              target='_blank'>
-              {
-                i18n.t('embeddable_framework.helpCenter.label.showAll',{
-                 count: this.state.resultCount
-                })
-              }
-            </a>
+            <span className='Arrange-sizeFill'>
+              {i18n.t('embeddable_framework.helpCenter.label.results')}
+            </span>
           </h1>
-          <div className={noResultsClasses} />
+          <div className={noResultsClasses}>
+            <p className='u-marginBN u-marginTL'>
+              {i18n.t('embeddable_framework.helpCenter.label.noResults', {
+                searchTerm: this.state.searchTerm,
+                fallback: 'Uh oh, there are no results for \"' + this.state.searchTerm + '\"'
+               })}
+            </p>
+            <p className='u-textSecondary u-marginBL'>
+              {i18n.t('embeddable_framework.helpCenter.paragraph.noResults', {
+                fallback: 'Try searching for something else'
+              })}
+            </p>
+          </div>
           <ul className={listClasses}>
             {_.chain(this.state.topics).first(3).map(topicTemplate.bind(this)).value()}
           </ul>

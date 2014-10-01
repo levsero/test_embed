@@ -32,11 +32,12 @@ describe('embed.helpCenter', function() {
               getInitialState: function() {
                 return {
                   topics: [],
-                  searchTitle: 'abc123',
                   searchCount: 0,
-                  searchTerm: ''
+                  searchTerm: '',
+                  hasSearched: false
                 };
               },
+              focusField: noop,
               render: function() {
                 return (
                   /* jshint quotmark:false */
@@ -72,7 +73,7 @@ describe('embed.helpCenter', function() {
     helpCenter = require(helpCenterPath).helpCenter;
 
     frameConfig = {
-      onShow: jasmine.createSpy('onShow'),
+      onShow: jasmine.createSpy('onShow').and.callFake(noop),
       onHide: jasmine.createSpy('onHide')
     };
   });
@@ -111,6 +112,8 @@ describe('embed.helpCenter', function() {
       beforeEach(function() {
         mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
         helpCenter.create('carlos', frameConfig);
+
+        helpCenter.render('carlos');
         mockFrameFactoryRecentCall = mockFrameFactory.calls.mostRecent().args;
       });
 

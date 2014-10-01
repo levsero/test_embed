@@ -118,7 +118,8 @@ var SearchField = React.createClass({
         }),
         searchContainerClasses = classSet({
           'Form-cta u-cf': true,
-          'Form-cta--fullscreen u-paddingHN u-paddingBN': this.props.fullscreen,
+          'Form-cta--bar': this.props.hasSearched,
+          'u-paddingHN u-paddingBN': this.props.fullscreen,
           'Container-pullout': !this.props.fullscreen
         }),
         searchInputClasses = classSet({
@@ -126,9 +127,8 @@ var SearchField = React.createClass({
           'rf-Field--focused': this.state.focused
         }),
         searchInputFieldClasses = classSet({
-          'Arrange-sizeFill u-paddingR u-textSizeMed': true,
-          'u-textSizeBaseMobile': this.props.fullscreen,
-          'u-textSizeMed': !this.props.fullscreen
+          'Arrange-sizeFill u-paddingR Form-placeholder u-textSizeMed': true,
+          'u-textSizeBaseMobile': this.props.fullscreen
         }),
         clearInputClasses = classSet({
           'Icon Icon--clearInput': true,

@@ -57,12 +57,11 @@ function create(name, config) {
            ? { left:  5 }
            : { right: 5 };
 
-    iframeBase.minWidth = 350;
-    containerStyle = { minWidth: 350, margin: 15 };
+    iframeBase.minWidth = 400;
+    containerStyle = { minWidth: 400, margin: 15 };
   }
 
   iframeStyle = _.extend(iframeBase, posObj);
-
 
   Embed = React.createClass(frameFactory(
     (params) => {
@@ -90,6 +89,7 @@ function create(name, config) {
       onShow() {
         setScaleLock(true);
         config.onShow();
+        get(name).instance.getChild().refs.helpCenter.focusField();
       },
       onClose() {
         update(name, true);

@@ -37,7 +37,8 @@ var HelpCenterForm = React.createClass({
     var buttonClasses = classSet({
           'Button Button--cta Anim-color u-textNoWrap': true,
           'u-pullRight': !this.props.fullscreen,
-          'u-sizeFull u-textSizeBaseMobile': this.props.fullscreen
+          'u-sizeFull u-textSizeBaseMobile': this.props.fullscreen,
+          'u-isHidden': !this.props.hasSearched
         }),
         buttonContainerClasses = classSet({
           'u-marginTA u-paddingTM': this.props.fullscreen

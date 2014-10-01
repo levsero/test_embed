@@ -100,12 +100,13 @@ parts:
       value: "View all (%(count)s)"
   - translation:
       key: "embeddable_framework.helpCenter.label.noResults"
-      title: "The title for the help center widget when there are no results returned from search. Will wrap as needed (http://tinyurl.com/pb3nrgy)"
-      value: "Sorry, no results found"
+      title: "The title for the help center widget when there are no results returned from search. searchTerm is the term they just searched for in quotes. Will wrap as needed (tinyurl.com/o849ewv)"
+      value: "Uh oh, There are no results for \"(%(searchTerm)s)\""
+      wip: true
   - translation:
-      key: "embeddable_framework.helpCenter.label.noResultsParagraph"
-      title: "The paragraph for the help center widget when there are no results returned from search. Above the 'Leave a message' or 'Live chat' button. Will wrap as needed (http://tinyurl.com/pb3nrgy)"
-      value: "Get in touch below for more help."
+      key: "embeddable_framework.helpCenter.label.noResultsParagraph.chat"
+      title: "The paragraph for the help center widget when there are no results returned from search. Will wrap as needed (tinyurl.com/okoocb7)"
+      value: "Try searching for something else"
       wip: true
 
   # Mobile

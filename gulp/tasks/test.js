@@ -25,7 +25,7 @@ gulp.task('test:spec', function() {
 
 gulp.task('test:unit', function() {
   return gulp.src('build/test/unit/**/*.js')
-    .pipe(gulpJasmine());
+    .pipe(gulpJasmine({includeStackTrace: true}));
 });
 
 gulp.task('test', function(callback) {
