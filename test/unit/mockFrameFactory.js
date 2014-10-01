@@ -8,21 +8,33 @@ var mockFrameMethods = {
 exports.mockFrameMethods = mockFrameMethods;
 
 var mockFrameFactory = jasmine.createSpy('mockFrameFactory').and.callFake(
-  function(child, params) {
+  function(childFn, params) {
+    var child;
+
+    var root = this;
+    var childParams = _.reduce(params.extend, function(res, val, key) {
+      res[key] = val.bind(root);
+      return res;
+    }, {});
+    var Component = React.createClass({
+      render: function() {
+        return (childFn(childParams));
+      }
+    })
+
+    child = React.renderComponent(<Component />, global.document.body);
+
     return _.extend({
       show: mockFrameMethods.show,
       hide: mockFrameMethods.hide,
+      getChild: function() {
+        return child;
+      },
       render: function() {
-        var root = this;
-        var childParams = _.reduce(params.extend, function(res, val, key) {
-          res[key] = val.bind(root);
-          return res;
-        }, {});
         return (
           /* jshint quotmark:false */
-            <div ref='frame' className='mock-frame'>
-            {child(childParams)}
-          </div>);
+          <div ref='frame' className='mock-frame'><Component /></div>
+        );
       }
     }, params.extend);
   }
