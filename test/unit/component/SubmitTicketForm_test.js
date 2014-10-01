@@ -137,7 +137,7 @@ describe('SubmitTicketForm component', function() {
         submitElem = submitTicketFormNode.querySelector('input[type="submit"]'),
         i18n = mockRegistry['service/i18n'].i18n;
 
-    i18n.t.andReturn('Foobar...');
+    i18n.t.and.returnValue('Foobar...');
 
     expect(submitElem.disabled)
       .toEqual(true);

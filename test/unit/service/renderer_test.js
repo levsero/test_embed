@@ -17,7 +17,7 @@ describe('renderer', function() {
           'get'
         ]);
 
-        mock.get.andReturn({
+        mock.get.and.returnValue({
           instance: {
             updateBaseFontSize: updateBaseFontSize,
             updateFrameSize: updateFrameSize
@@ -116,9 +116,11 @@ describe('renderer', function() {
             }
           },
           launcherProps = configJSON.ticketSubmissionLauncher.props,
-          mockLauncherRecentCall = mockLauncher.create.mostRecentCall;
+          mockLauncherRecentCall;
 
       renderer.init(configJSON);
+
+      mockLauncherRecentCall = mockLauncher.create.calls.mostRecent();
 
       expect(mockSubmitTicket.create)
         .toHaveBeenCalledWith('ticketSubmissionForm', jasmine.any(Object));
@@ -129,12 +131,11 @@ describe('renderer', function() {
       expect(mockChat.create)
         .toHaveBeenCalledWith('zopimChat', jasmine.any(Object));
 
-      expect(mockLauncher.create.callCount)
+      expect(mockLauncher.create.calls.count())
         .toBe(2);
 
       expect(mockLauncherRecentCall.args[1].position)
         .toEqual(launcherProps.position);
-
       // Access onClick callback and trigger it
       mockLauncherRecentCall.args[1].onClick();
       expect(mockSubmitTicket.show)
@@ -242,10 +243,10 @@ describe('renderer', function() {
         }
       });
 
-      expect(mockLauncher.create.callCount)
+      expect(mockLauncher.create.calls.count())
         .toEqual(1);
 
-      expect(mockLauncher.render.callCount)
+      expect(mockLauncher.render.calls.count())
         .toEqual(1);
   });
 
@@ -271,13 +272,13 @@ describe('renderer', function() {
       expect(updateBaseFontSize)
         .toHaveBeenCalledWith('24px');
 
-      expect(updateBaseFontSize.callCount)
+      expect(updateBaseFontSize.calls.count())
         .toEqual(2);
 
       expect(updateFrameSize)
         .toHaveBeenCalled();
 
-      expect(updateFrameSize.callCount)
+      expect(updateFrameSize.calls.count())
         .toEqual(2);
     });
 
@@ -297,11 +298,11 @@ describe('renderer', function() {
         }
       });
 
-      jasmine.Clock.useMock();
+      jasmine.clock().install();
 
       dispatchEvent('orientationchange', window);
 
-      jasmine.Clock.tick(10);
+      jasmine.clock().tick(10);
 
       expect(updateBaseFontSize)
         .toHaveBeenCalled();
@@ -326,11 +327,11 @@ describe('renderer', function() {
         }
       });
 
-      jasmine.Clock.useMock();
+      jasmine.clock().install();
 
       dispatchEvent('touchend', window);
 
-      jasmine.Clock.tick(10);
+      jasmine.clock().tick(10);
 
       expect(updateBaseFontSize)
         .toHaveBeenCalled();

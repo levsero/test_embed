@@ -19,7 +19,7 @@ describe('embed.launcher', function() {
       },
       'component/Launcher': {
         Launcher: jasmine.createSpy('mockLauncher')
-          .andCallFake(
+          .and.callFake(
             React.createClass({
               changeIcon: jasmine.createSpy('mockChangeIcon'),
               render: function() {
@@ -98,7 +98,7 @@ describe('embed.launcher', function() {
           icon: ''
         };
         launcher.create('alice', frameConfig);
-        mockFrameFactoryRecentCall = mockFrameFactory.mostRecentCall.args;
+        mockFrameFactoryRecentCall = mockFrameFactory.calls.mostRecent().args;
       });
 
       it('should apply the configs', function() {
@@ -141,7 +141,7 @@ describe('embed.launcher', function() {
 
         childParams.extend.onClickHandler.bind(mockFrameFactoryScope, eventObj)();
 
-        expect(frameConfig.onClick.callCount)
+        expect(frameConfig.onClick.calls.count())
           .toEqual(1);
 
         expect(mockBeacon.track)
@@ -260,7 +260,7 @@ describe('embed.launcher', function() {
       launcher.create('alice');
       launcher.render('alice');
 
-      mockFrameCss = mockFrameFactory.mostRecentCall.args[1].css;
+      mockFrameCss = mockFrameFactory.calls.mostRecent().args[1].css;
 
       expect(mockFrameCss)
         .toBe(mockCss);
@@ -275,7 +275,7 @@ describe('embed.launcher', function() {
       launcher.create('alice');
       launcher.render('alice');
 
-      mockFrameStyle = mockFrameFactory.mostRecentCall.args[1].style;
+      mockFrameStyle = mockFrameFactory.calls.mostRecent().args[1].style;
 
       expect(mockFrameStyle.left)
         .toBeUndefined();
@@ -293,7 +293,7 @@ describe('embed.launcher', function() {
       launcher.create('alice', {position: 'left'});
       launcher.render('alice');
 
-      mockFrameStyle = mockFrameFactory.mostRecentCall.args[1].style;
+      mockFrameStyle = mockFrameFactory.calls.mostRecent().args[1].style;
 
       expect(mockFrameStyle.left)
         .toBeDefined();

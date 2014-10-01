@@ -37,7 +37,7 @@ describe('store', function() {
 
       spyOn(mockSessionStorage, 'getItem');
       spyOn(mockLocalStorage, 'getItem')
-        .andReturn(value);
+        .and.returnValue(value);
 
       expect(store.get(key))
         .toEqual(value);
@@ -52,10 +52,10 @@ describe('store', function() {
           value = {a: [1, 2], b: ['abc','def']};
 
       spyOn(mockLocalStorage, 'getItem')
-        .andReturn(JSON.stringify(value));
+        .and.returnValue(JSON.stringify(value));
 
       spyOn(mockSessionStorage, 'getItem');
-      
+
       expect(store.get(key))
         .toEqual(value);
 
@@ -68,7 +68,7 @@ describe('store', function() {
           value = 'xyz';
 
       spyOn(mockSessionStorage, 'getItem')
-        .andReturn(value);
+        .and.returnValue(value);
 
       spyOn(mockLocalStorage, 'getItem');
 
@@ -118,9 +118,9 @@ describe('store', function() {
       store.set(key, value);
       expect(mockLocalStorage.setItem)
         .toHaveBeenCalledWith(prefix + key, JSON.stringify(value));
-      
-      recentCall = mockLocalStorage.setItem.mostRecentCall;
-      
+
+      recentCall = mockLocalStorage.setItem.calls.mostRecent();
+
       expect(JSON.parse(recentCall.args[1])).toEqual(value);
     });
 
@@ -166,7 +166,7 @@ describe('store', function() {
 
       // We're using _.keys to retreive the keys in storage
       spyOn(_, 'keys')
-        .andReturn(['ZD-a', 'ZD-b', 'dont-delete']);
+        .and.returnValue(['ZD-a', 'ZD-b', 'dont-delete']);
 
       store.clear();
 
@@ -181,10 +181,10 @@ describe('store', function() {
     });
 
     it('should only delete ZD-* keys in the session storage store', function() {
-      
+
       // We're using _.keys to retreive the keys in storage
       spyOn(_, 'keys')
-        .andReturn(['ZD-a', 'ZD-b', 'dont-delete']);
+        .and.returnValue(['ZD-a', 'ZD-b', 'dont-delete']);
 
       store.clear(true);
 

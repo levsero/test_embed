@@ -7,7 +7,7 @@ var mockFrameMethods = {
 
 exports.mockFrameMethods = mockFrameMethods;
 
-var mockFrameFactory = jasmine.createSpy('mockFrameFactory').andCallFake(
+var mockFrameFactory = jasmine.createSpy('mockFrameFactory').and.callFake(
   function(child, params) {
     return _.extend({
       show: mockFrameMethods.show,

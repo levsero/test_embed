@@ -15,7 +15,7 @@ describe('transport', function() {
     };
     mockRegistry = initMockRegistry({
       'react/addons': React,
-      'superagent': jasmine.createSpy().andCallFake(function() {
+      'superagent': jasmine.createSpy().and.callFake(function() {
           return mockMethods;
       }),
       'imports?_=lodash!lodash': _
@@ -33,7 +33,7 @@ describe('transport', function() {
   describe('#init', function() {
 
     beforeEach(function() {
-      spyOn(_, 'extend').andCallThrough();
+      spyOn(_, 'extend').and.callThrough();
     });
 
     it('makes use of default config values', function() {
@@ -42,7 +42,7 @@ describe('transport', function() {
 
       transport.init();
 
-      recentCall = _.extend.mostRecentCall;
+      recentCall = _.extend.calls.mostRecent();
 
       // verifying config defaults
       expect(recentCall.args[1])
@@ -58,7 +58,7 @@ describe('transport', function() {
 
       transport.init(testConfig);
 
-      recentCall = _.extend.mostRecentCall;
+      recentCall = _.extend.calls.mostRecent();
 
       expect(recentCall.args[1])
         .toEqual(testConfig);
@@ -111,7 +111,7 @@ describe('transport', function() {
 
     it('sets the json type', function() {
 
-      spyOn(mockMethods, 'type').andCallThrough();
+      spyOn(mockMethods, 'type').and.callThrough();
 
       transport.init(config);
       transport.send(payload);
@@ -126,14 +126,14 @@ describe('transport', function() {
 
       delete payload.params;
 
-      spyOn(mockMethods, 'send').andCallThrough();
+      spyOn(mockMethods, 'send').and.callThrough();
 
       transport.init(config);
       transport.send(payload);
 
       expect(mockMethods.send);
 
-      recentCall = mockMethods.send.mostRecentCall;
+      recentCall = mockMethods.send.calls.mostRecent();
 
       expect(recentCall.args[0])
         .not.toBeUndefined();
@@ -146,7 +146,7 @@ describe('transport', function() {
 
       spyOn(payload.callbacks, 'done');
       spyOn(payload.callbacks, 'fail');
-      spyOn(mockMethods, 'end').andCallThrough();
+      spyOn(mockMethods, 'end').and.callThrough();
 
       transport.init(config);
       transport.send(payload);
@@ -154,7 +154,7 @@ describe('transport', function() {
       expect(mockMethods.end)
         .toHaveBeenCalled();
 
-      recentCall = mockMethods.end.mostRecentCall;
+      recentCall = mockMethods.end.calls.mostRecent();
 
       callback = recentCall.args[0];
 
@@ -174,7 +174,7 @@ describe('transport', function() {
 
       spyOn(payload.callbacks, 'fail');
       spyOn(payload.callbacks, 'done');
-      spyOn(mockMethods, 'end').andCallThrough();
+      spyOn(mockMethods, 'end').and.callThrough();
 
       transport.init(config);
       transport.send(payload);
@@ -182,7 +182,7 @@ describe('transport', function() {
       expect(mockMethods.end)
         .toHaveBeenCalled();
 
-      recentCall = mockMethods.end.mostRecentCall;
+      recentCall = mockMethods.end.calls.mostRecent();
 
       callback = recentCall.args[0];
 
@@ -201,14 +201,14 @@ describe('transport', function() {
       var recentCall,
           callback;
 
-      spyOn(mockMethods, 'end').andCallThrough();
+      spyOn(mockMethods, 'end').and.callThrough();
 
       delete payload.callbacks;
 
       transport.init(config);
       transport.send(payload);
 
-      recentCall = mockMethods.end.mostRecentCall;
+      recentCall = mockMethods.end.calls.mostRecent();
 
       callback = recentCall.args[0];
 
@@ -222,14 +222,14 @@ describe('transport', function() {
       var recentCall,
           callback;
 
-      spyOn(mockMethods, 'end').andCallThrough();
+      spyOn(mockMethods, 'end').and.callThrough();
 
       delete payload.callbacks.done;
 
       transport.init(config);
       transport.send(payload);
 
-      recentCall = mockMethods.end.mostRecentCall;
+      recentCall = mockMethods.end.calls.mostRecent();
 
       callback = recentCall.args[0];
 
@@ -243,14 +243,14 @@ describe('transport', function() {
       var recentCall,
           callback;
 
-      spyOn(mockMethods, 'end').andCallThrough();
+      spyOn(mockMethods, 'end').and.callThrough();
 
       delete payload.callbacks.fail;
 
       transport.init(config);
       transport.send(payload);
 
-      recentCall = mockMethods.end.mostRecentCall;
+      recentCall = mockMethods.end.calls.mostRecent();
 
       callback = recentCall.args[0];
 
