@@ -95,6 +95,9 @@ describe('Help center component', function() {
 
       helpCenter.handleSubmit({preventDefault: noop});
 
+      expect(helpCenter.state.hasSearched)
+        .toBeFalsy();
+
       expect(helpCenter.state.isLoading)
         .toBeTruthy();
 
@@ -111,6 +114,9 @@ describe('Help center component', function() {
 
       expect(helpCenter.state.isLoading)
         .toBeFalsy();
+
+      expect(helpCenter.state.hasSearched)
+        .toBeTruthy();
 
       expect(mockBeacon).toHaveBeenCalled();
     });

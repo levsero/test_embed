@@ -25,7 +25,7 @@ export var HelpCenter = React.createClass({
   },
 
   focusField() {
-    this.refs.helpCenter.refs.searchField.focus()
+    this.refs.searchField.focus();
   },
 
   getViewAllUrl() {

@@ -20,7 +20,7 @@ var mockFrameFactory = jasmine.createSpy('mockFrameFactory').and.callFake(
       render: function() {
         return (childFn(childParams));
       }
-    })
+    });
 
     child = React.renderComponent(<Component />, global.document.body);
 
