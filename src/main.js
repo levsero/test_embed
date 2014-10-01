@@ -53,8 +53,8 @@ function boot() {
       path: '/embeddable/config',
       callbacks: {
         done(res) {
-         handleQueue();
-         renderer.init(res.body);
+          handleQueue();
+          renderer.init(res.body);
         },
         fail(error) {
           Airbrake.push({
