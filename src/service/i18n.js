@@ -10,8 +10,14 @@ function init() {
 }
 
 function setLocale(locale = 'en-US') {
+  locale = uppercaseRegionCode(locale);
   translate.setLocale(locale);
   translate.registerTranslations(locale, translations[locale]);
+}
+
+function uppercaseRegionCode(locale) {
+  var dashIndex = locale.indexOf('-') + 1;
+  return locale.substring(0, dashIndex) + locale.substring(dashIndex).toUpperCase();
 }
 
 export var i18n = {

@@ -4,6 +4,7 @@ import { beacon }             from 'service/beacon';
 import { logging }            from 'service/logging';
 import { renderer }           from 'service/renderer';
 import { transport }          from 'service/transport';
+import { i18n }               from 'service/i18n';
 import { win, location }      from 'utility/globals';
 import { getSizingRatio,
          isMobileBrowser,
@@ -38,13 +39,12 @@ function boot() {
 
   publicApi = {
     devRender: renderer.init,
-    bustCache: transport.bustCache
+    bustCache: transport.bustCache,
+    setLocale: i18n.setLocale
   };
 
-  if (win.zE === win.zEmbed) {
-    win.zE = win.zEmbed = publicApi;
-  } else {
-    win.zEmbed = publicApi;
+  for (var p in publicApi) {
+    win.zEmbed[p] = publicApi[p];
   }
 
   if (!isBlacklisted()) {
@@ -53,8 +53,8 @@ function boot() {
       path: '/embeddable/config',
       callbacks: {
         done(res) {
-          renderer.init(res.body);
-          handleQueue();
+         handleQueue();
+         renderer.init(res.body);
         },
         fail(error) {
           Airbrake.push({
@@ -69,8 +69,8 @@ function boot() {
 
     //The config for zendesk.com
     if (host === 'www.zendesk.com' && _.contains(chatPages, path)) {
-      renderer.init(renderer.hardcodedConfigs.zendeskWithChat);
       handleQueue();
+      renderer.init(renderer.hardcodedConfigs.zendeskWithChat);
     } else {
       transport.get(rendererPayload);
     }
@@ -84,9 +84,7 @@ function boot() {
 
   function handleQueue() {
     _.forEach(document.zEQueue, function(item) {
-      if (item[0] === 'ready') {
-        item[1](win.zEmbed);
-      }
+      item[0](win.zEmbed);
     });
   }
 
