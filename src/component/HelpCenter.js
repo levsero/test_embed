@@ -45,6 +45,7 @@ export var HelpCenter = React.createClass({
       topics: topics,
       resultCount: json.count,
       isLoading: false,
+      previousSearchTerm: this.state.searchTerm,
       hasSearched: true
     });
   },
@@ -170,8 +171,8 @@ export var HelpCenter = React.createClass({
           <div className={noResultsClasses}>
             <p className='u-marginBN u-marginTL'>
               {i18n.t('embeddable_framework.helpCenter.label.noResults', {
-                searchTerm: this.state.searchTerm,
-                fallback: 'Uh oh, there are no results for \"' + this.state.searchTerm + '\"'
+                searchTerm: this.state.previousSearchTerm,
+                fallback: 'Uh oh, there are no results for \"' + this.state.previousSearchTerm + '\"'
                })}
             </p>
             <p className='u-textSecondary u-marginBL'>
