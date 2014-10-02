@@ -147,6 +147,7 @@ export var HelpCenter = React.createClass({
     }
 
     return (
+      /* jshint laxbreak: true */
       <div className={containerClasses}>
         <div className={containerBarClasses} />
         <HelpCenterForm
@@ -172,7 +173,9 @@ export var HelpCenter = React.createClass({
             <p className='u-marginBN u-marginTL'>
               {i18n.t('embeddable_framework.helpCenter.label.noResults', {
                 searchTerm: this.state.previousSearchTerm,
-                fallback: 'Uh oh, there are no results for \"' + this.state.previousSearchTerm + '\"'
+                fallback: 'Uh oh, there are no results for \"'
+                  + this.state.previousSearchTerm
+                  + '\"'
                })}
             </p>
             <p className='u-textSecondary u-marginBL'>

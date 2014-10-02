@@ -73,7 +73,7 @@ describe('embed.helpCenter', function() {
     helpCenter = require(helpCenterPath).helpCenter;
 
     frameConfig = {
-      onShow: jasmine.createSpy('onShow').and.callFake(noop),
+      onShow: jasmine.createSpy('onShow'),
       onHide: jasmine.createSpy('onHide')
     };
   });
