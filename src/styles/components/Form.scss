@@ -29,6 +29,10 @@ $Form-fontSize: #{13/$font-size}rem;
   border-bottom: #{1/$font-size}rem solid $base-border-color;
 }
 
+.Form-cta--fullscreen {
+  padding-top: 40%;
+}
+
 .rf-Field {
   margin-bottom: $Form-gutter;
   background: $base-color;

@@ -19,13 +19,16 @@ export var HelpCenter = React.createClass({
       topics: [],
       resultCount: 0,
       searchTerm: '',
+      buttonLabel: i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket'),
       fullscreen: isMobileBrowser(),
       hasSearched: false
     };
   },
 
   focusField() {
-    this.refs.searchField.focus();
+    if (!isMobileBrowser) {
+      this.refs.searchField.focus();
+    }
   },
 
   getViewAllUrl() {
@@ -35,6 +38,9 @@ export var HelpCenter = React.createClass({
   handleSubmit(e) {
     e.preventDefault();
     this.handleSearch(true);
+    if (isMobileBrowser) {
+      this.refs.searchField.blur();
+    }
   },
 
   updateResults(res) {
@@ -132,18 +138,36 @@ export var HelpCenter = React.createClass({
         }),
         noResultsClasses = classSet({
           'u-marginTM u-marginB14 u-textCenter u-borderBottom u-textSizeMed': true,
-          'u-isHidden': this.state.resultCount || !this.state.hasSearched
+          'u-isHidden': this.state.resultCount || !this.state.hasSearched,
+          'u-textSizeBaseMobile': this.state.fullscreen
         }),
         formClasses = classSet({
           'u-nbfc': true,
           'Container-pullout': !this.state.fullscreen
         }),
+        searchTitleClasses = classSet({
+          'u-textSizeBaseMobile u-marginTM u-textCenter Form-cta--fullscreen': true,
+          'u-isHidden': !this.state.fullscreen || this.state.hasSearched
+        }),
+        linkClasses = classSet({
+          'u-textSizeBaseMobile u-textCenter u-marginTM': true,
+          'u-isHidden': !this.state.fullscreen || this.state.hasSearched
+        }),
         logoUrl = ['//www.zendesk.com/lp/just-one-click/',
           '?utm_source=launcher&utm_medium=poweredbyzendesk&utm_campaign=image'
-        ].join('');
+        ].join(''),
+        linkLabel,
+        linkContext;
 
     if (this.props.updateFrameSize) {
       setTimeout( () => this.props.updateFrameSize(0, 10), 0);
+    }
+    if (this.state.buttonLabel === 'Live chat') {
+      linkContext = 'Need more specific help?';
+      linkLabel = 'Chat with us';
+    } else {
+      linkContext = 'Do you have a specific question?';
+      linkLabel = 'Send us a message';
     }
 
     return (
@@ -157,13 +181,23 @@ export var HelpCenter = React.createClass({
           onSearch={this.handleSearch}
           isLoading={this.state.isLoading}
           hasSearched={this.state.hasSearched}
+          buttonLabel={this.state.buttonLabel}
           onButtonClick={this.props.onButtonClick}
           onSubmit={this.handleSubmit}>
+          <h1 className={searchTitleClasses}>
+            Search our Help Center
+          </h1>
           <SearchField
             ref='searchField'
             fullscreen={this.state.fullscreen}
             hasSearched={this.state.hasSearched}
             isLoading={this.state.isLoading} />
+          <div className={linkClasses}>
+            <p>{linkContext}</p>
+            <a onClick={this.props.onButtonClick}>
+              {linkLabel}
+            </a>
+          </div>
           <h1 className={formLegendClasses}>
             <span className='Arrange-sizeFill'>
               {i18n.t('embeddable_framework.helpCenter.label.results')}
@@ -176,7 +210,7 @@ export var HelpCenter = React.createClass({
                 fallback: 'Uh oh, there are no results for \"'
                   + this.state.previousSearchTerm
                   + '\"'
-               })}
+              })}
             </p>
             <p className='u-textSecondary u-marginBL'>
               {i18n.t('embeddable_framework.helpCenter.paragraph.noResults', {

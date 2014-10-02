@@ -118,7 +118,7 @@ var SearchField = React.createClass({
         }),
         searchContainerClasses = classSet({
           'Form-cta u-cf': true,
-          'Form-cta--bar': this.props.hasSearched,
+          'Form-cta--bar': this.props.hasSearched && !this.props.fullscreen,
           'u-paddingHN u-paddingBN': this.props.fullscreen,
           'Container-pullout': !this.props.fullscreen
         }),
@@ -134,7 +134,10 @@ var SearchField = React.createClass({
           'Icon Icon--clearInput': true,
           'u-isActionable u-textCenter': true,
           'u-isHidden': !this.state.isClearable || this.props.isLoading || !this.state.focused
-        });
+        }),
+        placeholder;
+
+    placeholder = (isMobileBrowser) ? '' : i18n.t('embeddable_framework.helpCenter.search.label');
 
     return (
       /* jshint quotmark:false */
@@ -149,7 +152,7 @@ var SearchField = React.createClass({
               value={this.state.searchInputVal}
               onFocus={this.onFocus}
               onBlur={this.onBlur}
-              placeholder={i18n.t('embeddable_framework.helpCenter.search.label')}
+              placeholder={placeholder}
               type='search' />
           </div>
           <div className='Arrange-sizeFit u-isActionable'>
