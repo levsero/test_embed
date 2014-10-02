@@ -163,11 +163,19 @@ export var HelpCenter = React.createClass({
       setTimeout( () => this.props.updateFrameSize(0, 10), 0);
     }
     if (this.state.buttonLabel === 'Live chat') {
-      linkContext = 'Need more specific help?';
-      linkLabel = 'Chat with us';
+      linkContext = i18n.t('embeddable_framework.helpCenter.label.linkContext.chat', {
+          fallback: 'Need more specific help?'
+      });
+      linkLabel = i18n.t('embeddable_framework.helpCenter.label.link.chat', {
+          fallback: 'Chat with us'
+      });
     } else {
-      linkContext = 'Do you have a specific question?';
-      linkLabel = 'Send us a message';
+      linkContext = i18n.t('embeddable_framework.helpCenter.label.linkContext.submitTicket', {
+          fallback: 'Do you have a specific question?'
+      });
+      linkLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket', {
+          fallback: 'Leave us a message'
+      });
     }
 
     return (

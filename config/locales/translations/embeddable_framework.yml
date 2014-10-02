@@ -108,6 +108,21 @@ parts:
       title: "The paragraph for the help center widget when there are no results returned from search. Will wrap as needed (tinyurl.com/okoocb7)"
       value: "Try searching for something else"
       wip: true
+  - translation:
+      key: "embeddable_framework.helpCenter.label.linkContext.chat"
+      title: "The paragraph that displays above the link to a live chat on mobile"
+      value: "Need more specific help?"
+      wip: true
+  - translation:
+      key: "embeddable_framework.helpCenter.label.linkContext.submitTicket"
+      title: "The paragraph that displays above the link to submit a ticket on mobile."
+      value: "Do you have a specific question?"
+      wip: true
+  - translation:
+      key: "embeddable_framework.helpCenter.label.link.chat"
+      title: "The link to a live chat that displays on the initial screen on mobile."
+      value: "Chat with us"
+      wip: true
 
   # Mobile
   - translation:
