@@ -53,7 +53,9 @@ function init(config) {
     });
 
     renderedEmbeds = config;
-    initChatTicketSubmissionMediator();
+    //initChatTicketSubmissionMediator();
+    initTicketSubmissionMediator();
+
     initialised = true;
   }
 }
@@ -128,25 +130,26 @@ function initChatTicketSubmissionMediator() {
 }
 
 function initTicketSubmissionMediator() {
-  var state = {
-    'ticketSubmissionForm.isVisible': false,
-    'zopimChat.isVisible': false,
-    'zopimChat.isOnline': false
-  };
+  var ticketForm = 'ticketSubmissionForm',
+      launcher = 'ticketSubmissionLauncher',
+      c = mediator.channel,
+      state = {};
+
+  state[`${ticketForm}.isVisible`] = false;
 
   mediator.channel.intercept(
-    ['ticketSubmissionLauncher.onClick',
-     'ticketSubmissionForm.onClose'].join(','),
+    [`${launcher}.onClick`,
+     `${ticketForm}.onClose`].join(','),
     function() {
-      if (state['ticketSubmissionForm.isVisible']) {
-        mediator.channel.broadcast('ticketSubmissionForm.hide');
-        mediator.channel.broadcast('ticketSubmissionLauncher.deactivate');
-        state['ticketSubmissionForm.isVisible'] = false;
+      if (state[`${ticketForm}.isVisible`]) {
+        c.broadcast(`${ticketForm}.hide`);
+        c.broadcast(`${launcher}.deactivate`);
+        state[`${ticketForm}.isVisible`] = false;
       }
       else {
-        mediator.channel.broadcast('ticketSubmissionForm.show');
-        mediator.channel.broadcast('ticketSubmissionLauncher.activate');
-        state['ticketSubmissionForm.isVisible'] = true;
+        c.broadcast(`${ticketForm}.show`);
+        c.broadcast(`${launcher}.activate`);
+        state[`${ticketForm}.isVisible`] = true;
       }
     });
 }
