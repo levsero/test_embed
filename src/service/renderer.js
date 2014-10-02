@@ -21,12 +21,13 @@ function parseConfig(config) {
   _.forEach(rendererConfig, function(configItem) {
     configItem.props = _.reduce(configItem.props, function(result, value, key) {
       /* jshint laxbreak: true */
-      result[key] = (_.isObject(value))
-                  ? function(...args) {
-                      args.unshift(value.name);
-                      return embedsMap[config[value.name].embed][value.method].apply(null, args);
-                    }
-                  : value;
+      result[key] = value;
+      //result[key] = (_.isObject(value))
+      //            ? function(...args) {
+      //                args.unshift(value.name);
+      //                return embedsMap[config[value.name].embed][value.method].apply(null, args);
+      //              }
+      //            : value;
 
       return result;
     }, {});

@@ -15,13 +15,20 @@ describe('embed.chat', function() {
   beforeEach(function() {
     resetDOM();
 
-    mockery.enable();
+    mockery.enable({
+      useCleanCache: true
+    });
 
     mockRegistry = initMockRegistry({
       'utility/globals': mockGlobals,
       'utility/devices': mockDevices,
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', ['init', 'setLocale', 't'])
+      },
+      'service/mediator': {
+        mediator: {
+          channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
+        }
       },
       'imports?_=lodash!lodash': _
     });
@@ -60,6 +67,7 @@ describe('embed.chat', function() {
   });
 
   describe('get', function() {
+
     it('should return the correct chat', function() {
       var dave;
 
@@ -94,12 +102,13 @@ describe('embed.chat', function() {
 
   describe('show', function() {
 
-    it('should call the configs onShow', function() {
+    it('should broadcast onShow', function() {
       var mockConfig = {
         zopimId: 'abc123',
         onShow: jasmine.createSpy()
       },
-      mockDom = '<div class="zopim" __jx__id></div><div class="zopim" __jx__id></div>';
+      mockDom = '<div class="zopim" __jx__id></div><div class="zopim" __jx__id></div>',
+      mockMediator = mockRegistry['service/mediator'].mediator;
 
       // Adds the zopim classes to the dom so the query
       // selector in show has something to grab
@@ -110,8 +119,8 @@ describe('embed.chat', function() {
       chat.render('dave');
       chat.show('dave');
 
-      expect(mockConfig.onShow)
-        .toHaveBeenCalled();
+      expect(mockMediator.channel.broadcast)
+        .toHaveBeenCalledWith('dave.onShow');
     });
   });
 
@@ -121,15 +130,16 @@ describe('embed.chat', function() {
       var mockConfig = {
         zopimId: 'abc123',
         onHide: jasmine.createSpy()
-      };
+      },
+      mockMediator = mockRegistry['service/mediator'].mediator;
 
       chat.create('dave', mockConfig);
 
       chat.render('dave');
       chat.hide('dave');
 
-      expect(mockConfig.onHide)
-        .toHaveBeenCalled();
+      expect(mockMediator.channel.broadcast)
+        .toHaveBeenCalledWith('dave.onHide');
     });
   });
 });

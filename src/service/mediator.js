@@ -54,7 +54,6 @@ function initChatTicketSubmissionMediator() {
   });
 
   channel.intercept(`${chat}.onUnreadMsgs`, function(b, count) {
-    console.log('unreadMsg', count);
     state[`${chat}.unreadMsgs`] = count;
     if (state[`${chat}.isOnline`]) {
       channel.broadcast(`${launcher}.setLabelUnreadMsgs`, count);

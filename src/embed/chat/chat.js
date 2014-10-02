@@ -29,7 +29,7 @@ function get(name) {
   return chats[name];
 }
 
-function show(name, skipOnShow) {
+function show(name) {
   var config = get(name).config,
       zopim = win.$zopim;
 
@@ -45,90 +45,17 @@ function show(name, skipOnShow) {
   if (styleTag.parentNode) {
     styleTag.parentNode.removeChild(styleTag);
   }
-
-  if (_.isFunction(config.onShow) && !skipOnShow) {
-    config.onShow();
-  }
+  mediator.channel.broadcast(name + '.onShow');
 }
 
 function hide(name) {
-  var config = get(name).config,
-      zopim = win.$zopim;
+  var zopim = win.$zopim;
 
   zopim(function() {
     zopim.livechat.hideAll();
   });
 
-  if (_.isFunction(config.onHide)) {
-    config.onHide();
-  }
-}
-
-function isOnline(name) {
-  return get(name).isOnline;
-}
-
-function toggleVisibility(name, isVisible, skipOnShow = false) {
-  if (isVisible) {
-    hide(name);
-  } else {
-    show(name, skipOnShow);
-  }
-}
-
-function update(name, isActive) {
-  var zopim = win.$zopim,
-      chat = get(name),
-      config = chat.config;
-
-  zopim(function() {
-    if (isActive && zopim.livechat.window.getDisplay()) {
-      hide(name);
-
-      if (isOnline(name)) {
-        config.setLabel(i18n.t('embeddable_framework.launcher.label.chat'));
-      } else {
-        config.setLabel(i18n.t('embeddable_framework.launcher.label.help'));
-      }
-
-    } else {
-
-      if (isOnline(name) && !chat.isForm) {
-        show(name);
-      } else {
-        handleForm(name);
-      }
-    }
-  });
-}
-
-function handleForm(name) {
-  var chat = get(name);
-
-  if (chat.isForm) {
-    chat.isForm = false;
-    chat.config.updateForm(true);
-  } else {
-    chat.isForm = true;
-    chat.config.updateForm(false);
-  }
-}
-
-function setStatus(opts) {
-  var { name, isOnline, icon, label } = opts,
-      chat = get(name),
-      config = chat.config;
-
-  chat.isOnline = isOnline;
-
-  // If hc exists this method will exist
-  if (_.isFunction(config.setStatus)) {
-    config.setIcon(icon);
-    config.setStatus(isOnline);
-  } else {
-    config.setLabel(label);
-    config.setIcon(icon);
-  }
+  mediator.channel.broadcast(name + '.onHide');
 }
 
 function render(name) {
@@ -171,9 +98,11 @@ function init(name) {
       config = chat.config,
       onStatus = function(status) {
         if (status === 'online' && chat.connected) {
-          mediator.channel.broadcast('zopimChat.onOnline');
+          chat.isOnline = true;
+          mediator.channel.broadcast(name + '.onOnline');
         } else {
-          mediator.channel.broadcast('zopimChat.onOffline');
+          chat.isOnline = false;
+          mediator.channel.broadcast(name + '.onOffline');
         }
       },
       onConnect = function() {
@@ -185,9 +114,7 @@ function init(name) {
             show(name);
             mediator.channel.broadcast(name + '.onShow');
           }
-          if (_.isFunction(config.isChatting)) {
-            config.isChatting();
-          }
+          mediator.channel.broadcast(name + '.onIsChatting');
           chat.chatStarted = false;
         }
 
@@ -199,17 +126,13 @@ function init(name) {
         chat.chatStarted = true;
       },
       onChatEnd = function() {
-        if (_.isFunction(config.chatEnd)) {
-          config.chatEnd();
-          hide(name);
-        }
+        mediator.channel.broadcast(name + '.onChatEnd');
+        hide(name);
       },
       onHide = function() {
         if (!chat.isOnline) {
-          config.onHide();
-          if (_.isFunction(config.chatEnd)) {
-            config.chatEnd();
-          }
+          mediator.channel.broadcast(name + '.onHide');
+          mediator.channel.broadcast(name + '.onChatEnd');
         }
       };
 
@@ -225,9 +148,7 @@ function init(name) {
       zopimLive.hideAll();
     } else {
       show(name);
-      if (_.isFunction(config.isChatting)) {
-        config.isChatting();
-      }
+      mediator.channel.broadcast(name + '.onIsChatting');
       mediator.channel.broadcast(name + '.onShow');
     }
 
@@ -247,7 +168,5 @@ export var chat  = {
   get: get,
   show: show,
   hide: hide,
-  update: update,
-  toggleVisibility: toggleVisibility,
   render: render
 };
