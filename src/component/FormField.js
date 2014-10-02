@@ -33,7 +33,7 @@ var FocusField = React.createClass({
           'Arrange Arrange--middle rf-Field u-isSelectable': true,
           'rf-Field--focused': this.state.focused,
           'rf-Field--blurred': this.state.blurred,
-          'rf-Field--invalid': isInvalid,
+          'rf-Field--invalid': isInvalid && this.state.blurred,
           'rf-Field--dirty': !value.isUndefined
         });
 
