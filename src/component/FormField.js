@@ -50,6 +50,10 @@ var FocusField = React.createClass({
 });
 
 function IconField(props) {
+  var fieldClasses = classSet({
+        'Arrange-sizeFill u-vsizeAll': true,
+        'u-textSize15': isMobileBrowser()
+      });
   props = props || {};
 
   /* jshint quotmark:false */
@@ -62,7 +66,7 @@ function IconField(props) {
         <input
           placeholder={props.placeholder}
           autoComplete={props.autoComplete || 'on'}
-          className='Arrange-sizeFill u-vsizeAll' />
+          className={fieldClasses} />
       }
       validate={props.validate || ''}
       component={<FocusField icon={props.icon} />}
@@ -117,10 +121,10 @@ var SearchField = React.createClass({
           'u-isHidden': !this.props.isLoading
         }),
         searchContainerClasses = classSet({
-          'Form-cta u-cf': true,
+          'u-cf': true,
           'Form-cta--bar': this.props.hasSearched && !this.props.fullscreen,
-          'u-paddingHN u-paddingBN': this.props.fullscreen,
-          'Container-pullout': !this.props.fullscreen
+          'u-paddingHN u-paddingBN u-paddingT18': this.props.fullscreen,
+          'Form-cta Container-pullout': !this.props.fullscreen
         }),
         searchInputClasses = classSet({
           'Arrange Arrange--middle rf-Field rf-Field--search u-isSelectable': true,
@@ -137,7 +141,7 @@ var SearchField = React.createClass({
         }),
         placeholder;
 
-    placeholder = (isMobileBrowser) ? '' : i18n.t('embeddable_framework.helpCenter.search.label');
+    placeholder = (isMobileBrowser()) ? '' : i18n.t('embeddable_framework.helpCenter.search.label');
 
     return (
       /* jshint quotmark:false */
@@ -168,7 +172,11 @@ var SearchField = React.createClass({
 });
 
 function EmailField(props) {
-  var type = 'email';
+  var type = 'email',
+      fieldClasses = classSet({
+        'Arrange-sizeFill u-vsizeAll': true,
+        'u-textSize15': isMobileBrowser()
+      });
 
   return IconField({
     name: props.name || type,
@@ -180,7 +188,7 @@ function EmailField(props) {
       <input
         type={type}
         placeholder={i18n.t('embeddable_framework.form.field.email.label')}
-        className='Arrange-sizeFill u-vsizeAll' />
+        className={fieldClasses} />
     ),
     validate: function(value) {
       return validation.validateEmail(value);

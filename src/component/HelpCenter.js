@@ -26,7 +26,7 @@ export var HelpCenter = React.createClass({
   },
 
   focusField() {
-    if (!isMobileBrowser) {
+    if (!isMobileBrowser()) {
       this.refs.searchField.focus();
     }
   },
@@ -109,7 +109,7 @@ export var HelpCenter = React.createClass({
         listClasses = classSet({
           'List': true,
           'u-isHidden': !this.state.topics.length,
-          'u-borderNone u-marginBS': this.state.fullscreen
+          'u-borderNone u-marginBS List--fullscreen': this.state.fullscreen
         }),
         listItemClasses = classSet({
           'List-item': true,
@@ -137,9 +137,10 @@ export var HelpCenter = React.createClass({
           'u-isHidden': !this.state.topics.length
         }),
         noResultsClasses = classSet({
-          'u-marginTM u-marginB14 u-textCenter u-borderBottom u-textSizeMed': true,
+          'u-marginTM u-textCenter u-textSizeMed': true,
           'u-isHidden': this.state.resultCount || !this.state.hasSearched,
-          'u-textSizeBaseMobile': this.state.fullscreen
+          'u-textSizeBaseMobile': this.state.fullscreen,
+          'u-borderBottom u-marginB14': !this.state.fullscreen
         }),
         formClasses = classSet({
           'u-nbfc': true,
@@ -150,8 +151,12 @@ export var HelpCenter = React.createClass({
           'u-isHidden': !this.state.fullscreen || this.state.hasSearched
         }),
         linkClasses = classSet({
-          'u-textSizeBaseMobile u-textCenter u-marginTM': true,
+          'u-textSizeBaseMobile u-textCenter u-marginTM u-marginTS': true,
           'u-isHidden': !this.state.fullscreen || this.state.hasSearched
+        }),
+        noResultsParagraphClasses = classSet({
+          'u-textSecondary': true,
+          'u-marginBL': !this.state.fullscreen
         }),
         logoUrl = ['//www.zendesk.com/lp/just-one-click/',
           '?utm_source=launcher&utm_medium=poweredbyzendesk&utm_campaign=image'
@@ -201,7 +206,7 @@ export var HelpCenter = React.createClass({
             hasSearched={this.state.hasSearched}
             isLoading={this.state.isLoading} />
           <div className={linkClasses}>
-            <p>{linkContext}</p>
+            <p className='u-marginBN u-marginT35'>{linkContext}</p>
             <a onClick={this.props.onButtonClick}>
               {linkLabel}
             </a>
@@ -220,7 +225,7 @@ export var HelpCenter = React.createClass({
                   + '\"'
               })}
             </p>
-            <p className='u-textSecondary u-marginBL'>
+            <p className={noResultsParagraphClasses}>
               {i18n.t('embeddable_framework.helpCenter.paragraph.noResults', {
                 fallback: 'Try searching for something else'
               })}

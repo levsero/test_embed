@@ -38,7 +38,7 @@ var HelpCenterForm = React.createClass({
           'u-isHidden': !this.props.hasSearched
         }),
         buttonContainerClasses = classSet({
-          'u-marginTA u-paddingTM': this.props.fullscreen
+          'u-marginTA': this.props.fullscreen
         }),
         formClasses = classSet({
           'Form u-cf': true
