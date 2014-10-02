@@ -18,10 +18,18 @@ describe('embed.submitTicket', function() {
     mockRegistry = initMockRegistry({
       'react/addons': React,
       'service/beacon': noop,
+      'service/mediator': {
+        mediator: {
+          channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
+        }
+      },
       'component/SubmitTicket': {
         SubmitTicket: jasmine.createSpy('mockSubmitTicket')
           .and.callFake(
             React.createClass({
+              show: jasmine.createSpy('show'),
+              hide: jasmine.createSpy('hide'),
+              reset: jasmine.createSpy('reset'),
               getInitialState: function() {
                 return {
                   showNotification: false,
@@ -45,7 +53,7 @@ describe('embed.submitTicket', function() {
         frameMethods: require(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
       },
       'utility/utils': {
-        setScaleLock: function() {}
+        setScaleLock: jasmine.createSpy('setScaleLock')
       },
       'utility/devices': {
         isMobileBrowser: function() {
@@ -94,7 +102,7 @@ describe('embed.submitTicket', function() {
         .toBeDefined();
     });
 
-    describe('mockFrameFactoryRecentCall', function() {
+    describe('frameFactory call', function() {
       var mockFrameFactory,
           mockFrameFactoryRecentCall;
 
@@ -104,19 +112,33 @@ describe('embed.submitTicket', function() {
         mockFrameFactoryRecentCall = mockFrameFactory.calls.mostRecent().args;
       });
 
-      it('should call onHide/Show config methods if passed in', function() {
-        var params = mockFrameFactoryRecentCall[1];
+      it('should toggle setScaleLock with onShow/onHide', function() {
+        var params = mockFrameFactoryRecentCall[1],
+            mockSetScaleLock = mockRegistry['utility/utils'].setScaleLock;
 
         params.onShow();
 
-        expect(frameConfig.onShow)
-          .toHaveBeenCalled();
+        expect(mockSetScaleLock)
+          .toHaveBeenCalledWith(true);
+
+        mockSetScaleLock.calls.reset();
 
         params.onHide();
 
-        expect(frameConfig.onHide)
-          .toHaveBeenCalled();
+        expect(mockSetScaleLock)
+          .toHaveBeenCalledWith(false);
       });
+
+      it('should broadcast <name>.onClose with onClose', function() {
+        var params = mockFrameFactoryRecentCall[1],
+            mockMediator = mockRegistry['service/mediator'].mediator;
+
+        params.onClose();
+
+        expect(mockMediator.channel.broadcast)
+          .toHaveBeenCalledWith('bob.onClose');
+      });
+
     });
 
     it('should switch iframe styles based on isMobileBrowser()', function() {
@@ -187,8 +209,8 @@ describe('embed.submitTicket', function() {
   });
 
   describe('render', function() {
-    it('should throw an exception if SubmitTicket does not exist', function() {
 
+    it('should throw an exception if SubmitTicket does not exist', function() {
       expect(function() {
         submitTicket.render('non_existent_submitTicket');
       }).toThrow();
@@ -238,6 +260,56 @@ describe('embed.submitTicket', function() {
       expect(mockFrameFactoryCss)
         .toBe(mockCss);
     });
+
+    describe('mediator subscription', function() {
+      var mockMediator,
+          pluckSubscribeCall = function(calls, key) {
+            return _.find(calls, function(call) {
+              return call[0] == key
+            })[1];
+          },
+          subscribeCalls,
+          bobSubmitTicket;
+
+      beforeEach(function() {
+        mockMediator = mockRegistry['service/mediator'].mediator;
+        submitTicket.create('bob');
+        submitTicket.render('bob');
+        bobSubmitTicket = submitTicket.get('bob').instance.getChild().refs.submitTicket;
+        subscribeCalls = mockMediator.channel.subscribe.calls.allArgs();
+      });
+
+      it('should subscribe to <name>.show', function() {
+        expect(mockMediator.channel.subscribe)
+          .toHaveBeenCalledWith('bob.show', jasmine.any(Function));
+
+        pluckSubscribeCall(subscribeCalls, 'bob.show')();
+
+        expect(submitTicket.get('bob').instance.show.__reactBoundMethod)
+          .toHaveBeenCalled();
+      });
+
+      it('should subscribe to <name>.deactivate', function() {
+        expect(mockMediator.channel.subscribe)
+          .toHaveBeenCalledWith('bob.hide', jasmine.any(Function));
+
+        pluckSubscribeCall(subscribeCalls, 'bob.hide')();
+
+        expect(submitTicket.get('bob').instance.hide.__reactBoundMethod)
+          .toHaveBeenCalled();
+
+        expect(bobSubmitTicket.reset.__reactBoundMethod)
+          .not.toHaveBeenCalled();
+
+        bobSubmitTicket.state.showNotification = true;
+
+        pluckSubscribeCall(subscribeCalls, 'bob.hide')();
+
+        expect(bobSubmitTicket.reset.__reactBoundMethod)
+          .toHaveBeenCalled();
+      });
+    });
+
   });
 
   describe('show', function() {
