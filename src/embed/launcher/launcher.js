@@ -68,6 +68,7 @@ function create(name, config) {
       extend: {
         onClickHandler: function(e) {
           e.preventDefault();
+          beacon.track('launcher', 'click', name);
           mediator.channel.broadcast(name + '.onClick');
         }
       }
@@ -142,14 +143,6 @@ function setLabel(name, label) {
   getChildRefs(name).launcher.setLabel(label);
 }
 
-function update(name) {
-  var launcher = getChildRefs(name).launcher;
-
-  //if (!isMobileBrowser()) {
-  //  launcher.setActive(!launcher.state.active);
-  //}
-}
-
 export var launcher = {
   create: create,
   list: list,
@@ -158,7 +151,6 @@ export var launcher = {
   hide: hide,
   show: show,
   setIcon: setIcon,
-  setLabel: setLabel,
-  update: update
+  setLabel: setLabel
 };
 

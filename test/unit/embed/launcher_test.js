@@ -111,7 +111,6 @@ describe('embed.launcher', function() {
 
       it('should apply the configs', function() {
         var eventObj = jasmine.createSpyObj('e', ['preventDefault']),
-            mockBeacon = mockRegistry['service/beacon'].beacon,
             mockMediator = mockRegistry['service/mediator'].mediator,
             alice = launcher.get('alice'),
             payload = mockFrameFactoryCall[0]({}),
@@ -288,7 +287,7 @@ describe('embed.launcher', function() {
       var mockMediator,
           pluckSubscribeCall = function(calls, key) {
             return _.find(calls, function(call) {
-              return call[0] == key
+              return call[0] === key;
             })[1];
           },
           subscribeCalls,

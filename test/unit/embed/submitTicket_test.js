@@ -265,7 +265,7 @@ describe('embed.submitTicket', function() {
       var mockMediator,
           pluckSubscribeCall = function(calls, key) {
             return _.find(calls, function(call) {
-              return call[0] == key
+              return call[0] === key;
             })[1];
           },
           subscribeCalls,
