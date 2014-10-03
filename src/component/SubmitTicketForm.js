@@ -74,13 +74,14 @@ var SubmitTicketForm = React.createClass({
           'u-sizeFull': this.props.fullscreen
         }),
         titleClasses = classSet({
-          'u-textSizeMed u-textBold u-extSizeMed': true,
+          'u-textSizeMed u-textBold u-extSizeMed u-textCenter': true,
           'u-posAbsolute u-posCenter': this.state.showBackButton && !this.props.fullscreen,
           'u-posStart--vert': this.state.showBackButton && !this.props.fullscreen,
-          'u-marginTM': this.props.fullscreen
+          'u-marginTM u-textSizeBaseMobile': this.props.fullscreen
         }),
         barClasses = classSet({
-          'Form-cta u-cf Form-cta--bar Container-pullout u-marginBM u-paddingBS': true
+          'Form-cta u-cf Container-pullout u-paddingBS': true,
+          'Form-cta--bar u-marginBM': !this.props.fullscreen
         });
 
     return (

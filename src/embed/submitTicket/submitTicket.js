@@ -16,7 +16,7 @@ function create(name, config) {
   var containerStyle,
       iframeBase = {
         position: 'fixed',
-        bottom: 48
+        bottom: 50
       },
       configDefaults = {
         position: 'right'

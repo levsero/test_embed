@@ -101,6 +101,10 @@ $Base-posOffset: #{20/$font-size}rem;
   margin-top: #{30/$font-size}rem;
 }
 
+.u-marginT35 {
+  margin-top: #{35/$font-size}rem;
+}
+
 .u-paddingHN {
   padding-left: 0 !important;
   padding-right: 0 !important;
@@ -108,6 +112,14 @@ $Base-posOffset: #{20/$font-size}rem;
 
 .u-paddingR {
   padding-right: #{25/$font-size}rem;
+}
+
+.u-paddingT15 {
+  padding-top: #{15/$font-size}rem;
+}
+
+.u-paddingT18 {
+  padding-top: #{18/$font-size}rem;
 }
 
 .u-paddingTM {
@@ -148,6 +160,10 @@ $Base-posOffset: #{20/$font-size}rem;
 
 .u-textSizeMed {
   font-size: #{14/$font-size}rem !important;
+}
+
+.u-textSize15 {
+  font-size: #{15/$font-size}rem !important;
 }
 
 .u-textSizeBaseMobile {

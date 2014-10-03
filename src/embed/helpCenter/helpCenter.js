@@ -20,7 +20,7 @@ function create(name, config) {
   var containerStyle,
       iframeBase = {
         position: 'fixed',
-        bottom: 48
+        bottom: 50
       },
       configDefaults = {
         position: 'right'
@@ -165,11 +165,10 @@ function setChatStatus(name, status) {
 function updateHelpCenterButton(name, status) {
   /* jshint unused:false */
   var helpCenter = get(name).instance.getChild().refs.helpCenter,
-      helpCenterForm = helpCenter.refs.helpCenterForm,
       labelKey = status ? 'chat' : 'submitTicket',
       label = i18n.t(`embeddable_framework.helpCenter.submitButton.label.${labelKey}`);
 
-  helpCenterForm.setState({
+  helpCenter.setState({
     buttonLabel: label
   });
 }
