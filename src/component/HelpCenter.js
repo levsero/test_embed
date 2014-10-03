@@ -167,13 +167,13 @@ export var HelpCenter = React.createClass({
         onBlur = function() {
           this.setState({searchFieldFocused: false});
         }.bind(this),
-        currentButtonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.chat');
+        chatButtonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.chat');
 
     if (this.props.updateFrameSize) {
       setTimeout( () => this.props.updateFrameSize(0, 10), 0);
     }
 
-    if (this.state.buttonLabel === currentButtonLabel) {
+    if (this.state.buttonLabel === chatButtonLabel) {
       linkContext = i18n.t('embeddable_framework.helpCenter.label.linkContext.chat', {
           fallback: 'Need more specific help?'
       });
