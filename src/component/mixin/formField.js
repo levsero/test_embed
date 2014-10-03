@@ -7,12 +7,14 @@ export var formField = {
   },
 
   onFocus() {
+    this.props.onFocus();
     this.setState({
       focused: true
     });
   },
 
   onBlur() {
+    this.props.onBlur();
     this.setState({
       focused: false,
       blurred: true

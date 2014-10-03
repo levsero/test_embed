@@ -38,6 +38,7 @@ export var HelpCenter = React.createClass({
   handleSubmit(e) {
     e.preventDefault();
     this.handleSearch(true);
+
     if (isMobileBrowser) {
       this.refs.searchField.blur();
     }
@@ -147,8 +148,9 @@ export var HelpCenter = React.createClass({
           'Container-pullout': !this.state.fullscreen
         }),
         searchTitleClasses = classSet({
-          'u-textSizeBaseMobile u-marginTM u-textCenter Form-cta--fullscreen': true,
-          'u-isHidden': !this.state.fullscreen || this.state.hasSearched
+          'u-textSizeBaseMobile u-marginTM u-textCenter': true,
+          'u-isHidden': !this.state.fullscreen || this.state.hasSearched,
+          'Container--fullscreen-center-vert': !this.state.searchFieldFocused
         }),
         linkClasses = classSet({
           'u-textSizeBaseMobile u-textCenter u-marginTM u-marginTS': true,
@@ -162,7 +164,13 @@ export var HelpCenter = React.createClass({
           '?utm_source=launcher&utm_medium=poweredbyzendesk&utm_campaign=image'
         ].join(''),
         linkLabel,
-        linkContext;
+        linkContext,
+        onFocus = function() {
+          this.setState({searchFieldFocused: true});
+        }.bind(this),
+        onBlur = function() {
+          this.setState({searchFieldFocused: false});
+        }.bind(this);
 
     if (this.props.updateFrameSize) {
       setTimeout( () => this.props.updateFrameSize(0, 10), 0);
@@ -203,6 +211,8 @@ export var HelpCenter = React.createClass({
           <SearchField
             ref='searchField'
             fullscreen={this.state.fullscreen}
+            onFocus={onFocus}
+            onBlur={onBlur}
             hasSearched={this.state.hasSearched}
             isLoading={this.state.isLoading} />
           <div className={linkClasses}>

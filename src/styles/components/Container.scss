@@ -1,3 +1,7 @@
+/**
+ * 1. fallback for old android browsers
+ */
+
 @import '../_vars.scss';
 
 $Container-spacing: 25/$font-size;
@@ -46,6 +50,11 @@ $Container--popover-arrowWidth: $Container--popover-arrowFullWidth/2;
   height: 100%;
   box-sizing: border-box;
   padding: #{$Container-spacing}rem #{18/$font-size}rem;
+}
+
+.Container--fullscreen-center-vert {
+  padding-top: 40%; /* 1 */
+  padding-top: calc(50% - (#{40/$font-size}rem));
 }
 
 .Container-pullout {
