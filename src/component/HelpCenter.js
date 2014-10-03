@@ -38,10 +38,6 @@ export var HelpCenter = React.createClass({
   handleSubmit(e) {
     e.preventDefault();
     this.handleSearch(true);
-
-    if (isMobileBrowser) {
-      this.refs.searchField.blur();
-    }
   },
 
   updateResults(res) {
@@ -170,12 +166,14 @@ export var HelpCenter = React.createClass({
         }.bind(this),
         onBlur = function() {
           this.setState({searchFieldFocused: false});
-        }.bind(this);
+        }.bind(this),
+        currentButtonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.chat');
 
     if (this.props.updateFrameSize) {
       setTimeout( () => this.props.updateFrameSize(0, 10), 0);
     }
-    if (this.state.buttonLabel === 'Live chat') {
+
+    if (this.state.buttonLabel === currentButtonLabel) {
       linkContext = i18n.t('embeddable_framework.helpCenter.label.linkContext.chat', {
           fallback: 'Need more specific help?'
       });
@@ -206,7 +204,9 @@ export var HelpCenter = React.createClass({
           onButtonClick={this.props.onButtonClick}
           onSubmit={this.handleSubmit}>
           <h1 className={searchTitleClasses}>
-            Search our Help Center
+            {i18n.t('embeddable_framework.helpCenter.label.searchHelpCenter', {
+              fallback: 'Search our Help Center'
+            })}
           </h1>
           <SearchField
             ref='searchField'

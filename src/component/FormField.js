@@ -117,6 +117,7 @@ var SearchField = React.createClass({
   },
 
   render() {
+    /* jshint laxbreak:true */
     var loadingClasses = classSet({
           'u-isHidden': !this.props.isLoading
         }),
@@ -139,9 +140,9 @@ var SearchField = React.createClass({
           'u-isActionable u-textCenter': true,
           'u-isHidden': !this.state.isClearable || this.props.isLoading || !this.state.focused
         }),
-        placeholder;
-
-    placeholder = (isMobileBrowser()) ? '' : i18n.t('embeddable_framework.helpCenter.search.label');
+        placeholder = (isMobileBrowser())
+                    ? ''
+                    : i18n.t('embeddable_framework.helpCenter.search.label');
 
     return (
       /* jshint quotmark:false */
