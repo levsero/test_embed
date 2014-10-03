@@ -32,11 +32,12 @@ describe('embed.helpCenter', function() {
               getInitialState: function() {
                 return {
                   topics: [],
-                  searchTitle: 'abc123',
                   searchCount: 0,
-                  searchTerm: ''
+                  searchTerm: '',
+                  hasSearched: false
                 };
               },
+              focusField: noop,
               render: function() {
                 return (
                   /* jshint quotmark:false */
@@ -111,6 +112,8 @@ describe('embed.helpCenter', function() {
       beforeEach(function() {
         mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
         helpCenter.create('carlos', frameConfig);
+
+        helpCenter.render('carlos');
         mockFrameFactoryRecentCall = mockFrameFactory.calls.mostRecent().args;
       });
 

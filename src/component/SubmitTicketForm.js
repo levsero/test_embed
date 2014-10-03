@@ -63,9 +63,9 @@ var SubmitTicketForm = React.createClass({
             component={React.DOM.div} />
         ),
         navigationButtonClasses = classSet({
-          'Button Button--nav u-textSizeBaseMobile': true,
-          'u-inlineBlock u-marginBS u-posEndS--vert': !this.props.fullscreen,
-          'u-posAbsolute u-posStart--vert': this.props.fullscreen,
+          'Button Button--nav': true,
+          'u-inlineBlock u-posEndS--vert': !this.props.fullscreen,
+          'u-posAbsolute u-posStart--vert u-textSizeBaseMobile': this.props.fullscreen,
           'u-isHidden': !this.state.showBackButton
         }),
         buttonClasses = classSet({
@@ -74,10 +74,14 @@ var SubmitTicketForm = React.createClass({
           'u-sizeFull': this.props.fullscreen
         }),
         titleClasses = classSet({
-          'Form-legend u-marginBS u-textBold u-extSizeMed': true,
+          'u-textSizeMed u-textBold u-extSizeMed u-textCenter': true,
           'u-posAbsolute u-posCenter': this.state.showBackButton && !this.props.fullscreen,
           'u-posStart--vert': this.state.showBackButton && !this.props.fullscreen,
-          'u-marginTS': this.props.fullscreen
+          'u-marginTM u-textSizeBaseMobile': this.props.fullscreen
+        }),
+        barClasses = classSet({
+          'Form-cta u-cf Container-pullout u-paddingBS': true,
+          'Form-cta--bar u-marginBM': !this.props.fullscreen
         });
 
     return (
@@ -85,15 +89,17 @@ var SubmitTicketForm = React.createClass({
         noValidate
         onSubmit={this.handleSubmit}
         className={'Form u-cf ' + this.props.className}>
-        <button
-          onClick={this.handleBackClick}
-          className={navigationButtonClasses}>
-          <i className='Icon Icon--arrow' />
-          {i18n.t('embeddable_framework.navigation.back')}
-        </button>
-        <legend className={titleClasses}>
-          {i18n.t('embeddable_framework.submitTicket.form.title')}
-        </legend>
+        <div className={barClasses}>
+          <button
+            onClick={this.handleBackClick}
+            className={navigationButtonClasses}>
+            <i className='Icon Icon--arrow' />
+            {i18n.t('embeddable_framework.navigation.back')}
+          </button>
+          <h2 className={titleClasses}>
+            {i18n.t('embeddable_framework.submitTicket.form.title')}
+          </h2>
+        </div>
         {formBody}
         {this.props.children}
         <input

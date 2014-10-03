@@ -76,16 +76,7 @@ describe('Help center component', function() {
       var helpCenter = React.renderComponent(
             <HelpCenter />,
             global.document.body
-          ),
-          mockTransport = mockRegistry['service/transport'].transport,
-          transportSendCall = mockTransport.send.calls.mostRecent().args[0];
-
-    expect(mockTransport.send)
-      .toHaveBeenCalled();
-
-    /* jshint camelcase:false */
-    expect(transportSendCall.query.zendesk_path)
-      .toEqual('/api/v2/help_center/categories.json');
+          );
 
     expect(helpCenter.state.topics)
       .toEqual([]);
@@ -104,6 +95,9 @@ describe('Help center component', function() {
 
       helpCenter.handleSubmit({preventDefault: noop});
 
+      expect(helpCenter.state.hasSearched)
+        .toBeFalsy();
+
       expect(helpCenter.state.isLoading)
         .toBeTruthy();
 
@@ -113,9 +107,6 @@ describe('Help center component', function() {
       expect(mockTransport.send)
         .toHaveBeenCalled();
 
-      expect(searchFieldBlur)
-        .toHaveBeenCalled();
-
       expect(searchFieldGetValue)
         .toHaveBeenCalled();
 
@@ -123,6 +114,9 @@ describe('Help center component', function() {
 
       expect(helpCenter.state.isLoading)
         .toBeFalsy();
+
+      expect(helpCenter.state.hasSearched)
+        .toBeTruthy();
 
       expect(mockBeacon).toHaveBeenCalled();
     });
@@ -135,19 +129,12 @@ describe('Help center component', function() {
           mockTransport = mockRegistry['service/transport'].transport,
           searchString = 'help, I\'ve fallen and can\'t get up!',
           responsePayload = {body: {results: [1,2,3], count: 4}},
-          viewAllAnchor = ReactTestUtils.scryRenderedDOMComponentsWithTag(helpCenter, 'a')[0],
           listAnchor = ReactTestUtils.findRenderedDOMComponentWithClass(helpCenter, 'List');
-
-      expect(viewAllAnchor.props.className)
-        .toContain('u-isHidden');
 
       helpCenter.handleSubmit({preventDefault: noop}, { value: searchString });
       mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayload);
 
       expect(listAnchor.props.className)
-        .not.toContain('u-isHidden');
-
-      expect(viewAllAnchor.props.className)
         .not.toContain('u-isHidden');
     });
 
@@ -159,7 +146,6 @@ describe('Help center component', function() {
           mockTransport = mockRegistry['service/transport'].transport,
           searchString = 'abcd',
           responsePayload = {body: {results: [], count: 0}},
-          viewAllAnchor = ReactTestUtils.scryRenderedDOMComponentsWithTag(helpCenter, 'a')[0],
           listAnchor = ReactTestUtils.findRenderedDOMComponentWithClass(helpCenter, 'List');
 
       helpCenter.handleSubmit({preventDefault: noop}, { value: searchString });
@@ -169,9 +155,6 @@ describe('Help center component', function() {
         .toBeFalsy();
 
       expect(listAnchor.props.className)
-        .toContain('u-isHidden');
-
-      expect(viewAllAnchor.props.className)
         .toContain('u-isHidden');
     });
 
@@ -193,7 +176,7 @@ describe('Help center component', function() {
       helpCenter.handleSearch();
 
       expect(mockTransport.send.calls.count())
-        .toEqual(1);
+        .toEqual(0);
     });
   });
 

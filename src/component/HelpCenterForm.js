@@ -2,8 +2,6 @@
 
 module React from 'react/addons';
 
-import { i18n } from 'service/i18n';
-
 require('imports?_=lodash!lodash');
 
 var classSet = React.addons.classSet;
@@ -12,7 +10,6 @@ var HelpCenterForm = React.createClass({
   getInitialState() {
     return {
       isValid: false,
-      buttonLabel: i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket'),
       isSubmitting: false,
       focused: false
     };
@@ -37,10 +34,11 @@ var HelpCenterForm = React.createClass({
     var buttonClasses = classSet({
           'Button Button--cta Anim-color u-textNoWrap': true,
           'u-pullRight': !this.props.fullscreen,
-          'u-sizeFull u-textSizeBaseMobile': this.props.fullscreen
+          'u-sizeFull u-textSizeBaseMobile': this.props.fullscreen,
+          'u-isHidden': !this.props.hasSearched
         }),
         buttonContainerClasses = classSet({
-          'u-marginTA u-paddingTM': this.props.fullscreen
+          'u-marginTA': this.props.fullscreen
         }),
         formClasses = classSet({
           'Form u-cf': true
@@ -56,7 +54,7 @@ var HelpCenterForm = React.createClass({
         <div className={buttonContainerClasses}>
           <input
             type='button'
-            value={this.state.buttonLabel}
+            value={this.props.buttonLabel}
             ref='submitButton'
             onClick={this.onClick}
             className={buttonClasses}

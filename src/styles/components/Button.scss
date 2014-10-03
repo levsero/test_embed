@@ -9,7 +9,7 @@ $Button-widthOffset: #{(50-$Button-nudge)/$font-size}rem;
 
 .Button {
   font-size: $Button-baseFontSize;
-  padding: #{14/$font-size}rem #{20/$font-size}rem;
+  padding: #{14/$font-size}rem #{22/$font-size}rem;
   border-radius: #{5/$font-size}rem;
   color: $base-color;
   &:disabled {
@@ -20,7 +20,11 @@ $Button-widthOffset: #{(50-$Button-nudge)/$font-size}rem;
 .Button--cta {
   background: $cta-color;
   color: $base-color;
+  border-radius: 20rem; 
   font-weight: 700;
+  letter-spacing: 0.4;
+  bottom: -5px; /* 2 */
+  padding: #{12/$font-size}rem #{22/$font-size}rem #{14/$font-size}rem;
 }
 
 .Button--nav {
@@ -32,7 +36,9 @@ $Button-widthOffset: #{(50-$Button-nudge)/$font-size}rem;
 .Button--launcher {
   border-radius: 999rem; /* 1  */
   border: 0;
+  bottom: 0;
   letter-spacing: 0.6;
+  font-size: #{15/$font-size}rem;
 }
 
 .Button--launcherActive {

@@ -4,13 +4,20 @@ module ReactForms from 'react-forms';
 
 import { EmailField, IconField } from 'component/FormField';
 import { i18n }                  from 'service/i18n';
+import { isMobileBrowser }       from 'utility/devices';
 
 i18n.init();
 
-var { Schema } = ReactForms.schema;
+var { Schema } = ReactForms.schema,
+    classSet = React.addons.classSet,
+    fieldClasses = classSet({
+      'Arrange-sizeFill u-vsizeAll': true,
+      'u-textSize15': isMobileBrowser()
+    });
 
 export var submitTicketSchema = (
   /* jshint quotmark:false */
+
   <Schema>
     <IconField
       name='name'
@@ -30,7 +37,7 @@ export var submitTicketSchema = (
       input={
         <textarea
           rows='5'
-          className='Arrange-sizeFill u-vsizeAll'
+          className={fieldClasses}
           placeholder={i18n.t('embeddable_framework.submitTicket.field.description.label')}
         />
       }
