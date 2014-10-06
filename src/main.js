@@ -43,9 +43,7 @@ function boot() {
     setLocale: i18n.setLocale
   };
 
-  for (var p in publicApi) {
-    win.zEmbed[p] = publicApi[p];
-  }
+  _.extend(win.zEmbed, publicApi);
 
   if (!isBlacklisted()) {
     rendererPayload = {
