@@ -12,6 +12,9 @@ describe('i18n', function() {
         },
         'de': {
           'launcher.label.hello': 'Hallo'
+        },
+        'zh-CN': {
+          'launcher.label.hello': '你好'
         }
       }
     });
@@ -40,4 +43,18 @@ describe('i18n', function() {
       .toEqual('Hallo');
   });
 
+  it('should convert lang code to lower case', function() {
+    i18n.setLocale('DE');
+    expect(i18n.t.getLocale()).toEqual('de');
+  });
+
+  it('should convert region code to upper case', function() {
+    i18n.setLocale('zh-cn');
+    expect(i18n.t.getLocale()).toEqual('zh-CN');
+  });
+
+  it('should use en-US when there are no translations for the specified locale', function() {
+    i18n.setLocale('xx');
+    expect(i18n.t.getLocale()).toEqual('en-US');
+  });
 });
