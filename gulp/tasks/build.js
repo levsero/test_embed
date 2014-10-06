@@ -85,6 +85,9 @@ gulp.task('build:test', function() {
   return gulp.src(['test/**/*.js'])
     .pipe(react())
     .pipe(es6ModuleTranspiler({type: 'cjs'}))
+    .pipe(es6Transpiler({
+      globals: getGlobals()
+    }))
     .pipe(gulp.dest('build/test'));
 });
 

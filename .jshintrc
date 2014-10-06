@@ -8,7 +8,7 @@
     "_",
     "Airbrake",
     "before", "after", "noop", "resetDOM", "ReactTestUtils", "jsdom", "dispatchEvent",
-    "expect", "it", "describe", "xit", "xdescribe", "beforeEach", "afterEach",
+    "expect", "it", "iit", "describe", "ddescribe", "xit", "xdescribe", "beforeEach", "afterEach",
     "jasmine", "spyOn", "runs", "waitsFor", "buildSrcPath", "buildTestPath",
     "basePath", "mockery", "initMockRegistry", "__EMBEDDABLE_VERSION__"
   ],
