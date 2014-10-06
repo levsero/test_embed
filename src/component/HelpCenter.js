@@ -54,6 +54,14 @@ export var HelpCenter = React.createClass({
     });
   },
 
+  searchFail() {
+    this.setState({
+      isLoading: false,
+      previousSearchTerm: this.state.searchTerm,
+      hasSearched: true
+    });
+  },
+
   performSearch(searchString) {
     this.props.onSearch(searchString);
     this.setState({
@@ -70,7 +78,16 @@ export var HelpCenter = React.createClass({
         zendesk_path: '/api/v2/help_center/search.json'
       },
       callbacks: {
-        done: this.updateResults
+        done: function(res) {
+          if (res.ok) {
+            this.updateResults(res);
+          } else {
+            this.searchFail();
+          }
+        }.bind(this),
+        fail: function(err) {
+          this.searchFail();
+        }.bind(this)
       }
     });
   },
