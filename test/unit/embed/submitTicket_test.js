@@ -20,7 +20,7 @@ describe('embed.submitTicket', function() {
       'service/beacon': noop,
       'component/SubmitTicket': {
         SubmitTicket: jasmine.createSpy('mockSubmitTicket')
-          .andCallFake(
+          .and.callFake(
             React.createClass({
               getInitialState: function() {
                 return {
@@ -101,7 +101,7 @@ describe('embed.submitTicket', function() {
       beforeEach(function() {
         mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
         submitTicket.create('bob', frameConfig);
-        mockFrameFactoryRecentCall = mockFrameFactory.mostRecentCall.args;
+        mockFrameFactoryRecentCall = mockFrameFactory.calls.mostRecent().args;
       });
 
       it('should call onHide/Show config methods if passed in', function() {
@@ -133,7 +133,7 @@ describe('embed.submitTicket', function() {
       submitTicket = require(submitTicketPath).submitTicket;
       submitTicket.create('bob');
 
-      mockFrameFactoryRecentCall = mockFrameFactory.mostRecentCall.args;
+      mockFrameFactoryRecentCall = mockFrameFactory.calls.mostRecent().args;
 
       iframeStyle = mockFrameFactoryRecentCall[1].style;
 
@@ -164,7 +164,7 @@ describe('embed.submitTicket', function() {
 
       submitTicket.create('bob');
 
-      mockFrameFactoryRecentCall = mockFrameFactory.mostRecentCall.args;
+      mockFrameFactoryRecentCall = mockFrameFactory.calls.mostRecent().args;
 
       payload = mockFrameFactoryRecentCall[0](childFnParams);
 
@@ -233,7 +233,7 @@ describe('embed.submitTicket', function() {
       submitTicket.create('bob');
       submitTicket.render('bob');
 
-      mockFrameFactoryCss = mockFrameFactory.mostRecentCall.args[1].css;
+      mockFrameFactoryCss = mockFrameFactory.calls.mostRecent().args[1].css;
 
       expect(mockFrameFactoryCss)
         .toBe(mockCss);

@@ -36,7 +36,7 @@ parts:
   - translation:
       key: "embeddable_framework.submitTicket.notify.message.error"
       title: "Error message that displays after a user tries to send a ticket and something goes wrong. It will be a generic catch all error message. Text will wrap as needed. This error message will be displayed in red above the send button (tinyurl.com/ou8qp9g)"
-      value: "There was a error processing your request. Please try again later"
+      value: "There was an error processing your request. Please try again later"
   - translation:
       key: "embeddable_framework.submitTicket.marketing.message"
       title: "Message to customers that displays after submit ticket is sent"
@@ -100,12 +100,33 @@ parts:
       value: "View all (%(count)s)"
   - translation:
       key: "embeddable_framework.helpCenter.label.noResults"
-      title: "The title for the help center widget when there are no results returned from search. Will wrap as needed (http://tinyurl.com/pb3nrgy)"
-      value: "Sorry, no results found"
+      title: "The title for the help center widget when there are no results returned from search. searchTerm is the term they just searched for in quotes. Will wrap as needed (tinyurl.com/o849ewv)"
+      value: "Oh no, there are no results for \"(%(searchTerm)s)\""
+      wip: true
   - translation:
-      key: "embeddable_framework.helpCenter.label.noResultsParagraph"
-      title: "The paragraph for the help center widget when there are no results returned from search. Above the 'Leave a message' or 'Live chat' button. Will wrap as needed (http://tinyurl.com/pb3nrgy)"
-      value: "Get in touch below for more help."
+      key: "embeddable_framework.helpCenter.label.noResultsParagraph.chat"
+      title: "The paragraph for the help center widget when there are no results returned from search. Will wrap as needed (tinyurl.com/okoocb7)"
+      value: "Try searching for something else"
+      wip: true
+  - translation:
+      key: "embeddable_framework.helpCenter.label.linkContext.chat"
+      title: "The paragraph that displays above the link to a live chat on mobile"
+      value: "Need more specific help?"
+      wip: true
+  - translation:
+      key: "embeddable_framework.helpCenter.label.linkContext.submitTicket"
+      title: "The paragraph that displays above the link to submit a ticket on mobile."
+      value: "Do you have a specific question?"
+      wip: true
+  - translation:
+      key: "embeddable_framework.helpCenter.label.link.chat"
+      title: "The link to a live chat that displays on the initial screen on mobile."
+      value: "Chat with us"
+      wip: true
+  - translation:
+      key: "embeddable_framework.helpCenter.label.searchHelpCenter"
+      title: "The title on the first screen on mobile, above the search box. To give some direction to what the customer will be doing"
+      value: "Search our Help Center"
       wip: true
 
   # Mobile

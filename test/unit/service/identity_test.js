@@ -1,7 +1,7 @@
 describe('identity', function() {
   var identity,
       mockPersistence = {
-        store: { 
+        store: {
           get: noop,
           set: noop
         }
@@ -21,7 +21,7 @@ describe('identity', function() {
 
   it('returns a previously set buid', function() {
     var buid;
-    spyOn(mockPersistence.store, 'get').andReturn('abc123');
+    spyOn(mockPersistence.store, 'get').and.returnValue('abc123');
 
     buid = identity.getBuid();
 
@@ -32,14 +32,14 @@ describe('identity', function() {
   it('sets a new buid if none is available', function() {
     var buid, recentCall;
 
-    spyOn(mockPersistence.store, 'get').andReturn(undefined);
+    spyOn(mockPersistence.store, 'get').and.returnValue(undefined);
     spyOn(mockPersistence.store, 'set');
 
     buid = identity.getBuid();
 
     expect(mockPersistence.store.set).toHaveBeenCalled();
 
-    recentCall = mockPersistence.store.set.mostRecentCall;
+    recentCall = mockPersistence.store.set.calls.mostRecent();
 
     expect(recentCall.args[0]).toEqual('buid');
     expect(typeof recentCall.args[1]).toEqual('string');

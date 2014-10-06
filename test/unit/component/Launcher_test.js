@@ -54,14 +54,14 @@ describe('Launcher component', function() {
 
     var mockUpdateFrameSize = jasmine.createSpy('mockUpdateFrameSize');
 
-    jasmine.Clock.useMock();
+    jasmine.clock().install();
 
     React.renderComponent(
       <Launcher updateFrameSize = {mockUpdateFrameSize} />,
       global.document.body
     );
 
-    jasmine.Clock.tick(10);
+    jasmine.clock().tick(10);
 
     expect(mockUpdateFrameSize).toHaveBeenCalled();
   });

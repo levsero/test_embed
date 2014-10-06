@@ -4,7 +4,7 @@ describe('Help center component', function() {
   var HelpCenter,
       mockRegistry,
       searchFieldBlur = jasmine.createSpy(),
-      searchFieldGetValue = jasmine.createSpy().andReturn('Foobar'),
+      searchFieldGetValue = jasmine.createSpy().and.returnValue('Foobar'),
       helpCenterPath = buildSrcPath('component/HelpCenter');
 
   beforeEach(function() {
@@ -22,7 +22,7 @@ describe('Help center component', function() {
       },
       'component/HelpCenterForm': {
         HelpCenterForm: jasmine.createSpy('mockHelpCenterForm')
-          .andCallFake(React.createClass({
+          .and.callFake(React.createClass({
             render: function() {
               return (<form onSubmit={this.handleSubmit}>
                 {this.props.children}
@@ -32,7 +32,7 @@ describe('Help center component', function() {
       },
       'component/FormField': {
         SearchField: jasmine.createSpy('mockSearchField')
-          .andCallFake(React.createClass({
+          .and.callFake(React.createClass({
             blur: searchFieldBlur,
             getValue: searchFieldGetValue,
             render: function() {
@@ -76,16 +76,7 @@ describe('Help center component', function() {
       var helpCenter = React.renderComponent(
             <HelpCenter />,
             global.document.body
-          ),
-          mockTransport = mockRegistry['service/transport'].transport,
-          transportSendCall = mockTransport.send.mostRecentCall.args[0];
-
-    expect(mockTransport.send)
-      .toHaveBeenCalled();
-
-    /* jshint camelcase:false */
-    expect(transportSendCall.query.zendesk_path)
-      .toEqual('/api/v2/help_center/categories.json');
+          );
 
     expect(helpCenter.state.topics)
       .toEqual([]);
@@ -104,6 +95,9 @@ describe('Help center component', function() {
 
       helpCenter.handleSubmit({preventDefault: noop});
 
+      expect(helpCenter.state.hasSearched)
+        .toBeFalsy();
+
       expect(helpCenter.state.isLoading)
         .toBeTruthy();
 
@@ -113,16 +107,16 @@ describe('Help center component', function() {
       expect(mockTransport.send)
         .toHaveBeenCalled();
 
-      expect(searchFieldBlur)
-        .toHaveBeenCalled();
-
       expect(searchFieldGetValue)
         .toHaveBeenCalled();
 
-      mockTransport.send.mostRecentCall.args[0].callbacks.done(responsePayload);
+      mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayload);
 
       expect(helpCenter.state.isLoading)
         .toBeFalsy();
+
+      expect(helpCenter.state.hasSearched)
+        .toBeTruthy();
 
       expect(mockBeacon).toHaveBeenCalled();
     });
@@ -135,20 +129,13 @@ describe('Help center component', function() {
           mockTransport = mockRegistry['service/transport'].transport,
           searchString = 'help, I\'ve fallen and can\'t get up!',
           responsePayload = {body: {results: [1,2,3], count: 4}},
-          viewAllAnchor = ReactTestUtils.scryRenderedDOMComponentsWithTag(helpCenter, 'a')[0],
           listAnchor = ReactTestUtils.findRenderedDOMComponentWithClass(helpCenter, 'List');
 
-      expect(viewAllAnchor.props.className)
-        .toContain('u-isHidden');
-
       helpCenter.handleSubmit({preventDefault: noop}, { value: searchString });
-      mockTransport.send.mostRecentCall.args[0].callbacks.done(responsePayload);
+      mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayload);
 
       expect(listAnchor.props.className)
-        .toNotContain('u-isHidden');
-
-      expect(viewAllAnchor.props.className)
-        .toNotContain('u-isHidden');
+        .not.toContain('u-isHidden');
     });
 
     it('should show no results when search returns no results', function() {
@@ -159,19 +146,15 @@ describe('Help center component', function() {
           mockTransport = mockRegistry['service/transport'].transport,
           searchString = 'abcd',
           responsePayload = {body: {results: [], count: 0}},
-          viewAllAnchor = ReactTestUtils.scryRenderedDOMComponentsWithTag(helpCenter, 'a')[0],
           listAnchor = ReactTestUtils.findRenderedDOMComponentWithClass(helpCenter, 'List');
 
       helpCenter.handleSubmit({preventDefault: noop}, { value: searchString });
-      mockTransport.send.mostRecentCall.args[0].callbacks.done(responsePayload);
+      mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayload);
 
       expect(helpCenter.state.searchCount)
         .toBeFalsy();
 
       expect(listAnchor.props.className)
-        .toContain('u-isHidden');
-
-      expect(viewAllAnchor.props.className)
         .toContain('u-isHidden');
     });
 
@@ -192,8 +175,8 @@ describe('Help center component', function() {
       mockGetValue = returnSearchTerm.bind(this, searchStringNoSpace);
       helpCenter.handleSearch();
 
-      expect(mockTransport.send.callCount)
-        .toEqual(1);
+      expect(mockTransport.send.calls.count())
+        .toEqual(0);
     });
   });
 
@@ -338,7 +321,7 @@ describe('Help center component', function() {
     );
 
     helpCenter.setState({fullscreen: 'VALUE'});
-    mostRecentCall = mockHelpCenterForm.mostRecentCall.args[0];
+    mostRecentCall = mockHelpCenterForm.calls.mostRecent().args[0];
 
     expect(mostRecentCall.fullscreen)
       .toEqual('VALUE');
