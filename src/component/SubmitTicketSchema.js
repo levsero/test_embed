@@ -15,7 +15,8 @@ var { Schema } = ReactForms.schema,
       'u-textSize15': isMobileBrowser()
     });
 
-export var submitTicketSchema = (
+export var submitTicketSchema = function() {
+  return (
   /* jshint quotmark:false */
 
   <Schema>
@@ -42,6 +43,6 @@ export var submitTicketSchema = (
         />
       }
     />
-  </Schema>
-);
-
+    </Schema>
+  );
+};
