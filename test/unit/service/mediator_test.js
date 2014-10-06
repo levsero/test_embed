@@ -1,7 +1,7 @@
 module airwaves from 'airwaves';
 var requireUncached = require('require-uncached');
 
-describe('mediator', function() {
+ddescribe('mediator', function() {
   var mockRegistry,
       mediator,
       mediatorPath = buildSrcPath('service/mediator'),
@@ -12,29 +12,30 @@ describe('mediator', function() {
   beforeEach(function() {
   });
 
-  describe('Launcher, Ticket Submission', function() {
-    var ticketForm,
-        launcher,
+  describe('Ticket Submission', function() {
+    var launcher,
+        ticketForm,
         c,
-        ticketFormSub,
-        launcherSub;
+        launcherSub,
+        ticketFormSub;
 
     beforeEach(function() {
       mediator = requireUncached(mediatorPath).mediator;
       ticketForm = 'ticketSubmissionForm';
       launcher = 'ticketSubmissionLauncher';
       c = mediator.channel;
-      ticketFormSub = jasmine
-        .createSpyObj('ticketForm', ['show', 'hide']);
       launcherSub = jasmine
         .createSpyObj('launcher', ['activate', 'deactivate']);
+      ticketFormSub = jasmine
+        .createSpyObj('ticketForm', ['show', 'hide']);
 
       mediator.initTicketSubmissionMediator();
 
-      c.subscribe(`${ticketForm}.show`, ticketFormSub.show);
-      c.subscribe(`${ticketForm}.hide`, ticketFormSub.hide);
       c.subscribe(`${launcher}.activate`,   launcherSub.activate);
       c.subscribe(`${launcher}.deactivate`, launcherSub.deactivate);
+
+      c.subscribe(`${ticketForm}.show`, ticketFormSub.show);
+      c.subscribe(`${ticketForm}.hide`, ticketFormSub.hide);
     });
 
     describe('launcher', function() {
@@ -96,23 +97,21 @@ describe('mediator', function() {
     });
   });
 
-  describe('Launcher, Chat, Ticket Submission', function() {
-    var ticketForm,
+  describe('Chat, Ticket Submission', function() {
+    var launcher,
+        ticketForm,
         chat,
-        launcher,
         c,
+        launcherSub,
         ticketFormSub,
-        chatSub,
-        launcherSub;
+        chatSub;
 
     beforeEach(function() {
       mediator = requireUncached(mediatorPath).mediator;
-      ticketForm = 'ticketSubmissionForm';
       launcher = 'chatLauncher';
+      ticketForm = 'ticketSubmissionForm';
       chat = 'zopimChat';
       c = mediator.channel;
-      ticketFormSub = jasmine
-        .createSpyObj('ticketForm', ['show', 'hide']);
       launcherSub = jasmine
         .createSpyObj('launcher', [
           'activate',
@@ -121,54 +120,24 @@ describe('mediator', function() {
           'setLabelHelp',
           'setLabelUnreadMsgs'
         ]);
+      ticketFormSub = jasmine
+        .createSpyObj('ticketForm', ['show', 'hide']);
       chatSub = jasmine
         .createSpyObj('chat', ['show', 'hide']);
 
       mediator.initChatTicketSubmissionMediator();
-
-      c.subscribe(`${ticketForm}.show`, ticketFormSub.show);
-      c.subscribe(`${ticketForm}.hide`, ticketFormSub.hide);
-
-      c.subscribe(`${chat}.show`, chatSub.show);
-      c.subscribe(`${chat}.hide`, chatSub.hide);
 
       c.subscribe(`${launcher}.activate`,           launcherSub.activate);
       c.subscribe(`${launcher}.deactivate`,         launcherSub.deactivate);
       c.subscribe(`${launcher}.setLabelChat`,       launcherSub.setLabelChat);
       c.subscribe(`${launcher}.setLabelHelp`,       launcherSub.setLabelHelp);
       c.subscribe(`${launcher}.setLabelUnreadMsgs`, launcherSub.setLabelUnreadMsgs);
-    });
 
-    describe('chat', function() {
-      it('sets launcher to "Chat" when chat comes online', function() {
-        c.broadcast(`${chat}.onOnline`);
-        expect(launcherSub.setLabelChat.calls.count())
-          .toEqual(1);
-      });
+      c.subscribe(`${ticketForm}.show`, ticketFormSub.show);
+      c.subscribe(`${ticketForm}.hide`, ticketFormSub.hide);
 
-      it('sets launcher to "Help" when chat goes offline', function() {
-        c.broadcast(`${chat}.onOffline`);
-        expect(launcherSub.setLabelHelp.calls.count())
-          .toEqual(1);
-      });
-
-      it('updates launcher with unread message count if chat is online', function() {
-        c.broadcast(`${chat}.onOnline`);
-        c.broadcast(`${chat}.onUnreadMsgs`, 5);
-
-        expect(launcherSub.setLabelUnreadMsgs.calls.count())
-          .toEqual(1);
-        expect(launcherSub.setLabelUnreadMsgs)
-          .toHaveBeenCalledWith(5);
-      });
-
-      it('activates launcher when chat pops open', function() {
-        c.broadcast(`${chat}.onOnline`);
-        c.broadcast(`${chat}.onShow`);
-
-        expect(launcherSub.activate.calls.count())
-          .toEqual(1);
-      });
+      c.subscribe(`${chat}.show`, chatSub.show);
+      c.subscribe(`${chat}.hide`, chatSub.hide);
     });
 
     describe('launcher', function() {
@@ -257,5 +226,156 @@ describe('mediator', function() {
           .toEqual(1);
       });
     });
+
+    describe('chat', function() {
+      it('sets launcher to "Chat" when chat comes online', function() {
+        c.broadcast(`${chat}.onOnline`);
+        expect(launcherSub.setLabelChat.calls.count())
+          .toEqual(1);
+      });
+
+      it('sets launcher to "Help" when chat goes offline', function() {
+        c.broadcast(`${chat}.onOffline`);
+        expect(launcherSub.setLabelHelp.calls.count())
+          .toEqual(1);
+      });
+
+      it('updates launcher with unread message count if chat is online', function() {
+        c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${chat}.onUnreadMsgs`, 5);
+
+        expect(launcherSub.setLabelUnreadMsgs.calls.count())
+          .toEqual(1);
+        expect(launcherSub.setLabelUnreadMsgs)
+          .toHaveBeenCalledWith(5);
+      });
+
+      it('activates launcher when chat pops open', function() {
+        c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${chat}.onShow`);
+
+        expect(launcherSub.activate.calls.count())
+          .toEqual(1);
+      });
+    });
+
+  });
+
+  describe('Help Center, Chat, Ticket Submission', function() {
+    var launcher,
+        ticketForm,
+        chat,
+        helpCenter,
+        c,
+        launcherSub,
+        ticketFormSub,
+        chatSub,
+        helpCenterSub;
+
+    beforeEach(function() {
+      mediator = requireUncached(mediatorPath).mediator;
+      launcher = 'hcLauncher';
+      ticketForm = 'ticketSubmissionForm';
+      chat = 'zopimChat';
+      helpCenter = 'helpCenterForm';
+      c = mediator.channel;
+      launcherSub = jasmine
+        .createSpyObj('launcher', [
+          'activate',
+          'deactivate',
+          'setLabelChat',
+          'setLabelHelp',
+          'setLabelUnreadMsgs'
+        ]);
+      ticketFormSub = jasmine
+        .createSpyObj('ticketForm', ['show', 'hide']);
+      chatSub = jasmine
+        .createSpyObj('chat', ['show', 'hide']);
+      helpCenterSub = jasmine
+        .createSpyObj('helpCenter', ['show', 'hide']);
+
+      mediator.initHelpCenterChatTicketSubmissionMediator();
+
+      c.subscribe(`${launcher}.activate`,           launcherSub.activate);
+      c.subscribe(`${launcher}.deactivate`,         launcherSub.deactivate);
+      c.subscribe(`${launcher}.setLabelChat`,       launcherSub.setLabelChat);
+      c.subscribe(`${launcher}.setLabelHelp`,       launcherSub.setLabelHelp);
+      c.subscribe(`${launcher}.setLabelUnreadMsgs`, launcherSub.setLabelUnreadMsgs);
+
+      c.subscribe(`${ticketForm}.show`, ticketFormSub.show);
+      c.subscribe(`${ticketForm}.hide`, ticketFormSub.hide);
+
+      c.subscribe(`${chat}.show`, chatSub.show);
+      c.subscribe(`${chat}.hide`, chatSub.hide);
+
+      c.subscribe(`${helpCenter}.show`, helpCenterSub.show);
+      c.subscribe(`${helpCenter}.hide`, helpCenterSub.hide);
+    });
+
+    describe('launcher', function() {
+      it('deactivates to "Chat" if chat is online', function() {
+        c.broadcast(`${chat}.onOnline`);
+
+        reset(launcherSub.setLabelChat);
+        c.broadcast(`${launcher}.deactivate`);
+
+        expect(launcherSub.setLabelChat.calls.count())
+          .toEqual(1);
+      });
+
+      it('deactivates to "Help" if chat is offline', function() {
+        c.broadcast(`${chat}.onOffline`);
+
+        reset(launcherSub.setLabelHelp);
+        c.broadcast(`${launcher}.deactivate`);
+
+        expect(launcherSub.setLabelHelp.calls.count())
+          .toEqual(1);
+      });
+
+      it('launches Help Center first', function() {
+        c.broadcast(`${launcher}.onClick`);
+
+        expect(helpCenterSub.show.calls.count())
+          .toEqual(1);
+      });
+
+      it('launches chat if user has moved on to chat and chat is online', function() {
+        c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${launcher}.onClick`);  // open
+        c.broadcast(`${helpCenter}.onNextClick`);
+
+        reset(chatSub.show);
+        c.broadcast(`${launcher}.onClick`); // close
+        c.broadcast(`${launcher}.onClick`); // open
+
+        expect(chatSub.show.calls.count())
+          .toEqual(1);
+      });
+
+      it('launches ticket submission if user has moved on to chat and chat is offline', function() {
+        c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${launcher}.onClick`);  // open
+        c.broadcast(`${helpCenter}.onNextClick`);
+
+        reset(chatSub.show);
+        c.broadcast(`${launcher}.onClick`); // close
+        c.broadcast(`${chat}.onOffline`);
+        c.broadcast(`${launcher}.onClick`); // open
+
+        expect(chatSub.show.calls.count())
+          .toEqual(0);
+        expect(ticketFormSub.show.calls.count())
+          .toEqual(1);
+
+      });
+    });
+
+    describe('help center', function() {
+
+    });
+
+
+
   });
 });

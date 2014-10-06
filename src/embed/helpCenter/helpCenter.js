@@ -10,6 +10,7 @@ import { isMobileBrowser } from 'utility/devices';
 import { beacon }          from 'service/beacon';
 import { i18n }            from 'service/i18n';
 import { transport }       from 'service/transport';
+import { mediator }        from 'service/mediator';
 
 require('imports?_=lodash!lodash');
 
@@ -30,14 +31,15 @@ function create(name, config) {
       onButtonClick = function() {
         var helpCenter = get(name);
 
-        if (helpCenter.chatStatus) {
-          config.updateChat(false, true);
-          helpCenter.activeEmbed = 'chat';
-        } else {
-          config.toggleSubmitTicket();
-          helpCenter.activeEmbed = 'submitTicket';
-        }
-        toggleVisibility(name);
+        //if (helpCenter.chatStatus) {
+        //  config.updateChat(false, true);
+        //  helpCenter.activeEmbed = 'chat';
+        //} else {
+        //  config.toggleSubmitTicket();
+        //  helpCenter.activeEmbed = 'submitTicket';
+        //}
+        mediator.channel.broadcast(name + '.onNextClick');
+        //toggleVisibility(name);
       },
       onLinkClick = function(ev) {
         beacon.track('helpCenter', 'click', name, ev.target.href);
@@ -85,14 +87,13 @@ function create(name, config) {
       fullscreenable: true,
       onHide() {
         setScaleLock(false);
-        config.onHide();
       },
       onShow() {
         setScaleLock(true);
-        config.onShow();
       },
       onClose() {
-        update(name, true);
+        mediator.channel.broadcast(name + '.onClose');
+        //update(name, true);
       },
       extend: {}
     }));
@@ -194,6 +195,15 @@ function render(name) {
 
   var element = doc.body.appendChild(doc.createElement('div'));
   helpCenters[name].instance = React.renderComponent(helpCenters[name].component, element);
+
+  mediator.channel.subscribe(name + '.show', function() {
+    get(name).instance.show();
+  });
+
+  mediator.channel.subscribe(name + '.hide', function() {
+    get(name).instance.hide();
+  });
+
 }
 
 export var helpCenter = {
