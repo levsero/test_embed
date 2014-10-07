@@ -1,7 +1,6 @@
-module airwaves from 'airwaves';
 var requireUncached = require('require-uncached');
 
-ddescribe('mediator', function() {
+describe('mediator', function() {
   var mockRegistry,
       mediator,
       mediatorPath = buildSrcPath('service/mediator'),
@@ -10,6 +9,20 @@ ddescribe('mediator', function() {
       };
 
   beforeEach(function() {
+    mockery.enable();
+
+    mockRegistry = initMockRegistry({
+      'utility/devices':  {
+        isMobileBrowser: function() {
+          return false;
+        }
+      }
+    });
+  });
+
+  afterEach(function() {
+    mockery.deregisterAll();
+    mockery.disable();
   });
 
   describe('Ticket Submission', function() {

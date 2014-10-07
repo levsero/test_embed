@@ -1,5 +1,4 @@
 import { document, win }   from 'utility/globals';
-import { isMobileBrowser } from 'utility/devices';
 import { i18n }            from 'service/i18n';
 import { mediator }        from 'service/mediator';
 
@@ -47,7 +46,7 @@ function show(name) {
   }
 }
 
-function hide(name) {
+function hide() {
   var zopim = win.$zopim;
   zopim(function() {
     zopim.livechat.hideAll();
@@ -84,7 +83,7 @@ function render(name) {
   });
 
   mediator.channel.subscribe(name + '.hide', function() {
-    hide(name);
+    hide();
   });
 }
 

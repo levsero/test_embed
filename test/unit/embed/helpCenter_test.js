@@ -25,6 +25,11 @@ describe('embed.helpCenter', function() {
           }
         }
       },
+      'service/mediator': {
+        mediator: {
+          channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
+        }
+      },
       'component/HelpCenter': {
         HelpCenter: jasmine.createSpy('mockHelpCenter')
           .and.callFake(
@@ -124,20 +129,6 @@ describe('embed.helpCenter', function() {
 
         expect(payload.props.children.props.zendeskHost)
           .toEqual('zendesk.host');
-      });
-
-      it('should call onHide/Show config methods if passed in', function() {
-        var params = mockFrameFactoryRecentCall[1];
-
-        params.onShow();
-
-        expect(frameConfig.onShow)
-          .toHaveBeenCalled();
-
-        params.onHide();
-
-        expect(frameConfig.onHide)
-          .toHaveBeenCalled();
       });
     });
 
@@ -260,31 +251,4 @@ describe('embed.helpCenter', function() {
         .toBe(mockCss);
     });
   });
-
-  describe('show', function() {
-    it('should trigger the show function on the parent frame', function() {
-      var mockFrameMethods = mockRegistry['embed/frameFactory'].frameMethods;
-
-      helpCenter.create('carlos');
-      helpCenter.render('carlos');
-      helpCenter.show('carlos');
-
-      expect(mockFrameMethods.show)
-        .toHaveBeenCalled();
-    });
-  });
-
-  describe('hide', function() {
-    it('should trigger the hide function of the parent frame', function() {
-      var mockFrameMethods = mockRegistry['embed/frameFactory'].frameMethods;
-
-      helpCenter.create('carlos');
-      helpCenter.render('carlos');
-      helpCenter.hide('carlos');
-
-      expect(mockFrameMethods.hide)
-        .toHaveBeenCalled();
-    });
-  });
-
 });

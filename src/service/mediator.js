@@ -1,3 +1,5 @@
+import { isMobileBrowser } from 'utility/devices';
+
 module airwaves from 'airwaves';
 
 var channel = new airwaves.Channel();
@@ -76,7 +78,7 @@ function initChatTicketSubmissionMediator() {
 
       if (state[`${chat}.userClosed`] === false) {
         state[`${chat}.isVisible`] = true;
-        state['activeEmbed'] = chat;
+        state.activeEmbed = chat;
         channel.broadcast(`${chat}.show`);
         channel.broadcast(`${launcher}.activate`);
       }
@@ -135,12 +137,12 @@ function initHelpCenterChatTicketSubmissionMediator() {
   state[`${chat}.isOnline`]        = false;
   state[`${chat}.unreadMsgs`]      = 0;
   state[`${chat}.userClosed`]      = false;
-  state['activeEmbed']             = helpCenter;
+  state.activeEmbed             = helpCenter;
 
   channel.intercept(`${chat}.onOnline`, function() {
     state[`${chat}.isOnline`] = true;
-    if (state['activeEmbed'] === ticketForm) {
-      state['activeEmbed'] = chat;
+    if (state.activeEmbed === ticketForm) {
+      state.activeEmbed = chat;
     }
     channel.broadcast(`${launcher}.setLabelChat`);
     channel.broadcast(`${helpCenter}.setNextToChat`);
@@ -148,8 +150,8 @@ function initHelpCenterChatTicketSubmissionMediator() {
 
   channel.intercept(`${chat}.onOffline`, function() {
     state[`${chat}.isOnline`] = false;
-    if (state['activeEmbed'] === chat) {
-      state['activeEmbed'] = helpCenter;
+    if (state.activeEmbed === chat) {
+      state.activeEmbed = helpCenter;
     }
     channel.broadcast(`${launcher}.setLabelHelp`);
     channel.broadcast(`${helpCenter}.setNextToSubmitTicket`);
@@ -166,9 +168,9 @@ function initHelpCenterChatTicketSubmissionMediator() {
     if (state[`${chat}.isOnline`]) {
       channel.broadcast(`${launcher}.setLabelUnreadMsgs`, count);
 
-      if (state[`${chat}.userClosed`] === false) {
+      if (state[`${chat}.userClosed`] === false && !isMobileBrowser()) {
         state[`${chat}.isVisible`] = true;
-        state['activeEmbed'] = chat;
+        state.activeEmbed = chat;
         channel.broadcast(`${chat}.show`);
         channel.broadcast(`${launcher}.activate`);
       }
@@ -178,12 +180,12 @@ function initHelpCenterChatTicketSubmissionMediator() {
   channel.intercept(`${helpCenter}.onNextClick`, function() {
       if (state[`${chat}.isOnline`]) {
         state[`${chat}.isVisible`] = true;
-        state['activeEmbed'] = chat;
+        state.activeEmbed = chat;
         channel.broadcast(`${chat}.show`);
       }
       else {
         state[`${ticketForm}.isVisible`] = true;
-        state['activeEmbed'] = ticketForm;
+        state.activeEmbed = ticketForm;
         channel.broadcast(`${ticketForm}.show`);
       }
 
@@ -193,12 +195,12 @@ function initHelpCenterChatTicketSubmissionMediator() {
     });
 
   channel.intercept(`${chat}.onChatEnd`, function() {
-      state['activeEmbed'] = helpCenter;
+      state.activeEmbed = helpCenter;
     });
 
   channel.intercept(`${chat}.onIsChatting`, function() {
       state[`${chat}.isVisible`] = true;
-      state['activeEmbed'] = chat;
+      state.activeEmbed = chat;
 
       channel.broadcast(`${chat}.show`);
       channel.broadcast(`${launcher}.activate`);
@@ -229,8 +231,8 @@ function initHelpCenterChatTicketSubmissionMediator() {
         channel.broadcast(`${launcher}.deactivate`);
       }
       else {
-        channel.broadcast(`${state['activeEmbed']}.show`);
-        state[`${state['activeEmbed']}.isVisible`] = true;
+        channel.broadcast(`${state.activeEmbed}.show`);
+        state[`${state.activeEmbed}.isVisible`] = true;
 
         channel.broadcast(`${launcher}.activate`);
       }
@@ -239,14 +241,14 @@ function initHelpCenterChatTicketSubmissionMediator() {
   channel.intercept(`${ticketForm}.onBackClick`, function() {
     state[`${ticketForm}.isVisible`] = false;
     state[`${helpCenter}.isVisible`] = true;
-    state['activeEmbed'] = helpCenter;
+    state.activeEmbed = helpCenter;
 
     channel.broadcast(`${ticketForm}.hide`);
     channel.broadcast(`${helpCenter}.show`);
   });
 
   channel.intercept(`${ticketForm}.onFormSubmitted`, function() {
-    state['activeEmbed'] = helpCenter;
+    state.activeEmbed = helpCenter;
   });
 
   channel.subscribe(`${launcher}.deactivate`, function() {

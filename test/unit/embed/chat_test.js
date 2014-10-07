@@ -100,46 +100,5 @@ describe('embed.chat', function() {
     });
   });
 
-  describe('show', function() {
-
-    it('should broadcast onShow', function() {
-      var mockConfig = {
-        zopimId: 'abc123',
-        onShow: jasmine.createSpy()
-      },
-      mockDom = '<div class="zopim" __jx__id></div><div class="zopim" __jx__id></div>',
-      mockMediator = mockRegistry['service/mediator'].mediator;
-
-      // Adds the zopim classes to the dom so the query
-      // selector in show has something to grab
-      global.document.body.innerHTML = mockDom;
-
-      chat.create('dave', mockConfig);
-
-      chat.render('dave');
-      chat.show('dave');
-
-      expect(mockMediator.channel.broadcast)
-        .toHaveBeenCalledWith('dave.onShow');
-    });
-  });
-
-  describe('hide', function() {
-
-    it('should call the configs onHide', function() {
-      var mockConfig = {
-        zopimId: 'abc123',
-        onHide: jasmine.createSpy()
-      },
-      mockMediator = mockRegistry['service/mediator'].mediator;
-
-      chat.create('dave', mockConfig);
-
-      chat.render('dave');
-      chat.hide('dave');
-
-      expect(mockMediator.channel.broadcast)
-        .toHaveBeenCalledWith('dave.onHide');
-    });
-  });
+  // TODO: tests for channel.subscribe
 });

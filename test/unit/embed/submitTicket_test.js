@@ -312,29 +312,4 @@ describe('embed.submitTicket', function() {
 
   });
 
-  describe('show', function() {
-    it('should call show on the embed', function() {
-      var mockFrameMethods = mockRegistry['embed/frameFactory'].frameMethods;
-
-      submitTicket.create('bob');
-      submitTicket.render('bob');
-      submitTicket.show('bob');
-
-      expect(mockFrameMethods.show)
-        .toHaveBeenCalled();
-    });
-  });
-
-  describe('hide', function() {
-    it('should call hide on embed', function() {
-      var mockFrameMethods = mockRegistry['embed/frameFactory'].frameMethods;
-
-      submitTicket.create('bob');
-      submitTicket.render('bob');
-      submitTicket.hide('bob');
-
-      expect(mockFrameMethods.hide)
-        .toHaveBeenCalled();
-    });
-  });
 });

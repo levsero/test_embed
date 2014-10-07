@@ -135,10 +135,10 @@ describe('Submit ticket component', function() {
         mockSubmitTicketForm = mockRegistry['component/SubmitTicketForm'].SubmitTicketForm,
         mockTransport = mockRegistry['service/transport'].transport,
         transportRecentCall,
-        mockBeacon = jasmine.createSpy('mockOnSubmit');
+        mockOnSubmitted = jasmine.createSpy('mockOnSubmitted');
 
     React.renderComponent(
-      <SubmitTicket onSubmit={mockBeacon} />,
+      <SubmitTicket onSubmitted={mockOnSubmitted} updateFrameSize={noop} />,
       global.document.body
     );
 
@@ -156,7 +156,11 @@ describe('Submit ticket component', function() {
 
     expect(transportRecentCall)
       .toBeJSONEqual(payload);
-    expect(mockBeacon).toHaveBeenCalled();
+
+    transportRecentCall.callbacks.done({});
+
+    expect(mockOnSubmitted)
+      .toHaveBeenCalled();
   });
 
   it('should unhide notification element on state change', function() {
