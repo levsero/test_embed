@@ -444,19 +444,17 @@ ddescribe('mediator', function() {
           .toEqual(1);
       });
 
-      it('launches ticket submission if user has moved on to chat and chat is offline', function() {
+      it('launches help center if user has moved on to chat and chat goes offline', function() {
         c.broadcast(`${chat}.onOnline`);
         c.broadcast(`${launcher}.onClick`);  // open
         c.broadcast(`${helpCenter}.onNextClick`);
 
-        reset(chatSub.show);
+        reset(helpCenterSub.show);
         c.broadcast(`${launcher}.onClick`); // close
         c.broadcast(`${chat}.onOffline`);
         c.broadcast(`${launcher}.onClick`); // open
 
-        expect(chatSub.show.calls.count())
-          .toEqual(0);
-        expect(ticketFormSub.show.calls.count())
+        expect(helpCenterSub.show.calls.count())
           .toEqual(1);
       });
 
@@ -534,7 +532,6 @@ ddescribe('mediator', function() {
           .toEqual(1);
       });
 
-
       it('displays "Live Chat" if chat is online', function() {
         c.broadcast(`${chat}.onOnline`);
 
@@ -584,15 +581,7 @@ ddescribe('mediator', function() {
         c.broadcast(`${launcher}.onClick`);
         c.broadcast(`${helpCenter}.onNextClick`);
 
-        reset(chatSub.hide);
-        reset(launcherSub.deactivate);
         c.broadcast(`${chat}.onChatEnd`);
-
-        expect(chatSub.hide.calls.count())
-          .toEqual(1);
-
-        expect(launcherSub.deactivate.calls.count())
-          .toEqual(1);
 
         reset(helpCenterSub.show);
         c.broadcast(`${launcher}.onClick`); // close

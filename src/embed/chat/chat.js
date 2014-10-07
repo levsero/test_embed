@@ -139,11 +139,9 @@ function init(name) {
   });
 }
 
-export var chat  = {
+export var chat = {
   create: create,
   list: list,
   get: get,
-  show: show,
-  hide: hide,
   render: render
 };

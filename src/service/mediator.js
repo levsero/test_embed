@@ -149,7 +149,7 @@ function initHelpCenterChatTicketSubmissionMediator() {
   channel.intercept(`${chat}.onOffline`, function() {
     state[`${chat}.isOnline`] = false;
     if (state['activeEmbed'] === chat) {
-      state['activeEmbed'] = ticketForm;
+      state['activeEmbed'] = helpCenter;
     }
     channel.broadcast(`${launcher}.setLabelHelp`);
     channel.broadcast(`${helpCenter}.setNextToSubmitTicket`);
@@ -175,9 +175,7 @@ function initHelpCenterChatTicketSubmissionMediator() {
     }
   });
 
-  channel.intercept(
-    `${helpCenter}.onNextClick`,
-    function() {
+  channel.intercept(`${helpCenter}.onNextClick`, function() {
       if (state[`${chat}.isOnline`]) {
         state[`${chat}.isVisible`] = true;
         state['activeEmbed'] = chat;
@@ -186,27 +184,19 @@ function initHelpCenterChatTicketSubmissionMediator() {
       else {
         state[`${ticketForm}.isVisible`] = true;
         state['activeEmbed'] = ticketForm;
-        channel.broadcast(`${ticketForm}.showBackButton`);
         channel.broadcast(`${ticketForm}.show`);
       }
 
       state[`${helpCenter}.isVisible`] = false;
       channel.broadcast(`${helpCenter}.hide`);
+      channel.broadcast(`${ticketForm}.showBackButton`);
     });
 
-  channel.intercept(
-    `${chat}.onChatEnd`,
-    function() {
+  channel.intercept(`${chat}.onChatEnd`, function() {
       state['activeEmbed'] = helpCenter;
-      state[`${chat}.isVisible`] = false;
-
-      channel.broadcast(`${launcher}.deactivate`);
-      channel.broadcast(`${chat}.hide`);
     });
 
-  channel.intercept(
-    `${chat}.onIsChatting`,
-    function() {
+  channel.intercept(`${chat}.onIsChatting`, function() {
       state[`${chat}.isVisible`] = true;
       state['activeEmbed'] = chat;
 
