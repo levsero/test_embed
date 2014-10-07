@@ -20,15 +20,7 @@ function parseConfig(config) {
 
   _.forEach(rendererConfig, function(configItem) {
     configItem.props = _.reduce(configItem.props, function(result, value, key) {
-      /* jshint laxbreak: true */
       result[key] = value;
-      //result[key] = (_.isObject(value))
-      //            ? function(...args) {
-      //                args.unshift(value.name);
-      //                return embedsMap[config[value.name].embed][value.method].apply(null, args);
-      //              }
-      //            : value;
-
       return result;
     }, {});
   });
@@ -54,10 +46,33 @@ function init(config) {
     });
 
     renderedEmbeds = config;
-    mediator.initChatTicketSubmissionMediator();
-    //mediator.initTicketSubmissionMediator();
+
+    initMediator(config);
 
     initialised = true;
+  }
+}
+
+function initMediator(config) {
+  var embeds = _.chain(config)
+                .keys()
+                .sortBy()
+                .value()
+                .join('_');
+
+  switch(embeds) {
+    case 'hcLauncher_helpCenterForm_ticketSubmissionForm_zopimChat':
+      mediator.initHelpCenterChatTicketSubmissionMediator();
+      break;
+    case 'hcLauncher_helpCenterForm_ticketSubmissionForm':
+      mediator.initHelpCenterTicketSubmissionMediator();
+      break;
+    case 'chatLauncher_ticketSubmissionForm_zopimChat':
+      mediator.initChatTicketSubmissionMediator();
+      break;
+    case 'ticketSubmissionForm_ticketSubmissionLauncher':
+      mediator.initTicketSubmissionMediator();
+      break;
   }
 }
 

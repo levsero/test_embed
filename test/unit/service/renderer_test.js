@@ -52,6 +52,15 @@ describe('renderer', function() {
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', ['init', 'setLocale', 't'])
       },
+      'service/mediator': {
+        mediator: {
+          channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe' ]),
+          initTicketSubmissionMediator: jasmine.createSpy(),
+          initChatTicketSubmissionMediator: jasmine.createSpy(),
+          initHelpCenterTicketSubmissionMediator: jasmine.createSpy(),
+          initHelpCenterChatTicketSubmissionMediator: jasmine.createSpy()
+        }
+      },
       'imports?_=lodash!lodash': _
     });
 
@@ -69,53 +78,27 @@ describe('renderer', function() {
       var configJSON = {
             'helpCenterForm': {
               'embed': 'helpCenter',
-              'props': {
-               'onShow': {
-                  'name': 'helpCenterLauncher',
-                  'method': 'hide'
-                },
-                'onHide': {
-                  'name': 'helpCenterLauncher',
-                  'method': 'show'
-                }
-              }
+              'props': {}
             },
-            'helpCenterLauncher': {
+            'hcLauncher': {
               'embed': 'launcher',
               'props': {
-                'position': 'right',
-                'onClick': {
-                  'name': 'helpCenterForm',
-                  'method': 'show'
-                }
+                'position': 'right'
               }
             },
             'ticketSubmissionForm': {
               'embed': 'submitTicket'
             },
-            'ticketSubmissionLauncher': {
-              'embed': 'launcher',
-              'props': {
-                'position': 'right',
-                'onClick': {
-                  'name': 'ticketSubmissionForm',
-                  'method': 'show'
-                }
-              }
-            },
             'zopimChat': {
               'embed': 'chat',
               'props': {
                 'zopimId': '2EkTn0An31opxOLXuGgRCy5nPnSNmpe6',
-                'position': 'br',
-                'onShow': {
-                  name: 'ticketSubmissionLauncher',
-                  method: 'update'
-                },
+                'position': 'br'
               }
             }
           },
-          launcherProps = configJSON.ticketSubmissionLauncher.props,
+          launcherProps = configJSON.hcLauncher.props,
+          mockMediator = mockRegistry['service/mediator'].mediator,
           mockLauncherRecentCall;
 
       renderer.init(configJSON);
@@ -132,14 +115,10 @@ describe('renderer', function() {
         .toHaveBeenCalledWith('zopimChat', jasmine.any(Object));
 
       expect(mockLauncher.create.calls.count())
-        .toBe(2);
+        .toBe(1);
 
       expect(mockLauncherRecentCall.args[1].position)
         .toEqual(launcherProps.position);
-      // Access onClick callback and trigger it
-      mockLauncherRecentCall.args[1].onClick();
-      expect(mockSubmitTicket.show)
-        .toHaveBeenCalledWith('ticketSubmissionForm');
 
       expect(mockSubmitTicket.render)
         .toHaveBeenCalledWith('ticketSubmissionForm');
@@ -147,8 +126,8 @@ describe('renderer', function() {
       expect(mockHelpCenter.render)
         .toHaveBeenCalledWith('helpCenterForm');
 
-      expect(mockLauncher.render)
-        .toHaveBeenCalledWith('ticketSubmissionLauncher');
+      expect(mockMediator.initHelpCenterChatTicketSubmissionMediator)
+        .toHaveBeenCalled();
     });
 
     it('should handle dodgy config values', function() {
