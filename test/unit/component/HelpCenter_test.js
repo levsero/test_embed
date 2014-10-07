@@ -128,13 +128,32 @@ describe('Help center component', function() {
           ),
           mockTransport = mockRegistry['service/transport'].transport,
           searchString = 'help, I\'ve fallen and can\'t get up!',
-          responsePayload = {body: {results: [1,2,3], count: 4}},
+          responsePayload = {body: {results: [1,2,3], count: 4}, ok: true},
           listAnchor = ReactTestUtils.findRenderedDOMComponentWithClass(helpCenter, 'List');
 
       helpCenter.handleSubmit({preventDefault: noop}, { value: searchString });
       mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayload);
 
       expect(listAnchor.props.className)
+        .not.toContain('u-isHidden');
+    });
+
+    it('should render error message when search fails', function() {
+      var helpCenter = React.renderComponent(
+            <HelpCenter onSearch={noop} />,
+            global.document.body
+          ),
+          mockTransport = mockRegistry['service/transport'].transport,
+          searchString = 'help, I\'ve fallen and can\'t get up!',
+          responsePayload = {ok: false},
+          listAnchor = ReactTestUtils.findRenderedDOMComponentWithClass(helpCenter, 'List');
+
+      helpCenter.handleSubmit({preventDefault: noop}, { value: searchString });
+      mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayload);
+
+      expect(listAnchor.props.className).
+        toContain('u-isHidden');
+      expect(helpCenter.getDOMNode().querySelector('#noResults').className)
         .not.toContain('u-isHidden');
     });
 
