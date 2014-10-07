@@ -45,17 +45,13 @@ function show(name) {
   if (styleTag.parentNode) {
     styleTag.parentNode.removeChild(styleTag);
   }
-  mediator.channel.broadcast(name + '.onShow');
 }
 
 function hide(name) {
   var zopim = win.$zopim;
-
   zopim(function() {
     zopim.livechat.hideAll();
   });
-
-  mediator.channel.broadcast(name + '.onHide');
 }
 
 function render(name) {
@@ -98,10 +94,8 @@ function init(name) {
       config = chat.config,
       onStatus = function(status) {
         if (status === 'online' && chat.connected) {
-          chat.isOnline = true;
           mediator.channel.broadcast(name + '.onOnline');
         } else {
-          chat.isOnline = false;
           mediator.channel.broadcast(name + '.onOffline');
         }
       },
@@ -109,31 +103,15 @@ function init(name) {
         chat.connected = true;
       },
       onUnreadMsgs = function(unreadMessageCount) {
-        if (chat.chatStarted && unreadMessageCount > 0) {
-          if (!isMobileBrowser()) {
-            show(name);
-            mediator.channel.broadcast(name + '.onShow');
-          }
-          mediator.channel.broadcast(name + '.onIsChatting');
-          chat.chatStarted = false;
-        }
-
         if (unreadMessageCount > 0) {
           mediator.channel.broadcast(name + '.onUnreadMsgs', unreadMessageCount);
         }
       },
-      onChatStart = function() {
-        chat.chatStarted = true;
-      },
       onChatEnd = function() {
         mediator.channel.broadcast(name + '.onChatEnd');
-        hide(name);
       },
       onHide = function() {
-        if (!chat.isOnline) {
-          mediator.channel.broadcast(name + '.onHide');
-          mediator.channel.broadcast(name + '.onChatEnd');
-        }
+        mediator.channel.broadcast(name + '.onHide');
       };
 
   zopim(function() {
@@ -146,16 +124,15 @@ function init(name) {
 
     if (!zopimWin.getDisplay()) {
       zopimLive.hideAll();
-    } else {
-      show(name);
-      mediator.channel.broadcast(name + '.onIsChatting');
-      mediator.channel.broadcast(name + '.onShow');
+    }
+
+    if (zopimLive.isChatting()) {
+     mediator.channel.broadcast(name + '.onIsChatting');
     }
 
     zopimWin.onHide(onHide);
     zopimLive.setOnStatus(onStatus);
     zopimLive.setOnUnreadMsgs(onUnreadMsgs);
-    zopimLive.setOnChatStart(onChatStart);
     zopimLive.setOnChatEnd(onChatEnd);
     zopimLive.theme.setColor(config.color);
     zopimLive.theme.setTheme('zendesk');

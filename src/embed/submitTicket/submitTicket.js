@@ -24,13 +24,13 @@ function create(name, config) {
       },
       posObj,
       iframeStyle,
-      onSubmit = function() {
+      onSubmitted = function() {
         beacon.track('submitTicket', 'send', name);
+        mediator.channel.broadcast(name + '.onFormSubmitted');
       },
       Embed,
       handleBack = function() {
-        config.goBack();
-        toggleVisibility(name);
+        mediator.channel.broadcast(name + '.onBackClick');
       };
 
   config = _.extend(configDefaults, config);
@@ -56,7 +56,7 @@ function create(name, config) {
           <SubmitTicket
             ref='submitTicket'
             updateFrameSize={params.updateFrameSize}
-            onSubmit={onSubmit}
+            onSubmitted={onSubmitted}
             handleBack={handleBack}/>
         </div>
       );
@@ -94,15 +94,24 @@ function render(name) {
   submitTickets[name].instance = React.renderComponent(submitTickets[name].component, element);
 
   mediator.channel.subscribe(name + '.show', function() {
-    show(name);
+    submitTickets[name].instance.show();
   });
 
   mediator.channel.subscribe(name + '.hide', function() {
     var submitTicket = get(name).instance.getChild().refs.submitTicket;
-    hide(name);
+    submitTickets[name].instance.hide();
     if (submitTicket.state.showNotification) {
       submitTicket.reset();
     }
+  });
+
+  mediator.channel.subscribe(name + '.showBackButton', function() {
+    var submitTicket = get(name).instance.getChild().refs.submitTicket,
+    submitTicketForm = submitTicket.refs.submitTicketForm;
+
+    submitTicketForm.setState({
+      showBackButton: true
+    });
   });
 }
 
@@ -114,59 +123,10 @@ function list() {
   return submitTickets;
 }
 
-function show(name) {
-  get(name).instance.show();
-}
-
-function hide(name) {
-  get(name).instance.hide();
-}
-
-function reset(name) {
-  var config = get(name).config,
-      submitTicket = get(name).instance.getChild().refs.submitTicket,
-      submitTicketForm = submitTicket.refs.submitTicketForm;
-
-  if (submitTicketForm.state.showBackButton) {
-    config.goBack(false);
-  }
-  submitTicket.reset();
-}
-
-function toggleVisibility(name) {
-  var submitTicket = get(name).instance,
-      submitTicketForm = submitTicket.getChild().refs.submitTicket.refs.submitTicketForm;
-
-  submitTicket.toggleVisibility();
-  submitTicketForm.setState({
-    showBackButton: true
-  });
-}
-
-function update(name, isVisible) {
-  var submitTicket = get(name).instance.getChild().refs.submitTicket,
-      isSuccessState = submitTicket.state.showNotification;
-
-  if (isVisible) {
-    hide(name);
-
-    if (isSuccessState) {
-      reset(name);
-    }
-  } else {
-    show(name);
-  }
-}
-
 export var submitTicket = {
   create: create,
   render: render,
   get: get,
-  list: list,
-  show: show,
-  hide: hide,
-  reset: reset,
-  update: update,
-  toggleVisibility: toggleVisibility
+  list: list
 };
 

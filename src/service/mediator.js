@@ -27,7 +27,6 @@ function initTicketSubmissionMediator() {
     });
 }
 
-
 function initChatTicketSubmissionMediator() {
   var ticketForm = 'ticketSubmissionForm',
       launcher = 'chatLauncher',
@@ -38,6 +37,7 @@ function initChatTicketSubmissionMediator() {
   state[`${chat}.isVisible`]       = false;
   state[`${chat}.isOnline`]        = false;
   state[`${chat}.unreadMsgs`]      = 0;
+  state[`${chat}.userClosed`]      = false;
 
   channel.intercept(`${chat}.onOnline`, function() {
     state[`${chat}.isOnline`] = true;
@@ -49,15 +49,37 @@ function initChatTicketSubmissionMediator() {
     channel.broadcast(`${launcher}.setLabelHelp`);
   });
 
+  channel.intercept(`${chat}.onChatEnd`, function() {
+      state[`${chat}.isVisible`] = false;
+
+      channel.broadcast(`${launcher}.deactivate`);
+      channel.broadcast(`${chat}.hide`);
+    });
+
   channel.intercept(`${chat}.onShow`, function() {
     state[`${chat}.isVisible`] = true;
     channel.broadcast(`${launcher}.activate`);
   });
 
+  channel.intercept(`${chat}.onIsChatting`, function() {
+      state[`${chat}.isVisible`] = true;
+
+      channel.broadcast(`${chat}.show`);
+      channel.broadcast(`${launcher}.activate`);
+    });
+
   channel.intercept(`${chat}.onUnreadMsgs`, function(b, count) {
     state[`${chat}.unreadMsgs`] = count;
+
     if (state[`${chat}.isOnline`]) {
       channel.broadcast(`${launcher}.setLabelUnreadMsgs`, count);
+
+      if (state[`${chat}.userClosed`] === false) {
+        state[`${chat}.isVisible`] = true;
+        state['activeEmbed'] = chat;
+        channel.broadcast(`${chat}.show`);
+        channel.broadcast(`${launcher}.activate`);
+      }
     }
   });
 
@@ -68,6 +90,7 @@ function initChatTicketSubmissionMediator() {
       if (state[`${chat}.isVisible`] || state[`${ticketForm}.isVisible`]) {
         if (state[`${chat}.isVisible`]) {
           channel.broadcast(`${chat}.hide`);
+          state[`${chat}.userClosed`] = true;
           state[`${chat}.isVisible`] = false;
         }
         if (state[`${ticketForm}.isVisible`]) {
@@ -111,6 +134,7 @@ function initHelpCenterChatTicketSubmissionMediator() {
   state[`${helpCenter}.isVisible`] = false;
   state[`${chat}.isOnline`]        = false;
   state[`${chat}.unreadMsgs`]      = 0;
+  state[`${chat}.userClosed`]      = false;
   state['activeEmbed']             = helpCenter;
 
   channel.intercept(`${chat}.onOnline`, function() {
@@ -119,6 +143,7 @@ function initHelpCenterChatTicketSubmissionMediator() {
       state['activeEmbed'] = chat;
     }
     channel.broadcast(`${launcher}.setLabelChat`);
+    channel.broadcast(`${helpCenter}.setNextToChat`);
   });
 
   channel.intercept(`${chat}.onOffline`, function() {
@@ -127,6 +152,7 @@ function initHelpCenterChatTicketSubmissionMediator() {
       state['activeEmbed'] = ticketForm;
     }
     channel.broadcast(`${launcher}.setLabelHelp`);
+    channel.broadcast(`${helpCenter}.setNextToSubmitTicket`);
   });
 
   channel.intercept(`${chat}.onShow`, function() {
@@ -136,8 +162,16 @@ function initHelpCenterChatTicketSubmissionMediator() {
 
   channel.intercept(`${chat}.onUnreadMsgs`, function(b, count) {
     state[`${chat}.unreadMsgs`] = count;
+
     if (state[`${chat}.isOnline`]) {
       channel.broadcast(`${launcher}.setLabelUnreadMsgs`, count);
+
+      if (state[`${chat}.userClosed`] === false) {
+        state[`${chat}.isVisible`] = true;
+        state['activeEmbed'] = chat;
+        channel.broadcast(`${chat}.show`);
+        channel.broadcast(`${launcher}.activate`);
+      }
     }
   });
 
@@ -152,11 +186,32 @@ function initHelpCenterChatTicketSubmissionMediator() {
       else {
         state[`${ticketForm}.isVisible`] = true;
         state['activeEmbed'] = ticketForm;
+        channel.broadcast(`${ticketForm}.showBackButton`);
         channel.broadcast(`${ticketForm}.show`);
       }
 
       state[`${helpCenter}.isVisible`] = false;
       channel.broadcast(`${helpCenter}.hide`);
+    });
+
+  channel.intercept(
+    `${chat}.onChatEnd`,
+    function() {
+      state['activeEmbed'] = helpCenter;
+      state[`${chat}.isVisible`] = false;
+
+      channel.broadcast(`${launcher}.deactivate`);
+      channel.broadcast(`${chat}.hide`);
+    });
+
+  channel.intercept(
+    `${chat}.onIsChatting`,
+    function() {
+      state[`${chat}.isVisible`] = true;
+      state['activeEmbed'] = chat;
+
+      channel.broadcast(`${chat}.show`);
+      channel.broadcast(`${launcher}.activate`);
     });
 
   channel.intercept(
@@ -175,6 +230,7 @@ function initHelpCenterChatTicketSubmissionMediator() {
         if (state[`${chat}.isVisible`]) {
           channel.broadcast(`${chat}.hide`);
           state[`${chat}.isVisible`] = false;
+          state[`${chat}.userClosed`] = true;
         }
         if (state[`${ticketForm}.isVisible`]) {
           channel.broadcast(`${ticketForm}.hide`);
@@ -183,27 +239,25 @@ function initHelpCenterChatTicketSubmissionMediator() {
         channel.broadcast(`${launcher}.deactivate`);
       }
       else {
-        if (state['activeEmbed'] === chat ||
-            state['activeEmbed'] === ticketForm) {
-          state['activeEmbed'] = state[`${chat}.isOnline`]
-                               ? chat
-                               : ticketForm;
-        }
-
         channel.broadcast(`${state['activeEmbed']}.show`);
         state[`${state['activeEmbed']}.isVisible`] = true;
 
-        //if (state[`${chat}.isOnline`]) {
-        //  channel.broadcast(`${chat}.show`);
-        //  state[`${chat}.isVisible`] = true;
-        //}
-        //else {
-        //  channel.broadcast(`${ticketForm}.show`);
-        //  state[`${ticketForm}.isVisible`] = true;
-        //}
         channel.broadcast(`${launcher}.activate`);
       }
     });
+
+  channel.intercept(`${ticketForm}.onBackClick`, function() {
+    state[`${ticketForm}.isVisible`] = false;
+    state[`${helpCenter}.isVisible`] = true;
+    state['activeEmbed'] = helpCenter;
+
+    channel.broadcast(`${ticketForm}.hide`);
+    channel.broadcast(`${helpCenter}.show`);
+  });
+
+  channel.intercept(`${ticketForm}.onFormSubmitted`, function() {
+    state['activeEmbed'] = helpCenter;
+  });
 
   channel.subscribe(`${launcher}.deactivate`, function() {
     if (state[`${chat}.isOnline`]) {
@@ -213,6 +267,7 @@ function initHelpCenterChatTicketSubmissionMediator() {
       channel.broadcast(`${launcher}.setLabelHelp`);
     }
   });
+
 }
 
 export var mediator = {
@@ -221,4 +276,3 @@ export var mediator = {
   initChatTicketSubmissionMediator: initChatTicketSubmissionMediator,
   initHelpCenterChatTicketSubmissionMediator: initHelpCenterChatTicketSubmissionMediator
 };
-

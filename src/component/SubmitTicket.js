@@ -55,6 +55,7 @@ export var SubmitTicket = React.createClass({
             showNotification: true,
             message: i18n.t('embeddable_framework.submitTicket.notify.message.success')
           });
+          this.props.onSubmitted();
           this.props.updateFrameSize(0,0);
         },
         timeoutCallback = () => {
@@ -95,7 +96,6 @@ export var SubmitTicket = React.createClass({
         };
 
     transport.send(payload);
-    this.props.onSubmit();
   },
 
   handleBackClick() {
