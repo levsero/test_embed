@@ -205,7 +205,7 @@ function initHelpCenterChatTicketSubmissionMediator() {
     if (state.activeEmbed === ticketForm) {
       state.activeEmbed = chat;
     }
-    channel.broadcast(`${launcher}.setLabelChat`);
+    channel.broadcast(`${launcher}.setLabelChatHelp`);
     channel.broadcast(`${helpCenter}.setNextToChat`);
   });
 
@@ -314,7 +314,7 @@ function initHelpCenterChatTicketSubmissionMediator() {
 
   channel.subscribe(`${launcher}.deactivate`, function() {
     if (state[`${chat}.isOnline`]) {
-      channel.broadcast(`${launcher}.setLabelChat`);
+      channel.broadcast(`${launcher}.setLabelChatHelp`);
     }
     else {
       channel.broadcast(`${launcher}.setLabelHelp`);

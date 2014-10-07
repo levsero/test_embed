@@ -537,6 +537,7 @@ describe('mediator', function() {
           'deactivate',
           'setLabelChat',
           'setLabelHelp',
+          'setLabelChatHelp',
           'setLabelUnreadMsgs'
         ]);
       ticketFormSub = jasmine
@@ -555,6 +556,7 @@ describe('mediator', function() {
       c.subscribe(`${launcher}.deactivate`,         launcherSub.deactivate);
       c.subscribe(`${launcher}.setLabelChat`,       launcherSub.setLabelChat);
       c.subscribe(`${launcher}.setLabelHelp`,       launcherSub.setLabelHelp);
+      c.subscribe(`${launcher}.setLabelChatHelp`,   launcherSub.setLabelChatHelp);
       c.subscribe(`${launcher}.setLabelUnreadMsgs`, launcherSub.setLabelUnreadMsgs);
 
       c.subscribe(`${ticketForm}.show`, ticketFormSub.show);
@@ -573,13 +575,13 @@ describe('mediator', function() {
     });
 
     describe('launcher', function() {
-      it('deactivates to "Chat" if chat is online', function() {
+      it('deactivates to "ChatHelp" if chat is online', function() {
         c.broadcast(`${chat}.onOnline`);
 
-        reset(launcherSub.setLabelChat);
+        reset(launcherSub.setLabelChatHelp);
         c.broadcast(`${launcher}.deactivate`);
 
-        expect(launcherSub.setLabelChat.calls.count())
+        expect(launcherSub.setLabelChatHelp.calls.count())
           .toEqual(1);
       });
 
@@ -719,7 +721,7 @@ describe('mediator', function() {
     describe('chat', function() {
       it('sets launcher to "Chat" when chat comes online', function() {
         c.broadcast(`${chat}.onOnline`);
-        expect(launcherSub.setLabelChat.calls.count())
+        expect(launcherSub.setLabelChatHelp.calls.count())
           .toEqual(1);
       });
 
