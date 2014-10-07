@@ -19,6 +19,8 @@ function boot() {
       rendererPayload,
       host = location.host,
       path = location.pathname,
+      locale,
+      postRenderCallbacks = [],
       chatPages = [
       '/zopim',
       '/product/pricing',
@@ -39,11 +41,16 @@ function boot() {
 
   publicApi = {
     devRender: renderer.init,
-    bustCache: transport.bustCache,
-    setLocale: i18n.setLocale
+    bustCache: transport.bustCache
   };
 
   _.extend(win.zEmbed, publicApi);
+
+  preprocessQueue();
+
+  if (locale && locale !== 'en-US') {
+    i18n.setLocale(locale);
+  }
 
   if (!isBlacklisted()) {
     rendererPayload = {
@@ -51,8 +58,8 @@ function boot() {
       path: '/embeddable/config',
       callbacks: {
         done(res) {
-          handleQueue();
           renderer.init(res.body);
+          processPostRenderCallbacks();
         },
         fail(error) {
           Airbrake.push({
@@ -67,8 +74,8 @@ function boot() {
 
     //The config for zendesk.com
     if (host === 'www.zendesk.com' && _.contains(chatPages, path)) {
-      handleQueue();
       renderer.init(renderer.hardcodedConfigs.zendeskWithChat);
+      processPostRenderCallbacks();
     } else {
       transport.get(rendererPayload);
     }
@@ -80,9 +87,19 @@ function boot() {
     }, 0);
   }
 
-  function handleQueue() {
+  function processPostRenderCallbacks() {
+    _.forEach(postRenderCallbacks, function(callback) {
+      callback(win.zEmbed);
+    });
+  }
+
+  function preprocessQueue() {
     _.forEach(document.zEQueue, function(item) {
-      item[0](win.zEmbed);
+      if (item[0].locale) {
+        locale = item[0].locale;
+      } else if (_.isFunction(item[0])) {
+        postRenderCallbacks.push(item[0]);
+      }
     });
   }
 
