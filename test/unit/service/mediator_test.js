@@ -357,6 +357,162 @@ describe('mediator', function() {
 
   });
 
+  describe('Help Center, Ticket Submission', function() {
+    var launcher,
+        ticketForm,
+        helpCenter,
+        c,
+        launcherSub,
+        ticketFormSub,
+        helpCenterSub;
+
+    beforeEach(function() {
+      mediator = requireUncached(mediatorPath).mediator;
+      launcher = 'hcLauncher';
+      ticketForm = 'ticketSubmissionForm';
+      helpCenter = 'helpCenterForm';
+      c = mediator.channel;
+      launcherSub = jasmine
+        .createSpyObj('launcher', [
+          'activate',
+          'deactivate',
+          'setLabelChat',
+          'setLabelHelp',
+          'setLabelUnreadMsgs'
+        ]);
+      ticketFormSub = jasmine
+        .createSpyObj('ticketForm', ['show', 'hide', 'showBackButton']);
+      helpCenterSub = jasmine
+        .createSpyObj('helpCenter', [
+          'show',
+          'hide',
+          'setNextToChat',
+          'setNextToSubmitTicket'
+        ]);
+
+      c.subscribe(`${launcher}.activate`,           launcherSub.activate);
+      c.subscribe(`${launcher}.deactivate`,         launcherSub.deactivate);
+      c.subscribe(`${launcher}.setLabelChat`,       launcherSub.setLabelChat);
+      c.subscribe(`${launcher}.setLabelHelp`,       launcherSub.setLabelHelp);
+      c.subscribe(`${launcher}.setLabelUnreadMsgs`, launcherSub.setLabelUnreadMsgs);
+
+      c.subscribe(`${ticketForm}.show`, ticketFormSub.show);
+      c.subscribe(`${ticketForm}.hide`, ticketFormSub.hide);
+      c.subscribe(`${ticketForm}.showBackButton`, ticketFormSub.showBackButton);
+
+      c.subscribe(`${helpCenter}.show`, helpCenterSub.show);
+      c.subscribe(`${helpCenter}.hide`, helpCenterSub.hide);
+      c.subscribe(`${helpCenter}.setNextToChat`, helpCenterSub.setNextToChat);
+      c.subscribe(`${helpCenter}.setNextToSubmitTicket`, helpCenterSub.setNextToSubmitTicket);
+
+      mediator.initHelpCenterTicketSubmissionMediator();
+    });
+
+    describe('launcher', function() {
+      it('launches Help Center first', function() {
+        c.broadcast(`${launcher}.onClick`);
+
+        expect(helpCenterSub.show.calls.count())
+          .toEqual(1);
+
+        expect(helpCenterSub.setNextToSubmitTicket.calls.count())
+          .toEqual(1);
+      });
+
+      it('launches Ticket Submission if it is active', function() {
+        c.broadcast(`${launcher}.onClick`);
+        c.broadcast(`${helpCenter}.onNextClick`);
+
+        reset(ticketFormSub.show);
+        reset(helpCenterSub.show);
+        c.broadcast(`${launcher}.onClick`); // close
+        c.broadcast(`${launcher}.onClick`); // open
+
+        expect(helpCenterSub.show.calls.count())
+          .toEqual(0);
+        expect(ticketFormSub.show.calls.count())
+          .toEqual(1);
+      });
+
+      it('closes helpCenter if helpCenter is visible', function() {
+        c.broadcast(`${launcher}.onClick`);
+
+        reset(helpCenterSub.hide);
+        c.broadcast(`${launcher}.onClick`);
+
+        expect(helpCenterSub.hide.calls.count())
+          .toEqual(1);
+      });
+
+      it('closes Ticket Submission if Ticket Submission is visible', function() {
+        c.broadcast(`${launcher}.onClick`);
+        c.broadcast(`${helpCenter}.onNextClick`);
+
+        reset(ticketFormSub.hide);
+        c.broadcast(`${launcher}.onClick`);
+
+        expect(ticketFormSub.hide.calls.count())
+          .toEqual(1);
+      });
+    });
+
+    describe('help center', function() {
+      it('moves on to Ticket Submission', function() {
+        c.broadcast(`${launcher}.onClick`);
+
+        reset(helpCenterSub.hide);
+        reset(ticketFormSub.show);
+        c.broadcast(`${helpCenter}.onNextClick`);
+
+        expect(helpCenterSub.hide.calls.count())
+          .toEqual(1);
+        expect(ticketFormSub.show.calls.count())
+          .toEqual(1);
+      });
+
+      it('makes Ticket Submission display back button', function() {
+        reset(ticketFormSub.showBackButton);
+        c.broadcast(`${helpCenter}.onNextClick`);
+
+        expect(ticketFormSub.showBackButton.calls.count())
+          .toEqual(1);
+      });
+    });
+
+    describe('ticket submission', function() {
+      it('goes back to help center', function() {
+        c.broadcast(`${launcher}.onClick`);
+        c.broadcast(`${helpCenter}.onNextClick`);
+
+        reset(helpCenterSub.show);
+        reset(ticketFormSub.hide);
+        c.broadcast(`${ticketForm}.onBackClick`);
+
+        expect(helpCenterSub.show.calls.count())
+          .toEqual(1);
+
+        expect(ticketFormSub.hide.calls.count())
+          .toEqual(1);
+      });
+
+      it('sets Help Center as active embed after form submit', function() {
+        c.broadcast(`${launcher}.onClick`);
+        c.broadcast(`${helpCenter}.onNextClick`);
+
+        c.broadcast(`${ticketForm}.onFormSubmitted`);
+
+        reset(helpCenterSub.show);
+
+        c.broadcast(`${launcher}.onClick`); // close
+        c.broadcast(`${launcher}.onClick`); // open
+
+        expect(helpCenterSub.show.calls.count())
+          .toEqual(1);
+      });
+    });
+
+  });
+
   describe('Help Center, Chat, Ticket Submission', function() {
     var launcher,
         ticketForm,
@@ -553,9 +709,11 @@ describe('mediator', function() {
       });
 
       it('displays "Leave A Message" if chat is offline', function() {
+        c.broadcast(`${chat}.onOffline`);
 
+        expect(helpCenterSub.setNextToSubmitTicket.calls.count())
+          .toEqual(1);
       });
-
     });
 
     describe('chat', function() {
@@ -701,4 +859,5 @@ describe('mediator', function() {
     });
 
   });
+
 });

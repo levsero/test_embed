@@ -124,6 +124,67 @@ function initChatTicketSubmissionMediator() {
   });
 }
 
+function initHelpCenterTicketSubmissionMediator() {
+  var ticketForm = 'ticketSubmissionForm',
+      launcher = 'hcLauncher',
+      helpCenter = 'helpCenterForm',
+      state = {};
+
+  state[`${ticketForm}.isVisible`] = false;
+  state[`${helpCenter}.isVisible`] = false;
+  state.activeEmbed                = helpCenter;
+
+  channel.intercept(`${helpCenter}.onNextClick`, function() {
+    state[`${helpCenter}.isVisible`] = false;
+    channel.broadcast(`${helpCenter}.hide`);
+
+    state[`${ticketForm}.isVisible`] = true;
+    state.activeEmbed = ticketForm;
+
+    channel.broadcast(`${ticketForm}.showBackButton`);
+    channel.broadcast(`${ticketForm}.show`);
+  });
+
+  channel.intercept(
+    [`${launcher}.onClick`,
+     `${helpCenter}.onClose`,
+     `${ticketForm}.onClose`].join(','),
+    function() {
+      if (_.any([state[`${ticketForm}.isVisible`],
+                 state[`${helpCenter}.isVisible`]])) {
+        if (state[`${helpCenter}.isVisible`]) {
+          channel.broadcast(`${helpCenter}.hide`);
+          state[`${helpCenter}.isVisible`] = false;
+        }
+        if (state[`${ticketForm}.isVisible`]) {
+          channel.broadcast(`${ticketForm}.hide`);
+          state[`${ticketForm}.isVisible`] = false;
+        }
+        channel.broadcast(`${launcher}.deactivate`);
+      }
+      else {
+        channel.broadcast(`${state.activeEmbed}.show`);
+        state[`${state.activeEmbed}.isVisible`] = true;
+
+        channel.broadcast(`${helpCenter}.setNextToSubmitTicket`);
+        channel.broadcast(`${launcher}.activate`);
+      }
+    });
+
+  channel.intercept(`${ticketForm}.onBackClick`, function() {
+    state[`${ticketForm}.isVisible`] = false;
+    state[`${helpCenter}.isVisible`] = true;
+    state.activeEmbed = helpCenter;
+
+    channel.broadcast(`${ticketForm}.hide`);
+    channel.broadcast(`${helpCenter}.show`);
+  });
+
+  channel.intercept(`${ticketForm}.onFormSubmitted`, function() {
+    state.activeEmbed = helpCenter;
+  });
+}
+
 function initHelpCenterChatTicketSubmissionMediator() {
   var ticketForm = 'ticketSubmissionForm',
       launcher = 'hcLauncher',
@@ -137,7 +198,7 @@ function initHelpCenterChatTicketSubmissionMediator() {
   state[`${chat}.isOnline`]        = false;
   state[`${chat}.unreadMsgs`]      = 0;
   state[`${chat}.userClosed`]      = false;
-  state.activeEmbed             = helpCenter;
+  state.activeEmbed                = helpCenter;
 
   channel.intercept(`${chat}.onOnline`, function() {
     state[`${chat}.isOnline`] = true;
@@ -266,5 +327,6 @@ export var mediator = {
   channel: channel,
   initTicketSubmissionMediator: initTicketSubmissionMediator,
   initChatTicketSubmissionMediator: initChatTicketSubmissionMediator,
-  initHelpCenterChatTicketSubmissionMediator: initHelpCenterChatTicketSubmissionMediator
+  initHelpCenterTicketSubmissionMediator: initHelpCenterTicketSubmissionMediator,
+  initHelpCenterChatTicketSubmissionMediator: initHelpCenterChatTicketSubmissionMediator,
 };
