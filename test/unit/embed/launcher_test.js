@@ -347,6 +347,19 @@ describe('embed.launcher', function() {
           .toHaveBeenCalled();
       });
 
+      it('should subscribe to <name>.setLabelChatHelp', function() {
+        expect(mockMediator.channel.subscribe)
+          .toHaveBeenCalledWith('alice.setLabelChatHelp', jasmine.any(Function));
+
+        pluckSubscribeCall(subscribeCalls, 'alice.setLabelChatHelp')();
+
+        expect(aliceLauncher.setIcon.__reactBoundMethod)
+          .toHaveBeenCalledWith('Icon--chat');
+
+        expect(aliceLauncher.setLabel.__reactBoundMethod)
+          .toHaveBeenCalled();
+      });
+
       it('should subscribe to <name>.setLabelUnreadMsgs', function() {
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('alice.setLabelUnreadMsgs', jasmine.any(Function));

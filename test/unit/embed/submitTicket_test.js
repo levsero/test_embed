@@ -8,6 +8,11 @@ describe('embed.submitTicket', function() {
       submitTicketPath = buildSrcPath('embed/submitTicket/submitTicket');
 
   beforeEach(function() {
+    var mockSubmitTicketForm = React.createClass({
+      render: function() {
+        return (<div />);
+      }
+    });
 
     resetDOM();
 
@@ -40,7 +45,9 @@ describe('embed.submitTicket', function() {
               render: function() {
                 return (
                   /* jshint quotmark:false */
-                  <div className='mock-submitTicket' />
+                  <div className='mock-submitTicket'>
+                    <mockSubmitTicketForm ref='submitTicketForm' />
+                  </div>
                 );
               }
             })
@@ -269,13 +276,15 @@ describe('embed.submitTicket', function() {
             })[1];
           },
           subscribeCalls,
-          bobSubmitTicket;
+          bobSubmitTicket,
+          bobSubmitTicketForm;
 
       beforeEach(function() {
         mockMediator = mockRegistry['service/mediator'].mediator;
         submitTicket.create('bob');
         submitTicket.render('bob');
         bobSubmitTicket = submitTicket.get('bob').instance.getChild().refs.submitTicket;
+        bobSubmitTicketForm = bobSubmitTicket.refs.submitTicketForm;
         subscribeCalls = mockMediator.channel.subscribe.calls.allArgs();
       });
 
@@ -308,6 +317,19 @@ describe('embed.submitTicket', function() {
         expect(bobSubmitTicket.reset.__reactBoundMethod)
           .toHaveBeenCalled();
       });
+
+      it('should subscribe to <name>.showBackButton', function() {
+        expect(mockMediator.channel.subscribe)
+          .toHaveBeenCalledWith('bob.showBackButton', jasmine.any(Function));
+
+        bobSubmitTicket.state.showBackButton = false;
+
+        pluckSubscribeCall(subscribeCalls, 'bob.showBackButton')();
+
+        expect(bobSubmitTicketForm.state.showBackButton)
+          .toEqual(true);
+      });
+
     });
 
   });

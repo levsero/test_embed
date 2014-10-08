@@ -7,6 +7,11 @@ describe('embed.helpCenter', function() {
       helpCenterPath = buildSrcPath('embed/helpCenter/helpCenter');
 
   beforeEach(function() {
+    var mockHelpCenterForm = React.createClass({
+      render: function() {
+        return (<div />);
+      }
+    });
 
     resetDOM();
 
@@ -17,7 +22,9 @@ describe('embed.helpCenter', function() {
     mockRegistry = initMockRegistry({
       'react/addons': React,
       'service/beacon': noop,
-      'service/i18n': noop,
+      'service/i18n': {
+        i18n: jasmine.createSpyObj('i18n', ['t'])
+      },
       'service/transport': {
         transport: {
           getZendeskHost: function() {
@@ -45,7 +52,9 @@ describe('embed.helpCenter', function() {
               render: function() {
                 return (
                   /* jshint quotmark:false */
-                  <div className='mock-helpCenter' />
+                  <div className='mock-helpCenter'>
+                    <mockHelpCenterForm ref='helpCenterForm' />
+                  </div>
                 );
               }
             })
@@ -130,6 +139,30 @@ describe('embed.helpCenter', function() {
         expect(payload.props.children.props.zendeskHost)
           .toEqual('zendesk.host');
       });
+
+      describe('mediator broadcasts', function() {
+        it('should broadcast <name>.onClose with onClose', function() {
+          var params = mockFrameFactoryRecentCall[1],
+          mockMediator = mockRegistry['service/mediator'].mediator;
+
+          params.onClose();
+
+          expect(mockMediator.channel.broadcast)
+            .toHaveBeenCalledWith('carlos.onClose');
+        });
+
+        it('should broadcast <name>.onNextClick with onButtonClick', function() {
+          var childFn = mockFrameFactoryRecentCall[0],
+              mockMediator = mockRegistry['service/mediator'].mediator,
+              payload = childFn({});
+
+          payload.props.children.props.onButtonClick();
+
+          expect(mockMediator.channel.broadcast)
+            .toHaveBeenCalledWith('carlos.onNextClick');
+        });
+      });
+
     });
 
     it('should switch iframe styles based on isMobileBrowser()', function() {
@@ -184,6 +217,7 @@ describe('embed.helpCenter', function() {
       expect(payload.props.style)
         .toEqual({height: '100%', width: '100%'});
     });
+
   });
 
   describe('get', function() {
@@ -199,8 +233,8 @@ describe('embed.helpCenter', function() {
   });
 
   describe('render', function() {
-    it('should throw an exception if HelpCenter does not exist', function() {
 
+    it('should throw an exception if HelpCenter does not exist', function() {
       expect(function() {
         helpCenter.render('non_existent_helpCenter');
       }).toThrow();
@@ -250,5 +284,79 @@ describe('embed.helpCenter', function() {
       expect(mockFrameFactoryCss)
         .toBe(mockCss);
     });
+
+    describe('mediator subscriptions', function() {
+      var mockMediator,
+          mockI18n,
+          carlosHelpCenter,
+          carlosHelpCenterForm,
+          pluckSubscribeCall = function(calls, key) {
+            return _.find(calls, function(call) {
+              return call[0] === key;
+            })[1];
+          },
+          subscribeCalls;
+
+      beforeEach(function() {
+        mockMediator = mockRegistry['service/mediator'].mediator;
+        mockI18n = mockRegistry['service/i18n'].i18n;
+        helpCenter.create('carlos');
+        helpCenter.render('carlos');
+        carlosHelpCenter = helpCenter.get('carlos').instance.getChild().refs.helpCenter;
+        carlosHelpCenterForm = carlosHelpCenter.refs.helpCenterForm;
+        subscribeCalls = mockMediator.channel.subscribe.calls.allArgs();
+      });
+
+      it('should subscribe to <name>.show', function() {
+        expect(mockMediator.channel.subscribe)
+          .toHaveBeenCalledWith('carlos.show', jasmine.any(Function));
+
+        pluckSubscribeCall(subscribeCalls, 'carlos.show')();
+
+        expect(helpCenter.get('carlos').instance.show.__reactBoundMethod)
+          .toHaveBeenCalled();
+      });
+
+      it('should subscribe to <name>.hide', function() {
+        expect(mockMediator.channel.subscribe)
+          .toHaveBeenCalledWith('carlos.hide', jasmine.any(Function));
+
+        pluckSubscribeCall(subscribeCalls, 'carlos.hide')();
+
+        expect(helpCenter.get('carlos').instance.hide.__reactBoundMethod)
+          .toHaveBeenCalled();
+      });
+
+      it('should subscribe to <name>.setNextToChat', function() {
+        mockI18n.t.and.returnValue('chat label');
+
+        expect(mockMediator.channel.subscribe)
+          .toHaveBeenCalledWith('carlos.setNextToChat', jasmine.any(Function));
+
+        pluckSubscribeCall(subscribeCalls, 'carlos.setNextToChat')();
+
+        expect(mockI18n.t)
+          .toHaveBeenCalledWith('embeddable_framework.helpCenter.submitButton.label.chat');
+
+        expect(carlosHelpCenterForm.state.buttonLabel)
+          .toEqual('chat label');
+      });
+
+      it('should subscribe to <name>.setNextToSubmitTicket', function() {
+        mockI18n.t.and.returnValue('submitTicket label');
+
+        expect(mockMediator.channel.subscribe)
+          .toHaveBeenCalledWith('carlos.setNextToSubmitTicket', jasmine.any(Function));
+
+        pluckSubscribeCall(subscribeCalls, 'carlos.setNextToSubmitTicket')();
+
+        expect(mockI18n.t)
+          .toHaveBeenCalledWith('embeddable_framework.helpCenter.submitButton.label.submitTicket');
+
+        expect(carlosHelpCenterForm.state.buttonLabel)
+          .toEqual('submitTicket label');
+      });
+    });
+
   });
 });

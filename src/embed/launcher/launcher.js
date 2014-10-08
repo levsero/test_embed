@@ -115,6 +115,7 @@ function render(name) {
   mediator.channel.subscribe(name + '.activate', function() {
     getChildRefs(name).launcher.setActive(true);
   });
+
   mediator.channel.subscribe(name + '.deactivate', function() {
     getChildRefs(name).launcher.setActive(false);
   });
