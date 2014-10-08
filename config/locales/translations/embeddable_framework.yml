@@ -90,12 +90,12 @@ parts:
       wip: true
   - translation:
       key: "embeddable_framework.helpCenter.search.error.title"
-      title: "The title for the help center widget when there are errors happened during search. Will wrap as needed (tinyurl.com/o849ewv)"
+      title: "The title for the help center widget when there are errors happened during search. Will wrap as needed (tinyurl.com/n475fhj)"
       value: "Sorry, no results available at the moment"
       wip: true
   - translation:
       key: "embeddable_framework.helpCenter.search.error.body"
-      title: "The paragraph for the help center widget when there errors happened during search. Will wrap as needed (tinyurl.com/okoocb7)"
+      title: "The message for the help center widget when there are errors happened during search. Will wrap as needed (tinyurl.com/n475fhj)"
       value: "Use the button below to send us a message"
       wip: true
   - translation:
