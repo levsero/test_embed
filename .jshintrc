@@ -7,7 +7,7 @@
     "zEmbed",
     "_",
     "Airbrake",
-    "before", "after", "noop", "resetDOM", "ReactTestUtils", "jsdom", "dispatchEvent",
+    "before", "after", "noop", "pluckSubscribeCall", "resetDOM", "ReactTestUtils", "jsdom", "dispatchEvent",
     "expect", "it", "iit", "describe", "ddescribe", "xit", "xdescribe", "beforeEach", "afterEach",
     "jasmine", "spyOn", "runs", "waitsFor", "buildSrcPath", "buildTestPath",
     "basePath", "mockery", "initMockRegistry", "__EMBEDDABLE_VERSION__"

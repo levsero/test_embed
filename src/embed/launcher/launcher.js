@@ -92,14 +92,6 @@ function getChildRefs(name) {
   return get(name).instance.getChild().refs;
 }
 
-function hide(name) {
-  get(name).instance.hide();
-}
-
-function show(name) {
-  get(name).instance.show();
-}
-
 function setIcon(name, icon) {
   getChildRefs(name).launcher.setIcon(icon);
 }
@@ -154,8 +146,6 @@ export var launcher = {
   list: list,
   get: get,
   render: render,
-  hide: hide,
-  show: show,
   setIcon: setIcon,
   setLabel: setLabel
 };

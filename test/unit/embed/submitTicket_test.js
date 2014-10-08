@@ -8,7 +8,7 @@ describe('embed.submitTicket', function() {
       submitTicketPath = buildSrcPath('embed/submitTicket/submitTicket');
 
   beforeEach(function() {
-    var mockSubmitTicketForm = React.createClass({
+    var mockForm = React.createClass({
       render: function() {
         return (<div />);
       }
@@ -46,7 +46,7 @@ describe('embed.submitTicket', function() {
                 return (
                   /* jshint quotmark:false */
                   <div className='mock-submitTicket'>
-                    <mockSubmitTicketForm ref='submitTicketForm' />
+                    <mockForm ref='submitTicketForm' />
                   </div>
                 );
               }
@@ -89,6 +89,7 @@ describe('embed.submitTicket', function() {
   });
 
   describe('create', function() {
+
     it('show add a new submit ticket form to the submitTicket array', function() {
       var bob;
 
@@ -109,19 +110,20 @@ describe('embed.submitTicket', function() {
         .toBeDefined();
     });
 
-    describe('frameFactory call', function() {
+    describe('frameFactory', function() {
       var mockFrameFactory,
-          mockFrameFactoryRecentCall;
+          mockFrameFactoryCall,
+          params;
 
       beforeEach(function() {
         mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
         submitTicket.create('bob', frameConfig);
-        mockFrameFactoryRecentCall = mockFrameFactory.calls.mostRecent().args;
+        mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
+        params = mockFrameFactoryCall[1];
       });
 
       it('should toggle setScaleLock with onShow/onHide', function() {
-        var params = mockFrameFactoryRecentCall[1],
-            mockSetScaleLock = mockRegistry['utility/utils'].setScaleLock;
+        var mockSetScaleLock = mockRegistry['utility/utils'].setScaleLock;
 
         params.onShow();
 
@@ -137,8 +139,7 @@ describe('embed.submitTicket', function() {
       });
 
       it('should broadcast <name>.onClose with onClose', function() {
-        var params = mockFrameFactoryRecentCall[1],
-            mockMediator = mockRegistry['service/mediator'].mediator;
+        var mockMediator = mockRegistry['service/mediator'].mediator;
 
         params.onClose();
 
@@ -150,7 +151,7 @@ describe('embed.submitTicket', function() {
 
     it('should switch iframe styles based on isMobileBrowser()', function() {
      var mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory,
-         mockFrameFactoryRecentCall,
+         mockFrameFactoryCall,
          iframeStyle;
 
       mockery.registerMock('utility/devices', {
@@ -162,9 +163,9 @@ describe('embed.submitTicket', function() {
       submitTicket = require(submitTicketPath).submitTicket;
       submitTicket.create('bob');
 
-      mockFrameFactoryRecentCall = mockFrameFactory.calls.mostRecent().args;
+      mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
 
-      iframeStyle = mockFrameFactoryRecentCall[1].style;
+      iframeStyle = mockFrameFactoryCall[1].style;
 
       expect(iframeStyle.left)
         .toBeUndefined();
@@ -175,7 +176,7 @@ describe('embed.submitTicket', function() {
 
     it('should switch container styles based on isMobileBrowser()', function() {
       var mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory,
-          mockFrameFactoryRecentCall,
+          mockFrameFactoryCall,
           childFnParams = {
             updateFrameSize: function() {}
           },
@@ -193,9 +194,9 @@ describe('embed.submitTicket', function() {
 
       submitTicket.create('bob');
 
-      mockFrameFactoryRecentCall = mockFrameFactory.calls.mostRecent().args;
+      mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
 
-      payload = mockFrameFactoryRecentCall[0](childFnParams);
+      payload = mockFrameFactoryCall[0](childFnParams);
 
       expect(payload.props.style)
         .toEqual({height: '100%', width: '100%'});
@@ -204,15 +205,14 @@ describe('embed.submitTicket', function() {
   });
 
   describe('get', function() {
+
     it('should return the correct submitTicket form', function() {
-      var bob;
-
       submitTicket.create('bob');
-      bob = submitTicket.get('bob');
 
-      expect(bob)
+      expect(submitTicket.get('bob'))
         .toBeDefined();
     });
+
   });
 
   describe('render', function() {
@@ -270,12 +270,7 @@ describe('embed.submitTicket', function() {
 
     describe('mediator subscription', function() {
       var mockMediator,
-          pluckSubscribeCall = function(calls, key) {
-            return _.find(calls, function(call) {
-              return call[0] === key;
-            })[1];
-          },
-          subscribeCalls,
+          bob,
           bobSubmitTicket,
           bobSubmitTicketForm;
 
@@ -283,18 +278,18 @@ describe('embed.submitTicket', function() {
         mockMediator = mockRegistry['service/mediator'].mediator;
         submitTicket.create('bob');
         submitTicket.render('bob');
-        bobSubmitTicket = submitTicket.get('bob').instance.getChild().refs.submitTicket;
+        bob = submitTicket.get('bob');
+        bobSubmitTicket = bob.instance.getChild().refs.submitTicket;
         bobSubmitTicketForm = bobSubmitTicket.refs.submitTicketForm;
-        subscribeCalls = mockMediator.channel.subscribe.calls.allArgs();
       });
 
       it('should subscribe to <name>.show', function() {
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('bob.show', jasmine.any(Function));
 
-        pluckSubscribeCall(subscribeCalls, 'bob.show')();
+        pluckSubscribeCall(mockMediator, 'bob.show')();
 
-        expect(submitTicket.get('bob').instance.show.__reactBoundMethod)
+        expect(bob.instance.show.__reactBoundMethod)
           .toHaveBeenCalled();
       });
 
@@ -302,9 +297,9 @@ describe('embed.submitTicket', function() {
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('bob.hide', jasmine.any(Function));
 
-        pluckSubscribeCall(subscribeCalls, 'bob.hide')();
+        pluckSubscribeCall(mockMediator, 'bob.hide')();
 
-        expect(submitTicket.get('bob').instance.hide.__reactBoundMethod)
+        expect(bob.instance.hide.__reactBoundMethod)
           .toHaveBeenCalled();
 
         expect(bobSubmitTicket.reset.__reactBoundMethod)
@@ -312,7 +307,7 @@ describe('embed.submitTicket', function() {
 
         bobSubmitTicket.state.showNotification = true;
 
-        pluckSubscribeCall(subscribeCalls, 'bob.hide')();
+        pluckSubscribeCall(mockMediator, 'bob.hide')();
 
         expect(bobSubmitTicket.reset.__reactBoundMethod)
           .toHaveBeenCalled();
@@ -324,7 +319,7 @@ describe('embed.submitTicket', function() {
 
         bobSubmitTicket.state.showBackButton = false;
 
-        pluckSubscribeCall(subscribeCalls, 'bob.showBackButton')();
+        pluckSubscribeCall(mockMediator, 'bob.showBackButton')();
 
         expect(bobSubmitTicketForm.state.showBackButton)
           .toEqual(true);

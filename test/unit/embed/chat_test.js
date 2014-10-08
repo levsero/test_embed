@@ -107,9 +107,11 @@ describe('embed.chat', function() {
 
   describe('render', function() {
     var chatName = 'alice',
-        zopimId = 'abc123';
+        zopimId = 'abc123',
+        mockMediator;
 
     beforeEach(function() {
+      mockMediator = mockRegistry['service/mediator'].mediator;
       chat.create(chatName, {zopimId: zopimId});
       chat.render(chatName);
     });
@@ -127,8 +129,7 @@ describe('embed.chat', function() {
     });
 
     describe('mediator broadcasts', function() {
-      var mockMediator,
-          mockZopim,
+      var mockZopim,
           onHideCall,
           onStatusCall,
           onUnreadMsgsCall,
@@ -136,7 +137,6 @@ describe('embed.chat', function() {
 
       beforeEach(function() {
         var livechat;
-        mockMediator = mockRegistry['service/mediator'].mediator;
         mockZopim = mockRegistry['utility/globals'].win.$zopim;
         livechat = mockZopim.livechat;
 
@@ -149,16 +149,19 @@ describe('embed.chat', function() {
       describe('livechat.onHide', function() {
         it('should broadcast <name>.onHide', function() {
           onHideCall.args[0]();
+
           expect(mockMediator.channel.broadcast)
             .toHaveBeenCalledWith('alice.onHide');
         });
       });
 
       describe('zopim.livechat.onStatus', function() {
+
         it('onStatus(online) should broadcast <name>.onOnline', function() {
           chat.get(chatName).connected = true;
 
           onStatusCall.args[0]('online');
+
           expect(mockMediator.channel.broadcast)
             .toHaveBeenCalledWith('alice.onOnline');
         });
@@ -167,12 +170,15 @@ describe('embed.chat', function() {
           chat.get(chatName).connected = true;
 
           onStatusCall.args[0]('offline');
+
           expect(mockMediator.channel.broadcast)
             .toHaveBeenCalledWith('alice.onOffline');
         });
+
       });
 
       describe('zopim.onUnreadMsgs', function() {
+
         it('should broadcast <name>.onUnreadMsgs if count > 0', function() {
           onUnreadMsgsCall.args[0](1);
 
@@ -201,18 +207,6 @@ describe('embed.chat', function() {
     });
 
     describe('mediator subscriptions', function() {
-      var mockMediator,
-          pluckSubscribeCall = function(calls, key) {
-            return _.find(calls, function(call) {
-              return call[0] === key;
-            })[1];
-          },
-          subscribeCalls;
-
-      beforeEach(function() {
-        mockMediator = mockRegistry['service/mediator'].mediator,
-        subscribeCalls = mockMediator.channel.subscribe.calls.allArgs();
-      });
 
       describe('<name>.show', function() {
 
@@ -220,7 +214,7 @@ describe('embed.chat', function() {
           expect(mockMediator.channel.subscribe)
             .toHaveBeenCalledWith('alice.show', jasmine.any(Function));
 
-          pluckSubscribeCall(subscribeCalls, 'alice.show')();
+          pluckSubscribeCall(mockMediator, 'alice.show')();
 
           expect(mockZopim.livechat.window.show)
             .toHaveBeenCalled();
@@ -234,7 +228,7 @@ describe('embed.chat', function() {
           expect(mockMediator.channel.subscribe)
             .toHaveBeenCalledWith('alice.show', jasmine.any(Function));
 
-          pluckSubscribeCall(subscribeCalls, 'alice.hide')();
+          pluckSubscribeCall(mockMediator, 'alice.hide')();
 
           expect(mockZopim.livechat.hideAll)
             .toHaveBeenCalled();
