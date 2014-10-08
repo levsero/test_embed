@@ -81,16 +81,14 @@ export var HelpCenter = React.createClass({
         zendesk_path: '/api/v2/help_center/search.json'
       },
       callbacks: {
-        done: function(res) {
+        done: (res) => {
           if (res.ok) {
             this.updateResults(res);
           } else {
             this.searchFail();
           }
-        }.bind(this),
-        fail: function() {
-          this.searchFail();
-        }.bind(this)
+        },
+        fail: () => this.searchFail()
       }
     });
   },
@@ -120,7 +118,7 @@ export var HelpCenter = React.createClass({
     } else {
       return i18n.t('embeddable_framework.helpCenter.search.noResults.title', {
         searchTerm: this.state.previousSearchTerm,
-        fallback: 'Uh oh, there are no results for \"' + this.state.previousSearchTerm + '\"'
+        fallback: `Uh oh, there are no results for "${this.state.previousSearchTerm}"`
       });
     }
   },

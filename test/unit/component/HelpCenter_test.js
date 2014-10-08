@@ -153,6 +153,7 @@ describe('Help center component', function() {
 
       expect(listAnchor.props.className).
         toContain('u-isHidden');
+
       expect(helpCenter.getDOMNode().querySelector('#noResults').className)
         .not.toContain('u-isHidden');
     });
