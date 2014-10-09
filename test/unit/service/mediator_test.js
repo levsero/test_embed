@@ -4,6 +4,12 @@ describe('mediator', function() {
   var mockRegistry,
       mediator,
       mediatorPath = buildSrcPath('service/mediator'),
+      c,
+      launcherSub,
+      ticketFormSub,
+      chatSub,
+      helpCenterSub,
+      initSubscriptionSpies,
       reset = function(spy) {
         spy.calls.reset();
       };
@@ -18,6 +24,64 @@ describe('mediator', function() {
         }
       }
     });
+
+    mediator = requireUncached(mediatorPath).mediator;
+
+    launcherSub = jasmine.createSpyObj(
+      'launcher',
+      ['activate',
+       'deactivate',
+       'setLabelChat',
+       'setLabelHelp',
+       'setLabelChatHelp',
+       'setLabelUnreadMsgs']
+    );
+
+    ticketFormSub = jasmine.createSpyObj(
+      'ticketForm',
+      ['show',
+       'hide',
+       'showBackButton']
+    );
+
+    chatSub = jasmine.createSpyObj(
+      'chat',
+      ['show',
+       'hide']
+    );
+
+    helpCenterSub = jasmine.createSpyObj(
+      'helpCenter',
+      ['show',
+       'hide',
+       'setNextToChat',
+       'setNextToSubmitTicket'
+      ]
+    );
+
+    c = mediator.channel;
+
+    initSubscriptionSpies = function() {
+      c.subscribe(`${this.launcher}.activate`,   launcherSub.activate);
+      c.subscribe(`${this.launcher}.deactivate`, launcherSub.deactivate);
+      c.subscribe(`${this.launcher}.setLabelChat`,       launcherSub.setLabelChat);
+      c.subscribe(`${this.launcher}.setLabelHelp`,       launcherSub.setLabelHelp);
+      c.subscribe(`${this.launcher}.setLabelChatHelp`,   launcherSub.setLabelChatHelp);
+      c.subscribe(`${this.launcher}.setLabelUnreadMsgs`, launcherSub.setLabelUnreadMsgs);
+
+      c.subscribe(`${this.ticketForm}.show`, ticketFormSub.show);
+      c.subscribe(`${this.ticketForm}.hide`, ticketFormSub.hide);
+      c.subscribe(`${this.ticketForm}.showBackButton`, ticketFormSub.showBackButton);
+
+      c.subscribe(`${this.chat}.show`, chatSub.show);
+      c.subscribe(`${this.chat}.hide`, chatSub.hide);
+
+      c.subscribe(`${this.helpCenter}.show`, helpCenterSub.show);
+      c.subscribe(`${this.helpCenter}.hide`, helpCenterSub.hide);
+      c.subscribe(`${this.helpCenter}.setNextToChat`, helpCenterSub.setNextToChat);
+      c.subscribe(`${this.helpCenter}.setNextToSubmitTicket`, helpCenterSub.setNextToSubmitTicket);
+    };
+
   });
 
   afterEach(function() {
@@ -26,28 +90,15 @@ describe('mediator', function() {
   });
 
   describe('Ticket Submission', function() {
-    var launcher,
-        ticketForm,
-        c,
-        launcherSub,
-        ticketFormSub;
+    var launcher   = 'ticketSubmissionLauncher',
+        ticketForm = 'ticketSubmissionForm',
+        names = {
+          launcher: launcher,
+          ticketForm: ticketForm
+        };
 
     beforeEach(function() {
-      mediator = requireUncached(mediatorPath).mediator;
-      ticketForm = 'ticketSubmissionForm';
-      launcher = 'ticketSubmissionLauncher';
-      c = mediator.channel;
-      launcherSub = jasmine
-        .createSpyObj('launcher', ['activate', 'deactivate']);
-      ticketFormSub = jasmine
-        .createSpyObj('ticketForm', ['show', 'hide']);
-
-      c.subscribe(`${launcher}.activate`,   launcherSub.activate);
-      c.subscribe(`${launcher}.deactivate`, launcherSub.deactivate);
-
-      c.subscribe(`${ticketForm}.show`, ticketFormSub.show);
-      c.subscribe(`${ticketForm}.hide`, ticketFormSub.hide);
-
+      initSubscriptionSpies.bind(names)();
       mediator.initTicketSubmissionMediator();
     });
 
@@ -110,45 +161,17 @@ describe('mediator', function() {
   });
 
   describe('Chat, Ticket Submission', function() {
-    var launcher,
-        ticketForm,
-        chat,
-        c,
-        launcherSub,
-        ticketFormSub,
-        chatSub;
+    var launcher   = 'chatLauncher',
+        ticketForm = 'ticketSubmissionForm',
+        chat       = 'zopimChat',
+        names = {
+          launcher: launcher,
+          ticketForm: ticketForm,
+          chat: chat
+        };
 
     beforeEach(function() {
-      mediator = requireUncached(mediatorPath).mediator;
-      launcher = 'chatLauncher';
-      ticketForm = 'ticketSubmissionForm';
-      chat = 'zopimChat';
-      c = mediator.channel;
-      launcherSub = jasmine
-        .createSpyObj('launcher', [
-          'activate',
-          'deactivate',
-          'setLabelChat',
-          'setLabelHelp',
-          'setLabelUnreadMsgs'
-        ]);
-      ticketFormSub = jasmine
-        .createSpyObj('ticketForm', ['show', 'hide']);
-      chatSub = jasmine
-        .createSpyObj('chat', ['show', 'hide']);
-
-      c.subscribe(`${launcher}.activate`,           launcherSub.activate);
-      c.subscribe(`${launcher}.deactivate`,         launcherSub.deactivate);
-      c.subscribe(`${launcher}.setLabelChat`,       launcherSub.setLabelChat);
-      c.subscribe(`${launcher}.setLabelHelp`,       launcherSub.setLabelHelp);
-      c.subscribe(`${launcher}.setLabelUnreadMsgs`, launcherSub.setLabelUnreadMsgs);
-
-      c.subscribe(`${ticketForm}.show`, ticketFormSub.show);
-      c.subscribe(`${ticketForm}.hide`, ticketFormSub.hide);
-
-      c.subscribe(`${chat}.show`, chatSub.show);
-      c.subscribe(`${chat}.hide`, chatSub.hide);
-
+      initSubscriptionSpies.bind(names)();
       mediator.initChatTicketSubmissionMediator();
     });
 
@@ -160,7 +183,7 @@ describe('mediator', function() {
         c.broadcast(`${launcher}.deactivate`);
 
         expect(launcherSub.setLabelChat.calls.count())
-          .toEqual(1);
+         .toEqual(1);
       });
 
       it('deactivates to "Help" if chat is offline', function() {
@@ -358,53 +381,17 @@ describe('mediator', function() {
   });
 
   describe('Help Center, Ticket Submission', function() {
-    var launcher,
-        ticketForm,
-        helpCenter,
-        c,
-        launcherSub,
-        ticketFormSub,
-        helpCenterSub;
+    var launcher   = 'hcLauncher',
+        ticketForm = 'ticketSubmissionForm',
+        helpCenter = 'helpCenterForm',
+        names = {
+          launcher: launcher,
+          ticketForm: ticketForm,
+          helpCenter: helpCenter
+        };
 
     beforeEach(function() {
-      mediator = requireUncached(mediatorPath).mediator;
-      launcher = 'hcLauncher';
-      ticketForm = 'ticketSubmissionForm';
-      helpCenter = 'helpCenterForm';
-      c = mediator.channel;
-      launcherSub = jasmine
-        .createSpyObj('launcher', [
-          'activate',
-          'deactivate',
-          'setLabelChat',
-          'setLabelHelp',
-          'setLabelUnreadMsgs'
-        ]);
-      ticketFormSub = jasmine
-        .createSpyObj('ticketForm', ['show', 'hide', 'showBackButton']);
-      helpCenterSub = jasmine
-        .createSpyObj('helpCenter', [
-          'show',
-          'hide',
-          'setNextToChat',
-          'setNextToSubmitTicket'
-        ]);
-
-      c.subscribe(`${launcher}.activate`,           launcherSub.activate);
-      c.subscribe(`${launcher}.deactivate`,         launcherSub.deactivate);
-      c.subscribe(`${launcher}.setLabelChat`,       launcherSub.setLabelChat);
-      c.subscribe(`${launcher}.setLabelHelp`,       launcherSub.setLabelHelp);
-      c.subscribe(`${launcher}.setLabelUnreadMsgs`, launcherSub.setLabelUnreadMsgs);
-
-      c.subscribe(`${ticketForm}.show`, ticketFormSub.show);
-      c.subscribe(`${ticketForm}.hide`, ticketFormSub.hide);
-      c.subscribe(`${ticketForm}.showBackButton`, ticketFormSub.showBackButton);
-
-      c.subscribe(`${helpCenter}.show`, helpCenterSub.show);
-      c.subscribe(`${helpCenter}.hide`, helpCenterSub.hide);
-      c.subscribe(`${helpCenter}.setNextToChat`, helpCenterSub.setNextToChat);
-      c.subscribe(`${helpCenter}.setNextToSubmitTicket`, helpCenterSub.setNextToSubmitTicket);
-
+      initSubscriptionSpies.bind(names)();
       mediator.initHelpCenterTicketSubmissionMediator();
     });
 
@@ -429,9 +416,9 @@ describe('mediator', function() {
         c.broadcast(`${launcher}.onClick`); // open
 
         expect(helpCenterSub.show.calls.count())
-          .toEqual(0);
+         .toEqual(0);
         expect(ticketFormSub.show.calls.count())
-          .toEqual(1);
+         .toEqual(1);
       });
 
       it('closes helpCenter if helpCenter is visible', function() {
@@ -514,63 +501,19 @@ describe('mediator', function() {
   });
 
   describe('Help Center, Chat, Ticket Submission', function() {
-    var launcher,
-        ticketForm,
-        chat,
-        helpCenter,
-        c,
-        launcherSub,
-        ticketFormSub,
-        chatSub,
-        helpCenterSub;
+    var launcher   = 'hcLauncher',
+        ticketForm = 'ticketSubmissionForm',
+        chat       = 'zopimChat',
+        helpCenter = 'helpCenterForm',
+        names = {
+          launcher: launcher,
+          ticketForm: ticketForm,
+          chat: chat,
+          helpCenter: helpCenter
+        };
 
     beforeEach(function() {
-      mediator = requireUncached(mediatorPath).mediator;
-      launcher = 'hcLauncher';
-      ticketForm = 'ticketSubmissionForm';
-      chat = 'zopimChat';
-      helpCenter = 'helpCenterForm';
-      c = mediator.channel;
-      launcherSub = jasmine
-        .createSpyObj('launcher', [
-          'activate',
-          'deactivate',
-          'setLabelChat',
-          'setLabelHelp',
-          'setLabelChatHelp',
-          'setLabelUnreadMsgs'
-        ]);
-      ticketFormSub = jasmine
-        .createSpyObj('ticketForm', ['show', 'hide', 'showBackButton']);
-      chatSub = jasmine
-        .createSpyObj('chat', ['show', 'hide']);
-      helpCenterSub = jasmine
-        .createSpyObj('helpCenter', [
-          'show',
-          'hide',
-          'setNextToChat',
-          'setNextToSubmitTicket'
-        ]);
-
-      c.subscribe(`${launcher}.activate`,           launcherSub.activate);
-      c.subscribe(`${launcher}.deactivate`,         launcherSub.deactivate);
-      c.subscribe(`${launcher}.setLabelChat`,       launcherSub.setLabelChat);
-      c.subscribe(`${launcher}.setLabelHelp`,       launcherSub.setLabelHelp);
-      c.subscribe(`${launcher}.setLabelChatHelp`,   launcherSub.setLabelChatHelp);
-      c.subscribe(`${launcher}.setLabelUnreadMsgs`, launcherSub.setLabelUnreadMsgs);
-
-      c.subscribe(`${ticketForm}.show`, ticketFormSub.show);
-      c.subscribe(`${ticketForm}.hide`, ticketFormSub.hide);
-      c.subscribe(`${ticketForm}.showBackButton`, ticketFormSub.showBackButton);
-
-      c.subscribe(`${chat}.show`, chatSub.show);
-      c.subscribe(`${chat}.hide`, chatSub.hide);
-
-      c.subscribe(`${helpCenter}.show`, helpCenterSub.show);
-      c.subscribe(`${helpCenter}.hide`, helpCenterSub.hide);
-      c.subscribe(`${helpCenter}.setNextToChat`, helpCenterSub.setNextToChat);
-      c.subscribe(`${helpCenter}.setNextToSubmitTicket`, helpCenterSub.setNextToSubmitTicket);
-
+      initSubscriptionSpies.bind(names)();
       mediator.initHelpCenterChatTicketSubmissionMediator();
     });
 
