@@ -44,11 +44,12 @@ describe('embed.helpCenter', function() {
               getInitialState: function() {
                 return {
                   topics: [],
-                  searchTitle: 'abc123',
                   searchCount: 0,
-                  searchTerm: ''
+                  searchTerm: '',
+                  hasSearched: false
                 };
               },
+              focusField: noop,
               render: function() {
                 return (
                   /* jshint quotmark:false */
@@ -331,7 +332,7 @@ describe('embed.helpCenter', function() {
         expect(mockI18n.t)
           .toHaveBeenCalledWith('embeddable_framework.helpCenter.submitButton.label.chat');
 
-        expect(carlosHelpCenterForm.state.buttonLabel)
+        expect(carlosHelpCenter.state.buttonLabel)
           .toEqual('chat label');
       });
 
@@ -346,7 +347,7 @@ describe('embed.helpCenter', function() {
         expect(mockI18n.t)
           .toHaveBeenCalledWith('embeddable_framework.helpCenter.submitButton.label.submitTicket');
 
-        expect(carlosHelpCenterForm.state.buttonLabel)
+        expect(carlosHelpCenter.state.buttonLabel)
           .toEqual('submitTicket label');
       });
     });

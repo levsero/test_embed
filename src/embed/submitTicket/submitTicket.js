@@ -17,7 +17,7 @@ function create(name, config) {
   var containerStyle,
       iframeBase = {
         position: 'fixed',
-        bottom: 48
+        bottom: 50
       },
       configDefaults = {
         position: 'right'
@@ -42,8 +42,8 @@ function create(name, config) {
     posObj = (config.position === 'left')
            ? { left:  5 }
            : { right: 5 };
-    iframeBase.minWidth = 350;
-    containerStyle = { minWidth: 350, margin: 15 };
+    iframeBase.minWidth = 400;
+    containerStyle = { minWidth: 400, margin: 15 };
   }
 
   iframeStyle = _.extend(iframeBase, posObj);
