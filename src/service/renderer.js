@@ -62,16 +62,16 @@ function initMediator(config) {
 
   switch(embeds) {
     case 'hcLauncher_helpCenterForm_ticketSubmissionForm_zopimChat':
-      mediator.initHelpCenterChatTicketSubmissionMediator();
+      mediator.initHelpCenterChatTicketSubmission();
       break;
     case 'hcLauncher_helpCenterForm_ticketSubmissionForm':
-      mediator.initHelpCenterTicketSubmissionMediator();
+      mediator.initHelpCenterTicketSubmission();
       break;
     case 'chatLauncher_ticketSubmissionForm_zopimChat':
-      mediator.initChatTicketSubmissionMediator();
+      mediator.initChatTicketSubmission();
       break;
     case 'ticketSubmissionForm_ticketSubmissionLauncher':
-      mediator.initTicketSubmissionMediator();
+      mediator.initTicketSubmission();
       break;
   }
 }

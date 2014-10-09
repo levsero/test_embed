@@ -5,41 +5,41 @@ module airwaves from 'airwaves';
 var channel = new airwaves.Channel(),
     c = channel;
 
-function initTicketSubmissionMediator() {
-  var ticketForm = 'ticketSubmissionForm',
+function initTicketSubmission() {
+  var submitTicket = 'ticketSubmissionForm',
       launcher = 'ticketSubmissionLauncher',
       state = {};
 
-  state[`${ticketForm}.isVisible`] = false;
+  state[`${submitTicket}.isVisible`] = false;
 
   c.intercept(
     [`${launcher}.onClick`,
-     `${ticketForm}.onClose`].join(','),
+     `${submitTicket}.onClose`].join(','),
     function() {
-      if (state[`${ticketForm}.isVisible`]) {
-        c.broadcast(`${ticketForm}.hide`);
+      if (state[`${submitTicket}.isVisible`]) {
+        c.broadcast(`${submitTicket}.hide`);
         c.broadcast(`${launcher}.deactivate`);
-        state[`${ticketForm}.isVisible`] = false;
+        state[`${submitTicket}.isVisible`] = false;
       }
       else {
-        c.broadcast(`${ticketForm}.show`);
+        c.broadcast(`${submitTicket}.show`);
         c.broadcast(`${launcher}.activate`);
-        state[`${ticketForm}.isVisible`] = true;
+        state[`${submitTicket}.isVisible`] = true;
       }
     });
 }
 
-function initChatTicketSubmissionMediator() {
-  var ticketForm = 'ticketSubmissionForm',
+function initChatTicketSubmission() {
+  var submitTicket = 'ticketSubmissionForm',
       launcher = 'chatLauncher',
       chat = 'zopimChat',
       state = {};
 
-  state[`${ticketForm}.isVisible`] = false;
-  state[`${chat}.isVisible`]       = false;
-  state[`${chat}.isOnline`]        = false;
-  state[`${chat}.unreadMsgs`]      = 0;
-  state[`${chat}.userClosed`]      = false;
+  state[`${submitTicket}.isVisible`] = false;
+  state[`${chat}.isVisible`]         = false;
+  state[`${chat}.isOnline`]          = false;
+  state[`${chat}.unreadMsgs`]        = 0;
+  state[`${chat}.userClosed`]        = false;
 
   c.intercept(`${chat}.onOnline`, function() {
     state[`${chat}.isOnline`] = true;
@@ -87,17 +87,17 @@ function initChatTicketSubmissionMediator() {
 
   c.intercept(
     [`${launcher}.onClick`,
-     `${ticketForm}.onClose`].join(','),
+     `${submitTicket}.onClose`].join(','),
     function() {
-      if (state[`${chat}.isVisible`] || state[`${ticketForm}.isVisible`]) {
+      if (state[`${chat}.isVisible`] || state[`${submitTicket}.isVisible`]) {
         if (state[`${chat}.isVisible`]) {
           c.broadcast(`${chat}.hide`);
           state[`${chat}.userClosed`] = true;
           state[`${chat}.isVisible`] = false;
         }
-        if (state[`${ticketForm}.isVisible`]) {
-          c.broadcast(`${ticketForm}.hide`);
-          state[`${ticketForm}.isVisible`] = false;
+        if (state[`${submitTicket}.isVisible`]) {
+          c.broadcast(`${submitTicket}.hide`);
+          state[`${submitTicket}.isVisible`] = false;
         }
         c.broadcast(`${launcher}.deactivate`);
       }
@@ -107,8 +107,8 @@ function initChatTicketSubmissionMediator() {
           state[`${chat}.isVisible`] = true;
         }
         else {
-          c.broadcast(`${ticketForm}.show`);
-          state[`${ticketForm}.isVisible`] = true;
+          c.broadcast(`${submitTicket}.show`);
+          state[`${submitTicket}.isVisible`] = true;
         }
         c.broadcast(`${launcher}.activate`);
       }
@@ -124,41 +124,41 @@ function initChatTicketSubmissionMediator() {
   });
 }
 
-function initHelpCenterTicketSubmissionMediator() {
-  var ticketForm = 'ticketSubmissionForm',
+function initHelpCenterTicketSubmission() {
+  var submitTicket = 'ticketSubmissionForm',
       launcher = 'hcLauncher',
       helpCenter = 'helpCenterForm',
       state = {};
 
-  state[`${ticketForm}.isVisible`] = false;
-  state[`${helpCenter}.isVisible`] = false;
-  state.activeEmbed                = helpCenter;
+  state[`${submitTicket}.isVisible`] = false;
+  state[`${helpCenter}.isVisible`]   = false;
+  state.activeEmbed                  = helpCenter;
 
   c.intercept(`${helpCenter}.onNextClick`, function() {
     state[`${helpCenter}.isVisible`] = false;
     c.broadcast(`${helpCenter}.hide`);
 
-    state[`${ticketForm}.isVisible`] = true;
-    state.activeEmbed = ticketForm;
+    state[`${submitTicket}.isVisible`] = true;
+    state.activeEmbed = submitTicket;
 
-    c.broadcast(`${ticketForm}.showBackButton`);
-    c.broadcast(`${ticketForm}.show`);
+    c.broadcast(`${submitTicket}.showBackButton`);
+    c.broadcast(`${submitTicket}.show`);
   });
 
   c.intercept(
     [`${launcher}.onClick`,
      `${helpCenter}.onClose`,
-     `${ticketForm}.onClose`].join(','),
+     `${submitTicket}.onClose`].join(','),
     function() {
-      if (_.any([state[`${ticketForm}.isVisible`],
+      if (_.any([state[`${submitTicket}.isVisible`],
                  state[`${helpCenter}.isVisible`]])) {
         if (state[`${helpCenter}.isVisible`]) {
           c.broadcast(`${helpCenter}.hide`);
           state[`${helpCenter}.isVisible`] = false;
         }
-        if (state[`${ticketForm}.isVisible`]) {
-          c.broadcast(`${ticketForm}.hide`);
-          state[`${ticketForm}.isVisible`] = false;
+        if (state[`${submitTicket}.isVisible`]) {
+          c.broadcast(`${submitTicket}.hide`);
+          state[`${submitTicket}.isVisible`] = false;
         }
         c.broadcast(`${launcher}.deactivate`);
       }
@@ -171,38 +171,38 @@ function initHelpCenterTicketSubmissionMediator() {
       }
     });
 
-  c.intercept(`${ticketForm}.onBackClick`, function() {
-    state[`${ticketForm}.isVisible`] = false;
+  c.intercept(`${submitTicket}.onBackClick`, function() {
+    state[`${submitTicket}.isVisible`] = false;
     state[`${helpCenter}.isVisible`] = true;
     state.activeEmbed = helpCenter;
 
-    c.broadcast(`${ticketForm}.hide`);
+    c.broadcast(`${submitTicket}.hide`);
     c.broadcast(`${helpCenter}.show`);
   });
 
-  c.intercept(`${ticketForm}.onFormSubmitted`, function() {
+  c.intercept(`${submitTicket}.onFormSubmitted`, function() {
     state.activeEmbed = helpCenter;
   });
 }
 
-function initHelpCenterChatTicketSubmissionMediator() {
-  var ticketForm = 'ticketSubmissionForm',
+function initHelpCenterChatTicketSubmission() {
+  var submitTicket = 'ticketSubmissionForm',
       launcher = 'hcLauncher',
       chat = 'zopimChat',
       helpCenter = 'helpCenterForm',
       state = {};
 
-  state[`${ticketForm}.isVisible`] = false;
-  state[`${chat}.isVisible`]       = false;
-  state[`${helpCenter}.isVisible`] = false;
-  state[`${chat}.isOnline`]        = false;
-  state[`${chat}.unreadMsgs`]      = 0;
-  state[`${chat}.userClosed`]      = false;
-  state.activeEmbed                = helpCenter;
+  state[`${submitTicket}.isVisible`] = false;
+  state[`${chat}.isVisible`]         = false;
+  state[`${helpCenter}.isVisible`]   = false;
+  state[`${chat}.isOnline`]          = false;
+  state[`${chat}.unreadMsgs`]        = 0;
+  state[`${chat}.userClosed`]        = false;
+  state.activeEmbed                  = helpCenter;
 
   c.intercept(`${chat}.onOnline`, function() {
     state[`${chat}.isOnline`] = true;
-    if (state.activeEmbed === ticketForm) {
+    if (state.activeEmbed === submitTicket) {
       state.activeEmbed = chat;
     }
     c.broadcast(`${launcher}.setLabelChatHelp`);
@@ -245,14 +245,14 @@ function initHelpCenterChatTicketSubmissionMediator() {
         c.broadcast(`${chat}.show`);
       }
       else {
-        state[`${ticketForm}.isVisible`] = true;
-        state.activeEmbed = ticketForm;
-        c.broadcast(`${ticketForm}.show`);
+        state[`${submitTicket}.isVisible`] = true;
+        state.activeEmbed = submitTicket;
+        c.broadcast(`${submitTicket}.show`);
       }
 
       state[`${helpCenter}.isVisible`] = false;
       c.broadcast(`${helpCenter}.hide`);
-      c.broadcast(`${ticketForm}.showBackButton`);
+      c.broadcast(`${submitTicket}.showBackButton`);
     });
 
   c.intercept(`${chat}.onChatEnd`, function() {
@@ -271,10 +271,10 @@ function initHelpCenterChatTicketSubmissionMediator() {
     [`${launcher}.onClick`,
      `${helpCenter}.onClose`,
      `${chat}.onHide`,
-     `${ticketForm}.onClose`].join(','),
+     `${submitTicket}.onClose`].join(','),
     function() {
       if (_.any([state[`${chat}.isVisible`],
-                 state[`${ticketForm}.isVisible`],
+                 state[`${submitTicket}.isVisible`],
                  state[`${helpCenter}.isVisible`]])) {
         if (state[`${helpCenter}.isVisible`]) {
           c.broadcast(`${helpCenter}.hide`);
@@ -285,9 +285,9 @@ function initHelpCenterChatTicketSubmissionMediator() {
           state[`${chat}.isVisible`] = false;
           state[`${chat}.userClosed`] = true;
         }
-        if (state[`${ticketForm}.isVisible`]) {
-          c.broadcast(`${ticketForm}.hide`);
-          state[`${ticketForm}.isVisible`] = false;
+        if (state[`${submitTicket}.isVisible`]) {
+          c.broadcast(`${submitTicket}.hide`);
+          state[`${submitTicket}.isVisible`] = false;
         }
         c.broadcast(`${launcher}.deactivate`);
       }
@@ -299,16 +299,16 @@ function initHelpCenterChatTicketSubmissionMediator() {
       }
     });
 
-  c.intercept(`${ticketForm}.onBackClick`, function() {
-    state[`${ticketForm}.isVisible`] = false;
+  c.intercept(`${submitTicket}.onBackClick`, function() {
+    state[`${submitTicket}.isVisible`] = false;
     state[`${helpCenter}.isVisible`] = true;
     state.activeEmbed = helpCenter;
 
-    c.broadcast(`${ticketForm}.hide`);
+    c.broadcast(`${submitTicket}.hide`);
     c.broadcast(`${helpCenter}.show`);
   });
 
-  c.intercept(`${ticketForm}.onFormSubmitted`, function() {
+  c.intercept(`${submitTicket}.onFormSubmitted`, function() {
     state.activeEmbed = helpCenter;
   });
 
@@ -325,8 +325,8 @@ function initHelpCenterChatTicketSubmissionMediator() {
 
 export var mediator = {
   channel: channel,
-  initTicketSubmissionMediator: initTicketSubmissionMediator,
-  initChatTicketSubmissionMediator: initChatTicketSubmissionMediator,
-  initHelpCenterTicketSubmissionMediator: initHelpCenterTicketSubmissionMediator,
-  initHelpCenterChatTicketSubmissionMediator: initHelpCenterChatTicketSubmissionMediator,
+  initTicketSubmission: initTicketSubmission,
+  initChatTicketSubmission: initChatTicketSubmission,
+  initHelpCenterTicketSubmission: initHelpCenterTicketSubmission,
+  initHelpCenterChatTicketSubmission: initHelpCenterChatTicketSubmission
 };

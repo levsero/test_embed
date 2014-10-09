@@ -6,7 +6,7 @@ describe('mediator', function() {
       mediatorPath = buildSrcPath('service/mediator'),
       c,
       launcherSub,
-      ticketFormSub,
+      submitTicketSub,
       chatSub,
       helpCenterSub,
       initSubscriptionSpies,
@@ -27,6 +27,8 @@ describe('mediator', function() {
 
     mediator = requireUncached(mediatorPath).mediator;
 
+    c = mediator.channel;
+
     launcherSub = jasmine.createSpyObj(
       'launcher',
       ['activate',
@@ -37,8 +39,8 @@ describe('mediator', function() {
        'setLabelUnreadMsgs']
     );
 
-    ticketFormSub = jasmine.createSpyObj(
-      'ticketForm',
+    submitTicketSub = jasmine.createSpyObj(
+      'submitTicket',
       ['show',
        'hide',
        'showBackButton']
@@ -59,27 +61,25 @@ describe('mediator', function() {
       ]
     );
 
-    c = mediator.channel;
+    initSubscriptionSpies = function(names) {
+      c.subscribe(`${names.launcher}.activate`,   launcherSub.activate);
+      c.subscribe(`${names.launcher}.deactivate`, launcherSub.deactivate);
+      c.subscribe(`${names.launcher}.setLabelChat`,       launcherSub.setLabelChat);
+      c.subscribe(`${names.launcher}.setLabelHelp`,       launcherSub.setLabelHelp);
+      c.subscribe(`${names.launcher}.setLabelChatHelp`,   launcherSub.setLabelChatHelp);
+      c.subscribe(`${names.launcher}.setLabelUnreadMsgs`, launcherSub.setLabelUnreadMsgs);
 
-    initSubscriptionSpies = function() {
-      c.subscribe(`${this.launcher}.activate`,   launcherSub.activate);
-      c.subscribe(`${this.launcher}.deactivate`, launcherSub.deactivate);
-      c.subscribe(`${this.launcher}.setLabelChat`,       launcherSub.setLabelChat);
-      c.subscribe(`${this.launcher}.setLabelHelp`,       launcherSub.setLabelHelp);
-      c.subscribe(`${this.launcher}.setLabelChatHelp`,   launcherSub.setLabelChatHelp);
-      c.subscribe(`${this.launcher}.setLabelUnreadMsgs`, launcherSub.setLabelUnreadMsgs);
+      c.subscribe(`${names.submitTicket}.show`, submitTicketSub.show);
+      c.subscribe(`${names.submitTicket}.hide`, submitTicketSub.hide);
+      c.subscribe(`${names.submitTicket}.showBackButton`, submitTicketSub.showBackButton);
 
-      c.subscribe(`${this.ticketForm}.show`, ticketFormSub.show);
-      c.subscribe(`${this.ticketForm}.hide`, ticketFormSub.hide);
-      c.subscribe(`${this.ticketForm}.showBackButton`, ticketFormSub.showBackButton);
+      c.subscribe(`${names.chat}.show`, chatSub.show);
+      c.subscribe(`${names.chat}.hide`, chatSub.hide);
 
-      c.subscribe(`${this.chat}.show`, chatSub.show);
-      c.subscribe(`${this.chat}.hide`, chatSub.hide);
-
-      c.subscribe(`${this.helpCenter}.show`, helpCenterSub.show);
-      c.subscribe(`${this.helpCenter}.hide`, helpCenterSub.hide);
-      c.subscribe(`${this.helpCenter}.setNextToChat`, helpCenterSub.setNextToChat);
-      c.subscribe(`${this.helpCenter}.setNextToSubmitTicket`, helpCenterSub.setNextToSubmitTicket);
+      c.subscribe(`${names.helpCenter}.show`, helpCenterSub.show);
+      c.subscribe(`${names.helpCenter}.hide`, helpCenterSub.hide);
+      c.subscribe(`${names.helpCenter}.setNextToChat`, helpCenterSub.setNextToChat);
+      c.subscribe(`${names.helpCenter}.setNextToSubmitTicket`, helpCenterSub.setNextToSubmitTicket);
     };
 
   });
@@ -91,22 +91,22 @@ describe('mediator', function() {
 
   describe('Ticket Submission', function() {
     var launcher   = 'ticketSubmissionLauncher',
-        ticketForm = 'ticketSubmissionForm',
+        submitTicket = 'ticketSubmissionForm',
         names = {
           launcher: launcher,
-          ticketForm: ticketForm
+          submitTicket: submitTicket
         };
 
     beforeEach(function() {
-      initSubscriptionSpies.bind(names)();
-      mediator.initTicketSubmissionMediator();
+      initSubscriptionSpies(names);
+      mediator.initTicketSubmission();
     });
 
     describe('launcher', function() {
       it('launches Ticket Submission', function() {
         c.broadcast(`${launcher}.onClick`);
 
-        expect(ticketFormSub.show.calls.count())
+        expect(submitTicketSub.show.calls.count())
           .toEqual(1);
         expect(launcherSub.activate.calls.count())
           .toEqual(1);
@@ -116,7 +116,7 @@ describe('mediator', function() {
         c.broadcast(`${launcher}.onClick`);
         c.broadcast(`${launcher}.onClick`);
 
-        expect(ticketFormSub.hide.calls.count())
+        expect(submitTicketSub.hide.calls.count())
           .toEqual(1);
         expect(launcherSub.deactivate.calls.count())
           .toEqual(1);
@@ -145,14 +145,14 @@ describe('mediator', function() {
       it('deactivates launcher and hides ticket submission on close', function() {
         c.broadcast(`${launcher}.onClick`);
 
-        expect(ticketFormSub.show.calls.count())
+        expect(submitTicketSub.show.calls.count())
           .toEqual(1);
         expect(launcherSub.activate.calls.count())
           .toEqual(1);
 
-        c.broadcast(`${ticketForm}.onClose`);
+        c.broadcast(`${submitTicket}.onClose`);
 
-        expect(ticketFormSub.hide.calls.count())
+        expect(submitTicketSub.hide.calls.count())
           .toEqual(1);
         expect(launcherSub.deactivate.calls.count())
           .toEqual(1);
@@ -162,17 +162,17 @@ describe('mediator', function() {
 
   describe('Chat, Ticket Submission', function() {
     var launcher   = 'chatLauncher',
-        ticketForm = 'ticketSubmissionForm',
+        submitTicket = 'ticketSubmissionForm',
         chat       = 'zopimChat',
         names = {
           launcher: launcher,
-          ticketForm: ticketForm,
+          submitTicket: submitTicket,
           chat: chat
         };
 
     beforeEach(function() {
-      initSubscriptionSpies.bind(names)();
-      mediator.initChatTicketSubmissionMediator();
+      initSubscriptionSpies(names);
+      mediator.initChatTicketSubmission();
     });
 
     describe('launcher', function() {
@@ -202,7 +202,7 @@ describe('mediator', function() {
 
         expect(launcherSub.activate.calls.count())
           .toEqual(1);
-        expect(ticketFormSub.show.calls.count())
+        expect(submitTicketSub.show.calls.count())
           .toEqual(1);
         expect(chatSub.show.calls.count())
           .toEqual(0);
@@ -214,7 +214,7 @@ describe('mediator', function() {
 
         expect(launcherSub.activate.calls.count())
           .toEqual(1);
-        expect(ticketFormSub.show.calls.count())
+        expect(submitTicketSub.show.calls.count())
           .toEqual(0);
         expect(chatSub.show.calls.count())
           .toEqual(1);
@@ -226,7 +226,7 @@ describe('mediator', function() {
         c.broadcast(`${launcher}.onClick`);
         c.broadcast(`${launcher}.onClick`);
 
-        expect(ticketFormSub.hide.calls.count())
+        expect(submitTicketSub.hide.calls.count())
           .toEqual(1);
         expect(chatSub.hide.calls.count())
           .toEqual(0);
@@ -239,7 +239,7 @@ describe('mediator', function() {
 
         expect(chatSub.hide.calls.count())
           .toEqual(1);
-        expect(ticketFormSub.hide.calls.count())
+        expect(submitTicketSub.hide.calls.count())
           .toEqual(0);
       });
     });
@@ -248,14 +248,14 @@ describe('mediator', function() {
       it('deactivates launcher and hides ticket submission on close', function() {
         c.broadcast(`${launcher}.onClick`);
 
-        expect(ticketFormSub.show.calls.count())
+        expect(submitTicketSub.show.calls.count())
           .toEqual(1);
         expect(launcherSub.activate.calls.count())
           .toEqual(1);
 
-        c.broadcast(`${ticketForm}.onClose`);
+        c.broadcast(`${submitTicket}.onClose`);
 
-        expect(ticketFormSub.hide.calls.count())
+        expect(submitTicketSub.hide.calls.count())
           .toEqual(1);
         expect(launcherSub.deactivate.calls.count())
           .toEqual(1);
@@ -382,17 +382,17 @@ describe('mediator', function() {
 
   describe('Help Center, Ticket Submission', function() {
     var launcher   = 'hcLauncher',
-        ticketForm = 'ticketSubmissionForm',
+        submitTicket = 'ticketSubmissionForm',
         helpCenter = 'helpCenterForm',
         names = {
           launcher: launcher,
-          ticketForm: ticketForm,
+          submitTicket: submitTicket,
           helpCenter: helpCenter
         };
 
     beforeEach(function() {
-      initSubscriptionSpies.bind(names)();
-      mediator.initHelpCenterTicketSubmissionMediator();
+      initSubscriptionSpies(names);
+      mediator.initHelpCenterTicketSubmission();
     });
 
     describe('launcher', function() {
@@ -410,14 +410,14 @@ describe('mediator', function() {
         c.broadcast(`${launcher}.onClick`);
         c.broadcast(`${helpCenter}.onNextClick`);
 
-        reset(ticketFormSub.show);
+        reset(submitTicketSub.show);
         reset(helpCenterSub.show);
         c.broadcast(`${launcher}.onClick`); // close
         c.broadcast(`${launcher}.onClick`); // open
 
         expect(helpCenterSub.show.calls.count())
          .toEqual(0);
-        expect(ticketFormSub.show.calls.count())
+        expect(submitTicketSub.show.calls.count())
          .toEqual(1);
       });
 
@@ -435,10 +435,10 @@ describe('mediator', function() {
         c.broadcast(`${launcher}.onClick`);
         c.broadcast(`${helpCenter}.onNextClick`);
 
-        reset(ticketFormSub.hide);
+        reset(submitTicketSub.hide);
         c.broadcast(`${launcher}.onClick`);
 
-        expect(ticketFormSub.hide.calls.count())
+        expect(submitTicketSub.hide.calls.count())
           .toEqual(1);
       });
     });
@@ -448,20 +448,20 @@ describe('mediator', function() {
         c.broadcast(`${launcher}.onClick`);
 
         reset(helpCenterSub.hide);
-        reset(ticketFormSub.show);
+        reset(submitTicketSub.show);
         c.broadcast(`${helpCenter}.onNextClick`);
 
         expect(helpCenterSub.hide.calls.count())
           .toEqual(1);
-        expect(ticketFormSub.show.calls.count())
+        expect(submitTicketSub.show.calls.count())
           .toEqual(1);
       });
 
       it('makes Ticket Submission display back button', function() {
-        reset(ticketFormSub.showBackButton);
+        reset(submitTicketSub.showBackButton);
         c.broadcast(`${helpCenter}.onNextClick`);
 
-        expect(ticketFormSub.showBackButton.calls.count())
+        expect(submitTicketSub.showBackButton.calls.count())
           .toEqual(1);
       });
     });
@@ -472,13 +472,13 @@ describe('mediator', function() {
         c.broadcast(`${helpCenter}.onNextClick`);
 
         reset(helpCenterSub.show);
-        reset(ticketFormSub.hide);
-        c.broadcast(`${ticketForm}.onBackClick`);
+        reset(submitTicketSub.hide);
+        c.broadcast(`${submitTicket}.onBackClick`);
 
         expect(helpCenterSub.show.calls.count())
           .toEqual(1);
 
-        expect(ticketFormSub.hide.calls.count())
+        expect(submitTicketSub.hide.calls.count())
           .toEqual(1);
       });
 
@@ -486,7 +486,7 @@ describe('mediator', function() {
         c.broadcast(`${launcher}.onClick`);
         c.broadcast(`${helpCenter}.onNextClick`);
 
-        c.broadcast(`${ticketForm}.onFormSubmitted`);
+        c.broadcast(`${submitTicket}.onFormSubmitted`);
 
         reset(helpCenterSub.show);
 
@@ -502,19 +502,19 @@ describe('mediator', function() {
 
   describe('Help Center, Chat, Ticket Submission', function() {
     var launcher   = 'hcLauncher',
-        ticketForm = 'ticketSubmissionForm',
+        submitTicket = 'ticketSubmissionForm',
         chat       = 'zopimChat',
         helpCenter = 'helpCenterForm',
         names = {
           launcher: launcher,
-          ticketForm: ticketForm,
+          submitTicket: submitTicket,
           chat: chat,
           helpCenter: helpCenter
         };
 
     beforeEach(function() {
-      initSubscriptionSpies.bind(names)();
-      mediator.initHelpCenterChatTicketSubmissionMediator();
+      initSubscriptionSpies(names);
+      mediator.initHelpCenterChatTicketSubmission();
     });
 
     describe('launcher', function() {
@@ -599,10 +599,10 @@ describe('mediator', function() {
         c.broadcast(`${launcher}.onClick`);
         c.broadcast(`${helpCenter}.onNextClick`);
 
-        reset(ticketFormSub.hide);
+        reset(submitTicketSub.hide);
         c.broadcast(`${launcher}.onClick`);
 
-        expect(ticketFormSub.hide.calls.count())
+        expect(submitTicketSub.hide.calls.count())
           .toEqual(1);
       });
     });
@@ -627,22 +627,22 @@ describe('mediator', function() {
         c.broadcast(`${launcher}.onClick`);
 
         reset(helpCenterSub.hide);
-        reset(ticketFormSub.show);
+        reset(submitTicketSub.show);
         c.broadcast(`${helpCenter}.onNextClick`);
 
         expect(helpCenterSub.hide.calls.count())
           .toEqual(1);
-        expect(ticketFormSub.show.calls.count())
+        expect(submitTicketSub.show.calls.count())
           .toEqual(1);
       });
 
       it('makes Ticket Submission display back button', function() {
         c.broadcast(`${chat}.onOffline`);
 
-        reset(ticketFormSub.showBackButton);
+        reset(submitTicketSub.showBackButton);
         c.broadcast(`${helpCenter}.onNextClick`);
 
-        expect(ticketFormSub.showBackButton.calls.count())
+        expect(submitTicketSub.showBackButton.calls.count())
           .toEqual(1);
       });
 
@@ -776,13 +776,13 @@ describe('mediator', function() {
         c.broadcast(`${helpCenter}.onNextClick`);
 
         reset(helpCenterSub.show);
-        reset(ticketFormSub.hide);
-        c.broadcast(`${ticketForm}.onBackClick`);
+        reset(submitTicketSub.hide);
+        c.broadcast(`${submitTicket}.onBackClick`);
 
         expect(helpCenterSub.show.calls.count())
           .toEqual(1);
 
-        expect(ticketFormSub.hide.calls.count())
+        expect(submitTicketSub.hide.calls.count())
           .toEqual(1);
       });
 
@@ -791,7 +791,7 @@ describe('mediator', function() {
         c.broadcast(`${launcher}.onClick`);
         c.broadcast(`${helpCenter}.onNextClick`);
 
-        c.broadcast(`${ticketForm}.onFormSubmitted`);
+        c.broadcast(`${submitTicket}.onFormSubmitted`);
 
         reset(helpCenterSub.show);
 
