@@ -2,17 +2,17 @@ import { isMobileBrowser } from 'utility/devices';
 
 module airwaves from 'airwaves';
 
-var channel = new airwaves.Channel();
+var channel = new airwaves.Channel(),
+    c = channel;
 
 function initTicketSubmissionMediator() {
   var ticketForm = 'ticketSubmissionForm',
       launcher = 'ticketSubmissionLauncher',
-      c = channel,
       state = {};
 
   state[`${ticketForm}.isVisible`] = false;
 
-  channel.intercept(
+  c.intercept(
     [`${launcher}.onClick`,
      `${ticketForm}.onClose`].join(','),
     function() {
@@ -41,85 +41,85 @@ function initChatTicketSubmissionMediator() {
   state[`${chat}.unreadMsgs`]      = 0;
   state[`${chat}.userClosed`]      = false;
 
-  channel.intercept(`${chat}.onOnline`, function() {
+  c.intercept(`${chat}.onOnline`, function() {
     state[`${chat}.isOnline`] = true;
-    channel.broadcast(`${launcher}.setLabelChat`);
+    c.broadcast(`${launcher}.setLabelChat`);
   });
 
-  channel.intercept(`${chat}.onOffline`, function() {
+  c.intercept(`${chat}.onOffline`, function() {
     state[`${chat}.isOnline`] = false;
-    channel.broadcast(`${launcher}.setLabelHelp`);
+    c.broadcast(`${launcher}.setLabelHelp`);
   });
 
-  channel.intercept(`${chat}.onChatEnd`, function() {
+  c.intercept(`${chat}.onChatEnd`, function() {
       state[`${chat}.isVisible`] = false;
 
-      channel.broadcast(`${launcher}.deactivate`);
-      channel.broadcast(`${chat}.hide`);
+      c.broadcast(`${launcher}.deactivate`);
+      c.broadcast(`${chat}.hide`);
     });
 
-  channel.intercept(`${chat}.onShow`, function() {
+  c.intercept(`${chat}.onShow`, function() {
     state[`${chat}.isVisible`] = true;
-    channel.broadcast(`${launcher}.activate`);
+    c.broadcast(`${launcher}.activate`);
   });
 
-  channel.intercept(`${chat}.onIsChatting`, function() {
+  c.intercept(`${chat}.onIsChatting`, function() {
       state[`${chat}.isVisible`] = true;
 
-      channel.broadcast(`${chat}.show`);
-      channel.broadcast(`${launcher}.activate`);
+      c.broadcast(`${chat}.show`);
+      c.broadcast(`${launcher}.activate`);
     });
 
-  channel.intercept(`${chat}.onUnreadMsgs`, function(b, count) {
+  c.intercept(`${chat}.onUnreadMsgs`, function(b, count) {
     state[`${chat}.unreadMsgs`] = count;
 
     if (state[`${chat}.isOnline`]) {
-      channel.broadcast(`${launcher}.setLabelUnreadMsgs`, count);
+      c.broadcast(`${launcher}.setLabelUnreadMsgs`, count);
 
       if (state[`${chat}.userClosed`] === false) {
         state[`${chat}.isVisible`] = true;
         state.activeEmbed = chat;
-        channel.broadcast(`${chat}.show`);
-        channel.broadcast(`${launcher}.activate`);
+        c.broadcast(`${chat}.show`);
+        c.broadcast(`${launcher}.activate`);
       }
     }
   });
 
-  channel.intercept(
+  c.intercept(
     [`${launcher}.onClick`,
      `${ticketForm}.onClose`].join(','),
     function() {
       if (state[`${chat}.isVisible`] || state[`${ticketForm}.isVisible`]) {
         if (state[`${chat}.isVisible`]) {
-          channel.broadcast(`${chat}.hide`);
+          c.broadcast(`${chat}.hide`);
           state[`${chat}.userClosed`] = true;
           state[`${chat}.isVisible`] = false;
         }
         if (state[`${ticketForm}.isVisible`]) {
-          channel.broadcast(`${ticketForm}.hide`);
+          c.broadcast(`${ticketForm}.hide`);
           state[`${ticketForm}.isVisible`] = false;
         }
-        channel.broadcast(`${launcher}.deactivate`);
+        c.broadcast(`${launcher}.deactivate`);
       }
       else {
         if (state[`${chat}.isOnline`]) {
-          channel.broadcast(`${chat}.show`);
+          c.broadcast(`${chat}.show`);
           state[`${chat}.isVisible`] = true;
         }
         else {
-          channel.broadcast(`${ticketForm}.show`);
+          c.broadcast(`${ticketForm}.show`);
           state[`${ticketForm}.isVisible`] = true;
         }
-        channel.broadcast(`${launcher}.activate`);
+        c.broadcast(`${launcher}.activate`);
       }
     });
 
-  channel.subscribe(`${launcher}.deactivate`, function() {
+  c.subscribe(`${launcher}.deactivate`, function() {
     if (state[`${chat}.isOnline`]) {
-      channel.broadcast(`${launcher}.setLabelChat`);
+      c.broadcast(`${launcher}.setLabelChat`);
     }
     else {
-      channel.broadcast(`${launcher}.setLabelHelp`);
+      c.broadcast(`${launcher}.setLabelHelp`);
     }
   });
 }
@@ -134,18 +134,18 @@ function initHelpCenterTicketSubmissionMediator() {
   state[`${helpCenter}.isVisible`] = false;
   state.activeEmbed                = helpCenter;
 
-  channel.intercept(`${helpCenter}.onNextClick`, function() {
+  c.intercept(`${helpCenter}.onNextClick`, function() {
     state[`${helpCenter}.isVisible`] = false;
-    channel.broadcast(`${helpCenter}.hide`);
+    c.broadcast(`${helpCenter}.hide`);
 
     state[`${ticketForm}.isVisible`] = true;
     state.activeEmbed = ticketForm;
 
-    channel.broadcast(`${ticketForm}.showBackButton`);
-    channel.broadcast(`${ticketForm}.show`);
+    c.broadcast(`${ticketForm}.showBackButton`);
+    c.broadcast(`${ticketForm}.show`);
   });
 
-  channel.intercept(
+  c.intercept(
     [`${launcher}.onClick`,
      `${helpCenter}.onClose`,
      `${ticketForm}.onClose`].join(','),
@@ -153,34 +153,34 @@ function initHelpCenterTicketSubmissionMediator() {
       if (_.any([state[`${ticketForm}.isVisible`],
                  state[`${helpCenter}.isVisible`]])) {
         if (state[`${helpCenter}.isVisible`]) {
-          channel.broadcast(`${helpCenter}.hide`);
+          c.broadcast(`${helpCenter}.hide`);
           state[`${helpCenter}.isVisible`] = false;
         }
         if (state[`${ticketForm}.isVisible`]) {
-          channel.broadcast(`${ticketForm}.hide`);
+          c.broadcast(`${ticketForm}.hide`);
           state[`${ticketForm}.isVisible`] = false;
         }
-        channel.broadcast(`${launcher}.deactivate`);
+        c.broadcast(`${launcher}.deactivate`);
       }
       else {
-        channel.broadcast(`${state.activeEmbed}.show`);
+        c.broadcast(`${state.activeEmbed}.show`);
         state[`${state.activeEmbed}.isVisible`] = true;
 
-        channel.broadcast(`${helpCenter}.setNextToSubmitTicket`);
-        channel.broadcast(`${launcher}.activate`);
+        c.broadcast(`${helpCenter}.setNextToSubmitTicket`);
+        c.broadcast(`${launcher}.activate`);
       }
     });
 
-  channel.intercept(`${ticketForm}.onBackClick`, function() {
+  c.intercept(`${ticketForm}.onBackClick`, function() {
     state[`${ticketForm}.isVisible`] = false;
     state[`${helpCenter}.isVisible`] = true;
     state.activeEmbed = helpCenter;
 
-    channel.broadcast(`${ticketForm}.hide`);
-    channel.broadcast(`${helpCenter}.show`);
+    c.broadcast(`${ticketForm}.hide`);
+    c.broadcast(`${helpCenter}.show`);
   });
 
-  channel.intercept(`${ticketForm}.onFormSubmitted`, function() {
+  c.intercept(`${ticketForm}.onFormSubmitted`, function() {
     state.activeEmbed = helpCenter;
   });
 }
@@ -200,74 +200,74 @@ function initHelpCenterChatTicketSubmissionMediator() {
   state[`${chat}.userClosed`]      = false;
   state.activeEmbed                = helpCenter;
 
-  channel.intercept(`${chat}.onOnline`, function() {
+  c.intercept(`${chat}.onOnline`, function() {
     state[`${chat}.isOnline`] = true;
     if (state.activeEmbed === ticketForm) {
       state.activeEmbed = chat;
     }
-    channel.broadcast(`${launcher}.setLabelChatHelp`);
-    channel.broadcast(`${helpCenter}.setNextToChat`);
+    c.broadcast(`${launcher}.setLabelChatHelp`);
+    c.broadcast(`${helpCenter}.setNextToChat`);
   });
 
-  channel.intercept(`${chat}.onOffline`, function() {
+  c.intercept(`${chat}.onOffline`, function() {
     state[`${chat}.isOnline`] = false;
     if (state.activeEmbed === chat) {
       state.activeEmbed = helpCenter;
     }
-    channel.broadcast(`${launcher}.setLabelHelp`);
-    channel.broadcast(`${helpCenter}.setNextToSubmitTicket`);
+    c.broadcast(`${launcher}.setLabelHelp`);
+    c.broadcast(`${helpCenter}.setNextToSubmitTicket`);
   });
 
-  channel.intercept(`${chat}.onShow`, function() {
+  c.intercept(`${chat}.onShow`, function() {
     state[`${chat}.isVisible`] = true;
-    channel.broadcast(`${launcher}.activate`);
+    c.broadcast(`${launcher}.activate`);
   });
 
-  channel.intercept(`${chat}.onUnreadMsgs`, function(b, count) {
+  c.intercept(`${chat}.onUnreadMsgs`, function(b, count) {
     state[`${chat}.unreadMsgs`] = count;
 
     if (state[`${chat}.isOnline`]) {
-      channel.broadcast(`${launcher}.setLabelUnreadMsgs`, count);
+      c.broadcast(`${launcher}.setLabelUnreadMsgs`, count);
 
       if (state[`${chat}.userClosed`] === false && !isMobileBrowser()) {
         state[`${chat}.isVisible`] = true;
         state.activeEmbed = chat;
-        channel.broadcast(`${chat}.show`);
-        channel.broadcast(`${launcher}.activate`);
+        c.broadcast(`${chat}.show`);
+        c.broadcast(`${launcher}.activate`);
       }
     }
   });
 
-  channel.intercept(`${helpCenter}.onNextClick`, function() {
+  c.intercept(`${helpCenter}.onNextClick`, function() {
       if (state[`${chat}.isOnline`]) {
         state[`${chat}.isVisible`] = true;
         state.activeEmbed = chat;
-        channel.broadcast(`${chat}.show`);
+        c.broadcast(`${chat}.show`);
       }
       else {
         state[`${ticketForm}.isVisible`] = true;
         state.activeEmbed = ticketForm;
-        channel.broadcast(`${ticketForm}.show`);
+        c.broadcast(`${ticketForm}.show`);
       }
 
       state[`${helpCenter}.isVisible`] = false;
-      channel.broadcast(`${helpCenter}.hide`);
-      channel.broadcast(`${ticketForm}.showBackButton`);
+      c.broadcast(`${helpCenter}.hide`);
+      c.broadcast(`${ticketForm}.showBackButton`);
     });
 
-  channel.intercept(`${chat}.onChatEnd`, function() {
+  c.intercept(`${chat}.onChatEnd`, function() {
       state.activeEmbed = helpCenter;
     });
 
-  channel.intercept(`${chat}.onIsChatting`, function() {
+  c.intercept(`${chat}.onIsChatting`, function() {
       state[`${chat}.isVisible`] = true;
       state.activeEmbed = chat;
 
-      channel.broadcast(`${chat}.show`);
-      channel.broadcast(`${launcher}.activate`);
+      c.broadcast(`${chat}.show`);
+      c.broadcast(`${launcher}.activate`);
     });
 
-  channel.intercept(
+  c.intercept(
     [`${launcher}.onClick`,
      `${helpCenter}.onClose`,
      `${chat}.onHide`,
@@ -277,47 +277,47 @@ function initHelpCenterChatTicketSubmissionMediator() {
                  state[`${ticketForm}.isVisible`],
                  state[`${helpCenter}.isVisible`]])) {
         if (state[`${helpCenter}.isVisible`]) {
-          channel.broadcast(`${helpCenter}.hide`);
+          c.broadcast(`${helpCenter}.hide`);
           state[`${helpCenter}.isVisible`] = false;
         }
         if (state[`${chat}.isVisible`]) {
-          channel.broadcast(`${chat}.hide`);
+          c.broadcast(`${chat}.hide`);
           state[`${chat}.isVisible`] = false;
           state[`${chat}.userClosed`] = true;
         }
         if (state[`${ticketForm}.isVisible`]) {
-          channel.broadcast(`${ticketForm}.hide`);
+          c.broadcast(`${ticketForm}.hide`);
           state[`${ticketForm}.isVisible`] = false;
         }
-        channel.broadcast(`${launcher}.deactivate`);
+        c.broadcast(`${launcher}.deactivate`);
       }
       else {
-        channel.broadcast(`${state.activeEmbed}.show`);
+        c.broadcast(`${state.activeEmbed}.show`);
         state[`${state.activeEmbed}.isVisible`] = true;
 
-        channel.broadcast(`${launcher}.activate`);
+        c.broadcast(`${launcher}.activate`);
       }
     });
 
-  channel.intercept(`${ticketForm}.onBackClick`, function() {
+  c.intercept(`${ticketForm}.onBackClick`, function() {
     state[`${ticketForm}.isVisible`] = false;
     state[`${helpCenter}.isVisible`] = true;
     state.activeEmbed = helpCenter;
 
-    channel.broadcast(`${ticketForm}.hide`);
-    channel.broadcast(`${helpCenter}.show`);
+    c.broadcast(`${ticketForm}.hide`);
+    c.broadcast(`${helpCenter}.show`);
   });
 
-  channel.intercept(`${ticketForm}.onFormSubmitted`, function() {
+  c.intercept(`${ticketForm}.onFormSubmitted`, function() {
     state.activeEmbed = helpCenter;
   });
 
-  channel.subscribe(`${launcher}.deactivate`, function() {
+  c.subscribe(`${launcher}.deactivate`, function() {
     if (state[`${chat}.isOnline`]) {
-      channel.broadcast(`${launcher}.setLabelChatHelp`);
+      c.broadcast(`${launcher}.setLabelChatHelp`);
     }
     else {
-      channel.broadcast(`${launcher}.setLabelHelp`);
+      c.broadcast(`${launcher}.setLabelHelp`);
     }
   });
 
