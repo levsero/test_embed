@@ -44,6 +44,16 @@ function boot() {
     bustCache: transport.bustCache
   };
 
+  if (win.zE === win.zEmbed) {
+    win.zE = win.zEmbed = function(callback) {
+      callback();
+    };
+  } else {
+    win.zEmbed = function(callback) {
+      callback();
+    };
+  }
+
   _.extend(win.zEmbed, publicApi);
 
   preprocessQueue();
