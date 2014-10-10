@@ -138,7 +138,7 @@ var SearchField = React.createClass({
         clearInputClasses = classSet({
           'Icon Icon--clearInput': true,
           'u-isActionable u-textCenter': true,
-          'u-isHidden': !this.state.isClearable || this.props.isLoading || !this.state.focused
+          'u-isHidden': !this.state.isClearable || this.props.isLoading
         }),
         placeholder = (isMobileBrowser())
                     ? ''

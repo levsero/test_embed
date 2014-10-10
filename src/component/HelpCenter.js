@@ -165,9 +165,6 @@ export var HelpCenter = React.createClass({
         onFocus = function() {
           this.setState({searchFieldFocused: true});
         }.bind(this),
-        onBlur = function() {
-          this.setState({searchFieldFocused: false});
-        }.bind(this),
         chatButtonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.chat');
 
     if (this.props.updateFrameSize) {
@@ -213,7 +210,6 @@ export var HelpCenter = React.createClass({
             ref='searchField'
             fullscreen={this.state.fullscreen}
             onFocus={onFocus}
-            onBlur={onBlur}
             hasSearched={this.state.hasSearched}
             isLoading={this.state.isLoading} />
           <div className={linkClasses}>
