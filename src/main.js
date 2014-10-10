@@ -69,7 +69,7 @@ function boot() {
       callbacks: {
         done(res) {
           renderer.init(res.body);
-          processPostRenderQueue(postRenderQueue);
+          handlePostRenderQueue(postRenderQueue);
         },
         fail(error) {
           Airbrake.push({
@@ -85,7 +85,7 @@ function boot() {
     //The config for zendesk.com
     if (host === 'www.zendesk.com' && _.contains(chatPages, path)) {
       renderer.init(renderer.hardcodedConfigs.zendeskWithChat);
-      processPostRenderQueue(postRenderQueue);
+      handlePostRenderQueue(postRenderQueue);
     } else {
       transport.get(rendererPayload);
     }
@@ -97,7 +97,7 @@ function boot() {
     }, 0);
   }
 
-  function processPostRenderQueue(postRenderQueue) {
+  function handlePostRenderQueue(postRenderQueue) {
     _.forEach(postRenderQueue, function(callback) {
       callback(win.zEmbed);
     });
@@ -110,6 +110,7 @@ function boot() {
       } else if (_.isFunction(item[0])) {
         postRenderQueue.push(item[0]);
       } else if (item[0] === 'ready' && _.isFunction(item[1])) {
+        //to make it back-compatible so we don't break hercules
         postRenderQueue.push(item[1]);
       }
     });
