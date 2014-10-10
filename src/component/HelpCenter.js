@@ -23,6 +23,7 @@ export var HelpCenter = React.createClass({
       fullscreen: isMobileBrowser(),
       previousSearchTerm: '',
       hasSearched: false,
+      previousSearchTerm: '',
       searchFailed: false
     };
   },
