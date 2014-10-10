@@ -19,30 +19,30 @@ export var submitTicketSchema = function() {
   return (
   /* jshint quotmark:false */
 
-  <Schema>
-    <IconField
-      name='name'
-      ref='name'
-      icon='avatar'
-      placeholder={i18n.t('embeddable_framework.submitTicket.field.name.label')}
-    />
-    <EmailField
-      required
-      icon='mail'
-    />
-    <IconField
-      name='description'
-      ref='message'
-      icon='msg u-alignTop'
-      required
-      input={
-        <textarea
-          rows='5'
-          className={fieldClasses}
-          placeholder={i18n.t('embeddable_framework.submitTicket.field.description.label')}
-        />
-      }
-    />
+    <Schema>
+      <IconField
+        name='name'
+        ref='name'
+        icon='avatar'
+        placeholder={i18n.t('embeddable_framework.submitTicket.field.name.label')}
+      />
+      <EmailField
+        required
+        icon='mail'
+      />
+      <IconField
+        name='description'
+        ref='message'
+        icon='msg u-alignTop'
+        required
+        input={
+          <textarea
+            rows='5'
+            className={fieldClasses}
+            placeholder={i18n.t('embeddable_framework.submitTicket.field.description.label')}
+          />
+        }
+      />
     </Schema>
   );
 };
