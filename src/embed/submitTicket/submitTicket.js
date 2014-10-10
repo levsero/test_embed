@@ -99,7 +99,9 @@ function render(name) {
 
   mediator.channel.subscribe(name + '.hide', function() {
     var submitTicket = get(name).instance.getChild().refs.submitTicket;
+
     submitTickets[name].instance.hide();
+
     if (submitTicket.state.showNotification) {
       submitTicket.reset();
     }
@@ -107,7 +109,7 @@ function render(name) {
 
   mediator.channel.subscribe(name + '.showBackButton', function() {
     var submitTicket = get(name).instance.getChild().refs.submitTicket,
-    submitTicketForm = submitTicket.refs.submitTicketForm;
+        submitTicketForm = submitTicket.refs.submitTicketForm;
 
     submitTicketForm.setState({
       showBackButton: true

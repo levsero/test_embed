@@ -121,10 +121,6 @@ function init(name) {
     // shouldn't be needed and we can remove it.
     zopimLive.setOnConnected(_.debounce(onConnect, 10));
 
-    if (!zopimWin.getDisplay()) {
-      zopimLive.hideAll();
-    }
-
     if (zopimLive.isChatting()) {
      mediator.channel.broadcast(name + '.onIsChatting');
     }

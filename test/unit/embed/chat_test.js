@@ -106,7 +106,7 @@ describe('embed.chat', function() {
   });
 
   describe('render', function() {
-    var chatName = 'alice',
+    var chatName = 'dave',
         zopimId = 'abc123',
         mockMediator;
 
@@ -151,7 +151,7 @@ describe('embed.chat', function() {
           onHideCall.args[0]();
 
           expect(mockMediator.channel.broadcast)
-            .toHaveBeenCalledWith('alice.onHide');
+            .toHaveBeenCalledWith('dave.onHide');
         });
       });
 
@@ -163,7 +163,7 @@ describe('embed.chat', function() {
           onStatusCall.args[0]('online');
 
           expect(mockMediator.channel.broadcast)
-            .toHaveBeenCalledWith('alice.onOnline');
+            .toHaveBeenCalledWith('dave.onOnline');
         });
 
         it('onStatus(offline) should broadcast <name>.onOffline', function() {
@@ -172,7 +172,7 @@ describe('embed.chat', function() {
           onStatusCall.args[0]('offline');
 
           expect(mockMediator.channel.broadcast)
-            .toHaveBeenCalledWith('alice.onOffline');
+            .toHaveBeenCalledWith('dave.onOffline');
         });
 
       });
@@ -183,7 +183,7 @@ describe('embed.chat', function() {
           onUnreadMsgsCall.args[0](1);
 
           expect(mockMediator.channel.broadcast)
-            .toHaveBeenCalledWith('alice.onUnreadMsgs', 1);
+            .toHaveBeenCalledWith('dave.onUnreadMsgs', 1);
         });
 
         it('should broadcast <name>.onUnreadMsgs if count <= 0', function() {
@@ -199,7 +199,7 @@ describe('embed.chat', function() {
         it('should broadcast <name>.onChatEnd', function() {
           onChatEndCall.args[0]();
           expect(mockMediator.channel.broadcast)
-            .toHaveBeenCalledWith('alice.onChatEnd');
+            .toHaveBeenCalledWith('dave.onChatEnd');
         });
 
       });
@@ -212,9 +212,9 @@ describe('embed.chat', function() {
 
         it('should call zopim.window.show()', function() {
           expect(mockMediator.channel.subscribe)
-            .toHaveBeenCalledWith('alice.show', jasmine.any(Function));
+            .toHaveBeenCalledWith('dave.show', jasmine.any(Function));
 
-          pluckSubscribeCall(mockMediator, 'alice.show')();
+          pluckSubscribeCall(mockMediator, 'dave.show')();
 
           expect(mockZopim.livechat.window.show)
             .toHaveBeenCalled();
@@ -226,9 +226,9 @@ describe('embed.chat', function() {
 
         it('should call zopim.livechat.hideAll()', function() {
           expect(mockMediator.channel.subscribe)
-            .toHaveBeenCalledWith('alice.show', jasmine.any(Function));
+            .toHaveBeenCalledWith('dave.show', jasmine.any(Function));
 
-          pluckSubscribeCall(mockMediator, 'alice.hide')();
+          pluckSubscribeCall(mockMediator, 'dave.hide')();
 
           expect(mockZopim.livechat.hideAll)
             .toHaveBeenCalled();
