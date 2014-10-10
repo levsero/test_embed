@@ -173,7 +173,7 @@ export var HelpCenter = React.createClass({
           'u-posStart u-posEnd--vert': !this.state.fullscreen || this.state.showNotification,
         }),
         formLegendClasses = classSet({
-          'u-textSizeMed u-marginT24 Arrange Arrange--middle u-textBody': true,
+          'Form-cta--title u-textSizeMed Arrange Arrange--middle u-textBody': true,
           'u-textSizeBaseMobile': this.state.fullscreen,
           'u-isHidden': !this.state.topics.length
         }),
@@ -181,7 +181,7 @@ export var HelpCenter = React.createClass({
           'u-marginTM u-textCenter u-textSizeMed': true,
           'u-isHidden': this.state.resultCount || !this.state.hasSearched,
           'u-textSizeBaseMobile': this.state.fullscreen,
-          'u-borderBottom u-marginB14': !this.state.fullscreen
+          'u-borderBottom List--noResults': !this.state.fullscreen
         }),
         formClasses = classSet({
           'u-nbfc': true,
@@ -193,7 +193,7 @@ export var HelpCenter = React.createClass({
           'Container--fullscreen-center-vert': !this.state.searchFieldFocused
         }),
         linkClasses = classSet({
-          'u-textSizeBaseMobile u-textCenter u-marginTM u-marginTS': true,
+          'u-textSizeBaseMobile u-textCenter u-marginTL': true,
           'u-isHidden': !this.state.fullscreen || this.state.hasSearched
         }),
         noResultsParagraphClasses = classSet({
@@ -256,7 +256,7 @@ export var HelpCenter = React.createClass({
             hasSearched={this.state.hasSearched}
             isLoading={this.state.isLoading} />
           <div className={linkClasses}>
-            <p className='u-marginBN u-marginT35'>{linkContext}</p>
+            <p className='u-marginBN'>{linkContext}</p>
             <a onClick={this.props.onButtonClick}>
               {linkLabel}
             </a>
