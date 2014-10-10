@@ -6,6 +6,15 @@
 
   <script src="/dist/bootstrap.js" inline></script>
 
+  <script>
+    zE({locale: 'zh-CN'});
+    zE(function() {
+      console.log('post render');
+    });
+    zE('ready', function() {
+      console.log('ready');
+    });
+  </script>
 </head>
 <body>
   <h1>Local</h1>

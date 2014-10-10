@@ -58,7 +58,7 @@ var SubmitTicketForm = React.createClass({
     var formBody = this.transferPropsTo(
           <SubmitTicketFormBody
             ref='form'
-            schema={submitTicketSchema}
+            schema={submitTicketSchema()}
             onUpdate={this.handleUpdate}
             component={React.DOM.div} />
         ),
@@ -115,4 +115,3 @@ var SubmitTicketForm = React.createClass({
 });
 
 export { SubmitTicketForm };
-

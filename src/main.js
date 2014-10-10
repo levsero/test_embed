@@ -4,6 +4,7 @@ import { beacon }             from 'service/beacon';
 import { logging }            from 'service/logging';
 import { renderer }           from 'service/renderer';
 import { transport }          from 'service/transport';
+import { i18n }               from 'service/i18n';
 import { win, location }      from 'utility/globals';
 import { getSizingRatio,
          isMobileBrowser,
@@ -18,6 +19,8 @@ function boot() {
       rendererPayload,
       host = location.host,
       path = location.pathname,
+      locale,
+      postRenderQueue = [],
       chatPages = [
       '/zopim',
       '/product/pricing',
@@ -42,9 +45,21 @@ function boot() {
   };
 
   if (win.zE === win.zEmbed) {
-    win.zE = win.zEmbed = publicApi;
+    win.zE = win.zEmbed = function(callback) {
+      callback();
+    };
   } else {
-    win.zEmbed = publicApi;
+    win.zEmbed = function(callback) {
+      callback();
+    };
+  }
+
+  _.extend(win.zEmbed, publicApi);
+
+  handleQueue(document.zEQueue, postRenderQueue);
+
+  if (locale && locale !== 'en-US') {
+    i18n.setLocale(locale);
   }
 
   if (!isBlacklisted()) {
@@ -54,7 +69,7 @@ function boot() {
       callbacks: {
         done(res) {
           renderer.init(res.body);
-          handleQueue();
+          handlePostRenderQueue(postRenderQueue);
         },
         fail(error) {
           Airbrake.push({
@@ -70,7 +85,7 @@ function boot() {
     //The config for zendesk.com
     if (host === 'www.zendesk.com' && _.contains(chatPages, path)) {
       renderer.init(renderer.hardcodedConfigs.zendeskWithChat);
-      handleQueue();
+      handlePostRenderQueue(postRenderQueue);
     } else {
       transport.get(rendererPayload);
     }
@@ -82,10 +97,21 @@ function boot() {
     }, 0);
   }
 
-  function handleQueue() {
-    _.forEach(document.zEQueue, function(item) {
-      if (item[0] === 'ready') {
-        item[1](win.zEmbed);
+  function handlePostRenderQueue(postRenderQueue) {
+    _.forEach(postRenderQueue, function(callback) {
+      callback(win.zEmbed);
+    });
+  }
+
+  function handleQueue(queue, postRenderQueue) {
+    _.forEach(queue, function(item) {
+      if (item[0].locale) {
+        locale = item[0].locale;
+      } else if (_.isFunction(item[0])) {
+        postRenderQueue.push(item[0]);
+      } else if (item[0] === 'ready' && _.isFunction(item[1])) {
+        //to make it back-compatible so we don't break hercules
+        postRenderQueue.push(item[1]);
       }
     });
   }
