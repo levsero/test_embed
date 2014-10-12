@@ -91,9 +91,11 @@ function initChatTicketSubmission() {
     function() {
       if (state[`${chat}.isVisible`] || state[`${submitTicket}.isVisible`]) {
         if (state[`${chat}.isVisible`]) {
-          c.broadcast(`${chat}.hide`);
-          state[`${chat}.userClosed`] = true;
-          state[`${chat}.isVisible`] = false;
+          if (!isMobileBrowser()) {
+            c.broadcast(`${chat}.hide`);
+            state[`${chat}.userClosed`] = true;
+            state[`${chat}.isVisible`] = false;
+          }
         }
         if (state[`${submitTicket}.isVisible`]) {
           c.broadcast(`${submitTicket}.hide`);
@@ -104,13 +106,16 @@ function initChatTicketSubmission() {
       else {
         if (state[`${chat}.isOnline`]) {
           c.broadcast(`${chat}.show`);
-          state[`${chat}.isVisible`] = true;
+          if (!isMobileBrowser()) {
+            state[`${chat}.isVisible`] = true;
+            c.broadcast(`${launcher}.activate`);
+          }
         }
         else {
           c.broadcast(`${submitTicket}.show`);
           state[`${submitTicket}.isVisible`] = true;
+          c.broadcast(`${launcher}.activate`);
         }
-        c.broadcast(`${launcher}.activate`);
       }
     }
   );
@@ -241,7 +246,14 @@ function initHelpCenterChatTicketSubmission() {
 
   c.intercept(`${helpCenter}.onNextClick`, function() {
     if (state[`${chat}.isOnline`]) {
-      state[`${chat}.isVisible`] = true;
+
+      if (!isMobileBrowser()) {
+        state[`${chat}.isVisible`] = true;
+      }
+
+      if (isMobileBrowser()) {
+        c.broadcast(`${launcher}.deactivate`);
+      }
       state.activeEmbed = chat;
       c.broadcast(`${chat}.show`);
     }
@@ -261,11 +273,17 @@ function initHelpCenterChatTicketSubmission() {
   });
 
   c.intercept(`${chat}.onIsChatting`, function() {
-    state[`${chat}.isVisible`] = true;
+    if (!isMobileBrowser()) {
+      state[`${chat}.isVisible`] = true;
+    }
+
     state.activeEmbed = chat;
 
     c.broadcast(`${chat}.show`);
-    c.broadcast(`${launcher}.activate`);
+
+    if (!isMobileBrowser()) {
+      c.broadcast(`${launcher}.activate`);
+    }
   });
 
   c.intercept(
@@ -295,8 +313,9 @@ function initHelpCenterChatTicketSubmission() {
       else {
         c.broadcast(`${state.activeEmbed}.show`);
         state[`${state.activeEmbed}.isVisible`] = true;
-
-        c.broadcast(`${launcher}.activate`);
+        if (!isMobileBrowser()) {
+          c.broadcast(`${launcher}.activate`);
+        }
       }
     }
   );

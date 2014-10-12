@@ -19,9 +19,7 @@ describe('mediator', function() {
 
     mockRegistry = initMockRegistry({
       'utility/devices':  {
-        isMobileBrowser: function() {
-          return false;
-        }
+        isMobileBrowser: jasmine.createSpy().and.returnValue(false)
       }
     });
 
@@ -219,6 +217,26 @@ describe('mediator', function() {
         expect(chatSub.show.calls.count())
           .toEqual(1);
 
+      });
+
+      it('does not activate if launching chat on mobile', function() {
+        mockRegistry['utility/devices'].isMobileBrowser
+          .and.returnValue(true);
+
+        c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${launcher}.onClick`);
+
+        expect(launcherSub.activate)
+          .not.toHaveBeenCalled();
+
+        reset(chatSub.hide);
+        reset(chatSub.show);
+
+        c.broadcast(`${launcher}.onClick`);
+        expect(chatSub.hide.calls.count())
+          .toEqual(0);
+        expect(chatSub.show.calls.count())
+          .toEqual(1);
       });
 
       it('hides Ticket Submission if it is visible', function() {
@@ -570,6 +588,44 @@ describe('mediator', function() {
 
         expect(helpCenterSub.show.calls.count())
           .toEqual(1);
+      });
+
+      it('deactivate when chat is launched from helpcenter on mobile', function() {
+        mockRegistry['utility/devices'].isMobileBrowser
+          .and.returnValue(true);
+
+        c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${launcher}.onClick`);
+        c.broadcast(`${helpCenter}.onNextClick`);
+
+        expect(launcherSub.deactivate)
+          .toHaveBeenCalled();
+
+        reset(chatSub.hide);
+        reset(chatSub.show);
+
+        c.broadcast(`${launcher}.onClick`);
+        expect(chatSub.hide.calls.count())
+          .toEqual(0);
+        expect(chatSub.show.calls.count())
+          .toEqual(1);
+      });
+
+      it('does not activate when chat is launched from launcher on mobile', function() {
+        mockRegistry['utility/devices'].isMobileBrowser
+          .and.returnValue(true);
+
+        c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${launcher}.onClick`);  // open
+        c.broadcast(`${helpCenter}.onNextClick`);
+        // chat opens in new tab
+        // user switches back to widget
+
+        reset(launcherSub.activate);
+        c.broadcast(`${launcher}.onClick`);
+
+        expect(launcherSub.activate.calls.count())
+         .toEqual(0);
       });
 
       it('closes helpCenter if helpCenter is visible', function() {
