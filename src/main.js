@@ -9,7 +9,6 @@ import { getSizingRatio,
          isMobileBrowser,
          isBlacklisted }      from 'utility/devices';
 import { clickBusterHandler } from 'utility/utils';
-import { mediator }           from 'service/mediator';
 
 require('imports?_=lodash!lodash');
 

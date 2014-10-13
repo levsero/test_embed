@@ -186,7 +186,7 @@ describe('embed.chat', function() {
             .toHaveBeenCalledWith('dave.onUnreadMsgs', 1);
         });
 
-        it('should broadcast <name>.onUnreadMsgs if count <= 0', function() {
+        it('should not broadcast <name>.onUnreadMsgs if count <= 0', function() {
           onUnreadMsgsCall.args[0](0);
 
           expect(mockMediator.channel.broadcast)

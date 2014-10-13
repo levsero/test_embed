@@ -73,6 +73,16 @@ function initMediator(config) {
     case 'ticketSubmissionForm_ticketSubmissionLauncher':
       mediator.initTicketSubmission();
       break;
+    default:
+      Airbrake.push({
+        error: {
+          message: 'Could not find a suitable mediator ruleset to initialise.'
+        },
+        params: {
+          embeds: embeds,
+          config: config
+        }
+      });
   }
 }
 
