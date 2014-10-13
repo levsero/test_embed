@@ -2,8 +2,7 @@ import { isMobileBrowser } from 'utility/devices';
 
 module airwaves from 'airwaves';
 
-var channel = new airwaves.Channel(),
-    c = channel;
+var c = new airwaves.Channel();
 
 function initTicketSubmission() {
   var submitTicket = 'ticketSubmissionForm',
@@ -69,7 +68,7 @@ function initChatTicketSubmission() {
     c.broadcast(`${launcher}.activate`);
   });
 
-  c.intercept(`${chat}.onUnreadMsgs`, function(_, count) {
+  c.intercept(`${chat}.onUnreadMsgs`, function(__unused__, count) {
     state[`${chat}.unreadMsgs`] = count;
 
     if (state[`${chat}.isOnline`]) {
@@ -337,7 +336,7 @@ function initHelpCenterChatTicketSubmission() {
 }
 
 export var mediator = {
-  channel: channel,
+  channel: c,
   initTicketSubmission: initTicketSubmission,
   initChatTicketSubmission: initChatTicketSubmission,
   initHelpCenterTicketSubmission: initHelpCenterTicketSubmission,

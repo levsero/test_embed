@@ -39,7 +39,6 @@ function boot() {
 
   publicApi = {
     devRender: renderer.init,
-    mediator: mediator,
     bustCache: transport.bustCache
   };
 
