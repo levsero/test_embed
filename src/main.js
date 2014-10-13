@@ -59,17 +59,20 @@ function boot() {
 
   handleQueue(document.zEQueue, postRenderQueue);
 
-  if (locale && locale !== 'en-US') {
-    i18n.setLocale(locale);
-  }
-
   if (!isBlacklisted()) {
     rendererPayload = {
       method: 'get',
       path: '/embeddable/config',
       callbacks: {
         done(res) {
-          renderer.init(res.body);
+          if (!locale && res.body.settings) {
+            locale = res.body.settings.locale;
+          }
+
+          if (locale && locale !== 'en-US') {
+            i18n.setLocale(locale);
+          }
+          renderer.init(res.body.embeds ? res.body.embeds: res.body);
           handlePostRenderQueue(postRenderQueue);
         },
         fail(error) {
