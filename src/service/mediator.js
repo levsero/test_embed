@@ -75,7 +75,7 @@ function initChatTicketSubmission() {
     if (state[`${chat}.isOnline`]) {
       c.broadcast(`${launcher}.setLabelUnreadMsgs`, count);
 
-       if (state[`${chat}.userClosed`] === false) {
+      if (state[`${chat}.userClosed`] === false) {
         state[`${chat}.isVisible`] = true;
         state.activeEmbed = chat;
         c.broadcast(`${chat}.show`);

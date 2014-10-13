@@ -181,7 +181,7 @@ describe('mediator', function() {
         c.broadcast(`${launcher}.deactivate`);
 
         expect(launcherSub.setLabelChat.calls.count())
-         .toEqual(1);
+          .toEqual(1);
       });
 
       it('deactivates to "Help" if chat is offline', function() {
@@ -340,7 +340,7 @@ describe('mediator', function() {
         expect(chatSub.show.calls.count())
           .toEqual(1);
         expect(launcherSub.activate.calls.count())
-         .toEqual(1);
+          .toEqual(1);
 
         reset(launcherSub.activate);
         reset(chatSub.show);
@@ -349,9 +349,9 @@ describe('mediator', function() {
         c.broadcast(`${launcher}.onClick`); // open
 
         expect(chatSub.show.calls.count())
-         .toEqual(1);
+          .toEqual(1);
         expect(launcherSub.activate.calls.count())
-         .toEqual(1);
+          .toEqual(1);
 
       });
 
@@ -434,9 +434,9 @@ describe('mediator', function() {
         c.broadcast(`${launcher}.onClick`); // open
 
         expect(helpCenterSub.show.calls.count())
-         .toEqual(0);
+          .toEqual(0);
         expect(submitTicketSub.show.calls.count())
-         .toEqual(1);
+          .toEqual(1);
       });
 
       it('closes helpCenter if helpCenter is visible', function() {
@@ -625,7 +625,7 @@ describe('mediator', function() {
         c.broadcast(`${launcher}.onClick`);
 
         expect(launcherSub.activate.calls.count())
-         .toEqual(0);
+          .toEqual(0);
       });
 
       it('closes helpCenter if helpCenter is visible', function() {
