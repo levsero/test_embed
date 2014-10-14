@@ -10,8 +10,21 @@ function init() {
 }
 
 function setLocale(locale = 'en-US') {
+  locale = regulateLocaleStringCase(locale);
+  if (!translations[locale]) {
+    locale = 'en-US';
+  }
   translate.setLocale(locale);
   translate.registerTranslations(locale, translations[locale]);
+}
+
+function regulateLocaleStringCase(locale) {
+  var dashIndex = locale.indexOf('-');
+
+  if (dashIndex < 0) {
+    return locale.toLowerCase();
+  }
+  return locale.substring(0, dashIndex).toLowerCase() + locale.substring(dashIndex).toUpperCase();
 }
 
 export var i18n = {
@@ -19,4 +32,3 @@ export var i18n = {
   t: translate,
   setLocale: setLocale
 };
-

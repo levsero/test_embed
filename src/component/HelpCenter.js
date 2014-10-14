@@ -22,7 +22,8 @@ export var HelpCenter = React.createClass({
       buttonLabel: i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket'),
       fullscreen: isMobileBrowser(),
       previousSearchTerm: '',
-      hasSearched: false
+      hasSearched: false,
+      searchFailed: false
     };
   },
 
@@ -50,7 +51,17 @@ export var HelpCenter = React.createClass({
       resultCount: json.count,
       isLoading: false,
       previousSearchTerm: this.state.searchTerm,
-      hasSearched: true
+      hasSearched: true,
+      searchFailed: false
+    });
+  },
+
+  searchFail() {
+    this.setState({
+      isLoading: false,
+      previousSearchTerm: this.state.searchTerm,
+      hasSearched: true,
+      searchFailed: true
     });
   },
 
@@ -70,7 +81,14 @@ export var HelpCenter = React.createClass({
         zendesk_path: '/api/v2/help_center/search.json'
       },
       callbacks: {
-        done: this.updateResults
+        done: (res) => {
+          if (res.ok) {
+            this.updateResults(res);
+          } else {
+            this.searchFail();
+          }
+        },
+        fail: () => this.searchFail()
       }
     });
   },
@@ -89,6 +107,31 @@ export var HelpCenter = React.createClass({
       if (filteredStr !== '') {
         this.performSearch(filteredStr);
       }
+    }
+  },
+
+  searchNoResultsTitle() {
+    if (this.state.searchFailed) {
+      return i18n.t('embeddable_framework.helpCenter.search.error.title', {
+        fallback: 'Sorry, no results available at the moment'
+      });
+    } else {
+      return i18n.t('embeddable_framework.helpCenter.search.noResults.title', {
+        searchTerm: this.state.previousSearchTerm,
+        fallback: `Uh oh, there are no results for "${this.state.previousSearchTerm}"`
+      });
+    }
+  },
+
+  searchNoResultsBody() {
+    if (this.state.searchFailed) {
+      return i18n.t('embeddable_framework.helpCenter.search.error.body', {
+        fallback: 'Use the button below to send us a message'
+      });
+    } else {
+      return i18n.t('embeddable_framework.helpCenter.search.noResults.body', {
+        fallback: 'Try searching for something else'
+      });
     }
   },
 
@@ -165,9 +208,6 @@ export var HelpCenter = React.createClass({
         onFocus = function() {
           this.setState({searchFieldFocused: true});
         }.bind(this),
-        onBlur = function() {
-          this.setState({searchFieldFocused: false});
-        }.bind(this),
         chatButtonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.chat');
 
     if (this.props.updateFrameSize) {
@@ -213,7 +253,6 @@ export var HelpCenter = React.createClass({
             ref='searchField'
             fullscreen={this.state.fullscreen}
             onFocus={onFocus}
-            onBlur={onBlur}
             hasSearched={this.state.hasSearched}
             isLoading={this.state.isLoading} />
           <div className={linkClasses}>
@@ -227,19 +266,12 @@ export var HelpCenter = React.createClass({
               {i18n.t('embeddable_framework.helpCenter.label.results')}
             </span>
           </h1>
-          <div className={noResultsClasses}>
+          <div className={noResultsClasses} id='noResults'>
             <p className='u-marginBN u-marginTL'>
-              {i18n.t('embeddable_framework.helpCenter.label.noResults', {
-                searchTerm: this.state.previousSearchTerm,
-                fallback: 'Uh oh, there are no results for \"'
-                  + this.state.previousSearchTerm
-                  + '\"'
-              })}
+              {this.searchNoResultsTitle()}
             </p>
             <p className={noResultsParagraphClasses}>
-              {i18n.t('embeddable_framework.helpCenter.paragraph.noResults', {
-                fallback: 'Try searching for something else'
-              })}
+              {this.searchNoResultsBody()}
             </p>
           </div>
           <ul className={listClasses}>

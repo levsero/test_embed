@@ -79,6 +79,26 @@ parts:
       title: "The placeholder text in the search bar to prompt users that they can search the knowledge base by typing their query in this space. Will get cut off if to long (tinyurl.com/kjubpdk)"
       value: "Search help articles"
   - translation:
+      key: "embeddable_framework.helpCenter.search.noResults.title"
+      title: "The title of the message for the help center widget when there are no results returned from search. searchTerm is the term they just searched for in quotes. Will wrap as needed (tinyurl.com/o849ewv)"
+      value: "Oh no, there are no results for \"(%(searchTerm)s)\""
+      wip: true
+  - translation:
+      key: "embeddable_framework.helpCenter.search.noResults.body"
+      title: "The body of the message for the help center widget when there are no results returned from search. Will wrap as needed (tinyurl.com/okoocb7)"
+      value: "Try searching for something else"
+      wip: true
+  - translation:
+      key: "embeddable_framework.helpCenter.search.error.title"
+      title: "The title of the message for the help center widget when searching fails and returns an error. Will wrap as needed (tinyurl.com/n475fhj)"
+      value: "Sorry, no results available at the moment"
+      wip: true
+  - translation:
+      key: "embeddable_framework.helpCenter.search.error.body"
+      title: "The body of the message for the help center widget when searching fails and returns an error. Will wrap as needed (tinyurl.com/n475fhj)"
+      value: "Use the button below to send us a message"
+      wip: true
+  - translation:
       key: "embeddable_framework.helpCenter.submitButton.label.chat"
       title: "The label on the button in help center widget when a chat agent is online to let customers know that if they click it they will go to live chat. Will wrap if needed (tinyurl.com/kf8gpbb)"
       value: "Live chat"
@@ -98,16 +118,6 @@ parts:
       key: "embeddable_framework.helpCenter.label.showAll"
       title: "The link that displays after user has searched and there are more then 3 results. Will be shown next to the help center title. Count will be the number of extra help center articles. Will move to a new line and wrap if needed. %()s stands for string and does not need to be translated (tinyurl.com/le5tu52)"
       value: "View all (%(count)s)"
-  - translation:
-      key: "embeddable_framework.helpCenter.label.noResults"
-      title: "The title for the help center widget when there are no results returned from search. searchTerm is the term they just searched for in quotes. Will wrap as needed (tinyurl.com/o849ewv)"
-      value: "Oh no, there are no results for \"(%(searchTerm)s)\""
-      wip: true
-  - translation:
-      key: "embeddable_framework.helpCenter.label.noResultsParagraph.chat"
-      title: "The paragraph for the help center widget when there are no results returned from search. Will wrap as needed (tinyurl.com/okoocb7)"
-      value: "Try searching for something else"
-      wip: true
   - translation:
       key: "embeddable_framework.helpCenter.label.linkContext.chat"
       title: "The paragraph that displays above the link to a live chat on mobile"
@@ -138,4 +148,3 @@ parts:
       key: "embeddable_framework.navigation.close"
       title: "The link to close the embeddable. Displays at the top right of the widget. If over 5 characters will just display icon (tinyurl.com/p33xnz2)"
       value: "Close"
-
