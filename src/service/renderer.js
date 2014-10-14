@@ -2,6 +2,7 @@ import { submitTicket } from 'embed/submitTicket/submitTicket';
 import { launcher }     from 'embed/launcher/launcher';
 import { helpCenter }   from 'embed/helpCenter/helpCenter';
 import { chat }         from 'embed/chat/chat';
+import { mediator }     from 'service/mediator';
 
 require('imports?_=lodash!lodash');
 
@@ -19,14 +20,7 @@ function parseConfig(config) {
 
   _.forEach(rendererConfig, function(configItem) {
     configItem.props = _.reduce(configItem.props, function(result, value, key) {
-      /* jshint laxbreak: true */
-      result[key] = (_.isObject(value))
-                  ? function(...args) {
-                      args.unshift(value.name);
-                      return embedsMap[config[value.name].embed][value.method].apply(null, args);
-                    }
-                  : value;
-
+      result[key] = value;
       return result;
     }, {});
   });
@@ -52,9 +46,47 @@ function init(config) {
     });
 
     renderedEmbeds = config;
-  }
 
-  initialised = true;
+    initMediator(config);
+
+    initialised = true;
+  }
+}
+
+function initMediator(config) {
+  var embeds = _.chain(config)
+                .keys()
+                .sortBy()
+                .value()
+                .join('_');
+
+  switch(embeds) {
+    case 'hcLauncher_helpCenterForm_ticketSubmissionForm_zopimChat':
+      mediator.initHelpCenterChatTicketSubmission();
+      break;
+    case 'hcLauncher_helpCenterForm_ticketSubmissionForm':
+      mediator.initHelpCenterTicketSubmission();
+      break;
+    case 'chatLauncher_ticketSubmissionForm_zopimChat':
+      mediator.initChatTicketSubmission();
+      break;
+    case 'ticketSubmissionForm_ticketSubmissionLauncher':
+      mediator.initTicketSubmission();
+      break;
+    case '':
+      // blank render list
+      break;
+    default:
+      Airbrake.push({
+        error: {
+          message: 'Could not find a suitable mediator ruleset to initialise.'
+        },
+        params: {
+          embeds: embeds,
+          config: config
+        }
+      });
+  }
 }
 
 function propagateFontRatio(ratio) {

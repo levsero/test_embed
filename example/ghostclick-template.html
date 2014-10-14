@@ -38,25 +38,12 @@
         zE.devRender({
           "ticketSubmissionForm": {
             "embed": "submitTicket",
-            "props": {
-              "onShow": {
-                name: "ticketSubmissionLauncher",
-                method: "update"
-              },
-              "onHide": {
-                name: "ticketSubmissionLauncher",
-                method: "update"
-              }
-            }
+            "props": {}
           },
           "ticketSubmissionLauncher": {
             "embed": "launcher",
             "props": {
-              "position": "right",
-              "onClick": {
-                name: "ticketSubmissionForm",
-                method: "update"
-              }
+              "position": "right"
             }
           }
         });

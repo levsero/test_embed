@@ -7,6 +7,7 @@ import { beacon }          from 'service/beacon';
 import { frameFactory }    from 'embed/frameFactory';
 import { isMobileBrowser } from 'utility/devices';
 import { i18n }            from 'service/i18n';
+import { mediator }        from 'service/mediator';
 
 require('imports?_=lodash!lodash');
 
@@ -66,11 +67,9 @@ function create(name, config) {
       fullscreenable: false,
       extend: {
         onClickHandler: function(e) {
-          var isActive = this.getChild().refs.launcher.state.active;
           e.preventDefault();
-
-          config.onClick(isActive);
           beacon.track('launcher', 'click', name);
+          mediator.channel.broadcast(name + '.onClick');
         }
       }
     }));
@@ -93,14 +92,6 @@ function getChildRefs(name) {
   return get(name).instance.getChild().refs;
 }
 
-function hide(name) {
-  get(name).instance.hide();
-}
-
-function show(name) {
-  get(name).instance.show();
-}
-
 function setIcon(name, icon) {
   getChildRefs(name).launcher.setIcon(icon);
 }
@@ -112,18 +103,42 @@ function render(name) {
 
   var element = document.body.appendChild(document.createElement('div'));
   launchers[name].instance = React.renderComponent(launchers[name].component, element);
+
+  mediator.channel.subscribe(name + '.activate', function() {
+    getChildRefs(name).launcher.setActive(true);
+  });
+
+  mediator.channel.subscribe(name + '.deactivate', function() {
+    getChildRefs(name).launcher.setActive(false);
+  });
+
+  mediator.channel.subscribe(name + '.setLabelChat', function() {
+    setIcon(name, 'Icon--chat');
+    setLabel(name, i18n.t('embeddable_framework.launcher.label.chat'));
+  });
+
+  mediator.channel.subscribe(name + '.setLabelHelp', function() {
+    setIcon(name, 'Icon');
+    setLabel(name, i18n.t('embeddable_framework.launcher.label.help'));
+  });
+
+  mediator.channel.subscribe(name + '.setLabelChatHelp', function() {
+    setIcon(name, 'Icon--chat');
+    setLabel(name, i18n.t('embeddable_framework.launcher.label.help'));
+  });
+
+  mediator.channel.subscribe(name + '.setLabelUnreadMsgs', function(unreadMsgs) {
+    var label = i18n.t(
+      'embeddable_framework.chat.notification',
+      {count: unreadMsgs}
+    );
+    setLabel(name, label);
+  });
+
 }
 
 function setLabel(name, label) {
   getChildRefs(name).launcher.setLabel(label);
-}
-
-function update(name) {
-  var launcher = getChildRefs(name).launcher;
-
-  if (!isMobileBrowser()) {
-    launcher.setActive(!launcher.state.active);
-  }
 }
 
 export var launcher = {
@@ -131,10 +146,7 @@ export var launcher = {
   list: list,
   get: get,
   render: render,
-  hide: hide,
-  show: show,
   setIcon: setIcon,
-  setLabel: setLabel,
-  update: update
+  setLabel: setLabel
 };
 

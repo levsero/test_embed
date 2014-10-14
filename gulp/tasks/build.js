@@ -80,11 +80,24 @@ gulp.task('build:debug', ['build:version:generate'], function(callback) {
 });
 
 gulp.task('build:test', function() {
-  var es6ModuleTranspiler = require('gulp-es6-module-transpiler');
+  var es6ModuleTranspiler = require('gulp-es6-module-transpiler'),
+      _ = require('lodash'),
+      keyToTrue = function(res, el) {
+        res[el] = true;
+        return res;
+      },
+      testGlobals = ['iit', 'ddescribe', 'xit', 'xdescribe'],
+      globals = _.extend(
+        getGlobals(),
+        _.reduce(testGlobals, keyToTrue, {})
+      );
 
   return gulp.src(['test/**/*.js'])
     .pipe(react())
     .pipe(es6ModuleTranspiler({type: 'cjs'}))
+    .pipe(es6Transpiler({
+      globals: globals
+    }))
     .pipe(gulp.dest('build/test'));
 });
 
