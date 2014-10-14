@@ -41,7 +41,8 @@ function boot() {
 
   publicApi = {
     devRender: renderer.init,
-    bustCache: transport.bustCache
+    bustCache: transport.bustCache,
+    version: __EMBEDDABLE_VERSION__
   };
 
   if (win.zE === win.zEmbed) {
