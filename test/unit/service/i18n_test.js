@@ -29,7 +29,7 @@ describe('i18n', function() {
   });
 
 
-  it('should default setLocale to en-US on init', function() {
+  it('should default setLocale to en-US', function() {
     i18n.setLocale();
     expect(i18n.t('launcher.label.hello'))
       .toEqual('Hello');
