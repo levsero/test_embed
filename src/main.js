@@ -65,8 +65,8 @@ function boot() {
       path: '/embeddable/config',
       callbacks: {
         done(res) {
-          if (!locale && res.body.settings) {
-            locale = res.body.settings.locale;
+          if (!locale && res.body.locale) {
+            locale = res.body.locale;
           }
 
           if (locale && locale !== 'en-US') {
