@@ -2,6 +2,7 @@ import { submitTicket } from 'embed/submitTicket/submitTicket';
 import { launcher }     from 'embed/launcher/launcher';
 import { helpCenter }   from 'embed/helpCenter/helpCenter';
 import { chat }         from 'embed/chat/chat';
+import { i18n }         from 'service/i18n';
 import { mediator }     from 'service/mediator';
 
 require('imports?_=lodash!lodash');
@@ -16,7 +17,7 @@ var embedsMap = {
     renderedEmbeds;
 
 function parseConfig(config) {
-  var rendererConfig = _.clone(config, true);
+  var rendererConfig = _.clone(config.embeds || config, true);
 
   _.forEach(rendererConfig, function(configItem) {
     configItem.props = _.reduce(configItem.props, function(result, value, key) {
@@ -30,6 +31,8 @@ function parseConfig(config) {
 
 function init(config) {
   if (!initialised) {
+    i18n.setLocale(config.locale);
+
     _.forEach(parseConfig(config), function(configItem, embedName) {
       try {
         embedsMap[configItem.embed].create(embedName, configItem.props);
