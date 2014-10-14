@@ -73,6 +73,9 @@ function initMediator(config) {
     case 'ticketSubmissionForm_ticketSubmissionLauncher':
       mediator.initTicketSubmission();
       break;
+    case '':
+      // blank render list
+      break;
     default:
       Airbrake.push({
         error: {
