@@ -2,7 +2,7 @@
   jasmine.getEnv().defaultTimeoutInterval = 10000;
 }());
 
-function addCustomCommands(browser, launcherID) {
+function addCustomCommands(browser) {
   browser
     .addCommand('clickLauncherButton', function(launcherID, cb) {
       this.frame(launcherID, function() {

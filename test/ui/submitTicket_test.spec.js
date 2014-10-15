@@ -12,7 +12,7 @@ browser = webdriverio.remote({
   }
 });
 
-addCustomCommands(browser, 'ticketSubmissionLauncher');
+addCustomCommands(browser);
 
 webdrivercss.init(browser);
 browser

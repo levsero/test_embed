@@ -2,6 +2,7 @@ var gulp = require('gulp'),
     karma = require('gulp-karma'),
     gulpJasmine = require('gulp-jasmine'),
     runSequence = require('run-sequence'),
+    shell = require('gulp-shell'),
     prefix = process.cwd(),
     testFiles = [
       prefix + '/node_modules/lodash/lodash.js',
@@ -47,4 +48,8 @@ gulp.task('test-spec', function(callback) {
     callback
   );
 });
+
+gulp.task('test-ui', shell.task(
+  'jasmine-node test/ui/ --verbose'
+));
 
