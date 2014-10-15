@@ -113,6 +113,14 @@ function render(name) {
     getChildRefs(name).launcher.setActive(false);
   });
 
+  mediator.channel.subscribe(name + '.hide', function() {
+    get(name).instance.hide();
+  });
+
+  mediator.channel.subscribe(name + '.show', function() {
+    get(name).instance.show();
+  });
+
   mediator.channel.subscribe(name + '.setLabelChat', function() {
     setIcon(name, 'Icon--chat');
     setLabel(name, i18n.t('embeddable_framework.launcher.label.chat'));

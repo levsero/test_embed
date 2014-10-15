@@ -12,6 +12,7 @@ import { getSizingRatio,
          isBlacklisted }      from 'utility/devices';
 import { clickBusterHandler,
          hideAll }            from 'utility/utils';
+import { mediator }           from 'service/mediator';
 
 require('imports?_=lodash!lodash');
 
@@ -73,8 +74,18 @@ function boot() {
     devRender: renderer.init,
     bustCache: transport.bustCache,
     version: __EMBEDDABLE_VERSION__,
-    identify: identify
+    identify: identify,
+    show: show,
+    hide: hide
   };
+
+  function show() {
+    mediator.channel.broadcast('showAll');
+  }
+
+  function hide() {
+    mediator.channel.broadcast('hideAll');
+  }
 
   if (win.zE === win.zEmbed) {
     win.zE = win.zEmbed = function(callback) {
