@@ -85,6 +85,13 @@ function render(name) {
   mediator.channel.subscribe(name + '.hide', function() {
     hide();
   });
+
+  mediator.channel.subscribe('setUser', function(user) {
+    win.$zopim &&  win.$zopim(function() {
+      win.$zopim.livechat.setName(user.name);
+      win.$zopim.livechat.setEmail(user.email);
+    });
+  });
 }
 
 function init(name) {

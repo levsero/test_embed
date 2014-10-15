@@ -6,6 +6,7 @@ import { renderer }           from 'service/renderer';
 import { transport }          from 'service/transport';
 import { i18n }               from 'service/i18n';
 import { win, location }      from 'utility/globals';
+import { mediator }           from 'service/mediator';
 import { getSizingRatio,
          isMobileBrowser,
          isBlacklisted }      from 'utility/devices';
@@ -42,7 +43,8 @@ function boot() {
   publicApi = {
     devRender: renderer.init,
     bustCache: transport.bustCache,
-    version: __EMBEDDABLE_VERSION__
+    version: __EMBEDDABLE_VERSION__,
+    setUser: setUser
   };
 
   if (win.zE === win.zEmbed) {
@@ -90,6 +92,10 @@ function boot() {
     } else {
       transport.get(rendererPayload);
     }
+  }
+
+  function setUser(user) {
+    mediator.channel.broadcast('setUser', user);
   }
 
   function propagateFontRatioChange() {
