@@ -48,9 +48,9 @@ function init(config) {
       }
     });
 
-    renderedEmbeds = config;
+    renderedEmbeds = config.embeds || config;
 
-    initMediator(config);
+    initMediator(renderedEmbeds);
 
     initialised = true;
   }
