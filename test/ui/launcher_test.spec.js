@@ -1,7 +1,3 @@
-var webdriverio = require('webdriverio');
-var webdrivercss = require('webdrivercss');
-jasmine.getEnv().defaultTimeoutInterval = 10000;
-
 var capturingData = {
       name: 'launcher',
       elem: '#ticketSubmissionLauncher'
@@ -14,6 +10,8 @@ browser = webdriverio.remote({
   }
 });
 
+addCustomCommands(browser, 'ticketSubmissionLauncher');
+
 webdrivercss.init(browser);
 browser
   .init()
@@ -22,7 +20,7 @@ browser
 describe('launcher', function() {
   it('should show default launcher button', function(done) {
     browser
-      .waitForExist('#ticketSubmissionLauncher', 3000)
+      .waitForExist('#ticketSubmissionLauncher', 5000)
       .webdrivercss('inactive.launcher', capturingData, function(err, res) {
         expect(res.misMatchPercentage < 5)
           .toBeTruthy();
@@ -32,9 +30,7 @@ describe('launcher', function() {
 
   it('should change to circle with x inside when active', function(done) {
     browser
-      .frame('ticketSubmissionLauncher')
-      .click('.Button--cta')
-      .frame(null)
+      .clickLauncherButton('ticketSubmissionLauncher')
       .waitForVisible('#ticketSubmissionForm')
       .webdrivercss('active.launcher', capturingData, function(err, res) {
         expect(res.misMatchPercentage < 5)

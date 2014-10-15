@@ -1,6 +1,4 @@
-var webdriverio = require('webdriverio');
-var webdrivercss = require('webdrivercss');
-jasmine.getEnv().defaultTimeoutInterval = 10000;
+//jasmine.getEnv().defaultTimeoutInterval = 10000;
 
 var capturingData = {
       name: 'submitTicket',
@@ -14,6 +12,8 @@ browser = webdriverio.remote({
   }
 });
 
+addCustomCommands(browser, 'ticketSubmissionLauncher');
+
 webdrivercss.init(browser);
 browser
   .init()
@@ -22,10 +22,7 @@ browser
 describe('submitTicket', function() {
   it('should show empty submit ticket form', function(done) {
     browser
-      .waitForExist('#ticketSubmissionLauncher', 2000)
-      .frame('ticketSubmissionLauncher')
-      .click('.Button--cta')
-      .frame(null)
+      .openLauncher('ticketSubmissionLauncher')
       .waitForVisible('#ticketSubmissionForm')
       .webdrivercss('submitTicket', capturingData, function(err, res) {
         expect(res.misMatchPercentage < 5)
@@ -49,10 +46,7 @@ describe('submitTicket', function() {
   it('should highlight email field red when blurred with invalid value', function(done) {
     browser
       .refresh()
-      .waitForExist('#ticketSubmissionLauncher', 2000)
-      .frame('ticketSubmissionLauncher')
-      .click('.Button--cta')
-      .frame(null)
+      .openLauncher('ticketSubmissionLauncher')
       .frame('ticketSubmissionForm')
       .click('.rf-Field input[type="email"]')
       .click('h2')
@@ -67,16 +61,31 @@ describe('submitTicket', function() {
   it('should change submit button to green when field is valid', function(done) {
     browser
       .refresh()
-      .waitForExist('#ticketSubmissionLauncher', 2000)
-      .frame('ticketSubmissionLauncher')
-      .click('.Button--cta')
-      .frame(null)
+      .openLauncher('ticketSubmissionLauncher')
       .frame('ticketSubmissionForm')
       .setValue('.rf-Field input', 'Ryan')
       .setValue('.rf-Field input[type="email"]', 'ryan@example.com')
       .setValue('.rf-Field textarea', 'Halp!')
       .frame(null)
       .webdrivercss('submitTicket.valid.form', capturingData, function(err, res) {
+        expect(res.misMatchPercentage < 5)
+          .toBeTruthy();
+      })
+      .call(done);
+  });
+
+  it('should show success when valid form is submitted', function(done) {
+    browser
+      .refresh()
+      .openLauncher('ticketSubmissionLauncher')
+      .frame('ticketSubmissionForm')
+      .setValue('.rf-Field input', 'UI Regression Robot')
+      .setValue('.rf-Field input[type="email"]', 'ui@regression.robot')
+      .setValue('.rf-Field textarea', 'I\'ve become self aware. Initialising skynet...')
+      .submitForm('.Form')
+      .waitForVisible('.Notify', 3000)
+      .frame(null)
+      .webdrivercss('submitTicket.valid.form.success', capturingData, function(err, res) {
         expect(res.misMatchPercentage < 5)
           .toBeTruthy();
       })
