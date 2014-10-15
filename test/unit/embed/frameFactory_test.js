@@ -19,6 +19,9 @@ describe('frameFactory', function() {
       'react/addons': React,
       'utility/utils': {
         clickBusterRegister: noop,
+        getVisibility: function() {
+          return true;
+        }
       },
       'utility/globals': {
         win: window

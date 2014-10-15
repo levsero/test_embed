@@ -11,12 +11,12 @@ function initTicketSubmission() {
 
   state[`${submitTicket}.isVisible`] = false;
 
-  c.intercept('hideAll', function() {
+  c.intercept('.hideAll', function() {
     c.broadcast(`${submitTicket}.hide`);
     c.broadcast(`${launcher}.hide`);
   });
 
-  c.intercept('showAll', function() {
+  c.intercept('.showAll', function() {
     if (state[`${submitTicket}.isVisible`]) {
       c.broadcast(`${submitTicket}.show`);
     }
@@ -51,13 +51,13 @@ function initChatTicketSubmission() {
   state[`${chat}.unreadMsgs`]        = 0;
   state[`${chat}.userClosed`]        = false;
 
-  c.intercept('hideAll', function() {
+  c.intercept('.hideAll', function() {
     c.broadcast(`${submitTicket}.hide`);
     c.broadcast(`${launcher}.hide`);
     c.broadcast(`${chat}.hide`);
   });
 
-  c.intercept('showAll', function() {
+  c.intercept('.showAll', function() {
     if (state[`${submitTicket}.isVisible`]) {
       c.broadcast(`${submitTicket}.show`);
     }
@@ -94,6 +94,7 @@ function initChatTicketSubmission() {
 
     c.broadcast(`${chat}.show`);
     c.broadcast(`${launcher}.activate`);
+    c.broadcast(`${launcher}.show`);
   });
 
   c.intercept(`${chat}.onUnreadMsgs`, function(__unused__, count) {
@@ -107,6 +108,7 @@ function initChatTicketSubmission() {
         state.activeEmbed = chat;
         c.broadcast(`${chat}.show`);
         c.broadcast(`${launcher}.activate`);
+        c.broadcast(`${launcher}.show`);
       }
     }
   });
@@ -163,13 +165,13 @@ function initHelpCenterTicketSubmission() {
   state[`${helpCenter}.isVisible`]   = false;
   state.activeEmbed                  = helpCenter;
 
-  c.intercept('hideAll', function() {
+  c.intercept('.hideAll', function() {
     c.broadcast(`${submitTicket}.hide`);
     c.broadcast(`${helpCenter}.hide`);
     c.broadcast(`${launcher}.hide`);
   });
 
-  c.intercept('showAll', function() {
+  c.intercept('.showAll', function() {
     if (state[`${submitTicket}.isVisible`]) {
       c.broadcast(`${submitTicket}.show`);
     }
@@ -244,14 +246,14 @@ function initHelpCenterChatTicketSubmission() {
   state[`${chat}.userClosed`]        = false;
   state.activeEmbed                  = helpCenter;
 
-  c.intercept('hideAll', function() {
+  c.intercept('.hideAll', function() {
     c.broadcast(`${submitTicket}.hide`);
     c.broadcast(`${chat}.hide`);
     c.broadcast(`${helpCenter}.hide`);
     c.broadcast(`${launcher}.hide`);
   });
 
-  c.intercept('showAll', function() {
+  c.intercept('.showAll', function() {
     if (state[`${submitTicket}.isVisible`]) {
       c.broadcast(`${submitTicket}.show`);
     }
@@ -298,6 +300,7 @@ function initHelpCenterChatTicketSubmission() {
         state.activeEmbed = chat;
         c.broadcast(`${chat}.show`);
         c.broadcast(`${launcher}.activate`);
+        c.broadcast(`${launcher}.show`);
       }
     }
   });
@@ -337,6 +340,7 @@ function initHelpCenterChatTicketSubmission() {
     state.activeEmbed = chat;
 
     c.broadcast(`${chat}.show`);
+    c.broadcast(`${launcher}.show`);
 
     if (!isMobileBrowser()) {
       c.broadcast(`${launcher}.activate`);

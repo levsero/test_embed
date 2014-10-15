@@ -66,7 +66,7 @@ function boot() {
   logging.init();
 
   transport.bustCache(__EMBEDDABLE_VERSION__);
-  transport.init({ zendeskHost: document.zendeskHost });
+  transport.init({ zendeskHost: 'z3nbcoppard.zendesk.com' });
 
   beacon.init().send();
 
@@ -80,11 +80,11 @@ function boot() {
   };
 
   function show() {
-    mediator.channel.broadcast('showAll');
+    mediator.channel.broadcast('.showAll');
   }
 
   function hide() {
-    mediator.channel.broadcast('hideAll');
+    mediator.channel.broadcast('.hideAll');
   }
 
   if (win.zE === win.zEmbed) {
