@@ -4,7 +4,8 @@ module React from 'react/addons';
 import { win }                 from 'utility/globals';
 import { getSizingRatio,
          isMobileBrowser }     from 'utility/devices';
-import { clickBusterRegister } from 'utility/utils';
+import { clickBusterRegister,
+         getVisibility }       from 'utility/utils';
 import { i18n }                from 'service/i18n';
 
 require('imports?_=lodash!lodash');
@@ -43,7 +44,7 @@ export var frameFactory = function(childFn, _params) {
   return {
     getDefaultProps: function() {
       return {
-        visible: true
+        visible: getVisibility()
       };
     },
 

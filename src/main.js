@@ -10,7 +10,8 @@ import { mediator }           from 'service/mediator';
 import { getSizingRatio,
          isMobileBrowser,
          isBlacklisted }      from 'utility/devices';
-import { clickBusterHandler } from 'utility/utils';
+import { clickBusterHandler,
+         hideAll }            from 'utility/utils';
 
 require('imports?_=lodash!lodash');
 
@@ -30,8 +31,13 @@ function boot() {
       ],
       handleQueue = function(queue) {
         _.forEach(queue, function(item) {
-          if (item[0].locale) {
-            i18n.setLocale(item[0].locale);
+          if (_.isObject(item)) {
+            if (item[0].locale) {
+              i18n.setLocale(item[0].locale);
+            }
+            if (item[0].hideAll) {
+              hideAll();
+            }
           } else if (_.isFunction(item[0])) {
             postRenderQueue.push(item[0]);
           } else if (item[0] === 'ready' && _.isFunction(item[1])) {
