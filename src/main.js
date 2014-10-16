@@ -90,7 +90,7 @@ function boot() {
   }
 
   function setUser(user) {
-    mediator.channel.broadcast('setUser', user);
+    mediator.channel.broadcast('.setUser', user);
   }
 
   function propagateFontRatioChange() {
