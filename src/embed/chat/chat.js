@@ -135,6 +135,7 @@ function init(name) {
     }
 
     zopimWin.onHide(onHide);
+    zopimLive.setLanguage(i18n.getLocale());
     zopimLive.setOnStatus(onStatus);
     zopimLive.setOnUnreadMsgs(onUnreadMsgs);
     zopimLive.setOnChatEnd(onChatEnd);

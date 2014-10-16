@@ -124,7 +124,7 @@ var SearchField = React.createClass({
         searchContainerClasses = classSet({
           'u-cf': true,
           'Form-cta--bar': this.props.hasSearched && !this.props.fullscreen,
-          'u-paddingHN u-paddingBN u-paddingT18': this.props.fullscreen,
+          'u-paddingHN u-paddingBN Form-cta--barFullscreen': this.props.fullscreen,
           'Form-cta Container-pullout': !this.props.fullscreen
         }),
         searchInputClasses = classSet({

@@ -6,8 +6,6 @@ import { EmailField, IconField } from 'component/FormField';
 import { i18n }                  from 'service/i18n';
 import { isMobileBrowser }       from 'utility/devices';
 
-i18n.init();
-
 var { Schema } = ReactForms.schema,
     classSet = React.addons.classSet,
     fieldClasses = classSet({

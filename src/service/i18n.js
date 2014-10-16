@@ -1,21 +1,25 @@
 var translate = require('counterpart'),
-    translations = require('translation/translations.json');
+    translations = require('translation/translations.json'),
+    currentLocale;
 
 // Setting to something other than (.) as our translation hash
 // is a flat structure and counterpart tries to look in object
 translate.setSeparator('*');
 
-function init() {
-  setLocale();
+function setLocale(locale = 'en-US') {
+  if (!currentLocale) {
+    currentLocale = locale;
+    locale = regulateLocaleStringCase(locale);
+    if (!translations[locale]) {
+      locale = 'en-US';
+    }
+    translate.setLocale(locale);
+    translate.registerTranslations(locale, translations[locale]);
+  }
 }
 
-function setLocale(locale = 'en-US') {
-  locale = regulateLocaleStringCase(locale);
-  if (!translations[locale]) {
-    locale = 'en-US';
-  }
-  translate.setLocale(locale);
-  translate.registerTranslations(locale, translations[locale]);
+function getLocale() {
+  return translate.getLocale();
 }
 
 function regulateLocaleStringCase(locale) {
@@ -28,7 +32,7 @@ function regulateLocaleStringCase(locale) {
 }
 
 export var i18n = {
-  init: init,
   t: translate,
-  setLocale: setLocale
+  setLocale: setLocale,
+  getLocale: getLocale
 };

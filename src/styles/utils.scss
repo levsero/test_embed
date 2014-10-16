@@ -73,10 +73,6 @@ $Base-posOffset: #{20/$font-size}rem;
   margin-bottom: #{10/$font-size}rem !important;
 }
 
-.u-marginB14 {
-  margin-bottom: #{14/$font-size}rem !important;
-}
-
 .u-marginBM {
   margin-bottom: #{20/$font-size}rem !important;
 }
@@ -93,16 +89,8 @@ $Base-posOffset: #{20/$font-size}rem;
   margin-top: #{20/$font-size}rem;
 }
 
-.u-marginT24 {
-  margin-top: #{24/$font-size}rem;
-}
-
 .u-marginTL {
   margin-top: #{30/$font-size}rem;
-}
-
-.u-marginT35 {
-  margin-top: #{35/$font-size}rem;
 }
 
 .u-paddingHN {
@@ -112,14 +100,6 @@ $Base-posOffset: #{20/$font-size}rem;
 
 .u-paddingR {
   padding-right: #{25/$font-size}rem;
-}
-
-.u-paddingT15 {
-  padding-top: #{15/$font-size}rem;
-}
-
-.u-paddingT18 {
-  padding-top: #{18/$font-size}rem;
 }
 
 .u-paddingTM {
@@ -168,10 +148,6 @@ $Base-posOffset: #{20/$font-size}rem;
 
 .u-textSizeBaseMobile {
   font-size: #{16/$font-size}rem !important;
-}
-
-.u-textSizeLrg {
-  font-size: 5rem;
 }
 
 .u-textBold {

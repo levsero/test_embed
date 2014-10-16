@@ -20,7 +20,6 @@ function boot() {
       rendererPayload,
       host = location.host,
       path = location.pathname,
-      locale,
       postRenderQueue = [],
       chatPages = [
       '/zopim',
@@ -60,10 +59,6 @@ function boot() {
   _.extend(win.zEmbed, publicApi);
 
   handleQueue(document.zEQueue, postRenderQueue);
-
-  if (locale && locale !== 'en-US') {
-    i18n.setLocale(locale);
-  }
 
   if (!isBlacklisted()) {
     rendererPayload = {
@@ -113,7 +108,7 @@ function boot() {
   function handleQueue(queue, postRenderQueue) {
     _.forEach(queue, function(item) {
       if (item[0].locale) {
-        locale = item[0].locale;
+        i18n.setLocale(item[0].locale);
       } else if (_.isFunction(item[0])) {
         postRenderQueue.push(item[0]);
       } else if (item[0] === 'ready' && _.isFunction(item[1])) {
