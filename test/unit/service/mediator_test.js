@@ -181,9 +181,7 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      it('shows after showAll is called and was visible before hidden', function() {
-        c.broadcast(`${launcher}.onClick`);
-
+      it('shows after showAll is called', function() {
         c.broadcast('.hideAll');
 
         reset(submitTicketSub.show);
@@ -191,16 +189,6 @@ describe('mediator', function() {
 
         expect(submitTicketSub.show.calls.count())
           .toEqual(1);
-      });
-
-      it('does not show after showAll is called if it was not visible before hidden', function() {
-        c.broadcast('.hideAll');
-
-        reset(submitTicketSub.show);
-        c.broadcast('.showAll');
-
-        expect(submitTicketSub.show.calls.count())
-          .toEqual(0);
       });
     });
 
@@ -348,7 +336,7 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      it('shows after showAll is called and was visible before hidden', function() {
+      it('shows after showAll is called and chat is offline', function() {
         c.broadcast(`${chat}.onOffline`);
         c.broadcast(`${launcher}.onClick`);
 
@@ -359,16 +347,6 @@ describe('mediator', function() {
 
         expect(submitTicketSub.show.calls.count())
           .toEqual(1);
-      });
-
-      it('does not show after showAll is called if it was not visible before hidden', function() {
-        c.broadcast('.hideAll');
-
-        reset(submitTicketSub.show);
-        c.broadcast('.showAll');
-
-        expect(submitTicketSub.show.calls.count())
-          .toEqual(0);
       });
     });
 
@@ -513,9 +491,8 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      it('shows after showAll is called and was visible before hidden', function() {
+      it('shows after showAll is called and chat is online', function() {
         c.broadcast(`${chat}.onOnline`);
-        c.broadcast(`${launcher}.onClick`);
 
         c.broadcast('.hideAll');
 
@@ -524,18 +501,6 @@ describe('mediator', function() {
 
         expect(chatSub.show.calls.count())
           .toEqual(1);
-      });
-
-      it('does not show after showAll is called if it was not visible before hidden', function() {
-        c.broadcast(`${chat}.onOffline`);
-        c.broadcast(`${launcher}.onClick`);
-        c.broadcast('.hideAll');
-
-        reset(chatSub.show);
-        c.broadcast('.showAll');
-
-        expect(chatSub.show.calls.count())
-          .toEqual(0);
       });
     });
 
@@ -638,6 +603,35 @@ describe('mediator', function() {
 
         expect(submitTicketSub.showBackButton.calls.count())
           .toEqual(1);
+      });
+
+      it('hides when a hideAll call is made', function() {
+        c.broadcast('.hideAll');
+
+        expect(helpCenterSub.hide.calls.count())
+          .toEqual(1);
+      });
+
+      it('shows after showAll is called and submit ticket was not visible', function() {
+        c.broadcast('.hideAll');
+
+        reset(helpCenterSub.show);
+        c.broadcast('.showAll');
+
+        expect(helpCenterSub.show.calls.count())
+          .toEqual(1);
+      });
+
+      it('does not show after showAll is called if submit ticket was visible', function() {
+        c.broadcast(`${launcher}.onClick`);
+        c.broadcast(`${helpCenter}.onNextClick`);
+        c.broadcast('.hideAll');
+
+        reset(helpCenterSub.show);
+        c.broadcast('.showAll');
+
+        expect(helpCenterSub.show.calls.count())
+          .toEqual(0);
       });
     });
 
@@ -925,9 +919,7 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      it('shows after showAll is called and was visible before hidden', function() {
-        c.broadcast(`${launcher}.onClick`);
-
+      it('shows after showAll is called and nothing else was visible before hidden', function() {
         c.broadcast('.hideAll');
 
         reset(helpCenterSub.show);
@@ -937,7 +929,7 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      it('does not show after showAll is called if it was not visible before hidden', function() {
+      it('does not show after showAll is called something else was visible', function() {
         c.broadcast(`${launcher}.onClick`);
         c.broadcast(`${helpCenter}.onNextClick`);
         c.broadcast('.hideAll');

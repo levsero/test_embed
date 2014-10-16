@@ -17,10 +17,10 @@ function initTicketSubmission() {
   });
 
   c.intercept('.showAll', function() {
-    if (state[`${submitTicket}.isVisible`]) {
-      c.broadcast(`${submitTicket}.show`);
-    }
+    c.broadcast(`${submitTicket}.show`);
+    c.broadcast(`${launcher}.activate`);
     c.broadcast(`${launcher}.show`);
+    state[`${submitTicket}.isVisible`] = true;
   });
 
   c.intercept(
@@ -60,9 +60,16 @@ function initChatTicketSubmission() {
   c.intercept('.showAll', function() {
     if (state[`${submitTicket}.isVisible`]) {
       c.broadcast(`${submitTicket}.show`);
-    }
-    if (state[`${chat}.isVisible`]) {
+    } else if (state[`${chat}.isVisible`]) {
       c.broadcast(`${chat}.show`);
+    } else if (state[`${chat}.isOnline`]) {
+      c.broadcast(`${chat}.show`);
+      state.activeEmbed = chat;
+      c.broadcast(`${launcher}.activate`);
+    } else {
+      c.broadcast(`${submitTicket}.show`);
+      state.activeEmbed = submitTicket;
+      c.broadcast(`${launcher}.activate`);
     }
     c.broadcast(`${launcher}.show`);
   });
@@ -174,9 +181,10 @@ function initHelpCenterTicketSubmission() {
   c.intercept('.showAll', function() {
     if (state[`${submitTicket}.isVisible`]) {
       c.broadcast(`${submitTicket}.show`);
-    }
-    if (state[`${helpCenter}.isVisible`]) {
+    } else {
       c.broadcast(`${helpCenter}.show`);
+      c.broadcast(`${launcher}.activate`);
+      state.activeEmbed = helpCenter;
     }
     c.broadcast(`${launcher}.show`);
   });
@@ -256,12 +264,12 @@ function initHelpCenterChatTicketSubmission() {
   c.intercept('.showAll', function() {
     if (state[`${submitTicket}.isVisible`]) {
       c.broadcast(`${submitTicket}.show`);
-    }
-    if (state[`${chat}.isVisible`]) {
+    } else if (state[`${chat}.isVisible`]) {
       c.broadcast(`${chat}.show`);
-    }
-    if (state[`${helpCenter}.isVisible`]) {
+    } else {
       c.broadcast(`${helpCenter}.show`);
+      state.activeEmbed = helpCenter;
+      c.broadcast(`${launcher}.activate`);
     }
     c.broadcast(`${launcher}.show`);
   });
