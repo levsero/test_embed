@@ -26,6 +26,7 @@ describe('embed.chat', function() {
       setOnStatus: jasmine.createSpy('setOnStatus'),
       setOnConnected: jasmine.createSpy('setOnConnected'),
       setOnUnreadMsgs: jasmine.createSpy('setOnUnreadMsgs'),
+      setLanguage: jasmine.createSpy('setLanguage'),
       setOnChatEnd: jasmine.createSpy('setOnChatEnd'),
       hideAll: jasmine.createSpy('hideAll'),
       isChatting: jasmine.createSpy('isChatting'),
@@ -49,7 +50,7 @@ describe('embed.chat', function() {
       'utility/globals': mockGlobals,
       'utility/devices': mockDevices,
       'service/i18n': {
-        i18n: jasmine.createSpyObj('i18n', ['init', 'setLocale', 't'])
+        i18n: jasmine.createSpyObj('i18n', ['init', 'setLocale', 'getLocale', 't'])
       },
       'service/mediator': {
         mediator: {
