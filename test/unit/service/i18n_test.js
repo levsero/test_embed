@@ -44,12 +44,18 @@ describe('i18n', function() {
 
   it('should convert lang code to lower case', function() {
     i18n.setLocale('DE');
-    expect(i18n.t.getLocale()).toEqual('de');
+
+    expect(i18n.getLocale()).toEqual('de');
   });
 
   it('should convert region code to upper case', function() {
     i18n.setLocale('zh-cn');
     expect(i18n.t.getLocale()).toEqual('zh-CN');
+  });
+
+  it('should try lang code if lang-region code does not exist', function() {
+    i18n.setLocale('de-de');
+    expect(i18n.t.getLocale()).toEqual('de');
   });
 
   it('should use en-US when there are no translations for the specified locale', function() {

@@ -6,15 +6,25 @@ var translate = require('counterpart'),
 // is a flat structure and counterpart tries to look in object
 translate.setSeparator('*');
 
-function setLocale(locale = 'en-US') {
+function parseLocale(str) {
+  var locale = regulateLocaleStringCase(str);
+
+  if (translations[locale]) {
+    return locale;
+  }
+  else if (translations[locale.substr(0, 2)]) {
+    return locale.substr(0, 2);
+  }
+  else {
+    return 'en-US';
+  }
+}
+
+function setLocale(str = 'en-US') {
   if (!currentLocale) {
-    currentLocale = locale;
-    locale = regulateLocaleStringCase(locale);
-    if (!translations[locale]) {
-      locale = 'en-US';
-    }
-    translate.setLocale(locale);
-    translate.registerTranslations(locale, translations[locale]);
+    currentLocale = parseLocale(str);
+    translate.setLocale(currentLocale);
+    translate.registerTranslations(currentLocale, translations[currentLocale]);
   }
 }
 
