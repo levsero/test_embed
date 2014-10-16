@@ -18,6 +18,10 @@ function setLocale(locale = 'en-US') {
   }
 }
 
+function getLocale() {
+  return translate.getLocale();
+}
+
 function regulateLocaleStringCase(locale) {
   var dashIndex = locale.indexOf('-');
 
@@ -29,5 +33,6 @@ function regulateLocaleStringCase(locale) {
 
 export var i18n = {
   t: translate,
-  setLocale: setLocale
+  setLocale: setLocale,
+  getLocale: getLocale
 };
