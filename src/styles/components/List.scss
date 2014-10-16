@@ -16,3 +16,7 @@
 .List--fullscreen {
   padding: #{8/$font-size}rem 0 0 #{24/$font-size}rem;
 }
+
+.List--noResults {
+  margin-bottom: #{14/$font-size}rem !important;
+}
