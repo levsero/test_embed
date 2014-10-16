@@ -11,11 +11,9 @@ function parseLocale(str) {
 
   if (translations[locale]) {
     return locale;
-  }
-  else if (translations[locale.substr(0, 2)]) {
+  } else if (translations[locale.substr(0, 2)]) {
     return locale.substr(0, 2);
-  }
-  else {
+  } else {
     return 'en-US';
   }
 }
