@@ -116,7 +116,7 @@ function render(name) {
     });
   });
 
-  mediator.channel.subscribe('.setUser', function(user) {
+  mediator.channel.subscribe('.identify', function(user) {
     var submitTicket = get(name).instance.getChild().refs.submitTicket,
         submitTicketForm = submitTicket.refs.submitTicketForm;
 

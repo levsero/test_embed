@@ -43,7 +43,7 @@ function boot() {
     devRender: renderer.init,
     bustCache: transport.bustCache,
     version: __EMBEDDABLE_VERSION__,
-    setUser: setUser
+    identify: identify
   };
 
   if (win.zE === win.zEmbed) {
@@ -89,8 +89,8 @@ function boot() {
     }
   }
 
-  function setUser(user) {
-    mediator.channel.broadcast('.setUser', user);
+  function identify(user) {
+    mediator.channel.broadcast('.identify', user);
   }
 
   function propagateFontRatioChange() {

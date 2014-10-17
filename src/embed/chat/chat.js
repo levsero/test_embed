@@ -86,7 +86,7 @@ function render(name) {
     hide();
   });
 
-  mediator.channel.subscribe('.setUser', function(user) {
+  mediator.channel.subscribe('.identify', function(user) {
     win.$zopim && win.$zopim(function() {
       win.$zopim.livechat.setName(user.name);
       win.$zopim.livechat.setEmail(user.email);
