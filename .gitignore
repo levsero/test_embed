@@ -8,3 +8,5 @@ src/translation/*
 .DS_Store
 vendor/bundle
 .bundle
+webdrivercss/
+
