@@ -88,7 +88,7 @@ describe('mediator', function() {
   });
 
   describe('Ticket Submission', function() {
-    var launcher   = 'ticketSubmissionLauncher',
+    var launcher   = 'launcher',
         submitTicket = 'ticketSubmissionForm',
         names = {
           launcher: launcher,
@@ -159,7 +159,7 @@ describe('mediator', function() {
   });
 
   describe('Chat, Ticket Submission', function() {
-    var launcher   = 'chatLauncher',
+    var launcher   = 'launcher',
         submitTicket = 'ticketSubmissionForm',
         chat       = 'zopimChat',
         names = {
@@ -399,7 +399,7 @@ describe('mediator', function() {
   });
 
   describe('Help Center, Ticket Submission', function() {
-    var launcher   = 'hcLauncher',
+    var launcher   = 'launcher',
         submitTicket = 'ticketSubmissionForm',
         helpCenter = 'helpCenterForm',
         names = {
@@ -519,7 +519,7 @@ describe('mediator', function() {
   });
 
   describe('Help Center, Chat, Ticket Submission', function() {
-    var launcher   = 'hcLauncher',
+    var launcher   = 'launcher',
         submitTicket = 'ticketSubmissionForm',
         chat       = 'zopimChat',
         helpCenter = 'helpCenterForm',

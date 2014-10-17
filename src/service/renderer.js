@@ -48,7 +48,7 @@ function init(config) {
       }
     });
 
-    renderedEmbeds = config.embeds || config;
+    renderedEmbeds = config.ruleset || config.embeds || config;
 
     initMediator(renderedEmbeds);
 
@@ -57,38 +57,53 @@ function init(config) {
 }
 
 function initMediator(config) {
-  var embeds = _.chain(config)
-                .keys()
-                .sortBy()
-                .value()
-                .join('_');
-
-  switch(embeds) {
-    case 'hcLauncher_helpCenterForm_ticketSubmissionForm_zopimChat':
-      mediator.initHelpCenterChatTicketSubmission();
-      break;
-    case 'hcLauncher_helpCenterForm_ticketSubmissionForm':
-      mediator.initHelpCenterTicketSubmission();
-      break;
-    case 'chatLauncher_ticketSubmissionForm_zopimChat':
-      mediator.initChatTicketSubmission();
-      break;
-    case 'ticketSubmissionForm_ticketSubmissionLauncher':
-      mediator.initTicketSubmission();
-      break;
-    case '':
-      // blank render list
-      break;
-    default:
+  if (!_.isObject(config)) {
+    if (_.contains(_.chain(mediator).keys().value()), config) {
+      mediator[`init${config}`]();
+    } else {
       Airbrake.push({
         error: {
           message: 'Could not find a suitable mediator ruleset to initialise.'
         },
         params: {
-          embeds: embeds,
           config: config
         }
       });
+    }
+  } else {
+    var embeds = _.chain(config)
+                  .keys()
+                  .sortBy()
+                  .value()
+                  .join('_');
+
+    switch(embeds) {
+      case 'hcLauncher_helpCenterForm_ticketSubmissionForm_zopimChat':
+        mediator.initHelpCenterChatTicketSubmission('hcLauncher');
+        break;
+      case 'hcLauncher_helpCenterForm_ticketSubmissionForm':
+        mediator.initHelpCenterTicketSubmission('hcLauncher');
+        break;
+      case 'chatLauncher_ticketSubmissionForm_zopimChat':
+        mediator.initChatTicketSubmission('chatLauncher');
+        break;
+      case 'ticketSubmissionForm_ticketSubmissionLauncher':
+        mediator.initTicketSubmission('ticketSubmissionLauncher');
+        break;
+      case '':
+        // blank render list
+        break;
+      default:
+        Airbrake.push({
+          error: {
+            message: 'Could not find a suitable mediator ruleset to initialise.'
+          },
+          params: {
+            embeds: embeds,
+            config: config
+          }
+        });
+    }
   }
 }
 
@@ -108,51 +123,18 @@ var hardcodedConfigs = {
     'zopimChat': {
       'embed': 'chat',
       'props': {
-        'zopimId': '2ItCA9Tu3W5bksDB4EJzPSCz4kIymONo',
-        'onShow': {
-          name: 'chatLauncher',
-          method: 'update'
-        },
-        'onHide': {
-          name: 'chatLauncher',
-          method: 'update'
-        },
-        'setIcon': {
-          name: 'chatLauncher',
-          method: 'setIcon'
-        },
-        'setLabel': {
-          name: 'chatLauncher',
-          method: 'setLabel'
-        },
-        'updateForm': {
-          name: 'ticketSubmissionForm',
-          method: 'update'
-        }
+        'zopimId': '2ItCA9Tu3W5bksDB4EJzPSCz4kIymONo'
       }
     },
     'chatLauncher': {
       'embed': 'launcher',
       'props': {
-        'position': 'right',
-        'onClick': {
-          name: 'zopimChat',
-          method: 'update'
-        }
+        'position': 'right'
       }
     },
     'ticketSubmissionForm': {
       'embed': 'submitTicket',
-      'props': {
-        'onShow': {
-          name: 'chatLauncher',
-          method: 'update'
-        },
-        'onHide': {
-          name: 'chatLauncher',
-          method: 'update'
-        }
-      }
+      'props': {}
     }
   }
 };
