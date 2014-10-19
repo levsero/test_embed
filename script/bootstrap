@@ -2,6 +2,8 @@
 
 set -e
 
+webDriverBrewPackages=(cairo imagemagick graphicsmagick chromedriver)
+
 heading() {
   echo "$1... \c";
 }
@@ -34,13 +36,21 @@ try() {
   fi
 }
 
-try "Installing gulp, bower, jasmine-node & selenium-server" "npm install -g --quiet gulp bower jasmine-node selenium-server > /dev/null"
+try "Installing gulp, bower" "npm install -g --quiet gulp bower > /dev/null"
 try "Installing npm & bower packages" "npm install --quiet > /dev/null && bower install --quiet > /dev/null"
 try "Building Engagement Framework" "gulp build-dev > /dev/null"
 try "Setting up pre-commit hooks" "ln -s ../../script/pre-commit .git/hooks/pre-commit > /dev/null && chmod +x .git/hooks/pre-commit < /dev/null"
 try "Downloading translations" "script/fetch_i18n"
 bold "Installing UI Regression Tooling"
-try "Installing GraphicsMagick, ImageMagick & Cairo" "brew install imagemagick graphicsmagick cairo"
+
+for pkg in cairo ${webDriverBrewPackages[@]}; do
+  if brew list -1 | grep -q "^${pkg}"; then
+    bold "'$pkg' is already installed"
+  else
+    try "Installing $pkg" "brew install $pkg"
+  fi
+done
+
 try "Installing webdriverio & webdrivercss" "PKG_CONFIG_PATH=\"/opt/X11/lib/pkgconfig\" npm install webdrivercss webdriverio --quiet > /dev/null"
 
 echo

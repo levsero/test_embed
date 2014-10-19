@@ -23,7 +23,6 @@ function addCustomCommands(browser) {
     });
 }
 
-
 module.exports = {
   webdriverio: require('webdriverio'),
   webdrivercss: require('webdrivercss'),

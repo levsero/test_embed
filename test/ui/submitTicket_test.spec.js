@@ -1,16 +1,12 @@
-//jasmine.getEnv().defaultTimeoutInterval = 10000;
-
 var capturingData = {
       name: 'submitTicket',
       elem: '#ticketSubmissionForm'
     },
-    browser;
-
-browser = webdriverio.remote({
-  desiredCapabilities: {
-    browserName: 'chrome'
-  }
-});
+    browser = webdriverio.remote({
+      desiredCapabilities: {
+        browserName: 'chrome'
+      }
+    });
 
 addCustomCommands(browser);
 

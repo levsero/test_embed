@@ -50,6 +50,6 @@ gulp.task('test-spec', function(callback) {
 });
 
 gulp.task('test-ui', shell.task(
-  'jasmine-node test/ui/ --verbose'
+  'node_modules/.bin/jasmine-node test/ui/ --verbose'
 ));
 
