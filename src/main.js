@@ -94,7 +94,7 @@ function boot() {
             handlePostRenderQueue(postRenderQueue);
           },
           fail(error) {
-            Airbrake.push({
+            logging.error({
               error: error,
               context: {
                 account: document.zendeskHost
@@ -132,7 +132,7 @@ if (!_.isUndefined(document.zendeskHost)) {
   try {
     boot();
   } catch (err) {
-    Airbrake.push({
+    logging.error({
       error: err
     });
   }

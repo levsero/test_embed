@@ -61,7 +61,10 @@ describe('renderer', function() {
           initHelpCenterChatTicketSubmission: jasmine.createSpy()
         }
       },
-      'imports?_=lodash!lodash': _
+      'imports?_=lodash!lodash': _,
+      'service/logging': {
+        logging: jasmine.createSpyObj('logging', ['init', 'error'])
+      }
     });
 
     mockery.registerAllowable(rendererPath);
@@ -131,6 +134,8 @@ describe('renderer', function() {
     });
 
     it('should handle dodgy config values', function() {
+      var logging = mockRegistry['service/logging'].logging;
+
       renderer.init({
         'foobar': {
           'props': {}
@@ -161,7 +166,7 @@ describe('renderer', function() {
       expect(renderer.init)
         .not.toThrow();
 
-      expect(Airbrake.push)
+      expect(logging.error)
         .toHaveBeenCalled();
 
       expect(mockLauncher.create)

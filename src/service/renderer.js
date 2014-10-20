@@ -4,6 +4,7 @@ import { helpCenter }   from 'embed/helpCenter/helpCenter';
 import { chat }         from 'embed/chat/chat';
 import { i18n }         from 'service/i18n';
 import { mediator }     from 'service/mediator';
+import { logging }      from 'service/logging';
 
 require('imports?_=lodash!lodash');
 
@@ -38,7 +39,7 @@ function init(config) {
         embedsMap[configItem.embed].create(embedName, configItem.props);
         embedsMap[configItem.embed].render(embedName);
       } catch (err) {
-        Airbrake.push({
+        logging.error({
           error: err,
           context: {
             embedName: embedName,
@@ -80,7 +81,7 @@ function initMediator(config) {
       // blank render list
       break;
     default:
-      Airbrake.push({
+      logging.error({
         error: {
           message: 'Could not find a suitable mediator ruleset to initialise.'
         },
