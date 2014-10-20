@@ -104,7 +104,8 @@ describe('embed.launcher', function() {
           onClick: jasmine.createSpy(),
           position: 'test_position',
           label: 'Help',
-          icon: ''
+          icon: '',
+          visible: true
         };
         launcher.create('alice', frameConfig);
         mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
@@ -173,7 +174,8 @@ describe('embed.launcher', function() {
             position: 'test_alice_position',
             onClick: function() { return 'alice'; },
             label: 'Help',
-            icon: ''
+            icon: '',
+            visible: true
           };
 
       launcher.create('alice', config);

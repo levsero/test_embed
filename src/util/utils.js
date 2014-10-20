@@ -1,8 +1,7 @@
 import { document as doc } from 'utility/globals';
 require('imports?_=lodash!lodash');
 
-var clickBusterClicks = [],
-    isVisible = true;
+var clickBusterClicks = [];
 
 function metaStringToObj(str) {
   if (_.isEmpty(str)) {
@@ -97,20 +96,10 @@ function clickBusterHandler(ev) {
   }
 }
 
-function hideAll() {
-  isVisible = false;
-}
-
-function getVisibility() {
-  return isVisible;
-}
-
 export {
   parseUrl,
   setScaleLock,
   clickBusterRegister,
   clickBusterHandler,
-  metaStringToObj,
-  hideAll,
-  getVisibility
+  metaStringToObj
 };

@@ -19,7 +19,8 @@ function create(name, config) {
         onClick: function() {},
         position: 'right',
         label: i18n.t('embeddable_framework.launcher.label.help'),
-        icon: 'Icon--help'
+        icon: 'Icon--help',
+        visible: true
       },
       base = {
         width: '80px',
@@ -76,7 +77,7 @@ function create(name, config) {
     }));
 
   launchers[name] = {
-    component: <Embed />,
+    component: <Embed visible={config.visible} />,
     config: config
   };
 }

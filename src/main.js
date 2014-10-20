@@ -10,8 +10,7 @@ import { mediator }           from 'service/mediator';
 import { getSizingRatio,
          isMobileBrowser,
          isBlacklisted }      from 'utility/devices';
-import { clickBusterHandler,
-         hideAll }            from 'utility/utils';
+import { clickBusterHandler}  from 'utility/utils';
 import { mediator }           from 'service/mediator';
 
 require('imports?_=lodash!lodash');
@@ -37,7 +36,7 @@ function boot() {
               i18n.setLocale(item[0].locale);
             }
             if (item[0].hideAll) {
-              hideAll();
+              renderer.hideAll();
             }
           } else if (_.isFunction(item[0])) {
             postRenderQueue.push(item[0]);
@@ -66,7 +65,7 @@ function boot() {
   logging.init();
 
   transport.bustCache(__EMBEDDABLE_VERSION__);
-  transport.init({ zendeskHost: 'z3nbcoppard.zendesk.com' });
+  transport.init({ zendeskHost: document.zendeskHost });
 
   beacon.init().send();
 
