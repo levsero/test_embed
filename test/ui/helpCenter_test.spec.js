@@ -18,7 +18,7 @@ browser
 describe('helpCenter', function() {
   it('should show empty help center search field', function(done) {
     browser
-      .openLauncher('hcLauncher')
+      .openLauncher('launcher')
       .waitForVisible('#helpCenterForm')
       .webdrivercss('helpCenter', capturingData, function(err, res) {
         expect(res.misMatchPercentage < 5)
