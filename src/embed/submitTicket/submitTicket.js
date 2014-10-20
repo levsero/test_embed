@@ -20,7 +20,28 @@ function create(name, config) {
         bottom: 50
       },
       configDefaults = {
-        position: 'right'
+        position: 'right',
+        customFields: [
+          {
+            type: 'text',
+            title: 'demo'
+          },
+          {
+            type: 'tagger',
+            title: 'department',
+            options: [
+              {
+                name: 'Sales'
+              },
+              {
+                name: 'Product'
+              },
+              {
+                name: 'General'
+              }
+            ]
+          }
+        ]
       },
       posObj,
       iframeStyle,
@@ -57,6 +78,7 @@ function create(name, config) {
             ref='submitTicket'
             updateFrameSize={params.updateFrameSize}
             onSubmitted={onSubmitted}
+            customFields={config.customFields}
             handleBack={handleBack}/>
         </div>
       );

@@ -74,6 +74,38 @@ function IconField(props) {
   );
 }
 
+function SelectField(props) {
+  var fieldClasses = classSet({
+        'Arrange-sizeFill u-vsizeAll': true,
+        'u-textSize15': isMobileBrowser()
+      }),
+      options = [];
+
+  props = props || {};
+
+  _.forEach(props.options, function(option) {
+    options.push(
+      <option value={option.name}>{option.name}</option>
+    );
+  });
+
+  /* jshint quotmark:false */
+  return (
+    <Property
+      name={props.name}
+      required={!!props.required}
+      input={
+        <select
+          name={props.name}
+          className={fieldClasses}>
+          {options}
+        </select>
+      }
+      validate={props.validate || ''}
+    />
+  );
+}
+
 var SearchField = React.createClass({
   mixins: [formField],
 
@@ -197,5 +229,5 @@ function EmailField(props) {
   });
 }
 
-export { IconField, EmailField, SearchField };
+export { IconField, EmailField, SearchField, SelectField };
 

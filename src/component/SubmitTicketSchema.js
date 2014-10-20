@@ -2,7 +2,7 @@
 module React from 'react/addons';
 module ReactForms from 'react-forms';
 
-import { EmailField, IconField } from 'component/FormField';
+import { EmailField, IconField, SelectField } from 'component/FormField';
 import { i18n }                  from 'service/i18n';
 import { isMobileBrowser }       from 'utility/devices';
 
@@ -13,7 +13,25 @@ var { Schema } = ReactForms.schema,
       'u-textSize15': isMobileBrowser()
     });
 
-export var submitTicketSchema = function() {
+export var submitTicketSchema = function(customFields) {
+  var ticketFields = [];
+
+  _.forEach(customFields, function(field) {
+    switch(field.type) {
+      case 'text':
+        ticketFields.push(
+          <IconField name={field.title} placeholder={field.title} />
+        );
+        break;
+      case 'tagger':
+        ticketFields.push(
+          <SelectField name={field.title} placeholder={field.title} options={field.options} />
+        );
+      default:
+        break;
+    }
+  });
+
   return (
   /* jshint quotmark:false */
 
@@ -28,6 +46,7 @@ export var submitTicketSchema = function() {
         required
         icon='mail'
       />
+      {ticketFields}
       <IconField
         name='description'
         ref='message'
