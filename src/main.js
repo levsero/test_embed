@@ -35,7 +35,7 @@ function boot() {
             if (item[0].locale) {
               i18n.setLocale(item[0].locale);
             }
-            if (item[0].hideAll) {
+            if (item[0].hide) {
               renderer.hideAll();
             }
           } else if (_.isFunction(item[0])) {

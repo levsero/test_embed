@@ -15,16 +15,18 @@ Use 'zE.identify' to pass user name and email to the widget, then the widget can
 
 ### zE.hide
 
-‘zE.hide’ will completely hide the widget from the page. This can be envoked on page load so it never shows up or at some other point in the runtime
+‘zE.hide’ will completely hide all parts of the widget from the page. This can be invoked before page load or after
 
-```
+**Before Page Load**
+```javascript
   <script>
-    zE({hideAll: true});
+    zE({hide: true});
   </script>
 ```
 
-```
-  <button onclick="zE.hide()">Hide Zendesk Widget</button>
+**After Page Load**
+```javascript
+  <button onclick="zE.hide();">Hide Zendesk Widget</button>
 ```
 
 
@@ -32,7 +34,6 @@ Use 'zE.identify' to pass user name and email to the widget, then the widget can
 
 ‘zE.show’ will show the widget in whatever state it was previously in before hidden.
 
-```
-  <button onclick="zE.show()">Show Zendesk Widget</button>
->>>>>>> Basic documentation
+```javascript
+  <button onclick="zE.show();">Show Zendesk Widget</button>
 ```
