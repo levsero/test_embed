@@ -35,11 +35,15 @@ var FocusField = React.createClass({
           'rf-Field--blurred': this.state.blurred,
           'rf-Field--invalid': isInvalid && this.state.blurred,
           'rf-Field--dirty': !value.isUndefined
+        }),
+        iconClasses = classSet({
+          'u-isHidden': !this.props.icon,
+          'Arrange-sizeFit u-isActionable Icon Icon--': true
         });
 
     return (
       <label className={classNames}>
-        <i className={'Arrange-sizeFit u-isActionable Icon Icon--' + this.props.icon} />
+        <i className={iconClasses + this.props.icon} />
         {this.transferPropsTo(this.renderInputComponent({
           onFocus: this.onFocus,
           onBlur: this.onBlur
@@ -76,10 +80,12 @@ function IconField(props) {
 
 function SelectField(props) {
   var fieldClasses = classSet({
-        'Arrange-sizeFill u-vsizeAll': true,
+        'Arrange-sizeFill u-vsizeAll rf-Field--select': true,
         'u-textSize15': isMobileBrowser()
       }),
-      options = [];
+      options = [
+        <option value="" disabled selected>{props.name}</option>
+      ];
 
   props = props || {};
 
@@ -101,7 +107,7 @@ function SelectField(props) {
           {options}
         </select>
       }
-      validate={props.validate || ''}
+      component={<FocusField icon={props.icon} />}
     />
   );
 }
