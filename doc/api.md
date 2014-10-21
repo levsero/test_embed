@@ -32,7 +32,7 @@ Use 'zE.identify' to pass user name and email to the widget, then the widget can
 
 ### zE.show
 
-‘zE.show’ will show the widget in whatever state it was previously in before hidden.
+‘zE.show’ will show the widget with its first page open
 
 ```javascript
   <button onclick="zE.show();">Show Zendesk Widget</button>
