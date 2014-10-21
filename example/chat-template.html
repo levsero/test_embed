@@ -32,22 +32,25 @@
     <script>
       zE('ready', function(zE) {
         zE.devRender({
-          "zopimChat": {
-            "embed": "chat",
-            "props": {
-              "zopimId": "29Oz5ZvpEoCfSk5IB69BV7sB7j1BIuJU"
+          "embeds" : {
+            "zopimChat": {
+              "embed": "chat",
+              "props": {
+                "zopimId": "29Oz5ZvpEoCfSk5IB69BV7sB7j1BIuJU"
+              }
+            },
+            "launcher": {
+              "embed": "launcher",
+              "props": {
+                "position": "right"
+              }
+            },
+            "ticketSubmissionForm": {
+              "embed": "submitTicket",
+              "props": {}
             }
           },
-          "chatLauncher": {
-            "embed": "launcher",
-            "props": {
-              "position": "right"
-            }
-          },
-          "ticketSubmissionForm": {
-            "embed": "submitTicket",
-            "props": {}
-          }
+          ruleset: "C_TS"
         });
       });
     </script>
