@@ -11,6 +11,7 @@ import { i18n }            from 'service/i18n';
 
 var { FieldMixin } = ReactForms,
     Property = ReactForms.schema.Property,
+    CheckboxGroup = ReactForms.input.CheckboxGroup,
     isFailure = ReactForms.validation.isFailure,
     classSet = React.addons.classSet;
 
@@ -65,6 +66,7 @@ function IconField(props) {
     <Property
       name={props.name}
       required={!!props.required}
+      type={props.type || ''}
       input={
         props.input ||
         <input
@@ -73,7 +75,29 @@ function IconField(props) {
           className={fieldClasses} />
       }
       validate={props.validate || ''}
-      component={<FocusField icon={props.icon} />}
+    />
+  );
+}
+
+function CheckboxField(props) {
+  var fieldClasses = classSet({
+        'Arrange-sizeFill u-vsizeAll': true,
+        'u-textSize15': isMobileBrowser()
+      });
+  props = props || {};
+
+  /* jshint quotmark:false */
+  return (
+    <Property
+      name={props.name}
+      type='array'
+      required={!!props.required}
+      input={
+        <CheckboxGroup
+          className={fieldClasses}
+          options={[{value: 'yes', name: props.name}]}
+        />
+      }
     />
   );
 }
@@ -235,5 +259,5 @@ function EmailField(props) {
   });
 }
 
-export { IconField, EmailField, SearchField, SelectField };
+export { IconField, CheckboxField, EmailField, SearchField, SelectField };
 

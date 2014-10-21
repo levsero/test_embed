@@ -2,9 +2,12 @@
 module React from 'react/addons';
 module ReactForms from 'react-forms';
 
-import { EmailField, IconField, SelectField } from 'component/FormField';
-import { i18n }                  from 'service/i18n';
-import { isMobileBrowser }       from 'utility/devices';
+import { EmailField,
+         CheckboxField,
+         IconField,
+         SelectField }     from 'component/FormField';
+import { i18n }            from 'service/i18n';
+import { isMobileBrowser } from 'utility/devices';
 
 var { Schema } = ReactForms.schema,
     classSet = React.addons.classSet,
@@ -14,23 +17,7 @@ var { Schema } = ReactForms.schema,
     });
 
 export var submitTicketSchema = function(customFields) {
-  var ticketFields = [];
-
-  _.forEach(customFields, function(field) {
-    switch(field.type) {
-      case 'text':
-        ticketFields.push(
-          <IconField name={field.title} placeholder={field.title} />
-        );
-        break;
-      case 'tagger':
-        ticketFields.push(
-          <SelectField name={field.title} placeholder={field.title} options={field.options} />
-        );
-      default:
-        break;
-    }
-  });
+  var ticketFields = getCustomFields(customFields);
 
   return (
   /* jshint quotmark:false */
@@ -63,3 +50,100 @@ export var submitTicketSchema = function(customFields) {
     </Schema>
   );
 };
+
+var getCustomFields = function(customFields) {
+  var ticketFields = [];
+
+  _.forEach(customFields, function(field) {
+    switch(field.type) {
+      case 'text':
+        ticketFields.push(
+          <IconField
+            name={field.title}
+            required={field.required_in_portal}
+            placeholder={field.title}
+          />
+        );
+        break;
+      case 'tagger':
+        ticketFields.push(
+          <SelectField
+            name={field.title}
+            required={field.required_in_portal}
+            placeholder={field.title}
+            options={field.options}
+          />
+        );
+        break;
+      case 'integer':
+        ticketFields.push(
+          <IconField
+            name={field.title}
+            placeholder={field.title}
+            required={field.required_in_portal}
+            validate={function(v) {return /^\d+$/.test(v); }}
+          />
+        );
+        break;
+      case 'decimal':
+        ticketFields.push(
+          <IconField
+            name={field.title}
+            required={field.required_in_portal}
+            placeholder={field.title}
+            validate={function(v) {return /^\d*\.\d+$/.test(v); }}
+          />
+        );
+        break;
+      case 'textarea':
+        ticketFields.push(
+          <IconField
+            name={field.title}
+            required={field.required_in_portal}
+            input={
+              <textarea
+                rows='2'
+                className={fieldClasses}
+                placeholder={field.title}
+              />
+            }
+          />
+        );
+        break;
+      case 'date':
+        ticketFields.push(
+          <IconField
+            name={field.title}
+            required={field.required_in_portal}
+            type='date'
+            placeholder={field.title}
+          />
+        );
+        break;
+      case 'checkbox':
+        ticketFields.push(
+          <CheckboxField
+            name={field.title}
+            required={field.required_in_portal}
+          />
+        );
+        break;
+      case 'regexp':
+        ticketFields.push(
+          <IconField
+            name={field.title}
+            placeholder={field.title}
+            required={field.required_in_portal}
+            validate={function(v) {
+              var regExp = new RegExp(field.regex_for_validation);
+              return regExp.test(v);
+            }}
+          />
+        );
+        break;
+      default:
+        break;
+    }
+  });
+  return ticketFields;
+}

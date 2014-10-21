@@ -21,27 +21,7 @@ function create(name, config) {
       },
       configDefaults = {
         position: 'right',
-        customFields: [
-          {
-            type: 'text',
-            title: 'demo'
-          },
-          {
-            type: 'tagger',
-            title: 'department',
-            options: [
-              {
-                name: 'Sales'
-              },
-              {
-                name: 'Product'
-              },
-              {
-                name: 'General'
-              }
-            ]
-          }
-        ]
+        customFields: []
       },
       posObj,
       iframeStyle,
