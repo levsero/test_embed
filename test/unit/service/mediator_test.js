@@ -148,10 +148,12 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      it('shows when a showAll call is made', function() {
+      it('shows and activates when a showAll call is made', function() {
         c.broadcast('.showAll');
 
         expect(launcherSub.show.calls.count())
+          .toEqual(1);
+        expect(launcherSub.activate.calls.count())
           .toEqual(1);
       });
 
@@ -304,10 +306,12 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      it('shows when a showAll call is made', function() {
+      it('shows and activates when a showAll call is made', function() {
         c.broadcast('.showAll');
 
         expect(launcherSub.show.calls.count())
+          .toEqual(1);
+        expect(launcherSub.activate.calls.count())
           .toEqual(1);
       });
     });
@@ -575,10 +579,12 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      it('shows when a showAll call is made', function() {
+      it('shows and activates when a showAll call is made', function() {
         c.broadcast('.showAll');
 
         expect(launcherSub.show.calls.count())
+          .toEqual(1);
+        expect(launcherSub.activate.calls.count())
           .toEqual(1);
       });
     });
@@ -612,7 +618,7 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      it('shows after showAll is called and submit ticket was not visible', function() {
+      it('shows after showAll is called', function() {
         c.broadcast('.hideAll');
 
         reset(helpCenterSub.show);
@@ -622,17 +628,6 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      it('does not show after showAll is called if submit ticket was visible', function() {
-        c.broadcast(`${launcher}.onClick`);
-        c.broadcast(`${helpCenter}.onNextClick`);
-        c.broadcast('.hideAll');
-
-        reset(helpCenterSub.show);
-        c.broadcast('.showAll');
-
-        expect(helpCenterSub.show.calls.count())
-          .toEqual(0);
-      });
     });
 
     describe('ticket submission', function() {
@@ -673,7 +668,7 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      it('shows after showAll is called and was visible before hidden', function() {
+      it('does not show after showAll is called and was visible before hidden', function() {
         c.broadcast(`${launcher}.onClick`);
         c.broadcast(`${helpCenter}.onNextClick`);
 
@@ -683,21 +678,9 @@ describe('mediator', function() {
         c.broadcast('.showAll');
 
         expect(submitTicketSub.show.calls.count())
-          .toEqual(1);
-      });
-
-      it('does not show after showAll is called if it was not visible before hidden', function() {
-        c.broadcast(`${launcher}.onClick`);
-        c.broadcast('.hideAll');
-
-        reset(submitTicketSub.show);
-        c.broadcast('.showAll');
-
-        expect(submitTicketSub.show.calls.count())
           .toEqual(0);
       });
     });
-
   });
 
   describe('Help Center, Chat, Ticket Submission', function() {
@@ -851,10 +834,12 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      it('shows when a showAll call is made', function() {
+      it('shows and activates when a showAll call is made', function() {
         c.broadcast('.showAll');
 
         expect(launcherSub.show.calls.count())
+          .toEqual(1);
+        expect(launcherSub.activate.calls.count())
           .toEqual(1);
       });
     });
@@ -928,18 +913,6 @@ describe('mediator', function() {
         expect(helpCenterSub.show.calls.count())
           .toEqual(1);
       });
-
-      it('does not show after showAll is called something else was visible', function() {
-        c.broadcast(`${launcher}.onClick`);
-        c.broadcast(`${helpCenter}.onNextClick`);
-        c.broadcast('.hideAll');
-
-        reset(helpCenterSub.show);
-        c.broadcast('.showAll');
-
-        expect(helpCenterSub.show.calls.count())
-          .toEqual(0);
-      });
     });
 
     describe('chat', function() {
@@ -980,7 +953,6 @@ describe('mediator', function() {
         expect(launcherSub.show.calls.count())
           .toEqual(1);
       });
-
 
       it('closes when chat is ended', function() {
         c.broadcast(`${chat}.onOnline`);
@@ -1076,22 +1048,11 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      it('shows after showAll is called and was visible before hidden', function() {
+      it('does not show after showAll is called and was visible before hidden', function() {
         c.broadcast(`${chat}.onOnline`);
         c.broadcast(`${launcher}.onClick`);
         c.broadcast(`${helpCenter}.onNextClick`);
 
-        c.broadcast('.hideAll');
-
-        reset(chatSub.show);
-        c.broadcast('.showAll');
-
-        expect(chatSub.show.calls.count())
-          .toEqual(1);
-      });
-
-      it('does not show after showAll is called if it was not visible before hidden', function() {
-        c.broadcast(`${launcher}.onClick`);
         c.broadcast('.hideAll');
 
         reset(chatSub.show);
@@ -1142,22 +1103,11 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      it('shows after showAll is called and was visible before hidden', function() {
+      it('does not show after showAll is called and was visible before hidden', function() {
         c.broadcast(`${chat}.onOffline`);
         c.broadcast(`${launcher}.onClick`);
         c.broadcast(`${helpCenter}.onNextClick`);
 
-        c.broadcast('.hideAll');
-
-        reset(submitTicketSub.show);
-        c.broadcast('.showAll');
-
-        expect(submitTicketSub.show.calls.count())
-          .toEqual(1);
-      });
-
-      it('does not show after showAll is called if it was not visible before hidden', function() {
-        c.broadcast(`${launcher}.onClick`);
         c.broadcast('.hideAll');
 
         reset(submitTicketSub.show);

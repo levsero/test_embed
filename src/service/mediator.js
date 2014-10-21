@@ -55,23 +55,23 @@ function initChatTicketSubmission() {
     c.broadcast(`${submitTicket}.hide`);
     c.broadcast(`${launcher}.hide`);
     c.broadcast(`${chat}.hide`);
+
+    state[`${submitTicket}.isVisible`] = false;
+    state[`${chat}.isVisible`] = false;
   });
 
   c.intercept('.showAll', function() {
-    if (state[`${submitTicket}.isVisible`]) {
-      c.broadcast(`${submitTicket}.show`);
-    } else if (state[`${chat}.isVisible`]) {
-      c.broadcast(`${chat}.show`);
-    } else if (state[`${chat}.isOnline`]) {
+    if (state[`${chat}.isOnline`]) {
       c.broadcast(`${chat}.show`);
       state.activeEmbed = chat;
-      c.broadcast(`${launcher}.activate`);
+      state[`${chat}.isVisible`] = true;
     } else {
       c.broadcast(`${submitTicket}.show`);
       state.activeEmbed = submitTicket;
-      c.broadcast(`${launcher}.activate`);
+      state[`${submitTicket}.isVisible`] = true;
     }
     c.broadcast(`${launcher}.show`);
+    c.broadcast(`${launcher}.activate`);
   });
 
   c.intercept(`${chat}.onOnline`, function() {
@@ -176,17 +176,18 @@ function initHelpCenterTicketSubmission() {
     c.broadcast(`${submitTicket}.hide`);
     c.broadcast(`${helpCenter}.hide`);
     c.broadcast(`${launcher}.hide`);
+
+    state[`${helpCenter}.isVisible`] = false;
+    state[`${submitTicket}.isVisible`] = false;
   });
 
   c.intercept('.showAll', function() {
-    if (state[`${submitTicket}.isVisible`]) {
-      c.broadcast(`${submitTicket}.show`);
-    } else {
-      c.broadcast(`${helpCenter}.show`);
-      c.broadcast(`${launcher}.activate`);
-      state.activeEmbed = helpCenter;
-    }
+    c.broadcast(`${helpCenter}.show`);
     c.broadcast(`${launcher}.show`);
+    c.broadcast(`${launcher}.activate`);
+
+    state.activeEmbed = helpCenter;
+    state[`${helpCenter}.isVisible`] = true;
   });
 
   c.intercept(`${helpCenter}.onNextClick`, function() {
@@ -259,19 +260,19 @@ function initHelpCenterChatTicketSubmission() {
     c.broadcast(`${chat}.hide`);
     c.broadcast(`${helpCenter}.hide`);
     c.broadcast(`${launcher}.hide`);
+
+    state[`${submitTicket}.isVisible`] = false;
+    state[`${chat}.isVisible`] = false;
+    state[`${helpCenter}.isVisible`] = false;
   });
 
   c.intercept('.showAll', function() {
-    if (state[`${submitTicket}.isVisible`]) {
-      c.broadcast(`${submitTicket}.show`);
-    } else if (state[`${chat}.isVisible`]) {
-      c.broadcast(`${chat}.show`);
-    } else {
-      c.broadcast(`${helpCenter}.show`);
-      state.activeEmbed = helpCenter;
-      c.broadcast(`${launcher}.activate`);
-    }
+    c.broadcast(`${helpCenter}.show`);
+    c.broadcast(`${launcher}.activate`);
     c.broadcast(`${launcher}.show`);
+
+    state.activeEmbed = helpCenter;
+    state[`${helpCenter}.isVisible`] = true;
   });
 
   c.intercept(`${chat}.onOnline`, function() {
