@@ -41,9 +41,7 @@ function init(config) {
 
     _.forEach(parseConfig(config), function(configItem, embedName) {
       try {
-        if (!isVisible) {
-          configItem.props.visible = false;
-        }
+        configItem.props.visible = isVisible;
         embedsMap[configItem.embed].create(embedName, configItem.props);
         embedsMap[configItem.embed].render(embedName);
       } catch (err) {

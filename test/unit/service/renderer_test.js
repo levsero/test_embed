@@ -184,7 +184,7 @@ describe('renderer', function() {
         .toHaveBeenCalledWith('thingLauncher', jasmine.any(Object));
 
       expect(mockSubmitTicket.create)
-        .toHaveBeenCalledWith('thing', {});
+        .toHaveBeenCalledWith('thing', {visible: true});
 
       expect(mockLauncher.render)
         .toHaveBeenCalledWith('aSubmissionForm');
