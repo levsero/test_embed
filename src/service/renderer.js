@@ -18,7 +18,7 @@ var embedsMap = {
     isVisible = true,
     renderedEmbeds;
 
-function hideAll() {
+function hide() {
   isVisible = false;
 }
 
@@ -132,5 +132,5 @@ export var renderer = {
   init: init,
   propagateFontRatio: propagateFontRatio,
   hardcodedConfigs: hardcodedConfigs,
-  hideAll: hideAll
+  hide: hide
 };
