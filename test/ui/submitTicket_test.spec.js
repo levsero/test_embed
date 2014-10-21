@@ -18,7 +18,7 @@ browser
 describe('submitTicket', function() {
   it('should show empty submit ticket form', function(done) {
     browser
-      .openLauncher('ticketSubmissionLauncher')
+      .openLauncher('launcher')
       .waitForVisible('#ticketSubmissionForm')
       .webdrivercss('submitTicket', capturingData, function(err, res) {
         expect(res.misMatchPercentage < 5)
@@ -42,7 +42,7 @@ describe('submitTicket', function() {
   it('should highlight email field red when blurred with invalid value', function(done) {
     browser
       .refresh()
-      .openLauncher('ticketSubmissionLauncher')
+      .openLauncher('launcher')
       .frame('ticketSubmissionForm')
       .click('.rf-Field input[type="email"]')
       .click('h2')
@@ -57,7 +57,7 @@ describe('submitTicket', function() {
   it('should change submit button to green when field is valid', function(done) {
     browser
       .refresh()
-      .openLauncher('ticketSubmissionLauncher')
+      .openLauncher('launcher')
       .frame('ticketSubmissionForm')
       .setValue('.rf-Field input', 'Ryan')
       .setValue('.rf-Field input[type="email"]', 'ryan@example.com')
@@ -73,7 +73,7 @@ describe('submitTicket', function() {
   it('should show success when valid form is submitted', function(done) {
     browser
       .refresh()
-      .openLauncher('ticketSubmissionLauncher')
+      .openLauncher('launcher')
       .frame('ticketSubmissionForm')
       .setValue('.rf-Field input', 'UI Regression Robot')
       .setValue('.rf-Field input[type="email"]', 'ui@regression.robot')

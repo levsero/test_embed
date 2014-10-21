@@ -18,7 +18,7 @@ browser
 describe('launcher', function() {
   it('should show default launcher button', function(done) {
     browser
-      .waitForExist('#ticketSubmissionLauncher', 5000)
+      .waitForExist('#launcher', 5000)
       .webdrivercss('inactive.launcher', capturingData, function(err, res) {
         expect(res.misMatchPercentage < 5)
           .toBeTruthy();
@@ -28,7 +28,7 @@ describe('launcher', function() {
 
   it('should change to circle with x inside when active', function(done) {
     browser
-      .clickLauncherButton('ticketSubmissionLauncher')
+      .clickLauncherButton('launcher')
       .waitForVisible('#ticketSubmissionForm')
       .webdrivercss('active.launcher', capturingData, function(err, res) {
         expect(res.misMatchPercentage < 5)
