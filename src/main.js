@@ -6,6 +6,7 @@ import { renderer }           from 'service/renderer';
 import { transport }          from 'service/transport';
 import { i18n }               from 'service/i18n';
 import { win, location }      from 'utility/globals';
+import { mediator }           from 'service/mediator';
 import { getSizingRatio,
          isMobileBrowser,
          isBlacklisted }      from 'utility/devices';
@@ -44,6 +45,9 @@ function boot() {
           callback();
         });
       },
+      identify = function(user) {
+        mediator.channel.broadcast('.identify', user);
+      },
       propagateFontRatioChange = function() {
         setTimeout(() => {
           renderer.propagateFontRatio(getSizingRatio(true));
@@ -62,7 +66,8 @@ function boot() {
   publicApi = {
     devRender: renderer.init,
     bustCache: transport.bustCache,
-    version: __EMBEDDABLE_VERSION__
+    version: __EMBEDDABLE_VERSION__,
+    identify: identify
   };
 
   if (win.zE === win.zEmbed) {

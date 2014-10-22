@@ -9,10 +9,7 @@
   <script>
     zE({locale: 'zh-CN'});
     zE(function() {
-      console.log('post render');
-    });
-    zE('ready', function() {
-      console.log('ready');
+      zE.identify({name: 'John', email: 'john@example.com'});
     });
   </script>
 </head>

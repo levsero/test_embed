@@ -116,6 +116,13 @@ function render(name) {
       showBackButton: true
     });
   });
+
+  mediator.channel.subscribe('.identify', function(user) {
+    var submitTicket = get(name).instance.getChild().refs.submitTicket,
+        submitTicketForm = submitTicket.refs.submitTicketForm;
+
+    submitTicketForm.refs.form.updateValue(user);
+  });
 }
 
 function get(name) {

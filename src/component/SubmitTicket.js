@@ -23,10 +23,14 @@ export var SubmitTicket = React.createClass({
   },
 
   reset() {
-    var submitTicketForm = this.refs.submitTicketForm;
+    var submitTicketForm = this.refs.submitTicketForm,
+        formData         = submitTicketForm.refs.form.value().value;
 
     this.setState({showNotification: false});
-    submitTicketForm.refs.form.updateValue([null]);
+    submitTicketForm.refs.form.updateValue({
+      name: formData.name,
+      email: formData.email
+    });
     submitTicketForm.setState(submitTicketForm.getInitialState());
   },
 
