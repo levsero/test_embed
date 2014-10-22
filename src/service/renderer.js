@@ -18,7 +18,7 @@ var embedsMap = {
     renderedEmbeds;
 
 function parseConfig(config) {
-  var rendererConfig = _.clone(config.embeds || config, true);
+  var rendererConfig = _.clone(config.embeds, true);
 
   _.forEach(rendererConfig, function(configItem) {
     configItem.props = _.reduce(configItem.props, function(result, value, key) {
@@ -49,9 +49,9 @@ function init(config) {
       }
     });
 
-    renderedEmbeds = config.ruleset || config.embeds || config;
+    renderedEmbeds = config.embeds;
 
-    initMediator(renderedEmbeds);
+    initMediator(config);
 
     initialised = true;
   }
@@ -59,35 +59,16 @@ function init(config) {
 
 function initMediator(config) {
   /* jshint laxbreak: true */
-  var embeds = (!_.isObject(config))
-             ? config
-             : _.chain(config)
-               .keys()
-               .sortBy()
-               .value()
-               .join('_');
 
-  switch(embeds) {
-    case 'hcLauncher_helpCenterForm_ticketSubmissionForm_zopimChat':
-      mediator.initHelpCenterChatTicketSubmission('hcLauncher');
-      break;
+  switch(config.ruleset) {
     case 'HC_C_TS':
       mediator.initHelpCenterChatTicketSubmission();
-      break;
-    case 'hcLauncher_helpCenterForm_ticketSubmissionForm':
-      mediator.initHelpCenterTicketSubmission('hcLauncher');
       break;
     case 'HC_TS':
       mediator.initHelpCenterTicketSubmission();
       break;
-    case 'chatLauncher_ticketSubmissionForm_zopimChat':
-      mediator.initChatTicketSubmission('chatLauncher');
-      break;
     case 'C_TS':
       mediator.initChatTicketSubmission();
-      break;
-    case 'ticketSubmissionForm_ticketSubmissionLauncher':
-      mediator.initTicketSubmission('ticketSubmissionLauncher');
       break;
     case 'TS':
       mediator.initTicketSubmission();
@@ -101,7 +82,6 @@ function initMediator(config) {
           message: 'Could not find a suitable mediator ruleset to initialise.'
         },
         params: {
-          embeds: embeds,
           config: config
         }
       });

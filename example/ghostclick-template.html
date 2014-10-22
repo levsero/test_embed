@@ -36,16 +36,19 @@
     <script>
       zE('ready', function(zE) {
         zE.devRender({
-          "ticketSubmissionForm": {
-            "embed": "submitTicket",
-            "props": {}
-          },
-          "ticketSubmissionLauncher": {
-            "embed": "launcher",
-            "props": {
-              "position": "right"
+          embeds: {
+            "ticketSubmissionForm": {
+              "embed": "submitTicket",
+              "props": {}
+            },
+            "launcher": {
+              "embed": "launcher",
+              "props": {
+                "position": "right"
+              }
             }
-          }
+          },
+          ruleset: 'TS'
         });
       });
     </script>

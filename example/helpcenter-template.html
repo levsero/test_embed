@@ -32,20 +32,23 @@
     <script>
       zE('ready', function(zE) {
         zE.devRender({
-          "helpCenterForm": {
-            "embed": "helpCenter",
-            "props": {}
-          },
-          "hcLauncher": {
-            "embed": "launcher",
-            "props": {
-              "position": "right"
+          embeds: {
+            "helpCenterForm": {
+              "embed": "helpCenter",
+              "props": {}
+            },
+            "hcLauncher": {
+              "embed": "launcher",
+              "props": {
+                "position": "right"
+              }
+            },
+            "ticketSubmissionForm": {
+              "embed": "submitTicket",
+              "props": {}
             }
           },
-          "ticketSubmissionForm": {
-            "embed": "submitTicket",
-            "props": {}
-          }
+          ruleset: "HC_TS"
         });
       });
     </script>

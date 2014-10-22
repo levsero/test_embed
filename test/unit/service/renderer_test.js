@@ -79,28 +79,31 @@ describe('renderer', function() {
   describe('#init', function() {
     it('should call and render correct embeds from config', function() {
       var configJSON = {
-            'helpCenterForm': {
-              'embed': 'helpCenter',
-              'props': {}
-            },
-            'hcLauncher': {
-              'embed': 'launcher',
-              'props': {
-                'position': 'right'
+            embeds: {
+              'helpCenterForm': {
+                'embed': 'helpCenter',
+                'props': {}
+              },
+              'launcher': {
+                'embed': 'launcher',
+                'props': {
+                  'position': 'right'
+                }
+              },
+              'ticketSubmissionForm': {
+                'embed': 'submitTicket'
+              },
+              'zopimChat': {
+                'embed': 'chat',
+                'props': {
+                  'zopimId': '2EkTn0An31opxOLXuGgRCy5nPnSNmpe6',
+                  'position': 'br'
+                }
               }
             },
-            'ticketSubmissionForm': {
-              'embed': 'submitTicket'
-            },
-            'zopimChat': {
-              'embed': 'chat',
-              'props': {
-                'zopimId': '2EkTn0An31opxOLXuGgRCy5nPnSNmpe6',
-                'position': 'br'
-              }
-            }
+            ruleset: 'HC_C_TS'
           },
-          launcherProps = configJSON.hcLauncher.props,
+          launcherProps = configJSON.embeds.launcher.props,
           mockMediator = mockRegistry['service/mediator'].mediator,
           mockLauncherRecentCall;
 
@@ -137,27 +140,29 @@ describe('renderer', function() {
       var logging = mockRegistry['service/logging'].logging;
 
       renderer.init({
-        'foobar': {
-          'props': {}
-        },
-        'aSubmissionForm': {
-          'embed': 'launcher',
-          'props': {
-            'onMouserMove': {
-              'name': 'foobar',
-              'method': 'show'
+        embeds: {
+          'foobar': {
+            'props': {}
+          },
+          'aSubmissionForm': {
+            'embed': 'launcher',
+            'props': {
+              'onMouserMove': {
+                'name': 'foobar',
+                'method': 'show'
+              }
             }
-          }
-        },
-        'thing': {
-          'embed': 'submitTicket'
-        },
-        'thingLauncher': {
-          'embed': 'launcher',
-          'props': {
-            'onDoubleClick': {
-              'name': 'thing',
-              'method': 'show'
+          },
+          'thing': {
+            'embed': 'submitTicket'
+          },
+          'thingLauncher': {
+            'embed': 'launcher',
+            'props': {
+              'onDoubleClick': {
+                'name': 'thing',
+                'method': 'show'
+              }
             }
           }
         }
@@ -198,30 +203,34 @@ describe('renderer', function() {
 
   it('should not call renderer.init more than once', function() {
       renderer.init({
-        'thing': {
-          'embed': 'submitTicket'
-        },
-        'thingLauncher': {
-          'embed': 'launcher',
-          'props': {
-            'onDoubleClick': {
-              'name': 'thing',
-              'method': 'show'
+        embeds: {
+          'thing': {
+            'embed': 'submitTicket'
+          },
+          'thingLauncher': {
+            'embed': 'launcher',
+            'props': {
+              'onDoubleClick': {
+                'name': 'thing',
+                'method': 'show'
+              }
             }
           }
         }
       });
 
       renderer.init({
-        'thing': {
-          'embed': 'submitTicket'
-        },
-        'thingLauncher': {
-          'embed': 'launcher',
-          'props': {
-            'onDoubleClick': {
-              'name': 'thing',
-              'method': 'show'
+        embeds: {
+          'thing': {
+            'embed': 'submitTicket'
+          },
+          'thingLauncher': {
+            'embed': 'launcher',
+            'props': {
+              'onDoubleClick': {
+                'name': 'thing',
+                'method': 'show'
+              }
             }
           }
         }
@@ -237,15 +246,17 @@ describe('renderer', function() {
   describe('#propagateFontRatio', function() {
     it('should loop over all rendered embeds and update base font-size based on ratio', function() {
       renderer.init({
-        'thing': {
-          'embed': 'submitTicket'
-        },
-        'thingLauncher': {
-          'embed': 'launcher',
-          'props': {
-            'onDoubleClick': {
-              'name': 'thing',
-              'method': 'show'
+        embeds: {
+          'thing': {
+            'embed': 'submitTicket'
+          },
+          'thingLauncher': {
+            'embed': 'launcher',
+            'props': {
+              'onDoubleClick': {
+                'name': 'thing',
+                'method': 'show'
+              }
             }
           }
         }
@@ -268,15 +279,17 @@ describe('renderer', function() {
 
     it('should trigger propagateFontRatio call on orientationchange', function() {
       renderer.init({
-        'thing': {
-          'embed': 'submitTicket'
-        },
-        'thingLauncher': {
-          'embed': 'launcher',
-          'props': {
-            'onDoubleClick': {
-              'name': 'thing',
-              'method': 'show'
+        embeds: {
+          'thing': {
+            'embed': 'submitTicket'
+          },
+          'thingLauncher': {
+            'embed': 'launcher',
+            'props': {
+              'onDoubleClick': {
+                'name': 'thing',
+                'method': 'show'
+              }
             }
           }
         }
@@ -297,15 +310,17 @@ describe('renderer', function() {
 
     it('should trigger propagateFontRatio call on pinch zoom gesture', function() {
       renderer.init({
-        'thing': {
-          'embed': 'submitTicket'
-        },
-        'thingLauncher': {
-          'embed': 'launcher',
-          'props': {
-            'onDoubleClick': {
-              'name': 'thing',
-              'method': 'show'
+        embeds: {
+          'thing': {
+            'embed': 'submitTicket'
+          },
+          'thingLauncher': {
+            'embed': 'launcher',
+            'props': {
+              'onDoubleClick': {
+                'name': 'thing',
+                'method': 'show'
+              }
             }
           }
         }

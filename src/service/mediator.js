@@ -4,9 +4,9 @@ module airwaves from 'airwaves';
 
 var c = new airwaves.Channel();
 
-function initTicketSubmission(launcherName = 'launcher') {
+function initTicketSubmission() {
   var submitTicket = 'ticketSubmissionForm',
-      launcher = launcherName,
+      launcher = 'launcher',
       state = {};
 
   state[`${submitTicket}.isVisible`] = false;
@@ -27,9 +27,9 @@ function initTicketSubmission(launcherName = 'launcher') {
     });
 }
 
-function initChatTicketSubmission(launcherName = 'launcher') {
+function initChatTicketSubmission() {
   var submitTicket = 'ticketSubmissionForm',
-      launcher = launcherName,
+      launcher = 'launcher',
       chat = 'zopimChat',
       state = {};
 
@@ -125,9 +125,9 @@ function initChatTicketSubmission(launcherName = 'launcher') {
   });
 }
 
-function initHelpCenterTicketSubmission(launcherName = 'launcher') {
+function initHelpCenterTicketSubmission() {
   var submitTicket = 'ticketSubmissionForm',
-      launcher = launcherName,
+      launcher = 'launcher',
       helpCenter = 'helpCenterForm',
       state = {};
 
@@ -185,9 +185,9 @@ function initHelpCenterTicketSubmission(launcherName = 'launcher') {
   });
 }
 
-function initHelpCenterChatTicketSubmission(launcherName = 'launcher') {
+function initHelpCenterChatTicketSubmission() {
   var submitTicket = 'ticketSubmissionForm',
-      launcher = launcherName,
+      launcher = 'launcher',
       chat = 'zopimChat',
       helpCenter = 'helpCenterForm',
       state = {};

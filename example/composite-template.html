@@ -32,26 +32,29 @@
     <script>
       zE('ready', function(zE) {
         zE.devRender({
-          "helpCenterForm": {
-            "embed": "helpCenter",
-            "props": {}
-          },
-          "hcLauncher": {
-            "embed": "launcher",
-            "props": {
-              "position": "right"
+          embeds: {
+            "helpCenterForm": {
+              "embed": "helpCenter",
+              "props": {}
+            },
+            "launcher": {
+              "embed": "launcher",
+              "props": {
+                "position": "right"
+              }
+            },
+            "zopimChat": {
+              "embed": "chat",
+              "props": {
+                "zopimId": "2EkTn0An31opxOLXuGgRCy5nPnSNmpe6"
+              }
+            },
+            "ticketSubmissionForm": {
+              "embed": "submitTicket",
+              "props": {}
             }
           },
-          "zopimChat": {
-            "embed": "chat",
-            "props": {
-              "zopimId": "2EkTn0An31opxOLXuGgRCy5nPnSNmpe6"
-            }
-          },
-          "ticketSubmissionForm": {
-            "embed": "submitTicket",
-            "props": {}
-          }
+          ruleset: "HC_C_TS"
         });
       });
     </script>
