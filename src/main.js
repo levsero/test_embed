@@ -30,17 +30,19 @@ function boot() {
       ],
       handleQueue = function(queue) {
         _.forEach(queue, function(item) {
-          if (_.isObject(item)) {
+          if (_.isFunction(item[0])) {
+            postRenderQueue.push(item[0]);
+
+          } else if (_.isObject(item[0])) {
             if (item[0].locale) {
               i18n.setLocale(item[0].locale);
             }
             if (item[0].hide) {
               renderer.hide();
             }
-          } else if (_.isFunction(item[0])) {
-            postRenderQueue.push(item[0]);
+
           } else if (item[0] === 'ready' && _.isFunction(item[1])) {
-            //to make it back-compatible so we don't break hercules
+            //to make it back-compatible so we don't break inbox
             postRenderQueue.push(item[1]);
           }
         });
