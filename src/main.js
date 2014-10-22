@@ -11,7 +11,6 @@ import { getSizingRatio,
          isMobileBrowser,
          isBlacklisted }      from 'utility/devices';
 import { clickBusterHandler}  from 'utility/utils';
-import { mediator }           from 'service/mediator';
 
 require('imports?_=lodash!lodash');
 
@@ -58,6 +57,12 @@ function boot() {
         setTimeout(() => {
           renderer.propagateFontRatio(getSizingRatio(true));
         }, 0);
+      },
+      activate = function() {
+        mediator.channel.broadcast('.activate');
+      },
+      hide = function() {
+        mediator.channel.broadcast('.hide');
       };
 
   React.initializeTouchEvents(true);
@@ -77,14 +82,6 @@ function boot() {
     activate: activate,
     hide: hide
   };
-
-  function activate() {
-    mediator.channel.broadcast('.activate');
-  }
-
-  function hide() {
-    mediator.channel.broadcast('.hide');
-  }
 
   if (win.zE === win.zEmbed) {
     win.zE = win.zEmbed = function(callback) {

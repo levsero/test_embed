@@ -11,7 +11,7 @@ Use 'zE.identify' to pass user name and email to the widget, then the widget can
     zE.identify({name: 'John Citizen', email: 'john@example.com'});
   });
 </script>
-
+```
 
 ### zE.hide
 
@@ -26,7 +26,6 @@ Use 'zE.identify' to pass user name and email to the widget, then the widget can
 ```html
   <button onclick="zE.hide();">Hide Zendesk Widget</button>
 ```
-
 
 ### zE.activate
 
