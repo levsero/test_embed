@@ -74,12 +74,12 @@ function boot() {
     bustCache: transport.bustCache,
     version: __EMBEDDABLE_VERSION__,
     identify: identify,
-    show: show,
+    activate: activate,
     hide: hide
   };
 
-  function show() {
-    mediator.channel.broadcast('.show');
+  function activate() {
+    mediator.channel.broadcast('.activate');
   }
 
   function hide() {

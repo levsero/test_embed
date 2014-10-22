@@ -19,21 +19,19 @@ Use 'zE.identify' to pass user name and email to the widget, then the widget can
 
 **Before Page Load**
 ```javascript
-  <script>
-    zE({hide: true});
-  </script>
+  zE({hide: true});
 ```
 
 **After Page Load**
-```javascript
+```html
   <button onclick="zE.hide();">Hide Zendesk Widget</button>
 ```
 
 
-### zE.show
+### zE.activate
 
-‘zE.show’ will show the widget with its first page open.
+‘zE.activate’ will activate and show the widget with its first page open.
 
-```javascript
-  <button onclick="zE.show();">Show Zendesk Widget</button>
+```html
+  <button onclick="zE.activate();">Activate Zendesk Widget</button>
 ```

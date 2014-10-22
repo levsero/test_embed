@@ -148,8 +148,8 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      it('shows and activates when a show call is made', function() {
-        c.broadcast('.show');
+      it('shows and activates when a activate call is made', function() {
+        c.broadcast('.activate');
 
         expect(launcherSub.show.calls.count())
           .toEqual(1);
@@ -183,11 +183,11 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      it('shows after show is called', function() {
+      it('shows after activate is called', function() {
         c.broadcast('.hide');
 
         reset(submitTicketSub.show);
-        c.broadcast('.show');
+        c.broadcast('.activate');
 
         expect(submitTicketSub.show.calls.count())
           .toEqual(1);
@@ -306,8 +306,8 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      it('shows and activates when a show call is made', function() {
-        c.broadcast('.show');
+      it('shows and activates when a activate call is made', function() {
+        c.broadcast('.activate');
 
         expect(launcherSub.show.calls.count())
           .toEqual(1);
@@ -340,14 +340,14 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      it('shows after show is called and chat is offline', function() {
+      it('shows after activate is called and chat is offline', function() {
         c.broadcast(`${chat}.onOffline`);
         c.broadcast(`${launcher}.onClick`);
 
         c.broadcast('.hide');
 
         reset(submitTicketSub.show);
-        c.broadcast('.show');
+        c.broadcast('.activate');
 
         expect(submitTicketSub.show.calls.count())
           .toEqual(1);
@@ -495,13 +495,13 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      it('shows after show is called and chat is online', function() {
+      it('shows after activate is called and chat is online', function() {
         c.broadcast(`${chat}.onOnline`);
 
         c.broadcast('.hide');
 
         reset(chatSub.show);
-        c.broadcast('.show');
+        c.broadcast('.activate');
 
         expect(chatSub.show.calls.count())
           .toEqual(1);
@@ -579,8 +579,8 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      it('shows and activates when a show call is made', function() {
-        c.broadcast('.show');
+      it('shows and activates when a activate call is made', function() {
+        c.broadcast('.activate');
 
         expect(launcherSub.show.calls.count())
           .toEqual(1);
@@ -618,11 +618,11 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      it('shows after show is called', function() {
+      it('shows after activate is called', function() {
         c.broadcast('.hide');
 
         reset(helpCenterSub.show);
-        c.broadcast('.show');
+        c.broadcast('.activate');
 
         expect(helpCenterSub.show.calls.count())
           .toEqual(1);
@@ -668,14 +668,14 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      it('does not show after show is called and was visible before hidden', function() {
+      it('does not show after activate is called and was visible before hidden', function() {
         c.broadcast(`${launcher}.onClick`);
         c.broadcast(`${helpCenter}.onNextClick`);
 
         c.broadcast('.hide');
 
         reset(submitTicketSub.show);
-        c.broadcast('.show');
+        c.broadcast('.activate');
 
         expect(submitTicketSub.show.calls.count())
           .toEqual(0);
@@ -834,8 +834,8 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      it('shows and activates when a show call is made', function() {
-        c.broadcast('.show');
+      it('shows and activates when a activate call is made', function() {
+        c.broadcast('.activate');
 
         expect(launcherSub.show.calls.count())
           .toEqual(1);
@@ -904,11 +904,11 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      it('shows after show is called and nothing else was visible before hidden', function() {
+      it('shows after activate is called', function() {
         c.broadcast('.hide');
 
         reset(helpCenterSub.show);
-        c.broadcast('.show');
+        c.broadcast('.activate');
 
         expect(helpCenterSub.show.calls.count())
           .toEqual(1);
@@ -1048,7 +1048,7 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      it('does not show after show is called and was visible before hidden', function() {
+      it('does not show after activate is called and was visible before hidden', function() {
         c.broadcast(`${chat}.onOnline`);
         c.broadcast(`${launcher}.onClick`);
         c.broadcast(`${helpCenter}.onNextClick`);
@@ -1056,7 +1056,7 @@ describe('mediator', function() {
         c.broadcast('.hide');
 
         reset(chatSub.show);
-        c.broadcast('.show');
+        c.broadcast('.activate');
 
         expect(chatSub.show.calls.count())
           .toEqual(0);
@@ -1103,7 +1103,7 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      it('does not show after show is called and was visible before hidden', function() {
+      it('does not show after activate is called and was visible before hidden', function() {
         c.broadcast(`${chat}.onOffline`);
         c.broadcast(`${launcher}.onClick`);
         c.broadcast(`${helpCenter}.onNextClick`);
@@ -1111,7 +1111,7 @@ describe('mediator', function() {
         c.broadcast('.hide');
 
         reset(submitTicketSub.show);
-        c.broadcast('.show');
+        c.broadcast('.activate');
 
         expect(submitTicketSub.show.calls.count())
           .toEqual(0);
