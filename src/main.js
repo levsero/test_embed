@@ -45,6 +45,9 @@ function boot() {
           callback();
         });
       },
+      identify = function(user) {
+        mediator.channel.broadcast('.identify', user);
+      },
       propagateFontRatioChange = function() {
         setTimeout(() => {
           renderer.propagateFontRatio(getSizingRatio(true));
@@ -106,10 +109,6 @@ function boot() {
         }
       });
     }
-  }
-
-  function identify(user) {
-    mediator.channel.broadcast('.identify', user);
   }
 
   if (isMobileBrowser()) {
