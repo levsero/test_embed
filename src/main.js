@@ -17,18 +17,39 @@ require('imports?_=lodash!lodash');
 function boot() {
   var publicApi,
       isPinching,
-      rendererPayload,
       host = location.host,
       path = location.pathname,
       postRenderQueue = [],
       chatPages = [
-      '/zopim',
-      '/product/pricing',
-      '/product/tour',
-      '/register',
-      '/plus',
-      '/enterprise'
-      ];
+        '/zopim',
+        '/product/pricing',
+        '/product/tour',
+        '/register',
+        '/plus',
+        '/enterprise'
+      ],
+      handleQueue = function(queue) {
+        _.forEach(queue, function(item) {
+          if (item[0].locale) {
+            i18n.setLocale(item[0].locale);
+          } else if (_.isFunction(item[0])) {
+            postRenderQueue.push(item[0]);
+          } else if (item[0] === 'ready' && _.isFunction(item[1])) {
+            //to make it back-compatible so we don't break hercules
+            postRenderQueue.push(item[1]);
+          }
+        });
+      },
+      handlePostRenderQueue = function(postRenderQueue) {
+        _.forEach(postRenderQueue, function(callback) {
+          callback();
+        });
+      },
+      propagateFontRatioChange = function() {
+        setTimeout(() => {
+          renderer.propagateFontRatio(getSizingRatio(true));
+        }, 0);
+      };
 
   React.initializeTouchEvents(true);
 
@@ -61,61 +82,34 @@ function boot() {
   handleQueue(document.zEQueue, postRenderQueue);
 
   if (!isBlacklisted()) {
-    rendererPayload = {
-      method: 'get',
-      path: '/embeddable/config',
-      callbacks: {
-        done(res) {
-          renderer.init(res.body);
-          handlePostRenderQueue(postRenderQueue);
-        },
-        fail(error) {
-          Airbrake.push({
-            error: error,
-            context: {
-              account: document.zendeskHost
-            }
-          });
-        }
-      }
-    };
-
     //The config for zendesk.com
     if (host === 'www.zendesk.com' && _.contains(chatPages, path)) {
       renderer.init(renderer.hardcodedConfigs.zendeskWithChat);
       handlePostRenderQueue(postRenderQueue);
     } else {
-      transport.get(rendererPayload);
+      transport.get({
+        method: 'get',
+        path: '/embeddable/config',
+        callbacks: {
+          done(res) {
+            renderer.init(res.body);
+            handlePostRenderQueue(postRenderQueue);
+          },
+          fail(error) {
+            logging.error({
+              error: error,
+              context: {
+                account: document.zendeskHost
+              }
+            });
+          }
+        }
+      });
     }
   }
 
   function identify(user) {
     mediator.channel.broadcast('.identify', user);
-  }
-
-  function propagateFontRatioChange() {
-    setTimeout(() => {
-      renderer.propagateFontRatio(getSizingRatio(true));
-    }, 0);
-  }
-
-  function handlePostRenderQueue(postRenderQueue) {
-    _.forEach(postRenderQueue, function(callback) {
-      callback(win.zEmbed);
-    });
-  }
-
-  function handleQueue(queue, postRenderQueue) {
-    _.forEach(queue, function(item) {
-      if (item[0].locale) {
-        i18n.setLocale(item[0].locale);
-      } else if (_.isFunction(item[0])) {
-        postRenderQueue.push(item[0]);
-      } else if (item[0] === 'ready' && _.isFunction(item[1])) {
-        //to make it back-compatible so we don't break hercules
-        postRenderQueue.push(item[1]);
-      }
-    });
   }
 
   if (isMobileBrowser()) {
@@ -138,14 +132,13 @@ function boot() {
 
     win.addEventListener('click', clickBusterHandler, true);
   }
-
 }
 
 if (!_.isUndefined(document.zendeskHost)) {
   try {
     boot();
   } catch (err) {
-    Airbrake.push({
+    logging.error({
       error: err
     });
   }

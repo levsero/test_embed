@@ -64,6 +64,7 @@ function create(name, config) {
     {
       style: iframeStyle,
       css: launcherCSS,
+      name: name,
       fullscreenable: false,
       extend: {
         onClickHandler: function(e) {

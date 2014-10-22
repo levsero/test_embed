@@ -73,6 +73,7 @@ function create(name, config) {
     {
       style: iframeStyle,
       css: helpCenterCSS,
+      name: name,
       fullscreenable: true,
       onHide() {
         setScaleLock(false);

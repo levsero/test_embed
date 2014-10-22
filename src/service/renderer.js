@@ -4,6 +4,7 @@ import { helpCenter }   from 'embed/helpCenter/helpCenter';
 import { chat }         from 'embed/chat/chat';
 import { i18n }         from 'service/i18n';
 import { mediator }     from 'service/mediator';
+import { logging }      from 'service/logging';
 
 require('imports?_=lodash!lodash');
 
@@ -38,7 +39,7 @@ function init(config) {
         embedsMap[configItem.embed].create(embedName, configItem.props);
         embedsMap[configItem.embed].render(embedName);
       } catch (err) {
-        Airbrake.push({
+        logging.error({
           error: err,
           context: {
             embedName: embedName,
@@ -48,7 +49,7 @@ function init(config) {
       }
     });
 
-    renderedEmbeds = config.embeds || config;
+    renderedEmbeds = config.ruleset || config.embeds || config;
 
     initMediator(renderedEmbeds);
 
@@ -57,30 +58,45 @@ function init(config) {
 }
 
 function initMediator(config) {
-  var embeds = _.chain(config)
-                .keys()
-                .sortBy()
-                .value()
-                .join('_');
+  /* jshint laxbreak: true */
+  var embeds = (!_.isObject(config))
+             ? config
+             : _.chain(config)
+               .keys()
+               .sortBy()
+               .value()
+               .join('_');
 
   switch(embeds) {
     case 'hcLauncher_helpCenterForm_ticketSubmissionForm_zopimChat':
+      mediator.initHelpCenterChatTicketSubmission('hcLauncher');
+      break;
+    case 'HC_C_TS':
       mediator.initHelpCenterChatTicketSubmission();
       break;
     case 'hcLauncher_helpCenterForm_ticketSubmissionForm':
+      mediator.initHelpCenterTicketSubmission('hcLauncher');
+      break;
+    case 'HC_TS':
       mediator.initHelpCenterTicketSubmission();
       break;
     case 'chatLauncher_ticketSubmissionForm_zopimChat':
+      mediator.initChatTicketSubmission('chatLauncher');
+      break;
+    case 'C_TS':
       mediator.initChatTicketSubmission();
       break;
     case 'ticketSubmissionForm_ticketSubmissionLauncher':
+      mediator.initTicketSubmission('ticketSubmissionLauncher');
+      break;
+    case 'TS':
       mediator.initTicketSubmission();
       break;
     case '':
       // blank render list
       break;
     default:
-      Airbrake.push({
+      logging.error({
         error: {
           message: 'Could not find a suitable mediator ruleset to initialise.'
         },
@@ -108,51 +124,18 @@ var hardcodedConfigs = {
     'zopimChat': {
       'embed': 'chat',
       'props': {
-        'zopimId': '2ItCA9Tu3W5bksDB4EJzPSCz4kIymONo',
-        'onShow': {
-          name: 'chatLauncher',
-          method: 'update'
-        },
-        'onHide': {
-          name: 'chatLauncher',
-          method: 'update'
-        },
-        'setIcon': {
-          name: 'chatLauncher',
-          method: 'setIcon'
-        },
-        'setLabel': {
-          name: 'chatLauncher',
-          method: 'setLabel'
-        },
-        'updateForm': {
-          name: 'ticketSubmissionForm',
-          method: 'update'
-        }
+        'zopimId': '2ItCA9Tu3W5bksDB4EJzPSCz4kIymONo'
       }
     },
     'chatLauncher': {
       'embed': 'launcher',
       'props': {
-        'position': 'right',
-        'onClick': {
-          name: 'zopimChat',
-          method: 'update'
-        }
+        'position': 'right'
       }
     },
     'ticketSubmissionForm': {
       'embed': 'submitTicket',
-      'props': {
-        'onShow': {
-          name: 'chatLauncher',
-          method: 'update'
-        },
-        'onHide': {
-          name: 'chatLauncher',
-          method: 'update'
-        }
-      }
+      'props': {}
     }
   }
 };

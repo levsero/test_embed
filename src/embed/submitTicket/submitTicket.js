@@ -68,6 +68,7 @@ function create(name, config) {
       onShow() {
         setScaleLock(true);
       },
+      name: name,
       onHide() {
         setScaleLock(false);
       },

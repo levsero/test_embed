@@ -45,6 +45,7 @@ gulp.task('build:prod', ['build:version:generate'], function(callback) {
   config.plugins = [
     new webpack.DefinePlugin({
       __EMBEDDABLE_VERSION__: JSON.stringify(version),
+      __DEV__: JSON.stringify(false),
       'process.env': {
         'NODE_ENV': JSON.stringify('production')
       }
@@ -68,7 +69,8 @@ gulp.task('build:debug', ['build:version:generate'], function(callback) {
 
   config.plugins = [
     new webpack.DefinePlugin({
-      __EMBEDDABLE_VERSION__: JSON.stringify(version)
+      __EMBEDDABLE_VERSION__: JSON.stringify(version),
+      __DEV__: JSON.stringify(true)
     })
   ];
 
