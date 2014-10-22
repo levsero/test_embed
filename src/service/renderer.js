@@ -15,7 +15,12 @@ var embedsMap = {
       'chat'        : chat
     },
     initialised = false,
+    isVisible = true,
     renderedEmbeds;
+
+function hide() {
+  isVisible = false;
+}
 
 function parseConfig(config) {
   var rendererConfig = _.clone(config.embeds, true);
@@ -36,6 +41,7 @@ function init(config) {
 
     _.forEach(parseConfig(config), function(configItem, embedName) {
       try {
+        configItem.props.visible = isVisible;
         embedsMap[configItem.embed].create(embedName, configItem.props);
         embedsMap[configItem.embed].render(embedName);
       } catch (err) {
@@ -123,5 +129,6 @@ var hardcodedConfigs = {
 export var renderer = {
   init: init,
   propagateFontRatio: propagateFontRatio,
-  hardcodedConfigs: hardcodedConfigs
+  hardcodedConfigs: hardcodedConfigs,
+  hide: hide
 };

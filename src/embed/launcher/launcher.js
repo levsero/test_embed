@@ -19,7 +19,8 @@ function create(name, config) {
         onClick: function() {},
         position: 'right',
         label: i18n.t('embeddable_framework.launcher.label.help'),
-        icon: 'Icon--help'
+        icon: 'Icon--help',
+        visible: true
       },
       base = {
         width: '80px',
@@ -76,7 +77,7 @@ function create(name, config) {
     }));
 
   launchers[name] = {
-    component: <Embed />,
+    component: <Embed visible={config.visible} />,
     config: config
   };
 }
@@ -111,6 +112,14 @@ function render(name) {
 
   mediator.channel.subscribe(name + '.deactivate', function() {
     getChildRefs(name).launcher.setActive(false);
+  });
+
+  mediator.channel.subscribe(name + '.hide', function() {
+    get(name).instance.hide();
+  });
+
+  mediator.channel.subscribe(name + '.show', function() {
+    get(name).instance.show();
   });
 
   mediator.channel.subscribe(name + '.setLabelChat', function() {

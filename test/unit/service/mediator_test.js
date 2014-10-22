@@ -29,7 +29,9 @@ describe('mediator', function() {
 
     launcherSub = jasmine.createSpyObj(
       'launcher',
-      ['activate',
+      ['hide',
+       'show',
+       'activate',
        'deactivate',
        'setLabelChat',
        'setLabelHelp',
@@ -60,6 +62,8 @@ describe('mediator', function() {
     );
 
     initSubscriptionSpies = function(names) {
+      c.subscribe(`${names.launcher}.hide`,       launcherSub.hide);
+      c.subscribe(`${names.launcher}.show`,       launcherSub.show);
       c.subscribe(`${names.launcher}.activate`,   launcherSub.activate);
       c.subscribe(`${names.launcher}.deactivate`, launcherSub.deactivate);
       c.subscribe(`${names.launcher}.setLabelChat`,       launcherSub.setLabelChat);
@@ -137,6 +141,22 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
+      it('hides when a hide call is made', function() {
+        c.broadcast('.hide');
+
+        expect(launcherSub.hide.calls.count())
+          .toEqual(1);
+      });
+
+      it('shows and activates when a activate call is made', function() {
+        c.broadcast('.activate');
+
+        expect(launcherSub.show.calls.count())
+          .toEqual(1);
+        expect(launcherSub.activate.calls.count())
+          .toEqual(1);
+      });
+
     });
 
     describe('ticket submission', function() {
@@ -155,7 +175,25 @@ describe('mediator', function() {
         expect(launcherSub.deactivate.calls.count())
           .toEqual(1);
       });
+
+      it('hides when a hide call is made', function() {
+        c.broadcast('.hide');
+
+        expect(submitTicketSub.hide.calls.count())
+          .toEqual(1);
+      });
+
+      it('shows after activate is called', function() {
+        c.broadcast('.hide');
+
+        reset(submitTicketSub.show);
+        c.broadcast('.activate');
+
+        expect(submitTicketSub.show.calls.count())
+          .toEqual(1);
+      });
     });
+
   });
 
   describe('Chat, Ticket Submission', function() {
@@ -260,6 +298,22 @@ describe('mediator', function() {
         expect(submitTicketSub.hide.calls.count())
           .toEqual(0);
       });
+
+      it('hides when a hide call is made', function() {
+        c.broadcast('.hide');
+
+        expect(launcherSub.hide.calls.count())
+          .toEqual(1);
+      });
+
+      it('shows and activates when a activate call is made', function() {
+        c.broadcast('.activate');
+
+        expect(launcherSub.show.calls.count())
+          .toEqual(1);
+        expect(launcherSub.activate.calls.count())
+          .toEqual(1);
+      });
     });
 
     describe('ticket submission', function() {
@@ -276,6 +330,26 @@ describe('mediator', function() {
         expect(submitTicketSub.hide.calls.count())
           .toEqual(1);
         expect(launcherSub.deactivate.calls.count())
+          .toEqual(1);
+      });
+
+      it('hides when a hide call is made', function() {
+        c.broadcast('.hide');
+
+        expect(submitTicketSub.hide.calls.count())
+          .toEqual(1);
+      });
+
+      it('shows after activate is called and chat is offline', function() {
+        c.broadcast(`${chat}.onOffline`);
+        c.broadcast(`${launcher}.onClick`);
+
+        c.broadcast('.hide');
+
+        reset(submitTicketSub.show);
+        c.broadcast('.activate');
+
+        expect(submitTicketSub.show.calls.count())
           .toEqual(1);
       });
     });
@@ -308,6 +382,14 @@ describe('mediator', function() {
         c.broadcast(`${chat}.onShow`);
 
         expect(launcherSub.activate.calls.count())
+          .toEqual(1);
+      });
+
+      it('shows the launcher when chat pops open', function() {
+        c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${chat}.onUnreadMsgs`, 1);
+
+        expect(launcherSub.show.calls.count())
           .toEqual(1);
       });
 
@@ -391,9 +473,39 @@ describe('mediator', function() {
 
         expect(chatSub.show.calls.count())
           .toEqual(1);
-
       });
 
+      it('shows the launcher when chat opens on page load', function() {
+        c.broadcast(`${chat}.onOnline`);
+
+        reset(chatSub.show);
+        reset(launcherSub.activate);
+
+        c.broadcast(`${chat}.onIsChatting`);
+
+        expect(launcherSub.show.calls.count())
+          .toEqual(1);
+      });
+
+
+      it('hides when a hide call is made', function() {
+        c.broadcast('.hide');
+
+        expect(chatSub.hide.calls.count())
+          .toEqual(1);
+      });
+
+      it('shows after activate is called and chat is online', function() {
+        c.broadcast(`${chat}.onOnline`);
+
+        c.broadcast('.hide');
+
+        reset(chatSub.show);
+        c.broadcast('.activate');
+
+        expect(chatSub.show.calls.count())
+          .toEqual(1);
+      });
     });
 
   });
@@ -459,6 +571,22 @@ describe('mediator', function() {
         expect(submitTicketSub.hide.calls.count())
           .toEqual(1);
       });
+
+      it('hides when a hide call is made', function() {
+        c.broadcast('.hide');
+
+        expect(launcherSub.hide.calls.count())
+          .toEqual(1);
+      });
+
+      it('shows and activates when a activate call is made', function() {
+        c.broadcast('.activate');
+
+        expect(launcherSub.show.calls.count())
+          .toEqual(1);
+        expect(launcherSub.activate.calls.count())
+          .toEqual(1);
+      });
     });
 
     describe('help center', function() {
@@ -482,6 +610,24 @@ describe('mediator', function() {
         expect(submitTicketSub.showBackButton.calls.count())
           .toEqual(1);
       });
+
+      it('hides when a hide call is made', function() {
+        c.broadcast('.hide');
+
+        expect(helpCenterSub.hide.calls.count())
+          .toEqual(1);
+      });
+
+      it('shows after activate is called', function() {
+        c.broadcast('.hide');
+
+        reset(helpCenterSub.show);
+        c.broadcast('.activate');
+
+        expect(helpCenterSub.show.calls.count())
+          .toEqual(1);
+      });
+
     });
 
     describe('ticket submission', function() {
@@ -514,8 +660,27 @@ describe('mediator', function() {
         expect(helpCenterSub.show.calls.count())
           .toEqual(1);
       });
-    });
 
+      it('hides when a hide call is made', function() {
+        c.broadcast('.hide');
+
+        expect(submitTicketSub.hide.calls.count())
+          .toEqual(1);
+      });
+
+      it('does not show after activate is called and was visible before hidden', function() {
+        c.broadcast(`${launcher}.onClick`);
+        c.broadcast(`${helpCenter}.onNextClick`);
+
+        c.broadcast('.hide');
+
+        reset(submitTicketSub.show);
+        c.broadcast('.activate');
+
+        expect(submitTicketSub.show.calls.count())
+          .toEqual(0);
+      });
+    });
   });
 
   describe('Help Center, Chat, Ticket Submission', function() {
@@ -661,6 +826,22 @@ describe('mediator', function() {
         expect(submitTicketSub.hide.calls.count())
           .toEqual(1);
       });
+
+      it('hides when a hide call is made', function() {
+        c.broadcast('.hide');
+
+        expect(launcherSub.hide.calls.count())
+          .toEqual(1);
+      });
+
+      it('shows and activates when a activate call is made', function() {
+        c.broadcast('.activate');
+
+        expect(launcherSub.show.calls.count())
+          .toEqual(1);
+        expect(launcherSub.activate.calls.count())
+          .toEqual(1);
+      });
     });
 
     describe('help center', function() {
@@ -715,6 +896,23 @@ describe('mediator', function() {
         expect(helpCenterSub.setNextToSubmitTicket.calls.count())
           .toEqual(1);
       });
+
+      it('hides when a hide call is made', function() {
+        c.broadcast('.hide');
+
+        expect(helpCenterSub.hide.calls.count())
+          .toEqual(1);
+      });
+
+      it('shows after activate is called', function() {
+        c.broadcast('.hide');
+
+        reset(helpCenterSub.show);
+        c.broadcast('.activate');
+
+        expect(helpCenterSub.show.calls.count())
+          .toEqual(1);
+      });
     });
 
     describe('chat', function() {
@@ -745,6 +943,14 @@ describe('mediator', function() {
         c.broadcast(`${chat}.onShow`);
 
         expect(launcherSub.activate.calls.count())
+          .toEqual(1);
+      });
+
+      it('shows the launcher when chat pops open', function() {
+        c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${chat}.onUnreadMsgs`, 1);
+
+        expect(launcherSub.show.calls.count())
           .toEqual(1);
       });
 
@@ -821,7 +1027,39 @@ describe('mediator', function() {
 
         expect(chatSub.show.calls.count())
           .toEqual(1);
+      });
 
+      it('shows the launcher when chat opens on page load', function() {
+        c.broadcast(`${chat}.onOnline`);
+
+        reset(chatSub.show);
+        reset(launcherSub.activate);
+
+        c.broadcast(`${chat}.onIsChatting`);
+
+        expect(launcherSub.show.calls.count())
+          .toEqual(1);
+      });
+
+      it('hides when a hide call is made', function() {
+        c.broadcast('.hide');
+
+        expect(chatSub.hide.calls.count())
+          .toEqual(1);
+      });
+
+      it('does not show after activate is called and was visible before hidden', function() {
+        c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${launcher}.onClick`);
+        c.broadcast(`${helpCenter}.onNextClick`);
+
+        c.broadcast('.hide');
+
+        reset(chatSub.show);
+        c.broadcast('.activate');
+
+        expect(chatSub.show.calls.count())
+          .toEqual(0);
       });
     });
 
@@ -856,6 +1094,27 @@ describe('mediator', function() {
 
         expect(helpCenterSub.show.calls.count())
           .toEqual(1);
+      });
+
+      it('hides when a hide call is made', function() {
+        c.broadcast('.hide');
+
+        expect(submitTicketSub.hide.calls.count())
+          .toEqual(1);
+      });
+
+      it('does not show after activate is called and was visible before hidden', function() {
+        c.broadcast(`${chat}.onOffline`);
+        c.broadcast(`${launcher}.onClick`);
+        c.broadcast(`${helpCenter}.onNextClick`);
+
+        c.broadcast('.hide');
+
+        reset(submitTicketSub.show);
+        c.broadcast('.activate');
+
+        expect(submitTicketSub.show.calls.count())
+          .toEqual(0);
       });
     });
 

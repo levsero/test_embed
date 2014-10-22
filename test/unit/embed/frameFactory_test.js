@@ -18,7 +18,7 @@ describe('frameFactory', function() {
     mockRegistry = initMockRegistry({
       'react/addons': React,
       'utility/utils': {
-        clickBusterRegister: noop,
+        clickBusterRegister: noop
       },
       'utility/globals': {
         win: window

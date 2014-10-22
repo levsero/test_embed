@@ -1,5 +1,6 @@
 ## Zendesk widget API
 
+
 ### zE.identify
 
 Use 'zE.identify' to pass user name and email to the widget, then the widget can prepopulate that information for the user when the user interacts with contact form and/or chat.
@@ -10,4 +11,26 @@ Use 'zE.identify' to pass user name and email to the widget, then the widget can
     zE.identify({name: 'John Citizen', email: 'john@example.com'});
   });
 </script>
+```
+
+### zE.hide
+
+‘zE.hide’ will completely hide all parts of the widget from the page. This can be invoked before page load or after.
+
+**Before Page Load**
+```javascript
+  zE({hide: true});
+```
+
+**After Page Load**
+```html
+  <button onclick="zE.hide();">Hide Zendesk Widget</button>
+```
+
+### zE.activate
+
+‘zE.activate’ will activate and show the widget with its first page open.
+
+```html
+  <button onclick="zE.activate();">Activate Zendesk Widget</button>
 ```

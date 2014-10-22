@@ -30,8 +30,13 @@ function boot() {
       ],
       handleQueue = function(queue) {
         _.forEach(queue, function(item) {
-          if (item[0].locale) {
-            i18n.setLocale(item[0].locale);
+          if (_.isObject(item)) {
+            if (item[0].locale) {
+              i18n.setLocale(item[0].locale);
+            }
+            if (item[0].hide) {
+              renderer.hide();
+            }
           } else if (_.isFunction(item[0])) {
             postRenderQueue.push(item[0]);
           } else if (item[0] === 'ready' && _.isFunction(item[1])) {
@@ -52,6 +57,12 @@ function boot() {
         setTimeout(() => {
           renderer.propagateFontRatio(getSizingRatio(true));
         }, 0);
+      },
+      activate = function() {
+        mediator.channel.broadcast('.activate');
+      },
+      hide = function() {
+        mediator.channel.broadcast('.hide');
       };
 
   React.initializeTouchEvents(true);
@@ -67,7 +78,9 @@ function boot() {
     devRender: renderer.init,
     bustCache: transport.bustCache,
     version: __EMBEDDABLE_VERSION__,
-    identify: identify
+    identify: identify,
+    activate: activate,
+    hide: hide
   };
 
   if (win.zE === win.zEmbed) {
