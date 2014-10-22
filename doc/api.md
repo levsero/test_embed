@@ -15,7 +15,7 @@ Use 'zE.identify' to pass user name and email to the widget, then the widget can
 
 ### zE.hide
 
-‘zE.hide’ will completely hide all parts of the widget from the page. This can be invoked before page load or after
+‘zE.hide’ will completely hide all parts of the widget from the page. This can be invoked before page load or after.
 
 **Before Page Load**
 ```javascript
@@ -32,7 +32,7 @@ Use 'zE.identify' to pass user name and email to the widget, then the widget can
 
 ### zE.show
 
-‘zE.show’ will show the widget with its first page open
+‘zE.show’ will show the widget with its first page open.
 
 ```javascript
   <button onclick="zE.show();">Show Zendesk Widget</button>

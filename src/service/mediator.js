@@ -61,17 +61,19 @@ function initChatTicketSubmission() {
   });
 
   c.intercept('.show', function() {
-    if (state[`${chat}.isOnline`]) {
-      c.broadcast(`${chat}.show`);
-      state.activeEmbed = chat;
-      state[`${chat}.isVisible`] = true;
-    } else {
-      c.broadcast(`${submitTicket}.show`);
-      state.activeEmbed = submitTicket;
-      state[`${submitTicket}.isVisible`] = true;
+    if (!state[`${submitTicket}.isVisible`] && !state[`${chat}.isVisible`]) {
+      if (state[`${chat}.isOnline`]) {
+        c.broadcast(`${chat}.show`);
+        state.activeEmbed = chat;
+        state[`${chat}.isVisible`] = true;
+      } else {
+        c.broadcast(`${submitTicket}.show`);
+        state.activeEmbed = submitTicket;
+        state[`${submitTicket}.isVisible`] = true;
+      }
+      c.broadcast(`${launcher}.show`);
+      c.broadcast(`${launcher}.activate`);
     }
-    c.broadcast(`${launcher}.show`);
-    c.broadcast(`${launcher}.activate`);
   });
 
   c.intercept(`${chat}.onOnline`, function() {
@@ -182,12 +184,15 @@ function initHelpCenterTicketSubmission() {
   });
 
   c.intercept('.show', function() {
-    c.broadcast(`${helpCenter}.show`);
-    c.broadcast(`${launcher}.show`);
-    c.broadcast(`${launcher}.activate`);
+    if (!state[`${submitTicket}.isVisible`] && !state[`${helpCenter}.isVisible`]) {
 
-    state.activeEmbed = helpCenter;
-    state[`${helpCenter}.isVisible`] = true;
+      c.broadcast(`${helpCenter}.show`);
+      c.broadcast(`${launcher}.show`);
+      c.broadcast(`${launcher}.activate`);
+
+      state.activeEmbed = helpCenter;
+      state[`${helpCenter}.isVisible`] = true;
+    }
   });
 
   c.intercept(`${helpCenter}.onNextClick`, function() {
@@ -267,12 +272,17 @@ function initHelpCenterChatTicketSubmission() {
   });
 
   c.intercept('.show', function() {
-    c.broadcast(`${helpCenter}.show`);
-    c.broadcast(`${launcher}.activate`);
-    c.broadcast(`${launcher}.show`);
+    if (!state[`${submitTicket}.isVisible`] &&
+        !state[`${chat}.isVisible`] &&
+        !state[`${helpCenter}.isVisible`]) {
 
-    state.activeEmbed = helpCenter;
-    state[`${helpCenter}.isVisible`] = true;
+      c.broadcast(`${helpCenter}.show`);
+      c.broadcast(`${launcher}.activate`);
+      c.broadcast(`${launcher}.show`);
+
+      state.activeEmbed = helpCenter;
+      state[`${helpCenter}.isVisible`] = true;
+    }
   });
 
   c.intercept(`${chat}.onOnline`, function() {
