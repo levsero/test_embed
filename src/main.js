@@ -31,11 +31,17 @@ function boot() {
       ],
       handleQueue = function(queue) {
         _.forEach(queue, function(item) {
-          if (item[0].locale) {
-            // Backwards compat with zE({locale: 'zh-CN'}) calls
-            i18n.setLocale(item[0].locale);
-          } else {
-            item[0]();
+          try {
+            if (item[0].locale) {
+              // Backwards compat with zE({locale: 'zh-CN'}) calls
+              i18n.setLocale(item[0].locale);
+            } else {
+              item[0]();
+            }
+          } catch(e) {
+            if(e instanceof TypeError) {
+              logging.error({error: e});
+            }
           }
         });
       },
@@ -44,12 +50,15 @@ function boot() {
           try {
             win.zE[method[0]](...method[1]);
           } catch(e) {
-            // to make it back-compatible so we don't break inbox
+            // handle backwards compat for inbox
             if(method[0] === 'ready' && _.isFunction(method[1])) {
               method[1]();
-            }
-            else if(e instanceof TypeError) {
-              logging.error({error: e});
+            } else if(e instanceof TypeError) {
+              logging.error({
+                error: {
+                  message: `Tried calling ${method[0]} on public API`
+                }
+              });
             }
           }
         });
