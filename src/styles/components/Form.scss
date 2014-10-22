@@ -14,24 +14,27 @@ $Form-fontSize: #{13/$font-size}rem;
 }
 
 .rf-Form {
-  margin-bottom: $Form-gutter;
+  margin-bottom: #{14/$font-size}rem;
 }
-
-.Form-legend {
-  font-size: #{14/$font-size}rem;
-}
-
 
 .Form-cta {
   border-radius: #{8/$font-size}rem #{8/$font-size}rem 0 0;
-  padding: #{15/$font-size}rem #{20/$font-size}rem;
+  padding: #{25/$font-size}rem #{25/$font-size}rem #{28/$font-size}rem;
+}
+
+.Form-cta--bar {
+  border-radius: #{8/$font-size}rem #{8/$font-size}rem 0 0;
+  padding: #{20/$font-size}rem #{25/$font-size}rem;
   background: $form-cta-color;
   border-bottom: #{1/$font-size}rem solid $base-border-color;
 }
 
-.Form-cta--fullscreen {
-  background: none;
-  border-width: #{1/$font-size}rem 0 0;
+.Form-cta--barFullscreen {
+  padding-top: #{18/$font-size}rem;
+}
+
+.Form-cta--title {
+  margin-top: #{24/$font-size}rem;
 }
 
 .rf-Field {
@@ -62,6 +65,7 @@ $Form-fontSize: #{13/$font-size}rem;
 
 .rf-Field--search {
   padding: #{11/$font-size}rem $Form-spacing;
+  height: 48px;
 }
 
 .rf-Field--focused {

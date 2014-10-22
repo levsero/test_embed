@@ -2,6 +2,7 @@ var gulp = require('gulp'),
     karma = require('gulp-karma'),
     gulpJasmine = require('gulp-jasmine'),
     runSequence = require('run-sequence'),
+    shell = require('gulp-shell'),
     prefix = process.cwd(),
     testFiles = [
       prefix + '/node_modules/lodash/lodash.js',
@@ -25,7 +26,10 @@ gulp.task('test:spec', function() {
 
 gulp.task('test:unit', function() {
   return gulp.src('build/test/unit/**/*.js')
-    .pipe(gulpJasmine());
+    .pipe(gulpJasmine({
+      verbose: true,
+      includeStackTrace: true
+    }));
 });
 
 gulp.task('test', function(callback) {
@@ -44,4 +48,8 @@ gulp.task('test-spec', function(callback) {
     callback
   );
 });
+
+gulp.task('test-ui', shell.task(
+  'node_modules/.bin/jasmine-node test/ui/ --verbose'
+));
 

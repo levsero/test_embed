@@ -55,6 +55,7 @@ export var SubmitTicket = React.createClass({
             showNotification: true,
             message: i18n.t('embeddable_framework.submitTicket.notify.message.success')
           });
+          this.props.onSubmitted();
           this.props.updateFrameSize(0,0);
         },
         timeoutCallback = () => {
@@ -95,7 +96,6 @@ export var SubmitTicket = React.createClass({
         };
 
     transport.send(payload);
-    this.props.onSubmit();
   },
 
   handleBackClick() {
@@ -154,7 +154,7 @@ export var SubmitTicket = React.createClass({
         <div className={containerBarClasses} />
         <div className={notifyClasses}>
           <div className='Icon Icon--tick u-inlineBlock' />
-          <p className='u-textBold'>{this.state.message}</p>
+          <p className='u-textBold u-textSizeMed'>{this.state.message}</p>
           <p className={marketingClasses}>
             <a
               href={marketingUrl}

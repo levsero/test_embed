@@ -48,6 +48,13 @@ global.initMockRegistry = function(registry) {
   return registry;
 };
 
+global.pluckSubscribeCall = function(mediator, key) {
+  var calls = mediator.channel.subscribe.calls.allArgs();
+  return _.find(calls, function(call) {
+    return call[0] === key;
+  })[1];
+};
+
 global.dispatchEvent = function(eventName, node) {
   var event = global.document.createEvent('HTMLEvents');
 

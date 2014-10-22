@@ -45,6 +45,7 @@ gulp.task('build:prod', ['build:version:generate'], function(callback) {
   config.plugins = [
     new webpack.DefinePlugin({
       __EMBEDDABLE_VERSION__: JSON.stringify(version),
+      __DEV__: JSON.stringify(false),
       'process.env': {
         'NODE_ENV': JSON.stringify('production')
       }
@@ -68,7 +69,8 @@ gulp.task('build:debug', ['build:version:generate'], function(callback) {
 
   config.plugins = [
     new webpack.DefinePlugin({
-      __EMBEDDABLE_VERSION__: JSON.stringify(version)
+      __EMBEDDABLE_VERSION__: JSON.stringify(version),
+      __DEV__: JSON.stringify(true)
     })
   ];
 
@@ -80,11 +82,24 @@ gulp.task('build:debug', ['build:version:generate'], function(callback) {
 });
 
 gulp.task('build:test', function() {
-  var es6ModuleTranspiler = require('gulp-es6-module-transpiler');
+  var es6ModuleTranspiler = require('gulp-es6-module-transpiler'),
+      _ = require('lodash'),
+      keyToTrue = function(res, el) {
+        res[el] = true;
+        return res;
+      },
+      testGlobals = ['iit', 'ddescribe', 'xit', 'xdescribe'],
+      globals = _.extend(
+        getGlobals(),
+        _.reduce(testGlobals, keyToTrue, {})
+      );
 
   return gulp.src(['test/**/*.js'])
     .pipe(react())
     .pipe(es6ModuleTranspiler({type: 'cjs'}))
+    .pipe(es6Transpiler({
+      globals: globals
+    }))
     .pipe(gulp.dest('build/test'));
 });
 

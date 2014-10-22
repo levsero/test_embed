@@ -17,7 +17,7 @@ describe('renderer', function() {
           'get'
         ]);
 
-        mock.get.andReturn({
+        mock.get.and.returnValue({
           instance: {
             updateBaseFontSize: updateBaseFontSize,
             updateFrameSize: updateFrameSize
@@ -52,7 +52,19 @@ describe('renderer', function() {
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', ['init', 'setLocale', 't'])
       },
-      'imports?_=lodash!lodash': _
+      'service/mediator': {
+        mediator: {
+          channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe' ]),
+          initTicketSubmission: jasmine.createSpy(),
+          initChatTicketSubmission: jasmine.createSpy(),
+          initHelpCenterTicketSubmission: jasmine.createSpy(),
+          initHelpCenterChatTicketSubmission: jasmine.createSpy()
+        }
+      },
+      'imports?_=lodash!lodash': _,
+      'service/logging': {
+        logging: jasmine.createSpyObj('logging', ['init', 'error'])
+      }
     });
 
     mockery.registerAllowable(rendererPath);
@@ -69,56 +81,32 @@ describe('renderer', function() {
       var configJSON = {
             'helpCenterForm': {
               'embed': 'helpCenter',
-              'props': {
-               'onShow': {
-                  'name': 'helpCenterLauncher',
-                  'method': 'hide'
-                },
-                'onHide': {
-                  'name': 'helpCenterLauncher',
-                  'method': 'show'
-                }
-              }
+              'props': {}
             },
-            'helpCenterLauncher': {
+            'hcLauncher': {
               'embed': 'launcher',
               'props': {
-                'position': 'right',
-                'onClick': {
-                  'name': 'helpCenterForm',
-                  'method': 'show'
-                }
+                'position': 'right'
               }
             },
             'ticketSubmissionForm': {
               'embed': 'submitTicket'
             },
-            'ticketSubmissionLauncher': {
-              'embed': 'launcher',
-              'props': {
-                'position': 'right',
-                'onClick': {
-                  'name': 'ticketSubmissionForm',
-                  'method': 'show'
-                }
-              }
-            },
             'zopimChat': {
               'embed': 'chat',
               'props': {
                 'zopimId': '2EkTn0An31opxOLXuGgRCy5nPnSNmpe6',
-                'position': 'br',
-                'onShow': {
-                  name: 'ticketSubmissionLauncher',
-                  method: 'update'
-                },
+                'position': 'br'
               }
             }
           },
-          launcherProps = configJSON.ticketSubmissionLauncher.props,
-          mockLauncherRecentCall = mockLauncher.create.mostRecentCall;
+          launcherProps = configJSON.hcLauncher.props,
+          mockMediator = mockRegistry['service/mediator'].mediator,
+          mockLauncherRecentCall;
 
       renderer.init(configJSON);
+
+      mockLauncherRecentCall = mockLauncher.create.calls.mostRecent();
 
       expect(mockSubmitTicket.create)
         .toHaveBeenCalledWith('ticketSubmissionForm', jasmine.any(Object));
@@ -129,16 +117,11 @@ describe('renderer', function() {
       expect(mockChat.create)
         .toHaveBeenCalledWith('zopimChat', jasmine.any(Object));
 
-      expect(mockLauncher.create.callCount)
-        .toBe(2);
+      expect(mockLauncher.create.calls.count())
+        .toBe(1);
 
       expect(mockLauncherRecentCall.args[1].position)
         .toEqual(launcherProps.position);
-
-      // Access onClick callback and trigger it
-      mockLauncherRecentCall.args[1].onClick();
-      expect(mockSubmitTicket.show)
-        .toHaveBeenCalledWith('ticketSubmissionForm');
 
       expect(mockSubmitTicket.render)
         .toHaveBeenCalledWith('ticketSubmissionForm');
@@ -146,11 +129,13 @@ describe('renderer', function() {
       expect(mockHelpCenter.render)
         .toHaveBeenCalledWith('helpCenterForm');
 
-      expect(mockLauncher.render)
-        .toHaveBeenCalledWith('ticketSubmissionLauncher');
+      expect(mockMediator.initHelpCenterChatTicketSubmission)
+        .toHaveBeenCalled();
     });
 
     it('should handle dodgy config values', function() {
+      var logging = mockRegistry['service/logging'].logging;
+
       renderer.init({
         'foobar': {
           'props': {}
@@ -181,7 +166,7 @@ describe('renderer', function() {
       expect(renderer.init)
         .not.toThrow();
 
-      expect(Airbrake.push)
+      expect(logging.error)
         .toHaveBeenCalled();
 
       expect(mockLauncher.create)
@@ -242,10 +227,10 @@ describe('renderer', function() {
         }
       });
 
-      expect(mockLauncher.create.callCount)
+      expect(mockLauncher.create.calls.count())
         .toEqual(1);
 
-      expect(mockLauncher.render.callCount)
+      expect(mockLauncher.render.calls.count())
         .toEqual(1);
   });
 
@@ -271,13 +256,13 @@ describe('renderer', function() {
       expect(updateBaseFontSize)
         .toHaveBeenCalledWith('24px');
 
-      expect(updateBaseFontSize.callCount)
+      expect(updateBaseFontSize.calls.count())
         .toEqual(2);
 
       expect(updateFrameSize)
         .toHaveBeenCalled();
 
-      expect(updateFrameSize.callCount)
+      expect(updateFrameSize.calls.count())
         .toEqual(2);
     });
 
@@ -297,11 +282,11 @@ describe('renderer', function() {
         }
       });
 
-      jasmine.Clock.useMock();
+      jasmine.clock().install();
 
       dispatchEvent('orientationchange', window);
 
-      jasmine.Clock.tick(10);
+      jasmine.clock().tick(10);
 
       expect(updateBaseFontSize)
         .toHaveBeenCalled();
@@ -326,11 +311,11 @@ describe('renderer', function() {
         }
       });
 
-      jasmine.Clock.useMock();
+      jasmine.clock().install();
 
       dispatchEvent('touchend', window);
 
-      jasmine.Clock.tick(10);
+      jasmine.clock().tick(10);
 
       expect(updateBaseFontSize)
         .toHaveBeenCalled();

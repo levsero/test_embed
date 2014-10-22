@@ -7,10 +7,11 @@
     "zEmbed",
     "_",
     "Airbrake",
-    "before", "after", "noop", "resetDOM", "ReactTestUtils", "jsdom", "dispatchEvent",
-    "expect", "it", "describe", "xit", "xdescribe", "beforeEach", "afterEach",
+    "before", "after", "noop", "pluckSubscribeCall", "resetDOM", "ReactTestUtils", "jsdom", "dispatchEvent",
+    "expect", "it", "describe", "beforeEach", "afterEach",
     "jasmine", "spyOn", "runs", "waitsFor", "buildSrcPath", "buildTestPath",
-    "basePath", "mockery", "initMockRegistry", "__EMBEDDABLE_VERSION__"
+    "basePath", "mockery", "initMockRegistry", "__EMBEDDABLE_VERSION__", "__DEV__",
+    "webdriverio", "webdrivercss", "addCustomCommands"
   ],
 
   "bitwise":   true,

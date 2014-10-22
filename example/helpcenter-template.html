@@ -34,51 +34,17 @@
         zE.devRender({
           "helpCenterForm": {
             "embed": "helpCenter",
-            "props": {
-             "onShow": {
-                name: "hcLauncher",
-                method: "update"
-              },
-              "onHide": {
-                name: "hcLauncher",
-                method: "update"
-              },
-              "updateSubmitTicket": {
-                name: "ticketSubmissionForm",
-                method: "update"
-              },
-              "toggleSubmitTicket": {
-                name: "ticketSubmissionForm",
-                method: "toggleVisibility"
-              }
-            }
+            "props": {}
           },
           "hcLauncher": {
             "embed": "launcher",
             "props": {
-              "position": "right",
-              "onClick": {
-                name: "helpCenterForm",
-                method: "update"
-              }
+              "position": "right"
             }
           },
           "ticketSubmissionForm": {
             "embed": "submitTicket",
-            "props": {
-              "onShow": {
-                name: "hcLauncher",
-                method: "update"
-              },
-              "onHide": {
-                name: "hcLauncher",
-                method: "update"
-              },
-              "goBack": {
-                name: "helpCenterForm",
-                method: "transitionBack"
-              }
-            }
+            "props": {}
           }
         });
       });

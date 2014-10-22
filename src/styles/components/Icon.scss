@@ -2,6 +2,8 @@
  * 1. Set min-width for old browsers that don't load icons
  *    before launcher is loaded so calculate iframe size wrong.
  * 2. Set to 50% to create circle
+ * 3. Clip whitespace so that onHover effects don't trigger
+ *    above and below the icon.
  */
 @import '../_vars.scss';
 
@@ -24,7 +26,7 @@
   min-width: #{20/$font-size}rem; /* 1 */
   width: #{20/$font-size}rem;
   line-height: 1;
-  padding-right: #{8/$font-size}rem;
+  padding-right: #{12/$font-size}rem;
   font-size: #{20/$font-size}rem;
   color: $icon-color;
 
@@ -55,14 +57,17 @@
 }
 
 .Icon--mail:before {
+  padding-left: 4px;
   content: '\e602';
 }
 
 .Icon--avatar:before {
+  padding-left: 4px;
   content: '\e605';
 }
 
 .Icon--msg:before {
+  padding-left: 4px;
   content: '\e604';
 }
 
@@ -81,6 +86,8 @@
   width: #{14/$font-size}rem;
   font-size: #{14/$font-size}rem;
   padding: 0;
+  padding-left: 6px;
+  padding-right: 3px;
 
   &:before {
     content: '\e609';
@@ -119,7 +126,7 @@
 .Icon--tick {
   border: #{1/$font-size}rem solid $icon-color;
   padding: #{20/$font-size}rem;
-  margin-bottom: #{15/$font-size}rem;
+  margin-bottom: #{20/$font-size}rem;
   border-radius: 50%;
   color: $cta-color;
 
@@ -130,7 +137,10 @@
 
 .Icon--zendesk {
   width: auto;
-  bottom: 0;
+  color: $icon-inactive-color;
+  padding-left: 5px;
+  bottom: -5;
+  clip: rect(20px, 80px, 40px, 0px); /* 3 */
 
   &:hover, &:active, &:focus {
     color: $cta-color;

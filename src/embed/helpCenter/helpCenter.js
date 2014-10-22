@@ -10,6 +10,7 @@ import { isMobileBrowser } from 'utility/devices';
 import { beacon }          from 'service/beacon';
 import { i18n }            from 'service/i18n';
 import { transport }       from 'service/transport';
+import { mediator }        from 'service/mediator';
 
 require('imports?_=lodash!lodash');
 
@@ -20,7 +21,7 @@ function create(name, config) {
   var containerStyle,
       iframeBase = {
         position: 'fixed',
-        bottom: 48
+        bottom: 50
       },
       configDefaults = {
         position: 'right'
@@ -28,16 +29,7 @@ function create(name, config) {
       posObj,
       iframeStyle,
       onButtonClick = function() {
-        var helpCenter = get(name);
-
-        if (helpCenter.chatStatus) {
-          config.updateChat(false, true);
-          helpCenter.activeEmbed = 'chat';
-        } else {
-          config.toggleSubmitTicket();
-          helpCenter.activeEmbed = 'submitTicket';
-        }
-        toggleVisibility(name);
+        mediator.channel.broadcast(name + '.onNextClick');
       },
       onLinkClick = function(ev) {
         beacon.track('helpCenter', 'click', name, ev.target.href);
@@ -57,12 +49,11 @@ function create(name, config) {
            ? { left:  5 }
            : { right: 5 };
 
-    iframeBase.minWidth = 350;
-    containerStyle = { minWidth: 350, margin: 15 };
+    iframeBase.minWidth = 400;
+    containerStyle = { minWidth: 400, margin: 15 };
   }
 
   iframeStyle = _.extend(iframeBase, posObj);
-
 
   Embed = React.createClass(frameFactory(
     (params) => {
@@ -82,17 +73,17 @@ function create(name, config) {
     {
       style: iframeStyle,
       css: helpCenterCSS,
+      name: name,
       fullscreenable: true,
       onHide() {
         setScaleLock(false);
-        config.onHide();
       },
       onShow() {
         setScaleLock(true);
-        config.onShow();
+        get(name).instance.getChild().refs.helpCenter.focusField();
       },
       onClose() {
-        update(name, true);
+        mediator.channel.broadcast(name + '.onClose');
       },
       extend: {}
     }));
@@ -113,78 +104,14 @@ function get(name) {
   return helpCenters[name];
 }
 
-function show(name) {
-  var helpCenter = get(name);
-
-  helpCenter.visible = true;
-  helpCenter.instance.show();
-  helpCenter.activeEmbed = 'helpCenter';
-}
-
-function hide(name) {
-  var helpCenter = get(name);
-
-  helpCenter.instance.hide();
-  helpCenter.visible = false;
-}
-
-function toggleVisibility(name) {
-  get(name).instance.toggleVisibility();
-}
-
-function transitionBack(name, showEmbed = true) {
-  if (showEmbed) {
-    toggleVisibility(name);
-  }
-  get(name).activeEmbed = 'helpCenter';
-}
-
-function update(name, isVisible) {
-  var helpCenter = get(name),
-      config = helpCenter.config;
-
-  if (helpCenter.activeEmbed === 'chat') {
-    config.updateChat(isVisible);
-    config.setLabel(i18n.t('embeddable_framework.launcher.label.help'));
-  } else if (helpCenter.activeEmbed === 'submitTicket') {
-    config.updateSubmitTicket(isVisible);
-  } else {
-    if (isVisible) {
-      hide(name);
-    } else {
-      show(name);
-    }
-  }
-}
-
-function setChatStatus(name, status) {
-  get(name).chatStatus = status;
-  updateHelpCenterButton(name, status);
-}
-
-function updateHelpCenterButton(name, status) {
+function updateHelpCenterButton(name, labelKey) {
   /* jshint unused:false */
   var helpCenter = get(name).instance.getChild().refs.helpCenter,
-      helpCenterForm = helpCenter.refs.helpCenterForm,
-      labelKey = status ? 'chat' : 'submitTicket',
       label = i18n.t(`embeddable_framework.helpCenter.submitButton.label.${labelKey}`);
 
-  helpCenterForm.setState({
+  helpCenter.setState({
     buttonLabel: label
   });
-}
-
-function isChatting(name) {
-  var helpCenter = get(name);
-
-  helpCenter.activeEmbed = 'chat';
-
-  if (helpCenter.visible) {
-    hide(name);
-  } else {
-    hide(name);
-    helpCenter.config.onShow();
-  }
 }
 
 function render(name) {
@@ -194,17 +121,28 @@ function render(name) {
 
   var element = doc.body.appendChild(doc.createElement('div'));
   helpCenters[name].instance = React.renderComponent(helpCenters[name].component, element);
+
+  mediator.channel.subscribe(name + '.show', function() {
+    get(name).instance.show();
+  });
+
+  mediator.channel.subscribe(name + '.hide', function() {
+    get(name).instance.hide();
+  });
+
+  mediator.channel.subscribe(name + '.setNextToChat', function() {
+    updateHelpCenterButton(name, 'chat');
+  });
+
+  mediator.channel.subscribe(name + '.setNextToSubmitTicket', function() {
+    updateHelpCenterButton(name, 'submitTicket');
+  });
+
 }
 
 export var helpCenter = {
   create: create,
   list: list,
   get: get,
-  show: show,
-  hide: hide,
-  render: render,
-  update: update,
-  isChatting: isChatting,
-  setChatStatus: setChatStatus,
-  transitionBack: transitionBack
+  render: render
 };

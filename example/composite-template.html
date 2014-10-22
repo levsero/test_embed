@@ -34,93 +34,23 @@
         zE.devRender({
           "helpCenterForm": {
             "embed": "helpCenter",
-            "props": {
-             "onShow": {
-                name: "hcLauncher",
-                method: "update"
-              },
-              "onHide": {
-                name: "hcLauncher",
-                method: "update"
-              },
-              "updateSubmitTicket": {
-                name: "ticketSubmissionForm",
-                method: "update"
-              },
-              "setLabel": {
-                name: "hcLauncher",
-                method: "setLabel"
-              },
-              "updateChat": {
-                name: "zopimChat",
-                method: "toggleVisibility"
-              },
-              "toggleSubmitTicket": {
-                name: "ticketSubmissionForm",
-                method: "toggleVisibility"
-              }
-            }
+            "props": {}
           },
           "hcLauncher": {
             "embed": "launcher",
             "props": {
-              "position": "right",
-              "onClick": {
-                name: "helpCenterForm",
-                method: "update"
-              }
+              "position": "right"
             }
           },
           "zopimChat": {
             "embed": "chat",
             "props": {
-              "zopimId": "2EkTn0An31opxOLXuGgRCy5nPnSNmpe6",
-              "onShow": {
-                name: "hcLauncher",
-                method: "update"
-              },
-              "onHide": {
-                name: "hcLauncher",
-                method: "update"
-              },
-              "setIcon": {
-                name: "hcLauncher",
-                method: "setIcon"
-              },
-              "setLabel": {
-                name: "hcLauncher",
-                method: "setLabel"
-              },
-              "setStatus": {
-                name: "helpCenterForm",
-                method: "setChatStatus"
-              },
-              "isChatting": {
-                name: "helpCenterForm",
-                method: "isChatting"
-              },
-              "chatEnd": {
-                name: "helpCenterForm",
-                method: "show"
-              }
+              "zopimId": "2EkTn0An31opxOLXuGgRCy5nPnSNmpe6"
             }
           },
           "ticketSubmissionForm": {
             "embed": "submitTicket",
-            "props": {
-              "onShow": {
-                name: "hcLauncher",
-                method: "update"
-              },
-              "onHide": {
-                name: "hcLauncher",
-                method: "update"
-              },
-              "goBack": {
-                name: "helpCenterForm",
-                method: "transitionBack"
-              }
-            }
+            "props": {}
           }
         });
       });

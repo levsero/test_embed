@@ -60,25 +60,42 @@ $Base-posOffset: #{20/$font-size}rem;
  *
  * A = auto
  * N = none
- * S = small
- * M = medium
- * L = large
+ * S = small 10px
+ * M = medium 20px
+ * L = large 30px
  */
+
+.u-marginBN {
+  margin-bottom: 0 !important;
+}
 
 .u-marginBS {
   margin-bottom: #{10/$font-size}rem !important;
 }
 
 .u-marginBM {
-  margin-bottom: #{20/$font-size}rem;
+  margin-bottom: #{20/$font-size}rem !important;
 }
 
-.u-marginTS {
-  margin-top: #{20/$font-size}rem;
+.u-marginBL {
+  margin-bottom: #{30/$font-size}rem !important;
 }
 
 .u-marginTA {
   margin-top: auto !important;
+}
+
+.u-marginTM {
+  margin-top: #{20/$font-size}rem;
+}
+
+.u-marginTL {
+  margin-top: #{30/$font-size}rem;
+}
+
+.u-paddingHN {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }
 
 .u-paddingR {
@@ -89,13 +106,12 @@ $Base-posOffset: #{20/$font-size}rem;
   padding-top: #{20/$font-size}rem;
 }
 
-.u-paddingHN {
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-}
-
 .u-paddingBN {
   padding-bottom: 0 !important;
+}
+
+.u-paddingBS {
+  padding-bottom: #{10/$font-size}rem !important;
 }
 
 /**
@@ -110,6 +126,14 @@ $Base-posOffset: #{20/$font-size}rem;
   color: $secondary-color;
 }
 
+.u-textBody {
+  color: $body-color;
+}
+
+.u-textPlaceholder {
+  color: #DADADA;
+}
+
 .u-textSizeSml {
   font-size: #{12/$font-size}rem !important;
 }
@@ -118,12 +142,12 @@ $Base-posOffset: #{20/$font-size}rem;
   font-size: #{14/$font-size}rem !important;
 }
 
-.u-textSizeBaseMobile {
-  font-size: #{16/$font-size}rem !important;
+.u-textSize15 {
+  font-size: #{15/$font-size}rem !important;
 }
 
-.u-textSizeLrg {
-  font-size: 5rem;
+.u-textSizeBaseMobile {
+  font-size: #{16/$font-size}rem !important;
 }
 
 .u-textBold {

@@ -33,7 +33,7 @@ var FocusField = React.createClass({
           'Arrange Arrange--middle rf-Field u-isSelectable': true,
           'rf-Field--focused': this.state.focused,
           'rf-Field--blurred': this.state.blurred,
-          'rf-Field--invalid': isInvalid,
+          'rf-Field--invalid': isInvalid && this.state.blurred,
           'rf-Field--dirty': !value.isUndefined
         });
 
@@ -50,6 +50,10 @@ var FocusField = React.createClass({
 });
 
 function IconField(props) {
+  var fieldClasses = classSet({
+        'Arrange-sizeFill u-vsizeAll': true,
+        'u-textSize15': isMobileBrowser()
+      });
   props = props || {};
 
   /* jshint quotmark:false */
@@ -62,7 +66,7 @@ function IconField(props) {
         <input
           placeholder={props.placeholder}
           autoComplete={props.autoComplete || 'on'}
-          className='Arrange-sizeFill u-vsizeAll' />
+          className={fieldClasses} />
       }
       validate={props.validate || ''}
       component={<FocusField icon={props.icon} />}
@@ -113,28 +117,32 @@ var SearchField = React.createClass({
   },
 
   render() {
+    /* jshint laxbreak:true */
     var loadingClasses = classSet({
           'u-isHidden': !this.props.isLoading
         }),
         searchContainerClasses = classSet({
-          'Form-cta u-cf': true,
-          'Form-cta--fullscreen u-paddingHN u-paddingBN': this.props.fullscreen,
-          'Container-pullout': !this.props.fullscreen
+          'u-cf': true,
+          'Form-cta--bar': this.props.hasSearched && !this.props.fullscreen,
+          'u-paddingHN u-paddingBN Form-cta--barFullscreen': this.props.fullscreen,
+          'Form-cta Container-pullout': !this.props.fullscreen
         }),
         searchInputClasses = classSet({
           'Arrange Arrange--middle rf-Field rf-Field--search u-isSelectable': true,
           'rf-Field--focused': this.state.focused
         }),
         searchInputFieldClasses = classSet({
-          'Arrange-sizeFill u-paddingR u-textSizeMed': true,
-          'u-textSizeBaseMobile': this.props.fullscreen,
-          'u-textSizeMed': !this.props.fullscreen
+          'Arrange-sizeFill u-paddingR Form-placeholder u-textSizeMed': true,
+          'u-textSizeBaseMobile': this.props.fullscreen
         }),
         clearInputClasses = classSet({
           'Icon Icon--clearInput': true,
           'u-isActionable u-textCenter': true,
-          'u-isHidden': !this.state.isClearable || this.props.isLoading || !this.state.focused
-        });
+          'u-isHidden': !this.state.isClearable || this.props.isLoading
+        }),
+        placeholder = (isMobileBrowser())
+                    ? ''
+                    : i18n.t('embeddable_framework.helpCenter.search.label');
 
     return (
       /* jshint quotmark:false */
@@ -149,7 +157,7 @@ var SearchField = React.createClass({
               value={this.state.searchInputVal}
               onFocus={this.onFocus}
               onBlur={this.onBlur}
-              placeholder={i18n.t('embeddable_framework.helpCenter.search.label')}
+              placeholder={placeholder}
               type='search' />
           </div>
           <div className='Arrange-sizeFit u-isActionable'>
@@ -165,7 +173,11 @@ var SearchField = React.createClass({
 });
 
 function EmailField(props) {
-  var type = 'email';
+  var type = 'email',
+      fieldClasses = classSet({
+        'Arrange-sizeFill u-vsizeAll': true,
+        'u-textSize15': isMobileBrowser()
+      });
 
   return IconField({
     name: props.name || type,
@@ -177,7 +189,7 @@ function EmailField(props) {
       <input
         type={type}
         placeholder={i18n.t('embeddable_framework.form.field.email.label')}
-        className='Arrange-sizeFill u-vsizeAll' />
+        className={fieldClasses} />
     ),
     validate: function(value) {
       return validation.validateEmail(value);

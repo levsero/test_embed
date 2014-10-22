@@ -170,7 +170,7 @@ export var frameFactory = function(childFn, _params) {
           );
 
           return (
-            <iframe style={iframeStyle} />
+            <iframe style={iframeStyle} id={params.name} />
           );
     },
 

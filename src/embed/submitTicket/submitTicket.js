@@ -8,6 +8,7 @@ import { frameFactory }    from 'embed/frameFactory';
 import { setScaleLock }    from 'utility/utils';
 import { isMobileBrowser } from 'utility/devices';
 import { beacon }          from 'service/beacon';
+import { mediator }        from 'service/mediator';
 
 var submitTicketCSS = require('./submitTicket.scss'),
     submitTickets = {};
@@ -16,20 +17,20 @@ function create(name, config) {
   var containerStyle,
       iframeBase = {
         position: 'fixed',
-        bottom: 48
+        bottom: 50
       },
       configDefaults = {
         position: 'right'
       },
       posObj,
       iframeStyle,
-      onSubmit = function() {
+      onSubmitted = function() {
         beacon.track('submitTicket', 'send', name);
+        mediator.channel.broadcast(name + '.onFormSubmitted');
       },
       Embed,
       handleBack = function() {
-        config.goBack();
-        toggleVisibility(name);
+        mediator.channel.broadcast(name + '.onBackClick');
       };
 
   config = _.extend(configDefaults, config);
@@ -41,8 +42,8 @@ function create(name, config) {
     posObj = (config.position === 'left')
            ? { left:  5 }
            : { right: 5 };
-    iframeBase.minWidth = 350;
-    containerStyle = { minWidth: 350, margin: 15 };
+    iframeBase.minWidth = 400;
+    containerStyle = { minWidth: 400, margin: 15 };
   }
 
   iframeStyle = _.extend(iframeBase, posObj);
@@ -55,7 +56,7 @@ function create(name, config) {
           <SubmitTicket
             ref='submitTicket'
             updateFrameSize={params.updateFrameSize}
-            onSubmit={onSubmit}
+            onSubmitted={onSubmitted}
             handleBack={handleBack}/>
         </div>
       );
@@ -66,14 +67,13 @@ function create(name, config) {
       fullscreenable: true,
       onShow() {
         setScaleLock(true);
-        config.onShow();
       },
+      name: name,
       onHide() {
         setScaleLock(false);
-        config.onHide();
       },
       onClose() {
-        update(name, true);
+        mediator.channel.broadcast(name + '.onClose');
       },
       extend: {}
     }));
@@ -93,6 +93,29 @@ function render(name) {
 
   var element = document.body.appendChild(document.createElement('div'));
   submitTickets[name].instance = React.renderComponent(submitTickets[name].component, element);
+
+  mediator.channel.subscribe(name + '.show', function() {
+    submitTickets[name].instance.show();
+  });
+
+  mediator.channel.subscribe(name + '.hide', function() {
+    var submitTicket = get(name).instance.getChild().refs.submitTicket;
+
+    submitTickets[name].instance.hide();
+
+    if (submitTicket.state.showNotification) {
+      submitTicket.reset();
+    }
+  });
+
+  mediator.channel.subscribe(name + '.showBackButton', function() {
+    var submitTicket = get(name).instance.getChild().refs.submitTicket,
+        submitTicketForm = submitTicket.refs.submitTicketForm;
+
+    submitTicketForm.setState({
+      showBackButton: true
+    });
+  });
 }
 
 function get(name) {
@@ -103,59 +126,10 @@ function list() {
   return submitTickets;
 }
 
-function show(name) {
-  get(name).instance.show();
-}
-
-function hide(name) {
-  get(name).instance.hide();
-}
-
-function reset(name) {
-  var config = get(name).config,
-      submitTicket = get(name).instance.getChild().refs.submitTicket,
-      submitTicketForm = submitTicket.refs.submitTicketForm;
-
-  if (submitTicketForm.state.showBackButton) {
-    config.goBack(false);
-  }
-  submitTicket.reset();
-}
-
-function toggleVisibility(name) {
-  var submitTicket = get(name).instance,
-      submitTicketForm = submitTicket.getChild().refs.submitTicket.refs.submitTicketForm;
-
-  submitTicket.toggleVisibility();
-  submitTicketForm.setState({
-    showBackButton: true
-  });
-}
-
-function update(name, isVisible) {
-  var submitTicket = get(name).instance.getChild().refs.submitTicket,
-      isSuccessState = submitTicket.state.showNotification;
-
-  if (isVisible) {
-    hide(name);
-
-    if (isSuccessState) {
-      reset(name);
-    }
-  } else {
-    show(name);
-  }
-}
-
 export var submitTicket = {
   create: create,
   render: render,
   get: get,
-  list: list,
-  show: show,
-  hide: hide,
-  reset: reset,
-  update: update,
-  toggleVisibility: toggleVisibility
+  list: list
 };
 
