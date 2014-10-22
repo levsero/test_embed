@@ -16,6 +16,7 @@ require('imports?_=lodash!lodash');
 
 function boot() {
   var publicApi,
+      devApi,
       isPinching,
       host = location.host,
       path = location.pathname,
@@ -30,26 +31,27 @@ function boot() {
       ],
       handleQueue = function(queue) {
         _.forEach(queue, function(item) {
-          if (_.isFunction(item[0])) {
-            postRenderQueue.push(item[0]);
-
-          } else if (_.isObject(item[0])) {
-            if (item[0].locale) {
-              i18n.setLocale(item[0].locale);
-            }
-            if (item[0].hide) {
-              renderer.hide();
-            }
-
-          } else if (item[0] === 'ready' && _.isFunction(item[1])) {
-            //to make it back-compatible so we don't break inbox
-            postRenderQueue.push(item[1]);
+          if (item[0].locale) {
+            // Backwards compat with zE({locale: 'zh-CN'}) calls
+            i18n.setLocale(item[0].locale);
+          } else {
+            item[0]();
           }
         });
       },
       handlePostRenderQueue = function(postRenderQueue) {
-        _.forEach(postRenderQueue, function(callback) {
-          callback();
+        _.forEach(postRenderQueue, function(method) {
+          try {
+            win.zE[method[0]](...method[1]);
+          } catch(e) {
+            // to make it back-compatible so we don't break inbox
+            if(method[0] === 'ready' && _.isFunction(method[1])) {
+              method[1]();
+            }
+            else if(e instanceof TypeError) {
+              logging.error({error: e});
+            }
+          }
         });
       },
       identify = function(user) {
@@ -77,13 +79,19 @@ function boot() {
   beacon.init().send();
 
   publicApi = {
-    devRender: renderer.init,
-    bustCache: transport.bustCache,
-    version: __EMBEDDABLE_VERSION__,
-    identify: identify,
-    activate: activate,
-    hide: hide
+    version:   __EMBEDDABLE_VERSION__,
+    setLocale: i18n.setLocale,
+    identify:  postRenderQueueCallback.bind('identify'),
+    activate:  postRenderQueueCallback.bind('activate'),
+    hide:      postRenderQueueCallback.bind('hide')
   };
+
+  if(__DEV__) {
+    devApi = {
+      devRender: renderer.init,
+      bustCache: transport.bustCache
+    };
+  }
 
   if (win.zE === win.zEmbed) {
     win.zE = win.zEmbed = function(callback) {
@@ -95,9 +103,19 @@ function boot() {
     };
   }
 
-  _.extend(win.zEmbed, publicApi);
+  function postRenderQueueCallback(...args) {
+    // "this" is bound to the method name
+    postRenderQueue.push([this, args]);
+  }
+
+  _.extend(win.zEmbed, publicApi, devApi);
 
   handleQueue(document.zEQueue, postRenderQueue);
+
+  // Post-render methods
+  win.zE.identify = identify;
+  win.zE.activate = activate;
+  win.zE.hide = hide;
 
   if (!isBlacklisted()) {
     //The config for zendesk.com
