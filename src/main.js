@@ -54,6 +54,7 @@ function boot() {
       },
       identify = function(user) {
         mediator.channel.broadcast('.identify', user);
+        beacon.identify(user);
       },
       propagateFontRatioChange = function() {
         setTimeout(() => {

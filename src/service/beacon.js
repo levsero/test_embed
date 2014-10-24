@@ -71,8 +71,19 @@ function track(category, action, label, value) {
   transport.send(payload);
 }
 
+function identify(user) {
+  var payload = {
+    method: 'POST',
+    path: '/embeddable/blips',
+    params: _.extend(commonParams(), {user: user})
+  };
+
+  transport.send(payload);
+}
+
 export var beacon = {
   init: init,
   send: send,
-  track: track
+  track: track,
+  identify: identify
 };
