@@ -52,6 +52,7 @@ export var submitTicketSchema = function(customFields) {
 };
 
 var getCustomFields = function(customFields) {
+  /* jshint camelcase:false */
   var ticketFields = [];
 
   _.forEach(customFields, function(field) {
@@ -96,6 +97,7 @@ var getCustomFields = function(customFields) {
         );
         break;
       case 'textarea':
+        /* jshint quotmark:false */
         ticketFields.push(
           <IconField
             name={field.title}
@@ -111,6 +113,7 @@ var getCustomFields = function(customFields) {
         );
         break;
       case 'date':
+        /* jshint quotmark:false */
         ticketFields.push(
           <IconField
             name={field.title}
@@ -146,4 +149,4 @@ var getCustomFields = function(customFields) {
     }
   });
   return ticketFields;
-}
+};

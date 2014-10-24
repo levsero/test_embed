@@ -103,19 +103,20 @@ function CheckboxField(props) {
 }
 
 function SelectField(props) {
+  /* jshint quotmark:false */
   var fieldClasses = classSet({
         'Arrange-sizeFill u-vsizeAll rf-Field--select': true,
         'u-textSize15': isMobileBrowser()
       }),
       options = [
-        <option value="" disabled selected>{props.name}</option>
+        <option value='' disabled selected>{props.name}</option>
       ];
 
   props = props || {};
 
   _.forEach(props.options, function(option) {
     options.push(
-      <option value={option.name}>{option.name}</option>
+      <option value={option.value}>{option.name}</option>
     );
   });
 
