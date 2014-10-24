@@ -34,9 +34,6 @@ function boot() {
           if (method[0].locale) {
             // Backwards compat with zE({locale: 'zh-CN'}) calls
             i18n.setLocale(method[0].locale);
-          } else if (method[0] === 'ready' && _.isFunction(method[1])) {
-            // handle backwards compat for inbox
-            method[1]();
           } else {
             method[0]();
           }
