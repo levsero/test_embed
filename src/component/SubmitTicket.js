@@ -52,6 +52,7 @@ export var SubmitTicket = React.createClass({
         formParams = _.extend({
           'set_tags': tags,
           'via_id': 17,
+          'locale_id': i18n.getLocaleId(),
           'submitted_from': win.location.href
         }, data.value),
         resCallback = () => {

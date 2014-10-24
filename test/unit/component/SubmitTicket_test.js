@@ -81,7 +81,12 @@ describe('Submit ticket component', function() {
         }
       },
       'service/i18n': {
-        i18n: jasmine.createSpyObj('i18n', ['init', 'setLocale', 't'])
+        i18n: jasmine.createSpyObj('i18n', [
+          'init',
+          'setLocale',
+          'getLocaleId',
+          't'
+        ])
       },
       'service/transport': {
         transport: jasmine.createSpyObj('transport', ['send']),

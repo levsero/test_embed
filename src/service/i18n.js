@@ -1,5 +1,6 @@
 var translate = require('counterpart'),
     translations = require('translation/translations.json'),
+    localeIdMap = require('translation/localeIdMap.json'),
     currentLocale;
 
 // Setting to something other than (.) as our translation hash
@@ -39,8 +40,13 @@ function regulateLocaleStringCase(locale) {
   return locale.substring(0, dashIndex).toLowerCase() + locale.substring(dashIndex).toUpperCase();
 }
 
+function getLocaleId() {
+  return localeIdMap[currentLocale];
+}
+
 export var i18n = {
   t: translate,
+  getLocaleId: getLocaleId,
   setLocale: setLocale,
   getLocale: getLocale
 };
