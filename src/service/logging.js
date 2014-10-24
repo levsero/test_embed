@@ -5,7 +5,7 @@ function init() {
 }
 
 function error(err) {
-  if(__DEV__) {
+  if (__DEV__) {
     console.error(err.error);
   } else {
     Airbrake.push(err);
