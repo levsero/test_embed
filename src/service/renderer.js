@@ -107,22 +107,25 @@ function propagateFontRatio(ratio) {
 
 var hardcodedConfigs = {
   zendeskWithChat: {
-    'zopimChat': {
-      'embed': 'chat',
-      'props': {
-        'zopimId': '2ItCA9Tu3W5bksDB4EJzPSCz4kIymONo'
+    'embeds': {
+      'zopimChat': {
+        'embed': 'chat',
+        'props': {
+          'zopimId': '2ItCA9Tu3W5bksDB4EJzPSCz4kIymONo'
+        }
+      },
+      'launcher': {
+        'embed': 'launcher',
+        'props': {
+          'position': 'right'
+        }
+      },
+      'ticketSubmissionForm': {
+        'embed': 'submitTicket',
+        'props': {}
       }
     },
-    'chatLauncher': {
-      'embed': 'launcher',
-      'props': {
-        'position': 'right'
-      }
-    },
-    'ticketSubmissionForm': {
-      'embed': 'submitTicket',
-      'props': {}
-    }
+    ruleset: 'C_TS'
   }
 };
 
