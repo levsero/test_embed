@@ -30,37 +30,21 @@ function boot() {
         '/enterprise'
       ],
       handleQueue = function(queue) {
-        _.forEach(queue, function(item) {
-          try {
-            if (item[0].locale) {
-              // Backwards compat with zE({locale: 'zh-CN'}) calls
-              i18n.setLocale(item[0].locale);
-            } else {
-              item[0]();
-            }
-          } catch(e) {
-            if(e instanceof TypeError) {
-              logging.error({error: e});
-            }
+        _.forEach(queue, function(method) {
+          if (method[0].locale) {
+            // Backwards compat with zE({locale: 'zh-CN'}) calls
+            i18n.setLocale(method[0].locale);
+          } else if (method[0] === 'ready' && _.isFunction(method[1])) {
+            // handle backwards compat for inbox
+            method[1]();
+          } else {
+            method[0]();
           }
         });
       },
       handlePostRenderQueue = function(postRenderQueue) {
         _.forEach(postRenderQueue, function(method) {
-          try {
             win.zE[method[0]](...method[1]);
-          } catch(e) {
-            // handle backwards compat for inbox
-            if(method[0] === 'ready' && _.isFunction(method[1])) {
-              method[1]();
-            } else if(e instanceof TypeError) {
-              logging.error({
-                error: {
-                  message: `Tried calling ${method[0]} on public API`
-                }
-              });
-            }
-          }
         });
       },
       identify = function(user) {
@@ -76,6 +60,10 @@ function boot() {
       },
       hide = function() {
         mediator.channel.broadcast('.hide');
+      },
+      postRenderQueueCallback = function(...args) {
+        // "this" is bound to the method name
+        postRenderQueue.push([this, args]);
       };
 
   React.initializeTouchEvents(true);
@@ -90,12 +78,12 @@ function boot() {
   publicApi = {
     version:   __EMBEDDABLE_VERSION__,
     setLocale: i18n.setLocale,
+    hide:      renderer.hide,
     identify:  postRenderQueueCallback.bind('identify'),
-    activate:  postRenderQueueCallback.bind('activate'),
-    hide:      postRenderQueueCallback.bind('hide')
+    activate:  postRenderQueueCallback.bind('activate')
   };
 
-  if(__DEV__) {
+  if (__DEV__) {
     devApi = {
       devRender: renderer.init,
       bustCache: transport.bustCache
@@ -112,14 +100,9 @@ function boot() {
     };
   }
 
-  function postRenderQueueCallback(...args) {
-    // "this" is bound to the method name
-    postRenderQueue.push([this, args]);
-  }
-
   _.extend(win.zEmbed, publicApi, devApi);
 
-  handleQueue(document.zEQueue, postRenderQueue);
+  handleQueue(document.zEQueue);
 
   // Post-render methods
   win.zE.identify = identify;
