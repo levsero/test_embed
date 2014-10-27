@@ -22,6 +22,12 @@ export var SubmitTicket = React.createClass({
     };
   },
 
+  getDefaultProps() {
+    return {
+      customFields: []
+    };
+  },
+
   reset() {
     var submitTicketForm = this.refs.submitTicketForm,
         formData         = submitTicketForm.refs.form.value().value;
@@ -114,13 +120,12 @@ export var SubmitTicket = React.createClass({
         if (isNaN(type)) {
           params[type] = value;
         } else {
-          if (value.length > 0) {
+          if (_.isArray(value)) {
             value = value[0];
           }
           params.fields[type] = value;
         }
       });
-      console.log(params);
       return params;
     }
   },
