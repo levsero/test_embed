@@ -54,7 +54,7 @@ export var SubmitTicket = React.createClass({
           'via_id': 17,
           'locale_id': i18n.getLocaleId(),
           'submitted_from': win.location.href
-        }, data.value),
+        }, this.formatTicketSubmission(data)),
         resCallback = () => {
           this.setState({
             showNotification: true,
@@ -101,6 +101,28 @@ export var SubmitTicket = React.createClass({
         };
 
     transport.send(payload);
+  },
+
+  formatTicketSubmission(data) {
+    var params = {};
+
+    if (this.props.customFields.length === 0) {
+      return data;
+    } else {
+      params.fields = {};
+      _.forEach(data.value, function(value, type) {
+        if (isNaN(type)) {
+          params[type] = value;
+        } else {
+          if (value.length > 0) {
+            value = value[0];
+          }
+          params.fields[type] = value;
+        }
+      });
+      console.log(params);
+      return params;
+    }
   },
 
   handleBackClick() {

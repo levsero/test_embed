@@ -75,6 +75,7 @@ function IconField(props) {
           className={fieldClasses} />
       }
       validate={props.validate || ''}
+      component={<FocusField icon={props.icon} />}
     />
   );
 }
@@ -95,7 +96,7 @@ function CheckboxField(props) {
       input={
         <CheckboxGroup
           className={fieldClasses}
-          options={[{value: 'yes', name: props.name}]}
+          options={[{value: '1', name: props.label}]}
         />
       }
     />
@@ -109,7 +110,7 @@ function SelectField(props) {
         'u-textSize15': isMobileBrowser()
       }),
       options = [
-        <option value='' disabled selected>{props.name}</option>
+        <option value='' disabled selected>{props.placeholder}</option>
       ];
 
   props = props || {};
