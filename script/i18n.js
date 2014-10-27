@@ -4,7 +4,8 @@ var when  = require('when'),
     fs    = require('fs'),
     puts  = require('sys').puts,
     print = require('sys').print,
-    outputPath = __dirname + "/../src/translation/translations.json";
+    localeIdMapPath = __dirname + "/../src/translation/localeIdMap.json",
+    translationsPath = __dirname + "/../src/translation/translations.json";
 
 function fetchLocale(locale) {
   var url = locale.url + '?include=translations&packages=embeddable_framework';
@@ -15,12 +16,28 @@ function fetchLocale(locale) {
     });
 };
 
+function generateLocaleIdMap(locales) {
+  return _.chain(locales)
+    .reduce(function(res, el) {
+      res[el.locale] = el.id;
+      return res;
+    }, {})
+    .value();
+}
+
 puts('Downloading https://support.zendesk.com/api/v2/rosetta/locales/agent.json');
 
 rest('https://support.zendesk.com/api/v2/rosetta/locales/agent.json')
   .then(function(res) {
     var locales = JSON.parse(res.entity).locales;
     var requests = [];
+
+    puts("\nWriting to " + localeIdMapPath);
+
+    fs.writeFile(
+      localeIdMapPath,
+      JSON.stringify(generateLocaleIdMap(locales), null, 2)
+    );
 
     print('Downloading individual locales');
 
@@ -39,11 +56,11 @@ rest('https://support.zendesk.com/api/v2/rosetta/locales/agent.json')
         }, {})
         .value();
 
-      puts("\nWriting to " + outputPath);
+      puts("\nWriting to " + translationsPath);
 
       fs.writeFile(
-        outputPath,
-        JSON.stringify(translations, null, 4)
+        translationsPath,
+        JSON.stringify(translations, null, 2)
       );
     });
   });

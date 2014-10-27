@@ -52,6 +52,7 @@ export var SubmitTicket = React.createClass({
         formParams = _.extend({
           'set_tags': tags,
           'via_id': 17,
+          'locale_id': i18n.getLocaleId(),
           'submitted_from': win.location.href
         }, data.value),
         resCallback = () => {
@@ -79,7 +80,7 @@ export var SubmitTicket = React.createClass({
         },
         payload = {
           method: 'post',
-          path: '/embeddable/ticket_submission',
+          path: '/requests/embedded/create',
           params: formParams,
           callbacks: {
             done(res) {

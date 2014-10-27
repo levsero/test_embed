@@ -34,7 +34,7 @@ function pingLR(event) {
 gulp.task('watch', ['build-dev'], function() {
   startExpress();
   startLR();
-  gulp.watch('src/**/*', ['build-dev']);
+  gulp.watch(['src/**/*', 'example/**/*'], ['build-dev']);
   gulp.watch('dist/main.js').on('change', pingLR);
 
   gutil.log('[server started]', 'http://localhost:' + EXPRESS_PORT + '/example/index.html');

@@ -12,6 +12,7 @@ Use 'zE.identify' to pass user name and email to the widget, then the widget can
   });
 </script>
 ```
+This code should be put just after the widget snippet in the HTML source.
 
 ### zE.hide
 
@@ -19,7 +20,9 @@ Use 'zE.identify' to pass user name and email to the widget, then the widget can
 
 **Before Page Load**
 ```javascript
-  zE({hide: true});
+  zE(function() {
+    zE.hide();
+  });
 ```
 
 **After Page Load**

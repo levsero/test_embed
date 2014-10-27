@@ -12,7 +12,7 @@ describe('Submit ticket component', function() {
       },
       payload = {
         method: 'post',
-        path: '/embeddable/ticket_submission',
+        path: '/requests/embedded/create',
         params: formParams,
         callbacks: {
           done: noop,
@@ -81,7 +81,12 @@ describe('Submit ticket component', function() {
         }
       },
       'service/i18n': {
-        i18n: jasmine.createSpyObj('i18n', ['init', 'setLocale', 't'])
+        i18n: jasmine.createSpyObj('i18n', [
+          'init',
+          'setLocale',
+          'getLocaleId',
+          't'
+        ])
       },
       'service/transport': {
         transport: jasmine.createSpyObj('transport', ['send']),

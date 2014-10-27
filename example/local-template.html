@@ -7,15 +7,18 @@
   <script src="/dist/bootstrap.js" inline></script>
 
   <script>
-    zE({locale: 'zh-CN', hide: true});
+    zE({locale: 'zh-CN'});
     zE(function() {
       zE.identify({name: 'John', email: 'john@example.com'});
+      //zE.setLocale('zh-CN');
+      zE.hide();
     });
   </script>
 </head>
 <body>
   <h1>Local</h1>
-  <button onclick="zE.activate()">SHOW</button>
-  <button onclick="zE.hide()">HIDE</button>
+  <button onclick="zE.activate()">Activate</button>
+  <button onclick="zE.hide()">Hide</button>
+  <button onclick="zE.identify({name: 'Ryan', email: 'ryan@foo.com'})">Identify</button>
 </body>
 </html>
