@@ -5,6 +5,7 @@ import { transport } from 'service/transport';
 import { identity }  from 'service/identity';
 import { store }     from 'service/persistence';
 import { parseUrl }  from 'utility/utils';
+import { i18n }      from 'service/i18n';
 
 require('imports?_=lodash!lodash');
 
@@ -72,6 +73,7 @@ function track(category, action, label, value) {
 }
 
 function identify(user) {
+  user.locale_id = i18n.getLocaleId();
   var payload = {
     method: 'POST',
     path: '/embeddable/blips',

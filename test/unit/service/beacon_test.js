@@ -4,7 +4,9 @@ describe('beacon', function() {
       mockPersistence,
       mockTransport,
       mockIdentity,
+      mockI18n,
       mockUtils,
+      locale_id = 10,
       beaconPath = buildSrcPath('service/beacon');
 
 
@@ -57,6 +59,12 @@ describe('beacon', function() {
       }
     };
 
+    mockI18n = {
+      i18n: {
+        getLocaleId: jasmine.createSpy('getLocaleId').and.returnValue(locale_id)
+      }
+    };
+
     mockUtils = {
         parseUrl: function() {
           return {
@@ -69,6 +77,7 @@ describe('beacon', function() {
     mockery.registerMock('utility/globals', mockGlobals);
     mockery.registerMock('service/identity', mockIdentity);
     mockery.registerMock('service/persistence', mockPersistence);
+    mockery.registerMock('service/i18n', mockI18n);
     mockery.registerMock('utility/utils', mockUtils);
     mockery.registerMock('imports?_=lodash!lodash', _);
 
@@ -200,6 +209,40 @@ describe('beacon', function() {
       expect(params.userAction)
         .toEqual(userActionParams);
     });
+  });
 
+  describe('identify', function() {
+
+    it('sends the correct payload', function() {
+      var payload,
+          params,
+          name = 'John',
+          email = 'john@example.com',
+          user = {
+            name: name,
+            email: email
+          };
+
+      beacon.init();
+
+      beacon.identify(user);
+
+      expect(mockTransport.transport.send)
+        .toHaveBeenCalled();
+
+      payload = mockTransport.transport.send.calls.mostRecent().args[0];
+
+      expect(payload.method)
+        .toBe('POST');
+
+      expect(payload.path)
+        .toBe('/embeddable/blips');
+
+      params = payload.params;
+
+      expect(params.user.name).toEqual(name);
+      expect(params.user.email).toEqual(email);
+      expect(params.user.locale_id).toEqual(locale_id);
+    });
   });
 });
