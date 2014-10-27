@@ -73,7 +73,7 @@ function track(category, action, label, value) {
 }
 
 function identify(user) {
-  user.locale_id = i18n.getLocaleId();
+  user.localeId = i18n.getLocaleId();
   var payload = {
     method: 'POST',
     path: '/embeddable/blips',

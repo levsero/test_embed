@@ -6,7 +6,7 @@ describe('beacon', function() {
       mockIdentity,
       mockI18n,
       mockUtils,
-      locale_id = 10,
+      localeId = 10,
       beaconPath = buildSrcPath('service/beacon');
 
 
@@ -61,7 +61,7 @@ describe('beacon', function() {
 
     mockI18n = {
       i18n: {
-        getLocaleId: jasmine.createSpy('getLocaleId').and.returnValue(locale_id)
+        getLocaleId: jasmine.createSpy('getLocaleId').and.returnValue(localeId)
       }
     };
 
@@ -241,8 +241,10 @@ describe('beacon', function() {
       params = payload.params;
 
       expect(params.user.name).toEqual(name);
+
       expect(params.user.email).toEqual(email);
-      expect(params.user.locale_id).toEqual(locale_id);
+
+      expect(params.user.localeId).toEqual(localeId);
     });
   });
 });
