@@ -1,10 +1,11 @@
 import { win,
          document,
-         navigator } from 'utility/globals';
-import { transport } from 'service/transport';
-import { identity }  from 'service/identity';
-import { store }     from 'service/persistence';
-import { parseUrl }  from 'utility/utils';
+         navigator }            from 'utility/globals';
+import { transport }            from 'service/transport';
+import { identity }             from 'service/identity';
+import { store }                from 'service/persistence';
+import { parseUrl,
+         getFrameworkTimings }  from 'utility/utils';
 
 require('imports?_=lodash!lodash');
 
@@ -34,6 +35,7 @@ function send() {
         pageView: {
           referrer: referrer.href,
           time: timeOnLastPage(),
+          loadTime: getFrameworkTimings().duration,
           navigatorLanguage: navigator.language,
           pageTitle: document.title,
           userAgent: navigator.userAgent

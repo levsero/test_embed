@@ -1,4 +1,4 @@
-import { document as doc } from 'utility/globals';
+import { document as doc, win } from 'utility/globals';
 require('imports?_=lodash!lodash');
 
 var clickBusterClicks = [];
@@ -96,10 +96,18 @@ function clickBusterHandler(ev) {
   }
 }
 
+function getFrameworkTimings() {
+  return _.filter(window.performance.getEntries(), function(entry) {
+    console.log(entry);
+    return entry.name.indexOf('main.js') !== -1;
+  })[0];
+}
+
 export {
   parseUrl,
   setScaleLock,
   clickBusterRegister,
   clickBusterHandler,
-  metaStringToObj
+  metaStringToObj,
+  getFrameworkTimings
 };
