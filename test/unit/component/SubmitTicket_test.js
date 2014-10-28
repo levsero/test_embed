@@ -177,7 +177,7 @@ describe('Submit ticket component', function() {
         submitTicket,
         mockValues = {
           value: {
-            22660514: 'mockCustomField',
+            ze22660514: 'mockCustomField',
             name: 'mockName',
             description: 'mockDescription'
           }
