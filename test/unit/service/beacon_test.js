@@ -240,11 +240,14 @@ describe('beacon', function() {
 
       params = payload.params;
 
-      expect(params.user.name).toEqual(name);
+      expect(params.user.name)
+        .toEqual(name);
 
-      expect(params.user.email).toEqual(email);
+      expect(params.user.email)
+        .toEqual(email);
 
-      expect(params.user.localeId).toEqual(localeId);
+      expect(params.user.localeId)
+        .toEqual(localeId);
     });
   });
 });
