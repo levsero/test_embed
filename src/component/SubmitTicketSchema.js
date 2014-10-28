@@ -60,7 +60,7 @@ var getCustomFields = function(customFields) {
       case 'text':
         ticketFields.push(
           <IconField
-            name={field.id}
+            name={'ze'+field.id}
             required={field.required}
             placeholder={field.title}
           />
@@ -69,7 +69,7 @@ var getCustomFields = function(customFields) {
       case 'tagger':
         ticketFields.push(
           <SelectField
-            name={field.id}
+            name={'ze'+field.id}
             required={field.required}
             placeholder={field.title}
             options={field.options}
@@ -79,7 +79,7 @@ var getCustomFields = function(customFields) {
       case 'integer':
         ticketFields.push(
           <IconField
-            name={field.id}
+            name={'ze'+field.id}
             placeholder={field.title}
             required={field.required}
             validate={function(v) {return /^\d+$/.test(v); }}
@@ -89,7 +89,7 @@ var getCustomFields = function(customFields) {
       case 'decimal':
         ticketFields.push(
           <IconField
-            name={field.id}
+            name={'ze'+field.id}
             required={field.required}
             placeholder={field.title}
             validate={function(v) {return /^\d*\.\d+$/.test(v); }}
@@ -100,7 +100,7 @@ var getCustomFields = function(customFields) {
         /* jshint quotmark:false */
         ticketFields.push(
           <IconField
-            name={field.id}
+            name={'ze'+field.id}
             required={field.required}
             input={
               <textarea
@@ -116,7 +116,7 @@ var getCustomFields = function(customFields) {
         /* jshint quotmark:false */
         ticketFields.push(
           <IconField
-            name={field.id}
+            name={'ze'+field.id}
             required={field.required}
             placeholder={field.title}
           />
@@ -125,7 +125,7 @@ var getCustomFields = function(customFields) {
       case 'checkbox':
         ticketFields.push(
           <CheckboxField
-            name={field.id}
+            name={'ze'+field.id}
             label={field.title}
             required={field.required}
           />
@@ -134,7 +134,7 @@ var getCustomFields = function(customFields) {
       case 'regexp':
         ticketFields.push(
           <IconField
-            name={field.id}
+            name={'ze'+field.id}
             placeholder={field.title}
             required={field.required_in_portal}
             validate={function(v) {

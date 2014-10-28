@@ -117,7 +117,7 @@ export var SubmitTicket = React.createClass({
     } else {
       params.fields = {};
       _.forEach(data.value, function(value, type) {
-        if (isNaN(type)) {
+        if (type.substring(0,2) !== 'ze') {
           params[type] = value;
         } else {
           if (_.isArray(value)) {
