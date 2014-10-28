@@ -1,4 +1,4 @@
-import { document as doc, win } from 'utility/globals';
+import { document as doc } from 'utility/globals';
 require('imports?_=lodash!lodash');
 
 var clickBusterClicks = [];
@@ -96,11 +96,14 @@ function clickBusterHandler(ev) {
   }
 }
 
-function getFrameworkTimings() {
-  return _.filter(window.performance.getEntries(), function(entry) {
-    console.log(entry);
-    return entry.name.indexOf('main.js') !== -1;
-  })[0];
+function getFrameworkLoadTime(loadTime) {
+  if('performance' in window && 'getEntries' in window.performance) {
+    return _.filter(window.performance.getEntries(), function(entry) {
+      return entry.name.indexOf('main.js') !== -1;
+    })[0].duration;
+  } else {
+    return loadTime;
+  }
 }
 
 export {
@@ -109,5 +112,5 @@ export {
   clickBusterRegister,
   clickBusterHandler,
   metaStringToObj,
-  getFrameworkTimings
+  getFrameworkLoadTime
 };

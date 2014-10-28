@@ -41,6 +41,7 @@ window.zEmbed || (function(url, host) {
     if (dom) this.domain = dom;
     js.id = 'js-iframe-async';
     js.src = url;
+    this.t = +new Date();
     this.zendeskHost = host;
     this.zEQueue = queue;
     this.body.appendChild(js);
