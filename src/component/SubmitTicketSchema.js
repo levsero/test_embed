@@ -112,35 +112,12 @@ var getCustomFields = function(customFields) {
           />
         );
         break;
-      case 'date':
-        /* jshint quotmark:false */
-        ticketFields.push(
-          <IconField
-            name={'ze'+field.id}
-            required={field.required}
-            placeholder={field.title}
-          />
-        );
-        break;
       case 'checkbox':
         ticketFields.push(
           <CheckboxField
             name={'ze'+field.id}
             label={field.title}
             required={field.required}
-          />
-        );
-        break;
-      case 'regexp':
-        ticketFields.push(
-          <IconField
-            name={'ze'+field.id}
-            placeholder={field.title}
-            required={field.required_in_portal}
-            validate={function(v) {
-              var regExp = new RegExp(field.regex_for_validation);
-              return regExp.test(v);
-            }}
           />
         );
         break;
