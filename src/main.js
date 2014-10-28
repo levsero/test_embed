@@ -70,7 +70,7 @@ function boot() {
   transport.bustCache(__EMBEDDABLE_VERSION__);
   transport.init({ zendeskHost: document.zendeskHost });
 
-  beacon.init().send();
+  beacon.init(__EMBEDDABLE_VERSION__).send();
 
   publicApi = {
     version:   __EMBEDDABLE_VERSION__,
