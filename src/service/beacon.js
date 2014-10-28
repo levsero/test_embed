@@ -18,6 +18,7 @@ function commonParams() {
   return {
     url: win.location.href,
     buid: identity.getBuid(),
+    zeVersion: __EMBEDDABLE_VERSION__,
     timestamp: (new Date()).toISOString()
   };
 }
