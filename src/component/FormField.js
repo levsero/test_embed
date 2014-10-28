@@ -35,7 +35,8 @@ var FocusField = React.createClass({
           'rf-Field--focused': this.state.focused,
           'rf-Field--blurred': this.state.blurred,
           'rf-Field--invalid': isInvalid && this.state.blurred,
-          'rf-Field--dirty': !value.isUndefined
+          'rf-Field--dirty': !value.isUndefined,
+          'rf-Field--dropdown': this.props.dropdown
         }),
         iconClasses = classSet({
           'u-isHidden': !this.props.icon,
@@ -66,7 +67,6 @@ function IconField(props) {
     <Property
       name={props.name}
       required={!!props.required}
-      type={props.type || ''}
       input={
         props.input ||
         <input
@@ -106,7 +106,7 @@ function CheckboxField(props) {
 function SelectField(props) {
   /* jshint quotmark:false */
   var fieldClasses = classSet({
-        'Arrange-sizeFill u-vsizeAll rf-Field--select': true,
+        'Arrange-sizeFill u-vsizeAll u-textSecondary': true,
         'u-textSize15': isMobileBrowser()
       }),
       options = [
@@ -133,7 +133,7 @@ function SelectField(props) {
           {options}
         </select>
       }
-      component={<FocusField icon={props.icon} />}
+      component={<FocusField dropdown={true} />}
     />
   );
 }

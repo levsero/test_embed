@@ -80,8 +80,13 @@ $Form-fontSize: #{13/$font-size}rem;
   }
 }
 
-.rf-Field--select {
-  color: $secondary-color !important;
+.rf-Field--dropdown {
+  padding-left: #{2/$font-size}rem;
+}
+
+.rf-CheckboxGroup__caption {
+  padding-left: #{12/$font-size}rem;
+  font-size: $Form-fontSize;
 }
 
 .rf-Field--blurred.rf-Field--invalid {
