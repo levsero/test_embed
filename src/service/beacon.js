@@ -8,9 +8,12 @@ import { parseUrl }  from 'utility/utils';
 
 require('imports?_=lodash!lodash');
 
-function init() {
+var zeVersion;
+
+function init(version = '') {
   var now = Date.now();
   store.set('currentTime', now, true);
+  zeVersion = version;
   return this;
 }
 
@@ -18,7 +21,7 @@ function commonParams() {
   return {
     url: win.location.href,
     buid: identity.getBuid(),
-    zeVersion: __EMBEDDABLE_VERSION__,
+    zeVersion: zeVersion,
     timestamp: (new Date()).toISOString()
   };
 }
