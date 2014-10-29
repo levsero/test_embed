@@ -126,6 +126,31 @@ var hardcodedConfigs = {
       }
     },
     ruleset: 'C_TS'
+  },
+  zendeskDefault: {
+    'embeds': {
+      'helpCenterForm': {
+        'embed': 'helpCenter',
+        'props': { }
+      },
+      'zopimChat': {
+        'embed': 'chat',
+        'props': {
+          'zopimId': '2ItCA9Tu3W5bksDB4EJzPSCz4kIymONo'
+        }
+      },
+      'launcher': {
+        'embed': 'launcher',
+        'props': {
+          'position': 'right'
+        }
+      },
+      'ticketSubmissionForm': {
+        'embed': 'submitTicket',
+        'props': {}
+      }
+    },
+    ruleset: 'HC_C_TS'
   }
 };
 
