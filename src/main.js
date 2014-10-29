@@ -24,10 +24,7 @@ function boot() {
       chatPages = [
         '/zopim',
         '/product/pricing',
-        '/product/tour',
-        '/register',
-        '/plus',
-        '/enterprise'
+        '/product/tour'
       ],
       handleQueue = function(queue) {
         _.forEach(queue, function(method) {
@@ -108,8 +105,12 @@ function boot() {
 
   if (!isBlacklisted()) {
     //The config for zendesk.com
-    if (host === 'www.zendesk.com' && _.contains(chatPages, path)) {
-      renderer.init(renderer.hardcodedConfigs.zendeskWithChat);
+    if (host === 'www.zendesk.com') {
+      if (_.contains(chatPages, path)) {
+        renderer.init(renderer.hardcodedConfigs.zendeskWithChat);
+      } else {
+        renderer.init(renderer.hardcodedConfigs.zendeskDefault);
+      }
       handlePostRenderQueue(postRenderQueue);
     } else {
       transport.get({
