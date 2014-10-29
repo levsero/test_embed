@@ -1,10 +1,11 @@
 import { win,
-         document,
-         navigator } from 'utility/globals';
-import { transport } from 'service/transport';
-import { identity }  from 'service/identity';
-import { store }     from 'service/persistence';
-import { parseUrl }  from 'utility/utils';
+         document as doc,
+         navigator }            from 'utility/globals';
+import { transport }            from 'service/transport';
+import { identity }             from 'service/identity';
+import { store }                from 'service/persistence';
+import { parseUrl,
+         getFrameworkLoadTime }  from 'utility/utils';
 
 require('imports?_=lodash!lodash');
 
@@ -28,7 +29,7 @@ function commonParams() {
 
 function send() {
   var now = Date.now(),
-      referrer = parseUrl(document.referrer),
+      referrer = parseUrl(doc.referrer),
       previousTime = store.get('currentTime', true) || 0,
       url = win.location.origin,
       timeOnLastPage = function () {
@@ -38,8 +39,9 @@ function send() {
         pageView: {
           referrer: referrer.href,
           time: timeOnLastPage(),
+          loadTime: getFrameworkLoadTime(),
           navigatorLanguage: navigator.language,
-          pageTitle: document.title,
+          pageTitle: doc.title,
           userAgent: navigator.userAgent
         }
       },

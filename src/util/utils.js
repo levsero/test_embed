@@ -96,10 +96,24 @@ function clickBusterHandler(ev) {
   }
 }
 
+function getFrameworkLoadTime() {
+  var now = Date.now(),
+      loadTime = document.t ? now - document.t : undefined;
+
+  if('performance' in window && 'getEntries' in window.performance) {
+    return _.find(window.performance.getEntries(), function(entry) {
+      return entry.name.indexOf('main.js') !== -1;
+    }).duration;
+  } else {
+    return loadTime;
+  }
+}
+
 export {
   parseUrl,
   setScaleLock,
   clickBusterRegister,
   clickBusterHandler,
-  metaStringToObj
+  metaStringToObj,
+  getFrameworkLoadTime
 };
