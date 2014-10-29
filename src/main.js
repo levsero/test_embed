@@ -19,7 +19,6 @@ function boot() {
       devApi,
       isPinching,
       host = location.host,
-      path = location.pathname,
       postRenderQueue = [],
       handleQueue = function(queue) {
         _.forEach(queue, function(method) {
