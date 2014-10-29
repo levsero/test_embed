@@ -37,8 +37,7 @@ describe('beacon', function() {
         },
         document: {
           referrer: 'http://document.referrer',
-          title: 'Document Title',
-          t: '1414541964593'
+          title: 'Document Title'
         },
         navigator: {
           language: 'navigator.language',

@@ -27,7 +27,6 @@ function send() {
   var now = Date.now(),
       referrer = parseUrl(doc.referrer),
       previousTime = store.get('currentTime', true) || 0,
-      loadTime = document.t ? now - document.t : undefined,
       url = win.location.origin,
       timeOnLastPage = function () {
         return referrer.origin === url && previousTime ? (now - previousTime) : 0;
@@ -36,7 +35,7 @@ function send() {
         pageView: {
           referrer: referrer.href,
           time: timeOnLastPage(),
-          loadTime: getFrameworkLoadTime(loadTime),
+          loadTime: getFrameworkLoadTime(),
           navigatorLanguage: navigator.language,
           pageTitle: doc.title,
           userAgent: navigator.userAgent

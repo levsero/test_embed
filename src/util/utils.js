@@ -96,11 +96,14 @@ function clickBusterHandler(ev) {
   }
 }
 
-function getFrameworkLoadTime(loadTime) {
+function getFrameworkLoadTime() {
+  var now = Date.now(),
+      loadTime = document.t ? now - document.t : undefined;
+
   if('performance' in window && 'getEntries' in window.performance) {
-    return _.filter(window.performance.getEntries(), function(entry) {
+    return _.find(window.performance.getEntries(), function(entry) {
       return entry.name.indexOf('main.js') !== -1;
-    })[0].duration;
+    }).duration;
   } else {
     return loadTime;
   }
