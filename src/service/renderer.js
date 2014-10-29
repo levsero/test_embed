@@ -106,14 +106,8 @@ function propagateFontRatio(ratio) {
 }
 
 var hardcodedConfigs = {
-  zendeskWithChat: {
+  ticketSubmission: {
     'embeds': {
-      'zopimChat': {
-        'embed': 'chat',
-        'props': {
-          'zopimId': '2ItCA9Tu3W5bksDB4EJzPSCz4kIymONo'
-        }
-      },
       'launcher': {
         'embed': 'launcher',
         'props': {
@@ -125,7 +119,7 @@ var hardcodedConfigs = {
         'props': {}
       }
     },
-    ruleset: 'C_TS'
+    ruleset: 'TS'
   }
 };
 

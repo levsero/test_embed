@@ -21,14 +21,6 @@ function boot() {
       host = location.host,
       path = location.pathname,
       postRenderQueue = [],
-      chatPages = [
-        '/zopim',
-        '/product/pricing',
-        '/product/tour',
-        '/register',
-        '/plus',
-        '/enterprise'
-      ],
       handleQueue = function(queue) {
         _.forEach(queue, function(method) {
           if (method[0].locale) {
@@ -107,9 +99,8 @@ function boot() {
   win.zE.hide = hide;
 
   if (!isBlacklisted()) {
-    //The config for zendesk.com
-    if (host === 'www.zendesk.com' && _.contains(chatPages, path)) {
-      renderer.init(renderer.hardcodedConfigs.zendeskWithChat);
+    if (host === 'developer.zendesk.com') {
+      renderer.init(renderer.hardcodedConfigs.ticketSubmission);
       handlePostRenderQueue(postRenderQueue);
     } else {
       transport.get({
