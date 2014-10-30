@@ -39,9 +39,8 @@ parts:
       value: "There was an error processing your request. Please try again later"
   - translation:
       key: "embeddable_framework.submitTicket.marketing.message"
-      title: "Message to customers that displays after submit ticket is sent"
+      title: "Message to customers that displays after submit ticket is sent. Translate this as 'If you own a business, you can add this widget to your website or product'"
       value: "Do you have a business? Get this for your website or product."
-      wip: true
 
   # Submit Ticket Form component
   - translation:
@@ -81,23 +80,19 @@ parts:
   - translation:
       key: "embeddable_framework.helpCenter.search.noResults.title"
       title: "The title of the message for the help center widget when there are no results returned from search. searchTerm is the term they just searched for in quotes. Will wrap as needed (tinyurl.com/o849ewv)"
-      value: "Oh no, there are no results for \"(%(searchTerm)s)\""
-      wip: true
+      value: "There are no results for \"(%(searchTerm)s)\""
   - translation:
       key: "embeddable_framework.helpCenter.search.noResults.body"
       title: "The body of the message for the help center widget when there are no results returned from search. Will wrap as needed (tinyurl.com/okoocb7)"
-      value: "Try searching for something else"
-      wip: true
+      value: "Try searching for something else."
   - translation:
       key: "embeddable_framework.helpCenter.search.error.title"
       title: "The title of the message for the help center widget when searching fails and returns an error. Will wrap as needed (tinyurl.com/n475fhj)"
-      value: "Sorry, no results available at the moment"
-      wip: true
+      value: "Sorry, there are no results."
   - translation:
       key: "embeddable_framework.helpCenter.search.error.body"
       title: "The body of the message for the help center widget when searching fails and returns an error. Will wrap as needed (tinyurl.com/n475fhj)"
-      value: "Use the button below to send us a message"
-      wip: true
+      value: "Click the button below to send us a message."
   - translation:
       key: "embeddable_framework.helpCenter.submitButton.label.chat"
       title: "The label on the button in help center widget when a chat agent is online to let customers know that if they click it they will go to live chat. Will wrap if needed (tinyurl.com/kf8gpbb)"
