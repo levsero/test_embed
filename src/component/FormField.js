@@ -118,7 +118,7 @@ function SelectField(props) {
 
   _.forEach(props.options, function(option) {
     options.push(
-      <option value={option}>{option}</option>
+      <option value={option.value}>{option.title}</option>
     );
   });
 

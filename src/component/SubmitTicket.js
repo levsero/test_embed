@@ -127,9 +127,11 @@ export var SubmitTicket = React.createClass({
           if (_.isArray(value)) {
             value = value[0];
           }
+
           params.fields[name.slice(2)] = value;
         }
       });
+
       return params;
     }
   },
