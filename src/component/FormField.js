@@ -85,6 +85,7 @@ function CheckboxField(props) {
         'Arrange-sizeFill u-vsizeAll': true,
         'u-textSize15': isMobileBrowser()
       });
+
   props = props || {};
 
   /* jshint quotmark:false */
@@ -117,7 +118,7 @@ function SelectField(props) {
 
   _.forEach(props.options, function(option) {
     options.push(
-      <option>{option}</option>
+      <option value={option}>{option}</option>
     );
   });
 

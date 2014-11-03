@@ -52,22 +52,18 @@ export var submitTicketSchema = function(customFields) {
 };
 
 var getCustomFields = function(customFields) {
-  /* jshint camelcase:false */
-  var ticketFields = [];
-
-  _.forEach(customFields, function(field) {
+  return _.map(customFields, function(field) {
     switch(field.type) {
       case 'text':
-        ticketFields.push(
+        return (
           <IconField
             name={'ze'+field.id}
             required={field.required}
             placeholder={field.title}
           />
         );
-        break;
       case 'tagger':
-        ticketFields.push(
+        return (
           <SelectField
             name={'ze'+field.id}
             required={field.required}
@@ -75,9 +71,8 @@ var getCustomFields = function(customFields) {
             options={field.options}
           />
         );
-        break;
       case 'integer':
-        ticketFields.push(
+        return (
           <IconField
             name={'ze'+field.id}
             placeholder={field.title}
@@ -85,9 +80,8 @@ var getCustomFields = function(customFields) {
             validate={function(v) {return /^\d+$/.test(v); }}
           />
         );
-        break;
       case 'decimal':
-        ticketFields.push(
+        return (
           <IconField
             name={'ze'+field.id}
             required={field.required}
@@ -95,10 +89,9 @@ var getCustomFields = function(customFields) {
             validate={function(v) {return /^\d*\.\d+$/.test(v); }}
           />
         );
-        break;
       case 'textarea':
         /* jshint quotmark:false */
-        ticketFields.push(
+        return (
           <IconField
             name={'ze'+field.id}
             required={field.required}
@@ -111,19 +104,16 @@ var getCustomFields = function(customFields) {
             }
           />
         );
-        break;
       case 'checkbox':
-        ticketFields.push(
+        return (
           <CheckboxField
             name={'ze'+field.id}
             label={field.title}
             required={field.required}
           />
         );
-        break;
       default:
         break;
     }
   });
-  return ticketFields;
 };

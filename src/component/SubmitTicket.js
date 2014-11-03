@@ -113,17 +113,21 @@ export var SubmitTicket = React.createClass({
     var params = {};
 
     if (this.props.customFields.length === 0) {
-      return data;
+      return data.value;
     } else {
       params.fields = {};
-      _.forEach(data.value, function(value, type) {
-        if (type.substring(0,2) !== 'ze') {
-          params[type] = value;
+      _.forEach(data.value, function(value, name) {
+        // In react forms if the name of a field only contains numbers it reorders the
+        // form. We add the ze to the forms so they retain their order then remove them here.
+        if (name.substring(0,2) !== 'ze') {
+          params[name] = value;
         } else {
+          // For checkbox field, it returns the array [1] if its selected.
+          // This takes the 1 out of the array so the endpoint knows how to handle it.
           if (_.isArray(value)) {
             value = value[0];
           }
-          params.fields[type.slice(2)] = value;
+          params.fields[name.slice(2)] = value;
         }
       });
       return params;

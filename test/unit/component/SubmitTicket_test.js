@@ -150,8 +150,10 @@ describe('Submit ticket component', function() {
     mostRecentCall = mockSubmitTicketForm.calls.mostRecent().args[0],
 
     mostRecentCall.submit({preventDefault: noop}, {
-      email: formParams.email,
-      description: formParams.description
+      value: {
+        email: formParams.email,
+        description: formParams.description
+      }
     });
 
     transportRecentCall = mockTransport.send.calls.mostRecent().args[0];
