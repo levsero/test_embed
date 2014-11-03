@@ -106,7 +106,7 @@ function getFrameworkLoadTime() {
     }).duration;
   }
 
-  return loadTime <= 0 ? undefined : loadTime;
+  return loadTime < 0 ? undefined : loadTime;
 }
 
 export {
