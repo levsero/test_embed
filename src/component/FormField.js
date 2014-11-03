@@ -55,12 +55,11 @@ var FocusField = React.createClass({
   }
 });
 
-function IconField(props) {
+function IconField(props = {}) {
   var fieldClasses = classSet({
         'Arrange-sizeFill u-vsizeAll': true,
         'u-textSize15': isMobileBrowser()
       });
-  props = props || {};
 
   /* jshint quotmark:false */
   return (
@@ -80,13 +79,11 @@ function IconField(props) {
   );
 }
 
-function CheckboxField(props) {
+function CheckboxField(props = {}) {
   var fieldClasses = classSet({
         'Arrange-sizeFill u-vsizeAll': true,
         'u-textSize15': isMobileBrowser()
       });
-
-  props = props || {};
 
   /* jshint quotmark:false */
   return (
@@ -104,7 +101,7 @@ function CheckboxField(props) {
   );
 }
 
-function SelectField(props) {
+function SelectField(props = {}) {
   /* jshint quotmark:false */
   var fieldClasses = classSet({
         'Arrange-sizeFill u-vsizeAll u-textSecondary': true,
@@ -113,8 +110,6 @@ function SelectField(props) {
       options = [
         <option value='' disabled selected>{props.placeholder}</option>
       ];
-
-  props = props || {};
 
   _.forEach(props.options, function(option) {
     options.push(
@@ -237,7 +232,7 @@ var SearchField = React.createClass({
   }
 });
 
-function EmailField(props) {
+function EmailField(props = {}) {
   var type = 'email',
       fieldClasses = classSet({
         'Arrange-sizeFill u-vsizeAll': true,

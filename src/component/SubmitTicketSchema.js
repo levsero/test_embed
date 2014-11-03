@@ -14,7 +14,8 @@ var { Schema } = ReactForms.schema,
     fieldClasses = classSet({
       'Arrange-sizeFill u-vsizeAll': true,
       'u-textSize15': isMobileBrowser()
-    });
+    }),
+    getCustomFields;
 
 export var submitTicketSchema = function(customFields) {
   var ticketFields = getCustomFields(customFields);
@@ -51,7 +52,7 @@ export var submitTicketSchema = function(customFields) {
   );
 };
 
-var getCustomFields = function(customFields) {
+getCustomFields = function(customFields) {
   return _.map(customFields, function(field) {
     switch(field.type) {
       case 'text':
