@@ -11,6 +11,7 @@ import { i18n }            from 'service/i18n';
 
 var { FieldMixin } = ReactForms,
     Property = ReactForms.schema.Property,
+    CheckboxGroup = ReactForms.input.CheckboxGroup,
     isFailure = ReactForms.validation.isFailure,
     classSet = React.addons.classSet;
 
@@ -34,12 +35,17 @@ var FocusField = React.createClass({
           'rf-Field--focused': this.state.focused,
           'rf-Field--blurred': this.state.blurred,
           'rf-Field--invalid': isInvalid && this.state.blurred,
-          'rf-Field--dirty': !value.isUndefined
+          'rf-Field--dirty': !value.isUndefined,
+          'rf-Field--dropdown': this.props.dropdown
+        }),
+        iconClasses = classSet({
+          'u-isHidden': !this.props.icon,
+          'Arrange-sizeFit u-isActionable Icon Icon--': true
         });
 
     return (
       <label className={classNames}>
-        <i className={'Arrange-sizeFit u-isActionable Icon Icon--' + this.props.icon} />
+        <i className={iconClasses + this.props.icon} />
         {this.transferPropsTo(this.renderInputComponent({
           onFocus: this.onFocus,
           onBlur: this.onBlur
@@ -49,12 +55,11 @@ var FocusField = React.createClass({
   }
 });
 
-function IconField(props) {
+function IconField(props = {}) {
   var fieldClasses = classSet({
         'Arrange-sizeFill u-vsizeAll': true,
         'u-textSize15': isMobileBrowser()
       });
-  props = props || {};
 
   /* jshint quotmark:false */
   return (
@@ -70,6 +75,61 @@ function IconField(props) {
       }
       validate={props.validate || ''}
       component={<FocusField icon={props.icon} />}
+    />
+  );
+}
+
+function CheckboxField(props = {}) {
+  var fieldClasses = classSet({
+        'Arrange-sizeFill u-vsizeAll': true,
+        'u-textSize15': isMobileBrowser()
+      });
+
+  /* jshint quotmark:false */
+  return (
+    <Property
+      name={props.name}
+      type='array'
+      required={!!props.required}
+      input={
+        <CheckboxGroup
+          className={fieldClasses}
+          options={[{value: '1', name: props.label}]}
+        />
+      }
+    />
+  );
+}
+
+function SelectField(props = {}) {
+  /* jshint quotmark:false */
+  var fieldClasses = classSet({
+        'Arrange-sizeFill u-vsizeAll u-textSecondary': true,
+        'u-textSize15': isMobileBrowser()
+      }),
+      options = [
+        <option value='' disabled selected>{props.placeholder}</option>
+      ];
+
+  _.forEach(props.options, function(option) {
+    options.push(
+      <option value={option.value}>{option.title}</option>
+    );
+  });
+
+  /* jshint quotmark:false */
+  return (
+    <Property
+      name={props.name}
+      required={!!props.required}
+      input={
+        <select
+          name={props.name}
+          className={fieldClasses}>
+          {options}
+        </select>
+      }
+      component={<FocusField dropdown={true} />}
     />
   );
 }
@@ -172,7 +232,7 @@ var SearchField = React.createClass({
   }
 });
 
-function EmailField(props) {
+function EmailField(props = {}) {
   var type = 'email',
       fieldClasses = classSet({
         'Arrange-sizeFill u-vsizeAll': true,
@@ -197,5 +257,5 @@ function EmailField(props) {
   });
 }
 
-export { IconField, EmailField, SearchField };
+export { IconField, CheckboxField, EmailField, SearchField, SelectField };
 

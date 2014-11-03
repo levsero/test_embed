@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Custom Ticket Fields</title>
+    <style>
+      p { line-height:200%; }
+    </style>
+  </head>
+
+  <body style='background-color:#fff'>
+    <h1>Custom Ticket Fields boom</h1>
+
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tristique quis nisi a lobortis. Proin et malesuada orci, ut malesuada risus. Etiam eget tellus in est viverra aliquam vitae non felis. Vivamus vestibulum elit arcu. Vivamus a vehicula leo, id venenatis massa. Sed eget mi ultricies, ultricies sapien semper, porta nisl. Fusce accumsan risus a diam fermentum, ac consectetur erat pulvinar. Nulla vitae purus ac erat mollis feugiat.
+    </p>
+    <p>
+      Donec eget quam eros. Nunc augue arcu, adipiscing ac massa non, imperdiet laoreet felis. Curabitur sit amet libero eu est bibendum vestibulum. Vestibulum eget dictum quam. Praesent tempus accumsan tellus at volutpat. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nulla dolor nunc, fringilla sed molestie et, vulputate nec quam. Donec vitae vulputate sapien. Fusce cursus felis quis turpis laoreet imperdiet.
+    </p>
+    <p>
+      Donec cursus nulla mauris, sit amet accumsan elit pulvinar quis. Mauris tempus nulla non feugiat gravida. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aliquam euismod pharetra urna, eget lobortis ligula condimentum eu. Aliquam non diam nec purus tristique luctus. Suspendisse nec magna eu quam euismod placerat. Suspendisse in bibendum est. Donec condimentum cursus est, sed tristique neque facilisis et. Aliquam aliquam interdum varius. Donec elementum est quis nibh ultrices, et pellentesque lacus auctor. Phasellus vel posuere mi. Nullam adipiscing est sed augue adipiscing posuere. Proin ut dignissim felis. Fusce malesuada tellus volutpat pretium mattis. Vestibulum a libero eu augue suscipit fermentum.
+    </p>
+    <p>
+      Nam ut purus a odio posuere cursus. Mauris molestie elit id enim egestas, nec fermentum odio gravida. Pellentesque mollis neque quis condimentum eleifend. Maecenas at nibh eros. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean eu urna lectus. Nullam eu quam quis tellus auctor ultricies in ut massa. Nulla sit amet neque at felis cursus lobortis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec ullamcorper ligula eget egestas suscipit. Pellentesque ut commodo enim. Aliquam venenatis augue ac imperdiet varius. Ut pharetra molestie erat sed egestas. Ut luctus pellentesque nisl, in congue erat. Quisque ullamcorper massa quis adipiscing ultricies.
+    </p>
+    <p>
+      Aliquam varius ante magna, a adipiscing sapien vehicula ut. Phasellus mattis, ligula sed faucibus vehicula, nunc mi pharetra elit, ac aliquet arcu risus in diam. Vestibulum bibendum feugiat felis, a venenatis risus auctor vitae. Nulla nisl massa, fringilla non tempor et, aliquet vel mi. Nunc volutpat purus nulla, ut fermentum diam suscipit vel. Mauris et libero eget lectus dapibus interdum. Nam vel diam enim.
+    </p>
+
+    <script src="/dist/bootstrap.js" inline></script>
+
+    <script>
+      zE(function() {
+        zE.devRender({
+          embeds: {
+            "ticketSubmissionForm": {
+              "embed": "submitTicket",
+              "props": {
+                customFields: [
+                  {
+                    id: '22660514',
+                    type: 'text',
+                    title: 'Text',
+                    required: true
+                  },
+                  {
+                    id: '22666574',
+                    type: 'tagger',
+                    title: 'Department',
+                    options: [
+                      {
+                        title: 'Sales',
+                        value: 1
+                      },
+                      {
+                        title: 'Support',
+                        value: 2
+                      }
+                    ],
+                    required: true
+                  },
+                  {
+                    id: '22660524',
+                    type: 'textarea',
+                    title: 'Order Details',
+                    required: true
+                  },
+                  {
+                    id: '22823250',
+                    type: 'integer',
+                    title: 'Age',
+                    required: true
+                  },
+                  {
+                    id: '22823260',
+                    type: 'decimal',
+                    title: 'Total Cost',
+                    required: true
+                  },
+                  {
+                    id: '22823270',
+                    type: 'checkbox',
+                    title: 'Can we call you?',
+                    required: false
+                  }
+                ]
+              }
+            },
+            "launcher": {
+              "embed": "launcher",
+              "props": {
+                "position": "right"
+              }
+            }
+          },
+          ruleset: 'TS'
+        });
+      });
+    </script>
+
+  </body>
+</html>
