@@ -90,12 +90,13 @@ function initChatTicketSubmission() {
     state[`${chat}.isVisible`] = false;
 
     c.broadcast(`${launcher}.deactivate`);
+    c.broadcast(`${launcher}.show`);
     c.broadcast(`${chat}.hide`);
   });
 
   c.intercept(`${chat}.onShow`, function() {
     state[`${chat}.isVisible`] = true;
-    c.broadcast(`${launcher}.activate`);
+    c.broadcast(`${launcher}.hide`);
   });
 
   c.intercept(`${chat}.onIsChatting`, function() {
@@ -116,14 +117,14 @@ function initChatTicketSubmission() {
         state[`${chat}.isVisible`] = true;
         state.activeEmbed = chat;
         c.broadcast(`${chat}.show`);
-        c.broadcast(`${launcher}.activate`);
-        c.broadcast(`${launcher}.show`);
+        c.broadcast(`${launcher}.hide`);
       }
     }
   });
 
   c.intercept(
     [`${launcher}.onClick`,
+     `${chat}.onHide`,
      `${submitTicket}.onClose`].join(','),
     function() {
       if (state[`${chat}.isVisible`] || state[`${submitTicket}.isVisible`]) {
@@ -132,6 +133,7 @@ function initChatTicketSubmission() {
             c.broadcast(`${chat}.hide`);
             state[`${chat}.userClosed`] = true;
             state[`${chat}.isVisible`] = false;
+            c.broadcast(`${launcher}.show`);
           }
         }
         if (state[`${submitTicket}.isVisible`]) {
@@ -145,6 +147,7 @@ function initChatTicketSubmission() {
           if (!isMobileBrowser()) {
             state[`${chat}.isVisible`] = true;
             c.broadcast(`${launcher}.activate`);
+            c.broadcast(`${launcher}.hide`);
           }
         } else {
           c.broadcast(`${submitTicket}.show`);
@@ -305,7 +308,7 @@ function initHelpCenterChatTicketSubmission() {
 
   c.intercept(`${chat}.onShow`, function() {
     state[`${chat}.isVisible`] = true;
-    c.broadcast(`${launcher}.activate`);
+    c.broadcast(`${launcher}.hide`);
   });
 
   c.intercept(`${chat}.onUnreadMsgs`, function(_, count) {
@@ -318,8 +321,7 @@ function initHelpCenterChatTicketSubmission() {
         state[`${chat}.isVisible`] = true;
         state.activeEmbed = chat;
         c.broadcast(`${chat}.show`);
-        c.broadcast(`${launcher}.activate`);
-        c.broadcast(`${launcher}.show`);
+        c.broadcast(`${launcher}.hide`);
       }
     }
   });
@@ -329,11 +331,13 @@ function initHelpCenterChatTicketSubmission() {
 
       if (!isMobileBrowser()) {
         state[`${chat}.isVisible`] = true;
+        c.broadcast(`${launcher}.hide`);
       }
 
       if (isMobileBrowser()) {
         c.broadcast(`${launcher}.deactivate`);
       }
+
       state.activeEmbed = chat;
       c.broadcast(`${chat}.show`);
     } else {
@@ -383,6 +387,7 @@ function initHelpCenterChatTicketSubmission() {
           c.broadcast(`${chat}.hide`);
           state[`${chat}.isVisible`] = false;
           state[`${chat}.userClosed`] = true;
+          c.broadcast(`${launcher}.show`);
         }
         if (state[`${submitTicket}.isVisible`]) {
           c.broadcast(`${submitTicket}.hide`);
@@ -390,9 +395,12 @@ function initHelpCenterChatTicketSubmission() {
         }
         c.broadcast(`${launcher}.deactivate`);
       } else {
+        if (state.activeEmbed === chat) {
+          c.broadcast(`${launcher}.hide`);
+        }
         c.broadcast(`${state.activeEmbed}.show`);
         state[`${state.activeEmbed}.isVisible`] = true;
-        if (!isMobileBrowser()) {
+        if (!isMobileBrowser() && state.activeEmbed !== chat) {
           c.broadcast(`${launcher}.activate`);
         }
       }

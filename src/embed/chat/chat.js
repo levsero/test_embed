@@ -14,7 +14,8 @@ function create(name, config) {
     title: i18n.t('embeddable_framework.chat.title'),
     color: '#78A300',
     standalone: false,
-    offsetVertical: 70
+    offsetVertical: 0,
+    size: 'large'
   };
 
   chats[name] = {
@@ -39,6 +40,7 @@ function show(name) {
 
     zopimWin.setPosition(config.position);
     zopimWin.setTitle(config.title);
+    zopimWin.setSize(config.size);
     zopimWin.setOffsetVertical(config.offsetVertical);
     zopimWin.show();
   });
@@ -138,6 +140,10 @@ function init(name) {
       },
       onHide = function() {
         mediator.channel.broadcast(name + '.onHide');
+
+        win.$zopim(function() {
+          win.$zopim.livechat.hideAll();
+        });
       };
 
   chat.online = false;
