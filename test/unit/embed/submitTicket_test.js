@@ -53,14 +53,15 @@ describe('embed.submitTicket', function() {
             })
           )
       },
-      './submitTicket.scss': jasmine.createSpy('mockCss'),
-      './submitTicketFrame.scss': jasmine.createSpy('mockFrameCss'),
+      './submitTicket.scss': '',
+      './submitTicketFrame.scss': '',
       'embed/frameFactory': {
         frameFactory: require(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
         frameMethods: require(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
       },
       'utility/utils': {
-        setScaleLock: jasmine.createSpy('setScaleLock')
+        setScaleLock: jasmine.createSpy('setScaleLock'),
+        generateUserCSS: jasmine.createSpy().and.returnValue('')
       },
       'utility/devices': {
         isMobileBrowser: function() {
@@ -265,7 +266,7 @@ describe('embed.submitTicket', function() {
       mockFrameFactoryCss = mockFrameFactory.calls.mostRecent().args[1].css;
 
       expect(mockFrameFactoryCss)
-        .toBe(mockCss);
+        .toEqual(mockCss);
     });
 
     describe('mediator subscription', function() {
