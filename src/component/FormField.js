@@ -197,7 +197,7 @@ var SearchField = React.createClass({
         }),
         searchInputFieldIconClasses = classSet({
           'Arrange-sizeFit u-isActionable Icon Icon--search': true,
-          'custom-textColor': this.state.focused
+          'u-user-textColor': this.state.focused
         }),
         clearInputClasses = classSet({
           'Icon Icon--clearInput': true,

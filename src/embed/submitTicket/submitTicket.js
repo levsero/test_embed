@@ -2,14 +2,14 @@
 
 module React from 'react/addons';
 
-import { document }               from 'utility/globals';
-import { SubmitTicket }           from 'component/SubmitTicket';
-import { frameFactory }           from 'embed/frameFactory';
-import { setScaleLock }           from 'utility/utils';
-import { isMobileBrowser }        from 'utility/devices';
-import { beacon }                 from 'service/beacon';
-import { mediator }               from 'service/mediator';
-import { generateCustomColorCSS } from 'utility/utils';
+import { document }        from 'utility/globals';
+import { SubmitTicket }    from 'component/SubmitTicket';
+import { frameFactory }    from 'embed/frameFactory';
+import { setScaleLock }    from 'utility/utils';
+import { isMobileBrowser } from 'utility/devices';
+import { beacon }          from 'service/beacon';
+import { mediator }        from 'service/mediator';
+import { generateUserCSS } from 'utility/utils';
 
 var submitTicketCSS = require('./submitTicket.scss'),
     submitTickets = {};
@@ -66,7 +66,7 @@ function create(name, config) {
     },
     {
       style: iframeStyle,
-      css: submitTicketCSS + generateCustomColorCSS(config.color),
+      css: submitTicketCSS + generateUserCSS({color: config.color}),
       fullscreenable: true,
       onShow() {
         setScaleLock(true);

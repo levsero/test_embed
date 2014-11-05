@@ -43,7 +43,7 @@ export var Launcher = React.createClass({
         displayLabel,
         buttonClasses = classSet({
           'Button Button--launcher Button--cta': true,
-          'custom-backgroundColor': !this.state.active,
+          'u-user-backgroundColor': !this.state.active,
           'Arrange Arrange--middle': true,
           'u-isActionable u-textLeft u-inlineBlock u-textNoWrap': true,
           'Button--launcherActive': this.state.active

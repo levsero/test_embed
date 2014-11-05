@@ -11,7 +11,7 @@ import { beacon }          from 'service/beacon';
 import { i18n }            from 'service/i18n';
 import { transport }       from 'service/transport';
 import { mediator }        from 'service/mediator';
-import { generateCustomColorCSS } from 'utility/utils';
+import { generateUserCSS } from 'utility/utils';
 require('imports?_=lodash!lodash');
 
 var helpCenterCSS = require('./helpCenter.scss'),
@@ -72,7 +72,7 @@ function create(name, config) {
     },
     {
       style: iframeStyle,
-      css: helpCenterCSS + generateCustomColorCSS(config.color),
+      css: helpCenterCSS + generateUserCSS({color: config.color}),
       name: name,
       fullscreenable: true,
       onHide() {

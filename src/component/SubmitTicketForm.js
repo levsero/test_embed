@@ -63,13 +63,13 @@ var SubmitTicketForm = React.createClass({
             component={React.DOM.div} />
         ),
         navigationButtonClasses = classSet({
-          'Button Button--nav custom-textColor': true,
+          'Button Button--nav u-user-textColor': true,
           'u-inlineBlock u-posEndS--vert': !this.props.fullscreen,
           'u-posAbsolute u-posStart--vert u-textSizeBaseMobile': this.props.fullscreen,
           'u-isHidden': !this.state.showBackButton
         }),
         buttonClasses = classSet({
-          'Button Button--cta Anim-color u-textNoWrap custom-backgroundColor': true,
+          'Button Button--cta Anim-color u-textNoWrap u-user-backgroundColor': true,
           'u-pullRight': !this.props.fullscreen,
           'u-sizeFull': this.props.fullscreen
         }),

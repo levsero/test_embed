@@ -3,10 +3,10 @@ require('imports?_=lodash!lodash');
 
 var clickBusterClicks = [];
 
-function generateCustomColorCSS(color) {
-  if (color) {
-    return `.custom-textColor:not([disabled]) { color: ${color} !important; }
-            .custom-backgroundColor:not([disabled]) { background-color: ${color} !important; }`;
+function generateUserCSS(params) {
+  if (params.color) {
+    return `.u-user-textColor:not([disabled]) { color: ${params.color} !important; }
+            .u-user-backgroundColor:not([disabled]) { background-color: ${params.color} !important; }`;
   } else {
     return '';
   }
@@ -125,5 +125,5 @@ export {
   clickBusterHandler,
   metaStringToObj,
   getFrameworkLoadTime,
-  generateCustomColorCSS
+  generateUserCSS
 };
