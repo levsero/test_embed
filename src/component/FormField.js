@@ -195,6 +195,10 @@ var SearchField = React.createClass({
           'Arrange-sizeFill u-paddingR Form-placeholder u-textSizeMed': true,
           'u-textSizeBaseMobile': this.props.fullscreen
         }),
+        searchInputFieldIconClasses = classSet({
+          'Arrange-sizeFit u-isActionable Icon Icon--search': true,
+          'custom-textColor': this.state.focused
+        }),
         clearInputClasses = classSet({
           'Icon Icon--clearInput': true,
           'u-isActionable u-textCenter': true,
@@ -208,7 +212,7 @@ var SearchField = React.createClass({
       /* jshint quotmark:false */
       <div className={searchContainerClasses}>
         <div className={searchInputClasses}>
-          <i className='Arrange-sizeFit u-isActionable Icon Icon--search'></i>
+          <i className={searchInputFieldIconClasses}></i>
           <div className='Arrange-sizeFill u-vsizeAll u-posRelative'>
             <input
               className={searchInputFieldClasses}

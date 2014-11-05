@@ -7,9 +7,9 @@ export var Loading = React.createClass({
     /* jshint quotmark:false */
     return this.transferPropsTo(
       <div className='Loading u-textCenter'>
-        <div className='Loading-item Loading-item1 u-inlineBlock'></div>
-        <div className='Loading-item Loading-item2 u-inlineBlock'></div>
-        <div className='Loading-item Loading-item3 u-inlineBlock'></div>
+        <div className='Loading-item Loading-item1 custom-backgroundColor u-inlineBlock'></div>
+        <div className='Loading-item Loading-item2 custom-backgroundColor u-inlineBlock'></div>
+        <div className='Loading-item Loading-item3 custom-backgroundColor u-inlineBlock'></div>
       </div>
     );
   }

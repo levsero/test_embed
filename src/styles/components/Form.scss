@@ -69,7 +69,7 @@ $Form-fontSize: #{13/$font-size}rem;
 }
 
 .rf-Field--focused {
-  border: $Form-stroke solid $cta-color;
+  border: $Form-stroke solid $stroke-focused-color;
 
   &.rf-Field--dirty.rf-Field--invalid {
     @include error-state(1);

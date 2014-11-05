@@ -63,13 +63,13 @@ var SubmitTicketForm = React.createClass({
             component={React.DOM.div} />
         ),
         navigationButtonClasses = classSet({
-          'Button Button--nav': true,
+          'Button Button--nav custom-textColor': true,
           'u-inlineBlock u-posEndS--vert': !this.props.fullscreen,
           'u-posAbsolute u-posStart--vert u-textSizeBaseMobile': this.props.fullscreen,
           'u-isHidden': !this.state.showBackButton
         }),
         buttonClasses = classSet({
-          'Button Button--cta Anim-color u-textNoWrap': true,
+          'Button Button--cta Anim-color u-textNoWrap custom-backgroundColor': true,
           'u-pullRight': !this.props.fullscreen,
           'u-sizeFull': this.props.fullscreen
         }),
@@ -93,7 +93,7 @@ var SubmitTicketForm = React.createClass({
           <button
             onClick={this.handleBackClick}
             className={navigationButtonClasses}>
-            <i className='Icon Icon--arrow' />
+            <i className='Icon Icon--arrow u-textInheritColor' />
             {i18n.t('embeddable_framework.navigation.back')}
           </button>
           <h2 className={titleClasses}>

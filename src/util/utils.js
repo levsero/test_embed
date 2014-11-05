@@ -3,6 +3,15 @@ require('imports?_=lodash!lodash');
 
 var clickBusterClicks = [];
 
+function generateCustomColorCSS(color) {
+  if (color) {
+    return `.custom-textColor:not([disabled]) { color: ${color} !important; }
+            .custom-backgroundColor:not([disabled]) { background-color: ${color} !important; }`;
+  } else {
+    return '';
+  }
+}
+
 function metaStringToObj(str) {
   if (_.isEmpty(str)) {
     return {};
@@ -115,5 +124,6 @@ export {
   clickBusterRegister,
   clickBusterHandler,
   metaStringToObj,
-  getFrameworkLoadTime
+  getFrameworkLoadTime,
+  generateCustomColorCSS
 };

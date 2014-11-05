@@ -191,7 +191,7 @@ export var SubmitTicket = React.createClass({
         key={this.state.uid}>
         <div className={containerBarClasses} />
         <div className={notifyClasses}>
-          <div className='Icon Icon--tick u-inlineBlock' />
+          <div className='Icon Icon--tick u-inlineBlock custom-textColor' />
           <p className='u-textBold u-textSizeMed'>{this.state.message}</p>
           <p className={marketingClasses}>
             <a
