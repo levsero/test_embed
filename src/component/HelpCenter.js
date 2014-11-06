@@ -141,7 +141,10 @@ export var HelpCenter = React.createClass({
         return (
             /* jshint camelcase:false */
             <li key={_.uniqueId('topic_')} className={listItemClasses}>
-              <a className='u-user-textColor' href={topic.html_url} target='_blank' onClick={this.props.onLinkClick}>
+              <a className='u-user-textColor'
+                 href={topic.html_url}
+                 target='_blank'
+                 onClick={this.props.onLinkClick}>
                   {topic.title || topic.name}
               </a>
             </li>

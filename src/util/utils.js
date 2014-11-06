@@ -5,8 +5,14 @@ var clickBusterClicks = [];
 
 function generateUserCSS(params) {
   if (params.color) {
-    return `.u-user-textColor:not([disabled]) { color: ${params.color} !important; }
-            .u-user-backgroundColor:not([disabled]) { background-color: ${params.color} !important; }`;
+    return (`
+      .u-user-textColor:not([disabled]) {
+        color: ${params.color} !important;
+      }
+      .u-user-backgroundColor:not([disabled]) {
+        background-color: ${params.color} !important;
+      }
+    `);
   } else {
     return '';
   }
