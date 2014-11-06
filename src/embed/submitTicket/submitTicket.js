@@ -120,11 +120,23 @@ function render(name) {
   });
 
   mediator.channel.subscribe('.identify', function(user) {
+    prefillForm(name, user);
+  });
+}
+
+function prefillForm(name, user) {
+  var getChild = get(name).instance.getChild();
+
+  if(getChild) {
     var submitTicket = get(name).instance.getChild().refs.submitTicket,
         submitTicketForm = submitTicket.refs.submitTicketForm;
 
     submitTicketForm.refs.form.updateValue(user);
-  });
+  } else {
+    setTimeout(() => {
+      prefillForm(name, user);
+    }, 0);
+  }
 }
 
 function get(name) {
