@@ -16,6 +16,7 @@ set(:build_version) { (tag && tag.gsub(/^v/, '')) || fetch(:branch, nil) || loca
 
 set(:real_revision) { Zendesk::Deployment::Committish.new(revision).sha }
 
+before 'embeddable_framework:deploy', 'deploy:setup'
 before 'embeddable_framework:deploy', 'deploy:verify_local_git_status'
 after  'embeddable_framework:deploy', 'deploy:notify'
 
