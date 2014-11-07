@@ -6,10 +6,10 @@ var clickBusterClicks = [];
 function generateUserCSS(params) {
   if (params.color) {
     return (`
-      .u-user-textColor:not([disabled]) {
+      .u-userTextColor:not([disabled]) {
         color: ${params.color} !important;
       }
-      .u-user-backgroundColor:not([disabled]) {
+      .u-userBackgroundColor:not([disabled]) {
         background-color: ${params.color} !important;
       }
     `);

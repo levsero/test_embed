@@ -141,7 +141,7 @@ export var HelpCenter = React.createClass({
         return (
             /* jshint camelcase:false */
             <li key={_.uniqueId('topic_')} className={listItemClasses}>
-              <a className='u-user-textColor'
+              <a className='u-userTextColor'
                  href={topic.html_url}
                  target='_blank'
                  onClick={this.props.onLinkClick}>
@@ -260,7 +260,7 @@ export var HelpCenter = React.createClass({
             isLoading={this.state.isLoading} />
           <div className={linkClasses}>
             <p className='u-marginBN'>{linkContext}</p>
-            <a className='u-user-textColor' onClick={this.props.onButtonClick}>
+            <a className='u-userTextColor' onClick={this.props.onButtonClick}>
               {linkLabel}
             </a>
           </div>
