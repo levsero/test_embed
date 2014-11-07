@@ -3,6 +3,21 @@ require('imports?_=lodash!lodash');
 
 var clickBusterClicks = [];
 
+function generateUserCSS(params) {
+  if (params.color) {
+    return (`
+      .u-userTextColor:not([disabled]) {
+        color: ${params.color} !important;
+      }
+      .u-userBackgroundColor:not([disabled]) {
+        background-color: ${params.color} !important;
+      }
+    `);
+  } else {
+    return '';
+  }
+}
+
 function metaStringToObj(str) {
   if (_.isEmpty(str)) {
     return {};
@@ -115,5 +130,6 @@ export {
   clickBusterRegister,
   clickBusterHandler,
   metaStringToObj,
-  getFrameworkLoadTime
+  getFrameworkLoadTime,
+  generateUserCSS
 };

@@ -201,7 +201,7 @@ export var frameFactory = function(childFn, _params) {
             Component,
             childParams,
             closeClasses = classSet({
-              'Button Button--nav u-posAbsolute u-posEnd u-posStart--vert': true,
+              'Button Button--nav u-posAbsolute u-posEnd u-posStart--vert u-userTextColor': true,
               'u-isActionable u-textSizeBaseMobile': true,
             }),
             closeButton = (params.fullscreenable && isMobileBrowser())
@@ -210,7 +210,7 @@ export var frameFactory = function(childFn, _params) {
                              onTouchStart={this.close}
                              className={closeClasses}>
                              {i18n.t('embeddable_framework.navigation.close')}
-                             <i className='Icon Icon--close' />
+                             <i className='Icon Icon--close u-textInheritColor' />
                            </div>)
                         : null;
 

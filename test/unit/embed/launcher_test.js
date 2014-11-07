@@ -16,6 +16,9 @@ describe('embed.launcher', function() {
       'utility/globals': {
         document: global.document
       },
+      'utility/utils': {
+        generateUserCSS: jasmine.createSpy().and.returnValue('')
+      },
       'component/Launcher': {
         Launcher: jasmine.createSpy('mockLauncher')
           .and.callFake(
@@ -41,7 +44,7 @@ describe('embed.launcher', function() {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
         }
       },
-      './launcher.scss': jasmine.createSpy('mockLauncherCss'),
+      './launcher.scss': '',
       'embed/frameFactory': {
         frameFactory: require(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
         frameMethods: require(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
@@ -244,8 +247,7 @@ describe('embed.launcher', function() {
       mockFrameCss = mockFrameFactory.calls.mostRecent().args[1].css;
 
       expect(mockFrameCss)
-        .toBe(mockCss);
-
+        .toEqual(mockCss);
     });
 
     it('is positioned "right" if no position value is set', function() {

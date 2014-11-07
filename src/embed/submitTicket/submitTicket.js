@@ -9,6 +9,7 @@ import { setScaleLock }    from 'utility/utils';
 import { isMobileBrowser } from 'utility/devices';
 import { beacon }          from 'service/beacon';
 import { mediator }        from 'service/mediator';
+import { generateUserCSS } from 'utility/utils';
 
 var submitTicketCSS = require('./submitTicket.scss'),
     submitTickets = {};
@@ -65,7 +66,7 @@ function create(name, config) {
     },
     {
       style: iframeStyle,
-      css: submitTicketCSS,
+      css: submitTicketCSS + generateUserCSS({color: config.color}),
       fullscreenable: true,
       onShow() {
         setScaleLock(true);

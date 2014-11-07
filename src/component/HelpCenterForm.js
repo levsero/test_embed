@@ -32,7 +32,7 @@ var HelpCenterForm = React.createClass({
   render() {
     /* jshint quotmark:false */
     var buttonClasses = classSet({
-          'Button Button--cta Anim-color u-textNoWrap': true,
+          'Button Button--cta Anim-color u-textNoWrap u-userBackgroundColor': true,
           'u-pullRight': !this.props.fullscreen,
           'u-sizeFull u-textSizeBaseMobile': this.props.fullscreen,
           'u-isHidden': !this.props.hasSearched

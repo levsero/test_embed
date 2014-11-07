@@ -8,6 +8,7 @@ import { frameFactory }    from 'embed/frameFactory';
 import { isMobileBrowser } from 'utility/devices';
 import { i18n }            from 'service/i18n';
 import { mediator }        from 'service/mediator';
+import { generateUserCSS } from 'utility/utils';
 
 require('imports?_=lodash!lodash');
 
@@ -64,7 +65,7 @@ function create(name, config) {
     },
     {
       style: iframeStyle,
-      css: launcherCSS,
+      css: launcherCSS + generateUserCSS({color: config.color}),
       name: name,
       fullscreenable: false,
       extend: {

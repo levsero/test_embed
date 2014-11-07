@@ -61,8 +61,8 @@ describe('embed.helpCenter', function() {
             })
           )
       },
-      './helpCenter.scss': jasmine.createSpy('mockCss'),
-      './helpCenterFrame.scss': jasmine.createSpy('mockFrameCss'),
+      './helpCenter.scss': '',
+      './helpCenterFrame.scss': '',
       'embed/frameFactory': {
         frameFactory: require(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
         frameMethods: require(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
@@ -73,7 +73,8 @@ describe('embed.helpCenter', function() {
         }
       },
       'utility/utils': {
-        setScaleLock: noop
+        setScaleLock: noop,
+        generateUserCSS: jasmine.createSpy().and.returnValue('')
       },
       'utility/globals': {
         document: global.document
@@ -281,7 +282,7 @@ describe('embed.helpCenter', function() {
       mockFrameFactoryCss = mockFrameFactory.calls.mostRecent().args[1].css;
 
       expect(mockFrameFactoryCss)
-        .toBe(mockCss);
+        .toEqual(mockCss);
     });
 
     describe('mediator subscriptions', function() {

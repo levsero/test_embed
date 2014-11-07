@@ -2,14 +2,22 @@
 
 module React from 'react/addons';
 
+var classSet = React.addons.classSet;
+
 export var Loading = React.createClass({
   render() {
     /* jshint quotmark:false */
+    var loadingItemClasses = classSet({
+      'Loading-item': true,
+      'u-userBackgroundColor': true,
+      'u-inlineBlock': true
+    });
+
     return this.transferPropsTo(
       <div className='Loading u-textCenter'>
-        <div className='Loading-item Loading-item1 u-inlineBlock'></div>
-        <div className='Loading-item Loading-item2 u-inlineBlock'></div>
-        <div className='Loading-item Loading-item3 u-inlineBlock'></div>
+        <div className={loadingItemClasses}></div>
+        <div className={loadingItemClasses}></div>
+        <div className={loadingItemClasses}></div>
       </div>
     );
   }
