@@ -25,9 +25,9 @@ function generateLocaleIdMap(locales) {
     .value();
 }
 
-puts('Downloading https://support.zendesk.com/api/v2/rosetta/locales/agent.json');
+puts('Downloading https://support.zendesk.com/api/v2/rosetta/locales/public.json');
 
-rest('https://support.zendesk.com/api/v2/rosetta/locales/agent.json')
+rest('https://support.zendesk.com/api/v2/rosetta/locales/public.json')
   .then(function(res) {
     var locales = JSON.parse(res.entity).locales;
     var requests = [];
