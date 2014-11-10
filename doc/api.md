@@ -6,10 +6,10 @@ The Zendesk Widget API is a JavaScript API for controlling the display and data 
 
 With all the API methods documented below, the associated code should be put just after the widget snippet before the < /head> in the HTML source of your webpages. The exceptions are hide and activate which can be used after page load (For example, associated with certain button clicks on your website).
 
-You can find the widget snippet code for your Zendesk account by:
-* logging in to your Zendesk
-* clicking the Admin icon (![](http://zen-marketing-documentation.s3.amazonaws.com/docs/en/manage_icon.png)) in the sidebar and
-* selecting Channels >  Widget. 
+You can find the widget snippet code for your Zendesk account by visiting the Widget admin page:
+* Log in to your Zendesk
+* Click the Admin icon (![](http://zen-marketing-documentation.s3.amazonaws.com/docs/en/manage_icon.png)) in the sidebar and
+* Select Channels >  Widget
 
 ### zE.setLocale
 
