@@ -56,7 +56,7 @@ Use 'zE.identify' to pass a name and email to the widget. The widget will then p
 
 'zE.activate' will activate and open the widget in its starting state (which will depend on the configuration you have setup in the widget admin).
 
-**After Page Load**
+**After Page Load** (e.g. when someone clicks on the 'Contact' button of your website, you could call zE.activate to pop the widget open)
 ```html
   <button onclick="zE.activate();">Activate Zendesk Widget</button>
 ```
