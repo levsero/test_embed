@@ -11,7 +11,7 @@ You can find the widget snippet code for your Zendesk account by visiting the Wi
 * Click the Admin icon (![](http://zen-marketing-documentation.s3.amazonaws.com/docs/en/manage_icon.png)) in the sidebar and
 * Select Channels >  Widget
 
-The associated code for each API call should be put just after the widget snippet, before the < /head> in the HTML source of your webpage. The exceptions are 'zE.hide' and 'zE.activate' which can be used after page load (For example, associated with certain button clicks on your website).
+The associated code for each API call should be put just after the widget snippet, before the < /head> in the HTML source of your webpage. 'zE.hide', 'zE.activate' and 'zE.identify' can be used before <em>and</em> after page load (For example, associated with certain button clicks on your website).
 
 ### zE.setLocale
 
@@ -29,13 +29,13 @@ The below example shows how to force the widget to display in German:
 </script>
 ```
 
-End result: widget displayed in German
+End result: Widget displayed in German
 
 ![](https://cloud.githubusercontent.com/assets/445678/4971485/4340e4ac-68f6-11e4-81f5-7c276fae07d3.png)
 
 ### zE.identify
 
-Use 'zE.identify' to pass a name and email to the widget. The widget will then pre-populate that information when the user interacts with the contact form and/or chat.
+If you have access to your end user's name and email on your webpage you can use 'zE.identify' to pass that name and email to the widget. The widget will use this information to pre-populate the contact and/or pre-chat chat form to save the user having to type in their information (especially useful for end-users using your website on a mobile device).
 
 ```html
 <script>
@@ -44,6 +44,10 @@ Use 'zE.identify' to pass a name and email to the widget. The widget will then p
   });
 </script>
 ```
+
+End result example: Pre-populated contact form
+
+![](https://cloud.githubusercontent.com/assets/445678/4971553/b52b0de4-68f7-11e4-94bf-b462d06c8877.png)
 
 ### zE.hide
 
