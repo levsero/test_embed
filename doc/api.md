@@ -47,7 +47,7 @@ If you have access to your end user's name and email on your webpage you can use
 
 End result example: Pre-populated contact form
 
-![](https://cloud.githubusercontent.com/assets/445678/4971553/b52b0de4-68f7-11e4-94bf-b462d06c8877.png)
+![](https://cloud.githubusercontent.com/assets/445678/4971584/4b65dbae-68f8-11e4-8735-955d2484aaa7.png)
 
 ### zE.hide
 
