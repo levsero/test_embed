@@ -15,12 +15,14 @@ You can find the widget snippet code for your Zendesk account by visiting the Wi
 
 Out of the box, the Zendesk Widget will be displayed to the end user in a language that matches the browser header of their web browser. If you want to force the widget to be displayed in a specific language on your website, you can use 'zE.setLocale' to specify that language.
 
-The below example shows how to force the widget to display in Spanish:
+List of supported locales and associated codes: https://support.zendesk.com/api/v2/rosetta/locales/public.json
+
+The below example shows how to force the widget to display in German:
 
 ```html
 <script>
   zE(function() {
-    zE.setLocale('es-ES');
+    zE.setLocale('de');
   });
 </script>
 ```
