@@ -4,7 +4,7 @@
 
 The Zendesk Widget API is a JavaScript API for controlling the display and data passed to the Zendesk Widget, a means of embedding Zendesk functionality (ticketing, live chat and Help Center knowledgebase search) on any website.
 
-*Note*: All the API methods documented below assume that you have installed the Zendesk Widget JavaScript code snippet on your website or webpage(s).
+<em>Note</em>: All the API methods documented below assume that you have installed the Zendesk Widget JavaScript code snippet on your website or webpage(s).
 
 You can find the widget snippet code for your Zendesk account by visiting the Widget admin page:
 * Log in to your Zendesk
