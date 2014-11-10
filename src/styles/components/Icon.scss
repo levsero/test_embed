@@ -36,8 +36,12 @@
 
 }
 
-.Icon--help {
+.Icon--launcher {
   padding-right: #{5/$font-size}rem;
+}
+
+.Icon--mobile {
+  padding-right: 0;
 }
 
 .Icon--active {
@@ -57,17 +61,17 @@
 }
 
 .Icon--mail:before {
-  padding-left: 4px;
+  padding-left: #{4/$font-size}rem;;
   content: '\e602';
 }
 
 .Icon--avatar:before {
-  padding-left: 4px;
+  padding-left: #{4/$font-size}rem;;
   content: '\e605';
 }
 
 .Icon--msg:before {
-  padding-left: 4px;
+  padding-left: #{4/$font-size}rem;;
   content: '\e604';
 }
 

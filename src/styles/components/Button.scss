@@ -41,6 +41,10 @@ $Button-widthOffset: #{(50-$Button-nudge)/$font-size}rem;
   font-size: #{15/$font-size}rem;
 }
 
+.Button--launcherMobile {
+  padding: #{12/$font-size}rem;
+}
+
 .Button--launcherActive {
   background-color: $active-color;
   margin-right: #{$Button-nudge/$font-size}rem;

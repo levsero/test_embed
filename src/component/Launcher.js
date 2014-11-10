@@ -1,5 +1,6 @@
 /** @jsx React.DOM */
 module React from 'react/addons'; /* jshint ignore:line */
+import { isMobileBrowser } from 'utility/devices';
 
 var classSet = React.addons.classSet;
 
@@ -43,6 +44,7 @@ export var Launcher = React.createClass({
         displayLabel,
         buttonClasses = classSet({
           'Button Button--launcher Button--cta': true,
+          'Button--launcherMobile': isMobileBrowser(),
           'u-userBackgroundColor': !this.state.active,
           'Arrange Arrange--middle': true,
           'u-isActionable u-textLeft u-inlineBlock u-textNoWrap': true,
@@ -50,8 +52,9 @@ export var Launcher = React.createClass({
         }),
         iconClasses = classSet({
           // spaces needed for class concatenation
-          'Arrange-sizeFit Icon u-textInheritColor u-inlineBlock ': true,
-          'Icon--active u-textCenter Icon--cross ': this.state.active
+          'Arrange-sizeFit Icon Icon--launcher u-textInheritColor u-inlineBlock ': true,
+          'Icon--active u-textCenter Icon--cross ': this.state.active,
+          'Icon--mobile ': isMobileBrowser()
         }),
         labelClasses = classSet({
           'u-textInheritColor u-inlineBlock': true,
