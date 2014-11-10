@@ -4,14 +4,18 @@
 
 The Zendesk Widget API is a JavaScript API for controlling the display and data passed to the Zendesk Widget, a means of embedding Zendesk functionality (ticketing, live chat and Help Center knowledgebase search) on any website.
 
-<b>Note</b>: All the API methods documented below assume that you have installed the Zendesk Widget JavaScript code snippet on your website or webpage(s).
+<b>Note 1</b>: All the API methods documented below assume that you have installed the Zendesk Widget JavaScript code snippet on your website or webpage(s).
+
+
 
 You can find the widget snippet code for your Zendesk account by visiting the Widget admin page:
 * Log in to your Zendesk
 * Click the Admin icon (![](http://zen-marketing-documentation.s3.amazonaws.com/docs/en/manage_icon.png)) in the sidebar and
 * Select Channels >  Widget
 
-The associated code for each API call should be put just after the widget snippet, before the < /head> in the HTML source of your webpage. 'zE.hide', 'zE.activate' and 'zE.identify' can be used before <em>and</em> after page load (For example, associated with certain button clicks on your website).
+The associated code for each API call should be put just after the widget snippet, before the < /head> in the HTML source of your webpage. 
+
+'zE.hide', 'zE.activate' and 'zE.identify' can be used before <em>and</em> after page load (For example, associated with certain button clicks on your website).
 
 ### zE.setLocale
 
