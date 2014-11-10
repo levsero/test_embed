@@ -39,10 +39,12 @@ Use 'zE.identify' to pass a name and email to the widget. The widget will then p
 'zE.hide' will completely hide all parts of the widget from the page. This can be invoked before page load or after.
 
 **Before Page Load**
-```javascript
+```html
+<script>
   zE(function() {
     zE.hide();
   });
+</script>
 ```
 
 **After Page Load**
@@ -54,6 +56,7 @@ Use 'zE.identify' to pass a name and email to the widget. The widget will then p
 
 'zE.activate' will activate and open the widget in its starting state (which will depend on the configuration you have setup in the widget admin).
 
+**After Page Load**
 ```html
   <button onclick="zE.activate();">Activate Zendesk Widget</button>
 ```
