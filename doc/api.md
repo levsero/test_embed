@@ -29,6 +29,10 @@ The below example shows how to force the widget to display in German:
 </script>
 ```
 
+End result: widget displayed in German
+
+![](https://cloud.githubusercontent.com/assets/445678/4971485/4340e4ac-68f6-11e4-81f5-7c276fae07d3.png)
+
 ### zE.identify
 
 Use 'zE.identify' to pass a name and email to the widget. The widget will then pre-populate that information when the user interacts with the contact form and/or chat.
