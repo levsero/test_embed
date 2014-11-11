@@ -5,7 +5,6 @@ import { document }        from 'utility/globals';
 import { Launcher }        from 'component/Launcher';
 import { beacon }          from 'service/beacon';
 import { frameFactory }    from 'embed/frameFactory';
-import { isMobileBrowser } from 'utility/devices';
 import { i18n }            from 'service/i18n';
 import { mediator }        from 'service/mediator';
 import { generateUserCSS } from 'utility/utils';
