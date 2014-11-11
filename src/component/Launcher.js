@@ -54,11 +54,12 @@ export var Launcher = React.createClass({
           // spaces needed for class concatenation
           'Arrange-sizeFit Icon Icon--launcher u-textInheritColor u-inlineBlock ': true,
           'Icon--active u-textCenter Icon--cross ': this.state.active,
-          'Icon--mobile ': isMobileBrowser()
+          'u-paddingHN ': isMobileBrowser() && this.state.label.indexOf('new') < 0
         }),
         labelClasses = classSet({
           'u-textInheritColor u-inlineBlock': true,
-          'Arrange-sizeFit': !this.state.active
+          'Arrange-sizeFit': !this.state.active,
+          'u-isHidden': isMobileBrowser() && this.state.label.indexOf('new') < 0
         });
 
     if (this.props.updateFrameSize) {

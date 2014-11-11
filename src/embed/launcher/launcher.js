@@ -138,16 +138,6 @@ function render(name) {
     setLabel(name, i18n.t('embeddable_framework.launcher.label.help'));
   });
 
-  mediator.channel.subscribe(name + '.setLabelChatMobile', function() {
-    setIcon(name, 'Icon--chat');
-    setLabel(name, '');
-  });
-
-  mediator.channel.subscribe(name + '.setLabelHelpMobile', function() {
-    setIcon(name, 'Icon');
-    setLabel(name, '');
-  });
-
   mediator.channel.subscribe(name + '.setLabelUnreadMsgs', function(unreadMsgs) {
     var label = i18n.t(
       'embeddable_framework.chat.notification',

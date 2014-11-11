@@ -11,10 +11,6 @@ function initTicketSubmission() {
 
   state[`${submitTicket}.isVisible`] = false;
 
-  if (isMobileBrowser()) {
-    c.broadcast(`${launcher}.setLabelHelpMobile`);
-  }
-
   c.intercept('.hide', function() {
     c.broadcast(`${submitTicket}.hide`);
     c.broadcast(`${launcher}.hide`);
@@ -55,10 +51,6 @@ function initChatTicketSubmission() {
   state[`${chat}.unreadMsgs`]        = 0;
   state[`${chat}.userClosed`]        = false;
 
-  if (isMobileBrowser()) {
-    c.broadcast(`${launcher}.setLabelHelpMobile`);
-  }
-
   c.intercept('.hide', function() {
     c.broadcast(`${submitTicket}.hide`);
     c.broadcast(`${launcher}.hide`);
@@ -86,20 +78,12 @@ function initChatTicketSubmission() {
 
   c.intercept(`${chat}.onOnline`, function() {
     state[`${chat}.isOnline`] = true;
-    if (isMobileBrowser()) {
-      c.broadcast(`${launcher}.setLabelChatMobile`);
-    } else {
-      c.broadcast(`${launcher}.setLabelChat`);
-    }
+    c.broadcast(`${launcher}.setLabelChat`);
   });
 
   c.intercept(`${chat}.onOffline`, function() {
     state[`${chat}.isOnline`] = false;
-    if (isMobileBrowser()) {
-      c.broadcast(`${launcher}.setLabelHelpMobile`);
-    } else {
-      c.broadcast(`${launcher}.setLabelHelp`);
-    }
+    c.broadcast(`${launcher}.setLabelHelp`);
   });
 
   c.intercept(`${chat}.onChatEnd`, function() {
@@ -173,17 +157,9 @@ function initChatTicketSubmission() {
 
   c.subscribe(`${launcher}.deactivate`, function() {
     if (state[`${chat}.isOnline`]) {
-      if (isMobileBrowser()) {
-        c.broadcast(`${launcher}.setLabelChatMobile`);
-      } else {
-        c.broadcast(`${launcher}.setLabelChat`);
-      }
+      c.broadcast(`${launcher}.setLabelChat`);
     } else {
-      if (isMobileBrowser()) {
-        c.broadcast(`${launcher}.setLabelHelpMobile`);
-      } else {
-        c.broadcast(`${launcher}.setLabelHelp`);
-      }
+      c.broadcast(`${launcher}.setLabelHelp`);
     }
   });
 }
@@ -197,10 +173,6 @@ function initHelpCenterTicketSubmission() {
   state[`${submitTicket}.isVisible`] = false;
   state[`${helpCenter}.isVisible`]   = false;
   state.activeEmbed                  = helpCenter;
-
-  if (isMobileBrowser()) {
-    c.broadcast(`${launcher}.setLabelHelpMobile`);
-  }
 
   c.intercept('.hide', function() {
     c.broadcast(`${submitTicket}.hide`);
@@ -288,10 +260,6 @@ function initHelpCenterChatTicketSubmission() {
   state[`${chat}.userClosed`]        = false;
   state.activeEmbed                  = helpCenter;
 
-  if (isMobileBrowser()) {
-    c.broadcast(`${launcher}.setLabelHelpMobile`);
-  }
-
   c.intercept('.hide', function() {
     c.broadcast(`${submitTicket}.hide`);
     c.broadcast(`${chat}.hide`);
@@ -322,11 +290,7 @@ function initHelpCenterChatTicketSubmission() {
     if (state.activeEmbed === submitTicket) {
       state.activeEmbed = chat;
     }
-    if (isMobileBrowser()) {
-      c.broadcast(`${launcher}.setLabelChatMobile`);
-    } else {
-      c.broadcast(`${launcher}.setLabelChatHelp`);
-    }
+    c.broadcast(`${launcher}.setLabelChatHelp`);
     c.broadcast(`${helpCenter}.setNextToChat`);
   });
 
@@ -335,11 +299,7 @@ function initHelpCenterChatTicketSubmission() {
     if (state.activeEmbed === chat) {
       state.activeEmbed = helpCenter;
     }
-    if (isMobileBrowser()) {
-      c.broadcast(`${launcher}.setLabelHelpMobile`);
-    } else {
-      c.broadcast(`${launcher}.setLabelHelp`);
-    }
+    c.broadcast(`${launcher}.setLabelHelp`);
     c.broadcast(`${helpCenter}.setNextToSubmitTicket`);
   });
 
@@ -454,17 +414,9 @@ function initHelpCenterChatTicketSubmission() {
 
   c.subscribe(`${launcher}.deactivate`, function() {
     if (state[`${chat}.isOnline`]) {
-      if (isMobileBrowser()) {
-        c.broadcast(`${launcher}.setLabelChatMobile`);
-      } else {
-        c.broadcast(`${launcher}.setLabelChatHelp`);
-      }
+      c.broadcast(`${launcher}.setLabelChatHelp`);
     } else {
-      if (isMobileBrowser()) {
-        c.broadcast(`${launcher}.setLabelHelpMobile`);
-      } else {
-        c.broadcast(`${launcher}.setLabelHelp`);
-      }
+      c.broadcast(`${launcher}.setLabelHelp`);
     }
   });
 
