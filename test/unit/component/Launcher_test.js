@@ -2,12 +2,28 @@
 
 describe('Launcher component', function() {
   var Launcher,
-      launcherPath = buildSrcPath('component/Launcher');
+      launcherPath = buildSrcPath('component/Launcher'),
+      mockRegistry;
 
   beforeEach(function() {
     resetDOM();
 
+    mockery.enable();
+
+    mockRegistry = initMockRegistry({
+      'utility/devices': {
+        isMobileBrowser: function() {
+          return false;
+        }
+      }
+    });
+
     Launcher = require(launcherPath).Launcher;
+  });
+
+  afterEach(function() {
+    mockery.deregisterAll();
+    mockery.disable();
   });
 
   it('should activate the onClick function when clicked on', function() {
