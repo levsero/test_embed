@@ -11,14 +11,7 @@ The API consists of the following methods:
 
 You can use the `zE.identify`, `zE.hide`, and `zE.activate` methods before and after page load. For example, you can use them in click event handlers.
 
-### Inserting the API code snippet
-
-Before you can use the API methods documented below, you must insert a JavaScript code snippet in your web pages. You can copy the snippet from the admin pages of your Zendesk account:
-
-1. After signing in to your Zendesk, click the Admin icon (![icon](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/manage_icon.png)) in the sidebar and select **Channels** >  **Widget**.
-
-2. In the HTML source code of your web page, insert the associated code for each API call just after the widget snippet and before the closing `< /head>` tag.
-
+**Note**: If you're looking for the Widget code for your pages, you can get it from the admin pages of your Zendesk account. After signing in to your Zendesk, click the Admin icon (![icon](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/manage_icon.png)) in the sidebar and select **Channels** >  **Widget**.
 
 ### zE.setLocale
 
