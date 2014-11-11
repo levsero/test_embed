@@ -1,6 +1,6 @@
 ## Zendesk Widget API
 
-The Zendesk Widget API is a JavaScript API for controlling the display and data passed to a Zendesk Widget. A Zendesk Widget embeds Zendesk functionality such as ticketing, live chat, and KB searches in a website.
+The Zendesk Widget API is a JavaScript API for controlling the display and data passed to a Zendesk Widget. A Zendesk Widget embeds Zendesk functionality such as ticketing, live chat, and Help Center KB searches in a website.
 
 The API consists of the following methods:
 
@@ -9,14 +9,13 @@ The API consists of the following methods:
 * `zE.hide`
 * `zE.activate`
 
-
 You can use the `zE.identify`, `zE.hide`, and `zE.activate` methods before and after page load. For example, you can use them in click event handlers.
 
 ### Inserting the API code snippet
 
 Before you can use the API methods documented below, you must insert a JavaScript code snippet in your web pages. You can copy the snippet from the admin pages of your Zendesk account:
 
-1. After signing in to your Zendesk, click the Admin icon (![icon](http://zen-marketing-documentation.s3.amazonaws.com/docs/en/manage_icon.png)) in the sidebar and select **Channels** >  **Widget**.
+1. After signing in to your Zendesk, click the Admin icon (![icon](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/manage_icon.png)) in the sidebar and select **Channels** >  **Widget**.
 
 2. In the HTML source code of your web page, insert the associated code for each API call just after the widget snippet and before the closing `< /head>` tag.
 
@@ -39,7 +38,7 @@ The following example displays the widget in German:
 </script>
 ```
 
-![example](https://cloud.githubusercontent.com/assets/445678/4971485/4340e4ac-68f6-11e4-81f5-7c276fae07d3.png)
+![example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/widget_api_locale.png)
 
 ### zE.identify
 
@@ -59,7 +58,7 @@ If you have access to your end user's name and email on the web page, you can us
 
 The Widget could then use the information to pre-populate the contact form:
 
-![example](https://cloud.githubusercontent.com/assets/445678/4971584/4b65dbae-68f8-11e4-8735-955d2484aaa7.png)
+![example]((https://zen-marketing-documentation.s3.amazonaws.com/docs/en/widget_api_identify.png)
 
 ### zE.hide
 
