@@ -137,6 +137,7 @@ function render(name) {
       {count: unreadMsgs}
     );
     setLabel(name, label);
+    getChildRefs(name).launcher.setState({hasUnreadMessages: true});
   });
 
 }

@@ -17,13 +17,15 @@ export var Launcher = React.createClass({
     return {
       icon: this.props.icon,
       label: this.props.label,
-      active: false
+      active: false,
+      hasUnreadMessages: false
     };
   },
 
   setActive: function(value) {
     this.setState({
-      active: value
+      active: value,
+      hasUnreadMessages: false
     });
   },
 
@@ -54,12 +56,12 @@ export var Launcher = React.createClass({
           // spaces needed for class concatenation
           'Arrange-sizeFit Icon Icon--launcher u-textInheritColor u-inlineBlock ': true,
           'Icon--active u-textCenter Icon--cross ': this.state.active,
-          'u-paddingHN ': isMobileBrowser() && this.state.label.indexOf('new') < 0
+          'u-paddingHN ': isMobileBrowser() && !this.state.hasUnreadMessages
         }),
         labelClasses = classSet({
           'u-textInheritColor u-inlineBlock': true,
           'Arrange-sizeFit': !this.state.active,
-          'u-isHidden': isMobileBrowser() && this.state.label.indexOf('new') < 0
+          'u-isHidden': isMobileBrowser() && !this.state.hasUnreadMessages
         });
 
     if (this.props.updateFrameSize) {
