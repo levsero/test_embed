@@ -36,15 +36,9 @@ function create(name, config) {
   config = _.extend(configDefaults, config);
 
   /* jshint laxbreak: true */
-  if (isMobileBrowser()) {
-    posObj = (config.position === 'left')
-           ? { 'left':  '10px' }
-           : { 'right': '5px' };
-  } else {
-    posObj = (config.position === 'left')
-           ? { 'left':  '20px' }
-           : { 'right': '20px' };
-  }
+  posObj = (config.position === 'left')
+         ? { 'left':  '20px' }
+         : { 'right': '20px' };
 
   iframeStyle = _.extend(base, posObj);
 
