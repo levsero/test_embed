@@ -71,6 +71,15 @@ getCustomFields = function(customFields) {
           />
         );
       case 'tagger':
+        _.forEach (field.options, function(option) {
+          if (option.variants) {
+            _.forEach (option.variants, function(variant) {
+              if (i18n.getLocaleId() === variant.id) {
+                option.title = variant.content;
+              }
+            });
+          }
+        });
         return (
           <SelectField
             name={'ze'+field.id}
