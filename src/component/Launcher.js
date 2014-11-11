@@ -24,8 +24,7 @@ export var Launcher = React.createClass({
 
   setActive: function(value) {
     this.setState({
-      active: value,
-      hasUnreadMessages: false
+      active: value
     });
   },
 

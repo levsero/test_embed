@@ -119,16 +119,19 @@ function render(name) {
   mediator.channel.subscribe(name + '.setLabelChat', function() {
     setIcon(name, 'Icon--chat');
     setLabel(name, i18n.t('embeddable_framework.launcher.label.chat'));
+    getChildRefs(name).launcher.setState({hasUnreadMessages: false});
   });
 
   mediator.channel.subscribe(name + '.setLabelHelp', function() {
     setIcon(name, 'Icon');
     setLabel(name, i18n.t('embeddable_framework.launcher.label.help'));
+    getChildRefs(name).launcher.setState({hasUnreadMessages: false});
   });
 
   mediator.channel.subscribe(name + '.setLabelChatHelp', function() {
     setIcon(name, 'Icon--chat');
     setLabel(name, i18n.t('embeddable_framework.launcher.label.help'));
+    getChildRefs(name).launcher.setState({hasUnreadMessages: false});
   });
 
   mediator.channel.subscribe(name + '.setLabelUnreadMsgs', function(unreadMsgs) {
