@@ -54,6 +54,13 @@ export var submitTicketSchema = function(customFields) {
 
 getCustomFields = function(customFields) {
   return _.map(customFields, function(field) {
+    if (field.variants) {
+      _.forEach (field.variants, function(variant) {
+        if (i18n.getLocaleId() === variant.id) {
+          field.title = variant.content;
+        }
+      });
+    }
     switch(field.type) {
       case 'text':
         return (
