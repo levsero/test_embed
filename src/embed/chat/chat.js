@@ -12,6 +12,7 @@ function create(name, config) {
     position: 'br',
     title: i18n.t('embeddable_framework.chat.title'),
     color: '#78A300',
+    standalone: false,
     offsetVertical: 70
   };
 
@@ -55,7 +56,8 @@ function hide() {
 
 function render(name) {
   /* jshint maxlen: false, unused:false, quotmark:false */
-  var zopimId = get(name).config.zopimId,
+  var config = get(name).config,
+      zopimId = config.zopimId,
       snippet = `
         window.$zopim||
         (function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s= d.createElement(s),e=d.getElementsByTagName(s)[0];
@@ -71,10 +73,12 @@ function render(name) {
       scriptTag = document.createElement('script');
 
   document.body.appendChild(scriptTag);
-  document.body.appendChild(styleTag);
-
   scriptTag.innerHTML = snippet;
-  styleTag.innerHTML = css;
+
+  if (!config.standalone) {
+    document.body.appendChild(styleTag);
+    styleTag.innerHTML = css;
+  }
 
   init(name);
 
@@ -128,7 +132,9 @@ function init(name) {
     // shouldn't be needed and we can remove it.
     zopimLive.setOnConnected(_.debounce(onConnect, 10));
 
-    zopimLive.hideAll();
+    if (!config.standalone) {
+      zopimLive.hideAll();
+    }
 
     if (zopimLive.isChatting()) {
      mediator.channel.broadcast(name + '.onIsChatting');
@@ -139,8 +145,11 @@ function init(name) {
     zopimLive.setOnStatus(onStatus);
     zopimLive.setOnUnreadMsgs(onUnreadMsgs);
     zopimLive.setOnChatEnd(onChatEnd);
-    zopimLive.theme.setColor(config.color);
-    zopimLive.theme.setTheme('zendesk');
+
+    if (!config.standalone) {
+      zopimLive.theme.setColor(config.color);
+      zopimLive.theme.setTheme('zendesk');
+    }
   });
 }
 
