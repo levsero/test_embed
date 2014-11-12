@@ -78,9 +78,8 @@ function render(name) {
   if (!config.standalone) {
     document.body.appendChild(styleTag);
     styleTag.innerHTML = css;
+    init(name);
   }
-
-  init(name);
 
   mediator.channel.subscribe(name + '.show', function() {
     show(name);
@@ -132,9 +131,7 @@ function init(name) {
     // shouldn't be needed and we can remove it.
     zopimLive.setOnConnected(_.debounce(onConnect, 10));
 
-    if (!config.standalone) {
-      zopimLive.hideAll();
-    }
+    zopimLive.hideAll();
 
     if (zopimLive.isChatting()) {
      mediator.channel.broadcast(name + '.onIsChatting');
@@ -145,11 +142,8 @@ function init(name) {
     zopimLive.setOnStatus(onStatus);
     zopimLive.setOnUnreadMsgs(onUnreadMsgs);
     zopimLive.setOnChatEnd(onChatEnd);
-
-    if (!config.standalone) {
-      zopimLive.theme.setColor(config.color);
-      zopimLive.theme.setTheme('zendesk');
-    }
+    zopimLive.theme.setColor(config.color);
+    zopimLive.theme.setTheme('zendesk');
   });
 }
 
