@@ -101,15 +101,20 @@ function init(name) {
   var zopim = win.$zopim,
       chat = get(name),
       config = chat.config,
-      onStatus = function(status) {
-        if (status === 'online' && chat.connected) {
+      broadcastStatus = function() {
+        if (chat.online && chat.connected) {
           mediator.channel.broadcast(name + '.onOnline');
         } else {
           mediator.channel.broadcast(name + '.onOffline');
         }
       },
+      onStatus = function(status) {
+        chat.online = (status === 'online');
+        broadcastStatus();
+      },
       onConnect = function() {
         chat.connected = true;
+        broadcastStatus();
       },
       onUnreadMsgs = function(unreadMessageCount) {
         if (unreadMessageCount > 0) {
@@ -123,13 +128,12 @@ function init(name) {
         mediator.channel.broadcast(name + '.onHide');
       };
 
+  chat.online = false;
+  chat.connected = false;
+
   zopim(function() {
     var zopimLive = win.$zopim.livechat,
         zopimWin = zopimLive.window;
-
-    // TODO: once zopim api is updated the debounce
-    // shouldn't be needed and we can remove it.
-    zopimLive.setOnConnected(_.debounce(onConnect, 10));
 
     zopimLive.hideAll();
 
@@ -139,6 +143,7 @@ function init(name) {
 
     zopimWin.onHide(onHide);
     zopimLive.setLanguage(i18n.getLocale());
+    zopimLive.setOnConnected(onConnect);
     zopimLive.setOnStatus(onStatus);
     zopimLive.setOnUnreadMsgs(onUnreadMsgs);
     zopimLive.setOnChatEnd(onChatEnd);
