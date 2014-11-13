@@ -135,8 +135,6 @@ function init(name) {
     var zopimLive = win.$zopim.livechat,
         zopimWin = zopimLive.window;
 
-    zopimLive.setOnConnected(onConnect);
-
     zopimLive.hideAll();
 
     if (zopimLive.isChatting()) {
@@ -145,6 +143,7 @@ function init(name) {
 
     zopimWin.onHide(onHide);
     zopimLive.setLanguage(i18n.getLocale());
+    zopimLive.setOnConnected(onConnect);
     zopimLive.setOnStatus(onStatus);
     zopimLive.setOnUnreadMsgs(onUnreadMsgs);
     zopimLive.setOnChatEnd(onChatEnd);
