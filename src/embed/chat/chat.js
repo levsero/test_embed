@@ -12,6 +12,7 @@ function create(name, config) {
     position: 'br',
     title: i18n.t('embeddable_framework.chat.title'),
     color: '#78A300',
+    standalone: false,
     offsetVertical: 70
   };
 
@@ -55,7 +56,8 @@ function hide() {
 
 function render(name) {
   /* jshint maxlen: false, unused:false, quotmark:false */
-  var zopimId = get(name).config.zopimId,
+  var config = get(name).config,
+      zopimId = config.zopimId,
       snippet = `
         window.$zopim||
         (function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s= d.createElement(s),e=d.getElementsByTagName(s)[0];
@@ -71,12 +73,13 @@ function render(name) {
       scriptTag = document.createElement('script');
 
   document.body.appendChild(scriptTag);
-  document.body.appendChild(styleTag);
-
   scriptTag.innerHTML = snippet;
-  styleTag.innerHTML = css;
 
-  init(name);
+  if (!config.standalone) {
+    document.body.appendChild(styleTag);
+    styleTag.innerHTML = css;
+    init(name);
+  }
 
   mediator.channel.subscribe(name + '.show', function() {
     show(name);
