@@ -80,16 +80,18 @@ function render(name) {
     document.body.appendChild(styleTag);
     styleTag.innerHTML = css;
     init(name);
-  } else {
-    if (store.get('zopimHideAll') !== false) {
-      store.set('zopimHideAll', false);
-      win.$zopim(function() {
-        setTimeout(function() {
-          win.$zopim.livechat.button.show();
-        }, 1500);
-      });
-    }
   }
+
+  // Hack to override previous zopim hideAll state
+  if (config.standalone && store.get('zopimHideAll') !== false) {
+    store.set('zopimHideAll', false);
+    win.$zopim(function() {
+      setTimeout(function() {
+        win.$zopim.livechat.button.show();
+      }, 1500);
+    });
+  }
+
 
   mediator.channel.subscribe(name + '.show', function() {
     show(name);
