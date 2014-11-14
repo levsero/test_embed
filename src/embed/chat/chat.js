@@ -1,6 +1,7 @@
-import { document, win }   from 'utility/globals';
-import { i18n }            from 'service/i18n';
-import { mediator }        from 'service/mediator';
+import { document, win } from 'utility/globals';
+import { i18n }          from 'service/i18n';
+import { mediator }      from 'service/mediator';
+import { store }         from 'service/persistence';
 
 require('imports?_=lodash!lodash');
 
@@ -81,6 +82,17 @@ function render(name) {
     init(name);
   }
 
+  // Hack to override previous zopim hideAll state
+  if (config.standalone && store.get('zopimHideAll') !== false) {
+    store.set('zopimHideAll', false);
+    win.$zopim(function() {
+      setTimeout(function() {
+        win.$zopim.livechat.button.show();
+      }, 1500);
+    });
+  }
+
+
   mediator.channel.subscribe(name + '.show', function() {
     show(name);
   });
@@ -134,6 +146,8 @@ function init(name) {
   zopim(function() {
     var zopimLive = win.$zopim.livechat,
         zopimWin = zopimLive.window;
+
+    store.set('zopimHideAll', true);
 
     zopimLive.hideAll();
 
