@@ -51,7 +51,7 @@ If you have access to your end user's name and email on the web page, you can us
 
 The Widget could then use the information to pre-populate the contact form:
 
-![example]((https://zen-marketing-documentation.s3.amazonaws.com/docs/en/widget_api_identify.png)
+![example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/widget_api_identify.png)
 
 ### zE.hide
 
