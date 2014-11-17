@@ -29,6 +29,7 @@ describe('embed.chat', function() {
       setLanguage: jasmine.createSpy('setLanguage'),
       setOnChatEnd: jasmine.createSpy('setOnChatEnd'),
       hideAll: jasmine.createSpy('hideAll'),
+      setSize: jasmine.createSpy('setSize'),
       isChatting: jasmine.createSpy('isChatting'),
       theme: {
         setColor: jasmine.createSpy('setColor'),
@@ -40,7 +41,8 @@ describe('embed.chat', function() {
         'setTitle',
         'setOffsetVertical',
         'onHide',
-        'getDisplay'
+        'getDisplay',
+        'setSize'
       ])
     };
 
