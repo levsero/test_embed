@@ -15,7 +15,8 @@ var { Schema } = ReactForms.schema,
       'Arrange-sizeFill u-vsizeAll': true,
       'u-textSize15': isMobileBrowser()
     }),
-    getCustomFields;
+    getCustomFields,
+    geti18nContent;
 
 export var submitTicketSchema = function(customFields) {
   var ticketFields = getCustomFields(customFields);
@@ -55,11 +56,7 @@ export var submitTicketSchema = function(customFields) {
 getCustomFields = function(customFields) {
   return _.map(customFields, function(field) {
     if (field.variants) {
-      _.forEach (field.variants, function(variant) {
-        if (i18n.getLocaleId() === variant.id) {
-          field.title = variant.content;
-        }
-      });
+      field.title = geti18nContent(field);
     }
     switch(field.type) {
       case 'text':
@@ -73,11 +70,7 @@ getCustomFields = function(customFields) {
       case 'tagger':
         _.forEach (field.options, function(option) {
           if (option.variants) {
-            _.forEach (option.variants, function(variant) {
-              if (i18n.getLocaleId() === variant.id) {
-                option.title = variant.content;
-              }
-            });
+            option.title = geti18nContent(option);
           }
         });
         return (
@@ -133,4 +126,10 @@ getCustomFields = function(customFields) {
         break;
     }
   });
+};
+
+geti18nContent = function(field) {
+  return _.find(field.variants, function(variant) {
+           return variant.localeId === i18n.getLocaleId();
+         }).content;
 };
