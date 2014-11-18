@@ -15,7 +15,8 @@ var { Schema } = ReactForms.schema,
       'Arrange-sizeFill u-vsizeAll': true,
       'u-textSize15': isMobileBrowser()
     }),
-    getCustomFields;
+    getCustomFields,
+    geti18nContent;
 
 export var submitTicketSchema = function(customFields) {
   var ticketFields = getCustomFields(customFields);
@@ -54,6 +55,9 @@ export var submitTicketSchema = function(customFields) {
 
 getCustomFields = function(customFields) {
   return _.map(customFields, function(field) {
+    if (field.variants) {
+      field.title = geti18nContent(field);
+    }
     switch(field.type) {
       case 'text':
         return (
@@ -64,6 +68,11 @@ getCustomFields = function(customFields) {
           />
         );
       case 'tagger':
+        _.forEach (field.options, function(option) {
+          if (option.variants) {
+            option.title = geti18nContent(option);
+          }
+        });
         return (
           <SelectField
             name={'ze'+field.id}
@@ -87,7 +96,7 @@ getCustomFields = function(customFields) {
             name={'ze'+field.id}
             required={field.required}
             placeholder={field.title}
-            validate={function(v) {return /^\d*\.\d+$/.test(v); }}
+            validate={function(v) {return /^\d*\.|,\d+$/.test(v); }}
           />
         );
       case 'textarea':
@@ -117,4 +126,12 @@ getCustomFields = function(customFields) {
         break;
     }
   });
+};
+
+geti18nContent = function(field) {
+  var title = _.find(field.variants, function(variant) {
+                return variant.localeId === i18n.getLocaleId();
+              });
+
+  return title ? title.content : field.title;
 };

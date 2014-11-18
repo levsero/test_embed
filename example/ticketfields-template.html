@@ -32,6 +32,7 @@
     <script>
       zE(function() {
         zE.devRender({
+          locale: 'no',
           embeds: {
             "ticketSubmissionForm": {
               "embed": "submitTicket",
@@ -41,16 +42,46 @@
                     id: '22660514',
                     type: 'text',
                     title: 'Text',
-                    required: true
+                    required: true,
+                    variants: [
+                      {
+                        localeId: 1,
+                        content: "Option 1"
+                      },
+                      {
+                        localeId: 16,
+                        content: "FrenchField"
+                      }
+                    ]
                   },
                   {
                     id: '22666574',
                     type: 'tagger',
                     title: 'Department',
+                    variants: [
+                      {
+                        localeId: 1,
+                        content: "Drop Down English"
+                      },
+                      {
+                        localeId: 16,
+                        content: "Drop Down français"
+                      }
+                    ],
                     options: [
                       {
                         title: 'Sales',
-                        value: 1
+                        value: 1,
+                        variants: [
+                          {
+                            localeId: 1,
+                            content: "English"
+                          },
+                          {
+                            localeId: 16,
+                            content: "French"
+                          }
+                        ]
                       },
                       {
                         title: 'Support',
