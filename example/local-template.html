@@ -7,11 +7,8 @@
   <script src="/dist/bootstrap.js" inline></script>
 
   <script>
-    zE({locale: 'zh-CN'});
     zE(function() {
-      zE.identify({name: 'John', email: 'john@example.com'});
       //zE.setLocale('zh-CN');
-      zE.hide();
     });
   </script>
 </head>
@@ -19,6 +16,6 @@
   <h1>Local</h1>
   <button onclick="zE.activate()">Activate</button>
   <button onclick="zE.hide()">Hide</button>
-  <button onclick="zE.identify({name: 'Ryan', email: 'ryan@foo.com'})">Identify</button>
+  <button onclick="zE.identify({name: 'Ryan', email: 'ryan@foo.com', externalId: '1234'})">Identify</button>
 </body>
 </html>
