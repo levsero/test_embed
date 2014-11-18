@@ -100,8 +100,11 @@ function propagateFontRatio(ratio) {
 
   _.forEach(renderedEmbeds, function(embed, name) {
     currentEmbed = embedsMap[embed.embed].get(name).instance;
-    currentEmbed.updateBaseFontSize(fontSize);
-    currentEmbed.updateFrameSize();
+
+    if(currentEmbed) {
+      currentEmbed.updateBaseFontSize(fontSize);
+      currentEmbed.updateFrameSize();
+    }
   });
 }
 
