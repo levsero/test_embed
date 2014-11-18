@@ -1,6 +1,7 @@
-import { document, win }   from 'utility/globals';
-import { i18n }            from 'service/i18n';
-import { mediator }        from 'service/mediator';
+import { document, win } from 'utility/globals';
+import { i18n }          from 'service/i18n';
+import { mediator }      from 'service/mediator';
+import { store }         from 'service/persistence';
 
 require('imports?_=lodash!lodash');
 
@@ -12,6 +13,7 @@ function create(name, config) {
     position: 'br',
     title: i18n.t('embeddable_framework.chat.title'),
     color: '#78A300',
+    standalone: false,
     offsetVertical: 70
   };
 
@@ -55,7 +57,8 @@ function hide() {
 
 function render(name) {
   /* jshint maxlen: false, unused:false, quotmark:false */
-  var zopimId = get(name).config.zopimId,
+  var config = get(name).config,
+      zopimId = config.zopimId,
       snippet = `
         window.$zopim||
         (function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s= d.createElement(s),e=d.getElementsByTagName(s)[0];
@@ -71,12 +74,24 @@ function render(name) {
       scriptTag = document.createElement('script');
 
   document.body.appendChild(scriptTag);
-  document.body.appendChild(styleTag);
-
   scriptTag.innerHTML = snippet;
-  styleTag.innerHTML = css;
 
-  init(name);
+  if (!config.standalone) {
+    document.body.appendChild(styleTag);
+    styleTag.innerHTML = css;
+    init(name);
+  }
+
+  // Hack to override previous zopim hideAll state
+  if (config.standalone && store.get('zopimHideAll') !== false) {
+    store.set('zopimHideAll', false);
+    win.$zopim(function() {
+      setTimeout(function() {
+        win.$zopim.livechat.button.show();
+      }, 1500);
+    });
+  }
+
 
   mediator.channel.subscribe(name + '.show', function() {
     show(name);
@@ -98,15 +113,20 @@ function init(name) {
   var zopim = win.$zopim,
       chat = get(name),
       config = chat.config,
-      onStatus = function(status) {
-        if (status === 'online' && chat.connected) {
+      broadcastStatus = function() {
+        if (chat.online && chat.connected) {
           mediator.channel.broadcast(name + '.onOnline');
         } else {
           mediator.channel.broadcast(name + '.onOffline');
         }
       },
+      onStatus = function(status) {
+        chat.online = (status === 'online');
+        broadcastStatus();
+      },
       onConnect = function() {
         chat.connected = true;
+        broadcastStatus();
       },
       onUnreadMsgs = function(unreadMessageCount) {
         if (unreadMessageCount > 0) {
@@ -120,13 +140,14 @@ function init(name) {
         mediator.channel.broadcast(name + '.onHide');
       };
 
+  chat.online = false;
+  chat.connected = false;
+
   zopim(function() {
     var zopimLive = win.$zopim.livechat,
         zopimWin = zopimLive.window;
 
-    // TODO: once zopim api is updated the debounce
-    // shouldn't be needed and we can remove it.
-    zopimLive.setOnConnected(_.debounce(onConnect, 10));
+    store.set('zopimHideAll', true);
 
     zopimLive.hideAll();
 
@@ -136,6 +157,7 @@ function init(name) {
 
     zopimWin.onHide(onHide);
     zopimLive.setLanguage(i18n.getLocale());
+    zopimLive.setOnConnected(onConnect);
     zopimLive.setOnStatus(onStatus);
     zopimLive.setOnUnreadMsgs(onUnreadMsgs);
     zopimLive.setOnChatEnd(onChatEnd);

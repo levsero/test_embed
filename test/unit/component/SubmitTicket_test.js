@@ -150,7 +150,6 @@ describe('Submit ticket component', function() {
     mostRecentCall = mockSubmitTicketForm.calls.mostRecent().args[0],
 
     mostRecentCall.submit({preventDefault: noop}, {
-      isFormInvalid: false,
       value: {
         email: formParams.email,
         description: formParams.description
@@ -166,6 +165,43 @@ describe('Submit ticket component', function() {
 
     expect(mockOnSubmitted)
       .toHaveBeenCalled();
+  });
+
+  it('should correctly format custom fields', function() {
+    var mockCustomField = [
+          {
+            id: '22660514',
+            type: 'text',
+            title: 'Text',
+            required: true
+          },
+        ],
+        submitTicket,
+        mockValues = {
+          value: {
+            ze22660514: 'mockCustomField',
+            name: 'mockName',
+            description: 'mockDescription'
+          }
+        },
+        expectedPayload = {
+          fields: {
+            22660514: 'mockCustomField'
+          },
+          name: 'mockName',
+          description: 'mockDescription'
+        },
+        payload;
+
+    submitTicket = React.renderComponent(
+      <SubmitTicket customFields={mockCustomField} updateFrameSize={noop} />,
+      global.document.body
+    );
+
+    payload = submitTicket.formatTicketSubmission(mockValues);
+
+    expect(payload)
+      .toBeJSONEqual(expectedPayload);
   });
 
   it('should unhide notification element on state change', function() {

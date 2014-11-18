@@ -52,6 +52,9 @@ describe('embed.chat', function() {
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', ['init', 'setLocale', 'getLocale', 't'])
       },
+      'service/persistence': {
+        store: jasmine.createSpyObj('store', ['set', 'get'])
+      },
       'service/mediator': {
         mediator: {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])

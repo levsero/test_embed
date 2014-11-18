@@ -3,6 +3,21 @@ require('imports?_=lodash!lodash');
 
 var clickBusterClicks = [];
 
+function generateUserCSS(params) {
+  if (params.color) {
+    return (`
+      .u-userTextColor:not([disabled]) {
+        color: ${params.color} !important;
+      }
+      .u-userBackgroundColor:not([disabled]) {
+        background-color: ${params.color} !important;
+      }
+    `);
+  } else {
+    return '';
+  }
+}
+
 function metaStringToObj(str) {
   if (_.isEmpty(str)) {
     return {};
@@ -96,10 +111,25 @@ function clickBusterHandler(ev) {
   }
 }
 
+function getFrameworkLoadTime() {
+  var now = Date.now(),
+      loadTime = document.t ? now - document.t : undefined;
+
+  if('performance' in window && 'getEntries' in window.performance) {
+    loadTime = _.find(window.performance.getEntries(), function(entry) {
+      return entry.name.indexOf('main.js') !== -1;
+    }).duration;
+  }
+
+  return loadTime < 0 ? undefined : loadTime;
+}
+
 export {
   parseUrl,
   setScaleLock,
   clickBusterRegister,
   clickBusterHandler,
-  metaStringToObj
+  metaStringToObj,
+  getFrameworkLoadTime,
+  generateUserCSS
 };

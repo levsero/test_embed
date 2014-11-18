@@ -5,9 +5,9 @@ import { document }        from 'utility/globals';
 import { Launcher }        from 'component/Launcher';
 import { beacon }          from 'service/beacon';
 import { frameFactory }    from 'embed/frameFactory';
-import { isMobileBrowser } from 'utility/devices';
 import { i18n }            from 'service/i18n';
 import { mediator }        from 'service/mediator';
+import { generateUserCSS } from 'utility/utils';
 
 require('imports?_=lodash!lodash');
 
@@ -19,7 +19,7 @@ function create(name, config) {
         onClick: function() {},
         position: 'right',
         label: i18n.t('embeddable_framework.launcher.label.help'),
-        icon: 'Icon--help',
+        icon: 'Icon',
         visible: true
       },
       base = {
@@ -35,15 +35,9 @@ function create(name, config) {
   config = _.extend(configDefaults, config);
 
   /* jshint laxbreak: true */
-  if (isMobileBrowser()) {
-    posObj = (config.position === 'left')
-           ? { 'left':  '10px' }
-           : { 'right': '5px' };
-  } else {
-    posObj = (config.position === 'left')
-           ? { 'left':  '20px' }
-           : { 'right': '20px' };
-  }
+  posObj = (config.position === 'left')
+         ? { 'left':  '20px' }
+         : { 'right': '20px' };
 
   iframeStyle = _.extend(base, posObj);
 
@@ -64,7 +58,7 @@ function create(name, config) {
     },
     {
       style: iframeStyle,
-      css: launcherCSS,
+      css: launcherCSS + generateUserCSS({color: config.color}),
       name: name,
       fullscreenable: false,
       extend: {
@@ -125,16 +119,19 @@ function render(name) {
   mediator.channel.subscribe(name + '.setLabelChat', function() {
     setIcon(name, 'Icon--chat');
     setLabel(name, i18n.t('embeddable_framework.launcher.label.chat'));
+    getChildRefs(name).launcher.setState({hasUnreadMessages: false});
   });
 
   mediator.channel.subscribe(name + '.setLabelHelp', function() {
     setIcon(name, 'Icon');
     setLabel(name, i18n.t('embeddable_framework.launcher.label.help'));
+    getChildRefs(name).launcher.setState({hasUnreadMessages: false});
   });
 
   mediator.channel.subscribe(name + '.setLabelChatHelp', function() {
     setIcon(name, 'Icon--chat');
     setLabel(name, i18n.t('embeddable_framework.launcher.label.help'));
+    getChildRefs(name).launcher.setState({hasUnreadMessages: false});
   });
 
   mediator.channel.subscribe(name + '.setLabelUnreadMsgs', function(unreadMsgs) {
@@ -143,6 +140,7 @@ function render(name) {
       {count: unreadMsgs}
     );
     setLabel(name, label);
+    getChildRefs(name).launcher.setState({hasUnreadMessages: true});
   });
 
 }

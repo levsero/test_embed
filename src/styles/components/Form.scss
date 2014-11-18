@@ -45,7 +45,7 @@ $Form-fontSize: #{13/$font-size}rem;
   padding: $Form-spacing;
   color: $secondary-color;
 
-  textarea, input {
+  textarea, input, select {
     border: none;
     background: none;
     resize: none;
@@ -69,7 +69,7 @@ $Form-fontSize: #{13/$font-size}rem;
 }
 
 .rf-Field--focused {
-  border: $Form-stroke solid $cta-color;
+  border: $Form-stroke solid $stroke-focused-color;
 
   &.rf-Field--dirty.rf-Field--invalid {
     @include error-state(1);
@@ -78,6 +78,15 @@ $Form-fontSize: #{13/$font-size}rem;
   > .Icon--search {
     color: $cta-color;
   }
+}
+
+.rf-Field--dropdown {
+  padding-left: #{2/$font-size}rem;
+}
+
+.rf-CheckboxGroup__caption {
+  padding-left: #{12/$font-size}rem;
+  font-size: $Form-fontSize;
 }
 
 .rf-Field--blurred.rf-Field--invalid {

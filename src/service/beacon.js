@@ -1,17 +1,21 @@
 import { win,
-         document,
-         navigator } from 'utility/globals';
-import { transport } from 'service/transport';
-import { identity }  from 'service/identity';
-import { store }     from 'service/persistence';
-import { parseUrl }  from 'utility/utils';
-import { i18n }      from 'service/i18n';
+         document as doc,
+         navigator }            from 'utility/globals';
+import { transport }            from 'service/transport';
+import { identity }             from 'service/identity';
+import { store }                from 'service/persistence';
+import { i18n }                 from 'service/i18n';
+import { parseUrl,
+         getFrameworkLoadTime }  from 'utility/utils';
 
 require('imports?_=lodash!lodash');
 
-function init() {
+var version;
+
+function init(_version = '') {
   var now = Date.now();
   store.set('currentTime', now, true);
+  version = _version;
   return this;
 }
 
@@ -19,13 +23,14 @@ function commonParams() {
   return {
     url: win.location.href,
     buid: identity.getBuid(),
+    version: version,
     timestamp: (new Date()).toISOString()
   };
 }
 
 function send() {
   var now = Date.now(),
-      referrer = parseUrl(document.referrer),
+      referrer = parseUrl(doc.referrer),
       previousTime = store.get('currentTime', true) || 0,
       url = win.location.origin,
       timeOnLastPage = function () {
@@ -35,8 +40,9 @@ function send() {
         pageView: {
           referrer: referrer.href,
           time: timeOnLastPage(),
+          loadTime: getFrameworkLoadTime(),
           navigatorLanguage: navigator.language,
-          pageTitle: document.title,
+          pageTitle: doc.title,
           userAgent: navigator.userAgent
         }
       },

@@ -9,6 +9,7 @@ import { setScaleLock }    from 'utility/utils';
 import { isMobileBrowser } from 'utility/devices';
 import { beacon }          from 'service/beacon';
 import { mediator }        from 'service/mediator';
+import { generateUserCSS } from 'utility/utils';
 
 var submitTicketCSS = require('./submitTicket.scss'),
     submitTickets = {};
@@ -20,7 +21,8 @@ function create(name, config) {
         bottom: 50
       },
       configDefaults = {
-        position: 'right'
+        position: 'right',
+        customFields: []
       },
       posObj,
       iframeStyle,
@@ -57,13 +59,14 @@ function create(name, config) {
             ref='submitTicket'
             updateFrameSize={params.updateFrameSize}
             onSubmitted={onSubmitted}
+            customFields={config.customFields}
             handleBack={handleBack}/>
         </div>
       );
     },
     {
       style: iframeStyle,
-      css: submitTicketCSS,
+      css: submitTicketCSS + generateUserCSS({color: config.color}),
       fullscreenable: true,
       onShow() {
         setScaleLock(true);
@@ -118,11 +121,23 @@ function render(name) {
   });
 
   mediator.channel.subscribe('.identify', function(user) {
+    prefillForm(name, user);
+  });
+}
+
+function prefillForm(name, user) {
+  var getChild = get(name).instance.getChild();
+
+  if(getChild) {
     var submitTicket = get(name).instance.getChild().refs.submitTicket,
         submitTicketForm = submitTicket.refs.submitTicketForm;
 
     submitTicketForm.refs.form.updateValue(user);
-  });
+  } else {
+    setTimeout(() => {
+      prefillForm(name, user);
+    }, 0);
+  }
 }
 
 function get(name) {

@@ -1,16 +1,13 @@
 describe('beacon', function() {
   var beacon,
-      mockGlobals,
-      mockPersistence,
-      mockTransport,
-      mockIdentity,
-      mockI18n,
-      mockUtils,
+      mockRegistry,
       localeId = 10,
       beaconPath = buildSrcPath('service/beacon');
 
 
   function assertCommonParams(params) {
+    var mockGlobals = mockRegistry['utility/globals'];
+
     /* jshint sub:true */
     expect(params['buid'])
       .toBe('abc123');
@@ -28,58 +25,51 @@ describe('beacon', function() {
   beforeEach(function() {
     mockery.enable({ useCleanCache: true });
 
-    mockGlobals = {
-      win: {
-        location: {
-          origin: 'http://window.location.origin',
-          href: 'http://window.location.href'
+    mockRegistry = initMockRegistry({
+      'service/transport': {
+        transport: jasmine.createSpyObj('transport', ['send'])
+      },
+      'utility/globals': {
+        win: {
+          location: {
+            origin: 'http://window.location.origin',
+            href: 'http://window.location.href'
+          }
+        },
+        document: {
+          referrer: 'http://document.referrer',
+          title: 'Document Title'
+        },
+        navigator: {
+          language: 'navigator.language',
+          userAgent: 'navigator.userAgent'
         }
       },
-      document: {
-        referrer: 'http://document.referrer',
-        title: 'Document Title',
-      },
-      navigator: {
-        language: 'navigator.language',
-        userAgent: 'navigator.userAgent'
-      }
-    };
-
-    mockPersistence = {
-      store: jasmine.createSpyObj('store', ['set', 'get'])
-    };
-
-    mockTransport = {
-      transport: jasmine.createSpyObj('transport', ['send'])
-    };
-
-    mockIdentity = {
-      identity: {
-        getBuid: jasmine.createSpy('getBuid').and.returnValue('abc123')
-      }
-    };
-
-    mockI18n = {
-      i18n: {
-        getLocaleId: jasmine.createSpy('getLocaleId').and.returnValue(localeId)
-      }
-    };
-
-    mockUtils = {
-        parseUrl: function() {
-          return {
-            href: 'http://document.referrer'
-          };
+      'service/identity': {
+        identity: {
+          getBuid: jasmine.createSpy('getBuid').and.returnValue('abc123')
         }
-    };
-
-    mockery.registerMock('service/transport', mockTransport);
-    mockery.registerMock('utility/globals', mockGlobals);
-    mockery.registerMock('service/identity', mockIdentity);
-    mockery.registerMock('service/persistence', mockPersistence);
-    mockery.registerMock('service/i18n', mockI18n);
-    mockery.registerMock('utility/utils', mockUtils);
-    mockery.registerMock('imports?_=lodash!lodash', _);
+      },
+      'service/persistence': {
+        store: jasmine.createSpyObj('store', ['set', 'get'])
+      },
+      'service/i18n': {
+        i18n: {
+          getLocaleId: jasmine.createSpy('getLocaleId').and.returnValue(localeId)
+        }
+      },
+      'utility/utils': {
+          parseUrl: function() {
+            return {
+              href: 'http://document.referrer'
+            };
+          },
+          getFrameworkLoadTime: function() {
+            return 200;
+          }
+      },
+      'imports?_=lodash!lodash': _
+    });
 
     mockery.registerAllowable(beaconPath);
     beacon = require(beaconPath).beacon;
@@ -94,6 +84,7 @@ describe('beacon', function() {
 
     it('Saves the currentTime', function() {
       var currentTime = Date.now(),
+          mockPersistence = mockRegistry['service/persistence'],
           recentCall,
           resultTime;
 
@@ -122,7 +113,10 @@ describe('beacon', function() {
 
     it('sends correct payload using transport.send', function() {
       var payload,
-          params;
+          params,
+          mockTransport = mockRegistry['service/transport'],
+          mockGlobals = mockRegistry['utility/globals'],
+          mockUtils = mockRegistry['utility/utils'];
 
       beacon.init();
       beacon.send();
@@ -155,13 +149,16 @@ describe('beacon', function() {
 
       expect(params.pageView.time)
         .toBeDefined();
+
+      expect(params.pageView.loadTime)
+        .toBe(mockUtils.getFrameworkLoadTime());
     });
 
   });
 
   describe('#track', function() {
-
     it('should not send anything if the first two params are not provided', function() {
+      var mockTransport = mockRegistry['service/transport'];
 
       beacon.track();
       beacon.track('only one param');
@@ -180,7 +177,8 @@ describe('beacon', function() {
             action: 'Action02',
             label: 'Label03',
             value: 'Value04'
-          };
+          },
+          mockTransport = mockRegistry['service/transport'];
 
       beacon.init();
 
@@ -221,7 +219,8 @@ describe('beacon', function() {
           user = {
             name: name,
             email: email
-          };
+          },
+          mockTransport = mockRegistry['service/transport'];
 
       beacon.init();
 

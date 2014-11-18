@@ -22,6 +22,12 @@ export var SubmitTicket = React.createClass({
     };
   },
 
+  getDefaultProps() {
+    return {
+      customFields: []
+    };
+  },
+
   reset() {
     var submitTicketForm = this.refs.submitTicketForm,
         formData         = submitTicketForm.refs.form.value().value;
@@ -54,7 +60,7 @@ export var SubmitTicket = React.createClass({
           'via_id': 17,
           'locale_id': i18n.getLocaleId(),
           'submitted_from': win.location.href
-        }, data.value),
+        }, this.formatTicketSubmission(data)),
         resCallback = () => {
           this.setState({
             showNotification: true,
@@ -101,6 +107,33 @@ export var SubmitTicket = React.createClass({
         };
 
     transport.send(payload);
+  },
+
+  formatTicketSubmission(data) {
+    var params = {};
+
+    if (this.props.customFields.length === 0) {
+      return data.value;
+    } else {
+      params.fields = {};
+      _.forEach(data.value, function(value, name) {
+        // In react forms if the name of a field only contains numbers it reorders the
+        // form. We add the ze to the forms so they retain their order then remove them here.
+        if (name.substring(0,2) !== 'ze') {
+          params[name] = value;
+        } else {
+          // For checkbox field, it returns the array [1] if its selected.
+          // This takes the 1 out of the array so the endpoint knows how to handle it.
+          if (_.isArray(value)) {
+            value = value[0];
+          }
+
+          params.fields[name.slice(2)] = value;
+        }
+      });
+
+      return params;
+    }
   },
 
   handleBackClick() {
@@ -158,7 +191,7 @@ export var SubmitTicket = React.createClass({
         key={this.state.uid}>
         <div className={containerBarClasses} />
         <div className={notifyClasses}>
-          <div className='Icon Icon--tick u-inlineBlock' />
+          <div className='Icon Icon--tick u-inlineBlock u-userTextColor' />
           <p className='u-textBold u-textSizeMed'>{this.state.message}</p>
           <p className={marketingClasses}>
             <a
@@ -173,6 +206,7 @@ export var SubmitTicket = React.createClass({
           ref='submitTicketForm'
           className={formClasses}
           onBackClick={this.handleBackClick}
+          customFields={this.props.customFields}
           submit={this.handleSubmit}>
           <p className={errorClasses}>
             {this.state.errorMessage}
