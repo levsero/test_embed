@@ -96,7 +96,7 @@ getCustomFields = function(customFields) {
             name={'ze'+field.id}
             required={field.required}
             placeholder={field.title}
-            validate={function(v) {return /^\d*\.\d+$/.test(v); }}
+            validate={function(v) {return /^\d*\.|,\d+$/.test(v); }}
           />
         );
       case 'textarea':
@@ -132,5 +132,6 @@ geti18nContent = function(field) {
   var title = _.find(field.variants, function(variant) {
                 return variant.localeId === i18n.getLocaleId();
               });
-  return (title) ? title.content : field.title;
+
+  return title ? title.content : field.title;
 };
