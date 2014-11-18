@@ -129,7 +129,8 @@ getCustomFields = function(customFields) {
 };
 
 geti18nContent = function(field) {
-  return _.find(field.variants, function(variant) {
-           return variant.localeId === i18n.getLocaleId();
-         }).content;
+  var title = _.find(field.variants, function(variant) {
+                return variant.localeId === i18n.getLocaleId();
+              });
+  return (title) ? title.content : field.title;
 };
