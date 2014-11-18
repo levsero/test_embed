@@ -1,3 +1,5 @@
+import { updateFrameName } from 'utility/utils';
+
 require('imports?_=lodash!lodash');
 
 var superagent = require('superagent'),
@@ -57,6 +59,7 @@ function bustCache(versionHash) {
     scriptSrc = document.getElementById('js-iframe-async').src;
     updateUrl = scriptSrc.replace('main.js', updatePath);
     iframe.src = updateUrl;
+    iframe.name = updateFrameName;
     document.body.appendChild(iframe);
     window.addEventListener('message', onMessage, false);
   }

@@ -10,7 +10,8 @@ import { mediator }           from 'service/mediator';
 import { getSizingRatio,
          isMobileBrowser,
          isBlacklisted }      from 'utility/devices';
-import { clickBusterHandler } from 'utility/utils';
+import { clickBusterHandler,
+         updateFrameCtx }    from 'utility/utils';
 
 require('imports?_=lodash!lodash');
 
@@ -158,7 +159,9 @@ function boot() {
 
 if (!_.isUndefined(document.zendeskHost)) {
   try {
-    boot();
+    if (!updateFrameCtx) {
+      boot();
+    }
   } catch (err) {
     logging.error({
       error: err
