@@ -118,10 +118,10 @@ function getFrameworkLoadTime() {
   if('performance' in window && 'getEntries' in window.performance) {
     loadTime = _.find(window.performance.getEntries(), function(entry) {
       return entry.name.indexOf('main.js') !== -1;
-    }).duration;
+    });
   }
 
-  return loadTime < 0 ? undefined : loadTime;
+  return (loadTime !== undefined && loadTime.duration) >= 0 ? loadTime.duration : undefined;
 }
 
 export {
