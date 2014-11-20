@@ -157,11 +157,9 @@ function boot() {
   }
 }
 
-if (!_.isUndefined(document.zendeskHost)) {
+if (!cacheBuster.isCacheBusting(window.name)) {
   try {
-    if (!cacheBuster.isCacheBusting(window.name)) {
       boot();
-    }
   } catch (err) {
     logging.error({
       error: err
