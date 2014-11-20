@@ -113,15 +113,20 @@ function clickBusterHandler(ev) {
 
 function getFrameworkLoadTime() {
   var now = Date.now(),
-      loadTime = document.t ? now - document.t : undefined;
+      loadTime = document.t ? now - document.t : undefined,
+      entry;
 
-  if('performance' in window && 'getEntries' in window.performance) {
-    loadTime = _.find(window.performance.getEntries(), function(entry) {
+  if ('performance' in window && 'getEntries' in window.performance) {
+    entry = _.find(window.performance.getEntries(), function(entry) {
       return entry.name.indexOf('main.js') !== -1;
     });
+
+    if (entry && entry.duration) {
+      loadTime = entry.duration;
+    }
   }
 
-  return (loadTime !== undefined && loadTime.duration) >= 0 ? loadTime.duration : undefined;
+  return loadTime >= 0 ? loadTime : undefined;
 }
 
 export {
