@@ -54,9 +54,8 @@ export var SubmitTicket = React.createClass({
       return;
     }
 
-    var tags = ['DROPBOX', 'zendesk_widget'].join(' '),
-        formParams = _.extend({
-          'set_tags': tags,
+    var formParams = _.extend({
+          'set_tags': 'zendesk_widget',
           'via_id': 48,
           'locale_id': i18n.getLocaleId(),
           'submitted_from': win.location.href
