@@ -4,6 +4,7 @@ import { beacon }             from 'service/beacon';
 import { logging }            from 'service/logging';
 import { renderer }           from 'service/renderer';
 import { transport }          from 'service/transport';
+import { cacheBuster }        from 'service/cacheBuster';
 import { i18n }               from 'service/i18n';
 import { win, location }      from 'utility/globals';
 import { mediator }           from 'service/mediator';
@@ -64,7 +65,7 @@ function boot() {
 
   logging.init();
 
-  transport.bustCache(__EMBEDDABLE_VERSION__);
+  cacheBuster.bustCache(__EMBEDDABLE_VERSION__);
   transport.init({ zendeskHost: document.zendeskHost });
 
   beacon.init(__EMBEDDABLE_VERSION__).send();
@@ -156,7 +157,7 @@ function boot() {
   }
 }
 
-if (!_.isUndefined(document.zendeskHost)) {
+if (!cacheBuster.isCacheBusting(window.name)) {
   try {
     boot();
   } catch (err) {
