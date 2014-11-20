@@ -18,9 +18,6 @@ describe('transport', function() {
       'superagent': jasmine.createSpy().and.callFake(function() {
           return mockMethods;
       }),
-      'utility/utils': {
-        updateFrameName: 'zE-update'
-      },
       'imports?_=lodash!lodash': _
     });
 

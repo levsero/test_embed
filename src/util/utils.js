@@ -1,9 +1,7 @@
 import { document as doc } from 'utility/globals';
 require('imports?_=lodash!lodash');
 
-var clickBusterClicks = [],
-    updateFrameName = 'zE-update',
-    updateFrameCtx = window.name === updateFrameName;
+var clickBusterClicks = [];
 
 function generateUserCSS(params) {
   if (params.color) {
@@ -138,7 +136,5 @@ export {
   clickBusterHandler,
   metaStringToObj,
   getFrameworkLoadTime,
-  generateUserCSS,
-  updateFrameCtx,
-  updateFrameName
+  generateUserCSS
 };
