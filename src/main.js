@@ -159,7 +159,7 @@ function boot() {
 
 if (!cacheBuster.isCacheBusting(window.name)) {
   try {
-      boot();
+    boot();
   } catch (err) {
     logging.error({
       error: err
