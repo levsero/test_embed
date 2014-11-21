@@ -113,28 +113,24 @@ parts:
       key: "embeddable_framework.helpCenter.label.showAll"
       title: "The link that displays after user has searched and there are more then 3 results. Will be shown next to the help center title. Count will be the number of extra help center articles. Will move to a new line and wrap if needed. %()s stands for string and does not need to be translated (tinyurl.com/le5tu52)"
       value: "View all (%(count)s)"
+  
+  # Mobile
   - translation:
       key: "embeddable_framework.helpCenter.label.linkContext.chat"
-      title: "The paragraph that displays above the link to a live chat on mobile"
+      title: "The paragraph that displays above the link to a live chat on mobile. Will wrap as needed (http://tinyurl.com/mkhwcns)"
       value: "Need more specific help?"
-      wip: true
   - translation:
       key: "embeddable_framework.helpCenter.label.linkContext.submitTicket"
-      title: "The paragraph that displays above the link to submit a ticket on mobile."
+      title: "The paragraph that displays above the link to submit a ticket on mobile. Will wrap as needed (http://tinyurl.com/osklcop)"
       value: "Do you have a specific question?"
-      wip: true
   - translation:
       key: "embeddable_framework.helpCenter.label.link.chat"
-      title: "The link to a live chat that displays on the initial screen on mobile."
+      title: "The link to a live chat that displays on the initial screen on mobile. Will wrap as needed (http://tinyurl.com/plhecna)"
       value: "Chat with us"
-      wip: true
   - translation:
       key: "embeddable_framework.helpCenter.label.searchHelpCenter"
-      title: "The title on the first screen on mobile, above the search box. To give some direction to what the customer will be doing"
+      title: "The title on the first screen on mobile, above the search box. To give some direction to what the customer will be doing. Will wrap as needed (http://tinyurl.com/oa63gq5)"
       value: "Search our Help Center"
-      wip: true
-
-  # Mobile
   - translation:
       key: "embeddable_framework.navigation.back"
       title: "The link to go back a page. Displays at the top left of the widget if there is the option to go back. If over 5 characters will just display icon (tinyurl.com/nj6lvhl)"
