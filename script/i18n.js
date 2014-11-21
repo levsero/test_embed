@@ -7,6 +7,12 @@ var when  = require('when'),
     localeIdMapPath = __dirname + "/../src/translation/localeIdMap.json",
     translationsPath = __dirname + "/../src/translation/translations.json";
 
+function filterLocales(locales) {
+  return _.reject(locales, function(locale) {
+    return locale.name === 'Deutsch (informell)'
+  });
+}
+
 function fetchLocale(locale) {
   var url = locale.url + '?include=translations&packages=embeddable_framework';
   return rest(url)
@@ -29,7 +35,7 @@ puts('Downloading https://support.zendesk.com/api/v2/rosetta/locales/public.json
 
 rest('https://support.zendesk.com/api/v2/rosetta/locales/public.json')
   .then(function(res) {
-    var locales = JSON.parse(res.entity).locales;
+    var locales = filterLocales(JSON.parse(res.entity).locales);
     var requests = [];
 
     puts("\nWriting to " + localeIdMapPath);
