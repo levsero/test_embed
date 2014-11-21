@@ -149,6 +149,10 @@
   &:before {
     content: '\e606';
   }
+
+  [dir='rtl'] & {
+    padding: #{20/$font-size}rem;
+  }
 }
 
 .Icon--zendesk {
