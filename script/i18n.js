@@ -18,7 +18,7 @@ function fetchLocale(locale) {
 
 function generateLocaleIdMap(locales) {
   return _.chain(locales)
-    .reduce(function(res, el) {
+    .reduceRight(function(res, el) {
       res[el.locale] = el.id;
       return res;
     }, {})
@@ -50,7 +50,7 @@ rest('https://support.zendesk.com/api/v2/rosetta/locales/public.json')
         .map(function(res) {
           return JSON.parse(res.entity).locale;
         })
-        .reduce(function(result, el) {
+        .reduceRight(function(result, el) {
           result[el.locale] = el.translations;
           return result;
         }, {})
