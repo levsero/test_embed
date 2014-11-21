@@ -32,7 +32,7 @@ describe('frameFactory', function() {
         }
       },
       'service/i18n': {
-        i18n: jasmine.createSpyObj('i18n', ['t'])
+        i18n: jasmine.createSpyObj('i18n', ['t', 'isRTL', 'getLocale']),
       },
       'imports?_=lodash!lodash': _,
       'baseCSS': '.base-css-file {} ',
@@ -503,6 +503,30 @@ describe('frameFactory', function() {
 
       expect(instance.state._rendered)
         .toEqual(true);
+    });
+
+    it('adds dir attribute to html element for RTL languages', function() {
+      mockRegistry['service/i18n'].i18n.isRTL = function() {
+        return true;
+      };
+      mockRegistry['service/i18n'].i18n.getLocale = function() {
+        return 'ar';
+      };
+
+      var payload = frameFactory(mockChildFn),
+          Embed = React.createClass(payload),
+          instance = React.renderComponent(
+            <Embed />,
+            global.document.body
+          ),
+          iframe = global.document.body.getElementsByTagName('iframe')[0],
+          htmlElem = iframe.contentDocument.documentElement;
+
+      expect(htmlElem.getAttribute('dir'))
+        .toEqual('rtl');
+
+      expect(htmlElem.getAttribute('lang'))
+        .toEqual('ar');
     });
 
   });
