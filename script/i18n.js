@@ -8,9 +8,8 @@ var when  = require('when'),
     translationsPath = __dirname + "/../src/translation/translations.json";
 
 function filterLocales(locales) {
-  return _.filter(locales, function(locale) {
-    puts(locale.name)
-    return locale.name !== 'Deutsch (informell)'
+  return _.reject(locales, function(locale) {
+    return locale.name === 'Deutsch (informell)'
   });
 }
 
