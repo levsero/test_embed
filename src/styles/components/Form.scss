@@ -1,6 +1,12 @@
+/**
+ * 1. because safari 8 is dumb and rounds 1/12 to .083rem
+ *    which computes to 0.9999px & borders can't be sub pixel
+ *    we boost the calculation to do 1.1/12
+ */
+
 @import '../_vars.scss';
 
-$Form-stroke: #{1/$font-size}rem;
+$Form-stroke: #{1.1/$font-size}rem; /* 1 */
 $Form-spacing: #{10/$font-size}rem;
 $Form-gutter: #{15/$font-size}rem;
 $Form-fontSize: #{13/$font-size}rem;
@@ -72,7 +78,7 @@ $Form-fontSize: #{13/$font-size}rem;
   border: $Form-stroke solid $stroke-focused-color;
 
   &.rf-Field--dirty.rf-Field--invalid {
-    @include error-state(1);
+    @include error-state(1.1);
   }
 
   > .Icon--search {
@@ -90,7 +96,7 @@ $Form-fontSize: #{13/$font-size}rem;
 }
 
 .rf-Field--blurred.rf-Field--invalid {
-  @include error-state(1);
+  @include error-state(1.1);
 }
 
 .rf-Field__label {
