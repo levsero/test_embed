@@ -34,7 +34,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  [dir="rtl"] & {
+  [dir='rtl'] & {
     padding-right: 0;
     padding-left: #{12/$font-size}rem;
   }
@@ -43,7 +43,7 @@
 .Icon--launcher {
   padding-right: #{8/$font-size}rem;
 
-  [dir="rtl"] & {
+  [dir='rtl'] & {
     padding-left: #{8/$font-size}rem;
   }
 }
@@ -55,7 +55,7 @@
   font-size: #{16/$font-size}rem;
   line-height: #{50/$font-size}rem;
 
-  [dir="rtl"] & {
+  [dir='rtl'] & {
     padding-left: 0;
   }
 }
@@ -104,7 +104,7 @@
     content: '\e609';
   }
 
-  [dir="rtl"] & {
+  [dir='rtl'] & {
     padding-left: #{3/$font-size}rem;
     padding-right: #{6/$font-size}rem;
   }

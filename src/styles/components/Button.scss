@@ -51,7 +51,7 @@ $Button-widthOffset: #{(50-$Button-nudge)/$font-size}rem;
   width: $Button-widthOffset;
   height: #{50/$font-size}rem;
 
-  [dir="rtl"] & {
+  [dir='rtl'] & {
     margin-right: 0;
     margin-left: #{$Button-nudge/$font-size}rem;
   }
