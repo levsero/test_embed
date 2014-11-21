@@ -7,6 +7,13 @@ var when  = require('when'),
     localeIdMapPath = __dirname + "/../src/translation/localeIdMap.json",
     translationsPath = __dirname + "/../src/translation/translations.json";
 
+function filterLocales(locales) {
+  return _.filter(locales, function(locale) {
+    puts(locale.name)
+    return locale.name !== 'Deutsch (informell)'
+  });
+}
+
 function fetchLocale(locale) {
   var url = locale.url + '?include=translations&packages=embeddable_framework';
   return rest(url)
@@ -18,7 +25,7 @@ function fetchLocale(locale) {
 
 function generateLocaleIdMap(locales) {
   return _.chain(locales)
-    .reduceRight(function(res, el) {
+    .reduce(function(res, el) {
       res[el.locale] = el.id;
       return res;
     }, {})
@@ -29,7 +36,7 @@ puts('Downloading https://support.zendesk.com/api/v2/rosetta/locales/public.json
 
 rest('https://support.zendesk.com/api/v2/rosetta/locales/public.json')
   .then(function(res) {
-    var locales = JSON.parse(res.entity).locales;
+    var locales = filterLocales(JSON.parse(res.entity).locales);
     var requests = [];
 
     puts("\nWriting to " + localeIdMapPath);
@@ -50,7 +57,7 @@ rest('https://support.zendesk.com/api/v2/rosetta/locales/public.json')
         .map(function(res) {
           return JSON.parse(res.entity).locale;
         })
-        .reduceRight(function(result, el) {
+        .reduce(function(result, el) {
           result[el.locale] = el.translations;
           return result;
         }, {})
