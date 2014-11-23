@@ -505,7 +505,7 @@ describe('frameFactory', function() {
         .toEqual(true);
     });
 
-    it('adds dir attribute to html element for RTL languages', function() {
+    it('adds dir & lang attributes to html element for RTL languages', function() {
       mockRegistry['service/i18n'].i18n.isRTL = function() {
         return true;
       };
@@ -515,12 +515,16 @@ describe('frameFactory', function() {
 
       var payload = frameFactory(mockChildFn),
           Embed = React.createClass(payload),
-          instance = React.renderComponent(
-            <Embed />,
-            global.document.body
-          ),
-          iframe = global.document.body.getElementsByTagName('iframe')[0],
-          htmlElem = iframe.contentDocument.documentElement;
+          iframe,
+          htmlElem;
+
+      React.renderComponent(
+        <Embed />,
+        global.document.body
+      );
+
+      iframe = global.document.body.getElementsByTagName('iframe')[0],
+      htmlElem = iframe.contentDocument.documentElement;
 
       expect(htmlElem.getAttribute('dir'))
         .toEqual('rtl');

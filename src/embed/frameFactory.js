@@ -195,7 +195,7 @@ export var frameFactory = function(childFn, _params) {
       // In order for iframe correctly render in some browsers
       // we need to do it on nextTick
       if (doc.readyState === 'complete') {
-        if(i18n.isRTL()) {
+        if (i18n.isRTL()) {
           html.setAttribute('dir', 'rtl');
           html.setAttribute('lang', i18n.getLocale());
         }
