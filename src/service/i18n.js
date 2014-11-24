@@ -14,6 +14,8 @@ function parseLocale(str) {
     return locale;
   } else if (translations[locale.substr(0, 2)]) {
     return locale.substr(0, 2);
+  } else if (str === 'zh') {
+    return 'zh-CN';
   } else {
     return 'en-US';
   }
@@ -21,9 +23,6 @@ function parseLocale(str) {
 
 function setLocale(str = 'en-US') {
   if (!currentLocale) {
-    if (str === 'zh') {
-      str = 'zh-CN';
-    }
     currentLocale = parseLocale(str);
     translate.setLocale(currentLocale);
     translate.registerTranslations(currentLocale, translations[currentLocale]);
