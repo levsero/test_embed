@@ -21,6 +21,9 @@ function parseLocale(str) {
 
 function setLocale(str = 'en-US') {
   if (!currentLocale) {
+    if (str === 'zh') {
+      str = 'zh-CN';
+    }
     currentLocale = parseLocale(str);
     translate.setLocale(currentLocale);
     translate.registerTranslations(currentLocale, translations[currentLocale]);
