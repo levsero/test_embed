@@ -31,6 +31,10 @@ function getLocale() {
   return translate.getLocale();
 }
 
+function isRTL() {
+  return translations[getLocale()].rtl;
+}
+
 function regulateLocaleStringCase(locale) {
   var dashIndex = locale.indexOf('-');
 
@@ -48,5 +52,6 @@ export var i18n = {
   t: translate,
   getLocaleId: getLocaleId,
   setLocale: setLocale,
-  getLocale: getLocale
+  getLocale: getLocale,
+  isRTL: isRTL
 };

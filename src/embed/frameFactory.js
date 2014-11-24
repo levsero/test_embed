@@ -189,11 +189,16 @@ export var frameFactory = function(childFn, _params) {
       }
 
       var iframe = this.getDOMNode(),
+          html = iframe.contentDocument.documentElement,
           doc = iframe.contentWindow.document;
 
       // In order for iframe correctly render in some browsers
       // we need to do it on nextTick
       if (doc.readyState === 'complete') {
+        if (i18n.isRTL()) {
+          html.setAttribute('dir', 'rtl');
+          html.setAttribute('lang', i18n.getLocale());
+        }
 
         /* jshint laxbreak: true, quotmark: false */
         var cssText = baseCSS + mainCSS + params.css + baseFontCSS,
