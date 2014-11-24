@@ -206,7 +206,7 @@ function initHelpCenterTicketSubmission() {
     state.activeEmbed = submitTicket;
 
     c.broadcast(`${submitTicket}.showBackButton`);
-    c.broadcast(`${submitTicket}.show`);
+    c.broadcast(`${submitTicket}.show`, true);
   });
 
   c.intercept(
@@ -240,7 +240,7 @@ function initHelpCenterTicketSubmission() {
     state.activeEmbed = helpCenter;
 
     c.broadcast(`${submitTicket}.hide`);
-    c.broadcast(`${helpCenter}.show`);
+    c.broadcast(`${helpCenter}.show`, true);
   });
 
   c.intercept(`${submitTicket}.onFormSubmitted`, function() {

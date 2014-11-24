@@ -46,8 +46,7 @@ export var Launcher = React.createClass({
         buttonClasses = classSet({
           'Button Button--launcher Button--cta': true,
           'is-mobile': isMobileBrowser(),
-          'u-userBackgroundColor': !this.state.active,
-          'Arrange Arrange--middle': true,
+          'u-userBackgroundColor Arrange Arrange--middle': !this.state.active,
           'u-isActionable u-textLeft u-inlineBlock u-textNoWrap': true,
           'Button--launcherActive': this.state.active
         }),

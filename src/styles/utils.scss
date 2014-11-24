@@ -179,6 +179,10 @@ $Base-posOffset: #{20/$font-size}rem;
   transform: scale(-1);
 }
 
+.u-borderTransparent {
+  border: #{1/$font-size}rem solid transparent;
+}
+
 /**
  * Vertical sizes
  */
