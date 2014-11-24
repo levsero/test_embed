@@ -43,8 +43,8 @@ function shouldGoFullscreen() {
 }
 
 function isBlacklisted() {
-  // Until iphone chrome on ios 8 is fixed to display content instead of a black space
-  if (navigator.userAgent.indexOf('CriOS') !== -1 && navigator.userAgent.indexOf('OS 8') !== -1) {
+  // Iphone chrome on ios 8.0.x displays a blank space instead of content
+  if (navigator.userAgent.indexOf('CriOS') !== -1 && navigator.userAgent.indexOf('OS 8_0') !== -1) {
     return true;
   }
 
