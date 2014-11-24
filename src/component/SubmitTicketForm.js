@@ -49,7 +49,8 @@ var SubmitTicketForm = React.createClass({
     this.setState({isValid: isValid});
   },
 
-  handleBackClick() {
+  handleBackClick(e) {
+    e.preventDefault();
     this.props.onBackClick();
   },
 
