@@ -53,7 +53,7 @@ describe('SubmitTicketForm component', function() {
         submitTicketSchema: noop
       },
       'service/i18n': {
-        i18n: jasmine.createSpyObj('i18n', ['t', 'setLocale', 'init'])
+        i18n: jasmine.createSpyObj('i18n', ['t', 'setLocale', 'init', 'isRTL'])
       },
       'imports?_=lodash!lodash': _
     });

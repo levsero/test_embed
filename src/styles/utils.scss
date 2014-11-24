@@ -172,6 +172,14 @@ $Base-posOffset: #{20/$font-size}rem;
 }
 
 /**
+ * Misc
+ */
+
+.u-flipText {
+  transform: scale(-1);
+}
+
+/**
  * Vertical sizes
  */
 

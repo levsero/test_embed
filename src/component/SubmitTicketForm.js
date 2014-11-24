@@ -17,7 +17,8 @@ var SubmitTicketForm = React.createClass({
       isValid: false,
       buttonMessage: i18n.t('embeddable_framework.submitTicket.form.submitButton.label.send'),
       isSubmitting: false,
-      showBackButton: false
+      showBackButton: false,
+      isRTL: i18n.isRTL()
     };
   },
 
@@ -82,6 +83,10 @@ var SubmitTicketForm = React.createClass({
         barClasses = classSet({
           'Form-cta u-cf Container-pullout u-paddingBS': true,
           'Form-cta--bar u-marginBM': !this.props.fullscreen
+        }),
+        iconClasses = classSet({
+          'Icon Icon--arrow u-textInheritColor': true,
+          'u-flipText u-inlineBlock': this.state.isRTL
         });
 
     return (
@@ -93,7 +98,7 @@ var SubmitTicketForm = React.createClass({
           <button
             onClick={this.handleBackClick}
             className={navigationButtonClasses}>
-            <i className='Icon Icon--arrow u-textInheritColor' />
+            <i className={iconClasses} />
             {i18n.t('embeddable_framework.navigation.back')}
           </button>
           <h2 className={titleClasses}>

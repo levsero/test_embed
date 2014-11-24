@@ -91,6 +91,11 @@
   &:before {
     content: '\e610';
   }
+
+  [dir='rtl'] & {
+    padding-right: #{3/$font-size}rem;
+    padding-left: 0;
+  }
 }
 
 .Icon--search {
