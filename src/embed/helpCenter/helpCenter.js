@@ -76,10 +76,14 @@ function create(name, config) {
       name: name,
       fullscreenable: true,
       onHide() {
-        setScaleLock(false);
+        if (isMobileBrowser()) {
+          setScaleLock(false);
+        }
       },
       onShow() {
-        setScaleLock(true);
+        if (isMobileBrowser()) {
+          setScaleLock(true);
+        }
         get(name).instance.getChild().refs.helpCenter.focusField();
       },
       onClose() {

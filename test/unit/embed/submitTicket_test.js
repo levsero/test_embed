@@ -126,6 +126,17 @@ describe('embed.submitTicket', function() {
       it('should toggle setScaleLock with onShow/onHide', function() {
         var mockSetScaleLock = mockRegistry['utility/utils'].setScaleLock;
 
+        mockery.registerMock('utility/devices', {
+          isMobileBrowser: function() {
+            return true;
+          }
+        });
+        mockery.resetCache();
+        submitTicket = require(submitTicketPath).submitTicket;
+        submitTicket.create('bob', frameConfig);
+        mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
+        params = mockFrameFactoryCall[1];
+
         params.onShow();
 
         expect(mockSetScaleLock)
