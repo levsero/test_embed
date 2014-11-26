@@ -127,7 +127,11 @@ function render(name) {
   helpCenters[name].instance = React.renderComponent(helpCenters[name].component, element);
 
   mediator.channel.subscribe(name + '.show', function() {
-    get(name).instance.show();
+    // stop stupid host page scrolling
+    // when trying to focus HelpCenter's search field
+    setTimeout(function() {
+      get(name).instance.show();
+    }, 0);
   });
 
   mediator.channel.subscribe(name + '.hide', function() {
