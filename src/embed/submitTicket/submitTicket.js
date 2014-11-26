@@ -69,11 +69,15 @@ function create(name, config) {
       css: submitTicketCSS + generateUserCSS({color: config.color}),
       fullscreenable: true,
       onShow() {
-        setScaleLock(true);
+        if (isMobileBrowser()) {
+          setScaleLock(true);
+        }
       },
       name: name,
       onHide() {
-        setScaleLock(false);
+        if (isMobileBrowser()) {
+          setScaleLock(false);
+        }
       },
       onClose() {
         mediator.channel.broadcast(name + '.onClose');

@@ -308,8 +308,13 @@ describe('embed.helpCenter', function() {
 
         pluckSubscribeCall(mockMediator, 'carlos.show')();
 
+        jasmine.clock().install();
+        jasmine.clock().tick(1);
+
         expect(helpCenter.get('carlos').instance.show.__reactBoundMethod)
           .toHaveBeenCalled();
+
+        jasmine.clock().uninstall();
       });
 
       it('should subscribe to <name>.hide', function() {
