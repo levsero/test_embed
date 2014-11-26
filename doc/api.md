@@ -1,6 +1,6 @@
-## Zendesk Widget API
+## Web Widget API
 
-The Zendesk Widget API is a JavaScript API for controlling the display and data passed to a Zendesk Widget. A Zendesk Widget embeds Zendesk functionality such as ticketing, live chat, and Help Center KB searches in a website.
+The Web Widget API is a JavaScript API for controlling the display and data passed to the Web Widget. The Web Widget embeds Zendesk functionality such as ticketing, live chat, and Help Center KB searches in a website.
 
 The API consists of the following methods:
 
@@ -19,7 +19,7 @@ You can use the `zE.identify`, `zE.hide`, and `zE.activate` methods before and a
 
 The method takes a locale string as an argument. For a list of supported locales and associated codes, see <https://support.zendesk.com/api/v2/rosetta/locales/public.json>.
 
-By default, the Zendesk Widget is displayed to the end user in a language that matches the browser header of their web browser. If you want to force the Widget to be displayed in a specific language on your website, you can use `zE.setLocale()` to specify the language.
+By default, the Web Widget is displayed to the end user in a language that matches the browser header of their web browser. If you want to force the Widget to be displayed in a specific language on your website, you can use `zE.setLocale()` to specify the language.
 
 The following example displays the widget in German:
 
@@ -72,7 +72,7 @@ The method completely hides all parts of the Widget from the page. You can invok
 **After page load**
 
 ```html
-  <button onclick="zE.hide();">Hide Zendesk Widget</button>
+  <button onclick="zE.hide();">Hide Web Widget</button>
 ```
 
 ### zE.activate
