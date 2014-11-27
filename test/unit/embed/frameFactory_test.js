@@ -286,7 +286,7 @@ describe('frameFactory', function() {
         .toHaveBeenCalled();
     });
 
-    it('when stopAnimation is set animation isn\'t applied', function() {
+    it('don\'t apply animation when argument isn\'t passed', function() {
       instance.show();
 
       expect(Bounce.applyTo)
