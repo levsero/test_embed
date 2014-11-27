@@ -6,6 +6,7 @@ describe('frameFactory', function() {
       mockRegistry,
       mockComponent,
       mockChildFn,
+      Bounce = noop,
       frameFactoryPath = buildSrcPath('embed/frameFactory');
 
   beforeEach(function() {
@@ -35,6 +36,7 @@ describe('frameFactory', function() {
         i18n: jasmine.createSpyObj('i18n', ['t', 'isRTL', 'getLocale']),
       },
       'imports?_=lodash!lodash': _,
+      'imports?globals=utility/globals,document=>globals.document!bounce.js/bounce.js': Bounce,
       'baseCSS': '.base-css-file {} ',
       'mainCSS': '.main-css-file {} '
     });
@@ -53,6 +55,8 @@ describe('frameFactory', function() {
           ref='aliceComponent' />
       );
     };
+
+    Bounce.prototype = jasmine.createSpyObj('bounceProto', ['translate', 'applyTo', 'remove']);
 
     frameFactory = require(frameFactoryPath).frameFactory;
   });
@@ -234,11 +238,16 @@ describe('frameFactory', function() {
 
   describe('show', function() {
     var instance,
-        mockOnShow;
+        mockOnShow,
+        Bounce;
 
     beforeEach(function() {
       var payload,
-          Embed;
+          Embed,
+          module;
+
+      module = 'imports?globals=utility/globals,document=>globals.document!bounce.js/bounce.js',
+      Bounce = mockRegistry[module].prototype;
 
       mockOnShow = jasmine.createSpy('onShow');
 
@@ -269,15 +278,34 @@ describe('frameFactory', function() {
       expect(mockOnShow)
         .toHaveBeenCalled();
     });
+
+    it('applies animation on show', function() {
+      instance.show(true);
+
+      expect(Bounce.applyTo)
+        .toHaveBeenCalled();
+    });
+
+    it('don\'t apply animation when argument isn\'t passed', function() {
+      instance.show();
+
+      expect(Bounce.applyTo)
+        .not.toHaveBeenCalled();
+    });
   });
 
   describe('hide', function() {
     var instance,
-        mockOnHide;
+        mockOnHide,
+        Bounce;
 
     beforeEach(function() {
       var payload,
-          Embed;
+          Embed,
+          module;
+
+      module = 'imports?globals=utility/globals,document=>globals.document!bounce.js/bounce.js',
+      Bounce = mockRegistry[module].prototype;
 
       mockOnHide = jasmine.createSpy('onHide');
 
@@ -306,6 +334,13 @@ describe('frameFactory', function() {
       instance.hide();
 
       expect(mockOnHide)
+        .toHaveBeenCalled();
+    });
+
+    it('removes animation when embed is hidden', function() {
+      instance.hide();
+
+      expect(Bounce.remove)
         .toHaveBeenCalled();
     });
   });

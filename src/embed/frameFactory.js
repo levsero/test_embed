@@ -9,7 +9,8 @@ import { i18n }                from 'service/i18n';
 
 require('imports?_=lodash!lodash');
 
-var classSet = React.addons.classSet,
+var Bounce = require('imports?globals=utility/globals,document=>globals.document!bounce.js/bounce.js'), /* jshint ignore:line */
+    classSet = React.addons.classSet,
     baseCSS = require('baseCSS'),
     mainCSS = require('mainCSS'),
     sizingRatio = 12 * getSizingRatio(false, true), /* jshint ignore:line */
@@ -36,9 +37,19 @@ export var frameFactory = function(childFn, _params) {
         css: '',
         fullscreenable: false
       },
-      params = _.extend(defaultParams, _params);
+      params = _.extend(defaultParams, _params),
+      springTransition = new Bounce();
 
   validateChildFn(childFn, params);
+
+  // http://bouncejs.com/#{s:[{T:"t",e:"b",d:1200,D:0,f:{x:0,y:15},t:{x:0,y:0},s:2,b:4}]}
+  springTransition.translate({
+    from: { x: 0, y: 15 },
+    to: { x: 0, y: 0 },
+    easing: 'bounce',
+    stiffness: 2,
+    duration: 1200
+  });
 
   return {
     getDefaultProps: function() {
@@ -108,7 +119,7 @@ export var frameFactory = function(childFn, _params) {
       frameWin.setTimeout( () => this.setState({iframeDimensions: dimensions()}), 0);
     },
 
-    show: function() {
+    show: function(animate) {
       this.setState({
         visible: true
       });
@@ -116,6 +127,11 @@ export var frameFactory = function(childFn, _params) {
       if (isMobileBrowser()) {
         win.scrollBy(0, 0);
       }
+
+      if (!isMobileBrowser() && animate) {
+        springTransition.applyTo(this.getDOMNode(), { remove: true });
+      }
+
       if (params.onShow) {
         params.onShow();
       }
@@ -135,6 +151,12 @@ export var frameFactory = function(childFn, _params) {
 
       if (params.onHide) {
         params.onHide();
+      }
+
+      if (!isMobileBrowser()) {
+        // If you open and close the embed faster than the animation length
+        // the style element won't be removed this makes sure it's cleaned up
+        springTransition.remove();
       }
     },
 
@@ -162,7 +184,8 @@ export var frameFactory = function(childFn, _params) {
           iframeStyle = _.extend({
               border: 'none',
               background: 'transparent',
-              zIndex: 999998
+              zIndex: 999998,
+              transform: 'translateZ(0)'
             },
             params.style,
             this.state.iframeDimensions,
@@ -239,7 +262,7 @@ export var frameFactory = function(childFn, _params) {
         Component = React.createClass({
           render: function() {
             return (
-              <div className='u-pullLeft'>
+              <div className='u-pullRight u-borderTransparent'>
                 {css}
                 {childFn(childParams)}
                 {closeButton}

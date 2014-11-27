@@ -105,6 +105,10 @@ function render(name) {
     submitTickets[name].instance.show();
   });
 
+  mediator.channel.subscribe(name + '.showWithAnimation', function() {
+    submitTickets[name].instance.show(true);
+  });
+
   mediator.channel.subscribe(name + '.hide', function() {
     var submitTicket = get(name).instance.getChild().refs.submitTicket;
 

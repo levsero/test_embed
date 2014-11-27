@@ -42,6 +42,7 @@ describe('mediator', function() {
     submitTicketSub = jasmine.createSpyObj(
       'submitTicket',
       ['show',
+       'showWithAnimation',
        'hide',
        'showBackButton']
     );
@@ -49,12 +50,14 @@ describe('mediator', function() {
     chatSub = jasmine.createSpyObj(
       'chat',
       ['show',
+       'showWithAnimation',
        'hide']
     );
 
     helpCenterSub = jasmine.createSpyObj(
       'helpCenter',
       ['show',
+       'showWithAnimation',
        'hide',
        'setNextToChat',
        'setNextToSubmitTicket'
@@ -72,13 +75,16 @@ describe('mediator', function() {
       c.subscribe(`${names.launcher}.setLabelUnreadMsgs`, launcherSub.setLabelUnreadMsgs);
 
       c.subscribe(`${names.submitTicket}.show`, submitTicketSub.show);
+      c.subscribe(`${names.submitTicket}.showWithAnimation`, submitTicketSub.show);
       c.subscribe(`${names.submitTicket}.hide`, submitTicketSub.hide);
       c.subscribe(`${names.submitTicket}.showBackButton`, submitTicketSub.showBackButton);
 
       c.subscribe(`${names.chat}.show`, chatSub.show);
+      c.subscribe(`${names.chat}.showWithAnimation`, chatSub.show);
       c.subscribe(`${names.chat}.hide`, chatSub.hide);
 
       c.subscribe(`${names.helpCenter}.show`, helpCenterSub.show);
+      c.subscribe(`${names.helpCenter}.showWithAnimation`, helpCenterSub.show);
       c.subscribe(`${names.helpCenter}.hide`, helpCenterSub.hide);
       c.subscribe(`${names.helpCenter}.setNextToChat`, helpCenterSub.setNextToChat);
       c.subscribe(`${names.helpCenter}.setNextToSubmitTicket`, helpCenterSub.setNextToSubmitTicket);

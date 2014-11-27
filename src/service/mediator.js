@@ -17,7 +17,7 @@ function initTicketSubmission() {
   });
 
   c.intercept('.activate', function() {
-    c.broadcast(`${submitTicket}.show`);
+    c.broadcast(`${submitTicket}.showWithAnimation`);
     c.broadcast(`${launcher}.activate`);
     c.broadcast(`${launcher}.show`);
     state[`${submitTicket}.isVisible`] = true;
@@ -32,7 +32,7 @@ function initTicketSubmission() {
         c.broadcast(`${launcher}.deactivate`);
         state[`${submitTicket}.isVisible`] = false;
       } else {
-        c.broadcast(`${submitTicket}.show`);
+        c.broadcast(`${submitTicket}.showWithAnimation`);
         c.broadcast(`${launcher}.activate`);
         state[`${submitTicket}.isVisible`] = true;
       }
@@ -150,7 +150,7 @@ function initChatTicketSubmission() {
             c.broadcast(`${launcher}.hide`);
           }
         } else {
-          c.broadcast(`${submitTicket}.show`);
+          c.broadcast(`${submitTicket}.showWithAnimation`);
           state[`${submitTicket}.isVisible`] = true;
           c.broadcast(`${launcher}.activate`);
         }
@@ -189,7 +189,7 @@ function initHelpCenterTicketSubmission() {
   c.intercept('.activate', function() {
     if (!state[`${submitTicket}.isVisible`] && !state[`${helpCenter}.isVisible`]) {
 
-      c.broadcast(`${helpCenter}.show`);
+      c.broadcast(`${helpCenter}.showWithAnimation`);
       c.broadcast(`${launcher}.show`);
       c.broadcast(`${launcher}.activate`);
 
@@ -226,7 +226,7 @@ function initHelpCenterTicketSubmission() {
         }
         c.broadcast(`${launcher}.deactivate`);
       } else {
-        c.broadcast(`${state.activeEmbed}.show`);
+        c.broadcast(`${state.activeEmbed}.showWithAnimation`);
         state[`${state.activeEmbed}.isVisible`] = true;
 
         c.broadcast(`${helpCenter}.setNextToSubmitTicket`);
@@ -279,7 +279,7 @@ function initHelpCenterChatTicketSubmission() {
         !state[`${chat}.isVisible`] &&
         !state[`${helpCenter}.isVisible`]) {
 
-      c.broadcast(`${helpCenter}.show`);
+      c.broadcast(`${helpCenter}.showWithAnimation`);
       c.broadcast(`${launcher}.activate`);
       c.broadcast(`${launcher}.show`);
 
@@ -398,7 +398,7 @@ function initHelpCenterChatTicketSubmission() {
         if (state.activeEmbed === chat) {
           c.broadcast(`${launcher}.hide`);
         }
-        c.broadcast(`${state.activeEmbed}.show`);
+        c.broadcast(`${state.activeEmbed}.showWithAnimation`);
         state[`${state.activeEmbed}.isVisible`] = true;
         if (!isMobileBrowser() && state.activeEmbed !== chat) {
           c.broadcast(`${launcher}.activate`);
