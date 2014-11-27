@@ -282,18 +282,12 @@ describe('frameFactory', function() {
     it('applies animation on show', function() {
       instance.show(true);
 
-      expect(Bounce.remove)
-        .toHaveBeenCalled();
-
       expect(Bounce.applyTo)
         .toHaveBeenCalled();
     });
 
     it('when stopAnimation is set animation isn\'t applied', function() {
       instance.show();
-
-      expect(Bounce.remove)
-        .not.toHaveBeenCalled();
 
       expect(Bounce.applyTo)
         .not.toHaveBeenCalled();
@@ -302,11 +296,16 @@ describe('frameFactory', function() {
 
   describe('hide', function() {
     var instance,
-        mockOnHide;
+        mockOnHide,
+        Bounce;
 
     beforeEach(function() {
       var payload,
-          Embed;
+          Embed,
+          module;
+
+      module = 'imports?globals=utility/globals,document=>globals.document!bounce.js/bounce.js',
+      Bounce = mockRegistry[module].prototype;
 
       mockOnHide = jasmine.createSpy('onHide');
 
@@ -335,6 +334,13 @@ describe('frameFactory', function() {
       instance.hide();
 
       expect(mockOnHide)
+        .toHaveBeenCalled();
+    });
+
+    it('removes animation when embed is hidden', function() {
+      instance.hide();
+
+      expect(Bounce.remove)
         .toHaveBeenCalled();
     });
   });

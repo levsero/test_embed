@@ -127,7 +127,6 @@ export var frameFactory = function(childFn, _params) {
       if (isMobileBrowser()) {
         win.scrollBy(0, 0);
       } else if (animate) {
-        springTransition.remove();
         springTransition.applyTo(this.getDOMNode());
       }
       if (params.onShow) {
