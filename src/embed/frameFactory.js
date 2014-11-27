@@ -9,7 +9,21 @@ import { i18n }                from 'service/i18n';
 
 require('imports?_=lodash!lodash');
 
-var Bounce = require('imports?globals=utility/globals,document=>globals.document!bounce.js/bounce.js'), /* jshint ignore:line */
+var Bounce = require(
+      'imports?'+
+      'globals=utility/globals,'+
+      // A dirty hack until PR with bounce.js gets fixed
+      // IE doesn't support the native remove method on elements
+      // so we define it on the Element prototype
+      'shimRemove=>(function(){'+
+        'globals.win.Element.prototype.remove = function() {'+
+          'var parentNode = this.parentNode;'+
+          'if(parentNode) parentNode.removeChild(this);'+
+        '}'+
+      '}()),'+
+      'document=>globals.document'+
+      '!bounce.js/bounce.js'
+    ),
     classSet = React.addons.classSet,
     baseCSS = require('baseCSS'),
     mainCSS = require('mainCSS'),
