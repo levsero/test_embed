@@ -10,21 +10,11 @@ import { i18n }                from 'service/i18n';
 require('imports?_=lodash!lodash');
 
 var Bounce = require('imports?globals=utility/globals,document=>globals.document!bounce.js/bounce.js'), /* jshint ignore:line */
-    springTransition = new Bounce(),
     classSet = React.addons.classSet,
     baseCSS = require('baseCSS'),
     mainCSS = require('mainCSS'),
     sizingRatio = 12 * getSizingRatio(false, true), /* jshint ignore:line */
     baseFontCSS = `html { font-size: ${sizingRatio}px }`;
-
-// http://bouncejs.com/#{s:[{T:"t",e:"b",d:1200,D:0,f:{x:0,y:15},t:{x:0,y:0},s:2,b:4}]}
-springTransition.translate({
-  from: { x: 0, y: 15 },
-  to: { x: 0, y: 0 },
-  easing: 'bounce',
-  stiffness: 2,
-  duration: 1200
-});
 
 function validateChildFn(childFn, params) {
   if (!_.isFunction(childFn)) {
@@ -47,9 +37,19 @@ export var frameFactory = function(childFn, _params) {
         css: '',
         fullscreenable: false
       },
-      params = _.extend(defaultParams, _params);
+      params = _.extend(defaultParams, _params),
+      springTransition = new Bounce();
 
   validateChildFn(childFn, params);
+
+  // http://bouncejs.com/#{s:[{T:"t",e:"b",d:1200,D:0,f:{x:0,y:15},t:{x:0,y:0},s:2,b:4}]}
+  springTransition.translate({
+    from: { x: 0, y: 15 },
+    to: { x: 0, y: 0 },
+    easing: 'bounce',
+    stiffness: 2,
+    duration: 1200
+  });
 
   return {
     getDefaultProps: function() {
@@ -119,14 +119,14 @@ export var frameFactory = function(childFn, _params) {
       frameWin.setTimeout( () => this.setState({iframeDimensions: dimensions()}), 0);
     },
 
-    show: function(stopAnimation) {
+    show: function(animate) {
       this.setState({
         visible: true
       });
 
       if (isMobileBrowser()) {
         win.scrollBy(0, 0);
-      } else if(!stopAnimation) {
+      } else if(animate) {
         springTransition.remove();
         springTransition.applyTo(this.getDOMNode());
       }

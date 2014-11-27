@@ -218,9 +218,9 @@ describe('embed.chat', function() {
 
         it('should call zopim.window.show()', function() {
           expect(mockMediator.channel.subscribe)
-            .toHaveBeenCalledWith('dave.show', jasmine.any(Function));
+            .toHaveBeenCalledWith('dave.show, dave.showWithAnimation', jasmine.any(Function));
 
-          pluckSubscribeCall(mockMediator, 'dave.show')();
+          pluckSubscribeCall(mockMediator, 'dave.show, dave.showWithAnimation')();
 
           expect(mockZopim.livechat.window.show)
             .toHaveBeenCalled();
@@ -232,7 +232,7 @@ describe('embed.chat', function() {
 
         it('should call zopim.livechat.hideAll()', function() {
           expect(mockMediator.channel.subscribe)
-            .toHaveBeenCalledWith('dave.show', jasmine.any(Function));
+            .toHaveBeenCalledWith('dave.show, dave.showWithAnimation', jasmine.any(Function));
 
           pluckSubscribeCall(mockMediator, 'dave.hide')();
 

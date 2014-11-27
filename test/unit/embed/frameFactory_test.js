@@ -280,7 +280,7 @@ describe('frameFactory', function() {
     });
 
     it('applies animation on show', function() {
-      instance.show();
+      instance.show(true);
 
       expect(Bounce.remove)
         .toHaveBeenCalled();
@@ -290,7 +290,7 @@ describe('frameFactory', function() {
     });
 
     it('when stopAnimation is set animation isn\'t applied', function() {
-      instance.show(true);
+      instance.show();
 
       expect(Bounce.remove)
         .not.toHaveBeenCalled();

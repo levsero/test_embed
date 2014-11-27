@@ -126,11 +126,19 @@ function render(name) {
   var element = doc.body.appendChild(doc.createElement('div'));
   helpCenters[name].instance = React.renderComponent(helpCenters[name].component, element);
 
-  mediator.channel.subscribe(name + '.show', function(stopAnimation) {
+  mediator.channel.subscribe(name + '.show', function() {
     // stop stupid host page scrolling
     // when trying to focus HelpCenter's search field
     setTimeout(function() {
-      get(name).instance.show(stopAnimation);
+      get(name).instance.show();
+    }, 0);
+  });
+
+  mediator.channel.subscribe(name + '.showWithAnimation', function() {
+    // stop stupid host page scrolling
+    // when trying to focus HelpCenter's search field
+    setTimeout(function() {
+      get(name).instance.show(true);
     }, 0);
   });
 
