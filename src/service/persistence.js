@@ -17,13 +17,17 @@ function storage(session) {
 }
 
 function get(name, session) {
-  return deserialize(storage(session).getItem(prefix + name));
+  try {
+    return deserialize(storage(session).getItem(prefix + name));
+  } catch(e) {}
 }
 
 function set(name, data, session) {
-  storage(session).setItem(prefix + name, serialize(data));
+  try {
+    storage(session).setItem(prefix + name, serialize(data));
 
-  return data;
+    return data;
+  } catch(e) {}
 }
 
 function remove(name, session) {
