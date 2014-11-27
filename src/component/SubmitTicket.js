@@ -55,7 +55,7 @@ export var SubmitTicket = React.createClass({
     }
 
     var formParams = _.extend({
-          'set_tags': 'zendesk_widget',
+          'set_tags': 'web_widget',
           'via_id': 48,
           'locale_id': i18n.getLocaleId(),
           'submitted_from': win.location.href
