@@ -126,9 +126,12 @@ export var frameFactory = function(childFn, _params) {
 
       if (isMobileBrowser()) {
         win.scrollBy(0, 0);
-      } else if (animate) {
-        springTransition.applyTo(this.getDOMNode());
       }
+
+      if (!isMobileBrowser() && animate) {
+        springTransition.applyTo(this.getDOMNode(), { remove: true });
+      }
+
       if (params.onShow) {
         params.onShow();
       }
@@ -151,6 +154,8 @@ export var frameFactory = function(childFn, _params) {
       }
 
       if (!isMobileBrowser()) {
+        // If you open and close the embed faster than the animation length
+        // the style element won't be removed this makes sure it's cleaned up
         springTransition.remove();
       }
     },
