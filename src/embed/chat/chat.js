@@ -73,13 +73,14 @@ function render(name) {
           display: none !important;
         }
       `,
-      scriptTag = document.createElement('script');
+      scriptTag = document.createElement('script'),
+      host = document.body || document.documentElement;
 
-  document.body.appendChild(scriptTag);
+  host.appendChild(scriptTag);
   scriptTag.innerHTML = snippet;
 
   if (!config.standalone) {
-    document.body.appendChild(styleTag);
+    host.appendChild(styleTag);
     styleTag.innerHTML = css;
     init(name);
   }

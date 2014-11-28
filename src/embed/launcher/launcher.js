@@ -97,7 +97,9 @@ function render(name) {
     throw new Error(`Launcher ${name} has already been rendered.`);
   }
 
-  var element = document.body.appendChild(document.createElement('div'));
+  var host = document.body || document.documentElement,
+      element = host.appendChild(document.createElement('div'));
+
   launchers[name].instance = React.renderComponent(launchers[name].component, element);
 
   mediator.channel.subscribe(name + '.activate', function() {

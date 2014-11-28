@@ -98,7 +98,9 @@ function render(name) {
     throw new Error(`SubmitTicket ${name} has already been rendered.`);
   }
 
-  var element = document.body.appendChild(document.createElement('div'));
+  var host = document.body || document.documentElement,
+      element = host.appendChild(document.createElement('div'));
+
   submitTickets[name].instance = React.renderComponent(submitTickets[name].component, element);
 
   mediator.channel.subscribe(name + '.show', function() {
