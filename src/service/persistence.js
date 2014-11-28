@@ -25,9 +25,9 @@ function get(name, session) {
 function set(name, data, session) {
   try {
     storage(session).setItem(prefix + name, serialize(data));
-
-    return data;
   } catch(e) {}
+
+  return data;
 }
 
 function remove(name, session) {
