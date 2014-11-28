@@ -22,7 +22,7 @@ $Button-nudge: 5;
 .Button--cta {
   background: $cta-color;
   color: $base-color;
-  border-radius: 20rem;
+  border-radius: #{5/$font-size}rem;
   font-weight: 700;
   letter-spacing: 0.4;
   bottom: -5px; /* 2 */
