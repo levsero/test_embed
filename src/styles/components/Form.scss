@@ -35,6 +35,10 @@ $Form-fontSize: #{13/$font-size}rem;
   border-bottom: #{1/$font-size}rem solid $base-border-color;
 }
 
+.Form-cta--barTitle {
+  padding: #{35/$font-size}rem #{25/$font-size}rem;
+}
+
 .Form-cta--barFullscreen {
   padding-top: #{18/$font-size}rem;
 }

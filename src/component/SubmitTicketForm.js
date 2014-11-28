@@ -34,7 +34,7 @@ var SubmitTicketForm = React.createClass({
 
     // Focus on the first empty text or textarea
     element = _.find(form.getDOMNode().querySelectorAll('input, textarea'), function(input) {
-      return input.value === '' && (input.type === 'text' || input.type === 'textarea')
+      return input.value === '' && (input.type === 'text' || input.type === 'textarea');
     });
 
     if (element) {
@@ -91,13 +91,13 @@ var SubmitTicketForm = React.createClass({
         }),
         titleClasses = classSet({
           'u-textSizeMed u-textBold u-extSizeMed u-textCenter': true,
-          'u-posAbsolute u-posCenter': this.state.showBackButton && !this.props.fullscreen,
-          'u-posStartS--vert': this.state.showBackButton && !this.props.fullscreen,
+          'u-posAbsolute u-posCenter u-posStartS--vert': !this.props.fullscreen,
           'u-marginTM u-textSizeBaseMobile': this.props.fullscreen
         }),
         barClasses = classSet({
           'Form-cta u-cf Container-pullout u-paddingBS': true,
-          'Form-cta--bar u-marginBM': !this.props.fullscreen
+          'Form-cta--bar u-marginBM': !this.props.fullscreen,
+          'Form-cta--barTitle': !this.props.fullscreen && !this.state.showBackButton
         }),
         iconClasses = classSet({
           'Icon Icon--arrow u-textInheritColor': true,
