@@ -4,10 +4,24 @@ describe('frameFactory', function() {
 
   var frameFactory,
       mockRegistry,
+      mockRegistryMocks,
       mockComponent,
       mockChildFn,
       Bounce = noop,
-      frameFactoryPath = buildSrcPath('embed/frameFactory');
+      frameFactoryPath = buildSrcPath('embed/frameFactory'),
+      bouncejsRequire = 'imports?'+
+        'globals=utility/globals,'+
+        // A dirty hack until PR with bounce.js gets fixed
+        // IE doesn't support the native remove method on elements
+        // so we define it on the Element prototype
+        'shimRemove=>(function(){'+
+          'globals.win.Element.prototype.remove = function() {'+
+            'var parentNode = this.parentNode;'+
+            'if(parentNode) parentNode.removeChild(this);'+
+          '}'+
+        '}()),'+
+        'document=>globals.document'+
+        '!bounce.js/bounce.js';
 
   beforeEach(function() {
     resetDOM();
@@ -16,7 +30,7 @@ describe('frameFactory', function() {
       useCleanCache: true
     });
 
-    mockRegistry = initMockRegistry({
+    mockRegistryMocks = {
       'react/addons': React,
       'utility/utils': {
         clickBusterRegister: noop
@@ -36,10 +50,13 @@ describe('frameFactory', function() {
         i18n: jasmine.createSpyObj('i18n', ['t', 'isRTL', 'getLocale']),
       },
       'imports?_=lodash!lodash': _,
-      'imports?globals=utility/globals,document=>globals.document!bounce.js/bounce.js': Bounce,
       'baseCSS': '.base-css-file {} ',
       'mainCSS': '.main-css-file {} '
-    });
+    };
+
+    mockRegistryMocks[bouncejsRequire] = Bounce;
+
+    mockRegistry = initMockRegistry(mockRegistryMocks);
 
     mockComponent = React.createClass({
       render: function() {
@@ -243,11 +260,9 @@ describe('frameFactory', function() {
 
     beforeEach(function() {
       var payload,
-          Embed,
-          module;
+          Embed;
 
-      module = 'imports?globals=utility/globals,document=>globals.document!bounce.js/bounce.js',
-      Bounce = mockRegistry[module].prototype;
+      Bounce = mockRegistry[bouncejsRequire].prototype;
 
       mockOnShow = jasmine.createSpy('onShow');
 
@@ -301,11 +316,9 @@ describe('frameFactory', function() {
 
     beforeEach(function() {
       var payload,
-          Embed,
-          module;
+          Embed;
 
-      module = 'imports?globals=utility/globals,document=>globals.document!bounce.js/bounce.js',
-      Bounce = mockRegistry[module].prototype;
+      Bounce = mockRegistry[bouncejsRequire].prototype;
 
       mockOnHide = jasmine.createSpy('onHide');
 
