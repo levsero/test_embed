@@ -2,7 +2,7 @@
 
 module React from 'react/addons';
 
-import { document } from 'utility/globals';
+import { document }        from 'utility/globals';
 import { HelpCenter }      from 'component/HelpCenter';
 import { frameFactory }    from 'embed/frameFactory';
 import { setScaleLock }    from 'utility/utils';
