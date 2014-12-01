@@ -1,4 +1,5 @@
 import { document as doc } from 'utility/globals';
+import { getSizingRatio } from 'utility/devices';
 require('imports?_=lodash!lodash');
 
 var clickBusterClicks = [];
@@ -99,12 +100,14 @@ function clickBusterRegister(x, y) {
 }
 
 function clickBusterHandler(ev) {
-  var x, y;
+  var x,
+      y,
+      radius = 25 * getSizingRatio();
 
   if (clickBusterClicks.length) {
     [x, y] = clickBusterClicks.pop();
-    if (Math.abs(x - ev.clientX) < 25 &&
-        Math.abs(y - ev.clientY) < 25) {
+    if (Math.abs(x - ev.clientX) < radius &&
+        Math.abs(y - ev.clientY) < radius) {
       ev.stopPropagation();
       ev.preventDefault();
     }
