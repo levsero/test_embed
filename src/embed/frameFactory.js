@@ -170,7 +170,11 @@ export var frameFactory = function(childFn, _params) {
       if (!isMobileBrowser()) {
         // If you open and close the embed faster than the animation length
         // the style element won't be removed this makes sure it's cleaned up
-        springTransition.remove();
+        // wrapped in try catch as we can't trust host page methods not to be
+        // overwritten with terrible error handling, looking at you prototype 1.7 <_<
+        try {
+          springTransition.remove();
+        } catch(e) {}
       }
     },
 
