@@ -1,7 +1,8 @@
-import { document, win } from 'utility/globals';
-import { i18n }          from 'service/i18n';
-import { mediator }      from 'service/mediator';
-import { store }         from 'service/persistence';
+import { document, win,
+         getDocumentHost } from 'utility/globals';
+import { i18n }            from 'service/i18n';
+import { mediator }        from 'service/mediator';
+import { store }           from 'service/persistence';
 
 require('imports?_=lodash!lodash');
 
@@ -73,13 +74,14 @@ function render(name) {
           display: none !important;
         }
       `,
-      scriptTag = document.createElement('script');
+      scriptTag = document.createElement('script'),
+      host = getDocumentHost();
 
-  document.body.appendChild(scriptTag);
+  host.appendChild(scriptTag);
   scriptTag.innerHTML = snippet;
 
   if (!config.standalone) {
-    document.body.appendChild(styleTag);
+    host.appendChild(styleTag);
     styleTag.innerHTML = css;
     init(name);
   }

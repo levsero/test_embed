@@ -2,7 +2,8 @@
 
 module React from 'react/addons';
 
-import { document }        from 'utility/globals';
+import { document,
+         getDocumentHost } from 'utility/globals';
 import { SubmitTicket }    from 'component/SubmitTicket';
 import { frameFactory }    from 'embed/frameFactory';
 import { setScaleLock }    from 'utility/utils';
@@ -98,7 +99,8 @@ function render(name) {
     throw new Error(`SubmitTicket ${name} has already been rendered.`);
   }
 
-  var element = document.body.appendChild(document.createElement('div'));
+  var element = getDocumentHost().appendChild(document.createElement('div'));
+
   submitTickets[name].instance = React.renderComponent(submitTickets[name].component, element);
 
   mediator.channel.subscribe(name + '.show', function() {

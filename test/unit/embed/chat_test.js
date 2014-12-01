@@ -7,7 +7,10 @@ describe('embed.chat', function() {
       mockZopim,
       mockGlobals = {
         document: global.document,
-        win: {}
+        win: {},
+        getDocumentHost: function() {
+          return document.body;
+        }
       },
       chatPath = buildSrcPath('embed/chat/chat');
 

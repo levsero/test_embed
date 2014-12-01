@@ -77,7 +77,10 @@ describe('embed.helpCenter', function() {
         generateUserCSS: jasmine.createSpy().and.returnValue('')
       },
       'utility/globals': {
-        document: global.document
+        document: global.document,
+        getDocumentHost: function() {
+          return document.body;
+        }
       },
       'imports?_=lodash!lodash': _
     });

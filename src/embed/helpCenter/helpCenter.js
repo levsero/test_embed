@@ -2,7 +2,8 @@
 
 module React from 'react/addons';
 
-import { document as doc } from 'utility/globals';
+import { document,
+         getDocumentHost } from 'utility/globals';
 import { HelpCenter }      from 'component/HelpCenter';
 import { frameFactory }    from 'embed/frameFactory';
 import { setScaleLock }    from 'utility/utils';
@@ -123,7 +124,8 @@ function render(name) {
     throw new Error(`HelpCenter ${name} has already been rendered.`);
   }
 
-  var element = doc.body.appendChild(doc.createElement('div'));
+  var element = getDocumentHost().appendChild(document.createElement('div'));
+
   helpCenters[name].instance = React.renderComponent(helpCenters[name].component, element);
 
   mediator.channel.subscribe(name + '.show', function() {

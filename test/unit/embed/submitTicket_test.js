@@ -69,7 +69,10 @@ describe('embed.submitTicket', function() {
         }
       },
       'utility/globals': {
-        document: global.document
+        document: global.document,
+        getDocumentHost: function() {
+          return document.body;
+        }
       },
       'imports?_=lodash!lodash': _
     });
