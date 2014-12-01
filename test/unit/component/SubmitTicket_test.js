@@ -4,8 +4,8 @@ describe('Submit ticket component', function() {
   var SubmitTicket,
       mockRegistry,
       formParams = {
-        'set_tags': 'DROPBOX zendesk_widget',
-        'via_id': 17,
+        'set_tags': 'web_widget',
+        'via_id': 48,
         'submitted_from': global.window.location.href,
         'email': 'mock@email.com',
         'description': 'Mock Description'
