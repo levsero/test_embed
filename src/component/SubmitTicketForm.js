@@ -34,7 +34,7 @@ var SubmitTicketForm = React.createClass({
 
     // Focus on the first empty text or textarea
     element = _.find(form.getDOMNode().querySelectorAll('input, textarea'), function(input) {
-      return input.value === '' && (input.type === 'text' || input.type === 'textarea');
+      return input.value === '' && _.contains(['text', 'textarea', 'email'], input.type);
     });
 
     if (element) {

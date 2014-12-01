@@ -71,7 +71,9 @@ function create(name, config) {
       onShow() {
         if (isMobileBrowser()) {
           setScaleLock(true);
-        } else {
+        }
+
+        if (!isMobileBrowser()) {
           get(name).instance.getChild().refs.submitTicket.refs.submitTicketForm.focusField();
         }
       },
