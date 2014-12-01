@@ -1,7 +1,8 @@
-import { document, win } from 'utility/globals';
-import { i18n }          from 'service/i18n';
-import { mediator }      from 'service/mediator';
-import { store }         from 'service/persistence';
+import { document, win,
+         getDocumentHost } from 'utility/globals';
+import { i18n }            from 'service/i18n';
+import { mediator }        from 'service/mediator';
+import { store }           from 'service/persistence';
 
 require('imports?_=lodash!lodash');
 
@@ -74,7 +75,7 @@ function render(name) {
         }
       `,
       scriptTag = document.createElement('script'),
-      host = document.body || document.documentElement;
+      host = getDocumentHost();
 
   host.appendChild(scriptTag);
   scriptTag.innerHTML = snippet;

@@ -14,7 +14,10 @@ describe('embed.launcher', function() {
     mockRegistry = initMockRegistry({
       'react/addons': React,
       'utility/globals': {
-        document: global.document
+        document: global.document,
+        getDocumentHost: function() {
+          return document.body;
+        }
       },
       'utility/utils': {
         generateUserCSS: jasmine.createSpy().and.returnValue('')

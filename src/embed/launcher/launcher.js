@@ -1,7 +1,8 @@
 /** @jsx React.DOM */
 module React from 'react/addons';
 
-import { document }        from 'utility/globals';
+import { document,
+         getDocumentHost } from 'utility/globals';
 import { Launcher }        from 'component/Launcher';
 import { beacon }          from 'service/beacon';
 import { frameFactory }    from 'embed/frameFactory';
@@ -97,8 +98,7 @@ function render(name) {
     throw new Error(`Launcher ${name} has already been rendered.`);
   }
 
-  var host = document.body || document.documentElement,
-      element = host.appendChild(document.createElement('div'));
+  var element = getDocumentHost().appendChild(document.createElement('div'));
 
   launchers[name].instance = React.renderComponent(launchers[name].component, element);
 

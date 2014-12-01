@@ -2,7 +2,8 @@
 
 module React from 'react/addons';
 
-import { document }        from 'utility/globals';
+import { document,
+         getDocumentHost } from 'utility/globals';
 import { HelpCenter }      from 'component/HelpCenter';
 import { frameFactory }    from 'embed/frameFactory';
 import { setScaleLock }    from 'utility/utils';
@@ -123,8 +124,7 @@ function render(name) {
     throw new Error(`HelpCenter ${name} has already been rendered.`);
   }
 
-  var host = document.body || document.documentElement,
-      element = host.appendChild(document.createElement('div'));
+  var element = getDocumentHost().appendChild(document.createElement('div'));
 
   helpCenters[name].instance = React.renderComponent(helpCenters[name].component, element);
 
