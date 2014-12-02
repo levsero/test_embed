@@ -29,11 +29,11 @@ var SubmitTicketForm = React.createClass({
   },
 
   focusField() {
-    var form = this.refs.form,
+    var form = this.refs.form.getDOMNode(),
         element;
 
     // Focus on the first empty text or textarea
-    element = _.find(form.getDOMNode().querySelectorAll('input, textarea'), function(input) {
+    element = _.find(form.querySelectorAll('input, textarea'), function(input) {
       return input.value === '' && _.contains(['text', 'textarea', 'email'], input.type);
     });
 
@@ -91,7 +91,7 @@ var SubmitTicketForm = React.createClass({
         }),
         titleClasses = classSet({
           'u-textSizeMed u-textBold u-extSizeMed u-textCenter': true,
-          'u-posAbsolute u-posCenter u-posStartS--vert': !this.props.fullscreen,
+          'Form-cta--legend u-posAbsolute u-posCenter': !this.props.fullscreen,
           'u-marginTM u-textSizeBaseMobile': this.props.fullscreen
         }),
         barClasses = classSet({

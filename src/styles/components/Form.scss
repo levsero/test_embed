@@ -39,6 +39,10 @@ $Form-fontSize: #{13/$font-size}rem;
   padding: #{35/$font-size}rem #{25/$font-size}rem;
 }
 
+.Form-cta--legend {
+  top: #{12/$font-size}rem;
+}
+
 .Form-cta--barFullscreen {
   padding-top: #{18/$font-size}rem;
 }
