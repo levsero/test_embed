@@ -145,6 +145,8 @@ describe('mediator', function() {
           .toEqual(0);
         expect(launcherSub.deactivate.calls.count())
           .toEqual(1);
+        expect(launcherSub.show.calls.count())
+          .toEqual(1);
       });
 
       it('hides when a hide call is made', function() {
@@ -163,6 +165,15 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
+      it('hides when onClick is called on mobile', function() {
+        mockRegistry['utility/devices'].isMobileBrowser
+          .and.returnValue(true);
+
+        c.broadcast(`${launcher}.onClick`);
+
+        expect(launcherSub.hide.calls.count())
+          .toEqual(1);
+      });
     });
 
     describe('ticket submission', function() {
@@ -280,6 +291,28 @@ describe('mediator', function() {
           .toEqual(0);
         expect(chatSub.show.calls.count())
           .toEqual(1);
+      });
+
+      it('hides when onClick is called on mobile', function() {
+        mockRegistry['utility/devices'].isMobileBrowser
+          .and.returnValue(true);
+
+        c.broadcast(`${launcher}.onClick`);
+
+        expect(launcherSub.hide.calls.count())
+          .toEqual(1);
+      });
+
+      it('doesn\'t hide when onClick is called on mobile and chat is online', function() {
+        mockRegistry['utility/devices'].isMobileBrowser
+          .and.returnValue(true);
+
+        c.broadcast(`${chat}.onOnline`);
+
+        c.broadcast(`${launcher}.onClick`);
+
+        expect(launcherSub.hide.calls.count())
+          .toEqual(0);
       });
 
       it('hides Ticket Submission if it is visible', function() {
@@ -587,6 +620,16 @@ describe('mediator', function() {
         expect(launcherSub.activate.calls.count())
           .toEqual(1);
       });
+
+      it('hides when onClick is called on mobile', function() {
+        mockRegistry['utility/devices'].isMobileBrowser
+          .and.returnValue(true);
+
+        c.broadcast(`${launcher}.onClick`);
+
+        expect(launcherSub.hide.calls.count())
+          .toEqual(1);
+      });
     });
 
     describe('help center', function() {
@@ -841,6 +884,29 @@ describe('mediator', function() {
           .toEqual(1);
         expect(launcherSub.activate.calls.count())
           .toEqual(1);
+      });
+
+      it('hides when onClick is called on mobile', function() {
+        mockRegistry['utility/devices'].isMobileBrowser
+          .and.returnValue(true);
+
+        c.broadcast(`${launcher}.onClick`);
+
+        expect(launcherSub.hide.calls.count())
+          .toEqual(1);
+      });
+
+      it('doesn\'t hide when onClick is called on mobile and chat is active', function() {
+        mockRegistry['utility/devices'].isMobileBrowser
+          .and.returnValue(true);
+
+        c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${helpCenter}.onNextClick`);
+
+        c.broadcast(`${launcher}.onClick`);
+
+        expect(launcherSub.hide.calls.count())
+          .toEqual(0);
       });
     });
 
