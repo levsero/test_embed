@@ -35,6 +35,10 @@ $Button-nudge: 5;
   border: 0;
 }
 
+.Button--navDesktop {
+  bottom: #{6/$font-size}rem;
+}
+
 .Button--launcher {
   border-radius: 999rem; /* 1  */
   border: 0;

@@ -80,7 +80,7 @@ var SubmitTicketForm = React.createClass({
         ),
         navigationButtonClasses = classSet({
           'Button Button--nav u-userTextColor': true,
-          'u-inlineBlock u-posEndS--vert': !this.props.fullscreen,
+          'Button--navDesktop u-inlineBlock': !this.props.fullscreen,
           'u-posAbsolute u-posStart--vert u-textSizeBaseMobile': this.props.fullscreen,
           'u-isHidden': !this.state.showBackButton
         }),
@@ -91,7 +91,7 @@ var SubmitTicketForm = React.createClass({
         }),
         titleClasses = classSet({
           'u-textSizeMed u-textBold u-extSizeMed u-textCenter': true,
-          'Form-cta--legend u-posAbsolute u-posCenter': !this.props.fullscreen,
+          'Form-ctaLegend u-posAbsolute u-posCenter': !this.props.fullscreen,
           'u-marginTM u-textSizeBaseMobile': this.props.fullscreen
         }),
         barClasses = classSet({
