@@ -10,7 +10,7 @@ gulp.task('bootstrap:inline', function() {
     .pipe(replace(/{{(\w+)}}/g, function(match, key) {
         var replaceMap = {
           'zendeskFrameworkUrl': '/dist/main.js',
-          'zendeskHost'        : 'dev.zendesk.dev'
+          'zendeskHost'        : 'dev.zd-dev.com'
         };
 
         return replaceMap[key];
