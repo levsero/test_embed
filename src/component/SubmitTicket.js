@@ -156,7 +156,7 @@ export var SubmitTicket = React.createClass({
           'u-posStart u-posEnd--vert': !this.state.fullscreen || this.state.showNotification,
         }),
         containerBarClasses = classSet({
-          'Container-bar Container-pullout u-borderBottom': true,
+          'Container-bar u-borderBottom': true,
           'u-isHidden': !this.state.fullscreen
         }),
         notifyClasses = classSet({

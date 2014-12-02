@@ -62,7 +62,11 @@ $Container--popover-arrowWidth: $Container--popover-arrowFullWidth/2;
 }
 
 .Container-bar {
+  position: absolute;
   height: #{44/$font-size}rem;
   background: #F5F5F5;
+  right: 0;
+  left: 0;
+  top: 0;
 }
 

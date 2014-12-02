@@ -17,6 +17,9 @@ $Form-fontSize: #{13/$font-size}rem;
 
 .Form {
   margin: 0;
+  &--fullscreen {
+    margin-top: #{40/$font-size}rem;
+  }
 }
 
 .rf-Form {

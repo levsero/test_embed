@@ -64,6 +64,10 @@ var SubmitTicketForm = React.createClass({
             onUpdate={this.handleUpdate}
             component={React.DOM.div} />
         ),
+        formClasses = classSet({
+          'Form u-cf': true,
+          'Form--fullscreen': this.props.fullscreen
+        }),
         navigationButtonClasses = classSet({
           'Button Button--nav u-userTextColor': true,
           'u-inlineBlock u-posEndS--vert': !this.props.fullscreen,
@@ -79,7 +83,7 @@ var SubmitTicketForm = React.createClass({
           'u-textSizeMed u-textBold u-extSizeMed u-textCenter': true,
           'u-posAbsolute u-posCenter': this.state.showBackButton && !this.props.fullscreen,
           'u-posStart--vert': this.state.showBackButton && !this.props.fullscreen,
-          'u-marginTM u-textSizeBaseMobile': this.props.fullscreen
+          'u-textSizeBaseMobile': this.props.fullscreen
         }),
         barClasses = classSet({
           'Form-cta u-cf Container-pullout u-paddingBS': true,
@@ -94,7 +98,7 @@ var SubmitTicketForm = React.createClass({
       <form
         noValidate
         onSubmit={this.handleSubmit}
-        className={'Form u-cf ' + this.props.className}>
+        className={formClasses + ' ' + this.props.className}>
         <div className={barClasses}>
           <button
             onClick={this.handleBackClick}
