@@ -31,10 +31,14 @@ function initTicketSubmission() {
         c.broadcast(`${submitTicket}.hide`);
         c.broadcast(`${launcher}.deactivate`);
         state[`${submitTicket}.isVisible`] = false;
+        c.broadcast(`${launcher}.show`);
       } else {
         c.broadcast(`${submitTicket}.showWithAnimation`);
         c.broadcast(`${launcher}.activate`);
         state[`${submitTicket}.isVisible`] = true;
+        if (isMobileBrowser()) {
+          c.broadcast(`${launcher}.hide`);
+        }
       }
     });
 }
@@ -139,6 +143,7 @@ function initChatTicketSubmission() {
         if (state[`${submitTicket}.isVisible`]) {
           c.broadcast(`${submitTicket}.hide`);
           state[`${submitTicket}.isVisible`] = false;
+          c.broadcast(`${launcher}.show`);
         }
         c.broadcast(`${launcher}.deactivate`);
       } else {
@@ -153,6 +158,9 @@ function initChatTicketSubmission() {
           c.broadcast(`${submitTicket}.showWithAnimation`);
           state[`${submitTicket}.isVisible`] = true;
           c.broadcast(`${launcher}.activate`);
+          if (isMobileBrowser()) {
+            c.broadcast(`${launcher}.hide`);
+          }
         }
       }
     }
@@ -225,12 +233,16 @@ function initHelpCenterTicketSubmission() {
           state[`${submitTicket}.isVisible`] = false;
         }
         c.broadcast(`${launcher}.deactivate`);
+        c.broadcast(`${launcher}.show`);
       } else {
         c.broadcast(`${state.activeEmbed}.showWithAnimation`);
         state[`${state.activeEmbed}.isVisible`] = true;
 
         c.broadcast(`${helpCenter}.setNextToSubmitTicket`);
         c.broadcast(`${launcher}.activate`);
+        if (isMobileBrowser()) {
+          c.broadcast(`${launcher}.hide`);
+        }
       }
     });
 
@@ -335,6 +347,7 @@ function initHelpCenterChatTicketSubmission() {
       }
 
       if (isMobileBrowser()) {
+        c.broadcast(`${launcher}.show`);
         c.broadcast(`${launcher}.deactivate`);
       }
 
@@ -387,15 +400,16 @@ function initHelpCenterChatTicketSubmission() {
           c.broadcast(`${chat}.hide`);
           state[`${chat}.isVisible`] = false;
           state[`${chat}.userClosed`] = true;
-          c.broadcast(`${launcher}.show`);
         }
         if (state[`${submitTicket}.isVisible`]) {
           c.broadcast(`${submitTicket}.hide`);
           state[`${submitTicket}.isVisible`] = false;
         }
         c.broadcast(`${launcher}.deactivate`);
+        c.broadcast(`${launcher}.show`);
       } else {
-        if (state.activeEmbed === chat) {
+        if ((state.activeEmbed === chat && !isMobileBrowser()) ||
+            (isMobileBrowser() && state.activeEmbed !== chat)) {
           c.broadcast(`${launcher}.hide`);
         }
         c.broadcast(`${state.activeEmbed}.showWithAnimation`);
