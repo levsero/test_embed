@@ -203,8 +203,8 @@ export var HelpCenter = React.createClass({
           'u-textSecondary': true,
           'u-marginBL': !this.state.fullscreen
         }),
-        logoUrl = ['//www.zendesk.com/lp/just-one-click/',
-          '?utm_source=launcher&utm_medium=poweredbyzendesk&utm_campaign=image'
+        logoUrl = ['//www.zendesk.com/embeddables/',
+          '?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image'
         ].join(''),
         linkLabel,
         linkContext,
