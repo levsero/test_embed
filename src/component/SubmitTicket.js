@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 
 module React from 'react/addons'; /* jshint ignore:line */
-import { win, location }    from 'utility/globals';
+import { win }              from 'utility/globals';
 import { transport }        from 'service/transport';
 import { SubmitTicketForm } from 'component/SubmitTicketForm';
 import { isMobileBrowser }  from 'utility/devices';
@@ -166,17 +166,17 @@ export var SubmitTicket = React.createClass({
           'u-isHidden': !this.state.showNotification
         }),
         marketingClasses = classSet({
-          'u-isHidden': location.origin !== 'https://www.zendesk.com'
+          'u-isHidden': true
         }),
         errorClasses = classSet({
           'Error': true,
           'u-isHidden': !this.state.errorMessage
         }),
-        logoUrl = ['//www.zendesk.com/lp/just-one-click/',
-                   '?utm_source=launcher&utm_medium=poweredbyzendesk&utm_campaign=image'
+        logoUrl = ['//www.zendesk.com/embeddables/',
+                   '?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image'
                   ].join(''),
-        marketingUrl = ['//www.zendesk.com/lp/just-one-click/',
-                        '?utm_source=launcher&utm_medium=poweredbyzendesk&utm_campaign=text'
+        marketingUrl = ['//www.zendesk.com/embeddables/',
+                        '?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=text'
                        ].join('');
 
     if (this.props.updateFrameSize) {
