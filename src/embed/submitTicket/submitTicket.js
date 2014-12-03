@@ -73,6 +73,10 @@ function create(name, config) {
         if (isMobileBrowser()) {
           setScaleLock(true);
         }
+
+        if (!isMobileBrowser()) {
+          get(name).instance.getChild().refs.submitTicket.refs.submitTicketForm.focusField();
+        }
       },
       name: name,
       onHide() {

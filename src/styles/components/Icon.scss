@@ -4,6 +4,7 @@
  * 2. Set to 50% to create circle
  * 3. Clip whitespace so that onHover effects don't trigger
  *    above and below the icon.
+ * 4. removes extra pixels webkit adds
  */
 @import '../_vars.scss';
 
@@ -54,6 +55,8 @@
   width: #{46/$font-size}rem;
   font-size: #{16/$font-size}rem;
   line-height: #{46/$font-size}rem;
+
+  -webkit-margin-before: #{1/$font-size}rem; /* 4 */
 
   [dir='rtl'] & {
     padding-left: 0;

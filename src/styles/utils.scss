@@ -35,10 +35,6 @@ $Base-posOffset: #{20/$font-size}rem;
   bottom: $Base-posOffset;
 }
 
-.u-posEndS--vert {
-  bottom: #{3/$font-size}rem;
-}
-
 .u-posCenter--vert {
   top: 50%;
   transform: translateY(-50%);
