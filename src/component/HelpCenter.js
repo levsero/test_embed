@@ -167,7 +167,7 @@ export var HelpCenter = React.createClass({
           'u-posRelative': true
         }),
         containerBarClasses = classSet({
-          'Container-bar Container-pullout u-borderBottom': true,
+          'Container-bar u-borderBottom': true,
           'u-isHidden': !this.state.fullscreen
         }),
         logoClasses = classSet({
