@@ -19,7 +19,6 @@ require('imports?_=lodash!lodash');
 function boot() {
   var publicApi,
       devApi,
-      isPinching,
       host = location.host,
       path = location.pathname,
       postRenderQueue = [],
@@ -137,6 +136,8 @@ function boot() {
   }
 
   if (isMobileBrowser()) {
+    let isPinching;
+
     win.addEventListener('touchmove', Airbrake.wrap((e) => {
       // Touch end won't tell you if multiple touches are detected
       // so we store the touches length on move and check on end
