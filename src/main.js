@@ -45,11 +45,6 @@ function boot() {
       identify = function(user) {
         mediator.channel.broadcast('.identify', user);
       },
-      propagateFontRatioChange = function(isPinching) {
-        setTimeout(() => {
-          renderer.propagateFontRatio(getSizingRatio(isPinching));
-        }, 0);
-      },
       activate = function() {
         mediator.channel.broadcast('.activate');
       },
@@ -136,7 +131,12 @@ function boot() {
   }
 
   if (isMobileBrowser()) {
-    let isPinching;
+    let isPinching,
+        propagateFontRatioChange = function(isPinching) {
+          setTimeout(() => {
+            renderer.propagateFontRatio(getSizingRatio(isPinching));
+          }, 0);
+        };
 
     win.addEventListener('touchmove', Airbrake.wrap((e) => {
       // Touch end won't tell you if multiple touches are detected
