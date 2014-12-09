@@ -74,11 +74,9 @@ export var HelpCenter = React.createClass({
 
     transport.send({
       method: 'get',
-      path: '/embeddable/proxy',
+      path: '/api/v2/help_center/search.json',
       query: {
-        query: searchString,
-        /* jshint camelcase:false */
-        zendesk_path: '/api/v2/help_center/search.json'
+        query: searchString
       },
       callbacks: {
         done: (res) => {
