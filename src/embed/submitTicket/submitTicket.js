@@ -23,7 +23,8 @@ function create(name, config) {
       },
       configDefaults = {
         position: 'right',
-        customFields: []
+        customFields: [],
+        showZendeskLogo: true
       },
       posObj,
       iframeStyle,
@@ -61,6 +62,7 @@ function create(name, config) {
             updateFrameSize={params.updateFrameSize}
             onSubmitted={onSubmitted}
             customFields={config.customFields}
+            showZendeskLogo={config.showZendeskLogo}
             handleBack={handleBack}/>
         </div>
       );
