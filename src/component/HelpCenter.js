@@ -227,7 +227,7 @@ export var HelpCenter = React.createClass({
       });
     }
 
-    if (this.props.showZendeskLogo) {
+    if (this.props.zendeskLogoEnabled) {
       zendeskLogo = <ZendeskLogo showNotification={this.state.showNotification} />;
     }
 

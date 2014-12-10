@@ -177,7 +177,7 @@ export var SubmitTicket = React.createClass({
       setTimeout( () => this.props.updateFrameSize(0, 10), 0);
     }
 
-    if (this.props.showZendeskLogo) {
+    if (this.props.zendeskLogoEnabled) {
       zendeskLogo = <ZendeskLogo showNotification={this.state.showNotification} />;
     }
 
