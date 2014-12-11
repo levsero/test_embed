@@ -4,6 +4,7 @@ module React from 'react/addons'; /* jshint ignore:line */
 import { win }              from 'utility/globals';
 import { transport }        from 'service/transport';
 import { SubmitTicketForm } from 'component/SubmitTicketForm';
+import { ZendeskLogo }      from 'component/ZendeskLogo';
 import { isMobileBrowser }  from 'utility/devices';
 import { i18n }             from 'service/i18n';
 
@@ -150,11 +151,6 @@ export var SubmitTicket = React.createClass({
           'Arrange Arrange--middle': this.state.fullscreen,
           'u-posRelative': true
         }),
-        logoClasses = classSet({
-          'Icon Icon--zendesk u-linkClean': true,
-          'u-posAbsolute': !this.state.fullscreen || this.state.showNotification,
-          'u-posStart u-posEnd--vert': !this.state.fullscreen || this.state.showNotification,
-        }),
         containerBarClasses = classSet({
           'Container-bar u-borderBottom': true,
           'u-isHidden': !this.state.fullscreen
@@ -172,15 +168,17 @@ export var SubmitTicket = React.createClass({
           'Error': true,
           'u-isHidden': !this.state.errorMessage
         }),
-        logoUrl = ['//www.zendesk.com/embeddables/',
-                   '?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image'
-                  ].join(''),
         marketingUrl = ['//www.zendesk.com/embeddables/',
                         '?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=text'
-                       ].join('');
+                       ].join(''),
+        zendeskLogo;
 
     if (this.props.updateFrameSize) {
       setTimeout( () => this.props.updateFrameSize(0, 10), 0);
+    }
+
+    if (this.props.zendeskLogoEnabled) {
+      zendeskLogo = <ZendeskLogo formSuccess={this.state.showNotification} />;
     }
 
     return (
@@ -211,14 +209,7 @@ export var SubmitTicket = React.createClass({
             {this.state.errorMessage}
           </p>
         </SubmitTicketForm>
-        <div className='u-nbfc'>
-          <a
-            href={logoUrl}
-            target='_blank'
-            className={logoClasses}>
-            <span className='u-isHiddenVisually'>zendesk</span>
-          </a>
-        </div>
+        {zendeskLogo}
       </div>
     );
   }

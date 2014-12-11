@@ -43,6 +43,17 @@ describe('Help center component', function() {
             }
           }))
       },
+      'component/ZendeskLogo': {
+        ZendeskLogo: jasmine.createSpy('mockZendeskLogo')
+          .and.callFake(React.createClass({
+            render: function() {
+              /* jshint quotmark:false */
+              return (
+                <div />
+              );
+            }
+          }))
+      },
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', ['init', 'setLocale', 't'])
       },
@@ -279,53 +290,6 @@ describe('Help center component', function() {
 
       expect(containerClasses.indexOf('Container--fullscreen'))
         .toEqual(-1);
-    });
-
-  });
-
-  describe('logo class names', function() {
-    it('should have the `fullscreen` classnames when fullscreen is true', function() {
-
-      var helpCenter = React.renderComponent(
-            <HelpCenter />,
-            global.document.body
-          ),
-          logoNode = ReactTestUtils
-            .findRenderedDOMComponentWithClass(helpCenter, 'Icon--zendesk'),
-          logoClasses;
-
-      helpCenter.setState({fullscreen: true});
-
-      logoClasses = logoNode.props.className;
-
-      expect(logoClasses.indexOf('u-posAbsolute'))
-        .toEqual(-1);
-
-      expect(logoClasses.indexOf('u-posStart'))
-        .toEqual(-1);
-
-    });
-
-    it('should not have the `fullscreen` classnames when fullscreen is false', function() {
-
-      var helpCenter = React.renderComponent(
-            <HelpCenter />,
-            global.document.body
-          ),
-          logoNode = ReactTestUtils
-            .findRenderedDOMComponentWithClass(helpCenter, 'Icon--zendesk'),
-          logoClasses;
-
-      helpCenter.setState({fullscreen: false});
-
-      logoClasses = logoNode.props.className;
-
-      expect(logoClasses.indexOf('u-posAbsolute') >= 0)
-        .toEqual(true);
-
-      expect(logoClasses.indexOf('u-posStart') >= 0)
-        .toEqual(true);
-
     });
 
   });
