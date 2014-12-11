@@ -178,7 +178,7 @@ export var SubmitTicket = React.createClass({
     }
 
     if (this.props.zendeskLogoEnabled) {
-      zendeskLogo = <ZendeskLogo showNotification={this.state.showNotification} />;
+      zendeskLogo = <ZendeskLogo formSuccess={this.state.showNotification} />;
     }
 
     return (
