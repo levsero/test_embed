@@ -50,7 +50,6 @@ describe('ZendeskLogo component', function() {
       mockRegistry['utility/devices'].isMobileBrowser = function() {
         return false;
       };
-
       mockery.resetCache();
 
       var ZendeskLogo = require(zendeskLogoPath).ZendeskLogo,
@@ -71,7 +70,6 @@ describe('ZendeskLogo component', function() {
       mockRegistry['utility/devices'].isMobileBrowser = function() {
         return true;
       };
-
       mockery.resetCache();
 
       var ZendeskLogo = require(zendeskLogoPath).ZendeskLogo,
