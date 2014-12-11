@@ -26,7 +26,7 @@ describe('ZendeskLogo component', function() {
   });
 
   describe('logo class names', function() {
-    it('should not have the positional classnames when fullscreen is true', function() {
+    it('should not have the positional classnames when mobile browser is true', function() {
       mockRegistry['utility/devices'].isMobileBrowser = function() {
         return true;
       };
@@ -46,7 +46,7 @@ describe('ZendeskLogo component', function() {
         .toEqual(-1);
     });
 
-    it('should have the positional classnames when fullscreen is false', function() {
+    it('should have the positional classnames when mobile browser is false', function() {
       mockRegistry['utility/devices'].isMobileBrowser = function() {
         return false;
       };
@@ -61,13 +61,13 @@ describe('ZendeskLogo component', function() {
       logoClasses = logoNode.props.className;
 
       expect(logoClasses.indexOf('u-posAbsolute'))
-        .toBeGreaterThan(-1)
+        .toBeGreaterThan(-1);
 
       expect(logoClasses.indexOf('u-posStart'))
-        .toBeGreaterThan(-1)
+        .toBeGreaterThan(-1);
     });
 
-    it('should have the positional classnames when fullscreen is true and formSuccess is true', function() {
+    it('has the positional classnames for mobile browser and formSuccess is true', function() {
       mockRegistry['utility/devices'].isMobileBrowser = function() {
         return true;
       };
@@ -82,10 +82,10 @@ describe('ZendeskLogo component', function() {
       logoClasses = logoNode.props.className;
 
       expect(logoClasses.indexOf('u-posAbsolute'))
-        .toBeGreaterThan(-1)
+        .toBeGreaterThan(-1);
 
       expect(logoClasses.indexOf('u-posStart'))
-        .toBeGreaterThan(-1)
+        .toBeGreaterThan(-1);
     });
   });
 });
