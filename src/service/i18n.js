@@ -16,6 +16,8 @@ function parseLocale(str) {
     return locale.substr(0, 2);
   } else if (str === 'zh') {
     return 'zh-CN';
+  } else if (str === 'nb' || str === 'nn') {
+    return 'no';
   } else {
     return 'en-US';
   }
