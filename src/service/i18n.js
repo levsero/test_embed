@@ -1,3 +1,5 @@
+require('imports?_=lodash!lodash');
+
 var translate = require('counterpart'),
     translations = require('translation/translations.json'),
     localeIdMap = require('translation/localeIdMap.json'),
@@ -27,7 +29,15 @@ function setLocale(str = 'en-US') {
   if (!currentLocale) {
     currentLocale = parseLocale(str);
     translate.setLocale(currentLocale);
-    translate.registerTranslations(currentLocale, translations[currentLocale]);
+
+    // To avoid weird encoding issues we deliver the strings uri encoded
+    // when setting the strings we then decode them in memory
+    var decodedStrings = _.reduce(translations[currentLocale], function(res, el, key) {
+      res[key] = decodeURIComponent(el);
+      return res;
+    }, {});
+
+    translate.registerTranslations(currentLocale, decodedStrings);
   }
 }
 
