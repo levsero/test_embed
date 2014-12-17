@@ -102,9 +102,7 @@ export var frameFactory = function(childFn, _params) {
         var el = frameDoc.body.firstChild,
             width  = Math.max(el.clientWidth,  el.offsetWidth),
             height = Math.max(el.clientHeight, el.offsetHeight),
-            fullscreen = (
-              (getSizingRatio() > 1 || isMobileBrowser()) && params.fullscreenable
-            ),
+            fullscreen = isMobileBrowser() && params.fullscreenable,
             fullscreenStyle = {
               width: '100%',
               height: '100%',
