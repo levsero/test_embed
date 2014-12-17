@@ -58,7 +58,7 @@ rest('https://support.zendesk.com/api/v2/rosetta/locales/public.json')
         })
         .reduce(function(result, el) {
           result[el.locale] = _.reduce(el.translations, function(res, el, key) {
-            res[key] = encodeURI(el);
+            res[key] = encodeURIComponent(el);
             return res;
           }, {});
           result[el.locale].rtl = el.rtl;

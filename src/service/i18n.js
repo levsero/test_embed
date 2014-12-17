@@ -30,15 +30,17 @@ function setLocale(str = 'en-US') {
   if (!currentLocale) {
     currentLocale = parseLocale(str);
     translate.setLocale(currentLocale);
-    var ts = _.chain(translations[currentLocale])
+
+    // To avoid weird encoding issues we deliver the strings uri encoded
+    // when setting the strings we then decode them in memory
+    var decodeStrings = _.chain(translations[currentLocale])
     .reduce(function(res, el, key) {
-      res[key] = decodeURI(el);
+      res[key] = decodeURIComponent(el);
       return res;
     }, {})
     .value();
-    console.log(translations[currentLocale], 'encoded');
-    console.log(ts, 'decoded');
-    translate.registerTranslations(currentLocale, ts);
+
+    translate.registerTranslations(currentLocale, decodeStrings);
   }
 }
 
@@ -61,10 +63,6 @@ function regulateLocaleStringCase(locale) {
 
 function getLocaleId() {
   return localeIdMap[currentLocale];
-}
-
-function t() {
-  decodeURI(translate.apply(this, arguments));
 }
 
 export var i18n = {
