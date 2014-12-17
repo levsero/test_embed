@@ -5,7 +5,6 @@ var translate = require('counterpart'),
     localeIdMap = require('translation/localeIdMap.json'),
     currentLocale;
 
-
 // Setting to something other than (.) as our translation hash
 // is a flat structure and counterpart tries to look in object
 translate.setSeparator('*');
