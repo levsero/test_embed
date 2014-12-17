@@ -57,7 +57,10 @@ rest('https://support.zendesk.com/api/v2/rosetta/locales/public.json')
           return JSON.parse(res.entity).locale;
         })
         .reduce(function(result, el) {
-          result[el.locale] = el.translations;
+          result[el.locale] = _.reduce(el.translations, function(res, el, key) {
+            res[key] = encodeURI(el);
+            return res;
+          }, {});
           result[el.locale].rtl = el.rtl;
           return result;
         }, {})

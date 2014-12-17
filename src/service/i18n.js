@@ -1,7 +1,10 @@
+require('imports?_=lodash!lodash');
+
 var translate = require('counterpart'),
     translations = require('translation/translations.json'),
     localeIdMap = require('translation/localeIdMap.json'),
     currentLocale;
+
 
 // Setting to something other than (.) as our translation hash
 // is a flat structure and counterpart tries to look in object
@@ -27,7 +30,15 @@ function setLocale(str = 'en-US') {
   if (!currentLocale) {
     currentLocale = parseLocale(str);
     translate.setLocale(currentLocale);
-    translate.registerTranslations(currentLocale, translations[currentLocale]);
+    var ts = _.chain(translations[currentLocale])
+    .reduce(function(res, el, key) {
+      res[key] = decodeURI(el);
+      return res;
+    }, {})
+    .value();
+    console.log(translations[currentLocale], 'encoded');
+    console.log(ts, 'decoded');
+    translate.registerTranslations(currentLocale, ts);
   }
 }
 
@@ -50,6 +61,10 @@ function regulateLocaleStringCase(locale) {
 
 function getLocaleId() {
   return localeIdMap[currentLocale];
+}
+
+function t() {
+  decodeURI(translate.apply(this, arguments));
 }
 
 export var i18n = {
