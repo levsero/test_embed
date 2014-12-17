@@ -33,14 +33,12 @@ function setLocale(str = 'en-US') {
 
     // To avoid weird encoding issues we deliver the strings uri encoded
     // when setting the strings we then decode them in memory
-    var decodeStrings = _.chain(translations[currentLocale])
-    .reduce(function(res, el, key) {
+    var decodedStrings = _.reduce(translations[currentLocale], function(res, el, key) {
       res[key] = decodeURIComponent(el);
       return res;
-    }, {})
-    .value();
+    }, {});
 
-    translate.registerTranslations(currentLocale, decodeStrings);
+    translate.registerTranslations(currentLocale, decodedStrings);
   }
 }
 
