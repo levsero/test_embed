@@ -77,10 +77,42 @@ export var HelpCenter = React.createClass({
       method: 'get',
       path: '/api/v2/help_center/search.json',
       query: {
+        query: searchString,
+        locale: i18n.getLocale()
+      },
+      callbacks: {
+        done: (res) => {
+          if (res.ok) {
+
+            console.log('done and ok');
+            if (res.body.count > 0) {
+              this.updateResults(res);
+            }
+            else {
+              console.log('results were empty');
+              this.performFallbackSearch(searchString);
+            }
+          } else {
+            this.searchFail();
+          }
+        },
+        fail: () => this.searchFail()
+      }
+    });
+  },
+
+  performFallbackSearch(searchString) {
+    console.log('performing fallback', searchString);
+
+    transport.send({
+      method: 'get',
+      path: '/api/v2/help_center/search.json',
+      query: {
         query: searchString
       },
       callbacks: {
         done: (res) => {
+          console.log('fallback done');
           if (res.ok) {
             this.updateResults(res);
           } else {
@@ -239,6 +271,7 @@ export var HelpCenter = React.createClass({
           className={formClasses}
           onSearch={this.handleSearch}
           isLoading={this.state.isLoading}
+          // ^ HelpCenterForm isn't actually using this prop
           hasSearched={this.state.hasSearched}
           buttonLabel={this.state.buttonLabel}
           onButtonClick={this.props.onButtonClick}
