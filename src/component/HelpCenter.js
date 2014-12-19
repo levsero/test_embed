@@ -67,8 +67,7 @@ export var HelpCenter = React.createClass({
   },
 
   performSearch(searchString) {
-    var that = this,
-        search = function(searchString, locale) {
+    var search = (searchString, locale) => {
           transport.send({
             method: 'get',
             path: '/api/v2/help_center/search.json',
@@ -80,12 +79,12 @@ export var HelpCenter = React.createClass({
               done: (res) => {
                 if (res.ok) {
                   if ((locale && res.body.count > 0) || !locale) {
-                    that.updateResults(res);
+                    this.updateResults(res);
                   } else {
                     search(searchString);
                   }
                 } else {
-                  that.searchFail();
+                  this.searchFail();
                 }
               },
               fail: () => this.searchFail()
@@ -248,8 +247,6 @@ export var HelpCenter = React.createClass({
           ref='helpCenterForm'
           className={formClasses}
           onSearch={this.handleSearch}
-          isLoading={this.state.isLoading}
-          // ^ HelpCenterForm isn't actually using this prop
           hasSearched={this.state.hasSearched}
           buttonLabel={this.state.buttonLabel}
           onButtonClick={this.props.onButtonClick}
