@@ -67,29 +67,38 @@ export var HelpCenter = React.createClass({
   },
 
   performSearch(searchString) {
+    var search = (searchString, locale) => {
+          transport.send({
+            method: 'get',
+            path: '/api/v2/help_center/search.json',
+            query: {
+              locale: locale,
+              query: searchString
+            },
+            callbacks: {
+              done: (res) => {
+                if (res.ok) {
+                  if ((locale && res.body.count > 0) || !locale) {
+                    this.updateResults(res);
+                  } else {
+                    search(searchString);
+                  }
+                } else {
+                  this.searchFail();
+                }
+              },
+              fail: () => this.searchFail()
+            }
+          });
+        };
+
     this.props.onSearch(searchString);
     this.setState({
       isLoading: true,
       searchTerm: searchString
     });
 
-    transport.send({
-      method: 'get',
-      path: '/api/v2/help_center/search.json',
-      query: {
-        query: searchString
-      },
-      callbacks: {
-        done: (res) => {
-          if (res.ok) {
-            this.updateResults(res);
-          } else {
-            this.searchFail();
-          }
-        },
-        fail: () => this.searchFail()
-      }
-    });
+    search(searchString, i18n.getLocale());
   },
 
   handleSearch(forceSearch) {
@@ -238,7 +247,6 @@ export var HelpCenter = React.createClass({
           ref='helpCenterForm'
           className={formClasses}
           onSearch={this.handleSearch}
-          isLoading={this.state.isLoading}
           hasSearched={this.state.hasSearched}
           buttonLabel={this.state.buttonLabel}
           onButtonClick={this.props.onButtonClick}
