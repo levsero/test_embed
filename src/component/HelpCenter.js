@@ -73,8 +73,8 @@ export var HelpCenter = React.createClass({
             method: 'get',
             path: '/api/v2/help_center/search.json',
             query: {
-              locale: locale
-              query: searchString,
+              locale: locale,
+              query: searchString
             },
             callbacks: {
               done: (res) => {
