@@ -1,11 +1,9 @@
 import { document as doc } from 'utility/globals';
 import { getSizingRatio } from 'utility/devices';
-
-var Color = require('color');
-
 require('imports?_=lodash!lodash');
 
-var clickBusterClicks = [];
+var Color = require('color'),
+    clickBusterClicks = [];
 
 function generateUserCSS(params) {
   if (params.color) {
