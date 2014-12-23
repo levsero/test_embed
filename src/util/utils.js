@@ -7,7 +7,7 @@ var Color = require('color'),
 
 function generateUserCSS(params) {
   if (params.color) {
-  var highlightColor = generateHighlightColor(params.color);
+    var highlightColor = generateHighlightColor(params.color);
 
     return (`
       .u-userTextColor:not([disabled]) {
