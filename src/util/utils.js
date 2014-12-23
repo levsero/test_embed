@@ -1,22 +1,44 @@
 import { document as doc } from 'utility/globals';
 import { getSizingRatio } from 'utility/devices';
+
+var Color = require('color');
+
 require('imports?_=lodash!lodash');
 
 var clickBusterClicks = [];
 
 function generateUserCSS(params) {
   if (params.color) {
+  var highlightColor = generateHighlightColor(params.color);
+
     return (`
       .u-userTextColor:not([disabled]) {
         color: ${params.color} !important;
       }
+      .u-userTextColor:not([disabled]):hover,
+      .u-userTextColor:not([disabled]):active,
+      .u-userTextColor:not([disabled]):focus {
+        color: ${highlightColor} !important;
+      }
       .u-userBackgroundColor:not([disabled]) {
         background-color: ${params.color} !important;
+      }
+      .u-userBackgroundColor:not([disabled]):hover,
+      .u-userBackgroundColor:not([disabled]):active,
+      .u-userBackgroundColor:not([disabled]):focus {
+        background-color: ${highlightColor} !important;
       }
     `);
   } else {
     return '';
   }
+}
+
+function generateHighlightColor(colorStr) {
+  var color = Color(colorStr);
+  return (color.luminosity() > 0.15)
+       ? color.darken(0.1).rgbString()
+       : color.lighten(0.15).rgbString();
 }
 
 function metaStringToObj(str) {
