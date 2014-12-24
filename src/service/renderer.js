@@ -37,12 +37,9 @@ function parseConfig(config) {
 
 function init(config) {
   if (!initialised) {
-    console.log('init');
-
     i18n.setLocale(config.locale);
 
     _.forEach(parseConfig(config), function(configItem, embedName) {
-      console.log(configItem);
       try {
         configItem.props.visible = isVisible;
         configItem.props.zendeskLogoEnabled = config.zendeskLogoEnabled;
