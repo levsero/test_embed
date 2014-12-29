@@ -2,6 +2,9 @@
  * 1. because safari 8 is dumb and rounds 1/12 to .083rem
  *    which computes to 0.9999px & borders can't be sub pixel
  *    we boost the calculation to do 1.1/12
+ * 2. IE doesn't have appearance: none so we can't override its
+ *    arrows like other browsers so we just need to hide this
+ *    and use the default ones.
  */
 
 @import '../_vars.scss';
@@ -75,9 +78,26 @@ $Form-fontSize: #{13/$font-size}rem;
     }
   }
 
+  select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+
   &:last-child {
     margin-bottom: 0;
   }
+}
+
+.rf-Field__arrows {
+  position: absolute;
+  right: #{14/$font-size}rem;
+  top: #{13/$font-size}rem;
+  pointer-events: none;
+}
+
+_:-ms-input-placeholder, :root .rf-Field__arrows { /* 2 */
+  display: none;
 }
 
 .rf-Field--search {
@@ -98,7 +118,7 @@ $Form-fontSize: #{13/$font-size}rem;
 }
 
 .rf-Field--dropdown {
-  padding-left: #{2/$font-size}rem;
+  padding-left: #{12/$font-size}rem;
 }
 
 .rf-CheckboxGroup__caption {

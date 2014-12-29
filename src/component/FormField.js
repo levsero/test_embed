@@ -31,7 +31,7 @@ var FocusField = React.createClass({
     var value = this.value(),
         isInvalid = isFailure(value.validation),
         classNames = classSet({
-          'Arrange Arrange--middle rf-Field u-isSelectable': true,
+          'Arrange Arrange--middle rf-Field u-isSelectable u-posRelative': true,
           'rf-Field--focused': this.state.focused,
           'rf-Field--blurred': this.state.blurred,
           'rf-Field--invalid': isInvalid && this.state.blurred,
@@ -41,15 +41,24 @@ var FocusField = React.createClass({
         iconClasses = classSet({
           'u-isHidden': !this.props.icon,
           'Arrange-sizeFit u-isActionable Icon Icon--': true
+        }),
+        dropdownClasses = classSet({
+          'u-isHidden': !this.props.dropdown,
+          'Arrange-sizeFit rf-Field__arrows': true
         });
 
     return (
+      /* jshint quotmark: false */
       <label className={classNames}>
         <i className={iconClasses + this.props.icon} />
         {this.transferPropsTo(this.renderInputComponent({
           onFocus: this.onFocus,
           onBlur: this.onBlur
         }))}
+        <div className={dropdownClasses}>
+          <i className='Icon--dropdownArrow Icon--dropdownArrow-top' />
+          <i className='Icon--dropdownArrow Icon--dropdownArrow-bottom' />
+        </div>
       </label>
     );
   }
