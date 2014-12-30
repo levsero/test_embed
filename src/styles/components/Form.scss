@@ -89,6 +89,34 @@ $Form-fontSize: #{13/$font-size}rem;
   }
 }
 
+.rf-Field--mobile {
+  input[type="checkbox"] {
+    width: #{12/$font-size}rem;
+    height: #{12/$font-size}rem;
+  }
+
+  input[type=checkbox]:before {
+    content: "";
+    display: inline-block;
+    width: #{12/$font-size}rem; 
+    height: #{12/$font-size}rem;
+    background-color: #fff;
+    border: #{1/$font-size}rem solid #ccc;
+    margin-right: #{10/$font-size}rem;
+    left: 0;
+    position: absolute;
+  }
+
+  input[type=checkbox]:checked:before {
+    content: "✓";
+    color: #8EB120;
+  }
+
+  .rf-CheckboxGroup__caption {
+    font-size: #{15/$font-size}rem;
+  }
+}
+
 .rf-Field__arrows {
   position: absolute;
   right: #{14/$font-size}rem;
@@ -124,6 +152,10 @@ _:-ms-input-placeholder, :root .rf-Field__arrows { /* 2 */
 .rf-CheckboxGroup__caption {
   padding-left: #{12/$font-size}rem;
   font-size: $Form-fontSize;
+}
+
+.rf-CheckboxGroup__checkbox {
+  position: relative;
 }
 
 .rf-Field--blurred.rf-Field--invalid {
