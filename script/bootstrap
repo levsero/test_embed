@@ -2,7 +2,7 @@
 
 set -e
 
-webDriverBrewPackages=(cairo imagemagick graphicsmagick chromedriver)
+webDriverBrewPackages=(cairo imagemagick graphicsmagick selenium-server-standalone chromedriver)
 
 heading() {
   echo "$1... \c";
