@@ -37,7 +37,7 @@ var FocusField = React.createClass({
           'rf-Field--invalid': isInvalid && this.state.blurred,
           'rf-Field--dirty': !value.isUndefined,
           'rf-Field--dropdown': this.props.dropdown,
-          'rf-field--mobile': isMobileBrowser()
+          'rf-field--mobile u-posRelative': isMobileBrowser()
         }),
         iconClasses = classSet({
           'u-isHidden': !this.props.icon,

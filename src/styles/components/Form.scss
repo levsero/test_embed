@@ -78,12 +78,6 @@ $Form-fontSize: #{13/$font-size}rem;
     }
   }
 
-  select {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-  }
-
   &:last-child {
     margin-bottom: 0;
   }
@@ -95,21 +89,22 @@ $Form-fontSize: #{13/$font-size}rem;
     height: #{12/$font-size}rem;
   }
 
-  input[type=checkbox]:before {
+  input[type=checkbox] + span:before {
     content: "";
     display: inline-block;
-    width: #{12/$font-size}rem; 
+    width: #{12/$font-size}rem;
     height: #{12/$font-size}rem;
     background-color: #fff;
     border: #{1/$font-size}rem solid #ccc;
     margin-right: #{10/$font-size}rem;
-    left: 0;
+    left: #{10/$font-size}rem;
+    top: #{14/$font-size}rem;
     position: absolute;
   }
 
-  input[type=checkbox]:checked:before {
-    content: "✓";
-    color: #8EB120;
+  input[type=checkbox]:checked + span:before {
+    content: "\2713";
+    color: $cta-color;
   }
 
   .rf-CheckboxGroup__caption {
@@ -124,13 +119,13 @@ $Form-fontSize: #{13/$font-size}rem;
   pointer-events: none;
 }
 
-_:-ms-input-placeholder, :root .rf-Field__arrows { /* 2 */
+select::-ms-expand { /* 2 */
   display: none;
 }
 
 .rf-Field--search {
   padding: #{11/$font-size}rem $Form-spacing;
-  height: 48px;
+  height: #{48/$font-size}rem;
 }
 
 .rf-Field--focused {
@@ -152,10 +147,6 @@ _:-ms-input-placeholder, :root .rf-Field__arrows { /* 2 */
 .rf-CheckboxGroup__caption {
   padding-left: #{12/$font-size}rem;
   font-size: $Form-fontSize;
-}
-
-.rf-CheckboxGroup__checkbox {
-  position: relative;
 }
 
 .rf-Field--blurred.rf-Field--invalid {
