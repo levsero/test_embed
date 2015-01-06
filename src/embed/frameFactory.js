@@ -45,7 +45,7 @@ export var frameFactory = function(childFn, _params) {
         position: [0, 0, 0],
         easing: 'spring',
         spring_constant: 0.5,
-        spring_deacceleration: 0.8
+        spring_deacceleration: 0.75
         /* jshint ignore:end */
       };
 
