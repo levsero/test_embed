@@ -26,7 +26,7 @@ function create(name, config) {
       },
       configDefaults = {
         position: 'right',
-        zendeskLogoEnabled: true
+        hideZendeskLogo: false
       },
       posObj,
       iframeStyle,
@@ -68,7 +68,7 @@ function create(name, config) {
             onButtonClick={onButtonClick}
             onLinkClick={onLinkClick}
             onSearch={onSearch}
-            zendeskLogoEnabled={config.zendeskLogoEnabled}
+            hideZendeskLogo={config.hideZendeskLogo}
             position={config.position}
             updateFrameSize={params.updateFrameSize} />
         </div>

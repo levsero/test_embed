@@ -42,9 +42,7 @@ function init(config) {
     _.forEach(parseConfig(config), function(configItem, embedName) {
       try {
         configItem.props.visible = isVisible;
-        if (_.isBoolean(config.zendeskLogoEnabled)) {
-          configItem.props.zendeskLogoEnabled = config.zendeskLogoEnabled;
-        }
+        configItem.props.hideZendeskLogo = config.hideZendeskLogo;
         embedsMap[configItem.embed].create(embedName, configItem.props);
         embedsMap[configItem.embed].render(embedName);
       } catch (err) {
