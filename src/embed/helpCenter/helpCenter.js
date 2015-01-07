@@ -69,6 +69,7 @@ function create(name, config) {
             onLinkClick={onLinkClick}
             onSearch={onSearch}
             zendeskLogoEnabled={config.zendeskLogoEnabled}
+            position={config.position}
             updateFrameSize={params.updateFrameSize} />
         </div>
       );

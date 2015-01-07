@@ -63,6 +63,7 @@ function create(name, config) {
             onSubmitted={onSubmitted}
             customFields={config.customFields}
             zendeskLogoEnabled={config.zendeskLogoEnabled}
+            position={config.position}
             handleBack={handleBack}/>
         </div>
       );
