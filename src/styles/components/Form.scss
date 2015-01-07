@@ -85,26 +85,26 @@ $Form-fontSize: #{13/$font-size}rem;
 
 .rf-Field--mobile {
   input[type="checkbox"] {
-    width: #{12/$font-size}rem;
-    height: #{12/$font-size}rem;
+    width: #{16/$font-size}rem;
+    height: #{16/$font-size}rem;
   }
 
   input[type=checkbox] + span:before {
     content: "";
     display: inline-block;
-    width: #{12/$font-size}rem;
-    height: #{12/$font-size}rem;
+    width: #{16/$font-size}rem;
+    height: #{16/$font-size}rem;
     background-color: #fff;
     border: #{1/$font-size}rem solid #ccc;
     margin-right: #{10/$font-size}rem;
     left: #{10/$font-size}rem;
-    top: #{14/$font-size}rem;
+    top: #{11/$font-size}rem;
     position: absolute;
   }
 
   input[type=checkbox]:checked + span:before {
     content: "\2713";
-    color: $cta-color;
+    color: $secondary-color;
   }
 
   .rf-CheckboxGroup__caption {
