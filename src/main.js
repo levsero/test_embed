@@ -21,6 +21,7 @@ function boot() {
       devApi,
       host = location.host,
       path = location.pathname,
+      configLoadStart,
       postRenderQueue = [],
       chatPages = [
         '/zopim',
@@ -109,11 +110,13 @@ function boot() {
       }
       handlePostRenderQueue(postRenderQueue);
     } else {
+      configLoadStart = Date.now();
       transport.get({
         method: 'get',
         path: '/embeddable/config',
         callbacks: {
           done(res) {
+            beacon.sendConfigLoadTime(Date.now() - configLoadStart);
             renderer.init(res.body);
             handlePostRenderQueue(postRenderQueue);
           },
