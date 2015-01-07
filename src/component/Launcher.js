@@ -48,7 +48,8 @@ export var Launcher = React.createClass({
           'is-mobile': isMobileBrowser(),
           'u-userBackgroundColor Arrange Arrange--middle': !this.state.active,
           'u-isActionable u-textLeft u-inlineBlock u-textNoWrap': true,
-          'Button--launcherActive': this.state.active
+          'Button--launcherActive': this.state.active,
+          'Button--launcherActiveLeft': this.state.active && this.props.position === 'left'
         }),
         iconClasses = classSet({
           // spaces needed for class concatenation
