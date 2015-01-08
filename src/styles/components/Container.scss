@@ -44,7 +44,7 @@ $Container--popover-arrowWidth: $Container--popover-arrowFullWidth/2;
   }
 }
 
-.Container--popoverLeft {
+.Container--popoverAlt {
   &:after {
     left: #{$Container--popover-arrowFullWidth}px;
     right: auto;
