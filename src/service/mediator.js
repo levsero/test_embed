@@ -20,6 +20,7 @@ function initTicketSubmission() {
     c.broadcast(`${submitTicket}.hide`);
     c.broadcast(`${launcher}.deactivate`);
     c.broadcast(`${launcher}.show`);
+    state[`${submitTicket}.isVisible`] = false;
   });
 
   c.intercept('.activate', function() {

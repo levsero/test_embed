@@ -78,7 +78,7 @@ The method completely hides all parts of the Widget from the page. You can invok
 
 `zE.show()`
 
-The method shows the Widget before it is activated.
+The method displays the Widget on the host page in its starting 'button' state.
 
 For example, when someone logs into your website, you could call `zE.show()` to conditionally render the widget for authenticated users only:
 
