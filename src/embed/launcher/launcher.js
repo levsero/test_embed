@@ -72,7 +72,7 @@ function create(name, config) {
     }));
 
   launchers[name] = {
-    component: <Embed visible={config.visible} />,
+    component: <Embed visible={config.visible} position={config.position} />,
     config: config
   };
 }

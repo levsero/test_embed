@@ -147,6 +147,7 @@ export var SubmitTicket = React.createClass({
         containerClasses = classSet({
           'Container': true,
           'Container--popover u-nbfcAlt': !this.state.fullscreen,
+          'Container--popoverAlt': this.props.position === 'left',
           'Container--fullscreen': this.state.fullscreen,
           'Arrange Arrange--middle': this.state.fullscreen,
           'u-posRelative': true

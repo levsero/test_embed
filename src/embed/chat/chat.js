@@ -11,7 +11,7 @@ var chats = {},
 
 function create(name, config) {
   var configDefaults = {
-    position: 'br',
+    position: 'right',
     title: i18n.t('embeddable_framework.chat.title'),
     color: '#78A300',
     standalone: false,
@@ -34,12 +34,13 @@ function get(name) {
 
 function show(name) {
   var config = get(name).config,
-      zopim = win.$zopim;
+      zopim = win.$zopim,
+      position = (config.position === 'right') ? 'br' : 'bl';
 
   zopim(function() {
     var zopimWin = zopim.livechat.window;
 
-    zopimWin.setPosition(config.position);
+    zopimWin.setPosition(position);
     zopimWin.setTitle(config.title);
     zopimWin.setSize(config.size);
     zopimWin.setOffsetVertical(config.offsetVertical);

@@ -44,6 +44,18 @@ $Container--popover-arrowWidth: $Container--popover-arrowFullWidth/2;
   }
 }
 
+.Container--popoverAlt {
+  &:after {
+    left: #{$Container--popover-arrowFullWidth}px;
+    right: auto;
+  }
+
+  &:before {
+    left: #{($Container--popover-arrowFullWidth) - 1}px;
+    right: auto;
+  }
+}
+
 .Container--fullscreen {
   background: $base-color;
   border: none;

@@ -68,7 +68,8 @@ export var frameFactory = function(childFn, _params) {
   return {
     getDefaultProps: function() {
       return {
-        visible: true
+        visible: true,
+        position: 'right'
       };
     },
 
@@ -248,6 +249,11 @@ export var frameFactory = function(childFn, _params) {
               'Button Button--nav u-posAbsolute u-posEnd u-posStart--vert u-userTextColor': true,
               'u-isActionable u-textSizeBaseMobile': true,
             }),
+            positionClasses = classSet({
+              'u-borderTransparent': true,
+              'u-pullRight': this.props.position === 'right',
+              'u-pullLeft': this.props.position === 'left'
+            }),
             closeButton = (params.fullscreenable && isMobileBrowser())
                         ? (<div
                              onClick={this.close}
@@ -278,7 +284,7 @@ export var frameFactory = function(childFn, _params) {
         Component = React.createClass({
           render: function() {
             return (
-              <div className='u-pullRight u-borderTransparent'>
+              <div className={positionClasses}>
                 {css}
                 {childFn(childParams)}
                 {closeButton}
