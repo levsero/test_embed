@@ -9,6 +9,15 @@
 
 @import '../_vars.scss';
 
+@font-face {
+  font-family: 'icomoon';
+  src:url('../../asset/font/icomoon.eot') format('embedded-opentype'),
+      url('../../asset/font/icomoon.woff') format('woff'),
+      url('../../asset/font/icomoon.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 $Form-stroke: #{1.1/$font-size}rem; /* 1 */
 $Form-spacing: #{10/$font-size}rem;
 $Form-gutter: #{15/$font-size}rem;
@@ -83,30 +92,41 @@ $Form-fontSize: #{13/$font-size}rem;
   }
 }
 
+.rf-Field--clean {
+  border: none;
+  padding: 0;
+}
+
+.rf-CheckboxGroup__checkbox {
+  width: #{14/$font-size}rem;
+  height: #{14/$font-size}rem;
+  appearance: none;
+}
+
+.rf-CheckboxGroup__checkbox + span:before {
+  content: "";
+  display: inline-block;
+  width: #{14/$font-size}rem;
+  height: #{14/$font-size}rem;
+  background-color: $base-color;
+  border: #{1/$font-size}rem solid $body-color;
+  border-radius: #{4/$font-size}rem;
+  margin-right: #{10/$font-size}rem;
+  top: #{2/$font-size}rem;
+  left: 0;
+  position: absolute;
+}
+
+.rf-CheckboxGroup__checkbox:checked + span:before {
+  font-family: 'icomoon';
+  font-size: #{9/$font-size}rem;
+  text-align: center;
+  line-height: #{15/$font-size}rem;
+  content: "\e60a";
+  color: $secondary-color;
+}
+
 .rf-Field--mobile {
-  input[type="checkbox"] {
-    width: #{16/$font-size}rem;
-    height: #{16/$font-size}rem;
-  }
-
-  input[type=checkbox] + span:before {
-    content: "";
-    display: inline-block;
-    width: #{16/$font-size}rem;
-    height: #{16/$font-size}rem;
-    background-color: #fff;
-    border: #{1/$font-size}rem solid #ccc;
-    margin-right: #{10/$font-size}rem;
-    left: #{10/$font-size}rem;
-    top: #{11/$font-size}rem;
-    position: absolute;
-  }
-
-  input[type=checkbox]:checked + span:before {
-    content: "\2713";
-    color: $secondary-color;
-  }
-
   .rf-CheckboxGroup__caption {
     font-size: #{15/$font-size}rem;
   }
@@ -147,6 +167,7 @@ select::-ms-expand { /* 2 */
 .rf-CheckboxGroup__caption {
   padding-left: #{12/$font-size}rem;
   font-size: $Form-fontSize;
+  color: $body-color;
 }
 
 .rf-Field--blurred.rf-Field--invalid {

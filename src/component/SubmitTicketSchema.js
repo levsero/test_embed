@@ -19,7 +19,17 @@ var { Schema } = ReactForms.schema,
     geti18nContent;
 
 export var submitTicketSchema = function(customFields) {
-  var ticketFields = getCustomFields(customFields);
+  var ticketFields = getCustomFields(customFields),
+      inputs = [],
+      checkboxes = [];
+
+  _.each(ticketFields, function(field) {
+    if (field.props.type === 'array') {
+      checkboxes.push(field);
+    } else {
+      inputs.push(field);
+    }
+  });
 
   return (
   /* jshint quotmark:false */
@@ -35,7 +45,7 @@ export var submitTicketSchema = function(customFields) {
         required
         icon='mail'
       />
-      {ticketFields}
+      {inputs}
       <IconField
         name='description'
         ref='message'
@@ -49,15 +59,18 @@ export var submitTicketSchema = function(customFields) {
           />
         }
       />
+      {checkboxes}
     </Schema>
   );
 };
 
 getCustomFields = function(customFields) {
   return _.map(customFields, function(field) {
+
     if (field.variants) {
       field.title = geti18nContent(field);
     }
+
     switch(field.type) {
       case 'text':
         return (

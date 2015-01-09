@@ -10,6 +10,7 @@ function generateUserCSS(params) {
     var highlightColor = generateHighlightColor(params.color);
 
     return (`
+      .rf-CheckboxGroup__checkbox:checked + span:before,
       .u-userTextColor:not([disabled]) {
         color: ${params.color} !important;
       }
