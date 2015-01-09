@@ -60,13 +60,13 @@ function boot() {
       // with display:none as a style on it. If getComputedStyle returns null we
       // know its a firefox browser with this issue so we change the styles so it
       // can calculate the computed style on the body later.
+      // http://bugzil.la/548397
       if (getComputedStyle(doc.documentElement) === null) {
-        var iframe = 'iframe[src="javascript:false"][title][style="display: none;"]',
-            iframeElement = doc.querySelector(iframe),
+        let iframe = window.frameElement,
             newStyle = 'width: 0; height: 0; border: 0; position: absolute; top: -9999px';
 
-        iframeElement.removeAttribute('style');
-        iframeElement.setAttribute('style', newStyle);
+        iframe.removeAttribute('style');
+        iframe.setAttribute('style', newStyle);
       }
 
   React.initializeTouchEvents(true);
