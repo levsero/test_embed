@@ -51,6 +51,9 @@ function boot() {
       hide = function() {
         mediator.channel.broadcast('.hide');
       },
+      show = function() {
+        mediator.channel.broadcast('.show');
+      },
       postRenderQueueCallback = function(...args) {
         // "this" is bound to the method name
         postRenderQueue.push([this, args]);
@@ -69,6 +72,7 @@ function boot() {
     version:   __EMBEDDABLE_VERSION__,
     setLocale: i18n.setLocale,
     hide:      renderer.hide,
+    show:      postRenderQueueCallback.bind('show'),
     identify:  postRenderQueueCallback.bind('identify'),
     activate:  postRenderQueueCallback.bind('activate')
   };
@@ -98,6 +102,7 @@ function boot() {
   win.zE.identify = identify;
   win.zE.activate = activate;
   win.zE.hide = hide;
+  win.zE.show = show;
 
   if (!isBlacklisted()) {
     //The config for zendesk.com

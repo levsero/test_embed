@@ -16,6 +16,12 @@ function initTicketSubmission() {
     c.broadcast(`${launcher}.hide`);
   });
 
+  c.intercept('.show', function() {
+    c.broadcast(`${submitTicket}.hide`);
+    c.broadcast(`${launcher}.deactivate`);
+    c.broadcast(`${launcher}.show`);
+  });
+
   c.intercept('.activate', function() {
     c.broadcast(`${submitTicket}.showWithAnimation`);
     c.broadcast(`${launcher}.activate`);
@@ -58,6 +64,16 @@ function initChatTicketSubmission() {
   c.intercept('.hide', function() {
     c.broadcast(`${submitTicket}.hide`);
     c.broadcast(`${launcher}.hide`);
+    c.broadcast(`${chat}.hide`);
+
+    state[`${submitTicket}.isVisible`] = false;
+    state[`${chat}.isVisible`] = false;
+  });
+
+  c.intercept('.show', function() {
+    c.broadcast(`${submitTicket}.hide`);
+    c.broadcast(`${launcher}.deactivate`);
+    c.broadcast(`${launcher}.show`);
     c.broadcast(`${chat}.hide`);
 
     state[`${submitTicket}.isVisible`] = false;
@@ -194,6 +210,16 @@ function initHelpCenterTicketSubmission() {
     state[`${submitTicket}.isVisible`] = false;
   });
 
+  c.intercept('.show', function() {
+    c.broadcast(`${submitTicket}.hide`);
+    c.broadcast(`${helpCenter}.hide`);
+    c.broadcast(`${launcher}.deactivate`);
+    c.broadcast(`${launcher}.show`);
+
+    state[`${helpCenter}.isVisible`] = false;
+    state[`${submitTicket}.isVisible`] = false;
+  });
+
   c.intercept('.activate', function() {
     if (!state[`${submitTicket}.isVisible`] && !state[`${helpCenter}.isVisible`]) {
 
@@ -280,6 +306,18 @@ function initHelpCenterChatTicketSubmission() {
     c.broadcast(`${chat}.hide`);
     c.broadcast(`${helpCenter}.hide`);
     c.broadcast(`${launcher}.hide`);
+
+    state[`${submitTicket}.isVisible`] = false;
+    state[`${chat}.isVisible`] = false;
+    state[`${helpCenter}.isVisible`] = false;
+  });
+
+  c.intercept('.show', function() {
+    c.broadcast(`${submitTicket}.hide`);
+    c.broadcast(`${chat}.hide`);
+    c.broadcast(`${helpCenter}.hide`);
+    c.broadcast(`${launcher}.deactivate`);
+    c.broadcast(`${launcher}.show`);
 
     state[`${submitTicket}.isVisible`] = false;
     state[`${chat}.isVisible`] = false;
