@@ -100,7 +100,7 @@ $Form-fontSize: #{13/$font-size}rem;
 .rf-CheckboxGroup__checkbox {
   width: #{14/$font-size}rem;
   height: #{14/$font-size}rem;
-  appearance: none;
+  display: none;
 }
 
 .rf-CheckboxGroup__checkbox + span:before {
@@ -165,7 +165,7 @@ select::-ms-expand { /* 2 */
 }
 
 .rf-CheckboxGroup__caption {
-  padding-left: #{12/$font-size}rem;
+  padding-left: #{24/$font-size}rem;
   font-size: $Form-fontSize;
   color: $body-color;
 }
