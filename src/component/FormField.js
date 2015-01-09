@@ -58,8 +58,8 @@ var FocusField = React.createClass({
           onBlur: this.onBlur
         }))}
         <div className={dropdownClasses}>
-          <i className='Icon--dropdownArrow Icon--dropdownArrow-top' />
-          <i className='Icon--dropdownArrow Icon--dropdownArrow-bottom' />
+          <i className='Icon--dropdownArrow' />
+          <i className='Icon--dropdownArrow Icon--dropdownArrowBottom' />
         </div>
       </label>
     );

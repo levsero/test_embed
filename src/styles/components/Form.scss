@@ -2,9 +2,6 @@
  * 1. because safari 8 is dumb and rounds 1/12 to .083rem
  *    which computes to 0.9999px & borders can't be sub pixel
  *    we boost the calculation to do 1.1/12
- * 2. IE doesn't have appearance: none so we can't override its
- *    arrows like other browsers so we just need to hide this
- *    and use the default ones.
  */
 
 @import '../_vars.scss';
@@ -137,10 +134,6 @@ $Form-fontSize: #{13/$font-size}rem;
   right: #{14/$font-size}rem;
   top: #{13/$font-size}rem;
   pointer-events: none;
-}
-
-select::-ms-expand { /* 2 */
-  display: none;
 }
 
 .rf-Field--search {

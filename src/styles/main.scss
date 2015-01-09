@@ -13,6 +13,9 @@ $line-height: 1.4;
  * 1. With the translation keys sometimes the launcher will show scroll bars
  * 2. Set iOS/Android tap highlight to be transparent using rgba
  * 3. Some androids need transparent keyword over rbga value
+ * 4. IE doesn't have appearance: none so we can't override its
+ *    arrows like other browsers so we just need to hide this
+ *    and use the default ones.
  */
 
 html {
@@ -71,5 +74,9 @@ input[type="search"] {
 
 select {
   appearance: none;
+}
+
+select::-ms-expand { /* 4 */
+  display: none;
 }
 
