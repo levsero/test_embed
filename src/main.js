@@ -56,10 +56,9 @@ function boot() {
         postRenderQueue.push([this, args]);
       };
 
-      // Firefox has a issue with calculating computed styles from within a iframe
-      // with display:none as a style on it. If getComputedStyle returns null we
-      // know its a firefox browser with this issue so we change the styles so it
-      // can calculate the computed style on the body later.
+      // Firefox has an issue with calculating computed styles from within a iframe
+      // with display:none. If getComputedStyle returns null we adjust the styles on
+      // the  iframe so when weneed to query the parent document it will work.
       // http://bugzil.la/548397
       if (getComputedStyle(doc.documentElement) === null) {
         let iframe = window.frameElement,
