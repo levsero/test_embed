@@ -1,3 +1,5 @@
+require('imports?_=lodash!lodash');
+
 var translate = require('counterpart'),
     translations = require('translation/translations.json'),
     localeIdMap = require('translation/localeIdMap.json'),
@@ -14,6 +16,10 @@ function parseLocale(str) {
     return locale;
   } else if (translations[locale.substr(0, 2)]) {
     return locale.substr(0, 2);
+  } else if (str === 'zh') {
+    return 'zh-CN';
+  } else if (str === 'nb' || str === 'nn') {
+    return 'no';
   } else {
     return 'en-US';
   }
@@ -23,12 +29,24 @@ function setLocale(str = 'en-US') {
   if (!currentLocale) {
     currentLocale = parseLocale(str);
     translate.setLocale(currentLocale);
-    translate.registerTranslations(currentLocale, translations[currentLocale]);
+
+    // To avoid weird encoding issues we deliver the strings uri encoded
+    // when setting the strings we then decode them in memory
+    var decodedStrings = _.reduce(translations[currentLocale], function(res, el, key) {
+      res[key] = decodeURIComponent(el);
+      return res;
+    }, {});
+
+    translate.registerTranslations(currentLocale, decodedStrings);
   }
 }
 
 function getLocale() {
   return translate.getLocale();
+}
+
+function isRTL() {
+  return translations[getLocale()].rtl;
 }
 
 function regulateLocaleStringCase(locale) {
@@ -48,5 +66,6 @@ export var i18n = {
   t: translate,
   getLocaleId: getLocaleId,
   setLocale: setLocale,
-  getLocale: getLocale
+  getLocale: getLocale,
+  isRTL: isRTL
 };

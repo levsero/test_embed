@@ -9,7 +9,22 @@ import { i18n }                from 'service/i18n';
 
 require('imports?_=lodash!lodash');
 
-var classSet = React.addons.classSet,
+var Bounce = require(
+      'imports?'+
+      'globals=utility/globals,'+
+      // A dirty hack until PR with bounce.js gets fixed
+      // IE doesn't support the native remove method on elements
+      // so we define it on the Element prototype
+      'shimRemove=>(function(){'+
+        'globals.win.Element.prototype.remove = function() {'+
+          'var parentNode = this.parentNode;'+
+          'if(parentNode) parentNode.removeChild(this);'+
+        '}'+
+      '}()),'+
+      'document=>globals.document'+
+      '!bounce.js/bounce.js'
+    ),
+    classSet = React.addons.classSet,
     baseCSS = require('baseCSS'),
     mainCSS = require('mainCSS'),
     sizingRatio = 12 * getSizingRatio(false, true), /* jshint ignore:line */
@@ -36,9 +51,19 @@ export var frameFactory = function(childFn, _params) {
         css: '',
         fullscreenable: false
       },
-      params = _.extend(defaultParams, _params);
+      params = _.extend(defaultParams, _params),
+      springTransition = new Bounce();
 
   validateChildFn(childFn, params);
+
+  // http://bouncejs.com/#{s:[{T:"t",e:"b",d:1200,D:0,f:{x:0,y:15},t:{x:0,y:0},s:2,b:4}]}
+  springTransition.translate({
+    from: { x: 0, y: 15 },
+    to: { x: 0, y: 0 },
+    easing: 'bounce',
+    stiffness: 2,
+    duration: 1200
+  });
 
   return {
     getDefaultProps: function() {
@@ -77,9 +102,7 @@ export var frameFactory = function(childFn, _params) {
         var el = frameDoc.body.firstChild,
             width  = Math.max(el.clientWidth,  el.offsetWidth),
             height = Math.max(el.clientHeight, el.offsetHeight),
-            fullscreen = (
-              (getSizingRatio() > 1 || isMobileBrowser()) && params.fullscreenable
-            ),
+            fullscreen = isMobileBrowser() && params.fullscreenable,
             fullscreenStyle = {
               width: '100%',
               height: '100%',
@@ -108,7 +131,7 @@ export var frameFactory = function(childFn, _params) {
       frameWin.setTimeout( () => this.setState({iframeDimensions: dimensions()}), 0);
     },
 
-    show: function() {
+    show: function(animate) {
       this.setState({
         visible: true
       });
@@ -116,6 +139,11 @@ export var frameFactory = function(childFn, _params) {
       if (isMobileBrowser()) {
         win.scrollBy(0, 0);
       }
+
+      if (!isMobileBrowser() && animate) {
+        springTransition.applyTo(this.getDOMNode(), { remove: true });
+      }
+
       if (params.onShow) {
         params.onShow();
       }
@@ -135,6 +163,16 @@ export var frameFactory = function(childFn, _params) {
 
       if (params.onHide) {
         params.onHide();
+      }
+
+      if (!isMobileBrowser()) {
+        // If you open and close the embed faster than the animation length
+        // the style element won't be removed this makes sure it's cleaned up
+        // wrapped in try catch as we can't trust host page methods not to be
+        // overwritten with terrible error handling, looking at you prototype 1.7 <_<
+        try {
+          springTransition.remove();
+        } catch(e) {}
       }
     },
 
@@ -158,11 +196,12 @@ export var frameFactory = function(childFn, _params) {
       /* jshint laxbreak: true */
       var visibilityRule = (this.state.visible)
                          ? {visibility: 'visible'}
-                         : {visibility: 'hidden', top: '-9999px'},
+                         : {visibility: 'hidden', left: '-9999px'},
           iframeStyle = _.extend({
               border: 'none',
               background: 'transparent',
-              zIndex: 999998
+              zIndex: 999998,
+              transform: 'translateZ(0)'
             },
             params.style,
             this.state.iframeDimensions,
@@ -189,11 +228,16 @@ export var frameFactory = function(childFn, _params) {
       }
 
       var iframe = this.getDOMNode(),
+          html = iframe.contentDocument.documentElement,
           doc = iframe.contentWindow.document;
 
       // In order for iframe correctly render in some browsers
       // we need to do it on nextTick
       if (doc.readyState === 'complete') {
+        if (i18n.isRTL()) {
+          html.setAttribute('dir', 'rtl');
+          html.setAttribute('lang', i18n.getLocale());
+        }
 
         /* jshint laxbreak: true, quotmark: false */
         var cssText = baseCSS + mainCSS + params.css + baseFontCSS,
@@ -234,7 +278,7 @@ export var frameFactory = function(childFn, _params) {
         Component = React.createClass({
           render: function() {
             return (
-              <div className='u-pullLeft'>
+              <div className='u-pullRight u-borderTransparent'>
                 {css}
                 {childFn(childParams)}
                 {closeButton}

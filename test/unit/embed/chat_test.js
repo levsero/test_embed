@@ -7,7 +7,10 @@ describe('embed.chat', function() {
       mockZopim,
       mockGlobals = {
         document: global.document,
-        win: {}
+        win: {},
+        getDocumentHost: function() {
+          return document.body;
+        }
       },
       chatPath = buildSrcPath('embed/chat/chat');
 
@@ -29,6 +32,7 @@ describe('embed.chat', function() {
       setLanguage: jasmine.createSpy('setLanguage'),
       setOnChatEnd: jasmine.createSpy('setOnChatEnd'),
       hideAll: jasmine.createSpy('hideAll'),
+      setSize: jasmine.createSpy('setSize'),
       isChatting: jasmine.createSpy('isChatting'),
       theme: {
         setColor: jasmine.createSpy('setColor'),
@@ -40,7 +44,8 @@ describe('embed.chat', function() {
         'setTitle',
         'setOffsetVertical',
         'onHide',
-        'getDisplay'
+        'getDisplay',
+        'setSize'
       ])
     };
 
@@ -216,9 +221,9 @@ describe('embed.chat', function() {
 
         it('should call zopim.window.show()', function() {
           expect(mockMediator.channel.subscribe)
-            .toHaveBeenCalledWith('dave.show', jasmine.any(Function));
+            .toHaveBeenCalledWith('dave.show, dave.showWithAnimation', jasmine.any(Function));
 
-          pluckSubscribeCall(mockMediator, 'dave.show')();
+          pluckSubscribeCall(mockMediator, 'dave.show, dave.showWithAnimation')();
 
           expect(mockZopim.livechat.window.show)
             .toHaveBeenCalled();
@@ -230,7 +235,7 @@ describe('embed.chat', function() {
 
         it('should call zopim.livechat.hideAll()', function() {
           expect(mockMediator.channel.subscribe)
-            .toHaveBeenCalledWith('dave.show', jasmine.any(Function));
+            .toHaveBeenCalledWith('dave.show, dave.showWithAnimation', jasmine.any(Function));
 
           pluckSubscribeCall(mockMediator, 'dave.hide')();
 

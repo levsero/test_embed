@@ -1,21 +1,44 @@
 import { document as doc } from 'utility/globals';
+import { getSizingRatio } from 'utility/devices';
 require('imports?_=lodash!lodash');
 
-var clickBusterClicks = [];
+var Color = require('color'),
+    clickBusterClicks = [];
 
 function generateUserCSS(params) {
   if (params.color) {
+    var highlightColor = generateHighlightColor(params.color);
+
     return (`
       .u-userTextColor:not([disabled]) {
         color: ${params.color} !important;
       }
+      .u-userTextColor:not([disabled]):hover,
+      .u-userTextColor:not([disabled]):active,
+      .u-userTextColor:not([disabled]):focus {
+        color: ${highlightColor} !important;
+      }
       .u-userBackgroundColor:not([disabled]) {
         background-color: ${params.color} !important;
+      }
+      .u-userBackgroundColor:not([disabled]):hover,
+      .u-userBackgroundColor:not([disabled]):active,
+      .u-userBackgroundColor:not([disabled]):focus {
+        background-color: ${highlightColor} !important;
       }
     `);
   } else {
     return '';
   }
+}
+
+function generateHighlightColor(colorStr) {
+  var color = Color(colorStr);
+
+  /* jshint laxbreak: true */
+  return (color.luminosity() > 0.15)
+       ? color.darken(0.1).rgbString()
+       : color.lighten(0.15).rgbString();
 }
 
 function metaStringToObj(str) {
@@ -99,12 +122,14 @@ function clickBusterRegister(x, y) {
 }
 
 function clickBusterHandler(ev) {
-  var x, y;
+  var x,
+      y,
+      radius = 25 * getSizingRatio();
 
   if (clickBusterClicks.length) {
     [x, y] = clickBusterClicks.pop();
-    if (Math.abs(x - ev.clientX) < 25 &&
-        Math.abs(y - ev.clientY) < 25) {
+    if (Math.abs(x - ev.clientX) < radius &&
+        Math.abs(y - ev.clientY) < radius) {
       ev.stopPropagation();
       ev.preventDefault();
     }
@@ -113,15 +138,20 @@ function clickBusterHandler(ev) {
 
 function getFrameworkLoadTime() {
   var now = Date.now(),
-      loadTime = document.t ? now - document.t : undefined;
+      loadTime = document.t ? now - document.t : undefined,
+      entry;
 
-  if('performance' in window && 'getEntries' in window.performance) {
-    loadTime = _.find(window.performance.getEntries(), function(entry) {
+  if ('performance' in window && 'getEntries' in window.performance) {
+    entry = _.find(window.performance.getEntries(), function(entry) {
       return entry.name.indexOf('main.js') !== -1;
-    }).duration;
+    });
+
+    if (entry && entry.duration) {
+      loadTime = entry.duration;
+    }
   }
 
-  return loadTime < 0 ? undefined : loadTime;
+  return loadTime >= 0 ? loadTime : undefined;
 }
 
 export {

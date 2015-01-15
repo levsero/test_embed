@@ -1,9 +1,10 @@
 /** @jsx React.DOM */
 
 module React from 'react/addons'; /* jshint ignore:line */
-import { win, location }    from 'utility/globals';
+import { win }              from 'utility/globals';
 import { transport }        from 'service/transport';
 import { SubmitTicketForm } from 'component/SubmitTicketForm';
+import { ZendeskLogo }      from 'component/ZendeskLogo';
 import { isMobileBrowser }  from 'utility/devices';
 import { i18n }             from 'service/i18n';
 
@@ -54,10 +55,9 @@ export var SubmitTicket = React.createClass({
       return;
     }
 
-    var tags = ['DROPBOX', 'zendesk_widget'].join(' '),
-        formParams = _.extend({
-          'set_tags': tags,
-          'via_id': 17,
+    var formParams = _.extend({
+          'set_tags': 'web_widget',
+          'via_id': 48,
           'locale_id': i18n.getLocaleId(),
           'submitted_from': win.location.href
         }, this.formatTicketSubmission(data)),
@@ -151,13 +151,8 @@ export var SubmitTicket = React.createClass({
           'Arrange Arrange--middle': this.state.fullscreen,
           'u-posRelative': true
         }),
-        logoClasses = classSet({
-          'Icon Icon--zendesk u-linkClean': true,
-          'u-posAbsolute': !this.state.fullscreen || this.state.showNotification,
-          'u-posStart u-posEnd--vert': !this.state.fullscreen || this.state.showNotification,
-        }),
         containerBarClasses = classSet({
-          'Container-bar Container-pullout u-borderBottom': true,
+          'Container-bar u-borderBottom': true,
           'u-isHidden': !this.state.fullscreen
         }),
         notifyClasses = classSet({
@@ -167,21 +162,23 @@ export var SubmitTicket = React.createClass({
           'u-isHidden': !this.state.showNotification
         }),
         marketingClasses = classSet({
-          'u-isHidden': location.origin !== 'https://www.zendesk.com'
+          'u-isHidden': true
         }),
         errorClasses = classSet({
           'Error': true,
           'u-isHidden': !this.state.errorMessage
         }),
-        logoUrl = ['//www.zendesk.com/lp/just-one-click/',
-                   '?utm_source=launcher&utm_medium=poweredbyzendesk&utm_campaign=image'
-                  ].join(''),
-        marketingUrl = ['//www.zendesk.com/lp/just-one-click/',
-                        '?utm_source=launcher&utm_medium=poweredbyzendesk&utm_campaign=text'
-                       ].join('');
+        marketingUrl = ['//www.zendesk.com/embeddables/',
+                        '?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=text'
+                       ].join(''),
+        zendeskLogo;
 
     if (this.props.updateFrameSize) {
       setTimeout( () => this.props.updateFrameSize(0, 10), 0);
+    }
+
+    if (this.props.zendeskLogoEnabled) {
+      zendeskLogo = <ZendeskLogo formSuccess={this.state.showNotification} />;
     }
 
     return (
@@ -212,14 +209,7 @@ export var SubmitTicket = React.createClass({
             {this.state.errorMessage}
           </p>
         </SubmitTicketForm>
-        <div className='u-nbfc'>
-          <a
-            href={logoUrl}
-            target='_blank'
-            className={logoClasses}>
-            <span className='u-isHiddenVisually'>zendesk</span>
-          </a>
-        </div>
+        {zendeskLogo}
       </div>
     );
   }

@@ -2,7 +2,8 @@
 
 module React from 'react/addons';
 
-import { document as doc } from 'utility/globals';
+import { document,
+         getDocumentHost } from 'utility/globals';
 import { HelpCenter }      from 'component/HelpCenter';
 import { frameFactory }    from 'embed/frameFactory';
 import { setScaleLock }    from 'utility/utils';
@@ -24,7 +25,8 @@ function create(name, config) {
         bottom: 50
       },
       configDefaults = {
-        position: 'right'
+        position: 'right',
+        zendeskLogoEnabled: true
       },
       posObj,
       iframeStyle,
@@ -66,6 +68,7 @@ function create(name, config) {
             onButtonClick={onButtonClick}
             onLinkClick={onLinkClick}
             onSearch={onSearch}
+            zendeskLogoEnabled={config.zendeskLogoEnabled}
             updateFrameSize={params.updateFrameSize} />
         </div>
       );
@@ -76,10 +79,14 @@ function create(name, config) {
       name: name,
       fullscreenable: true,
       onHide() {
-        setScaleLock(false);
+        if (isMobileBrowser()) {
+          setScaleLock(false);
+        }
       },
       onShow() {
-        setScaleLock(true);
+        if (isMobileBrowser()) {
+          setScaleLock(true);
+        }
         get(name).instance.getChild().refs.helpCenter.focusField();
       },
       onClose() {
@@ -119,11 +126,24 @@ function render(name) {
     throw new Error(`HelpCenter ${name} has already been rendered.`);
   }
 
-  var element = doc.body.appendChild(doc.createElement('div'));
+  var element = getDocumentHost().appendChild(document.createElement('div'));
+
   helpCenters[name].instance = React.renderComponent(helpCenters[name].component, element);
 
   mediator.channel.subscribe(name + '.show', function() {
-    get(name).instance.show();
+    // stop stupid host page scrolling
+    // when trying to focus HelpCenter's search field
+    setTimeout(function() {
+      get(name).instance.show();
+    }, 0);
+  });
+
+  mediator.channel.subscribe(name + '.showWithAnimation', function() {
+    // stop stupid host page scrolling
+    // when trying to focus HelpCenter's search field
+    setTimeout(function() {
+      get(name).instance.show(true);
+    }, 0);
   });
 
   mediator.channel.subscribe(name + '.hide', function() {

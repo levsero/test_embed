@@ -4,9 +4,24 @@ describe('frameFactory', function() {
 
   var frameFactory,
       mockRegistry,
+      mockRegistryMocks,
       mockComponent,
       mockChildFn,
-      frameFactoryPath = buildSrcPath('embed/frameFactory');
+      Bounce = noop,
+      frameFactoryPath = buildSrcPath('embed/frameFactory'),
+      bouncejsRequire = 'imports?'+
+        'globals=utility/globals,'+
+        // A dirty hack until PR with bounce.js gets fixed
+        // IE doesn't support the native remove method on elements
+        // so we define it on the Element prototype
+        'shimRemove=>(function(){'+
+          'globals.win.Element.prototype.remove = function() {'+
+            'var parentNode = this.parentNode;'+
+            'if(parentNode) parentNode.removeChild(this);'+
+          '}'+
+        '}()),'+
+        'document=>globals.document'+
+        '!bounce.js/bounce.js';
 
   beforeEach(function() {
     resetDOM();
@@ -15,7 +30,7 @@ describe('frameFactory', function() {
       useCleanCache: true
     });
 
-    mockRegistry = initMockRegistry({
+    mockRegistryMocks = {
       'react/addons': React,
       'utility/utils': {
         clickBusterRegister: noop
@@ -32,12 +47,16 @@ describe('frameFactory', function() {
         }
       },
       'service/i18n': {
-        i18n: jasmine.createSpyObj('i18n', ['t'])
+        i18n: jasmine.createSpyObj('i18n', ['t', 'isRTL', 'getLocale']),
       },
       'imports?_=lodash!lodash': _,
       'baseCSS': '.base-css-file {} ',
       'mainCSS': '.main-css-file {} '
-    });
+    };
+
+    mockRegistryMocks[bouncejsRequire] = Bounce;
+
+    mockRegistry = initMockRegistry(mockRegistryMocks);
 
     mockComponent = React.createClass({
       render: function() {
@@ -53,6 +72,8 @@ describe('frameFactory', function() {
           ref='aliceComponent' />
       );
     };
+
+    Bounce.prototype = jasmine.createSpyObj('bounceProto', ['translate', 'applyTo', 'remove']);
 
     frameFactory = require(frameFactoryPath).frameFactory;
   });
@@ -234,11 +255,14 @@ describe('frameFactory', function() {
 
   describe('show', function() {
     var instance,
-        mockOnShow;
+        mockOnShow,
+        Bounce;
 
     beforeEach(function() {
       var payload,
           Embed;
+
+      Bounce = mockRegistry[bouncejsRequire].prototype;
 
       mockOnShow = jasmine.createSpy('onShow');
 
@@ -269,15 +293,32 @@ describe('frameFactory', function() {
       expect(mockOnShow)
         .toHaveBeenCalled();
     });
+
+    it('applies animation on show', function() {
+      instance.show(true);
+
+      expect(Bounce.applyTo)
+        .toHaveBeenCalled();
+    });
+
+    it('don\'t apply animation when argument isn\'t passed', function() {
+      instance.show();
+
+      expect(Bounce.applyTo)
+        .not.toHaveBeenCalled();
+    });
   });
 
   describe('hide', function() {
     var instance,
-        mockOnHide;
+        mockOnHide,
+        Bounce;
 
     beforeEach(function() {
       var payload,
           Embed;
+
+      Bounce = mockRegistry[bouncejsRequire].prototype;
 
       mockOnHide = jasmine.createSpy('onHide');
 
@@ -306,6 +347,13 @@ describe('frameFactory', function() {
       instance.hide();
 
       expect(mockOnHide)
+        .toHaveBeenCalled();
+    });
+
+    it('removes animation when embed is hidden', function() {
+      instance.hide();
+
+      expect(Bounce.remove)
         .toHaveBeenCalled();
     });
   });
@@ -503,6 +551,34 @@ describe('frameFactory', function() {
 
       expect(instance.state._rendered)
         .toEqual(true);
+    });
+
+    it('adds dir & lang attributes to html element for RTL languages', function() {
+      mockRegistry['service/i18n'].i18n.isRTL = function() {
+        return true;
+      };
+      mockRegistry['service/i18n'].i18n.getLocale = function() {
+        return 'ar';
+      };
+
+      var payload = frameFactory(mockChildFn),
+          Embed = React.createClass(payload),
+          iframe,
+          htmlElem;
+
+      React.renderComponent(
+        <Embed />,
+        global.document.body
+      );
+
+      iframe = global.document.body.getElementsByTagName('iframe')[0],
+      htmlElem = iframe.contentDocument.documentElement;
+
+      expect(htmlElem.getAttribute('dir'))
+        .toEqual('rtl');
+
+      expect(htmlElem.getAttribute('lang'))
+        .toEqual('ar');
     });
 
   });

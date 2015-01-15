@@ -6,6 +6,7 @@ import { transport }       from 'service/transport';
 import { stopWordsFilter } from 'mixin/searchFilter';
 import { HelpCenterForm }  from 'component/HelpCenterForm';
 import { SearchField }     from 'component/FormField';
+import { ZendeskLogo }     from 'component/ZendeskLogo';
 import { isMobileBrowser } from 'utility/devices';
 import { i18n }            from 'service/i18n';
 
@@ -66,31 +67,38 @@ export var HelpCenter = React.createClass({
   },
 
   performSearch(searchString) {
+    var search = (searchString, locale) => {
+          transport.send({
+            method: 'get',
+            path: '/api/v2/help_center/search.json',
+            query: {
+              locale: locale,
+              query: searchString
+            },
+            callbacks: {
+              done: (res) => {
+                if (res.ok) {
+                  if ((locale && res.body.count > 0) || !locale) {
+                    this.updateResults(res);
+                  } else {
+                    search(searchString);
+                  }
+                } else {
+                  this.searchFail();
+                }
+              },
+              fail: () => this.searchFail()
+            }
+          });
+        };
+
     this.props.onSearch(searchString);
     this.setState({
       isLoading: true,
       searchTerm: searchString
     });
 
-    transport.send({
-      method: 'get',
-      path: '/embeddable/proxy',
-      query: {
-        query: searchString,
-        /* jshint camelcase:false */
-        zendesk_path: '/api/v2/help_center/search.json'
-      },
-      callbacks: {
-        done: (res) => {
-          if (res.ok) {
-            this.updateResults(res);
-          } else {
-            this.searchFail();
-          }
-        },
-        fail: () => this.searchFail()
-      }
-    });
+    search(searchString, i18n.getLocale());
   },
 
   handleSearch(forceSearch) {
@@ -167,13 +175,8 @@ export var HelpCenter = React.createClass({
           'u-posRelative': true
         }),
         containerBarClasses = classSet({
-          'Container-bar Container-pullout u-borderBottom': true,
+          'Container-bar u-borderBottom': true,
           'u-isHidden': !this.state.fullscreen
-        }),
-        logoClasses = classSet({
-          'Icon Icon--zendesk u-linkClean': true,
-          'u-posAbsolute': !this.state.fullscreen || this.state.showNotification,
-          'u-posStart u-posEnd--vert': !this.state.fullscreen || this.state.showNotification,
         }),
         formLegendClasses = classSet({
           'Form-cta--title u-textSizeMed Arrange Arrange--middle u-textBody': true,
@@ -203,15 +206,13 @@ export var HelpCenter = React.createClass({
           'u-textSecondary': true,
           'u-marginBL': !this.state.fullscreen
         }),
-        logoUrl = ['//www.zendesk.com/lp/just-one-click/',
-          '?utm_source=launcher&utm_medium=poweredbyzendesk&utm_campaign=image'
-        ].join(''),
         linkLabel,
         linkContext,
         onFocus = function() {
           this.setState({searchFieldFocused: true});
         }.bind(this),
-        chatButtonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.chat');
+        chatButtonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.chat'),
+        zendeskLogo;
 
     if (this.props.updateFrameSize) {
       setTimeout( () => this.props.updateFrameSize(0, 10), 0);
@@ -233,6 +234,10 @@ export var HelpCenter = React.createClass({
       });
     }
 
+    if (this.props.zendeskLogoEnabled) {
+      zendeskLogo = <ZendeskLogo showNotification={this.state.showNotification} />;
+    }
+
     return (
       /* jshint laxbreak: true */
       <div className={containerClasses}>
@@ -242,7 +247,6 @@ export var HelpCenter = React.createClass({
           ref='helpCenterForm'
           className={formClasses}
           onSearch={this.handleSearch}
-          isLoading={this.state.isLoading}
           hasSearched={this.state.hasSearched}
           buttonLabel={this.state.buttonLabel}
           onButtonClick={this.props.onButtonClick}
@@ -281,14 +285,7 @@ export var HelpCenter = React.createClass({
             {_.chain(this.state.topics).first(3).map(topicTemplate.bind(this)).value()}
           </ul>
         </HelpCenterForm>
-        <div className='u-nbfc'>
-          <a
-            href={logoUrl}
-            target='_blank'
-            className={logoClasses}>
-            <span className='u-isHiddenVisually'>zendesk</span>
-          </a>
-        </div>
+        {zendeskLogo}
       </div>
     );
   }

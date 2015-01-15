@@ -1,7 +1,8 @@
-import { document, win } from 'utility/globals';
-import { i18n }          from 'service/i18n';
-import { mediator }      from 'service/mediator';
-import { store }         from 'service/persistence';
+import { document, win,
+         getDocumentHost } from 'utility/globals';
+import { i18n }            from 'service/i18n';
+import { mediator }        from 'service/mediator';
+import { store }           from 'service/persistence';
 
 require('imports?_=lodash!lodash');
 
@@ -14,7 +15,8 @@ function create(name, config) {
     title: i18n.t('embeddable_framework.chat.title'),
     color: '#78A300',
     standalone: false,
-    offsetVertical: 70
+    offsetVertical: 0,
+    size: 'large'
   };
 
   chats[name] = {
@@ -39,6 +41,7 @@ function show(name) {
 
     zopimWin.setPosition(config.position);
     zopimWin.setTitle(config.title);
+    zopimWin.setSize(config.size);
     zopimWin.setOffsetVertical(config.offsetVertical);
     zopimWin.show();
   });
@@ -71,13 +74,14 @@ function render(name) {
           display: none !important;
         }
       `,
-      scriptTag = document.createElement('script');
+      scriptTag = document.createElement('script'),
+      host = getDocumentHost();
 
-  document.body.appendChild(scriptTag);
+  host.appendChild(scriptTag);
   scriptTag.innerHTML = snippet;
 
   if (!config.standalone) {
-    document.body.appendChild(styleTag);
+    host.appendChild(styleTag);
     styleTag.innerHTML = css;
     init(name);
   }
@@ -92,10 +96,13 @@ function render(name) {
     });
   }
 
-
-  mediator.channel.subscribe(name + '.show', function() {
-    show(name);
-  });
+  mediator.channel.subscribe(
+    [name + '.show',
+     name + '.showWithAnimation'].join(', '),
+    function() {
+      show(name);
+    }
+  );
 
   mediator.channel.subscribe(name + '.hide', function() {
     hide();
@@ -138,6 +145,10 @@ function init(name) {
       },
       onHide = function() {
         mediator.channel.broadcast(name + '.onHide');
+
+        win.$zopim(function() {
+          win.$zopim.livechat.hideAll();
+        });
       };
 
   chat.online = false;

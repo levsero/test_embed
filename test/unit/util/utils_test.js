@@ -16,6 +16,11 @@ describe('util.setScaleLock', function() {
       'utility/globals': {
         document: document
       },
+      'utility/devices': {
+        getSizingRatio: function() {
+          return 1;
+        }
+      },
       'imports?_=lodash!lodash': _
     });
 

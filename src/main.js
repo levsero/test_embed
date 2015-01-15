@@ -4,8 +4,10 @@ import { beacon }             from 'service/beacon';
 import { logging }            from 'service/logging';
 import { renderer }           from 'service/renderer';
 import { transport }          from 'service/transport';
+import { cacheBuster }        from 'service/cacheBuster';
 import { i18n }               from 'service/i18n';
-import { win, location }      from 'utility/globals';
+import { win, location,
+         document as doc }    from 'utility/globals';
 import { mediator }           from 'service/mediator';
 import { getSizingRatio,
          isMobileBrowser,
@@ -17,7 +19,6 @@ require('imports?_=lodash!lodash');
 function boot() {
   var publicApi,
       devApi,
-      isPinching,
       host = location.host,
       path = location.pathname,
       postRenderQueue = [],
@@ -45,11 +46,6 @@ function boot() {
         mediator.channel.broadcast('.identify', user);
         beacon.identify(user);
       },
-      propagateFontRatioChange = function() {
-        setTimeout(() => {
-          renderer.propagateFontRatio(getSizingRatio(true));
-        }, 0);
-      },
       activate = function() {
         mediator.channel.broadcast('.activate');
       },
@@ -65,7 +61,7 @@ function boot() {
 
   logging.init();
 
-  transport.bustCache(__EMBEDDABLE_VERSION__);
+  cacheBuster.bustCache(__EMBEDDABLE_VERSION__);
   transport.init({ zendeskHost: document.zendeskHost });
 
   beacon.init(__EMBEDDABLE_VERSION__).send();
@@ -136,6 +132,13 @@ function boot() {
   }
 
   if (isMobileBrowser()) {
+    let isPinching,
+        propagateFontRatioChange = function(isPinching) {
+          setTimeout(() => {
+            renderer.propagateFontRatio(getSizingRatio(isPinching));
+          }, 0);
+        };
+
     win.addEventListener('touchmove', Airbrake.wrap((e) => {
       // Touch end won't tell you if multiple touches are detected
       // so we store the touches length on move and check on end
@@ -145,9 +148,15 @@ function boot() {
     win.addEventListener('touchend', Airbrake.wrap((e) => {
       // iOS has the scale property to detect pinching gestures
       if (isPinching || e.scale && e.scale !== 1) {
-        propagateFontRatioChange();
+        propagateFontRatioChange(isPinching);
       }
     }));
+
+    // Recalc ratio when user focus on field
+    // delay by 500ms so browser zoom is done
+    doc.addEventListener('focus', () => {
+      setTimeout(() => propagateFontRatioChange(true), 500);
+    }, true);
 
     win.addEventListener('orientationchange', () => {
       propagateFontRatioChange();
@@ -157,7 +166,7 @@ function boot() {
   }
 }
 
-if (!_.isUndefined(document.zendeskHost)) {
+if (!cacheBuster.isCacheBusting(window.name)) {
   try {
     boot();
   } catch (err) {

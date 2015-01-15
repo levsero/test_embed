@@ -17,7 +17,7 @@ function initTicketSubmission() {
   });
 
   c.intercept('.activate', function() {
-    c.broadcast(`${submitTicket}.show`);
+    c.broadcast(`${submitTicket}.showWithAnimation`);
     c.broadcast(`${launcher}.activate`);
     c.broadcast(`${launcher}.show`);
     state[`${submitTicket}.isVisible`] = true;
@@ -31,10 +31,14 @@ function initTicketSubmission() {
         c.broadcast(`${submitTicket}.hide`);
         c.broadcast(`${launcher}.deactivate`);
         state[`${submitTicket}.isVisible`] = false;
+        c.broadcast(`${launcher}.show`);
       } else {
-        c.broadcast(`${submitTicket}.show`);
+        c.broadcast(`${submitTicket}.showWithAnimation`);
         c.broadcast(`${launcher}.activate`);
         state[`${submitTicket}.isVisible`] = true;
+        if (isMobileBrowser()) {
+          c.broadcast(`${launcher}.hide`);
+        }
       }
     });
 }
@@ -90,12 +94,13 @@ function initChatTicketSubmission() {
     state[`${chat}.isVisible`] = false;
 
     c.broadcast(`${launcher}.deactivate`);
+    c.broadcast(`${launcher}.show`);
     c.broadcast(`${chat}.hide`);
   });
 
   c.intercept(`${chat}.onShow`, function() {
     state[`${chat}.isVisible`] = true;
-    c.broadcast(`${launcher}.activate`);
+    c.broadcast(`${launcher}.hide`);
   });
 
   c.intercept(`${chat}.onIsChatting`, function() {
@@ -116,14 +121,14 @@ function initChatTicketSubmission() {
         state[`${chat}.isVisible`] = true;
         state.activeEmbed = chat;
         c.broadcast(`${chat}.show`);
-        c.broadcast(`${launcher}.activate`);
-        c.broadcast(`${launcher}.show`);
+        c.broadcast(`${launcher}.hide`);
       }
     }
   });
 
   c.intercept(
     [`${launcher}.onClick`,
+     `${chat}.onHide`,
      `${submitTicket}.onClose`].join(','),
     function() {
       if (state[`${chat}.isVisible`] || state[`${submitTicket}.isVisible`]) {
@@ -132,11 +137,13 @@ function initChatTicketSubmission() {
             c.broadcast(`${chat}.hide`);
             state[`${chat}.userClosed`] = true;
             state[`${chat}.isVisible`] = false;
+            c.broadcast(`${launcher}.show`);
           }
         }
         if (state[`${submitTicket}.isVisible`]) {
           c.broadcast(`${submitTicket}.hide`);
           state[`${submitTicket}.isVisible`] = false;
+          c.broadcast(`${launcher}.show`);
         }
         c.broadcast(`${launcher}.deactivate`);
       } else {
@@ -145,11 +152,15 @@ function initChatTicketSubmission() {
           if (!isMobileBrowser()) {
             state[`${chat}.isVisible`] = true;
             c.broadcast(`${launcher}.activate`);
+            c.broadcast(`${launcher}.hide`);
           }
         } else {
-          c.broadcast(`${submitTicket}.show`);
+          c.broadcast(`${submitTicket}.showWithAnimation`);
           state[`${submitTicket}.isVisible`] = true;
           c.broadcast(`${launcher}.activate`);
+          if (isMobileBrowser()) {
+            c.broadcast(`${launcher}.hide`);
+          }
         }
       }
     }
@@ -186,7 +197,7 @@ function initHelpCenterTicketSubmission() {
   c.intercept('.activate', function() {
     if (!state[`${submitTicket}.isVisible`] && !state[`${helpCenter}.isVisible`]) {
 
-      c.broadcast(`${helpCenter}.show`);
+      c.broadcast(`${helpCenter}.showWithAnimation`);
       c.broadcast(`${launcher}.show`);
       c.broadcast(`${launcher}.activate`);
 
@@ -222,12 +233,16 @@ function initHelpCenterTicketSubmission() {
           state[`${submitTicket}.isVisible`] = false;
         }
         c.broadcast(`${launcher}.deactivate`);
+        c.broadcast(`${launcher}.show`);
       } else {
-        c.broadcast(`${state.activeEmbed}.show`);
+        c.broadcast(`${state.activeEmbed}.showWithAnimation`);
         state[`${state.activeEmbed}.isVisible`] = true;
 
         c.broadcast(`${helpCenter}.setNextToSubmitTicket`);
         c.broadcast(`${launcher}.activate`);
+        if (isMobileBrowser()) {
+          c.broadcast(`${launcher}.hide`);
+        }
       }
     });
 
@@ -276,7 +291,7 @@ function initHelpCenterChatTicketSubmission() {
         !state[`${chat}.isVisible`] &&
         !state[`${helpCenter}.isVisible`]) {
 
-      c.broadcast(`${helpCenter}.show`);
+      c.broadcast(`${helpCenter}.showWithAnimation`);
       c.broadcast(`${launcher}.activate`);
       c.broadcast(`${launcher}.show`);
 
@@ -305,7 +320,7 @@ function initHelpCenterChatTicketSubmission() {
 
   c.intercept(`${chat}.onShow`, function() {
     state[`${chat}.isVisible`] = true;
-    c.broadcast(`${launcher}.activate`);
+    c.broadcast(`${launcher}.hide`);
   });
 
   c.intercept(`${chat}.onUnreadMsgs`, function(_, count) {
@@ -318,8 +333,7 @@ function initHelpCenterChatTicketSubmission() {
         state[`${chat}.isVisible`] = true;
         state.activeEmbed = chat;
         c.broadcast(`${chat}.show`);
-        c.broadcast(`${launcher}.activate`);
-        c.broadcast(`${launcher}.show`);
+        c.broadcast(`${launcher}.hide`);
       }
     }
   });
@@ -329,11 +343,14 @@ function initHelpCenterChatTicketSubmission() {
 
       if (!isMobileBrowser()) {
         state[`${chat}.isVisible`] = true;
+        c.broadcast(`${launcher}.hide`);
       }
 
       if (isMobileBrowser()) {
+        c.broadcast(`${launcher}.show`);
         c.broadcast(`${launcher}.deactivate`);
       }
+
       state.activeEmbed = chat;
       c.broadcast(`${chat}.show`);
     } else {
@@ -389,10 +406,15 @@ function initHelpCenterChatTicketSubmission() {
           state[`${submitTicket}.isVisible`] = false;
         }
         c.broadcast(`${launcher}.deactivate`);
+        c.broadcast(`${launcher}.show`);
       } else {
-        c.broadcast(`${state.activeEmbed}.show`);
+        if ((state.activeEmbed === chat && !isMobileBrowser()) ||
+            (isMobileBrowser() && state.activeEmbed !== chat)) {
+          c.broadcast(`${launcher}.hide`);
+        }
+        c.broadcast(`${state.activeEmbed}.showWithAnimation`);
         state[`${state.activeEmbed}.isVisible`] = true;
-        if (!isMobileBrowser()) {
+        if (!isMobileBrowser() && state.activeEmbed !== chat) {
           c.broadcast(`${launcher}.activate`);
         }
       }

@@ -4,6 +4,7 @@
  * 2. Set to 50% to create circle
  * 3. Clip whitespace so that onHover effects don't trigger
  *    above and below the icon.
+ * 4. removes extra pixels webkit adds
  */
 @import '../_vars.scss';
 
@@ -34,18 +35,32 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
+  [dir='rtl'] & {
+    padding-right: 0;
+    padding-left: #{12/$font-size}rem;
+  }
 }
 
 .Icon--launcher {
   padding-right: #{8/$font-size}rem;
+
+  [dir='rtl'] & {
+    padding-left: #{8/$font-size}rem;
+  }
 }
 
 .Icon--active {
   padding-right: 0;
-  height: #{50/$font-size}rem;
-  width: #{50/$font-size}rem;
+  height: #{46/$font-size}rem;
+  width: #{46/$font-size}rem;
   font-size: #{16/$font-size}rem;
-  line-height: #{50/$font-size}rem;
+  line-height: #{46/$font-size}rem;
+
+  -webkit-margin-before: #{1/$font-size}rem; /* 4 */
+
+  [dir='rtl'] & {
+    padding-left: 0;
+  }
 }
 
 .Icon:before {
@@ -79,18 +94,27 @@
   &:before {
     content: '\e610';
   }
+
+  [dir='rtl'] & {
+    padding-right: #{3/$font-size}rem;
+    padding-left: 0;
+  }
 }
 
 .Icon--search {
   height: #{14/$font-size}rem;
   width: #{14/$font-size}rem;
   font-size: #{14/$font-size}rem;
-  padding: 0;
-  padding-left: 6px;
-  padding-right: 3px;
+  padding-left: #{6/$font-size}rem;
+  padding-right: #{3/$font-size}rem;
 
   &:before {
     content: '\e609';
+  }
+
+  [dir='rtl'] & {
+    padding-left: #{3/$font-size}rem;
+    padding-right: #{6/$font-size}rem;
   }
 }
 
@@ -133,6 +157,10 @@
   &:before {
     content: '\e606';
   }
+
+  [dir='rtl'] & {
+    padding: #{20/$font-size}rem;
+  }
 }
 
 .Icon--zendesk {
@@ -151,3 +179,4 @@
     font-size: #{60/$font-size}rem;
   }
 }
+

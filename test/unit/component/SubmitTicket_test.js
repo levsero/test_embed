@@ -4,8 +4,8 @@ describe('Submit ticket component', function() {
   var SubmitTicket,
       mockRegistry,
       formParams = {
-        'set_tags': 'DROPBOX zendesk_widget',
-        'via_id': 17,
+        'set_tags': 'web_widget',
+        'via_id': 48,
         'submitted_from': global.window.location.href,
         'email': 'mock@email.com',
         'description': 'Mock Description'
@@ -72,6 +72,17 @@ describe('Submit ticket component', function() {
           })),
         MessageFieldset: noop,
         EmailField: noop
+      },
+      'component/ZendeskLogo': {
+        ZendeskLogo: jasmine.createSpy('mockZendeskLogo')
+          .and.callFake(React.createClass({
+            render: function() {
+              /* jshint quotmark:false */
+              return (
+                <div />
+              );
+            }
+          }))
       },
       'service/identity': {
         identity: {
@@ -300,53 +311,6 @@ describe('Submit ticket component', function() {
 
       expect(containerClasses.indexOf('Container--fullscreen'))
         .toEqual(-1);
-    });
-
-  });
-
-  describe('logo class names', function() {
-    it('should have the `fullscreen` classnames when fullscreen is true', function() {
-
-      var submitTicket = React.renderComponent(
-            <SubmitTicket />,
-            global.document.body
-          ),
-          logoNode = ReactTestUtils
-            .findRenderedDOMComponentWithClass(submitTicket, 'Icon--zendesk'),
-          logoClasses;
-
-      submitTicket.setState({fullscreen: true});
-
-      logoClasses = logoNode.props.className;
-
-      expect(logoClasses.indexOf('u-posAbsolute'))
-        .toEqual(-1);
-
-      expect(logoClasses.indexOf('u-posStart'))
-        .toEqual(-1);
-
-    });
-
-    it('should not have the `fullscreen` classnames when fullscreen is false', function() {
-
-      var submitTicket = React.renderComponent(
-            <SubmitTicket />,
-            global.document.body
-          ),
-          logoNode = ReactTestUtils
-            .findRenderedDOMComponentWithClass(submitTicket, 'Icon--zendesk'),
-          logoClasses;
-
-      submitTicket.setState({fullscreen: false});
-
-      logoClasses = logoNode.props.className;
-
-      expect(logoClasses.indexOf('u-posAbsolute') >= 0)
-        .toEqual(true);
-
-      expect(logoClasses.indexOf('u-posStart') >= 0)
-        .toEqual(true);
-
     });
 
   });

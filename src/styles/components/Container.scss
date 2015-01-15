@@ -1,5 +1,6 @@
 /**
  * 1. fallback for old android browsers
+ * 2. removes extra pixels webkit adds
  */
 
 @import '../_vars.scss';
@@ -59,10 +60,16 @@ $Container--popover-arrowWidth: $Container--popover-arrowFullWidth/2;
 
 .Container-pullout {
   margin: (-#{$Container-spacing}rem) (-#{$Container-spacing}rem) 0;
+  -webkit-margin-before: -#{24/$font-size}rem; /* 2 */
+  -webkit-margin-end: -#{23/$font-size}rem; /* 2 */
 }
 
 .Container-bar {
+  position: absolute;
   height: #{44/$font-size}rem;
   background: #F5F5F5;
+  right: 0;
+  left: 0;
+  top: 0;
 }
 

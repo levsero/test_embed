@@ -17,7 +17,8 @@ var SubmitTicketForm = React.createClass({
       isValid: false,
       buttonMessage: i18n.t('embeddable_framework.submitTicket.form.submitButton.label.send'),
       isSubmitting: false,
-      showBackButton: false
+      showBackButton: false,
+      isRTL: i18n.isRTL()
     };
   },
 
@@ -25,6 +26,20 @@ var SubmitTicketForm = React.createClass({
     return {
       fullscreen: false
     };
+  },
+
+  focusField() {
+    var form = this.refs.form.getDOMNode(),
+        element;
+
+    // Focus on the first empty text or textarea
+    element = _.find(form.querySelectorAll('input, textarea'), function(input) {
+      return input.value === '' && _.contains(['text', 'textarea', 'email'], input.type);
+    });
+
+    if (element) {
+      element.focus();
+    }
   },
 
   handleSubmit(e) {
@@ -49,7 +64,8 @@ var SubmitTicketForm = React.createClass({
     this.setState({isValid: isValid});
   },
 
-  handleBackClick() {
+  handleBackClick(e) {
+    e.preventDefault();
     this.props.onBackClick();
   },
 
@@ -62,9 +78,13 @@ var SubmitTicketForm = React.createClass({
             onUpdate={this.handleUpdate}
             component={React.DOM.div} />
         ),
+        formClasses = classSet({
+          'Form u-cf': true,
+          'Form--fullscreen': this.props.fullscreen
+        }),
         navigationButtonClasses = classSet({
           'Button Button--nav u-userTextColor': true,
-          'u-inlineBlock u-posEndS--vert': !this.props.fullscreen,
+          'Button--navDesktop u-inlineBlock': !this.props.fullscreen,
           'u-posAbsolute u-posStart--vert u-textSizeBaseMobile': this.props.fullscreen,
           'u-isHidden': !this.state.showBackButton
         }),
@@ -75,25 +95,29 @@ var SubmitTicketForm = React.createClass({
         }),
         titleClasses = classSet({
           'u-textSizeMed u-textBold u-extSizeMed u-textCenter': true,
-          'u-posAbsolute u-posCenter': this.state.showBackButton && !this.props.fullscreen,
-          'u-posStart--vert': this.state.showBackButton && !this.props.fullscreen,
-          'u-marginTM u-textSizeBaseMobile': this.props.fullscreen
+          'Form-ctaLegend u-posAbsolute u-posCenter': !this.props.fullscreen,
+          'u-textSizeBaseMobile': this.props.fullscreen
         }),
         barClasses = classSet({
           'Form-cta u-cf Container-pullout u-paddingBS': true,
-          'Form-cta--bar u-marginBM': !this.props.fullscreen
+          'Form-cta--bar u-marginBM': !this.props.fullscreen,
+          'Form-cta--barTitle': !this.props.fullscreen && !this.state.showBackButton
+        }),
+        iconClasses = classSet({
+          'Icon Icon--arrow u-textInheritColor': true,
+          'u-flipText u-inlineBlock': this.state.isRTL
         });
 
     return (
       <form
         noValidate
         onSubmit={this.handleSubmit}
-        className={'Form u-cf ' + this.props.className}>
+        className={formClasses + ' ' + this.props.className}>
         <div className={barClasses}>
           <button
             onClick={this.handleBackClick}
             className={navigationButtonClasses}>
-            <i className='Icon Icon--arrow u-textInheritColor' />
+            <i className={iconClasses} />
             {i18n.t('embeddable_framework.navigation.back')}
           </button>
           <h2 className={titleClasses}>

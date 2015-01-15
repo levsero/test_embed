@@ -77,7 +77,10 @@ describe('embed.helpCenter', function() {
         generateUserCSS: jasmine.createSpy().and.returnValue('')
       },
       'utility/globals': {
-        document: global.document
+        document: global.document,
+        getDocumentHost: function() {
+          return document.body;
+        }
       },
       'imports?_=lodash!lodash': _
     });
@@ -308,8 +311,13 @@ describe('embed.helpCenter', function() {
 
         pluckSubscribeCall(mockMediator, 'carlos.show')();
 
+        jasmine.clock().install();
+        jasmine.clock().tick(1);
+
         expect(helpCenter.get('carlos').instance.show.__reactBoundMethod)
           .toHaveBeenCalled();
+
+        jasmine.clock().uninstall();
       });
 
       it('should subscribe to <name>.hide', function() {

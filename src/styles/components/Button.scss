@@ -5,7 +5,6 @@
 
 $Button-baseFontSize: #{14/$font-size}rem;
 $Button-nudge: 5;
-$Button-widthOffset: #{(50-$Button-nudge)/$font-size}rem;
 
 .Button {
   font-size: $Button-baseFontSize;
@@ -23,7 +22,7 @@ $Button-widthOffset: #{(50-$Button-nudge)/$font-size}rem;
 .Button--cta {
   background: $cta-color;
   color: $base-color;
-  border-radius: 20rem; 
+  border-radius: #{5/$font-size}rem;
   font-weight: 700;
   letter-spacing: 0.4;
   bottom: -5px; /* 2 */
@@ -34,6 +33,10 @@ $Button-widthOffset: #{(50-$Button-nudge)/$font-size}rem;
   color: $cta-color;
   padding: 0;
   border: 0;
+}
+
+.Button--navDesktop {
+  bottom: #{6/$font-size}rem;
 }
 
 .Button--launcher {
@@ -48,6 +51,12 @@ $Button-widthOffset: #{(50-$Button-nudge)/$font-size}rem;
   background-color: $active-color;
   margin-right: #{$Button-nudge/$font-size}rem;
   padding: 0;
-  width: $Button-widthOffset;
-  height: #{50/$font-size}rem;
+  width: #{46/$font-size}rem;
+  height: #{46/$font-size}rem;
+
+  [dir='rtl'] & {
+    margin-right: 0;
+    margin-left: #{$Button-nudge/$font-size}rem;
+  }
 }
+

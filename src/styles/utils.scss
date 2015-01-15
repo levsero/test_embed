@@ -35,10 +35,6 @@ $Base-posOffset: #{20/$font-size}rem;
   bottom: $Base-posOffset;
 }
 
-.u-posEndS--vert {
-  bottom: #{3/$font-size}rem;
-}
-
 .u-posCenter--vert {
   top: 50%;
   transform: translateY(-50%);
@@ -100,6 +96,11 @@ $Base-posOffset: #{20/$font-size}rem;
 
 .u-paddingR {
   padding-right: #{25/$font-size}rem;
+
+  [dir='rtl'] & {
+    padding-right: 0;
+    padding-left: #{25/$font-size}rem;
+  }
 }
 
 .u-paddingTM {
@@ -164,6 +165,18 @@ $Base-posOffset: #{20/$font-size}rem;
 
 .u-isSelectable {
   cursor: text;
+}
+
+/**
+ * Misc
+ */
+
+.u-flipText {
+  transform: scale(-1);
+}
+
+.u-borderTransparent {
+  border: #{1/$font-size}rem solid transparent;
 }
 
 /**

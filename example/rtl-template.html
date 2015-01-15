@@ -9,7 +9,7 @@
   </head>
 
   <body style='background-color:#fff'>
-    <h1>main.js loader boom</h1>
+    <h1>RTL boom</h1>
 
     <p>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tristique quis nisi a lobortis. Proin et malesuada orci, ut malesuada risus. Etiam eget tellus in est viverra aliquam vitae non felis. Vivamus vestibulum elit arcu. Vivamus a vehicula leo, id venenatis massa. Sed eget mi ultricies, ultricies sapien semper, porta nisl. Fusce accumsan risus a diam fermentum, ac consectetur erat pulvinar. Nulla vitae purus ac erat mollis feugiat.
@@ -27,18 +27,23 @@
       Aliquam varius ante magna, a adipiscing sapien vehicula ut. Phasellus mattis, ligula sed faucibus vehicula, nunc mi pharetra elit, ac aliquet arcu risus in diam. Vestibulum bibendum feugiat felis, a venenatis risus auctor vitae. Nulla nisl massa, fringilla non tempor et, aliquet vel mi. Nunc volutpat purus nulla, ut fermentum diam suscipit vel. Mauris et libero eget lectus dapibus interdum. Nam vel diam enim.
     </p>
 
-    <fieldset>
-      <input>
-    </fieldset>
-
-    <div style="width: 50%; height: 300px; float: right; background: red;">Double tap me to zoom!</div>
-
     <script src="/dist/bootstrap.js" inline></script>
 
     <script>
       zE(function() {
+        zE.setLocale('ar');
         zE.devRender({
           embeds: {
+            "helpCenterForm": {
+              "embed": "helpCenter",
+              "props": {}
+            },
+            "zopimChat": {
+              "embed": "chat",
+              "props": {
+                "zopimId": "1yd3mzK15W13d2FIlQmXuuIGlYDs1JVT"
+              }
+            },
             "ticketSubmissionForm": {
               "embed": "submitTicket",
               "props": {}
@@ -50,7 +55,7 @@
               }
             }
           },
-          ruleset: 'TS'
+          ruleset: 'HC_C_TS'
         });
       });
     </script>

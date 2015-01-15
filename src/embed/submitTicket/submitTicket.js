@@ -2,7 +2,8 @@
 
 module React from 'react/addons';
 
-import { document }        from 'utility/globals';
+import { document,
+         getDocumentHost } from 'utility/globals';
 import { SubmitTicket }    from 'component/SubmitTicket';
 import { frameFactory }    from 'embed/frameFactory';
 import { setScaleLock }    from 'utility/utils';
@@ -22,7 +23,8 @@ function create(name, config) {
       },
       configDefaults = {
         position: 'right',
-        customFields: []
+        customFields: [],
+        zendeskLogoEnabled: true
       },
       posObj,
       iframeStyle,
@@ -60,6 +62,7 @@ function create(name, config) {
             updateFrameSize={params.updateFrameSize}
             onSubmitted={onSubmitted}
             customFields={config.customFields}
+            zendeskLogoEnabled={config.zendeskLogoEnabled}
             handleBack={handleBack}/>
         </div>
       );
@@ -69,11 +72,19 @@ function create(name, config) {
       css: submitTicketCSS + generateUserCSS({color: config.color}),
       fullscreenable: true,
       onShow() {
-        setScaleLock(true);
+        if (isMobileBrowser()) {
+          setScaleLock(true);
+        }
+
+        if (!isMobileBrowser()) {
+          get(name).instance.getChild().refs.submitTicket.refs.submitTicketForm.focusField();
+        }
       },
       name: name,
       onHide() {
-        setScaleLock(false);
+        if (isMobileBrowser()) {
+          setScaleLock(false);
+        }
       },
       onClose() {
         mediator.channel.broadcast(name + '.onClose');
@@ -94,11 +105,16 @@ function render(name) {
     throw new Error(`SubmitTicket ${name} has already been rendered.`);
   }
 
-  var element = document.body.appendChild(document.createElement('div'));
+  var element = getDocumentHost().appendChild(document.createElement('div'));
+
   submitTickets[name].instance = React.renderComponent(submitTickets[name].component, element);
 
   mediator.channel.subscribe(name + '.show', function() {
     submitTickets[name].instance.show();
+  });
+
+  mediator.channel.subscribe(name + '.showWithAnimation', function() {
+    submitTickets[name].instance.show(true);
   });
 
   mediator.channel.subscribe(name + '.hide', function() {
