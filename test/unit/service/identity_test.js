@@ -1,5 +1,6 @@
 describe('identity', function() {
   var identity,
+      mockRegistry,
       mockPersistence = {
         store: {
           get: noop,
@@ -9,7 +10,11 @@ describe('identity', function() {
 
   beforeEach(function() {
     mockery.enable();
-    mockery.registerMock('service/persistence', mockPersistence);
+    mockRegistry = initMockRegistry({
+      'service/persistence': mockPersistence,
+      'imports?_=lodash!lodash': _,
+    });
+
     mockery.registerAllowable(buildSrcPath('service/identity'));
     identity = require(buildSrcPath('service/identity')).identity;
   });
