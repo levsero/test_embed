@@ -56,6 +56,18 @@ function boot() {
         postRenderQueue.push([this, args]);
       };
 
+      // Firefox has an issue with calculating computed styles from within a iframe
+      // with display:none. If getComputedStyle returns null we adjust the styles on
+      // the iframe so when we need to query the parent document it will work.
+      // http://bugzil.la/548397
+      if (getComputedStyle(doc.documentElement) === null) {
+        let iframe = window.frameElement,
+            newStyle = 'width: 0; height: 0; border: 0; position: absolute; top: -9999px';
+
+        iframe.removeAttribute('style');
+        iframe.setAttribute('style', newStyle);
+      }
+
   React.initializeTouchEvents(true);
 
   logging.init();
