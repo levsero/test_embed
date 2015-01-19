@@ -402,8 +402,8 @@ function initHelpCenterChatTicketSubmission() {
       state.activeEmbed = chat;
       c.broadcast(`${chat}.show`);
     } else {
-      state.activeEmbed                  = submitTicket;
       state[`${submitTicket}.isVisible`] = true;
+      state.activeEmbed = submitTicket;
       c.broadcast(`${submitTicket}.show`);
     }
 
