@@ -2,17 +2,21 @@ describe('store', function() {
   var store,
       prefix = 'ZD-',
       mockRegistry,
-      mockLocalStorage = {
-        getItem: noop,
-        setItem: noop,
-        removeItem: noop,
-        clear: noop
-      },
-      mockSessionStorage = _.extend({}, mockLocalStorage),
+      mockLocalStorage,
+      mockSessionStorage,
       persistencePath = buildSrcPath('service/persistence');
 
   beforeEach(function() {
     mockery.enable();
+
+    mockLocalStorage = {
+      getItem: noop,
+      setItem: noop,
+      removeItem: noop,
+      clear: noop
+    };
+    mockSessionStorage = _.extend({}, mockLocalStorage);
+
     mockRegistry = initMockRegistry({
       'utility/globals': {
         win: {

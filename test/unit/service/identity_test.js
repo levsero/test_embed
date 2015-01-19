@@ -1,15 +1,18 @@
 describe('identity', function() {
   var identity,
       mockRegistry,
-      mockPersistence = {
-        store: {
-          get: noop,
-          set: noop
-        }
-      };
+      mockPersistence;
 
   beforeEach(function() {
     mockery.enable();
+
+    mockPersistence = {
+      store: {
+        get: noop,
+        set: noop
+      }
+    };
+
     mockRegistry = initMockRegistry({
       'service/persistence': mockPersistence,
       'imports?_=lodash!lodash': _,
