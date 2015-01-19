@@ -58,7 +58,7 @@ function boot() {
 
       // Firefox has an issue with calculating computed styles from within a iframe
       // with display:none. If getComputedStyle returns null we adjust the styles on
-      // the  iframe so when weneed to query the parent document it will work.
+      // the iframe so when we need to query the parent document it will work.
       // http://bugzil.la/548397
       if (getComputedStyle(doc.documentElement) === null) {
         let iframe = window.frameElement,
