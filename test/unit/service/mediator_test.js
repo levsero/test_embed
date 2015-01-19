@@ -156,6 +156,15 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
+      it('shows and deactivates when a show call is made', function() {
+        c.broadcast('.show');
+
+        expect(launcherSub.show.calls.count())
+          .toEqual(1);
+        expect(launcherSub.deactivate.calls.count())
+          .toEqual(1);
+      });
+
       it('shows and activates when a activate call is made', function() {
         c.broadcast('.activate');
 
@@ -207,6 +216,14 @@ describe('mediator', function() {
         c.broadcast('.activate');
 
         expect(submitTicketSub.show.calls.count())
+          .toEqual(1);
+      });
+
+      it('hides after show is called', function() {
+        reset(submitTicketSub.hide);
+        c.broadcast('.show');
+
+        expect(submitTicketSub.hide.calls.count())
           .toEqual(1);
       });
     });
@@ -352,6 +369,15 @@ describe('mediator', function() {
         expect(launcherSub.activate.calls.count())
           .toEqual(1);
       });
+
+      it('shows and deactivates when a show call is made', function() {
+        c.broadcast('.show');
+
+        expect(launcherSub.show.calls.count())
+          .toEqual(1);
+        expect(launcherSub.deactivate.calls.count())
+          .toEqual(1);
+      });
     });
 
     describe('ticket submission', function() {
@@ -373,6 +399,16 @@ describe('mediator', function() {
 
       it('hides when a hide call is made', function() {
         c.broadcast('.hide');
+
+        expect(submitTicketSub.hide.calls.count())
+          .toEqual(1);
+      });
+
+      it('hides after show is called and chat is offline', function() {
+        c.broadcast(`${chat}.onOffline`);
+
+        reset(submitTicketSub.hide);
+        c.broadcast('.show');
 
         expect(submitTicketSub.hide.calls.count())
           .toEqual(1);
@@ -528,6 +564,16 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
+      it('hides after show is called and chat is online', function() {
+        c.broadcast(`${chat}.onOnline`);
+
+        reset(chatSub.hide);
+        c.broadcast('.show');
+
+        expect(chatSub.hide.calls.count())
+          .toEqual(1);
+      });
+
       it('shows after activate is called and chat is online', function() {
         c.broadcast(`${chat}.onOnline`);
 
@@ -612,6 +658,15 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
+      it('shows and deactivates when a show call is made', function() {
+        c.broadcast('.show');
+
+        expect(launcherSub.show.calls.count())
+          .toEqual(1);
+        expect(launcherSub.deactivate.calls.count())
+          .toEqual(1);
+      });
+
       it('shows and activates when a activate call is made', function() {
         c.broadcast('.activate');
 
@@ -656,6 +711,14 @@ describe('mediator', function() {
 
       it('hides when a hide call is made', function() {
         c.broadcast('.hide');
+
+        expect(helpCenterSub.hide.calls.count())
+          .toEqual(1);
+      });
+
+      it('hides after show is called', function() {
+        reset(helpCenterSub.hide);
+        c.broadcast('.show');
 
         expect(helpCenterSub.hide.calls.count())
           .toEqual(1);
@@ -706,6 +769,13 @@ describe('mediator', function() {
 
       it('hides when a hide call is made', function() {
         c.broadcast('.hide');
+
+        expect(submitTicketSub.hide.calls.count())
+          .toEqual(1);
+      });
+
+      it('hides when a show call is made', function() {
+        c.broadcast('.show');
 
         expect(submitTicketSub.hide.calls.count())
           .toEqual(1);
@@ -877,6 +947,15 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
+      it('shows and deactivates when a show call is made', function() {
+        c.broadcast('.show');
+
+        expect(launcherSub.show.calls.count())
+          .toEqual(1);
+        expect(launcherSub.deactivate.calls.count())
+          .toEqual(1);
+      });
+
       it('shows and activates when a activate call is made', function() {
         c.broadcast('.activate');
 
@@ -965,6 +1044,14 @@ describe('mediator', function() {
 
       it('hides when a hide call is made', function() {
         c.broadcast('.hide');
+
+        expect(helpCenterSub.hide.calls.count())
+          .toEqual(1);
+      });
+
+      it('hides after show is called', function() {
+        reset(helpCenterSub.hide);
+        c.broadcast('.show');
 
         expect(helpCenterSub.hide.calls.count())
           .toEqual(1);
@@ -1118,6 +1205,13 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
+      it('hides when a show call is made', function() {
+        c.broadcast('.show');
+
+        expect(chatSub.hide.calls.count())
+          .toEqual(1);
+      });
+
       it('hides when a hide call is made', function() {
         c.broadcast('.hide');
 
@@ -1170,6 +1264,13 @@ describe('mediator', function() {
         c.broadcast(`${launcher}.onClick`); // open
 
         expect(helpCenterSub.show.calls.count())
+          .toEqual(1);
+      });
+
+      it('hides when a show call is made', function() {
+        c.broadcast('.show');
+
+        expect(submitTicketSub.hide.calls.count())
           .toEqual(1);
       });
 
