@@ -7,7 +7,7 @@ describe('store', function() {
       persistencePath = buildSrcPath('service/persistence');
 
   beforeEach(function() {
-    mockery.enable();
+    mockery.enable({useCleanCache: true});
 
     mockLocalStorage = {
       getItem: noop,

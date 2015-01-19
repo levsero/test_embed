@@ -4,7 +4,7 @@ describe('identity', function() {
       mockPersistence;
 
   beforeEach(function() {
-    mockery.enable();
+    mockery.enable({useCleanCache: true});
 
     mockPersistence = {
       store: {
