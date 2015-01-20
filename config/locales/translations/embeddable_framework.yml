@@ -80,7 +80,7 @@ parts:
   - translation:
       key: "embeddable_framework.helpCenter.search.noResults.title"
       title: "The title of the message for the help center widget when there are no results returned from search. searchTerm is the term they just searched for in quotes. Will wrap as needed (tinyurl.com/o849ewv)"
-      value: "There are noooo results for \"%(searchTerm)s\""
+      value: "There are no results for \"%(searchTerm)s\""
   - translation:
       key: "embeddable_framework.helpCenter.search.noResults.body"
       title: "The body of the message for the help center widget when there are no results returned from search. Will wrap as needed (tinyurl.com/okoocb7)"
