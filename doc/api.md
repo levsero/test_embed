@@ -106,3 +106,5 @@ For example, when someone clicks a 'Contact' button of your website, you could c
 ```html
   <button onclick="zE.activate();">Contact Us</button>
 ```
+
+Note: Calling `zE.activate()` will also display the widget if it is hidden, you do not need to call `zE.show()` to use `zE.activate()`.
