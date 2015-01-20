@@ -170,6 +170,7 @@ export var frameFactory = function(childFn, _params) {
         hiddenByZoom: hide
       });
     },
+
     toggleVisibility: function() {
       this.setState({
         visible: !this.state.visible

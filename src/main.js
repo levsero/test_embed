@@ -9,7 +9,8 @@ import { i18n }               from 'service/i18n';
 import { win, location,
          document as doc }    from 'utility/globals';
 import { mediator }           from 'service/mediator';
-import { getSizingRatio,
+import { getDeviceZoom,
+         getSizingRatio,
          isMobileBrowser,
          isBlacklisted }      from 'utility/devices';
 import { clickBusterHandler } from 'utility/utils';
@@ -151,8 +152,7 @@ function boot() {
     let isPinching,
         propagateFontRatioChange = function(isPinching) {
           setTimeout(() => {
-            var zoom = win.innerWidth/screen.availWidth;
-            renderer.hideByZoom(zoom < 1);
+            renderer.hideByZoom(getDeviceZoom() > 1);
             renderer.propagateFontRatio(getSizingRatio(isPinching));
           }, 0);
         };
