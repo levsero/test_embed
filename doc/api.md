@@ -7,9 +7,10 @@ The API consists of the following methods:
 * `zE.setLocale`
 * `zE.identify`
 * `zE.hide`
+* `zE.show`
 * `zE.activate`
 
-You can use the `zE.identify`, `zE.hide`, and `zE.activate` methods before and after page load. For example, you can use them in click event handlers.
+You can use the `zE.identify`, `zE.hide`, `zE.show`, and `zE.activate` methods before and after page load. For example, you can use them in click event handlers.
 
 **Note**: If you're looking for the Widget code for your pages, you can get it from the admin pages of your Zendesk account. After signing in to your Zendesk, click the Admin icon (![icon](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/manage_icon.png)) in the sidebar and select **Channels** >  **Widget**.
 
@@ -92,6 +93,8 @@ For example, when someone logs into your website, you could call `zE.show()` to 
 </script>
 ```
 
+Note: The widget will be displayed by default on page load when the Web Widget code snippet is present. You do not need to call `zE.show()` to display the widget unless `zE.hide()` is used.
+
 ### zE.activate
 
 `zE.activate()`
@@ -103,3 +106,5 @@ For example, when someone clicks a 'Contact' button of your website, you could c
 ```html
   <button onclick="zE.activate();">Contact Us</button>
 ```
+
+Note: Calling `zE.activate()` will also display the widget if it is hidden, you do not need to call `zE.show()` to use `zE.activate()`.
