@@ -111,6 +111,18 @@ function propagateFontRatio(ratio) {
   });
 }
 
+function hideByZoom(hide) {
+  var currentEmbed;
+
+  _.forEach(renderedEmbeds, function(embed, name) {
+    currentEmbed = embedsMap[embed.embed].get(name).instance;
+
+    if (currentEmbed) {
+      currentEmbed.setHiddenByZoom(hide);
+    }
+  });
+}
+
 var hardcodedConfigs = {
   zendeskWithChat: {
     'embeds': {
@@ -163,6 +175,7 @@ var hardcodedConfigs = {
 export var renderer = {
   init: init,
   propagateFontRatio: propagateFontRatio,
+  hideByZoom: hideByZoom,
   hardcodedConfigs: hardcodedConfigs,
   hide: hide
 };

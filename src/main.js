@@ -151,6 +151,8 @@ function boot() {
     let isPinching,
         propagateFontRatioChange = function(isPinching) {
           setTimeout(() => {
+            var zoom = win.innerWidth/screen.availWidth;
+            renderer.hideByZoom(zoom < 1);
             renderer.propagateFontRatio(getSizingRatio(isPinching));
           }, 0);
         };

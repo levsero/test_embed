@@ -63,6 +63,7 @@ export var frameFactory = function(childFn, _params) {
     getInitialState: function() {
       return {
         visible: this.props.visible,
+        hiddenByZoom: false,
         _rendered: false,
         iframeDimensions: {
           height: 0,
@@ -164,6 +165,11 @@ export var frameFactory = function(childFn, _params) {
       }
     },
 
+    setHiddenByZoom: function(hide) {
+      this.setState({
+        hiddenByZoom: hide
+      });
+    },
     toggleVisibility: function() {
       this.setState({
         visible: !this.state.visible
@@ -172,7 +178,7 @@ export var frameFactory = function(childFn, _params) {
 
     render: function() {
       /* jshint laxbreak: true */
-      var visibilityRule = (this.state.visible)
+      var visibilityRule = (this.state.visible && !this.state.hiddenByZoom)
                          ? {visibility: 'visible'}
                          : {visibility: 'hidden', left: '-9999px'},
           iframeStyle = _.extend({
