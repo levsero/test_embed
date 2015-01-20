@@ -56,6 +56,14 @@ describe('devices', function() {
         .toBe(false);
     });
 
+     it('returns true if MSIE 9 is within the user agent string', function() {
+      /* jshint maxlen: false */
+      mockGlobals.navigator.userAgent = 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)';
+
+      expect(isBlacklisted())
+        .toBe(true);
+    });
+
   });
 
 });
