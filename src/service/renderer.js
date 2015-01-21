@@ -97,29 +97,28 @@ function initMediator(config) {
   }
 }
 
-function propagateFontRatio(ratio) {
-  var fontSize = (12 * ratio) + 'px',
-      currentEmbed;
-
+function renderedEmbedsApply(fn) {
   _.forEach(renderedEmbeds, function(embed, name) {
-    currentEmbed = embedsMap[embed.embed].get(name).instance;
+    var currentEmbed = embedsMap[embed.embed].get(name).instance;
 
     if (currentEmbed) {
-      currentEmbed.updateBaseFontSize(fontSize);
-      currentEmbed.updateFrameSize();
+      fn(currentEmbed);
     }
   });
 }
 
+function propagateFontRatio(ratio) {
+  var fontSize = (12 * ratio) + 'px';
+
+  renderedEmbedsApply(function(embed) {
+    embed.updateBaseFontSize(fontSize);
+    embed.updateFrameSize();
+  });
+}
+
 function hideByZoom(hide) {
-  var currentEmbed;
-
-  _.forEach(renderedEmbeds, function(embed, name) {
-    currentEmbed = embedsMap[embed.embed].get(name).instance;
-
-    if (currentEmbed) {
-      currentEmbed.setHiddenByZoom(hide);
-    }
+  renderedEmbedsApply(function(embed) {
+    embed.setHiddenByZoom(hide);
   });
 }
 
