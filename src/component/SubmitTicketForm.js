@@ -4,6 +4,7 @@ module React from 'react/addons';
 module ReactForms from 'react-forms';
 
 import { submitTicketSchema } from 'component/SubmitTicketSchema';
+import { Button }             from 'component/Button';
 import { i18n }               from 'service/i18n';
 require('imports?_=lodash!lodash');
 
@@ -76,11 +77,6 @@ var SubmitTicketForm = React.createClass({
           'Form u-cf': true,
           'Form--fullscreen': this.props.fullscreen
         }),
-        buttonClasses = classSet({
-          'Button Button--cta Anim-color u-textNoWrap u-userBackgroundColor': true,
-          'u-pullRight': !this.props.fullscreen,
-          'u-sizeFull': this.props.fullscreen
-        }),
         titleClasses = classSet({
           'u-textSizeMed u-textBold u-extSizeMed u-textCenter': true,
           'Form-ctaLegend u-posAbsolute u-posCenter': !this.props.fullscreen,
@@ -103,12 +99,10 @@ var SubmitTicketForm = React.createClass({
         </div>
         {formBody}
         {this.props.children}
-        <input
-          type='submit'
-          value={this.state.buttonMessage}
-          ref='submitButton'
+        <Button
+          label={this.state.buttonMessage}
           disabled={!this.state.isValid || this.state.isSubmitting}
-          className={buttonClasses}
+          type='submit'
         />
       </form>
     );
