@@ -1,10 +1,17 @@
 import { win, navigator } from 'utility/globals';
 
-function getSizingRatio(isPinching, isFirstRun) {
+
+function getDeviceZoom() {
   var landscape = Math.abs(win.orientation) === 90,
       screen = win.screen,
-      deviceWidth = landscape ? screen.availHeight : screen.availWidth,
-      ratio = win.innerWidth / deviceWidth,
+      deviceWidth = landscape ? screen.availHeight : screen.availWidth;
+
+  return deviceWidth / win.innerWidth;
+}
+
+function getSizingRatio(isPinching, isFirstRun) {
+  var landscape = Math.abs(win.orientation) === 90,
+      ratio = 1 / getDeviceZoom(),
       ratioThreshold = 2,
       defaultRatio = landscape ? ratioThreshold : 3;
 
@@ -53,6 +60,7 @@ function isBlacklisted() {
 }
 
 export {
+  getDeviceZoom,
   getSizingRatio,
   isMobileBrowser,
   shouldGoFullscreen,
