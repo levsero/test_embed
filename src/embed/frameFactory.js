@@ -233,8 +233,17 @@ export var frameFactory = function(childFn, _params) {
               'Button Button--nav u-posAbsolute u-posEnd u-posStart--vert u-userTextColor': true,
               'u-isActionable u-textSizeBaseMobile': true,
             }),
+            backClasses = classSet({
+              'Button Button--nav u-posAbsolute u-userTextColor': true,
+              'u-textSizeBaseMobile u-posStart u-posStart--vert': isMobileBrowser(),
+              'u-posStartL u-posStart--vertL': !isMobileBrowser(),
+              'u-isHidden': !this.props.handleBackClick
+            }),
+            iconClasses = classSet({
+              'Icon Icon--arrow u-textInheritColor': true
+            }),
             positionClasses = classSet({
-              'u-borderTransparent': true,
+              'u-borderTransparent u-posRelative': true,
               'u-pullRight': this.props.position === 'right',
               'u-pullLeft': this.props.position === 'left'
             }),
@@ -246,7 +255,13 @@ export var frameFactory = function(childFn, _params) {
                              {i18n.t('embeddable_framework.navigation.close')}
                              <i className='Icon Icon--close u-textInheritColor' />
                            </div>)
-                        : null;
+                        : null,
+            backButton = (<button
+                            onClick={this.props.handleBackClick}
+                            className={backClasses}>
+                            <i className={iconClasses} />
+                            {i18n.t('embeddable_framework.navigation.back')}
+                          </button>);
 
         // 1. Loop over functions in params.extend
         // 2. Re-bind them to `this` context
@@ -266,11 +281,24 @@ export var frameFactory = function(childFn, _params) {
         });
 
         Component = React.createClass({
-          render: function() {
+          getInitialState() {
+            return {
+              showBackButton: false
+            };
+          },
+
+          render() {
+            var backButtonClasses = classSet({
+              'u-isHidden': !this.state.showBackButton
+            });
+
             return (
               <div className={positionClasses}>
                 {css}
                 {childFn(childParams)}
+                <div className={backButtonClasses}>
+                  {backButton}
+                </div>
                 {closeButton}
               </div>
             );

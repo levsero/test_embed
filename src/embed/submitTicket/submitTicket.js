@@ -63,8 +63,7 @@ function create(name, config) {
             onSubmitted={onSubmitted}
             customFields={config.customFields}
             hideZendeskLogo={config.hideZendeskLogo}
-            position={config.position}
-            handleBack={handleBack}/>
+            position={config.position}/>
         </div>
       );
     },
@@ -94,7 +93,7 @@ function create(name, config) {
     }));
 
   submitTickets[name] = {
-    component: <Embed visible={false} />,
+    component: <Embed visible={false} handleBackClick={handleBack}/>,
     config: config
   };
 
@@ -129,10 +128,7 @@ function render(name) {
   });
 
   mediator.channel.subscribe(name + '.showBackButton', function() {
-    var submitTicket = get(name).instance.getChild().refs.submitTicket,
-        submitTicketForm = submitTicket.refs.submitTicketForm;
-
-    submitTicketForm.setState({
+    get(name).instance.getChild().setState({
       showBackButton: true
     });
   });
