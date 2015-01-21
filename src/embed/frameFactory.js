@@ -7,6 +7,7 @@ import { getSizingRatio,
 import { clickBusterRegister } from 'utility/utils';
 import { i18n }                from 'service/i18n';
 import { snabbt }              from 'snabbt.js';
+import { ButtonNav }           from 'component/Button';
 
 require('imports?_=lodash!lodash');
 
@@ -229,39 +230,31 @@ export var frameFactory = function(childFn, _params) {
             css = <style dangerouslySetInnerHTML={{ __html: cssText }} />,
             Component,
             childParams,
-            closeClasses = classSet({
-              'Button Button--nav u-posAbsolute u-posEnd u-posStart--vert u-userTextColor': true,
-              'u-isActionable u-textSizeBaseMobile': true,
-            }),
-            backClasses = classSet({
-              'Button Button--nav u-posAbsolute u-userTextColor': true,
-              'u-textSizeBaseMobile u-posStart u-posStart--vert': isMobileBrowser(),
-              'u-posStartL u-posStart--vertL': !isMobileBrowser(),
-              'u-isHidden': !this.props.handleBackClick
-            }),
-            iconClasses = classSet({
-              'Icon Icon--arrow u-textInheritColor': true
-            }),
             positionClasses = classSet({
               'u-borderTransparent u-posRelative': true,
               'u-pullRight': this.props.position === 'right',
               'u-pullLeft': this.props.position === 'left'
             }),
             closeButton = (params.fullscreenable && isMobileBrowser())
-                        ? (<div
-                             onClick={this.close}
-                             onTouchStart={this.close}
-                             className={closeClasses}>
-                             {i18n.t('embeddable_framework.navigation.close')}
-                             <i className='Icon Icon--close u-textInheritColor' />
-                           </div>)
+                        ? (<ButtonNav
+                            handleClick={this.close}
+                            label={
+                              <div>
+                                {i18n.t('embeddable_framework.navigation.close')}
+                                <i className='Icon Icon--close u-textInheritColor' />
+                              </div>
+                            }
+                            position='left' />)
                         : null,
-            backButton = (<button
-                            onClick={this.props.handleBackClick}
-                            className={backClasses}>
-                            <i className={iconClasses} />
-                            {i18n.t('embeddable_framework.navigation.back')}
-                          </button>);
+            backButton = (<ButtonNav
+                           handleClick={this.props.handleBackClick}
+                           label={
+                             <div>
+                               <i className='Icon Icon--arrow u-textInheritColor' />
+                               {i18n.t('embeddable_framework.navigation.back')}
+                             </div>
+                           }
+                           position='right' />);
 
         // 1. Loop over functions in params.extend
         // 2. Re-bind them to `this` context

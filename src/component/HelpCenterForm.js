@@ -53,7 +53,7 @@ var HelpCenterForm = React.createClass({
         <div className={buttonContainerClasses}>
           <Button
             label={this.props.buttonLabel}
-            onPressed={this.onClick}
+            handleClick={this.onClick}
           />
         </div>
       </form>
