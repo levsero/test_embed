@@ -24,7 +24,7 @@ function create(name, config) {
       configDefaults = {
         position: 'right',
         customFields: [],
-        zendeskLogoEnabled: true
+        hideZendeskLogo: false
       },
       posObj,
       iframeStyle,
@@ -62,7 +62,7 @@ function create(name, config) {
             updateFrameSize={params.updateFrameSize}
             onSubmitted={onSubmitted}
             customFields={config.customFields}
-            zendeskLogoEnabled={config.zendeskLogoEnabled}
+            hideZendeskLogo={config.hideZendeskLogo}
             position={config.position}
             handleBack={handleBack}/>
         </div>
