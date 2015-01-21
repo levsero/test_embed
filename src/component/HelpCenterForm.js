@@ -2,9 +2,7 @@
 
 module React from 'react/addons';
 
-import { i18n }        from 'service/i18n';
-import { SearchField } from 'component/FormField';
-import { Button }      from 'component/Button';
+import { Button } from 'component/Button';
 
 require('imports?_=lodash!lodash');
 

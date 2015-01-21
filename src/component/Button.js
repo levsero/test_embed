@@ -4,9 +4,11 @@ module React from 'react/addons';
 
 import { isMobileBrowser } from 'utility/devices';
 
-var classSet = React.addons.classSet;
+var classSet = React.addons.classSet,
+    Button,
+    ButtonNav;
 
-var Button = React.createClass({
+Button = React.createClass({
   render() {
     /* jshint quotmark:false */
     var buttonClasses = classSet({
@@ -28,15 +30,16 @@ var Button = React.createClass({
   }
 });
 
-var ButtonNav = React.createClass({
+ButtonNav = React.createClass({
   render() {
     /* jshint quotmark:false */
     var buttonClasses = classSet({
           'Button Button--nav u-posAbsolute u-userTextColor': true,
-          'u-posStart u-posStart--vert': isMobileBrowser() && this.props.position==='right',
-          'u-posStartL u-posStart--vertL': !isMobileBrowser() && this.props.position==='right',
+          'u-posStartL u-posStart--vertL': !isMobileBrowser() && this.props.position === 'right',
           'u-isActionable u-textSizeBaseMobile': isMobileBrowser(),
-          'u-pullRight u-posEnd u-posStart--vert': isMobileBrowser() && this.props.position==='left'
+          'u-posStart u-posStart--vert': isMobileBrowser() && this.props.position === 'right',
+          'u-posStart--vert': isMobileBrowser() && this.props.position === 'left',
+          'u-pullRight u-posEnd': isMobileBrowser() && this.props.position === 'left'
         });
 
     return (
@@ -50,4 +53,4 @@ var ButtonNav = React.createClass({
   }
 });
 
-export { Button, ButtonNav }
+export { Button, ButtonNav };

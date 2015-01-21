@@ -286,6 +286,7 @@ describe('embed.submitTicket', function() {
     describe('mediator subscription', function() {
       var mockMediator,
           bob,
+          bobFrame,
           bobSubmitTicket,
           bobSubmitTicketForm;
 
@@ -294,7 +295,8 @@ describe('embed.submitTicket', function() {
         submitTicket.create('bob');
         submitTicket.render('bob');
         bob = submitTicket.get('bob');
-        bobSubmitTicket = bob.instance.getChild().refs.submitTicket;
+        bobFrame = bob.instance.getChild();
+        bobSubmitTicket = bobFrame.refs.submitTicket;
         bobSubmitTicketForm = bobSubmitTicket.refs.submitTicketForm;
       });
 
@@ -336,7 +338,7 @@ describe('embed.submitTicket', function() {
 
         pluckSubscribeCall(mockMediator, 'bob.showBackButton')();
 
-        expect(bobSubmitTicketForm.state.showBackButton)
+        expect(bobFrame.state.showBackButton)
           .toEqual(true);
       });
 

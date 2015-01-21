@@ -54,6 +54,14 @@ describe('Help center component', function() {
             }
           }))
       },
+      'component/Container': {
+        Container: jasmine.createSpy('mockContainer')
+          .and.callFake(React.createClass({
+            render: function() {
+              return <div>{this.props.children}</div>;
+            }
+          })),
+      },
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', ['init', 'setLocale', 'getLocale', 't'])
       },
@@ -247,51 +255,6 @@ describe('Help center component', function() {
       expect(helpCenter.state.fullscreen)
         .toEqual(false);
     });
-  });
-
-  describe('container <div> class names', function() {
-    it('should have the `fullscreen` classnames when fullscreen is true', function() {
-
-      var helpCenter = React.renderComponent(
-            <HelpCenter />,
-            global.document.body
-          ),
-          containerNode = ReactTestUtils
-            .findRenderedDOMComponentWithClass(helpCenter, 'Container'),
-          containerClasses;
-
-      helpCenter.setState({fullscreen: true});
-
-      containerClasses = containerNode.props.className;
-
-      expect(containerClasses.indexOf('Container--fullscreen') >= 0)
-        .toEqual(true);
-
-      expect(containerClasses.indexOf('Container--popover'))
-        .toEqual(-1);
-    });
-
-    it('should have the `popover` classnames when fullscreen is false', function() {
-
-      var helpCenter = React.renderComponent(
-            <HelpCenter />,
-            global.document.body
-          ),
-          containerNode = ReactTestUtils
-            .findRenderedDOMComponentWithClass(helpCenter, 'Container'),
-          containerClasses;
-
-      helpCenter.setState({fullscreen: false});
-
-      containerClasses = containerNode.props.className;
-
-      expect(containerClasses.indexOf('Container--popover') >= 0)
-        .toEqual(true);
-
-      expect(containerClasses.indexOf('Container--fullscreen'))
-        .toEqual(-1);
-    });
-
   });
 
   it('should pass on fullscreen to helpCenterForm', function() {
