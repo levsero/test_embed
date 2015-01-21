@@ -31,25 +31,36 @@ var FocusField = React.createClass({
     var value = this.value(),
         isInvalid = isFailure(value.validation),
         classNames = classSet({
-          'Arrange Arrange--middle rf-Field u-isSelectable': true,
+          'Arrange Arrange--middle rf-Field u-isSelectable u-posRelative': true,
           'rf-Field--focused': this.state.focused,
           'rf-Field--blurred': this.state.blurred,
           'rf-Field--invalid': isInvalid && this.state.blurred,
           'rf-Field--dirty': !value.isUndefined,
-          'rf-Field--dropdown': this.props.dropdown
+          'rf-Field--dropdown': this.props.dropdown,
+          'rf-Field--mobile': isMobileBrowser(),
+          'rf-Field--clean': this.props.checkbox
         }),
         iconClasses = classSet({
           'u-isHidden': !this.props.icon,
           'Arrange-sizeFit u-isActionable Icon Icon--': true
+        }),
+        dropdownClasses = classSet({
+          'u-isHidden': !this.props.dropdown,
+          'Arrange-sizeFit rf-Field__arrows': true
         });
 
     return (
+      /* jshint quotmark: false */
       <label className={classNames}>
         <i className={iconClasses + this.props.icon} />
         {this.transferPropsTo(this.renderInputComponent({
           onFocus: this.onFocus,
           onBlur: this.onBlur
         }))}
+        <div className={dropdownClasses}>
+          <i className='Icon--dropdownArrow' />
+          <i className='Icon--dropdownArrow Icon--dropdownArrowBottom' />
+        </div>
       </label>
     );
   }
@@ -80,11 +91,6 @@ function IconField(props = {}) {
 }
 
 function CheckboxField(props = {}) {
-  var fieldClasses = classSet({
-        'Arrange-sizeFill u-vsizeAll': true,
-        'u-textSize15': isMobileBrowser()
-      });
-
   /* jshint quotmark:false */
   return (
     <Property
@@ -93,10 +99,10 @@ function CheckboxField(props = {}) {
       required={!!props.required}
       input={
         <CheckboxGroup
-          className={fieldClasses}
           options={[{value: '1', name: props.label}]}
         />
       }
+      component={<FocusField icon={props.icon} checkbox={true} />}
     />
   );
 }

@@ -180,3 +180,18 @@
   }
 }
 
+.Icon--dropdownArrow {
+  display: block;
+  width: 0; 
+  height: 0; 
+  border-left: #{5/$font-size}rem solid transparent;
+  border-right: #{5/$font-size}rem solid transparent;
+  border-bottom: #{5/$font-size}rem solid $icon-color;
+  margin-bottom: #{3/$font-size}rem;
+}
+
+.Icon--dropdownArrowBottom {
+  border-top: #{5/$font-size}rem solid $icon-color;
+  border-bottom: 0;
+  margin-bottom: 0;
+}
