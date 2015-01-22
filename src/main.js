@@ -21,7 +21,6 @@ function boot() {
       devApi,
       host = location.host,
       path = location.pathname,
-      configLoadStart,
       postRenderQueue = [],
       chatPages = [
         '/zopim',
@@ -110,7 +109,7 @@ function boot() {
       }
       handlePostRenderQueue(postRenderQueue);
     } else {
-      configLoadStart = Date.now();
+      let configLoadStart = Date.now();
       transport.get({
         method: 'get',
         path: '/embeddable/config',
