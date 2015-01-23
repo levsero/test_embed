@@ -162,9 +162,7 @@ function boot() {
           iterations = 0,
           oldZoom,
           oldOffset = [0, 0],
-          currentZoom = function() {
-            return win.innerWidth/screen.availWidth;
-          },
+          currentZoom = getDeviceZoom,
           currentOffset = function() {
             return [win.pageXOffset, win.pageYOffset];
           },
