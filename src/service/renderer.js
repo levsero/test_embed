@@ -67,32 +67,7 @@ function init(config) {
 function initMediator(config) {
   /* jshint laxbreak: true */
 
-  switch(config.ruleset) {
-    case 'HC_C_TS':
-      mediator.initHelpCenterChatTicketSubmission();
-      break;
-    case 'HC_TS':
-      mediator.initHelpCenterTicketSubmission();
-      break;
-    case 'C_TS':
-      mediator.initChatTicketSubmission();
-      break;
-    case 'TS':
-      mediator.initTicketSubmission();
-      break;
-    case '':
-      // blank render list
-      break;
-    default:
-      logging.error({
-        error: {
-          message: 'Could not find a suitable mediator ruleset to initialise.'
-        },
-        params: {
-          config: config
-        }
-      });
-  }
+  mediator.initHelpCenterChatTicketSubmission(config.embeds.helpCenterForm);
 }
 
 function renderedEmbedsApply(fn) {

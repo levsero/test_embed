@@ -1,6 +1,6 @@
 var requireUncached = require('require-uncached');
 
-describe('mediator', function() {
+ddescribe('mediator', function() {
   var mockRegistry,
       mediator,
       mediatorPath = buildSrcPath('service/mediator'),
@@ -107,7 +107,7 @@ describe('mediator', function() {
 
     beforeEach(function() {
       initSubscriptionSpies(names);
-      mediator.initTicketSubmission();
+      mediator.initHelpCenterChatTicketSubmission(false);
     });
 
     describe('launcher', function() {
@@ -242,7 +242,7 @@ describe('mediator', function() {
 
     beforeEach(function() {
       initSubscriptionSpies(names);
-      mediator.initChatTicketSubmission();
+      mediator.initHelpCenterChatTicketSubmission(false);
     });
 
     describe('launcher', function() {
@@ -282,8 +282,6 @@ describe('mediator', function() {
         c.broadcast(`${chat}.onOnline`);
         c.broadcast(`${launcher}.onClick`);
 
-        expect(launcherSub.activate.calls.count())
-          .toEqual(1);
         expect(submitTicketSub.show.calls.count())
           .toEqual(0);
         expect(chatSub.show.calls.count())
@@ -299,15 +297,6 @@ describe('mediator', function() {
 
         expect(launcherSub.activate)
           .not.toHaveBeenCalled();
-
-        reset(chatSub.hide);
-        reset(chatSub.show);
-
-        c.broadcast(`${launcher}.onClick`);
-        expect(chatSub.hide.calls.count())
-          .toEqual(0);
-        expect(chatSub.show.calls.count())
-          .toEqual(1);
       });
 
       it('hides when onClick is called on mobile', function() {
@@ -514,9 +503,6 @@ describe('mediator', function() {
 
         expect(chatSub.show.calls.count())
           .toEqual(1);
-        expect(launcherSub.activate.calls.count())
-          .toEqual(1);
-
       });
 
       it('does not pop open chat if user has closed chat', function() {
@@ -585,6 +571,23 @@ describe('mediator', function() {
         expect(chatSub.show.calls.count())
           .toEqual(1);
       });
+
+      it('doesn\'t hide when launcher is pressed on mobile', function() {
+        mockRegistry['utility/devices'].isMobileBrowser
+          .and.returnValue(true);
+
+        c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${launcher}.onClick`);
+
+        reset(chatSub.hide);
+        reset(chatSub.show);
+
+        c.broadcast(`${launcher}.onClick`);
+        expect(chatSub.hide.calls.count())
+          .toEqual(0);
+        expect(chatSub.show.calls.count())
+          .toEqual(1);
+      });
     });
 
   });
@@ -601,7 +604,7 @@ describe('mediator', function() {
 
     beforeEach(function() {
       initSubscriptionSpies(names);
-      mediator.initHelpCenterTicketSubmission();
+      mediator.initHelpCenterChatTicketSubmission(true);
     });
 
     describe('launcher', function() {
@@ -609,9 +612,6 @@ describe('mediator', function() {
         c.broadcast(`${launcher}.onClick`);
 
         expect(helpCenterSub.show.calls.count())
-          .toEqual(1);
-
-        expect(helpCenterSub.setNextToSubmitTicket.calls.count())
           .toEqual(1);
       });
 
@@ -810,7 +810,7 @@ describe('mediator', function() {
 
     beforeEach(function() {
       initSubscriptionSpies(names);
-      mediator.initHelpCenterChatTicketSubmission();
+      mediator.initHelpCenterChatTicketSubmission(true);
     });
 
     describe('launcher', function() {
@@ -878,15 +878,6 @@ describe('mediator', function() {
 
         expect(launcherSub.deactivate)
           .toHaveBeenCalled();
-
-        reset(chatSub.hide);
-        reset(chatSub.show);
-
-        c.broadcast(`${launcher}.onClick`);
-        expect(chatSub.hide.calls.count())
-          .toEqual(0);
-        expect(chatSub.show.calls.count())
-          .toEqual(1);
       });
 
       it('does not activate when chat is launched from launcher on mobile', function() {
@@ -1231,6 +1222,24 @@ describe('mediator', function() {
 
         expect(chatSub.show.calls.count())
           .toEqual(0);
+      });
+
+      it('doesn\'t hide when launcher is pressed on mobile', function() {
+        mockRegistry['utility/devices'].isMobileBrowser
+          .and.returnValue(true);
+
+        c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${launcher}.onClick`);
+        c.broadcast(`${helpCenter}.onNextClick`);
+
+        reset(chatSub.hide);
+        reset(chatSub.show);
+
+        c.broadcast(`${launcher}.onClick`);
+        expect(chatSub.hide.calls.count())
+          .toEqual(0);
+        expect(chatSub.show.calls.count())
+          .toEqual(1);
       });
     });
 
