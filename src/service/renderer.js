@@ -66,7 +66,7 @@ function init(config) {
 
 function initMediator(config) {
   if (config.embeds) {
-    mediator.initHelpCenterChatTicketSubmission(config.embeds.helpCenterForm);
+    mediator.init(config.embeds.helpCenterForm);
   } else {
     logging.error({
         error: {

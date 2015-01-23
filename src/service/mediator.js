@@ -4,7 +4,7 @@ module airwaves from 'airwaves';
 
 var c = new airwaves.Channel();
 
-function initHelpCenterChatTicketSubmission(HC) {
+function init(HC) {
   var submitTicket = 'ticketSubmissionForm',
       launcher = 'launcher',
       chat = 'zopimChat',
@@ -250,5 +250,5 @@ function initHelpCenterChatTicketSubmission(HC) {
 
 export var mediator = {
   channel: c,
-  initHelpCenterChatTicketSubmission: initHelpCenterChatTicketSubmission
+  init: init
 };

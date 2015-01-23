@@ -10,16 +10,20 @@ var classSet = React.addons.classSet,
 
 Button = React.createClass({
   render() {
-    /* jshint quotmark:false */
+      /* jshint laxbreak: true */
     var buttonClasses = classSet({
           'Button Button--cta Anim-color u-textNoWrap u-userBackgroundColor': true,
           'u-pullRight': !isMobileBrowser(),
           'u-sizeFull u-textSizeBaseMobile': isMobileBrowser()
-        });
+        }),
+        allowedTypes = /^(submit|button)$/i,
+        type = allowedTypes.test(this.props.type)
+             ? this.props.type
+             : 'button';
 
     return (
       <input
-        type={this.props.type || 'button'}
+        type={type}
         value={this.props.label}
         onClick={this.props.handleClick}
         onTouchStart={this.props.handleClick}

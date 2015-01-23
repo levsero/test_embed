@@ -107,7 +107,7 @@ describe('mediator', function() {
 
     beforeEach(function() {
       initSubscriptionSpies(names);
-      mediator.initHelpCenterChatTicketSubmission(false);
+      mediator.init(false);
     });
 
     describe('launcher', function() {
@@ -242,7 +242,7 @@ describe('mediator', function() {
 
     beforeEach(function() {
       initSubscriptionSpies(names);
-      mediator.initHelpCenterChatTicketSubmission(false);
+      mediator.init(false);
     });
 
     describe('launcher', function() {
@@ -604,7 +604,7 @@ describe('mediator', function() {
 
     beforeEach(function() {
       initSubscriptionSpies(names);
-      mediator.initHelpCenterChatTicketSubmission(true);
+      mediator.init(true);
     });
 
     describe('launcher', function() {
@@ -810,7 +810,7 @@ describe('mediator', function() {
 
     beforeEach(function() {
       initSubscriptionSpies(names);
-      mediator.initHelpCenterChatTicketSubmission(true);
+      mediator.init(true);
     });
 
     describe('launcher', function() {
