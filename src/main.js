@@ -158,8 +158,7 @@ function boot() {
         };
 
     var zoomMonitor = (function() {
-      var timeout  = null,
-          interval = null,
+      var interval = null,
           iterations = 0,
           oldZoom,
           oldOffset = [0, 0],
@@ -200,8 +199,10 @@ function boot() {
       return _.debounce(fn, 10);
     })();
 
+    var lastTouchEnd = 0;
+
     win.addEventListener('touchstart', Airbrake.wrap((e) => {
-      if (e.touches.length == 2) {
+      if (e.touches.length === 2) {
         renderer.hideByZoom(true);
       }
       zoomMonitor();
@@ -212,17 +213,22 @@ function boot() {
       // so we store the touches length on move and check on end
       isPinching = e.touches.length > 1;
 
-      if (e.touches.length == 2) {
+      if (e.touches.length === 2) {
         renderer.hideByZoom(true);
       }
       zoomMonitor();
     }));
 
-    win.addEventListener('touchend', Airbrake.wrap((e) => {
-      // iOS has the scale property to detect pinching gestures
-      if (isPinching || e.scale && e.scale !== 1) {
-        propagateFontRatioChange(isPinching);
+    win.addEventListener('touchend', Airbrake.wrap(() => {
+      var now = Date.now();
+
+      if ((now - lastTouchEnd) < 250) {
+        renderer.hideByZoom(true);
+
       }
+
+      lastTouchEnd = now;
+      zoomMonitor();
     }));
 
     // Recalc ratio when user focus on field
