@@ -152,7 +152,7 @@ function boot() {
     let isPinching,
         propagateFontRatioChange = function(isPinching) {
           setTimeout(() => {
-            renderer.hideByZoom(getDeviceZoom() > 2);
+            renderer.hideByZoom((getDeviceZoom() > 2) || (Math.abs(win.orientation) === 90));
             mediator.channel.broadcast('.updateZoom', getSizingRatio(isPinching));
           }, 0);
         };
@@ -242,6 +242,8 @@ function boot() {
     });
 
     win.addEventListener('click', clickBusterHandler, true);
+
+    propagateFontRatioChange();
   }
 }
 
