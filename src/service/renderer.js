@@ -65,9 +65,18 @@ function init(config) {
 }
 
 function initMediator(config) {
-  /* jshint laxbreak: true */
-
-  mediator.initHelpCenterChatTicketSubmission(config.embeds.helpCenterForm);
+  if (config.embeds) {
+    mediator.initHelpCenterChatTicketSubmission(config.embeds.helpCenterForm);
+  } else {
+    logging.error({
+        error: {
+          message: 'Could not find embeds to initialise.'
+        },
+        params: {
+          config: config
+        }
+      });
+  }
 }
 
 function renderedEmbedsApply(fn) {

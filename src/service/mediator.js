@@ -219,11 +219,7 @@ function initHelpCenterChatTicketSubmission(HC) {
   });
 
   c.intercept(`${submitTicket}.onFormSubmitted`, function() {
-    if (state[`${helpCenter}.isAvaliable`]) {
-      state.activeEmbed = helpCenter;
-    } else {
-      state.activeEmbed = submitTicket;
-    }
+    resetActiveEmbed();
   });
 
   c.intercept(`${chat}.onChatEnd`, function() {

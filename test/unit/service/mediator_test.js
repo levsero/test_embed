@@ -1,6 +1,6 @@
 var requireUncached = require('require-uncached');
 
-ddescribe('mediator', function() {
+describe('mediator', function() {
   var mockRegistry,
       mediator,
       mediatorPath = buildSrcPath('service/mediator'),
