@@ -61,6 +61,10 @@ function init(config) {
     initMediator(config);
 
     initialised = true;
+
+    mediator.channel.subscribe('.updateZoom', function(ratio) {
+      propagateFontRatio(ratio);
+    });
   }
 }
 

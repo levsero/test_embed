@@ -152,15 +152,70 @@ function boot() {
     let isPinching,
         propagateFontRatioChange = function(isPinching) {
           setTimeout(() => {
-            renderer.hideByZoom(getDeviceZoom() > 1);
-            renderer.propagateFontRatio(getSizingRatio(isPinching));
+            renderer.hideByZoom(getDeviceZoom() > 2);
+            mediator.channel.broadcast('.updateZoom', getSizingRatio(isPinching));
           }, 0);
         };
+
+    var zoomMonitor = (function() {
+      var timeout  = null,
+          interval = null,
+          iterations = 0,
+          oldZoom,
+          oldOffset = [0, 0],
+          currentZoom = function() {
+            return win.innerWidth/screen.availWidth;
+          },
+          currentOffset = function() {
+            return [win.pageXOffset, win.pageYOffset];
+          },
+          zoomEqual = function(a, b) {
+            return Math.abs(a - b) < 0.001;
+          },
+          offsetEqual = function(a, b) {
+            return (a[0] === b[0]) && (a[1] === b[1]);
+          },
+          fn = function() {
+            if (interval !== null) {
+              clearInterval(interval);
+            }
+
+            iterations = 0;
+            interval = setInterval(function() {
+              if (iterations > 10000 || zoomEqual(oldZoom, currentZoom()) &&
+                  offsetEqual(oldOffset, currentOffset())) {
+                clearInterval(interval);
+                interval = null;
+                // show
+                propagateFontRatioChange(true);
+              }
+              else {
+                oldZoom = currentZoom();
+                oldOffset = currentOffset();
+                iterations++;
+              }
+            }, 300);
+          };
+
+      return _.debounce(fn, 10);
+    })();
+
+    win.addEventListener('touchstart', Airbrake.wrap((e) => {
+      if (e.touches.length == 2) {
+        renderer.hideByZoom(true);
+      }
+      zoomMonitor();
+    }));
 
     win.addEventListener('touchmove', Airbrake.wrap((e) => {
       // Touch end won't tell you if multiple touches are detected
       // so we store the touches length on move and check on end
       isPinching = e.touches.length > 1;
+
+      if (e.touches.length == 2) {
+        renderer.hideByZoom(true);
+      }
+      zoomMonitor();
     }));
 
     win.addEventListener('touchend', Airbrake.wrap((e) => {
