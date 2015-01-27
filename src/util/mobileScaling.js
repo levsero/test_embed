@@ -64,8 +64,6 @@ function initMobileScaling() {
   }));
 
   win.addEventListener('touchmove', Airbrake.wrap((e) => {
-    // Touch end won't tell you if multiple touches are detected
-    // so we store the touches length on move and check on end
     isPinching = e.touches.length > 1;
 
     if (e.touches.length === 2) {
@@ -77,11 +75,14 @@ function initMobileScaling() {
   win.addEventListener('touchend', Airbrake.wrap((e) => {
     var now = e.timeStamp;
 
+    // If touchend's fire within 250ms of each other,
+    // we're treating it as double-tap zoom.
+    // Therefore, hide the widget.
     if ((now - lastTouchEnd) < 250) {
       renderer.hideByZoom(true);
     }
-
     lastTouchEnd = now;
+
     zoomMonitor();
   }));
 
