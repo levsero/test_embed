@@ -64,6 +64,9 @@ describe('renderer', function() {
       'imports?_=lodash!lodash': _,
       'service/logging': {
         logging: jasmine.createSpyObj('logging', ['init', 'error'])
+      },
+      'utility/globals': {
+        win: global.window
       }
     });
 

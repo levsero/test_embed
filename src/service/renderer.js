@@ -1,3 +1,4 @@
+import { win }          from 'utility/globals';
 import { submitTicket } from 'embed/submitTicket/submitTicket';
 import { launcher }     from 'embed/launcher/launcher';
 import { helpCenter }   from 'embed/helpCenter/helpCenter';
@@ -61,6 +62,14 @@ function init(config) {
     initMediator(config);
 
     initialised = true;
+
+    if (Math.abs(win.orientation) === 90) {
+      hideByZoom(true);
+    }
+
+    mediator.channel.subscribe('.updateZoom', function(ratio) {
+      propagateFontRatio(ratio);
+    });
   }
 }
 

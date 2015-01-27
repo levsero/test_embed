@@ -9,11 +9,10 @@ import { i18n }               from 'service/i18n';
 import { win, location,
          document as doc }    from 'utility/globals';
 import { mediator }           from 'service/mediator';
-import { getDeviceZoom,
-         getSizingRatio,
-         isMobileBrowser,
+import { isMobileBrowser,
          isBlacklisted }      from 'utility/devices';
 import { clickBusterHandler } from 'utility/utils';
+import { initMobileScaling }  from 'utility/mobileScaling';
 
 require('imports?_=lodash!lodash');
 
@@ -148,37 +147,9 @@ function boot() {
     }
   }
 
+
   if (isMobileBrowser()) {
-    let isPinching,
-        propagateFontRatioChange = function(isPinching) {
-          setTimeout(() => {
-            renderer.hideByZoom(getDeviceZoom() > 1);
-            renderer.propagateFontRatio(getSizingRatio(isPinching));
-          }, 0);
-        };
-
-    win.addEventListener('touchmove', Airbrake.wrap((e) => {
-      // Touch end won't tell you if multiple touches are detected
-      // so we store the touches length on move and check on end
-      isPinching = e.touches.length > 1;
-    }));
-
-    win.addEventListener('touchend', Airbrake.wrap((e) => {
-      // iOS has the scale property to detect pinching gestures
-      if (isPinching || e.scale && e.scale !== 1) {
-        propagateFontRatioChange(isPinching);
-      }
-    }));
-
-    // Recalc ratio when user focus on field
-    // delay by 500ms so browser zoom is done
-    doc.addEventListener('focus', () => {
-      setTimeout(() => propagateFontRatioChange(true), 500);
-    }, true);
-
-    win.addEventListener('orientationchange', () => {
-      propagateFontRatioChange();
-    });
+    initMobileScaling();
 
     win.addEventListener('click', clickBusterHandler, true);
   }
