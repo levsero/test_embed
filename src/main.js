@@ -126,11 +126,13 @@ function boot() {
       }
       handlePostRenderQueue(postRenderQueue);
     } else {
+      let configLoadStart = Date.now();
       transport.get({
         method: 'get',
         path: '/embeddable/config',
         callbacks: {
           done(res) {
+            beacon.sendConfigLoadTime(Date.now() - configLoadStart);
             renderer.init(res.body);
             handlePostRenderQueue(postRenderQueue);
           },
