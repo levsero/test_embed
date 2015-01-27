@@ -52,6 +52,7 @@ var HelpCenterForm = React.createClass({
           <Button
             label={this.props.buttonLabel}
             handleClick={this.onClick}
+            fullscreen={this.props.fullscreen}
           />
         </div>
       </form>

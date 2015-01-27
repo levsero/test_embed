@@ -13,12 +13,10 @@ function init(HC) {
       resetActiveEmbed = function() {
         if (state[`${helpCenter}.isAvaliable`]) {
           state.activeEmbed = helpCenter;
+        } else if (state[`${chat}.isOnline`]) {
+          state.activeEmbed = chat;
         } else {
-          if (state[`${chat}.isOnline`]) {
-            state.activeEmbed = chat;
-          } else {
-            state.activeEmbed = submitTicket;
-          }
+          state.activeEmbed = submitTicket;
         }
       };
 
@@ -93,7 +91,9 @@ function init(HC) {
   c.intercept(`${chat}.onOffline`, function() {
     state[`${chat}.isOnline`] = false;
 
-    resetActiveEmbed();
+    if (state.activeEmbed === chat) {
+      resetActiveEmbed();
+    }
 
     c.broadcast(`${launcher}.setLabelHelp`);
     c.broadcast(`${helpCenter}.setNextToSubmitTicket`);

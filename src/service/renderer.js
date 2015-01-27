@@ -65,8 +65,11 @@ function init(config) {
 }
 
 function initMediator(config) {
-  if (config.embeds) {
+  if (config.embeds.submitTicketForm) {
     mediator.init(config.embeds.helpCenterForm);
+  } else if (config.embeds.zopimChat) {
+    //naked zopim
+    return;
   } else {
     logging.error({
         error: {
