@@ -150,6 +150,7 @@ function boot() {
 
   if (isMobileBrowser()) {
     let isPinching,
+        lastTouchEnd = 0,
         propagateFontRatioChange = (isPinching) => {
           setTimeout(() => {
             renderer.hideByZoom((getDeviceZoom() > 2) || (Math.abs(win.orientation) === 90));
@@ -196,8 +197,6 @@ function boot() {
       return _.debounce(startMonitor, 10);
     })();
 
-    var lastTouchEnd = 0;
-
     win.addEventListener('touchstart', Airbrake.wrap((e) => {
       if (e.touches.length === 2) {
         renderer.hideByZoom(true);
@@ -216,12 +215,11 @@ function boot() {
       zoomMonitor();
     }));
 
-    win.addEventListener('touchend', Airbrake.wrap(() => {
-      var now = Date.now();
+    win.addEventListener('touchend', Airbrake.wrap((e) => {
+      var now = e.timeStamp;
 
       if ((now - lastTouchEnd) < 250) {
         renderer.hideByZoom(true);
-
       }
 
       lastTouchEnd = now;
