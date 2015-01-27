@@ -9,11 +9,10 @@ import { i18n }               from 'service/i18n';
 import { win, location,
          document as doc }    from 'utility/globals';
 import { mediator }           from 'service/mediator';
-import { getDeviceZoom,
-         getSizingRatio,
-         isMobileBrowser,
+import { isMobileBrowser,
          isBlacklisted }      from 'utility/devices';
 import { clickBusterHandler } from 'utility/utils';
+import { initMobileScaling }  from 'utility/mobileScaling';
 
 require('imports?_=lodash!lodash');
 
@@ -148,97 +147,11 @@ function boot() {
     }
   }
 
+
   if (isMobileBrowser()) {
-    let isPinching,
-        lastTouchEnd = 0,
-        propagateFontRatioChange = (isPinching) => {
-          setTimeout(() => {
-            renderer.hideByZoom((getDeviceZoom() > 2) || (Math.abs(win.orientation) === 90));
-            mediator.channel.broadcast('.updateZoom', getSizingRatio(isPinching));
-          }, 0);
-        };
-
-    var zoomMonitor = (() => {
-      var interval = null,
-          iterations = 0,
-          oldZoom,
-          oldOffset = [0, 0],
-          currentZoom = getDeviceZoom,
-          currentOffset = () => {
-            return [win.pageXOffset, win.pageYOffset];
-          },
-          zoomEqual = (a, b) => {
-            return Math.abs(a - b) < 0.001;
-          },
-          offsetEqual = (a, b) => {
-            return (a[0] === b[0]) && (a[1] === b[1]);
-          },
-          startMonitor = () => {
-            if (interval !== null) {
-              clearInterval(interval);
-            }
-
-            iterations = 0;
-            interval = setInterval(() => {
-              if (iterations > 10000 || zoomEqual(oldZoom, currentZoom()) &&
-                  offsetEqual(oldOffset, currentOffset())) {
-                clearInterval(interval);
-                interval = null;
-                // show
-                propagateFontRatioChange(true);
-              } else {
-                oldZoom = currentZoom();
-                oldOffset = currentOffset();
-                iterations++;
-              }
-            }, 300);
-          };
-
-      return _.debounce(startMonitor, 10);
-    })();
-
-    win.addEventListener('touchstart', Airbrake.wrap((e) => {
-      if (e.touches.length === 2) {
-        renderer.hideByZoom(true);
-      }
-      zoomMonitor();
-    }));
-
-    win.addEventListener('touchmove', Airbrake.wrap((e) => {
-      // Touch end won't tell you if multiple touches are detected
-      // so we store the touches length on move and check on end
-      isPinching = e.touches.length > 1;
-
-      if (e.touches.length === 2) {
-        renderer.hideByZoom(true);
-      }
-      zoomMonitor();
-    }));
-
-    win.addEventListener('touchend', Airbrake.wrap((e) => {
-      var now = e.timeStamp;
-
-      if ((now - lastTouchEnd) < 250) {
-        renderer.hideByZoom(true);
-      }
-
-      lastTouchEnd = now;
-      zoomMonitor();
-    }));
-
-    // Recalc ratio when user focus on field
-    // delay by 500ms so browser zoom is done
-    doc.addEventListener('focus', () => {
-      setTimeout(() => propagateFontRatioChange(true), 500);
-    }, true);
-
-    win.addEventListener('orientationchange', () => {
-      propagateFontRatioChange();
-    });
+    initMobileScaling();
 
     win.addEventListener('click', clickBusterHandler, true);
-
-    propagateFontRatioChange();
   }
 }
 
