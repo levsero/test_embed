@@ -101,7 +101,7 @@ function setScaleLock(active) {
       }
 
       setTimeout(function() {
-        mediator.channel.broadcast('.updateZoom', getSizingRatio());
+        mediator.channel.broadcast('.updateZoom', getSizingRatio(true));
       }, 0);
 
     } else {
