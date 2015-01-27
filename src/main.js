@@ -150,43 +150,42 @@ function boot() {
 
   if (isMobileBrowser()) {
     let isPinching,
-        propagateFontRatioChange = function(isPinching) {
+        propagateFontRatioChange = (isPinching) => {
           setTimeout(() => {
             renderer.hideByZoom((getDeviceZoom() > 2) || (Math.abs(win.orientation) === 90));
             mediator.channel.broadcast('.updateZoom', getSizingRatio(isPinching));
           }, 0);
         };
 
-    var zoomMonitor = (function() {
+    var zoomMonitor = (() => {
       var interval = null,
           iterations = 0,
           oldZoom,
           oldOffset = [0, 0],
           currentZoom = getDeviceZoom,
-          currentOffset = function() {
+          currentOffset = () => {
             return [win.pageXOffset, win.pageYOffset];
           },
-          zoomEqual = function(a, b) {
+          zoomEqual = (a, b) => {
             return Math.abs(a - b) < 0.001;
           },
-          offsetEqual = function(a, b) {
+          offsetEqual = (a, b) => {
             return (a[0] === b[0]) && (a[1] === b[1]);
           },
-          fn = function() {
+          startMonitor = () => {
             if (interval !== null) {
               clearInterval(interval);
             }
 
             iterations = 0;
-            interval = setInterval(function() {
+            interval = setInterval(() => {
               if (iterations > 10000 || zoomEqual(oldZoom, currentZoom()) &&
                   offsetEqual(oldOffset, currentOffset())) {
                 clearInterval(interval);
                 interval = null;
                 // show
                 propagateFontRatioChange(true);
-              }
-              else {
+              } else {
                 oldZoom = currentZoom();
                 oldOffset = currentOffset();
                 iterations++;
@@ -194,7 +193,7 @@ function boot() {
             }, 300);
           };
 
-      return _.debounce(fn, 10);
+      return _.debounce(startMonitor, 10);
     })();
 
     var lastTouchEnd = 0;
