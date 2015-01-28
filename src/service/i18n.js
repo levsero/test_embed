@@ -12,7 +12,7 @@ translate.setSeparator('*');
 function parseLocale(str) {
   var locale = regulateLocaleStringCase(str),
       extractLang = function(locale) {
-        return locale.substring(0, locale.indexOf("-"));
+        return locale.substring(0, locale.indexOf('-'));
       };
 
   if (translations[locale]) {
