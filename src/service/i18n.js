@@ -10,12 +10,15 @@ var translate = require('counterpart'),
 translate.setSeparator('*');
 
 function parseLocale(str) {
-  var locale = regulateLocaleStringCase(str);
+  var locale = regulateLocaleStringCase(str),
+      extractLang = function(locale) {
+        return locale.substring(0, locale.indexOf("-"));
+      };
 
   if (translations[locale]) {
     return locale;
-  } else if (translations[locale.substr(0, 2)]) {
-    return locale.substr(0, 2);
+  } else if (translations[extractLang(locale)]) {
+    return extractLang(locale);
   } else if (str === 'zh') {
     return 'zh-CN';
   } else if (str === 'nb' || str === 'nn') {
