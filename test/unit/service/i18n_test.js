@@ -15,6 +15,9 @@ describe('i18n', function() {
         },
         'zh-CN': {
           'launcher.label.hello': '你好'
+        },
+        'fil': {
+          'launcher.label.hello': 'Kumusta'
         }
       },
       'translation/localeIdMap.json': {
@@ -61,15 +64,21 @@ describe('i18n', function() {
       expect(i18n.getLocale()).toEqual('zh-CN');
     });
 
-    it('should try lang code if lang-region code does not exist', function() {
+    it('should try lang code if lang-region code does not exist (2 letters)', function() {
       i18n.setLocale('de-de');
       expect(i18n.getLocale()).toEqual('de');
+    });
+
+    it('should try lang code if lang-region code does not exist (3 letters)', function() {
+      i18n.setLocale('fil-PH');
+      expect(i18n.getLocale()).toEqual('fil');
     });
 
     it('should use en-US when there are no translations for the specified locale', function() {
       i18n.setLocale('xx');
       expect(i18n.getLocale()).toEqual('en-US');
     });
+
   });
 
   describe('getLocaleId', function() {
