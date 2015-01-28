@@ -39,11 +39,11 @@ describe('Container component', function() {
 
     containerClasses = containerNode.props.className;
 
-    expect(containerClasses.indexOf('Container--fullscreen') >= 0)
-      .toEqual(true);
+    expect(containerClasses)
+      .toMatch('Container--fullscreen');
 
-    expect(containerClasses.indexOf('Container--popover'))
-      .toEqual(-1);
+    expect(containerClasses)
+      .not.toMatch('Container--popover');
   });
 
   it('should have the `popover` classnames when fullscreen is false', function() {
@@ -60,11 +60,11 @@ describe('Container component', function() {
 
     containerClasses = containerNode.props.className;
 
-    expect(containerClasses.indexOf('Container--popover') >= 0)
-      .toEqual(true);
+    expect(containerClasses)
+      .toMatch('Container--popover');
 
-    expect(containerClasses.indexOf('Container--fullscreen'))
-      .toEqual(-1);
+    expect(containerClasses)
+      .not.toMatch('Container--fullscreen');
   });
 
 });

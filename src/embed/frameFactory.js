@@ -230,6 +230,7 @@ export var frameFactory = function(childFn, _params) {
             css = <style dangerouslySetInnerHTML={{ __html: cssText }} />,
             Component,
             childParams,
+            fullscreen = isMobileBrowser() && params.fullscreenable,
             positionClasses = classSet({
               'u-borderTransparent u-posRelative': true,
               'u-pullRight': this.props.position === 'right',
@@ -243,7 +244,8 @@ export var frameFactory = function(childFn, _params) {
                                 <i className='Icon Icon--close u-textInheritColor' />
                               </div>
                             }
-                            position='left' />),
+                            position='right'
+                            fullscreen={fullscreen} />),
             backButton = (<ButtonNav
                            handleClick={this.props.handleBackClick}
                            label={
@@ -252,7 +254,8 @@ export var frameFactory = function(childFn, _params) {
                                {i18n.t('embeddable_framework.navigation.back')}
                              </div>
                            }
-                           position='right' />);
+                           position='left'
+                           fullscreen={fullscreen} />);
 
         // 1. Loop over functions in params.extend
         // 2. Re-bind them to `this` context
@@ -283,7 +286,7 @@ export var frameFactory = function(childFn, _params) {
                   'u-isHidden': !this.state.showBackButton
                 }),
                 closeButtonClasses = classSet({
-                  'u-isHidden': params.fullscreenable && isMobileBrowser()
+                  'u-isHidden': !fullscreen
                 });
 
             return (
