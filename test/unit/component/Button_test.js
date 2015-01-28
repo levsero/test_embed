@@ -36,11 +36,11 @@ describe('Button component', function() {
           .findRenderedDOMComponentWithClass(button, 'Button--cta'),
         buttonClasses = buttonElem.props.className;
 
-    expect(buttonClasses.indexOf('u-pullRight') >= 0)
-      .toEqual(true);
+    expect(buttonClasses)
+      .toMatch('u-pullRight');
 
-    expect(buttonClasses.indexOf('u-sizeFull'))
-      .toEqual(-1);
+    expect(buttonClasses)
+      .not.toMatch('u-sizeFull');
   });
 
   it('should have fullscreen classes when fullscreen prop is true', function() {
@@ -53,11 +53,11 @@ describe('Button component', function() {
         buttonClasses = buttonElem.props.className;
 
 
-    expect(buttonClasses.indexOf('u-sizeFull') >= 0)
-      .toEqual(true);
+    expect(buttonClasses)
+      .toMatch('u-sizeFull');
 
-    expect(buttonClasses.indexOf('u-pullRight'))
-      .toEqual(-1);
+    expect(buttonClasses)
+      .not.toMatch('u-pullRight');
   });
 
 });

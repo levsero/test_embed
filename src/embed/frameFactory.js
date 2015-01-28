@@ -243,7 +243,7 @@ export var frameFactory = function(childFn, _params) {
                                 <i className='Icon Icon--close u-textInheritColor' />
                               </div>
                             }
-                            position='left' />)
+                            position='left' />),
             backButton = (<ButtonNav
                            handleClick={this.props.handleBackClick}
                            label={
