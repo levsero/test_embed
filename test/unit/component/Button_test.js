@@ -27,7 +27,7 @@ describe('Button component', function() {
     mockery.disable();
   });
 
-  it('should not have fullscreen classes when isMobileBrowser is false', function() {
+  it('should not have fullscreen classes when fullscreen prop is false', function() {
     var button = React.renderComponent(
           <Button />,
           global.document.body
@@ -43,7 +43,7 @@ describe('Button component', function() {
       .toEqual(-1);
   });
 
-  it('should have fullscreen classes when isMobileBrowser is true', function() {
+  it('should have fullscreen classes when fullscreen prop is true', function() {
     var button = React.renderComponent(
           <Button fullscreen={true} />,
           global.document.body

@@ -4,14 +4,14 @@ module airwaves from 'airwaves';
 
 var c = new airwaves.Channel();
 
-function init(HC) {
+function init(helpCenterAvailable) {
   var submitTicket = 'ticketSubmissionForm',
       launcher = 'launcher',
       chat = 'zopimChat',
       helpCenter = 'helpCenterForm',
       state = {},
       resetActiveEmbed = function() {
-        if (state[`${helpCenter}.isAvaliable`]) {
+        if (state[`${helpCenter}.isAvailable`]) {
           state.activeEmbed = helpCenter;
         } else if (state[`${chat}.isOnline`]) {
           state.activeEmbed = chat;
@@ -23,7 +23,7 @@ function init(HC) {
   state[`${submitTicket}.isVisible`] = false;
   state[`${chat}.isVisible`]         = false;
   state[`${helpCenter}.isVisible`]   = false;
-  state[`${helpCenter}.isAvaliable`] = HC;
+  state[`${helpCenter}.isAvailable`] = helpCenterAvailable;
   state[`${chat}.isOnline`]          = false;
   state[`${chat}.unreadMsgs`]        = 0;
   state[`${chat}.userClosed`]        = false;
@@ -75,11 +75,11 @@ function init(HC) {
 
   c.intercept(`${chat}.onOnline`, function() {
     state[`${chat}.isOnline`] = true;
-    if (state.activeEmbed === submitTicket && !state[`${helpCenter}.isAvaliable`]) {
+    if (state.activeEmbed === submitTicket && !state[`${helpCenter}.isAvailable`]) {
       state.activeEmbed = chat;
     }
 
-    if (state[`${helpCenter}.isAvaliable`]) {
+    if (state[`${helpCenter}.isAvailable`]) {
       c.broadcast(`${launcher}.setLabelChatHelp`);
     } else {
       c.broadcast(`${launcher}.setLabelChat`);
@@ -223,7 +223,7 @@ function init(HC) {
   });
 
   c.intercept(`${chat}.onChatEnd`, function() {
-    if (state[`${helpCenter}.isAvaliable`]) {
+    if (state[`${helpCenter}.isAvailable`]) {
       state.activeEmbed = helpCenter;
     } else {
       c.broadcast(`${launcher}.deactivate`);
@@ -235,7 +235,7 @@ function init(HC) {
 
   c.subscribe(`${launcher}.deactivate`, function() {
     if (state[`${chat}.isOnline`]) {
-      if (state[`${helpCenter}.isAvaliable`]) {
+      if (state[`${helpCenter}.isAvailable`]) {
         c.broadcast(`${launcher}.setLabelChatHelp`);
       } else {
         c.broadcast(`${launcher}.setLabelChat`);

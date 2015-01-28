@@ -235,8 +235,7 @@ export var frameFactory = function(childFn, _params) {
               'u-pullRight': this.props.position === 'right',
               'u-pullLeft': this.props.position === 'left'
             }),
-            closeButton = (params.fullscreenable && isMobileBrowser())
-                        ? (<ButtonNav
+            closeButton = (<ButtonNav
                             handleClick={this.close}
                             label={
                               <div>
@@ -245,7 +244,6 @@ export var frameFactory = function(childFn, _params) {
                               </div>
                             }
                             position='left' />)
-                        : null,
             backButton = (<ButtonNav
                            handleClick={this.props.handleBackClick}
                            label={
@@ -282,8 +280,11 @@ export var frameFactory = function(childFn, _params) {
 
           render() {
             var backButtonClasses = classSet({
-              'u-isHidden': !this.state.showBackButton
-            });
+                  'u-isHidden': !this.state.showBackButton
+                }),
+                closeButtonClasses = classSet({
+                  'u-isHidden': params.fullscreenable && isMobileBrowser()
+                });
 
             return (
               <div className={positionClasses}>
@@ -292,7 +293,9 @@ export var frameFactory = function(childFn, _params) {
                 <div className={backButtonClasses}>
                   {backButton}
                 </div>
-                {closeButton}
+                <div className={closeButtonClasses}>
+                  {closeButton}
+                </div>
               </div>
             );
           }
