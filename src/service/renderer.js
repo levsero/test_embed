@@ -65,10 +65,10 @@ function init(config) {
 }
 
 function initMediator(config) {
-  if (config.embeds.submitTicketForm) {
+  if (config.embeds && config.embeds.ticketSubmissionForm) {
     mediator.init(config.embeds.helpCenterForm);
-  } else if (config.embeds.zopimChat) {
-    //naked zopim
+  } else if (config.embeds && config.embeds.zopimChat || config === {}) {
+    //naked zopim or empty config
     return;
   } else {
     logging.error({

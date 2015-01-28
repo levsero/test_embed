@@ -15,11 +15,6 @@ describe('Button component', function() {
 
     mockRegistry = initMockRegistry({
       'react/addons': React,
-      'utility/devices': {
-        isMobileBrowser: function() {
-          return false;
-        }
-      }
     });
 
     mockery.registerAllowable(buttonPath);
@@ -49,15 +44,8 @@ describe('Button component', function() {
   });
 
   it('should have fullscreen classes when isMobileBrowser is true', function() {
-
-    mockRegistry['utility/devices'].isMobileBrowser = function() {
-      return true;
-    };
-    mockery.resetCache();
-    Button = require(buttonPath).Button;
-
     var button = React.renderComponent(
-          <Button />,
+          <Button fullscreen={true} />,
           global.document.body
         ),
         buttonElem = ReactTestUtils

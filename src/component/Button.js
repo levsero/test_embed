@@ -37,7 +37,8 @@ ButtonNav = React.createClass({
     /* jshint quotmark:false */
     var buttonClasses = classSet({
           'Button Button--nav u-posAbsolute u-userTextColor': true,
-          'u-posStartL u-posStart--vertL': !this.props.fullscreen && this.props.position === 'right',
+          'u-posStartL': !this.props.fullscreen && this.props.position === 'right',
+          'u-posStart--vertL': !this.props.fullscreen && this.props.position === 'right',
           'u-isActionable u-textSizeBaseMobile': this.props.fullscreen,
           'u-posStart u-posStart--vert': this.props.fullscreen && this.props.position === 'right',
           'u-posStart--vert': this.props.fullscreen && this.props.position === 'left',

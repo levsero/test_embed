@@ -75,7 +75,7 @@ function init(HC) {
 
   c.intercept(`${chat}.onOnline`, function() {
     state[`${chat}.isOnline`] = true;
-    if (state.activeEmbed === submitTicket) {
+    if (state.activeEmbed === submitTicket && !state[`${helpCenter}.isAvaliable`]) {
       state.activeEmbed = chat;
     }
 

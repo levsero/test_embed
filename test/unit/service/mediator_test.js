@@ -1241,6 +1241,27 @@ describe('mediator', function() {
         expect(chatSub.show.calls.count())
           .toEqual(1);
       });
+
+      it('doesn\'t reset the active embed if it goes offline and is not active', function() {
+        c.broadcast(`${chat}.onOffline`);
+
+        c.broadcast(`${launcher}.onClick`);
+        c.broadcast(`${helpCenter}.onNextClick`);
+
+        c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${chat}.onOffline`);
+        c.broadcast(`${launcher}.onClick`); //close
+
+        reset(helpCenterSub.show);
+        reset(submitTicketSub.show);
+
+        c.broadcast(`${launcher}.onClick`); //open
+
+        expect(helpCenterSub.show.calls.count())
+          .toEqual(0);
+        expect(submitTicketSub.show.calls.count())
+          .toEqual(1);
+      });
     });
 
     describe('ticket submission', function() {
