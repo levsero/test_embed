@@ -2,11 +2,9 @@
 
 module React from 'react/addons';
 
-var classSet = React.addons.classSet,
-    Button,
-    ButtonNav;
+var classSet = React.addons.classSet;
 
-Button = React.createClass({
+var Button = React.createClass({
   render() {
       /* jshint laxbreak: true */
     var buttonClasses = classSet({
@@ -32,7 +30,7 @@ Button = React.createClass({
   }
 });
 
-ButtonNav = React.createClass({
+var ButtonNav = React.createClass({
   render() {
     /* jshint quotmark:false */
     var buttonClasses = classSet({
