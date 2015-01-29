@@ -33,14 +33,14 @@ var Button = React.createClass({
 var ButtonNav = React.createClass({
   render() {
     /* jshint quotmark:false */
-    var buttonClasses = classSet({
+    var fullscreen = this.props.fullscreen,
+        position = this.props.position,
+        buttonClasses = classSet({
           'Button Button--nav u-posAbsolute u-userTextColor': true,
-          'u-posStartL': !this.props.fullscreen && this.props.position === 'left',
-          'u-posStart--vertL': !this.props.fullscreen && this.props.position === 'left',
-          'u-isActionable u-textSizeBaseMobile': this.props.fullscreen,
-          'u-posStart u-posStart--vert': this.props.fullscreen && this.props.position === 'left',
-          'u-posStart--vert': this.props.fullscreen && this.props.position === 'right',
-          'u-pullRight u-posEnd': this.props.fullscreen && this.props.position === 'right'
+          'u-posStartL u-posStart--vertL': !fullscreen && position === 'left',
+          'u-isActionable u-textSizeBaseMobile': fullscreen,
+          'u-posStart u-posStart--vert': fullscreen && position === 'left',
+          'u-posStart--vert u-pullRight u-posEnd': fullscreen && position === 'right'
         });
 
     return (
