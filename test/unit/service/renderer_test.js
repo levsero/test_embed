@@ -187,7 +187,10 @@ describe('renderer', function() {
         .toHaveBeenCalledWith('thingLauncher', jasmine.any(Object));
 
       expect(mockSubmitTicket.create)
-        .toHaveBeenCalledWith('thing', {visible: true, hideZendeskLogo: undefined, brand: undefined});
+        .toHaveBeenCalledWith('thing',
+                              {visible: true, 
+                               hideZendeskLogo: undefined,
+                               brand: undefined});
 
       expect(mockLauncher.render)
         .toHaveBeenCalledWith('aSubmissionForm');
