@@ -44,6 +44,7 @@ function init(config) {
       try {
         configItem.props.visible = isVisible;
         configItem.props.hideZendeskLogo = config.hideZendeskLogo;
+        configItem.props.brand = config.brand;
         embedsMap[configItem.embed].create(embedName, configItem.props);
         embedsMap[configItem.embed].render(embedName);
       } catch (err) {

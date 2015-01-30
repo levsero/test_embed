@@ -175,6 +175,9 @@ function init(name) {
     zopimLive.setOnChatEnd(onChatEnd);
     zopimLive.theme.setColor(config.color);
     zopimLive.theme.setTheme('zendesk');
+    if (config.brand) {
+      zopimLive.addTags(config.brand);
+    }
   });
 }
 
