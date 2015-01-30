@@ -84,6 +84,17 @@ describe('Submit ticket component', function() {
             }
           }))
       },
+      'component/Button': {
+        Button: noop
+      },
+      'component/Container': {
+        Container: jasmine.createSpy('mockSubmitTicketForm')
+          .and.callFake(React.createClass({
+            render: function() {
+              return <div>{this.props.children}</div>;
+            }
+          })),
+      },
       'service/identity': {
         identity: {
           getBuid: function() {
@@ -268,51 +279,6 @@ describe('Submit ticket component', function() {
       expect(submitTicket.state.fullscreen)
         .toEqual(false);
     });
-  });
-
-  describe('container <div> class names', function() {
-    it('should have the `fullscreen` classnames when fullscreen is true', function() {
-
-      var submitTicket = React.renderComponent(
-            <SubmitTicket />,
-            global.document.body
-          ),
-          containerNode = ReactTestUtils
-            .findRenderedDOMComponentWithClass(submitTicket, 'Container'),
-          containerClasses;
-
-      submitTicket.setState({fullscreen: true});
-
-      containerClasses = containerNode.props.className;
-
-      expect(containerClasses.indexOf('Container--fullscreen') >= 0)
-        .toEqual(true);
-
-      expect(containerClasses.indexOf('Container--popover'))
-        .toEqual(-1);
-    });
-
-    it('should have the `popover` classnames when fullscreen is false', function() {
-
-      var submitTicket = React.renderComponent(
-            <SubmitTicket />,
-            global.document.body
-          ),
-          containerNode = ReactTestUtils
-            .findRenderedDOMComponentWithClass(submitTicket, 'Container'),
-          containerClasses;
-
-      submitTicket.setState({fullscreen: false});
-
-      containerClasses = containerNode.props.className;
-
-      expect(containerClasses.indexOf('Container--popover') >= 0)
-        .toEqual(true);
-
-      expect(containerClasses.indexOf('Container--fullscreen'))
-        .toEqual(-1);
-    });
-
   });
 
   it('should pass on fullscreen to submitTicketForm', function() {

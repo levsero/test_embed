@@ -2,6 +2,8 @@
 
 module React from 'react/addons';
 
+import { Button } from 'component/Button';
+
 require('imports?_=lodash!lodash');
 
 var classSet = React.addons.classSet;
@@ -31,14 +33,9 @@ var HelpCenterForm = React.createClass({
 
   render() {
     /* jshint quotmark:false */
-    var buttonClasses = classSet({
-          'Button Button--cta Anim-color u-textNoWrap u-userBackgroundColor': true,
-          'u-pullRight': !this.props.fullscreen,
-          'u-sizeFull u-textSizeBaseMobile': this.props.fullscreen,
+    var buttonContainerClasses = classSet({
+          'u-marginTA': this.props.fullscreen,
           'u-isHidden': !this.props.hasSearched
-        }),
-        buttonContainerClasses = classSet({
-          'u-marginTA': this.props.fullscreen
         }),
         formClasses = classSet({
           'Form u-cf': true
@@ -52,12 +49,10 @@ var HelpCenterForm = React.createClass({
         className={formClasses}>
         {this.props.children}
         <div className={buttonContainerClasses}>
-          <input
-            type='button'
-            value={this.props.buttonLabel}
-            ref='submitButton'
-            onClick={this.onClick}
-            className={buttonClasses}
+          <Button
+            label={this.props.buttonLabel}
+            handleClick={this.onClick}
+            fullscreen={this.props.fullscreen}
           />
         </div>
       </form>

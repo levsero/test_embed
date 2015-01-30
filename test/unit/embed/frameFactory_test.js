@@ -35,6 +35,9 @@ describe('frameFactory', function() {
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', ['t', 'isRTL', 'getLocale'])
       },
+      'component/Button': {
+        ButtonNav: noop
+      },
       'imports?_=lodash!lodash': _,
       'baseCSS': '.base-css-file {} ',
       'mainCSS': '.main-css-file {} ',

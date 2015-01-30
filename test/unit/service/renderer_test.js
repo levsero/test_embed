@@ -55,10 +55,7 @@ describe('renderer', function() {
       'service/mediator': {
         mediator: {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe' ]),
-          initTicketSubmission: jasmine.createSpy(),
-          initChatTicketSubmission: jasmine.createSpy(),
-          initHelpCenterTicketSubmission: jasmine.createSpy(),
-          initHelpCenterChatTicketSubmission: jasmine.createSpy()
+          init: jasmine.createSpy(),
         }
       },
       'imports?_=lodash!lodash': _,
@@ -135,7 +132,7 @@ describe('renderer', function() {
       expect(mockHelpCenter.render)
         .toHaveBeenCalledWith('helpCenterForm');
 
-      expect(mockMediator.initHelpCenterChatTicketSubmission)
+      expect(mockMediator.init)
         .toHaveBeenCalled();
     });
 

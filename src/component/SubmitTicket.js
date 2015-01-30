@@ -136,10 +136,6 @@ export var SubmitTicket = React.createClass({
     }
   },
 
-  handleBackClick() {
-    this.props.handleBack();
-  },
-
   render() {
     var formClasses = classSet({
           'u-isHidden': this.state.showNotification
@@ -203,7 +199,6 @@ export var SubmitTicket = React.createClass({
           fullscreen={this.state.fullscreen}
           ref='submitTicketForm'
           className={formClasses}
-          onBackClick={this.handleBackClick}
           customFields={this.props.customFields}
           submit={this.handleSubmit}>
           <p className={errorClasses}>

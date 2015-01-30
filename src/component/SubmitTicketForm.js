@@ -4,6 +4,7 @@ module React from 'react/addons';
 module ReactForms from 'react-forms';
 
 import { submitTicketSchema } from 'component/SubmitTicketSchema';
+import { Button }             from 'component/Button';
 import { i18n }               from 'service/i18n';
 require('imports?_=lodash!lodash');
 
@@ -17,7 +18,6 @@ var SubmitTicketForm = React.createClass({
       isValid: false,
       buttonMessage: i18n.t('embeddable_framework.submitTicket.form.submitButton.label.send'),
       isSubmitting: false,
-      showBackButton: false,
       isRTL: i18n.isRTL()
     };
   },
@@ -64,11 +64,6 @@ var SubmitTicketForm = React.createClass({
     this.setState({isValid: isValid});
   },
 
-  handleBackClick(e) {
-    e.preventDefault();
-    this.props.onBackClick();
-  },
-
   render() {
     /* jshint quotmark:false */
     var formBody = this.transferPropsTo(
@@ -82,17 +77,6 @@ var SubmitTicketForm = React.createClass({
           'Form u-cf': true,
           'Form--fullscreen': this.props.fullscreen
         }),
-        navigationButtonClasses = classSet({
-          'Button Button--nav u-userTextColor': true,
-          'Button--navDesktop u-inlineBlock': !this.props.fullscreen,
-          'u-posAbsolute u-posStart--vert u-textSizeBaseMobile': this.props.fullscreen,
-          'u-isHidden': !this.state.showBackButton
-        }),
-        buttonClasses = classSet({
-          'Button Button--cta Anim-color u-textNoWrap u-userBackgroundColor': true,
-          'u-pullRight': !this.props.fullscreen,
-          'u-sizeFull': this.props.fullscreen
-        }),
         titleClasses = classSet({
           'u-textSizeMed u-textBold u-extSizeMed u-textCenter': true,
           'Form-ctaLegend u-posAbsolute u-posCenter': !this.props.fullscreen,
@@ -100,12 +84,7 @@ var SubmitTicketForm = React.createClass({
         }),
         barClasses = classSet({
           'Form-cta u-cf Container-pullout u-paddingBS': true,
-          'Form-cta--bar u-marginBM': !this.props.fullscreen,
-          'Form-cta--barTitle': !this.props.fullscreen && !this.state.showBackButton
-        }),
-        iconClasses = classSet({
-          'Icon Icon--arrow u-textInheritColor': true,
-          'u-flipText u-inlineBlock': this.state.isRTL
+          'Form-cta--bar u-marginBM u-paddingBL': !this.props.fullscreen
         });
 
     return (
@@ -114,24 +93,17 @@ var SubmitTicketForm = React.createClass({
         onSubmit={this.handleSubmit}
         className={formClasses + ' ' + this.props.className}>
         <div className={barClasses}>
-          <button
-            onClick={this.handleBackClick}
-            className={navigationButtonClasses}>
-            <i className={iconClasses} />
-            {i18n.t('embeddable_framework.navigation.back')}
-          </button>
           <h2 className={titleClasses}>
             {i18n.t('embeddable_framework.submitTicket.form.title')}
           </h2>
         </div>
         {formBody}
         {this.props.children}
-        <input
-          type='submit'
-          value={this.state.buttonMessage}
-          ref='submitButton'
+        <Button
+          label={this.state.buttonMessage}
           disabled={!this.state.isValid || this.state.isSubmitting}
-          className={buttonClasses}
+          fullscreen={this.props.fullscreen}
+          type='submit'
         />
       </form>
     );

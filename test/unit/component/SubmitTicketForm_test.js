@@ -52,6 +52,15 @@ describe('SubmitTicketForm component', function() {
       'component/SubmitTicketSchema': {
         submitTicketSchema: noop
       },
+      'component/Button': {
+        Button: jasmine.createSpy('mockButton')
+          .and.callFake(React.createClass({
+            render: function() {
+              /* jshint quotmark: false */
+              return <input type='submit' disabled={this.props.disabled} />;
+            }
+          })),
+      },
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', ['t', 'setLocale', 'init', 'isRTL'])
       },
@@ -90,42 +99,6 @@ describe('SubmitTicketForm component', function() {
 
     expect(onSubmit)
       .toHaveBeenCalled();
-  });
-
-  describe('Send button classes', function() {
-
-    it('should have fullscreen classes when fullscreen is true', function() {
-      var submitTicketForm = React.renderComponent(
-            <SubmitTicketForm submit={onSubmit} fullscreen={true} />,
-            global.document.body
-          ),
-          button = ReactTestUtils
-            .findRenderedDOMComponentWithClass(submitTicketForm, 'Button--cta'),
-          buttonClasses = button.props.className;
-
-      expect(buttonClasses.indexOf('u-sizeFull') >= 0)
-        .toEqual(true);
-
-      expect(buttonClasses.indexOf('u-pullRight'))
-        .toEqual(-1);
-    });
-
-    it('should not have fullscreen classes when fullscreen is false', function() {
-      var submitTicketForm = React.renderComponent(
-            <SubmitTicketForm submit={onSubmit} fullscreen={false} />,
-            global.document.body
-          ),
-          button = ReactTestUtils
-            .findRenderedDOMComponentWithClass(submitTicketForm, 'Button--cta'),
-          buttonClasses = button.props.className;
-
-      expect(buttonClasses.indexOf('u-pullRight') >= 0)
-        .toEqual(true);
-
-      expect(buttonClasses.indexOf('u-sizeFull'))
-        .toEqual(-1);
-    });
-
   });
 
   it('should change state and alter submit button on valid submit', function() {

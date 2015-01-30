@@ -74,28 +74,15 @@ function init(config) {
 }
 
 function initMediator(config) {
-  /* jshint laxbreak: true */
-
-  switch(config.ruleset) {
-    case 'HC_C_TS':
-      mediator.initHelpCenterChatTicketSubmission();
-      break;
-    case 'HC_TS':
-      mediator.initHelpCenterTicketSubmission();
-      break;
-    case 'C_TS':
-      mediator.initChatTicketSubmission();
-      break;
-    case 'TS':
-      mediator.initTicketSubmission();
-      break;
-    case '':
-      // blank render list
-      break;
-    default:
-      logging.error({
+  if (config.embeds && config.embeds.ticketSubmissionForm) {
+    mediator.init(config.embeds.helpCenterForm);
+  } else if (config.embeds && config.embeds.zopimChat || config === {}) {
+    //naked zopim or empty config
+    return;
+  } else {
+    logging.error({
         error: {
-          message: 'Could not find a suitable mediator ruleset to initialise.'
+          message: 'Could not find embeds to initialise.'
         },
         params: {
           config: config
