@@ -341,6 +341,60 @@ describe('renderer', function() {
       expect(updateFrameSize)
         .toHaveBeenCalled();
     });
+
+    it('should trigger propagateFontRatio call on window load', function() {
+      renderer.init({
+        embeds: {
+          'thing': {
+            'embed': 'submitTicket'
+          },
+          'thingLauncher': {
+            'embed': 'launcher',
+            'props': {
+              'onDoubleClick': {
+                'name': 'thing',
+                'method': 'show'
+              }
+            }
+          }
+        }
+      });
+
+      dispatchEvent('load', window);
+
+      expect(updateBaseFontSize)
+        .toHaveBeenCalled();
+
+      expect(updateFrameSize)
+        .toHaveBeenCalled();
+    });
+
+    it('should trigger propagateFontRatio call on dom content loaded', function() {
+      renderer.init({
+        embeds: {
+          'thing': {
+            'embed': 'submitTicket'
+          },
+          'thingLauncher': {
+            'embed': 'launcher',
+            'props': {
+              'onDoubleClick': {
+                'name': 'thing',
+                'method': 'show'
+              }
+            }
+          }
+        }
+      });
+
+      dispatchEvent('DOMContentLoaded', document);
+
+      expect(updateBaseFontSize)
+        .toHaveBeenCalled();
+
+      expect(updateFrameSize)
+        .toHaveBeenCalled();
+    });
   });
 });
 
