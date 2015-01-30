@@ -96,6 +96,14 @@ function initMobileScaling() {
     propagateFontRatioChange();
   });
 
+  win.addEventListener('load', () => {
+    propagateFontRatioChange();
+  }, false);
+
+  doc.addEventListener('DOMContentLoaded', () => {
+    propagateFontRatioChange();
+  }, false);
+
   propagateFontRatioChange();
 }
 
