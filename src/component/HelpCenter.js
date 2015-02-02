@@ -237,7 +237,7 @@ export var HelpCenter = React.createClass({
 
     zendeskLogo = this.props.hideZendeskLogo ?
                   null :
-                  <ZendeskLogo showNotification={this.state.showNotification} />;
+                  <ZendeskLogo rtl={i18n.isRTL()} fullscreen={this.state.fullscreen} />;
 
     return (
       /* jshint laxbreak: true */

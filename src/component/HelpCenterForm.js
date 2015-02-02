@@ -3,6 +3,7 @@
 module React from 'react/addons';
 
 import { Button } from 'component/Button';
+import { i18n }   from 'service/i18n';
 
 require('imports?_=lodash!lodash');
 
@@ -52,6 +53,7 @@ var HelpCenterForm = React.createClass({
           <Button
             label={this.props.buttonLabel}
             handleClick={this.onClick}
+            rtl={i18n.isRTL()}
             fullscreen={this.props.fullscreen}
           />
         </div>
