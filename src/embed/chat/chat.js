@@ -81,6 +81,12 @@ function render(name) {
   host.appendChild(scriptTag);
   scriptTag.innerHTML = snippet;
 
+  if (config.brand) {
+    win.$zopim(function() {
+      win.$zopim.livechat.addTags(config.brand);
+    });
+  }
+
   if (!config.standalone) {
     host.appendChild(styleTag);
     styleTag.innerHTML = css;
@@ -175,9 +181,6 @@ function init(name) {
     zopimLive.setOnChatEnd(onChatEnd);
     zopimLive.theme.setColor(config.color);
     zopimLive.theme.setTheme('zendesk');
-    if (config.brand) {
-      zopimLive.addTags(config.brand);
-    }
   });
 }
 
