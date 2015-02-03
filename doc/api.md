@@ -108,3 +108,18 @@ For example, when someone clicks a 'Contact' button of your website, you could c
 ```
 
 Note: Calling `zE.activate()` will also display the widget if it is hidden, you do not need to call `zE.show()` to use `zE.activate()`.
+
+### zE.onClose
+
+`zE.onClose(callback)`
+
+This method executes a callback when the form is closed by the user
+
+For example, if using `zE.hide` and opening the form through `zE.activate`, you can call `zE.onClose(callback)` to hide the launcher button after the user closes it.
+
+```html
+  zE.onClose(function() {
+    zE.hide();
+  });
+```
+

@@ -11,6 +11,9 @@
       zE.identify({name: 'John', email: 'john@example.com'});
       //zE.setLocale('zh-CN');
       zE.hide();
+      zE.onClose(function() {
+        zE.hide();
+      });
     });
   </script>
 </head>

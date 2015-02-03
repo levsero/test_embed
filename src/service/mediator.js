@@ -184,6 +184,7 @@ function init(helpCenterAvailable) {
         }
         c.broadcast(`${launcher}.deactivate`);
         c.broadcast(`${launcher}.show`);
+        c.broadcast('.onClose');
       } else {
 
         // hide launcher on mobile and chat so customers don't see
