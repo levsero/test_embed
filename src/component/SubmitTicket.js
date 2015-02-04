@@ -45,6 +45,14 @@ export var SubmitTicket = React.createClass({
     this.setState({showEmail: true});
   },
 
+  hideVirtualKeyboard() {
+    this.refs.submitTicketForm.hideVirtualKeyboard();
+  },
+
+  resetTicketFormVisibility() {
+    this.refs.submitTicketForm.resetTicketFormVisibility();
+  },
+
   handleSubmit(e, data) {
     e.preventDefault();
 

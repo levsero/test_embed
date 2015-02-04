@@ -33,6 +33,9 @@ export var HelpCenter = React.createClass({
     if (!isMobileBrowser()) {
       this.refs.searchField.focus();
     }
+  },
+
+  resetSearchFieldState() {
     // if the user closes and reopens, we need to
     // re-render the search field
     this.setState({

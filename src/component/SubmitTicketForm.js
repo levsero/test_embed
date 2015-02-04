@@ -31,7 +31,7 @@ var SubmitTicketForm = React.createClass({
 
   resetTicketFormVisibility() {
     // if the user closes and reopens, we need to
-    // re-render the search field 
+    // re-render the search field
     this.setState({
       removeTicketForm: false
     });
@@ -48,10 +48,10 @@ var SubmitTicketForm = React.createClass({
 
     if (element) {
       element.focus();
-    } 
+    }
   },
 
-  hideVirtualKeyboard() { 
+  hideVirtualKeyboard() {
     this.setState({
       removeTicketForm: true
     });
@@ -96,7 +96,7 @@ var SubmitTicketForm = React.createClass({
           'Form-cta--bar u-marginBM u-paddingBL': !this.props.fullscreen
         });
 
-    formBody = this.state.removeTicketForm ? 
+    formBody = this.state.removeTicketForm ?
                null :
                this.transferPropsTo(
                <SubmitTicketFormBody

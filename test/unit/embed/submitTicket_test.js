@@ -5,7 +5,9 @@ describe('embed.submitTicket', function() {
       mockRegistry,
       frameConfig,
       defaultValue = 'abc123',
-      submitTicketPath = buildSrcPath('embed/submitTicket/submitTicket');
+      submitTicketPath = buildSrcPath('embed/submitTicket/submitTicket'),
+      resetTicketFormVisibility = jasmine.createSpy(),
+      hideVirtualKeyboard = jasmine.createSpy();
 
   beforeEach(function() {
     var mockForm = React.createClass({
@@ -42,6 +44,9 @@ describe('embed.submitTicket', function() {
                   uid: defaultValue
                 };
               },
+              resetTicketFormVisibility: resetTicketFormVisibility,
+              hideVirtualKeyboard: hideVirtualKeyboard,
+              focusField: jasmine.createSpy(),
               render: function() {
                 return (
                   /* jshint quotmark:false */
@@ -126,7 +131,7 @@ describe('embed.submitTicket', function() {
         params = mockFrameFactoryCall[1];
       });
 
-      iit('should toggle setScaleLock with onShow/onHide', function() {
+      it('should toggle setScaleLock with onShow/onHide', function() {
         var mockSetScaleLock = mockRegistry['utility/utils'].setScaleLock;
 
         mockery.registerMock('utility/devices', {
@@ -137,6 +142,7 @@ describe('embed.submitTicket', function() {
         mockery.resetCache();
         submitTicket = require(submitTicketPath).submitTicket;
         submitTicket.create('bob', frameConfig);
+        submitTicket.render('bob');
         mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
         params = mockFrameFactoryCall[1];
 
@@ -151,6 +157,34 @@ describe('embed.submitTicket', function() {
 
         expect(mockSetScaleLock)
           .toHaveBeenCalledWith(false);
+      });
+
+      it('should reset form state onShow', function() {
+        mockery.resetCache();
+        submitTicket = require(submitTicketPath).submitTicket;
+        submitTicket.create('bob', frameConfig);
+        submitTicket.render('bob');
+        mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
+        params = mockFrameFactoryCall[1];
+
+        params.onShow();
+
+        expect(resetTicketFormVisibility)
+          .toHaveBeenCalled();
+      });
+
+      it('should hide virtual keyboard onHide', function() {
+        mockery.resetCache();
+        submitTicket = require(submitTicketPath).submitTicket;
+        submitTicket.create('bob', frameConfig);
+        submitTicket.render('bob');
+        mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
+        params = mockFrameFactoryCall[1];
+
+        params.onHide();
+
+        expect(hideVirtualKeyboard)
+          .toHaveBeenCalled();
       });
 
       it('should broadcast <name>.onClose with onClose', function() {

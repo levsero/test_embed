@@ -39,7 +39,7 @@ function create(name, config) {
       getTicketForm = function() {
         var submitTicket = get(name).instance.getChild().refs.submitTicket;
 
-        return submitTicket.refs.submitTicketForm;
+        return submitTicket;
       };
 
   config = _.extend(configDefaults, config);
@@ -80,7 +80,7 @@ function create(name, config) {
         if (isMobileBrowser()) {
           setScaleLock(true);
         }
-  
+
         getTicketForm().resetTicketFormVisibility();
 
         if (!isMobileBrowser()) {

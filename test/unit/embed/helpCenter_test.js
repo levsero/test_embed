@@ -4,7 +4,9 @@ describe('embed.helpCenter', function() {
   var helpCenter,
       mockRegistry,
       frameConfig,
-      helpCenterPath = buildSrcPath('embed/helpCenter/helpCenter');
+      helpCenterPath = buildSrcPath('embed/helpCenter/helpCenter'),
+      resetSearchFieldState = jasmine.createSpy(),
+      hideVirtualKeyboard = jasmine.createSpy();
 
   beforeEach(function() {
     var mockForm = React.createClass({
@@ -49,6 +51,8 @@ describe('embed.helpCenter', function() {
                   hasSearched: false
                 };
               },
+              resetSearchFieldState: resetSearchFieldState,
+              hideVirtualKeyboard: hideVirtualKeyboard,
               focusField: noop,
               render: function() {
                 return (
@@ -163,6 +167,34 @@ describe('embed.helpCenter', function() {
 
           expect(mockMediator.channel.broadcast)
             .toHaveBeenCalledWith('carlos.onNextClick');
+        });
+
+        it('should reset form state onShow', function() {
+          mockery.resetCache();
+          helpCenter = require(helpCenterPath).helpCenter;
+          helpCenter.create('carlos', frameConfig);
+          helpCenter.render('carlos');
+          mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
+          params = mockFrameFactoryCall[1];
+
+          params.onShow();
+
+          expect(resetSearchFieldState)
+            .toHaveBeenCalled();
+        });
+
+        it('should hide virtual keyboard onHide', function() {
+          mockery.resetCache();
+          helpCenter = require(helpCenterPath).helpCenter;
+          helpCenter.create('carlos', frameConfig);
+          helpCenter.render('carlos');
+          mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
+          params = mockFrameFactoryCall[1];
+
+          params.onHide();
+
+          expect(hideVirtualKeyboard)
+            .toHaveBeenCalled();
         });
       });
 

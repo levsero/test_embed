@@ -39,7 +39,7 @@ function create(name, config) {
       onSearch = function(searchString) {
         beacon.track('helpCenter', 'search', name, searchString);
       },
-      getHelpCenterComponent = function() { 
+      getHelpCenterComponent = function() {
         return get(name).instance.getChild().refs.helpCenter;
       },
       Embed;
@@ -93,6 +93,7 @@ function create(name, config) {
           setScaleLock(true);
         }
         getHelpCenterComponent().focusField();
+        getHelpCenterComponent().resetSearchFieldState();
       },
       onClose() {
         mediator.channel.broadcast(name + '.onClose');
