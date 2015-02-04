@@ -24,13 +24,29 @@ export var HelpCenter = React.createClass({
       fullscreen: isMobileBrowser(),
       previousSearchTerm: '',
       hasSearched: false,
-      searchFailed: false
+      searchFailed: false,
+      removeSearchField: false
     };
   },
 
   focusField() {
     if (!isMobileBrowser()) {
       this.refs.searchField.focus();
+    }
+    // if the user closes and reopens, we need to
+    // re-render the search field
+    this.setState({
+      removeSearchField: false
+    });
+  },
+
+  hideVirtualKeyboard() {
+    if (isMobileBrowser()) {
+      // in order for the virtual keyboard to hide,
+      // we need to remove the element from the DOM
+      this.setState({
+        removeSearchField: true
+      });
     }
   },
 
@@ -213,7 +229,8 @@ export var HelpCenter = React.createClass({
           this.setState({searchFieldFocused: true});
         }.bind(this),
         chatButtonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.chat'),
-        zendeskLogo;
+        zendeskLogo,
+        searchField;
 
     if (this.props.updateFrameSize) {
       setTimeout( () => this.props.updateFrameSize(0, 10), 0);
@@ -238,6 +255,14 @@ export var HelpCenter = React.createClass({
     zendeskLogo = this.props.hideZendeskLogo ?
                   null :
                   <ZendeskLogo rtl={i18n.isRTL()} fullscreen={this.state.fullscreen} />;
+    searchField = this.state.removeSearchField ?
+                  null :
+                  <SearchField
+                    ref='searchField'
+                    fullscreen={this.state.fullscreen}
+                    onFocus={onFocus}
+                    hasSearched={this.state.hasSearched}
+                    isLoading={this.state.isLoading} />;
 
     return (
       /* jshint laxbreak: true */
@@ -257,13 +282,8 @@ export var HelpCenter = React.createClass({
               fallback: 'Search our Help Center'
             })}
           </h1>
-          <SearchField
-            ref='searchField'
-            fullscreen={this.state.fullscreen}
-            onFocus={onFocus}
-            hasSearched={this.state.hasSearched}
-            isLoading={this.state.isLoading} />
-          <div className={linkClasses}>
+         {searchField}
+         <div className={linkClasses}>
             <p className='u-marginBN'>{linkContext}</p>
             <a className='u-userTextColor' onClick={this.props.onButtonClick}>
               {linkLabel}

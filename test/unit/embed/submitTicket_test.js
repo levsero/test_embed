@@ -126,7 +126,7 @@ describe('embed.submitTicket', function() {
         params = mockFrameFactoryCall[1];
       });
 
-      it('should toggle setScaleLock with onShow/onHide', function() {
+      iit('should toggle setScaleLock with onShow/onHide', function() {
         var mockSetScaleLock = mockRegistry['utility/utils'].setScaleLock;
 
         mockery.registerMock('utility/devices', {

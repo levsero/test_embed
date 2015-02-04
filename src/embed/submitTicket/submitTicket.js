@@ -35,6 +35,11 @@ function create(name, config) {
       Embed,
       handleBack = function() {
         mediator.channel.broadcast(name + '.onBackClick');
+      },
+      getTicketForm = function() {
+        var submitTicket = get(name).instance.getChild().refs.submitTicket;
+
+        return submitTicket.refs.submitTicketForm;
       };
 
   config = _.extend(configDefaults, config);
@@ -75,9 +80,11 @@ function create(name, config) {
         if (isMobileBrowser()) {
           setScaleLock(true);
         }
+  
+        getTicketForm().resetTicketFormVisibility();
 
         if (!isMobileBrowser()) {
-          get(name).instance.getChild().refs.submitTicket.refs.submitTicketForm.focusField();
+          getTicketForm().focusField();
         }
       },
       name: name,
@@ -85,6 +92,7 @@ function create(name, config) {
         if (isMobileBrowser()) {
           setScaleLock(false);
         }
+        getTicketForm().hideVirtualKeyboard();
       },
       onClose() {
         mediator.channel.broadcast(name + '.onClose');

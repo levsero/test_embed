@@ -39,6 +39,9 @@ function create(name, config) {
       onSearch = function(searchString) {
         beacon.track('helpCenter', 'search', name, searchString);
       },
+      getHelpCenterComponent = function() { 
+        return get(name).instance.getChild().refs.helpCenter;
+      },
       Embed;
 
   config = _.extend(configDefaults, config);
@@ -83,12 +86,13 @@ function create(name, config) {
         if (isMobileBrowser()) {
           setScaleLock(false);
         }
+        getHelpCenterComponent().hideVirtualKeyboard();
       },
       onShow() {
         if (isMobileBrowser()) {
           setScaleLock(true);
         }
-        get(name).instance.getChild().refs.helpCenter.focusField();
+        getHelpCenterComponent().focusField();
       },
       onClose() {
         mediator.channel.broadcast(name + '.onClose');
