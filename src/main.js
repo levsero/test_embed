@@ -22,7 +22,6 @@ function boot() {
       host = location.host,
       path = location.pathname,
       postRenderQueue = [],
-      onCloseCallbackQueue = [],
       chatPages = [
         '/zopim',
         '/product/pricing',
@@ -46,19 +45,14 @@ function boot() {
       identify = function(user) {
         mediator.channel.broadcast('.identify', user);
       },
-      activate = function() {
-        mediator.channel.broadcast('.activate');
+      activate = function(...args) {
+        mediator.channel.broadcast('.activate', args[0]);
       },
       hide = function() {
         mediator.channel.broadcast('.hide');
       },
       show = function() {
         mediator.channel.broadcast('.show');
-      },
-      onClose = function(...args) {
-        if (_.isFunction(args[0])) {
-          onCloseCallbackQueue.push(args[0]);
-        }
       },
       postRenderQueueCallback = function(...args) {
         // "this" is bound to the method name
@@ -77,12 +71,6 @@ function boot() {
         iframe.setAttribute('style', newStyle);
       }
 
-  mediator.channel.subscribe('.onClose', function() {
-    _.forEach(onCloseCallbackQueue, function(method) {
-      method();
-    });
-  });
-
   React.initializeTouchEvents(true);
 
   logging.init();
@@ -96,7 +84,6 @@ function boot() {
     version:   __EMBEDDABLE_VERSION__,
     setLocale: i18n.setLocale,
     hide:      renderer.hide,
-    onClose:   onClose,
     show:      postRenderQueueCallback.bind('show'),
     identify:  postRenderQueueCallback.bind('identify'),
     activate:  postRenderQueueCallback.bind('activate')
@@ -128,7 +115,6 @@ function boot() {
   win.zE.activate = activate;
   win.zE.hide = hide;
   win.zE.show = show;
-  win.zE.onClose = onClose;
 
   if (!isBlacklisted()) {
     //The config for zendesk.com

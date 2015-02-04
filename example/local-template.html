@@ -11,15 +11,12 @@
       zE.identify({name: 'John', email: 'john@example.com'});
       //zE.setLocale('zh-CN');
       zE.hide();
-      zE.onClose(function() {
-        zE.hide();
-      });
     });
   </script>
 </head>
 <body>
   <h1>Local</h1>
-  <button onclick="zE.activate()">Activate</button>
+  <button onclick="zE.activate(true)">Activate</button>
   <button onclick="zE.hide()">Hide</button>
   <button onclick="zE.show()">Show</button>
   <button onclick="zE.identify({name: 'Ryan', email: 'ryan@foo.com'})">Identify</button>
