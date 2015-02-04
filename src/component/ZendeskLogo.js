@@ -7,11 +7,11 @@ var classSet = React.addons.classSet;
 export var ZendeskLogo = React.createClass({
   render() {
     /* jshint quotmark:false */
-    var applyLogoPosClasses = !this.props.fullscreen || this.props.formSuccess,
+    var applyPositionClasses = !this.props.fullscreen || this.props.formSuccess,
         logoClasses = classSet({
           'Icon Icon--zendesk u-linkClean': true,
-          'u-posAbsolute u-posEnd--vert': applyLogoPosClasses,
-          'u-posStart': !this.props.rtl && applyLogoPosClasses
+          'u-posAbsolute u-posEnd--vert': applyPositionClasses,
+          'u-posStart': !this.props.rtl && applyPositionClasses
         }),
         logoUrl = ['//www.zendesk.com/embeddables/',
           '?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image'
