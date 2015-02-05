@@ -29,6 +29,12 @@ var SubmitTicketForm = React.createClass({
     };
   },
 
+  componentDidUpdate() {
+    if (this.refs.form && this.state.formState) {
+      this.refs.form.updateValue(this.state.formState);
+    }
+  },
+
   resetTicketFormVisibility() {
     // if the user closes and reopens, we need to
     // re-render the search field
@@ -76,7 +82,10 @@ var SubmitTicketForm = React.createClass({
   },
 
   handleUpdate(values, isValid) {
-    this.setState({isValid: isValid});
+    this.setState({
+      formState: values,
+      isValid: isValid
+    });
   },
 
   render() {

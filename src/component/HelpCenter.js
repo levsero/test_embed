@@ -29,6 +29,14 @@ export var HelpCenter = React.createClass({
     };
   },
 
+  componentDidUpdate() {
+    if (this.refs.searchField) {
+      this.refs.searchField.setState({
+        searchInputVal: this.state.searchFieldValue
+      });
+    }
+  },
+
   focusField() {
     if (!isMobileBrowser()) {
       this.refs.searchField.focus();
@@ -231,6 +239,11 @@ export var HelpCenter = React.createClass({
         onFocus = function() {
           this.setState({searchFieldFocused: true});
         }.bind(this),
+        onUpdate = (value) => {
+          this.setState({
+            searchFieldValue: value
+          });
+        },
         chatButtonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.chat'),
         zendeskLogo,
         searchField;
@@ -264,6 +277,7 @@ export var HelpCenter = React.createClass({
                     ref='searchField'
                     fullscreen={this.state.fullscreen}
                     onFocus={onFocus}
+                    onUpdate={onUpdate}
                     hasSearched={this.state.hasSearched}
                     isLoading={this.state.isLoading} />;
 

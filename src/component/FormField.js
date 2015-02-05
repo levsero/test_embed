@@ -157,6 +157,8 @@ var SearchField = React.createClass({
       isClearable: (value !== '' && isMobileBrowser()),
       searchInputVal: value
     });
+
+    this.props.onUpdate(value);
   },
 
   clearInput() {

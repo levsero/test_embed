@@ -84,15 +84,17 @@ function create(name, config) {
         getTicketForm().resetTicketFormVisibility();
 
         if (!isMobileBrowser()) {
-          getTicketForm().focusField();
+          getTicketForm().setState({
+            focusField: true
+          });
         }
       },
       name: name,
       onHide() {
         if (isMobileBrowser()) {
           setScaleLock(false);
+          getTicketForm().hideVirtualKeyboard();
         }
-        getTicketForm().hideVirtualKeyboard();
       },
       onClose() {
         mediator.channel.broadcast(name + '.onClose');
