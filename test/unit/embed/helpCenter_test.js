@@ -170,7 +170,6 @@ describe('embed.helpCenter', function() {
         });
 
         it('should reset form state onShow', function() {
-          mockery.resetCache();
           helpCenter = require(helpCenterPath).helpCenter;
           helpCenter.create('carlos', frameConfig);
           helpCenter.render('carlos');
@@ -184,7 +183,6 @@ describe('embed.helpCenter', function() {
         });
 
         it('should hide virtual keyboard onHide', function() {
-          mockery.resetCache();
           helpCenter = require(helpCenterPath).helpCenter;
           helpCenter.create('carlos', frameConfig);
           helpCenter.render('carlos');

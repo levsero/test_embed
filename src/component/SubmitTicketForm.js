@@ -105,14 +105,15 @@ var SubmitTicketForm = React.createClass({
           'Form-cta--bar u-marginBM u-paddingBL': !this.props.fullscreen
         });
 
-    formBody = this.state.removeTicketForm ?
-               null :
-               this.transferPropsTo(
-               <SubmitTicketFormBody
-                ref='form'
-                schema={submitTicketSchema(this.props.customFields)}
-                onUpdate={this.handleUpdate}
-                component={React.DOM.div} />
+    /* jshint laxbreak: true */
+    formBody = this.state.removeTicketForm
+             ? null
+             : this.transferPropsTo(
+                <SubmitTicketFormBody
+                  ref='form'
+                  schema={submitTicketSchema(this.props.customFields)}
+                  onUpdate={this.handleUpdate}
+                  component={React.DOM.div} />
                );
 
 

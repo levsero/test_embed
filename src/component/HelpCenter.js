@@ -268,12 +268,13 @@ export var HelpCenter = React.createClass({
       });
     }
 
-    zendeskLogo = this.props.hideZendeskLogo ?
-                  null :
-                  <ZendeskLogo rtl={i18n.isRTL()} fullscreen={this.state.fullscreen} />;
-    searchField = this.state.removeSearchField ?
-                  null :
-                  <SearchField
+     /* jshint laxbreak: true */
+    zendeskLogo = this.props.hideZendeskLogo
+                ? null
+                : <ZendeskLogo rtl={i18n.isRTL()} fullscreen={this.state.fullscreen} />;
+    searchField = this.state.removeSearchField
+                ? null
+                : <SearchField
                     ref='searchField'
                     fullscreen={this.state.fullscreen}
                     onFocus={onFocus}

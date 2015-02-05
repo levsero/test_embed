@@ -160,7 +160,6 @@ describe('embed.submitTicket', function() {
       });
 
       it('should reset form state onShow', function() {
-        mockery.resetCache();
         submitTicket = require(submitTicketPath).submitTicket;
         submitTicket.create('bob', frameConfig);
         submitTicket.render('bob');
@@ -174,7 +173,6 @@ describe('embed.submitTicket', function() {
       });
 
       it('should hide virtual keyboard onHide', function() {
-        mockery.resetCache();
         submitTicket = require(submitTicketPath).submitTicket;
         submitTicket.create('bob', frameConfig);
         submitTicket.render('bob');
