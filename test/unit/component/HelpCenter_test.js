@@ -63,7 +63,13 @@ describe('Help center component', function() {
           })),
       },
       'service/i18n': {
-        i18n: jasmine.createSpyObj('i18n', ['init', 'setLocale', 'getLocale', 't'])
+        i18n: jasmine.createSpyObj('i18n', [
+          'init',
+          'setLocale',
+          'getLocale',
+          't',
+          'isRTL'
+        ])
       },
       'mixin/searchFilter': {
         stopWordsFilter: function(str) {

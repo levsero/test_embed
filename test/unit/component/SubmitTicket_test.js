@@ -107,7 +107,8 @@ describe('Submit ticket component', function() {
           'init',
           'setLocale',
           'getLocaleId',
-          't'
+          't',
+          'isRTL'
         ])
       },
       'service/transport': {

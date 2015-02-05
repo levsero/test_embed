@@ -74,6 +74,11 @@ $Container--popover-arrowWidth: $Container--popover-arrowFullWidth/2;
   margin: (-#{$Container-spacing}rem) (-#{$Container-spacing}rem) 0;
   -webkit-margin-before: -#{24/$font-size}rem; /* 2 */
   -webkit-margin-end: -#{23/$font-size}rem; /* 2 */
+
+  [dir='rtl'] & {
+    -webkit-margin-end: -#{25/$font-size}rem;
+    -webkit-margin-start: -#{23/$font-size}rem;
+  }
 }
 
 .Container-bar {

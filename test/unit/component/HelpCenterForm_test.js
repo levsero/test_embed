@@ -39,7 +39,12 @@ describe('HelpCenterForm component', function() {
         SearchField: noop
       },
       'service/i18n': {
-        i18n: jasmine.createSpyObj('i18n', ['t', 'setLocale', 'init'])
+        i18n: jasmine.createSpyObj('i18n', [
+          'init',
+          'setLocale',
+          't',
+          'isRTL'
+        ])
       },
       'imports?_=lodash!lodash': _
     });

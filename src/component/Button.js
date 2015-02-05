@@ -9,7 +9,8 @@ var Button = React.createClass({
       /* jshint laxbreak: true */
     var buttonClasses = classSet({
           'Button Button--cta Anim-color u-textNoWrap u-userBackgroundColor': true,
-          'u-pullRight': !this.props.fullscreen,
+          'u-pullRight': !this.props.fullscreen && !this.props.rtl,
+          'u-pullLeft': !this.props.fullscreen && this.props.rtl,
           'u-sizeFull u-textSizeBaseMobile': this.props.fullscreen
         }),
         allowedTypes = /^(submit|button)$/i,

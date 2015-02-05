@@ -176,7 +176,11 @@ export var SubmitTicket = React.createClass({
 
     zendeskLogo = this.props.hideZendeskLogo ?
                   null :
-                  <ZendeskLogo formSuccess={this.state.showNotification} />;
+                  <ZendeskLogo
+                    formSuccess={this.state.showNotification}
+                    rtl={i18n.isRTL()}
+                    fullscreen={this.state.fullscreen}
+                  />;
 
     return (
       /* jshint quotmark:false */
