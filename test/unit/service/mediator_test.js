@@ -174,6 +174,24 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
+      it('hides after its clicked when activate hideOnClose is true', function() {
+        c.broadcast('.activate', true);
+
+        c.broadcast(`${launcher}.onClick`);
+
+        expect(launcherSub.hide.calls.count())
+          .toEqual(1);
+      });
+
+      it('does not hide after its clicked when activate hideOnClose is false', function() {
+        c.broadcast('.activate');
+
+        c.broadcast(`${launcher}.onClick`);
+
+        expect(launcherSub.hide.calls.count())
+          .toEqual(0);
+      });
+
       it('hides when onClick is called on mobile', function() {
         mockRegistry['utility/devices'].isMobileBrowser
           .and.returnValue(true);
@@ -297,6 +315,24 @@ describe('mediator', function() {
 
         expect(launcherSub.activate)
           .not.toHaveBeenCalled();
+      });
+
+      it('hides after its clicked when activate hideOnClose is true', function() {
+        c.broadcast('.activate', true);
+
+        c.broadcast(`${launcher}.onClick`);
+
+        expect(launcherSub.hide.calls.count())
+          .toEqual(1);
+      });
+
+      it('does not hide after its clicked when activate hideOnClose is false', function() {
+        c.broadcast('.activate');
+
+        c.broadcast(`${launcher}.onClick`);
+
+        expect(launcherSub.hide.calls.count())
+          .toEqual(0);
       });
 
       it('hides when onClick is called on mobile', function() {
@@ -676,6 +712,24 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
+      it('hides after its clicked when activate hideOnClose is true', function() {
+        c.broadcast('.activate', true);
+
+        c.broadcast(`${launcher}.onClick`);
+
+        expect(launcherSub.hide.calls.count())
+          .toEqual(1);
+      });
+
+      it('does not hide after its clicked when activate hideOnClose is false', function() {
+        c.broadcast('.activate');
+
+        c.broadcast(`${launcher}.onClick`);
+
+        expect(launcherSub.hide.calls.count())
+          .toEqual(0);
+      });
+
       it('hides when onClick is called on mobile', function() {
         mockRegistry['utility/devices'].isMobileBrowser
           .and.returnValue(true);
@@ -954,6 +1008,24 @@ describe('mediator', function() {
           .toEqual(1);
         expect(launcherSub.activate.calls.count())
           .toEqual(1);
+      });
+
+      it('hides after its clicked when activate hideOnClose is true', function() {
+        c.broadcast('.activate', true);
+
+        c.broadcast(`${launcher}.onClick`);
+
+        expect(launcherSub.hide.calls.count())
+          .toEqual(1);
+      });
+
+      it('does not hide after its clicked when activate hideOnClose is false', function() {
+        c.broadcast('.activate');
+
+        c.broadcast(`${launcher}.onClick`);
+
+        expect(launcherSub.hide.calls.count())
+          .toEqual(0);
       });
 
       it('hides when onClick is called on mobile', function() {

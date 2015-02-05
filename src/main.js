@@ -45,8 +45,8 @@ function boot() {
       identify = function(user) {
         mediator.channel.broadcast('.identify', user);
       },
-      activate = function(...args) {
-        mediator.channel.broadcast('.activate', args[0]);
+      activate = function(hideOnClose) {
+        mediator.channel.broadcast('.activate', hideOnClose);
       },
       hide = function() {
         mediator.channel.broadcast('.hide');
