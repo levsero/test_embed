@@ -60,5 +60,39 @@ describe('Button component', function() {
       .not.toMatch('u-pullRight');
   });
 
+  it('should not have rtl classes when rtl prop is false', function() {
+    var button = React.renderComponent(
+          <Button rtl={false} />,
+          global.document.body
+        ),
+        buttonElem = ReactTestUtils
+          .findRenderedDOMComponentWithClass(button, 'Button--cta'),
+        buttonClasses = buttonElem.props.className;
+
+
+    expect(buttonClasses)
+      .not.toMatch('u-pullLeft');
+
+    expect(buttonClasses)
+      .toMatch('u-pullRight');
+  });
+
+  it('should have rtl classes when rtl prop is true', function() {
+    var button = React.renderComponent(
+          <Button rtl={true} />,
+          global.document.body
+        ),
+        buttonElem = ReactTestUtils
+          .findRenderedDOMComponentWithClass(button, 'Button--cta'),
+        buttonClasses = buttonElem.props.className;
+
+
+    expect(buttonClasses)
+      .toMatch('u-pullLeft');
+
+    expect(buttonClasses)
+      .not.toMatch('u-pullRight');
+  });
+
 });
 
