@@ -300,8 +300,8 @@ export var HelpCenter = React.createClass({
               fallback: 'Search our Help Center'
             })}
           </h1>
-         {searchField}
-         <div className={linkClasses}>
+          {searchField}
+          <div className={linkClasses}>
             <p className='u-marginBN'>{linkContext}</p>
             <a className='u-userTextColor' onClick={this.props.onButtonClick}>
               {linkLabel}

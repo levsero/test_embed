@@ -37,14 +37,10 @@ function create(name, config) {
         mediator.channel.broadcast(name + '.onBackClick');
       },
       getSubmitTicket = function() {
-        var submitTicket = get(name).instance.getChild().refs.submitTicket;
-
-        return submitTicket;
+        return get(name).instance.getChild().refs.submitTicket;
       },
       getSubmitTicketForm = function() {
-        var submitTicketForm = getSubmitTicket().refs.submitTicketForm;
-
-        return submitTicketForm;
+        return getSubmitTicket().refs.submitTicketForm;
       };
 
   config = _.extend(configDefaults, config);
