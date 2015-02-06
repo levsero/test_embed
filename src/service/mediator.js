@@ -57,7 +57,7 @@ function init(helpCenterAvailable) {
 
   });
 
-  c.intercept('.activate', function(__, hideOnClose) {
+  c.intercept('.activate', function(__, params = {}) {
     if (!state[`${submitTicket}.isVisible`] &&
         !state[`${chat}.isVisible`] &&
         !state[`${helpCenter}.isVisible`]) {
@@ -69,7 +69,7 @@ function init(helpCenterAvailable) {
       }
       c.broadcast(`${launcher}.show`);
 
-      if (hideOnClose) {
+      if (params.hideOnClose) {
         state['.hideOnClose'] = true;
       }
 

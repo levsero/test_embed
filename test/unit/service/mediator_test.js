@@ -175,7 +175,7 @@ describe('mediator', function() {
       });
 
       it('hides after it\'s clicked when activate hideOnClose is true', function() {
-        c.broadcast('.activate', true);
+        c.broadcast('.activate', {hideOnClose: true});
 
         c.broadcast(`${launcher}.onClick`);
 
@@ -318,7 +318,7 @@ describe('mediator', function() {
       });
 
       it('hides after it\'s clicked when activate hideOnClose is true', function() {
-        c.broadcast('.activate', true);
+        c.broadcast('.activate', {hideOnClose: true});
 
         c.broadcast(`${launcher}.onClick`);
 
@@ -713,7 +713,7 @@ describe('mediator', function() {
       });
 
       it('hides after it\'s clicked when activate hideOnClose is true', function() {
-        c.broadcast('.activate', true);
+        c.broadcast('.activate', {hideOnClose: true});
 
         c.broadcast(`${launcher}.onClick`);
 
@@ -1011,7 +1011,7 @@ describe('mediator', function() {
       });
 
       it('hides after it\'s clicked when activate hideOnClose is true', function() {
-        c.broadcast('.activate', true);
+        c.broadcast('.activate', {hideOnClose: true});
 
         c.broadcast(`${launcher}.onClick`);
 
