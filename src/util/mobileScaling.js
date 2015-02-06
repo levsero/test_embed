@@ -95,11 +95,10 @@ function initMobileScaling() {
   win.addEventListener('orientationchange', () => {
     var portrait = Math.abs(win.orientation) !== 90;
     if (portrait) {
-      setTimeout(function() {
+      setTimeout(() => {
         propagateFontRatioChange();
       }, 1000);
-    }
-    else {
+    } else {
       propagateFontRatioChange();
     }
   });
