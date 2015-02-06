@@ -33,7 +33,7 @@ export var SubmitTicket = React.createClass({
     // we need to wait until react renders the form
     // so we can focus the field
     if (this.state.focusField) {
-      this.focusField();
+      this.refs.submitTicketForm.focusField();
     }
   },
 
@@ -51,18 +51,6 @@ export var SubmitTicket = React.createClass({
 
   showField: function() {
     this.setState({showEmail: true});
-  },
-
-  focusField: function() {
-    this.refs.submitTicketForm.focusField();
-  },
-
-  hideVirtualKeyboard() {
-    this.refs.submitTicketForm.hideVirtualKeyboard();
-  },
-
-  resetTicketFormVisibility() {
-    this.refs.submitTicketForm.resetTicketFormVisibility();
   },
 
   handleSubmit(e, data) {

@@ -158,7 +158,9 @@ var SearchField = React.createClass({
       searchInputVal: value
     });
 
-    this.props.onUpdate(value);
+    if (this.props.onUpdate) {
+      this.props.onUpdate(value);
+    }
   },
 
   clearInput() {

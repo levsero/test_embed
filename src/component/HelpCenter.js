@@ -236,10 +236,10 @@ export var HelpCenter = React.createClass({
         }),
         linkLabel,
         linkContext,
-        onFocus = function() {
+        onFocusHandler = function() {
           this.setState({searchFieldFocused: true});
         }.bind(this),
-        onUpdate = (value) => {
+        onUpdateHandler = (value) => {
           this.setState({
             searchFieldValue: value
           });
@@ -277,8 +277,8 @@ export var HelpCenter = React.createClass({
                 : <SearchField
                     ref='searchField'
                     fullscreen={this.state.fullscreen}
-                    onFocus={onFocus}
-                    onUpdate={onUpdate}
+                    onFocus={onFocusHandler}
+                    onUpdate={onUpdateHandler}
                     hasSearched={this.state.hasSearched}
                     isLoading={this.state.isLoading} />;
 

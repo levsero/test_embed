@@ -36,10 +36,15 @@ function create(name, config) {
       handleBack = function() {
         mediator.channel.broadcast(name + '.onBackClick');
       },
-      getTicketForm = function() {
+      getSubmitTicket = function() {
         var submitTicket = get(name).instance.getChild().refs.submitTicket;
 
         return submitTicket;
+      },
+      getSubmitTicketForm = function() {
+        var submitTicketForm = getSubmitTicket().refs.submitTicketForm;
+
+        return submitTicketForm;
       };
 
   config = _.extend(configDefaults, config);
@@ -81,10 +86,10 @@ function create(name, config) {
           setScaleLock(true);
         }
 
-        getTicketForm().resetTicketFormVisibility();
+        getSubmitTicketForm().resetTicketFormVisibility();
 
         if (!isMobileBrowser()) {
-          getTicketForm().setState({
+          getSubmitTicket().setState({
             focusField: true
           });
         }
@@ -93,7 +98,7 @@ function create(name, config) {
       onHide() {
         if (isMobileBrowser()) {
           setScaleLock(false);
-          getTicketForm().hideVirtualKeyboard();
+          getSubmitTicketForm().hideVirtualKeyboard();
         }
       },
       onClose() {

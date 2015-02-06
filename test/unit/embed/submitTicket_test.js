@@ -10,12 +10,6 @@ describe('embed.submitTicket', function() {
       hideVirtualKeyboard = jasmine.createSpy();
 
   beforeEach(function() {
-    var mockForm = React.createClass({
-      render: function() {
-        return (<div />);
-      }
-    });
-
     resetDOM();
 
     mockery.enable({
@@ -29,6 +23,21 @@ describe('embed.submitTicket', function() {
         mediator: {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
         }
+      },
+      'component/SubmitTicketForm': {
+        SubmitTicketForm: jasmine.createSpy('mockSubmitTicketForm')
+          .and.callFake(
+            React.createClass({
+              resetTicketFormVisibility: resetTicketFormVisibility,
+              hideVirtualKeyboard: hideVirtualKeyboard,
+              render: function() {
+                return (
+                  /* jshint quotmark:false */
+                  <div refs='mock-submitTicketForm'></div>
+                );
+              }
+            })
+          )
       },
       'component/SubmitTicket': {
         SubmitTicket: jasmine.createSpy('mockSubmitTicket')
@@ -44,20 +53,21 @@ describe('embed.submitTicket', function() {
                   uid: defaultValue
                 };
               },
-              resetTicketFormVisibility: resetTicketFormVisibility,
-              hideVirtualKeyboard: hideVirtualKeyboard,
               focusField: jasmine.createSpy(),
               render: function() {
                 return (
                   /* jshint quotmark:false */
                   <div className='mock-submitTicket'>
-                    <mockForm ref='submitTicketForm' />
+                    {mockRegistry['component/SubmitTicketForm'].SubmitTicketForm({
+                      ref: 'submitTicketForm'
+                    })}
                   </div>
                 );
               }
             })
           )
       },
+
       './submitTicket.scss': '',
       './submitTicketFrame.scss': '',
       'embed/frameFactory': {
