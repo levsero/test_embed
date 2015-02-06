@@ -174,7 +174,7 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      it('hides after its clicked when activate hideOnClose is true', function() {
+      it('hides after it\'s clicked when activate hideOnClose is true', function() {
         c.broadcast('.activate', true);
 
         c.broadcast(`${launcher}.onClick`);
@@ -183,7 +183,7 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      it('does not hide after its clicked when activate hideOnClose is false', function() {
+      it('does not hide after it\'s clicked when activate hideOnClose is false', function() {
         c.broadcast('.activate');
 
         c.broadcast(`${launcher}.onClick`);
@@ -317,7 +317,7 @@ describe('mediator', function() {
           .not.toHaveBeenCalled();
       });
 
-      it('hides after its clicked when activate hideOnClose is true', function() {
+      it('hides after it\'s clicked when activate hideOnClose is true', function() {
         c.broadcast('.activate', true);
 
         c.broadcast(`${launcher}.onClick`);
@@ -326,7 +326,7 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      it('does not hide after its clicked when activate hideOnClose is false', function() {
+      it('does not hide after it\'s clicked when activate hideOnClose is false', function() {
         c.broadcast('.activate');
 
         c.broadcast(`${launcher}.onClick`);
@@ -712,7 +712,7 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      it('hides after its clicked when activate hideOnClose is true', function() {
+      it('hides after it\'s clicked when activate hideOnClose is true', function() {
         c.broadcast('.activate', true);
 
         c.broadcast(`${launcher}.onClick`);
@@ -721,7 +721,7 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      it('does not hide after its clicked when activate hideOnClose is false', function() {
+      it('does not hide after it\'s clicked when activate hideOnClose is false', function() {
         c.broadcast('.activate');
 
         c.broadcast(`${launcher}.onClick`);
@@ -1010,7 +1010,7 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      it('hides after its clicked when activate hideOnClose is true', function() {
+      it('hides after it\'s clicked when activate hideOnClose is true', function() {
         c.broadcast('.activate', true);
 
         c.broadcast(`${launcher}.onClick`);
@@ -1019,7 +1019,7 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      it('does not hide after its clicked when activate hideOnClose is false', function() {
+      it('does not hide after it\'s clicked when activate hideOnClose is false', function() {
         c.broadcast('.activate');
 
         c.broadcast(`${launcher}.onClick`);

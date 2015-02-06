@@ -57,7 +57,7 @@ function init(helpCenterAvailable) {
 
   });
 
-  c.intercept('.activate', function(_, hideOnClose) {
+  c.intercept('.activate', function(__, hideOnClose) {
     if (!state[`${submitTicket}.isVisible`] &&
         !state[`${chat}.isVisible`] &&
         !state[`${helpCenter}.isVisible`]) {
@@ -109,7 +109,7 @@ function init(helpCenterAvailable) {
     c.broadcast(`${launcher}.hide`);
   });
 
-  c.intercept(`${chat}.onUnreadMsgs`, function(_, count) {
+  c.intercept(`${chat}.onUnreadMsgs`, function(__, count) {
     state[`${chat}.unreadMsgs`] = count;
 
     if (state[`${chat}.isOnline`]) {
