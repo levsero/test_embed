@@ -268,7 +268,7 @@ export var HelpCenter = React.createClass({
       });
     }
 
-     /* jshint laxbreak: true */
+    /* jshint laxbreak: true */
     zendeskLogo = this.props.hideZendeskLogo
                 ? null
                 : <ZendeskLogo rtl={i18n.isRTL()} fullscreen={this.state.fullscreen} />;
