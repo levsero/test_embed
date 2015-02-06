@@ -93,7 +93,15 @@ function initMobileScaling() {
   }, true);
 
   win.addEventListener('orientationchange', () => {
-    propagateFontRatioChange();
+    var portrait = Math.abs(win.orientation) !== 90;
+
+    if (portrait) {
+      setTimeout(() => {
+        propagateFontRatioChange();
+      }, 1000);
+    } else {
+      propagateFontRatioChange();
+    }
   });
 
   win.addEventListener('load', () => {
