@@ -223,7 +223,8 @@ var SearchField = React.createClass({
       /* jshint quotmark:false */
       <div className={searchContainerClasses}>
         <div className={searchInputClasses}>
-          <i className={searchInputFieldIconClasses}></i>
+          <i className={searchInputFieldIconClasses}
+            onClick={this.props.onSearchIconClick} />
           <div className='Arrange-sizeFill u-vsizeAll u-posRelative'>
             <input
               className={searchInputFieldClasses}
