@@ -27,6 +27,7 @@ function init(helpCenterAvailable) {
   state[`${chat}.isOnline`]          = false;
   state[`${chat}.unreadMsgs`]        = 0;
   state[`${chat}.userClosed`]        = false;
+  state['.hideOnClose']              = false;
 
   resetActiveEmbed();
 
@@ -56,7 +57,7 @@ function init(helpCenterAvailable) {
 
   });
 
-  c.intercept('.activate', function() {
+  c.intercept('.activate', function(__, options = {}) {
     if (!state[`${submitTicket}.isVisible`] &&
         !state[`${chat}.isVisible`] &&
         !state[`${helpCenter}.isVisible`]) {
@@ -67,6 +68,10 @@ function init(helpCenterAvailable) {
         c.broadcast(`${launcher}.activate`);
       }
       c.broadcast(`${launcher}.show`);
+
+      if (options.hideOnClose) {
+        state['.hideOnClose'] = true;
+      }
 
       c.broadcast(`${state.activeEmbed}.showWithAnimation`);
       state[`${state.activeEmbed}.isVisible`] = true;
@@ -104,7 +109,7 @@ function init(helpCenterAvailable) {
     c.broadcast(`${launcher}.hide`);
   });
 
-  c.intercept(`${chat}.onUnreadMsgs`, function(_, count) {
+  c.intercept(`${chat}.onUnreadMsgs`, function(__, count) {
     state[`${chat}.unreadMsgs`] = count;
 
     if (state[`${chat}.isOnline`]) {
@@ -183,7 +188,11 @@ function init(helpCenterAvailable) {
           state[`${submitTicket}.isVisible`] = false;
         }
         c.broadcast(`${launcher}.deactivate`);
-        c.broadcast(`${launcher}.show`);
+        if (state['.hideOnClose']) {
+          c.broadcast(`${launcher}.hide`);
+        } else {
+          c.broadcast(`${launcher}.show`);
+        }
       } else {
 
         // hide launcher on mobile and chat so customers don't see

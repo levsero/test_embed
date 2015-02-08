@@ -97,14 +97,25 @@ Note: The widget will be displayed by default on page load when the Web Widget c
 
 ### zE.activate
 
-`zE.activate()`
+`zE.activate(options)`
 
 The method activates and opens the Widget in its starting state. The starting state will depend on how you configured the Widget on the Widget admin page.
 
 For example, when someone clicks a 'Contact' button of your website, you could call `zE.activate()` to pop open the widget:
 
+**Parameters**
+> options object -  hideOnClose: If `true`, hides the widget after the user closes it, `false` by default
+
+**Default**
+
 ```html
   <button onclick="zE.activate();">Contact Us</button>
+```
+
+**With Options**
+
+```html
+  <button onclick="zE.activate({hideOnClose: true});">Contact Us</button>
 ```
 
 Note: Calling `zE.activate()` will also display the widget if it is hidden, you do not need to call `zE.show()` to use `zE.activate()`.
