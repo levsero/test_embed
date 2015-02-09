@@ -2,9 +2,10 @@
 
 describe('FormField component', function() {
   var mockRegistry,
-    onSearch,
-    formFieldPath = buildSrcPath('component/FormField'),
-    SearchField;
+      onSearch,
+      formFieldPath = buildSrcPath('component/FormField'),
+      SearchField,
+      mockSearchField;
 
   beforeEach(function() {
 
@@ -17,7 +18,7 @@ describe('FormField component', function() {
       useCleanCache: true
     });
 
-    var mockSearchField = React.createClass({
+    mockSearchField = React.createClass({
       render: function() {
         return (
           /* jshint quotmark:false */
@@ -84,6 +85,7 @@ describe('FormField component', function() {
           global.document.body
         ),
         searchFieldNode = searchField.getDOMNode();
+
     ReactTestUtils.Simulate.click(searchFieldNode.querySelector('i'));
 
     expect(onSearch)
