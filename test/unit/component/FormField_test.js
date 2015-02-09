@@ -64,11 +64,6 @@ describe('FormField component', function() {
           't',
           'isRTL'
         ])
-      },
-      'mixin/searchFilter': {
-        stopWordsFilter: function(str) {
-          return str;
-        }
       }
     });
 
