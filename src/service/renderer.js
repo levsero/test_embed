@@ -77,7 +77,7 @@ function init(config) {
 function initMediator(config) {
   if (config.embeds && config.embeds.ticketSubmissionForm) {
     mediator.init(config.embeds.helpCenterForm);
-  } else if (config.embeds && config.embeds.zopimChat || config === {}) {
+  } else if ((config.embeds && config.embeds.zopimChat) || config.embeds === {}) {
     //naked zopim or empty config
     return;
   } else {
