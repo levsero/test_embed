@@ -29,6 +29,14 @@ export var SubmitTicket = React.createClass({
     };
   },
 
+  componentDidUpdate() {
+    // we need to wait until react renders the form
+    // so we can focus the field
+    if (this.state.focusField) {
+      this.refs.submitTicketForm.focusField();
+    }
+  },
+
   reset() {
     var submitTicketForm = this.refs.submitTicketForm,
         formData         = submitTicketForm.refs.form.value().value;
@@ -174,9 +182,10 @@ export var SubmitTicket = React.createClass({
       setTimeout( () => this.props.updateFrameSize(0, 10), 0);
     }
 
-    zendeskLogo = this.props.hideZendeskLogo ?
-                  null :
-                  <ZendeskLogo
+    /* jshint laxbreak: true */
+    zendeskLogo = this.props.hideZendeskLogo
+                ? null
+                : <ZendeskLogo
                     formSuccess={this.state.showNotification}
                     rtl={i18n.isRTL()}
                     fullscreen={this.state.fullscreen}

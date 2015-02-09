@@ -5,15 +5,11 @@ describe('embed.submitTicket', function() {
       mockRegistry,
       frameConfig,
       defaultValue = 'abc123',
-      submitTicketPath = buildSrcPath('embed/submitTicket/submitTicket');
+      submitTicketPath = buildSrcPath('embed/submitTicket/submitTicket'),
+      resetTicketFormVisibility = jasmine.createSpy(),
+      hideVirtualKeyboard = jasmine.createSpy();
 
   beforeEach(function() {
-    var mockForm = React.createClass({
-      render: function() {
-        return (<div />);
-      }
-    });
-
     resetDOM();
 
     mockery.enable({
@@ -27,6 +23,21 @@ describe('embed.submitTicket', function() {
         mediator: {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
         }
+      },
+      'component/SubmitTicketForm': {
+        SubmitTicketForm: jasmine.createSpy('mockSubmitTicketForm')
+          .and.callFake(
+            React.createClass({
+              resetTicketFormVisibility: resetTicketFormVisibility,
+              hideVirtualKeyboard: hideVirtualKeyboard,
+              render: function() {
+                return (
+                  /* jshint quotmark:false */
+                  <div refs='mock-submitTicketForm'></div>
+                );
+              }
+            })
+          )
       },
       'component/SubmitTicket': {
         SubmitTicket: jasmine.createSpy('mockSubmitTicket')
@@ -42,17 +53,21 @@ describe('embed.submitTicket', function() {
                   uid: defaultValue
                 };
               },
+              focusField: jasmine.createSpy(),
               render: function() {
                 return (
                   /* jshint quotmark:false */
                   <div className='mock-submitTicket'>
-                    <mockForm ref='submitTicketForm' />
+                    {mockRegistry['component/SubmitTicketForm'].SubmitTicketForm({
+                      ref: 'submitTicketForm'
+                    })}
                   </div>
                 );
               }
             })
           )
       },
+
       './submitTicket.scss': '',
       './submitTicketFrame.scss': '',
       'embed/frameFactory': {
@@ -137,6 +152,7 @@ describe('embed.submitTicket', function() {
         mockery.resetCache();
         submitTicket = require(submitTicketPath).submitTicket;
         submitTicket.create('bob', frameConfig);
+        submitTicket.render('bob');
         mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
         params = mockFrameFactoryCall[1];
 
@@ -151,6 +167,32 @@ describe('embed.submitTicket', function() {
 
         expect(mockSetScaleLock)
           .toHaveBeenCalledWith(false);
+      });
+
+      it('should reset form state onShow', function() {
+        submitTicket = require(submitTicketPath).submitTicket;
+        submitTicket.create('bob', frameConfig);
+        submitTicket.render('bob');
+        mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
+        params = mockFrameFactoryCall[1];
+
+        params.onShow();
+
+        expect(resetTicketFormVisibility)
+          .toHaveBeenCalled();
+      });
+
+      it('should hide virtual keyboard onHide', function() {
+        submitTicket = require(submitTicketPath).submitTicket;
+        submitTicket.create('bob', frameConfig);
+        submitTicket.render('bob');
+        mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
+        params = mockFrameFactoryCall[1];
+
+        params.onHide();
+
+        expect(hideVirtualKeyboard)
+          .toHaveBeenCalled();
       });
 
       it('should broadcast <name>.onClose with onClose', function() {

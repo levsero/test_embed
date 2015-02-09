@@ -18,7 +18,8 @@ var SubmitTicketForm = React.createClass({
       isValid: false,
       buttonMessage: i18n.t('embeddable_framework.submitTicket.form.submitButton.label.send'),
       isSubmitting: false,
-      isRTL: i18n.isRTL()
+      isRTL: i18n.isRTL(),
+      removeTicketForm: false
     };
   },
 
@@ -26,6 +27,20 @@ var SubmitTicketForm = React.createClass({
     return {
       fullscreen: false
     };
+  },
+
+  componentDidUpdate() {
+    if (this.refs.form && this.state.formState) {
+      this.refs.form.updateValue(this.state.formState);
+    }
+  },
+
+  resetTicketFormVisibility() {
+    // if the user closes and reopens, we need to
+    // re-render the search field
+    this.setState({
+      removeTicketForm: false
+    });
   },
 
   focusField() {
@@ -40,6 +55,12 @@ var SubmitTicketForm = React.createClass({
     if (element) {
       element.focus();
     }
+  },
+
+  hideVirtualKeyboard() {
+    this.setState({
+      removeTicketForm: true
+    });
   },
 
   handleSubmit(e) {
@@ -61,18 +82,15 @@ var SubmitTicketForm = React.createClass({
   },
 
   handleUpdate(values, isValid) {
-    this.setState({isValid: isValid});
+    this.setState({
+      formState: values,
+      isValid: isValid
+    });
   },
 
   render() {
     /* jshint quotmark:false */
-    var formBody = this.transferPropsTo(
-          <SubmitTicketFormBody
-            ref='form'
-            schema={submitTicketSchema(this.props.customFields)}
-            onUpdate={this.handleUpdate}
-            component={React.DOM.div} />
-        ),
+    var formBody,
         formClasses = classSet({
           'Form u-cf': true,
           'Form--fullscreen': this.props.fullscreen
@@ -86,6 +104,18 @@ var SubmitTicketForm = React.createClass({
           'Form-cta u-cf Container-pullout u-paddingBS': true,
           'Form-cta--bar u-marginBM u-paddingBL': !this.props.fullscreen
         });
+
+    /* jshint laxbreak: true */
+    formBody = this.state.removeTicketForm
+             ? null
+             : this.transferPropsTo(
+                <SubmitTicketFormBody
+                  ref='form'
+                  schema={submitTicketSchema(this.props.customFields)}
+                  onUpdate={this.handleUpdate}
+                  component={React.DOM.div} />
+               );
+
 
     return (
       <form
