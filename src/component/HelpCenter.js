@@ -280,6 +280,7 @@ export var HelpCenter = React.createClass({
                     onFocus={onFocusHandler}
                     onUpdate={onUpdateHandler}
                     hasSearched={this.state.hasSearched}
+                    onSearchIconClick={this.handleSearch}
                     isLoading={this.state.isLoading} />;
 
     return (
