@@ -23,8 +23,7 @@ describe('FormField component', function() {
         return (
           /* jshint quotmark:false */
           <div>
-            <i
-              onClick={onSearch} />
+            <i onClick={onSearch} />
             <div>
               <input
                 ref='searchFieldInput'
