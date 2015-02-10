@@ -115,13 +115,41 @@ function SelectField(props = {}) {
       }),
       options = [
         <option value='' disabled selected>{props.placeholder}</option>
-      ];
+      ],
+      nestedOptions = [],
+      optionGroups;
 
-  _.forEach(props.options, function(option) {
-    options.push(
-      <option value={option.value}>{option.title}</option>
-    );
+  // For nested drop down fields, we group into key value objects with category
+  // and values
+  optionGroups = _.groupBy(props.options, function(option) {
+    return (option.title.indexOf('::') > 0) ? option.title.split('::', 1) : '';
   });
+
+  for (var key in optionGroups) {
+    /*jshint loopfunc:true */
+
+    // if not a nested field
+    if (_.isEmpty(key)) {
+      _.forEach(optionGroups[key], function(option) {
+        options.push(
+          <option value={option.value}>{option.title}</option>
+        );
+      });
+    } else {
+      _.forEach(optionGroups[key], function(nestedOption) {
+        var title = nestedOption.title.split('::')[1];
+        nestedOptions.push(<option value={nestedOption.value}>{title}</option>);
+      });
+
+      options.push(
+        <optgroup label={key}>
+          {nestedOptions}
+        </optgroup>
+      );
+    }
+
+    nestedOptions = [];
+  }
 
   /* jshint quotmark:false */
   return (
