@@ -106,6 +106,21 @@ function boot() {
     };
   }
 
+  // To enable $zopim api calls to work we need to define the queue callback.
+  // When we inject the snippet we remove the queue method and just inject
+  // the script tag.
+  if(!win.$zopim) {
+    let $zopim;
+    $zopim = win.$zopim = function(callback) {
+      $zopim._.push(callback);
+    };
+    $zopim.set = function(callback) {
+      $zopim.set._.push(callback);
+    };
+    $zopim._ = [];
+    $zopim.set._ = [];
+  }
+
   _.extend(win.zEmbed, publicApi, devApi);
 
   handleQueue(document.zEQueue);
