@@ -4,6 +4,7 @@ import { win,
 import { transport }            from 'service/transport';
 import { identity }             from 'service/identity';
 import { store }                from 'service/persistence';
+import { i18n }                 from 'service/i18n';
 import { parseUrl,
          getFrameworkLoadTime }  from 'utility/utils';
 
@@ -86,9 +87,21 @@ function track(category, action, label, value) {
   transport.send(payload);
 }
 
+function identify(user) {
+  user.localeId = i18n.getLocaleId();
+  var payload = {
+    method: 'POST',
+    path: '/embeddable/blips',
+    params: _.extend(commonParams(), {user: user})
+  };
+
+  transport.send(payload);
+}
+
 export var beacon = {
   init: init,
   send: send,
   track: track,
+  identify: identify,
   sendConfigLoadTime: sendConfigLoadTime
 };

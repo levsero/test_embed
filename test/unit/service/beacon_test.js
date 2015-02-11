@@ -1,6 +1,7 @@
 describe('beacon', function() {
   var beacon,
       mockRegistry,
+      localeId = 10,
       beaconPath = buildSrcPath('service/beacon');
 
 
@@ -51,6 +52,11 @@ describe('beacon', function() {
       },
       'service/persistence': {
         store: jasmine.createSpyObj('store', ['set', 'get'])
+      },
+      'service/i18n': {
+        i18n: {
+          getLocaleId: jasmine.createSpy('getLocaleId').and.returnValue(localeId)
+        }
       },
       'utility/utils': {
           parseUrl: function() {
@@ -201,6 +207,46 @@ describe('beacon', function() {
       expect(params.userAction)
         .toEqual(userActionParams);
     });
+  });
 
+  describe('identify', function() {
+
+    it('sends the correct payload', function() {
+      var payload,
+          params,
+          name = 'John',
+          email = 'john@example.com',
+          user = {
+            name: name,
+            email: email
+          },
+          mockTransport = mockRegistry['service/transport'];
+
+      beacon.init();
+
+      beacon.identify(user);
+
+      expect(mockTransport.transport.send)
+        .toHaveBeenCalled();
+
+      payload = mockTransport.transport.send.calls.mostRecent().args[0];
+
+      expect(payload.method)
+        .toBe('POST');
+
+      expect(payload.path)
+        .toBe('/embeddable/blips');
+
+      params = payload.params;
+
+      expect(params.user.name)
+        .toEqual(name);
+
+      expect(params.user.email)
+        .toEqual(email);
+
+      expect(params.user.localeId)
+        .toEqual(localeId);
+    });
   });
 });

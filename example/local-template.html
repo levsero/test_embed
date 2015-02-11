@@ -8,9 +8,7 @@
 
   <script>
     zE(function() {
-      zE.identify({name: 'John', email: 'john@example.com'});
       //zE.setLocale('zh-CN');
-      zE.hide();
     });
   </script>
 </head>
@@ -19,6 +17,6 @@
   <button onclick="zE.activate({hideOnClose: true})">Activate</button>
   <button onclick="zE.hide()">Hide</button>
   <button onclick="zE.show()">Show</button>
-  <button onclick="zE.identify({name: 'Ryan', email: 'ryan@foo.com'})">Identify</button>
+  <button onclick="zE.identify({name: 'Ryan', email: 'ryan@foo.com', externalId: '1234'})">Identify</button>
 </body>
 </html>
