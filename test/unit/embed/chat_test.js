@@ -34,6 +34,7 @@ describe('embed.chat', function() {
       hideAll: jasmine.createSpy('hideAll'),
       setSize: jasmine.createSpy('setSize'),
       isChatting: jasmine.createSpy('isChatting'),
+      addTags: jasmine.createSpy('addTags'),
       theme: {
         setColor: jasmine.createSpy('setColor'),
         setTheme: jasmine.createSpy('setTheme')

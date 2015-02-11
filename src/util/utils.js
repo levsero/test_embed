@@ -1,5 +1,8 @@
 import { document as doc } from 'utility/globals';
-import { getSizingRatio } from 'utility/devices';
+import { getSizingRatio }  from 'utility/devices';
+import { mediator }        from 'service/mediator';
+
+
 require('imports?_=lodash!lodash');
 
 var Color = require('color'),
@@ -10,6 +13,7 @@ function generateUserCSS(params) {
     var highlightColor = generateHighlightColor(params.color);
 
     return (`
+      .rf-CheckboxGroup__checkbox:checked + span:before,
       .u-userTextColor:not([disabled]) {
         color: ${params.color} !important;
       }
@@ -95,6 +99,11 @@ function setScaleLock(active) {
         viewportObj['original-user-scalable'] = viewportObj['user-scalable'];
         viewportObj['user-scalable'] = 'no';
       }
+
+      setTimeout(function() {
+        mediator.channel.broadcast('.updateZoom', getSizingRatio(true));
+      }, 0);
+
     } else {
       if (viewportObj['original-user-scalable']) {
         if (viewportObj['original-user-scalable'] === 'UNDEFINED') {

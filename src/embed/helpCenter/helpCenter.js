@@ -26,7 +26,7 @@ function create(name, config) {
       },
       configDefaults = {
         position: 'right',
-        zendeskLogoEnabled: true
+        hideZendeskLogo: false
       },
       posObj,
       iframeStyle,
@@ -38,6 +38,9 @@ function create(name, config) {
       },
       onSearch = function(searchString) {
         beacon.track('helpCenter', 'search', name, searchString);
+      },
+      getHelpCenterComponent = function() {
+        return get(name).instance.getChild().refs.helpCenter;
       },
       Embed;
 
@@ -68,7 +71,8 @@ function create(name, config) {
             onButtonClick={onButtonClick}
             onLinkClick={onLinkClick}
             onSearch={onSearch}
-            zendeskLogoEnabled={config.zendeskLogoEnabled}
+            hideZendeskLogo={config.hideZendeskLogo}
+            position={config.position}
             updateFrameSize={params.updateFrameSize} />
         </div>
       );
@@ -82,12 +86,14 @@ function create(name, config) {
         if (isMobileBrowser()) {
           setScaleLock(false);
         }
+        getHelpCenterComponent().hideVirtualKeyboard();
       },
       onShow() {
         if (isMobileBrowser()) {
           setScaleLock(true);
         }
-        get(name).instance.getChild().refs.helpCenter.focusField();
+        getHelpCenterComponent().focusField();
+        getHelpCenterComponent().resetSearchFieldState();
       },
       onClose() {
         mediator.channel.broadcast(name + '.onClose');

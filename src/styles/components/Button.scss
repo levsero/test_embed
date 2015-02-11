@@ -53,10 +53,10 @@ $Button-nudge: 5;
   padding: 0;
   width: #{46/$font-size}rem;
   height: #{46/$font-size}rem;
+}
 
-  [dir='rtl'] & {
-    margin-right: 0;
-    margin-left: #{$Button-nudge/$font-size}rem;
-  }
+.Button--launcherActiveAlt {
+  margin-right: 0;
+  margin-left: #{$Button-nudge/$font-size}rem;
 }
 

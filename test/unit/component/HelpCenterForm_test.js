@@ -24,8 +24,27 @@ describe('HelpCenterForm component', function() {
       'component/Loading': {
         Loading: noop
       },
+      'component/Button': {
+        Button: jasmine.createSpy('mockButton')
+          .and.callFake(React.createClass({
+            render: function() {
+              /* jshint quotmark:false */
+              return (
+                <input onClick={this.props.handleClick} />
+              );
+            }
+          }))
+      },
+      'component/FormField': {
+        SearchField: noop
+      },
       'service/i18n': {
-        i18n: jasmine.createSpyObj('i18n', ['t', 'setLocale', 'init'])
+        i18n: jasmine.createSpyObj('i18n', [
+          'init',
+          'setLocale',
+          't',
+          'isRTL'
+        ])
       },
       'imports?_=lodash!lodash': _
     });

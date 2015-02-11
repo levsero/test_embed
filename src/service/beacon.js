@@ -55,6 +55,15 @@ function send() {
   transport.send(payload);
 }
 
+function sendConfigLoadTime(time) {
+  var payload = {
+        method: 'POST',
+        path: '/embeddable/blips',
+        params: _.extend(commonParams(), {performance: {configLoadTime: time}})
+  };
+  transport.send(payload);
+}
+
 function track(category, action, label, value) {
 
   if (_.isUndefined(action) || _.isUndefined(category)) {
@@ -93,5 +102,6 @@ export var beacon = {
   init: init,
   send: send,
   track: track,
-  identify: identify
+  identify: identify,
+  sendConfigLoadTime: sendConfigLoadTime
 };

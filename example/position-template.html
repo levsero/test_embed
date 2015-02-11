@@ -2,14 +2,14 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <title>Custom Ticket Fields</title>
+    <title>main.js loader</title>
     <style>
       p { line-height:200%; }
     </style>
   </head>
 
   <body style='background-color:#fff'>
-    <h1>Custom Ticket Fields boom</h1>
+    <h1>position boom</h1>
 
     <p>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tristique quis nisi a lobortis. Proin et malesuada orci, ut malesuada risus. Etiam eget tellus in est viverra aliquam vitae non felis. Vivamus vestibulum elit arcu. Vivamus a vehicula leo, id venenatis massa. Sed eget mi ultricies, ultricies sapien semper, porta nisl. Fusce accumsan risus a diam fermentum, ac consectetur erat pulvinar. Nulla vitae purus ac erat mollis feugiat.
@@ -32,104 +32,43 @@
     <script>
       zE(function() {
         zE.devRender({
-          locale: 'no',
           embeds: {
-            "ticketSubmissionForm": {
-              "embed": "submitTicket",
+            "helpCenterForm": {
+              "embed": "helpCenter",
               "props": {
-                color: 'red',
-                customFields: [
-                  {
-                    id: '22660514',
-                    type: 'text',
-                    title: 'Text',
-                    required: true,
-                    variants: [
-                      {
-                        localeId: 1,
-                        content: "Option 1"
-                      },
-                      {
-                        localeId: 16,
-                        content: "FrenchField"
-                      }
-                    ]
-                  },
-                  {
-                    id: '22666574',
-                    type: 'tagger',
-                    title: 'Department',
-                    variants: [
-                      {
-                        localeId: 1,
-                        content: "Drop Down English"
-                      },
-                      {
-                        localeId: 16,
-                        content: "Drop Down français"
-                      }
-                    ],
-                    options: [
-                      {
-                        title: 'Sales',
-                        value: 1,
-                        variants: [
-                          {
-                            localeId: 1,
-                            content: "English"
-                          },
-                          {
-                            localeId: 16,
-                            content: "French"
-                          }
-                        ]
-                      },
-                      {
-                        title: 'Support',
-                        value: 2
-                      }
-                    ],
-                    required: true
-                  },
-                  {
-                    id: '22660524',
-                    type: 'textarea',
-                    title: 'Order Details',
-                    required: true
-                  },
-                  {
-                    id: '22823250',
-                    type: 'integer',
-                    title: 'Age',
-                    required: true
-                  },
-                  {
-                    id: '22823260',
-                    type: 'decimal',
-                    title: 'Total Cost',
-                    required: true
-                  },
-                  {
-                    id: '22823270',
-                    type: 'checkbox',
-                    title: 'Can we call you?',
-                    required: false
-                  }
-                ]
+                "position": "left"
               }
             },
             "launcher": {
               "embed": "launcher",
               "props": {
-                'color': 'red',
-                "position": "right"
+                "position": "left"
+              }
+            },
+            "launcherl": {
+              "embed": "launcher",
+              "props": {
+              }
+            },
+            "zopimChat": {
+              "embed": "chat",
+              "props": {
+                "zopimId": "2EkTn0An31opxOLXuGgRCy5nPnSNmpe6",
+                "position": "left"
+              }
+            },
+            "ticketSubmissionForm": {
+              "embed": "submitTicket",
+              "props": {
+                "position": "left"
               }
             }
           },
-          ruleset: 'TS'
+          ruleset: "HC_C_TS"
         });
       });
     </script>
 
   </body>
 </html>
+

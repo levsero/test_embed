@@ -1,10 +1,17 @@
 import { win, navigator } from 'utility/globals';
 
-function getSizingRatio(isPinching, isFirstRun) {
+
+function getDeviceZoom() {
   var landscape = Math.abs(win.orientation) === 90,
       screen = win.screen,
-      deviceWidth = landscape ? screen.availHeight : screen.availWidth,
-      ratio = win.innerWidth / deviceWidth,
+      deviceWidth = landscape ? screen.availHeight : screen.availWidth;
+
+  return deviceWidth / win.innerWidth;
+}
+
+function getSizingRatio(isPinching, isFirstRun) {
+  var landscape = Math.abs(win.orientation) === 90,
+      ratio = 1 / getDeviceZoom(),
       ratioThreshold = 2,
       defaultRatio = landscape ? ratioThreshold : 3;
 
@@ -43,15 +50,17 @@ function shouldGoFullscreen() {
 }
 
 function isBlacklisted() {
-  // Iphone chrome on ios 8.0.x displays a blank space instead of content
-  if (navigator.userAgent.indexOf('CriOS') !== -1 && navigator.userAgent.indexOf('OS 8_0') !== -1) {
-    return true;
-  }
+  return (
+    // Iphone chrome on ios 8.0.x displays a blank space instead of content
+    (navigator.userAgent.indexOf('CriOS') !== -1 && navigator.userAgent.indexOf('OS 8_0') !== -1) ||
 
-  return false;
+    // MSIE 9.0
+    navigator.userAgent.indexOf('MSIE 9.0') !== -1
+  );
 }
 
 export {
+  getDeviceZoom,
   getSizingRatio,
   isMobileBrowser,
   shouldGoFullscreen,

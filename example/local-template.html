@@ -14,8 +14,9 @@
 </head>
 <body>
   <h1>Local</h1>
-  <button onclick="zE.activate()">Activate</button>
+  <button onclick="zE.activate({hideOnClose: true})">Activate</button>
   <button onclick="zE.hide()">Hide</button>
+  <button onclick="zE.show()">Show</button>
   <button onclick="zE.identify({name: 'Ryan', email: 'ryan@foo.com', externalId: '1234'})">Identify</button>
 </body>
 </html>

@@ -16,6 +16,11 @@ describe('util.setScaleLock', function() {
       'utility/globals': {
         document: document
       },
+      'service/mediator': {
+        mediator: {
+          channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
+        }
+      },
       'utility/devices': {
         getSizingRatio: function() {
           return 1;

@@ -11,7 +11,7 @@ var chats = {},
 
 function create(name, config) {
   var configDefaults = {
-    position: 'br',
+    position: 'right',
     title: i18n.t('embeddable_framework.chat.title'),
     color: '#78A300',
     standalone: false,
@@ -34,12 +34,13 @@ function get(name) {
 
 function show(name) {
   var config = get(name).config,
-      zopim = win.$zopim;
+      zopim = win.$zopim,
+      position = (config.position === 'right') ? 'br' : 'bl';
 
   zopim(function() {
     var zopimWin = zopim.livechat.window;
 
-    zopimWin.setPosition(config.position);
+    zopimWin.setPosition(position);
     zopimWin.setTitle(config.title);
     zopimWin.setSize(config.size);
     zopimWin.setOffsetVertical(config.offsetVertical);
@@ -63,9 +64,8 @@ function render(name) {
   var config = get(name).config,
       zopimId = config.zopimId,
       snippet = `
-        window.$zopim||
-        (function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s= d.createElement(s),e=d.getElementsByTagName(s)[0];
-        z.set=function(o){z.set. _.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute('charset','utf-8');
+        (function(d,s){var z=$zopim,$=z.s= d.createElement(s),e=d.getElementsByTagName(s)[0];
+        $.async=!0;$.setAttribute('charset','utf-8');
         $.src='//v2.zopim.com/?${zopimId}';
         z.t=+new Date;$. type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');
       `,
@@ -79,6 +79,12 @@ function render(name) {
 
   host.appendChild(scriptTag);
   scriptTag.innerHTML = snippet;
+
+  if (config.brand) {
+    win.$zopim(function() {
+      win.$zopim.livechat.addTags(config.brand);
+    });
+  }
 
   if (!config.standalone) {
     host.appendChild(styleTag);

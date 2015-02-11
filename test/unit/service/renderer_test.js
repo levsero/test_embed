@@ -55,15 +55,15 @@ describe('renderer', function() {
       'service/mediator': {
         mediator: {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe' ]),
-          initTicketSubmission: jasmine.createSpy(),
-          initChatTicketSubmission: jasmine.createSpy(),
-          initHelpCenterTicketSubmission: jasmine.createSpy(),
-          initHelpCenterChatTicketSubmission: jasmine.createSpy()
+          init: jasmine.createSpy(),
         }
       },
       'imports?_=lodash!lodash': _,
       'service/logging': {
         logging: jasmine.createSpyObj('logging', ['init', 'error'])
+      },
+      'utility/globals': {
+        win: global.window
       }
     });
 
@@ -132,7 +132,7 @@ describe('renderer', function() {
       expect(mockHelpCenter.render)
         .toHaveBeenCalledWith('helpCenterForm');
 
-      expect(mockMediator.initHelpCenterChatTicketSubmission)
+      expect(mockMediator.init)
         .toHaveBeenCalled();
     });
 
@@ -184,7 +184,10 @@ describe('renderer', function() {
         .toHaveBeenCalledWith('thingLauncher', jasmine.any(Object));
 
       expect(mockSubmitTicket.create)
-        .toHaveBeenCalledWith('thing', {visible: true});
+        .toHaveBeenCalledWith('thing',
+                              {visible: true, 
+                               hideZendeskLogo: undefined,
+                               brand: undefined});
 
       expect(mockLauncher.render)
         .toHaveBeenCalledWith('aSubmissionForm');
@@ -331,6 +334,60 @@ describe('renderer', function() {
       dispatchEvent('touchend', window);
 
       jasmine.clock().tick(10);
+
+      expect(updateBaseFontSize)
+        .toHaveBeenCalled();
+
+      expect(updateFrameSize)
+        .toHaveBeenCalled();
+    });
+
+    it('should trigger propagateFontRatio call on window load', function() {
+      renderer.init({
+        embeds: {
+          'thing': {
+            'embed': 'submitTicket'
+          },
+          'thingLauncher': {
+            'embed': 'launcher',
+            'props': {
+              'onDoubleClick': {
+                'name': 'thing',
+                'method': 'show'
+              }
+            }
+          }
+        }
+      });
+
+      dispatchEvent('load', window);
+
+      expect(updateBaseFontSize)
+        .toHaveBeenCalled();
+
+      expect(updateFrameSize)
+        .toHaveBeenCalled();
+    });
+
+    it('should trigger propagateFontRatio call on dom content loaded', function() {
+      renderer.init({
+        embeds: {
+          'thing': {
+            'embed': 'submitTicket'
+          },
+          'thingLauncher': {
+            'embed': 'launcher',
+            'props': {
+              'onDoubleClick': {
+                'name': 'thing',
+                'method': 'show'
+              }
+            }
+          }
+        }
+      });
+
+      dispatchEvent('DOMContentLoaded', document);
 
       expect(updateBaseFontSize)
         .toHaveBeenCalled();

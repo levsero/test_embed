@@ -29,6 +29,14 @@ export var SubmitTicket = React.createClass({
     };
   },
 
+  componentDidUpdate() {
+    // we need to wait until react renders the form
+    // so we can focus the field
+    if (this.state.focusField) {
+      this.refs.submitTicketForm.focusField();
+    }
+  },
+
   reset() {
     var submitTicketForm = this.refs.submitTicketForm,
         formData         = submitTicketForm.refs.form.value().value;
@@ -136,10 +144,6 @@ export var SubmitTicket = React.createClass({
     }
   },
 
-  handleBackClick() {
-    this.props.handleBack();
-  },
-
   render() {
     var formClasses = classSet({
           'u-isHidden': this.state.showNotification
@@ -147,6 +151,7 @@ export var SubmitTicket = React.createClass({
         containerClasses = classSet({
           'Container': true,
           'Container--popover u-nbfcAlt': !this.state.fullscreen,
+          'Container--popoverAlt': this.props.position === 'left',
           'Container--fullscreen': this.state.fullscreen,
           'Arrange Arrange--middle': this.state.fullscreen,
           'u-posRelative': true
@@ -177,9 +182,14 @@ export var SubmitTicket = React.createClass({
       setTimeout( () => this.props.updateFrameSize(0, 10), 0);
     }
 
-    if (this.props.zendeskLogoEnabled) {
-      zendeskLogo = <ZendeskLogo formSuccess={this.state.showNotification} />;
-    }
+    /* jshint laxbreak: true */
+    zendeskLogo = this.props.hideZendeskLogo
+                ? null
+                : <ZendeskLogo
+                    formSuccess={this.state.showNotification}
+                    rtl={i18n.isRTL()}
+                    fullscreen={this.state.fullscreen}
+                  />;
 
     return (
       /* jshint quotmark:false */
@@ -202,7 +212,6 @@ export var SubmitTicket = React.createClass({
           fullscreen={this.state.fullscreen}
           ref='submitTicketForm'
           className={formClasses}
-          onBackClick={this.handleBackClick}
           customFields={this.props.customFields}
           submit={this.handleSubmit}>
           <p className={errorClasses}>

@@ -1,15 +1,23 @@
 describe('identity', function() {
   var identity,
-      mockPersistence = {
-        store: {
-          get: noop,
-          set: noop
-        }
-      };
+      mockRegistry,
+      mockPersistence;
 
   beforeEach(function() {
-    mockery.enable();
-    mockery.registerMock('service/persistence', mockPersistence);
+    mockery.enable({useCleanCache: true});
+
+    mockPersistence = {
+      store: {
+        get: noop,
+        set: noop
+      }
+    };
+
+    mockRegistry = initMockRegistry({
+      'service/persistence': mockPersistence,
+      'imports?_=lodash!lodash': _,
+    });
+
     mockery.registerAllowable(buildSrcPath('service/identity'));
     identity = require(buildSrcPath('service/identity')).identity;
   });

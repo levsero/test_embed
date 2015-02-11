@@ -24,7 +24,7 @@ function create(name, config) {
       configDefaults = {
         position: 'right',
         customFields: [],
-        zendeskLogoEnabled: true
+        hideZendeskLogo: false
       },
       posObj,
       iframeStyle,
@@ -35,6 +35,12 @@ function create(name, config) {
       Embed,
       handleBack = function() {
         mediator.channel.broadcast(name + '.onBackClick');
+      },
+      getSubmitTicket = function() {
+        return get(name).instance.getChild().refs.submitTicket;
+      },
+      getSubmitTicketForm = function() {
+        return getSubmitTicket().refs.submitTicketForm;
       };
 
   config = _.extend(configDefaults, config);
@@ -62,8 +68,8 @@ function create(name, config) {
             updateFrameSize={params.updateFrameSize}
             onSubmitted={onSubmitted}
             customFields={config.customFields}
-            zendeskLogoEnabled={config.zendeskLogoEnabled}
-            handleBack={handleBack}/>
+            hideZendeskLogo={config.hideZendeskLogo}
+            position={config.position}/>
         </div>
       );
     },
@@ -76,14 +82,19 @@ function create(name, config) {
           setScaleLock(true);
         }
 
+        getSubmitTicketForm().resetTicketFormVisibility();
+
         if (!isMobileBrowser()) {
-          get(name).instance.getChild().refs.submitTicket.refs.submitTicketForm.focusField();
+          getSubmitTicket().setState({
+            focusField: true
+          });
         }
       },
       name: name,
       onHide() {
         if (isMobileBrowser()) {
           setScaleLock(false);
+          getSubmitTicketForm().hideVirtualKeyboard();
         }
       },
       onClose() {
@@ -93,7 +104,7 @@ function create(name, config) {
     }));
 
   submitTickets[name] = {
-    component: <Embed visible={false} />,
+    component: <Embed visible={false} handleBackClick={handleBack}/>,
     config: config
   };
 
@@ -128,10 +139,7 @@ function render(name) {
   });
 
   mediator.channel.subscribe(name + '.showBackButton', function() {
-    var submitTicket = get(name).instance.getChild().refs.submitTicket,
-        submitTicketForm = submitTicket.refs.submitTicketForm;
-
-    submitTicketForm.setState({
+    get(name).instance.getChild().setState({
       showBackButton: true
     });
   });

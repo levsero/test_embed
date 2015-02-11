@@ -7,21 +7,7 @@ describe('frameFactory', function() {
       mockRegistryMocks,
       mockComponent,
       mockChildFn,
-      Bounce = noop,
-      frameFactoryPath = buildSrcPath('embed/frameFactory'),
-      bouncejsRequire = 'imports?'+
-        'globals=utility/globals,'+
-        // A dirty hack until PR with bounce.js gets fixed
-        // IE doesn't support the native remove method on elements
-        // so we define it on the Element prototype
-        'shimRemove=>(function(){'+
-          'globals.win.Element.prototype.remove = function() {'+
-            'var parentNode = this.parentNode;'+
-            'if(parentNode) parentNode.removeChild(this);'+
-          '}'+
-        '}()),'+
-        'document=>globals.document'+
-        '!bounce.js/bounce.js';
+      frameFactoryPath = buildSrcPath('embed/frameFactory');
 
   beforeEach(function() {
     resetDOM();
@@ -47,14 +33,18 @@ describe('frameFactory', function() {
         }
       },
       'service/i18n': {
-        i18n: jasmine.createSpyObj('i18n', ['t', 'isRTL', 'getLocale']),
+        i18n: jasmine.createSpyObj('i18n', ['t', 'isRTL', 'getLocale'])
+      },
+      'component/Button': {
+        ButtonNav: noop
       },
       'imports?_=lodash!lodash': _,
       'baseCSS': '.base-css-file {} ',
-      'mainCSS': '.main-css-file {} '
+      'mainCSS': '.main-css-file {} ',
+      'snabbt.js': {
+        snabbt: jasmine.createSpy('snabbt.js')
+      }
     };
-
-    mockRegistryMocks[bouncejsRequire] = Bounce;
 
     mockRegistry = initMockRegistry(mockRegistryMocks);
 
@@ -72,8 +62,6 @@ describe('frameFactory', function() {
           ref='aliceComponent' />
       );
     };
-
-    Bounce.prototype = jasmine.createSpyObj('bounceProto', ['translate', 'applyTo', 'remove']);
 
     frameFactory = require(frameFactoryPath).frameFactory;
   });
@@ -256,13 +244,13 @@ describe('frameFactory', function() {
   describe('show', function() {
     var instance,
         mockOnShow,
-        Bounce;
+        snabbt;
 
     beforeEach(function() {
       var payload,
           Embed;
 
-      Bounce = mockRegistry[bouncejsRequire].prototype;
+      snabbt = mockRegistry['snabbt.js'].snabbt;
 
       mockOnShow = jasmine.createSpy('onShow');
 
@@ -297,28 +285,25 @@ describe('frameFactory', function() {
     it('applies animation on show', function() {
       instance.show(true);
 
-      expect(Bounce.applyTo)
+      expect(snabbt)
         .toHaveBeenCalled();
     });
 
     it('don\'t apply animation when argument isn\'t passed', function() {
       instance.show();
 
-      expect(Bounce.applyTo)
+      expect(snabbt)
         .not.toHaveBeenCalled();
     });
   });
 
   describe('hide', function() {
     var instance,
-        mockOnHide,
-        Bounce;
+        mockOnHide;
 
     beforeEach(function() {
       var payload,
           Embed;
-
-      Bounce = mockRegistry[bouncejsRequire].prototype;
 
       mockOnHide = jasmine.createSpy('onHide');
 
@@ -347,13 +332,6 @@ describe('frameFactory', function() {
       instance.hide();
 
       expect(mockOnHide)
-        .toHaveBeenCalled();
-    });
-
-    it('removes animation when embed is hidden', function() {
-      instance.hide();
-
-      expect(Bounce.remove)
         .toHaveBeenCalled();
     });
   });
