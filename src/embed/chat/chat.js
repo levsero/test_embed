@@ -183,10 +183,6 @@ function init(name) {
       zopimLive.hideAll();
     }
 
-    if (zopimLive.isChatting()) {
-     mediator.channel.broadcast(`${name}.onIsChatting`);
-    }
-
     zopimWin.onHide(onHide);
     zopimLive.setLanguage(i18n.getLocale());
     zopimLive.setOnConnected(onConnect);
