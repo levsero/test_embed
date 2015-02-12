@@ -46,7 +46,7 @@ function show(name) {
     zopimWin.show();
   });
 
-  store.set('zopimOpen', true);
+  store.set('zopimOpen', true, 'session');
 
   // Need to wait for mediator to be initialized so it
   // can pick up the call
@@ -92,12 +92,12 @@ function render(name) {
     });
   }
 
-  if (store.get('zopimOpen') === true) {
+  if (store.get('zopimOpen', 'session')) {
     show(name);
   }
 
   if (!config.standalone) {
-    if (store.get('zopimOpen') === false) {
+    if (!store.get('zopimOpen', 'session')) {
       host.appendChild(styleTag);
     }
     styleTag.innerHTML = css;
@@ -163,7 +163,7 @@ function init(name) {
       },
       onHide = function() {
         mediator.channel.broadcast(`${name}.onHide`);
-        store.set('zopimOpen', false);
+        store.set('zopimOpen', false, 'session');
 
         win.$zopim(function() {
           win.$zopim.livechat.hideAll();
@@ -179,7 +179,7 @@ function init(name) {
 
     store.set('zopimHideAll', true);
 
-    if (store.get('zopimOpen') === false) {
+    if (!store.get('zopimOpen', 'session')) {
       zopimLive.hideAll();
     }
 
