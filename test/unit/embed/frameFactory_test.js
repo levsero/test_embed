@@ -225,7 +225,7 @@ describe('frameFactory', function() {
       jasmine.clock().tick(10);
 
       expect(frameContainerStyle.width)
-        .toEqual(mockRegistry['utility/globals'].win.innerWidth + 'px');
+        .toEqual(`${mockRegistry['utility/globals'].win.innerWidth}px`);
 
       expect(frameContainerStyle.height)
         .toEqual('100%');

@@ -94,7 +94,7 @@ export var frameFactory = function(childFn, _params) {
             height = Math.max(el.clientHeight, el.offsetHeight),
             fullscreen = isMobileBrowser() && params.fullscreenable,
             fullscreenStyle = {
-              width: win.innerWidth + 'px',
+              width: `${win.innerWidth}px`,
               height: '100%',
               top:0,
               left:0,
