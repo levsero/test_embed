@@ -14,7 +14,8 @@ describe('renderer', function() {
           'render',
           'show',
           'hide',
-          'get'
+          'get',
+          'postRender'
         ]);
 
         mock.get.and.returnValue({
@@ -141,10 +142,7 @@ describe('renderer', function() {
 
       renderer.init({
         embeds: {
-          'foobar': {
-            'props': {}
-          },
-          'aSubmissionForm': {
+         'aSubmissionForm': {
             'embed': 'launcher',
             'props': {
               'onMouserMove': {
@@ -243,6 +241,32 @@ describe('renderer', function() {
         .toEqual(1);
 
       expect(mockLauncher.render.calls.count())
+        .toEqual(1);
+  });
+
+  it('should call any postRender calls', function() {
+      renderer.init({
+        embeds: {
+          'zopimChat': {
+            'embed': 'chat',
+            'props': {
+              'zopimId': '2EkTn0An31opxOLXuGgRCy5nPnSNmpe6',
+              'position': 'br'
+            }
+          },
+          'chatLauncher': {
+            'embed': 'launcher',
+            'props': {
+              'onDoubleClick': {
+                'name': 'thing',
+                'method': 'show'
+              }
+            }
+          }
+        }
+      });
+
+      expect(mockChat.postRender.calls.count())
         .toEqual(1);
   });
 
