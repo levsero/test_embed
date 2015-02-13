@@ -48,14 +48,14 @@ function show(name) {
 
   store.set('zopimOpen', true, 'session');
 
-  // Need to wait for mediator to be initialized so it
-  // can pick up the call
-  setTimeout(function() {
-    mediator.channel.broadcast(`${name}.onShow`);
-  }, 100);
-
   if (styleTag.parentNode) {
     styleTag.parentNode.removeChild(styleTag);
+  }
+}
+
+function postRender(name) {
+  if (store.get('zopimOpen', 'session')) {
+    mediator.channel.broadcast(`${name}.onShow`);
   }
 }
 
@@ -198,5 +198,6 @@ export var chat = {
   create: create,
   list: list,
   get: get,
-  render: render
+  render: render,
+  postRender: postRender
 };
