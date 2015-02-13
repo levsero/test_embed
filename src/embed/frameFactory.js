@@ -94,7 +94,7 @@ export var frameFactory = function(childFn, _params) {
             height = Math.max(el.clientHeight, el.offsetHeight),
             fullscreen = isMobileBrowser() && params.fullscreenable,
             fullscreenStyle = {
-              width: '100%',
+              width: win.innerWidth + 'px',
               height: '100%',
               top:0,
               left:0,
@@ -127,7 +127,7 @@ export var frameFactory = function(childFn, _params) {
       });
 
       if (isMobileBrowser()) {
-        win.scrollBy(0, 0);
+        win.scroll(0, 0);
       }
 
       if (!isMobileBrowser() && animate) {

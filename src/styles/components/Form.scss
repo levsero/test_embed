@@ -2,6 +2,8 @@
  * 1. because safari 8 is dumb and rounds 1/12 to .083rem
  *    which computes to 0.9999px & borders can't be sub pixel
  *    we boost the calculation to do 1.1/12
+ *
+ * 2. width is less than 100% to avoid mobile browser zooming
  */
 
 @import '../_vars.scss';
@@ -122,6 +124,10 @@ $Form-fontSize: #{13/$font-size}rem;
 .rf-Field--mobile {
   .rf-CheckboxGroup__caption {
     font-size: #{15/$font-size}rem;
+  }
+
+  input:not([type="checkbox"]), textarea, select {
+    width: 80%; /* 2 */
   }
 }
 
