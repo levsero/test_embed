@@ -115,14 +115,14 @@ function render(name) {
   }
 
   mediator.channel.subscribe(
-    [name + '.show',
-     name + '.showWithAnimation'].join(', '),
+    [`${name}.show`,
+     `${name}.showWithAnimation`].join(', '),
     function() {
       show(name);
     }
   );
 
-  mediator.channel.subscribe(name + '.hide', function() {
+  mediator.channel.subscribe(`${name}.hide`, function() {
     hide();
   });
 
