@@ -142,7 +142,7 @@ describe('renderer', function() {
 
       renderer.init({
         embeds: {
-         'aSubmissionForm': {
+          'aSubmissionForm': {
             'embed': 'launcher',
             'props': {
               'onMouserMove': {
@@ -183,7 +183,7 @@ describe('renderer', function() {
 
       expect(mockSubmitTicket.create)
         .toHaveBeenCalledWith('thing',
-                              {visible: true, 
+                              {visible: true,
                                hideZendeskLogo: undefined,
                                brand: undefined});
 
@@ -250,18 +250,12 @@ describe('renderer', function() {
           'zopimChat': {
             'embed': 'chat',
             'props': {
-              'zopimId': '2EkTn0An31opxOLXuGgRCy5nPnSNmpe6',
-              'position': 'br'
+              'zopimId': '2EkTn0An31opxOLXuGgRCy5nPnSNmpe6'
             }
           },
           'chatLauncher': {
             'embed': 'launcher',
-            'props': {
-              'onDoubleClick': {
-                'name': 'thing',
-                'method': 'show'
-              }
-            }
+            'props': {}
           }
         }
       });
