@@ -7,7 +7,16 @@ require('imports?_=lodash!lodash');
 var classSet = React.addons.classSet;
 
 var HelpCenterArticle = React.createClass({
+  componentDidUpdate() {
+    var container = this.refs.article.getDOMNode();
+
+    if (this.props.activeArticle.body) {
+      container.innerHTML = this.props.activeArticle.body;
+    }
+  },
+
   render() {
+    /* jshint quotmark:false */
     var articleClasses = classSet({
           'u-isHidden': !this.props.articleView,
           'u-marginTM': true,
@@ -15,15 +24,11 @@ var HelpCenterArticle = React.createClass({
         });
 
     return (
-    /* jshint laxbreak: true */
+      /* jshint laxbreak: true */
       <div
+        ref='article'
         style={{maxWidth: '100%', wordWrap: 'break-word'}}
         className={articleClasses}
-        dangerouslySetInnerHTML = {{
-          __html: (this.props.activeArticle.body)
-                ? this.props.activeArticle.body
-                : ''
-        }}
       />
     );
   }
