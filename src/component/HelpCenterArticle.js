@@ -12,18 +12,18 @@ var HelpCenterArticle = React.createClass({
           'u-isHidden': !this.props.articleView,
           'u-marginTM': true,
           'Content': true
-        }),
-        topics = this.props.topics,
-        activeArticle = topics[this.props.activeArticleId];
+        });
 
     return (
     /* jshint laxbreak: true */
       <div
         style={{maxWidth: '100%', wordWrap: 'break-word'}}
         className={articleClasses}
-        dangerouslySetInnerHTML = {{ __html: (topics.length && activeArticle.body)
-                                ? activeArticle.body
-                                : '' }}
+        dangerouslySetInnerHTML = {{
+          __html: (this.props.activeArticle.body)
+                ? this.props.activeArticle.body
+                : ''
+        }}
       />
     );
   }

@@ -39,9 +39,7 @@ describe('Help center component', function() {
         HelpCenterArticle: jasmine.createSpy('mockHelpCenterArticle')
           .and.callFake(React.createClass({
             render: function() {
-              return (
-                <div />
-              );
+              return <div />;
             }
           }))
       },

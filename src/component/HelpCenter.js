@@ -29,7 +29,7 @@ export var HelpCenter = React.createClass({
       hasSearched: false,
       searchFailed: false,
       articleView: false,
-      activeArticleId: 0,
+      activeArticle: 0,
       removeSearchField: false
     };
   },
@@ -187,7 +187,7 @@ export var HelpCenter = React.createClass({
     this.props.onLinkClick(e);
     e.preventDefault();
     this.setState({
-      activeArticleId: e.target.dataset.topicId,
+      activeArticle: this.state.topics[e.target.dataset.topicId],
       articleView: true
     });
     this.props.showBackButton();
@@ -342,8 +342,7 @@ export var HelpCenter = React.createClass({
           </ul>
         </HelpCenterForm>
         <HelpCenterArticle
-            topics={this.state.topics}
-            activeArticleId={this.state.activeArticleId}
+            activeArticle={this.state.activeArticle}
             articleView={this.state.articleView} />
         {zendeskLogo}
       </Container>
