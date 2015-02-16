@@ -20,6 +20,11 @@ describe('Help center component', function() {
       'service/transport': {
         transport: jasmine.createSpyObj('transport', ['send'])
       },
+      'service/mediator': {
+        mediator: {
+          channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
+        }
+      },
       'component/HelpCenterForm': {
         HelpCenterForm: jasmine.createSpy('mockHelpCenterForm')
           .and.callFake(React.createClass({
@@ -27,6 +32,16 @@ describe('Help center component', function() {
               return (<form onSubmit={this.handleSubmit}>
                 {this.props.children}
               </form>);
+            }
+          }))
+      },
+      'component/HelpCenterArticle': {
+        HelpCenterArticle: jasmine.createSpy('mockHelpCenterArticle')
+          .and.callFake(React.createClass({
+            render: function() {
+              return (
+                <div />
+              );
             }
           }))
       },
