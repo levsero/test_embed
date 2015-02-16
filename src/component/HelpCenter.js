@@ -2,14 +2,16 @@
 
 module React from 'react/addons';
 
-import { transport }       from 'service/transport';
-import { stopWordsFilter } from 'mixin/searchFilter';
-import { HelpCenterForm }  from 'component/HelpCenterForm';
-import { SearchField }     from 'component/FormField';
-import { ZendeskLogo }     from 'component/ZendeskLogo';
-import { Container }       from 'component/Container';
-import { isMobileBrowser } from 'utility/devices';
-import { i18n }            from 'service/i18n';
+import { transport }          from 'service/transport';
+import { stopWordsFilter }    from 'mixin/searchFilter';
+import { HelpCenterForm }     from 'component/HelpCenterForm';
+import { HelpCenterArticle }  from 'component/HelpCenterArticle';
+import { SearchField }        from 'component/FormField';
+import { ZendeskLogo }        from 'component/ZendeskLogo';
+import { Container }          from 'component/Container';
+import { isMobileBrowser }    from 'utility/devices';
+import { i18n }               from 'service/i18n';
+import { mediator }           from 'service/mediator';
 
 require('imports?_=lodash!lodash');
 
@@ -26,6 +28,8 @@ export var HelpCenter = React.createClass({
       previousSearchTerm: '',
       hasSearched: false,
       searchFailed: false,
+      articleView: false,
+      activeArticleId: 0,
       removeSearchField: false
     };
   },
@@ -36,6 +40,14 @@ export var HelpCenter = React.createClass({
         searchInputVal: this.state.searchFieldValue
       });
     }
+  },
+
+  componentDidMount() {
+    mediator.channel.subscribe('onArticleBackClick', () => {
+      this.setState({
+        articleView: false
+      });
+    });
   },
 
   focusField() {
@@ -171,16 +183,33 @@ export var HelpCenter = React.createClass({
     }
   },
 
+  topicClick(e) {
+    this.props.onLinkClick(e);
+    e.preventDefault();
+    this.setState({
+      activeArticleId: e.target.dataset.topicId,
+      articleView: true
+    });
+    this.props.showBackButton();
+  },
+
+  goBack() {
+    this.setState({
+      articleView: false
+    });
+  },
+
   render() {
     /* jshint quotmark:false */
-    var topicTemplate = function(topic) {
+    var topicTemplate = function(topic, id) {
         return (
             /* jshint camelcase:false */
             <li key={_.uniqueId('topic_')} className={listItemClasses}>
               <a className='u-userTextColor'
                  href={topic.html_url}
                  target='_blank'
-                 onClick={this.props.onLinkClick}>
+                 data-topic-id={id}
+                 onClick={this.topicClick}>
                   {topic.title || topic.name}
               </a>
             </li>
@@ -206,10 +235,6 @@ export var HelpCenter = React.createClass({
           'u-isHidden': this.state.resultCount || !this.state.hasSearched,
           'u-textSizeBaseMobile': this.state.fullscreen,
           'u-borderBottom List--noResults': !this.state.fullscreen
-        }),
-        formClasses = classSet({
-          'u-nbfc': true,
-          'Container-pullout': !this.state.fullscreen
         }),
         searchTitleClasses = classSet({
           'u-textSizeBaseMobile u-marginTM u-textCenter': true,
@@ -281,7 +306,7 @@ export var HelpCenter = React.createClass({
         <HelpCenterForm
           fullscreen={this.state.fullscreen}
           ref='helpCenterForm'
-          className={formClasses}
+          articleView={this.state.articleView}
           onSearch={this.handleSearch}
           hasSearched={this.state.hasSearched}
           buttonLabel={this.state.buttonLabel}
@@ -316,6 +341,10 @@ export var HelpCenter = React.createClass({
             {_.chain(this.state.topics).first(3).map(topicTemplate.bind(this)).value()}
           </ul>
         </HelpCenterForm>
+        <HelpCenterArticle
+            topics={this.state.topics}
+            activeArticleId={this.state.activeArticleId}
+            articleView={this.state.articleView} />
         {zendeskLogo}
       </Container>
     );

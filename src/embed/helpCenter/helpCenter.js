@@ -33,6 +33,9 @@ function create(name, config) {
       onButtonClick = function() {
         mediator.channel.broadcast(name + '.onNextClick');
       },
+      showBackButton = function () {
+        mediator.channel.broadcast(name + '.showBackButton');
+      },
       onLinkClick = function(ev) {
         beacon.track('helpCenter', 'click', name, ev.target.href);
       },
@@ -42,7 +45,11 @@ function create(name, config) {
       getHelpCenterComponent = function() {
         return get(name).instance.getChild().refs.helpCenter;
       },
-      Embed;
+      Embed,
+      handleBack = function() {
+        console.log('handeBack');
+        mediator.channel.broadcast('onArticleBackClick');
+      };
 
   config = _.extend(configDefaults, config);
 
@@ -69,6 +76,7 @@ function create(name, config) {
             ref='helpCenter'
             zendeskHost={transport.getZendeskHost()}
             onButtonClick={onButtonClick}
+            showBackButton={showBackButton}
             onLinkClick={onLinkClick}
             onSearch={onSearch}
             hideZendeskLogo={config.hideZendeskLogo}
@@ -104,7 +112,7 @@ function create(name, config) {
     }));
 
   helpCenters[name] = {
-    component: <Embed visible={false} />,
+    component: <Embed visible={false} handleBackClick={handleBack}/>,
     config: config
   };
 
@@ -164,6 +172,12 @@ function render(name) {
 
   mediator.channel.subscribe(name + '.setNextToSubmitTicket', function() {
     updateHelpCenterButton(name, 'submitTicket');
+  });
+
+  mediator.channel.subscribe(name + '.showBackButton', function() {
+    get(name).instance.getChild().setState({
+      showBackButton: true
+    });
   });
 
 }

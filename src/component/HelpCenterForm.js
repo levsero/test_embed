@@ -33,13 +33,15 @@ var HelpCenterForm = React.createClass({
   },
 
   render() {
+    console.log(this.props.className);
     /* jshint quotmark:false */
     var buttonContainerClasses = classSet({
           'u-marginTA': this.props.fullscreen,
           'u-isHidden': !this.props.hasSearched
         }),
         formClasses = classSet({
-          'Form u-cf': true
+          'Form u-cf': true,
+          'u-isHidden': this.props.articleView
         });
 
     return (
