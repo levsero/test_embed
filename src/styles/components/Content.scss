@@ -1,18 +1,11 @@
-@import 'Form';
-@import 'Container';
-@import 'Content';
-@import 'Button';
-@import 'Icon';
-@import 'List';
-@import 'Animation';
-@import 'Loading';
+@import '../_vars.scss';
 
 .Content {
   margin-top: #{40/$font-size}rem;
   overflow: hidden;
   word-break: break-word;
   pre, ul {
-    max-width: 100%;
+  	max-width: 100%;
     display: block;
     word-break: break-word;
     white-space: pre-wrap;
@@ -32,4 +25,3 @@
     list-style: decimal;
   }
 }
-
