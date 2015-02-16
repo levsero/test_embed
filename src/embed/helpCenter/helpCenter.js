@@ -47,7 +47,6 @@ function create(name, config) {
       },
       Embed,
       handleBack = function() {
-        console.log('handeBack');
         mediator.channel.broadcast('onArticleBackClick');
       };
 
