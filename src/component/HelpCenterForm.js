@@ -41,7 +41,7 @@ var HelpCenterForm = React.createClass({
         }),
         formClasses = classSet({
           'Form u-cf': true,
-          'u-isHidden': this.props.articleView
+          'u-isHidden': this.props.articleViewActive
         });
 
     return (

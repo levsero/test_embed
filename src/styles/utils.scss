@@ -97,6 +97,10 @@ $Base-posOffset: #{20/$font-size}rem;
   margin-top: #{30/$font-size}rem;
 }
 
+.u-marginVM {
+  margin: #{20/$font-size}rem 0;
+}
+
 .u-paddingHN {
   padding-left: 0 !important;
   padding-right: 0 !important;

@@ -5,30 +5,4 @@
 @import 'List';
 @import 'Animation';
 @import 'Loading';
-
-.Content {
-  margin-top: #{40/$font-size}rem;
-  overflow: hidden;
-  word-break: break-word;
-  pre, ul {
-    max-width: 100%;
-    display: block;
-    word-break: break-word;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-  }
-  img {
-    max-width: 100%;
-    &:not([src^=http]) {
-      display: none;
-    }
-  }
-  ol, ul {
-    list-style: disc;
-    margin: 0 0 0 #{20/$font-size}rem;
-  }
-  ol {
-    list-style: decimal;
-  }
-}
-
+@import 'UserContent';

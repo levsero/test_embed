@@ -1,0 +1,27 @@
+@import '../_vars.scss';
+
+.UserContent {
+  max-width: 100%;
+  overflow: hidden;
+  word-break: break-word;
+  height: 400px;
+  overflow-y: scroll;
+
+  pre, ul {
+    white-space: pre-wrap;
+  }
+
+  iframe, img, video, table, code  {
+    display: none;
+  }
+
+  ol, ul {
+    list-style: disc;
+    margin: 0 0 0 #{20/$font-size}rem;
+  }
+
+  ol {
+    list-style: decimal;
+  }
+}
+

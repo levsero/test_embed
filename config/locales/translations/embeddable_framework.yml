@@ -74,6 +74,10 @@ parts:
 
   # Help Center component
   - translation:
+      key: "embeddable_framework.helpCenter.article.view_link"
+      title: "The text for the link that opens the current article in a new tab"
+      value: "View Full Article"
+  - translation:
       key: "embeddable_framework.helpCenter.search.label"
       title: "The placeholder text in the search bar to prompt users that they can search the knowledge base by typing their query in this space. Will get cut off if to long (tinyurl.com/kjubpdk)"
       value: "Search help articles"

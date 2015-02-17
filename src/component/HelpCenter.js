@@ -251,6 +251,9 @@ export var HelpCenter = React.createClass({
           'u-textSecondary': true,
           'u-marginBL': !this.state.fullscreen
         }),
+        articleClasses = classSet({
+          'u-isHidden': !this.state.articleViewActive
+        }),
         linkLabel,
         linkContext,
         onFocusHandler = function() {
@@ -343,9 +346,19 @@ export var HelpCenter = React.createClass({
             {_.chain(this.state.articles).first(3).map(articleTemplate.bind(this)).value()}
           </ul>
         </HelpCenterForm>
-        <HelpCenterArticle
+        <div className={articleClasses}>
+          <HelpCenterArticle
             activeArticle={this.state.activeArticle}
             articleViewActive={this.state.articleViewActive} />
+          <a
+             href={this.state.activeArticle.html_url}
+             target='_blank'
+             className='u-marginVM u-block'>
+            {i18n.t('embeddable_framework.helpCenter.article.view_link', {
+              fallback: 'View Full Article'
+            })}
+          </a>
+        </div>
         {zendeskLogo}
       </Container>
     );

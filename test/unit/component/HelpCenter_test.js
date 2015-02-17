@@ -38,8 +38,9 @@ describe('Help center component', function() {
       'component/HelpCenterArticle': {
         HelpCenterArticle: jasmine.createSpy('mockHelpCenterArticle')
           .and.callFake(React.createClass({
+            /* jshint quotmark:false */
             render: function() {
-              return <div />;
+              return <div className='UserContent'/>;
             }
           }))
       },
@@ -174,6 +175,51 @@ describe('Help center component', function() {
 
       expect(listAnchor.props.className)
         .not.toContain('u-isHidden');
+    });
+
+    it('should render the inline article', function() {
+      var helpCenter = React.renderComponent(
+            <HelpCenter
+            onSearch={noop}
+            onLinkClick={noop}
+            showBackButton={noop} />,
+            global.document.body
+          ),
+          mockTransport = mockRegistry['service/transport'].transport,
+          searchString = 'help, I\'ve fallen and can\'t get up!',
+          responseArticle = {
+            /* jshint camelcase: false */
+            id: 0,
+            title: 'bob',
+            name: 'bob',
+            html_url: 'bob.com'
+          },
+          responsePayload = {
+            body: {
+              results: [responseArticle, responseArticle, responseArticle],
+              count: 3
+            },
+            ok: true
+          },
+          article = ReactTestUtils.findRenderedDOMComponentWithClass(helpCenter, 'UserContent')
+                    .getDOMNode()
+                    .parentNode,
+          listItem,
+          listAnchor;
+
+      helpCenter.handleSubmit({preventDefault: noop}, { value: searchString });
+      mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayload);
+
+      listItem = ReactTestUtils.scryRenderedDOMComponentsWithClass(helpCenter, 'List-item')[0];
+      listAnchor = ReactTestUtils.findRenderedDOMComponentWithTag(listItem, 'a');
+
+      expect(article.className)
+        .toMatch('u-isHidden');
+
+      ReactTestUtils.Simulate.click(listAnchor, {target: { dataset: { articleIndex: 0 }}});
+
+      expect(article.className)
+        .not.toMatch('u-isHidden');
     });
 
     it('should render error message when search fails', function() {
