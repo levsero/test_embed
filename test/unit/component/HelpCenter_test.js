@@ -116,7 +116,7 @@ describe('Help center component', function() {
             global.document.body
           );
 
-    expect(helpCenter.state.topics)
+    expect(helpCenter.state.articles)
       .toEqual([]);
   });
 

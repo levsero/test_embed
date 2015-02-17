@@ -18,7 +18,7 @@ var HelpCenterArticle = React.createClass({
   render() {
     /* jshint quotmark:false */
     var articleClasses = classSet({
-          'u-isHidden': !this.props.articleView,
+          'u-isHidden': !this.props.articleViewActive,
           'u-marginTM': true,
           'Content': true
         });

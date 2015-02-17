@@ -20,7 +20,7 @@ var classSet = React.addons.classSet;
 export var HelpCenter = React.createClass({
   getInitialState() {
     return {
-      topics: [],
+      articles: [],
       resultCount: 0,
       searchTerm: '',
       buttonLabel: i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket'),
@@ -28,8 +28,8 @@ export var HelpCenter = React.createClass({
       previousSearchTerm: '',
       hasSearched: false,
       searchFailed: false,
-      articleView: false,
-      activeArticle: 0,
+      articleViewActive: false,
+      activeArticle: {},
       removeSearchField: false
     };
   },
@@ -45,7 +45,7 @@ export var HelpCenter = React.createClass({
   componentDidMount() {
     mediator.channel.subscribe('onArticleBackClick', () => {
       this.setState({
-        articleView: false
+        articleViewActive: false
       });
     });
   },
@@ -85,10 +85,10 @@ export var HelpCenter = React.createClass({
 
   updateResults(res) {
     var json = res.body,
-        topics = json.results;
+        articles = json.results;
 
     this.setState({
-      topics: topics,
+      articles: articles,
       resultCount: json.count,
       isLoading: false,
       previousSearchTerm: this.state.searchTerm,
@@ -183,41 +183,43 @@ export var HelpCenter = React.createClass({
     }
   },
 
-  topicClick(e) {
-    this.props.onLinkClick(e);
+  handleArticleClick(e) {
     e.preventDefault();
+
     this.setState({
-      activeArticle: this.state.topics[e.target.dataset.topicId],
-      articleView: true
+      activeArticle: this.state.articles[e.target.dataset.articleIndex],
+      articleViewActive: true
     });
+
+    this.props.onLinkClick(e);
     this.props.showBackButton();
   },
 
   goBack() {
     this.setState({
-      articleView: false
+      articleViewActive: false
     });
   },
 
   render() {
     /* jshint quotmark:false */
-    var topicTemplate = function(topic, id) {
+    var articleTemplate = function(article, index) {
         return (
             /* jshint camelcase:false */
-            <li key={_.uniqueId('topic_')} className={listItemClasses}>
+            <li key={_.uniqueId('article_')} className={listItemClasses}>
               <a className='u-userTextColor'
-                 href={topic.html_url}
+                 href={article.html_url}
                  target='_blank'
-                 data-topic-id={id}
-                 onClick={this.topicClick}>
-                  {topic.title || topic.name}
+                 data-article-index={index}
+                 onClick={this.handleArticleClick}>
+                  {article.title || article.name}
               </a>
             </li>
             );
         },
         listClasses = classSet({
           'List': true,
-          'u-isHidden': !this.state.topics.length,
+          'u-isHidden': !this.state.articles.length,
           'u-borderNone u-marginBS List--fullscreen': this.state.fullscreen
         }),
         listItemClasses = classSet({
@@ -228,7 +230,7 @@ export var HelpCenter = React.createClass({
         formLegendClasses = classSet({
           'Form-cta--title u-textSizeMed Arrange Arrange--middle u-textBody': true,
           'u-textSizeBaseMobile': this.state.fullscreen,
-          'u-isHidden': !this.state.topics.length
+          'u-isHidden': !this.state.articles.length
         }),
         noResultsClasses = classSet({
           'u-marginTM u-textCenter u-textSizeMed': true,
@@ -306,7 +308,7 @@ export var HelpCenter = React.createClass({
         <HelpCenterForm
           fullscreen={this.state.fullscreen}
           ref='helpCenterForm'
-          articleView={this.state.articleView}
+          articleViewActive={this.state.articleViewActive}
           onSearch={this.handleSearch}
           hasSearched={this.state.hasSearched}
           buttonLabel={this.state.buttonLabel}
@@ -338,12 +340,12 @@ export var HelpCenter = React.createClass({
             </p>
           </div>
           <ul className={listClasses}>
-            {_.chain(this.state.topics).first(3).map(topicTemplate.bind(this)).value()}
+            {_.chain(this.state.articles).first(3).map(articleTemplate.bind(this)).value()}
           </ul>
         </HelpCenterForm>
         <HelpCenterArticle
             activeArticle={this.state.activeArticle}
-            articleView={this.state.articleView} />
+            articleViewActive={this.state.articleViewActive} />
         {zendeskLogo}
       </Container>
     );
