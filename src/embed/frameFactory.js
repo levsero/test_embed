@@ -39,6 +39,9 @@ export var frameFactory = function(childFn, _params) {
         fullscreenable: false
       },
       params = _.extend(defaultParams, _params),
+      afterAnimate = () => { // jshint ignore: line
+        params.afterAnimate();
+      },
       // object passed into snabbt animation lib
       springTransition = {
         /* jshint ignore:start */
@@ -46,7 +49,8 @@ export var frameFactory = function(childFn, _params) {
         position: [0, 0, 0],
         easing: 'spring',
         spring_constant: 0.5,
-        spring_deacceleration: 0.75
+        spring_deacceleration: 0.75,
+        callback: afterAnimate
         /* jshint ignore:end */
       };
 

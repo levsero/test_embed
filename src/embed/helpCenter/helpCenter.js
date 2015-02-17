@@ -82,6 +82,9 @@ function create(name, config) {
       css: helpCenterCSS + generateUserCSS({color: config.color}),
       name: name,
       fullscreenable: true,
+      afterAnimate() {
+        getHelpCenterComponent().focusField();
+      },
       onHide() {
         if (isMobileBrowser()) {
           setScaleLock(false);
@@ -92,7 +95,6 @@ function create(name, config) {
         if (isMobileBrowser()) {
           setScaleLock(true);
         }
-        getHelpCenterComponent().focusField();
         getHelpCenterComponent().resetSearchFieldState();
       },
       onClose() {
