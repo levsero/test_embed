@@ -199,6 +199,7 @@ describe('frameFactory', function() {
       mockRegistry['utility/devices'].isMobileBrowser = function() {
         return true;
       };
+      mockRegistry['utility/globals'].win.innerWidth = 100;
 
       jasmine.clock().install();
 
@@ -224,7 +225,7 @@ describe('frameFactory', function() {
       jasmine.clock().tick(10);
 
       expect(frameContainerStyle.width)
-        .toEqual('100%');
+        .toEqual(`${mockRegistry['utility/globals'].win.innerWidth}px`);
 
       expect(frameContainerStyle.height)
         .toEqual('100%');
