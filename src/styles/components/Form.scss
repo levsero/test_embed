@@ -123,7 +123,7 @@ $Form-fontSize: #{13/$font-size}rem;
   color: $secondary-color;
 }
 
-.rf-Field--mobile {
+.rf-Field--mobile, .rf-Field--search {
   .rf-CheckboxGroup__caption {
     font-size: #{15/$font-size}rem;
   }
