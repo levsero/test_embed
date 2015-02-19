@@ -18,7 +18,7 @@ var HelpCenterArticle = React.createClass({
       /* jshint quotmark:false */
       <div
         ref='article'
-        className='UserContent u-marginTM'
+        className='UserContent UserContent-strip u-marginTM'
       />
     );
   }

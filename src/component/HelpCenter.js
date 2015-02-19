@@ -351,12 +351,12 @@ export var HelpCenter = React.createClass({
             activeArticle={this.state.activeArticle}
             articleViewActive={this.state.articleViewActive} />
           <a
-             href={this.state.activeArticle.html_url}
-             target='_blank'
-             className='u-marginVM u-block'>
-            {i18n.t('embeddable_framework.helpCenter.article.view_link', {
-              fallback: 'View Full Article'
-            })}
+            href={this.state.activeArticle.html_url}
+            target='_blank'
+            className='u-marginVM u-block'>
+              {i18n.t('embeddable_framework.helpCenter.article.viewLinkText', {
+                fallback: 'View original article'
+              })}
           </a>
         </div>
         {zendeskLogo}

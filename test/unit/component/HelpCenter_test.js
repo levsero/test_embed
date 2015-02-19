@@ -180,9 +180,9 @@ describe('Help center component', function() {
     it('should render the inline article', function() {
       var helpCenter = React.renderComponent(
             <HelpCenter
-            onSearch={noop}
-            onLinkClick={noop}
-            showBackButton={noop} />,
+              onSearch={noop}
+              onLinkClick={noop}
+              showBackButton={noop} />,
             global.document.body
           ),
           mockTransport = mockRegistry['service/transport'].transport,

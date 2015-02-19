@@ -7,12 +7,8 @@
   height: 400px;
   overflow-y: scroll;
 
-  pre, ul {
+  ul {
     white-space: pre-wrap;
-  }
-
-  iframe, img, video, table, code  {
-    display: none;
   }
 
   ol, ul {
@@ -22,6 +18,12 @@
 
   ol {
     list-style: decimal;
+  }
+}
+
+.UserContent-strip {
+  iframe, img, video, table, code, pre {
+    display: none;
   }
 }
 
