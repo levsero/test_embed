@@ -14,7 +14,8 @@ describe('renderer', function() {
           'render',
           'show',
           'hide',
-          'get'
+          'get',
+          'postRender'
         ]);
 
         mock.get.and.returnValue({
@@ -141,9 +142,6 @@ describe('renderer', function() {
 
       renderer.init({
         embeds: {
-          'foobar': {
-            'props': {}
-          },
           'aSubmissionForm': {
             'embed': 'launcher',
             'props': {
@@ -185,7 +183,7 @@ describe('renderer', function() {
 
       expect(mockSubmitTicket.create)
         .toHaveBeenCalledWith('thing',
-                              {visible: true, 
+                              {visible: true,
                                hideZendeskLogo: undefined,
                                brand: undefined});
 
@@ -243,6 +241,26 @@ describe('renderer', function() {
         .toEqual(1);
 
       expect(mockLauncher.render.calls.count())
+        .toEqual(1);
+  });
+
+  it('should call any postRender calls', function() {
+      renderer.init({
+        embeds: {
+          'zopimChat': {
+            'embed': 'chat',
+            'props': {
+              'zopimId': '2EkTn0An31opxOLXuGgRCy5nPnSNmpe6'
+            }
+          },
+          'chatLauncher': {
+            'embed': 'launcher',
+            'props': {}
+          }
+        }
+      });
+
+      expect(mockChat.postRender.calls.count())
         .toEqual(1);
   });
 

@@ -64,6 +64,8 @@ function init(config) {
 
     initialised = true;
 
+    postRenderCallbacks(renderedEmbeds);
+
     if (Math.abs(win.orientation) === 90) {
       hideByZoom(true);
     }
@@ -98,6 +100,16 @@ function renderedEmbedsApply(fn) {
 
     if (currentEmbed) {
       fn(currentEmbed);
+    }
+  });
+}
+
+function postRenderCallbacks(embeds) {
+  _.forEach(embeds, function(embed, name) {
+    var currentEmbed = embedsMap[embed.embed];
+
+    if (currentEmbed.postRender) {
+      currentEmbed.postRender(name);
     }
   });
 }

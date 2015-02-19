@@ -557,28 +557,6 @@ describe('mediator', function() {
           .toEqual(0);
       });
 
-      it('pops open chat on page load if chat is in progress', function() {
-        c.broadcast(`${chat}.onOnline`);
-
-        reset(chatSub.show);
-        reset(launcherSub.activate);
-
-        c.broadcast(`${chat}.onIsChatting`);
-
-        expect(chatSub.show.calls.count())
-          .toEqual(1);
-
-        expect(launcherSub.activate.calls.count())
-          .toEqual(1);
-
-        reset(chatSub.show);
-        c.broadcast(`${launcher}.onClick`); // close
-        c.broadcast(`${launcher}.onClick`); // open
-
-        expect(chatSub.show.calls.count())
-          .toEqual(1);
-      });
-
       it('hides when a hide call is made', function() {
         c.broadcast('.hide');
 
@@ -1232,40 +1210,6 @@ describe('mediator', function() {
 
         expect(chatSub.show.calls.count())
           .toEqual(0);
-      });
-
-      it('pops open chat on page load if chat is in progress', function() {
-        c.broadcast(`${chat}.onOnline`);
-
-        reset(chatSub.show);
-        reset(launcherSub.activate);
-
-        c.broadcast(`${chat}.onIsChatting`);
-
-        expect(chatSub.show.calls.count())
-          .toEqual(1);
-
-        expect(launcherSub.activate.calls.count())
-          .toEqual(1);
-
-        reset(chatSub.show);
-        c.broadcast(`${launcher}.onClick`); // close
-        c.broadcast(`${launcher}.onClick`); // open
-
-        expect(chatSub.show.calls.count())
-          .toEqual(1);
-      });
-
-      it('shows the launcher when chat opens on page load', function() {
-        c.broadcast(`${chat}.onOnline`);
-
-        reset(chatSub.show);
-        reset(launcherSub.activate);
-
-        c.broadcast(`${chat}.onIsChatting`);
-
-        expect(launcherSub.show.calls.count())
-          .toEqual(1);
       });
 
       it('hides when a show call is made', function() {
