@@ -82,7 +82,7 @@ function create(name, config) {
       css: helpCenterCSS + generateUserCSS({color: config.color}),
       name: name,
       fullscreenable: true,
-      afterAnimate() {
+      afterShowAnimate() {
         getHelpCenterComponent().focusField();
       },
       onHide() {

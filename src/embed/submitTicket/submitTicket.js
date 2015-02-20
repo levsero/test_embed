@@ -85,7 +85,7 @@ function create(name, config) {
         getSubmitTicketForm().resetTicketFormVisibility();
       },
       name: name,
-      afterAnimate() {
+      afterShowAnimate() {
         getSubmitTicketForm().focusField();
       },
       onHide() {
