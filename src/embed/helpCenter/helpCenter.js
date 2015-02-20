@@ -47,7 +47,12 @@ function create(name, config) {
       },
       Embed,
       handleBack = function() {
-        mediator.channel.broadcast('onArticleBackClick');
+        getHelpCenterComponent().setState({
+          articleViewActive: false
+        });
+        get(name).instance.getChild().setState({
+          showBackButton: false
+        });
       };
 
   config = _.extend(configDefaults, config);
@@ -61,6 +66,7 @@ function create(name, config) {
            : { right: 5 };
 
     iframeBase.minWidth = 400;
+    iframeBase.maxHeight = 500;
     containerStyle = { minWidth: 400, margin: 15 };
   }
 
