@@ -290,6 +290,7 @@ export var HelpCenter = React.createClass({
 
     /* jshint laxbreak: true */
     zendeskLogo = this.props.hideZendeskLogo
+                || (this.state.fullscreen && this.state.articleViewActive)
                 ? null
                 : <ZendeskLogo rtl={i18n.isRTL()} fullscreen={this.state.fullscreen} />;
     searchField = this.state.removeSearchField
@@ -349,15 +350,8 @@ export var HelpCenter = React.createClass({
         <div className={articleClasses}>
           <HelpCenterArticle
             activeArticle={this.state.activeArticle}
-            articleViewActive={this.state.articleViewActive} />
-          <a
-            href={this.state.activeArticle.html_url}
-            target='_blank'
-            className='u-marginVM u-block'>
-              {i18n.t('embeddable_framework.helpCenter.article.viewLinkText', {
-                fallback: 'View original article'
-              })}
-          </a>
+            articleViewActive={this.state.articleViewActive}
+            fullscreen={this.state.fullscreen} />
         </div>
         {zendeskLogo}
       </Container>

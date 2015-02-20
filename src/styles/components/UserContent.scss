@@ -2,10 +2,9 @@
 
 .UserContent {
   max-width: 100%;
-  overflow: hidden;
+  overflow: auto;
   word-break: break-word;
-  height: 400px;
-  overflow-y: scroll;
+  max-height: 400px;
 
   ul {
     white-space: pre-wrap;
@@ -19,10 +18,22 @@
   ol {
     list-style: decimal;
   }
+
 }
 
-.UserContent-strip {
-  iframe, img, video, table, code, pre {
+.UserContent-viewArticleLink {
+  .topBorder {
+    width: #{20/$font-size}rem;
+    border-top: 0.08333rem solid #E4E4E4;
+  }
+}
+
+.UserContent--mobile {
+  max-height: calc(100% - #{40/$font-size}rem);
+}
+
+.UserContent-article {
+  iframe, img, p:empty, video, table, code, pre {
     display: none;
   }
 }

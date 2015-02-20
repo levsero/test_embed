@@ -89,6 +89,10 @@ $Base-posOffset: #{20/$font-size}rem;
   margin-top: auto !important;
 }
 
+.u-marginTS {
+  margin-top: #{10/$font-size}rem;
+}
+
 .u-marginTM {
   margin-top: #{20/$font-size}rem;
 }
@@ -117,6 +121,10 @@ $Base-posOffset: #{20/$font-size}rem;
 
 .u-paddingTM {
   padding-top: #{20/$font-size}rem;
+}
+
+.u-paddingBS {
+  padding-bottom: #{10/$font-size}rem;
 }
 
 .u-paddingBN {
