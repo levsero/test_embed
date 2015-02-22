@@ -7,6 +7,7 @@ import { stopWordsFilter } from 'mixin/searchFilter';
 import { HelpCenterForm }  from 'component/HelpCenterForm';
 import { SearchField }     from 'component/FormField';
 import { ZendeskLogo }     from 'component/ZendeskLogo';
+import { Container }       from 'component/Container';
 import { isMobileBrowser } from 'utility/devices';
 import { i18n }            from 'service/i18n';
 
@@ -195,17 +196,6 @@ export var HelpCenter = React.createClass({
           'u-textSizeMed': !this.state.fullscreen,
           'u-textSizeBaseMobile': this.state.fullscreen
         }),
-        containerClasses = classSet({
-          'Container': true,
-          'Container--popover u-nbfcAlt': !this.state.fullscreen,
-          'Container--popoverAlt': this.props.position === 'left',
-          'Container--fullscreen': this.state.fullscreen,
-          'u-posRelative': true
-        }),
-        containerBarClasses = classSet({
-          'Container-bar u-borderBottom': true,
-          'u-isHidden': !this.state.fullscreen
-        }),
         formLegendClasses = classSet({
           'Form-cta--title u-textSizeMed Arrange Arrange--middle u-textBody': true,
           'u-textSizeBaseMobile': this.state.fullscreen,
@@ -285,8 +275,9 @@ export var HelpCenter = React.createClass({
 
     return (
       /* jshint laxbreak: true */
-      <div className={containerClasses}>
-        <div className={containerBarClasses} />
+      <Container
+        fullscreen={this.state.fullscreen}
+        position={this.props.position}>
         <HelpCenterForm
           fullscreen={this.state.fullscreen}
           ref='helpCenterForm'
@@ -326,7 +317,7 @@ export var HelpCenter = React.createClass({
           </ul>
         </HelpCenterForm>
         {zendeskLogo}
-      </div>
+      </Container>
     );
   }
 });

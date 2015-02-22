@@ -5,6 +5,7 @@ import { win }              from 'utility/globals';
 import { transport }        from 'service/transport';
 import { SubmitTicketForm } from 'component/SubmitTicketForm';
 import { ZendeskLogo }      from 'component/ZendeskLogo';
+import { Container }        from 'component/Container';
 import { isMobileBrowser }  from 'utility/devices';
 import { i18n }             from 'service/i18n';
 
@@ -140,18 +141,6 @@ export var SubmitTicket = React.createClass({
     var formClasses = classSet({
           'u-isHidden': this.state.showNotification
         }),
-        containerClasses = classSet({
-          'Container': true,
-          'Container--popover u-nbfcAlt': !this.state.fullscreen,
-          'Container--popoverAlt': this.props.position === 'left',
-          'Container--fullscreen': this.state.fullscreen,
-          'Arrange Arrange--middle': this.state.fullscreen,
-          'u-posRelative': true
-        }),
-        containerBarClasses = classSet({
-          'Container-bar u-borderBottom': true,
-          'u-isHidden': !this.state.fullscreen
-        }),
         notifyClasses = classSet({
           'Notify': true,
           'u-textCenter': true,
@@ -185,10 +174,10 @@ export var SubmitTicket = React.createClass({
 
     return (
       /* jshint quotmark:false */
-      <div
-        className={containerClasses}
+      <Container
+        fullscreen={this.state.fullscreen}
+        position={this.props.position}
         key={this.state.uid}>
-        <div className={containerBarClasses} />
         <div className={notifyClasses}>
           <div className='Icon Icon--tick u-inlineBlock u-userTextColor' />
           <p className='u-textBold u-textSizeMed'>{this.state.message}</p>
@@ -211,7 +200,7 @@ export var SubmitTicket = React.createClass({
           </p>
         </SubmitTicketForm>
         {zendeskLogo}
-      </div>
+      </Container>
     );
   }
 });
