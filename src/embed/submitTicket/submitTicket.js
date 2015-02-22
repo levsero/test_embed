@@ -83,14 +83,11 @@ function create(name, config) {
         }
 
         getSubmitTicketForm().resetTicketFormVisibility();
-
-        if (!isMobileBrowser()) {
-          getSubmitTicket().setState({
-            focusField: true
-          });
-        }
       },
       name: name,
+      afterShowAnimate() {
+        getSubmitTicketForm().focusField();
+      },
       onHide() {
         if (isMobileBrowser()) {
           setScaleLock(false);
