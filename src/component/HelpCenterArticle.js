@@ -26,7 +26,7 @@ var HelpCenterArticle = React.createClass({
     return (
       /* jshint quotmark:false, camelcase:false */
       <div className={userContentClasses}>
-        <h2>{this.props.activeArticle.title}</h2>
+        <h1>{this.props.activeArticle.title}</h1>
         <div
           ref='article'
           className='UserContent-article u-marginTM'
