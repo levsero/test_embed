@@ -36,9 +36,9 @@ var HelpCenterArticle = React.createClass({
           <a
             href={this.props.activeArticle.html_url}
             target='_blank'>
-              {i18n.t('embeddable_framework.helpCenter.article.viewLinkText', {
-                fallback: 'View original article'
-              })}
+            {i18n.t('embeddable_framework.helpCenter.article.viewLinkText', {
+              fallback: 'View original article'
+            })}
           </a>
         </div>
       </div>
