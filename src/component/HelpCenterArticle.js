@@ -31,16 +31,14 @@ var HelpCenterArticle = React.createClass({
           ref='article'
           className='UserContent-article u-marginTM'
         />
-        <div className='UserContent-viewArticleLink u-marginTS'>
-          <div className='UserContent-viewArticleLink topBorder u-paddingBS' />
-          <a
-            href={this.props.activeArticle.html_url}
-            target='_blank'>
-            {i18n.t('embeddable_framework.helpCenter.article.viewLinkText', {
-              fallback: 'View original article'
-            })}
-          </a>
-        </div>
+        <a
+          href={this.props.activeArticle.html_url}
+          className='UserContent-viewArticleLink u-block'
+          target='_blank'>
+          {i18n.t('embeddable_framework.helpCenter.article.viewLinkText', {
+            fallback: 'View original article'
+          })}
+        </a>
       </div>
     );
   }

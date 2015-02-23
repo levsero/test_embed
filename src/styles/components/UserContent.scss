@@ -18,13 +18,16 @@
   ol {
     list-style: decimal;
   }
-
 }
 
 .UserContent-viewArticleLink {
-  .topBorder {
+  &:before {
+    content: '';
+    display: block;
     width: #{20/$font-size}rem;
-    border-top: 0.08333rem solid #E4E4E4;
+    border-top: #{1/$font-size}rem solid $base-border-color;
+    margin-top: #{16/$font-size}rem;
+    padding-bottom: #{19/$font-size}rem;
   }
 }
 
