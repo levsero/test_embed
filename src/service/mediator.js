@@ -183,10 +183,6 @@ function init(helpCenterAvailable) {
     }
   });
 
-  c.intercept(`${helpCenter}.onArticleClick`, function() {
-    c.broadcast(`${helpCenter}.showBackButton`);
-  });
-
   c.intercept(
     [`${launcher}.onClick`,
      `${helpCenter}.onClose`,

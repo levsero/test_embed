@@ -11,7 +11,6 @@ import { ZendeskLogo }        from 'component/ZendeskLogo';
 import { Container }          from 'component/Container';
 import { isMobileBrowser }    from 'utility/devices';
 import { i18n }               from 'service/i18n';
-import { mediator }           from 'service/mediator';
 
 require('imports?_=lodash!lodash');
 
@@ -40,14 +39,6 @@ export var HelpCenter = React.createClass({
         searchInputVal: this.state.searchFieldValue
       });
     }
-  },
-
-  componentDidMount() {
-    mediator.channel.subscribe('onArticleBackClick', () => {
-      this.setState({
-        articleViewActive: false
-      });
-    });
   },
 
   focusField() {

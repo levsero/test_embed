@@ -33,8 +33,10 @@ function create(name, config) {
       onButtonClick = function() {
         mediator.channel.broadcast(name + '.onNextClick');
       },
-      showBackButton = function () {
-        mediator.channel.broadcast(name + '.showBackButton');
+      showBackButton = function() {
+        get(name).instance.getChild().setState({
+          showBackButton: true
+        });
       },
       onLinkClick = function(ev) {
         beacon.track('helpCenter', 'click', name, ev.target.href);
