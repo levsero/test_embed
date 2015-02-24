@@ -2,7 +2,8 @@
 
 var mockFrameMethods = {
   show: jasmine.createSpy('mockFrameShow'),
-  hide: jasmine.createSpy('mockFrameHide')
+  hide: jasmine.createSpy('mockFrameHide'),
+  close: jasmine.createSpy('mockFrameClose')
 };
 
 exports.mockFrameMethods = mockFrameMethods;
@@ -27,6 +28,7 @@ var mockFrameFactory = jasmine.createSpy('mockFrameFactory').and.callFake(
     return _.extend({
       show: mockFrameMethods.show,
       hide: mockFrameMethods.hide,
+      close: mockFrameMethods.close,
       getChild: function() {
         return child;
       },

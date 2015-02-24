@@ -41,7 +41,7 @@ export var frameFactory = function(childFn, _params) {
       params = _.extend(defaultParams, _params),
       afterShowAnimate = () => {
         if (params.afterShowAnimate) {
-          params.afterShowAnimate();
+          params.afterShowAnimate(child);
         }
       },
       // object passed into snabbt animation lib
@@ -140,7 +140,7 @@ export var frameFactory = function(childFn, _params) {
       }
 
       if (params.onShow) {
-        params.onShow();
+        params.onShow(child);
       }
     },
 
@@ -157,7 +157,7 @@ export var frameFactory = function(childFn, _params) {
       });
 
       if (params.onHide) {
-        params.onHide();
+        params.onHide(child);
       }
     },
 
@@ -167,7 +167,13 @@ export var frameFactory = function(childFn, _params) {
       }
       this.hide();
       if (params.onClose) {
-        params.onClose();
+        params.onClose(child);
+      }
+    },
+
+    back: function() {
+      if (params.onBack) {
+        params.onBack(child);
       }
     },
 
@@ -252,7 +258,7 @@ export var frameFactory = function(childFn, _params) {
                             position='right'
                             fullscreen={fullscreen} />),
             backButton = (<ButtonNav
-                           handleClick={this.props.handleBackClick}
+                           handleClick={this.back}
                            label={
                              <div>
                                <i className='Icon Icon--arrow u-textInheritColor' />

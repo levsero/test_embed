@@ -42,18 +42,7 @@ function create(name, config) {
       onSearch = function(searchString) {
         beacon.track('helpCenter', 'search', name, searchString);
       },
-      getHelpCenterComponent = function() {
-        return get(name).instance.getChild().refs.helpCenter;
-      },
-      Embed,
-      handleBack = function() {
-        getHelpCenterComponent().setState({
-          articleViewActive: false
-        });
-        get(name).instance.getChild().setState({
-          showBackButton: false
-        });
-      };
+      Embed;
 
   config = _.extend(configDefaults, config);
 
@@ -95,29 +84,37 @@ function create(name, config) {
       css: helpCenterCSS + generateUserCSS({color: config.color}),
       name: name,
       fullscreenable: true,
-      afterShowAnimate() {
-        getHelpCenterComponent().focusField();
+      afterShowAnimate(child) {
+        child.refs.helpCenter.focusField();
       },
-      onHide() {
+      onHide(child) {
         if (isMobileBrowser()) {
           setScaleLock(false);
         }
-        getHelpCenterComponent().hideVirtualKeyboard();
+        child.refs.helpCenter.hideVirtualKeyboard();
       },
-      onShow() {
+      onShow(child) {
         if (isMobileBrowser()) {
           setScaleLock(true);
         }
-        getHelpCenterComponent().resetSearchFieldState();
+        child.refs.helpCenter.resetSearchFieldState();
       },
       onClose() {
         mediator.channel.broadcast(name + '.onClose');
+      },
+      onBack(child) {
+        child.refs.helpCenter.setState({
+          articleViewActive: false
+        });
+        child.setState({
+          showBackButton: false
+        });
       },
       extend: {}
     }));
 
   helpCenters[name] = {
-    component: <Embed visible={false} handleBackClick={handleBack}/>,
+    component: <Embed visible={false} />,
     config: config
   };
 
