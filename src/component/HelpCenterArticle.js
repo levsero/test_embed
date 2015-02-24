@@ -6,14 +6,25 @@ import { i18n }   from 'service/i18n';
 
 require('imports?_=lodash!lodash');
 
+var sanitizeHtml = require('sanitize-html');
+
 var classSet = React.addons.classSet;
 
 var HelpCenterArticle = React.createClass({
   componentDidUpdate() {
-    var container = this.refs.article.getDOMNode();
+    var container = this.refs.article.getDOMNode(),
+        allowedTags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'a', 'ul',
+                       'ol', 'nl', 'li', 'b', 'i', 'strong', 'em', 'strike', 'hr', 'br', 'div'],
+        cleanHtml;
 
     if (this.props.activeArticle.body) {
-      container.innerHTML = this.props.activeArticle.body;
+      cleanHtml = sanitizeHtml(this.props.activeArticle.body, {
+        allowedTags: allowedTags,
+        allowedAttributes: {
+          'a': [ 'href' ]
+        }
+      });
+      container.innerHTML = cleanHtml;
     }
   },
 
@@ -48,6 +59,7 @@ var HelpCenterArticle = React.createClass({
               })}
             </a>
           </div>
+
         </div>
       </div>
     );
