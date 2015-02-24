@@ -40,7 +40,7 @@ describe('Help center component', function() {
           .and.callFake(React.createClass({
             /* jshint quotmark:false */
             render: function() {
-              return <div className='UserContent'/>;
+              return <div className='UserContent' />;
             }
           }))
       },

@@ -33,7 +33,6 @@ var HelpCenterForm = React.createClass({
   },
 
   render() {
-    console.log(this.props.className);
     /* jshint quotmark:false */
     var buttonContainerClasses = classSet({
           'u-marginTA': this.props.fullscreen,

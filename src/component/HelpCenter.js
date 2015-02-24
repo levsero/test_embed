@@ -265,6 +265,8 @@ export var HelpCenter = React.createClass({
           });
         },
         chatButtonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.chat'),
+        mobileArticleViewActive = this.state.fullscreen && this.state.articleViewActive,
+        hideZendeskLogo = this.props.hideZendeskLogo || mobileArticleViewActive,
         zendeskLogo,
         searchField;
 
@@ -289,8 +291,7 @@ export var HelpCenter = React.createClass({
     }
 
     /* jshint laxbreak: true */
-    zendeskLogo = this.props.hideZendeskLogo
-                || (this.state.fullscreen && this.state.articleViewActive)
+    zendeskLogo = hideZendeskLogo
                 ? null
                 : <ZendeskLogo rtl={i18n.isRTL()} fullscreen={this.state.fullscreen} />;
     searchField = this.state.removeSearchField
@@ -350,7 +351,6 @@ export var HelpCenter = React.createClass({
         <div className={articleClasses}>
           <HelpCenterArticle
             activeArticle={this.state.activeArticle}
-            articleViewActive={this.state.articleViewActive}
             fullscreen={this.state.fullscreen} />
         </div>
         {zendeskLogo}
