@@ -37,10 +37,6 @@ var HelpCenterForm = React.createClass({
     var buttonContainerClasses = classSet({
           'u-marginTA': this.props.fullscreen,
           'u-isHidden': !this.props.hasSearched
-        }),
-        formClasses = classSet({
-          'Form u-cf': true,
-          'u-isHidden': this.props.articleViewActive
         });
 
     return (
@@ -48,7 +44,7 @@ var HelpCenterForm = React.createClass({
         noValidate
         onSubmit={this.props.onSubmit}
         onChange={this.handleUpdate}
-        className={formClasses}>
+        className='Form u-cf'>
         {this.props.children}
         <div className={buttonContainerClasses}>
           <Button

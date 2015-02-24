@@ -245,6 +245,9 @@ export var HelpCenter = React.createClass({
         articleClasses = classSet({
           'u-isHidden': !this.state.articleViewActive
         }),
+        formClasses = classSet({
+          'u-isHidden': this.state.articleViewActive
+        }),
         linkLabel,
         linkContext,
         onFocusHandler = function() {
@@ -301,44 +304,46 @@ export var HelpCenter = React.createClass({
       <Container
         fullscreen={this.state.fullscreen}
         position={this.props.position}>
-        <HelpCenterForm
-          fullscreen={this.state.fullscreen}
-          ref='helpCenterForm'
-          articleViewActive={this.state.articleViewActive}
-          onSearch={this.handleSearch}
-          hasSearched={this.state.hasSearched}
-          buttonLabel={this.state.buttonLabel}
-          onButtonClick={this.props.onButtonClick}
-          onSubmit={this.handleSubmit}>
-          <h1 className={searchTitleClasses}>
-            {i18n.t('embeddable_framework.helpCenter.label.searchHelpCenter', {
-              fallback: 'Search our Help Center'
-            })}
-          </h1>
-          {searchField}
-          <div className={linkClasses}>
-            <p className='u-marginBN'>{linkContext}</p>
-            <a className='u-userTextColor' onClick={this.props.onButtonClick}>
-              {linkLabel}
-            </a>
-          </div>
-          <h1 className={formLegendClasses}>
-            <span className='Arrange-sizeFill'>
-              {i18n.t('embeddable_framework.helpCenter.label.results')}
-            </span>
-          </h1>
-          <div className={noResultsClasses} id='noResults'>
-            <p className='u-marginBN u-marginTL'>
-              {this.searchNoResultsTitle()}
-            </p>
-            <p className={noResultsParagraphClasses}>
-              {this.searchNoResultsBody()}
-            </p>
-          </div>
-          <ul className={listClasses}>
-            {_.chain(this.state.articles).first(3).map(articleTemplate.bind(this)).value()}
-          </ul>
-        </HelpCenterForm>
+        <div className={formClasses}>
+          <HelpCenterForm
+            fullscreen={this.state.fullscreen}
+            ref='helpCenterForm'
+            onSearch={this.handleSearch}
+            hasSearched={this.state.hasSearched}
+            buttonLabel={this.state.buttonLabel}
+            onButtonClick={this.props.onButtonClick}
+            onSubmit={this.handleSubmit}>
+            <h1 className={searchTitleClasses}>
+              {i18n.t('embeddable_framework.helpCenter.label.searchHelpCenter', {
+                fallback: 'Search our Help Center'
+              })}
+            </h1>
+            {searchField}
+            <div className={linkClasses}>
+              <p className='u-marginBN'>{linkContext}</p>
+              <a className='u-userTextColor' onClick={this.props.onButtonClick}>
+                {linkLabel}
+              </a>
+            </div>
+            <h1 className={formLegendClasses}>
+              <span className='Arrange-sizeFill'>
+                {i18n.t('embeddable_framework.helpCenter.label.results')}
+              </span>
+            </h1>
+            <div className={noResultsClasses} id='noResults'>
+              <p className='u-marginBN u-marginTL'>
+                {this.searchNoResultsTitle()}
+              </p>
+              <p className={noResultsParagraphClasses}>
+                {this.searchNoResultsBody()}
+              </p>
+            </div>
+            <ul className={listClasses}>
+              {_.chain(this.state.articles).first(3).map(articleTemplate.bind(this)).value()}
+            </ul>
+          </HelpCenterForm>
+        </div>
+
         <div className={articleClasses}>
           <HelpCenterArticle
             activeArticle={this.state.activeArticle}
