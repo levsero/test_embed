@@ -54,7 +54,7 @@ The Widget also uses the information in the zE.identify call to pre-populate the
 </script>
 ```
 
-Pre-populating the contact form using data from the zE.identify call:
+The Widget contact form pre-populated using the data in zE.identify:
 
 ![example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/widget_api_identify.png)
 
