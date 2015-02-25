@@ -36,7 +36,7 @@ The following example displays the widget in German:
 
 ### zE.identify
 
-`zE.identify(user_obj)`
+`zE.identify(userObj)`
 
 The method takes a JavaScript object with a `name`, `email` and optionally, an `externalId` property.
 
@@ -44,7 +44,7 @@ If you have access to your end user's name and email on the web page (for exampl
 
 The way this works is: if the user's email (and external ID, if included) does not already exist in your Zendesk, a new user record with those details will be created. 
 
-The Widget also uses the information in the zE.identify call to pre-populate the contact or pre-chat chat form, saving the user from having to type in the information. This is especially useful for end users using your website on a mobile device (screenshot below).
+The Widget also uses the information in the `zE.identify()` call to pre-populate the contact or pre-chat chat form, saving the user from having to type in the information. This is especially useful for end users using your website on a mobile device (screenshot below).
 
 ```html
 <script>
@@ -54,11 +54,11 @@ The Widget also uses the information in the zE.identify call to pre-populate the
 </script>
 ```
 
-The Widget contact form pre-populated using the data in zE.identify:
+The Widget contact form pre-populated using the data in `zE.identify()`:
 
 ![example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/widget_api_identify.png)
 
-Note: The user syncing functionality of zE.identify is currently in beta - if you would like to know more - email acottrell@zendesk.com
+Note: The user syncing functionality of `zE.identify()` is currently in beta - if you would like to know more - email acottrell@zendesk.com
 
 ### zE.hide
 
