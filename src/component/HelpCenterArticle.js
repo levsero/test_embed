@@ -36,6 +36,13 @@ var HelpCenterArticle = React.createClass({
     }
   },
 
+  handleClick(e) {
+    if(e.target.nodeName === 'A' && e.target.getAttribute('href').substr(0,1) === '#') {
+      console.log(e)
+      e.preventDefault();
+    }
+  },
+
   render() {
     var userContentClasses = classSet({
           'UserContent u-paddingTM u-paddingRS': true,
@@ -45,11 +52,14 @@ var HelpCenterArticle = React.createClass({
         barClasses = classSet({
           'Form-cta u-cf Container-pullout u-paddingBS': true,
           'Form-cta--bar u-paddingBL': !this.props.fullscreen
-        });
+        }),
+        articleLocale = this.props.activeArticle.locale,
+        baseUrl = `https://${document.zendeskHost}/hc/${articleLocale}/`;
 
     return (
       /* jshint quotmark:false, camelcase:false */
       <div>
+        <base href={baseUrl} />
         <div className={barClasses} />
         <div className='u-nbfcAlt'>
           <div className={userContentClasses}>
