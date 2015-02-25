@@ -168,21 +168,6 @@ function init(helpCenterAvailable) {
     c.broadcast(`${submitTicket}.showBackButton`);
   });
 
-  c.intercept(`${chat}.onIsChatting`, function() {
-    if (!isMobileBrowser()) {
-      state[`${chat}.isVisible`] = true;
-    }
-
-    state.activeEmbed = chat;
-
-    c.broadcast(`${chat}.show`);
-    c.broadcast(`${launcher}.show`);
-
-    if (!isMobileBrowser()) {
-      c.broadcast(`${launcher}.activate`);
-    }
-  });
-
   c.intercept(
     [`${launcher}.onClick`,
      `${helpCenter}.onClose`,

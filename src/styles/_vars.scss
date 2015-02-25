@@ -1,4 +1,13 @@
+/**
+ * 1. because safari 8 is dumb and rounds 1/12 to .083rem
+ *    which computes to 0.9999px & borders can't be sub pixel
+ *    we boost the calculation to do 1.1/12
+ */
+
 $font-size: 12;
+
+$thin-border-size: #{1.1/$font-size}rem; /* 1 */
+
 $zendesk-green: #78A300;
 
 // Button colors

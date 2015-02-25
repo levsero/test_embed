@@ -1,6 +1,5 @@
 /**
  * 1. fallback for old android browsers
- * 2. removes extra pixels webkit adds
  */
 
 @import '../_vars.scss';
@@ -16,7 +15,7 @@ $Container--popover-arrowWidth: $Container--popover-arrowFullWidth/2;
 
 .Container--popover {
   border-radius: #{8/$font-size}rem;
-  border: #{1/$font-size}rem solid $base-border-color;
+  border: #{1.1/$font-size}rem solid $base-border-color;
   box-shadow: 0 0 #{6/$font-size}rem 0 rgba($base-shadow, .1);
   background: $base-color;
   max-height: 450px;

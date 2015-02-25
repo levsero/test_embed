@@ -48,6 +48,10 @@ $Base-posOffset: #{20/$font-size}rem;
   transform: translateY(-50%);
 }
 
+.u-posStatic {
+  position: static !important;
+}
+
 /**
  * Used to adjust the default spacing between components
  * Use with great care!
@@ -208,10 +212,10 @@ $Base-posOffset: #{20/$font-size}rem;
 }
 
 .u-borderTop {
-  border-top: #{1/$font-size}rem solid $base-border-color;
+  border-top: $thin-border-size solid $base-border-color;
 }
 
 .u-borderBottom {
-  border-bottom: #{1/$font-size}rem solid $base-border-color;
+  border-bottom: $thin-border-size solid $base-border-color;
 }
 

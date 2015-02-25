@@ -347,7 +347,9 @@ export var HelpCenter = React.createClass({
         <div className={articleClasses}>
           <HelpCenterArticle
             activeArticle={this.state.activeArticle}
-            fullscreen={this.state.fullscreen} />
+            fullscreen={this.state.fullscreen}
+            onButtonClick={this.props.onButtonClick}
+            buttonLabel={this.state.buttonLabel} />
         </div>
         {zendeskLogo}
       </Container>
