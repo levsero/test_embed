@@ -34,9 +34,7 @@ function get(name) {
 
 function show() {
   win.$zopim(function() {
-    var zopimWin = win.$zopim.livechat.window;
-
-    zopimWin.show();
+    win.$zopim.livechat.window.show();
   });
 
   store.set('zopimOpen', true, 'session');
