@@ -20,13 +20,13 @@ var HelpCenterArticle = React.createClass({
 
   render() {
     var userContentClasses = classSet({
-          'UserContent': true,
+          'UserContent u-paddingTM u-paddingRS': true,
           'UserContent--mobile u-paddingTM': this.props.fullscreen,
           'UserContent--scroll': !this.props.fullscreen
         }),
         barClasses = classSet({
           'Form-cta u-cf Container-pullout u-paddingBS': true,
-          'Form-cta--bar u-marginBM u-paddingBL': !this.props.fullscreen
+          'Form-cta--bar u-paddingBL': !this.props.fullscreen
         }),
         buttonClasses = classSet({
           'u-borderTop u-paddingTM': true,
