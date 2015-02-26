@@ -11,6 +11,7 @@ import { ZendeskLogo }        from 'component/ZendeskLogo';
 import { Container }          from 'component/Container';
 import { isMobileBrowser }    from 'utility/devices';
 import { i18n }               from 'service/i18n';
+import { Button }             from 'component/Button';
 
 require('imports?_=lodash!lodash');
 
@@ -248,6 +249,11 @@ export var HelpCenter = React.createClass({
         formClasses = classSet({
           'u-isHidden': this.state.articleViewActive
         }),
+        buttonContainerClasses = classSet({
+          'u-borderTop u-paddingTM': this.state.articleViewActive,
+          'u-marginTA': this.state.fullscreen,
+          'u-isHidden': !this.state.hasSearched
+        }),
         linkLabel,
         linkContext,
         onFocusHandler = function() {
@@ -306,12 +312,8 @@ export var HelpCenter = React.createClass({
         position={this.props.position}>
         <div className={formClasses}>
           <HelpCenterForm
-            fullscreen={this.state.fullscreen}
             ref='helpCenterForm'
             onSearch={this.handleSearch}
-            hasSearched={this.state.hasSearched}
-            buttonLabel={this.state.buttonLabel}
-            onButtonClick={this.props.onButtonClick}
             onSubmit={this.handleSubmit}>
             <h1 className={searchTitleClasses}>
               {i18n.t('embeddable_framework.helpCenter.label.searchHelpCenter', {
@@ -347,10 +349,17 @@ export var HelpCenter = React.createClass({
         <div className={articleClasses}>
           <HelpCenterArticle
             activeArticle={this.state.activeArticle}
-            fullscreen={this.state.fullscreen}
-            onButtonClick={this.props.onButtonClick}
-            buttonLabel={this.state.buttonLabel} />
+            fullscreen={this.state.fullscreen} />
         </div>
+
+        <div className={buttonContainerClasses}>
+          <Button
+            label={this.state.buttonLabel}
+            handleClick={this.props.onButtonClick}
+            fullscreen={this.state.fullscreen}
+          />
+        </div>
+
         {zendeskLogo}
       </Container>
     );

@@ -121,6 +121,11 @@ $Base-posOffset: #{20/$font-size}rem;
 
 .u-paddingRS {
   padding-right: #{10/$font-size}rem;
+
+  [dir='rtl'] & {
+    padding-right: 0;
+    padding-left: #{10/$font-size}rem;
+  }
 }
 
 .u-paddingTM {

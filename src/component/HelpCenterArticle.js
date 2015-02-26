@@ -3,7 +3,6 @@
 module React from 'react/addons';
 
 import { i18n }   from 'service/i18n';
-import { Button } from 'component/Button';
 
 require('imports?_=lodash!lodash');
 
@@ -27,10 +26,6 @@ var HelpCenterArticle = React.createClass({
         barClasses = classSet({
           'Form-cta u-cf Container-pullout u-paddingBS': true,
           'Form-cta--bar u-paddingBL': !this.props.fullscreen
-        }),
-        buttonClasses = classSet({
-          'u-borderTop u-paddingTM': true,
-          'u-isHidden': this.props.fullscreen
         });
 
     return (
@@ -52,15 +47,6 @@ var HelpCenterArticle = React.createClass({
                 fallback: 'View original article'
               })}
             </a>
-          </div>
-
-          <div className={buttonClasses}>
-            <Button
-              label={this.props.buttonLabel}
-              handleClick={this.props.onButtonClick}
-              rtl={i18n.isRTL()}
-              fullscreen={this.props.fullscreen}
-            />
           </div>
         </div>
       </div>

@@ -15,6 +15,11 @@ describe('Button component', function() {
 
     mockRegistry = initMockRegistry({
       'react/addons': React,
+      'service/i18n': {
+        i18n: jasmine.createSpyObj('i18n', [
+          'isRTL'
+        ])
+      }
     });
 
     mockery.registerAllowable(buttonPath);
@@ -34,10 +39,11 @@ describe('Button component', function() {
         ),
         buttonElem = ReactTestUtils
           .findRenderedDOMComponentWithClass(button, 'Button--cta'),
-        buttonClasses = buttonElem.props.className;
+        buttonClasses = buttonElem.props.className,
+        buttonContainerClasses = buttonElem.getDOMNode().parentNode.className;
 
-    expect(buttonClasses)
-      .toMatch('u-pullRight');
+    expect(buttonContainerClasses)
+      .toMatch('u-textRight');
 
     expect(buttonClasses)
       .not.toMatch('u-sizeFull');
@@ -50,48 +56,58 @@ describe('Button component', function() {
         ),
         buttonElem = ReactTestUtils
           .findRenderedDOMComponentWithClass(button, 'Button--cta'),
-        buttonClasses = buttonElem.props.className;
+        buttonClasses = buttonElem.props.className,
+        buttonContainerClasses = buttonElem.getDOMNode().parentNode.className;
 
 
     expect(buttonClasses)
       .toMatch('u-sizeFull');
 
-    expect(buttonClasses)
-      .not.toMatch('u-pullRight');
+    expect(buttonContainerClasses)
+      .not.toMatch('u-textRight');
   });
 
   it('should not have rtl classes when rtl prop is false', function() {
     var button = React.renderComponent(
-          <Button rtl={false} />,
+          <Button />,
           global.document.body
         ),
         buttonElem = ReactTestUtils
           .findRenderedDOMComponentWithClass(button, 'Button--cta'),
-        buttonClasses = buttonElem.props.className;
+        buttonContainerClasses = buttonElem.getDOMNode().parentNode.className;
 
 
-    expect(buttonClasses)
-      .not.toMatch('u-pullLeft');
+    expect(buttonContainerClasses)
+      .not.toMatch('u-textLeft');
 
-    expect(buttonClasses)
-      .toMatch('u-pullRight');
+    expect(buttonContainerClasses)
+      .toMatch('u-textRight');
   });
 
   it('should have rtl classes when rtl prop is true', function() {
+    mockRegistry['service/i18n'].i18n = {
+      isRTL: function() {
+        return true;
+      }
+    };
+
+    mockery.resetCache();
+    Button = require(buttonPath).Button;
+
     var button = React.renderComponent(
-          <Button rtl={true} />,
+          <Button />,
           global.document.body
         ),
         buttonElem = ReactTestUtils
           .findRenderedDOMComponentWithClass(button, 'Button--cta'),
-        buttonClasses = buttonElem.props.className;
+        buttonContainerClasses = buttonElem.getDOMNode().parentNode.className;
 
 
-    expect(buttonClasses)
-      .toMatch('u-pullLeft');
+    expect(buttonContainerClasses)
+      .toMatch('u-textLeft');
 
-    expect(buttonClasses)
-      .not.toMatch('u-pullRight');
+    expect(buttonContainerClasses)
+      .not.toMatch('u-textRight');
   });
 
 });

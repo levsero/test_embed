@@ -76,6 +76,15 @@ describe('Help center component', function() {
             }
           })),
       },
+      'component/Button': {
+        Button: jasmine.createSpy('mockButton')
+          .and.callFake(React.createClass({
+            /* jshint quotmark:false */
+            render: function() {
+              return <input className='Button' type='button' />;
+            }
+          }))
+      },
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', [
           'init',
@@ -320,22 +329,5 @@ describe('Help center component', function() {
       expect(helpCenter.state.fullscreen)
         .toEqual(false);
     });
-  });
-
-  it('should pass on fullscreen to helpCenterForm', function() {
-    var mostRecentCall,
-        helpCenter,
-        mockHelpCenterForm = mockRegistry['component/HelpCenterForm'].HelpCenterForm;
-
-    helpCenter = React.renderComponent(
-      <HelpCenter />,
-      global.document.body
-    );
-
-    helpCenter.setState({fullscreen: 'VALUE'});
-    mostRecentCall = mockHelpCenterForm.calls.mostRecent().args[0];
-
-    expect(mostRecentCall.fullscreen)
-      .toEqual('VALUE');
   });
 });
