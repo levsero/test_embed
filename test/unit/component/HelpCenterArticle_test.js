@@ -3,14 +3,27 @@
 describe('HelpCenterArticle component', function() {
   var HelpCenterArticle,
       mockRegistry,
-      mockArticle,
-      helpCenterArticlePath = buildSrcPath('component/HelpCenterArticle');
+      helpCenterArticlePath = buildSrcPath('component/HelpCenterArticle'),
+      mockArticle = {
+        body: `
+          <h1 id="foo">Foobar</h1>
+          <a href="#foo">inpage link</a>
+          <a class="relative" href="/relative/link">relative link</a>
+          <div style="bad styles not allowed"></div>
+        `
+      },
+      scrollIntoView;
 
   beforeEach(function() {
+
+    scrollIntoView = jasmine.createSpy();
+
+    global.document.zendeskHost = 'dev.zd-dev.com';
 
     resetDOM();
 
     mockery.enable({
+      warnOnReplace:false,
       useCleanCache: true
     });
 
@@ -24,16 +37,10 @@ describe('HelpCenterArticle component', function() {
       'imports?_=lodash!lodash': _
     });
 
-    mockArticle = {
-      /* jshint camelcase: false */
-      title: 'Test Article',
-      html_url: 'www.x.com',
-      body: '<div style="bad styles not allowed" />'
-    };
-
     mockery.registerAllowable(helpCenterArticlePath);
 
     HelpCenterArticle = require(helpCenterArticlePath).HelpCenterArticle;
+
   });
 
   afterEach(function() {
@@ -70,5 +77,72 @@ describe('HelpCenterArticle component', function() {
       expect(articleClasses)
         .toMatch('UserContent--mobile');
   });
-});
 
+  it('should inject html string on componentDidUpdate', function() {
+    var helpCenterArticle = React.renderComponent(
+      <HelpCenterArticle activeArticle={mockArticle} />,
+      global.document.body
+    );
+
+    // componentdidupdate only fires after setState not on initial render
+    helpCenterArticle.setState({foo: 'bar'});
+
+    expect(helpCenterArticle.refs.article.getDOMNode().children.length)
+      .toEqual(4);
+
+    expect(helpCenterArticle.refs.article.getDOMNode().querySelector('div').style.cssText)
+      .toEqual('');
+  });
+
+  it('should inject base tag to alter relative links base url', function() {
+    var helpCenterArticle = React.renderComponent(
+          <HelpCenterArticle activeArticle={mockArticle} />,
+          global.document.body
+        ),
+        relativeAnchor,
+        baseTag,
+        baseUrl = 'https://' + global.document.zendeskHost;
+
+    // componentdidupdate only fires after setState not on initial render
+    helpCenterArticle.setState({foo: 'bar'});
+
+    baseTag = ReactTestUtils.findRenderedDOMComponentWithTag(helpCenterArticle, 'base');
+    relativeAnchor = helpCenterArticle.getDOMNode().querySelector('a[href^="/relative"]');
+
+    expect(baseTag.props.href)
+      .toMatch(baseUrl);
+
+    expect(relativeAnchor.href)
+      .toMatch(baseUrl + '/relative/link');
+  });
+
+  it('should hijack inpage anchor clicks and call scrollIntoView on correct element', function() {
+    var helpCenterArticle = React.renderComponent(
+          <HelpCenterArticle activeArticle={mockArticle} />,
+          global.document.body
+        );
+
+    global.document.querySelector = function() {
+      return {
+        scrollIntoView: scrollIntoView
+      };
+    };
+
+    // componentdidupdate only fires after setState not on initial render
+    helpCenterArticle.setState({foo: 'bar'});
+
+    ReactTestUtils.Simulate.click(helpCenterArticle.refs.article, {
+      target: {
+        nodeName: 'A',
+        href: global.document.zendeskHost + '#foo',
+        ownerDocument: global.document,
+        getAttribute: function() {
+          return '#foo';
+        }
+      }
+    });
+
+    expect(scrollIntoView)
+      .toHaveBeenCalled();
+  });
+});
