@@ -78,6 +78,24 @@ function init(helpCenterAvailable) {
     }
   });
 
+  c.intercept('.zopimShow', function() {
+    c.broadcast(`${submitTicket}.hide`);
+    c.broadcast(`${helpCenter}.hide`);
+    c.broadcast(`${launcher}.deactivate`);
+    c.broadcast(`${launcher}.hide`);
+
+    state[`${chat}.isVisible`] = true;
+    state.activeEmbed = chat;
+  });
+
+  c.intercept('.zopimHide', function() {
+    c.broadcast(`${launcher}.deactivate`);
+    c.broadcast(`${launcher}.show`);
+
+    state[`${chat}.isVisible`] = false;
+    resetActiveEmbed();
+  });
+
   c.intercept(`${chat}.onOnline`, function() {
     state[`${chat}.isOnline`] = true;
     if (state.activeEmbed === submitTicket && !state[`${helpCenter}.isAvailable`]) {

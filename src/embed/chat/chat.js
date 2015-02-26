@@ -32,7 +32,7 @@ function get(name) {
   return chats[name];
 }
 
-function show(name) {
+function show() {
   win.$zopim(function() {
     var zopimWin = win.$zopim.livechat.window;
 
@@ -122,6 +122,29 @@ function init(name) {
       chat = get(name),
       config = chat.config,
       position = (config.position === 'right') ? 'br' : 'bl',
+      zopimShow,
+      zopimHide,
+      zopimApiOverwritten = false,
+      overwriteZopimApi = function() {
+        if (!zopimApiOverwritten) {
+          zopimShow = win.$zopim.livechat.window.show;
+          zopimHide = win.$zopim.livechat.window.hide;
+          zopimApiOverwritten = true;
+
+          win.$zopim.livechat.window.show = function() {
+            mediator.channel.broadcast('.zopimShow');
+            zopimShow();
+          };
+
+          win.$zopim.livechat.window.hide = function() {
+            mediator.channel.broadcast('.zopimHide');
+            zopimHide();
+            win.$zopim(function() {
+              win.$zopim.livechat.hideAll();
+            });
+          };
+        }
+      },
       broadcastStatus = function() {
         if (chat.online && chat.connected) {
           mediator.channel.broadcast(`${name}.onOnline`);
@@ -132,6 +155,8 @@ function init(name) {
       onStatus = function(status) {
         chat.online = (status === 'online');
         broadcastStatus();
+
+        overwriteZopimApi();
       },
       onConnect = function() {
         chat.connected = true;
