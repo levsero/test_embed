@@ -2,13 +2,12 @@
 
 module React from 'react/addons';
 
-import { i18n }   from 'service/i18n';
+import { i18n } from 'service/i18n';
 
 require('imports?_=lodash!lodash');
 
-var sanitizeHtml = require('sanitize-html');
-
-var classSet = React.addons.classSet;
+var sanitizeHtml = require('sanitize-html'),
+    classSet = React.addons.classSet;
 
 var HelpCenterArticle = React.createClass({
   componentDidUpdate() {
@@ -38,7 +37,7 @@ var HelpCenterArticle = React.createClass({
 
   render() {
     var userContentClasses = classSet({
-          'UserContent UserContent-viewArticleLink u-paddingTM u-paddingRS': true,
+          'UserContent u-paddingTM u-paddingRS': true,
           'UserContent--mobile u-paddingTM': this.props.fullscreen,
           'UserContent--scroll': !this.props.fullscreen
         }),

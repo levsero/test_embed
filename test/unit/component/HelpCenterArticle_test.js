@@ -18,10 +18,7 @@ describe('HelpCenterArticle component', function() {
       'react/addons': React,
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', [
-          'init',
-          'setLocale',
           't',
-          'isRTL'
         ])
       },
       'imports?_=lodash!lodash': _
@@ -56,7 +53,7 @@ describe('HelpCenterArticle component', function() {
       articleClasses = articleNode.props.className;
 
       expect(articleClasses)
-        .not.toMatch('UserContent--Mobile');
+        .not.toMatch('UserContent--mobile');
   });
 
   it('should have fullscreen classes when fullscreen is true', function() {

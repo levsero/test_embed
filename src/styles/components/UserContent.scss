@@ -24,17 +24,17 @@
 
   a {
     text-decoration: underline;
-  }
 
-  a:hover {
-    text-decoration: none;
+    &:hover {
+      text-decoration: none;
+    }
   }
 
   h1, h2, h3, h4, h5, h6,
   .wysiwyg-font-size-large,
   .wysiwyg-font-size-x-large {
     font-weight: 600;
-    color: #353535;
+    color: $body-color;
     margin-bottom: #{5/$font-size}rem;
   }
 
@@ -63,7 +63,7 @@
   }
 
   blockquote {
-    border-left: #{4/$font-size}rem solid #bbbbbb;
+    border-left: #{4/$font-size}rem solid $icon-color;
     padding-left: #{20/$font-size}rem;
     font-style: italic;
   }
@@ -84,6 +84,9 @@
   background-size: 100% #{40/$font-size}rem, 100% #{5/$font-size}rem;
   background-attachment: local, scroll;
 
+  &::-webkit-scrollbar-track {
+    margin-top: #{20/$font-size}rem;
+  }
   /*
    * Customise scrollbar for safari/chrome
    */
