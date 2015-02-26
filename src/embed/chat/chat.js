@@ -46,12 +46,6 @@ function postRender(name) {
   }
 }
 
-function postRender(name) {
-  if (store.get('zopimOpen', 'session')) {
-    mediator.channel.broadcast(`${name}.onShow`);
-  }
-}
-
 function hide() {
   win.$zopim(function() {
     win.$zopim.livechat.hideAll();
