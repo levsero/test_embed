@@ -2,18 +2,18 @@
 
 module React from 'react/addons';
 
-import { i18n } from 'service/i18n';
-
 var classSet = React.addons.classSet;
 
 var Button = React.createClass({
   propTypes: {
     label: React.PropTypes.string.isRequired,
     fullscreen: React.PropTypes.bool.isRequired,
+    rtl: React.PropTypes.bool.isRequired,
     disabled: React.PropTypes.bool,
     handleClick: React.PropTypes.func,
     type: React.PropTypes.string
   },
+
   render() {
       /* jshint laxbreak: true */
     var buttonClasses = classSet({
@@ -21,8 +21,8 @@ var Button = React.createClass({
           'u-sizeFull u-textSizeBaseMobile': this.props.fullscreen
         }),
         buttonContainerClasses = classSet({
-          'u-textRight': !this.props.fullscreen && !i18n.isRTL(),
-          'u-textLeft': !this.props.fullscreen && i18n.isRTL()
+          'u-textRight': !this.props.fullscreen && !this.props.rtl,
+          'u-textLeft': !this.props.fullscreen && this.props.rtl
         }),
         allowedTypes = /^(submit|button)$/i,
         type = allowedTypes.test(this.props.type)

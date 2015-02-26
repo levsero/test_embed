@@ -357,6 +357,7 @@ export var HelpCenter = React.createClass({
             label={this.state.buttonLabel}
             handleClick={this.props.onButtonClick}
             fullscreen={this.state.fullscreen}
+            rtl={i18n.isRTL()}
           />
         </div>
 

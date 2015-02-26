@@ -134,6 +134,7 @@ var SubmitTicketForm = React.createClass({
           disabled={!this.state.isValid || this.state.isSubmitting}
           fullscreen={this.props.fullscreen}
           type='submit'
+          rtl={i18n.isRTL()}
         />
       </form>
     );

@@ -14,12 +14,7 @@ describe('Button component', function() {
     });
 
     mockRegistry = initMockRegistry({
-      'react/addons': React,
-      'service/i18n': {
-        i18n: jasmine.createSpyObj('i18n', [
-          'isRTL'
-        ])
-      }
+      'react/addons': React
     });
 
     mockery.registerAllowable(buttonPath);
@@ -85,17 +80,8 @@ describe('Button component', function() {
   });
 
   it('should have rtl classes when rtl prop is true', function() {
-    mockRegistry['service/i18n'].i18n = {
-      isRTL: function() {
-        return true;
-      }
-    };
-
-    mockery.resetCache();
-    Button = require(buttonPath).Button;
-
     var button = React.renderComponent(
-          <Button />,
+          <Button rtl={true} />,
           global.document.body
         ),
         buttonElem = ReactTestUtils
