@@ -32,25 +32,12 @@ function get(name) {
   return chats[name];
 }
 
-function show(name) {
-  var config = get(name).config,
-      position = (config.position === 'right') ? 'br' : 'bl';
-
+function show() {
   win.$zopim(function() {
-    var zopimWin = win.$zopim.livechat.window;
-
-    zopimWin.setPosition(position);
-    zopimWin.setTitle(config.title);
-    zopimWin.setSize(config.size);
-    zopimWin.setOffsetVertical(config.offsetVertical);
-    zopimWin.show();
+    win.$zopim.livechat.window.show();
   });
 
   store.set('zopimOpen', true, 'session');
-
-  if (styleTag.parentNode) {
-    styleTag.parentNode.removeChild(styleTag);
-  }
 }
 
 function postRender(name) {
@@ -75,11 +62,6 @@ function render(name) {
         $.src='//v2.zopim.com/?${zopimId}';
         z.t=+new Date;$. type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');
       `,
-      css = `
-        .zopim[__jx__id] {
-          display: none !important;
-        }
-      `,
       scriptTag = document.createElement('script'),
       host = getDocumentHost();
 
@@ -100,7 +82,6 @@ function render(name) {
     if (!store.get('zopimOpen', 'session')) {
       host.appendChild(styleTag);
     }
-    styleTag.innerHTML = css;
     init(name);
   }
 
@@ -138,6 +119,30 @@ function init(name) {
   var zopim = win.$zopim,
       chat = get(name),
       config = chat.config,
+      position = (config.position === 'right') ? 'br' : 'bl',
+      zopimShow,
+      zopimHide,
+      zopimApiOverwritten = false,
+      overwriteZopimApi = function() {
+        if (!zopimApiOverwritten) {
+          zopimShow = win.$zopim.livechat.window.show;
+          zopimHide = win.$zopim.livechat.window.hide;
+          zopimApiOverwritten = true;
+
+          win.$zopim.livechat.window.show = function() {
+            mediator.channel.broadcast('.zopimShow');
+            zopimShow();
+          };
+
+          win.$zopim.livechat.window.hide = function() {
+            mediator.channel.broadcast('.zopimHide');
+            zopimHide();
+            win.$zopim(function() {
+              win.$zopim.livechat.hideAll();
+            });
+          };
+        }
+      },
       broadcastStatus = function() {
         if (chat.online && chat.connected) {
           mediator.channel.broadcast(`${name}.onOnline`);
@@ -148,6 +153,8 @@ function init(name) {
       onStatus = function(status) {
         chat.online = (status === 'online');
         broadcastStatus();
+
+        overwriteZopimApi();
       },
       onConnect = function() {
         chat.connected = true;
@@ -189,8 +196,14 @@ function init(name) {
     zopimLive.setOnStatus(onStatus);
     zopimLive.setOnUnreadMsgs(onUnreadMsgs);
     zopimLive.setOnChatEnd(onChatEnd);
+
+    //configure zopim window
     zopimLive.theme.setColor(config.color);
     zopimLive.theme.setTheme('zendesk');
+    zopimWin.setPosition(position);
+    zopimWin.setTitle(config.title);
+    zopimWin.setSize(config.size);
+    zopimWin.setOffsetVertical(config.offsetVertical);
   });
 }
 
