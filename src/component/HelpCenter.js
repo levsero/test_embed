@@ -2,16 +2,16 @@
 
 module React from 'react/addons';
 
-import { transport }          from 'service/transport';
-import { stopWordsFilter }    from 'mixin/searchFilter';
-import { HelpCenterForm }     from 'component/HelpCenterForm';
-import { HelpCenterArticle }  from 'component/HelpCenterArticle';
-import { SearchField }        from 'component/FormField';
-import { ZendeskLogo }        from 'component/ZendeskLogo';
-import { Container }          from 'component/Container';
-import { isMobileBrowser }    from 'utility/devices';
-import { i18n }               from 'service/i18n';
-import { Button }             from 'component/Button';
+import { transport }         from 'service/transport';
+import { stopWordsFilter }   from 'mixin/searchFilter';
+import { HelpCenterForm }    from 'component/HelpCenterForm';
+import { HelpCenterArticle } from 'component/HelpCenterArticle';
+import { SearchField }       from 'component/FormField';
+import { ZendeskLogo }       from 'component/ZendeskLogo';
+import { Container }         from 'component/Container';
+import { isMobileBrowser }   from 'utility/devices';
+import { i18n }              from 'service/i18n';
+import { Button }            from 'component/Button';
 
 require('imports?_=lodash!lodash');
 
@@ -275,19 +275,11 @@ export var HelpCenter = React.createClass({
     }
 
     if (this.state.buttonLabel === chatButtonLabel) {
-      linkContext = i18n.t('embeddable_framework.helpCenter.label.linkContext.chat', {
-          fallback: 'Need more specific help?'
-      });
-      linkLabel = i18n.t('embeddable_framework.helpCenter.label.link.chat', {
-          fallback: 'Chat with us'
-      });
+      linkContext = i18n.t('embeddable_framework.helpCenter.label.linkContext.chat');
+      linkLabel = i18n.t('embeddable_framework.helpCenter.label.link.chat');
     } else {
-      linkContext = i18n.t('embeddable_framework.helpCenter.label.linkContext.submitTicket', {
-          fallback: 'Do you have a specific question?'
-      });
-      linkLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket', {
-          fallback: 'Leave us a message'
-      });
+      linkContext = i18n.t('embeddable_framework.helpCenter.label.linkContext.submitTicket');
+      linkLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket');
     }
 
     /* jshint laxbreak: true */
@@ -316,9 +308,7 @@ export var HelpCenter = React.createClass({
             onSearch={this.handleSearch}
             onSubmit={this.handleSubmit}>
             <h1 className={searchTitleClasses}>
-              {i18n.t('embeddable_framework.helpCenter.label.searchHelpCenter', {
-                fallback: 'Search our Help Center'
-              })}
+              {i18n.t('embeddable_framework.helpCenter.label.searchHelpCenter')}
             </h1>
             {searchField}
             <div className={linkClasses}>
@@ -360,7 +350,6 @@ export var HelpCenter = React.createClass({
             rtl={i18n.isRTL()}
           />
         </div>
-
         {zendeskLogo}
       </Container>
     );

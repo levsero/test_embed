@@ -3,7 +3,7 @@
  *    which computes to 0.9999px & borders can't be sub pixel
  *    we boost the calculation to do 1.1/12
  *
- * 1. width is set here to avoid mobile browser zooming.
+ * 2. width is set here to avoid mobile browser zooming.
  *    the actual value of the width is the full length of the
  *    field minus the size of the icon.
  */
@@ -128,7 +128,7 @@ $Form-fontSize: #{13/$font-size}rem;
   }
 
   input:not([type="checkbox"]), textarea, select {
-    width: calc(100% - #{40/$font-size}rem); /* 1 */
+    width: calc(100% - #{40/$font-size}rem); /* 2 */
   }
 }
 

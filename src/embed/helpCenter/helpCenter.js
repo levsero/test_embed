@@ -13,6 +13,7 @@ import { i18n }            from 'service/i18n';
 import { transport }       from 'service/transport';
 import { mediator }        from 'service/mediator';
 import { generateUserCSS } from 'utility/utils';
+
 require('imports?_=lodash!lodash');
 
 var helpCenterCSS = require('./helpCenter.scss'),

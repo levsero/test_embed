@@ -13,15 +13,23 @@ var classSet = React.addons.classSet;
 var HelpCenterArticle = React.createClass({
   componentDidUpdate() {
     var container = this.refs.article.getDOMNode(),
-        allowedTags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'a', 'ul',
+        allowedTags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'a', 'ul', 'span',
                        'ol', 'nl', 'li', 'b', 'i', 'strong', 'em', 'strike', 'hr', 'br', 'div'],
+        allowedClasses = [
+          'wysiwyg-font-size-x-large',
+          'wysiwyg-font-size-large',
+          'wysiwyg-font-size-small'
+        ],
         cleanHtml;
 
     if (this.props.activeArticle.body) {
       cleanHtml = sanitizeHtml(this.props.activeArticle.body, {
         allowedTags: allowedTags,
         allowedAttributes: {
-          'a': [ 'href' ]
+          'a': [ 'href' ],
+        },
+        allowedClasses: {
+          'span': allowedClasses
         }
       });
       container.innerHTML = cleanHtml;
@@ -30,7 +38,7 @@ var HelpCenterArticle = React.createClass({
 
   render() {
     var userContentClasses = classSet({
-          'UserContent u-paddingTM u-paddingRS': true,
+          'UserContent UserContent-viewArticleLink u-paddingTM u-paddingRS': true,
           'UserContent--mobile u-paddingTM': this.props.fullscreen,
           'UserContent--scroll': !this.props.fullscreen
         }),
@@ -59,7 +67,6 @@ var HelpCenterArticle = React.createClass({
               })}
             </a>
           </div>
-
         </div>
       </div>
     );
