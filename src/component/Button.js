@@ -5,13 +5,24 @@ module React from 'react/addons';
 var classSet = React.addons.classSet;
 
 var Button = React.createClass({
+  propTypes: {
+    label: React.PropTypes.string.isRequired,
+    fullscreen: React.PropTypes.bool.isRequired,
+    rtl: React.PropTypes.bool.isRequired,
+    disabled: React.PropTypes.bool,
+    handleClick: React.PropTypes.func,
+    type: React.PropTypes.string
+  },
+
   render() {
       /* jshint laxbreak: true */
     var buttonClasses = classSet({
           'Button Button--cta Anim-color u-textNoWrap u-userBackgroundColor': true,
-          'u-pullRight': !this.props.fullscreen && !this.props.rtl,
-          'u-pullLeft': !this.props.fullscreen && this.props.rtl,
           'u-sizeFull u-textSizeBaseMobile': this.props.fullscreen
+        }),
+        buttonContainerClasses = classSet({
+          'u-textRight': !this.props.fullscreen && !this.props.rtl,
+          'u-textLeft': !this.props.fullscreen && this.props.rtl
         }),
         allowedTypes = /^(submit|button)$/i,
         type = allowedTypes.test(this.props.type)
@@ -19,14 +30,16 @@ var Button = React.createClass({
              : 'button';
 
     return (
-      <input
-        type={type}
-        value={this.props.label}
-        onClick={this.props.handleClick}
-        onTouchStart={this.props.handleClick}
-        disabled={this.props.disabled || false}
-        className={buttonClasses}
-      />
+      <div className={buttonContainerClasses}>
+        <input
+          type={type}
+          value={this.props.label}
+          onClick={this.props.handleClick}
+          onTouchStart={this.props.handleClick}
+          disabled={this.props.disabled || false}
+          className={buttonClasses}
+        />
+      </div>
     );
   }
 });

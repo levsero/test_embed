@@ -32,16 +32,7 @@ function create(name, config) {
         beacon.track('submitTicket', 'send', name);
         mediator.channel.broadcast(name + '.onFormSubmitted');
       },
-      Embed,
-      handleBack = function() {
-        mediator.channel.broadcast(name + '.onBackClick');
-      },
-      getSubmitTicket = function() {
-        return get(name).instance.getChild().refs.submitTicket;
-      },
-      getSubmitTicketForm = function() {
-        return getSubmitTicket().refs.submitTicketForm;
-      };
+      Embed;
 
   config = _.extend(configDefaults, config);
 
@@ -77,31 +68,34 @@ function create(name, config) {
       style: iframeStyle,
       css: submitTicketCSS + generateUserCSS({color: config.color}),
       fullscreenable: true,
-      onShow() {
+      onShow(child) {
         if (isMobileBrowser()) {
           setScaleLock(true);
         }
 
-        getSubmitTicketForm().resetTicketFormVisibility();
+        child.refs.submitTicket.refs.submitTicketForm.resetTicketFormVisibility();
       },
       name: name,
-      afterShowAnimate() {
-        getSubmitTicketForm().focusField();
+      afterShowAnimate(child) {
+        child.refs.submitTicket.refs.submitTicketForm.focusField();
       },
-      onHide() {
+      onHide(child) {
         if (isMobileBrowser()) {
           setScaleLock(false);
-          getSubmitTicketForm().hideVirtualKeyboard();
+          child.refs.submitTicket.refs.submitTicketForm.hideVirtualKeyboard();
         }
       },
       onClose() {
         mediator.channel.broadcast(name + '.onClose');
       },
+      onBack() {
+        mediator.channel.broadcast(name + '.onBackClick');
+      },
       extend: {}
     }));
 
   submitTickets[name] = {
-    component: <Embed visible={false} handleBackClick={handleBack}/>,
+    component: <Embed visible={false} />,
     config: config
   };
 

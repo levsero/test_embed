@@ -24,17 +24,6 @@ describe('HelpCenterForm component', function() {
       'component/Loading': {
         Loading: noop
       },
-      'component/Button': {
-        Button: jasmine.createSpy('mockButton')
-          .and.callFake(React.createClass({
-            render: function() {
-              /* jshint quotmark:false */
-              return (
-                <input onClick={this.props.handleClick} />
-              );
-            }
-          }))
-      },
       'component/FormField': {
         SearchField: noop
       },
@@ -85,7 +74,9 @@ describe('HelpCenterForm component', function() {
 
   it('should call onSearch when input value changes', function() {
     var helpCenterForm = React.renderComponent(
-          <HelpCenterForm onSearch={onSearch} />,
+          <HelpCenterForm onSearch={onSearch}>
+            <input />
+          </HelpCenterForm>,
           global.document.body
         ),
         helpCenterFormNode = helpCenterForm.getDOMNode();

@@ -1,6 +1,5 @@
 /**
  * 1. fallback for old android browsers
- * 2. removes extra pixels webkit adds
  */
 
 @import '../_vars.scss';
@@ -11,13 +10,15 @@ $Container--popover-arrowWidth: $Container--popover-arrowFullWidth/2;
 
 .Container {
   padding: #{$Container-spacing}rem;
+  box-sizing: border-box;
 }
 
 .Container--popover {
   border-radius: #{8/$font-size}rem;
-  border: #{1/$font-size}rem solid $base-border-color;
+  border: $thin-border-size solid $base-border-color;
   box-shadow: 0 0 #{6/$font-size}rem 0 rgba($base-shadow, .1);
   background: $base-color;
+  max-height: #{450/$font-size}rem;
 
   &:after, &:before {
     top: 100%;
@@ -61,7 +62,7 @@ $Container--popover-arrowWidth: $Container--popover-arrowFullWidth/2;
   border: none;
   width: 100%;
   height: 100%;
-  box-sizing: border-box;
+  max-height: auto;
   padding: #{$Container-spacing}rem #{18/$font-size}rem;
 }
 
@@ -72,19 +73,12 @@ $Container--popover-arrowWidth: $Container--popover-arrowFullWidth/2;
 
 .Container-pullout {
   margin: (-#{$Container-spacing}rem) (-#{$Container-spacing}rem) 0;
-  -webkit-margin-before: -#{24/$font-size}rem; /* 2 */
-  -webkit-margin-end: -#{23/$font-size}rem; /* 2 */
-
-  [dir='rtl'] & {
-    -webkit-margin-end: -#{25/$font-size}rem;
-    -webkit-margin-start: -#{23/$font-size}rem;
-  }
 }
 
 .Container-bar {
   position: absolute;
   height: #{44/$font-size}rem;
-  background: #F5F5F5;
+  background: $form-cta-color;
   right: 0;
   left: 0;
   top: 0;

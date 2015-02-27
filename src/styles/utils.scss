@@ -48,6 +48,10 @@ $Base-posOffset: #{20/$font-size}rem;
   transform: translateY(-50%);
 }
 
+.u-posStatic {
+  position: static !important;
+}
+
 /**
  * Used to adjust the default spacing between components
  * Use with great care!
@@ -97,6 +101,10 @@ $Base-posOffset: #{20/$font-size}rem;
   margin-top: #{30/$font-size}rem;
 }
 
+.u-marginVM {
+  margin: #{20/$font-size}rem 0;
+}
+
 .u-paddingHN {
   padding-left: 0 !important;
   padding-right: 0 !important;
@@ -111,16 +119,25 @@ $Base-posOffset: #{20/$font-size}rem;
   }
 }
 
+.u-paddingRS {
+  padding-right: #{10/$font-size}rem;
+
+  [dir='rtl'] & {
+    padding-right: 0;
+    padding-left: #{10/$font-size}rem;
+  }
+}
+
 .u-paddingTM {
   padding-top: #{20/$font-size}rem;
 }
 
-.u-paddingBN {
-  padding-bottom: 0 !important;
+.u-paddingBS {
+  padding-bottom: #{10/$font-size}rem;
 }
 
-.u-paddingBS {
-  padding-bottom: #{10/$font-size}rem !important;
+.u-paddingBN {
+  padding-bottom: 0 !important;
 }
 
 .u-paddingBL {
@@ -204,10 +221,10 @@ $Base-posOffset: #{20/$font-size}rem;
 }
 
 .u-borderTop {
-  border-top: #{1/$font-size}rem solid $base-border-color;
+  border-top: $thin-border-size solid $base-border-color;
 }
 
 .u-borderBottom {
-  border-bottom: #{1/$font-size}rem solid $base-border-color;
+  border-bottom: $thin-border-size solid $base-border-color;
 }
 

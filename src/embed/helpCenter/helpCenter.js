@@ -13,6 +13,7 @@ import { i18n }            from 'service/i18n';
 import { transport }       from 'service/transport';
 import { mediator }        from 'service/mediator';
 import { generateUserCSS } from 'utility/utils';
+
 require('imports?_=lodash!lodash');
 
 var helpCenterCSS = require('./helpCenter.scss'),
@@ -33,14 +34,16 @@ function create(name, config) {
       onButtonClick = function() {
         mediator.channel.broadcast(name + '.onNextClick');
       },
+      showBackButton = function() {
+        get(name).instance.getChild().setState({
+          showBackButton: true
+        });
+      },
       onLinkClick = function(ev) {
         beacon.track('helpCenter', 'click', name, ev.target.href);
       },
       onSearch = function(searchString) {
         beacon.track('helpCenter', 'search', name, searchString);
-      },
-      getHelpCenterComponent = function() {
-        return get(name).instance.getChild().refs.helpCenter;
       },
       Embed;
 
@@ -55,6 +58,7 @@ function create(name, config) {
            : { right: 5 };
 
     iframeBase.minWidth = 400;
+    iframeBase.maxHeight = 500;
     containerStyle = { minWidth: 400, margin: 15 };
   }
 
@@ -69,6 +73,7 @@ function create(name, config) {
             ref='helpCenter'
             zendeskHost={transport.getZendeskHost()}
             onButtonClick={onButtonClick}
+            showBackButton={showBackButton}
             onLinkClick={onLinkClick}
             onSearch={onSearch}
             hideZendeskLogo={config.hideZendeskLogo}
@@ -82,23 +87,31 @@ function create(name, config) {
       css: helpCenterCSS + generateUserCSS({color: config.color}),
       name: name,
       fullscreenable: true,
-      afterShowAnimate() {
-        getHelpCenterComponent().focusField();
+      afterShowAnimate(child) {
+        child.refs.helpCenter.focusField();
       },
-      onHide() {
+      onHide(child) {
         if (isMobileBrowser()) {
           setScaleLock(false);
         }
-        getHelpCenterComponent().hideVirtualKeyboard();
+        child.refs.helpCenter.hideVirtualKeyboard();
       },
-      onShow() {
+      onShow(child) {
         if (isMobileBrowser()) {
           setScaleLock(true);
         }
-        getHelpCenterComponent().resetSearchFieldState();
+        child.refs.helpCenter.resetSearchFieldState();
       },
       onClose() {
         mediator.channel.broadcast(name + '.onClose');
+      },
+      onBack(child) {
+        child.refs.helpCenter.setState({
+          articleViewActive: false
+        });
+        child.setState({
+          showBackButton: false
+        });
       },
       extend: {}
     }));
@@ -164,6 +177,12 @@ function render(name) {
 
   mediator.channel.subscribe(name + '.setNextToSubmitTicket', function() {
     updateHelpCenterButton(name, 'submitTicket');
+  });
+
+  mediator.channel.subscribe(name + '.showBackButton', function() {
+    get(name).instance.getChild().setState({
+      showBackButton: true
+    });
   });
 
 }

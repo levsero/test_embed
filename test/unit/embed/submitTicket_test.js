@@ -132,6 +132,7 @@ describe('embed.submitTicket', function() {
     describe('frameFactory', function() {
       var mockFrameFactory,
           mockFrameFactoryCall,
+          submitTicketChild,
           params;
 
       beforeEach(function() {
@@ -153,17 +154,18 @@ describe('embed.submitTicket', function() {
         submitTicket = require(submitTicketPath).submitTicket;
         submitTicket.create('bob', frameConfig);
         submitTicket.render('bob');
+        submitTicketChild = submitTicket.get('bob').instance.getChild();
         mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
         params = mockFrameFactoryCall[1];
 
-        params.onShow();
+        params.onShow(submitTicketChild);
 
         expect(mockSetScaleLock)
           .toHaveBeenCalledWith(true);
 
         mockSetScaleLock.calls.reset();
 
-        params.onHide();
+        params.onHide(submitTicketChild);
 
         expect(mockSetScaleLock)
           .toHaveBeenCalledWith(false);
@@ -173,10 +175,11 @@ describe('embed.submitTicket', function() {
         submitTicket = require(submitTicketPath).submitTicket;
         submitTicket.create('bob', frameConfig);
         submitTicket.render('bob');
+        submitTicketChild = submitTicket.get('bob').instance.getChild();
         mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
         params = mockFrameFactoryCall[1];
 
-        params.onShow();
+        params.onShow(submitTicket.get('bob').instance.getChild());
 
         expect(resetTicketFormVisibility)
           .toHaveBeenCalled();
@@ -186,10 +189,11 @@ describe('embed.submitTicket', function() {
         submitTicket = require(submitTicketPath).submitTicket;
         submitTicket.create('bob', frameConfig);
         submitTicket.render('bob');
+        submitTicketChild = submitTicket.get('bob').instance.getChild();
         mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
         params = mockFrameFactoryCall[1];
 
-        params.onHide();
+        params.onHide(submitTicketChild);
 
         expect(hideVirtualKeyboard)
           .toHaveBeenCalled();

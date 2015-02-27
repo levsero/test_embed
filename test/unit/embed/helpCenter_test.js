@@ -147,7 +147,8 @@ describe('embed.helpCenter', function() {
       });
 
       describe('mediator broadcasts', function() {
-        var mockMediator;
+        var mockMediator,
+            helpCenterChild;
 
         beforeEach(function() {
           mockMediator = mockRegistry['service/mediator'].mediator;
@@ -173,10 +174,11 @@ describe('embed.helpCenter', function() {
           helpCenter = require(helpCenterPath).helpCenter;
           helpCenter.create('carlos', frameConfig);
           helpCenter.render('carlos');
+          helpCenterChild = helpCenter.get('carlos').instance.getChild();
           mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
           params = mockFrameFactoryCall[1];
 
-          params.onShow();
+          params.onShow(helpCenterChild);
 
           expect(resetSearchFieldState)
             .toHaveBeenCalled();
@@ -186,10 +188,11 @@ describe('embed.helpCenter', function() {
           helpCenter = require(helpCenterPath).helpCenter;
           helpCenter.create('carlos', frameConfig);
           helpCenter.render('carlos');
+          helpCenterChild = helpCenter.get('carlos').instance.getChild();
           mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
           params = mockFrameFactoryCall[1];
 
-          params.onHide();
+          params.onHide(helpCenterChild);
 
           expect(hideVirtualKeyboard)
             .toHaveBeenCalled();

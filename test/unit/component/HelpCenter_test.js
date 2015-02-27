@@ -20,6 +20,11 @@ describe('Help center component', function() {
       'service/transport': {
         transport: jasmine.createSpyObj('transport', ['send'])
       },
+      'service/mediator': {
+        mediator: {
+          channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
+        }
+      },
       'component/HelpCenterForm': {
         HelpCenterForm: jasmine.createSpy('mockHelpCenterForm')
           .and.callFake(React.createClass({
@@ -27,6 +32,15 @@ describe('Help center component', function() {
               return (<form onSubmit={this.handleSubmit}>
                 {this.props.children}
               </form>);
+            }
+          }))
+      },
+      'component/HelpCenterArticle': {
+        HelpCenterArticle: jasmine.createSpy('mockHelpCenterArticle')
+          .and.callFake(React.createClass({
+            /* jshint quotmark:false */
+            render: function() {
+              return <div className='UserContent' />;
             }
           }))
       },
@@ -61,6 +75,15 @@ describe('Help center component', function() {
               return <div>{this.props.children}</div>;
             }
           })),
+      },
+      'component/Button': {
+        Button: jasmine.createSpy('mockButton')
+          .and.callFake(React.createClass({
+            /* jshint quotmark:false */
+            render: function() {
+              return <input className='Button' type='button' />;
+            }
+          }))
       },
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', [
@@ -103,7 +126,7 @@ describe('Help center component', function() {
             global.document.body
           );
 
-    expect(helpCenter.state.topics)
+    expect(helpCenter.state.articles)
       .toEqual([]);
   });
 
@@ -161,6 +184,51 @@ describe('Help center component', function() {
 
       expect(listAnchor.props.className)
         .not.toContain('u-isHidden');
+    });
+
+    it('should render the inline article', function() {
+      var helpCenter = React.renderComponent(
+            <HelpCenter
+              onSearch={noop}
+              onLinkClick={noop}
+              showBackButton={noop} />,
+            global.document.body
+          ),
+          mockTransport = mockRegistry['service/transport'].transport,
+          searchString = 'help, I\'ve fallen and can\'t get up!',
+          responseArticle = {
+            /* jshint camelcase: false */
+            id: 0,
+            title: 'bob',
+            name: 'bob',
+            html_url: 'bob.com'
+          },
+          responsePayload = {
+            body: {
+              results: [responseArticle, responseArticle, responseArticle],
+              count: 3
+            },
+            ok: true
+          },
+          article = ReactTestUtils.findRenderedDOMComponentWithClass(helpCenter, 'UserContent')
+                    .getDOMNode()
+                    .parentNode,
+          listItem,
+          listAnchor;
+
+      helpCenter.handleSubmit({preventDefault: noop}, { value: searchString });
+      mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayload);
+
+      listItem = ReactTestUtils.scryRenderedDOMComponentsWithClass(helpCenter, 'List-item')[0];
+      listAnchor = ReactTestUtils.findRenderedDOMComponentWithTag(listItem, 'a');
+
+      expect(article.className)
+        .toMatch('u-isHidden');
+
+      ReactTestUtils.Simulate.click(listAnchor, {target: { dataset: { articleIndex: 0 }}});
+
+      expect(article.className)
+        .not.toMatch('u-isHidden');
     });
 
     it('should render error message when search fails', function() {
@@ -261,22 +329,5 @@ describe('Help center component', function() {
       expect(helpCenter.state.fullscreen)
         .toEqual(false);
     });
-  });
-
-  it('should pass on fullscreen to helpCenterForm', function() {
-    var mostRecentCall,
-        helpCenter,
-        mockHelpCenterForm = mockRegistry['component/HelpCenterForm'].HelpCenterForm;
-
-    helpCenter = React.renderComponent(
-      <HelpCenter />,
-      global.document.body
-    );
-
-    helpCenter.setState({fullscreen: 'VALUE'});
-    mostRecentCall = mockHelpCenterForm.calls.mostRecent().args[0];
-
-    expect(mostRecentCall.fullscreen)
-      .toEqual('VALUE');
   });
 });

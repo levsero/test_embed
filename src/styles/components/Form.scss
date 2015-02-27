@@ -1,9 +1,5 @@
 /**
- * 1. because safari 8 is dumb and rounds 1/12 to .083rem
- *    which computes to 0.9999px & borders can't be sub pixel
- *    we boost the calculation to do 1.1/12
- *
- * 2. width is set here to avoid mobile browser zooming.
+ * 1. width is set here to avoid mobile browser zooming.
  *    the actual value of the width is the full length of the
  *    field minus the size of the icon.
  */
@@ -19,13 +15,12 @@
   font-style: normal;
 }
 
-$Form-stroke: #{1.1/$font-size}rem; /* 1 */
 $Form-spacing: #{10/$font-size}rem;
 $Form-gutter: #{15/$font-size}rem;
 $Form-fontSize: #{13/$font-size}rem;
 
 @mixin error-state($thickness) {
-  border: #{$thickness/$font-size}rem solid $error-color;
+  border: $thickness solid $error-color;
 }
 
 .Form {
@@ -48,7 +43,7 @@ $Form-fontSize: #{13/$font-size}rem;
   border-radius: #{8/$font-size}rem #{8/$font-size}rem 0 0;
   padding: #{20/$font-size}rem #{25/$font-size}rem;
   background: $form-cta-color;
-  border-bottom: #{1/$font-size}rem solid $base-border-color;
+  border-bottom: $thin-border-size solid $base-border-color;
 }
 
 .Form-cta--barFullscreen {
@@ -66,7 +61,7 @@ $Form-fontSize: #{13/$font-size}rem;
 .rf-Field {
   margin-bottom: $Form-gutter;
   background: $base-color;
-  border: $Form-stroke solid $stroke-color;
+  border: $thin-border-size solid $stroke-color;
   border-radius: #{4/$font-size}rem;
   padding: $Form-spacing;
   color: $secondary-color;
@@ -129,7 +124,7 @@ $Form-fontSize: #{13/$font-size}rem;
   }
 
   input:not([type="checkbox"]), textarea, select {
-    width: calc(100% - #{40/$font-size}rem); /* 2 */
+    width: calc(100% - #{40/$font-size}rem); /* 1 */
   }
 }
 
@@ -146,10 +141,10 @@ $Form-fontSize: #{13/$font-size}rem;
 }
 
 .rf-Field--focused {
-  border: $Form-stroke solid $stroke-focused-color;
+  border: $thin-border-size solid $stroke-focused-color;
 
   &.rf-Field--dirty.rf-Field--invalid {
-    @include error-state(1.1);
+    @include error-state($thin-border-size);
   }
 
   > .Icon--search {
@@ -168,7 +163,7 @@ $Form-fontSize: #{13/$font-size}rem;
 }
 
 .rf-Field--blurred.rf-Field--invalid {
-  @include error-state(1.1);
+  @include error-state($thin-border-size);
 }
 
 .rf-Field__label {
