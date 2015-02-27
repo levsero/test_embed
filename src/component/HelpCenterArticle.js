@@ -65,7 +65,7 @@ var HelpCenterArticle = React.createClass({
 
   render() {
     var userContentClasses = classSet({
-          'UserContent u-paddingTM u-paddingRS': true,
+          'UserContent u-paddingTM u-paddingRS u-userLinkColor': true,
           'UserContent--mobile u-paddingTM': this.props.fullscreen,
           'UserContent--scroll': !this.props.fullscreen
         }),
