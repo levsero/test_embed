@@ -12,20 +12,20 @@ var sanitizeHtml = require('sanitize-html'),
 var HelpCenterArticle = React.createClass({
   componentDidUpdate() {
     var container = this.refs.article.getDOMNode(),
-        allowedTags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'a', 'ul', 'span',
-                       'ol', 'nl', 'li', 'b', 'i', 'strong', 'em', 'strike', 'hr', 'br', 'div'],
-        allowedClasses = [
-          'wysiwyg-font-size-x-large',
-          'wysiwyg-font-size-large',
-          'wysiwyg-font-size-small'
-        ],
         sanitizeHtmlOptions = {
-          allowedTags: allowedTags,
+          allowedTags: [
+            'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'a', 'ul', 'span',
+            'ol', 'nl', 'li', 'b', 'i', 'strong', 'em', 'strike', 'hr', 'br', 'div'
+          ],
           allowedAttributes: {
             'a': [ 'href' ],
           },
           allowedClasses: {
-            'span': allowedClasses
+            'span': [
+              'wysiwyg-font-size-x-large',
+              'wysiwyg-font-size-large',
+              'wysiwyg-font-size-small'
+            ]
           }
         },
         cleanHtml;
