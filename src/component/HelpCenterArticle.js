@@ -19,18 +19,19 @@ var HelpCenterArticle = React.createClass({
           'wysiwyg-font-size-large',
           'wysiwyg-font-size-small'
         ],
+        sanitizeHtmlOptions = {
+          allowedTags: allowedTags,
+          allowedAttributes: {
+            'a': [ 'href' ],
+          },
+          allowedClasses: {
+            'span': allowedClasses
+          }
+        },
         cleanHtml;
 
     if (this.props.activeArticle.body) {
-      cleanHtml = sanitizeHtml(this.props.activeArticle.body, {
-        allowedTags: allowedTags,
-        allowedAttributes: {
-          'a': [ 'href' ],
-        },
-        allowedClasses: {
-          'span': allowedClasses
-        }
-      });
+      cleanHtml = sanitizeHtml(this.props.activeArticle.body, sanitizeHtmlOptions);
       container.innerHTML = cleanHtml;
     }
   },
@@ -55,7 +56,7 @@ var HelpCenterArticle = React.createClass({
             <h1>{this.props.activeArticle.title}</h1>
             <div
               ref='article'
-              className='UserContent-article u-marginTM'
+              className='u-marginTM'
             />
             <a
               href={this.props.activeArticle.html_url}
