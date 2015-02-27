@@ -4,7 +4,9 @@
   max-width: 100%;
   overflow: auto;
   word-break: break-word;
-  max-height: 280px;
+  max-height: #{280/$font-size}rem;
+  line-height: 1.5;
+  font-size: #{14/$font-size}rem;
 
   ul {
     white-space: pre-wrap;
@@ -12,11 +14,58 @@
 
   ol, ul {
     list-style: disc;
-    margin: 0 0 0 #{20/$font-size}rem;
+    margin: 0 0 #{20/$font-size}rem #{20/$font-size}rem;
+
   }
 
   ol {
     list-style: decimal;
+  }
+
+  a {
+    text-decoration: underline;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  h1, h2, h3, h4, h5, h6,
+  .wysiwyg-font-size-large,
+  .wysiwyg-font-size-x-large {
+    font-weight: 600;
+    color: $body-color;
+    margin-bottom: #{5/$font-size}rem;
+  }
+
+  h1, .wysiwyg-font-size-x-large {
+    font-size: #{16/$font-size}rem;
+  }
+
+  h2, .wysiwyg-font-size-large {
+    font-size: #{15/$font-size}rem;
+  }
+
+  h3 {
+    font-size: #{14/$font-size}rem;
+  }
+
+  h4 {
+    font-size: #{13/$font-size}rem;
+  }
+
+  h5, .wysiwyg-font-size-small {
+    font-size: #{12/$font-size}rem;
+  }
+
+  h6 {
+    font-size: #{11/$font-size}rem;
+  }
+
+  blockquote {
+    border-left: #{4/$font-size}rem solid $icon-color;
+    padding-left: #{20/$font-size}rem;
+    font-style: italic;
   }
 }
 
@@ -35,6 +84,9 @@
   background-size: 100% #{40/$font-size}rem, 100% #{5/$font-size}rem;
   background-attachment: local, scroll;
 
+  &::-webkit-scrollbar-track {
+    margin-top: #{20/$font-size}rem;
+  }
   /*
    * Customise scrollbar for safari/chrome
    */
@@ -62,10 +114,3 @@
 .UserContent--mobile {
   max-height: calc(100% - #{40/$font-size}rem);
 }
-
-.UserContent-article {
-  iframe, img, p:empty, video, table, code, pre {
-    display: none;
-  }
-}
-

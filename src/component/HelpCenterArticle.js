@@ -2,18 +2,37 @@
 
 module React from 'react/addons';
 
-import { i18n }   from 'service/i18n';
+import { i18n } from 'service/i18n';
 
 require('imports?_=lodash!lodash');
 
-var classSet = React.addons.classSet;
+var sanitizeHtml = require('sanitize-html'),
+    classSet = React.addons.classSet;
 
 var HelpCenterArticle = React.createClass({
   componentDidUpdate() {
-    var container = this.refs.article.getDOMNode();
+    var container = this.refs.article.getDOMNode(),
+        sanitizeHtmlOptions = {
+          allowedTags: [
+            'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'a', 'ul', 'span',
+            'ol', 'nl', 'li', 'b', 'i', 'strong', 'em', 'strike', 'hr', 'br', 'div'
+          ],
+          allowedAttributes: {
+            'a': [ 'href' ],
+          },
+          allowedClasses: {
+            'span': [
+              'wysiwyg-font-size-x-large',
+              'wysiwyg-font-size-large',
+              'wysiwyg-font-size-small'
+            ]
+          }
+        },
+        cleanHtml;
 
     if (this.props.activeArticle.body) {
-      container.innerHTML = this.props.activeArticle.body;
+      cleanHtml = sanitizeHtml(this.props.activeArticle.body, sanitizeHtmlOptions);
+      container.innerHTML = cleanHtml;
     }
   },
 
@@ -37,7 +56,7 @@ var HelpCenterArticle = React.createClass({
             <h1>{this.props.activeArticle.title}</h1>
             <div
               ref='article'
-              className='UserContent-article u-marginTM'
+              className='u-marginTM'
             />
             <a
               href={this.props.activeArticle.html_url}

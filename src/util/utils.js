@@ -2,7 +2,6 @@ import { document as doc } from 'utility/globals';
 import { getSizingRatio }  from 'utility/devices';
 import { mediator }        from 'service/mediator';
 
-
 require('imports?_=lodash!lodash');
 
 var Color = require('color'),
@@ -29,6 +28,9 @@ function generateUserCSS(params) {
       .u-userBackgroundColor:not([disabled]):active,
       .u-userBackgroundColor:not([disabled]):focus {
         background-color: ${highlightColor} !important;
+      }
+      .u-userLinkColor a {
+        color: ${params.color} !important;
       }
     `);
   } else {

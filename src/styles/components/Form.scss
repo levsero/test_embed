@@ -1,8 +1,4 @@
 /**
- * 1. because safari 8 is dumb and rounds 1/12 to .083rem
- *    which computes to 0.9999px & borders can't be sub pixel
- *    we boost the calculation to do 1.1/12
- *
  * 1. width is set here to avoid mobile browser zooming.
  *    the actual value of the width is the full length of the
  *    field minus the size of the icon.
