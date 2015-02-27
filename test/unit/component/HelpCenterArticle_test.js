@@ -106,10 +106,10 @@ describe('HelpCenterArticle component', function() {
     // componentdidupdate only fires after setState not on initial render
     helpCenterArticle.setState({foo: 'bar'});
 
-    baseTag = ReactTestUtils.findRenderedDOMComponentWithTag(helpCenterArticle, 'base');
+    baseTag = global.document.querySelector('head base');
     relativeAnchor = helpCenterArticle.getDOMNode().querySelector('a[href^="/relative"]');
 
-    expect(baseTag.props.href)
+    expect(baseTag.href)
       .toMatch(baseUrl);
 
     expect(relativeAnchor.href)

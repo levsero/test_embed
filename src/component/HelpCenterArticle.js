@@ -36,17 +36,30 @@ var HelpCenterArticle = React.createClass({
     }
   },
 
+  componentDidMount() {
+    var doc = this.getDOMNode().ownerDocument,
+        base = doc.createElement('base');
+
+    base.href = `https://${document.zendeskHost}`;
+
+    doc.head.appendChild(base);
+  },
+
   handleClick(e) {
     var target = e.target,
         nodeName = target.nodeName,
         href = target.getAttribute('href'),
         doc = target.ownerDocument;
 
-    if (nodeName === 'A' && href.substr(0,1) === '#') {
-      let inPageElem = doc.querySelector(href);
+    if (nodeName === 'A') {
+      if (href.indexOf('#') === 0) {
+        let inPageElem = doc.querySelector(href);
 
-      inPageElem.scrollIntoView();
-      e.preventDefault();
+        inPageElem.scrollIntoView();
+        e.preventDefault();
+      } else {
+        target.setAttribute('target', '_blank');
+      }
     }
   },
 
@@ -59,13 +72,11 @@ var HelpCenterArticle = React.createClass({
         barClasses = classSet({
           'Form-cta u-cf Container-pullout u-paddingBS': true,
           'Form-cta--bar u-paddingBL': !this.props.fullscreen
-        }),
-        baseUrl = `https://${document.zendeskHost}/`;
+        });
 
     return (
       /* jshint quotmark:false, camelcase:false */
       <div>
-        <base href={baseUrl} />
         <div className={barClasses} />
         <div className='u-nbfcAlt'>
           <div className={userContentClasses}>
