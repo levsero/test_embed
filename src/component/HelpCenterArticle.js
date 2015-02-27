@@ -36,6 +36,33 @@ var HelpCenterArticle = React.createClass({
     }
   },
 
+  componentDidMount() {
+    var doc = this.getDOMNode().ownerDocument,
+        base = doc.createElement('base');
+
+    base.href = `https://${document.zendeskHost}`;
+
+    doc.head.appendChild(base);
+  },
+
+  handleClick(e) {
+    var target = e.target,
+        nodeName = target.nodeName,
+        href = target.getAttribute('href'),
+        doc = target.ownerDocument;
+
+    if (nodeName === 'A') {
+      if (href.indexOf('#') === 0) {
+        let inPageElem = doc.querySelector(href);
+
+        inPageElem.scrollIntoView();
+        e.preventDefault();
+      } else {
+        target.setAttribute('target', '_blank');
+      }
+    }
+  },
+
   render() {
     var userContentClasses = classSet({
           'UserContent u-paddingTM u-paddingRS': true,
@@ -57,6 +84,8 @@ var HelpCenterArticle = React.createClass({
             <div
               ref='article'
               className='u-marginTM'
+              onClick={this.handleClick}
+              onTouchStart={this.handleClick}
             />
             <a
               href={this.props.activeArticle.html_url}
