@@ -87,14 +87,15 @@ var HelpCenterArticle = React.createClass({
               onClick={this.handleClick}
               onTouchStart={this.handleClick}
             />
-            <a
-              href={this.props.activeArticle.html_url}
-              className='UserContent-viewArticleLink u-marginBM u-block'
-              target='_blank'>
-              {i18n.t('embeddable_framework.helpCenter.article.viewLinkText', {
-                fallback: 'View original article'
-              })}
-            </a>
+            <div className='u-marginBM UserContent-viewArticleLink'>
+              <a
+                href={this.props.activeArticle.html_url}
+                target='_blank'>
+                {i18n.t('embeddable_framework.helpCenter.article.viewLinkText', {
+                  fallback: 'View original article'
+                })}
+              </a>
+            </div>
           </div>
         </div>
       </div>
