@@ -9,7 +9,7 @@ describe('HelpCenterArticle component', function() {
           <h1 id="foo">Foobar</h1>
           <a href="#foo">inpage link</a>
           <a class="relative" href="/relative/link">relative link</a>
-          <div style="bad styles not allowed"></div>
+          <div id="preserved" style="bad styles not allowed"></div>
         `
       },
       scrollIntoView;
@@ -92,6 +92,25 @@ describe('HelpCenterArticle component', function() {
 
     expect(helpCenterArticle.refs.article.getDOMNode().querySelector('div').style.cssText)
       .toEqual('');
+  });
+
+  it('should preserve ids on divs', function() {
+    var helpCenterArticle = React.renderComponent(
+          <HelpCenterArticle activeArticle={mockArticle} />,
+          global.document.body
+        ),
+        content;
+
+    // componentdidupdate only fires after setState not on initial render
+    helpCenterArticle.setState({foo: 'bar'});
+
+    content = helpCenterArticle.refs.article.getDOMNode();
+
+    expect(content.querySelector('div').id)
+      .toEqual('preserved');
+
+    expect(content.querySelector('h1').id)
+      .not.toEqual('foo');
   });
 
   it('should inject base tag to alter relative links base url', function() {
