@@ -29,6 +29,8 @@ export var HelpCenter = React.createClass({
       hasSearched: false,
       searchFailed: false,
       articleViewActive: false,
+      activeArticleID: 0,
+      lastActiveArticleID: 0,
       activeArticle: {},
       removeSearchField: false
     };
@@ -179,18 +181,14 @@ export var HelpCenter = React.createClass({
     e.preventDefault();
 
     this.setState({
+      activeArticleID: e.target.dataset.articleIndex,
       activeArticle: this.state.articles[e.target.dataset.articleIndex],
-      articleViewActive: true
+      articleViewActive: true,
+      lastActiveArticleID: this.state.activeArticleID
     });
 
     this.props.onLinkClick(e);
     this.props.showBackButton();
-  },
-
-  goBack() {
-    this.setState({
-      articleViewActive: false
-    });
   },
 
   render() {
@@ -339,6 +337,8 @@ export var HelpCenter = React.createClass({
         <div className={articleClasses}>
           <HelpCenterArticle
             activeArticle={this.state.activeArticle}
+            activeArticleID={this.state.activeArticleID}
+            lastActiveArticleID={this.state.lastActiveArticleID}
             fullscreen={this.state.fullscreen} />
         </div>
 

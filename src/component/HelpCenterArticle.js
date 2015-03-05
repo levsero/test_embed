@@ -35,6 +35,12 @@ var HelpCenterArticle = React.createClass({
       cleanHtml = sanitizeHtml(this.props.activeArticle.body, sanitizeHtmlOptions);
       container.innerHTML = cleanHtml;
     }
+
+    if (this.props.lastActiveArticleID !== this.props.activeArticleID) {
+      var topNode = this.refs.content.getDOMNode();
+      topNode.scrollTop = 0;
+    }
+
   },
 
   componentDidMount() {
@@ -80,7 +86,7 @@ var HelpCenterArticle = React.createClass({
       <div>
         <div className={barClasses} />
         <div className='u-nbfcAlt'>
-          <div className={userContentClasses}>
+          <div className={userContentClasses} ref='content'>
             <h1>{this.props.activeArticle.title}</h1>
             <div
               ref='article'
