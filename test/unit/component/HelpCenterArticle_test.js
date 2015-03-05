@@ -9,7 +9,10 @@ describe('HelpCenterArticle component', function() {
           <h1 id="foo">Foobar</h1>
           <a href="#foo">inpage link</a>
           <a class="relative" href="/relative/link">relative link</a>
-          <div id="preserved" style="bad styles not allowed"></div>
+          <div id="preserved" style="bad styles not allowed">
+            This text contains a note<sup>1</sup>
+          </div>
+          <div id="notes"><sup>1</sup>This explains the note</div>
         `
       },
       scrollIntoView;
@@ -88,7 +91,7 @@ describe('HelpCenterArticle component', function() {
     helpCenterArticle.setState({foo: 'bar'});
 
     expect(helpCenterArticle.refs.article.getDOMNode().children.length)
-      .toEqual(4);
+      .toEqual(5);
 
     expect(helpCenterArticle.refs.article.getDOMNode().querySelector('div').style.cssText)
       .toEqual('');
@@ -111,6 +114,24 @@ describe('HelpCenterArticle component', function() {
 
     expect(content.querySelector('h1').id)
       .not.toEqual('foo');
+  });
+
+  it('should preserve sups on divs', function() {
+    var helpCenterArticle = React.renderComponent(
+          <HelpCenterArticle activeArticle={mockArticle} />,
+          global.document.body
+        ),
+        content;
+
+    // componentdidupdate only fires after setState not on initial render
+    helpCenterArticle.setState({foo: 'bar'});
+
+    content = helpCenterArticle.refs.article.getDOMNode();
+
+    expect(content.querySelectorAll('sup').length)
+      .toBe(2);
+    expect(content.querySelector('div#notes').innerHTML)
+      .toBe('<sup>1</sup>This explains the note');
   });
 
   it('should inject base tag to alter relative links base url', function() {
