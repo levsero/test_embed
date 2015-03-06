@@ -10,7 +10,7 @@ describe('HelpCenterArticle component', function() {
           <a href="#foo">inpage link</a>
           <a class="relative" href="/relative/link">relative link</a>
           <div id="preserved" style="bad styles not allowed">
-            This text contains a note<sup>1</sup>
+            This text contains a sub-note<sub>1</sub>
           </div>
           <div id="notes"><sup>1</sup>This explains the note</div>
         `
@@ -116,7 +116,7 @@ describe('HelpCenterArticle component', function() {
       .not.toEqual('foo');
   });
 
-  it('should preserve sups on divs', function() {
+  it('should preserve sub/sups on divs', function() {
     var helpCenterArticle = React.renderComponent(
           <HelpCenterArticle activeArticle={mockArticle} />,
           global.document.body
@@ -128,9 +128,10 @@ describe('HelpCenterArticle component', function() {
 
     content = helpCenterArticle.refs.article.getDOMNode();
 
-    expect(content.querySelectorAll('sup').length)
+    expect(content.querySelectorAll('sup, sub').length)
       .toBe(2);
-    expect(content.querySelector('div#notes').innerHTML)
+
+    expect(content.querySelector('#notes').innerHTML)
       .toBe('<sup>1</sup>This explains the note');
   });
 
