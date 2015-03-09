@@ -10,6 +10,12 @@ var sanitizeHtml = require('sanitize-html'),
     classSet = React.addons.classSet;
 
 var HelpCenterArticle = React.createClass({
+  propTypes: {
+    activeArticle: React.PropTypes.object.isRequired,
+    activeArticleIndex: React.PropTypes.number.isRequired,
+    lastActiveArticleIndex: React.PropTypes.number.isRequired
+  },
+
   componentDidUpdate() {
     var container = this.refs.article.getDOMNode(),
         sanitizeHtmlOptions = {
@@ -36,8 +42,8 @@ var HelpCenterArticle = React.createClass({
       container.innerHTML = cleanHtml;
     }
 
-    if (this.props.lastActiveArticleID !== this.props.activeArticleID) {
-      var topNode = this.refs.content.getDOMNode();
+    if (this.props.lastActiveArticleIndex !== this.props.activeArticleIndex) {
+      var topNode = this.refs.userContent.getDOMNode();
       topNode.scrollTop = 0;
     }
 
@@ -86,7 +92,7 @@ var HelpCenterArticle = React.createClass({
       <div>
         <div className={barClasses} />
         <div className='u-nbfcAlt'>
-          <div className={userContentClasses} ref='content'>
+          <div className={userContentClasses} ref='userContent'>
             <h1>{this.props.activeArticle.title}</h1>
             <div
               ref='article'

@@ -29,8 +29,8 @@ export var HelpCenter = React.createClass({
       hasSearched: false,
       searchFailed: false,
       articleViewActive: false,
-      activeArticleID: 0,
-      lastActiveArticleID: 0,
+      activeArticleIndex: 0,
+      lastActiveArticleIndex: 0,
       activeArticle: {},
       removeSearchField: false
     };
@@ -180,11 +180,13 @@ export var HelpCenter = React.createClass({
   handleArticleClick(e) {
     e.preventDefault();
 
+    var articleIndex = parseInt(e.target.dataset.articleIndex, 10);
+
     this.setState({
-      activeArticleID: e.target.dataset.articleIndex,
-      activeArticle: this.state.articles[e.target.dataset.articleIndex],
+      activeArticleIndex: articleIndex,
+      activeArticle: this.state.articles[articleIndex],
       articleViewActive: true,
-      lastActiveArticleID: this.state.activeArticleID
+      lastActiveArticleIndex: this.state.activeArticleIndex
     });
 
     this.props.onLinkClick(e);
@@ -337,8 +339,8 @@ export var HelpCenter = React.createClass({
         <div className={articleClasses}>
           <HelpCenterArticle
             activeArticle={this.state.activeArticle}
-            activeArticleID={this.state.activeArticleID}
-            lastActiveArticleID={this.state.lastActiveArticleID}
+            activeArticleIndex={this.state.activeArticleIndex}
+            lastActiveArticleIndex={this.state.lastActiveArticleIndex}
             fullscreen={this.state.fullscreen} />
         </div>
 
