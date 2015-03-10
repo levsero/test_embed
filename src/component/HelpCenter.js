@@ -30,7 +30,7 @@ export var HelpCenter = React.createClass({
       searchFailed: false,
       articleViewActive: false,
       activeArticleIndex: 0,
-     activeArticle: {},
+      activeArticle: {},
       removeSearchField: false
     };
   },
