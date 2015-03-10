@@ -12,12 +12,12 @@ var sanitizeHtml = require('sanitize-html'),
 var HelpCenterArticle = React.createClass({
   propTypes: {
     activeArticle: React.PropTypes.object.isRequired,
-    activeArticleIndex: React.PropTypes.number.isRequired
+    articleID: React.PropTypes.number.isRequired
   },
 
   getInitialState() {
     return {
-      lastActiveArticleIndex: 0
+      lastActiveArticleID: 0
     };
   },
 
@@ -47,12 +47,12 @@ var HelpCenterArticle = React.createClass({
       container.innerHTML = cleanHtml;
     }
 
-    if (this.state.lastActiveArticleIndex !== this.props.activeArticleIndex) {
+    if (this.state.lastActiveArticleID !== this.props.articleID) {
       var topNode = this.refs.userContent.getDOMNode();
       topNode.scrollTop = 0;
 
       this.setState({
-        lastActiveArticleIndex: this.props.activeArticleIndex
+        lastActiveArticleID: this.props.articleID
       });
     }
   },
