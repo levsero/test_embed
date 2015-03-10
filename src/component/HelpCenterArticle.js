@@ -53,7 +53,7 @@ var HelpCenterArticle = React.createClass({
 
       this.setState({
         lastActiveArticleIndex: this.props.activeArticleIndex
-      })
+      });
     }
   },
 
