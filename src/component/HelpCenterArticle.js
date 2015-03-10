@@ -12,8 +12,13 @@ var sanitizeHtml = require('sanitize-html'),
 var HelpCenterArticle = React.createClass({
   propTypes: {
     activeArticle: React.PropTypes.object.isRequired,
-    activeArticleIndex: React.PropTypes.number.isRequired,
-    lastActiveArticleIndex: React.PropTypes.number.isRequired
+    activeArticleIndex: React.PropTypes.number.isRequired
+  },
+
+  getInitialState() {
+    return {
+      lastActiveArticleIndex: 0
+    };
   },
 
   componentDidUpdate() {
@@ -42,11 +47,14 @@ var HelpCenterArticle = React.createClass({
       container.innerHTML = cleanHtml;
     }
 
-    if (this.props.lastActiveArticleIndex !== this.props.activeArticleIndex) {
+    if (this.state.lastActiveArticleIndex !== this.props.activeArticleIndex) {
       var topNode = this.refs.userContent.getDOMNode();
       topNode.scrollTop = 0;
-    }
 
+      this.setState({
+        lastActiveArticleIndex: this.props.activeArticleIndex
+      })
+    }
   },
 
   componentDidMount() {
