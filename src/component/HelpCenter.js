@@ -178,19 +178,15 @@ export var HelpCenter = React.createClass({
   handleArticleClick(e) {
     e.preventDefault();
 
+    var articleIndex = parseInt(e.target.dataset.articleIndex, 10);
+
     this.setState({
-      activeArticle: this.state.articles[e.target.dataset.articleIndex],
+      activeArticle: this.state.articles[articleIndex],
       articleViewActive: true
     });
 
     this.props.onLinkClick(e);
     this.props.showBackButton();
-  },
-
-  goBack() {
-    this.setState({
-      articleViewActive: false
-    });
   },
 
   render() {
