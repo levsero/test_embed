@@ -182,7 +182,7 @@ export var HelpCenter = React.createClass({
 
     this.setState({
       activeArticle: this.state.articles[articleIndex],
-      articleViewActive: true,
+      articleViewActive: true
     });
 
     this.props.onLinkClick(e);
