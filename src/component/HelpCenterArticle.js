@@ -16,7 +16,7 @@ var HelpCenterArticle = React.createClass({
 
   getInitialState() {
     return {
-      lastActiveArticleID: 0
+      lastActiveArticleId: 0
     };
   },
 
@@ -46,12 +46,12 @@ var HelpCenterArticle = React.createClass({
       container.innerHTML = cleanHtml;
     }
 
-    if (this.state.lastActiveArticleID !== this.props.activeArticle.id) {
+    if (this.state.lastActiveArticleId !== this.props.activeArticle.id) {
       var topNode = this.refs.userContent.getDOMNode();
       topNode.scrollTop = 0;
 
       this.setState({
-        lastActiveArticleID: this.props.activeArticle.id
+        lastActiveArticleId: this.props.activeArticle.id
       });
     }
   },
