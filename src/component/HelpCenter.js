@@ -28,7 +28,6 @@ export var HelpCenter = React.createClass({
       previousSearchTerm: '',
       hasSearched: false,
       searchFailed: false,
-      articleID: 0,
       articleViewActive: false,
       activeArticle: {},
       removeSearchField: false
@@ -184,7 +183,6 @@ export var HelpCenter = React.createClass({
     this.setState({
       activeArticle: this.state.articles[articleIndex],
       articleViewActive: true,
-      articleID: this.state.articles[articleIndex].id
     });
 
     this.props.onLinkClick(e);
@@ -337,7 +335,6 @@ export var HelpCenter = React.createClass({
         <div className={articleClasses}>
           <HelpCenterArticle
             activeArticle={this.state.activeArticle}
-            articleID={this.state.articleID}
             fullscreen={this.state.fullscreen} />
         </div>
 
