@@ -145,6 +145,10 @@
   background: $stroke-color;
   color: $base-color;
   border-radius: 50%; /* 2  */
+
+  [dir='rtl'] & {
+    padding-left: 0;
+  }
 }
 
 .Icon--tick {
