@@ -196,6 +196,10 @@ var SearchField = React.createClass({
       searchInputVal: '',
       isClearable: false
     });
+
+    if (this.props.onUpdate) {
+      this.props.onUpdate('');
+    }
   },
 
   getSearchField() {

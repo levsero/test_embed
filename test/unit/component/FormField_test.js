@@ -3,6 +3,7 @@
 describe('FormField component', function() {
   var mockRegistry,
       onSearch,
+      onUpdate,
       formFieldPath = buildSrcPath('component/FormField'),
       SearchField,
       mockSearchField;
@@ -10,6 +11,7 @@ describe('FormField component', function() {
   beforeEach(function() {
 
     onSearch = jasmine.createSpy();
+    onUpdate = jasmine.createSpy('onUpdate');
 
     resetDOM();
 
@@ -88,6 +90,25 @@ describe('FormField component', function() {
     ReactTestUtils.Simulate.click(searchFieldNode.querySelector('i'));
 
     expect(onSearch)
+      .toHaveBeenCalled();
+  });
+
+  it('should clear input and call props.onUpdate when clear icon is clicked', function() {
+    var searchField = React.renderComponent(
+          <SearchField onUpdate={onUpdate} />,
+          global.document.body
+        ),
+        searchFieldNode = searchField.getDOMNode(),
+        searchInputNode = searchFieldNode.querySelector('input');
+
+    searchInputNode.value = 'Search string';
+
+    ReactTestUtils.Simulate.click(searchFieldNode.querySelector('.Icon--clearInput'));
+
+    expect(searchInputNode.value)
+      .toEqual('');
+
+    expect(onUpdate)
       .toHaveBeenCalled();
   });
 
