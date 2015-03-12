@@ -119,11 +119,10 @@ export var frameFactory = function(childFn, _params) {
       if (params.fullscreenable && isMobileBrowser()) {
         frameDoc.body.firstChild.setAttribute(
           'style',
-          'width: 100%;',
+          ['width: 100%;',
           'height: 100%;',
           'overflow-x: hidden;',
-          'overflow-y: scroll;',
-          '-webkit-overflow-scrolling: touch'
+          '-webkit-overflow-scrolling: touch'].join('')
         );
       }
 
