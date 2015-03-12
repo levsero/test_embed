@@ -4,7 +4,6 @@
   max-width: 100%;
   overflow: auto;
   word-break: break-word;
-  max-height: #{280/$font-size}rem;
   line-height: 1.5;
   font-size: #{14/$font-size}rem;
 
@@ -15,7 +14,6 @@
   ol, ul {
     list-style: disc;
     margin: 0 0 #{20/$font-size}rem #{20/$font-size}rem;
-
   }
 
   ol {
@@ -70,6 +68,7 @@
 }
 
 .UserContent--scroll {
+  max-height: #{280/$font-size}rem;
   /*
    * Creates the shadow effect at the bottom of the scrollable container
    */
@@ -112,5 +111,8 @@
 }
 
 .UserContent--mobile {
-  max-height: calc(100% - #{40/$font-size}rem);
+  -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
+  overflow: auto;
+  height: calc(100% - #{90/$font-size}rem);
 }

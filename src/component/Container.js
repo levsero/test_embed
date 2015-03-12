@@ -12,7 +12,6 @@ export var Container = React.createClass({
           'Container--popover': !this.props.fullscreen,
           'Container--popoverAlt': this.props.position === 'left',
           'Container--fullscreen': this.props.fullscreen,
-          'Arrange Arrange--middle': this.props.fullscreen,
           'u-posRelative': true
         }),
         containerBarClasses = classSet({

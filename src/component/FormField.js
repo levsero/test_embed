@@ -266,6 +266,8 @@ var SearchField = React.createClass({
               value={this.state.searchInputVal}
               onFocus={this.onFocus}
               onBlur={this.onBlur}
+              autoCapitalize="off"
+              autoCorrect="off"
               placeholder={placeholder}
               type='search' />
           </div>
