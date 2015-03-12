@@ -181,9 +181,9 @@ export var HelpCenter = React.createClass({
     e.preventDefault();
 
     if (e.target.dataset !== undefined) {
-      articleIndex = parseInt(e.target.dataset.articleIndex, 10);
+      articleIndex = e.target.dataset.articleIndex;
     } else {
-      articleIndex = parseInt(e.target.getAttribute('data-article-index'), 10);
+      articleIndex = e.target.getAttribute('data-article-index');
     }
 
     this.setState({
