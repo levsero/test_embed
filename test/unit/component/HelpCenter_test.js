@@ -225,7 +225,10 @@ describe('Help center component', function() {
       expect(article.className)
         .toMatch('u-isHidden');
 
-      ReactTestUtils.Simulate.click(listAnchor, {target: { dataset: { articleIndex: 0 }}});
+      ReactTestUtils.Simulate.click(listAnchor, {
+        target: { dataset: { articleIndex: 0 },
+        getAttribute: function() { return 0; }
+      }});
 
       expect(article.className)
         .not.toMatch('u-isHidden');
