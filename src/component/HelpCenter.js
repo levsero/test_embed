@@ -178,10 +178,8 @@ export var HelpCenter = React.createClass({
   handleArticleClick(e) {
     e.preventDefault();
 
-    var articleIndex = parseInt(e.target.dataset.articleIndex, 10);
-
     this.setState({
-      activeArticle: this.state.articles[articleIndex],
+      activeArticle: this.state.articles[e.target.getAttribute('data-article-index')],
       articleViewActive: true
     });
 
