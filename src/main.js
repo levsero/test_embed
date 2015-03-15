@@ -33,7 +33,17 @@ function boot() {
             // Backwards compat with zE({locale: 'zh-CN'}) calls
             i18n.setLocale(method[0].locale);
           } else {
-            method[0]();
+            try {
+              method[0]();
+            } catch(e) {
+              throw [
+                'An error occured in your use of the Zendesk Widget API:',
+                method[0],
+                'Checkout the Developer API docs to make sure you\'re using it correctly',
+                'https://developer.zendesk.com/embeddables/docs/widget/api',
+                e.stack
+              ].join('\n\n');
+            }
           }
         });
       },
