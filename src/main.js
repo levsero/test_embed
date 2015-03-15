@@ -37,9 +37,9 @@ function boot() {
               method[0]();
             } catch(e) {
               throw [
-                'An error occured in your use of the Zendesk Widget API:',
+                'An error occurred in your use of the Zendesk Widget API:',
                 method[0],
-                'Checkout the Developer API docs to make sure you\'re using it correctly',
+                'Check out the Developer API docs to make sure you\'re using it correctly',
                 'https://developer.zendesk.com/embeddables/docs/widget/api',
                 e.stack
               ].join('\n\n');
