@@ -6,9 +6,13 @@ function init() {
 
 function error(err) {
   if (__DEV__) {
-    console.error(err.error);
+    console.error(err.error.message || err.error);
   } else {
-    Airbrake.push(err);
+    if(err.error.special) {
+      throw err.error.message;
+    } else {
+      Airbrake.push(err);
+    }
   }
 }
 

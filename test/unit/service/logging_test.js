@@ -29,4 +29,42 @@ describe('logging', function() {
 
   });
 
+  describe('#error', function() {
+    var errPayload = {
+      error: {
+        message: 'error'
+      }
+    };
+
+    beforeEach(function() {
+      global.__DEV__ = false;
+      spyOn(console, 'error');
+      spyOn(logging, 'error').and.callThrough();
+    });
+
+    it('should call Airbrake.push', function() {
+      logging.error(errPayload);
+
+      expect(Airbrake.push)
+        .toHaveBeenCalledWith(errPayload);
+    });
+
+    it('should call console.error in dev environment', function() {
+      global.__DEV__ = true;
+      logging.error(errPayload);
+
+      expect(console.error)
+        .toHaveBeenCalledWith(errPayload.error.message);
+    });
+
+    it('should throw when special flag is set on error object', function() {
+      var err = errPayload;
+      err.error.special = true;
+
+      expect(logging.error.bind(this, err))
+        .toThrow();
+    });
+
+  });
+
 });
