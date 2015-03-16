@@ -62,7 +62,7 @@ describe('logging', function() {
       err.error.special = true;
 
       expect(logging.error.bind(this, err))
-        .not.toThrow();
+        .toThrow();
     });
 
   });
