@@ -86,37 +86,36 @@ var HelpCenterArticle = React.createClass({
 
   render() {
     var userContentClasses = classSet({
-          'UserContent u-paddingTM u-paddingRS u-userLinkColor': true,
-          'UserContent--mobile u-paddingTM': this.props.fullscreen,
+          'UserContent u-paddingTM u-paddingRS u-marginTM u-userLinkColor': true,
+          'UserContent--mobile': this.props.fullscreen,
           'UserContent--scroll': !this.props.fullscreen
         }),
         barClasses = classSet({
-          'Form-cta u-cf Container-pullout u-paddingBS': true,
-          'Form-cta--bar u-paddingBL': !this.props.fullscreen
+          'Form-cta u-cf Container-pullout': true,
+          'Form-cta--bar': !this.props.fullscreen,
+          'u-isHidden': this.props.fullscreen
         });
 
     return (
       /* jshint quotmark:false, camelcase:false */
       <div>
         <div className={barClasses} />
-        <div className='u-nbfcAlt'>
-          <div className={userContentClasses} ref='userContent'>
-            <h1>{this.props.activeArticle.title}</h1>
-            <div
-              ref='article'
-              className='u-marginTM'
-              onClick={this.handleClick}
-              onTouchStart={this.handleClick}
-            />
-            <div className='u-marginBM UserContent-viewArticleLink'>
-              <a
-                href={this.props.activeArticle.html_url}
-                target='_blank'>
-                {i18n.t('embeddable_framework.helpCenter.article.viewLinkText', {
-                  fallback: 'View original article'
-                })}
-              </a>
-            </div>
+        <div className={userContentClasses} ref='userContent'>
+          <h1>{this.props.activeArticle.title}</h1>
+          <div
+            ref='article'
+            className='u-marginTM'
+            onClick={this.handleClick}
+            onTouchStart={this.handleClick}
+          />
+          <div className='u-marginBM UserContent-viewArticleLink'>
+            <a
+              href={this.props.activeArticle.html_url}
+              target='_blank'>
+              {i18n.t('embeddable_framework.helpCenter.article.viewLinkText', {
+                fallback: 'View original article'
+              })}
+            </a>
           </div>
         </div>
       </div>

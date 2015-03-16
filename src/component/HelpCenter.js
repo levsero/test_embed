@@ -226,8 +226,8 @@ export var HelpCenter = React.createClass({
         }),
         searchTitleClasses = classSet({
           'u-textSizeBaseMobile u-marginTM u-textCenter': true,
-          'u-isHidden': !this.state.fullscreen || this.state.hasSearched,
-          'Container--fullscreen-center-vert': !this.state.searchFieldFocused
+          'Container--fullscreen-center-vert': true,
+          'u-isHidden': !this.state.fullscreen || this.state.hasSearched
         }),
         linkClasses = classSet({
           'u-textSizeBaseMobile u-textCenter u-marginTL': true,
