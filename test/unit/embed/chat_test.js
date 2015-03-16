@@ -156,7 +156,8 @@ describe('embed.chat', function() {
         onStatusCall     = livechat.setOnStatus.calls.mostRecent();
         onChatEndCall    = livechat.setOnChatEnd.calls.mostRecent();
         setTimeoutOrigin = setTimeout;
-        setTimeout       = function(fn, n) { fn.apply() };
+        /*global setTimeout:true */
+        setTimeout       = function(fn) { fn.apply(); };
       });
 
       afterEach(function() {
