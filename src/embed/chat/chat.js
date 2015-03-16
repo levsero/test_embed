@@ -122,6 +122,7 @@ function init(name) {
       position = (config.position === 'right') ? 'br' : 'bl',
       zopimShow,
       zopimHide,
+      zopimEventsDelay = 3000,
       zopimApiOverwritten = false,
       overwriteZopimApi = function() {
         if (!zopimApiOverwritten) {
@@ -150,7 +151,7 @@ function init(name) {
           } else {
             mediator.channel.broadcast(`${name}.onOffline`);
           }
-        }, 2000);
+        }, zopimEventsDelay);
       },
       onStatus = function(status) {
         chat.online = (status === 'online');
@@ -207,6 +208,10 @@ function init(name) {
     zopimWin.setSize(config.size);
     zopimWin.setOffsetVertical(config.offsetVertical);
   });
+
+  setTimeout(() => {
+    zopimEventsDelay = 0;
+  }, 5000);
 }
 
 export var chat = {
