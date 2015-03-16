@@ -20,6 +20,7 @@ function init(helpCenterAvailable) {
         }
       };
 
+  state[`${launcher}.showedByZopim`] = false;
   state[`${submitTicket}.isVisible`] = false;
   state[`${chat}.isVisible`]         = false;
   state[`${helpCenter}.isVisible`]   = false;
@@ -30,6 +31,13 @@ function init(helpCenterAvailable) {
   state['.hideOnClose']              = false;
 
   resetActiveEmbed();
+
+  function smartShowLauncher() {
+    if (!state[`${launcher}.showedByZopim`]) {
+      state[`${launcher}.showedByZopim`] = true;
+      c.broadcast(`${launcher}.smartShow`);
+    }
+  }
 
   c.intercept('.hide', function() {
     state[`${submitTicket}.isVisible`] = false;
@@ -97,6 +105,8 @@ function init(helpCenterAvailable) {
   });
 
   c.intercept(`${chat}.onOnline`, function() {
+    smartShowLauncher();
+
     state[`${chat}.isOnline`] = true;
     if (state.activeEmbed === submitTicket && !state[`${helpCenter}.isAvailable`]) {
       state.activeEmbed = chat;
@@ -112,6 +122,8 @@ function init(helpCenterAvailable) {
   });
 
   c.intercept(`${chat}.onOffline`, function() {
+    smartShowLauncher();
+
     state[`${chat}.isOnline`] = false;
 
     if (state.activeEmbed === chat) {
@@ -256,9 +268,7 @@ function init(helpCenterAvailable) {
       c.broadcast(`${launcher}.setLabelHelp`);
     }
   });
-
 }
-
 
 export var mediator = {
   channel: c,

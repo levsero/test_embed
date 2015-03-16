@@ -11,4 +11,3 @@ export var stopWordsFilter = function(str) {
 
   return words.join(' ');
 };
-

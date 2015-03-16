@@ -144,11 +144,13 @@ function init(name) {
         }
       },
       broadcastStatus = function() {
-        if (chat.online && chat.connected) {
-          mediator.channel.broadcast(`${name}.onOnline`);
-        } else {
-          mediator.channel.broadcast(`${name}.onOffline`);
-        }
+        setTimeout(() => {
+          if (chat.online && chat.connected) {
+            mediator.channel.broadcast(`${name}.onOnline`);
+          } else {
+            mediator.channel.broadcast(`${name}.onOffline`);
+          }
+        }, 2000);
       },
       onStatus = function(status) {
         chat.online = (status === 'online');

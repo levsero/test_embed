@@ -73,6 +73,10 @@ function init(config) {
     mediator.channel.subscribe('.updateZoom', function(ratio) {
       propagateFontRatio(ratio);
     });
+
+    if (!config.embeds.zopimChat) {
+      mediator.channel.broadcast('launcher.smartShow');
+    }
   }
 }
 
