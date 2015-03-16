@@ -74,7 +74,7 @@ function init(config) {
       propagateFontRatio(ratio);
     });
 
-    if (!config.embeds.zopimChat) {
+    if (config.embeds && !config.embeds.zopimChat) {
       mediator.channel.broadcast('launcher.smartShow');
     }
   }
