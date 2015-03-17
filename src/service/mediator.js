@@ -65,7 +65,6 @@ function init(helpCenterAvailable, hideLauncher) {
     c.broadcast(`${helpCenter}.hide`);
     c.broadcast(`${launcher}.deactivate`);
     c.broadcast(`${launcher}.show`);
-
   });
 
   c.intercept('.activate', function(__, options = {}) {
@@ -120,7 +119,6 @@ function init(helpCenterAvailable, hideLauncher) {
     }
 
     c.broadcast(`${helpCenter}.setNextToChat`);
-
     smartShowLauncher(true);
   });
 
