@@ -143,8 +143,7 @@ describe('embed.chat', function() {
           onHideCall,
           onStatusCall,
           onUnreadMsgsCall,
-          onChatEndCall,
-          setTimeoutOrigin;
+          onChatEndCall;
 
       beforeEach(function() {
         var livechat;
@@ -155,13 +154,6 @@ describe('embed.chat', function() {
         onUnreadMsgsCall = livechat.setOnUnreadMsgs.calls.mostRecent();
         onStatusCall     = livechat.setOnStatus.calls.mostRecent();
         onChatEndCall    = livechat.setOnChatEnd.calls.mostRecent();
-        /*global setTimeout:true */
-        setTimeoutOrigin = setTimeout;
-        setTimeout       = function(fn) { fn.apply(); };
-      });
-
-      afterEach(function() {
-        setTimeout = setTimeoutOrigin;
       });
 
       describe('livechat.onHide', function() {

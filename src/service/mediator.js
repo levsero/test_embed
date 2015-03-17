@@ -4,7 +4,7 @@ module airwaves from 'airwaves';
 
 var c = new airwaves.Channel();
 
-function init(helpCenterAvailable) {
+function init(helpCenterAvailable, hideLauncher) {
   var submitTicket = 'ticketSubmissionForm',
       launcher = 'launcher',
       chat = 'zopimChat',
@@ -20,7 +20,7 @@ function init(helpCenterAvailable) {
         }
       };
 
-  state[`${launcher}.showedByZopim`] = false;
+  state[`${launcher}.zopimPending`]  = true;
   state[`${submitTicket}.isVisible`] = false;
   state[`${chat}.isVisible`]         = false;
   state[`${helpCenter}.isVisible`]   = false;
@@ -32,10 +32,13 @@ function init(helpCenterAvailable) {
 
   resetActiveEmbed();
 
-  function smartShowLauncher() {
-    if (!state[`${launcher}.showedByZopim`]) {
-      state[`${launcher}.showedByZopim`] = true;
-      c.broadcast(`${launcher}.smartShow`);
+  function smartShowLauncher(isOnline) {
+    if (state[`${launcher}.zopimPending`] && !hideLauncher) {
+      state[`${launcher}.zopimPending`] = false;
+      let timeout = isOnline ? 0 : 3000;
+      setTimeout(() => {
+        c.broadcast(`${launcher}.show`);
+      }, timeout);
     }
   }
 
@@ -105,8 +108,6 @@ function init(helpCenterAvailable) {
   });
 
   c.intercept(`${chat}.onOnline`, function() {
-    smartShowLauncher();
-
     state[`${chat}.isOnline`] = true;
     if (state.activeEmbed === submitTicket && !state[`${helpCenter}.isAvailable`]) {
       state.activeEmbed = chat;
@@ -119,11 +120,11 @@ function init(helpCenterAvailable) {
     }
 
     c.broadcast(`${helpCenter}.setNextToChat`);
+
+    smartShowLauncher(true);
   });
 
   c.intercept(`${chat}.onOffline`, function() {
-    smartShowLauncher();
-
     state[`${chat}.isOnline`] = false;
 
     if (state.activeEmbed === chat) {
@@ -132,6 +133,7 @@ function init(helpCenterAvailable) {
 
     c.broadcast(`${launcher}.setLabelHelp`);
     c.broadcast(`${helpCenter}.setNextToSubmitTicket`);
+    smartShowLauncher(false);
   });
 
   c.intercept(`${chat}.onShow`, function() {

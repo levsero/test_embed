@@ -20,7 +20,8 @@ function create(name, config) {
         onClick: function() {},
         position: 'right',
         label: i18n.t('embeddable_framework.launcher.label.help'),
-        icon: 'Icon'
+        icon: 'Icon',
+        visible: true
       },
       base = {
         width: '80px',
@@ -71,7 +72,7 @@ function create(name, config) {
     }));
 
   launchers[name] = {
-    component: <Embed visible={false} position={config.position} />,
+    component: <Embed visible={config.visible} position={config.position} />,
     config: config
   };
 }
@@ -92,17 +93,12 @@ function setIcon(name, icon) {
   getChildRefs(name).launcher.setIcon(icon);
 }
 
-function configuredHidden(name) {
-  return !get(name).config.visible;
-}
-
 function render(name) {
   if (launchers[name] && launchers[name].instance) {
     throw new Error(`Launcher ${name} has already been rendered.`);
   }
 
-  let element      = getDocumentHost().appendChild(document.createElement('div')),
-      forcedHidden = false;
+  var element = getDocumentHost().appendChild(document.createElement('div'));
 
   launchers[name].instance = React.renderComponent(launchers[name].component, element);
 
@@ -115,19 +111,11 @@ function render(name) {
   });
 
   mediator.channel.subscribe(name + '.hide', function() {
-    forcedHidden = true;
     get(name).instance.hide();
   });
 
   mediator.channel.subscribe(name + '.show', function() {
-    forcedHidden = false;
     get(name).instance.show();
-  });
-
-  mediator.channel.subscribe(name + '.smartShow', function() {
-    if (!forcedHidden && !configuredHidden(name)) {
-      get(name).instance.show();
-    }
   });
 
   mediator.channel.subscribe(name + '.setLabelChat', function() {
@@ -156,6 +144,7 @@ function render(name) {
     setLabel(name, label);
     getChildRefs(name).launcher.setState({hasUnreadMessages: true});
   });
+
 }
 
 function setLabel(name, label) {
@@ -170,3 +159,4 @@ export var launcher = {
   setIcon: setIcon,
   setLabel: setLabel
 };
+
