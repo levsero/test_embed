@@ -77,7 +77,6 @@ function init(config) {
     mediator.channel.subscribe('.updateZoom', function(ratio) {
       propagateFontRatio(ratio);
     });
-
   }
 }
 
