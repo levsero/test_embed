@@ -23,10 +23,6 @@ function hide() {
   hideLauncher = true;
 }
 
-function launcherVisible(config) {
-  return hideLauncher ? false : config.embeds && !config.embeds.zopimChat;
-}
-
 function parseConfig(config) {
   var rendererConfig = _.clone(config.embeds, true);
 
@@ -46,7 +42,7 @@ function init(config) {
 
     _.forEach(parseConfig(config), function(configItem, embedName) {
       try {
-        configItem.props.visible = launcherVisible(config);
+        configItem.props.visible = !hideLauncher && config.embeds && !config.embeds.zopimChat;
         configItem.props.hideZendeskLogo = config.hideZendeskLogo;
         configItem.props.brand = config.brand;
         embedsMap[configItem.embed].create(embedName, configItem.props);
