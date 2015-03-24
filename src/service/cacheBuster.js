@@ -14,11 +14,15 @@ function bustCache(versionHash) {
         'update.html?',
         (new Date()).getTime(),
         `#${versionHash}`,
-      ].join('');
+      ].join(''),
+      /* jshint laxbreak: true */
+      script = document.getElementById('js-iframe-async')
+               || document.querySelector('script[data-ze-csp="true"]');
 
-  if (document.getElementById('js-iframe-async')) {
-    scriptSrc = document.getElementById('js-iframe-async').src;
+  if (script) {
+    scriptSrc = script.src;
     updateUrl = scriptSrc.replace('main.js', updatePath);
+    iframe.setAttribute('style', 'position:absolute;visbility:hidden;left:-999em');
     iframe.src = updateUrl;
     iframe.name = updateFrameName;
     document.body.appendChild(iframe);
