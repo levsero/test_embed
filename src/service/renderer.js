@@ -115,7 +115,7 @@ function postRenderCallbacks(embeds) {
 }
 
 function propagateFontRatio(ratio) {
-  var fontSize = (12 * ratio) + 'px';
+  var fontSize = (13 * ratio) + 'px';
 
   renderedEmbedsApply(function(embed) {
     embed.updateBaseFontSize(fontSize);

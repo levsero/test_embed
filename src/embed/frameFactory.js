@@ -136,8 +136,9 @@ export var frameFactory = function(childFn, _params) {
     var existing = this.getDOMNode().contentDocument.body.firstChild.getAttribute('style');
     var that = this;
     setTimeout(function() {
-      that.getDOMNode().contentDocument.body.firstChild.setAttribute('style', existing + ';-webkit-overflow-scrolling:touch;');
-    },1000);
+    that.getDOMNode().contentDocument.body.firstChild.setAttribute('style',  
+      existing + ';-webkit-overflow-scrolling:touch;');
+    },100);
 
       if (isMobileBrowser()) {
         win.scroll(0, 0);
