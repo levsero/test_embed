@@ -1,60 +1,184 @@
 import React from 'react/addons';
-import ReactForms from 'react-forms';
 
 import { Loading }         from 'component/Loading';
-import { validation }      from 'mixin/validation';
-import { formField }       from 'mixin/formField';
 import { isMobileBrowser } from 'utility/devices';
 import { i18n }            from 'service/i18n';
 
-var { FieldMixin } = ReactForms,
-    Property = ReactForms.schema.Property,
-    CheckboxGroup = ReactForms.input.CheckboxGroup,
-    isFailure = ReactForms.validation.isFailure,
-    classSet = React.addons.classSet;
+const classSet = React.addons.classSet,
+      geti18nContent = function(field) {
+        let title = _.find(field.variants, function(variant) {
+                      return variant.localeId === i18n.getLocaleId();
+                    });
 
-var FocusField = React.createClass({
-  mixins: [FieldMixin, formField],
+        return title ? title.content : field.title;
+      },
+      getCustomFields = function(customFields) {
+        let checkboxes = [],
+            fields = _.map(customFields, function(field) {
 
-  componentWillReceiveProps() {
-    var value = this.value(),
-        isValid = !isFailure(value.validation);
+              if (field.variants) {
+                field.title = geti18nContent(field);
+              }
 
-    if (this.state.blurred && isValid) {
-      this.setState({blurred: false});
-    }
+              switch(field.type) {
+                case 'text':
+                  return (
+                    <Field
+                      name={field.id}
+                      required={field.required}
+                      placeholder={field.title}
+                    />
+                  );
+                case 'tagger':
+                  _.forEach (field.options, function(option) {
+                    if (option.variants) {
+                      option.title = geti18nContent(option);
+                    }
+                  });
+                  return (
+                    <SelectField
+                      name={field.id}
+                      required={field.required}
+                      placeholder={field.title}
+                      options={field.options}
+                    />
+                  );
+                case 'integer':
+                  return (
+                    <Field
+                      name={field.id}
+                      placeholder={field.title}
+                      required={field.required}
+                      pattern='\d+'
+                    />
+                  );
+                case 'decimal':
+                  return (
+                    <Field
+                      name={field.id}
+                      required={field.required}
+                      placeholder={field.title}
+                      pattern='\d*[.,]\d+'
+                    />
+                  );
+                case 'textarea':
+                  /* jshint quotmark:false */
+                  return (
+                    <Field
+                      name={field.id}
+                      required={field.required}
+                      input={
+                        <textarea
+                          rows='5'
+                          placeholder={field.title}
+                        />
+                      }
+                    />
+                  );
+                case 'checkbox':
+                  // Push this into a separate array as it needs to render in a
+                  // different location to other custom fields.
+                  checkboxes.push(
+                    <Field
+                      name={field.id}
+                      label={field.title}
+                      required={field.required}
+                      type='checkbox'
+                    />
+                  );
+              }
+            });
+
+          return { fields, checkboxes };
+      };
+
+const Field = React.createClass({
+  getInitialState() {
+    return {
+      focused: false,
+      blurred: false,
+      hasError: false,
+      dirty: false,
+      value: this.props.value
+    };
+  },
+
+  onFocus() {
+    this.setState({
+      focused: true
+    });
+  },
+
+  onBlur() {
+    const result = this.refs.field.getDOMNode();
+
+    this.setState({
+      focused: false,
+      blurred: true,
+      hasError: !result.validity.valid,
+      dirty: !this.state.value
+    });
+  },
+
+  onChange(e) {
+    const value = e.target.value,
+          result = this.refs.field.getDOMNode();
+
+    this.setState({
+      value: value,
+      hasError: !result.validity.valid
+    });
   },
 
   render() {
-    var value = this.value(),
-        isInvalid = isFailure(value.validation),
-        classNames = classSet({
-          'Arrange Arrange--middle rf-Field u-isSelectable u-posRelative': true,
-          'rf-Field--focused': this.state.focused,
-          'rf-Field--blurred': this.state.blurred,
-          'rf-Field--invalid': isInvalid && this.state.blurred,
-          'rf-Field--dirty': !value.isUndefined,
-          'rf-Field--dropdown': this.props.dropdown,
-          'rf-Field--mobile': isMobileBrowser(),
-          'rf-Field--clean': this.props.checkbox
-        }),
-        iconClasses = classSet({
-          'u-isHidden': !this.props.icon,
-          'Arrange-sizeFit u-isActionable Icon Icon--': true
-        }),
-        dropdownClasses = classSet({
-          'u-isHidden': !this.props.dropdown,
-          'Arrange-sizeFit rf-Field__arrows': true
-        });
+    const icon = this.props.icon,
+          type = this.props.type,
+          checkbox = type === 'checkbox',
+          iconFieldClasses = classSet({
+            'Arrange-sizeFill u-vsizeAll': true,
+            'u-textSize15': isMobileBrowser(),
+            'u-textSecondary': this.props.input,
+            'Form-checkbox u-isHiddenVisually': checkbox,
+            'Form-checkbox--focused': this.state.focused && checkbox,
+            'Form-checkbox--invalid': this.state.hasError && this.state.blurred && checkbox,
+          }),
+          iconClasses = classSet({
+            'u-isHidden': !icon,
+            [`Arrange-sizeFit u-isActionable Icon Icon--${icon} u-alignTop`]: true
+          }),
+          fieldClasses = classSet({
+            'Arrange Arrange--middle Form-field u-isSelectable u-posRelative': true,
+            'Form-field--invalid': this.state.hasError && this.state.blurred && !checkbox,
+            'Form-field--focused': this.state.focused && !checkbox,
+            'Form-field--dropdown': this.props.options,
+            'Form-field--clean': checkbox
+          }),
+          dropdownClasses = classSet({
+            'u-isHidden': !this.props.options,
+            'Arrange-sizeFit Form-field__arrows': true
+          }),
+          sharedProps = {
+            onChange    : this.onChange,
+            onBlur      : this.onBlur,
+            onFocus     : this.onFocus,
+            ref         : 'field',
+            className   : iconFieldClasses,
+            value       : this.state.value
+          };
 
     return (
-      /* jshint quotmark: false */
-      <label className={classNames}>
-        <i className={iconClasses + this.props.icon} />
-        {React.addons.cloneWithProps(this.renderInputComponent({
-          onFocus: this.onFocus,
-          onBlur: this.onBlur
-        }), this.props)}
+      <label className={fieldClasses}>
+        <i className={iconClasses} />
+        {
+          /* jshint laxbreak: true */
+          this.props.input
+            ? React.addons.cloneWithProps(this.props.input, _.extend({}, sharedProps, this.props))
+            : <input {...sharedProps} {...this.props} />
+        }
+        {
+          this.props.label
+          && <span className='Form-checkboxCaption u-isActionable'>{this.props.label}</span>
+        }
         <div className={dropdownClasses}>
           <i className='Icon--dropdownArrow' />
           <i className='Icon--dropdownArrow Icon--dropdownArrowBottom' />
@@ -64,120 +188,88 @@ var FocusField = React.createClass({
   }
 });
 
-function IconField(props = {}) {
-  var fieldClasses = classSet({
-        'Arrange-sizeFill u-vsizeAll': true,
-        'u-textSize15': isMobileBrowser()
-      });
+/*jshint unused:false*/
+const SelectField = React.createClass({
+  formatOptions() {
+    var props = this.props,
+        options = [
+          <option value=''>{props.placeholder}</option>
+        ],
+        optionGroups;
 
-  /* jshint quotmark:false */
-  return (
-    <Property
-      name={props.name}
-      required={!!props.required}
-      input={
-        props.input ||
-        <input
-          placeholder={props.placeholder}
-          autoComplete={props.autoComplete || 'on'}
-          className={fieldClasses} />
-      }
-      validate={props.validate || ''}
-      component={<FocusField icon={props.icon} />}
-    />
-  );
-}
+    optionGroups = _.groupBy(props.options, function(option) {
+      /* jshint laxbreak: true */
+      return (option.title.indexOf('::') > 0)
+           ? option.title.split('::', 1)
+           : '';
+    });
 
-function CheckboxField(props = {}) {
-  /* jshint quotmark:false */
-  return (
-    <Property
-      name={props.name}
-      type='array'
-      required={!!props.required}
-      input={
-        <CheckboxGroup
-          options={[{value: '1', name: props.label}]}
-        />
-      }
-      component={<FocusField icon={props.icon} checkbox={true} />}
-    />
-  );
-}
+    _.forEach(optionGroups, function(group, key) {
+      let nestedOptions;
 
-function SelectField(props = {}) {
-  /* jshint quotmark:false */
-  var fieldClasses = classSet({
-        'Arrange-sizeFill u-vsizeAll u-textSecondary': true,
-        'u-textSize15': isMobileBrowser()
-      }),
-      options = [
-        <option value='' disabled selected>{props.placeholder}</option>
-      ],
-      optionGroups;
+      // if not a nested field
+      if (_.isEmpty(key)) {
+        _.forEach(group, function(option) {
+          options.push(
+            <option value={option.value}>{option.title}</option>
+          );
+        });
+      } else {
+        nestedOptions = _.map(group, function(nestedOption) {
+          var title = nestedOption.title.split('::')[1];
+          return <option value={nestedOption.value}>{title}</option>;
+        });
 
-  // For nested drop down fields, we group into key value objects with category
-  // and values
-  optionGroups = _.groupBy(props.options, function(option) {
-    /* jshint laxbreak: true */
-    return (option.title.indexOf('::') > 0)
-         ? option.title.split('::', 1)
-         : '';
-  });
-
-  _.forEach(optionGroups, function(group, key) {
-    var nestedOptions;
-
-    // if not a nested field
-    if (_.isEmpty(key)) {
-      _.forEach(group, function(option) {
         options.push(
-          <option value={option.value}>{option.title}</option>
+          <optgroup label={key}>
+            {nestedOptions}
+          </optgroup>
         );
-      });
-    } else {
-      nestedOptions = _.map(group, function(nestedOption) {
-        var title = nestedOption.title.split('::')[1];
-        return <option value={nestedOption.value}>{title}</option>;
-      });
-
-      options.push(
-        <optgroup label={key}>
-          {nestedOptions}
-        </optgroup>
-      );
-    }
-  });
-
-  /* jshint quotmark:false */
-  return (
-    <Property
-      name={props.name}
-      required={!!props.required}
-      input={
-        <select
-          name={props.name}
-          className={fieldClasses}>
-          {options}
-        </select>
       }
-      component={<FocusField dropdown={true} />}
-    />
-  );
-}
+    });
 
-var SearchField = React.createClass({
-  mixins: [formField],
+    return options;
+  },
 
+  render() {
+    return (
+      <Field
+        {...this.props}
+        input={
+          <select>
+            {this.formatOptions()}
+          </select>
+        }
+      />
+    );
+  }
+});
+
+const SearchField = React.createClass({
   getInitialState() {
     return {
+      focused: false,
+      blurred: false,
       searchInputVal: '',
       isClearable: false
     };
   },
 
+  onFocus() {
+    this.setState({
+      focused: true
+    });
+  },
+
+  onBlur() {
+    this.setState({
+      focused: false,
+      blurred: true
+    });
+  },
+
   handleUpdate(e) {
-    var value = e.target.value;
+    let value = e.target.value;
 
     this.setState({
       isClearable: (value !== '' && isMobileBrowser()),
@@ -218,7 +310,7 @@ var SearchField = React.createClass({
 
   render() {
     /* jshint laxbreak:true */
-    var loadingClasses = classSet({
+    let loadingClasses = classSet({
           'u-isHidden': !this.props.isLoading
         }),
         searchContainerClasses = classSet({
@@ -229,8 +321,8 @@ var SearchField = React.createClass({
           'Form-cta Container-pullout': !this.props.fullscreen
         }),
         searchInputClasses = classSet({
-          'Arrange Arrange--middle rf-Field rf-Field--search u-isSelectable': true,
-          'rf-Field--focused': this.state.focused
+          'Arrange Arrange--middle Form-field Form-field--search u-isSelectable': true,
+          'Form-field--focused': this.state.focused
         }),
         searchInputFieldClasses = classSet({
           'Arrange-sizeFill u-paddingR Form-placeholder u-textSizeMed': true,
@@ -281,30 +373,5 @@ var SearchField = React.createClass({
   }
 });
 
-function EmailField(props = {}) {
-  var type = 'email',
-      fieldClasses = classSet({
-        'Arrange-sizeFill u-vsizeAll': true,
-        'u-textSize15': isMobileBrowser()
-      });
-
-  return IconField({
-    name: props.name || type,
-    ref: props.ref || type,
-    required: !!props.required,
-    icon: props.icon,
-    input: (
-      /* jshint quotmark:false */
-      <input
-        type={type}
-        placeholder={i18n.t('embeddable_framework.form.field.email.label')}
-        className={fieldClasses} />
-    ),
-    validate: function(value) {
-      return validation.validateEmail(value);
-    }
-  });
-}
-
-export { IconField, CheckboxField, EmailField, SearchField, SelectField };
+export { Field, SearchField, getCustomFields };
 

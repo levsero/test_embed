@@ -37,7 +37,7 @@ export var SubmitTicket = React.createClass({
         formData = {};
 
     if (submitTicketForm.refs.form) {
-      formData = submitTicketForm.refs.form.value().value;
+      formData = submitTicketForm.refs.form.validate().value;
     }
 
     submitTicketForm.setState(submitTicketForm.getInitialState());
@@ -58,7 +58,7 @@ export var SubmitTicket = React.createClass({
 
     this.setState({errorMessage: ''});
 
-    if (data.isFormInvalid) {
+    if (!data.isFormValid) {
       // TODO: Handle invalid form submission
       return;
     }
@@ -80,7 +80,10 @@ export var SubmitTicket = React.createClass({
         },
         errorCallback = (msg) => {
           this.setState({ errorMessage: msg });
-          this.refs.submitTicketForm.setState({ isSubmitting: false });
+          this.refs.submitTicketForm.setState({
+            isSubmitting: false,
+            buttonMessage: i18n.t('embeddable_framework.submitTicket.form.submitButton.label.send')
+          });
         },
         payload = {
           method: 'post',
@@ -108,25 +111,19 @@ export var SubmitTicket = React.createClass({
   },
 
   formatTicketSubmission(data) {
-    var params = {};
-
     if (this.props.customFields.length === 0) {
       return data.value;
     } else {
-      params.fields = {};
+      let params = {
+        fields: {}
+      };
+
       _.forEach(data.value, function(value, name) {
-        // In react forms if the name of a field only contains numbers it reorders the
-        // form. We add the ze to the forms so they retain their order then remove them here.
-        if (name.substring(0,2) !== 'ze') {
+        // Custom field names are numbers so we check if name is NaN
+        if (isNaN(parseInt(name, 10))) {
           params[name] = value;
         } else {
-          // For checkbox field, it returns the array [1] if its selected.
-          // This takes the 1 out of the array so the endpoint knows how to handle it.
-          if (_.isArray(value)) {
-            value = value[0];
-          }
-
-          params.fields[name.slice(2)] = value;
+          params.fields[name] = value;
         }
       });
 

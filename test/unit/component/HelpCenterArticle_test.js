@@ -5,7 +5,7 @@ describe('HelpCenterArticle component', function() {
       mockArticle = {
         body: `
           <h1 id="foo">Foobar</h1>
-          <a href="#foo" name="foo">inpage link</a>
+          <a href="#foo">inpage link</a>
           <a class="relative" href="/relative/link">relative link</a>
           <div id="preserved" style="bad styles not allowed">
             This text contains a sub-note<sub>1</sub>

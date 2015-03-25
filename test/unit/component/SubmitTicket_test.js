@@ -96,13 +96,6 @@ describe('Submit ticket component', function() {
             }
           })),
       },
-      'service/identity': {
-        identity: {
-          getBuid: function() {
-            return 'abc123';
-          }
-        }
-      },
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', [
           'init',
@@ -153,7 +146,7 @@ describe('Submit ticket component', function() {
 
     mostRecentCall = mockSubmitTicketForm.calls.mostRecent().args[0];
 
-    mostRecentCall.submit({preventDefault: noop}, {isFormInvalid: true});
+    mostRecentCall.submit({preventDefault: noop}, {isFormValid: false});
 
     expect(mockTransport.send)
       .not.toHaveBeenCalled();
@@ -171,9 +164,10 @@ describe('Submit ticket component', function() {
       global.document.body
     );
 
-    mostRecentCall = mockSubmitTicketForm.calls.mostRecent().args[0],
+    mostRecentCall = mockSubmitTicketForm.calls.mostRecent().args[0];
 
     mostRecentCall.submit({preventDefault: noop}, {
+      isFormValid: true,
       value: {
         email: formParams.email,
         description: formParams.description
@@ -203,7 +197,7 @@ describe('Submit ticket component', function() {
         submitTicket,
         mockValues = {
           value: {
-            ze22660514: 'mockCustomField',
+            22660514: 'mockCustomField',
             name: 'mockName',
             description: 'mockDescription'
           }

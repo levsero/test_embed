@@ -39,22 +39,8 @@ describe('FormField component', function() {
       'component/Loading': {
         Loading: noop
       },
-      'mixin/validation': {},
-      'mixin/formField': {},
       'utility/devices': {
         isMobileBrowser: noop
-      },
-      'react-forms': {
-        Form: mockSearchField,
-        FormFor: mockSearchField,
-        schema: {
-          Property: mockSearchField
-        },
-        input: noop,
-        validation: noop
-      },
-      'component/FormField': {
-        SearchField: noop
       },
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', [
@@ -67,7 +53,6 @@ describe('FormField component', function() {
       }
     });
 
-    mockery.registerAllowable('utility/globals');
     mockery.registerAllowable(formFieldPath);
 
     SearchField = require(formFieldPath).SearchField;

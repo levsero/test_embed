@@ -8,6 +8,7 @@ var sanitizeHtml = require('sanitize-html'),
     classSet = React.addons.classSet;
 
 var HelpCenterArticle = React.createClass({
+  displayName: 'HelpCenterArticle',
   propTypes: {
     activeArticle: React.PropTypes.object.isRequired
   },

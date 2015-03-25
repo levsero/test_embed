@@ -3,6 +3,7 @@ import React from 'react/addons';
 var classSet = React.addons.classSet;
 
 export var ZendeskLogo = React.createClass({
+  displayName: 'ZendeskLogo',
   render() {
     /* jshint quotmark:false */
     var applyPositionClasses = !this.props.fullscreen || this.props.formSuccess,

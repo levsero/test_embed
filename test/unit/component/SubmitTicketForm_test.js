@@ -6,24 +6,6 @@ describe('SubmitTicketForm component', function() {
 
   beforeEach(function() {
 
-    var mockComponent = React.createClass({
-      value: function() {
-        return '123';
-      },
-      render: function() {
-        /* jshint quotmark: false */
-        var formBody = <div ref='form' />;
-        return (
-          <form
-            noValidate
-            onSubmit={onSubmit}
-            className='Form'>
-            {formBody}
-          </form>
-        );
-      }
-    });
-
     onSubmit = jasmine.createSpy();
 
     resetDOM();
@@ -35,21 +17,6 @@ describe('SubmitTicketForm component', function() {
 
     mockRegistry = initMockRegistry({
       'react/addons': React,
-      'react-forms': {
-        Form: mockComponent,
-        FormFor: mockComponent,
-        schema: {
-          Property: mockComponent
-        },
-        validation: {
-          isFailure: function() {
-            return false;
-          }
-        }
-      },
-      'component/SubmitTicketSchema': {
-        submitTicketSchema: noop
-      },
       'component/Button': {
         Button: jasmine.createSpy('mockButton')
           .and.callFake(React.createClass({
@@ -59,10 +26,16 @@ describe('SubmitTicketForm component', function() {
             }
           })),
       },
+      'component/FormField': {
+        Field: noop,
+        getCustomFields: function() {
+          return {};
+        }
+      },
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', ['t', 'setLocale', 'init', 'isRTL'])
       },
-      'imports?_=lodash!lodash': _
+      'lodash': _
     });
 
     mockery.registerAllowable('utility/globals');

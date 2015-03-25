@@ -30,7 +30,7 @@ $Form-fontSize: #{13/$font-size}rem;
   }
 }
 
-.rf-Form {
+.rf-Form, .form-group {
   margin-bottom: #{14/$font-size}rem;
 }
 
@@ -58,7 +58,7 @@ $Form-fontSize: #{13/$font-size}rem;
   margin-top: #{24/$font-size}rem;
 }
 
-.rf-Field {
+.Form-field {
   margin-bottom: $Form-gutter;
   background: $base-color;
   border: $thin-border-size solid $stroke-color;
@@ -84,18 +84,17 @@ $Form-fontSize: #{13/$font-size}rem;
   }
 }
 
-.rf-Field--clean {
+.Form-field--clean {
   border: none;
   padding: 0;
 }
 
-.rf-CheckboxGroup__checkbox {
+.Form-checkbox {
   width: #{14/$font-size}rem;
   height: #{14/$font-size}rem;
-  display: none;
 }
 
-.rf-CheckboxGroup__checkbox + span:before {
+.Form-checkbox + span:before {
   content: "";
   display: inline-block;
   width: #{14/$font-size}rem;
@@ -109,7 +108,7 @@ $Form-fontSize: #{13/$font-size}rem;
   position: absolute;
 }
 
-.rf-CheckboxGroup__checkbox:checked + span:before {
+.Form-checkbox:checked + span:before {
   font-family: 'icomoon';
   font-size: #{9/$font-size}rem;
   text-align: center;
@@ -118,8 +117,8 @@ $Form-fontSize: #{13/$font-size}rem;
   color: $secondary-color;
 }
 
-.rf-Field--mobile, .rf-Field--search {
-  .rf-CheckboxGroup__caption {
+.Form-field--mobile, .Form-field--search {
+  .Form-checkboxCaption {
     font-size: #{15/$font-size}rem;
   }
 
@@ -128,45 +127,47 @@ $Form-fontSize: #{13/$font-size}rem;
   }
 }
 
-.rf-Field__arrows {
+.Form-field__arrows {
   position: absolute;
   right: #{14/$font-size}rem;
   top: #{13/$font-size}rem;
   pointer-events: none;
 }
 
-.rf-Field--search {
+.Form-field--search {
   padding: #{11/$font-size}rem $Form-spacing;
   height: #{48/$font-size}rem;
 }
 
-.rf-Field--focused {
+.Form-field--focused,
+.Form-checkbox--focused + span:before {
   border: $thin-border-size solid $stroke-focused-color;
-
-  &.rf-Field--dirty.rf-Field--invalid {
-    @include error-state($thin-border-size);
-  }
 
   > .Icon--search {
     color: $cta-color;
   }
 }
 
-.rf-Field--dropdown {
+.Form-field--invalid,
+.Form-checkbox--invalid + span:before {
+  @include error-state($thin-border-size);
+}
+
+.Form-field--dropdown {
   padding-left: #{12/$font-size}rem;
 }
 
-.rf-CheckboxGroup__caption {
+.Form-checkboxCaption {
   padding-left: #{24/$font-size}rem;
   font-size: $Form-fontSize;
   color: $body-color;
 }
 
-.rf-Field--blurred.rf-Field--invalid {
+.Form-field--blurred.Form-field--invalid {
   @include error-state($thin-border-size);
 }
 
-.rf-Field__label {
+.Form-field__label {
   margin-bottom: $Form-spacing;
   font-weight: 700;
   display: block;

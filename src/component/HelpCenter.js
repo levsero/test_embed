@@ -1,4 +1,5 @@
 import React from 'react/addons';
+import _     from 'lodash';
 
 import { transport }         from 'service/transport';
 import { stopWordsFilter }   from 'mixin/searchFilter';
@@ -10,8 +11,6 @@ import { Container }         from 'component/Container';
 import { isMobileBrowser }   from 'utility/devices';
 import { i18n }              from 'service/i18n';
 import { Button }            from 'component/Button';
-
-require('imports?_=lodash!lodash');
 
 var classSet = React.addons.classSet;
 
@@ -278,6 +277,7 @@ export var HelpCenter = React.createClass({
     zendeskLogo = hideZendeskLogo
                 ? null
                 : <ZendeskLogo rtl={i18n.isRTL()} fullscreen={this.state.fullscreen} />;
+
     searchField = this.state.removeSearchField
                 ? null
                 : <SearchField

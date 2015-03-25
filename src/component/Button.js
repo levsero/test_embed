@@ -3,6 +3,7 @@ import React from 'react/addons';
 var classSet = React.addons.classSet;
 
 var Button = React.createClass({
+  displayName: 'Button',
   propTypes: {
     label: React.PropTypes.string.isRequired,
     fullscreen: React.PropTypes.bool.isRequired,
