@@ -121,8 +121,7 @@ export var frameFactory = function(childFn, _params) {
           'style',
           ['width: 100%',
           'height: 100%',
-          'overflow-x: hidden',
-          '-webkit-overflow-scrolling: touch'].join(';')
+          'overflow-x: hidden'].join(';')
         );
       }
 
@@ -133,6 +132,12 @@ export var frameFactory = function(childFn, _params) {
       this.setState({
         visible: true
       });
+
+    var existing = this.getDOMNode().contentDocument.body.firstChild.getAttribute('style');
+    var that = this;
+    setTimeout(function() {
+      that.getDOMNode().contentDocument.body.firstChild.setAttribute('style', existing + ';-webkit-overflow-scrolling:touch;');
+    },1000);
 
       if (isMobileBrowser()) {
         win.scroll(0, 0);
