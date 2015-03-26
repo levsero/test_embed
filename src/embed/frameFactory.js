@@ -137,10 +137,13 @@ export var frameFactory = function(childFn, _params) {
         visible: true
       });
 
-      setTimeout( () => {
-        frameFirstChild.setAttribute('style',
-          existingStyle + ';-webkit-overflow-scrolling: touch;');
-      }, 100);
+      if (frameFirstChild.getAttribute('style').indexOf('-webkit-overflow-scrolling') === -1) {
+        setTimeout( () => {
+          frameFirstChild.setAttribute('style',
+            existingStyle + ';-webkit-overflow-scrolling: touch;');
+          console.log(that.getDOMNode().contentDocument.body.firstChild.getAttribute('style'));
+        }, 100);
+      }
 
       if (isMobileBrowser()) {
         win.scroll(0, 0);
