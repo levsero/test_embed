@@ -20,7 +20,8 @@ function init(helpCenterAvailable, hideLauncher) {
         }
       };
 
-  state[`${launcher}.zopimPending`]  = true;
+  state[`${chat}.connectionPending`] = true;
+  state[`${launcher}.userHidden`]    = hideLauncher;
   state[`${submitTicket}.isVisible`] = false;
   state[`${chat}.isVisible`]         = false;
   state[`${helpCenter}.isVisible`]   = false;
@@ -31,16 +32,6 @@ function init(helpCenterAvailable, hideLauncher) {
   state['.hideOnClose']              = false;
 
   resetActiveEmbed();
-
-  function smartShowLauncher(isOnline) {
-    if (state[`${launcher}.zopimPending`] && !hideLauncher) {
-      state[`${launcher}.zopimPending`] = false;
-      let timeout = isOnline ? 0 : 3000;
-      setTimeout(() => {
-        c.broadcast(`${launcher}.show`);
-      }, timeout);
-    }
-  }
 
   c.intercept('.hide', function() {
     state[`${submitTicket}.isVisible`] = false;
@@ -119,7 +110,11 @@ function init(helpCenterAvailable, hideLauncher) {
     }
 
     c.broadcast(`${helpCenter}.setNextToChat`);
-    smartShowLauncher(true);
+
+    if (!state[`${launcher}.userHidden`] && state[`${chat}.connectionPending`]) {
+      state[`${chat}.connectionPending`] = false;
+      c.broadcast(`${launcher}.show`);
+    }
   });
 
   c.intercept(`${chat}.onOffline`, function() {
@@ -131,7 +126,13 @@ function init(helpCenterAvailable, hideLauncher) {
 
     c.broadcast(`${launcher}.setLabelHelp`);
     c.broadcast(`${helpCenter}.setNextToSubmitTicket`);
-    smartShowLauncher(false);
+
+    if (!state[`${launcher}.userHidden`] && state[`${chat}.connectionPending`]) {
+      state[`${chat}.connectionPending`] = false;
+      setTimeout(function() {
+        c.broadcast(`${launcher}.show`);
+      }, 3000);
+    }
   });
 
   c.intercept(`${chat}.onShow`, function() {

@@ -490,8 +490,6 @@ describe('mediator', function() {
         c.broadcast(`${chat}.onOnline`);
         c.broadcast(`${chat}.onUnreadMsgs`, 1);
 
-        expect(launcherSub.show.calls.count())
-          .toEqual(0);
         expect(launcherSub.hide.calls.count())
           .toEqual(1);
         expect(launcherSub.activate.calls.count())
@@ -504,6 +502,7 @@ describe('mediator', function() {
 
         reset(chatSub.hide);
         reset(launcherSub.deactivate);
+        reset(launcherSub.show);
         c.broadcast(`${chat}.onChatEnd`);
 
         expect(chatSub.hide.calls.count())
@@ -1174,8 +1173,6 @@ describe('mediator', function() {
         expect(chatSub.show.calls.count())
           .toEqual(1);
         expect(launcherSub.activate.calls.count())
-          .toEqual(0);
-        expect(launcherSub.show.calls.count())
           .toEqual(0);
         expect(launcherSub.hide.calls.count())
           .toEqual(1);
