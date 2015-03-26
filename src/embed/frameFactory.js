@@ -129,19 +129,19 @@ export var frameFactory = function(childFn, _params) {
     },
 
     show: function(animate) {
-      var iframe_doc = this.getDOMNode().contentDocument,
-          iframe_style = iframe_doc.body.firstChild,
-          existing_style = iframe_style.getAttribute('style'),
-          that = this;
+      var that = this,
+          frameFirstChild = that.getDOMNode().contentDocument.body.firstChild,
+          existingStyle = frameFirstChild.getAttribute('style');
 
       this.setState({
         visible: true
       });
 
       setTimeout( () => {
-        iframe_style.setAttribute('style',  
-          existing_style + ';-webkit-overflow-scrolling:touch;');
-        },100);
+        frameFirstChild.setAttribute('style',
+          existingStyle + ';-webkit-overflow-scrolling: touch;');
+        console.log(frameFirstChild.getAttribute('style'));
+      },100);
 
       if (isMobileBrowser()) {
         win.scroll(0, 0);
