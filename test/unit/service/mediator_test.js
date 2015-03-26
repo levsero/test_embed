@@ -605,6 +605,67 @@ describe('mediator', function() {
 
   });
 
+  describe('launcher final state depends on chat', function() {
+    var launcher = 'launcher',
+        chat     = 'zopimChat',
+        names    = {
+          launcher: launcher,
+          chat: chat
+        },
+        setTimeoutOrigin;
+
+    beforeEach(function() {
+      /*global setTimeout:true */
+      setTimeoutOrigin = setTimeout;
+      setTimeout = function(fn) { fn.apply(); };
+      initSubscriptionSpies(names);
+    });
+
+    afterEach(function() {
+      setTimeout = setTimeoutOrigin;
+    });
+
+    describe('launcher is not hidden by API', function() {
+      beforeEach(function() {
+        mediator.init(false);
+      });
+
+      it('shows launcher when chat is online', function() {
+        c.broadcast(`${chat}.onOnline`);
+
+        expect(launcherSub.show.calls.count())
+          .toEqual(1);
+      });
+
+      it('shows launcher when chat is offline', function() {
+        c.broadcast(`${chat}.onOffline`);
+
+        expect(launcherSub.show.calls.count())
+          .toEqual(1);
+      });
+    });
+
+    describe('launcher is hidden by API', function() {
+      beforeEach(function() {
+        mediator.init(false, true);
+      });
+
+      it('does not show launcher when chat is online', function() {
+        c.broadcast(`${chat}.onOnline`);
+
+        expect(launcherSub.show.calls.count())
+          .toEqual(0);
+      });
+
+      it('does not show launcher when chat is offline', function() {
+        c.broadcast(`${chat}.onOffline`);
+
+        expect(launcherSub.show.calls.count())
+          .toEqual(0);
+      });
+    });
+  });
+
   describe('Help Center, Ticket Submission', function() {
     var launcher   = 'launcher',
         submitTicket = 'ticketSubmissionForm',
