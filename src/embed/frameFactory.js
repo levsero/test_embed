@@ -141,7 +141,6 @@ export var frameFactory = function(childFn, _params) {
         setTimeout( () => {
           frameFirstChild.setAttribute('style',
             existingStyle + ';-webkit-overflow-scrolling: touch;');
-          console.log(that.getDOMNode().contentDocument.body.firstChild.getAttribute('style'));
         }, 100);
       }
 
