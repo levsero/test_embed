@@ -137,7 +137,8 @@ export var frameFactory = function(childFn, _params) {
         visible: true
       });
 
-      if (frameFirstChild.getAttribute('style').indexOf('-webkit-overflow-scrolling') === -1) {
+      if (frameFirstChild.getAttribute('style') && 
+        frameFirstChild.getAttribute('style').indexOf('-webkit-overflow-scrolling') === -1){
         setTimeout( () => {
           frameFirstChild.setAttribute('style',
             existingStyle + ';-webkit-overflow-scrolling: touch;');
