@@ -140,7 +140,7 @@ export var frameFactory = function(childFn, _params) {
       setTimeout( () => {
         frameFirstChild.setAttribute('style',
           existingStyle + ';-webkit-overflow-scrolling: touch;');
-      },100);
+      }, 100);
 
       if (isMobileBrowser()) {
         win.scroll(0, 0);
