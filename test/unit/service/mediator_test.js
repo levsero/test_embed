@@ -611,18 +611,10 @@ describe('mediator', function() {
         names    = {
           launcher: launcher,
           chat: chat
-        },
-        setTimeoutOrigin;
+        };
 
     beforeEach(function() {
-      /*global setTimeout:true */
-      setTimeoutOrigin = setTimeout;
-      setTimeout = function(fn) { fn.apply(); };
       initSubscriptionSpies(names);
-    });
-
-    afterEach(function() {
-      setTimeout = setTimeoutOrigin;
     });
 
     describe('launcher is not hidden by API', function() {
@@ -638,7 +630,9 @@ describe('mediator', function() {
       });
 
       it('shows launcher when chat is offline', function() {
+        jasmine.clock().install();
         c.broadcast(`${chat}.onOffline`);
+        jasmine.clock().tick(10000);
 
         expect(launcherSub.show.calls.count())
           .toEqual(1);
@@ -658,7 +652,9 @@ describe('mediator', function() {
       });
 
       it('does not show launcher when chat is offline', function() {
+        jasmine.clock().install();
         c.broadcast(`${chat}.onOffline`);
+        jasmine.clock().tick(10000);
 
         expect(launcherSub.show.calls.count())
           .toEqual(0);
