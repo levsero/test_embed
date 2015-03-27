@@ -617,7 +617,7 @@ describe('mediator', function() {
       initSubscriptionSpies(names);
     });
 
-    describe('launcher is not hidden by API', function() {
+    describe('launcher is not hidden by zE.hide() API call', function() {
       beforeEach(function() {
         mediator.init(false);
       });
@@ -629,17 +629,17 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      it('shows launcher when chat is offline', function() {
+      it('shows launcher after 3000ms if chat is offline', function() {
         jasmine.clock().install();
         c.broadcast(`${chat}.onOffline`);
-        jasmine.clock().tick(10000);
+        jasmine.clock().tick(3000);
 
         expect(launcherSub.show.calls.count())
           .toEqual(1);
       });
     });
 
-    describe('launcher is hidden by API', function() {
+    describe('launcher is hidden by zE.hide() API call', function() {
       beforeEach(function() {
         mediator.init(false, true);
       });
@@ -651,10 +651,10 @@ describe('mediator', function() {
           .toEqual(0);
       });
 
-      it('does not show launcher when chat is offline', function() {
+      it('does not show launcher after 3000ms when chat is offline', function() {
         jasmine.clock().install();
         c.broadcast(`${chat}.onOffline`);
-        jasmine.clock().tick(10000);
+        jasmine.clock().tick(3000);
 
         expect(launcherSub.show.calls.count())
           .toEqual(0);
