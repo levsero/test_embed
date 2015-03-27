@@ -129,21 +129,20 @@ export var frameFactory = function(childFn, _params) {
     },
 
     show: function(animate) {
-      var that = this,
-          frameFirstChild = that.getDOMNode().contentDocument.body.firstChild,
+      var frameFirstChild = this.getDOMNode().contentDocument.body.firstChild,
           existingStyle = frameFirstChild.getAttribute('style');
 
       this.setState({
         visible: true
       });
 
-      if (frameFirstChild.getAttribute('style') && 
-        frameFirstChild.getAttribute('style').indexOf('-webkit-overflow-scrolling') === -1){
-        setTimeout( () => {
+      setTimeout( () => {
+        if (frameFirstChild.getAttribute('style') && 
+          frameFirstChild.getAttribute('style').indexOf('-webkit-overflow-scrolling') === -1 ) {
           frameFirstChild.setAttribute('style',
-            existingStyle + ';-webkit-overflow-scrolling: touch;');
-        }, 100);
-      }
+            `${existingStyle};-webkit-overflow-scrolling: touch;`);
+        }
+      }, 50);
 
       if (isMobileBrowser()) {
         win.scroll(0, 0);
