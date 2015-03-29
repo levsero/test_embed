@@ -129,18 +129,19 @@ export var frameFactory = function(childFn, _params) {
     },
 
     show: function(animate) {
-      var frameFirstChild = this.getDOMNode().contentDocument.body.firstChild,
-          existingStyle = frameFirstChild.getAttribute('style');
+      var frameFirstChild = this.getDOMNode().contentDocument.body.firstChild;
 
       this.setState({
         visible: true
       });
 
       setTimeout( () => {
-        if (frameFirstChild.getAttribute('style') && 
-          frameFirstChild.getAttribute('style').indexOf('-webkit-overflow-scrolling') === -1 ) {
-          frameFirstChild.setAttribute('style',
-            `${existingStyle};-webkit-overflow-scrolling: touch;`);
+        var existingStyle = frameFirstChild.getAttribute('style');
+
+        if (existingStyle && 
+          existingStyle.indexOf('-webkit-overflow-scrolling') === -1) {
+            frameFirstChild.setAttribute('style',
+              `${existingStyle};-webkit-overflow-scrolling: touch;`);
         }
       }, 50);
 
