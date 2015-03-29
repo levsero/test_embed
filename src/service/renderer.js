@@ -16,11 +16,11 @@ var embedsMap = {
       'chat'        : chat
     },
     initialised = false,
-    isVisible = true,
+    hideLauncher = false,
     renderedEmbeds;
 
 function hide() {
-  isVisible = false;
+  hideLauncher = true;
 }
 
 function parseConfig(config) {
@@ -42,7 +42,7 @@ function init(config) {
 
     _.forEach(parseConfig(config), function(configItem, embedName) {
       try {
-        configItem.props.visible = isVisible;
+        configItem.props.visible = !hideLauncher && config.embeds && !config.embeds.zopimChat;
         configItem.props.hideZendeskLogo = config.hideZendeskLogo;
         configItem.props.brand = config.brand;
         embedsMap[configItem.embed].create(embedName, configItem.props);
@@ -78,7 +78,7 @@ function init(config) {
 
 function initMediator(config) {
   if (config.embeds && config.embeds.ticketSubmissionForm) {
-    mediator.init(config.embeds.helpCenterForm);
+    mediator.init(config.embeds.helpCenterForm, hideLauncher);
   } else if ((config.embeds && config.embeds.zopimChat) || _.isEmpty(config.embeds)) {
     //naked zopim or empty config
     return;

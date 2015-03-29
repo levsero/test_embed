@@ -4,7 +4,7 @@ module airwaves from 'airwaves';
 
 var c = new airwaves.Channel();
 
-function init(helpCenterAvailable) {
+function init(helpCenterAvailable, hideLauncher) {
   var submitTicket = 'ticketSubmissionForm',
       launcher = 'launcher',
       chat = 'zopimChat',
@@ -20,6 +20,8 @@ function init(helpCenterAvailable) {
         }
       };
 
+  state[`${chat}.connectionPending`] = true;
+  state[`${launcher}.userHidden`]    = hideLauncher;
   state[`${submitTicket}.isVisible`] = false;
   state[`${chat}.isVisible`]         = false;
   state[`${helpCenter}.isVisible`]   = false;
@@ -54,7 +56,6 @@ function init(helpCenterAvailable) {
     c.broadcast(`${helpCenter}.hide`);
     c.broadcast(`${launcher}.deactivate`);
     c.broadcast(`${launcher}.show`);
-
   });
 
   c.intercept('.activate', function(__, options = {}) {
@@ -109,6 +110,11 @@ function init(helpCenterAvailable) {
     }
 
     c.broadcast(`${helpCenter}.setNextToChat`);
+
+    if (!state[`${launcher}.userHidden`] && state[`${chat}.connectionPending`]) {
+      state[`${chat}.connectionPending`] = false;
+      c.broadcast(`${launcher}.show`);
+    }
   });
 
   c.intercept(`${chat}.onOffline`, function() {
@@ -120,6 +126,13 @@ function init(helpCenterAvailable) {
 
     c.broadcast(`${launcher}.setLabelHelp`);
     c.broadcast(`${helpCenter}.setNextToSubmitTicket`);
+
+    if (!state[`${launcher}.userHidden`] && state[`${chat}.connectionPending`]) {
+      state[`${chat}.connectionPending`] = false;
+      setTimeout(function() {
+        c.broadcast(`${launcher}.show`);
+      }, 3000);
+    }
   });
 
   c.intercept(`${chat}.onShow`, function() {
@@ -256,9 +269,7 @@ function init(helpCenterAvailable) {
       c.broadcast(`${launcher}.setLabelHelp`);
     }
   });
-
 }
-
 
 export var mediator = {
   channel: c,

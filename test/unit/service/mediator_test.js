@@ -490,8 +490,6 @@ describe('mediator', function() {
         c.broadcast(`${chat}.onOnline`);
         c.broadcast(`${chat}.onUnreadMsgs`, 1);
 
-        expect(launcherSub.show.calls.count())
-          .toEqual(0);
         expect(launcherSub.hide.calls.count())
           .toEqual(1);
         expect(launcherSub.activate.calls.count())
@@ -504,6 +502,7 @@ describe('mediator', function() {
 
         reset(chatSub.hide);
         reset(launcherSub.deactivate);
+        reset(launcherSub.show);
         c.broadcast(`${chat}.onChatEnd`);
 
         expect(chatSub.hide.calls.count())
@@ -604,6 +603,63 @@ describe('mediator', function() {
       });
     });
 
+  });
+
+  describe('launcher final state depends on chat', function() {
+    var launcher = 'launcher',
+        chat     = 'zopimChat',
+        names    = {
+          launcher: launcher,
+          chat: chat
+        };
+
+    beforeEach(function() {
+      initSubscriptionSpies(names);
+    });
+
+    describe('launcher is not hidden by zE.hide() API call', function() {
+      beforeEach(function() {
+        mediator.init(false);
+      });
+
+      it('shows launcher when chat is online', function() {
+        c.broadcast(`${chat}.onOnline`);
+
+        expect(launcherSub.show.calls.count())
+          .toEqual(1);
+      });
+
+      it('shows launcher after 3000ms if chat is offline', function() {
+        jasmine.clock().install();
+        c.broadcast(`${chat}.onOffline`);
+        jasmine.clock().tick(3000);
+
+        expect(launcherSub.show.calls.count())
+          .toEqual(1);
+      });
+    });
+
+    describe('launcher is hidden by zE.hide() API call', function() {
+      beforeEach(function() {
+        mediator.init(false, true);
+      });
+
+      it('does not show launcher when chat is online', function() {
+        c.broadcast(`${chat}.onOnline`);
+
+        expect(launcherSub.show.calls.count())
+          .toEqual(0);
+      });
+
+      it('does not show launcher after 3000ms when chat is offline', function() {
+        jasmine.clock().install();
+        c.broadcast(`${chat}.onOffline`);
+        jasmine.clock().tick(3000);
+
+        expect(launcherSub.show.calls.count())
+          .toEqual(0);
+      });
+    });
   });
 
   describe('Help Center, Ticket Submission', function() {
@@ -1174,8 +1230,6 @@ describe('mediator', function() {
         expect(chatSub.show.calls.count())
           .toEqual(1);
         expect(launcherSub.activate.calls.count())
-          .toEqual(0);
-        expect(launcherSub.show.calls.count())
           .toEqual(0);
         expect(launcherSub.hide.calls.count())
           .toEqual(1);
