@@ -138,10 +138,9 @@ export var frameFactory = function(childFn, _params) {
       setTimeout( () => {
         var existingStyle = frameFirstChild.getAttribute('style');
 
-        if (existingStyle && 
-          existingStyle.indexOf('-webkit-overflow-scrolling') === -1) {
-            frameFirstChild.setAttribute('style',
-              `${existingStyle};-webkit-overflow-scrolling: touch;`);
+        if (!frameFirstChild.style.webkitOverflowScrolling) {
+          frameFirstChild.setAttribute('style',
+            `${existingStyle};-webkit-overflow-scrolling: touch;`);
         }
       }, 50);
 
