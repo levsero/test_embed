@@ -296,6 +296,15 @@ describe('frameFactory', function() {
       expect(snabbt)
         .not.toHaveBeenCalled();
     });
+
+    it('apply webkitOverflowScrolling when not set', function() {
+      var frameContainer = global.document.body.getElementsByTagName('iframe')[0],
+          frameContainerStyle = frameContainer.style;
+
+      expect(frameContainerStyle.webkitOverflowScrolling)
+        .not.toEqual(-1);
+    });
+
   });
 
   describe('hide', function() {
