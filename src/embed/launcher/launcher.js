@@ -66,7 +66,9 @@ function create(name, config) {
         onClickHandler: function(e) {
           e.preventDefault();
           beacon.track('launcher', 'click', name);
-          mediator.channel.broadcast(name + '.onClick');
+          setTimeout(function(){
+            mediator.channel.broadcast(name + '.onClick');
+          }, 0);
         }
       }
     }));

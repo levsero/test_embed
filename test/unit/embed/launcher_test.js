@@ -141,10 +141,15 @@ describe('embed.launcher', function() {
         expect(params.fullscreenable)
           .toEqual(false);
 
+
+        jasmine.clock().install();
+
         onClickHandler(eventObj);
+        jasmine.clock().tick(0);
 
         expect(mockMediator.channel.broadcast)
           .toHaveBeenCalledWith('alice.onClick');
+        jasmine.clock().uninstall();
       });
 
       it('passes Launcher correctly into frameFactory', function() {
