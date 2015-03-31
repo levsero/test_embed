@@ -298,11 +298,22 @@ describe('frameFactory', function() {
     });
 
     it('apply webkitOverflowScrolling when not set', function() {
-      var frameContainer = global.document.body.getElementsByTagName('iframe')[0],
-          frameContainerStyle = frameContainer.style;
+      var frameContainer = instance.getDOMNode().contentDocument.body.firstChild,
+          frameContainerStyle;
+
+      jasmine.clock().install();
+
+      instance.show(true);
+
+      jasmine.clock().tick(50);
+
+      // Get the style AFTER the ticks
+      frameContainerStyle = frameContainer.style;
 
       expect(frameContainerStyle.webkitOverflowScrolling)
-        .not.toEqual(-1);
+        .toEqual('touch');
+
+      jasmine.clock().uninstall();
     });
 
   });
