@@ -296,6 +296,26 @@ describe('frameFactory', function() {
       expect(snabbt)
         .not.toHaveBeenCalled();
     });
+
+    it('apply webkitOverflowScrolling when not set', function() {
+      var frameContainer = instance.getDOMNode().contentDocument.body.firstChild,
+          frameContainerStyle;
+
+      jasmine.clock().install();
+
+      instance.show(true);
+
+      jasmine.clock().tick(50);
+
+      // Get the style AFTER the ticks
+      frameContainerStyle = frameContainer.style;
+
+      expect(frameContainerStyle.webkitOverflowScrolling)
+        .toEqual('touch');
+
+      jasmine.clock().uninstall();
+    });
+
   });
 
   describe('hide', function() {
