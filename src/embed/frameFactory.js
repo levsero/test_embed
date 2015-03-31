@@ -136,11 +136,10 @@ export var frameFactory = function(childFn, _params) {
       });
 
       setTimeout( () => {
-        var existingStyle = frameFirstChild.getAttribute('style');
+        var existingStyle = frameFirstChild.style;
 
-        if (!frameFirstChild.style.webkitOverflowScrolling) {
-          frameFirstChild.setAttribute('style',
-            `${existingStyle};-webkit-overflow-scrolling: touch;`);
+        if (!existingStyle.webkitOverflowScrolling) {
+          existingStyle.webkitOverflowScrolling = 'touch';
         }
       }, 50);
 
