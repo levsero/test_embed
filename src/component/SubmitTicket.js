@@ -159,7 +159,6 @@ export var SubmitTicket = React.createClass({
         notifyClasses = classSet({
           'Notify': true,
           'u-textCenter': true,
-          'Arrange-sizeFill': this.state.fullscreen,
           'u-isHidden': !this.state.showNotification
         }),
         marketingClasses = classSet({
