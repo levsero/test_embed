@@ -80,25 +80,9 @@ export var SubmitTicket = React.createClass({
           this.props.onSubmitted();
           this.props.updateFrameSize(0,0);
         },
-        timeoutCallback = () => {
-          this.setState({
-            errorMessage: i18n.t('embeddable_framework.submitTicket.notify.message.timeout')
-          });
-
-          this.refs.submitTicketForm.setState({
-            isSubmitting: false,
-            buttonMessage: i18n.t('embeddable_framework.submitTicket.form.submitButton.label.send')
-          });
-        },
-        failCallback = () => {
-          this.setState({
-            errorMessage: i18n.t('embeddable_framework.submitTicket.notify.message.error')
-          });
-
-          this.refs.submitTicketForm.setState({
-            isSubmitting: false,
-            buttonMessage: i18n.t('embeddable_framework.submitTicket.form.submitButton.label.send')
-          });
+        errorCallback = (msg) => {
+          this.setState({ errorMessage: msg });
+          this.refs.submitTicketForm.setState({ isSubmitting: false });
         },
         payload = {
           method: 'post',
@@ -107,16 +91,16 @@ export var SubmitTicket = React.createClass({
           callbacks: {
             done(res) {
               if (res.error) {
-                failCallback();
+                errorCallback(i18n.t('embeddable_framework.submitTicket.notify.message.error'));
               } else {
                 resCallback();
               }
             },
             fail(err) {
               if (err.timeout) {
-                timeoutCallback();
+                errorCallback(i18n.t('embeddable_framework.submitTicket.notify.message.timeout'));
               } else {
-                failCallback();
+                errorCallback(i18n.t('embeddable_framework.submitTicket.notify.message.error'));
               }
             }
           }

@@ -16,7 +16,6 @@ var SubmitTicketForm = React.createClass({
   getInitialState() {
     return {
       isValid: false,
-      buttonMessage: i18n.t('embeddable_framework.submitTicket.form.submitButton.label.send'),
       isSubmitting: false,
       isRTL: i18n.isRTL(),
       removeTicketForm: false
@@ -70,7 +69,6 @@ var SubmitTicketForm = React.createClass({
 
     if (!isFormInvalid) {
       this.setState({
-        buttonMessage: i18n.t('embeddable_framework.submitTicket.form.submitButton.label.sending'),
         isSubmitting: true
       });
     }
@@ -90,6 +88,7 @@ var SubmitTicketForm = React.createClass({
 
   render() {
     /* jshint quotmark:false */
+    /* jshint laxbreak: true */
     var formBody,
         formClasses = classSet({
           'Form u-cf': true,
@@ -103,9 +102,12 @@ var SubmitTicketForm = React.createClass({
         barClasses = classSet({
           'Form-cta u-cf Container-pullout u-paddingBS': true,
           'Form-cta--bar u-marginBM u-paddingBL': !this.props.fullscreen
-        });
+        }),
+        buttonMessage = (this.state.isSubmitting)
+                      ? i18n.t('embeddable_framework.submitTicket.form.submitButton.label.sending')
+                      : i18n.t('embeddable_framework.submitTicket.form.submitButton.label.send');
 
-    /* jshint laxbreak: true */
+
     formBody = this.state.removeTicketForm
              ? null
              : this.transferPropsTo(
@@ -115,7 +117,6 @@ var SubmitTicketForm = React.createClass({
                   onUpdate={this.handleUpdate}
                   component={React.DOM.div} />
                );
-
 
     return (
       <form
@@ -130,7 +131,7 @@ var SubmitTicketForm = React.createClass({
         {formBody}
         {this.props.children}
         <Button
-          label={this.state.buttonMessage}
+          label={buttonMessage}
           disabled={!this.state.isValid || this.state.isSubmitting}
           fullscreen={this.props.fullscreen}
           type='submit'
