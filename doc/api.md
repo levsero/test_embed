@@ -58,8 +58,6 @@ The Widget contact form pre-populated using the data in `zE.identify()`:
 
 ![example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/widget_api_identify.png)
 
-Note: The user syncing functionality of `zE.identify()` is currently in beta - if you would like to know more - email acottrell@zendesk.com
-
 ### zE.hide
 
 `zE.hide()`
