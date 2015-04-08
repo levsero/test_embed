@@ -94,6 +94,11 @@ export var SubmitTicket = React.createClass({
           this.setState({
             errorMessage: i18n.t('embeddable_framework.submitTicket.notify.message.error')
           });
+
+          this.refs.submitTicketForm.setState({
+            isSubmitting: false,
+            buttonMessage: i18n.t('embeddable_framework.submitTicket.form.submitButton.label.send')
+          });
         },
         payload = {
           method: 'post',
