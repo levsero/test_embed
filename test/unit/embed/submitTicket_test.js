@@ -45,7 +45,7 @@ describe('embed.submitTicket', function() {
             React.createClass({
               show: jasmine.createSpy('show'),
               hide: jasmine.createSpy('hide'),
-              reset: jasmine.createSpy('reset'),
+              clearNotification: jasmine.createSpy('clearNotification'),
               getInitialState: function() {
                 return {
                   showNotification: false,
@@ -365,14 +365,14 @@ describe('embed.submitTicket', function() {
         expect(bob.instance.hide.__reactBoundMethod)
           .toHaveBeenCalled();
 
-        expect(bobSubmitTicket.reset.__reactBoundMethod)
+        expect(bobSubmitTicket.clearNotification.__reactBoundMethod)
           .not.toHaveBeenCalled();
 
         bobSubmitTicket.state.showNotification = true;
 
         pluckSubscribeCall(mockMediator, 'bob.hide')();
 
-        expect(bobSubmitTicket.reset.__reactBoundMethod)
+        expect(bobSubmitTicket.clearNotification.__reactBoundMethod)
           .toHaveBeenCalled();
       });
 
