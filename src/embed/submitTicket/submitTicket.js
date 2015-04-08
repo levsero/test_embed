@@ -84,6 +84,7 @@ function create(name, config) {
           setScaleLock(false);
           child.refs.submitTicket.refs.submitTicketForm.hideVirtualKeyboard();
         }
+        child.refs.submitTicket.clearNotification();
       },
       onClose() {
         mediator.channel.broadcast(name + '.onClose');
@@ -125,7 +126,7 @@ function render(name) {
     submitTickets[name].instance.hide();
 
     if (submitTicket.state.showNotification) {
-      submitTicket.reset();
+      submitTicket.clearNotification();
     }
   });
 

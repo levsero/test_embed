@@ -30,16 +30,25 @@ export var SubmitTicket = React.createClass({
     };
   },
 
-  reset() {
-    var submitTicketForm = this.refs.submitTicketForm,
-        formData         = submitTicketForm.refs.form.value().value;
+  clearNotification() {
+    this.setState({ showNotification: false });
+  },
 
-    this.setState({showNotification: false});
-    submitTicketForm.refs.form.updateValue({
-      name: formData.name,
-      email: formData.email
-    });
+  clearForm() {
+    var submitTicketForm = this.refs.submitTicketForm,
+        formData = {};
+
+    if (submitTicketForm.refs.form) {
+      formData = submitTicketForm.refs.form.value().value;
+    }
+
     submitTicketForm.setState(submitTicketForm.getInitialState());
+    submitTicketForm.setState({
+      formState: {
+        name: formData.name,
+        email: formData.email
+      }
+    });
   },
 
   showField: function() {
@@ -67,23 +76,13 @@ export var SubmitTicket = React.createClass({
             showNotification: true,
             message: i18n.t('embeddable_framework.submitTicket.notify.message.success')
           });
+          this.clearForm();
           this.props.onSubmitted();
           this.props.updateFrameSize(0,0);
         },
-        timeoutCallback = () => {
-          this.setState({
-            errorMessage: i18n.t('embeddable_framework.submitTicket.notify.message.timeout')
-          });
-
-          this.refs.submitTicketForm.setState({
-            isSubmitting: false,
-            buttonMessage: i18n.t('embeddable_framework.submitTicket.form.submitButton.label.send')
-          });
-        },
-        failCallback = () => {
-          this.setState({
-            errorMessage: i18n.t('embeddable_framework.submitTicket.notify.message.error')
-          });
+        errorCallback = (msg) => {
+          this.setState({ errorMessage: msg });
+          this.refs.submitTicketForm.setState({ isSubmitting: false });
         },
         payload = {
           method: 'post',
@@ -92,16 +91,16 @@ export var SubmitTicket = React.createClass({
           callbacks: {
             done(res) {
               if (res.error) {
-                failCallback();
+                errorCallback(i18n.t('embeddable_framework.submitTicket.notify.message.error'));
               } else {
                 resCallback();
               }
             },
             fail(err) {
               if (err.timeout) {
-                timeoutCallback();
+                errorCallback(i18n.t('embeddable_framework.submitTicket.notify.message.timeout'));
               } else {
-                failCallback();
+                errorCallback(i18n.t('embeddable_framework.submitTicket.notify.message.error'));
               }
             }
           }
@@ -144,7 +143,6 @@ export var SubmitTicket = React.createClass({
         notifyClasses = classSet({
           'Notify': true,
           'u-textCenter': true,
-          'Arrange-sizeFill': this.state.fullscreen,
           'u-isHidden': !this.state.showNotification
         }),
         marketingClasses = classSet({

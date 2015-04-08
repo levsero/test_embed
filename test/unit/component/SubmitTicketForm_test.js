@@ -125,9 +125,6 @@ describe('SubmitTicketForm component', function() {
 
     ReactTestUtils.Simulate.submit(submitTicketForm.getDOMNode());
 
-    expect(submitTicketForm.state.buttonMessage)
-      .toEqual('Foobar...');
-
     expect(submitTicketForm.state.isSubmitting)
       .toEqual(true);
 
