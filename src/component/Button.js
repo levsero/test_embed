@@ -53,8 +53,8 @@ var ButtonNav = React.createClass({
           'Button Button--nav u-posAbsolute u-userTextColor': true,
           'u-posStartL u-posStart--vertL': !fullscreen && position === 'left',
           'u-isActionable u-textSizeBaseMobile': fullscreen,
-          'u-posStart u-posStart--vert': fullscreen && position === 'left',
-          'u-posStart--vert u-pullRight u-posEnd': fullscreen && position === 'right'
+          'u-posStart u-posStart--vert u-PosEndLeft': fullscreen && position === 'left',
+          'u-posStart--vert u-pullRight u-posEnd u-PosEndRight': fullscreen && position === 'right'
         });
 
     return (

@@ -14,6 +14,16 @@ $Base-posOffset: #{20/$font-size}rem;
   right: $Base-posOffset;
 }
 
+.u-PosEndRight {
+  right: 0.05% !important;
+  padding-right: 60px !important;
+}
+
+.u-PosEndLeft {
+  left: 0.05% !important;
+  padding-left: 60px !important;
+}
+
 .u-posEnd--flush {
   right: 0;
 }
