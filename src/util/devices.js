@@ -59,11 +59,16 @@ function isBlacklisted() {
   );
 }
 
+function isIe10() {
+  return navigator.userAgent.indexOf('MSIE 10.0') !== -1
+}
+
 export {
   getDeviceZoom,
   getSizingRatio,
   isMobileBrowser,
   shouldGoFullscreen,
-  isBlacklisted
+  isBlacklisted,
+  isIe10
 };
 

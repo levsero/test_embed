@@ -7,7 +7,8 @@ import { document,
 import { HelpCenter }      from 'component/HelpCenter';
 import { frameFactory }    from 'embed/frameFactory';
 import { setScaleLock }    from 'utility/utils';
-import { isMobileBrowser } from 'utility/devices';
+import { isMobileBrowser,
+         isIe10 }          from 'utility/devices';
 import { beacon }          from 'service/beacon';
 import { i18n }            from 'service/i18n';
 import { transport }       from 'service/transport';
@@ -99,6 +100,9 @@ function create(name, config) {
       onShow(child) {
         if (isMobileBrowser()) {
           setScaleLock(true);
+        }
+        if (!isIe10()) {
+          child.refs.helpCenter.focusField();
         }
         child.refs.helpCenter.resetSearchFieldState();
       },
