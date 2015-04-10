@@ -8,7 +8,7 @@ import { SubmitTicket }    from 'component/SubmitTicket';
 import { frameFactory }    from 'embed/frameFactory';
 import { setScaleLock }    from 'utility/utils';
 import { isMobileBrowser,
-         isIe }          from 'utility/devices';
+         isIe }            from 'utility/devices';
 import { beacon }          from 'service/beacon';
 import { mediator }        from 'service/mediator';
 import { generateUserCSS } from 'utility/utils';

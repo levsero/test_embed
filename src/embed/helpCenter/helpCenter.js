@@ -8,7 +8,7 @@ import { HelpCenter }      from 'component/HelpCenter';
 import { frameFactory }    from 'embed/frameFactory';
 import { setScaleLock }    from 'utility/utils';
 import { isMobileBrowser,
-         isIe }          from 'utility/devices';
+         isIe }            from 'utility/devices';
 import { beacon }          from 'service/beacon';
 import { i18n }            from 'service/i18n';
 import { transport }       from 'service/transport';
