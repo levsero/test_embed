@@ -82,7 +82,7 @@ describe('embed.submitTicket', function() {
         isMobileBrowser: function() {
           return false;
         },
-        isIe10: function() {
+        isIe: function() {
           return true;
         }
       },
@@ -152,7 +152,7 @@ describe('embed.submitTicket', function() {
           isMobileBrowser: function() {
             return true;
           },
-          isIe10: function() {
+          isIe: function() {
             return true;
           }
         });
@@ -178,6 +178,14 @@ describe('embed.submitTicket', function() {
       });
 
       it('should reset form state onShow', function() {
+        mockery.registerMock('utility/devices', {
+          isMobileBrowser: function() {
+            return true;
+          },
+          isIe: function() {
+            return false;
+          }
+        });
         submitTicket = require(submitTicketPath).submitTicket;
         submitTicket.create('bob', frameConfig);
         submitTicket.render('bob');

@@ -75,7 +75,7 @@ describe('embed.helpCenter', function() {
         isMobileBrowser: function() {
           return false;
         },
-        isIe10: function() {
+        isIe: function() {
           return false;
         }
       },

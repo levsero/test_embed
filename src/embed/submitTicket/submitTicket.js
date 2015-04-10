@@ -8,7 +8,7 @@ import { SubmitTicket }    from 'component/SubmitTicket';
 import { frameFactory }    from 'embed/frameFactory';
 import { setScaleLock }    from 'utility/utils';
 import { isMobileBrowser,
-         isIe10 }          from 'utility/devices';
+         isIe }          from 'utility/devices';
 import { beacon }          from 'service/beacon';
 import { mediator }        from 'service/mediator';
 import { generateUserCSS } from 'utility/utils';
@@ -73,7 +73,7 @@ function create(name, config) {
         if (isMobileBrowser()) {
           setScaleLock(true);
         }
-        if (!isIe10()) {
+        if (!isIe()) {
           child.refs.submitTicket.refs.submitTicketForm.focusField();
         }
         child.refs.submitTicket.refs.submitTicketForm.resetTicketFormVisibility();
