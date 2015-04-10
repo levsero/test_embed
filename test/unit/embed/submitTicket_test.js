@@ -81,6 +81,9 @@ describe('embed.submitTicket', function() {
       'utility/devices': {
         isMobileBrowser: function() {
           return false;
+        },
+        isIe10: function() {
+          return true;
         }
       },
       'utility/globals': {
@@ -147,6 +150,9 @@ describe('embed.submitTicket', function() {
 
         mockery.registerMock('utility/devices', {
           isMobileBrowser: function() {
+            return true;
+          },
+          isIe10: function() {
             return true;
           }
         });
