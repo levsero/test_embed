@@ -66,6 +66,11 @@ function create(name, config) {
         onClickHandler: function(e) {
           e.preventDefault();
           beacon.track('launcher', 'click', name);
+          /**
+           * This timeout mitigates the Ghost Click produced when the launcher
+           * button is on the left, using a mobile device with small screen
+           * e.g. iPhone4. It's not a bulletproof solution, but it helps
+           */
           setTimeout( () => {
             mediator.channel.broadcast(name + '.onClick');
           }, 0);
