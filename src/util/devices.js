@@ -60,12 +60,7 @@ function isBlacklisted() {
 }
 
 function isIe() {
-  return (
-    (navigator.userAgent.indexOf('MSIE 10.0') !== -1) ||
-
-    //IE11 has a different user agent string
-      (navigator.userAgent.indexOf('rv:11.0') !== -1)
-  );
+  return navigator.userAgent.indexOf('Trident') !== -1;
 }
 
 export {
