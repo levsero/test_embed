@@ -59,7 +59,7 @@ function isBlacklisted() {
   );
 }
 
-function isIe() {
+function isIE() {
   return (
     //MSIE is present in all IE user agents since IE 2.0
     (navigator.userAgent.indexOf('MSIE') !== -1) ||
@@ -74,6 +74,6 @@ export {
   isMobileBrowser,
   shouldGoFullscreen,
   isBlacklisted,
-  isIe
+  isIE
 };
 
