@@ -30,6 +30,7 @@ describe('embed.submitTicket', function() {
             React.createClass({
               resetTicketFormVisibility: resetTicketFormVisibility,
               hideVirtualKeyboard: hideVirtualKeyboard,
+              focusField: jasmine.createSpy(),
               render: function() {
                 return (
                   /* jshint quotmark:false */
@@ -53,7 +54,6 @@ describe('embed.submitTicket', function() {
                   uid: defaultValue
                 };
               },
-              focusField: jasmine.createSpy(),
               render: function() {
                 return (
                   /* jshint quotmark:false */
@@ -81,9 +81,6 @@ describe('embed.submitTicket', function() {
       'utility/devices': {
         isMobileBrowser: function() {
           return false;
-        },
-        isIe: function() {
-          return true;
         }
       },
       'utility/globals': {
@@ -151,9 +148,6 @@ describe('embed.submitTicket', function() {
         mockery.registerMock('utility/devices', {
           isMobileBrowser: function() {
             return true;
-          },
-          isIe: function() {
-            return true;
           }
         });
         mockery.resetCache();
@@ -181,9 +175,6 @@ describe('embed.submitTicket', function() {
         mockery.registerMock('utility/devices', {
           isMobileBrowser: function() {
             return true;
-          },
-          isIe: function() {
-            return false;
           }
         });
         submitTicket = require(submitTicketPath).submitTicket;
