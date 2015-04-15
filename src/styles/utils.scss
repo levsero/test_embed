@@ -14,22 +14,16 @@ $Base-posOffset: #{20/$font-size}rem;
   right: $Base-posOffset;
 }
 
-.u-PosEndRight {
-  right: 0.05% !important;
-  padding-right: 59px !important;
-}
-
-.u-PosEndLeft {
-  left: 0.05% !important;
-  padding-left: 60px !important;
-}
-
 .u-posEnd--flush {
   right: 0;
 }
 
 .u-posStart {
   left: $Base-posOffset;
+}
+
+.u-posStart--flush {
+  left: 0;
 }
 
 .u-posStartL {
@@ -43,6 +37,10 @@ $Base-posOffset: #{20/$font-size}rem;
 
 .u-posStart--vert {
   top: #{15/$font-size}rem;
+}
+
+.u-posStart--vertFlush {
+  top: 0;
 }
 
 .u-posStart--vertL {
@@ -127,6 +125,10 @@ $Base-posOffset: #{20/$font-size}rem;
     padding-right: 0;
     padding-left: #{25/$font-size}rem;
   }
+}
+
+.u-paddingL {
+  padding-left: #{25/$font-size}rem;
 }
 
 .u-paddingRS {
