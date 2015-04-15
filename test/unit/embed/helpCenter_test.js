@@ -6,7 +6,8 @@ describe('embed.helpCenter', function() {
       frameConfig,
       helpCenterPath = buildSrcPath('embed/helpCenter/helpCenter'),
       resetSearchFieldState = jasmine.createSpy(),
-      hideVirtualKeyboard = jasmine.createSpy();
+      hideVirtualKeyboard = jasmine.createSpy(),
+      focusField = jasmine.createSpy();
 
   beforeEach(function() {
     var mockForm = React.createClass({
@@ -53,7 +54,7 @@ describe('embed.helpCenter', function() {
               },
               resetSearchFieldState: resetSearchFieldState,
               hideVirtualKeyboard: hideVirtualKeyboard,
-              focusField: noop,
+              focusField: focusField,
               render: function() {
                 return (
                   /* jshint quotmark:false */
@@ -73,6 +74,9 @@ describe('embed.helpCenter', function() {
       },
       'utility/devices': {
         isMobileBrowser: function() {
+          return false;
+        },
+        isIE: function() {
           return false;
         }
       },
@@ -95,7 +99,8 @@ describe('embed.helpCenter', function() {
 
     frameConfig = {
       onShow: jasmine.createSpy('onShow'),
-      onHide: jasmine.createSpy('onHide')
+      onHide: jasmine.createSpy('onHide'),
+      afterShowAnimate: jasmine.createSpy('afterShowAnimate')
     };
   });
 
@@ -168,6 +173,43 @@ describe('embed.helpCenter', function() {
 
           expect(mockMediator.channel.broadcast)
             .toHaveBeenCalledWith('carlos.onNextClick');
+        });
+
+        it('should not call focusField in afterShowAnimate for non-IE browser', function() {
+          helpCenter = require(helpCenterPath).helpCenter;
+          helpCenter.create('carlos', frameConfig);
+          helpCenter.render('carlos');
+          helpCenterChild = helpCenter.get('carlos').instance.getChild();
+          mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
+          params = mockFrameFactoryCall[1];
+
+          params.afterShowAnimate(helpCenterChild);
+
+          expect(focusField)
+            .not.toHaveBeenCalled();
+        });
+
+        it('should call focusField in afterShowAnimate for IE browser', function() {
+          mockery.registerMock('utility/devices', {
+            isMobileBrowser: function() {
+              return false;
+            },
+            isIE: function() {
+              return true;
+            }
+          });
+          mockery.resetCache();
+          helpCenter = require(helpCenterPath).helpCenter;
+          helpCenter.create('carlos', frameConfig);
+          helpCenter.render('carlos');
+          helpCenterChild = helpCenter.get('carlos').instance.getChild();
+          mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
+          params = mockFrameFactoryCall[1];
+
+          params.afterShowAnimate(helpCenterChild);
+
+          expect(focusField)
+            .toHaveBeenCalled();
         });
 
         it('should reset form state onShow', function() {

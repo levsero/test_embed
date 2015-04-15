@@ -63,8 +63,8 @@ function isIE() {
   return (
     //MSIE is present in all IE user agents since IE 2.0
     (navigator.userAgent.indexOf('MSIE') !== -1) ||
-    //IE11 has a different user agent string
-      (navigator.userAgent.indexOf('rv:11.0') !== -1)
+    //Trident is IE specific
+    (navigator.userAgent.indexOf('Trident') !== -1)
   );
 }
 

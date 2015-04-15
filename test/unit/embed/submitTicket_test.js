@@ -7,7 +7,8 @@ describe('embed.submitTicket', function() {
       defaultValue = 'abc123',
       submitTicketPath = buildSrcPath('embed/submitTicket/submitTicket'),
       resetTicketFormVisibility = jasmine.createSpy(),
-      hideVirtualKeyboard = jasmine.createSpy();
+      hideVirtualKeyboard = jasmine.createSpy(),
+      focusField = jasmine.createSpy();
 
   beforeEach(function() {
     resetDOM();
@@ -30,7 +31,7 @@ describe('embed.submitTicket', function() {
             React.createClass({
               resetTicketFormVisibility: resetTicketFormVisibility,
               hideVirtualKeyboard: hideVirtualKeyboard,
-              focusField: jasmine.createSpy(),
+              focusField: focusField,
               render: function() {
                 return (
                   /* jshint quotmark:false */
@@ -81,6 +82,9 @@ describe('embed.submitTicket', function() {
       'utility/devices': {
         isMobileBrowser: function() {
           return false;
+        },
+        isIE: function() {
+          return false;
         }
       },
       'utility/globals': {
@@ -98,7 +102,8 @@ describe('embed.submitTicket', function() {
 
     frameConfig = {
       onShow: jasmine.createSpy('onShow'),
-      onHide: jasmine.createSpy('onHide')
+      onHide: jasmine.createSpy('onHide'),
+      afterShowAnimate: jasmine.createSpy('afterShowAnimate')
     };
   });
 
@@ -140,6 +145,43 @@ describe('embed.submitTicket', function() {
         submitTicket.create('bob', frameConfig);
         mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
         params = mockFrameFactoryCall[1];
+      });
+
+      it('should not call focusField in afterShowAnimate for non-IE browser', function() {
+        submitTicket = require(submitTicketPath).submitTicket;
+        submitTicket.create('bob', frameConfig);
+        submitTicket.render('bob');
+        submitTicketChild = submitTicket.get('bob').instance.getChild();
+        mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
+        params = mockFrameFactoryCall[1];
+
+        params.afterShowAnimate(submitTicket.get('bob').instance.getChild());
+
+        expect(focusField)
+          .not.toHaveBeenCalled();
+      });
+
+      it('should call focusField in afterShowAnimate for IE browser', function() {
+        mockery.registerMock('utility/devices', {
+          isMobileBrowser: function() {
+            return false;
+          },
+          isIE: function() {
+            return true;
+          }
+        });
+        mockery.resetCache();
+        submitTicket = require(submitTicketPath).submitTicket;
+        submitTicket.create('bob', frameConfig);
+        submitTicket.render('bob');
+        submitTicketChild = submitTicket.get('bob').instance.getChild();
+        mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
+        params = mockFrameFactoryCall[1];
+
+        params.afterShowAnimate(submitTicket.get('bob').instance.getChild());
+
+        expect(focusField)
+          .toHaveBeenCalled();
       });
 
       it('should toggle setScaleLock with onShow/onHide', function() {
