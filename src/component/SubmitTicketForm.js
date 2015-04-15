@@ -53,7 +53,7 @@ var SubmitTicketForm = React.createClass({
 
     if (element) {
       setTimeout(function(){ //required for IE to autofocus on form field
-      element.focus();
+        element.focus();
       },0);
     }
   },
