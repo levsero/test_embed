@@ -172,11 +172,6 @@ describe('embed.submitTicket', function() {
       });
 
       it('should reset form state onShow', function() {
-        mockery.registerMock('utility/devices', {
-          isMobileBrowser: function() {
-            return true;
-          }
-        });
         submitTicket = require(submitTicketPath).submitTicket;
         submitTicket.create('bob', frameConfig);
         submitTicket.render('bob');
