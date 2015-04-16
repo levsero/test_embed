@@ -7,7 +7,7 @@ describe('embed.helpCenter', function() {
       helpCenterPath = buildSrcPath('embed/helpCenter/helpCenter'),
       resetSearchFieldState = jasmine.createSpy(),
       hideVirtualKeyboard = jasmine.createSpy(),
-      focusField = jasmine.createSpy();
+      focusField;
 
   beforeEach(function() {
     var mockForm = React.createClass({
@@ -15,6 +15,8 @@ describe('embed.helpCenter', function() {
         return (<div />);
       }
     });
+
+    focusField = jasmine.createSpy();
 
     resetDOM();
 
@@ -175,6 +177,20 @@ describe('embed.helpCenter', function() {
             .toHaveBeenCalledWith('carlos.onNextClick');
         });
 
+        it('should reset form state onShow', function() {
+          helpCenter = require(helpCenterPath).helpCenter;
+          helpCenter.create('carlos', frameConfig);
+          helpCenter.render('carlos');
+          helpCenterChild = helpCenter.get('carlos').instance.getChild();
+          mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
+          params = mockFrameFactoryCall[1];
+
+          params.onShow(helpCenterChild);
+
+          expect(resetSearchFieldState)
+            .toHaveBeenCalled();
+        });
+
         it('should not call focusField in afterShowAnimate for non-IE browser', function() {
           helpCenter = require(helpCenterPath).helpCenter;
           helpCenter.create('carlos', frameConfig);
@@ -184,7 +200,6 @@ describe('embed.helpCenter', function() {
           params = mockFrameFactoryCall[1];
 
           params.afterShowAnimate(helpCenterChild);
-
           expect(focusField)
             .not.toHaveBeenCalled();
         });
@@ -209,20 +224,6 @@ describe('embed.helpCenter', function() {
           params.afterShowAnimate(helpCenterChild);
 
           expect(focusField)
-            .toHaveBeenCalled();
-        });
-
-        it('should reset form state onShow', function() {
-          helpCenter = require(helpCenterPath).helpCenter;
-          helpCenter.create('carlos', frameConfig);
-          helpCenter.render('carlos');
-          helpCenterChild = helpCenter.get('carlos').instance.getChild();
-          mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
-          params = mockFrameFactoryCall[1];
-
-          params.onShow(helpCenterChild);
-
-          expect(resetSearchFieldState)
             .toHaveBeenCalled();
         });
 
