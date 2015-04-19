@@ -7,7 +7,8 @@ import { document,
 import { HelpCenter }      from 'component/HelpCenter';
 import { frameFactory }    from 'embed/frameFactory';
 import { setScaleLock }    from 'utility/utils';
-import { isMobileBrowser } from 'utility/devices';
+import { isMobileBrowser,
+         isIE }            from 'utility/devices';
 import { beacon }          from 'service/beacon';
 import { i18n }            from 'service/i18n';
 import { transport }       from 'service/transport';
@@ -88,7 +89,9 @@ function create(name, config) {
       name: name,
       fullscreenable: true,
       afterShowAnimate(child) {
-        child.refs.helpCenter.focusField();
+        if (isIE()) {
+          child.refs.helpCenter.focusField();
+        }
       },
       onHide(child) {
         if (isMobileBrowser()) {
@@ -100,6 +103,7 @@ function create(name, config) {
         if (isMobileBrowser()) {
           setScaleLock(true);
         }
+        child.refs.helpCenter.focusField();
         child.refs.helpCenter.resetSearchFieldState();
       },
       onClose() {

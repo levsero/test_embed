@@ -7,7 +7,8 @@ import { document,
 import { SubmitTicket }    from 'component/SubmitTicket';
 import { frameFactory }    from 'embed/frameFactory';
 import { setScaleLock }    from 'utility/utils';
-import { isMobileBrowser } from 'utility/devices';
+import { isMobileBrowser,
+         isIE }            from 'utility/devices';
 import { beacon }          from 'service/beacon';
 import { mediator }        from 'service/mediator';
 import { generateUserCSS } from 'utility/utils';
@@ -72,12 +73,14 @@ function create(name, config) {
         if (isMobileBrowser()) {
           setScaleLock(true);
         }
-
         child.refs.submitTicket.refs.submitTicketForm.resetTicketFormVisibility();
+        child.refs.submitTicket.refs.submitTicketForm.focusField();
       },
       name: name,
       afterShowAnimate(child) {
-        child.refs.submitTicket.refs.submitTicketForm.focusField();
+        if (isIE()) {
+          child.refs.submitTicket.refs.submitTicketForm.focusField();
+        }
       },
       onHide(child) {
         if (isMobileBrowser()) {

@@ -59,11 +59,21 @@ function isBlacklisted() {
   );
 }
 
+function isIE() {
+  return (
+    //MSIE is present in all IE user agents since IE 2.0
+    (navigator.userAgent.indexOf('MSIE') !== -1) ||
+    //Trident is IE specific
+    (navigator.userAgent.indexOf('Trident') !== -1)
+  );
+}
+
 export {
   getDeviceZoom,
   getSizingRatio,
   isMobileBrowser,
   shouldGoFullscreen,
-  isBlacklisted
+  isBlacklisted,
+  isIE
 };
 
