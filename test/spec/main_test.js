@@ -1,5 +1,5 @@
 describe('main.js', function() {
-  var root = window.top,
+  var root = window.parent,
       zEmbed = root.zEmbed,
       zE = root.zE;
 
