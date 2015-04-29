@@ -7,7 +7,7 @@ describe('HelpCenterArticle component', function() {
       mockArticle = {
         body: `
           <h1 id="foo">Foobar</h1>
-          <a href="#foo">inpage link</a>
+          <a href="#foo" name='foo'>inpage link</a>
           <a class="relative" href="/relative/link">relative link</a>
           <div id="preserved" style="bad styles not allowed">
             This text contains a sub-note<sub>1</sub>
@@ -114,6 +114,22 @@ describe('HelpCenterArticle component', function() {
 
     expect(content.querySelector('h1').id)
       .not.toEqual('foo');
+  });
+
+  it('should preserve name attribute on anchors', function() {
+    var helpCenterArticle = React.renderComponent(
+          <HelpCenterArticle activeArticle={mockArticle} />,
+          global.document.body
+        ),
+        content;
+
+    // componentdidupdate only fires after setState not on initial render
+    helpCenterArticle.setState({foo: 'bar'});
+
+    content = helpCenterArticle.refs.article.getDOMNode();
+
+    expect(content.querySelector('a[name="foo"]'))
+      .not.toBeNull();
   });
 
   it('should preserve sub/sups on divs', function() {
