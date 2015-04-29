@@ -78,7 +78,7 @@ var HelpCenterArticle = React.createClass({
       // You can deep link via an id or name attribute, handle both in the selector
       let inPageElem = doc.querySelector(`${href},[name="${href.slice(1)}"]`);
 
-      if(inPageElem) {
+      if (inPageElem) {
         inPageElem.scrollIntoView();
       }
       e.preventDefault();
