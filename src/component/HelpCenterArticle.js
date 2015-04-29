@@ -29,8 +29,9 @@ var HelpCenterArticle = React.createClass({
             'sup', 'sub', 'img'
           ],
           allowedAttributes: {
-            'a': [ 'href', 'target', 'title' ],
-            'div': [ 'id' ],
+            'a': ['href', 'target', 'title', 'name'],
+            'span': ['name'],
+            'div': ['id'],
             'img': ['src', 'alt']
           },
           allowedClasses: {
@@ -73,15 +74,16 @@ var HelpCenterArticle = React.createClass({
         href = target.getAttribute('href'),
         doc = target.ownerDocument;
 
-    if (nodeName === 'A') {
-      if (href.indexOf('#') === 0) {
-        let inPageElem = doc.querySelector(href);
+    if (nodeName === 'A' && href.indexOf('#') === 0) {
+      // You can deep link via an id or name attribute, handle both in the selector
+      let inPageElem = doc.querySelector(`${href},[name="${href.slice(1)}"]`);
 
+      if (inPageElem) {
         inPageElem.scrollIntoView();
-        e.preventDefault();
-      } else {
-        target.setAttribute('target', '_blank');
       }
+      e.preventDefault();
+    } else {
+      target.setAttribute('target', '_blank');
     }
   },
 
