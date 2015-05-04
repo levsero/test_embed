@@ -15,6 +15,9 @@ describe('Help center component', function() {
 
     mockRegistry = initMockRegistry({
       'react/addons': React,
+      'service/beacon': {
+        beacon: jasmine.createSpyObj('beacon', ['track'])
+      },
       'service/transport': {
         transport: jasmine.createSpyObj('transport', ['send'])
       },
@@ -168,7 +171,7 @@ describe('Help center component', function() {
         .not.toContain('u-isHidden');
     });
 
-    it('should render the inline article', function() {
+    it('should track view and render the inline article', function() {
       var helpCenter = React.render(
             <HelpCenter
               onSearch={noop}
@@ -177,6 +180,7 @@ describe('Help center component', function() {
             global.document.body
           ),
           mockTransport = mockRegistry['service/transport'].transport,
+          mockBeacon = mockRegistry['service/beacon'].beacon,
           searchString = 'help, I\'ve fallen and can\'t get up!',
           responseArticle = {
             /* jshint camelcase: false */
@@ -210,6 +214,19 @@ describe('Help center component', function() {
       ReactTestUtils.Simulate.click(listAnchor, {
         target: { getAttribute: function() { return 0; }
       }});
+
+      expect(mockBeacon.track)
+        .toHaveBeenCalledWith(
+          'helpCenter',
+          'click',
+          'helpCenterForm', {
+            query : 'Foobar',
+            resultCount : 3,
+            uniqueSearchResultClick : true,
+            articleId : 0,
+            locale : undefined
+          }
+        );
 
       expect(article.className)
         .not.toMatch('u-isHidden');

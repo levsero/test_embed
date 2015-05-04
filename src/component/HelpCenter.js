@@ -11,6 +11,7 @@ import { Container }         from 'component/Container';
 import { isMobileBrowser }   from 'utility/devices';
 import { i18n }              from 'service/i18n';
 import { Button }            from 'component/Button';
+import { beacon }            from 'service/beacon';
 
 var classSet = React.addons.classSet;
 
@@ -27,6 +28,7 @@ export var HelpCenter = React.createClass({
       searchFailed: false,
       articleViewActive: false,
       activeArticle: {},
+      viewedArticles: [],
       removeSearchField: false
     };
   },
@@ -82,7 +84,8 @@ export var HelpCenter = React.createClass({
       isLoading: false,
       previousSearchTerm: this.state.searchTerm,
       hasSearched: true,
-      searchFailed: false
+      searchFailed: false,
+      viewedArticles: []
     });
   },
 
@@ -173,15 +176,36 @@ export var HelpCenter = React.createClass({
   },
 
   handleArticleClick(e) {
+    var articleIndex = e.target.getAttribute('data-article-index'),
+        viewedArticles = this.state.viewedArticles,
+        isViewedAlready = viewedArticles[articleIndex] || false;
+
     e.preventDefault();
 
+    viewedArticles[articleIndex] = true;
+
     this.setState({
-      activeArticle: this.state.articles[e.target.getAttribute('data-article-index')],
-      articleViewActive: true
+      activeArticle: this.state.articles[articleIndex],
+      articleViewActive: true,
+      viewedArticles: viewedArticles
     });
+
+    this.trackArticleView(articleIndex, isViewedAlready);
 
     this.props.onLinkClick(e);
     this.props.showBackButton();
+  },
+
+  trackArticleView(articleIndex, isViewedAlready) {
+    var trackPayload = {
+      query: this.state.searchTerm,
+      resultCount: this.state.articles.length,
+      uniqueSearchResultClick: !isViewedAlready,
+      articleId: this.state.articles[articleIndex].id,
+      locale: i18n.getLocale()
+    };
+
+    beacon.track('helpCenter', 'click', 'helpCenterForm', trackPayload);
   },
 
   render() {
