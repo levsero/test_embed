@@ -38,18 +38,18 @@ The following example displays the widget in German:
 
 `zE.identify(userObj)`
 
-The method takes a JavaScript object with a `name`, `email` and optionally, an `externalId` property.
+The method takes a JavaScript object with a `name`, `email` and optionally, an `externalId` and `organization` property.
 
 If you have access to your end user's name and email on the web page (for example, if your user is logged in), you can use `zE.identify()` to pass the details of that user into your Zendesk account, ensuring your user data is in sync.
 
-The way this works is: if the user's email (and external ID, if included) does not already exist in your Zendesk, a new user record with those details will be created. 
+The way this works is: if the user's email (and external ID, if included) does not already exist in your Zendesk, a new user record with those details will be created.
 
 The Widget also uses the information in the `zE.identify()` call to pre-populate the contact or pre-chat chat form, saving the user from having to type in the information. This is especially useful for end users using your website on a mobile device (screenshot below).
 
 ```html
 <script>
   zE(function() {
-    zE.identify({name: 'John Citizen', email: 'john@example.com', externalId: '123'});
+    zE.identify({name: 'John Citizen', email: 'john@example.com', externalId: '123', organization: 'VIP'});
   });
 </script>
 ```
