@@ -38,7 +38,7 @@ The following example displays the widget in German:
 
 `zE.identify(userObj)`
 
-The method takes a JavaScript object with a `name`, `email` and optionally, an `externalId` and `organization` property.
+The method takes a JavaScript object with a `name`, `email` and optionally, `externalId` and `organization` properties.
 
 If you have access to your end user's name and email on the web page (for example, if your user is logged in), you can use `zE.identify()` to pass the details of that user into your Zendesk account, ensuring your user data is in sync.
 
