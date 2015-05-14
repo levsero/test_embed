@@ -82,7 +82,7 @@ parts:
       title: "The placeholder text in the search bar to prompt users that they can search the knowledge base by typing their query in this space. Will get cut off if to long (tinyurl.com/kjubpdk)"
       value: "Search help articles"
   - translation:
-      key: "embeddable_framework.helpCenter.search.alternative.label"
+      key: "embeddable_framework.helpCenter.search.label.how_can_we_help"
       title: "The placeholder text in the search bar to prompt users that they can search the knowledge base by typing their query in this space. Will get cut off if too long (tinyurl.com/kjubpdk)"
       value: "How can we help?"
   - translation:
