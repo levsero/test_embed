@@ -82,6 +82,10 @@ parts:
       title: "The placeholder text in the search bar to prompt users that they can search the knowledge base by typing their query in this space. Will get cut off if to long (tinyurl.com/kjubpdk)"
       value: "Search help articles"
   - translation:
+      key: "embeddable_framework.helpCenter.search.alternative.label"
+      title: "The placeholder text in the search bar to prompt users that they can search the knowledge base by typing their query in this space. Will get cut off if too long (tinyurl.com/kjubpdk)"
+      value: "How can we help?"
+  - translation:
       key: "embeddable_framework.helpCenter.search.noResults.title"
       title: "The title of the message for the help center widget when there are no results returned from search. searchTerm is the term they just searched for in quotes. Will wrap as needed (tinyurl.com/o849ewv)"
       value: "There are no results for \"%(searchTerm)s\""
