@@ -249,7 +249,7 @@ var SearchField = React.createClass({
         }),
         placeholder = (isMobileBrowser())
                     ? ''
-                    : i18n.t('embeddable_framework.helpCenter.search.label');
+                    : i18n.t('embeddable_framework.helpCenter.search.label.search');
 
     return (
       /* jshint quotmark:false */
