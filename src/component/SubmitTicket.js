@@ -34,19 +34,16 @@ export var SubmitTicket = React.createClass({
 
   clearForm() {
     var submitTicketForm = this.refs.submitTicketForm,
-        formData = {};
+        formData = submitTicketForm.state.formState;
 
-    if (submitTicketForm.refs.form) {
-      formData = submitTicketForm.refs.form.validate().value;
-    }
-
-    submitTicketForm.setState(submitTicketForm.getInitialState());
-    submitTicketForm.setState({
-      formState: {
-        name: formData.name,
-        email: formData.email
-      }
-    });
+    submitTicketForm.setState(
+      _.extend({}, submitTicketForm.getInitialState(), {
+        formState: {
+          name: formData.name,
+          email: formData.email
+        }
+      })
+    );
   },
 
   showField: function() {
@@ -80,10 +77,6 @@ export var SubmitTicket = React.createClass({
         },
         errorCallback = (msg) => {
           this.setState({ errorMessage: msg });
-          this.refs.submitTicketForm.setState({
-            isSubmitting: false,
-            buttonMessage: i18n.t('embeddable_framework.submitTicket.form.submitButton.label.send')
-          });
         },
         payload = {
           method: 'post',

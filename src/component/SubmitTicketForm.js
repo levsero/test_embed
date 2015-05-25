@@ -15,7 +15,8 @@ export const SubmitTicketForm = React.createClass({
       buttonMessage: i18n.t('embeddable_framework.submitTicket.form.submitButton.label.send'),
       isSubmitting: false,
       isRTL: i18n.isRTL(),
-      removeTicketForm: false
+      removeTicketForm: false,
+      formState: {}
     };
   },
 
@@ -32,11 +33,17 @@ export const SubmitTicketForm = React.createClass({
       _.chain(form.elements)
         .filter((field) => field.type !== 'submit')
         .forEach((field) => {
-          if(field.type === 'checkbox') {
-            // Based on formState set checked property
-            field.checked = !!this.state.formState[field.name];
+          if(this.state.formState[field.name]) {
+            if(field.type === 'checkbox') {
+              // Based on formState set checked property
+              field.checked = !!this.state.formState[field.name];
+            } else {
+              field.value = this.state.formState[field.name];
+            }
           } else {
-            field.value = this.state.formState[field.name];
+            // If clearing form after submit we need to make sure
+            // formState clears out undefined values
+            field.value = '';
           }
       });
     }
