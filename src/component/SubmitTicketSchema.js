@@ -1,5 +1,4 @@
-module React from 'react/addons';
-module ReactForms from 'react-forms';
+import React from 'react/addons';
 
 import { EmailField,
          CheckboxField,

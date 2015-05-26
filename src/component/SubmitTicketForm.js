@@ -1,6 +1,4 @@
-module React from 'react/addons';
-module ReactForms from 'react-forms';
-
+import React from 'react/addons';
 import { submitTicketSchema } from 'component/SubmitTicketSchema';
 import { Button }             from 'component/Button';
 import { i18n }               from 'service/i18n';

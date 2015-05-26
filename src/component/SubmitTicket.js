@@ -1,4 +1,4 @@
-module React from 'react/addons'; /* jshint ignore:line */
+import React from 'react/addons'; /* jshint ignore:line */
 import { win }              from 'utility/globals';
 import { transport }        from 'service/transport';
 import { SubmitTicketForm } from 'component/SubmitTicketForm';

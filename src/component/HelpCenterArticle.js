@@ -1,4 +1,4 @@
-module React from 'react/addons';
+import React from 'react/addons';
 
 import { i18n } from 'service/i18n';
 

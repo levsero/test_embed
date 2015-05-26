@@ -1,4 +1,4 @@
-module React from 'react/addons';
+import React from 'react/addons';
 
 var classSet = React.addons.classSet;
 

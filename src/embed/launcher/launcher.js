@@ -1,4 +1,4 @@
-module React from 'react/addons';
+import React from 'react/addons';
 
 import { document,
          getDocumentHost } from 'utility/globals';

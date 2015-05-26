@@ -1,4 +1,4 @@
-module React from 'react/addons';
+import React from 'react/addons';
 
 import { win }                 from 'utility/globals';
 import { getSizingRatio,

@@ -1,5 +1,4 @@
-module React from 'react/addons';
-module ReactForms from 'react-forms';
+import React from 'react/addons';
 
 import { Loading }         from 'component/Loading';
 import { validation }      from 'mixin/validation';

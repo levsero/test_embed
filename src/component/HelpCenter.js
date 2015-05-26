@@ -1,4 +1,4 @@
-module React from 'react/addons';
+import React from 'react/addons';
 
 import { transport }         from 'service/transport';
 import { stopWordsFilter }   from 'mixin/searchFilter';
