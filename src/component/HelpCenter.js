@@ -175,24 +175,22 @@ export var HelpCenter = React.createClass({
     }
   },
 
-  handleArticleClick(e) {
-    var articleIndex = e.target.getAttribute('data-article-index'),
-        viewedArticles = this.state.viewedArticles,
-        isViewedAlready = viewedArticles[articleIndex] || false;
+  handleArticleClick(articleIndex, e) {
+    var isViewedAlready = (this.state.viewedArticles.indexOf(articleIndex) > -1);
 
     e.preventDefault();
-
-    viewedArticles[articleIndex] = true;
 
     this.setState({
       activeArticle: this.state.articles[articleIndex],
       articleViewActive: true,
-      viewedArticles: viewedArticles
+      viewedArticles: React.addons.update(
+        this.state.viewedArticles,
+        {'$push': [articleIndex]}
+      )
     });
 
     this.trackArticleView(articleIndex, isViewedAlready);
 
-    this.props.onLinkClick(e);
     this.props.showBackButton();
   },
 
@@ -217,8 +215,7 @@ export var HelpCenter = React.createClass({
               <a className='u-userTextColor'
                  href={article.html_url}
                  target='_blank'
-                 data-article-index={index}
-                 onClick={this.handleArticleClick}>
+                 onClick={this.handleArticleClick.bind(this, index)}>
                   {article.title || article.name}
               </a>
             </li>
