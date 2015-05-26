@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 describe('embed.launcher', function() {
   var launcher,
       mockRegistry,

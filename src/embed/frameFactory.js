@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 module React from 'react/addons';
 
 import { win }                 from 'utility/globals';
@@ -24,7 +23,7 @@ function validateChildFn(childFn, params) {
 
   var component = childFn(params.extend);
 
-  if (!React.isValidComponent(component)) {
+  if (!React.isValidElement(component)) {
     var e = new TypeError();
     e.message = 'childFn should be a function that returns a React component';
     throw e;
@@ -323,7 +322,7 @@ export var frameFactory = function(childFn, _params) {
           }
         });
 
-        child = React.renderComponent(<Component />, doc.body);
+        child = React.render(<Component />, doc.body);
 
         this.setState({_rendered: true});
 

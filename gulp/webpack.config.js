@@ -9,10 +9,10 @@ module.exports = {
     filename: 'main.js'
   },
   module: {
-    preLoaders: [
-      { test: /\.js$/, loader: 'jsx-loader?harmony' }
-    ],
     loaders: [
+      { test: /\.js$/,
+        exclude: /(node_modules|bower_components)/,
+        loader: 'babel-loader?experimental' },
       {
         test: /\.scss$/,
         loader: [
@@ -22,7 +22,6 @@ module.exports = {
         ].join('')
       },
       { test: /base\.css$/, loader: 'css', minimize: true },
-      { test: /\.js$/, loader: 'es6-loader' },
       { test: /\.json$/, loader: 'json-loader' },
       { test: /\.(woff|eot|ttf)$/, loader: 'url' }
     ]

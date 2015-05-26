@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 module React from 'react/addons'; /* jshint ignore:line */
 import { isMobileBrowser } from 'utility/devices';
 

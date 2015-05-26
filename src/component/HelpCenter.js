@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 module React from 'react/addons';
 
 import { transport }         from 'service/transport';

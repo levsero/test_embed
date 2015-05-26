@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 describe('FormField component', function() {
   var mockRegistry,
       onSearch,
@@ -81,7 +79,7 @@ describe('FormField component', function() {
   });
 
   it('should call onSearch when search icon is clicked', function() {
-    var searchField = React.renderComponent(
+    var searchField = React.render(
           <SearchField onSearchIconClick={onSearch} />,
           global.document.body
         ),
@@ -94,7 +92,7 @@ describe('FormField component', function() {
   });
 
   it('should clear input and call props.onUpdate when clear icon is clicked', function() {
-    var searchField = React.renderComponent(
+    var searchField = React.render(
           <SearchField onUpdate={onUpdate} />,
           global.document.body
         ),

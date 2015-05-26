@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 describe('HelpCenterArticle component', function() {
   var HelpCenterArticle,
       mockRegistry,
@@ -52,7 +50,7 @@ describe('HelpCenterArticle component', function() {
   });
 
   it('should not have fullscreen classes when fullscreen is false', function() {
-    var helpCenterArticle = React.renderComponent(
+    var helpCenterArticle = React.render(
           <HelpCenterArticle activeArticle={mockArticle} />,
           global.document.body
         ),
@@ -67,7 +65,7 @@ describe('HelpCenterArticle component', function() {
   });
 
   it('should have fullscreen classes when fullscreen is true', function() {
-    var helpCenterArticle = React.renderComponent(
+    var helpCenterArticle = React.render(
           <HelpCenterArticle activeArticle={mockArticle} fullscreen={true} />,
           global.document.body
         ),
@@ -82,7 +80,7 @@ describe('HelpCenterArticle component', function() {
   });
 
   it('should inject html string on componentDidUpdate', function() {
-    var helpCenterArticle = React.renderComponent(
+    var helpCenterArticle = React.render(
       <HelpCenterArticle activeArticle={mockArticle} />,
       global.document.body
     );
@@ -98,7 +96,7 @@ describe('HelpCenterArticle component', function() {
   });
 
   it('should preserve ids on divs', function() {
-    var helpCenterArticle = React.renderComponent(
+    var helpCenterArticle = React.render(
           <HelpCenterArticle activeArticle={mockArticle} />,
           global.document.body
         ),
@@ -117,7 +115,7 @@ describe('HelpCenterArticle component', function() {
   });
 
   it('should preserve name attribute on anchors', function() {
-    var helpCenterArticle = React.renderComponent(
+    var helpCenterArticle = React.render(
           <HelpCenterArticle activeArticle={mockArticle} />,
           global.document.body
         ),
@@ -133,7 +131,7 @@ describe('HelpCenterArticle component', function() {
   });
 
   it('should preserve sub/sups on divs', function() {
-    var helpCenterArticle = React.renderComponent(
+    var helpCenterArticle = React.render(
           <HelpCenterArticle activeArticle={mockArticle} />,
           global.document.body
         ),
@@ -152,7 +150,7 @@ describe('HelpCenterArticle component', function() {
   });
 
   it('should inject base tag to alter relative links base url', function() {
-    var helpCenterArticle = React.renderComponent(
+    var helpCenterArticle = React.render(
           <HelpCenterArticle activeArticle={mockArticle} />,
           global.document.body
         ),
@@ -174,7 +172,7 @@ describe('HelpCenterArticle component', function() {
   });
 
   it('should hijack inpage anchor clicks and call scrollIntoView on correct element', function() {
-    var helpCenterArticle = React.renderComponent(
+    var helpCenterArticle = React.render(
           <HelpCenterArticle activeArticle={mockArticle} />,
           global.document.body
         );

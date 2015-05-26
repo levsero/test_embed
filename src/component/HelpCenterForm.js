@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 module React from 'react/addons';
 
 require('imports?_=lodash!lodash');

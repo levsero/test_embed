@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 module React from 'react/addons';
 module ReactForms from 'react-forms';
 
@@ -50,13 +48,18 @@ var FocusField = React.createClass({
         });
 
     return (
-      /* jshint quotmark: false */
-      <label className={classNames}>
-        <i className={iconClasses + this.props.icon} />
-        {this.transferPropsTo(this.renderInputComponent({
-          onFocus: this.onFocus,
-          onBlur: this.onBlur
-        }))}
+      <label className={fieldClasses}>
+        <i className={iconClasses} />
+        {
+          /* jshint laxbreak: true */
+          this.props.input
+            ? React.addons.cloneWithProps(this.props.input, _.extend({}, sharedProps, this.props))
+            : <input {...sharedProps} {...this.props} />
+        }
+        {
+          this.props.label
+          && <span className='Form-checkboxCaption u-isActionable'>{this.props.label}</span>
+        }
         <div className={dropdownClasses}>
           <i className='Icon--dropdownArrow' />
           <i className='Icon--dropdownArrow Icon--dropdownArrowBottom' />

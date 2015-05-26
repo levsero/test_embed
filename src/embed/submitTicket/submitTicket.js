@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 module React from 'react/addons';
 
 import { document,
@@ -113,7 +111,7 @@ function render(name) {
 
   var element = getDocumentHost().appendChild(document.createElement('div'));
 
-  submitTickets[name].instance = React.renderComponent(submitTickets[name].component, element);
+  submitTickets[name].instance = React.render(submitTickets[name].component, element);
 
   mediator.channel.subscribe(name + '.show', function() {
     submitTickets[name].instance.show();

@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 module React from 'react/addons';
 
 import { document,
@@ -153,7 +151,7 @@ function render(name) {
 
   var element = getDocumentHost().appendChild(document.createElement('div'));
 
-  helpCenters[name].instance = React.renderComponent(helpCenters[name].component, element);
+  helpCenters[name].instance = React.render(helpCenters[name].component, element);
 
   mediator.channel.subscribe(name + '.show', function() {
     // stop stupid host page scrolling

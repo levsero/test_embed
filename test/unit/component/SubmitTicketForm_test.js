@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 describe('SubmitTicketForm component', function() {
   var SubmitTicketForm,
       onSubmit,
@@ -80,7 +78,7 @@ describe('SubmitTicketForm component', function() {
   });
 
   it('should correctly render form with noValidate attribute', function() {
-    var submitTicketForm = React.renderComponent(
+    var submitTicketForm = React.render(
       <SubmitTicketForm />,
       global.document.body
     );
@@ -90,7 +88,7 @@ describe('SubmitTicketForm component', function() {
   });
 
   it('should call parent component submit when form is submitted', function() {
-    var submitTicketForm = React.renderComponent(
+    var submitTicketForm = React.render(
       <SubmitTicketForm submit={onSubmit} />,
       global.document.body
     );
@@ -102,7 +100,7 @@ describe('SubmitTicketForm component', function() {
   });
 
   it('should change state and alter submit button on valid submit', function() {
-    var submitTicketForm = React.renderComponent(
+    var submitTicketForm = React.render(
           <SubmitTicketForm submit={onSubmit} />,
           global.document.body
         ),

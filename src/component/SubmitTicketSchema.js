@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 module React from 'react/addons';
 module ReactForms from 'react-forms';
 

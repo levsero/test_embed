@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 describe('Submit ticket component', function() {
   var SubmitTicket,
       mockRegistry,
@@ -131,7 +129,7 @@ describe('Submit ticket component', function() {
   });
 
   it('should correctly set the initial states when created', function() {
-    var submitTicket = React.renderComponent(
+    var submitTicket = React.render(
       <SubmitTicket />,
       global.document.body
     );
@@ -148,7 +146,7 @@ describe('Submit ticket component', function() {
         mockSubmitTicketForm = mockRegistry['component/SubmitTicketForm'].SubmitTicketForm,
         mockTransport = mockRegistry['service/transport'].transport;
 
-    React.renderComponent(
+    React.render(
       <SubmitTicket />,
       global.document.body
     );
@@ -168,7 +166,7 @@ describe('Submit ticket component', function() {
         transportRecentCall,
         mockOnSubmitted = jasmine.createSpy('mockOnSubmitted');
 
-    React.renderComponent(
+    React.render(
       <SubmitTicket onSubmitted={mockOnSubmitted} updateFrameSize={noop} />,
       global.document.body
     );
@@ -219,7 +217,7 @@ describe('Submit ticket component', function() {
         },
         payload;
 
-    submitTicket = React.renderComponent(
+    submitTicket = React.render(
       <SubmitTicket customFields={mockCustomField} updateFrameSize={noop} />,
       global.document.body
     );
@@ -231,7 +229,7 @@ describe('Submit ticket component', function() {
   });
 
   it('should unhide notification element on state change', function() {
-    var submitTicket = React.renderComponent(
+    var submitTicket = React.render(
           <SubmitTicket />,
           global.document.body
         ),
@@ -257,7 +255,7 @@ describe('Submit ticket component', function() {
       mockery.resetCache();
       SubmitTicket = require(submitTicketPath).SubmitTicket;
 
-      var submitTicket = React.renderComponent(
+      var submitTicket = React.render(
         <SubmitTicket />,
         global.document.body
       );
@@ -275,7 +273,7 @@ describe('Submit ticket component', function() {
       mockery.resetCache();
       SubmitTicket = require(submitTicketPath).SubmitTicket;
 
-      var submitTicket = React.renderComponent(
+      var submitTicket = React.render(
         <SubmitTicket />,
         global.document.body
       );
@@ -290,7 +288,7 @@ describe('Submit ticket component', function() {
         submitTicket,
         mockSubmitTicketForm = mockRegistry['component/SubmitTicketForm'].SubmitTicketForm;
 
-    submitTicket = React.renderComponent(
+    submitTicket = React.render(
       <SubmitTicket />,
       global.document.body
     );

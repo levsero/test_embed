@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 describe('embed.helpCenter', function() {
   var helpCenter,
       mockRegistry,

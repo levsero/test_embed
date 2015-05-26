@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 module React from 'react/addons';
 module ReactForms from 'react-forms';
 
@@ -105,21 +103,7 @@ var SubmitTicketForm = React.createClass({
         barClasses = classSet({
           'Form-cta u-cf Container-pullout u-paddingBS': true,
           'Form-cta--bar u-marginBM u-paddingBL': !this.props.fullscreen
-        }),
-        buttonMessage = (this.state.isSubmitting)
-                      ? i18n.t('embeddable_framework.submitTicket.form.submitButton.label.sending')
-                      : i18n.t('embeddable_framework.submitTicket.form.submitButton.label.send');
-
-
-    formBody = this.state.removeTicketForm
-             ? null
-             : this.transferPropsTo(
-                <SubmitTicketFormBody
-                  ref='form'
-                  schema={submitTicketSchema(this.props.customFields)}
-                  onUpdate={this.handleUpdate}
-                  component={React.DOM.div} />
-               );
+        });
 
     return (
       <form

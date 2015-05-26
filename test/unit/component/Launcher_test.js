@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 describe('Launcher component', function() {
   var Launcher,
       launcherPath = buildSrcPath('component/Launcher'),
@@ -28,7 +26,7 @@ describe('Launcher component', function() {
 
   it('should activate the onClick function when clicked on', function() {
     var onClick = jasmine.createSpy(),
-        launcher = React.renderComponent(
+        launcher = React.render(
           <Launcher onClick={onClick} />,
           global.document.body
         );
@@ -41,7 +39,7 @@ describe('Launcher component', function() {
 
   it('should correctly set the initial state when created', function() {
     /* jshint quotmark: false */
-    var launcher = React.renderComponent(
+    var launcher = React.render(
       <Launcher icon='testIcon' />,
       global.document.body
     );
@@ -52,7 +50,7 @@ describe('Launcher component', function() {
 
   it('should change the icon when set icon is called', function() {
     /* jshint quotmark: false */
-    var launcher = React.renderComponent(
+    var launcher = React.render(
           <Launcher label='help' />,
           global.document.body
         );
@@ -72,7 +70,7 @@ describe('Launcher component', function() {
 
     jasmine.clock().install();
 
-    React.renderComponent(
+    React.render(
       <Launcher updateFrameSize = {mockUpdateFrameSize} />,
       global.document.body
     );
@@ -84,7 +82,7 @@ describe('Launcher component', function() {
 
   it('should change the label when setLabel is called', function() {
     /* jshint quotmark: false */
-    var launcher = React.renderComponent(
+    var launcher = React.render(
           <Launcher label='help'/>,
           global.document.body
         );
@@ -100,7 +98,7 @@ describe('Launcher component', function() {
 
   it('should change the icon when setActive is changed', function() {
     /* jshint quotmark: false */
-    var launcher = React.renderComponent(
+    var launcher = React.render(
           <Launcher icon='testIcon'/>,
           global.document.body
         );

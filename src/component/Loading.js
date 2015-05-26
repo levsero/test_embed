@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 module React from 'react/addons';
 
 var classSet = React.addons.classSet;
@@ -13,7 +11,7 @@ export var Loading = React.createClass({
       'u-inlineBlock': true
     });
 
-    return this.transferPropsTo(
+    return (
       <div className='Loading u-textCenter'>
         <div className={loadingItemClasses}></div>
         <div className={loadingItemClasses}></div>
