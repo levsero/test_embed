@@ -65,7 +65,9 @@ describe('Submit ticket component', function() {
         SubmitTicketForm: jasmine.createSpy('mockSubmitTicketForm')
           .and.callFake(React.createClass({
             getInitialState: function() {
-              return {};
+              return {
+                formState: {}
+              };
             },
             render: function() {
               return <form onSubmit={this.props.handleSubmit} />;

@@ -12,22 +12,24 @@ const classSet = React.addons.classSet,
 
         return title ? title.content : field.title;
       },
-      getCustomFields = function(customFields) {
+      getCustomFields = function(customFields, formState) {
         let checkboxes = [],
             fields = _.map(customFields, function(field) {
+              const sharedProps = {
+                name: field.id,
+                value: formState[field.id],
+                required: field.required,
+                placeholder: field.title
+              };
 
               if (field.variants) {
-                field.title = geti18nContent(field);
+                sharedProps.placeholder = geti18nContent(field);
               }
 
               switch(field.type) {
                 case 'text':
                   return (
-                    <Field
-                      name={field.id}
-                      required={field.required}
-                      placeholder={field.title}
-                    />
+                    <Field {...sharedProps} />
                   );
                 case 'tagger':
                   _.forEach (field.options, function(option) {
@@ -37,27 +39,21 @@ const classSet = React.addons.classSet,
                   });
                   return (
                     <SelectField
-                      name={field.id}
-                      required={field.required}
-                      placeholder={field.title}
+                      {...sharedProps}
                       options={field.options}
                     />
                   );
                 case 'integer':
                   return (
                     <Field
-                      name={field.id}
-                      placeholder={field.title}
-                      required={field.required}
+                      {...sharedProps}
                       pattern='\d+'
                     />
                   );
                 case 'decimal':
                   return (
                     <Field
-                      name={field.id}
-                      required={field.required}
-                      placeholder={field.title}
+                      {...sharedProps}
                       pattern='\d*[.,]\d+'
                     />
                   );
@@ -65,12 +61,10 @@ const classSet = React.addons.classSet,
                   /* jshint quotmark:false */
                   return (
                     <Field
-                      name={field.id}
-                      required={field.required}
+                      {...sharedProps}
                       input={
                         <textarea
                           rows='5'
-                          placeholder={field.title}
                         />
                       }
                     />
@@ -80,9 +74,7 @@ const classSet = React.addons.classSet,
                   // different location to other custom fields.
                   checkboxes.push(
                     <Field
-                      name={field.id}
-                      label={field.title}
-                      required={field.required}
+                      {...sharedProps}
                       type='checkbox'
                     />
                   );
@@ -163,7 +155,7 @@ const Field = React.createClass({
             onFocus     : this.onFocus,
             ref         : 'field',
             className   : iconFieldClasses,
-            value       : this.state.value
+            value       : this.props.value
           };
 
     return (

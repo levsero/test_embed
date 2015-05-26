@@ -44,6 +44,9 @@ export const SubmitTicketForm = React.createClass({
             // If clearing form after submit we need to make sure
             // formState clears out undefined values
             field.value = '';
+            // Don't need to check for type here as non checkbox inputs
+            // will ignore this property.
+            field.checked = false;
           }
       });
     }
@@ -122,7 +125,8 @@ export const SubmitTicketForm = React.createClass({
     /* jshint quotmark:false */
     var formClasses = classSet({
           'Form u-cf': true,
-          'Form--fullscreen': this.props.fullscreen
+          'Form--fullscreen': this.props.fullscreen,
+          'u-isHidden': this.props.hide
         }),
         titleClasses = classSet({
           'u-textSizeMed u-textBold u-extSizeMed u-textCenter': true,
@@ -134,7 +138,7 @@ export const SubmitTicketForm = React.createClass({
           'Form-cta--bar u-marginBM u-paddingBL': !this.props.fullscreen
         });
 
-    const customFields = getCustomFields(this.props.customFields);
+    const customFields = getCustomFields(this.props.customFields, this.state.formState);
 
     return (
       <form
@@ -154,18 +158,21 @@ export const SubmitTicketForm = React.createClass({
             <Field
               placeholder={i18n.t('embeddable_framework.submitTicket.field.name.label')}
               icon='avatar'
+              value={this.state.formState.name}
               name='name' />
             <Field
               placeholder={i18n.t('embeddable_framework.form.field.email.label')}
               type='email'
               icon='mail'
               required
+              value={this.state.formState.email}
               name='email' />
             {customFields.fields}
             <Field
               placeholder={i18n.t('embeddable_framework.submitTicket.field.description.label')}
               required
               icon='msg'
+              value={this.state.formState.description}
               name='description'
               input={
                 <textarea rows='5' />

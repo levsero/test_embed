@@ -149,7 +149,12 @@ function prefillForm(name, user) {
     var submitTicket = get(name).instance.getChild().refs.submitTicket,
         submitTicketForm = submitTicket.refs.submitTicketForm;
 
-    submitTicketForm.refs.form.updateValue(user);
+    submitTicketForm.setState({
+      formState: {
+        name: user.name,
+        email: user.email
+      }
+    });
   } else {
     setTimeout(() => {
       prefillForm(name, user);

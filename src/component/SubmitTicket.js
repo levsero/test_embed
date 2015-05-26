@@ -38,6 +38,7 @@ export var SubmitTicket = React.createClass({
 
     submitTicketForm.setState(
       _.extend({}, submitTicketForm.getInitialState(), {
+        showNotification: true,
         formState: {
           name: formData.name,
           email: formData.email
@@ -125,10 +126,7 @@ export var SubmitTicket = React.createClass({
   },
 
   render() {
-    var formClasses = classSet({
-          'u-isHidden': this.state.showNotification
-        }),
-        notifyClasses = classSet({
+    var notifyClasses = classSet({
           'Notify': true,
           'u-textCenter': true,
           'u-isHidden': !this.state.showNotification
@@ -178,7 +176,7 @@ export var SubmitTicket = React.createClass({
         <SubmitTicketForm
           fullscreen={this.state.fullscreen}
           ref='submitTicketForm'
-          className={formClasses}
+          hide={this.state.showNotification}
           customFields={this.props.customFields}
           submit={this.handleSubmit}>
           <p className={errorClasses}>
