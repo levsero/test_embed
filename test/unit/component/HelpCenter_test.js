@@ -79,6 +79,9 @@ describe('Help center component', function() {
           'isRTL'
         ])
       },
+      'service/persistence': {
+        store: jasmine.createSpyObj('store', ['set', 'get'])
+      },
       'mixin/searchFilter': {
         stopWordsFilter: function(str) {
           return str;

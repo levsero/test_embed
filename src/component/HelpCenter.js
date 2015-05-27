@@ -12,6 +12,7 @@ import { isMobileBrowser }   from 'utility/devices';
 import { i18n }              from 'service/i18n';
 import { Button }            from 'component/Button';
 import { beacon }            from 'service/beacon';
+import { store }             from 'service/persistence';
 
 var classSet = React.addons.classSet;
 
@@ -28,7 +29,6 @@ export var HelpCenter = React.createClass({
       searchFailed: false,
       articleViewActive: false,
       activeArticle: {},
-      viewedArticles: [],
       removeSearchField: false
     };
   },
@@ -84,8 +84,7 @@ export var HelpCenter = React.createClass({
       isLoading: false,
       previousSearchTerm: this.state.searchTerm,
       hasSearched: true,
-      searchFailed: false,
-      viewedArticles: []
+      searchFailed: false
     });
   },
 
@@ -176,17 +175,21 @@ export var HelpCenter = React.createClass({
   },
 
   handleArticleClick(articleIndex, e) {
-    var isViewedAlready = (this.state.viewedArticles.indexOf(articleIndex) > -1);
+    var storeKey        = 'viewedArticles',
+        viewedArticles  = store.get(storeKey, 'session') || [],
+        activeArticle   = this.state.articles[articleIndex],
+        isViewedAlready = (viewedArticles.indexOf(activeArticle.id) > -1);
+
+    if(!isViewedAlready) {
+      viewedArticles.push(this.state.articles[articleIndex].id);
+      store.set(storeKey, viewedArticles,'session');
+    }
 
     e.preventDefault();
 
     this.setState({
       activeArticle: this.state.articles[articleIndex],
       articleViewActive: true,
-      viewedArticles: React.addons.update(
-        this.state.viewedArticles,
-        {'$push': [articleIndex]}
-      )
     });
 
     this.trackArticleView(articleIndex, isViewedAlready);
