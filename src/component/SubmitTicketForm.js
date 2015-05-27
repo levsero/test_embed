@@ -1,4 +1,6 @@
 import React from 'react/addons';
+import ReactForms from 'react-forms';
+
 import { submitTicketSchema } from 'component/SubmitTicketSchema';
 import { Button }             from 'component/Button';
 import { i18n }               from 'service/i18n';
@@ -101,7 +103,21 @@ var SubmitTicketForm = React.createClass({
         barClasses = classSet({
           'Form-cta u-cf Container-pullout u-paddingBS': true,
           'Form-cta--bar u-marginBM u-paddingBL': !this.props.fullscreen
-        });
+        }),
+        buttonMessage = (this.state.isSubmitting)
+                      ? i18n.t('embeddable_framework.submitTicket.form.submitButton.label.sending')
+                      : i18n.t('embeddable_framework.submitTicket.form.submitButton.label.send');
+
+
+    formBody = this.state.removeTicketForm
+             ? null
+             : this.transferPropsTo(
+                <SubmitTicketFormBody
+                  ref='form'
+                  schema={submitTicketSchema(this.props.customFields)}
+                  onUpdate={this.handleUpdate}
+                  component={React.DOM.div} />
+               );
 
     return (
       <form

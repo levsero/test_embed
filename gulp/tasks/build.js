@@ -1,6 +1,5 @@
 var gulp = require('gulp'),
     gutil = require('gulp-util'),
-    react = require('gulp-react'),
     uglify = require('gulp-uglify'),
     inlineSource = require('gulp-inline-source'),
     minifyHTML = require('gulp-minify-html'),
@@ -8,23 +7,11 @@ var gulp = require('gulp'),
     webpack = require('webpack'),
     runSequence = require('run-sequence'),
     webpackConfig = require('../webpack.config.js'),
-    es6Transpiler = require('gulp-es6-transpiler'),
+    babel = require('gulp-babel'),
     replace = require('gulp-replace'),
     fs = require('fs'),
-    path = require('path'),
     shell = require('gulp-shell'),
-    predef = JSON.parse(fs.readFileSync(path.join(process.cwd(), '.jshintrc'), 'utf8')).predef,
     debugBuild;
-
-function getGlobals() {
-  var globals = {};
-
-  predef.forEach(function(global) {
-    globals[global] = true;
-  });
-
-  return globals;
-}
 
 function webpackCallback(callback) {
   return function(err, stats) {
@@ -82,36 +69,14 @@ gulp.task('build:debug', ['build:version:generate'], function(callback) {
 });
 
 gulp.task('build:test', function() {
-  var es6ModuleTranspiler = require('gulp-es6-module-transpiler'),
-      _ = require('lodash'),
-      keyToTrue = function(res, el) {
-        res[el] = true;
-        return res;
-      },
-      testGlobals = ['iit', 'ddescribe', 'xit', 'xdescribe'],
-      globals = _.extend(
-        getGlobals(),
-        _.reduce(testGlobals, keyToTrue, {})
-      );
-
   return gulp.src(['test/**/*.js'])
-    .pipe(react())
-    .pipe(es6ModuleTranspiler({type: 'cjs'}))
-    .pipe(es6Transpiler({
-      globals: globals
-    }))
+    .pipe(babel())
     .pipe(gulp.dest('build/test'));
 });
 
 gulp.task('build:src', function() {
-  var es6ModuleTranspiler = require('gulp-es6-module-transpiler');
-
   return gulp.src('src/**/*.js')
-    .pipe(react())
-    .pipe(es6ModuleTranspiler({type: 'cjs'}))
-    .pipe(es6Transpiler({
-      globals: getGlobals()
-    }))
+    .pipe(babel())
     .pipe(gulp.dest('build/src'));
 });
 
@@ -180,4 +145,3 @@ gulp.task('build-dev', function(callback) {
     callback
   );
 });
-

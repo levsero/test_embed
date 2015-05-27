@@ -1,6 +1,6 @@
 import { isMobileBrowser } from 'utility/devices';
 
-module airwaves from 'airwaves';
+import airwaves from 'airwaves';
 
 var c = new airwaves.Channel();
 

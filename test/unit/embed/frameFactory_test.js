@@ -3,7 +3,6 @@ describe('frameFactory', function() {
   var frameFactory,
       mockRegistry,
       mockRegistryMocks,
-      mockComponent,
       mockChildFn,
       frameFactoryPath = buildSrcPath('embed/frameFactory');
 
@@ -46,17 +45,11 @@ describe('frameFactory', function() {
 
     mockRegistry = initMockRegistry(mockRegistryMocks);
 
-    mockComponent = React.createClass({
-      render: function() {
-        /* jshint quotmark:false */
-        return <div className='mock-component' />;
-      }
-    });
-
     mockChildFn = function() {
       return (
         /* jshint quotmark:false */
-        <mockComponent
+        <div
+          className='mock-component'
           ref='aliceComponent' />
       );
     };
