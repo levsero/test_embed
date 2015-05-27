@@ -4,7 +4,6 @@ import { isMobileBrowser } from 'utility/devices';
 var classSet = React.addons.classSet;
 
 export var Launcher = React.createClass({
-  displayName: 'Launcher',
   propTypes: {
     onClick: React.PropTypes.func,
     updateFrameSize: React.PropTypes.func.isRequired,

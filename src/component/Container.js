@@ -6,7 +6,6 @@ export var Container = React.createClass({
   render() {
     /* jshint quotmark:false */
     var containerClasses = classSet({
-          displayName: 'containerClasses',
           'Container': true,
           'Container--popover': !this.props.fullscreen,
           'Container--popoverAlt': this.props.position === 'left',
