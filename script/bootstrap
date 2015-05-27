@@ -43,7 +43,7 @@ try "Setting up pre-commit hooks" "ln -s ../../script/pre-commit .git/hooks/pre-
 try "Downloading translations" "script/fetch_i18n"
 bold "Installing UI Regression Tooling"
 
-for pkg in cairo ${webDriverBrewPackages[@]}; do
+for pkg in ${webDriverBrewPackages[@]}; do
   if brew list -1 | grep -q "^${pkg}"; then
     bold "'$pkg' is already installed"
   else
