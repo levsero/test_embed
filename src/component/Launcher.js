@@ -1,4 +1,4 @@
-import React from 'react/addons'; /* jshint ignore:line */
+import React from 'react/addons';
 import { isMobileBrowser } from 'utility/devices';
 
 var classSet = React.addons.classSet;

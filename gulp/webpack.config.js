@@ -10,19 +10,20 @@ module.exports = {
   },
   module: {
     loaders: [
-      { test: /\.js$/,
+      {
+        test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
-        loader: 'babel-loader?experimental' },
+        loader: 'babel?experimental' },
       {
         test: /\.scss$/,
         loader: [
           'css',
-          '!autoprefixer-loader?browsers=last 2 versions, > 1%, Firefox ESR, ie >= 9',
-          '!sass-loader?includePaths[]=src/styles/components/'
+          '!autoprefixer?browsers=last 2 versions, > 1%, Firefox ESR, ie >= 9',
+          '!sass?includePaths[]=src/styles/components/'
         ].join('')
       },
       { test: /base\.css$/, loader: 'css', minimize: true },
-      { test: /\.json$/, loader: 'json-loader' },
+      { test: /\.json$/, loader: 'json' },
       { test: /\.(woff|eot|ttf)$/, loader: 'url' }
     ]
   },
