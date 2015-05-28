@@ -39,7 +39,12 @@ function generateUserCSS(params) {
 }
 
 function generateHighlightColor(colorStr) {
-  var color = Color(colorStr);
+  var color;
+  try {
+    color = Color(colorStr);
+  } catch (e) {
+    color = Color('#78A300');
+  }
 
   /* jshint laxbreak: true */
   return (color.luminosity() > 0.15)
