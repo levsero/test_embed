@@ -14,77 +14,102 @@ const classSet = React.addons.classSet,
       },
       getCustomFields = function(customFields, formState) {
         let checkboxes = [],
-            fields = _.map(customFields, function(field) {
-              const sharedProps = {
-                name: field.id,
-                value: formState[field.id],
-                required: field.required,
-                placeholder: field.title
-              };
+            fields = _.chain(customFields)
+              .map(function(field) {
+                const sharedProps = {
+                  name: field.id,
+                  value: formState[field.id],
+                  required: field.required,
+                  placeholder: field.title,
+                  key: field.title
+                };
 
-              if (field.variants) {
-                sharedProps.placeholder = geti18nContent(field);
-              }
+                if (field.variants) {
+                  sharedProps.placeholder = geti18nContent(field);
+                }
 
-              switch(field.type) {
-                case 'text':
-                  return (
-                    <Field {...sharedProps} />
-                  );
-                case 'tagger':
-                  _.forEach (field.options, function(option) {
-                    if (option.variants) {
-                      option.title = geti18nContent(option);
-                    }
-                  });
-                  return (
-                    <SelectField
-                      {...sharedProps}
-                      options={field.options}
-                    />
-                  );
-                case 'integer':
-                  return (
-                    <Field
-                      {...sharedProps}
-                      pattern='\d+'
-                    />
-                  );
-                case 'decimal':
-                  return (
-                    <Field
-                      {...sharedProps}
-                      pattern='\d*[.,]\d+'
-                    />
-                  );
-                case 'textarea':
-                  /* jshint quotmark:false */
-                  return (
-                    <Field
-                      {...sharedProps}
-                      input={
-                        <textarea
-                          rows='5'
-                        />
+                switch(field.type) {
+                  case 'text':
+                    return (
+                      <Field {...sharedProps} />
+                    );
+                  case 'tagger':
+                    _.forEach (field.options, function(option) {
+                      if (option.variants) {
+                        option.title = geti18nContent(option);
                       }
-                    />
-                  );
-                case 'checkbox':
-                  // Push this into a separate array as it needs to render in a
-                  // different location to other custom fields.
-                  checkboxes.push(
-                    <Field
-                      {...sharedProps}
-                      type='checkbox'
-                    />
-                  );
-              }
-            });
+                    });
+                    return (
+                      <SelectField
+                        {...sharedProps}
+                        options={field.options}
+                      />
+                    );
+                  case 'integer':
+                    return (
+                      <Field
+                        {...sharedProps}
+                        pattern='\d+'
+                      />
+                    );
+                  case 'decimal':
+                    return (
+                      <Field
+                        {...sharedProps}
+                        pattern='\d*[.,]\d+'
+                      />
+                    );
+                  case 'textarea':
+                    /* jshint quotmark:false */
+                    return (
+                      <Field
+                        {...sharedProps}
+                        input={
+                          <textarea
+                            rows='5'
+                          />
+                        }
+                      />
+                    );
+                  case 'checkbox':
+                    // Push this into a separate array as it needs to render in a
+                    // different location to other custom fields.
+                    checkboxes.push(
+                      <Field
+                        {...sharedProps}
+                        label={field.title}
+                        type='checkbox'
+                      />
+                    );
+                }
+              })
+              .compact()
+              .value();
 
           return { fields, checkboxes };
       };
 
 const Field = React.createClass({
+  propTypes: {
+    name: React.PropTypes.oneOfType([
+      React.PropTypes.string,
+      React.PropTypes.number
+    ]).isRequired,
+    placeholder: React.PropTypes.string,
+    icon: React.PropTypes.string,
+    value: React.PropTypes.oneOfType([
+      React.PropTypes.string,
+      React.PropTypes.number
+    ]),
+    input: React.PropTypes.element,
+    required: React.PropTypes.bool,
+    label: function(props, propName, componentName) {
+      if(props.type === 'checkbox' && !props[propName]) {
+        return new Error(`${componentName} must have a label prop if type is set to "checkbox"`);
+      }
+    }
+  },
+
   getInitialState() {
     return {
       focused: false,
@@ -150,12 +175,12 @@ const Field = React.createClass({
             'Arrange-sizeFit Form-field__arrows': true
           }),
           sharedProps = {
-            onChange    : this.onChange,
-            onBlur      : this.onBlur,
-            onFocus     : this.onFocus,
-            ref         : 'field',
-            className   : iconFieldClasses,
-            value       : this.props.value
+            onChange: this.onChange,
+            onBlur: this.onBlur,
+            onFocus: this.onFocus,
+            ref: 'field',
+            className: iconFieldClasses,
+            value: this.props.value
           };
 
     return (
@@ -182,10 +207,18 @@ const Field = React.createClass({
 
 /*jshint unused:false*/
 const SelectField = React.createClass({
+  propTypes: {
+    name: React.PropTypes.oneOfType([
+      React.PropTypes.string,
+      React.PropTypes.number
+    ]).isRequired,
+    options: React.PropTypes.array.isRequired
+  },
+
   formatOptions() {
     var props = this.props,
         options = [
-          <option value=''>{props.placeholder}</option>
+          <option value='' key={props.placeholder}>{props.placeholder}</option>
         ],
         optionGroups;
 
@@ -203,17 +236,17 @@ const SelectField = React.createClass({
       if (_.isEmpty(key)) {
         _.forEach(group, function(option) {
           options.push(
-            <option value={option.value}>{option.title}</option>
+            <option value={option.value} key={option.title}>{option.title}</option>
           );
         });
       } else {
         nestedOptions = _.map(group, function(nestedOption) {
           var title = nestedOption.title.split('::')[1];
-          return <option value={nestedOption.value}>{title}</option>;
+          return <option value={nestedOption.value} key={title}>{title}</option>;
         });
 
         options.push(
-          <optgroup label={key}>
+          <optgroup label={key} key={key}>
             {nestedOptions}
           </optgroup>
         );
