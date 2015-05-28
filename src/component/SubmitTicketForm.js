@@ -111,7 +111,7 @@ var SubmitTicketForm = React.createClass({
 
     formBody = this.state.removeTicketForm
              ? null
-             : this.transferPropsTo(
+             : React.addons.cloneWithProps(
                 <SubmitTicketFormBody
                   ref='form'
                   schema={submitTicketSchema(this.props.customFields)}

@@ -51,10 +51,10 @@ var FocusField = React.createClass({
       /* jshint quotmark: false */
       <label className={classNames}>
         <i className={iconClasses + this.props.icon} />
-        {this.transferPropsTo(this.renderInputComponent({
+        {React.addons.cloneWithProps(this.renderInputComponent({
           onFocus: this.onFocus,
           onBlur: this.onBlur
-        }))}
+        }), this.props)}
         <div className={dropdownClasses}>
           <i className='Icon--dropdownArrow' />
           <i className='Icon--dropdownArrow Icon--dropdownArrowBottom' />
