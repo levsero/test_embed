@@ -6,14 +6,14 @@ import { i18n }            from 'service/i18n';
 
 const classSet = React.addons.classSet,
       geti18nContent = function(field) {
-        let title = _.find(field.variants, function(variant) {
+        var title = _.find(field.variants, function(variant) {
                       return variant.localeId === i18n.getLocaleId();
                     });
 
         return title ? title.content : field.title;
       },
       getCustomFields = function(customFields, formState) {
-        let checkboxes = [],
+        var checkboxes = [],
             fields = _.chain(customFields)
               .map(function(field) {
                 const sharedProps = {
@@ -30,57 +30,25 @@ const classSet = React.addons.classSet,
 
                 switch(field.type) {
                   case 'text':
-                    return (
-                      <Field {...sharedProps} />
-                    );
+                    return <Field {...sharedProps} />;
                   case 'tagger':
                     _.forEach (field.options, function(option) {
                       if (option.variants) {
                         option.title = geti18nContent(option);
                       }
                     });
-                    return (
-                      <SelectField
-                        {...sharedProps}
-                        options={field.options}
-                      />
-                    );
+                    return <SelectField {...sharedProps} options={field.options} />;
                   case 'integer':
-                    return (
-                      <Field
-                        {...sharedProps}
-                        pattern='\d+'
-                      />
-                    );
+                    return <Field {...sharedProps} pattern='\d+' />;
                   case 'decimal':
-                    return (
-                      <Field
-                        {...sharedProps}
-                        pattern='\d*[.,]\d+'
-                      />
-                    );
+                    return <Field {...sharedProps} pattern='\d*[.,]\d+' />;
                   case 'textarea':
                     /* jshint quotmark:false */
-                    return (
-                      <Field
-                        {...sharedProps}
-                        input={
-                          <textarea
-                            rows='5'
-                          />
-                        }
-                      />
-                    );
+                    return <Field {...sharedProps} input={<textarea rows='5' />} />;
                   case 'checkbox':
                     // Push this into a separate array as it needs to render in a
                     // different location to other custom fields.
-                    checkboxes.push(
-                      <Field
-                        {...sharedProps}
-                        label={field.title}
-                        type='checkbox'
-                      />
-                    );
+                    checkboxes.push(<Field {...sharedProps} label={field.title} type='checkbox' />);
                 }
               })
               .compact()
@@ -104,7 +72,7 @@ const Field = React.createClass({
     input: React.PropTypes.element,
     required: React.PropTypes.bool,
     label: function(props, propName, componentName) {
-      if(props.type === 'checkbox' && !props[propName]) {
+      if (props.type === 'checkbox' && !props[propName]) {
         return new Error(`${componentName} must have a label prop if type is set to "checkbox"`);
       }
     }
@@ -150,14 +118,14 @@ const Field = React.createClass({
   render() {
     const icon = this.props.icon,
           type = this.props.type,
-          checkbox = type === 'checkbox',
+          isCheckbox = (type === 'checkbox'),
           iconFieldClasses = classSet({
             'Arrange-sizeFill u-vsizeAll': true,
             'u-textSize15': isMobileBrowser(),
             'u-textSecondary': this.props.input,
-            'Form-checkbox u-isHiddenVisually': checkbox,
-            'Form-checkbox--focused': this.state.focused && checkbox,
-            'Form-checkbox--invalid': this.state.hasError && this.state.blurred && checkbox,
+            'Form-checkbox u-isHiddenVisually': isCheckbox,
+            'Form-checkbox--focused': this.state.focused && isCheckbox,
+            'Form-checkbox--invalid': this.state.hasError && this.state.blurred && isCheckbox,
           }),
           iconClasses = classSet({
             'u-isHidden': !icon,
@@ -165,10 +133,10 @@ const Field = React.createClass({
           }),
           fieldClasses = classSet({
             'Arrange Arrange--middle Form-field u-isSelectable u-posRelative': true,
-            'Form-field--invalid': this.state.hasError && this.state.blurred && !checkbox,
-            'Form-field--focused': this.state.focused && !checkbox,
+            'Form-field--invalid': this.state.hasError && this.state.blurred && !isCheckbox,
+            'Form-field--focused': this.state.focused && !isCheckbox,
             'Form-field--dropdown': this.props.options,
-            'Form-field--clean': checkbox
+            'Form-field--clean': isCheckbox
           }),
           dropdownClasses = classSet({
             'u-isHidden': !this.props.options,
@@ -188,13 +156,14 @@ const Field = React.createClass({
         <i className={iconClasses} />
         {
           /* jshint laxbreak: true */
-          this.props.input
+          (this.props.input)
             ? React.addons.cloneWithProps(this.props.input, _.extend({}, sharedProps, this.props))
             : <input {...sharedProps} {...this.props} />
         }
         {
-          this.props.label
-          && <span className='Form-checkboxCaption u-isActionable'>{this.props.label}</span>
+          (this.props.label)
+            ? <span className='Form-checkboxCaption u-isActionable'>{this.props.label}</span>
+            : null
         }
         <div className={dropdownClasses}>
           <i className='Icon--dropdownArrow' />
@@ -224,13 +193,13 @@ const SelectField = React.createClass({
 
     optionGroups = _.groupBy(props.options, function(option) {
       /* jshint laxbreak: true */
-      return (option.title.indexOf('::') > 0)
-           ? option.title.split('::', 1)
+      return (option.title.indexOf('::') !== -1)
+           ? option.title.split('::')[0]
            : '';
     });
 
     _.forEach(optionGroups, function(group, key) {
-      let nestedOptions;
+      var nestedOptions;
 
       // if not a nested field
       if (_.isEmpty(key)) {
@@ -260,11 +229,7 @@ const SelectField = React.createClass({
     return (
       <Field
         {...this.props}
-        input={
-          <select>
-            {this.formatOptions()}
-          </select>
-        }
+        input={<select>{this.formatOptions()}</select>}
       />
     );
   }
@@ -294,7 +259,7 @@ const SearchField = React.createClass({
   },
 
   handleUpdate(e) {
-    let value = e.target.value;
+    var value = e.target.value;
 
     this.setState({
       isClearable: (value !== '' && isMobileBrowser()),
@@ -335,7 +300,7 @@ const SearchField = React.createClass({
 
   render() {
     /* jshint laxbreak:true */
-    let loadingClasses = classSet({
+    var loadingClasses = classSet({
           'u-isHidden': !this.props.isLoading
         }),
         searchContainerClasses = classSet({

@@ -36,15 +36,14 @@ export var SubmitTicket = React.createClass({
     var submitTicketForm = this.refs.submitTicketForm,
         formData = submitTicketForm.state.formState;
 
-    submitTicketForm.setState(
-      _.extend({}, submitTicketForm.getInitialState(), {
-        showNotification: true,
-        formState: {
-          name: formData.name,
-          email: formData.email
-        }
-      })
-    );
+    submitTicketForm.setState(submitTicketForm.getInitialState());
+    submitTicketForm.setState({
+      showNotification: true,
+      formState: {
+        name: formData.name,
+        email: formData.email
+      }
+    });
   },
 
   showField: function() {

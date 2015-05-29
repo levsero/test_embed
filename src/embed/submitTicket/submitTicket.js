@@ -150,10 +150,7 @@ function prefillForm(name, user) {
         submitTicketForm = submitTicket.refs.submitTicketForm;
 
     submitTicketForm.setState({
-      formState: {
-        name: user.name,
-        email: user.email
-      }
+      formState: _.pick(user, ['name', 'email'])
     });
   } else {
     setTimeout(() => {

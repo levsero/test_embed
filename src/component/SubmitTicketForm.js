@@ -27,28 +27,30 @@ export const SubmitTicketForm = React.createClass({
   },
 
   componentDidUpdate() {
-    if(this.refs.formWrapper && this.state.formState) {
+    if (this.refs.formWrapper && this.state.formState) {
       const form = this.refs.form.getDOMNode();
 
-      _.chain(form.elements)
-        .filter((field) => field.type !== 'submit')
-        .forEach((field) => {
-          if(this.state.formState[field.name]) {
-            if(field.type === 'checkbox') {
-              // Based on formState set checked property
-              field.checked = !!this.state.formState[field.name];
-            } else {
-              field.value = this.state.formState[field.name];
-            }
+      _.forEach(form.elements, function(field) {
+        if(field.type === 'submit') {
+          return;
+        }
+
+        if (this.state.formState[field.name]) {
+          if (field.type === 'checkbox') {
+            // Based on formState set checked property
+            field.checked = !!this.state.formState[field.name];
           } else {
-            // If clearing form after submit we need to make sure
-            // formState clears out undefined values
-            field.value = '';
-            // Don't need to check for type here as non checkbox inputs
-            // will ignore this property.
-            field.checked = false;
+            field.value = this.state.formState[field.name];
           }
-      });
+        } else {
+          // If clearing form after submit we need to make sure
+          // formState clears out undefined values
+          field.value = '';
+          // Don't need to check for type here as non checkbox inputs
+          // will ignore this property.
+          field.checked = false;
+        }
+      }, this);
     }
   },
 
@@ -90,33 +92,31 @@ export const SubmitTicketForm = React.createClass({
 
     this.props.submit(e, {
       isFormValid: isFormValid,
-      value: this.formState()
+      value: this.getFormState()
     });
   },
 
-  formState() {
-    const form = this.refs.form.getDOMNode(),
-          formState = _.chain(form.elements)
-            .filter((field) => field.type !== 'submit')
-            .reduce((result, field) => {
-              if(field.type === 'checkbox') {
-                result[field.name] = field.checked ? 1 : 0;
-              } else {
-                result[field.name] = field.value;
-              }
+  getFormState() {
+    const form = this.refs.form.getDOMNode();
 
-              return result;
-            },
-            {}).value();
+    return _.chain(form.elements)
+      .reject((field) => field.type === 'submit')
+      .reduce((result, field) => {
+        /* jshint laxbreak: true */
+        result[field.name] = (field.type === 'checkbox')
+                           ? field.checked ? 1 : 0
+                           : field.value;
 
-    return formState;
+        return result;
+      },
+      {}).value();
   },
 
   handleUpdate() {
     const form = this.refs.form.getDOMNode();
 
     this.setState({
-      formState: this.formState(),
+      formState: this.getFormState(),
       isValid: form.checkValidity()
     });
   },
@@ -138,7 +138,37 @@ export const SubmitTicketForm = React.createClass({
           'Form-cta--bar u-marginBM u-paddingBL': !this.props.fullscreen
         });
 
-    const customFields = getCustomFields(this.props.customFields, this.state.formState);
+      var customFields = getCustomFields(this.props.customFields, this.state.formState),
+          /* jshint laxbreak: true */
+          formBody = (this.state.removeTicketForm)
+                   ? null
+                   : <div ref='formWrapper'>
+                       <Field
+                         placeholder={i18n.t('embeddable_framework.submitTicket.field.name.label')}
+                         icon='avatar'
+                         value={this.state.formState.name}
+                         name='name' />
+                       <Field
+                         placeholder={i18n.t('embeddable_framework.form.field.email.label')}
+                         type='email'
+                         icon='mail'
+                         required
+                         value={this.state.formState.email}
+                         name='email' />
+                       {customFields.fields}
+                       <Field
+                         placeholder={
+                           i18n.t('embeddable_framework.submitTicket.field.description.label')
+                         }
+                         required
+                         icon='msg'
+                         value={this.state.formState.description}
+                         name='description'
+                         input={<textarea rows='5' />}
+                       />
+                       {customFields.checkboxes}
+                       {this.props.children}
+                     </div>;
 
     return (
       <form
@@ -152,36 +182,7 @@ export const SubmitTicketForm = React.createClass({
             {i18n.t('embeddable_framework.submitTicket.form.title')}
           </h2>
         </div>
-        {
-          !this.state.removeTicketForm &&
-          <div ref='formWrapper'>
-            <Field
-              placeholder={i18n.t('embeddable_framework.submitTicket.field.name.label')}
-              icon='avatar'
-              value={this.state.formState.name}
-              name='name' />
-            <Field
-              placeholder={i18n.t('embeddable_framework.form.field.email.label')}
-              type='email'
-              icon='mail'
-              required
-              value={this.state.formState.email}
-              name='email' />
-            {customFields.fields}
-            <Field
-              placeholder={i18n.t('embeddable_framework.submitTicket.field.description.label')}
-              required
-              icon='msg'
-              value={this.state.formState.description}
-              name='description'
-              input={
-                <textarea rows='5' />
-              }
-            />
-            {customFields.checkboxes}
-            {this.props.children}
-          </div>
-        }
+        {formBody}
         <Button
           label={this.state.buttonMessage}
           disabled={!this.state.isValid || this.state.isSubmitting}
