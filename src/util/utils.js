@@ -43,7 +43,7 @@ function generateHighlightColor(colorStr) {
   try {
     color = Color(colorStr);
   } catch (e) {
-    color = Color('#78A300');
+    return;
   }
 
   /* jshint laxbreak: true */
