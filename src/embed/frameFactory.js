@@ -143,10 +143,6 @@ export var frameFactory = function(childFn, _params) {
         }
       }, 50);
 
-      if (isMobileBrowser()) {
-        win.scroll(0, 0);
-      }
-
       if (!isMobileBrowser() && animate) {
         snabbt(this.getDOMNode(), springTransition);
       }
