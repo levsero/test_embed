@@ -6,54 +6,53 @@ import { isMobileBrowser } from 'utility/devices';
 import { i18n }            from 'service/i18n';
 
 var classSet = React.addons.classSet,
-      geti18nContent = function(field) {
-        var title = _.find(field.variants, function(variant) {
-                      return variant.localeId === i18n.getLocaleId();
-                    });
+    geti18nContent = function(field) {
+      var title = _.find(field.variants, function(variant) {
+                    return variant.localeId === i18n.getLocaleId();
+                  });
 
-        return title ? title.content : field.title;
-      },
-      getCustomFields = function(customFields, formState) {
-        var fields = _.map(customFields, function(field) {
-          const sharedProps = {
-            name: field.id,
-            value: formState[field.id],
-            required: field.required,
-            placeholder: field.title,
-            key: field.title
-          };
-
-          if (field.variants) {
-            sharedProps.placeholder = geti18nContent(field);
-          }
-
-          switch(field.type) {
-            case 'text':
-              return <Field {...sharedProps} />;
-            case 'tagger':
-              _.forEach (field.options, function(option) {
-                if (option.variants) {
-                  option.title = geti18nContent(option);
-                }
-              });
-              return <SelectField {...sharedProps} options={field.options} />;
-            case 'integer':
-              return <Field {...sharedProps} pattern='\d+' />;
-            case 'decimal':
-              return <Field {...sharedProps} pattern='\d*[.,]\d+' />;
-            case 'textarea':
-              /* jshint quotmark:false */
-              return <Field {...sharedProps} input={<textarea rows='5' />} />;
-            case 'checkbox':
-              return <Field {...sharedProps} label={field.title} type='checkbox' />;
-          }
-        });
-
-        return {
-          fields: _.reject(fields, 'type', 'checkbox'),
-          checkboxes: _.filter(fields, 'type', 'checkbox')
+      return title ? title.content : field.title;
+    },
+    getCustomFields = function(customFields, formState) {
+      var fields = _.map(customFields, function(field) {
+        const sharedProps = {
+          name: field.id,
+          value: formState[field.id],
+          required: field.required,
+          placeholder: field.title,
+          key: field.title
         };
+
+        if (field.variants) {
+          sharedProps.placeholder = geti18nContent(field);
+        }
+
+        switch(field.type) {
+          case 'text':
+            return <Field {...sharedProps} />;
+          case 'tagger':
+            _.forEach(field.options, function(option) {
+              if (option.variants) {
+                option.title = geti18nContent(option);
+              }
+            });
+            return <SelectField {...sharedProps} options={field.options} />;
+          case 'integer':
+            return <Field {...sharedProps} pattern='\d+' />;
+          case 'decimal':
+            return <Field {...sharedProps} pattern='\d*[.,]\d+' />;
+          case 'textarea':
+            return <Field {...sharedProps} input={<textarea rows='5' />} />;
+          case 'checkbox':
+            return <Field {...sharedProps} label={field.title} type='checkbox' />;
+        }
+      });
+
+      return {
+        fields: _.reject(fields, 'type', 'checkbox'),
+        checkboxes: _.filter(fields, 'type', 'checkbox')
       };
+    };
 
 var Field = React.createClass({
   propTypes: {
@@ -123,7 +122,7 @@ var Field = React.createClass({
             'u-textSecondary': this.props.input,
             'Form-checkbox u-isHiddenVisually': isCheckbox,
             'Form-checkbox--focused': this.state.focused && isCheckbox,
-            'Form-checkbox--invalid': this.state.hasError && this.state.blurred && isCheckbox,
+            'Form-checkbox--invalid': this.state.hasError && this.state.blurred && isCheckbox
           }),
           iconClasses = classSet({
             'u-isHidden': !icon,

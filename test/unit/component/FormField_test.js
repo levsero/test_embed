@@ -161,7 +161,7 @@ describe('FormField component', function() {
       expect(field.state.hasError)
         .toBe(false);
 
-        expect(() => ReactTestUtils.findRenderedDOMComponentWithClass(field, 'Form-field--invalid'))
+      expect(() => ReactTestUtils.findRenderedDOMComponentWithClass(field, 'Form-field--invalid'))
         .toThrow();
 
       ReactTestUtils.Simulate.focus(fieldNode.querySelector('input'));
