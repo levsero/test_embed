@@ -40,7 +40,7 @@ var classSet = React.addons.classSet,
           case 'integer':
             return <Field {...sharedProps} pattern='\d+' />;
           case 'decimal':
-            return <Field {...sharedProps} pattern='\d*[.,]\d+' />;
+            return <Field {...sharedProps} pattern='\d*([.,]\d+)?' />;
           case 'textarea':
             return <Field {...sharedProps} input={<textarea rows='5' />} />;
           case 'checkbox':
