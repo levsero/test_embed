@@ -1,6 +1,5 @@
-import React     from 'react/addons';
-import _         from 'lodash';
-import partition from 'lodash.partition';
+import React from 'react/addons';
+import _     from 'lodash';
 
 import { Loading }         from 'component/Loading';
 import { isMobileBrowser } from 'utility/devices';
@@ -15,53 +14,44 @@ var classSet = React.addons.classSet,
         return title ? title.content : field.title;
       },
       getCustomFields = function(customFields, formState) {
-        var partitionedFields = partition(customFields, (field) => {
-              return field.type !== 'checkbox';
-            }),
-            getSharedProps = function(field) {
-              const sharedProps = {
-                name: field.id,
-                value: formState[field.id],
-                required: field.required,
-                placeholder: field.title,
-                key: field.title
-              };
+        var fields = _.map(customFields, function(field) {
+          const sharedProps = {
+            name: field.id,
+            value: formState[field.id],
+            required: field.required,
+            placeholder: field.title,
+            key: field.title
+          };
 
-              if (field.variants) {
-                sharedProps.placeholder = geti18nContent(field);
-              }
+          if (field.variants) {
+            sharedProps.placeholder = geti18nContent(field);
+          }
 
-              return sharedProps;
-            },
-            [fields, checkboxes] = partitionedFields;
+          switch(field.type) {
+            case 'text':
+              return <Field {...sharedProps} />;
+            case 'tagger':
+              _.forEach (field.options, function(option) {
+                if (option.variants) {
+                  option.title = geti18nContent(option);
+                }
+              });
+              return <SelectField {...sharedProps} options={field.options} />;
+            case 'integer':
+              return <Field {...sharedProps} pattern='\d+' />;
+            case 'decimal':
+              return <Field {...sharedProps} pattern='\d*[.,]\d+' />;
+            case 'textarea':
+              /* jshint quotmark:false */
+              return <Field {...sharedProps} input={<textarea rows='5' />} />;
+            case 'checkbox':
+              return <Field {...sharedProps} label={field.title} type='checkbox' />;
+          }
+        });
 
         return {
-          fields: _.map(fields, function(field) {
-            const sharedProps = getSharedProps(field);
-
-            switch(field.type) {
-              case 'text':
-                return <Field {...sharedProps} />;
-              case 'tagger':
-                _.forEach (field.options, function(option) {
-                  if (option.variants) {
-                    option.title = geti18nContent(option);
-                  }
-                });
-                return <SelectField {...sharedProps} options={field.options} />;
-              case 'integer':
-                return <Field {...sharedProps} pattern='\d+' />;
-              case 'decimal':
-                return <Field {...sharedProps} pattern='\d*[.,]\d+' />;
-              case 'textarea':
-                return <Field {...sharedProps} input={<textarea rows='5' />} />;
-            }
-          }),
-          checkboxes: _.map(checkboxes, function(field) {
-            const sharedProps = getSharedProps(field);
-
-            return <Field {...sharedProps} label={field.title} type='checkbox' />;
-          })
+          fields: _.reject(fields, 'type', 'checkbox'),
+          checkboxes: _.filter(fields, 'type', 'checkbox')
         };
       };
 
@@ -339,6 +329,7 @@ var SearchField = React.createClass({
                     : i18n.t('embeddable_framework.helpCenter.search.label.how_can_we_help');
 
     return (
+      /* jshint quotmark:false */
       <div className={searchContainerClasses}>
         <div className={searchInputClasses}>
           <i

@@ -27,7 +27,7 @@ export const SubmitTicketForm = React.createClass({
   },
 
   componentDidUpdate() {
-    if (this.refs.formWrapper && this.state.formState) {
+    if (this.refs.formWrapper && this.state.formState && this.state.removeTicketForm) {
       const form = this.refs.form.getDOMNode();
 
       _.forEach(form.elements, function(field) {
