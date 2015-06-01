@@ -39,17 +39,17 @@ function generateUserCSS(params) {
 }
 
 function generateHighlightColor(colorStr) {
-  var color;
   try {
-    color = Color(colorStr);
+    var color = Color(colorStr);
+    /* jshint laxbreak: true */
+    return (color.luminosity() > 0.15)
+       ? color.darken(0.1).rgbString()
+       : color.lighten(0.15).rgbString();
   } catch (e) {
     return;
   }
 
-  /* jshint laxbreak: true */
-  return (color.luminosity() > 0.15)
-       ? color.darken(0.1).rgbString()
-       : color.lighten(0.15).rgbString();
+
 }
 
 function metaStringToObj(str) {
