@@ -110,7 +110,7 @@ describe('Submit ticket component', function() {
       'service/transport': {
         transport: jasmine.createSpyObj('transport', ['send']),
       },
-      'imports?_=lodash!lodash': _
+      '_': _
     });
 
     mockery.registerAllowable(submitTicketPath);

@@ -80,6 +80,13 @@ export const SubmitTicketForm = React.createClass({
     });
   },
 
+  failedToSubmit() {
+    this.setState({
+      isSubmitting: false,
+      buttonMessage: this.getInitialState().buttonMessage
+    });
+  },
+
   handleSubmit(e) {
     const isFormValid = this.state.isValid;
 

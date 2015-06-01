@@ -1,4 +1,6 @@
-import React from 'react/addons';
+import React from 'react/addons'
+import _     from 'lodash';
+
 import { win }              from 'utility/globals';
 import { transport }        from 'service/transport';
 import { SubmitTicketForm } from 'component/SubmitTicketForm';
@@ -6,8 +8,6 @@ import { ZendeskLogo }      from 'component/ZendeskLogo';
 import { Container }        from 'component/Container';
 import { isMobileBrowser }  from 'utility/devices';
 import { i18n }             from 'service/i18n';
-
-require('imports?_=lodash!lodash');
 
 var classSet = React.addons.classSet;
 
@@ -77,6 +77,7 @@ export var SubmitTicket = React.createClass({
         },
         errorCallback = (msg) => {
           this.setState({ errorMessage: msg });
+          this.refs.submitTicketForm.failedToSubmit();
         },
         payload = {
           method: 'post',
