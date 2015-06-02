@@ -1,62 +1,167 @@
-/** @jsx React.DOM */
-
-module React from 'react/addons';
-module ReactForms from 'react-forms';
+import React from 'react/addons';
+import _     from 'lodash';
 
 import { Loading }         from 'component/Loading';
-import { validation }      from 'mixin/validation';
-import { formField }       from 'mixin/formField';
 import { isMobileBrowser } from 'utility/devices';
 import { i18n }            from 'service/i18n';
 
-var { FieldMixin } = ReactForms,
-    Property = ReactForms.schema.Property,
-    CheckboxGroup = ReactForms.input.CheckboxGroup,
-    isFailure = ReactForms.validation.isFailure,
-    classSet = React.addons.classSet;
+var classSet = React.addons.classSet,
+    geti18nContent = function(field) {
+      var title = _.find(field.variants, function(variant) {
+                    return variant.localeId === i18n.getLocaleId();
+                  });
 
-var FocusField = React.createClass({
-  mixins: [FieldMixin, formField],
+      return title ? title.content : field.title;
+    },
+    getCustomFields = function(customFields, formState) {
+      var fields = _.map(customFields, function(field) {
+        const sharedProps = {
+          name: field.id,
+          value: formState[field.id],
+          required: field.required,
+          placeholder: field.title,
+          key: field.title
+        };
 
-  componentWillReceiveProps() {
-    var value = this.value(),
-        isValid = !isFailure(value.validation);
+        if (field.variants) {
+          sharedProps.placeholder = geti18nContent(field);
+        }
 
-    if (this.state.blurred && isValid) {
-      this.setState({blurred: false});
+        switch(field.type) {
+          case 'text':
+            return <Field {...sharedProps} />;
+          case 'tagger':
+            _.forEach(field.options, function(option) {
+              if (option.variants) {
+                option.title = geti18nContent(option);
+              }
+            });
+            return <SelectField {...sharedProps} options={field.options} />;
+          case 'integer':
+            return <Field {...sharedProps} pattern='\d+' />;
+          case 'decimal':
+            return <Field {...sharedProps} pattern='\d*([.,]\d+)?' />;
+          case 'textarea':
+            return <Field {...sharedProps} input={<textarea rows='5' />} />;
+          case 'checkbox':
+            return <Field {...sharedProps} label={field.title} type='checkbox' />;
+        }
+      });
+
+      return {
+        fields: _.reject(fields, 'type', 'checkbox'),
+        checkboxes: _.filter(fields, 'type', 'checkbox')
+      };
+    };
+
+var Field = React.createClass({
+  propTypes: {
+    name: React.PropTypes.oneOfType([
+      React.PropTypes.string,
+      React.PropTypes.number
+    ]).isRequired,
+    placeholder: React.PropTypes.string,
+    icon: React.PropTypes.string,
+    value: React.PropTypes.oneOfType([
+      React.PropTypes.string,
+      React.PropTypes.number
+    ]),
+    input: React.PropTypes.element,
+    required: React.PropTypes.bool,
+    label: function(props, propName, componentName) {
+      if (props.type === 'checkbox' && !props[propName]) {
+        return new Error(`${componentName} must have a label prop if type is set to "checkbox"`);
+      }
     }
   },
 
+  getInitialState() {
+    return {
+      focused: false,
+      blurred: false,
+      hasError: false,
+      dirty: false,
+      value: this.props.value
+    };
+  },
+
+  onFocus() {
+    this.setState({
+      focused: true
+    });
+  },
+
+  onBlur() {
+    const result = this.refs.field.getDOMNode();
+
+    this.setState({
+      focused: false,
+      blurred: true,
+      hasError: !result.validity.valid,
+      dirty: !this.state.value
+    });
+  },
+
+  onChange(e) {
+    const value = e.target.value,
+          result = this.refs.field.getDOMNode();
+
+    this.setState({
+      value: value,
+      hasError: !result.validity.valid
+    });
+  },
+
   render() {
-    var value = this.value(),
-        isInvalid = isFailure(value.validation),
-        classNames = classSet({
-          'Arrange Arrange--middle rf-Field u-isSelectable u-posRelative': true,
-          'rf-Field--focused': this.state.focused,
-          'rf-Field--blurred': this.state.blurred,
-          'rf-Field--invalid': isInvalid && this.state.blurred,
-          'rf-Field--dirty': !value.isUndefined,
-          'rf-Field--dropdown': this.props.dropdown,
-          'rf-Field--mobile': isMobileBrowser(),
-          'rf-Field--clean': this.props.checkbox
-        }),
-        iconClasses = classSet({
-          'u-isHidden': !this.props.icon,
-          'Arrange-sizeFit u-isActionable Icon Icon--': true
-        }),
-        dropdownClasses = classSet({
-          'u-isHidden': !this.props.dropdown,
-          'Arrange-sizeFit rf-Field__arrows': true
-        });
+    const icon = this.props.icon,
+          type = this.props.type,
+          isCheckbox = (type === 'checkbox'),
+          iconFieldClasses = classSet({
+            'Arrange-sizeFill u-vsizeAll': true,
+            'u-textSize15': isMobileBrowser(),
+            'u-textSecondary': this.props.input,
+            'Form-checkbox u-isHiddenVisually': isCheckbox,
+            'Form-checkbox--focused': this.state.focused && isCheckbox,
+            'Form-checkbox--invalid': this.state.hasError && this.state.blurred && isCheckbox
+          }),
+          iconClasses = classSet({
+            'u-isHidden': !icon,
+            [`Arrange-sizeFit u-isActionable Icon Icon--${icon} u-alignTop`]: true
+          }),
+          fieldClasses = classSet({
+            'Arrange Arrange--middle Form-field u-isSelectable u-posRelative': true,
+            'Form-field--invalid': this.state.hasError && this.state.blurred && !isCheckbox,
+            'Form-field--focused': this.state.focused && !isCheckbox,
+            'Form-field--dropdown': this.props.options,
+            'Form-field--clean': isCheckbox
+          }),
+          dropdownClasses = classSet({
+            'u-isHidden': !this.props.options,
+            'Arrange-sizeFit Form-field__arrows': true
+          }),
+          sharedProps = {
+            onChange: this.onChange,
+            onBlur: this.onBlur,
+            onFocus: this.onFocus,
+            ref: 'field',
+            className: iconFieldClasses,
+            value: this.props.value
+          };
 
     return (
-      /* jshint quotmark: false */
-      <label className={classNames}>
-        <i className={iconClasses + this.props.icon} />
-        {this.transferPropsTo(this.renderInputComponent({
-          onFocus: this.onFocus,
-          onBlur: this.onBlur
-        }))}
+      <label className={fieldClasses}>
+        <i className={iconClasses} />
+        {
+          /* jshint laxbreak: true */
+          (this.props.input)
+            ? React.addons.cloneWithProps(this.props.input, _.extend({}, sharedProps, this.props))
+            : <input {...sharedProps} {...this.props} />
+        }
+        {
+          (this.props.label)
+            ? <span className='Form-checkboxCaption u-isActionable'>{this.props.label}</span>
+            : null
+        }
         <div className={dropdownClasses}>
           <i className='Icon--dropdownArrow' />
           <i className='Icon--dropdownArrow Icon--dropdownArrowBottom' />
@@ -66,116 +171,87 @@ var FocusField = React.createClass({
   }
 });
 
-function IconField(props = {}) {
-  var fieldClasses = classSet({
-        'Arrange-sizeFill u-vsizeAll': true,
-        'u-textSize15': isMobileBrowser()
-      });
+var SelectField = React.createClass({
+  propTypes: {
+    name: React.PropTypes.oneOfType([
+      React.PropTypes.string,
+      React.PropTypes.number
+    ]).isRequired,
+    options: React.PropTypes.array.isRequired
+  },
 
-  /* jshint quotmark:false */
-  return (
-    <Property
-      name={props.name}
-      required={!!props.required}
-      input={
-        props.input ||
-        <input
-          placeholder={props.placeholder}
-          autoComplete={props.autoComplete || 'on'}
-          className={fieldClasses} />
-      }
-      validate={props.validate || ''}
-      component={<FocusField icon={props.icon} />}
-    />
-  );
-}
+  formatOptions() {
+    var props = this.props,
+        options = [
+          <option value='' key={props.placeholder}>{props.placeholder}</option>
+        ],
+        optionGroups;
 
-function CheckboxField(props = {}) {
-  /* jshint quotmark:false */
-  return (
-    <Property
-      name={props.name}
-      type='array'
-      required={!!props.required}
-      input={
-        <CheckboxGroup
-          options={[{value: '1', name: props.label}]}
-        />
-      }
-      component={<FocusField icon={props.icon} checkbox={true} />}
-    />
-  );
-}
+    optionGroups = _.groupBy(props.options, function(option) {
+      /* jshint laxbreak: true */
+      return (option.title.indexOf('::') !== -1)
+           ? option.title.split('::')[0]
+           : '';
+    });
 
-function SelectField(props = {}) {
-  /* jshint quotmark:false */
-  var fieldClasses = classSet({
-        'Arrange-sizeFill u-vsizeAll u-textSecondary': true,
-        'u-textSize15': isMobileBrowser()
-      }),
-      options = [
-        <option value='' disabled selected>{props.placeholder}</option>
-      ],
-      optionGroups;
+    _.forEach(optionGroups, function(group, key) {
+      var nestedOptions;
 
-  // For nested drop down fields, we group into key value objects with category
-  // and values
-  optionGroups = _.groupBy(props.options, function(option) {
-    /* jshint laxbreak: true */
-    return (option.title.indexOf('::') > 0)
-         ? option.title.split('::', 1)
-         : '';
-  });
+      // if not a nested field
+      if (_.isEmpty(key)) {
+        _.forEach(group, function(option) {
+          options.push(
+            <option value={option.value} key={option.title}>{option.title}</option>
+          );
+        });
+      } else {
+        nestedOptions = _.map(group, function(nestedOption) {
+          var title = nestedOption.title.split('::')[1];
+          return <option value={nestedOption.value} key={title}>{title}</option>;
+        });
 
-  _.forEach(optionGroups, function(group, key) {
-    var nestedOptions;
-
-    // if not a nested field
-    if (_.isEmpty(key)) {
-      _.forEach(group, function(option) {
         options.push(
-          <option value={option.value}>{option.title}</option>
+          <optgroup label={key} key={key}>
+            {nestedOptions}
+          </optgroup>
         );
-      });
-    } else {
-      nestedOptions = _.map(group, function(nestedOption) {
-        var title = nestedOption.title.split('::')[1];
-        return <option value={nestedOption.value}>{title}</option>;
-      });
-
-      options.push(
-        <optgroup label={key}>
-          {nestedOptions}
-        </optgroup>
-      );
-    }
-  });
-
-  /* jshint quotmark:false */
-  return (
-    <Property
-      name={props.name}
-      required={!!props.required}
-      input={
-        <select
-          name={props.name}
-          className={fieldClasses}>
-          {options}
-        </select>
       }
-      component={<FocusField dropdown={true} />}
-    />
-  );
-}
+    });
+
+    return options;
+  },
+
+  render() {
+    return (
+      <Field
+        {...this.props}
+        input={<select>{this.formatOptions()}</select>}
+      />
+    );
+  }
+});
 
 var SearchField = React.createClass({
-  mixins: [formField],
-
   getInitialState() {
     return {
+      focused: false,
+      blurred: false,
       searchInputVal: '',
       isClearable: false
     };
+  },
+
+  onFocus() {
+    this.setState({
+      focused: true
+    });
+  },
+
+  onBlur() {
+    this.setState({
+      focused: false,
+      blurred: true
+    });
   },
 
   handleUpdate(e) {
@@ -231,8 +307,8 @@ var SearchField = React.createClass({
           'Form-cta Container-pullout': !this.props.fullscreen
         }),
         searchInputClasses = classSet({
-          'Arrange Arrange--middle rf-Field rf-Field--search u-isSelectable': true,
-          'rf-Field--focused': this.state.focused
+          'Arrange Arrange--middle Form-field Form-field--search u-isSelectable': true,
+          'Form-field--focused': this.state.focused
         }),
         searchInputFieldClasses = classSet({
           'Arrange-sizeFill u-paddingR Form-placeholder u-textSizeMed': true,
@@ -283,30 +359,5 @@ var SearchField = React.createClass({
   }
 });
 
-function EmailField(props = {}) {
-  var type = 'email',
-      fieldClasses = classSet({
-        'Arrange-sizeFill u-vsizeAll': true,
-        'u-textSize15': isMobileBrowser()
-      });
-
-  return IconField({
-    name: props.name || type,
-    ref: props.ref || type,
-    required: !!props.required,
-    icon: props.icon,
-    input: (
-      /* jshint quotmark:false */
-      <input
-        type={type}
-        placeholder={i18n.t('embeddable_framework.form.field.email.label')}
-        className={fieldClasses} />
-    ),
-    validate: function(value) {
-      return validation.validateEmail(value);
-    }
-  });
-}
-
-export { IconField, CheckboxField, EmailField, SearchField, SelectField };
+export { Field, SearchField, getCustomFields };
 

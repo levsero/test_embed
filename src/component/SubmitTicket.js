@@ -1,6 +1,6 @@
-/** @jsx React.DOM */
+import React from 'react/addons';
+import _     from 'lodash';
 
-module React from 'react/addons'; /* jshint ignore:line */
 import { win }              from 'utility/globals';
 import { transport }        from 'service/transport';
 import { SubmitTicketForm } from 'component/SubmitTicketForm';
@@ -8,8 +8,6 @@ import { ZendeskLogo }      from 'component/ZendeskLogo';
 import { Container }        from 'component/Container';
 import { isMobileBrowser }  from 'utility/devices';
 import { i18n }             from 'service/i18n';
-
-require('imports?_=lodash!lodash');
 
 var classSet = React.addons.classSet;
 
@@ -36,14 +34,11 @@ export var SubmitTicket = React.createClass({
 
   clearForm() {
     var submitTicketForm = this.refs.submitTicketForm,
-        formData = {};
-
-    if (submitTicketForm.refs.form) {
-      formData = submitTicketForm.refs.form.value().value;
-    }
+        formData = submitTicketForm.state.formState;
 
     submitTicketForm.setState(submitTicketForm.getInitialState());
     submitTicketForm.setState({
+      showNotification: true,
       formState: {
         name: formData.name,
         email: formData.email
@@ -60,7 +55,7 @@ export var SubmitTicket = React.createClass({
 
     this.setState({errorMessage: ''});
 
-    if (data.isFormInvalid) {
+    if (!data.isFormValid) {
       // TODO: Handle invalid form submission
       return;
     }
@@ -82,7 +77,7 @@ export var SubmitTicket = React.createClass({
         },
         errorCallback = (msg) => {
           this.setState({ errorMessage: msg });
-          this.refs.submitTicketForm.setState({ isSubmitting: false });
+          this.refs.submitTicketForm.failedToSubmit();
         },
         payload = {
           method: 'post',
@@ -110,25 +105,19 @@ export var SubmitTicket = React.createClass({
   },
 
   formatTicketSubmission(data) {
-    var params = {};
-
     if (this.props.customFields.length === 0) {
       return data.value;
     } else {
-      params.fields = {};
+      let params = {
+        fields: {}
+      };
+
       _.forEach(data.value, function(value, name) {
-        // In react forms if the name of a field only contains numbers it reorders the
-        // form. We add the ze to the forms so they retain their order then remove them here.
-        if (name.substring(0,2) !== 'ze') {
+        // Custom field names are numbers so we check if name is NaN
+        if (isNaN(parseInt(name, 10))) {
           params[name] = value;
         } else {
-          // For checkbox field, it returns the array [1] if its selected.
-          // This takes the 1 out of the array so the endpoint knows how to handle it.
-          if (_.isArray(value)) {
-            value = value[0];
-          }
-
-          params.fields[name.slice(2)] = value;
+          params.fields[name] = value;
         }
       });
 
@@ -137,10 +126,7 @@ export var SubmitTicket = React.createClass({
   },
 
   render() {
-    var formClasses = classSet({
-          'u-isHidden': this.state.showNotification
-        }),
-        notifyClasses = classSet({
+    var notifyClasses = classSet({
           'Notify': true,
           'u-textCenter': true,
           'u-isHidden': !this.state.showNotification
@@ -190,7 +176,7 @@ export var SubmitTicket = React.createClass({
         <SubmitTicketForm
           fullscreen={this.state.fullscreen}
           ref='submitTicketForm'
-          className={formClasses}
+          hide={this.state.showNotification}
           customFields={this.props.customFields}
           submit={this.handleSubmit}>
           <p className={errorClasses}>

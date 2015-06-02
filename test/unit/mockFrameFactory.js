@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var mockFrameMethods = {
   show: jasmine.createSpy('mockFrameShow'),
   hide: jasmine.createSpy('mockFrameHide'),
@@ -23,7 +21,7 @@ var mockFrameFactory = jasmine.createSpy('mockFrameFactory').and.callFake(
       }
     });
 
-    child = React.renderComponent(<Component />, global.document.body);
+    child = React.render(<Component />, global.document.body);
 
     return _.extend({
       show: mockFrameMethods.show,

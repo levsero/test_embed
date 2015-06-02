@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 describe('Container component', function() {
   var Container,
       mockRegistry,
@@ -29,7 +27,7 @@ describe('Container component', function() {
 
   it('should have the `fullscreen` classnames when fullscreen is true', function() {
 
-    var container = React.renderComponent(
+    var container = React.render(
           <Container fullscreen={true} />,
           global.document.body
         ),
@@ -48,7 +46,7 @@ describe('Container component', function() {
 
   it('should have the `popover` classnames when fullscreen is false', function() {
 
-    var container = React.renderComponent(
+    var container = React.render(
           <Container />,
           global.document.body
         ),

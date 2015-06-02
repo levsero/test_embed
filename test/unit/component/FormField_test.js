@@ -1,12 +1,11 @@
-/** @jsx React.DOM */
-
 describe('FormField component', function() {
   var mockRegistry,
       onSearch,
       onUpdate,
       formFieldPath = buildSrcPath('component/FormField'),
       SearchField,
-      mockSearchField;
+      Field,
+      getCustomFields;
 
   beforeEach(function() {
 
@@ -20,43 +19,13 @@ describe('FormField component', function() {
       useCleanCache: true
     });
 
-    mockSearchField = React.createClass({
-      render: function() {
-        return (
-          /* jshint quotmark:false */
-          <div>
-            <i onClick={onSearch} />
-            <div>
-              <input
-                ref='searchFieldInput'
-                type='search' />
-            </div>
-          </div>
-        );
-      }
-    });
-
     mockRegistry = initMockRegistry({
       'react/addons': React,
       'component/Loading': {
         Loading: noop
       },
-      'mixin/validation': {},
-      'mixin/formField': {},
       'utility/devices': {
         isMobileBrowser: noop
-      },
-      'react-forms': {
-        Form: mockSearchField,
-        FormFor: mockSearchField,
-        schema: {
-          Property: mockSearchField
-        },
-        input: noop,
-        validation: noop
-      },
-      'component/FormField': {
-        SearchField: noop
       },
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', [
@@ -64,15 +33,17 @@ describe('FormField component', function() {
           'setLocale',
           'getLocale',
           't',
-          'isRTL'
+          'isRTL',
+          'getLocaleId'
         ])
       }
     });
 
-    mockery.registerAllowable('utility/globals');
     mockery.registerAllowable(formFieldPath);
 
     SearchField = require(formFieldPath).SearchField;
+    Field = require(formFieldPath).Field;
+    getCustomFields = require(formFieldPath).getCustomFields;
   });
 
   afterEach(function() {
@@ -80,36 +51,281 @@ describe('FormField component', function() {
     mockery.disable();
   });
 
-  it('should call onSearch when search icon is clicked', function() {
-    var searchField = React.renderComponent(
-          <SearchField onSearchIconClick={onSearch} />,
-          global.document.body
-        ),
-        searchFieldNode = searchField.getDOMNode();
+  describe('Field', function() {
+    it('should render form field DOM with plain input', function() {
+      var field = React.render(
+            <Field
+              name='alice' />,
+            global.document.body
+          ),
+          fieldNode = field.getDOMNode();
 
-    ReactTestUtils.Simulate.click(searchFieldNode.querySelector('i'));
+      expect(fieldNode.querySelector('input'))
+        .toBeTruthy();
 
-    expect(onSearch)
-      .toHaveBeenCalled();
+      expect(ReactTestUtils.findRenderedDOMComponentWithClass(field, 'Icon'))
+        .toBeTruthy();
+
+      expect(fieldNode.nodeName)
+        .toEqual('LABEL');
+    });
+
+    it('should pass along all props to underlying input', function() {
+      var field = React.render(
+            <Field
+              type='email'
+              name='alice' />,
+            global.document.body
+          ),
+          fieldNode = field.getDOMNode();
+
+      expect(fieldNode.querySelector('input').name)
+        .toEqual('alice');
+
+      expect(fieldNode.querySelector('input').type)
+        .toEqual('email');
+    });
+
+    it('should render input prop component instead of default input', function() {
+      var field = React.render(
+            <Field
+              input={
+                <textarea />
+              }
+              name='alice' />,
+            global.document.body
+          ),
+          fieldNode = field.getDOMNode();
+
+      expect(fieldNode.querySelector('input'))
+        .toBeFalsy();
+
+      expect(fieldNode.querySelector('textarea'))
+        .toBeTruthy();
+
+      expect(fieldNode.querySelector('textarea').name)
+        .toEqual('alice');
+    });
+
+    it('should render checkbox with label instead of default input', function() {
+      var field = React.render(
+            <Field
+              label='Agree?'
+              type='checkbox'
+              name='alice' />,
+            global.document.body
+          ),
+          fieldNode = field.getDOMNode();
+
+      expect(fieldNode.querySelector('input').type)
+        .toEqual('checkbox');
+
+      expect(ReactTestUtils.findRenderedDOMComponentWithClass(field, 'Form-checkboxCaption'))
+        .toBeTruthy();
+    });
+
+    it('should set focused state on field focus', function() {
+      var field = React.render(
+            <Field
+              name='alice' />,
+            global.document.body
+          ),
+          fieldNode = field.getDOMNode();
+
+      expect(field.state.focused)
+        .toBe(false);
+
+      ReactTestUtils.Simulate.focus(fieldNode.querySelector('input'));
+
+      expect(field.state.focused)
+        .toBe(true);
+
+      expect(ReactTestUtils.findRenderedDOMComponentWithClass(field, 'Form-field--focused'))
+        .toBeTruthy();
+    });
+
+    it('should only set invalid class after focus and blur events', function() {
+      var field = React.render(
+            <Field
+              name='alice' />,
+            global.document.body
+          ),
+          fieldNode = field.getDOMNode();
+
+      // jsdom doesn't seem to support html5 validation api
+      // shim it for this test
+      fieldNode.querySelector('input').validity = {
+        valid: false
+      };
+
+      expect(field.state.hasError)
+        .toBe(false);
+
+      expect(() => ReactTestUtils.findRenderedDOMComponentWithClass(field, 'Form-field--invalid'))
+        .toThrow();
+
+      ReactTestUtils.Simulate.focus(fieldNode.querySelector('input'));
+      ReactTestUtils.Simulate.blur(fieldNode.querySelector('input'));
+
+      expect(field.state.hasError)
+        .toBe(true);
+
+      expect(field.state.focused)
+        .toBe(false);
+
+      expect(field.state.blurred)
+        .toBe(true);
+
+      expect(ReactTestUtils.findRenderedDOMComponentWithClass(field, 'Form-field--invalid'))
+        .toBeTruthy();
+    });
   });
 
-  it('should clear input and call props.onUpdate when clear icon is clicked', function() {
-    var searchField = React.renderComponent(
-          <SearchField onUpdate={onUpdate} />,
-          global.document.body
-        ),
-        searchFieldNode = searchField.getDOMNode(),
-        searchInputNode = searchFieldNode.querySelector('input');
+  describe('getCustomFields', function() {
+    it('should convert custom field payload into array of React components', function() {
+      var payload = [
+            {
+              id: '22660514',
+              type: 'text',
+              title: 'Text',
+              required: true,
+              variants: [
+                {
+                  localeId: 1,
+                  content: 'Option 1'
+                },
+                {
+                  localeId: 16,
+                  content: 'FrenchField'
+                }
+              ]
+            },
+            {
+              id: 10006,
+              type: 'tagger',
+              title: 'Nested Drop Down',
+              required: false,
+              options: [
+                {
+                  title: 'Option1::Part1',
+                  value: 'option1__part1'
+                },
+                {
+                  title: 'Option2::Part2',
+                  value: 'option2__part2'
+                },
+                {
+                  title: 'Option1::Part2',
+                  value: 'option1__part2'
+                }
+              ]
+            },
+            {
+              id: '22666574',
+              type: 'tagger',
+              title: 'Department',
+              variants: [
+                {
+                  localeId: 1,
+                  content: 'Drop Down English'
+                },
+                {
+                  localeId: 16,
+                  content: 'Drop Down français'
+                }
+              ],
+              options: [
+                {
+                  title: 'Sales',
+                  value: 1,
+                  variants: [
+                    {
+                      localeId: 1,
+                      content: 'English'
+                    },
+                    {
+                      localeId: 16,
+                      content: 'French'
+                    }
+                  ]
+                },
+                {
+                  title: 'Support',
+                  value: 2
+                }
+              ],
+              required: true
+            },
+            {
+              id: '22660524',
+              type: 'textarea',
+              title: 'Order Details',
+              required: true
+            },
+            {
+              id: '22823250',
+              type: 'integer',
+              title: 'Age',
+              required: true
+            },
+            {
+              id: '22823260',
+              type: 'decimal',
+              title: 'Total Cost',
+              required: true
+            },
+            {
+              id: '22823270',
+              type: 'checkbox',
+              title: 'Can we call you?',
+              required: false
+            }
+          ],
+          customFields = getCustomFields(payload, {});
 
-    searchInputNode.value = 'Search string';
+      expect(Object.keys(customFields))
+        .toEqual(['fields', 'checkboxes']);
 
-    ReactTestUtils.Simulate.click(searchFieldNode.querySelector('.Icon--clearInput'));
+      _.chain(_.union(customFields.fields, customFields.checkboxes))
+        .forEach(function(customField) {
+          expect(React.isValidElement(customField))
+            .toBeTruthy();
+        });
+    });
+  });
 
-    expect(searchInputNode.value)
-      .toEqual('');
+  describe('SearchField', function() {
+    it('should call onSearch when search icon is clicked', function() {
+      var searchField = React.render(
+            <SearchField onSearchIconClick={onSearch} />,
+            global.document.body
+          ),
+          searchFieldNode = searchField.getDOMNode();
 
-    expect(onUpdate)
-      .toHaveBeenCalled();
+      ReactTestUtils.Simulate.click(searchFieldNode.querySelector('i'));
+
+      expect(onSearch)
+        .toHaveBeenCalled();
+    });
+
+    it('should clear input and call props.onUpdate when clear icon is clicked', function() {
+      var searchField = React.render(
+            <SearchField onUpdate={onUpdate} />,
+            global.document.body
+          ),
+          searchFieldNode = searchField.getDOMNode(),
+          searchInputNode = searchFieldNode.querySelector('input');
+
+      searchInputNode.value = 'Search string';
+
+      ReactTestUtils.Simulate.click(searchFieldNode.querySelector('.Icon--clearInput'));
+
+      expect(searchInputNode.value)
+        .toEqual('');
+
+      expect(onUpdate)
+        .toHaveBeenCalled();
+    });
   });
 
 });

@@ -1,4 +1,4 @@
-module React from 'react';
+import React from 'react';
 
 import { beacon }             from 'service/beacon';
 import { logging }            from 'service/logging';

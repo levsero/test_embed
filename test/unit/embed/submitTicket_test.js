@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 describe('embed.submitTicket', function() {
   var submitTicket,
       mockRegistry,

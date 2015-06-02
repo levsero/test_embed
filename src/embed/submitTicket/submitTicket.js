@@ -1,6 +1,4 @@
-/** @jsx React.DOM */
-
-module React from 'react/addons';
+import React from 'react/addons';
 
 import { document,
          getDocumentHost } from 'utility/globals';
@@ -113,7 +111,7 @@ function render(name) {
 
   var element = getDocumentHost().appendChild(document.createElement('div'));
 
-  submitTickets[name].instance = React.renderComponent(submitTickets[name].component, element);
+  submitTickets[name].instance = React.render(submitTickets[name].component, element);
 
   mediator.channel.subscribe(name + '.show', function() {
     submitTickets[name].instance.show();
@@ -151,7 +149,9 @@ function prefillForm(name, user) {
     var submitTicket = get(name).instance.getChild().refs.submitTicket,
         submitTicketForm = submitTicket.refs.submitTicketForm;
 
-    submitTicketForm.refs.form.updateValue(user);
+    submitTicketForm.setState({
+      formState: _.pick(user, ['name', 'email'])
+    });
   } else {
     setTimeout(() => {
       prefillForm(name, user);

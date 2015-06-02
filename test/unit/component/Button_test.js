@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 describe('Button component', function() {
   var Button,
       mockRegistry,
@@ -28,7 +26,7 @@ describe('Button component', function() {
   });
 
   it('should not have fullscreen classes when fullscreen prop is false', function() {
-    var button = React.renderComponent(
+    var button = React.render(
           <Button />,
           global.document.body
         ),
@@ -45,7 +43,7 @@ describe('Button component', function() {
   });
 
   it('should have fullscreen classes when fullscreen prop is true', function() {
-    var button = React.renderComponent(
+    var button = React.render(
           <Button fullscreen={true} />,
           global.document.body
         ),
@@ -63,7 +61,7 @@ describe('Button component', function() {
   });
 
   it('should not have rtl classes when rtl prop is false', function() {
-    var button = React.renderComponent(
+    var button = React.render(
           <Button />,
           global.document.body
         ),
@@ -80,7 +78,7 @@ describe('Button component', function() {
   });
 
   it('should have rtl classes when rtl prop is true', function() {
-    var button = React.renderComponent(
+    var button = React.render(
           <Button rtl={true} />,
           global.document.body
         ),

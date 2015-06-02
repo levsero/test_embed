@@ -1,11 +1,8 @@
-/** @jsx React.DOM */
-
 describe('frameFactory', function() {
 
   var frameFactory,
       mockRegistry,
       mockRegistryMocks,
-      mockComponent,
       mockChildFn,
       frameFactoryPath = buildSrcPath('embed/frameFactory');
 
@@ -48,17 +45,11 @@ describe('frameFactory', function() {
 
     mockRegistry = initMockRegistry(mockRegistryMocks);
 
-    mockComponent = React.createClass({
-      render: function() {
-        /* jshint quotmark:false */
-        return <div className='mock-component' />;
-      }
-    });
-
     mockChildFn = function() {
       return (
         /* jshint quotmark:false */
-        <mockComponent
+        <div
+          className='mock-component'
           ref='aliceComponent' />
       );
     };
@@ -120,7 +111,7 @@ describe('frameFactory', function() {
   describe('getInitialState', function() {
     it('picks up initial state for `visible` from the `visible` prop', function() {
       var Embed = React.createClass(frameFactory(mockChildFn)),
-          instance = React.renderComponent(
+          instance = React.render(
           <Embed visible={false} />,
         global.document.body
       );
@@ -133,7 +124,7 @@ describe('frameFactory', function() {
   describe('getChild', function() {
     it('stores and exposes the child component via getChild()', function() {
       var Embed = React.createClass(frameFactory(mockChildFn)),
-          instance = React.renderComponent(
+          instance = React.render(
             <Embed />,
             global.document.body
           );
@@ -154,7 +145,7 @@ describe('frameFactory', function() {
 
       var payload = frameFactory(mockChildFn),
           Embed = React.createClass(payload),
-          instance = React.renderComponent(
+          instance = React.render(
             <Embed />,
             global.document.body
           ),
@@ -212,7 +203,7 @@ describe('frameFactory', function() {
       });
 
       Embed = React.createClass(payload);
-      instance = React.renderComponent(
+      instance = React.render(
           <Embed />,
         global.document.body
       );
@@ -261,7 +252,7 @@ describe('frameFactory', function() {
 
       Embed = React.createClass(payload);
 
-      instance = React.renderComponent(
+      instance = React.render(
           <Embed />,
         global.document.body
       );
@@ -334,7 +325,7 @@ describe('frameFactory', function() {
 
       Embed = React.createClass(payload);
 
-      instance = React.renderComponent(
+      instance = React.render(
           <Embed />,
         global.document.body
       );
@@ -369,7 +360,7 @@ describe('frameFactory', function() {
           }),
           Embed = React.createClass(payload);
 
-      instance = React.renderComponent(
+      instance = React.render(
         <Embed />,
         global.document.body
       );
@@ -426,7 +417,7 @@ describe('frameFactory', function() {
             css: '.params-css {} '
           }),
           Embed = React.createClass(payload),
-          instance = React.renderComponent(
+          instance = React.render(
             <Embed />,
             global.document.body
           ),
@@ -464,7 +455,7 @@ describe('frameFactory', function() {
             }
           ),
           Embed = React.createClass(payload),
-          instance = React.renderComponent(
+          instance = React.render(
             <Embed />,
             global.document.body
           ),
@@ -498,7 +489,7 @@ describe('frameFactory', function() {
             }
           }),
           Embed = React.createClass(payload),
-          instance = React.renderComponent(
+          instance = React.render(
             <Embed />,
             global.document.body
           ),
@@ -528,7 +519,7 @@ describe('frameFactory', function() {
     it('renders the child component to the document', function() {
       var payload = frameFactory(mockChildFn),
           Embed = React.createClass(payload),
-          instance = React.renderComponent(
+          instance = React.render(
             <Embed />,
             global.document.body
           );
@@ -540,7 +531,7 @@ describe('frameFactory', function() {
     it('updates `state._rendered` at the end', function() {
       var payload = frameFactory(mockChildFn),
           Embed = React.createClass(payload),
-          instance = React.renderComponent(
+          instance = React.render(
             <Embed />,
             global.document.body
           );
@@ -565,7 +556,7 @@ describe('frameFactory', function() {
           iframe,
           htmlElem;
 
-      React.renderComponent(
+      React.render(
         <Embed />,
         global.document.body
       );

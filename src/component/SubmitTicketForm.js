@@ -1,24 +1,22 @@
-/** @jsx React.DOM */
+import React from 'react/addons';
+import _     from 'lodash';
 
-module React from 'react/addons';
-module ReactForms from 'react-forms';
+import { Button }          from 'component/Button';
+import { i18n }            from 'service/i18n';
+import { Field,
+         getCustomFields } from 'component/FormField';
 
-import { submitTicketSchema } from 'component/SubmitTicketSchema';
-import { Button }             from 'component/Button';
-import { i18n }               from 'service/i18n';
-require('imports?_=lodash!lodash');
+const classSet = React.addons.classSet;
 
-var classSet = React.addons.classSet,
-    SubmitTicketFormBody = ReactForms.Form,
-    isFailure = ReactForms.validation.isFailure;
-
-var SubmitTicketForm = React.createClass({
+export const SubmitTicketForm = React.createClass({
   getInitialState() {
     return {
       isValid: false,
+      buttonMessage: i18n.t('embeddable_framework.submitTicket.form.submitButton.label.send'),
       isSubmitting: false,
       isRTL: i18n.isRTL(),
-      removeTicketForm: false
+      removeTicketForm: false,
+      formState: {}
     };
   },
 
@@ -29,8 +27,30 @@ var SubmitTicketForm = React.createClass({
   },
 
   componentDidUpdate() {
-    if (this.refs.form && this.state.formState) {
-      this.refs.form.updateValue(this.state.formState);
+    if (this.refs.formWrapper && this.state.formState && this.state.removeTicketForm) {
+      const form = this.refs.form.getDOMNode();
+
+      _.forEach(form.elements, function(field) {
+        if(field.type === 'submit') {
+          return;
+        }
+
+        if (this.state.formState[field.name]) {
+          if (field.type === 'checkbox') {
+            // Based on formState set checked property
+            field.checked = !!this.state.formState[field.name];
+          } else {
+            field.value = this.state.formState[field.name];
+          }
+        } else {
+          // If clearing form after submit we need to make sure
+          // formState clears out undefined values
+          field.value = '';
+          // Don't need to check for type here as non checkbox inputs
+          // will ignore this property.
+          field.checked = false;
+        }
+      }, this);
     }
   },
 
@@ -43,19 +63,14 @@ var SubmitTicketForm = React.createClass({
   },
 
   focusField() {
-    var form = this.refs.form.getDOMNode(),
-        element;
-
-    // Focus on the first empty text or textarea
-    element = _.find(form.querySelectorAll('input, textarea'), function(input) {
-      return input.value === '' && _.contains(['text', 'textarea', 'email'], input.type);
-    });
+    const form = this.refs.form.getDOMNode(),
+          // Focus on the first empty text or textarea
+          element = _.find(form.querySelectorAll('input, textarea'), function(input) {
+            return input.value === '' && _.contains(['text', 'textarea', 'email'], input.type);
+          });
 
     if (element) {
-      // setTimeout required for IE to autofocus on form field
-      setTimeout( () => {
-        element.focus();
-      }, 0);
+      element.focus();
     }
   },
 
@@ -65,37 +80,60 @@ var SubmitTicketForm = React.createClass({
     });
   },
 
-  handleSubmit(e) {
-    var form = this.refs.form,
-        formValue = form.value(),
-        isFormInvalid = isFailure(formValue.validation);
+  failedToSubmit() {
+    this.setState({
+      isSubmitting: false,
+      buttonMessage: this.getInitialState().buttonMessage
+    });
+  },
 
-    if (!isFormInvalid) {
+  handleSubmit(e) {
+    const isFormValid = this.state.isValid;
+
+    if (isFormValid) {
       this.setState({
+        buttonMessage: i18n.t('embeddable_framework.submitTicket.form.submitButton.label.sending'),
         isSubmitting: true
       });
     }
 
     this.props.submit(e, {
-      isFormInvalid: isFormInvalid,
-      value: formValue.value
+      isFormValid: isFormValid,
+      value: this.getFormState()
     });
   },
 
-  handleUpdate(values, isValid) {
+  getFormState() {
+    const form = this.refs.form.getDOMNode();
+
+    return _.chain(form.elements)
+      .reject((field) => field.type === 'submit')
+      .reduce((result, field) => {
+        /* jshint laxbreak: true */
+        result[field.name] = (field.type === 'checkbox')
+                           ? field.checked ? 1 : 0
+                           : field.value;
+
+        return result;
+      },
+      {}).value();
+  },
+
+  handleUpdate() {
+    const form = this.refs.form.getDOMNode();
+
     this.setState({
-      formState: values,
-      isValid: isValid
+      formState: this.getFormState(),
+      isValid: form.checkValidity()
     });
   },
 
   render() {
     /* jshint quotmark:false */
-    /* jshint laxbreak: true */
-    var formBody,
-        formClasses = classSet({
+    var formClasses = classSet({
           'Form u-cf': true,
-          'Form--fullscreen': this.props.fullscreen
+          'Form--fullscreen': this.props.fullscreen,
+          'u-isHidden': this.props.hide
         }),
         titleClasses = classSet({
           'u-textSizeMed u-textBold u-extSizeMed u-textCenter': true,
@@ -105,36 +143,55 @@ var SubmitTicketForm = React.createClass({
         barClasses = classSet({
           'Form-cta u-cf Container-pullout u-paddingBS': true,
           'Form-cta--bar u-marginBM u-paddingBL': !this.props.fullscreen
-        }),
-        buttonMessage = (this.state.isSubmitting)
-                      ? i18n.t('embeddable_framework.submitTicket.form.submitButton.label.sending')
-                      : i18n.t('embeddable_framework.submitTicket.form.submitButton.label.send');
+        });
 
-
-    formBody = this.state.removeTicketForm
-             ? null
-             : this.transferPropsTo(
-                <SubmitTicketFormBody
-                  ref='form'
-                  schema={submitTicketSchema(this.props.customFields)}
-                  onUpdate={this.handleUpdate}
-                  component={React.DOM.div} />
-               );
+      var customFields = getCustomFields(this.props.customFields, this.state.formState),
+          /* jshint laxbreak: true */
+          formBody = (this.state.removeTicketForm)
+                   ? null
+                   : <div ref='formWrapper'>
+                       <Field
+                         placeholder={i18n.t('embeddable_framework.submitTicket.field.name.label')}
+                         icon='avatar'
+                         value={this.state.formState.name}
+                         name='name' />
+                       <Field
+                         placeholder={i18n.t('embeddable_framework.form.field.email.label')}
+                         type='email'
+                         icon='mail'
+                         required
+                         value={this.state.formState.email}
+                         name='email' />
+                       {customFields.fields}
+                       <Field
+                         placeholder={
+                           i18n.t('embeddable_framework.submitTicket.field.description.label')
+                         }
+                         required
+                         icon='msg'
+                         value={this.state.formState.description}
+                         name='description'
+                         input={<textarea rows='5' />}
+                       />
+                       {customFields.checkboxes}
+                       {this.props.children}
+                     </div>;
 
     return (
       <form
         noValidate
         onSubmit={this.handleSubmit}
-        className={formClasses + ' ' + this.props.className}>
+        onChange={this.handleUpdate}
+        ref='form'
+        className={formClasses}>
         <div className={barClasses}>
           <h2 className={titleClasses}>
             {i18n.t('embeddable_framework.submitTicket.form.title')}
           </h2>
         </div>
         {formBody}
-        {this.props.children}
         <Button
-          label={buttonMessage}
+          label={this.state.buttonMessage}
           disabled={!this.state.isValid || this.state.isSubmitting}
           fullscreen={this.props.fullscreen}
           type='submit'
@@ -144,5 +201,3 @@ var SubmitTicketForm = React.createClass({
     );
   }
 });
-
-export { SubmitTicketForm };

@@ -1,5 +1,4 @@
-/** @jsx React.DOM */
-module React from 'react/addons';
+import React from 'react/addons';
 
 import { document,
          getDocumentHost } from 'utility/globals';
@@ -107,7 +106,7 @@ function render(name) {
 
   var element = getDocumentHost().appendChild(document.createElement('div'));
 
-  launchers[name].instance = React.renderComponent(launchers[name].component, element);
+  launchers[name].instance = React.render(launchers[name].component, element);
 
   mediator.channel.subscribe(name + '.activate', function() {
     getChildRefs(name).launcher.setActive(true);

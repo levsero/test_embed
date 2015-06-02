@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 describe('Help center component', function() {
   var HelpCenter,
       mockRegistry,
@@ -121,7 +119,7 @@ describe('Help center component', function() {
   });
 
   it('should correctly set the initial states when created', function() {
-      var helpCenter = React.renderComponent(
+      var helpCenter = React.render(
             <HelpCenter />,
             global.document.body
           );
@@ -134,7 +132,7 @@ describe('Help center component', function() {
 
     it('should fire off call to search api when handleSubmit is called', function() {
       var mockBeacon = jasmine.createSpy('mockOnSearch'),
-          helpCenter = React.renderComponent(
+          helpCenter = React.render(
             <HelpCenter onSearch={mockBeacon} />,
             global.document.body
           ),
@@ -170,7 +168,7 @@ describe('Help center component', function() {
     });
 
     it('should render list of results from api', function() {
-      var helpCenter = React.renderComponent(
+      var helpCenter = React.render(
             <HelpCenter onSearch={noop} />,
             global.document.body
           ),
@@ -187,7 +185,7 @@ describe('Help center component', function() {
     });
 
     it('should render the inline article', function() {
-      var helpCenter = React.renderComponent(
+      var helpCenter = React.render(
             <HelpCenter
               onSearch={noop}
               onLinkClick={noop}
@@ -234,7 +232,7 @@ describe('Help center component', function() {
     });
 
     it('should render error message when search fails', function() {
-      var helpCenter = React.renderComponent(
+      var helpCenter = React.render(
             <HelpCenter onSearch={noop} />,
             global.document.body
           ),
@@ -254,7 +252,7 @@ describe('Help center component', function() {
     });
 
     it('should show no results when search returns no results', function() {
-      var helpCenter = React.renderComponent(
+      var helpCenter = React.render(
             <HelpCenter onSearch={noop} />,
             global.document.body
           ),
@@ -274,7 +272,7 @@ describe('Help center component', function() {
     });
 
     it('shouldn\'t call handle search if the string isn\'t valid', function() {
-      var helpCenter = React.renderComponent(
+      var helpCenter = React.render(
             <HelpCenter />,
             global.document.body
           ),
@@ -305,7 +303,7 @@ describe('Help center component', function() {
       mockery.resetCache();
       HelpCenter = require(helpCenterPath).HelpCenter;
 
-      var helpCenter = React.renderComponent(
+      var helpCenter = React.render(
         <HelpCenter />,
         global.document.body
       );
@@ -323,7 +321,7 @@ describe('Help center component', function() {
       mockery.resetCache();
       HelpCenter = require(helpCenterPath).HelpCenter;
 
-      var helpCenter = React.renderComponent(
+      var helpCenter = React.render(
         <HelpCenter />,
         global.document.body
       );

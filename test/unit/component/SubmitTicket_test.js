@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 describe('Submit ticket component', function() {
   var SubmitTicket,
       mockRegistry,
@@ -67,7 +65,9 @@ describe('Submit ticket component', function() {
         SubmitTicketForm: jasmine.createSpy('mockSubmitTicketForm')
           .and.callFake(React.createClass({
             getInitialState: function() {
-              return {};
+              return {
+                formState: {}
+              };
             },
             render: function() {
               return <form onSubmit={this.props.handleSubmit} />;
@@ -98,13 +98,6 @@ describe('Submit ticket component', function() {
             }
           })),
       },
-      'service/identity': {
-        identity: {
-          getBuid: function() {
-            return 'abc123';
-          }
-        }
-      },
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', [
           'init',
@@ -117,7 +110,7 @@ describe('Submit ticket component', function() {
       'service/transport': {
         transport: jasmine.createSpyObj('transport', ['send']),
       },
-      'imports?_=lodash!lodash': _
+      '_': _
     });
 
     mockery.registerAllowable(submitTicketPath);
@@ -131,7 +124,7 @@ describe('Submit ticket component', function() {
   });
 
   it('should correctly set the initial states when created', function() {
-    var submitTicket = React.renderComponent(
+    var submitTicket = React.render(
       <SubmitTicket />,
       global.document.body
     );
@@ -148,14 +141,14 @@ describe('Submit ticket component', function() {
         mockSubmitTicketForm = mockRegistry['component/SubmitTicketForm'].SubmitTicketForm,
         mockTransport = mockRegistry['service/transport'].transport;
 
-    React.renderComponent(
+    React.render(
       <SubmitTicket />,
       global.document.body
     );
 
     mostRecentCall = mockSubmitTicketForm.calls.mostRecent().args[0];
 
-    mostRecentCall.submit({preventDefault: noop}, {isFormInvalid: true});
+    mostRecentCall.submit({preventDefault: noop}, {isFormValid: false});
 
     expect(mockTransport.send)
       .not.toHaveBeenCalled();
@@ -168,14 +161,15 @@ describe('Submit ticket component', function() {
         transportRecentCall,
         mockOnSubmitted = jasmine.createSpy('mockOnSubmitted');
 
-    React.renderComponent(
+    React.render(
       <SubmitTicket onSubmitted={mockOnSubmitted} updateFrameSize={noop} />,
       global.document.body
     );
 
-    mostRecentCall = mockSubmitTicketForm.calls.mostRecent().args[0],
+    mostRecentCall = mockSubmitTicketForm.calls.mostRecent().args[0];
 
     mostRecentCall.submit({preventDefault: noop}, {
+      isFormValid: true,
       value: {
         email: formParams.email,
         description: formParams.description
@@ -205,7 +199,7 @@ describe('Submit ticket component', function() {
         submitTicket,
         mockValues = {
           value: {
-            ze22660514: 'mockCustomField',
+            22660514: 'mockCustomField',
             name: 'mockName',
             description: 'mockDescription'
           }
@@ -219,7 +213,7 @@ describe('Submit ticket component', function() {
         },
         payload;
 
-    submitTicket = React.renderComponent(
+    submitTicket = React.render(
       <SubmitTicket customFields={mockCustomField} updateFrameSize={noop} />,
       global.document.body
     );
@@ -231,7 +225,7 @@ describe('Submit ticket component', function() {
   });
 
   it('should unhide notification element on state change', function() {
-    var submitTicket = React.renderComponent(
+    var submitTicket = React.render(
           <SubmitTicket />,
           global.document.body
         ),
@@ -257,7 +251,7 @@ describe('Submit ticket component', function() {
       mockery.resetCache();
       SubmitTicket = require(submitTicketPath).SubmitTicket;
 
-      var submitTicket = React.renderComponent(
+      var submitTicket = React.render(
         <SubmitTicket />,
         global.document.body
       );
@@ -275,7 +269,7 @@ describe('Submit ticket component', function() {
       mockery.resetCache();
       SubmitTicket = require(submitTicketPath).SubmitTicket;
 
-      var submitTicket = React.renderComponent(
+      var submitTicket = React.render(
         <SubmitTicket />,
         global.document.body
       );
@@ -290,7 +284,7 @@ describe('Submit ticket component', function() {
         submitTicket,
         mockSubmitTicketForm = mockRegistry['component/SubmitTicketForm'].SubmitTicketForm;
 
-    submitTicket = React.renderComponent(
+    submitTicket = React.render(
       <SubmitTicket />,
       global.document.body
     );
