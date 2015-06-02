@@ -49,7 +49,12 @@ The Widget also uses the information in the `zE.identify()` call to pre-populate
 ```html
 <script>
   zE(function() {
-    zE.identify({name: 'John Citizen', email: 'john@example.com', externalId: '123', organization: 'VIP'});
+    zE.identify({
+      name: 'John Citizen',
+      email: 'john@example.com',
+      externalId: '123',
+      organization: 'VIP'
+    });
   });
 </script>
 ```
