@@ -291,6 +291,12 @@ describe('FormField component', function() {
           expect(React.isValidElement(customField))
             .toBeTruthy();
         });
+
+      expect(customFields.checkboxes.length)
+        .toEqual(1);
+
+      expect(customFields.fields.length)
+        .toEqual(6);
     });
   });
 
