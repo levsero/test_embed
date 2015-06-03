@@ -5,8 +5,6 @@
 @import '../_vars.scss';
 
 $Container-spacing: 25/$font-size;
-$Container--popover-arrowFullWidth: 18;
-$Container--popover-arrowWidth: $Container--popover-arrowFullWidth/2;
 
 .Container {
   padding: #{$Container-spacing}rem;
@@ -18,18 +16,6 @@ $Container--popover-arrowWidth: $Container--popover-arrowFullWidth/2;
   border: $thin-border-size solid $base-border-color;
   box-shadow: 0 0 #{6/$font-size}rem 0 rgba($base-shadow, .1);
   background: $base-color;
-}
-
-.Container--popoverAlt {
-  &:after {
-    left: #{$Container--popover-arrowFullWidth}px;
-    right: auto;
-  }
-
-  &:before {
-    left: #{($Container--popover-arrowFullWidth) - 1}px;
-    right: auto;
-  }
 }
 
 .Container--fullscreen {

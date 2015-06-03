@@ -73,7 +73,7 @@ export var SubmitTicket = React.createClass({
           });
           this.clearForm();
           this.props.onSubmitted();
-          this.props.updateFrameSize(0,0);
+          this.props.updateFrameSize();
         },
         errorCallback = (msg) => {
           this.setState({ errorMessage: msg });
@@ -144,7 +144,7 @@ export var SubmitTicket = React.createClass({
         zendeskLogo;
 
     if (this.props.updateFrameSize) {
-      setTimeout( () => this.props.updateFrameSize(0, 0), 0);
+      setTimeout( () => this.props.updateFrameSize(), 0);
     }
 
     /* jshint laxbreak: true */

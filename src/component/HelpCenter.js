@@ -312,7 +312,7 @@ export var HelpCenter = React.createClass({
         searchField;
 
     if (this.props.updateFrameSize) {
-      setTimeout( () => this.props.updateFrameSize(0, 0), 0);
+      setTimeout( () => this.props.updateFrameSize(), 0);
     }
 
     if (this.state.buttonLabel === chatButtonLabel) {
