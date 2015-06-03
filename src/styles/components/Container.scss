@@ -18,30 +18,6 @@ $Container--popover-arrowWidth: $Container--popover-arrowFullWidth/2;
   border: $thin-border-size solid $base-border-color;
   box-shadow: 0 0 #{6/$font-size}rem 0 rgba($base-shadow, .1);
   background: $base-color;
-
-  &:after, &:before {
-    top: 100%;
-    right: #{$Container--popover-arrowFullWidth}px;
-    border: solid transparent;
-    content: " ";
-    height: 0;
-    width: 0;
-    position: absolute;
-    pointer-events: none;
-  }
-
-  &:after {
-    border-color: transparent;
-    border-top-color: $base-color;
-    border-width: #{$Container--popover-arrowWidth + 2}px #{($Container--popover-arrowWidth)}px 0;
-  }
-
-  &:before {
-    border-color: transparent;
-    border-top-color: $base-border-color;
-    border-width: #{($Container--popover-arrowWidth) + 3}px #{($Container--popover-arrowWidth) + 1}px 0;
-    right: #{($Container--popover-arrowFullWidth) - 1}px;
-  }
 }
 
 .Container--popoverAlt {

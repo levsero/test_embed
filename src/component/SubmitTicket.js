@@ -144,7 +144,7 @@ export var SubmitTicket = React.createClass({
         zendeskLogo;
 
     if (this.props.updateFrameSize) {
-      setTimeout( () => this.props.updateFrameSize(0, 10), 0);
+      setTimeout( () => this.props.updateFrameSize(0, 0), 0);
     }
 
     /* jshint laxbreak: true */
