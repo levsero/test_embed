@@ -49,20 +49,6 @@
   }
 }
 
-.Icon--active {
-  padding-right: 0;
-  height: #{46/$font-size}rem;
-  width: #{46/$font-size}rem;
-  font-size: #{16/$font-size}rem;
-  line-height: #{46/$font-size}rem;
-
-  -webkit-margin-before: #{1/$font-size}rem; /* 4 */
-
-  [dir='rtl'] & {
-    padding-left: 0;
-  }
-}
-
 .Icon:before {
   content: '\e603';
 }
@@ -186,8 +172,8 @@
 
 .Icon--dropdownArrow {
   display: block;
-  width: 0; 
-  height: 0; 
+  width: 0;
+  height: 0;
   border-left: #{5/$font-size}rem solid transparent;
   border-right: #{5/$font-size}rem solid transparent;
   border-bottom: #{5/$font-size}rem solid $icon-color;

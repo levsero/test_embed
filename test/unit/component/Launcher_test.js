@@ -95,25 +95,4 @@ describe('Launcher component', function() {
     expect(launcher.state.label)
       .toEqual('support');
   });
-
-  it('should change the icon when setActive is changed', function() {
-    /* jshint quotmark: false */
-    var launcher = React.render(
-          <Launcher icon='testIcon'/>,
-          global.document.body
-        );
-
-    expect(global.document.body.querySelectorAll('.Icon--cross').length)
-      .toEqual(0);
-
-    launcher.setActive(true);
-
-    expect(global.document.body.querySelectorAll('.Icon--cross').length)
-      .toEqual(1);
-
-    launcher.setActive(false);
-
-    expect(global.document.body.querySelectorAll('.Icon--cross').length)
-      .toEqual(0);
-  });
 });
