@@ -46,19 +46,6 @@ $Button-nudge: 5;
   font-size: #{15/$font-size}rem;
 }
 
-.Button--launcherActive {
-  background-color: $active-color;
-  margin-right: #{$Button-nudge/$font-size}rem;
-  padding: 0;
-  width: #{46/$font-size}rem;
-  height: #{46/$font-size}rem;
-}
-
-.Button--launcherActiveAlt {
-  margin-right: 0;
-  margin-left: #{$Button-nudge/$font-size}rem;
-}
-
 /**
 * ZendeskGarden style override
 */

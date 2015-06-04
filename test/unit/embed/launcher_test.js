@@ -286,13 +286,15 @@ describe('embed.launcher', function() {
 
     describe('mediator subscriptions', function() {
       var mockMediator,
+          alice,
           aliceLauncher;
 
       beforeEach(function() {
         mockMediator = mockRegistry['service/mediator'].mediator;
         launcher.create('alice');
         launcher.render('alice');
-        aliceLauncher = launcher.get('alice').instance.getChild().refs.launcher;
+        alice = launcher.get('alice');
+        aliceLauncher = alice.instance.getChild().refs.launcher;
       });
 
       it('should subscribe to <name>.activate', function() {
@@ -301,8 +303,8 @@ describe('embed.launcher', function() {
 
         pluckSubscribeCall(mockMediator, 'alice.activate')();
 
-        expect(aliceLauncher.setActive.__reactBoundMethod)
-          .toHaveBeenCalledWith(true);
+        expect(alice.instance.hide.__reactBoundMethod)
+          .toHaveBeenCalled();
       });
 
       it('should subscribe to <name>.deactivate', function() {
@@ -311,8 +313,8 @@ describe('embed.launcher', function() {
 
         pluckSubscribeCall(mockMediator, 'alice.deactivate')();
 
-        expect(aliceLauncher.setActive.__reactBoundMethod)
-          .toHaveBeenCalledWith(false);
+        expect(alice.instance.show.__reactBoundMethod)
+          .toHaveBeenCalled();
       });
 
       it('should subscribe to <name>.setLabelHelp', function() {
