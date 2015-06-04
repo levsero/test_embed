@@ -16,6 +16,7 @@ var Button = React.createClass({
       /* jshint laxbreak: true */
     var buttonClasses = classSet({
           'Button Button--cta Anim-color u-textNoWrap u-userBackgroundColor': true,
+          // 'c-btn c-btn--large Button--cta-new Anim-color u-textNoWrap u-userBackgroundColor': true,
           'u-sizeFull u-textSizeBaseMobile': this.props.fullscreen
         }),
         buttonContainerClasses = classSet({

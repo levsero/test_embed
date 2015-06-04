@@ -19,6 +19,11 @@ $Button-nudge: 5;
   }
 }
 
+.Button--cta-new {
+  background: $cta-color;
+  color: $base-color;
+}
+
 .Button--cta {
   background: $cta-color;
   color: $base-color;
