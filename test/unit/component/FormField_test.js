@@ -22,7 +22,7 @@ describe('FormField component', function() {
     mockRegistry = initMockRegistry({
       'react/addons': React,
       'component/Loading': {
-        Loading: noop
+        Loading: noopReactComponent
       },
       'utility/devices': {
         isMobileBrowser: noop

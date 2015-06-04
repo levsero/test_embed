@@ -33,7 +33,7 @@ describe('frameFactory', function() {
         i18n: jasmine.createSpyObj('i18n', ['t', 'isRTL', 'getLocale'])
       },
       'component/Button': {
-        ButtonNav: noop
+        ButtonNav: noopReactComponent
       },
       'imports?_=lodash!lodash': _,
       'baseCSS': '.base-css-file {} ',
@@ -112,9 +112,9 @@ describe('frameFactory', function() {
     it('picks up initial state for `visible` from the `visible` prop', function() {
       var Embed = React.createClass(frameFactory(mockChildFn)),
           instance = React.render(
-          <Embed visible={false} />,
-        global.document.body
-      );
+            <Embed visible={false} />,
+            global.document.body
+          );
 
       expect(instance.state.visible)
         .toEqual(false);

@@ -29,6 +29,9 @@ global.location = global.window.location;
 
 global.React = require('react/addons');
 global.ReactTestUtils = React.addons.TestUtils;
+global.noopReactComponent = React.createClass({
+  render: () => <div />
+});
 
 global.noop = function() {};
 

@@ -62,8 +62,7 @@ describe('Submit ticket component', function() {
         }
       },
       'component/SubmitTicketForm': {
-        SubmitTicketForm: jasmine.createSpy('mockSubmitTicketForm')
-          .and.callFake(React.createClass({
+        SubmitTicketForm: React.createClass({
             getInitialState: function() {
               return {
                 formState: {}
@@ -72,31 +71,22 @@ describe('Submit ticket component', function() {
             render: function() {
               return <form onSubmit={this.props.handleSubmit} />;
             }
-          })),
+          }),
         MessageFieldset: noop,
         EmailField: noop
       },
       'component/ZendeskLogo': {
-        ZendeskLogo: jasmine.createSpy('mockZendeskLogo')
-          .and.callFake(React.createClass({
-            render: function() {
-              /* jshint quotmark:false */
-              return (
-                <div />
-              );
-            }
-          }))
+        ZendeskLogo: noopReactComponent
       },
       'component/Button': {
-        Button: noop
+        Button: noopReactComponent
       },
       'component/Container': {
-        Container: jasmine.createSpy('mockSubmitTicketForm')
-          .and.callFake(React.createClass({
+        Container: React.createClass({
             render: function() {
               return <div>{this.props.children}</div>;
             }
-          })),
+          }),
       },
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', [
@@ -138,17 +128,13 @@ describe('Submit ticket component', function() {
 
   it('should not submit form when invalid', function() {
     var mostRecentCall,
-        mockSubmitTicketForm = mockRegistry['component/SubmitTicketForm'].SubmitTicketForm,
-        mockTransport = mockRegistry['service/transport'].transport;
+        mockTransport = mockRegistry['service/transport'].transport,
+        submitTicket = React.render(
+          <SubmitTicket />,
+          global.document.body
+        );
 
-    React.render(
-      <SubmitTicket />,
-      global.document.body
-    );
-
-    mostRecentCall = mockSubmitTicketForm.calls.mostRecent().args[0];
-
-    mostRecentCall.submit({preventDefault: noop}, {isFormValid: false});
+    submitTicket.handleSubmit({preventDefault: noop}, {isFormValid: false});
 
     expect(mockTransport.send)
       .not.toHaveBeenCalled();
@@ -156,19 +142,15 @@ describe('Submit ticket component', function() {
 
   it('should submit form when valid', function() {
     var mostRecentCall,
-        mockSubmitTicketForm = mockRegistry['component/SubmitTicketForm'].SubmitTicketForm,
         mockTransport = mockRegistry['service/transport'].transport,
         transportRecentCall,
-        mockOnSubmitted = jasmine.createSpy('mockOnSubmitted');
+        mockOnSubmitted = jasmine.createSpy('mockOnSubmitted'),
+        submitTicket = React.render(
+          <SubmitTicket onSubmitted={mockOnSubmitted} updateFrameSize={noop} />,
+          global.document.body
+        );
 
-    React.render(
-      <SubmitTicket onSubmitted={mockOnSubmitted} updateFrameSize={noop} />,
-      global.document.body
-    );
-
-    mostRecentCall = mockSubmitTicketForm.calls.mostRecent().args[0];
-
-    mostRecentCall.submit({preventDefault: noop}, {
+    submitTicket.handleSubmit({preventDefault: noop}, {
       isFormValid: true,
       value: {
         email: formParams.email,
@@ -281,18 +263,14 @@ describe('Submit ticket component', function() {
 
   it('should pass on fullscreen to submitTicketForm', function() {
     var mostRecentCall,
-        submitTicket,
-        mockSubmitTicketForm = mockRegistry['component/SubmitTicketForm'].SubmitTicketForm;
-
-    submitTicket = React.render(
-      <SubmitTicket />,
-      global.document.body
-    );
+        submitTicket = React.render(
+          <SubmitTicket />,
+          global.document.body
+        );
 
     submitTicket.setState({fullscreen: 'VALUE'});
-    mostRecentCall = mockSubmitTicketForm.calls.mostRecent().args[0];
 
-    expect(mostRecentCall.fullscreen)
+    expect(submitTicket.state.fullscreen)
       .toEqual('VALUE');
   });
 

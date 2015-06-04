@@ -24,64 +24,54 @@ describe('Help center component', function() {
         }
       },
       'component/HelpCenterForm': {
-        HelpCenterForm: jasmine.createSpy('mockHelpCenterForm')
-          .and.callFake(React.createClass({
+        HelpCenterForm: React.createClass({
             render: function() {
               return (<form onSubmit={this.handleSubmit}>
                 {this.props.children}
               </form>);
             }
-          }))
+          })
       },
       'component/HelpCenterArticle': {
-        HelpCenterArticle: jasmine.createSpy('mockHelpCenterArticle')
-          .and.callFake(React.createClass({
-            /* jshint quotmark:false */
+        HelpCenterArticle: React.createClass({
             render: function() {
               return <div className='UserContent' />;
             }
-          }))
+          })
       },
       'component/FormField': {
-        SearchField: jasmine.createSpy('mockSearchField')
-          .and.callFake(React.createClass({
+        SearchField: React.createClass({
             blur: searchFieldBlur,
             getValue: searchFieldGetValue,
             render: function() {
-              /* jshint quotmark:false */
               return (
                 <input ref='searchField' type='search' />
               );
             }
-          }))
+          })
       },
       'component/ZendeskLogo': {
-        ZendeskLogo: jasmine.createSpy('mockZendeskLogo')
-          .and.callFake(React.createClass({
+        ZendeskLogo: React.createClass({
             render: function() {
-              /* jshint quotmark:false */
               return (
                 <div />
               );
             }
-          }))
+          })
       },
       'component/Container': {
-        Container: jasmine.createSpy('mockContainer')
-          .and.callFake(React.createClass({
+        Container: React.createClass({
             render: function() {
               return <div>{this.props.children}</div>;
             }
-          })),
+          }),
       },
       'component/Button': {
-        Button: jasmine.createSpy('mockButton')
-          .and.callFake(React.createClass({
-            /* jshint quotmark:false */
+        Button: React.createClass({
             render: function() {
               return <input className='Button' type='button' />;
             }
-          }))
+          })
       },
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', [
@@ -105,7 +95,7 @@ describe('Help center component', function() {
           return false;
         }
       },
-      'imports?_=lodash!lodash': _
+      '_': _
     });
 
     mockery.registerAllowable(helpCenterPath);
@@ -239,12 +229,14 @@ describe('Help center component', function() {
           mockTransport = mockRegistry['service/transport'].transport,
           searchString = 'help, I\'ve fallen and can\'t get up!',
           responsePayload = {ok: false},
-          listAnchor = ReactTestUtils.findRenderedDOMComponentWithClass(helpCenter, 'List');
+          list = ReactTestUtils.findRenderedDOMComponentWithClass(helpCenter, 'List');
 
       helpCenter.handleSubmit({preventDefault: noop}, { value: searchString });
+      console.log(responsePayload);
       mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayload);
 
-      expect(listAnchor.props.className).
+      console.log(helpCenter.state)
+      expect(list.props.className).
         toContain('u-isHidden');
 
       expect(helpCenter.getDOMNode().querySelector('#noResults').className)
@@ -259,7 +251,7 @@ describe('Help center component', function() {
           mockTransport = mockRegistry['service/transport'].transport,
           searchString = 'abcd',
           responsePayload = {body: {results: [], count: 0}},
-          listAnchor = ReactTestUtils.findRenderedDOMComponentWithClass(helpCenter, 'List');
+          list = ReactTestUtils.findRenderedDOMComponentWithClass(helpCenter, 'List');
 
       helpCenter.handleSubmit({preventDefault: noop}, { value: searchString });
       mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayload);
@@ -267,7 +259,7 @@ describe('Help center component', function() {
       expect(helpCenter.state.searchCount)
         .toBeFalsy();
 
-      expect(listAnchor.props.className)
+      expect(list.props.className)
         .toContain('u-isHidden');
     });
 
