@@ -55,9 +55,9 @@ function create(name, config) {
            ? { left:  0 }
            : { right: 0 };
 
-    iframeBase.minWidth = 400;
+    iframeBase.width = 342;
     iframeBase.maxHeight = 500;
-    containerStyle = { minWidth: 400, margin: 15 };
+    containerStyle = { width: 342, margin: 15 };
   }
 
   iframeStyle = _.extend(iframeBase, posObj);

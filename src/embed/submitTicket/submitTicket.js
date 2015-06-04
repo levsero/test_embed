@@ -40,10 +40,10 @@ function create(name, config) {
     containerStyle = { width: '100%', height: '100%' };
   } else {
     posObj = (config.position === 'left')
-           ? { left:  0 }
-           : { right: 0 };
-    iframeBase.minWidth = 400;
-    containerStyle = { minWidth: 400, margin: 15 };
+           ? { left:  5 }
+           : { right: 5 };
+    iframeBase.width = 342;
+    containerStyle = { width: 342, margin: 15 };
   }
 
   iframeStyle = _.extend(iframeBase, posObj);
