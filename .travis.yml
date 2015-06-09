@@ -16,6 +16,11 @@ script:
   - gulp test
   - gulp test-spec
 
+branches:
+  only:
+    - master
+    - /^feature.*$/
+
 notifications:
   email: false
   flowdock: f619a91a70a2620c4e9dba9c267cddbd
