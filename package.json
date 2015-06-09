@@ -9,14 +9,14 @@
   "author": "Zendesk",
   "license": "All Rights Reserved",
   "dependencies": {
-    "lodash": "^2.4.1",
-    "react": "~0.13.3",
-    "superagent": "visionmedia/superagent#608cda651db3ac1559a604032878bae3ac16efd7",
-    "counterpart": "~0.16.0",
     "airwaves": "~0.3.0",
     "color": "~0.7.3",
+    "counterpart": "~0.16.0",
+    "lodash": "^2.4.1",
+    "react": "~0.12.2",
     "sanitize-html": "~1.6.1",
     "snabbt.js": "~0.2.0",
+    "superagent": "visionmedia/superagent#608cda651db3ac1559a604032878bae3ac16efd7",
     "zd-css-components.buttons": "git+ssh://git@github.com/zendeskgarden/css-components.buttons.git"
   },
   "devDependencies": {
