@@ -15,8 +15,9 @@
     "counterpart": "~0.16.0",
     "airwaves": "~0.3.0",
     "color": "~0.7.3",
+    "sanitize-html": "~1.6.1",
     "snabbt.js": "~0.2.0",
-    "sanitize-html": "~1.6.1"
+    "zd-css-components.buttons": "git+ssh://git@github.com/zendeskgarden/css-components.buttons.git"
   },
   "devDependencies": {
     "bower": "~1.3.3",
