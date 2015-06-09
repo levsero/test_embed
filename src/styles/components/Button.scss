@@ -19,9 +19,16 @@ $Button-nudge: 5;
   }
 }
 
-.Button--cta-new {
+.Button--garden {
   background: $cta-color;
-  color: $base-color;
+  color: rgba($base-color, .8);
+  border-radius: #{4/$font-size}rem;
+  padding: #{11/$font-size}rem #{36/$font-size}rem;
+
+
+  &:hover, &:focus, &:active {
+    color: $base-color;
+  }
 }
 
 .Button--cta {
