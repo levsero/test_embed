@@ -40,8 +40,8 @@ function create(name, config) {
     containerStyle = { width: '100%', height: '100%' };
   } else {
     posObj = (config.position === 'left')
-           ? { left:  5 }
-           : { right: 5 };
+           ? { left:  0 }
+           : { right: 0 };
     iframeBase.width = 342;
     containerStyle = { width: 342, margin: 15 };
   }
