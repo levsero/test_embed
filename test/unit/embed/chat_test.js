@@ -148,7 +148,7 @@ describe('embed.chat', function() {
           .toEqual(false);
       });
 
-      it('is set to true if not on a mobile browser', function() {
+      it('is set set if not on a mobile browser', function() {
         var storeSetZopimOpen;
         mockRegistry['utility/devices'].isMobileBrowser = function() {
           return false;
