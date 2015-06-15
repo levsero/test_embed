@@ -118,16 +118,62 @@ describe('embed.chat', function() {
   describe('render', function() {
     var chatName = 'dave',
         zopimId = 'abc123',
-        mockMediator;
+        mockMediator,
+        mockStore;
 
     beforeEach(function() {
-      mockMediator = mockRegistry['service/mediator'].mediator;
-      chat.create(chatName, {zopimId: zopimId});
-      chat.render(chatName);
+      mockStore = mockRegistry['service/persistence'].store;
+    });
+
+    describe('store set zopimOpen', function() {
+      it('is set to false if on a mobile browser', function() {
+        var storeSetZopimOpen;
+        mockRegistry['utility/devices'].isMobileBrowser = function() {
+          return true;
+        };
+        mockery.resetCache();
+        chat = require(chatPath).chat;
+
+        chat.create(chatName, {zopimId: zopimId});
+        chat.render(chatName);
+
+        storeSetZopimOpen = _.chain(mockStore.set.calls.all())
+          .filter(function(c) { return c.args[0] === 'zopimOpen'; })
+          .value();
+
+        expect(storeSetZopimOpen.length)
+          .toEqual(1);
+
+        expect(storeSetZopimOpen[0].args[1])
+          .toEqual(false);
+      });
+
+      it('is set to true if not on a mobile browser', function() {
+        var storeSetZopimOpen;
+        mockRegistry['utility/devices'].isMobileBrowser = function() {
+          return false;
+        };
+        mockery.resetCache();
+        chat = require(chatPath).chat;
+
+        chat.create(chatName, {zopimId: zopimId});
+        chat.render(chatName);
+
+        storeSetZopimOpen = _.chain(mockStore.set.calls.all())
+          .filter(function(c) { return c.args[0] === 'zopimOpen'; })
+          .value();
+
+        expect(storeSetZopimOpen.length)
+          .toEqual(0);
+      });
     });
 
     it('should inject the zopim bootstrap script into the document', function() {
       var snippetText;
+
+      mockMediator = mockRegistry['service/mediator'].mediator;
+      chat.create(chatName, {zopimId: zopimId});
+      chat.render(chatName);
 
       expect(document.querySelectorAll('body > script').length)
         .toEqual(1);
@@ -147,6 +193,11 @@ describe('embed.chat', function() {
 
       beforeEach(function() {
         var livechat;
+
+        mockMediator = mockRegistry['service/mediator'].mediator;
+        chat.create(chatName, {zopimId: zopimId});
+        chat.render(chatName);
+
         mockZopim = mockRegistry['utility/globals'].win.$zopim;
         livechat = mockZopim.livechat;
 
@@ -221,6 +272,10 @@ describe('embed.chat', function() {
       describe('<name>.show', function() {
 
         it('should call zopim.window.show()', function() {
+          mockMediator = mockRegistry['service/mediator'].mediator;
+          chat.create(chatName, {zopimId: zopimId});
+          chat.render(chatName);
+
           expect(mockMediator.channel.subscribe)
             .toHaveBeenCalledWith('dave.show, dave.showWithAnimation', jasmine.any(Function));
 
@@ -230,11 +285,76 @@ describe('embed.chat', function() {
             .toHaveBeenCalled();
         });
 
+        describe('store set zopimOpen', function() {
+          beforeEach(function() {
+            mockMediator = mockRegistry['service/mediator'].mediator;
+          });
+
+          it('should be true if not on a mobile browser', function() {
+            var storeSetZopimOpen;
+            mockRegistry['utility/devices'].isMobileBrowser = function() {
+              return false;
+            };
+            mockery.resetCache();
+            chat = require(chatPath).chat;
+
+            chat.create(chatName, {zopimId: zopimId});
+            chat.render(chatName);
+
+            mockStore.set.calls.reset();
+
+            expect(mockMediator.channel.subscribe)
+              .toHaveBeenCalledWith('dave.show, dave.showWithAnimation', jasmine.any(Function));
+
+            pluckSubscribeCall(mockMediator, 'dave.show, dave.showWithAnimation')();
+
+            storeSetZopimOpen = _.chain(mockStore.set.calls.all())
+              .filter(function(c) { return c.args[0] === 'zopimOpen'; })
+              .value();
+
+            expect(storeSetZopimOpen.length)
+              .toEqual(1);
+
+            expect(storeSetZopimOpen[0].args[1])
+              .toEqual(true);
+          });
+
+          it('should not be set if on a mobile browser', function() {
+            var storeSetZopimOpen;
+            mockRegistry['utility/devices'].isMobileBrowser = function() {
+              return true;
+            };
+            mockery.resetCache();
+            chat = require(chatPath).chat;
+
+            chat.create(chatName, {zopimId: zopimId});
+            chat.render(chatName);
+
+            mockStore.set.calls.reset();
+
+            expect(mockMediator.channel.subscribe)
+              .toHaveBeenCalledWith('dave.show, dave.showWithAnimation', jasmine.any(Function));
+
+            pluckSubscribeCall(mockMediator, 'dave.show, dave.showWithAnimation')();
+
+            storeSetZopimOpen = _.chain(mockStore.set.calls.all())
+              .filter(function(c) { return c.args[0] === 'zopimOpen'; })
+              .value();
+
+            expect(storeSetZopimOpen.length)
+              .toEqual(0);
+          });
+        });
+
       });
 
       describe('<name>.hide', function() {
 
         it('should call zopim.livechat.hideAll()', function() {
+          mockMediator = mockRegistry['service/mediator'].mediator;
+          chat.create(chatName, {zopimId: zopimId});
+          chat.render(chatName);
+
           expect(mockMediator.channel.subscribe)
             .toHaveBeenCalledWith('dave.show, dave.showWithAnimation', jasmine.any(Function));
 
