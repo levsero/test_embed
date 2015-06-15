@@ -101,8 +101,7 @@ describe('renderer', function() {
                   'position': 'br'
                 }
               }
-            },
-            ruleset: 'HC_C_TS'
+            }
           },
           launcherProps = configJSON.embeds.launcher.props,
           mockMediator = mockRegistry['service/mediator'].mediator,
