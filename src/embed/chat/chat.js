@@ -3,6 +3,8 @@ import { document, win,
 import { i18n }            from 'service/i18n';
 import { mediator }        from 'service/mediator';
 import { store }           from 'service/persistence';
+import { isMobileBrowser } from 'utility/devices';
+
 
 require('imports?_=lodash!lodash');
 
@@ -36,8 +38,6 @@ function show() {
   win.$zopim(function() {
     win.$zopim.livechat.window.show();
   });
-
-  store.set('zopimOpen', true, 'session');
 }
 
 function postRender(name) {
@@ -74,6 +74,10 @@ function render(name) {
     });
   }
 
+  if (isMobileBrowser()) {
+    store.set('zopimOpen', false, 'session');
+  }
+
   if (store.get('zopimOpen', 'session')) {
     show(name);
   }
@@ -100,6 +104,9 @@ function render(name) {
      `${name}.showWithAnimation`].join(', '),
     function() {
       show(name);
+      if (!isMobileBrowser()) {
+        store.set('zopimOpen', true, 'session');
+      }
     }
   );
 
