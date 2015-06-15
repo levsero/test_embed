@@ -148,8 +148,7 @@ var hardcodedConfigs = {
         'embed': 'submitTicket',
         'props': {}
       }
-    },
-    ruleset: 'C_TS'
+    }
   },
   zendeskDefault: {
     'embeds': {
@@ -173,8 +172,7 @@ var hardcodedConfigs = {
         'embed': 'submitTicket',
         'props': {}
       }
-    },
-    ruleset: 'HC_C_TS'
+    }
   }
 };
 
