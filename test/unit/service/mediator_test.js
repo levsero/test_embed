@@ -97,6 +97,28 @@ describe('mediator', function() {
     mockery.disable();
   });
 
+  describe('.zopimShow', function() {
+    it('doesn\'t hide launcher when on moblie', function() {
+      var launcher   = 'launcher',
+          names = {
+            launcher: launcher
+          };
+
+      mockRegistry['utility/devices'].isMobileBrowser = jasmine.createSpy().and.returnValue(true);
+
+      mediator = requireUncached(mediatorPath).mediator;
+
+      c = mediator.channel;
+      initSubscriptionSpies(names);
+      mediator.init(false);
+
+      c.broadcast('.zopimShow');
+
+      expect(launcherSub.hide.calls.count())
+        .toEqual(0);
+    });
+  });
+
   describe('Ticket Submission', function() {
     var launcher   = 'launcher',
         submitTicket = 'ticketSubmissionForm',
