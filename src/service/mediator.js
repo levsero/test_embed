@@ -84,11 +84,16 @@ function init(helpCenterAvailable, hideLauncher) {
     c.broadcast(`${helpCenter}.hide`);
     c.broadcast(`${launcher}.deactivate`);
 
+    /*
+      zopim opens up in a seperate tab on mobile,
+      we shouldn't hide launcher and,
+      there is no concept of zopim visibility
+    */
     if (!isMobileBrowser()) {
       c.broadcast(`${launcher}.hide`);
+      state[`${chat}.isVisible`] = true;
     }
 
-    state[`${chat}.isVisible`] = true;
     state.activeEmbed = chat;
   });
 
