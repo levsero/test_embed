@@ -98,7 +98,7 @@ describe('mediator', function() {
   });
 
   describe('.zopimShow', function() {
-    it('doesn\'t hide launcher when on moblie', function() {
+    it('doesn\'t hide launcher when on mobile', function() {
       var launcher   = 'launcher',
           names = {
             launcher: launcher
