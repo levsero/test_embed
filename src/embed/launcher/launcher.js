@@ -99,14 +99,6 @@ function render(name) {
 
   launchers[name].instance = React.render(launchers[name].component, element);
 
-  mediator.channel.subscribe(name + '.activate', function() {
-    get(name).instance.hide();
-  });
-
-  mediator.channel.subscribe(name + '.deactivate', function() {
-    get(name).instance.show();
-  });
-
   mediator.channel.subscribe(name + '.hide', function() {
     get(name).instance.hide();
   });

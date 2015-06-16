@@ -54,7 +54,6 @@ function init(helpCenterAvailable, hideLauncher) {
     c.broadcast(`${submitTicket}.hide`);
     c.broadcast(`${chat}.hide`);
     c.broadcast(`${helpCenter}.hide`);
-    c.broadcast(`${launcher}.deactivate`);
     c.broadcast(`${launcher}.show`);
   });
 
@@ -65,10 +64,7 @@ function init(helpCenterAvailable, hideLauncher) {
 
       resetActiveEmbed();
 
-      if (!isMobileBrowser() && state.activeEmbed !== chat) {
-        c.broadcast(`${launcher}.activate`);
-      }
-      c.broadcast(`${launcher}.show`);
+      c.broadcast(`${launcher}.hide`);
 
       if (options.hideOnClose) {
         state['.hideOnClose'] = true;
@@ -82,7 +78,6 @@ function init(helpCenterAvailable, hideLauncher) {
   c.intercept('.zopimShow', function() {
     c.broadcast(`${submitTicket}.hide`);
     c.broadcast(`${helpCenter}.hide`);
-    c.broadcast(`${launcher}.deactivate`);
 
     /*
       zopim opens up in a seperate tab on mobile,
@@ -98,9 +93,6 @@ function init(helpCenterAvailable, hideLauncher) {
   });
 
   c.intercept('.zopimHide', function() {
-    c.broadcast(`${launcher}.deactivate`);
-    c.broadcast(`${launcher}.show`);
-
     state[`${chat}.isVisible`] = false;
     resetActiveEmbed();
   });
@@ -173,7 +165,6 @@ function init(helpCenterAvailable, hideLauncher) {
 
       if (isMobileBrowser()) {
         c.broadcast(`${launcher}.show`);
-        c.broadcast(`${launcher}.deactivate`);
       }
 
       state.activeEmbed = chat;
@@ -211,7 +202,6 @@ function init(helpCenterAvailable, hideLauncher) {
           c.broadcast(`${submitTicket}.hide`);
           state[`${submitTicket}.isVisible`] = false;
         }
-        c.broadcast(`${launcher}.deactivate`);
         if (state['.hideOnClose']) {
           c.broadcast(`${launcher}.hide`);
         } else {
@@ -219,16 +209,12 @@ function init(helpCenterAvailable, hideLauncher) {
         }
       } else {
 
-        // hide launcher on mobile and chat so customers don't see
-        // it underneith the embeds
-        if ((state.activeEmbed === chat && !isMobileBrowser()) ||
-            (isMobileBrowser() && state.activeEmbed !== chat)) {
-          c.broadcast(`${launcher}.hide`);
-        }
+        c.broadcast(`${launcher}.hide`);
 
         // chat opens in new window so hide isn't needed
         if (state.activeEmbed === chat && isMobileBrowser()) {
           c.broadcast(`${chat}.show`);
+          c.broadcast(`${launcher}.show`);
         } else {
           state[`${state.activeEmbed}.isVisible`] = true;
 
@@ -240,11 +226,6 @@ function init(helpCenterAvailable, hideLauncher) {
           setTimeout(function() {
             c.broadcast(`${state.activeEmbed}.showWithAnimation`);
           }, 0);
-        }
-
-        // launcher only activates on desktop and is hidden for chat
-        if (!isMobileBrowser() && state.activeEmbed !== chat) {
-          c.broadcast(`${launcher}.activate`);
         }
       }
     }
@@ -267,14 +248,13 @@ function init(helpCenterAvailable, hideLauncher) {
     if (state[`${helpCenter}.isAvailable`]) {
       state.activeEmbed = helpCenter;
     } else {
-      c.broadcast(`${launcher}.deactivate`);
       c.broadcast(`${launcher}.show`);
       c.broadcast(`${chat}.hide`);
       state[`${chat}.isVisible`] = false;
     }
   });
 
-  c.subscribe(`${launcher}.deactivate`, function() {
+  c.subscribe(`${launcher}.hide`, function() {
     if (state[`${chat}.isOnline`]) {
       if (state[`${helpCenter}.isAvailable`]) {
         c.broadcast(`${launcher}.setLabelChatHelp`);
