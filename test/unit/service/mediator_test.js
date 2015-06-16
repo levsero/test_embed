@@ -93,6 +93,7 @@ describe('mediator', function() {
   });
 
   afterEach(function() {
+    jasmine.clock().uninstall();
     mockery.deregisterAll();
     mockery.disable();
   });
@@ -134,7 +135,9 @@ describe('mediator', function() {
 
     describe('launcher', function() {
       it('launches Ticket Submission', function() {
+        jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`);
+        jasmine.clock().tick(0);
 
         expect(submitTicketSub.show.calls.count())
           .toEqual(1);
@@ -227,7 +230,9 @@ describe('mediator', function() {
 
     describe('ticket submission', function() {
       it('deactivates launcher and hides ticket submission on close', function() {
+        jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`);
+        jasmine.clock().tick(0);
 
         expect(submitTicketSub.show.calls.count())
           .toEqual(1);
@@ -308,7 +313,10 @@ describe('mediator', function() {
 
       it('launches Ticket Submission if chat is offline', function() {
         c.broadcast(`${chat}.onOffline`);
+
+        jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`);
+        jasmine.clock().tick(0);
 
         expect(launcherSub.activate.calls.count())
           .toEqual(1);
@@ -320,7 +328,10 @@ describe('mediator', function() {
 
       it('launches Chat if chat is online', function() {
         c.broadcast(`${chat}.onOnline`);
+
+        jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`);
+        jasmine.clock().tick(0);
 
         expect(submitTicketSub.show.calls.count())
           .toEqual(0);
@@ -373,7 +384,9 @@ describe('mediator', function() {
 
         c.broadcast(`${chat}.onOnline`);
 
+        jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`);
+        jasmine.clock().tick(0);
 
         expect(launcherSub.hide.calls.count())
           .toEqual(0);
@@ -429,7 +442,9 @@ describe('mediator', function() {
 
     describe('ticket submission', function() {
       it('deactivates launcher and hides ticket submission on close', function() {
+        jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`);
+        jasmine.clock().tick(0);
 
         expect(submitTicketSub.show.calls.count())
           .toEqual(1);
@@ -537,7 +552,10 @@ describe('mediator', function() {
           .toEqual(1);
 
         reset(chatSub.show);
+
+        jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`); // open
+        jasmine.clock().tick(0);
 
         expect(chatSub.show.calls.count())
           .toEqual(1);
@@ -556,7 +574,10 @@ describe('mediator', function() {
         reset(chatSub.show);
 
         c.broadcast(`${launcher}.onClick`); // close
+
+        jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`); // open
+        jasmine.clock().tick(0);
 
         expect(chatSub.show.calls.count())
           .toEqual(1);
@@ -701,7 +722,9 @@ describe('mediator', function() {
 
     describe('launcher', function() {
       it('launches Help Center first', function() {
+        jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`);
+        jasmine.clock().tick(0);
 
         expect(helpCenterSub.show.calls.count())
           .toEqual(1);
@@ -714,7 +737,10 @@ describe('mediator', function() {
         reset(submitTicketSub.show);
         reset(helpCenterSub.show);
         c.broadcast(`${launcher}.onClick`); // close
+
+        jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`); // open
+        jasmine.clock().tick(0);
 
         expect(helpCenterSub.show.calls.count())
           .toEqual(0);
@@ -871,7 +897,10 @@ describe('mediator', function() {
         reset(helpCenterSub.show);
 
         c.broadcast(`${launcher}.onClick`); // close
+
+        jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`); // open
+        jasmine.clock().tick(0);
 
         expect(helpCenterSub.show.calls.count())
           .toEqual(1);
@@ -945,7 +974,9 @@ describe('mediator', function() {
       });
 
       it('launches Help Center first', function() {
+        jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`);
+        jasmine.clock().tick(0);
 
         expect(helpCenterSub.show.calls.count())
           .toEqual(1);
@@ -958,7 +989,10 @@ describe('mediator', function() {
 
         reset(chatSub.show);
         c.broadcast(`${launcher}.onClick`); // close
+
+        jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`); // open
+        jasmine.clock().tick(0);
 
         expect(chatSub.show.calls.count())
           .toEqual(1);
@@ -972,7 +1006,10 @@ describe('mediator', function() {
         reset(helpCenterSub.show);
         c.broadcast(`${launcher}.onClick`); // close
         c.broadcast(`${chat}.onOffline`);
+
+        jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`); // open
+        jasmine.clock().tick(0);
 
         expect(helpCenterSub.show.calls.count())
           .toEqual(1);
@@ -1239,7 +1276,10 @@ describe('mediator', function() {
 
         reset(helpCenterSub.show);
         c.broadcast(`${launcher}.onClick`); // close
+
+        jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`); // open
+        jasmine.clock().tick(0);
 
         expect(helpCenterSub.show.calls.count())
           .toEqual(1);
@@ -1262,7 +1302,10 @@ describe('mediator', function() {
         reset(launcherSub.hide);
 
         c.broadcast(`${chat}.onHide`);
+
+        jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`); // open
+        jasmine.clock().tick(0);
 
         expect(chatSub.show.calls.count())
           .toEqual(1);
@@ -1347,7 +1390,9 @@ describe('mediator', function() {
         reset(helpCenterSub.show);
         reset(submitTicketSub.show);
 
+        jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`); //open
+        jasmine.clock().tick(0);
 
         expect(helpCenterSub.show.calls.count())
           .toEqual(0);
@@ -1383,7 +1428,10 @@ describe('mediator', function() {
         reset(helpCenterSub.show);
 
         c.broadcast(`${launcher}.onClick`); // close
+
+        jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`); // open
+        jasmine.clock().tick(0);
 
         expect(helpCenterSub.show.calls.count())
           .toEqual(1);
