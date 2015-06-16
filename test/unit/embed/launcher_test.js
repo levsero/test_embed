@@ -297,21 +297,21 @@ describe('embed.launcher', function() {
         aliceLauncher = alice.instance.getChild().refs.launcher;
       });
 
-      it('should subscribe to <name>.activate', function() {
+      it('should subscribe to <name>.hide', function() {
         expect(mockMediator.channel.subscribe)
-          .toHaveBeenCalledWith('alice.activate', jasmine.any(Function));
+          .toHaveBeenCalledWith('alice.hide', jasmine.any(Function));
 
-        pluckSubscribeCall(mockMediator, 'alice.activate')();
+        pluckSubscribeCall(mockMediator, 'alice.hide')();
 
         expect(alice.instance.hide.__reactBoundMethod)
           .toHaveBeenCalled();
       });
 
-      it('should subscribe to <name>.deactivate', function() {
+      it('should subscribe to <name>.show', function() {
         expect(mockMediator.channel.subscribe)
-          .toHaveBeenCalledWith('alice.deactivate', jasmine.any(Function));
+          .toHaveBeenCalledWith('alice.show', jasmine.any(Function));
 
-        pluckSubscribeCall(mockMediator, 'alice.deactivate')();
+        pluckSubscribeCall(mockMediator, 'alice.show')();
 
         expect(alice.instance.show.__reactBoundMethod)
           .toHaveBeenCalled();
