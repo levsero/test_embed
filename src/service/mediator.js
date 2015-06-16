@@ -225,8 +225,16 @@ function init(helpCenterAvailable, hideLauncher) {
         if (state.activeEmbed === chat && isMobileBrowser()) {
           c.broadcast(`${chat}.show`);
         } else {
-          c.broadcast(`${state.activeEmbed}.showWithAnimation`);
           state[`${state.activeEmbed}.isVisible`] = true;
+
+          /**
+           * This timeout mitigates the Ghost Click produced when the launcher
+           * button is on the left, using a mobile device with small screen
+           * e.g. iPhone4. It's not a bulletproof solution, but it helps
+           */
+          setTimeout(function() {
+            c.broadcast(`${state.activeEmbed}.showWithAnimation`);
+          }, 0);
         }
 
         // launcher only activates on desktop and is hidden for chat
