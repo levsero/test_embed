@@ -83,7 +83,10 @@ function init(helpCenterAvailable, hideLauncher) {
     c.broadcast(`${submitTicket}.hide`);
     c.broadcast(`${helpCenter}.hide`);
     c.broadcast(`${launcher}.deactivate`);
-    c.broadcast(`${launcher}.hide`);
+
+    if (!isMobileBrowser()) {
+      c.broadcast(`${launcher}.hide`);
+    }
 
     state[`${chat}.isVisible`] = true;
     state.activeEmbed = chat;
