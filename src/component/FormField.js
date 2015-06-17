@@ -4,6 +4,7 @@ import _     from 'lodash';
 import { Loading }         from 'component/Loading';
 import { isMobileBrowser } from 'utility/devices';
 import { i18n }            from 'service/i18n';
+import { SVGIcon }         from 'component/SvgIcon';
 
 var classSet = React.addons.classSet,
     geti18nContent = function(field) {
@@ -327,7 +328,7 @@ var SearchField = React.createClass({
           'u-textSizeBaseMobile': this.props.fullscreen
         }),
         searchInputFieldIconClasses = classSet({
-          'Arrange-sizeFit u-isActionable Icon Icon--search': true,
+          'Arrange-sizeFit u-isActionable': true,
           'u-userTextColor': this.state.focused
         }),
         clearInputClasses = classSet({
@@ -343,9 +344,10 @@ var SearchField = React.createClass({
       /* jshint quotmark:false */
       <div className={searchContainerClasses}>
         <div className={searchInputClasses}>
-          <i
+          <SVGIcon
             className={searchInputFieldIconClasses}
-            onClick={this.props.onSearchIconClick} />
+            type='Icon--search'
+          />
           <div className='Arrange-sizeFill u-vsizeAll u-posRelative'>
             <input
               className={searchInputFieldClasses}

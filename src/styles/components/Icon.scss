@@ -17,6 +17,38 @@
   font-style: normal;
 }
 
+.SVGIcon{
+  fill: $icon-color;
+  padding-right: #{12/$font-size}rem;
+
+
+  [dir='rtl'] & {
+    padding-right: 0;
+    padding-left: #{12/$font-size}rem;
+  }
+}
+
+.SVGIcon--launcher {
+  padding-right: #{8/$font-size}rem;
+
+  [dir='rtl'] & {
+    padding-left: #{8/$font-size}rem;
+  }
+}
+
+.SVGIcon--search {
+  height: #{14/$font-size}rem;
+  width: #{14/$font-size}rem;
+  font-size: #{14/$font-size}rem;
+  padding-left: #{6/$font-size}rem;
+  padding-right: #{3/$font-size}rem;
+
+  [dir='rtl'] & {
+    padding-left: #{3/$font-size}rem;
+    padding-right: #{6/$font-size}rem;
+  }
+}
+
 .Icon {
   font-family: 'icomoon';
   speak: none;

@@ -25,7 +25,8 @@ module.exports = {
       },
       { test: /base\.css$/, loader: 'css', minimize: true },
       { test: /\.json$/, loader: 'json' },
-      { test: /\.(woff|eot|ttf)$/, loader: 'url' }
+      { test: /\.(woff|eot|ttf)$/, loader: 'url' },
+      { test: /\.svg$/, loader: 'raw-loader?mimetype=image/svg+xml;charset=utf-8;'}
     ]
   },
   resolve: {
