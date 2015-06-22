@@ -59,7 +59,7 @@ describe('renderer', function() {
           init: jasmine.createSpy(),
         }
       },
-      'imports?_=lodash!lodash': _,
+      'lodash': _,
       'service/logging': {
         logging: jasmine.createSpyObj('logging', ['init', 'error'])
       },

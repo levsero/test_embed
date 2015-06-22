@@ -14,11 +14,10 @@ describe('transport', function() {
         end:  function() { return mockMethods; }
     };
     mockRegistry = initMockRegistry({
-      'react/addons': React,
       'superagent': jasmine.createSpy().and.callFake(function() {
           return mockMethods;
       }),
-      'imports?_=lodash!lodash': _
+      'lodash': _
     });
 
     mockery.registerAllowable(transportPath);

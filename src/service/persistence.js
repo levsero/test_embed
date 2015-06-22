@@ -1,5 +1,6 @@
+import _ from 'lodash';
+
 import { win } from 'utility/globals';
-require('imports?_=lodash!lodash');
 
 var prefix = 'ZD-';
 

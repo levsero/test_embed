@@ -35,7 +35,7 @@ describe('frameFactory', function() {
       'component/Button': {
         ButtonNav: noopReactComponent
       },
-      'imports?_=lodash!lodash': _,
+      'lodash': _,
       'baseCSS': '.base-css-file {} ',
       'mainCSS': '.main-css-file {} ',
       'snabbt.js': {

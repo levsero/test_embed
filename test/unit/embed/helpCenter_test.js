@@ -82,7 +82,7 @@ describe('embed.helpCenter', function() {
           return document.body;
         }
       },
-      'imports?_=lodash!lodash': _
+      'lodash': _
     });
 
     mockery.registerAllowable(helpCenterPath);

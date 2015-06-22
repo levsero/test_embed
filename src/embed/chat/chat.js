@@ -1,12 +1,11 @@
+import _ from 'lodash';
+
 import { document, win,
          getDocumentHost } from 'utility/globals';
 import { i18n }            from 'service/i18n';
 import { mediator }        from 'service/mediator';
 import { store }           from 'service/persistence';
 import { isMobileBrowser } from 'utility/devices';
-
-
-require('imports?_=lodash!lodash');
 
 var chats = {},
     styleTag = document.createElement('style');

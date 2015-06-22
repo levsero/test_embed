@@ -1,7 +1,7 @@
-require('imports?_=lodash!lodash');
+import _          from 'lodash';
+import superagent from 'superagent';
 
-var superagent = require('superagent'),
-    config;
+var config;
 
 function init(_config) {
   var defaultConfig = {

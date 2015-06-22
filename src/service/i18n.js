@@ -1,4 +1,4 @@
-require('imports?_=lodash!lodash');
+import _ from 'lodash';
 
 var translate = require('counterpart'),
     translations = require('translation/translations.json'),

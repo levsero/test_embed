@@ -1,4 +1,5 @@
 import React from 'react/addons';
+import _     from 'lodash';
 
 import { win }                 from 'utility/globals';
 import { getSizingRatio,
@@ -7,8 +8,6 @@ import { clickBusterRegister } from 'utility/utils';
 import { i18n }                from 'service/i18n';
 import { snabbt }              from 'snabbt.js';
 import { ButtonNav }           from 'component/Button';
-
-require('imports?_=lodash!lodash');
 
 var classSet = React.addons.classSet,
     baseCSS = require('baseCSS'),

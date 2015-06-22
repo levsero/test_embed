@@ -20,7 +20,6 @@ describe('SubmitTicketForm component', function() {
       'component/Button': {
         Button: React.createClass({
             render: function() {
-              /* jshint quotmark: false */
               return <input type='submit' disabled={this.props.disabled} />;
             }
           })

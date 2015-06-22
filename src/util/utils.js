@@ -1,11 +1,11 @@
+import _     from 'lodash';
+import Color from 'color';
+
 import { document as doc } from 'utility/globals';
 import { getSizingRatio }  from 'utility/devices';
 import { mediator }        from 'service/mediator';
 
-require('imports?_=lodash!lodash');
-
-var Color = require('color'),
-    clickBusterClicks = [];
+var clickBusterClicks = [];
 
 function generateUserCSS(params) {
   if (params.color) {

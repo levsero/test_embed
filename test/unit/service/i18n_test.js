@@ -25,7 +25,7 @@ describe('i18n', function() {
         'de': 8,
         'zh-CN': 10
       },
-      'imports?_=lodash!lodash': _
+      'lodash': _
     });
 
     mockery.registerAllowable(i18nPath);

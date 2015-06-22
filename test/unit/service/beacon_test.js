@@ -68,7 +68,7 @@ describe('beacon', function() {
             return 200;
           }
       },
-      'imports?_=lodash!lodash': _
+      'lodash': _
     });
 
     mockery.registerAllowable(beaconPath);

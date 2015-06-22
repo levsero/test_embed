@@ -66,7 +66,7 @@ describe('embed.chat', function() {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
         }
       },
-      'imports?_=lodash!lodash': _
+      'lodash': _
     });
 
     mockery.registerAllowable(chatPath);

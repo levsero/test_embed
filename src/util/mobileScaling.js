@@ -1,11 +1,11 @@
+import _ from 'lodash';
+
 import { win,
          document as doc } from 'utility/globals';
 import { renderer }        from 'service/renderer';
 import { getDeviceZoom,
          getSizingRatio }  from 'utility/devices';
 import { mediator }        from 'service/mediator';
-
-require('imports?_=lodash!lodash');
 
 var isPinching,
     lastTouchEnd = 0,
