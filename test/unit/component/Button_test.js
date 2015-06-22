@@ -31,7 +31,7 @@ describe('Button component', function() {
           global.document.body
         ),
         buttonElem = ReactTestUtils
-          .findRenderedDOMComponentWithClass(button, 'Button--cta'),
+          .findRenderedDOMComponentWithClass(button, 'c-btn'),
         buttonClasses = buttonElem.props.className,
         buttonContainerClasses = buttonElem.getDOMNode().parentNode.className;
 
@@ -48,7 +48,7 @@ describe('Button component', function() {
           global.document.body
         ),
         buttonElem = ReactTestUtils
-          .findRenderedDOMComponentWithClass(button, 'Button--cta'),
+          .findRenderedDOMComponentWithClass(button, 'c-btn'),
         buttonClasses = buttonElem.props.className,
         buttonContainerClasses = buttonElem.getDOMNode().parentNode.className;
 
@@ -66,7 +66,7 @@ describe('Button component', function() {
           global.document.body
         ),
         buttonElem = ReactTestUtils
-          .findRenderedDOMComponentWithClass(button, 'Button--cta'),
+          .findRenderedDOMComponentWithClass(button, 'c-btn'),
         buttonContainerClasses = buttonElem.getDOMNode().parentNode.className;
 
 
@@ -83,7 +83,7 @@ describe('Button component', function() {
           global.document.body
         ),
         buttonElem = ReactTestUtils
-          .findRenderedDOMComponentWithClass(button, 'Button--cta'),
+          .findRenderedDOMComponentWithClass(button, 'c-btn'),
         buttonContainerClasses = buttonElem.getDOMNode().parentNode.className;
 
 
