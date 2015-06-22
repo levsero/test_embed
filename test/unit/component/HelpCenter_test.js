@@ -235,7 +235,6 @@ describe('Help center component', function() {
       console.log(responsePayload);
       mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayload);
 
-      console.log(helpCenter.state)
       expect(list.props.className).
         toContain('u-isHidden');
 

@@ -24,47 +24,39 @@ describe('embed.submitTicket', function() {
         }
       },
       'component/SubmitTicketForm': {
-        SubmitTicketForm: jasmine.createSpy('mockSubmitTicketForm')
-          .and.callFake(
-            React.createClass({
-              resetTicketFormVisibility: resetTicketFormVisibility,
-              hideVirtualKeyboard: hideVirtualKeyboard,
-              focusField: focusField,
-              render: function() {
-                return (
-                  /* jshint quotmark:false */
-                  <div refs='mock-submitTicketForm'></div>
-                );
-              }
-            })
-          )
+        SubmitTicketForm: React.createClass({
+          resetTicketFormVisibility: resetTicketFormVisibility,
+          hideVirtualKeyboard: hideVirtualKeyboard,
+          focusField: focusField,
+          render: function() {
+            return (
+              <div ref='submitTicketForm' />
+            );
+          }
+        })
       },
       'component/SubmitTicket': {
-        SubmitTicket: jasmine.createSpy('mockSubmitTicket')
-          .and.callFake(
-            React.createClass({
-              show: jasmine.createSpy('show'),
-              hide: jasmine.createSpy('hide'),
-              clearNotification: jasmine.createSpy('clearNotification'),
-              getInitialState: function() {
-                return {
-                  showNotification: false,
-                  message: '',
-                  uid: defaultValue
-                };
-              },
-              render: function() {
-                return (
-                  /* jshint quotmark:false */
-                  <div className='mock-submitTicket'>
-                    {mockRegistry['component/SubmitTicketForm'].SubmitTicketForm({
-                      ref: 'submitTicketForm'
-                    })}
-                  </div>
-                );
-              }
-            })
-          )
+        SubmitTicket: React.createClass({
+          show: jasmine.createSpy('show'),
+          hide: jasmine.createSpy('hide'),
+          clearNotification: jasmine.createSpy('clearNotification'),
+          getInitialState: function() {
+            return {
+              showNotification: false,
+              message: '',
+              uid: defaultValue
+            };
+          },
+          render: function() {
+            var SubmitTicketForm = mockRegistry['component/SubmitTicketForm'].SubmitTicketForm;
+
+            return (
+              <div className='mock-submitTicket'>
+                <SubmitTicketForm ref='submitTicketForm' />
+              </div>
+            );
+          }
+        })
       },
 
       './submitTicket.scss': '',
@@ -90,8 +82,7 @@ describe('embed.submitTicket', function() {
         getDocumentHost: function() {
           return document.body;
         }
-      },
-      'imports?_=lodash!lodash': _
+      }
     });
 
     mockery.registerAllowable(submitTicketPath);
@@ -325,8 +316,6 @@ describe('embed.submitTicket', function() {
     });
 
     it('renders a submitTicket form to the document', function() {
-      var mockSubmitTicket = mockRegistry['component/SubmitTicket'].SubmitTicket;
-
       submitTicket.create('bob');
       submitTicket.render('bob');
 
@@ -338,9 +327,6 @@ describe('embed.submitTicket', function() {
 
       expect(ReactTestUtils.isCompositeComponent(submitTicket.get('bob').instance))
         .toEqual(true);
-
-      expect(mockSubmitTicket)
-        .toHaveBeenCalled();
     });
 
     it('should only be allowed to render an submitTicket form once', function() {

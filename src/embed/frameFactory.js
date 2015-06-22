@@ -243,7 +243,7 @@ export var frameFactory = function(childFn, _params) {
           html.setAttribute('lang', i18n.getLocale());
         }
 
-        /* jshint laxbreak: true, quotmark: false */
+        /* jshint laxbreak: true */
         var cssText = baseCSS + mainCSS + params.css + baseFontCSS,
             css = <style dangerouslySetInnerHTML={{ __html: cssText }} />,
             Component,

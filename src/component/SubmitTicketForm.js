@@ -129,7 +129,6 @@ export const SubmitTicketForm = React.createClass({
   },
 
   render() {
-    /* jshint quotmark:false */
     var formClasses = classSet({
           'Form u-cf': true,
           'Form--fullscreen': this.props.fullscreen,

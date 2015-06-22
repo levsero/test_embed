@@ -127,8 +127,7 @@ describe('Submit ticket component', function() {
   });
 
   it('should not submit form when invalid', function() {
-    var mostRecentCall,
-        mockTransport = mockRegistry['service/transport'].transport,
+    var mockTransport = mockRegistry['service/transport'].transport,
         submitTicket = React.render(
           <SubmitTicket />,
           global.document.body
@@ -141,8 +140,7 @@ describe('Submit ticket component', function() {
   });
 
   it('should submit form when valid', function() {
-    var mostRecentCall,
-        mockTransport = mockRegistry['service/transport'].transport,
+    var mockTransport = mockRegistry['service/transport'].transport,
         transportRecentCall,
         mockOnSubmitted = jasmine.createSpy('mockOnSubmitted'),
         submitTicket = React.render(
@@ -262,8 +260,7 @@ describe('Submit ticket component', function() {
   });
 
   it('should pass on fullscreen to submitTicketForm', function() {
-    var mostRecentCall,
-        submitTicket = React.render(
+    var submitTicket = React.render(
           <SubmitTicket />,
           global.document.body
         );

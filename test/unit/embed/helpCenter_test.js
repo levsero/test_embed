@@ -1,4 +1,4 @@
-ddescribe('embed.helpCenter', function() {
+describe('embed.helpCenter', function() {
   var helpCenter,
       mockRegistry,
       frameConfig,
@@ -51,7 +51,6 @@ ddescribe('embed.helpCenter', function() {
           focusField: focusField,
           render: function() {
             return (
-              /* jshint quotmark:false */
               <div className='mock-helpCenter'>
                 <mockForm ref='helpCenterForm' />
               </div>
@@ -371,9 +370,8 @@ ddescribe('embed.helpCenter', function() {
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('carlos.show', jasmine.any(Function));
 
-        pluckSubscribeCall(mockMediator, 'carlos.show')();
-
         jasmine.clock().install();
+        pluckSubscribeCall(mockMediator, 'carlos.show')();
         jasmine.clock().tick(1);
 
         expect(helpCenter.get('carlos').instance.show.__reactBoundMethod)

@@ -50,7 +50,6 @@ function create(name, config) {
 
   Embed = React.createClass(frameFactory(
     (params) => {
-      /* jshint quotmark:false */
       return (
         <div style={containerStyle}>
           <SubmitTicket

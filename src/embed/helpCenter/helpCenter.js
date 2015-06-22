@@ -66,7 +66,6 @@ function create(name, config) {
   Embed = React.createClass(frameFactory(
     (params) => {
       return (
-        /* jshint quotmark: false */
         <div style={containerStyle}>
           <HelpCenter
             ref='helpCenter'
