@@ -19,18 +19,6 @@ $Button-nudge: 5;
   }
 }
 
-.Button--garden {
-  background: $cta-color;
-  color: rgba($base-color, .8);
-  border-radius: #{4/$font-size}rem;
-  padding: #{11/$font-size}rem #{36/$font-size}rem;
-
-
-  &:hover, &:focus, &:active {
-    color: $base-color;
-  }
-}
-
 .Button--cta {
   background: $cta-color;
   color: $base-color;
@@ -71,3 +59,16 @@ $Button-nudge: 5;
   margin-left: #{$Button-nudge/$font-size}rem;
 }
 
+/**
+* ZendeskGarden style override
+*/
+.c-btn--primary {
+  background: $cta-color;
+  color: rgba($base-color, .8);
+  border-radius: #{4/$font-size}rem;
+  padding: #{11/$font-size}rem #{36/$font-size}rem;
+
+  &:hover, &:focus, &:active {
+    color: $base-color;
+  }
+}
