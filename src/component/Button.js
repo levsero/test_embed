@@ -1,4 +1,5 @@
 import React from 'react/addons';
+import { isMobileBrowser } from 'utility/devices';
 
 var classSet = React.addons.classSet;
 
@@ -67,4 +68,20 @@ var ButtonNav = React.createClass({
   }
 });
 
-export { Button, ButtonNav };
+var ButtonPill = React.createClass({
+  render() {
+    var buttonClasses = classSet({
+          'c-btn c-btn--pill Button--pill u-linkClean': true,
+          'is-mobile': isMobileBrowser()
+        });
+
+    return (
+      <div
+        className={buttonClasses}>
+        {this.props.label}
+      </div>
+    );
+  }
+});
+
+export { Button, ButtonNav, ButtonPill };
