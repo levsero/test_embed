@@ -171,28 +171,11 @@ describe('mediator', function() {
         expect(launcherSub.hide.calls.count())
           .toEqual(1);
       });
-
-      it('hides after it\'s clicked when activate hideOnClose is true', function() {
-        c.broadcast('.activate', {hideOnClose: true});
-
-        c.broadcast(`${launcher}.onClick`);
-
-        expect(launcherSub.hide.calls.count())
-          .toEqual(2);
-      });
-
-      it('does not hide after it\'s clicked when activate hideOnClose is false', function() {
-        c.broadcast('.activate');
-
-        c.broadcast(`${launcher}.onClick`);
-
-        expect(launcherSub.hide.calls.count())
-          .toEqual(1);
-      });
     });
 
     describe('ticket submission', function() {
       it('shows launcher and hides ticket submission on close', function() {
+        jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`);
         jasmine.clock().tick(0);
 
@@ -257,7 +240,7 @@ describe('mediator', function() {
         c.broadcast(`${chat}.onOnline`);
 
         expect(launcherSub.setLabelChat.calls.count())
-          .toEqual(2);
+          .toEqual(1);
       });
 
       it('shows label "Help" if chat is offline', function() {
@@ -303,25 +286,7 @@ describe('mediator', function() {
         c.broadcast(`${launcher}.onClick`);
 
         expect(launcherSub.hide.calls.count())
-          .toEqual(1);
-      });
-
-      it('hides after it\'s clicked when activate hideOnClose is true', function() {
-        c.broadcast('.activate', {hideOnClose: true});
-
-        c.broadcast(`${launcher}.onClick`);
-
-        expect(launcherSub.hide.calls.count())
-          .toEqual(2);
-      });
-
-      it('does not hide after it\'s clicked when activate hideOnClose is false', function() {
-        c.broadcast('.activate');
-
-        c.broadcast(`${launcher}.onClick`);
-
-        expect(launcherSub.hide.calls.count())
-          .toEqual(1);
+          .toEqual(0);
       });
 
       it('hides when onClick is called on mobile', function() {
@@ -345,7 +310,7 @@ describe('mediator', function() {
         jasmine.clock().tick(0);
 
         expect(launcherSub.hide.calls.count())
-          .toEqual(1);
+          .toEqual(0);
       });
 
       it('hides Ticket Submission if it is visible', function() {
@@ -394,6 +359,7 @@ describe('mediator', function() {
 
     describe('ticket submission', function() {
       it('shows launcher and hides ticket submission on close', function() {
+        jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`);
         jasmine.clock().tick(0);
 
@@ -445,7 +411,7 @@ describe('mediator', function() {
       it('sets launcher to "Chat" when chat comes online', function() {
         c.broadcast(`${chat}.onOnline`);
         expect(launcherSub.setLabelChat.calls.count())
-          .toEqual(2);
+          .toEqual(1);
       });
 
       it('sets launcher to "Help" when chat goes offline', function() {
@@ -730,24 +696,6 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      it('hides after it\'s clicked when activate hideOnClose is true', function() {
-        c.broadcast('.activate', {hideOnClose: true});
-
-        c.broadcast(`${launcher}.onClick`);
-
-        expect(launcherSub.hide.calls.count())
-          .toEqual(2);
-      });
-
-      it('does not hide after it\'s clicked when activate hideOnClose is false', function() {
-        c.broadcast('.activate');
-
-        c.broadcast(`${launcher}.onClick`);
-
-        expect(launcherSub.hide.calls.count())
-          .toEqual(1);
-      });
-
       it('hides when onClick is called on mobile', function() {
         mockRegistry['utility/devices'].isMobileBrowser
           .and.returnValue(true);
@@ -893,7 +841,7 @@ describe('mediator', function() {
         c.broadcast(`${chat}.onOnline`);
 
         expect(launcherSub.setLabelChatHelp.calls.count())
-          .toEqual(2);
+          .toEqual(1);
       });
 
       it('shows label "Help" if chat is offline', function() {
@@ -959,7 +907,7 @@ describe('mediator', function() {
         c.broadcast(`${launcher}.onClick`);
 
         expect(launcherSub.hide.calls.count())
-          .toEqual(1);
+          .toEqual(0);
       });
 
       it('closes helpCenter if helpCenter is visible', function() {
@@ -1012,24 +960,6 @@ describe('mediator', function() {
 
       it('shows and hides launcher when a activate call is made', function() {
         c.broadcast('.activate');
-
-        expect(launcherSub.hide.calls.count())
-          .toEqual(1);
-      });
-
-      it('hides after it\'s clicked when activate hideOnClose is true', function() {
-        c.broadcast('.activate', {hideOnClose: true});
-
-        c.broadcast(`${launcher}.onClick`);
-
-        expect(launcherSub.hide.calls.count())
-          .toEqual(2);
-      });
-
-      it('does not hide after it\'s clicked when activate hideOnClose is false', function() {
-        c.broadcast('.activate');
-
-        c.broadcast(`${launcher}.onClick`);
 
         expect(launcherSub.hide.calls.count())
           .toEqual(1);
@@ -1143,7 +1073,7 @@ describe('mediator', function() {
       it('sets launcher to "Chat" when chat comes online', function() {
         c.broadcast(`${chat}.onOnline`);
         expect(launcherSub.setLabelChatHelp.calls.count())
-          .toEqual(2);
+          .toEqual(1);
       });
 
       it('sets launcher to "Help" when chat goes offline', function() {
