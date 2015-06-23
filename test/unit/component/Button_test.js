@@ -12,7 +12,8 @@ describe('Button component', function() {
     });
 
     mockRegistry = initMockRegistry({
-      'react/addons': React
+      'react/addons': React,
+      'utility/devices': noop
     });
 
     mockery.registerAllowable(buttonPath);
