@@ -192,8 +192,7 @@ describe('mediator', function() {
     });
 
     describe('ticket submission', function() {
-      it('deactivates launcher and hides ticket submission on close', function() {
-        jasmine.clock().install();
+      it('shows launcher and hides ticket submission on close', function() {
         c.broadcast(`${launcher}.onClick`);
         jasmine.clock().tick(0);
 
@@ -254,14 +253,14 @@ describe('mediator', function() {
     });
 
     describe('launcher', function() {
-      it('deactivates to "Chat" if chat is online', function() {
+      it('shows label "Chat" if chat is online', function() {
         c.broadcast(`${chat}.onOnline`);
 
         expect(launcherSub.setLabelChat.calls.count())
-          .toEqual(1);
+          .toEqual(2);
       });
 
-      it('deactivates to "Help" if chat is offline', function() {
+      it('shows label "Help" if chat is offline', function() {
         c.broadcast(`${chat}.onOffline`);
 
         expect(launcherSub.setLabelHelp.calls.count())
@@ -446,7 +445,7 @@ describe('mediator', function() {
       it('sets launcher to "Chat" when chat comes online', function() {
         c.broadcast(`${chat}.onOnline`);
         expect(launcherSub.setLabelChat.calls.count())
-          .toEqual(1);
+          .toEqual(2);
       });
 
       it('sets launcher to "Help" when chat goes offline', function() {
@@ -890,14 +889,14 @@ describe('mediator', function() {
     });
 
     describe('launcher', function() {
-      it('deactivates to "ChatHelp" if chat is online', function() {
+      it('shows label "ChatHelp" if chat is online', function() {
         c.broadcast(`${chat}.onOnline`);
 
         expect(launcherSub.setLabelChatHelp.calls.count())
-          .toEqual(1);
+          .toEqual(2);
       });
 
-      it('deactivates to "Help" if chat is offline', function() {
+      it('shows label "Help" if chat is offline', function() {
         c.broadcast(`${chat}.onOffline`);
 
         expect(launcherSub.setLabelHelp.calls.count())
@@ -1144,7 +1143,7 @@ describe('mediator', function() {
       it('sets launcher to "Chat" when chat comes online', function() {
         c.broadcast(`${chat}.onOnline`);
         expect(launcherSub.setLabelChatHelp.calls.count())
-          .toEqual(1);
+          .toEqual(2);
       });
 
       it('sets launcher to "Help" when chat goes offline', function() {

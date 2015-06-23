@@ -78,6 +78,7 @@ function init(helpCenterAvailable, hideLauncher) {
   c.intercept('.zopimShow', function() {
     c.broadcast(`${submitTicket}.hide`);
     c.broadcast(`${helpCenter}.hide`);
+    c.broadcast(`${launcher}.hide`);
 
     /*
       zopim opens up in a seperate tab on mobile,
@@ -93,6 +94,7 @@ function init(helpCenterAvailable, hideLauncher) {
   });
 
   c.intercept('.zopimHide', function() {
+    c.broadcast(`${launcher}.show`);
     state[`${chat}.isVisible`] = false;
     resetActiveEmbed();
   });
@@ -254,7 +256,7 @@ function init(helpCenterAvailable, hideLauncher) {
     }
   });
 
-  c.subscribe(`${launcher}.hide`, function() {
+  c.subscribe(`${launcher}.show`, function() {
     if (state[`${chat}.isOnline`]) {
       if (state[`${helpCenter}.isAvailable`]) {
         c.broadcast(`${launcher}.setLabelChatHelp`);
