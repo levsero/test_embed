@@ -96,7 +96,7 @@ describe('mediator', function() {
 
   describe('.zopimShow', function() {
     it('doesn\'t hide launcher when on mobile', function() {
-      var launcher   = 'launcher',
+      var launcher = 'launcher',
           names = {
             launcher: launcher
           };
@@ -138,16 +138,6 @@ describe('mediator', function() {
         expect(submitTicketSub.show.calls.count())
           .toEqual(1);
         expect(launcherSub.hide.calls.count())
-          .toEqual(1);
-      });
-
-      it('closes Ticket Submission if it is open', function() {
-        c.broadcast(`${launcher}.onClick`);
-        c.broadcast(`${launcher}.onClick`);
-
-        expect(submitTicketSub.hide.calls.count())
-          .toEqual(1);
-        expect(launcherSub.show.calls.count())
           .toEqual(1);
       });
 
@@ -221,9 +211,9 @@ describe('mediator', function() {
   });
 
   describe('Chat, Ticket Submission', function() {
-    var launcher   = 'launcher',
+    var launcher     = 'launcher',
         submitTicket = 'ticketSubmissionForm',
-        chat       = 'zopimChat',
+        chat         = 'zopimChat',
         names = {
           launcher: launcher,
           submitTicket: submitTicket,
@@ -289,7 +279,7 @@ describe('mediator', function() {
           .toEqual(0);
       });
 
-      it('hides when onClick is called on mobile', function() {
+      it('hides when onClick is called on mobile and chat is offline', function() {
         mockRegistry['utility/devices'].isMobileBrowser
           .and.returnValue(true);
 
@@ -310,28 +300,6 @@ describe('mediator', function() {
         jasmine.clock().tick(0);
 
         expect(launcherSub.hide.calls.count())
-          .toEqual(0);
-      });
-
-      it('hides Ticket Submission if it is visible', function() {
-        c.broadcast(`${chat}.onOffline`);
-        c.broadcast(`${launcher}.onClick`);
-        c.broadcast(`${launcher}.onClick`);
-
-        expect(submitTicketSub.hide.calls.count())
-          .toEqual(1);
-        expect(chatSub.hide.calls.count())
-          .toEqual(0);
-      });
-
-      it('hides Chat if it is visible', function() {
-        c.broadcast(`${chat}.onOnline`);
-        c.broadcast(`${launcher}.onClick`);
-        c.broadcast(`${launcher}.onClick`);
-
-        expect(chatSub.hide.calls.count())
-          .toEqual(1);
-        expect(submitTicketSub.hide.calls.count())
           .toEqual(0);
       });
 
@@ -452,6 +420,7 @@ describe('mediator', function() {
 
         reset(chatSub.hide);
         reset(launcherSub.show);
+
         c.broadcast(`${chat}.onChatEnd`);
 
         expect(chatSub.hide.calls.count())
@@ -479,7 +448,7 @@ describe('mediator', function() {
 
         reset(chatSub.show);
 
-        c.broadcast(`${launcher}.onClick`); // close
+        c.broadcast(`${chat}.onHide`); // close
 
         jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`); // open
@@ -495,7 +464,7 @@ describe('mediator', function() {
 
         // chat is open at this point
 
-        c.broadcast(`${launcher}.onClick`); // close
+        c.broadcast(`${chat}.onHide`); // close
 
         reset(chatSub.show);
 
@@ -642,7 +611,7 @@ describe('mediator', function() {
 
         reset(submitTicketSub.show);
         reset(helpCenterSub.show);
-        c.broadcast(`${launcher}.onClick`); // close
+        c.broadcast(`${helpCenter}.onClose`); // close
 
         jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`); // open
@@ -651,27 +620,6 @@ describe('mediator', function() {
         expect(helpCenterSub.show.calls.count())
           .toEqual(0);
         expect(submitTicketSub.show.calls.count())
-          .toEqual(1);
-      });
-
-      it('closes helpCenter if helpCenter is visible', function() {
-        c.broadcast(`${launcher}.onClick`);
-
-        reset(helpCenterSub.hide);
-        c.broadcast(`${launcher}.onClick`);
-
-        expect(helpCenterSub.hide.calls.count())
-          .toEqual(1);
-      });
-
-      it('closes Ticket Submission if Ticket Submission is visible', function() {
-        c.broadcast(`${launcher}.onClick`);
-        c.broadcast(`${helpCenter}.onNextClick`);
-
-        reset(submitTicketSub.hide);
-        c.broadcast(`${launcher}.onClick`);
-
-        expect(submitTicketSub.hide.calls.count())
           .toEqual(1);
       });
 
@@ -780,7 +728,7 @@ describe('mediator', function() {
 
         reset(helpCenterSub.show);
 
-        c.broadcast(`${launcher}.onClick`); // close
+        c.broadcast(`${submitTicket}.onClose`); // close
 
         jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`); // open
@@ -820,10 +768,10 @@ describe('mediator', function() {
   });
 
   describe('Help Center, Chat, Ticket Submission', function() {
-    var launcher   = 'launcher',
+    var launcher     = 'launcher',
         submitTicket = 'ticketSubmissionForm',
-        chat       = 'zopimChat',
-        helpCenter = 'helpCenterForm',
+        chat         = 'zopimChat',
+        helpCenter   = 'helpCenterForm',
         names = {
           launcher: launcher,
           submitTicket: submitTicket,
@@ -866,7 +814,9 @@ describe('mediator', function() {
         c.broadcast(`${helpCenter}.onNextClick`);
 
         reset(chatSub.show);
-        c.broadcast(`${launcher}.onClick`); // close
+        reset(helpCenterSub.show);
+
+        c.broadcast(`${helpCenter}.onClose`); // close
 
         jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`); // open
@@ -874,6 +824,9 @@ describe('mediator', function() {
 
         expect(chatSub.show.calls.count())
           .toEqual(1);
+
+        expect(helpCenterSub.show.calls.count())
+          .toEqual(0);
       });
 
       it('launches help center if user has moved on to chat and chat goes offline', function() {
@@ -882,7 +835,7 @@ describe('mediator', function() {
         c.broadcast(`${helpCenter}.onNextClick`);
 
         reset(helpCenterSub.show);
-        c.broadcast(`${launcher}.onClick`); // close
+        c.broadcast(`${helpCenter}.onClose`); // close
         c.broadcast(`${chat}.onOffline`);
 
         jasmine.clock().install();
@@ -903,45 +856,15 @@ describe('mediator', function() {
         // chat opens in new tab
         // user switches back to widget
 
+        expect(launcherSub.hide.calls.count())
+          .toEqual(1);
+
         reset(launcherSub.hide);
+
         c.broadcast(`${launcher}.onClick`);
 
         expect(launcherSub.hide.calls.count())
           .toEqual(0);
-      });
-
-      it('closes helpCenter if helpCenter is visible', function() {
-        c.broadcast(`${launcher}.onClick`);
-
-        reset(helpCenterSub.hide);
-        c.broadcast(`${launcher}.onClick`);
-
-        expect(helpCenterSub.hide.calls.count())
-          .toEqual(1);
-      });
-
-      it('closes chat if chat is visible', function() {
-        c.broadcast(`${chat}.onOnline`);
-        c.broadcast(`${launcher}.onClick`);
-        c.broadcast(`${helpCenter}.onNextClick`);
-
-        reset(chatSub.hide);
-        c.broadcast(`${launcher}.onClick`);
-
-        expect(chatSub.hide.calls.count())
-          .toEqual(1);
-      });
-
-      it('closes Ticket Submission if Ticket Submission is visible', function() {
-        c.broadcast(`${chat}.onOffline`);
-        c.broadcast(`${launcher}.onClick`);
-        c.broadcast(`${helpCenter}.onNextClick`);
-
-        reset(submitTicketSub.hide);
-        c.broadcast(`${launcher}.onClick`);
-
-        expect(submitTicketSub.hide.calls.count())
-          .toEqual(1);
       });
 
       it('hides when a hide call is made', function() {
@@ -1116,7 +1039,7 @@ describe('mediator', function() {
         c.broadcast(`${chat}.onChatEnd`);
 
         reset(helpCenterSub.show);
-        c.broadcast(`${launcher}.onClick`); // close
+        c.broadcast(`${helpCenter}.onClose`); // close
 
         jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`); // open
@@ -1221,7 +1144,7 @@ describe('mediator', function() {
 
         c.broadcast(`${chat}.onOnline`);
         c.broadcast(`${chat}.onOffline`);
-        c.broadcast(`${launcher}.onClick`); //close
+        c.broadcast(`${helpCenter}.onClose`); //close
 
         reset(helpCenterSub.show);
         reset(submitTicketSub.show);
@@ -1263,7 +1186,7 @@ describe('mediator', function() {
 
         reset(helpCenterSub.show);
 
-        c.broadcast(`${launcher}.onClick`); // close
+        c.broadcast(`${submitTicket}.onClose`); // close
 
         jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`); // open
