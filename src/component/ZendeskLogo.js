@@ -1,5 +1,7 @@
 import React from 'react/addons';
 
+import { SVGIcon } from 'component/SvgIcon';
+
 var classSet = React.addons.classSet;
 
 export var ZendeskLogo = React.createClass({
@@ -7,7 +9,7 @@ export var ZendeskLogo = React.createClass({
     /* jshint quotmark:false */
     var applyPositionClasses = !this.props.fullscreen || this.props.formSuccess,
         logoClasses = classSet({
-          'Icon Icon--zendesk u-linkClean': true,
+          'u-linkClean': true,
           'u-posAbsolute u-posEnd--vert': applyPositionClasses,
           'u-posStart': !this.props.rtl && applyPositionClasses
         }),
@@ -18,6 +20,9 @@ export var ZendeskLogo = React.createClass({
     return (
       <div className='u-nbfc'>
         <a href={logoUrl} target='_blank' className={logoClasses}>
+          <SVGIcon
+            type='Icon--zendesk'
+          />
           <span className='u-isHiddenVisually'>zendesk</span>
         </a>
       </div>

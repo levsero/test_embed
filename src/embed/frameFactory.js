@@ -8,6 +8,7 @@ import { clickBusterRegister } from 'utility/utils';
 import { i18n }                from 'service/i18n';
 import { snabbt }              from 'snabbt.js';
 import { ButtonNav }           from 'component/Button';
+import { SVGIcon }             from 'component/SvgIcon';
 
 var classSet = React.addons.classSet,
     baseCSS = require('baseCSS'),
@@ -258,7 +259,10 @@ export var frameFactory = function(childFn, _params) {
                             label={
                               <div>
                                 {i18n.t('embeddable_framework.navigation.close')}
-                                <i className='Icon Icon--close u-textInheritColor' />
+                                <SVGIcon
+                                  type='Icon--close'
+                                  className='u-textInheritColor'
+                                />
                               </div>
                             }
                             position='right'
@@ -267,7 +271,10 @@ export var frameFactory = function(childFn, _params) {
                            handleClick={this.back}
                            label={
                              <div>
-                               <i className='Icon Icon--arrow u-textInheritColor' />
+                               <SVGIcon
+                                  type='Icon--back'
+                                  className='u-textInheritColor'
+                                />
                                {i18n.t('embeddable_framework.navigation.back')}
                              </div>
                            }

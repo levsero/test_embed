@@ -1,9 +1,12 @@
 import React from 'react/addons';
 
 var icons = {
+      'Icon--back': require('../asset/icons/widget-icon_back.svg'),
+      'Icon--close': require('../asset/icons/widget-icon_close.svg'),
       'Icon--chat': require('../asset/icons/widget-icon_chat.svg'),
       'Icon--help': require('../asset/icons/widget-icon_help.svg'),
       'Icon--search': require('../asset/icons/widget-icon_search.svg'),
+      'Icon--zendesk': require('../asset/icons/widget-icon_zendesk.svg'),
       'Icon': require('../asset/icons/widget-icon_help.svg')
     };
 
@@ -13,21 +16,17 @@ export var SVGIcon = React.createClass({
     className: React.addons.classSet
   },
 
-  // getInitialState: function() {
-  //   return {
-  //     type: this.props.type,
-  //     className: this.props.className || classSet({})
-  //   };
-  // },
+  getDefaultProps() {
+    return {
+      type: '',
+      className: ''
+    };
+  },
 
   render: function() {
     var icon = icons[this.props.type],
         iconClasses = `SVGIcon SVG${this.props.type} `;
 
-    console.log(this.props.type);
-    console.log(iconClasses);
-    console.log(this.props.className);
-    // debugger;
     return (
       <span
         className={iconClasses + this.props.className}

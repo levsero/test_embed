@@ -1,6 +1,6 @@
 import React from 'react/addons';
 
-import { SVGIcon } from 'component/SvgIcon';
+import { SVGIcon }         from 'component/SvgIcon';
 import { isMobileBrowser } from 'utility/devices';
 
 var classSet = React.addons.classSet;
