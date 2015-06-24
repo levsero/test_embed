@@ -18,7 +18,7 @@ describe('ZendeskLogo component', function() {
         SVGIcon: jasmine.createSpy('mockSubmitTicketForm')
           .and.callFake(React.createClass({
             render: function() {
-              return <span className={"SVGIcon SVG"+this.props.type}></span>;
+              return <span className={"Icon "+this.props.type}></span>;
             }
           }))
       }

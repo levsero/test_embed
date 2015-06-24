@@ -29,7 +29,7 @@ describe('FormField component', function() {
           .and.callFake(React.createClass({
             render: function() {
               return <span
-                      className={"SVGIcon SVG"+this.props.type}
+                      className={"Icon "+this.props.type}
                       onClick={this.props.onClick}>
                         <svg />
                       </span>;
@@ -356,7 +356,7 @@ describe('FormField component', function() {
           ),
           searchFieldNode = searchField.getDOMNode();
 
-      ReactTestUtils.Simulate.click(searchFieldNode.querySelector('.SVGIcon--search'));
+      ReactTestUtils.Simulate.click(searchFieldNode.querySelector('.Icon--search'));
 
       expect(onSearch)
         .toHaveBeenCalled();
