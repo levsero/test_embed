@@ -24,6 +24,18 @@ describe('FormField component', function() {
       'component/Loading': {
         Loading: noopReactComponent()
       },
+      'component/SvgIcon': {
+        SVGIcon: jasmine.createSpy('mockSubmitTicketForm')
+          .and.callFake(React.createClass({
+            render: function() {
+              return <span
+                      className={"SVGIcon SVG"+this.props.type}
+                      onClick={this.props.onClick}>
+                        <svg />
+                      </span>;
+            }
+          }))
+      },
       'utility/devices': {
         isMobileBrowser: function() {
           return true;
@@ -344,7 +356,7 @@ describe('FormField component', function() {
           ),
           searchFieldNode = searchField.getDOMNode();
 
-      ReactTestUtils.Simulate.click(searchFieldNode.querySelector('i'));
+      ReactTestUtils.Simulate.click(searchFieldNode.querySelector('.SVGIcon--search'));
 
       expect(onSearch)
         .toHaveBeenCalled();

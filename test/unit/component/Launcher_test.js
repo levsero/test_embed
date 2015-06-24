@@ -13,6 +13,14 @@ describe('Launcher component', function() {
         isMobileBrowser: function() {
           return false;
         }
+      },
+      'component/SvgIcon': {
+        SVGIcon: jasmine.createSpy('mockSubmitTicketForm')
+          .and.callFake(React.createClass({
+            render: function() {
+              return <span className={"Icon "+this.props.type}></span>;
+            }
+          }))
       }
     });
 

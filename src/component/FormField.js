@@ -346,6 +346,7 @@ var SearchField = React.createClass({
         <div className={searchInputClasses}>
           <SVGIcon
             className={searchInputFieldIconClasses}
+            onClick={this.props.onSearchIconClick}
             type='Icon--search'
           />
           <div className='Arrange-sizeFill u-vsizeAll u-posRelative'>

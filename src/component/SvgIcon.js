@@ -25,11 +25,13 @@ export var SVGIcon = React.createClass({
 
   render: function() {
     var icon = icons[this.props.type],
-        iconClasses = `SVGIcon SVG${this.props.type} `;
+        iconClasses = `SVGIcon SVG${this.props.type} `,
+        onClickHandler = this.props.onClick || '';
 
     return (
       <span
         className={iconClasses + this.props.className}
+        onClick={onClickHandler}
         dangerouslySetInnerHTML={{__html: icon}}
       />
     );

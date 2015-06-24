@@ -14,6 +14,14 @@ describe('ZendeskLogo component', function() {
 
     mockRegistry = initMockRegistry({
       'react/addons': React,
+      'component/SvgIcon': {
+        SVGIcon: jasmine.createSpy('mockSubmitTicketForm')
+          .and.callFake(React.createClass({
+            render: function() {
+              return <span className={"SVGIcon SVG"+this.props.type}></span>;
+            }
+          }))
+      }
     });
     mockery.registerAllowable('utility/globals');
     mockery.registerAllowable(zendeskLogoPath);
@@ -24,7 +32,7 @@ describe('ZendeskLogo component', function() {
   describe('logo class names', function() {
     it('should not have the positional classnames when mobile browser is true', function() {
       var logo = React.render(<ZendeskLogo fullscreen={true} />, global.document.body),
-          logoNode = ReactTestUtils.findRenderedDOMComponentWithClass(logo, 'Icon--zendesk'),
+          logoNode = ReactTestUtils.findRenderedDOMComponentWithTag(logo, 'a'),
           logoClasses;
 
       logoClasses = logoNode.props.className;
@@ -35,7 +43,7 @@ describe('ZendeskLogo component', function() {
 
     it('should have the positional classnames when mobile browser is false', function() {
       var logo = React.render(<ZendeskLogo />, global.document.body),
-          logoNode = ReactTestUtils.findRenderedDOMComponentWithClass(logo, 'Icon--zendesk'),
+          logoNode = ReactTestUtils.findRenderedDOMComponentWithTag(logo, 'a'),
           logoClasses;
 
       logoClasses = logoNode.props.className;
@@ -49,7 +57,7 @@ describe('ZendeskLogo component', function() {
             <ZendeskLogo formSuccess={true} fullscreen={true} />,
             global.document.body
           ),
-          logoNode = ReactTestUtils.findRenderedDOMComponentWithClass(logo, 'Icon--zendesk'),
+          logoNode = ReactTestUtils.findRenderedDOMComponentWithTag(logo, 'a'),
           logoClasses;
 
       logoClasses = logoNode.props.className;
@@ -63,7 +71,7 @@ describe('ZendeskLogo component', function() {
             <ZendeskLogo formSuccess={true} rtl={false} />,
             global.document.body
           ),
-          logoNode = ReactTestUtils.findRenderedDOMComponentWithClass(logo, 'Icon--zendesk'),
+          logoNode = ReactTestUtils.findRenderedDOMComponentWithTag(logo, 'a'),
           logoClasses;
 
       logoClasses = logoNode.props.className;
@@ -77,7 +85,7 @@ describe('ZendeskLogo component', function() {
             <ZendeskLogo formSuccess={true} rtl={true} />,
             global.document.body
           ),
-          logoNode = ReactTestUtils.findRenderedDOMComponentWithClass(logo, 'Icon--zendesk'),
+          logoNode = ReactTestUtils.findRenderedDOMComponentWithTag(logo, 'a'),
           logoClasses;
 
       logoClasses = logoNode.props.className;
