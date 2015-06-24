@@ -25,7 +25,7 @@ export var SVGIcon = React.createClass({
 
   render: function() {
     var icon = icons[this.props.type],
-        iconClasses = `SVGIcon SVG${this.props.type} `,
+        iconClasses = `Icon ${this.props.type} `,
         onClickHandler = this.props.onClick || '';
 
     return (
