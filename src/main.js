@@ -10,7 +10,8 @@ import { win, location,
          document as doc }    from 'utility/globals';
 import { mediator }           from 'service/mediator';
 import { isMobileBrowser,
-         isBlacklisted }      from 'utility/devices';
+         isBlacklisted,
+         isCORSEnabled }      from 'utility/devices';
 import { clickBusterHandler } from 'utility/utils';
 import { initMobileScaling }  from 'utility/mobileScaling';
 
@@ -187,7 +188,9 @@ function boot() {
 
 if (!cacheBuster.isCacheBusting(window.name)) {
   try {
-    boot();
+    if(isCORSEnabled()) {
+      boot();
+    }
   } catch (err) {
     logging.error({
       error: err

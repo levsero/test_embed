@@ -1,7 +1,12 @@
 describe('devices', function() {
   var isBlacklisted,
+      isCORSEnabled,
       mockGlobals = {
-        win: noop,
+        win: {
+          XMLHttpRequest: function() {
+            this.withCredentials = true;
+          }
+        },
         navigator: {
           userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.122 Safari/537.36' /* jshint ignore: line */
         }
@@ -18,6 +23,7 @@ describe('devices', function() {
 
     mockery.registerAllowable(devicesPath);
     isBlacklisted = require(devicesPath).isBlacklisted;
+    isCORSEnabled = require(devicesPath).isCORSEnabled;
   });
 
   afterEach(function() {
@@ -56,12 +62,28 @@ describe('devices', function() {
         .toBe(false);
     });
 
-     it('returns true if MSIE 9 is within the user agent string', function() {
+    it('returns true if MSIE 9 is within the user agent string', function() {
       /* jshint maxlen: false */
       mockGlobals.navigator.userAgent = 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)';
 
       expect(isBlacklisted())
         .toBe(true);
+    });
+
+  });
+
+  describe('isCORSEnabled', function() {
+
+    it('returns true if the browser supports CORS', function() {
+      expect(isCORSEnabled())
+        .toBe(true);
+    });
+
+    it('returns false if the browser doesn\'t supports CORS', function() {
+      mockGlobals.win.XMLHttpRequest = noop;
+
+      expect(isCORSEnabled())
+        .toBe(false);
     });
 
   });

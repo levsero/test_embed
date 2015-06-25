@@ -59,6 +59,11 @@ function isBlacklisted() {
   );
 }
 
+function isCORSEnabled() {
+  // Return false if cors isn't supported
+  return ('XMLHttpRequest' in win && 'withCredentials' in new win.XMLHttpRequest());
+}
+
 function isIE() {
   return (
     //MSIE is present in all IE user agents since IE 2.0
@@ -74,6 +79,7 @@ export {
   isMobileBrowser,
   shouldGoFullscreen,
   isBlacklisted,
+  isCORSEnabled,
   isIE
 };
 
