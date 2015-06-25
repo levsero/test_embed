@@ -85,7 +85,6 @@ var HelpCenterArticle = React.createClass({
   },
 
   render() {
-    /* jshint laxbreak: true */
     var userContentClasses = classSet({
           'UserContent u-paddingTM u-paddingRS u-marginTM u-userLinkColor': true,
           'UserContent--mobile': this.props.fullscreen,
@@ -95,14 +94,7 @@ var HelpCenterArticle = React.createClass({
           'Form-cta u-cf Container-pullout': true,
           'Form-cta--bar': !this.props.fullscreen,
           'u-isHidden': this.props.fullscreen
-        }),
-        viewArticleText = i18n.t('embeddable_framework.helpCenter.article.viewLinkText', {
-                            fallback: 'View original article'
-                          }),
-        originalArticleLink = this.props.fullscreen
-                            ? viewArticleText
-                            : <ButtonPill
-                                label={viewArticleText} />;
+        });
 
     return (
       /* jshint quotmark:false, camelcase:false */
@@ -120,7 +112,12 @@ var HelpCenterArticle = React.createClass({
             <a
               href={this.props.activeArticle.html_url}
               target='_blank'>
-              {originalArticleLink}
+              <ButtonPill
+                fullscreen={this.props.fullscreen}
+                label={i18n.t('embeddable_framework.helpCenter.article.viewLinkText', {
+                  fallback: 'View original article'
+                })}
+              />
             </a>
           </div>
         </div>
