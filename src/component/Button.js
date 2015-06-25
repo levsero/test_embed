@@ -70,7 +70,8 @@ var ButtonNav = React.createClass({
 var ButtonPill = React.createClass({
   render() {
     var buttonClasses = classSet({
-          'c-btn c-btn--pill Button--pill u-linkClean': true,
+          'c-btn c-btn--medium c-btn--secondary': true,
+          'c-btn--pill u-linkClean': true
         });
 
     return (

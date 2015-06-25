@@ -1,7 +1,7 @@
 import React from 'react/addons';
 
 import { i18n } from 'service/i18n';
-import { ButtonPill } from 'component/button';
+import { ButtonPill } from 'component/Button';
 
 var sanitizeHtml = require('sanitize-html'),
     classSet = React.addons.classSet;

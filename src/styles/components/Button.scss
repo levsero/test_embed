@@ -19,19 +19,6 @@ $Button-nudge: 5;
   }
 }
 
-.Button--pill {
-  color: $secondary-color;
-  padding: #{7/$font-size}rem #{14/$font-size}rem;
-  font-size: $Button-baseFontSize;
-  font-weight: 500;
-  letter-spacing: 0.4;
-  &.is-mobile {
-    border-color: #999999; /* Increased intensity of grey for visibility */
-    font-size: #{16/$font-size}rem;
-    padding: #{6/$font-size}rem #{18/$font-size}rem;
-  }
-}
-
 .Button--cta {
   background: $cta-color;
   color: $base-color;
@@ -71,4 +58,11 @@ $Button-nudge: 5;
   &:hover, &:focus, &:active {
     color: $base-color;
   }
+}
+
+.c-btn--pill {
+  color: $secondary-color;
+  padding: #{7/$font-size}rem #{14/$font-size}rem;
+  font-size: $Button-baseFontSize;
+  font-weight: normal;
 }
