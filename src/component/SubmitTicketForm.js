@@ -4,6 +4,7 @@ import _     from 'lodash';
 import { Button,
          ButtonSecondary,
          ButtonGroup }     from 'component/Button';
+import { ScrollContainer } from 'component/ScrollContainer';
 import { i18n }            from 'service/i18n';
 import { Field,
          getCustomFields } from 'component/FormField';
@@ -188,21 +189,22 @@ export const SubmitTicketForm = React.createClass({
         onSubmit={this.handleSubmit}
         onChange={this.handleUpdate}
         ref='form'
-        className={formClasses}>
-        <div className={barClasses}>
-          <h2 className={titleClasses}>
-            {i18n.t('embeddable_framework.submitTicket.form.title')}
-          </h2>
-        </div>
-        {formBody}
-        <ButtonGroup rtl={i18n.isRTL()}>
-          {buttonCancel}
-          <Button
-            fullscreen={this.props.fullscreen}
-            label={this.state.buttonMessage}
-            disabled={!this.state.isValid || this.state.isSubmitting}
-            type='submit' />
-        </ButtonGroup>
+        className={formClasses}
+      >
+        <ScrollContainer
+          header={i18n.t('embeddable_framework.submitTicket.form.title')}
+          children={formBody}
+          footer={
+            <ButtonGroup rtl={i18n.isRTL()}>
+              {buttonCancel}
+              <Button
+                fullscreen={this.props.fullscreen}
+                label={this.state.buttonMessage}
+                disabled={!this.state.isValid || this.state.isSubmitting}
+                type='submit' />
+            </ButtonGroup>
+          }
+        />
       </form>
     );
   }

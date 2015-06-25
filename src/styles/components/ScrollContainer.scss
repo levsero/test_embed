@@ -1,0 +1,57 @@
+/**
+ * 1. fallback for old android browsers
+ */
+
+@import '../_vars.scss';
+@import 'UserContent';
+
+$Container-spacing: 20/$font-size;
+
+.ScrollContainer {
+  padding: #{$Container-spacing}rem 0;
+  box-sizing: border-box;
+}
+
+.ScrollContainer-content {
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: #{280/$font-size}rem;
+  padding: 0 #{$Container-spacing}rem;
+  /*
+   * Creates the shadow effect at the bottom of the scrollable container
+   */
+  background:
+    /* Shadow covers */
+    linear-gradient(transparentize($base-color, 1), $base-color 70%) 0 100%,
+
+    /* Shadows */
+    radial-gradient(farthest-side at 50% 300%, transparentize($base-shadow, 0.8), transparentize($base-shadow, 1)) 0 100%;
+  background-repeat: no-repeat;
+  background-color: $base-color;
+  background-size: 100% #{40/$font-size}rem, 100% #{5/$font-size}rem;
+  background-attachment: local, scroll;
+
+  /*
+   * Customise scrollbar for safari/chrome
+   */
+  &::-webkit-scrollbar {
+    box-shadow: none;
+    width: #{3/$font-size}rem;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: $base-border-color;
+    border-radius: #{3/$font-size}rem;
+  }
+}
+
+
+
+.Container-bar {
+  position: absolute;
+  height: #{44/$font-size}rem;
+  background: $form-cta-color;
+  right: 0;
+  left: 0;
+  top: 0;
+}
+
