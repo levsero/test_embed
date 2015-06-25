@@ -25,7 +25,7 @@ describe('SubmitTicketForm component', function() {
           })
       },
       'component/FormField': {
-        Field: noopReactComponent,
+        Field: noopReactComponent(),
         getCustomFields: function() {
           return {};
         }

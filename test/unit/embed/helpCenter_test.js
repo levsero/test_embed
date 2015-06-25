@@ -8,7 +8,7 @@ describe('embed.helpCenter', function() {
       focusField;
 
   beforeEach(function() {
-    var mockForm = noopReactComponent;
+    var mockForm = noopReactComponent();
 
     focusField = jasmine.createSpy();
 

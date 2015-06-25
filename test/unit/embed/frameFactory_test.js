@@ -33,7 +33,7 @@ describe('frameFactory', function() {
         i18n: jasmine.createSpyObj('i18n', ['t', 'isRTL', 'getLocale'])
       },
       'component/Button': {
-        ButtonNav: noopReactComponent
+        ButtonNav: noopReactComponent()
       },
       'lodash': _,
       'baseCSS': '.base-css-file {} ',

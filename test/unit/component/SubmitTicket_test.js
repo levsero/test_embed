@@ -76,10 +76,10 @@ describe('Submit ticket component', function() {
         EmailField: noop
       },
       'component/ZendeskLogo': {
-        ZendeskLogo: noopReactComponent
+        ZendeskLogo: noopReactComponent()
       },
       'component/Button': {
-        Button: noopReactComponent
+        Button: noopReactComponent()
       },
       'component/Container': {
         Container: React.createClass({

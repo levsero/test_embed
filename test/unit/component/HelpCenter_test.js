@@ -51,13 +51,7 @@ describe('Help center component', function() {
           })
       },
       'component/ZendeskLogo': {
-        ZendeskLogo: React.createClass({
-            render: function() {
-              return (
-                <div />
-              );
-            }
-          })
+        ZendeskLogo: noopReactComponent()
       },
       'component/Container': {
         Container: React.createClass({
@@ -232,7 +226,6 @@ describe('Help center component', function() {
           list = ReactTestUtils.findRenderedDOMComponentWithClass(helpCenter, 'List');
 
       helpCenter.handleSubmit({preventDefault: noop}, { value: searchString });
-      console.log(responsePayload);
       mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayload);
 
       expect(list.props.className).
