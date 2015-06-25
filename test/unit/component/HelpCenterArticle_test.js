@@ -203,4 +203,58 @@ describe('HelpCenterArticle component', function() {
     expect(scrollIntoView)
       .toHaveBeenCalled();
   });
+
+  describe('ButtonPill', function() {
+    it('should have ButtonPill component in article when fullscreen is true', function () {
+      var ButtonPill = require(buildSrcPath('component/Button')).ButtonPill,
+          helpCenterArticle = React.render(
+                                React.createElement(
+                                  HelpCenterArticle,
+                                  { activeArticle: mockArticle, fullscreen: true }),
+                                global.document.body),
+          articleContainer,
+          articleLink,
+          button,
+          buttonElem,
+          buttonClasses;
+
+      articleContainer = ReactTestUtils.findRenderedDOMComponentWithClass(
+                          helpCenterArticle, 'UserContent-viewArticleLink');
+
+      articleLink = ReactTestUtils.findRenderedDOMComponentWithTag(articleContainer, 'a');
+
+      button = React.render(
+                 React.createElement(
+                   ButtonPill, { label: 'View original article' }),
+                 articleLink.getDOMNode());
+
+      buttonElem = ReactTestUtils.findRenderedDOMComponentWithClass(button, 'c-btn');
+      buttonClasses = buttonElem.props.className;
+
+      expect(helpCenterArticle.props.fullscreen).toMatch(true);
+      expect(buttonClasses).toMatch('c-btn--pill');
+    });
+
+    it('should have link instead of ButtonPill in article when fullscreen is false', function () {
+      var helpCenterArticle = React.render(
+                                React.createElement(
+                                  HelpCenterArticle,
+                                  { activeArticle: mockArticle, fullscreen: false }),
+                                global.document.body),
+          articleContainer,
+          findButtonPill;
+
+      articleContainer = ReactTestUtils.findRenderedDOMComponentWithClass(
+                           helpCenterArticle, 'UserContent-viewArticleLink');
+      findButtonPill = function() {
+                         ReactTestUtils.findRenderedDOMComponentWithClass(
+                           articleContainer, 'c-btn--pill');
+                       };
+
+      expect(helpCenterArticle.props.fullscreen).toMatch(false);
+      expect(findButtonPill).toThrow(
+        new Error('Did not find exactly one match for class:c-btn--pill')
+      );
+    });
+  });
 });
