@@ -36,7 +36,7 @@ describe('HelpCenterArticle component', function() {
         ])
       },
       'imports?_=lodash!lodash': _,
-      'component/button': {
+      'component/Button': {
         ButtonPill: noop
       }
     });
