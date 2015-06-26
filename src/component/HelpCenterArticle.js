@@ -86,7 +86,7 @@ var HelpCenterArticle = React.createClass({
 
   render() {
     var userContentClasses = classSet({
-          'UserContent u-paddingTM u-paddingRS u-marginTM u-userLinkColor': true
+          'UserContent u-paddingRS u-userLinkColor': true
         }),
         barClasses = classSet({
           'Form-cta u-cf Container-pullout': true,

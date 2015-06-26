@@ -34,11 +34,6 @@ $Form-fontSize: #{13/$font-size}rem;
   margin-bottom: #{14/$font-size}rem;
 }
 
-.Form-cta {
-  border-radius: #{8/$font-size}rem #{8/$font-size}rem 0 0;
-  padding: #{25/$font-size}rem #{25/$font-size}rem #{28/$font-size}rem;
-}
-
 .Form-cta--bar {
   border-radius: #{8/$font-size}rem #{8/$font-size}rem 0 0;
   padding: #{20/$font-size}rem #{25/$font-size}rem;
@@ -52,10 +47,6 @@ $Form-fontSize: #{13/$font-size}rem;
 
 .Form-ctaLegend {
   top: #{13/$font-size}rem;
-}
-
-.Form-cta--title {
-  margin-top: #{24/$font-size}rem;
 }
 
 .Form-field {
@@ -79,7 +70,7 @@ $Form-fontSize: #{13/$font-size}rem;
     }
   }
 
-  &:last-child {
+  &:last-of-type {
     margin-bottom: 0;
   }
 }

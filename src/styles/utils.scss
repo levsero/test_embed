@@ -8,10 +8,10 @@
  * Positions
  */
 
-$Base-posOffset: #{20/$font-size}rem;
+$Base-posOffset: $med + 1;
 
 .u-posEnd {
-  right: $Base-posOffset;
+  right: #{$Base-posOffset/$font-size}rem;
 }
 
 .u-posEnd--flush {
@@ -19,7 +19,7 @@ $Base-posOffset: #{20/$font-size}rem;
 }
 
 .u-posStart {
-  left: $Base-posOffset;
+  left: #{$Base-posOffset/$font-size}rem;
 }
 
 .u-posStart--flush {
@@ -36,7 +36,7 @@ $Base-posOffset: #{20/$font-size}rem;
 }
 
 .u-posStart--vert {
-  top: #{15/$font-size}rem;
+  top: #{$Base-posOffset/$font-size}rem;
 }
 
 .u-posStart--vertFlush {
@@ -48,7 +48,7 @@ $Base-posOffset: #{20/$font-size}rem;
 }
 
 .u-posEnd--vert {
-  bottom: $Base-posOffset;
+  bottom: #{$Base-posOffset/$font-size}rem;
 }
 
 .u-posCenter--vert {
@@ -76,9 +76,10 @@ $Base-posOffset: #{20/$font-size}rem;
  *
  * A = auto
  * N = none
+ * T = tiny 5px
  * S = small 10px
- * M = medium 20px
- * L = large 30px
+ * M = medium 15px
+ * L = large 20px
  */
 
 .u-marginBN {
@@ -86,7 +87,7 @@ $Base-posOffset: #{20/$font-size}rem;
 }
 
 .u-marginBS {
-  margin-bottom: #{10/$font-size}rem !important;
+  margin-bottom: $spacing-sml !important;
 }
 
 .u-marginB17 {
@@ -94,7 +95,7 @@ $Base-posOffset: #{20/$font-size}rem;
 }
 
 .u-marginBM {
-  margin-bottom: #{20/$font-size}rem !important;
+  margin-bottom: $spacing-lrg !important;
 }
 
 .u-marginBL {
@@ -106,7 +107,7 @@ $Base-posOffset: #{20/$font-size}rem;
 }
 
 .u-marginTM {
-  margin-top: #{20/$font-size}rem;
+  margin-top: $spacing-lrg;
 }
 
 .u-marginTL {
@@ -114,12 +115,31 @@ $Base-posOffset: #{20/$font-size}rem;
 }
 
 .u-marginVM {
-  margin: #{20/$font-size}rem 0;
+  margin: $spacing-lrg 0;
+}
+
+.u-paddingAL {
+  padding: $spacing-lrg !important;
 }
 
 .u-paddingHN {
   padding-left: 0 !important;
   padding-right: 0 !important;
+}
+
+.u-paddingHL {
+  padding-left: $spacing-lrg !important;
+  padding-right: $spacing-lrg !important;
+}
+
+.u-paddingVM {
+  padding-top: $spacing-med !important;
+  padding-bottom: $spacing-med !important;
+}
+
+.u-paddingVL {
+  padding-top: $spacing-lrg !important;
+  padding-bottom: $spacing-lrg !important;
 }
 
 .u-paddingR {
@@ -135,21 +155,33 @@ $Base-posOffset: #{20/$font-size}rem;
   padding-left: #{25/$font-size}rem;
 }
 
+.u-paddingRL {
+  padding-right: $spacing-lrg;
+}
+
 .u-paddingRS {
-  padding-right: #{10/$font-size}rem;
+  padding-right: $spacing-sml;
 
   [dir='rtl'] & {
     padding-right: 0;
-    padding-left: #{10/$font-size}rem;
+    padding-left: $spacing-sml;
   }
 }
 
+.u-paddingTL {
+  padding-top: $spacing-lrg;
+}
+
 .u-paddingTM {
-  padding-top: #{20/$font-size}rem;
+  padding-top: $spacing-med;
+}
+
+.u-paddingTT {
+  padding-top: $spacing-tny;
 }
 
 .u-paddingBS {
-  padding-bottom: #{10/$font-size}rem;
+  padding-bottom: $spacing-sml;
 }
 
 .u-paddingBN {
@@ -157,7 +189,7 @@ $Base-posOffset: #{20/$font-size}rem;
 }
 
 .u-paddingBL {
-  padding-bottom: #{25/$font-size}rem !important;
+  padding-bottom: $spacing-lrg !important;
 }
 
 /**
@@ -189,7 +221,7 @@ $Base-posOffset: #{20/$font-size}rem;
 }
 
 .u-textSize15 {
-  font-size: #{15/$font-size}rem !important;
+  font-size: $spacing-med !important;
 }
 
 .u-textSizeBaseMobile {
@@ -202,6 +234,11 @@ $Base-posOffset: #{20/$font-size}rem;
 
 .u-textNormal {
   font-weight: normal !important;
+}
+
+/* Force a single line to have exact font height  */
+.u-textXHeight {
+  line-height: 0.9;
 }
 
 /**

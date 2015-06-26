@@ -5,18 +5,20 @@
 @import '../_vars.scss';
 @import 'UserContent';
 
-$Container-spacing: 20/$font-size;
-
 .ScrollContainer {
-  padding: #{$Container-spacing}rem 0;
   box-sizing: border-box;
+}
+
+.ScrollContainer-header {
+  background: $form-cta-color;
+  border-bottom: $thin-border-size solid $header-stroke;
 }
 
 .ScrollContainer-content {
   overflow-y: auto;
   overflow-x: hidden;
   max-height: #{280/$font-size}rem;
-  padding: 0 #{$Container-spacing}rem;
+  box-sizing: border-box;
   /*
    * Creates the shadow effect at the bottom of the scrollable container
    */
@@ -34,6 +36,10 @@ $Container-spacing: 20/$font-size;
   /*
    * Customise scrollbar for safari/chrome
    */
+  &::-webkit-scrollbar-track {
+    margin-top: $spacing-med;
+    margin-right: $spacing-med;
+  }
   &::-webkit-scrollbar {
     box-shadow: none;
     width: #{3/$font-size}rem;

@@ -1,8 +1,7 @@
 @import '../_vars.scss';
 
 .List {
-  padding: #{8/$font-size}rem 0 #{20/$font-size}rem #{24/$font-size}rem;
-  margin: 0 0 #{14/$font-size}rem;
+  padding: #{8/$font-size}rem 0 #{16/$font-size}rem #{24/$font-size}rem;
   font-size: #{17/$font-size}rem;
   border-bottom: #{1/$font-size}rem solid $base-border-color;
 
@@ -16,6 +15,10 @@
   color: $list-color;
   list-style: decimal;
   margin-bottom: #{7/$font-size}rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 }
 
 .List--fullscreen {

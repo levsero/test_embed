@@ -263,7 +263,7 @@ export var HelpCenter = React.createClass({
           'u-textSizeBaseMobile': this.state.fullscreen
         }),
         formLegendClasses = classSet({
-          'Form-cta--title u-textSizeMed Arrange Arrange--middle u-textBody': true,
+          'u-paddingTT u-textSizeMed Arrange Arrange--middle u-textBody': true,
           'u-textSizeBaseMobile': this.state.fullscreen,
           'u-isHidden': !this.state.articles.length
         }),
@@ -272,11 +272,6 @@ export var HelpCenter = React.createClass({
           'u-isHidden': this.state.resultsCount || !this.state.hasSearched,
           'u-textSizeBaseMobile': this.state.fullscreen,
           'u-borderBottom List--noResults': !this.state.fullscreen
-        }),
-        searchTitleClasses = classSet({
-          'u-textSizeBaseMobile u-marginTM u-textCenter': true,
-          'Container--fullscreen-center-vert': true,
-          'u-isHidden': !this.state.fullscreen || this.state.hasSearched
         }),
         linkClasses = classSet({
           'u-textSizeBaseMobile u-textCenter u-marginTL': true,
@@ -346,7 +341,12 @@ export var HelpCenter = React.createClass({
       <Container
         fullscreen={this.state.fullscreen}>
         <ScrollContainer
-          header={'foo bar'}
+          header={i18n.t('embeddable_framework.launcher.label.help')}
+          headerContent={
+            this.state.hasSearched &&
+            !this.state.articleViewActive &&
+            searchField
+          }
           footer={
             <div className={buttonContainerClasses}>
               <ButtonGroup rtl={i18n.isRTL()}>
@@ -363,10 +363,7 @@ export var HelpCenter = React.createClass({
               ref='helpCenterForm'
               onSearch={this.handleSearch}
               onSubmit={this.handleSubmit}>
-              <h1 className={searchTitleClasses}>
-                {i18n.t('embeddable_framework.helpCenter.label.searchHelpCenter')}
-              </h1>
-              {searchField}
+              {!this.state.hasSearched && searchField}
               <div className={linkClasses}>
                 <p className='u-marginBN'>{linkContext}</p>
                 <a className='u-userTextColor' onClick={this.props.onButtonClick}>

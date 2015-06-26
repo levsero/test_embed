@@ -313,10 +313,9 @@ var SearchField = React.createClass({
         }),
         searchContainerClasses = classSet({
           'u-cf': true,
-          'Form-cta--bar': this.props.hasSearched && !this.props.fullscreen,
+          'u-paddingTM': this.props.hasSearched,
           'u-paddingHN u-paddingBN Form-cta--barFullscreen': this.props.fullscreen,
-          'u-marginTM': this.props.hasSearched && this.props.fullscreen,
-          'Form-cta Container-pullout': !this.props.fullscreen
+          'u-marginTM': this.props.hasSearched && this.props.fullscreen
         }),
         searchInputClasses = classSet({
           'Arrange Arrange--middle Form-field Form-field--search u-isSelectable': true,

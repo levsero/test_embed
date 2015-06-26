@@ -16,6 +16,9 @@ $cta-color: $zendesk-green;
 $inactive-color: #DDDDDD;
 $active-color: #8e8e8e;
 
+//Scroll Container colors
+$header-stroke: #DBDBDB;
+
 // Container colors
 $stroke-color: #DADADA;
 $stroke-focused-color: #AEAEAE;
@@ -39,3 +42,14 @@ $list-color: #BDBDBD;
 $error-color: #D24000;
 $error-text-color: #C14D00;
 $error-field-color: #FFE3D6;
+
+// Spacing units and rem calculations
+$lrg: 20;
+$med: 15;
+$sml: 10;
+$tny: 5;
+
+$spacing-lrg: #{$lrg/$font-size}rem;
+$spacing-med: #{$med/$font-size}rem;
+$spacing-sml: #{$sml/$font-size}rem;
+$spacing-tny: #{$tny/$font-size}rem;

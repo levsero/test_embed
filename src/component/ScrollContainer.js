@@ -6,17 +6,36 @@ export var ScrollContainer = React.createClass({
   render() {
     /* jshint quotmark:false */
     var containerClasses = classSet({
-          'ScrollContainer': true,
-          'u-posRelative': true
+          'ScrollContainer-content': true,
+          'u-paddingHL u-paddingTM': true
+        }),
+        scrollHeaderClasses = classSet({
+          'ScrollContainer-header': true,
+          'u-paddingVM u-paddingHL': true
+        }),
+        scrollFooterClasses = classSet({
+          'ScrollContainer-footer': true,
+          'u-paddingVM u-paddingHL': true
+        }),
+        titleClasses = classSet({
+          'u-textSizeMed u-textBold u-extSizeMed u-textCenter u-textXHeight': true,
+          'u-textSizeBaseMobile': this.props.fullscreen
         });
 
     return (
-      <div className={containerClasses}>
-        <header>{this.props.header}</header>
-        <div className='ScrollContainer-content'>
+      <div className='ScrollContainer'>
+        <header className={scrollHeaderClasses}>
+          <h2 className={titleClasses}>
+            {this.props.header}
+          </h2>
+          {this.props.headerContent}
+        </header>
+        <div className={containerClasses}>
           {this.props.children}
         </div>
-        <footer>{this.props.footer}</footer>
+        <footer className={scrollFooterClasses}>
+          {this.props.footer}
+        </footer>
       </div>
     );
   }
