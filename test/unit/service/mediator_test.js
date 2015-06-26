@@ -206,6 +206,14 @@ describe('mediator', function() {
         expect(submitTicketSub.hide.calls.count())
           .toEqual(1);
       });
+
+      it('shows launcher on cancel if helpcenter is not available', function() {
+        reset(launcherSub.show);
+        c.broadcast(`${submitTicket}.onCancelClick`);
+
+        expect(launcherSub.show.calls.count())
+          .toEqual(1);
+      });
     });
 
   });
@@ -653,6 +661,19 @@ describe('mediator', function() {
         expect(launcherSub.hide.calls.count())
           .toEqual(1);
       });
+
+      it('shows helpcenter on cancel if helpcenter is available', function() {
+        reset(helpCenterSub.show);
+        reset(launcherSub.show);
+
+        c.broadcast(`${submitTicket}.onCancelClick`);
+
+        expect(helpCenterSub.show.calls.count())
+          .toEqual(1);
+
+        expect(launcherSub.show.calls.count())
+          .toEqual(0);
+      });
     });
 
     describe('help center', function() {
@@ -669,12 +690,12 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      it('makes Ticket Submission display back button', function() {
+      it('does not show back button when transitioning to submit ticket embed', function() {
         reset(submitTicketSub.showBackButton);
         c.broadcast(`${helpCenter}.onNextClick`);
 
         expect(submitTicketSub.showBackButton.calls.count())
-          .toEqual(1);
+          .toEqual(0);
       });
 
       it('hides when a hide call is made', function() {
@@ -939,16 +960,6 @@ describe('mediator', function() {
         expect(helpCenterSub.hide.calls.count())
           .toEqual(1);
         expect(submitTicketSub.show.calls.count())
-          .toEqual(1);
-      });
-
-      it('makes Ticket Submission display back button', function() {
-        c.broadcast(`${chat}.onOffline`);
-
-        reset(submitTicketSub.showBackButton);
-        c.broadcast(`${helpCenter}.onNextClick`);
-
-        expect(submitTicketSub.showBackButton.calls.count())
           .toEqual(1);
       });
 

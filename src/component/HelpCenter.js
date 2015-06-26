@@ -10,7 +10,8 @@ import { ZendeskLogo }       from 'component/ZendeskLogo';
 import { Container }         from 'component/Container';
 import { isMobileBrowser }   from 'utility/devices';
 import { i18n }              from 'service/i18n';
-import { Button }            from 'component/Button';
+import { Button,
+         ButtonGroup }       from 'component/Button';
 import { beacon }            from 'service/beacon';
 
 var classSet = React.addons.classSet;
@@ -385,12 +386,12 @@ export var HelpCenter = React.createClass({
         </div>
 
         <div className={buttonContainerClasses}>
-          <Button
-            label={this.state.buttonLabel}
-            handleClick={this.props.onButtonClick}
-            fullscreen={this.state.fullscreen}
-            rtl={i18n.isRTL()}
-          />
+          <ButtonGroup rtl={i18n.isRTL()}>
+            <Button
+              fullscreen={this.state.fullscreen}
+              label={this.state.buttonLabel}
+              handleClick={this.props.onButtonClick} />
+          </ButtonGroup>
         </div>
         {zendeskLogo}
       </Container>

@@ -173,6 +173,7 @@ export var SubmitTicket = React.createClass({
           </p>
         </div>
         <SubmitTicketForm
+          onCancel={this.props.onCancel}
           fullscreen={this.state.fullscreen}
           ref='submitTicketForm'
           hide={this.state.showNotification}
