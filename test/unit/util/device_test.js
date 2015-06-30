@@ -1,9 +1,14 @@
 describe('devices', function() {
   var isBlacklisted,
       mockGlobals = {
-        win: noop,
+        win: {
+          XMLHttpRequest: function() {
+            this.withCredentials = true;
+          }
+        },
         navigator: {
-          userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.122 Safari/537.36' /* jshint ignore: line */
+          /* jshint maxlen: false */
+          userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.122 Safari/537.36'
         }
       },
       mockRegistry,
@@ -27,7 +32,7 @@ describe('devices', function() {
 
   describe('isBlacklisted', function() {
 
-    it('returns false if user agent has nothing within it blacklisted', function() {
+    it('returns false if doesn\'t support CORS or user agent has nothing within it blacklisted', function() {
       expect(isBlacklisted())
         .toBe(false);
     });
@@ -56,9 +61,16 @@ describe('devices', function() {
         .toBe(false);
     });
 
-     it('returns true if MSIE 9 is within the user agent string', function() {
+    it('returns true if MSIE 9 is within the user agent string', function() {
       /* jshint maxlen: false */
       mockGlobals.navigator.userAgent = 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)';
+
+      expect(isBlacklisted())
+        .toBe(true);
+    });
+
+    it('returns true if the browser doesn\'t supports CORS', function() {
+      mockGlobals.win.XMLHttpRequest = noop;
 
       expect(isBlacklisted())
         .toBe(true);

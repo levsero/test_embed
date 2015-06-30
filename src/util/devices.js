@@ -55,7 +55,10 @@ function isBlacklisted() {
     (navigator.userAgent.indexOf('CriOS') !== -1 && navigator.userAgent.indexOf('OS 8_0') !== -1) ||
 
     // MSIE 9.0
-    navigator.userAgent.indexOf('MSIE 9.0') !== -1
+    navigator.userAgent.indexOf('MSIE 9.0') !== -1 ||
+
+    // If user agent doesn't support CORS blacklist browser
+    !('XMLHttpRequest' in win && 'withCredentials' in new win.XMLHttpRequest())
   );
 }
 

@@ -144,37 +144,35 @@ function boot() {
   win.zE.hide = hide;
   win.zE.show = show;
 
-  if (!isBlacklisted()) {
-    //The config for zendesk.com
-    if (host === 'www.zendesk.com') {
-      if (_.contains(chatPages, path)) {
-        renderer.init(renderer.hardcodedConfigs.zendeskWithChat);
-      } else {
-        renderer.init(renderer.hardcodedConfigs.zendeskDefault);
-      }
-      handlePostRenderQueue(postRenderQueue);
+  //The config for zendesk.com
+  if (host === 'www.zendesk.com') {
+    if (_.contains(chatPages, path)) {
+      renderer.init(renderer.hardcodedConfigs.zendeskWithChat);
     } else {
-      let configLoadStart = Date.now();
-      transport.get({
-        method: 'get',
-        path: '/embeddable/config',
-        callbacks: {
-          done(res) {
-            beacon.sendConfigLoadTime(Date.now() - configLoadStart);
-            renderer.init(res.body);
-            handlePostRenderQueue(postRenderQueue);
-          },
-          fail(error) {
-            logging.error({
-              error: error,
-              context: {
-                account: document.zendeskHost
-              }
-            });
-          }
-        }
-      });
+      renderer.init(renderer.hardcodedConfigs.zendeskDefault);
     }
+    handlePostRenderQueue(postRenderQueue);
+  } else {
+    let configLoadStart = Date.now();
+    transport.get({
+      method: 'get',
+      path: '/embeddable/config',
+      callbacks: {
+        done(res) {
+          beacon.sendConfigLoadTime(Date.now() - configLoadStart);
+          renderer.init(res.body);
+          handlePostRenderQueue(postRenderQueue);
+        },
+        fail(error) {
+          logging.error({
+            error: error,
+            context: {
+              account: document.zendeskHost
+            }
+          });
+        }
+      }
+    });
   }
 
 
@@ -187,7 +185,9 @@ function boot() {
 
 if (!cacheBuster.isCacheBusting(window.name)) {
   try {
-    boot();
+    if (!isBlacklisted()) {
+      boot();
+    }
   } catch (err) {
     logging.error({
       error: err
