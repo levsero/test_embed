@@ -2,8 +2,6 @@ import React from 'react/addons';
 
 import { i18n } from 'service/i18n';
 
-require('imports?_=lodash!lodash');
-
 var sanitizeHtml = require('sanitize-html'),
     classSet = React.addons.classSet;
 

@@ -24,7 +24,7 @@ describe('store', function() {
           sessionStorage: mockSessionStorage
         }
       },
-      'imports?_=lodash!lodash': _,
+      'lodash': _,
     });
 
     mockery.registerAllowable(persistencePath);

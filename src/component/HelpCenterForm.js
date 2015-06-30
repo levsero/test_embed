@@ -1,7 +1,5 @@
 import React from 'react/addons';
 
-require('imports?_=lodash!lodash');
-
 var HelpCenterForm = React.createClass({
   getInitialState() {
     return {

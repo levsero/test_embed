@@ -34,8 +34,7 @@ describe('HelpCenterArticle component', function() {
         i18n: jasmine.createSpyObj('i18n', [
           't',
         ])
-      },
-      'imports?_=lodash!lodash': _
+      }
     });
 
     mockery.registerAllowable(helpCenterArticlePath);

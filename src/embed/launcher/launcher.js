@@ -1,4 +1,5 @@
 import React from 'react/addons';
+import _     from 'lodash';
 
 import { document,
          getDocumentHost } from 'utility/globals';
@@ -8,8 +9,6 @@ import { frameFactory }    from 'embed/frameFactory';
 import { i18n }            from 'service/i18n';
 import { mediator }        from 'service/mediator';
 import { generateUserCSS } from 'utility/utils';
-
-require('imports?_=lodash!lodash');
 
 var launcherCSS = require('./launcher.scss'),
     launchers = {};
@@ -44,7 +43,6 @@ function create(name, config) {
   Embed = React.createClass(frameFactory(
     (params) => {
       return (
-        /* jshint quotmark:false */
         <Launcher
           ref='launcher'
           onClick={params.onClickHandler}

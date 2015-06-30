@@ -18,16 +18,14 @@ describe('SubmitTicketForm component', function() {
     mockRegistry = initMockRegistry({
       'react/addons': React,
       'component/Button': {
-        Button: jasmine.createSpy('mockButton')
-          .and.callFake(React.createClass({
+        Button: React.createClass({
             render: function() {
-              /* jshint quotmark: false */
               return <input type='submit' disabled={this.props.disabled} />;
             }
-          })),
+          })
       },
       'component/FormField': {
-        Field: noop,
+        Field: noopReactComponent(),
         getCustomFields: function() {
           return {};
         }

@@ -22,21 +22,17 @@ describe('embed.launcher', function() {
         generateUserCSS: jasmine.createSpy().and.returnValue('')
       },
       'component/Launcher': {
-        Launcher: jasmine.createSpy('mockLauncher')
-          .and.callFake(
-            React.createClass({
-              changeIcon: jasmine.createSpy('mockChangeIcon'),
-              setActive: jasmine.createSpy('setActive'),
-              setIcon: jasmine.createSpy('setIcon'),
-              setLabel: jasmine.createSpy('setLabel'),
-              render: function() {
-                return (
-                  /* jshint quotmark:false */
-                  <div className='mock-launcher' />
-                );
-              }
-            })
-          )
+        Launcher: React.createClass({
+          changeIcon: jasmine.createSpy('mockChangeIcon'),
+          setActive: jasmine.createSpy('setActive'),
+          setIcon: jasmine.createSpy('setIcon'),
+          setLabel: jasmine.createSpy('setLabel'),
+          render: function() {
+            return (
+              <div className='mock-launcher' />
+            );
+          }
+        })
       },
       'service/beacon': {
         beacon: jasmine.createSpyObj('mockBeacon', ['track'])
@@ -56,7 +52,7 @@ describe('embed.launcher', function() {
           return false;
         }
       },
-      'imports?_=lodash!lodash': _,
+      'lodash': _,
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', ['init', 'setLocale', 't'])
       }
@@ -211,13 +207,8 @@ describe('embed.launcher', function() {
     });
 
     it('renders a launcher to the document', function() {
-      var mockLauncher = mockRegistry['component/Launcher'].Launcher;
-
       launcher.create('alice');
       launcher.render('alice');
-
-      expect(mockLauncher)
-        .toHaveBeenCalled();
 
       expect(document.querySelectorAll('body > div > .mock-frame').length)
         .toBe(1);

@@ -157,7 +157,6 @@ export var SubmitTicket = React.createClass({
                   />;
 
     return (
-      /* jshint quotmark:false */
       <Container
         fullscreen={this.state.fullscreen}
         position={this.props.position}

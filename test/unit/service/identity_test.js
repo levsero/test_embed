@@ -14,8 +14,7 @@ describe('identity', function() {
     };
 
     mockRegistry = initMockRegistry({
-      'service/persistence': mockPersistence,
-      'imports?_=lodash!lodash': _,
+      'service/persistence': mockPersistence
     });
 
     mockery.registerAllowable(buildSrcPath('service/identity'));

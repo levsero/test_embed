@@ -26,7 +26,7 @@ describe('util.setScaleLock', function() {
           return 1;
         }
       },
-      'imports?_=lodash!lodash': _
+      'lodash': _
     });
 
     setScaleLock = require(utilPath).setScaleLock;

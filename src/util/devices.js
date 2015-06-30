@@ -1,6 +1,5 @@
 import { win, navigator } from 'utility/globals';
 
-
 function getDeviceZoom() {
   var landscape = Math.abs(win.orientation) === 90,
       screen = win.screen,

@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 import { win }          from 'utility/globals';
 import { submitTicket } from 'embed/submitTicket/submitTicket';
 import { launcher }     from 'embed/launcher/launcher';
@@ -6,8 +8,6 @@ import { chat }         from 'embed/chat/chat';
 import { i18n }         from 'service/i18n';
 import { mediator }     from 'service/mediator';
 import { logging }      from 'service/logging';
-
-require('imports?_=lodash!lodash');
 
 var embedsMap = {
       'submitTicket': submitTicket,

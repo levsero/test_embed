@@ -32,8 +32,7 @@ describe('HelpCenterForm component', function() {
           't',
           'isRTL'
         ])
-      },
-      'imports?_=lodash!lodash': _
+      }
     });
 
     mockery.registerAllowable('utility/globals');

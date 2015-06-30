@@ -8,11 +8,7 @@ describe('embed.helpCenter', function() {
       focusField;
 
   beforeEach(function() {
-    var mockForm = React.createClass({
-      render: function() {
-        return (<div />);
-      }
-    });
+    var mockForm = noopReactComponent();
 
     focusField = jasmine.createSpy();
 
@@ -41,30 +37,26 @@ describe('embed.helpCenter', function() {
         }
       },
       'component/HelpCenter': {
-        HelpCenter: jasmine.createSpy('mockHelpCenter')
-          .and.callFake(
-            React.createClass({
-              getInitialState: function() {
-                return {
-                  topics: [],
-                  searchCount: 0,
-                  searchTerm: '',
-                  hasSearched: false
-                };
-              },
-              resetSearchFieldState: resetSearchFieldState,
-              hideVirtualKeyboard: hideVirtualKeyboard,
-              focusField: focusField,
-              render: function() {
-                return (
-                  /* jshint quotmark:false */
-                  <div className='mock-helpCenter'>
-                    <mockForm ref='helpCenterForm' />
-                  </div>
-                );
-              }
-            })
-          )
+        HelpCenter: React.createClass({
+          getInitialState: function() {
+            return {
+              topics: [],
+              searchCount: 0,
+              searchTerm: '',
+              hasSearched: false
+            };
+          },
+          resetSearchFieldState: resetSearchFieldState,
+          hideVirtualKeyboard: hideVirtualKeyboard,
+          focusField: focusField,
+          render: function() {
+            return (
+              <div className='mock-helpCenter'>
+                <mockForm ref='helpCenterForm' />
+              </div>
+            );
+          }
+        })
       },
       './helpCenter.scss': '',
       './helpCenterFrame.scss': '',
@@ -90,7 +82,7 @@ describe('embed.helpCenter', function() {
           return document.body;
         }
       },
-      'imports?_=lodash!lodash': _
+      'lodash': _
     });
 
     mockery.registerAllowable(helpCenterPath);
@@ -318,8 +310,6 @@ describe('embed.helpCenter', function() {
     });
 
     it('renders a helpCenter form to the document', function() {
-      var mockHelpCenter = mockRegistry['component/HelpCenter'].HelpCenter;
-
       helpCenter.create('carlos');
       helpCenter.render('carlos');
 
@@ -331,9 +321,6 @@ describe('embed.helpCenter', function() {
 
       expect(ReactTestUtils.isCompositeComponent(helpCenter.get('carlos').instance))
         .toEqual(true);
-
-      expect(mockHelpCenter)
-        .toHaveBeenCalled();
     });
 
     it('should only be allowed to render an helpCenter form once', function() {
@@ -383,9 +370,8 @@ describe('embed.helpCenter', function() {
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('carlos.show', jasmine.any(Function));
 
-        pluckSubscribeCall(mockMediator, 'carlos.show')();
-
         jasmine.clock().install();
+        pluckSubscribeCall(mockMediator, 'carlos.show')();
         jasmine.clock().tick(1);
 
         expect(helpCenter.get('carlos').instance.show.__reactBoundMethod)
