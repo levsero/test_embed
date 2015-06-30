@@ -66,6 +66,6 @@ $Button-nudge: 5;
   font-size: $Button-baseFontSize;
   font-weight: normal;
   &.is-mobile {
-    display: inline-block !important;
+    border-color: $secondary-color;
   }
 }
