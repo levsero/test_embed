@@ -55,13 +55,11 @@ function isBlacklisted() {
     (navigator.userAgent.indexOf('CriOS') !== -1 && navigator.userAgent.indexOf('OS 8_0') !== -1) ||
 
     // MSIE 9.0
-    navigator.userAgent.indexOf('MSIE 9.0') !== -1
-  );
-}
+    navigator.userAgent.indexOf('MSIE 9.0') !== -1 ||
 
-function isCORSEnabled() {
-  // Return false if cors isn't supported
-  return ('XMLHttpRequest' in win && 'withCredentials' in new win.XMLHttpRequest());
+    // If user agent doesn't support CORS blacklist browser
+    !('XMLHttpRequest' in win && 'withCredentials' in new win.XMLHttpRequest())
+  );
 }
 
 function isIE() {
@@ -79,7 +77,6 @@ export {
   isMobileBrowser,
   shouldGoFullscreen,
   isBlacklisted,
-  isCORSEnabled,
   isIE
 };
 

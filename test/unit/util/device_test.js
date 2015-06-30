@@ -1,6 +1,5 @@
 describe('devices', function() {
   var isBlacklisted,
-      isCORSEnabled,
       mockGlobals = {
         win: {
           XMLHttpRequest: function() {
@@ -8,7 +7,8 @@ describe('devices', function() {
           }
         },
         navigator: {
-          userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.122 Safari/537.36' /* jshint ignore: line */
+          /* jshint maxlen: false */
+          userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.122 Safari/537.36'
         }
       },
       mockRegistry,
@@ -23,7 +23,6 @@ describe('devices', function() {
 
     mockery.registerAllowable(devicesPath);
     isBlacklisted = require(devicesPath).isBlacklisted;
-    isCORSEnabled = require(devicesPath).isCORSEnabled;
   });
 
   afterEach(function() {
@@ -33,7 +32,7 @@ describe('devices', function() {
 
   describe('isBlacklisted', function() {
 
-    it('returns false if user agent has nothing within it blacklisted', function() {
+    it('returns false if doesn\'t support CORS or user agent has nothing within it blacklisted', function() {
       expect(isBlacklisted())
         .toBe(false);
     });
@@ -70,20 +69,11 @@ describe('devices', function() {
         .toBe(true);
     });
 
-  });
-
-  describe('isCORSEnabled', function() {
-
-    it('returns true if the browser supports CORS', function() {
-      expect(isCORSEnabled())
-        .toBe(true);
-    });
-
-    it('returns false if the browser doesn\'t supports CORS', function() {
+    it('returns true if the browser doesn\'t supports CORS', function() {
       mockGlobals.win.XMLHttpRequest = noop;
 
-      expect(isCORSEnabled())
-        .toBe(false);
+      expect(isBlacklisted())
+        .toBe(true);
     });
 
   });
