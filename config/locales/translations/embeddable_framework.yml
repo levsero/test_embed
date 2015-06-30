@@ -55,6 +55,10 @@ parts:
       key: "embeddable_framework.submitTicket.form.submitButton.label.sending"
       title: "The label on the button to submit the form in the submit ticket form when it's sending, as feedback for the customer so they know that their ticket is sending. Will wrap if to long (tinyurl.com/k8pabo8)"
       value: "Submitting..."
+  - translation:
+      key: "embeddable_framework.submitTicket.form.cancelButton.label.cancel"
+      title: "The label on the button to cancel the form in the submit ticket form (tinyurl.com/pd286zm)"
+      value: "Cancel"
 
   # Submit Ticket Schema component
   - translation:
