@@ -122,8 +122,12 @@ parts:
       title: "The link that displays after user has searched and there are more then 3 results. Will be shown next to the help center title. Count will be the number of extra help center articles. Will move to a new line and wrap if needed. %()s stands for string and does not need to be translated (tinyurl.com/le5tu52)"
       value: "View all (%(count)s)"
   - translation:
-      key: "embeddable_framework.helpCenter.label.popularArticles"
+      key: "embeddable_framework.helpCenter.label.suggestedArticles"
       title: "The title for the help center widget when we are suggesting articles relevant to the current page"
+      value: "Suggested articles"
+  - translation:
+      key: "embeddable_framework.helpCenter.label.popularArticles"
+      title: "The title for the help center widget when we are offering articles that are popular in the Help Center"
       value: "Popular articles"
 
   # Mobile
