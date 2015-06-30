@@ -70,8 +70,7 @@ var ButtonNav = React.createClass({
 var ButtonPill = React.createClass({
   render() {
     var buttonClasses = classSet({
-          'c-btn c-btn--medium c-btn--secondary': true,
-          'c-btn--pill u-linkClean': true,
+          'c-btn c-btn--medium c-btn--secondary c-btn--pill': true,
           'u-sizeFull u-textSizeBaseMobile is-mobile': this.props.fullscreen
         });
 
