@@ -34,7 +34,7 @@
 
 .Icon--search {
   padding-left: #{6/$font-size}rem;
-  padding-right: #{3/$font-size}rem;
+  padding-right: #{8/$font-size}rem;
 
   [dir='rtl'] & {
     padding-left: #{3/$font-size}rem;
@@ -56,10 +56,15 @@
   }
 
   svg {
+    fill: $icon-inactive-color;
     min-width: #{60/$font-size}rem; /* 1 */
     /*min-height: #{54/$font-size}rem; /* 1 */
     /*height: #{42/$font-size}rem;*/
     width: #{60/$font-size}rem;
+
+    &:hover, &:active, &:focus {
+      fill: $cta-color;
+    }
   }
 }
 
