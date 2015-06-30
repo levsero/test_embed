@@ -114,9 +114,7 @@ var HelpCenterArticle = React.createClass({
               target='_blank'>
               <ButtonPill
                 fullscreen={this.props.fullscreen}
-                label={i18n.t('embeddable_framework.helpCenter.article.viewLinkText', {
-                  fallback: 'View original article'
-                })}
+                label={i18n.t('embeddable_framework.helpCenter.article.viewLinkText')}
               />
             </a>
           </div>
