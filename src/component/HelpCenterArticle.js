@@ -110,6 +110,7 @@ var HelpCenterArticle = React.createClass({
           />
           <div className='u-marginBM UserContent-viewArticleLink'>
             <a
+              className='u-linkClean'
               href={this.props.activeArticle.html_url}
               target='_blank'>
               <ButtonPill
