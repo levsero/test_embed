@@ -12,7 +12,6 @@ import { isMobileBrowser }   from 'utility/devices';
 import { i18n }              from 'service/i18n';
 import { Button }            from 'component/Button';
 import { beacon }            from 'service/beacon';
-import { store }             from 'service/persistence';
 
 var classSet = React.addons.classSet;
 
@@ -179,8 +178,6 @@ export var HelpCenter = React.createClass({
   },
 
   handleArticleClick(articleIndex, e) {
-    var activeArticle   = this.state.articles[articleIndex];
-
     e.preventDefault();
 
     this.setState({
@@ -205,6 +202,18 @@ export var HelpCenter = React.createClass({
         query: this.state.searchTerm
       }
     });
+    this.setState({
+      searchInstrumented: true
+    });
+  },
+
+  /**
+   * Instrument the last auto-search, if it's still pending to be instrumented
+   */
+  backtrackSearch() {
+    if (!this.state.searchInstrumented) {
+      this.instrumentSearch();
+    }
   },
 
   trackArticleView(articleIndex) {

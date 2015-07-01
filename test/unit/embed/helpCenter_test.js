@@ -48,6 +48,7 @@ describe('embed.helpCenter', function() {
           },
           resetSearchFieldState: resetSearchFieldState,
           hideVirtualKeyboard: hideVirtualKeyboard,
+          backtrackSearch: noop,
           focusField: focusField,
           render: function() {
             return (

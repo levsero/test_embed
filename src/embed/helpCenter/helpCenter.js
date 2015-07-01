@@ -90,6 +90,7 @@ function create(name, config) {
           setScaleLock(false);
         }
         child.refs.helpCenter.hideVirtualKeyboard();
+        child.refs.helpCenter.backtrackSearch();
       },
       onShow(child) {
         if (isMobileBrowser()) {
