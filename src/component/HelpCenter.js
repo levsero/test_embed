@@ -29,7 +29,9 @@ export var HelpCenter = React.createClass({
       searchFailed: false,
       articleViewActive: false,
       activeArticle: {},
-      removeSearchField: false
+      removeSearchField: false,
+      searchInstrumented: false,
+      uniqueSearchResultClick: false
     };
   },
 
@@ -97,11 +99,11 @@ export var HelpCenter = React.createClass({
     });
   },
 
-  performSearch(searchString) {
+  performSearch(searchString, forceSearch) {
     var search = (searchString, locale) => {
           transport.send({
             method: 'get',
-            path: '/api/v2/help_center/search.json',
+            path: `/api/v2/help_center/search.json${forceSearch ? '?origin=web_widget' : ''}`,
             query: {
               locale: locale,
               query: searchString
@@ -126,7 +128,9 @@ export var HelpCenter = React.createClass({
     this.props.onSearch(searchString);
     this.setState({
       isLoading: true,
-      searchTerm: searchString
+      searchTerm: searchString,
+      searchInstrumented: !!forceSearch,
+      uniqueSearchResultClick: true
     });
 
     search(searchString, i18n.getLocale());
@@ -144,7 +148,7 @@ export var HelpCenter = React.createClass({
       filteredStr = stopWordsFilter(searchString);
 
       if (filteredStr !== '') {
-        this.performSearch(filteredStr);
+        this.performSearch(filteredStr, forceSearch);
       }
     }
   },
@@ -175,15 +179,7 @@ export var HelpCenter = React.createClass({
   },
 
   handleArticleClick(articleIndex, e) {
-    var storeKey        = 'viewedArticles',
-        viewedArticles  = store.get(storeKey, 'session') || [],
-        activeArticle   = this.state.articles[articleIndex],
-        isViewedAlready = (viewedArticles.indexOf(activeArticle.id) > -1);
-
-    if(!isViewedAlready) {
-      viewedArticles.push(this.state.articles[articleIndex].id);
-      store.set(storeKey, viewedArticles,'session');
-    }
+    var activeArticle   = this.state.articles[articleIndex];
 
     e.preventDefault();
 
@@ -192,21 +188,40 @@ export var HelpCenter = React.createClass({
       articleViewActive: true,
     });
 
-    this.trackArticleView(articleIndex, isViewedAlready);
+    this.trackArticleView(articleIndex);
 
     this.props.showBackButton();
+
+    if (!this.state.searchInstrumented) {
+      this.instrumentSearch();
+    }
   },
 
-  trackArticleView(articleIndex, isViewedAlready) {
+  instrumentSearch() {
+    transport.send({
+      method: 'get',
+      path: '/api/v2/help_center/search.json?origin=web_widget',
+      query: {
+        query: this.state.searchTerm
+      }
+    });
+  },
+
+  trackArticleView(articleIndex) {
     var trackPayload = {
       query: this.state.searchTerm,
-      resultCount: this.state.articles.length,
-      uniqueSearchResultClick: !isViewedAlready,
+      resultCount: this.state.resultCount > 3 ? 3 : this.state.resultCount,
+      uniqueSearchResultClick: this.state.uniqueSearchResultClick,
       articleId: this.state.articles[articleIndex].id,
       locale: i18n.getLocale()
     };
 
     beacon.track('helpCenter', 'click', 'helpCenterForm', trackPayload);
+    if (this.state.uniqueSearchResultClick) {
+      this.setState({
+        uniqueSearchResultClick: false
+      });
+    }
   },
 
   render() {
