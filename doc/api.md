@@ -46,6 +46,8 @@ The way this works is: if the user's email (and external ID, if included) does n
 
 The Widget also uses the information in the `zE.identify()` call to pre-populate the contact or pre-chat chat form, saving the user from having to type in the information. This is especially useful for end users using your website on a mobile device (screenshot below).
 
+Note: Passing an `organization` with `zE.identify()` will only work for existing organizations in your Zendesk account, it will *not* create a new organization.
+
 ```html
 <script>
   zE(function() {
