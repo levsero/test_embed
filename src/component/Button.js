@@ -71,7 +71,8 @@ var ButtonPill = React.createClass({
   render() {
     var buttonClasses = classSet({
           'c-btn c-btn--medium c-btn--secondary c-btn--pill': true,
-          'u-sizeFull u-textSizeBaseMobile is-mobile': this.props.fullscreen
+          'u-textNormal': true,
+          'u-sizeFull u-textSizeBaseMobile is-mobile': this.props.fullscreen,
         });
 
     return (
