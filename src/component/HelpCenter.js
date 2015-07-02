@@ -19,7 +19,7 @@ export var HelpCenter = React.createClass({
   getInitialState() {
     return {
       articles: [],
-      resultCount: 0,
+      resultsCount: 0,
       searchTerm: '',
       buttonLabel: i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket'),
       fullscreen: isMobileBrowser(),
@@ -81,7 +81,7 @@ export var HelpCenter = React.createClass({
 
     this.setState({
       articles: articles,
-      resultCount: json.count,
+      resultsCount: json.count,
       isLoading: false,
       previousSearchTerm: this.state.searchTerm,
       hasSearched: true,
@@ -102,10 +102,11 @@ export var HelpCenter = React.createClass({
     var search = (searchString, locale) => {
           transport.send({
             method: 'get',
-            path: `/api/v2/help_center/search.json${forceSearch ? '?origin=web_widget' : ''}`,
+            path: '/api/v2/help_center/search.json',
             query: {
               locale: locale,
-              query: searchString
+              query: searchString,
+              origin: forceSearch ? 'web_widget' : null
             },
             callbacks: {
               done: (res) => {
@@ -197,9 +198,10 @@ export var HelpCenter = React.createClass({
   instrumentSearch() {
     transport.send({
       method: 'get',
-      path: '/api/v2/help_center/search.json?origin=web_widget',
+      path: '/api/v2/help_center/search.json',
       query: {
-        query: this.state.searchTerm
+        query: this.state.searchTerm,
+        origin: 'web_widget'
       }
     });
     this.setState({
@@ -211,7 +213,7 @@ export var HelpCenter = React.createClass({
    * Instrument the last auto-search, if it's still pending to be instrumented
    */
   backtrackSearch() {
-    if (!this.state.searchInstrumented) {
+    if (!this.state.searchInstrumented && this.state.searchTerm) {
       this.instrumentSearch();
     }
   },
@@ -219,7 +221,7 @@ export var HelpCenter = React.createClass({
   trackArticleView(articleIndex) {
     var trackPayload = {
       query: this.state.searchTerm,
-      resultCount: this.state.resultCount > 3 ? 3 : this.state.resultCount,
+      resultsCount: this.state.resultsCount > 3 ? 3 : this.state.resultsCount,
       uniqueSearchResultClick: this.state.uniqueSearchResultClick,
       articleId: this.state.articles[articleIndex].id,
       locale: i18n.getLocale()
@@ -265,7 +267,7 @@ export var HelpCenter = React.createClass({
         }),
         noResultsClasses = classSet({
           'u-marginTM u-textCenter u-textSizeMed': true,
-          'u-isHidden': this.state.resultCount || !this.state.hasSearched,
+          'u-isHidden': this.state.resultsCount || !this.state.hasSearched,
           'u-textSizeBaseMobile': this.state.fullscreen,
           'u-borderBottom List--noResults': !this.state.fullscreen
         }),

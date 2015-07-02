@@ -224,7 +224,7 @@ describe('Help center component', function() {
           'click',
           'helpCenterForm', {
             query : 'Foobar',
-            resultCount : 3,
+            resultsCount : 3,
             uniqueSearchResultClick : true,
             articleId : 0,
             locale : undefined
