@@ -30,7 +30,7 @@ export var HelpCenter = React.createClass({
       activeArticle: {},
       removeSearchField: false,
       searchInstrumented: false,
-      uniqueSearchResultClick: false
+      searchResultClicked: false
     };
   },
 
@@ -129,8 +129,8 @@ export var HelpCenter = React.createClass({
     this.setState({
       isLoading: true,
       searchTerm: searchString,
-      searchInstrumented: !!forceSearch,
-      uniqueSearchResultClick: true
+      searchInstrumented: forceSearch,
+      searchResultClicked: false
     });
 
     search(searchString, i18n.getLocale());
@@ -191,11 +191,11 @@ export var HelpCenter = React.createClass({
     this.props.showBackButton();
 
     if (!this.state.searchInstrumented) {
-      this.instrumentSearch();
+      this.trackSearch();
     }
   },
 
-  instrumentSearch() {
+  trackSearch() {
     transport.send({
       method: 'get',
       path: '/api/v2/help_center/search.json',
@@ -214,7 +214,7 @@ export var HelpCenter = React.createClass({
    */
   backtrackSearch() {
     if (!this.state.searchInstrumented && this.state.searchTerm) {
-      this.instrumentSearch();
+      this.trackSearch();
     }
   },
 
@@ -222,17 +222,15 @@ export var HelpCenter = React.createClass({
     var trackPayload = {
       query: this.state.searchTerm,
       resultsCount: this.state.resultsCount > 3 ? 3 : this.state.resultsCount,
-      uniqueSearchResultClick: this.state.uniqueSearchResultClick,
+      uniqueSearchResultClick: !this.state.searchResultClicked,
       articleId: this.state.articles[articleIndex].id,
       locale: i18n.getLocale()
     };
 
     beacon.track('helpCenter', 'click', 'helpCenterForm', trackPayload);
-    if (this.state.uniqueSearchResultClick) {
-      this.setState({
-        uniqueSearchResultClick: false
-      });
-    }
+    this.setState({
+      searchResultClicked: true
+    });
   },
 
   render() {
