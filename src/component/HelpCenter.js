@@ -29,7 +29,7 @@ export var HelpCenter = React.createClass({
       articleViewActive: false,
       activeArticle: {},
       removeSearchField: false,
-      searchInstrumented: false,
+      searchTracked: false,
       searchResultClicked: false
     };
   },
@@ -129,7 +129,7 @@ export var HelpCenter = React.createClass({
     this.setState({
       isLoading: true,
       searchTerm: searchString,
-      searchInstrumented: forceSearch,
+      searchTracked: forceSearch,
       searchResultClicked: false
     });
 
@@ -190,7 +190,7 @@ export var HelpCenter = React.createClass({
 
     this.props.showBackButton();
 
-    if (!this.state.searchInstrumented) {
+    if (!this.state.searchTracked) {
       this.trackSearch();
     }
   },
@@ -205,7 +205,7 @@ export var HelpCenter = React.createClass({
       }
     });
     this.setState({
-      searchInstrumented: true
+      searchTracked: true
     });
   },
 
@@ -213,7 +213,7 @@ export var HelpCenter = React.createClass({
    * Instrument the last auto-search, if it's still pending to be instrumented
    */
   backtrackSearch() {
-    if (!this.state.searchInstrumented && this.state.searchTerm) {
+    if (!this.state.searchTracked && this.state.searchTerm) {
       this.trackSearch();
     }
   },
