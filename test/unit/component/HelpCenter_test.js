@@ -2,10 +2,13 @@ describe('Help center component', function() {
   var HelpCenter,
       mockRegistry,
       searchFieldBlur = jasmine.createSpy(),
+      trackSearch,
       searchFieldGetValue = jasmine.createSpy().and.returnValue('Foobar'),
       helpCenterPath = buildSrcPath('component/HelpCenter');
 
   beforeEach(function() {
+
+    trackSearch = jasmine.createSpy('trackSearch');
 
     resetDOM();
 
@@ -118,6 +121,69 @@ describe('Help center component', function() {
       .toEqual([]);
   });
 
+
+  describe('backtrack search', function() {
+    it('should correctly backtrack if not done before and have searched', function() {
+        var helpCenter = React.render(
+              <HelpCenter trackSearch={trackSearch} />,
+              global.document.body
+            );
+
+        helpCenter.setState({
+          searchTracked: false,
+          searchTerm: 'abcd'
+        });
+
+        helpCenter.trackSearch = trackSearch;
+
+        helpCenter.backtrackSearch();
+
+        expect(trackSearch)
+          .toHaveBeenCalled();
+
+    });
+
+    it('shouldn\'t backtrack if already tracked', function() {
+        var helpCenter = React.render(
+              <HelpCenter trackSearch={trackSearch} />,
+              global.document.body
+            );
+
+        helpCenter.setState({
+          searchTracked: true,
+          searchTerm: 'abcd'
+        });
+
+        helpCenter.trackSearch = trackSearch;
+
+        helpCenter.backtrackSearch();
+
+        expect(trackSearch)
+          .not.toHaveBeenCalled();
+
+    });
+
+    it('shouldn\'t backtrack if no search has been performed', function() {
+        var helpCenter = React.render(
+              <HelpCenter trackSearch={trackSearch} />,
+              global.document.body
+            );
+
+        helpCenter.setState({
+          searchTracked: false,
+          searchTerm: ''
+        });
+
+        helpCenter.trackSearch = trackSearch;
+
+        helpCenter.backtrackSearch();
+
+        expect(trackSearch)
+          .not.toHaveBeenCalled();
+
+    });
+  });
+
   describe('handle change', function() {
 
     it('should fire off call to search api when handleSubmit is called', function() {
@@ -205,6 +271,7 @@ describe('Help center component', function() {
           listItem,
           listAnchor;
 
+      helpCenter.trackSearch = trackSearch;
       helpCenter.handleSubmit({preventDefault: noop}, { value: searchString });
       mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayload);
 
@@ -217,6 +284,9 @@ describe('Help center component', function() {
       ReactTestUtils.Simulate.click(listAnchor, {
         target: { getAttribute: function() { return 0; }
       }});
+
+      expect(trackSearch)
+        .not.toHaveBeenCalled();
 
       expect(mockBeacon.track)
         .toHaveBeenCalledWith(
