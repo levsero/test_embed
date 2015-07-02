@@ -5,6 +5,7 @@ describe('embed.helpCenter', function() {
       helpCenterPath = buildSrcPath('embed/helpCenter/helpCenter'),
       resetSearchFieldState = jasmine.createSpy(),
       hideVirtualKeyboard = jasmine.createSpy(),
+      backtrackSearch = jasmine.createSpy(),
       focusField;
 
   beforeEach(function() {
@@ -48,6 +49,7 @@ describe('embed.helpCenter', function() {
           },
           resetSearchFieldState: resetSearchFieldState,
           hideVirtualKeyboard: hideVirtualKeyboard,
+          backtrackSearch: backtrackSearch,
           focusField: focusField,
           render: function() {
             return (
@@ -228,6 +230,20 @@ describe('embed.helpCenter', function() {
           params.onHide(helpCenterChild);
 
           expect(hideVirtualKeyboard)
+            .toHaveBeenCalled();
+        });
+
+        it('should back track search on hide', function() {
+          helpCenter = require(helpCenterPath).helpCenter;
+          helpCenter.create('carlos', frameConfig);
+          helpCenter.render('carlos');
+          helpCenterChild = helpCenter.get('carlos').instance.getChild();
+          mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
+          params = mockFrameFactoryCall[1];
+
+          params.onHide(helpCenterChild);
+
+          expect(backtrackSearch)
             .toHaveBeenCalled();
         });
       });

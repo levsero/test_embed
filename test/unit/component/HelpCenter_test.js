@@ -2,10 +2,13 @@ describe('Help center component', function() {
   var HelpCenter,
       mockRegistry,
       searchFieldBlur = jasmine.createSpy(),
+      trackSearch,
       searchFieldGetValue = jasmine.createSpy().and.returnValue('Foobar'),
       helpCenterPath = buildSrcPath('component/HelpCenter');
 
   beforeEach(function() {
+
+    trackSearch = jasmine.createSpy('trackSearch');
 
     resetDOM();
 
@@ -15,6 +18,9 @@ describe('Help center component', function() {
 
     mockRegistry = initMockRegistry({
       'react/addons': React,
+      'service/beacon': {
+        beacon: jasmine.createSpyObj('beacon', ['track'])
+      },
       'service/transport': {
         transport: jasmine.createSpyObj('transport', ['send'])
       },
@@ -76,6 +82,9 @@ describe('Help center component', function() {
           'isRTL'
         ])
       },
+      'service/persistence': {
+        store: jasmine.createSpyObj('store', ['set', 'get'])
+      },
       'mixin/searchFilter': {
         stopWordsFilter: function(str) {
           return str;
@@ -110,6 +119,69 @@ describe('Help center component', function() {
 
     expect(helpCenter.state.articles)
       .toEqual([]);
+  });
+
+
+  describe('backtrack search', function() {
+    it('should correctly backtrack if not done before and have searched', function() {
+        var helpCenter = React.render(
+              <HelpCenter trackSearch={trackSearch} />,
+              global.document.body
+            );
+
+        helpCenter.setState({
+          searchTracked: false,
+          searchTerm: 'abcd'
+        });
+
+        helpCenter.trackSearch = trackSearch;
+
+        helpCenter.backtrackSearch();
+
+        expect(trackSearch)
+          .toHaveBeenCalled();
+
+    });
+
+    it('shouldn\'t backtrack if already tracked', function() {
+        var helpCenter = React.render(
+              <HelpCenter trackSearch={trackSearch} />,
+              global.document.body
+            );
+
+        helpCenter.setState({
+          searchTracked: true,
+          searchTerm: 'abcd'
+        });
+
+        helpCenter.trackSearch = trackSearch;
+
+        helpCenter.backtrackSearch();
+
+        expect(trackSearch)
+          .not.toHaveBeenCalled();
+
+    });
+
+    it('shouldn\'t backtrack if no search has been performed', function() {
+        var helpCenter = React.render(
+              <HelpCenter trackSearch={trackSearch} />,
+              global.document.body
+            );
+
+        helpCenter.setState({
+          searchTracked: false,
+          searchTerm: ''
+        });
+
+        helpCenter.trackSearch = trackSearch;
+
+        helpCenter.backtrackSearch();
+
+        expect(trackSearch)
+          .not.toHaveBeenCalled();
+
+    });
   });
 
   describe('handle change', function() {
@@ -168,7 +240,7 @@ describe('Help center component', function() {
         .not.toContain('u-isHidden');
     });
 
-    it('should render the inline article', function() {
+    it('should track view and render the inline article', function() {
       var helpCenter = React.render(
             <HelpCenter
               onSearch={noop}
@@ -177,6 +249,7 @@ describe('Help center component', function() {
             global.document.body
           ),
           mockTransport = mockRegistry['service/transport'].transport,
+          mockBeacon = mockRegistry['service/beacon'].beacon,
           searchString = 'help, I\'ve fallen and can\'t get up!',
           responseArticle = {
             /* jshint camelcase: false */
@@ -198,6 +271,7 @@ describe('Help center component', function() {
           listItem,
           listAnchor;
 
+      helpCenter.trackSearch = trackSearch;
       helpCenter.handleSubmit({preventDefault: noop}, { value: searchString });
       mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayload);
 
@@ -210,6 +284,22 @@ describe('Help center component', function() {
       ReactTestUtils.Simulate.click(listAnchor, {
         target: { getAttribute: function() { return 0; }
       }});
+
+      expect(trackSearch)
+        .not.toHaveBeenCalled();
+
+      expect(mockBeacon.track)
+        .toHaveBeenCalledWith(
+          'helpCenter',
+          'click',
+          'helpCenterForm', {
+            query : 'Foobar',
+            resultsCount : 3,
+            uniqueSearchResultClick : true,
+            articleId : 0,
+            locale : undefined
+          }
+        );
 
       expect(article.className)
         .not.toMatch('u-isHidden');
