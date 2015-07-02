@@ -138,9 +138,8 @@
 }
 
 .Icon--tick {
-  border: #{1/$font-size}rem solid $icon-color;
+  border: #{2/$font-size}rem solid $icon-color;
   padding: #{20/$font-size}rem;
-  margin-bottom: #{20/$font-size}rem;
   border-radius: 50%;
   color: $cta-color;
 

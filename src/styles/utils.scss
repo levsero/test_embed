@@ -95,27 +95,48 @@ $Base-posOffset: $med + 1;
 }
 
 .u-marginBM {
-  margin-bottom: $spacing-lrg !important;
+  margin-bottom: $spacing-med !important;
 }
 
 .u-marginBL {
-  margin-bottom: #{30/$font-size}rem !important;
+  margin-bottom: $spacing-lrg !important;
 }
 
 .u-marginTA {
   margin-top: auto !important;
 }
 
+.u-marginTS {
+  margin-top: $spacing-sml !important;
+}
+
 .u-marginTM {
-  margin-top: $spacing-lrg;
+  margin-top: $spacing-med !important;
 }
 
 .u-marginTL {
-  margin-top: #{30/$font-size}rem;
+  margin-top: $spacing-lrg !important;
 }
 
 .u-marginVM {
   margin: $spacing-lrg 0;
+}
+
+.u-marginRS {
+  margin-right: $spacing-sml !important;
+
+  [dir='rtl'] & {
+    margin-right: 0;
+    margin-left: $spacing-sml;
+  }
+}
+
+.u-marginRM {
+  margin-right: $spacing-med !important;
+}
+
+.u-marginRL {
+  margin-right: $spacing-lrg !important;
 }
 
 .u-paddingAL {
@@ -155,12 +176,20 @@ $Base-posOffset: $med + 1;
   padding-left: #{25/$font-size}rem;
 }
 
+.u-paddingLL {
+  padding-left: $spacing-lrg;
+}
+
 .u-paddingRL {
-  padding-right: $spacing-lrg;
+  padding-right: $spacing-lrg !important;
+}
+
+.u-paddingRM {
+  padding-right: $spacing-med !important;
 }
 
 .u-paddingRS {
-  padding-right: $spacing-sml;
+  padding-right: $spacing-sml !important;
 
   [dir='rtl'] & {
     padding-right: 0;
@@ -169,19 +198,27 @@ $Base-posOffset: $med + 1;
 }
 
 .u-paddingTL {
-  padding-top: $spacing-lrg;
+  padding-top: $spacing-lrg !important;
 }
 
 .u-paddingTM {
-  padding-top: $spacing-med;
+  padding-top: $spacing-med !important;
+}
+
+.u-paddingTS {
+  padding-top: $spacing-sml !important;
 }
 
 .u-paddingTT {
-  padding-top: $spacing-tny;
+  padding-top: $spacing-tny !important;
+}
+
+.u-paddingBM {
+  padding-bottom: $spacing-med !important;
 }
 
 .u-paddingBS {
-  padding-bottom: $spacing-sml;
+  padding-bottom: $spacing-sml !important;
 }
 
 .u-paddingBN {

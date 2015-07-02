@@ -19,26 +19,12 @@
   overflow-x: hidden;
   max-height: #{280/$font-size}rem;
   box-sizing: border-box;
-  /*
-   * Creates the shadow effect at the bottom of the scrollable container
-   */
-  background:
-    /* Shadow covers */
-    linear-gradient(transparentize($base-color, 1), $base-color 70%) 0 100%,
-
-    /* Shadows */
-    radial-gradient(farthest-side at 50% 300%, transparentize($base-shadow, 0.8), transparentize($base-shadow, 1)) 0 100%;
-  background-repeat: no-repeat;
-  background-color: $base-color;
-  background-size: 100% #{40/$font-size}rem, 100% #{5/$font-size}rem;
-  background-attachment: local, scroll;
 
   /*
    * Customise scrollbar for safari/chrome
    */
   &::-webkit-scrollbar-track {
-    margin-top: $spacing-med;
-    margin-right: $spacing-med;
+    margin: $spacing-med 0;
   }
   &::-webkit-scrollbar {
     box-shadow: none;
@@ -50,14 +36,9 @@
   }
 }
 
-
-
-.Container-bar {
-  position: absolute;
-  height: #{44/$font-size}rem;
-  background: $form-cta-color;
-  right: 0;
-  left: 0;
-  top: 0;
+.ScrollContainer-footer {
+  &--shadow {
+    border-top: $thin-border-size solid $inactive-color;
+    box-shadow: 0 -1px 3px rgba($base-shadow, .08);
+  }
 }
-

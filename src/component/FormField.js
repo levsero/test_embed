@@ -314,6 +314,7 @@ var SearchField = React.createClass({
         searchContainerClasses = classSet({
           'u-cf': true,
           'u-paddingTM': this.props.hasSearched,
+          'u-marginBL': !this.props.hasSearched,
           'u-paddingHN u-paddingBN Form-cta--barFullscreen': this.props.fullscreen,
           'u-marginTM': this.props.hasSearched && this.props.fullscreen
         }),
@@ -322,7 +323,7 @@ var SearchField = React.createClass({
           'Form-field--focused': this.state.focused
         }),
         searchInputFieldClasses = classSet({
-          'Arrange-sizeFill u-paddingR Form-placeholder u-textSizeMed': true,
+          'Arrange-sizeFill u-paddingR Form-placeholder': true,
           'u-textSizeBaseMobile': this.props.fullscreen
         }),
         searchInputFieldIconClasses = classSet({

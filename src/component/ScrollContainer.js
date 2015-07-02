@@ -3,11 +3,38 @@ import React from 'react/addons';
 var classSet = React.addons.classSet;
 
 export var ScrollContainer = React.createClass({
+  getInitialState() {
+    return {
+      scrollableContent: false
+    };
+  },
+
+  componentDidMount() {
+    this.checkScrollOffset();
+  },
+
+  componentDidUpdate() {
+    this.checkScrollOffset();
+  },
+
+  checkScrollOffset() {
+    var elem = React.findDOMNode(this),
+        container = elem.querySelector('.ScrollContainer-content'),
+        scrollOffset = container.scrollHeight - container.offsetHeight;
+
+    if (scrollOffset > 0 && !this.state.scrollableContent) {
+      this.setState({scrollableContent: true});
+    }
+
+    if (scrollOffset === 0 && this.state.scrollableContent) {
+      this.setState({scrollableContent: false});
+    }
+  },
+
   render() {
-    /* jshint quotmark:false */
     var containerClasses = classSet({
           'ScrollContainer-content': true,
-          'u-paddingHL u-paddingTM': true
+          'u-paddingLL u-paddingVM u-marginRS u-paddingRS': true
         }),
         scrollHeaderClasses = classSet({
           'ScrollContainer-header': true,
@@ -15,7 +42,8 @@ export var ScrollContainer = React.createClass({
         }),
         scrollFooterClasses = classSet({
           'ScrollContainer-footer': true,
-          'u-paddingVM u-paddingHL': true
+          'u-paddingBM u-paddingHL u-posRelative': true,
+          'ScrollContainer-footer--shadow u-paddingTS': this.state.scrollableContent
         }),
         titleClasses = classSet({
           'u-textSizeMed u-textBold u-extSizeMed u-textCenter u-textXHeight': true,

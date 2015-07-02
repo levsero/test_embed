@@ -9,7 +9,8 @@ export var ZendeskLogo = React.createClass({
         logoClasses = classSet({
           'Icon Icon--zendesk u-linkClean': true,
           'u-posAbsolute u-posEnd--vert': applyPositionClasses,
-          'u-posStart': !this.props.rtl && applyPositionClasses
+          'u-posStart': !this.props.rtl && applyPositionClasses,
+          'u-posEnd': this.props.rtl
         }),
         logoUrl = ['//www.zendesk.com/embeddables/',
           '?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image'

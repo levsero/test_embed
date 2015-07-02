@@ -288,7 +288,7 @@ export var HelpCenter = React.createClass({
           'u-isHidden': this.state.articleViewActive
         }),
         buttonContainerClasses = classSet({
-          'u-borderTop u-paddingTM': this.state.articleViewActive,
+          //'u-borderTop u-paddingTM': this.state.articleViewActive,
           'u-marginTA': this.state.fullscreen,
           'u-isHidden': !this.state.hasSearched
         }),

@@ -138,11 +138,6 @@ export const SubmitTicketForm = React.createClass({
           'Form u-cf': true,
           'Form--fullscreen': this.props.fullscreen,
           'u-isHidden': this.props.hide
-        }),
-        titleClasses = classSet({
-          'u-textSizeMed u-textBold u-extSizeMed u-textCenter': true,
-          'Form-ctaLegend u-posAbsolute u-posCenter': !this.props.fullscreen,
-          'u-textSizeBaseMobile': this.props.fullscreen
         });
       var customFields = getCustomFields(this.props.customFields, this.state.formState),
           /* jshint laxbreak: true */

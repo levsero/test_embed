@@ -256,20 +256,14 @@ export var frameFactory = function(childFn, _params) {
             closeButton = (<ButtonNav
                             handleClick={this.close}
                             label={
-                              <div>
-                                {i18n.t('embeddable_framework.navigation.close')}
-                                <i className='Icon Icon--close u-textInheritColor' />
-                              </div>
+                              <i className='Icon Icon--close u-textInheritColor' />
                             }
                             position='right'
                             fullscreen={fullscreen} />),
             backButton = (<ButtonNav
                            handleClick={this.back}
                            label={
-                             <div>
-                               <i className='Icon Icon--arrow u-textInheritColor' />
-                               {i18n.t('embeddable_framework.navigation.back')}
-                             </div>
+                             <i className='Icon Icon--arrow u-textInheritColor' />
                            }
                            position='left'
                            fullscreen={fullscreen} />);
@@ -303,7 +297,7 @@ export var frameFactory = function(childFn, _params) {
                   'u-isHidden': !this.state.showBackButton
                 }),
                 closeButtonClasses = classSet({
-                  'u-isHidden': !fullscreen
+                  'u-isHidden': params.name === 'launcher'
                 });
 
             return (

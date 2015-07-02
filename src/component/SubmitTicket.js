@@ -6,6 +6,7 @@ import { transport }        from 'service/transport';
 import { SubmitTicketForm } from 'component/SubmitTicketForm';
 import { ZendeskLogo }      from 'component/ZendeskLogo';
 import { Container }        from 'component/Container';
+import { ScrollContainer }  from 'component/ScrollContainer';
 import { isMobileBrowser }  from 'utility/devices';
 import { i18n }             from 'service/i18n';
 
@@ -127,20 +128,18 @@ export var SubmitTicket = React.createClass({
 
   render() {
     var notifyClasses = classSet({
-          'Notify': true,
           'u-textCenter': true,
           'u-isHidden': !this.state.showNotification
         }),
-        marketingClasses = classSet({
-          'u-isHidden': true
+        iconClasses = classSet({
+          'Icon Icon--tick': true,
+          'u-inlineBlock u-userTextColor': true,
+          'u-marginTL u-marginBS': true
         }),
         errorClasses = classSet({
           'Error': true,
           'u-isHidden': !this.state.errorMessage
         }),
-        marketingUrl = ['//www.zendesk.com/embeddables/',
-                        '?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=text'
-                       ].join(''),
         zendeskLogo;
 
     if (this.props.updateFrameSize) {
@@ -162,15 +161,12 @@ export var SubmitTicket = React.createClass({
         position={this.props.position}
         key={this.state.uid}>
         <div className={notifyClasses}>
-          <div className='Icon Icon--tick u-inlineBlock u-userTextColor' />
-          <p className='u-textBold u-textSizeMed'>{this.state.message}</p>
-          <p className={marketingClasses}>
-            <a
-              href={marketingUrl}
-              target='_blank'>
-              {i18n.t('embeddable_framework.submitTicket.marketing.message')}
-            </a>
-          </p>
+          <ScrollContainer
+            header={this.state.message}
+            children={
+              <i className={iconClasses} />
+            }
+          />
         </div>
         <SubmitTicketForm
           onCancel={this.props.onCancel}
