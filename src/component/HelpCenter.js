@@ -204,6 +204,7 @@ export var HelpCenter = React.createClass({
         origin: 'web_widget'
       }
     });
+
     this.setState({
       searchTracked: true
     });
@@ -228,6 +229,7 @@ export var HelpCenter = React.createClass({
     };
 
     beacon.track('helpCenter', 'click', 'helpCenterForm', trackPayload);
+
     this.setState({
       searchResultClicked: true
     });
