@@ -131,7 +131,7 @@ var Field = React.createClass({
             'Form-field--clean': isCheckbox
           }),
           fieldLabelClasses = classSet({
-            'Form-field--label u-textBold': true,
+            'Form-field__label': true,
             'u-textSize15': isMobileBrowser()
           }),
           dropdownClasses = classSet({
@@ -155,7 +155,7 @@ var Field = React.createClass({
           };
 
     return (
-      <div className='Form-field--container'>
+      <div className='form-group'>
         <label className={fieldLabelClasses}>
           {this.props.placeholder}{this.props.required ? '*' : ''}
         </label>

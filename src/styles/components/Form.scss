@@ -59,7 +59,6 @@ $Form-fontSize: #{13/$font-size}rem;
 }
 
 .Form-field {
-  margin-bottom: $Form-gutter;
   background: $base-color;
   border: $thin-border-size solid $stroke-color;
   border-radius: #{4/$font-size}rem;
