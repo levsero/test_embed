@@ -25,7 +25,9 @@ describe('FormField component', function() {
         Loading: noopReactComponent()
       },
       'utility/devices': {
-        isMobileBrowser: noop
+        isMobileBrowser: function() {
+          return true;
+        }
       },
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', [
@@ -62,12 +64,6 @@ describe('FormField component', function() {
 
       expect(fieldNode.querySelector('input'))
         .toBeTruthy();
-
-      expect(ReactTestUtils.findRenderedDOMComponentWithClass(field, 'Icon'))
-        .toBeTruthy();
-
-      expect(fieldNode.nodeName)
-        .toEqual('LABEL');
     });
 
     it('should pass along all props to underlying input', function() {
@@ -179,6 +175,39 @@ describe('FormField component', function() {
       expect(ReactTestUtils.findRenderedDOMComponentWithClass(field, 'Form-field--invalid'))
         .toBeTruthy();
     });
+  });
+
+  it('should have mobile classes when isMobileBrowser is true', function() {
+    var field = React.render(
+          <Field />,
+          global.document.body
+        ),
+        fieldNode = field.getDOMNode();
+
+    expect(fieldNode.childNodes[0].className)
+      .toMatch('u-textSize15');
+  });
+
+  it('should not have mobile classes when isMobileBrowser is false', function() {
+    mockery.resetCache();
+    mockery.registerMock('utility/devices', {
+      isMobileBrowser: function() {
+        return false;
+      }
+    });
+
+    SearchField = require(formFieldPath).SearchField;
+    Field = require(formFieldPath).Field;
+    getCustomFields = require(formFieldPath).getCustomFields;
+
+    var field = React.render(
+          <Field />,
+          global.document.body
+        ),
+        fieldNode = field.getDOMNode();
+
+    expect(fieldNode.childNodes[0].className)
+      .not.toMatch('u-textSize15');
   });
 
   describe('getCustomFields', function() {
