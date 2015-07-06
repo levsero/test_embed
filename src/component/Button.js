@@ -67,4 +67,21 @@ var ButtonNav = React.createClass({
   }
 });
 
-export { Button, ButtonNav };
+var ButtonPill = React.createClass({
+  render() {
+    var buttonClasses = classSet({
+          'c-btn c-btn--medium c-btn--secondary c-btn--pill': true,
+          'u-textNormal': true,
+          'u-sizeFull u-textSizeBaseMobile is-mobile': this.props.fullscreen,
+        });
+
+    return (
+      <div
+        className={buttonClasses}>
+        {this.props.label}
+      </div>
+    );
+  }
+});
+
+export { Button, ButtonNav, ButtonPill };

@@ -59,3 +59,12 @@ $Button-nudge: 5;
     color: $base-color;
   }
 }
+
+.c-btn--pill {
+  color: $secondary-color;
+  padding: #{7/$font-size}rem #{14/$font-size}rem;
+  font-size: $Button-baseFontSize;
+  &.is-mobile {
+    border-color: $secondary-color;
+  }
+}

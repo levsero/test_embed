@@ -1,6 +1,7 @@
 import React from 'react/addons';
 
 import { i18n } from 'service/i18n';
+import { ButtonPill } from 'component/Button';
 
 var sanitizeHtml = require('sanitize-html'),
     classSet = React.addons.classSet;
@@ -109,11 +110,13 @@ var HelpCenterArticle = React.createClass({
           />
           <div className='u-marginBM UserContent-viewArticleLink'>
             <a
+              className='u-linkClean'
               href={this.props.activeArticle.html_url}
               target='_blank'>
-              {i18n.t('embeddable_framework.helpCenter.article.viewLinkText', {
-                fallback: 'View original article'
-              })}
+              <ButtonPill
+                fullscreen={this.props.fullscreen}
+                label={i18n.t('embeddable_framework.helpCenter.article.viewLinkText')}
+              />
             </a>
           </div>
         </div>
