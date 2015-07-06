@@ -62,7 +62,6 @@ var Field = React.createClass({
       React.PropTypes.number
     ]).isRequired,
     placeholder: React.PropTypes.string,
-    icon: React.PropTypes.string,
     value: React.PropTypes.oneOfType([
       React.PropTypes.string,
       React.PropTypes.number
@@ -114,8 +113,7 @@ var Field = React.createClass({
   },
 
   render() {
-    const icon = this.props.icon,
-          type = this.props.type,
+    const type = this.props.type,
           isCheckbox = (type === 'checkbox'),
           iconFieldClasses = classSet({
             'Arrange-sizeFill u-vsizeAll': true,
@@ -125,16 +123,16 @@ var Field = React.createClass({
             'Form-checkbox--focused': this.state.focused && isCheckbox,
             'Form-checkbox--invalid': this.state.hasError && this.state.blurred && isCheckbox
           }),
-          iconClasses = classSet({
-            'u-isHidden': !icon,
-            [`Arrange-sizeFit u-isActionable Icon Icon--${icon} u-alignTop`]: true
-          }),
           fieldClasses = classSet({
             'Arrange Arrange--middle Form-field u-isSelectable u-posRelative': true,
             'Form-field--invalid': this.state.hasError && this.state.blurred && !isCheckbox,
             'Form-field--focused': this.state.focused && !isCheckbox,
             'Form-field--dropdown': this.props.options,
             'Form-field--clean': isCheckbox
+          }),
+          fieldLabelClasses = classSet({
+            'Form-field--label u-textBold': true,
+            'u-textSize15': isMobileBrowser()
           }),
           dropdownClasses = classSet({
             'u-isHidden': !this.props.options,
@@ -147,27 +145,41 @@ var Field = React.createClass({
             ref: 'field',
             className: iconFieldClasses,
             value: this.props.value
+          },
+          fieldProps = {
+            name: this.props.name,
+            value: this.props.value,
+            required: this.props.required,
+            label: this.props.label,
+            type: this.props.type
           };
 
     return (
-      <label className={fieldClasses}>
-        <i className={iconClasses} />
-        {
-          /* jshint laxbreak: true */
-          (this.props.input)
-            ? React.addons.cloneWithProps(this.props.input, _.extend({}, sharedProps, this.props))
-            : <input {...sharedProps} {...this.props} />
-        }
-        {
-          (this.props.label)
-            ? <span className='Form-checkboxCaption u-isActionable'>{this.props.label}</span>
-            : null
-        }
-        <div className={dropdownClasses}>
-          <i className='Icon--dropdownArrow' />
-          <i className='Icon--dropdownArrow Icon--dropdownArrowBottom' />
-        </div>
-      </label>
+      <div className='Form-field--container'>
+        <label className={fieldLabelClasses}>
+          {this.props.placeholder}{this.props.required ? '*' : ''}
+        </label>
+        <label className={fieldClasses}>
+          {
+            /* jshint laxbreak: true */
+            (this.props.input)
+              ? React.addons.cloneWithProps(this.props.input,
+                                            _.extend({},
+                                            sharedProps,
+                                            fieldProps))
+              : <input {...sharedProps} {...fieldProps} />
+          }
+          {
+            (this.props.label)
+              ? <span className='Form-checkboxCaption u-isActionable'>{this.props.label}</span>
+              : null
+          }
+          <div className={dropdownClasses}>
+            <i className='Icon--dropdownArrow' />
+            <i className='Icon--dropdownArrow Icon--dropdownArrowBottom' />
+          </div>
+        </label>
+      </div>
     );
   }
 });
