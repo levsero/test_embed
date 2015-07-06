@@ -10,15 +10,10 @@ export var Container = React.createClass({
           'Container--popover': !this.props.fullscreen,
           'Container--fullscreen': this.props.fullscreen,
           'u-posRelative': true
-        }),
-        containerBarClasses = classSet({
-          'Container-bar u-borderBottom': true,
-          'u-isHidden': !this.props.fullscreen
         });
 
     return (
       <div className={containerClasses}>
-        <div className={containerBarClasses} />
         {this.props.children}
       </div>
     );

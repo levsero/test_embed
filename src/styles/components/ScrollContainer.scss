@@ -34,6 +34,15 @@
     background: $base-border-color;
     border-radius: #{3/$font-size}rem;
   }
+
+  &.is-mobile {
+    -webkit-overflow-scrolling: touch;
+    box-sizing: border-box;
+    overflow: auto;
+    height: calc(100% - #{240/$font-size}rem);
+    max-height: initial;
+    max-width: 100%;
+  }
 }
 
 .ScrollContainer-footer {

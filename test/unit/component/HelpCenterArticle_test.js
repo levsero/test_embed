@@ -52,36 +52,6 @@ describe('HelpCenterArticle component', function() {
     mockery.disable();
   });
 
-  it('should not have fullscreen classes when fullscreen is false', function() {
-    var helpCenterArticle = React.render(
-          <HelpCenterArticle activeArticle={mockArticle} />,
-          global.document.body
-        ),
-        articleNode = ReactTestUtils
-                        .findRenderedDOMComponentWithClass(helpCenterArticle, 'UserContent'),
-        articleClasses;
-
-      articleClasses = articleNode.props.className;
-
-      expect(articleClasses)
-        .not.toMatch('UserContent--mobile');
-  });
-
-  it('should have fullscreen classes when fullscreen is true', function() {
-    var helpCenterArticle = React.render(
-          <HelpCenterArticle activeArticle={mockArticle} fullscreen={true} />,
-          global.document.body
-        ),
-        articleNode = ReactTestUtils
-                        .findRenderedDOMComponentWithClass(helpCenterArticle, 'UserContent'),
-        articleClasses;
-
-      articleClasses = articleNode.props.className;
-
-      expect(articleClasses)
-        .toMatch('UserContent--mobile');
-  });
-
   it('should inject html string on componentDidUpdate', function() {
     var helpCenterArticle = React.render(
       <HelpCenterArticle activeArticle={mockArticle} />,

@@ -36,15 +36,19 @@ var Button = React.createClass({
 
 var ButtonNav = React.createClass({
   render() {
-    /* jshint quotmark:false */
-    var fullscreen = this.props.fullscreen,
-        position = this.props.position,
+    var { fullscreen, position, rtl } = this.props,
+        isLeft = (position === 'left'),
+        isRight = (position === 'right'),
         buttonClasses = classSet({
-          'Button Button--nav u-posAbsolute': true,
-          'u-posStart u-posStart--vertL': !fullscreen && position === 'left',
+          'Button Button--nav u-posAbsolute u-posStart--vert': true,
+          'u-posStart u-paddingL': isLeft && !rtl,
+          'u-posEnd': isLeft && rtl,
+          'u-posEnd--flush': (isLeft && rtl && fullscreen) || (isRight && !rtl && fullscreen),
           'u-isActionable u-textSizeBaseMobile u-posStart--vertFlush': fullscreen,
-          'u-posStart u-paddingL': position === 'left',
-          'u-posEnd u-paddingR u-posStart--vert': position === 'right'
+          'u-posEnd u-paddingR': isRight && !rtl,
+          'u-posStart': isRight && rtl,
+          'u-posStart--flush': (isRight && rtl && fullscreen) || (isLeft && !rtl && fullscreen),
+          'u-flipText': rtl
         });
 
     return (

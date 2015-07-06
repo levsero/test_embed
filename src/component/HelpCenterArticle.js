@@ -90,7 +90,7 @@ var HelpCenterArticle = React.createClass({
         });
 
     return (
-      /* jshint quotmark:false, camelcase:false */
+      /* jshint camelcase:false */
       <div>
         <div className={userContentClasses} ref='userContent'>
           <h1>{this.props.activeArticle.title}</h1>

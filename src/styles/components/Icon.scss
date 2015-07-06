@@ -24,11 +24,11 @@
   font-weight: normal;
   font-variant: normal;
   text-transform: none;
-  min-width: #{20/$font-size}rem; /* 1 */
-  width: #{20/$font-size}rem;
+  min-width: $spacing-lrg; /* 1 */
+  width: $spacing-lrg;
   line-height: 1;
   padding-right: #{12/$font-size}rem;
-  font-size: #{20/$font-size}rem;
+  font-size: $spacing-lrg;
   color: $icon-color;
 
   /* Better Font Rendering =========== */
@@ -46,6 +46,7 @@
 
   [dir='rtl'] & {
     padding-left: #{8/$font-size}rem;
+    padding-right: 0;
   }
 }
 
@@ -116,7 +117,7 @@
   @extend .Icon--cross;
 
   font-size: #{12/$font-size}rem;
-  padding-left: #{5/$font-size}rem;
+  padding-left: 0;
   color: $cta-color;
 }
 
@@ -139,7 +140,7 @@
 
 .Icon--tick {
   border: #{2/$font-size}rem solid $icon-color;
-  padding: #{20/$font-size}rem;
+  padding: $spacing-lrg;
   border-radius: 50%;
   color: $cta-color;
 
@@ -148,16 +149,16 @@
   }
 
   [dir='rtl'] & {
-    padding: #{20/$font-size}rem;
+    padding: $spacing-lrg;
   }
 }
 
 .Icon--zendesk {
   width: auto;
   color: $icon-inactive-color;
-  padding-left: 5px;
+  padding-left: $spacing-tny;
   bottom: -5;
-  clip: rect(#{20/$font-size}rem, #{80/$font-size}rem, #{40/$font-size}rem, 0px); /* 3 */
+  clip: rect($spacing-lrg, #{80/$font-size}rem, #{40/$font-size}rem, 0px); /* 3 */
 
   &:hover, &:active, &:focus {
     color: $cta-color;
@@ -167,20 +168,25 @@
     content: '\e608';
     font-size: #{60/$font-size}rem;
   }
+
+  [dir='rtl'] & {
+    padding-left: 0;
+    padding-right: $spacing-tny;
+  }
 }
 
 .Icon--dropdownArrow {
   display: block;
   width: 0;
   height: 0;
-  border-left: #{5/$font-size}rem solid transparent;
-  border-right: #{5/$font-size}rem solid transparent;
-  border-bottom: #{5/$font-size}rem solid $icon-color;
+  border-left: $spacing-tny solid transparent;
+  border-right: $spacing-tny solid transparent;
+  border-bottom: $spacing-tny solid $icon-color;
   margin-bottom: #{3/$font-size}rem;
 }
 
 .Icon--dropdownArrowBottom {
-  border-top: #{5/$font-size}rem solid $icon-color;
+  border-top: $spacing-tny solid $icon-color;
   border-bottom: 0;
   margin-bottom: 0;
 }

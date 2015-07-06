@@ -2,7 +2,6 @@
  * 1. Set to a very large number to give the pill shape
  */
 @import '../_vars.scss';
-@import 'bower_components/zd-css-settings.colors/settings.colors';
 
 $Button-baseFontSize: #{14/$font-size}rem;
 $Button-nudge: 5;

@@ -258,6 +258,7 @@ export var frameFactory = function(childFn, _params) {
                             label={
                               <i className='Icon Icon--close u-textInheritColor' />
                             }
+                            rtl={i18n.isRTL()}
                             position='right'
                             fullscreen={fullscreen} />),
             backButton = (<ButtonNav
@@ -265,6 +266,7 @@ export var frameFactory = function(childFn, _params) {
                            label={
                              <i className='Icon Icon--arrow u-textInheritColor' />
                            }
+                           rtl={i18n.isRTL()}
                            position='left'
                            fullscreen={fullscreen} />);
 

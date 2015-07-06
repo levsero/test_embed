@@ -357,6 +357,7 @@ export var HelpCenter = React.createClass({
               </ButtonGroup>
             </div>
           }
+          fullscreen={this.state.fullscreen}
         >
           <div className={formClasses}>
             <HelpCenterForm

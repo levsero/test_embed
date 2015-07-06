@@ -136,7 +136,6 @@ export const SubmitTicketForm = React.createClass({
   render() {
     var formClasses = classSet({
           'Form u-cf': true,
-          'Form--fullscreen': this.props.fullscreen,
           'u-isHidden': this.props.hide
         });
       var customFields = getCustomFields(this.props.customFields, this.state.formState),
@@ -195,6 +194,7 @@ export const SubmitTicketForm = React.createClass({
                 type='submit' />
             </ButtonGroup>
           }
+          fullscreen={this.props.fullscreen}
         />
       </form>
     );

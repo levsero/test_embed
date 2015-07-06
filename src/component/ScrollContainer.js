@@ -34,7 +34,8 @@ export var ScrollContainer = React.createClass({
   render() {
     var containerClasses = classSet({
           'ScrollContainer-content': true,
-          'u-paddingLL u-paddingVM u-marginRS u-paddingRS': true
+          'u-paddingLL u-paddingVM u-marginRS u-paddingRS': true,
+          'is-mobile': this.props.fullscreen
         }),
         scrollHeaderClasses = classSet({
           'ScrollContainer-header': true,

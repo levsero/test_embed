@@ -160,7 +160,7 @@ export var SubmitTicket = React.createClass({
         fullscreen={this.state.fullscreen}
         position={this.props.position}
         key={this.state.uid}>
-        <div className={notifyClasses}>
+        <div className={notifyClasses} ref='notification'>
           <ScrollContainer
             header={this.state.message}
             children={
