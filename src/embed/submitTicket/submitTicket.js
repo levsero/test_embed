@@ -35,7 +35,7 @@ function create(name, config) {
           name,
           {
             query: params.searchString,
-            ticketId: ticketIdMatcher.exec(params.res.body.message)[1],
+            ticketId: parseInt(ticketIdMatcher.exec(params.res.body.message)[1], 10),
             locale: params.searchLocale
           });
         mediator.channel.broadcast(name + '.onFormSubmitted');
@@ -146,7 +146,8 @@ function render(name) {
   });
 
   mediator.channel.subscribe(name + '.setLastSearch', function(params) {
-    get(name).instance.getChild().refs.submitTicket.setState(_.pick(params, ['searchString', 'searchLocale']));
+    get(name).instance.getChild().refs.submitTicket
+      .setState(_.pick(params, ['searchString', 'searchLocale']));
   });
 
   mediator.channel.subscribe('.identify', function(user) {

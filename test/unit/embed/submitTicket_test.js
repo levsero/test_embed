@@ -17,7 +17,9 @@ describe('embed.submitTicket', function() {
 
     mockRegistry = initMockRegistry({
       'react/addons': React,
-      'service/beacon': noop,
+      'service/beacon': {
+        beacon: jasmine.createSpyObj('beacon', ['track'])
+      },
       'service/mediator': {
         mediator: {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
@@ -239,34 +241,32 @@ describe('embed.submitTicket', function() {
           .toHaveBeenCalledWith('bob.onClose');
       });
 
-    });
+      it('should switch iframe styles based on isMobileBrowser()', function() {
+        var mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory,
+            mockFrameFactoryCall,
+            iframeStyle;
 
-    it('should switch iframe styles based on isMobileBrowser()', function() {
-     var mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory,
-         mockFrameFactoryCall,
-         iframeStyle;
+        mockery.registerMock('utility/devices', {
+          isMobileBrowser: function() {
+            return true;
+          }
+        });
+        mockery.resetCache();
+        submitTicket = require(submitTicketPath).submitTicket;
+        submitTicket.create('bob');
 
-      mockery.registerMock('utility/devices', {
-        isMobileBrowser: function() {
-          return true;
-        }
+        mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
+
+        iframeStyle = mockFrameFactoryCall[1].style;
+
+        expect(iframeStyle.left)
+          .toBeUndefined();
+
+        expect(iframeStyle.right)
+          .toBeUndefined();
       });
-      mockery.resetCache();
-      submitTicket = require(submitTicketPath).submitTicket;
-      submitTicket.create('bob');
 
-      mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
-
-      iframeStyle = mockFrameFactoryCall[1].style;
-
-      expect(iframeStyle.left)
-        .toBeUndefined();
-
-      expect(iframeStyle.right)
-        .toBeUndefined();
-    });
-
-    it('should switch container styles based on isMobileBrowser()', function() {
+      it('should switch container styles based on isMobileBrowser()', function() {
       var mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory,
           mockFrameFactoryCall,
           childFnParams = {
@@ -292,8 +292,61 @@ describe('embed.submitTicket', function() {
 
       expect(payload.props.style)
         .toEqual({height: '100%', width: '100%'});
-    });
+      });
 
+      it('should broadcast <name>.onSubmitted with onSubmitted', function() {
+        var mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory,
+            mockMediator = mockRegistry['service/mediator'].mediator,
+            mockBeacon = mockRegistry['service/beacon'].beacon,
+            mockFrameFactoryCall,
+            childFnParams = {
+              updateFrameSize: function() {}
+            },
+            params = {
+              res: {
+                body: {
+                  message: 'Request #149 "bla bla" created'
+                }
+              },
+              searchString: 'a search',
+              searchLocale: 'en-US'
+            },
+            payload;
+
+        mockery.registerMock('utility/devices', {
+          isMobileBrowser: function() {
+            return true;
+          }
+        });
+
+        mockery.resetCache();
+
+        submitTicket = require(submitTicketPath).submitTicket;
+
+        submitTicket.create('bob');
+
+        mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
+
+        payload = mockFrameFactoryCall[0](childFnParams);
+
+        payload.props.children.props.onSubmitted(params);
+
+        expect(mockBeacon.track)
+          .toHaveBeenCalledWith(
+            'submitTicket',
+            'send',
+            'bob',
+            {
+              query: params.searchString,
+              locale: params.searchLocale,
+              ticketId: 149
+            }
+          );
+
+        expect(mockMediator.channel.broadcast)
+          .toHaveBeenCalledWith('bob.onFormSubmitted');
+      });
+    });
   });
 
   describe('get', function() {
@@ -412,6 +465,26 @@ describe('embed.submitTicket', function() {
 
         expect(bobFrame.state.showBackButton)
           .toEqual(true);
+      });
+
+      it('should subscribe to <name>.setLastSearch', function() {
+        var params = {
+          searchString: 'a search',
+          searchLocale: 'en-US'
+        };
+
+        expect(mockMediator.channel.subscribe)
+          .toHaveBeenCalledWith('bob.setLastSearch', jasmine.any(Function));
+
+        bobSubmitTicket.state.searchString = null;
+        bobSubmitTicket.state.searchLocale = null;
+
+        pluckSubscribeCall(mockMediator, 'bob.setLastSearch')(params);
+
+        expect(bobSubmitTicket.state.searchString)
+          .toEqual(params.searchString);
+        expect(bobSubmitTicket.state.searchLocale)
+          .toEqual(params.searchLocale);
       });
 
     });
