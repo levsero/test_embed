@@ -3,6 +3,15 @@ import React from 'react/addons';
 var classSet = React.addons.classSet;
 
 export var ScrollContainer = React.createClass({
+  propTypes: {
+    header: React.PropTypes.string.isRequired,
+    footer: React.PropTypes.oneOfType([
+      React.PropTypes.element,
+      React.PropTypes.array(React.PropTypes.element)
+    ]),
+    fullscreen: React.PropTypes.bool
+  },
+
   getInitialState() {
     return {
       scrollableContent: false
@@ -24,9 +33,7 @@ export var ScrollContainer = React.createClass({
 
     if (scrollOffset > 0 && !this.state.scrollableContent) {
       this.setState({scrollableContent: true});
-    }
-
-    if (scrollOffset === 0 && this.state.scrollableContent) {
+    } else if (scrollOffset === 0 && this.state.scrollableContent) {
       this.setState({scrollableContent: false});
     }
   },
