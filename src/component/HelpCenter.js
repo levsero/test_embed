@@ -288,7 +288,6 @@ export var HelpCenter = React.createClass({
           'u-isHidden': this.state.articleViewActive
         }),
         buttonContainerClasses = classSet({
-          //'u-borderTop u-paddingTM': this.state.articleViewActive,
           'u-marginTA': this.state.fullscreen,
           'u-isHidden': !this.state.hasSearched
         }),
@@ -345,7 +344,10 @@ export var HelpCenter = React.createClass({
           headerContent={
             this.state.hasSearched &&
             !this.state.articleViewActive &&
-            searchField
+            <HelpCenterForm
+              onSubmit={this.handleSubmit}
+              onSearch={this.handleSearch}
+              children={searchField} />
           }
           footer={
             <div className={buttonContainerClasses}>
