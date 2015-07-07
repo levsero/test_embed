@@ -37,9 +37,6 @@ function create(name, config) {
           showBackButton: true
         });
       },
-      onLinkClick = function(ev) {
-        beacon.track('helpCenter', 'click', name, ev.target.href);
-      },
       onSearch = function(searchString) {
         beacon.track('helpCenter', 'search', name, searchString);
       },
@@ -71,7 +68,6 @@ function create(name, config) {
             zendeskHost={transport.getZendeskHost()}
             onButtonClick={onButtonClick}
             showBackButton={showBackButton}
-            onLinkClick={onLinkClick}
             onSearch={onSearch}
             hideZendeskLogo={config.hideZendeskLogo}
             position={config.position}
@@ -94,6 +90,7 @@ function create(name, config) {
           setScaleLock(false);
         }
         child.refs.helpCenter.hideVirtualKeyboard();
+        child.refs.helpCenter.backtrackSearch();
       },
       onShow(child) {
         if (isMobileBrowser()) {

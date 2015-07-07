@@ -11,6 +11,7 @@ import { Container }         from 'component/Container';
 import { isMobileBrowser }   from 'utility/devices';
 import { i18n }              from 'service/i18n';
 import { Button }            from 'component/Button';
+import { beacon }            from 'service/beacon';
 
 var classSet = React.addons.classSet;
 
@@ -18,7 +19,7 @@ export var HelpCenter = React.createClass({
   getInitialState() {
     return {
       articles: [],
-      resultCount: 0,
+      resultsCount: 0,
       searchTerm: '',
       buttonLabel: i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket'),
       fullscreen: isMobileBrowser(),
@@ -27,7 +28,9 @@ export var HelpCenter = React.createClass({
       searchFailed: false,
       articleViewActive: false,
       activeArticle: {},
-      removeSearchField: false
+      removeSearchField: false,
+      searchTracked: false,
+      searchResultClicked: false
     };
   },
 
@@ -78,7 +81,7 @@ export var HelpCenter = React.createClass({
 
     this.setState({
       articles: articles,
-      resultCount: json.count,
+      resultsCount: json.count,
       isLoading: false,
       previousSearchTerm: this.state.searchTerm,
       hasSearched: true,
@@ -95,14 +98,15 @@ export var HelpCenter = React.createClass({
     });
   },
 
-  performSearch(searchString) {
+  performSearch(searchString, forceSearch) {
     var search = (searchString, locale) => {
           transport.send({
             method: 'get',
             path: '/api/v2/help_center/search.json',
             query: {
               locale: locale,
-              query: searchString
+              query: searchString,
+              origin: forceSearch ? 'web_widget' : null
             },
             callbacks: {
               done: (res) => {
@@ -124,7 +128,9 @@ export var HelpCenter = React.createClass({
     this.props.onSearch(searchString);
     this.setState({
       isLoading: true,
-      searchTerm: searchString
+      searchTerm: searchString,
+      searchTracked: forceSearch,
+      searchResultClicked: false
     });
 
     search(searchString, i18n.getLocale());
@@ -142,7 +148,7 @@ export var HelpCenter = React.createClass({
       filteredStr = stopWordsFilter(searchString);
 
       if (filteredStr !== '') {
-        this.performSearch(filteredStr);
+        this.performSearch(filteredStr, forceSearch);
       }
     }
   },
@@ -172,16 +178,61 @@ export var HelpCenter = React.createClass({
     }
   },
 
-  handleArticleClick(e) {
+  handleArticleClick(articleIndex, e) {
     e.preventDefault();
 
     this.setState({
-      activeArticle: this.state.articles[e.target.getAttribute('data-article-index')],
+      activeArticle: this.state.articles[articleIndex],
       articleViewActive: true
     });
 
-    this.props.onLinkClick(e);
+    this.trackArticleView(articleIndex);
+
     this.props.showBackButton();
+
+    if (!this.state.searchTracked) {
+      this.trackSearch();
+    }
+  },
+
+  trackSearch() {
+    transport.send({
+      method: 'get',
+      path: '/api/v2/help_center/search.json',
+      query: {
+        query: this.state.searchTerm,
+        origin: 'web_widget'
+      }
+    });
+
+    this.setState({
+      searchTracked: true
+    });
+  },
+
+  /**
+   * Instrument the last auto-search, if it's still pending to be instrumented
+   */
+  backtrackSearch() {
+    if (!this.state.searchTracked && this.state.searchTerm) {
+      this.trackSearch();
+    }
+  },
+
+  trackArticleView(articleIndex) {
+    var trackPayload = {
+      query: this.state.searchTerm,
+      resultsCount: this.state.resultsCount > 3 ? 3 : this.state.resultsCount,
+      uniqueSearchResultClick: !this.state.searchResultClicked,
+      articleId: this.state.articles[articleIndex].id,
+      locale: i18n.getLocale()
+    };
+
+    beacon.track('helpCenter', 'click', 'helpCenterForm', trackPayload);
+
+    this.setState({
+      searchResultClicked: true
+    });
   },
 
   render() {
@@ -193,8 +244,7 @@ export var HelpCenter = React.createClass({
               <a className='u-userTextColor'
                  href={article.html_url}
                  target='_blank'
-                 data-article-index={index}
-                 onClick={this.handleArticleClick}>
+                 onClick={this.handleArticleClick.bind(this, index)}>
                   {article.title || article.name}
               </a>
             </li>
@@ -217,7 +267,7 @@ export var HelpCenter = React.createClass({
         }),
         noResultsClasses = classSet({
           'u-marginTM u-textCenter u-textSizeMed': true,
-          'u-isHidden': this.state.resultCount || !this.state.hasSearched,
+          'u-isHidden': this.state.resultsCount || !this.state.hasSearched,
           'u-textSizeBaseMobile': this.state.fullscreen,
           'u-borderBottom List--noResults': !this.state.fullscreen
         }),
