@@ -13,7 +13,7 @@
     "color": "~0.7.3",
     "counterpart": "~0.16.0",
     "lodash": "^2.4.1",
-    "react": "~0.12.2",
+    "react": "~0.13.3",
     "sanitize-html": "~1.6.1",
     "snabbt.js": "~0.2.0",
     "superagent": "visionmedia/superagent#608cda651db3ac1559a604032878bae3ac16efd7",
