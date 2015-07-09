@@ -28,7 +28,7 @@ function create(name, config) {
       posObj,
       iframeStyle,
       onSubmitted = function(params) {
-        let ticketIdMatcher = /Request \#([0-9]+) /;
+        let ticketIdMatcher = /Request \#([0-9]+)/;
         beacon.track(
           'submitTicket',
           'send',

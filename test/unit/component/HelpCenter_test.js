@@ -193,7 +193,7 @@ describe('Help center component', function() {
             global.document.body
           ),
           mockTransport = mockRegistry['service/transport'].transport,
-          responsePayload = {ok: true, body: {results: [1,2,3], count: 3}};
+          responsePayload = {ok: true, body: {results: [1, 2, 3], count: 3}};
 
       helpCenter.handleSubmit({preventDefault: noop});
 
