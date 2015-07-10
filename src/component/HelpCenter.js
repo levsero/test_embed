@@ -112,6 +112,7 @@ export var HelpCenter = React.createClass({
               done: (res) => {
                 if (res.ok) {
                   if ((locale && res.body.count > 0) || !locale) {
+                    this.props.onSearch({searchString: searchString, searchLocale: locale});
                     this.updateResults(res);
                   } else {
                     search(searchString);
@@ -125,7 +126,6 @@ export var HelpCenter = React.createClass({
           });
         };
 
-    this.props.onSearch(searchString);
     this.setState({
       isLoading: true,
       searchTerm: searchString,

@@ -167,6 +167,42 @@ describe('Submit ticket component', function() {
       .toHaveBeenCalled();
   });
 
+  it('should call onSubmitted with given last search state', function() {
+    var mockTransport = mockRegistry['service/transport'].transport,
+        transportRecentCall,
+        mockOnSubmitted = jasmine.createSpy('mockOnSubmitted'),
+        submitTicket = React.render(
+          <SubmitTicket onSubmitted={mockOnSubmitted} updateFrameSize={noop} />,
+          global.document.body
+        );
+
+    submitTicket.setState({
+      searchString: 'a search',
+      searchLocale: 'en-US'
+    });
+
+    submitTicket.handleSubmit({preventDefault: noop}, {
+      isFormValid: true,
+      value: {
+        email: formParams.email,
+        description: formParams.description
+      }
+    });
+
+    transportRecentCall = mockTransport.send.calls.mostRecent().args[0];
+
+    transportRecentCall.callbacks.done({});
+
+    expect(mockOnSubmitted)
+      .toHaveBeenCalled();
+
+    expect(mockOnSubmitted.calls.mostRecent().args[0].searchString)
+      .toEqual('a search');
+
+    expect(mockOnSubmitted.calls.mostRecent().args[0].searchLocale)
+      .toEqual('en-US');
+  });
+
   it('should correctly format custom fields', function() {
     var mockCustomField = [
           {

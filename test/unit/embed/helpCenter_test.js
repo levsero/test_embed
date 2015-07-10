@@ -21,7 +21,9 @@ describe('embed.helpCenter', function() {
 
     mockRegistry = initMockRegistry({
       'react/addons': React,
-      'service/beacon': noop,
+      'service/beacon': {
+        beacon: jasmine.createSpyObj('beacon', ['track'])
+      },
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', ['t'])
       },
@@ -169,6 +171,15 @@ describe('embed.helpCenter', function() {
             .toHaveBeenCalledWith('carlos.onNextClick');
         });
 
+        it('should broadcast <name>.onSearch with onSearch', function() {
+          var payload = childFn({}),
+              params = {searchString: 'searchString', searchLocale: 'en-US'};
+
+          payload.props.children.props.onSearch(params);
+
+          expect(mockMediator.channel.broadcast)
+            .toHaveBeenCalledWith('carlos.onSearch', params);
+        });
         it('should reset form state onShow', function() {
           helpCenter = require(helpCenterPath).helpCenter;
           helpCenter.create('carlos', frameConfig);
