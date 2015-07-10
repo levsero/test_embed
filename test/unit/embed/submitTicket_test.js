@@ -270,7 +270,7 @@ describe('embed.submitTicket', function() {
       var mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory,
           mockFrameFactoryCall,
           childFnParams = {
-            updateFrameSize: function() {}
+            updateFrameSize: noop
           },
           payload;
 
@@ -300,7 +300,7 @@ describe('embed.submitTicket', function() {
             mockBeacon = mockRegistry['service/beacon'].beacon,
             mockFrameFactoryCall,
             childFnParams = {
-              updateFrameSize: function() {}
+              updateFrameSize: noop
             },
             params = {
               res: {
@@ -447,7 +447,9 @@ describe('embed.submitTicket', function() {
         expect(bobSubmitTicket.clearNotification.__reactBoundMethod)
           .not.toHaveBeenCalled();
 
-        bobSubmitTicket.state.showNotification = true;
+        bobSubmitTicket.setState({
+          showNotification: true
+        });
 
         pluckSubscribeCall(mockMediator, 'bob.hide')();
 
@@ -459,7 +461,9 @@ describe('embed.submitTicket', function() {
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('bob.showBackButton', jasmine.any(Function));
 
-        bobSubmitTicket.state.showBackButton = false;
+        bobSubmitTicket.setState({
+          showBackButton: false
+        });
 
         pluckSubscribeCall(mockMediator, 'bob.showBackButton')();
 
@@ -476,8 +480,10 @@ describe('embed.submitTicket', function() {
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('bob.setLastSearch', jasmine.any(Function));
 
-        bobSubmitTicket.state.searchString = null;
-        bobSubmitTicket.state.searchLocale = null;
+        bobSubmitTicket.setState({
+          searchString: null,
+          searchLocale: null
+        });
 
         pluckSubscribeCall(mockMediator, 'bob.setLastSearch')(params);
 
