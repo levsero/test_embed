@@ -1,6 +1,7 @@
 import React from 'react/addons';
 
 var icons = {
+      'Icon--link': require('../asset/icons/widget-icon_link.svg'),
       'Icon--back': require('../asset/icons/widget-icon_back.svg'),
       'Icon--close': require('../asset/icons/widget-icon_close.svg'),
       'Icon--chat': require('../asset/icons/widget-icon_chat.svg'),

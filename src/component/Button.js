@@ -1,5 +1,7 @@
 import React from 'react/addons';
 
+import { SVGIcon } from 'component/SvgIcon';
+
 var classSet = React.addons.classSet;
 
 var Button = React.createClass({
@@ -70,6 +72,9 @@ var ButtonPill = React.createClass({
       <div
         className={buttonClasses}>
         {this.props.label}
+        <SVGIcon
+            type='Icon--link'
+          />
       </div>
     );
   }

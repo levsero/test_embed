@@ -88,6 +88,17 @@
   }
 }
 
+.Icon--link {
+  padding-left: #{5/$font-size}rem;
+
+  svg {
+    min-width: #{9/$font-size}rem; /* 1 */
+    min-height: #{9/$font-size}rem; /* 1 */
+    height: #{9/$font-size}rem;
+    width: #{9/$font-size}rem;
+  }
+}
+
 .Icon--dropdownArrow {
   display: block;
   width: 0;
