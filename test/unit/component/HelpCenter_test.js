@@ -71,7 +71,8 @@ describe('Help center component', function() {
             render: function() {
               return <input className='Button' type='button' />;
             }
-          })
+          }),
+        ButtonGroup: noopReactComponent()
       },
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', [

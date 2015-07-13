@@ -1,7 +1,9 @@
 import React from 'react/addons';
 import _     from 'lodash';
 
-import { Button }          from 'component/Button';
+import { Button,
+         ButtonSecondary,
+         ButtonGroup }     from 'component/Button';
 import { i18n }            from 'service/i18n';
 import { Field,
          getCustomFields } from 'component/FormField';
@@ -22,7 +24,9 @@ export const SubmitTicketForm = React.createClass({
 
   getDefaultProps() {
     return {
-      fullscreen: false
+      fullscreen: false,
+      cancelButtonMessage: i18n.t('embeddable_framework.submitTicket.form.cancelButton.label.cancel', // jshint ignore:line
+        {fallback: 'Cancel'})
     };
   },
 
@@ -143,7 +147,6 @@ export const SubmitTicketForm = React.createClass({
           'Form-cta u-cf Container-pullout u-paddingBS': true,
           'Form-cta--bar u-marginBM u-paddingBL': !this.props.fullscreen
         });
-
       var customFields = getCustomFields(this.props.customFields, this.state.formState),
           /* jshint laxbreak: true */
           formBody = (this.state.removeTicketForm)
@@ -174,7 +177,13 @@ export const SubmitTicketForm = React.createClass({
                        />
                        {customFields.checkboxes}
                        {this.props.children}
-                     </div>;
+                     </div>,
+          buttonCancel = (this.props.fullscreen)
+                       ? null
+                       : <ButtonSecondary
+                           label={this.props.cancelButtonMessage}
+                           onClick={this.props.onCancel}
+                           fullscreen={this.props.fullscreen} />;
 
     return (
       <form
@@ -189,13 +198,14 @@ export const SubmitTicketForm = React.createClass({
           </h2>
         </div>
         {formBody}
-        <Button
-          label={this.state.buttonMessage}
-          disabled={!this.state.isValid || this.state.isSubmitting}
-          fullscreen={this.props.fullscreen}
-          type='submit'
-          rtl={i18n.isRTL()}
-        />
+        <ButtonGroup rtl={i18n.isRTL()}>
+          {buttonCancel}
+          <Button
+            fullscreen={this.props.fullscreen}
+            label={this.state.buttonMessage}
+            disabled={!this.state.isValid || this.state.isSubmitting}
+            type='submit' />
+        </ButtonGroup>
       </form>
     );
   }

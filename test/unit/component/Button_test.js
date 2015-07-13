@@ -32,11 +32,7 @@ describe('Button component', function() {
         ),
         buttonElem = ReactTestUtils
           .findRenderedDOMComponentWithClass(button, 'c-btn'),
-        buttonClasses = buttonElem.props.className,
-        buttonContainerClasses = buttonElem.getDOMNode().parentNode.className;
-
-    expect(buttonContainerClasses)
-      .toMatch('u-textRight');
+        buttonClasses = buttonElem.props.className;
 
     expect(buttonClasses)
       .not.toMatch('u-sizeFull');
@@ -49,49 +45,10 @@ describe('Button component', function() {
         ),
         buttonElem = ReactTestUtils
           .findRenderedDOMComponentWithClass(button, 'c-btn'),
-        buttonClasses = buttonElem.props.className,
-        buttonContainerClasses = buttonElem.getDOMNode().parentNode.className;
-
+        buttonClasses = buttonElem.props.className;
 
     expect(buttonClasses)
       .toMatch('u-sizeFull');
-
-    expect(buttonContainerClasses)
-      .not.toMatch('u-textRight');
-  });
-
-  it('should not have rtl classes when rtl prop is false', function() {
-    var button = React.render(
-          <Button />,
-          global.document.body
-        ),
-        buttonElem = ReactTestUtils
-          .findRenderedDOMComponentWithClass(button, 'c-btn'),
-        buttonContainerClasses = buttonElem.getDOMNode().parentNode.className;
-
-
-    expect(buttonContainerClasses)
-      .not.toMatch('u-textLeft');
-
-    expect(buttonContainerClasses)
-      .toMatch('u-textRight');
-  });
-
-  it('should have rtl classes when rtl prop is true', function() {
-    var button = React.render(
-          <Button rtl={true} />,
-          global.document.body
-        ),
-        buttonElem = ReactTestUtils
-          .findRenderedDOMComponentWithClass(button, 'c-btn'),
-        buttonContainerClasses = buttonElem.getDOMNode().parentNode.className;
-
-
-    expect(buttonContainerClasses)
-      .toMatch('u-textLeft');
-
-    expect(buttonContainerClasses)
-      .not.toMatch('u-textRight');
   });
 
 });

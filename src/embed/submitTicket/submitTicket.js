@@ -31,6 +31,9 @@ function create(name, config) {
         beacon.track('submitTicket', 'send', name);
         mediator.channel.broadcast(name + '.onFormSubmitted');
       },
+      onCancel = function() {
+        mediator.channel.broadcast(name + '.onCancelClick');
+      },
       Embed;
 
   config = _.extend(configDefaults, config);
@@ -56,6 +59,7 @@ function create(name, config) {
             ref='submitTicket'
             updateFrameSize={params.updateFrameSize}
             onSubmitted={onSubmitted}
+            onCancel={onCancel}
             customFields={config.customFields}
             hideZendeskLogo={config.hideZendeskLogo}
             position={config.position}/>
