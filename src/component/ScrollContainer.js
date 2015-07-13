@@ -59,7 +59,7 @@ export var ScrollContainer = React.createClass({
         });
 
     return (
-      <div className='ScrollContainer'>
+      <div className='ScrollContainer u-nbfc'>
         <header className={scrollHeaderClasses}>
           <h2 className={titleClasses}>
             {this.props.header}

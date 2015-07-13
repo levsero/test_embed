@@ -6,6 +6,7 @@
 @import 'UserContent';
 
 .ScrollContainer {
+  border-radius: #{8/$font-size}rem;
   box-sizing: border-box;
 }
 
