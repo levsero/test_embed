@@ -54,13 +54,22 @@ describe('FormField component', function() {
   });
 
   describe('Field', function() {
-    it('should render form field DOM with plain input', function() {
+    it('should render form field DOM with a div wrapping label and input', function() {
       var field = React.render(
             <Field
               name='alice' />,
             global.document.body
           ),
           fieldNode = field.getDOMNode();
+
+      expect(fieldNode.nodeName)
+        .toEqual('DIV');
+
+      expect(fieldNode.children.length)
+        .toEqual(2);
+
+      expect(fieldNode.querySelector('label'))
+        .toBeTruthy();
 
       expect(fieldNode.querySelector('input'))
         .toBeTruthy();
