@@ -205,9 +205,7 @@ describe('FormField component', function() {
       }
     });
 
-    SearchField = require(formFieldPath).SearchField;
     Field = require(formFieldPath).Field;
-    getCustomFields = require(formFieldPath).getCustomFields;
 
     var field = React.render(
           <Field />,
