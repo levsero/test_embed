@@ -136,7 +136,7 @@ var Field = React.createClass({
           }),
           dropdownClasses = classSet({
             'u-isHidden': !this.props.options,
-            'Arrange-sizeFit Form-field__arrows': true
+            'Form-field__arrows': true
           }),
           sharedProps = {
             onChange: this.onChange,
