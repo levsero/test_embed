@@ -31,7 +31,7 @@ export const SubmitTicketForm = React.createClass({
       const form = this.refs.form.getDOMNode();
 
       _.forEach(form.elements, function(field) {
-        if(field.type === 'submit') {
+        if (field.type === 'submit') {
           return;
         }
 
@@ -43,9 +43,11 @@ export const SubmitTicketForm = React.createClass({
             field.value = this.state.formState[field.name];
           }
         } else {
+
           // If clearing form after submit we need to make sure
           // formState clears out undefined values
           field.value = '';
+
           // Don't need to check for type here as non checkbox inputs
           // will ignore this property.
           field.checked = false;
@@ -63,11 +65,12 @@ export const SubmitTicketForm = React.createClass({
   },
 
   focusField() {
-    const form = this.refs.form.getDOMNode(),
-          // Focus on the first empty text or textarea
-          element = _.find(form.querySelectorAll('input, textarea'), function(input) {
-            return input.value === '' && _.contains(['text', 'textarea', 'email'], input.type);
-          });
+    const form = this.refs.form.getDOMNode();
+
+    // Focus on the first empty text or textarea
+    const element = _.find(form.querySelectorAll('input, textarea'), function(input) {
+      return input.value === '' && _.contains(['text', 'textarea', 'email'], input.type);
+    });
 
     if (element) {
       element.focus();
@@ -129,52 +132,53 @@ export const SubmitTicketForm = React.createClass({
   },
 
   render() {
-    var formClasses = classSet({
-          'Form u-cf': true,
-          'Form--fullscreen': this.props.fullscreen,
-          'u-isHidden': this.props.hide
-        }),
-        titleClasses = classSet({
-          'u-textSizeMed u-textBold u-extSizeMed u-textCenter': true,
-          'Form-ctaLegend u-posAbsolute u-posCenter': !this.props.fullscreen,
-          'u-textSizeBaseMobile': this.props.fullscreen
-        }),
-        barClasses = classSet({
-          'Form-cta u-cf Container-pullout u-paddingBS': true,
-          'Form-cta--bar u-marginBM u-paddingBL': !this.props.fullscreen
-        });
+    const formClasses = classSet({
+      'Form u-cf': true,
+      'Form--fullscreen': this.props.fullscreen,
+      'u-isHidden': this.props.hide
+    });
+    const titleClasses = classSet({
+      'u-textSizeMed u-textBold u-extSizeMed u-textCenter': true,
+      'Form-ctaLegend u-posAbsolute u-posCenter': !this.props.fullscreen,
+      'u-textSizeBaseMobile': this.props.fullscreen
+    });
+    const barClasses = classSet({
+      'Form-cta u-cf Container-pullout u-paddingBS': true,
+      'Form-cta--bar u-marginBM u-paddingBL': !this.props.fullscreen
+    });
 
-      var customFields = getCustomFields(this.props.customFields, this.state.formState),
-          /* jshint laxbreak: true */
-          formBody = (this.state.removeTicketForm)
-                   ? null
-                   : <div ref='formWrapper'>
-                       <Field
-                         placeholder={i18n.t('embeddable_framework.submitTicket.field.name.label')}
-                         icon='avatar'
-                         value={this.state.formState.name}
-                         name='name' />
-                       <Field
-                         placeholder={i18n.t('embeddable_framework.form.field.email.label')}
-                         type='email'
-                         icon='mail'
-                         required
-                         value={this.state.formState.email}
-                         name='email' />
-                       {customFields.fields}
-                       <Field
-                         placeholder={
-                           i18n.t('embeddable_framework.submitTicket.field.description.label')
-                         }
-                         required
-                         icon='msg'
-                         value={this.state.formState.description}
-                         name='description'
-                         input={<textarea rows='5' />}
-                       />
-                       {customFields.checkboxes}
-                       {this.props.children}
-                     </div>;
+    const customFields = getCustomFields(this.props.customFields, this.state.formState);
+
+    /* jshint laxbreak: true */
+    const formBody = (this.state.removeTicketForm)
+                 ? null
+                 : <div ref='formWrapper'>
+                     <Field
+                       placeholder={i18n.t('embeddable_framework.submitTicket.field.name.label')}
+                       icon='avatar'
+                       value={this.state.formState.name}
+                       name='name' />
+                     <Field
+                       placeholder={i18n.t('embeddable_framework.form.field.email.label')}
+                       type='email'
+                       icon='mail'
+                       required
+                       value={this.state.formState.email}
+                       name='email' />
+                     {customFields.fields}
+                     <Field
+                       placeholder={
+                         i18n.t('embeddable_framework.submitTicket.field.description.label')
+                       }
+                       required
+                       icon='msg'
+                       value={this.state.formState.description}
+                       name='description'
+                       input={<textarea rows='5' />}
+                     />
+                     {customFields.checkboxes}
+                     {this.props.children}
+                   </div>;
 
     return (
       <form

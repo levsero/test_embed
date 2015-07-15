@@ -1,5 +1,6 @@
 /* jshint ignore: start */
 
+// jscs:disable requireSpaceAfterBinaryOperators, maximumLineLength
 export var stopWords = [
   'a','about','above','across','after','again','against','all','almost','alone','along','already','also','although','always','am','among','an','and',
   'another','any','anybody','anyone','anything','anywhere','are','area','areas','aren\'t','around','as','ask','asked','asking','asks','at','away','b'
@@ -29,3 +30,4 @@ export var stopWords = [
   'wouldn\'t','x','y','year','years','yes','yet','you','you\'d','you\'ll','young','younger','youngest','your','you\'re','yours','yourself','yourselves',
   'you\'ve','z'
 ];
+// jscs:enable

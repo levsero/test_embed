@@ -9,7 +9,7 @@ import { Container }        from 'component/Container';
 import { isMobileBrowser }  from 'utility/devices';
 import { i18n }             from 'service/i18n';
 
-var classSet = React.addons.classSet;
+const classSet = React.addons.classSet;
 
 export var SubmitTicket = React.createClass({
   getInitialState() {
@@ -35,8 +35,8 @@ export var SubmitTicket = React.createClass({
   },
 
   clearForm() {
-    var submitTicketForm = this.refs.submitTicketForm,
-        formData = submitTicketForm.state.formState;
+    const submitTicketForm = this.refs.submitTicketForm;
+    const formData = submitTicketForm.state.formState;
 
     submitTicketForm.setState(submitTicketForm.getInitialState());
     submitTicketForm.setState({
@@ -62,50 +62,56 @@ export var SubmitTicket = React.createClass({
       return;
     }
 
-    var formParams = _.extend({
-          'set_tags': 'web_widget',
-          'via_id': 48,
-          'locale_id': i18n.getLocaleId(),
-          'submitted_from': win.location.href
-        }, this.formatTicketSubmission(data)),
-        resCallback = (res) => {
-          this.setState({
-            showNotification: true,
-            message: i18n.t('embeddable_framework.submitTicket.notify.message.success')
-          });
-          this.clearForm();
-          this.props.onSubmitted({
-            res: res,
-            searchString: this.state.searchString,
-            searchLocale: this.state.searchLocale
-          });
-          this.props.updateFrameSize(0,0);
-        },
-        errorCallback = (msg) => {
-          this.setState({ errorMessage: msg });
-          this.refs.submitTicketForm.failedToSubmit();
-        },
-        payload = {
-          method: 'post',
-          path: '/requests/embedded/create',
-          params: formParams,
-          callbacks: {
-            done(res) {
-              if (res.error) {
-                errorCallback(i18n.t('embeddable_framework.submitTicket.notify.message.error'));
-              } else {
-                resCallback(res);
-              }
-            },
-            fail(err) {
-              if (err.timeout) {
-                errorCallback(i18n.t('embeddable_framework.submitTicket.notify.message.timeout'));
-              } else {
-                errorCallback(i18n.t('embeddable_framework.submitTicket.notify.message.error'));
-              }
-            }
+    const formParams = _.extend(
+      {
+        'set_tags': 'web_widget',
+        'via_id': 48,
+        'locale_id': i18n.getLocaleId(),
+        'submitted_from': win.location.href
+      },
+      this.formatTicketSubmission(data)
+    );
+
+    const resCallback = (res) => {
+      this.setState({
+        showNotification: true,
+        message: i18n.t('embeddable_framework.submitTicket.notify.message.success')
+      });
+      this.clearForm();
+      this.props.onSubmitted({
+        res: res,
+        searchString: this.state.searchString,
+        searchLocale: this.state.searchLocale
+      });
+      this.props.updateFrameSize(0, 0);
+    };
+
+    const errorCallback = (msg) => {
+      this.setState({ errorMessage: msg });
+      this.refs.submitTicketForm.failedToSubmit();
+    };
+
+    const payload = {
+      method: 'post',
+      path: '/requests/embedded/create',
+      params: formParams,
+      callbacks: {
+        done(res) {
+          if (res.error) {
+            errorCallback(i18n.t('embeddable_framework.submitTicket.notify.message.error'));
+          } else {
+            resCallback(res);
           }
-        };
+        },
+        fail(err) {
+          if (err.timeout) {
+            errorCallback(i18n.t('embeddable_framework.submitTicket.notify.message.timeout'));
+          } else {
+            errorCallback(i18n.t('embeddable_framework.submitTicket.notify.message.error'));
+          }
+        }
+      }
+    };
 
     transport.send(payload);
   },
@@ -132,29 +138,28 @@ export var SubmitTicket = React.createClass({
   },
 
   render() {
-    var notifyClasses = classSet({
-          'Notify': true,
-          'u-textCenter': true,
-          'u-isHidden': !this.state.showNotification
-        }),
-        marketingClasses = classSet({
-          'u-isHidden': true
-        }),
-        errorClasses = classSet({
-          'Error': true,
-          'u-isHidden': !this.state.errorMessage
-        }),
-        marketingUrl = ['//www.zendesk.com/embeddables/',
-                        '?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=text'
-                       ].join(''),
-        zendeskLogo;
+    const notifyClasses = classSet({
+      'Notify': true,
+      'u-textCenter': true,
+      'u-isHidden': !this.state.showNotification
+    });
+    const marketingClasses = classSet({
+      'u-isHidden': true
+    });
+    const errorClasses = classSet({
+      'Error': true,
+      'u-isHidden': !this.state.errorMessage
+    });
+    const marketingUrl = ['//www.zendesk.com/embeddables/',
+                           '?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=text'
+                         ].join('');
 
     if (this.props.updateFrameSize) {
       setTimeout( () => this.props.updateFrameSize(0, 10), 0);
     }
 
     /* jshint laxbreak: true */
-    zendeskLogo = this.props.hideZendeskLogo
+    const zendeskLogo = this.props.hideZendeskLogo
                 ? null
                 : <ZendeskLogo
                     formSuccess={this.state.showNotification}
