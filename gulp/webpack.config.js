@@ -35,7 +35,7 @@ module.exports = {
       {
         test: /\.svg$/,
         loaders: [
-          'raw-loader',
+          'raw',
           'svgo-loader?' + svgoConfig
         ]
       }
