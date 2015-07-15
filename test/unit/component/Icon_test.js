@@ -1,13 +1,13 @@
-describe('SvgIcon component', function() {
-  var SvgIcon,
+describe('Icon component', function() {
+  var Icon,
       mockRegistry,
-      svgIconPath = buildSrcPath('component/SvgIcon'),
+      iconPath = buildSrcPath('component/Icon'),
       onClick = jasmine.createSpy('onClick'),
-      dummySvgIcon = React.createClass({
-            render: function() {
-              return (<svg><g id="Layer_Test"><path d="M"/></g></svg>);
-            }
-          });
+      dummyIcon = React.createClass({
+          render: function() {
+            return (<svg><g id="Layer_Test"><path d="M" /></g></svg>);
+          }
+        });
 
   beforeEach(function() {
 
@@ -19,19 +19,19 @@ describe('SvgIcon component', function() {
 
     mockRegistry = initMockRegistry({
       'react/addons': React,
-      '../asset/icons/widget-icon_link.svg': dummySvgIcon,
-      '../asset/icons/widget-icon_back.svg': dummySvgIcon,
-      '../asset/icons/widget-icon_close.svg': dummySvgIcon,
-      '../asset/icons/widget-icon_chat.svg': dummySvgIcon,
-      '../asset/icons/widget-icon_help.svg': dummySvgIcon,
-      '../asset/icons/widget-icon_search.svg': dummySvgIcon,
-      '../asset/icons/widget-icon_zendesk.svg': dummySvgIcon,
-      '../asset/icons/widget-icon_icon.svg': dummySvgIcon,
+      'icons/widget-icon_link.svg': dummyIcon,
+      'icons/widget-icon_back.svg': dummyIcon,
+      'icons/widget-icon_close.svg': dummyIcon,
+      'icons/widget-icon_chat.svg': dummyIcon,
+      'icons/widget-icon_help.svg': dummyIcon,
+      'icons/widget-icon_search.svg': dummyIcon,
+      'icons/widget-icon_zendesk.svg': dummyIcon,
+      'icons/widget-icon_icon.svg': dummyIcon
     });
 
-    mockery.registerAllowable(svgIconPath);
+    mockery.registerAllowable(iconPath);
 
-    SvgIcon = require(svgIconPath).SVGIcon;
+    Icon = require(iconPath).Icon;
   });
 
   afterEach(function() {
@@ -41,7 +41,7 @@ describe('SvgIcon component', function() {
 
   it('should insert an SVG icon inside a span, with the right class', function() {
     var icon = React.render(
-          <SvgIcon type="Icon--zendesk" />,
+          <Icon type="Icon--zendesk" />,
           global.document.body
         ),
         iconElem = ReactTestUtils
@@ -58,7 +58,7 @@ describe('SvgIcon component', function() {
 
   it('should include the onClick when passed, and be called when clicked', function() {
     var icon = React.render(
-          <SvgIcon type="Icon--search" onClick={onClick} />,
+          <Icon type="Icon--search" onClick={onClick} />,
           global.document.body
         ),
         iconElem = ReactTestUtils

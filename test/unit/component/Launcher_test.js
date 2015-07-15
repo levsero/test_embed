@@ -14,8 +14,8 @@ describe('Launcher component', function() {
           return false;
         }
       },
-      'component/SvgIcon': {
-        SVGIcon: noopReactComponent()
+      'component/Icon': {
+        Icon: noopReactComponent()
       }
     });
 

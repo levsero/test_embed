@@ -24,16 +24,16 @@ describe('FormField component', function() {
       'component/Loading': {
         Loading: noopReactComponent()
       },
-      'component/SvgIcon': {
-        SVGIcon: React.createClass({
-            render: function() {
-              return <span
-                      className={"Icon "+this.props.type}
-                      onClick={this.props.onClick}>
-                        <svg />
-                     </span>;
-            }
-          })
+      'component/Icon': {
+        Icon: React.createClass({
+          render: function() {
+            return <span
+                    className={"Icon "+this.props.type}
+                    onClick={this.props.onClick}>
+                      <svg />
+                   </span>;
+          }
+        })
       },
       'utility/devices': {
         isMobileBrowser: function() {

@@ -4,7 +4,7 @@ import _     from 'lodash';
 import { Loading }         from 'component/Loading';
 import { isMobileBrowser } from 'utility/devices';
 import { i18n }            from 'service/i18n';
-import { SVGIcon }         from 'component/SvgIcon';
+import { Icon }            from 'component/Icon';
 
 var classSet = React.addons.classSet,
     geti18nContent = function(field) {
@@ -344,7 +344,7 @@ var SearchField = React.createClass({
       /* jshint quotmark:false */
       <div className={searchContainerClasses}>
         <div className={searchInputClasses}>
-          <SVGIcon
+          <Icon
             className={searchInputFieldIconClasses}
             onClick={this.props.onSearchIconClick}
             type='Icon--search'

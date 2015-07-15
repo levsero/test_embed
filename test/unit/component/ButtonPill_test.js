@@ -13,8 +13,8 @@ describe('ButtonPill component', function() {
 
     mockRegistry = initMockRegistry({
       'react/addons': React,
-      'component/SvgIcon': {
-        SVGIcon: noopReactComponent()
+      'component/Icon': {
+        Icon: noopReactComponent()
       }
     });
 

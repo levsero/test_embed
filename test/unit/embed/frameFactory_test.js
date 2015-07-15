@@ -36,8 +36,8 @@ describe('frameFactory', function() {
         ButtonNav: noopReactComponent()
       },
       'lodash': _,
-      'component/SvgIcon': {
-        SVGIcon: noop
+      'component/Icon': {
+        Icon: noop
       },
       'baseCSS': '.base-css-file {} ',
       'mainCSS': '.main-css-file {} ',

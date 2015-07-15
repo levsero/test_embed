@@ -1,6 +1,6 @@
 import React from 'react/addons';
 
-import { SVGIcon } from 'component/SvgIcon';
+import { Icon } from 'component/Icon';
 
 var classSet = React.addons.classSet;
 
@@ -72,7 +72,7 @@ var ButtonPill = React.createClass({
       <div
         className={buttonClasses}>
         {this.props.label}
-        <SVGIcon type='Icon--link' />
+        <Icon type='Icon--link' />
       </div>
     );
   }

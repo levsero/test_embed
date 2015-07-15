@@ -14,8 +14,8 @@ describe('ZendeskLogo component', function() {
 
     mockRegistry = initMockRegistry({
       'react/addons': React,
-      'component/SvgIcon': {
-        SVGIcon: noopReactComponent()
+      'component/Icon': {
+        Icon: noopReactComponent()
       }
     });
     mockery.registerAllowable('utility/globals');

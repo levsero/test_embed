@@ -1,6 +1,6 @@
 import React from 'react/addons';
 
-import { SVGIcon } from 'component/SvgIcon';
+import { Icon } from 'component/Icon';
 
 var classSet = React.addons.classSet;
 
@@ -20,9 +20,7 @@ export var ZendeskLogo = React.createClass({
     return (
       <div className='u-nbfc'>
         <a href={logoUrl} target='_blank' className={logoClasses}>
-          <SVGIcon
-            type='Icon--zendesk'
-          />
+          <Icon type='Icon--zendesk' />
           <span className='u-isHiddenVisually'>zendesk</span>
         </a>
       </div>

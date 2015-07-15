@@ -1,6 +1,6 @@
 import React from 'react/addons';
 
-import { SVGIcon }         from 'component/SvgIcon';
+import { Icon }            from 'component/Icon';
 import { isMobileBrowser } from 'utility/devices';
 
 var classSet = React.addons.classSet;
@@ -60,7 +60,7 @@ export const Launcher = React.createClass({
       <div className={buttonClasses}
         onClick={this.props.onClick}
         onTouchEnd={this.props.onClick}>
-        <SVGIcon
+        <Icon
           type={this.state.icon}
           className={iconClasses}
         />

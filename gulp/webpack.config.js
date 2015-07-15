@@ -57,7 +57,6 @@ module.exports = {
       componentCSS: path.join(prefix + '/src/styles/components'),
       mainCSS: path.join(prefix + '/src/styles/main.scss'),
       suit: 'suit/index.css',
-      // Icons
       icons: path.join(prefix + '/src/asset/icons')
     },
     modulesDirectories: ['node_modules', 'bower_components']

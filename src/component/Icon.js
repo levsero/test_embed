@@ -11,7 +11,7 @@ var icons = {
       'Icon': require('icons/widget-icon_help.svg')
     };
 
-export var SVGIcon = React.createClass({
+export var Icon = React.createClass({
   propTypes: {
     type: React.PropTypes.string,
     className: React.addons.classSet
