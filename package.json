@@ -65,6 +65,8 @@
     "babel-core": "~4.7.16",
     "babel-loader": "~4.2.0",
     "gulp-babel": "~5.1.0",
-    "jshint-jsx": "~0.4.1"
+    "jshint-jsx": "~0.4.1",
+    "svgo": "~0.5.3",
+    "svgo-loader": "~1.1.0"
   }
 }

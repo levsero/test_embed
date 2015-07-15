@@ -1,5 +1,11 @@
 var path = require('path');
 var prefix = process.cwd();
+var svgoConfig = JSON.stringify({
+      plugins: [
+        {removeTitle: true},
+        {convertPathData: false}
+      ]
+    });
 
 module.exports = {
   cache: true,
@@ -26,7 +32,13 @@ module.exports = {
       { test: /base\.css$/, loader: 'css', minimize: true },
       { test: /\.json$/, loader: 'json' },
       { test: /\.(woff|eot|ttf)$/, loader: 'url' },
-      { test: /\.svg$/, loader: 'raw-loader?mimetype=image/svg+xml;charset=utf-8;'}
+      {
+        test: /\.svg$/,
+        loaders: [
+          'raw-loader',
+          'svgo-loader?' + svgoConfig
+        ]
+      }
     ]
   },
   resolve: {
