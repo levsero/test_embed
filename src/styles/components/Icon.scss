@@ -58,8 +58,6 @@
   svg {
     fill: $icon-inactive-color;
     min-width: #{60/$font-size}rem; /* 1 */
-    /*min-height: #{54/$font-size}rem; /* 1 */
-    /*height: #{42/$font-size}rem;*/
     width: #{60/$font-size}rem;
 
     &:hover, &:active, &:focus {

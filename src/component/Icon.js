@@ -26,13 +26,12 @@ export var Icon = React.createClass({
 
   render: function() {
     var icon = icons[this.props.type],
-        iconClasses = `Icon ${this.props.type} `,
-        onClickHandler = this.props.onClick || '';
+        iconClasses = `Icon ${this.props.type} ${this.props.className}`;
 
     return (
       <span
+        {...this.props}
         className={iconClasses + this.props.className}
-        onClick={onClickHandler}
         dangerouslySetInnerHTML={{__html: icon}}
       />
     );
