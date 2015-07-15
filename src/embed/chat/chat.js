@@ -7,11 +7,11 @@ import { mediator }        from 'service/mediator';
 import { store }           from 'service/persistence';
 import { isMobileBrowser } from 'utility/devices';
 
-var chats = {},
-    styleTag = document.createElement('style');
+var chats = {};
+const styleTag = document.createElement('style');
 
 function create(name, config) {
-  var configDefaults = {
+  const configDefaults = {
     position: 'right',
     title: i18n.t('embeddable_framework.chat.title'),
     color: '#78A300',
@@ -53,16 +53,16 @@ function hide() {
 
 function render(name) {
   /* jshint maxlen: false, unused:false, quotmark:false */
-  var config = get(name).config,
-      zopimId = config.zopimId,
-      snippet = `
-        (function(d,s){var z=$zopim,$=z.s= d.createElement(s),e=d.getElementsByTagName(s)[0];
-        $.async=!0;$.setAttribute('charset','utf-8');
-        $.src='//v2.zopim.com/?${zopimId}';
-        z.t=+new Date;$. type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');
-      `,
-      scriptTag = document.createElement('script'),
-      host = getDocumentHost();
+  const config = get(name).config;
+  const zopimId = config.zopimId;
+  const snippet = `
+    (function(d,s){var z=$zopim,$=z.s= d.createElement(s),e=d.getElementsByTagName(s)[0];
+    $.async=!0;$.setAttribute('charset','utf-8');
+    $.src='//v2.zopim.com/?${zopimId}';
+    z.t=+new Date;$. type='text/javascript';e.parentNode.insertBefore($,e)})(document,'script');
+  `;
+  const scriptTag = document.createElement('script');
+  const host = getDocumentHost();
 
   host.appendChild(scriptTag);
   scriptTag.innerHTML = snippet;
@@ -122,73 +122,74 @@ function render(name) {
 }
 
 function init(name) {
-  var zopim = win.$zopim,
-      chat = get(name),
-      config = chat.config,
-      position = (config.position === 'right') ? 'br' : 'bl',
-      zopimShow,
-      zopimHide,
-      zopimApiOverwritten = false,
-      overwriteZopimApi = function() {
-        if (!zopimApiOverwritten) {
-          zopimShow = win.$zopim.livechat.window.show;
-          zopimHide = win.$zopim.livechat.window.hide;
-          zopimApiOverwritten = true;
+  var zopimShow,
+      zopimHide;
+  var zopimApiOverwritten = false;
+  const zopim = win.$zopim;
+  const chat = get(name);
+  const config = chat.config;
+  const position = (config.position === 'right') ? 'br' : 'bl';
+  const overwriteZopimApi = function() {
+    if (!zopimApiOverwritten) {
+      zopimShow = win.$zopim.livechat.window.show;
+      zopimHide = win.$zopim.livechat.window.hide;
+      zopimApiOverwritten = true;
 
-          win.$zopim.livechat.window.show = function() {
-            mediator.channel.broadcast('.zopimShow');
-            zopimShow();
-          };
+      win.$zopim.livechat.window.show = function() {
+        mediator.channel.broadcast('.zopimShow');
+        zopimShow();
+      };
 
-          win.$zopim.livechat.window.hide = function() {
-            mediator.channel.broadcast('.zopimHide');
-            zopimHide();
-            win.$zopim(function() {
-              win.$zopim.livechat.hideAll();
-            });
-          };
-        }
-      },
-      broadcastStatus = function() {
-        if (chat.online && chat.connected) {
-          mediator.channel.broadcast(`${name}.onOnline`);
-        } else {
-          mediator.channel.broadcast(`${name}.onOffline`);
-        }
-      },
-      onStatus = function(status) {
-        chat.online = (status === 'online');
-        broadcastStatus();
-
-        overwriteZopimApi();
-      },
-      onConnect = function() {
-        chat.connected = true;
-        broadcastStatus();
-      },
-      onUnreadMsgs = function(unreadMessageCount) {
-        if (unreadMessageCount > 0) {
-          mediator.channel.broadcast(`${name}.onUnreadMsgs`, unreadMessageCount);
-        }
-      },
-      onChatEnd = function() {
-        mediator.channel.broadcast(`${name}.onChatEnd`);
-      },
-      onHide = function() {
-        mediator.channel.broadcast(`${name}.onHide`);
-        store.set('zopimOpen', false, 'session');
-
+      win.$zopim.livechat.window.hide = function() {
+        mediator.channel.broadcast('.zopimHide');
+        zopimHide();
         win.$zopim(function() {
           win.$zopim.livechat.hideAll();
         });
       };
+    }
+  };
+
+  const broadcastStatus = function() {
+    if (chat.online && chat.connected) {
+      mediator.channel.broadcast(`${name}.onOnline`);
+    } else {
+      mediator.channel.broadcast(`${name}.onOffline`);
+    }
+  };
+  const onStatus = function(status) {
+    chat.online = (status === 'online');
+    broadcastStatus();
+
+    overwriteZopimApi();
+  };
+  const onConnect = function() {
+    chat.connected = true;
+    broadcastStatus();
+  };
+  const onUnreadMsgs = function(unreadMessageCount) {
+    if (unreadMessageCount > 0) {
+      mediator.channel.broadcast(`${name}.onUnreadMsgs`, unreadMessageCount);
+    }
+  };
+  const onChatEnd = function() {
+    mediator.channel.broadcast(`${name}.onChatEnd`);
+  };
+  const onHide = function() {
+    mediator.channel.broadcast(`${name}.onHide`);
+    store.set('zopimOpen', false, 'session');
+
+    win.$zopim(function() {
+      win.$zopim.livechat.hideAll();
+    });
+  };
 
   chat.online = false;
   chat.connected = false;
 
   zopim(function() {
-    var zopimLive = win.$zopim.livechat,
-        zopimWin = zopimLive.window;
+    const zopimLive = win.$zopim.livechat;
+    const zopimWin = zopimLive.window;
 
     store.set('zopimHideAll', true);
 
