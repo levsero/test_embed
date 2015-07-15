@@ -3,13 +3,13 @@
 window.zEmbed || (function(url, host) {
 
   // Part 1: Creating and appending <iframe /> to the document
-  var queue = [],
-      dom,
-      doc,
-      where,
-      iframe = document.createElement('iframe'),
-      iWin,
-      iDoc;
+  var queue = [];
+  var dom;
+  var doc;
+  var where;
+  var iframe = document.createElement('iframe');
+  var iWin;
+  var iDoc;
 
   window.zEmbed = function() {
     queue.push(arguments);
@@ -18,7 +18,7 @@ window.zEmbed || (function(url, host) {
   window.zE = window.zE || window.zEmbed;
 
   iframe.src = 'javascript:false';
-  iframe.title = ''; iframe.role='presentation';  // a11y
+  iframe.title = ''; iframe.role = 'presentation';  // a11y
   (iframe.frameElement || iframe).style.cssText = 'display: none';
   where = document.getElementsByTagName('script');
   where = where[where.length - 1];
@@ -27,18 +27,17 @@ window.zEmbed || (function(url, host) {
   iWin = iframe.contentWindow;
   iDoc = iWin.document;
 
-
   // Part 2: Loading main.js in the <iframe />
   try {
     doc = iDoc;
-  } catch(e) {
+  } catch (e) {
     dom = document.domain;
-    iframe.src='javascript:var d=document.open();d.domain="'+dom+'";void(0);';
+    iframe.src = 'javascript:var d=document.open();d.domain="' + dom + '";void(0);';
     doc = iDoc;
   }
   doc.open()._l = function() {
     var js = this.createElement('script');
-    if (dom) this.domain = dom;
+    if (dom) { this.domain = dom; }
     js.id = 'js-iframe-async';
     js.src = url;
     this.t = +new Date();
