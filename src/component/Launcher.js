@@ -43,7 +43,7 @@ export const Launcher = React.createClass({
         }),
         iconClasses = classSet({
           // spaces needed for class concatenation
-          'Arrange-sizeFit u-textInheritColor u-inlineBlock ': true,
+          'Arrange-sizeFit Icon--Launcher u-textInheritColor u-inlineBlock ': true,
           'u-paddingHN ': isMobileBrowser() && !this.state.hasUnreadMessages
         }),
         labelClasses = classSet({
