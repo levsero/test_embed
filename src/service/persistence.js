@@ -12,7 +12,7 @@ var store = {
 };
 
 function storage(session) {
-  var type = session ? 'session' : 'local';
+  const type = session ? 'session' : 'local';
 
   return win[type + 'Storage'];
 }
@@ -20,13 +20,13 @@ function storage(session) {
 function get(name, session) {
   try {
     return deserialize(storage(session).getItem(prefix + name));
-  } catch(e) {}
+  } catch (e) {}
 }
 
 function set(name, data, session) {
   try {
     storage(session).setItem(prefix + name, serialize(data));
-  } catch(e) {}
+  } catch (e) {}
 
   return data;
 }
@@ -36,8 +36,8 @@ function remove(name, session) {
 }
 
 function clear(session) {
-  var backend = storage(session),
-      keys = _.keys(backend);
+  const backend = storage(session);
+  const keys = _.keys(backend);
 
   _.chain(keys)
     .filter(function(key) {
@@ -58,7 +58,7 @@ function serialize(data) {
 function deserialize(data) {
   try {
     return JSON.parse(data);
-  } catch(e) {
+  } catch (e) {
     return data;
   }
 }

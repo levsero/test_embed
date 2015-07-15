@@ -2,23 +2,23 @@ import airwaves from 'airwaves';
 
 import { isMobileBrowser } from 'utility/devices';
 
-var c = new airwaves.Channel();
+const c = new airwaves.Channel();
 
 function init(helpCenterAvailable, hideLauncher) {
-  var submitTicket = 'ticketSubmissionForm',
-      launcher = 'launcher',
-      chat = 'zopimChat',
-      helpCenter = 'helpCenterForm',
-      state = {},
-      resetActiveEmbed = function() {
-        if (state[`${helpCenter}.isAvailable`]) {
-          state.activeEmbed = helpCenter;
-        } else if (state[`${chat}.isOnline`]) {
-          state.activeEmbed = chat;
-        } else {
-          state.activeEmbed = submitTicket;
-        }
-      };
+  const submitTicket = 'ticketSubmissionForm';
+  const launcher = 'launcher';
+  const chat = 'zopimChat';
+  const helpCenter = 'helpCenterForm';
+  var state = {};
+  const resetActiveEmbed = function() {
+    if (state[`${helpCenter}.isAvailable`]) {
+      state.activeEmbed = helpCenter;
+    } else if (state[`${chat}.isOnline`]) {
+      state.activeEmbed = chat;
+    } else {
+      state.activeEmbed = submitTicket;
+    }
+  };
 
   state[`${chat}.connectionPending`] = true;
   state[`${launcher}.userHidden`]    = hideLauncher;

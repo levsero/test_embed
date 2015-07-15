@@ -48,8 +48,6 @@ function generateHighlightColor(colorStr) {
   } catch (e) {
     return;
   }
-
-
 }
 
 function metaStringToObj(str) {
@@ -74,14 +72,12 @@ function metaObjToString(obj) {
 }
 
 function initViewportMeta(active) {
-  var newViewportMeta,
-      viewportMetas = doc.querySelectorAll('meta[name="viewport"]');
+  var newViewportMeta;
+  const viewportMetas = doc.querySelectorAll('meta[name="viewport"]');
 
   if (viewportMetas.length > 0) {
     return _.last(viewportMetas);
-  }
-
-  else if (active) {
+  } else if (active) {
     newViewportMeta = doc.createElement('meta');
     newViewportMeta.setAttribute('name', 'viewport');
     newViewportMeta.setAttribute('content', '');
@@ -91,8 +87,8 @@ function initViewportMeta(active) {
 }
 
 function setScaleLock(active) {
-  var meta = initViewportMeta(active),
-      viewportObj;
+  const meta = initViewportMeta(active);
+  var viewportObj;
 
   if (meta) {
     viewportObj = metaStringToObj(meta.getAttribute('content'));
@@ -101,8 +97,7 @@ function setScaleLock(active) {
       if (_.isUndefined(viewportObj['user-scalable'])) {
         viewportObj['original-user-scalable'] = 'UNDEFINED';
         viewportObj['user-scalable'] = 'no';
-      }
-      else if (!viewportObj['original-user-scalable']) {
+      } else if (!viewportObj['original-user-scalable']) {
         viewportObj['original-user-scalable'] = viewportObj['user-scalable'];
         viewportObj['user-scalable'] = 'no';
       }
@@ -138,9 +133,9 @@ function clickBusterRegister(x, y) {
 }
 
 function clickBusterHandler(ev) {
-  var x,
-      y,
-      radius = 25 * getSizingRatio();
+  var x;
+  var y;
+  const radius = 25 * getSizingRatio();
 
   if (clickBusterClicks.length) {
     [x, y] = clickBusterClicks.pop();
@@ -153,9 +148,9 @@ function clickBusterHandler(ev) {
 }
 
 function getFrameworkLoadTime() {
-  var now = Date.now(),
-      loadTime = document.t ? now - document.t : undefined,
-      entry;
+  const now = Date.now();
+  var loadTime = document.t ? now - document.t : undefined;
+  var entry;
 
   // https://bugzilla.mozilla.org/show_bug.cgi?id=1045096
   try {

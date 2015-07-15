@@ -1,9 +1,9 @@
 import { cacheBuster } from 'service/cacheBuster';
 
-var win = cacheBuster.isCacheBusting(window.name) ? window : window.parent,
-    document = win.document, /* jshint ignore:line */
-    navigator = win.navigator, /* jshint ignore:line */
-    location = win.location; /* jshint ignore:line */
+var win = cacheBuster.isCacheBusting(window.name) ? window : window.parent;
+var document = win.document; /* jshint ignore:line */
+var navigator = win.navigator; /* jshint ignore:line */
+var location = win.location; /* jshint ignore:line */
 
 function getDocumentHost() {
   return document.body || document.documentElement;
@@ -12,18 +12,18 @@ function getDocumentHost() {
 // Shim rAF for older browsers that either don't have it or need the prefixed version.
 // Attaching to the iframe window as that's what snabbt looks at.
 (function() {
-  var lastTime = 0,
-      vendors = ['webkit', 'moz'];
+  var lastTime = 0;
+  const vendors = ['webkit', 'moz'];
 
-  for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
-      window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
+  for (var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+    window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
   }
 
   if (!window.requestAnimationFrame) {
     window.requestAnimationFrame = function(callback) {
-      var currTime = new Date().getTime(),
-          timeToCall = Math.max(0, 16 - (currTime - lastTime)),
-          id = window.setTimeout(function() { callback(currTime + timeToCall); }, timeToCall);
+      const currTime = new Date().getTime();
+      const timeToCall = Math.max(0, 16 - (currTime - lastTime));
+      const id = window.setTimeout(function() { callback(currTime + timeToCall); }, timeToCall);
 
       lastTime = currTime + timeToCall;
       return id;
@@ -32,4 +32,3 @@ function getDocumentHost() {
 }());
 
 export { win, document, navigator, location, getDocumentHost };
-

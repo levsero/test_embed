@@ -7,53 +7,52 @@ import { getDeviceZoom,
          getSizingRatio }  from 'utility/devices';
 import { mediator }        from 'service/mediator';
 
-var isPinching,
-    lastTouchEnd = 0,
-    propagateFontRatioChange = (isPinching) => {
-      setTimeout(() => {
-        renderer.hideByZoom((getDeviceZoom() > 2) || (Math.abs(win.orientation) === 90));
-        mediator.channel.broadcast('.updateZoom', getSizingRatio(isPinching));
-      }, 0);
-    },
-    zoomMonitor = (() => {
-      var interval = null,
-          iterations = 0,
-          oldZoom,
-          oldOffset = [0, 0],
-          currentZoom = getDeviceZoom,
-          currentOffset = () => {
-            return [win.pageXOffset, win.pageYOffset];
-          },
-          zoomEqual = (a, b) => {
-            return Math.abs(a - b) < 0.001;
-          },
-          offsetEqual = (a, b) => {
-            return (a[0] === b[0]) && (a[1] === b[1]);
-          },
-          startMonitor = () => {
-            if (interval !== null) {
-              clearInterval(interval);
-            }
+var isPinching;
+var lastTouchEnd = 0;
+const propagateFontRatioChange = (isPinching) => {
+  setTimeout(() => {
+    renderer.hideByZoom((getDeviceZoom() > 2) || (Math.abs(win.orientation) === 90));
+    mediator.channel.broadcast('.updateZoom', getSizingRatio(isPinching));
+  }, 0);
+};
+const zoomMonitor = (() => {
+  var interval = null;
+  var iterations = 0;
+  var oldZoom;
+  var oldOffset = [0, 0];
+  var currentZoom = getDeviceZoom();
+  const currentOffset = () => {
+    return [win.pageXOffset, win.pageYOffset];
+  };
+  const zoomEqual = (a, b) => {
+    return Math.abs(a - b) < 0.001;
+  };
+  const offsetEqual = (a, b) => {
+    return (a[0] === b[0]) && (a[1] === b[1]);
+  };
+  const startMonitor = () => {
+    if (interval !== null) {
+      clearInterval(interval);
+    }
 
-            iterations = 0;
-            interval = setInterval(() => {
-              if (iterations > 10000 || zoomEqual(oldZoom, currentZoom()) &&
-                  offsetEqual(oldOffset, currentOffset())) {
-                clearInterval(interval);
-                interval = null;
-                // show
-                propagateFontRatioChange(true);
-              } else {
-                oldZoom = currentZoom();
-                oldOffset = currentOffset();
-                iterations++;
-              }
-            }, 300);
-          };
+    iterations = 0;
+    interval = setInterval(() => {
+      if (iterations > 10000 || zoomEqual(oldZoom, currentZoom()) &&
+          offsetEqual(oldOffset, currentOffset())) {
+        clearInterval(interval);
+        interval = null;
+        // show
+        propagateFontRatioChange(true);
+      } else {
+        oldZoom = currentZoom();
+        oldOffset = currentOffset();
+        iterations++;
+      }
+    }, 300);
+  };
 
-      return _.debounce(startMonitor, 10);
-    })();
-
+  return _.debounce(startMonitor, 10);
+})();
 
 function initMobileScaling() {
   win.addEventListener('touchstart', Airbrake.wrap((e) => {
