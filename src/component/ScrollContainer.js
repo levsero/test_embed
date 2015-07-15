@@ -4,8 +4,8 @@ var classSet = React.addons.classSet;
 
 export var ScrollContainer = React.createClass({
   propTypes: {
-    header: React.PropTypes.string.isRequired,
-    footer: React.PropTypes.oneOfType([
+    title: React.PropTypes.string.isRequired,
+    footerContent: React.PropTypes.oneOfType([
       React.PropTypes.element,
       React.PropTypes.array(React.PropTypes.element)
     ]),
@@ -44,10 +44,6 @@ export var ScrollContainer = React.createClass({
           'u-paddingLL u-paddingVM u-marginRS u-paddingRS': true,
           'is-mobile': this.props.fullscreen
         }),
-        scrollHeaderClasses = classSet({
-          'ScrollContainer-header': true,
-          'u-paddingVM u-paddingHL': true
-        }),
         scrollFooterClasses = classSet({
           'ScrollContainer-footer': true,
           'u-paddingBM u-paddingHL u-posRelative': true,
@@ -60,9 +56,9 @@ export var ScrollContainer = React.createClass({
 
     return (
       <div className='ScrollContainer u-nbfc'>
-        <header className={scrollHeaderClasses}>
+        <header className='ScrollContainer-header u-paddingVM u-paddingHL'>
           <h2 className={titleClasses}>
-            {this.props.header}
+            {this.props.title}
           </h2>
           {this.props.headerContent}
         </header>
@@ -70,7 +66,7 @@ export var ScrollContainer = React.createClass({
           {this.props.children}
         </div>
         <footer className={scrollFooterClasses}>
-          {this.props.footer}
+          {this.props.footerContent}
         </footer>
       </div>
     );

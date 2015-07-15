@@ -51,7 +51,7 @@ describe('SubmitTicketForm component', function() {
       'component/ScrollContainer': {
         ScrollContainer: React.createClass({
             render: function() {
-              return <div>{this.props.footer}</div>;
+              return <div>{this.props.footerContent}</div>;
             }
           }),
       },

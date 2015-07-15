@@ -1,5 +1,8 @@
 /**
  * 1. fallback for old android browsers
+ * 2. Chrome on android acts weird when keyboard is shown
+ *    it triggers landscape mode and we need to reset scroll
+ *    containers height so the footer doesn't sit over the top
  */
 
 @import '../_vars.scss';
@@ -43,6 +46,10 @@
     height: calc(100% - #{240/$font-size}rem);
     max-height: initial;
     max-width: 100%;
+
+    @media screen and (orientation: landscape) {
+      height: auto; /* 2 */
+    }
   }
 }
 

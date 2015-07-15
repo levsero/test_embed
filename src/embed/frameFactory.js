@@ -299,7 +299,7 @@ export var frameFactory = function(childFn, _params) {
                   'u-isHidden': !this.state.showBackButton
                 }),
                 closeButtonClasses = classSet({
-                  'u-isHidden': params.name === 'launcher'
+                  'u-isHidden': params.hideCloseButton
                 });
 
             return (

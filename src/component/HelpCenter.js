@@ -340,7 +340,7 @@ export var HelpCenter = React.createClass({
       <Container
         fullscreen={this.state.fullscreen}>
         <ScrollContainer
-          header={i18n.t('embeddable_framework.launcher.label.help')}
+          title={i18n.t('embeddable_framework.launcher.label.help')}
           headerContent={
             this.state.hasSearched &&
             !this.state.articleViewActive &&
@@ -349,7 +349,7 @@ export var HelpCenter = React.createClass({
               onSearch={this.handleSearch}
               children={searchField} />
           }
-          footer={
+          footerContent={
             <div className={buttonContainerClasses}>
               <ButtonGroup rtl={i18n.isRTL()}>
                 <Button
@@ -359,8 +359,7 @@ export var HelpCenter = React.createClass({
               </ButtonGroup>
             </div>
           }
-          fullscreen={this.state.fullscreen}
-        >
+          fullscreen={this.state.fullscreen}>
           <div className={formClasses}>
             <HelpCenterForm
               ref='helpCenterForm'

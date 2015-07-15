@@ -179,12 +179,10 @@ export const SubmitTicketForm = React.createClass({
         onSubmit={this.handleSubmit}
         onChange={this.handleUpdate}
         ref='form'
-        className={formClasses}
-      >
+        className={formClasses}>
         <ScrollContainer
-          header={i18n.t('embeddable_framework.submitTicket.form.title')}
-          children={formBody}
-          footer={
+          title={i18n.t('embeddable_framework.submitTicket.form.title')}
+          footerContent={
             <ButtonGroup rtl={i18n.isRTL()}>
               {buttonCancel}
               <Button
@@ -194,8 +192,9 @@ export const SubmitTicketForm = React.createClass({
                 type='submit' />
             </ButtonGroup>
           }
-          fullscreen={this.props.fullscreen}
-        />
+          fullscreen={this.props.fullscreen}>
+          {formBody}
+        </ScrollContainer>
       </form>
     );
   }

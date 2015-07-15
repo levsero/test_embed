@@ -131,11 +131,6 @@ export var SubmitTicket = React.createClass({
           'u-textCenter': true,
           'u-isHidden': !this.state.showNotification
         }),
-        iconClasses = classSet({
-          'Icon Icon--tick': true,
-          'u-inlineBlock u-userTextColor': true,
-          'u-marginTL u-marginBS': true
-        }),
         errorClasses = classSet({
           'Error': true,
           'u-isHidden': !this.state.errorMessage
@@ -162,11 +157,9 @@ export var SubmitTicket = React.createClass({
         key={this.state.uid}>
         <div className={notifyClasses} ref='notification'>
           <ScrollContainer
-            header={this.state.message}
-            children={
-              <i className={iconClasses} />
-            }
-          />
+            title={this.state.message}>
+            <i className='Icon Icon--tick u-inlineBlock u-userTextColor u-marginTL u-marginBS' />
+          </ScrollContainer>
         </div>
         <SubmitTicketForm
           onCancel={this.props.onCancel}
