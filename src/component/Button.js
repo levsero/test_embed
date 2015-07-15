@@ -72,9 +72,7 @@ var ButtonPill = React.createClass({
       <div
         className={buttonClasses}>
         {this.props.label}
-        <SVGIcon
-            type='Icon--link'
-          />
+        <SVGIcon type='Icon--link' />
       </div>
     );
   }

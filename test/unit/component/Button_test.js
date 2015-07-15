@@ -12,7 +12,10 @@ describe('Button component', function() {
     });
 
     mockRegistry = initMockRegistry({
-      'react/addons': React
+      'react/addons': React,
+      'component/SvgIcon': {
+        SVGIcon: noopReactComponent()
+      }
     });
 
     mockery.registerAllowable(buttonPath);

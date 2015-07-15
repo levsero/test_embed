@@ -15,12 +15,7 @@ describe('ZendeskLogo component', function() {
     mockRegistry = initMockRegistry({
       'react/addons': React,
       'component/SvgIcon': {
-        SVGIcon: jasmine.createSpy('mockSubmitTicketForm')
-          .and.callFake(React.createClass({
-            render: function() {
-              return <span className={"Icon "+this.props.type}></span>;
-            }
-          }))
+        SVGIcon: noopReactComponent()
       }
     });
     mockery.registerAllowable('utility/globals');

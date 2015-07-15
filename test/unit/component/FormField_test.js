@@ -25,8 +25,7 @@ describe('FormField component', function() {
         Loading: noopReactComponent()
       },
       'component/SvgIcon': {
-        SVGIcon: jasmine.createSpy('mockSubmitTicketForm')
-          .and.callFake(React.createClass({
+        SVGIcon: React.createClass({
             render: function() {
               return <span
                       className={"Icon "+this.props.type}
@@ -34,7 +33,7 @@ describe('FormField component', function() {
                         <svg />
                       </span>;
             }
-          }))
+          })
       },
       'utility/devices': {
         isMobileBrowser: function() {
