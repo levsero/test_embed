@@ -31,7 +31,7 @@ describe('FormField component', function() {
                       className={"Icon "+this.props.type}
                       onClick={this.props.onClick}>
                         <svg />
-                      </span>;
+                     </span>;
             }
           })
       },
