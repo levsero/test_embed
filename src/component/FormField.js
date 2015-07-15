@@ -163,15 +163,17 @@ var Field = React.createClass({
           {
             /* jshint laxbreak: true */
             (this.props.input)
-              ? React.addons.cloneWithProps(this.props.input,
-                                            _.extend({},
-                                            sharedProps,
-                                            fieldProps))
+              ? React.addons.cloneWithProps(
+                  this.props.input,
+                  _.extend({}, sharedProps, fieldProps)
+                )
               : <input {...sharedProps} {...fieldProps} />
           }
           {
             (this.props.label)
-              ? <span className='Form-checkboxCaption u-isActionable'>{this.props.label}</span>
+              ? <span className='Form-checkboxCaption u-isActionable'>
+                  {this.props.label}
+                </span>
               : null
           }
           <div className={dropdownClasses}>
