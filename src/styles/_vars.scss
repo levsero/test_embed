@@ -3,12 +3,12 @@
  *    which computes to 0.9999px & borders can't be sub pixel
  *    we boost the calculation to do 1.1/12
  */
+@import 'bower_components/zd-css-settings.colors/settings.colors';
 
 $font-size: 12;
 
 $thin-border-size: #{1.1/$font-size}rem; /* 1 */
 
-$aluminum: #999999;
 $zendesk-green: #78A300;
 
 // Button colors
