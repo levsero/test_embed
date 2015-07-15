@@ -157,7 +157,8 @@ var Field = React.createClass({
     return (
       <div className='form-group'>
         <label className={fieldLabelClasses}>
-          {this.props.placeholder}{this.props.required ? '*' : ''}
+          {(this.props.type === 'checkbox') ? '' : this.props.placeholder}
+          {this.props.required ? '*' : ''}
         </label>
         <label className={fieldClasses}>
           {
