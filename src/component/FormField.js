@@ -115,14 +115,6 @@ var Field = React.createClass({
   render() {
     const type = this.props.type,
           isCheckbox = (type === 'checkbox'),
-          iconFieldClasses = classSet({
-            'Arrange-sizeFill u-vsizeAll': true,
-            'u-textSize15': isMobileBrowser(),
-            'u-textSecondary': this.props.input,
-            'Form-checkbox u-isHiddenVisually': isCheckbox,
-            'Form-checkbox--focused': this.state.focused && isCheckbox,
-            'Form-checkbox--invalid': this.state.hasError && this.state.blurred && isCheckbox
-          }),
           fieldClasses = classSet({
             'Arrange Arrange--middle Form-field u-isSelectable u-posRelative': true,
             'Form-field--invalid': this.state.hasError && this.state.blurred && !isCheckbox,
@@ -143,7 +135,6 @@ var Field = React.createClass({
             onBlur: this.onBlur,
             onFocus: this.onFocus,
             ref: 'field',
-            className: iconFieldClasses,
             value: this.props.value
           },
           fieldProps = {
@@ -153,6 +144,16 @@ var Field = React.createClass({
             label: this.props.label,
             type: this.props.type
           };
+
+    var checkboxClasses;
+
+    if (isCheckbox) {
+      checkboxClasses = classSet({
+        'Form-checkbox u-isHiddenVisually': isCheckbox,
+        'Form-checkbox--focused': this.state.focused && isCheckbox,
+        'Form-checkbox--invalid': this.state.hasError && this.state.blurred && isCheckbox
+      });
+    }
 
     return (
       <label className='u-marginBM u-block'>
@@ -166,9 +167,9 @@ var Field = React.createClass({
             (this.props.input)
               ? React.addons.cloneWithProps(
                   this.props.input,
-                  _.extend({}, sharedProps, fieldProps)
+                  _.extend({}, sharedProps, fieldProps, checkboxClasses)
                 )
-              : <input {...sharedProps} {...fieldProps} />
+              : <input {...sharedProps} {...fieldProps} className={checkboxClasses} />
           }
           {
             (this.props.label)
