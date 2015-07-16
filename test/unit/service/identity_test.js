@@ -27,26 +27,23 @@ describe('identity', function() {
   });
 
   it('returns a previously set buid', function() {
-    var buid;
     spyOn(mockPersistence.store, 'get').and.returnValue('abc123');
 
-    buid = identity.getBuid();
+    const buid = identity.getBuid();
 
     expect(mockPersistence.store.get).toHaveBeenCalledWith('buid');
     expect(buid).toEqual('abc123');
   });
 
   it('sets a new buid if none is available', function() {
-    var buid, recentCall;
-
     spyOn(mockPersistence.store, 'get').and.returnValue(undefined);
     spyOn(mockPersistence.store, 'set');
 
-    buid = identity.getBuid();
+    identity.getBuid();
 
     expect(mockPersistence.store.set).toHaveBeenCalled();
 
-    recentCall = mockPersistence.store.set.calls.mostRecent();
+    const recentCall = mockPersistence.store.set.calls.mostRecent();
 
     expect(recentCall.args[0]).toEqual('buid');
     expect(typeof recentCall.args[1]).toEqual('string');

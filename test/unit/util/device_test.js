@@ -1,18 +1,20 @@
+// jscs:disable maximumLineLength
+
 describe('devices', function() {
   var isBlacklisted,
-      mockGlobals = {
-        win: {
-          XMLHttpRequest: function() {
-            this.withCredentials = true;
-          }
-        },
-        navigator: {
-          /* jshint maxlen: false */
-          userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.122 Safari/537.36'
-        }
-      },
-      mockRegistry,
-      devicesPath = buildSrcPath('util/devices');
+      mockRegistry;
+  const mockGlobals = {
+    win: {
+      XMLHttpRequest: function() {
+        this.withCredentials = true;
+      }
+    },
+    navigator: {
+      /* jshint maxlen: false */
+      userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.122 Safari/537.36'
+    }
+  };
+  const devicesPath = buildSrcPath('util/devices');
 
   beforeEach(function() {
     mockery.enable({ useCleanCache: true });
@@ -79,3 +81,4 @@ describe('devices', function() {
   });
 
 });
+// jscs:enable

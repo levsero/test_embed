@@ -1,5 +1,5 @@
-var gulp = require('gulp'),
-    rimraf = require('gulp-rimraf');
+const gulp = require('gulp');
+const rimraf = require('gulp-rimraf');
 
 gulp.task('clean', function() {
   gulp.src([

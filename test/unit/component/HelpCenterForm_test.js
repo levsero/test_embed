@@ -2,8 +2,8 @@ describe('HelpCenterForm component', function() {
   var HelpCenterForm,
       onSubmit,
       onSearch,
-      mockRegistry,
-      helpCenterFormPath = buildSrcPath('component/HelpCenterForm');
+      mockRegistry;
+  const helpCenterFormPath = buildSrcPath('component/HelpCenterForm');
 
   beforeEach(function() {
 
@@ -48,7 +48,7 @@ describe('HelpCenterForm component', function() {
   });
 
   it('should correctly render form with noValidate attribute', function() {
-    var helpCenterForm = React.render(
+    const helpCenterForm = React.render(
       <HelpCenterForm />,
       global.document.body
     );
@@ -58,7 +58,7 @@ describe('HelpCenterForm component', function() {
   });
 
   it('should call parent component submit when form is submitted', function() {
-    var helpCenterForm = React.render(
+    const helpCenterForm = React.render(
       <HelpCenterForm onSubmit={onSubmit} />,
       global.document.body
     );
@@ -70,13 +70,13 @@ describe('HelpCenterForm component', function() {
   });
 
   it('should call onSearch when input value changes', function() {
-    var helpCenterForm = React.render(
-          <HelpCenterForm onSearch={onSearch}>
-            <input />
-          </HelpCenterForm>,
-          global.document.body
-        ),
-        helpCenterFormNode = helpCenterForm.getDOMNode();
+    const helpCenterForm = React.render(
+      <HelpCenterForm onSearch={onSearch}>
+        <input />
+      </HelpCenterForm>,
+      global.document.body
+    );
+    const helpCenterFormNode = helpCenterForm.getDOMNode();
 
     ReactTestUtils.Simulate.change(helpCenterFormNode.querySelector('input'));
 

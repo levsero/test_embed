@@ -1,24 +1,24 @@
 describe('Submit ticket component', function() {
   var SubmitTicket,
       mockRegistry,
-      formParams = {
-        'set_tags': 'web_widget',
-        'via_id': 48,
-        'submitted_from': global.window.location.href,
-        'email': 'mock@email.com',
-        'description': 'Mock Description'
-      },
-      payload = {
-        method: 'post',
-        path: '/requests/embedded/create',
-        params: formParams,
-        callbacks: {
-          done: noop,
-          fail: noop
-        }
-      },
-      submitTicketPath = buildSrcPath('component/SubmitTicket'),
       mockGetSizingRatio;
+  const formParams = {
+    'set_tags': 'web_widget',
+    'via_id': 48,
+    'submitted_from': global.window.location.href,
+    'email': 'mock@email.com',
+    'description': 'Mock Description'
+  };
+  const payload = {
+    method: 'post',
+    path: '/requests/embedded/create',
+    params: formParams,
+    callbacks: {
+      done: noop,
+      fail: noop
+    }
+  };
+  const submitTicketPath = buildSrcPath('component/SubmitTicket');
 
   beforeEach(function() {
 
@@ -32,11 +32,12 @@ describe('Submit ticket component', function() {
       toBeJSONEqual: function(util, customEqualityTesters) {
         return {
           compare: function(actual, expected) {
-            var result= {};
+            const result = {};
             result.pass = util.equals(
               JSON.stringify(actual),
               JSON.stringify(expected),
-              customEqualityTesters);
+              customEqualityTesters
+            );
             return result;
           }
         };
@@ -127,11 +128,11 @@ describe('Submit ticket component', function() {
   });
 
   it('should not submit form when invalid', function() {
-    var mockTransport = mockRegistry['service/transport'].transport,
-        submitTicket = React.render(
-          <SubmitTicket />,
-          global.document.body
-        );
+    const mockTransport = mockRegistry['service/transport'].transport;
+    const submitTicket = React.render(
+      <SubmitTicket />,
+      global.document.body
+    );
 
     submitTicket.handleSubmit({preventDefault: noop}, {isFormValid: false});
 
@@ -140,13 +141,12 @@ describe('Submit ticket component', function() {
   });
 
   it('should submit form when valid', function() {
-    var mockTransport = mockRegistry['service/transport'].transport,
-        transportRecentCall,
-        mockOnSubmitted = jasmine.createSpy('mockOnSubmitted'),
-        submitTicket = React.render(
-          <SubmitTicket onSubmitted={mockOnSubmitted} updateFrameSize={noop} />,
-          global.document.body
-        );
+    const mockTransport = mockRegistry['service/transport'].transport;
+    const mockOnSubmitted = jasmine.createSpy('mockOnSubmitted');
+    const submitTicket = React.render(
+      <SubmitTicket onSubmitted={mockOnSubmitted} updateFrameSize={noop} />,
+      global.document.body
+    );
 
     submitTicket.handleSubmit({preventDefault: noop}, {
       isFormValid: true,
@@ -156,7 +156,7 @@ describe('Submit ticket component', function() {
       }
     });
 
-    transportRecentCall = mockTransport.send.calls.mostRecent().args[0];
+    const transportRecentCall = mockTransport.send.calls.mostRecent().args[0];
 
     expect(transportRecentCall)
       .toBeJSONEqual(payload);
@@ -168,13 +168,12 @@ describe('Submit ticket component', function() {
   });
 
   it('should call onSubmitted with given last search state', function() {
-    var mockTransport = mockRegistry['service/transport'].transport,
-        transportRecentCall,
-        mockOnSubmitted = jasmine.createSpy('mockOnSubmitted'),
-        submitTicket = React.render(
-          <SubmitTicket onSubmitted={mockOnSubmitted} updateFrameSize={noop} />,
-          global.document.body
-        );
+    const mockTransport = mockRegistry['service/transport'].transport;
+    const mockOnSubmitted = jasmine.createSpy('mockOnSubmitted');
+    const submitTicket = React.render(
+      <SubmitTicket onSubmitted={mockOnSubmitted} updateFrameSize={noop} />,
+      global.document.body
+    );
 
     submitTicket.setState({
       searchString: 'a search',
@@ -189,7 +188,7 @@ describe('Submit ticket component', function() {
       }
     });
 
-    transportRecentCall = mockTransport.send.calls.mostRecent().args[0];
+    const transportRecentCall = mockTransport.send.calls.mostRecent().args[0];
 
     transportRecentCall.callbacks.done({});
 
@@ -204,49 +203,47 @@ describe('Submit ticket component', function() {
   });
 
   it('should correctly format custom fields', function() {
-    var mockCustomField = [
-          {
-            id: '22660514',
-            type: 'text',
-            title: 'Text',
-            required: true
-          },
-        ],
-        submitTicket,
-        mockValues = {
-          value: {
-            22660514: 'mockCustomField',
-            name: 'mockName',
-            description: 'mockDescription'
-          }
-        },
-        expectedPayload = {
-          fields: {
-            22660514: 'mockCustomField'
-          },
-          name: 'mockName',
-          description: 'mockDescription'
-        },
-        payload;
+    const mockCustomField = [
+      {
+        id: '22660514',
+        type: 'text',
+        title: 'Text',
+        required: true
+      },
+    ];
+    const mockValues = {
+      value: {
+        22660514: 'mockCustomField',
+        name: 'mockName',
+        description: 'mockDescription'
+      }
+    };
+    const expectedPayload = {
+      fields: {
+        22660514: 'mockCustomField'
+      },
+      name: 'mockName',
+      description: 'mockDescription'
+    };
 
-    submitTicket = React.render(
+    const submitTicket = React.render(
       <SubmitTicket customFields={mockCustomField} updateFrameSize={noop} />,
       global.document.body
     );
 
-    payload = submitTicket.formatTicketSubmission(mockValues);
+    const payload = submitTicket.formatTicketSubmission(mockValues);
 
     expect(payload)
       .toBeJSONEqual(expectedPayload);
   });
 
   it('should unhide notification element on state change', function() {
-    var submitTicket = React.render(
-          <SubmitTicket />,
-          global.document.body
-        ),
-        notificationElem = ReactTestUtils
-          .findRenderedDOMComponentWithClass(submitTicket, 'Notify');
+    const submitTicket = React.render(
+      <SubmitTicket />,
+      global.document.body
+    );
+    const notificationElem = ReactTestUtils
+      .findRenderedDOMComponentWithClass(submitTicket, 'Notify');
 
     expect(notificationElem.props.className)
       .toContain('u-isHidden');
@@ -306,6 +303,5 @@ describe('Submit ticket component', function() {
     expect(submitTicket.state.fullscreen)
       .toEqual('VALUE');
   });
-
 
 });

@@ -1,6 +1,6 @@
-var gulp = require('gulp'),
-    jshint = require('gulp-jshint'),
-    jscs = require('gulp-jscs');
+const gulp = require('gulp');
+const jshint = require('gulp-jshint');
+const jscs = require('gulp-jscs');
 
 gulp.task('lint', function() {
   gulp.src(['src/**/*.js', 'test/**/*.js', 'gulp/**/*.js'])

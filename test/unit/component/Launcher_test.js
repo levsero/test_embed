@@ -1,7 +1,7 @@
 describe('Launcher component', function() {
   var Launcher,
-      launcherPath = buildSrcPath('component/Launcher'),
       mockRegistry;
+  const launcherPath = buildSrcPath('component/Launcher');
 
   beforeEach(function() {
     resetDOM();
@@ -25,11 +25,11 @@ describe('Launcher component', function() {
   });
 
   it('should activate the onClick function when clicked on', function() {
-    var onClick = jasmine.createSpy(),
-        launcher = React.render(
-          <Launcher onClick={onClick} />,
-          global.document.body
-        );
+    const onClick = jasmine.createSpy();
+    const launcher = React.render(
+      <Launcher onClick={onClick} />,
+      global.document.body
+    );
 
     ReactTestUtils.Simulate.click(launcher.getDOMNode());
 
@@ -39,7 +39,7 @@ describe('Launcher component', function() {
 
   it('should correctly set the initial state when created', function() {
     /* jshint quotmark: false */
-    var launcher = React.render(
+    const launcher = React.render(
       <Launcher icon='testIcon' />,
       global.document.body
     );
@@ -50,10 +50,10 @@ describe('Launcher component', function() {
 
   it('should change the icon when set icon is called', function() {
     /* jshint quotmark: false */
-    var launcher = React.render(
-          <Launcher label='help' />,
-          global.document.body
-        );
+    const launcher = React.render(
+      <Launcher label='help' />,
+      global.document.body
+    );
 
     expect(global.document.body.querySelectorAll('.newIcon').length)
       .toEqual(0);
@@ -66,7 +66,7 @@ describe('Launcher component', function() {
 
   it('should call the updateFrameSize prop on render if it exists', function() {
 
-    var mockUpdateFrameSize = jasmine.createSpy('mockUpdateFrameSize');
+    const mockUpdateFrameSize = jasmine.createSpy('mockUpdateFrameSize');
 
     jasmine.clock().install();
 
@@ -82,7 +82,7 @@ describe('Launcher component', function() {
 
   it('should change the label when setLabel is called', function() {
     /* jshint quotmark: false */
-    var launcher = React.render(
+    const launcher = React.render(
           <Launcher label='help'/>,
           global.document.body
         );

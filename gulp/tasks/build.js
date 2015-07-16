@@ -1,17 +1,17 @@
-var gulp = require('gulp'),
-    gutil = require('gulp-util'),
-    uglify = require('gulp-uglify'),
-    inlineSource = require('gulp-inline-source'),
-    minifyHTML = require('gulp-minify-html'),
-    rimraf = require('gulp-rimraf'),
-    webpack = require('webpack'),
-    runSequence = require('run-sequence'),
-    webpackConfig = require('../webpack.config.js'),
-    babel = require('gulp-babel'),
-    replace = require('gulp-replace'),
-    fs = require('fs'),
-    shell = require('gulp-shell'),
-    debugBuild;
+const gulp = require('gulp');
+const gutil = require('gulp-util');
+const uglify = require('gulp-uglify');
+const inlineSource = require('gulp-inline-source');
+const minifyHTML = require('gulp-minify-html');
+const rimraf = require('gulp-rimraf');
+const webpack = require('webpack');
+const runSequence = require('run-sequence');
+const webpackConfig = require('../webpack.config.js');
+const babel = require('gulp-babel');
+const replace = require('gulp-replace');
+const fs = require('fs');
+const shell = require('gulp-shell');
+var debugBuild;
 
 function webpackCallback(callback) {
   return function(err, stats) {
@@ -26,8 +26,8 @@ function webpackCallback(callback) {
 }
 
 gulp.task('build:prod', ['build:version:generate'], function(callback) {
-  var version = String(fs.readFileSync('dist/VERSION_HASH')).trim(),
-      config = Object.create(webpackConfig);
+  const version = String(fs.readFileSync('dist/VERSION_HASH')).trim();
+  const config = Object.create(webpackConfig);
 
   config.plugins = [
     new webpack.DefinePlugin({
@@ -51,8 +51,8 @@ gulp.task('build:prod', ['build:version:generate'], function(callback) {
 });
 
 gulp.task('build:debug', ['build:version:generate'], function(callback) {
-  var version = String(fs.readFileSync('dist/VERSION_HASH')).trim(),
-      config = Object.create(webpackConfig);
+  const version = String(fs.readFileSync('dist/VERSION_HASH')).trim();
+  const config = Object.create(webpackConfig);
 
   config.plugins = [
     new webpack.DefinePlugin({

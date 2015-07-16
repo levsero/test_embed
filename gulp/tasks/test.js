@@ -1,17 +1,17 @@
-var gulp = require('gulp'),
-    karma = require('gulp-karma'),
-    gulpJasmine = require('gulp-jasmine'),
-    runSequence = require('run-sequence'),
-    shell = require('gulp-shell'),
-    prefix = process.cwd(),
-    testFiles = [
-      prefix + '/node_modules/lodash/lodash.js',
-      prefix + '/node_modules/es5-shim/es5-shim.js',
-      prefix + '/node_modules/jasmine-ajax/lib/mock-ajax.js',
-      prefix + '/test/spec/boot.js',
-      prefix + '/dist/main.js',
-      prefix + '/test/spec/*.js'
-    ];
+const gulp = require('gulp');
+const karma = require('gulp-karma');
+const gulpJasmine = require('gulp-jasmine');
+const runSequence = require('run-sequence');
+const shell = require('gulp-shell');
+const prefix = process.cwd();
+const testFiles = [
+  prefix + '/node_modules/lodash/lodash.js',
+  prefix + '/node_modules/es5-shim/es5-shim.js',
+  prefix + '/node_modules/jasmine-ajax/lib/mock-ajax.js',
+  prefix + '/test/spec/boot.js',
+  prefix + '/dist/main.js',
+  prefix + '/test/spec/*.js'
+];
 
 gulp.task('test:spec', function() {
   return gulp.src(testFiles)

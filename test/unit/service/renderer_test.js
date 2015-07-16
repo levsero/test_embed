@@ -4,30 +4,29 @@ describe('renderer', function() {
       mockSubmitTicket,
       mockLauncher,
       mockHelpCenter,
-      mockChat,
-      updateBaseFontSize = jasmine.createSpy(),
-      updateFrameSize = jasmine.createSpy(),
-      rendererPath = buildSrcPath('service/renderer'),
-      embedMocker = function(name) {
-        var mock = jasmine.createSpyObj(name, [
-          'create',
-          'render',
-          'show',
-          'hide',
-          'get',
-          'postRender'
-        ]);
+      mockChat;
+  const updateBaseFontSize = jasmine.createSpy();
+  const updateFrameSize = jasmine.createSpy();
+  const rendererPath = buildSrcPath('service/renderer');
+  const embedMocker = function(name) {
+    const mock = jasmine.createSpyObj(name, [
+      'create',
+      'render',
+      'show',
+      'hide',
+      'get',
+      'postRender'
+    ]);
 
-        mock.get.and.returnValue({
-          instance: {
-            updateBaseFontSize: updateBaseFontSize,
-            updateFrameSize: updateFrameSize
-          }
-        });
+    mock.get.and.returnValue({
+      instance: {
+        updateBaseFontSize: updateBaseFontSize,
+        updateFrameSize: updateFrameSize
+      }
+    });
 
-        return mock;
-      };
-
+    return mock;
+  };
 
   beforeEach(function() {
     mockery.enable({useCleanCache: true});
@@ -55,7 +54,7 @@ describe('renderer', function() {
       },
       'service/mediator': {
         mediator: {
-          channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe' ]),
+          channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe']),
           init: jasmine.createSpy(),
         }
       },
@@ -79,37 +78,36 @@ describe('renderer', function() {
 
   describe('#init', function() {
     it('should call and render correct embeds from config', function() {
-      var configJSON = {
-            embeds: {
-              'helpCenterForm': {
-                'embed': 'helpCenter',
-                'props': {}
-              },
-              'launcher': {
-                'embed': 'launcher',
-                'props': {
-                  'position': 'right'
-                }
-              },
-              'ticketSubmissionForm': {
-                'embed': 'submitTicket'
-              },
-              'zopimChat': {
-                'embed': 'chat',
-                'props': {
-                  'zopimId': '2EkTn0An31opxOLXuGgRCy5nPnSNmpe6',
-                  'position': 'br'
-                }
-              }
+      const configJSON = {
+        embeds: {
+          'helpCenterForm': {
+            'embed': 'helpCenter',
+            'props': {}
+          },
+          'launcher': {
+            'embed': 'launcher',
+            'props': {
+              'position': 'right'
             }
           },
-          launcherProps = configJSON.embeds.launcher.props,
-          mockMediator = mockRegistry['service/mediator'].mediator,
-          mockLauncherRecentCall;
+          'ticketSubmissionForm': {
+            'embed': 'submitTicket'
+          },
+          'zopimChat': {
+            'embed': 'chat',
+            'props': {
+              'zopimId': '2EkTn0An31opxOLXuGgRCy5nPnSNmpe6',
+              'position': 'br'
+            }
+          }
+        }
+      };
+      const launcherProps = configJSON.embeds.launcher.props;
+      const mockMediator = mockRegistry['service/mediator'].mediator;
 
       renderer.init(configJSON);
 
-      mockLauncherRecentCall = mockLauncher.create.calls.mostRecent();
+      const mockLauncherRecentCall = mockLauncher.create.calls.mostRecent();
 
       expect(mockSubmitTicket.create)
         .toHaveBeenCalledWith('ticketSubmissionForm', jasmine.any(Object));
@@ -137,7 +135,7 @@ describe('renderer', function() {
     });
 
     it('should handle dodgy config values', function() {
-      var logging = mockRegistry['service/logging'].logging;
+      const logging = mockRegistry['service/logging'].logging;
 
       renderer.init({
         embeds: {
@@ -202,65 +200,65 @@ describe('renderer', function() {
   });
 
   it('should not call renderer.init more than once', function() {
-      renderer.init({
-        embeds: {
-          'thing': {
-            'embed': 'submitTicket'
-          },
-          'thingLauncher': {
-            'embed': 'launcher',
-            'props': {
-              'onDoubleClick': {
-                'name': 'thing',
-                'method': 'show'
-              }
+    renderer.init({
+      embeds: {
+        'thing': {
+          'embed': 'submitTicket'
+        },
+        'thingLauncher': {
+          'embed': 'launcher',
+          'props': {
+            'onDoubleClick': {
+              'name': 'thing',
+              'method': 'show'
             }
           }
         }
-      });
+      }
+    });
 
-      renderer.init({
-        embeds: {
-          'thing': {
-            'embed': 'submitTicket'
-          },
-          'thingLauncher': {
-            'embed': 'launcher',
-            'props': {
-              'onDoubleClick': {
-                'name': 'thing',
-                'method': 'show'
-              }
+    renderer.init({
+      embeds: {
+        'thing': {
+          'embed': 'submitTicket'
+        },
+        'thingLauncher': {
+          'embed': 'launcher',
+          'props': {
+            'onDoubleClick': {
+              'name': 'thing',
+              'method': 'show'
             }
           }
         }
-      });
+      }
+    });
 
-      expect(mockLauncher.create.calls.count())
-        .toEqual(1);
+    expect(mockLauncher.create.calls.count())
+      .toEqual(1);
 
-      expect(mockLauncher.render.calls.count())
-        .toEqual(1);
+    expect(mockLauncher.render.calls.count())
+      .toEqual(1);
   });
 
   it('should call any postRender calls', function() {
-      renderer.init({
-        embeds: {
-          'zopimChat': {
-            'embed': 'chat',
-            'props': {
-              'zopimId': '2EkTn0An31opxOLXuGgRCy5nPnSNmpe6'
-            }
-          },
-          'chatLauncher': {
-            'embed': 'launcher',
-            'props': {}
+    renderer.init({
+      embeds: {
+        'zopimChat': {
+          'embed': 'chat',
+          'props': {
+            'zopimId': '2EkTn0An31opxOLXuGgRCy5nPnSNmpe6'
           }
+        },
+        'chatLauncher': {
+          'embed': 'launcher',
+          'props': {}
         }
-      });
+      }
+    });
 
-      expect(mockChat.postRender.calls.count())
-        .toEqual(1);
+    expect(mockChat.postRender.calls.count())
+      .toEqual(1);
   });
 
   describe('#propagateFontRatio', function() {

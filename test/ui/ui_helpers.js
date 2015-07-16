@@ -1,4 +1,4 @@
-(function(){
+(function() {
   jasmine.getEnv().defaultTimeoutInterval = 10000;
 }());
 

@@ -1,12 +1,11 @@
 describe('beacon', function() {
   var beacon,
-      mockRegistry,
-      localeId = 10,
-      beaconPath = buildSrcPath('service/beacon');
-
+      mockRegistry;
+  const localeId = 10;
+  const beaconPath = buildSrcPath('service/beacon');
 
   function assertCommonParams(params) {
-    var mockGlobals = mockRegistry['utility/globals'];
+    const mockGlobals = mockRegistry['utility/globals'];
 
     /* jshint sub:true */
     expect(params['buid'])
@@ -59,14 +58,14 @@ describe('beacon', function() {
         }
       },
       'utility/utils': {
-          parseUrl: function() {
-            return {
-              href: 'http://document.referrer'
-            };
-          },
-          getFrameworkLoadTime: function() {
-            return 200;
-          }
+        parseUrl: function() {
+          return {
+            href: 'http://document.referrer'
+          };
+        },
+        getFrameworkLoadTime: function() {
+          return 200;
+        }
       },
       'lodash': _
     });
@@ -83,22 +82,20 @@ describe('beacon', function() {
   describe('#init', function() {
 
     it('Saves the currentTime', function() {
-      var currentTime = Date.now(),
-          mockPersistence = mockRegistry['service/persistence'],
-          recentCall,
-          resultTime;
+      const currentTime = Date.now();
+      const mockPersistence = mockRegistry['service/persistence'];
 
       beacon.init();
 
       expect(mockPersistence.store.set)
         .toHaveBeenCalled();
 
-      recentCall = mockPersistence.store.set.calls.mostRecent();
+      const recentCall = mockPersistence.store.set.calls.mostRecent();
 
       expect(recentCall.args[0])
         .toEqual('currentTime');
 
-      resultTime = recentCall.args[1];
+      const resultTime = recentCall.args[1];
 
       expect(resultTime > (currentTime - 30))
         .toBeTruthy();
@@ -112,17 +109,15 @@ describe('beacon', function() {
   describe('#send', function() {
 
     it('sends correct payload using transport.send', function() {
-      var payload,
-          params,
-          mockTransport = mockRegistry['service/transport'],
-          mockGlobals = mockRegistry['utility/globals'],
-          mockUtils = mockRegistry['utility/utils'];
+      const mockTransport = mockRegistry['service/transport'];
+      const mockGlobals = mockRegistry['utility/globals'];
+      const mockUtils = mockRegistry['utility/utils'];
 
       beacon.init();
       beacon.send();
       expect(mockTransport.transport.send).toHaveBeenCalled();
 
-      payload = mockTransport.transport.send.calls.mostRecent().args[0];
+      const payload = mockTransport.transport.send.calls.mostRecent().args[0];
 
       expect(payload.method)
         .toBe('POST');
@@ -130,7 +125,7 @@ describe('beacon', function() {
       expect(payload.path)
         .toBe('/embeddable/blips');
 
-      params = payload.params;
+      const params = payload.params;
 
       assertCommonParams(params);
 
@@ -158,7 +153,7 @@ describe('beacon', function() {
 
   describe('#track', function() {
     it('should not send anything if the first two params are not provided', function() {
-      var mockTransport = mockRegistry['service/transport'];
+      const mockTransport = mockRegistry['service/transport'];
 
       beacon.track();
       beacon.track('only one param');
@@ -170,15 +165,13 @@ describe('beacon', function() {
     });
 
     it('sends the correct payload', function() {
-      var payload,
-          params,
-          userActionParams = {
-            category: 'Category01',
-            action: 'Action02',
-            label: 'Label03',
-            value: 'Value04'
-          },
-          mockTransport = mockRegistry['service/transport'];
+      const userActionParams = {
+        category: 'Category01',
+        action: 'Action02',
+        label: 'Label03',
+        value: 'Value04'
+      };
+      const mockTransport = mockRegistry['service/transport'];
 
       beacon.init();
 
@@ -192,7 +185,7 @@ describe('beacon', function() {
       expect(mockTransport.transport.send)
         .toHaveBeenCalled();
 
-      payload = mockTransport.transport.send.calls.mostRecent().args[0];
+      const payload = mockTransport.transport.send.calls.mostRecent().args[0];
 
       expect(payload.method)
         .toBe('POST');
@@ -200,7 +193,7 @@ describe('beacon', function() {
       expect(payload.path)
         .toBe('/embeddable/blips');
 
-      params = payload.params;
+      const params = payload.params;
 
       assertCommonParams(params);
 
@@ -212,15 +205,13 @@ describe('beacon', function() {
   describe('identify', function() {
 
     it('sends the correct payload', function() {
-      var payload,
-          params,
-          name = 'John',
-          email = 'john@example.com',
-          user = {
-            name: name,
-            email: email
-          },
-          mockTransport = mockRegistry['service/transport'];
+      const name = 'John';
+      const email = 'john@example.com';
+      const user = {
+        name: name,
+        email: email
+      };
+      const mockTransport = mockRegistry['service/transport'];
 
       beacon.init();
 
@@ -229,7 +220,7 @@ describe('beacon', function() {
       expect(mockTransport.transport.send)
         .toHaveBeenCalled();
 
-      payload = mockTransport.transport.send.calls.mostRecent().args[0];
+      const payload = mockTransport.transport.send.calls.mostRecent().args[0];
 
       expect(payload.method)
         .toBe('POST');
@@ -237,7 +228,7 @@ describe('beacon', function() {
       expect(payload.path)
         .toBe('/embeddable/blips');
 
-      params = payload.params;
+      const params = payload.params;
 
       expect(params.user.name)
         .toEqual(name);

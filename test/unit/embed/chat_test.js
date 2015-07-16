@@ -1,18 +1,19 @@
 describe('embed.chat', function() {
   var chat,
       mockRegistry,
-      mockDevices = {
-        isMobileBrowser: noop
-      },
-      mockZopim,
-      mockGlobals = {
-        document: global.document,
-        win: {},
-        getDocumentHost: function() {
-          return document.body;
-        }
-      },
-      chatPath = buildSrcPath('embed/chat/chat');
+      mockZopim;
+
+  const mockDevices = {
+    isMobileBrowser: noop
+  };
+  const mockGlobals = {
+    document: global.document,
+    win: {},
+    getDocumentHost: function() {
+      return document.body;
+    }
+  };
+  const chatPath = buildSrcPath('embed/chat/chat');
 
   beforeEach(function() {
     resetDOM();
@@ -91,8 +92,8 @@ describe('embed.chat', function() {
     });
 
     it('should store the zopimId in config', function() {
-      var chatName = 'dave',
-          zopimId = 'abc123';
+      const chatName = 'dave';
+      const zopimId = 'abc123';
 
       chat.create(chatName, {zopimId: zopimId});
 
@@ -105,10 +106,9 @@ describe('embed.chat', function() {
   describe('get', function() {
 
     it('should return the correct chat', function() {
-      var dave;
 
       chat.create('dave');
-      dave = chat.get('dave');
+      const dave = chat.get('dave');
 
       expect(dave)
         .toBeDefined();
@@ -116,10 +116,10 @@ describe('embed.chat', function() {
   });
 
   describe('render', function() {
-    var chatName = 'dave',
-        zopimId = 'abc123',
-        mockMediator,
+    var mockMediator,
         mockStore;
+    const chatName = 'dave';
+    const zopimId = 'abc123';
 
     beforeEach(function() {
       mockStore = mockRegistry['service/persistence'].store;
@@ -127,7 +127,6 @@ describe('embed.chat', function() {
 
     describe('store set zopimOpen', function() {
       it('is set to false if on a mobile browser', function() {
-        var storeSetZopimOpen;
         mockRegistry['utility/devices'].isMobileBrowser = function() {
           return true;
         };
@@ -137,7 +136,7 @@ describe('embed.chat', function() {
         chat.create(chatName, {zopimId: zopimId});
         chat.render(chatName);
 
-        storeSetZopimOpen = _.chain(mockStore.set.calls.all())
+        const storeSetZopimOpen = _.chain(mockStore.set.calls.all())
           .filter(function(c) { return c.args[0] === 'zopimOpen'; })
           .value();
 
@@ -149,7 +148,6 @@ describe('embed.chat', function() {
       });
 
       it('is not set if not on a mobile browser', function() {
-        var storeSetZopimOpen;
         mockRegistry['utility/devices'].isMobileBrowser = function() {
           return false;
         };
@@ -159,7 +157,7 @@ describe('embed.chat', function() {
         chat.create(chatName, {zopimId: zopimId});
         chat.render(chatName);
 
-        storeSetZopimOpen = _.chain(mockStore.set.calls.all())
+        const storeSetZopimOpen = _.chain(mockStore.set.calls.all())
           .filter(function(c) { return c.args[0] === 'zopimOpen'; })
           .value();
 
@@ -169,8 +167,6 @@ describe('embed.chat', function() {
     });
 
     it('should inject the zopim bootstrap script into the document', function() {
-      var snippetText;
-
       mockMediator = mockRegistry['service/mediator'].mediator;
       chat.create(chatName, {zopimId: zopimId});
       chat.render(chatName);
@@ -178,7 +174,7 @@ describe('embed.chat', function() {
       expect(document.querySelectorAll('body > script').length)
         .toEqual(1);
 
-      snippetText = document.querySelectorAll('body > script')[0].innerHTML;
+      const snippetText = document.querySelectorAll('body > script')[0].innerHTML;
 
       expect(snippetText.indexOf(zopimId))
         .not.toBe(false);
@@ -192,14 +188,12 @@ describe('embed.chat', function() {
           onChatEndCall;
 
       beforeEach(function() {
-        var livechat;
-
         mockMediator = mockRegistry['service/mediator'].mediator;
         chat.create(chatName, {zopimId: zopimId});
         chat.render(chatName);
 
         mockZopim = mockRegistry['utility/globals'].win.$zopim;
-        livechat = mockZopim.livechat;
+        const livechat = mockZopim.livechat;
 
         onHideCall       = livechat.window.onHide.calls.mostRecent();
         onUnreadMsgsCall = livechat.setOnUnreadMsgs.calls.mostRecent();
@@ -291,7 +285,6 @@ describe('embed.chat', function() {
           });
 
           it('should be true if not on a mobile browser', function() {
-            var storeSetZopimOpen;
             mockRegistry['utility/devices'].isMobileBrowser = function() {
               return false;
             };
@@ -308,7 +301,7 @@ describe('embed.chat', function() {
 
             pluckSubscribeCall(mockMediator, 'dave.show, dave.showWithAnimation')();
 
-            storeSetZopimOpen = _.chain(mockStore.set.calls.all())
+            const storeSetZopimOpen = _.chain(mockStore.set.calls.all())
               .filter(function(c) { return c.args[0] === 'zopimOpen'; })
               .value();
 
@@ -320,7 +313,6 @@ describe('embed.chat', function() {
           });
 
           it('should not be set if on a mobile browser', function() {
-            var storeSetZopimOpen;
             mockRegistry['utility/devices'].isMobileBrowser = function() {
               return true;
             };
@@ -337,7 +329,7 @@ describe('embed.chat', function() {
 
             pluckSubscribeCall(mockMediator, 'dave.show, dave.showWithAnimation')();
 
-            storeSetZopimOpen = _.chain(mockStore.set.calls.all())
+            const storeSetZopimOpen = _.chain(mockStore.set.calls.all())
               .filter(function(c) { return c.args[0] === 'zopimOpen'; })
               .value();
 

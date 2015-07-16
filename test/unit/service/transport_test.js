@@ -1,21 +1,21 @@
 describe('transport', function() {
   var transport,
       mockMethods,
-      mockRegistry,
-      transportPath = buildSrcPath('service/transport');
+      mockRegistry;
+  const transportPath = buildSrcPath('service/transport');
 
   beforeEach(function() {
     mockery.enable({useCleanCache: true});
     mockMethods = {
-        type: function() { return mockMethods; },
-        send: function() { return mockMethods; },
-        query: function() { return mockMethods; },
-        timeout: function() { return mockMethods; },
-        end:  function() { return mockMethods; }
+      type: function() { return mockMethods; },
+      send: function() { return mockMethods; },
+      query: function() { return mockMethods; },
+      timeout: function() { return mockMethods; },
+      end:  function() { return mockMethods; }
     };
     mockRegistry = initMockRegistry({
       'superagent': jasmine.createSpy().and.callFake(function() {
-          return mockMethods;
+        return mockMethods;
       }),
       'lodash': _
     });
@@ -37,11 +37,9 @@ describe('transport', function() {
 
     it('makes use of default config values', function() {
 
-      var recentCall;
-
       transport.init();
 
-      recentCall = _.extend.calls.mostRecent();
+      const recentCall = _.extend.calls.mostRecent();
 
       // verifying config defaults
       expect(recentCall.args[1])
@@ -50,14 +48,13 @@ describe('transport', function() {
 
     it('merges supplied config param with defaults', function() {
 
-      var recentCall,
-          testConfig = {
-            test: 'config'
-          };
+      const testConfig = {
+        test: 'config'
+      };
 
       transport.init(testConfig);
 
-      recentCall = _.extend.calls.mostRecent();
+      const recentCall = _.extend.calls.mostRecent();
 
       expect(recentCall.args[1])
         .toEqual(testConfig);
@@ -65,7 +62,6 @@ describe('transport', function() {
   });
 
   describe('#send', function() {
-
     var payload,
         config;
 
@@ -97,7 +93,7 @@ describe('transport', function() {
     });
 
     it('sets the correct http method and url on superagent', function() {
-      var mockSuperagent = mockRegistry.superagent;
+      const mockSuperagent = mockRegistry.superagent;
 
       transport.init(config);
       transport.send(payload);
@@ -121,8 +117,6 @@ describe('transport', function() {
 
     it('sets payload.params to {} if no params are passed through', function() {
 
-      var recentCall;
-
       delete payload.params;
 
       spyOn(mockMethods, 'send').and.callThrough();
@@ -132,16 +126,13 @@ describe('transport', function() {
 
       expect(mockMethods.send);
 
-      recentCall = mockMethods.send.calls.mostRecent();
+      const recentCall = mockMethods.send.calls.mostRecent();
 
       expect(recentCall.args[0])
         .not.toBeUndefined();
     });
 
     it('triggers the done callback if response is successful', function() {
-
-      var recentCall,
-          callback;
 
       spyOn(payload.callbacks, 'done');
       spyOn(payload.callbacks, 'fail');
@@ -153,9 +144,9 @@ describe('transport', function() {
       expect(mockMethods.end)
         .toHaveBeenCalled();
 
-      recentCall = mockMethods.end.calls.mostRecent();
+      const recentCall = mockMethods.end.calls.mostRecent();
 
-      callback = recentCall.args[0];
+      const callback = recentCall.args[0];
 
       callback(null, {ok: true});
 
@@ -168,9 +159,6 @@ describe('transport', function() {
 
     it('triggers the fail callback if response is unsuccessful', function() {
 
-      var recentCall,
-          callback;
-
       spyOn(payload.callbacks, 'fail');
       spyOn(payload.callbacks, 'done');
       spyOn(mockMethods, 'end').and.callThrough();
@@ -181,9 +169,9 @@ describe('transport', function() {
       expect(mockMethods.end)
         .toHaveBeenCalled();
 
-      recentCall = mockMethods.end.calls.mostRecent();
+      const recentCall = mockMethods.end.calls.mostRecent();
 
-      callback = recentCall.args[0];
+      const callback = recentCall.args[0];
 
       callback({error: true}, undefined);
 
@@ -197,9 +185,6 @@ describe('transport', function() {
 
     it('will not die if callbacks object is not present', function() {
 
-      var recentCall,
-          callback;
-
       spyOn(mockMethods, 'end').and.callThrough();
 
       delete payload.callbacks;
@@ -207,9 +192,9 @@ describe('transport', function() {
       transport.init(config);
       transport.send(payload);
 
-      recentCall = mockMethods.end.calls.mostRecent();
+      const recentCall = mockMethods.end.calls.mostRecent();
 
-      callback = recentCall.args[0];
+      const callback = recentCall.args[0];
 
       expect(function() {
         callback(null, {ok: true});
@@ -218,9 +203,6 @@ describe('transport', function() {
 
     it('will not die if callbacks.done is not present', function() {
 
-      var recentCall,
-          callback;
-
       spyOn(mockMethods, 'end').and.callThrough();
 
       delete payload.callbacks.done;
@@ -228,9 +210,9 @@ describe('transport', function() {
       transport.init(config);
       transport.send(payload);
 
-      recentCall = mockMethods.end.calls.mostRecent();
+      const recentCall = mockMethods.end.calls.mostRecent();
 
-      callback = recentCall.args[0];
+      const callback = recentCall.args[0];
 
       expect(function() {
         callback(null, {ok: true});
@@ -239,9 +221,6 @@ describe('transport', function() {
 
     it('will not die if callbacks.fail is not present', function() {
 
-      var recentCall,
-          callback;
-
       spyOn(mockMethods, 'end').and.callThrough();
 
       delete payload.callbacks.fail;
@@ -249,9 +228,9 @@ describe('transport', function() {
       transport.init(config);
       transport.send(payload);
 
-      recentCall = mockMethods.end.calls.mostRecent();
+      const recentCall = mockMethods.end.calls.mostRecent();
 
-      callback = recentCall.args[0];
+      const callback = recentCall.args[0];
 
       expect(function() {
         callback({error: true}, undefined);

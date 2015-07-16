@@ -1,12 +1,12 @@
-var capturingData = {
-      name: 'helpCenter',
-      elem: '#helpCenterForm'
-    },
-    browser = webdriverio.remote({
-      desiredCapabilities: {
-        browserName: 'chrome'
-      }
-    });
+const capturingData = {
+  name: 'helpCenter',
+  elem: '#helpCenterForm'
+};
+const browser = webdriverio.remote({
+  desiredCapabilities: {
+    browserName: 'chrome'
+  }
+});
 
 addCustomCommands(browser);
 
