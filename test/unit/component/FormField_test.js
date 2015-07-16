@@ -63,16 +63,16 @@ describe('FormField component', function() {
           fieldNode = field.getDOMNode();
 
       expect(fieldNode.nodeName)
-        .toEqual('DIV');
+        .toEqual('LABEL');
 
       expect(fieldNode.children.length)
         .toEqual(2);
 
-      expect(fieldNode.querySelector('label'))
-        .toBeTruthy();
+      expect(fieldNode.children[0].nodeName)
+        .toEqual('DIV');
 
-      expect(fieldNode.querySelector('input'))
-        .toBeTruthy();
+      expect(fieldNode.children[1].nodeName)
+        .toEqual('DIV');
     });
 
     it('should pass along all props to underlying input', function() {
