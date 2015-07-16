@@ -54,7 +54,7 @@ describe('FormField component', function() {
   });
 
   describe('Field', function() {
-    it('should render form field DOM with a div wrapping label and input', function() {
+    it('should render form field DOM with a label wrapping two child divs', function() {
       var field = React.render(
             <Field
               name='alice' />,
