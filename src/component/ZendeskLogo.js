@@ -5,7 +5,7 @@ var classSet = React.addons.classSet;
 export var ZendeskLogo = React.createClass({
   render() {
     /* jshint quotmark:false */
-    var {fullscreen, rtl, formSuccess } = this.props,
+    var { fullscreen, rtl, formSuccess } = this.props,
         logoClasses = classSet({
           'Icon Icon--zendesk u-linkClean': true,
           'u-posAbsolute u-posEnd--vert': !fullscreen || formSuccess,
