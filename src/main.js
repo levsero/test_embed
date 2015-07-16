@@ -18,9 +18,9 @@ require('imports?_=lodash!lodash');
 
 function boot() {
   var devApi;
+  var postRenderQueue = [];
   const host = location.host;
   const path = location.pathname;
-  var postRenderQueue = [];
   const chatPages = [
     '/zopim',
     '/product/pricing',
@@ -35,7 +35,7 @@ function boot() {
         try {
           method[0]();
         } catch (e) {
-          let err = new Error([
+          const err = new Error([
             'An error occurred in your use of the Zendesk Widget API:',
             method[0],
             'Check out the Developer API docs to make sure you\'re using it correctly',
@@ -77,8 +77,8 @@ function boot() {
   // the iframe so when we need to query the parent document it will work.
   // http://bugzil.la/548397
   if (getComputedStyle(doc.documentElement) === null) {
-    let iframe = window.frameElement;
-    let newStyle = 'width: 0; height: 0; border: 0; position: absolute; top: -9999px';
+    const iframe = window.frameElement;
+    const newStyle = 'width: 0; height: 0; border: 0; position: absolute; top: -9999px';
 
     iframe.removeAttribute('style');
     iframe.setAttribute('style', newStyle);
@@ -93,7 +93,7 @@ function boot() {
 
   beacon.init(__EMBEDDABLE_VERSION__).send();
 
-  let publicApi = {
+  const publicApi = {
     version:   __EMBEDDABLE_VERSION__,
     setLocale: i18n.setLocale,
     hide:      renderer.hide,
@@ -152,7 +152,7 @@ function boot() {
     }
     handlePostRenderQueue(postRenderQueue);
   } else {
-    let configLoadStart = Date.now();
+    const configLoadStart = Date.now();
     transport.get({
       method: 'get',
       path: '/embeddable/config',

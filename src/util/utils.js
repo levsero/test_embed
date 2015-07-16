@@ -9,7 +9,7 @@ var clickBusterClicks = [];
 
 function generateUserCSS(params) {
   if (params.color) {
-    var highlightColor = generateHighlightColor(params.color);
+    const  highlightColor = generateHighlightColor(params.color);
 
     return (`
       .rf-CheckboxGroup__checkbox:checked + span:before,
@@ -40,7 +40,7 @@ function generateUserCSS(params) {
 
 function generateHighlightColor(colorStr) {
   try {
-    var color = Color(colorStr);
+    const color = Color(colorStr);
     /* jshint laxbreak: true */
     return (color.luminosity() > 0.15)
        ? color.darken(0.1).rgbString()
@@ -56,7 +56,7 @@ function metaStringToObj(str) {
   } else {
     return _.chain(str.split(','))
       .reduce(function(res, item) {
-        var pair = item.trim().split('=');
+        const pair = item.trim().split('=');
         res[pair[0]] = pair[1];
         return res;
       }, {})
@@ -72,13 +72,12 @@ function metaObjToString(obj) {
 }
 
 function initViewportMeta(active) {
-  var newViewportMeta;
   const viewportMetas = doc.querySelectorAll('meta[name="viewport"]');
 
   if (viewportMetas.length > 0) {
     return _.last(viewportMetas);
   } else if (active) {
-    newViewportMeta = doc.createElement('meta');
+    const newViewportMeta = doc.createElement('meta');
     newViewportMeta.setAttribute('name', 'viewport');
     newViewportMeta.setAttribute('content', '');
     doc.head.appendChild(newViewportMeta);
@@ -87,8 +86,8 @@ function initViewportMeta(active) {
 }
 
 function setScaleLock(active) {
-  const meta = initViewportMeta(active);
   var viewportObj;
+  const meta = initViewportMeta(active);
 
   if (meta) {
     viewportObj = metaStringToObj(meta.getAttribute('content'));
@@ -122,7 +121,7 @@ function setScaleLock(active) {
 }
 
 function parseUrl(url) {
-  var anchor = document.createElement('a');
+  const anchor = document.createElement('a');
   anchor.href = url;
 
   return anchor;
@@ -133,8 +132,7 @@ function clickBusterRegister(x, y) {
 }
 
 function clickBusterHandler(ev) {
-  var x;
-  var y;
+  var x, y;
   const radius = 25 * getSizingRatio();
 
   if (clickBusterClicks.length) {
@@ -148,9 +146,9 @@ function clickBusterHandler(ev) {
 }
 
 function getFrameworkLoadTime() {
+  var entry;
   const now = Date.now();
   var loadTime = document.t ? now - document.t : undefined;
-  var entry;
 
   // https://bugzilla.mozilla.org/show_bug.cgi?id=1045096
   try {

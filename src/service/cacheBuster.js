@@ -1,4 +1,4 @@
-var updateFrameName = 'zE-update';
+const updateFrameName = 'zE-update';
 
 function bustCache(versionHash) {
   const iframe = document.createElement('iframe');

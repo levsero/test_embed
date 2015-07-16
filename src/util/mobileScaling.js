@@ -9,6 +9,7 @@ import { mediator }        from 'service/mediator';
 
 var isPinching;
 var lastTouchEnd = 0;
+
 const propagateFontRatioChange = (isPinching) => {
   setTimeout(() => {
     renderer.hideByZoom((getDeviceZoom() > 2) || (Math.abs(win.orientation) === 90));
@@ -16,9 +17,9 @@ const propagateFontRatioChange = (isPinching) => {
   }, 0);
 };
 const zoomMonitor = (() => {
+  var oldZoom;
   var interval = null;
   var iterations = 0;
-  var oldZoom;
   var oldOffset = [0, 0];
   var currentZoom = getDeviceZoom();
   const currentOffset = () => {
@@ -72,7 +73,7 @@ function initMobileScaling() {
   }));
 
   win.addEventListener('touchend', Airbrake.wrap((e) => {
-    var now = e.timeStamp;
+    const now = e.timeStamp;
 
     // If touchend's fire within 250ms of each other,
     // we're treating it as double-tap zoom.
@@ -92,7 +93,7 @@ function initMobileScaling() {
   }, true);
 
   win.addEventListener('orientationchange', () => {
-    var portrait = Math.abs(win.orientation) !== 90;
+    const portrait = Math.abs(win.orientation) !== 90;
 
     if (portrait) {
       setTimeout(() => {

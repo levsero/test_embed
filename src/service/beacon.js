@@ -89,7 +89,7 @@ function track(category, action, label, value) {
 
 function identify(user) {
   user.localeId = i18n.getLocaleId();
-  var payload = {
+  const payload = {
     method: 'POST',
     path: '/embeddable/blips',
     params: _.extend(commonParams(), {user: user})

@@ -3,13 +3,13 @@
 window.zEmbed || (function(url, host) {
 
   // Part 1: Creating and appending <iframe /> to the document
+  var dom,
+      doc,
+      where,
+      iWin,
+      iDoc;
   var queue = [];
-  var dom;
-  var doc;
-  var where;
   var iframe = document.createElement('iframe');
-  var iWin;
-  var iDoc;
 
   window.zEmbed = function() {
     queue.push(arguments);
