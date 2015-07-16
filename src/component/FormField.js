@@ -151,7 +151,7 @@ var Field = React.createClass({
           };
 
     return (
-      <label className='u-marginBM u-block'>
+      <label className='u-marginB17 u-block'>
         <div className={fieldLabelClasses}>
           {isCheckbox ? '' : this.props.placeholder}
           {this.props.required ? '*' : ''}
