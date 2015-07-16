@@ -7,6 +7,7 @@ import { SubmitTicketForm } from 'component/SubmitTicketForm';
 import { ZendeskLogo }      from 'component/ZendeskLogo';
 import { Container }        from 'component/Container';
 import { isMobileBrowser }  from 'utility/devices';
+import { Icon }             from 'component/Icon';
 import { i18n }             from 'service/i18n';
 
 var classSet = React.addons.classSet;
@@ -168,7 +169,7 @@ export var SubmitTicket = React.createClass({
         position={this.props.position}
         key={this.state.uid}>
         <div className={notifyClasses}>
-          <div className='Icon Icon--tick u-inlineBlock u-userTextColor' />
+          <Icon type='Icon--tick' className='u-inlineBlock u-userTextColor' />
           <p className='u-textBold u-textSizeMed'>{this.state.message}</p>
           <p className={marketingClasses}>
             <a

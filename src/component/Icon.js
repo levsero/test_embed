@@ -6,6 +6,7 @@ var icons = {
       'Icon--close': require('icons/widget-icon_close.svg'),
       'Icon--chat': require('icons/widget-icon_chat.svg'),
       'Icon--help': require('icons/widget-icon_help.svg'),
+      'Icon--tick': require('icons/widget-icon_tick.svg'),
       'Icon--search': require('icons/widget-icon_search.svg'),
       'Icon--zendesk': require('icons/widget-icon_zendesk.svg'),
       'Icon': require('icons/widget-icon_help.svg')
