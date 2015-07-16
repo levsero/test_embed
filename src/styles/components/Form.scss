@@ -59,7 +59,6 @@ $Form-fontSize: #{13/$font-size}rem;
 }
 
 .Form-field {
-  margin-bottom: $Form-gutter;
   background: $base-color;
   border: $thin-border-size solid $stroke-color;
   border-radius: #{4/$font-size}rem;
@@ -72,6 +71,7 @@ $Form-fontSize: #{13/$font-size}rem;
     resize: none;
     color: $body-color;
     font-size: $Form-fontSize;
+    width: 100%;
 
     &:focus {
       appearance: none;
@@ -168,7 +168,8 @@ $Form-fontSize: #{13/$font-size}rem;
 }
 
 .Form-field__label {
-  margin-bottom: $Form-spacing;
+  margin-bottom: #{6/$font-size}rem;
   font-weight: 700;
   display: block;
+  color: $zendesk-color--aluminum;
 }

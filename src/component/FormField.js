@@ -62,7 +62,6 @@ var Field = React.createClass({
       React.PropTypes.number
     ]).isRequired,
     placeholder: React.PropTypes.string,
-    icon: React.PropTypes.string,
     value: React.PropTypes.oneOfType([
       React.PropTypes.string,
       React.PropTypes.number
@@ -114,58 +113,70 @@ var Field = React.createClass({
   },
 
   render() {
-    const icon = this.props.icon,
-          type = this.props.type,
+    const type = this.props.type,
           isCheckbox = (type === 'checkbox'),
-          iconFieldClasses = classSet({
-            'Arrange-sizeFill u-vsizeAll': true,
-            'u-textSize15': isMobileBrowser(),
-            'u-textSecondary': this.props.input,
-            'Form-checkbox u-isHiddenVisually': isCheckbox,
-            'Form-checkbox--focused': this.state.focused && isCheckbox,
-            'Form-checkbox--invalid': this.state.hasError && this.state.blurred && isCheckbox
-          }),
-          iconClasses = classSet({
-            'u-isHidden': !icon,
-            [`Arrange-sizeFit u-isActionable Icon Icon--${icon} u-alignTop`]: true
-          }),
           fieldClasses = classSet({
-            'Arrange Arrange--middle Form-field u-isSelectable u-posRelative': true,
+            'Form-field u-isSelectable u-posRelative': true,
             'Form-field--invalid': this.state.hasError && this.state.blurred && !isCheckbox,
             'Form-field--focused': this.state.focused && !isCheckbox,
             'Form-field--dropdown': this.props.options,
             'Form-field--clean': isCheckbox
           }),
+          fieldLabelClasses = classSet({
+            'Form-field__label': true,
+            'u-textSize15': isMobileBrowser()
+          }),
+          checkboxClasses = classSet({
+            'Form-checkbox u-isHiddenVisually': isCheckbox,
+            'Form-checkbox--focused': this.state.focused && isCheckbox,
+            'Form-checkbox--invalid': this.state.hasError && this.state.blurred && isCheckbox
+          }),
           dropdownClasses = classSet({
             'u-isHidden': !this.props.options,
-            'Arrange-sizeFit Form-field__arrows': true
+            'Form-field__arrows': true
           }),
           sharedProps = {
             onChange: this.onChange,
             onBlur: this.onBlur,
             onFocus: this.onFocus,
             ref: 'field',
-            className: iconFieldClasses,
             value: this.props.value
+          },
+          fieldProps = {
+            name: this.props.name,
+            value: this.props.value,
+            required: this.props.required,
+            label: this.props.label,
+            type: this.props.type
           };
 
     return (
-      <label className={fieldClasses}>
-        <i className={iconClasses} />
-        {
-          /* jshint laxbreak: true */
-          (this.props.input)
-            ? React.addons.cloneWithProps(this.props.input, _.extend({}, sharedProps, this.props))
-            : <input {...sharedProps} {...this.props} />
-        }
-        {
-          (this.props.label)
-            ? <span className='Form-checkboxCaption u-isActionable'>{this.props.label}</span>
-            : null
-        }
-        <div className={dropdownClasses}>
-          <i className='Icon--dropdownArrow' />
-          <i className='Icon--dropdownArrow Icon--dropdownArrowBottom' />
+      <label className='u-marginB17 u-block'>
+        <div className={fieldLabelClasses}>
+          {isCheckbox ? '' : this.props.placeholder}
+          {this.props.required ? '*' : ''}
+        </div>
+        <div className={fieldClasses}>
+          {
+            /* jshint laxbreak: true */
+            (this.props.input)
+              ? React.addons.cloneWithProps(
+                  this.props.input,
+                  _.extend({}, sharedProps, fieldProps, checkboxClasses)
+                )
+              : <input {...sharedProps} {...fieldProps} className={checkboxClasses} />
+          }
+          {
+            (this.props.label)
+              ? <span className='Form-checkboxCaption u-isActionable'>
+                  {this.props.label}
+                </span>
+              : null
+          }
+          <div className={dropdownClasses}>
+            <i className='Icon--dropdownArrow' />
+            <i className='Icon--dropdownArrow Icon--dropdownArrowBottom' />
+          </div>
         </div>
       </label>
     );

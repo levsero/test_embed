@@ -154,13 +154,11 @@ export const SubmitTicketForm = React.createClass({
                    : <div ref='formWrapper'>
                        <Field
                          placeholder={i18n.t('embeddable_framework.submitTicket.field.name.label')}
-                         icon='avatar'
                          value={this.state.formState.name}
                          name='name' />
                        <Field
                          placeholder={i18n.t('embeddable_framework.form.field.email.label')}
                          type='email'
-                         icon='mail'
                          required
                          value={this.state.formState.email}
                          name='email' />
@@ -170,7 +168,6 @@ export const SubmitTicketForm = React.createClass({
                            i18n.t('embeddable_framework.submitTicket.field.description.label')
                          }
                          required
-                         icon='msg'
                          value={this.state.formState.description}
                          name='description'
                          input={<textarea rows='5' />}
