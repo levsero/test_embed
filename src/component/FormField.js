@@ -155,12 +155,12 @@ var Field = React.createClass({
           };
 
     return (
-      <div className='u-marginBM'>
-        <label className={fieldLabelClasses}>
+      <label className='u-marginBM u-block'>
+        <div className={fieldLabelClasses}>
           {isCheckbox ? '' : this.props.placeholder}
           {this.props.required ? '*' : ''}
-        </label>
-        <label className={fieldClasses}>
+        </div>
+        <div className={fieldClasses}>
           {
             /* jshint laxbreak: true */
             (this.props.input)
@@ -181,8 +181,8 @@ var Field = React.createClass({
             <i className='Icon--dropdownArrow' />
             <i className='Icon--dropdownArrow Icon--dropdownArrowBottom' />
           </div>
-        </label>
-      </div>
+        </div>
+      </label>
     );
   }
 });
