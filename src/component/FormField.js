@@ -126,6 +126,11 @@ var Field = React.createClass({
             'Form-field__label': true,
             'u-textSize15': isMobileBrowser()
           }),
+          checkboxClasses = classSet({
+            'Form-checkbox u-isHiddenVisually': isCheckbox,
+            'Form-checkbox--focused': this.state.focused && isCheckbox,
+            'Form-checkbox--invalid': this.state.hasError && this.state.blurred && isCheckbox
+          }),
           dropdownClasses = classSet({
             'u-isHidden': !this.props.options,
             'Form-field__arrows': true
@@ -144,16 +149,6 @@ var Field = React.createClass({
             label: this.props.label,
             type: this.props.type
           };
-
-    var checkboxClasses;
-
-    if (isCheckbox) {
-      checkboxClasses = classSet({
-        'Form-checkbox u-isHiddenVisually': isCheckbox,
-        'Form-checkbox--focused': this.state.focused && isCheckbox,
-        'Form-checkbox--invalid': this.state.hasError && this.state.blurred && isCheckbox
-      });
-    }
 
     return (
       <label className='u-marginBM u-block'>
