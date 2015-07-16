@@ -116,7 +116,7 @@ var Field = React.createClass({
     const type = this.props.type,
           isCheckbox = (type === 'checkbox'),
           fieldClasses = classSet({
-            'Arrange Arrange--middle Form-field u-isSelectable u-posRelative': true,
+            'Form-field u-isSelectable u-posRelative': true,
             'Form-field--invalid': this.state.hasError && this.state.blurred && !isCheckbox,
             'Form-field--focused': this.state.focused && !isCheckbox,
             'Form-field--dropdown': this.props.options,
