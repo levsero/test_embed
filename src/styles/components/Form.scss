@@ -71,6 +71,7 @@ $Form-fontSize: #{13/$font-size}rem;
     resize: none;
     color: $body-color;
     font-size: $Form-fontSize;
+    width: 100%;
 
     &:focus {
       appearance: none;
