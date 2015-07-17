@@ -46,6 +46,14 @@ $Form-fontSize: #{13/$font-size}rem;
   top: #{13/$font-size}rem;
 }
 
+.Form-fieldContainer {
+  margin-bottom: $spacing-lrg;
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+}
+
 .Form-field {
   background: $base-color;
   border: $thin-border-size solid $stroke-color;
@@ -60,6 +68,7 @@ $Form-fontSize: #{13/$font-size}rem;
     color: $body-color;
     font-size: $Form-fontSize;
     width: 100%;
+    padding: 0;
 
     &:focus {
       appearance: none;
@@ -67,8 +76,8 @@ $Form-fontSize: #{13/$font-size}rem;
     }
   }
 
-  &:last-of-type {
-    margin-bottom: 0;
+  textarea {
+    height: #{78/$font-size}rem;
   }
 }
 
@@ -115,7 +124,7 @@ $Form-fontSize: #{13/$font-size}rem;
   }
 }
 
-.Form-field__arrows {
+.Form-fieldArrows {
   position: absolute;
   right: #{14/$font-size}rem;
   top: #{13/$font-size}rem;
@@ -155,8 +164,8 @@ $Form-fontSize: #{13/$font-size}rem;
   @include error-state($thin-border-size);
 }
 
-.Form-field__label {
-  margin-bottom: #{6/$font-size}rem;
+.Form-fieldLabel {
+  margin-bottom: #{8/$font-size}rem;
   font-weight: 700;
   display: block;
   color: $zendesk-color--aluminum;
