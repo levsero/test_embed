@@ -10,9 +10,9 @@ function getDeviceZoom() {
 
 function getSizingRatio(isPinching, isFirstRun) {
   var landscape = Math.abs(win.orientation) === 90,
-      ratio = 1 / getDeviceZoom(),
-      ratioThreshold = 2,
-      defaultRatio = landscape ? ratioThreshold : 3;
+      ratio = (landscape ? 0.5 : 1) / getDeviceZoom(),
+      ratioThreshold = 0.5,
+      defaultRatio = landscape ? ratioThreshold : 1;
 
   // On first run check the ratio is below threshold
   // for defaulting to a smaller default font-size for

@@ -23,8 +23,15 @@ $Container-spacing: 25/$font-size;
 }
 
 .Container--fullscreen-center-vert {
-  padding-top: 20%; /* 1 */
-  padding-top: calc(30% - (#{40/$font-size}rem));
+  @media screen and (orientation:portrait) {
+    padding-top: 20%; /* 1 */
+    padding-top: calc(30% - (#{40/$font-size}rem));
+  }
+
+  @media screen and (orientation:landscape) {
+    padding-top: 20%; /* 1 */
+    padding-top: calc(15% - (#{40/$font-size}rem));
+  }
 }
 
 .Container-pullout {
