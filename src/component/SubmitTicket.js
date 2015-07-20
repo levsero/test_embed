@@ -19,7 +19,9 @@ export var SubmitTicket = React.createClass({
       message: '',
       fullscreen: isMobileBrowser(),
       errorMessage: '',
-      uid: _.uniqueId('submitTicketForm_')
+      uid: _.uniqueId('submitTicketForm_'),
+      searchString: null,
+      searchLocale: null
     };
   },
 
@@ -67,13 +69,17 @@ export var SubmitTicket = React.createClass({
           'locale_id': i18n.getLocaleId(),
           'submitted_from': win.location.href
         }, this.formatTicketSubmission(data)),
-        resCallback = () => {
+        resCallback = (res) => {
           this.setState({
             showNotification: true,
             message: i18n.t('embeddable_framework.submitTicket.notify.message.success')
           });
           this.clearForm();
-          this.props.onSubmitted();
+          this.props.onSubmitted({
+            res: res,
+            searchString: this.state.searchString,
+            searchLocale: this.state.searchLocale
+          });
           this.props.updateFrameSize();
         },
         errorCallback = (msg) => {
@@ -89,7 +95,7 @@ export var SubmitTicket = React.createClass({
               if (res.error) {
                 errorCallback(i18n.t('embeddable_framework.submitTicket.notify.message.error'));
               } else {
-                resCallback();
+                resCallback(res);
               }
             },
             fail(err) {
