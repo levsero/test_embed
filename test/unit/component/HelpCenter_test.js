@@ -188,13 +188,13 @@ describe('Help center component', function() {
   describe('handle change', function() {
 
     it('should fire off call to search api when handleSubmit is called', function() {
-      var mockBeacon = jasmine.createSpy('mockOnSearch'),
+      var mockOnSearch = jasmine.createSpy('mockOnSearch'),
           helpCenter = React.render(
-            <HelpCenter onSearch={mockBeacon} />,
+            <HelpCenter onSearch={mockOnSearch} />,
             global.document.body
           ),
           mockTransport = mockRegistry['service/transport'].transport,
-          responsePayload = {body: {results: [1,2,3], count: 3}};
+          responsePayload = {ok: true, body: {results: [1, 2, 3], count: 3}};
 
       helpCenter.handleSubmit({preventDefault: noop});
 
@@ -221,7 +221,7 @@ describe('Help center component', function() {
       expect(helpCenter.state.hasSearched)
         .toBeTruthy();
 
-      expect(mockBeacon).toHaveBeenCalled();
+      expect(mockOnSearch).toHaveBeenCalled();
     });
 
     it('should render list of results from api', function() {

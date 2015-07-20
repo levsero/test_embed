@@ -184,6 +184,10 @@ function init(helpCenterAvailable, hideLauncher) {
     }
   });
 
+  c.intercept(`${helpCenter}.onSearch`, function(__, params) {
+    c.broadcast(`${submitTicket}.setLastSearch`, params);
+  });
+
   c.intercept(
     [`${launcher}.onClick`,
      `${helpCenter}.onClose`,

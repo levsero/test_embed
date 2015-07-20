@@ -42,7 +42,8 @@ describe('mediator', function() {
       ['show',
        'showWithAnimation',
        'hide',
-       'showBackButton']
+       'showBackButton',
+       'setLastSearch']
     );
 
     chatSub = jasmine.createSpyObj(
@@ -74,6 +75,7 @@ describe('mediator', function() {
       c.subscribe(`${names.submitTicket}.showWithAnimation`, submitTicketSub.show);
       c.subscribe(`${names.submitTicket}.hide`, submitTicketSub.hide);
       c.subscribe(`${names.submitTicket}.showBackButton`, submitTicketSub.showBackButton);
+      c.subscribe(`${names.submitTicket}.setLastSearch`, submitTicketSub.setLastSearch);
 
       c.subscribe(`${names.chat}.show`, chatSub.show);
       c.subscribe(`${names.chat}.showWithAnimation`, chatSub.show);
@@ -696,6 +698,23 @@ describe('mediator', function() {
 
         expect(submitTicketSub.showBackButton.calls.count())
           .toEqual(0);
+      });
+
+      it('triggers Ticket Submission setLastSearch with last search params', function() {
+        var params = {
+          searchString: 'a search',
+          searchLocale: 'en-US'
+        };
+
+        reset(submitTicketSub.setLastSearch);
+
+        c.broadcast(`${helpCenter}.onSearch`, params);
+
+        expect(submitTicketSub.setLastSearch.calls.count())
+          .toEqual(1);
+
+        expect(submitTicketSub.setLastSearch)
+          .toHaveBeenCalledWith(params);
       });
 
       it('hides when a hide call is made', function() {

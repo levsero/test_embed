@@ -27,8 +27,17 @@ function create(name, config) {
       },
       posObj,
       iframeStyle,
-      onSubmitted = function() {
-        beacon.track('submitTicket', 'send', name);
+      onSubmitted = function(params) {
+        let ticketIdMatcher = /Request \#([0-9]+)/;
+        beacon.track(
+          'submitTicket',
+          'send',
+          name,
+          {
+            query: params.searchString,
+            ticketId: parseInt(ticketIdMatcher.exec(params.res.body.message)[1], 10),
+            locale: params.searchLocale
+          });
         mediator.channel.broadcast(name + '.onFormSubmitted');
       },
       onCancel = function() {
@@ -140,9 +149,15 @@ function render(name) {
     });
   });
 
+  mediator.channel.subscribe(name + '.setLastSearch', function(params) {
+    get(name).instance.getChild().refs.submitTicket
+      .setState(_.pick(params, ['searchString', 'searchLocale']));
+  });
+
   mediator.channel.subscribe('.identify', function(user) {
     prefillForm(name, user);
   });
+
 }
 
 function prefillForm(name, user) {

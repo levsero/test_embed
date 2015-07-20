@@ -37,8 +37,9 @@ function create(name, config) {
           showBackButton: true
         });
       },
-      onSearch = function(searchString) {
-        beacon.track('helpCenter', 'search', name, searchString);
+      onSearch = function(params) {
+        beacon.track('helpCenter', 'search', name, params.searchString);
+        mediator.channel.broadcast(name + '.onSearch', params);
       },
       Embed;
 
