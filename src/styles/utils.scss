@@ -291,7 +291,7 @@ $Base-posOffset: $med + 1;
 }
 
 .u-borderTransparent {
-  border: #{1/$font-size}rem solid transparent;
+  border: #{1/$font-size}rem solid transparent !important;
 }
 
 /**
