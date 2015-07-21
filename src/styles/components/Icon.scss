@@ -112,7 +112,7 @@
   }
 }
 
-.Icon--checkboxCheck {
+.Icon--check {
   svg {
     fill: $secondary-color;
     padding-left: #{2/$font-size}rem;
@@ -121,19 +121,6 @@
     height: #{10/$font-size}rem;
     width: #{10/$font-size}rem;
   }
-}
-
-.Icon--checkboxBorder {
-  display: inline-block;
-  width: #{14/$font-size}rem;
-  height: #{14/$font-size}rem;
-  background-color: $base-color;
-  border: $thin-border-size solid $stroke-color;
-  border-radius: #{4/$font-size}rem;
-  margin-right: #{10/$font-size}rem;
-  top: #{2/$font-size}rem;
-  left: 0;
-  position: absolute;
 }
 
 .Icon--dropdownArrow {
