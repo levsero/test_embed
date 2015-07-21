@@ -8,36 +8,19 @@
  */
 @import '../_vars.scss';
 
-@font-face {
-  font-family: 'icomoon';
-  src:url('../../asset/font/icomoon.eot') format('embedded-opentype'),
-      url('../../asset/font/icomoon.woff') format('woff'),
-      url('../../asset/font/icomoon.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-
 .Icon {
-  font-family: 'icomoon';
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  min-width: $spacing-lrg; /* 1 */
-  width: $spacing-lrg;
-  line-height: 1;
   padding-right: #{12/$font-size}rem;
-  font-size: $spacing-lrg;
-  color: $icon-color;
-
-  /* Better Font Rendering =========== */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 
   [dir='rtl'] & {
     padding-right: 0;
     padding-left: #{12/$font-size}rem;
+  }
+
+  svg {
+    min-width: #{20/$font-size}rem; /* 1 */
+    min-height: #{20/$font-size}rem; /* 1 */
+    height: #{20/$font-size}rem;
+    width: #{20/$font-size}rem;
   }
 }
 
@@ -50,91 +33,70 @@
   }
 }
 
-.Icon:before {
-  content: '\e603';
-}
-
-.Icon--chat:before {
-  content: '\e600';
-}
-
-.Icon--mail:before {
-  padding-left: #{4/$font-size}rem;;
-  content: '\e602';
-}
-
-.Icon--avatar:before {
-  padding-left: #{4/$font-size}rem;;
-  content: '\e605';
-}
-
-.Icon--msg:before {
-  padding-left: #{4/$font-size}rem;;
-  content: '\e604';
-}
-
-.Icon--arrow {
-  font-size: #{12/$font-size}rem;
-  padding-right: #{3/$font-size}rem;
-  color: $cta-color;
-
-  &:before {
-    content: '\e610';
-  }
-
-  [dir='rtl'] & {
-    padding-right: #{3/$font-size}rem;
-    padding-left: 0;
-  }
-}
-
 .Icon--search {
-  height: #{14/$font-size}rem;
-  width: #{14/$font-size}rem;
-  font-size: #{14/$font-size}rem;
   padding-left: #{6/$font-size}rem;
-  padding-right: #{3/$font-size}rem;
-
-  &:before {
-    content: '\e609';
-  }
+  padding-right: #{8/$font-size}rem;
 
   [dir='rtl'] & {
     padding-left: #{3/$font-size}rem;
     padding-right: #{6/$font-size}rem;
   }
+
+  svg {
+    min-width: #{14/$font-size}rem; /* 1 */
+    min-height: #{14/$font-size}rem; /* 1 */
+    height: #{14/$font-size}rem;
+    width: #{14/$font-size}rem;
+  }
 }
 
-.Icon--cross {
-  padding-right: 0;
+.Icon--zendesk {
+  padding-left: $spacing-tny;
 
-  &:before {
-    content: '\e601';
+  [dir='rtl'] & {
+    padding-left: #{3/$font-size}rem;
+    padding-right: #{6/$font-size}rem;
+  }
+
+  svg {
+    fill: $icon-inactive-color;
+    min-width: #{60/$font-size}rem; /* 1 */
+    width: #{60/$font-size}rem;
+
+    &:hover, &:active, &:focus {
+      fill: $cta-color;
+    }
   }
 }
 
 .Icon--close {
-  @extend .Icon--cross;
+  padding: 0;
 
-  font-size: #{12/$font-size}rem;
-  padding-left: 0;
-  color: $cta-color;
+  svg {
+    min-width: #{12/$font-size}rem; /* 1 */
+    min-height: #{12/$font-size}rem; /* 1 */
+    height: #{12/$font-size}rem;
+    width: #{12/$font-size}rem;
+  }
 }
 
-.Icon--clearInput {
-  @extend .Icon--cross;
+.Icon--back {
+  svg {
+    min-width: #{14/$font-size}rem; /* 1 */
+    min-height: #{14/$font-size}rem; /* 1 */
+    height: #{14/$font-size}rem;
+    width: #{14/$font-size}rem;
+  }
+}
 
-  height: #{16/$font-size}rem;
-  width: #{16/$font-size}rem;
-  min-width: #{16/$font-size}rem;
-  line-height: #{16/$font-size}rem;
-  font-size: #{8/$font-size}rem;
-  background: $stroke-color;
-  color: $base-color;
-  border-radius: 50%; /* 2  */
+.Icon--link {
+  padding-left: #{5/$font-size}rem;
 
-  [dir='rtl'] & {
-    padding-left: 0;
+  svg {
+    min-width: #{9/$font-size}rem; /* 1 */
+    min-height: #{9/$font-size}rem; /* 1 */
+    height: #{9/$font-size}rem;
+    width: #{9/$font-size}rem;
   }
 }
 
@@ -142,31 +104,25 @@
   border: #{2/$font-size}rem solid $icon-color;
   padding: $spacing-lrg;
   border-radius: 50%;
-  color: $cta-color;
-
-  &:before {
-    content: '\e606';
-  }
 
   [dir='rtl'] & {
     padding: $spacing-lrg;
   }
+
+  svg {
+    fill: $cta-color;
+  }
 }
 
-.Icon--zendesk {
-  width: auto;
-  color: $icon-inactive-color;
-  padding-left: $spacing-tny;
-  bottom: -5;
-  clip: rect($spacing-lrg, #{80/$font-size}rem, #{40/$font-size}rem, 0px); /* 3 */
-
-  &:hover, &:active, &:focus {
-    color: $cta-color;
-  }
-
-  &:before {
-    content: '\e608';
-    font-size: #{60/$font-size}rem;
+.Icon--check {
+  svg {
+    fill: $secondary-color;
+    margin-left: #{2/$font-size}rem;
+    margin-top: #{2/$font-size}rem;
+    min-width: #{10/$font-size}rem; /* 1 */
+    min-height: #{10/$font-size}rem; /* 1 */
+    height: #{10/$font-size}rem;
+    width: #{10/$font-size}rem;
   }
 
   [dir='rtl'] & {

@@ -107,6 +107,9 @@ describe('Submit ticket component', function() {
       'service/transport': {
         transport: jasmine.createSpyObj('transport', ['send']),
       },
+      'component/Icon': {
+        Icon: noopReactComponent()
+      },
       'lodash': _
     });
 

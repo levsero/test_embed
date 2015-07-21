@@ -13,6 +13,9 @@ describe('Launcher component', function() {
         isMobileBrowser: function() {
           return false;
         }
+      },
+      'component/Icon': {
+        Icon: noopReactComponent()
       }
     });
 

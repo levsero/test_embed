@@ -24,6 +24,17 @@ describe('FormField component', function() {
       'component/Loading': {
         Loading: noopReactComponent()
       },
+      'component/Icon': {
+        Icon: React.createClass({
+          render: function() {
+            return <span
+                    className={"Icon "+this.props.type}
+                    onClick={this.props.onClick}>
+                      <svg />
+                   </span>;
+          }
+        })
+      },
       'utility/devices': {
         isMobileBrowser: function() {
           return true;
@@ -344,7 +355,7 @@ describe('FormField component', function() {
           ),
           searchFieldNode = searchField.getDOMNode();
 
-      ReactTestUtils.Simulate.click(searchFieldNode.querySelector('i'));
+      ReactTestUtils.Simulate.click(searchFieldNode.querySelector('.Icon--search'));
 
       expect(onSearch)
         .toHaveBeenCalled();

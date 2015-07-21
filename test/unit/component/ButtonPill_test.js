@@ -12,7 +12,10 @@ describe('ButtonPill component', function() {
     });
 
     mockRegistry = initMockRegistry({
-      'react/addons': React
+      'react/addons': React,
+      'component/Icon': {
+        Icon: noopReactComponent()
+      }
     });
 
     mockery.registerAllowable(buttonPath);

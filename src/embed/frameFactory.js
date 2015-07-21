@@ -8,6 +8,7 @@ import { clickBusterRegister } from 'utility/utils';
 import { i18n }                from 'service/i18n';
 import { snabbt }              from 'snabbt.js';
 import { ButtonNav }           from 'component/Button';
+import { Icon }                from 'component/Icon';
 
 var classSet = React.addons.classSet,
     baseCSS = require('baseCSS'),
@@ -256,7 +257,9 @@ export var frameFactory = function(childFn, _params) {
             closeButton = (<ButtonNav
                             handleClick={this.close}
                             label={
-                              <i className='Icon Icon--close u-textInheritColor' />
+                              <Icon
+                                type='Icon--close'
+                                className='u-textInheritColor' />
                             }
                             rtl={i18n.isRTL()}
                             position='right'
@@ -264,7 +267,9 @@ export var frameFactory = function(childFn, _params) {
             backButton = (<ButtonNav
                            handleClick={this.back}
                            label={
-                             <i className='Icon Icon--arrow u-textInheritColor' />
+                             <Icon
+                               type='Icon--back'
+                               className='u-textInheritColor' />
                            }
                            rtl={i18n.isRTL()}
                            position='left'

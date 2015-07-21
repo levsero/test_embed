@@ -8,6 +8,7 @@ import { ZendeskLogo }      from 'component/ZendeskLogo';
 import { Container }        from 'component/Container';
 import { ScrollContainer }  from 'component/ScrollContainer';
 import { isMobileBrowser }  from 'utility/devices';
+import { Icon }             from 'component/Icon';
 import { i18n }             from 'service/i18n';
 
 var classSet = React.addons.classSet;
@@ -164,7 +165,7 @@ export var SubmitTicket = React.createClass({
         <div className={notifyClasses} ref='notification'>
           <ScrollContainer
             title={this.state.message}>
-            <i className='Icon Icon--tick u-inlineBlock u-userTextColor u-marginTL u-marginBS' />
+            <Icon type='Icon--tick' className='u-inlineBlock u-userTextColor' />
           </ScrollContainer>
         </div>
         <SubmitTicketForm

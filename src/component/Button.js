@@ -1,5 +1,7 @@
 import React from 'react/addons';
 
+import { Icon } from 'component/Icon';
+
 var classSet = React.addons.classSet;
 
 var Button = React.createClass({
@@ -74,6 +76,7 @@ var ButtonPill = React.createClass({
       <div
         className={buttonClasses}>
         {this.props.label}
+        <Icon type='Icon--link' />
       </div>
     );
   }
