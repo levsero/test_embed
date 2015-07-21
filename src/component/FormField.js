@@ -169,7 +169,9 @@ var Field = React.createClass({
           }
           {
           (isCheckbox)
-            ? <div className='Form-checkbox u-pullLeft u-posRelative u-isActionable'><Icon type='Icon--check' /></div>
+            ? <div className='Form-checkbox u-pullLeft u-posRelative u-isActionable'>
+                <Icon type='Icon--check' />
+              </div>
             : null
           }
           {
@@ -353,8 +355,7 @@ var SearchField = React.createClass({
           <Icon
             className={searchInputFieldIconClasses}
             onClick={this.props.onSearchIconClick}
-            type='Icon--search'
-          />
+            type='Icon--search' />
           <div className='Arrange-sizeFill u-vsizeAll u-posRelative'>
             <input
               className={searchInputFieldClasses}

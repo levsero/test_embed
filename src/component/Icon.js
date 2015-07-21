@@ -34,8 +34,7 @@ export var Icon = React.createClass({
       <span
         {...this.props}
         className={iconClasses}
-        dangerouslySetInnerHTML={{__html: icon}}
-      />
+        dangerouslySetInnerHTML={{__html: icon}} />
     );
   }
 

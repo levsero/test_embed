@@ -272,8 +272,7 @@ export var frameFactory = function(childFn, _params) {
                              <div>
                                <Icon
                                   type='Icon--back'
-                                  className='u-textInheritColor'
-                                />
+                                  className='u-textInheritColor' />
                                {i18n.t('embeddable_framework.navigation.back')}
                              </div>
                            }

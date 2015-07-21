@@ -62,8 +62,7 @@ export const Launcher = React.createClass({
         onTouchEnd={this.props.onClick}>
         <Icon
           type={this.state.icon}
-          className={iconClasses}
-        />
+          className={iconClasses} />
         <span className={labelClasses}>{this.state.label}</span>
       </div>
     );
