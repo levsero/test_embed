@@ -7,7 +7,7 @@ var icons = {
       'Icon--chat': require('icons/widget-icon_chat.svg'),
       'Icon--help': require('icons/widget-icon_help.svg'),
       'Icon--tick': require('icons/widget-icon_tick.svg'),
-      'Icon--checkbox-check': require('icons/widget-icon_checkbox-check.svg'),
+      'Icon--checkboxCheck': require('icons/widget-icon_checkboxCheck.svg'),
       'Icon--search': require('icons/widget-icon_search.svg'),
       'Icon--zendesk': require('icons/widget-icon_zendesk.svg'),
       'Icon': require('icons/widget-icon_help.svg')
@@ -33,7 +33,7 @@ export var Icon = React.createClass({
     return (
       <span
         {...this.props}
-        className={iconClasses + this.props.className}
+        className={iconClasses}
         dangerouslySetInnerHTML={{__html: icon}}
       />
     );

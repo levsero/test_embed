@@ -169,7 +169,7 @@ var Field = React.createClass({
           }
           {
           (isCheckbox)
-            ? <div className='Icon--checkbox-border'><Icon type='Icon--checkbox-check' /></div>
+            ? <div className='Icon--checkboxBorder'><Icon type='Icon--checkboxCheck' /></div>
             : null
           }
           {

@@ -261,8 +261,7 @@ export var frameFactory = function(childFn, _params) {
                                 {i18n.t('embeddable_framework.navigation.close')}
                                 <Icon
                                   type='Icon--close'
-                                  className='u-textInheritColor'
-                                />
+                                  className='u-textInheritColor' />
                               </div>
                             }
                             position='right'

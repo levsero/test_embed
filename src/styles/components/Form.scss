@@ -90,11 +90,11 @@ $Form-fontSize: #{13/$font-size}rem;
   height: #{14/$font-size}rem;
 }
 
-.Icon--checkbox-check {
+.Icon--checkboxCheck {
   visibility: hidden;
 }
 
-.Form-checkbox:checked + div .Icon--checkbox-check {
+.Form-checkbox:checked + div .Icon--checkboxCheck {
   visibility: visible;
 }
 

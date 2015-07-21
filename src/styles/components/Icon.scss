@@ -8,7 +8,7 @@
  */
 @import '../_vars.scss';
 
-.Icon{
+.Icon {
   padding-right: #{12/$font-size}rem;
 
   [dir='rtl'] & {
@@ -112,7 +112,7 @@
   }
 }
 
-.Icon--checkbox-check {
+.Icon--checkboxCheck {
   svg {
     fill: $secondary-color;
     padding-left: #{2/$font-size}rem;
@@ -123,7 +123,7 @@
   }
 }
 
-.Icon--checkbox-border {
+.Icon--checkboxBorder {
   border: 1px solid green;
   display: inline-block;
   width: #{14/$font-size}rem;
