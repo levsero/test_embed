@@ -7,10 +7,6 @@
 @import '../_vars.scss';
 
 @font-face {
-  font-family: 'icomoon';
-  src:url('../../asset/font/icomoon.eot') format('embedded-opentype'),
-      url('../../asset/font/icomoon.woff') format('woff'),
-      url('../../asset/font/icomoon.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -94,27 +90,12 @@ $Form-fontSize: #{13/$font-size}rem;
   height: #{14/$font-size}rem;
 }
 
-.Form-checkbox + span:before {
-  content: "";
-  display: inline-block;
-  width: #{14/$font-size}rem;
-  height: #{14/$font-size}rem;
-  background-color: $base-color;
-  border: #{1/$font-size}rem solid $body-color;
-  border-radius: #{4/$font-size}rem;
-  margin-right: #{10/$font-size}rem;
-  top: #{2/$font-size}rem;
-  left: 0;
-  position: absolute;
+.Icon--checkbox-check {
+  visibility: hidden;
 }
 
-.Form-checkbox:checked + span:before {
-  font-family: 'icomoon';
-  font-size: #{9/$font-size}rem;
-  text-align: center;
-  line-height: #{15/$font-size}rem;
-  content: "\e60a";
-  color: $secondary-color;
+.Form-checkbox:checked + div .Icon--checkbox-check {
+  visibility: visible;
 }
 
 .Form-field--mobile, .Form-field--search {

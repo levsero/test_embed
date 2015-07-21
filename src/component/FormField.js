@@ -168,6 +168,11 @@ var Field = React.createClass({
               : <input {...sharedProps} {...fieldProps} className={checkboxClasses} />
           }
           {
+          (isCheckbox)
+            ? <div className='Icon--checkbox-border'><Icon type='Icon--checkbox-check' /></div>
+            : null
+          }
+          {
             (this.props.label)
               ? <span className='Form-checkboxCaption u-isActionable'>
                   {this.props.label}

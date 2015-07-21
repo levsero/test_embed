@@ -112,6 +112,31 @@
   }
 }
 
+.Icon--checkbox-check {
+  svg {
+    fill: $secondary-color;
+    padding-left: #{2/$font-size}rem;
+    min-width: #{10/$font-size}rem; /* 1 */
+    min-height: #{10/$font-size}rem; /* 1 */
+    height: #{10/$font-size}rem;
+    width: #{10/$font-size}rem;
+  }
+}
+
+.Icon--checkbox-border {
+  border: 1px solid green;
+  display: inline-block;
+  width: #{14/$font-size}rem;
+  height: #{14/$font-size}rem;
+  background-color: $base-color;
+  border: #{1/$font-size}rem solid $body-color;
+  border-radius: #{4/$font-size}rem;
+  margin-right: #{10/$font-size}rem;
+  top: #{2/$font-size}rem;
+  left: 0;
+  position: absolute;
+}
+
 .Icon--dropdownArrow {
   display: block;
   width: 0;
