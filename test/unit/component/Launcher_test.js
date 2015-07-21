@@ -16,7 +16,7 @@ describe('Launcher component', function() {
       },
       'component/Icon': {
         Icon: noopReactComponent()
-      },
+      }
     });
 
     Launcher = require(launcherPath).Launcher;
