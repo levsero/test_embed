@@ -121,7 +121,7 @@ $Form-fontSize: #{13/$font-size}rem;
 }
 
 .Form-field--focused,
-.Form-checkbox--focused + span:before {
+.Form-checkbox--focused + div {
   border: $thin-border-size solid $stroke-focused-color;
 
   > .Icon--search {
@@ -130,7 +130,7 @@ $Form-fontSize: #{13/$font-size}rem;
 }
 
 .Form-field--invalid,
-.Form-checkbox--invalid + span:before {
+.Form-checkbox--invalid + div {
   @include error-state($thin-border-size);
 }
 
