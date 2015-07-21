@@ -1,5 +1,6 @@
 import React from 'react/addons';
 
+import { Icon }            from 'component/Icon';
 import { isMobileBrowser } from 'utility/devices';
 
 var classSet = React.addons.classSet;
@@ -42,7 +43,7 @@ export const Launcher = React.createClass({
         }),
         iconClasses = classSet({
           // spaces needed for class concatenation
-          'Arrange-sizeFit Icon Icon--launcher u-textInheritColor u-inlineBlock ': true,
+          'Arrange-sizeFit Icon--launcher u-textInheritColor u-inlineBlock ': true,
           'u-paddingHN ': isMobileBrowser() && !this.state.hasUnreadMessages
         }),
         labelClasses = classSet({
@@ -59,7 +60,9 @@ export const Launcher = React.createClass({
       <div className={buttonClasses}
         onClick={this.props.onClick}
         onTouchEnd={this.props.onClick}>
-        <i className={iconClasses + this.state.icon} />
+        <Icon
+          type={this.state.icon}
+          className={iconClasses} />
         <span className={labelClasses}>{this.state.label}</span>
       </div>
     );

@@ -4,6 +4,7 @@ import _     from 'lodash';
 import { Loading }         from 'component/Loading';
 import { isMobileBrowser } from 'utility/devices';
 import { i18n }            from 'service/i18n';
+import { Icon }            from 'component/Icon';
 
 var classSet = React.addons.classSet,
     geti18nContent = function(field) {
@@ -127,9 +128,9 @@ var Field = React.createClass({
             'u-textSize15': isMobileBrowser()
           }),
           checkboxClasses = classSet({
-            'Form-checkbox u-isHiddenVisually': isCheckbox,
-            'Form-checkbox--focused': this.state.focused && isCheckbox,
-            'Form-checkbox--invalid': this.state.hasError && this.state.blurred && isCheckbox
+            'Form-checkboxInput u-isHiddenVisually': isCheckbox,
+            'Form-checkboxInput--focused': this.state.focused && isCheckbox,
+            'Form-checkboxInput--invalid': this.state.hasError && this.state.blurred && isCheckbox
           }),
           dropdownClasses = classSet({
             'u-isHidden': !this.props.options,
@@ -167,8 +168,15 @@ var Field = React.createClass({
               : <input {...sharedProps} {...fieldProps} className={checkboxClasses} />
           }
           {
+          (isCheckbox)
+            ? <div className='Form-checkbox u-pullLeft u-posRelative u-isActionable'>
+                <Icon type='Icon--check' />
+              </div>
+            : null
+          }
+          {
             (this.props.label)
-              ? <span className='Form-checkboxCaption u-isActionable'>
+              ? <span className='Form-checkboxCaption u-nbfc u-isActionable'>
                   {this.props.label}
                 </span>
               : null
@@ -327,8 +335,9 @@ var SearchField = React.createClass({
           'u-textSizeBaseMobile': this.props.fullscreen
         }),
         searchInputFieldIconClasses = classSet({
-          'Arrange-sizeFit u-isActionable Icon Icon--search': true,
-          'u-userTextColor': this.state.focused
+          'Arrange-sizeFit u-isActionable': true,
+          'u-userTextColor': this.state.focused,
+          'u-userFillColor': this.state.focused
         }),
         clearInputClasses = classSet({
           'Icon Icon--clearInput': true,
@@ -343,9 +352,10 @@ var SearchField = React.createClass({
       /* jshint quotmark:false */
       <div className={searchContainerClasses}>
         <div className={searchInputClasses}>
-          <i
+          <Icon
             className={searchInputFieldIconClasses}
-            onClick={this.props.onSearchIconClick} />
+            onClick={this.props.onSearchIconClick}
+            type='Icon--search' />
           <div className='Arrange-sizeFill u-vsizeAll u-posRelative'>
             <input
               className={searchInputFieldClasses}

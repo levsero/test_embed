@@ -15,11 +15,16 @@ function generateUserCSS(params) {
       .rf-CheckboxGroup__checkbox:checked + span:before,
       .u-userTextColor:not([disabled]) {
         color: ${params.color} !important;
+        fill: ${params.color} !important;
+      }
+      .u-userFillColor:not([disabled]) svg {
+        fill: ${params.color} !important;
       }
       .u-userTextColor:not([disabled]):hover,
       .u-userTextColor:not([disabled]):active,
       .u-userTextColor:not([disabled]):focus {
         color: ${highlightColor} !important;
+        fill: ${highlightColor} !important;
       }
       .u-userBackgroundColor:not([disabled]) {
         background-color: ${params.color} !important;
