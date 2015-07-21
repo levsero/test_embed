@@ -31,7 +31,6 @@ module.exports = {
       },
       { test: /base\.css$/, loader: 'css', minimize: true },
       { test: /\.json$/, loader: 'json' },
-      { test: /\.(woff|eot|ttf)$/, loader: 'url' },
       {
         test: /\.svg$/,
         loaders: [
