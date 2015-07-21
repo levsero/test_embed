@@ -128,9 +128,9 @@ var Field = React.createClass({
             'u-textSize15': isMobileBrowser()
           }),
           checkboxClasses = classSet({
-            'Form-checkbox u-isHiddenVisually': isCheckbox,
-            'Form-checkbox--focused': this.state.focused && isCheckbox,
-            'Form-checkbox--invalid': this.state.hasError && this.state.blurred && isCheckbox
+            'Form-checkboxInput u-isHiddenVisually': isCheckbox,
+            'Form-checkboxInput--focused': this.state.focused && isCheckbox,
+            'Form-checkboxInput--invalid': this.state.hasError && this.state.blurred && isCheckbox
           }),
           dropdownClasses = classSet({
             'u-isHidden': !this.props.options,
@@ -169,12 +169,12 @@ var Field = React.createClass({
           }
           {
           (isCheckbox)
-            ? <div className='Icon--checkboxBorder'><Icon type='Icon--checkboxCheck' /></div>
+            ? <div className='Form-checkbox u-pullLeft u-posRelative u-isActionable'><Icon type='Icon--check' /></div>
             : null
           }
           {
             (this.props.label)
-              ? <span className='Form-checkboxCaption u-isActionable'>
+              ? <span className='Form-checkboxCaption u-nbfc u-isActionable'>
                   {this.props.label}
                 </span>
               : null
