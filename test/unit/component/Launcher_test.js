@@ -15,8 +15,14 @@ describe('Launcher component', function() {
         }
       },
       'component/Icon': {
-        Icon: noopReactComponent()
-      }
+        Icon: React.createClass({
+          render: function() {
+            return <span className={"Icon "+this.props.type}>
+                      <svg />
+                   </span>;
+          }
+        })
+      },
     });
 
     Launcher = require(launcherPath).Launcher;
