@@ -51,20 +51,20 @@ describe('Launcher component', function() {
       .toEqual('testIcon');
   });
 
-  it('should change the icon when set icon is called', function() {
+  it('should change the state icon when setIcon is called', function() {
     /* jshint quotmark: false */
     var launcher = React.render(
           <Launcher label='help' />,
           global.document.body
         );
 
-    expect(global.document.body.querySelectorAll('.newIcon').length)
-      .toEqual(0);
+    expect(launcher.state.icon)
+      .not.toEqual('newIcon');
 
     launcher.setIcon('newIcon');
 
-    expect(global.document.body.querySelectorAll('.newIcon').length)
-      .toEqual(1);
+    expect(launcher.state.icon)
+      .toEqual('newIcon');
   });
 
   it('should call the updateFrameSize prop on render if it exists', function() {

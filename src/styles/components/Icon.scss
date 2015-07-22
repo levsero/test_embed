@@ -43,6 +43,7 @@
   }
 
   svg {
+    fill: $icon-inactive-color;
     min-width: #{14/$font-size}rem; /* 1 */
     min-height: #{14/$font-size}rem; /* 1 */
     height: #{14/$font-size}rem;
@@ -73,15 +74,17 @@
   padding: 0;
 
   svg {
-    min-width: #{12/$font-size}rem; /* 1 */
-    min-height: #{12/$font-size}rem; /* 1 */
-    height: #{12/$font-size}rem;
-    width: #{12/$font-size}rem;
+    fill: $icon-inactive-color;
+    min-width: #{10/$font-size}rem; /* 1 */
+    min-height: #{10/$font-size}rem; /* 1 */
+    height: #{10/$font-size}rem;
+    width: #{10/$font-size}rem;
   }
 }
 
 .Icon--back {
   svg {
+    fill: $icon-inactive-color;
     min-width: #{14/$font-size}rem; /* 1 */
     min-height: #{14/$font-size}rem; /* 1 */
     height: #{14/$font-size}rem;

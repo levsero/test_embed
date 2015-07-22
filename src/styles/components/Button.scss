@@ -53,7 +53,7 @@ $Button-nudge: 5;
 }
 
 .Button--launcher {
-  border-radius: 999rem; /* 1  */
+  border-radius: 999rem; /* 1 */
   border: 0;
   bottom: 0;
   letter-spacing: 0.6;
@@ -76,11 +76,17 @@ $Button-nudge: 5;
 
 .c-btn--pill {
   color: $secondary-color;
-  padding: #{7/$font-size}rem #{14/$font-size}rem;
+  padding: #{7/$font-size}rem #{14/$font-size}rem !important;
   font-size: $Button-baseFontSize;
+  border-radius: 999rem !important; /* 1 */
+
   &.is-mobile {
     border-color: $secondary-color;
   }
+
+  &:last-child {
+    padding-right: 0 !important;
+  };
 }
 
 .c-btn--secondary {
