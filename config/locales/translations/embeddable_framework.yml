@@ -151,6 +151,7 @@ parts:
       key: "embeddable_framework.helpCenter.label.searchHelpCenter"
       title: "The title on the first screen on mobile, above the search box. To give some direction to what the customer will be doing. Will wrap as needed (http://tinyurl.com/oa63gq5)"
       value: "Search our Help Center"
+      obsolete: "2015-06-26"
   - translation:
       key: "embeddable_framework.navigation.back"
       title: "The link to go back a page. Displays at the top left of the widget if there is the option to go back. If over 5 characters will just display icon (tinyurl.com/nj6lvhl)"

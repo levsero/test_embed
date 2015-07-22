@@ -4,6 +4,7 @@ import _     from 'lodash';
 import { Button,
          ButtonSecondary,
          ButtonGroup }     from 'component/Button';
+import { ScrollContainer } from 'component/ScrollContainer';
 import { i18n }            from 'service/i18n';
 import { Field,
          getCustomFields } from 'component/FormField';
@@ -135,17 +136,7 @@ export const SubmitTicketForm = React.createClass({
   render() {
     var formClasses = classSet({
           'Form u-cf': true,
-          'Form--fullscreen': this.props.fullscreen,
           'u-isHidden': this.props.hide
-        }),
-        titleClasses = classSet({
-          'u-textSizeMed u-textBold u-extSizeMed u-textCenter': true,
-          'Form-ctaLegend u-posAbsolute u-posCenter': !this.props.fullscreen,
-          'u-textSizeBaseMobile': this.props.fullscreen
-        }),
-        barClasses = classSet({
-          'Form-cta u-cf Container-pullout u-paddingBS': true,
-          'Form-cta--bar u-marginBM u-paddingBL': !this.props.fullscreen
         });
       var customFields = getCustomFields(this.props.customFields, this.state.formState),
           /* jshint laxbreak: true */
@@ -189,20 +180,21 @@ export const SubmitTicketForm = React.createClass({
         onChange={this.handleUpdate}
         ref='form'
         className={formClasses}>
-        <div className={barClasses}>
-          <h2 className={titleClasses}>
-            {i18n.t('embeddable_framework.submitTicket.form.title')}
-          </h2>
-        </div>
-        {formBody}
-        <ButtonGroup rtl={i18n.isRTL()}>
-          {buttonCancel}
-          <Button
-            fullscreen={this.props.fullscreen}
-            label={this.state.buttonMessage}
-            disabled={!this.state.isValid || this.state.isSubmitting}
-            type='submit' />
-        </ButtonGroup>
+        <ScrollContainer
+          title={i18n.t('embeddable_framework.submitTicket.form.title')}
+          footerContent={
+            <ButtonGroup rtl={i18n.isRTL()}>
+              {buttonCancel}
+              <Button
+                fullscreen={this.props.fullscreen}
+                label={this.state.buttonMessage}
+                disabled={!this.state.isValid || this.state.isSubmitting}
+                type='submit' />
+            </ButtonGroup>
+          }
+          fullscreen={this.props.fullscreen}>
+          {formBody}
+        </ScrollContainer>
       </form>
     );
   }

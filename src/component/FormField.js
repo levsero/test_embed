@@ -124,7 +124,7 @@ var Field = React.createClass({
             'Form-field--clean': isCheckbox
           }),
           fieldLabelClasses = classSet({
-            'Form-field__label': true,
+            'Form-fieldLabel u-textXHeight': true,
             'u-textSize15': isMobileBrowser()
           }),
           checkboxClasses = classSet({
@@ -134,7 +134,7 @@ var Field = React.createClass({
           }),
           dropdownClasses = classSet({
             'u-isHidden': !this.props.options,
-            'Form-field__arrows': true
+            'Form-fieldArrows': true
           }),
           sharedProps = {
             onChange: this.onChange,
@@ -152,7 +152,7 @@ var Field = React.createClass({
           };
 
     return (
-      <label className='u-marginB17 u-block'>
+      <label className='Form-fieldContainer u-block'>
         <div className={fieldLabelClasses}>
           {isCheckbox ? '' : this.props.placeholder}
           {this.props.required ? '*' : ''}
@@ -321,17 +321,16 @@ var SearchField = React.createClass({
         }),
         searchContainerClasses = classSet({
           'u-cf': true,
-          'Form-cta--bar': this.props.hasSearched && !this.props.fullscreen,
-          'u-paddingHN u-paddingBN Form-cta--barFullscreen': this.props.fullscreen,
-          'u-marginTM': this.props.hasSearched && this.props.fullscreen,
-          'Form-cta Container-pullout': !this.props.fullscreen
+          'u-paddingTM': this.props.hasSearched,
+          'u-marginBL': !this.props.hasSearched,
+          'u-paddingHN u-paddingBN Form-cta--barFullscreen': this.props.fullscreen
         }),
         searchInputClasses = classSet({
           'Arrange Arrange--middle Form-field Form-field--search u-isSelectable': true,
           'Form-field--focused': this.state.focused
         }),
         searchInputFieldClasses = classSet({
-          'Arrange-sizeFill u-paddingR Form-placeholder u-textSizeMed': true,
+          'Arrange-sizeFill u-paddingR Form-placeholder': true,
           'u-textSizeBaseMobile': this.props.fullscreen
         }),
         searchInputFieldIconClasses = classSet({

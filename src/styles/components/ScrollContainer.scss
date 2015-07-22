@@ -1,0 +1,64 @@
+/**
+ * 1. fallback for old android browsers
+ * 2. Chrome on android acts weird when keyboard is shown
+ *    it triggers landscape mode and we need to reset scroll
+ *    containers height so the footer doesn't sit over the top
+ */
+
+@import '../_vars.scss';
+@import 'UserContent';
+
+.ScrollContainer {
+  border-radius: #{8/$font-size}rem;
+  box-sizing: border-box;
+}
+
+.ScrollContainer-header {
+  background: $form-cta-color;
+  border-bottom: $thin-border-size solid $header-stroke;
+}
+
+.ScrollContainer-content {
+  overflow: auto;
+  max-height: #{300/$font-size}rem;
+  box-sizing: border-box;
+
+  /*
+   * Customise scrollbar for safari/chrome
+   */
+  &::-webkit-scrollbar-track {
+    margin: $spacing-med 0;
+  }
+  &::-webkit-scrollbar {
+    box-shadow: none;
+    width: #{3/$font-size}rem;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: $base-border-color;
+    border-radius: #{3/$font-size}rem;
+  }
+
+  &.is-mobile {
+    -webkit-overflow-scrolling: touch;
+    box-sizing: border-box;
+    overflow: auto;
+    height: calc(100% - #{126/$font-size}rem);
+    max-height: initial;
+    max-width: 100%;
+
+    @media screen and (orientation: landscape) {
+      height: auto; /* 2 */
+    }
+
+    &.is-bigheader {
+      height: calc(100% - #{186/$font-size}rem);
+    }
+  }
+}
+
+.ScrollContainer-footer {
+  &--shadow {
+    border-top: $thin-border-size solid $inactive-color;
+    box-shadow: 0 -1px 3px rgba($base-shadow, .08);
+  }
+}

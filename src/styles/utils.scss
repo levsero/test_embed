@@ -8,10 +8,10 @@
  * Positions
  */
 
-$Base-posOffset: #{20/$font-size}rem;
+$Base-posOffset: $med + 1;
 
 .u-posEnd {
-  right: $Base-posOffset;
+  right: #{$Base-posOffset/$font-size}rem;
 }
 
 .u-posEnd--flush {
@@ -19,7 +19,7 @@ $Base-posOffset: #{20/$font-size}rem;
 }
 
 .u-posStart {
-  left: $Base-posOffset;
+  left: #{$Base-posOffset/$font-size}rem;
 }
 
 .u-posStart--flush {
@@ -36,7 +36,7 @@ $Base-posOffset: #{20/$font-size}rem;
 }
 
 .u-posStart--vert {
-  top: #{15/$font-size}rem;
+  top: #{$Base-posOffset/$font-size}rem;
 }
 
 .u-posStart--vertFlush {
@@ -48,7 +48,7 @@ $Base-posOffset: #{20/$font-size}rem;
 }
 
 .u-posEnd--vert {
-  bottom: $Base-posOffset;
+  bottom: #{$Base-posOffset/$font-size}rem;
 }
 
 .u-posCenter--vert {
@@ -76,9 +76,10 @@ $Base-posOffset: #{20/$font-size}rem;
  *
  * A = auto
  * N = none
+ * T = tiny 5px
  * S = small 10px
- * M = medium 20px
- * L = large 30px
+ * M = medium 15px
+ * L = large 20px
  */
 
 .u-marginBN {
@@ -86,40 +87,76 @@ $Base-posOffset: #{20/$font-size}rem;
 }
 
 .u-marginBS {
-  margin-bottom: #{10/$font-size}rem !important;
-}
-
-.u-marginB17 {
-  margin-bottom: #{17/$font-size}rem !important;
+  margin-bottom: $spacing-sml !important;
 }
 
 .u-marginBM {
-  margin-bottom: #{20/$font-size}rem !important;
+  margin-bottom: $spacing-med !important;
 }
 
 .u-marginBL {
-  margin-bottom: #{30/$font-size}rem !important;
+  margin-bottom: $spacing-lrg !important;
 }
 
 .u-marginTA {
   margin-top: auto !important;
 }
 
+.u-marginTS {
+  margin-top: $spacing-sml !important;
+}
+
 .u-marginTM {
-  margin-top: #{20/$font-size}rem;
+  margin-top: $spacing-med !important;
 }
 
 .u-marginTL {
-  margin-top: #{30/$font-size}rem;
+  margin-top: $spacing-lrg !important;
 }
 
 .u-marginVM {
-  margin: #{20/$font-size}rem 0;
+  margin: $spacing-lrg 0;
+}
+
+.u-marginRS {
+  margin-right: $spacing-sml !important;
+
+  [dir='rtl'] & {
+    margin-right: 0;
+    margin-left: $spacing-sml;
+  }
+}
+
+.u-marginRM {
+  margin-right: $spacing-med !important;
+}
+
+.u-marginRL {
+  margin-right: $spacing-lrg !important;
+}
+
+.u-paddingAL {
+  padding: $spacing-lrg !important;
 }
 
 .u-paddingHN {
   padding-left: 0 !important;
   padding-right: 0 !important;
+}
+
+.u-paddingHL {
+  padding-left: $spacing-lrg !important;
+  padding-right: $spacing-lrg !important;
+}
+
+.u-paddingVM {
+  padding-top: $spacing-med !important;
+  padding-bottom: $spacing-med !important;
+}
+
+.u-paddingVL {
+  padding-top: $spacing-lrg !important;
+  padding-bottom: $spacing-lrg !important;
 }
 
 .u-paddingR {
@@ -135,21 +172,49 @@ $Base-posOffset: #{20/$font-size}rem;
   padding-left: #{25/$font-size}rem;
 }
 
+.u-paddingLL {
+  padding-left: $spacing-lrg;
+}
+
+.u-paddingRL {
+  padding-right: $spacing-lrg !important;
+}
+
+.u-paddingRM {
+  padding-right: $spacing-med !important;
+}
+
 .u-paddingRS {
-  padding-right: #{10/$font-size}rem;
+  padding-right: $spacing-sml !important;
 
   [dir='rtl'] & {
     padding-right: 0;
-    padding-left: #{10/$font-size}rem;
+    padding-left: $spacing-sml;
   }
 }
 
+.u-paddingTL {
+  padding-top: $spacing-lrg !important;
+}
+
 .u-paddingTM {
-  padding-top: #{20/$font-size}rem;
+  padding-top: $spacing-med !important;
+}
+
+.u-paddingTS {
+  padding-top: $spacing-sml !important;
+}
+
+.u-paddingTT {
+  padding-top: $spacing-tny !important;
+}
+
+.u-paddingBM {
+  padding-bottom: $spacing-med !important;
 }
 
 .u-paddingBS {
-  padding-bottom: #{10/$font-size}rem;
+  padding-bottom: $spacing-sml !important;
 }
 
 .u-paddingBN {
@@ -157,7 +222,7 @@ $Base-posOffset: #{20/$font-size}rem;
 }
 
 .u-paddingBL {
-  padding-bottom: #{25/$font-size}rem !important;
+  padding-bottom: $spacing-lrg !important;
 }
 
 /**
@@ -189,7 +254,7 @@ $Base-posOffset: #{20/$font-size}rem;
 }
 
 .u-textSize15 {
-  font-size: #{15/$font-size}rem !important;
+  font-size: $spacing-med !important;
 }
 
 .u-textSizeBaseMobile {
@@ -202,6 +267,11 @@ $Base-posOffset: #{20/$font-size}rem;
 
 .u-textNormal {
   font-weight: normal !important;
+}
+
+/* Force a single line to have exact font height  */
+.u-textXHeight {
+  line-height: 0.9;
 }
 
 /**
@@ -221,7 +291,7 @@ $Base-posOffset: #{20/$font-size}rem;
 }
 
 .u-borderTransparent {
-  border: #{1/$font-size}rem solid transparent;
+  border: #{1/$font-size}rem solid transparent !important;
 }
 
 /**

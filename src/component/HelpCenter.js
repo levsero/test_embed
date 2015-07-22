@@ -8,6 +8,7 @@ import { HelpCenterArticle } from 'component/HelpCenterArticle';
 import { SearchField }       from 'component/FormField';
 import { ZendeskLogo }       from 'component/ZendeskLogo';
 import { Container }         from 'component/Container';
+import { ScrollContainer }   from 'component/ScrollContainer';
 import { isMobileBrowser }   from 'utility/devices';
 import { i18n }              from 'service/i18n';
 import { Button,
@@ -262,7 +263,7 @@ export var HelpCenter = React.createClass({
           'u-textSizeBaseMobile': this.state.fullscreen
         }),
         formLegendClasses = classSet({
-          'Form-cta--title u-textSizeMed Arrange Arrange--middle u-textBody': true,
+          'u-paddingTT u-textSizeMed Arrange Arrange--middle u-textBody': true,
           'u-textSizeBaseMobile': this.state.fullscreen,
           'u-isHidden': !this.state.articles.length
         }),
@@ -271,11 +272,6 @@ export var HelpCenter = React.createClass({
           'u-isHidden': this.state.resultsCount || !this.state.hasSearched,
           'u-textSizeBaseMobile': this.state.fullscreen,
           'u-borderBottom List--noResults': !this.state.fullscreen
-        }),
-        searchTitleClasses = classSet({
-          'u-textSizeBaseMobile u-marginTM u-textCenter': true,
-          'Container--fullscreen-center-vert': true,
-          'u-isHidden': !this.state.fullscreen || this.state.hasSearched
         }),
         linkClasses = classSet({
           'u-textSizeBaseMobile u-textCenter u-marginTL': true,
@@ -292,7 +288,6 @@ export var HelpCenter = React.createClass({
           'u-isHidden': this.state.articleViewActive
         }),
         buttonContainerClasses = classSet({
-          'u-borderTop u-paddingTM': this.state.articleViewActive,
           'u-marginTA': this.state.fullscreen,
           'u-isHidden': !this.state.hasSearched
         }),
@@ -343,56 +338,66 @@ export var HelpCenter = React.createClass({
     return (
       /* jshint laxbreak: true */
       <Container
-        fullscreen={this.state.fullscreen}
-        position={this.props.position}>
-        <div className={formClasses}>
-          <HelpCenterForm
-            ref='helpCenterForm'
-            onSearch={this.handleSearch}
-            onSubmit={this.handleSubmit}>
-            <h1 className={searchTitleClasses}>
-              {i18n.t('embeddable_framework.helpCenter.label.searchHelpCenter')}
-            </h1>
-            {searchField}
-            <div className={linkClasses}>
-              <p className='u-marginBN'>{linkContext}</p>
-              <a className='u-userTextColor' onClick={this.props.onButtonClick}>
-                {linkLabel}
-              </a>
+        fullscreen={this.state.fullscreen}>
+        <ScrollContainer
+          title={i18n.t('embeddable_framework.launcher.label.help')}
+          headerContent={
+            this.state.hasSearched &&
+            !this.state.articleViewActive &&
+            <HelpCenterForm
+              onSubmit={this.handleSubmit}
+              onSearch={this.handleSearch}
+              children={searchField} />
+          }
+          footerContent={
+            <div className={buttonContainerClasses}>
+              <ButtonGroup rtl={i18n.isRTL()}>
+                <Button
+                  fullscreen={this.state.fullscreen}
+                  label={this.state.buttonLabel}
+                  handleClick={this.props.onButtonClick} />
+              </ButtonGroup>
             </div>
-            <h1 className={formLegendClasses}>
-              <span className='Arrange-sizeFill'>
-                {i18n.t('embeddable_framework.helpCenter.label.results')}
-              </span>
-            </h1>
-            <div className={noResultsClasses} id='noResults'>
-              <p className='u-marginBN u-marginTL'>
-                {this.searchNoResultsTitle()}
-              </p>
-              <p className={noResultsParagraphClasses}>
-                {this.searchNoResultsBody()}
-              </p>
-            </div>
-            <ul className={listClasses}>
-              {_.chain(this.state.articles).first(3).map(articleTemplate.bind(this)).value()}
-            </ul>
-          </HelpCenterForm>
-        </div>
+          }
+          fullscreen={this.state.fullscreen}>
+          <div className={formClasses}>
+            <HelpCenterForm
+              ref='helpCenterForm'
+              onSearch={this.handleSearch}
+              onSubmit={this.handleSubmit}>
+              {!this.state.hasSearched && searchField}
+              <div className={linkClasses}>
+                <p className='u-marginBN'>{linkContext}</p>
+                <a className='u-userTextColor' onClick={this.props.onButtonClick}>
+                  {linkLabel}
+                </a>
+              </div>
+              <h1 className={formLegendClasses}>
+                <span className='Arrange-sizeFill'>
+                  {i18n.t('embeddable_framework.helpCenter.label.results')}
+                </span>
+              </h1>
+              <div className={noResultsClasses} id='noResults'>
+                <p className='u-marginBN u-marginTL'>
+                  {this.searchNoResultsTitle()}
+                </p>
+                <p className={noResultsParagraphClasses}>
+                  {this.searchNoResultsBody()}
+                </p>
+              </div>
+              <ul className={listClasses}>
+                {_.chain(this.state.articles).first(3).map(articleTemplate.bind(this)).value()}
+              </ul>
+            </HelpCenterForm>
+          </div>
 
-        <div className={articleClasses}>
-          <HelpCenterArticle
-            activeArticle={this.state.activeArticle}
-            fullscreen={this.state.fullscreen} />
-        </div>
+          <div className={articleClasses}>
+            <HelpCenterArticle
+              activeArticle={this.state.activeArticle}
+              fullscreen={this.state.fullscreen} />
+          </div>
+        </ScrollContainer>
 
-        <div className={buttonContainerClasses}>
-          <ButtonGroup rtl={i18n.isRTL()}>
-            <Button
-              fullscreen={this.state.fullscreen}
-              label={this.state.buttonLabel}
-              handleClick={this.props.onButtonClick} />
-          </ButtonGroup>
-        </div>
         {zendeskLogo}
       </Container>
     );

@@ -21,18 +21,10 @@ $Form-fontSize: #{13/$font-size}rem;
 
 .Form {
   margin: 0;
-  &--fullscreen {
-    margin-top: #{40/$font-size}rem;
-  }
 }
 
 .rf-Form, .form-group {
   margin-bottom: #{14/$font-size}rem;
-}
-
-.Form-cta {
-  border-radius: #{8/$font-size}rem #{8/$font-size}rem 0 0;
-  padding: #{25/$font-size}rem #{25/$font-size}rem #{28/$font-size}rem;
 }
 
 .Form-cta--bar {
@@ -50,8 +42,12 @@ $Form-fontSize: #{13/$font-size}rem;
   top: #{13/$font-size}rem;
 }
 
-.Form-cta--title {
-  margin-top: #{24/$font-size}rem;
+.Form-fieldContainer {
+  margin-bottom: $spacing-lrg;
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
 }
 
 .Form-field {
@@ -68,6 +64,7 @@ $Form-fontSize: #{13/$font-size}rem;
     color: $body-color;
     font-size: $Form-fontSize;
     width: 100%;
+    padding: 0;
 
     &:focus {
       appearance: none;
@@ -75,8 +72,8 @@ $Form-fontSize: #{13/$font-size}rem;
     }
   }
 
-  &:last-child {
-    margin-bottom: 0;
+  textarea {
+    height: #{78/$font-size}rem;
   }
 }
 
@@ -118,7 +115,7 @@ $Form-fontSize: #{13/$font-size}rem;
   }
 }
 
-.Form-field__arrows {
+.Form-fieldArrows {
   position: absolute;
   right: #{14/$font-size}rem;
   top: #{13/$font-size}rem;
@@ -127,7 +124,7 @@ $Form-fontSize: #{13/$font-size}rem;
 
 .Form-field--search {
   padding: #{11/$font-size}rem $Form-spacing;
-  height: #{48/$font-size}rem;
+  height: #{43/$font-size}rem;
 }
 
 .Form-field--focused,
@@ -157,8 +154,8 @@ $Form-fontSize: #{13/$font-size}rem;
   @include error-state($thin-border-size);
 }
 
-.Form-field__label {
-  margin-bottom: #{6/$font-size}rem;
+.Form-fieldLabel {
+  margin-bottom: #{8/$font-size}rem;
   font-weight: 700;
   display: block;
   color: $zendesk-color--aluminum;

@@ -48,6 +48,13 @@ describe('SubmitTicketForm component', function() {
           return {};
         }
       },
+      'component/ScrollContainer': {
+        ScrollContainer: React.createClass({
+            render: function() {
+              return <div>{this.props.footerContent}</div>;
+            }
+          }),
+      },
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', ['t', 'setLocale', 'init', 'isRTL'])
       },

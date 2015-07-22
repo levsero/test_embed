@@ -29,6 +29,7 @@
 
   [dir='rtl'] & {
     padding-left: #{8/$font-size}rem;
+    padding-right: 0;
   }
 }
 
@@ -51,6 +52,8 @@
 }
 
 .Icon--zendesk {
+  padding-left: $spacing-tny;
+
   [dir='rtl'] & {
     padding-left: #{3/$font-size}rem;
     padding-right: #{6/$font-size}rem;
@@ -68,7 +71,7 @@
 }
 
 .Icon--close {
-  padding-left: #{5/$font-size}rem;
+  padding: 0;
 
   svg {
     fill: $icon-inactive-color;
@@ -101,13 +104,12 @@
 }
 
 .Icon--tick {
-  border: #{1/$font-size}rem solid $icon-color;
-  padding: #{20/$font-size}rem;
-  margin-bottom: #{20/$font-size}rem;
+  border: #{2/$font-size}rem solid $icon-color;
+  padding: $spacing-lrg;
   border-radius: 50%;
 
   [dir='rtl'] & {
-    padding: #{20/$font-size}rem;
+    padding: $spacing-lrg;
   }
 
   svg {
@@ -125,20 +127,25 @@
     height: #{10/$font-size}rem;
     width: #{10/$font-size}rem;
   }
+
+  [dir='rtl'] & {
+    padding-left: 0;
+    padding-right: $spacing-tny;
+  }
 }
 
 .Icon--dropdownArrow {
   display: block;
   width: 0;
   height: 0;
-  border-left: #{5/$font-size}rem solid transparent;
-  border-right: #{5/$font-size}rem solid transparent;
-  border-bottom: #{5/$font-size}rem solid $icon-color;
+  border-left: $spacing-tny solid transparent;
+  border-right: $spacing-tny solid transparent;
+  border-bottom: $spacing-tny solid $icon-color;
   margin-bottom: #{3/$font-size}rem;
 }
 
 .Icon--dropdownArrowBottom {
-  border-top: #{5/$font-size}rem solid $icon-color;
+  border-top: $spacing-tny solid $icon-color;
   border-bottom: 0;
   margin-bottom: 0;
 }

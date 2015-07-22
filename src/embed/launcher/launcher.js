@@ -58,6 +58,7 @@ function create(name, config) {
       style: iframeStyle,
       css: launcherCSS + generateUserCSS({color: config.color}),
       name: name,
+      hideCloseButton: true,
       fullscreenable: false,
       extend: {
         onClickHandler: function(e) {

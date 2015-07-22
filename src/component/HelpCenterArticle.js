@@ -86,20 +86,12 @@ var HelpCenterArticle = React.createClass({
 
   render() {
     var userContentClasses = classSet({
-          'UserContent u-paddingTM u-paddingRS u-marginTM u-userLinkColor': true,
-          'UserContent--mobile': this.props.fullscreen,
-          'UserContent--scroll': !this.props.fullscreen
-        }),
-        barClasses = classSet({
-          'Form-cta u-cf Container-pullout': true,
-          'Form-cta--bar': !this.props.fullscreen,
-          'u-isHidden': this.props.fullscreen
+          'UserContent u-userLinkColor': true
         });
 
     return (
-      /* jshint quotmark:false, camelcase:false */
+      /* jshint camelcase:false */
       <div>
-        <div className={barClasses} />
         <div className={userContentClasses} ref='userContent'>
           <h1>{this.props.activeArticle.title}</h1>
           <div
