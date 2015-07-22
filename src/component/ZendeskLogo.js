@@ -11,6 +11,7 @@ export var ZendeskLogo = React.createClass({
         logoClasses = classSet({
           'u-linkClean': true,
           'u-posAbsolute u-posEnd--vert': !fullscreen || formSuccess,
+          'u-posRelative': fullscreen,
           'u-posStart': !rtl,
           'u-posEnd': rtl
         }),

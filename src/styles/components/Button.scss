@@ -20,12 +20,12 @@ $Button-nudge: 5;
 }
 
 .ButtonGroup {
-  :last-child {
+  :last-child:not(:only-child) {
     margin-left: #{$Button-nudge/$font-size}rem;
   }
 
   [dir='rtl'] & {
-    :last-child {
+    :last-child:not(:only-child) {
       margin-right: #{$Button-nudge/$font-size}rem;
       margin-left: 0;
     }

@@ -42,12 +42,16 @@
     -webkit-overflow-scrolling: touch;
     box-sizing: border-box;
     overflow: auto;
-    height: calc(100% - #{240/$font-size}rem);
+    height: calc(100% - #{126/$font-size}rem);
     max-height: initial;
     max-width: 100%;
 
     @media screen and (orientation: landscape) {
       height: auto; /* 2 */
+    }
+
+    &.is-bigheader {
+      height: calc(100% - #{186/$font-size}rem);
     }
   }
 }
