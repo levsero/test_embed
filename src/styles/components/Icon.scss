@@ -53,6 +53,7 @@
 
 .Icon--zendesk {
   padding-left: $spacing-tny;
+  top: #{8/$font-size}rem;
 
   [dir='rtl'] & {
     padding-left: #{3/$font-size}rem;
@@ -106,7 +107,11 @@
 .Icon--tick {
   border: #{2/$font-size}rem solid $icon-color;
   padding: $spacing-lrg;
+  width: #{68/$font-size}rem;
+  height: #{68/$font-size}rem;
+  box-sizing: border-box;
   border-radius: 50%;
+  margin-bottom: #{9/$font-size}rem;
 
   [dir='rtl'] & {
     padding: $spacing-lrg;
@@ -114,6 +119,14 @@
 
   svg {
     fill: $cta-color;
+    min-width: #{24/$font-size}rem; /* 1 */
+    min-height: #{18/$font-size}rem; /* 1 */
+    width: #{24/$font-size}rem;
+    height: #{18/$font-size}rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 }
 

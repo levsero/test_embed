@@ -66,6 +66,7 @@ $Button-nudge: 5;
 .c-btn--primary {
   background: $cta-color;
   color: rgba($base-color, .8);
+  font-size: #{13/$font-size}rem;
   border-radius: #{4/$font-size}rem;
   padding: #{11/$font-size}rem #{24/$font-size}rem;
 
@@ -90,6 +91,7 @@ $Button-nudge: 5;
 }
 
 .c-btn--secondary {
+  font-size: #{13/$font-size}rem;
   border-radius: #{4/$font-size}rem;
   padding: #{11/$font-size}rem #{24/$font-size}rem;
 }

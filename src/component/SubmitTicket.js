@@ -165,7 +165,9 @@ export var SubmitTicket = React.createClass({
         <div className={notifyClasses} ref='notification'>
           <ScrollContainer
             title={this.state.message}>
-            <Icon type='Icon--tick' className='u-inlineBlock u-userTextColor' />
+            <Icon
+              type='Icon--tick'
+              className='u-inlineBlock u-userTextColor u-posRelative u-marginTL' />
           </ScrollContainer>
         </div>
         <SubmitTicketForm
