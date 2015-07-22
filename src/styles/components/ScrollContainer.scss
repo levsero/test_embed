@@ -16,6 +16,7 @@
 .ScrollContainer-header {
   background: $form-cta-color;
   border-bottom: $thin-border-size solid $header-stroke;
+  padding-top: #{13/$font-size}rem !important;
 }
 
 .ScrollContainer-content {

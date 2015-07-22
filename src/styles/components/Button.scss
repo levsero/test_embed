@@ -78,7 +78,7 @@ $Button-nudge: 5;
 .c-btn--pill {
   color: $secondary-color;
   padding: #{7/$font-size}rem #{14/$font-size}rem !important;
-  font-size: $Button-baseFontSize;
+  font-size: #{13/$font-size}rem;
   border-radius: 999rem !important; /* 1 */
 
   &.is-mobile {
@@ -87,7 +87,11 @@ $Button-nudge: 5;
 
   &:last-child {
     padding-right: 0 !important;
-  };
+  }
+
+  &:not(:hover):not(:active) {
+    fill: $inactive-color;
+  }
 }
 
 .c-btn--secondary {
