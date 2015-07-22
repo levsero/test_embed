@@ -12,7 +12,6 @@ $Container-spacing: 25/$font-size;
 
 .Container--popover {
   border-radius: #{8/$font-size}rem;
-  border: $thin-border-size solid $base-border-color;
   box-shadow: 0 0 #{6/$font-size}rem 0 rgba($base-shadow, .1);
   background: $base-color;
 }

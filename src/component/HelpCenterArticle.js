@@ -100,7 +100,7 @@ var HelpCenterArticle = React.createClass({
             onClick={this.handleClick}
             onTouchStart={this.handleClick}
           />
-          <div className='u-marginBM UserContent-viewArticleLink'>
+          <div className='u-marginBM'>
             <a
               className='u-linkClean'
               href={this.props.activeArticle.html_url}

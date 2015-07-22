@@ -57,7 +57,7 @@ export var ScrollContainer = React.createClass({
 
     return (
       <div className='ScrollContainer u-nbfc'>
-        <header className='ScrollContainer-header u-paddingVM u-paddingHL'>
+        <header className='ScrollContainer-header u-paddingBM u-paddingHL'>
           <h2 className={titleClasses}>
             {this.props.title}
           </h2>
