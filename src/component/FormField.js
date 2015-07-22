@@ -121,7 +121,8 @@ var Field = React.createClass({
             'Form-field--invalid': this.state.hasError && this.state.blurred && !isCheckbox,
             'Form-field--focused': this.state.focused && !isCheckbox,
             'Form-field--dropdown': this.props.options,
-            'Form-field--clean': isCheckbox
+            'Form-field--clean': isCheckbox,
+            'is-mobile': isMobileBrowser()
           }),
           fieldLabelClasses = classSet({
             'Form-fieldLabel u-textXHeight': true,
@@ -327,7 +328,8 @@ var SearchField = React.createClass({
         }),
         searchInputClasses = classSet({
           'Arrange Arrange--middle Form-field Form-field--search u-isSelectable': true,
-          'Form-field--focused': this.state.focused
+          'Form-field--focused': this.state.focused,
+          'is-mobile': this.props.fullscreen
         }),
         searchInputFieldClasses = classSet({
           'Arrange-sizeFill u-paddingR Form-placeholder': true,

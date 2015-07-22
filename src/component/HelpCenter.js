@@ -259,7 +259,6 @@ export var HelpCenter = React.createClass({
         }),
         listItemClasses = classSet({
           'List-item': true,
-          'u-textSizeMed': !this.state.fullscreen,
           'u-textSizeBaseMobile': this.state.fullscreen
         }),
         formLegendClasses = classSet({

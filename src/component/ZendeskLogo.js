@@ -22,7 +22,7 @@ export var ZendeskLogo = React.createClass({
     return (
       <div className='u-nbfc'>
         <a href={logoUrl} target='_blank' className={logoClasses}>
-          <Icon type='Icon--zendesk' />
+          <Icon type='Icon--zendesk' className='u-posRelative' />
           <span className='u-isHiddenVisually'>zendesk</span>
         </a>
       </div>

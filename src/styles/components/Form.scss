@@ -72,6 +72,12 @@ $Form-fontSize: #{13/$font-size}rem;
     }
   }
 
+  &:not(.is-mobile) {
+    input, select {
+      max-height: #{14/$font-size}rem;
+    }
+  }
+
   textarea {
     height: #{78/$font-size}rem;
   }
@@ -155,7 +161,7 @@ $Form-fontSize: #{13/$font-size}rem;
 }
 
 .Form-fieldLabel {
-  margin-bottom: #{8/$font-size}rem;
+  margin-bottom: #{7/$font-size}rem;
   font-weight: 700;
   display: block;
   color: $zendesk-color--aluminum;
