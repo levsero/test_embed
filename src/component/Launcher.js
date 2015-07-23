@@ -2,7 +2,7 @@ import React from 'react/addons';
 
 import { isMobileBrowser } from 'utility/devices';
 
-var classSet = React.addons.classSet;
+const classSet = React.addons.classSet;
 
 export var Launcher = React.createClass({
   propTypes: {
@@ -41,39 +41,37 @@ export var Launcher = React.createClass({
   },
 
   render: function() {
-    var displayIcon,
-        displayLabel,
-        buttonClasses = classSet({
-          'Button Button--launcher Button--cta': true,
-          'is-mobile': isMobileBrowser(),
-          'u-userBackgroundColor Arrange Arrange--middle': !this.state.active,
-          'u-isActionable u-textLeft u-inlineBlock u-textNoWrap': true,
-          'Button--launcherActive': this.state.active,
-          'Button--launcherActiveAlt': this.state.active && this.props.position === 'left'
-        }),
-        iconClasses = classSet({
-          // spaces needed for class concatenation
-          'Arrange-sizeFit Icon Icon--launcher u-textInheritColor u-inlineBlock ': true,
-          'Icon--active u-textCenter Icon--cross ': this.state.active,
-          'u-paddingHN ': isMobileBrowser() && !this.state.hasUnreadMessages
-        }),
-        labelClasses = classSet({
-          'u-textInheritColor u-inlineBlock': true,
-          'Arrange-sizeFit': !this.state.active,
-          'u-isHidden': isMobileBrowser() && !this.state.hasUnreadMessages
-        });
+    const buttonClasses = classSet({
+      'Button Button--launcher Button--cta': true,
+      'is-mobile': isMobileBrowser(),
+      'u-userBackgroundColor Arrange Arrange--middle': !this.state.active,
+      'u-isActionable u-textLeft u-inlineBlock u-textNoWrap': true,
+      'Button--launcherActive': this.state.active,
+      'Button--launcherActiveAlt': this.state.active && this.props.position === 'left'
+    });
+    const iconClasses = classSet({
+      // spaces needed for class concatenation
+      'Arrange-sizeFit Icon Icon--launcher u-textInheritColor u-inlineBlock ': true,
+      'Icon--active u-textCenter Icon--cross ': this.state.active,
+      'u-paddingHN ': isMobileBrowser() && !this.state.hasUnreadMessages
+    });
+    const labelClasses = classSet({
+      'u-textInheritColor u-inlineBlock': true,
+      'Arrange-sizeFit': !this.state.active,
+      'u-isHidden': isMobileBrowser() && !this.state.hasUnreadMessages
+    });
 
     if (this.props.updateFrameSize) {
       setTimeout( () => this.props.updateFrameSize(5, 0), 0);
     }
 
     /* jshint laxbreak:true */
-    displayIcon = (!this.state.active)
-                ? this.state.icon
-                : '';
-    displayLabel = (!this.state.active)
-                ? this.state.label
-                : '';
+    let displayIcon = (!this.state.active)
+                    ? this.state.icon
+                    : '';
+    let displayLabel = (!this.state.active)
+                     ? this.state.label
+                     : '';
 
     return (
       /* jshint quotmark: false */

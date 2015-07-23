@@ -13,9 +13,9 @@ import { i18n }              from 'service/i18n';
 import { Button }            from 'component/Button';
 import { beacon }            from 'service/beacon';
 
-var classSet = React.addons.classSet;
+const classSet = React.addons.classSet;
 
-export var HelpCenter = React.createClass({
+export const HelpCenter = React.createClass({
   getInitialState() {
     return {
       articles: [],
@@ -76,8 +76,8 @@ export var HelpCenter = React.createClass({
   },
 
   updateResults(res) {
-    var json = res.body,
-        articles = json.results;
+    const json = res.body;
+    const articles = json.results;
 
     this.setState({
       articles: articles,
@@ -99,32 +99,32 @@ export var HelpCenter = React.createClass({
   },
 
   performSearch(searchString, forceSearch) {
-    var search = (searchString, locale) => {
-          transport.send({
-            method: 'get',
-            path: '/api/v2/help_center/search.json',
-            query: {
-              locale: locale,
-              query: searchString,
-              origin: forceSearch ? 'web_widget' : null
-            },
-            callbacks: {
-              done: (res) => {
-                if (res.ok) {
-                  if ((locale && res.body.count > 0) || !locale) {
-                    this.props.onSearch({searchString: searchString, searchLocale: locale});
-                    this.updateResults(res);
-                  } else {
-                    search(searchString);
-                  }
-                } else {
-                  this.searchFail();
-                }
-              },
-              fail: () => this.searchFail()
+    const search = (searchString, locale) => {
+      transport.send({
+        method: 'get',
+        path: '/api/v2/help_center/search.json',
+        query: {
+          locale: locale,
+          query: searchString,
+          origin: forceSearch ? 'web_widget' : null
+        },
+        callbacks: {
+          done: (res) => {
+            if (res.ok) {
+              if ((locale && res.body.count > 0) || !locale) {
+                this.props.onSearch({searchString: searchString, searchLocale: locale});
+                this.updateResults(res);
+              } else {
+                search(searchString);
+              }
+            } else {
+              this.searchFail();
             }
-          });
-        };
+          },
+          fail: () => this.searchFail()
+        }
+      });
+    };
 
     this.setState({
       isLoading: true,
@@ -137,15 +137,14 @@ export var HelpCenter = React.createClass({
   },
 
   handleSearch(forceSearch) {
-    var filteredStr,
-        searchString = this.refs.searchField.getValue();
+    const searchString = this.refs.searchField.getValue();
 
     if (_.isEmpty(searchString)) {
       return;
     }
 
     if (searchString.length >= 5 && _.last(searchString) === ' ' || forceSearch) {
-      filteredStr = stopWordsFilter(searchString);
+      const filteredStr = stopWordsFilter(searchString);
 
       if (filteredStr !== '') {
         this.performSearch(filteredStr, forceSearch);
@@ -220,7 +219,7 @@ export var HelpCenter = React.createClass({
   },
 
   trackArticleView(articleIndex) {
-    var trackPayload = {
+    const trackPayload = {
       query: this.state.searchTerm,
       resultsCount: this.state.resultsCount > 3 ? 3 : this.state.resultsCount,
       uniqueSearchResultClick: !this.state.searchResultClicked,
@@ -236,83 +235,82 @@ export var HelpCenter = React.createClass({
   },
 
   render() {
+    const listItemClasses = classSet({
+      'List-item': true,
+      'u-textSizeMed': !this.state.fullscreen,
+      'u-textSizeBaseMobile': this.state.fullscreen
+    });
+    const listClasses = classSet({
+      'List': true,
+      'u-isHidden': !this.state.articles.length,
+      'u-borderNone u-marginBS List--fullscreen': this.state.fullscreen
+    });
+    const formLegendClasses = classSet({
+      'Form-cta--title u-textSizeMed Arrange Arrange--middle u-textBody': true,
+      'u-textSizeBaseMobile': this.state.fullscreen,
+      'u-isHidden': !this.state.articles.length
+    });
+    const noResultsClasses = classSet({
+      'u-marginTM u-textCenter u-textSizeMed': true,
+      'u-isHidden': this.state.resultsCount || !this.state.hasSearched,
+      'u-textSizeBaseMobile': this.state.fullscreen,
+      'u-borderBottom List--noResults': !this.state.fullscreen
+    });
+    const searchTitleClasses = classSet({
+      'u-textSizeBaseMobile u-marginTM u-textCenter': true,
+      'Container--fullscreen-center-vert': true,
+      'u-isHidden': !this.state.fullscreen || this.state.hasSearched
+    });
+    const linkClasses = classSet({
+      'u-textSizeBaseMobile u-textCenter u-marginTL': true,
+      'u-isHidden': !this.state.fullscreen || this.state.hasSearched
+    });
+    const noResultsParagraphClasses = classSet({
+      'u-textSecondary': true,
+      'u-marginBL': !this.state.fullscreen
+    });
+    const articleClasses = classSet({
+      'u-isHidden': !this.state.articleViewActive
+    });
+    const formClasses = classSet({
+      'u-isHidden': this.state.articleViewActive
+    });
+    const buttonContainerClasses = classSet({
+      'u-borderTop u-paddingTM': this.state.articleViewActive,
+      'u-marginTA': this.state.fullscreen,
+      'u-isHidden': !this.state.hasSearched
+    });
     /* jshint quotmark:false */
-    var articleTemplate = function(article, index) {
-        return (
-            /* jshint camelcase:false */
-            <li key={_.uniqueId('article_')} className={listItemClasses}>
-              <a className='u-userTextColor'
-                 href={article.html_url}
-                 target='_blank'
-                 onClick={this.handleArticleClick.bind(this, index)}>
-                  {article.title || article.name}
-              </a>
-            </li>
-            );
-        },
-        listClasses = classSet({
-          'List': true,
-          'u-isHidden': !this.state.articles.length,
-          'u-borderNone u-marginBS List--fullscreen': this.state.fullscreen
-        }),
-        listItemClasses = classSet({
-          'List-item': true,
-          'u-textSizeMed': !this.state.fullscreen,
-          'u-textSizeBaseMobile': this.state.fullscreen
-        }),
-        formLegendClasses = classSet({
-          'Form-cta--title u-textSizeMed Arrange Arrange--middle u-textBody': true,
-          'u-textSizeBaseMobile': this.state.fullscreen,
-          'u-isHidden': !this.state.articles.length
-        }),
-        noResultsClasses = classSet({
-          'u-marginTM u-textCenter u-textSizeMed': true,
-          'u-isHidden': this.state.resultsCount || !this.state.hasSearched,
-          'u-textSizeBaseMobile': this.state.fullscreen,
-          'u-borderBottom List--noResults': !this.state.fullscreen
-        }),
-        searchTitleClasses = classSet({
-          'u-textSizeBaseMobile u-marginTM u-textCenter': true,
-          'Container--fullscreen-center-vert': true,
-          'u-isHidden': !this.state.fullscreen || this.state.hasSearched
-        }),
-        linkClasses = classSet({
-          'u-textSizeBaseMobile u-textCenter u-marginTL': true,
-          'u-isHidden': !this.state.fullscreen || this.state.hasSearched
-        }),
-        noResultsParagraphClasses = classSet({
-          'u-textSecondary': true,
-          'u-marginBL': !this.state.fullscreen
-        }),
-        articleClasses = classSet({
-          'u-isHidden': !this.state.articleViewActive
-        }),
-        formClasses = classSet({
-          'u-isHidden': this.state.articleViewActive
-        }),
-        buttonContainerClasses = classSet({
-          'u-borderTop u-paddingTM': this.state.articleViewActive,
-          'u-marginTA': this.state.fullscreen,
-          'u-isHidden': !this.state.hasSearched
-        }),
-        linkLabel,
-        linkContext,
-        onFocusHandler = function() {
-          this.setState({searchFieldFocused: true});
-        }.bind(this),
-        onUpdateHandler = (value) => {
-          this.setState({
-            searchFieldValue: value
-          });
-        },
-        chatButtonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.chat'),
-        mobileArticleViewActive = this.state.fullscreen && this.state.articleViewActive,
-        hideZendeskLogo = this.props.hideZendeskLogo || mobileArticleViewActive,
-        zendeskLogo,
-        searchField;
+    const articleTemplate = function(article, index) {
+      return (
+      /* jshint camelcase:false */
+        <li key={_.uniqueId('article_')} className={listItemClasses}>
+          <a className='u-userTextColor'
+             href={article.html_url}
+             target='_blank'
+             onClick={this.handleArticleClick.bind(this, index)}>
+              {article.title || article.name}
+          </a>
+        </li>
+      );
+    };
+    const onFocusHandler = function() {
+      this.setState({searchFieldFocused: true});
+    }.bind(this);
+    const onUpdateHandler = (value) => {
+      this.setState({
+        searchFieldValue: value
+      });
+    };
+    const chatButtonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.chat');
+    const mobileArticleViewActive = this.state.fullscreen && this.state.articleViewActive;
+    const hideZendeskLogo = this.props.hideZendeskLogo || mobileArticleViewActive;
+
+    let linkLabel,
+        linkContext;
 
     if (this.props.updateFrameSize) {
-      setTimeout( () => this.props.updateFrameSize(0, 10), 0);
+      setTimeout(() => this.props.updateFrameSize(0, 10), 0);
     }
 
     if (this.state.buttonLabel === chatButtonLabel) {
@@ -324,20 +322,20 @@ export var HelpCenter = React.createClass({
     }
 
     /* jshint laxbreak: true */
-    zendeskLogo = hideZendeskLogo
-                ? null
-                : <ZendeskLogo rtl={i18n.isRTL()} fullscreen={this.state.fullscreen} />;
+    const zendeskLogo = hideZendeskLogo
+                      ? null
+                      : <ZendeskLogo rtl={i18n.isRTL()} fullscreen={this.state.fullscreen} />;
 
-    searchField = this.state.removeSearchField
-                ? null
-                : <SearchField
-                    ref='searchField'
-                    fullscreen={this.state.fullscreen}
-                    onFocus={onFocusHandler}
-                    onUpdate={onUpdateHandler}
-                    hasSearched={this.state.hasSearched}
-                    onSearchIconClick={this.handleSearch}
-                    isLoading={this.state.isLoading} />;
+    const searchField = this.state.removeSearchField
+                      ? null
+                      : <SearchField
+                          ref='searchField'
+                          fullscreen={this.state.fullscreen}
+                          onFocus={onFocusHandler}
+                          onUpdate={onUpdateHandler}
+                          hasSearched={this.state.hasSearched}
+                          onSearchIconClick={this.handleSearch}
+                          isLoading={this.state.isLoading} />;
 
     return (
       /* jshint laxbreak: true */

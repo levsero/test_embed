@@ -5,55 +5,55 @@ import { Loading }         from 'component/Loading';
 import { isMobileBrowser } from 'utility/devices';
 import { i18n }            from 'service/i18n';
 
-var classSet = React.addons.classSet,
-    geti18nContent = function(field) {
-      var title = _.find(field.variants, function(variant) {
-                    return variant.localeId === i18n.getLocaleId();
-                  });
+const classSet = React.addons.classSet;
+const geti18nContent = function(field) {
+  const title = _.find(field.variants, function(variant) {
+    return variant.localeId === i18n.getLocaleId();
+  });
 
-      return title ? title.content : field.title;
-    },
-    getCustomFields = function(customFields, formState) {
-      var isCheckbox = (field) => field.props.type === 'checkbox',
-          fields = _.map(customFields, function(field) {
-            const sharedProps = {
-              name: field.id,
-              value: formState[field.id],
-              required: field.required,
-              placeholder: field.title,
-              key: field.title
-            };
-
-            if (field.variants) {
-              sharedProps.placeholder = geti18nContent(field);
-            }
-
-            switch(field.type) {
-              case 'text':
-                return <Field {...sharedProps} />;
-              case 'tagger':
-                _.forEach(field.options, function(option) {
-                  if (option.variants) {
-                    option.title = geti18nContent(option);
-                  }
-                });
-                return <SelectField {...sharedProps} options={field.options} />;
-              case 'integer':
-                return <Field {...sharedProps} pattern='\d+' />;
-              case 'decimal':
-                return <Field {...sharedProps} pattern='\d*([.,]\d+)?' />;
-              case 'textarea':
-                return <Field {...sharedProps} input={<textarea rows='5' />} />;
-              case 'checkbox':
-                return <Field {...sharedProps} label={field.title} type='checkbox' />;
-            }
-          });
-
-      return {
-        fields: _.reject(fields, isCheckbox),
-        checkboxes: _.filter(fields, isCheckbox)
-      };
+  return title ? title.content : field.title;
+};
+var getCustomFields = function(customFields, formState) {
+  const isCheckbox = (field) => field.props.type === 'checkbox';
+  const fields = _.map(customFields, function(field) {
+    const sharedProps = {
+      name: field.id,
+      value: formState[field.id],
+      required: field.required,
+      placeholder: field.title,
+      key: field.title
     };
+
+    if (field.variants) {
+      sharedProps.placeholder = geti18nContent(field);
+    }
+
+    switch (field.type) {
+    case 'text':
+      return <Field {...sharedProps} />;
+    case 'tagger':
+      _.forEach(field.options, function(option) {
+        if (option.variants) {
+          option.title = geti18nContent(option);
+        }
+      });
+      return <SelectField {...sharedProps} options={field.options} />;
+    case 'integer':
+      return <Field {...sharedProps} pattern='\d+' />;
+    case 'decimal':
+      return <Field {...sharedProps} pattern='\d*([.,]\d+)?' />;
+    case 'textarea':
+      return <Field {...sharedProps} input={<textarea rows='5' />} />;
+    case 'checkbox':
+      return <Field {...sharedProps} label={field.title} type='checkbox' />;
+    }
+  });
+
+  return {
+    fields: _.reject(fields, isCheckbox),
+    checkboxes: _.filter(fields, isCheckbox)
+  };
+};
 
 var Field = React.createClass({
   propTypes: {
@@ -104,8 +104,8 @@ var Field = React.createClass({
   },
 
   onChange(e) {
-    const value = e.target.value,
-          result = this.refs.field.getDOMNode();
+    const value = e.target.value;
+    const result = this.refs.field.getDOMNode();
 
     this.setState({
       value: value,
@@ -114,40 +114,40 @@ var Field = React.createClass({
   },
 
   render() {
-    const icon = this.props.icon,
-          type = this.props.type,
-          isCheckbox = (type === 'checkbox'),
-          iconFieldClasses = classSet({
-            'Arrange-sizeFill u-vsizeAll': true,
-            'u-textSize15': isMobileBrowser(),
-            'u-textSecondary': this.props.input,
-            'Form-checkbox u-isHiddenVisually': isCheckbox,
-            'Form-checkbox--focused': this.state.focused && isCheckbox,
-            'Form-checkbox--invalid': this.state.hasError && this.state.blurred && isCheckbox
-          }),
-          iconClasses = classSet({
-            'u-isHidden': !icon,
-            [`Arrange-sizeFit u-isActionable Icon Icon--${icon} u-alignTop`]: true
-          }),
-          fieldClasses = classSet({
-            'Arrange Arrange--middle Form-field u-isSelectable u-posRelative': true,
-            'Form-field--invalid': this.state.hasError && this.state.blurred && !isCheckbox,
-            'Form-field--focused': this.state.focused && !isCheckbox,
-            'Form-field--dropdown': this.props.options,
-            'Form-field--clean': isCheckbox
-          }),
-          dropdownClasses = classSet({
-            'u-isHidden': !this.props.options,
-            'Arrange-sizeFit Form-field__arrows': true
-          }),
-          sharedProps = {
-            onChange: this.onChange,
-            onBlur: this.onBlur,
-            onFocus: this.onFocus,
-            ref: 'field',
-            className: iconFieldClasses,
-            value: this.props.value
-          };
+    const icon = this.props.icon;
+    const type = this.props.type;
+    const isCheckbox = (type === 'checkbox');
+    const iconFieldClasses = classSet({
+      'Arrange-sizeFill u-vsizeAll': true,
+      'u-textSize15': isMobileBrowser(),
+      'u-textSecondary': this.props.input,
+      'Form-checkbox u-isHiddenVisually': isCheckbox,
+      'Form-checkbox--focused': this.state.focused && isCheckbox,
+      'Form-checkbox--invalid': this.state.hasError && this.state.blurred && isCheckbox
+    });
+    const iconClasses = classSet({
+      'u-isHidden': !icon,
+      [`Arrange-sizeFit u-isActionable Icon Icon--${icon} u-alignTop`]: true
+    });
+    const fieldClasses = classSet({
+      'Arrange Arrange--middle Form-field u-isSelectable u-posRelative': true,
+      'Form-field--invalid': this.state.hasError && this.state.blurred && !isCheckbox,
+      'Form-field--focused': this.state.focused && !isCheckbox,
+      'Form-field--dropdown': this.props.options,
+      'Form-field--clean': isCheckbox
+    });
+    const dropdownClasses = classSet({
+      'u-isHidden': !this.props.options,
+      'Arrange-sizeFit Form-field__arrows': true
+    });
+    const sharedProps = {
+      onChange: this.onChange,
+      onBlur: this.onBlur,
+      onFocus: this.onFocus,
+      ref: 'field',
+      className: iconFieldClasses,
+      value: this.props.value
+    };
 
     return (
       <label className={fieldClasses}>
@@ -182,13 +182,12 @@ var SelectField = React.createClass({
   },
 
   formatOptions() {
-    var props = this.props,
-        options = [
-          <option value='' key={props.placeholder}>{props.placeholder}</option>
-        ],
-        optionGroups;
+    const props = this.props;
+    const options = [
+      <option value='' key={props.placeholder}>{props.placeholder}</option>
+    ];
 
-    optionGroups = _.groupBy(props.options, function(option) {
+    const optionGroups = _.groupBy(props.options, function(option) {
       /* jshint laxbreak: true */
       return (option.title.indexOf('::') !== -1)
            ? option.title.split('::')[0]
@@ -196,7 +195,7 @@ var SelectField = React.createClass({
     });
 
     _.forEach(optionGroups, function(group, key) {
-      var nestedOptions;
+      let nestedOptions;
 
       // if not a nested field
       if (_.isEmpty(key)) {
@@ -207,7 +206,7 @@ var SelectField = React.createClass({
         });
       } else {
         nestedOptions = _.map(group, function(nestedOption) {
-          var title = nestedOption.title.split('::')[1];
+          const title = nestedOption.title.split('::')[1];
           return <option value={nestedOption.value} key={title}>{title}</option>;
         });
 
@@ -256,7 +255,7 @@ var SearchField = React.createClass({
   },
 
   handleUpdate(e) {
-    var value = e.target.value;
+    const value = e.target.value;
 
     this.setState({
       isClearable: (value !== '' && isMobileBrowser()),
@@ -297,36 +296,36 @@ var SearchField = React.createClass({
 
   render() {
     /* jshint laxbreak:true */
-    var loadingClasses = classSet({
-          'u-isHidden': !this.props.isLoading
-        }),
-        searchContainerClasses = classSet({
-          'u-cf': true,
-          'Form-cta--bar': this.props.hasSearched && !this.props.fullscreen,
-          'u-paddingHN u-paddingBN Form-cta--barFullscreen': this.props.fullscreen,
-          'u-marginTM': this.props.hasSearched && this.props.fullscreen,
-          'Form-cta Container-pullout': !this.props.fullscreen
-        }),
-        searchInputClasses = classSet({
-          'Arrange Arrange--middle Form-field Form-field--search u-isSelectable': true,
-          'Form-field--focused': this.state.focused
-        }),
-        searchInputFieldClasses = classSet({
-          'Arrange-sizeFill u-paddingR Form-placeholder u-textSizeMed': true,
-          'u-textSizeBaseMobile': this.props.fullscreen
-        }),
-        searchInputFieldIconClasses = classSet({
-          'Arrange-sizeFit u-isActionable Icon Icon--search': true,
-          'u-userTextColor': this.state.focused
-        }),
-        clearInputClasses = classSet({
-          'Icon Icon--clearInput': true,
-          'u-isActionable u-textCenter': true,
-          'u-isHidden': !this.state.isClearable || this.props.isLoading
-        }),
-        placeholder = (isMobileBrowser())
-                    ? ''
-                    : i18n.t('embeddable_framework.helpCenter.search.label.how_can_we_help');
+    const loadingClasses = classSet({
+      'u-isHidden': !this.props.isLoading
+    });
+    const searchContainerClasses = classSet({
+      'u-cf': true,
+      'Form-cta--bar': this.props.hasSearched && !this.props.fullscreen,
+      'u-paddingHN u-paddingBN Form-cta--barFullscreen': this.props.fullscreen,
+      'u-marginTM': this.props.hasSearched && this.props.fullscreen,
+      'Form-cta Container-pullout': !this.props.fullscreen
+    });
+    const searchInputClasses = classSet({
+      'Arrange Arrange--middle Form-field Form-field--search u-isSelectable': true,
+      'Form-field--focused': this.state.focused
+    });
+    const searchInputFieldClasses = classSet({
+      'Arrange-sizeFill u-paddingR Form-placeholder u-textSizeMed': true,
+      'u-textSizeBaseMobile': this.props.fullscreen
+    });
+    const searchInputFieldIconClasses = classSet({
+      'Arrange-sizeFit u-isActionable Icon Icon--search': true,
+      'u-userTextColor': this.state.focused
+    });
+    const clearInputClasses = classSet({
+      'Icon Icon--clearInput': true,
+      'u-isActionable u-textCenter': true,
+      'u-isHidden': !this.state.isClearable || this.props.isLoading
+    });
+    const placeholder = (isMobileBrowser())
+                      ? ''
+                      : i18n.t('embeddable_framework.helpCenter.search.label.how_can_we_help');
 
     return (
       /* jshint quotmark:false */
