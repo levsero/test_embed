@@ -123,7 +123,7 @@ describe('mediator', function() {
   });
 
   describe('Ticket Submission', function() {
-    const launcher     = 'launcher';
+    const launcher = 'launcher';
     const submitTicket = 'ticketSubmissionForm';
     const names = {
       launcher: launcher,
@@ -278,9 +278,9 @@ describe('mediator', function() {
   });
 
   describe('Chat, Ticket Submission', function() {
-    const launcher     = 'launcher';
+    const launcher = 'launcher';
     const submitTicket = 'ticketSubmissionForm';
-    const chat         = 'zopimChat';
+    const chat = 'zopimChat';
     const names = {
       launcher: launcher,
       submitTicket: submitTicket,
@@ -652,7 +652,7 @@ describe('mediator', function() {
 
   describe('launcher final state depends on chat', function() {
     const launcher = 'launcher';
-    const chat     = 'zopimChat';
+    const chat = 'zopimChat';
     const names = {
       launcher: launcher,
       chat: chat
@@ -708,9 +708,9 @@ describe('mediator', function() {
   });
 
   describe('Help Center, Ticket Submission', function() {
-    const launcher     = 'launcher';
+    const launcher = 'launcher';
     const submitTicket = 'ticketSubmissionForm';
-    const helpCenter   = 'helpCenterForm';
+    const helpCenter = 'helpCenterForm';
     const names = {
       launcher: launcher,
       submitTicket: submitTicket,
@@ -955,10 +955,10 @@ describe('mediator', function() {
   });
 
   describe('Help Center, Chat, Ticket Submission', function() {
-    const launcher     = 'launcher';
+    const launcher = 'launcher';
     const submitTicket = 'ticketSubmissionForm';
-    const chat         = 'zopimChat';
-    const helpCenter   = 'helpCenterForm';
+    const chat = 'zopimChat';
+    const helpCenter = 'helpCenterForm';
     const names = {
       launcher: launcher,
       submitTicket: submitTicket,

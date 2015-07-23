@@ -195,10 +195,10 @@ describe('embed.chat', function() {
         mockZopim = mockRegistry['utility/globals'].win.$zopim;
         const livechat = mockZopim.livechat;
 
-        onHideCall       = livechat.window.onHide.calls.mostRecent();
+        onHideCall = livechat.window.onHide.calls.mostRecent();
         onUnreadMsgsCall = livechat.setOnUnreadMsgs.calls.mostRecent();
-        onStatusCall     = livechat.setOnStatus.calls.mostRecent();
-        onChatEndCall    = livechat.setOnChatEnd.calls.mostRecent();
+        onStatusCall = livechat.setOnStatus.calls.mostRecent();
+        onChatEndCall = livechat.setOnChatEnd.calls.mostRecent();
       });
 
       describe('livechat.onHide', function() {
