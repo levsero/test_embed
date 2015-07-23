@@ -11,7 +11,7 @@ const babel = require('gulp-babel');
 const replace = require('gulp-replace');
 const fs = require('fs');
 const shell = require('gulp-shell');
-let debugBuild;
+var debugBuild;
 
 function webpackCallback(callback) {
   return function(err, stats) {
