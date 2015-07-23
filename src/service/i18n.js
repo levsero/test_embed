@@ -3,7 +3,7 @@ import _ from 'lodash';
 const translate = require('counterpart');
 const translations = require('translation/translations.json');
 const localeIdMap = require('translation/localeIdMap.json');
-var currentLocale;
+let currentLocale;
 
 // Setting to something other than (.) as our translation hash
 // is a flat structure and counterpart tries to look in object

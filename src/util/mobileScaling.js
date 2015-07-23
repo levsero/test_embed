@@ -7,8 +7,8 @@ import { getDeviceZoom,
          getSizingRatio }  from 'utility/devices';
 import { mediator }        from 'service/mediator';
 
-var isPinching;
-var lastTouchEnd = 0;
+let isPinching;
+let lastTouchEnd = 0;
 
 const propagateFontRatioChange = (isPinching) => {
   setTimeout(() => {
@@ -17,11 +17,11 @@ const propagateFontRatioChange = (isPinching) => {
   }, 0);
 };
 const zoomMonitor = (() => {
-  var oldZoom;
-  var interval = null;
-  var iterations = 0;
-  var oldOffset = [0, 0];
-  var currentZoom = getDeviceZoom();
+  let oldZoom;
+  let interval = null;
+  let iterations = 0;
+  let oldOffset = [0, 0];
+  let currentZoom = getDeviceZoom();
   const currentOffset = () => {
     return [win.pageXOffset, win.pageYOffset];
   };

@@ -10,7 +10,7 @@ import { i18n }                 from 'service/i18n';
 import { parseUrl,
          getFrameworkLoadTime }  from 'utility/utils';
 
-var version;
+let version;
 
 function init(_version = '') {
   const now = Date.now();

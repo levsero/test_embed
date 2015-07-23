@@ -18,8 +18,8 @@ function bustCache(versionHash) {
                || document.querySelector('script[data-ze-csp="true"]');
 
   if (script) {
-    let scriptSrc = script.src;
-    let updateUrl = scriptSrc.replace('main.js', updatePath);
+    const scriptSrc = script.src;
+    const updateUrl = scriptSrc.replace('main.js', updatePath);
     iframe.setAttribute('style', 'position:absolute;visbility:hidden;left:-999em');
     iframe.src = updateUrl;
     iframe.name = updateFrameName;

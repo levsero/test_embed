@@ -15,9 +15,9 @@ const embedsMap = {
   'helpCenter'  : helpCenter,
   'chat'        : chat
 };
-var initialised = false;
-var hideLauncher = false;
-var renderedEmbeds;
+let initialised = false;
+let hideLauncher = false;
+let renderedEmbeds;
 
 function hide() {
   hideLauncher = true;

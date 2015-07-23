@@ -9,7 +9,7 @@ function init(helpCenterAvailable, hideLauncher) {
   const launcher = 'launcher';
   const chat = 'zopimChat';
   const helpCenter = 'helpCenterForm';
-  var state = {};
+  let state = {};
   const resetActiveEmbed = function() {
     if (state[`${helpCenter}.isAvailable`]) {
       state.activeEmbed = helpCenter;

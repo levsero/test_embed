@@ -11,7 +11,7 @@ function generateBuid() {
 }
 
 function getBuid() {
-  var buid = store.get('buid');
+  let buid = store.get('buid');
 
   if (!buid) {
     buid = store.set('buid', generateBuid());

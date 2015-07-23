@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import { win } from 'utility/globals';
 
-var prefix = 'ZD-';
+const prefix = 'ZD-';
 
 var store = {
   get: get,

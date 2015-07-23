@@ -5,7 +5,7 @@ import { document as doc } from 'utility/globals';
 import { getSizingRatio }  from 'utility/devices';
 import { mediator }        from 'service/mediator';
 
-var clickBusterClicks = [];
+let clickBusterClicks = [];
 
 function generateUserCSS(params) {
   if (params.color) {
@@ -86,7 +86,7 @@ function initViewportMeta(active) {
 }
 
 function setScaleLock(active) {
-  var viewportObj;
+  let viewportObj;
   const meta = initViewportMeta(active);
 
   if (meta) {
@@ -132,7 +132,7 @@ function clickBusterRegister(x, y) {
 }
 
 function clickBusterHandler(ev) {
-  var x, y;
+  let x, y;
   const radius = 25 * getSizingRatio();
 
   if (clickBusterClicks.length) {
@@ -146,9 +146,9 @@ function clickBusterHandler(ev) {
 }
 
 function getFrameworkLoadTime() {
-  var entry;
+  let entry;
   const now = Date.now();
-  var loadTime = document.t ? now - document.t : undefined;
+  let loadTime = document.t ? now - document.t : undefined;
 
   // https://bugzilla.mozilla.org/show_bug.cgi?id=1045096
   try {

@@ -17,8 +17,8 @@ import { initMobileScaling }  from 'utility/mobileScaling';
 require('imports?_=lodash!lodash');
 
 function boot() {
-  var devApi;
-  var postRenderQueue = [];
+  let devApi;
+  let postRenderQueue = [];
   const host = location.host;
   const path = location.pathname;
   const chatPages = [
