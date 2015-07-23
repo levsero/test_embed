@@ -15,10 +15,10 @@ import { mediator }        from 'service/mediator';
 import { generateUserCSS } from 'utility/utils';
 
 const helpCenterCSS = require('./helpCenter.scss');
-var helpCenters = {};
+let helpCenters = {};
 
 function create(name, config) {
-  var containerStyle,
+  let containerStyle,
       posObj;
 
   const iframeBase = {

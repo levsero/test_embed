@@ -7,7 +7,7 @@ import { mediator }        from 'service/mediator';
 import { store }           from 'service/persistence';
 import { isMobileBrowser } from 'utility/devices';
 
-var chats = {};
+let chats = {};
 const styleTag = document.createElement('style');
 
 function create(name, config) {
@@ -122,9 +122,9 @@ function render(name) {
 }
 
 function init(name) {
-  var zopimShow,
+  let zopimShow,
       zopimHide;
-  var zopimApiOverwritten = false;
+  let zopimApiOverwritten = false;
   const zopim = win.$zopim;
   const chat = get(name);
   const config = chat.config;

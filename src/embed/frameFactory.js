@@ -20,17 +20,17 @@ function validateChildFn(childFn, params) {
     throw 'childFn should be a function';
   }
 
-  var component = childFn(params.extend);
+  let component = childFn(params.extend);
 
   if (!React.isValidElement(component)) {
-    var e = new TypeError();
+    const e = new TypeError();
     e.message = 'childFn should be a function that returns a React component';
     throw e;
   }
 }
 
 export var frameFactory = function(childFn, _params) {
-  var child;
+  let child;
 
   const defaultParams = {
     style: {},
@@ -126,14 +126,14 @@ export var frameFactory = function(childFn, _params) {
     },
 
     show: function(animate) {
-      var frameFirstChild = this.getDOMNode().contentDocument.body.firstChild;
+      let frameFirstChild = this.getDOMNode().contentDocument.body.firstChild;
 
       this.setState({
         visible: true
       });
 
       setTimeout( () => {
-        var existingStyle = frameFirstChild.style;
+        let existingStyle = frameFirstChild.style;
 
         if (!existingStyle.webkitOverflowScrolling) {
           existingStyle.webkitOverflowScrolling = 'touch';

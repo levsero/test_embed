@@ -12,10 +12,10 @@ import { mediator }        from 'service/mediator';
 import { generateUserCSS } from 'utility/utils';
 
 const submitTicketCSS = require('./submitTicket.scss');
-var submitTickets = {};
+let submitTickets = {};
 
 function create(name, config) {
-  var containerStyle,
+  let containerStyle,
       posObj;
 
   const iframeBase = {

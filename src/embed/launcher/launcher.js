@@ -11,7 +11,7 @@ import { mediator }        from 'service/mediator';
 import { generateUserCSS } from 'utility/utils';
 
 const launcherCSS = require('./launcher.scss');
-var launchers = {};
+let launchers = {};
 
 function create(name, config) {
   const configDefaults = {
@@ -32,8 +32,8 @@ function create(name, config) {
 
   /* jshint laxbreak: true */
   let posObj = (config.position === 'left')
-         ? { 'left':  '20px' }
-         : { 'right': '20px' };
+             ? { 'left':  '20px' }
+             : { 'right': '20px' };
 
   const iframeStyle = _.extend(base, posObj);
 
