@@ -1,5 +1,5 @@
 describe('SubmitTicketForm component', function() {
-  var SubmitTicketForm,
+  let SubmitTicketForm,
       onSubmit,
       mockRegistry;
   const submitTicketFormPath = buildSrcPath('component/SubmitTicketForm');
@@ -49,7 +49,7 @@ describe('SubmitTicketForm component', function() {
   });
 
   it('should correctly render form with noValidate attribute', function() {
-    var submitTicketForm = React.render(
+    const submitTicketForm = React.render(
       <SubmitTicketForm />,
       global.document.body
     );

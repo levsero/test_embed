@@ -1,5 +1,5 @@
 describe('embed.chat', function() {
-  var chat,
+  let chat,
       mockRegistry,
       mockZopim;
 
@@ -116,7 +116,7 @@ describe('embed.chat', function() {
   });
 
   describe('render', function() {
-    var mockMediator,
+    let mockMediator,
         mockStore;
     const chatName = 'dave';
     const zopimId = 'abc123';
@@ -181,7 +181,7 @@ describe('embed.chat', function() {
     });
 
     describe('mediator broadcasts', function() {
-      var mockZopim,
+      let mockZopim,
           onHideCall,
           onStatusCall,
           onUnreadMsgsCall,

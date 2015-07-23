@@ -1,5 +1,5 @@
 describe('store', function() {
-  var store,
+  let store,
       mockRegistry,
       mockLocalStorage,
       mockSessionStorage;

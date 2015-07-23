@@ -1,5 +1,5 @@
 describe('util.setScaleLock', function() {
-  var setScaleLock,
+  let setScaleLock,
       metaStringToObj,
       mockRegistry,
       metaTag;

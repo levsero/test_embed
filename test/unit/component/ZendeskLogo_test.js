@@ -1,6 +1,6 @@
 describe('ZendeskLogo component', function() {
 
-  var mockRegistry,
+  let mockRegistry,
       ZendeskLogo;
   const zendeskLogoPath = buildSrcPath('component/ZendeskLogo');
 

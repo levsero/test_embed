@@ -1,6 +1,6 @@
 describe('frameFactory', function() {
 
-  var frameFactory,
+  let frameFactory,
       mockRegistry,
       mockRegistryMocks,
       mockChildFn;
@@ -180,7 +180,7 @@ describe('frameFactory', function() {
     });
 
     it('respects the fullscreenable parameter', function() {
-      var payload,
+      let payload,
           Embed,
           instance,
           frameContainer,
@@ -233,12 +233,12 @@ describe('frameFactory', function() {
   });
 
   describe('show', function() {
-    var instance,
+    let instance,
         mockOnShow,
         snabbt;
 
     beforeEach(function() {
-      var payload,
+      let payload,
           Embed;
 
       snabbt = mockRegistry['snabbt.js'].snabbt;
@@ -308,7 +308,7 @@ describe('frameFactory', function() {
   });
 
   describe('hide', function() {
-    var instance,
+    let instance,
         mockOnHide;
 
     beforeEach(function() {
@@ -344,7 +344,7 @@ describe('frameFactory', function() {
   });
 
   describe('render', function() {
-    var instance;
+    let instance;
 
     beforeEach(function() {
       const payload = frameFactory(mockChildFn, {

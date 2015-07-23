@@ -1,5 +1,5 @@
 describe('renderer', function() {
-  var renderer,
+  let renderer,
       mockRegistry,
       mockSubmitTicket,
       mockLauncher,

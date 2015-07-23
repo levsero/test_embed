@@ -1,5 +1,5 @@
 describe('Submit ticket component', function() {
-  var SubmitTicket,
+  let SubmitTicket,
       mockRegistry,
       mockGetSizingRatio;
   const formParams = {
@@ -115,7 +115,7 @@ describe('Submit ticket component', function() {
   });
 
   it('should correctly set the initial states when created', function() {
-    var submitTicket = React.render(
+    const submitTicket = React.render(
       <SubmitTicket />,
       global.document.body
     );
@@ -264,7 +264,7 @@ describe('Submit ticket component', function() {
       mockery.resetCache();
       SubmitTicket = require(submitTicketPath).SubmitTicket;
 
-      var submitTicket = React.render(
+      const submitTicket = React.render(
         <SubmitTicket />,
         global.document.body
       );
@@ -282,7 +282,7 @@ describe('Submit ticket component', function() {
       mockery.resetCache();
       SubmitTicket = require(submitTicketPath).SubmitTicket;
 
-      var submitTicket = React.render(
+      const submitTicket = React.render(
         <SubmitTicket />,
         global.document.body
       );
@@ -293,7 +293,7 @@ describe('Submit ticket component', function() {
   });
 
   it('should pass on fullscreen to submitTicketForm', function() {
-    var submitTicket = React.render(
+    const submitTicket = React.render(
           <SubmitTicket />,
           global.document.body
         );

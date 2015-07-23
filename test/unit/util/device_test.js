@@ -1,7 +1,7 @@
 // jscs:disable maximumLineLength
 
 describe('devices', function() {
-  var isBlacklisted,
+  let isBlacklisted,
       mockRegistry;
   const mockGlobals = {
     win: {

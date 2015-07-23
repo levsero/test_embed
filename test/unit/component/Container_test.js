@@ -1,5 +1,5 @@
 describe('Container component', function() {
-  var Container,
+  let Container,
       mockRegistry;
   const containerPath = buildSrcPath('component/Container');
 

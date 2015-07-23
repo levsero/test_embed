@@ -1,5 +1,5 @@
 describe('logging', function() {
-  var logging,
+  let logging,
       mockRegistry;
   const loggingPath = buildSrcPath('service/logging');
 

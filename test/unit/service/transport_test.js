@@ -1,5 +1,5 @@
 describe('transport', function() {
-  var transport,
+  let transport,
       mockMethods,
       mockRegistry;
   const transportPath = buildSrcPath('service/transport');
@@ -62,7 +62,7 @@ describe('transport', function() {
   });
 
   describe('#send', function() {
-    var payload,
+    let payload,
         config;
 
     beforeEach(function() {

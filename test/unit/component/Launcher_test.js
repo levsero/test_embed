@@ -1,5 +1,5 @@
 describe('Launcher component', function() {
-  var Launcher,
+  let Launcher,
       mockRegistry;
   const launcherPath = buildSrcPath('component/Launcher');
 
@@ -98,7 +98,7 @@ describe('Launcher component', function() {
 
   it('should change the icon when setActive is changed', function() {
     /* jshint quotmark: false */
-    var launcher = React.render(
+    const launcher = React.render(
           <Launcher icon='testIcon'/>,
           global.document.body
         );

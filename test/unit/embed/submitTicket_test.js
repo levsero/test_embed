@@ -1,5 +1,5 @@
 describe('embed.submitTicket', function() {
-  var submitTicket,
+  let submitTicket,
       mockRegistry,
       frameConfig;
   const resetTicketFormVisibility = jasmine.createSpy();
@@ -124,7 +124,7 @@ describe('embed.submitTicket', function() {
     });
 
     describe('frameFactory', function() {
-      var mockFrameFactory,
+      let mockFrameFactory,
           mockFrameFactoryCall,
           submitTicketChild,
           params;
@@ -400,7 +400,7 @@ describe('embed.submitTicket', function() {
     });
 
     describe('mediator subscription', function() {
-      var mockMediator,
+      let mockMediator,
           bob,
           bobFrame,
           bobSubmitTicket,
@@ -463,7 +463,7 @@ describe('embed.submitTicket', function() {
       });
 
       it('should subscribe to <name>.setLastSearch', function() {
-        var params = {
+        const params = {
           searchString: 'a search',
           searchLocale: 'en-US'
         };

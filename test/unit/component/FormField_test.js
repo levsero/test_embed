@@ -1,5 +1,5 @@
 describe('FormField component', function() {
-  var mockRegistry,
+  let mockRegistry,
       onSearch,
       onUpdate,
       SearchField,

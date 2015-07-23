@@ -1,5 +1,5 @@
 describe('embed.helpCenter', function() {
-  var helpCenter,
+  let helpCenter,
       mockRegistry,
       frameConfig,
       focusField;
@@ -125,7 +125,7 @@ describe('embed.helpCenter', function() {
     });
 
     describe('frameFactory', function() {
-      var mockFrameFactory,
+      let mockFrameFactory,
           mockFrameFactoryCall,
           childFn,
           params;
@@ -146,7 +146,7 @@ describe('embed.helpCenter', function() {
       });
 
       describe('mediator broadcasts', function() {
-        var mockMediator,
+        let mockMediator,
             helpCenterChild;
 
         beforeEach(function() {
@@ -366,7 +366,7 @@ describe('embed.helpCenter', function() {
     });
 
     describe('mediator subscriptions', function() {
-      var mockMediator,
+      let mockMediator,
           mockI18n,
           carlos,
           carlosHelpCenter,

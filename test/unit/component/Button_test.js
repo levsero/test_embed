@@ -1,5 +1,5 @@
 describe('Button component', function() {
-  var Button,
+  let Button,
       mockRegistry;
   const buttonPath = buildSrcPath('component/Button');
 

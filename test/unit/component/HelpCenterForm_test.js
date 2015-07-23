@@ -1,5 +1,5 @@
 describe('HelpCenterForm component', function() {
-  var HelpCenterForm,
+  let HelpCenterForm,
       onSubmit,
       onSearch,
       mockRegistry;

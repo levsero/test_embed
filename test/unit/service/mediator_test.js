@@ -1,7 +1,7 @@
 const requireUncached = require('require-uncached');
 
 describe('mediator', function() {
-  var mockRegistry,
+  let mockRegistry,
       mediator,
       c,
       launcherSub,

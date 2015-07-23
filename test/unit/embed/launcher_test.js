@@ -1,5 +1,5 @@
 describe('embed.launcher', function() {
-  var launcher,
+  let launcher,
       mockRegistry;
   const launcherPath = buildSrcPath('embed/launcher/launcher');
 
@@ -91,7 +91,7 @@ describe('embed.launcher', function() {
     });
 
     describe('frameFactory', function() {
-      var mockFrameFactory,
+      let mockFrameFactory,
           mockFrameFactoryCall,
           frameConfig,
           childFn,
@@ -273,7 +273,7 @@ describe('embed.launcher', function() {
     });
 
     describe('mediator subscriptions', function() {
-      var mockMediator,
+      let mockMediator,
           aliceLauncher;
 
       beforeEach(function() {

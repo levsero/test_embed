@@ -1,5 +1,5 @@
 describe('identity', function() {
-  var identity,
+  let identity,
       mockRegistry,
       mockPersistence;
 

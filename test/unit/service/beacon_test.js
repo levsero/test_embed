@@ -1,5 +1,5 @@
 describe('beacon', function() {
-  var beacon,
+  let beacon,
       mockRegistry;
   const localeId = 10;
   const beaconPath = buildSrcPath('service/beacon');

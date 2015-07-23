@@ -1,5 +1,5 @@
 describe('HelpCenterArticle component', function() {
-  var HelpCenterArticle,
+  let HelpCenterArticle,
       mockRegistry,
       scrollIntoView;
   const helpCenterArticlePath = buildSrcPath('component/HelpCenterArticle');

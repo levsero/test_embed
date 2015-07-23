@@ -1,5 +1,5 @@
 describe('Help center component', function() {
-  var HelpCenter,
+  let HelpCenter,
       mockRegistry,
       trackSearch;
   const searchFieldBlur = jasmine.createSpy();
@@ -373,7 +373,7 @@ describe('Help center component', function() {
       mockery.resetCache();
       HelpCenter = require(helpCenterPath).HelpCenter;
 
-      var helpCenter = React.render(
+      const helpCenter = React.render(
         <HelpCenter />,
         global.document.body
       );
@@ -391,7 +391,7 @@ describe('Help center component', function() {
       mockery.resetCache();
       HelpCenter = require(helpCenterPath).HelpCenter;
 
-      var helpCenter = React.render(
+      const helpCenter = React.render(
         <HelpCenter />,
         global.document.body
       );

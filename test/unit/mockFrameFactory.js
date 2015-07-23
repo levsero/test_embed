@@ -1,4 +1,4 @@
-var mockFrameMethods = {
+const mockFrameMethods = {
   show: jasmine.createSpy('mockFrameShow'),
   hide: jasmine.createSpy('mockFrameHide'),
   close: jasmine.createSpy('mockFrameClose')

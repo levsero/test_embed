@@ -1,5 +1,5 @@
 describe('i18n', function() {
-  var i18n,
+  let i18n,
       mockRegistry;
   const i18nPath = buildSrcPath('service/i18n');
 
@@ -81,7 +81,7 @@ describe('i18n', function() {
   });
 
   describe('getLocaleId', function() {
-    var localeIdMap;
+    let localeIdMap;
 
     beforeEach(function() {
       localeIdMap = mockRegistry['translation/localeIdMap.json'];
