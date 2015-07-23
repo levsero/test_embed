@@ -144,7 +144,7 @@ export const HelpCenter = React.createClass({
     }
 
     if (searchString.length >= 5 && _.last(searchString) === ' ' || forceSearch) {
-      let filteredStr = stopWordsFilter(searchString);
+      const filteredStr = stopWordsFilter(searchString);
 
       if (filteredStr !== '') {
         this.performSearch(filteredStr, forceSearch);
@@ -306,7 +306,7 @@ export const HelpCenter = React.createClass({
     const mobileArticleViewActive = this.state.fullscreen && this.state.articleViewActive;
     const hideZendeskLogo = this.props.hideZendeskLogo || mobileArticleViewActive;
 
-    var linkLabel,
+    let linkLabel,
         linkContext;
 
     if (this.props.updateFrameSize) {

@@ -1,6 +1,6 @@
 import React from 'react/addons';
 
-var classSet = React.addons.classSet;
+const classSet = React.addons.classSet;
 
 export var Loading = React.createClass({
   render() {
