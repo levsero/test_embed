@@ -83,9 +83,9 @@ describe('Launcher component', function() {
   it('should change the label when setLabel is called', function() {
     /* jshint quotmark: false */
     const launcher = React.render(
-          <Launcher label='help'/>,
-          global.document.body
-        );
+      <Launcher label='help'/>,
+      global.document.body
+    );
 
     expect(launcher.state.label)
       .toEqual('help');
@@ -99,9 +99,9 @@ describe('Launcher component', function() {
   it('should change the icon when setActive is changed', function() {
     /* jshint quotmark: false */
     const launcher = React.render(
-          <Launcher icon='testIcon'/>,
-          global.document.body
-        );
+      <Launcher icon='testIcon'/>,
+      global.document.body
+    );
 
     expect(global.document.body.querySelectorAll('.Icon--cross').length)
       .toEqual(0);

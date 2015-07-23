@@ -127,8 +127,8 @@ describe('HelpCenterArticle component', function() {
 
   it('should preserve sub/sups on divs', function() {
     const helpCenterArticle = React.render(
-          <HelpCenterArticle activeArticle={mockArticle} />,
-          global.document.body
+      <HelpCenterArticle activeArticle={mockArticle} />,
+      global.document.body
     );
 
     // componentdidupdate only fires after setState not on initial render
