@@ -94,12 +94,12 @@ function boot() {
   beacon.init(__EMBEDDABLE_VERSION__).send();
 
   const publicApi = {
-    version:   __EMBEDDABLE_VERSION__,
+    version: __EMBEDDABLE_VERSION__,
     setLocale: i18n.setLocale,
-    hide:      renderer.hide,
-    show:      postRenderQueueCallback.bind('show'),
-    identify:  postRenderQueueCallback.bind('identify'),
-    activate:  postRenderQueueCallback.bind('activate')
+    hide: renderer.hide,
+    show: postRenderQueueCallback.bind('show'),
+    identify: postRenderQueueCallback.bind('identify'),
+    activate: postRenderQueueCallback.bind('activate')
   };
 
   if (__DEV__) {
