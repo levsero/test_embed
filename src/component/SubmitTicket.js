@@ -84,8 +84,11 @@ export var SubmitTicket = React.createClass({
           this.props.updateFrameSize();
         },
         errorCallback = (msg) => {
+          let submitTicketForm = this.refs.submitTicketForm;
+
           this.setState({ errorMessage: msg });
-          this.refs.submitTicketForm.failedToSubmit();
+          submitTicketForm.failedToSubmit();
+          submitTicketForm.setState({ showErrorMessage: true });
         },
         payload = {
           method: 'post',
@@ -139,7 +142,7 @@ export var SubmitTicket = React.createClass({
           'u-isHidden': !this.state.showNotification
         }),
         errorClasses = classSet({
-          'Error': true,
+          'Error u-marginTL': true,
           'u-isHidden': !this.state.errorMessage
         }),
         zendeskLogo;
@@ -149,7 +152,7 @@ export var SubmitTicket = React.createClass({
     }
 
     /* jshint laxbreak: true */
-    zendeskLogo = this.props.hideZendeskLogo
+    zendeskLogo = this.props.hideZendeskLogo || this.state.fullscreen
                 ? null
                 : <ZendeskLogo
                     formSuccess={this.state.showNotification}

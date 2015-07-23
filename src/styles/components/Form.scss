@@ -54,7 +54,7 @@ $Form-fontSize: #{13/$font-size}rem;
   background: $base-color;
   border: $thin-border-size solid $stroke-color;
   border-radius: #{4/$font-size}rem;
-  padding: $Form-spacing;
+  padding: #{9/$font-size}rem $spacing-sml $spacing-sml;
   color: $secondary-color;
 
   textarea, input, select {
@@ -72,20 +72,9 @@ $Form-fontSize: #{13/$font-size}rem;
     }
   }
 
-  &:not(.is-mobile) {
-    input, select {
-      max-height: #{14/$font-size}rem;
-    }
-  }
-
   textarea {
     height: #{78/$font-size}rem;
   }
-}
-
-.Form-field--clean {
-  border: none;
-  padding: 0;
 }
 
 .Form-checkbox {
@@ -134,6 +123,7 @@ $Form-fontSize: #{13/$font-size}rem;
 }
 
 .Form-field--focused,
+.Form-field:hover,
 .Form-checkboxInput--focused + .Form-checkbox {
   border: $thin-border-size solid $stroke-focused-color;
 
@@ -143,8 +133,15 @@ $Form-fontSize: #{13/$font-size}rem;
 }
 
 .Form-field--invalid,
+.Form-field--invalid:hover,
 .Form-checkboxInput--invalid + .Form-checkbox {
   @include error-state($thin-border-size);
+}
+
+.Form-field--clean,
+.Form-field--clean:hover {
+  border: none;
+  padding: 0;
 }
 
 .Form-field--dropdown {

@@ -262,7 +262,7 @@ export var HelpCenter = React.createClass({
           'u-textSizeBaseMobile': this.state.fullscreen
         }),
         formLegendClasses = classSet({
-          'u-paddingTT u-textSizeMed Arrange Arrange--middle u-textBody': true,
+          'u-paddingTT u-textSizeNml Arrange Arrange--middle u-textBody': true,
           'u-textSizeBaseMobile': this.state.fullscreen,
           'u-isHidden': !this.state.articles.length
         }),
@@ -271,6 +271,11 @@ export var HelpCenter = React.createClass({
           'u-isHidden': this.state.resultsCount || !this.state.hasSearched,
           'u-textSizeBaseMobile': this.state.fullscreen,
           'u-borderBottom List--noResults': !this.state.fullscreen
+        }),
+        searchTitleClasses = classSet({
+          'u-textSizeBaseMobile u-marginTM u-textCenter': true,
+          'Container--fullscreen-center-vert': true,
+          'u-isHidden': !this.state.fullscreen || this.state.hasSearched
         }),
         linkClasses = classSet({
           'u-textSizeBaseMobile u-textCenter u-marginTL': true,
@@ -301,8 +306,8 @@ export var HelpCenter = React.createClass({
           });
         },
         chatButtonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.chat'),
-        mobileArticleViewActive = this.state.fullscreen && this.state.articleViewActive,
-        hideZendeskLogo = this.props.hideZendeskLogo || mobileArticleViewActive,
+        mobileHideLogoState = this.state.fullscreen && this.state.hasSearched,
+        hideZendeskLogo = this.props.hideZendeskLogo || mobileHideLogoState,
         zendeskLogo,
         searchField;
 
@@ -364,6 +369,9 @@ export var HelpCenter = React.createClass({
               ref='helpCenterForm'
               onSearch={this.handleSearch}
               onSubmit={this.handleSubmit}>
+              <h1 className={searchTitleClasses}>
+                {i18n.t('embeddable_framework.helpCenter.label.searchHelpCenter')}
+              </h1>
               {!this.state.hasSearched && searchField}
               <div className={linkClasses}>
                 <p className='u-marginBN'>{linkContext}</p>

@@ -23,8 +23,8 @@ $Container-spacing: 25/$font-size;
 }
 
 .Container--fullscreen-center-vert {
-  padding-top: 40%; /* 1 */
-  padding-top: calc(50% - (#{40/$font-size}rem));
+  padding-top: 20%; /* 1 */
+  padding-top: calc(30% - (#{40/$font-size}rem));
 }
 
 .Container-pullout {
