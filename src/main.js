@@ -17,73 +17,72 @@ import { initMobileScaling }  from 'utility/mobileScaling';
 require('imports?_=lodash!lodash');
 
 function boot() {
-  var publicApi,
-      devApi,
-      host = location.host,
-      path = location.pathname,
-      postRenderQueue = [],
-      chatPages = [
-        '/zopim',
-        '/product/pricing',
-        '/product/tour'
-      ],
-      handleQueue = function(queue) {
-        _.forEach(queue, function(method) {
-          if (method[0].locale) {
-            // Backwards compat with zE({locale: 'zh-CN'}) calls
-            i18n.setLocale(method[0].locale);
-          } else {
-            try {
-              method[0]();
-            } catch(e) {
-              let err = new Error([
-                'An error occurred in your use of the Zendesk Widget API:',
-                method[0],
-                'Check out the Developer API docs to make sure you\'re using it correctly',
-                'https://developer.zendesk.com/embeddables/docs/widget/api',
-                e.stack
-              ].join('\n\n'));
-              err.special = true;
+  let devApi;
+  let postRenderQueue = [];
+  const host = location.host;
+  const path = location.pathname;
+  const chatPages = [
+    '/zopim',
+    '/product/pricing',
+    '/product/tour'
+  ];
+  const handleQueue = function(queue) {
+    _.forEach(queue, function(method) {
+      if (method[0].locale) {
+        // Backwards compat with zE({locale: 'zh-CN'}) calls
+        i18n.setLocale(method[0].locale);
+      } else {
+        try {
+          method[0]();
+        } catch (e) {
+          const err = new Error([
+            'An error occurred in your use of the Zendesk Widget API:',
+            method[0],
+            'Check out the Developer API docs to make sure you\'re using it correctly',
+            'https://developer.zendesk.com/embeddables/docs/widget/api',
+            e.stack
+          ].join('\n\n'));
+          err.special = true;
 
-              throw err;
-            }
-          }
-        });
-      },
-      handlePostRenderQueue = function(postRenderQueue) {
-        _.forEach(postRenderQueue, function(method) {
-            win.zE[method[0]](...method[1]);
-        });
-      },
-      identify = function(user) {
-        mediator.channel.broadcast('.identify', user);
-        beacon.identify(user);
-      },
-      activate = function(options) {
-        mediator.channel.broadcast('.activate', options);
-      },
-      hide = function() {
-        mediator.channel.broadcast('.hide');
-      },
-      show = function() {
-        mediator.channel.broadcast('.show');
-      },
-      postRenderQueueCallback = function(...args) {
-        // "this" is bound to the method name
-        postRenderQueue.push([this, args]);
-      };
-
-      // Firefox has an issue with calculating computed styles from within a iframe
-      // with display:none. If getComputedStyle returns null we adjust the styles on
-      // the iframe so when we need to query the parent document it will work.
-      // http://bugzil.la/548397
-      if (getComputedStyle(doc.documentElement) === null) {
-        let iframe = window.frameElement,
-            newStyle = 'width: 0; height: 0; border: 0; position: absolute; top: -9999px';
-
-        iframe.removeAttribute('style');
-        iframe.setAttribute('style', newStyle);
+          throw err;
+        }
       }
+    });
+  };
+  const handlePostRenderQueue = function(postRenderQueue) {
+    _.forEach(postRenderQueue, function(method) {
+      win.zE[method[0]](...method[1]);
+    });
+  };
+  const identify = function(user) {
+    mediator.channel.broadcast('.identify', user);
+    beacon.identify(user);
+  };
+  const activate = function(options) {
+    mediator.channel.broadcast('.activate', options);
+  };
+  const hide = function() {
+    mediator.channel.broadcast('.hide');
+  };
+  const show = function() {
+    mediator.channel.broadcast('.show');
+  };
+  const postRenderQueueCallback = function(...args) {
+    // "this" is bound to the method name
+    postRenderQueue.push([this, args]);
+  };
+
+  // Firefox has an issue with calculating computed styles from within a iframe
+  // with display:none. If getComputedStyle returns null we adjust the styles on
+  // the iframe so when we need to query the parent document it will work.
+  // http://bugzil.la/548397
+  if (getComputedStyle(doc.documentElement) === null) {
+    const iframe = window.frameElement;
+    const newStyle = 'width: 0; height: 0; border: 0; position: absolute; top: -9999px';
+
+    iframe.removeAttribute('style');
+    iframe.setAttribute('style', newStyle);
+  }
 
   React.initializeTouchEvents(true);
 
@@ -94,13 +93,13 @@ function boot() {
 
   beacon.init(__EMBEDDABLE_VERSION__).send();
 
-  publicApi = {
-    version:   __EMBEDDABLE_VERSION__,
+  const publicApi = {
+    version: __EMBEDDABLE_VERSION__,
     setLocale: i18n.setLocale,
-    hide:      renderer.hide,
-    show:      postRenderQueueCallback.bind('show'),
-    identify:  postRenderQueueCallback.bind('identify'),
-    activate:  postRenderQueueCallback.bind('activate')
+    hide: renderer.hide,
+    show: postRenderQueueCallback.bind('show'),
+    identify: postRenderQueueCallback.bind('identify'),
+    activate: postRenderQueueCallback.bind('activate')
   };
 
   if (__DEV__) {
@@ -153,7 +152,7 @@ function boot() {
     }
     handlePostRenderQueue(postRenderQueue);
   } else {
-    let configLoadStart = Date.now();
+    const configLoadStart = Date.now();
     transport.get({
       method: 'get',
       path: '/embeddable/config',
@@ -174,7 +173,6 @@ function boot() {
       }
     });
   }
-
 
   if (isMobileBrowser()) {
     initMobileScaling();

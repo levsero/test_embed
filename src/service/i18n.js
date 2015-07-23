@@ -1,19 +1,19 @@
 import _ from 'lodash';
 
-var translate = require('counterpart'),
-    translations = require('translation/translations.json'),
-    localeIdMap = require('translation/localeIdMap.json'),
-    currentLocale;
+const translate = require('counterpart');
+const translations = require('translation/translations.json');
+const localeIdMap = require('translation/localeIdMap.json');
+let currentLocale;
 
 // Setting to something other than (.) as our translation hash
 // is a flat structure and counterpart tries to look in object
 translate.setSeparator('*');
 
 function parseLocale(str) {
-  var locale = regulateLocaleStringCase(str),
-      extractLang = function(locale) {
-        return locale.substring(0, locale.indexOf('-'));
-      };
+  const locale = regulateLocaleStringCase(str);
+  const extractLang = function(locale) {
+    return locale.substring(0, locale.indexOf('-'));
+  };
 
   if (translations[locale]) {
     return locale;
@@ -35,7 +35,7 @@ function setLocale(str = 'en-US') {
 
     // To avoid weird encoding issues we deliver the strings uri encoded
     // when setting the strings we then decode them in memory
-    var decodedStrings = _.reduce(translations[currentLocale], function(res, el, key) {
+    const decodedStrings = _.reduce(translations[currentLocale], function(res, el, key) {
       res[key] = decodeURIComponent(el);
       return res;
     }, {});
@@ -53,7 +53,7 @@ function isRTL() {
 }
 
 function regulateLocaleStringCase(locale) {
-  var dashIndex = locale.indexOf('-');
+  const dashIndex = locale.indexOf('-');
 
   if (dashIndex < 0) {
     return locale.toLowerCase();

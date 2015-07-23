@@ -5,11 +5,11 @@ import { document as doc } from 'utility/globals';
 import { getSizingRatio }  from 'utility/devices';
 import { mediator }        from 'service/mediator';
 
-var clickBusterClicks = [];
+let clickBusterClicks = [];
 
 function generateUserCSS(params) {
   if (params.color) {
-    var highlightColor = generateHighlightColor(params.color);
+    const  highlightColor = generateHighlightColor(params.color);
 
     return (`
       .rf-CheckboxGroup__checkbox:checked + span:before,
@@ -40,7 +40,7 @@ function generateUserCSS(params) {
 
 function generateHighlightColor(colorStr) {
   try {
-    var color = Color(colorStr);
+    const color = Color(colorStr);
     /* jshint laxbreak: true */
     return (color.luminosity() > 0.15)
        ? color.darken(0.1).rgbString()
@@ -48,8 +48,6 @@ function generateHighlightColor(colorStr) {
   } catch (e) {
     return;
   }
-
-
 }
 
 function metaStringToObj(str) {
@@ -58,7 +56,7 @@ function metaStringToObj(str) {
   } else {
     return _.chain(str.split(','))
       .reduce(function(res, item) {
-        var pair = item.trim().split('=');
+        const pair = item.trim().split('=');
         res[pair[0]] = pair[1];
         return res;
       }, {})
@@ -74,15 +72,12 @@ function metaObjToString(obj) {
 }
 
 function initViewportMeta(active) {
-  var newViewportMeta,
-      viewportMetas = doc.querySelectorAll('meta[name="viewport"]');
+  const viewportMetas = doc.querySelectorAll('meta[name="viewport"]');
 
   if (viewportMetas.length > 0) {
     return _.last(viewportMetas);
-  }
-
-  else if (active) {
-    newViewportMeta = doc.createElement('meta');
+  } else if (active) {
+    const newViewportMeta = doc.createElement('meta');
     newViewportMeta.setAttribute('name', 'viewport');
     newViewportMeta.setAttribute('content', '');
     doc.head.appendChild(newViewportMeta);
@@ -91,8 +86,8 @@ function initViewportMeta(active) {
 }
 
 function setScaleLock(active) {
-  var meta = initViewportMeta(active),
-      viewportObj;
+  let viewportObj;
+  const meta = initViewportMeta(active);
 
   if (meta) {
     viewportObj = metaStringToObj(meta.getAttribute('content'));
@@ -101,8 +96,7 @@ function setScaleLock(active) {
       if (_.isUndefined(viewportObj['user-scalable'])) {
         viewportObj['original-user-scalable'] = 'UNDEFINED';
         viewportObj['user-scalable'] = 'no';
-      }
-      else if (!viewportObj['original-user-scalable']) {
+      } else if (!viewportObj['original-user-scalable']) {
         viewportObj['original-user-scalable'] = viewportObj['user-scalable'];
         viewportObj['user-scalable'] = 'no';
       }
@@ -127,7 +121,7 @@ function setScaleLock(active) {
 }
 
 function parseUrl(url) {
-  var anchor = document.createElement('a');
+  const anchor = document.createElement('a');
   anchor.href = url;
 
   return anchor;
@@ -138,9 +132,8 @@ function clickBusterRegister(x, y) {
 }
 
 function clickBusterHandler(ev) {
-  var x,
-      y,
-      radius = 25 * getSizingRatio();
+  let x, y;
+  const radius = 25 * getSizingRatio();
 
   if (clickBusterClicks.length) {
     [x, y] = clickBusterClicks.pop();
@@ -153,9 +146,9 @@ function clickBusterHandler(ev) {
 }
 
 function getFrameworkLoadTime() {
-  var now = Date.now(),
-      loadTime = document.t ? now - document.t : undefined,
-      entry;
+  let entry;
+  const now = Date.now();
+  let loadTime = document.t ? now - document.t : undefined;
 
   // https://bugzilla.mozilla.org/show_bug.cgi?id=1045096
   try {
