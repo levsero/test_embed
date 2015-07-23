@@ -8,7 +8,7 @@ gulp.task('bootstrap:inline', function() {
   return gulp.src('./example/*-template.html')
     .pipe(inlineSource())
     .pipe(replace(/{{(\w+)}}/g, function(match, key) {
-      var replaceMap = {
+      const replaceMap = {
         'zendeskFrameworkUrl': '/dist/main.js',
         'zendeskHost': 'dev.zd-dev.com'
       };
