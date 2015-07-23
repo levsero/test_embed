@@ -14,34 +14,34 @@ import { transport }       from 'service/transport';
 import { mediator }        from 'service/mediator';
 import { generateUserCSS } from 'utility/utils';
 
-var helpCenterCSS = require('./helpCenter.scss'),
-    helpCenters = {};
+const helpCenterCSS = require('./helpCenter.scss');
+let helpCenters = {};
 
 function create(name, config) {
-  var containerStyle,
-      iframeBase = {
-        position: 'fixed',
-        bottom: 50
-      },
-      configDefaults = {
-        position: 'right',
-        hideZendeskLogo: false
-      },
-      posObj,
-      iframeStyle,
-      onButtonClick = function() {
-        mediator.channel.broadcast(name + '.onNextClick');
-      },
-      showBackButton = function() {
-        get(name).instance.getChild().setState({
-          showBackButton: true
-        });
-      },
-      onSearch = function(params) {
-        beacon.track('helpCenter', 'search', name, params.searchString);
-        mediator.channel.broadcast(name + '.onSearch', params);
-      },
-      Embed;
+  let containerStyle,
+      posObj;
+
+  const iframeBase = {
+    position: 'fixed',
+    bottom: 50
+  };
+  const configDefaults = {
+    position: 'right',
+    hideZendeskLogo: false
+  };
+
+  const onButtonClick = function() {
+    mediator.channel.broadcast(name + '.onNextClick');
+  };
+  const showBackButton = function() {
+    get(name).instance.getChild().setState({
+      showBackButton: true
+    });
+  };
+  const onSearch = function(params) {
+    beacon.track('helpCenter', 'search', name, params.searchString);
+    mediator.channel.broadcast(name + '.onSearch', params);
+  };
 
   config = _.extend(configDefaults, config);
 
@@ -58,9 +58,9 @@ function create(name, config) {
     containerStyle = { minWidth: 400, margin: 15 };
   }
 
-  iframeStyle = _.extend(iframeBase, posObj);
+  const iframeStyle = _.extend(iframeBase, posObj);
 
-  Embed = React.createClass(frameFactory(
+  const Embed = React.createClass(frameFactory(
     (params) => {
       return (
         <div style={containerStyle}>
@@ -132,8 +132,8 @@ function get(name) {
 
 function updateHelpCenterButton(name, labelKey) {
   /* jshint unused:false */
-  var helpCenter = get(name).instance.getChild().refs.helpCenter,
-      label = i18n.t(`embeddable_framework.helpCenter.submitButton.label.${labelKey}`);
+  const helpCenter = get(name).instance.getChild().refs.helpCenter;
+  const label = i18n.t(`embeddable_framework.helpCenter.submitButton.label.${labelKey}`);
 
   helpCenter.setState({
     buttonLabel: label
@@ -145,7 +145,7 @@ function render(name) {
     throw new Error(`HelpCenter ${name} has already been rendered.`);
   }
 
-  var element = getDocumentHost().appendChild(document.createElement('div'));
+  const element = getDocumentHost().appendChild(document.createElement('div'));
 
   helpCenters[name].instance = React.render(helpCenters[name].component, element);
 
