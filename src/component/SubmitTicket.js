@@ -150,9 +150,10 @@ export var SubmitTicket = React.createClass({
       'Error': true,
       'u-isHidden': !this.state.errorMessage
     });
-    const marketingUrl = ['//www.zendesk.com/embeddables/',
-                           '?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=text'
-                         ].join('');
+    const marketingUrl = [
+      '//www.zendesk.com/embeddables/',
+      '?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=text'
+    ].join('');
 
     if (this.props.updateFrameSize) {
       setTimeout( () => this.props.updateFrameSize(0, 10), 0);

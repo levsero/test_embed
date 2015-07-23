@@ -11,9 +11,10 @@ export var ZendeskLogo = React.createClass({
       'u-posAbsolute u-posEnd--vert': applyPositionClasses,
       'u-posStart': !this.props.rtl && applyPositionClasses
     });
-    const logoUrl = ['//www.zendesk.com/embeddables/',
-                     '?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image'
-                    ].join('');
+    const logoUrl = [
+      '//www.zendesk.com/embeddables/',
+      '?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image'
+    ].join('');
 
     return (
       <div className='u-nbfc'>
