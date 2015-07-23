@@ -11,9 +11,9 @@ import { logging }      from 'service/logging';
 
 const embedsMap = {
   'submitTicket': submitTicket,
-  'launcher'    : launcher,
-  'helpCenter'  : helpCenter,
-  'chat'        : chat
+  'launcher': launcher,
+  'helpCenter': helpCenter,
+  'chat': chat
 };
 let initialised = false;
 let hideLauncher = false;
