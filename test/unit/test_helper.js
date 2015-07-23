@@ -54,16 +54,16 @@ global.initMockRegistry = function(registry) {
 };
 
 global.pluckSubscribeCall = function(mediator, key) {
-  var calls = mediator.channel.subscribe.calls.allArgs();
+  const calls = mediator.channel.subscribe.calls.allArgs();
   return _.find(calls, function(call) {
     return call[0] === key;
   })[1];
 };
 
 global.dispatchEvent = function(eventName, node) {
-  var event = global.document.createEvent('HTMLEvents');
+  const event = global.document.createEvent('HTMLEvents');
 
   event.initEvent(eventName, true, true);
-  event.touches = [0,0];
+  event.touches = [0, 0];
   node.dispatchEvent(event);
 };

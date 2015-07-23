@@ -1,6 +1,6 @@
-var fs = require('fs'),
-    onlyScripts = require('./util/scriptFilter'),
-    tasks = fs.readdirSync('./gulp/tasks/').filter(onlyScripts);
+const fs = require('fs');
+const onlyScripts = require('./util/scriptFilter');
+const tasks = fs.readdirSync('./gulp/tasks/').filter(onlyScripts);
 
 tasks.forEach(function(task) {
   require('./tasks/' + task);

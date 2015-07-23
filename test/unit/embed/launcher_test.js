@@ -1,7 +1,7 @@
 describe('embed.launcher', function() {
-  var launcher,
-      mockRegistry,
-      launcherPath = buildSrcPath('embed/launcher/launcher');
+  let launcher,
+      mockRegistry;
+  const launcherPath = buildSrcPath('embed/launcher/launcher');
 
   beforeEach(function() {
     resetDOM();
@@ -70,8 +70,6 @@ describe('embed.launcher', function() {
   describe('create', function() {
 
     it('should add a new launcher to the internal list', function() {
-      var alice;
-
       expect(_.keys(launcher.list()).length)
         .toBe(0);
 
@@ -80,7 +78,7 @@ describe('embed.launcher', function() {
       expect(_.keys(launcher.list()).length)
         .toBe(1);
 
-      alice = launcher.get('alice');
+      const alice = launcher.get('alice');
 
       expect(alice)
         .toBeDefined();
@@ -93,7 +91,7 @@ describe('embed.launcher', function() {
     });
 
     describe('frameFactory', function() {
-      var mockFrameFactory,
+      let mockFrameFactory,
           mockFrameFactoryCall,
           frameConfig,
           childFn,
@@ -115,11 +113,11 @@ describe('embed.launcher', function() {
       });
 
       it('should apply the configs', function() {
-        var eventObj = jasmine.createSpyObj('e', ['preventDefault']),
-            mockMediator = mockRegistry['service/mediator'].mediator,
-            alice = launcher.get('alice'),
-            payload = childFn({}),
-            onClickHandler = params.extend.onClickHandler;
+        const eventObj = jasmine.createSpyObj('e', ['preventDefault']);
+        const mockMediator = mockRegistry['service/mediator'].mediator;
+        const alice = launcher.get('alice');
+        const payload = childFn({});
+        const onClickHandler = params.extend.onClickHandler;
 
         expect(alice.config)
           .toEqual(frameConfig);
@@ -136,7 +134,6 @@ describe('embed.launcher', function() {
         expect(params.fullscreenable)
           .toEqual(false);
 
-
         jasmine.clock().install();
 
         onClickHandler(eventObj);
@@ -148,12 +145,11 @@ describe('embed.launcher', function() {
       });
 
       it('passes Launcher correctly into frameFactory', function() {
-        var mockClickHandler = noop,
-            payload = childFn({
-              onClickHandler: mockClickHandler
-            }),
-            launcherInstance,
-            alice = launcher.get('alice');
+        const mockClickHandler = noop;
+        const payload = childFn({
+          onClickHandler: mockClickHandler
+        });
+        const alice = launcher.get('alice');
 
         expect(payload.props.onClick)
           .toBe(mockClickHandler);
@@ -162,8 +158,6 @@ describe('embed.launcher', function() {
           .toBe(mockClickHandler);
 
         launcher.render('alice');
-
-        launcherInstance = alice.instance.refs.launcher;
 
         expect(alice.instance.onClickHandler)
           .toBeDefined();
@@ -175,17 +169,16 @@ describe('embed.launcher', function() {
   describe('get', function() {
 
     it('should return the correct launcher', function() {
-      var alice,
-          config = {
-            position: 'test_alice_position',
-            onClick: function() { return 'alice'; },
-            label: 'Help',
-            icon: '',
-            visible: true
-          };
+      const config = {
+        position: 'test_alice_position',
+        onClick: function() { return 'alice'; },
+        label: 'Help',
+        icon: '',
+        visible: true
+      };
 
       launcher.create('alice', config);
-      alice = launcher.get('alice');
+      const alice = launcher.get('alice');
 
       expect(alice)
         .not.toBeUndefined();
@@ -235,28 +228,25 @@ describe('embed.launcher', function() {
     });
 
     it('applies launcher.scss to the frame', function() {
-      var mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory,
-          mockCss = mockRegistry['./launcher.scss'],
-          mockFrameCss;
+      const mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
+      const mockCss = mockRegistry['./launcher.scss'];
 
       launcher.create('alice');
       launcher.render('alice');
 
-      mockFrameCss = mockFrameFactory.calls.mostRecent().args[1].css;
+      const mockFrameCss = mockFrameFactory.calls.mostRecent().args[1].css;
 
       expect(mockFrameCss)
         .toEqual(mockCss);
     });
 
     it('is positioned "right" if no position value is set', function() {
-
-      var mockFrameStyle,
-          mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
+      const mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
 
       launcher.create('alice');
       launcher.render('alice');
 
-      mockFrameStyle = mockFrameFactory.calls.mostRecent().args[1].style;
+      const mockFrameStyle = mockFrameFactory.calls.mostRecent().args[1].style;
 
       expect(mockFrameStyle.left)
         .toBeUndefined();
@@ -267,14 +257,12 @@ describe('embed.launcher', function() {
     });
 
     it('can be positioned "left"', function() {
-
-      var mockFrameStyle,
-          mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
+      const mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
 
       launcher.create('alice', {position: 'left'});
       launcher.render('alice');
 
-      mockFrameStyle = mockFrameFactory.calls.mostRecent().args[1].style;
+      const mockFrameStyle = mockFrameFactory.calls.mostRecent().args[1].style;
 
       expect(mockFrameStyle.left)
         .toBeDefined();
@@ -285,7 +273,7 @@ describe('embed.launcher', function() {
     });
 
     describe('mediator subscriptions', function() {
-      var mockMediator,
+      let mockMediator,
           aliceLauncher;
 
       beforeEach(function() {

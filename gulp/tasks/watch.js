@@ -1,13 +1,13 @@
-var gulp = require('gulp'),
-    path = require('path'),
-    lr = require('tiny-lr'),
-    express = require('express'),
-    connectlr = require('connect-livereload'),
-    gutil = require('gulp-util'),
-    server = lr(),
-    EXPRESS_PORT = 1337,
-    ROOT = process.cwd(),
-    LIVERELOAD_PORT = 35729;
+const gulp = require('gulp');
+const path = require('path');
+const lr = require('tiny-lr');
+const express = require('express');
+const connectlr = require('connect-livereload');
+const gutil = require('gulp-util');
+const server = lr();
+const EXPRESS_PORT = 1337;
+const ROOT = process.cwd();
+const LIVERELOAD_PORT = 35729;
 
 function startExpress() {
   var app = express();

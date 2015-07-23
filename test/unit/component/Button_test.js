@@ -1,7 +1,7 @@
 describe('Button component', function() {
-  var Button,
-      mockRegistry,
-      buttonPath = buildSrcPath('component/Button');
+  let Button,
+      mockRegistry;
+  const buttonPath = buildSrcPath('component/Button');
 
   beforeEach(function() {
 
@@ -26,14 +26,14 @@ describe('Button component', function() {
   });
 
   it('should not have fullscreen classes when fullscreen prop is false', function() {
-    var button = React.render(
-          <Button />,
-          global.document.body
-        ),
-        buttonElem = ReactTestUtils
-          .findRenderedDOMComponentWithClass(button, 'Button--cta'),
-        buttonClasses = buttonElem.props.className,
-        buttonContainerClasses = buttonElem.getDOMNode().parentNode.className;
+    const button = React.render(
+      <Button />,
+      global.document.body
+    );
+    const buttonElem = ReactTestUtils
+      .findRenderedDOMComponentWithClass(button, 'Button--cta');
+    const buttonClasses = buttonElem.props.className;
+    const buttonContainerClasses = buttonElem.getDOMNode().parentNode.className;
 
     expect(buttonContainerClasses)
       .toMatch('u-textRight');
@@ -43,15 +43,14 @@ describe('Button component', function() {
   });
 
   it('should have fullscreen classes when fullscreen prop is true', function() {
-    var button = React.render(
-          <Button fullscreen={true} />,
-          global.document.body
-        ),
-        buttonElem = ReactTestUtils
-          .findRenderedDOMComponentWithClass(button, 'Button--cta'),
-        buttonClasses = buttonElem.props.className,
-        buttonContainerClasses = buttonElem.getDOMNode().parentNode.className;
-
+    const button = React.render(
+      <Button fullscreen={true} />,
+      global.document.body
+    );
+    const buttonElem = ReactTestUtils
+      .findRenderedDOMComponentWithClass(button, 'Button--cta');
+    const buttonClasses = buttonElem.props.className;
+    const buttonContainerClasses = buttonElem.getDOMNode().parentNode.className;
 
     expect(buttonClasses)
       .toMatch('u-sizeFull');
@@ -61,14 +60,13 @@ describe('Button component', function() {
   });
 
   it('should not have rtl classes when rtl prop is false', function() {
-    var button = React.render(
-          <Button />,
-          global.document.body
-        ),
-        buttonElem = ReactTestUtils
-          .findRenderedDOMComponentWithClass(button, 'Button--cta'),
-        buttonContainerClasses = buttonElem.getDOMNode().parentNode.className;
-
+    const button = React.render(
+      <Button />,
+      global.document.body
+    );
+    const buttonElem = ReactTestUtils
+      .findRenderedDOMComponentWithClass(button, 'Button--cta');
+    const buttonContainerClasses = buttonElem.getDOMNode().parentNode.className;
 
     expect(buttonContainerClasses)
       .not.toMatch('u-textLeft');
@@ -78,14 +76,13 @@ describe('Button component', function() {
   });
 
   it('should have rtl classes when rtl prop is true', function() {
-    var button = React.render(
-          <Button rtl={true} />,
-          global.document.body
-        ),
-        buttonElem = ReactTestUtils
-          .findRenderedDOMComponentWithClass(button, 'Button--cta'),
-        buttonContainerClasses = buttonElem.getDOMNode().parentNode.className;
-
+    const button = React.render(
+      <Button rtl={true} />,
+      global.document.body
+    );
+    const buttonElem = ReactTestUtils
+      .findRenderedDOMComponentWithClass(button, 'Button--cta');
+    const buttonContainerClasses = buttonElem.getDOMNode().parentNode.className;
 
     expect(buttonContainerClasses)
       .toMatch('u-textLeft');

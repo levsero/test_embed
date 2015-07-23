@@ -1,7 +1,7 @@
 describe('i18n', function() {
-  var i18n,
-      mockRegistry,
-      i18nPath = buildSrcPath('service/i18n');
+  let i18n,
+      mockRegistry;
+  const i18nPath = buildSrcPath('service/i18n');
 
   beforeEach(function() {
     mockery.enable({useCleanCache: true});
@@ -36,7 +36,6 @@ describe('i18n', function() {
     mockery.deregisterAll();
     mockery.disable();
   });
-
 
   describe('setLocale', function() {
     it('should default setLocale to en-US', function() {
@@ -82,7 +81,8 @@ describe('i18n', function() {
   });
 
   describe('getLocaleId', function() {
-    var localeIdMap;
+    let localeIdMap;
+
     beforeEach(function() {
       localeIdMap = mockRegistry['translation/localeIdMap.json'];
     });

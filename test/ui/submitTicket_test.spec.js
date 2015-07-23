@@ -1,12 +1,12 @@
 var capturingData = {
-      name: 'submitTicket',
-      elem: '#ticketSubmissionForm'
-    },
-    browser = webdriverio.remote({
-      desiredCapabilities: {
-        browserName: 'chrome'
-      }
-    });
+  name: 'submitTicket',
+  elem: '#ticketSubmissionForm'
+};
+var browser = webdriverio.remote({
+  desiredCapabilities: {
+    browserName: 'chrome'
+  }
+});
 
 addCustomCommands(browser);
 

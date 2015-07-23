@@ -1,18 +1,18 @@
-var requireUncached = require('require-uncached');
+const requireUncached = require('require-uncached');
 
 describe('mediator', function() {
-  var mockRegistry,
+  let mockRegistry,
       mediator,
-      mediatorPath = buildSrcPath('service/mediator'),
       c,
       launcherSub,
       submitTicketSub,
       chatSub,
       helpCenterSub,
-      initSubscriptionSpies,
-      reset = function(spy) {
-        spy.calls.reset();
-      };
+      initSubscriptionSpies;
+  const reset = function(spy) {
+    spy.calls.reset();
+  };
+  const mediatorPath = buildSrcPath('service/mediator');
 
   beforeEach(function() {
     mockery.enable();
@@ -102,10 +102,10 @@ describe('mediator', function() {
 
   describe('.zopimShow', function() {
     it('doesn\'t hide launcher when on mobile', function() {
-      var launcher   = 'launcher',
-          names = {
-            launcher: launcher
-          };
+      const launcher = 'launcher';
+      const names = {
+        launcher: launcher
+      };
 
       mockRegistry['utility/devices'].isMobileBrowser = jasmine.createSpy().and.returnValue(true);
 
@@ -123,12 +123,12 @@ describe('mediator', function() {
   });
 
   describe('Ticket Submission', function() {
-    var launcher   = 'launcher',
-        submitTicket = 'ticketSubmissionForm',
-        names = {
-          launcher: launcher,
-          submitTicket: submitTicket
-        };
+    const launcher = 'launcher';
+    const submitTicket = 'ticketSubmissionForm';
+    const names = {
+      launcher: launcher,
+      submitTicket: submitTicket
+    };
 
     beforeEach(function() {
       initSubscriptionSpies(names);
@@ -278,14 +278,14 @@ describe('mediator', function() {
   });
 
   describe('Chat, Ticket Submission', function() {
-    var launcher   = 'launcher',
-        submitTicket = 'ticketSubmissionForm',
-        chat       = 'zopimChat',
-        names = {
-          launcher: launcher,
-          submitTicket: submitTicket,
-          chat: chat
-        };
+    const launcher = 'launcher';
+    const submitTicket = 'ticketSubmissionForm';
+    const chat = 'zopimChat';
+    const names = {
+      launcher: launcher,
+      submitTicket: submitTicket,
+      chat: chat
+    };
 
     beforeEach(function() {
       initSubscriptionSpies(names);
@@ -651,12 +651,12 @@ describe('mediator', function() {
   });
 
   describe('launcher final state depends on chat', function() {
-    var launcher = 'launcher',
-        chat     = 'zopimChat',
-        names    = {
-          launcher: launcher,
-          chat: chat
-        };
+    const launcher = 'launcher';
+    const chat = 'zopimChat';
+    const names = {
+      launcher: launcher,
+      chat: chat
+    };
 
     beforeEach(function() {
       initSubscriptionSpies(names);
@@ -708,14 +708,14 @@ describe('mediator', function() {
   });
 
   describe('Help Center, Ticket Submission', function() {
-    var launcher   = 'launcher',
-        submitTicket = 'ticketSubmissionForm',
-        helpCenter = 'helpCenterForm',
-        names = {
-          launcher: launcher,
-          submitTicket: submitTicket,
-          helpCenter: helpCenter
-        };
+    const launcher = 'launcher';
+    const submitTicket = 'ticketSubmissionForm';
+    const helpCenter = 'helpCenterForm';
+    const names = {
+      launcher: launcher,
+      submitTicket: submitTicket,
+      helpCenter: helpCenter
+    };
 
     beforeEach(function() {
       initSubscriptionSpies(names);
@@ -848,7 +848,7 @@ describe('mediator', function() {
       });
 
       it('triggers Ticket Submission setLastSearch with last search params', function() {
-        var params = {
+        const params = {
           searchString: 'a search',
           searchLocale: 'en-US'
         };
@@ -955,16 +955,16 @@ describe('mediator', function() {
   });
 
   describe('Help Center, Chat, Ticket Submission', function() {
-    var launcher   = 'launcher',
-        submitTicket = 'ticketSubmissionForm',
-        chat       = 'zopimChat',
-        helpCenter = 'helpCenterForm',
-        names = {
-          launcher: launcher,
-          submitTicket: submitTicket,
-          chat: chat,
-          helpCenter: helpCenter
-        };
+    const launcher = 'launcher';
+    const submitTicket = 'ticketSubmissionForm';
+    const chat = 'zopimChat';
+    const helpCenter = 'helpCenterForm';
+    const names = {
+      launcher: launcher,
+      submitTicket: submitTicket,
+      chat: chat,
+      helpCenter: helpCenter
+    };
 
     beforeEach(function() {
       initSubscriptionSpies(names);

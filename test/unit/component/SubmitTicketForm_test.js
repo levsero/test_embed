@@ -1,8 +1,8 @@
 describe('SubmitTicketForm component', function() {
-  var SubmitTicketForm,
+  let SubmitTicketForm,
       onSubmit,
-      mockRegistry,
-      submitTicketFormPath = buildSrcPath('component/SubmitTicketForm');
+      mockRegistry;
+  const submitTicketFormPath = buildSrcPath('component/SubmitTicketForm');
 
   beforeEach(function() {
 
@@ -49,7 +49,7 @@ describe('SubmitTicketForm component', function() {
   });
 
   it('should correctly render form with noValidate attribute', function() {
-    var submitTicketForm = React.render(
+    const submitTicketForm = React.render(
       <SubmitTicketForm />,
       global.document.body
     );
@@ -59,7 +59,7 @@ describe('SubmitTicketForm component', function() {
   });
 
   it('should call parent component submit when form is submitted', function() {
-    var submitTicketForm = React.render(
+    const submitTicketForm = React.render(
       <SubmitTicketForm submit={onSubmit} />,
       global.document.body
     );
@@ -71,13 +71,13 @@ describe('SubmitTicketForm component', function() {
   });
 
   it('should change state and alter submit button on valid submit', function() {
-    var submitTicketForm = React.render(
-          <SubmitTicketForm submit={onSubmit} />,
-          global.document.body
-        ),
-        submitTicketFormNode = submitTicketForm.getDOMNode(),
-        submitElem = submitTicketFormNode.querySelector('input[type="submit"]'),
-        i18n = mockRegistry['service/i18n'].i18n;
+    const submitTicketForm = React.render(
+      <SubmitTicketForm submit={onSubmit} />,
+      global.document.body
+    );
+    const submitTicketFormNode = submitTicketForm.getDOMNode();
+    const submitElem = submitTicketFormNode.querySelector('input[type="submit"]');
+    const i18n = mockRegistry['service/i18n'].i18n;
 
     i18n.t.and.returnValue('Foobar...');
 

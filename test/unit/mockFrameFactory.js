@@ -1,4 +1,4 @@
-var mockFrameMethods = {
+const mockFrameMethods = {
   show: jasmine.createSpy('mockFrameShow'),
   hide: jasmine.createSpy('mockFrameHide'),
   close: jasmine.createSpy('mockFrameClose')
@@ -8,20 +8,18 @@ exports.mockFrameMethods = mockFrameMethods;
 
 var mockFrameFactory = jasmine.createSpy('mockFrameFactory').and.callFake(
   function(childFn, params) {
-    var child;
-
-    var root = this;
-    var childParams = _.reduce(params.extend, function(res, val, key) {
-      res[key] = val.bind(root);
+    const self = this;
+    const childParams = _.reduce(params.extend, function(res, val, key) {
+      res[key] = val.bind(self);
       return res;
     }, {});
-    var Component = React.createClass({
+    const Component = React.createClass({
       render: function() {
         return (childFn(childParams));
       }
     });
 
-    child = React.render(<Component />, global.document.body);
+    const child = React.render(<Component />, global.document.body);
 
     return _.extend({
       show: mockFrameMethods.show,
