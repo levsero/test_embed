@@ -84,6 +84,9 @@
 }
 
 .Icon--back {
+  position: absolute;
+  top: #{13/$font-size}rem;;
+
   svg {
     fill: $icon-inactive-color;
     min-width: #{14/$font-size}rem; /* 1 */
