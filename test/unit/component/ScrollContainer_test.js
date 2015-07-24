@@ -59,9 +59,9 @@ describe('ScrollContainer component', function() {
     var stub = spyOn(ScrollContainer.type.prototype.__reactAutoBindMap, 'getContentContainer')
                  .and.callThrough(),
         scrollContainer = React.render(
-      <ScrollContainer fullscreen={true} />,
-      global.document.body
-    );
+          <ScrollContainer fullscreen={true} />,
+          global.document.body
+        );
 
     scrollContainer.scrollToBottom();
 
