@@ -28,7 +28,12 @@ describe('Icon component', function() {
       'icons/widget-icon_zendesk.svg': dummyIcon,
       'icons/widget-icon_icon.svg': dummyIcon,
       'icons/widget-icon_tick.svg': dummyIcon,
-      'icons/widget-icon_checkboxCheck.svg': dummyIcon
+      'icons/widget-icon_checkboxCheck.svg': dummyIcon,
+      'utility/devices': {
+        isMobileBrowser: function() {
+          return false;
+        }
+      }
     });
 
     mockery.registerAllowable(iconPath);
@@ -74,7 +79,43 @@ describe('Icon component', function() {
 
     expect(onClick)
       .toHaveBeenCalled();
+  });
 
+  it('should not have mobile classes when isMobileBrowser is false', function() {
+    var icon = React.render(
+          <Icon type="Icon--zendesk" />,
+          global.document.body
+        ),
+        iconElem = ReactTestUtils
+          .findRenderedDOMComponentWithClass(icon, 'Icon'),
+        iconClasses = iconElem.props.className;
+
+    expect(iconClasses)
+      .toMatch('Icon Icon--zendesk');
+
+    expect(iconClasses)
+      .not.toMatch('is-mobile');
+  });
+
+  it('should have mobile classes when isMobileBrowser is true', function() {
+    mockery.resetCache();
+    mockery.registerMock('utility/devices', {
+      isMobileBrowser: function isMobileBrowser() {
+        return false;
+      }
+    });
+    Icon = require(iconPath).Icon;
+
+    var icon = React.render(
+          <Icon type="Icon--zendesk" />,
+          global.document.body
+        ),
+        iconElem = ReactTestUtils
+          .findRenderedDOMComponentWithClass(icon, 'Icon'),
+        iconClasses = iconElem.props.className;
+
+    expect(iconClasses)
+      .toMatch('Icon Icon--zendesk');
   });
 
 });
