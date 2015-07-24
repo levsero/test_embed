@@ -9,8 +9,7 @@ export var ScrollContainer = React.createClass({
       React.PropTypes.element,
       React.PropTypes.array(React.PropTypes.element)
     ]),
-    fullscreen: React.PropTypes.bool,
-    scrollToBottom: React.PropTypes.bool
+    fullscreen: React.PropTypes.bool
   },
 
   getInitialState() {
@@ -27,20 +26,26 @@ export var ScrollContainer = React.createClass({
     this.checkScrollOffset();
   },
 
-  checkScrollOffset() {
+  getContentContainer() {
     const elem = React.findDOMNode(this);
-    const container = elem.querySelector('.ScrollContainer-content');
-    const scrollHeight = container.scrollHeight;
-    const scrollOffset = scrollHeight - container.offsetHeight;
+
+    return elem.querySelector('.ScrollContainer-content');
+  },
+
+  scrollToBottom() {
+    const container = this.getContentContainer();
+
+    container.scrollTop = container.scrollHeight;
+  },
+
+  checkScrollOffset() {
+    const container = this.getContentContainer();
+    const scrollOffset = container.scrollHeight - container.offsetHeight;
 
     if (scrollOffset > 0 && !this.state.scrollableContent) {
       this.setState({scrollableContent: true});
     } else if (scrollOffset === 0 && this.state.scrollableContent) {
       this.setState({scrollableContent: false});
-    }
-
-    if(this.props.scrollToBottom) {
-      container.scrollTop = scrollHeight;
     }
   },
 

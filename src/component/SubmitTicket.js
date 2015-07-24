@@ -84,11 +84,8 @@ export var SubmitTicket = React.createClass({
           this.props.updateFrameSize();
         },
         errorCallback = (msg) => {
-          let submitTicketForm = this.refs.submitTicketForm;
-
           this.setState({ errorMessage: msg });
-          submitTicketForm.failedToSubmit();
-          submitTicketForm.setState({ showErrorMessage: true });
+          this.refs.submitTicketForm.failedToSubmit();
         },
         payload = {
           method: 'post',
