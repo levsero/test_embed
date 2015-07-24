@@ -26,10 +26,21 @@ export var ScrollContainer = React.createClass({
     this.checkScrollOffset();
   },
 
+  getContentContainer() {
+    const elem = React.findDOMNode(this);
+
+    return elem.querySelector('.ScrollContainer-content');
+  },
+
+  scrollToBottom() {
+    const container = this.getContentContainer();
+
+    container.scrollTop = container.scrollHeight;
+  },
+
   checkScrollOffset() {
-    var elem = React.findDOMNode(this),
-        container = elem.querySelector('.ScrollContainer-content'),
-        scrollOffset = container.scrollHeight - container.offsetHeight;
+    const container = this.getContentContainer();
+    const scrollOffset = container.scrollHeight - container.offsetHeight;
 
     if (scrollOffset > 0 && !this.state.scrollableContent) {
       this.setState({scrollableContent: true});

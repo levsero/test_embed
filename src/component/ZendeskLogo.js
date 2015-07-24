@@ -20,12 +20,10 @@ export var ZendeskLogo = React.createClass({
         ].join('');
 
     return (
-      <div className='u-nbfc'>
-        <a href={logoUrl} target='_blank' className={logoClasses}>
-          <Icon type='Icon--zendesk' className='u-posRelative' />
-          <span className='u-isHiddenVisually'>zendesk</span>
-        </a>
-      </div>
+      <a href={logoUrl} target='_blank' className={logoClasses}>
+        <Icon type='Icon--zendesk' className='u-posRelative' />
+        <span className='u-isHiddenVisually'>zendesk</span>
+      </a>
     );
   }
 });

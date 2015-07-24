@@ -1,11 +1,15 @@
 @import '../_vars.scss';
 
 .UserContent {
-  max-width: 100%;
   word-break: break-word;
   line-height: 1.5;
   font-size: #{13/$font-size}rem;
   max-width:#{339/$font-size}rem;
+
+  &.is-mobile {
+    font-size: #{14/$font-size}rem;
+    max-width: 100%;
+  }
 
   ul {
     white-space: pre-wrap;

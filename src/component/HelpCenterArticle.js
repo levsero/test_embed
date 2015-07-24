@@ -86,8 +86,9 @@ var HelpCenterArticle = React.createClass({
 
   render() {
     var userContentClasses = classSet({
-          'UserContent u-userLinkColor': true
-        });
+      'UserContent u-userLinkColor': true,
+      'is-mobile': this.props.fullscreen
+    });
 
     return (
       /* jshint camelcase:false */

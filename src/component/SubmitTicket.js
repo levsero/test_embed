@@ -139,7 +139,7 @@ export var SubmitTicket = React.createClass({
           'u-isHidden': !this.state.showNotification
         }),
         errorClasses = classSet({
-          'Error': true,
+          'Error u-marginTL': true,
           'u-isHidden': !this.state.errorMessage
         }),
         zendeskLogo;
@@ -149,7 +149,7 @@ export var SubmitTicket = React.createClass({
     }
 
     /* jshint laxbreak: true */
-    zendeskLogo = this.props.hideZendeskLogo
+    zendeskLogo = this.props.hideZendeskLogo || this.state.fullscreen
                 ? null
                 : <ZendeskLogo
                     formSuccess={this.state.showNotification}

@@ -19,7 +19,8 @@ export const SubmitTicketForm = React.createClass({
       isSubmitting: false,
       isRTL: i18n.isRTL(),
       removeTicketForm: false,
-      formState: {}
+      formState: {},
+      showErrorMessage: false
     };
   },
 
@@ -90,6 +91,8 @@ export const SubmitTicketForm = React.createClass({
       isSubmitting: false,
       buttonMessage: this.getInitialState().buttonMessage
     });
+
+    this.refs.scrollContainer.scrollToBottom();
   },
 
   handleSubmit(e) {
@@ -181,6 +184,7 @@ export const SubmitTicketForm = React.createClass({
         ref='form'
         className={formClasses}>
         <ScrollContainer
+          ref='scrollContainer'
           title={i18n.t('embeddable_framework.submitTicket.form.title')}
           footerContent={
             <ButtonGroup rtl={i18n.isRTL()}>
