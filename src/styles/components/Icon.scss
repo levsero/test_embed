@@ -75,9 +75,8 @@
   padding: 0;
 
   &.is-mobile {
-    position: absolute;
-    top: #{16/$font-size}rem;
-    left: #{11/$font-size}rem;
+    display: block;
+    margin-top: #{2/$font-size}rem;
   }
 
   svg {
@@ -90,11 +89,12 @@
 }
 
 .Icon--back {
-  position: absolute;
-  top: #{13/$font-size}rem;
+  display: block;
+  margin-top: #{-2/$font-size}rem;
 
   &.is-mobile {
-    top: #{14/$font-size}rem;
+    margin-top: 0;
+    padding-left: #{1/$font-size}rem;;
   }
 
   svg {
