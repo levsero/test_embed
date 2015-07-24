@@ -101,7 +101,7 @@ describe('Icon component', function() {
     mockery.resetCache();
     mockery.registerMock('utility/devices', {
       isMobileBrowser: function isMobileBrowser() {
-        return false;
+        return true;
       }
     });
     Icon = require(iconPath).Icon;
@@ -116,6 +116,9 @@ describe('Icon component', function() {
 
     expect(iconClasses)
       .toMatch('Icon Icon--zendesk');
+
+    expect(iconClasses)
+      .toMatch('is-mobile');
   });
 
 });
