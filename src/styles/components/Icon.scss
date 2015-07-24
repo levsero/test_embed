@@ -74,6 +74,12 @@
 .Icon--close {
   padding: 0;
 
+  &.is-mobile {
+    position: absolute;
+    top: #{16/$font-size}rem;
+    left: #{11/$font-size}rem;
+  }
+
   svg {
     fill: $icon-inactive-color;
     min-width: #{10/$font-size}rem; /* 1 */
@@ -85,7 +91,11 @@
 
 .Icon--back {
   position: absolute;
-  top: #{13/$font-size}rem;;
+  top: #{13/$font-size}rem;
+
+  &.is-mobile {
+    top: #{14/$font-size}rem;
+  }
 
   svg {
     fill: $icon-inactive-color;

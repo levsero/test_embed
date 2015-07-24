@@ -1,5 +1,7 @@
 import React from 'react/addons';
 
+import { isMobileBrowser } from 'utility/devices';
+
 var icons = {
       'Icon--link': require('icons/widget-icon_link.svg'),
       'Icon--back': require('icons/widget-icon_back.svg'),
@@ -28,7 +30,8 @@ export var Icon = React.createClass({
 
   render: function() {
     var icon = icons[this.props.type],
-        iconClasses = `Icon ${this.props.type} ${this.props.className}`;
+        fullscreen = React.addons.classSet({ 'is-mobile': isMobileBrowser() }),
+        iconClasses = `Icon ${this.props.type} ${this.props.className} ` + fullscreen;
 
     return (
       <span
