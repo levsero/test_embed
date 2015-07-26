@@ -684,7 +684,10 @@ describe('mediator', function() {
 
         reset(helpCenterSub.hide);
         reset(submitTicketSub.show);
+
+        jasmine.clock().install();
         c.broadcast(`${helpCenter}.onNextClick`);
+        jasmine.clock().tick(0);
 
         expect(helpCenterSub.hide.calls.count())
           .toEqual(1);
@@ -751,7 +754,10 @@ describe('mediator', function() {
 
         reset(helpCenterSub.show);
         reset(submitTicketSub.hide);
+
+        jasmine.clock().install();
         c.broadcast(`${submitTicket}.onBackClick`);
+        jasmine.clock().tick(0);
 
         expect(helpCenterSub.show.calls.count())
           .toEqual(1);
@@ -960,7 +966,10 @@ describe('mediator', function() {
 
         reset(helpCenterSub.hide);
         reset(chatSub.show);
+
+        jasmine.clock().install();
         c.broadcast(`${helpCenter}.onNextClick`);
+        jasmine.clock().tick(0);
 
         expect(helpCenterSub.hide.calls.count())
           .toEqual(1);
@@ -974,7 +983,10 @@ describe('mediator', function() {
 
         reset(helpCenterSub.hide);
         reset(submitTicketSub.show);
+
+        jasmine.clock().install();
         c.broadcast(`${helpCenter}.onNextClick`);
+        jasmine.clock().tick(0);
 
         expect(helpCenterSub.hide.calls.count())
           .toEqual(1);
@@ -1198,7 +1210,10 @@ describe('mediator', function() {
 
         reset(helpCenterSub.show);
         reset(submitTicketSub.hide);
+
+        jasmine.clock().install();
         c.broadcast(`${submitTicket}.onBackClick`);
+        jasmine.clock().tick(0);
 
         expect(helpCenterSub.show.calls.count())
           .toEqual(1);

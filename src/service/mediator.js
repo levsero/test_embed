@@ -173,11 +173,17 @@ function init(helpCenterAvailable, hideLauncher) {
     } else {
       state[`${submitTicket}.isVisible`] = true;
       state.activeEmbed = submitTicket;
-      c.broadcast(`${submitTicket}.show`);
+
+      setTimeout(function() {
+        c.broadcast(`${submitTicket}.show`);
+      }, 0);
     }
 
     state[`${helpCenter}.isVisible`] = false;
-    c.broadcast(`${helpCenter}.hide`);
+
+    setTimeout(function() {
+      c.broadcast(`${helpCenter}.hide`);
+    }, 0);
 
     if (isMobileBrowser()) {
       c.broadcast(`${submitTicket}.showBackButton`);
@@ -242,8 +248,12 @@ function init(helpCenterAvailable, hideLauncher) {
     state[`${helpCenter}.isVisible`]   = true;
     state.activeEmbed = helpCenter;
 
-    c.broadcast(`${submitTicket}.hide`);
-    c.broadcast(`${helpCenter}.show`);
+    setTimeout(function() {
+      c.broadcast(`${submitTicket}.hide`)
+    }, 0);
+    setTimeout(function() {
+      c.broadcast(`${helpCenter}.show`)
+    }, 0);
   });
 
   c.intercept(`${submitTicket}.onCancelClick`, function() {
