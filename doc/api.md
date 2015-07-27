@@ -14,6 +14,8 @@ You can use the `zE.identify`, `zE.hide`, `zE.show`, and `zE.activate` methods b
 
 **Note**: If you're looking for the Widget code for your pages, you can get it from the admin pages of your Zendesk account. After signing in to your Zendesk, click the Admin icon (![icon](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/manage_icon.png)) in the sidebar and select **Channels** >  **Widget**.
 
+For more information on setting up the Web Widget, this [support article](https://support.zendesk.com/hc/en-us/articles/203908456-Using-Web-Widget-to-embed-customer-service-in-your-website) will guide you through your setup.
+
 ### zE.setLocale
 
 `zE.setLocale(locale)`
@@ -130,5 +132,3 @@ For example, when someone clicks a 'Contact' button of your website, you could c
 ```
 
 Note: Calling `zE.activate()` will also display the widget if it is hidden, you do not need to call `zE.show()` to use `zE.activate()`.
-
-For more information on setting up the Web Widget, this [support article](https://support.zendesk.com/hc/en-us/articles/203908456-Using-Web-Widget-to-embed-customer-service-in-your-website) will guide you through your setup.
