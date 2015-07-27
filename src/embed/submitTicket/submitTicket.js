@@ -1,13 +1,13 @@
 import React from 'react/addons';
 
 import { document,
-         getDocumentHost } from 'utility/globals';
-import { SubmitTicket }    from 'component/SubmitTicket';
-import { frameFactory }    from 'embed/frameFactory';
+         getDocumentHost }   from 'utility/globals';
+import { SubmitTicket }      from 'component/SubmitTicket';
+import { frameFactory }      from 'embed/frameFactory';
 import { isMobileBrowser,
-         isIE }            from 'utility/devices';
-import { beacon }          from 'service/beacon';
-import { mediator }        from 'service/mediator';
+         isIE }              from 'utility/devices';
+import { beacon }            from 'service/beacon';
+import { mediator }          from 'service/mediator';
 import { setScaleLock,
          setScrollKiller,
          setWindowScroll,

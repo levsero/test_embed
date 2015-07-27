@@ -2,8 +2,8 @@ import _     from 'lodash';
 import Color from 'color';
 
 import { win, document as doc } from 'utility/globals';
-import { getSizingRatio }  from 'utility/devices';
-import { mediator }        from 'service/mediator';
+import { getSizingRatio }       from 'utility/devices';
+import { mediator }             from 'service/mediator';
 
 var clickBusterClicks = [];
 var oldWindowScrollY = null;
