@@ -8,7 +8,6 @@ import { mediator }             from 'service/mediator';
 var clickBusterClicks = [];
 var oldWindowScrollY = null;
 var scrollKillerActive = false;
-var oldHostHtmlStyle;
 var oldHostBodyStyle;
 
 function generateUserCSS(params) {
@@ -200,16 +199,13 @@ function setScrollKiller(enable) {
   if (enable) {
     if (!scrollKillerActive) {
       oldHostBodyStyle = doc.body.getAttribute('style');
-      oldHostHtmlStyle = doc.documentElement.getAttribute('style') || '';
 
-      doc.body.setAttribute('style', oldHostBodyStyle + ';overflow:hidden;height:1px');
-      doc.documentElement.setAttribute('style', oldHostHtmlStyle + ';overflow:hidden;height:1px');
+      doc.body.setAttribute('style', oldHostBodyStyle + ';position:fixed;');
       scrollKillerActive = true;
     }
   } else {
     if (scrollKillerActive) {
       doc.body.setAttribute('style', oldHostBodyStyle);
-      doc.documentElement.setAttribute('style', oldHostHtmlStyle);
       scrollKillerActive = false;
     }
   }
