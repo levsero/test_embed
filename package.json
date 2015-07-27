@@ -38,6 +38,7 @@
     "karma": "~0.12.37",
     "karma-phantomjs-launcher": "~0.1.4",
     "karma-coverage": "~0.2.1",
+    "karma-jasmine": "~0.3.6",
     "css-loader": "^0.6.12",
     "gulp-util": "^2.2.14",
     "webpack": "^1.1.8",
