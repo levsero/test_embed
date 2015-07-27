@@ -1,11 +1,15 @@
 import _     from 'lodash';
 import Color from 'color';
 
-import { document as doc } from 'utility/globals';
+import { win, document as doc } from 'utility/globals';
 import { getSizingRatio }  from 'utility/devices';
 import { mediator }        from 'service/mediator';
 
 var clickBusterClicks = [];
+var oldWindowScrollY = null;
+var scrollKillerActive = false;
+var oldHostHtmlStyle;
+var oldHostBodyStyle;
 
 function generateUserCSS(params) {
   if (params.color) {
@@ -178,6 +182,39 @@ function getFrameworkLoadTime() {
   return loadTime >= 0 ? loadTime : undefined;
 }
 
+function setWindowScroll(y) {
+  if (oldWindowScrollY === null) {
+    oldWindowScrollY = win.scrollY;
+  }
+  win.scrollTo(win.scrollX, y);
+}
+
+function revertWindowScroll() {
+  if (oldWindowScrollY !== null) {
+    win.scrollTo(win.scrollX, oldWindowScrollY);
+    oldWindowScrollY = null;
+  }
+}
+
+function setScrollKiller(enable) {
+  if (enable) {
+    if (!scrollKillerActive) {
+      oldHostBodyStyle = doc.body.getAttribute('style');
+      oldHostHtmlStyle = doc.documentElement.getAttribute('style') || '';
+
+      doc.body.setAttribute('style', oldHostBodyStyle + ";overflow:hidden;height:1px");
+      doc.documentElement.setAttribute('style', oldHostHtmlStyle + ";overflow:hidden;height:1px");
+      scrollKillerActive = true;
+    }
+  } else {
+    if (scrollKillerActive) {
+      doc.body.setAttribute('style', oldHostBodyStyle);
+      doc.documentElement.setAttribute('style', oldHostHtmlStyle);
+      scrollKillerActive = false;
+    }
+  }
+}
+
 export {
   parseUrl,
   setScaleLock,
@@ -185,5 +222,8 @@ export {
   clickBusterHandler,
   metaStringToObj,
   getFrameworkLoadTime,
-  generateUserCSS
+  generateUserCSS,
+  setScrollKiller,
+  setWindowScroll,
+  revertWindowScroll
 };

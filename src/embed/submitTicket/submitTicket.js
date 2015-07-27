@@ -9,7 +9,7 @@ import { isMobileBrowser,
          isIE }            from 'utility/devices';
 import { beacon }          from 'service/beacon';
 import { mediator }        from 'service/mediator';
-import { generateUserCSS } from 'utility/utils';
+import { setScrollKiller, setWindowScroll, revertWindowScroll, generateUserCSS } from 'utility/utils';
 
 var submitTicketCSS = require('./submitTicket.scss'),
     submitTickets = {};
@@ -82,6 +82,8 @@ function create(name, config) {
       onShow(child) {
         if (isMobileBrowser()) {
           setScaleLock(true);
+          setScrollKiller(true);
+          setWindowScroll(0);
         }
         child.refs.submitTicket.refs.submitTicketForm.resetTicketFormVisibility();
         if (!isMobileBrowser()) {
@@ -97,6 +99,8 @@ function create(name, config) {
       onHide(child) {
         if (isMobileBrowser()) {
           setScaleLock(false);
+          setScrollKiller(false);
+          revertWindowScroll();
           child.refs.submitTicket.refs.submitTicketForm.hideVirtualKeyboard();
         }
         child.refs.submitTicket.clearNotification();
