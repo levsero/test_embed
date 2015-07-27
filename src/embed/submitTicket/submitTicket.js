@@ -4,12 +4,15 @@ import { document,
          getDocumentHost } from 'utility/globals';
 import { SubmitTicket }    from 'component/SubmitTicket';
 import { frameFactory }    from 'embed/frameFactory';
-import { setScaleLock }    from 'utility/utils';
 import { isMobileBrowser,
          isIE }            from 'utility/devices';
 import { beacon }          from 'service/beacon';
 import { mediator }        from 'service/mediator';
-import { setScrollKiller, setWindowScroll, revertWindowScroll, generateUserCSS } from 'utility/utils';
+import { setScaleLock,
+         setScrollKiller,
+         setWindowScroll,
+         revertWindowScroll,
+         generateUserCSS }   from 'utility/utils';
 
 var submitTicketCSS = require('./submitTicket.scss'),
     submitTickets = {};

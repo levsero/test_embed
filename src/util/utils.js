@@ -202,8 +202,8 @@ function setScrollKiller(enable) {
       oldHostBodyStyle = doc.body.getAttribute('style');
       oldHostHtmlStyle = doc.documentElement.getAttribute('style') || '';
 
-      doc.body.setAttribute('style', oldHostBodyStyle + ";overflow:hidden;height:1px");
-      doc.documentElement.setAttribute('style', oldHostHtmlStyle + ";overflow:hidden;height:1px");
+      doc.body.setAttribute('style', oldHostBodyStyle + ';overflow:hidden;height:1px');
+      doc.documentElement.setAttribute('style', oldHostHtmlStyle + ';overflow:hidden;height:1px');
       scrollKillerActive = true;
     }
   } else {
