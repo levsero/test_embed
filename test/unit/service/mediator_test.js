@@ -757,7 +757,7 @@ describe('mediator', function() {
 
         jasmine.clock().install();
         c.broadcast(`${submitTicket}.onBackClick`);
-        jasmine.clock().tick(0);
+        jasmine.clock().tick(10);
 
         expect(helpCenterSub.show.calls.count())
           .toEqual(1);
@@ -1213,7 +1213,7 @@ describe('mediator', function() {
 
         jasmine.clock().install();
         c.broadcast(`${submitTicket}.onBackClick`);
-        jasmine.clock().tick(0);
+        jasmine.clock().tick(10);
 
         expect(helpCenterSub.show.calls.count())
           .toEqual(1);

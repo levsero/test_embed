@@ -178,7 +178,8 @@ export var frameFactory = function(childFn, _params) {
       }
     },
 
-    back: function() {
+    back: function(ev) {
+      ev.preventDefault();
       if (params.onBack) {
         params.onBack(child);
       }
@@ -255,7 +256,7 @@ export var frameFactory = function(childFn, _params) {
               'u-pullLeft': this.props.position === 'left'
             }),
             closeButton = (<ButtonNav
-                            handleClick={this.close}
+                            onClick={this.close}
                             label={
                               <Icon
                                 type='Icon--close'
@@ -265,7 +266,7 @@ export var frameFactory = function(childFn, _params) {
                             position='right'
                             fullscreen={fullscreen} />),
             backButton = (<ButtonNav
-                           handleClick={this.back}
+                           onClick={this.back}
                            label={
                              <Icon
                                type='Icon--back'

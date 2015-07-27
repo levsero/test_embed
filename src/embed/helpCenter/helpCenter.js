@@ -29,7 +29,7 @@ function create(name, config) {
       },
       posObj,
       iframeStyle,
-      onButtonClick = function() {
+      onNextClick = function() {
         mediator.channel.broadcast(name + '.onNextClick');
       },
       showBackButton = function() {
@@ -67,7 +67,7 @@ function create(name, config) {
           <HelpCenter
             ref='helpCenter'
             zendeskHost={transport.getZendeskHost()}
-            onButtonClick={onButtonClick}
+            onNextClick={onNextClick}
             showBackButton={showBackButton}
             onSearch={onSearch}
             hideZendeskLogo={config.hideZendeskLogo}
@@ -97,7 +97,9 @@ function create(name, config) {
         if (isMobileBrowser()) {
           setScaleLock(true);
         }
-        child.refs.helpCenter.focusField();
+        if (!isMobileBrowser()) {
+          child.refs.helpCenter.focusField();
+        }
         child.refs.helpCenter.resetSearchFieldState();
       },
       onClose() {

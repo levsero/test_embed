@@ -8,7 +8,7 @@ var Button = React.createClass({
   propTypes: {
     label: React.PropTypes.string.isRequired,
     disabled: React.PropTypes.bool,
-    handleClick: React.PropTypes.func,
+    onClick: React.PropTypes.func,
     type: React.PropTypes.string
   },
 
@@ -28,8 +28,8 @@ var Button = React.createClass({
       <input
         type={type}
         value={this.props.label}
-        onClick={this.props.handleClick}
-        onTouchStart={this.props.handleClick}
+        onClick={this.props.onClick}
+        onTouchStart={this.props.onClick}
         disabled={this.props.disabled}
         className={buttonClasses} />
     );
@@ -55,8 +55,8 @@ var ButtonNav = React.createClass({
 
     return (
       <div
-        onClick={this.props.handleClick}
-        onTouchStart={this.props.handleClick}
+        onClick={this.props.onClick}
+        onTouchStart={this.props.onClick}
         className={buttonClasses}>
         {this.props.label}
       </div>

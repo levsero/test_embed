@@ -1,15 +1,18 @@
 import React from 'react/addons';
 
 import { document,
-         getDocumentHost } from 'utility/globals';
-import { SubmitTicket }    from 'component/SubmitTicket';
-import { frameFactory }    from 'embed/frameFactory';
-import { setScaleLock }    from 'utility/utils';
+         getDocumentHost }   from 'utility/globals';
+import { SubmitTicket }      from 'component/SubmitTicket';
+import { frameFactory }      from 'embed/frameFactory';
 import { isMobileBrowser,
-         isIE }            from 'utility/devices';
-import { beacon }          from 'service/beacon';
-import { mediator }        from 'service/mediator';
-import { generateUserCSS } from 'utility/utils';
+         isIE }              from 'utility/devices';
+import { beacon }            from 'service/beacon';
+import { mediator }          from 'service/mediator';
+import { setScaleLock,
+         setScrollKiller,
+         setWindowScroll,
+         revertWindowScroll,
+         generateUserCSS }   from 'utility/utils';
 
 var submitTicketCSS = require('./submitTicket.scss'),
     submitTickets = {};
@@ -82,9 +85,13 @@ function create(name, config) {
       onShow(child) {
         if (isMobileBrowser()) {
           setScaleLock(true);
+          setScrollKiller(true);
+          setWindowScroll(0);
         }
         child.refs.submitTicket.refs.submitTicketForm.resetTicketFormVisibility();
-        child.refs.submitTicket.refs.submitTicketForm.focusField();
+        if (!isMobileBrowser()) {
+          child.refs.submitTicket.refs.submitTicketForm.focusField();
+        }
       },
       name: name,
       afterShowAnimate(child) {
@@ -95,6 +102,8 @@ function create(name, config) {
       onHide(child) {
         if (isMobileBrowser()) {
           setScaleLock(false);
+          setScrollKiller(false);
+          revertWindowScroll();
           child.refs.submitTicket.refs.submitTicketForm.hideVirtualKeyboard();
         }
         child.refs.submitTicket.clearNotification();

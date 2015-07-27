@@ -54,6 +54,10 @@
     &.is-bigheader {
       height: calc(100% - #{174/$font-size}rem);
     }
+
+    &.is-expanded {
+      height: auto;
+    }
   }
 }
 

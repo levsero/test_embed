@@ -186,6 +186,7 @@ export const SubmitTicketForm = React.createClass({
         <ScrollContainer
           ref='scrollContainer'
           title={i18n.t('embeddable_framework.submitTicket.form.title')}
+          contentExpanded={true}
           footerContent={
             <ButtonGroup rtl={i18n.isRTL()}>
               {buttonCancel}

@@ -9,7 +9,14 @@ export var ScrollContainer = React.createClass({
       React.PropTypes.element,
       React.PropTypes.array(React.PropTypes.element)
     ]),
+    contentExpanded: React.PropTypes.bool,
     fullscreen: React.PropTypes.bool
+  },
+
+  getDefaultProps() {
+    return {
+      contentExpanded: false
+    };
   },
 
   getInitialState() {
@@ -55,7 +62,8 @@ export var ScrollContainer = React.createClass({
           'u-paddingLL u-paddingTM u-marginRS u-paddingRS': true,
           'u-paddingBM': this.state.scrollableContent,
           'is-mobile': this.props.fullscreen,
-          'is-bigheader': this.props.headerContent
+          'is-bigheader': this.props.headerContent,
+          'is-expanded': this.props.contentExpanded
         }),
         scrollFooterClasses = classSet({
           'ScrollContainer-footer': true,

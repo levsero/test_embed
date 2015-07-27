@@ -162,10 +162,10 @@ describe('embed.helpCenter', function() {
             .toHaveBeenCalledWith('carlos.onClose');
         });
 
-        it('should broadcast <name>.onNextClick with HelpCenterForm.onButtonClick', function() {
+        it('should broadcast <name>.onNextClick with HelpCenterForm.onNextClick', function() {
           var payload = childFn({});
 
-          payload.props.children.props.onButtonClick();
+          payload.props.children.props.onNextClick();
 
           expect(mockMediator.channel.broadcast)
             .toHaveBeenCalledWith('carlos.onNextClick');

@@ -128,10 +128,11 @@ var Field = React.createClass({
             'Form-fieldLabel u-textXHeight': true,
             'u-textSize15': isMobileBrowser()
           }),
-          checkboxClasses = classSet({
+          fieldInputClasses = classSet({
             'Form-checkboxInput u-isHiddenVisually': isCheckbox,
             'Form-checkboxInput--focused': this.state.focused && isCheckbox,
-            'Form-checkboxInput--invalid': this.state.hasError && this.state.blurred && isCheckbox
+            'Form-checkboxInput--invalid': this.state.hasError && this.state.blurred && isCheckbox,
+            'u-textSizeBaseMobile': isMobileBrowser()
           }),
           dropdownClasses = classSet({
             'u-isHidden': !this.props.options,
@@ -164,9 +165,9 @@ var Field = React.createClass({
             (this.props.input)
               ? React.addons.cloneWithProps(
                   this.props.input,
-                  _.extend({}, sharedProps, fieldProps, checkboxClasses)
+                _.extend({}, sharedProps, fieldProps, {className: fieldInputClasses})
                 )
-              : <input {...sharedProps} {...fieldProps} className={checkboxClasses} />
+              : <input {...sharedProps} {...fieldProps} className={fieldInputClasses} />
           }
           {
           (isCheckbox)
