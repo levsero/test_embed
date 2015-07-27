@@ -174,6 +174,8 @@ function init(helpCenterAvailable, hideLauncher) {
       state[`${submitTicket}.isVisible`] = true;
       state.activeEmbed = submitTicket;
 
+      // Run this on a seperate `tick` from helpCenter.hide
+      // to mitigate ghost-clicking
       setTimeout(function() {
         c.broadcast(`${submitTicket}.show`);
       }, 0);
@@ -181,6 +183,7 @@ function init(helpCenterAvailable, hideLauncher) {
 
     state[`${helpCenter}.isVisible`] = false;
 
+    // Run this on a seperate `tick` from submitTicket.show
     setTimeout(function() {
       c.broadcast(`${helpCenter}.hide`);
     }, 0);
@@ -248,11 +251,14 @@ function init(helpCenterAvailable, hideLauncher) {
     state[`${helpCenter}.isVisible`]   = true;
     state.activeEmbed = helpCenter;
 
+    // Run these two broadcasts on a seperate `ticks`
+    // to mitigate ghost-clicking
     setTimeout(function() {
-      c.broadcast(`${submitTicket}.hide`)
+      c.broadcast(`${submitTicket}.hide`);
     }, 0);
+
     setTimeout(function() {
-      c.broadcast(`${helpCenter}.show`)
+      c.broadcast(`${helpCenter}.show`);
     }, 0);
   });
 
