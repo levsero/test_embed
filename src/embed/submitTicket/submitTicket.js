@@ -84,7 +84,9 @@ function create(name, config) {
           setScaleLock(true);
         }
         child.refs.submitTicket.refs.submitTicketForm.resetTicketFormVisibility();
-        child.refs.submitTicket.refs.submitTicketForm.focusField();
+        if (!isMobileBrowser()) {
+          child.refs.submitTicket.refs.submitTicketForm.focusField();
+        }
       },
       name: name,
       afterShowAnimate(child) {

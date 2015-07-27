@@ -255,7 +255,7 @@ function init(helpCenterAvailable, hideLauncher) {
     // to mitigate ghost-clicking
     setTimeout(function() {
       c.broadcast(`${submitTicket}.hide`);
-    }, 0);
+    }, 10); // delay hiding so we don't see host page flashing
 
     setTimeout(function() {
       c.broadcast(`${helpCenter}.show`);

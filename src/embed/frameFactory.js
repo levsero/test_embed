@@ -178,7 +178,8 @@ export var frameFactory = function(childFn, _params) {
       }
     },
 
-    back: function() {
+    back: function(ev) {
+      ev.preventDefault();
       if (params.onBack) {
         params.onBack(child);
       }

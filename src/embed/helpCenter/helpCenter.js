@@ -97,7 +97,9 @@ function create(name, config) {
         if (isMobileBrowser()) {
           setScaleLock(true);
         }
-        child.refs.helpCenter.focusField();
+        if (!isMobileBrowser()) {
+          child.refs.helpCenter.focusField();
+        }
         child.refs.helpCenter.resetSearchFieldState();
       },
       onClose() {
