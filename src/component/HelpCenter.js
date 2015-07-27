@@ -197,6 +197,11 @@ export var HelpCenter = React.createClass({
     }
   },
 
+  handleNextClick(ev) {
+    ev.preventDefault();
+    this.props.onNextClick();
+  },
+
   trackSearch() {
     transport.send({
       method: 'get',
@@ -359,7 +364,7 @@ export var HelpCenter = React.createClass({
                 <Button
                   fullscreen={this.state.fullscreen}
                   label={this.state.buttonLabel}
-                  handleClick={this.props.onButtonClick} />
+                  onClick={this.handleNextClick} />
               </ButtonGroup>
             </div>
           }
@@ -375,7 +380,7 @@ export var HelpCenter = React.createClass({
               {!this.state.hasSearched && searchField}
               <div className={linkClasses}>
                 <p className='u-marginBN'>{linkContext}</p>
-                <a className='u-userTextColor' onClick={this.props.onButtonClick}>
+                <a className='u-userTextColor' onClick={this.handleNextClick}>
                   {linkLabel}
                 </a>
               </div>
