@@ -18,7 +18,7 @@ function create(name, config) {
   var containerStyle,
       iframeBase = {
         position: 'fixed',
-        bottom: 50
+        bottom: 0
       },
       configDefaults = {
         position: 'right',
@@ -40,6 +40,9 @@ function create(name, config) {
           });
         mediator.channel.broadcast(name + '.onFormSubmitted');
       },
+      onCancel = function() {
+        mediator.channel.broadcast(name + '.onCancelClick');
+      },
       Embed;
 
   config = _.extend(configDefaults, config);
@@ -49,10 +52,10 @@ function create(name, config) {
     containerStyle = { width: '100%', height: '100%' };
   } else {
     posObj = (config.position === 'left')
-           ? { left:  5 }
-           : { right: 5 };
-    iframeBase.minWidth = 400;
-    containerStyle = { minWidth: 400, margin: 15 };
+           ? { left:  0 }
+           : { right: 0 };
+    iframeBase.width = 342;
+    containerStyle = { width: 342, margin: 15 };
   }
 
   iframeStyle = _.extend(iframeBase, posObj);
@@ -65,6 +68,7 @@ function create(name, config) {
             ref='submitTicket'
             updateFrameSize={params.updateFrameSize}
             onSubmitted={onSubmitted}
+            onCancel={onCancel}
             customFields={config.customFields}
             hideZendeskLogo={config.hideZendeskLogo}
             position={config.position}/>

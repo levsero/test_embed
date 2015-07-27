@@ -58,6 +58,7 @@ function create(name, config) {
       style: iframeStyle,
       css: launcherCSS + generateUserCSS({color: config.color}),
       name: name,
+      hideCloseButton: true,
       fullscreenable: false,
       extend: {
         onClickHandler: function(e) {
@@ -98,14 +99,6 @@ function render(name) {
   var element = getDocumentHost().appendChild(document.createElement('div'));
 
   launchers[name].instance = React.render(launchers[name].component, element);
-
-  mediator.channel.subscribe(name + '.activate', function() {
-    getChildRefs(name).launcher.setActive(true);
-  });
-
-  mediator.channel.subscribe(name + '.deactivate', function() {
-    getChildRefs(name).launcher.setActive(false);
-  });
 
   mediator.channel.subscribe(name + '.hide', function() {
     get(name).instance.hide();

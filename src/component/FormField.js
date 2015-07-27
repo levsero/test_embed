@@ -4,6 +4,7 @@ import _     from 'lodash';
 import { Loading }         from 'component/Loading';
 import { isMobileBrowser } from 'utility/devices';
 import { i18n }            from 'service/i18n';
+import { Icon }            from 'component/Icon';
 
 var classSet = React.addons.classSet,
     geti18nContent = function(field) {
@@ -62,7 +63,6 @@ var Field = React.createClass({
       React.PropTypes.number
     ]).isRequired,
     placeholder: React.PropTypes.string,
-    icon: React.PropTypes.string,
     value: React.PropTypes.oneOfType([
       React.PropTypes.string,
       React.PropTypes.number
@@ -114,58 +114,78 @@ var Field = React.createClass({
   },
 
   render() {
-    const icon = this.props.icon,
-          type = this.props.type,
+    const type = this.props.type,
           isCheckbox = (type === 'checkbox'),
-          iconFieldClasses = classSet({
-            'Arrange-sizeFill u-vsizeAll': true,
-            'u-textSize15': isMobileBrowser(),
-            'u-textSecondary': this.props.input,
-            'Form-checkbox u-isHiddenVisually': isCheckbox,
-            'Form-checkbox--focused': this.state.focused && isCheckbox,
-            'Form-checkbox--invalid': this.state.hasError && this.state.blurred && isCheckbox
-          }),
-          iconClasses = classSet({
-            'u-isHidden': !icon,
-            [`Arrange-sizeFit u-isActionable Icon Icon--${icon} u-alignTop`]: true
-          }),
           fieldClasses = classSet({
-            'Arrange Arrange--middle Form-field u-isSelectable u-posRelative': true,
+            'Form-field u-isSelectable u-posRelative': true,
             'Form-field--invalid': this.state.hasError && this.state.blurred && !isCheckbox,
             'Form-field--focused': this.state.focused && !isCheckbox,
             'Form-field--dropdown': this.props.options,
-            'Form-field--clean': isCheckbox
+            'Form-field--clean': isCheckbox,
+            'is-mobile': isMobileBrowser()
+          }),
+          fieldLabelClasses = classSet({
+            'Form-fieldLabel u-textXHeight': true,
+            'u-textSize15': isMobileBrowser()
+          }),
+          checkboxClasses = classSet({
+            'Form-checkboxInput u-isHiddenVisually': isCheckbox,
+            'Form-checkboxInput--focused': this.state.focused && isCheckbox,
+            'Form-checkboxInput--invalid': this.state.hasError && this.state.blurred && isCheckbox
           }),
           dropdownClasses = classSet({
             'u-isHidden': !this.props.options,
-            'Arrange-sizeFit Form-field__arrows': true
+            'Form-fieldArrows': true
           }),
           sharedProps = {
             onChange: this.onChange,
             onBlur: this.onBlur,
             onFocus: this.onFocus,
             ref: 'field',
-            className: iconFieldClasses,
             value: this.props.value
+          },
+          fieldProps = {
+            name: this.props.name,
+            value: this.props.value,
+            required: this.props.required,
+            label: this.props.label,
+            type: this.props.type
           };
 
     return (
-      <label className={fieldClasses}>
-        <i className={iconClasses} />
-        {
-          /* jshint laxbreak: true */
-          (this.props.input)
-            ? React.addons.cloneWithProps(this.props.input, _.extend({}, sharedProps, this.props))
-            : <input {...sharedProps} {...this.props} />
-        }
-        {
-          (this.props.label)
-            ? <span className='Form-checkboxCaption u-isActionable'>{this.props.label}</span>
+      <label className='Form-fieldContainer u-block'>
+        <div className={fieldLabelClasses}>
+          {isCheckbox ? '' : this.props.placeholder}
+          {this.props.required ? '*' : ''}
+        </div>
+        <div className={fieldClasses}>
+          {
+            /* jshint laxbreak: true */
+            (this.props.input)
+              ? React.addons.cloneWithProps(
+                  this.props.input,
+                  _.extend({}, sharedProps, fieldProps, checkboxClasses)
+                )
+              : <input {...sharedProps} {...fieldProps} className={checkboxClasses} />
+          }
+          {
+          (isCheckbox)
+            ? <div className='Form-checkbox u-pullLeft u-posRelative u-isActionable'>
+                <Icon type='Icon--check' />
+              </div>
             : null
-        }
-        <div className={dropdownClasses}>
-          <i className='Icon--dropdownArrow' />
-          <i className='Icon--dropdownArrow Icon--dropdownArrowBottom' />
+          }
+          {
+            (this.props.label)
+              ? <span className='Form-checkboxCaption u-nbfc u-isActionable'>
+                  {this.props.label}
+                </span>
+              : null
+          }
+          <div className={dropdownClasses}>
+            <i className='Icon--dropdownArrow' />
+            <i className='Icon--dropdownArrow Icon--dropdownArrowBottom' />
+          </div>
         </div>
       </label>
     );
@@ -302,22 +322,23 @@ var SearchField = React.createClass({
         }),
         searchContainerClasses = classSet({
           'u-cf': true,
-          'Form-cta--bar': this.props.hasSearched && !this.props.fullscreen,
-          'u-paddingHN u-paddingBN Form-cta--barFullscreen': this.props.fullscreen,
-          'u-marginTM': this.props.hasSearched && this.props.fullscreen,
-          'Form-cta Container-pullout': !this.props.fullscreen
+          'u-paddingTM': this.props.hasSearched,
+          'u-marginBL': !this.props.hasSearched,
+          'u-paddingHN u-paddingBN Form-cta--barFullscreen': this.props.fullscreen
         }),
         searchInputClasses = classSet({
           'Arrange Arrange--middle Form-field Form-field--search u-isSelectable': true,
-          'Form-field--focused': this.state.focused
+          'Form-field--focused': this.state.focused,
+          'is-mobile': this.props.fullscreen
         }),
         searchInputFieldClasses = classSet({
-          'Arrange-sizeFill u-paddingR Form-placeholder u-textSizeMed': true,
+          'Arrange-sizeFill u-paddingR Form-placeholder': true,
           'u-textSizeBaseMobile': this.props.fullscreen
         }),
         searchInputFieldIconClasses = classSet({
-          'Arrange-sizeFit u-isActionable Icon Icon--search': true,
-          'u-userTextColor': this.state.focused
+          'Arrange-sizeFit u-isActionable': true,
+          'u-userTextColor': this.state.focused,
+          'u-userFillColor': this.state.focused
         }),
         clearInputClasses = classSet({
           'Icon Icon--clearInput': true,
@@ -332,9 +353,10 @@ var SearchField = React.createClass({
       /* jshint quotmark:false */
       <div className={searchContainerClasses}>
         <div className={searchInputClasses}>
-          <i
+          <Icon
             className={searchInputFieldIconClasses}
-            onClick={this.props.onSearchIconClick} />
+            onClick={this.props.onSearchIconClick}
+            type='Icon--search' />
           <div className='Arrange-sizeFill u-vsizeAll u-posRelative'>
             <input
               className={searchInputFieldClasses}

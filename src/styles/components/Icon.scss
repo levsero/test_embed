@@ -8,36 +8,19 @@
  */
 @import '../_vars.scss';
 
-@font-face {
-  font-family: 'icomoon';
-  src:url('../../asset/font/icomoon.eot') format('embedded-opentype'),
-      url('../../asset/font/icomoon.woff') format('woff'),
-      url('../../asset/font/icomoon.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-
 .Icon {
-  font-family: 'icomoon';
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  min-width: #{20/$font-size}rem; /* 1 */
-  width: #{20/$font-size}rem;
-  line-height: 1;
   padding-right: #{12/$font-size}rem;
-  font-size: #{20/$font-size}rem;
-  color: $icon-color;
-
-  /* Better Font Rendering =========== */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 
   [dir='rtl'] & {
     padding-right: 0;
     padding-left: #{12/$font-size}rem;
+  }
+
+  svg {
+    min-width: #{20/$font-size}rem; /* 1 */
+    min-height: #{20/$font-size}rem; /* 1 */
+    height: #{20/$font-size}rem;
+    width: #{20/$font-size}rem;
   }
 }
 
@@ -46,156 +29,149 @@
 
   [dir='rtl'] & {
     padding-left: #{8/$font-size}rem;
-  }
-}
-
-.Icon--active {
-  padding-right: 0;
-  height: #{46/$font-size}rem;
-  width: #{46/$font-size}rem;
-  font-size: #{16/$font-size}rem;
-  line-height: #{46/$font-size}rem;
-
-  -webkit-margin-before: #{1/$font-size}rem; /* 4 */
-
-  [dir='rtl'] & {
-    padding-left: 0;
-  }
-}
-
-.Icon:before {
-  content: '\e603';
-}
-
-.Icon--chat:before {
-  content: '\e600';
-}
-
-.Icon--mail:before {
-  padding-left: #{4/$font-size}rem;;
-  content: '\e602';
-}
-
-.Icon--avatar:before {
-  padding-left: #{4/$font-size}rem;;
-  content: '\e605';
-}
-
-.Icon--msg:before {
-  padding-left: #{4/$font-size}rem;;
-  content: '\e604';
-}
-
-.Icon--arrow {
-  font-size: #{12/$font-size}rem;
-  padding-right: #{3/$font-size}rem;
-  color: $cta-color;
-
-  &:before {
-    content: '\e610';
-  }
-
-  [dir='rtl'] & {
-    padding-right: #{3/$font-size}rem;
-    padding-left: 0;
+    padding-right: 0;
   }
 }
 
 .Icon--search {
-  height: #{14/$font-size}rem;
-  width: #{14/$font-size}rem;
-  font-size: #{14/$font-size}rem;
   padding-left: #{6/$font-size}rem;
-  padding-right: #{3/$font-size}rem;
-
-  &:before {
-    content: '\e609';
-  }
+  padding-right: #{8/$font-size}rem;
 
   [dir='rtl'] & {
     padding-left: #{3/$font-size}rem;
     padding-right: #{6/$font-size}rem;
   }
-}
 
-.Icon--cross {
-  padding-right: 0;
-
-  &:before {
-    content: '\e601';
-  }
-}
-
-.Icon--close {
-  @extend .Icon--cross;
-
-  font-size: #{12/$font-size}rem;
-  padding-left: #{5/$font-size}rem;
-  color: $cta-color;
-}
-
-.Icon--clearInput {
-  @extend .Icon--cross;
-
-  height: #{16/$font-size}rem;
-  width: #{16/$font-size}rem;
-  min-width: #{16/$font-size}rem;
-  line-height: #{16/$font-size}rem;
-  font-size: #{8/$font-size}rem;
-  background: $stroke-color;
-  color: $base-color;
-  border-radius: 50%; /* 2  */
-
-  [dir='rtl'] & {
-    padding-left: 0;
-  }
-}
-
-.Icon--tick {
-  border: #{1/$font-size}rem solid $icon-color;
-  padding: #{20/$font-size}rem;
-  margin-bottom: #{20/$font-size}rem;
-  border-radius: 50%;
-  color: $cta-color;
-
-  &:before {
-    content: '\e606';
-  }
-
-  [dir='rtl'] & {
-    padding: #{20/$font-size}rem;
+  svg {
+    fill: $icon-inactive-color;
+    min-width: #{14/$font-size}rem; /* 1 */
+    min-height: #{14/$font-size}rem; /* 1 */
+    height: #{14/$font-size}rem;
+    width: #{14/$font-size}rem;
   }
 }
 
 .Icon--zendesk {
-  width: auto;
-  color: $icon-inactive-color;
-  padding-left: 5px;
-  bottom: -5;
-  clip: rect(#{20/$font-size}rem, #{80/$font-size}rem, #{40/$font-size}rem, 0px); /* 3 */
+  padding-left: $spacing-tny;
+  top: #{8/$font-size}rem;
 
-  &:hover, &:active, &:focus {
-    color: $cta-color;
+  [dir='rtl'] & {
+    padding-left: #{3/$font-size}rem;
+    padding-right: #{6/$font-size}rem;
   }
 
-  &:before {
-    content: '\e608';
-    font-size: #{60/$font-size}rem;
+  svg {
+    fill: $icon-inactive-color;
+    min-width: #{60/$font-size}rem; /* 1 */
+    width: #{60/$font-size}rem;
+
+    &:hover, &:active, &:focus {
+      fill: $cta-color;
+    }
+  }
+}
+
+.Icon--close {
+  padding: 0;
+
+  &.is-mobile {
+    display: block;
+    margin-top: #{2/$font-size}rem;
+  }
+
+  svg {
+    fill: $icon-inactive-color;
+    min-width: #{10/$font-size}rem; /* 1 */
+    min-height: #{10/$font-size}rem; /* 1 */
+    height: #{10/$font-size}rem;
+    width: #{10/$font-size}rem;
+  }
+}
+
+.Icon--back {
+  display: block;
+  margin-top: #{-2/$font-size}rem;
+
+  &.is-mobile {
+    margin-top: 0;
+    padding-left: #{1/$font-size}rem;;
+  }
+
+  svg {
+    fill: $icon-inactive-color;
+    min-width: #{14/$font-size}rem; /* 1 */
+    min-height: #{14/$font-size}rem; /* 1 */
+    height: #{14/$font-size}rem;
+    width: #{14/$font-size}rem;
+  }
+}
+
+.Icon--link {
+  padding-left: #{5/$font-size}rem;
+
+  svg {
+    min-width: #{8/$font-size}rem; /* 1 */
+    min-height: #{8/$font-size}rem; /* 1 */
+    height: #{8/$font-size}rem;
+    width: #{8/$font-size}rem;
+  }
+}
+
+.Icon--tick {
+  border: #{2/$font-size}rem solid $icon-color;
+  padding: $spacing-lrg;
+  width: #{68/$font-size}rem;
+  height: #{68/$font-size}rem;
+  box-sizing: border-box;
+  border-radius: 50%;
+  margin-bottom: #{9/$font-size}rem;
+
+  [dir='rtl'] & {
+    padding: $spacing-lrg;
+  }
+
+  svg {
+    fill: $cta-color;
+    min-width: #{24/$font-size}rem; /* 1 */
+    min-height: #{18/$font-size}rem; /* 1 */
+    width: #{24/$font-size}rem;
+    height: #{18/$font-size}rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.Icon--check {
+  svg {
+    fill: $secondary-color;
+    margin-left: #{2/$font-size}rem;
+    margin-top: #{2/$font-size}rem;
+    min-width: #{10/$font-size}rem; /* 1 */
+    min-height: #{10/$font-size}rem; /* 1 */
+    height: #{10/$font-size}rem;
+    width: #{10/$font-size}rem;
+  }
+
+  [dir='rtl'] & {
+    padding-left: 0;
+    padding-right: $spacing-tny;
   }
 }
 
 .Icon--dropdownArrow {
   display: block;
-  width: 0; 
-  height: 0; 
-  border-left: #{5/$font-size}rem solid transparent;
-  border-right: #{5/$font-size}rem solid transparent;
-  border-bottom: #{5/$font-size}rem solid $icon-color;
+  width: 0;
+  height: 0;
+  border-left: $spacing-tny solid transparent;
+  border-right: $spacing-tny solid transparent;
+  border-bottom: $spacing-tny solid $icon-color;
   margin-bottom: #{3/$font-size}rem;
 }
 
 .Icon--dropdownArrowBottom {
-  border-top: #{5/$font-size}rem solid $icon-color;
+  border-top: $spacing-tny solid $icon-color;
   border-bottom: 0;
   margin-bottom: 0;
 }

@@ -1,13 +1,15 @@
 @import '../_vars.scss';
 
 .UserContent {
-  max-width: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
   word-break: break-word;
   line-height: 1.5;
-  font-size: #{14/$font-size}rem;
+  font-size: #{13/$font-size}rem;
   max-width:#{339/$font-size}rem;
+
+  &.is-mobile {
+    font-size: #{14/$font-size}rem;
+    max-width: 100%;
+  }
 
   ul {
     white-space: pre-wrap;
@@ -70,49 +72,6 @@
 
   img {
     max-width: 100%;
-  }
-}
-
-.UserContent--scroll {
-  max-height: #{280/$font-size}rem;
-  /*
-   * Creates the shadow effect at the bottom of the scrollable container
-   */
-  background:
-    /* Shadow covers */
-    linear-gradient(transparentize($base-color, 1), $base-color 70%) 0 100%,
-
-    /* Shadows */
-    radial-gradient(farthest-side at 50% 300%, transparentize($base-shadow, 0.8), transparentize($base-shadow, 1)) 0 100%;
-  background-repeat: no-repeat;
-  background-color: $base-color;
-  background-size: 100% #{40/$font-size}rem, 100% #{5/$font-size}rem;
-  background-attachment: local, scroll;
-
-  &::-webkit-scrollbar-track {
-    margin-top: #{20/$font-size}rem;
-  }
-  /*
-   * Customise scrollbar for safari/chrome
-   */
-  &::-webkit-scrollbar {
-    box-shadow: none;
-    width: #{3/$font-size}rem;
-  }
-  &::-webkit-scrollbar-thumb {
-    background: $base-border-color;
-    border-radius: #{3/$font-size}rem;
-  }
-}
-
-.UserContent-viewArticleLink {
-  &:before {
-    content: '';
-    display: block;
-    width: #{20/$font-size}rem;
-    border-top: $thin-border-size solid $base-border-color;
-    margin-top: #{16/$font-size}rem;
-    padding-bottom: #{19/$font-size}rem;
   }
 }
 

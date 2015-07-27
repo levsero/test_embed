@@ -5,55 +5,15 @@
 @import '../_vars.scss';
 
 $Container-spacing: 25/$font-size;
-$Container--popover-arrowFullWidth: 18;
-$Container--popover-arrowWidth: $Container--popover-arrowFullWidth/2;
 
 .Container {
-  padding: #{$Container-spacing}rem;
   box-sizing: border-box;
 }
 
 .Container--popover {
   border-radius: #{8/$font-size}rem;
-  border: $thin-border-size solid $base-border-color;
   box-shadow: 0 0 #{6/$font-size}rem 0 rgba($base-shadow, .1);
   background: $base-color;
-
-  &:after, &:before {
-    top: 100%;
-    right: #{$Container--popover-arrowFullWidth}px;
-    border: solid transparent;
-    content: " ";
-    height: 0;
-    width: 0;
-    position: absolute;
-    pointer-events: none;
-  }
-
-  &:after {
-    border-color: transparent;
-    border-top-color: $base-color;
-    border-width: #{$Container--popover-arrowWidth + 2}px #{($Container--popover-arrowWidth)}px 0;
-  }
-
-  &:before {
-    border-color: transparent;
-    border-top-color: $base-border-color;
-    border-width: #{($Container--popover-arrowWidth) + 3}px #{($Container--popover-arrowWidth) + 1}px 0;
-    right: #{($Container--popover-arrowFullWidth) - 1}px;
-  }
-}
-
-.Container--popoverAlt {
-  &:after {
-    left: #{$Container--popover-arrowFullWidth}px;
-    right: auto;
-  }
-
-  &:before {
-    left: #{($Container--popover-arrowFullWidth) - 1}px;
-    right: auto;
-  }
 }
 
 .Container--fullscreen {
@@ -63,8 +23,8 @@ $Container--popover-arrowWidth: $Container--popover-arrowFullWidth/2;
 }
 
 .Container--fullscreen-center-vert {
-  padding-top: 40%; /* 1 */
-  padding-top: calc(50% - (#{40/$font-size}rem));
+  padding-top: 20%; /* 1 */
+  padding-top: calc(30% - (#{40/$font-size}rem));
 }
 
 .Container-pullout {

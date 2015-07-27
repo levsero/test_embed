@@ -66,12 +66,20 @@ describe('Help center component', function() {
             }
           }),
       },
+      'component/ScrollContainer': {
+        ScrollContainer: React.createClass({
+            render: function() {
+              return <div>{this.props.children}</div>;
+            }
+          }),
+      },
       'component/Button': {
         Button: React.createClass({
             render: function() {
               return <input className='Button' type='button' />;
             }
-          })
+          }),
+        ButtonGroup: noopReactComponent()
       },
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', [

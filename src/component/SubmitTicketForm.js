@@ -1,7 +1,10 @@
 import React from 'react/addons';
 import _     from 'lodash';
 
-import { Button }          from 'component/Button';
+import { Button,
+         ButtonSecondary,
+         ButtonGroup }     from 'component/Button';
+import { ScrollContainer } from 'component/ScrollContainer';
 import { i18n }            from 'service/i18n';
 import { Field,
          getCustomFields } from 'component/FormField';
@@ -16,13 +19,16 @@ export const SubmitTicketForm = React.createClass({
       isSubmitting: false,
       isRTL: i18n.isRTL(),
       removeTicketForm: false,
-      formState: {}
+      formState: {},
+      showErrorMessage: false
     };
   },
 
   getDefaultProps() {
     return {
-      fullscreen: false
+      fullscreen: false,
+      cancelButtonMessage: i18n.t('embeddable_framework.submitTicket.form.cancelButton.label.cancel', // jshint ignore:line
+        {fallback: 'Cancel'})
     };
   },
 
@@ -85,6 +91,8 @@ export const SubmitTicketForm = React.createClass({
       isSubmitting: false,
       buttonMessage: this.getInitialState().buttonMessage
     });
+
+    this.refs.scrollContainer.scrollToBottom();
   },
 
   handleSubmit(e) {
@@ -131,19 +139,8 @@ export const SubmitTicketForm = React.createClass({
   render() {
     var formClasses = classSet({
           'Form u-cf': true,
-          'Form--fullscreen': this.props.fullscreen,
           'u-isHidden': this.props.hide
-        }),
-        titleClasses = classSet({
-          'u-textSizeMed u-textBold u-extSizeMed u-textCenter': true,
-          'Form-ctaLegend u-posAbsolute u-posCenter': !this.props.fullscreen,
-          'u-textSizeBaseMobile': this.props.fullscreen
-        }),
-        barClasses = classSet({
-          'Form-cta u-cf Container-pullout u-paddingBS': true,
-          'Form-cta--bar u-marginBM u-paddingBL': !this.props.fullscreen
         });
-
       var customFields = getCustomFields(this.props.customFields, this.state.formState),
           /* jshint laxbreak: true */
           formBody = (this.state.removeTicketForm)
@@ -151,13 +148,11 @@ export const SubmitTicketForm = React.createClass({
                    : <div ref='formWrapper'>
                        <Field
                          placeholder={i18n.t('embeddable_framework.submitTicket.field.name.label')}
-                         icon='avatar'
                          value={this.state.formState.name}
                          name='name' />
                        <Field
                          placeholder={i18n.t('embeddable_framework.form.field.email.label')}
                          type='email'
-                         icon='mail'
                          required
                          value={this.state.formState.email}
                          name='email' />
@@ -167,14 +162,19 @@ export const SubmitTicketForm = React.createClass({
                            i18n.t('embeddable_framework.submitTicket.field.description.label')
                          }
                          required
-                         icon='msg'
                          value={this.state.formState.description}
                          name='description'
                          input={<textarea rows='5' />}
                        />
                        {customFields.checkboxes}
                        {this.props.children}
-                     </div>;
+                     </div>,
+          buttonCancel = (this.props.fullscreen)
+                       ? null
+                       : <ButtonSecondary
+                           label={this.props.cancelButtonMessage}
+                           onClick={this.props.onCancel}
+                           fullscreen={this.props.fullscreen} />;
 
     return (
       <form
@@ -183,19 +183,22 @@ export const SubmitTicketForm = React.createClass({
         onChange={this.handleUpdate}
         ref='form'
         className={formClasses}>
-        <div className={barClasses}>
-          <h2 className={titleClasses}>
-            {i18n.t('embeddable_framework.submitTicket.form.title')}
-          </h2>
-        </div>
-        {formBody}
-        <Button
-          label={this.state.buttonMessage}
-          disabled={!this.state.isValid || this.state.isSubmitting}
-          fullscreen={this.props.fullscreen}
-          type='submit'
-          rtl={i18n.isRTL()}
-        />
+        <ScrollContainer
+          ref='scrollContainer'
+          title={i18n.t('embeddable_framework.submitTicket.form.title')}
+          footerContent={
+            <ButtonGroup rtl={i18n.isRTL()}>
+              {buttonCancel}
+              <Button
+                fullscreen={this.props.fullscreen}
+                label={this.state.buttonMessage}
+                disabled={!this.state.isValid || this.state.isSubmitting}
+                type='submit' />
+            </ButtonGroup>
+          }
+          fullscreen={this.props.fullscreen}>
+          {formBody}
+        </ScrollContainer>
       </form>
     );
   }

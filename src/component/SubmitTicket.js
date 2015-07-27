@@ -6,7 +6,9 @@ import { transport }        from 'service/transport';
 import { SubmitTicketForm } from 'component/SubmitTicketForm';
 import { ZendeskLogo }      from 'component/ZendeskLogo';
 import { Container }        from 'component/Container';
+import { ScrollContainer }  from 'component/ScrollContainer';
 import { isMobileBrowser }  from 'utility/devices';
+import { Icon }             from 'component/Icon';
 import { i18n }             from 'service/i18n';
 
 var classSet = React.addons.classSet;
@@ -79,7 +81,7 @@ export var SubmitTicket = React.createClass({
             searchString: this.state.searchString,
             searchLocale: this.state.searchLocale
           });
-          this.props.updateFrameSize(0,0);
+          this.props.updateFrameSize();
         },
         errorCallback = (msg) => {
           this.setState({ errorMessage: msg });
@@ -133,28 +135,21 @@ export var SubmitTicket = React.createClass({
 
   render() {
     var notifyClasses = classSet({
-          'Notify': true,
           'u-textCenter': true,
           'u-isHidden': !this.state.showNotification
         }),
-        marketingClasses = classSet({
-          'u-isHidden': true
-        }),
         errorClasses = classSet({
-          'Error': true,
+          'Error u-marginTL': true,
           'u-isHidden': !this.state.errorMessage
         }),
-        marketingUrl = ['//www.zendesk.com/embeddables/',
-                        '?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=text'
-                       ].join(''),
         zendeskLogo;
 
     if (this.props.updateFrameSize) {
-      setTimeout( () => this.props.updateFrameSize(0, 10), 0);
+      setTimeout( () => this.props.updateFrameSize(), 0);
     }
 
     /* jshint laxbreak: true */
-    zendeskLogo = this.props.hideZendeskLogo
+    zendeskLogo = this.props.hideZendeskLogo || this.state.fullscreen
                 ? null
                 : <ZendeskLogo
                     formSuccess={this.state.showNotification}
@@ -167,18 +162,16 @@ export var SubmitTicket = React.createClass({
         fullscreen={this.state.fullscreen}
         position={this.props.position}
         key={this.state.uid}>
-        <div className={notifyClasses}>
-          <div className='Icon Icon--tick u-inlineBlock u-userTextColor' />
-          <p className='u-textBold u-textSizeMed'>{this.state.message}</p>
-          <p className={marketingClasses}>
-            <a
-              href={marketingUrl}
-              target='_blank'>
-              {i18n.t('embeddable_framework.submitTicket.marketing.message')}
-            </a>
-          </p>
+        <div className={notifyClasses} ref='notification'>
+          <ScrollContainer
+            title={this.state.message}>
+            <Icon
+              type='Icon--tick'
+              className='u-inlineBlock u-userTextColor u-posRelative u-marginTL u-userFillColor' />
+          </ScrollContainer>
         </div>
         <SubmitTicketForm
+          onCancel={this.props.onCancel}
           fullscreen={this.state.fullscreen}
           ref='submitTicketForm'
           hide={this.state.showNotification}

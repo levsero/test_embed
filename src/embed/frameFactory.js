@@ -8,6 +8,7 @@ import { clickBusterRegister } from 'utility/utils';
 import { i18n }                from 'service/i18n';
 import { snabbt }              from 'snabbt.js';
 import { ButtonNav }           from 'component/Button';
+import { Icon }                from 'component/Icon';
 
 var classSet = React.addons.classSet,
     baseCSS = require('baseCSS'),
@@ -198,8 +199,8 @@ export var frameFactory = function(childFn, _params) {
     render: function() {
       /* jshint laxbreak: true */
       var visibilityRule = (this.state.visible && !this.state.hiddenByZoom)
-                         ? {visibility: 'visible'}
-                         : {visibility: 'hidden', left: '-9999px'},
+                         ? null
+                         : {left: '-9999px'},
           iframeStyle = _.extend({
               border: 'none',
               background: 'transparent',
@@ -256,21 +257,21 @@ export var frameFactory = function(childFn, _params) {
             closeButton = (<ButtonNav
                             handleClick={this.close}
                             label={
-                              <div>
-                                {i18n.t('embeddable_framework.navigation.close')}
-                                <i className='Icon Icon--close u-textInheritColor' />
-                              </div>
+                              <Icon
+                                type='Icon--close'
+                                className='u-textInheritColor' />
                             }
+                            rtl={i18n.isRTL()}
                             position='right'
                             fullscreen={fullscreen} />),
             backButton = (<ButtonNav
                            handleClick={this.back}
                            label={
-                             <div>
-                               <i className='Icon Icon--arrow u-textInheritColor' />
-                               {i18n.t('embeddable_framework.navigation.back')}
-                             </div>
+                             <Icon
+                               type='Icon--back'
+                               className='u-textInheritColor' />
                            }
+                           rtl={i18n.isRTL()}
                            position='left'
                            fullscreen={fullscreen} />);
 
@@ -303,7 +304,7 @@ export var frameFactory = function(childFn, _params) {
                   'u-isHidden': !this.state.showBackButton
                 }),
                 closeButtonClasses = classSet({
-                  'u-isHidden': !fullscreen
+                  'u-isHidden': params.hideCloseButton
                 });
 
             return (
