@@ -55,7 +55,7 @@
       height: calc(100% - #{174/$font-size}rem);
     }
 
-    &.expand-content {
+    &.is-expanded {
       height: auto !important;
     }
   }

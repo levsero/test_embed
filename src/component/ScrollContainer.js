@@ -63,7 +63,7 @@ export var ScrollContainer = React.createClass({
           'u-paddingBM': this.state.scrollableContent,
           'is-mobile': this.props.fullscreen,
           'is-bigheader': this.props.headerContent,
-          'expand-content': this.props.contentExpanded
+          'is-expanded': this.props.contentExpanded
         }),
         scrollFooterClasses = classSet({
           'ScrollContainer-footer': true,
