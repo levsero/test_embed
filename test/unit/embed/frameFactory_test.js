@@ -378,17 +378,26 @@ describe('frameFactory', function() {
           frameContainerStyle = frameContainer.style;
 
       expect(frameContainerStyle.cssText)
-        .not.toContain('left:-9999px');
+        .not.toContain('top:-9999px');
+
+      expect(frameContainerStyle.cssText)
+        .not.toContain('bottom:auto');
 
       instance.setState({visible: false});
 
-      expect(frameContainerStyle.left)
+      expect(frameContainerStyle.top)
         .toEqual('-9999px');
+
+      expect(frameContainerStyle.bottom)
+        .toEqual('auto');
 
       instance.setState({visible: true});
 
       expect(frameContainerStyle.cssText)
-        .not.toContain('left:-9999px');
+        .not.toContain('top:-9999px');
+
+      expect(frameContainerStyle.cssText)
+        .not.toContain('bottom:auto');
     });
 
     it('has `border` css rule set to none', function() {
@@ -405,8 +414,11 @@ describe('frameFactory', function() {
       expect(frameContainerStyle.backgroundColor)
         .toEqual('#abc');
 
-      expect(frameContainerStyle.left)
+      expect(frameContainerStyle.top)
         .toEqual('-9999px');
+
+      expect(frameContainerStyle.bottom)
+        .toEqual('auto');
 
     });
 
