@@ -200,7 +200,7 @@ function setScrollKiller(enable) {
     if (!scrollKillerActive) {
       oldHostBodyStyle = doc.body.getAttribute('style');
 
-      doc.body.setAttribute('style', oldHostBodyStyle + ';position:fixed;');
+      doc.body.setAttribute('style', `${oldHostBodyStyle};position:fixed;`);
       scrollKillerActive = true;
     }
   } else {
