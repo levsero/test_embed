@@ -184,7 +184,6 @@ function render(name) {
       showBackButton: true
     });
   });
-
 }
 
 export var helpCenter = {

@@ -11,7 +11,7 @@ var isPinching,
     lastTouchEnd = 0,
     propagateFontRatioChange = (isPinching) => {
       setTimeout(() => {
-        renderer.hideByZoom((getDeviceZoom() > 2) || (Math.abs(win.orientation) === 90));
+        renderer.hideByZoom(getDeviceZoom() > 2);
         mediator.channel.broadcast('.updateZoom', getSizingRatio(isPinching));
       }, 0);
     },
