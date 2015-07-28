@@ -201,7 +201,7 @@ export var frameFactory = function(childFn, _params) {
       /* jshint laxbreak: true */
       var visibilityRule = (this.state.visible && !this.state.hiddenByZoom)
                          ? null
-                         : {left: '-9999px'},
+                         : {top: '-9999px', bottom: 'auto'},
           iframeStyle = _.extend({
               border: 'none',
               background: 'transparent',
