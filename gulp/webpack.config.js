@@ -1,5 +1,11 @@
 var path = require('path');
 var prefix = process.cwd();
+var svgoConfig = JSON.stringify({
+      plugins: [
+        {removeTitle: true},
+        {convertPathData: false}
+      ]
+    });
 
 module.exports = {
   cache: true,
@@ -25,7 +31,13 @@ module.exports = {
       },
       { test: /base\.css$/, loader: 'css', minimize: true },
       { test: /\.json$/, loader: 'json' },
-      { test: /\.(woff|eot|ttf)$/, loader: 'url' }
+      {
+        test: /\.svg$/,
+        loaders: [
+          'raw',
+          'svgo-loader?' + svgoConfig
+        ]
+      }
     ]
   },
   resolve: {
@@ -43,7 +55,8 @@ module.exports = {
       baseCSS: path.join(prefix + '/src/styles/base.css'),
       componentCSS: path.join(prefix + '/src/styles/components'),
       mainCSS: path.join(prefix + '/src/styles/main.scss'),
-      suit: 'suit/index.css'
+      suit: 'suit/index.css',
+      icons: path.join(prefix + '/src/asset/icons')
     },
     modulesDirectories: ['node_modules', 'bower_components']
   }

@@ -1,10 +1,11 @@
 import React from 'react/addons';
 
+import { Icon }            from 'component/Icon';
 import { isMobileBrowser } from 'utility/devices';
 
 const classSet = React.addons.classSet;
 
-export var Launcher = React.createClass({
+export const Launcher = React.createClass({
   propTypes: {
     onClick: React.PropTypes.func,
     updateFrameSize: React.PropTypes.func,
@@ -13,51 +14,40 @@ export var Launcher = React.createClass({
     icon: React.PropTypes.string
   },
 
-  getInitialState: function() {
+  getInitialState() {
     return {
       icon: this.props.icon,
       label: this.props.label,
-      active: false,
       hasUnreadMessages: false
     };
   },
 
-  setActive: function(value) {
-    this.setState({
-      active: value
-    });
-  },
-
-  setLabel: function(label) {
+  setLabel(label) {
     this.setState({
       label: label
     });
   },
 
-  setIcon: function(icon) {
+  setIcon(icon) {
     this.setState({
       icon: icon
     });
   },
 
-  render: function() {
+  render() {
     const buttonClasses = classSet({
       'Button Button--launcher Button--cta': true,
-      'is-mobile': isMobileBrowser(),
-      'u-userBackgroundColor Arrange Arrange--middle': !this.state.active,
+      'u-userBackgroundColor Arrange Arrange--middle': true,
       'u-isActionable u-textLeft u-inlineBlock u-textNoWrap': true,
-      'Button--launcherActive': this.state.active,
-      'Button--launcherActiveAlt': this.state.active && this.props.position === 'left'
+      'is-mobile': isMobileBrowser()
     });
     const iconClasses = classSet({
       // spaces needed for class concatenation
-      'Arrange-sizeFit Icon Icon--launcher u-textInheritColor u-inlineBlock ': true,
-      'Icon--active u-textCenter Icon--cross ': this.state.active,
+      'Arrange-sizeFit Icon--launcher u-textInheritColor u-inlineBlock ': true,
       'u-paddingHN ': isMobileBrowser() && !this.state.hasUnreadMessages
     });
     const labelClasses = classSet({
-      'u-textInheritColor u-inlineBlock': true,
-      'Arrange-sizeFit': !this.state.active,
+      'Arrange-sizeFit u-textInheritColor u-inlineBlock': true,
       'u-isHidden': isMobileBrowser() && !this.state.hasUnreadMessages
     });
 
@@ -65,21 +55,15 @@ export var Launcher = React.createClass({
       setTimeout( () => this.props.updateFrameSize(5, 0), 0);
     }
 
-    /* jshint laxbreak:true */
-    let displayIcon = (!this.state.active)
-                    ? this.state.icon
-                    : '';
-    let displayLabel = (!this.state.active)
-                     ? this.state.label
-                     : '';
-
     return (
       /* jshint quotmark: false */
       <div className={buttonClasses}
         onClick={this.props.onClick}
         onTouchEnd={this.props.onClick}>
-        <i className={iconClasses + displayIcon} />
-        <span className={labelClasses}>{displayLabel}</span>
+        <Icon
+          type={this.state.icon}
+          className={iconClasses} />
+        <span className={labelClasses}>{this.state.label}</span>
       </div>
     );
   }

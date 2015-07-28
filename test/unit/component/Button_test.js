@@ -12,7 +12,10 @@ describe('Button component', function() {
     });
 
     mockRegistry = initMockRegistry({
-      'react/addons': React
+      'react/addons': React,
+      'component/Icon': {
+        Icon: noopReactComponent()
+      }
     });
 
     mockery.registerAllowable(buttonPath);
@@ -31,12 +34,8 @@ describe('Button component', function() {
       global.document.body
     );
     const buttonElem = ReactTestUtils
-      .findRenderedDOMComponentWithClass(button, 'Button--cta');
+      .findRenderedDOMComponentWithClass(button, 'c-btn');
     const buttonClasses = buttonElem.props.className;
-    const buttonContainerClasses = buttonElem.getDOMNode().parentNode.className;
-
-    expect(buttonContainerClasses)
-      .toMatch('u-textRight');
 
     expect(buttonClasses)
       .not.toMatch('u-sizeFull');
@@ -48,47 +47,11 @@ describe('Button component', function() {
       global.document.body
     );
     const buttonElem = ReactTestUtils
-      .findRenderedDOMComponentWithClass(button, 'Button--cta');
+      .findRenderedDOMComponentWithClass(button, 'c-btn');
     const buttonClasses = buttonElem.props.className;
-    const buttonContainerClasses = buttonElem.getDOMNode().parentNode.className;
 
     expect(buttonClasses)
       .toMatch('u-sizeFull');
-
-    expect(buttonContainerClasses)
-      .not.toMatch('u-textRight');
-  });
-
-  it('should not have rtl classes when rtl prop is false', function() {
-    const button = React.render(
-      <Button />,
-      global.document.body
-    );
-    const buttonElem = ReactTestUtils
-      .findRenderedDOMComponentWithClass(button, 'Button--cta');
-    const buttonContainerClasses = buttonElem.getDOMNode().parentNode.className;
-
-    expect(buttonContainerClasses)
-      .not.toMatch('u-textLeft');
-
-    expect(buttonContainerClasses)
-      .toMatch('u-textRight');
-  });
-
-  it('should have rtl classes when rtl prop is true', function() {
-    const button = React.render(
-      <Button rtl={true} />,
-      global.document.body
-    );
-    const buttonElem = ReactTestUtils
-      .findRenderedDOMComponentWithClass(button, 'Button--cta');
-    const buttonContainerClasses = buttonElem.getDOMNode().parentNode.className;
-
-    expect(buttonContainerClasses)
-      .toMatch('u-textLeft');
-
-    expect(buttonContainerClasses)
-      .not.toMatch('u-textRight');
   });
 
 });

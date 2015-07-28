@@ -8,7 +8,7 @@ $Button-nudge: 5;
 
 .Button {
   font-size: $Button-baseFontSize;
-  padding: #{14/$font-size}rem #{22/$font-size}rem;
+  padding: $spacing-med $spacing-lrg;
   border-radius: #{5/$font-size}rem;
   color: $base-color;
   &:disabled {
@@ -19,9 +19,23 @@ $Button-nudge: 5;
   }
 }
 
+.ButtonGroup {
+  :last-child:not(:only-child) {
+    margin-left: #{$Button-nudge/$font-size}rem;
+  }
+
+  [dir='rtl'] & {
+    :last-child:not(:only-child) {
+      margin-right: #{$Button-nudge/$font-size}rem;
+      margin-left: 0;
+    }
+  }
+}
+
 .Button--cta {
   background: $cta-color;
   color: $base-color;
+  fill: $base-color;
   border-radius: #{5/$font-size}rem;
   font-weight: 700;
   letter-spacing: 0.4;
@@ -30,7 +44,7 @@ $Button-nudge: 5;
 }
 
 .Button--nav {
-  color: $cta-color;
+  color: $zendesk-color--aluminum;
   border: 0;
 }
 
@@ -39,23 +53,49 @@ $Button-nudge: 5;
 }
 
 .Button--launcher {
-  border-radius: 999rem; /* 1  */
+  border-radius: 999rem; /* 1 */
   border: 0;
   bottom: 0;
   letter-spacing: 0.6;
   font-size: #{15/$font-size}rem;
 }
 
-.Button--launcherActive {
-  background-color: $active-color;
-  margin-right: #{$Button-nudge/$font-size}rem;
-  padding: 0;
-  width: #{46/$font-size}rem;
-  height: #{46/$font-size}rem;
+/**
+* ZendeskGarden style override
+*/
+.c-btn--primary {
+  background: $cta-color;
+  color: rgba($base-color, .8);
+  font-size: #{13/$font-size}rem;
+  border-radius: #{4/$font-size}rem;
+  padding: #{11/$font-size}rem #{24/$font-size}rem;
+
+  &:hover, &:focus, &:active {
+    color: $base-color;
+  }
 }
 
-.Button--launcherActiveAlt {
-  margin-right: 0;
-  margin-left: #{$Button-nudge/$font-size}rem;
+.c-btn--pill {
+  color: $secondary-color;
+  padding: #{7/$font-size}rem #{14/$font-size}rem !important;
+  font-size: #{13/$font-size}rem;
+  border-radius: 999rem !important; /* 1 */
+
+  &.is-mobile {
+    border-color: $secondary-color;
+  }
+
+  &:last-child {
+    padding-right: 0 !important;
+  }
+
+  &:not(:hover):not(:active) {
+    fill: $inactive-color;
+  }
 }
 
+.c-btn--secondary {
+  font-size: #{13/$font-size}rem;
+  border-radius: #{4/$font-size}rem;
+  padding: #{11/$font-size}rem #{24/$font-size}rem;
+}

@@ -1,15 +1,19 @@
 import React from 'react/addons';
 
+import { Icon } from 'component/Icon';
+
 const classSet = React.addons.classSet;
 
 export var ZendeskLogo = React.createClass({
   render() {
     /* jshint quotmark:false */
-    const applyPositionClasses = !this.props.fullscreen || this.props.formSuccess;
+    const { fullscreen, rtl, formSuccess } = this.props;
     const logoClasses = classSet({
-      'Icon Icon--zendesk u-linkClean': true,
-      'u-posAbsolute u-posEnd--vert': applyPositionClasses,
-      'u-posStart': !this.props.rtl && applyPositionClasses
+      'u-linkClean': true,
+      'u-posAbsolute u-posEnd--vert': !fullscreen || formSuccess,
+      'u-posRelative': fullscreen,
+      'u-posStart': !rtl,
+      'u-posEnd': rtl
     });
     const logoUrl = [
       '//www.zendesk.com/embeddables/',
@@ -17,11 +21,10 @@ export var ZendeskLogo = React.createClass({
     ].join('');
 
     return (
-      <div className='u-nbfc'>
-        <a href={logoUrl} target='_blank' className={logoClasses}>
-          <span className='u-isHiddenVisually'>zendesk</span>
-        </a>
-      </div>
+      <a href={logoUrl} target='_blank' className={logoClasses}>
+        <Icon type='Icon--zendesk' className='u-posRelative' />
+        <span className='u-isHiddenVisually'>zendesk</span>
+      </a>
     );
   }
 });

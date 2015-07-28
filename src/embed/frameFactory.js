@@ -8,6 +8,7 @@ import { clickBusterRegister } from 'utility/utils';
 import { i18n }                from 'service/i18n';
 import { snabbt }              from 'snabbt.js';
 import { ButtonNav }           from 'component/Button';
+import { Icon }                from 'component/Icon';
 
 const classSet = React.addons.classSet;
 const baseCSS = require('baseCSS');
@@ -176,7 +177,8 @@ export var frameFactory = function(childFn, _params) {
       }
     },
 
-    back: function() {
+    back: function(ev) {
+      ev.preventDefault();
       if (params.onBack) {
         params.onBack(child);
       }
@@ -197,8 +199,8 @@ export var frameFactory = function(childFn, _params) {
     render: function() {
       /* jshint laxbreak: true */
       const visibilityRule = (this.state.visible && !this.state.hiddenByZoom)
-                           ? {visibility: 'visible'}
-                           : {visibility: 'hidden', left: '-9999px'};
+                           ? null
+                           : {left: '-9999px'};
       const iframeStyle = _.extend(
         {
           border: 'none',
@@ -212,7 +214,7 @@ export var frameFactory = function(childFn, _params) {
       );
 
       return (
-          <iframe style={iframeStyle} id={params.name} />
+        <iframe style={iframeStyle} id={params.name} />
       );
     },
 
@@ -251,25 +253,25 @@ export var frameFactory = function(childFn, _params) {
           'u-pullLeft': this.props.position === 'left'
         });
         const closeButton = (<ButtonNav
-                                handleClick={this.close}
-                                label={
-                                  <div>
-                                    {i18n.t('embeddable_framework.navigation.close')}
-                                    <i className='Icon Icon--close u-textInheritColor' />
-                                  </div>
-                                }
-                                position='right'
-                                fullscreen={fullscreen} />);
-        const backButton = (<ButtonNav
-                               handleClick={this.back}
+                               onClick={this.close}
                                label={
-                                 <div>
-                                   <i className='Icon Icon--arrow u-textInheritColor' />
-                                   {i18n.t('embeddable_framework.navigation.back')}
-                                 </div>
+                                 <Icon
+                                   type='Icon--close'
+                                   className='u-textInheritColor' />
                                }
-                               position='left'
+                               rtl={i18n.isRTL()}
+                               position='right'
                                fullscreen={fullscreen} />);
+        const backButton = (<ButtonNav
+                              onClick={this.back}
+                              label={
+                                <Icon
+                                  type='Icon--back'
+                                  className='u-textInheritColor' />
+                              }
+                              rtl={i18n.isRTL()}
+                              position='left'
+                              fullscreen={fullscreen} />);
 
         // 1. Loop over functions in params.extend
         // 2. Re-bind them to `this` context
@@ -301,7 +303,7 @@ export var frameFactory = function(childFn, _params) {
               'u-isHidden': !this.state.showBackButton
             });
             const closeButtonClasses = classSet({
-              'u-isHidden': !fullscreen
+              'u-isHidden': params.hideCloseButton
             });
 
             return (

@@ -158,7 +158,12 @@ function boot() {
       path: '/embeddable/config',
       callbacks: {
         done(res) {
-          beacon.sendConfigLoadTime(Date.now() - configLoadStart);
+
+          // only send 1/10 times
+          if (Math.random() <= 0.1) {
+            beacon.sendConfigLoadTime(Date.now() - configLoadStart);
+          }
+
           renderer.init(res.body);
           handlePostRenderQueue(postRenderQueue);
         },

@@ -8,9 +8,11 @@ import { HelpCenterArticle } from 'component/HelpCenterArticle';
 import { SearchField }       from 'component/FormField';
 import { ZendeskLogo }       from 'component/ZendeskLogo';
 import { Container }         from 'component/Container';
+import { ScrollContainer }   from 'component/ScrollContainer';
 import { isMobileBrowser }   from 'utility/devices';
 import { i18n }              from 'service/i18n';
-import { Button }            from 'component/Button';
+import { Button,
+         ButtonGroup }       from 'component/Button';
 import { beacon }            from 'service/beacon';
 
 const classSet = React.addons.classSet;
@@ -194,6 +196,11 @@ export const HelpCenter = React.createClass({
     }
   },
 
+  handleNextClick(ev) {
+    ev.preventDefault();
+    this.props.onNextClick();
+  },
+
   trackSearch() {
     transport.send({
       method: 'get',
@@ -235,18 +242,18 @@ export const HelpCenter = React.createClass({
   },
 
   render() {
-    const listItemClasses = classSet({
-      'List-item': true,
-      'u-textSizeMed': !this.state.fullscreen,
-      'u-textSizeBaseMobile': this.state.fullscreen
-    });
+    /* jshint quotmark:false */
     const listClasses = classSet({
       'List': true,
       'u-isHidden': !this.state.articles.length,
       'u-borderNone u-marginBS List--fullscreen': this.state.fullscreen
     });
+    const listItemClasses = classSet({
+      'List-item': true,
+      'u-textSizeBaseMobile': this.state.fullscreen
+    });
     const formLegendClasses = classSet({
-      'Form-cta--title u-textSizeMed Arrange Arrange--middle u-textBody': true,
+      'u-paddingTT u-textSizeNml Arrange Arrange--middle u-textBody': true,
       'u-textSizeBaseMobile': this.state.fullscreen,
       'u-isHidden': !this.state.articles.length
     });
@@ -276,14 +283,13 @@ export const HelpCenter = React.createClass({
       'u-isHidden': this.state.articleViewActive
     });
     const buttonContainerClasses = classSet({
-      'u-borderTop u-paddingTM': this.state.articleViewActive,
       'u-marginTA': this.state.fullscreen,
       'u-isHidden': !this.state.hasSearched
     });
-    /* jshint quotmark:false */
+
     const articleTemplate = function(article, index) {
       return (
-      /* jshint camelcase:false */
+        /* jshint camelcase:false */
         <li key={_.uniqueId('article_')} className={listItemClasses}>
           <a className='u-userTextColor'
              href={article.html_url}
@@ -294,6 +300,7 @@ export const HelpCenter = React.createClass({
         </li>
       );
     };
+
     const onFocusHandler = function() {
       this.setState({searchFieldFocused: true});
     }.bind(this);
@@ -303,14 +310,14 @@ export const HelpCenter = React.createClass({
       });
     };
     const chatButtonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.chat');
-    const mobileArticleViewActive = this.state.fullscreen && this.state.articleViewActive;
-    const hideZendeskLogo = this.props.hideZendeskLogo || mobileArticleViewActive;
+    const mobileHideLogoState = this.state.fullscreen && this.state.hasSearched;
+    const hideZendeskLogo = this.props.hideZendeskLogo || mobileHideLogoState;
 
     let linkLabel,
         linkContext;
 
     if (this.props.updateFrameSize) {
-      setTimeout(() => this.props.updateFrameSize(0, 10), 0);
+      setTimeout( () => this.props.updateFrameSize(), 0);
     }
 
     if (this.state.buttonLabel === chatButtonLabel) {
@@ -340,56 +347,69 @@ export const HelpCenter = React.createClass({
     return (
       /* jshint laxbreak: true */
       <Container
-        fullscreen={this.state.fullscreen}
-        position={this.props.position}>
-        <div className={formClasses}>
-          <HelpCenterForm
-            ref='helpCenterForm'
-            onSearch={this.handleSearch}
-            onSubmit={this.handleSubmit}>
-            <h1 className={searchTitleClasses}>
-              {i18n.t('embeddable_framework.helpCenter.label.searchHelpCenter')}
-            </h1>
-            {searchField}
-            <div className={linkClasses}>
-              <p className='u-marginBN'>{linkContext}</p>
-              <a className='u-userTextColor' onClick={this.props.onButtonClick}>
-                {linkLabel}
-              </a>
+        fullscreen={this.state.fullscreen}>
+        <ScrollContainer
+          title={i18n.t('embeddable_framework.launcher.label.help')}
+          headerContent={
+            this.state.hasSearched &&
+            !this.state.articleViewActive &&
+            <HelpCenterForm
+              onSubmit={this.handleSubmit}
+              onSearch={this.handleSearch}
+              children={searchField} />
+          }
+          footerContent={
+            <div className={buttonContainerClasses}>
+              <ButtonGroup rtl={i18n.isRTL()}>
+                <Button
+                  fullscreen={this.state.fullscreen}
+                  label={this.state.buttonLabel}
+                  onClick={this.handleNextClick} />
+              </ButtonGroup>
             </div>
-            <h1 className={formLegendClasses}>
-              <span className='Arrange-sizeFill'>
-                {i18n.t('embeddable_framework.helpCenter.label.results')}
-              </span>
-            </h1>
-            <div className={noResultsClasses} id='noResults'>
-              <p className='u-marginBN u-marginTL'>
-                {this.searchNoResultsTitle()}
-              </p>
-              <p className={noResultsParagraphClasses}>
-                {this.searchNoResultsBody()}
-              </p>
-            </div>
-            <ul className={listClasses}>
-              {_.chain(this.state.articles).first(3).map(articleTemplate.bind(this)).value()}
-            </ul>
-          </HelpCenterForm>
-        </div>
+          }
+          fullscreen={this.state.fullscreen}>
+          <div className={formClasses}>
+            <HelpCenterForm
+              ref='helpCenterForm'
+              onSearch={this.handleSearch}
+              onSubmit={this.handleSubmit}>
+              <h1 className={searchTitleClasses}>
+                {i18n.t('embeddable_framework.helpCenter.label.searchHelpCenter')}
+              </h1>
+              {!this.state.hasSearched && searchField}
+              <div className={linkClasses}>
+                <p className='u-marginBN'>{linkContext}</p>
+                <a className='u-userTextColor' onClick={this.handleNextClick}>
+                  {linkLabel}
+                </a>
+              </div>
+              <h1 className={formLegendClasses}>
+                <span className='Arrange-sizeFill'>
+                  {i18n.t('embeddable_framework.helpCenter.label.results')}
+                </span>
+              </h1>
+              <div className={noResultsClasses} id='noResults'>
+                <p className='u-marginBN u-marginTL'>
+                  {this.searchNoResultsTitle()}
+                </p>
+                <p className={noResultsParagraphClasses}>
+                  {this.searchNoResultsBody()}
+                </p>
+              </div>
+              <ul className={listClasses}>
+                {_.chain(this.state.articles).first(3).map(articleTemplate.bind(this)).value()}
+              </ul>
+            </HelpCenterForm>
+          </div>
 
-        <div className={articleClasses}>
-          <HelpCenterArticle
-            activeArticle={this.state.activeArticle}
-            fullscreen={this.state.fullscreen} />
-        </div>
+          <div className={articleClasses}>
+            <HelpCenterArticle
+              activeArticle={this.state.activeArticle}
+              fullscreen={this.state.fullscreen} />
+          </div>
+        </ScrollContainer>
 
-        <div className={buttonContainerClasses}>
-          <Button
-            label={this.state.buttonLabel}
-            handleClick={this.props.onButtonClick}
-            fullscreen={this.state.fullscreen}
-            rtl={i18n.isRTL()}
-          />
-        </div>
         {zendeskLogo}
       </Container>
     );

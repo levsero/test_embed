@@ -6,7 +6,9 @@ import { transport }        from 'service/transport';
 import { SubmitTicketForm } from 'component/SubmitTicketForm';
 import { ZendeskLogo }      from 'component/ZendeskLogo';
 import { Container }        from 'component/Container';
+import { ScrollContainer }  from 'component/ScrollContainer';
 import { isMobileBrowser }  from 'utility/devices';
+import { Icon }             from 'component/Icon';
 import { i18n }             from 'service/i18n';
 
 const classSet = React.addons.classSet;
@@ -71,7 +73,6 @@ export var SubmitTicket = React.createClass({
       },
       this.formatTicketSubmission(data)
     );
-
     const resCallback = (res) => {
       this.setState({
         showNotification: true,
@@ -83,14 +84,12 @@ export var SubmitTicket = React.createClass({
         searchString: this.state.searchString,
         searchLocale: this.state.searchLocale
       });
-      this.props.updateFrameSize(0, 0);
+      this.props.updateFrameSize();
     };
-
     const errorCallback = (msg) => {
       this.setState({ errorMessage: msg });
       this.refs.submitTicketForm.failedToSubmit();
     };
-
     const payload = {
       method: 'post',
       path: '/requests/embedded/create',
@@ -139,52 +138,42 @@ export var SubmitTicket = React.createClass({
 
   render() {
     const notifyClasses = classSet({
-      'Notify': true,
       'u-textCenter': true,
       'u-isHidden': !this.state.showNotification
     });
-    const marketingClasses = classSet({
-      'u-isHidden': true
-    });
     const errorClasses = classSet({
-      'Error': true,
+      'Error u-marginTL': true,
       'u-isHidden': !this.state.errorMessage
     });
-    const marketingUrl = [
-      '//www.zendesk.com/embeddables/',
-      '?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=text'
-    ].join('');
 
     if (this.props.updateFrameSize) {
-      setTimeout( () => this.props.updateFrameSize(0, 10), 0);
+      setTimeout( () => this.props.updateFrameSize(), 0);
     }
 
     /* jshint laxbreak: true */
-    const zendeskLogo = this.props.hideZendeskLogo
+    const zendeskLogo = this.props.hideZendeskLogo || this.state.fullscreen
                       ? null
                       : <ZendeskLogo
                           formSuccess={this.state.showNotification}
                           rtl={i18n.isRTL()}
                           fullscreen={this.state.fullscreen}
-                        />;
+      />;
 
     return (
       <Container
         fullscreen={this.state.fullscreen}
         position={this.props.position}
         key={this.state.uid}>
-        <div className={notifyClasses}>
-          <div className='Icon Icon--tick u-inlineBlock u-userTextColor' />
-          <p className='u-textBold u-textSizeMed'>{this.state.message}</p>
-          <p className={marketingClasses}>
-            <a
-              href={marketingUrl}
-              target='_blank'>
-              {i18n.t('embeddable_framework.submitTicket.marketing.message')}
-            </a>
-          </p>
+        <div className={notifyClasses} ref='notification'>
+          <ScrollContainer
+            title={this.state.message}>
+            <Icon
+              type='Icon--tick'
+              className='u-inlineBlock u-userTextColor u-posRelative u-marginTL u-userFillColor' />
+          </ScrollContainer>
         </div>
         <SubmitTicketForm
+          onCancel={this.props.onCancel}
           fullscreen={this.state.fullscreen}
           ref='submitTicketForm'
           hide={this.state.showNotification}

@@ -3,17 +3,21 @@
  *    which computes to 0.9999px & borders can't be sub pixel
  *    we boost the calculation to do 1.1/12
  */
+@import 'bower_components/zd-css-settings.colors/settings.colors';
 
 $font-size: 12;
 
 $thin-border-size: #{1.1/$font-size}rem; /* 1 */
 
-$zendesk-green: #78A300;
+$zendesk-green: $zendesk-color--zendesk-green;
 
 // Button colors
 $cta-color: $zendesk-green;
 $inactive-color: #DDDDDD;
 $active-color: #8e8e8e;
+
+//Scroll Container colors
+$header-stroke: $zendesk-color--gainsboro;
 
 // Container colors
 $stroke-color: #DADADA;
@@ -21,10 +25,10 @@ $stroke-focused-color: #AEAEAE;
 $base-color: #FFFFFF;
 $base-shadow: #000000;
 $base-border-color: #E4E4E4;
-$form-cta-color: #F7F7F7;
+$form-cta-color: $zendesk-color--white-smoke;
 
 // Text colors
-$body-color: #535353;
+$body-color: $zendesk-color--dark-gray;
 $secondary-color: #939393;
 
 // Icons
@@ -38,3 +42,14 @@ $list-color: #BDBDBD;
 $error-color: #D24000;
 $error-text-color: #C14D00;
 $error-field-color: #FFE3D6;
+
+// Spacing units and rem calculations
+$lrg: 20;
+$med: 15;
+$sml: 10;
+$tny: 5;
+
+$spacing-lrg: #{$lrg/$font-size}rem;
+$spacing-med: #{$med/$font-size}rem;
+$spacing-sml: #{$sml/$font-size}rem;
+$spacing-tny: #{$tny/$font-size}rem;
