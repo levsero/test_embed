@@ -1,45 +1,52 @@
 import React from 'react/addons';
 
 import { document,
-         getDocumentHost } from 'utility/globals';
-import { SubmitTicket }    from 'component/SubmitTicket';
-import { frameFactory }    from 'embed/frameFactory';
-import { setScaleLock }    from 'utility/utils';
+         getDocumentHost }   from 'utility/globals';
+import { SubmitTicket }      from 'component/SubmitTicket';
+import { frameFactory }      from 'embed/frameFactory';
 import { isMobileBrowser,
-         isIE }            from 'utility/devices';
-import { beacon }          from 'service/beacon';
-import { mediator }        from 'service/mediator';
-import { generateUserCSS } from 'utility/utils';
+         isIE }              from 'utility/devices';
+import { beacon }            from 'service/beacon';
+import { mediator }          from 'service/mediator';
+import { setScaleLock,
+         setScrollKiller,
+         setWindowScroll,
+         revertWindowScroll,
+         generateUserCSS }   from 'utility/utils';
 
 const submitTicketCSS = require('./submitTicket.scss');
 let submitTickets = {};
 
 function create(name, config) {
-  let containerStyle,
-      posObj;
-
-  const iframeBase = {
-    position: 'fixed',
-    bottom: 50
-  };
-  const configDefaults = {
-    position: 'right',
-    customFields: [],
-    hideZendeskLogo: false
-  };
-  const onSubmitted = function(params) {
-    let ticketIdMatcher = /Request \#([0-9]+)/;
-    beacon.track(
-      'submitTicket',
-      'send',
-      name,
-      {
-        query: params.searchString,
-        ticketId: parseInt(ticketIdMatcher.exec(params.res.body.message)[1], 10),
-        locale: params.searchLocale
-      });
-    mediator.channel.broadcast(name + '.onFormSubmitted');
-  };
+  var containerStyle,
+      iframeBase = {
+        position: 'fixed',
+        bottom: 0
+      },
+      configDefaults = {
+        position: 'right',
+        customFields: [],
+        hideZendeskLogo: false
+      },
+      posObj,
+      iframeStyle,
+      onSubmitted = function(params) {
+        let ticketIdMatcher = /Request \#([0-9]+)/;
+        beacon.track(
+          'submitTicket',
+          'send',
+          name,
+          {
+            query: params.searchString,
+            ticketId: parseInt(ticketIdMatcher.exec(params.res.body.message)[1], 10),
+            locale: params.searchLocale
+          });
+        mediator.channel.broadcast(name + '.onFormSubmitted');
+      },
+      onCancel = function() {
+        mediator.channel.broadcast(name + '.onCancelClick');
+      },
+      Embed;
 
   config = _.extend(configDefaults, config);
 
@@ -48,10 +55,10 @@ function create(name, config) {
     containerStyle = { width: '100%', height: '100%' };
   } else {
     posObj = (config.position === 'left')
-           ? { left:  5 }
-           : { right: 5 };
-    iframeBase.minWidth = 400;
-    containerStyle = { minWidth: 400, margin: 15 };
+           ? { left:  0 }
+           : { right: 0 };
+    iframeBase.width = 342;
+    containerStyle = { width: 342, margin: 15 };
   }
 
   let iframeStyle = _.extend(iframeBase, posObj);
@@ -64,6 +71,7 @@ function create(name, config) {
             ref='submitTicket'
             updateFrameSize={params.updateFrameSize}
             onSubmitted={onSubmitted}
+            onCancel={onCancel}
             customFields={config.customFields}
             hideZendeskLogo={config.hideZendeskLogo}
             position={config.position}/>
@@ -77,9 +85,13 @@ function create(name, config) {
       onShow(child) {
         if (isMobileBrowser()) {
           setScaleLock(true);
+          setScrollKiller(true);
+          setWindowScroll(0);
         }
         child.refs.submitTicket.refs.submitTicketForm.resetTicketFormVisibility();
-        child.refs.submitTicket.refs.submitTicketForm.focusField();
+        if (!isMobileBrowser()) {
+          child.refs.submitTicket.refs.submitTicketForm.focusField();
+        }
       },
       name: name,
       afterShowAnimate(child) {
@@ -90,6 +102,8 @@ function create(name, config) {
       onHide(child) {
         if (isMobileBrowser()) {
           setScaleLock(false);
+          setScrollKiller(false);
+          revertWindowScroll();
           child.refs.submitTicket.refs.submitTicketForm.hideVirtualKeyboard();
         }
         child.refs.submitTicket.clearNotification();

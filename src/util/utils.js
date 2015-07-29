@@ -1,11 +1,14 @@
 import _     from 'lodash';
 import Color from 'color';
 
-import { document as doc } from 'utility/globals';
-import { getSizingRatio }  from 'utility/devices';
-import { mediator }        from 'service/mediator';
+import { win, document as doc } from 'utility/globals';
+import { getSizingRatio }       from 'utility/devices';
+import { mediator }             from 'service/mediator';
 
-let clickBusterClicks = [];
+var clickBusterClicks = [];
+var oldWindowScrollY = null;
+var scrollKillerActive = false;
+var oldHostBodyStyle;
 
 function generateUserCSS(params) {
   if (params.color) {
@@ -15,11 +18,16 @@ function generateUserCSS(params) {
       .rf-CheckboxGroup__checkbox:checked + span:before,
       .u-userTextColor:not([disabled]) {
         color: ${params.color} !important;
+        fill: ${params.color} !important;
+      }
+      .u-userFillColor:not([disabled]) svg {
+        fill: ${params.color} !important;
       }
       .u-userTextColor:not([disabled]):hover,
       .u-userTextColor:not([disabled]):active,
       .u-userTextColor:not([disabled]):focus {
         color: ${highlightColor} !important;
+        fill: ${highlightColor} !important;
       }
       .u-userBackgroundColor:not([disabled]) {
         background-color: ${params.color} !important;
@@ -166,6 +174,36 @@ function getFrameworkLoadTime() {
   return loadTime >= 0 ? loadTime : undefined;
 }
 
+function setWindowScroll(y) {
+  if (oldWindowScrollY === null) {
+    oldWindowScrollY = win.scrollY;
+  }
+  win.scrollTo(win.scrollX, y);
+}
+
+function revertWindowScroll() {
+  if (oldWindowScrollY !== null) {
+    win.scrollTo(win.scrollX, oldWindowScrollY);
+    oldWindowScrollY = null;
+  }
+}
+
+function setScrollKiller(enable) {
+  if (enable) {
+    if (!scrollKillerActive) {
+      oldHostBodyStyle = doc.body.getAttribute('style');
+
+      doc.body.setAttribute('style', `${oldHostBodyStyle};position:fixed;`);
+      scrollKillerActive = true;
+    }
+  } else {
+    if (scrollKillerActive) {
+      doc.body.setAttribute('style', oldHostBodyStyle);
+      scrollKillerActive = false;
+    }
+  }
+}
+
 export {
   parseUrl,
   setScaleLock,
@@ -173,5 +211,8 @@ export {
   clickBusterHandler,
   metaStringToObj,
   getFrameworkLoadTime,
-  generateUserCSS
+  generateUserCSS,
+  setScrollKiller,
+  setWindowScroll,
+  revertWindowScroll
 };

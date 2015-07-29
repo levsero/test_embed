@@ -1,6 +1,7 @@
 import React from 'react/addons';
 
 import { i18n } from 'service/i18n';
+import { ButtonPill } from 'component/Button';
 
 const sanitizeHtml = require('sanitize-html');
 const classSet = React.addons.classSet;
@@ -83,21 +84,14 @@ var HelpCenterArticle = React.createClass({
   },
 
   render() {
-    const userContentClasses = classSet({
-      'UserContent u-paddingTM u-paddingRS u-marginTM u-userLinkColor': true,
-      'UserContent--mobile': this.props.fullscreen,
-      'UserContent--scroll': !this.props.fullscreen
-    });
-    const barClasses = classSet({
-      'Form-cta u-cf Container-pullout': true,
-      'Form-cta--bar': !this.props.fullscreen,
-      'u-isHidden': this.props.fullscreen
+    var userContentClasses = classSet({
+      'UserContent u-userLinkColor': true,
+      'is-mobile': this.props.fullscreen
     });
 
     return (
-      /* jshint quotmark:false, camelcase:false, maxlen: false */
+      /* jshint camelcase:false */
       <div>
-        <div className={barClasses} />
         <div className={userContentClasses} ref='userContent'>
           <h1>{this.props.activeArticle.title}</h1>
           <div
@@ -106,13 +100,15 @@ var HelpCenterArticle = React.createClass({
             onClick={this.handleClick}
             onTouchStart={this.handleClick}
           />
-          <div className='u-marginBM UserContent-viewArticleLink'>
+          <div className='u-marginBM'>
             <a
-              href={this.props.activeArticle.html_url} // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
+              className='u-linkClean'
+              href={this.props.activeArticle.html_url}
               target='_blank'>
-              {i18n.t('embeddable_framework.helpCenter.article.viewLinkText', {
-                fallback: 'View original article'
-              })}
+              <ButtonPill
+                fullscreen={this.props.fullscreen}
+                label={i18n.t('embeddable_framework.helpCenter.article.viewLinkText')}
+              />
             </a>
           </div>
         </div>

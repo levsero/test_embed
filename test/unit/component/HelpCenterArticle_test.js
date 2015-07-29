@@ -34,6 +34,10 @@ describe('HelpCenterArticle component', function() {
         i18n: jasmine.createSpyObj('i18n', [
           't',
         ])
+      },
+      'imports?_=lodash!lodash': _,
+      'component/Button': {
+        ButtonPill: noopReactComponent()
       }
     });
 
@@ -46,34 +50,6 @@ describe('HelpCenterArticle component', function() {
   afterEach(function() {
     mockery.deregisterAll();
     mockery.disable();
-  });
-
-  it('should not have fullscreen classes when fullscreen is false', function() {
-    const helpCenterArticle = React.render(
-      <HelpCenterArticle activeArticle={mockArticle} />,
-      global.document.body
-    );
-    const articleNode = ReactTestUtils
-      .findRenderedDOMComponentWithClass(helpCenterArticle, 'UserContent');
-
-    const articleClasses = articleNode.props.className;
-
-    expect(articleClasses)
-      .not.toMatch('UserContent--mobile');
-  });
-
-  it('should have fullscreen classes when fullscreen is true', function() {
-    const helpCenterArticle = React.render(
-      <HelpCenterArticle activeArticle={mockArticle} fullscreen={true} />,
-      global.document.body
-    );
-    const articleNode = ReactTestUtils
-      .findRenderedDOMComponentWithClass(helpCenterArticle, 'UserContent');
-
-    const articleClasses = articleNode.props.className;
-
-    expect(articleClasses)
-      .toMatch('UserContent--mobile');
   });
 
   it('should inject html string on componentDidUpdate', function() {

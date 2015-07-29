@@ -19,10 +19,6 @@ var HelpCenterForm = React.createClass({
     this.props.onSearch();
   },
 
-  onClick() {
-    this.props.onButtonClick();
-  },
-
   render() {
     /* jshint quotmark:false */
 

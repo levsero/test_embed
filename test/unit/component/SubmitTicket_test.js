@@ -89,6 +89,13 @@ describe('Submit ticket component', function() {
             }
           }),
       },
+      'component/ScrollContainer': {
+        ScrollContainer: React.createClass({
+            render: function() {
+              return <div>{this.props.children}</div>;
+            }
+          }),
+      },
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', [
           'init',
@@ -100,6 +107,9 @@ describe('Submit ticket component', function() {
       },
       'service/transport': {
         transport: jasmine.createSpyObj('transport', ['send']),
+      },
+      'component/Icon': {
+        Icon: noopReactComponent()
       },
       'lodash': _
     });
@@ -238,12 +248,11 @@ describe('Submit ticket component', function() {
   });
 
   it('should unhide notification element on state change', function() {
-    const submitTicket = React.render(
-      <SubmitTicket />,
-      global.document.body
-    );
-    const notificationElem = ReactTestUtils
-      .findRenderedDOMComponentWithClass(submitTicket, 'Notify');
+    var submitTicket = React.render(
+          <SubmitTicket />,
+          global.document.body
+        ),
+        notificationElem = submitTicket.refs.notification;
 
     expect(notificationElem.props.className)
       .toContain('u-isHidden');

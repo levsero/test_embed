@@ -24,8 +24,21 @@ describe('FormField component', function() {
       'component/Loading': {
         Loading: noopReactComponent()
       },
+      'component/Icon': {
+        Icon: React.createClass({
+          render: function() {
+            return <span
+                    className={"Icon "+this.props.type}
+                    onClick={this.props.onClick}>
+                      <svg />
+                   </span>;
+          }
+        })
+      },
       'utility/devices': {
-        isMobileBrowser: noop
+        isMobileBrowser: function() {
+          return true;
+        }
       },
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', [
@@ -52,22 +65,25 @@ describe('FormField component', function() {
   });
 
   describe('Field', function() {
-    it('should render form field DOM with plain input', function() {
-      const field = React.render(
-        <Field
-          name='alice' />,
-        global.document.body
-      );
-      const fieldNode = field.getDOMNode();
-
-      expect(fieldNode.querySelector('input'))
-        .toBeTruthy();
-
-      expect(ReactTestUtils.findRenderedDOMComponentWithClass(field, 'Icon'))
-        .toBeTruthy();
+    it('should render form field DOM with a label wrapping two child divs', function() {
+      var field = React.render(
+            <Field
+              name='alice' />,
+            global.document.body
+          ),
+          fieldNode = field.getDOMNode();
 
       expect(fieldNode.nodeName)
         .toEqual('LABEL');
+
+      expect(fieldNode.children.length)
+        .toEqual(2);
+
+      expect(fieldNode.children[0].nodeName)
+        .toEqual('DIV');
+
+      expect(fieldNode.children[1].nodeName)
+        .toEqual('DIV');
     });
 
     it('should pass along all props to underlying input', function() {
@@ -179,6 +195,37 @@ describe('FormField component', function() {
       expect(ReactTestUtils.findRenderedDOMComponentWithClass(field, 'Form-field--invalid'))
         .toBeTruthy();
     });
+  });
+
+  it('should have mobile classes when isMobileBrowser is true', function() {
+    var field = React.render(
+          <Field />,
+          global.document.body
+        ),
+        fieldNode = field.getDOMNode();
+
+    expect(fieldNode.childNodes[0].className)
+      .toMatch('u-textSize15');
+  });
+
+  it('should not have mobile classes when isMobileBrowser is false', function() {
+    mockery.resetCache();
+    mockery.registerMock('utility/devices', {
+      isMobileBrowser: function() {
+        return false;
+      }
+    });
+
+    Field = require(formFieldPath).Field;
+
+    var field = React.render(
+          <Field />,
+          global.document.body
+        ),
+        fieldNode = field.getDOMNode();
+
+    expect(fieldNode.childNodes[0].className)
+      .not.toMatch('u-textSize15');
   });
 
   describe('getCustomFields', function() {
@@ -308,7 +355,7 @@ describe('FormField component', function() {
       );
       const searchFieldNode = searchField.getDOMNode();
 
-      ReactTestUtils.Simulate.click(searchFieldNode.querySelector('i'));
+      ReactTestUtils.Simulate.click(searchFieldNode.querySelector('.Icon--search'));
 
       expect(onSearch)
         .toHaveBeenCalled();

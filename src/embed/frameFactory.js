@@ -8,6 +8,7 @@ import { clickBusterRegister } from 'utility/utils';
 import { i18n }                from 'service/i18n';
 import { snabbt }              from 'snabbt.js';
 import { ButtonNav }           from 'component/Button';
+import { Icon }                from 'component/Icon';
 
 const classSet = React.addons.classSet;
 const baseCSS = require('baseCSS');
@@ -176,7 +177,8 @@ export var frameFactory = function(childFn, _params) {
       }
     },
 
-    back: function() {
+    back: function(ev) {
+      ev.preventDefault();
       if (params.onBack) {
         params.onBack(child);
       }
@@ -196,24 +198,23 @@ export var frameFactory = function(childFn, _params) {
 
     render: function() {
       /* jshint laxbreak: true */
-      const visibilityRule = (this.state.visible && !this.state.hiddenByZoom)
-                           ? {visibility: 'visible'}
-                           : {visibility: 'hidden', left: '-9999px'};
-      const iframeStyle = _.extend(
-        {
-          border: 'none',
-          background: 'transparent',
-          zIndex: 999998,
-          transform: 'translateZ(0)'
-        },
-        params.style,
-        this.state.iframeDimensions,
-        visibilityRule
-      );
+      var visibilityRule = (this.state.visible && !this.state.hiddenByZoom)
+                         ? null
+                         : {left: '-9999px'},
+          iframeStyle = _.extend({
+              border: 'none',
+              background: 'transparent',
+              zIndex: 999998,
+              transform: 'translateZ(0)'
+            },
+            params.style,
+            this.state.iframeDimensions,
+            visibilityRule
+          );
 
-      return (
-          <iframe style={iframeStyle} id={params.name} />
-      );
+          return (
+            <iframe style={iframeStyle} id={params.name} />
+          );
     },
 
     componentDidMount: function() {
@@ -242,34 +243,36 @@ export var frameFactory = function(childFn, _params) {
         }
 
         /* jshint laxbreak: true */
-        const cssText = baseCSS + mainCSS + params.css + baseFontCSS;
-        const css = <style dangerouslySetInnerHTML={{ __html: cssText }} />;
-        const fullscreen = isMobileBrowser() && params.fullscreenable;
-        const positionClasses = classSet({
-          'u-borderTransparent u-posRelative': true,
-          'u-pullRight': this.props.position === 'right',
-          'u-pullLeft': this.props.position === 'left'
-        });
-        const closeButton = (<ButtonNav
-                                handleClick={this.close}
-                                label={
-                                  <div>
-                                    {i18n.t('embeddable_framework.navigation.close')}
-                                    <i className='Icon Icon--close u-textInheritColor' />
-                                  </div>
-                                }
-                                position='right'
-                                fullscreen={fullscreen} />);
-        const backButton = (<ButtonNav
-                               handleClick={this.back}
-                               label={
-                                 <div>
-                                   <i className='Icon Icon--arrow u-textInheritColor' />
-                                   {i18n.t('embeddable_framework.navigation.back')}
-                                 </div>
-                               }
-                               position='left'
-                               fullscreen={fullscreen} />);
+        var cssText = baseCSS + mainCSS + params.css + baseFontCSS,
+            css = <style dangerouslySetInnerHTML={{ __html: cssText }} />,
+            Component,
+            childParams,
+            fullscreen = isMobileBrowser() && params.fullscreenable,
+            positionClasses = classSet({
+              'u-borderTransparent u-posRelative': true,
+              'u-pullRight': this.props.position === 'right',
+              'u-pullLeft': this.props.position === 'left'
+            }),
+            closeButton = (<ButtonNav
+                            onClick={this.close}
+                            label={
+                              <Icon
+                                type='Icon--close'
+                                className='u-textInheritColor' />
+                            }
+                            rtl={i18n.isRTL()}
+                            position='right'
+                            fullscreen={fullscreen} />),
+            backButton = (<ButtonNav
+                           onClick={this.back}
+                           label={
+                             <Icon
+                               type='Icon--back'
+                               className='u-textInheritColor' />
+                           }
+                           rtl={i18n.isRTL()}
+                           position='left'
+                           fullscreen={fullscreen} />);
 
         // 1. Loop over functions in params.extend
         // 2. Re-bind them to `this` context
@@ -297,12 +300,12 @@ export var frameFactory = function(childFn, _params) {
           },
 
           render() {
-            const backButtonClasses = classSet({
-              'u-isHidden': !this.state.showBackButton
-            });
-            const closeButtonClasses = classSet({
-              'u-isHidden': !fullscreen
-            });
+            var backButtonClasses = classSet({
+                  'u-isHidden': !this.state.showBackButton
+                }),
+                closeButtonClasses = classSet({
+                  'u-isHidden': params.hideCloseButton
+                });
 
             return (
               <div className={positionClasses}>

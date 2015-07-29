@@ -13,6 +13,9 @@ describe('Launcher component', function() {
         isMobileBrowser: function() {
           return false;
         }
+      },
+      'component/Icon': {
+        Icon: noopReactComponent()
       }
     });
 
@@ -48,20 +51,20 @@ describe('Launcher component', function() {
       .toEqual('testIcon');
   });
 
-  it('should change the icon when set icon is called', function() {
+  it('should change the state icon when setIcon is called', function() {
     /* jshint quotmark: false */
     const launcher = React.render(
       <Launcher label='help' />,
       global.document.body
     );
 
-    expect(global.document.body.querySelectorAll('.newIcon').length)
-      .toEqual(0);
+    expect(launcher.state.icon)
+      .not.toEqual('newIcon');
 
     launcher.setIcon('newIcon');
 
-    expect(global.document.body.querySelectorAll('.newIcon').length)
-      .toEqual(1);
+    expect(launcher.state.icon)
+      .toEqual('newIcon');
   });
 
   it('should call the updateFrameSize prop on render if it exists', function() {
@@ -94,26 +97,5 @@ describe('Launcher component', function() {
 
     expect(launcher.state.label)
       .toEqual('support');
-  });
-
-  it('should change the icon when setActive is changed', function() {
-    /* jshint quotmark: false */
-    const launcher = React.render(
-      <Launcher icon='testIcon'/>,
-      global.document.body
-    );
-
-    expect(global.document.body.querySelectorAll('.Icon--cross').length)
-      .toEqual(0);
-
-    launcher.setActive(true);
-
-    expect(global.document.body.querySelectorAll('.Icon--cross').length)
-      .toEqual(1);
-
-    launcher.setActive(false);
-
-    expect(global.document.body.querySelectorAll('.Icon--cross').length)
-      .toEqual(0);
   });
 });

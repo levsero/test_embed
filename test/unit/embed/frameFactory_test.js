@@ -36,6 +36,9 @@ describe('frameFactory', function() {
         ButtonNav: noopReactComponent()
       },
       'lodash': _,
+      'component/Icon': {
+        Icon: noop
+      },
       'baseCSS': '.base-css-file {} ',
       'mainCSS': '.main-css-file {} ',
       'snabbt.js': {
@@ -347,16 +350,15 @@ describe('frameFactory', function() {
     let instance;
 
     beforeEach(function() {
-      const payload = frameFactory(mockChildFn, {
-        style: {
-          backgroundColor: '#abc',
-          visibility: 'hidden'
-        }
-      });
-      const Embed = React.createClass(payload);
+      var payload = frameFactory(mockChildFn, {
+            style: {
+              backgroundColor: '#abc'
+            }
+          }),
+          Embed = React.createClass(payload);
 
       instance = React.render(
-        <Embed />,
+        <Embed visible={false} />,
         global.document.body
       );
     });
@@ -370,18 +372,18 @@ describe('frameFactory', function() {
       const frameContainer = global.document.body.getElementsByTagName('iframe')[0];
       const frameContainerStyle = frameContainer.style;
 
-      expect(frameContainerStyle.visibility)
-        .toEqual('visible');
+      expect(frameContainerStyle.cssText)
+        .not.toContain('left:-9999px');
 
       instance.setState({visible: false});
 
-      expect(frameContainerStyle.visibility)
-        .toEqual('hidden');
+      expect(frameContainerStyle.left)
+        .toEqual('-9999px');
 
       instance.setState({visible: true});
 
-      expect(frameContainerStyle.visibility)
-        .toEqual('visible');
+      expect(frameContainerStyle.cssText)
+        .not.toContain('left:-9999px');
     });
 
     it('has `border` css rule set to none', function() {
@@ -398,8 +400,8 @@ describe('frameFactory', function() {
       expect(frameContainerStyle.backgroundColor)
         .toEqual('#abc');
 
-      expect(frameContainerStyle.visibility)
-        .toEqual('visible');
+      expect(frameContainerStyle.left)
+        .toEqual('-9999px');
 
     });
 

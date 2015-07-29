@@ -14,6 +14,9 @@ describe('ZendeskLogo component', function() {
 
     mockRegistry = initMockRegistry({
       'react/addons': React,
+      'component/Icon': {
+        Icon: noopReactComponent()
+      }
     });
     mockery.registerAllowable('utility/globals');
     mockery.registerAllowable(zendeskLogoPath);
@@ -23,54 +26,64 @@ describe('ZendeskLogo component', function() {
 
   describe('logo class names', function() {
     it('should not have the positional classnames when mobile browser is true', function() {
-      const logo = React.render(<ZendeskLogo fullscreen={true} />, global.document.body);
-      const logoNode = ReactTestUtils.findRenderedDOMComponentWithClass(logo, 'Icon--zendesk');
-      const logoClasses = logoNode.props.className;
+      var logo = React.render(<ZendeskLogo fullscreen={true} />, global.document.body),
+          logoNode = ReactTestUtils.findRenderedDOMComponentWithTag(logo, 'a'),
+          logoClasses;
+
+      logoClasses = logoNode.props.className;
 
       expect(logoClasses)
         .not.toMatch('u-posAbsolute');
     });
 
     it('should have the positional classnames when mobile browser is false', function() {
-      const logo = React.render(<ZendeskLogo />, global.document.body);
-      const logoNode = ReactTestUtils.findRenderedDOMComponentWithClass(logo, 'Icon--zendesk');
-      const logoClasses = logoNode.props.className;
+      var logo = React.render(<ZendeskLogo />, global.document.body),
+          logoNode = ReactTestUtils.findRenderedDOMComponentWithTag(logo, 'a'),
+          logoClasses;
+
+      logoClasses = logoNode.props.className;
 
       expect(logoClasses)
         .toMatch('u-posAbsolute');
     });
 
     it('has the positional classnames for mobile browser and formSuccess is true', function() {
-      const logo = React.render(
-        <ZendeskLogo formSuccess={true} rtl={true} />,
-        global.document.body
-      );
-      const logoNode = ReactTestUtils.findRenderedDOMComponentWithClass(logo, 'Icon--zendesk');
-      const logoClasses = logoNode.props.className;
+      var logo = React.render(
+            <ZendeskLogo formSuccess={true} fullscreen={true} />,
+            global.document.body
+          ),
+          logoNode = ReactTestUtils.findRenderedDOMComponentWithTag(logo, 'a'),
+          logoClasses;
+
+      logoClasses = logoNode.props.className;
 
       expect(logoClasses)
         .toMatch('u-posAbsolute');
     });
 
     it('does not has the rtl classnames when rtl language is false', function() {
-      const logo = React.render(
-        <ZendeskLogo formSuccess={true} rtl={false} />,
-        global.document.body
-      );
-      const logoNode = ReactTestUtils.findRenderedDOMComponentWithClass(logo, 'Icon--zendesk');
-      const logoClasses = logoNode.props.className;
+      var logo = React.render(
+            <ZendeskLogo formSuccess={true} rtl={false} />,
+            global.document.body
+          ),
+          logoNode = ReactTestUtils.findRenderedDOMComponentWithTag(logo, 'a'),
+          logoClasses;
+
+      logoClasses = logoNode.props.className;
 
       expect(logoClasses)
         .toMatch('u-posStart');
     });
 
     it('has the rtl classnames when rtl language is true', function() {
-      const logo = React.render(
-        <ZendeskLogo formSuccess={true} rtl={true} />,
-        global.document.body
-      );
-      const logoNode = ReactTestUtils.findRenderedDOMComponentWithClass(logo, 'Icon--zendesk');
-      const logoClasses = logoNode.props.className;
+      var logo = React.render(
+            <ZendeskLogo formSuccess={true} rtl={true} />,
+            global.document.body
+          ),
+          logoNode = ReactTestUtils.findRenderedDOMComponentWithTag(logo, 'a'),
+          logoClasses;
+
+      logoClasses = logoNode.props.className;
 
       expect(logoClasses)
         .not.toMatch('u-posStart');

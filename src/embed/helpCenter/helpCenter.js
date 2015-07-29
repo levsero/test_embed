@@ -18,30 +18,30 @@ const helpCenterCSS = require('./helpCenter.scss');
 let helpCenters = {};
 
 function create(name, config) {
-  let containerStyle,
-      posObj;
-
-  const iframeBase = {
-    position: 'fixed',
-    bottom: 50
-  };
-  const configDefaults = {
-    position: 'right',
-    hideZendeskLogo: false
-  };
-
-  const onButtonClick = function() {
-    mediator.channel.broadcast(name + '.onNextClick');
-  };
-  const showBackButton = function() {
-    get(name).instance.getChild().setState({
-      showBackButton: true
-    });
-  };
-  const onSearch = function(params) {
-    beacon.track('helpCenter', 'search', name, params.searchString);
-    mediator.channel.broadcast(name + '.onSearch', params);
-  };
+  var containerStyle,
+      iframeBase = {
+        position: 'fixed',
+        bottom: 0
+      },
+      configDefaults = {
+        position: 'right',
+        hideZendeskLogo: false
+      },
+      posObj,
+      iframeStyle,
+      onNextClick = function() {
+        mediator.channel.broadcast(name + '.onNextClick');
+      },
+      showBackButton = function() {
+        get(name).instance.getChild().setState({
+          showBackButton: true
+        });
+      },
+      onSearch = function(params) {
+        beacon.track('helpCenter', 'search', name, params.searchString);
+        mediator.channel.broadcast(name + '.onSearch', params);
+      },
+      Embed;
 
   config = _.extend(configDefaults, config);
 
@@ -50,12 +50,12 @@ function create(name, config) {
     containerStyle = { width: '100%', height: '100%' };
   } else {
     posObj = (config.position === 'left')
-           ? { left:  5 }
-           : { right: 5 };
+           ? { left:  0 }
+           : { right: 0 };
 
-    iframeBase.minWidth = 400;
+    iframeBase.width = 342;
     iframeBase.maxHeight = 500;
-    containerStyle = { minWidth: 400, margin: 15 };
+    containerStyle = { width: 342, margin: 15 };
   }
 
   const iframeStyle = _.extend(iframeBase, posObj);
@@ -67,7 +67,7 @@ function create(name, config) {
           <HelpCenter
             ref='helpCenter'
             zendeskHost={transport.getZendeskHost()}
-            onButtonClick={onButtonClick}
+            onNextClick={onNextClick}
             showBackButton={showBackButton}
             onSearch={onSearch}
             hideZendeskLogo={config.hideZendeskLogo}
@@ -97,7 +97,9 @@ function create(name, config) {
         if (isMobileBrowser()) {
           setScaleLock(true);
         }
-        child.refs.helpCenter.focusField();
+        if (!isMobileBrowser()) {
+          child.refs.helpCenter.focusField();
+        }
         child.refs.helpCenter.resetSearchFieldState();
       },
       onClose() {
