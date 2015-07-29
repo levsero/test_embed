@@ -28,7 +28,7 @@ describe('FormField component', function() {
         Icon: React.createClass({
           render: function() {
             return <span
-                    className={'Icon ' + this.props.type}
+                    className={`Icon ${this.props.type}`}
                     onClick={this.props.onClick}>
                       <svg />
                    </span>;
