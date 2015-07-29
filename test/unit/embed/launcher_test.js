@@ -273,7 +273,7 @@ describe('embed.launcher', function() {
     });
 
     describe('mediator subscriptions', function() {
-      var mockMediator,
+      let mockMediator,
           alice,
           aliceLauncher;
 

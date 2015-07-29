@@ -1,7 +1,7 @@
 describe('ButtonGroup component', function() {
-  var ButtonGroup,
-      mockRegistry,
-      buttonPath = buildSrcPath('component/Button');
+  let ButtonGroup;
+  let mockRegistry;
+  const buttonPath = buildSrcPath('component/Button');
 
   beforeEach(function() {
 
@@ -29,13 +29,13 @@ describe('ButtonGroup component', function() {
   });
 
   it('should not have rtl classes when rtl prop is false', function() {
-    var button = React.render(
-          <ButtonGroup />,
-          global.document.body
-        ),
-        buttonElem = ReactTestUtils
-          .findRenderedDOMComponentWithClass(button, 'u-textRight'),
-        buttonGroupClasses = buttonElem.props.className;
+    const button = React.render(
+      <ButtonGroup />,
+      global.document.body
+    );
+    const buttonElem = ReactTestUtils
+      .findRenderedDOMComponentWithClass(button, 'u-textRight');
+    const buttonGroupClasses = buttonElem.props.className;
 
     expect(buttonGroupClasses)
       .toMatch('u-textRight');
@@ -45,13 +45,13 @@ describe('ButtonGroup component', function() {
   });
 
   it('should have rtl classes when rtl prop is true', function() {
-    var button = React.render(
-          <ButtonGroup rtl={true} />,
-          global.document.body
-        ),
-        buttonElem = ReactTestUtils
-          .findRenderedDOMComponentWithClass(button, 'u-textLeft'),
-        buttonGroupClasses = buttonElem.props.className;
+    const button = React.render(
+      <ButtonGroup rtl={true} />,
+      global.document.body
+    );
+    const buttonElem = ReactTestUtils
+      .findRenderedDOMComponentWithClass(button, 'u-textLeft');
+    const buttonGroupClasses = buttonElem.props.className;
 
     expect(buttonGroupClasses)
       .toMatch('u-textLeft');

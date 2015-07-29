@@ -98,10 +98,10 @@ describe('mediator', function() {
 
   describe('.zopimShow', function() {
     it('doesn\'t hide launcher when on mobile', function() {
-      var launcher = 'launcher',
-          names = {
-            launcher: launcher
-          };
+      const launcher = 'launcher';
+      const names = {
+        launcher: launcher
+      };
 
       mockRegistry['utility/devices'].isMobileBrowser = jasmine.createSpy().and.returnValue(true);
 
@@ -221,14 +221,14 @@ describe('mediator', function() {
   });
 
   describe('Chat, Ticket Submission', function() {
-    var launcher     = 'launcher',
-        submitTicket = 'ticketSubmissionForm',
-        chat         = 'zopimChat',
-        names = {
-          launcher: launcher,
-          submitTicket: submitTicket,
-          chat: chat
-        };
+    const launcher = 'launcher';
+    const submitTicket = 'ticketSubmissionForm';
+    const chat = 'zopimChat';
+    const names = {
+      launcher: launcher,
+      submitTicket: submitTicket,
+      chat: chat
+    };
 
     beforeEach(function() {
       initSubscriptionSpies(names);
@@ -814,16 +814,16 @@ describe('mediator', function() {
   });
 
   describe('Help Center, Chat, Ticket Submission', function() {
-    var launcher     = 'launcher',
-        submitTicket = 'ticketSubmissionForm',
-        chat         = 'zopimChat',
-        helpCenter   = 'helpCenterForm',
-        names = {
-          launcher: launcher,
-          submitTicket: submitTicket,
-          chat: chat,
-          helpCenter: helpCenter
-        };
+    const launcher = 'launcher';
+    const submitTicket = 'ticketSubmissionForm';
+    const chat = 'zopimChat';
+    const helpCenter = 'helpCenterForm';
+    const names = {
+      launcher: launcher,
+      submitTicket: submitTicket,
+      chat: chat,
+      helpCenter: helpCenter
+    };
 
     beforeEach(function() {
       initSubscriptionSpies(names);

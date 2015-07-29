@@ -129,6 +129,7 @@ gulp.task('build:bootstrap', function() {
 gulp.task('build', function(callback) {
   runSequence(
     'lint',
+    'jscs',
     'build:cachebuster',
     'build:bootstrap',
     'build:prod',

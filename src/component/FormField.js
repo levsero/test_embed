@@ -114,44 +114,44 @@ var Field = React.createClass({
   },
 
   render() {
-    const type = this.props.type,
-          isCheckbox = (type === 'checkbox'),
-          fieldClasses = classSet({
-            'Form-field u-isSelectable u-posRelative': true,
-            'Form-field--invalid': this.state.hasError && this.state.blurred && !isCheckbox,
-            'Form-field--focused': this.state.focused && !isCheckbox,
-            'Form-field--dropdown': this.props.options,
-            'Form-field--clean': isCheckbox,
-            'is-mobile': isMobileBrowser()
-          }),
-          fieldLabelClasses = classSet({
-            'Form-fieldLabel u-textXHeight': true,
-            'u-textSize15': isMobileBrowser()
-          }),
-          fieldInputClasses = classSet({
-            'Form-checkboxInput u-isHiddenVisually': isCheckbox,
-            'Form-checkboxInput--focused': this.state.focused && isCheckbox,
-            'Form-checkboxInput--invalid': this.state.hasError && this.state.blurred && isCheckbox,
-            'u-textSizeBaseMobile': isMobileBrowser()
-          }),
-          dropdownClasses = classSet({
-            'u-isHidden': !this.props.options,
-            'Form-fieldArrows': true
-          }),
-          sharedProps = {
-            onChange: this.onChange,
-            onBlur: this.onBlur,
-            onFocus: this.onFocus,
-            ref: 'field',
-            value: this.props.value
-          },
-          fieldProps = {
-            name: this.props.name,
-            value: this.props.value,
-            required: this.props.required,
-            label: this.props.label,
-            type: this.props.type
-          };
+    const type = this.props.type;
+    const isCheckbox = (type === 'checkbox');
+    const fieldClasses = classSet({
+      'Form-field u-isSelectable u-posRelative': true,
+      'Form-field--invalid': this.state.hasError && this.state.blurred && !isCheckbox,
+      'Form-field--focused': this.state.focused && !isCheckbox,
+      'Form-field--dropdown': this.props.options,
+      'Form-field--clean': isCheckbox,
+      'is-mobile': isMobileBrowser()
+    });
+    const fieldLabelClasses = classSet({
+      'Form-fieldLabel u-textXHeight': true,
+      'u-textSize15': isMobileBrowser()
+    });
+    const fieldInputClasses = classSet({
+      'Form-checkboxInput u-isHiddenVisually': isCheckbox,
+      'Form-checkboxInput--focused': this.state.focused && isCheckbox,
+      'Form-checkboxInput--invalid': this.state.hasError && this.state.blurred && isCheckbox,
+      'u-textSizeBaseMobile': isMobileBrowser()
+    });
+    const dropdownClasses = classSet({
+      'u-isHidden': !this.props.options,
+      'Form-fieldArrows': true
+    });
+    const sharedProps = {
+      onChange: this.onChange,
+      onBlur: this.onBlur,
+      onFocus: this.onFocus,
+      ref: 'field',
+      value: this.props.value
+    };
+    const fieldProps = {
+      name: this.props.name,
+      value: this.props.value,
+      required: this.props.required,
+      label: this.props.label,
+      type: this.props.type
+    };
 
     return (
       <label className='Form-fieldContainer u-block'>
@@ -246,8 +246,7 @@ var SelectField = React.createClass({
     return (
       <Field
         {...this.props}
-        input={<select>{this.formatOptions()}</select>}
-      />
+        input={<select>{this.formatOptions()}</select>} />
     );
   }
 });
@@ -317,37 +316,37 @@ var SearchField = React.createClass({
 
   render() {
     /* jshint laxbreak:true */
-    var loadingClasses = classSet({
-          'u-isHidden': !this.props.isLoading
-        }),
-        searchContainerClasses = classSet({
-          'u-cf': true,
-          'u-paddingTM': this.props.hasSearched,
-          'u-marginBL': !this.props.hasSearched,
-          'u-paddingHN u-paddingBN Form-cta--barFullscreen': this.props.fullscreen
-        }),
-        searchInputClasses = classSet({
-          'Arrange Arrange--middle Form-field Form-field--search u-isSelectable': true,
-          'Form-field--focused': this.state.focused,
-          'is-mobile': this.props.fullscreen
-        }),
-        searchInputFieldClasses = classSet({
-          'Arrange-sizeFill u-paddingR Form-placeholder': true,
-          'u-textSizeBaseMobile': this.props.fullscreen
-        }),
-        searchInputFieldIconClasses = classSet({
-          'Arrange-sizeFit u-isActionable': true,
-          'u-userTextColor': this.state.focused,
-          'u-userFillColor': this.state.focused
-        }),
-        clearInputClasses = classSet({
-          'Icon Icon--clearInput': true,
-          'u-isActionable u-textCenter': true,
-          'u-isHidden': !this.state.isClearable || this.props.isLoading
-        }),
-        placeholder = (isMobileBrowser())
-                    ? ''
-                    : i18n.t('embeddable_framework.helpCenter.search.label.how_can_we_help');
+    const loadingClasses = classSet({
+      'u-isHidden': !this.props.isLoading
+    });
+    const searchContainerClasses = classSet({
+      'u-cf': true,
+      'u-paddingTM': this.props.hasSearched,
+      'u-marginBL': !this.props.hasSearched,
+      'u-paddingHN u-paddingBN Form-cta--barFullscreen': this.props.fullscreen
+    });
+    const searchInputClasses = classSet({
+      'Arrange Arrange--middle Form-field Form-field--search u-isSelectable': true,
+      'Form-field--focused': this.state.focused,
+      'is-mobile': this.props.fullscreen
+    });
+    const searchInputFieldClasses = classSet({
+      'Arrange-sizeFill u-paddingR Form-placeholder': true,
+      'u-textSizeBaseMobile': this.props.fullscreen
+    });
+    const searchInputFieldIconClasses = classSet({
+      'Arrange-sizeFit u-isActionable': true,
+      'u-userTextColor': this.state.focused,
+      'u-userFillColor': this.state.focused
+    });
+    const clearInputClasses = classSet({
+      'Icon Icon--clearInput': true,
+      'u-isActionable u-textCenter': true,
+      'u-isHidden': !this.state.isClearable || this.props.isLoading
+    });
+    const placeholder = (isMobileBrowser())
+                      ? ''
+                      : i18n.t('embeddable_framework.helpCenter.search.label.how_can_we_help');
 
     return (
       /* jshint quotmark:false */

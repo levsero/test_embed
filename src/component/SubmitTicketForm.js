@@ -15,7 +15,9 @@ export const SubmitTicketForm = React.createClass({
   getInitialState() {
     return {
       isValid: false,
-      buttonMessage: i18n.t('embeddable_framework.submitTicket.form.submitButton.label.send'),
+      buttonMessage: i18n.t(
+        'embeddable_framework.submitTicket.form.submitButton.label.send'
+      ),
       isSubmitting: false,
       isRTL: i18n.isRTL(),
       removeTicketForm: false,
@@ -27,8 +29,10 @@ export const SubmitTicketForm = React.createClass({
   getDefaultProps() {
     return {
       fullscreen: false,
-      cancelButtonMessage: i18n.t('embeddable_framework.submitTicket.form.cancelButton.label.cancel', // jshint ignore:line
-        {fallback: 'Cancel'})
+      cancelButtonMessage: i18n.t(
+        'embeddable_framework.submitTicket.form.cancelButton.label.cancel',
+        {fallback: 'Cancel'}
+      )
     };
   },
 
@@ -140,13 +144,13 @@ export const SubmitTicketForm = React.createClass({
   },
 
   render() {
-    var formClasses = classSet({
-          'Form u-cf': true,
-          'u-isHidden': this.props.hide
-        });
-      var customFields = getCustomFields(this.props.customFields, this.state.formState),
-          /* jshint laxbreak: true */
-          formBody = (this.state.removeTicketForm)
+    const formClasses = classSet({
+      'Form u-cf': true,
+      'u-isHidden': this.props.hide
+    });
+    const customFields = getCustomFields(this.props.customFields, this.state.formState);
+    /* jshint laxbreak: true */
+    const formBody = (this.state.removeTicketForm)
                    ? null
                    : <div ref='formWrapper'>
                        <Field
@@ -167,12 +171,11 @@ export const SubmitTicketForm = React.createClass({
                          required
                          value={this.state.formState.description}
                          name='description'
-                         input={<textarea rows='5' />}
-                       />
+                         input={<textarea rows='5' />} />
                        {customFields.checkboxes}
                        {this.props.children}
-                     </div>,
-          buttonCancel = (this.props.fullscreen)
+                     </div>;
+    const buttonCancel = (this.props.fullscreen)
                        ? null
                        : <ButtonSecondary
                            label={this.props.cancelButtonMessage}

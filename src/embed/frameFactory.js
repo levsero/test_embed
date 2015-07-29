@@ -198,23 +198,24 @@ export var frameFactory = function(childFn, _params) {
 
     render: function() {
       /* jshint laxbreak: true */
-      var visibilityRule = (this.state.visible && !this.state.hiddenByZoom)
-                         ? null
-                         : {top: '-9999px', bottom: 'auto'},
-          iframeStyle = _.extend({
-              border: 'none',
-              background: 'transparent',
-              zIndex: 999998,
-              transform: 'translateZ(0)'
-            },
-            params.style,
-            this.state.iframeDimensions,
-            visibilityRule
-          );
+      const visibilityRule = (this.state.visible && !this.state.hiddenByZoom)
+                           ? null
+                           : {top: '-9999px', bottom: 'auto'};
+      const iframeStyle = _.extend(
+        {
+          border: 'none',
+          background: 'transparent',
+          zIndex: 999998,
+          transform: 'translateZ(0)'
+        },
+        params.style,
+        this.state.iframeDimensions,
+        visibilityRule
+      );
 
-          return (
-            <iframe style={iframeStyle} id={params.name} />
-          );
+      return (
+        <iframe style={iframeStyle} id={params.name} />
+      );
     },
 
     componentDidMount: function() {
@@ -243,34 +244,34 @@ export var frameFactory = function(childFn, _params) {
         }
 
         /* jshint laxbreak: true */
-        var cssText = baseCSS + mainCSS + params.css + baseFontCSS,
-            css = <style dangerouslySetInnerHTML={{ __html: cssText }} />,
-            fullscreen = isMobileBrowser() && params.fullscreenable,
-            positionClasses = classSet({
-              'u-borderTransparent u-posRelative': true,
-              'u-pullRight': this.props.position === 'right',
-              'u-pullLeft': this.props.position === 'left'
-            }),
-            closeButton = (<ButtonNav
-                            onClick={this.close}
-                            label={
-                              <Icon
-                                type='Icon--close'
-                                className='u-textInheritColor' />
-                            }
-                            rtl={i18n.isRTL()}
-                            position='right'
-                            fullscreen={fullscreen} />),
-            backButton = (<ButtonNav
-                           onClick={this.back}
-                           label={
-                             <Icon
-                               type='Icon--back'
-                               className='u-textInheritColor' />
-                           }
-                           rtl={i18n.isRTL()}
-                           position='left'
-                           fullscreen={fullscreen} />);
+        const cssText = baseCSS + mainCSS + params.css + baseFontCSS;
+        const css = <style dangerouslySetInnerHTML={{ __html: cssText }} />;
+        const fullscreen = isMobileBrowser() && params.fullscreenable;
+        const positionClasses = classSet({
+          'u-borderTransparent u-posRelative': true,
+          'u-pullRight': this.props.position === 'right',
+          'u-pullLeft': this.props.position === 'left'
+        });
+        const closeButton = (<ButtonNav
+                               onClick={this.close}
+                               label={
+                                 <Icon
+                                   type='Icon--close'
+                                   className='u-textInheritColor' />
+                               }
+                               rtl={i18n.isRTL()}
+                               position='right'
+                               fullscreen={fullscreen} />);
+        const backButton = (<ButtonNav
+                              onClick={this.back}
+                              label={
+                                <Icon
+                                  type='Icon--back'
+                                  className='u-textInheritColor' />
+                              }
+                              rtl={i18n.isRTL()}
+                              position='left'
+                              fullscreen={fullscreen} />);
 
         // 1. Loop over functions in params.extend
         // 2. Re-bind them to `this` context
@@ -298,12 +299,12 @@ export var frameFactory = function(childFn, _params) {
           },
 
           render() {
-            var backButtonClasses = classSet({
-                  'u-isHidden': !this.state.showBackButton
-                }),
-                closeButtonClasses = classSet({
-                  'u-isHidden': params.hideCloseButton
-                });
+            const backButtonClasses = classSet({
+              'u-isHidden': !this.state.showBackButton
+            });
+            const closeButtonClasses = classSet({
+              'u-isHidden': params.hideCloseButton
+            });
 
             return (
               <div className={positionClasses}>

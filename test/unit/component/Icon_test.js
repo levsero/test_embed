@@ -1,13 +1,13 @@
 describe('Icon component', function() {
-  var Icon,
-      mockRegistry,
-      iconPath = buildSrcPath('component/Icon'),
-      onClick = jasmine.createSpy('onClick'),
-      dummyIcon = React.createClass({
-          render: function() {
-            return (<svg><g id="Layer_Test"><path d="M" /></g></svg>);
-          }
-        });
+  let Icon,
+      mockRegistry;
+  const iconPath = buildSrcPath('component/Icon');
+  const onClick = jasmine.createSpy('onClick');
+  const dummyIcon = React.createClass({
+    render: function() {
+      return (<svg><g id="Layer_Test"><path d="M" /></g></svg>);
+    }
+  });
 
   beforeEach(function() {
 
@@ -47,14 +47,14 @@ describe('Icon component', function() {
   });
 
   it('should insert an SVG icon inside a span, with the right class', function() {
-    var icon = React.render(
-          <Icon type="Icon--zendesk" />,
-          global.document.body
-        ),
-        iconElem = ReactTestUtils
-          .findRenderedDOMComponentWithClass(icon, 'Icon'),
-        iconClasses = iconElem.props.className,
-        iconOnClick = iconElem.props.onClick;
+    const icon = React.render(
+      <Icon type="Icon--zendesk" />,
+      global.document.body
+    );
+    const iconElem = ReactTestUtils
+      .findRenderedDOMComponentWithClass(icon, 'Icon');
+    const iconClasses = iconElem.props.className;
+    const iconOnClick = iconElem.props.onClick;
 
     expect(iconClasses)
       .toMatch('Icon Icon--zendesk');
@@ -64,13 +64,13 @@ describe('Icon component', function() {
   });
 
   it('should include the onClick when passed, and be called when clicked', function() {
-    var icon = React.render(
-          <Icon type="Icon--search" onClick={onClick} />,
-          global.document.body
-        ),
-        iconElem = ReactTestUtils
-          .findRenderedDOMComponentWithClass(icon, 'Icon'),
-        iconClasses = iconElem.props.className;
+    const icon = React.render(
+       <Icon type="Icon--search" onClick={onClick} />,
+       global.document.body
+    );
+    const iconElem = ReactTestUtils
+      .findRenderedDOMComponentWithClass(icon, 'Icon');
+    const iconClasses = iconElem.props.className;
 
     expect(iconClasses)
       .toMatch('Icon Icon--search');
@@ -82,13 +82,13 @@ describe('Icon component', function() {
   });
 
   it('should not have mobile classes when isMobileBrowser is false', function() {
-    var icon = React.render(
-          <Icon type="Icon--zendesk" />,
-          global.document.body
-        ),
-        iconElem = ReactTestUtils
-          .findRenderedDOMComponentWithClass(icon, 'Icon'),
-        iconClasses = iconElem.props.className;
+    const icon = React.render(
+      <Icon type="Icon--zendesk" />,
+      global.document.body
+    );
+    const iconElem = ReactTestUtils
+      .findRenderedDOMComponentWithClass(icon, 'Icon');
+    const iconClasses = iconElem.props.className;
 
     expect(iconClasses)
       .toMatch('Icon Icon--zendesk');
@@ -106,13 +106,13 @@ describe('Icon component', function() {
     });
     Icon = require(iconPath).Icon;
 
-    var icon = React.render(
-          <Icon type="Icon--zendesk" />,
-          global.document.body
-        ),
-        iconElem = ReactTestUtils
-          .findRenderedDOMComponentWithClass(icon, 'Icon'),
-        iconClasses = iconElem.props.className;
+    const icon = React.render(
+      <Icon type="Icon--zendesk" />,
+      global.document.body
+    );
+    const iconElem = ReactTestUtils
+      .findRenderedDOMComponentWithClass(icon, 'Icon');
+    const iconClasses = iconElem.props.className;
 
     expect(iconClasses)
       .toMatch('Icon Icon--zendesk');

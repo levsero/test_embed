@@ -84,13 +84,13 @@ var HelpCenterArticle = React.createClass({
   },
 
   render() {
-    var userContentClasses = classSet({
+    const userContentClasses = classSet({
       'UserContent u-userLinkColor': true,
       'is-mobile': this.props.fullscreen
     });
 
     return (
-      /* jshint camelcase:false */
+      /* jshint camelcase:false, maxlen:false */
       <div>
         <div className={userContentClasses} ref='userContent'>
           <h1>{this.props.activeArticle.title}</h1>
@@ -98,17 +98,15 @@ var HelpCenterArticle = React.createClass({
             ref='article'
             className='u-marginTM'
             onClick={this.handleClick}
-            onTouchStart={this.handleClick}
-          />
+            onTouchStart={this.handleClick} />
           <div className='u-marginBM'>
             <a
               className='u-linkClean'
-              href={this.props.activeArticle.html_url}
+              href={this.props.activeArticle.html_url} // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
               target='_blank'>
               <ButtonPill
                 fullscreen={this.props.fullscreen}
-                label={i18n.t('embeddable_framework.helpCenter.article.viewLinkText')}
-              />
+                label={i18n.t('embeddable_framework.helpCenter.article.viewLinkText')} />
             </a>
           </div>
         </div>

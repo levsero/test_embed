@@ -248,11 +248,11 @@ describe('Submit ticket component', function() {
   });
 
   it('should unhide notification element on state change', function() {
-    var submitTicket = React.render(
-          <SubmitTicket />,
-          global.document.body
-        ),
-        notificationElem = submitTicket.refs.notification;
+    const submitTicket = React.render(
+      <SubmitTicket />,
+      global.document.body
+    );
+    const notificationElem = submitTicket.refs.notification;
 
     expect(notificationElem.props.className)
       .toContain('u-isHidden');

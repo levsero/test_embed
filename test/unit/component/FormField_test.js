@@ -28,7 +28,7 @@ describe('FormField component', function() {
         Icon: React.createClass({
           render: function() {
             return <span
-                    className={"Icon "+this.props.type}
+                    className={`Icon ${this.props.type}`}
                     onClick={this.props.onClick}>
                       <svg />
                    </span>;
@@ -66,12 +66,11 @@ describe('FormField component', function() {
 
   describe('Field', function() {
     it('should render form field DOM with a label wrapping two child divs', function() {
-      var field = React.render(
-            <Field
-              name='alice' />,
-            global.document.body
-          ),
-          fieldNode = field.getDOMNode();
+      const field = React.render(
+        <Field name='alice' />,
+        global.document.body
+      );
+      const fieldNode = field.getDOMNode();
 
       expect(fieldNode.nodeName)
         .toEqual('LABEL');
@@ -198,11 +197,11 @@ describe('FormField component', function() {
   });
 
   it('should have mobile classes when isMobileBrowser is true', function() {
-    var field = React.render(
-          <Field />,
-          global.document.body
-        ),
-        fieldNode = field.getDOMNode();
+    const field = React.render(
+      <Field />,
+      global.document.body
+    );
+    const fieldNode = field.getDOMNode();
 
     expect(fieldNode.childNodes[0].className)
       .toMatch('u-textSize15');
@@ -218,11 +217,11 @@ describe('FormField component', function() {
 
     Field = require(formFieldPath).Field;
 
-    var field = React.render(
-          <Field />,
-          global.document.body
-        ),
-        fieldNode = field.getDOMNode();
+    const field = React.render(
+      <Field />,
+      global.document.body
+    );
+    const fieldNode = field.getDOMNode();
 
     expect(fieldNode.childNodes[0].className)
       .not.toMatch('u-textSize15');

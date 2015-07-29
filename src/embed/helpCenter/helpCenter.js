@@ -18,28 +18,29 @@ const helpCenterCSS = require('./helpCenter.scss');
 let helpCenters = {};
 
 function create(name, config) {
-  var containerStyle,
-      iframeBase = {
-        position: 'fixed',
-        bottom: 0
-      },
-      configDefaults = {
-        position: 'right',
-        hideZendeskLogo: false
-      },
-      posObj,
-      onNextClick = function() {
-        mediator.channel.broadcast(name + '.onNextClick');
-      },
-      showBackButton = function() {
-        get(name).instance.getChild().setState({
-          showBackButton: true
-        });
-      },
-      onSearch = function(params) {
-        beacon.track('helpCenter', 'search', name, params.searchString);
-        mediator.channel.broadcast(name + '.onSearch', params);
-      };
+  let containerStyle,
+      posObj;
+
+  const iframeBase = {
+    position: 'fixed',
+    bottom: 0
+  };
+  const configDefaults = {
+    position: 'right',
+    hideZendeskLogo: false
+  };
+  const onNextClick = function() {
+    mediator.channel.broadcast(name + '.onNextClick');
+  };
+  const showBackButton = function() {
+    get(name).instance.getChild().setState({
+      showBackButton: true
+    });
+  };
+  const onSearch = function(params) {
+    beacon.track('helpCenter', 'search', name, params.searchString);
+    mediator.channel.broadcast(name + '.onSearch', params);
+  };
 
   config = _.extend(configDefaults, config);
 

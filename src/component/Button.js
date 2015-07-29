@@ -2,7 +2,7 @@ import React from 'react/addons';
 
 import { Icon } from 'component/Icon';
 
-var classSet = React.addons.classSet;
+const classSet = React.addons.classSet;
 
 var Button = React.createClass({
   propTypes: {
@@ -13,16 +13,16 @@ var Button = React.createClass({
   },
 
   render() {
-      /* jshint laxbreak: true */
-    var buttonClasses = classSet({
-          'c-btn c-btn--medium c-btn--primary': true,
-          'Anim-color u-textNoWrap u-borderTransparent u-userBackgroundColor': true,
-          'u-sizeFull u-textSizeBaseMobile': this.props.fullscreen
-        }),
-        allowedTypes = /^(submit|button)$/i,
-        type = allowedTypes.test(this.props.type)
-             ? this.props.type
-             : 'button';
+    /* jshint laxbreak: true */
+    const buttonClasses = classSet({
+      'c-btn c-btn--medium c-btn--primary': true,
+      'Anim-color u-textNoWrap u-borderTransparent u-userBackgroundColor': true,
+      'u-sizeFull u-textSizeBaseMobile': this.props.fullscreen
+    });
+    const allowedTypes = /^(submit|button)$/i;
+    const type = allowedTypes.test(this.props.type)
+               ? this.props.type
+               : 'button';
 
     return (
       <input
@@ -38,20 +38,20 @@ var Button = React.createClass({
 
 var ButtonNav = React.createClass({
   render() {
-    var { fullscreen, position, rtl } = this.props,
-        isLeft = (position === 'left'),
-        isRight = (position === 'right'),
-        buttonClasses = classSet({
-          'Button Button--nav u-posAbsolute u-posStart--vert': true,
-          'u-posStart u-paddingL': isLeft && !rtl,
-          'u-posEnd': isLeft && rtl,
-          'u-posEnd--flush': (isLeft && rtl && fullscreen) || (isRight && !rtl && fullscreen),
-          'u-isActionable u-textSizeBaseMobile u-posStart--vertFlush': fullscreen,
-          'u-posEnd u-paddingR': isRight && !rtl,
-          'u-posStart': isRight && rtl,
-          'u-posStart--flush': (isRight && rtl && fullscreen) || (isLeft && !rtl && fullscreen),
-          'u-flipText': rtl
-        });
+    const { fullscreen, position, rtl } = this.props;
+    const isLeft = (position === 'left');
+    const isRight = (position === 'right');
+    const buttonClasses = classSet({
+      'Button Button--nav u-posAbsolute u-posStart--vert': true,
+      'u-posStart u-paddingL': isLeft && !rtl,
+      'u-posEnd': isLeft && rtl,
+      'u-posEnd--flush': (isLeft && rtl && fullscreen) || (isRight && !rtl && fullscreen),
+      'u-isActionable u-textSizeBaseMobile u-posStart--vertFlush': fullscreen,
+      'u-posEnd u-paddingR': isRight && !rtl,
+      'u-posStart': isRight && rtl,
+      'u-posStart--flush': (isRight && rtl && fullscreen) || (isLeft && !rtl && fullscreen),
+      'u-flipText': rtl
+    });
 
     return (
       <div
@@ -66,11 +66,11 @@ var ButtonNav = React.createClass({
 
 var ButtonPill = React.createClass({
   render() {
-    var buttonClasses = classSet({
-          'c-btn c-btn--medium c-btn--secondary c-btn--pill': true,
-          'u-textNormal': true,
-          'u-sizeFull u-textSizeBaseMobile is-mobile': this.props.fullscreen,
-        });
+    const buttonClasses = classSet({
+      'c-btn c-btn--medium c-btn--secondary c-btn--pill': true,
+      'u-textNormal': true,
+      'u-sizeFull u-textSizeBaseMobile is-mobile': this.props.fullscreen,
+    });
 
     return (
       <div
@@ -105,11 +105,11 @@ var ButtonGroup = React.createClass({
   },
 
   render() {
-    var buttonClasses = classSet({
-          'ButtonGroup': true,
-          'u-textRight': !this.props.fullscreen && !this.props.rtl,
-          'u-textLeft': !this.props.fullscreen && this.props.rtl
-        });
+    const buttonClasses = classSet({
+      'ButtonGroup': true,
+      'u-textRight': !this.props.fullscreen && !this.props.rtl,
+      'u-textLeft': !this.props.fullscreen && this.props.rtl
+    });
 
     return (
       <div className={buttonClasses}>{this.props.children}</div>

@@ -243,75 +243,76 @@ export const HelpCenter = React.createClass({
 
   render() {
     /* jshint quotmark:false */
-    var articleTemplate = function(article, index) {
-        return (
-            /* jshint camelcase:false */
-            <li key={_.uniqueId('article_')} className={listItemClasses}>
-              <a className='u-userTextColor'
-                 href={article.html_url}
-                 target='_blank'
-                 onClick={this.handleArticleClick.bind(this, index)}>
-                  {article.title || article.name}
-              </a>
-            </li>
-            );
-        },
-        listClasses = classSet({
-          'List': true,
-          'u-isHidden': !this.state.articles.length,
-          'u-borderNone u-marginBS List--fullscreen': this.state.fullscreen
-        }),
-        listItemClasses = classSet({
-          'List-item': true,
-          'u-textSizeBaseMobile': this.state.fullscreen
-        }),
-        formLegendClasses = classSet({
-          'u-paddingTT u-textSizeNml Arrange Arrange--middle u-textBody': true,
-          'u-textSizeBaseMobile': this.state.fullscreen,
-          'u-isHidden': !this.state.articles.length
-        }),
-        noResultsClasses = classSet({
-          'u-marginTM u-textCenter u-textSizeMed': true,
-          'u-isHidden': this.state.resultsCount || !this.state.hasSearched,
-          'u-textSizeBaseMobile': this.state.fullscreen,
-          'u-borderBottom List--noResults': !this.state.fullscreen
-        }),
-        searchTitleClasses = classSet({
-          'u-textSizeBaseMobile u-marginTM u-textCenter': true,
-          'Container--fullscreen-center-vert': true,
-          'u-isHidden': !this.state.fullscreen || this.state.hasSearched
-        }),
-        linkClasses = classSet({
-          'u-textSizeBaseMobile u-textCenter u-marginTL': true,
-          'u-isHidden': !this.state.fullscreen || this.state.hasSearched
-        }),
-        noResultsParagraphClasses = classSet({
-          'u-textSecondary': true,
-          'u-marginBL': !this.state.fullscreen
-        }),
-        articleClasses = classSet({
-          'u-isHidden': !this.state.articleViewActive
-        }),
-        formClasses = classSet({
-          'u-isHidden': this.state.articleViewActive
-        }),
-        buttonContainerClasses = classSet({
-          'u-marginTA': this.state.fullscreen,
-          'u-isHidden': !this.state.hasSearched
-        }),
-        linkLabel,
-        linkContext,
-        onFocusHandler = function() {
-          this.setState({searchFieldFocused: true});
-        }.bind(this),
-        onUpdateHandler = (value) => {
-          this.setState({
-            searchFieldValue: value
-          });
-        },
-        chatButtonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.chat'),
-        mobileHideLogoState = this.state.fullscreen && this.state.hasSearched,
-        hideZendeskLogo = this.props.hideZendeskLogo || mobileHideLogoState;
+    const listClasses = classSet({
+      'List': true,
+      'u-isHidden': !this.state.articles.length,
+      'u-borderNone u-marginBS List--fullscreen': this.state.fullscreen
+    });
+    const listItemClasses = classSet({
+      'List-item': true,
+      'u-textSizeBaseMobile': this.state.fullscreen
+    });
+    const formLegendClasses = classSet({
+      'u-paddingTT u-textSizeNml Arrange Arrange--middle u-textBody': true,
+      'u-textSizeBaseMobile': this.state.fullscreen,
+      'u-isHidden': !this.state.articles.length
+    });
+    const noResultsClasses = classSet({
+      'u-marginTM u-textCenter u-textSizeMed': true,
+      'u-isHidden': this.state.resultsCount || !this.state.hasSearched,
+      'u-textSizeBaseMobile': this.state.fullscreen,
+      'u-borderBottom List--noResults': !this.state.fullscreen
+    });
+    const searchTitleClasses = classSet({
+      'u-textSizeBaseMobile u-marginTM u-textCenter': true,
+      'Container--fullscreen-center-vert': true,
+      'u-isHidden': !this.state.fullscreen || this.state.hasSearched
+    });
+    const linkClasses = classSet({
+      'u-textSizeBaseMobile u-textCenter u-marginTL': true,
+      'u-isHidden': !this.state.fullscreen || this.state.hasSearched
+    });
+    const noResultsParagraphClasses = classSet({
+      'u-textSecondary': true,
+      'u-marginBL': !this.state.fullscreen
+    });
+    const articleClasses = classSet({
+      'u-isHidden': !this.state.articleViewActive
+    });
+    const formClasses = classSet({
+      'u-isHidden': this.state.articleViewActive
+    });
+    const buttonContainerClasses = classSet({
+      'u-marginTA': this.state.fullscreen,
+      'u-isHidden': !this.state.hasSearched
+    });
+
+    const articleTemplate = function(article, index) {
+      return (
+        /* jshint camelcase:false */
+        <li key={_.uniqueId('article_')} className={listItemClasses}>
+          <a className='u-userTextColor'
+             href={article.html_url}
+             target='_blank'
+             onClick={this.handleArticleClick.bind(this, index)}>
+              {article.title || article.name}
+          </a>
+        </li>
+      );
+    };
+
+    const onFocusHandler = () => {
+      this.setState({ searchFieldFocused: true });
+    };
+    const onUpdateHandler = (value) => {
+      this.setState({ searchFieldValue: value });
+    };
+    const chatButtonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.chat');
+    const mobileHideLogoState = this.state.fullscreen && this.state.hasSearched;
+    const hideZendeskLogo = this.props.hideZendeskLogo || mobileHideLogoState;
+
+    let linkLabel,
+        linkContext;
 
     if (this.props.updateFrameSize) {
       setTimeout( () => this.props.updateFrameSize(), 0);

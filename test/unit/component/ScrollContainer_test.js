@@ -1,7 +1,7 @@
 describe('ScrollContainer component', function() {
-  var ScrollContainer,
-      mockRegistry,
-      containerPath = buildSrcPath('component/ScrollContainer');
+  let ScrollContainer,
+      mockRegistry;
+  const containerPath = buildSrcPath('component/ScrollContainer');
 
   beforeEach(function() {
 
@@ -27,15 +27,14 @@ describe('ScrollContainer component', function() {
 
   it('should have the `is-mobile` classname when fullscreen is true', function() {
 
-    var container = React.render(
-          <ScrollContainer fullscreen={true} />,
-          global.document.body
-        ),
-        containerNode = ReactTestUtils
-          .findRenderedDOMComponentWithClass(container, 'ScrollContainer-content'),
-        containerClasses;
+    const container = React.render(
+      <ScrollContainer fullscreen={true} />,
+      global.document.body
+    );
+    const containerNode = ReactTestUtils
+      .findRenderedDOMComponentWithClass(container, 'ScrollContainer-content');
 
-    containerClasses = containerNode.props.className;
+    const containerClasses = containerNode.props.className;
 
     expect(containerClasses)
       .toMatch('is-mobile');
@@ -43,7 +42,7 @@ describe('ScrollContainer component', function() {
 
   it('should call `this.checkScrollOffset` on componentDidMount', function() {
 
-    var stub = spyOn(ScrollContainer.type.prototype.__reactAutoBindMap, 'checkScrollOffset');
+    const stub = spyOn(ScrollContainer.type.prototype.__reactAutoBindMap, 'checkScrollOffset');
 
     React.render(
       <ScrollContainer fullscreen={true} />,
@@ -56,12 +55,12 @@ describe('ScrollContainer component', function() {
 
   it('should call `this.getContentContainer` when `this.scrollToBottom` is called', function() {
 
-    var stub = spyOn(ScrollContainer.type.prototype.__reactAutoBindMap, 'getContentContainer')
-                 .and.callThrough(),
-        scrollContainer = React.render(
-          <ScrollContainer fullscreen={true} />,
-          global.document.body
-        );
+    const stub = spyOn(ScrollContainer.type.prototype.__reactAutoBindMap, 'getContentContainer')
+      .and.callThrough();
+    const scrollContainer = React.render(
+      <ScrollContainer fullscreen={true} />,
+      global.document.body
+    );
 
     scrollContainer.scrollToBottom();
 
@@ -74,7 +73,7 @@ describe('ScrollContainer component', function() {
     spyOn(ScrollContainer.type.prototype.__reactAutoBindMap, 'getContentContainer')
       .and.returnValue({scrollHeight: 100, scrollTop: 0});
 
-    var scrollContainer = React.render(
+    const scrollContainer = React.render(
       <ScrollContainer fullscreen={true} />,
       global.document.body
     );
@@ -87,11 +86,11 @@ describe('ScrollContainer component', function() {
 
   it('should call `this.checkScrollOffset` on componentDidUpdate', function() {
 
-    var stub = spyOn(ScrollContainer.type.prototype.__reactAutoBindMap, 'checkScrollOffset'),
-        container = React.render(
-          <ScrollContainer fullscreen={true} />,
-          global.document.body
-        );
+    const stub = spyOn(ScrollContainer.type.prototype.__reactAutoBindMap, 'checkScrollOffset');
+    const container = React.render(
+      <ScrollContainer fullscreen={true} />,
+      global.document.body
+    );
 
     expect(stub)
       .toHaveBeenCalled();
@@ -107,13 +106,14 @@ describe('ScrollContainer component', function() {
 
   it('should have shadow class on footer if content is scrollable', function() {
 
-    var container = React.render(
-          <ScrollContainer fullscreen={true} />,
-          global.document.body
-        ),
-        containerNode;
+    const container = React.render(
+      <ScrollContainer fullscreen={true} />,
+      global.document.body
+    );
+    let containerNode;
 
     container.setState({scrollableContent: true});
+
     containerNode = ReactTestUtils
       .findRenderedDOMComponentWithClass(container, 'ScrollContainer-footer'),
 

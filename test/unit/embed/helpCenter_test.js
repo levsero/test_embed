@@ -161,7 +161,7 @@ describe('embed.helpCenter', function() {
         });
 
         it('should broadcast <name>.onNextClick with HelpCenterForm.onNextClick', function() {
-          var payload = childFn({});
+          const payload = childFn({});
 
           payload.props.children.props.onNextClick();
 

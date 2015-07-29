@@ -18,33 +18,35 @@ const submitTicketCSS = require('./submitTicket.scss');
 let submitTickets = {};
 
 function create(name, config) {
-  var containerStyle,
-      iframeBase = {
-        position: 'fixed',
-        bottom: 0
-      },
-      configDefaults = {
-        position: 'right',
-        customFields: [],
-        hideZendeskLogo: false
-      },
-      posObj,
-      onSubmitted = function(params) {
-        let ticketIdMatcher = /Request \#([0-9]+)/;
-        beacon.track(
-          'submitTicket',
-          'send',
-          name,
-          {
-            query: params.searchString,
-            ticketId: parseInt(ticketIdMatcher.exec(params.res.body.message)[1], 10),
-            locale: params.searchLocale
-          });
-        mediator.channel.broadcast(name + '.onFormSubmitted');
-      },
-      onCancel = function() {
-        mediator.channel.broadcast(name + '.onCancelClick');
-      };
+  let containerStyle,
+      posObj;
+
+  const iframeBase = {
+    position: 'fixed',
+    bottom: 0
+  };
+  const configDefaults = {
+    position: 'right',
+    customFields: [],
+    hideZendeskLogo: false
+  };
+  const onSubmitted = function(params) {
+    let ticketIdMatcher = /Request \#([0-9]+)/;
+    beacon.track(
+      'submitTicket',
+      'send',
+      name,
+      {
+        query: params.searchString,
+        ticketId: parseInt(ticketIdMatcher.exec(params.res.body.message)[1], 10),
+        locale: params.searchLocale
+      }
+    );
+    mediator.channel.broadcast(name + '.onFormSubmitted');
+  };
+  const onCancel = function() {
+    mediator.channel.broadcast(name + '.onCancelClick');
+  };
 
   config = _.extend(configDefaults, config);
 

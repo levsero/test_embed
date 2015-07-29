@@ -2,9 +2,9 @@ describe('SubmitTicketForm component', function() {
   let SubmitTicketForm,
       onSubmit,
       onCancel,
-      mockRegistry,
-      submitTicketFormPath = buildSrcPath('component/SubmitTicketForm'),
-      buttonPath = buildSrcPath('component/Button');
+      mockRegistry;
+  const submitTicketFormPath = buildSrcPath('component/SubmitTicketForm');
+  const buttonPath = buildSrcPath('component/Button');
 
   beforeEach(function() {
 
@@ -128,10 +128,10 @@ describe('SubmitTicketForm component', function() {
 
   describe('ButtonSecondary', function() {
     it('should be rendered in the form when fullscreen is false', function() {
-      var submitTicketForm = React.render(
-            <SubmitTicketForm fullscreen={false} />,
-            global.document.body
-          );
+      const submitTicketForm = React.render(
+        <SubmitTicketForm fullscreen={false} />,
+        global.document.body
+      );
 
       expect(function() {
         ReactTestUtils.findRenderedDOMComponentWithClass(submitTicketForm, 'c-btn--secondary');
@@ -139,10 +139,10 @@ describe('SubmitTicketForm component', function() {
     });
 
     it('should not be rendered in the form when fullscreen is true', function() {
-      var submitTicketForm = React.render(
-            <SubmitTicketForm fullscreen={true} />,
-            global.document.body
-          );
+      const submitTicketForm = React.render(
+        <SubmitTicketForm fullscreen={true} />,
+        global.document.body
+      );
 
       expect(function() {
         ReactTestUtils.findRenderedDOMComponentWithClass(submitTicketForm, 'c-btn--secondary');
@@ -150,10 +150,10 @@ describe('SubmitTicketForm component', function() {
     });
 
     it('should call the mediator to switch the embed state', function() {
-      var submitTicketForm = React.render(
-            <SubmitTicketForm />,
-            global.document.body
-          );
+      const submitTicketForm = React.render(
+        <SubmitTicketForm />,
+        global.document.body
+      );
 
       ReactTestUtils.Simulate.click(
         ReactTestUtils.findRenderedDOMComponentWithClass(submitTicketForm, 'c-btn--secondary')

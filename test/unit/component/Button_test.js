@@ -29,26 +29,26 @@ describe('Button component', function() {
   });
 
   it('should not have fullscreen classes when fullscreen prop is false', function() {
-    var button = React.render(
-          <Button />,
-          global.document.body
-        ),
-        buttonElem = ReactTestUtils
-          .findRenderedDOMComponentWithClass(button, 'c-btn'),
-        buttonClasses = buttonElem.props.className;
+    const button = React.render(
+      <Button />,
+      global.document.body
+    );
+    const buttonElem = ReactTestUtils
+      .findRenderedDOMComponentWithClass(button, 'c-btn');
+    const buttonClasses = buttonElem.props.className;
 
     expect(buttonClasses)
       .not.toMatch('u-sizeFull');
   });
 
   it('should have fullscreen classes when fullscreen prop is true', function() {
-    var button = React.render(
-          <Button fullscreen={true} />,
-          global.document.body
-        ),
-        buttonElem = ReactTestUtils
-          .findRenderedDOMComponentWithClass(button, 'c-btn'),
-        buttonClasses = buttonElem.props.className;
+    const button = React.render(
+      <Button fullscreen={true} />,
+      global.document.body
+    );
+    const buttonElem = ReactTestUtils
+      .findRenderedDOMComponentWithClass(button, 'c-btn');
+    const buttonClasses = buttonElem.props.className;
 
     expect(buttonClasses)
       .toMatch('u-sizeFull');

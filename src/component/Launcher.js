@@ -35,21 +35,21 @@ export const Launcher = React.createClass({
   },
 
   render() {
-    var buttonClasses = classSet({
-          'Button Button--launcher Button--cta': true,
-          'u-userBackgroundColor Arrange Arrange--middle': true,
-          'u-isActionable u-textLeft u-inlineBlock u-textNoWrap': true,
-          'is-mobile': isMobileBrowser()
-        }),
-        iconClasses = classSet({
-          // spaces needed for class concatenation
-          'Arrange-sizeFit Icon--launcher u-textInheritColor u-inlineBlock ': true,
-          'u-paddingHN ': isMobileBrowser() && !this.state.hasUnreadMessages
-        }),
-        labelClasses = classSet({
-          'Arrange-sizeFit u-textInheritColor u-inlineBlock': true,
-          'u-isHidden': isMobileBrowser() && !this.state.hasUnreadMessages
-        });
+    const buttonClasses = classSet({
+      'Button Button--launcher Button--cta': true,
+      'u-userBackgroundColor Arrange Arrange--middle': true,
+      'u-isActionable u-textLeft u-inlineBlock u-textNoWrap': true,
+      'is-mobile': isMobileBrowser()
+    });
+    const iconClasses = classSet({
+      // spaces needed for class concatenation
+      'Arrange-sizeFit Icon--launcher u-textInheritColor u-inlineBlock ': true,
+      'u-paddingHN ': isMobileBrowser() && !this.state.hasUnreadMessages
+    });
+    const labelClasses = classSet({
+      'Arrange-sizeFit u-textInheritColor u-inlineBlock': true,
+      'u-isHidden': isMobileBrowser() && !this.state.hasUnreadMessages
+    });
 
     if (this.props.updateFrameSize) {
       setTimeout( () => this.props.updateFrameSize(5, 0), 0);

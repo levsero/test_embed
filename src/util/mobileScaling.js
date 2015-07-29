@@ -17,9 +17,9 @@ const propagateFontRatioChange = (isPinching) => {
   }, 0);
 };
 const zoomMonitor = (() => {
+  let oldZoom;
   let interval = null;
   let iterations = 0;
-  let oldZoom;
   let oldOffset = [0, 0];
   let currentZoom = getDeviceZoom();
   const currentOffset = () => {

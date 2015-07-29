@@ -5,10 +5,10 @@ import { win, document as doc } from 'utility/globals';
 import { getSizingRatio }       from 'utility/devices';
 import { mediator }             from 'service/mediator';
 
-var clickBusterClicks = [];
-var oldWindowScrollY = null;
-var scrollKillerActive = false;
-var oldHostBodyStyle;
+let clickBusterClicks = [];
+let oldWindowScrollY = null;
+let scrollKillerActive = false;
+let oldHostBodyStyle;
 
 function generateUserCSS(params) {
   if (params.color) {

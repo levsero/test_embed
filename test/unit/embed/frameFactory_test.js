@@ -350,12 +350,12 @@ describe('frameFactory', function() {
     let instance;
 
     beforeEach(function() {
-      var payload = frameFactory(mockChildFn, {
-            style: {
-              backgroundColor: '#abc'
-            }
-          }),
-          Embed = React.createClass(payload);
+      const payload = frameFactory(mockChildFn, {
+        style: {
+          backgroundColor: '#abc'
+        }
+      });
+      const Embed = React.createClass(payload);
 
       instance = React.render(
         <Embed visible={false} />,
