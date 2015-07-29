@@ -101,6 +101,14 @@ $Button-nudge: 5;
       fill: $icon-active-color;
     }
   }
+
+  [dir='rtl'] & {
+    white-space: nowrap;
+
+    span:first-of-type {
+      padding-right: #{14/$font-size}rem;
+    };
+  }
 }
 
 .c-btn--secondary {
