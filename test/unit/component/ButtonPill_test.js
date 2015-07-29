@@ -31,8 +31,7 @@ describe('ButtonPill component', function() {
   describe('ButtonPill', function() {
     it('should not have is-mobile class when fullscreen is false', function() {
       const button = React.render(
-        <ButtonPill
-          fullscreen={false} />,
+        <ButtonPill fullscreen={false} />,
         global.document.body
       );
       const buttonElem = ReactTestUtils
@@ -44,8 +43,7 @@ describe('ButtonPill component', function() {
 
     it('should have is-mobile class when fullscreen is true', function() {
       const button = React.render(
-        <ButtonPill
-          fullscreen={true} />,
+        <ButtonPill fullscreen={true} />,
         global.document.body
       );
       const buttonElem = ReactTestUtils

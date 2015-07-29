@@ -26,7 +26,10 @@ describe('ZendeskLogo component', function() {
 
   describe('logo class names', function() {
     it('should not have the positional classnames when mobile browser is true', function() {
-      const logo = React.render(<ZendeskLogo fullscreen={true} />, global.document.body);
+      const logo = React.render(
+        <ZendeskLogo fullscreen={true} />,
+        global.document.body
+      );
       const logoNode = ReactTestUtils.findRenderedDOMComponentWithTag(logo, 'a');
       const logoClasses = logoNode.props.className;
 
@@ -35,7 +38,10 @@ describe('ZendeskLogo component', function() {
     });
 
     it('should have the positional classnames when mobile browser is false', function() {
-      const logo = React.render(<ZendeskLogo />, global.document.body);
+      const logo = React.render(
+        <ZendeskLogo />,
+        global.document.body
+      );
       const logoNode = ReactTestUtils.findRenderedDOMComponentWithTag(logo, 'a');
       const logoClasses = logoNode.props.className;
 

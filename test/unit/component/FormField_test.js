@@ -199,7 +199,7 @@ describe('FormField component', function() {
   it('should have mobile classes when isMobileBrowser is true', function() {
     const field = React.render(
       <Field />,
-        global.document.body
+      global.document.body
     );
     const fieldNode = field.getDOMNode();
 

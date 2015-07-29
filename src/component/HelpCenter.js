@@ -302,12 +302,10 @@ export const HelpCenter = React.createClass({
     };
 
     const onFocusHandler = () => {
-      this.setState({searchFieldFocused: true});
+      this.setState({ searchFieldFocused: true });
     };
     const onUpdateHandler = (value) => {
-      this.setState({
-        searchFieldValue: value
-      });
+      this.setState({ searchFieldValue: value });
     };
     const chatButtonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.chat');
     const mobileHideLogoState = this.state.fullscreen && this.state.hasSearched;
