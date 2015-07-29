@@ -110,6 +110,7 @@
   padding-left: #{5/$font-size}rem;
 
   svg {
+    fill: $icon-inactive-color;
     min-width: #{8/$font-size}rem; /* 1 */
     min-height: #{8/$font-size}rem; /* 1 */
     height: #{8/$font-size}rem;
