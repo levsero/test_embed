@@ -12,14 +12,14 @@ let lastTouchEnd = 0;
 
 const propagateFontRatioChange = (isPinching) => {
   setTimeout(() => {
-    renderer.hideByZoom((getDeviceZoom() > 2) || (Math.abs(win.orientation) === 90));
+    renderer.hideByZoom(getDeviceZoom() > 2);
     mediator.channel.broadcast('.updateZoom', getSizingRatio(isPinching));
   }, 0);
 };
 const zoomMonitor = (() => {
-  let oldZoom;
   let interval = null;
   let iterations = 0;
+  let oldZoom;
   let oldOffset = [0, 0];
   let currentZoom = getDeviceZoom();
   const currentOffset = () => {

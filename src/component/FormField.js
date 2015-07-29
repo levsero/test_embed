@@ -157,7 +157,7 @@ var Field = React.createClass({
       <label className='Form-fieldContainer u-block'>
         <div className={fieldLabelClasses}>
           {isCheckbox ? '' : this.props.placeholder}
-          {this.props.required ? '*' : ''}
+          {this.props.required && !isCheckbox ? '*' : ''}
         </div>
         <div className={fieldClasses}>
           {
@@ -179,7 +179,7 @@ var Field = React.createClass({
           {
             (this.props.label)
               ? <span className='Form-checkboxCaption u-nbfc u-isActionable'>
-                  {this.props.label}
+                {this.props.label}{isCheckbox && this.props.required ? '*' : '' }
                 </span>
               : null
           }
