@@ -28,7 +28,6 @@ function create(name, config) {
         hideZendeskLogo: false
       },
       posObj,
-      iframeStyle,
       onNextClick = function() {
         mediator.channel.broadcast(name + '.onNextClick');
       },
@@ -40,8 +39,7 @@ function create(name, config) {
       onSearch = function(params) {
         beacon.track('helpCenter', 'search', name, params.searchString);
         mediator.channel.broadcast(name + '.onSearch', params);
-      },
-      Embed;
+      };
 
   config = _.extend(configDefaults, config);
 

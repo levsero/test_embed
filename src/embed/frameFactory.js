@@ -245,8 +245,6 @@ export var frameFactory = function(childFn, _params) {
         /* jshint laxbreak: true */
         var cssText = baseCSS + mainCSS + params.css + baseFontCSS,
             css = <style dangerouslySetInnerHTML={{ __html: cssText }} />,
-            Component,
-            childParams,
             fullscreen = isMobileBrowser() && params.fullscreenable,
             positionClasses = classSet({
               'u-borderTransparent u-posRelative': true,

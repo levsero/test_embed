@@ -29,7 +29,6 @@ function create(name, config) {
         hideZendeskLogo: false
       },
       posObj,
-      iframeStyle,
       onSubmitted = function(params) {
         let ticketIdMatcher = /Request \#([0-9]+)/;
         beacon.track(
@@ -45,8 +44,7 @@ function create(name, config) {
       },
       onCancel = function() {
         mediator.channel.broadcast(name + '.onCancelClick');
-      },
-      Embed;
+      };
 
   config = _.extend(configDefaults, config);
 

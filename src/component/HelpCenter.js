@@ -242,51 +242,6 @@ export const HelpCenter = React.createClass({
   },
 
   render() {
-    const listItemClasses = classSet({
-      'List-item': true,
-      'u-textSizeMed': !this.state.fullscreen,
-      'u-textSizeBaseMobile': this.state.fullscreen
-    });
-    const listClasses = classSet({
-      'List': true,
-      'u-isHidden': !this.state.articles.length,
-      'u-borderNone u-marginBS List--fullscreen': this.state.fullscreen
-    });
-    const formLegendClasses = classSet({
-      'Form-cta--title u-textSizeMed Arrange Arrange--middle u-textBody': true,
-      'u-textSizeBaseMobile': this.state.fullscreen,
-      'u-isHidden': !this.state.articles.length
-    });
-    const noResultsClasses = classSet({
-      'u-marginTM u-textCenter u-textSizeMed': true,
-      'u-isHidden': this.state.resultsCount || !this.state.hasSearched,
-      'u-textSizeBaseMobile': this.state.fullscreen,
-      'u-borderBottom List--noResults': !this.state.fullscreen
-    });
-    const searchTitleClasses = classSet({
-      'u-textSizeBaseMobile u-marginTM u-textCenter': true,
-      'Container--fullscreen-center-vert': true,
-      'u-isHidden': !this.state.fullscreen || this.state.hasSearched
-    });
-    const linkClasses = classSet({
-      'u-textSizeBaseMobile u-textCenter u-marginTL': true,
-      'u-isHidden': !this.state.fullscreen || this.state.hasSearched
-    });
-    const noResultsParagraphClasses = classSet({
-      'u-textSecondary': true,
-      'u-marginBL': !this.state.fullscreen
-    });
-    const articleClasses = classSet({
-      'u-isHidden': !this.state.articleViewActive
-    });
-    const formClasses = classSet({
-      'u-isHidden': this.state.articleViewActive
-    });
-    const buttonContainerClasses = classSet({
-      'u-borderTop u-paddingTM': this.state.articleViewActive,
-      'u-marginTA': this.state.fullscreen,
-      'u-isHidden': !this.state.hasSearched
-    });
     /* jshint quotmark:false */
     var articleTemplate = function(article, index) {
         return (
@@ -356,9 +311,7 @@ export const HelpCenter = React.createClass({
         },
         chatButtonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.chat'),
         mobileHideLogoState = this.state.fullscreen && this.state.hasSearched,
-        hideZendeskLogo = this.props.hideZendeskLogo || mobileHideLogoState,
-        zendeskLogo,
-        searchField;
+        hideZendeskLogo = this.props.hideZendeskLogo || mobileHideLogoState;
 
     if (this.props.updateFrameSize) {
       setTimeout( () => this.props.updateFrameSize(), 0);

@@ -87,16 +87,27 @@ export var SubmitTicket = React.createClass({
           this.setState({ errorMessage: msg });
           this.refs.submitTicketForm.failedToSubmit();
         },
-        fail(err) {
-          if (err.timeout) {
-            errorCallback(i18n.t('embeddable_framework.submitTicket.notify.message.timeout'));
-          } else {
-            errorCallback(i18n.t('embeddable_framework.submitTicket.notify.message.error'));
+        payload = {
+          method: 'post',
+          path: '/requests/embedded/create',
+          params: formParams,
+          callbacks: {
+            done(res) {
+              if (res.error) {
+                errorCallback(i18n.t('embeddable_framework.submitTicket.notify.message.error'));
+              } else {
+                resCallback(res);
+              }
+            },
+            fail(err) {
+              if (err.timeout) {
+                errorCallback(i18n.t('embeddable_framework.submitTicket.notify.message.timeout'));
+              } else {
+                errorCallback(i18n.t('embeddable_framework.submitTicket.notify.message.error'));
+              }
+            }
           }
-        }
-      }
-    };
-
+        };
     transport.send(payload);
   },
 
