@@ -98,8 +98,7 @@ var HelpCenterArticle = React.createClass({
             ref='article'
             className='u-marginTM'
             onClick={this.handleClick}
-            onTouchStart={this.handleClick}
-          />
+            onTouchStart={this.handleClick} />
           <div className='u-marginBM'>
             <a
               className='u-linkClean'
@@ -107,8 +106,7 @@ var HelpCenterArticle = React.createClass({
               target='_blank'>
               <ButtonPill
                 fullscreen={this.props.fullscreen}
-                label={i18n.t('embeddable_framework.helpCenter.article.viewLinkText')}
-              />
+                label={i18n.t('embeddable_framework.helpCenter.article.viewLinkText')} />
             </a>
           </div>
         </div>

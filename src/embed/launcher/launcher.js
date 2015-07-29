@@ -47,8 +47,7 @@ function create(name, config) {
           updateFrameSize={params.updateFrameSize}
           position={config.position}
           label={config.label}
-          icon={config.icon}
-        />
+          icon={config.icon} />
       );
     },
     {

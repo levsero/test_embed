@@ -4,7 +4,6 @@ const classSet = React.addons.classSet;
 
 export var Container = React.createClass({
   render() {
-    /* jshint quotmark:false */
     const containerClasses = classSet({
       'Container': true,
       'Container--popover': !this.props.fullscreen,

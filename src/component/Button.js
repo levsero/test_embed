@@ -1,6 +1,7 @@
 import React from 'react/addons';
 
 import { Icon } from 'component/Icon';
+
 const classSet = React.addons.classSet;
 
 var Button = React.createClass({

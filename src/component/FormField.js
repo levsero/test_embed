@@ -246,8 +246,7 @@ var SelectField = React.createClass({
     return (
       <Field
         {...this.props}
-        input={<select>{this.formatOptions()}</select>}
-      />
+        input={<select>{this.formatOptions()}</select>} />
     );
   }
 });
@@ -318,8 +317,8 @@ var SearchField = React.createClass({
   render() {
     /* jshint laxbreak:true */
     const loadingClasses = classSet({
-        'u-isHidden': !this.props.isLoading
-      });
+      'u-isHidden': !this.props.isLoading
+    });
     const searchContainerClasses = classSet({
       'u-cf': true,
       'u-paddingTM': this.props.hasSearched,

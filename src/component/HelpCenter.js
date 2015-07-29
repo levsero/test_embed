@@ -301,9 +301,9 @@ export const HelpCenter = React.createClass({
       );
     };
 
-    const onFocusHandler = function() {
+    const onFocusHandler = () => {
       this.setState({searchFieldFocused: true});
-    }.bind(this);
+    };
     const onUpdateHandler = (value) => {
       this.setState({
         searchFieldValue: value

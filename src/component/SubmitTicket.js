@@ -156,8 +156,7 @@ export var SubmitTicket = React.createClass({
                       : <ZendeskLogo
                           formSuccess={this.state.showNotification}
                           rtl={i18n.isRTL()}
-                          fullscreen={this.state.fullscreen}
-      />;
+                          fullscreen={this.state.fullscreen} />;
 
     return (
       <Container

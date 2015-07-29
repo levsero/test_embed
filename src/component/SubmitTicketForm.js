@@ -171,8 +171,7 @@ export const SubmitTicketForm = React.createClass({
                          required
                          value={this.state.formState.description}
                          name='description'
-                         input={<textarea rows='5' />}
-                       />
+                         input={<textarea rows='5' />} />
                        {customFields.checkboxes}
                        {this.props.children}
                      </div>;
