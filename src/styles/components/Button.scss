@@ -92,18 +92,6 @@ $Button-nudge: 5;
   &:not(:hover):not(:active) {
     fill: $inactive-color;
   }
-
-  [dir='rtl'] & {
-    white-space: nowrap;
-
-    span:first-of-type {
-      padding-right: #{14/$font-size}rem;
-    };
-
-    :last-child {
-      padding-left: 0;
-    }
-  }
 }
 
 .c-btn--secondary {
