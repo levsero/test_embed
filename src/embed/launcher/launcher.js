@@ -10,37 +10,34 @@ import { i18n }            from 'service/i18n';
 import { mediator }        from 'service/mediator';
 import { generateUserCSS } from 'utility/utils';
 
-var launcherCSS = require('./launcher.scss'),
-    launchers = {};
+const launcherCSS = require('./launcher.scss');
+let launchers = {};
 
 function create(name, config) {
-  var configDefaults = {
-        onClick: function() {},
-        position: 'right',
-        label: i18n.t('embeddable_framework.launcher.label.help'),
-        icon: 'Icon',
-        visible: true
-      },
-      base = {
-        width: '80px',
-        height: '50px',
-        position: 'fixed',
-        bottom: '10px'
-      },
-      posObj,
-      iframeStyle,
-      Embed;
+  const configDefaults = {
+    onClick: function() {},
+    position: 'right',
+    label: i18n.t('embeddable_framework.launcher.label.help'),
+    icon: 'Icon',
+    visible: true
+  };
+  const base = {
+    width: '80px',
+    height: '50px',
+    position: 'fixed',
+    bottom: '10px'
+  };
 
   config = _.extend(configDefaults, config);
 
   /* jshint laxbreak: true */
-  posObj = (config.position === 'left')
-         ? { 'left':  '20px' }
-         : { 'right': '20px' };
+  let posObj = (config.position === 'left')
+             ? { 'left':  '20px' }
+             : { 'right': '20px' };
 
-  iframeStyle = _.extend(base, posObj);
+  const iframeStyle = _.extend(base, posObj);
 
-  Embed = React.createClass(frameFactory(
+  const Embed = React.createClass(frameFactory(
     (params) => {
       return (
         <Launcher
@@ -50,8 +47,7 @@ function create(name, config) {
           updateFrameSize={params.updateFrameSize}
           position={config.position}
           label={config.label}
-          icon={config.icon}
-        />
+          icon={config.icon} />
       );
     },
     {
@@ -96,7 +92,7 @@ function render(name) {
     throw new Error(`Launcher ${name} has already been rendered.`);
   }
 
-  var element = getDocumentHost().appendChild(document.createElement('div'));
+  const element = getDocumentHost().appendChild(document.createElement('div'));
 
   launchers[name].instance = React.render(launchers[name].component, element);
 
@@ -127,7 +123,7 @@ function render(name) {
   });
 
   mediator.channel.subscribe(name + '.setLabelUnreadMsgs', function(unreadMsgs) {
-    var label = i18n.t(
+    const label = i18n.t(
       'embeddable_framework.chat.notification',
       {count: unreadMsgs}
     );

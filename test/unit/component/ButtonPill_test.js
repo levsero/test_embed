@@ -1,7 +1,7 @@
 describe('ButtonPill component', function() {
-  var ButtonPill,
-      mockRegistry,
-      buttonPath = buildSrcPath('component/Button');
+  let ButtonPill,
+      mockRegistry;
+  const buttonPath = buildSrcPath('component/Button');
 
   beforeEach(function() {
 
@@ -30,27 +30,25 @@ describe('ButtonPill component', function() {
 
   describe('ButtonPill', function() {
     it('should not have is-mobile class when fullscreen is false', function() {
-      var button = React.render(
-            <ButtonPill
-              fullscreen={false} />,
-            global.document.body
-          ),
-          buttonElem = ReactTestUtils
-            .findRenderedDOMComponentWithClass(button, 'c-btn--pill'),
-          buttonClasses = buttonElem.props.className;
+      const button = React.render(
+        <ButtonPill fullscreen={false} />,
+        global.document.body
+      );
+      const buttonElem = ReactTestUtils
+        .findRenderedDOMComponentWithClass(button, 'c-btn--pill');
+      const buttonClasses = buttonElem.props.className;
 
       expect(buttonClasses).not.toMatch('is-mobile');
     });
 
     it('should have is-mobile class when fullscreen is true', function() {
-      var button = React.render(
-            <ButtonPill
-              fullscreen={true} />,
-            global.document.body
-          ),
-          buttonElem = ReactTestUtils
-            .findRenderedDOMComponentWithClass(button, 'c-btn--pill'),
-          buttonClasses = buttonElem.props.className;
+      const button = React.render(
+        <ButtonPill fullscreen={true} />,
+        global.document.body
+      );
+      const buttonElem = ReactTestUtils
+        .findRenderedDOMComponentWithClass(button, 'c-btn--pill');
+      const buttonClasses = buttonElem.props.className;
 
       expect(buttonClasses).toMatch('is-mobile');
     });

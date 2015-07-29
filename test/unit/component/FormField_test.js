@@ -1,11 +1,11 @@
 describe('FormField component', function() {
-  var mockRegistry,
+  let mockRegistry,
       onSearch,
       onUpdate,
-      formFieldPath = buildSrcPath('component/FormField'),
       SearchField,
       Field,
       getCustomFields;
+  const formFieldPath = buildSrcPath('component/FormField');
 
   beforeEach(function() {
 
@@ -28,7 +28,7 @@ describe('FormField component', function() {
         Icon: React.createClass({
           render: function() {
             return <span
-                    className={"Icon "+this.props.type}
+                    className={`Icon ${this.props.type}`}
                     onClick={this.props.onClick}>
                       <svg />
                    </span>;
@@ -66,12 +66,11 @@ describe('FormField component', function() {
 
   describe('Field', function() {
     it('should render form field DOM with a label wrapping two child divs', function() {
-      var field = React.render(
-            <Field
-              name='alice' />,
-            global.document.body
-          ),
-          fieldNode = field.getDOMNode();
+      const field = React.render(
+        <Field name='alice' />,
+        global.document.body
+      );
+      const fieldNode = field.getDOMNode();
 
       expect(fieldNode.nodeName)
         .toEqual('LABEL');
@@ -87,13 +86,13 @@ describe('FormField component', function() {
     });
 
     it('should pass along all props to underlying input', function() {
-      var field = React.render(
-            <Field
-              type='email'
-              name='alice' />,
-            global.document.body
-          ),
-          fieldNode = field.getDOMNode();
+      const field = React.render(
+        <Field
+          type='email'
+          name='alice' />,
+        global.document.body
+      );
+      const fieldNode = field.getDOMNode();
 
       expect(fieldNode.querySelector('input').name)
         .toEqual('alice');
@@ -103,15 +102,15 @@ describe('FormField component', function() {
     });
 
     it('should render input prop component instead of default input', function() {
-      var field = React.render(
-            <Field
-              input={
-                <textarea />
-              }
-              name='alice' />,
-            global.document.body
-          ),
-          fieldNode = field.getDOMNode();
+      const field = React.render(
+        <Field
+          input={
+            <textarea />
+          }
+          name='alice' />,
+        global.document.body
+      );
+      const fieldNode = field.getDOMNode();
 
       expect(fieldNode.querySelector('input'))
         .toBeFalsy();
@@ -124,14 +123,14 @@ describe('FormField component', function() {
     });
 
     it('should render checkbox with label instead of default input', function() {
-      var field = React.render(
-            <Field
-              label='Agree?'
-              type='checkbox'
-              name='alice' />,
-            global.document.body
-          ),
-          fieldNode = field.getDOMNode();
+      const field = React.render(
+        <Field
+          label='Agree?'
+          type='checkbox'
+          name='alice' />,
+        global.document.body
+      );
+      const fieldNode = field.getDOMNode();
 
       expect(fieldNode.querySelector('input').type)
         .toEqual('checkbox');
@@ -141,12 +140,12 @@ describe('FormField component', function() {
     });
 
     it('should set focused state on field focus', function() {
-      var field = React.render(
-            <Field
-              name='alice' />,
-            global.document.body
-          ),
-          fieldNode = field.getDOMNode();
+      const field = React.render(
+        <Field
+          name='alice' />,
+        global.document.body
+      );
+      const fieldNode = field.getDOMNode();
 
       expect(field.state.focused)
         .toBe(false);
@@ -161,12 +160,12 @@ describe('FormField component', function() {
     });
 
     it('should only set invalid class after focus and blur events', function() {
-      var field = React.render(
-            <Field
-              name='alice' />,
-            global.document.body
-          ),
-          fieldNode = field.getDOMNode();
+      const field = React.render(
+        <Field
+          name='alice' />,
+        global.document.body
+      );
+      const fieldNode = field.getDOMNode();
 
       // jsdom doesn't seem to support html5 validation api
       // shim it for this test
@@ -198,11 +197,11 @@ describe('FormField component', function() {
   });
 
   it('should have mobile classes when isMobileBrowser is true', function() {
-    var field = React.render(
-          <Field />,
-          global.document.body
-        ),
-        fieldNode = field.getDOMNode();
+    const field = React.render(
+      <Field />,
+      global.document.body
+    );
+    const fieldNode = field.getDOMNode();
 
     expect(fieldNode.childNodes[0].className)
       .toMatch('u-textSize15');
@@ -218,11 +217,11 @@ describe('FormField component', function() {
 
     Field = require(formFieldPath).Field;
 
-    var field = React.render(
-          <Field />,
-          global.document.body
-        ),
-        fieldNode = field.getDOMNode();
+    const field = React.render(
+      <Field />,
+      global.document.body
+    );
+    const fieldNode = field.getDOMNode();
 
     expect(fieldNode.childNodes[0].className)
       .not.toMatch('u-textSize15');
@@ -230,105 +229,105 @@ describe('FormField component', function() {
 
   describe('getCustomFields', function() {
     it('should convert custom field payload into array of React components', function() {
-      var payload = [
+      const payload = [
+        {
+          id: '22660514',
+          type: 'text',
+          title: 'Text',
+          required: true,
+          variants: [
             {
-              id: '22660514',
-              type: 'text',
-              title: 'Text',
-              required: true,
-              variants: [
-                {
-                  localeId: 1,
-                  content: 'Option 1'
-                },
-                {
-                  localeId: 16,
-                  content: 'FrenchField'
-                }
-              ]
+              localeId: 1,
+              content: 'Option 1'
             },
             {
-              id: 10006,
-              type: 'tagger',
-              title: 'Nested Drop Down',
-              required: false,
-              options: [
-                {
-                  title: 'Option1::Part1',
-                  value: 'option1__part1'
-                },
-                {
-                  title: 'Option2::Part2',
-                  value: 'option2__part2'
-                },
-                {
-                  title: 'Option1::Part2',
-                  value: 'option1__part2'
-                }
-              ]
+              localeId: 16,
+              content: 'FrenchField'
+            }
+          ]
+        },
+        {
+          id: 10006,
+          type: 'tagger',
+          title: 'Nested Drop Down',
+          required: false,
+          options: [
+            {
+              title: 'Option1::Part1',
+              value: 'option1__part1'
             },
             {
-              id: '22666574',
-              type: 'tagger',
-              title: 'Department',
-              variants: [
-                {
-                  localeId: 1,
-                  content: 'Drop Down English'
-                },
-                {
-                  localeId: 16,
-                  content: 'Drop Down français'
-                }
-              ],
-              options: [
-                {
-                  title: 'Sales',
-                  value: 1,
-                  variants: [
-                    {
-                      localeId: 1,
-                      content: 'English'
-                    },
-                    {
-                      localeId: 16,
-                      content: 'French'
-                    }
-                  ]
-                },
-                {
-                  title: 'Support',
-                  value: 2
-                }
-              ],
-              required: true
+              title: 'Option2::Part2',
+              value: 'option2__part2'
             },
             {
-              id: '22660524',
-              type: 'textarea',
-              title: 'Order Details',
-              required: true
+              title: 'Option1::Part2',
+              value: 'option1__part2'
+            }
+          ]
+        },
+        {
+          id: '22666574',
+          type: 'tagger',
+          title: 'Department',
+          variants: [
+            {
+              localeId: 1,
+              content: 'Drop Down English'
             },
             {
-              id: '22823250',
-              type: 'integer',
-              title: 'Age',
-              required: true
-            },
-            {
-              id: '22823260',
-              type: 'decimal',
-              title: 'Total Cost',
-              required: true
-            },
-            {
-              id: '22823270',
-              type: 'checkbox',
-              title: 'Can we call you?',
-              required: false
+              localeId: 16,
+              content: 'Drop Down français'
             }
           ],
-          customFields = getCustomFields(payload, {});
+          options: [
+            {
+              title: 'Sales',
+              value: 1,
+              variants: [
+                {
+                  localeId: 1,
+                  content: 'English'
+                },
+                {
+                  localeId: 16,
+                  content: 'French'
+                }
+              ]
+            },
+            {
+              title: 'Support',
+              value: 2
+            }
+          ],
+          required: true
+        },
+        {
+          id: '22660524',
+          type: 'textarea',
+          title: 'Order Details',
+          required: true
+        },
+        {
+          id: '22823250',
+          type: 'integer',
+          title: 'Age',
+          required: true
+        },
+        {
+          id: '22823260',
+          type: 'decimal',
+          title: 'Total Cost',
+          required: true
+        },
+        {
+          id: '22823270',
+          type: 'checkbox',
+          title: 'Can we call you?',
+          required: false
+        }
+      ];
+      const customFields = getCustomFields(payload, {});
 
       expect(Object.keys(customFields))
         .toEqual(['fields', 'checkboxes']);
@@ -349,11 +348,11 @@ describe('FormField component', function() {
 
   describe('SearchField', function() {
     it('should call onSearch when search icon is clicked', function() {
-      var searchField = React.render(
-            <SearchField onSearchIconClick={onSearch} />,
-            global.document.body
-          ),
-          searchFieldNode = searchField.getDOMNode();
+      const searchField = React.render(
+        <SearchField onSearchIconClick={onSearch} />,
+        global.document.body
+      );
+      const searchFieldNode = searchField.getDOMNode();
 
       ReactTestUtils.Simulate.click(searchFieldNode.querySelector('.Icon--search'));
 
@@ -362,12 +361,12 @@ describe('FormField component', function() {
     });
 
     it('should clear input and call props.onUpdate when clear icon is clicked', function() {
-      var searchField = React.render(
-            <SearchField onUpdate={onUpdate} />,
-            global.document.body
-          ),
-          searchFieldNode = searchField.getDOMNode(),
-          searchInputNode = searchFieldNode.querySelector('input');
+      const searchField = React.render(
+        <SearchField onUpdate={onUpdate} />,
+        global.document.body
+      );
+      const searchFieldNode = searchField.getDOMNode();
+      const searchInputNode = searchFieldNode.querySelector('input');
 
       searchInputNode.value = 'Search string';
 

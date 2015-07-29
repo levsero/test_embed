@@ -10,10 +10,10 @@ import { i18n }                 from 'service/i18n';
 import { parseUrl,
          getFrameworkLoadTime }  from 'utility/utils';
 
-var version;
+let version;
 
 function init(_version = '') {
-  var now = Date.now();
+  const now = Date.now();
   store.set('currentTime', now, true);
   version = _version;
   return this;
@@ -29,37 +29,37 @@ function commonParams() {
 }
 
 function send() {
-  var now = Date.now(),
-      referrer = parseUrl(doc.referrer),
-      previousTime = store.get('currentTime', true) || 0,
-      url = win.location.origin,
-      timeOnLastPage = function () {
-        return referrer.origin === url && previousTime ? (now - previousTime) : 0;
-      },
-      params = {
-        pageView: {
-          referrer: referrer.href,
-          time: timeOnLastPage(),
-          loadTime: getFrameworkLoadTime(),
-          navigatorLanguage: navigator.language,
-          pageTitle: doc.title,
-          userAgent: navigator.userAgent
-        }
-      },
-      payload = {
-        method: 'POST',
-        path: '/embeddable/blips',
-        params: _.extend(commonParams(), params)
-      };
+  const now = Date.now();
+  const referrer = parseUrl(doc.referrer);
+  const previousTime = store.get('currentTime', true) || 0;
+  const url = win.location.origin;
+  const timeOnLastPage = () => {
+    return referrer.origin === url && previousTime ? (now - previousTime) : 0;
+  };
+  const params = {
+    pageView: {
+      referrer: referrer.href,
+      time: timeOnLastPage(),
+      loadTime: getFrameworkLoadTime(),
+      navigatorLanguage: navigator.language,
+      pageTitle: doc.title,
+      userAgent: navigator.userAgent
+    }
+  };
+  const payload = {
+    method: 'POST',
+    path: '/embeddable/blips',
+    params: _.extend(commonParams(), params)
+  };
 
   transport.send(payload);
 }
 
 function sendConfigLoadTime(time) {
-  var payload = {
-        method: 'POST',
-        path: '/embeddable/blips',
-        params: _.extend(commonParams(), {performance: {configLoadTime: time}})
+  const payload = {
+    method: 'POST',
+    path: '/embeddable/blips',
+    params: _.extend(commonParams(), {performance: {configLoadTime: time}})
   };
   transport.send(payload);
 }
@@ -70,26 +70,26 @@ function track(category, action, label, value) {
     return false;
   }
 
-  var params = {
-        userAction: {
-          category: category,
-          action: action,
-          label: label,
-          value: value
-        }
-      },
-      payload = {
-        method: 'POST',
-        path: '/embeddable/blips',
-        params: _.extend(commonParams(), params)
-      };
+  const params = {
+    userAction: {
+      category: category,
+      action: action,
+      label: label,
+      value: value
+    }
+  };
+  const payload = {
+    method: 'POST',
+    path: '/embeddable/blips',
+    params: _.extend(commonParams(), params)
+  };
 
   transport.send(payload);
 }
 
 function identify(user) {
   user.localeId = i18n.getLocaleId();
-  var payload = {
+  const payload = {
     method: 'POST',
     path: '/embeddable/blips',
     params: _.extend(commonParams(), {user: user})

@@ -1,5 +1,6 @@
-var gulp = require('gulp'),
-    jshint = require('gulp-jshint');
+const gulp = require('gulp');
+const jshint = require('gulp-jshint');
+const jscs = require('gulp-jscs');
 
 gulp.task('lint', function() {
   gulp.src(['src/**/*.js', 'test/**/*.js', 'gulp/**/*.js'])
@@ -8,3 +9,7 @@ gulp.task('lint', function() {
     .pipe(jshint.reporter('fail'));
 });
 
+gulp.task('jscs', function() {
+  return gulp.src(['src/**/*.js', 'test/**/*.js', 'gulp/**/*.js'])
+    .pipe(jscs());
+});

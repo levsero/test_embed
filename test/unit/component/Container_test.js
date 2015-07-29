@@ -1,7 +1,7 @@
 describe('Container component', function() {
-  var Container,
-      mockRegistry,
-      containerPath = buildSrcPath('component/Container');
+  let Container,
+      mockRegistry;
+  const containerPath = buildSrcPath('component/Container');
 
   beforeEach(function() {
 
@@ -27,15 +27,14 @@ describe('Container component', function() {
 
   it('should have the `fullscreen` classnames when fullscreen is true', function() {
 
-    var container = React.render(
-          <Container fullscreen={true} />,
-          global.document.body
-        ),
-        containerNode = ReactTestUtils
-          .findRenderedDOMComponentWithClass(container, 'Container'),
-        containerClasses;
+    const container = React.render(
+      <Container fullscreen={true} />,
+      global.document.body
+    );
+    const containerNode = ReactTestUtils
+      .findRenderedDOMComponentWithClass(container, 'Container');
 
-    containerClasses = containerNode.props.className;
+    const containerClasses = containerNode.props.className;
 
     expect(containerClasses)
       .toMatch('Container--fullscreen');
@@ -46,17 +45,16 @@ describe('Container component', function() {
 
   it('should have the `popover` classnames when fullscreen is false', function() {
 
-    var container = React.render(
-          <Container />,
-          global.document.body
-        ),
-        containerNode = ReactTestUtils
-          .findRenderedDOMComponentWithClass(container, 'Container'),
-        containerClasses;
+    const container = React.render(
+      <Container />,
+      global.document.body
+    );
+    const containerNode = ReactTestUtils
+      .findRenderedDOMComponentWithClass(container, 'Container');
 
     container.setState({fullscreen: false});
 
-    containerClasses = containerNode.props.className;
+    const containerClasses = containerNode.props.className;
 
     expect(containerClasses)
       .toMatch('Container--popover');

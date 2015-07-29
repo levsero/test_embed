@@ -14,39 +14,39 @@ import { setScaleLock,
          revertWindowScroll,
          generateUserCSS }   from 'utility/utils';
 
-var submitTicketCSS = require('./submitTicket.scss'),
-    submitTickets = {};
+const submitTicketCSS = require('./submitTicket.scss');
+let submitTickets = {};
 
 function create(name, config) {
-  var containerStyle,
-      iframeBase = {
-        position: 'fixed',
-        bottom: 0
-      },
-      configDefaults = {
-        position: 'right',
-        customFields: [],
-        hideZendeskLogo: false
-      },
-      posObj,
-      iframeStyle,
-      onSubmitted = function(params) {
-        let ticketIdMatcher = /Request \#([0-9]+)/;
-        beacon.track(
-          'submitTicket',
-          'send',
-          name,
-          {
-            query: params.searchString,
-            ticketId: parseInt(ticketIdMatcher.exec(params.res.body.message)[1], 10),
-            locale: params.searchLocale
-          });
-        mediator.channel.broadcast(name + '.onFormSubmitted');
-      },
-      onCancel = function() {
-        mediator.channel.broadcast(name + '.onCancelClick');
-      },
-      Embed;
+  let containerStyle,
+      posObj;
+
+  const iframeBase = {
+    position: 'fixed',
+    bottom: 0
+  };
+  const configDefaults = {
+    position: 'right',
+    customFields: [],
+    hideZendeskLogo: false
+  };
+  const onSubmitted = function(params) {
+    let ticketIdMatcher = /Request \#([0-9]+)/;
+    beacon.track(
+      'submitTicket',
+      'send',
+      name,
+      {
+        query: params.searchString,
+        ticketId: parseInt(ticketIdMatcher.exec(params.res.body.message)[1], 10),
+        locale: params.searchLocale
+      }
+    );
+    mediator.channel.broadcast(name + '.onFormSubmitted');
+  };
+  const onCancel = function() {
+    mediator.channel.broadcast(name + '.onCancelClick');
+  };
 
   config = _.extend(configDefaults, config);
 
@@ -61,9 +61,9 @@ function create(name, config) {
     containerStyle = { width: 342, margin: 15 };
   }
 
-  iframeStyle = _.extend(iframeBase, posObj);
+  let iframeStyle = _.extend(iframeBase, posObj);
 
-  Embed = React.createClass(frameFactory(
+  let Embed = React.createClass(frameFactory(
     (params) => {
       return (
         <div style={containerStyle}>
@@ -130,7 +130,7 @@ function render(name) {
     throw new Error(`SubmitTicket ${name} has already been rendered.`);
   }
 
-  var element = getDocumentHost().appendChild(document.createElement('div'));
+  const element = getDocumentHost().appendChild(document.createElement('div'));
 
   submitTickets[name].instance = React.render(submitTickets[name].component, element);
 
@@ -143,7 +143,7 @@ function render(name) {
   });
 
   mediator.channel.subscribe(name + '.hide', function() {
-    var submitTicket = get(name).instance.getChild().refs.submitTicket;
+    const submitTicket = get(name).instance.getChild().refs.submitTicket;
 
     submitTickets[name].instance.hide();
 
@@ -170,11 +170,11 @@ function render(name) {
 }
 
 function prefillForm(name, user) {
-  var getChild = get(name).instance.getChild();
+  const getChild = get(name).instance.getChild();
 
-  if(getChild) {
-    var submitTicket = get(name).instance.getChild().refs.submitTicket,
-        submitTicketForm = submitTicket.refs.submitTicketForm;
+  if (getChild) {
+    let submitTicket = get(name).instance.getChild().refs.submitTicket;
+    let submitTicketForm = submitTicket.refs.submitTicketForm;
 
     submitTicketForm.setState({
       formState: _.pick(user, ['name', 'email'])

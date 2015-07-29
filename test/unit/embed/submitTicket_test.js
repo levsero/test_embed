@@ -1,12 +1,12 @@
 describe('embed.submitTicket', function() {
-  var submitTicket,
+  let submitTicket,
       mockRegistry,
-      frameConfig,
-      defaultValue = 'abc123',
-      submitTicketPath = buildSrcPath('embed/submitTicket/submitTicket'),
-      resetTicketFormVisibility = jasmine.createSpy(),
-      hideVirtualKeyboard = jasmine.createSpy(),
-      focusField = jasmine.createSpy();
+      frameConfig;
+  const resetTicketFormVisibility = jasmine.createSpy();
+  const hideVirtualKeyboard = jasmine.createSpy();
+  const focusField = jasmine.createSpy();
+  const defaultValue = 'abc123';
+  const submitTicketPath = buildSrcPath('embed/submitTicket/submitTicket');
 
   beforeEach(function() {
     resetDOM();
@@ -50,7 +50,7 @@ describe('embed.submitTicket', function() {
             };
           },
           render: function() {
-            var SubmitTicketForm = mockRegistry['component/SubmitTicketForm'].SubmitTicketForm;
+            const SubmitTicketForm = mockRegistry['component/SubmitTicketForm'].SubmitTicketForm;
 
             return (
               <div className='mock-submitTicket'>
@@ -109,8 +109,6 @@ describe('embed.submitTicket', function() {
   describe('create', function() {
 
     it('show add a new submit ticket form to the submitTicket array', function() {
-      var bob;
-
       expect(_.keys(submitTicket.list()).length)
         .toEqual(0);
 
@@ -119,7 +117,7 @@ describe('embed.submitTicket', function() {
       expect(_.keys(submitTicket.list()).length)
         .toEqual(1);
 
-      bob = submitTicket.get('bob');
+      const bob = submitTicket.get('bob');
 
       expect(bob)
         .toBeDefined();
@@ -129,7 +127,7 @@ describe('embed.submitTicket', function() {
     });
 
     describe('frameFactory', function() {
-      var mockFrameFactory,
+      let mockFrameFactory,
           mockFrameFactoryCall,
           submitTicketChild,
           params;
@@ -179,7 +177,7 @@ describe('embed.submitTicket', function() {
       });
 
       it('should toggle setScaleLock with onShow/onHide', function() {
-        var mockSetScaleLock = mockRegistry['utility/utils'].setScaleLock;
+        const mockSetScaleLock = mockRegistry['utility/utils'].setScaleLock;
 
         mockery.registerMock('utility/devices', {
           isMobileBrowser: function() {
@@ -236,7 +234,7 @@ describe('embed.submitTicket', function() {
       });
 
       it('should broadcast <name>.onClose with onClose', function() {
-        var mockMediator = mockRegistry['service/mediator'].mediator;
+        const mockMediator = mockRegistry['service/mediator'].mediator;
 
         params.onClose();
 
@@ -245,9 +243,7 @@ describe('embed.submitTicket', function() {
       });
 
       it('should switch iframe styles based on isMobileBrowser()', function() {
-        var mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory,
-            mockFrameFactoryCall,
-            iframeStyle;
+        const mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
 
         mockery.registerMock('utility/devices', {
           isMobileBrowser: function() {
@@ -258,9 +254,8 @@ describe('embed.submitTicket', function() {
         submitTicket = require(submitTicketPath).submitTicket;
         submitTicket.create('bob');
 
-        mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
-
-        iframeStyle = mockFrameFactoryCall[1].style;
+        const mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
+        const iframeStyle = mockFrameFactoryCall[1].style;
 
         expect(iframeStyle.left)
           .toBeUndefined();
@@ -270,51 +265,10 @@ describe('embed.submitTicket', function() {
       });
 
       it('should switch container styles based on isMobileBrowser()', function() {
-      var mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory,
-          mockFrameFactoryCall,
-          childFnParams = {
-            updateFrameSize: noop
-          },
-          payload;
-
-      mockery.registerMock('utility/devices', {
-        isMobileBrowser: function() {
-          return true;
-        }
-      });
-
-      mockery.resetCache();
-
-      submitTicket = require(submitTicketPath).submitTicket;
-
-      submitTicket.create('bob');
-
-      mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
-
-      payload = mockFrameFactoryCall[0](childFnParams);
-
-      expect(payload.props.style)
-        .toEqual({height: '100%', width: '100%'});
-      });
-
-      it('should broadcast <name>.onSubmitted with onSubmitted', function() {
-        var mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory,
-            mockMediator = mockRegistry['service/mediator'].mediator,
-            mockBeacon = mockRegistry['service/beacon'].beacon,
-            mockFrameFactoryCall,
-            childFnParams = {
-              updateFrameSize: noop
-            },
-            params = {
-              res: {
-                body: {
-                  message: 'Request #149 "bla bla" created'
-                }
-              },
-              searchString: 'a search',
-              searchLocale: 'en-US'
-            },
-            payload;
+        const mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
+        const childFnParams = {
+          updateFrameSize: noop
+        };
 
         mockery.registerMock('utility/devices', {
           isMobileBrowser: function() {
@@ -328,9 +282,47 @@ describe('embed.submitTicket', function() {
 
         submitTicket.create('bob');
 
-        mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
+        const  mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
+        const payload = mockFrameFactoryCall[0](childFnParams);
 
-        payload = mockFrameFactoryCall[0](childFnParams);
+        expect(payload.props.style)
+        .toEqual({height: '100%', width: '100%'});
+      });
+
+      it('should broadcast <name>.onSubmitted with onSubmitted', function() {
+        const mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
+        const mockMediator = mockRegistry['service/mediator'].mediator;
+        const mockBeacon = mockRegistry['service/beacon'].beacon;
+
+        const childFnParams = {
+          updateFrameSize: noop
+        };
+        const params = {
+          res: {
+            body: {
+              message: 'Request #149 "bla bla" created'
+            }
+          },
+          searchString: 'a search',
+          searchLocale: 'en-US'
+        };
+
+        mockery.registerMock(
+          'utility/devices', {
+          isMobileBrowser: function() {
+            return true;
+          }
+        });
+
+        mockery.resetCache();
+
+        submitTicket = require(submitTicketPath).submitTicket;
+
+        submitTicket.create('bob');
+
+        const mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
+
+        const payload = mockFrameFactoryCall[0](childFnParams);
 
         payload.props.children.props.onSubmitted(params);
 
@@ -398,21 +390,20 @@ describe('embed.submitTicket', function() {
     });
 
     it('applies submitTicket.scss to the frame', function() {
-      var mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory,
-          mockCss = mockRegistry['./submitTicket.scss'],
-          mockFrameFactoryCss;
+      const mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
+      const mockCss = mockRegistry['./submitTicket.scss'];
 
       submitTicket.create('bob');
       submitTicket.render('bob');
 
-      mockFrameFactoryCss = mockFrameFactory.calls.mostRecent().args[1].css;
+      const mockFrameFactoryCss = mockFrameFactory.calls.mostRecent().args[1].css;
 
       expect(mockFrameFactoryCss)
         .toEqual(mockCss);
     });
 
     describe('mediator subscription', function() {
-      var mockMediator,
+      let mockMediator,
           bob,
           bobFrame,
           bobSubmitTicket,
@@ -475,7 +466,7 @@ describe('embed.submitTicket', function() {
       });
 
       it('should subscribe to <name>.setLastSearch', function() {
-        var params = {
+        const params = {
           searchString: 'a search',
           searchLocale: 'en-US'
         };

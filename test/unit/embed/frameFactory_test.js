@@ -1,10 +1,10 @@
 describe('frameFactory', function() {
 
-  var frameFactory,
+  let frameFactory,
       mockRegistry,
       mockRegistryMocks,
-      mockChildFn,
-      frameFactoryPath = buildSrcPath('embed/frameFactory');
+      mockChildFn;
+  const frameFactoryPath = buildSrcPath('embed/frameFactory');
 
   beforeEach(function() {
     resetDOM();
@@ -83,7 +83,7 @@ describe('frameFactory', function() {
     });
 
     it('should not throw if childFn returns a React component', function() {
-      var childFn = function() {
+      const childFn = function() {
         return <mockComponent />;
       };
       expect(function() {
@@ -92,7 +92,7 @@ describe('frameFactory', function() {
     });
 
     it('should not throw if childFn returns a React DOM component', function() {
-      var childFn = function() {
+      const childFn = function() {
         return <div />;
       };
       expect(function() {
@@ -103,8 +103,8 @@ describe('frameFactory', function() {
 
   describe('getDefaultProps', function() {
     it('has default prop value for `visible` set to true', function() {
-      var payload = frameFactory(mockChildFn),
-          defaultProps = payload.getDefaultProps();
+      const payload = frameFactory(mockChildFn);
+      const defaultProps = payload.getDefaultProps();
 
       expect(defaultProps.visible)
         .toEqual(true);
@@ -113,11 +113,11 @@ describe('frameFactory', function() {
 
   describe('getInitialState', function() {
     it('picks up initial state for `visible` from the `visible` prop', function() {
-      var Embed = React.createClass(frameFactory(mockChildFn)),
-          instance = React.render(
-            <Embed visible={false} />,
-            global.document.body
-          );
+      const Embed = React.createClass(frameFactory(mockChildFn));
+      const instance = React.render(
+        <Embed visible={false} />,
+        global.document.body
+      );
 
       expect(instance.state.visible)
         .toEqual(false);
@@ -126,11 +126,11 @@ describe('frameFactory', function() {
 
   describe('getChild', function() {
     it('stores and exposes the child component via getChild()', function() {
-      var Embed = React.createClass(frameFactory(mockChildFn)),
-          instance = React.render(
-            <Embed />,
-            global.document.body
-          );
+      const Embed = React.createClass(frameFactory(mockChildFn));
+      const instance = React.render(
+        <Embed />,
+        global.document.body
+      );
 
       expect(function() {
         ReactTestUtils
@@ -145,15 +145,14 @@ describe('frameFactory', function() {
 
   describe('updateFrameSize', function() {
     it('reads content dimensions and sets the state', function() {
-
-      var payload = frameFactory(mockChildFn),
-          Embed = React.createClass(payload),
-          instance = React.render(
-            <Embed />,
-            global.document.body
-          ),
-          frameContainer = global.document.body.getElementsByTagName('iframe')[0],
-          frameContainerStyle = frameContainer.style;
+      const payload = frameFactory(mockChildFn);
+      const Embed = React.createClass(payload);
+      const instance = React.render(
+        <Embed />,
+        global.document.body
+      );
+      const frameContainer = global.document.body.getElementsByTagName('iframe')[0];
+      const frameContainerStyle = frameContainer.style;
 
       jasmine.clock().install();
 
@@ -184,7 +183,7 @@ describe('frameFactory', function() {
     });
 
     it('respects the fullscreenable parameter', function() {
-      var payload,
+      let payload,
           Embed,
           instance,
           frameContainer,
@@ -237,12 +236,12 @@ describe('frameFactory', function() {
   });
 
   describe('show', function() {
-    var instance,
+    let instance,
         mockOnShow,
         snabbt;
 
     beforeEach(function() {
-      var payload,
+      let payload,
           Embed;
 
       snabbt = mockRegistry['snabbt.js'].snabbt;
@@ -292,8 +291,7 @@ describe('frameFactory', function() {
     });
 
     it('apply webkitOverflowScrolling when not set', function() {
-      var frameContainer = instance.getDOMNode().contentDocument.body.firstChild,
-          frameContainerStyle;
+      const frameContainer = instance.getDOMNode().contentDocument.body.firstChild;
 
       jasmine.clock().install();
 
@@ -302,7 +300,7 @@ describe('frameFactory', function() {
       jasmine.clock().tick(50);
 
       // Get the style AFTER the ticks
-      frameContainerStyle = frameContainer.style;
+      const frameContainerStyle = frameContainer.style;
 
       expect(frameContainerStyle.webkitOverflowScrolling)
         .toEqual('touch');
@@ -313,20 +311,17 @@ describe('frameFactory', function() {
   });
 
   describe('hide', function() {
-    var instance,
+    let instance,
         mockOnHide;
 
     beforeEach(function() {
-      var payload,
-          Embed;
-
       mockOnHide = jasmine.createSpy('onHide');
 
-      payload = frameFactory(mockChildFn, {
+      const payload = frameFactory(mockChildFn, {
         onHide: mockOnHide
       });
 
-      Embed = React.createClass(payload);
+      const Embed = React.createClass(payload);
 
       instance = React.render(
           <Embed />,
@@ -352,15 +347,15 @@ describe('frameFactory', function() {
   });
 
   describe('render', function() {
-    var instance;
+    let instance;
 
     beforeEach(function() {
-      var payload = frameFactory(mockChildFn, {
-            style: {
-              backgroundColor: '#abc'
-            }
-          }),
-          Embed = React.createClass(payload);
+      const payload = frameFactory(mockChildFn, {
+        style: {
+          backgroundColor: '#abc'
+        }
+      });
+      const Embed = React.createClass(payload);
 
       instance = React.render(
         <Embed visible={false} />,
@@ -374,8 +369,8 @@ describe('frameFactory', function() {
     });
 
     it('uses `state.visible` to determine its css `display` rule', function() {
-      var frameContainer = global.document.body.getElementsByTagName('iframe')[0],
-          frameContainerStyle = frameContainer.style;
+      const frameContainer = global.document.body.getElementsByTagName('iframe')[0];
+      const frameContainerStyle = frameContainer.style;
 
       expect(frameContainerStyle.cssText)
         .not.toContain('top:-9999px');
@@ -401,15 +396,15 @@ describe('frameFactory', function() {
     });
 
     it('has `border` css rule set to none', function() {
-      var iframe = global.document.body.getElementsByTagName('iframe')[0];
+      const iframe = global.document.body.getElementsByTagName('iframe')[0];
 
       expect(iframe.style.border)
         .toEqual('none');
     });
 
     it('merges in css rules from params.style with correct precedence', function() {
-      var frameContainer = global.document.body.getElementsByTagName('iframe')[0],
-          frameContainerStyle = frameContainer.style;
+      const frameContainer = global.document.body.getElementsByTagName('iframe')[0];
+      const frameContainerStyle = frameContainer.style;
 
       expect(frameContainerStyle.backgroundColor)
         .toEqual('#abc');
@@ -427,16 +422,16 @@ describe('frameFactory', function() {
   describe('renderFrameContent', function() {
 
     it('adds a <style> block with relevant rules to the iframe document', function() {
-      var payload = frameFactory(mockChildFn, {
-            css: '.params-css {} '
-          }),
-          Embed = React.createClass(payload),
-          instance = React.render(
-            <Embed />,
-            global.document.body
-          ),
-          child = instance.getChild(),
-          styleBlock = child.getDOMNode().getElementsByTagName('style')[0];
+      const payload = frameFactory(mockChildFn, {
+        css: '.params-css {} '
+      });
+      const Embed = React.createClass(payload);
+      const instance = React.render(
+        <Embed />,
+        global.document.body
+      );
+      const child = instance.getChild();
+      const styleBlock = child.getDOMNode().getElementsByTagName('style')[0];
 
       expect(styleBlock.innerHTML.indexOf('.base-css-file {}') >= 0)
         .toBeTruthy();
@@ -449,31 +444,31 @@ describe('frameFactory', function() {
     });
 
     it('injects params.extend functions into the child component', function() {
-      var mockClickHandler = jasmine.createSpy('mockClickHandler'),
-          mockSubmitHandler = jasmine.createSpy('mockSubmitHandler'),
-          payload = frameFactory(
-            function(params) {
-              return (
-                /* jshint quotmark:false */
-                <mockComponent
-                  ref='aliceComponent'
-                  onClick={params.onClickHandler}
-                  onSubmit={params.onSubmitHandler} />
-              );
-            },
-            {
-              extend: {
-                onClickHandler: mockClickHandler,
-                onSubmitHandler: mockSubmitHandler
-              }
-            }
-          ),
-          Embed = React.createClass(payload),
-          instance = React.render(
-            <Embed />,
-            global.document.body
-          ),
-          child = instance.getChild().refs.aliceComponent;
+      const mockClickHandler = jasmine.createSpy('mockClickHandler');
+      const mockSubmitHandler = jasmine.createSpy('mockSubmitHandler');
+      const payload = frameFactory(
+        function(params) {
+          return (
+            /* jshint quotmark:false */
+            <mockComponent
+              ref='aliceComponent'
+              onClick={params.onClickHandler}
+              onSubmit={params.onSubmitHandler} />
+          );
+        },
+        {
+          extend: {
+            onClickHandler: mockClickHandler,
+            onSubmitHandler: mockSubmitHandler
+          }
+        }
+      );
+      const Embed = React.createClass(payload);
+      const instance = React.render(
+        <Embed />,
+        global.document.body
+      );
+      const child = instance.getChild().refs.aliceComponent;
 
       child.props.onClick('click param');
 
@@ -487,27 +482,28 @@ describe('frameFactory', function() {
     });
 
     it('injects the internal updateFrameSize into the child component', function() {
-      var mockUpdateFrameSize = jasmine.createSpy('mockUpdateFrameSize'),
-          payload = frameFactory(
-          function(params) {
-            return (
-              /* jshint quotmark:false */
-              <mockComponent
-                ref='aliceComponent'
-                updateFrameSize={params.updateFrameSize} />
-            );
-          },
-          {
-            extend: {
-              updateFrameSize: mockUpdateFrameSize
-            }
-          }),
-          Embed = React.createClass(payload),
-          instance = React.render(
-            <Embed />,
-            global.document.body
-          ),
-          child = instance.getChild().refs.aliceComponent;
+      const mockUpdateFrameSize = jasmine.createSpy('mockUpdateFrameSize');
+      const payload = frameFactory(
+        function(params) {
+          return (
+            /* jshint quotmark:false */
+            <mockComponent
+              ref='aliceComponent'
+              updateFrameSize={params.updateFrameSize} />
+          );
+        },
+        {
+          extend: {
+            updateFrameSize: mockUpdateFrameSize
+          }
+        }
+      );
+      const Embed = React.createClass(payload);
+      const instance = React.render(
+        <Embed />,
+        global.document.body
+      );
+      const child = instance.getChild().refs.aliceComponent;
 
       jasmine.clock().install();
 
@@ -531,24 +527,24 @@ describe('frameFactory', function() {
     });
 
     it('renders the child component to the document', function() {
-      var payload = frameFactory(mockChildFn),
-          Embed = React.createClass(payload),
-          instance = React.render(
-            <Embed />,
-            global.document.body
-          );
+      const payload = frameFactory(mockChildFn);
+      const Embed = React.createClass(payload);
+      const instance = React.render(
+        <Embed />,
+        global.document.body
+      );
 
       expect(instance.getChild().refs.aliceComponent)
         .toBeDefined();
     });
 
     it('updates `state._rendered` at the end', function() {
-      var payload = frameFactory(mockChildFn),
-          Embed = React.createClass(payload),
-          instance = React.render(
-            <Embed />,
-            global.document.body
-          );
+      const payload = frameFactory(mockChildFn);
+      const Embed = React.createClass(payload);
+      const instance = React.render(
+        <Embed />,
+        global.document.body
+      );
 
       expect(instance.getInitialState()._rendered)
         .toEqual(false);
@@ -565,18 +561,16 @@ describe('frameFactory', function() {
         return 'ar';
       };
 
-      var payload = frameFactory(mockChildFn),
-          Embed = React.createClass(payload),
-          iframe,
-          htmlElem;
+      const payload = frameFactory(mockChildFn);
+      const Embed = React.createClass(payload);
 
       React.render(
         <Embed />,
         global.document.body
       );
 
-      iframe = global.document.body.getElementsByTagName('iframe')[0],
-      htmlElem = iframe.contentDocument.documentElement;
+      const iframe = global.document.body.getElementsByTagName('iframe')[0];
+      const htmlElem = iframe.contentDocument.documentElement;
 
       expect(htmlElem.getAttribute('dir'))
         .toEqual('rtl');

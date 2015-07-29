@@ -1,7 +1,7 @@
 describe('logging', function() {
-  var logging,
-      mockRegistry,
-      loggingPath = buildSrcPath('service/logging');
+  let logging,
+      mockRegistry;
+  const loggingPath = buildSrcPath('service/logging');
 
   beforeEach(function() {
     mockery.enable({useCleanCache: true});
@@ -30,7 +30,7 @@ describe('logging', function() {
   });
 
   describe('#error', function() {
-    var errPayload = {
+    const errPayload = {
       error: {
         message: 'error'
       }
@@ -58,7 +58,7 @@ describe('logging', function() {
     });
 
     it('should throw when special flag is set on error object', function() {
-      var err = errPayload;
+      const err = errPayload;
       err.error.special = true;
 
       expect(logging.error.bind(this, err))

@@ -1,6 +1,6 @@
 import React from 'react/addons';
 
-var classSet = React.addons.classSet;
+const classSet = React.addons.classSet;
 
 export var ScrollContainer = React.createClass({
   propTypes: {
@@ -57,23 +57,23 @@ export var ScrollContainer = React.createClass({
   },
 
   render() {
-    var containerClasses = classSet({
-          'ScrollContainer-content': true,
-          'u-paddingLL u-paddingTM u-marginRS u-paddingRS': true,
-          'u-paddingBM': this.state.scrollableContent,
-          'is-mobile': this.props.fullscreen,
-          'is-bigheader': this.props.headerContent,
-          'is-expanded': this.props.contentExpanded
-        }),
-        scrollFooterClasses = classSet({
-          'ScrollContainer-footer': true,
-          'u-paddingVM u-paddingHL u-posRelative': true,
-          'ScrollContainer-footer--shadow': this.state.scrollableContent
-        }),
-        titleClasses = classSet({
-          'u-textSizeMed u-textBold u-extSizeMed u-textCenter u-textXHeight': true,
-          'u-textSizeBaseMobile': this.props.fullscreen
-        });
+    const containerClasses = classSet({
+      'ScrollContainer-content': true,
+      'u-paddingLL u-paddingTM u-marginRS u-paddingRS': true,
+      'u-paddingBM': this.state.scrollableContent,
+      'is-mobile': this.props.fullscreen,
+      'is-bigheader': this.props.headerContent,
+      'is-expanded': this.props.contentExpanded
+    });
+    const scrollFooterClasses = classSet({
+      'ScrollContainer-footer': true,
+      'u-paddingVM u-paddingHL u-posRelative': true,
+      'ScrollContainer-footer--shadow': this.state.scrollableContent
+    });
+    const titleClasses = classSet({
+      'u-textSizeMed u-textBold u-extSizeMed u-textCenter u-textXHeight': true,
+      'u-textSizeBaseMobile': this.props.fullscreen
+    });
 
     return (
       <div className='ScrollContainer u-nbfc'>

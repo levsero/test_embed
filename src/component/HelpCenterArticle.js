@@ -3,8 +3,8 @@ import React from 'react/addons';
 import { i18n } from 'service/i18n';
 import { ButtonPill } from 'component/Button';
 
-var sanitizeHtml = require('sanitize-html'),
-    classSet = React.addons.classSet;
+const sanitizeHtml = require('sanitize-html');
+const classSet = React.addons.classSet;
 
 var HelpCenterArticle = React.createClass({
   propTypes: {
@@ -18,36 +18,35 @@ var HelpCenterArticle = React.createClass({
   },
 
   componentDidUpdate() {
-    var container = this.refs.article.getDOMNode(),
-        sanitizeHtmlOptions = {
-          allowedTags: [
-            'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'a', 'ul', 'span',
-            'ol', 'nl', 'li', 'b', 'i', 'strong', 'em', 'strike', 'hr', 'br', 'div',
-            'sup', 'sub', 'img'
-          ],
-          allowedAttributes: {
-            'a': ['href', 'target', 'title', 'name'],
-            'span': ['name'],
-            'div': ['id'],
-            'img': ['src', 'alt']
-          },
-          allowedClasses: {
-            'span': [
-              'wysiwyg-font-size-x-large',
-              'wysiwyg-font-size-large',
-              'wysiwyg-font-size-small'
-            ]
-          }
-        },
-        cleanHtml;
+    const container = this.refs.article.getDOMNode();
+    const sanitizeHtmlOptions = {
+      allowedTags: [
+        'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'a', 'ul', 'span',
+        'ol', 'nl', 'li', 'b', 'i', 'strong', 'em', 'strike', 'hr', 'br', 'div',
+        'sup', 'sub', 'img'
+      ],
+      allowedAttributes: {
+        'a': ['href', 'target', 'title', 'name'],
+        'span': ['name'],
+        'div': ['id'],
+        'img': ['src', 'alt']
+      },
+      allowedClasses: {
+        'span': [
+          'wysiwyg-font-size-x-large',
+          'wysiwyg-font-size-large',
+          'wysiwyg-font-size-small'
+        ]
+      }
+    };
 
     if (this.props.activeArticle.body) {
-      cleanHtml = sanitizeHtml(this.props.activeArticle.body, sanitizeHtmlOptions);
+      let cleanHtml = sanitizeHtml(this.props.activeArticle.body, sanitizeHtmlOptions);
       container.innerHTML = cleanHtml;
     }
 
     if (this.state.lastActiveArticleId !== this.props.activeArticle.id) {
-      var topNode = this.refs.userContent.getDOMNode();
+      let topNode = this.refs.userContent.getDOMNode();
       topNode.scrollTop = 0;
 
       this.setState({
@@ -57,8 +56,8 @@ var HelpCenterArticle = React.createClass({
   },
 
   componentDidMount() {
-    var doc = this.getDOMNode().ownerDocument,
-        base = doc.createElement('base');
+    const doc = this.getDOMNode().ownerDocument;
+    const base = doc.createElement('base');
 
     base.href = `https://${document.zendeskHost}`;
 
@@ -66,10 +65,10 @@ var HelpCenterArticle = React.createClass({
   },
 
   handleClick(e) {
-    var target = e.target,
-        nodeName = target.nodeName,
-        href = target.getAttribute('href'),
-        doc = target.ownerDocument;
+    const target = e.target;
+    const nodeName = target.nodeName;
+    const href = target.getAttribute('href');
+    const doc = target.ownerDocument;
 
     if (nodeName === 'A' && href.indexOf('#') === 0) {
       // You can deep link via an id or name attribute, handle both in the selector
@@ -85,13 +84,13 @@ var HelpCenterArticle = React.createClass({
   },
 
   render() {
-    var userContentClasses = classSet({
+    const userContentClasses = classSet({
       'UserContent u-userLinkColor': true,
       'is-mobile': this.props.fullscreen
     });
 
     return (
-      /* jshint camelcase:false */
+      /* jshint camelcase:false, maxlen:false */
       <div>
         <div className={userContentClasses} ref='userContent'>
           <h1>{this.props.activeArticle.title}</h1>
@@ -99,17 +98,15 @@ var HelpCenterArticle = React.createClass({
             ref='article'
             className='u-marginTM'
             onClick={this.handleClick}
-            onTouchStart={this.handleClick}
-          />
+            onTouchStart={this.handleClick} />
           <div className='u-marginBM'>
             <a
               className='u-linkClean'
-              href={this.props.activeArticle.html_url}
+              href={this.props.activeArticle.html_url} // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
               target='_blank'>
               <ButtonPill
                 fullscreen={this.props.fullscreen}
-                label={i18n.t('embeddable_framework.helpCenter.article.viewLinkText')}
-              />
+                label={i18n.t('embeddable_framework.helpCenter.article.viewLinkText')} />
             </a>
           </div>
         </div>

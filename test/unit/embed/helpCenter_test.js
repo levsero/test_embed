@@ -1,15 +1,15 @@
 describe('embed.helpCenter', function() {
-  var helpCenter,
+  let helpCenter,
       mockRegistry,
       frameConfig,
-      helpCenterPath = buildSrcPath('embed/helpCenter/helpCenter'),
-      resetSearchFieldState = jasmine.createSpy(),
-      hideVirtualKeyboard = jasmine.createSpy(),
-      backtrackSearch = jasmine.createSpy(),
       focusField;
+  const helpCenterPath = buildSrcPath('embed/helpCenter/helpCenter');
+  const resetSearchFieldState = jasmine.createSpy();
+  const hideVirtualKeyboard = jasmine.createSpy();
+  const backtrackSearch = jasmine.createSpy();
 
   beforeEach(function() {
-    var mockForm = noopReactComponent();
+    const mockForm = noopReactComponent();
 
     focusField = jasmine.createSpy();
 
@@ -107,8 +107,6 @@ describe('embed.helpCenter', function() {
 
   describe('create', function() {
     it('should add a new help center component to the helpCenter array', function() {
-      var carlos;
-
       expect(_.keys(helpCenter.list()).length)
         .toEqual(0);
 
@@ -117,7 +115,7 @@ describe('embed.helpCenter', function() {
       expect(_.keys(helpCenter.list()).length)
         .toEqual(1);
 
-      carlos = helpCenter.get('carlos');
+      const carlos = helpCenter.get('carlos');
 
       expect(carlos)
         .toBeDefined();
@@ -127,7 +125,7 @@ describe('embed.helpCenter', function() {
     });
 
     describe('frameFactory', function() {
-      var mockFrameFactory,
+      let mockFrameFactory,
           mockFrameFactoryCall,
           childFn,
           params;
@@ -141,14 +139,14 @@ describe('embed.helpCenter', function() {
       });
 
       it('should pass in zendeskHost from transport.getZendeskHost', function() {
-        var payload = childFn({});
+        const payload = childFn({});
 
         expect(payload.props.children.props.zendeskHost)
           .toEqual('zendesk.host');
       });
 
       describe('mediator broadcasts', function() {
-        var mockMediator,
+        let mockMediator,
             helpCenterChild;
 
         beforeEach(function() {
@@ -163,7 +161,7 @@ describe('embed.helpCenter', function() {
         });
 
         it('should broadcast <name>.onNextClick with HelpCenterForm.onNextClick', function() {
-          var payload = childFn({});
+          const payload = childFn({});
 
           payload.props.children.props.onNextClick();
 
@@ -172,8 +170,8 @@ describe('embed.helpCenter', function() {
         });
 
         it('should broadcast <name>.onSearch with onSearch', function() {
-          var payload = childFn({}),
-              params = {searchString: 'searchString', searchLocale: 'en-US'};
+          const payload = childFn({});
+          const params = {searchString: 'searchString', searchLocale: 'en-US'};
 
           payload.props.children.props.onSearch(params);
 
@@ -262,9 +260,7 @@ describe('embed.helpCenter', function() {
     });
 
     it('should switch iframe styles based on isMobileBrowser()', function() {
-     var mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory,
-         mockFrameFactoryCall,
-         iframeStyle;
+      const mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
 
       mockery.registerMock('utility/devices', {
         isMobileBrowser: function() {
@@ -275,9 +271,8 @@ describe('embed.helpCenter', function() {
       helpCenter = require(helpCenterPath).helpCenter;
       helpCenter.create('carlos');
 
-      mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
-
-      iframeStyle = mockFrameFactoryCall[1].style;
+      const mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
+      const iframeStyle = mockFrameFactoryCall[1].style;
 
       expect(iframeStyle.left)
         .toBeUndefined();
@@ -287,12 +282,10 @@ describe('embed.helpCenter', function() {
     });
 
     it('should switch container styles based on isMobileBrowser()', function() {
-      var mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory,
-          mockFrameFactoryCall,
-          childFnParams = {
-            updateFrameSize: function() {}
-          },
-          payload;
+      const mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
+      const childFnParams = {
+        updateFrameSize: function() {}
+      };
 
       mockery.registerMock('utility/devices', {
         isMobileBrowser: function() {
@@ -306,9 +299,8 @@ describe('embed.helpCenter', function() {
 
       helpCenter.create('carlos');
 
-      mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
-
-      payload = mockFrameFactoryCall[0](childFnParams);
+      const mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
+      const payload = mockFrameFactoryCall[0](childFnParams);
 
       expect(payload.props.style)
         .toEqual({height: '100%', width: '100%'});
@@ -318,10 +310,8 @@ describe('embed.helpCenter', function() {
 
   describe('get', function() {
     it('should return the correct helpCenter form', function() {
-      var carlos;
-
       helpCenter.create('carlos');
-      carlos = helpCenter.get('carlos');
+      const carlos = helpCenter.get('carlos');
 
       expect(carlos)
         .toBeDefined();
@@ -363,21 +353,20 @@ describe('embed.helpCenter', function() {
     });
 
     it('applies helpCenter.scss to the frame factory', function() {
-      var mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory,
-          mockCss = mockRegistry['./helpCenter.scss'],
-          mockFrameFactoryCss;
+      const mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
+      const mockCss = mockRegistry['./helpCenter.scss'];
 
       helpCenter.create('carlos');
       helpCenter.render('carlos');
 
-      mockFrameFactoryCss = mockFrameFactory.calls.mostRecent().args[1].css;
+      const mockFrameFactoryCss = mockFrameFactory.calls.mostRecent().args[1].css;
 
       expect(mockFrameFactoryCss)
         .toEqual(mockCss);
     });
 
     describe('mediator subscriptions', function() {
-      var mockMediator,
+      let mockMediator,
           mockI18n,
           carlos,
           carlosHelpCenter,

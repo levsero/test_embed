@@ -1,10 +1,10 @@
 describe('store', function() {
-  var store,
-      prefix = 'ZD-',
+  let store,
       mockRegistry,
       mockLocalStorage,
-      mockSessionStorage,
-      persistencePath = buildSrcPath('service/persistence');
+      mockSessionStorage;
+  const prefix = 'ZD-';
+  const persistencePath = buildSrcPath('service/persistence');
 
   beforeEach(function() {
     mockery.enable({useCleanCache: true});
@@ -39,8 +39,8 @@ describe('store', function() {
   describe('#get', function() {
 
     it('should return a value local storage', function() {
-      var key = 'abc',
-          value = 'xyz';
+      const key = 'abc';
+      const value = 'xyz';
 
       spyOn(mockSessionStorage, 'getItem');
       spyOn(mockLocalStorage, 'getItem')
@@ -55,8 +55,8 @@ describe('store', function() {
     });
 
     it('should deserialized a JSON string from local storage', function() {
-      var key = 'abc',
-          value = {a: [1, 2], b: ['abc','def']};
+      const key = 'abc';
+      const value = {a: [1, 2], b: ['abc', 'def']};
 
       spyOn(mockLocalStorage, 'getItem')
         .and.returnValue(JSON.stringify(value));
@@ -71,8 +71,8 @@ describe('store', function() {
     });
 
     it('should return a value from session storage', function() {
-      var key = 'abc',
-          value = 'xyz';
+      const key = 'abc';
+      const value = 'xyz';
 
       spyOn(mockSessionStorage, 'getItem')
         .and.returnValue(value);
@@ -98,8 +98,8 @@ describe('store', function() {
     });
 
     it('should save a value to local storage', function() {
-        var key = 'abc',
-            value = 'xyz';
+      const key = 'abc';
+      const value = 'xyz';
 
       store.set(key, value);
 
@@ -108,8 +108,8 @@ describe('store', function() {
     });
 
     it('should save a value to session storage', function() {
-        var key = 'abc',
-            value = 'xyz';
+      const key = 'abc';
+      const value = 'xyz';
 
       store.set(key, value, true);
 
@@ -118,15 +118,14 @@ describe('store', function() {
     });
 
     it('should serialize an object before saving', function() {
-        var key = 'abc',
-            value = {a: [1, 2], b: ['abc','def']},
-            recentCall;
+      const key = 'abc';
+      const value = {a: [1, 2], b: ['abc', 'def']};
 
       store.set(key, value);
       expect(mockLocalStorage.setItem)
         .toHaveBeenCalledWith(prefix + key, JSON.stringify(value));
 
-      recentCall = mockLocalStorage.setItem.calls.mostRecent();
+      const recentCall = mockLocalStorage.setItem.calls.mostRecent();
 
       expect(JSON.parse(recentCall.args[1])).toEqual(value);
     });
@@ -141,7 +140,7 @@ describe('store', function() {
     });
 
     it('removes an item from local storage', function() {
-      var key = 'abc';
+      const key = 'abc';
 
       store.remove(key);
 
@@ -151,7 +150,7 @@ describe('store', function() {
     });
 
     it('removes an item from session storage', function() {
-      var key = 'abc';
+      const key = 'abc';
 
       store.remove(key, true);
 

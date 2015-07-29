@@ -1,10 +1,10 @@
 describe('Help center component', function() {
-  var HelpCenter,
+  let HelpCenter,
       mockRegistry,
-      searchFieldBlur = jasmine.createSpy(),
-      trackSearch,
-      searchFieldGetValue = jasmine.createSpy().and.returnValue('Foobar'),
-      helpCenterPath = buildSrcPath('component/HelpCenter');
+      trackSearch;
+  const searchFieldBlur = jasmine.createSpy();
+  const searchFieldGetValue = jasmine.createSpy().and.returnValue('Foobar');
+  const helpCenterPath = buildSrcPath('component/HelpCenter');
 
   beforeEach(function() {
 
@@ -120,88 +120,84 @@ describe('Help center component', function() {
   });
 
   it('should correctly set the initial states when created', function() {
-      var helpCenter = React.render(
-            <HelpCenter />,
-            global.document.body
-          );
+    const helpCenter = React.render(
+      <HelpCenter />,
+      global.document.body
+    );
 
     expect(helpCenter.state.articles)
       .toEqual([]);
   });
 
-
   describe('backtrack search', function() {
     it('should correctly backtrack if not done before and have searched', function() {
-        var helpCenter = React.render(
-              <HelpCenter trackSearch={trackSearch} />,
-              global.document.body
-            );
+      const helpCenter = React.render(
+        <HelpCenter trackSearch={trackSearch} />,
+        global.document.body
+      );
 
-        helpCenter.setState({
-          searchTracked: false,
-          searchTerm: 'abcd'
-        });
+      helpCenter.setState({
+        searchTracked: false,
+        searchTerm: 'abcd'
+      });
 
-        helpCenter.trackSearch = trackSearch;
+      helpCenter.trackSearch = trackSearch;
 
-        helpCenter.backtrackSearch();
+      helpCenter.backtrackSearch();
 
-        expect(trackSearch)
-          .toHaveBeenCalled();
-
+      expect(trackSearch)
+        .toHaveBeenCalled();
     });
 
     it('shouldn\'t backtrack if already tracked', function() {
-        var helpCenter = React.render(
-              <HelpCenter trackSearch={trackSearch} />,
-              global.document.body
-            );
+      const helpCenter = React.render(
+        <HelpCenter trackSearch={trackSearch} />,
+        global.document.body
+      );
 
-        helpCenter.setState({
-          searchTracked: true,
-          searchTerm: 'abcd'
-        });
+      helpCenter.setState({
+        searchTracked: true,
+        searchTerm: 'abcd'
+      });
 
-        helpCenter.trackSearch = trackSearch;
+      helpCenter.trackSearch = trackSearch;
 
-        helpCenter.backtrackSearch();
+      helpCenter.backtrackSearch();
 
-        expect(trackSearch)
-          .not.toHaveBeenCalled();
-
+      expect(trackSearch)
+        .not.toHaveBeenCalled();
     });
 
     it('shouldn\'t backtrack if no search has been performed', function() {
-        var helpCenter = React.render(
-              <HelpCenter trackSearch={trackSearch} />,
-              global.document.body
-            );
+      const helpCenter = React.render(
+        <HelpCenter trackSearch={trackSearch} />,
+        global.document.body
+      );
 
-        helpCenter.setState({
-          searchTracked: false,
-          searchTerm: ''
-        });
+      helpCenter.setState({
+        searchTracked: false,
+        searchTerm: ''
+      });
 
-        helpCenter.trackSearch = trackSearch;
+      helpCenter.trackSearch = trackSearch;
 
-        helpCenter.backtrackSearch();
+      helpCenter.backtrackSearch();
 
-        expect(trackSearch)
-          .not.toHaveBeenCalled();
-
+      expect(trackSearch)
+        .not.toHaveBeenCalled();
     });
   });
 
   describe('handle change', function() {
 
     it('should fire off call to search api when handleSubmit is called', function() {
-      var mockOnSearch = jasmine.createSpy('mockOnSearch'),
-          helpCenter = React.render(
-            <HelpCenter onSearch={mockOnSearch} />,
-            global.document.body
-          ),
-          mockTransport = mockRegistry['service/transport'].transport,
-          responsePayload = {ok: true, body: {results: [1, 2, 3], count: 3}};
+      const mockOnSearch = jasmine.createSpy('mockOnSearch');
+      const helpCenter = React.render(
+        <HelpCenter onSearch={mockOnSearch} />,
+        global.document.body
+      );
+      const mockTransport = mockRegistry['service/transport'].transport;
+      const responsePayload = {ok: true, body: {results: [1, 2, 3], count: 3}};
 
       helpCenter.handleSubmit({preventDefault: noop});
 
@@ -232,14 +228,14 @@ describe('Help center component', function() {
     });
 
     it('should render list of results from api', function() {
-      var helpCenter = React.render(
-            <HelpCenter onSearch={noop} />,
-            global.document.body
-          ),
-          mockTransport = mockRegistry['service/transport'].transport,
-          searchString = 'help, I\'ve fallen and can\'t get up!',
-          responsePayload = {body: {results: [1,2,3], count: 4}, ok: true},
-          listAnchor = ReactTestUtils.findRenderedDOMComponentWithClass(helpCenter, 'List');
+      const helpCenter = React.render(
+        <HelpCenter onSearch={noop} />,
+        global.document.body
+      );
+      const mockTransport = mockRegistry['service/transport'].transport;
+      const searchString = 'help, I\'ve fallen and can\'t get up!';
+      const responsePayload = {body: {results: [1, 2, 3], count: 4}, ok: true};
+      const listAnchor = ReactTestUtils.findRenderedDOMComponentWithClass(helpCenter, 'List');
 
       helpCenter.handleSubmit({preventDefault: noop}, { value: searchString });
       mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayload);
@@ -249,42 +245,42 @@ describe('Help center component', function() {
     });
 
     it('should track view and render the inline article', function() {
-      var helpCenter = React.render(
-            <HelpCenter
-              onSearch={noop}
-              onLinkClick={noop}
-              showBackButton={noop} />,
-            global.document.body
-          ),
-          mockTransport = mockRegistry['service/transport'].transport,
-          mockBeacon = mockRegistry['service/beacon'].beacon,
-          searchString = 'help, I\'ve fallen and can\'t get up!',
-          responseArticle = {
-            /* jshint camelcase: false */
-            id: 0,
-            title: 'bob',
-            name: 'bob',
-            html_url: 'bob.com'
-          },
-          responsePayload = {
-            body: {
-              results: [responseArticle, responseArticle, responseArticle],
-              count: 3
-            },
-            ok: true
-          },
-          article = ReactTestUtils.findRenderedDOMComponentWithClass(helpCenter, 'UserContent')
-                    .getDOMNode()
-                    .parentNode,
-          listItem,
-          listAnchor;
+      const helpCenter = React.render(
+        <HelpCenter
+          onSearch={noop}
+          onLinkClick={noop}
+          showBackButton={noop} />,
+        global.document.body
+      );
+      const mockTransport = mockRegistry['service/transport'].transport;
+      const mockBeacon = mockRegistry['service/beacon'].beacon;
+      const searchString = 'help, I\'ve fallen and can\'t get up!';
+      const responseArticle = {
+        /* jshint camelcase: false */
+        id: 0,
+        title: 'bob',
+        name: 'bob',
+        html_url: 'bob.com'
+      };
+      const responsePayload = {
+        body: {
+          results: [responseArticle, responseArticle, responseArticle],
+          count: 3
+        },
+        ok: true
+      };
+      const article = ReactTestUtils.findRenderedDOMComponentWithClass(helpCenter, 'UserContent')
+        .getDOMNode()
+        .parentNode;
 
       helpCenter.trackSearch = trackSearch;
       helpCenter.handleSubmit({preventDefault: noop}, { value: searchString });
       mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayload);
 
-      listItem = ReactTestUtils.scryRenderedDOMComponentsWithClass(helpCenter, 'List-item')[0];
-      listAnchor = ReactTestUtils.findRenderedDOMComponentWithTag(listItem, 'a');
+      const listItem = ReactTestUtils
+        .scryRenderedDOMComponentsWithClass(helpCenter, 'List-item')[0];
+      const listAnchor = ReactTestUtils
+        .findRenderedDOMComponentWithTag(listItem, 'a');
 
       expect(article.className)
         .toMatch('u-isHidden');
@@ -301,11 +297,11 @@ describe('Help center component', function() {
           'helpCenter',
           'click',
           'helpCenterForm', {
-            query : 'Foobar',
-            resultsCount : 3,
-            uniqueSearchResultClick : true,
-            articleId : 0,
-            locale : undefined
+            query: 'Foobar',
+            resultsCount: 3,
+            uniqueSearchResultClick: true,
+            articleId: 0,
+            locale: undefined
           }
         );
 
@@ -314,14 +310,14 @@ describe('Help center component', function() {
     });
 
     it('should render error message when search fails', function() {
-      var helpCenter = React.render(
-            <HelpCenter onSearch={noop} />,
-            global.document.body
-          ),
-          mockTransport = mockRegistry['service/transport'].transport,
-          searchString = 'help, I\'ve fallen and can\'t get up!',
-          responsePayload = {ok: false},
-          list = ReactTestUtils.findRenderedDOMComponentWithClass(helpCenter, 'List');
+      const helpCenter = React.render(
+        <HelpCenter onSearch={noop} />,
+        global.document.body
+      );
+      const mockTransport = mockRegistry['service/transport'].transport;
+      const searchString = 'help, I\'ve fallen and can\'t get up!';
+      const responsePayload = {ok: false};
+      const list = ReactTestUtils.findRenderedDOMComponentWithClass(helpCenter, 'List');
 
       helpCenter.handleSubmit({preventDefault: noop}, { value: searchString });
       mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayload);
@@ -334,14 +330,14 @@ describe('Help center component', function() {
     });
 
     it('should show no results when search returns no results', function() {
-      var helpCenter = React.render(
-            <HelpCenter onSearch={noop} />,
-            global.document.body
-          ),
-          mockTransport = mockRegistry['service/transport'].transport,
-          searchString = 'abcd',
-          responsePayload = {body: {results: [], count: 0}},
-          list = ReactTestUtils.findRenderedDOMComponentWithClass(helpCenter, 'List');
+      const helpCenter = React.render(
+        <HelpCenter onSearch={noop} />,
+        global.document.body
+      );
+      const mockTransport = mockRegistry['service/transport'].transport;
+      const searchString = 'abcd';
+      const responsePayload = {body: {results: [], count: 0}};
+      const list = ReactTestUtils.findRenderedDOMComponentWithClass(helpCenter, 'List');
 
       helpCenter.handleSubmit({preventDefault: noop}, { value: searchString });
       mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayload);
@@ -354,15 +350,15 @@ describe('Help center component', function() {
     });
 
     it('shouldn\'t call handle search if the string isn\'t valid', function() {
-      var helpCenter = React.render(
-            <HelpCenter />,
-            global.document.body
-          ),
-          mockTransport = mockRegistry['service/transport'].transport,
-          returnSearchTerm = function(term) { return term; },
-          mockGetValue = helpCenter.refs.searchField.getValue,
-          searchStringTooShort = 'hi! ',
-          searchStringNoSpace = 'help, I\'ve fallen and can\'t get up!';
+      const helpCenter = React.render(
+        <HelpCenter />,
+        global.document.body
+      );
+      const mockTransport = mockRegistry['service/transport'].transport;
+      const returnSearchTerm = function(term) { return term; };
+      const searchStringTooShort = 'hi! ';
+      const searchStringNoSpace = 'help, I\'ve fallen and can\'t get up!';
+      let mockGetValue = helpCenter.refs.searchField.getValue;
 
       mockGetValue = returnSearchTerm.bind(this, searchStringTooShort);
       helpCenter.handleSearch();
@@ -385,7 +381,7 @@ describe('Help center component', function() {
       mockery.resetCache();
       HelpCenter = require(helpCenterPath).HelpCenter;
 
-      var helpCenter = React.render(
+      const helpCenter = React.render(
         <HelpCenter />,
         global.document.body
       );
@@ -403,7 +399,7 @@ describe('Help center component', function() {
       mockery.resetCache();
       HelpCenter = require(helpCenterPath).HelpCenter;
 
-      var helpCenter = React.render(
+      const helpCenter = React.render(
         <HelpCenter />,
         global.document.body
       );

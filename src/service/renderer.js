@@ -9,22 +9,22 @@ import { i18n }         from 'service/i18n';
 import { mediator }     from 'service/mediator';
 import { logging }      from 'service/logging';
 
-var embedsMap = {
-      'submitTicket': submitTicket,
-      'launcher'    : launcher,
-      'helpCenter'  : helpCenter,
-      'chat'        : chat
-    },
-    initialised = false,
-    hideLauncher = false,
-    renderedEmbeds;
+const embedsMap = {
+  'submitTicket': submitTicket,
+  'launcher': launcher,
+  'helpCenter': helpCenter,
+  'chat': chat
+};
+let initialised = false;
+let hideLauncher = false;
+let renderedEmbeds;
 
 function hide() {
   hideLauncher = true;
 }
 
 function parseConfig(config) {
-  var rendererConfig = _.clone(config.embeds, true);
+  const rendererConfig = _.clone(config.embeds, true);
 
   _.forEach(rendererConfig, function(configItem) {
     configItem.props = _.reduce(configItem.props, function(result, value, key) {
@@ -96,7 +96,7 @@ function initMediator(config) {
 
 function renderedEmbedsApply(fn) {
   _.forEach(renderedEmbeds, function(embed, name) {
-    var currentEmbed = embedsMap[embed.embed].get(name).instance;
+    const currentEmbed = embedsMap[embed.embed].get(name).instance;
 
     if (currentEmbed) {
       fn(currentEmbed);
@@ -106,7 +106,7 @@ function renderedEmbedsApply(fn) {
 
 function postRenderCallbacks(embeds) {
   _.forEach(embeds, function(embed, name) {
-    var currentEmbed = embedsMap[embed.embed];
+    const currentEmbed = embedsMap[embed.embed];
 
     if (currentEmbed.postRender) {
       currentEmbed.postRender(name);
@@ -115,7 +115,7 @@ function postRenderCallbacks(embeds) {
 }
 
 function propagateFontRatio(ratio) {
-  var fontSize = (12 * ratio) + 'px';
+  const fontSize = (12 * ratio) + 'px';
 
   renderedEmbedsApply(function(embed) {
     embed.updateBaseFontSize(fontSize);
@@ -129,7 +129,7 @@ function hideByZoom(hide) {
   });
 }
 
-var hardcodedConfigs = {
+const hardcodedConfigs = {
   zendeskWithChat: {
     'embeds': {
       'zopimChat': {

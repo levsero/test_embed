@@ -10,50 +10,50 @@ import { snabbt }              from 'snabbt.js';
 import { ButtonNav }           from 'component/Button';
 import { Icon }                from 'component/Icon';
 
-var classSet = React.addons.classSet,
-    baseCSS = require('baseCSS'),
-    mainCSS = require('mainCSS'),
-    sizingRatio = 12 * getSizingRatio(false, true), /* jshint ignore:line */
-    baseFontCSS = `html { font-size: ${sizingRatio}px }`;
+const classSet = React.addons.classSet;
+const baseCSS = require('baseCSS');
+const mainCSS = require('mainCSS');
+const sizingRatio = 12 * getSizingRatio(false, true); /* jshint ignore:line */
+const baseFontCSS = `html { font-size: ${sizingRatio}px }`;
 
 function validateChildFn(childFn, params) {
   if (!_.isFunction(childFn)) {
     throw 'childFn should be a function';
   }
 
-  var component = childFn(params.extend);
+  let component = childFn(params.extend);
 
   if (!React.isValidElement(component)) {
-    var e = new TypeError();
+    const e = new TypeError();
     e.message = 'childFn should be a function that returns a React component';
     throw e;
   }
 }
 
 export var frameFactory = function(childFn, _params) {
-  var child,
-      defaultParams = {
-        style: {},
-        css: '',
-        fullscreenable: false
-      },
-      params = _.extend(defaultParams, _params),
-      afterShowAnimate = () => {
-        if (params.afterShowAnimate) {
-          params.afterShowAnimate(child);
-        }
-      },
-      // object passed into snabbt animation lib
-      springTransition = {
-        /* jshint camelcase: false */
-        from_position: [0, 15, 0],
-        position: [0, 0, 0],
-        easing: 'spring',
-        spring_constant: 0.5,
-        spring_deacceleration: 0.75,
-        callback: afterShowAnimate
-      };
+  let child;
 
+  const defaultParams = {
+    style: {},
+    css: '',
+    fullscreenable: false
+  };
+  const params = _.extend(defaultParams, _params);
+  const afterShowAnimate = () => {
+    if (params.afterShowAnimate) {
+      params.afterShowAnimate(child);
+    }
+  };
+  // object passed into snabbt animation lib
+  const springTransition = {
+    /* jshint camelcase: false */
+    from_position: [0, 15, 0],
+    position: [0, 0, 0],
+    easing: 'spring',
+    spring_constant: 0.5,
+    spring_deacceleration: 0.75,
+    callback: afterShowAnimate
+  };
 
   validateChildFn(childFn, params);
 
@@ -82,33 +82,32 @@ export var frameFactory = function(childFn, _params) {
     },
 
     updateFrameSize: function(offsetWidth = 0, offsetHeight = 0) {
-      var iframe = this.getDOMNode(),
-          frameWin = iframe.contentWindow,
-          frameDoc = iframe.contentDocument,
-          dimensions;
+      const iframe = this.getDOMNode();
+      const frameWin = iframe.contentWindow;
+      const frameDoc = iframe.contentDocument;
 
       if (!frameDoc.firstChild) {
         return false;
       }
 
-      dimensions = function() {
+      const dimensions = function() {
         /* jshint laxbreak: true */
-        var el = frameDoc.body.firstChild,
-            width  = Math.max(el.clientWidth,  el.offsetWidth),
-            height = Math.max(el.clientHeight, el.offsetHeight),
-            fullscreen = isMobileBrowser() && params.fullscreenable,
-            fullscreenStyle = {
-              width: `${win.innerWidth}px`,
-              height: '100%',
-              top:0,
-              left:0,
-              background:'#fff',
-              zIndex: 999999
-            },
-            popoverStyle = {
-              width:  (_.isFinite(width)  ? width  : 0) + offsetWidth,
-              height: (_.isFinite(height) ? height : 0) + offsetHeight
-            };
+        const el = frameDoc.body.firstChild;
+        const width  = Math.max(el.clientWidth,  el.offsetWidth);
+        const height = Math.max(el.clientHeight, el.offsetHeight);
+        const fullscreen = isMobileBrowser() && params.fullscreenable;
+        const fullscreenStyle = {
+          width: `${win.innerWidth}px`,
+          height: '100%',
+          top:0,
+          left:0,
+          background:'#fff',
+          zIndex: 999999
+        };
+        const popoverStyle = {
+          width:  (_.isFinite(width)  ? width  : 0) + offsetWidth,
+          height: (_.isFinite(height) ? height : 0) + offsetHeight
+        };
 
         return fullscreen
              ? fullscreenStyle
@@ -128,14 +127,14 @@ export var frameFactory = function(childFn, _params) {
     },
 
     show: function(animate) {
-      var frameFirstChild = this.getDOMNode().contentDocument.body.firstChild;
+      let frameFirstChild = this.getDOMNode().contentDocument.body.firstChild;
 
       this.setState({
         visible: true
       });
 
       setTimeout( () => {
-        var existingStyle = frameFirstChild.style;
+        let existingStyle = frameFirstChild.style;
 
         if (!existingStyle.webkitOverflowScrolling) {
           existingStyle.webkitOverflowScrolling = 'touch';
@@ -152,8 +151,8 @@ export var frameFactory = function(childFn, _params) {
     },
 
     updateBaseFontSize(fontSize) {
-      var iframe = this.getDOMNode(),
-          htmlElem = iframe.contentDocument.documentElement;
+      const iframe = this.getDOMNode();
+      const htmlElem = iframe.contentDocument.documentElement;
 
       htmlElem.style.fontSize = fontSize;
     },
@@ -199,25 +198,25 @@ export var frameFactory = function(childFn, _params) {
 
     render: function() {
       /* jshint laxbreak: true */
-      var visibilityRule = (this.state.visible && !this.state.hiddenByZoom)
-                         ? null
-                         : {top: '-9999px', bottom: 'auto'},
-          iframeStyle = _.extend({
-              border: 'none',
-              background: 'transparent',
-              zIndex: 999998,
-              transform: 'translateZ(0)'
-            },
-            params.style,
-            this.state.iframeDimensions,
-            visibilityRule
-          );
+      const visibilityRule = (this.state.visible && !this.state.hiddenByZoom)
+                           ? null
+                           : {top: '-9999px', bottom: 'auto'};
+      const iframeStyle = _.extend(
+        {
+          border: 'none',
+          background: 'transparent',
+          zIndex: 999998,
+          transform: 'translateZ(0)'
+        },
+        params.style,
+        this.state.iframeDimensions,
+        visibilityRule
+      );
 
-          return (
-            <iframe style={iframeStyle} id={params.name} />
-          );
+      return (
+        <iframe style={iframeStyle} id={params.name} />
+      );
     },
-
 
     componentDidMount: function() {
       this.renderFrameContent();
@@ -232,9 +231,9 @@ export var frameFactory = function(childFn, _params) {
         return false;
       }
 
-      var iframe = this.getDOMNode(),
-          html = iframe.contentDocument.documentElement,
-          doc = iframe.contentWindow.document;
+      const iframe = this.getDOMNode();
+      const html = iframe.contentDocument.documentElement;
+      const doc = iframe.contentWindow.document;
 
       // In order for iframe correctly render in some browsers
       // we need to do it on nextTick
@@ -245,47 +244,46 @@ export var frameFactory = function(childFn, _params) {
         }
 
         /* jshint laxbreak: true */
-        var cssText = baseCSS + mainCSS + params.css + baseFontCSS,
-            css = <style dangerouslySetInnerHTML={{ __html: cssText }} />,
-            Component,
-            childParams,
-            fullscreen = isMobileBrowser() && params.fullscreenable,
-            positionClasses = classSet({
-              'u-borderTransparent u-posRelative': true,
-              'u-pullRight': this.props.position === 'right',
-              'u-pullLeft': this.props.position === 'left'
-            }),
-            closeButton = (<ButtonNav
-                            onClick={this.close}
-                            label={
-                              <Icon
-                                type='Icon--close'
-                                className='u-textInheritColor' />
-                            }
-                            rtl={i18n.isRTL()}
-                            position='right'
-                            fullscreen={fullscreen} />),
-            backButton = (<ButtonNav
-                           onClick={this.back}
-                           label={
-                             <Icon
-                               type='Icon--back'
-                               className='u-textInheritColor' />
-                           }
-                           rtl={i18n.isRTL()}
-                           position='left'
-                           fullscreen={fullscreen} />);
+        const cssText = baseCSS + mainCSS + params.css + baseFontCSS;
+        const css = <style dangerouslySetInnerHTML={{ __html: cssText }} />;
+        const fullscreen = isMobileBrowser() && params.fullscreenable;
+        const positionClasses = classSet({
+          'u-borderTransparent u-posRelative': true,
+          'u-pullRight': this.props.position === 'right',
+          'u-pullLeft': this.props.position === 'left'
+        });
+        const closeButton = (<ButtonNav
+                               onClick={this.close}
+                               label={
+                                 <Icon
+                                   type='Icon--close'
+                                   className='u-textInheritColor' />
+                               }
+                               rtl={i18n.isRTL()}
+                               position='right'
+                               fullscreen={fullscreen} />);
+        const backButton = (<ButtonNav
+                              onClick={this.back}
+                              label={
+                                <Icon
+                                  type='Icon--back'
+                                  className='u-textInheritColor' />
+                              }
+                              rtl={i18n.isRTL()}
+                              position='left'
+                              fullscreen={fullscreen} />);
 
         // 1. Loop over functions in params.extend
         // 2. Re-bind them to `this` context
         // 3. Store in childParams
-        childParams = _.reduce(
+        let childParams = _.reduce(
           params.extend,
           (res, val, key) => {
             res[key] = val.bind(this);
             return res;
           },
-          {});
+          {}
+        );
 
         // Forcefully injects this.updateFrameSize
         // into childParams
@@ -293,7 +291,7 @@ export var frameFactory = function(childFn, _params) {
           updateFrameSize: this.updateFrameSize
         });
 
-        Component = React.createClass({
+        const Component = React.createClass({
           getInitialState() {
             return {
               showBackButton: false
@@ -301,12 +299,12 @@ export var frameFactory = function(childFn, _params) {
           },
 
           render() {
-            var backButtonClasses = classSet({
-                  'u-isHidden': !this.state.showBackButton
-                }),
-                closeButtonClasses = classSet({
-                  'u-isHidden': params.hideCloseButton
-                });
+            const backButtonClasses = classSet({
+              'u-isHidden': !this.state.showBackButton
+            });
+            const closeButtonClasses = classSet({
+              'u-isHidden': params.hideCloseButton
+            });
 
             return (
               <div className={positionClasses}>

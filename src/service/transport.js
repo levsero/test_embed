@@ -1,12 +1,12 @@
 import _          from 'lodash';
 import superagent from 'superagent';
 
-var config;
+let config;
 
 function init(_config) {
-  var defaultConfig = {
-        scheme: 'https'
-      };
+  const defaultConfig = {
+    scheme: 'https'
+  };
 
   config = _.extend(defaultConfig, _config);
 }
