@@ -1,6 +1,7 @@
 import React from 'react/addons';
 
 import { Icon } from 'component/Icon';
+import { i18n } from 'service/i18n';
 
 const classSet = React.addons.classSet;
 
@@ -70,6 +71,7 @@ var ButtonPill = React.createClass({
       'c-btn c-btn--medium c-btn--secondary c-btn--pill': true,
       'u-textNormal': true,
       'u-sizeFull u-textSizeBaseMobile is-mobile': this.props.fullscreen,
+      'u-textNoWrap': i18n.isRTL()
     });
 
     return (
