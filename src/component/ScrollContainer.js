@@ -21,16 +21,8 @@ export var ScrollContainer = React.createClass({
 
   getInitialState() {
     return {
-      scrollableContent: false
+      scrollShadowVisible: false
     };
-  },
-
-  componentDidMount() {
-    this.checkScrollOffset();
-  },
-
-  componentDidUpdate() {
-    this.checkScrollOffset();
   },
 
   getContentContainer() {
@@ -45,22 +37,15 @@ export var ScrollContainer = React.createClass({
     container.scrollTop = container.scrollHeight;
   },
 
-  checkScrollOffset() {
-    const container = this.getContentContainer();
-    const scrollOffset = container.scrollHeight - container.offsetHeight;
-
-    if (scrollOffset > 0 && !this.state.scrollableContent) {
-      this.setState({scrollableContent: true});
-    } else if (scrollOffset === 0 && this.state.scrollableContent) {
-      this.setState({scrollableContent: false});
-    }
+  setScrollShadowVisible(visible) {
+    this.setState({scrollShadowVisible: visible});
   },
 
   render() {
     const containerClasses = classSet({
       'ScrollContainer-content': true,
       'u-paddingLL u-paddingTM u-marginRS u-paddingRS': true,
-      'u-paddingBM': this.state.scrollableContent,
+      'u-paddingBM': this.state.scrollShadowVisible,
       'is-mobile': this.props.fullscreen,
       'is-bigheader': this.props.headerContent,
       'is-expanded': this.props.contentExpanded
@@ -68,7 +53,7 @@ export var ScrollContainer = React.createClass({
     const scrollFooterClasses = classSet({
       'ScrollContainer-footer': true,
       'u-paddingVM u-paddingHL u-posRelative': true,
-      'ScrollContainer-footer--shadow': this.state.scrollableContent
+      'ScrollContainer-footer--shadow': this.state.scrollShadowVisible
     });
     const titleClasses = classSet({
       'u-textSizeMed u-textBold u-extSizeMed u-textCenter u-textXHeight': true,

@@ -45,11 +45,14 @@ describe('SubmitTicketForm component', function() {
       'component/FormField': {
         Field: noopReactComponent(),
         getCustomFields: function() {
-          return {};
+          return {
+            fields: []
+          };
         }
       },
       'component/ScrollContainer': {
         ScrollContainer: React.createClass({
+            setScrollShadowVisible: noop,
             render: function() {
               return <div>{this.props.footerContent}</div>;
             }

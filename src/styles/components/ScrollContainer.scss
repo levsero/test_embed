@@ -20,7 +20,8 @@
 }
 
 .ScrollContainer-content {
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   max-height: #{293/$font-size}rem;
   box-sizing: border-box;
 

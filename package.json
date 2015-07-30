@@ -28,7 +28,6 @@
     "gulp-jscs": "~1.6.0",
     "gulp-react": "~0.3.3",
     "es5-shim": "~3.4.0",
-    "esprima-fb": "~15001.1.0",
     "gulp-karma": "0.0.4",
     "jsdom": "~0.10.5",
     "cssstyle": "0.2.14",

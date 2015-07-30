@@ -40,19 +40,6 @@ describe('ScrollContainer component', function() {
       .toMatch('is-mobile');
   });
 
-  it('should call `this.checkScrollOffset` on componentDidMount', function() {
-
-    const stub = spyOn(ScrollContainer.type.prototype.__reactAutoBindMap, 'checkScrollOffset');
-
-    React.render(
-      <ScrollContainer fullscreen={true} />,
-      global.document.body
-    );
-
-    expect(stub)
-      .toHaveBeenCalled();
-  });
-
   it('should call `this.getContentContainer` when `this.scrollToBottom` is called', function() {
 
     const stub = spyOn(ScrollContainer.type.prototype.__reactAutoBindMap, 'getContentContainer')
@@ -84,24 +71,23 @@ describe('ScrollContainer component', function() {
       .toEqual(100);
   });
 
-  it('should call `this.checkScrollOffset` on componentDidUpdate', function() {
+  it('should change component state when calling `this.setScrollShadowVisible`', function() {
 
-    const stub = spyOn(ScrollContainer.type.prototype.__reactAutoBindMap, 'checkScrollOffset');
     const container = React.render(
       <ScrollContainer fullscreen={true} />,
       global.document.body
     );
 
-    expect(stub)
-      .toHaveBeenCalled();
+    expect(container.state.scrollShadowVisible)
+      .toEqual(false);
 
-    container.setState({foo: true});
+    container.setScrollShadowVisible(true);
 
-    expect(stub)
-      .toHaveBeenCalled();
+    expect(container.state.scrollShadowVisible)
+      .toEqual(true);
 
-    expect(stub.calls.count())
-      .toEqual(2);
+    expect(container.getDOMNode().querySelector('.ScrollContainer-footer').className)
+      .toContain('ScrollContainer-footer--shadow');
   });
 
   it('should have shadow class on footer if content is scrollable', function() {
@@ -112,7 +98,7 @@ describe('ScrollContainer component', function() {
     );
     let containerNode;
 
-    container.setState({scrollableContent: true});
+    container.setState({scrollShadowVisible: true});
 
     containerNode = ReactTestUtils
       .findRenderedDOMComponentWithClass(container, 'ScrollContainer-footer'),
