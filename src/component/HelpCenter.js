@@ -42,6 +42,8 @@ export const HelpCenter = React.createClass({
         searchInputVal: this.state.searchFieldValue
       });
     }
+
+    this.refs.scrollContainer.toggleShadow(this.state.articleViewActive);
   },
 
   focusField() {
@@ -347,6 +349,7 @@ export const HelpCenter = React.createClass({
       <Container
         fullscreen={this.state.fullscreen}>
         <ScrollContainer
+          ref='scrollContainer'
           title={i18n.t('embeddable_framework.launcher.label.help')}
           headerContent={
             this.state.hasSearched &&

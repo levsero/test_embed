@@ -66,6 +66,14 @@ export const SubmitTicketForm = React.createClass({
     }
   },
 
+  componentDidMount() {
+    const customFields = getCustomFields(this.props.customFields, this.state.formState);
+
+    if (customFields.fields.length) {
+      this.refs.scrollContainer.toggleShadow(true);
+    }
+  },
+
   resetTicketFormVisibility() {
     // if the user closes and reopens, we need to
     // re-render the search field

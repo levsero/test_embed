@@ -25,14 +25,6 @@ export var ScrollContainer = React.createClass({
     };
   },
 
-  componentDidMount() {
-    this.checkScrollOffset();
-  },
-
-  componentDidUpdate() {
-    this.checkScrollOffset();
-  },
-
   getContentContainer() {
     const elem = React.findDOMNode(this);
 
@@ -45,15 +37,8 @@ export var ScrollContainer = React.createClass({
     container.scrollTop = container.scrollHeight;
   },
 
-  checkScrollOffset() {
-    const container = this.getContentContainer();
-    const scrollOffset = container.scrollHeight - container.offsetHeight;
-
-    if (scrollOffset > 0 && !this.state.scrollableContent) {
-      this.setState({scrollableContent: true});
-    } else if (scrollOffset === 0 && this.state.scrollableContent) {
-      this.setState({scrollableContent: false});
-    }
+  toggleShadow(apply) {
+    this.setState({scrollableContent: apply});
   },
 
   render() {
