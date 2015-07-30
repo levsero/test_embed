@@ -178,7 +178,7 @@ var Field = React.createClass({
           }
           {
             (this.props.label)
-              ? <span className='Form-checkboxCaption u-nbfc u-isActionable'>
+              ? <span className='Form-checkboxCaption u-nbfc u-isActionable u-block'>
                 {this.props.label}{isCheckbox && this.props.required ? '*' : '' }
                 </span>
               : null
