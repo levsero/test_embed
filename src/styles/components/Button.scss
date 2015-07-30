@@ -83,16 +83,12 @@ $Button-nudge: 5;
 
 .c-btn--pill {
   color: $zendesk-color--aluminum;
-  padding: #{7/$font-size}rem #{14/$font-size}rem !important;
+  padding: #{7/$font-size}rem #{9/$font-size}rem #{7/$font-size}rem #{14/$font-size}rem !important;
   font-size: #{13/$font-size}rem;
   border-radius: 999rem !important; /* 1 */
 
   &.is-mobile {
     border-color: $secondary-color;
-  }
-
-  &:last-child {
-    padding-right: 0 !important;
   }
 
   &:hover, &:active {
@@ -103,11 +99,8 @@ $Button-nudge: 5;
   }
 
   [dir='rtl'] & {
-    white-space: nowrap;
-
-    span:first-of-type {
-      padding-right: #{14/$font-size}rem;
-    };
+    padding-right: #{14/$font-size}rem !important;
+    padding-left: #{9/$font-size}rem !important;
   }
 }
 
