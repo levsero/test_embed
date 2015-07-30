@@ -68,7 +68,7 @@ describe('Help center component', function() {
       },
       'component/ScrollContainer': {
         ScrollContainer: React.createClass({
-            toggleShadow: noop,
+            setScrollShadowVisible: noop,
             render: function() {
               return <div>{this.props.children}</div>;
             }

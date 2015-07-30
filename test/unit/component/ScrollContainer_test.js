@@ -71,19 +71,19 @@ describe('ScrollContainer component', function() {
       .toEqual(100);
   });
 
-  it('should change component state when calling `this.toggleShadow`', function() {
+  it('should change component state when calling `this.setScrollShadowVisible`', function() {
 
     const container = React.render(
       <ScrollContainer fullscreen={true} />,
       global.document.body
     );
 
-    expect(container.state.scrollableContent)
+    expect(container.state.scrollShadowVisible)
       .toEqual(false);
 
-    container.toggleShadow(true);
+    container.setScrollShadowVisible(true);
 
-    expect(container.state.scrollableContent)
+    expect(container.state.scrollShadowVisible)
       .toEqual(true);
 
     expect(container.getDOMNode().querySelector('.ScrollContainer-footer').className)
@@ -98,7 +98,7 @@ describe('ScrollContainer component', function() {
     );
     let containerNode;
 
-    container.setState({scrollableContent: true});
+    container.setState({scrollShadowVisible: true});
 
     containerNode = ReactTestUtils
       .findRenderedDOMComponentWithClass(container, 'ScrollContainer-footer'),

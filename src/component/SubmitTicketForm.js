@@ -69,9 +69,7 @@ export const SubmitTicketForm = React.createClass({
   componentDidMount() {
     const customFields = getCustomFields(this.props.customFields, this.state.formState);
 
-    if (customFields.fields.length) {
-      this.refs.scrollContainer.toggleShadow(true);
-    }
+    this.refs.scrollContainer.setScrollShadowVisible(customFields.fields.length);
   },
 
   resetTicketFormVisibility() {

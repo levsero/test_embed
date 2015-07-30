@@ -43,7 +43,7 @@ export const HelpCenter = React.createClass({
       });
     }
 
-    this.refs.scrollContainer.toggleShadow(this.state.articleViewActive);
+    this.refs.scrollContainer.setScrollShadowVisible(this.state.articleViewActive);
   },
 
   focusField() {
