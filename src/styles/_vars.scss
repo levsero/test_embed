@@ -9,10 +9,8 @@ $font-size: 12;
 
 $thin-border-size: #{1.1/$font-size}rem; /* 1 */
 
-$zendesk-green: $zendesk-color--zendesk-green;
-
 // Button colors
-$cta-color: $zendesk-green;
+$cta-color: $zendesk-color--zendesk-green;
 $inactive-color: #DDDDDD;
 $active-color: #8e8e8e;
 
@@ -33,7 +31,8 @@ $secondary-color: #939393;
 
 // Icons
 $icon-color: #BBBBBB;
-$icon-inactive-color: #A3A3A3;
+$icon-inactive-color: $zendesk-color--aluminum;
+$icon-active-color: $zendesk-color--dark-gray;
 
 // Lists
 $list-color: #BDBDBD;
