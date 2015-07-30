@@ -15,6 +15,11 @@ describe('ButtonPill component', function() {
       'react/addons': React,
       'component/Icon': {
         Icon: noopReactComponent()
+      },
+      'service/i18n': {
+        i18n: {
+          isRTL: noop
+        }
       }
     });
 

@@ -15,7 +15,8 @@ describe('Button component', function() {
       'react/addons': React,
       'component/Icon': {
         Icon: noopReactComponent()
-      }
+      },
+      'service/i18n': noop
     });
 
     mockery.registerAllowable(buttonPath);
