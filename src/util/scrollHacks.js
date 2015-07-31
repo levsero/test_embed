@@ -1,6 +1,6 @@
 import { win, document as doc } from 'utility/globals';
 
-let oldHostBodyStyle;
+let oldHostBodyPosition;
 let oldWindowScrollY = null;
 let scrollKillerActive = false;
 
@@ -19,17 +19,16 @@ function revertWindowScroll() {
 }
 
 function setScrollKiller(active) {
-  console.log('setScrollKiller', active);
   if (active) {
     if (!scrollKillerActive) {
-      oldHostBodyStyle = doc.body.getAttribute('style');
+      oldHostBodyPosition = doc.body.style.position;
 
-      doc.body.setAttribute('style', `${oldHostBodyStyle};position:fixed;`);
+      doc.body.style.position = 'fixed';
       scrollKillerActive = true;
     }
   } else {
     if (scrollKillerActive) {
-      doc.body.setAttribute('style', oldHostBodyStyle);
+      doc.body.style.position = oldHostBodyPosition;
       scrollKillerActive = false;
     }
   }

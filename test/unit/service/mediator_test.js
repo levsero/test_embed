@@ -171,15 +171,15 @@ describe('mediator', function() {
       });
 
       it('activates setScrollKiller and setWindowScroll on mobile', function() {
-        const setScrollKiller  = mockRegistry['utility/scrollHacks'].setScrollKiller;
-        const setWindowScroll  = mockRegistry['utility/scrollHacks'].setWindowScroll;
+        const setScrollKiller = mockRegistry['utility/scrollHacks'].setScrollKiller;
+        const setWindowScroll = mockRegistry['utility/scrollHacks'].setWindowScroll;
 
         mockRegistry['utility/devices'].isMobileBrowser
           .and.returnValue(true);
 
         jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`);
-        jasmine.clock().tick(1);
+        jasmine.clock().tick(1); // 1 because of a double setTimeout
 
         expect(setScrollKiller)
           .toHaveBeenCalledWith(true);

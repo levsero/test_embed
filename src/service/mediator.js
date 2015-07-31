@@ -258,7 +258,7 @@ function init(helpCenterAvailable, hideLauncher) {
               setTimeout(function() {
                 setScrollKiller(true);
                 setWindowScroll(0);
-              }, 1);
+              }, 0);
             }
           }, 0);
         }
