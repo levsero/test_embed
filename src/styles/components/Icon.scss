@@ -107,7 +107,8 @@
 }
 
 .Icon--link {
-  padding-left: #{5/$font-size}rem;
+  padding-left: #{5/$font-size}rem !important;
+  padding-right: #{5/$font-size}rem !important;
 
   svg {
     fill: $icon-inactive-color;
