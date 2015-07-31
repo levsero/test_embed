@@ -6,13 +6,21 @@ import { renderer }        from 'service/renderer';
 import { getDeviceZoom,
          getSizingRatio }  from 'utility/devices';
 import { mediator }        from 'service/mediator';
+import { setScrollKiller } from 'utility/scrollHacks';
 
 let isPinching;
 let lastTouchEnd = 0;
 
 const propagateFontRatioChange = (isPinching) => {
   setTimeout(() => {
-    renderer.hideByZoom(getDeviceZoom() > 2  || (Math.abs(win.orientation) === 90));
+    const hideWidget = getDeviceZoom() > 2  || (Math.abs(win.orientation) === 90);
+
+    if (hideWidget) {
+      setScrollKiller(false);
+    }
+
+    renderer.hideByZoom(hideWidget);
+
     mediator.channel.broadcast('.updateZoom', getSizingRatio(isPinching));
   }, 0);
 };
