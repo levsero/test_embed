@@ -21,7 +21,7 @@ const zoomMonitor = (() => {
   let interval = null;
   let iterations = 0;
   let oldOffset = [0, 0];
-  let currentZoom = getDeviceZoom();
+  let currentZoom = getDeviceZoom;
   const currentOffset = () => {
     return [win.pageXOffset, win.pageYOffset];
   };
