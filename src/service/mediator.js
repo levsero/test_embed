@@ -1,6 +1,9 @@
 import airwaves from 'airwaves';
 
 import { isMobileBrowser } from 'utility/devices';
+import { setScrollKiller,
+         setWindowScroll,
+         revertWindowScroll } from 'utility/scrollHacks';
 
 const c = new airwaves.Channel();
 
@@ -219,6 +222,12 @@ function init(helpCenterAvailable, hideLauncher) {
           c.broadcast(`${submitTicket}.hide`);
           state[`${submitTicket}.isVisible`] = false;
         }
+
+        if (isMobileBrowser()) {
+          revertWindowScroll();
+          setScrollKiller(false);
+        }
+
         if (state['.hideOnClose']) {
           c.broadcast(`${launcher}.hide`);
         } else {
@@ -240,6 +249,17 @@ function init(helpCenterAvailable, hideLauncher) {
            */
           setTimeout(function() {
             c.broadcast(`${state.activeEmbed}.showWithAnimation`);
+            if (isMobileBrowser()) {
+              /**
+               * This timeout ensures the embed is displayed
+               * before the scrolling happens on the host page
+               * so that the user doesn't see the host page jump
+               */
+              setTimeout(function() {
+                setScrollKiller(true);
+                setWindowScroll(0);
+              }, 0);
+            }
           }, 0);
         }
       }

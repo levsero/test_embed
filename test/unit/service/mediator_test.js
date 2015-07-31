@@ -20,7 +20,13 @@ describe('mediator', function() {
     mockRegistry = initMockRegistry({
       'utility/devices':  {
         isMobileBrowser: jasmine.createSpy().and.returnValue(false)
-      }
+      },
+      'utility/scrollHacks': jasmine.createSpyObj(
+        'scrollHacks',
+        ['setScrollKiller',
+         'setWindowScroll',
+         'revertWindowScroll']
+      )
     });
 
     mediator = requireUncached(mediatorPath).mediator;
@@ -163,6 +169,30 @@ describe('mediator', function() {
         expect(launcherSub.hide.calls.count())
           .toEqual(1);
       });
+
+      it('activates setScrollKiller and setWindowScroll on mobile', function() {
+        const setScrollKiller = mockRegistry['utility/scrollHacks'].setScrollKiller;
+        const setWindowScroll = mockRegistry['utility/scrollHacks'].setWindowScroll;
+
+        mockRegistry['utility/devices'].isMobileBrowser
+          .and.returnValue(true);
+
+        jasmine.clock().install();
+        c.broadcast(`${launcher}.onClick`);
+        jasmine.clock().tick(1); // 1 because of a double setTimeout
+
+        expect(setScrollKiller)
+          .toHaveBeenCalledWith(true);
+
+        expect(setScrollKiller.calls.count())
+          .toEqual(1);
+
+        expect(setWindowScroll)
+          .toHaveBeenCalledWith(0);
+
+        expect(setWindowScroll.calls.count())
+          .toEqual(1);
+      });
     });
 
     describe('ticket submission', function() {
@@ -188,6 +218,30 @@ describe('mediator', function() {
         c.broadcast('.hide');
 
         expect(submitTicketSub.hide.calls.count())
+          .toEqual(1);
+      });
+
+      it('reverts setScrollKiller and setWindowScroll on mobile onClose', function() {
+        const setScrollKiller = mockRegistry['utility/scrollHacks'].setScrollKiller;
+        const revertWindowScroll = mockRegistry['utility/scrollHacks'].revertWindowScroll;
+
+        mockRegistry['utility/devices'].isMobileBrowser
+          .and.returnValue(true);
+
+        c.broadcast(`${launcher}.onClick`);
+
+        reset(setScrollKiller);
+        reset(revertWindowScroll);
+
+        c.broadcast(`${submitTicket}.onClose`);
+
+        expect(setScrollKiller)
+          .toHaveBeenCalledWith(false);
+
+        expect(setScrollKiller.calls.count())
+          .toEqual(1);
+
+        expect(revertWindowScroll.calls.count())
           .toEqual(1);
       });
 
@@ -742,6 +796,30 @@ describe('mediator', function() {
         c.broadcast('.activate');
 
         expect(helpCenterSub.show.calls.count())
+          .toEqual(1);
+      });
+
+      it('reverts setScrollKiller and setWindowScroll on mobile onClose', function() {
+        const setScrollKiller = mockRegistry['utility/scrollHacks'].setScrollKiller;
+        const revertWindowScroll = mockRegistry['utility/scrollHacks'].revertWindowScroll;
+
+        mockRegistry['utility/devices'].isMobileBrowser
+          .and.returnValue(true);
+
+        c.broadcast(`${launcher}.onClick`);
+
+        reset(setScrollKiller);
+        reset(revertWindowScroll);
+
+        c.broadcast(`${helpCenter}.onClose`);
+
+        expect(setScrollKiller)
+          .toHaveBeenCalledWith(false);
+
+        expect(setScrollKiller.calls.count())
+          .toEqual(1);
+
+        expect(revertWindowScroll.calls.count())
           .toEqual(1);
       });
 
