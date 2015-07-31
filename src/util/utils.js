@@ -1,14 +1,11 @@
 import _     from 'lodash';
 import Color from 'color';
 
-import { win, document as doc } from 'utility/globals';
-import { getSizingRatio }       from 'utility/devices';
-import { mediator }             from 'service/mediator';
+import { document as doc } from 'utility/globals';
+import { getSizingRatio } from 'utility/devices';
+import { mediator }  from 'service/mediator';
 
 let clickBusterClicks = [];
-let oldWindowScrollY = null;
-let scrollKillerActive = false;
-let oldHostBodyStyle;
 
 function generateUserCSS(params) {
   if (params.color) {
@@ -174,36 +171,6 @@ function getFrameworkLoadTime() {
   return loadTime >= 0 ? loadTime : undefined;
 }
 
-function setWindowScroll(y) {
-  if (oldWindowScrollY === null) {
-    oldWindowScrollY = win.scrollY;
-  }
-  win.scrollTo(win.scrollX, y);
-}
-
-function revertWindowScroll() {
-  if (oldWindowScrollY !== null) {
-    win.scrollTo(win.scrollX, oldWindowScrollY);
-    oldWindowScrollY = null;
-  }
-}
-
-function setScrollKiller(enable) {
-  if (enable) {
-    if (!scrollKillerActive) {
-      oldHostBodyStyle = doc.body.getAttribute('style');
-
-      doc.body.setAttribute('style', `${oldHostBodyStyle};position:fixed;`);
-      scrollKillerActive = true;
-    }
-  } else {
-    if (scrollKillerActive) {
-      doc.body.setAttribute('style', oldHostBodyStyle);
-      scrollKillerActive = false;
-    }
-  }
-}
-
 export {
   parseUrl,
   setScaleLock,
@@ -211,8 +178,5 @@ export {
   clickBusterHandler,
   metaStringToObj,
   getFrameworkLoadTime,
-  generateUserCSS,
-  setScrollKiller,
-  setWindowScroll,
-  revertWindowScroll
+  generateUserCSS
 };
