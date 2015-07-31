@@ -224,8 +224,8 @@ function init(helpCenterAvailable, hideLauncher) {
         }
 
         if (isMobileBrowser()) {
-          revertWindowScroll();
           setScrollKiller(false);
+          revertWindowScroll();
         }
 
         if (state['.hideOnClose']) {
@@ -256,8 +256,8 @@ function init(helpCenterAvailable, hideLauncher) {
                * so that the user doesn't see the host page jump
                */
               setTimeout(function() {
-                setScrollKiller(true);
                 setWindowScroll(0);
+                setScrollKiller(true);
               }, 0);
             }
           }, 0);
