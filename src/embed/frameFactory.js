@@ -21,7 +21,7 @@ function validateChildFn(childFn, params) {
     throw 'childFn should be a function';
   }
 
-  let component = childFn(params.extend);
+  let component = childFn(params.extend || {});
 
   if (!React.isValidElement(component)) {
     const e = new TypeError();
