@@ -1,8 +1,17 @@
 const gulp = require('gulp');
+const runSequence = require('run-sequence');
 const jshint = require('gulp-jshint');
 const jscs = require('gulp-jscs');
 
-gulp.task('lint', function() {
+gulp.task('lint', function(callback) {
+  runSequence(
+    'jshint',
+    'jscs',
+    callback
+  );
+});
+
+gulp.task('jshint', function() {
   gulp.src(['src/**/*.js', 'test/**/*.js', 'gulp/**/*.js'])
     .pipe(jshint({linter: require('jshint-jsx').JSXHINT}))
     .pipe(jshint.reporter('default'))
