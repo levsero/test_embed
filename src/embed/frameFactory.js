@@ -200,7 +200,9 @@ export var frameFactory = function(childFn, _params) {
       /* jshint laxbreak: true */
       const visibilityRule = (this.state.visible && !this.state.hiddenByZoom)
                            ? null
-                           : {top: '-9999px', bottom: 'auto'};
+                           : {top: '-9999px',
+                             [i18n.isRTL() ? 'right' : 'left']: '-9999px',
+                             bottom: 'auto'};
       const iframeStyle = _.extend(
         {
           border: 'none',
