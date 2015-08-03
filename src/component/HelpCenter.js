@@ -158,26 +158,19 @@ export const HelpCenter = React.createClass({
 
   searchNoResultsTitle() {
     if (this.state.searchFailed) {
-      return i18n.t('embeddable_framework.helpCenter.search.error.title', {
-        fallback: 'Sorry, no results available at the moment'
-      });
+      return i18n.t('embeddable_framework.helpCenter.search.error.title');
     } else {
       return i18n.t('embeddable_framework.helpCenter.search.noResults.title', {
-        searchTerm: this.state.previousSearchTerm,
-        fallback: `Uh oh, there are no results for "${this.state.previousSearchTerm}"`
+        searchTerm: this.state.previousSearchTerm
       });
     }
   },
 
   searchNoResultsBody() {
     if (this.state.searchFailed) {
-      return i18n.t('embeddable_framework.helpCenter.search.error.body', {
-        fallback: 'Use the button below to send us a message'
-      });
+      return i18n.t('embeddable_framework.helpCenter.search.error.body');
     } else {
-      return i18n.t('embeddable_framework.helpCenter.search.noResults.body', {
-        fallback: 'Try searching for something else'
-      });
+      return i18n.t('embeddable_framework.helpCenter.search.noResults.body');
     }
   },
 

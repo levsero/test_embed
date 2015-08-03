@@ -41,6 +41,7 @@ parts:
       key: "embeddable_framework.submitTicket.marketing.message"
       title: "Message to customers that displays after submit ticket is sent. Translate this as 'If you own a business, you can add this widget to your website or product'"
       value: "Do you have a business? Get this for your website or product."
+      obsolete: "2015-08-03"
 
   # Submit Ticket Form component
   - translation:
