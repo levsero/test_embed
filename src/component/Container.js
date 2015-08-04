@@ -12,7 +12,9 @@ export var Container = React.createClass({
     });
 
     return (
-      <div className={containerClasses}>
+      <div
+        className={containerClasses}
+        style={this.props.style}>
         {this.props.children}
       </div>
     );

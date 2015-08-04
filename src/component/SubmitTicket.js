@@ -160,6 +160,7 @@ export var SubmitTicket = React.createClass({
 
     return (
       <Container
+        style={this.props.style}
         fullscreen={this.state.fullscreen}
         position={this.props.position}
         key={this.state.uid}>
