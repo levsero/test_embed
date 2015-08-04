@@ -396,11 +396,12 @@ describe('frameFactory', function() {
     });
 
     it('has horizontal style set to `right` when isRTL() evaluates to true', function() {
+      const frameContainer = global.document.body.getElementsByTagName('iframe')[0];
+      const frameContainerStyle = frameContainer.style;
+
       mockRegistry['service/i18n'].i18n.isRTL = function() {
         return true;
       }
-      const frameContainer = global.document.body.getElementsByTagName('iframe')[0];
-      const frameContainerStyle = frameContainer.style;
       instance.setState({visible: false});
 
       expect(frameContainerStyle.top)
@@ -414,11 +415,12 @@ describe('frameFactory', function() {
     });
 
     it('has horizontal style set to `left` when isRTL() evaluates to false', function() {
+      const frameContainer = global.document.body.getElementsByTagName('iframe')[0];
+      const frameContainerStyle = frameContainer.style;
+
       mockRegistry['service/i18n'].i18n.isRTL = function() {
         return false;
       }
-      const frameContainer = global.document.body.getElementsByTagName('iframe')[0];
-      const frameContainerStyle = frameContainer.style;
       instance.setState({visible: false});
 
       expect(frameContainerStyle.top)
