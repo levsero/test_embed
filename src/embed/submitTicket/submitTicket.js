@@ -18,7 +18,7 @@ function create(name, config) {
   let containerStyle,
       posObj;
 
-  const iframeBase = {
+  const frameStyleBase = {
     position: 'fixed',
     bottom: 0
   };
@@ -54,11 +54,11 @@ function create(name, config) {
     posObj = (config.position === 'left')
            ? { left:  0 }
            : { right: 0 };
-    iframeBase.width = 342;
+    frameStyleBase.width = 342;
     containerStyle = { width: 342, margin: 15 };
   }
 
-  let iframeStyle = _.extend(iframeBase, posObj);
+  let frameStyle = _.extend(frameStyleBase, posObj);
 
   let Embed = React.createClass(frameFactory(
     (params) => {
@@ -75,7 +75,7 @@ function create(name, config) {
       );
     },
     {
-      style: iframeStyle,
+      frameStyle: frameStyle,
       css: submitTicketCSS + generateUserCSS({color: config.color}),
       fullscreenable: true,
       onShow(child) {

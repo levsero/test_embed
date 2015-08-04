@@ -246,7 +246,7 @@ describe('embed.launcher', function() {
       launcher.create('alice');
       launcher.render('alice');
 
-      const mockFrameStyle = mockFrameFactory.calls.mostRecent().args[1].style;
+      const mockFrameStyle = mockFrameFactory.calls.mostRecent().args[1].frameStyle;
 
       expect(mockFrameStyle.left)
         .toBeUndefined();
@@ -262,7 +262,7 @@ describe('embed.launcher', function() {
       launcher.create('alice', {position: 'left'});
       launcher.render('alice');
 
-      const mockFrameStyle = mockFrameFactory.calls.mostRecent().args[1].style;
+      const mockFrameStyle = mockFrameFactory.calls.mostRecent().args[1].frameStyle;
 
       expect(mockFrameStyle.left)
         .toBeDefined();
