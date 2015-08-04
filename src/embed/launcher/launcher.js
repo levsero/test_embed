@@ -21,7 +21,7 @@ function create(name, config) {
     icon: 'Icon',
     visible: true
   };
-  const frameStyleBase = {
+  const frameStyle = {
     width: '80px',
     height: '50px',
     position: 'fixed',
@@ -34,8 +34,6 @@ function create(name, config) {
   let posObj = (config.position === 'left')
              ? { 'left':  '20px' }
              : { 'right': '20px' };
-
-  const frameStyle = _.extend(frameStyleBase, posObj);
 
   const Embed = React.createClass(frameFactory(
     (params) => {
@@ -51,7 +49,7 @@ function create(name, config) {
       );
     },
     {
-      frameStyle: frameStyle,
+      frameStyle: _.extend(frameStyle, posObj),
       css: launcherCSS + generateUserCSS({color: config.color}),
       name: name,
       hideCloseButton: true,
