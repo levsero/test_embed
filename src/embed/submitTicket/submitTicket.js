@@ -63,16 +63,15 @@ function create(name, config) {
   let Embed = React.createClass(frameFactory(
     (params) => {
       return (
-        <div style={containerStyle}>
-          <SubmitTicket
-            ref='submitTicket'
-            updateFrameSize={params.updateFrameSize}
-            onSubmitted={onSubmitted}
-            onCancel={onCancel}
-            customFields={config.customFields}
-            hideZendeskLogo={config.hideZendeskLogo}
-            position={config.position}/>
-        </div>
+        <SubmitTicket
+          ref='submitTicket'
+          customFields={config.customFields}
+          hideZendeskLogo={config.hideZendeskLogo}
+          onCancel={onCancel}
+          onSubmitted={onSubmitted}
+          position={config.position}
+          style={containerStyle}
+          updateFrameSize={params.updateFrameSize} />
       );
     },
     {

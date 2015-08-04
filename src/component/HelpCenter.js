@@ -347,6 +347,7 @@ export const HelpCenter = React.createClass({
     return (
       /* jshint laxbreak: true */
       <Container
+        style={this.props.style}
         fullscreen={this.state.fullscreen}>
         <ScrollContainer
           ref='scrollContainer'

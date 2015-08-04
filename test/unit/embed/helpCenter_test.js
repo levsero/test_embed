@@ -141,7 +141,7 @@ describe('embed.helpCenter', function() {
       it('should pass in zendeskHost from transport.getZendeskHost', function() {
         const payload = childFn({});
 
-        expect(payload.props.children.props.zendeskHost)
+        expect(payload.props.zendeskHost)
           .toEqual('zendesk.host');
       });
 
@@ -163,7 +163,7 @@ describe('embed.helpCenter', function() {
         it('should broadcast <name>.onNextClick with HelpCenterForm.onNextClick', function() {
           const payload = childFn({});
 
-          payload.props.children.props.onNextClick();
+          payload.props.onNextClick();
 
           expect(mockMediator.channel.broadcast)
             .toHaveBeenCalledWith('carlos.onNextClick');
@@ -173,7 +173,7 @@ describe('embed.helpCenter', function() {
           const payload = childFn({});
           const params = {searchString: 'searchString', searchLocale: 'en-US'};
 
-          payload.props.children.props.onSearch(params);
+          payload.props.onSearch(params);
 
           expect(mockMediator.channel.broadcast)
             .toHaveBeenCalledWith('carlos.onSearch', params);

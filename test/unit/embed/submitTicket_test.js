@@ -324,7 +324,7 @@ describe('embed.submitTicket', function() {
 
         const payload = mockFrameFactoryCall[0](childFnParams);
 
-        payload.props.children.props.onSubmitted(params);
+        payload.props.onSubmitted(params);
 
         expect(mockBeacon.track)
           .toHaveBeenCalledWith(

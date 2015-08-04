@@ -62,17 +62,16 @@ function create(name, config) {
   const Embed = React.createClass(frameFactory(
     (params) => {
       return (
-        <div style={containerStyle}>
-          <HelpCenter
-            ref='helpCenter'
-            zendeskHost={transport.getZendeskHost()}
-            onNextClick={onNextClick}
-            showBackButton={showBackButton}
-            onSearch={onSearch}
-            hideZendeskLogo={config.hideZendeskLogo}
-            position={config.position}
-            updateFrameSize={params.updateFrameSize} />
-        </div>
+        <HelpCenter
+          ref='helpCenter'
+          hideZendeskLogo={config.hideZendeskLogo}
+          onNextClick={onNextClick}
+          onSearch={onSearch}
+          position={config.position}
+          showBackButton={showBackButton}
+          style={containerStyle}
+          updateFrameSize={params.updateFrameSize}
+          zendeskHost={transport.getZendeskHost()} />
       );
     },
     {
