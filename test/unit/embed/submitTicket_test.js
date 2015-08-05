@@ -142,7 +142,7 @@ describe('embed.submitTicket', function() {
         submitTicket = require(submitTicketPath).submitTicket;
         submitTicket.create('bob', frameConfig);
         submitTicket.render('bob');
-        let submitTicketFrame = submitTicket.get('bob').instance;
+        const submitTicketFrame = submitTicket.get('bob').instance;
         mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
         params = mockFrameFactoryCall[1];
 
@@ -165,7 +165,7 @@ describe('embed.submitTicket', function() {
         submitTicket = require(submitTicketPath).submitTicket;
         submitTicket.create('bob', frameConfig);
         submitTicket.render('bob');
-        let submitTicketFrame = submitTicket.get('bob').instance;
+        const submitTicketFrame = submitTicket.get('bob').instance;
         mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
         params = mockFrameFactoryCall[1];
 
@@ -187,7 +187,7 @@ describe('embed.submitTicket', function() {
         submitTicket = require(submitTicketPath).submitTicket;
         submitTicket.create('bob', frameConfig);
         submitTicket.render('bob');
-        let submitTicketFrame = submitTicket.get('bob').instance;
+        const submitTicketFrame = submitTicket.get('bob').instance;
         mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
         params = mockFrameFactoryCall[1];
 
@@ -208,7 +208,7 @@ describe('embed.submitTicket', function() {
         submitTicket = require(submitTicketPath).submitTicket;
         submitTicket.create('bob', frameConfig);
         submitTicket.render('bob');
-        let submitTicketFrame = submitTicket.get('bob').instance;
+        const submitTicketFrame = submitTicket.get('bob').instance;
         mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
         params = mockFrameFactoryCall[1];
 
@@ -230,7 +230,7 @@ describe('embed.submitTicket', function() {
         submitTicket = require(submitTicketPath).submitTicket;
         submitTicket.create('bob', frameConfig);
         submitTicket.render('bob');
-        let submitTicketFrame = submitTicket.get('bob').instance;
+        const submitTicketFrame = submitTicket.get('bob').instance;
         mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
         params = mockFrameFactoryCall[1];
 

@@ -105,19 +105,19 @@ function render(name) {
   mediator.channel.subscribe(name + '.setLabelChat', function() {
     setIcon(name, 'Icon--chat');
     setLabel(name, i18n.t('embeddable_framework.launcher.label.chat'));
-    getRootComponent(name).setState({hasUnreadMessages: false});
+    getRootComponent(name).setState({ hasUnreadMessages: false });
   });
 
   mediator.channel.subscribe(name + '.setLabelHelp', function() {
     setIcon(name, 'Icon');
     setLabel(name, i18n.t('embeddable_framework.launcher.label.help'));
-    getRootComponent(name).setState({hasUnreadMessages: false});
+    getRootComponent(name).setState({ hasUnreadMessages: false });
   });
 
   mediator.channel.subscribe(name + '.setLabelChatHelp', function() {
     setIcon(name, 'Icon--chat');
     setLabel(name, i18n.t('embeddable_framework.launcher.label.help'));
-    getRootComponent(name).setState({hasUnreadMessages: false});
+    getRootComponent(name).setState({ hasUnreadMessages: false });
   });
 
   mediator.channel.subscribe(name + '.setLabelUnreadMsgs', function(unreadMsgs) {
@@ -126,7 +126,7 @@ function render(name) {
       {count: unreadMsgs}
     );
     setLabel(name, label);
-    getRootComponent(name).setState({hasUnreadMessages: true});
+    getRootComponent(name).setState({ hasUnreadMessages: true });
   });
 
 }

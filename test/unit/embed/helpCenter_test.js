@@ -181,7 +181,7 @@ describe('embed.helpCenter', function() {
           helpCenter = require(helpCenterPath).helpCenter;
           helpCenter.create('carlos', frameConfig);
           helpCenter.render('carlos');
-          let helpCenterFrame = helpCenter.get('carlos').instance;
+          const helpCenterFrame = helpCenter.get('carlos').instance;
           mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
           params = mockFrameFactoryCall[1];
 
@@ -195,7 +195,7 @@ describe('embed.helpCenter', function() {
           helpCenter = require(helpCenterPath).helpCenter;
           helpCenter.create('carlos', frameConfig);
           helpCenter.render('carlos');
-          let helpCenterFrame = helpCenter.get('carlos').instance;
+          const helpCenterFrame = helpCenter.get('carlos').instance;
           mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
           params = mockFrameFactoryCall[1];
 
@@ -217,7 +217,7 @@ describe('embed.helpCenter', function() {
           helpCenter = require(helpCenterPath).helpCenter;
           helpCenter.create('carlos', frameConfig);
           helpCenter.render('carlos');
-          let helpCenterFrame = helpCenter.get('carlos').instance;
+          const helpCenterFrame = helpCenter.get('carlos').instance;
           mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
           params = mockFrameFactoryCall[1];
 
@@ -231,7 +231,7 @@ describe('embed.helpCenter', function() {
           helpCenter = require(helpCenterPath).helpCenter;
           helpCenter.create('carlos', frameConfig);
           helpCenter.render('carlos');
-          let helpCenterFrame = helpCenter.get('carlos').instance;
+          const helpCenterFrame = helpCenter.get('carlos').instance;
           mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
           params = mockFrameFactoryCall[1];
 
@@ -245,7 +245,7 @@ describe('embed.helpCenter', function() {
           helpCenter = require(helpCenterPath).helpCenter;
           helpCenter.create('carlos', frameConfig);
           helpCenter.render('carlos');
-          let helpCenterFrame = helpCenter.get('carlos').instance;
+          const helpCenterFrame = helpCenter.get('carlos').instance;
           mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
           params = mockFrameFactoryCall[1];
 
