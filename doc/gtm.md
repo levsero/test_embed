@@ -1,8 +1,8 @@
 ## Web Widget Google Tag Manager support
 
-The Web Widget snippet when used inside [Google Tag Manager][gtm-link] (GTM) won't work in all browsers, to make it work follow the instructions below.
+Some browsers may experience difficulty loading the Web Widget via [Google Tag Manager][gtm-link] (GTM) using the standard Web Widget code snippet. We recommend using a modified version of the code snippet if you wish to embed the Web Widget via Google Tag Manager.
 
-### How to add support
+### Adding the Web Widget via Google Tag Manager
 
 Follow these steps to get the Web Widget working in GTM:
 
