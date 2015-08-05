@@ -62,7 +62,7 @@ function create(name, config) {
     (params) => {
       return (
         <SubmitTicket
-          ref='submitTicket'
+          ref='rootComponent'
           customFields={config.customFields}
           hideZendeskLogo={config.hideZendeskLogo}
           onCancel={onCancel}
@@ -76,27 +76,27 @@ function create(name, config) {
       frameStyle: _.extend(frameStyle, posObj),
       css: submitTicketCSS + generateUserCSS({color: config.color}),
       fullscreenable: true,
-      onShow(child) {
+      onShow(frame) {
         if (isMobileBrowser()) {
           setScaleLock(true);
         }
-        child.refs.submitTicket.refs.submitTicketForm.resetTicketFormVisibility();
+        frame.getRootComponent().refs.submitTicketForm.resetTicketFormVisibility();
         if (!isMobileBrowser()) {
-          child.refs.submitTicket.refs.submitTicketForm.focusField();
+          frame.getRootComponent().refs.submitTicketForm.focusField();
         }
       },
       name: name,
-      afterShowAnimate(child) {
+      afterShowAnimate(frame) {
         if (isIE()) {
-          child.refs.submitTicket.refs.submitTicketForm.focusField();
+          frame.getRootComponent().refs.submitTicketForm.focusField();
         }
       },
-      onHide(child) {
+      onHide(frame) {
         if (isMobileBrowser()) {
           setScaleLock(false);
-          child.refs.submitTicket.refs.submitTicketForm.hideVirtualKeyboard();
+          frame.getRootComponent().refs.submitTicketForm.hideVirtualKeyboard();
         }
-        child.refs.submitTicket.clearNotification();
+        frame.getRootComponent().clearNotification();
       },
       onClose() {
         mediator.channel.broadcast(name + '.onClose');
@@ -133,7 +133,7 @@ function render(name) {
   });
 
   mediator.channel.subscribe(name + '.hide', function() {
-    const submitTicket = get(name).instance.getChild().refs.submitTicket;
+    const submitTicket = getRootComponent(name);
 
     submitTickets[name].instance.hide();
 
@@ -149,7 +149,7 @@ function render(name) {
   });
 
   mediator.channel.subscribe(name + '.setLastSearch', function(params) {
-    get(name).instance.getChild().refs.submitTicket
+    getRootComponent(name)
       .setState(_.pick(params, ['searchString', 'searchLocale']));
   });
 
@@ -160,10 +160,9 @@ function render(name) {
 }
 
 function prefillForm(name, user) {
-  const getChild = get(name).instance.getChild();
+  const submitTicket = getRootComponent(name);
 
-  if (getChild) {
-    let submitTicket = get(name).instance.getChild().refs.submitTicket;
+  if (submitTicket) {
     let submitTicketForm = submitTicket.refs.submitTicketForm;
 
     submitTicketForm.setState({
@@ -178,6 +177,10 @@ function prefillForm(name, user) {
 
 function get(name) {
   return submitTickets[name];
+}
+
+function getRootComponent(name) {
+  return get(name).instance.getRootComponent();
 }
 
 function list() {

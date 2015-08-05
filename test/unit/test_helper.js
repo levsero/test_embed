@@ -67,3 +67,5 @@ global.dispatchEvent = function(eventName, node) {
   event.touches = [0, 0];
   node.dispatchEvent(event);
 };
+
+global.__DEV__ = true;

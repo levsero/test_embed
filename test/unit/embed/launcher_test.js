@@ -282,7 +282,7 @@ describe('embed.launcher', function() {
         launcher.create('alice');
         launcher.render('alice');
         alice = launcher.get('alice');
-        aliceLauncher = alice.instance.getChild().refs.launcher;
+        aliceLauncher = alice.instance.getChild().refs.rootComponent;
       });
 
       it('should subscribe to <name>.hide', function() {

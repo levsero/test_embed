@@ -28,6 +28,9 @@ var mockFrameFactory = jasmine.createSpy('mockFrameFactory').and.callFake(
       getChild: function() {
         return child;
       },
+      getRootComponent: function() {
+        return child.refs.rootComponent;
+      },
       render: function() {
         return (
           /* jshint quotmark:false */

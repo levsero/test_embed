@@ -61,7 +61,7 @@ function create(name, config) {
     (params) => {
       return (
         <HelpCenter
-          ref='helpCenter'
+          ref='rootComponent'
           hideZendeskLogo={config.hideZendeskLogo}
           onNextClick={onNextClick}
           onSearch={onSearch}
@@ -77,35 +77,35 @@ function create(name, config) {
       css: helpCenterCSS + generateUserCSS({color: config.color}),
       name: name,
       fullscreenable: true,
-      afterShowAnimate(child) {
+      afterShowAnimate(frame) {
         if (isIE()) {
-          child.refs.helpCenter.focusField();
+          frame.getRootComponent().focusField();
         }
       },
-      onHide(child) {
+      onHide(frame) {
         if (isMobileBrowser()) {
           setScaleLock(false);
         }
-        child.refs.helpCenter.hideVirtualKeyboard();
-        child.refs.helpCenter.backtrackSearch();
+        frame.getRootComponent().hideVirtualKeyboard();
+        frame.getRootComponent().backtrackSearch();
       },
-      onShow(child) {
+      onShow(frame) {
         if (isMobileBrowser()) {
           setScaleLock(true);
         }
         if (!isMobileBrowser()) {
-          child.refs.helpCenter.focusField();
+          frame.getRootComponent().focusField();
         }
-        child.refs.helpCenter.resetSearchFieldState();
+        frame.getRootComponent().resetSearchFieldState();
       },
       onClose() {
         mediator.channel.broadcast(name + '.onClose');
       },
-      onBack(child) {
-        child.refs.helpCenter.setState({
+      onBack(frame) {
+        frame.getRootComponent().setState({
           articleViewActive: false
         });
-        child.setState({
+        frame.setState({
           showBackButton: false
         });
       },
@@ -128,9 +128,12 @@ function get(name) {
   return helpCenters[name];
 }
 
+function getRootComponent(name) {
+  return get(name).instance.getRootComponent();
+}
+
 function updateHelpCenterButton(name, labelKey) {
-  /* jshint unused:false */
-  const helpCenter = get(name).instance.getChild().refs.helpCenter;
+  const helpCenter = getRootComponent(name);
   const label = i18n.t(`embeddable_framework.helpCenter.submitButton.label.${labelKey}`);
 
   helpCenter.setState({

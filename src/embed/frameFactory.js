@@ -28,6 +28,12 @@ function validateChildFn(childFn, params) {
     e.message = 'childFn should be a function that returns a React component';
     throw e;
   }
+
+  if (component.ref !== 'rootComponent') {
+    const e = new TypeError();
+    e.message = 'childFn should return component with ref="rootComponent"';
+    throw e;
+  }
 }
 
 export var frameFactory = function(childFn, _params) {
@@ -55,7 +61,9 @@ export var frameFactory = function(childFn, _params) {
     callback: afterShowAnimate
   };
 
-  validateChildFn(childFn, params);
+  if (__DEV__) {
+    validateChildFn(childFn, params);
+  }
 
   return {
     getDefaultProps: function() {
@@ -79,6 +87,10 @@ export var frameFactory = function(childFn, _params) {
 
     getChild: function() {
       return child;
+    },
+
+    getRootComponent: function() {
+      return child.refs.rootComponent;
     },
 
     updateFrameSize: function(offsetWidth = 0, offsetHeight = 0) {
@@ -146,7 +158,7 @@ export var frameFactory = function(childFn, _params) {
       }
 
       if (params.onShow) {
-        params.onShow(child);
+        params.onShow(this);
       }
     },
 
@@ -163,7 +175,7 @@ export var frameFactory = function(childFn, _params) {
       });
 
       if (params.onHide) {
-        params.onHide(child);
+        params.onHide(this);
       }
     },
 
@@ -173,14 +185,14 @@ export var frameFactory = function(childFn, _params) {
       }
       this.hide();
       if (params.onClose) {
-        params.onClose(child);
+        params.onClose(this);
       }
     },
 
     back: function(ev) {
       ev.preventDefault();
       if (params.onBack) {
-        params.onBack(child);
+        params.onBack(this);
       }
     },
 

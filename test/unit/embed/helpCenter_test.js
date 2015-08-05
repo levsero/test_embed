@@ -146,8 +146,7 @@ describe('embed.helpCenter', function() {
       });
 
       describe('mediator broadcasts', function() {
-        let mockMediator,
-            helpCenterChild;
+        let mockMediator;
 
         beforeEach(function() {
           mockMediator = mockRegistry['service/mediator'].mediator;
@@ -182,11 +181,11 @@ describe('embed.helpCenter', function() {
           helpCenter = require(helpCenterPath).helpCenter;
           helpCenter.create('carlos', frameConfig);
           helpCenter.render('carlos');
-          helpCenterChild = helpCenter.get('carlos').instance.getChild();
+          const helpCenterFrame = helpCenter.get('carlos').instance;
           mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
           params = mockFrameFactoryCall[1];
 
-          params.onShow(helpCenterChild);
+          params.onShow(helpCenterFrame);
 
           expect(resetSearchFieldState)
             .toHaveBeenCalled();
@@ -196,11 +195,11 @@ describe('embed.helpCenter', function() {
           helpCenter = require(helpCenterPath).helpCenter;
           helpCenter.create('carlos', frameConfig);
           helpCenter.render('carlos');
-          helpCenterChild = helpCenter.get('carlos').instance.getChild();
+          const helpCenterFrame = helpCenter.get('carlos').instance;
           mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
           params = mockFrameFactoryCall[1];
 
-          params.afterShowAnimate(helpCenterChild);
+          params.afterShowAnimate(helpCenterFrame);
           expect(focusField)
             .not.toHaveBeenCalled();
         });
@@ -218,11 +217,11 @@ describe('embed.helpCenter', function() {
           helpCenter = require(helpCenterPath).helpCenter;
           helpCenter.create('carlos', frameConfig);
           helpCenter.render('carlos');
-          helpCenterChild = helpCenter.get('carlos').instance.getChild();
+          const helpCenterFrame = helpCenter.get('carlos').instance;
           mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
           params = mockFrameFactoryCall[1];
 
-          params.afterShowAnimate(helpCenterChild);
+          params.afterShowAnimate(helpCenterFrame);
 
           expect(focusField)
             .toHaveBeenCalled();
@@ -232,11 +231,11 @@ describe('embed.helpCenter', function() {
           helpCenter = require(helpCenterPath).helpCenter;
           helpCenter.create('carlos', frameConfig);
           helpCenter.render('carlos');
-          helpCenterChild = helpCenter.get('carlos').instance.getChild();
+          const helpCenterFrame = helpCenter.get('carlos').instance;
           mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
           params = mockFrameFactoryCall[1];
 
-          params.onHide(helpCenterChild);
+          params.onHide(helpCenterFrame);
 
           expect(hideVirtualKeyboard)
             .toHaveBeenCalled();
@@ -246,11 +245,11 @@ describe('embed.helpCenter', function() {
           helpCenter = require(helpCenterPath).helpCenter;
           helpCenter.create('carlos', frameConfig);
           helpCenter.render('carlos');
-          helpCenterChild = helpCenter.get('carlos').instance.getChild();
+          const helpCenterFrame = helpCenter.get('carlos').instance;
           mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
           params = mockFrameFactoryCall[1];
 
-          params.onHide(helpCenterChild);
+          params.onHide(helpCenterFrame);
 
           expect(backtrackSearch)
             .toHaveBeenCalled();
@@ -378,7 +377,7 @@ describe('embed.helpCenter', function() {
         helpCenter.create('carlos');
         helpCenter.render('carlos');
         carlos = helpCenter.get('carlos');
-        carlosHelpCenter = carlos.instance.getChild().refs.helpCenter;
+        carlosHelpCenter = carlos.instance.getChild().refs.rootComponent;
         carlosHelpCenterForm = carlosHelpCenter.refs.helpCenterForm;
       });
 
