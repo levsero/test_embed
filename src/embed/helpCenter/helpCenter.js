@@ -105,7 +105,7 @@ function create(name, config) {
         frame.getRootComponent().setState({
           articleViewActive: false
         });
-        child.setState({
+        frame.setState({
           showBackButton: false
         });
       },
@@ -133,7 +133,6 @@ function getRootComponent(name) {
 }
 
 function updateHelpCenterButton(name, labelKey) {
-  /* jshint unused:false */
   const helpCenter = getRootComponent(name);
   const label = i18n.t(`embeddable_framework.helpCenter.submitButton.label.${labelKey}`);
 

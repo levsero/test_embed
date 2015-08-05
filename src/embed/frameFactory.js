@@ -61,7 +61,9 @@ export var frameFactory = function(childFn, _params) {
     callback: afterShowAnimate
   };
 
-  validateChildFn(childFn, params);
+  if (__DEV__) {
+    validateChildFn(childFn, params);
+  }
 
   return {
     getDefaultProps: function() {
