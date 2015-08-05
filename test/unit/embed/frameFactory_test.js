@@ -395,6 +395,44 @@ describe('frameFactory', function() {
         .not.toContain('bottom:auto');
     });
 
+    it('has horizontal style set to `right` when isRTL() evaluates to true', function() {
+      const frameContainer = global.document.body.getElementsByTagName('iframe')[0];
+      const frameContainerStyle = frameContainer.style;
+
+      mockRegistry['service/i18n'].i18n.isRTL = function() {
+        return true;
+      }
+      instance.setState({visible: false});
+
+      expect(frameContainerStyle.top)
+        .toEqual('-9999px');
+
+      expect(frameContainerStyle.right)
+        .toEqual('-9999px');
+
+      expect(frameContainerStyle.bottom)
+        .toEqual('auto');
+    });
+
+    it('has horizontal style set to `left` when isRTL() evaluates to false', function() {
+      const frameContainer = global.document.body.getElementsByTagName('iframe')[0];
+      const frameContainerStyle = frameContainer.style;
+
+      mockRegistry['service/i18n'].i18n.isRTL = function() {
+        return false;
+      }
+      instance.setState({visible: false});
+
+      expect(frameContainerStyle.top)
+        .toEqual('-9999px');
+
+      expect(frameContainerStyle.left)
+        .toEqual('-9999px');
+
+      expect(frameContainerStyle.bottom)
+        .toEqual('auto');
+    });
+
     it('has `border` css rule set to none', function() {
       const iframe = global.document.body.getElementsByTagName('iframe')[0];
 
