@@ -143,6 +143,19 @@ describe('frameFactory', function() {
     });
   });
 
+  describe('getRootComponent', function() {
+    it('returns the rootComponent', function() {
+      const Embed = React.createClass(frameFactory(mockChildFn));
+      const instance = React.render(
+        <Embed />,
+        global.document.body
+      );
+
+      expect(instance.getRootComponent().props.className)
+        .toEqual('mock-component');
+    });
+  });
+
   describe('updateFrameSize', function() {
     it('reads content dimensions and sets the state', function() {
       const payload = frameFactory(mockChildFn);
