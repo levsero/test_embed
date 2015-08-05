@@ -32,7 +32,7 @@ describe('embed.submitTicket', function() {
           focusField: focusField,
           render: function() {
             return (
-              <div ref='submitTicketForm' />
+              <div />
             );
           }
         })
@@ -143,11 +143,11 @@ describe('embed.submitTicket', function() {
         submitTicket = require(submitTicketPath).submitTicket;
         submitTicket.create('bob', frameConfig);
         submitTicket.render('bob');
-        submitTicketChild = submitTicket.get('bob').instance.getChild();
+        submitTicketChild = submitTicket.get('bob').instance;
         mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
         params = mockFrameFactoryCall[1];
 
-        params.afterShowAnimate(submitTicket.get('bob').instance.getChild());
+        params.afterShowAnimate(submitTicketChild);
 
         expect(focusField)
           .not.toHaveBeenCalled();
@@ -166,11 +166,11 @@ describe('embed.submitTicket', function() {
         submitTicket = require(submitTicketPath).submitTicket;
         submitTicket.create('bob', frameConfig);
         submitTicket.render('bob');
-        submitTicketChild = submitTicket.get('bob').instance.getChild();
+        submitTicketChild = submitTicket.get('bob').instance;
         mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
         params = mockFrameFactoryCall[1];
 
-        params.afterShowAnimate(submitTicket.get('bob').instance.getChild());
+        params.afterShowAnimate(submitTicketChild);
 
         expect(focusField)
           .toHaveBeenCalled();
@@ -188,7 +188,7 @@ describe('embed.submitTicket', function() {
         submitTicket = require(submitTicketPath).submitTicket;
         submitTicket.create('bob', frameConfig);
         submitTicket.render('bob');
-        submitTicketChild = submitTicket.get('bob').instance.getChild();
+        submitTicketChild = submitTicket.get('bob').instance;
         mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
         params = mockFrameFactoryCall[1];
 
@@ -209,21 +209,29 @@ describe('embed.submitTicket', function() {
         submitTicket = require(submitTicketPath).submitTicket;
         submitTicket.create('bob', frameConfig);
         submitTicket.render('bob');
-        submitTicketChild = submitTicket.get('bob').instance.getChild();
+        submitTicketChild = submitTicket.get('bob').instance;
         mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
         params = mockFrameFactoryCall[1];
 
-        params.onShow(submitTicket.get('bob').instance.getChild());
+        params.onShow(submitTicketChild);
 
         expect(resetTicketFormVisibility)
           .toHaveBeenCalled();
       });
 
       it('should hide virtual keyboard onHide', function() {
+        mockery.registerMock('utility/devices', {
+          isMobileBrowser: function() {
+            return true;
+          }
+        });
+
+        mockery.resetCache();
+
         submitTicket = require(submitTicketPath).submitTicket;
         submitTicket.create('bob', frameConfig);
         submitTicket.render('bob');
-        submitTicketChild = submitTicket.get('bob').instance.getChild();
+        submitTicketChild = submitTicket.get('bob').instance;
         mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
         params = mockFrameFactoryCall[1];
 

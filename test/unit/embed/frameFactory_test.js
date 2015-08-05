@@ -53,7 +53,7 @@ describe('frameFactory', function() {
         /* jshint quotmark:false */
         <div
           className='mock-component'
-          ref='aliceComponent' />
+          ref='rootComponent' />
       );
     };
 
@@ -84,7 +84,7 @@ describe('frameFactory', function() {
 
     it('should not throw if childFn returns a React component', function() {
       const childFn = function() {
-        return <mockComponent />;
+        return <mockComponent ref='rootComponent' />;
       };
       expect(function() {
         frameFactory(childFn);
@@ -93,7 +93,7 @@ describe('frameFactory', function() {
 
     it('should not throw if childFn returns a React DOM component', function() {
       const childFn = function() {
-        return <div />;
+        return <div ref='rootComponent' />;
       };
       expect(function() {
         frameFactory(childFn);
@@ -451,7 +451,7 @@ describe('frameFactory', function() {
           return (
             /* jshint quotmark:false */
             <mockComponent
-              ref='aliceComponent'
+              ref='rootComponent'
               onClick={params.onClickHandler}
               onSubmit={params.onSubmitHandler} />
           );
@@ -468,7 +468,7 @@ describe('frameFactory', function() {
         <Embed />,
         global.document.body
       );
-      const child = instance.getChild().refs.aliceComponent;
+      const child = instance.getRootComponent();
 
       child.props.onClick('click param');
 
@@ -488,7 +488,7 @@ describe('frameFactory', function() {
           return (
             /* jshint quotmark:false */
             <mockComponent
-              ref='aliceComponent'
+              ref='rootComponent'
               updateFrameSize={params.updateFrameSize} />
           );
         },
@@ -503,7 +503,7 @@ describe('frameFactory', function() {
         <Embed />,
         global.document.body
       );
-      const child = instance.getChild().refs.aliceComponent;
+      const child = instance.getRootComponent();
 
       jasmine.clock().install();
 
@@ -534,7 +534,7 @@ describe('frameFactory', function() {
         global.document.body
       );
 
-      expect(instance.getChild().refs.aliceComponent)
+      expect(instance.getChild().refs.rootComponent)
         .toBeDefined();
     });
 

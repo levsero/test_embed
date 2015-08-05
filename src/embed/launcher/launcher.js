@@ -77,12 +77,12 @@ function get(name) {
   return launchers[name];
 }
 
-function getChildRefs(name) {
-  return get(name).instance.getChild().refs;
+function getRootComponent(name) {
+  return get(name).instance.getRootComponent();
 }
 
 function setIcon(name, icon) {
-  getChildRefs(name).rootComponent.setIcon(icon);
+  getRootComponent(name).setIcon(icon);
 }
 
 function render(name) {
@@ -105,19 +105,19 @@ function render(name) {
   mediator.channel.subscribe(name + '.setLabelChat', function() {
     setIcon(name, 'Icon--chat');
     setLabel(name, i18n.t('embeddable_framework.launcher.label.chat'));
-    getChildRefs(name).rootComponent.setState({hasUnreadMessages: false});
+    getRootComponent(name).setState({hasUnreadMessages: false});
   });
 
   mediator.channel.subscribe(name + '.setLabelHelp', function() {
     setIcon(name, 'Icon');
     setLabel(name, i18n.t('embeddable_framework.launcher.label.help'));
-    getChildRefs(name).rootComponent.setState({hasUnreadMessages: false});
+    getRootComponent(name).setState({hasUnreadMessages: false});
   });
 
   mediator.channel.subscribe(name + '.setLabelChatHelp', function() {
     setIcon(name, 'Icon--chat');
     setLabel(name, i18n.t('embeddable_framework.launcher.label.help'));
-    getChildRefs(name).rootComponent.setState({hasUnreadMessages: false});
+    getRootComponent(name).setState({hasUnreadMessages: false});
   });
 
   mediator.channel.subscribe(name + '.setLabelUnreadMsgs', function(unreadMsgs) {
@@ -126,13 +126,13 @@ function render(name) {
       {count: unreadMsgs}
     );
     setLabel(name, label);
-    getChildRefs(name).rootComponent.setState({hasUnreadMessages: true});
+    getRootComponent(name).setState({hasUnreadMessages: true});
   });
 
 }
 
 function setLabel(name, label) {
-  getChildRefs(name).rootComponent.setLabel(label);
+  getRootComponent(name).setLabel(label);
 }
 
 export var launcher = {

@@ -77,32 +77,32 @@ function create(name, config) {
       css: helpCenterCSS + generateUserCSS({color: config.color}),
       name: name,
       fullscreenable: true,
-      afterShowAnimate(child) {
+      afterShowAnimate(frame) {
         if (isIE()) {
-          child.refs.rootComponent.focusField();
+          frame.getRootComponent().focusField();
         }
       },
-      onHide(child) {
+      onHide(frame) {
         if (isMobileBrowser()) {
           setScaleLock(false);
         }
-        child.refs.rootComponent.hideVirtualKeyboard();
-        child.refs.rootComponent.backtrackSearch();
+        frame.getRootComponent().hideVirtualKeyboard();
+        frame.getRootComponent().backtrackSearch();
       },
-      onShow(child) {
+      onShow(frame) {
         if (isMobileBrowser()) {
           setScaleLock(true);
         }
         if (!isMobileBrowser()) {
-          child.refs.rootComponent.focusField();
+          frame.getRootComponent().focusField();
         }
-        child.refs.rootComponent.resetSearchFieldState();
+        frame.getRootComponent().resetSearchFieldState();
       },
       onClose() {
         mediator.channel.broadcast(name + '.onClose');
       },
-      onBack(child) {
-        child.refs.rootComponent.setState({
+      onBack(frame) {
+        frame.getRootComponent().setState({
           articleViewActive: false
         });
         child.setState({
@@ -128,9 +128,13 @@ function get(name) {
   return helpCenters[name];
 }
 
+function getRootComponent(name) {
+  return get(name).instance.getRootComponent();
+}
+
 function updateHelpCenterButton(name, labelKey) {
   /* jshint unused:false */
-  const helpCenter = get(name).instance.getChild().refs.rootComponent;
+  const helpCenter = getRootComponent(name);
   const label = i18n.t(`embeddable_framework.helpCenter.submitButton.label.${labelKey}`);
 
   helpCenter.setState({

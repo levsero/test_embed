@@ -182,7 +182,7 @@ describe('embed.helpCenter', function() {
           helpCenter = require(helpCenterPath).helpCenter;
           helpCenter.create('carlos', frameConfig);
           helpCenter.render('carlos');
-          helpCenterChild = helpCenter.get('carlos').instance.getChild();
+          helpCenterChild = helpCenter.get('carlos').instance;
           mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
           params = mockFrameFactoryCall[1];
 
@@ -196,7 +196,7 @@ describe('embed.helpCenter', function() {
           helpCenter = require(helpCenterPath).helpCenter;
           helpCenter.create('carlos', frameConfig);
           helpCenter.render('carlos');
-          helpCenterChild = helpCenter.get('carlos').instance.getChild();
+          helpCenterChild = helpCenter.get('carlos').instance;
           mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
           params = mockFrameFactoryCall[1];
 
@@ -218,7 +218,7 @@ describe('embed.helpCenter', function() {
           helpCenter = require(helpCenterPath).helpCenter;
           helpCenter.create('carlos', frameConfig);
           helpCenter.render('carlos');
-          helpCenterChild = helpCenter.get('carlos').instance.getChild();
+          helpCenterChild = helpCenter.get('carlos').instance;
           mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
           params = mockFrameFactoryCall[1];
 
@@ -232,7 +232,7 @@ describe('embed.helpCenter', function() {
           helpCenter = require(helpCenterPath).helpCenter;
           helpCenter.create('carlos', frameConfig);
           helpCenter.render('carlos');
-          helpCenterChild = helpCenter.get('carlos').instance.getChild();
+          helpCenterChild = helpCenter.get('carlos').instance;
           mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
           params = mockFrameFactoryCall[1];
 
@@ -246,7 +246,7 @@ describe('embed.helpCenter', function() {
           helpCenter = require(helpCenterPath).helpCenter;
           helpCenter.create('carlos', frameConfig);
           helpCenter.render('carlos');
-          helpCenterChild = helpCenter.get('carlos').instance.getChild();
+          helpCenterChild = helpCenter.get('carlos').instance;
           mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
           params = mockFrameFactoryCall[1];
 
