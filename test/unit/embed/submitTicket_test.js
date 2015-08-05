@@ -415,7 +415,7 @@ describe('embed.submitTicket', function() {
         submitTicket.render('bob');
         bob = submitTicket.get('bob');
         bobFrame = bob.instance.getChild();
-        bobSubmitTicket = bobFrame.refs.submitTicket;
+        bobSubmitTicket = bobFrame.refs.rootComponent;
         bobSubmitTicketForm = bobSubmitTicket.refs.submitTicketForm;
       });
 

@@ -62,7 +62,7 @@ function create(name, config) {
     (params) => {
       return (
         <SubmitTicket
-          ref='submitTicket'
+          ref='rootComponent'
           customFields={config.customFields}
           hideZendeskLogo={config.hideZendeskLogo}
           onCancel={onCancel}
@@ -80,23 +80,23 @@ function create(name, config) {
         if (isMobileBrowser()) {
           setScaleLock(true);
         }
-        child.refs.submitTicket.refs.submitTicketForm.resetTicketFormVisibility();
+        child.refs.rootComponent.refs.submitTicketForm.resetTicketFormVisibility();
         if (!isMobileBrowser()) {
-          child.refs.submitTicket.refs.submitTicketForm.focusField();
+          child.refs.rootComponent.refs.submitTicketForm.focusField();
         }
       },
       name: name,
       afterShowAnimate(child) {
         if (isIE()) {
-          child.refs.submitTicket.refs.submitTicketForm.focusField();
+          child.refs.rootComponent.refs.submitTicketForm.focusField();
         }
       },
       onHide(child) {
         if (isMobileBrowser()) {
           setScaleLock(false);
-          child.refs.submitTicket.refs.submitTicketForm.hideVirtualKeyboard();
+          child.refs.rootComponent.refs.submitTicketForm.hideVirtualKeyboard();
         }
-        child.refs.submitTicket.clearNotification();
+        child.refs.rootComponent.clearNotification();
       },
       onClose() {
         mediator.channel.broadcast(name + '.onClose');
@@ -133,7 +133,7 @@ function render(name) {
   });
 
   mediator.channel.subscribe(name + '.hide', function() {
-    const submitTicket = get(name).instance.getChild().refs.submitTicket;
+    const submitTicket = get(name).instance.getChild().refs.rootComponent;
 
     submitTickets[name].instance.hide();
 
@@ -149,7 +149,7 @@ function render(name) {
   });
 
   mediator.channel.subscribe(name + '.setLastSearch', function(params) {
-    get(name).instance.getChild().refs.submitTicket
+    get(name).instance.getChild().refs.rootComponent
       .setState(_.pick(params, ['searchString', 'searchLocale']));
   });
 
@@ -163,7 +163,7 @@ function prefillForm(name, user) {
   const getChild = get(name).instance.getChild();
 
   if (getChild) {
-    let submitTicket = get(name).instance.getChild().refs.submitTicket;
+    let submitTicket = get(name).instance.getChild().refs.rootComponent;
     let submitTicketForm = submitTicket.refs.submitTicketForm;
 
     submitTicketForm.setState({

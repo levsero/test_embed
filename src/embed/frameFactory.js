@@ -28,6 +28,12 @@ function validateChildFn(childFn, params) {
     e.message = 'childFn should be a function that returns a React component';
     throw e;
   }
+
+  if (component.ref !== 'rootComponent') {
+    const e = new TypeError();
+    e.message = 'childFn should return component with ref="rootComponent"';
+    throw e;
+  }
 }
 
 export var frameFactory = function(childFn, _params) {

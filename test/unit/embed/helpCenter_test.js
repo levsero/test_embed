@@ -378,7 +378,7 @@ describe('embed.helpCenter', function() {
         helpCenter.create('carlos');
         helpCenter.render('carlos');
         carlos = helpCenter.get('carlos');
-        carlosHelpCenter = carlos.instance.getChild().refs.helpCenter;
+        carlosHelpCenter = carlos.instance.getChild().refs.rootComponent;
         carlosHelpCenterForm = carlosHelpCenter.refs.helpCenterForm;
       });
 

@@ -61,7 +61,7 @@ function create(name, config) {
     (params) => {
       return (
         <HelpCenter
-          ref='helpCenter'
+          ref='rootComponent'
           hideZendeskLogo={config.hideZendeskLogo}
           onNextClick={onNextClick}
           onSearch={onSearch}
@@ -79,30 +79,30 @@ function create(name, config) {
       fullscreenable: true,
       afterShowAnimate(child) {
         if (isIE()) {
-          child.refs.helpCenter.focusField();
+          child.refs.rootComponent.focusField();
         }
       },
       onHide(child) {
         if (isMobileBrowser()) {
           setScaleLock(false);
         }
-        child.refs.helpCenter.hideVirtualKeyboard();
-        child.refs.helpCenter.backtrackSearch();
+        child.refs.rootComponent.hideVirtualKeyboard();
+        child.refs.rootComponent.backtrackSearch();
       },
       onShow(child) {
         if (isMobileBrowser()) {
           setScaleLock(true);
         }
         if (!isMobileBrowser()) {
-          child.refs.helpCenter.focusField();
+          child.refs.rootComponent.focusField();
         }
-        child.refs.helpCenter.resetSearchFieldState();
+        child.refs.rootComponent.resetSearchFieldState();
       },
       onClose() {
         mediator.channel.broadcast(name + '.onClose');
       },
       onBack(child) {
-        child.refs.helpCenter.setState({
+        child.refs.rootComponent.setState({
           articleViewActive: false
         });
         child.setState({
@@ -130,7 +130,7 @@ function get(name) {
 
 function updateHelpCenterButton(name, labelKey) {
   /* jshint unused:false */
-  const helpCenter = get(name).instance.getChild().refs.helpCenter;
+  const helpCenter = get(name).instance.getChild().refs.rootComponent;
   const label = i18n.t(`embeddable_framework.helpCenter.submitButton.label.${labelKey}`);
 
   helpCenter.setState({

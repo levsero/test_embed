@@ -39,7 +39,7 @@ function create(name, config) {
     (params) => {
       return (
         <Launcher
-          ref='launcher'
+          ref='rootComponent'
           onClick={params.onClickHandler}
           onTouchEnd={params.onClickHandler}
           updateFrameSize={params.updateFrameSize}
@@ -82,7 +82,7 @@ function getChildRefs(name) {
 }
 
 function setIcon(name, icon) {
-  getChildRefs(name).launcher.setIcon(icon);
+  getChildRefs(name).rootComponent.setIcon(icon);
 }
 
 function render(name) {
@@ -105,19 +105,19 @@ function render(name) {
   mediator.channel.subscribe(name + '.setLabelChat', function() {
     setIcon(name, 'Icon--chat');
     setLabel(name, i18n.t('embeddable_framework.launcher.label.chat'));
-    getChildRefs(name).launcher.setState({hasUnreadMessages: false});
+    getChildRefs(name).rootComponent.setState({hasUnreadMessages: false});
   });
 
   mediator.channel.subscribe(name + '.setLabelHelp', function() {
     setIcon(name, 'Icon');
     setLabel(name, i18n.t('embeddable_framework.launcher.label.help'));
-    getChildRefs(name).launcher.setState({hasUnreadMessages: false});
+    getChildRefs(name).rootComponent.setState({hasUnreadMessages: false});
   });
 
   mediator.channel.subscribe(name + '.setLabelChatHelp', function() {
     setIcon(name, 'Icon--chat');
     setLabel(name, i18n.t('embeddable_framework.launcher.label.help'));
-    getChildRefs(name).launcher.setState({hasUnreadMessages: false});
+    getChildRefs(name).rootComponent.setState({hasUnreadMessages: false});
   });
 
   mediator.channel.subscribe(name + '.setLabelUnreadMsgs', function(unreadMsgs) {
@@ -126,13 +126,13 @@ function render(name) {
       {count: unreadMsgs}
     );
     setLabel(name, label);
-    getChildRefs(name).launcher.setState({hasUnreadMessages: true});
+    getChildRefs(name).rootComponent.setState({hasUnreadMessages: true});
   });
 
 }
 
 function setLabel(name, label) {
-  getChildRefs(name).launcher.setLabel(label);
+  getChildRefs(name).rootComponent.setLabel(label);
 }
 
 export var launcher = {
