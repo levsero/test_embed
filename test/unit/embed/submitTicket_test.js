@@ -255,7 +255,7 @@ describe('embed.submitTicket', function() {
         submitTicket.create('bob');
 
         const mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
-        const iframeStyle = mockFrameFactoryCall[1].style;
+        const iframeStyle = mockFrameFactoryCall[1].frameStyle;
 
         expect(iframeStyle.left)
           .toBeUndefined();

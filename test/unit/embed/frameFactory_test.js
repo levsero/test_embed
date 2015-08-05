@@ -351,7 +351,7 @@ describe('frameFactory', function() {
 
     beforeEach(function() {
       const payload = frameFactory(mockChildFn, {
-        style: {
+        frameStyle: {
           backgroundColor: '#abc'
         }
       });

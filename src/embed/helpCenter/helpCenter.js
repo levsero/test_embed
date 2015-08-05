@@ -21,7 +21,7 @@ function create(name, config) {
   let containerStyle,
       posObj;
 
-  const iframeBase = {
+  const frameStyle = {
     position: 'fixed',
     bottom: 0
   };
@@ -52,12 +52,10 @@ function create(name, config) {
            ? { left:  0 }
            : { right: 0 };
 
-    iframeBase.width = 342;
-    iframeBase.maxHeight = 500;
+    frameStyle.width = 342;
+    frameStyle.maxHeight = 500;
     containerStyle = { width: 342, margin: 15 };
   }
-
-  const iframeStyle = _.extend(iframeBase, posObj);
 
   const Embed = React.createClass(frameFactory(
     (params) => {
@@ -75,7 +73,7 @@ function create(name, config) {
       );
     },
     {
-      style: iframeStyle,
+      frameStyle: _.extend(frameStyle, posObj),
       css: helpCenterCSS + generateUserCSS({color: config.color}),
       name: name,
       fullscreenable: true,

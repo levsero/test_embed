@@ -34,7 +34,7 @@ export var frameFactory = function(childFn, _params) {
   let child;
 
   const defaultParams = {
-    style: {},
+    frameStyle: {},
     css: '',
     fullscreenable: false
   };
@@ -208,7 +208,7 @@ export var frameFactory = function(childFn, _params) {
           zIndex: 999998,
           transform: 'translateZ(0)'
         },
-        params.style,
+        params.frameStyle,
         this.state.iframeDimensions,
         visibilityRule
       );

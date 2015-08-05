@@ -272,7 +272,7 @@ describe('embed.helpCenter', function() {
       helpCenter.create('carlos');
 
       const mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
-      const iframeStyle = mockFrameFactoryCall[1].style;
+      const iframeStyle = mockFrameFactoryCall[1].frameStyle;
 
       expect(iframeStyle.left)
         .toBeUndefined();
