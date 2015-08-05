@@ -32,6 +32,7 @@ The following example displays the widget in German:
 </script>
 ```
 **Note**: This code should be placed immediately after the Web Widget code snippet
+
 ![example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/widget_api_locale.png)
 
 ### zE.identify
