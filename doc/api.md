@@ -22,7 +22,7 @@ The method takes a locale string as an argument. For a list of supported locales
 
 By default, the Web Widget is displayed to the end user in a language that matches the browser header of their web browser. If you want to force the Widget to be displayed in a specific language on your website, you can use `zE.setLocale()` to specify the language.
 
-The following example displays the widget in German:
+The following example displays the widget in German (Note: this code should be placed immediately after the Web Widget code snippet):
 
 ```html
 <script>
