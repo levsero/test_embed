@@ -25,6 +25,7 @@ By default, the Web Widget is displayed to the end user in a language that match
 The following example displays the widget in German:
 
 **Note**: This code should be placed immediately after the Web Widget code snippet
+
 ```html
 <script>
   zE(function() {
@@ -32,6 +33,7 @@ The following example displays the widget in German:
   });
 </script>
 ```
+
 ![example](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/widget_api_locale.png)
 
 ### zE.identify
