@@ -263,6 +263,37 @@ var SelectField = React.createClass({
   }
 });
 
+var SearchFieldButton = React.createClass({
+
+  render() {
+    /* jshint laxbreak:true */
+    const searchContainerClasses = classSet({
+      'u-cf': true,
+      'u-paddingHN u-paddingBN Form-cta--barFullscreen': this.props.fullscreen
+    });
+    const searchInputClasses = classSet({
+      'Arrange Arrange--middle Form-field Form-field--search u-isSelectable': true,
+      'is-mobile': this.props.fullscreen
+    });
+    const searchInputFieldIconClasses = classSet({
+      'Arrange-sizeFit u-isActionable': true
+    });
+
+    return (
+      /* jshint quotmark:false */
+      <div className={searchContainerClasses}>
+        <div className={searchInputClasses}
+              onClick={this.props.onClick}
+              onTouch={this.props.onTouch}>
+          <Icon
+            className={searchInputFieldIconClasses}
+            type='Icon--search' />
+        </div>
+      </div>
+    );
+  }
+});
+
 var SearchField = React.createClass({
   getInitialState() {
     return {
@@ -405,5 +436,5 @@ var SearchField = React.createClass({
   }
 });
 
-export { Field, SearchField, getCustomFields };
+export { Field, SearchField, SearchFieldButton, getCustomFields };
 

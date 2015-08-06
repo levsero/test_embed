@@ -2,7 +2,10 @@ describe('FormField component', function() {
   let mockRegistry,
       onSearch,
       onChangeValue,
+      onUpdate,
+      onClick,
       SearchField,
+      SearchFieldButton,
       Field,
       getCustomFields;
   const formFieldPath = buildSrcPath('component/FormField');
@@ -11,6 +14,8 @@ describe('FormField component', function() {
 
     onSearch = jasmine.createSpy();
     onChangeValue = jasmine.createSpy('onChangeValue');
+    onUpdate = jasmine.createSpy('onUpdate');
+    onClick = jasmine.createSpy();
 
     resetDOM();
 
@@ -55,6 +60,7 @@ describe('FormField component', function() {
     mockery.registerAllowable(formFieldPath);
 
     SearchField = require(formFieldPath).SearchField;
+    SearchFieldButton = require(formFieldPath).SearchFieldButton;
     Field = require(formFieldPath).Field;
     getCustomFields = require(formFieldPath).getCustomFields;
   });
@@ -380,4 +386,19 @@ describe('FormField component', function() {
     });
   });
 
+  describe('SearchFieldButton', function() {
+    it('should call onClick when searchField is clicked', function() {
+      const searchFieldButton = React.render(
+        <SearchFieldButton onClick={onClick} />,
+        global.document.body
+      );
+
+      const searchFieldButtonNode = searchFieldButton.getDOMNode();
+
+      ReactTestUtils.Simulate.click(searchFieldButtonNode.querySelector('.Form-field--search'));
+
+      expect(onClick)
+        .toHaveBeenCalled();
+    });
+  });
 });

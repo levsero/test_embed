@@ -5,7 +5,8 @@ import { transport }         from 'service/transport';
 import { stopWordsFilter }   from 'mixin/searchFilter';
 import { HelpCenterForm }    from 'component/HelpCenterForm';
 import { HelpCenterArticle } from 'component/HelpCenterArticle';
-import { SearchField }       from 'component/FormField';
+import { SearchField,
+         SearchFieldButton } from 'component/FormField';
 import { ZendeskLogo }       from 'component/ZendeskLogo';
 import { Container }         from 'component/Container';
 import { ScrollContainer }   from 'component/ScrollContainer';
@@ -28,6 +29,7 @@ export const HelpCenter = React.createClass({
       previousSearchTerm: '',
       hasSearched: false,
       searchFailed: false,
+      searchFirstTransition: false,
       articleViewActive: false,
       activeArticle: {},
       removeSearchField: false,
@@ -38,6 +40,14 @@ export const HelpCenter = React.createClass({
 
   componentDidUpdate() {
     if (this.refs.searchField) {
+      if (this.state.fullscreen && !this.state.searchFirstTransition) {
+        this.setState({
+          searchFirstTransition: true,
+          resultsCount: 1, // Haxxor to render nothing and prevent error messages from displaying
+        });
+        this.refs.searchField.focus();
+      }
+
       this.refs.searchField.setState({
         searchInputVal: this.state.searchFieldValue
       });
@@ -91,6 +101,7 @@ export const HelpCenter = React.createClass({
       hasSearched: true,
       searchFailed: false
     });
+    this.focusField();
   },
 
   searchFail() {
@@ -100,6 +111,7 @@ export const HelpCenter = React.createClass({
       hasSearched: true,
       searchFailed: true
     });
+    this.focusField();
   },
 
   performSearch(searchString, forceSearch) {
@@ -236,6 +248,13 @@ export const HelpCenter = React.createClass({
     });
   },
 
+  searchBoxClickHandler() {
+    this.setState({
+      hasSearched: true,
+      removeSearchField: false
+    });
+  },
+
   render() {
     /* jshint quotmark:false */
     const listClasses = classSet({
@@ -336,6 +355,12 @@ export const HelpCenter = React.createClass({
                           hasSearched={this.state.hasSearched}
                           onSearchIconClick={this.handleSearch}
                           isLoading={this.state.isLoading} />;
+    const searchFieldButton = this.state.removeSearchField
+                            ? null
+                            : <SearchFieldButton
+                                ref='searchFieldButton'
+                                onClick={this.searchBoxClickHandler}
+                                onTouch={this.searchBoxClickHandler} />;
 
     return (
       /* jshint laxbreak: true */
@@ -372,7 +397,8 @@ export const HelpCenter = React.createClass({
               <h1 className={searchTitleClasses}>
                 {i18n.t('embeddable_framework.helpCenter.label.searchHelpCenter')}
               </h1>
-              {!this.state.hasSearched && searchField}
+              {!this.state.hasSearched && this.state.fullscreen && searchFieldButton}
+              {!this.state.hasSearched && !this.state.fullscreen && searchField}
               <div className={linkClasses}>
                 <p className='u-marginBN'>{linkContext}</p>
                 <a className='u-userTextColor' onClick={this.handleNextClick}>

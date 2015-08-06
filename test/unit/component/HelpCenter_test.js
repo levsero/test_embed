@@ -47,11 +47,26 @@ describe('Help center component', function() {
       },
       'component/FormField': {
         SearchField: React.createClass({
+            focus: function() {
+              this.setState({
+                focused: true
+              });
+            },
             blur: searchFieldBlur,
             getValue: searchFieldGetValue,
             render: function() {
               return (
                 <input ref='searchField' type='search' />
+              );
+            }
+          }),
+        SearchFieldButton: React.createClass({
+            render: function() {
+              return (
+                <input
+                  ref='searchFieldButton'
+                  type='search'
+                  onClick={this.props.onClick} />
               );
             }
           })
@@ -70,7 +85,13 @@ describe('Help center component', function() {
         ScrollContainer: React.createClass({
             setScrollShadowVisible: noop,
             render: function() {
-              return <div>{this.props.children}</div>;
+              return (
+                <div>
+                  {this.props.headerContent}
+                  {this.props.footerContent}
+                  {this.props.children}
+                </div>
+              );
             }
           }),
       },
@@ -407,6 +428,115 @@ describe('Help center component', function() {
 
       expect(helpCenter.state.fullscreen)
         .toEqual(false);
+    });
+  });
+
+  describe('searchField', function() {
+    it('Renders component if fullscreen is false', function() {
+      const helpCenter = React.render(
+        <HelpCenter />,
+        global.document.body
+      );
+
+      expect(helpCenter.refs.searchField)
+        .toBeTruthy();
+
+      expect(helpCenter.refs.searchFieldButton)
+        .toBeFalsy();
+    });
+  });
+
+  describe('searchFieldButton', function() {
+    it('Renders component if fullscreen is true', function() {
+
+      mockRegistry['utility/devices'].isMobileBrowser = function() {
+        return true;
+      };
+
+      mockery.resetCache();
+      HelpCenter = require(helpCenterPath).HelpCenter;
+
+      const helpCenter = React.render(
+        <HelpCenter />,
+        global.document.body
+      );
+
+      expect(helpCenter.refs.searchFieldButton)
+        .toBeTruthy();
+
+      expect(helpCenter.refs.searchField)
+        .toBeFalsy();
+    });
+
+    it('Sets `searchFirstTransition` state to true when component is clicked', function() {
+
+      mockRegistry['utility/devices'].isMobileBrowser = function() {
+        return true;
+      };
+
+      mockery.resetCache();
+      HelpCenter = require(helpCenterPath).HelpCenter;
+
+      const helpCenter = React.render(
+        <HelpCenter />,
+        global.document.body
+      );
+
+      expect(helpCenter.state.searchFirstTransition)
+        .toBe(false);
+
+      ReactTestUtils.Simulate.click(helpCenter.refs.searchFieldButton.getDOMNode());
+
+      expect(helpCenter.state.searchFirstTransition)
+        .toBe(true);
+    });
+
+    it('Sets `resultsCount` state to 1 when component is clicked', function() {
+
+      mockRegistry['utility/devices'].isMobileBrowser = function() {
+        return true;
+      };
+
+      mockery.resetCache();
+      HelpCenter = require(helpCenterPath).HelpCenter;
+
+      const helpCenter = React.render(
+        <HelpCenter />,
+        global.document.body
+      );
+
+      expect(helpCenter.state.resultsCount)
+        .toBe(0);
+
+      ReactTestUtils.Simulate.click(helpCenter.refs.searchFieldButton.getDOMNode());
+
+      expect(helpCenter.state.resultsCount)
+        .toBe(1);
+    });
+
+    it('Should set focus state to searchField when component is clicked', function() {
+
+      mockRegistry['utility/devices'].isMobileBrowser = function() {
+        return true;
+      };
+
+      mockery.resetCache();
+      HelpCenter = require(helpCenterPath).HelpCenter;
+
+      const helpCenter = React.render(
+        <HelpCenter />,
+        global.document.body
+      );
+
+      expect(helpCenter.refs.searchField)
+        .toBeFalsy();
+
+      ReactTestUtils.Simulate.click(helpCenter.refs.searchFieldButton.getDOMNode());
+
+      const searchField = helpCenter.refs.searchField;
+
+      expect(searchField.state.focused)
+        .toEqual(true);
     });
   });
 });
