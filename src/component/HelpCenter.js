@@ -299,7 +299,7 @@ export const HelpCenter = React.createClass({
     const onFocusHandler = () => {
       this.setState({ searchFieldFocused: true });
     };
-    const onUpdateHandler = (value) => {
+    const onChangeValueHandler = (value) => {
       this.setState({ searchFieldValue: value });
     };
     const chatButtonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.chat');
@@ -332,7 +332,7 @@ export const HelpCenter = React.createClass({
                           ref='searchField'
                           fullscreen={this.state.fullscreen}
                           onFocus={onFocusHandler}
-                          onUpdate={onUpdateHandler}
+                          onChangeValue={onChangeValueHandler}
                           hasSearched={this.state.hasSearched}
                           onSearchIconClick={this.handleSearch}
                           isLoading={this.state.isLoading} />;

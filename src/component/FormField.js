@@ -86,13 +86,17 @@ var Field = React.createClass({
     };
   },
 
-  onFocus() {
+  onFocus(e) {
     this.setState({
       focused: true
     });
+
+    if (this.props.onFocus) {
+      this.props.onFocus(e);
+    }
   },
 
-  onBlur() {
+  onBlur(e) {
     const result = this.refs.field.getDOMNode();
 
     this.setState({
@@ -101,6 +105,10 @@ var Field = React.createClass({
       hasError: !result.validity.valid,
       dirty: !this.state.value
     });
+
+    if (this.props.onBlur) {
+      this.props.onBlur(e);
+    }
   },
 
   onChange(e) {
@@ -111,6 +119,10 @@ var Field = React.createClass({
       value: value,
       hasError: !result.validity.valid
     });
+
+    if (this.props.onChange) {
+      this.props.onChange(e);
+    }
   },
 
   render() {
@@ -261,20 +273,28 @@ var SearchField = React.createClass({
     };
   },
 
-  onFocus() {
+  onFocus(e) {
     this.setState({
       focused: true
     });
+
+    if (this.props.onFocus) {
+      this.props.onFocus(e);
+    }
   },
 
-  onBlur() {
+  onBlur(e) {
     this.setState({
       focused: false,
       blurred: true
     });
+
+    if (this.props.onBlur) {
+      this.props.onBlur(e);
+    }
   },
 
-  handleUpdate(e) {
+  onChange(e) {
     const value = e.target.value;
 
     this.setState({
@@ -282,8 +302,12 @@ var SearchField = React.createClass({
       searchInputVal: value
     });
 
-    if (this.props.onUpdate) {
-      this.props.onUpdate(value);
+    if (this.props.onChange) {
+      this.props.onChange(e);
+    }
+
+    if (this.props.onChangeValue) {
+      this.props.onChangeValue(value);
     }
   },
 
@@ -293,8 +317,8 @@ var SearchField = React.createClass({
       isClearable: false
     });
 
-    if (this.props.onUpdate) {
-      this.props.onUpdate('');
+    if (this.props.onChangeValue) {
+      this.props.onChangeValue('');
     }
   },
 
@@ -303,15 +327,15 @@ var SearchField = React.createClass({
   },
 
   getValue() {
-    return this.getSearchField().value;
+    return this.state.searchInputVal;
   },
 
   focus() {
-    return this.getSearchField().focus();
+    this.getSearchField().focus();
   },
 
   blur() {
-    return this.getSearchField().blur();
+    this.getSearchField().blur();
   },
 
   render() {
@@ -360,7 +384,7 @@ var SearchField = React.createClass({
             <input
               className={searchInputFieldClasses}
               ref='searchFieldInput'
-              onChange={this.handleUpdate}
+              onChange={this.onChange}
               value={this.state.searchInputVal}
               onFocus={this.onFocus}
               onBlur={this.onBlur}
