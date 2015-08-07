@@ -1,7 +1,7 @@
 describe('FormField component', function() {
   let mockRegistry,
       onSearch,
-      onUpdate,
+      onChangeValue,
       SearchField,
       Field,
       getCustomFields;
@@ -10,7 +10,7 @@ describe('FormField component', function() {
   beforeEach(function() {
 
     onSearch = jasmine.createSpy();
-    onUpdate = jasmine.createSpy('onUpdate');
+    onChangeValue = jasmine.createSpy('onChangeValue');
 
     resetDOM();
 
@@ -360,9 +360,9 @@ describe('FormField component', function() {
         .toHaveBeenCalled();
     });
 
-    it('should clear input and call props.onUpdate when clear icon is clicked', function() {
+    it('should clear input and call props.onChangeValue when clear icon is clicked', function() {
       const searchField = React.render(
-        <SearchField onUpdate={onUpdate} />,
+        <SearchField onChangeValue={onChangeValue} />,
         global.document.body
       );
       const searchFieldNode = searchField.getDOMNode();
@@ -375,8 +375,8 @@ describe('FormField component', function() {
       expect(searchInputNode.value)
         .toEqual('');
 
-      expect(onUpdate)
-        .toHaveBeenCalled();
+      expect(onChangeValue)
+        .toHaveBeenCalledWith('');
     });
   });
 
