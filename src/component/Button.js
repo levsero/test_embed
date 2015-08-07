@@ -18,7 +18,8 @@ var Button = React.createClass({
     const buttonClasses = classSet({
       'c-btn c-btn--medium c-btn--primary': true,
       'Anim-color u-textNoWrap u-borderTransparent u-userBackgroundColor': true,
-      'u-sizeFull u-textSizeBaseMobile': this.props.fullscreen
+      'u-sizeFull u-textSizeBaseMobile': this.props.fullscreen,
+      [`${this.props.className}`]: true
     });
     const allowedTypes = /^(submit|button)$/i;
     const type = allowedTypes.test(this.props.type)
@@ -32,6 +33,7 @@ var Button = React.createClass({
         onClick={this.props.onClick}
         onTouchStart={this.props.onClick}
         disabled={this.props.disabled}
+        style={this.props.style}
         className={buttonClasses} />
     );
   }
@@ -90,11 +92,17 @@ var ButtonSecondary = React.createClass({
   },
 
   render() {
+    const buttonClasses = classSet({
+      'c-btn c-btn--medium c-btn--secondary': true,
+      [`${this.props.className}`]: true
+    });
+
     return (
       <div
         onClick={this.props.onClick}
         onTouchStart={this.props.onClick}
-        className='c-btn c-btn--medium c-btn--secondary'>
+        className={buttonClasses}
+        style={this.props.style}>
         {this.props.label}
       </div>
     );
