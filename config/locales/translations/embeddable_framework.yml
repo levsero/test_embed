@@ -2,6 +2,8 @@ title: "Embeddable Framework"
 packages:
   - embeddable_framework
   - help_center
+  - enduser
+  - enduser_widget
 
 parts:
   # Launcher embed
