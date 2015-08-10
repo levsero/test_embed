@@ -145,6 +145,30 @@ describe('embed.helpCenter', function() {
           .toEqual('zendesk.host');
       });
 
+      it('should the showBackButton state on the child component to false onBack', function() {
+        const mockSetState = jasmine.createSpy();
+        const mockFrame = {
+          getRootComponent() {
+            return { setState: noop }
+          },
+          getChild() {
+            return {
+              setState: mockSetState
+            }
+          }
+        };
+
+        params.onBack(mockFrame);
+
+        const mockSetStateArgs = mockSetState.calls.mostRecent().args
+
+        expect(mockSetState)
+          .toHaveBeenCalled();
+
+        expect(mockSetStateArgs[0].showBackButton)
+          .toEqual(false);
+      });
+
       describe('mediator broadcasts', function() {
         let mockMediator;
 
@@ -177,6 +201,7 @@ describe('embed.helpCenter', function() {
           expect(mockMediator.channel.broadcast)
             .toHaveBeenCalledWith('carlos.onSearch', params);
         });
+
         it('should reset form state onShow', function() {
           helpCenter = require(helpCenterPath).helpCenter;
           helpCenter.create('carlos', frameConfig);
