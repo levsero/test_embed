@@ -105,7 +105,7 @@ function create(name, config) {
         frame.getRootComponent().setState({
           articleViewActive: false
         });
-        frame.setState({
+        frame.getChild().setState({
           showBackButton: false
         });
       },
