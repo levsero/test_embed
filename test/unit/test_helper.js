@@ -15,6 +15,8 @@ global.buildTestPath = function(path) {
 
 global._ = require('lodash');
 
+global.requireUncached = require('require-uncached');
+
 global.Airbrake = jasmine.createSpyObj('Airbrake', ['push', 'wrap', 'setProject']);
 
 global.mockery = require('mockery');

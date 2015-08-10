@@ -246,7 +246,7 @@ describe('beacon', function() {
         .toBe('POST');
 
       expect(payload.path)
-        .toBe('/embeddable/blips');
+        .toBe('/embeddable/identify');
 
       const params = payload.params;
 

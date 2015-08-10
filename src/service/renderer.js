@@ -5,6 +5,7 @@ import { submitTicket } from 'embed/submitTicket/submitTicket';
 import { launcher }     from 'embed/launcher/launcher';
 import { helpCenter }   from 'embed/helpCenter/helpCenter';
 import { chat }         from 'embed/chat/chat';
+import { nps }          from 'embed/nps/nps';
 import { i18n }         from 'service/i18n';
 import { mediator }     from 'service/mediator';
 import { logging }      from 'service/logging';
@@ -13,6 +14,7 @@ const embedsMap = {
   'submitTicket': submitTicket,
   'launcher': launcher,
   'helpCenter': helpCenter,
+  'nps': nps,
   'chat': chat
 };
 let initialised = false;
@@ -24,7 +26,7 @@ function hide() {
 }
 
 function parseConfig(config) {
-  const rendererConfig = _.clone(config.embeds, true);
+  const rendererConfig = _.clone(config.embeds, true) || {};
 
   _.forEach(rendererConfig, function(configItem) {
     configItem.props = _.reduce(configItem.props, function(result, value, key) {
@@ -32,6 +34,11 @@ function parseConfig(config) {
       return result;
     }, {});
   });
+
+  rendererConfig.nps = {
+    embed: 'nps',
+    props: {}
+  };
 
   return rendererConfig;
 }

@@ -1,5 +1,3 @@
-const requireUncached = require('require-uncached');
-
 describe('mediator', function() {
   let mockRegistry,
       mediator,
@@ -9,6 +7,7 @@ describe('mediator', function() {
       submitTicketSub,
       chatSub,
       helpCenterSub,
+      npsSub,
       initSubscriptionSpies;
   const reset = function(spy) {
     spy.calls.reset();
@@ -76,6 +75,14 @@ describe('mediator', function() {
       ]
     );
 
+    npsSub = jasmine.createSpyObj(
+      'nps',
+      ['activate',
+       'setSurvey',
+       'show',
+       'hide']
+    );
+
     initSubscriptionSpies = function(names) {
       c.subscribe(`${names.beacon}.identify`, beaconSub.identify);
 
@@ -102,6 +109,11 @@ describe('mediator', function() {
       c.subscribe(`${names.helpCenter}.hide`, helpCenterSub.hide);
       c.subscribe(`${names.helpCenter}.setNextToChat`, helpCenterSub.setNextToChat);
       c.subscribe(`${names.helpCenter}.setNextToSubmitTicket`, helpCenterSub.setNextToSubmitTicket);
+
+      c.subscribe(`${names.nps}.activate`, npsSub.activate);
+      c.subscribe(`${names.nps}.setSurvey`, npsSub.setSurvey);
+      c.subscribe(`${names.nps}.show`, npsSub.show);
+      c.subscribe(`${names.nps}.hide`, npsSub.hide);
     };
 
   });
@@ -170,6 +182,74 @@ describe('mediator', function() {
 
       expect(submitTicketSub.prefill)
         .toHaveBeenCalledWith(params);
+    });
+  });
+
+  describe('identify.onSuccess', function() {
+    const nps = 'nps';
+
+    const names = {
+      nps: nps
+    };
+
+    it('should broadcast nps.setSurvey with params', function() {
+      initSubscriptionSpies(names);
+      mediator.init(false);
+
+      const survey = {
+        npsSurvey: {
+          id: 199
+        }
+      };
+
+      c.broadcast('identify.onSuccess', survey);
+
+      expect(npsSub.setSurvey)
+        .toHaveBeenCalled();
+
+      const params = npsSub.setSurvey.calls.mostRecent().args[0];
+
+      expect(params.npsSurvey.id)
+        .toEqual(199);
+    });
+  });
+
+  describe('identify.onActivate', function() {
+    const nps = 'nps';
+
+    const names = {
+      nps: nps
+    };
+
+    beforeEach(function() {
+      initSubscriptionSpies(names);
+      mediator.init(false);
+    });
+
+    it('should broadcast nps.activate if identify.pending is false', function() {
+      c.broadcast('identify.onSuccess', {});
+
+      reset(npsSub.activate);
+
+      jasmine.clock().install();
+      c.broadcast('nps.onActivate');
+      jasmine.clock().tick(2000);
+
+      expect(npsSub.activate)
+        .toHaveBeenCalled();
+    });
+
+    it('should not broadcast nps.activate if identify.pending is true', function() {
+      c.broadcast('.onIdentify', {});
+
+      reset(npsSub.activate);
+
+      jasmine.clock().install();
+      c.broadcast('nps.onActivate');
+      jasmine.clock().tick(2000);
+
+      expect(npsSub.activate)
+        .not.toHaveBeenCalled();
     });
   });
 
