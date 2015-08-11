@@ -180,6 +180,8 @@ export var frameFactory = function(childFn, _params) {
     },
 
     close: function(ev) {
+      // ev.touches added for  automation testing mobile browsers
+      // which is firing 'click' event on iframe close
       if (isMobileBrowser() && ev.touches) {
         clickBusterRegister(ev.touches[0].clientX, ev.touches[0].clientY);
       }
