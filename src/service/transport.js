@@ -14,15 +14,6 @@ function init(_config) {
   config = _.extend(defaultConfig, _config);
 }
 
-function commonParams() {
-  return {
-    url: win.location.href,
-    buid: identity.getBuid(),
-    version: config.version,
-    timestamp: (new Date()).toISOString()
-  };
-}
-
 function send(payload) {
   if (!config.zendeskHost) {
     throw 'Missing zendeskHost config param.';
@@ -50,7 +41,13 @@ function send(payload) {
 }
 
 function sendWithMeta(payload) {
-  const params = _.extend(commonParams(), payload.params);
+  const commonParams = {
+    url: win.location.href,
+    buid: identity.getBuid(),
+    version: config.version,
+    timestamp: (new Date()).toISOString()
+  };
+  const params = _.extend(commonParams, payload.params);
   payload.params = params;
 
   send(payload);
