@@ -283,19 +283,19 @@ describe('transport', function() {
 
       const params = mockMethods.send.calls.mostRecent().args[0];
 
-      expect(params['buid'])
+      expect(params.buid)
         .toBe('abc123');
 
-      expect(params['url'])
+      expect(params.url)
         .toBe(mockGlobals.win.location.href);
 
-      expect(typeof params['timestamp'])
+      expect(typeof params.timestamp)
         .toBe('string');
 
-      expect(params['timestamp'])
-        .toBe((new Date(Date.parse(params['timestamp']))).toISOString());
+      expect(params.timestamp)
+        .toBe((new Date(Date.parse(params.timestamp))).toISOString());
 
-      expect(params['user'])
+      expect(params.user)
         .toEqual(payload.params.user);
     });
   });

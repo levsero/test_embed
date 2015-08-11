@@ -10,8 +10,6 @@ import { parseUrl,
          getFrameworkLoadTime } from 'utility/utils';
 import { mediator }             from 'service/mediator';
 
-let version;
-
 function init() {
   const now = Date.now();
   store.set('currentTime', now, true);
@@ -88,7 +86,7 @@ function identify(user) {
   user.localeId = i18n.getLocaleId();
   const payload = {
     method: 'POST',
-    path: '/embeddable/identify',
+    path: '/embeddable/blips',
     params:  { user: user },
     callbacks: {
       done: function(res) {

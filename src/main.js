@@ -94,7 +94,7 @@ function boot() {
     version: __EMBEDDABLE_VERSION__
   });
 
-  beacon.init(__EMBEDDABLE_VERSION__).send();
+  beacon.init().send();
 
   const publicApi = {
     version: __EMBEDDABLE_VERSION__,
