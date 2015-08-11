@@ -309,6 +309,11 @@ function init(helpCenterAvailable, hideLauncher) {
       state[`${chat}.isVisible`] = false;
     }
   });
+
+  c.intercept(`.onIdentify`, function(__, params) {
+    c.broadcast(`beacon.identify`, params);
+    c.broadcast(`${submitTicket}.prefill`, params);
+  });
 }
 
 export var mediator = {

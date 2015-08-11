@@ -55,8 +55,7 @@ function boot() {
     });
   };
   const identify = function(user) {
-    mediator.channel.broadcast('.identify', user);
-    beacon.identify(user);
+    mediator.channel.broadcast('.onIdentify', user);
   };
   const activate = function(options) {
     mediator.channel.broadcast('.activate', options);

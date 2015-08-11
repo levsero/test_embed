@@ -4,6 +4,7 @@ describe('mediator', function() {
   let mockRegistry,
       mediator,
       c,
+      beaconSub,
       launcherSub,
       submitTicketSub,
       chatSub,
@@ -33,6 +34,11 @@ describe('mediator', function() {
 
     c = mediator.channel;
 
+    beaconSub = jasmine.createSpyObj(
+      'beacon',
+      ['identify']
+    );
+
     launcherSub = jasmine.createSpyObj(
       'launcher',
       ['hide',
@@ -49,7 +55,8 @@ describe('mediator', function() {
        'showWithAnimation',
        'hide',
        'showBackButton',
-       'setLastSearch']
+       'setLastSearch',
+       'prefill']
     );
 
     chatSub = jasmine.createSpyObj(
@@ -70,6 +77,8 @@ describe('mediator', function() {
     );
 
     initSubscriptionSpies = function(names) {
+      c.subscribe(`${names.beacon}.identify`, beaconSub.identify);
+
       c.subscribe(`${names.launcher}.hide`,       launcherSub.hide);
       c.subscribe(`${names.launcher}.show`,       launcherSub.show);
       c.subscribe(`${names.launcher}.setLabelChat`,       launcherSub.setLabelChat);
@@ -82,6 +91,7 @@ describe('mediator', function() {
       c.subscribe(`${names.submitTicket}.hide`, submitTicketSub.hide);
       c.subscribe(`${names.submitTicket}.showBackButton`, submitTicketSub.showBackButton);
       c.subscribe(`${names.submitTicket}.setLastSearch`, submitTicketSub.setLastSearch);
+      c.subscribe(`${names.submitTicket}.prefill`, submitTicketSub.prefill);
 
       c.subscribe(`${names.chat}.show`, chatSub.show);
       c.subscribe(`${names.chat}.showWithAnimation`, chatSub.show);
@@ -121,6 +131,45 @@ describe('mediator', function() {
 
       expect(launcherSub.hide.calls.count())
         .toEqual(0);
+    });
+  });
+
+  describe('.onIdentify', function() {
+    const submitTicket = 'ticketSubmissionForm';
+    const beacon = 'beacon';
+
+    const names = {
+      submitTicket: submitTicket,
+      beacon: beacon
+    };
+
+    beforeEach(function() {
+      initSubscriptionSpies(names);
+      mediator.init(false);
+    });
+
+    it('should broadcast beacon.identify with given params', function() {
+      const params = {
+        user: 'James Dean',
+        email: 'james@dean.com'
+      };
+
+      c.broadcast('.onIdentify', params);
+
+      expect(beaconSub.identify)
+        .toHaveBeenCalledWith(params);
+    });
+
+    it('should broadcast submitTicket.prefill with given params', function() {
+      const params = {
+        user: 'James Dean',
+        email: 'james@dean.com'
+      };
+
+      c.broadcast('.onIdentify', params);
+
+      expect(submitTicketSub.prefill)
+        .toHaveBeenCalledWith(params);
     });
   });
 

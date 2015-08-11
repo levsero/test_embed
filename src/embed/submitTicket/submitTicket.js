@@ -153,10 +153,9 @@ function render(name) {
       .setState(_.pick(params, ['searchString', 'searchLocale']));
   });
 
-  mediator.channel.subscribe('.identify', function(user) {
+  mediator.channel.subscribe(name + '.prefill', function(user) {
     prefillForm(name, user);
   });
-
 }
 
 function prefillForm(name, user) {
