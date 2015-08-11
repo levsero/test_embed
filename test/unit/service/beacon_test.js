@@ -28,6 +28,11 @@ describe('beacon', function() {
       'service/transport': {
         transport: jasmine.createSpyObj('transport', ['send'])
       },
+      'service/mediator': {
+        mediator: {
+          channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
+        }
+      },
       'utility/globals': {
         win: {
           location: {
@@ -102,6 +107,42 @@ describe('beacon', function() {
 
       expect(resultTime < (currentTime + 30))
         .toBeTruthy();
+    });
+
+    describe('mediator subscriptions', function() {
+      let mockMediator,
+          mockTransport;
+
+      beforeEach(function() {
+        mockMediator = mockRegistry['service/mediator'].mediator;
+        mockTransport = mockRegistry['service/transport'].transport;
+
+        beacon.init();
+      });
+
+      it('should subscribe to beacon.identify', function() {
+        const params = {
+          name: 'James Dean',
+          email: 'james@dean.com'
+        };
+
+        expect(mockMediator.channel.subscribe)
+          .toHaveBeenCalledWith('beacon.identify', jasmine.any(Function));
+
+        pluckSubscribeCall(mockMediator, 'beacon.identify')(params);
+
+        expect(mockTransport.send)
+          .toHaveBeenCalled();
+
+        const transportPayload = mockTransport.send.calls.mostRecent().args[0];
+
+        expect(transportPayload.params.user.name)
+          .toEqual(params.name);
+
+        expect(transportPayload.params.user.email)
+          .toEqual(params.email);
+      });
+
     });
 
   });

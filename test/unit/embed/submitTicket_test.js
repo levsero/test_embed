@@ -494,6 +494,23 @@ describe('embed.submitTicket', function() {
           .toEqual(params.searchLocale);
       });
 
+      it('should subscribe to <name>.prefill', function() {
+        const params = {
+          name: 'James Dean',
+          email: 'james@dean.com'
+        };
+
+        expect(mockMediator.channel.subscribe)
+          .toHaveBeenCalledWith('bob.prefill', jasmine.any(Function));
+
+        pluckSubscribeCall(mockMediator, 'bob.prefill')(params);
+
+        expect(bobSubmitTicketForm.state.formState.name)
+          .toEqual(params.name);
+
+        expect(bobSubmitTicketForm.state.formState.email)
+          .toEqual(params.email);
+      });
     });
 
   });

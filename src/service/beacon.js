@@ -8,7 +8,8 @@ import { identity }             from 'service/identity';
 import { store }                from 'service/persistence';
 import { i18n }                 from 'service/i18n';
 import { parseUrl,
-         getFrameworkLoadTime }  from 'utility/utils';
+         getFrameworkLoadTime } from 'utility/utils';
+import { mediator }             from 'service/mediator';
 
 let version;
 
@@ -16,6 +17,9 @@ function init(_version = '') {
   const now = Date.now();
   store.set('currentTime', now, true);
   version = _version;
+
+  mediator.channel.subscribe('beacon.identify', identify);
+
   return this;
 }
 
