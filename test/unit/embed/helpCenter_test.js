@@ -46,7 +46,8 @@ describe('embed.helpCenter', function() {
               topics: [],
               searchCount: 0,
               searchTerm: '',
-              hasSearched: false
+              hasSearched: false,
+              showIntroScreen: false
             };
           },
           resetSearchFieldState: resetSearchFieldState,
@@ -278,6 +279,32 @@ describe('embed.helpCenter', function() {
 
           expect(backtrackSearch)
             .toHaveBeenCalled();
+        });
+
+        it('should set showIntroScreen to true for satisfied conditions on hide', function() {
+          // hasSearched === false &&
+          // isMobileBrowser()
+
+          mockery.registerMock('utility/devices', {
+            isMobileBrowser: function() {
+              return true;
+            }
+          });
+          mockery.resetCache();
+          helpCenter = require(helpCenterPath).helpCenter;
+          helpCenter.create('carlos', frameConfig);
+          helpCenter.render('carlos');
+          const helpCenterFrame = helpCenter.get('carlos').instance;
+          mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
+          params = mockFrameFactoryCall[1];
+
+          expect(helpCenterFrame.getRootComponent().state.showIntroScreen)
+            .toEqual(false);
+
+          params.onHide(helpCenterFrame);
+
+          expect(helpCenterFrame.getRootComponent().state.showIntroScreen)
+            .toEqual(true);
         });
       });
 

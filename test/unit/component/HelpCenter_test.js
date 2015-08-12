@@ -431,6 +431,67 @@ describe('Help center component', function() {
     });
   });
 
+  it('should not display noResults message for unsatisfied conditions', function() {
+    // if any is not satisfied
+    // if showIntroScreen is false &&
+    // resultsCount is 0 &&
+    // hasSearched is true
+
+    mockRegistry['utility/devices'].isMobileBrowser = function() {
+      return true;
+    };
+
+    mockery.resetCache();
+    HelpCenter = require(helpCenterPath).HelpCenter;
+
+    const helpCenter = React.render(
+      <HelpCenter />,
+      global.document.body
+    );
+
+    ReactTestUtils.Simulate.click(helpCenter.refs.searchFieldButton.getDOMNode());
+
+    expect(helpCenter.state.showIntroScreen)
+      .toEqual(false);
+
+    expect(helpCenter.state.resultsCount)
+      .toEqual(0);
+
+    expect(helpCenter.state.hasSearched)
+      .toEqual(false);
+
+    expect(helpCenter.getDOMNode().querySelector('#noResults'))
+      .toBeFalsy();
+  });
+
+  it('should display noResults message for satisfied conditions', function() {
+    // if showIntroScreen is false &&
+    // resultsCount is 0 &&
+    // hasSearched is true
+
+    mockRegistry['utility/devices'].isMobileBrowser = function() {
+      return true;
+    };
+
+    mockery.resetCache();
+    HelpCenter = require(helpCenterPath).HelpCenter;
+
+    const helpCenter = React.render(
+      <HelpCenter />,
+      global.document.body
+    );
+
+    ReactTestUtils.Simulate.click(helpCenter.refs.searchFieldButton.getDOMNode());
+
+    helpCenter.setState({ hasSearched: true });
+
+    expect(helpCenter.state.hasSearched)
+      .toEqual(true);
+
+    expect(helpCenter.getDOMNode().querySelector('#noResults'))
+      .toBeTruthy();
+  });
+
   describe('searchField', function() {
     it('Renders component if fullscreen is false', function() {
       const helpCenter = React.render(
@@ -489,29 +550,6 @@ describe('Help center component', function() {
 
       expect(helpCenter.state.showIntroScreen)
         .toBe(false);
-    });
-
-    it('Sets `resultsCount` state to 1 when component is clicked', function() {
-
-      mockRegistry['utility/devices'].isMobileBrowser = function() {
-        return true;
-      };
-
-      mockery.resetCache();
-      HelpCenter = require(helpCenterPath).HelpCenter;
-
-      const helpCenter = React.render(
-        <HelpCenter />,
-        global.document.body
-      );
-
-      expect(helpCenter.state.resultsCount)
-        .toBe(0);
-
-      ReactTestUtils.Simulate.click(helpCenter.refs.searchFieldButton.getDOMNode());
-
-      expect(helpCenter.state.resultsCount)
-        .toBe(1);
     });
 
     it('Should set focus state to searchField when component is clicked', function() {
