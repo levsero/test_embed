@@ -468,7 +468,7 @@ describe('Help center component', function() {
         .toBeFalsy();
     });
 
-    it('Sets `searchFirstTransition` state to true when component is clicked', function() {
+    it('Sets `showIntroScreen` state to false when component is clicked', function() {
 
       mockRegistry['utility/devices'].isMobileBrowser = function() {
         return true;
@@ -482,13 +482,13 @@ describe('Help center component', function() {
         global.document.body
       );
 
-      expect(helpCenter.state.searchFirstTransition)
-        .toBe(false);
+      expect(helpCenter.state.showIntroScreen)
+        .toBe(true);
 
       ReactTestUtils.Simulate.click(helpCenter.refs.searchFieldButton.getDOMNode());
 
-      expect(helpCenter.state.searchFirstTransition)
-        .toBe(true);
+      expect(helpCenter.state.showIntroScreen)
+        .toBe(false);
     });
 
     it('Sets `resultsCount` state to 1 when component is clicked', function() {
