@@ -47,8 +47,8 @@ function sendWithMeta(payload) {
     version: config.version,
     timestamp: (new Date()).toISOString()
   };
-  const params = _.extend(commonParams, payload.params);
-  payload.params = params;
+
+  payload.params = _.extend(commonParams, payload.params);
 
   send(payload);
 }
