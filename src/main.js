@@ -88,9 +88,13 @@ function boot() {
   logging.init();
 
   cacheBuster.bustCache(__EMBEDDABLE_VERSION__);
-  transport.init({ zendeskHost: document.zendeskHost });
 
-  beacon.init(__EMBEDDABLE_VERSION__).send();
+  transport.init({
+    zendeskHost: document.zendeskHost,
+    version: __EMBEDDABLE_VERSION__
+  });
+
+  beacon.init().send();
 
   const publicApi = {
     version: __EMBEDDABLE_VERSION__,

@@ -4,32 +4,19 @@ import { win,
          document as doc,
          navigator }            from 'utility/globals';
 import { transport }            from 'service/transport';
-import { identity }             from 'service/identity';
 import { store }                from 'service/persistence';
 import { i18n }                 from 'service/i18n';
 import { parseUrl,
          getFrameworkLoadTime } from 'utility/utils';
 import { mediator }             from 'service/mediator';
 
-let version;
-
-function init(_version = '') {
+function init() {
   const now = Date.now();
   store.set('currentTime', now, true);
-  version = _version;
 
   mediator.channel.subscribe('beacon.identify', identify);
 
   return this;
-}
-
-function commonParams() {
-  return {
-    url: win.location.href,
-    buid: identity.getBuid(),
-    version: version,
-    timestamp: (new Date()).toISOString()
-  };
 }
 
 function send() {
@@ -53,19 +40,23 @@ function send() {
   const payload = {
     method: 'POST',
     path: '/embeddable/blips',
-    params: _.extend(commonParams(), params)
+    params: params
   };
 
-  transport.send(payload);
+  transport.sendWithMeta(payload);
 }
 
 function sendConfigLoadTime(time) {
+  const params = {
+    performance: { configLoadTime: time }
+  };
   const payload = {
     method: 'POST',
     path: '/embeddable/blips',
-    params: _.extend(commonParams(), {performance: {configLoadTime: time}})
+    params: params
   };
-  transport.send(payload);
+
+  transport.sendWithMeta(payload);
 }
 
 function track(category, action, label, value) {
@@ -85,10 +76,10 @@ function track(category, action, label, value) {
   const payload = {
     method: 'POST',
     path: '/embeddable/blips',
-    params: _.extend(commonParams(), params)
+    params: params
   };
 
-  transport.send(payload);
+  transport.sendWithMeta(payload);
 }
 
 function identify(user) {
@@ -96,10 +87,15 @@ function identify(user) {
   const payload = {
     method: 'POST',
     path: '/embeddable/blips',
-    params: _.extend(commonParams(), {user: user})
+    params:  { user: user },
+    callbacks: {
+      done: function(res) {
+        mediator.channel.broadcast('identify.onSuccess', res.body);
+      }
+    }
   };
 
-  transport.send(payload);
+  transport.sendWithMeta(payload);
 }
 
 export var beacon = {

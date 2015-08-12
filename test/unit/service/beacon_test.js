@@ -4,29 +4,12 @@ describe('beacon', function() {
   const localeId = 10;
   const beaconPath = buildSrcPath('service/beacon');
 
-  function assertCommonParams(params) {
-    const mockGlobals = mockRegistry['utility/globals'];
-
-    /* jshint sub:true */
-    expect(params['buid'])
-      .toBe('abc123');
-
-    expect(params['url'])
-      .toBe(mockGlobals.win.location.href);
-
-    expect(typeof params['timestamp'])
-      .toBe('string');
-
-    expect(params['timestamp'])
-      .toBe((new Date(Date.parse(params['timestamp']))).toISOString());
-  }
-
   beforeEach(function() {
     mockery.enable({ useCleanCache: true });
 
     mockRegistry = initMockRegistry({
       'service/transport': {
-        transport: jasmine.createSpyObj('transport', ['send'])
+        transport: jasmine.createSpyObj('transport', ['send', 'sendWithMeta'])
       },
       'service/mediator': {
         mediator: {
@@ -131,10 +114,10 @@ describe('beacon', function() {
 
         pluckSubscribeCall(mockMediator, 'beacon.identify')(params);
 
-        expect(mockTransport.send)
+        expect(mockTransport.sendWithMeta)
           .toHaveBeenCalled();
 
-        const transportPayload = mockTransport.send.calls.mostRecent().args[0];
+        const transportPayload = mockTransport.sendWithMeta.calls.mostRecent().args[0];
 
         expect(transportPayload.params.user.name)
           .toEqual(params.name);
@@ -156,9 +139,9 @@ describe('beacon', function() {
 
       beacon.init();
       beacon.send();
-      expect(mockTransport.transport.send).toHaveBeenCalled();
+      expect(mockTransport.transport.sendWithMeta).toHaveBeenCalled();
 
-      const payload = mockTransport.transport.send.calls.mostRecent().args[0];
+      const payload = mockTransport.transport.sendWithMeta.calls.mostRecent().args[0];
 
       expect(payload.method)
         .toBe('POST');
@@ -167,8 +150,6 @@ describe('beacon', function() {
         .toBe('/embeddable/blips');
 
       const params = payload.params;
-
-      assertCommonParams(params);
 
       /* jshint sub:true */
       expect(params.pageView.userAgent)
@@ -223,10 +204,10 @@ describe('beacon', function() {
         userActionParams.value
       );
 
-      expect(mockTransport.transport.send)
+      expect(mockTransport.transport.sendWithMeta)
         .toHaveBeenCalled();
 
-      const payload = mockTransport.transport.send.calls.mostRecent().args[0];
+      const payload = mockTransport.transport.sendWithMeta.calls.mostRecent().args[0];
 
       expect(payload.method)
         .toBe('POST');
@@ -235,8 +216,6 @@ describe('beacon', function() {
         .toBe('/embeddable/blips');
 
       const params = payload.params;
-
-      assertCommonParams(params);
 
       expect(params.userAction)
         .toEqual(userActionParams);
@@ -258,10 +237,10 @@ describe('beacon', function() {
 
       beacon.identify(user);
 
-      expect(mockTransport.transport.send)
+      expect(mockTransport.transport.sendWithMeta)
         .toHaveBeenCalled();
 
-      const payload = mockTransport.transport.send.calls.mostRecent().args[0];
+      const payload = mockTransport.transport.sendWithMeta.calls.mostRecent().args[0];
 
       expect(payload.method)
         .toBe('POST');

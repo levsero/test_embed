@@ -17,7 +17,19 @@ describe('transport', function() {
       'superagent': jasmine.createSpy().and.callFake(function() {
         return mockMethods;
       }),
-      'lodash': _
+      'lodash': _,
+      'utility/globals': {
+        win: {
+          location: {
+            href: 'http://window.location.href'
+          }
+        }
+      },
+      'service/identity': {
+        identity: {
+          getBuid: jasmine.createSpy('getBuid').and.returnValue('abc123')
+        }
+      }
     });
 
     mockery.registerAllowable(transportPath);
@@ -36,7 +48,6 @@ describe('transport', function() {
     });
 
     it('makes use of default config values', function() {
-
       transport.init();
 
       const recentCall = _.extend.calls.mostRecent();
@@ -47,7 +58,6 @@ describe('transport', function() {
     });
 
     it('merges supplied config param with defaults', function() {
-
       const testConfig = {
         test: 'config'
       };
@@ -235,6 +245,58 @@ describe('transport', function() {
       expect(function() {
         callback({error: true}, undefined);
       }).not.toThrow();
+    });
+  });
+
+  describe('#sendWithMeta', function() {
+    let payload,
+        config;
+
+    beforeEach(function() {
+      payload = {
+        method: 'post',
+        path: '/test/path',
+        params: {
+          user: {
+            name: 'John Doe'
+          }
+        },
+        callbacks: {
+          done: noop,
+          fail: noop
+        }
+      };
+
+      config = {
+        zendeskHost: 'test.zendesk.host',
+        version: 'version123'
+      };
+    });
+
+    it('augments payload.params with blip metadata', function() {
+      const mockGlobals = mockRegistry['utility/globals'];
+
+      spyOn(mockMethods, 'send').and.callThrough();
+
+      transport.init(config);
+      transport.sendWithMeta(payload);
+
+      const params = mockMethods.send.calls.mostRecent().args[0];
+
+      expect(params.buid)
+        .toBe('abc123');
+
+      expect(params.url)
+        .toBe(mockGlobals.win.location.href);
+
+      expect(typeof params.timestamp)
+        .toBe('string');
+
+      expect(params.timestamp)
+        .toBe((new Date(Date.parse(params.timestamp))).toISOString());
+
+      expect(params.user)
+        .toEqual(payload.params.user);
     });
   });
 
