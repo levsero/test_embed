@@ -72,6 +72,7 @@ describe('renderer', function() {
   });
 
   afterEach(function() {
+    jasmine.clock().uninstall();
     mockery.deregisterAll();
     mockery.disable();
   });

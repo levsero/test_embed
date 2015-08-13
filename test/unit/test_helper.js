@@ -2,15 +2,16 @@
 // because it has 'helper' in its name.
 
 global.basePath = function(path) {
-  return __dirname + '/../../../' + path;
+  // return __dirname + '/../../' + path;   // Alternative path to run with jasmine-es6
+  return __dirname + '/../../../build/' + path;
 };
 
 global.buildSrcPath = function(path) {
-  return basePath('build/src/' + path);
+  return basePath('src/' + path);
 };
 
 global.buildTestPath = function(path) {
-  return basePath('build/test/' + path);
+  return basePath('test/' + path);
 };
 
 global._ = require('lodash');
