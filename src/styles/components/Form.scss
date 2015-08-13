@@ -100,16 +100,6 @@ $Form-fontSize: #{13/$font-size}rem;
   visibility: visible;
 }
 
-.Form-field--mobile, .Form-field--search {
-  .Form-checkboxCaption {
-    font-size: #{15/$font-size}rem;
-  }
-
-  input:not([type="checkbox"]), textarea, select {
-    width: calc(100% - #{40/$font-size}rem); /* 1 */
-  }
-}
-
 .Form-fieldArrows {
   position: absolute;
   right: #{14/$font-size}rem;
@@ -120,6 +110,14 @@ $Form-fontSize: #{13/$font-size}rem;
 .Form-field--search {
   padding: #{11/$font-size}rem $Form-spacing;
   height: #{43/$font-size}rem;
+
+  .Form-checkboxCaption {
+    font-size: #{15/$font-size}rem;
+  }
+
+  input:not([type="checkbox"]), textarea, select {
+    width: calc(100% - #{40/$font-size}rem); /* 1 */
+  }
 }
 
 .Form-field--focused,
