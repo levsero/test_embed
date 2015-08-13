@@ -54,7 +54,7 @@ export const HelpCenter = React.createClass({
   },
 
   focusField() {
-    if (!isMobileBrowser() && !this.state.articleViewActive) {
+    if (!this.state.fullscreen && !this.state.articleViewActive) {
       this.refs.searchField.focus();
     }
   },
@@ -68,7 +68,7 @@ export const HelpCenter = React.createClass({
   },
 
   hideVirtualKeyboard() {
-    if (isMobileBrowser()) {
+    if (this.state.fullscreen) {
       // in order for the virtual keyboard to hide,
       // we need to remove the element from the DOM
       this.setState({
@@ -288,7 +288,7 @@ export const HelpCenter = React.createClass({
       this.setState({ searchFieldFocused: true });
     };
     const onBlurHandler = () => {
-      if (isMobileBrowser() && !this.state.hasSearched) {
+      if (this.state.fullscreen && !this.state.hasSearched) {
         this.setState({
           showIntroScreen: true
         });
