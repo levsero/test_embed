@@ -306,6 +306,29 @@ describe('embed.helpCenter', function() {
           expect(helpCenterFrame.getRootComponent().state.showIntroScreen)
             .toEqual(true);
         });
+
+        it('should not set showIntroScreen to true for unsatisfied conditions on hide', function() {
+          mockery.registerMock('utility/devices', {
+            isMobileBrowser: function() {
+              return false;
+            }
+          });
+          mockery.resetCache();
+          helpCenter = require(helpCenterPath).helpCenter;
+          helpCenter.create('carlos', frameConfig);
+          helpCenter.render('carlos');
+          const helpCenterFrame = helpCenter.get('carlos').instance;
+          mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
+          params = mockFrameFactoryCall[1];
+
+          expect(helpCenterFrame.getRootComponent().state.showIntroScreen)
+            .toEqual(false);
+
+          params.onHide(helpCenterFrame);
+
+          expect(helpCenterFrame.getRootComponent().state.showIntroScreen)
+            .toEqual(false);
+        });
       });
 
     });

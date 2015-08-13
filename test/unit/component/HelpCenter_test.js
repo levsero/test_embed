@@ -32,9 +32,11 @@ describe('Help center component', function() {
       'component/HelpCenterForm': {
         HelpCenterForm: React.createClass({
             render: function() {
-              return (<form onSubmit={this.handleSubmit}>
-                {this.props.children}
-              </form>);
+              return (
+                <form onSubmit={this.handleSubmit}>
+                  {this.props.children}
+                </form>
+              );
             }
           })
       },
@@ -552,7 +554,26 @@ describe('Help center component', function() {
         .toBe(false);
     });
 
-    it('Should set focus state to searchField when component is clicked', function() {
+    it('sets focus state on searchField when search is made on desktop', function() {
+      const helpCenter = React.render(
+        <HelpCenter onSearch={noop} />,
+        global.document.body
+      );
+      const mockTransport = mockRegistry['service/transport'].transport;
+      const searchString = 'help, I\'ve fallen and can\'t get up!';
+      const responsePayload = {body: {results: [1], count: 1}, ok: true};
+
+      expect(helpCenter.refs.searchField.state)
+        .toBeFalsy();
+
+      helpCenter.handleSubmit({preventDefault: noop}, { value: searchString });
+      mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayload);
+
+      expect(helpCenter.refs.searchField.state.focused)
+        .toEqual(true);
+    });
+
+    it('sets focus state on searchField when component is clicked on mobile', function() {
 
       mockRegistry['utility/devices'].isMobileBrowser = function() {
         return true;
