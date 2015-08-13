@@ -54,7 +54,7 @@ export const HelpCenter = React.createClass({
   },
 
   focusField() {
-    if (!isMobileBrowser()) {
+    if (!isMobileBrowser() && !this.state.articleViewActive) {
       this.refs.searchField.focus();
     }
   },
