@@ -2,7 +2,6 @@ describe('FormField component', function() {
   let mockRegistry,
       onSearch,
       onChangeValue,
-      onUpdate,
       onClick,
       SearchField,
       SearchFieldButton,
@@ -14,7 +13,6 @@ describe('FormField component', function() {
 
     onSearch = jasmine.createSpy();
     onChangeValue = jasmine.createSpy('onChangeValue');
-    onUpdate = jasmine.createSpy('onUpdate');
     onClick = jasmine.createSpy();
 
     resetDOM();
