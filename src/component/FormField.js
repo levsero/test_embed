@@ -375,7 +375,7 @@ var SearchField = React.createClass({
     return (
       /* jshint quotmark:false */
       <div className={searchContainerClasses}>
-        <div className={searchInputClasses}>
+        <label className={searchInputClasses}>
           <Icon
             className={searchInputFieldIconClasses}
             onClick={this.props.onSearchIconClick}
@@ -399,7 +399,7 @@ var SearchField = React.createClass({
               onClick={this.clearInput}
               className={clearInputClasses} />
           </div>
-        </div>
+        </label>
       </div>
     );
   }
