@@ -115,8 +115,10 @@ $Form-fontSize: #{13/$font-size}rem;
     font-size: #{15/$font-size}rem;
   }
 
-  input:not([type="checkbox"]), textarea, select {
-    width: calc(100% - #{40/$font-size}rem); /* 1 */
+  &.is-mobile {
+    input:not([type="checkbox"]), textarea, select {
+      width: calc(100% - #{40/$font-size}rem); /* 1 */
+    }
   }
 }
 
