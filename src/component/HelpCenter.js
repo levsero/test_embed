@@ -349,13 +349,12 @@ export const HelpCenter = React.createClass({
     };
 
     /* jshint laxbreak: true */
-    const zendeskLogo = hideZendeskLogo
-                      ? null
-                      : <ZendeskLogo rtl={i18n.isRTL()} fullscreen={this.state.fullscreen} />;
+    const zendeskLogo = !hideZendeskLogo
+                      ? <ZendeskLogo rtl={i18n.isRTL()} fullscreen={this.state.fullscreen} />
+                      : null;
 
-    const searchField = (this.state.virtualKeyboardKiller)
-                      ? null
-                      : <SearchField
+    const searchField = (!this.state.virtualKeyboardKiller)
+                      ? <SearchField
                           ref='searchField'
                           fullscreen={this.state.fullscreen}
                           onFocus={onFocusHandler}
@@ -363,7 +362,8 @@ export const HelpCenter = React.createClass({
                           onChangeValue={onChangeValueHandler}
                           hasSearched={this.state.hasSearched}
                           onSearchIconClick={this.handleSearch}
-                          isLoading={this.state.isLoading} />;
+                          isLoading={this.state.isLoading} />
+                      : null;
 
     // intro search field on DESKTOP
     const introSearchField = (!this.state.fullscreen && !this.state.hasSearched)
