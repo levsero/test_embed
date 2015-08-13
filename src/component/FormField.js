@@ -282,9 +282,10 @@ var SearchFieldButton = React.createClass({
     return (
       /* jshint quotmark:false */
       <div className={searchContainerClasses}>
-        <div className={searchInputClasses}
-              onClick={this.props.onClick}
-              onTouch={this.props.onTouch}>
+        <div
+          className={searchInputClasses}
+          onClick={this.props.onClick}
+          onTouch={this.props.onTouch}>
           <Icon
             className={searchInputFieldIconClasses}
             type='Icon--search' />
