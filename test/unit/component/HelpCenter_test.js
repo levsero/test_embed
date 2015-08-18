@@ -90,8 +90,8 @@ describe('Help center component', function() {
               return (
                 <div>
                   {this.props.headerContent}
-                  {this.props.footerContent}
                   {this.props.children}
+                  {this.props.footerContent}
                 </div>
               );
             }
@@ -450,7 +450,6 @@ describe('Help center component', function() {
       <HelpCenter />,
       global.document.body
     );
-
     ReactTestUtils.Simulate.click(helpCenter.refs.searchFieldButton.getDOMNode());
 
     expect(helpCenter.state.showIntroScreen)
@@ -482,7 +481,6 @@ describe('Help center component', function() {
       <HelpCenter />,
       global.document.body
     );
-
     ReactTestUtils.Simulate.click(helpCenter.refs.searchFieldButton.getDOMNode());
 
     helpCenter.setState({ hasSearched: true });
@@ -495,7 +493,7 @@ describe('Help center component', function() {
   });
 
   describe('searchField', function() {
-    it('Renders component if fullscreen is false', function() {
+    it('should render component if fullscreen is false', function() {
       const helpCenter = React.render(
         <HelpCenter />,
         global.document.body
@@ -510,7 +508,7 @@ describe('Help center component', function() {
   });
 
   describe('searchFieldButton', function() {
-    it('Renders component if fullscreen is true', function() {
+    it('should render component if fullscreen is true', function() {
 
       mockRegistry['utility/devices'].isMobileBrowser = function() {
         return true;
@@ -531,7 +529,7 @@ describe('Help center component', function() {
         .toBeFalsy();
     });
 
-    it('Sets `showIntroScreen` state to false when component is clicked', function() {
+    it('sets `showIntroScreen` state to false when component is clicked', function() {
 
       mockRegistry['utility/devices'].isMobileBrowser = function() {
         return true;
@@ -547,7 +545,6 @@ describe('Help center component', function() {
 
       expect(helpCenter.state.showIntroScreen)
         .toBe(true);
-
       ReactTestUtils.Simulate.click(helpCenter.refs.searchFieldButton.getDOMNode());
 
       expect(helpCenter.state.showIntroScreen)
@@ -589,7 +586,6 @@ describe('Help center component', function() {
 
       expect(helpCenter.refs.searchField)
         .toBeFalsy();
-
       ReactTestUtils.Simulate.click(helpCenter.refs.searchFieldButton.getDOMNode());
 
       const searchField = helpCenter.refs.searchField;

@@ -393,7 +393,8 @@ describe('FormField component', function() {
 
       const searchFieldButtonNode = searchFieldButton.getDOMNode();
 
-      ReactTestUtils.Simulate.click(searchFieldButtonNode.querySelector('.Form-field--search'));
+      ReactTestUtils.Simulate.click(
+        searchFieldButtonNode.querySelector('.Form-field--search'));
 
       expect(onClick)
         .toHaveBeenCalled();

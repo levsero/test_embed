@@ -90,7 +90,7 @@ function create(name, config) {
         frame.getRootComponent().backtrackSearch();
 
         if (frame.getRootComponent().state.hasSearched === false &&
-              isMobileBrowser()) {
+            isMobileBrowser()) {
           frame.getRootComponent().setState({
             showIntroScreen: true
           });

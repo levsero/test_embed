@@ -264,30 +264,20 @@ var SelectField = React.createClass({
 });
 
 var SearchFieldButton = React.createClass({
+  propTypes: {
+    onClick: React.PropTypes.func.required,
+    onTouch: React.PropTypes.func.required
+  },
 
   render() {
-    /* jshint laxbreak:true */
-    const searchContainerClasses = classSet({
-      'u-cf': true,
-      'u-paddingHN u-paddingBN Form-cta--barFullscreen': this.props.fullscreen
-    });
-    const searchInputClasses = classSet({
-      'Arrange Arrange--middle Form-field Form-field--search u-isSelectable': true,
-      'is-mobile': this.props.fullscreen
-    });
-    const searchInputFieldIconClasses = classSet({
-      'Arrange-sizeFit u-isActionable': true
-    });
-
     return (
-      /* jshint quotmark:false */
-      <div className={searchContainerClasses}>
+      <div className='u-cf u-paddingHN u-paddingBN Form-cta--barFullscreen'>
         <div
-          className={searchInputClasses}
+          className='Arrange Arrange--middle Form-field Form-field--search u-isSelectable is-mobile'
           onClick={this.props.onClick}
           onTouch={this.props.onTouch}>
           <Icon
-            className={searchInputFieldIconClasses}
+            className='Arrange-sizeFit u-isActionable'
             type='Icon--search' />
         </div>
       </div>

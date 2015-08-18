@@ -98,6 +98,7 @@ export const HelpCenter = React.createClass({
       hasSearched: true,
       searchFailed: false
     });
+
     this.focusField();
   },
 
@@ -108,6 +109,7 @@ export const HelpCenter = React.createClass({
       hasSearched: true,
       searchFailed: true
     });
+
     this.focusField();
   },
 
@@ -317,7 +319,6 @@ export const HelpCenter = React.createClass({
     }
 
     const noResultsTemplate = () => {
-      /* jshint laxbreak: true */
       const noResultsClasses = classSet({
         'u-marginTM u-textCenter u-textSizeMed': true,
         'u-textSizeBaseMobile': this.state.fullscreen,
@@ -327,6 +328,7 @@ export const HelpCenter = React.createClass({
         'u-textSecondary': true,
         'u-marginBL': !this.state.fullscreen
       });
+      /* jshint laxbreak: true */
       const title = (this.state.searchFailed)
                   ? i18n.t('embeddable_framework.helpCenter.search.error.title')
                   : i18n.t('embeddable_framework.helpCenter.search.noResults.title', {
@@ -372,11 +374,11 @@ export const HelpCenter = React.createClass({
 
     // intro search field *button* on MOBILE
     const searchFieldButton = (this.state.fullscreen && this.state.showIntroScreen)
-                            ? <SearchFieldButton
-                                ref='searchFieldButton'
-                                onClick={this.searchBoxClickHandler}
-                                onTouch={this.searchBoxClickHandler} />
-                            : null;
+                                  ? <SearchFieldButton
+                                      ref='searchFieldButton'
+                                      onClick={this.searchBoxClickHandler}
+                                      onTouch={this.searchBoxClickHandler} />
+                                  : null;
 
     const headerContent = (!this.state.articleViewActive
                            && (!this.state.fullscreen && this.state.hasSearched
@@ -414,7 +416,6 @@ export const HelpCenter = React.createClass({
           }
           fullscreen={this.state.fullscreen}>
           <div className={formClasses}>
-
             <HelpCenterForm
               ref='helpCenterForm'
               onSearch={this.handleSearch}
