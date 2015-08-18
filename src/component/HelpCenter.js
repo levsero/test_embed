@@ -5,7 +5,8 @@ import { transport }         from 'service/transport';
 import { stopWordsFilter }   from 'mixin/searchFilter';
 import { HelpCenterForm }    from 'component/HelpCenterForm';
 import { HelpCenterArticle } from 'component/HelpCenterArticle';
-import { SearchField }       from 'component/FormField';
+import { SearchField,
+         SearchFieldButton } from 'component/FormField';
 import { ZendeskLogo }       from 'component/ZendeskLogo';
 import { Container }         from 'component/Container';
 import { ScrollContainer }   from 'component/ScrollContainer';
@@ -30,13 +31,19 @@ export const HelpCenter = React.createClass({
       searchFailed: false,
       articleViewActive: false,
       activeArticle: {},
-      removeSearchField: false,
+      showIntroScreen: isMobileBrowser(),
+      virtualKeyboardKiller: false,
       searchTracked: false,
       searchResultClicked: false
     };
   },
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.showIntroScreen === true &&
+        this.state.showIntroScreen === false) {
+      this.refs.searchField.focus();
+    }
+
     if (this.refs.searchField) {
       this.refs.searchField.setState({
         searchInputVal: this.state.searchFieldValue
@@ -47,7 +54,7 @@ export const HelpCenter = React.createClass({
   },
 
   focusField() {
-    if (!isMobileBrowser()) {
+    if (!this.state.fullscreen && !this.state.articleViewActive) {
       this.refs.searchField.focus();
     }
   },
@@ -56,16 +63,16 @@ export const HelpCenter = React.createClass({
     // if the user closes and reopens, we need to
     // re-render the search field
     this.setState({
-      removeSearchField: false
+      virtualKeyboardKiller: false
     });
   },
 
   hideVirtualKeyboard() {
-    if (isMobileBrowser()) {
+    if (this.state.fullscreen) {
       // in order for the virtual keyboard to hide,
       // we need to remove the element from the DOM
       this.setState({
-        removeSearchField: true
+        virtualKeyboardKiller: true
       });
     }
   },
@@ -91,6 +98,8 @@ export const HelpCenter = React.createClass({
       hasSearched: true,
       searchFailed: false
     });
+
+    this.focusField();
   },
 
   searchFail() {
@@ -100,6 +109,8 @@ export const HelpCenter = React.createClass({
       hasSearched: true,
       searchFailed: true
     });
+
+    this.focusField();
   },
 
   performSearch(searchString, forceSearch) {
@@ -153,24 +164,6 @@ export const HelpCenter = React.createClass({
       if (filteredStr !== '') {
         this.performSearch(filteredStr, forceSearch);
       }
-    }
-  },
-
-  searchNoResultsTitle() {
-    if (this.state.searchFailed) {
-      return i18n.t('embeddable_framework.helpCenter.search.error.title');
-    } else {
-      return i18n.t('embeddable_framework.helpCenter.search.noResults.title', {
-        searchTerm: this.state.previousSearchTerm
-      });
-    }
-  },
-
-  searchNoResultsBody() {
-    if (this.state.searchFailed) {
-      return i18n.t('embeddable_framework.helpCenter.search.error.body');
-    } else {
-      return i18n.t('embeddable_framework.helpCenter.search.noResults.body');
     }
   },
 
@@ -236,6 +229,12 @@ export const HelpCenter = React.createClass({
     });
   },
 
+  searchBoxClickHandler() {
+    this.setState({
+      showIntroScreen: false
+    });
+  },
+
   render() {
     /* jshint quotmark:false */
     const listClasses = classSet({
@@ -252,24 +251,14 @@ export const HelpCenter = React.createClass({
       'u-textSizeBaseMobile': this.state.fullscreen,
       'u-isHidden': !this.state.articles.length
     });
-    const noResultsClasses = classSet({
-      'u-marginTM u-textCenter u-textSizeMed': true,
-      'u-isHidden': this.state.resultsCount || !this.state.hasSearched,
-      'u-textSizeBaseMobile': this.state.fullscreen,
-      'u-borderBottom List--noResults': !this.state.fullscreen
-    });
     const searchTitleClasses = classSet({
       'u-textSizeBaseMobile u-marginTM u-textCenter': true,
       'Container--fullscreen-center-vert': true,
-      'u-isHidden': !this.state.fullscreen || this.state.hasSearched
+      'u-isHidden': !this.state.fullscreen || !this.state.showIntroScreen
     });
     const linkClasses = classSet({
       'u-textSizeBaseMobile u-textCenter u-marginTL': true,
-      'u-isHidden': !this.state.fullscreen || this.state.hasSearched
-    });
-    const noResultsParagraphClasses = classSet({
-      'u-textSecondary': true,
-      'u-marginBL': !this.state.fullscreen
+      'u-isHidden': !this.state.showIntroScreen
     });
     const articleClasses = classSet({
       'u-isHidden': !this.state.articleViewActive
@@ -279,7 +268,8 @@ export const HelpCenter = React.createClass({
     });
     const buttonContainerClasses = classSet({
       'u-marginTA': this.state.fullscreen,
-      'u-isHidden': !this.state.hasSearched
+      'u-isHidden': this.state.showIntroScreen ||
+                    (!this.state.fullscreen && !this.state.hasSearched)
     });
 
     const articleTemplate = function(article, index) {
@@ -298,6 +288,13 @@ export const HelpCenter = React.createClass({
 
     const onFocusHandler = () => {
       this.setState({ searchFieldFocused: true });
+    };
+    const onBlurHandler = () => {
+      if (this.state.fullscreen && !this.state.hasSearched) {
+        this.setState({
+          showIntroScreen: true
+        });
+      }
     };
     const onChangeValueHandler = (value) => {
       this.setState({ searchFieldValue: value });
@@ -321,21 +318,82 @@ export const HelpCenter = React.createClass({
       linkLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket');
     }
 
-    /* jshint laxbreak: true */
-    const zendeskLogo = hideZendeskLogo
-                      ? null
-                      : <ZendeskLogo rtl={i18n.isRTL()} fullscreen={this.state.fullscreen} />;
+    const noResultsTemplate = () => {
+      const noResultsClasses = classSet({
+        'u-marginTM u-textCenter u-textSizeMed': true,
+        'u-textSizeBaseMobile': this.state.fullscreen,
+        'u-borderBottom List--noResults': !this.state.fullscreen
+      });
+      const noResultsParagraphClasses = classSet({
+        'u-textSecondary': true,
+        'u-marginBL': !this.state.fullscreen
+      });
+      /* jshint laxbreak: true */
+      const title = (this.state.searchFailed)
+                  ? i18n.t('embeddable_framework.helpCenter.search.error.title')
+                  : i18n.t('embeddable_framework.helpCenter.search.noResults.title', {
+                      searchTerm: this.state.previousSearchTerm
+                    });
+      const body = (this.state.searchFailed)
+                 ? i18n.t('embeddable_framework.helpCenter.search.error.body')
+                 : i18n.t('embeddable_framework.helpCenter.search.noResults.body');
 
-    const searchField = this.state.removeSearchField
-                      ? null
-                      : <SearchField
+      return (
+        <div className={noResultsClasses} id='noResults'>
+          <p className='u-marginBN u-marginTL'>
+            {title}
+          </p>
+          <p className={noResultsParagraphClasses}>
+            {body}
+          </p>
+        </div>
+      );
+    };
+
+    /* jshint laxbreak: true */
+    const zendeskLogo = !hideZendeskLogo
+                      ? <ZendeskLogo rtl={i18n.isRTL()} fullscreen={this.state.fullscreen} />
+                      : null;
+
+    const searchField = (!this.state.virtualKeyboardKiller)
+                      ? <SearchField
                           ref='searchField'
                           fullscreen={this.state.fullscreen}
                           onFocus={onFocusHandler}
+                          onBlur={onBlurHandler}
                           onChangeValue={onChangeValueHandler}
                           hasSearched={this.state.hasSearched}
                           onSearchIconClick={this.handleSearch}
-                          isLoading={this.state.isLoading} />;
+                          isLoading={this.state.isLoading} />
+                      : null;
+
+    // intro search field on DESKTOP
+    const introSearchField = (!this.state.fullscreen && !this.state.hasSearched)
+                           ? searchField
+                           : null;
+
+    // intro search field *button* on MOBILE
+    const searchFieldButton = (this.state.fullscreen && this.state.showIntroScreen)
+                                  ? <SearchFieldButton
+                                      ref='searchFieldButton'
+                                      onClick={this.searchBoxClickHandler}
+                                      onTouch={this.searchBoxClickHandler} />
+                                  : null;
+
+    const headerContent = (!this.state.articleViewActive
+                           && (!this.state.fullscreen && this.state.hasSearched
+                               || this.state.fullscreen && !this.state.showIntroScreen))
+                        ? <HelpCenterForm
+                            onSubmit={this.handleSubmit}
+                            onSearch={this.handleSearch}
+                            children={searchField} />
+                        : null;
+
+    const noResults = (!this.state.showIntroScreen
+                       && !this.state.resultsCount
+                       && this.state.hasSearched)
+                    ? noResultsTemplate()
+                    : null;
 
     return (
       /* jshint laxbreak: true */
@@ -345,14 +403,7 @@ export const HelpCenter = React.createClass({
         <ScrollContainer
           ref='scrollContainer'
           title={i18n.t('embeddable_framework.launcher.label.help')}
-          headerContent={
-            this.state.hasSearched &&
-            !this.state.articleViewActive &&
-            <HelpCenterForm
-              onSubmit={this.handleSubmit}
-              onSearch={this.handleSearch}
-              children={searchField} />
-          }
+          headerContent={headerContent}
           footerContent={
             <div className={buttonContainerClasses}>
               <ButtonGroup rtl={i18n.isRTL()}>
@@ -372,26 +423,23 @@ export const HelpCenter = React.createClass({
               <h1 className={searchTitleClasses}>
                 {i18n.t('embeddable_framework.helpCenter.label.searchHelpCenter')}
               </h1>
-              {!this.state.hasSearched && searchField}
+
+              {searchFieldButton || introSearchField}
+
               <div className={linkClasses}>
                 <p className='u-marginBN'>{linkContext}</p>
                 <a className='u-userTextColor' onClick={this.handleNextClick}>
                   {linkLabel}
                 </a>
               </div>
+
               <h1 className={formLegendClasses}>
                 <span className='Arrange-sizeFill'>
                   {i18n.t('embeddable_framework.helpCenter.label.results')}
                 </span>
               </h1>
-              <div className={noResultsClasses} id='noResults'>
-                <p className='u-marginBN u-marginTL'>
-                  {this.searchNoResultsTitle()}
-                </p>
-                <p className={noResultsParagraphClasses}>
-                  {this.searchNoResultsBody()}
-                </p>
-              </div>
+
+              {noResults}
               <ul className={listClasses}>
                 {_.chain(this.state.articles).first(3).map(articleTemplate.bind(this)).value()}
               </ul>
