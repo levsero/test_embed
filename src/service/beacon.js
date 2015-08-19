@@ -86,7 +86,7 @@ function identify(user) {
   user.localeId = i18n.getLocaleId();
   const payload = {
     method: 'POST',
-    path: '/embeddable/blips',
+    path: '/embeddable/identify',
     params:  { user: user },
     callbacks: {
       done: function(res) {
