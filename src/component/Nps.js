@@ -7,7 +7,6 @@ import { Button,
 import { Container } from 'component/Container';
 import { Field } from 'component/FormField';
 import { Loading } from 'component/Loading';
-import { transport } from 'service/transport';
 
 const classSet = React.addons.classSet;
 
@@ -56,7 +55,7 @@ export const Nps = React.createClass({
         surveyId: null,
         logoUrl: '',
         question: '',
-        recepientId: null
+        recipientId: null
       },
       response: {
         score: null,
@@ -77,18 +76,12 @@ export const Nps = React.createClass({
         score: this.state.response.score
       }
     };
-    const payload = {
-      path: '/embeddable/nps',
-      params: params,
-      callbacks: {
-        done: () => {
-          this.setState({ isSubmittingScore: false });
-        },
-        fail: () => {}
-      }
+    const doneFn = () => {
+      this.setState({ isSubmittingScore: false });
     };
+    const failFn = () => {};
 
-    transport.sendWithMeta(payload);
+    this.props.npsSender(params, doneFn, failFn);
   },
 
   sendComment() {
@@ -100,21 +93,16 @@ export const Nps = React.createClass({
         comment: this.state.response.comment
       }
     };
-    const payload = {
-      path: '/embeddable/nps',
-      params: params,
-      callbacks: {
-        done: () => {
-          this.setState({
-            isSubmittingComment: false,
-            surveyCompleted: true
-          });
-        },
-        fail: () => {}
-      }
-    };
+    const doneFn = () => {
+      this.setState({
+        isSubmittingComment: false,
+        surveyCompleted: true
+      });
 
-    transport.sendWithMeta(payload);
+    };
+    const failFn = () => {};
+
+    this.props.npsSender(params, doneFn, failFn);
   },
 
   scoreClickHandler(score) {

@@ -187,7 +187,6 @@ describe('mediator', function() {
 
   describe('identify.onSuccess', function() {
     const nps = 'nps';
-
     const names = {
       nps: nps
     };

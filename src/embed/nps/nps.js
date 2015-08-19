@@ -4,6 +4,7 @@ import _     from 'lodash';
 import { frameFactory } from 'embed/frameFactory';
 import { Nps } from 'component/Nps';
 import { mediator } from 'service/mediator';
+import { transport } from 'service/transport';
 import { document,
          getDocumentHost } from 'utility/globals';
 
@@ -16,6 +17,20 @@ function create(name, config) {
     position: 'fixed',
     right: '0px',
     top: '0px'
+  };
+
+  const npsSender = function(params, doneFn, failFn) {
+    const payload = {
+      path: '/embeddable/nps',
+      method: 'post',
+      params: params,
+      callbacks: {
+        done: doneFn,
+        fail: failFn
+      }
+    };
+
+    transport.sendWithMeta(payload);
   };
 
   const frameParams = {
@@ -32,6 +47,7 @@ function create(name, config) {
         <Nps
           ref='rootComponent'
           updateFrameSize={params.updateFrameSize}
+          npsSender={npsSender}
           style={{width: '375px', margin: '15px' }} />
       );
     },
@@ -66,7 +82,7 @@ function render(name) {
         highlightColor: survey.highlightColor,
         logoUrl: survey.logoUrl,
         question: survey.question,
-        recepientId: survey.recipientId
+        recipientId: survey.recipientId
       }
     });
   });

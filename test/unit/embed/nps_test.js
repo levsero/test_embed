@@ -31,6 +31,9 @@ describe('embed.nps', () => {
           }
         })
       },
+      'service/transport': {
+        transport: jasmine.createSpyObj('transport', ['sendWithMeta'])
+      },
       'utility/globals': {
         document: global.document,
         getDocumentHost: function() {

@@ -32,9 +32,6 @@ describe('Nps component', function() {
       },
       'component/Loading': {
         Loading: noopReactComponent()
-      },
-      'service/transport': {
-        transport: jasmine.createSpyObj('transport', ['sendWithMeta'])
       }
     });
 
@@ -47,9 +44,9 @@ describe('Nps component', function() {
   });
 
   it('sends the correct score', function() {
-    const transport = mockRegistry['service/transport'].transport;
+    const npsSender = jasmine.createSpy('npsSender');
     const nps = React.render(
-      <Nps />,
+      <Nps npsSender={npsSender} />,
       global.document.body
     );
 
@@ -63,22 +60,19 @@ describe('Nps component', function() {
 
     nps.sendScore();
 
-    expect(transport.sendWithMeta)
+    expect(npsSender)
       .toHaveBeenCalled();
 
-    const payload = transport.sendWithMeta.calls.mostRecent().args[0];
+    const params = npsSender.calls.mostRecent().args[0];
 
-    expect(payload.path)
-      .toEqual('/embeddable/nps');
-
-    expect(payload.params.npsResponse.score)
+    expect(params.npsResponse.score)
       .toEqual(score);
   });
 
   it('sends the correct comment', function() {
-    const transport = mockRegistry['service/transport'].transport;
+    const npsSender = jasmine.createSpy('npsSender');
     const nps = React.render(
-      <Nps />,
+      <Nps npsSender={npsSender} />,
       global.document.body
     );
 
@@ -94,18 +88,15 @@ describe('Nps component', function() {
 
     nps.sendComment();
 
-    expect(transport.sendWithMeta)
+    expect(npsSender)
       .toHaveBeenCalled();
 
-    const payload = transport.sendWithMeta.calls.mostRecent().args[0];
+    const params = npsSender.calls.mostRecent().args[0];
 
-    expect(payload.path)
-      .toEqual('/embeddable/nps');
-
-    expect(payload.params.npsResponse.score)
+    expect(params.npsResponse.score)
       .toEqual(score);
 
-    expect(payload.params.npsResponse.comment)
+    expect(params.npsResponse.comment)
       .toEqual(comment);
   });
 
