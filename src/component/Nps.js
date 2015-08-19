@@ -184,12 +184,11 @@ export const Nps = React.createClass({
     return (
       <Container style={this.props.style}>
         <div style={{padding: '35px 10px 10px' }}> {/* FIXME: css */}
+          <p>{this.state.survey.question}</p>
 
-        <p>{this.state.survey.question}</p>
-
-        <ol className='nps-scores'>
-          { scoreListItems }
-        </ol>
+          <ol className='nps-scores'>
+            { scoreListItems }
+          </ol>
 
           <div className={commentsClasses}>
             <form>
@@ -207,7 +206,7 @@ export const Nps = React.createClass({
             <Button
               onClick={this.submitCommentHandler}
               className={sendButtonClasses}
-      label='Send' /> {/* FIXME: i18n */}
+              label='Send' /> {/* FIXME: i18n */}
           </ButtonGroup>
 
           <div
