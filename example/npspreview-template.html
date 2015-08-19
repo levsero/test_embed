@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>main.js loader</title>
+    <style>
+      p { line-height:200%; }
+    </style>
+  </head>
+
+  <body style='background-color:#fff'>
+    <h1>NPS live demo</h1>
+    <div class='npsPreview_1'></div>
+    <div class='npsPreview_2'></div>
+    <div class='npsPreview_3'></div>
+
+    <script src="/dist/nps.js"></script>
+    <script>
+      zE
+        .renderNPS('en-GB', 1)
+        .getRootComponent()
+        .setState({
+          survey: {
+            comments_question: 'wat',
+            highligh_color: '#ff0000',
+            id: '1234',
+            question: 'How likely are you to recommend zE.showNPS to someone you don\'t know?',
+            recipient_id: '5678'
+          }
+        });
+
+      zE
+        .renderNPS('en-GB', 2)
+        .getRootComponent()
+        .setState({
+          survey: {
+            comments_question: 'wat',
+            highligh_color: '#ff0000',
+            id: '1234',
+            question: 'How likely are you to recommend zE.showNPS to someone you don\'t know?',
+            recipient_id: '5678'
+          }
+        });
+    </script>
+
+  </body>
+</html>

@@ -9,10 +9,13 @@ var svgoConfig = JSON.stringify({
 
 module.exports = {
   cache: true,
-  entry: path.join(prefix, '/src/main.js'),
+  entry: {
+    main: path.join(prefix, '/src/main.js'),
+    nps: path.join(prefix, '/src/npsPreview.js')
+  },
   output: {
     path: path.join(prefix, 'dist'),
-    filename: 'main.js'
+    filename: '[name].js'
   },
   module: {
     loaders: [
