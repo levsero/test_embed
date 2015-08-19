@@ -30,7 +30,11 @@ function create(name, config) {
       }
     };
 
-    transport.sendWithMeta(payload);
+    if (__DEV__) {
+      setTimeout(doneFn, 1000);
+    } else {
+      transport.sendWithMeta(payload);
+    }
   };
 
   const frameParams = {
@@ -48,7 +52,7 @@ function create(name, config) {
           ref='rootComponent'
           updateFrameSize={params.updateFrameSize}
           npsSender={npsSender}
-          style={{width: '375px', margin: '15px' }} />
+          style={{width: '375px', margin: '15px' }} /> /* FIXME: css */
       );
     },
     frameParams

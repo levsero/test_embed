@@ -21,6 +21,8 @@ const ScoreButton = React.createClass({
     };
   },
   render() {
+
+    // FIXME: css
     const style = (this.props.selected)
                 ? {
                     borderColor: this.props.highlightColor,
@@ -30,7 +32,7 @@ const ScoreButton = React.createClass({
                 : {};
 
     const content = (this.props.loading)
-                  ? (<div style={{width:'30px'}}>
+                  ? (<div style={{width:'30px'}}>  {/* FIXME: css */}
                        <Loading  />
                      </div>)
                   : (<ButtonSecondary
@@ -181,7 +183,7 @@ export const Nps = React.createClass({
 
     return (
       <Container style={this.props.style}>
-        <div style={{padding: '35px 10px 10px' }}>
+        <div style={{padding: '35px 10px 10px' }}> {/* FIXME: css */}
 
         <p>{this.state.survey.question}</p>
 
@@ -205,19 +207,19 @@ export const Nps = React.createClass({
             <Button
               onClick={this.submitCommentHandler}
               className={sendButtonClasses}
-              label='Send' />
+      label='Send' /> {/* FIXME: i18n */}
           </ButtonGroup>
 
           <div
             className={submittingCommentLoadingClasses}
-            style={{paddingTop: '16px', paddingRight: '35px', height: '21px'}}>
+            style={{paddingTop: '16px', paddingRight: '35px', height: '21px'}}> {/* FIXME: css */}
             <Loading className='u-textRight' />
           </div>
 
           <div
             className={thankYouClasses}
             style={{fontWeight:'bold'}}>
-            Thank you for your response!
+            Thank you for your response!  {/* FIXME: i18n */}
           </div>
         </div>
       </Container>

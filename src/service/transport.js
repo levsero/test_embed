@@ -40,12 +40,6 @@ function send(payload) {
         }); }, 3000);
       return;
     }
-
-    if (payload.path === '/embeddable/nps') {
-      console.log(payload.params, payload.method, payload.path);
-      setTimeout(payload.callbacks.done, 1000);
-      return;
-    }
   }
 
   superagent(payload.method.toUpperCase(),
