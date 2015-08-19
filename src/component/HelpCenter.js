@@ -55,7 +55,11 @@ export const HelpCenter = React.createClass({
 
   focusField() {
     if (!this.state.fullscreen && !this.state.articleViewActive) {
+      const searchFieldInputNode = this.refs.searchField.refs.searchFieldInput.getDOMNode();
+      const endOfStr = searchFieldInputNode.value.length;
+
       this.refs.searchField.focus();
+      searchFieldInputNode.setSelectionRange(endOfStr, endOfStr);
     }
   },
 
