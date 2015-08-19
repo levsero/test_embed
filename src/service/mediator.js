@@ -325,9 +325,15 @@ function init(helpCenterAvailable, hideLauncher) {
   });
 
   c.intercept(`nps.onActivate`, function() {
+    const maxRetries = 100;
+    let retries = 0;
+
     let intervalId = setInterval(() => {
       if (!state['identify.pending']) {
         c.broadcast(`nps.activate`);
+        clearInterval(intervalId);
+      }
+      if (retries > maxRetries) {
         clearInterval(intervalId);
       }
     }, 1000);

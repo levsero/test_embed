@@ -111,10 +111,10 @@ export const Nps = React.createClass({
         response: _.extend(this.state.response, { score: score }),
         isSubmittingScore: true
       });
-      setTimeout(this.sendScore, 1);
+      setTimeout(this.sendScore, 0);
       setTimeout(() => {
         this.refs.commentField.refs.field.getDOMNode().focus();
-      }, 10);
+      }, 100);
     };
   },
 
