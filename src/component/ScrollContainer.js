@@ -21,7 +21,8 @@ export var ScrollContainer = React.createClass({
 
   getInitialState() {
     return {
-      scrollShadowVisible: false
+      scrollShadowVisible: false,
+      footerPadding: false
     };
   },
 
@@ -41,6 +42,10 @@ export var ScrollContainer = React.createClass({
     this.setState({scrollShadowVisible: visible});
   },
 
+  setScrollFooterPadding(applyStyle) {
+    this.setState({footerPadding: applyStyle});
+  },
+
   render() {
     const containerClasses = classSet({
       'ScrollContainer-content': true,
@@ -52,7 +57,8 @@ export var ScrollContainer = React.createClass({
     });
     const scrollFooterClasses = classSet({
       'ScrollContainer-footer': true,
-      'u-paddingVM u-paddingHL u-posRelative': true,
+      'u-paddingHL u-posRelative': true,
+      'u-paddingVM': this.props.footerPadding || this.state.footerPadding,
       'ScrollContainer-footer--shadow': this.state.scrollShadowVisible
     });
     const titleClasses = classSet({

@@ -59,7 +59,9 @@ export const HelpCenter = React.createClass({
       const endOfStr = searchFieldInputNode.value.length;
 
       this.refs.searchField.focus();
-      searchFieldInputNode.setSelectionRange(endOfStr, endOfStr);
+      if (searchFieldInputNode.setSelectionRange) {
+        searchFieldInputNode.setSelectionRange(endOfStr, endOfStr);
+      }
     }
   },
 
@@ -103,6 +105,7 @@ export const HelpCenter = React.createClass({
       searchFailed: false
     });
 
+    this.refs.scrollContainer.setScrollFooterPadding(true);
     this.focusField();
   },
 
@@ -114,6 +117,7 @@ export const HelpCenter = React.createClass({
       searchFailed: true
     });
 
+    this.refs.scrollContainer.setScrollFooterPadding(true);
     this.focusField();
   },
 
@@ -406,6 +410,7 @@ export const HelpCenter = React.createClass({
         fullscreen={this.state.fullscreen}>
         <ScrollContainer
           ref='scrollContainer'
+          footerPadding={!hideZendeskLogo}
           title={i18n.t('embeddable_framework.launcher.label.help')}
           headerContent={headerContent}
           footerContent={

@@ -58,7 +58,9 @@ describe('Help center component', function() {
             getValue: searchFieldGetValue,
             render: function() {
               return (
-                <input ref='searchField' type='search' />
+                <div ref='searchField' type='search'>
+                  <input ref='searchFieldInput' value='' type='search' />
+                </div>
               );
             }
           }),
@@ -86,6 +88,7 @@ describe('Help center component', function() {
       'component/ScrollContainer': {
         ScrollContainer: React.createClass({
             setScrollShadowVisible: noop,
+            setScrollFooterPadding: noop,
             render: function() {
               return (
                 <div>
