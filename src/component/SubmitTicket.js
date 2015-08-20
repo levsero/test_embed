@@ -166,6 +166,7 @@ export var SubmitTicket = React.createClass({
         key={this.state.uid}>
         <div className={notifyClasses} ref='notification'>
           <ScrollContainer
+            footerPadding={true}
             title={this.state.message}>
             <Icon
               type='Icon--tick'
