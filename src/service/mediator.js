@@ -328,15 +328,16 @@ function init(helpCenterAvailable, hideLauncher) {
     const maxRetries = 100;
     let retries = 0;
 
-    let intervalId = setInterval(() => {
+    const fn = () => {
       if (!state['identify.pending']) {
         c.broadcast(`nps.activate`);
-        clearInterval(intervalId);
+      } else if (retries < maxRetries) {
+        retries++;
+        setTimeout(fn, 300);
       }
-      if (retries > maxRetries) {
-        clearInterval(intervalId);
-      }
-    }, 1000);
+    };
+
+    fn();
   });
 }
 
