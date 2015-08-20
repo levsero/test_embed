@@ -290,7 +290,7 @@ function init(helpCenterAvailable, hideLauncher) {
       state[`${helpCenter}.isVisible`] = true;
       state.activeEmbed = helpCenter;
       c.broadcast(`${helpCenter}.show`);
-    } else {
+    } else if (!state['.hideOnClose']) {
       c.broadcast(`${launcher}.deactivate`);
       c.broadcast(`${launcher}.show`);
     }
