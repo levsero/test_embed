@@ -319,6 +319,16 @@ describe('mediator', function() {
         expect(launcherSub.show.calls.count())
           .toEqual(1);
       });
+
+      it('doesn\'t show launcher on cancel if .hideOnClose is true', function() {
+        reset(launcherSub.show);
+
+        c.broadcast('.activate', {hideOnClose: true});
+        c.broadcast(`${submitTicket}.onCancelClick`);
+
+        expect(launcherSub.show.calls.count())
+          .toEqual(0);
+      });
     });
 
   });
