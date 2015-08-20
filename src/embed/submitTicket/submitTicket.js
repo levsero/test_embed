@@ -159,11 +159,10 @@ function render(name) {
 }
 
 function prefillForm(name, user) {
-  const submitTicket = getRootComponent(name);
+  const instance = get(name).instance;
 
-  if (submitTicket) {
-    let submitTicketForm = submitTicket.refs.submitTicketForm;
-
+  if (instance.getChild()) {
+    const submitTicketForm = instance.getRootComponent().refs.submitTicketForm;
     submitTicketForm.setState({
       formState: _.pick(user, ['name', 'email'])
     });
