@@ -41,7 +41,10 @@ function create(name, config) {
     css: npsCSS,
     hideCloseButton: false,
     fullscreenable: false,
-    name: name
+    name: name,
+    onHide(frame) {
+      frame.getRootComponent().onDismissHandler()
+    }
   };
 
   let Embed = React.createClass(frameFactory(
@@ -114,6 +117,8 @@ function render(name) {
       err.special = true;
 
       throw err;
+    } else if (nps.shouldShow()) {
+      npses[name].instance.show(true);
     }
   });
 
