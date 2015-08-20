@@ -58,10 +58,10 @@ describe('embed.nps', () => {
       nps.create('dan');
       nps.render('dan');
 
-      expect(document.querySelectorAll( '.mock-frame').length)
+      expect(document.querySelectorAll('.mock-frame').length)
        .toEqual(1);
 
-      expect(document.querySelectorAll( '.mock-frame .mock-nps').length)
+      expect(document.querySelectorAll('.mock-frame .mock-nps').length)
        .toEqual(1);
     });
 

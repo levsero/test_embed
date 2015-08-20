@@ -52,7 +52,7 @@ function create(name, config) {
           ref='rootComponent'
           updateFrameSize={params.updateFrameSize}
           npsSender={npsSender}
-          style={{width: '375px', margin: '15px' }} /> /* FIXME: css */
+          style={{width: '375px', margin: '15px'}} /> /* FIXME: css */
       );
     },
     frameParams
@@ -95,7 +95,16 @@ function render(name) {
     const nps = npses[name].instance.getRootComponent();
 
     if (!_.isNumber(nps.state.survey.surveyId)) {
-      console.error('zE.activateNps() error: No survey available. Run zE.identify() first');
+      const err = new Error([
+        'An error occurred in your use of the Zendesk Widget API:',
+        'zE.activateNps()',
+        'No survey available. Run zE.identify() first.',
+        'Check out the Developer API docs to make sure you\'re using it correctly',
+        'https://developer.zendesk.com/embeddables/docs/widget/api'
+      ].join('\n\n'));
+      err.special = true;
+
+      throw err;
     } else {
       npses[name].instance.show(true);
     }

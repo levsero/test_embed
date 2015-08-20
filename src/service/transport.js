@@ -37,7 +37,9 @@ function send(payload) {
               recipientId: 10035
             }
           }
-        }); }, 3000);
+        });
+      }, 3000);
+
       return;
     }
   }

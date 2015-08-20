@@ -2,8 +2,8 @@ import React from 'react/addons';
 import _     from 'lodash';
 
 import { Button,
-         ButtonSecondary,
-         ButtonGroup } from 'component/Button';
+         ButtonGroup,
+         ButtonSecondary } from 'component/Button';
 import { Container } from 'component/Container';
 import { Field } from 'component/FormField';
 import { Loading } from 'component/Loading';
@@ -11,7 +11,6 @@ import { Loading } from 'component/Loading';
 const classSet = React.addons.classSet;
 
 const ScoreButton = React.createClass({
-  /* jshint laxbreak: true */
   getDefaultProps() {
     return {
       highlightColor: '',
@@ -21,7 +20,7 @@ const ScoreButton = React.createClass({
     };
   },
   render() {
-
+    /* jshint laxbreak: true */
     // FIXME: css
     const style = (this.props.selected)
                 ? {
@@ -30,10 +29,9 @@ const ScoreButton = React.createClass({
                     color: '#fff'
                   }
                 : {};
-
     const content = (this.props.loading)
-                  ? (<div style={{width:'30px'}}>  {/* FIXME: css */}
-                       <Loading  />
+                  ? (<div style={{ width:'30px' }}>  {/* FIXME: css */}
+                       <Loading />
                      </div>)
                   : (<ButtonSecondary
                        style={style}
@@ -46,7 +44,8 @@ const ScoreButton = React.createClass({
 
 export const Nps = React.createClass({
   propTypes: {
-    updateFrameSize: React.PropTypes.func
+    updateFrameSize: React.PropTypes.func,
+    npsSender: React.PropTypes.func.isRequired
   },
 
   getInitialState() {
@@ -100,7 +99,6 @@ export const Nps = React.createClass({
         isSubmittingComment: false,
         surveyCompleted: true
       });
-
     };
     const failFn = () => {};
 
@@ -110,7 +108,7 @@ export const Nps = React.createClass({
   scoreClickHandler(score) {
     return () => {
       this.setState({
-        response: _.extend(this.state.response, { score: score }),
+        response: _.extend({}, this.state.response, { score: score }),
         isSubmittingScore: true
       });
       setTimeout(this.sendScore, 0);
@@ -127,7 +125,7 @@ export const Nps = React.createClass({
 
   onChangeHandler(ev) {
     this.setState({
-      response: _.extend(this.state.response, { comment: ev.target.value }),
+      response: _.extend({}, this.state.response, { comment: ev.target.value }),
       commentFieldDirty: true
     });
   },
@@ -145,22 +143,18 @@ export const Nps = React.createClass({
     const commentsClasses = classSet({
       'u-isHidden': this.state.response.score === null
     });
-
     const sendButtonClasses = classSet({
       'u-isHidden': (!this.state.commentFieldDirty
                      || this.state.isSubmittingComment
                      || this.state.surveyCompleted)
     });
-
     const submittingCommentLoadingClasses = classSet({
       'u-isHidden': !this.state.isSubmittingComment
     });
-
     const thankYouClasses = classSet({
       'u-textCenter': true,
       'u-isHidden': !this.state.surveyCompleted
     });
-
     const scoreListItemTemplate = (score) => {
       const isSelected = this.state.response.score === score;
       const props = {
@@ -177,17 +171,16 @@ export const Nps = React.createClass({
         </li>
       );
     };
-
     const scoreListItems = _.range(11) // 0...10
                             .map(scoreListItemTemplate);
 
     return (
       <Container style={this.props.style}>
-        <div style={{padding: '35px 10px 10px' }}> {/* FIXME: css */}
+        <div style={{ padding: '35px 10px 10px' }}> {/* FIXME: css */}
           <p>{this.state.survey.question}</p>
 
           <ol className='nps-scores'>
-            { scoreListItems }
+            {scoreListItems}
           </ol>
 
           <div className={commentsClasses}>
@@ -217,7 +210,7 @@ export const Nps = React.createClass({
 
           <div
             className={thankYouClasses}
-            style={{fontWeight:'bold'}}>
+            style={{ fontWeight:'bold' }}>
             Thank you for your response!  {/* FIXME: i18n */}
           </div>
         </div>

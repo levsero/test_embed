@@ -1,6 +1,6 @@
 {
   "predef":    [
-    "module", "require","requireUncached",
+    "module", "require", "requireUncached",
     "process",
     "React",
     "zE",
