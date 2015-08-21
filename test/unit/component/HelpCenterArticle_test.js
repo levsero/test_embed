@@ -68,7 +68,7 @@ describe('HelpCenterArticle component', function() {
       .toEqual('');
   });
 
-  it('should preserve ids on divs', function() {
+  it('should preserve ids on divs and headers', function() {
     const helpCenterArticle = React.render(
       <HelpCenterArticle activeArticle={mockArticle} />,
       global.document.body
@@ -83,7 +83,7 @@ describe('HelpCenterArticle component', function() {
       .toEqual('preserved');
 
     expect(content.querySelector('h1').id)
-      .not.toEqual('foo');
+      .toEqual('foo');
   });
 
   it('should preserve name attribute on anchors', function() {
