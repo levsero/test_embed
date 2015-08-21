@@ -25,7 +25,7 @@ describe('ScrollContainer component', function() {
     mockery.disable();
   });
 
-  it('should have the `is-mobile` classname when fullscreen is true', function() {
+  it('should have the `is-mobile` className when fullscreen is true', function() {
 
     const container = React.render(
       <ScrollContainer fullscreen={true} />,
@@ -106,5 +106,76 @@ describe('ScrollContainer component', function() {
     expect(containerNode.props.className)
       .toMatch('ScrollContainer-footer--shadow');
   });
+
+  it('should not contain certain classes when `this.state.footerPadding` is true', function() {
+    // Should not contain
+    // ScrollContainer-content - u-paddingTM
+    // ScrollContainer-footer - u-paddingVM
+
+    const container = React.render(
+      <ScrollContainer footerPadding={true} />,
+      global.document.body
+    );
+
+    expect(container.props.footerPadding)
+      .toEqual(true);
+
+    expect(container.getDOMNode().querySelector('.ScrollContainer-content').className)
+      .toMatch('u-paddingTM');
+
+    expect(container.getDOMNode().querySelector('.ScrollContainer-content').className)
+      .not.toMatch('u-paddingTL');
+
+    expect(container.getDOMNode().querySelector('.ScrollContainer-footer').className)
+      .toMatch('u-paddingVM');
+  });
+
+  it('should not contain `u-paddingTL` when `this.state.footerPadding` is false', function() {
+    // Should not contain
+    // ScrollContainer-content - u-paddingTL
+
+    const container = React.render(
+      <ScrollContainer footerPadding={false} />,
+      global.document.body
+    );
+
+    expect(container.props.footerPadding)
+      .toEqual(false);
+
+    expect(container.getDOMNode().querySelector('.ScrollContainer-content').className)
+      .not.toMatch('u-paddingTM');
+
+    expect(container.getDOMNode().querySelector('.ScrollContainer-content').className)
+      .toMatch('u-paddingTL');
+
+    expect(container.getDOMNode().querySelector('.ScrollContainer-footer').className)
+      .not.toMatch('u-paddingVM');
+  });
+
+  it('should change component state when calling `this.setScrollFooterPadding`', function() {
+
+    const container = React.render(
+      <ScrollContainer />,
+      global.document.body
+    );
+
+    expect(container.state.footerPadding)
+      .toEqual(false);
+
+    container.setScrollFooterPadding(true);
+
+    expect(container.state.footerPadding)
+      .toEqual(true);
+
+    expect(container.getDOMNode().querySelector('.ScrollContainer-content').className)
+      .toMatch('u-paddingTM');
+
+    expect(container.getDOMNode().querySelector('.ScrollContainer-content').className)
+      .not.toMatch('u-paddingTL');
+
+    expect(container.getDOMNode().querySelector('.ScrollContainer-footer').className)
+      .toMatch('u-paddingVM');
+  });
+
 });
 
