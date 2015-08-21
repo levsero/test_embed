@@ -88,6 +88,13 @@ function create(name, config) {
         }
         frame.getRootComponent().hideVirtualKeyboard();
         frame.getRootComponent().backtrackSearch();
+
+        if (frame.getRootComponent().state.hasSearched === false &&
+            isMobileBrowser()) {
+          frame.getRootComponent().setState({
+            showIntroScreen: true
+          });
+        }
       },
       onShow(frame) {
         if (isMobileBrowser()) {

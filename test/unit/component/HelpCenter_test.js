@@ -32,9 +32,11 @@ describe('Help center component', function() {
       'component/HelpCenterForm': {
         HelpCenterForm: React.createClass({
             render: function() {
-              return (<form onSubmit={this.handleSubmit}>
-                {this.props.children}
-              </form>);
+              return (
+                <form onSubmit={this.handleSubmit}>
+                  {this.props.children}
+                </form>
+              );
             }
           })
       },
@@ -47,11 +49,26 @@ describe('Help center component', function() {
       },
       'component/FormField': {
         SearchField: React.createClass({
+            focus: function() {
+              this.setState({
+                focused: true
+              });
+            },
             blur: searchFieldBlur,
             getValue: searchFieldGetValue,
             render: function() {
               return (
                 <input ref='searchField' type='search' />
+              );
+            }
+          }),
+        SearchFieldButton: React.createClass({
+            render: function() {
+              return (
+                <input
+                  ref='searchFieldButton'
+                  type='search'
+                  onClick={this.props.onClick} />
               );
             }
           })
@@ -70,7 +87,13 @@ describe('Help center component', function() {
         ScrollContainer: React.createClass({
             setScrollShadowVisible: noop,
             render: function() {
-              return <div>{this.props.children}</div>;
+              return (
+                <div>
+                  {this.props.headerContent}
+                  {this.props.children}
+                  {this.props.footerContent}
+                </div>
+              );
             }
           }),
       },
@@ -407,6 +430,168 @@ describe('Help center component', function() {
 
       expect(helpCenter.state.fullscreen)
         .toEqual(false);
+    });
+  });
+
+  it('should not display noResults message for unsatisfied conditions', function() {
+    // if any is not satisfied
+    // if showIntroScreen is false &&
+    // resultsCount is 0 &&
+    // hasSearched is true
+
+    mockRegistry['utility/devices'].isMobileBrowser = function() {
+      return true;
+    };
+
+    mockery.resetCache();
+    HelpCenter = require(helpCenterPath).HelpCenter;
+
+    const helpCenter = React.render(
+      <HelpCenter />,
+      global.document.body
+    );
+    ReactTestUtils.Simulate.click(helpCenter.refs.searchFieldButton.getDOMNode());
+
+    expect(helpCenter.state.showIntroScreen)
+      .toEqual(false);
+
+    expect(helpCenter.state.resultsCount)
+      .toEqual(0);
+
+    expect(helpCenter.state.hasSearched)
+      .toEqual(false);
+
+    expect(helpCenter.getDOMNode().querySelector('#noResults'))
+      .toBeFalsy();
+  });
+
+  it('should display noResults message for satisfied conditions', function() {
+    // if showIntroScreen is false &&
+    // resultsCount is 0 &&
+    // hasSearched is true
+
+    mockRegistry['utility/devices'].isMobileBrowser = function() {
+      return true;
+    };
+
+    mockery.resetCache();
+    HelpCenter = require(helpCenterPath).HelpCenter;
+
+    const helpCenter = React.render(
+      <HelpCenter />,
+      global.document.body
+    );
+    ReactTestUtils.Simulate.click(helpCenter.refs.searchFieldButton.getDOMNode());
+
+    helpCenter.setState({ hasSearched: true });
+
+    expect(helpCenter.state.hasSearched)
+      .toEqual(true);
+
+    expect(helpCenter.getDOMNode().querySelector('#noResults'))
+      .toBeTruthy();
+  });
+
+  describe('searchField', function() {
+    it('should render component if fullscreen is false', function() {
+      const helpCenter = React.render(
+        <HelpCenter />,
+        global.document.body
+      );
+
+      expect(helpCenter.refs.searchField)
+        .toBeTruthy();
+
+      expect(helpCenter.refs.searchFieldButton)
+        .toBeFalsy();
+    });
+  });
+
+  describe('searchFieldButton', function() {
+    it('should render component if fullscreen is true', function() {
+
+      mockRegistry['utility/devices'].isMobileBrowser = function() {
+        return true;
+      };
+
+      mockery.resetCache();
+      HelpCenter = require(helpCenterPath).HelpCenter;
+
+      const helpCenter = React.render(
+        <HelpCenter />,
+        global.document.body
+      );
+
+      expect(helpCenter.refs.searchFieldButton)
+        .toBeTruthy();
+
+      expect(helpCenter.refs.searchField)
+        .toBeFalsy();
+    });
+
+    it('sets `showIntroScreen` state to false when component is clicked', function() {
+
+      mockRegistry['utility/devices'].isMobileBrowser = function() {
+        return true;
+      };
+
+      mockery.resetCache();
+      HelpCenter = require(helpCenterPath).HelpCenter;
+
+      const helpCenter = React.render(
+        <HelpCenter />,
+        global.document.body
+      );
+
+      expect(helpCenter.state.showIntroScreen)
+        .toBe(true);
+      ReactTestUtils.Simulate.click(helpCenter.refs.searchFieldButton.getDOMNode());
+
+      expect(helpCenter.state.showIntroScreen)
+        .toBe(false);
+    });
+
+    it('sets focus state on searchField when search is made on desktop', function() {
+      const helpCenter = React.render(
+        <HelpCenter onSearch={noop} />,
+        global.document.body
+      );
+      const mockTransport = mockRegistry['service/transport'].transport;
+      const searchString = 'help, I\'ve fallen and can\'t get up!';
+      const responsePayload = {body: {results: [1], count: 1}, ok: true};
+
+      expect(helpCenter.refs.searchField.state)
+        .toBeFalsy();
+
+      helpCenter.handleSubmit({preventDefault: noop}, { value: searchString });
+      mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayload);
+
+      expect(helpCenter.refs.searchField.state.focused)
+        .toEqual(true);
+    });
+
+    it('sets focus state on searchField when component is clicked on mobile', function() {
+
+      mockRegistry['utility/devices'].isMobileBrowser = function() {
+        return true;
+      };
+
+      mockery.resetCache();
+      HelpCenter = require(helpCenterPath).HelpCenter;
+
+      const helpCenter = React.render(
+        <HelpCenter />,
+        global.document.body
+      );
+
+      expect(helpCenter.refs.searchField)
+        .toBeFalsy();
+      ReactTestUtils.Simulate.click(helpCenter.refs.searchFieldButton.getDOMNode());
+
+      const searchField = helpCenter.refs.searchField;
+
+      expect(searchField.state.focused)
+        .toEqual(true);
     });
   });
 });
