@@ -21,8 +21,7 @@ export var ScrollContainer = React.createClass({
 
   getInitialState() {
     return {
-      scrollShadowVisible: false,
-      footerPadding: false
+      scrollShadowVisible: false
     };
   },
 
@@ -42,16 +41,12 @@ export var ScrollContainer = React.createClass({
     this.setState({scrollShadowVisible: visible});
   },
 
-  setScrollFooterPadding(applyStyle) {
-    this.setState({footerPadding: applyStyle});
-  },
-
   render() {
     const containerClasses = classSet({
       'ScrollContainer-content': true,
       'u-paddingLL u-marginRS u-paddingRS': true,
-      'u-paddingTM': this.props.footerPadding || this.state.footerPadding,
-      'u-paddingTL': !(this.props.footerPadding || this.state.footerPadding),
+      'u-paddingTM': !this.props.hideZendeskLogo,
+      'u-paddingTL': this.props.hideZendeskLogo,
       'u-paddingBM': this.state.scrollShadowVisible,
       'is-mobile': this.props.fullscreen,
       'is-bigheader': this.props.headerContent,
@@ -60,7 +55,7 @@ export var ScrollContainer = React.createClass({
     const scrollFooterClasses = classSet({
       'ScrollContainer-footer': true,
       'u-paddingHL u-posRelative': true,
-      'u-paddingVM': this.props.footerPadding || this.state.footerPadding,
+      'u-paddingVM': !this.props.hideZendeskLogo,
       'ScrollContainer-footer--shadow': this.state.scrollShadowVisible
     });
     const titleClasses = classSet({

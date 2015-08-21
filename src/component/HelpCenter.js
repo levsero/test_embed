@@ -105,7 +105,6 @@ export const HelpCenter = React.createClass({
       searchFailed: false
     });
 
-    this.refs.scrollContainer.setScrollFooterPadding(true);
     this.focusField();
   },
 
@@ -117,7 +116,6 @@ export const HelpCenter = React.createClass({
       searchFailed: true
     });
 
-    this.refs.scrollContainer.setScrollFooterPadding(true);
     this.focusField();
   },
 
@@ -276,6 +274,7 @@ export const HelpCenter = React.createClass({
     });
     const buttonContainerClasses = classSet({
       'u-marginTA': this.state.fullscreen,
+      'u-marginBM': this.props.hideZendeskLogo,
       'u-isHidden': this.state.showIntroScreen ||
                     (!this.state.fullscreen && !this.state.hasSearched)
     });
@@ -410,7 +409,7 @@ export const HelpCenter = React.createClass({
         fullscreen={this.state.fullscreen}>
         <ScrollContainer
           ref='scrollContainer'
-          footerPadding={!hideZendeskLogo}
+          hideZendeskLogo={hideZendeskLogo}
           title={i18n.t('embeddable_framework.launcher.label.help')}
           headerContent={headerContent}
           footerContent={
