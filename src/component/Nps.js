@@ -73,7 +73,7 @@ export const Nps = React.createClass({
     const params = {
       npsResponse: {
         surveyId: this.state.survey.surveyId,
-        recepientId: this.state.survey.recepientId,
+        recipientId: this.state.survey.recipientId,
         score: this.state.response.score
       }
     };
@@ -89,7 +89,7 @@ export const Nps = React.createClass({
     const params = {
       npsResponse: {
         surveyId: this.state.survey.surveyId,
-        recepientId: this.state.survey.recepientId,
+        recipientId: this.state.survey.recipientId,
         score: this.state.response.score,
         comment: this.state.response.comment
       }
@@ -118,9 +118,10 @@ export const Nps = React.createClass({
     };
   },
 
-  submitCommentHandler() {
+  submitCommentHandler(ev) {
+    ev.preventDefault();
     this.setState({ isSubmittingComment: true });
-    setTimeout(this.sendComment, 1);
+    setTimeout(this.sendComment, 0);
   },
 
   onChangeHandler(ev) {
@@ -184,7 +185,7 @@ export const Nps = React.createClass({
           </ol>
 
           <div className={commentsClasses}>
-            <form>
+            <form onSubmit={this.submitCommentHandler}>
               <Field
                 ref='commentField'
                 placeholder={this.state.survey.commentsQuestion}
@@ -192,15 +193,17 @@ export const Nps = React.createClass({
                 name='comment'
                 input={<textarea rows="2"></textarea>}
                 onChange={this.onChangeHandler} />
+
+              <ButtonGroup
+                style={{ marginTop: '10px' }}
+                rtl={false}>
+                <Button
+                  type='submit'
+                  className={sendButtonClasses}
+                  label='Send' /> {/* FIXME: i18n */}
+              </ButtonGroup>
             </form>
           </div>
-
-          <ButtonGroup rtl={false}>
-            <Button
-              onClick={this.submitCommentHandler}
-              className={sendButtonClasses}
-              label='Send' /> {/* FIXME: i18n */}
-          </ButtonGroup>
 
           <div
             className={submittingCommentLoadingClasses}
