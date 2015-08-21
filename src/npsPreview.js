@@ -12,13 +12,20 @@ const frameParams = {
   }
 };
 
+let isMobileBrowser = false;
+
 const Embed = React.createClass(frameFactory(
   (params) => {
     return (
-      <Nps
-        ref='rootComponent'
-        updateFrameSize={params.updateFrameSize}
-        style={{width: '375px', margin: '15px' }} />
+      (isMobileBrowser)
+        ? <div
+            ref='rootComponent'
+            updateFrameSize={params.updateFrameSize}
+            style={{background: "red", height: 100, width: 100}} />
+        : <Nps
+            ref='rootComponent'
+            updateFrameSize={params.updateFrameSize}
+            style={{width: '375px', margin: '15px' }} />
     );
   },
   frameParams
@@ -30,5 +37,6 @@ const renderNPS = (locale = 'en-GB', id) => {
 }
 
 window.zE = {
-  renderNPS: renderNPS
+  renderNPS: renderNPS,
+  isMobileBrowser: isMobileBrowser
 };
