@@ -274,7 +274,7 @@ export const HelpCenter = React.createClass({
     });
     const buttonContainerClasses = classSet({
       'u-marginTA': this.state.fullscreen,
-      'u-marginBM': this.props.hideZendeskLogo,
+      'u-marginVM': this.props.hideZendeskLogo,
       'u-isHidden': this.state.showIntroScreen ||
                     (!this.state.fullscreen && !this.state.hasSearched)
     });
