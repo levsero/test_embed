@@ -13,7 +13,7 @@ $Container-spacing: 25/$font-size;
 .Container--popover {
   border-radius: #{8/$font-size}rem;
   box-shadow: 0 0 #{6/$font-size}rem 0 rgba($base-shadow, .2);
-  background: $base-color;
+  background: rgba($base-color, .98)
 }
 
 .Container--fullscreen {

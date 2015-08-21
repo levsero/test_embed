@@ -58,7 +58,9 @@ describe('Help center component', function() {
             getValue: searchFieldGetValue,
             render: function() {
               return (
-                <input ref='searchField' type='search' />
+                <div ref='searchField' type='search'>
+                  <input ref='searchFieldInput' value='' type='search' />
+                </div>
               );
             }
           }),

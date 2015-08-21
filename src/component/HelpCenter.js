@@ -55,7 +55,13 @@ export const HelpCenter = React.createClass({
 
   focusField() {
     if (!this.state.fullscreen && !this.state.articleViewActive) {
+      const searchFieldInputNode = this.refs.searchField.refs.searchFieldInput.getDOMNode();
+      const strLength = searchFieldInputNode.value.length;
+
       this.refs.searchField.focus();
+      if (searchFieldInputNode.setSelectionRange) {
+        searchFieldInputNode.setSelectionRange(strLength, strLength);
+      }
     }
   },
 
@@ -268,6 +274,7 @@ export const HelpCenter = React.createClass({
     });
     const buttonContainerClasses = classSet({
       'u-marginTA': this.state.fullscreen,
+      'u-marginBM': this.props.hideZendeskLogo,
       'u-isHidden': this.state.showIntroScreen ||
                     (!this.state.fullscreen && !this.state.hasSearched)
     });
@@ -402,6 +409,7 @@ export const HelpCenter = React.createClass({
         fullscreen={this.state.fullscreen}>
         <ScrollContainer
           ref='scrollContainer'
+          hideZendeskLogo={hideZendeskLogo}
           title={i18n.t('embeddable_framework.launcher.label.help')}
           headerContent={headerContent}
           footerContent={

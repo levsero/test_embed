@@ -25,7 +25,7 @@ describe('ScrollContainer component', function() {
     mockery.disable();
   });
 
-  it('should have the `is-mobile` classname when fullscreen is true', function() {
+  it('should have the `is-mobile` className when fullscreen is true', function() {
 
     const container = React.render(
       <ScrollContainer fullscreen={true} />,
@@ -106,5 +106,51 @@ describe('ScrollContainer component', function() {
     expect(containerNode.props.className)
       .toMatch('ScrollContainer-footer--shadow');
   });
+
+  it('should not contain certain classes when `this.props.hideZendeskLogo` is true', function() {
+    // Should not contain
+    // ScrollContainer-content - u-paddingTM
+    // ScrollContainer-footer - u-paddingVM
+
+    const container = React.render(
+      <ScrollContainer hideZendeskLogo={true} />,
+      global.document.body
+    );
+
+    expect(container.props.hideZendeskLogo)
+      .toEqual(true);
+
+    expect(container.getDOMNode().querySelector('.ScrollContainer-content').className)
+      .not.toMatch('u-paddingTM');
+
+    expect(container.getDOMNode().querySelector('.ScrollContainer-content').className)
+      .toMatch('u-paddingTL');
+
+    expect(container.getDOMNode().querySelector('.ScrollContainer-footer').className)
+      .not.toMatch('u-paddingVM');
+  });
+
+  it('should not contain `u-paddingTL` when `this.props.hideZendeskLogo` is false', function() {
+    // Should not contain
+    // ScrollContainer-content - u-paddingTL
+
+    const container = React.render(
+      <ScrollContainer hideZendeskLogo={false} />,
+      global.document.body
+    );
+
+    expect(container.props.hideZendeskLogo)
+      .toEqual(false);
+
+    expect(container.getDOMNode().querySelector('.ScrollContainer-content').className)
+      .toMatch('u-paddingTM');
+
+    expect(container.getDOMNode().querySelector('.ScrollContainer-content').className)
+      .not.toMatch('u-paddingTL');
+
+    expect(container.getDOMNode().querySelector('.ScrollContainer-footer').className)
+      .toMatch('u-paddingVM');
+  });
+
 });
 

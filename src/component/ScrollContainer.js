@@ -44,7 +44,9 @@ export var ScrollContainer = React.createClass({
   render() {
     const containerClasses = classSet({
       'ScrollContainer-content': true,
-      'u-paddingLL u-paddingTM u-marginRS u-paddingRS': true,
+      'u-paddingLL u-marginRS u-paddingRS': true,
+      'u-paddingTM': !this.props.hideZendeskLogo,
+      'u-paddingTL': this.props.hideZendeskLogo,
       'u-paddingBM': this.state.scrollShadowVisible,
       'is-mobile': this.props.fullscreen,
       'is-bigheader': this.props.headerContent,
@@ -52,7 +54,8 @@ export var ScrollContainer = React.createClass({
     });
     const scrollFooterClasses = classSet({
       'ScrollContainer-footer': true,
-      'u-paddingVM u-paddingHL u-posRelative': true,
+      'u-paddingHL u-posRelative': true,
+      'u-paddingVM': !this.props.hideZendeskLogo,
       'ScrollContainer-footer--shadow': this.state.scrollShadowVisible
     });
     const titleClasses = classSet({
