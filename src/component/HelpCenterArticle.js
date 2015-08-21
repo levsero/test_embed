@@ -29,7 +29,13 @@ var HelpCenterArticle = React.createClass({
         'a': ['href', 'target', 'title', 'name'],
         'span': ['name'],
         'div': ['id'],
-        'img': ['src', 'alt']
+        'img': ['src', 'alt'],
+        'h1': ['id'],
+        'h2': ['id'],
+        'h3': ['id'],
+        'h4': ['id'],
+        'h5': ['id'],
+        'h6': ['id']
       },
       allowedClasses: {
         'span': [
