@@ -45,21 +45,6 @@ export var frameFactory = function(childFn, _params) {
     fullscreenable: false
   };
   const params = _.extend(defaultParams, _params);
-  const afterShowAnimate = () => {
-    if (params.afterShowAnimate) {
-      params.afterShowAnimate(child);
-    }
-  };
-  // object passed into snabbt animation lib
-  const springTransition = {
-    /* jshint camelcase: false */
-    from_position: [0, 15, 0],
-    position: [0, 0, 0],
-    easing: 'spring',
-    spring_constant: 0.5,
-    spring_deacceleration: 0.75,
-    callback: afterShowAnimate
-  };
 
   if (__DEV__) {
     validateChildFn(childFn, params);
@@ -154,6 +139,20 @@ export var frameFactory = function(childFn, _params) {
       }, 50);
 
       if (!isMobileBrowser() && animate) {
+        const springTransition = {
+          /* jshint camelcase: false */
+          from_position: [0, 15, 0],
+          position: [0, 0, 0],
+          easing: 'spring',
+          spring_constant: 0.5,
+          spring_deacceleration: 0.75,
+          callback: () => {
+            if (params.afterShowAnimate) {
+              params.afterShowAnimate(this);
+            }
+          }
+        };
+
         snabbt(this.getDOMNode(), springTransition);
       }
 
