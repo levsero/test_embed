@@ -197,7 +197,6 @@ export const SubmitTicketForm = React.createClass({
         className={formClasses}>
         <ScrollContainer
           ref='scrollContainer'
-          footerPadding={true}
           title={i18n.t('embeddable_framework.submitTicket.form.title')}
           contentExpanded={true}
           footerContent={

@@ -88,7 +88,6 @@ describe('Help center component', function() {
       'component/ScrollContainer': {
         ScrollContainer: React.createClass({
             setScrollShadowVisible: noop,
-            setScrollFooterPadding: noop,
             render: function() {
               return (
                 <div>

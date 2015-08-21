@@ -107,40 +107,18 @@ describe('ScrollContainer component', function() {
       .toMatch('ScrollContainer-footer--shadow');
   });
 
-  it('should not contain certain classes when `this.state.footerPadding` is true', function() {
+  it('should not contain certain classes when `this.props.hideZendeskLogo` is true', function() {
     // Should not contain
     // ScrollContainer-content - u-paddingTM
     // ScrollContainer-footer - u-paddingVM
 
     const container = React.render(
-      <ScrollContainer footerPadding={true} />,
+      <ScrollContainer hideZendeskLogo={true} />,
       global.document.body
     );
 
-    expect(container.props.footerPadding)
+    expect(container.props.hideZendeskLogo)
       .toEqual(true);
-
-    expect(container.getDOMNode().querySelector('.ScrollContainer-content').className)
-      .toMatch('u-paddingTM');
-
-    expect(container.getDOMNode().querySelector('.ScrollContainer-content').className)
-      .not.toMatch('u-paddingTL');
-
-    expect(container.getDOMNode().querySelector('.ScrollContainer-footer').className)
-      .toMatch('u-paddingVM');
-  });
-
-  it('should not contain `u-paddingTL` when `this.state.footerPadding` is false', function() {
-    // Should not contain
-    // ScrollContainer-content - u-paddingTL
-
-    const container = React.render(
-      <ScrollContainer footerPadding={false} />,
-      global.document.body
-    );
-
-    expect(container.props.footerPadding)
-      .toEqual(false);
 
     expect(container.getDOMNode().querySelector('.ScrollContainer-content').className)
       .not.toMatch('u-paddingTM');
@@ -152,20 +130,17 @@ describe('ScrollContainer component', function() {
       .not.toMatch('u-paddingVM');
   });
 
-  it('should change component state when calling `this.setScrollFooterPadding`', function() {
+  it('should not contain `u-paddingTL` when `this.props.hideZendeskLogo` is false', function() {
+    // Should not contain
+    // ScrollContainer-content - u-paddingTL
 
     const container = React.render(
-      <ScrollContainer />,
+      <ScrollContainer hideZendeskLogo={false} />,
       global.document.body
     );
 
-    expect(container.state.footerPadding)
+    expect(container.props.hideZendeskLogo)
       .toEqual(false);
-
-    container.setScrollFooterPadding(true);
-
-    expect(container.state.footerPadding)
-      .toEqual(true);
 
     expect(container.getDOMNode().querySelector('.ScrollContainer-content').className)
       .toMatch('u-paddingTM');
