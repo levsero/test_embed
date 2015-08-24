@@ -57,6 +57,9 @@ function boot() {
   const identify = function(user) {
     mediator.channel.broadcast('.onIdentify', user);
   };
+  const keywords = function(keywords) {
+    mediator.channel.broadcast('.keywords', keywords);
+  };
   const activate = function(options) {
     mediator.channel.broadcast('.activate', options);
   };
@@ -104,6 +107,7 @@ function boot() {
     setLocale: i18n.setLocale,
     hide: renderer.hide,
     show: postRenderQueueCallback.bind('show'),
+    keywords: postRenderQueueCallback.bind('keywords'),
     identify: postRenderQueueCallback.bind('identify'),
     activate: postRenderQueueCallback.bind('activate'),
     activateNps: postRenderQueueCallback.bind('activateNps')
@@ -147,6 +151,7 @@ function boot() {
   // Post-render methods
   win.zE.identify = identify;
   win.zE.activate = activate;
+  win.zE.keywords = keywords;
   win.zE.activateNps = activateNps;
   win.zE.hide = hide;
   win.zE.show = show;

@@ -148,6 +148,17 @@ function updateHelpCenterButton(name, labelKey) {
   });
 }
 
+function keywordsSearch(name, keywords) {
+  /* jshint unused:false */
+  const helpCenter = getRootComponent(name);
+
+  helpCenter.performSearch(keywords, {
+      keywords: true,
+      auto: true
+    }
+  );
+}
+
 function render(name) {
   if (helpCenters[name] && helpCenters[name].instance) {
     throw new Error(`HelpCenter ${name} has already been rendered.`);
@@ -190,6 +201,11 @@ function render(name) {
       showBackButton: true
     });
   });
+
+  mediator.channel.subscribe(name + '.keywords', function(keywords) {
+    keywordsSearch(name, keywords);
+  });
+
 }
 
 export var helpCenter = {
