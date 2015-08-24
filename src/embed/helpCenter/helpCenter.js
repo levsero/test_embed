@@ -149,7 +149,6 @@ function updateHelpCenterButton(name, labelKey) {
 }
 
 function keywordsSearch(name, keywords) {
-  /* jshint unused:false */
   const helpCenter = getRootComponent(name);
 
   helpCenter.performSearch(keywords, {

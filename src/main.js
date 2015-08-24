@@ -149,9 +149,9 @@ function boot() {
   handleQueue(document.zEQueue);
 
   // Post-render methods
+  win.zE.keywords = keywords;
   win.zE.identify = identify;
   win.zE.activate = activate;
-  win.zE.keywords = keywords;
   win.zE.activateNps = activateNps;
   win.zE.hide = hide;
   win.zE.show = show;
