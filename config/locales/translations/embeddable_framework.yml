@@ -82,7 +82,7 @@ parts:
   # Help Center component
   - translation: 
       key: "embeddable_framework.helpCenter.label.topSuggestions"
-      title: "The text that is shown after a contextual help search is completed with results. (http://tinyurl.com/ps6lfrn)"
+      title: "The text that is shown after a contextual help search is completed with results. (http://tinyurl.com/pkuvu72)"
       value: "Top Suggestions"
   - translation:
       key: "embeddable_framework.helpCenter.article.viewLinkText"
