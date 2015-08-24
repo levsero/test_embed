@@ -75,20 +75,23 @@ function render(name) {
 
   mediator.channel.subscribe('nps.setSurvey', (params) => {
     const nps = npses[name].instance.getRootComponent();
-    const survey = params.npsSurvey;
 
-    npses[name].instance.getRootComponent().reset();
+    if (params.npsSurvey) {
+      const survey = params.npsSurvey;
 
-    nps.setState({
-      survey: {
-        surveyId: survey.id,
-        commentsQuestion: survey.commentsQuestion,
-        highlightColor: survey.highlightColor,
-        logoUrl: survey.logoUrl,
-        question: survey.question,
-        recipientId: survey.recipientId
-      }
-    });
+      npses[name].instance.getRootComponent().reset();
+
+      nps.setState({
+        survey: {
+          surveyId: survey.id,
+          commentsQuestion: survey.commentsQuestion,
+          highlightColor: survey.highlightColor,
+          logoUrl: survey.logoUrl,
+          question: survey.question,
+          recipientId: survey.recipientId
+        }
+      });
+    }
   });
 
   mediator.channel.subscribe('nps.activate', function() {
