@@ -16,8 +16,10 @@
 
     <script src="/dist/nps.js"></script>
     <script>
-      zE
-        .renderNPS('en-GB', 1)
+      var foo = zE
+        .renderNPS('en-GB', 1);
+
+      foo
         .getRootComponent()
         .setState({
           survey: {
@@ -29,8 +31,10 @@
           }
         });
 
-      zE
-        .renderNPS('en-GB', 2)
+      var bar = zE
+        .renderNPS('en-GB', 2);
+
+      bar
         .getRootComponent()
         .setState({
           survey: {
