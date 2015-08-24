@@ -8,6 +8,7 @@ set :email_notification, ["deploys@zendesk.com",
                           "taipan@zendesk.com",
                           "engagement@zendesk.flowdock.com"]
 set :framework_files,    ["main.js",
+                          "nps.js",
                           "update.html",
                           "bootstrap.js"]
 
