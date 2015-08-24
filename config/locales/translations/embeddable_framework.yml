@@ -80,6 +80,10 @@ parts:
       value: "Email address"
 
   # Help Center component
+  - translation: 
+      key: "embeddable_framework.helpCenter.label.topSuggestions"
+      title: "The text that is shown after a contextual help search is completed with results."
+      value: "Top Suggestions"
   - translation:
       key: "embeddable_framework.helpCenter.article.viewLinkText"
       title: "The text for the link that opens the current article in a new tab"
