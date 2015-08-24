@@ -122,7 +122,11 @@ var ButtonGroup = React.createClass({
     });
 
     return (
-      <div className={buttonClasses}>{this.props.children}</div>
+      <div
+        style={this.props.style}
+        className={buttonClasses}>
+        {this.props.children}
+     </div>
     );
   }
 });

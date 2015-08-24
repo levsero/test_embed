@@ -4,7 +4,8 @@ describe('renderer', function() {
       mockSubmitTicket,
       mockLauncher,
       mockHelpCenter,
-      mockChat;
+      mockChat,
+      mockNps;
   const updateBaseFontSize = jasmine.createSpy();
   const updateFrameSize = jasmine.createSpy();
   const rendererPath = buildSrcPath('service/renderer');
@@ -35,6 +36,7 @@ describe('renderer', function() {
     mockLauncher = embedMocker('mockLauncher');
     mockHelpCenter = embedMocker('mockHelpCenter');
     mockChat = embedMocker('mockChat');
+    mockNps = embedMocker('mockNps');
 
     mockRegistry = initMockRegistry({
       'embed/submitTicket/submitTicket': {
@@ -48,6 +50,9 @@ describe('renderer', function() {
       },
       'embed/chat/chat': {
         chat: mockChat
+      },
+      'embed/nps/nps': {
+        nps: mockNps
       },
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', ['init', 'setLocale', 't'])

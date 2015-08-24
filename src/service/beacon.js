@@ -1,14 +1,14 @@
 import _ from 'lodash';
 
+import { i18n } from 'service/i18n';
+import { mediator } from 'service/mediator';
+import { store } from 'service/persistence';
+import { transport } from 'service/transport';
 import { win,
          document as doc,
-         navigator }            from 'utility/globals';
-import { transport }            from 'service/transport';
-import { store }                from 'service/persistence';
-import { i18n }                 from 'service/i18n';
+         navigator } from 'utility/globals';
 import { parseUrl,
          getFrameworkLoadTime } from 'utility/utils';
-import { mediator }             from 'service/mediator';
 
 function init() {
   const now = Date.now();

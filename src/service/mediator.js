@@ -33,6 +33,7 @@ function init(helpCenterAvailable, hideLauncher) {
   state[`${chat}.unreadMsgs`]        = 0;
   state[`${chat}.userClosed`]        = false;
   state['.hideOnClose']              = false;
+  state['identify.pending']          = false;
 
   resetActiveEmbed();
 
@@ -310,8 +311,32 @@ function init(helpCenterAvailable, hideLauncher) {
   });
 
   c.intercept(`.onIdentify`, function(__, params) {
+    state['identify.pending'] = true;
+
     c.broadcast(`beacon.identify`, params);
     c.broadcast(`${submitTicket}.prefill`, params);
+  });
+
+  c.intercept(`identify.onSuccess`, function(__, params) {
+    state['identify.pending'] = false;
+
+    c.broadcast(`nps.setSurvey`, params);
+  });
+
+  c.intercept(`nps.onActivate`, function() {
+    const maxRetries = 100;
+    let retries = 0;
+
+    const fn = () => {
+      if (!state['identify.pending']) {
+        c.broadcast(`nps.activate`);
+      } else if (retries < maxRetries) {
+        retries++;
+        setTimeout(fn, 300);
+      }
+    };
+
+    fn();
   });
 }
 

@@ -19,6 +19,31 @@ function send(payload) {
     throw 'Missing zendeskHost config param.';
   }
 
+  if (__DEV__) {
+    //
+    // MOCK RESPONSES FOR PROTOTYPE TESTING
+    //
+    if (payload.path === '/embeddable/identify') {
+      console.log(payload.params, payload.method, payload.path);
+      setTimeout(function() {
+        payload.callbacks.done({
+          body: {
+            npsSurvey: {
+              commentsQuestion: 'Will you share why?',
+              highlightColor: '#77a500',
+              id: 10017,
+              logoUrl: null,
+              question: 'How likely are you to recommend Embeddable Nps to someone you know?',
+              recipientId: 10035
+            }
+          }
+        });
+      }, 3000);
+
+      return;
+    }
+  }
+
   superagent(payload.method.toUpperCase(),
              buildFullUrl(payload.path))
     .type('json')
