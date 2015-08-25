@@ -58,7 +58,7 @@ function boot() {
     mediator.channel.broadcast('.onIdentify', user);
   };
   const keywords = function(keywords) {
-    mediator.channel.broadcast('.keywords', keywords);
+    mediator.channel.broadcast('helpCenterForm.keywords', keywords);
   };
   const activate = function(options) {
     mediator.channel.broadcast('.activate', options);
