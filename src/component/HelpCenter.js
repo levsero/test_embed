@@ -28,6 +28,7 @@ export const HelpCenter = React.createClass({
       fullscreen: isMobileBrowser(),
       previousSearchTerm: '',
       hasSearched: false,
+      hasAutoSearched: false,
       searchFailed: false,
       articleViewActive: false,
       activeArticle: {},
@@ -92,7 +93,7 @@ export const HelpCenter = React.createClass({
     this.handleSearch(true);
   },
 
-  updateResults(res) {
+  updateResults(res, auto) {
     const json = res.body;
     const articles = json.results;
 
@@ -102,6 +103,7 @@ export const HelpCenter = React.createClass({
       isLoading: false,
       previousSearchTerm: this.state.searchTerm,
       hasSearched: true,
+      hasAutoSearched: auto,
       searchFailed: false
     });
 
@@ -119,23 +121,28 @@ export const HelpCenter = React.createClass({
     this.focusField();
   },
 
-  performSearch(searchString, forceSearch) {
-    const search = (searchString, locale) => {
+  performSearch(searchString, options) {
+    options = options || {};
+    const search = (searchString, options) => {
+      /* jshint laxbreak: true */
+      options = options || {};
       transport.send({
         method: 'get',
         path: '/api/v2/help_center/search.json',
         query: {
-          locale: locale,
-          query: searchString,
-          origin: forceSearch ? 'web_widget' : null
+          locale: options.locale,
+          query: (typeof searchString === 'string')
+                  ? searchString
+                  : searchString.join(' '),
+          origin: options.forceSearch ? 'web_widget' : null
         },
         callbacks: {
           done: (res) => {
             if (res.ok) {
-              if ((locale && res.body.count > 0) || !locale) {
-                this.props.onSearch({searchString: searchString, searchLocale: locale});
-                this.updateResults(res);
-              } else {
+              if (res.body.count > 0 || !options.auto && !options.locale) {
+                this.props.onSearch({ searchString: searchString, searchLocale: options.locale });
+                this.updateResults(res, options.auto);
+              } else if (!options.auto || (options.locale && !options.auto)) {
                 search(searchString);
               }
             } else {
@@ -148,13 +155,16 @@ export const HelpCenter = React.createClass({
     };
 
     this.setState({
-      isLoading: true,
+      isLoading: !options.auto,
       searchTerm: searchString,
-      searchTracked: forceSearch,
+      searchTracked: options.forceSearch,
       searchResultClicked: false
     });
 
-    search(searchString, i18n.getLocale());
+    if (!options.locale) {
+      options.locale = i18n.getLocale();
+    }
+    search(searchString, options);
   },
 
   handleSearch(forceSearch) {
@@ -168,7 +178,7 @@ export const HelpCenter = React.createClass({
       const filteredStr = stopWordsFilter(searchString);
 
       if (filteredStr !== '') {
-        this.performSearch(filteredStr, forceSearch);
+        this.performSearch(filteredStr, {forceSearch: forceSearch});
       }
     }
   },
@@ -185,7 +195,7 @@ export const HelpCenter = React.createClass({
 
     this.props.showBackButton();
 
-    if (!this.state.searchTracked) {
+    if (!this.state.searchTracked && !this.state.hasAutoSearched) {
       this.trackSearch();
     }
   },
@@ -214,7 +224,7 @@ export const HelpCenter = React.createClass({
    * Instrument the last auto-search, if it's still pending to be instrumented
    */
   backtrackSearch() {
-    if (!this.state.searchTracked && this.state.searchTerm) {
+    if (!this.state.searchTracked && this.state.searchTerm && !this.state.hasAutoSearched) {
       this.trackSearch();
     }
   },
@@ -402,6 +412,13 @@ export const HelpCenter = React.createClass({
                     ? noResultsTemplate()
                     : null;
 
+    const resultsLegend = this.state.hasAutoSearched
+                        ? i18n.t(
+                            'embeddable_framework.helpCenter.label.topSuggestions',
+                            { fallback: 'Top Suggestions' }
+                          )
+                        : i18n.t('embeddable_framework.helpCenter.label.results');
+
     return (
       /* jshint laxbreak: true */
       <Container
@@ -443,7 +460,7 @@ export const HelpCenter = React.createClass({
 
               <h1 className={formLegendClasses}>
                 <span className='Arrange-sizeFill'>
-                  {i18n.t('embeddable_framework.helpCenter.label.results')}
+                  {resultsLegend}
                 </span>
               </h1>
 
