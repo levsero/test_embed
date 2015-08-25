@@ -22,17 +22,18 @@ export const SubmitTicketForm = React.createClass({
       isRTL: i18n.isRTL(),
       removeTicketForm: false,
       formState: {},
-      showErrorMessage: false
-    };
-  },
-
-  getDefaultProps() {
-    return {
-      fullscreen: false,
+      showErrorMessage: false,
       cancelButtonMessage: i18n.t(
         'embeddable_framework.submitTicket.form.cancelButton.label.cancel',
         {fallback: 'Cancel'}
       )
+    };
+
+  },
+
+  getDefaultProps() {
+    return {
+      fullscreen: false
     };
   },
 
@@ -184,7 +185,7 @@ export const SubmitTicketForm = React.createClass({
     const buttonCancel = (this.props.fullscreen)
                        ? null
                        : <ButtonSecondary
-                           label={this.props.cancelButtonMessage}
+                           label={this.state.cancelButtonMessage}
                            onClick={this.props.onCancel}
                            fullscreen={this.props.fullscreen} />;
 
