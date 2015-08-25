@@ -17,17 +17,23 @@ const ParentNps = React.createClass({
     this.refs.nps.setState(this.state);
   },
 
-  render() {
-    if (this.props.updateFrameSize) {
-      setTimeout(() => this.props.updateFrameSize(), 0);
-    }
+  fakeSubmit(params, done, fail) {
+    setTimeout(() => {
+      done();
+    }, 1500)
+  },
 
+  render() {
     return (this.state.isMobile)
       ? <div
           ref='nps'
+          npsSender={this.fakeSubmit}
+          updateFrameSize={this.props.updateFrameSize}
           style={{background: "red", height: 100, width: 100}} />
       : <Nps
           ref='nps'
+          npsSender={this.fakeSubmit}
+          updateFrameSize={this.props.updateFrameSize}
           style={{width: '375px', margin: '15px' }} />
   }
 });
