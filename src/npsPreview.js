@@ -5,13 +5,6 @@ import { i18n }         from 'service/i18n';
 
 const npsCSS = require('embed/nps/nps.scss');
 
-const frameParams = {
-  css: npsCSS,
-  frameStyle: {
-    position: 'static'
-  }
-};
-
 const ParentNps = React.createClass({
   getInitialState() {
     return {
@@ -30,13 +23,24 @@ const ParentNps = React.createClass({
     }
 
     return (this.state.isMobile)
-        ? <div ref='nps' style={{background: "red", height: 100, width: 100}} />
-        : <Nps ref='nps' style={{width: '375px', margin: '15px' }} />
+      ? <div
+          ref='nps'
+          style={{background: "red", height: 100, width: 100}} />
+      : <Nps
+          ref='nps'
+          style={{width: '375px', margin: '15px' }} />
   }
 });
 
-const renderNPS = (locale = 'en-GB', id) => {
+const renderNPS = (locale = 'en-US', id) => {
   i18n.setLocale(locale, true);
+
+  const frameParams = {
+    css: npsCSS,
+    frameStyle: {
+      position: 'static'
+    }
+  };
 
   const Embed = React.createClass(frameFactory(
     (params) => {
