@@ -24,8 +24,7 @@ export const SubmitTicketForm = React.createClass({
       formState: {},
       showErrorMessage: false,
       cancelButtonMessage: i18n.t(
-        'embeddable_framework.submitTicket.form.cancelButton.label.cancel',
-        {fallback: 'Cancel'}
+        'embeddable_framework.submitTicket.form.cancelButton.label.cancel'
       )
     };
 
