@@ -137,10 +137,23 @@ export const HelpCenter = React.createClass({
         callbacks: {
           done: (res) => {
             if (res.ok) {
-              if (res.body.count > 0 || !options.auto && !options.locale) {
+              /**
+               *
+               * [1] If we have results, no matter if this was a contextual search
+               * or a user search, we update/show the results.
+               * [2] If locales were passed, and was a user prompted search (not
+               * an automatic contextual one) we'll fire another search without locale
+               * to maximise the chances of getting results back.
+               * [1] After performing a user prompted search without locale we'll update
+               * the results, even if we got no results, we'll display the appropriate content
+               *
+               * If it's automatic contextual help, and no results came through, we do nothing
+               *
+               */
+              if (res.body.count > 0 || !options.auto && !options.locale) { /* 1 */
                 this.props.onSearch({ searchString: searchString, searchLocale: options.locale });
                 this.updateResults(res, options.auto);
-              } else if (!options.auto || (options.locale && !options.auto)) {
+              } else if (!options.auto || (options.locale && !options.auto)) { /* 2 */
                 search(searchString);
               }
             } else {
