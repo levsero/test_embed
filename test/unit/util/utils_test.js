@@ -2,6 +2,7 @@ describe('util.setScaleLock', function() {
   let setScaleLock,
       metaStringToObj,
       mockRegistry,
+      cleanPath,
       metaTag;
   const utilPath = buildSrcPath('util/utils');
 
@@ -31,6 +32,7 @@ describe('util.setScaleLock', function() {
 
     setScaleLock = require(utilPath).setScaleLock;
     metaStringToObj = require(utilPath).metaStringToObj;
+    cleanPath = require(utilPath).cleanPath;
 
     metaTag = document.createElement('meta');
     metaTag.name = 'viewport';
@@ -189,6 +191,19 @@ describe('util.setScaleLock', function() {
         .toBeUndefined();
     });
 
+  });
+
+  describe('cleanPath()', function() {
+    it('should clean a path with symbols', function() {
+      expect(cleanPath('/this/is/a-1-path.html'))
+        .toEqual('this is a 1 path html');
+
+      expect(cleanPath('/this/is/a-2-path.html', false))
+        .toEqual('this is a 2 path');
+
+      expect(cleanPath('!/thi$/is/1@-_path.html', false))
+        .toEqual('thi is 1 path');
+    });
   });
 
 });

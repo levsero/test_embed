@@ -132,6 +132,34 @@ function parseUrl(url) {
   return anchor;
 }
 
+/**
+ * Given a URL/path extract the strings on it
+ *
+ * @param  {string}  path          The URL/path e.g. "domain.com/foo/bar.index.html"
+ * @param  {boolean} withExtension Include the extension of the file, if there is one
+ * @return {string}                The clean string
+ */
+function cleanPath(path, withExtension=true) {
+  if (!withExtension) {
+    path = path.replace(/\..[^.]{1,3}$/g , ' ');
+  }
+
+  return cleanString(path);
+}
+
+/**
+ * Remove any non-alphanumeric characters from a string
+ *
+ * @param  {string} str The string to clean
+ * @return {string}     The clean string
+ */
+function cleanString(str) {
+  return str.replace(/\W+/g , ' ')
+            .replace(/_/g , ' ')
+            .replace(/ +/g , ' ')
+            .trim();
+}
+
 function clickBusterRegister(x, y) {
   clickBusterClicks.push([x, y]);
 }
@@ -178,5 +206,7 @@ export {
   clickBusterHandler,
   metaStringToObj,
   getFrameworkLoadTime,
-  generateUserCSS
+  generateUserCSS,
+  cleanString,
+  cleanPath
 };

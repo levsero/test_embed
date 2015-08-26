@@ -27,6 +27,7 @@ function create(name, config) {
   };
   const configDefaults = {
     position: 'right',
+    contextualHelpEnabled: false,
     hideZendeskLogo: false
   };
   const onNextClick = function() {
@@ -63,6 +64,7 @@ function create(name, config) {
         <HelpCenter
           ref='rootComponent'
           hideZendeskLogo={config.hideZendeskLogo}
+          contextualHelpEnabled={config.contextualHelpEnabled}
           onNextClick={onNextClick}
           onSearch={onSearch}
           position={config.position}
