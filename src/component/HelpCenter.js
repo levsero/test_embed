@@ -121,11 +121,9 @@ export const HelpCenter = React.createClass({
     this.focusField();
   },
 
-  performSearch(searchString, options) {
-    options = options || {};
-    const search = (searchString, options) => {
+  performSearch(searchString, options={}) {
+    const search = (searchString, options={}) => {
       /* jshint laxbreak: true */
-      options = options || {};
       transport.send({
         method: 'get',
         path: '/api/v2/help_center/search.json',
@@ -178,7 +176,7 @@ export const HelpCenter = React.createClass({
       const filteredStr = stopWordsFilter(searchString);
 
       if (filteredStr !== '') {
-        this.performSearch(filteredStr, {forceSearch: forceSearch});
+        this.performSearch(filteredStr, { forceSearch: forceSearch });
       }
     }
   },

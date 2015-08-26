@@ -244,7 +244,7 @@ describe('Help center component', function() {
       const searchKeywords = ['foo', 'bar'];
       let recentCallArgs;
 
-      helpCenter.performSearch(searchKeywords, {auto: true});
+      helpCenter.performSearch(searchKeywords, { auto: true });
 
       helpCenter.updateResults = updateResults;
 
