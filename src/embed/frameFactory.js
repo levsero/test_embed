@@ -15,6 +15,7 @@ const baseCSS = require('baseCSS');
 const mainCSS = require('mainCSS');
 const sizingRatio = 12 * getSizingRatio(false, true); /* jshint ignore:line */
 const baseFontCSS = `html { font-size: ${sizingRatio}px }`;
+const iframeNamespace = 'ZEWidget-';
 
 function validateChildFn(childFn, params) {
   if (!_.isFunction(childFn)) {
@@ -227,9 +228,13 @@ export var frameFactory = function(childFn, _params) {
         this.state.iframeDimensions,
         visibilityRule
       );
+      const isVisibleClassSet = classSet({
+        [`${iframeNamespace}${params.name}--active`]: this.state.visible,
+        [`${iframeNamespace}${params.name}`]: true
+      });
 
       return (
-        <iframe style={iframeStyle} id={params.name} />
+        <iframe style={iframeStyle} id={params.name} className={isVisibleClassSet} />
       );
     },
 
