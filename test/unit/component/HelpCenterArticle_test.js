@@ -174,23 +174,24 @@ describe('HelpCenterArticle component', function() {
       <HelpCenterArticle activeArticle={mockArticle} />,
       global.document.body
     );
+    const helpCenterArticleNode = helpCenterArticle.getDOMNode();
 
     // componentdidupdate only fires after setState not on initial render
     helpCenterArticle.setState({ foo: 'bar' });
 
-    expect(helpCenterArticle.getDOMNode().querySelector('#foo').innerHTML)
+    expect(helpCenterArticleNode.querySelector('#foo').innerHTML)
       .toMatch('Foobar');
 
-    expect(helpCenterArticle.getDOMNode().querySelector('a[href="#foo"]').innerHTML)
+    expect(helpCenterArticleNode.querySelector('a[href="#foo"]').innerHTML)
       .toMatch('inpage link');
 
-    expect(helpCenterArticle.getDOMNode().querySelector('a[href^="/relative"]').innerHTML)
+    expect(helpCenterArticleNode.querySelector('a[href^="/relative"]').innerHTML)
       .toMatch('relative link');
 
-    expect(helpCenterArticle.getDOMNode().querySelector('#preserved').innerHTML)
+    expect(helpCenterArticleNode.querySelector('#preserved').innerHTML)
       .toMatch('This text contains a sub-note<sub>1</sub>');
 
-    expect(helpCenterArticle.getDOMNode().querySelector('#notes').innerHTML)
+    expect(helpCenterArticleNode.querySelector('#notes').innerHTML)
       .toMatch('<sup>1</sup>This explains the note');
   });
 
