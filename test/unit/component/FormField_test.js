@@ -24,7 +24,15 @@ describe('FormField component', function() {
     initMockRegistry({
       'react/addons': React,
       'component/Loading': {
-        LoadingEllipses: noopReactComponent()
+        LoadingEllipses: React.createClass({
+          render: function() {
+            return (
+              <div className={`Loading ${this.props.className}`}>
+                <div className='Loading-item'></div>
+              </div>
+            );
+          }
+        })
       },
       'component/Icon': {
         Icon: React.createClass({
@@ -383,6 +391,56 @@ describe('FormField component', function() {
 
       expect(onChangeValue)
         .toHaveBeenCalledWith('');
+    });
+
+    it('should display `Loading` component when `this.props.isLoading` is truthy', function() {
+      const searchField = React.render(
+        <SearchField isLoading={true} />,
+        global.document.body
+      );
+      const loadingNode = ReactTestUtils.findRenderedDOMComponentWithClass(searchField, 'Loading');
+
+      expect(loadingNode.props.className)
+        .not.toMatch('u-isHidden');
+    });
+
+    it('should not display `Loading` component when `this.props.isLoading` is falsy', function() {
+      const searchField = React.render(
+        <SearchField isLoading={false} />,
+        global.document.body
+      );
+      const loadingNode = ReactTestUtils.findRenderedDOMComponentWithClass(searchField, 'Loading');
+
+      expect(loadingNode.props.className)
+        .toMatch('u-isHidden');
+    });
+
+    it('should display `clearInput` Icon when `this.state.isClearable` is truthy', function() {
+      const searchField = React.render(
+        <SearchField />,
+        global.document.body
+      );
+      const clearInputNode = ReactTestUtils.findRenderedDOMComponentWithClass(
+                               searchField, 'Icon--clearInput');
+
+      searchField.setState({ isClearable: true });
+
+      expect(clearInputNode.props.className)
+        .not.toMatch('u-isHidden');
+    });
+
+    it('should not display `clearInput` Icon when `this.state.isClearable` is falsy', function() {
+      const searchField = React.render(
+        <SearchField />,
+        global.document.body
+      );
+      const clearInputNode = ReactTestUtils.findRenderedDOMComponentWithClass(
+                               searchField, 'Icon--clearInput');
+
+      searchField.setState({ isClearable: false });
+
+      expect(clearInputNode.props.className)
+        .toMatch('u-isHidden');
     });
   });
 
