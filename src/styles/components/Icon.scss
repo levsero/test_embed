@@ -207,3 +207,8 @@
     margin-left: -#{1/$font-size}rem;
   }
 }
+
+.Icon--clearInput {
+  padding-bottom: #{3/$font-size}rem !important;
+  padding-right: #{4/$font-size}rem !important;
+}

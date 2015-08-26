@@ -478,9 +478,11 @@ const SearchField = React.createClass({
           </div>
           <div className='Arrange-sizeFit u-isActionable'>
             <LoadingEllipses className={loadingClasses} />
-            <div
+            <Icon
               onClick={this.clearInput}
-              className={clearInputClasses} />
+              onTouch={this.clearInput}
+              className={clearInputClasses}
+              type="Icon--close" />
           </div>
         </label>
       </div>
