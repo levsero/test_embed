@@ -31,8 +31,9 @@ describe('FormField component', function() {
           render: function() {
             return (
               <span
-                className={`Icon ${this.props.type}`}
-                onClick={this.props.onClick}>
+                className={this.props.className}
+                onClick={this.props.onClick}
+                type={`${this.props.type}`}>
                 <svg />
               </span>
             );
@@ -359,7 +360,7 @@ describe('FormField component', function() {
       );
       const searchFieldNode = searchField.getDOMNode();
 
-      ReactTestUtils.Simulate.click(searchFieldNode.querySelector('.Icon--search'));
+      ReactTestUtils.Simulate.click(searchFieldNode.querySelector('span[type=Icon--search]'));
 
       expect(onSearch)
         .toHaveBeenCalled();
