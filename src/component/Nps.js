@@ -10,7 +10,7 @@ import { Loading } from 'component/Loading';
 
 const classSet = React.addons.classSet;
 
-const ScoreButton = React.createClass({
+const RatingButton = React.createClass({
   getDefaultProps() {
     return {
       highlightColor: '',
@@ -59,26 +59,26 @@ export const Nps = React.createClass({
         recipientId: null
       },
       response: {
-        score: null,
+        rating: null,
         comment: ''
       },
       commentFieldDirty: false,
-      isSubmittingScore: false,
+      isSubmittingRating: false,
       isSubmittingComment: false,
       surveyCompleted: false
     };
   },
 
-  sendScore() {
+  sendRating() {
     const params = {
       npsResponse: {
         surveyId: this.state.survey.surveyId,
         recipientId: this.state.survey.recipientId,
-        score: this.state.response.score
+        rating: this.state.response.rating
       }
     };
     const doneFn = () => {
-      this.setState({ isSubmittingScore: false });
+      this.setState({ isSubmittingRating: false });
     };
     const failFn = () => {};
 
@@ -90,7 +90,7 @@ export const Nps = React.createClass({
       npsResponse: {
         surveyId: this.state.survey.surveyId,
         recipientId: this.state.survey.recipientId,
-        score: this.state.response.score,
+        rating: this.state.response.rating,
         comment: this.state.response.comment
       }
     };
@@ -105,13 +105,13 @@ export const Nps = React.createClass({
     this.props.npsSender(params, doneFn, failFn);
   },
 
-  scoreClickHandler(score) {
+  ratingClickHandler(rating) {
     return () => {
       this.setState({
-        response: _.extend({}, this.state.response, { score: score }),
-        isSubmittingScore: true
+        response: _.extend({}, this.state.response, { rating: rating }),
+        isSubmittingRating: true
       });
-      setTimeout(this.sendScore, 0);
+      setTimeout(this.sendRating, 0);
       setTimeout(() => {
         this.refs.commentField.refs.field.getDOMNode().focus();
       }, 100);
@@ -142,7 +142,7 @@ export const Nps = React.createClass({
     }
 
     const commentsClasses = classSet({
-      'u-isHidden': this.state.response.score === null
+      'u-isHidden': this.state.response.rating === null
     });
     const sendButtonClasses = classSet({
       'u-isHidden': (!this.state.commentFieldDirty
@@ -156,32 +156,32 @@ export const Nps = React.createClass({
       'u-textCenter': true,
       'u-isHidden': !this.state.surveyCompleted
     });
-    const scoreListItemTemplate = (score) => {
-      const isSelected = this.state.response.score === score;
+    const ratingListItemTemplate = (rating) => {
+      const isSelected = this.state.response.rating === rating;
       const props = {
-        label: score,
-        loading: isSelected && this.state.isSubmittingScore,
+        label: rating,
+        loading: isSelected && this.state.isSubmittingRating,
         selected: isSelected,
         highlightColor: this.state.survey.highlightColor,
-        onClick: this.scoreClickHandler(score)
+        onClick: this.ratingClickHandler(rating)
       };
 
       return (
         <li>
-          <ScoreButton {...props} />
+          <RatingButton {...props} />
         </li>
       );
     };
-    const scoreListItems = _.range(11) // 0...10
-                            .map(scoreListItemTemplate);
+    const ratingListItems = _.range(11) // 0...10
+                             .map(ratingListItemTemplate);
 
     return (
       <Container style={this.props.style}>
         <div style={{ padding: '35px 10px 10px' }}> {/* FIXME: css */}
           <p>{this.state.survey.question}</p>
 
-          <ol className='nps-scores'>
-            {scoreListItems}
+          <ol className='nps-ratings'>
+            {ratingListItems}
           </ol>
 
           <div className={commentsClasses}>

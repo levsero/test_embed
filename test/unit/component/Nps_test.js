@@ -43,30 +43,30 @@ describe('Nps component', function() {
     mockery.disable();
   });
 
-  it('sends the correct score', function() {
+  it('sends the correct rating', function() {
     const npsSender = jasmine.createSpy('npsSender');
     const nps = React.render(
       <Nps npsSender={npsSender} />,
       global.document.body
     );
 
-    const score = 5;
+    const rating = 5;
 
     nps.setState({
       response: {
-        score: score
+        rating: rating
       }
     });
 
-    nps.sendScore();
+    nps.sendRating();
 
     expect(npsSender)
       .toHaveBeenCalled();
 
     const params = npsSender.calls.mostRecent().args[0];
 
-    expect(params.npsResponse.score)
-      .toEqual(score);
+    expect(params.npsResponse.rating)
+      .toEqual(rating);
   });
 
   it('sends the correct comment', function() {
@@ -76,12 +76,12 @@ describe('Nps component', function() {
       global.document.body
     );
 
-    const score = 5;
+    const rating = 5;
     const comment = 'A comment';
 
     nps.setState({
       response: {
-        score: score,
+        rating: rating,
         comment: comment
       }
     });
@@ -93,8 +93,8 @@ describe('Nps component', function() {
 
     const params = npsSender.calls.mostRecent().args[0];
 
-    expect(params.npsResponse.score)
-      .toEqual(score);
+    expect(params.npsResponse.rating)
+      .toEqual(rating);
 
     expect(params.npsResponse.comment)
       .toEqual(comment);
