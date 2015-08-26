@@ -173,7 +173,7 @@ export const Nps = React.createClass({
       );
     };
     const ratingListItems = _.range(11) // 0...10
-                            .map(ratingListItemTemplate);
+                             .map(ratingListItemTemplate);
 
     return (
       <Container style={this.props.style}>
