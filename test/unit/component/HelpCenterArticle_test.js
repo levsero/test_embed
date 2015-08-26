@@ -168,4 +168,45 @@ describe('HelpCenterArticle component', function() {
     expect(scrollIntoView)
       .toHaveBeenCalled();
   });
+
+  it('should display an article body if a prop was passed with truthy content body', function() {
+    const helpCenterArticle = React.render(
+      <HelpCenterArticle activeArticle={mockArticle} />,
+      global.document.body
+    );
+
+    // componentdidupdate only fires after setState not on initial render
+    helpCenterArticle.setState({ foo: 'bar' });
+
+    expect(helpCenterArticle.getDOMNode().querySelector('#foo').innerHTML)
+      .toMatch('Foobar');
+
+    expect(helpCenterArticle.getDOMNode().querySelector('a[href="#foo"]').innerHTML)
+      .toMatch('inpage link');
+
+    expect(helpCenterArticle.getDOMNode().querySelector('a[href^="/relative"]').innerHTML)
+      .toMatch('relative link');
+
+    expect(helpCenterArticle.getDOMNode().querySelector('#preserved').innerHTML)
+      .toMatch('This text contains a sub-note<sub>1</sub>');
+
+    expect(helpCenterArticle.getDOMNode().querySelector('#notes').innerHTML)
+      .toMatch('<sup>1</sup>This explains the note');
+  });
+
+  it('should display an empty article body if a prop was passed with no content body', function() {
+    const helpCenterArticle = React.render(
+      <HelpCenterArticle activeArticle={mockArticle} />,
+      global.document.body
+    );
+
+    // componentdidupdate only fires after setState not on initial render
+    helpCenterArticle.setState({ foo: 'bar' });
+
+    // Assume user has visited another article with no content
+    helpCenterArticle.replaceProps({ activeArticle: { body: `` } });
+
+    expect(helpCenterArticle.refs.article.getDOMNode().innerHTML)
+      .toEqual('');
+  });
 });
