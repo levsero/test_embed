@@ -42,7 +42,7 @@ const RatingButton = React.createClass({
   }
 });
 
-export const Nps = React.createClass({
+export const NpsDesktop = React.createClass({
   propTypes: {
     updateFrameSize: React.PropTypes.func,
     npsSender: React.PropTypes.func.isRequired
