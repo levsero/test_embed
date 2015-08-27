@@ -16,6 +16,9 @@ describe('ButtonGroup component', function() {
       'component/Icon': {
         Icon: noopReactComponent()
       },
+      'component/Loading': {
+        LoadingElipses: noopReactComponent()
+      },
       'service/i18n': noop
     });
 

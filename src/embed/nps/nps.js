@@ -1,23 +1,29 @@
 import React from 'react/addons';
+import _     from 'lodash';
 
-import { frameFactory } from 'embed/frameFactory';
-import { Nps } from 'component/Nps';
-import { mediator } from 'service/mediator';
-import { store } from 'service/persistence';
-import { transport } from 'service/transport';
+import { frameFactory }     from 'embed/frameFactory';
+import { Nps }              from 'component/Nps';
+import { mediator }         from 'service/mediator';
+import { store }            from 'service/persistence';
+import { transport }        from 'service/transport';
+
 import { document,
-         getDocumentHost } from 'utility/globals';
-import { isMobileBrowser } from 'utility/devices';
+         getDocumentHost }  from 'utility/globals';
+import { isMobileBrowser }  from 'utility/devices';
 
 const npsCSS = require('./nps.scss');
 
 let npses = {};
 
-function create(name, config) {
+function create(name, config = {}) {
   const frameStyle = {
     position: 'fixed',
-    right: '0px',
-    top: '0px'
+    bottom: '0',
+    right: '0',
+    display: 'block',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    width: '100% !important'
   };
 
   const npsSender = function(params, doneFn, failFn) {
@@ -52,16 +58,16 @@ function create(name, config) {
       mediator.channel.broadcast('nps.onShow');
     }
   };
-
   let Embed = React.createClass(frameFactory(
     (params) => {
       return (
         <Nps
           ref='rootComponent'
+          setFrameSize={params.setFrameSize}
           updateFrameSize={params.updateFrameSize}
           npsSender={npsSender}
           mobile={isMobileBrowser()}
-          style={{width: '375px', margin: '15px'}} /> /* FIXME: css */
+          userDefinedColor={config.color} />
       );
     },
     frameParams
@@ -79,7 +85,6 @@ function get(name) {
 
 function render(name) {
   const element = getDocumentHost().appendChild(document.createElement('div'));
-
   npses[name].instance = React.render(npses[name].component, element);
 
   mediator.channel.subscribe('nps.setSurvey', (params) => {
@@ -87,17 +92,24 @@ function render(name) {
     const survey = params.npsSurvey;
 
     if (survey && survey.id) {
+      let newNpsSurveyState = _.extend(nps.state.survey, {
+        surveyId: survey.id,
+        commentsQuestion: survey.commentsQuestion,
+        highlightColor: survey.highlightColor,
+        logoUrl: survey.logoUrl,
+        question: survey.question,
+        recipientId: survey.recipientId,
+        thankYou: survey.thankYou || 'Thank You', // SKETCHY FIXME
+        youRated: survey.youRated || 'You rated us a ', // SKETCHY FIXME
+        likelyLabel: survey.likelyLabel || '10 = Extremely likely', // SKETCHY FIXME
+        notLikelyLabel: survey.notLikelyLabel || '0 = Not likely', // SKETCHY FIXME
+        // SKETCHY FIXME
+        feedbackPlaceholder: survey.feedbackPlaceholder || 'Write your comments here...'
+      });
       npses[name].instance.getRootComponent().reset();
 
       nps.setState({
-        survey: {
-          surveyId: survey.id,
-          commentsQuestion: survey.commentsQuestion,
-          highlightColor: survey.highlightColor,
-          logoUrl: survey.logoUrl,
-          question: survey.question,
-          recipientId: survey.recipientId
-        },
+        survey: newNpsSurveyState,
         surveyAvailable: true
       });
     } else {
@@ -136,7 +148,7 @@ function render(name) {
   });
 }
 
-function getDismissTimestampKey(survey) {
+function getDismissTimestampKey(survey = {}) {
   return [
     transport.getZendeskHost(),
     survey.surveyId,

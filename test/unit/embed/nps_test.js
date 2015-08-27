@@ -24,6 +24,11 @@ describe('embed.nps', () => {
       'component/Nps': {
         Nps: React.createClass({
           reset: jasmine.createSpy('reset'),
+          getInitialState() {
+            return {
+              survey: {}
+            };
+          },
           render() {
             return (
               <div className='mock-nps' />

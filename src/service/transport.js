@@ -29,7 +29,7 @@ function send(payload) {
         payload.callbacks.done({
           body: {
             npsSurvey: {
-              commentsQuestion: 'Will you share why?',
+              commentsQuestion: 'Can you tell us why?',
               highlightColor: '#77a500',
               id: 10017,
               logoUrl: null,

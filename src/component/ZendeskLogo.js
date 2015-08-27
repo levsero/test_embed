@@ -13,7 +13,8 @@ export var ZendeskLogo = React.createClass({
       'u-posAbsolute u-posEnd--vert': !fullscreen || formSuccess,
       'u-posRelative': fullscreen,
       'u-posStart': !rtl,
-      'u-posEnd': rtl
+      'u-posEnd': rtl,
+      [`${this.props.className}`]: true
     });
     const logoUrl = [
       '//www.zendesk.com/embeddables/',

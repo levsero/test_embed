@@ -2,21 +2,31 @@ import React from 'react/addons';
 
 const classSet = React.addons.classSet;
 
-export var Loading = React.createClass({
+export const LoadingSpinner = React.createClass({
+  render() {
+    return (
+      <div className='Loadingspinner'
+        style={{ borderColor: this.props.generateHighlightColor(this.props.highlightColor) }}>
+      </div>
+    );
+  }
+});
+
+export const LoadingElipses = React.createClass({
   render() {
     /* jshint quotmark:false */
-    const loadingItemClasses = classSet({
-      'Loading-item': true,
+    const loadingElipsesItemClasses = classSet({
+      'LoadingElipses-item': true,
       'u-userBackgroundColor': true,
       'u-inlineBlock': true
     });
-    const loadingClasses = `Loading u-textCenter ${this.props.className}`;
+    const loadingElipsesClasses = `LoadingElipses u-textCenter ${this.props.className}`;
 
     return (
-      <div className={loadingClasses}>
-        <div className={loadingItemClasses}></div>
-        <div className={loadingItemClasses}></div>
-        <div className={loadingItemClasses}></div>
+      <div className={loadingElipsesClasses}>
+        <div className={loadingElipsesItemClasses}></div>
+        <div className={loadingElipsesItemClasses}></div>
+        <div className={loadingElipsesItemClasses}></div>
       </div>
     );
   }

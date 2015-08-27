@@ -162,6 +162,16 @@
   }
 }
 
+.Icon--caret {
+   svg {
+    fill: $secondary-color;
+    min-width: #{7/$font-size}rem; /* 1 */
+    min-height: #{7/$font-size}rem; /* 1 */
+    height: #{7/$font-size}rem;
+    width: #{7/$font-size}rem;
+  }
+}
+
 .Icon--dropdownArrow {
   display: block;
   width: 0;

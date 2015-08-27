@@ -48,7 +48,7 @@ describe('NpsDesktop component', function() {
         Field: noopReactComponent()
       },
       'component/Loading': {
-        Loading: noopReactComponent()
+        LoadingElipses: noopReactComponent()
       }
     });
 

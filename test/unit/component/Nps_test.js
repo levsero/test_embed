@@ -20,9 +20,40 @@ describe('Nps component', function() {
             );
           }
         })
+      },
+      'component/NpsMobile': {
+        NpsMobile: React.createClass({
+          render() {
+            return (
+              <div className='nps-mobile' />
+            );
+          }
+        })
+      },
+      'component/Container': {
+        Container: React.createClass({
+          render: function() {
+            return <div>{this.props.children}</div>;
+          }
+        }),
+      },
+      'component/Button': {
+        Button: noopReactComponent(),
+        ButtonSecondary: noopReactComponent(),
+        ButtonGroup: noopReactComponent()
+      },
+      'utility/devices': {
+        isMobileBrowser: function() {
+          return false;
+        }
+      },
+      'component/FormField': {
+        Field: noopReactComponent()
+      },
+      'component/Loading': {
+        LoadingElipses: noopReactComponent()
       }
     });
-
     Nps = requireUncached(npsPath).Nps;
   });
 

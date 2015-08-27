@@ -1,7 +1,7 @@
 import React from 'react/addons';
 import _     from 'lodash';
 
-import { Loading }         from 'component/Loading';
+import { LoadingElipses }  from 'component/Loading';
 import { isMobileBrowser } from 'utility/devices';
 import { i18n }            from 'service/i18n';
 import { Icon }            from 'component/Icon';
@@ -416,7 +416,7 @@ var SearchField = React.createClass({
               type='search' />
           </div>
           <div className='Arrange-sizeFit u-isActionable'>
-            <Loading className={loadingClasses} />
+            <LoadingElipses className={loadingClasses} />
             <div
               onClick={this.clearInput}
               className={clearInputClasses} />

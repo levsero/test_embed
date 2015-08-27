@@ -98,6 +98,10 @@ $Base-posOffset: $med + 1;
   margin-bottom: $spacing-lrg !important;
 }
 
+.u-marginBXL{
+  margin-bottom: #{30/$font-size}rem !important;
+}
+
 .u-marginTA {
   margin-top: auto !important;
 }
@@ -135,6 +139,11 @@ $Base-posOffset: $med + 1;
   margin-right: $spacing-lrg !important;
 }
 
+.u-marginHM {
+  margin-left: $spacing-med !important;
+  margin-right: $spacing-med !important;
+}
+
 .u-paddingAL {
   padding: $spacing-lrg !important;
 }
@@ -142,6 +151,11 @@ $Base-posOffset: $med + 1;
 .u-paddingHN {
   padding-left: 0 !important;
   padding-right: 0 !important;
+}
+
+.u-paddingHT {
+  padding-left: $spacing-tny !important;
+  padding-right: $spacing-tny !important;
 }
 
 .u-paddingHL {

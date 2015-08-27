@@ -80,6 +80,31 @@ export var frameFactory = function(childFn, _params) {
       }
     },
 
+    setFrameSize: function(height = false, width = false) {
+      const iframe = this.getDOMNode();
+      const frameWin = iframe.contentWindow;
+      const frameDoc = iframe.contentDocument;
+      let dimensions = {
+        height: height || '100%',
+        width: width || `${win.innerWidth}px`,
+        background: '#fff',
+        zIndex: '999999'
+      };
+      if (params.fullscreenable && isMobileBrowser()) {
+        frameDoc.body.firstChild.setAttribute(
+          'style',
+          ['width: 100%',
+          'height: 100%',
+          'overflow-x: hidden'].join(';')
+        );
+      }
+
+      frameWin.setTimeout(
+        () => this.setState(
+          { iframeDimensions: _.extend(this.state.iframeDimensions, dimensions) }
+        ), 0);
+    },
+
     updateFrameSize: function(offsetWidth = 0, offsetHeight = 0) {
       const iframe = this.getDOMNode();
       const frameWin = iframe.contentWindow;
@@ -230,6 +255,7 @@ export var frameFactory = function(childFn, _params) {
         this.state.iframeDimensions,
         visibilityRule
       );
+
       const iframeClasses = classSet({
         [`${iframeNamespace}-${params.name}`]: true,
         [`${iframeNamespace}-${params.name}--active`]: this.state.visible
@@ -270,7 +296,7 @@ export var frameFactory = function(childFn, _params) {
         const css = <style dangerouslySetInnerHTML={{ __html: cssText }} />;
         const fullscreen = isMobileBrowser() && params.fullscreenable;
         const positionClasses = classSet({
-          'u-borderTransparent u-posRelative': true,
+          'u-borderTransparent u-posRelative': !fullscreen,
           'u-pullRight': this.props.position === 'right',
           'u-pullLeft': this.props.position === 'left'
         });
@@ -310,7 +336,8 @@ export var frameFactory = function(childFn, _params) {
         // Forcefully injects this.updateFrameSize
         // into childParams
         childParams = _.extend(childParams, {
-          updateFrameSize: this.updateFrameSize
+          updateFrameSize: this.updateFrameSize,
+          setFrameSize: this.setFrameSize
         });
 
         const Component = React.createClass({
