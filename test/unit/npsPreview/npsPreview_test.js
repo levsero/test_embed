@@ -23,9 +23,10 @@ describe('npsPreview entry file', function() {
             };
           },
           render() {
+            /* jshint laxbreak: true */
             return (this.state.isMobile)
-              ? <div className='nps-mobile' />
-              : <div className='nps-desktop' />;
+              ? <div className='nps-mobile'>{this.state.survey.question}</div>
+              : <div className='nps-desktop'>{this.state.survey.question}</div>;
           }
         })
       },
@@ -57,7 +58,11 @@ describe('npsPreview entry file', function() {
 
   describe('zE.renderNps', function() {
     it('calling zE.renderNps returns object with two methods', function() {
-      let nps = window.zE.renderNps('en-US', document.body);
+      const elem = document.body.appendChild(document.createElement('div'));
+      const nps = window.zE.renderNps('en-US', elem);
+
+      expect(mockRegistry['service/i18n'].i18n.setLocale)
+        .toHaveBeenCalledWith('en-US', true);
 
       expect(nps)
         .toEqual(jasmine.any(Object));
@@ -70,36 +75,37 @@ describe('npsPreview entry file', function() {
     });
 
     it('calling zE.renderNps writes to DOM', function() {
-      let nps = window.zE.renderNps('en-US', document.body);
+      const elem = document.body.appendChild(document.createElement('div'));
 
-      expect(document.body.querySelectorAll('.mock-frame').length)
-        .toEqual(1);
+      window.zE.renderNps('en-US', elem);
 
-      expect(document.body.querySelectorAll('.mock-frame .nps-desktop').length)
+      expect(document.body.querySelectorAll('.nps-desktop').length)
         .toEqual(1);
     });
 
     it('calling nps.setMobile(true) switches nps component', function() {
-      let nps = window.zE.renderNps('en-US', document.body);
+      const elem = document.body.appendChild(document.createElement('div'));
+      const nps = window.zE.renderNps('en-US', elem);
 
       nps.setMobile(true);
 
-      expect(mockRegistry['embed/frameFactory'].frameMethods.getRootComponent().setState)
-        .toHaveBeenCalledWith({isMobile: true});
+      expect(document.body.querySelectorAll('.nps-mobile').length)
+        .toEqual(1);
     });
 
     it('calling nps.setSurvey({...}) updates nps survey state', function() {
-      let nps = window.zE.renderNps('en-US', document.body);
-      let survey = {
+      const elem = document.body.appendChild(document.createElement('div'));
+      const nps = window.zE.renderNps('en-US', elem);
+      const survey = {
         question: 'wat',
         commentQuestion: 'wat wat',
         highlightColor: 'papayawhip'
-      }
+      };
 
       nps.setSurvey(survey);
 
-      expect(mockRegistry['embed/frameFactory'].frameMethods.getRootComponent().setState)
-        .toHaveBeenCalledWith({survey: survey});
+      expect(document.body.querySelector('.nps-desktop').textContent)
+        .toEqual(survey.question);
     });
   });
 });

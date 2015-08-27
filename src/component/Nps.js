@@ -10,20 +10,21 @@ export const Nps = React.createClass({
     };
   },
 
-  componentDidUpdate(props, state) {
+  componentDidUpdate() {
     this.refs.nps.setState(this.state);
   },
 
   render() {
+    /* jshint laxbreak: true */
     return (this.state.isMobile)
       ? <div
           {...this.props}
           ref='nps'
-          style={{background: "red", height: 100, width: 100}} />
+          style={{background: 'red', height: 100, width: 100}} />
       : <NpsDesktop
           {...this.props}
           ref='nps'
-          style={{width: '375px', margin: '15px' }} />
+          style={{width: '375px', margin: '15px' }} />;
   }
 });
 

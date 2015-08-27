@@ -5,7 +5,7 @@ import { i18n }         from 'service/i18n';
 
 const npsCSS = require('embed/nps/nps.scss');
 
-const renderNps = (locale = 'en-US', elem) => {
+const renderNps = (locale, elem) => {
   i18n.setLocale(locale, true);
 
   const frameParams = {
@@ -15,7 +15,7 @@ const renderNps = (locale = 'en-US', elem) => {
     }
   };
 
-  const fakeSubmit = (params, done, fail) => {
+  const fakeSubmit = (params, done) => {
     setTimeout(() => {
       done();
     }, 1500);
@@ -33,6 +33,8 @@ const renderNps = (locale = 'en-US', elem) => {
     frameParams
   ));
 
+  const nps = React.render(<Embed />, elem);
+
   const setNpsState = (state) => {
     nps.getRootComponent().setState(state);
   };
@@ -49,9 +51,7 @@ const renderNps = (locale = 'en-US', elem) => {
     });
   };
 
-  const nps = React.render(<Embed />, elem);
-
   return { setSurvey, setMobile };
-}
+};
 
 window.zE = { renderNps };

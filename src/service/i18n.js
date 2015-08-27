@@ -30,7 +30,7 @@ function parseLocale(str) {
 
 // force is for the nps preview use case where multiple embeds are rendered
 // in multiple locales.
-function setLocale(str = 'en-US', force) {
+function setLocale(str = 'en-US', force = false) {
   if (!currentLocale || force) {
     currentLocale = parseLocale(str);
     translate.setLocale(currentLocale);
