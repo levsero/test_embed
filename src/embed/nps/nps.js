@@ -1,5 +1,4 @@
 import React from 'react/addons';
-import _     from 'lodash';
 
 import { frameFactory } from 'embed/frameFactory';
 import { Nps } from 'component/Nps';
@@ -75,10 +74,9 @@ function render(name) {
 
   mediator.channel.subscribe('nps.setSurvey', (params) => {
     const nps = npses[name].instance.getRootComponent();
+    const survey = params.npsSurvey;
 
-    if (params.npsSurvey) {
-      const survey = params.npsSurvey;
-
+    if (survey && survey.id) {
       npses[name].instance.getRootComponent().reset();
 
       nps.setState({
@@ -89,7 +87,12 @@ function render(name) {
           logoUrl: survey.logoUrl,
           question: survey.question,
           recipientId: survey.recipientId
-        }
+        },
+        surveyAvailable: true
+      });
+    } else {
+      nps.setState({
+        surveyAvailable: false
       });
     }
   });
@@ -97,7 +100,10 @@ function render(name) {
   mediator.channel.subscribe('nps.activate', function() {
     const nps = npses[name].instance.getRootComponent();
 
-    if (!_.isNumber(nps.state.survey.surveyId)) {
+    if (nps.state.surveyAvailable === true) {
+      npses[name].instance.show(true);
+
+    } else if (nps.state.surveyAvailable === null) {
       const err = new Error([
         'An error occurred in your use of the Zendesk Widget API:',
         'zE.activateNps()',
@@ -108,8 +114,6 @@ function render(name) {
       err.special = true;
 
       throw err;
-    } else {
-      npses[name].instance.show(true);
     }
   });
 

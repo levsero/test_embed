@@ -65,7 +65,8 @@ export const Nps = React.createClass({
       commentFieldDirty: false,
       isSubmittingRating: false,
       isSubmittingComment: false,
-      surveyCompleted: false
+      surveyCompleted: false,
+      surveyAvailable: null // `null`: survey has not been set
     };
   },
 
