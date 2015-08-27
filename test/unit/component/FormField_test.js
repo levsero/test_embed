@@ -400,6 +400,9 @@ describe('FormField component', function() {
       );
       const loadingNode = ReactTestUtils.findRenderedDOMComponentWithClass(searchField, 'Loading');
 
+      expect(searchField.props.isLoading)
+        .toEqual(true);
+
       expect(loadingNode.props.className)
         .not.toMatch('u-isHidden');
     });
@@ -410,6 +413,9 @@ describe('FormField component', function() {
         global.document.body
       );
       const loadingNode = ReactTestUtils.findRenderedDOMComponentWithClass(searchField, 'Loading');
+
+      expect(searchField.props.isLoading)
+        .toEqual(false);
 
       expect(loadingNode.props.className)
         .toMatch('u-isHidden');
@@ -425,6 +431,9 @@ describe('FormField component', function() {
 
       searchField.setState({ isClearable: true });
 
+      expect(searchField.state.isClearable)
+        .toEqual(true);
+
       expect(clearInputNode.props.className)
         .not.toMatch('u-isHidden');
     });
@@ -438,6 +447,9 @@ describe('FormField component', function() {
                                searchField, 'Icon--clearInput');
 
       searchField.setState({ isClearable: false });
+
+      expect(searchField.state.isClearable)
+        .toEqual(false);
 
       expect(clearInputNode.props.className)
         .toMatch('u-isHidden');
