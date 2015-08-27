@@ -152,7 +152,6 @@ function keywordsSearch(name, keywords) {
   const helpCenter = getRootComponent(name);
 
   helpCenter.performSearch(keywords, {
-      keywords: true,
       auto: true
     }
   );
@@ -201,7 +200,7 @@ function render(name) {
     });
   });
 
-  mediator.channel.subscribe(name + '.keywords', function(keywords) {
+  mediator.channel.subscribe(name + '.setKeywords', function(keywords) {
     keywordsSearch(name, keywords);
   });
 
