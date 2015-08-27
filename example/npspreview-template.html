@@ -17,33 +17,23 @@
     <script src="/dist/nps.js"></script>
     <script>
       var foo = zE
-        .renderNPS('en-GB', 1);
+        .renderNPS('en-GB', document.querySelector('.npsPreview_1'));
 
       foo
-        .getRootComponent()
-        .setState({
-          survey: {
-            comments_question: 'wat',
-            highligh_color: '#ff0000',
-            id: '1234',
-            question: 'How likely are you to recommend zE.showNPS to someone you don\'t know?',
-            recipient_id: '5678'
-          }
+        .setSurvey({
+          commentsQuestion: 'wat',
+          highlightColor: '#ff0000',
+          question: 'How likely are you to recommend zE.showNPS to someone you don\'t know?',
         });
 
       var bar = zE
-        .renderNPS('ar', 2);
+        .renderNPS('ar', document.querySelector('.npsPreview_2'));
 
       bar
-        .getRootComponent()
-        .setState({
-          survey: {
-            comments_question: 'wat',
-            highligh_color: '#ff0000',
-            id: '1234',
-            question: 'How likely are you to recommend zE.showNPS to someone you don\'t know?',
-            recipient_id: '5678'
-          }
+        .setSurvey({
+          commentsQuestion: 'wat',
+          highlightColor: '#ff0000',
+          question: 'How likely are you to recommend zE.showNPS to someone you don\'t know?',
         });
     </script>
 

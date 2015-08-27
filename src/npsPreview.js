@@ -5,40 +5,7 @@ import { i18n }         from 'service/i18n';
 
 const npsCSS = require('embed/nps/nps.scss');
 
-const ParentNps = React.createClass({
-  getInitialState() {
-    return {
-      isMobile: false,
-      survey: {}
-    }
-  },
-
-  componentDidUpdate(props, state) {
-    this.refs.nps.setState(this.state);
-  },
-
-  fakeSubmit(params, done, fail) {
-    setTimeout(() => {
-      done();
-    }, 1500)
-  },
-
-  render() {
-    return (this.state.isMobile)
-      ? <div
-          ref='nps'
-          npsSender={this.fakeSubmit}
-          updateFrameSize={this.props.updateFrameSize}
-          style={{background: "red", height: 100, width: 100}} />
-      : <Nps
-          ref='nps'
-          npsSender={this.fakeSubmit}
-          updateFrameSize={this.props.updateFrameSize}
-          style={{width: '375px', margin: '15px' }} />
-  }
-});
-
-const renderNPS = (locale = 'en-US', id) => {
+const renderNps = (locale = 'en-US', elem) => {
   i18n.setLocale(locale, true);
 
   const frameParams = {
@@ -48,10 +15,17 @@ const renderNPS = (locale = 'en-US', id) => {
     }
   };
 
+  const fakeSubmit = (params, done, fail) => {
+    setTimeout(() => {
+      done();
+    }, 1500);
+  };
+
   const Embed = React.createClass(frameFactory(
     (params) => {
       return (
-        <ParentNps
+        <Nps
+          npsSender={fakeSubmit}
           updateFrameSize={params.updateFrameSize}
           ref='rootComponent' />
       );
@@ -59,9 +33,25 @@ const renderNPS = (locale = 'en-US', id) => {
     frameParams
   ));
 
-  return React.render(<Embed />, document.querySelector(`.npsPreview_${id}`));
+  const setNpsState = (state) => {
+    nps.getRootComponent().setState(state);
+  };
+
+  const setSurvey = (survey) => {
+    setNpsState({
+      survey: survey
+    });
+  };
+
+  const setMobile = (isMobile) => {
+    setNpsState({
+      isMobile: isMobile
+    });
+  };
+
+  const nps = React.render(<Embed />, elem);
+
+  return { setSurvey, setMobile };
 }
 
-window.zE = {
-  renderNPS: renderNPS
-};
+window.zE = { renderNps };
