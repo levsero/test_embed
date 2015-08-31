@@ -310,6 +310,10 @@ function init(helpCenterAvailable, hideLauncher) {
     }
   });
 
+  c.intercept(`.onSetKeywords`, function(__, params) {
+    c.broadcast(`${helpCenter}.setKeywords`, params);
+  });
+
   c.intercept(`.onIdentify`, function(__, params) {
     state['identify.pending'] = true;
 
