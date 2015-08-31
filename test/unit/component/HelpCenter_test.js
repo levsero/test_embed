@@ -210,8 +210,8 @@ describe('Help center component', function() {
     });
 
     it('should call updateResults if no locale and no auto contextual search', function() {
-      // It's not an automatic contextual help, so options.auto will be undefined
       const searchString = 'help me please';
+      // It's not an automatic contextual help, so options.auto will be undefined
       let autoContextualHelp,
           recentCallArgs;
 
