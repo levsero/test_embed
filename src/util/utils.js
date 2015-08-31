@@ -140,15 +140,11 @@ function parseUrl(url) {
  * @param  {boolean} withExtension Include the extension of the file, if there is one
  * @return {string}                The split string
  */
-function splitPath(path, withExtension=true) {
-  if (!withExtension) {
-    path = path.replace(/\..[^.]{1,4}$/g , ' ');
-  }
+function splitPath(path) {
+  path = path.replace(/\.[^.]{1,4}$/ , ' ');
   path = decodeURIComponent(path);
 
-  return path.replace(/[\/\._-]/g , ' ')
-            .replace(/ +/g , ' ')
-            .trim();
+  return path.replace(/[\/\._-]/g , ' ');
 }
 
 function clickBusterRegister(x, y) {
@@ -191,7 +187,7 @@ function getFrameworkLoadTime() {
 }
 
 function getPageKeywords() {
-  const keywords = `${doc.title || ''} ${splitPath(location.pathname, false)}`;
+  const keywords = `${doc.title || ''} ${splitPath(location.pathname)}`;
 
   return keywords.trim() || '';
 }

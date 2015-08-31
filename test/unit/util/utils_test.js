@@ -196,28 +196,28 @@ describe('util.setScaleLock', function() {
   describe('splitPath()', function() {
     it('should split a path with some typical separation', function() {
       expect(splitPath('/this/is/a-1-path.html'))
-        .toEqual('this is a 1 path html');
+        .toEqual(' this is a 1 path ');
 
       // %20 is ' ' urlencoded
       expect(splitPath('/this/is/a-1%20path.html'))
-        .toEqual('this is a 1 path html');
+        .toEqual(' this is a 1 path ');
 
       // %2E is '.' urlencoded
-      expect(splitPath('/this/is/a-2%2Epath.html', true))
-        .toEqual('this is a 2 path html');
+      expect(splitPath('/this/is/a-2%2Epath.html'))
+        .toEqual(' this is a 2 path ');
 
       // %2D is '-' urlencoded
-      expect(splitPath('/this/is/a-2%2Dpath.php', false))
-        .toEqual('this is a 2 path');
+      expect(splitPath('/this/is/a--2%2Dpath.php'))
+        .toEqual(' this is a  2 path ');
 
-      expect(splitPath('/this/is/a-2-path.html', false))
-        .toEqual('this is a 2 path');
+      expect(splitPath('/this/is/a-2-path.html'))
+        .toEqual(' this is a 2 path ');
 
-      expect(splitPath('!/thi$/is/1@-_path.html', false))
-        .toEqual('! thi$ is 1@ path');
+      expect(splitPath('!/thi$/is/1@-_path.html'))
+        .toEqual('! thi$ is 1@  path ');
 
-      expect(splitPath('!/thi𝌆$/is/tchüss1@-_path.html', false))
-        .toEqual('! thi𝌆$ is tchüss1@ path');
+      expect(splitPath('!/thi𝌆$/is/tchüss1@-_path.html'))
+        .toEqual('! thi𝌆$ is tchüss1@  path ');
     });
   });
 
