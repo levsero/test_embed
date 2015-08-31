@@ -366,7 +366,7 @@ describe('frameFactory', function() {
     beforeEach(function() {
       const payload = frameFactory(mockChildFn, {
         frameStyle: {
-          backgroundColor: '#abc'
+          backgroundColor: 'rgb(1, 2, 3)'
         }
       });
       const Embed = React.createClass(payload);
@@ -398,7 +398,7 @@ describe('frameFactory', function() {
         .toEqual('-9999px');
 
       expect(frameContainerStyle.bottom)
-        .toEqual('auto');
+        .toEqual('');
 
       instance.setState({visible: true});
 
@@ -425,7 +425,7 @@ describe('frameFactory', function() {
         .toEqual('-9999px');
 
       expect(frameContainerStyle.bottom)
-        .toEqual('auto');
+        .toEqual('');
     });
 
     it('has horizontal style set to `left` when isRTL() evaluates to false', function() {
@@ -444,14 +444,14 @@ describe('frameFactory', function() {
         .toEqual('-9999px');
 
       expect(frameContainerStyle.bottom)
-        .toEqual('auto');
+        .toEqual('');
     });
 
     it('has `border` css rule set to none', function() {
       const iframe = global.document.body.getElementsByTagName('iframe')[0];
 
       expect(iframe.style.border)
-        .toEqual('none');
+        .toEqual('');
     });
 
     it('merges in css rules from params.style with correct precedence', function() {
@@ -459,13 +459,13 @@ describe('frameFactory', function() {
       const frameContainerStyle = frameContainer.style;
 
       expect(frameContainerStyle.backgroundColor)
-        .toEqual('#abc');
+        .toEqual('rgb(1, 2, 3)');
 
       expect(frameContainerStyle.top)
         .toEqual('-9999px');
 
       expect(frameContainerStyle.bottom)
-        .toEqual('auto');
+        .toEqual('');
 
     });
 
