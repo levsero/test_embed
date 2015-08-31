@@ -31,8 +31,14 @@ describe('embed.nps', () => {
           }
         })
       },
+      'service/persistence': {
+        store: jasmine.createSpyObj('store', ['set', 'get'])
+      },
       'service/transport': {
-        transport: jasmine.createSpyObj('transport', ['sendWithMeta'])
+        transport: {
+          sendWithMeta: jasmine.createSpy(),
+          getZendeskHost: () => 'test.zd-dev.com'
+        }
       },
       'utility/globals': {
         document: global.document,
@@ -180,4 +186,87 @@ describe('embed.nps', () => {
     });
   });
 
+  describe('dismissal functionality', () => {
+    const survey = {
+      surveyId: 1234,
+      recipientId: 2345
+    };
+
+    let store,
+        transport,
+        expectedKey,
+        currentDate;
+
+    beforeEach(() => {
+      store = mockRegistry['service/persistence'].store;
+      transport = mockRegistry['service/transport'].transport;
+      expectedKey = [
+          transport.getZendeskHost(),
+          survey.surveyId,
+          survey.recipientId,
+          'dismiss-timestamp'
+        ].join('-');
+      currentDate = new Date();
+      currentDate.setMilliseconds(0);
+    });
+
+    describe('setDismissTimestamp', () => {
+      it('should set the current timestamp correctly', () => {
+
+        spyOn(window, 'Date').and.callFake(function() {
+          return currentDate;
+        });
+
+        nps.setDismissTimestamp(survey);
+
+        expect(store.set)
+          .toHaveBeenCalledWith(
+            expectedKey,
+            currentDate.toISOString()
+          );
+      });
+    });
+
+    describe('shouldShow', () => {
+      it('should return true if dismissTimestamp is not set', () => {
+        store.get = jasmine.createSpy().and.returnValue(null);
+
+        expect(nps.shouldShow(survey))
+          .toEqual(true);
+      });
+
+      it('should return true if dismissTimestamp is more than 3 days ago', () => {
+        const dismissDate = new Date(currentDate.getTime() - (3 * 24 * 60 * 60 * 1000));
+
+        spyOn(window, 'Date').and.callFake(() => currentDate);
+
+        store.get = jasmine.createSpy().and.returnValue(dismissDate.toISOString());
+
+        expect(nps.shouldShow(survey))
+          .toEqual(true);
+      });
+
+      it('should return false if dismissTimestamp is 1 minute ago', () => {
+        const dismissDate = new Date(currentDate.getTime() - (60 * 1000));
+
+        spyOn(window, 'Date').and.callFake(() => currentDate);
+
+        store.get = jasmine.createSpy().and.returnValue(dismissDate.toISOString());
+
+        expect(nps.shouldShow(survey))
+          .toEqual(false);
+      });
+
+      it('should return false if dismissTimestamp is 2.9 days ago', () => {
+        const dismissDate = new Date(currentDate.getTime() - (2.9 * 24 * 60 * 60 * 1000));
+
+        spyOn(window, 'Date').and.callFake(() => currentDate);
+
+        store.get = jasmine.createSpy().and.returnValue(dismissDate.toISOString());
+
+        expect(nps.shouldShow(survey))
+          .toEqual(false);
+      });
+    });
+  });
 });

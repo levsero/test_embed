@@ -7,7 +7,6 @@ import { Button,
 import { Container } from 'component/Container';
 import { Field } from 'component/FormField';
 import { Loading } from 'component/Loading';
-import { store } from 'service/persistence';
 
 const classSet = React.addons.classSet;
 
@@ -87,18 +86,6 @@ export const Nps = React.createClass({
     this.props.npsSender(params, doneFn, failFn);
   },
 
-  shouldShow() {
-    const threeDays = 3 * 24 * 60 * 60 * 1000; // 3 days in ms
-    const lastDismissed = store.get(this.getDismissTimestampKey());
-
-    if (!lastDismissed) { // no last dismissed timestamp exists
-      return true;
-    } else {
-      const timeSinceLastDismissed = (new Date()) - (new Date(lastDismissed));
-      return timeSinceLastDismissed > threeDays;
-    }
-  },
-
   sendComment() {
     const params = {
       npsResponse: {
@@ -143,22 +130,6 @@ export const Nps = React.createClass({
       response: _.extend({}, this.state.response, { comment: ev.target.value }),
       commentFieldDirty: true
     });
-  },
-
-  getDismissTimestampKey() {
-    return [
-      transport.getZendeskHost(),
-      this.state.survey.surveyId,
-      this.state.survey.recipientId,
-      'dismiss-timestamp'
-    ].join('-');
-  },
-
-  onDismissHandler() {
-    store.set(
-      this.getDismissTimestampKey(),
-      (new Date()).toISOString()
-    );
   },
 
   reset() {

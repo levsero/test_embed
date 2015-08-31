@@ -3,6 +3,7 @@ import React from 'react/addons';
 import { frameFactory } from 'embed/frameFactory';
 import { Nps } from 'component/Nps';
 import { mediator } from 'service/mediator';
+import { store } from 'service/persistence';
 import { transport } from 'service/transport';
 import { document,
          getDocumentHost } from 'utility/globals';
@@ -43,7 +44,7 @@ function create(name, config) {
     fullscreenable: false,
     name: name,
     onHide(frame) {
-      frame.getRootComponent().onDismissHandler()
+      setDismissTimestamp(frame.getRootComponent().state.survey);
     }
   };
 
@@ -117,7 +118,7 @@ function render(name) {
       err.special = true;
 
       throw err;
-    } else if (nps.shouldShow()) {
+    } else if (shouldShow(nps.state.survey)) {
       npses[name].instance.show(true);
     }
   });
@@ -131,8 +132,41 @@ function render(name) {
   });
 }
 
+function getDismissTimestampKey(survey) {
+  return [
+    transport.getZendeskHost(),
+    survey.surveyId,
+    survey.recipientId,
+    'dismiss-timestamp'
+  ].join('-');
+}
+
+function shouldShow(survey) {
+  const threeDays = 3 * 24 * 60 * 60 * 1000; // 3 days in ms
+  const lastDismissed = store.get(getDismissTimestampKey(survey));
+
+  if (!lastDismissed) { // no last dismissed timestamp exists
+    return true;
+  } else {
+    const timeSinceLastDismissed = (new Date()) - (new Date(lastDismissed));
+    return timeSinceLastDismissed > threeDays;
+  }
+}
+
+function setDismissTimestamp(survey) {
+  const dismissTimestamp = new Date();
+  dismissTimestamp.setMilliseconds(0);
+
+  store.set(
+    getDismissTimestampKey(survey),
+    dismissTimestamp.toISOString()
+  );
+}
+
 export var nps = {
   create: create,
   get: get,
-  render: render
+  render: render,
+  shouldShow: shouldShow,
+  setDismissTimestamp: setDismissTimestamp
 };
