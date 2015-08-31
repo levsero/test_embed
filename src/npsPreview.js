@@ -1,6 +1,6 @@
 import React            from 'react';
 import { frameFactory } from 'embed/frameFactory';
-import { Nps }          from 'component/Nps';
+import { NpsPreview }   from 'component/NpsPreview';
 import { i18n }         from 'service/i18n';
 
 const npsCSS = require('embed/nps/nps.scss');
@@ -24,7 +24,7 @@ const renderNps = (locale, elem) => {
   const Embed = React.createClass(frameFactory(
     (params) => {
       return (
-        <Nps
+        <NpsPreview
           npsSender={fakeSubmit}
           updateFrameSize={params.updateFrameSize}
           ref='rootComponent' />

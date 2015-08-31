@@ -10,13 +10,28 @@ describe('Nps component', function() {
     mockery.enable();
 
     mockRegistry = initMockRegistry({
-      'react/addons': React,
-      'component/NpsDesktop': {
-        NpsDesktop: React.createClass({
-          render() {
-            return <div ref='nps' className='nps-desktop' />;
-          }
-        })
+      'component/Container': {
+        Container: React.createClass({
+            render: function() {
+              return <div>{this.props.children}</div>;
+            }
+          }),
+      },
+      'component/Button': {
+        Button: noopReactComponent(),
+        ButtonSecondary: noopReactComponent(),
+        ButtonGroup: noopReactComponent()
+      },
+      'utility/devices': {
+        isMobileBrowser: function() {
+          return false;
+        }
+      },
+      'component/FormField': {
+        Field: noopReactComponent()
+      },
+      'component/Loading': {
+        Loading: noopReactComponent()
       }
     });
 
@@ -28,34 +43,61 @@ describe('Nps component', function() {
     mockery.disable();
   });
 
-  it('should render desktop nps component by default', function() {
+  it('sends the correct rating', function() {
+    const npsSender = jasmine.createSpy('npsSender');
     const nps = React.render(
-      <Nps />,
+      <Nps npsSender={npsSender} />,
       global.document.body
     );
 
-    expect(document.body.querySelectorAll('.nps-desktop').length)
-      .toEqual(1);
+    const rating = 5;
 
-    expect(nps.state.isMobile)
-      .toEqual(false);
+    nps.setState({
+      response: {
+        rating: rating
+      }
+    });
+
+    nps.sendRating();
+
+    expect(npsSender)
+      .toHaveBeenCalled();
+
+    const params = npsSender.calls.mostRecent().args[0];
+
+    expect(params.npsResponse.rating)
+      .toEqual(rating);
   });
 
-  it('should render mobile nps component when isMobile is true', function() {
+  it('sends the correct comment', function() {
+    const npsSender = jasmine.createSpy('npsSender');
     const nps = React.render(
-      <Nps />,
+      <Nps npsSender={npsSender} />,
       global.document.body
     );
 
-    expect(document.body.querySelectorAll('.nps-desktop').length)
-      .toEqual(1);
+    const rating = 5;
+    const comment = 'A comment';
 
-    nps.setState({isMobile: true});
+    nps.setState({
+      response: {
+        rating: rating,
+        comment: comment
+      }
+    });
 
-    expect(document.body.querySelector('div').style.background)
-      .toEqual('red');
+    nps.sendComment();
 
-    expect(nps.state.isMobile)
-      .toEqual(true);
+    expect(npsSender)
+      .toHaveBeenCalled();
+
+    const params = npsSender.calls.mostRecent().args[0];
+
+    expect(params.npsResponse.rating)
+      .toEqual(rating);
+
+    expect(params.npsResponse.comment)
+      .toEqual(comment);
   });
+
 });
