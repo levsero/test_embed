@@ -189,7 +189,7 @@ function getFrameworkLoadTime() {
 function getPageKeywords() {
   const keywords = `${doc.title || ''} ${splitPath(location.pathname)}`;
 
-  return keywords.trim() || '';
+  return keywords || '';
 }
 
 export {
