@@ -1,7 +1,8 @@
 import _     from 'lodash';
 import Color from 'color';
 
-import { document as doc } from 'utility/globals';
+import { document as doc,
+         location }       from 'utility/globals';
 import { getSizingRatio } from 'utility/devices';
 import { mediator }  from 'service/mediator';
 
@@ -133,29 +134,19 @@ function parseUrl(url) {
 }
 
 /**
- * Given a URL/path extract the strings on it
+ * Given a URL/path extract the words on it splitting by common symbols (/, -, _, .)
  *
  * @param  {string}  path          The URL/path e.g. "domain.com/foo/bar.index.html"
  * @param  {boolean} withExtension Include the extension of the file, if there is one
- * @return {string}                The clean string
+ * @return {string}                The split string
  */
-function cleanPath(path, withExtension=true) {
+function splitPath(path, withExtension=true) {
   if (!withExtension) {
     path = path.replace(/\..[^.]{1,3}$/g , ' ');
   }
+  path = decodeURIComponent(path);
 
-  return cleanString(path);
-}
-
-/**
- * Remove any non-alphanumeric characters from a string
- *
- * @param  {string} str The string to clean
- * @return {string}     The clean string
- */
-function cleanString(str) {
-  return str.replace(/\W+/g , ' ')
-            .replace(/_/g , ' ')
+  return path.replace(/[\/\._-]/g , ' ')
             .replace(/ +/g , ' ')
             .trim();
 }
@@ -199,6 +190,12 @@ function getFrameworkLoadTime() {
   return loadTime >= 0 ? loadTime : undefined;
 }
 
+function getPageKeywords() {
+  const keywords = `${doc.title || ''} ${splitPath(location.pathname, false)}`;
+
+  return keywords.trim() || '';
+}
+
 export {
   parseUrl,
   setScaleLock,
@@ -207,6 +204,6 @@ export {
   metaStringToObj,
   getFrameworkLoadTime,
   generateUserCSS,
-  cleanString,
-  cleanPath
+  getPageKeywords,
+  splitPath
 };

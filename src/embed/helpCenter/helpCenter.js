@@ -12,7 +12,8 @@ import { beacon }          from 'service/beacon';
 import { i18n }            from 'service/i18n';
 import { transport }       from 'service/transport';
 import { mediator }        from 'service/mediator';
-import { generateUserCSS } from 'utility/utils';
+import { generateUserCSS,
+         getPageKeywords } from 'utility/utils';
 
 const helpCenterCSS = require('./helpCenter.scss');
 let helpCenters = {};
@@ -208,9 +209,18 @@ function render(name) {
 
 }
 
+function postRender(name) {
+  const config = get(name).config;
+
+  if (config.contextualHelpEnabled) {
+    keywordsSearch(name, getPageKeywords());
+  }
+}
+
 export var helpCenter = {
   create: create,
   list: list,
   get: get,
-  render: render
+  render: render,
+  postRender: postRender
 };

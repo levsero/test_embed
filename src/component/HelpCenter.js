@@ -15,10 +15,6 @@ import { i18n }              from 'service/i18n';
 import { Button,
          ButtonGroup }       from 'component/Button';
 import { beacon }            from 'service/beacon';
-import { document,
-          location }         from 'utility/globals';
-import { cleanPath,
-          cleanString }      from 'utility/utils';
 
 const classSet = React.addons.classSet;
 
@@ -40,15 +36,6 @@ export const HelpCenter = React.createClass({
       searchTracked: false,
       searchResultClicked: false
     };
-  },
-
-  componentDidMount() {
-    var searchString = (cleanString(document.title) || '') +
-                      ' ' + cleanPath(location.pathname, false);
-
-    if (this.props.contextualHelpEnabled && searchString) {
-      this.performSearch(searchString, { auto: true });
-    }
   },
 
   componentDidUpdate(prevProps, prevState) {
