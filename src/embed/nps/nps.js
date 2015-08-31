@@ -100,7 +100,7 @@ function render(name) {
   mediator.channel.subscribe('nps.activate', function() {
     const nps = npses[name].instance.getRootComponent();
 
-    if (nps.state.surveyAvailable === true) {
+    if (nps.state.surveyAvailable) {
       npses[name].instance.show(true);
 
     } else if (nps.state.surveyAvailable === null) {
