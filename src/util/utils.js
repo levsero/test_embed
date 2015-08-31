@@ -142,7 +142,7 @@ function parseUrl(url) {
  */
 function splitPath(path, withExtension=true) {
   if (!withExtension) {
-    path = path.replace(/\..[^.]{1,3}$/g , ' ');
+    path = path.replace(/\..[^.]{1,4}$/g , ' ');
   }
   path = decodeURIComponent(path);
 
