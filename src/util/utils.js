@@ -141,10 +141,9 @@ function parseUrl(url) {
  * @return {string}                The split string
  */
 function splitPath(path) {
-  path = path.replace(/\.[^.]{1,4}$/, '');
-  path = decodeURIComponent(path);
-
-  return path.replace(/[\/\._-]/g, ' ');
+  return decodeURIComponent(path)
+          .replace(/\.[^.]{1,4}$/, '')
+          .replace(/[\/\.\|_\-]/g, ' ');
 }
 
 function clickBusterRegister(x, y) {
@@ -189,7 +188,7 @@ function getFrameworkLoadTime() {
 function getPageKeywords() {
   const keywords = `${doc.title || ''} ${splitPath(location.pathname)}`;
 
-  return keywords || '';
+  return keywords;
 }
 
 export {

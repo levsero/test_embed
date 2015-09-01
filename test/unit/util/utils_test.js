@@ -213,6 +213,9 @@ describe('util.setScaleLock', function() {
       expect(splitPath('/this/is/a-2-path.html'))
         .toEqual(' this is a 2 path');
 
+      expect(splitPath('/this/is/a|2|path.html'))
+        .toEqual(' this is a 2 path');
+
       expect(splitPath('!/thi$/is/1@-_path.html'))
         .toEqual('! thi$ is 1@  path');
 
