@@ -65,7 +65,6 @@ function create(name, config) {
         <HelpCenter
           ref='rootComponent'
           hideZendeskLogo={config.hideZendeskLogo}
-          contextualHelpEnabled={config.contextualHelpEnabled}
           onNextClick={onNextClick}
           onSearch={onSearch}
           position={config.position}

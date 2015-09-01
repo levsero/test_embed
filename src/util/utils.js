@@ -136,9 +136,8 @@ function parseUrl(url) {
 /**
  * Given a URL/path extract the words on it splitting by common symbols (/, -, _, .)
  *
- * @param  {string}  path          The URL/path e.g. "domain.com/foo/bar.index.html"
- * @param  {boolean} withExtension Include the extension of the file, if there is one
- * @return {string}                The split string
+ * @param  {string}  path   The URL/path e.g. "domain.com/foo/bar.index.html"
+ * @return {string}         The split string
  */
 function splitPath(path) {
   return decodeURIComponent(path)
@@ -186,9 +185,7 @@ function getFrameworkLoadTime() {
 }
 
 function getPageKeywords() {
-  const keywords = `${doc.title || ''} ${splitPath(location.pathname)}`;
-
-  return keywords;
+  return `${doc.title || ''} ${splitPath(location.pathname)}`;
 }
 
 export {
