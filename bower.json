@@ -20,5 +20,8 @@
     "suit": "https://github.com/suitcss/suit/releases/download/0.4.0/suitcss.css",
     "airbrake-js": "https://ssljscdn.airbrake.io/0.3/airbrake.js",
     "zd-css-components.buttons": "git@github.com:zendeskgarden/css-components.buttons.git#~1.0.3"
+  },
+  "resolutions": {
+    "zd-css-settings.global": "~0.1.0"
   }
 }

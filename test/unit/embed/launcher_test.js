@@ -63,6 +63,7 @@ describe('embed.launcher', function() {
   });
 
   afterEach(function() {
+    jasmine.clock().uninstall();
     mockery.deregisterAll();
     mockery.disable();
   });
