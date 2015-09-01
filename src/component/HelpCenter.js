@@ -174,7 +174,7 @@ export const HelpCenter = React.createClass({
     if (!options.locale) {
       options.locale = i18n.getLocale();
     }
-  
+
     search(searchString, options);
   },
 
