@@ -146,10 +146,10 @@ describe('embed.nps', () => {
           surveyKeys.forEach((key) => {
             if (key[1]) {
               expect(danNps.state.survey[key[0]])
-              .toEqual(surveyParams.npsSurvey[key[1]]);
+                .toEqual(surveyParams.npsSurvey[key[1]]);
             } else {
               expect(danNps.state.survey[key])
-              .toEqual(surveyParams.npsSurvey[key]);
+                .toEqual(surveyParams.npsSurvey[key]);
             }
           });
 
