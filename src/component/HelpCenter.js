@@ -149,6 +149,7 @@ export const HelpCenter = React.createClass({
                */
               if (res.body.count === 0 && options.auto) { /* 1 */
                 // An autosearch returned no results, we do nothing
+                return;
               } else if (res.body.count > 0 || !options.locale) { /* 2 */
                 this.props.onSearch({ searchString: searchString, searchLocale: options.locale });
                 this.updateResults(res, options.auto);
