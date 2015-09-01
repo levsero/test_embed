@@ -121,8 +121,8 @@ export const HelpCenter = React.createClass({
     this.focusField();
   },
 
-  performSearch(searchString, options={}) {
-    const search = (searchString, options={}) => {
+  performSearch(searchString, options = {}) {
+    const search = (searchString, options = {}) => {
       /* jshint laxbreak: true */
       transport.send({
         method: 'get',
