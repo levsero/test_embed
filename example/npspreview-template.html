@@ -14,27 +14,23 @@
     <div class='npsPreview_2'></div>
     <div class='npsPreview_3'></div>
 
-    <script src="/dist/nps.js"></script>
+    <script src="/dist/npsPreview.js"></script>
     <script>
-      var foo = zE
-        .renderNps('en-GB', document.querySelector('.npsPreview_1'));
+      var foo = zE.renderNps('en-GB', document.querySelector('.npsPreview_1'));
 
-      foo
-        .setSurvey({
-          commentsQuestion: 'wat',
-          highlightColor: '#ff0000',
-          question: 'How likely are you to recommend zE.showNPS to someone you don\'t know?',
-        });
+      foo.setSurvey({
+        commentsQuestion: 'wat',
+        highlightColor: '#ff0000',
+        question: 'How likely are you to recommend zE.showNPS to someone you don\'t know?',
+      });
 
-      var bar = zE
-        .renderNps('ar', document.querySelector('.npsPreview_2'));
+      var bar = zE.renderNps('ar', document.querySelector('.npsPreview_2'));
 
-      bar
-        .setSurvey({
-          commentsQuestion: 'wat',
-          highlightColor: '#ff0000',
-          question: 'How likely are you to recommend zE.showNPS to someone you don\'t know?',
-        });
+      bar.setSurvey({
+        commentsQuestion: 'wat',
+        highlightColor: '#ff0000',
+        question: 'How likely are you to recommend zE.showNPS to someone you don\'t know?',
+      });
     </script>
 
   </body>

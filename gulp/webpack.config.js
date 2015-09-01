@@ -11,7 +11,7 @@ module.exports = {
   cache: true,
   entry: {
     main: path.join(prefix, '/src/main.js'),
-    nps: path.join(prefix, '/src/npsPreview.js')
+    npsPreview: path.join(prefix, '/src/npsPreview.js')
   },
   output: {
     path: path.join(prefix, 'dist'),
