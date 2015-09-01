@@ -104,7 +104,7 @@ function render(name) {
   mediator.channel.subscribe('nps.activate', function() {
     const nps = npses[name].instance.getRootComponent();
 
-    if (nps.state.surveyAvailable) {
+    if (nps.state.surveyAvailable && shouldShow(nps.state.survey)) {
       npses[name].instance.show(true);
 
     } else if (nps.state.surveyAvailable === null) {
@@ -118,8 +118,6 @@ function render(name) {
       err.special = true;
 
       throw err;
-    } else if (shouldShow(nps.state.survey)) {
-      npses[name].instance.show(true);
     }
   });
 
@@ -146,14 +144,14 @@ function shouldShow(survey = {}) {
     return false;
   }
 
-  const threeDays = 3 * 24 * 60 * 60 * 1000; // 3 days in ms
+  const dismissPeriod = 3 * 24 * 60 * 60 * 1000; // in ms
   const lastDismissed = store.get(getDismissTimestampKey(survey));
 
   if (!lastDismissed) { // no last dismissed timestamp exists
     return true;
   } else {
-    const timeSinceLastDismissed = (new Date()) - (new Date(lastDismissed));
-    return timeSinceLastDismissed > threeDays;
+    const timeSinceLastDismissed = Date.now() - lastDismissed;
+    return timeSinceLastDismissed > dismissPeriod;
   }
 }
 
@@ -163,7 +161,7 @@ function setDismissTimestamp(survey) {
 
   store.set(
     getDismissTimestampKey(survey),
-    dismissTimestamp.toISOString()
+    dismissTimestamp.getTime()
   );
 }
 

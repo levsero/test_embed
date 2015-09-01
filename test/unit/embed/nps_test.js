@@ -222,7 +222,7 @@ describe('embed.nps', () => {
         expect(store.set)
           .toHaveBeenCalledWith(
             expectedKey,
-            currentDate.toISOString()
+            currentDate.getTime()
           );
       });
     });
@@ -240,7 +240,7 @@ describe('embed.nps', () => {
 
         spyOn(window, 'Date').and.callFake(() => currentDate);
 
-        store.get = jasmine.createSpy().and.returnValue(dismissDate.toISOString());
+        store.get = jasmine.createSpy().and.returnValue(dismissDate.getTime());
 
         expect(nps.shouldShow(survey))
           .toEqual(true);
@@ -251,7 +251,7 @@ describe('embed.nps', () => {
 
         spyOn(window, 'Date').and.callFake(() => currentDate);
 
-        store.get = jasmine.createSpy().and.returnValue(dismissDate.toISOString());
+        store.get = jasmine.createSpy().and.returnValue(dismissDate.getTime());
 
         expect(nps.shouldShow(survey))
           .toEqual(false);
@@ -262,7 +262,7 @@ describe('embed.nps', () => {
 
         spyOn(window, 'Date').and.callFake(() => currentDate);
 
-        store.get = jasmine.createSpy().and.returnValue(dismissDate.toISOString());
+        store.get = jasmine.createSpy().and.returnValue(dismissDate.getTime());
 
         expect(nps.shouldShow(survey))
           .toEqual(false);
