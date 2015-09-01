@@ -141,7 +141,11 @@ function getDismissTimestampKey(survey) {
   ].join('-');
 }
 
-function shouldShow(survey) {
+function shouldShow(survey = {}) {
+  if (!survey.surveyId) {
+    return false;
+  }
+
   const threeDays = 3 * 24 * 60 * 60 * 1000; // 3 days in ms
   const lastDismissed = store.get(getDismissTimestampKey(survey));
 
