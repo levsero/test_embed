@@ -43,6 +43,16 @@ describe('Nps component', function() {
     mockery.disable();
   });
 
+  it('initializes with state.surveyAvailable set to `null`', function() {
+    const nps = React.render(
+      <Nps npsSender = {() => {}} />,
+      global.document.body
+    );
+
+    expect(nps.state.surveyAvailable)
+      .toEqual(null);
+  });
+
   it('sends the correct rating', function() {
     const npsSender = jasmine.createSpy('npsSender');
     const nps = React.render(
