@@ -49,6 +49,8 @@ var HelpCenterArticle = React.createClass({
     if (this.props.activeArticle.body) {
       let cleanHtml = sanitizeHtml(this.props.activeArticle.body, sanitizeHtmlOptions);
       container.innerHTML = cleanHtml;
+    } else {
+      container.innerHTML = '';
     }
 
     if (this.state.lastActiveArticleId !== this.props.activeArticle.id) {
