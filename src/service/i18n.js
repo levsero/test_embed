@@ -51,7 +51,7 @@ function getLocale() {
 }
 
 function isRTL() {
-  return translations[getLocale()].rtl;
+  return translations[getLocale()] && translations[getLocale()].rtl;
 }
 
 function regulateLocaleStringCase(locale) {
