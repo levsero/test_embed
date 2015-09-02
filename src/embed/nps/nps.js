@@ -3,6 +3,7 @@ import React from 'react/addons';
 import { frameFactory } from 'embed/frameFactory';
 import { Nps } from 'component/Nps';
 import { mediator } from 'service/mediator';
+import { store } from 'service/persistence';
 import { transport } from 'service/transport';
 import { document,
          getDocumentHost } from 'utility/globals';
@@ -41,7 +42,10 @@ function create(name, config) {
     css: npsCSS,
     hideCloseButton: false,
     fullscreenable: false,
-    name: name
+    name: name,
+    onHide(frame) {
+      setDismissTimestamp(frame.getRootComponent().state.survey);
+    }
   };
 
   let Embed = React.createClass(frameFactory(
@@ -100,7 +104,7 @@ function render(name) {
   mediator.channel.subscribe('nps.activate', function() {
     const nps = npses[name].instance.getRootComponent();
 
-    if (nps.state.surveyAvailable) {
+    if (nps.state.surveyAvailable && shouldShow(nps.state.survey)) {
       npses[name].instance.show(true);
 
     } else if (nps.state.surveyAvailable === null) {
@@ -126,8 +130,45 @@ function render(name) {
   });
 }
 
+function getDismissTimestampKey(survey) {
+  return [
+    transport.getZendeskHost(),
+    survey.surveyId,
+    survey.recipientId,
+    'dismiss-timestamp'
+  ].join('-');
+}
+
+function shouldShow(survey = {}) {
+  if (!survey.surveyId) {
+    return false;
+  }
+
+  const dismissPeriod = 3 * 24 * 60 * 60 * 1000; // in ms
+  const lastDismissed = store.get(getDismissTimestampKey(survey));
+
+  if (!lastDismissed) { // no last dismissed timestamp exists
+    return true;
+  } else {
+    const timeSinceLastDismissed = Date.now() - lastDismissed;
+    return timeSinceLastDismissed > dismissPeriod;
+  }
+}
+
+function setDismissTimestamp(survey) {
+  const dismissTimestamp = new Date();
+  dismissTimestamp.setMilliseconds(0);
+
+  store.set(
+    getDismissTimestampKey(survey),
+    dismissTimestamp.getTime()
+  );
+}
+
 export var nps = {
   create: create,
   get: get,
-  render: render
+  render: render,
+  shouldShow: shouldShow,
+  setDismissTimestamp: setDismissTimestamp
 };
