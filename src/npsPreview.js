@@ -35,9 +35,9 @@ const renderNps = (locale, elem) => {
   const setNpsState = (state) => {
     // Due to timing issues with when the iframe contents get written
     // getRootComponent could throw due to the child not existing yet
-    try {
+    if (nps.getChild()) {
       nps.getRootComponent().setState(state);
-    } catch (e) {
+    } else {
       setTimeout(() => {
         setNpsState(state);
       }, 0);
