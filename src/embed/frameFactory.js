@@ -75,7 +75,9 @@ export var frameFactory = function(childFn, _params) {
     },
 
     getRootComponent: function() {
-      return child.refs.rootComponent;
+      if (child) {
+        return child.refs.rootComponent;
+      }
     },
 
     updateFrameSize: function(offsetWidth = 0, offsetHeight = 0) {

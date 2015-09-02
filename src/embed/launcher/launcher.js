@@ -82,7 +82,23 @@ function getRootComponent(name) {
 }
 
 function setIcon(name, icon) {
-  getRootComponent(name).setIcon(icon);
+  if (getRootComponent(name)) {
+    getRootComponent(name).setIcon(icon);
+  } else {
+    setTimeout(() => {
+      setIcon(name, icon);
+    }, 0);
+  }
+}
+
+function setHasUnreadMessages(name, unread) {
+  if (getRootComponent(name)) {
+    getRootComponent(name).setState({ hasUnreadMessages: unread });
+  } else {
+    setTimeout(() => {
+      setHasUnreadMessages(name, unread);
+    }, 0);
+  }
 }
 
 function render(name) {
@@ -105,19 +121,19 @@ function render(name) {
   mediator.channel.subscribe(name + '.setLabelChat', function() {
     setIcon(name, 'Icon--chat');
     setLabel(name, i18n.t('embeddable_framework.launcher.label.chat'));
-    getRootComponent(name).setState({ hasUnreadMessages: false });
+    setHasUnreadMessages(name, false);
   });
 
   mediator.channel.subscribe(name + '.setLabelHelp', function() {
     setIcon(name, 'Icon');
     setLabel(name, i18n.t('embeddable_framework.launcher.label.help'));
-    getRootComponent(name).setState({ hasUnreadMessages: false });
+    setHasUnreadMessages(name, false);
   });
 
   mediator.channel.subscribe(name + '.setLabelChatHelp', function() {
     setIcon(name, 'Icon--chat');
     setLabel(name, i18n.t('embeddable_framework.launcher.label.help'));
-    getRootComponent(name).setState({ hasUnreadMessages: false });
+    setHasUnreadMessages(name, false);
   });
 
   mediator.channel.subscribe(name + '.setLabelUnreadMsgs', function(unreadMsgs) {
@@ -126,13 +142,19 @@ function render(name) {
       {count: unreadMsgs}
     );
     setLabel(name, label);
-    getRootComponent(name).setState({ hasUnreadMessages: true });
+    setHasUnreadMessages(name, true);
   });
 
 }
 
 function setLabel(name, label) {
-  getRootComponent(name).setLabel(label);
+  if (getRootComponent(name)) {
+    getRootComponent(name).setLabel(label);
+  } else {
+    setTimeout(() => {
+      setLabel(name, label);
+    }, 0);
+  }
 }
 
 export var launcher = {
@@ -143,4 +165,3 @@ export var launcher = {
   setIcon: setIcon,
   setLabel: setLabel
 };
-
