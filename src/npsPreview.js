@@ -1,13 +1,10 @@
 import React            from 'react';
 import { frameFactory } from 'embed/frameFactory';
 import { NpsPreview }   from 'component/NpsPreview';
-import { i18n }         from 'service/i18n';
 
 const npsCSS = require('embed/nps/nps.scss');
 
 const renderNps = (locale, elem) => {
-  i18n.setLocale(locale, true);
-
   const frameParams = {
     css: npsCSS,
     frameStyle: {
@@ -36,7 +33,15 @@ const renderNps = (locale, elem) => {
   const nps = React.render(<Embed />, elem);
 
   const setNpsState = (state) => {
-    nps.getRootComponent().setState(state);
+    // Due to timing issues with when the iframe contents get written
+    // getRootComponent could throw due to the child not existing yet
+    if (nps.getChild()) {
+      nps.getRootComponent().setState(state);
+    } else {
+      setTimeout(() => {
+        setNpsState(state);
+      }, 0);
+    }
   };
 
   const setSurvey = (survey) => {

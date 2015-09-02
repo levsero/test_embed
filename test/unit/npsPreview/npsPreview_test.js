@@ -30,9 +30,6 @@ describe('npsPreview entry file', function() {
           }
         })
       },
-      'service/i18n': {
-        i18n: jasmine.createSpyObj('i18n', ['setLocale'])
-      },
       'embed/nps/nps.scss': ''
     });
 
@@ -60,9 +57,6 @@ describe('npsPreview entry file', function() {
     it('calling zE.renderNps returns object with two methods', function() {
       const elem = document.body.appendChild(document.createElement('div'));
       const nps = window.zE.renderNps('en-US', elem);
-
-      expect(mockRegistry['service/i18n'].i18n.setLocale)
-        .toHaveBeenCalledWith('en-US', true);
 
       expect(nps)
         .toEqual(jasmine.any(Object));
