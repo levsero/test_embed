@@ -132,22 +132,6 @@ describe('Help center component', function() {
           return false;
         }
       },
-      'utility/globals': {
-        document: {
-          title: 'Unittests'
-        },
-        location: {
-          pathname: '/test/'
-        }
-      },
-      'utility/utils': {
-        cleanPath: function(str) {
-          return str;
-        },
-        cleanString: function(str) {
-          return str;
-        }
-      },
       '_': _
     });
 
