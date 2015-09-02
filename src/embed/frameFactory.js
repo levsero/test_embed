@@ -211,6 +211,7 @@ export var frameFactory = function(childFn, _params) {
 
     render: function() {
       /* jshint laxbreak: true */
+      const iframeNamespace = 'zEWidget';
       const visibilityRule = (this.state.visible && !this.state.hiddenByZoom)
                            ? null
                            : {top: '-9999px',
@@ -227,9 +228,13 @@ export var frameFactory = function(childFn, _params) {
         this.state.iframeDimensions,
         visibilityRule
       );
+      const iframeClasses = classSet({
+        [`${iframeNamespace}-${params.name}`]: true,
+        [`${iframeNamespace}-${params.name}--active`]: this.state.visible
+      });
 
       return (
-        <iframe style={iframeStyle} id={params.name} />
+        <iframe style={iframeStyle} id={params.name} className={iframeClasses} />
       );
     },
 
