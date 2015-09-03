@@ -159,8 +159,7 @@ describe('Help center component', function() {
       .toEqual([]);
   });
 
-  describe('performSearch', function() {
-    const responsePayloadError = {ok: false, body: {}};
+  describe('contextualHelp', function() {
     const responsePayloadResults = {ok: true, body: {results: [1, 2, 3], count: 3}};
     const responsePayloadNoResults = {ok: true, body: {results: [], count: 0}};
 
@@ -176,77 +175,15 @@ describe('Help center component', function() {
         <HelpCenter trackSearch={trackSearch} onSearch={mockOnSearch} />,
         global.document.body
       );
-
     });
 
-    it('should execute searchFail if the result object is not OK', function() {
-      helpCenter.performSearch('help me please');
-
-      helpCenter.searchFail = searchFail;
-
-      expect(mockTransport.send)
-        .toHaveBeenCalled();
-
-      mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayloadError);
-
-      expect(helpCenter.searchFail)
-        .toHaveBeenCalled();
-
-    });
-
-    it('should execute searchFail if the search fail callback is fired', function() {
-      helpCenter.performSearch('help me please');
-
-      helpCenter.searchFail = searchFail;
-
-      expect(mockTransport.send)
-        .toHaveBeenCalled();
-
-      mockTransport.send.calls.mostRecent().args[0].callbacks.fail();
-
-      expect(helpCenter.searchFail)
-        .toHaveBeenCalled();
-
-    });
-
-    it('should call updateResults if no locale and no auto contextual search', function() {
-      const searchString = 'help me please';
-      // It's not an automatic contextual help, so options.auto will be undefined
-      let autoContextualHelp,
-          recentCallArgs;
-
-      helpCenter.performSearch(searchString);
-
-      helpCenter.updateResults = updateResults;
-
-      expect(mockTransport.send)
-        .toHaveBeenCalled();
-
-      recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
-
-      expect(recentCallArgs.query.query)
-        .toEqual(searchString);
-      expect(recentCallArgs.query.locale)
-        .toBeFalsy();
-      expect(recentCallArgs.query.origin)
-        .toBeFalsy();
-
-      mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayloadNoResults);
-
-      expect(helpCenter.updateResults)
-        .toHaveBeenCalledWith(
-          responsePayloadNoResults,
-          autoContextualHelp
-        );
-    });
-
-    it('shouldn\'t updateResults if contextual search and no results', function() {
+    it('shouldn\'t updateResults if no results', function() {
       const searchKeywords = ['foo', 'bar'];
       let recentCallArgs;
 
-      helpCenter.performSearch(searchKeywords, { auto: true });
-
       helpCenter.updateResults = updateResults;
+
+      helpCenter.contextualHelp(searchKeywords);
 
       expect(mockTransport.send)
         .toHaveBeenCalled();
@@ -266,14 +203,14 @@ describe('Help center component', function() {
         .not.toHaveBeenCalled();
     });
 
-    it('should updateResults if contextual search and with results', function() {
+    it('should updateResults if results, and set states', function() {
       const autoContextualHelp = true;
-      const searchKeywords = ['foo', 'bar'];
+      const searchKeywords = 'foo bar';
       let recentCallArgs;
 
-      helpCenter.performSearch(searchKeywords, { auto: autoContextualHelp });
-
       helpCenter.updateResults = updateResults;
+
+      helpCenter.contextualHelp(searchKeywords);
 
       expect(mockTransport.send)
         .toHaveBeenCalled();
@@ -281,7 +218,7 @@ describe('Help center component', function() {
       recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
 
       expect(recentCallArgs.query.query)
-        .toEqual(searchKeywords.join(' '));
+        .toEqual(searchKeywords);
       expect(recentCallArgs.query.locale)
         .toBeFalsy();
       expect(recentCallArgs.query.origin)
@@ -289,17 +226,101 @@ describe('Help center component', function() {
 
       mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayloadResults);
 
+      expect(helpCenter.state.isLoading)
+        .toBeFalsy();
+      expect(helpCenter.state.searchTracked)
+        .toBeFalsy();
+      expect(helpCenter.state.searchResultClicked)
+        .toBeFalsy();
+      expect(helpCenter.state.searchTerm)
+        .toEqual(searchKeywords);
+
       expect(helpCenter.updateResults)
         .toHaveBeenCalledWith(
           responsePayloadResults,
           autoContextualHelp
         );
     });
+  });
+
+  describe('performSearch', function() {
+    const responsePayloadError = {ok: false, body: {}};
+    const responsePayloadResults = {ok: true, body: {results: [1, 2, 3], count: 3}};
+    const responsePayloadNoResults = {ok: true, body: {results: [], count: 0}};
+
+    let helpCenter,
+        mockOnSearch,
+        mockTransport;
+
+    beforeEach(function() {
+      mockOnSearch = jasmine.createSpy('mockOnSearch');
+      mockTransport = mockRegistry['service/transport'].transport;
+
+      helpCenter = React.render(
+        <HelpCenter trackSearch={trackSearch} onSearch={mockOnSearch} />,
+        global.document.body
+      );
+    });
+
+    it('should execute searchFail if the result object is not OK', function() {
+      helpCenter.searchFail = searchFail;
+
+      helpCenter.performSearch('help me please');
+
+      expect(mockTransport.send)
+        .toHaveBeenCalled();
+
+      mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayloadError);
+
+      expect(helpCenter.searchFail)
+        .toHaveBeenCalled();
+    });
+
+    it('should execute searchFail if the search fail callback is fired', function() {
+      helpCenter.searchFail = searchFail;
+
+      helpCenter.performSearch('help me please');
+
+      expect(mockTransport.send)
+        .toHaveBeenCalled();
+
+      mockTransport.send.calls.mostRecent().args[0].callbacks.fail();
+
+      expect(helpCenter.searchFail)
+        .toHaveBeenCalled();
+    });
+
+    it('should call updateResults if no locale', function() {
+      const searchString = 'help me please';
+      let recentCallArgs;
+
+      helpCenter.updateResults = updateResults;
+
+      helpCenter.performSearch(searchString);
+
+      expect(mockTransport.send)
+        .toHaveBeenCalled();
+
+      recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
+
+      expect(recentCallArgs.query.query)
+        .toEqual(searchString);
+      expect(recentCallArgs.query.locale)
+        .toBeFalsy();
+      expect(recentCallArgs.query.origin)
+        .toBeFalsy();
+
+      mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayloadNoResults);
+
+      expect(helpCenter.updateResults)
+        .toHaveBeenCalledWith(
+          responsePayloadNoResults
+        );
+    });
 
     it('should updateResults if results returned', function() {
       const searchString = 'help me please';
-      let autoContextualHelp,
-          recentCallArgs;
+      let recentCallArgs;
 
       helpCenter.updateResults = updateResults;
 
@@ -321,19 +342,24 @@ describe('Help center component', function() {
 
       expect(helpCenter.updateResults)
         .toHaveBeenCalledWith(
-          responsePayloadResults,
-          autoContextualHelp
+          responsePayloadResults
         );
     });
 
-    it('should re-search without locale if with locale !results & !auto-suggestion', function() {
+    it('should re-search without locale if with locale and no results', function() {
       const searchString = 'help me please';
       const searchLocale = 'es-ES';
       let recentCallArgs;
 
+      mockRegistry['service/i18n'].i18n.getLocale = function() {
+        return 'es-ES';
+      };
+
+      mockery.resetCache();
+
       helpCenter.updateResults = updateResults;
 
-      helpCenter.performSearch(searchString, { locale: searchLocale });
+      helpCenter.performSearch(searchString);
 
       expect(mockTransport.send)
         .toHaveBeenCalled();
@@ -345,16 +371,40 @@ describe('Help center component', function() {
       expect(recentCallArgs.query.locale)
         .toEqual(searchLocale);
 
-      mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayloadNoResults);
+      mockTransport.send.calls.mostRecent().args[0].callbacks.done(
+        responsePayloadNoResults,
+        searchLocale
+      );
 
       recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
+
       expect(recentCallArgs.query.query)
         .toEqual(searchString);
       expect(recentCallArgs.query.locale)
         .toEqual(undefined);
-
     });
 
+    it('should set origin properly if forceSearch', function() {
+      const searchString = 'help me please';
+      const forceSearch = true;
+      let recentCallArgs;
+
+      helpCenter.updateResults = updateResults;
+
+      helpCenter.performSearch(searchString, forceSearch);
+
+      expect(mockTransport.send)
+        .toHaveBeenCalled();
+
+      recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
+
+      expect(recentCallArgs.query.query)
+        .toEqual(searchString);
+      expect(recentCallArgs.query.locale)
+        .toBeFalsy();
+      expect(recentCallArgs.query.origin)
+        .toEqual('web_widget');
+    });
   });
 
   describe('backtrack search', function() {

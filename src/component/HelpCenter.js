@@ -93,7 +93,7 @@ export const HelpCenter = React.createClass({
     this.handleSearch(true);
   },
 
-  updateResults(res, auto) {
+  updateResults(res, autoSearch = false) {
     const json = res.body;
     const articles = json.results;
 
@@ -103,7 +103,7 @@ export const HelpCenter = React.createClass({
       isLoading: false,
       previousSearchTerm: this.state.searchTerm,
       hasSearched: true,
-      hasAutoSearched: auto,
+      hasAutoSearched: autoSearch,
       searchFailed: false
     });
 
@@ -121,39 +121,56 @@ export const HelpCenter = React.createClass({
     this.focusField();
   },
 
-  performSearch(searchString, options = {}) {
-    const search = (searchString, options = {}) => {
-      /* jshint laxbreak: true */
+  contextualHelp(searchQuery) {
+    const search = (searchString, locale) => {
       transport.send({
         method: 'get',
         path: '/api/v2/help_center/search.json',
         query: {
-          locale: options.locale,
-          query: (typeof searchString === 'string')
-                  ? searchString
-                  : searchString.join(' '),
-          origin: options.forceSearch ? 'web_widget' : null
+          locale: locale,
+          query: searchString,
+          origin: null
+        },
+        callbacks: {
+          done: (res) => {
+            if (res.ok && res.body.count > 0) {
+              this.setState({
+                isLoading: false,
+                searchTerm: searchString,
+                searchTracked: false,
+                searchResultClicked: false
+              });
+              this.updateResults(res, true);
+            }
+          }
+        }
+      });
+    };
+    /* jshint laxbreak: true */
+    const searchString = (typeof searchQuery === 'string')
+                        ? searchQuery
+                        : searchQuery.join(' ');
+
+    search(searchString, i18n.getLocale());
+  },
+
+  performSearch(searchString, forceSearch) {
+    const search = (searchString, locale) => {
+      transport.send({
+        method: 'get',
+        path: '/api/v2/help_center/search.json',
+        query: {
+          locale: locale,
+          query: searchString,
+          origin: forceSearch ? 'web_widget' : null
         },
         callbacks: {
           done: (res) => {
             if (res.ok) {
-              /**
-               * [1] If it's automatic contextual help, and no results came through, we do nothing
-               * [2] If we have results, no matter if this was a contextual search or a user search
-               * we update/show the results.
-               * [2] After performing a user prompted search without locale we'll update the results
-               * even if we got no results, we'll display the appropriate content
-               * [3] If locales were passed, and was a user prompted search (not an automatic
-               * contextual one) we'll fire another search without locale to maximise the chances
-               * of getting results back.
-               */
-              if (res.body.count === 0 && options.auto) { /* 1 */
-                // An autosearch returned no results, we do nothing
-                return;
-              } else if (res.body.count > 0 || !options.locale) { /* 2 */
-                this.props.onSearch({ searchString: searchString, searchLocale: options.locale });
-                this.updateResults(res, options.auto);
-              } else { /* 3 */
+              if ((locale && res.body.count > 0) || !locale) {
+                this.props.onSearch({searchString: searchString, searchLocale: locale});
+                this.updateResults(res);
+              } else {
                 search(searchString);
               }
             } else {
@@ -166,17 +183,13 @@ export const HelpCenter = React.createClass({
     };
 
     this.setState({
-      isLoading: !options.auto,
+      isLoading: true,
       searchTerm: searchString,
-      searchTracked: options.forceSearch,
+      searchTracked: forceSearch,
       searchResultClicked: false
     });
 
-    if (!options.locale) {
-      options.locale = i18n.getLocale();
-    }
-
-    search(searchString, options);
+    search(searchString, i18n.getLocale());
   },
 
   handleSearch(forceSearch) {
@@ -190,7 +203,7 @@ export const HelpCenter = React.createClass({
       const filteredStr = stopWordsFilter(searchString);
 
       if (filteredStr !== '') {
-        this.performSearch(filteredStr, { forceSearch: forceSearch });
+        this.performSearch(filteredStr, forceSearch);
       }
     }
   },
