@@ -148,8 +148,8 @@ export const HelpCenter = React.createClass({
     };
     /* jshint laxbreak: true */
     const searchString = (typeof searchQuery === 'string')
-                        ? searchQuery
-                        : searchQuery.join(' ');
+                       ? searchQuery
+                       : searchQuery.join(' ');
 
     search(searchString, i18n.getLocale());
   },
