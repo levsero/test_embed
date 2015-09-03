@@ -315,6 +315,7 @@ function init(helpCenterAvailable, hideLauncher) {
 
     c.broadcast(`beacon.identify`, params);
     c.broadcast(`${submitTicket}.prefill`, params);
+    c.broadcast(`${chat}.setUser`, params);
   });
 
   c.intercept(`identify.onSuccess`, function(__, params) {
