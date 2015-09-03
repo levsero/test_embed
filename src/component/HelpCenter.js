@@ -93,18 +93,13 @@ export const HelpCenter = React.createClass({
     this.handleSearch(true);
   },
 
-  updateResults(res, autoSearch = false) {
+  updateResults(res) {
     const json = res.body;
     const articles = json.results;
 
     this.setState({
       articles: articles,
-      resultsCount: json.count,
-      isLoading: false,
-      previousSearchTerm: this.state.searchTerm,
-      hasSearched: true,
-      hasAutoSearched: autoSearch,
-      searchFailed: false
+      resultsCount: json.count
     });
 
     this.focusField();
@@ -121,7 +116,7 @@ export const HelpCenter = React.createClass({
     this.focusField();
   },
 
-  contextualHelp(searchQuery) {
+  contextualSearch(searchQuery) {
     const search = (searchString, locale) => {
       transport.send({
         method: 'get',
@@ -137,10 +132,14 @@ export const HelpCenter = React.createClass({
               this.setState({
                 isLoading: false,
                 searchTerm: searchString,
+                hasSearched: true,
+                searchFailed: false,
                 searchTracked: false,
+                hasAutoSearched: true,
+                previousSearchTerm: this.state.searchTerm,
                 searchResultClicked: false
               });
-              this.updateResults(res, true);
+              this.updateResults(res);
             }
           }
         }
@@ -168,6 +167,13 @@ export const HelpCenter = React.createClass({
           done: (res) => {
             if (res.ok) {
               if ((locale && res.body.count > 0) || !locale) {
+                this.setState({
+                  isLoading: false,
+                  hasSearched: true,
+                  searchFailed: false,
+                  hasAutoSearched: false,
+                  previousSearchTerm: this.state.searchTerm
+                });
                 this.props.onSearch({searchString: searchString, searchLocale: locale});
                 this.updateResults(res);
               } else {

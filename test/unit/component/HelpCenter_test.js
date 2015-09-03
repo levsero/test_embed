@@ -159,7 +159,7 @@ describe('Help center component', function() {
       .toEqual([]);
   });
 
-  describe('contextualHelp', function() {
+  describe('contextualSearch', function() {
     const responsePayloadResults = {ok: true, body: {results: [1, 2, 3], count: 3}};
     const responsePayloadNoResults = {ok: true, body: {results: [], count: 0}};
 
@@ -183,7 +183,7 @@ describe('Help center component', function() {
 
       helpCenter.updateResults = updateResults;
 
-      helpCenter.contextualHelp(searchKeywords);
+      helpCenter.contextualSearch(searchKeywords);
 
       expect(mockTransport.send)
         .toHaveBeenCalled();
@@ -204,13 +204,12 @@ describe('Help center component', function() {
     });
 
     it('should updateResults if results, and set states', function() {
-      const autoContextualHelp = true;
       const searchKeywords = 'foo bar';
       let recentCallArgs;
 
       helpCenter.updateResults = updateResults;
 
-      helpCenter.contextualHelp(searchKeywords);
+      helpCenter.contextualSearch(searchKeywords);
 
       expect(mockTransport.send)
         .toHaveBeenCalled();
@@ -234,11 +233,12 @@ describe('Help center component', function() {
         .toBeFalsy();
       expect(helpCenter.state.searchTerm)
         .toEqual(searchKeywords);
+      expect(helpCenter.state.hasAutoSearched)
+        .toBeTruthy();
 
       expect(helpCenter.updateResults)
         .toHaveBeenCalledWith(
-          responsePayloadResults,
-          autoContextualHelp
+          responsePayloadResults
         );
     });
   });

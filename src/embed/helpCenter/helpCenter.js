@@ -151,7 +151,7 @@ function updateHelpCenterButton(name, labelKey) {
 function keywordsSearch(name, keywords) {
   if (getRootComponent(name)) {
     const helpCenter = getRootComponent(name);
-    helpCenter.contextualHelp(keywords);
+    helpCenter.contextualSearch(keywords);
   } else {
     setTimeout(() => {
       keywordsSearch(name, keywords);
