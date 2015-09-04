@@ -62,7 +62,8 @@ describe('mediator', function() {
       'chat',
       ['show',
        'showWithAnimation',
-       'hide']
+       'hide',
+       'setUser']
     );
 
     helpCenterSub = jasmine.createSpyObj(
@@ -103,6 +104,7 @@ describe('mediator', function() {
       c.subscribe(`${names.chat}.show`, chatSub.show);
       c.subscribe(`${names.chat}.showWithAnimation`, chatSub.show);
       c.subscribe(`${names.chat}.hide`, chatSub.hide);
+      c.subscribe(`${names.chat}.setUser`, chatSub.setUser);
 
       c.subscribe(`${names.helpCenter}.show`, helpCenterSub.show);
       c.subscribe(`${names.helpCenter}.showWithAnimation`, helpCenterSub.show);
@@ -148,10 +150,12 @@ describe('mediator', function() {
 
   describe('.onIdentify', function() {
     const submitTicket = 'ticketSubmissionForm';
+    const chat = 'zopimChat';
     const beacon = 'beacon';
 
     const names = {
       submitTicket: submitTicket,
+      chat: chat,
       beacon: beacon
     };
 
@@ -181,6 +185,18 @@ describe('mediator', function() {
       c.broadcast('.onIdentify', params);
 
       expect(submitTicketSub.prefill)
+        .toHaveBeenCalledWith(params);
+    });
+
+    it('should broadcast chat.setUser with given params', function() {
+      const params = {
+        user: 'James Dean',
+        email: 'james@dean.com'
+      };
+
+      c.broadcast('.onIdentify', params);
+
+      expect(chatSub.setUser)
         .toHaveBeenCalledWith(params);
     });
   });
