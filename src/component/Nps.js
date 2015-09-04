@@ -105,7 +105,9 @@ export const Nps = React.createClass({
 
     /* jshint laxbreak: true */
     return (this.state.isMobile)
-      ? <div style={{background: 'red', height: 100, width: 100}} />
+      ? <div
+          className='nps-mobile'
+          style={{background: 'red', height: 100, width: 100}} />
       : <NpsDesktop
           {...this.state}
           ratingClickHandler={this.ratingClickHandler}

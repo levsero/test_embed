@@ -38,6 +38,7 @@ function create(name, config) {
     }
   };
 
+  /* jshint laxbreak: true */
   let frameParams = (isMobileBrowser())
     ? { fullscreenable: true }
     : { fullscreenable: false };
@@ -54,13 +55,13 @@ function create(name, config) {
       );
     },
     _.extend({}, {
-        frameStyle: frameStyle,
-        css: npsCSS,
-        hideCloseButton: false,
-        name: name,
-        onHide(frame) {
-          setDismissTimestamp(frame.getRootComponent().state.survey);
-        }
+      frameStyle: frameStyle,
+      css: npsCSS,
+      hideCloseButton: false,
+      name: name,
+      onHide(frame) {
+        setDismissTimestamp(frame.getRootComponent().state.survey);
+      }
     }, frameParams)
   ));
 

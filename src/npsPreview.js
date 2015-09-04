@@ -1,6 +1,5 @@
 import React            from 'react';
 import { frameFactory } from 'embed/frameFactory';
-import { NpsPreview }   from 'component/NpsPreview';
 import { Nps }          from 'component/Nps';
 
 const npsCSS = require('embed/nps/nps.scss');
@@ -36,7 +35,7 @@ const renderNps = (locale, elem) => {
   const setNpsState = (state) => {
     // Due to timing issues with when the iframe contents get written
     // getRootComponent could throw due to the child not existing yet
-    if (nps.getChild()) {
+    if (nps.getRootComponent()) {
       nps.getRootComponent().setState(state);
     } else {
       setTimeout(() => {

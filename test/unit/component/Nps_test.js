@@ -10,28 +10,16 @@ describe('Nps component', function() {
     mockery.enable();
 
     mockRegistry = initMockRegistry({
-      'component/Container': {
-        Container: React.createClass({
-            render: function() {
-              return <div>{this.props.children}</div>;
-            }
-          }),
-      },
-      'component/Button': {
-        Button: noopReactComponent(),
-        ButtonSecondary: noopReactComponent(),
-        ButtonGroup: noopReactComponent()
-      },
-      'utility/devices': {
-        isMobileBrowser: function() {
-          return false;
-        }
-      },
-      'component/FormField': {
-        Field: noopReactComponent()
-      },
-      'component/Loading': {
-        Loading: noopReactComponent()
+      'react/addons': React,
+      'lodash': _,
+      'component/NpsDesktop': {
+        NpsDesktop: React.createClass({
+          render() {
+            return (
+              <div className='nps-desktop' />
+            );
+          }
+        })
       }
     });
 
@@ -110,4 +98,13 @@ describe('Nps component', function() {
       .toEqual(comment);
   });
 
+  it('renders NpsMobile when mobile prop is true', function() {
+    React.render(
+      <Nps mobile={true} />,
+      global.document.body
+    );
+
+    expect(document.querySelectorAll('.nps-mobile').length)
+      .toEqual(1);
+  });
 });
