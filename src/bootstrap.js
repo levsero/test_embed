@@ -47,5 +47,5 @@ window.zEmbed || (function(url, host) {
   };
   doc.write('<body onload="document._l();">');
   doc.close();
-}('{{zendeskFrameworkUrl}}', 'support.zendesk.com'));
+}('{{zendeskFrameworkUrl}}', '{{zendeskHost}}'));
 
