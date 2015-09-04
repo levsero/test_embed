@@ -28,7 +28,7 @@ export const HelpCenter = React.createClass({
       fullscreen: isMobileBrowser(),
       previousSearchTerm: '',
       hasSearched: false,
-      hasAutoSearched: false,
+      hasContextualSearched: false,
       searchFailed: false,
       articleViewActive: false,
       activeArticle: {},
@@ -134,8 +134,7 @@ export const HelpCenter = React.createClass({
                 searchTerm: searchString,
                 hasSearched: true,
                 searchFailed: false,
-                searchTracked: false,
-                hasAutoSearched: true,
+                hasContextualSearched: true,
                 previousSearchTerm: this.state.searchTerm,
                 searchResultClicked: false
               });
@@ -171,7 +170,7 @@ export const HelpCenter = React.createClass({
                   isLoading: false,
                   hasSearched: true,
                   searchFailed: false,
-                  hasAutoSearched: false,
+                  hasContextualSearched: false,
                   previousSearchTerm: this.state.searchTerm
                 });
                 this.props.onSearch({searchString: searchString, searchLocale: locale});
@@ -226,7 +225,7 @@ export const HelpCenter = React.createClass({
 
     this.props.showBackButton();
 
-    if (!this.state.searchTracked && !this.state.hasAutoSearched) {
+    if (!this.state.searchTracked && !this.state.hasContextualSearched) {
       this.trackSearch();
     }
   },
@@ -255,7 +254,7 @@ export const HelpCenter = React.createClass({
    * Instrument the last auto-search, if it's still pending to be instrumented
    */
   backtrackSearch() {
-    if (!this.state.searchTracked && this.state.searchTerm && !this.state.hasAutoSearched) {
+    if (!this.state.searchTracked && this.state.searchTerm && !this.state.hasContextualSearched) {
       this.trackSearch();
     }
   },
@@ -443,7 +442,7 @@ export const HelpCenter = React.createClass({
                     ? noResultsTemplate()
                     : null;
 
-    const resultsLegend = this.state.hasAutoSearched
+    const resultsLegend = this.state.hasContextualSearched
                         ? i18n.t(
                             'embeddable_framework.helpCenter.label.topSuggestions',
                             { fallback: 'Top Suggestions' }

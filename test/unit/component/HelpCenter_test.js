@@ -177,7 +177,7 @@ describe('Help center component', function() {
       );
     });
 
-    it('shouldn\'t updateResults if no results', function() {
+    it('shouldn\'t call updateResults if no results', function() {
       const searchKeywords = ['foo', 'bar'];
       let recentCallArgs;
 
@@ -192,8 +192,10 @@ describe('Help center component', function() {
 
       expect(recentCallArgs.query.query)
         .toEqual(searchKeywords.join(' '));
+
       expect(recentCallArgs.query.locale)
         .toBeFalsy();
+
       expect(recentCallArgs.query.origin)
         .toBeFalsy();
 
@@ -203,7 +205,7 @@ describe('Help center component', function() {
         .not.toHaveBeenCalled();
     });
 
-    it('should updateResults if results, and set states', function() {
+    it('should set states and call updateResults if results', function() {
       const searchKeywords = 'foo bar';
       let recentCallArgs;
 
@@ -218,8 +220,10 @@ describe('Help center component', function() {
 
       expect(recentCallArgs.query.query)
         .toEqual(searchKeywords);
+
       expect(recentCallArgs.query.locale)
         .toBeFalsy();
+
       expect(recentCallArgs.query.origin)
         .toBeFalsy();
 
@@ -227,19 +231,15 @@ describe('Help center component', function() {
 
       expect(helpCenter.state.isLoading)
         .toBeFalsy();
-      expect(helpCenter.state.searchTracked)
-        .toBeFalsy();
-      expect(helpCenter.state.searchResultClicked)
-        .toBeFalsy();
+
       expect(helpCenter.state.searchTerm)
         .toEqual(searchKeywords);
-      expect(helpCenter.state.hasAutoSearched)
+
+      expect(helpCenter.state.hasContextualSearched)
         .toBeTruthy();
 
       expect(helpCenter.updateResults)
-        .toHaveBeenCalledWith(
-          responsePayloadResults
-        );
+        .toHaveBeenCalledWith(responsePayloadResults);
     });
   });
 
@@ -262,7 +262,7 @@ describe('Help center component', function() {
       );
     });
 
-    it('should execute searchFail if the result object is not OK', function() {
+    it('should call searchFail if the result object is not OK', function() {
       helpCenter.searchFail = searchFail;
 
       helpCenter.performSearch('help me please');
@@ -276,7 +276,7 @@ describe('Help center component', function() {
         .toHaveBeenCalled();
     });
 
-    it('should execute searchFail if the search fail callback is fired', function() {
+    it('should call searchFail if the search fail callback is fired', function() {
       helpCenter.searchFail = searchFail;
 
       helpCenter.performSearch('help me please');
@@ -305,20 +305,20 @@ describe('Help center component', function() {
 
       expect(recentCallArgs.query.query)
         .toEqual(searchString);
+
       expect(recentCallArgs.query.locale)
         .toBeFalsy();
+
       expect(recentCallArgs.query.origin)
         .toBeFalsy();
 
       mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayloadNoResults);
 
       expect(helpCenter.updateResults)
-        .toHaveBeenCalledWith(
-          responsePayloadNoResults
-        );
+        .toHaveBeenCalledWith(responsePayloadNoResults);
     });
 
-    it('should updateResults if results returned', function() {
+    it('should call updateResults if results returned', function() {
       const searchString = 'help me please';
       let recentCallArgs;
 
@@ -333,17 +333,17 @@ describe('Help center component', function() {
 
       expect(recentCallArgs.query.query)
         .toEqual(searchString);
+
       expect(recentCallArgs.query.locale)
         .toBeFalsy();
+
       expect(recentCallArgs.query.origin)
         .toBeFalsy();
 
       mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayloadResults);
 
       expect(helpCenter.updateResults)
-        .toHaveBeenCalledWith(
-          responsePayloadResults
-        );
+        .toHaveBeenCalledWith(responsePayloadResults);
     });
 
     it('should re-search without locale if with locale and no results', function() {
@@ -352,7 +352,7 @@ describe('Help center component', function() {
       let recentCallArgs;
 
       mockRegistry['service/i18n'].i18n.getLocale = function() {
-        return 'es-ES';
+        return searchLocale;
       };
 
       mockery.resetCache();
@@ -368,6 +368,7 @@ describe('Help center component', function() {
 
       expect(recentCallArgs.query.query)
         .toEqual(searchString);
+
       expect(recentCallArgs.query.locale)
         .toEqual(searchLocale);
 
@@ -400,8 +401,10 @@ describe('Help center component', function() {
 
       expect(recentCallArgs.query.query)
         .toEqual(searchString);
+
       expect(recentCallArgs.query.locale)
         .toBeFalsy();
+
       expect(recentCallArgs.query.origin)
         .toEqual('web_widget');
     });
