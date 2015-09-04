@@ -117,39 +117,36 @@ export const HelpCenter = React.createClass({
   },
 
   contextualSearch(searchQuery) {
-    const search = (searchString, locale) => {
-      transport.send({
-        method: 'get',
-        path: '/api/v2/help_center/search.json',
-        query: {
-          locale: locale,
-          query: searchString,
-          origin: null
-        },
-        callbacks: {
-          done: (res) => {
-            if (res.ok && res.body.count > 0) {
-              this.setState({
-                isLoading: false,
-                searchTerm: searchString,
-                hasSearched: true,
-                searchFailed: false,
-                hasContextualSearched: true,
-                previousSearchTerm: this.state.searchTerm,
-                searchResultClicked: false
-              });
-              this.updateResults(res);
-            }
-          }
-        }
-      });
-    };
     /* jshint laxbreak: true */
     const searchString = (typeof searchQuery === 'string')
                        ? searchQuery
                        : searchQuery.join(' ');
 
-    search(searchString, i18n.getLocale());
+    transport.send({
+      method: 'get',
+      path: '/api/v2/help_center/search.json',
+      query: {
+        locale: i18n.getLocale(),
+        query: searchString,
+        origin: null
+      },
+      callbacks: {
+        done: (res) => {
+          if (res.ok && res.body.count > 0) {
+            this.setState({
+              isLoading: false,
+              searchTerm: searchString,
+              hasSearched: true,
+              searchFailed: false,
+              hasContextualSearched: true,
+              previousSearchTerm: this.state.searchTerm,
+              searchResultClicked: false
+            });
+            this.updateResults(res);
+          }
+        }
+      }
+    });
   },
 
   performSearch(searchString, forceSearch) {
