@@ -7,6 +7,7 @@ import { store } from 'service/persistence';
 import { transport } from 'service/transport';
 import { document,
          getDocumentHost } from 'utility/globals';
+import { isMobileBrowser } from 'utility/devices';
 
 const npsCSS = require('./nps.scss');
 
@@ -37,16 +38,9 @@ function create(name, config) {
     }
   };
 
-  const frameParams = {
-    frameStyle: frameStyle,
-    css: npsCSS,
-    hideCloseButton: false,
-    fullscreenable: false,
-    name: name,
-    onHide(frame) {
-      setDismissTimestamp(frame.getRootComponent().state.survey);
-    }
-  };
+  let frameParams = (isMobileBrowser())
+    ? { fullscreenable: true }
+    : { fullscreenable: false };
 
   let Embed = React.createClass(frameFactory(
     (params) => {
@@ -55,10 +49,19 @@ function create(name, config) {
           ref='rootComponent'
           updateFrameSize={params.updateFrameSize}
           npsSender={npsSender}
+          mobile={isMobileBrowser()}
           style={{width: '375px', margin: '15px'}} /> /* FIXME: css */
       );
     },
-    frameParams
+    _.extend({}, {
+        frameStyle: frameStyle,
+        css: npsCSS,
+        hideCloseButton: false,
+        name: name,
+        onHide(frame) {
+          setDismissTimestamp(frame.getRootComponent().state.survey);
+        }
+    }, frameParams)
   ));
 
   npses[name] = {

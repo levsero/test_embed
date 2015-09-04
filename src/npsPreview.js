@@ -1,6 +1,7 @@
 import React            from 'react';
 import { frameFactory } from 'embed/frameFactory';
 import { NpsPreview }   from 'component/NpsPreview';
+import { Nps }          from 'component/Nps';
 
 const npsCSS = require('embed/nps/nps.scss');
 
@@ -12,7 +13,7 @@ const renderNps = (locale, elem) => {
     }
   };
 
-  const fakeSubmit = (params, done) => {
+  const npsSender = (params, done) => {
     setTimeout(() => {
       done();
     }, 1500);
@@ -21,9 +22,9 @@ const renderNps = (locale, elem) => {
   const Embed = React.createClass(frameFactory(
     (params) => {
       return (
-        <NpsPreview
-          npsSender={fakeSubmit}
+        <Nps
           updateFrameSize={params.updateFrameSize}
+          npsSender={npsSender}
           ref='rootComponent' />
       );
     },
