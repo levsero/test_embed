@@ -38,7 +38,7 @@ function create(name, config) {
     }
   };
 
-  let frameParams = {
+  const frameParams = {
     frameStyle: frameStyle,
     css: npsCSS,
     hideCloseButton: false,
