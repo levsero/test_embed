@@ -177,6 +177,29 @@ describe('Help center component', function() {
       );
     });
 
+    it('shouldn\'t call transport.send if no valid keywords were passed', function() {
+      let searchKeywords = {foo: 'bar'};
+
+      helpCenter.contextualSearch(searchKeywords);
+
+      expect(mockTransport.send)
+        .not.toHaveBeenCalled();
+
+      searchKeywords = 5;
+
+      helpCenter.contextualSearch(searchKeywords);
+
+      expect(mockTransport.send)
+        .not.toHaveBeenCalled();
+
+      searchKeywords = false;
+
+      helpCenter.contextualSearch(searchKeywords);
+
+      expect(mockTransport.send)
+        .not.toHaveBeenCalled();
+    });
+
     it('shouldn\'t call updateResults if no results', function() {
       const searchKeywords = ['foo', 'bar'];
 

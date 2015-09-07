@@ -118,9 +118,15 @@ export const HelpCenter = React.createClass({
 
   contextualSearch(searchQuery) {
     /* jshint laxbreak: true */
-    const searchString = (typeof searchQuery === 'string')
-                       ? searchQuery
-                       : searchQuery.join(' ');
+    let searchString;
+
+    if (typeof searchQuery === 'string') {
+      searchString = searchQuery;
+    } else if (Array.isArray(searchQuery)) {
+      searchString = searchQuery.join(' ');
+    } else {
+      return;
+    }
 
     transport.send({
       method: 'get',
