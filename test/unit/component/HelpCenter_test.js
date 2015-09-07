@@ -179,7 +179,6 @@ describe('Help center component', function() {
 
     it('shouldn\'t call updateResults if no results', function() {
       const searchKeywords = ['foo', 'bar'];
-      let recentCallArgs;
 
       helpCenter.updateResults = updateResults;
 
@@ -188,7 +187,7 @@ describe('Help center component', function() {
       expect(mockTransport.send)
         .toHaveBeenCalled();
 
-      recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
+      let recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
 
       expect(recentCallArgs.query.query)
         .toEqual(searchKeywords.join(' '));
@@ -207,7 +206,6 @@ describe('Help center component', function() {
 
     it('should set states and call updateResults if results', function() {
       const searchKeywords = 'foo bar';
-      let recentCallArgs;
 
       helpCenter.updateResults = updateResults;
 
@@ -216,7 +214,7 @@ describe('Help center component', function() {
       expect(mockTransport.send)
         .toHaveBeenCalled();
 
-      recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
+      let recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
 
       expect(recentCallArgs.query.query)
         .toEqual(searchKeywords);
@@ -292,7 +290,6 @@ describe('Help center component', function() {
 
     it('should call updateResults if no locale', function() {
       const searchString = 'help me please';
-      let recentCallArgs;
 
       helpCenter.updateResults = updateResults;
 
@@ -301,7 +298,7 @@ describe('Help center component', function() {
       expect(mockTransport.send)
         .toHaveBeenCalled();
 
-      recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
+      let recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
 
       expect(recentCallArgs.query.query)
         .toEqual(searchString);
@@ -320,7 +317,6 @@ describe('Help center component', function() {
 
     it('should call updateResults if results returned', function() {
       const searchString = 'help me please';
-      let recentCallArgs;
 
       helpCenter.updateResults = updateResults;
 
@@ -329,7 +325,7 @@ describe('Help center component', function() {
       expect(mockTransport.send)
         .toHaveBeenCalled();
 
-      recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
+      let recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
 
       expect(recentCallArgs.query.query)
         .toEqual(searchString);
@@ -349,7 +345,6 @@ describe('Help center component', function() {
     it('should re-search without locale if with locale and no results', function() {
       const searchString = 'help me please';
       const searchLocale = 'es-ES';
-      let recentCallArgs;
 
       mockRegistry['service/i18n'].i18n.getLocale = function() {
         return searchLocale;
@@ -364,7 +359,7 @@ describe('Help center component', function() {
       expect(mockTransport.send)
         .toHaveBeenCalled();
 
-      recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
+      let recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
 
       expect(recentCallArgs.query.query)
         .toEqual(searchString);
@@ -388,7 +383,6 @@ describe('Help center component', function() {
     it('should set origin properly if forceSearch', function() {
       const searchString = 'help me please';
       const forceSearch = true;
-      let recentCallArgs;
 
       helpCenter.updateResults = updateResults;
 
@@ -397,7 +391,7 @@ describe('Help center component', function() {
       expect(mockTransport.send)
         .toHaveBeenCalled();
 
-      recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
+      let recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
 
       expect(recentCallArgs.query.query)
         .toEqual(searchString);
