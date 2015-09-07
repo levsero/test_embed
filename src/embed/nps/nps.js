@@ -38,10 +38,16 @@ function create(name, config) {
     }
   };
 
-  /* jshint laxbreak: true */
-  let frameParams = (isMobileBrowser())
-    ? { fullscreenable: true }
-    : { fullscreenable: false };
+  let frameParams = {
+    frameStyle: frameStyle,
+    css: npsCSS,
+    hideCloseButton: false,
+    name: name,
+    fullscreenable: isMobileBrowser(),
+    onHide(frame) {
+      setDismissTimestamp(frame.getRootComponent().state.survey);
+    }
+  };
 
   let Embed = React.createClass(frameFactory(
     (params) => {
@@ -54,15 +60,7 @@ function create(name, config) {
           style={{width: '375px', margin: '15px'}} /> /* FIXME: css */
       );
     },
-    _.extend({}, {
-      frameStyle: frameStyle,
-      css: npsCSS,
-      hideCloseButton: false,
-      name: name,
-      onHide(frame) {
-        setDismissTimestamp(frame.getRootComponent().state.survey);
-      }
-    }, frameParams)
+    frameParams
   ));
 
   npses[name] = {
