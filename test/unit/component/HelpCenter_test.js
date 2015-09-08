@@ -312,6 +312,9 @@ describe('Help center component', function() {
       expect(helpCenter.state.isLoading)
         .toBeFalsy();
 
+      expect(helpCenter.state.showIntroScreen)
+        .toBeFalsy();
+
       expect(helpCenter.state.searchTerm)
         .toEqual(searchKeywords);
 

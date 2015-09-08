@@ -144,6 +144,7 @@ export const HelpCenter = React.createClass({
               searchTerm: searchString,
               hasSearched: true,
               searchFailed: false,
+              showIntroScreen: false,
               hasContextualSearched: true,
               previousSearchTerm: this.state.searchTerm,
               searchResultClicked: false
