@@ -2,7 +2,6 @@ describe('Help center component', function() {
   let HelpCenter,
       mockRegistry,
       trackSearch,
-      searchFail,
       updateResults;
   const searchFieldBlur = jasmine.createSpy();
   const searchFieldGetValue = jasmine.createSpy().and.returnValue('Foobar');
@@ -11,7 +10,6 @@ describe('Help center component', function() {
   beforeEach(function() {
 
     trackSearch = jasmine.createSpy('trackSearch');
-    searchFail = jasmine.createSpy('searchFail');
     updateResults = jasmine.createSpy('updateResults');
 
     resetDOM();
@@ -159,26 +157,87 @@ describe('Help center component', function() {
       .toEqual([]);
   });
 
+  describe('updateResults', function() {
+    let helpCenter;
+
+    beforeEach(function() {
+      helpCenter = React.render(
+        <HelpCenter />,
+        global.document.body
+      );
+    });
+
+    it('should set states matching the response with results', function() {
+      const responsePayloadResults = {ok: true, body: {results: [1, 2, 3], count: 3}};
+
+      helpCenter.updateResults(responsePayloadResults);
+
+      expect(helpCenter.state.articles)
+        .toEqual(responsePayloadResults.body.results);
+
+      expect(helpCenter.state.resultsCount)
+        .toEqual(responsePayloadResults.body.count);
+    });
+
+    it('should set states matching the response without results', function() {
+      const responsePayloadNoResults = {ok: true, body: {results: [], count: 0}};
+
+      helpCenter.updateResults(responsePayloadNoResults);
+
+      expect(helpCenter.state.articles)
+        .toEqual(responsePayloadNoResults.body.results);
+
+      expect(helpCenter.state.resultsCount)
+        .toEqual(responsePayloadNoResults.body.count);
+    });
+
+  });
+
+  describe('searchFail', function() {
+    it('should set states accordingly to the search failure', function() {
+      const searchTerm = 'abcd';
+      const helpCenter = React.render(
+        <HelpCenter />,
+        global.document.body
+      );
+
+      helpCenter.setState({ searchTerm: searchTerm });
+
+      helpCenter.searchFail();
+
+      expect(helpCenter.state.isLoading)
+        .toBeFalsy();
+
+      expect(helpCenter.state.previousSearchTerm)
+        .toEqual(searchTerm);
+
+      expect(helpCenter.state.hasSearched)
+        .toBeTruthy();
+
+      expect(helpCenter.state.searchFailed)
+        .toBeTruthy();
+    });
+
+  });
+
   describe('contextualSearch', function() {
     const responsePayloadResults = {ok: true, body: {results: [1, 2, 3], count: 3}};
     const responsePayloadNoResults = {ok: true, body: {results: [], count: 0}};
 
     let helpCenter,
-        mockOnSearch,
         mockTransport;
 
     beforeEach(function() {
-      mockOnSearch = jasmine.createSpy('mockOnSearch');
       mockTransport = mockRegistry['service/transport'].transport;
 
       helpCenter = React.render(
-        <HelpCenter trackSearch={trackSearch} onSearch={mockOnSearch} />,
+        <HelpCenter  />,
         global.document.body
       );
     });
 
     it('shouldn\'t call transport.send if no valid keywords were passed', function() {
-      let searchKeywords = {foo: 'bar'};
+      let searchKeywords = { foo: 'bar' };
 
       helpCenter.contextualSearch(searchKeywords);
 
@@ -269,16 +328,18 @@ describe('Help center component', function() {
     const responsePayloadResults = {ok: true, body: {results: [1, 2, 3], count: 3}};
     const responsePayloadNoResults = {ok: true, body: {results: [], count: 0}};
 
-    let helpCenter,
+    let searchFail,
+        helpCenter,
         mockOnSearch,
         mockTransport;
 
     beforeEach(function() {
+      searchFail = jasmine.createSpy('searchFail');
       mockOnSearch = jasmine.createSpy('mockOnSearch');
       mockTransport = mockRegistry['service/transport'].transport;
 
       helpCenter = React.render(
-        <HelpCenter trackSearch={trackSearch} onSearch={mockOnSearch} />,
+        <HelpCenter onSearch={mockOnSearch} />,
         global.document.body
       );
     });
