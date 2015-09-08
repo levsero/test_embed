@@ -14,8 +14,8 @@ describe('npsPreview entry file', function() {
         frameFactory: require(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
         frameMethods: require(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
       },
-      'component/NpsPreview': {
-        NpsPreview: React.createClass({
+      'component/Nps': {
+        Nps: React.createClass({
           getInitialState() {
             return {
               isMobile: false,

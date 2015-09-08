@@ -45,6 +45,11 @@ describe('embed.nps', () => {
         getDocumentHost: function() {
           return document.body;
         }
+      },
+      'utility/devices': {
+        isMobileBrowser: function() {
+          return false;
+        }
       }
     });
 

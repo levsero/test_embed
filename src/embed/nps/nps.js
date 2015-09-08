@@ -7,6 +7,7 @@ import { store } from 'service/persistence';
 import { transport } from 'service/transport';
 import { document,
          getDocumentHost } from 'utility/globals';
+import { isMobileBrowser } from 'utility/devices';
 
 const npsCSS = require('./nps.scss');
 
@@ -41,8 +42,8 @@ function create(name, config) {
     frameStyle: frameStyle,
     css: npsCSS,
     hideCloseButton: false,
-    fullscreenable: false,
     name: name,
+    fullscreenable: isMobileBrowser(),
     onHide(frame) {
       setDismissTimestamp(frame.getRootComponent().state.survey);
     }
@@ -55,6 +56,7 @@ function create(name, config) {
           ref='rootComponent'
           updateFrameSize={params.updateFrameSize}
           npsSender={npsSender}
+          mobile={isMobileBrowser()}
           style={{width: '375px', margin: '15px'}} /> /* FIXME: css */
       );
     },
