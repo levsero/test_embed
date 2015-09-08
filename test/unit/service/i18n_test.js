@@ -16,6 +16,12 @@ describe('i18n', function() {
         'zh-CN': {
           'launcher.label.hello': '你好'
         },
+        'pt-BR': {
+          'launcher.label.hello': 'Olá'
+        },
+        'no': {
+          'launcher.label.hello': 'Hallo'
+        },
         'fil': {
           'launcher.label.hello': 'Kumusta'
         }
@@ -23,7 +29,10 @@ describe('i18n', function() {
       'translation/localeIdMap.json': {
         'en-US': 1,
         'de': 8,
-        'zh-CN': 10
+        'zh-CN': 10,
+        'pt-BR': 19,
+        'no': 34,
+        'fil': 47
       },
       'lodash': _
     });
@@ -96,6 +105,63 @@ describe('i18n', function() {
       /* jshint sub: true */
       i18n.setLocale('de-de');
       expect(i18n.getLocaleId()).toEqual(localeIdMap['de']);
+    });
+
+  });
+
+  describe('parseLocale', function() {
+    it('should return locale when locale key is found', function() {
+      i18n.setLocale('de');
+
+      expect(i18n.getLocale())
+        .toEqual('de');
+    });
+
+    it('should return locale when locale with country key is found', function() {
+      i18n.setLocale('pt-BR');
+
+      expect(i18n.getLocale())
+        .toEqual('pt-BR');
+    });
+
+    it('should return China\'s locale for `zh` key', function() {
+      i18n.setLocale('zh-CN');
+
+      expect(i18n.getLocale())
+        .toEqual('zh-CN');
+    });
+
+    it('should return Norwegian locale for `nb` and `nn` key', function() {
+      i18n.setLocale('nb');
+
+      expect(i18n.getLocale())
+        .toEqual('no');
+
+      i18n.setLocale('nn');
+
+      expect(i18n.getLocale())
+        .toEqual('no');
+    });
+
+    it('should return Filipino locale for `tl` key', function() {
+      i18n.setLocale('nb');
+
+      expect(i18n.getLocale())
+        .toEqual('no');
+    });
+
+    it('should return `en-US` if locale key is not found', function() {
+      i18n.setLocale('Carlos');
+
+      expect(i18n.getLocale())
+        .toEqual('en-US');
+    });
+
+    it('should return `en-US` by default if locale key is not passed', function() {
+      i18n.setLocale();
+
+      expect(i18n.getLocale())
+        .toEqual('en-US');
     });
 
   });
