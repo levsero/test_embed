@@ -23,6 +23,8 @@ function parseLocale(str) {
     return 'zh-CN';
   } else if (str === 'nb' || str === 'nn') {
     return 'no';
+  } else if (str === 'tl') {
+    return 'fil';
   } else {
     return 'en-US';
   }
