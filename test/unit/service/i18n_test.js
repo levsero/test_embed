@@ -125,7 +125,7 @@ describe('i18n', function() {
     });
 
     it('should return China\'s locale for `zh` key', function() {
-      i18n.setLocale('zh-CN');
+      i18n.setLocale('zh');
 
       expect(i18n.getLocale())
         .toEqual('zh-CN');
