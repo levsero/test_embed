@@ -144,10 +144,10 @@ describe('i18n', function() {
     });
 
     it('should return Filipino locale for `tl` key', function() {
-      i18n.setLocale('nb');
+      i18n.setLocale('tl');
 
       expect(i18n.getLocale())
-        .toEqual('no');
+        .toEqual('fil');
     });
 
     it('should return `en-US` if locale key is not found', function() {
