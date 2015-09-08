@@ -87,7 +87,7 @@ export const Nps = React.createClass({
     setTimeout(this.sendComment, 0);
   },
 
-  onChangeHandler(ev) {
+  onCommentChangeHandler(ev) {
     this.setState({
       response: _.extend({}, this.state.response, { comment: ev.target.value }),
       commentFieldDirty: true
@@ -112,7 +112,7 @@ export const Nps = React.createClass({
           {...this.state}
           ratingClickHandler={this.ratingClickHandler}
           submitCommentHandler={this.submitCommentHandler}
-          onChangeHandler={this.onChangeHandler}
+          onCommentChangeHandler={this.onCommentChangeHandler}
           sendComment={this.sendComment} />;
   }
 });

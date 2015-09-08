@@ -96,7 +96,7 @@ export const NpsDesktop = React.createClass({
                 value={this.props.response.comment}
                 name='comment'
                 input={<textarea rows="2"></textarea>}
-                onChange={this.props.onChangeHandler} />
+                onChange={this.props.onCommentChangeHandler} />
 
               <ButtonGroup
                 style={{ marginTop: '10px' }}
