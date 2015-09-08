@@ -149,12 +149,15 @@ function updateHelpCenterButton(name, labelKey) {
 }
 
 function keywordsSearch(name, keywords) {
-  const helpCenter = getRootComponent(name);
+  if (getRootComponent(name)) {
+    const helpCenter = getRootComponent(name);
+    helpCenter.contextualSearch(keywords);
+  } else {
+    setTimeout(() => {
+      keywordsSearch(name, keywords);
+    }, 0);
+  }
 
-  helpCenter.performSearch(keywords, {
-      auto: true
-    }
-  );
 }
 
 function render(name) {
