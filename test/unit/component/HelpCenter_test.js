@@ -229,7 +229,7 @@ describe('Help center component', function() {
       mockTransport = mockRegistry['service/transport'].transport;
 
       helpCenter = React.render(
-        <HelpCenter  />,
+        <HelpCenter />,
         global.document.body
       );
     });
