@@ -159,7 +159,6 @@ function keywordsSearch(name, keywords) {
       keywordsSearch(name, keywords);
     }, 0);
   }
-
 }
 
 function render(name) {
@@ -208,7 +207,6 @@ function render(name) {
   mediator.channel.subscribe(name + '.setKeywords', function(keywords) {
     keywordsSearch(name, keywords);
   });
-
 }
 
 function postRender(name) {
