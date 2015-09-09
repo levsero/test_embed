@@ -223,5 +223,4 @@ describe('util.setScaleLock', function() {
         .toEqual('! thi𝌆$ is tchüss1@  path');
     });
   });
-
 });

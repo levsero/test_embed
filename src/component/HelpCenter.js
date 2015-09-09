@@ -117,7 +117,6 @@ export const HelpCenter = React.createClass({
   },
 
   contextualSearch(searchQuery) {
-    /* jshint laxbreak: true */
     let searchString;
 
     if (typeof searchQuery === 'string') {

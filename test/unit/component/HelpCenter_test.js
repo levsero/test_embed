@@ -190,7 +190,6 @@ describe('Help center component', function() {
       expect(helpCenter.state.resultsCount)
         .toEqual(responsePayloadNoResults.body.count);
     });
-
   });
 
   describe('searchFail', function() {
@@ -217,7 +216,6 @@ describe('Help center component', function() {
       expect(helpCenter.state.searchFailed)
         .toBeTruthy();
     });
-
   });
 
   describe('contextualSearch', function() {

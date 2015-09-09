@@ -525,7 +525,6 @@ describe('embed.helpCenter', function() {
         expect(contextualSearch)
           .toHaveBeenCalledWith(keywords);
       });
-
     });
 
   });
