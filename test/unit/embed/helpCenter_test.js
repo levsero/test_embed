@@ -7,6 +7,8 @@ describe('embed.helpCenter', function() {
   const resetSearchFieldState = jasmine.createSpy();
   const hideVirtualKeyboard = jasmine.createSpy();
   const backtrackSearch = jasmine.createSpy();
+  const performSearch = jasmine.createSpy();
+  const contextualSearch = jasmine.createSpy();
 
   beforeEach(function() {
     const mockForm = noopReactComponent();
@@ -53,6 +55,8 @@ describe('embed.helpCenter', function() {
           resetSearchFieldState: resetSearchFieldState,
           hideVirtualKeyboard: hideVirtualKeyboard,
           backtrackSearch: backtrackSearch,
+          contextualSearch: contextualSearch,
+          performSearch: performSearch,
           focusField: focusField,
           render: function() {
             return (
@@ -509,6 +513,17 @@ describe('embed.helpCenter', function() {
 
         expect(carlosHelpCenter.state.buttonLabel)
           .toEqual('submitTicket label');
+      });
+
+      it('should subscribe to <name>.setKeywords', function() {
+        const keywords = ['foo', 'bar'];
+        expect(mockMediator.channel.subscribe)
+          .toHaveBeenCalledWith('carlos.setKeywords', jasmine.any(Function));
+
+        pluckSubscribeCall(mockMediator, 'carlos.setKeywords')(keywords);
+
+        expect(contextualSearch)
+          .toHaveBeenCalledWith(keywords);
       });
     });
 
