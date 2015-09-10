@@ -339,6 +339,19 @@ function init(helpCenterAvailable, hideLauncher) {
 
     fn();
   });
+
+  c.subscribe(`${launcher}.show`, function() {
+    if (state[`${chat}.isOnline`]) {
+      if (state[`${helpCenter}.isAvailable`]) {
+        c.broadcast(`${launcher}.setLabelChatHelp`);
+      } else {
+        c.broadcast(`${launcher}.setLabelChat`);
+      }
+    } else {
+      c.broadcast(`${launcher}.setLabelHelp`);
+    }
+  });
+
 }
 
 export var mediator = {
