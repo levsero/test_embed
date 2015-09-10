@@ -185,7 +185,7 @@ function getFrameworkLoadTime() {
 }
 
 function getPageKeywords() {
-  return `${doc.title || ''} ${splitPath(location.pathname)}`;
+  return splitPath(location.pathname).trim();
 }
 
 export {
