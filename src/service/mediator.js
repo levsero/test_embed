@@ -345,14 +345,14 @@ function init(helpCenterAvailable, hideLauncher) {
   });
 
   c.subscribe(`${launcher}.show`, function() {
-    if (state[`${chat}.isOnline`]) {
-      if (state[`${helpCenter}.isAvailable`]) {
-        c.broadcast(`${launcher}.setLabelChatHelp`);
-      } else {
-        c.broadcast(`${launcher}.setLabelChat`);
-      }
-    } else {
+    if (!state[`${chat}.isOnline`]) {
       c.broadcast(`${launcher}.setLabelHelp`);
+    }
+    if (state[`${chat}.isOnline`] && state[`${helpCenter}.isAvailable`]) {
+      c.broadcast(`${launcher}.setLabelChatHelp`);
+    }
+    if (state[`${chat}.isOnline`] && !state[`${helpCenter}.isAvailable`]) {
+      c.broadcast(`${launcher}.setLabelChat`);
     }
   });
 
