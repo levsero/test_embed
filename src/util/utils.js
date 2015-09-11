@@ -1,7 +1,8 @@
 import _     from 'lodash';
 import Color from 'color';
 
-import { document as doc } from 'utility/globals';
+import { document as doc,
+         location }       from 'utility/globals';
 import { getSizingRatio } from 'utility/devices';
 import { mediator }  from 'service/mediator';
 
@@ -132,6 +133,18 @@ function parseUrl(url) {
   return anchor;
 }
 
+/**
+ * Given a URL/path extract the words on it splitting by common symbols (/, -, _, .)
+ *
+ * @param  {string}  path   The URL/path e.g. "domain.com/foo/bar.index.html"
+ * @return {string}         The split string
+ */
+function splitPath(path) {
+  return decodeURIComponent(path)
+          .replace(/\.[^.]{1,4}$/, '')
+          .replace(/[\/\.\|_\-]/g, ' ');
+}
+
 function clickBusterRegister(x, y) {
   clickBusterClicks.push([x, y]);
 }
@@ -171,6 +184,10 @@ function getFrameworkLoadTime() {
   return loadTime >= 0 ? loadTime : undefined;
 }
 
+function getPageKeywords() {
+  return splitPath(location.pathname).trim();
+}
+
 export {
   parseUrl,
   setScaleLock,
@@ -178,5 +195,7 @@ export {
   clickBusterHandler,
   metaStringToObj,
   getFrameworkLoadTime,
-  generateUserCSS
+  generateUserCSS,
+  getPageKeywords,
+  splitPath
 };

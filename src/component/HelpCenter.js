@@ -28,6 +28,7 @@ export const HelpCenter = React.createClass({
       fullscreen: isMobileBrowser(),
       previousSearchTerm: '',
       hasSearched: false,
+      hasContextualSearched: false,
       searchFailed: false,
       articleViewActive: false,
       activeArticle: {},
@@ -98,11 +99,7 @@ export const HelpCenter = React.createClass({
 
     this.setState({
       articles: articles,
-      resultsCount: json.count,
-      isLoading: false,
-      previousSearchTerm: this.state.searchTerm,
-      hasSearched: true,
-      searchFailed: false
+      resultsCount: json.count
     });
 
     this.focusField();
@@ -119,6 +116,45 @@ export const HelpCenter = React.createClass({
     this.focusField();
   },
 
+  contextualSearch(searchQuery) {
+    let searchString;
+
+    if (typeof searchQuery === 'string') {
+      searchString = searchQuery;
+    } else if (Array.isArray(searchQuery)) {
+      searchString = searchQuery.join(' ');
+    } else {
+      return;
+    }
+
+    transport.send({
+      method: 'get',
+      path: '/api/v2/help_center/search.json',
+      query: {
+        locale: i18n.getLocale(),
+        query: searchString,
+        origin: null
+      },
+      callbacks: {
+        done: (res) => {
+          if (res.ok && res.body.count > 0) {
+            this.setState({
+              isLoading: false,
+              searchTerm: searchString,
+              hasSearched: true,
+              searchFailed: false,
+              showIntroScreen: false,
+              hasContextualSearched: true,
+              previousSearchTerm: this.state.searchTerm,
+              searchResultClicked: false
+            });
+            this.updateResults(res);
+          }
+        }
+      }
+    });
+  },
+
   performSearch(searchString, forceSearch) {
     const search = (searchString, locale) => {
       transport.send({
@@ -133,6 +169,13 @@ export const HelpCenter = React.createClass({
           done: (res) => {
             if (res.ok) {
               if ((locale && res.body.count > 0) || !locale) {
+                this.setState({
+                  isLoading: false,
+                  hasSearched: true,
+                  searchFailed: false,
+                  hasContextualSearched: false,
+                  previousSearchTerm: this.state.searchTerm
+                });
                 this.props.onSearch({searchString: searchString, searchLocale: locale});
                 this.updateResults(res);
               } else {
@@ -185,7 +228,7 @@ export const HelpCenter = React.createClass({
 
     this.props.showBackButton();
 
-    if (!this.state.searchTracked) {
+    if (!this.state.searchTracked && !this.state.hasContextualSearched) {
       this.trackSearch();
     }
   },
@@ -214,7 +257,7 @@ export const HelpCenter = React.createClass({
    * Instrument the last auto-search, if it's still pending to be instrumented
    */
   backtrackSearch() {
-    if (!this.state.searchTracked && this.state.searchTerm) {
+    if (!this.state.searchTracked && this.state.searchTerm && !this.state.hasContextualSearched) {
       this.trackSearch();
     }
   },
@@ -402,6 +445,13 @@ export const HelpCenter = React.createClass({
                     ? noResultsTemplate()
                     : null;
 
+    const resultsLegend = this.state.hasContextualSearched
+                        ? i18n.t(
+                            'embeddable_framework.helpCenter.label.topSuggestions',
+                            { fallback: 'Top Suggestions' }
+                          )
+                        : i18n.t('embeddable_framework.helpCenter.label.results');
+
     return (
       /* jshint laxbreak: true */
       <Container
@@ -443,7 +493,7 @@ export const HelpCenter = React.createClass({
 
               <h1 className={formLegendClasses}>
                 <span className='Arrange-sizeFill'>
-                  {i18n.t('embeddable_framework.helpCenter.label.results')}
+                  {resultsLegend}
                 </span>
               </h1>
 
