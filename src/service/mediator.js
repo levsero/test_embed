@@ -343,6 +343,19 @@ function init(helpCenterAvailable, hideLauncher) {
 
     fn();
   });
+
+  c.subscribe(`${launcher}.show`, function() {
+    if (!state[`${chat}.isOnline`]) {
+      c.broadcast(`${launcher}.setLabelHelp`);
+    }
+    if (state[`${chat}.isOnline`] && state[`${helpCenter}.isAvailable`]) {
+      c.broadcast(`${launcher}.setLabelChatHelp`);
+    }
+    if (state[`${chat}.isOnline`] && !state[`${helpCenter}.isAvailable`]) {
+      c.broadcast(`${launcher}.setLabelChat`);
+    }
+  });
+
 }
 
 export var mediator = {
