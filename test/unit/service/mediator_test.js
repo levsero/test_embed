@@ -447,12 +447,32 @@ describe('mediator', function() {
       it('shows label "Chat" if chat is online', function() {
         c.broadcast(`${chat}.onOnline`);
 
+        expect(launcherSub.setLabelChat)
+          .toHaveBeenCalled();
+      });
+
+      it('resets label "Chat" on launcher.show if chat is online', function() {
+        c.broadcast(`${chat}.onOnline`);
+        reset(launcherSub.setLabelChat);
+
+        c.broadcast(`${launcher}.show`);
+
         expect(launcherSub.setLabelChat.calls.count())
           .toEqual(1);
       });
 
       it('shows label "Help" if chat is offline', function() {
         c.broadcast(`${chat}.onOffline`);
+
+        expect(launcherSub.setLabelHelp.calls.count())
+          .toEqual(1);
+      });
+
+      it('resets label "Help" on launcher.show if chat is offline', function() {
+        c.broadcast(`${chat}.onOffline`);
+        reset(launcherSub.setLabelHelp);
+
+        c.broadcast(`${launcher}.show`);
 
         expect(launcherSub.setLabelHelp.calls.count())
           .toEqual(1);
@@ -596,8 +616,8 @@ describe('mediator', function() {
     describe('chat', function() {
       it('sets launcher to "Chat" when chat comes online', function() {
         c.broadcast(`${chat}.onOnline`);
-        expect(launcherSub.setLabelChat.calls.count())
-          .toEqual(1);
+        expect(launcherSub.setLabelChat)
+          .toHaveBeenCalled();
       });
 
       it('sets launcher to "Help" when chat goes offline', function() {
@@ -1066,12 +1086,32 @@ describe('mediator', function() {
       it('shows label "ChatHelp" if chat is online', function() {
         c.broadcast(`${chat}.onOnline`);
 
+        expect(launcherSub.setLabelChatHelp)
+          .toHaveBeenCalled();
+      });
+
+      it('resets label "ChatHelp" on launcher.show if chat is online', function() {
+        c.broadcast(`${chat}.onOnline`);
+        reset(launcherSub.setLabelChatHelp);
+
+        c.broadcast(`${launcher}.show`);
+
         expect(launcherSub.setLabelChatHelp.calls.count())
           .toEqual(1);
       });
 
       it('shows label "Help" if chat is offline', function() {
         c.broadcast(`${chat}.onOffline`);
+
+        expect(launcherSub.setLabelHelp.calls.count())
+          .toEqual(1);
+      });
+
+      it('resets label "Help" on launcher.show if chat is offline', function() {
+        c.broadcast(`${chat}.onOffline`);
+        reset(launcherSub.setLabelHelp);
+
+        c.broadcast(`${launcher}.show`);
 
         expect(launcherSub.setLabelHelp.calls.count())
           .toEqual(1);
@@ -1269,8 +1309,8 @@ describe('mediator', function() {
     describe('chat', function() {
       it('sets launcher to "Chat" when chat comes online', function() {
         c.broadcast(`${chat}.onOnline`);
-        expect(launcherSub.setLabelChatHelp.calls.count())
-          .toEqual(1);
+        expect(launcherSub.setLabelChatHelp)
+          .toHaveBeenCalled();
       });
 
       it('sets launcher to "Help" when chat goes offline', function() {
