@@ -110,6 +110,7 @@ export const Nps = React.createClass({
           style={{background: 'red', height: 100, width: 100}} />
       : <NpsDesktop
           {...this.state}
+          style={this.props.style}
           ratingClickHandler={this.ratingClickHandler}
           submitCommentHandler={this.submitCommentHandler}
           onCommentChangeHandler={this.onCommentChangeHandler}

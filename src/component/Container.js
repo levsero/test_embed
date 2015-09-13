@@ -6,8 +6,9 @@ export var Container = React.createClass({
   render() {
     const containerClasses = classSet({
       'Container': true,
-      'Container--popover': !this.props.fullscreen,
+      'Container--popover': !this.props.fullscreen && !this.props.card,
       'Container--fullscreen': this.props.fullscreen,
+      'Container--card': this.props.card,
       'u-posRelative': true
     });
 

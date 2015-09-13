@@ -14,10 +14,14 @@ const npsCSS = require('./nps.scss');
 let npses = {};
 
 function create(name, config) {
+  let containerStyle;
+
   const frameStyle = {
     position: 'fixed',
-    right: '0px',
-    top: '0px'
+    left: '50%',
+    bottom: 0,
+    transform: 'translate3d(-50%, 0, 0)',
+    webkitTransform: 'translate3d(-50%, 0, 0)'
   };
 
   const npsSender = function(params, doneFn, failFn) {
@@ -53,6 +57,13 @@ function create(name, config) {
     }
   };
 
+  if (isMobileBrowser()) {
+
+  } else {
+    frameStyle.width = 620;
+    containerStyle = { width: 620, margin: 15 };
+  }
+
   let Embed = React.createClass(frameFactory(
     (params) => {
       return (
@@ -61,14 +72,14 @@ function create(name, config) {
           updateFrameSize={params.updateFrameSize}
           npsSender={npsSender}
           mobile={isMobileBrowser()}
-          style={{width: '375px', margin: '15px'}} /> /* FIXME: css */
+          style={containerStyle} /> /* FIXME: css */
       );
     },
     frameParams
   ));
 
   npses[name] = {
-    component: <Embed visible={false} />,
+    component: <Embed visible={true} />,
     config: config
   };
 }

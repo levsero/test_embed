@@ -80,11 +80,13 @@ export const NpsDesktop = React.createClass({
                              .map(ratingListItemTemplate);
 
     return (
-      <Container style={this.props.style}>
-        <div style={{ padding: '35px 10px 10px' }}> {/* FIXME: css */}
-          <p>{this.props.survey.question}</p>
+      <Container
+        card
+        style={this.props.style}>
+        <div className='u-paddingHL u-paddingVM'>
+          <h1 className='u-textSize15'>{this.props.survey.question}</h1>
 
-          <ol className='nps-ratings'>
+          <ol className='nps-ratings u-paddingVL'>
             {ratingListItems}
           </ol>
 
