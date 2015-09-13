@@ -322,6 +322,21 @@ describe('Help center component', function() {
       expect(helpCenter.updateResults)
         .toHaveBeenCalledWith(responsePayloadResults);
     });
+
+    it('should request 3 results', function() {
+      const searchKeywords = 'foo bar';
+
+      helpCenter.contextualSearch(searchKeywords);
+
+      expect(mockTransport.send)
+        .toHaveBeenCalled();
+
+      let recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
+
+      /* jshint camelcase:false */
+      expect(recentCallArgs.query.per_page)
+        .toEqual(3);
+    });
   });
 
   describe('performSearch', function() {
