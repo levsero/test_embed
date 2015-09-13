@@ -160,9 +160,11 @@ export const HelpCenter = React.createClass({
       transport.send({
         method: 'get',
         path: '/api/v2/help_center/search.json',
+        /* jshint camelcase:false */
         query: {
           locale: locale,
           query: searchString,
+          per_page: 3,
           origin: forceSearch ? 'web_widget' : null
         },
         callbacks: {

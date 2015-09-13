@@ -487,6 +487,21 @@ describe('Help center component', function() {
       expect(recentCallArgs.query.origin)
         .toEqual('web_widget');
     });
+
+    it('should request 3 articles', function() {
+      const searchString = 'help me please';
+
+      helpCenter.performSearch(searchString);
+
+      expect(mockTransport.send)
+        .toHaveBeenCalled();
+
+      let recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
+
+      /* jshint camelcase:false */
+      expect(recentCallArgs.query.per_page)
+        .toEqual(3);
+    });
   });
 
   describe('backtrack search', function() {
