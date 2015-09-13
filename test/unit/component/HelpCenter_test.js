@@ -505,6 +505,34 @@ describe('Help center component', function() {
   });
 
   describe('backtrack search', function() {
+    it('should send the right request params when backtracking', function() {
+      const helpCenter = React.render(
+        <HelpCenter trackSearch={trackSearch} />,
+        global.document.body
+      );
+      const mockTransport = mockRegistry['service/transport'].transport;
+      const searchTerm = 'abcd';
+
+      helpCenter.setState({
+        searchTracked: false,
+        searchTerm: searchTerm
+      });
+
+      helpCenter.backtrackSearch();
+
+      expect(mockTransport.send)
+        .toHaveBeenCalledWith({
+          method: 'get',
+          path: '/api/v2/help_center/search.json',
+          /* jshint camelcase:false */
+          query: {
+            query: searchTerm,
+            per_page: 0,
+            origin: 'web_widget'
+          }
+        });
+    });
+
     it('should correctly backtrack if not done before and have searched', function() {
       const helpCenter = React.render(
         <HelpCenter trackSearch={trackSearch} />,

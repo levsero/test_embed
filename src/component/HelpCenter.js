@@ -244,8 +244,10 @@ export const HelpCenter = React.createClass({
     transport.send({
       method: 'get',
       path: '/api/v2/help_center/search.json',
+      /* jshint camelcase:false */
       query: {
         query: this.state.searchTerm,
+        per_page: 0,
         origin: 'web_widget'
       }
     });
