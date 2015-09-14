@@ -1,5 +1,4 @@
 import airwaves from 'airwaves';
-import _ from 'lodash';
 
 import { isMobileBrowser } from 'utility/devices';
 import { setScrollKiller,
@@ -206,7 +205,6 @@ function init(helpCenterAvailable, hideLauncher) {
     // chat opens in new window so hide isn't needed
     if (state.activeEmbed === chat && isMobileBrowser()) {
       c.broadcast(`${chat}.show`);
-      c.broadcast(`${launcher}.show`);
     } else {
       c.broadcast(`${launcher}.hide`);
       state[`${state.activeEmbed}.isVisible`] = true;
@@ -233,31 +231,36 @@ function init(helpCenterAvailable, hideLauncher) {
     }
   });
 
-  c.intercept(
+  c.intercept(`${helpCenter}.onClose`, (_broadcast) => {
+    c.broadcast(`${helpCenter}.hide`);
+    state[`${helpCenter}.isVisible`] = false;
+    _broadcast();
+  });
+
+  c.intercept(`${chat}.onHide`, (_broadcast) => {
+    c.broadcast(`${chat}.hide`);
+    state[`${chat}.isVisible`]  = false;
+    state[`${chat}.userClosed`] = true;
+    _broadcast();
+  });
+
+  c.intercept(`${submitTicket}.onClose`, (_broadcast) => {
+    c.broadcast(`${submitTicket}.hide`);
+    state[`${submitTicket}.isVisible`] = false;
+    _broadcast();
+  });
+
+  c.subscribe(
     [`${helpCenter}.onClose`,
      `${chat}.onHide`,
      `${submitTicket}.onClose`].join(','),
     () => {
-      if (state[`${helpCenter}.isVisible`]) {
-        c.broadcast(`${helpCenter}.hide`);
-        state[`${helpCenter}.isVisible`] = false;
-      } else if (state[`${chat}.isVisible`]) {
-        c.broadcast(`${chat}.hide`);
-        state[`${chat}.isVisible`]  = false;
-        state[`${chat}.userClosed`] = true;
-      } else if (state[`${submitTicket}.isVisible`]) {
-        c.broadcast(`${submitTicket}.hide`);
-        state[`${submitTicket}.isVisible`] = false;
-      }
-
       if (isMobileBrowser()) {
         setScrollKiller(false);
         revertWindowScroll();
       }
 
-      if (state['.hideOnClose']) {
-        c.broadcast(`${launcher}.hide`);
-      } else {
+      if (!state['.hideOnClose']) {
         c.broadcast(`${launcher}.show`);
       }
     }
