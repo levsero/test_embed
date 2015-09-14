@@ -1,4 +1,5 @@
 import React from 'react/addons';
+import _ from 'lodash';
 
 import { document,
          getDocumentHost }   from 'utility/globals';
