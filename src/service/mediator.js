@@ -202,68 +202,63 @@ function init(helpCenterAvailable, hideLauncher) {
     c.broadcast(`${submitTicket}.setLastSearch`, params);
   });
 
-  c.intercept(
-    [`${launcher}.onClick`,
-     `${helpCenter}.onClose`,
-     `${chat}.onHide`,
-     `${submitTicket}.onClose`].join(','),
-    function() {
-      if (_.any([state[`${chat}.isVisible`],
-                 state[`${submitTicket}.isVisible`],
-                 state[`${helpCenter}.isVisible`]])) {
-        if (state[`${helpCenter}.isVisible`]) {
-          c.broadcast(`${helpCenter}.hide`);
-          state[`${helpCenter}.isVisible`] = false;
-        }
-        if (state[`${chat}.isVisible`]) {
-          c.broadcast(`${chat}.hide`);
-          state[`${chat}.isVisible`]  = false;
-          state[`${chat}.userClosed`] = true;
-        }
-        if (state[`${submitTicket}.isVisible`]) {
-          c.broadcast(`${submitTicket}.hide`);
-          state[`${submitTicket}.isVisible`] = false;
-        }
+  c.intercept(`${launcher}.onClick`, () => {
+    // chat opens in new window so hide isn't needed
+    if (state.activeEmbed === chat && isMobileBrowser()) {
+      c.broadcast(`${chat}.show`);
+      c.broadcast(`${launcher}.show`);
+    } else {
+      c.broadcast(`${launcher}.hide`);
+      state[`${state.activeEmbed}.isVisible`] = true;
 
+      /**
+       * This timeout mitigates the Ghost Click produced when the launcher
+       * button is on the left, using a mobile device with small screen
+       * e.g. iPhone4. It's not a bulletproof solution, but it helps
+       */
+      setTimeout(() => {
+        c.broadcast(`${state.activeEmbed}.showWithAnimation`);
         if (isMobileBrowser()) {
-          setScrollKiller(false);
-          revertWindowScroll();
-        }
-
-        if (state['.hideOnClose']) {
-          c.broadcast(`${launcher}.hide`);
-        } else {
-          c.broadcast(`${launcher}.show`);
-        }
-      } else {
-        // chat opens in new window so hide isn't needed
-        if (state.activeEmbed === chat && isMobileBrowser()) {
-          c.broadcast(`${chat}.show`);
-          c.broadcast(`${launcher}.show`);
-        } else {
-          c.broadcast(`${launcher}.hide`);
-          state[`${state.activeEmbed}.isVisible`] = true;
-
           /**
-           * This timeout mitigates the Ghost Click produced when the launcher
-           * button is on the left, using a mobile device with small screen
-           * e.g. iPhone4. It's not a bulletproof solution, but it helps
+           * This timeout ensures the embed is displayed
+           * before the scrolling happens on the host page
+           * so that the user doesn't see the host page jump
            */
-          setTimeout(function() {
-            c.broadcast(`${state.activeEmbed}.showWithAnimation`);
-            if (isMobileBrowser()) {
-              /**
-               * This timeout ensures the embed is displayed
-               * before the scrolling happens on the host page
-               * so that the user doesn't see the host page jump
-               */
-              setTimeout(function() {
-                setWindowScroll(0);
-                setScrollKiller(true);
-              }, 0);
-            }
+          setTimeout(() => {
+            setWindowScroll(0);
+            setScrollKiller(true);
           }, 0);
         }
+      }, 0);
+    }
+  });
+
+  c.intercept(
+    [`${helpCenter}.onClose`,
+     `${chat}.onHide`,
+     `${submitTicket}.onClose`].join(','),
+    () => {
+      if (state[`${helpCenter}.isVisible`]) {
+        c.broadcast(`${helpCenter}.hide`);
+        state[`${helpCenter}.isVisible`] = false;
+      } else if (state[`${chat}.isVisible`]) {
+        c.broadcast(`${chat}.hide`);
+        state[`${chat}.isVisible`]  = false;
+        state[`${chat}.userClosed`] = true;
+      } else if (state[`${submitTicket}.isVisible`]) {
+        c.broadcast(`${submitTicket}.hide`);
+        state[`${submitTicket}.isVisible`] = false;
+      }
+
+      if (isMobileBrowser()) {
+        setScrollKiller(false);
+        revertWindowScroll();
+      }
+
+      if (state['.hideOnClose']) {
+        c.broadcast(`${launcher}.hide`);
+      } else {
+        c.broadcast(`${launcher}.show`);
       }
     }
   );
