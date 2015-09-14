@@ -16,6 +16,7 @@ describe('ButtonPill component', function() {
       'component/Icon': {
         Icon: noopReactComponent()
       },
+      'component/Loading': noopReactComponent(),
       'service/i18n': {
         i18n: {
           isRTL: noop

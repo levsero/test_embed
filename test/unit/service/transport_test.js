@@ -2,6 +2,7 @@ describe('transport', function() {
   let transport,
       mockMethods,
       mockRegistry;
+
   const transportPath = buildSrcPath('service/transport');
 
   beforeEach(function() {
@@ -11,12 +12,14 @@ describe('transport', function() {
       send: function() { return mockMethods; },
       query: function() { return mockMethods; },
       timeout: function() { return mockMethods; },
+      retry:  function() { return mockMethods; },
       end:  function() { return mockMethods; }
     };
     mockRegistry = initMockRegistry({
       'superagent': jasmine.createSpy().and.callFake(function() {
         return mockMethods;
       }),
+      'superagent-retry': (x) => x,
       'lodash': _,
       'utility/globals': {
         win: {

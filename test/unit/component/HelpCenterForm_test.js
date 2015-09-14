@@ -20,7 +20,7 @@ describe('HelpCenterForm component', function() {
     mockRegistry = initMockRegistry({
       'react/addons': React,
       'component/Loading': {
-        Loading: noop
+        LoadingEllipses: noop
       },
       'component/FormField': {
         SearchField: noop

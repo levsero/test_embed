@@ -1,7 +1,7 @@
 import React from 'react/addons';
 import _     from 'lodash';
 
-import { Loading }         from 'component/Loading';
+import { LoadingEllipses }  from 'component/Loading';
 import { isMobileBrowser } from 'utility/devices';
 import { i18n }            from 'service/i18n';
 import { Icon }            from 'component/Icon';
@@ -76,6 +76,12 @@ var Field = React.createClass({
     }
   },
 
+  getDefaultProps() {
+    return {
+      labelClasses: ''
+    };
+  },
+
   getInitialState() {
     return {
       focused: false,
@@ -138,7 +144,8 @@ var Field = React.createClass({
     });
     const fieldLabelClasses = classSet({
       'Form-fieldLabel u-textXHeight': true,
-      'u-textSize15': isMobileBrowser()
+      'u-textSize15': isMobileBrowser(),
+      [`${this.props.labelClasses}`]: true
     });
     const fieldInputClasses = classSet({
       'Form-checkboxInput u-isHiddenVisually': isCheckbox,
@@ -416,7 +423,7 @@ var SearchField = React.createClass({
               type='search' />
           </div>
           <div className='Arrange-sizeFit u-isActionable'>
-            <Loading className={loadingClasses} />
+            <LoadingEllipses className={loadingClasses} />
             <div
               onClick={this.clearInput}
               className={clearInputClasses} />
@@ -428,4 +435,3 @@ var SearchField = React.createClass({
 });
 
 export { Field, SearchField, SearchFieldButton, getCustomFields };
-

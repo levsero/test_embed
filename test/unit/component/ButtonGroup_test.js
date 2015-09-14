@@ -16,6 +16,7 @@ describe('ButtonGroup component', function() {
       'component/Icon': {
         Icon: noopReactComponent()
       },
+      'component/Loading': noopReactComponent(),
       'service/i18n': noop
     });
 

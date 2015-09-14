@@ -4,20 +4,5 @@
 @import 'Form';
 @import 'Loading';
 @import 'Animation';
-
-// HALP @ryanseddon
-// FIXME: css
-
-.nps-ratings {
-  padding-bottom: 10px;
-
-  li {
-    display: inline-block;
-    margin: 1px;
-    .c-btn {
-      padding: 7px;
-      width: 14px;
-    }
-  }
-}
-
+@import 'List';
+@import 'NpsComment';

@@ -1,4 +1,5 @@
 import React from 'react/addons';
+import _     from 'lodash';
 
 import { frameFactory } from 'embed/frameFactory';
 import { Nps } from 'component/Nps';
@@ -15,16 +16,29 @@ let npses = {};
 
 function create(name, config) {
   let containerStyle;
+  let frameStyle;
 
-  const frameStyle = {
-    position: 'fixed',
-    left: '50%',
-    bottom: 0,
-    transform: 'translate3d(-50%, 0, 0)',
-    webkitTransform: 'translate3d(-50%, 0, 0)'
-  };
+  if (isMobileBrowser()) {
+    frameStyle = {
+      position: 'fixed',
+      bottom: '0',
+      right: '0',
+      display: 'block',
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      width: '100% !important'
+    };
+  } else {
+    frameStyle = {
+      position: 'fixed',
+      left: '50%',
+      bottom: 0,
+      transform: 'translate3d(-50%, 0, 0)',
+      webkitTransform: 'translate3d(-50%, 0, 0)'
+    };
+  }
 
-  const npsSender = function(params, doneFn, failFn) {
+  const npsSender = (params, doneFn, failFn) => {
     const payload = {
       path: '/embeddable/nps',
       method: 'post',
@@ -38,7 +52,7 @@ function create(name, config) {
     if (__DEV__) {
       setTimeout(doneFn, 1000);
     } else {
-      transport.sendWithMeta(payload);
+      transport.sendWithMeta(payload, 1);
     }
   };
 
@@ -64,22 +78,23 @@ function create(name, config) {
     containerStyle = { width: 620, margin: 15 };
   }
 
-  let Embed = React.createClass(frameFactory(
+  const Embed = React.createClass(frameFactory(
     (params) => {
       return (
         <Nps
           ref='rootComponent'
+          setFrameSize={params.setFrameSize}
           updateFrameSize={params.updateFrameSize}
           npsSender={npsSender}
           mobile={isMobileBrowser()}
-          style={containerStyle} /> /* FIXME: css */
+          style={containerStyle} />
       );
     },
     frameParams
   ));
 
   npses[name] = {
-    component: <Embed visible={true} />,
+    component: <Embed visible={false} />,
     config: config
   };
 }
@@ -90,25 +105,20 @@ function get(name) {
 
 function render(name) {
   const element = getDocumentHost().appendChild(document.createElement('div'));
-
   npses[name].instance = React.render(npses[name].component, element);
 
   mediator.channel.subscribe('nps.setSurvey', (params) => {
     const nps = npses[name].instance.getRootComponent();
-    const survey = params.npsSurvey;
+    const survey = params.npsSurvey || {};
+
+    if (survey.highlightColor) {
+      npses[name].instance.setHighlightColor(survey.highlightColor);
+    }
 
     if (survey && survey.id) {
       npses[name].instance.getRootComponent().reset();
-
       nps.setState({
-        survey: {
-          surveyId: survey.id,
-          commentsQuestion: survey.commentsQuestion,
-          highlightColor: survey.highlightColor,
-          logoUrl: survey.logoUrl,
-          question: survey.question,
-          recipientId: survey.recipientId
-        },
+        survey: _.extend({}, nps.state.survey, survey),
         surveyAvailable: true
       });
     } else {
@@ -150,14 +160,14 @@ function render(name) {
 function getDismissTimestampKey(survey) {
   return [
     transport.getZendeskHost(),
-    survey.surveyId,
+    survey.id,
     survey.recipientId,
     'dismiss-timestamp'
   ].join('-');
 }
 
 function shouldShow(survey = {}) {
-  if (!survey.surveyId) {
+  if (!survey.id) {
     return false;
   }
 

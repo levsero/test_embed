@@ -4,7 +4,8 @@ import _     from 'lodash';
 import { win }                 from 'utility/globals';
 import { getSizingRatio,
          isMobileBrowser }     from 'utility/devices';
-import { clickBusterRegister } from 'utility/utils';
+import { clickBusterRegister,
+         generateNpsCSS }      from 'utility/utils';
 import { i18n }                from 'service/i18n';
 import { snabbt }              from 'snabbt.js';
 import { ButtonNav }           from 'component/Button';
@@ -80,6 +81,32 @@ export var frameFactory = function(childFn, _params) {
       }
     },
 
+    setFrameSize: function(height = false, width = false) {
+      const iframe = this.getDOMNode();
+      const frameWin = iframe.contentWindow;
+      const frameDoc = iframe.contentDocument;
+      let dimensions = {
+        height: height || '100%',
+        width: width || `${win.innerWidth}px`,
+        background: 'transparent',
+        zIndex: '999999'
+      };
+
+      if (params.fullscreenable && isMobileBrowser()) {
+        frameDoc.body.firstChild.setAttribute(
+          'style',
+          ['width: 100%',
+          'height: 100%',
+          'overflow-x: hidden'].join(';')
+        );
+      }
+
+      frameWin.setTimeout(
+        () => this.setState(
+          { iframeDimensions: _.extend(this.state.iframeDimensions, dimensions) }
+        ), 0);
+    },
+
     updateFrameSize: function(offsetWidth = 0, offsetHeight = 0) {
       const iframe = this.getDOMNode();
       const frameWin = iframe.contentWindow;
@@ -141,10 +168,14 @@ export var frameFactory = function(childFn, _params) {
       }, 50);
 
       if (!isMobileBrowser() && animate) {
+        /* jshint laxbreak: true */
+        const xCoord = (params.name === 'nps')
+                     ? '-50%'
+                     : 0;
         const springTransition = {
           /* jshint camelcase: false */
-          from_position: [0, 15, 0],
-          position: [0, 0, 0],
+          from_position: [xCoord, 15, 0],
+          position: [xCoord, 0, 0],
           easing: 'spring',
           spring_constant: 0.5,
           spring_deacceleration: 0.75,
@@ -209,6 +240,10 @@ export var frameFactory = function(childFn, _params) {
       this.setState({
         visible: !this.state.visible
       });
+    },
+
+    setHighlightColor: function(color) {
+      this.getChild().setHighlightColor(color);
     },
 
     render: function() {
@@ -310,14 +345,26 @@ export var frameFactory = function(childFn, _params) {
         // Forcefully injects this.updateFrameSize
         // into childParams
         childParams = _.extend(childParams, {
-          updateFrameSize: this.updateFrameSize
+          updateFrameSize: this.updateFrameSize,
+          setFrameSize: this.setFrameSize
         });
 
         const Component = React.createClass({
           getInitialState() {
             return {
+              css: '',
               showBackButton: false
             };
+          },
+
+          setHighlightColor(color) {
+            const cssClasses = generateNpsCSS({ color: color });
+
+            if (cssClasses) {
+              this.setState({
+                css: cssClasses
+              });
+            }
           },
 
           render() {
@@ -327,10 +374,12 @@ export var frameFactory = function(childFn, _params) {
             const closeButtonClasses = classSet({
               'u-isHidden': params.hideCloseButton
             });
+            const styleTag = <style dangerouslySetInnerHTML={{ __html: this.state.css }} />;
 
             return (
               <div className={positionClasses}>
                 {css}
+                {styleTag}
                 {childFn(childParams)}
                 <div className={backButtonClasses}>
                   {backButton}

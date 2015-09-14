@@ -1,129 +1,147 @@
 import React from 'react/addons';
 import _     from 'lodash';
 
-import { Button,
-         ButtonGroup,
-         ButtonSecondary } from 'component/Button';
 import { Container } from 'component/Container';
-import { Field } from 'component/FormField';
-import { Loading } from 'component/Loading';
+import { Icon } from 'component/Icon';
+import { ZendeskLogo } from 'component/ZendeskLogo';
+import { NpsRatingsList } from 'component/NpsRatingsList';
+import { NpsComment } from 'component/NpsComment';
 
 const classSet = React.addons.classSet;
 
-const RatingButton = React.createClass({
-  getDefaultProps() {
-    return {
-      highlightColor: '',
-      selected: false,
-      loading: false,
-      label: null
-    };
-  },
-  render() {
-    /* jshint laxbreak: true */
-    // FIXME: css
-    const style = (this.props.selected)
-                ? {
-                    borderColor: this.props.highlightColor,
-                    background: this.props.highlightColor,
-                    color: '#fff'
-                  }
-                : {};
-    const content = (this.props.loading)
-                  ? (<div style={{ width:'30px' }}>  {/* FIXME: css */}
-                       <Loading />
-                     </div>)
-                  : (<ButtonSecondary
-                       style={style}
-                       label={`${this.props.label}`}
-                       onClick={this.props.onClick} />);
-
-    return content;
-  }
-});
+const thankYouFrameSize = {
+  height: '222px',
+  width: '430px'
+};
 
 export const NpsDesktop = React.createClass({
+  getInitialState() {
+    return {
+      currentPage: {
+        selectingRating: true,
+        thankYou: false,
+        addingComment: false
+      }
+    };
+  },
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.currentPage.selectingRating && this.state.currentPage.addingComment) {
+      this.refs.npsComment.focusField();
+    }
+  },
+
+  setCurrentPage(page) {
+    this.setState({
+      currentPage: _.mapValues(
+        this.getInitialState().currentPage,
+        (_, key) => key === page
+      )
+    });
+  },
+
+  ratingChangeValueHandler(rating) {
+    this.props.submitRatingHandler(rating, () => this.setCurrentPage('addingComment'));
+  },
+
+  submitCommentHandler(ev) {
+    this.props.submitCommentHandler(ev, () => {
+      this.setCurrentPage('thankYou');
+    });
+  },
+
   render() {
-    const commentsClasses = classSet({
-      'u-isHidden': this.props.response.rating === null
-    });
-    const sendButtonClasses = classSet({
-      /* jshint laxbreak: true */
-      'u-isHidden': (!this.props.commentFieldDirty
-                     || this.props.isSubmittingComment
-                     || this.props.surveyCompleted)
-    });
-    const submittingCommentLoadingClasses = classSet({
-      'u-isHidden': !this.props.isSubmittingComment
+    /* jshint laxbreak: true */
+    const NPS_RATINGS = _.range(11);
+    const hideZendeskLogo = this.props.hideZendeskLogo;
+    const hideRatingsLegend = this.state.currentPage.addingComment;
+    const containerStyles = this.state.currentPage.thankYou
+                          ? {width: 400, height: 192, margin: 15}
+                          : {width: 620, margin: 15};
+
+    const containerContentClasses = classSet({
+      'Container-content': true,
+      'u-paddingBL': hideZendeskLogo && !this.state.currentPage.addingComment
     });
     const thankYouClasses = classSet({
       'u-textCenter': true,
-      'u-isHidden': !this.props.surveyCompleted
+      'u-isHidden': !this.state.currentPage.thankYou
     });
-    const ratingListItemTemplate = (rating) => {
-      const isSelected = this.props.response.rating === rating;
-      const props = {
-        label: rating,
-        loading: isSelected && this.props.isSubmittingRating,
-        selected: isSelected,
-        highlightColor: this.props.survey.highlightColor,
-        onClick: this.props.ratingClickHandler(rating)
-      };
+    const surveyFormClasses = classSet({
+      'u-isHidden': this.state.currentPage.thankYou
+    });
+    const surveyTitleClasses = classSet({
+      'SurveyTitle u-textSize15 u-textCenter': true,
+      'u-paddingTT': !this.state.currentPage.thankYou
+    });
+    const commentsClasses = classSet({
+      'u-isHidden': !this.state.currentPage.addingComment
+    });
 
-      return (
-        <li>
-          <RatingButton {...props} />
-        </li>
-      );
-    };
-    const ratingListItems = _.range(11) // 0...10
-                             .map(ratingListItemTemplate);
+    const surveyTitle = (this.state.currentPage.thankYou)
+                      ? 'Thank you'
+                      : this.props.survey.question;
 
-    return (
-      <Container
-        card
-        style={this.props.style}>
-        <div className='u-paddingHL u-paddingVM'>
-          <h1 className='u-textSize15'>{this.props.survey.question}</h1>
+    const zendeskLogo = (!hideZendeskLogo && !this.state.currentPage.addingComment)
+                      ? <div className='u-textCenter u-paddingBM'>
+                          <ZendeskLogo className='u-posStatic' fullscreen={false} />
+                        </div>
+                      : <div className='u-paddingBS'></div>;
 
-          <ol className='nps-ratings u-paddingVL'>
-            {ratingListItems}
-          </ol>
+    const ratingsList = (!this.state.currentPage.thankYou)
+                      ? <div>
+                          <NpsRatingsList
+                            fullscreen={false}
+                            hideRatingsLegend={hideRatingsLegend}
+                            highlightColor={this.props.survey.highlightColor}
+                            isSubmittingRating={this.props.isSubmittingRating}
+                            likelyLabel={this.props.survey.likelyLabel}
+                            notLikelyLabel={this.props.survey.notLikelyLabel}
+                            ratingsRange={NPS_RATINGS}
+                            selectedRating={this.props.response.rating}
+                            onClick={this.ratingChangeValueHandler}
+                            onChangeValue={this.ratingChangeValueHandler} />
+                        </div>
+                      : null;
 
-          <div className={commentsClasses}>
-            <form onSubmit={this.props.submitCommentHandler}>
-              <Field
-                ref='commentField'
-                placeholder={this.props.survey.commentsQuestion}
-                value={this.props.response.comment}
-                name='comment'
-                input={<textarea rows="2"></textarea>}
-                onChange={this.props.onCommentChangeHandler} />
+    const commentsContent = <NpsComment
+                              ref='npsComment'
+                              fullscreen={false}
+                              className={commentsClasses}
+                              comment={this.props.response.comment}
+                              feedbackPlaceholder={this.props.survey.feedbackPlaceholder}
+                              isSubmittingComment={this.props.isSubmittingComment}
+                              isSubmittingRating={this.props.isSubmittingRating}
+                              onSubmit={this.submitCommentHandler}
+                              onChange={this.props.onCommentChangeHandler} />;
 
-              <ButtonGroup
-                style={{ marginTop: '10px' }}
-                rtl={false}>
-                <Button
-                  type='submit'
-                  className={sendButtonClasses}
-                  label='Send' /> {/* FIXME: i18n */}
-              </ButtonGroup>
-            </form>
-          </div>
+    // Hardcoding magic numbers
+    if (this.props.setFrameSize && this.state.currentPage.thankYou) {
+      setTimeout(() => this.props.setFrameSize(
+        thankYouFrameSize.height, thankYouFrameSize.width
+      ), 0);
+    }
 
-          <div
-            className={submittingCommentLoadingClasses}
-            style={{paddingTop: '16px', paddingRight: '35px', height: '21px'}}> {/* FIXME: css */}
-            <Loading className='u-textRight' />
-          </div>
+    return (this.props.survey && this.props.survey.question)
+         ? <Container
+             card
+             style={containerStyles}>
+             <div className={containerContentClasses}>
+               <h1 className={surveyTitleClasses}>{surveyTitle}</h1>
 
-          <div
-            className={thankYouClasses}
-            style={{ fontWeight:'bold' }}>
-            Thank you for your response!  {/* FIXME: i18n */}
-          </div>
-        </div>
-      </Container>
-    );
+                <div className={surveyFormClasses}>
+                  {ratingsList}
+                  {commentsContent}
+                </div>
+
+                <div className={thankYouClasses}>
+                  <Icon
+                    type='Icon--tick'
+                    className='u-inlineBlock u-userTextColor u-posRelative u-marginTL' />
+                </div>
+                {zendeskLogo}
+              </div>
+            </Container>
+         : <Container></Container>;
   }
 });

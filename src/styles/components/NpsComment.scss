@@ -1,0 +1,53 @@
+/**
+ * 1. Justifying content will look ugly once wrapped items exist
+ *    For the moment this is fine for Nps 0 - 10 rating
+ *
+ * 2. (Desktop) Adjust LoadingSpinner button to be same size as sendfeedback
+ *
+ */
+
+.NpsComment-label {
+  color: $zendesk-color--dark-gray;
+  font-size: #{14/$font-size}rem !important;
+  border: none !important;
+
+  &.is-mobile {
+    padding: #{12/$font-size}rem 0 !important;
+  }
+}
+
+.NpsComment-textarea {
+  height: #{80/$font-size}rem;
+}
+
+.NpsComment-selectlist {
+  background-color: $zendesk-color--snow;
+  border-radius: #{4/$font-size}rem;
+  font-size: #{16/$font-size}rem !important;
+  height: 2rem;
+  padding-left: #{6/$font-size}rem;
+  padding-right: #{13/$font-size}rem;
+  margin-top: -1.91rem; //vertically align
+}
+
+.NpsComment-selectlist-icon {
+  pointer-events: none;
+  position: absolute;
+  right: -#{8.5/$font-size}rem;
+  top: 0;
+}
+
+.NpsComment-submitContainer {
+  display: flex;
+  justify-content: flex-end; /* 1 */
+  padding-bottom: -#{2/$font-size}rem;
+}
+
+.NpsComment-loadingButton {
+  min-width: #{95/$font-size}rem;
+  max-height: #{13/$font-size}rem;
+
+  .LoadingSpinner {
+    margin-top: -#{2/$font-size}rem; /* 2 */
+  }
+}

@@ -1,10 +1,13 @@
 import _          from 'lodash';
 import superagent from 'superagent';
+import superagentRetry from 'superagent-retry';
 
 import { win } from 'utility/globals';
 import { identity } from 'service/identity';
 
 let config;
+
+superagentRetry(superagent);
 
 function init(_config) {
   const defaultConfig = {
@@ -14,7 +17,7 @@ function init(_config) {
   config = _.extend(defaultConfig, _config);
 }
 
-function send(payload) {
+function send(payload, retry = 0) {
   if (!config.zendeskHost) {
     throw 'Missing zendeskHost config param.';
   }
@@ -29,12 +32,17 @@ function send(payload) {
         payload.callbacks.done({
           body: {
             npsSurvey: {
-              commentsQuestion: 'Will you share why?',
+              commentsQuestion: 'Can you tell us why?',
               highlightColor: '#77a500',
               id: 10017,
               logoUrl: null,
               question: 'How likely are you to recommend Embeddable Nps to someone you know?',
-              recipientId: 10035
+              recipientId: 10035,
+              thankYou: 'Thank You',
+              youRated: 'You rated us a',
+              likelyLabel: '10 = Extremely likely',
+              notLikelyLabel: '0 = Not at all likely',
+              feedbackPlaceholder: 'Write your comments here...'
             }
           }
         });
@@ -50,6 +58,7 @@ function send(payload) {
     .send(payload.params || {})
     .query(payload.query || {})
     .timeout(10000)
+    .retry(retry)
     .end(function(err, res) {
       if (payload.callbacks) {
         if (err) {
@@ -65,7 +74,7 @@ function send(payload) {
     });
 }
 
-function sendWithMeta(payload) {
+function sendWithMeta(payload, retry = 0) {
   const commonParams = {
     url: win.location.href,
     buid: identity.getBuid(),
@@ -75,7 +84,7 @@ function sendWithMeta(payload) {
 
   payload.params = _.extend(commonParams, payload.params);
 
-  send(payload);
+  send(payload, retry);
 }
 
 function buildFullUrl(path) {

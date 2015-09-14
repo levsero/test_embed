@@ -17,6 +17,7 @@ describe('component/Button', function() {
       'component/Icon': {
         Icon: noopReactComponent()
       },
+      'component/Loading': noopReactComponent(),
       'service/i18n': noop
     });
 

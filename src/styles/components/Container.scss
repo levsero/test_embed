@@ -27,6 +27,7 @@ $Container-spacing: 25/$font-size;
   box-shadow: 0 #{$thin-border-size/$font-size}rem #{4/$font-size}rem 0 rgba($base-shadow, .3);
   max-width: #{620/$font-size}rem;
   min-width: #{400/$font-size}rem;
+  padding: #{30/$font-size}rem #{40/$font-size}rem 0;
 }
 
 .Container--fullscreen-center-vert {

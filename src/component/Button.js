@@ -2,6 +2,7 @@ import React from 'react/addons';
 
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
+import { LoadingSpinner } from 'component/Loading';
 
 const classSet = React.addons.classSet;
 
@@ -87,8 +88,17 @@ var ButtonPill = React.createClass({
 });
 
 var ButtonSecondary = React.createClass({
+  getDefaultProps() {
+    return {
+      className: ''
+    };
+  },
+
   propTypes: {
-    label: React.PropTypes.string.isRequired
+    label: React.PropTypes.oneOfType([
+      React.PropTypes.string.isRequired,
+      React.PropTypes.element
+    ])
   },
 
   render() {
@@ -131,4 +141,44 @@ var ButtonGroup = React.createClass({
   }
 });
 
-export { Button, ButtonNav, ButtonPill, ButtonSecondary, ButtonGroup };
+var ButtonRating = React.createClass({
+  getDefaultProps() {
+    return {
+      highlightColor: '',
+      selected: false,
+      loading: false,
+      label: null,
+      loadingSpinnerClassName: ''
+    };
+  },
+
+  render() {
+    const ButtonRatingClasses = classSet({
+      'c-btn--rating': true,
+      'is-mobile': this.props.fullscreen,
+      'u-userBackgroundColor u-userTextColorConstrast': this.props.selected,
+      'u-userBorderColor': this.props.selected,
+      'u-userTextColor': !this.props.selected
+    });
+
+    /* jshint laxbreak: true */
+    const label = this.props.loading
+                ? <LoadingSpinner
+                    className={`u-userFillColorContrast ${this.props.loadingSpinnerClassName}`} />
+                : `${this.props.label}`;
+
+    return <ButtonSecondary
+             label={label}
+             onClick={this.props.onClick}
+             className={ButtonRatingClasses} />;
+  }
+});
+
+export {
+  Button,
+  ButtonNav,
+  ButtonPill,
+  ButtonSecondary,
+  ButtonGroup,
+  ButtonRating
+};
