@@ -37,15 +37,15 @@ function remove(name, session) {
 
 function clear(session) {
   const backend = storage(session);
-  const keys = _.keys(backend);
+  const keys = _.chain(_.keys(backend))
+                .filter((key) => {
+                  return key.indexOf(prefix) === 0;
+                })
+                .value();
 
-  _.chain(keys)
-    .filter(function(key) {
-      return key.indexOf(prefix) === 0;
-    })
-    .each(function(key) {
-      backend.removeItem(key);
-    });
+  _.forEach(keys, (key) => {
+    backend.removeItem(key);
+  });
 }
 
 function serialize(data) {
