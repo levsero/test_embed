@@ -91,6 +91,14 @@ function render(name) {
     const nps = npses[name].instance.getRootComponent();
     const survey = params.npsSurvey;
 
+    if (__DEV__) {
+      survey.thankYou = survey.thankYou || 'Thank You';
+      survey.youRated = survey.youRated || 'You rated us a';
+      survey.likelyLabel = survey.likelyLabel || '10 = Extremely likely';
+      survey.notLikelyLabel = survey.notLikelyLabel || '0 = Not likely';
+      survey.feedbackPlaceholder = survey.feedbackPlaceholder || 'Write you comments here...';
+    }
+
     if (survey && survey.id) {
       let newNpsSurveyState = _.extend(nps.state.survey, {
         surveyId: survey.id,
@@ -99,12 +107,11 @@ function render(name) {
         logoUrl: survey.logoUrl,
         question: survey.question,
         recipientId: survey.recipientId,
-        thankYou: survey.thankYou || 'Thank You', // SKETCHY FIXME
-        youRated: survey.youRated || 'You rated us a ', // SKETCHY FIXME
-        likelyLabel: survey.likelyLabel || '10 = Extremely likely', // SKETCHY FIXME
-        notLikelyLabel: survey.notLikelyLabel || '0 = Not likely', // SKETCHY FIXME
-        // SKETCHY FIXME
-        feedbackPlaceholder: survey.feedbackPlaceholder || 'Write your comments here...'
+        thankYou: survey.thankYou,
+        youRated: survey.youRated,
+        likelyLabel: survey.likelyLabel,
+        notLikelyLabel: survey.notLikelyLabel,
+        feedbackPlaceholder: survey.feedbackPlaceholder
       });
       npses[name].instance.getRootComponent().reset();
 

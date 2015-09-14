@@ -131,11 +131,178 @@ describe('Nps component', function() {
 
   it('renders NpsMobile when mobile prop is true', function() {
     React.render(
-      <Nps mobile={true} />,
+      <Nps mobile={true}/>,
       global.document.body
     );
 
     expect(document.querySelectorAll('.nps-mobile').length)
       .toEqual(1);
+  });
+  describe('Retry', function() {
+    it('should call the provided function if the tries are less than the threshold', function() {
+      let component = React.render(
+        <Nps />,
+        global.document.body
+      );
+      let spy = jasmine.createSpy();
+
+      component.retry(spy, 0);
+
+      expect(spy)
+        .toHaveBeenCalled();
+    });
+    it(`should not call the provided function
+     if the tries are less than the threshold`, function() {
+      let component = React.render(
+        <Nps />,
+        global.document.body
+      );
+      let spy = jasmine.createSpy();
+
+      component.retry(spy, 1);
+
+      expect(spy)
+        .not.toHaveBeenCalled();
+    });
+  });
+  describe('responseFailure', function() {
+    let retrySpy,
+        callbackSpy,
+        component;
+    beforeEach(function() {
+
+      retrySpy = jasmine.createSpy();
+      callbackSpy = jasmine.createSpy();
+
+      component = React.render(
+        <Nps />,
+        global.document.body
+      );
+    });
+    it('should call retry if error.timeout is true && tries < the threshold', function() {
+      let mockError = { timeout: true };
+
+      component.retry = retrySpy;
+
+      component.responseFailure(0, noop, [])(mockError);
+
+      expect(component.retry)
+        .toHaveBeenCalled();
+    });
+    it('should not call retry if tries >= the threshold', function() {
+      let mockError = { timeout: true };
+
+      component.retry = retrySpy;
+
+      component.responseFailure(1, noop, [])(mockError);
+
+      expect(component.retry)
+        .not.toHaveBeenCalled();
+    });
+    it('should not call retry if the error is not a timeout error', function() {
+      let mockError = { timeout: false };
+
+      component.retry = retrySpy;
+
+      component.responseFailure(0, noop, [])(mockError);
+
+      expect(component.retry)
+        .not.toHaveBeenCalled();
+    });
+    it('should set isSubmittingRating to false if the error is not a timeout error', function() {
+      let mockError = { timeout: false };
+
+      component.responseFailure(0, noop, [])(mockError);
+
+      expect(component.state.isSubmittingRating)
+        .toEqual(false);
+    });
+    it('should set isSubmittingComment to false if the error is not a timeout error', function() {
+      let mockError = { timeout: false };
+
+      component.responseFailure(0, noop, [])(mockError);
+
+      expect(component.state.isSubmittingComment)
+        .toEqual(false);
+    });
+    it('should set survey.error to true if the error is not a timeout error', function() {
+      let mockError = { timeout: false };
+
+      component.responseFailure(0, noop, [])(mockError);
+
+      expect(component.state.survey.error)
+        .toEqual(true);
+    });
+    it(`should call the provided list of callbacks
+     if the error is not a timeout error`, function() {
+      let mockError = { timeout: false };
+
+      component.responseFailure(0, noop, [callbackSpy])(mockError);
+
+      expect(callbackSpy)
+        .toHaveBeenCalled();
+    });
+  });
+  describe('responseSuccess', function() {
+    let component,
+        callbackSpy;
+
+    beforeEach(function() {
+
+      callbackSpy = jasmine.createSpy();
+
+      component = React.render(
+        <Nps />,
+        global.document.body
+      );
+    });
+    it('should set isSubmittingRating to false', function() {
+      component.responseSuccess([])();
+
+      expect(component.state.isSubmittingRating)
+        .toEqual(false);
+    });
+    it('should set isSubmittingComment to false', function() {
+      component.responseSuccess([])();
+
+      expect(component.state.isSubmittingComment)
+        .toEqual(false);
+    });
+    it('should set call the provided list of callbacks', function() {
+      component.responseSuccess([callbackSpy])();
+
+      expect(callbackSpy)
+        .toHaveBeenCalled();
+    });
+  });
+  describe('npsSender', function() {
+    let component,
+        npsSenderSpy;
+
+    beforeEach(function() {
+
+      npsSenderSpy = jasmine.createSpy();
+
+      component = React.render(
+        <Nps npsSender={npsSenderSpy}/>,
+        global.document.body
+      );
+    });
+
+    it('should set survey.error to false', function() {
+
+      component.npsSender();
+
+      expect(component.state.survey.error)
+        .toEqual(false);
+    });
+
+    it('should call the this.props.npsSender', function() {
+
+      component.npsSender();
+
+      expect(npsSenderSpy)
+        .toHaveBeenCalled();
+    });
   });
 });

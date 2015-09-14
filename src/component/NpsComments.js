@@ -39,6 +39,7 @@ export const NpsComments = React.createClass({
                       : null;
 
     /* jshint laxbreak: true */
+
     const commentsSubmitButton = (this.props.isSubmittingComment)
                                ? <ButtonSecondary
                                    className={sendButtonClasses}
@@ -52,25 +53,24 @@ export const NpsComments = React.createClass({
                                    style={{ backgroundColor: buttonColor }} />;
 
     return (
-          <div className={commentClasses}>
-            <form onSubmit={this.onSubmit}>
-              <Field
-                className='Form-field--invalid'
-                hasError={this.props.hasError}
-                ref='commentField'
-                placeholder={this.props.commentsQuestion}
-                value={this.props.comment}
-                name='comment'
-                input={
-                  <textarea
-                    placeholder={`${this.props.feedbackPlaceholder}`}
-                    rows='1'>
-                  </textarea>
-                }
-                onChange={this.props.onChange} />
-              {commentsSubmitButton}
-            </form>
-          </div>
+      <div className={commentClasses}>
+        <form onSubmit={this.onSubmit}>
+          <Field
+            hasError={this.props.hasError}
+            ref='commentField'
+            placeholder={this.props.commentsQuestion}
+            value={this.props.comment}
+            name='comment'
+            input={
+              <textarea
+                placeholder={`${this.props.feedbackPlaceholder}`}
+                rows='1'>
+              </textarea>
+            }
+            onChange={this.props.onChange} />
+          {commentsSubmitButton}
+        </form>
+      </div>
     );
   }
 });

@@ -3,9 +3,9 @@ import React from 'react/addons';
 import { RatingButton } from 'component/Button';
 import { generateConstrastColor } from 'utility/utils';
 
-export var RatingsList = React.createClass({
+export const NpsRatingsList = React.createClass({
   ratingListItemTemplate(rating) {
-    const isSelected = this.props.selectedRating === rating;
+    const isSelected = this.props.selectedRating === rating && this.props.highlightButton;
     const props = {
       label: rating,
       loading: isSelected && this.props.isSubmittingRating,
@@ -22,7 +22,6 @@ export var RatingsList = React.createClass({
     );
   },
   render: function() {
-
     const items = this.props.ratingsRange.map(this.ratingListItemTemplate);
     return (
       <div>

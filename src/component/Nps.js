@@ -4,6 +4,8 @@ import _     from 'lodash';
 import { NpsDesktop } from 'component/NpsDesktop';
 import { NpsMobile } from 'component/NpsMobile';
 
+const retryThreshold = 1;
+
 const apply = (args) => { //curry me please
   return (func) => {
     return func.apply(null, args);
@@ -39,14 +41,36 @@ export const Nps = React.createClass({
       isMobile: this.props.mobile
     };
   },
-  responseFailure(failureCallbacks=[]) { //curry me please
-    return (...args) => {
-      this.setState({ isSubmittingRating: false, isSubmittingComment: false });
-      this.setState(_.extend(this.state.survey, { error: true }));
-      failureCallbacks.map(apply(args));
+  npsSender(...args) {
+    this.setState(_.extend(this.state.survey, { error: false }));
+    this.props.npsSender.apply(null, args);
+  },
+  retry(toRetry, tries = 0) {
+    if (tries < retryThreshold) {
+      toRetry();
+    }
+  },
+  responseFailure(tries, toRetry, failureCallbacks = []) { //curry me please
+    return (err) => {
+      if (err.timeout && tries < retryThreshold) {
+        this.retry(toRetry, tries);
+      } else {
+        this.setState({isSubmittingRating: false, isSubmittingComment: false});
+        this.setState(_.extend(this.state.survey, { error: true }));
+        failureCallbacks.map(apply([err]));
+      }
     };
   },
-  sendRating(successCallbacks=[], failureCallbacks=[]) {
+  responseSuccess(successCallbacks = []) {
+    return (...args) => {
+      this.setState({isSubmittingRating: false, isSubmittingComment: false});
+      this.setState(_.extend(this.state.survey, { error: false }));
+      successCallbacks.map(apply(args));
+    };
+  },
+  sendRating(successCallbacks = [], failureCallbacks = [], tries = 0) {
+    const toRetry = () => this.sendRating(successCallbacks, failureCallbacks, (tries + 1));
+
     const params = {
       npsResponse: {
         surveyId: this.state.survey.surveyId,
@@ -55,16 +79,14 @@ export const Nps = React.createClass({
       }
     };
 
-    const doneFn = (...args) => {
-      this.setState({ isSubmittingRating: false });
-      this.setState(_.extend(this.state.survey, { error: true }));
-      successCallbacks.map(apply(args));
-    };
-
-    this.props.npsSender(params, doneFn, this.responseFailure(failureCallbacks));
+    this.npsSender(params,
+      this.responseSuccess(successCallbacks),
+      this.responseFailure(tries, toRetry, failureCallbacks)
+    );
   },
+  sendComment(successCallbacks = [], failureCallbacks = [], tries = 0) {
+    const toRetry = () => this.sendComment(successCallbacks, failureCallbacks, (tries + 1));
 
-  sendComment(successCallbacks=[], failureCallbacks=[]) {
     const params = {
       npsResponse: {
         surveyId: this.state.survey.surveyId,
@@ -73,14 +95,13 @@ export const Nps = React.createClass({
         comment: this.state.response.comment
       }
     };
-    const doneFn = (...args) => {
-      this.setState({
-        isSubmittingComment: false,
-        surveyCompleted: true
-      });
-      successCallbacks.map(apply(args));
-    };
-    this.props.npsSender(params, doneFn, this.responseFailure(failureCallbacks));
+
+    successCallbacks = successCallbacks.concat([() => this.setState({ surveyCompleted: true })]);
+
+    this.npsSender(params,
+      this.responseSuccess(successCallbacks),
+      this.responseFailure(tries, toRetry, failureCallbacks)
+    );
   },
 
   ratingClickHandler(rating) {

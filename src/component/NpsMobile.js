@@ -1,15 +1,14 @@
 import React from 'react/addons';
 import _     from 'lodash';
 
-import { Container }              from 'component/Container';
-import { NpsComments }            from 'component/NpsComments';
-import { Icon }                   from 'component/Icon';
-import { ZendeskLogo }            from 'component/ZendeskLogo';
-import { SelectList }             from 'component/SelectList';
-import { RatingsList }            from 'component/NpsRatingsList';
-import { getSizingRatio }         from 'utility/devices';
-import { win }                    from 'utility/globals';
-import { i18n }                   from 'service/i18n';
+import { Container } from 'component/Container';
+import { NpsComments } from 'component/NpsComments';
+import { Icon } from 'component/Icon';
+import { ZendeskLogo } from 'component/ZendeskLogo';
+import { SelectList } from 'component/SelectList';
+import { NpsRatingsList } from 'component/NpsRatingsList';
+import { getSizingRatio } from 'utility/devices';
+import { win } from 'utility/globals';
 
 const classSet = React.addons.classSet;
 
@@ -19,23 +18,6 @@ const npsPageStates = {
   thankYou: 2
 };
 
-const calcHeightPercentage = (currentPage) => {
-  const ratio = getSizingRatio(false, false);
-  const heightThreshold = 450;
-  const heightRatio = win.innerHeight / ratio;
-
-  if (heightRatio < heightThreshold) {
-    if (currentPage && currentPage === npsPageStates.thankYou) {
-      return '60%';
-    }
-    return '70%';
-  }
-  if (currentPage && currentPage === npsPageStates.thankYou) {
-    return '40%';
-  }
-  return '51%';
-};
-
 export const NpsMobile = React.createClass({
   propTypes: {
     updateFrameSize: React.PropTypes.func,
@@ -43,8 +25,25 @@ export const NpsMobile = React.createClass({
   },
   getInitialState() {
     return {
-      currentPage: npsPageStates.selectingRating,
+      currentPage: npsPageStates.selectingRating
     };
+  },
+  calcHeightPercentage() {
+    const currentPage = this.state.currentPage;
+    const ratio = getSizingRatio(false, false);
+    const heightThreshold = 450;
+    const heightRatio = win.innerHeight / ratio;
+
+    if (heightRatio < heightThreshold) {
+      if (currentPage === npsPageStates.thankYou) {
+        return '60%';
+      }
+      return '70%';
+    }
+    if (currentPage === npsPageStates.thankYou) {
+      return '40%';
+    }
+    return '51%';
   },
   isCurrentPage(pageEnum) {
     return this.state.currentPage === pageEnum;
@@ -70,18 +69,14 @@ export const NpsMobile = React.createClass({
     /* jshint laxbreak: true */
     let headingText;
 
-    if (this.isCurrentPage(npsPageStates.addingComment)
-        || this.isCurrentPage(npsPageStates.thankYou)) {
-      setTimeout(() => this.props.setFrameSize(calcHeightPercentage(this.state.currentPage)), 0);
-    } else {
-      setTimeout(() => this.props.setFrameSize(calcHeightPercentage(this.state.currentPage)), 0);
-    }
+    setTimeout(() => this.props.setFrameSize(this.calcHeightPercentage()), 0);
 
     if (this.isCurrentPage(npsPageStates.addingComment)) {
       headingText = this.props.survey.youRated;
     } else if (this.isCurrentPage(npsPageStates.thankYou)) {
       headingText = this.props.survey.thankYou;
     }
+
     const dropdownClasses = classSet({
       'u-textSizeMed u-textBold u-extSizeMed u-textCenter u-textXHeight': true
     });
@@ -92,20 +87,20 @@ export const NpsMobile = React.createClass({
       'u-inlineBlock u-userTextColor u-posRelative u-marginTL u-marginBXL u-userFillColor': true
     });
 
-    // rip out to own component
-    const ratingsList = this.isCurrentPage(npsPageStates.selectingRating)
+    const npsRatingsList = this.isCurrentPage(npsPageStates.selectingRating)
                       ? <div>
                           <p className='u-textBold u-textCenter SurveyQuestion'>
                             {this.props.survey.question}
                           </p>
-                          <RatingsList
+                          <NpsRatingsList
                             likelyLabel={this.props.survey.likelyLabel}
-                            notLikelyLabel={this.props.survey.likelyLabel}
+                            notLikelyLabel={this.props.survey.notLikelyLabel}
                             ratingsRange={_.range(11)}
                             selectedRating={this.props.response.rating}
                             isSubmittingRating={this.props.isSubmittingRating}
                             highlightColor={this.props.survey.highlightColor}
-                            onClick={this.ratingClickHandler} />
+                            onClick={this.ratingClickHandler}
+                            highlightButton={!this.props.survey.error}/>
                         </div>
                       : null;
 
@@ -127,14 +122,6 @@ export const NpsMobile = React.createClass({
                     </span>
                   : null;
 
-    //WIP FIXME
-    const errorHeading = (this.props.survey.error
-                          && this.isCurrentPage(npsPageStates.selectingRating))
-                       ? <span className={headingClasses}>
-                           {i18n.t('embeddable_framework.submitTicket.notify.message.timeout')}
-                         </span>
-                       : null;
-
     const dropdown = (this.isCurrentPage(npsPageStates.addingComment))
                    ?  <span className={dropdownClasses}>
                         <SelectList
@@ -152,13 +139,12 @@ export const NpsMobile = React.createClass({
         className='u-borderTop Container--halfScreen is-mobile'
         fullscreen={true}>
         <header className='Heading is-mobile u-textCenter'>
-          {errorHeading || heading}
+          {heading}
           {dropdown}
         </header>
         <div className='u-marginHM u-borderTop'>
-          {ratingsList}
+          {npsRatingsList}
           <NpsComments
-            hasError={this.props.survey.error}
             commentsQuestion={this.props.survey.commentsQuestion}
             comment={this.props.response.comment}
             feedbackPlaceholder={this.props.survey.feedbackPlaceholder}
