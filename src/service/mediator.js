@@ -1,5 +1,4 @@
 import airwaves from 'airwaves';
-import _ from 'lodash';
 
 import { isMobileBrowser } from 'utility/devices';
 import { setScrollKiller,
@@ -13,8 +12,8 @@ function init(helpCenterAvailable, hideLauncher) {
   const launcher = 'launcher';
   const chat = 'zopimChat';
   const helpCenter = 'helpCenterForm';
-  let state = {};
-  const resetActiveEmbed = function() {
+  const state = {};
+  const resetActiveEmbed = () => {
     if (state[`${helpCenter}.isAvailable`]) {
       state.activeEmbed = helpCenter;
     } else if (state[`${chat}.isOnline`]) {
@@ -38,7 +37,7 @@ function init(helpCenterAvailable, hideLauncher) {
 
   resetActiveEmbed();
 
-  c.intercept('.hide', function() {
+  c.intercept('.hide', () => {
     state[`${submitTicket}.isVisible`] = false;
     state[`${chat}.isVisible`]         = false;
     state[`${helpCenter}.isVisible`]   = false;
@@ -49,7 +48,7 @@ function init(helpCenterAvailable, hideLauncher) {
     c.broadcast(`${launcher}.hide`);
   });
 
-  c.intercept('.show', function() {
+  c.intercept('.show', () => {
     state[`${submitTicket}.isVisible`] = false;
     state[`${chat}.isVisible`]         = false;
     state[`${helpCenter}.isVisible`]   = false;
@@ -62,7 +61,7 @@ function init(helpCenterAvailable, hideLauncher) {
     c.broadcast(`${launcher}.show`);
   });
 
-  c.intercept('.activate', function(__, options = {}) {
+  c.intercept('.activate', (__, options = {}) => {
     if (!state[`${submitTicket}.isVisible`] &&
         !state[`${chat}.isVisible`] &&
         !state[`${helpCenter}.isVisible`]) {
@@ -80,7 +79,7 @@ function init(helpCenterAvailable, hideLauncher) {
     }
   });
 
-  c.intercept('.zopimShow', function() {
+  c.intercept('.zopimShow', () => {
     c.broadcast(`${submitTicket}.hide`);
     c.broadcast(`${helpCenter}.hide`);
 
@@ -97,13 +96,13 @@ function init(helpCenterAvailable, hideLauncher) {
     state.activeEmbed = chat;
   });
 
-  c.intercept('.zopimHide', function() {
+  c.intercept('.zopimHide', () => {
     c.broadcast(`${launcher}.show`);
     state[`${chat}.isVisible`] = false;
     resetActiveEmbed();
   });
 
-  c.intercept(`${chat}.onOnline`, function() {
+  c.intercept(`${chat}.onOnline`, () => {
     state[`${chat}.isOnline`] = true;
     if (state.activeEmbed === submitTicket && !state[`${helpCenter}.isAvailable`]) {
       state.activeEmbed = chat;
@@ -123,7 +122,7 @@ function init(helpCenterAvailable, hideLauncher) {
     }
   });
 
-  c.intercept(`${chat}.onOffline`, function() {
+  c.intercept(`${chat}.onOffline`, () => {
     state[`${chat}.isOnline`] = false;
 
     if (state.activeEmbed === chat) {
@@ -135,18 +134,18 @@ function init(helpCenterAvailable, hideLauncher) {
 
     if (!state[`${launcher}.userHidden`] && state[`${chat}.connectionPending`]) {
       state[`${chat}.connectionPending`] = false;
-      setTimeout(function() {
+      setTimeout(() => {
         c.broadcast(`${launcher}.show`);
       }, 3000);
     }
   });
 
-  c.intercept(`${chat}.onShow`, function() {
+  c.intercept(`${chat}.onShow`, () => {
     state[`${chat}.isVisible`] = true;
     c.broadcast(`${launcher}.hide`);
   });
 
-  c.intercept(`${chat}.onUnreadMsgs`, function(__, count) {
+  c.intercept(`${chat}.onUnreadMsgs`, (__, count) => {
     state[`${chat}.unreadMsgs`] = count;
 
     if (state[`${chat}.isOnline`]) {
@@ -161,7 +160,7 @@ function init(helpCenterAvailable, hideLauncher) {
     }
   });
 
-  c.intercept(`${helpCenter}.onNextClick`, function() {
+  c.intercept(`${helpCenter}.onNextClick`, () => {
     if (state[`${chat}.isOnline`]) {
 
       if (!isMobileBrowser()) {
@@ -181,7 +180,7 @@ function init(helpCenterAvailable, hideLauncher) {
 
       // Run this on a seperate `tick` from helpCenter.hide
       // to mitigate ghost-clicking
-      setTimeout(function() {
+      setTimeout(() => {
         c.broadcast(`${submitTicket}.show`);
       }, 0);
     }
@@ -189,7 +188,7 @@ function init(helpCenterAvailable, hideLauncher) {
     state[`${helpCenter}.isVisible`] = false;
 
     // Run this on a seperate `tick` from submitTicket.show
-    setTimeout(function() {
+    setTimeout(() => {
       c.broadcast(`${helpCenter}.hide`);
     }, 0);
 
@@ -198,93 +197,92 @@ function init(helpCenterAvailable, hideLauncher) {
     }
   });
 
-  c.intercept(`${helpCenter}.onSearch`, function(__, params) {
+  c.intercept(`${helpCenter}.onSearch`, (__, params) => {
     c.broadcast(`${submitTicket}.setLastSearch`, params);
   });
 
-  c.intercept(
-    [`${launcher}.onClick`,
-     `${helpCenter}.onClose`,
-     `${chat}.onHide`,
-     `${submitTicket}.onClose`].join(','),
-    function() {
-      if (_.any([state[`${chat}.isVisible`],
-                 state[`${submitTicket}.isVisible`],
-                 state[`${helpCenter}.isVisible`]])) {
-        if (state[`${helpCenter}.isVisible`]) {
-          c.broadcast(`${helpCenter}.hide`);
-          state[`${helpCenter}.isVisible`] = false;
-        }
-        if (state[`${chat}.isVisible`]) {
-          c.broadcast(`${chat}.hide`);
-          state[`${chat}.isVisible`]  = false;
-          state[`${chat}.userClosed`] = true;
-        }
-        if (state[`${submitTicket}.isVisible`]) {
-          c.broadcast(`${submitTicket}.hide`);
-          state[`${submitTicket}.isVisible`] = false;
-        }
+  c.intercept(`${launcher}.onClick`, () => {
+    // chat opens in new window so hide isn't needed
+    if (state.activeEmbed === chat && isMobileBrowser()) {
+      c.broadcast(`${chat}.show`);
+    } else {
+      c.broadcast(`${launcher}.hide`);
+      state[`${state.activeEmbed}.isVisible`] = true;
 
+      /**
+       * This timeout mitigates the Ghost Click produced when the launcher
+       * button is on the left, using a mobile device with small screen
+       * e.g. iPhone4. It's not a bulletproof solution, but it helps
+       */
+      setTimeout(() => {
+        c.broadcast(`${state.activeEmbed}.showWithAnimation`);
         if (isMobileBrowser()) {
-          setScrollKiller(false);
-          revertWindowScroll();
-        }
-
-        if (state['.hideOnClose']) {
-          c.broadcast(`${launcher}.hide`);
-        } else {
-          c.broadcast(`${launcher}.show`);
-        }
-      } else {
-        // chat opens in new window so hide isn't needed
-        if (state.activeEmbed === chat && isMobileBrowser()) {
-          c.broadcast(`${chat}.show`);
-          c.broadcast(`${launcher}.show`);
-        } else {
-          c.broadcast(`${launcher}.hide`);
-          state[`${state.activeEmbed}.isVisible`] = true;
-
           /**
-           * This timeout mitigates the Ghost Click produced when the launcher
-           * button is on the left, using a mobile device with small screen
-           * e.g. iPhone4. It's not a bulletproof solution, but it helps
+           * This timeout ensures the embed is displayed
+           * before the scrolling happens on the host page
+           * so that the user doesn't see the host page jump
            */
-          setTimeout(function() {
-            c.broadcast(`${state.activeEmbed}.showWithAnimation`);
-            if (isMobileBrowser()) {
-              /**
-               * This timeout ensures the embed is displayed
-               * before the scrolling happens on the host page
-               * so that the user doesn't see the host page jump
-               */
-              setTimeout(function() {
-                setWindowScroll(0);
-                setScrollKiller(true);
-              }, 0);
-            }
+          setTimeout(() => {
+            setWindowScroll(0);
+            setScrollKiller(true);
           }, 0);
         }
+      }, 0);
+    }
+  });
+
+  c.intercept(`${helpCenter}.onClose`, (_broadcast) => {
+    c.broadcast(`${helpCenter}.hide`);
+    state[`${helpCenter}.isVisible`] = false;
+    _broadcast();
+  });
+
+  c.intercept(`${chat}.onHide`, (_broadcast) => {
+    c.broadcast(`${chat}.hide`);
+    state[`${chat}.isVisible`]  = false;
+    state[`${chat}.userClosed`] = true;
+    _broadcast();
+  });
+
+  c.intercept(`${submitTicket}.onClose`, (_broadcast) => {
+    c.broadcast(`${submitTicket}.hide`);
+    state[`${submitTicket}.isVisible`] = false;
+    _broadcast();
+  });
+
+  c.subscribe(
+    [`${helpCenter}.onClose`,
+     `${chat}.onHide`,
+     `${submitTicket}.onClose`].join(','),
+    () => {
+      if (isMobileBrowser()) {
+        setScrollKiller(false);
+        revertWindowScroll();
+      }
+
+      if (!state['.hideOnClose']) {
+        c.broadcast(`${launcher}.show`);
       }
     }
   );
 
-  c.intercept(`${submitTicket}.onBackClick`, function() {
+  c.intercept(`${submitTicket}.onBackClick`, () => {
     state[`${submitTicket}.isVisible`] = false;
     state[`${helpCenter}.isVisible`]   = true;
     state.activeEmbed = helpCenter;
 
     // Run these two broadcasts on a seperate `ticks`
     // to mitigate ghost-clicking
-    setTimeout(function() {
+    setTimeout(() => {
       c.broadcast(`${submitTicket}.hide`);
     }, 10); // delay hiding so we don't see host page flashing
 
-    setTimeout(function() {
+    setTimeout(() => {
       c.broadcast(`${helpCenter}.show`);
     }, 0);
   });
 
-  c.intercept(`${submitTicket}.onCancelClick`, function() {
+  c.intercept(`${submitTicket}.onCancelClick`, () => {
     state[`${submitTicket}.isVisible`] = false;
     c.broadcast(`${submitTicket}.hide`);
 
@@ -297,11 +295,11 @@ function init(helpCenterAvailable, hideLauncher) {
     }
   });
 
-  c.intercept(`${submitTicket}.onFormSubmitted`, function() {
+  c.intercept(`${submitTicket}.onFormSubmitted`, () => {
     resetActiveEmbed();
   });
 
-  c.intercept(`${chat}.onChatEnd`, function() {
+  c.intercept(`${chat}.onChatEnd`, () => {
     if (state[`${helpCenter}.isAvailable`]) {
       state.activeEmbed = helpCenter;
     } else {
@@ -311,11 +309,11 @@ function init(helpCenterAvailable, hideLauncher) {
     }
   });
 
-  c.intercept(`.onSetKeywords`, function(__, params) {
+  c.intercept(`.onSetKeywords`, (__, params) => {
     c.broadcast(`${helpCenter}.setKeywords`, params);
   });
 
-  c.intercept(`.onIdentify`, function(__, params) {
+  c.intercept(`.onIdentify`, (__, params) => {
     state['identify.pending'] = true;
 
     c.broadcast(`beacon.identify`, params);
@@ -323,13 +321,13 @@ function init(helpCenterAvailable, hideLauncher) {
     c.broadcast(`${chat}.setUser`, params);
   });
 
-  c.intercept(`identify.onSuccess`, function(__, params) {
+  c.intercept(`identify.onSuccess`, (__, params) => {
     state['identify.pending'] = false;
 
     c.broadcast(`nps.setSurvey`, params);
   });
 
-  c.intercept(`nps.onActivate`, function() {
+  c.intercept(`nps.onActivate`, () => {
     const maxRetries = 100;
     let retries = 0;
 
@@ -345,7 +343,7 @@ function init(helpCenterAvailable, hideLauncher) {
     fn();
   });
 
-  c.subscribe(`${launcher}.show`, function() {
+  c.subscribe(`${launcher}.show`, () => {
     if (!state[`${chat}.isOnline`]) {
       c.broadcast(`${launcher}.setLabelHelp`);
     }
