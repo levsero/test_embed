@@ -120,7 +120,7 @@ describe('embed.nps', () => {
         });
 
         it('should not show if a survey is not available', () => {
-          pluckSubscribeCall(mockMediator, 'nps.setSurvey')({});
+          pluckSubscribeCall(mockMediator, 'nps.setSurvey')({ npsSurvey: {} });
           pluckSubscribeCall(mockMediator, 'nps.activate')();
 
           expect(dan.instance.show.__reactBoundMethod)
@@ -138,7 +138,7 @@ describe('embed.nps', () => {
           expect(danNps.reset.__reactBoundMethod)
             .not.toHaveBeenCalled();
 
-          pluckSubscribeCall(mockMediator, 'nps.setSurvey')({});
+          pluckSubscribeCall(mockMediator, 'nps.setSurvey')({ npsSurvey: {} });
 
           expect(danNps.state.surveyAvailable)
             .toEqual(false);
