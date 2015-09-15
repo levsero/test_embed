@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 
 import { beacon }             from 'service/beacon';
 import { logging }            from 'service/logging';
@@ -13,8 +14,6 @@ import { isMobileBrowser,
          isBlacklisted }      from 'utility/devices';
 import { clickBusterHandler } from 'utility/utils';
 import { initMobileScaling }  from 'utility/mobileScaling';
-
-require('imports?_=lodash!lodash');
 
 function boot() {
   let devApi;

@@ -33,6 +33,7 @@ module.exports = {
         ].join('')
       },
       { test: /base\.css$/, loader: 'css', minimize: true },
+      { test: /lodash/, loader: 'imports?define=>false' },
       { test: /\.json$/, loader: 'json' },
       {
         test: /\.svg$/,
@@ -45,7 +46,6 @@ module.exports = {
   },
   resolve: {
     alias: {
-      lodash: 'lodash/dist/lodash.underscore.js',
       // Framework
       component: path.join(prefix + '/src/component'),
       embed: path.join(prefix + '/src/embed'),

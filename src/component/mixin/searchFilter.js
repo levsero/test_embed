@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 import { stopWords } from 'mixin/stopWords';
 
 export var stopWordsFilter = function(str) {

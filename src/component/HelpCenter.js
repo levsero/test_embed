@@ -501,7 +501,7 @@ export const HelpCenter = React.createClass({
 
               {noResults}
               <ul className={listClasses}>
-                {_.chain(this.state.articles).first(3).map(articleTemplate.bind(this)).value()}
+                {_.chain(this.state.articles).take(3).map(articleTemplate.bind(this)).value()}
               </ul>
             </HelpCenterForm>
           </div>
