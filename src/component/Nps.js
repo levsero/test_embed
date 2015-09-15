@@ -5,12 +5,9 @@ import { NpsDesktop } from 'component/NpsDesktop';
 import { NpsMobile } from 'component/NpsMobile';
 
 const retryThreshold = 1;
-
-const apply = (args) => { //curry me please
-  return (func) => {
-    return func.apply(null, args);
-  };
-};
+const apply = _.curry((args, func) => {
+  return func.apply(null, args);
+});
 
 export const Nps = React.createClass({
   propTypes: {
@@ -50,24 +47,20 @@ export const Nps = React.createClass({
       toRetry();
     }
   },
-  responseFailure(tries, toRetry, failureCallbacks = []) { //curry me please
-    return (err) => {
-      if (err.timeout && tries < retryThreshold) {
-        this.retry(toRetry, tries);
-      } else {
-        this.setState({isSubmittingRating: false, isSubmittingComment: false});
-        this.setState(_.extend(this.state.survey, { error: true }));
-        failureCallbacks.map(apply([err]));
-      }
-    };
-  },
-  responseSuccess(successCallbacks = []) {
-    return (...args) => {
+  responseFailure: _.curry((tries, toRetry, failureCallbacks, err) => {
+    if (err.timeout && tries < retryThreshold) {
+      this.retry(toRetry, tries);
+    } else {
       this.setState({isSubmittingRating: false, isSubmittingComment: false});
-      this.setState(_.extend(this.state.survey, { error: false }));
-      successCallbacks.map(apply(args));
-    };
-  },
+      this.setState(_.extend(this.state.survey, { error: true }));
+      failureCallbacks.map(apply([err]));
+    }
+  }),
+  responseSuccess: _.curry((successCallbacks, ...args) => {
+    this.setState({isSubmittingRating: false, isSubmittingComment: false});
+    this.setState(_.extend(this.state.survey, { error: false }));
+    successCallbacks.map(apply(args));
+  }),
   sendRating(successCallbacks = [], failureCallbacks = [], tries = 0) {
     const toRetry = () => this.sendRating(successCallbacks, failureCallbacks, (tries + 1));
 
