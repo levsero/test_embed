@@ -229,42 +229,110 @@ describe('mediator', function() {
     });
   });
 
-  describe('identify.onActivate', function() {
+  describe('nps', function() {
     const nps = 'nps';
+    const launcher = 'launcher';
+    const submitTicket = 'ticketSubmissionForm';
+    const chat = 'zopimChat';
+    const helpCenter = 'helpCenterForm';
 
     const names = {
+      launcher: launcher,
+      submitTicket: submitTicket,
+      chat: chat,
+      helpCenter: helpCenter,
       nps: nps
     };
 
     beforeEach(function() {
       initSubscriptionSpies(names);
-      mediator.init(false);
+      mediator.init(true);
     });
 
-    it('should broadcast nps.activate if identify.pending is false', function() {
-      c.broadcast('identify.onSuccess', {});
+    describe('.onActivate', function() {
+      it('should broadcast nps.activate if identify.pending is false', function() {
+        c.broadcast('identify.onSuccess', {});
 
-      reset(npsSub.activate);
+        reset(npsSub.activate);
+        reset(launcherSub.hide);
 
-      jasmine.clock().install();
-      c.broadcast('nps.onActivate');
-      jasmine.clock().tick(2000);
+        jasmine.clock().install();
+        c.broadcast('nps.onActivate');
+        jasmine.clock().tick(2000);
 
-      expect(npsSub.activate)
-        .toHaveBeenCalled();
+        expect(npsSub.activate)
+          .toHaveBeenCalled();
+
+        expect(launcherSub.hide)
+          .toHaveBeenCalled();
+      });
+
+      it('should not broadcast nps.activate if identify.pending is true', function() {
+        c.broadcast('.onIdentify', {});
+
+        reset(npsSub.activate);
+
+        jasmine.clock().install();
+        c.broadcast('nps.onActivate');
+        jasmine.clock().tick(2000);
+
+        expect(npsSub.activate)
+          .not.toHaveBeenCalled();
+      });
+
+      it('should not broadcast nps.activate if an embed is visible', function() {
+        c.broadcast('.onIdentify', {});
+
+        // identify success, identify.pending => false
+        c.broadcast('identify.onSuccess', {});
+
+        // open helpCenter embed
+        c.broadcast(`${launcher}.onClick`);
+
+        reset(npsSub.activate);
+
+        jasmine.clock().install();
+        c.broadcast('nps.onActivate');
+        jasmine.clock().tick(2000);
+
+        expect(npsSub.activate)
+          .not.toHaveBeenCalled();
+      });
+
+      it('should broadcast nps.activate if an embed is not visible', function() {
+        c.broadcast('.onIdentify', {});
+
+        // identify success, identify.pending => false
+        c.broadcast('identify.onSuccess', {});
+
+        c.broadcast(`${launcher}.onClick`);
+        c.broadcast(`${helpCenter}.onNextClick`);
+        c.broadcast(`${submitTicket}.onClose`);
+
+        reset(npsSub.activate);
+        reset(launcherSub.hide);
+
+        jasmine.clock().install();
+        c.broadcast('nps.onActivate');
+        jasmine.clock().tick(2000);
+
+        expect(npsSub.activate)
+          .toHaveBeenCalled();
+
+        expect(launcherSub.hide)
+          .toHaveBeenCalled();
+      });
     });
 
-    it('should not broadcast nps.activate if identify.pending is true', function() {
-      c.broadcast('.onIdentify', {});
+    describe('.onClose', function() {
+      it('should broadcast launcher.show', function() {
+        reset(launcherSub.show);
 
-      reset(npsSub.activate);
+        c.broadcast('nps.onClose');
 
-      jasmine.clock().install();
-      c.broadcast('nps.onActivate');
-      jasmine.clock().tick(2000);
-
-      expect(npsSub.activate)
-        .not.toHaveBeenCalled();
+        expect(launcherSub.show)
+          .toHaveBeenCalled();
+      });
     });
   });
 

@@ -44,8 +44,9 @@ function create(name, config) {
     hideCloseButton: false,
     name: name,
     fullscreenable: isMobileBrowser(),
-    onHide(frame) {
+    onClose(frame) {
       setDismissTimestamp(frame.getRootComponent().state.survey);
+      mediator.channel.broadcast('nps.onClose');
     }
   };
 

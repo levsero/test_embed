@@ -1,4 +1,5 @@
 import airwaves from 'airwaves';
+import _ from 'lodash';
 
 import { isMobileBrowser } from 'utility/devices';
 import { setScrollKiller,
@@ -331,13 +332,24 @@ function init(helpCenterAvailable, hideLauncher) {
     const fn = () => {
       if (!state['identify.pending']) {
         c.broadcast(`nps.activate`);
+        c.broadcast(`${launcher}.hide`);
       } else if (retries < maxRetries) {
         retries++;
         setTimeout(fn, 300);
       }
     };
 
-    fn();
+    if (_.every([!state[`${helpCenter}.isVisible`],
+                 !state[`${chat}.isVisible`],
+                 !state[`${submitTicket}.isVisible`]])) {
+      fn();
+    }
+  });
+
+  c.intercept(`nps.onClose`, () => {
+    if (!state['.hideOnClose']) {
+      c.broadcast(`${launcher}.show`);
+    }
   });
 
   c.subscribe(`${launcher}.show`, () => {
