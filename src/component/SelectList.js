@@ -26,7 +26,7 @@ export const SelectList = React.createClass({
     );
 
     return (
-      <div className={this.props.wrapperClassNames}>
+      <div className={`${this.props.wrapperClassNames} SelectListContainer`}>
         <select
           className={this.props.selectClassNames}
           style={{ color: this.props.highlightColor }}>
