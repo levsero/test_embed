@@ -47,6 +47,9 @@ function create(name, config) {
     onClose(frame) {
       setDismissTimestamp(frame.getRootComponent().state.survey);
       mediator.channel.broadcast('nps.onClose');
+    },
+    onShow() {
+      mediator.channel.broadcast('nps.onShow');
     }
   };
 

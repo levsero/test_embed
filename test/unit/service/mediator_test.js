@@ -254,16 +254,12 @@ describe('mediator', function() {
         c.broadcast('identify.onSuccess', {});
 
         reset(npsSub.activate);
-        reset(launcherSub.hide);
 
         jasmine.clock().install();
         c.broadcast('nps.onActivate');
         jasmine.clock().tick(2000);
 
         expect(npsSub.activate)
-          .toHaveBeenCalled();
-
-        expect(launcherSub.hide)
           .toHaveBeenCalled();
       });
 
@@ -310,16 +306,12 @@ describe('mediator', function() {
         c.broadcast(`${submitTicket}.onClose`);
 
         reset(npsSub.activate);
-        reset(launcherSub.hide);
 
         jasmine.clock().install();
         c.broadcast('nps.onActivate');
         jasmine.clock().tick(2000);
 
         expect(npsSub.activate)
-          .toHaveBeenCalled();
-
-        expect(launcherSub.hide)
           .toHaveBeenCalled();
       });
     });
@@ -331,6 +323,17 @@ describe('mediator', function() {
         c.broadcast('nps.onClose');
 
         expect(launcherSub.show)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('.onShow', function() {
+      it('should broadcast launcher.hide', function() {
+        reset(launcherSub.hide);
+
+        c.broadcast('nps.onShow');
+
+        expect(launcherSub.hide)
           .toHaveBeenCalled();
       });
     });

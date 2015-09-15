@@ -332,7 +332,6 @@ function init(helpCenterAvailable, hideLauncher) {
     const fn = () => {
       if (!state['identify.pending']) {
         c.broadcast(`nps.activate`);
-        c.broadcast(`${launcher}.hide`);
       } else if (retries < maxRetries) {
         retries++;
         setTimeout(fn, 300);
@@ -350,6 +349,10 @@ function init(helpCenterAvailable, hideLauncher) {
     if (!state['.hideOnClose']) {
       c.broadcast(`${launcher}.show`);
     }
+  });
+
+  c.intercept(`nps.onShow`, () => {
+    c.broadcast(`${launcher}.hide`);
   });
 
   c.subscribe(`${launcher}.show`, () => {
