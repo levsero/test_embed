@@ -90,6 +90,7 @@ export var frameFactory = function(childFn, _params) {
         background: '#fff',
         zIndex: '999999'
       };
+
       if (params.fullscreenable && isMobileBrowser()) {
         frameDoc.body.firstChild.setAttribute(
           'style',
