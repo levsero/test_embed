@@ -92,7 +92,7 @@ export const NpsMobile = React.createClass({
       'u-textSizeMed u-textBold u-extSizeMed u-textCenter u-textXHeight': true
     });
     const notificationClasses = classSet({
-      'u-inlineBlock u-userTextColor u-posRelative u-marginTL u-marginBXL u-userFillColor': true
+      'u-inlineBlock u-userTextColor u-posRelative u-marginTL u-userFillColor': true
     });
 
     const npsRatingsList = this.isCurrentPage(npsPageStates.selectingRating)
