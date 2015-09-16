@@ -51,12 +51,10 @@ export const Nps = React.createClass({
   },
 
   responseFailure(tries, toRetry, failureCallbacks = []) {
-    return (err) => {
+    return (err = {}) => {
       if (err.timeout && tries < retryThreshold) {
         this.retry(toRetry, tries);
-        console.log(this.state.response.rating);
       } else {
-        console.log(this.state.response.rating);
         this.setState({isSubmittingRating: false, isSubmittingComment: false});
         this.setState(_.extend(this.state.survey, { error: true }));
         failureCallbacks.map(apply([err]));

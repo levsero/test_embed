@@ -62,7 +62,7 @@ export const NpsComments = React.createClass({
             name='comment'
             input={
               <textarea
-                placeholder={`${this.props.feedbackPlaceholder}`}
+                placeholder={this.props.feedbackPlaceholder}
                 rows='1'>
               </textarea>
             }
