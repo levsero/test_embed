@@ -211,8 +211,9 @@ function render(name) {
 
 function postRender(name) {
   const config = get(name).config;
-
-  if (config.contextualHelpEnabled) {
+  /* jshint laxbreak: true */
+  if (config.contextualHelpEnabled
+      && location.pathname && location.pathname.substring(0, 4) !== '/hc/') {
     keywordsSearch(name, getPageKeywords());
   }
 }
