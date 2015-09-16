@@ -76,13 +76,11 @@ describe('NpsComments component', () => {
   });
 
   afterEach(() => {
-
     mockery.deregisterAll();
     mockery.disable();
   });
 
   describe('hidden', () => {
-
     describe('is false', () => {
       it('should render a CommentsContainer', () => {
         expect(document.querySelectorAll('.CommentsContainer').length)
@@ -94,9 +92,7 @@ describe('NpsComments component', () => {
     });
 
     describe('is true', () => {
-
       beforeEach(() => {
-
         npsCommentProps.hidden = true;
 
         component = React.render(
@@ -115,11 +111,8 @@ describe('NpsComments component', () => {
     });
   });
   describe('isSubmittingComment', () => {
-
     describe('is true', () => {
-
       beforeEach(() => {
-
         npsCommentProps.isSubmittingComment = true;
 
         component = React.render(
@@ -135,7 +128,6 @@ describe('NpsComments component', () => {
     });
 
     describe('is false', () => {
-
       it('should render a button', () => {
         expect(document.querySelectorAll('.Button').length)
           .toEqual(1);
@@ -143,7 +135,6 @@ describe('NpsComments component', () => {
     });
   });
   describe('i18n', () => {
-
     it(`should use the .sendFeedback label
       and with a fallback of 'Send Feedback'`, () => {
 

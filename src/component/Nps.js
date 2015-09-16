@@ -38,26 +38,32 @@ export const Nps = React.createClass({
       isMobile: this.props.mobile
     };
   },
+
   npsSender(params, success, fail) {
     this.setState(_.extend(this.state.survey, { error: false }));
     this.props.npsSender(params, success, fail);
   },
+
   retry(toRetry, tries = 0) {
     if (tries < retryThreshold) {
       toRetry();
     }
   },
-  responseFailure(tries, toRetry, failureCallbacks = []) { //curry me please
+
+  responseFailure(tries, toRetry, failureCallbacks = []) {
     return (err) => {
       if (err.timeout && tries < retryThreshold) {
         this.retry(toRetry, tries);
+        console.log(this.state.response.rating);
       } else {
+        console.log(this.state.response.rating);
         this.setState({isSubmittingRating: false, isSubmittingComment: false});
         this.setState(_.extend(this.state.survey, { error: true }));
         failureCallbacks.map(apply([err]));
       }
     };
   },
+
   responseSuccess(successCallbacks) {
     return (...args) => {
       this.setState({isSubmittingRating: false, isSubmittingComment: false});
@@ -65,6 +71,7 @@ export const Nps = React.createClass({
       successCallbacks.map(apply(args));
     };
   },
+
   sendRating(successCallbacks = [], failureCallbacks = [], tries = 0) {
     const toRetry = () => this.sendRating(successCallbacks, failureCallbacks, (tries + 1));
 
@@ -81,6 +88,7 @@ export const Nps = React.createClass({
       this.responseFailure(tries, toRetry, failureCallbacks)
     );
   },
+
   sendComment(successCallbacks = [], failureCallbacks = [], tries = 0) {
     const toRetry = () => this.sendComment(successCallbacks, failureCallbacks, (tries + 1));
 

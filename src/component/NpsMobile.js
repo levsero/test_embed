@@ -23,11 +23,13 @@ export const NpsMobile = React.createClass({
     updateFrameSize: React.PropTypes.func,
     npsSender: React.PropTypes.func.isRequired
   },
+
   getInitialState() {
     return {
       currentPage: npsPageStates.selectingRating
     };
   },
+
   calcHeightPercentage() {
     const currentPage = this.state.currentPage;
     const ratio = getSizingRatio(false, false);
@@ -45,26 +47,32 @@ export const NpsMobile = React.createClass({
     }
     return '51%';
   },
+
   isCurrentPage(pageEnum) {
     return this.state.currentPage === pageEnum;
   },
+
   ratingClickHandlerSuccess() {
     this.setState({ currentPage: npsPageStates.addingComment });
   },
+
   ratingClickHandler(rating) {
     let sendRating = this.props.ratingClickHandler(rating);
     return (ev) => {
       sendRating(ev, [this.ratingClickHandlerSuccess]);
     };
   },
+
   submitCommentHandlerSuccess() {
     this.setState({
       currentPage: npsPageStates.thankYou
     });
   },
+
   submitCommentHandler(ev) {
     this.props.submitCommentHandler(ev, [this.submitCommentHandlerSuccess]);
   },
+
   render() {
     /* jshint laxbreak: true */
     let headingText;
@@ -88,21 +96,21 @@ export const NpsMobile = React.createClass({
     });
 
     const npsRatingsList = this.isCurrentPage(npsPageStates.selectingRating)
-                      ? <div>
-                          <p className='u-textBold u-textCenter SurveyQuestion'>
-                            {this.props.survey.question}
-                          </p>
-                          <NpsRatingsList
-                            likelyLabel={this.props.survey.likelyLabel}
-                            notLikelyLabel={this.props.survey.notLikelyLabel}
-                            ratingsRange={_.range(11)}
-                            selectedRating={this.props.response.rating}
-                            isSubmittingRating={this.props.isSubmittingRating}
-                            highlightColor={this.props.survey.highlightColor}
-                            onClick={this.ratingClickHandler}
-                            highlightButton={!this.props.survey.error}/>
-                        </div>
-                      : null;
+                         ? <div>
+                             <p className='u-textBold u-textCenter SurveyQuestion'>
+                               {this.props.survey.question}
+                             </p>
+                             <NpsRatingsList
+                               likelyLabel={this.props.survey.likelyLabel}
+                               notLikelyLabel={this.props.survey.notLikelyLabel}
+                               ratingsRange={_.range(11)}
+                               selectedRating={this.props.response.rating}
+                               isSubmittingRating={this.props.isSubmittingRating}
+                               highlightColor={this.props.survey.highlightColor}
+                               onClick={this.ratingClickHandler}
+                               highlightButton={!this.props.survey.error}/>
+                           </div>
+                         : null;
 
     const zendeskLogo = (!this.isCurrentPage(npsPageStates.addingComment))
                       ? <ZendeskLogo className='ZendeskLogo u-posCenter' />

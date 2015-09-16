@@ -21,6 +21,7 @@ export const NpsRatingsList = React.createClass({
       </li>
     );
   },
+
   render: function() {
     const items = this.props.ratingsRange.map(this.ratingListItemTemplate);
     return (

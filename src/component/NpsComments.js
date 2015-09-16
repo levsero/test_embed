@@ -16,6 +16,7 @@ export const NpsComments = React.createClass({
     });
     this.props.onSubmit.apply(null, args);
   },
+
   render() {
     const commentClasses = classSet({
       'CommentsContainer': true,
@@ -37,8 +38,6 @@ export const NpsComments = React.createClass({
     const buttonColor = (this.props.comment)
                       ? this.props.highlightColor
                       : null;
-
-    /* jshint laxbreak: true */
 
     const commentsSubmitButton = (this.props.isSubmittingComment)
                                ? <ButtonSecondary

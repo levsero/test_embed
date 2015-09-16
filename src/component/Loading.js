@@ -5,7 +5,8 @@ const classSet = React.addons.classSet;
 export const LoadingSpinner = React.createClass({
   render() {
     return (
-      <div className='Loadingspinner'
+      <div
+        className='Loadingspinner'
         style={{ borderColor: this.props.generateHighlightColor(this.props.highlightColor) }}>
       </div>
     );
