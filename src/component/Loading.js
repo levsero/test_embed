@@ -14,7 +14,6 @@ export const LoadingSpinner = React.createClass({
 
 export const LoadingElipses = React.createClass({
   render() {
-    /* jshint quotmark:false */
     const loadingElipsesItemClasses = classSet({
       'LoadingElipses-item': true,
       'u-userBackgroundColor': true,

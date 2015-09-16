@@ -38,29 +38,33 @@ export const Nps = React.createClass({
       isMobile: this.props.mobile
     };
   },
-  npsSender(...args) {
+  npsSender(params, success, fail) {
     this.setState(_.extend(this.state.survey, { error: false }));
-    this.props.npsSender.apply(null, args);
+    this.props.npsSender(params, success, fail);
   },
   retry(toRetry, tries = 0) {
     if (tries < retryThreshold) {
       toRetry();
     }
   },
-  responseFailure: _.curry((tries, toRetry, failureCallbacks, err) => {
-    if (err.timeout && tries < retryThreshold) {
-      this.retry(toRetry, tries);
-    } else {
+  responseFailure(tries, toRetry, failureCallbacks = []) { //curry me please
+    return (err) => {
+      if (err.timeout && tries < retryThreshold) {
+        this.retry(toRetry, tries);
+      } else {
+        this.setState({isSubmittingRating: false, isSubmittingComment: false});
+        this.setState(_.extend(this.state.survey, { error: true }));
+        failureCallbacks.map(apply([err]));
+      }
+    };
+  },
+  responseSuccess(successCallbacks) {
+    return (...args) => {
       this.setState({isSubmittingRating: false, isSubmittingComment: false});
-      this.setState(_.extend(this.state.survey, { error: true }));
-      failureCallbacks.map(apply([err]));
-    }
-  }),
-  responseSuccess: _.curry((successCallbacks, ...args) => {
-    this.setState({isSubmittingRating: false, isSubmittingComment: false});
-    this.setState(_.extend(this.state.survey, { error: false }));
-    successCallbacks.map(apply(args));
-  }),
+      this.setState(_.extend(this.state.survey, { error: false }));
+      successCallbacks.map(apply(args));
+    };
+  },
   sendRating(successCallbacks = [], failureCallbacks = [], tries = 0) {
     const toRetry = () => this.sendRating(successCallbacks, failureCallbacks, (tries + 1));
 
@@ -140,8 +144,7 @@ export const Nps = React.createClass({
           setFrameSize={this.props.setFrameSize}
           ratingClickHandler={this.ratingClickHandler}
           submitCommentHandler={this.submitCommentHandler}
-          onCommentChangeHandler={this.onCommentChangeHandler}
-          sendComment={this.sendComment} />
+          onCommentChangeHandler={this.onCommentChangeHandler} />
       : <NpsDesktop
           {...this.state}
           ratingClickHandler={this.ratingClickHandler}
