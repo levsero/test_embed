@@ -23,9 +23,9 @@ export const LoadingElipses = React.createClass({
 
     return (
       <div className={loadingElipsesClasses}>
-        <div className={loadingElipsesItemClasses}></div>
-        <div className={loadingElipsesItemClasses}></div>
-        <div className={loadingElipsesItemClasses}></div>
+        <div className={loadingElipsesItemClasses}/>
+        <div className={loadingElipsesItemClasses}/>
+        <div className={loadingElipsesItemClasses}/>
       </div>
     );
   }
