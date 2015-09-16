@@ -340,7 +340,7 @@ describe('mediator', function() {
     });
 
     describe('ticket submission', function() {
-      it('shows launcher and hides ticket submission on close', function() {
+      it('shows launcher on close', function() {
         jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`);
         jasmine.clock().tick(0);
@@ -352,8 +352,6 @@ describe('mediator', function() {
 
         c.broadcast(`${submitTicket}.onClose`);
 
-        expect(submitTicketSub.hide.calls.count())
-          .toEqual(1);
         expect(launcherSub.show.calls.count())
           .toEqual(1);
       });
@@ -564,7 +562,7 @@ describe('mediator', function() {
     });
 
     describe('ticket submission', function() {
-      it('shows launcher and hides ticket submission on close', function() {
+      it('shows launcher on close', function() {
         jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`);
         jasmine.clock().tick(0);
@@ -576,8 +574,6 @@ describe('mediator', function() {
 
         c.broadcast(`${submitTicket}.onClose`);
 
-        expect(submitTicketSub.hide.calls.count())
-          .toEqual(1);
         expect(launcherSub.show.calls.count())
           .toEqual(1);
       });

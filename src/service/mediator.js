@@ -232,20 +232,17 @@ function init(helpCenterAvailable, hideLauncher) {
   });
 
   c.intercept(`${helpCenter}.onClose`, (_broadcast) => {
-    c.broadcast(`${helpCenter}.hide`);
     state[`${helpCenter}.isVisible`] = false;
     _broadcast();
   });
 
   c.intercept(`${chat}.onHide`, (_broadcast) => {
-    c.broadcast(`${chat}.hide`);
     state[`${chat}.isVisible`]  = false;
     state[`${chat}.userClosed`] = true;
     _broadcast();
   });
 
   c.intercept(`${submitTicket}.onClose`, (_broadcast) => {
-    c.broadcast(`${submitTicket}.hide`);
     state[`${submitTicket}.isVisible`] = false;
     _broadcast();
   });
