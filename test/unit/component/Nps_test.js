@@ -138,7 +138,8 @@ describe('Nps component', function() {
     expect(document.querySelectorAll('.nps-mobile').length)
       .toEqual(1);
   });
-  describe('Retry', function() {
+
+  describe('retry', function() {
     it('should call the provided function if the tries are less than the threshold', function() {
       let component = React.render(
         <Nps />,
@@ -151,6 +152,7 @@ describe('Nps component', function() {
       expect(spy)
         .toHaveBeenCalled();
     });
+
     it(`should not call the provided function
      if the tries are less than the threshold`, function() {
       let component = React.render(
@@ -165,6 +167,7 @@ describe('Nps component', function() {
         .not.toHaveBeenCalled();
     });
   });
+
   describe('responseFailure', function() {
     let retrySpy,
         callbackSpy,
@@ -179,36 +182,37 @@ describe('Nps component', function() {
         global.document.body
       );
     });
+
     it('should call retry if error.timeout is true && tries < the threshold', function() {
       let mockError = { timeout: true };
 
       component.retry = retrySpy;
-
       component.responseFailure(0, noop, [])(mockError);
 
       expect(component.retry)
         .toHaveBeenCalled();
     });
+
     it('should not call retry if tries >= the threshold', function() {
       let mockError = { timeout: true };
 
       component.retry = retrySpy;
-
       component.responseFailure(1, noop, [])(mockError);
 
       expect(component.retry)
         .not.toHaveBeenCalled();
     });
+
     it('should not call retry if the error is not a timeout error', function() {
       let mockError = { timeout: false };
 
       component.retry = retrySpy;
-
       component.responseFailure(0, noop, [])(mockError);
 
       expect(component.retry)
         .not.toHaveBeenCalled();
     });
+
     it('should set isSubmittingRating to false if the error is not a timeout error', function() {
       let mockError = { timeout: false };
 
@@ -217,6 +221,7 @@ describe('Nps component', function() {
       expect(component.state.isSubmittingRating)
         .toEqual(false);
     });
+
     it('should set isSubmittingComment to false if the error is not a timeout error', function() {
       let mockError = { timeout: false };
 
@@ -225,6 +230,7 @@ describe('Nps component', function() {
       expect(component.state.isSubmittingComment)
         .toEqual(false);
     });
+
     it('should set survey.error to true if the error is not a timeout error', function() {
       let mockError = { timeout: false };
 
@@ -233,6 +239,7 @@ describe('Nps component', function() {
       expect(component.state.survey.error)
         .toEqual(true);
     });
+
     it(`should call the provided list of callbacks
      if the error is not a timeout error`, function() {
       let mockError = { timeout: false };
@@ -275,6 +282,7 @@ describe('Nps component', function() {
         .toHaveBeenCalled();
     });
   });
+
   describe('npsSender', function() {
     let component,
         npsSenderSpy;
@@ -284,7 +292,7 @@ describe('Nps component', function() {
       npsSenderSpy = jasmine.createSpy();
 
       component = React.render(
-        <Nps npsSender={npsSenderSpy}/>,
+        <Nps npsSender={npsSenderSpy} />,
         global.document.body
       );
     });

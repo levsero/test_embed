@@ -18,13 +18,16 @@ export const NpsComments = React.createClass({
   },
 
   render() {
+    /* jshint laxbreak: true */
     const commentClasses = classSet({
       'CommentsContainer': true,
       'u-isHidden': this.props.hidden
     });
+
     const sendButtonClasses = classSet({
       'u-marginTS u-marginBM u-sizeFull': true
     });
+
     const loadingSpinner = <LoadingSpinner
                              generateHighlightColor={generateConstrastColor}
                              highlightColor={this.props.highlightColor} />;
@@ -34,7 +37,6 @@ export const NpsComments = React.createClass({
       { fallback: 'Send Feedback' }
     );
 
-    /* jshint laxbreak: true */
     const buttonColor = (this.props.comment)
                       ? this.props.highlightColor
                       : null;
@@ -60,13 +62,13 @@ export const NpsComments = React.createClass({
             placeholder={this.props.commentsQuestion}
             value={this.props.comment}
             name='comment'
+            onChange={this.props.onChange}
             input={
               <textarea
                 placeholder={this.props.feedbackPlaceholder}
                 rows='1'>
               </textarea>
-            }
-            onChange={this.props.onChange} />
+            } />
           {commentsSubmitButton}
         </form>
       </div>

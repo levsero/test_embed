@@ -162,10 +162,10 @@ var RatingButton = React.createClass({
                 : `${this.props.label}`;
 
     return <ButtonSecondary
-      style={style}
-      label={label}
-      onClick={this.props.onClick}
-      className='is-mobile' />;
+             style={style}
+             label={label}
+             onClick={this.props.onClick}
+             className='is-mobile' />;
   }
 });
 

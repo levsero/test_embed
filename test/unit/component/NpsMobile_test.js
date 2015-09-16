@@ -99,9 +99,7 @@ describe('NpsMobile component', () => {
         'SelectList': React.createClass({
           render: () => {
             return (
-              <div
-                className='SelectList'>
-              </div>
+              <div className='SelectList'></div>
             );
           }
         })
