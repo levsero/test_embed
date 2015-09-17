@@ -147,19 +147,25 @@ var RatingButton = React.createClass({
 
   render() {
     /* jshint laxbreak: true */
+    const isSelectedStyles = {
+      borderColor: this.props.highlightColor,
+      background: this.props.highlightColor,
+      color: this.props.highlightColor
+           ? this.props.generateHighlightColor(this.props.highlightColor)
+           : '#fff',
+    };
+
+    const isNotSelectedStyles = {
+      color: this.props.highlightColor || 'auto'
+    };
+
     const style = (this.props.selected)
-                ? {
-                    borderColor: this.props.highlightColor,
-                    background: this.props.highlightColor,
-                    color: this.props.highlightColor
-                         ? this.props.generateHighlightColor(this.props.highlightColor)
-                         : '#fff',
-                  }
-                : { color: this.props.highlightColor || 'auto' };
+                ? isSelectedStyles
+                : isNotSelectedStyles;
 
     const label = this.props.loading
                 ? <LoadingSpinner {...this.props} />
-                : `${this.props.label}`;
+                : this.props.label;
 
     return <ButtonSecondary
              style={style}
