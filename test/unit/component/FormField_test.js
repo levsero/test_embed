@@ -25,7 +25,7 @@ describe('FormField component', function() {
     mockRegistry = initMockRegistry({
       'react/addons': React,
       'component/Loading': {
-        LoadingElipses: noopReactComponent()
+        LoadingEllipses: noopReactComponent()
       },
       'component/Icon': {
         Icon: React.createClass({

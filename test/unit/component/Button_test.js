@@ -18,7 +18,7 @@ describe('component/Button', function() {
         Icon: noopReactComponent()
       },
       'component/Loading': {
-        LoadingElipses: noopReactComponent()
+        LoadingEllipses: noopReactComponent()
       },
       'service/i18n': noop
     });

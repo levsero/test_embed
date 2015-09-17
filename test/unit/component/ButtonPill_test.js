@@ -17,7 +17,7 @@ describe('ButtonPill component', function() {
         Icon: noopReactComponent()
       },
       'component/Loading': {
-        LoadingElipses: noopReactComponent()
+        LoadingEllipses: noopReactComponent()
       },
       'service/i18n': {
         i18n: {

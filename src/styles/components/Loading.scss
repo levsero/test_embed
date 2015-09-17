@@ -3,11 +3,11 @@
  */
 @import '../_vars.scss';
 
-.LoadingElipses {
+.LoadingEllipses {
   min-width: #{20/$font-size}rem;
 }
 
-.LoadingElipses-item {
+.LoadingEllipses-item {
   width: #{6/$font-size}rem;
   height: #{6/$font-size}rem;
   background-color: $cta-color;
@@ -17,11 +17,11 @@
   animation-fill-mode: both; /* 1 */
 }
 
-.LoadingElipses-item:nth-child(1) {
+.LoadingEllipses-item:nth-child(1) {
   animation-delay: -0.32s;
 }
 
-.LoadingElipses-item:nth-child(2) {
+.LoadingEllipses-item:nth-child(2) {
   animation-delay: -0.16s;
 }
 

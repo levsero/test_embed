@@ -6,7 +6,7 @@ import { Button,
          ButtonSecondary } from 'component/Button';
 import { Container } from 'component/Container';
 import { Field } from 'component/FormField';
-import { LoadingElipses } from 'component/Loading';
+import { LoadingEllipses } from 'component/Loading';
 
 const classSet = React.addons.classSet;
 
@@ -31,7 +31,7 @@ const RatingButton = React.createClass({
                 : {};
     const content = (this.props.loading)
                   ? (<div style={{ width:'30px' }}>  {/* FIXME: css */}
-                       <LoadingElipses />
+                       <LoadingEllipses />
                      </div>)
                   : (<ButtonSecondary
                        style={style}
@@ -112,7 +112,7 @@ export const NpsDesktop = React.createClass({
           <div
             className={submittingCommentLoadingClasses}
             style={{paddingTop: '16px', paddingRight: '35px', height: '21px'}}> {/* FIXME: css */}
-            <LoadingElipses className='u-textRight' />
+            <LoadingEllipses className='u-textRight' />
           </div>
 
           <div

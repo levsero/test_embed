@@ -51,7 +51,7 @@ describe('Nps component', function() {
         Field: noopReactComponent()
       },
       'component/Loading': {
-        LoadingElipses: noopReactComponent()
+        LoadingEllipses: noopReactComponent()
       }
     });
     Nps = requireUncached(npsPath).Nps;
@@ -139,35 +139,6 @@ describe('Nps component', function() {
       .toEqual(1);
   });
 
-  describe('retry', function() {
-    it('should call the provided function if the tries are less than the threshold', function() {
-      let component = React.render(
-        <Nps />,
-        global.document.body
-      );
-      let spy = jasmine.createSpy();
-
-      component.retry(spy, 0);
-
-      expect(spy)
-        .toHaveBeenCalled();
-    });
-
-    it(`should not call the provided function
-     if the tries are less than the threshold`, function() {
-      let component = React.render(
-        <Nps />,
-        global.document.body
-      );
-      let spy = jasmine.createSpy();
-
-      component.retry(spy, 1);
-
-      expect(spy)
-        .not.toHaveBeenCalled();
-    });
-  });
-
   describe('responseFailure', function() {
     let retrySpy,
         callbackSpy,
@@ -183,68 +154,29 @@ describe('Nps component', function() {
       );
     });
 
-    it('should call retry if error.timeout is true && tries < the threshold', function() {
-      let mockError = { timeout: true };
-
-      component.retry = retrySpy;
-      component.responseFailure(0, noop, [])(mockError);
-
-      expect(component.retry)
-        .toHaveBeenCalled();
-    });
-
-    it('should not call retry if tries >= the threshold', function() {
-      let mockError = { timeout: true };
-
-      component.retry = retrySpy;
-      component.responseFailure(1, noop, [])(mockError);
-
-      expect(component.retry)
-        .not.toHaveBeenCalled();
-    });
-
-    it('should not call retry if the error is not a timeout error', function() {
-      let mockError = { timeout: false };
-
-      component.retry = retrySpy;
-      component.responseFailure(0, noop, [])(mockError);
-
-      expect(component.retry)
-        .not.toHaveBeenCalled();
-    });
-
     it('should set isSubmittingRating to false if the error is not a timeout error', function() {
-      let mockError = { timeout: false };
-
-      component.responseFailure(0, noop, [])(mockError);
+      component.responseFailure([]);
 
       expect(component.state.isSubmittingRating)
         .toEqual(false);
     });
 
     it('should set isSubmittingComment to false if the error is not a timeout error', function() {
-      let mockError = { timeout: false };
-
-      component.responseFailure(0, noop, [])(mockError);
+      component.responseFailure([]);
 
       expect(component.state.isSubmittingComment)
         .toEqual(false);
     });
 
     it('should set survey.error to true if the error is not a timeout error', function() {
-      let mockError = { timeout: false };
-
-      component.responseFailure(0, noop, [])(mockError);
+      component.responseFailure([]);
 
       expect(component.state.survey.error)
         .toEqual(true);
     });
 
-    it(`should call the provided list of callbacks
-     if the error is not a timeout error`, function() {
-      let mockError = { timeout: false };
-
-      component.responseFailure(0, noop, [callbackSpy])(mockError);
+    it('should call the provided list of callbacks', function() {
+      component.responseFailure([callbackSpy]);
 
       expect(callbackSpy)
         .toHaveBeenCalled();
@@ -264,19 +196,19 @@ describe('Nps component', function() {
       );
     });
     it('should set isSubmittingRating to false', function() {
-      component.responseSuccess([])();
+      component.responseSuccess([]);
 
       expect(component.state.isSubmittingRating)
         .toEqual(false);
     });
     it('should set isSubmittingComment to false', function() {
-      component.responseSuccess([])();
+      component.responseSuccess([]);
 
       expect(component.state.isSubmittingComment)
         .toEqual(false);
     });
     it('should set call the provided list of callbacks', function() {
-      component.responseSuccess([callbackSpy])();
+      component.responseSuccess([callbackSpy]);
 
       expect(callbackSpy)
         .toHaveBeenCalled();
