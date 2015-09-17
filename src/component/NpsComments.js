@@ -9,6 +9,10 @@ import { generateConstrastColor } from 'utility/utils';
 
 const classSet = React.addons.classSet;
 
+const sendFeedbackLabel = i18n.t(
+  'embeddable_framework.npsMobile.submitButton.label.sendFeedback',
+  { fallback: 'Send Feedback' }
+);
 export const NpsComments = React.createClass({
   onSubmit(...args) {
     this.refs.commentField.setState({
@@ -32,26 +36,25 @@ export const NpsComments = React.createClass({
                              generateHighlightColor={generateConstrastColor}
                              highlightColor={this.props.highlightColor} />;
 
-    const sendFeedbackLabel = i18n.t(
-      'embeddable_framework.npsMobile.submitButton.label.sendFeedback',
-      { fallback: 'Send Feedback' }
-    );
-
     const buttonColor = (this.props.comment)
-                      ? this.props.highlightColor
+                      ? { backgroundColor: this.props.highlightColor }
                       : null;
 
     const commentsSubmitButton = (this.props.isSubmittingComment)
                                ? <ButtonSecondary
                                    className={sendButtonClasses}
                                    label={loadingSpinner}
-                                   style={{ backgroundColor: buttonColor }} />
+                                   style={buttonColor} />
                                : <Button
                                    type='submit'
                                    className={sendButtonClasses}
                                    label={sendFeedbackLabel}
                                    disabled={!this.props.comment}
-                                   style={{ backgroundColor: buttonColor }} />;
+                                   style={buttonColor} />;
+
+    const inputTextArea = <textarea
+                            placeholder={this.props.feedbackPlaceholder}
+                            rows='1' />;
 
     return (
       <div className={commentClasses}>
@@ -63,12 +66,7 @@ export const NpsComments = React.createClass({
             value={this.props.comment}
             name='comment'
             onChange={this.props.onChange}
-            input={
-              <textarea
-                placeholder={this.props.feedbackPlaceholder}
-                rows='1'>
-              </textarea>
-            } />
+            input={inputTextArea} />
           {commentsSubmitButton}
         </form>
       </div>
