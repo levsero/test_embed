@@ -3,8 +3,8 @@
 // jscs:disable requireSpaceAfterBinaryOperators, maximumLineLength
 export var stopWords = [
   'a','about','above','across','after','again','against','all','almost','alone','along','already','also','although','always','am','among','an','and',
-  'another','any','anybody','anyone','anything','anywhere','are','area','areas','aren\'t','around','as','ask','asked','asking','asks','at','away','b'
-  ,'back','backed','backing','backs','be','became','because','become','becomes','been','before','began','behind','being','beings','below','best',
+  'another','any','anybody','anyone','anything','anywhere','are','area','areas','aren\'t','around','as','ask','asked','asking','asks','at','away','b',
+  'back','backed','backing','backs','be','became','because','become','becomes','been','before','began','behind','being','beings','below','best',
   'better','between','big','both','but','by','c','came','can','cannot','can\'t','case','cases','certain','certainly','clear','clearly','come','could',
   'couldn\'t','d','did','didn\'t','differ','different','differently','do','does','doesn\'t','doing','done','don\'t','down','downed','downing','downs',
   'during','e','each','early','either','end','ended','ending','ends','enough','even','evenly','ever','every','everybody','everyone','everything',
@@ -16,8 +16,8 @@ export var stopWords = [
   'knew','know','known','knows','l','large','largely','last','later','latest','least','less','let','lets','let\'s','like','likely','long','longer',
   'longest','m','made','make','making','man','many','may','me','member','members','men','might','more','most','mostly','mr','mrs','much','must','mustn\'t',
   'my','myself','n','necessary','need','needed','needing','needs','never','new','newer','newest','next','no','nobody','non','noone','nor','not','nothing',
-  'now','nowhere','number','numbers','o','of','off','often','old','older','oldest','on','once','one','only','open','opened','opening','opens','or','order',
-  'ordered','ordering','orders','other','others','ought','our','ours','ourselves','out','over','own','p','part','parted','parting','parts','per','perhaps',
+  'now','nowhere','number','numbers','o','of','off','often','old','older','oldest','on','once','one','only','open','opened','opening','opens','or',
+  'other','others','ought','our','ours','ourselves','out','over','own','p','parted','parting','per','perhaps',
   'place','places','point','pointed','pointing','points','possible','present','presented','presenting','presents','problem','problems','put','puts','q',
   'quite','r','rather','really','right','room','rooms','s','said','same','saw','say','says','second','seconds','see','seem','seemed','seeming','seems',
   'sees','several','shall','shan\'t','she','she\'d','she\'ll','she\'s','should','shouldn\'t','show','showed','showing','shows','side','sides','since',
