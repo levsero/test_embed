@@ -74,7 +74,6 @@ export const NpsMobile = React.createClass({
   },
 
   render() {
-    /* jshint laxbreak: true */
     let headingText;
 
     setTimeout(() => this.props.setFrameSize(this.calcHeightPercentage()), 0);
@@ -95,6 +94,7 @@ export const NpsMobile = React.createClass({
       'u-inlineBlock u-userTextColor u-posRelative u-marginTL u-userFillColor': true
     });
 
+    /* jshint laxbreak: true */
     const npsRatingsList = this.isCurrentPage(npsPageStates.selectingRating)
                          ? <div>
                              <p className='u-textBold u-textCenter SurveyQuestion'>
@@ -144,7 +144,7 @@ export const NpsMobile = React.createClass({
                    : null;
     return (
       <Container
-        className='u-borderTop Container--halfScreen is-mobile'
+        className='u-borderTop Container--halfscreen is-mobile'
         fullscreen={true}>
         <header className='Heading is-mobile u-textCenter'>
           {heading}

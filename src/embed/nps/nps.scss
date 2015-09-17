@@ -108,7 +108,7 @@
   }
 }
 
-.Container--halfScreen {
+.Container--halfscreen {
   &.is-mobile {
     box-shadow: 0 0 #{4/$font-size}rem 0 rgba(0, 0, 0, 0.12);
     height: 98%; // fix margin-top for box-shadow
