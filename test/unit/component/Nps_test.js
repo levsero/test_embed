@@ -195,18 +195,21 @@ describe('Nps component', function() {
         global.document.body
       );
     });
+
     it('should set isSubmittingRating to false', function() {
       component.responseSuccess();
 
       expect(component.state.isSubmittingRating)
         .toEqual(false);
     });
+
     it('should set isSubmittingComment to false', function() {
       component.responseSuccess();
 
       expect(component.state.isSubmittingComment)
         .toEqual(false);
     });
+
     it('should set call the provided list of callbacks', function() {
       component.responseSuccess(callbackSpy);
 
@@ -230,7 +233,6 @@ describe('Nps component', function() {
     });
 
     it('should set survey.error to false', function() {
-
       component.npsSender();
 
       expect(component.state.survey.error)
@@ -238,7 +240,6 @@ describe('Nps component', function() {
     });
 
     it('should call the this.props.npsSender', function() {
-
       component.npsSender();
 
       expect(npsSenderSpy)
