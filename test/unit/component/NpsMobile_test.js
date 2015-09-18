@@ -239,7 +239,7 @@ describe('NpsMobile component', () => {
   describe('SelectingRating State', () => {
 
     it('should not render a heading', () => {
-      expect(document.querySelectorAll('.Heading')[0].textContent)
+      expect(document.querySelectorAll('.Container--halfscreen-heading')[0].textContent)
         .toEqual('');
     });
 
@@ -270,12 +270,12 @@ describe('NpsMobile component', () => {
     });
 
     it('should render a heading', () => {
-      expect(document.querySelectorAll('.Heading').length)
+      expect(document.querySelectorAll('.Container--halfscreen-heading').length)
         .toEqual(1);
     });
 
     it('should render a heading containg the provided text', () => {
-      expect(document.querySelectorAll('.Heading')[0].textContent)
+      expect(document.querySelectorAll('.Container--halfscreen-heading')[0].textContent)
         .toEqual(npsProps.survey.youRated);
     });
 

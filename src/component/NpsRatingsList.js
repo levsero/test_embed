@@ -12,11 +12,12 @@ export const NpsRatingsList = React.createClass({
       selected: isSelected,
       highlightColor: this.props.highlightColor,
       onClick: this.props.onClick(rating),
-      generateHighlightColor: generateConstrastColor
+      generateHighlightColor: generateConstrastColor,
+      loadingSpinnerClassName: 'RatingsList-spinner'
     };
 
     return (
-      <li>
+      <li className='RatingsList-item'>
         <RatingButton {...props} />
       </li>
     );
@@ -26,14 +27,14 @@ export const NpsRatingsList = React.createClass({
     const items = this.props.ratingsRange.map(this.ratingListItemTemplate);
     return (
       <div>
-        <ol className='RatingsList is-mobile'>
+        <ol className='RatingsList u-textCenter'>
           {items}
         </ol>
-        <div className='RatingsLegend u-sizeFull u-paddingHT is-mobile'>
-          <p className='RatingsLegend-text RatingsLegend-text--left'>
+        <div className='RatingsList-legend u-sizeFull u-paddingHT is-mobile'>
+          <p className='RatingsList-legend-text RatingsList-legend-text--left'>
             {this.props.notLikelyLabel}
           </p>
-          <p className='RatingsLegend-text RatingsLegend-text--right'>
+          <p className='RatingsList-legend-text RatingsList-legend-text--left'>
             {this.props.likelyLabel}
           </p>
         </div>

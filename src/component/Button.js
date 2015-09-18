@@ -98,7 +98,7 @@ var ButtonSecondary = React.createClass({
   render() {
     const buttonClasses = classSet({
       'c-btn c-btn--medium c-btn--secondary': true,
-      [`${this.props.className}`]: true
+      [this.props.className]: true
     });
 
     return (
@@ -164,14 +164,14 @@ var RatingButton = React.createClass({
                 : isNotSelectedStyles;
 
     const label = this.props.loading
-                ? <LoadingSpinner {...this.props} />
+                ? <LoadingSpinner className={this.props.loadingSpinnerClassName} {...this.props} />
                 : this.props.label;
 
     return <ButtonSecondary
              style={style}
              label={label}
              onClick={this.props.onClick}
-             className='is-mobile' />;
+             className='RatingsList-btn' />;
   }
 });
 

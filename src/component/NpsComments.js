@@ -24,7 +24,6 @@ export const NpsComments = React.createClass({
   render() {
     /* jshint laxbreak: true */
     const commentClasses = classSet({
-      'CommentsContainer': true,
       'u-isHidden': this.props.hidden
     });
 
@@ -53,6 +52,7 @@ export const NpsComments = React.createClass({
                                    style={buttonColor} />;
 
     const inputTextArea = <textarea
+                            className='NpsComments-textarea'
                             placeholder={this.props.feedbackPlaceholder}
                             rows='1' />;
 
@@ -60,6 +60,7 @@ export const NpsComments = React.createClass({
       <div className={commentClasses}>
         <form onSubmit={this.onSubmit}>
           <Field
+            labelClasses='NpsComments-label'
             hasError={this.props.hasError}
             ref='commentField'
             placeholder={this.props.commentsQuestion}

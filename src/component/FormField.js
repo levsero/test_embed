@@ -138,7 +138,8 @@ var Field = React.createClass({
     });
     const fieldLabelClasses = classSet({
       'Form-fieldLabel u-textXHeight': true,
-      'u-textSize15': isMobileBrowser()
+      'u-textSize15': isMobileBrowser(),
+      [this.props.labelClasses]: true
     });
     const fieldInputClasses = classSet({
       'Form-checkboxInput u-isHiddenVisually': isCheckbox,

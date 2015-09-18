@@ -1,0 +1,22 @@
+.SurveyQuestion {
+  margin: 0;
+  padding-bottom: 0.8rem;
+  padding-top: 1.2rem;
+  font-size: #{14/$font-size}rem !important;
+}
+
+.ZendeskLogo,
+&:hover {
+  bottom: #{10/$font-size}rem;
+  position: initial;
+  text-align: center;
+
+  svg {
+    fill: $zendesk-color--iron;
+  }
+}
+
+.ThankyouTick {
+  padding-top: 1rem;
+  padding-left: 9.5rem;
+}

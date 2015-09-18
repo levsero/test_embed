@@ -29,3 +29,48 @@
 .List--noResults {
   margin-bottom: #{14/$font-size}rem !important;
 }
+
+.RatingsList {
+  padding-bottom: #{5/$font-size}rem;
+}
+
+.RatingsList-item {
+  display: inline-block;
+  margin: 0.3rem;
+}
+
+.RatingsList-btn {
+  border-radius: #{4/$font-size}rem;
+  border: #{2/$font-size}rem solid $zendesk-color--gainsboro;
+  height: #{34/$font-size}rem;
+  line-height: #{34/$font-size}rem;
+  padding: 0 !important;
+  width: #{34/$font-size}rem;
+
+  &:hover, &:focus {
+    background-color: $zendesk-color--white-smoke;
+    border: #{2/$font-size}rem solid $zendesk-color--iron;
+  }
+}
+
+.RatingsList-spinner {
+  border-color: $zendesk-color--white;
+  margin-top: #{9/$font-size}rem;
+}
+
+.RatingsList-legend {
+  color: $zendesk-color--aluminum;
+}
+
+.RatingsList-legend-text {
+  display: inline-block;
+  width: 50%;
+}
+
+.RatingsList-legend-text--left {
+  text-align: left;
+}
+
+.RatingsList-legend-text--right {
+  text-align: right;
+}

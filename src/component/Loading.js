@@ -6,7 +6,7 @@ export const LoadingSpinner = React.createClass({
   render() {
     return (
       <div
-        className='Loadingspinner'
+        className={`LoadingSpinner ${this.props.className}`}
         style={{ borderColor: this.props.generateHighlightColor(this.props.highlightColor) }}>
       </div>
     );

@@ -93,7 +93,6 @@ export const NpsMobile = React.createClass({
     const notificationClasses = classSet({
       'u-inlineBlock u-userTextColor u-posRelative u-marginTL u-userFillColor': true
     });
-
     /* jshint laxbreak: true */
     const npsRatingsList = this.isCurrentPage(npsPageStates.selectingRating)
                          ? <div>
@@ -137,16 +136,16 @@ export const NpsMobile = React.createClass({
                           options={_.range(11)}
                           highlightColor={this.props.survey.highlightColor}
                           wrapperClassNames='u-inline u-posRelative'
-                          selectClassNames='RatingsDropdown'
-                          iconClassNames='RatingsDropdownIcon'
+                          selectClassNames='NpsComments-selectlist'
+                          iconClassNames='NpsComments-selectlist-icon'
                           iconType='Icon--caret' />
                       </span>
                    : null;
     return (
       <Container
-        className='u-borderTop Container--halfscreen is-mobile'
+        className='u-borderTop Container--halfscreen'
         fullscreen={true}>
-        <header className='Heading is-mobile u-textCenter'>
+        <header className='Container--halfscreen-heading u-textCenter'>
           {heading}
           {dropdown}
         </header>

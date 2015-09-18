@@ -82,16 +82,15 @@ describe('NpsComments component', () => {
 
   describe('hidden', () => {
     describe('is false', () => {
-      it('should render a CommentsContainer', () => {
-        expect(document.querySelectorAll('.CommentsContainer').length)
-          .toEqual(1);
 
+      it('should render a CommentsContainer', () => {
         expect(document.querySelectorAll('.u-isHidden').length)
           .toEqual(0);
       });
     });
 
     describe('is true', () => {
+
       beforeEach(() => {
         npsCommentProps.hidden = true;
 
@@ -102,9 +101,6 @@ describe('NpsComments component', () => {
       });
 
       it('should render a CommentsContainer with the u-isHidden class', () => {
-        expect(document.querySelectorAll('.CommentsContainer').length)
-          .toEqual(1);
-
         expect(document.querySelectorAll('.u-isHidden').length)
           .toEqual(1);
       });

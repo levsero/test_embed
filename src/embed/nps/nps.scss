@@ -4,145 +4,16 @@
  *    taking 100% of iframe space
  */
 @import 'Container';
+@import 'List';
 @import 'Button';
 @import 'Icon';
 @import 'Form';
 @import 'Loading';
 @import 'Animation';
 @import 'SelectList';
+@import 'NpsMobile';
+@import 'NpsComments';
 @import '../_vars';
 
-.RatingsList {
-  padding-bottom: #{5/$font-size}rem;
 
-  &.is-mobile {
-    text-align: center;
 
-    li {
-      display: inline-block;
-      margin: 0.3rem;
-
-      .c-btn {
-        border-radius: #{4/$font-size}rem;
-        border: #{2/$font-size}rem solid $zendesk-color--gainsboro;
-        height: #{34/$font-size}rem;
-        line-height: #{34/$font-size}rem;
-        padding: 0;
-        width: #{34/$font-size}rem;
-
-        &:hover, &:focus {
-          background-color: $zendesk-color--white-smoke;
-          border: #{2/$font-size}rem solid $zendesk-color--iron;
-        }
-      }
-
-      .LoadingSpinner {
-        border-color: $zendesk-color--white;
-        margin-top: #{9/$font-size}rem;
-      }
-    }
-  }
-}
-
-.RatingsDropdown {
-  background-color: white;
-  border-radius: #{4/$font-size}rem;
-  font-size: #{16/$font-size}rem !important;
-  height: 2rem;
-  padding-left: #{6/$font-size}rem;
-  padding-right: #{13/$font-size}rem;
-  margin-top: -1.91rem; //vertically align
-}
-
-.RatingsDropdownIcon {
-  pointer-events: none;
-  position: absolute;
-  right: #{4/$font-size}rem;
-  top: #{5/$font-size}rem;
-
-  .Icon--caret {
-    padding-left: 0;
-    padding-right: 0;
-  }
-}
-
-.RatingsLegend {
-  color: $zendesk-color--aluminum;
-
-  &.is-mobile {
-    padding-top: #{3/$font-size}rem;
-  }
-}
-
-.RatingsLegend-text {
-  display: inline-block;
-  width: 50%;
-}
-
-.RatingsLegend-text--left {
-  text-align: left;
-}
-
-.RatingsLegend-text--right {
-  text-align: right;
-}
-
-.CommentsContainer {
-  .Form-fieldLabel {
-    color: $zendesk-color--dark-gray;
-    font-size: #{14/$font-size}rem !important;
-    font-weight: normal;
-    margin-bottom: 0;
-    padding-bottom: 1.2rem;
-    padding-top: 1.2rem;
-    text-align: center;
-  }
-
-  textarea {
-    font-size: #{16/$font-size}rem !important;
-    height: #{80/$font-size}rem;
-  }
-
-  .LoadingSpinner {
-    border-color: $zendesk-color--white;
-  }
-}
-
-.Container--halfscreen {
-  &.is-mobile {
-    box-shadow: 0 0 #{4/$font-size}rem 0 rgba(0, 0, 0, 0.12);
-    height: 98%; // fix margin-top for box-shadow
-    margin-top: #{4/$font-size}rem;
-  }
-}
-
-.Heading {
-  &.is-mobile {
-    height: 0;
-    padding-bottom: #{24/$font-size}rem !important;
-    padding-top: #{12/$font-size}rem !important;
-  }
-}
-
-.SurveyQuestion {
-  margin: 0;
-  padding-bottom: 0.8rem;
-  padding-top: 1.2rem;
-  font-size: #{14/$font-size}rem !important;
-}
-
-.ZendeskLogo,
-&:hover {
-  bottom: #{10/$font-size}rem;
-  position: initial;
-  text-align: center;
-
-  svg {
-    fill: $zendesk-color--iron;
-  }
-}
-
-.ThankyouTick {
-  padding-top: 1rem;
-  padding-left: 9.5rem;
-}
