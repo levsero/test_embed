@@ -145,7 +145,7 @@ describe('NpsMobile component', () => {
     mockSendComment = jasmine.createSpy();
   });
 
-  describe('CalcHeightPercentage', () => {
+  describe('calcHeightPercentage', () => {
 
     describe('is less than the threshold', () => {
 
@@ -185,7 +185,7 @@ describe('NpsMobile component', () => {
 
   });
 
-  describe('RatingClickHandler', () => {
+  describe('ratingClickHandler', () => {
 
     it('should return a function when ratingClickHandler is called', () => {
       expect(typeof component.ratingClickHandler(mockRating))
@@ -201,7 +201,7 @@ describe('NpsMobile component', () => {
       });
 
   });
-  describe('SubmitCommentHandler', () => {
+  describe('submitCommentHandler', () => {
 
     it('should set currentPage to thankYou when submitCommentHandlerSuccess is called', () => {
       component.submitCommentHandlerSuccess();
@@ -212,7 +212,7 @@ describe('NpsMobile component', () => {
 
   });
 
-  describe('Initial State', () => {
+  describe('initial State', () => {
 
     it('should set the currentPage to selectingRating when initialState is called', () => {
       expect(component.state.currentPage)
@@ -221,14 +221,14 @@ describe('NpsMobile component', () => {
 
   });
 
-  describe('IsCurrentPage', () => {
+  describe('isCurrentPage', () => {
 
-    it('Should return true when the provided page matches the states currentPage', () => {
+    it('should return true when the provided page matches the states currentPage', () => {
       expect(component.isCurrentPage(npsPageStates.selectingRating))
         .toEqual(true);
     });
 
-    it(`Should return false when the provided page
+    it(`should return false when the provided page
      does not match the states currentPage`, () => {
        expect(component.isCurrentPage(npsPageStates.thankYou))
          .toEqual(false);
@@ -236,7 +236,7 @@ describe('NpsMobile component', () => {
 
   });
 
-  describe('SelectingRating State', () => {
+  describe('selectingRating State', () => {
 
     it('should not render a heading', () => {
       expect(document.querySelectorAll('.Container--halfscreen-heading')[0].textContent)
@@ -260,7 +260,7 @@ describe('NpsMobile component', () => {
 
   });
 
-  describe('AddingComment State', () => {
+  describe('addingComment State', () => {
 
     beforeEach(() => {
 
@@ -291,7 +291,7 @@ describe('NpsMobile component', () => {
 
   });
 
-  describe('ThankYou State', () => {
+  describe('thankYou state', () => {
 
     beforeEach(() => {
       component.setState({
