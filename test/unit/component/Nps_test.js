@@ -143,6 +143,7 @@ describe('Nps component', function() {
     let retrySpy,
         callbackSpy,
         component;
+
     beforeEach(function() {
 
       retrySpy = jasmine.createSpy();
