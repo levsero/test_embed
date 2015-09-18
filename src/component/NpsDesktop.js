@@ -10,7 +10,7 @@ import { LoadingEllipses } from 'component/Loading';
 
 const classSet = React.addons.classSet;
 
-const RatingButton = React.createClass({
+const ButtonRating = React.createClass({
   getDefaultProps() {
     return {
       highlightColor: '',
@@ -72,7 +72,7 @@ export const NpsDesktop = React.createClass({
 
       return (
         <li>
-          <RatingButton {...props} />
+          <ButtonRating {...props} />
         </li>
       );
     };

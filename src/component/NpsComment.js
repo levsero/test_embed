@@ -9,12 +9,7 @@ import { generateConstrastColor } from 'utility/utils';
 
 const classSet = React.addons.classSet;
 
-const sendFeedbackLabel = i18n.t(
-  'embeddable_framework.npsMobile.submitButton.label.sendFeedback',
-  { fallback: 'Send Feedback' }
-);
-
-export const NpsComments = React.createClass({
+export const NpsComment = React.createClass({
   onSubmit(...args) {
     this.refs.commentField.setState({
       hasError: false
@@ -23,7 +18,11 @@ export const NpsComments = React.createClass({
   },
 
   render() {
-    /* jshint laxbreak: true */
+    const sendFeedbackLabel = i18n.t(
+      'embeddable_framework.npsMobile.submitButton.label.sendFeedback',
+      { fallback: 'Send Feedback' }
+    );
+
     const commentClasses = classSet({
       'u-isHidden': this.props.hidden
     });
@@ -36,6 +35,7 @@ export const NpsComments = React.createClass({
                              generateHighlightColor={generateConstrastColor}
                              highlightColor={this.props.highlightColor} />;
 
+    /* jshint laxbreak: true */
     const buttonColor = (this.props.comment)
                       ? { backgroundColor: this.props.highlightColor }
                       : null;
@@ -53,7 +53,7 @@ export const NpsComments = React.createClass({
                                    style={buttonColor} />;
 
     const inputTextArea = <textarea
-                            className='NpsComments-textarea u-textSizeBaseMobile'
+                            className='NpsComment-textarea u-textSizeBaseMobile'
                             placeholder={this.props.feedbackPlaceholder}
                             rows='1' />;
 
@@ -61,7 +61,7 @@ export const NpsComments = React.createClass({
       <div className={commentClasses}>
         <form onSubmit={this.onSubmit}>
           <Field
-            labelClasses='NpsComments-label u-marginBN u-textCenter'
+            labelClasses='NpsComment-label u-marginBN u-textCenter'
             hasError={this.props.hasError}
             ref='commentField'
             placeholder={this.props.commentsQuestion}

@@ -1,30 +1,53 @@
 import React from 'react/addons';
 
-import { RatingButton } from 'component/Button';
+import { ButtonRating } from 'component/Button';
 import { generateConstrastColor } from 'utility/utils';
 
 export const NpsRatingsList = React.createClass({
-  ratingListItemTemplate(rating) {
-    const isSelected = this.props.selectedRating === rating && this.props.highlightButton;
-    const props = {
-      label: rating,
-      loading: isSelected && this.props.isSubmittingRating,
-      selected: isSelected,
-      highlightColor: this.props.highlightColor,
-      onClick: this.props.onClick(rating),
-      generateHighlightColor: generateConstrastColor,
-      loadingSpinnerClassName: 'RatingsList-spinner'
-    };
-
-    return (
-      <li className='RatingsList-item u-inlineBlock'>
-        <RatingButton {...props} />
-      </li>
-    );
-  },
 
   render: function() {
-    const items = this.props.ratingsRange.map(this.ratingListItemTemplate);
+    const ratingListItemTemplate = (rating) => {
+
+      const isSelected = this.props.selectedRating === rating && this.props.highlightButton;
+
+      const props = {
+        label: rating,
+        loading: isSelected && this.props.isSubmittingRating,
+        selected: isSelected,
+        highlightColor: this.props.highlightColor,
+        onClick: this.props.onClick(rating),
+        generateHighlightColor: generateConstrastColor,
+        loadingSpinnerClassName: 'RatingsList-spinner'
+      };
+
+      /* jshint ignore:start */
+      // jslint really doesn't like ... syntax
+      const classSet = React.addons.classSet;
+
+      const labelClasses = classSet({
+        'RatingsList-legend-text u-inlineBlock': true
+      });
+
+      const likelyLabelClasses = classSet({
+        ...labelClasses,
+        'u-textLeft': true
+      });
+
+      const notLikelyLabelClasses = classSet({
+        ...labelClasses,
+        'u-textRight': true
+      });
+      /* jshint ignore:end */
+
+      return (
+        <li className='RatingsList-item u-inlineBlock'>
+          <ButtonRating {...props} />
+        </li>
+      );
+    };
+
+    const items = this.props.ratingsRange.map(ratingListItemTemplate);
+
     return (
       <div>
         <ol className='RatingsList u-textCenter'>
@@ -41,5 +64,4 @@ export const NpsRatingsList = React.createClass({
       </div>
     );
   }
-
 });

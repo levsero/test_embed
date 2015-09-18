@@ -59,11 +59,11 @@ describe('NpsMobile component', () => {
             }
           }),
       },
-      'component/NpsComments': {
-        NpsComments:  React.createClass({
+      'component/NpsComment': {
+        NpsComment:  React.createClass({
           render: () => {
             return (
-              <div className='NpsComments'></div>
+              <div className='NpsComment'></div>
             );
           }
         })
@@ -285,7 +285,7 @@ describe('NpsMobile component', () => {
     });
 
     it('should render a comments section', () => {
-      expect(document.querySelectorAll('.NpsComments').length)
+      expect(document.querySelectorAll('.NpsComment').length)
         .toEqual(1);
     });
 

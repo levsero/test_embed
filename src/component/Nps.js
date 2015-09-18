@@ -39,16 +39,20 @@ export const Nps = React.createClass({
     this.props.npsSender(params, success, fail);
   },
 
-  responseFailure(failureCallback = noop) {
+  responseFailure(failureCallback) {
     this.setState({isSubmittingRating: false, isSubmittingComment: false});
     this.setState(_.extend(this.state.survey, { error: true }));
-    failureCallback();
+    if (failureCallback) {
+      failureCallback();
+    }
   },
 
-  responseSuccess(successCallback = noop) {
+  responseSuccess(successCallback) {
     this.setState({isSubmittingRating: false, isSubmittingComment: false});
     this.setState(_.extend(this.state.survey, { error: false }));
-    successCallback();
+    if (successCallback) {
+      successCallback();
+    }
   },
 
   sendRating(successCallback , failureCallback) {

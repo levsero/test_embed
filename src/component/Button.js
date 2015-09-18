@@ -135,7 +135,7 @@ var ButtonGroup = React.createClass({
   }
 });
 
-var RatingButton = React.createClass({
+var ButtonRating = React.createClass({
   getDefaultProps() {
     return {
       highlightColor: '',
@@ -181,5 +181,5 @@ export {
   ButtonPill,
   ButtonSecondary,
   ButtonGroup,
-  RatingButton
+  ButtonRating
 };

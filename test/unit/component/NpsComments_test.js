@@ -1,10 +1,10 @@
-describe('NpsComments component', () => {
-  let NpsComments,
+describe('NpsComment component', () => {
+  let NpsComment,
       mockRegistry,
       component,
       npsCommentProps;
 
-  const npsPath = buildSrcPath('component/NpsComments');
+  const npsPath = buildSrcPath('component/NpsComment');
 
   beforeEach(() => {
 
@@ -64,10 +64,10 @@ describe('NpsComments component', () => {
       }
     });
 
-    NpsComments = requireUncached(npsPath).NpsComments;
+    NpsComment = requireUncached(npsPath).NpsComment;
 
     component = React.render(
-        <NpsComments {...npsCommentProps} />,
+        <NpsComment {...npsCommentProps} />,
         global.document.body
       );
   });
@@ -90,7 +90,7 @@ describe('NpsComments component', () => {
         npsCommentProps.hidden = true;
 
         component = React.render(
-          <NpsComments {...npsCommentProps} />,
+          <NpsComment {...npsCommentProps} />,
           global.document.body
         );
       });
@@ -108,7 +108,7 @@ describe('NpsComments component', () => {
         npsCommentProps.isSubmittingComment = true;
 
         component = React.render(
-          <NpsComments {...npsCommentProps} />,
+          <NpsComment {...npsCommentProps} />,
           global.document.body
         );
       });

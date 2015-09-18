@@ -2,15 +2,13 @@ import React from 'react/addons';
 import _     from 'lodash';
 
 import { Container } from 'component/Container';
-import { NpsComments } from 'component/NpsComments';
+import { NpsComment } from 'component/NpsComment';
 import { Icon } from 'component/Icon';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { SelectList } from 'component/SelectList';
 import { NpsRatingsList } from 'component/NpsRatingsList';
 import { getSizingRatio } from 'utility/devices';
 import { win } from 'utility/globals';
-
-const classSet = React.addons.classSet;
 
 const npsPageStates = {
   selectingRating: 0,
@@ -36,17 +34,14 @@ export const NpsMobile = React.createClass({
     const heightThreshold = 450;
     const heightRatio = win.innerHeight / ratio;
 
-    if (heightRatio < heightThreshold) {
-
-      if (currentPage === npsPageStates.thankYou) {
-        return '60%';
-      }
-      return '70%';
-    }
-    if (currentPage === npsPageStates.thankYou) {
-      return '40%';
-    }
-    return '51%';
+    /* jshint laxbreak: true */
+    return (heightRatio < heightThreshold)
+         ? (currentPage === npsPageStates.thankYou)
+           ? '60%'
+           : '70%'
+         : (currentPage === npsPageStates.thankYou)
+           ? '40%'
+           : '51%';
   },
 
   isCurrentPage(pageEnum) {
@@ -85,15 +80,13 @@ export const NpsMobile = React.createClass({
       headingText = this.props.survey.thankYou;
     }
 
-    const dropdownClasses = classSet({
-      'u-textSizeMed u-textBold u-extSizeMed u-textCenter u-textXHeight': true
-    });
-    const headingClasses = classSet({
-      'u-textSizeMed u-textBold u-extSizeMed u-textCenter u-textXHeight': true
-    });
-    const notificationClasses = classSet({
-      'u-inlineBlock u-userTextColor u-posRelative u-marginTL u-userFillColor': true
-    });
+    const dropdownClasses = 'u-textSizeMed u-textBold u-extSizeMed u-textCenter u-textXHeight';
+
+    const headingClasses = 'u-textSizeMed u-textBold u-extSizeMed u-textCenter u-textXHeight';
+
+    const notificationClasses = `u-inlineBlock u-userTextColor
+                                 u-posRelative u-marginTL u-userFillColor`;
+
     /* jshint laxbreak: true */
     const npsRatingsList = this.isCurrentPage(npsPageStates.selectingRating)
                          ? <div>
@@ -137,8 +130,8 @@ export const NpsMobile = React.createClass({
                           options={_.range(11)}
                           highlightColor={this.props.survey.highlightColor}
                           wrapperClassNames='u-inline u-posRelative'
-                          selectClassNames='NpsComments-selectlist'
-                          iconClassNames='NpsComments-selectlist-icon'
+                          selectClassNames='NpsComment-selectlist'
+                          iconClassNames='NpsComment-selectlist-icon'
                           iconType='Icon--caret' />
                       </span>
                    : null;
@@ -152,7 +145,7 @@ export const NpsMobile = React.createClass({
         </header>
         <div className='u-marginHM u-borderTop'>
           {npsRatingsList}
-          <NpsComments
+          <NpsComment
             commentsQuestion={this.props.survey.commentsQuestion}
             comment={this.props.response.comment}
             feedbackPlaceholder={this.props.survey.feedbackPlaceholder}

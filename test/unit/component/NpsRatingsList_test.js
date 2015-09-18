@@ -29,10 +29,10 @@ describe('NpsRatingsList component', () => {
     mockRegistry = initMockRegistry({
       'react/addons': React,
       'component/Button': {
-        'RatingButton': React.createClass({
+        'ButtonRating': React.createClass({
           render: () => {
             return (
-              <div className='RatingButton'></div>
+              <div className='ButtonRating'></div>
             );
           }
         })
@@ -64,7 +64,7 @@ describe('NpsRatingsList component', () => {
     });
 
     it('should render a list using rating buttons', () => {
-      expect(document.querySelectorAll('.RatingButton').length)
+      expect(document.querySelectorAll('.ButtonRating').length)
         .toEqual(ratingsRange.length);
     });
 

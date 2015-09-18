@@ -1,4 +1,4 @@
-.NpsComments-label {
+.NpsComment-label {
   color: $zendesk-color--dark-gray;
   font-size: #{14/$font-size}rem !important;
   font-weight: normal;
@@ -7,12 +7,12 @@
   text-align: center;
 }
 
-.NpsComments-textarea {
+.NpsComment-textarea {
   font-size: #{16/$font-size}rem !important;
   height: #{80/$font-size}rem;
 }
 
-.NpsComments-selectlist {
+.NpsComment-selectlist {
   background-color: $zendesk-color--snow;
   border-radius: #{4/$font-size}rem;
   font-size: #{16/$font-size}rem !important;
@@ -22,7 +22,7 @@
   margin-top: -1.91rem; //vertically align
 }
 
-.NpsComments-selectlist-icon {
+.NpsComment-selectlist-icon {
   pointer-events: none;
   position: absolute;
   right: -#{8.5/$font-size}rem;
