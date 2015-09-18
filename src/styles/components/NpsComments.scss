@@ -1,11 +1,9 @@
-
 .NpsComments-label {
   color: $zendesk-color--dark-gray;
   font-size: #{14/$font-size}rem !important;
   font-weight: normal;
-  margin-bottom: 0;
-  padding-bottom: 1.2rem;
-  padding-top: 1.2rem;
+  padding-bottom: #{12/$font-size}rem !important;
+  padding-top: #{12/$font-size}rem !important;
   text-align: center;
 }
 
@@ -15,7 +13,7 @@
 }
 
 .NpsComments-selectlist {
-  background-color: white;
+  background-color: $zendesk-color--snow;
   border-radius: #{4/$font-size}rem;
   font-size: #{16/$font-size}rem !important;
   height: 2rem;

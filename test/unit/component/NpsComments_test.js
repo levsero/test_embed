@@ -2,7 +2,6 @@ describe('NpsComments component', () => {
   let NpsComments,
       mockRegistry,
       component,
-      tSpy,
       npsCommentProps;
 
   const npsPath = buildSrcPath('component/NpsComments');
@@ -20,8 +19,6 @@ describe('NpsComments component', () => {
       hidden: false,
       isSubmittingComment: false
     };
-
-    tSpy = jasmine.createSpy();
 
     resetDOM();
 
@@ -50,7 +47,7 @@ describe('NpsComments component', () => {
       },
       'service/i18n': {
         'i18n': {
-          t: tSpy
+          t: jasmine.createSpy()
         }
       },
       'component/Loading': {
@@ -82,7 +79,6 @@ describe('NpsComments component', () => {
 
   describe('hidden', () => {
     describe('is false', () => {
-
       it('should render a CommentsContainer', () => {
         expect(document.querySelectorAll('.u-isHidden').length)
           .toEqual(0);
@@ -90,7 +86,6 @@ describe('NpsComments component', () => {
     });
 
     describe('is true', () => {
-
       beforeEach(() => {
         npsCommentProps.hidden = true;
 
@@ -106,6 +101,7 @@ describe('NpsComments component', () => {
       });
     });
   });
+
   describe('isSubmittingComment', () => {
     describe('is true', () => {
       beforeEach(() => {
@@ -130,6 +126,7 @@ describe('NpsComments component', () => {
       });
     });
   });
+
   describe('i18n', () => {
     it(`should use the .sendFeedback label
       and with a fallback of 'Send Feedback'`, () => {

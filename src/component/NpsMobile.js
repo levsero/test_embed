@@ -37,6 +37,7 @@ export const NpsMobile = React.createClass({
     const heightRatio = win.innerHeight / ratio;
 
     if (heightRatio < heightThreshold) {
+
       if (currentPage === npsPageStates.thankYou) {
         return '60%';
       }
@@ -59,7 +60,7 @@ export const NpsMobile = React.createClass({
   ratingClickHandler(rating) {
     let sendRating = this.props.ratingClickHandler(rating);
     return (ev) => {
-      sendRating(ev, [this.ratingClickHandlerSuccess]);
+      sendRating(ev, this.ratingClickHandlerSuccess);
     };
   },
 
@@ -70,7 +71,7 @@ export const NpsMobile = React.createClass({
   },
 
   submitCommentHandler(ev) {
-    this.props.submitCommentHandler(ev, [this.submitCommentHandlerSuccess]);
+    this.props.submitCommentHandler(ev, this.submitCommentHandlerSuccess);
   },
 
   render() {

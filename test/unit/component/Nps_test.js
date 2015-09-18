@@ -155,28 +155,28 @@ describe('Nps component', function() {
     });
 
     it('should set isSubmittingRating to false if the error is not a timeout error', function() {
-      component.responseFailure([]);
+      component.responseFailure();
 
       expect(component.state.isSubmittingRating)
         .toEqual(false);
     });
 
     it('should set isSubmittingComment to false if the error is not a timeout error', function() {
-      component.responseFailure([]);
+      component.responseFailure();
 
       expect(component.state.isSubmittingComment)
         .toEqual(false);
     });
 
     it('should set survey.error to true if the error is not a timeout error', function() {
-      component.responseFailure([]);
+      component.responseFailure();
 
       expect(component.state.survey.error)
         .toEqual(true);
     });
 
     it('should call the provided list of callbacks', function() {
-      component.responseFailure([callbackSpy]);
+      component.responseFailure(callbackSpy);
 
       expect(callbackSpy)
         .toHaveBeenCalled();
@@ -196,19 +196,19 @@ describe('Nps component', function() {
       );
     });
     it('should set isSubmittingRating to false', function() {
-      component.responseSuccess([]);
+      component.responseSuccess();
 
       expect(component.state.isSubmittingRating)
         .toEqual(false);
     });
     it('should set isSubmittingComment to false', function() {
-      component.responseSuccess([]);
+      component.responseSuccess();
 
       expect(component.state.isSubmittingComment)
         .toEqual(false);
     });
     it('should set call the provided list of callbacks', function() {
-      component.responseSuccess([callbackSpy]);
+      component.responseSuccess(callbackSpy);
 
       expect(callbackSpy)
         .toHaveBeenCalled();

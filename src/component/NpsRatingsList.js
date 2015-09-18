@@ -17,7 +17,7 @@ export const NpsRatingsList = React.createClass({
     };
 
     return (
-      <li className='RatingsList-item'>
+      <li className='RatingsList-item u-inlineBlock'>
         <RatingButton {...props} />
       </li>
     );
@@ -31,10 +31,10 @@ export const NpsRatingsList = React.createClass({
           {items}
         </ol>
         <div className='RatingsList-legend u-sizeFull u-paddingHT is-mobile'>
-          <p className='RatingsList-legend-text RatingsList-legend-text--left'>
+          <p className='RatingsList-legend-text u-inlineBlock u-textLeft'>
             {this.props.notLikelyLabel}
           </p>
-          <p className='RatingsList-legend-text RatingsList-legend-text--left'>
+          <p className='RatingsList-legend-text u-inlineBlock u-textRight'>
             {this.props.likelyLabel}
           </p>
         </div>

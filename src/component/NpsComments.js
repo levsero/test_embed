@@ -13,6 +13,7 @@ const sendFeedbackLabel = i18n.t(
   'embeddable_framework.npsMobile.submitButton.label.sendFeedback',
   { fallback: 'Send Feedback' }
 );
+
 export const NpsComments = React.createClass({
   onSubmit(...args) {
     this.refs.commentField.setState({
@@ -52,7 +53,7 @@ export const NpsComments = React.createClass({
                                    style={buttonColor} />;
 
     const inputTextArea = <textarea
-                            className='NpsComments-textarea'
+                            className='NpsComments-textarea u-textSizeBaseMobile'
                             placeholder={this.props.feedbackPlaceholder}
                             rows='1' />;
 
@@ -60,7 +61,7 @@ export const NpsComments = React.createClass({
       <div className={commentClasses}>
         <form onSubmit={this.onSubmit}>
           <Field
-            labelClasses='NpsComments-label'
+            labelClasses='NpsComments-label u-marginBN u-textCenter'
             hasError={this.props.hasError}
             ref='commentField'
             placeholder={this.props.commentsQuestion}

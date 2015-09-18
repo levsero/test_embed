@@ -1,16 +1,11 @@
 .SurveyQuestion {
   margin: 0;
-  padding-bottom: 0.8rem;
-  padding-top: 1.2rem;
+  padding-bottom: #{9.6/$font-size}rem;
+  padding-top: #{14.4/$font-size}rem;
   font-size: #{14/$font-size}rem !important;
 }
 
-.ZendeskLogo,
-&:hover {
-  bottom: #{10/$font-size}rem;
-  position: initial;
-  text-align: center;
-
+.ZendeskLogo {
   svg {
     fill: $zendesk-color--iron;
   }

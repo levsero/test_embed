@@ -152,7 +152,7 @@ var RatingButton = React.createClass({
       background: this.props.highlightColor,
       color: this.props.highlightColor
            ? this.props.generateHighlightColor(this.props.highlightColor)
-           : '#fff',
+           : '#fff'
     };
 
     const isNotSelectedStyles = {
@@ -171,7 +171,7 @@ var RatingButton = React.createClass({
              style={style}
              label={label}
              onClick={this.props.onClick}
-             className='RatingsList-btn' />;
+             className='RatingsList-btn u-paddingAN' />;
   }
 });
 

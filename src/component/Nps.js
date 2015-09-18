@@ -4,10 +4,6 @@ import _     from 'lodash';
 import { NpsDesktop } from 'component/NpsDesktop';
 import { NpsMobile } from 'component/NpsMobile';
 
-const execute = (fn) => {
-  fn();
-};
-
 export const Nps = React.createClass({
   propTypes: {
     updateFrameSize: React.PropTypes.func,
@@ -43,19 +39,19 @@ export const Nps = React.createClass({
     this.props.npsSender(params, success, fail);
   },
 
-  responseFailure(failureCallbacks) {
+  responseFailure(failureCallback = noop) {
     this.setState({isSubmittingRating: false, isSubmittingComment: false});
     this.setState(_.extend(this.state.survey, { error: true }));
-    failureCallbacks.map(execute);
+    failureCallback();
   },
 
-  responseSuccess(successCallbacks) {
+  responseSuccess(successCallback = noop) {
     this.setState({isSubmittingRating: false, isSubmittingComment: false});
     this.setState(_.extend(this.state.survey, { error: false }));
-    successCallbacks.map(execute);
+    successCallback();
   },
 
-  sendRating(successCallbacks = [] , failureCallbacks = []) {
+  sendRating(successCallback , failureCallback) {
     const params = {
       npsResponse: {
         surveyId: this.state.survey.surveyId,
@@ -65,12 +61,12 @@ export const Nps = React.createClass({
     };
 
     this.npsSender(params,
-      this.responseSuccess.bind(this, successCallbacks),
-      this.responseFailure.bind(this, failureCallbacks)
+      this.responseSuccess.bind(this, successCallback),
+      this.responseFailure.bind(this, failureCallback)
     );
   },
 
-  sendComment(successCallbacks = [], failureCallbacks = []) {
+  sendComment(successCallback, failureCallback) {
     const params = {
       npsResponse: {
         surveyId: this.state.survey.surveyId,
@@ -81,18 +77,18 @@ export const Nps = React.createClass({
     };
 
     this.npsSender(params,
-      this.responseSuccess.bind(this, successCallbacks),
-      this.responseFailure.bind(this, failureCallbacks)
+      this.responseSuccess.bind(this, successCallback),
+      this.responseFailure.bind(this, failureCallback)
     );
   },
 
   ratingClickHandler(rating) {
-    return (ev, successCallbacks, failureCallbacks) => {
+    return (ev, successCallback, failureCallback) => {
       this.setState({
         response: _.extend({}, this.state.response, { rating: rating }),
         isSubmittingRating: true
       });
-      setTimeout(() => this.sendRating(successCallbacks, failureCallbacks), 0);
+      setTimeout(() => this.sendRating(successCallback, failureCallback), 0);
       setTimeout(() => {
         if (!this.state.isMobile) {
           this.refs.commentField.refs.field.getDOMNode().focus();
@@ -101,10 +97,10 @@ export const Nps = React.createClass({
     };
   },
 
-  submitCommentHandler(ev, successCallbacks = [], failureCallbacks = []) {
+  submitCommentHandler(ev, successCallback, failureCallback) {
     ev.preventDefault();
     this.setState({ isSubmittingComment: true });
-    setTimeout(() => this.sendComment(successCallbacks, failureCallbacks), 0);
+    setTimeout(() => this.sendComment(successCallback, failureCallback), 0);
   },
 
   onCommentChangeHandler(ev) {

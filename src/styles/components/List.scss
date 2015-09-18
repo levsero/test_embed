@@ -35,7 +35,6 @@
 }
 
 .RatingsList-item {
-  display: inline-block;
   margin: 0.3rem;
 }
 
@@ -44,7 +43,6 @@
   border: #{2/$font-size}rem solid $zendesk-color--gainsboro;
   height: #{34/$font-size}rem;
   line-height: #{34/$font-size}rem;
-  padding: 0 !important;
   width: #{34/$font-size}rem;
 
   &:hover, &:focus {
@@ -63,14 +61,5 @@
 }
 
 .RatingsList-legend-text {
-  display: inline-block;
   width: 50%;
-}
-
-.RatingsList-legend-text--left {
-  text-align: left;
-}
-
-.RatingsList-legend-text--right {
-  text-align: right;
 }

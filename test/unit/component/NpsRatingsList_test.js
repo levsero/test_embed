@@ -72,14 +72,25 @@ describe('NpsRatingsList component', () => {
 
   describe('labels', () => {
 
-    it('should render the notLikelyLabel', () => {
-      expect(document.querySelectorAll('.RatingsList-legend-text--left')[0].textContent)
-        .toEqual(npsRatingsListProps.notLikelyLabel);
+    it('should render both labels', () => {
+      expect(document.querySelectorAll('.RatingsList-legend-text').length)
+        .toEqual(2);
     });
 
     it('should render the likelyLabel', () => {
-      expect(document.querySelectorAll('.RatingsList-legend-text--left')[0].textContent)
+      expect(document
+          .querySelectorAll('.RatingsList-legend-text.u-inlineBlock.u-textRight')[0]
+          .textContent
+        )
         .toEqual(npsRatingsListProps.likelyLabel);
+    });
+
+    it('should render the notLikelyLabel', () => {
+      expect(document
+        .querySelectorAll('.RatingsList-legend-text.u-inlineBlock.u-textLeft')[0]
+        .textContent
+      )
+        .toEqual(npsRatingsListProps.notLikelyLabel);
     });
 
   });
