@@ -29,17 +29,16 @@ export const NpsMobile = React.createClass({
   },
 
   calcHeightPercentage() {
-    const currentPage = this.state.currentPage;
     const ratio = getSizingRatio(false, false);
     const heightThreshold = 450;
     const heightRatio = win.innerHeight / ratio;
 
     /* jshint laxbreak: true */
     return (heightRatio < heightThreshold)
-         ? (currentPage === npsPageStates.thankYou)
+         ? (this.isCurrentPage(npsPageStates.thankYou))
            ? '60%'
            : '70%'
-         : (currentPage === npsPageStates.thankYou)
+         : (this.isCurrentPage(npsPageStates.thankYou))
            ? '40%'
            : '51%';
   },

@@ -1,11 +1,27 @@
 import React from 'react/addons';
+import _ from 'lodash';
 
 import { ButtonRating } from 'component/Button';
 import { generateConstrastColor } from 'utility/utils';
 
+const classSet = React.addons.classSet;
+
 export const NpsRatingsList = React.createClass({
 
   render: function() {
+
+    const labelClasses = {
+      'RatingsList-legend-text u-inlineBlock': true
+    };
+
+    const likelyLabelClasses = classSet(_.extend({}, labelClasses, {
+      'u-textRight': true
+    }));
+
+    const notLikelyLabelClasses = classSet(_.extend({}, labelClasses, {
+      'u-textLeft': true
+    }));
+
     const ratingListItemTemplate = (rating) => {
 
       const isSelected = this.props.selectedRating === rating && this.props.highlightButton;
@@ -19,25 +35,6 @@ export const NpsRatingsList = React.createClass({
         generateHighlightColor: generateConstrastColor,
         loadingSpinnerClassName: 'RatingsList-spinner'
       };
-
-      /* jshint ignore:start */
-      // jslint really doesn't like ... syntax
-      const classSet = React.addons.classSet;
-
-      const labelClasses = classSet({
-        'RatingsList-legend-text u-inlineBlock': true
-      });
-
-      const likelyLabelClasses = classSet({
-        ...labelClasses,
-        'u-textLeft': true
-      });
-
-      const notLikelyLabelClasses = classSet({
-        ...labelClasses,
-        'u-textRight': true
-      });
-      /* jshint ignore:end */
 
       return (
         <li className='RatingsList-item u-inlineBlock'>
@@ -54,10 +51,10 @@ export const NpsRatingsList = React.createClass({
           {items}
         </ol>
         <div className='RatingsList-legend u-sizeFull u-paddingHT is-mobile'>
-          <p className='RatingsList-legend-text u-inlineBlock u-textLeft'>
+          <p className={notLikelyLabelClasses}>
             {this.props.notLikelyLabel}
           </p>
-          <p className='RatingsList-legend-text u-inlineBlock u-textRight'>
+          <p className={likelyLabelClasses}>
             {this.props.likelyLabel}
           </p>
         </div>
