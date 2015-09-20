@@ -132,17 +132,18 @@ describe('NpsMobile component', () => {
         />,
         global.document.body
       );
-  });
 
-  afterEach(() => {
-    mockery.deregisterAll();
-    mockery.disable();
     innerSpy = innerSpy = jasmine.createSpy();
     mockSetFrameSize = jasmine.createSpy();
     mockRatingClickHandler = jasmine.createSpy().and.returnValue(innerSpy);
     mockSubmitCommentHandler = jasmine.createSpy();
     mockOnCommentChangeHandler = jasmine.createSpy();
     mockSendComment = jasmine.createSpy();
+  });
+
+  afterEach(() => {
+    mockery.deregisterAll();
+    mockery.disable();
   });
 
   describe('calcHeightPercentage', () => {
@@ -167,6 +168,7 @@ describe('NpsMobile component', () => {
       });
 
     });
+
     describe('is greater than the threshold', () => {
 
       it('should return 51%', () => {
@@ -239,7 +241,7 @@ describe('NpsMobile component', () => {
   describe('selectingRating State', () => {
 
     it('should not render a heading', () => {
-      expect(document.querySelectorAll('.Container--halfscreen-heading')[0].textContent)
+      expect(document.querySelector('.Container--halfscreen-heading').textContent)
         .toEqual('');
     });
 
@@ -249,7 +251,7 @@ describe('NpsMobile component', () => {
     });
 
     it('should put the provided question', () => {
-      expect(document.querySelectorAll('.SurveyQuestion')[0].textContent)
+      expect(document.querySelector('.SurveyQuestion').textContent)
         .toEqual(npsProps.survey.question);
     });
 
@@ -275,7 +277,7 @@ describe('NpsMobile component', () => {
     });
 
     it('should render a heading containg the provided text', () => {
-      expect(document.querySelectorAll('.Container--halfscreen-heading')[0].textContent)
+      expect(document.querySelector('.Container--halfscreen-heading').textContent)
         .toEqual(npsProps.survey.youRated);
     });
 
