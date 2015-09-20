@@ -8,7 +8,6 @@ describe('NpsRatingsList component', () => {
   const npsPath = buildSrcPath('component/NpsRatingsList');
 
   beforeEach(() => {
-
     ratingsRange = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
     npsRatingsListProps = {
@@ -51,13 +50,11 @@ describe('NpsRatingsList component', () => {
   });
 
   afterEach(() => {
-
     mockery.deregisterAll();
     mockery.disable();
   });
 
   describe('list items', () => {
-
     it('should render an unordered list of items', () => {
       expect(document.querySelectorAll('.RatingsList')[0].children.length)
         .toEqual(ratingsRange.length);
