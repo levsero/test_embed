@@ -71,6 +71,19 @@ describe('devices', function() {
         .toBe(true);
     });
 
+    it('returns true if Googlebot is within the user agent string', function() {
+      /* jshint maxlen: false */
+      mockGlobals.navigator.userAgent = 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)';
+
+      expect(isBlacklisted())
+        .toBe(true);
+
+      mockGlobals.navigator.userAgent = 'DoCoMo/2.0 N905i(c100;TB;W24H16) (compatible; Googlebot-Mobile/2.1; +http://www.google.com/bot.html)';
+
+      expect(isBlacklisted())
+        .toBe(true);
+    });
+
     it('returns true if the browser doesn\'t supports CORS', function() {
       mockGlobals.win.XMLHttpRequest = noop;
 
