@@ -81,9 +81,6 @@ describe('devices', function() {
 
       expect(isBlacklisted())
         .toBe(true);
-
-      expect(isBlacklisted())
-        .toBe(true);
     });
 
     it('returns true if the browser doesn\'t supports CORS', function() {
