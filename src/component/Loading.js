@@ -13,15 +13,17 @@ export const LoadingSpinner = React.createClass({
 
 export const LoadingEllipses = React.createClass({
   render() {
-    const LoadingEllipsesItemClasses = `LoadingEllipses-item
-    u-userBackgroundColor
-    u-inlineBlock`;
+    const loadingEllipsesItemClasses = `
+      LoadingEllipses-item
+      u-userBackgroundColor
+      u-inlineBlock
+    `;
 
     return (
       <div className={`LoadingEllipses u-textCenter ${this.props.className}`}>
-        <div className={LoadingEllipsesItemClasses}/>
-        <div className={LoadingEllipsesItemClasses}/>
-        <div className={LoadingEllipsesItemClasses}/>
+        <div className={loadingEllipsesItemClasses}/>
+        <div className={loadingEllipsesItemClasses}/>
+        <div className={loadingEllipsesItemClasses}/>
       </div>
     );
   }
