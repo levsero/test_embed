@@ -76,6 +76,21 @@ describe('devices', function() {
 
       expect(isBlacklisted())
         .toBe(true);
+
+      mockGlobals.navigator.userAgent = 'Googlebot-Mobile';
+
+      expect(isBlacklisted())
+        .toBe(true);
+
+      mockGlobals.navigator.userAgent = 'Googlebot-BotBot';
+
+      expect(isBlacklisted())
+        .toBe(true);
+
+      mockGlobals.navigator.userAgent = 'IAmGooglebot';
+
+      expect(isBlacklisted())
+        .toBe(true);
     });
 
     it('returns true if the browser doesn\'t supports CORS', function() {
