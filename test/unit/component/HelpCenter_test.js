@@ -502,9 +502,52 @@ describe('Help center component', function() {
       expect(recentCallArgs.query.origin)
         .toEqual('web_widget');
     });
+
+    it('should request 3 articles', function() {
+      const searchString = 'help me please';
+
+      helpCenter.performSearch(searchString);
+
+      expect(mockTransport.send)
+        .toHaveBeenCalled();
+
+      let recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
+
+      /* jshint camelcase:false */
+      expect(recentCallArgs.query.per_page)
+        .toEqual(3);
+    });
   });
 
   describe('backtrack search', function() {
+    it('should send the right request params when backtracking', function() {
+      const helpCenter = React.render(
+        <HelpCenter trackSearch={trackSearch} />,
+        global.document.body
+      );
+      const mockTransport = mockRegistry['service/transport'].transport;
+      const searchTerm = 'abcd';
+
+      helpCenter.setState({
+        searchTracked: false,
+        searchTerm: searchTerm
+      });
+
+      helpCenter.backtrackSearch();
+
+      expect(mockTransport.send)
+        .toHaveBeenCalledWith({
+          method: 'get',
+          path: '/api/v2/help_center/search.json',
+          /* jshint camelcase:false */
+          query: {
+            query: searchTerm,
+            per_page: 0,
+            origin: 'web_widget'
+          }
+        });
+    });
+
     it('should correctly backtrack if not done before and have searched', function() {
       const helpCenter = React.render(
         <HelpCenter trackSearch={trackSearch} />,
