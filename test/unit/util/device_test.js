@@ -72,7 +72,6 @@ describe('devices', function() {
     });
 
     it('returns true if Googlebot is within the user agent string', function() {
-      /* jshint maxlen: false */
       mockGlobals.navigator.userAgent = 'Googlebot';
 
       expect(isBlacklisted())
