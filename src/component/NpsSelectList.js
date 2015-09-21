@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Icon } from 'component/Icon';
 
-export const SelectList = React.createClass({
+export const NpsSelectList = React.createClass({
   getDefaultProps() {
     return {
       options: [],
@@ -25,13 +25,13 @@ export const SelectList = React.createClass({
     );
 
     return (
-      <div className={`${this.props.wrapperClassNames} SelectListContainer`}>
+      <div className='u-inline u-posRelative NpsSelectListContainer'>
         <select
-          className={this.props.selectClassNames}
+          className='NpsComment-selectlist'
           style={{ color: this.props.highlightColor }}>
           {optionsList}
         </select>
-        <span className={this.props.iconClassNames}>
+        <span className='NpsComment-selectlist-icon'>
           <Icon type='Icon--caret' />
         </span>
       </div>

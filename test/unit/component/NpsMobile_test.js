@@ -89,11 +89,11 @@ describe('NpsMobile component', () => {
           }
         })
       },
-      'component/SelectList': {
-        'SelectList': React.createClass({
+      'component/NpsSelectList': {
+        'NpsSelectList': React.createClass({
           render: () => {
             return (
-              <div className='SelectList'></div>
+              <div className='NpsSelectList'></div>
             );
           }
         })
@@ -289,7 +289,7 @@ describe('NpsMobile component', () => {
     });
 
     it('should render a select list', () => {
-      expect(document.querySelectorAll('.SelectList').length)
+      expect(document.querySelectorAll('.NpsSelectList').length)
         .toEqual(1);
     });
 

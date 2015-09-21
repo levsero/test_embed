@@ -5,7 +5,7 @@ import { Container } from 'component/Container';
 import { NpsComment } from 'component/NpsComment';
 import { Icon } from 'component/Icon';
 import { ZendeskLogo } from 'component/ZendeskLogo';
-import { SelectList } from 'component/SelectList';
+import { NpsSelectList } from 'component/NpsSelectList';
 import { NpsRatingsList } from 'component/NpsRatingsList';
 import { getSizingRatio } from 'utility/devices';
 import { win } from 'utility/globals';
@@ -129,13 +129,10 @@ export const NpsMobile = React.createClass({
 
     const dropdown = (this.state.currentPage.addingComment)
                    ?  <span className={dropdownClasses}>
-                        <SelectList
+                        <NpsSelectList
                           selectedItem={this.props.response.rating}
                           options={_.range(11)}
-                          highlightColor={this.props.survey.highlightColor}
-                          wrapperClassNames='u-inline u-posRelative'
-                          selectClassNames='NpsComment-selectlist'
-                          iconClassNames='NpsComment-selectlist-icon' />
+                          highlightColor={this.props.survey.highlightColor} />
                       </span>
                    : null;
 
