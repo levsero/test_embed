@@ -11,9 +11,9 @@ import { getSizingRatio } from 'utility/devices';
 import { win } from 'utility/globals';
 
 const npsPageStates = {
-  selectingRating: 0,
-  addingComment: 1,
-  thankYou: 2
+  selectingRating: 'selectingRating',
+  addingComment: 'addingComment',
+  thankYou: 'thankYou'
 };
 
 export const NpsMobile = React.createClass({
@@ -24,7 +24,11 @@ export const NpsMobile = React.createClass({
 
   getInitialState() {
     return {
-      currentPage: npsPageStates.selectingRating
+      currentPage: {
+        selectingRating: true, //initial page
+        thankYou: false,
+        addingComment: false
+      }
     };
   },
 
@@ -35,37 +39,32 @@ export const NpsMobile = React.createClass({
 
     /* jshint laxbreak: true */
     return (heightRatio < heightThreshold)
-         ? (this.isCurrentPage(npsPageStates.thankYou))
+         ? (this.state.currentPage.thankYou)
            ? '60%'
            : '70%'
-         : (this.isCurrentPage(npsPageStates.thankYou))
+         : (this.state.currentPage.thankYou)
            ? '40%'
            : '51%';
   },
 
-  isCurrentPage(pageEnum) {
-    return this.state.currentPage === pageEnum;
-  },
-
-  ratingClickHandlerSuccess() {
-    this.setState({ currentPage: npsPageStates.addingComment });
+  setCurrentPage(page) {
+    const currentPage = this.getInitialState().currentPage;
+    currentPage.selectingRating = false;
+    currentPage[page] = true;
+    this.setState({
+      currentPage: currentPage
+    });
   },
 
   ratingClickHandler(rating) {
     let sendRating = this.props.ratingClickHandler(rating);
     return (ev) => {
-      sendRating(ev, this.ratingClickHandlerSuccess);
+      sendRating(ev, () => this.setCurrentPage(npsPageStates.addingComment));
     };
   },
 
-  submitCommentHandlerSuccess() {
-    this.setState({
-      currentPage: npsPageStates.thankYou
-    });
-  },
-
   submitCommentHandler(ev) {
-    this.props.submitCommentHandler(ev, this.submitCommentHandlerSuccess);
+    this.props.submitCommentHandler(ev, () => this.setCurrentPage(npsPageStates.thankYou));
   },
 
   render() {
@@ -73,9 +72,9 @@ export const NpsMobile = React.createClass({
 
     setTimeout(() => this.props.setFrameSize(this.calcHeightPercentage()), 0);
 
-    if (this.isCurrentPage(npsPageStates.addingComment)) {
+    if (this.state.currentPage.addingComment) {
       headingText = this.props.survey.youRated;
-    } else if (this.isCurrentPage(npsPageStates.thankYou)) {
+    } else if (this.state.currentPage.thankYou) {
       headingText = this.props.survey.thankYou;
     }
 
@@ -87,7 +86,7 @@ export const NpsMobile = React.createClass({
                                  u-posRelative u-marginTL u-userFillColor`;
 
     /* jshint laxbreak: true */
-    const npsRatingsList = this.isCurrentPage(npsPageStates.selectingRating)
+    const npsRatingsList = this.state.currentPage.selectingRating
                          ? <div>
                              <p className='u-textBold u-textCenter SurveyQuestion'>
                                {this.props.survey.question}
@@ -100,15 +99,15 @@ export const NpsMobile = React.createClass({
                                isSubmittingRating={this.props.isSubmittingRating}
                                highlightColor={this.props.survey.highlightColor}
                                onClick={this.ratingClickHandler}
-                               highlightButton={!this.props.survey.error}/>
+                               highlightButton={!this.props.survey.error} />
                            </div>
                          : null;
 
-    const zendeskLogo = (!this.isCurrentPage(npsPageStates.addingComment))
+    const zendeskLogo = (!this.state.currentPage.addingComment)
                       ? <ZendeskLogo className='ZendeskLogo u-posCenter' />
                       : null;
 
-    const notification = (this.isCurrentPage(npsPageStates.thankYou))
+    const notification = (this.state.currentPage.thankYou)
                        ? <div className='ThankyouTick'>
                            <Icon
                              type='Icon--tick'
@@ -116,13 +115,13 @@ export const NpsMobile = React.createClass({
                          </div>
                        : null;
 
-    const heading = (!this.isCurrentPage(npsPageStates.selectingRating))
+    const heading = (!this.state.currentPage.selectingRating)
                   ? <span className={headingClasses}>
                       {headingText}
                     </span>
                   : null;
 
-    const dropdown = (this.isCurrentPage(npsPageStates.addingComment))
+    const dropdown = (this.state.currentPage.addingComment)
                    ?  <span className={dropdownClasses}>
                         <SelectList
                           selectedItem={this.props.response.rating}
@@ -151,7 +150,7 @@ export const NpsMobile = React.createClass({
             onChange={this.props.onCommentChangeHandler}
             onSubmit={this.submitCommentHandler}
             highlightColor={this.props.survey.highlightColor}
-            hidden={!this.isCurrentPage(npsPageStates.addingComment)}
+            hidden={!this.state.currentPage.addingComment}
             isSubmittingComment={this.props.isSubmittingComment}
           />
           {notification}

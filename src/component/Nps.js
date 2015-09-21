@@ -34,22 +34,28 @@ export const Nps = React.createClass({
     };
   },
 
+  setError(errorState) {
+    this.setState({
+      survey: _.extend(this.state.survey, { error: errorState })
+    });
+  },
+
   npsSender(params, success, fail) {
-    this.setState(_.extend(this.state.survey, { error: false }));
+    this.setError(false);
     this.props.npsSender(params, success, fail);
   },
 
   responseFailure(failureCallback) {
+    this.setError(true);
     this.setState({isSubmittingRating: false, isSubmittingComment: false});
-    this.setState(_.extend(this.state.survey, { error: true }));
     if (failureCallback) {
       failureCallback();
     }
   },
 
   responseSuccess(successCallback) {
+    this.setError(false);
     this.setState({isSubmittingRating: false, isSubmittingComment: false});
-    this.setState(_.extend(this.state.survey, { error: false }));
     if (successCallback) {
       successCallback();
     }

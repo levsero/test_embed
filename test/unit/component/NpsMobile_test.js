@@ -2,22 +2,16 @@ describe('NpsMobile component', () => {
   let NpsMobile,
       mockRegistry,
       component,
-      npsProps;
-
-  let innerSpy = jasmine.createSpy();
-  let mockSetFrameSize = jasmine.createSpy();
-  let mockRatingClickHandler = jasmine.createSpy().and.returnValue(innerSpy);
-  let mockSubmitCommentHandler = jasmine.createSpy();
-  let mockOnCommentChangeHandler = jasmine.createSpy();
-  let mockSendComment = jasmine.createSpy();
+      npsProps,
+      innerSpy,
+      mockSetFrameSize,
+      mockRatingClickHandler,
+      mockSubmitCommentHandler,
+      mockOnCommentChangeHandler,
+      mockSendComment;
 
   const npsPath = buildSrcPath('component/NpsMobile');
   const mockRating = 0;
-  const npsPageStates = {
-    selectingRating: 0,
-    addingComment: 1,
-    thankYou: 2
-  };
 
   beforeEach(() => {
 
@@ -121,6 +115,13 @@ describe('NpsMobile component', () => {
 
     NpsMobile = requireUncached(npsPath).NpsMobile;
 
+    innerSpy = jasmine.createSpy();
+    mockSetFrameSize = jasmine.createSpy();
+    mockRatingClickHandler = jasmine.createSpy().and.returnValue(innerSpy);
+    mockSubmitCommentHandler = jasmine.createSpy();
+    mockOnCommentChangeHandler = jasmine.createSpy();
+    mockSendComment = jasmine.createSpy();
+
     component = React.render(
         <NpsMobile
           {...npsProps}
@@ -132,13 +133,6 @@ describe('NpsMobile component', () => {
         />,
         global.document.body
       );
-
-    innerSpy = innerSpy = jasmine.createSpy();
-    mockSetFrameSize = jasmine.createSpy();
-    mockRatingClickHandler = jasmine.createSpy().and.returnValue(innerSpy);
-    mockSubmitCommentHandler = jasmine.createSpy();
-    mockOnCommentChangeHandler = jasmine.createSpy();
-    mockSendComment = jasmine.createSpy();
   });
 
   afterEach(() => {
@@ -161,7 +155,11 @@ describe('NpsMobile component', () => {
 
       it('should return 60% when the currentPage is thankyYou', () => {
         component.setState({
-          currentPage: npsPageStates.thankYou
+          currentPage: {
+            selectingRating: false,
+            thankYou: true,
+            addingComment: false
+          }
         });
 
         expect(component.calcHeightPercentage()).toEqual('60%');
@@ -177,7 +175,11 @@ describe('NpsMobile component', () => {
 
       it('should return 40% when the currentPage is thankyYou', () => {
         component.setState({
-          currentPage: npsPageStates.thankYou
+          currentPage: {
+            selectingRating: false,
+            thankYou: true,
+            addingComment: false
+          }
         });
 
         expect(component.calcHeightPercentage()).toEqual('40%');
@@ -195,21 +197,32 @@ describe('NpsMobile component', () => {
     });
 
     it(`should set currentPage to addingComment
-      when ratingClickHandlerSuccess is called`, () => {
-        component.ratingClickHandlerSuccess();
+      when ratingClickHandler is called`, () => {
+        let func = component.ratingClickHandler();
 
-        expect(component.state.currentPage)
-         .toEqual(npsPageStates.addingComment);
+        func();
+
+        let successFunc = innerSpy.calls.mostRecent().args[1];
+
+        successFunc();
+
+        expect(component.state.currentPage.addingComment)
+         .toEqual(true);
       });
 
   });
+
   describe('submitCommentHandler', () => {
 
-    it('should set currentPage to thankYou when submitCommentHandlerSuccess is called', () => {
-      component.submitCommentHandlerSuccess();
+    it('should set currentPage to thankYou when submitCommentHandler is called', () => {
+      component.submitCommentHandler();
 
-      expect(component.state.currentPage)
-        .toEqual(npsPageStates.thankYou);
+      let successFunc = mockSubmitCommentHandler.calls.mostRecent().args[1];
+
+      successFunc();
+
+      expect(component.state.currentPage.thankYou)
+        .toEqual(true);
     });
 
   });
@@ -217,24 +230,9 @@ describe('NpsMobile component', () => {
   describe('initial State', () => {
 
     it('should set the currentPage to selectingRating when initialState is called', () => {
-      expect(component.state.currentPage)
-        .toEqual(npsPageStates.selectingRating);
-    });
-
-  });
-
-  describe('isCurrentPage', () => {
-
-    it('should return true when the provided page matches the states currentPage', () => {
-      expect(component.isCurrentPage(npsPageStates.selectingRating))
+      expect(component.state.currentPage.selectingRating)
         .toEqual(true);
     });
-
-    it(`should return false when the provided page
-     does not match the states currentPage`, () => {
-       expect(component.isCurrentPage(npsPageStates.thankYou))
-         .toEqual(false);
-     });
 
   });
 
@@ -267,7 +265,11 @@ describe('NpsMobile component', () => {
     beforeEach(() => {
 
       component.setState({
-        currentPage: npsPageStates.addingComment
+        currentPage: {
+          selectingRating: false,
+          thankYou: false,
+          addingComment: true
+        }
       });
     });
 
@@ -297,7 +299,11 @@ describe('NpsMobile component', () => {
 
     beforeEach(() => {
       component.setState({
-        currentPage: npsPageStates.thankYou
+        currentPage: {
+          selectingRating: false,
+          thankYou: true,
+          addingComment: false
+        }
       });
     });
 
