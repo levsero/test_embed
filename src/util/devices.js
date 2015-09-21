@@ -58,6 +58,9 @@ function isBlacklisted() {
     // MSIE 9.0
     navigator.userAgent.indexOf('MSIE 9.0') !== -1 ||
 
+    // Googlebot, Googlebot-Mobile, etc. https://support.google.com/webmasters/answer/1061943?hl=en
+    navigator.userAgent.indexOf('Googlebot') !== -1 ||
+
     // If user agent doesn't support CORS blacklist browser
     !('XMLHttpRequest' in win && 'withCredentials' in new win.XMLHttpRequest())
   );

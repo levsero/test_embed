@@ -71,6 +71,14 @@ describe('devices', function() {
         .toBe(true);
     });
 
+    it('returns true if Googlebot is within the user agent string', function() {
+      /* jshint maxlen: false */
+      mockGlobals.navigator.userAgent = 'Googlebot';
+
+      expect(isBlacklisted())
+        .toBe(true);
+    });
+
     it('returns true if the browser doesn\'t supports CORS', function() {
       mockGlobals.win.XMLHttpRequest = noop;
 
