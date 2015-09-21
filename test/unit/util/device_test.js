@@ -82,13 +82,6 @@ describe('devices', function() {
       expect(isBlacklisted())
         .toBe(true);
 
-      mockGlobals.navigator.userAgent = 'Googlebot-BotBot';
-
-      expect(isBlacklisted())
-        .toBe(true);
-
-      mockGlobals.navigator.userAgent = 'IAmGooglebot';
-
       expect(isBlacklisted())
         .toBe(true);
     });
