@@ -55,9 +55,9 @@ describe('NpsMobile component', () => {
       },
       'component/NpsComment': {
         NpsComment:  React.createClass({
-          render: () => {
+          render: function() {
             return (
-              <div className='NpsComment'></div>
+              <div className={`NpsComment ${this.props.className}`}></div>
             );
           }
         })
@@ -258,6 +258,11 @@ describe('NpsMobile component', () => {
         .not.toEqual(null);
     });
 
+    it('should hide the comments section', () => {
+      expect(document.querySelectorAll('.NpsComment.u-isHidden').length)
+        .toEqual(1);
+    });
+
   });
 
   describe('addingComment State', () => {
@@ -305,6 +310,11 @@ describe('NpsMobile component', () => {
           addingComment: false
         }
       });
+    });
+
+    it('should hide the comments section', () => {
+      expect(document.querySelectorAll('.NpsComment.u-isHidden').length)
+        .toEqual(1);
     });
 
     it('should render a thank you tick', () => {

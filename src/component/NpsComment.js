@@ -23,10 +23,6 @@ export const NpsComment = React.createClass({
       { fallback: 'Send Feedback' }
     );
 
-    const commentClasses = classSet({
-      'u-isHidden': this.props.hidden
-    });
-
     const sendButtonClasses = classSet({
       'u-marginTS u-marginBM u-sizeFull': true
     });
@@ -58,7 +54,7 @@ export const NpsComment = React.createClass({
                             rows='1' />;
 
     return (
-      <div className={commentClasses}>
+      <div className={this.props.className}>
         <form onSubmit={this.onSubmit}>
           <Field
             labelClasses='NpsComment-label u-marginBN u-textCenter'

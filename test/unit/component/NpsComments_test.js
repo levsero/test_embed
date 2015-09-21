@@ -77,31 +77,6 @@ describe('NpsComment component', () => {
     mockery.disable();
   });
 
-  describe('hidden', () => {
-    describe('is false', () => {
-      it('should render a CommentsContainer', () => {
-        expect(document.querySelectorAll('.u-isHidden').length)
-          .toEqual(0);
-      });
-    });
-
-    describe('is true', () => {
-      beforeEach(() => {
-        npsCommentProps.hidden = true;
-
-        component = React.render(
-          <NpsComment {...npsCommentProps} />,
-          global.document.body
-        );
-      });
-
-      it('should render a CommentsContainer with the u-isHidden class', () => {
-        expect(document.querySelectorAll('.u-isHidden').length)
-          .toEqual(1);
-      });
-    });
-  });
-
   describe('isSubmittingComment', () => {
     describe('is true', () => {
       beforeEach(() => {

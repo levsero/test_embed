@@ -10,6 +10,8 @@ import { NpsRatingsList } from 'component/NpsRatingsList';
 import { getSizingRatio } from 'utility/devices';
 import { win } from 'utility/globals';
 
+const classSet = React.addons.classSet;
+
 const npsPageStates = {
   selectingRating: 'selectingRating',
   addingComment: 'addingComment',
@@ -85,6 +87,10 @@ export const NpsMobile = React.createClass({
     const notificationClasses = `u-inlineBlock u-userTextColor
                                  u-posRelative u-marginTL u-userFillColor`;
 
+    const npsCommentClasses = classSet({
+      'u-isHidden': !this.state.currentPage.addingComment
+    });
+
     /* jshint laxbreak: true */
     const npsRatingsList = this.state.currentPage.selectingRating
                          ? <div>
@@ -129,10 +135,10 @@ export const NpsMobile = React.createClass({
                           highlightColor={this.props.survey.highlightColor}
                           wrapperClassNames='u-inline u-posRelative'
                           selectClassNames='NpsComment-selectlist'
-                          iconClassNames='NpsComment-selectlist-icon'
-                          iconType='Icon--caret' />
+                          iconClassNames='NpsComment-selectlist-icon' />
                       </span>
                    : null;
+
     return (
       <Container
         className='u-borderTop Container--halfscreen'
@@ -144,6 +150,7 @@ export const NpsMobile = React.createClass({
         <div className='u-marginHM u-borderTop'>
           {npsRatingsList}
           <NpsComment
+            className={npsCommentClasses}
             commentsQuestion={this.props.survey.commentsQuestion}
             comment={this.props.response.comment}
             feedbackPlaceholder={this.props.survey.feedbackPlaceholder}

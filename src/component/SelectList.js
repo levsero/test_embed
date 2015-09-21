@@ -11,7 +11,6 @@ export const SelectList = React.createClass({
       wrapperClassNames: '',
       selectClassNames: '',
       iconClassNames: '',
-      iconType: ''
     };
   },
 
@@ -33,7 +32,7 @@ export const SelectList = React.createClass({
           {optionsList}
         </select>
         <span className={this.props.iconClassNames}>
-          <Icon type={this.props.iconType} />
+          <Icon type='Icon--caret' />
         </span>
       </div>
     );
