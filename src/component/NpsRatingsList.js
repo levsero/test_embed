@@ -22,7 +22,7 @@ export const NpsRatingsList = React.createClass({
       'u-textLeft': true
     }));
 
-    const ratingListItemTemplate = (rating) => {
+    const ratingListItemTemplate = (rating, i) => {
 
       const isSelected = this.props.selectedRating === rating && this.props.highlightButton;
 
@@ -37,7 +37,7 @@ export const NpsRatingsList = React.createClass({
       };
 
       return (
-        <li className='RatingsList-item u-inlineBlock'>
+        <li key={i} className='RatingsList-item u-inlineBlock'>
           <ButtonRating {...props} />
         </li>
       );

@@ -12,12 +12,6 @@ import { win } from 'utility/globals';
 
 const classSet = React.addons.classSet;
 
-const npsPageStates = {
-  selectingRating: 'selectingRating',
-  addingComment: 'addingComment',
-  thankYou: 'thankYou'
-};
-
 export const NpsMobile = React.createClass({
   propTypes: {
     updateFrameSize: React.PropTypes.func,
@@ -27,7 +21,7 @@ export const NpsMobile = React.createClass({
   getInitialState() {
     return {
       currentPage: {
-        selectingRating: true, //initial page
+        selectingRating: true,
         thankYou: false,
         addingComment: false
       }
@@ -50,29 +44,32 @@ export const NpsMobile = React.createClass({
   },
 
   setCurrentPage(page) {
-    const currentPage = this.getInitialState().currentPage;
-    currentPage.selectingRating = false;
-    currentPage[page] = true;
     this.setState({
-      currentPage: currentPage
+      currentPage: _.mapValues(
+        this.getInitialState().currentPage,
+        (_, key) => key === page
+      )
     });
   },
 
   ratingClickHandler(rating) {
     let sendRating = this.props.ratingClickHandler(rating);
     return (ev) => {
-      sendRating(ev, () => this.setCurrentPage(npsPageStates.addingComment));
+      sendRating(ev, () => this.setCurrentPage('addingComment'));
     };
   },
 
   submitCommentHandler(ev) {
-    this.props.submitCommentHandler(ev, () => this.setCurrentPage(npsPageStates.thankYou));
+    this.props.submitCommentHandler(ev, () => this.setCurrentPage('thankYou'));
   },
 
   render() {
     let headingText;
 
-    setTimeout(() => this.props.setFrameSize(this.calcHeightPercentage()), 0);
+    setTimeout(() => this.props.setFrameSize(
+      this.calcHeightPercentage(),
+      `${win.innerWidth}px`),
+    0);
 
     if (this.state.currentPage.addingComment) {
       headingText = this.props.survey.youRated;

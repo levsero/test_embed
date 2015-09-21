@@ -80,13 +80,13 @@ export var frameFactory = function(childFn, _params) {
       }
     },
 
-    setFrameSize: function(height = false, width = false) {
+    setFrameSize: function(height, width) {
       const iframe = this.getDOMNode();
       const frameWin = iframe.contentWindow;
       const frameDoc = iframe.contentDocument;
       let dimensions = {
-        height: height || '100%',
-        width: width || `${win.innerWidth}px`,
+        height: height,
+        width: width,
         background: '#fff',
         zIndex: '999999'
       };

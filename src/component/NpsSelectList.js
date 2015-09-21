@@ -17,10 +17,10 @@ export const NpsSelectList = React.createClass({
   render() {
     /* jshint laxbreak: true */
     const optionsList = this.props.options.map(
-      (label) => {
+      (label, i) => {
         return this.props.selectedItem === label
-             ? <option value={label} selected>{label}</option>
-             : <option value={label}>{label}</option>;
+             ? <option key={i} value={label} selected>{label}</option>
+             : <option key={i} value={label}>{label}</option>;
       }
     );
 

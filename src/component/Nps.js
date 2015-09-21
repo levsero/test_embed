@@ -61,7 +61,7 @@ export const Nps = React.createClass({
     }
   },
 
-  sendRating(successCallback , failureCallback) {
+  sendRating(successCallback, failureCallback) {
     const params = {
       npsResponse: {
         surveyId: this.state.survey.surveyId,
@@ -70,7 +70,8 @@ export const Nps = React.createClass({
       }
     };
 
-    this.npsSender(params,
+    this.npsSender(
+      params,
       this.responseSuccess.bind(this, successCallback),
       this.responseFailure.bind(this, failureCallback)
     );
@@ -86,7 +87,8 @@ export const Nps = React.createClass({
       }
     };
 
-    this.npsSender(params,
+    this.npsSender(
+      params,
       this.responseSuccess.bind(this, successCallback),
       this.responseFailure.bind(this, failureCallback)
     );

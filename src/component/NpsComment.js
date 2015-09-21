@@ -10,14 +10,9 @@ import { generateConstrastColor } from 'utility/utils';
 const classSet = React.addons.classSet;
 
 export const NpsComment = React.createClass({
-  onSubmit(...args) {
-    this.refs.commentField.setState({
-      hasError: false
-    });
-    this.props.onSubmit.apply(null, args);
-  },
 
   render() {
+
     const sendFeedbackLabel = i18n.t(
       'embeddable_framework.npsMobile.submitButton.label.sendFeedback',
       { fallback: 'Send Feedback' }
@@ -55,7 +50,7 @@ export const NpsComment = React.createClass({
 
     return (
       <div className={this.props.className}>
-        <form onSubmit={this.onSubmit}>
+        <form onSubmit={this.props.onSubmit}>
           <Field
             labelClasses='NpsComment-label u-marginBN u-textCenter'
             hasError={this.props.hasError}
