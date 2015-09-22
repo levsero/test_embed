@@ -77,6 +77,8 @@ export const NpsMobile = React.createClass({
       headingText = this.props.survey.thankYou;
     }
 
+    const NPS_RATINGS = _.range(11);
+
     const dropdownClasses = 'u-textSizeMed u-textBold u-extSizeMed u-textCenter u-textXHeight';
 
     const headingClasses = 'u-textSizeMed u-textBold u-extSizeMed u-textCenter u-textXHeight';
@@ -97,7 +99,7 @@ export const NpsMobile = React.createClass({
                              <NpsRatingsList
                                likelyLabel={this.props.survey.likelyLabel}
                                notLikelyLabel={this.props.survey.notLikelyLabel}
-                               ratingsRange={_.range(11)}
+                               ratingsRange={NPS_RATINGS}
                                selectedRating={this.props.response.rating}
                                isSubmittingRating={this.props.isSubmittingRating}
                                highlightColor={this.props.survey.highlightColor}
@@ -127,7 +129,7 @@ export const NpsMobile = React.createClass({
                    ?  <span className={dropdownClasses}>
                         <NpsSelectList
                           selectedItem={this.props.response.rating}
-                          options={_.range(11)}
+                          options={NPS_RATINGS}
                           highlightColor={this.props.survey.highlightColor} />
                       </span>
                    : null;

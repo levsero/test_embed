@@ -40,9 +40,9 @@ export const Nps = React.createClass({
     });
   },
 
-  npsSender(params, success, fail) {
+  npsSender(params, doneFn, failFn) {
     this.setError(false);
-    this.props.npsSender(params, success, fail);
+    this.props.npsSender(params, doneFn, failFn);
   },
 
   responseFailure(failFn, error = {}) {
