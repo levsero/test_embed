@@ -175,13 +175,6 @@ describe('Nps component', function() {
       expect(component.state.survey.error)
         .toEqual(true);
     });
-
-    it('should call the provided list of callbacks', function() {
-      component.responseFailure(callbackSpy);
-
-      expect(callbackSpy)
-        .toHaveBeenCalled();
-    });
   });
   describe('responseSuccess', function() {
     let component,
