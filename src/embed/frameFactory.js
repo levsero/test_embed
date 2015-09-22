@@ -84,7 +84,7 @@ export var frameFactory = function(childFn, _params) {
       const iframe = this.getDOMNode();
       const frameWin = iframe.contentWindow;
       const frameDoc = iframe.contentDocument;
-      let dimensions = {
+      const dimensions = {
         height: height,
         width: width,
         background: '#fff',

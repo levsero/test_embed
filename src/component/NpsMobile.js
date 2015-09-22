@@ -53,7 +53,7 @@ export const NpsMobile = React.createClass({
   },
 
   ratingClickHandler(rating) {
-    let sendRating = this.props.ratingClickHandler(rating);
+    const sendRating = this.props.ratingClickHandler(rating);
     return (ev) => {
       sendRating(ev, () => this.setCurrentPage('addingComment'));
     };

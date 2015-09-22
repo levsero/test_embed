@@ -26,7 +26,7 @@ function create(name, config = {}) {
     width: '100% !important'
   };
 
-  const npsSender = function(params, doneFn, failFn) {
+  const npsSender = (params, doneFn, failFn) => {
     const payload = {
       path: '/embeddable/nps',
       method: 'post',
@@ -58,7 +58,7 @@ function create(name, config = {}) {
       mediator.channel.broadcast('nps.onShow');
     }
   };
-  let Embed = React.createClass(frameFactory(
+  const Embed = React.createClass(frameFactory(
     (params) => {
       return (
         <Nps
@@ -122,7 +122,6 @@ function render(name) {
 
     if (nps.state.surveyAvailable && shouldShow(nps.state.survey)) {
       npses[name].instance.show(true);
-
     } else if (nps.state.surveyAvailable === null) {
       const err = new Error([
         'An error occurred in your use of the Zendesk Widget API:',

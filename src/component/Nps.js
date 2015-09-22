@@ -96,7 +96,6 @@ export const Nps = React.createClass({
 
   ratingClickHandler(rating) {
     return (ev, doneFn) => {
-
       const errorHandler = () => {
         this.setState({
           response: _.extend(this.state.response, { rating: null })
@@ -137,6 +136,7 @@ export const Nps = React.createClass({
     if (this.props.updateFrameSize && !this.state.isMobile) {
       setTimeout(() => this.props.updateFrameSize(), 0);
     }
+
     /* jshint laxbreak: true */
     return (this.state.isMobile)
       ? <NpsMobile

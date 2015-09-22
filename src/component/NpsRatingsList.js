@@ -6,9 +6,7 @@ import { generateConstrastColor } from 'utility/utils';
 const classSet = React.addons.classSet;
 
 export const NpsRatingsList = React.createClass({
-
-  render: function() {
-
+  render() {
     const labelClasses = 'RatingsList-legend-text u-inlineBlock';
 
     const likelyLabelClasses = classSet({
@@ -22,7 +20,6 @@ export const NpsRatingsList = React.createClass({
     });
 
     const ratingListItemTemplate = (rating, i) => {
-
       const isSelected = this.props.selectedRating === rating;
 
       const props = {

@@ -8,7 +8,6 @@ import { i18n } from 'service/i18n';
 import { generateConstrastColor } from 'utility/utils';
 
 export const NpsComment = React.createClass({
-
   render() {
     const sendFeedbackLabel = i18n.t(
       'embeddable_framework.npsMobile.submitButton.label.sendFeedback',
