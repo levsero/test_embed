@@ -37,7 +37,12 @@ function send(payload, retry = 0) {
               id: 10017,
               logoUrl: null,
               question: 'How likely are you to recommend Embeddable Nps to someone you know?',
-              recipientId: 10035
+              recipientId: 10035,
+              thankYou: 'Thank You',
+              youRated: 'You rated us a',
+              likelyLabel: '10 = Extremely likely',
+              notLikelyLabel: '0 = Not Likely',
+              feedbackPlaceholder: 'Write your comments here...'
             }
           }
         });

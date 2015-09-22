@@ -66,8 +66,7 @@ function create(name, config = {}) {
           setFrameSize={params.setFrameSize}
           updateFrameSize={params.updateFrameSize}
           npsSender={npsSender}
-          mobile={isMobileBrowser()}
-          userDefinedColor={config.color} />
+          mobile={isMobileBrowser()} />
       );
     },
     frameParams
@@ -90,14 +89,6 @@ function render(name) {
   mediator.channel.subscribe('nps.setSurvey', (params) => {
     const nps = npses[name].instance.getRootComponent();
     const survey = params.npsSurvey;
-
-    if (__DEV__) {
-      survey.thankYou = survey.thankYou || 'Thank You';
-      survey.youRated = survey.youRated || 'You rated us a';
-      survey.likelyLabel = survey.likelyLabel || '10 = Extremely likely';
-      survey.notLikelyLabel = survey.notLikelyLabel || '0 = Not likely';
-      survey.feedbackPlaceholder = survey.feedbackPlaceholder || 'Write you comments here...';
-    }
 
     if (survey && survey.id) {
       let newNpsSurveyState = _.extend(nps.state.survey, {
@@ -155,7 +146,7 @@ function render(name) {
   });
 }
 
-function getDismissTimestampKey(survey = {}) {
+function getDismissTimestampKey(survey) {
   return [
     transport.getZendeskHost(),
     survey.surveyId,

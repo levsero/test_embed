@@ -45,23 +45,23 @@ export const Nps = React.createClass({
     this.props.npsSender(params, success, fail);
   },
 
-  responseFailure(failureCallback, error = {}) {
+  responseFailure(failFn, error = {}) {
     this.setError(true);
     this.setState({isSubmittingRating: false, isSubmittingComment: false});
-    if (failureCallback) {
-      failureCallback(error);
+    if (failFn) {
+      failFn(error);
     }
   },
 
-  responseSuccess(successCallback) {
+  responseSuccess(doneFn) {
     this.setError(false);
     this.setState({isSubmittingRating: false, isSubmittingComment: false});
-    if (successCallback) {
-      successCallback();
+    if (doneFn) {
+      doneFn();
     }
   },
 
-  sendRating(successCallback, failureCallback) {
+  sendRating(doneFn, failFn) {
     const params = {
       npsResponse: {
         surveyId: this.state.survey.surveyId,
@@ -72,12 +72,12 @@ export const Nps = React.createClass({
 
     this.npsSender(
       params,
-      this.responseSuccess.bind(this, successCallback),
-      this.responseFailure.bind(this, failureCallback)
+      this.responseSuccess.bind(this, doneFn),
+      this.responseFailure.bind(this, failFn)
     );
   },
 
-  sendComment(successCallback, failureCallback) {
+  sendComment(doneFn, failFn) {
     const params = {
       npsResponse: {
         surveyId: this.state.survey.surveyId,
@@ -89,13 +89,13 @@ export const Nps = React.createClass({
 
     this.npsSender(
       params,
-      this.responseSuccess.bind(this, successCallback),
-      this.responseFailure.bind(this, failureCallback)
+      this.responseSuccess.bind(this, doneFn),
+      this.responseFailure.bind(this, failFn)
     );
   },
 
   ratingClickHandler(rating) {
-    return (ev, successCallback) => {
+    return (ev, doneFn) => {
 
       const errorHandler = () => {
         this.setState({
@@ -107,7 +107,7 @@ export const Nps = React.createClass({
         response: _.extend({}, this.state.response, { rating: rating }),
         isSubmittingRating: true
       });
-      setTimeout(() => this.sendRating(successCallback, errorHandler), 0);
+      setTimeout(() => this.sendRating(doneFn, errorHandler), 0);
       setTimeout(() => {
         if (!this.state.isMobile) {
           this.refs.commentField.refs.field.getDOMNode().focus();
@@ -116,10 +116,10 @@ export const Nps = React.createClass({
     };
   },
 
-  submitCommentHandler(ev, successCallback, failureCallback) {
+  submitCommentHandler(ev, doneFn, failFn) {
     ev.preventDefault();
     this.setState({ isSubmittingComment: true });
-    setTimeout(() => this.sendComment(successCallback, failureCallback), 0);
+    setTimeout(() => this.sendComment(doneFn, failFn), 0);
   },
 
   onCommentChangeHandler(ev) {
