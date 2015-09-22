@@ -1,5 +1,4 @@
 import React from 'react/addons';
-import _ from 'lodash';
 
 import { ButtonRating } from 'component/Button';
 import { generateConstrastColor } from 'utility/utils';
@@ -10,17 +9,17 @@ export const NpsRatingsList = React.createClass({
 
   render: function() {
 
-    const labelClasses = {
-      'RatingsList-legend-text u-inlineBlock': true
-    };
+    const labelClasses = 'RatingsList-legend-text u-inlineBlock';
 
-    const likelyLabelClasses = classSet(_.extend({}, labelClasses, {
+    const likelyLabelClasses = classSet({
+      [labelClasses]: true,
       'u-textRight': true
-    }));
+    });
 
-    const notLikelyLabelClasses = classSet(_.extend({}, labelClasses, {
+    const notLikelyLabelClasses = classSet({
+      [labelClasses]: true,
       'u-textLeft': true
-    }));
+    });
 
     const ratingListItemTemplate = (rating, i) => {
 

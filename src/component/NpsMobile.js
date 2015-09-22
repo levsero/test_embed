@@ -151,7 +151,6 @@ export const NpsMobile = React.createClass({
             onChange={this.props.onCommentChangeHandler}
             onSubmit={this.submitCommentHandler}
             highlightColor={this.props.survey.highlightColor}
-            hidden={!this.state.currentPage.addingComment}
             isSubmittingComment={this.props.isSubmittingComment}
           />
           {notification}
