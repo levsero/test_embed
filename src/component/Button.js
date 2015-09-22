@@ -88,6 +88,12 @@ var ButtonPill = React.createClass({
 });
 
 var ButtonSecondary = React.createClass({
+  getDefaultProps() {
+    return {
+      className: ''
+    };
+  },
+
   propTypes: {
     label: React.PropTypes.oneOfType([
       React.PropTypes.string.isRequired,
@@ -98,7 +104,7 @@ var ButtonSecondary = React.createClass({
   render() {
     const buttonClasses = classSet({
       'c-btn c-btn--medium c-btn--secondary': true,
-      [this.props.className]: this.props.className ? true : false
+      [this.props.className]: true
     });
 
     return (
