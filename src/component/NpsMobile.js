@@ -67,8 +67,8 @@ export const NpsMobile = React.createClass({
     let headingText;
 
     setTimeout(() => this.props.setFrameSize(
-      this.calcHeightPercentage(),
-      `${win.innerWidth}px`),
+      `${win.innerWidth}px`,
+      this.calcHeightPercentage()),
     0);
 
     if (this.state.currentPage.addingComment) {

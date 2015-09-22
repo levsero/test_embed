@@ -80,7 +80,7 @@ export var frameFactory = function(childFn, _params) {
       }
     },
 
-    setFrameSize: function(height, width) {
+    setFrameSize: function(width, height) {
       const iframe = this.getDOMNode();
       const frameWin = iframe.contentWindow;
       const frameDoc = iframe.contentDocument;
