@@ -2,18 +2,19 @@ import React from 'react/addons';
 import _     from 'lodash';
 
 import { document,
-         getDocumentHost } from 'utility/globals';
-import { HelpCenter }      from 'component/HelpCenter';
-import { frameFactory }    from 'embed/frameFactory';
-import { setScaleLock }    from 'utility/utils';
+         getDocumentHost }   from 'utility/globals';
+import { HelpCenter }        from 'component/HelpCenter';
+import { frameFactory }      from 'embed/frameFactory';
+import { setScaleLock }      from 'utility/utils';
 import { isMobileBrowser,
-         isIE }            from 'utility/devices';
-import { beacon }          from 'service/beacon';
-import { i18n }            from 'service/i18n';
-import { transport }       from 'service/transport';
-import { mediator }        from 'service/mediator';
+         isIE }              from 'utility/devices';
+import { beacon }            from 'service/beacon';
+import { i18n }              from 'service/i18n';
+import { transport }         from 'service/transport';
+import { transitionFactory } from 'service/transitionFactory';
+import { mediator }          from 'service/mediator';
 import { generateUserCSS,
-         getPageKeywords } from 'utility/utils';
+         getPageKeywords }   from 'utility/utils';
 
 const helpCenterCSS = require('./helpCenter.scss');
 let helpCenters = {};
@@ -42,6 +43,16 @@ function create(name, config) {
   const onSearch = function(params) {
     beacon.track('helpCenter', 'search', name, params.searchString);
     mediator.channel.broadcast(name + '.onSearch', params);
+  };
+
+  const onShow = (frame) => {
+    if (isMobileBrowser()) {
+      setScaleLock(true);
+    }
+    if (!isMobileBrowser()) {
+      frame.getRootComponent().focusField();
+    }
+    frame.getRootComponent().resetSearchFieldState();
   };
 
   config = _.extend(configDefaults, config);
@@ -79,6 +90,7 @@ function create(name, config) {
       css: helpCenterCSS + generateUserCSS({color: config.color}),
       name: name,
       fullscreenable: true,
+      transitionIn: transitionFactory.webWidget.in(onShow),
       afterShowAnimate(frame) {
         if (isIE()) {
           frame.getRootComponent().focusField();
@@ -98,15 +110,7 @@ function create(name, config) {
           });
         }
       },
-      onShow(frame) {
-        if (isMobileBrowser()) {
-          setScaleLock(true);
-        }
-        if (!isMobileBrowser()) {
-          frame.getRootComponent().focusField();
-        }
-        frame.getRootComponent().resetSearchFieldState();
-      },
+      onShow,
       onClose() {
         mediator.channel.broadcast(name + '.onClose');
       },
@@ -182,7 +186,7 @@ function render(name) {
     // stop stupid host page scrolling
     // when trying to focus HelpCenter's search field
     setTimeout(function() {
-      get(name).instance.show(true);
+      get(name).instance.show();
     }, 0);
   });
 

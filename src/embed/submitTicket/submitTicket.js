@@ -8,6 +8,7 @@ import { frameFactory }      from 'embed/frameFactory';
 import { isMobileBrowser,
          isIE }              from 'utility/devices';
 import { beacon }            from 'service/beacon';
+import { transitionFactory } from 'service/transitionFactory';
 import { mediator }          from 'service/mediator';
 import { setScaleLock,
          generateUserCSS }   from 'utility/utils';
@@ -45,6 +46,15 @@ function create(name, config) {
   const onCancel = function() {
     mediator.channel.broadcast(name + '.onCancelClick');
   };
+  const onShow = (frame) => {
+    if (isMobileBrowser()) {
+      setScaleLock(true);
+    }
+    frame.getRootComponent().refs.submitTicketForm.resetTicketFormVisibility();
+    if (!isMobileBrowser()) {
+      frame.getRootComponent().refs.submitTicketForm.focusField();
+    }
+  };
 
   config = _.extend(configDefaults, config);
 
@@ -77,15 +87,8 @@ function create(name, config) {
       frameStyle: _.extend(frameStyle, posObj),
       css: submitTicketCSS + generateUserCSS({color: config.color}),
       fullscreenable: true,
-      onShow(frame) {
-        if (isMobileBrowser()) {
-          setScaleLock(true);
-        }
-        frame.getRootComponent().refs.submitTicketForm.resetTicketFormVisibility();
-        if (!isMobileBrowser()) {
-          frame.getRootComponent().refs.submitTicketForm.focusField();
-        }
-      },
+      transitionIn: transitionFactory.webWidget.in(onShow),
+      onShow,
       name: name,
       afterShowAnimate(frame) {
         if (isIE()) {
@@ -130,7 +133,7 @@ function render(name) {
   });
 
   mediator.channel.subscribe(name + '.showWithAnimation', function() {
-    submitTickets[name].instance.show(true);
+    submitTickets[name].instance.show();
   });
 
   mediator.channel.subscribe(name + '.hide', function() {

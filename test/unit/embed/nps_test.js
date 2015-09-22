@@ -60,6 +60,14 @@ describe('embed.nps', () => {
         setScrollKiller: noop,
         setWindowScroll: noop,
         revertWindowScroll: noop
+      },
+      'service/transitionFactory' : {
+        transitionFactory: {
+          npsMobile: {
+            in: noop,
+            out: noop
+          }
+        }
       }
     });
 
@@ -121,7 +129,7 @@ describe('embed.nps', () => {
           pluckSubscribeCall(mockMediator, 'nps.activate')();
 
           expect(dan.instance.show.__reactBoundMethod)
-            .toHaveBeenCalledWith(true);
+            .toHaveBeenCalled();
         });
 
         it('should not show if a survey is not available', () => {

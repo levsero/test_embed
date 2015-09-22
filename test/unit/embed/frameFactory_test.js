@@ -275,7 +275,7 @@ describe('frameFactory', function() {
     });
 
     it('sets `visible` state to true', function() {
-      instance.setState({visible: false});
+      instance.setState({ visible: false });
 
       instance.show();
 
@@ -290,38 +290,196 @@ describe('frameFactory', function() {
         .toHaveBeenCalled();
     });
 
-    it('applies animation on show', function() {
-      instance.show(true);
+    describe('without animation', function() {
+      let mockFrameParams,
+          mockAfterShowAnimate,
+          mockTransitionInCallback,
+          instance;
 
-      expect(snabbt)
-        .toHaveBeenCalled();
+      beforeEach(function() {
+        let payload,
+            Embed;
+
+        mockAfterShowAnimate = jasmine.createSpy();
+
+        mockTransitionInCallback = jasmine.createSpy();
+
+        payload = frameFactory(mockChildFn, {}),
+
+        Embed = React.createClass(payload);
+
+        instance = React.render(
+            <Embed />,
+          global.document.body
+        );
+      });
+
+      it('does not apply the animation if it does not exist', function() {
+        instance.show();
+
+        expect(snabbt)
+          .not.toHaveBeenCalled();
+      });
     });
 
-    it('don\'t apply animation when argument isn\'t passed', function() {
-      instance.show();
+    describe('with animation', function() {
+      let mockFrameParams,
+          mockAfterShowAnimate,
+          mockTransitionInCallback,
+          instance;
 
-      expect(snabbt)
-        .not.toHaveBeenCalled();
+      beforeEach(function() {
+        let payload,
+            Embed;
+
+        mockAfterShowAnimate = jasmine.createSpy('afterShowAnimate');
+
+        mockTransitionInCallback = jasmine.createSpy('transitionInCallback');
+
+        mockFrameParams = {
+          transitionIn: {
+            callback: mockTransitionInCallback
+          },
+          afterShowAnimate: mockAfterShowAnimate
+        };
+
+        payload = frameFactory(mockChildFn, mockFrameParams),
+
+        Embed = React.createClass(payload);
+
+        instance = React.render(
+            <Embed />,
+          global.document.body
+        );
+      });
+
+      it('applies animation on show if transitionIn is provided', function() {
+        instance.show();
+
+        expect(snabbt)
+          .toHaveBeenCalled();
+      });
+
+      it('should call snabbt with the provided config', function() {
+        instance.show();
+
+        const config = snabbt.calls.mostRecent().args[1];
+
+        expect(config)
+          .toEqual({ callback: jasmine.any(Function) });
+      });
+
+      it('should call afterShowAnimate if it\'s available', function() {
+        instance.show();
+
+        const config = snabbt.calls.mostRecent().args[1];
+
+        config.callback();
+
+        expect(mockFrameParams.afterShowAnimate)
+          .toHaveBeenCalled();
+      });
+
+      it('should call the provided callback', function() {
+        instance.show();
+
+        const config = snabbt.calls.mostRecent().args[1];
+
+        config.callback();
+
+        expect(mockFrameParams.transitionIn.callback)
+          .toHaveBeenCalled();
+      });
+
+      it('apply webkitOverflowScrolling when not set', function() {
+        const frameContainer = instance.getDOMNode().contentDocument.body.firstChild;
+
+        jasmine.clock().install();
+
+        instance.show({ animationType: 'webWidget' });
+
+        jasmine.clock().tick(50);
+
+        // Get the style AFTER the ticks
+        const frameContainerStyle = frameContainer.style;
+
+        expect(frameContainerStyle.webkitOverflowScrolling)
+          .toEqual('touch');
+
+        jasmine.clock().uninstall();
+      });
+
+      describe('and no afterShowAnimate', function() {
+        let mockFrameParams,
+            instance;
+
+        beforeEach(function() {
+          let payload,
+              Embed;
+
+          mockFrameParams = {
+            transitionIn: {
+              callback: mockTransitionInCallback
+            }
+          };
+
+          payload = frameFactory(mockChildFn, mockFrameParams),
+
+          Embed = React.createClass(payload);
+
+          instance = React.render(
+              <Embed />,
+            global.document.body
+          );
+        });
+
+        it('should not call afterShowAnimate if it\'s not available', function() {
+          instance.show();
+
+          const config = snabbt.calls.mostRecent().args[1];
+
+          config.callback();
+
+          expect(config.callback)
+            .not.toThrow();
+        });
+      });
+
+      describe('and no callback', function() {
+        let mockFrameParams,
+            instance;
+        beforeEach(function() {
+          let payload,
+              Embed;
+
+          mockFrameParams = {
+            transitionIn: {}
+          };
+
+          payload = frameFactory(mockChildFn, mockFrameParams),
+
+          Embed = React.createClass(payload);
+
+          instance = React.render(
+              <Embed />,
+            global.document.body
+          );
+
+        });
+
+        it('should not try to call the provided callback if it\'s not available', function() {
+
+          instance.show();
+
+          const config = snabbt.calls.mostRecent().args[1];
+
+          config.callback();
+
+          expect(config.callback)
+            .not.toThrow();
+        });
+      })
     });
-
-    it('apply webkitOverflowScrolling when not set', function() {
-      const frameContainer = instance.getDOMNode().contentDocument.body.firstChild;
-
-      jasmine.clock().install();
-
-      instance.show(true);
-
-      jasmine.clock().tick(50);
-
-      // Get the style AFTER the ticks
-      const frameContainerStyle = frameContainer.style;
-
-      expect(frameContainerStyle.webkitOverflowScrolling)
-        .toEqual('touch');
-
-      jasmine.clock().uninstall();
-    });
-
   });
 
   describe('hide', function() {
@@ -344,7 +502,7 @@ describe('frameFactory', function() {
     });
 
     it('sets `visible` state to false', function() {
-      instance.setState({visible: true});
+      instance.setState({ visible: true });
 
       instance.hide();
 
@@ -357,6 +515,133 @@ describe('frameFactory', function() {
 
       expect(mockOnHide)
         .toHaveBeenCalled();
+    });
+
+    describe('without animation', function() {
+      let mockFrameParams,
+          mockAfterShowAnimate,
+          instance,
+          snabbt;
+
+      beforeEach(function() {
+        let payload,
+            Embed;
+
+        payload = frameFactory(mockChildFn, {}),
+
+        snabbt = mockRegistry['snabbt.js'].snabbt;
+
+        Embed = React.createClass(payload);
+
+        instance = React.render(
+            <Embed />,
+          global.document.body
+        );
+      });
+
+      it('does not apply the animation if it does not exist', function() {
+        instance.show();
+
+        expect(snabbt)
+          .not.toHaveBeenCalled();
+      });
+    });
+
+    describe('with animation', function() {
+      let instance,
+          mockFrameParams,
+          snabbt;
+
+      beforeEach(function() {
+        mockFrameParams = {
+          transitionOut: {
+            callback: jasmine.createSpy()
+          }
+        }
+
+        snabbt = mockRegistry['snabbt.js'].snabbt;
+
+        const payload = frameFactory(mockChildFn, mockFrameParams);
+
+        const Embed = React.createClass(payload);
+
+        instance = React.render(
+            <Embed />,
+          global.document.body
+        );
+      });
+
+      it('should call snabbt', function() {
+        instance.hide();
+
+        expect(snabbt)
+          .toHaveBeenCalled();
+      });
+
+      it('should call snabbt with the provided config', function() {
+        instance.hide();
+
+        const config = snabbt.calls.mostRecent().args[1];
+
+        expect(config)
+          .toEqual({ callback: jasmine.any(Function) });
+      });
+
+      it('should provide a callback to snabbt that sets `visible` to false', function() {
+        instance.setState({ visible: true });
+
+        instance.hide();
+
+        const configObject = snabbt.calls.mostRecent().args[1];
+
+        configObject.callback();
+
+        expect(instance.state.visible)
+          .toEqual(false);
+      });
+
+      it('should call the provided callback', function() {
+        instance.hide();
+
+        const configObject = snabbt.calls.mostRecent().args[1];
+
+        configObject.callback();
+
+        expect(mockFrameParams.transitionOut.callback)
+          .toHaveBeenCalled();
+      });
+
+      describe('and no callback', function() {
+        beforeEach(function() {
+
+          mockFrameParams = {
+            transitionOut: {}
+          }
+
+          snabbt = mockRegistry['snabbt.js'].snabbt;
+
+          const payload = frameFactory(mockChildFn, mockFrameParams);
+
+          const Embed = React.createClass(payload);
+
+          instance = React.render(
+              <Embed />,
+            global.document.body
+          );
+        });
+
+        it('should not try to call the provided callback if it\'s not available', function() {
+          instance.hide();
+
+          const config = snabbt.calls.mostRecent().args[1];
+
+          config.callback();
+
+          expect(config.callback)
+            .not.toThrow();
+
+        });
+      });
     });
   });
 
@@ -392,7 +677,7 @@ describe('frameFactory', function() {
       expect(frameContainerStyle.cssText)
         .not.toContain('bottom:auto');
 
-      instance.setState({visible: false});
+      instance.setState({ visible: false });
 
       expect(frameContainerStyle.top)
         .toEqual('-9999px');
@@ -400,7 +685,7 @@ describe('frameFactory', function() {
       expect(frameContainerStyle.bottom)
         .toEqual('');
 
-      instance.setState({visible: true});
+      instance.setState({ visible: true });
 
       expect(frameContainerStyle.cssText)
         .not.toContain('top:-9999px');
@@ -416,7 +701,7 @@ describe('frameFactory', function() {
       mockRegistry['service/i18n'].i18n.isRTL = function() {
         return true;
       }
-      instance.setState({visible: false});
+      instance.setState({ visible: false });
 
       expect(frameContainerStyle.top)
         .toEqual('-9999px');
@@ -435,7 +720,7 @@ describe('frameFactory', function() {
       mockRegistry['service/i18n'].i18n.isRTL = function() {
         return false;
       }
-      instance.setState({visible: false});
+      instance.setState({ visible: false });
 
       expect(frameContainerStyle.top)
         .toEqual('-9999px');

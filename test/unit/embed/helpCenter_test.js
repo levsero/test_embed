@@ -91,6 +91,13 @@ describe('embed.helpCenter', function() {
           return document.body;
         }
       },
+      'service/transitionFactory' : {
+        transitionFactory: {
+          webWidget: {
+            in: noop
+          }
+        }
+      },
       'lodash': _
     });
 
