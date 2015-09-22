@@ -23,7 +23,7 @@ export const NpsRatingsList = React.createClass({
 
     const ratingListItemTemplate = (rating, i) => {
 
-      const isSelected = this.props.selectedRating === rating && this.props.highlightButton;
+      const isSelected = this.props.selectedRating === rating;
 
       const props = {
         label: rating,

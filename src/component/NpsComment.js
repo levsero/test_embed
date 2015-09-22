@@ -7,20 +7,15 @@ import { LoadingSpinner } from 'component/Loading';
 import { i18n } from 'service/i18n';
 import { generateConstrastColor } from 'utility/utils';
 
-const classSet = React.addons.classSet;
-
 export const NpsComment = React.createClass({
 
   render() {
-
     const sendFeedbackLabel = i18n.t(
       'embeddable_framework.npsMobile.submitButton.label.sendFeedback',
       { fallback: 'Send Feedback' }
     );
 
-    const sendButtonClasses = classSet({
-      'u-marginTS u-marginBM u-sizeFull': true
-    });
+    const sendButtonClasses = 'u-marginTS u-marginBM u-sizeFull';
 
     const loadingSpinner = <LoadingSpinner
                              generateHighlightColor={generateConstrastColor}

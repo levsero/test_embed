@@ -101,8 +101,7 @@ export const NpsMobile = React.createClass({
                                selectedRating={this.props.response.rating}
                                isSubmittingRating={this.props.isSubmittingRating}
                                highlightColor={this.props.survey.highlightColor}
-                               onClick={this.ratingClickHandler}
-                               highlightButton={!this.props.survey.error} />
+                               onClick={this.ratingClickHandler} />
                            </div>
                          : null;
 
