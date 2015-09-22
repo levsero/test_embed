@@ -98,7 +98,7 @@ var ButtonSecondary = React.createClass({
   render() {
     const buttonClasses = classSet({
       'c-btn c-btn--medium c-btn--secondary': true,
-      [this.props.className]: true
+      [this.props.className]: this.props.className ? true : false
     });
 
     return (
