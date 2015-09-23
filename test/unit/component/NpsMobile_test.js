@@ -145,13 +145,7 @@ describe('NpsMobile component', () => {
       });
 
       it('should return 60% when the currentPage is thankyYou', () => {
-        component.setState({
-          currentPage: {
-            selectingRating: false,
-            thankYou: true,
-            addingComment: false
-          }
-        });
+        component.setCurrentPage('thankYou');
 
         expect(component.calcHeightPercentage()).toEqual('60%');
       });
@@ -165,13 +159,7 @@ describe('NpsMobile component', () => {
       });
 
       it('should return 40% when the currentPage is thankyYou', () => {
-        component.setState({
-          currentPage: {
-            selectingRating: false,
-            thankYou: true,
-            addingComment: false
-          }
-        });
+        component.setCurrentPage('thankYou');
 
         expect(component.calcHeightPercentage()).toEqual('40%');
       });
@@ -252,13 +240,7 @@ describe('NpsMobile component', () => {
 
     beforeEach(() => {
 
-      component.setState({
-        currentPage: {
-          selectingRating: false,
-          thankYou: false,
-          addingComment: true
-        }
-      });
+      component.setCurrentPage('addingComment');
     });
 
     it('should render a heading', () => {
@@ -286,13 +268,8 @@ describe('NpsMobile component', () => {
   describe('thankYou state', () => {
 
     beforeEach(() => {
-      component.setState({
-        currentPage: {
-          selectingRating: false,
-          thankYou: true,
-          addingComment: false
-        }
-      });
+
+      component.setCurrentPage('thankYou');
     });
 
     it('should hide the comments section', () => {
