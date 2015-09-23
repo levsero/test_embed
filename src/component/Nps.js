@@ -46,7 +46,6 @@ export const Nps = React.createClass({
   },
 
   npsSender(params, doneFn, failFn) {
-
     const fail = (error) => {
       this.setError(true);
       this.setState({isSubmittingRating: false, isSubmittingComment: false});
