@@ -33,6 +33,7 @@ function init(helpCenterAvailable, hideLauncher) {
   state[`${chat}.isOnline`]          = false;
   state[`${chat}.unreadMsgs`]        = 0;
   state[`${chat}.userClosed`]        = false;
+  state['nps.isVisible']             = false;
   state['.hideOnClose']              = false;
   state['identify.pending']          = false;
 
@@ -105,7 +106,8 @@ function init(helpCenterAvailable, hideLauncher) {
 
   c.intercept(`${chat}.onOnline`, () => {
     state[`${chat}.isOnline`] = true;
-    if (state.activeEmbed === submitTicket && !state[`${helpCenter}.isAvailable`]) {
+    if (state.activeEmbed === submitTicket &&
+        !state[`${helpCenter}.isAvailable`]) {
       state.activeEmbed = chat;
     }
 
@@ -117,9 +119,14 @@ function init(helpCenterAvailable, hideLauncher) {
 
     c.broadcast(`${helpCenter}.setNextToChat`);
 
-    if (!state[`${launcher}.userHidden`] && state[`${chat}.connectionPending`]) {
+    if (state[`${chat}.connectionPending`]) {
       state[`${chat}.connectionPending`] = false;
-      c.broadcast(`${launcher}.show`);
+
+      if (!state[`${launcher}.userHidden`] &&
+          !state['identify.pending'] &&
+          !state['nps.isVisible']) {
+        c.broadcast(`${launcher}.show`);
+      }
     }
   });
 
@@ -133,11 +140,17 @@ function init(helpCenterAvailable, hideLauncher) {
     c.broadcast(`${launcher}.setLabelHelp`);
     c.broadcast(`${helpCenter}.setNextToSubmitTicket`);
 
-    if (!state[`${launcher}.userHidden`] && state[`${chat}.connectionPending`]) {
+    if (state[`${chat}.connectionPending`]) {
       state[`${chat}.connectionPending`] = false;
+
       setTimeout(() => {
-        c.broadcast(`${launcher}.show`);
+        if (!state[`${launcher}.userHidden`] &&
+            !state['identify.pending'] &&
+            !state['nps.isVisible']) {
+          c.broadcast(`${launcher}.show`);
+        }
       }, 3000);
+
     }
   });
 
@@ -346,12 +359,16 @@ function init(helpCenterAvailable, hideLauncher) {
   });
 
   c.intercept(`nps.onClose`, () => {
+    state['nps.isVisible'] = false;
+
     if (!state['.hideOnClose']) {
       c.broadcast(`${launcher}.show`);
     }
   });
 
   c.intercept(`nps.onShow`, () => {
+    state['nps.isVisible'] = true;
+
     c.broadcast(`${launcher}.hide`);
   });
 
