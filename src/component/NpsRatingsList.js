@@ -6,7 +6,7 @@ const classSet = React.addons.classSet;
 
 export const NpsRatingsList = React.createClass({
 
-  ratingClickValueHandler(rating) {
+  ratingClickHandlerFn(rating) {
     return (ev) => {
       ev.preventDefault();
       this.props.onChangeValue(rating);
@@ -34,7 +34,7 @@ export const NpsRatingsList = React.createClass({
         loading: isSelected && this.props.isSubmittingRating,
         selected: isSelected,
         highlightColor: this.props.highlightColor,
-        onClick: this.ratingClickValueHandler(rating),
+        onClick: this.ratingClickHandlerFn(rating),
         loadingSpinnerClassName: 'RatingsList-spinner'
       };
 

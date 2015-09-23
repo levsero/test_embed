@@ -157,13 +157,11 @@ var ButtonRating = React.createClass({
     const isSelectedStyles = {
       borderColor: this.props.highlightColor,
       background: this.props.highlightColor,
-      color: this.props.highlightColor
-           ? generateConstrastColor(this.props.highlightColor)
-           : '#fff'
+      color: generateConstrastColor(this.props.highlightColor)
     };
 
     const isNotSelectedStyles = {
-      color: this.props.highlightColor || 'auto'
+      color: this.props.highlightColor
     };
 
     const style = (this.props.selected)

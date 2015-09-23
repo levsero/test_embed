@@ -92,9 +92,8 @@ function render(name) {
 
     if (survey && survey.id) {
       npses[name].instance.getRootComponent().reset();
-
       nps.setState({
-        survey: _.extend(survey, { surveyId: survey.id }),
+        survey: _.extend(nps.state, survey, { surveyId: survey.id }),
         surveyAvailable: true
       });
     } else {
