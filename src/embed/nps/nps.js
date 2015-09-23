@@ -93,7 +93,7 @@ function render(name) {
     if (survey && survey.id) {
       npses[name].instance.getRootComponent().reset();
       nps.setState({
-        survey: _.extend({}, nps.state.survey, survey, { surveyId: survey.id }),
+        survey: _.extend({}, nps.state.survey, survey),
         surveyAvailable: true
       });
     } else {
@@ -134,14 +134,14 @@ function render(name) {
 function getDismissTimestampKey(survey) {
   return [
     transport.getZendeskHost(),
-    survey.surveyId,
+    survey.id,
     survey.recipientId,
     'dismiss-timestamp'
   ].join('-');
 }
 
 function shouldShow(survey = {}) {
-  if (!survey.surveyId) {
+  if (!survey.id) {
     return false;
   }
 

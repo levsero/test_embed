@@ -151,7 +151,7 @@ describe('embed.nps', () => {
             .toHaveBeenCalled();
 
           const surveyKeys = [
-            ['surveyId', 'id'],
+            'id',
             'commentsQuestion',
             'highlightColor',
             'logoUrl',
@@ -160,13 +160,8 @@ describe('embed.nps', () => {
           ];
 
           surveyKeys.forEach((key) => {
-            if (key[1]) {
-              expect(danNps.state.survey[key[0]])
-                .toEqual(surveyParams.npsSurvey[key[1]]);
-            } else {
-              expect(danNps.state.survey[key])
-                .toEqual(surveyParams.npsSurvey[key]);
-            }
+            expect(danNps.state.survey[key])
+              .toEqual(surveyParams.npsSurvey[key]);
           });
 
           expect(danNps.state.surveyAvailable)
@@ -198,7 +193,7 @@ describe('embed.nps', () => {
 
   describe('dismissal functionality', () => {
     const survey = {
-      surveyId: 1234,
+      id: 1234,
       recipientId: 2345
     };
 
@@ -212,7 +207,7 @@ describe('embed.nps', () => {
       transport = mockRegistry['service/transport'].transport;
       expectedKey = [
           transport.getZendeskHost(),
-          survey.surveyId,
+          survey.id,
           survey.recipientId,
           'dismiss-timestamp'
         ].join('-');

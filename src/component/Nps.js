@@ -15,7 +15,7 @@ export const Nps = React.createClass({
       survey: {
         commentsQuestion: '',
         highlightColor: '',
-        surveyId: null,
+        id: null,
         logoUrl: '',
         question: '',
         recipientId: null,
@@ -69,7 +69,7 @@ export const Nps = React.createClass({
   sendRating(doneFn, failFn) {
     const params = {
       npsResponse: {
-        surveyId: this.state.survey.surveyId,
+        surveyId: this.state.survey.id,
         recipientId: this.state.survey.recipientId,
         rating: this.state.response.rating
       }
@@ -81,7 +81,7 @@ export const Nps = React.createClass({
   sendComment(doneFn, failFn) {
     const params = {
       npsResponse: {
-        surveyId: this.state.survey.surveyId,
+        surveyId: this.state.survey.id,
         recipientId: this.state.survey.recipientId,
         rating: this.state.response.rating,
         comment: this.state.response.comment
