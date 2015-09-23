@@ -234,35 +234,10 @@ describe('Help center component', function() {
       );
     });
 
-    it('shouldn\'t call transport.send if no valid keywords were passed', function() {
-      let searchKeywords = { foo: 'bar' };
+    it('should set the right payload for search attribute', function() {
+      const searchOptions = { search: 'foo bar' };
 
-      helpCenter.contextualSearch(searchKeywords);
-
-      expect(mockTransport.send)
-        .not.toHaveBeenCalled();
-
-      searchKeywords = 5;
-
-      helpCenter.contextualSearch(searchKeywords);
-
-      expect(mockTransport.send)
-        .not.toHaveBeenCalled();
-
-      searchKeywords = false;
-
-      helpCenter.contextualSearch(searchKeywords);
-
-      expect(mockTransport.send)
-        .not.toHaveBeenCalled();
-    });
-
-    it('shouldn\'t call updateResults if no results', function() {
-      const searchKeywords = ['foo', 'bar'];
-
-      helpCenter.updateResults = updateResults;
-
-      helpCenter.contextualSearch(searchKeywords);
+      helpCenter.contextualSearch(searchOptions);
 
       expect(mockTransport.send)
         .toHaveBeenCalled();
@@ -270,7 +245,111 @@ describe('Help center component', function() {
       let recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
 
       expect(recentCallArgs.query.query)
-        .toEqual(searchKeywords.join(' '));
+        .toEqual(searchOptions.search);
+
+      /* jshint camelcase: false */
+      expect(recentCallArgs.query.label_names)
+        .toBeFalsy();
+    });
+
+    it('should set the right payload for labels attribute', function() {
+      const searchOptions = { labels: ['foo', 'bar'] };
+
+      helpCenter.contextualSearch(searchOptions);
+
+      expect(mockTransport.send)
+        .toHaveBeenCalled();
+
+      let recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
+
+      /* jshint camelcase: false */
+      expect(recentCallArgs.query.label_names)
+        .toEqual(searchOptions.labels.join(','));
+
+      expect(recentCallArgs.query.query)
+        .toBeFalsy();
+    });
+
+    it('should set the right payload for search and labels attribute', function() {
+      const searchOptions = {
+        search: 'my search',
+        labels: ['foo', 'bar']
+      };
+
+      helpCenter.contextualSearch(searchOptions);
+
+      expect(mockTransport.send)
+        .toHaveBeenCalled();
+
+      let recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
+
+      expect(recentCallArgs.query.query)
+        .toEqual(searchOptions.search);
+
+      /* jshint camelcase: false */
+      expect(recentCallArgs.query.label_names)
+        .toBeFalsy();
+    });
+
+    it('shouldn\'t call transport.send if no valid search options were passed', function() {
+      let searchOptions = { foo: 'bar' };
+
+      helpCenter.contextualSearch(searchOptions);
+
+      expect(mockTransport.send)
+        .not.toHaveBeenCalled();
+
+      searchOptions = 5;
+
+      helpCenter.contextualSearch(searchOptions);
+
+      expect(mockTransport.send)
+        .not.toHaveBeenCalled();
+
+      searchOptions = false;
+
+      helpCenter.contextualSearch(searchOptions);
+
+      expect(mockTransport.send)
+        .not.toHaveBeenCalled();
+
+      searchOptions = 'foo bar';
+
+      helpCenter.contextualSearch(searchOptions);
+
+      expect(mockTransport.send)
+        .not.toHaveBeenCalled();
+
+      searchOptions = { labels: [] };
+
+      helpCenter.contextualSearch(searchOptions);
+
+      expect(mockTransport.send)
+        .not.toHaveBeenCalled();
+
+      searchOptions = { search: '' };
+
+      helpCenter.contextualSearch(searchOptions);
+
+      expect(mockTransport.send)
+        .not.toHaveBeenCalled();
+    });
+
+    it('shouldn\'t call updateResults if no results', function() {
+      const searchOptions = { labels: ['foo', 'bar'] };
+
+      helpCenter.updateResults = updateResults;
+
+      helpCenter.contextualSearch(searchOptions);
+
+      expect(mockTransport.send)
+        .toHaveBeenCalled();
+
+      let recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
+
+      /* jshint camelcase: false */
+      expect(recentCallArgs.query.label_names)
+        .toEqual(searchOptions.labels.join(','));
 
       expect(recentCallArgs.query.locale)
         .toBeFalsy();
@@ -284,12 +363,12 @@ describe('Help center component', function() {
         .not.toHaveBeenCalled();
     });
 
-    it('should set states and call updateResults if results', function() {
-      const searchKeywords = 'foo bar';
+    it('should set states and call updateResults if results, with search', function() {
+      const searchOptions = { search: 'foo bar' };
 
       helpCenter.updateResults = updateResults;
 
-      helpCenter.contextualSearch(searchKeywords);
+      helpCenter.contextualSearch(searchOptions);
 
       expect(mockTransport.send)
         .toHaveBeenCalled();
@@ -297,7 +376,7 @@ describe('Help center component', function() {
       let recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
 
       expect(recentCallArgs.query.query)
-        .toEqual(searchKeywords);
+        .toEqual(searchOptions.search);
 
       expect(recentCallArgs.query.locale)
         .toBeFalsy();
@@ -314,7 +393,46 @@ describe('Help center component', function() {
         .toBeFalsy();
 
       expect(helpCenter.state.searchTerm)
-        .toEqual(searchKeywords);
+        .toEqual(searchOptions.search);
+
+      expect(helpCenter.state.hasContextualSearched)
+        .toBeTruthy();
+
+      expect(helpCenter.updateResults)
+        .toHaveBeenCalledWith(responsePayloadResults);
+    });
+
+    it('should set states and call updateResults if results, with labels', function() {
+      const searchOptions = { labels: ['foo', 'bar'] };
+
+      helpCenter.updateResults = updateResults;
+
+      helpCenter.contextualSearch(searchOptions);
+
+      expect(mockTransport.send)
+        .toHaveBeenCalled();
+
+      let recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
+
+      expect(recentCallArgs.query.query)
+        .toEqual(searchOptions.search);
+
+      expect(recentCallArgs.query.locale)
+        .toBeFalsy();
+
+      expect(recentCallArgs.query.origin)
+        .toBeFalsy();
+
+      mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayloadResults);
+
+      expect(helpCenter.state.isLoading)
+        .toBeFalsy();
+
+      expect(helpCenter.state.showIntroScreen)
+        .toBeFalsy();
+
+      expect(helpCenter.state.searchTerm)
+        .toEqual(searchOptions.labels.join(','));
 
       expect(helpCenter.state.hasContextualSearched)
         .toBeTruthy();
@@ -324,9 +442,9 @@ describe('Help center component', function() {
     });
 
     it('should request 3 results', function() {
-      const searchKeywords = 'foo bar';
+      const searchOptions = { search: 'foo bar' };
 
-      helpCenter.contextualSearch(searchKeywords);
+      helpCenter.contextualSearch(searchOptions);
 
       expect(mockTransport.send)
         .toHaveBeenCalled();

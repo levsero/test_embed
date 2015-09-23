@@ -515,12 +515,12 @@ describe('embed.helpCenter', function() {
           .toEqual('submitTicket label');
       });
 
-      it('should subscribe to <name>.setKeywords', function() {
+      it('should subscribe to <name>.setHelpCenterSuggestions', function() {
         const keywords = ['foo', 'bar'];
         expect(mockMediator.channel.subscribe)
-          .toHaveBeenCalledWith('carlos.setKeywords', jasmine.any(Function));
+          .toHaveBeenCalledWith('carlos.setHelpCenterSuggestions', jasmine.any(Function));
 
-        pluckSubscribeCall(mockMediator, 'carlos.setKeywords')(keywords);
+        pluckSubscribeCall(mockMediator, 'carlos.setHelpCenterSuggestions')(keywords);
 
         expect(contextualSearch)
           .toHaveBeenCalledWith(keywords);
