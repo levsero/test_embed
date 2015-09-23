@@ -10,7 +10,7 @@ export const LoadingSpinner = React.createClass({
   render() {
     return (
       <div
-        className={`LoadingSpinner u-inlineBlock ${this.props.className}`}
+        className={`LoadingSpinner ${this.props.className}`}
         style={{ borderColor: this.props.highlightColor }}>
       </div>
     );
