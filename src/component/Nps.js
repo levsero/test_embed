@@ -41,7 +41,7 @@ export const Nps = React.createClass({
 
   setError(errorState) {
     this.setState({
-      survey: _.extend(this.state.survey, { error: errorState })
+      survey: _.extend({}, this.state.survey, { error: errorState })
     });
   },
 
@@ -94,7 +94,7 @@ export const Nps = React.createClass({
   submitRatingHandler(rating, doneFn) {
     const errorHandler = () => {
       this.setState({
-        response: _.extend(this.state.response, { rating: null })
+        response: _.extend({}, this.state.response, { rating: null })
       });
     };
 
