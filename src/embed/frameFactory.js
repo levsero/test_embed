@@ -84,6 +84,7 @@ export var frameFactory = function(childFn, _params) {
       const iframe = this.getDOMNode();
       const frameWin = iframe.contentWindow;
       const frameDoc = iframe.contentDocument;
+      //FIXME shouldn't set background & zIndex in a dimensions object
       const dimensions = {
         height: height,
         width: width,
@@ -121,6 +122,7 @@ export var frameFactory = function(childFn, _params) {
         const width  = Math.max(el.clientWidth,  el.offsetWidth);
         const height = Math.max(el.clientHeight, el.offsetHeight);
         const fullscreen = isMobileBrowser() && params.fullscreenable;
+        //FIXME shouldn't set background & zIndex in a dimensions object
         const fullscreenStyle = {
           width: `${win.innerWidth}px`,
           height: '100%',

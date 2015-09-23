@@ -131,7 +131,7 @@ describe('Nps component', function() {
 
   it('renders NpsMobile when mobile prop is true', function() {
     React.render(
-      <Nps mobile={true}/>,
+      <Nps mobile={true} />,
       global.document.body
     );
 
@@ -139,84 +139,29 @@ describe('Nps component', function() {
       .toEqual(1);
   });
 
-  describe('responseFailure', function() {
-    let retrySpy,
-        callbackSpy,
-        component;
-
-    beforeEach(function() {
-
-      retrySpy = jasmine.createSpy();
-      callbackSpy = jasmine.createSpy();
-
-      component = React.render(
-        <Nps />,
-        global.document.body
-      );
-    });
-
-    it('should set isSubmittingRating to false if the error is not a timeout error', function() {
-      component.responseFailure();
-
-      expect(component.state.isSubmittingRating)
-        .toEqual(false);
-    });
-
-    it('should set isSubmittingComment to false if the error is not a timeout error', function() {
-      component.responseFailure();
-
-      expect(component.state.isSubmittingComment)
-        .toEqual(false);
-    });
-
-    it('should set survey.error to true if the error is not a timeout error', function() {
-      component.responseFailure();
-
-      expect(component.state.survey.error)
-        .toEqual(true);
-    });
-
-    it('should call the provided list of callbacks', function() {
-      component.responseFailure(callbackSpy);
-
-      expect(callbackSpy)
-        .toHaveBeenCalled();
-    });
-
-  });
-  describe('responseSuccess', function() {
+  describe('submitRatingHandler', function() {
     let component,
-        callbackSpy;
+        npsSenderSpy;
 
     beforeEach(function() {
 
-      callbackSpy = jasmine.createSpy();
+      npsSenderSpy = jasmine.createSpy();
 
       component = React.render(
-        <Nps />,
+        <Nps npsSender={npsSenderSpy} />,
         global.document.body
       );
+
+      component.sendRating = jasmine.createSpy();
     });
 
-    it('should set isSubmittingRating to false', function() {
-      component.responseSuccess();
+    it('should set `response.rating` to the provided rating', function() {
+      const mockRating = 0;
 
-      expect(component.state.isSubmittingRating)
-        .toEqual(false);
-    });
+      component.submitRatingHandler(mockRating, noop);
 
-    it('should set isSubmittingComment to false', function() {
-      component.responseSuccess();
-
-      expect(component.state.isSubmittingComment)
-        .toEqual(false);
-    });
-
-    it('should set call the provided list of callbacks', function() {
-      component.responseSuccess(callbackSpy);
-
-      expect(callbackSpy)
-        .toHaveBeenCalled();
+      expect(component.state.response.rating)
+        .toEqual(mockRating);
     });
   });
 
@@ -246,6 +191,84 @@ describe('Nps component', function() {
 
       expect(npsSenderSpy)
         .toHaveBeenCalled();
+    });
+
+    describe('done', function() {
+      let doneFn;
+
+      beforeEach(function() {
+        doneFn = jasmine.createSpy();
+      });
+
+      it('should set survey.error to false', function() {
+        component.npsSender({}, noop, noop);
+
+        expect(component.state.survey.error)
+          .toEqual(false);
+      });
+
+      it('should set isSubmittingRating to false', function() {
+        component.npsSender({}, noop, noop);
+
+        expect(component.state.isSubmittingRating)
+          .toEqual(false);
+      });
+
+      it('should set isSubmittingComment to false', function() {
+        component.npsSender({}, noop, noop);
+
+        expect(component.state.isSubmittingComment)
+          .toEqual(false);
+      });
+
+      it('should run the provided doneFn', function() {
+        component.npsSender({}, doneFn, noop);
+
+        npsSenderSpy.calls.mostRecent().args[1]();
+
+        expect(doneFn)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('fail', function() {
+      let failFn;
+
+      beforeEach(function() {
+        failFn = jasmine.createSpy();
+      });
+
+      it('should set survey.error to true', function() {
+        component.npsSender({}, noop, noop);
+
+        npsSenderSpy.calls.mostRecent().args[2]();
+
+        expect(component.state.survey.error)
+          .toEqual(true);
+      });
+
+      it('should set isSubmittingRating to false', function() {
+        component.npsSender({}, noop, noop);
+
+        expect(component.state.isSubmittingRating)
+          .toEqual(false);
+      });
+
+      it('should set isSubmittingComment to false', function() {
+        component.npsSender({}, noop, noop);
+
+        expect(component.state.isSubmittingComment)
+          .toEqual(false);
+      });
+
+      it('should run the provided failFn', function() {
+        component.npsSender({}, noop, failFn);
+
+        npsSenderSpy.calls.mostRecent().args[2]();
+
+        expect(failFn)
+          .toHaveBeenCalled();
+      });
     });
   });
 });

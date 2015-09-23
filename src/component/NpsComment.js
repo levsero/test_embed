@@ -17,8 +17,7 @@ export const NpsComment = React.createClass({
     const sendButtonClasses = 'u-marginTS u-marginBM u-sizeFull';
 
     const loadingSpinner = <LoadingSpinner
-                             generateHighlightColor={generateConstrastColor}
-                             highlightColor={this.props.highlightColor} />;
+                             highlightColor={generateConstrastColor(this.props.highlightColor)} />;
 
     /* jshint laxbreak: true */
     const buttonColor = (this.props.comment)

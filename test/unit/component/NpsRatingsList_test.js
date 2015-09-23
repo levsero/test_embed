@@ -87,7 +87,7 @@ describe('NpsRatingsList component', () => {
         .querySelectorAll('.RatingsList-legend-text.u-inlineBlock.u-textLeft')[0]
         .textContent
       )
-        .toEqual(npsRatingsListProps.notLikelyLabel);
+      .toEqual(npsRatingsListProps.notLikelyLabel);
     });
 
   });

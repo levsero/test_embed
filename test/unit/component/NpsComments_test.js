@@ -46,9 +46,7 @@ describe('NpsComment component', () => {
         })
       },
       'service/i18n': {
-        'i18n': {
-          t: jasmine.createSpy()
-        }
+        i18n: jasmine.createSpyObj('i18n', ['t'])
       },
       'component/Loading': {
         'LoadingSpinner': React.createClass({

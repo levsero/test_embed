@@ -76,6 +76,12 @@ var Field = React.createClass({
     }
   },
 
+  getDefaultProps() {
+    return {
+      labelClasses: ''
+    };
+  },
+
   getInitialState() {
     return {
       focused: false,

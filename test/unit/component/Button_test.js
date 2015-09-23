@@ -20,6 +20,9 @@ describe('component/Button', function() {
       'component/Loading': {
         LoadingEllipses: noopReactComponent()
       },
+      'utility/utils': {
+        'generateConstrastColor': noop
+      },
       'service/i18n': noop
     });
 

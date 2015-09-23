@@ -91,23 +91,10 @@ function render(name) {
     const survey = params.npsSurvey;
 
     if (survey && survey.id) {
-      let newNpsSurveyState = _.extend(nps.state.survey, {
-        surveyId: survey.id,
-        commentsQuestion: survey.commentsQuestion,
-        highlightColor: survey.highlightColor,
-        logoUrl: survey.logoUrl,
-        question: survey.question,
-        recipientId: survey.recipientId,
-        thankYou: survey.thankYou,
-        youRated: survey.youRated,
-        likelyLabel: survey.likelyLabel,
-        notLikelyLabel: survey.notLikelyLabel,
-        feedbackPlaceholder: survey.feedbackPlaceholder
-      });
       npses[name].instance.getRootComponent().reset();
 
       nps.setState({
-        survey: newNpsSurveyState,
+        survey: _.extend(survey, { surveyId: survey.id }),
         surveyAvailable: true
       });
     } else {

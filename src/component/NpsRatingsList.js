@@ -1,11 +1,18 @@
 import React from 'react/addons';
 
 import { ButtonRating } from 'component/Button';
-import { generateConstrastColor } from 'utility/utils';
 
 const classSet = React.addons.classSet;
 
 export const NpsRatingsList = React.createClass({
+
+  ratingClickValueHandler(rating) {
+    return (ev) => {
+      ev.preventDefault();
+      this.props.onChangeValue(rating);
+    };
+  },
+
   render() {
     const labelClasses = 'RatingsList-legend-text u-inlineBlock';
 
@@ -27,8 +34,7 @@ export const NpsRatingsList = React.createClass({
         loading: isSelected && this.props.isSubmittingRating,
         selected: isSelected,
         highlightColor: this.props.highlightColor,
-        onClick: this.props.onClick(rating),
-        generateHighlightColor: generateConstrastColor,
+        onClick: this.ratingClickValueHandler(rating),
         loadingSpinnerClassName: 'RatingsList-spinner'
       };
 

@@ -3,6 +3,7 @@ import React from 'react/addons';
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
 import { LoadingSpinner } from 'component/Loading';
+import { generateConstrastColor } from 'utility/utils';
 
 const classSet = React.addons.classSet;
 
@@ -144,7 +145,7 @@ var ButtonGroup = React.createClass({
 var ButtonRating = React.createClass({
   getDefaultProps() {
     return {
-      highlightColor: '',
+      highlightColor: '#77a500',
       selected: false,
       loading: false,
       label: null
@@ -157,7 +158,7 @@ var ButtonRating = React.createClass({
       borderColor: this.props.highlightColor,
       background: this.props.highlightColor,
       color: this.props.highlightColor
-           ? this.props.generateHighlightColor(this.props.highlightColor)
+           ? generateConstrastColor(this.props.highlightColor)
            : '#fff'
     };
 
@@ -169,8 +170,10 @@ var ButtonRating = React.createClass({
                 ? isSelectedStyles
                 : isNotSelectedStyles;
 
-    const label = this.props.loading
-                ? <LoadingSpinner className={this.props.loadingSpinnerClassName} {...this.props} />
+    const label = (this.props.loading)
+                ? <LoadingSpinner
+                   className={this.props.loadingSpinnerClassName}
+                   highlightColor={generateConstrastColor(this.props.highlightColor)} />
                 : this.props.label;
 
     return <ButtonSecondary

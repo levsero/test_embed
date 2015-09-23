@@ -19,7 +19,12 @@ export const Nps = React.createClass({
         logoUrl: '',
         question: '',
         recipientId: null,
-        error: false
+        error: false,
+        thankYou: '',
+        youRated: '',
+        likelyLabel: '',
+        notLikelyLabel: '',
+        feedbackPlaceholder: ''
       },
       response: {
         rating: null,
@@ -41,24 +46,25 @@ export const Nps = React.createClass({
   },
 
   npsSender(params, doneFn, failFn) {
-    this.setError(false);
-    this.props.npsSender(params, doneFn, failFn);
-  },
 
-  responseFailure(failFn, error = {}) {
-    this.setError(true);
-    this.setState({isSubmittingRating: false, isSubmittingComment: false});
-    if (failFn) {
-      failFn(error);
-    }
-  },
+    const fail = (error) => {
+      this.setError(true);
+      this.setState({isSubmittingRating: false, isSubmittingComment: false});
+      if (failFn) {
+        failFn(error);
+      }
+    };
 
-  responseSuccess(doneFn) {
+    const done = () => {
+      this.setError(false);
+      this.setState({isSubmittingRating: false, isSubmittingComment: false});
+      if (doneFn) {
+        doneFn();
+      }
+    };
+
     this.setError(false);
-    this.setState({isSubmittingRating: false, isSubmittingComment: false});
-    if (doneFn) {
-      doneFn();
-    }
+    this.props.npsSender(params, done, fail);
   },
 
   sendRating(doneFn, failFn) {
@@ -70,11 +76,7 @@ export const Nps = React.createClass({
       }
     };
 
-    this.npsSender(
-      params,
-      this.responseSuccess.bind(this, doneFn),
-      this.responseFailure.bind(this, failFn)
-    );
+    this.npsSender(params, doneFn, failFn);
   },
 
   sendComment(doneFn, failFn) {
@@ -87,32 +89,27 @@ export const Nps = React.createClass({
       }
     };
 
-    this.npsSender(
-      params,
-      this.responseSuccess.bind(this, doneFn),
-      this.responseFailure.bind(this, failFn)
-    );
+    this.npsSender(params, doneFn, failFn);
   },
 
-  ratingClickHandler(rating) {
-    return (ev, doneFn) => {
-      const errorHandler = () => {
-        this.setState({
-          response: _.extend(this.state.response, { rating: null })
-        });
-      };
-
+  submitRatingHandler(rating, doneFn) {
+    const errorHandler = () => {
       this.setState({
-        response: _.extend({}, this.state.response, { rating: rating }),
-        isSubmittingRating: true
+        response: _.extend(this.state.response, { rating: null })
       });
-      setTimeout(() => this.sendRating(doneFn, errorHandler), 0);
-      setTimeout(() => {
-        if (!this.state.isMobile) {
-          this.refs.commentField.refs.field.getDOMNode().focus();
-        }
-      }, 100);
     };
+
+    this.setState({
+      response: _.extend({}, this.state.response, { rating: rating }),
+      isSubmittingRating: true
+    });
+
+    setTimeout(() => this.sendRating(doneFn, errorHandler), 0);
+    setTimeout(() => {
+      if (!this.state.isMobile) {
+        this.refs.commentField.refs.field.getDOMNode().focus();
+      }
+    }, 100);
   },
 
   submitCommentHandler(ev, doneFn, failFn) {
@@ -142,12 +139,11 @@ export const Nps = React.createClass({
       ? <NpsMobile
           {...this.state}
           setFrameSize={this.props.setFrameSize}
-          ratingClickHandler={this.ratingClickHandler}
           submitCommentHandler={this.submitCommentHandler}
-          onCommentChangeHandler={this.onCommentChangeHandler} />
+          onCommentChangeHandler={this.onCommentChangeHandler}
+          submitRatingHandler={this.submitRatingHandler} />
       : <NpsDesktop
           {...this.state}
-          ratingClickHandler={this.ratingClickHandler}
           submitCommentHandler={this.submitCommentHandler}
           onCommentChangeHandler={this.onCommentChangeHandler}
           sendComment={this.sendComment} />;

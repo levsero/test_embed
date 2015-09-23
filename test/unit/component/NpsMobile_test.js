@@ -3,15 +3,12 @@ describe('NpsMobile component', () => {
       mockRegistry,
       component,
       npsProps,
-      innerSpy,
       mockSetFrameSize,
-      mockRatingClickHandler,
+      mockSubmitRatingHandler,
       mockSubmitCommentHandler,
-      mockOnCommentChangeHandler,
-      mockSendComment;
+      mockOnCommentChangeHandler;
 
   const npsPath = buildSrcPath('component/NpsMobile');
-  const mockRating = 0;
 
   beforeEach(() => {
 
@@ -107,30 +104,24 @@ describe('NpsMobile component', () => {
         }
       },
       'service/i18n': {
-        'i18n': {
-          t: noop
-        }
+        i18n: jasmine.createSpyObj('i18n', ['t'])
       }
     });
 
     NpsMobile = requireUncached(npsPath).NpsMobile;
 
-    innerSpy = jasmine.createSpy();
     mockSetFrameSize = jasmine.createSpy();
-    mockRatingClickHandler = jasmine.createSpy().and.returnValue(innerSpy);
+    mockSubmitRatingHandler = jasmine.createSpy();
     mockSubmitCommentHandler = jasmine.createSpy();
     mockOnCommentChangeHandler = jasmine.createSpy();
-    mockSendComment = jasmine.createSpy();
 
     component = React.render(
         <NpsMobile
           {...npsProps}
           setFrameSize={mockSetFrameSize}
-          ratingClickHandler={mockRatingClickHandler}
           submitCommentHandler={mockSubmitCommentHandler}
           onCommentChangeHandler={mockOnCommentChangeHandler}
-          sendComment={mockSendComment}
-        />,
+          submitRatingHandler={mockSubmitRatingHandler} />,
         global.document.body
       );
   });
@@ -189,26 +180,18 @@ describe('NpsMobile component', () => {
 
   });
 
-  describe('ratingClickHandler', () => {
+  describe('ratingChangeValueHandler', () => {
 
-    it('should return a function when ratingClickHandler is called', () => {
-      expect(typeof component.ratingClickHandler(mockRating))
-        .toEqual('function');
+    it('should set currentPage to addingComment when ratingChangeValueHandler is called', () => {
+      component.ratingChangeValueHandler();
+
+      let successFunc = mockSubmitRatingHandler.calls.mostRecent().args[1];
+
+      successFunc();
+
+      expect(component.state.currentPage.addingComment)
+        .toEqual(true);
     });
-
-    it(`should set currentPage to addingComment
-      when ratingClickHandler is called`, () => {
-        let func = component.ratingClickHandler();
-
-        func();
-
-        let successFunc = innerSpy.calls.mostRecent().args[1];
-
-        successFunc();
-
-        expect(component.state.currentPage.addingComment)
-         .toEqual(true);
-      });
 
   });
 

@@ -29,7 +29,7 @@ export const NpsMobile = React.createClass({
   },
 
   calcHeightPercentage() {
-    const ratio = getSizingRatio(false, false);
+    const ratio = getSizingRatio();
     const heightThreshold = 450;
     const heightRatio = win.innerHeight / ratio;
 
@@ -52,15 +52,12 @@ export const NpsMobile = React.createClass({
     });
   },
 
-  ratingClickHandler(rating) {
-    const sendRating = this.props.ratingClickHandler(rating);
-    return (ev) => {
-      sendRating(ev, () => this.setCurrentPage('addingComment'));
-    };
-  },
-
   submitCommentHandler(ev) {
     this.props.submitCommentHandler(ev, () => this.setCurrentPage('thankYou'));
+  },
+
+  ratingChangeValueHandler(rating) {
+    this.props.submitRatingHandler(rating, () => this.setCurrentPage('addingComment'));
   },
 
   render() {
@@ -103,7 +100,7 @@ export const NpsMobile = React.createClass({
                                selectedRating={this.props.response.rating}
                                isSubmittingRating={this.props.isSubmittingRating}
                                highlightColor={this.props.survey.highlightColor}
-                               onClick={this.ratingClickHandler} />
+                               onChangeValue={this.ratingChangeValueHandler} />
                            </div>
                          : null;
 
