@@ -9,6 +9,9 @@ import { NpsSelectList } from 'component/NpsSelectList';
 import { NpsRatingsList } from 'component/NpsRatingsList';
 import { getSizingRatio } from 'utility/devices';
 import { win } from 'utility/globals';
+import { setScrollKiller,
+         setWindowScroll,
+         revertWindowScroll } from 'utility/scrollHacks';
 
 const classSet = React.addons.classSet;
 
@@ -53,11 +56,28 @@ export const NpsMobile = React.createClass({
   },
 
   submitCommentHandler(ev) {
-    this.props.submitCommentHandler(ev, () => this.setCurrentPage('thankYou'));
+    this.props.submitCommentHandler(ev, () => {
+      this.turnScrollHacksOff();
+      this.setCurrentPage('thankYou');
+    });
   },
 
   ratingChangeValueHandler(rating) {
     this.props.submitRatingHandler(rating, () => this.setCurrentPage('addingComment'));
+  },
+
+  scrollHacks() {
+    setTimeout(() => {
+      setWindowScroll(0);
+      setScrollKiller(true);
+    }, 0);
+  },
+
+  turnScrollHacksOff() {
+    setTimeout(() => {
+      setScrollKiller(false);
+      revertWindowScroll();
+    }, 0);
   },
 
   render() {
@@ -123,7 +143,7 @@ export const NpsMobile = React.createClass({
                   : null;
 
     const dropdown = (this.state.currentPage.addingComment)
-                   ?  <span className={dropdownClasses}>
+                   ?  <span className={dropdownClasses} onClick={this.scrollHacks}>
                         <NpsSelectList
                           selectedItem={this.props.response.rating}
                           options={NPS_RATINGS}

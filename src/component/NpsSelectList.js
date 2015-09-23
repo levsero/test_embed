@@ -1,9 +1,6 @@
 import React from 'react/addons';
 
 import { Icon } from 'component/Icon';
-import { setScrollKiller,
-         setWindowScroll } from 'utility/scrollHacks';
-import { isMobileBrowser } from 'utility/devices';
 
 export const NpsSelectList = React.createClass({
   getDefaultProps() {
@@ -15,15 +12,6 @@ export const NpsSelectList = React.createClass({
       selectClassNames: '',
       iconClassNames: '',
     };
-  },
-
-  scrollHacks() {
-    if (isMobileBrowser()) {
-      setTimeout(() => {
-        setWindowScroll(0);
-        setScrollKiller(true);
-      }, 0);
-    }
   },
 
   render() {

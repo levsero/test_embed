@@ -105,6 +105,11 @@ describe('NpsMobile component', () => {
       },
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', ['t'])
+      },
+      'utility/scrollHacks' : {
+        setScrollKiller: noop,
+        setWindowScroll: noop,
+        revertWindowScroll: noop
       }
     });
 
