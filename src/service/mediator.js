@@ -8,12 +8,26 @@ import { setScrollKiller,
 
 const c = new airwaves.Channel();
 
+const submitTicket = 'ticketSubmissionForm';
+const launcher = 'launcher';
+const chat = 'zopimChat';
+const helpCenter = 'helpCenterForm';
+const state = {};
+
+state[`${chat}.connectionPending`] = true;
+state[`${launcher}.userHidden`]    = false;
+state[`${submitTicket}.isVisible`] = false;
+state[`${chat}.isVisible`]         = false;
+state[`${helpCenter}.isVisible`]   = false;
+state[`${helpCenter}.isAvailable`] = false;
+state[`${chat}.isOnline`]          = false;
+state[`${chat}.unreadMsgs`]        = 0;
+state[`${chat}.userClosed`]        = false;
+state['nps.isVisible']             = false;
+state['.hideOnClose']              = false;
+state['identify.pending']          = false;
+
 function init(helpCenterAvailable, hideLauncher) {
-  const submitTicket = 'ticketSubmissionForm';
-  const launcher = 'launcher';
-  const chat = 'zopimChat';
-  const helpCenter = 'helpCenterForm';
-  const state = {};
   const resetActiveEmbed = () => {
     if (state[`${helpCenter}.isAvailable`]) {
       state.activeEmbed = helpCenter;
@@ -24,18 +38,8 @@ function init(helpCenterAvailable, hideLauncher) {
     }
   };
 
-  state[`${chat}.connectionPending`] = true;
   state[`${launcher}.userHidden`]    = hideLauncher;
-  state[`${submitTicket}.isVisible`] = false;
-  state[`${chat}.isVisible`]         = false;
-  state[`${helpCenter}.isVisible`]   = false;
   state[`${helpCenter}.isAvailable`] = helpCenterAvailable;
-  state[`${chat}.isOnline`]          = false;
-  state[`${chat}.unreadMsgs`]        = 0;
-  state[`${chat}.userClosed`]        = false;
-  state['nps.isVisible']             = false;
-  state['.hideOnClose']              = false;
-  state['identify.pending']          = false;
 
   resetActiveEmbed();
 
@@ -324,6 +328,22 @@ function init(helpCenterAvailable, hideLauncher) {
     c.broadcast(`${helpCenter}.setKeywords`, params);
   });
 
+  c.subscribe(`${launcher}.show`, () => {
+    if (!state[`${chat}.isOnline`]) {
+      c.broadcast(`${launcher}.setLabelHelp`);
+    }
+    if (state[`${chat}.isOnline`] && state[`${helpCenter}.isAvailable`]) {
+      c.broadcast(`${launcher}.setLabelChatHelp`);
+    }
+    if (state[`${chat}.isOnline`] && !state[`${helpCenter}.isAvailable`]) {
+      c.broadcast(`${launcher}.setLabelChat`);
+    }
+  });
+
+  initNps();
+}
+
+function initNps() {
   c.intercept(`.onIdentify`, (__, params) => {
     state['identify.pending'] = true;
 
@@ -371,22 +391,10 @@ function init(helpCenterAvailable, hideLauncher) {
 
     c.broadcast(`${launcher}.hide`);
   });
-
-  c.subscribe(`${launcher}.show`, () => {
-    if (!state[`${chat}.isOnline`]) {
-      c.broadcast(`${launcher}.setLabelHelp`);
-    }
-    if (state[`${chat}.isOnline`] && state[`${helpCenter}.isAvailable`]) {
-      c.broadcast(`${launcher}.setLabelChatHelp`);
-    }
-    if (state[`${chat}.isOnline`] && !state[`${helpCenter}.isAvailable`]) {
-      c.broadcast(`${launcher}.setLabelChat`);
-    }
-  });
-
 }
 
 export var mediator = {
   channel: c,
-  init: init
+  init: init,
+  initNps: initNps
 };
