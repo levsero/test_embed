@@ -88,8 +88,9 @@ export var frameFactory = function(childFn, _params) {
       const dimensions = {
         height: height,
         width: width,
-        background: '#fff',
-        zIndex: '999999'
+        zIndex: '999999',
+        //FIXME addresses combination of dropshadow & margin & white background on iframe
+        background: 'linear-gradient(transparent, #FFFFFF)'
       };
 
       if (params.fullscreenable && isMobileBrowser()) {
