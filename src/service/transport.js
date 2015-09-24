@@ -41,7 +41,7 @@ function send(payload, retry = 0) {
               thankYou: 'Thank You',
               youRated: 'You rated us a',
               likelyLabel: '10 = Extremely likely',
-              notLikelyLabel: '0 = Not Likely',
+              notLikelyLabel: '0 = Not at all likely',
               feedbackPlaceholder: 'Write your comments here...'
             }
           }
