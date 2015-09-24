@@ -54,7 +54,9 @@ describe('NpsMobile component', () => {
         NpsComment:  React.createClass({
           render: function() {
             return (
-              <div className={`NpsComment ${this.props.className}`}></div>
+              <div ref='commentField' className={`NpsComment`}>
+                <input ref='field'/>
+              </div>
             );
           }
         })
@@ -199,7 +201,16 @@ describe('NpsMobile component', () => {
 
   describe('submitCommentHandler', () => {
 
-    it('should set currentPage to thankYou when submitCommentHandler is called', () => {
+    let mockResetFullScreen;
+
+    beforeEach(() => {
+
+      mockResetFullScreen = jasmine.createSpy();
+
+      component.resetFullScreen = mockResetFullScreen;
+    });
+
+    it('should set currentPage to thankYou when submitCommentHandler successFunc is called', () => {
       component.submitCommentHandler();
 
       let successFunc = mockSubmitCommentHandler.calls.mostRecent().args[1];
@@ -208,6 +219,17 @@ describe('NpsMobile component', () => {
 
       expect(component.state.currentPage.thankYou)
         .toEqual(true);
+    });
+
+    it('should call resetFullScreen when submitCommentHandler successFunc is called', () => {
+      component.submitCommentHandler();
+
+      let successFunc = mockSubmitCommentHandler.calls.mostRecent().args[1];
+
+      successFunc();
+
+      expect(mockResetFullScreen)
+        .toHaveBeenCalled();
     });
 
   });
@@ -294,6 +316,98 @@ describe('NpsMobile component', () => {
     it('should render a thank you tick', () => {
       expect(document.querySelectorAll('.ThankYou').length)
         .toEqual(1);
+    });
+  });
+
+  describe('fullscreen', () => {
+    describe('is false and currentPage is addingComment', () => {
+      beforeEach(() => {
+
+        component.setState({
+          fullscreen: false
+        });
+        component.setCurrentPage('addingComment');
+      });
+
+      it('should render a NpsCommentButton', () => {
+        expect(document.querySelectorAll('.NpsCommentButton').length)
+          .toEqual(1);
+      });
+    });
+    describe('is true and currentPage is addingComment', () => {
+      beforeEach(() => {
+
+        component.componentDidUpdate = noop;
+        component.setState({
+          fullscreen: true
+        });
+        component.setCurrentPage('addingComment');
+      });
+
+      it('should render a NpsCommentButton', () => {
+        expect(document.querySelectorAll('.NpsComment').length)
+          .toEqual(1);
+      });
+    });
+  });
+
+  describe('goToFullScreen', () => {
+    let mockStartScrollHacks;
+
+    beforeEach(() => {
+
+      mockStartScrollHacks = jasmine.createSpy();
+
+      component.componentDidUpdate = noop;
+      component.startScrollHacks = mockStartScrollHacks;
+    });
+    it('should set fullscreen to true', () => {
+      component.goToFullScreen();
+
+      expect(component.state.fullscreen)
+        .toEqual(true);
+    });
+
+    it('should call startScrollHacks', () => {
+      component.goToFullScreen();
+
+      expect(component.startScrollHacks)
+        .toHaveBeenCalled();
+    });
+  });
+
+  describe('resetFullScreen', () => {
+    let mockStopScrollHacks,
+        mockSetDefaultNpsMobileSize;
+
+    beforeEach(() => {
+
+      mockStopScrollHacks = jasmine.createSpy();
+      mockSetDefaultNpsMobileSize = jasmine.createSpy();
+
+      component.componentDidUpdate = noop;
+      component.stopScrollHacks = mockStopScrollHacks;
+      component.setDefaultNpsMobileSize = mockSetDefaultNpsMobileSize;
+    });
+    it('should set fullscreen to false', () => {
+      component.resetFullScreen();
+
+      expect(component.state.fullscreen)
+        .toEqual(false);
+    });
+
+    it('should call stopScrollHacks', () => {
+      component.resetFullScreen();
+
+      expect(component.stopScrollHacks)
+        .toHaveBeenCalled();
+    });
+
+    it('should call setDefaultNpsMobileSize', () => {
+      component.resetFullScreen();
+
+      expect(component.setDefaultNpsMobileSize)
+        .toHaveBeenCalled();
     });
   });
 
