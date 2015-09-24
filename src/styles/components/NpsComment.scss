@@ -5,6 +5,22 @@
   padding-bottom: #{12/$font-size}rem !important;
   padding-top: #{12/$font-size}rem !important;
   text-align: center;
+  border: none !important;
+}
+
+//FIXME
+.NpsComment-comment-button {
+  font-size: #{16/$font-size}rem !important;
+  height: #{80/$font-size}rem;
+  width: 92%;
+  border-radius: #{4/$font-size}rem;
+  border: #{1.1/$font-size}rem solid #DADADA;
+  color: #939393;
+  padding: #{9/$font-size}rem #{10/$font-size}rem #{10/$font-size}rem;
+}
+
+.NpsComment-label:hover {
+  border: none !important;
 }
 
 .NpsComment-textarea {

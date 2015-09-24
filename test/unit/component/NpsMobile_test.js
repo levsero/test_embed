@@ -95,6 +95,15 @@ describe('NpsMobile component', () => {
           }
         })
       },
+      'component/NpsCommentButton': {
+        'NpsCommentButton': React.createClass({
+          render: () => {
+            return (
+              <div className='NpsCommentButton'></div>
+            );
+          }
+        })
+      },
       'utility/devices': {
         'getSizingRatio': () => 1
       },
@@ -235,8 +244,8 @@ describe('NpsMobile component', () => {
     });
 
     it('should hide the comments section', () => {
-      expect(document.querySelectorAll('.NpsComment.u-isHidden').length)
-        .toEqual(1);
+      expect(document.querySelectorAll('.NpsCommentButton').length)
+        .toEqual(0);
     });
 
   });
@@ -264,7 +273,7 @@ describe('NpsMobile component', () => {
     });
 
     it('should render a comments section', () => {
-      expect(document.querySelectorAll('.NpsComment').length)
+      expect(document.querySelectorAll('.NpsCommentButton').length)
         .toEqual(1);
     });
 
@@ -278,8 +287,8 @@ describe('NpsMobile component', () => {
     });
 
     it('should hide the comments section', () => {
-      expect(document.querySelectorAll('.NpsComment.u-isHidden').length)
-        .toEqual(1);
+      expect(document.querySelectorAll('.NpsCommentButton').length)
+        .toEqual(0);
     });
 
     it('should render a thank you tick', () => {

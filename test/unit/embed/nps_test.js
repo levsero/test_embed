@@ -55,6 +55,11 @@ describe('embed.nps', () => {
         isMobileBrowser: function() {
           return false;
         }
+      },
+      'utility/scrollHacks': {
+        setScrollKiller: noop,
+        setWindowScroll: noop,
+        revertWindowScroll: noop
       }
     });
 

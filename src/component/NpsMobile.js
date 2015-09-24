@@ -3,6 +3,7 @@ import _     from 'lodash';
 
 import { Container } from 'component/Container';
 import { NpsComment } from 'component/NpsComment';
+import { NpsCommentButton } from 'component/NpsCommentButton';
 import { Icon } from 'component/Icon';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { NpsSelectList } from 'component/NpsSelectList';
@@ -27,8 +28,46 @@ export const NpsMobile = React.createClass({
         selectingRating: true,
         thankYou: false,
         addingComment: false
-      }
+      },
+      fullscreen: false
     };
+  },
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.fullscreen === false &&
+        this.state.fullscreen === true) {
+      this.refs.npsComment
+        .refs.commentField
+        .refs.field
+        .getDOMNode().focus();
+    }
+  },
+
+  setDefaultNpsMobileSize() {
+    setTimeout(() => this.props.setFrameSize(
+      `${win.innerWidth}px`,
+      this.calcHeightPercentage()),
+    0);
+  },
+
+  goToFullScreen() {
+    this.startScrollHacks();
+    setTimeout(() => this.props.setFrameSize(
+      `${win.innerWidth}px`,
+      `${win.innerHeight}px`,
+      false),
+    0);
+    this.setState({
+      fullscreen: true
+    });
+  },
+
+  resetFullScreen() {
+    this.stopScrollHacks();
+    this.setDefaultNpsMobileSize();
+    this.setState({
+      fullscreen: false
+    });
   },
 
   calcHeightPercentage() {
@@ -57,7 +96,7 @@ export const NpsMobile = React.createClass({
 
   submitCommentHandler(ev) {
     this.props.submitCommentHandler(ev, () => {
-      this.turnScrollHacksOff();
+      this.resetFullScreen();
       this.setCurrentPage('thankYou');
     });
   },
@@ -66,14 +105,14 @@ export const NpsMobile = React.createClass({
     this.props.submitRatingHandler(rating, () => this.setCurrentPage('addingComment'));
   },
 
-  scrollHacks() {
+  startScrollHacks() {
     setTimeout(() => {
       setWindowScroll(0);
       setScrollKiller(true);
     }, 0);
   },
 
-  turnScrollHacksOff() {
+  stopScrollHacks() {
     setTimeout(() => {
       setScrollKiller(false);
       revertWindowScroll();
@@ -82,11 +121,9 @@ export const NpsMobile = React.createClass({
 
   render() {
     let headingText;
-
-    setTimeout(() => this.props.setFrameSize(
-      `${win.innerWidth}px`,
-      this.calcHeightPercentage()),
-    0);
+    if (!this.state.fullscreen) {
+      this.setDefaultNpsMobileSize();
+    }
 
     if (this.state.currentPage.addingComment) {
       headingText = this.props.survey.youRated;
@@ -143,7 +180,7 @@ export const NpsMobile = React.createClass({
                   : null;
 
     const dropdown = (this.state.currentPage.addingComment)
-                   ?  <span className={dropdownClasses} onClick={this.scrollHacks}>
+                   ?  <span className={dropdownClasses}>
                         <NpsSelectList
                           selectedItem={this.props.response.rating}
                           options={NPS_RATINGS}
@@ -151,9 +188,21 @@ export const NpsMobile = React.createClass({
                       </span>
                    : null;
 
+    const npsCommentButton = this.state.currentPage.addingComment
+                           ? <NpsCommentButton
+                              onClick={this.goToFullScreen}
+                              text={this.props.survey.feedbackPlaceholder}
+                              commentsQuestion={this.props.survey.commentsQuestion} />
+                           : null;
+
+    const containerClassNames = classSet({
+      'u-borderTop Container--halfscreen': !this.state.fullscreen,
+      'Container--fullscreen--nps': this.state.fullscreen
+    });
+
     return (
       <Container
-        className='u-borderTop Container--halfscreen'
+        className={containerClassNames}
         fullscreen={true}>
         <header className='Container--halfscreen-heading u-textCenter'>
           {heading}
@@ -161,16 +210,21 @@ export const NpsMobile = React.createClass({
         </header>
         <div className='u-marginHM u-borderTop'>
           {npsRatingsList}
-          <NpsComment
-            className={npsCommentClasses}
-            commentsQuestion={this.props.survey.commentsQuestion}
-            comment={this.props.response.comment}
-            feedbackPlaceholder={this.props.survey.feedbackPlaceholder}
-            onChange={this.props.onCommentChangeHandler}
-            onSubmit={this.submitCommentHandler}
-            highlightColor={this.props.survey.highlightColor}
-            isSubmittingComment={this.props.isSubmittingComment}
-          />
+          {
+            this.state.fullscreen
+              ? <NpsComment
+                  ref='npsComment'
+                  className={npsCommentClasses}
+                  commentsQuestion={this.props.survey.commentsQuestion}
+                  comment={this.props.response.comment}
+                  feedbackPlaceholder={this.props.survey.feedbackPlaceholder}
+                  onChange={this.props.onCommentChangeHandler}
+                  onSubmit={this.submitCommentHandler}
+                  highlightColor={this.props.survey.highlightColor}
+                  isSubmittingComment={this.props.isSubmittingComment}
+                />
+              : npsCommentButton
+          }
           {notification}
         </div>
         <footer>

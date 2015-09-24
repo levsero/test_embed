@@ -80,7 +80,7 @@ export var frameFactory = function(childFn, _params) {
       }
     },
 
-    setFrameSize: function(width, height) {
+    setFrameSize: function(width, height, transparent = true) {
       const iframe = this.getDOMNode();
       const frameWin = iframe.contentWindow;
       const frameDoc = iframe.contentDocument;
@@ -90,7 +90,7 @@ export var frameFactory = function(childFn, _params) {
         width: width,
         zIndex: '999999',
         //FIXME addresses combination of dropshadow & margin & white background on iframe
-        background: 'linear-gradient(transparent, #FFFFFF)'
+        background: transparent ? 'linear-gradient(transparent, #FFFFFF)' : '#fff'
       };
 
       if (params.fullscreenable && isMobileBrowser()) {

@@ -10,6 +10,8 @@ import { transport }        from 'service/transport';
 import { document,
          getDocumentHost }  from 'utility/globals';
 import { isMobileBrowser }  from 'utility/devices';
+import { setScrollKiller,
+         revertWindowScroll } from 'utility/scrollHacks';
 
 const npsCSS = require('./nps.scss');
 
@@ -51,6 +53,10 @@ function create(name, config = {}) {
     name: name,
     fullscreenable: isMobileBrowser(),
     onClose(frame) {
+      setTimeout(() => {
+        setScrollKiller(false);
+        revertWindowScroll();
+      }, 0);
       setDismissTimestamp(frame.getRootComponent().state.survey);
       mediator.channel.broadcast('nps.onClose');
     },
