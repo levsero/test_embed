@@ -63,9 +63,6 @@ export const NpsMobile = React.createClass({
         fullscreen: true,
       });
     }
-    this.setState({
-      isEditing: true
-    });
   },
 
   resetFullScreen() {
