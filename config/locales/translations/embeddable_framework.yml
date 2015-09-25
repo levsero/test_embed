@@ -11,6 +11,14 @@ parts:
       title: "Generic label for the launcher button so customers know this will not be live chat, if over 15 characters only the icon will display (tinyurl.com/k647stc)"
       value: "Help"
   - translation:
+      key: "embeddable_framework.launcher.label.support"
+      title: "Alternative label for the launcher button so customers know this will not be live chat, if over 15 characters only the icon will display (tinyurl.com/k647stc - Help text would be replaced by Support in screenshot)"
+      value: "Support"
+  - translation:
+      key: "embeddable_framework.launcher.label.feedback"
+      title: "Alternative label for the launcher button so customers know this will not be live chat, if over 15 characters only the icon will display (tinyurl.com/k647stc - Help text would be replaced by Feedback in screenshot)"
+      value: "Feedback"
+  - translation:
       key: "embeddable_framework.launcher.label.chat"
       title: "Label for the launcher button when a chat agent is online so customers know they will be sent to a live chat session, if over 15 characters only the icon will display (tinyurl.com/mevpgux)"
       value: "Chat"
@@ -49,6 +57,10 @@ parts:
       key: "embeddable_framework.submitTicket.form.title"
       title: "The title of the submit ticket form, will wrap as needed (tinyurl.com/o3r3uxj)"
       value: "Leave us a message"
+  - translation:
+      key: "embeddable_framework.submitTicket.form.title.contact"
+      title: "Alternative title of the submit ticket form, will wrap as needed (https://zendesk.box.com/s/m2pcgq75k0k6kmec757mlobk8qhxep40)"
+      value: "Contact us"
   - translation:
       key: "embeddable_framework.submitTicket.form.submitButton.label.send"
       title: "The label on the button to submit the form in the submit ticket form, will wrap if needed"
@@ -119,6 +131,10 @@ parts:
       key: "embeddable_framework.helpCenter.submitButton.label.submitTicket"
       title: "The label on the button in help center when no chat agents are online to let customers know that if they click it they will go to the submit ticket form. Will wrap if needed"
       value: "Leave us a message"
+  - translation:
+      key: "embeddable_framework.helpCenter.submitButton.label.submitTicket.contact"
+      title: "Alternative label on the button in help center when no chat agents are online to let customers know that if they click it they will go to the submit ticket form. Will wrap if needed (https://zendesk.box.com/s/yt5paokjfmnyhe78d1eaircqdgmrhs1q)"
+      value: "Contact us"
   - translation:
       key: "embeddable_framework.helpCenter.label.default"
       title: "The title for the help center widget when it is loaded and the user hasn't searched anything yet. Top articles will appear in a list below it. Will wrap if needed"
