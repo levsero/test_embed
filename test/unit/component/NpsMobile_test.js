@@ -285,7 +285,7 @@ describe('NpsMobile component', () => {
         .toEqual(1);
     });
 
-    it('should render a heading containg the provided text', () => {
+    it('should render a heading containing the provided text', () => {
       expect(document.querySelector('.Container--halfscreen-heading').textContent)
         .toEqual(npsProps.survey.youRated);
     });
