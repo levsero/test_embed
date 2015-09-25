@@ -33,6 +33,12 @@ function getSizingRatio(isPinching, isFirstRun) {
     : 1;
 }
 
+function isIos() {
+  const IOS_MOBILE = /iPhone|iPad|iPod/i;
+  const str = navigator.userAgent || navigator.vendor || win.opera;
+  return IOS_MOBILE.test(str);
+}
+
 // Taken from Zopim Mobile.js
 // Detects mobile and tablet user agents
 // jscs:disable maximumLineLength
@@ -81,6 +87,7 @@ export {
   isMobileBrowser,
   shouldGoFullscreen,
   isBlacklisted,
-  isIE
+  isIE,
+  isIos
 };
 

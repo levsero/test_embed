@@ -107,7 +107,8 @@ describe('NpsMobile component', () => {
         })
       },
       'utility/devices': {
-        'getSizingRatio': () => 1
+        'getSizingRatio': () => 1,
+        'isIos': () => true
       },
       'utility/globals': {
         'win': {
@@ -201,13 +202,13 @@ describe('NpsMobile component', () => {
 
   describe('submitCommentHandler', () => {
 
-    let mockResetFullScreen;
+    let mockStopEditing;
 
     beforeEach(() => {
 
-      mockResetFullScreen = jasmine.createSpy();
+      mockStopEditing = jasmine.createSpy();
 
-      component.resetFullScreen = mockResetFullScreen;
+      component.stopEditing = mockStopEditing;
     });
 
     it('should set currentPage to thankYou when submitCommentHandler successFunc is called', () => {
@@ -221,14 +222,14 @@ describe('NpsMobile component', () => {
         .toEqual(true);
     });
 
-    it('should call resetFullScreen when submitCommentHandler successFunc is called', () => {
+    it('should call stopEditing when submitCommentHandler successFunc is called', () => {
       component.submitCommentHandler();
 
       let successFunc = mockSubmitCommentHandler.calls.mostRecent().args[1];
 
       successFunc();
 
-      expect(mockResetFullScreen)
+      expect(mockStopEditing)
         .toHaveBeenCalled();
     });
 
@@ -319,12 +320,12 @@ describe('NpsMobile component', () => {
     });
   });
 
-  describe('fullscreen', () => {
+  describe('isEditing', () => {
     describe('is false and currentPage is addingComment', () => {
       beforeEach(() => {
 
         component.setState({
-          fullscreen: false
+          isEditing: false
         });
         component.setCurrentPage('addingComment');
       });
@@ -339,7 +340,7 @@ describe('NpsMobile component', () => {
 
         component.componentDidUpdate = noop;
         component.setState({
-          fullscreen: true
+          isEditing: true
         });
         component.setCurrentPage('addingComment');
       });
@@ -408,6 +409,106 @@ describe('NpsMobile component', () => {
 
       expect(component.setDefaultNpsMobileSize)
         .toHaveBeenCalled();
+    });
+  });
+
+  describe('startEditing', () => {
+    describe('non IOS device', () => {
+      let oldIsIos,
+          newIsIos,
+          mockGoToFullScreen;
+      beforeEach(() => {
+
+        newIsIos = () => false;
+        mockGoToFullScreen = jasmine.createSpy();
+
+        oldIsIos = mockRegistry['utility/devices'].isIos;
+
+        component.componentDidUpdate = noop;
+        mockRegistry['utility/devices'].isIos = newIsIos;
+        component.goToFullScreen = mockGoToFullScreen;
+      });
+
+      afterEach(() => {
+
+        mockRegistry['utility/devices'].isIos = oldIsIos;
+      });
+
+      it('should not call goToFullScreen', () => {
+        component.startEditing();
+
+        expect(mockGoToFullScreen)
+          .not.toHaveBeenCalled();
+      });
+    });
+
+    describe('IOS device', () => {
+      let mockGoToFullScreen;
+
+      beforeEach(() => {
+
+        mockGoToFullScreen = jasmine.createSpy();
+
+        component.componentDidUpdate = noop;
+        component.goToFullScreen = mockGoToFullScreen;
+      });
+
+      it('should not call goToFullScreen', () => {
+        component.startEditing();
+
+        expect(mockGoToFullScreen)
+          .toHaveBeenCalled();
+      });
+
+    });
+  });
+
+  describe('stopEditing', () => {
+    describe('non IOS device', () => {
+      let oldIsIos,
+          newIsIos,
+          mockResetFullScreen;
+      beforeEach(() => {
+
+        newIsIos = () => false;
+        mockResetFullScreen = jasmine.createSpy();
+
+        oldIsIos = mockRegistry['utility/devices'].isIos;
+
+        mockRegistry['utility/devices'].isIos = newIsIos;
+        component.resetFullScreen = mockResetFullScreen;
+      });
+
+      afterEach(() => {
+
+        mockRegistry['utility/devices'].isIos = oldIsIos;
+      });
+
+      it('should not call resetFullScreen', () => {
+        component.stopEditing();
+
+        expect(mockResetFullScreen)
+          .not.toHaveBeenCalled();
+      });
+    });
+
+    describe('IOS device', () => {
+      let mockResetFullScreen;
+
+      beforeEach(() => {
+
+        mockResetFullScreen = jasmine.createSpy();
+
+        component.resetFullScreen = mockResetFullScreen;
+      });
+
+      it('should not call resetFullScreen', () => {
+        component.stopEditing();
+
+        expect(mockResetFullScreen)
+          .toHaveBeenCalled();
+      });
+
     });
   });
 

@@ -8,7 +8,8 @@ import { Icon } from 'component/Icon';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { NpsSelectList } from 'component/NpsSelectList';
 import { NpsRatingsList } from 'component/NpsRatingsList';
-import { getSizingRatio } from 'utility/devices';
+import { getSizingRatio,
+         isIos } from 'utility/devices';
 import { win } from 'utility/globals';
 import { setScrollKiller,
          setWindowScroll,
@@ -34,8 +35,8 @@ export const NpsMobile = React.createClass({
   },
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.fullscreen === false &&
-        this.state.fullscreen === true) {
+    if ((!prevState.fullscreen && this.state.fullscreen) ||
+        (!prevState.isEditing && this.state.isEditing)) {
       this.refs.npsComment
         .refs.commentField
         .refs.field
@@ -51,22 +52,47 @@ export const NpsMobile = React.createClass({
   },
 
   goToFullScreen() {
-    this.startScrollHacks();
-    setTimeout(() => this.props.setFrameSize(
-      `${win.innerWidth}px`,
-      `${win.innerHeight}px`,
-      false),
-    0);
+    if (isIos()) {
+      this.startScrollHacks();
+      setTimeout(() => this.props.setFrameSize(
+        `${win.innerWidth}px`,
+        `${win.innerHeight}px`,
+        false),
+      0);
+      this.setState({
+        fullscreen: true,
+      });
+    }
     this.setState({
-      fullscreen: true
+      isEditing: true
     });
   },
 
   resetFullScreen() {
-    this.stopScrollHacks();
-    this.setDefaultNpsMobileSize();
+    if (isIos()) {
+      this.stopScrollHacks();
+      this.setDefaultNpsMobileSize();
+      this.setState({
+        fullscreen: false,
+      });
+    }
+  },
+
+  startEditing() {
+    if (isIos()) {
+      this.goToFullScreen();
+    }
     this.setState({
-      fullscreen: false
+      isEditing: true
+    });
+  },
+
+  stopEditing() {
+    if (isIos()) {
+      this.resetFullScreen();
+    }
+    this.setState({
+      isEditing: false
     });
   },
 
@@ -96,7 +122,7 @@ export const NpsMobile = React.createClass({
 
   submitCommentHandler(ev) {
     this.props.submitCommentHandler(ev, () => {
-      this.resetFullScreen();
+      this.stopEditing();
       this.setCurrentPage('thankYou');
     });
   },
@@ -190,7 +216,7 @@ export const NpsMobile = React.createClass({
 
     const npsCommentButton = this.state.currentPage.addingComment
                            ? <NpsCommentButton
-                              onClick={this.goToFullScreen}
+                              onClick={this.startEditing}
                               text={this.props.survey.feedbackPlaceholder}
                               commentsQuestion={this.props.survey.commentsQuestion} />
                            : null;
@@ -211,7 +237,7 @@ export const NpsMobile = React.createClass({
         <div className='u-marginHM u-borderTop'>
           {npsRatingsList}
           {
-            this.state.fullscreen
+            this.state.isEditing
               ? <NpsComment
                   ref='npsComment'
                   className={npsCommentClasses}
