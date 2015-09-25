@@ -8,6 +8,13 @@ import { i18n } from 'service/i18n';
 import { generateConstrastColor } from 'utility/utils';
 
 export const NpsComment = React.createClass({
+
+  focusField() {
+    this.refs.commentField
+    .refs.field.getDOMNode()
+    .focus();
+  },
+
   render() {
     const sendFeedbackLabel = i18n.t(
       'embeddable_framework.npsMobile.submitButton.label.sendFeedback',

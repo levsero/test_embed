@@ -37,10 +37,7 @@ export const NpsMobile = React.createClass({
   componentDidUpdate(prevProps, prevState) {
     if ((!prevState.fullscreen && this.state.fullscreen) ||
         (!prevState.isEditing && this.state.isEditing)) {
-      this.refs.npsComment
-        .refs.commentField
-        .refs.field
-        .getDOMNode().focus();
+      this.refs.npsComment.focusField();
     }
   },
 
