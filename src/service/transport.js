@@ -47,6 +47,7 @@ function send(payload) {
   superagent(payload.method.toUpperCase(),
              buildFullUrl(payload.path))
     .type('json')
+    .withCredentials()
     .send(payload.params || {})
     .query(payload.query || {})
     .timeout(10000)
