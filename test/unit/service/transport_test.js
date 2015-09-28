@@ -8,6 +8,7 @@ describe('transport', function() {
     mockery.enable({useCleanCache: true});
     mockMethods = {
       type: function() { return mockMethods; },
+      withCredentials: function() { return mockMethods; },
       send: function() { return mockMethods; },
       query: function() { return mockMethods; },
       timeout: function() { return mockMethods; },
