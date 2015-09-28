@@ -211,8 +211,8 @@ export const NpsMobile = React.createClass({
     const npsCommentButton = this.state.currentPage.addingComment
                            ? <NpsCommentButton
                               onClick={this.startEditing}
-                              text={this.props.survey.feedbackPlaceholder}
-                              commentsQuestion={this.props.survey.commentsQuestion} />
+                              placeholder={this.props.survey.feedbackPlaceholder}
+                              label={this.props.survey.commentsQuestion} />
                            : null;
 
     const containerClassNames = classSet({
@@ -235,9 +235,9 @@ export const NpsMobile = React.createClass({
               ? <NpsComment
                   ref='npsComment'
                   className={npsCommentClasses}
-                  commentsQuestion={this.props.survey.commentsQuestion}
+                  label={this.props.survey.commentsQuestion}
                   comment={this.props.response.comment}
-                  feedbackPlaceholder={this.props.survey.feedbackPlaceholder}
+                  placeholder={this.props.survey.feedbackPlaceholder}
                   onChange={this.props.onCommentChangeHandler}
                   onSubmit={this.submitCommentHandler}
                   highlightColor={this.props.survey.highlightColor}

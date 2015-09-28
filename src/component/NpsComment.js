@@ -11,8 +11,8 @@ export const NpsComment = React.createClass({
 
   focusField() {
     this.refs.commentField
-    .refs.field.getDOMNode()
-    .focus();
+      .refs.field.getDOMNode()
+      .focus();
   },
 
   render() {
@@ -45,7 +45,7 @@ export const NpsComment = React.createClass({
 
     const inputTextArea = <textarea
                             className='NpsComment-textarea u-textSizeBaseMobile'
-                            placeholder={this.props.feedbackPlaceholder}
+                            placeholder={this.props.placeholder}
                             rows='1' />;
 
     return (
@@ -55,7 +55,7 @@ export const NpsComment = React.createClass({
             labelClasses='NpsComment-label u-marginBN u-textCenter'
             hasError={this.props.hasError}
             ref='commentField'
-            placeholder={this.props.commentsQuestion}
+            placeholder={this.props.label}
             value={this.props.comment}
             name='comment'
             onChange={this.props.onChange}
