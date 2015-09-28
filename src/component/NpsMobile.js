@@ -153,9 +153,7 @@ export const NpsMobile = React.createClass({
 
     const NPS_RATINGS = _.range(11);
 
-    const dropdownClasses = 'u-textSizeMed u-textBold u-extSizeMed u-textCenter u-textXHeight';
-
-    const headingClasses = 'u-textSizeMed u-textBold u-extSizeMed u-textCenter u-textXHeight';
+    const npsMedText = 'u-textSizeMed u-textBold u-textCenter u-textXHeight';
 
     const notificationClasses = `u-inlineBlock u-userTextColor
                                  u-posRelative u-marginTL u-userFillColor`;
@@ -194,13 +192,13 @@ export const NpsMobile = React.createClass({
                        : null;
 
     const heading = (!this.state.currentPage.selectingRating)
-                  ? <span className={headingClasses}>
+                  ? <span className={npsMedText}>
                       {headingText}
                     </span>
                   : null;
 
     const dropdown = (this.state.currentPage.addingComment)
-                   ?  <span className={dropdownClasses}>
+                   ?  <span className={npsMedText}>
                         <NpsSelectList
                           selectedItem={this.props.response.rating}
                           options={NPS_RATINGS}
