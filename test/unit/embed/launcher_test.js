@@ -103,7 +103,6 @@ describe('embed.launcher', function() {
         frameConfig = {
           onClick: jasmine.createSpy(),
           position: 'test_position',
-          label: 'Help',
           icon: '',
           visible: true
         };
@@ -121,9 +120,6 @@ describe('embed.launcher', function() {
 
         expect(payload.props.icon)
           .toEqual(frameConfig.icon);
-
-        expect(payload.props.defaultLabel)
-          .toEqual(frameConfig.defaultLabel);
 
         expect(params.fullscreenable)
           .toEqual(false);
@@ -166,8 +162,6 @@ describe('embed.launcher', function() {
       const config = {
         position: 'test_alice_position',
         onClick: function() { return 'alice'; },
-        defaultLabel: 'help',
-        label: 'Help',
         icon: '',
         visible: true
       };
@@ -178,8 +172,14 @@ describe('embed.launcher', function() {
       expect(alice)
         .not.toBeUndefined();
 
-      // expect(alice.config)
-      //   .toEqual(config);
+      expect(alice.config.position)
+        .toEqual(config.position);
+
+      expect(alice.config.icon)
+        .toEqual(config.icon);
+
+      expect(alice.config.visible)
+        .toEqual(config.visible);
     });
 
   });
