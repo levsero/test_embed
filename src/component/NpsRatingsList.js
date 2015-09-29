@@ -14,7 +14,7 @@ export const NpsRatingsList = React.createClass({
   },
 
   render() {
-    const labelClasses = 'RatingsList-legend-text u-inlineBlock';
+    const labelClasses = 'u-size1of2 u-inlineBlock';
 
     const likelyLabelClasses = classSet({
       [labelClasses]: true,

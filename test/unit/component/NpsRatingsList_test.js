@@ -70,13 +70,13 @@ describe('NpsRatingsList component', () => {
   describe('labels', () => {
 
     it('should render both labels', () => {
-      expect(document.querySelectorAll('.RatingsList-legend-text').length)
+      expect(document.querySelectorAll('.u-size1of2').length)
         .toEqual(2);
     });
 
     it('should render the likelyLabel', () => {
       expect(document
-          .querySelectorAll('.RatingsList-legend-text.u-inlineBlock.u-textRight')[0]
+          .querySelectorAll('.u-size1of2.u-inlineBlock.u-textRight')[0]
           .textContent
         )
         .toEqual(npsRatingsListProps.likelyLabel);
@@ -84,7 +84,7 @@ describe('NpsRatingsList component', () => {
 
     it('should render the notLikelyLabel', () => {
       expect(document
-        .querySelectorAll('.RatingsList-legend-text.u-inlineBlock.u-textLeft')[0]
+        .querySelectorAll('.u-size1of2.u-inlineBlock.u-textLeft')[0]
         .textContent
       )
       .toEqual(npsRatingsListProps.notLikelyLabel);
