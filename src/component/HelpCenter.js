@@ -20,6 +20,7 @@ const classSet = React.addons.classSet;
 
 export const HelpCenter = React.createClass({
   getInitialState() {
+    /* jshint maxlen:false */
     return {
       articles: [],
       resultsCount: 0,
