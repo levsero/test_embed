@@ -52,7 +52,7 @@ export const NpsRatingsList = React.createClass({
         <ol className='RatingsList u-textCenter'>
           {items}
         </ol>
-        <div className='RatingsList-legend u-sizeFull u-paddingHT is-mobile'>
+        <div className='RatingsList-legend u-sizeFull u-paddingHT'>
           <p className={notLikelyLabelClasses}>
             {this.props.notLikelyLabel}
           </p>
