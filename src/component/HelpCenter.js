@@ -20,11 +20,12 @@ const classSet = React.addons.classSet;
 
 export const HelpCenter = React.createClass({
   getInitialState() {
+    /* jshint maxlen:false */
     return {
       articles: [],
       resultsCount: 0,
       searchTerm: '',
-      buttonLabel: i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket'),
+      buttonLabel: i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket.message'),
       fullscreen: isMobileBrowser(),
       previousSearchTerm: '',
       hasSearched: false,
@@ -371,7 +372,7 @@ export const HelpCenter = React.createClass({
       linkLabel = i18n.t('embeddable_framework.helpCenter.label.link.chat');
     } else {
       linkContext = i18n.t('embeddable_framework.helpCenter.label.linkContext.submitTicket');
-      linkLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket');
+      linkLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket.message');
     }
 
     const noResultsTemplate = () => {

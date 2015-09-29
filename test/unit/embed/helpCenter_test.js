@@ -509,7 +509,7 @@ describe('embed.helpCenter', function() {
         pluckSubscribeCall(mockMediator, 'carlos.setNextToSubmitTicket')();
 
         expect(mockI18n.t)
-          .toHaveBeenCalledWith('embeddable_framework.helpCenter.submitButton.label.submitTicket');
+          .toHaveBeenCalledWith('embeddable_framework.helpCenter.submitButton.label.submitTicket.message');
 
         expect(carlosHelpCenter.state.buttonLabel)
           .toEqual('submitTicket label');
