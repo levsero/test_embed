@@ -178,6 +178,7 @@ export var SubmitTicket = React.createClass({
           ref='submitTicketForm'
           hide={this.state.showNotification}
           customFields={this.props.customFields}
+          formTitle={this.props.formTitle}
           submit={this.handleSubmit}>
           <p className={errorClasses}>
             {this.state.errorMessage}

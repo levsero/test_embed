@@ -17,8 +17,8 @@ function create(name, config) {
   const configDefaults = {
     onClick: function() {},
     position: 'right',
-    label: i18n.t('embeddable_framework.launcher.label.help'),
     icon: 'Icon',
+    defaultLabel: 'help',
     visible: true
   };
   const frameStyle = {
@@ -29,6 +29,7 @@ function create(name, config) {
   };
 
   config = _.extend(configDefaults, config);
+  config.label = i18n.t(`embeddable_framework.launcher.label.${config.defaultLabel}`);
 
   /* jshint laxbreak: true */
   let posObj = (config.position === 'left')
@@ -126,13 +127,19 @@ function render(name) {
 
   mediator.channel.subscribe(name + '.setLabelHelp', function() {
     setIcon(name, 'Icon');
-    setLabel(name, i18n.t('embeddable_framework.launcher.label.help'));
+    setLabel(
+      name,
+      i18n.t(`embeddable_framework.launcher.label.${launchers[name].config.props.defaultLabel}`)
+    );
     setHasUnreadMessages(name, false);
   });
 
   mediator.channel.subscribe(name + '.setLabelChatHelp', function() {
     setIcon(name, 'Icon--chat');
-    setLabel(name, i18n.t('embeddable_framework.launcher.label.help'));
+    setLabel(
+      name,
+      i18n.t(`embeddable_framework.launcher.label.${launchers[name].config.props.defaultLabel}`)
+    );
     setHasUnreadMessages(name, false);
   });
 

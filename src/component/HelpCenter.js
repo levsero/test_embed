@@ -24,7 +24,11 @@ export const HelpCenter = React.createClass({
       articles: [],
       resultsCount: 0,
       searchTerm: '',
-      buttonLabel: i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket'),
+      buttonLabel: i18n.t(
+        `embeddable_framework.helpCenter.submitButton.label.submitTicket.${
+          this.props.defaultButtonLabel
+        }`
+      ),
       fullscreen: isMobileBrowser(),
       previousSearchTerm: '',
       hasSearched: false,
@@ -371,7 +375,11 @@ export const HelpCenter = React.createClass({
       linkLabel = i18n.t('embeddable_framework.helpCenter.label.link.chat');
     } else {
       linkContext = i18n.t('embeddable_framework.helpCenter.label.linkContext.submitTicket');
-      linkLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket');
+      linkLabel = i18n.t(
+        `embeddable_framework.helpCenter.submitButton.label.submitTicket.${
+          this.props.defaultButtonLabel
+        }`
+      );
     }
 
     const noResultsTemplate = () => {
@@ -466,7 +474,7 @@ export const HelpCenter = React.createClass({
         <ScrollContainer
           ref='scrollContainer'
           hideZendeskLogo={hideZendeskLogo}
-          title={i18n.t('embeddable_framework.launcher.label.help')}
+          title={i18n.t(`embeddable_framework.launcher.label.${this.props.formTitle}`)}
           headerContent={headerContent}
           footerContent={
             <div className={buttonContainerClasses}>
