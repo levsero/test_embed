@@ -9,6 +9,12 @@ import { generateConstrastColor } from 'utility/utils';
 
 export const NpsComment = React.createClass({
 
+  getDefaultProps() {
+    return {
+      className: ''
+    };
+  },
+
   focusField() {
     this.refs.commentField
       .refs.field.getDOMNode()
