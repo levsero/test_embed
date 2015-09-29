@@ -45,7 +45,7 @@ export const NpsCommentButton = React.createClass({
         <div
           onClick={this.props.onClick}
           onTouch={this.props.onClick}
-          className='NpsComment-comment-button'>
+          className='NpsComment-comment-button u-textSizeBaseMobile'>
           {this.props.placeholder}
         </div>
         {commentsSubmitButton}
