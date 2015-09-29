@@ -54,7 +54,7 @@ parts:
 
   # Submit Ticket Form component
   - translation:
-      key: "embeddable_framework.submitTicket.form.title"
+      key: "embeddable_framework.submitTicket.form.title.message"
       title: "The title of the submit ticket form, will wrap as needed (tinyurl.com/o3r3uxj)"
       value: "Leave us a message"
   - translation:
