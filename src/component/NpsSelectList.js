@@ -11,8 +11,8 @@ export const NpsSelectList = React.createClass({
       wrapperClassNames: '',
       selectClassNames: '',
       iconClassNames: '',
-      onChange: () => true,
-      onFocus: () => true,
+      onChange: () => {},
+      onFocus: () => {},
     };
   },
 

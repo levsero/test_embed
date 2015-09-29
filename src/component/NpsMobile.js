@@ -14,6 +14,8 @@ import { win } from 'utility/globals';
 import { setScrollKiller,
          setWindowScroll,
          revertWindowScroll } from 'utility/scrollHacks';
+import { i18n } from 'service/i18n';
+import { Button } from 'component/Button';
 
 const classSet = React.addons.classSet;
 
@@ -30,7 +32,8 @@ export const NpsMobile = React.createClass({
         thankYou: false,
         addingComment: false
       },
-      fullscreen: false
+      fullscreen: false,
+      isEditing: false
     };
   },
 
@@ -170,9 +173,10 @@ export const NpsMobile = React.createClass({
     const notificationClasses = `u-inlineBlock u-userTextColor
                                  u-posRelative u-marginTL u-userFillColor`;
 
-    const npsCommentClasses = classSet({
-      'u-isHidden': !this.state.currentPage.addingComment
-    });
+    const sendFeedbackLabel = i18n.t(
+      'embeddable_framework.npsMobile.submitButton.label.sendFeedback',
+      { fallback: 'Send Feedback' }
+    );
 
     /* jshint laxbreak: true */
     const npsRatingsList = this.state.currentPage.selectingRating
@@ -220,13 +224,15 @@ export const NpsMobile = React.createClass({
                       </span>
                    : null;
 
-    const npsCommentButton = this.state.currentPage.addingComment
-                           ? <NpsCommentButton
-                              onClick={this.startEditing}
-                              placeholder={this.props.survey.feedbackPlaceholder}
-                              label={this.props.survey.commentsQuestion}
-                              highlightColor={this.props.survey.highlightColor} />
-                           : null;
+    const hideNpsCommentButtonClass = classSet({
+      'u-isHidden': this.state.isEditing || !this.state.currentPage.addingComment
+    });
+
+    const hideNpsCommentClasses = classSet({
+      'u-isHidden': !this.state.isEditing
+    });
+
+    const sendButtonClasses = 'u-marginTS u-marginBM u-sizeFull';
 
     const containerClassNames = classSet({
       'u-borderTop Container--halfscreen': !this.state.fullscreen,
@@ -243,21 +249,28 @@ export const NpsMobile = React.createClass({
         </header>
         <div className='u-marginHM u-borderTop'>
           {npsRatingsList}
-          {
-            this.state.isEditing
-              ? <NpsComment
-                  ref='npsComment'
-                  className={npsCommentClasses}
-                  label={this.props.survey.commentsQuestion}
-                  comment={this.props.response.comment}
-                  placeholder={this.props.survey.feedbackPlaceholder}
-                  onChange={this.props.onCommentChangeHandler}
-                  onSubmit={this.submitCommentHandler}
-                  highlightColor={this.props.survey.highlightColor}
-                  isSubmittingComment={this.props.isSubmittingComment}
-                />
-              : npsCommentButton
-          }
+           <NpsComment
+            ref='npsComment'
+            className={hideNpsCommentClasses}
+            label={this.props.survey.commentsQuestion}
+            comment={this.props.response.comment}
+            placeholder={this.props.survey.feedbackPlaceholder}
+            onChange={this.props.onCommentChangeHandler}
+            onSubmit={this.submitCommentHandler}
+            highlightColor={this.props.survey.highlightColor}
+            isSubmittingComment={this.props.isSubmittingComment} />
+          <div className={hideNpsCommentButtonClass}>
+            <NpsCommentButton
+              onClick={this.startEditing}
+              placeholder={this.props.survey.feedbackPlaceholder}
+              label={this.props.survey.commentsQuestion}
+              highlightColor={this.props.survey.highlightColor} />
+            <Button
+              type='submit'
+              className={sendButtonClasses}
+              label={sendFeedbackLabel}
+              disabled={true} />;
+          </div>
           {notification}
         </div>
         <footer>

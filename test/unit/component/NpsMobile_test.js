@@ -122,6 +122,9 @@ describe('NpsMobile component', () => {
         setScrollKiller: noop,
         setWindowScroll: noop,
         revertWindowScroll: noop
+      },
+      'component/Button' : {
+        Button: noopReactComponent()
       }
     });
 
@@ -267,8 +270,8 @@ describe('NpsMobile component', () => {
     });
 
     it('should hide the comments section', () => {
-      expect(document.querySelectorAll('.NpsCommentButton').length)
-        .toEqual(0);
+      expect(document.querySelectorAll('.u-isHidden .NpsCommentButton').length)
+        .toEqual(1);
     });
 
   });
@@ -310,8 +313,8 @@ describe('NpsMobile component', () => {
     });
 
     it('should hide the comments section', () => {
-      expect(document.querySelectorAll('.NpsCommentButton').length)
-        .toEqual(0);
+      expect(document.querySelectorAll('.u-isHidden .NpsCommentButton').length)
+        .toEqual(1);
     });
 
     it('should render a thank you tick', () => {
