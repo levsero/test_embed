@@ -11,6 +11,8 @@ export const NpsSelectList = React.createClass({
       wrapperClassNames: '',
       selectClassNames: '',
       iconClassNames: '',
+      onChange: () => true,
+      onFocus: () => true,
     };
   },
 
@@ -27,7 +29,8 @@ export const NpsSelectList = React.createClass({
     return (
       <div className='u-inline u-posRelative NpsSelectListContainer'>
         <select
-          onClick={this.scrollHacks}
+          onFocus={this.props.onFocus}
+          onChange={this.props.onChange}
           className='NpsComment-selectlist'
           style={{ color: this.props.highlightColor }}>
           {optionsList}

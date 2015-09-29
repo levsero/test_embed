@@ -125,6 +125,18 @@ export const NpsMobile = React.createClass({
     this.props.submitRatingHandler(rating, () => this.setCurrentPage('addingComment'));
   },
 
+  handleDropDownChange() {
+    if (isIos()) {
+      this.stopScrollHacks();
+    }
+  },
+
+  handleDropDownFocus() {
+    if (isIos()) {
+      this.startScrollHacks();
+    }
+  },
+
   startScrollHacks() {
     setTimeout(() => {
       setWindowScroll(0);
@@ -200,6 +212,8 @@ export const NpsMobile = React.createClass({
     const dropdown = (this.state.currentPage.addingComment)
                    ?  <span className={npsMedText}>
                         <NpsSelectList
+                          onFocus={this.handleDropDownFocus}
+                          onChange={this.handleDropDownChange}
                           selectedItem={this.props.response.rating}
                           options={NPS_RATINGS}
                           highlightColor={this.props.survey.highlightColor} />
@@ -210,7 +224,8 @@ export const NpsMobile = React.createClass({
                            ? <NpsCommentButton
                               onClick={this.startEditing}
                               placeholder={this.props.survey.feedbackPlaceholder}
-                              label={this.props.survey.commentsQuestion} />
+                              label={this.props.survey.commentsQuestion}
+                              highlightColor={this.props.survey.highlightColor} />
                            : null;
 
     const containerClassNames = classSet({
