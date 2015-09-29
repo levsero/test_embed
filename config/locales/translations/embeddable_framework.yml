@@ -128,7 +128,7 @@ parts:
       title: "The label on the button in help center widget when a chat agent is online to let customers know that if they click it they will go to live chat. Will wrap if needed (tinyurl.com/kf8gpbb)"
       value: "Live chat"
   - translation:
-      key: "embeddable_framework.helpCenter.submitButton.label.submitTicket"
+      key: "embeddable_framework.helpCenter.submitButton.label.submitTicket.message"
       title: "The label on the button in help center when no chat agents are online to let customers know that if they click it they will go to the submit ticket form. Will wrap if needed"
       value: "Leave us a message"
   - translation:
