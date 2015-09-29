@@ -371,9 +371,13 @@ function initNps() {
       }
     };
 
-    if (_.every([!state[`${helpCenter}.isVisible`],
-                 !state[`${chat}.isVisible`],
-                 !state[`${submitTicket}.isVisible`]])) {
+    const embedVisible = _.some([
+      state[`${helpCenter}.isVisible`],
+      state[`${chat}.isVisible`],
+      state[`${submitTicket}.isVisible`]
+    ]);
+
+    if (!embedVisible) {
       fn();
     }
   });
