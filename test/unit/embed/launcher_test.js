@@ -115,8 +115,18 @@ describe('embed.launcher', function() {
       it('should apply the configs', function() {
         const eventObj = jasmine.createSpyObj('e', ['preventDefault']);
         const mockMediator = mockRegistry['service/mediator'].mediator;
+        const alice = launcher.get('alice');
         const payload = childFn({});
         const onClickHandler = params.extend.onClickHandler;
+
+        expect(alice.config.position)
+          .toEqual(frameConfig.position);
+
+        expect(alice.config.icon)
+          .toEqual(frameConfig.icon);
+
+        expect(alice.config.visible)
+          .toEqual(frameConfig.visible);
 
         expect(payload.props.icon)
           .toEqual(frameConfig.icon);
