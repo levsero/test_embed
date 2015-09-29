@@ -224,11 +224,11 @@ export const NpsMobile = React.createClass({
                       </span>
                    : null;
 
-    const hideNpsCommentButtonClass = classSet({
+    const npsCommentButtonClasses = classSet({
       'u-isHidden': this.state.isEditing || !this.state.currentPage.addingComment
     });
 
-    const hideNpsCommentClasses = classSet({
+    const npsCommentClasses = classSet({
       'u-isHidden': !this.state.isEditing
     });
 
@@ -251,7 +251,7 @@ export const NpsMobile = React.createClass({
           {npsRatingsList}
            <NpsComment
             ref='npsComment'
-            className={hideNpsCommentClasses}
+            className={npsCommentClasses}
             label={this.props.survey.commentsQuestion}
             comment={this.props.response.comment}
             placeholder={this.props.survey.feedbackPlaceholder}
@@ -259,7 +259,7 @@ export const NpsMobile = React.createClass({
             onSubmit={this.submitCommentHandler}
             highlightColor={this.props.survey.highlightColor}
             isSubmittingComment={this.props.isSubmittingComment} />
-          <div className={hideNpsCommentButtonClass}>
+          <div className={npsCommentButtonClasses}>
             <NpsCommentButton
               onClick={this.startEditing}
               placeholder={this.props.survey.feedbackPlaceholder}

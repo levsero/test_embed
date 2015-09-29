@@ -35,7 +35,7 @@ export const NpsSelectList = React.createClass({
           style={{ color: this.props.highlightColor }}>
           {optionsList}
         </select>
-        <span className='NpsComment-selectlist-icon'>
+        <span className='NpsComment-selectlist-icon u-posAbsolute u-posStart--vertFlush'>
           <Icon type='Icon--caret' />
         </span>
       </div>
