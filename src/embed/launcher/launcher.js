@@ -129,7 +129,7 @@ function render(name) {
     setIcon(name, 'Icon');
     setLabel(
       name,
-      i18n.t(`embeddable_framework.launcher.label.${launchers[name].config.props.defaultLabel}`)
+      i18n.t(`embeddable_framework.launcher.label.${launchers[name].config.defaultLabel}`)
     );
     setHasUnreadMessages(name, false);
   });
@@ -138,7 +138,7 @@ function render(name) {
     setIcon(name, 'Icon--chat');
     setLabel(
       name,
-      i18n.t(`embeddable_framework.launcher.label.${launchers[name].config.props.defaultLabel}`)
+      i18n.t(`embeddable_framework.launcher.label.${launchers[name].config.defaultLabel}`)
     );
     setHasUnreadMessages(name, false);
   });
