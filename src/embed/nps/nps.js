@@ -1,16 +1,16 @@
 import React from 'react/addons';
 import _     from 'lodash';
 
+import { frameFactory }       from 'embed/frameFactory';
+import { Nps }                from 'component/Nps';
+import { mediator }           from 'service/mediator';
+import { store }              from 'service/persistence';
+import { transport }          from 'service/transport';
 import { document,
-         getDocumentHost }  from 'utility/globals';
-import { isMobileBrowser }  from 'utility/devices';
+         getDocumentHost }    from 'utility/globals';
+import { isMobileBrowser }    from 'utility/devices';
 import { setScrollKiller,
          revertWindowScroll } from 'utility/scrollHacks';
-import { transport,
-         mediator } from 'service/mediator';
-import { frameFactory } from 'embed/frameFactory';
-import { Nps } from 'component/Nps';
-import { store } from 'service/persistence';
 
 const npsCSS = require('./nps.scss');
 

@@ -144,7 +144,7 @@ var ButtonGroup = React.createClass({
 var ButtonRating = React.createClass({
   getDefaultProps() {
     return {
-      highlightColor: '',
+      highlightColor: '#77a500',
       selected: false,
       loading: false,
       label: null,
