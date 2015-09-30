@@ -54,7 +54,13 @@ describe('embed.launcher', function() {
       },
       'lodash': _,
       'service/i18n': {
-        i18n: jasmine.createSpyObj('i18n', ['init', 'setLocale', 't'])
+        i18n: {
+          init: jasmine.createSpy(),
+          setLocale: jasmine.createSpy(),
+          t: jasmine.createSpy().and.callFake(function(translationKey) {
+            return translationKey;
+          })
+        }
       }
     });
 
@@ -103,6 +109,7 @@ describe('embed.launcher', function() {
         frameConfig = {
           onClick: jasmine.createSpy(),
           position: 'test_position',
+          defaultLabel: 'help',
           icon: '',
           visible: true
         };
@@ -115,21 +122,25 @@ describe('embed.launcher', function() {
       it('should apply the configs', function() {
         const eventObj = jasmine.createSpyObj('e', ['preventDefault']);
         const mockMediator = mockRegistry['service/mediator'].mediator;
+        const i18nTranslate = mockRegistry['service/i18n'].i18n.t;
         const alice = launcher.get('alice');
         const payload = childFn({});
         const onClickHandler = params.extend.onClickHandler;
 
-        expect(alice.config.position)
+        expect(i18nTranslate)
+          .toHaveBeenCalledWith('embeddable_framework.launcher.label.' + frameConfig.defaultLabel);
+
+        expect(alice.config.defaultLabel)
+          .toEqual(frameConfig.defaultLabel);
+
+        expect(payload.props.position)
           .toEqual(frameConfig.position);
-
-        expect(alice.config.icon)
-          .toEqual(frameConfig.icon);
-
-        expect(alice.config.visible)
-          .toEqual(frameConfig.visible);
 
         expect(payload.props.icon)
           .toEqual(frameConfig.icon);
+
+        expect(payload.props.label)
+          .toEqual('embeddable_framework.launcher.label.' + frameConfig.defaultLabel);
 
         expect(params.fullscreenable)
           .toEqual(false);
