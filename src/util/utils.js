@@ -44,6 +44,18 @@ function generateUserCSS(params) {
   }
 }
 
+function generateConstrastColor(colorStr) {
+  try {
+    const color = Color(colorStr);
+    /* jshint laxbreak: true */
+    return (color.luminosity() <= 0.35)
+         ? 'white'
+         : 'black';
+  } catch (e) {
+    return;
+  }
+}
+
 function generateHighlightColor(colorStr) {
   try {
     const color = Color(colorStr);
@@ -197,5 +209,7 @@ export {
   getFrameworkLoadTime,
   generateUserCSS,
   getPageKeywords,
-  splitPath
+  splitPath,
+  generateHighlightColor,
+  generateConstrastColor
 };

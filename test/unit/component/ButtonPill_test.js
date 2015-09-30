@@ -16,6 +16,12 @@ describe('ButtonPill component', function() {
       'component/Icon': {
         Icon: noopReactComponent()
       },
+      'component/Loading': {
+        LoadingEllipses: noopReactComponent()
+      },
+      'utility/utils': {
+        'generateConstrastColor': noop
+      },
       'service/i18n': {
         i18n: {
           isRTL: noop

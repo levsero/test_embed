@@ -80,6 +80,34 @@ export var frameFactory = function(childFn, _params) {
       }
     },
 
+    setFrameSize: function(width, height, transparent = true) {
+      const iframe = this.getDOMNode();
+      const frameWin = iframe.contentWindow;
+      const frameDoc = iframe.contentDocument;
+      //FIXME shouldn't set background & zIndex in a dimensions object
+      const dimensions = {
+        height: height,
+        width: width,
+        zIndex: '999999',
+        //FIXME addresses combination of dropshadow & margin & white background on iframe
+        background: transparent ? 'linear-gradient(transparent, #FFFFFF)' : '#fff'
+      };
+
+      if (params.fullscreenable && isMobileBrowser()) {
+        frameDoc.body.firstChild.setAttribute(
+          'style',
+          ['width: 100%',
+          'height: 100%',
+          'overflow-x: hidden'].join(';')
+        );
+      }
+
+      frameWin.setTimeout(
+        () => this.setState(
+          { iframeDimensions: _.extend(this.state.iframeDimensions, dimensions) }
+        ), 0);
+    },
+
     updateFrameSize: function(offsetWidth = 0, offsetHeight = 0) {
       const iframe = this.getDOMNode();
       const frameWin = iframe.contentWindow;
@@ -95,6 +123,7 @@ export var frameFactory = function(childFn, _params) {
         const width  = Math.max(el.clientWidth,  el.offsetWidth);
         const height = Math.max(el.clientHeight, el.offsetHeight);
         const fullscreen = isMobileBrowser() && params.fullscreenable;
+        //FIXME shouldn't set background & zIndex in a dimensions object
         const fullscreenStyle = {
           width: `${win.innerWidth}px`,
           height: '100%',
@@ -230,6 +259,7 @@ export var frameFactory = function(childFn, _params) {
         this.state.iframeDimensions,
         visibilityRule
       );
+
       const iframeClasses = classSet({
         [`${iframeNamespace}-${params.name}`]: true,
         [`${iframeNamespace}-${params.name}--active`]: this.state.visible
@@ -270,7 +300,7 @@ export var frameFactory = function(childFn, _params) {
         const css = <style dangerouslySetInnerHTML={{ __html: cssText }} />;
         const fullscreen = isMobileBrowser() && params.fullscreenable;
         const positionClasses = classSet({
-          'u-borderTransparent u-posRelative': true,
+          'u-borderTransparent u-posRelative': !fullscreen,
           'u-pullRight': this.props.position === 'right',
           'u-pullLeft': this.props.position === 'left'
         });
@@ -310,7 +340,8 @@ export var frameFactory = function(childFn, _params) {
         // Forcefully injects this.updateFrameSize
         // into childParams
         childParams = _.extend(childParams, {
-          updateFrameSize: this.updateFrameSize
+          updateFrameSize: this.updateFrameSize,
+          setFrameSize: this.setFrameSize
         });
 
         const Component = React.createClass({

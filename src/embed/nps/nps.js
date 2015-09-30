@@ -1,26 +1,34 @@
 import React from 'react/addons';
+import _     from 'lodash';
 
-import { frameFactory } from 'embed/frameFactory';
-import { Nps } from 'component/Nps';
-import { mediator } from 'service/mediator';
-import { store } from 'service/persistence';
-import { transport } from 'service/transport';
+import { frameFactory }     from 'embed/frameFactory';
+import { Nps }              from 'component/Nps';
+import { mediator }         from 'service/mediator';
+import { store }            from 'service/persistence';
+import { transport }        from 'service/transport';
+
 import { document,
-         getDocumentHost } from 'utility/globals';
-import { isMobileBrowser } from 'utility/devices';
+         getDocumentHost }  from 'utility/globals';
+import { isMobileBrowser }  from 'utility/devices';
+import { setScrollKiller,
+         revertWindowScroll } from 'utility/scrollHacks';
 
 const npsCSS = require('./nps.scss');
 
 let npses = {};
 
-function create(name, config) {
+function create(name, config = {}) {
   const frameStyle = {
     position: 'fixed',
-    right: '0px',
-    top: '0px'
+    bottom: '0',
+    right: '0',
+    display: 'block',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    width: '100% !important'
   };
 
-  const npsSender = function(params, doneFn, failFn) {
+  const npsSender = (params, doneFn, failFn) => {
     const payload = {
       path: '/embeddable/nps',
       method: 'post',
@@ -34,7 +42,7 @@ function create(name, config) {
     if (__DEV__) {
       setTimeout(doneFn, 1000);
     } else {
-      transport.sendWithMeta(payload);
+      transport.sendWithMeta(payload, 1);
     }
   };
 
@@ -45,6 +53,10 @@ function create(name, config) {
     name: name,
     fullscreenable: isMobileBrowser(),
     onClose(frame) {
+      setTimeout(() => {
+        setScrollKiller(false);
+        revertWindowScroll();
+      }, 0);
       setDismissTimestamp(frame.getRootComponent().state.survey);
       mediator.channel.broadcast('nps.onClose');
     },
@@ -52,16 +64,15 @@ function create(name, config) {
       mediator.channel.broadcast('nps.onShow');
     }
   };
-
-  let Embed = React.createClass(frameFactory(
+  const Embed = React.createClass(frameFactory(
     (params) => {
       return (
         <Nps
           ref='rootComponent'
+          setFrameSize={params.setFrameSize}
           updateFrameSize={params.updateFrameSize}
           npsSender={npsSender}
-          mobile={isMobileBrowser()}
-          style={{width: '375px', margin: '15px'}} /> /* FIXME: css */
+          mobile={isMobileBrowser()} />
       );
     },
     frameParams
@@ -79,7 +90,6 @@ function get(name) {
 
 function render(name) {
   const element = getDocumentHost().appendChild(document.createElement('div'));
-
   npses[name].instance = React.render(npses[name].component, element);
 
   mediator.channel.subscribe('nps.setSurvey', (params) => {
@@ -88,16 +98,8 @@ function render(name) {
 
     if (survey && survey.id) {
       npses[name].instance.getRootComponent().reset();
-
       nps.setState({
-        survey: {
-          surveyId: survey.id,
-          commentsQuestion: survey.commentsQuestion,
-          highlightColor: survey.highlightColor,
-          logoUrl: survey.logoUrl,
-          question: survey.question,
-          recipientId: survey.recipientId
-        },
+        survey: _.extend({}, nps.state.survey, survey),
         surveyAvailable: true
       });
     } else {
@@ -112,7 +114,6 @@ function render(name) {
 
     if (nps.state.surveyAvailable && shouldShow(nps.state.survey)) {
       npses[name].instance.show(true);
-
     } else if (nps.state.surveyAvailable === null) {
       const err = new Error([
         'An error occurred in your use of the Zendesk Widget API:',
@@ -139,14 +140,14 @@ function render(name) {
 function getDismissTimestampKey(survey) {
   return [
     transport.getZendeskHost(),
-    survey.surveyId,
+    survey.id,
     survey.recipientId,
     'dismiss-timestamp'
   ].join('-');
 }
 
 function shouldShow(survey = {}) {
-  if (!survey.surveyId) {
+  if (!survey.id) {
     return false;
   }
 

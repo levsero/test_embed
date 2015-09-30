@@ -17,7 +17,8 @@
     "sanitize-html": "~1.10.0",
     "snabbt.js": "~0.2.0",
     "superagent": "visionmedia/superagent#608cda651db3ac1559a604032878bae3ac16efd7",
-    "zd-css-components.buttons": "git+ssh://git@github.com/zendeskgarden/css-components.buttons.git"
+    "zd-css-components.buttons": "git+ssh://git@github.com/zendeskgarden/css-components.buttons.git",
+    "superagent-retry": "~0.5.1"
   },
   "devDependencies": {
     "bower": "~1.5.2",

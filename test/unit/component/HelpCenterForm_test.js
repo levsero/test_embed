@@ -20,10 +20,10 @@ describe('HelpCenterForm component', function() {
     mockRegistry = initMockRegistry({
       'react/addons': React,
       'component/Loading': {
-        Loading: noop
+        LoadingEllipses: noopReactComponent()
       },
       'component/FormField': {
-        SearchField: noop
+        SearchField: noopReactComponent()
       },
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', [
