@@ -17,7 +17,12 @@ describe('component/Button', function() {
       'component/Icon': {
         Icon: noopReactComponent()
       },
-      'component/Loading': noopReactComponent(),
+      'component/Loading': {
+        LoadingEllipses: noopReactComponent()
+      },
+      'utility/utils': {
+        'generateConstrastColor': noop
+      },
       'service/i18n': noop
     });
 

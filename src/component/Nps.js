@@ -2,6 +2,7 @@ import React from 'react/addons';
 import _     from 'lodash';
 
 import { NpsDesktop } from 'component/NpsDesktop';
+import { NpsMobile } from 'component/NpsMobile';
 
 export const Nps = React.createClass({
   propTypes: {
@@ -129,9 +130,12 @@ export const Nps = React.createClass({
 
     /* jshint laxbreak: true */
     return (this.state.isMobile)
-      ? <div
-          className='nps-mobile'
-          style={{background: 'red', height: 100, width: 100}} />
+      ? <NpsMobile
+          {...this.state}
+          setFrameSize={this.props.setFrameSize}
+          submitCommentHandler={this.submitCommentHandler}
+          onCommentChangeHandler={this.onCommentChangeHandler}
+          submitRatingHandler={this.submitRatingHandler} />
       : <NpsDesktop
           {...this.state}
           submitRatingHandler={this.submitRatingHandler}

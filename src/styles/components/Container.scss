@@ -30,6 +30,13 @@ $Container-spacing: 25/$font-size;
   padding: #{30/$font-size}rem #{40/$font-size}rem 0;
 }
 
+.Container--fullscreen--nps {
+  background: $base-color;
+  width: 100%;
+  height: 100%;
+  margin-top: #{4/$font-size}rem;
+}
+
 .Container--fullscreen-center-vert {
   padding-top: 20%; /* 1 */
   padding-top: calc(30% - (#{40/$font-size}rem));
@@ -48,3 +55,14 @@ $Container-spacing: 25/$font-size;
   top: 0;
 }
 
+.Container--halfscreen {
+  box-shadow: 0 0 #{4/$font-size}rem 0 rgba(0, 0, 0, 0.12);
+  height: 98%; // fix margin-top for box-shadow
+  margin-top: #{4/$font-size}rem;
+}
+
+.Container--halfscreen-heading {
+  height: 0;
+  padding-bottom: #{24/$font-size}rem !important;
+  padding-top: #{12/$font-size}rem !important;
+}

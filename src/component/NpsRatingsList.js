@@ -5,11 +5,6 @@ import { ButtonRating } from 'component/Button';
 const classSet = React.addons.classSet;
 
 export const NpsRatingsList = React.createClass({
-  getDefaultProps() {
-    return {
-      hideRatingsLegend: false
-    };
-  },
 
   ratingClickHandlerFn(rating) {
     return (ev) => {
@@ -29,7 +24,7 @@ export const NpsRatingsList = React.createClass({
     });
 
     const labelClasses = classSet({
-      'RatingsList-legend-text u-inlineBlock u-size1of2': true,
+      'u-inlineBlock u-size1of2': true,
       'u-marginBN': !this.props.fullscreen
     });
 

@@ -144,6 +144,8 @@ describe('HelpCenterArticle component', function() {
       <HelpCenterArticle activeArticle={mockArticle} />,
       global.document.body
     );
+    //save old version of query selector FIXME
+    const oldQuerySelector = global.document.querySelector;
 
     global.document.querySelector = function() {
       return {
@@ -167,6 +169,9 @@ describe('HelpCenterArticle component', function() {
 
     expect(scrollIntoView)
       .toHaveBeenCalled();
+
+    // reset querySelector to the previous, not spy, version.
+    global.document.querySelector = oldQuerySelector;
   });
 
   it('should display an article body if a prop was passed with truthy content body', function() {

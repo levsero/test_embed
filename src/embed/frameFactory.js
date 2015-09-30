@@ -81,15 +81,17 @@ export var frameFactory = function(childFn, _params) {
       }
     },
 
-    setFrameSize: function(height = false, width = false) {
+    setFrameSize: function(width, height, transparent = true) {
       const iframe = this.getDOMNode();
       const frameWin = iframe.contentWindow;
       const frameDoc = iframe.contentDocument;
-      let dimensions = {
-        height: height || '100%',
-        width: width || `${win.innerWidth}px`,
-        background: 'transparent',
-        zIndex: '999999'
+      //FIXME shouldn't set background & zIndex in a dimensions object
+      const dimensions = {
+        height: height,
+        width: width,
+        zIndex: '999999',
+        //FIXME addresses combination of dropshadow & margin & white background on iframe
+        background: transparent ? 'linear-gradient(transparent, #FFFFFF)' : '#fff'
       };
 
       if (params.fullscreenable && isMobileBrowser()) {
@@ -122,6 +124,7 @@ export var frameFactory = function(childFn, _params) {
         const width  = Math.max(el.clientWidth,  el.offsetWidth);
         const height = Math.max(el.clientHeight, el.offsetHeight);
         const fullscreen = isMobileBrowser() && params.fullscreenable;
+        //FIXME shouldn't set background & zIndex in a dimensions object
         const fullscreenStyle = {
           width: `${win.innerWidth}px`,
           height: '100%',
@@ -265,6 +268,7 @@ export var frameFactory = function(childFn, _params) {
         this.state.iframeDimensions,
         visibilityRule
       );
+
       const iframeClasses = classSet({
         [`${iframeNamespace}-${params.name}`]: true,
         [`${iframeNamespace}-${params.name}--active`]: this.state.visible
@@ -305,7 +309,7 @@ export var frameFactory = function(childFn, _params) {
         const css = <style dangerouslySetInnerHTML={{ __html: cssText }} />;
         const fullscreen = isMobileBrowser() && params.fullscreenable;
         const positionClasses = classSet({
-          'u-borderTransparent u-posRelative': true,
+          'u-borderTransparent u-posRelative': !fullscreen,
           'u-pullRight': this.props.position === 'right',
           'u-pullLeft': this.props.position === 'left'
         });

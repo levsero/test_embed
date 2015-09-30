@@ -33,7 +33,7 @@
 .RatingsList {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between; /* 1 */
+  justify-content: space-between;
 
   &.is-mobile {
     display: block;

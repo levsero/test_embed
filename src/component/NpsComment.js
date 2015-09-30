@@ -39,7 +39,7 @@ export const NpsComment = React.createClass({
     });
 
     const labelClasses = classSet({
-      'NpsComment-label u-marginBN u-textCenter': true,
+      'NpsComment-label u-marginBN u-textCenter u-borderNone': true,
       'is-mobile': this.props.fullscreen
     });
 
