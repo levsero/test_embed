@@ -42,23 +42,28 @@ export var frameFactory = function(childFn, _params) {
   const defaultParams = {
     frameStyle: {},
     css: '',
-    fullscreenable: false
+    fullscreenable: false,
+    onShow: () => {},
+    onHide: () => {},
+    onClose: () => {},
+    onBack: () => {},
+    afterShowAnimate: () => {}
   };
-  const params = _.extend(defaultParams, _params);
+  const params = _.extend({}, defaultParams, _params);
 
   if (__DEV__) {
     validateChildFn(childFn, params);
   }
 
   return {
-    getDefaultProps: function() {
+    getDefaultProps() {
       return {
         visible: true,
         position: 'right'
       };
     },
 
-    getInitialState: function() {
+    getInitialState() {
       return {
         visible: this.props.visible,
         hiddenByZoom: false,
@@ -70,17 +75,17 @@ export var frameFactory = function(childFn, _params) {
       };
     },
 
-    getChild: function() {
+    getChild() {
       return child;
     },
 
-    getRootComponent: function() {
+    getRootComponent() {
       if (child) {
         return child.refs.rootComponent;
       }
     },
 
-    setFrameSize: function(width, height, transparent = true) {
+    setFrameSize(width, height, transparent = true) {
       const iframe = this.getDOMNode();
       const frameWin = iframe.contentWindow;
       const frameDoc = iframe.contentDocument;
@@ -108,7 +113,7 @@ export var frameFactory = function(childFn, _params) {
         ), 0);
     },
 
-    updateFrameSize: function(offsetWidth = 0, offsetHeight = 0) {
+    updateFrameSize(offsetWidth = 0, offsetHeight = 0) {
       const iframe = this.getDOMNode();
       const frameWin = iframe.contentWindow;
       const frameDoc = iframe.contentDocument;
@@ -154,7 +159,7 @@ export var frameFactory = function(childFn, _params) {
       frameWin.setTimeout( () => this.setState({iframeDimensions: dimensions()}), 0);
     },
 
-    show: function(animate) {
+    show(animate) {
       let frameFirstChild = this.getDOMNode().contentDocument.body.firstChild;
 
       this.setState({
@@ -178,18 +183,14 @@ export var frameFactory = function(childFn, _params) {
           spring_constant: 0.5,
           spring_deacceleration: 0.75,
           callback: () => {
-            if (params.afterShowAnimate) {
-              params.afterShowAnimate(this);
-            }
+            params.afterShowAnimate(this);
           }
         };
 
         snabbt(this.getDOMNode(), springTransition);
       }
 
-      if (params.onShow) {
-        params.onShow(this);
-      }
+      params.onShow(this);
     },
 
     updateBaseFontSize(fontSize) {
@@ -199,45 +200,35 @@ export var frameFactory = function(childFn, _params) {
       htmlElem.style.fontSize = fontSize;
     },
 
-    hide: function() {
-      this.setState({
-        visible: false
-      });
+    hide() {
+      this.setState({ visible: false });
 
-      if (params.onHide) {
-        params.onHide(this);
-      }
+      params.onHide(this);
     },
 
-    close: function(ev) {
+    close(ev) {
       // ev.touches added for  automation testing mobile browsers
       // which is firing 'click' event on iframe close
       if (isMobileBrowser() && ev.touches) {
         clickBusterRegister(ev.touches[0].clientX, ev.touches[0].clientY);
       }
       this.hide();
-      if (params.onClose) {
-        params.onClose(this);
-      }
+      params.onClose(this);
     },
 
-    back: function(ev) {
+    back(ev) {
       ev.preventDefault();
-      if (params.onBack) {
-        params.onBack(this);
-      }
+      params.onBack(this);
     },
 
-    setHiddenByZoom: function(hide) {
+    setHiddenByZoom(hide) {
       this.setState({
         hiddenByZoom: hide
       });
     },
 
-    toggleVisibility: function() {
-      this.setState({
-        visible: !this.state.visible
-      });
+    toggleVisibility() {
+      this.setState({ visible: !this.state.visible });
     },
 
     render: function() {
@@ -270,15 +261,15 @@ export var frameFactory = function(childFn, _params) {
       );
     },
 
-    componentDidMount: function() {
+    componentDidMount() {
       this.renderFrameContent();
     },
 
-    componentDidUpdate: function() {
+    componentDidUpdate() {
       this.renderFrameContent();
     },
 
-    renderFrameContent: function() {
+    renderFrameContent() {
       if (this.state._rendered) {
         return false;
       }
@@ -383,7 +374,7 @@ export var frameFactory = function(childFn, _params) {
       }
     },
 
-    componentWillUnmount: function() {
+    componentWillUnmount() {
       React.unmountComponentAtNode(this.getDOMNode().contentDocument.body);
     }
 
