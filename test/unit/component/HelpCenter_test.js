@@ -263,11 +263,11 @@ describe('Help center component', function() {
       let recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
 
       /* jshint camelcase: false */
-      expect(recentCallArgs.query.label_names)
-        .toEqual(searchOptions.labels.join(','));
-
-      expect(recentCallArgs.query.query)
-        .toBeFalsy();
+      expect(recentCallArgs.query)
+        .toEqual(jasmine.objectContaining({
+          query: undefined,
+          label_names: searchOptions.labels.join(',')
+        }));
     });
 
     it('should set the right payload for search and labels attribute', function() {
@@ -283,12 +283,12 @@ describe('Help center component', function() {
 
       let recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
 
-      expect(recentCallArgs.query.query)
-        .toEqual(searchOptions.search);
-
       /* jshint camelcase: false */
-      expect(recentCallArgs.query.label_names)
-        .toBeFalsy();
+      expect(recentCallArgs.query)
+        .toEqual(jasmine.objectContaining({
+          query: searchOptions.search,
+          label_names: undefined
+        }));
     });
 
     it('shouldn\'t call transport.send if no valid search options were passed', function() {
@@ -375,31 +375,27 @@ describe('Help center component', function() {
 
       let recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
 
-      expect(recentCallArgs.query.query)
-        .toEqual(searchOptions.search);
-
-      expect(recentCallArgs.query.locale)
-        .toBeFalsy();
-
-      expect(recentCallArgs.query.origin)
-        .toBeFalsy();
+      /* jshint camelcase: false */
+      expect(recentCallArgs.query)
+        .toEqual(jasmine.objectContaining({
+          query: searchOptions.search,
+          origin: null,
+          locale: undefined,
+          label_names: undefined
+        }));
 
       mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayloadResults);
 
-      expect(helpCenter.state.isLoading)
-        .toBeFalsy();
-
-      expect(helpCenter.state.showIntroScreen)
-        .toBeFalsy();
-
-      expect(helpCenter.state.searchTerm)
-        .toEqual(searchOptions.search);
-
-      expect(helpCenter.state.hasContextualSearched)
-        .toBeTruthy();
-
       expect(helpCenter.updateResults)
         .toHaveBeenCalledWith(responsePayloadResults);
+
+      expect(helpCenter.state)
+        .toEqual(jasmine.objectContaining({
+          isLoading: false,
+          searchTerm: searchOptions.search,
+          showIntroScreen: false,
+          hasContextualSearched: true
+        }));
     });
 
     it('should set states and call updateResults if results, with labels', function() {
@@ -414,31 +410,27 @@ describe('Help center component', function() {
 
       let recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
 
-      expect(recentCallArgs.query.query)
-        .toEqual(searchOptions.search);
-
-      expect(recentCallArgs.query.locale)
-        .toBeFalsy();
-
-      expect(recentCallArgs.query.origin)
-        .toBeFalsy();
+      /* jshint camelcase: false */
+      expect(recentCallArgs.query)
+        .toEqual(jasmine.objectContaining({
+          query: undefined,
+          origin: null,
+          locale: undefined,
+          label_names: searchOptions.labels.join(',')
+        }));
 
       mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayloadResults);
 
-      expect(helpCenter.state.isLoading)
-        .toBeFalsy();
-
-      expect(helpCenter.state.showIntroScreen)
-        .toBeFalsy();
-
-      expect(helpCenter.state.searchTerm)
-        .toEqual(searchOptions.labels.join(','));
-
-      expect(helpCenter.state.hasContextualSearched)
-        .toBeTruthy();
-
       expect(helpCenter.updateResults)
         .toHaveBeenCalledWith(responsePayloadResults);
+
+      expect(helpCenter.state)
+        .toEqual(jasmine.objectContaining({
+          isLoading: false,
+          searchTerm: searchOptions.labels.join(','),
+          showIntroScreen: false,
+          hasContextualSearched: true
+        }));
     });
 
     it('should request 3 results', function() {
@@ -518,14 +510,14 @@ describe('Help center component', function() {
 
       let recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
 
-      expect(recentCallArgs.query.query)
-        .toEqual(searchString);
-
-      expect(recentCallArgs.query.locale)
-        .toBeFalsy();
-
-      expect(recentCallArgs.query.origin)
-        .toBeFalsy();
+      /* jshint camelcase: false */
+      expect(recentCallArgs.query)
+        .toEqual(jasmine.objectContaining({
+          query: searchString,
+          origin: null,
+          locale: undefined,
+          label_names: undefined
+        }));
 
       mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayloadNoResults);
 
@@ -545,14 +537,14 @@ describe('Help center component', function() {
 
       let recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
 
-      expect(recentCallArgs.query.query)
-        .toEqual(searchString);
-
-      expect(recentCallArgs.query.locale)
-        .toBeFalsy();
-
-      expect(recentCallArgs.query.origin)
-        .toBeFalsy();
+      /* jshint camelcase: false */
+      expect(recentCallArgs.query)
+        .toEqual(jasmine.objectContaining({
+          query: searchString,
+          origin: null,
+          locale: undefined,
+          label_names: undefined
+        }));
 
       mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayloadResults);
 
@@ -579,11 +571,14 @@ describe('Help center component', function() {
 
       let recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
 
-      expect(recentCallArgs.query.query)
-        .toEqual(searchString);
-
-      expect(recentCallArgs.query.locale)
-        .toEqual(searchLocale);
+      /* jshint camelcase: false */
+      expect(recentCallArgs.query)
+        .toEqual(jasmine.objectContaining({
+          query: searchString,
+          origin: null,
+          locale: searchLocale,
+          label_names: undefined
+        }));
 
       mockTransport.send.calls.mostRecent().args[0].callbacks.done(
         responsePayloadNoResults,
@@ -592,10 +587,14 @@ describe('Help center component', function() {
 
       recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
 
-      expect(recentCallArgs.query.query)
-        .toEqual(searchString);
-      expect(recentCallArgs.query.locale)
-        .toEqual(undefined);
+      /* jshint camelcase: false */
+      expect(recentCallArgs.query)
+        .toEqual(jasmine.objectContaining({
+          query: searchString,
+          origin: null,
+          locale: undefined,
+          label_names: undefined
+        }));
     });
 
     it('should set origin properly if forceSearch', function() {
@@ -611,14 +610,14 @@ describe('Help center component', function() {
 
       let recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
 
-      expect(recentCallArgs.query.query)
-        .toEqual(searchString);
-
-      expect(recentCallArgs.query.locale)
-        .toBeFalsy();
-
-      expect(recentCallArgs.query.origin)
-        .toEqual('web_widget');
+      /* jshint camelcase: false */
+      expect(recentCallArgs.query)
+        .toEqual(jasmine.objectContaining({
+          query: searchString,
+          origin: 'web_widget',
+          locale: undefined,
+          label_names: undefined
+        }));
     });
 
     it('should request 3 articles', function() {
