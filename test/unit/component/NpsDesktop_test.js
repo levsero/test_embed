@@ -137,13 +137,14 @@ describe('NpsDesktop component', function() {
     mockery.disable();
   });
 
-  it('should render component with ordered list containing 11 items', () => {
-    const ratings = document.querySelectorAll('.RatingsList');
+  it('should render component with child props of an array containing 11 items', () => {
+    const ratingsComponent = ReactTestUtils.findRenderedDOMComponentWithClass(
+                               component, 'RatingsList');
 
-    expect(ratings.length)
-      .toEqual(1);
+    expect(ratingsComponent)
+      .toBeTruthy();
 
-    expect(ratings[0].children.length)
+    expect(ratingsComponent.props.children.length)
       .toEqual(11);
   });
 

@@ -56,6 +56,8 @@ export const NpsDesktop = React.createClass({
                           ? {width: 400, height: 192, margin: 15}
                           : {width: 620, margin: 15};
 
+    const iconClasses = 'u-inlineBlock u-userFillColor u-posRelative u-marginTL';
+
     const containerContentClasses = classSet({
       'Container-content': true,
       'u-paddingBL': hideZendeskLogo && !this.state.currentPage.addingComment
@@ -113,13 +115,13 @@ export const NpsDesktop = React.createClass({
                           ? <div className='u-textCenter'>
                               <Icon
                                 type='Icon--tick'
-                                className='u-inlineBlock u-userTextColor u-posRelative u-marginTL' />
+                                className={iconClasses} />
                             </div>
                           : null;
 
     return (this.props.survey && this.props.survey.question)
          ? <Container
-             card
+             card={true}
              fullscreen={false}
              style={containerStyles}>
              <div className={containerContentClasses}>

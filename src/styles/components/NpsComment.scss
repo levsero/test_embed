@@ -52,13 +52,18 @@
   padding-bottom: -#{2/$font-size}rem;
 }
 
+.NpsComment-sendButton--desktop {
+  min-width: #{95/$font-size}rem;
+  max-height: #{40/$font-size}rem;
+}
+
 .NpsComment-loadingButton--desktop {
   min-width: #{95/$font-size}rem;
   max-height: #{13/$font-size}rem;
+}
 
-  .LoadingSpinner {
-    margin-top: -#{2/$font-size}rem; /* 2 */
-  }
+.NpsComment-loadingButton--desktop-loadingSpinner {
+  margin-top: -#{2/$font-size}rem; /* 2 */
 }
 
 .NpsComment-loadingButton--mobile {
