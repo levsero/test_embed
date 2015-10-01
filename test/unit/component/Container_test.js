@@ -28,7 +28,7 @@ describe('Container component', function() {
   it('should have the `fullscreen` classnames when fullscreen is true', function() {
 
     const container = React.render(
-      <Container isMobile={true} />,
+      <Container fullscreen={true} />,
       global.document.body
     );
     const containerNode = ReactTestUtils
@@ -52,7 +52,7 @@ describe('Container component', function() {
     const containerNode = ReactTestUtils
       .findRenderedDOMComponentWithClass(container, 'Container');
 
-    container.setState({ isMobile: false });
+    container.setState({ fullscreen: false });
 
     const containerClasses = containerNode.props.className;
 

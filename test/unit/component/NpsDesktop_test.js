@@ -125,6 +125,7 @@ describe('NpsDesktop component', function() {
         {...npsProps}
         submitRatingHandler={mockSubmitRatingHandler}
         submitCommentHandler={mockSubmitCommentHandler}
+        updateFrameSize={noop}
         onChangeHandler={noop}
         sendComment={noop} />,
       global.document.body
@@ -184,7 +185,9 @@ describe('NpsDesktop component', function() {
       npsProps.survey.question = '';
 
       React.render(
-        <NpsDesktop {...npsProps} />,
+        <NpsDesktop
+        {...npsProps}
+        updateFrameSize={noop} />,
         global.document.body
       );
 
