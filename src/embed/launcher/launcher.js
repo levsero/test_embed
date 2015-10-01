@@ -29,7 +29,6 @@ function create(name, config) {
   };
 
   config = _.extend(configDefaults, config);
-  config.label = i18n.t(`embeddable_framework.launcher.label.${config.defaultLabel}`);
 
   /* jshint laxbreak: true */
   let posObj = (config.position === 'left')
@@ -45,7 +44,7 @@ function create(name, config) {
           onTouchEnd={params.onClickHandler}
           updateFrameSize={params.updateFrameSize}
           position={config.position}
-          label={config.label}
+          label={i18n.t(`embeddable_framework.launcher.label.${config.defaultLabel}`)}
           icon={config.icon} />
       );
     },
