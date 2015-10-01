@@ -60,10 +60,6 @@ export const NpsDesktop = React.createClass({
       'Container-content': true,
       'u-paddingBL': hideZendeskLogo && !this.state.currentPage.addingComment
     });
-    const thankYouClasses = classSet({
-      'u-textCenter': true,
-      'u-isHidden': !this.state.currentPage.thankYou
-    });
     const surveyFormClasses = classSet({
       'u-isHidden': this.state.currentPage.thankYou
     });
@@ -113,6 +109,14 @@ export const NpsDesktop = React.createClass({
                               onSubmit={this.submitCommentHandler}
                               onChange={this.props.onCommentChangeHandler} />;
 
+    const thankYouContent = (this.state.currentPage.thankYou)
+                          ? <div className='u-textCenter'>
+                              <Icon
+                                type='Icon--tick'
+                                className='u-inlineBlock u-userTextColor u-posRelative u-marginTL' />
+                            </div>
+                          : null;
+
     return (this.props.survey && this.props.survey.question)
          ? <Container
              card
@@ -126,11 +130,8 @@ export const NpsDesktop = React.createClass({
                   {commentsContent}
                 </div>
 
-                <div className={thankYouClasses}>
-                  <Icon
-                    type='Icon--tick'
-                    className='u-inlineBlock u-userTextColor u-posRelative u-marginTL' />
-                </div>
+                {thankYouContent}
+
                 {zendeskLogo}
               </div>
             </Container>
