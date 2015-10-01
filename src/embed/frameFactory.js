@@ -192,9 +192,6 @@ export var frameFactory = function(childFn, _params) {
     },
 
     hide() {
-      this.setState({ visible: false });
-
-      params.onHide(this);
 
       if (params.transitionOut) {
         const transitionOut = _.clone(params.transitionOut);
@@ -210,12 +207,8 @@ export var frameFactory = function(childFn, _params) {
 
         snabbt(this.getDOMNode(), transitionOut);
 
-      } else if (params.onHide) {
-        params.onHide(this);
-        this.setState({
-          visible: false
-        });
       } else {
+        params.onHide(this);
         this.setState({
           visible: false
         });
