@@ -70,7 +70,11 @@ describe('Submit ticket component', function() {
               };
             },
             render: function() {
-              return <form onSubmit={this.props.handleSubmit} />;
+              return (
+                <form onSubmit={this.props.handleSubmit}>
+                  <h1 id="formTitle">{this.props.formTitle}</h1>
+                </form>
+              );
             }
           }),
         MessageFieldset: noop,
@@ -97,13 +101,16 @@ describe('Submit ticket component', function() {
           }),
       },
       'service/i18n': {
-        i18n: jasmine.createSpyObj('i18n', [
-          'init',
-          'setLocale',
-          'getLocaleId',
-          't',
-          'isRTL'
-        ])
+        i18n: {
+          init: jasmine.createSpy(),
+          setLocale: jasmine.createSpy(),
+          'getLocale': jasmine.createSpy(),
+          'getLocaleId' : jasmine.createSpy(),
+          'isRTL': jasmine.createSpy(),
+          t: function(translationKey) {
+            return translationKey;
+          }
+        }
       },
       'service/transport': {
         transport: jasmine.createSpyObj('transport', ['send']),
@@ -132,6 +139,19 @@ describe('Submit ticket component', function() {
 
     expect(submitTicket.state.showNotification)
       .toEqual(false);
+
+    expect(submitTicket.state.message)
+      .toEqual('');
+  });
+
+  it('should display form title', function() {
+    const submitTicket = React.render(
+      <SubmitTicket formTitle={'testTitle'} />,
+      global.document.body
+    );
+
+    expect(document.getElementById('formTitle').innerHTML)
+      .toEqual('embeddable_framework.submitTicket.form.title.testTitle');
 
     expect(submitTicket.state.message)
       .toEqual('');

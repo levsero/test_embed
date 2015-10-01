@@ -110,13 +110,15 @@ describe('Help center component', function() {
         ButtonGroup: noopReactComponent()
       },
       'service/i18n': {
-        i18n: jasmine.createSpyObj('i18n', [
-          'init',
-          'setLocale',
-          'getLocale',
-          't',
-          'isRTL'
-        ])
+        i18n: {
+          init: jasmine.createSpy(),
+          setLocale: jasmine.createSpy(),
+          'getLocale': jasmine.createSpy(),
+          'isRTL': jasmine.createSpy(),
+          t: function(translationKey) {
+            return translationKey;
+          }
+        }
       },
       'service/persistence': {
         store: jasmine.createSpyObj('store', ['set', 'get'])
@@ -155,6 +157,17 @@ describe('Help center component', function() {
 
     expect(helpCenter.state.articles)
       .toEqual([]);
+  });
+
+  it('should set the button label based on the defaultButtonLabel property', function() {
+    const helpCenter = React.render(
+      <HelpCenter defaultButtonLabel={'contact'} />,
+      global.document.body
+    );
+    helpCenter.setState({ buttonLabel: 'contact' });
+
+    expect(document.querySelectorAll('a.u-userTextColor')[0].textContent)
+      .toEqual('embeddable_framework.helpCenter.submitButton.label.submitTicket.contact');
   });
 
   describe('updateResults', function() {

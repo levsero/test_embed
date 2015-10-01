@@ -130,6 +130,24 @@ describe('embed.helpCenter', function() {
         .toBeDefined();
     });
 
+    it('changes config.defaultButtonLabel if defaultButtonLabel is set', function() {
+      helpCenter.create('carlos', { defaultButtonLabel: 'test_label'} );
+
+      const carlos = helpCenter.get('carlos');
+
+      expect(carlos.config.defaultButtonLabel)
+        .toEqual('test_label');
+    });
+
+    it('changes config.formTitle if formTitle is set', function() {
+      helpCenter.create('carlos', { formTitle: 'test_title'} );
+
+      const carlos = helpCenter.get('carlos');
+
+      expect(carlos.config.formTitle)
+        .toEqual('test_title');
+    });
+
     describe('frameFactory', function() {
       let mockFrameFactory,
           mockFrameFactoryCall,
@@ -142,6 +160,17 @@ describe('embed.helpCenter', function() {
         mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
         childFn = mockFrameFactoryCall[0];
         params = mockFrameFactoryCall[1];
+      });
+
+      it('should apply the configs', function() {
+        const carlos = helpCenter.get('carlos');
+        const payload = childFn({});
+
+        expect(payload.props.defaultButtonLabel)
+          .toEqual(carlos.config.defaultButtonLabel);
+
+        expect(payload.props.formTitle)
+          .toEqual(carlos.config.formTitle);
       });
 
       it('should pass in zendeskHost from transport.getZendeskHost', function() {
