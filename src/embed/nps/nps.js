@@ -31,12 +31,14 @@ function create(name, config) {
       width: '100% !important'
     };
   } else {
+    containerStyle = { width: 620, margin: 15 };
     frameStyle = {
       position: 'fixed',
       left: '50%',
       bottom: 0,
       transform: 'translate3d(-50%, 0, 0)',
-      webkitTransform: 'translate3d(-50%, 0, 0)'
+      webkitTransform: 'translate3d(-50%, 0, 0)',
+      width: 620
     };
   }
 
@@ -76,11 +78,6 @@ function create(name, config) {
       mediator.channel.broadcast('nps.onShow');
     }
   };
-
-  if (!isMobileBrowser()) {
-    frameStyle.width = 620;
-    containerStyle = { width: 620, margin: 15 };
-  }
 
   const Embed = React.createClass(frameFactory(
     (params) => {
