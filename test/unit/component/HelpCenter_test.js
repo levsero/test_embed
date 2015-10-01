@@ -113,8 +113,8 @@ describe('Help center component', function() {
         i18n: {
           init: jasmine.createSpy(),
           setLocale: jasmine.createSpy(),
-          'getLocale': jasmine.createSpy(),
-          'isRTL': jasmine.createSpy(),
+          getLocale: jasmine.createSpy(),
+          isRTL: jasmine.createSpy(),
           t: function(translationKey) {
             return translationKey;
           }
