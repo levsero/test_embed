@@ -137,6 +137,6 @@ export const Nps = React.createClass({
           submitRatingHandler={this.submitRatingHandler}
           submitCommentHandler={this.submitCommentHandler}
           onCommentChangeHandler={this.onCommentChangeHandler}
-          setFrameSize={this.props.setFrameSize} />;
+          updateFrameSize={this.props.updateFrameSize} />;
   }
 });

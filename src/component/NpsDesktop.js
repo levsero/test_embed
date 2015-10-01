@@ -9,12 +9,6 @@ import { NpsComment } from 'component/NpsComment';
 
 const classSet = React.addons.classSet;
 
-// Hardcoding magic numbers
-const thankYouFrameSize = {
-  height: '430px',
-  width: '222px'
-};
-
 export const NpsDesktop = React.createClass({
   getInitialState() {
     return {
@@ -52,6 +46,8 @@ export const NpsDesktop = React.createClass({
   },
 
   render() {
+    setTimeout(() => this.props.updateFrameSize(0, 0), 0);
+
     /* jshint laxbreak: true */
     const NPS_RATINGS = _.range(11);
     const hideZendeskLogo = this.props.hideZendeskLogo;
@@ -94,13 +90,14 @@ export const NpsDesktop = React.createClass({
                           <NpsRatingsList
                             isMobile={false}
                             className='RatingsList--desktop'
+                            ratingsRange={NPS_RATINGS}
                             hideRatingsLegend={hideRatingsLegend}
                             highlightColor={this.props.survey.highlightColor}
                             isSubmittingRating={this.props.isSubmittingRating}
                             likelyLabel={this.props.survey.likelyLabel}
                             notLikelyLabel={this.props.survey.notLikelyLabel}
-                            ratingsRange={NPS_RATINGS}
                             selectedRating={this.props.response.rating}
+                            onClick={this.ratingChangeValueHandler}
                             onChangeValue={this.ratingChangeValueHandler} />
                         </div>
                       : null;
@@ -115,12 +112,6 @@ export const NpsDesktop = React.createClass({
                               isSubmittingRating={this.props.isSubmittingRating}
                               onSubmit={this.submitCommentHandler}
                               onChange={this.props.onCommentChangeHandler} />;
-
-    if (this.props.setFrameSize && this.state.currentPage.thankYou) {
-      setTimeout(() => this.props.setFrameSize(
-        thankYouFrameSize.height, thankYouFrameSize.width
-      ), 0);
-    }
 
     return (this.props.survey && this.props.survey.question)
          ? <Container
