@@ -116,7 +116,7 @@ export const NpsDesktop = React.createClass({
     return (this.props.survey && this.props.survey.question)
          ? <Container
              card
-             isMobile={false}
+             fullscreen={false}
              style={containerStyles}>
              <div className={containerContentClasses}>
                <h1 className={surveyTitleClasses}>{surveyTitle}</h1>

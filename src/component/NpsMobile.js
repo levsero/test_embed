@@ -245,7 +245,7 @@ export const NpsMobile = React.createClass({
     return (
       <Container
         className={containerClassNames}
-        isMobile={true}>
+        fullscreen={true}>
         <header className='Container--halfscreen-heading u-textCenter'>
           {heading}
           {dropdown}
