@@ -66,8 +66,7 @@ export const NpsDesktop = React.createClass({
         label: rating,
         loading: isSelected && this.props.isSubmittingRating,
         selected: isSelected,
-        highlightColor: this.props.survey.highlightColor,
-        onClick: this.props.ratingClickHandler(rating)
+        highlightColor: this.props.survey.highlightColor
       };
 
       return (
