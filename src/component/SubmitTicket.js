@@ -14,6 +14,10 @@ import { i18n }             from 'service/i18n';
 const classSet = React.addons.classSet;
 
 export var SubmitTicket = React.createClass({
+  propTypes: {
+    formTitle: React.PropTypes.string.isRequired
+  },
+
   getInitialState() {
     return {
       showNotification: false,
@@ -28,8 +32,7 @@ export var SubmitTicket = React.createClass({
 
   getDefaultProps() {
     return {
-      customFields: [],
-      formTitle: 'message'
+      customFields: []
     };
   },
 
@@ -179,7 +182,7 @@ export var SubmitTicket = React.createClass({
           ref='submitTicketForm'
           hide={this.state.showNotification}
           customFields={this.props.customFields}
-          formTitle={this.props.formTitle}
+          formTitle={i18n.t(`embeddable_framework.submitTicket.form.title.${this.props.formTitle}`)}
           submit={this.handleSubmit}>
           <p className={errorClasses}>
             {this.state.errorMessage}
