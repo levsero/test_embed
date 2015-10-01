@@ -32,7 +32,8 @@ export const SubmitTicketForm = React.createClass({
 
   getDefaultProps() {
     return {
-      fullscreen: false
+      fullscreen: false,
+      formTitle: 'message'
     };
   },
 

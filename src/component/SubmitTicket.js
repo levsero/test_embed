@@ -28,7 +28,8 @@ export var SubmitTicket = React.createClass({
 
   getDefaultProps() {
     return {
-      customFields: []
+      customFields: [],
+      formTitle: 'message'
     };
   },
 

@@ -44,6 +44,13 @@ export const HelpCenter = React.createClass({
     };
   },
 
+  getDefaultProps() {
+    return {
+      defaultButtonLabel: 'message',
+      formTitle: 'help'
+    };
+  },
+
   componentDidUpdate(prevProps, prevState) {
     if (prevState.showIntroScreen === true &&
         this.state.showIntroScreen === false) {
