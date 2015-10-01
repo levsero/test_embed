@@ -57,9 +57,9 @@ describe('embed.launcher', function() {
         i18n: {
           init: jasmine.createSpy(),
           setLocale: jasmine.createSpy(),
-          t: jasmine.createSpy().and.callFake(function(translationKey) {
+          t: function(translationKey) {
             return translationKey;
-          })
+          }
         }
       }
     });
@@ -97,6 +97,15 @@ describe('embed.launcher', function() {
         .toBeDefined();
     });
 
+    it('changes config.defaultLabel if defaultLabel is set', function() {
+      launcher.create('alice', { defaultLabel: 'test_label'} );
+
+      const alice = launcher.get('alice');
+
+      expect(alice.config.defaultLabel)
+        .toEqual('test_label');
+    });
+
     describe('frameFactory', function() {
       let mockFrameFactory,
           mockFrameFactoryCall,
@@ -109,7 +118,6 @@ describe('embed.launcher', function() {
         frameConfig = {
           onClick: jasmine.createSpy(),
           position: 'test_position',
-          defaultLabel: 'help',
           icon: '',
           visible: true
         };
@@ -122,16 +130,9 @@ describe('embed.launcher', function() {
       it('should apply the configs', function() {
         const eventObj = jasmine.createSpyObj('e', ['preventDefault']);
         const mockMediator = mockRegistry['service/mediator'].mediator;
-        const i18nTranslate = mockRegistry['service/i18n'].i18n.t;
         const alice = launcher.get('alice');
         const payload = childFn({});
         const onClickHandler = params.extend.onClickHandler;
-
-        expect(i18nTranslate)
-          .toHaveBeenCalledWith('embeddable_framework.launcher.label.' + frameConfig.defaultLabel);
-
-        expect(alice.config.defaultLabel)
-          .toEqual(frameConfig.defaultLabel);
 
         expect(payload.props.position)
           .toEqual(frameConfig.position);
@@ -140,7 +141,7 @@ describe('embed.launcher', function() {
           .toEqual(frameConfig.icon);
 
         expect(payload.props.label)
-          .toEqual('embeddable_framework.launcher.label.' + frameConfig.defaultLabel);
+          .toEqual('embeddable_framework.launcher.label.' + alice.config.defaultLabel);
 
         expect(params.fullscreenable)
           .toEqual(false);
@@ -295,7 +296,7 @@ describe('embed.launcher', function() {
 
       beforeEach(function() {
         mockMediator = mockRegistry['service/mediator'].mediator;
-        launcher.create('alice');
+        launcher.create('alice', { defaultLabel: 'test_label' });
         launcher.render('alice');
         alice = launcher.get('alice');
         aliceLauncher = alice.instance.getChild().refs.rootComponent;
@@ -331,7 +332,7 @@ describe('embed.launcher', function() {
           .toHaveBeenCalledWith('Icon');
 
         expect(aliceLauncher.setLabel.__reactBoundMethod)
-          .toHaveBeenCalled();
+          .toHaveBeenCalledWith('embeddable_framework.launcher.label.test_label');
       });
 
       it('should subscribe to <name>.setLabelChat', function() {
@@ -357,7 +358,7 @@ describe('embed.launcher', function() {
           .toHaveBeenCalledWith('Icon--chat');
 
         expect(aliceLauncher.setLabel.__reactBoundMethod)
-          .toHaveBeenCalled();
+          .toHaveBeenCalledWith('embeddable_framework.launcher.label.test_label');
       });
 
       it('should subscribe to <name>.setLabelUnreadMsgs', function() {
