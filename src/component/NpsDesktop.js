@@ -101,7 +101,6 @@ export const NpsDesktop = React.createClass({
                             notLikelyLabel={this.props.survey.notLikelyLabel}
                             ratingsRange={NPS_RATINGS}
                             selectedRating={this.props.response.rating}
-                            onClick={this.ratingChangeValueHandler}
                             onChangeValue={this.ratingChangeValueHandler} />
                         </div>
                       : null;

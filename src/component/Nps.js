@@ -124,10 +124,6 @@ export const Nps = React.createClass({
   },
 
   render() {
-    if (this.props.updateFrameSize && !this.state.isMobile) {
-      setTimeout(() => this.props.updateFrameSize(), 0);
-    }
-
     /* jshint laxbreak: true */
     return (this.state.isMobile)
       ? <NpsMobile
