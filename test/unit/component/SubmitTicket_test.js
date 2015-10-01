@@ -146,7 +146,7 @@ describe('Submit ticket component', function() {
 
   it('should display form title', function() {
     const submitTicket = React.render(
-      <SubmitTicket formTitle={'testTitle'} />,
+      <SubmitTicket formTitleKey={'testTitle'} />,
       global.document.body
     );
 

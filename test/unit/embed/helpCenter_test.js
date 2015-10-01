@@ -130,21 +130,21 @@ describe('embed.helpCenter', function() {
         .toBeDefined();
     });
 
-    it('changes config.defaultButtonLabel if defaultButtonLabel is set', function() {
-      helpCenter.create('carlos', { defaultButtonLabel: 'test_label'} );
+    it('changes config.defaultButtonLabelKey if defaultButtonLabelKey is set', function() {
+      helpCenter.create('carlos', { defaultButtonLabelKey: 'test_label'} );
 
       const carlos = helpCenter.get('carlos');
 
-      expect(carlos.config.defaultButtonLabel)
+      expect(carlos.config.defaultButtonLabelKey)
         .toEqual('test_label');
     });
 
-    it('changes config.formTitle if formTitle is set', function() {
-      helpCenter.create('carlos', { formTitle: 'test_title'} );
+    it('changes config.formTitleKey if formTitleKey is set', function() {
+      helpCenter.create('carlos', { formTitleKey: 'test_title'} );
 
       const carlos = helpCenter.get('carlos');
 
-      expect(carlos.config.formTitle)
+      expect(carlos.config.formTitleKey)
         .toEqual('test_title');
     });
 
@@ -166,11 +166,11 @@ describe('embed.helpCenter', function() {
         const carlos = helpCenter.get('carlos');
         const payload = childFn({});
 
-        expect(payload.props.defaultButtonLabel)
-          .toEqual(carlos.config.defaultButtonLabel);
+        expect(payload.props.defaultButtonLabelKey)
+          .toEqual(carlos.config.defaultButtonLabelKey);
 
-        expect(payload.props.formTitle)
-          .toEqual(carlos.config.formTitle);
+        expect(payload.props.formTitleKey)
+          .toEqual(carlos.config.formTitleKey);
       });
 
       it('should pass in zendeskHost from transport.getZendeskHost', function() {

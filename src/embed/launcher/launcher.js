@@ -18,7 +18,7 @@ function create(name, config) {
     onClick: function() {},
     position: 'right',
     icon: 'Icon',
-    defaultLabel: 'help',
+    defaultLabelKey: 'help',
     visible: true
   };
   const frameStyle = {
@@ -44,7 +44,7 @@ function create(name, config) {
           onTouchEnd={params.onClickHandler}
           updateFrameSize={params.updateFrameSize}
           position={config.position}
-          label={i18n.t(`embeddable_framework.launcher.label.${config.defaultLabel}`)}
+          label={i18n.t(`embeddable_framework.launcher.label.${config.defaultLabelKey}`)}
           icon={config.icon} />
       );
     },
@@ -128,7 +128,7 @@ function render(name) {
     setIcon(name, 'Icon');
     setLabel(
       name,
-      i18n.t(`embeddable_framework.launcher.label.${launchers[name].config.defaultLabel}`)
+      i18n.t(`embeddable_framework.launcher.label.${launchers[name].config.defaultLabelKey}`)
     );
     setHasUnreadMessages(name, false);
   });
@@ -137,7 +137,7 @@ function render(name) {
     setIcon(name, 'Icon--chat');
     setLabel(
       name,
-      i18n.t(`embeddable_framework.launcher.label.${launchers[name].config.defaultLabel}`)
+      i18n.t(`embeddable_framework.launcher.label.${launchers[name].config.defaultLabelKey}`)
     );
     setHasUnreadMessages(name, false);
   });

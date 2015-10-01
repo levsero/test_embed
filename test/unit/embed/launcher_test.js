@@ -97,12 +97,12 @@ describe('embed.launcher', function() {
         .toBeDefined();
     });
 
-    it('changes config.defaultLabel if defaultLabel is set', function() {
-      launcher.create('alice', { defaultLabel: 'test_label'} );
+    it('changes config.defaultLabelKey if defaultLabelKey is set', function() {
+      launcher.create('alice', { defaultLabelKey: 'test_label'} );
 
       const alice = launcher.get('alice');
 
-      expect(alice.config.defaultLabel)
+      expect(alice.config.defaultLabelKey)
         .toEqual('test_label');
     });
 
@@ -141,7 +141,7 @@ describe('embed.launcher', function() {
           .toEqual(frameConfig.icon);
 
         expect(payload.props.label)
-          .toEqual('embeddable_framework.launcher.label.' + alice.config.defaultLabel);
+          .toEqual('embeddable_framework.launcher.label.' + alice.config.defaultLabelKey);
 
         expect(params.fullscreenable)
           .toEqual(false);
@@ -296,7 +296,7 @@ describe('embed.launcher', function() {
 
       beforeEach(function() {
         mockMediator = mockRegistry['service/mediator'].mediator;
-        launcher.create('alice', { defaultLabel: 'test_label' });
+        launcher.create('alice', { defaultLabelKey: 'test_label' });
         launcher.render('alice');
         alice = launcher.get('alice');
         aliceLauncher = alice.instance.getChild().refs.rootComponent;

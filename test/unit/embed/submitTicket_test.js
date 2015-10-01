@@ -126,12 +126,12 @@ describe('embed.submitTicket', function() {
         .toBeDefined();
     });
 
-    it('changes config.formTitle if formTitle is set', function() {
-      submitTicket.create('bob', { formTitle: 'test_title'} );
+    it('changes config.formTitleKey if formTitleKey is set', function() {
+      submitTicket.create('bob', { formTitleKey: 'test_title'} );
 
       const bob = submitTicket.get('bob');
 
-      expect(bob.config.formTitle)
+      expect(bob.config.formTitleKey)
         .toEqual('test_title');
     });
 
@@ -153,8 +153,8 @@ describe('embed.submitTicket', function() {
         const bob = submitTicket.get('bob');
         const payload = childFn({});
 
-        expect(payload.props.formTitle)
-          .toEqual(bob.config.formTitle);
+        expect(payload.props.formTitleKey)
+          .toEqual(bob.config.formTitleKey);
       });
 
       it('should not call focusField in afterShowAnimate for non-IE browser', function() {

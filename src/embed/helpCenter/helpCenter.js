@@ -29,8 +29,8 @@ function create(name, config) {
   const configDefaults = {
     position: 'right',
     contextualHelpEnabled: false,
-    defaultButtonLabel: 'message',
-    formTitle: 'help',
+    defaultButtonLabelKey: 'message',
+    formTitleKey: 'help',
     hideZendeskLogo: false
   };
   const onNextClick = function() {
@@ -70,8 +70,8 @@ function create(name, config) {
           onNextClick={onNextClick}
           onSearch={onSearch}
           position={config.position}
-          defaultButtonLabel={config.defaultButtonLabel}
-          formTitle={config.formTitle}
+          defaultButtonLabelKey={config.defaultButtonLabelKey}
+          formTitleKey={config.formTitleKey}
           showBackButton={showBackButton}
           style={containerStyle}
           updateFrameSize={params.updateFrameSize}

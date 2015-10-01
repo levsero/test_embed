@@ -27,7 +27,7 @@ function create(name, config) {
     position: 'right',
     customFields: [],
     hideZendeskLogo: false,
-    formTitle: 'message'
+    formTitleKey: 'message'
   };
   const onSubmitted = function(params) {
     let ticketIdMatcher = /Request \#([0-9]+)/;
@@ -70,7 +70,7 @@ function create(name, config) {
           onCancel={onCancel}
           onSubmitted={onSubmitted}
           position={config.position}
-          formTitle={config.formTitle}
+          formTitleKey={config.formTitleKey}
           style={containerStyle}
           updateFrameSize={params.updateFrameSize} />
       );

@@ -46,8 +46,8 @@ export const HelpCenter = React.createClass({
 
   getDefaultProps() {
     return {
-      defaultButtonLabel: 'message',
-      formTitle: 'help'
+      defaultButtonLabelKey: 'message',
+      formTitleKey: 'help'
     };
   },
 
@@ -385,7 +385,7 @@ export const HelpCenter = React.createClass({
       linkContext = i18n.t('embeddable_framework.helpCenter.label.linkContext.submitTicket');
       linkLabel = i18n.t(
         `embeddable_framework.helpCenter.submitButton.label.submitTicket.${
-          this.props.defaultButtonLabel
+          this.props.defaultButtonLabelKey
         }`
       );
     }
@@ -482,7 +482,7 @@ export const HelpCenter = React.createClass({
         <ScrollContainer
           ref='scrollContainer'
           hideZendeskLogo={hideZendeskLogo}
-          title={i18n.t(`embeddable_framework.launcher.label.${this.props.formTitle}`)}
+          title={i18n.t(`embeddable_framework.launcher.label.${this.props.formTitleKey}`)}
           headerContent={headerContent}
           footerContent={
             <div className={buttonContainerClasses}>
