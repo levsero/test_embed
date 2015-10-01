@@ -9,10 +9,11 @@
 .NpsComment-label {
   color: $zendesk-color--dark-gray;
   font-size: #{14/$font-size}rem !important;
+  border: 0 !important;
+}
 
-  &.is-mobile {
-    padding: #{12/$font-size}rem 0 !important;
-  }
+.NpsComment-label--mobile {
+  padding: #{12/$font-size}rem 0 !important;
 }
 
 //FIXME
@@ -51,11 +52,16 @@
   padding-bottom: -#{2/$font-size}rem;
 }
 
-.NpsComment-loadingButton {
+.NpsComment-loadingButton--desktop {
   min-width: #{95/$font-size}rem;
   max-height: #{13/$font-size}rem;
 
   .LoadingSpinner {
     margin-top: -#{2/$font-size}rem; /* 2 */
   }
+}
+
+.NpsComment-loadingButton--mobile {
+  min-height: #{40/$font-size}rem;
+  max-height: #{40/$font-size}rem;
 }

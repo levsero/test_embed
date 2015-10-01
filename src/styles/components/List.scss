@@ -30,15 +30,14 @@
   margin-bottom: #{14/$font-size}rem !important;
 }
 
-.RatingsList {
+.RatingsList--desktop {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+}
 
-  &.is-mobile {
-    display: block;
-    padding-bottom: #{5/$font-size}rem;
-  }
+.RatingsList--mobile {
+  padding-bottom: #{5/$font-size}rem;
 }
 
 .RatingsList-item {

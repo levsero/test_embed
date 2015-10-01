@@ -5,6 +5,11 @@ import { ButtonRating } from 'component/Button';
 const classSet = React.addons.classSet;
 
 export const NpsRatingsList = React.createClass({
+  getDefaultProps() {
+    return {
+      className: ''
+    };
+  },
 
   ratingClickHandlerFn(rating) {
     return (ev) => {
@@ -16,22 +21,23 @@ export const NpsRatingsList = React.createClass({
   render() {
     const ratingsListClasses = classSet({
       'RatingsList u-textCenter': true,
-      'u-paddingVL': !this.props.fullscreen
+      'u-paddingVL': !this.props.isMobile,
+      [`${this.props.className}`]: true
     });
     const ratingsLegendClasses = classSet({
       'RatingsList-legend u-sizeFull u-paddingHT': true,
-      'is-mobile': this.props.fullscreen
+      'is-mobile': this.props.isMobile
     });
 
     const labelClasses = classSet({
       'u-inlineBlock u-size1of2': true,
-      'u-marginBN': !this.props.fullscreen
+      'u-marginBN': !this.props.isMobile
     });
 
     const likelyLabelClasses = classSet({
       [labelClasses]: true,
       'u-textRight': true,
-      'u-marginBN': !this.props.fullscreen
+      'u-marginBN': !this.props.isMobile
     });
 
     const notLikelyLabelClasses = classSet({

@@ -92,7 +92,8 @@ export const NpsDesktop = React.createClass({
     const ratingsList = (!this.state.currentPage.thankYou)
                       ? <div>
                           <NpsRatingsList
-                            fullscreen={false}
+                            isMobile={false}
+                            className='RatingsList--desktop'
                             hideRatingsLegend={hideRatingsLegend}
                             highlightColor={this.props.survey.highlightColor}
                             isSubmittingRating={this.props.isSubmittingRating}
@@ -107,7 +108,7 @@ export const NpsDesktop = React.createClass({
 
     const commentsContent = <NpsComment
                               ref='npsComment'
-                              fullscreen={false}
+                              isMobile={false}
                               className={commentsClasses}
                               comment={this.props.response.comment}
                               feedbackPlaceholder={this.props.survey.feedbackPlaceholder}
@@ -125,6 +126,7 @@ export const NpsDesktop = React.createClass({
     return (this.props.survey && this.props.survey.question)
          ? <Container
              card
+             isMobile={false}
              style={containerStyles}>
              <div className={containerContentClasses}>
                <h1 className={surveyTitleClasses}>{surveyTitle}</h1>

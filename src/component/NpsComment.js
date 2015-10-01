@@ -29,24 +29,25 @@ export const NpsComment = React.createClass({
 
     const sendButtonClasses = classSet({
       'u-marginTS': true,
-      'u-marginBM u-sizeFull': this.props.fullscreen,
+      'u-marginBM u-sizeFull NpsComment-loadingButton--mobile': this.props.isMobile,
+      'NpsComment-loadingButton--desktop': !this.props.isMobile,
       'u-userBackgroundColor u-userBorderColor': this.props.isSubmittingComment
     });
 
     const textAreaClasses = classSet({
       'NpsComment-textarea': true,
-      'u-textSizeBaseMobile': this.props.fullscreen
+      'u-textSizeBaseMobile': this.props.isMobile
     });
 
     const labelClasses = classSet({
       'NpsComment-label u-marginBN u-textCenter u-borderNone': true,
-      'is-mobile': this.props.fullscreen
+      'is-mobile': this.props.isMobile
     });
 
     /* jshint laxbreak: true */
     const commentsSubmitButton = (this.props.isSubmittingComment)
                                ? <ButtonSecondary
-                                   className={`NpsComment-loadingButton ${sendButtonClasses}`}
+                                   className={sendButtonClasses}
                                    label={<LoadingSpinner />} />
                                : <Button
                                    type='submit'
@@ -54,7 +55,7 @@ export const NpsComment = React.createClass({
                                    label={sendFeedbackLabel}
                                    disabled={!this.props.comment || this.props.isSubmittingRating} />;
 
-    const commentsSubmitContents = (this.props.fullscreen)
+    const commentsSubmitContents = (this.props.isMobile)
                                   ? {commentsSubmitButton}
                                   : <div className='NpsComment-submitContainer'>
                                       {commentsSubmitButton}

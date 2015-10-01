@@ -185,9 +185,11 @@ export const NpsMobile = React.createClass({
                                {this.props.survey.question}
                              </p>
                              <NpsRatingsList
+                               isMobile={true}
+                               className='RatingsList--mobile'
+                               ratingsRange={NPS_RATINGS}
                                likelyLabel={this.props.survey.likelyLabel}
                                notLikelyLabel={this.props.survey.notLikelyLabel}
-                               ratingsRange={NPS_RATINGS}
                                selectedRating={this.props.response.rating}
                                isSubmittingRating={this.props.isSubmittingRating}
                                highlightColor={this.props.survey.highlightColor}
@@ -229,6 +231,7 @@ export const NpsMobile = React.createClass({
     });
 
     const npsCommentClasses = classSet({
+      'NpsComment-label--mobile': true,
       'u-isHidden': !this.state.isEditing
     });
 
@@ -242,7 +245,7 @@ export const NpsMobile = React.createClass({
     return (
       <Container
         className={containerClassNames}
-        fullscreen={true}>
+        isMobile={true}>
         <header className='Container--halfscreen-heading u-textCenter'>
           {heading}
           {dropdown}
@@ -251,6 +254,7 @@ export const NpsMobile = React.createClass({
           {npsRatingsList}
            <NpsComment
             ref='npsComment'
+            isMobile={true}
             className={npsCommentClasses}
             label={this.props.survey.commentsQuestion}
             comment={this.props.response.comment}
