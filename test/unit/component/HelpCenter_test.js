@@ -161,10 +161,12 @@ describe('Help center component', function() {
 
   it('should set the button label based on the defaultButtonLabel property', function() {
     const helpCenter = React.render(
-      <HelpCenter defaultButtonLabelKey={'contact'} />,
+      <HelpCenter buttonLabelKey={'contact'} />,
       global.document.body
     );
-    helpCenter.setState({ buttonLabel: 'contact' });
+    helpCenter.setState({
+      buttonLabel: 'embeddable_framework.helpCenter.submitButton.label.submitTicket.contact'
+    });
 
     expect(document.querySelectorAll('a.u-userTextColor')[0].textContent)
       .toEqual('embeddable_framework.helpCenter.submitButton.label.submitTicket.contact');

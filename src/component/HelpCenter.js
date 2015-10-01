@@ -27,7 +27,7 @@ export const HelpCenter = React.createClass({
       searchTerm: '',
       buttonLabel: i18n.t(
         `embeddable_framework.helpCenter.submitButton.label.submitTicket.${
-          this.props.defaultButtonLabelKey
+          this.props.buttonLabelKey
         }`
       ),
       fullscreen: isMobileBrowser(),
@@ -46,7 +46,7 @@ export const HelpCenter = React.createClass({
 
   getDefaultProps() {
     return {
-      defaultButtonLabelKey: 'message',
+      buttonLabelKey: 'message',
       formTitleKey: 'help'
     };
   },
@@ -385,7 +385,7 @@ export const HelpCenter = React.createClass({
       linkContext = i18n.t('embeddable_framework.helpCenter.label.linkContext.submitTicket');
       linkLabel = i18n.t(
         `embeddable_framework.helpCenter.submitButton.label.submitTicket.${
-          this.props.defaultButtonLabelKey
+          this.props.buttonLabelKey
         }`
       );
     }

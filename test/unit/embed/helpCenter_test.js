@@ -130,12 +130,12 @@ describe('embed.helpCenter', function() {
         .toBeDefined();
     });
 
-    it('changes config.defaultButtonLabelKey if defaultButtonLabelKey is set', function() {
-      helpCenter.create('carlos', { defaultButtonLabelKey: 'test_label'} );
+    it('changes config.buttonLabelKey if buttonLabelKey is set', function() {
+      helpCenter.create('carlos', { buttonLabelKey: 'test_label'} );
 
       const carlos = helpCenter.get('carlos');
 
-      expect(carlos.config.defaultButtonLabelKey)
+      expect(carlos.config.buttonLabelKey)
         .toEqual('test_label');
     });
 
@@ -166,8 +166,8 @@ describe('embed.helpCenter', function() {
         const carlos = helpCenter.get('carlos');
         const payload = childFn({});
 
-        expect(payload.props.defaultButtonLabelKey)
-          .toEqual(carlos.config.defaultButtonLabelKey);
+        expect(payload.props.buttonLabelKey)
+          .toEqual(carlos.config.buttonLabelKey);
 
         expect(payload.props.formTitleKey)
           .toEqual(carlos.config.formTitleKey);
