@@ -30,8 +30,11 @@ export const NpsComment = React.createClass({
     const sendButtonClasses = classSet({
       'u-marginTS': true,
       'u-marginBM u-sizeFull NpsComment-loadingButton--mobile': this.props.isMobile,
-      'NpsComment-loadingButton--desktop': !this.props.isMobile,
       'u-userBackgroundColor u-userBorderColor': this.props.isSubmittingComment
+    });
+
+    const loadingButtonClass = classSet({
+      'NpsComment-loadingButton--desktop': !this.props.isMobile
     });
 
     const textAreaClasses = classSet({
@@ -47,7 +50,7 @@ export const NpsComment = React.createClass({
     /* jshint laxbreak: true */
     const commentsSubmitButton = (this.props.isSubmittingComment)
                                ? <ButtonSecondary
-                                   className={sendButtonClasses}
+                                   className={`${sendButtonClasses} ${loadingButtonClass}`}
                                    label={<LoadingSpinner />} />
                                : <Button
                                    type='submit'
