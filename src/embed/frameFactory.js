@@ -185,10 +185,7 @@ export var frameFactory = function(childFn, _params) {
           }
         };
 
-        snabbt(
-          this.getDOMNode(),
-          transitionIn
-        );
+        snabbt(this.getDOMNode(), transitionIn);
       }
 
       params.onShow(this);

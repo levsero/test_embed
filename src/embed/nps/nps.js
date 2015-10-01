@@ -51,10 +51,12 @@ function create(name, config = {}) {
   };
 
   const onClose = (frame) => {
-    setTimeout(() => {
-      setScrollKiller(false);
-      revertWindowScroll();
-    }, 0);
+    if (isMobileBrowser()) {
+      setTimeout(() => {
+        setScrollKiller(false);
+        revertWindowScroll();
+      }, 0);
+    }
     setDismissTimestamp(frame.getRootComponent().state.survey);
     mediator.channel.broadcast('nps.onClose');
   };
@@ -67,8 +69,13 @@ function create(name, config = {}) {
     fullscreenable: isMobileBrowser(),
     onClose,
     onShow,
-    transitionIn: transitionFactory.npsMobile.in(onShow),
-    transitionOut: transitionFactory.npsMobile.out(onClose)
+    /* jshint laxbreak: true */
+    transitionIn: isMobileBrowser()
+      ? transitionFactory.npsMobile.in(onShow)
+      : transitionFactory.npsDesktop.in(onShow),
+    transitionOut: isMobileBrowser()
+      ? transitionFactory.npsMobile.out(onClose)
+      : transitionFactory.npsDesktop.out(onClose),
   };
   const Embed = React.createClass(frameFactory(
     (params) => {
