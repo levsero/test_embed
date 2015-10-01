@@ -158,7 +158,7 @@ export var frameFactory = function(childFn, _params) {
       frameWin.setTimeout( () => this.setState({iframeDimensions: dimensions()}), 0);
     },
 
-    show(animate) {
+    show() {
       let frameFirstChild = this.getDOMNode().contentDocument.body.firstChild;
 
       this.setState({
@@ -208,10 +208,8 @@ export var frameFactory = function(childFn, _params) {
           }
         };
 
-        snabbt(
-          this.getDOMNode(),
-          transitionOut
-        );
+        snabbt(this.getDOMNode(), transitionOut);
+
       } else if (params.onHide) {
         params.onHide(this);
         this.setState({
