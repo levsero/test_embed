@@ -19,14 +19,12 @@ export const NpsRatingsList = React.createClass({
   },
 
   render() {
+    const ratingsLegendClasses = 'RatingsList-legend u-sizeFull u-paddingHT';
+
     const ratingsListClasses = classSet({
       'RatingsList u-textCenter': true,
       'u-paddingVL': !this.props.isMobile,
       [`${this.props.className}`]: true
-    });
-    const ratingsLegendClasses = classSet({
-      'RatingsList-legend u-sizeFull u-paddingHT': true,
-      'is-mobile': this.props.isMobile
     });
 
     const labelClasses = classSet({
