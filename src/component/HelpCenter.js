@@ -27,7 +27,7 @@ export const HelpCenter = React.createClass({
       searchTerm: '',
       buttonLabel: i18n.t(
         `embeddable_framework.helpCenter.submitButton.label.submitTicket.${
-          this.props.defaultButtonLabel
+          this.props.defaultButtonLabelKey
         }`
       ),
       fullscreen: isMobileBrowser(),
