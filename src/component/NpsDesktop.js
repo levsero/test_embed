@@ -9,9 +9,10 @@ import { NpsComment } from 'component/NpsComment';
 
 const classSet = React.addons.classSet;
 
+// Hardcoding magic numbers
 const thankYouFrameSize = {
-  height: '222px',
-  width: '430px'
+  height: '430px',
+  width: '222px'
 };
 
 export const NpsDesktop = React.createClass({
@@ -115,7 +116,6 @@ export const NpsDesktop = React.createClass({
                               onSubmit={this.submitCommentHandler}
                               onChange={this.props.onCommentChangeHandler} />;
 
-    // Hardcoding magic numbers
     if (this.props.setFrameSize && this.state.currentPage.thankYou) {
       setTimeout(() => this.props.setFrameSize(
         thankYouFrameSize.height, thankYouFrameSize.width
