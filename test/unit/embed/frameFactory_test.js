@@ -468,7 +468,6 @@ describe('frameFactory', function() {
         });
 
         it('should not try to call the provided callback if it\'s not available', function() {
-
           instance.show();
 
           const config = snabbt.calls.mostRecent().args[1];
@@ -613,7 +612,6 @@ describe('frameFactory', function() {
 
       describe('and no callback', function() {
         beforeEach(function() {
-
           mockFrameParams = {
             transitionOut: {}
           }

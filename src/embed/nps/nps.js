@@ -75,7 +75,7 @@ function create(name, config = {}) {
       : transitionFactory.npsDesktop.in(onShow),
     transitionOut: isMobileBrowser()
       ? transitionFactory.npsMobile.out(onClose)
-      : transitionFactory.npsDesktop.out(onClose),
+      : transitionFactory.npsDesktop.out(onClose)
   };
   const Embed = React.createClass(frameFactory(
     (params) => {
