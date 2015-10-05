@@ -4,6 +4,7 @@ describe('NpsDesktop component', function() {
       component,
       mockSubmitRatingHandler,
       mockSubmitCommentHandler,
+      mockFocusField,
       npsProps;
 
   const npsPath = buildSrcPath('component/NpsDesktop');
@@ -65,7 +66,7 @@ describe('NpsDesktop component', function() {
       },
       'component/NpsComment': {
         NpsComment: React.createClass({
-          focusField: noop,
+          focusField: () => mockFocusField(),
           render: () => {
             return <div ref='NpsComment'></div>;
           }
@@ -77,7 +78,7 @@ describe('NpsDesktop component', function() {
             const childList = new Array(11);
 
             for (let i = 0; i < childList.length; i++) {
-              childList[i] = <div className='c-btn--rating'></div>;
+              childList[i] = <div></div>;
             }
 
             return (
@@ -119,6 +120,7 @@ describe('NpsDesktop component', function() {
 
     mockSubmitRatingHandler = jasmine.createSpy();
     mockSubmitCommentHandler = jasmine.createSpy();
+    mockFocusField = jasmine.createSpy();
 
     component = React.render(
       <NpsDesktop
@@ -135,6 +137,24 @@ describe('NpsDesktop component', function() {
   afterEach(function() {
     mockery.deregisterAll();
     mockery.disable();
+  });
+
+  it('should set focus to npsComment first time if currentPage is addingComment', () => {
+    mockFocusField.calls.reset();
+
+    expect(mockFocusField.calls.count())
+      .toEqual(0);
+
+    component.setState({
+      currentPage: {
+        selectingRating: false,
+        thankYou: false,
+        addingComment: true
+      }
+    });
+
+    expect(mockFocusField.calls.count())
+      .toEqual(1);
   });
 
   it('should render component with child props of an array containing 11 items', () => {
@@ -178,6 +198,16 @@ describe('NpsDesktop component', function() {
     it('should set the currentPage to selectingRating when initialState is called', () => {
       expect(component.state.currentPage.selectingRating)
         .toEqual(true);
+    });
+
+    it('should not set the currentPage to thankYou when initialState is called', () => {
+      expect(component.state.currentPage.thankYou)
+        .toEqual(false);
+    });
+
+    it('should not set the currentPage to addingComment when initialState is called', () => {
+      expect(component.state.currentPage.addingComment)
+        .toEqual(false);
     });
   });
 
