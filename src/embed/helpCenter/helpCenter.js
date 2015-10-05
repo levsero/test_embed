@@ -150,13 +150,13 @@ function updateHelpCenterButton(name, labelKey) {
   });
 }
 
-function keywordsSearch(name, keywords) {
+function keywordsSearch(name, options) {
   if (getRootComponent(name)) {
     const helpCenter = getRootComponent(name);
-    helpCenter.contextualSearch(keywords);
+    helpCenter.contextualSearch(options);
   } else {
     setTimeout(() => {
-      keywordsSearch(name, keywords);
+      keywordsSearch(name, options);
     }, 0);
   }
 }
@@ -204,8 +204,8 @@ function render(name) {
     });
   });
 
-  mediator.channel.subscribe(name + '.setKeywords', function(keywords) {
-    keywordsSearch(name, keywords);
+  mediator.channel.subscribe(name + '.setHelpCenterSuggestions', function(options) {
+    keywordsSearch(name, options);
   });
 }
 
