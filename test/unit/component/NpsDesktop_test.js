@@ -129,6 +129,32 @@ describe('NpsDesktop component', function() {
     mockery.disable();
   });
 
+  describe('Container-content', () => {
+    iit('should have `u-paddingBL` if ZD Logo is hidden and currentPage is not addingComment', () => {
+      npsProps.hideZendeskLogo = true;
+
+      React.render(
+        <NpsDesktop
+          {...npsProps}
+          updateFrameSize={noop} />,
+        global.document.body
+      );
+
+      const containerContentElem = ReactTestUtils
+        .findRenderedDOMComponentWithClass(component, 'Container-content');
+
+      component.setCurrentPage('selectingRating');
+
+      expect(containerContentElem.getDOMNode().className)
+        .toMatch('u-paddingBL');
+
+      component.setCurrentPage('thankYou');
+
+      expect(containerContentElem.getDOMNode().className)
+        .toMatch('u-paddingBL');
+    });
+  });
+
   it('should set focus to npsComment first time if currentPage is addingComment', () => {
     mockFocusField.calls.reset();
 
@@ -190,8 +216,8 @@ describe('NpsDesktop component', function() {
 
       React.render(
         <NpsDesktop
-        {...npsProps}
-        updateFrameSize={noop} />,
+          {...npsProps}
+          updateFrameSize={noop} />,
         global.document.body
       );
 
