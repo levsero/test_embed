@@ -186,7 +186,7 @@ export const NpsMobile = React.createClass({
                              </p>
                              <NpsRatingsList
                                isMobile={true}
-                               className='RatingsList--mobile'
+                               className='u-paddingBT'
                                ratingsRange={npsRatings}
                                likelyLabel={this.props.survey.likelyLabel}
                                notLikelyLabel={this.props.survey.notLikelyLabel}
