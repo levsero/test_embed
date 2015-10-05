@@ -269,7 +269,7 @@ export const NpsMobile = React.createClass({
               type='submit'
               className={sendButtonClasses}
               label={sendFeedbackLabel}
-              disabled={true} />;
+              disabled={true} />
           </div>
           {notification}
         </div>
