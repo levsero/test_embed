@@ -172,7 +172,7 @@ describe('NpsDesktop component', function() {
     it('should set currentPage to addingComment when ratingChangeValueHandler is called', () => {
       component.ratingChangeValueHandler();
 
-      let successFunc = mockSubmitRatingHandler.calls.mostRecent().args[1];
+      const successFunc = mockSubmitRatingHandler.calls.mostRecent().args[1];
 
       successFunc();
 
@@ -185,7 +185,7 @@ describe('NpsDesktop component', function() {
     it('should set currentPage to thankYou when submitCommentHandler successFunc is called', () => {
       component.submitCommentHandler();
 
-      let successFunc = mockSubmitCommentHandler.calls.mostRecent().args[1];
+      const successFunc = mockSubmitCommentHandler.calls.mostRecent().args[1];
 
       successFunc();
 
