@@ -24,7 +24,7 @@ export const NpsRatingsList = React.createClass({
     const ratingsListClasses = classSet({
       'RatingsList u-textCenter': true,
       'u-paddingVL': !this.props.isMobile,
-      [`${this.props.className}`]: true
+      [this.props.className]: true
     });
 
     const labelClasses = classSet({
