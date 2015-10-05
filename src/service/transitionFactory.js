@@ -7,10 +7,10 @@ const factoryMaker = (obj) => {
   };
 };
 
+/* jshint camelcase: false */
 export const transitionFactory = {
   npsMobile: {
     in: factoryMaker({
-      /* jshint camelcase: false */
       from_position: [0, win.innerHeight, 0],
       position: [0, 0, 0],
       easing: 'spring',
@@ -18,7 +18,6 @@ export const transitionFactory = {
       spring_deacceleration: 0.55
     }),
     out: factoryMaker({
-      /* jshint camelcase: false */
       from_position: [0, 0, 0],
       position: [0, win.innerHeight, 0],
       easing: 'spring',
@@ -28,7 +27,6 @@ export const transitionFactory = {
   },
   npsDesktop: {
     in: factoryMaker({
-      /* jshint camelcase: false */
       from_position: [-310, win.innerHeight, 0],
       position: [-310, 0, 0],
       easing: 'spring',
@@ -36,7 +34,6 @@ export const transitionFactory = {
       spring_deacceleration: 0.55
     }),
     out: factoryMaker({
-      /* jshint camelcase: false */
       from_position: [-310, 0, 0],
       position: [-310, win.innerHeight, 0],
       easing: 'spring',
@@ -46,7 +43,6 @@ export const transitionFactory = {
   },
   webWidget: {
     in: factoryMaker({
-      /* jshint camelcase: false */
       from_position: [0, 15, 0],
       position: [0, 0, 0],
       easing: 'spring',
