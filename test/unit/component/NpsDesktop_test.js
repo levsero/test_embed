@@ -75,7 +75,7 @@ describe('NpsDesktop component', function() {
       'component/NpsRatingsList': {
         NpsRatingsList: React.createClass({
           render: () => {
-            return <div className='RatingsList'></div>;
+            return <div className='RatingsList--desktop'></div>;
           }
         })
       },
@@ -139,14 +139,6 @@ describe('NpsDesktop component', function() {
 
     expect(mockFocusField.calls.count())
       .toEqual(1);
-  });
-
-  it('should render an NpsRatingsList component', () => {
-    const ratingsComponent = ReactTestUtils.findRenderedDOMComponentWithClass(
-                               component, 'RatingsList');
-
-    expect(ratingsComponent)
-      .toBeTruthy();
   });
 
   describe('ratingChangeValueHandler', () => {
@@ -217,9 +209,9 @@ describe('NpsDesktop component', function() {
         .toEqual(npsProps.survey.question);
     });
 
-    it('should render the ratings list', () => {
-      expect(document.querySelector('.RatingsList'))
-        .not.toEqual(null);
+    it('should render NpsRatingsList component', () => {
+      expect(document.querySelectorAll('.RatingsList--desktop').length)
+        .toEqual(1);
     });
 
     it('should hide the comments section', () => {
@@ -243,8 +235,8 @@ describe('NpsDesktop component', function() {
         .toEqual(npsProps.survey.question);
     });
 
-    it('should render a select list', () => {
-      expect(document.querySelectorAll('.RatingsList').length)
+    it('should render NpsRatingsList component', () => {
+      expect(document.querySelectorAll('.RatingsList--desktop').length)
         .toEqual(1);
     });
 
@@ -267,6 +259,11 @@ describe('NpsDesktop component', function() {
     it('should render a thank you tick', () => {
       expect(document.querySelectorAll('.ThankYou').length)
         .toEqual(1);
+    });
+
+    it('should not render NpsRatingsList component', () => {
+      expect(document.querySelectorAll('.RatingsList--desktop').length)
+        .toEqual(0);
     });
   });
 });
