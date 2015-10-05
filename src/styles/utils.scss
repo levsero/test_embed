@@ -190,14 +190,6 @@ $Base-posOffset: $med + 1;
   padding-left: $spacing-lrg;
 }
 
-.u-paddingRL {
-  padding-right: $spacing-lrg !important;
-}
-
-.u-paddingRM {
-  padding-right: $spacing-med !important;
-}
-
 .u-paddingRS {
   padding-right: $spacing-sml !important;
 
@@ -207,32 +199,44 @@ $Base-posOffset: $med + 1;
   }
 }
 
-.u-paddingTL {
-  padding-top: $spacing-lrg !important;
+.u-paddingRM {
+  padding-right: $spacing-med !important;
 }
 
-.u-paddingTM {
-  padding-top: $spacing-med !important;
-}
-
-.u-paddingTS {
-  padding-top: $spacing-sml !important;
+.u-paddingRL {
+  padding-right: $spacing-lrg !important;
 }
 
 .u-paddingTT {
   padding-top: $spacing-tny !important;
 }
 
-.u-paddingBM {
-  padding-bottom: $spacing-med !important;
+.u-paddingTS {
+  padding-top: $spacing-sml !important;
+}
+
+.u-paddingTM {
+  padding-top: $spacing-med !important;
+}
+
+.u-paddingTL {
+  padding-top: $spacing-lrg !important;
+}
+
+.u-paddingBN {
+  padding-bottom: 0 !important;
+}
+
+.u-paddingBT {
+  padding-bottom: $spacing-tny !important;
 }
 
 .u-paddingBS {
   padding-bottom: $spacing-sml !important;
 }
 
-.u-paddingBN {
-  padding-bottom: 0 !important;
+.u-paddingBM {
+  padding-bottom: $spacing-med !important;
 }
 
 .u-paddingBL {
