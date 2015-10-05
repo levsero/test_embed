@@ -75,17 +75,7 @@ describe('NpsDesktop component', function() {
       'component/NpsRatingsList': {
         NpsRatingsList: React.createClass({
           render: () => {
-            const childList = new Array(11);
-
-            for (let i = 0; i < childList.length; i++) {
-              childList[i] = <div></div>;
-            }
-
-            return (
-              <div className='RatingsList'>
-                {childList}
-              </div>
-            );
+            return <div className='RatingsList'></div>;
           }
         })
       },
@@ -145,27 +135,18 @@ describe('NpsDesktop component', function() {
     expect(mockFocusField.calls.count())
       .toEqual(0);
 
-    component.setState({
-      currentPage: {
-        selectingRating: false,
-        thankYou: false,
-        addingComment: true
-      }
-    });
+    component.setCurrentPage('addingComment');
 
     expect(mockFocusField.calls.count())
       .toEqual(1);
   });
 
-  it('should render component with child props of an array containing 11 items', () => {
+  it('should render an NpsRatingsList component', () => {
     const ratingsComponent = ReactTestUtils.findRenderedDOMComponentWithClass(
                                component, 'RatingsList');
 
     expect(ratingsComponent)
       .toBeTruthy();
-
-    expect(ratingsComponent.props.children.length)
-      .toEqual(11);
   });
 
   describe('ratingChangeValueHandler', () => {
