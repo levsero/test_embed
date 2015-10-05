@@ -464,7 +464,6 @@ describe('frameFactory', function() {
             <Embed />,
             global.document.body
           );
-
         });
 
         it('should not try to call the provided callback if it\'s not available', function() {
@@ -637,7 +636,6 @@ describe('frameFactory', function() {
 
           expect(config.callback)
             .not.toThrow();
-
         });
       });
     });
