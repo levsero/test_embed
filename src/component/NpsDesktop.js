@@ -74,7 +74,7 @@ export const NpsDesktop = React.createClass({
     });
 
     const surveyTitle = (this.state.currentPage.thankYou)
-                      ? 'Thank you'
+                      ? this.props.survey.thankYou
                       : this.props.survey.question;
 
     const zendeskLogo = (!hideZendeskLogo && !this.state.currentPage.addingComment)
