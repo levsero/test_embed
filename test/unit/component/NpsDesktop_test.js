@@ -213,14 +213,9 @@ describe('NpsDesktop component', function() {
 
   describe('selectingRating State', () => {
     it('should not render survey if params has falsy `survey.question`', () => {
-      npsProps.survey.question = '';
-
-      React.render(
-        <NpsDesktop
-        {...npsProps}
-        updateFrameSize={noop} />,
-        global.document.body
-      );
+      component.setProps({
+        survey: { question: '' }
+      });
 
       expect(document.querySelectorAll('.Container-content').length)
         .toEqual(0);
