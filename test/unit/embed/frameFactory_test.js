@@ -301,7 +301,6 @@ describe('frameFactory', function() {
             Embed;
 
         mockAfterShowAnimate = jasmine.createSpy();
-
         mockTransitionInCallback = jasmine.createSpy();
 
         payload = frameFactory(mockChildFn, {}),

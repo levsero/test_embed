@@ -48,8 +48,7 @@ function create(name, config) {
   const onShow = (frame) => {
     if (isMobileBrowser()) {
       setScaleLock(true);
-    }
-    if (!isMobileBrowser()) {
+    } else {
       frame.getRootComponent().focusField();
     }
     frame.getRootComponent().resetSearchFieldState();
