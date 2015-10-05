@@ -517,7 +517,6 @@ describe('frameFactory', function() {
 
     describe('without animation', function() {
       let mockFrameParams,
-          mockAfterShowAnimate,
           instance,
           snabbt;
 
