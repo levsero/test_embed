@@ -1,11 +1,21 @@
 describe('embed.nps', () => {
   let nps,
-      mockRegistry;
+      mockRegistry,
+      mockMobileTransitionIn,
+      mockMobileTransitionOut,
+      mockDesktopTransitionIn,
+      mockDesktopTransitionOut;
 
   const npsPath = buildSrcPath('embed/nps/nps');
 
   beforeEach(() => {
     resetDOM();
+
+    mockDesktopTransitionIn = jasmine.createSpy('transitionFactory-mobile-in');
+    mockDesktopTransitionOut = jasmine.createSpy('transitionFactory-mobile-out');
+
+    mockMobileTransitionIn = jasmine.createSpy('transitionFactory-mobile-in');
+    mockMobileTransitionOut = jasmine.createSpy('transitionFactory-mobile-out');
 
     mockery.enable();
 
@@ -60,6 +70,18 @@ describe('embed.nps', () => {
         setScrollKiller: noop,
         setWindowScroll: noop,
         revertWindowScroll: noop
+      },
+      'service/transitionFactory' : {
+        transitionFactory: {
+          npsMobile: {
+            in: mockMobileTransitionIn,
+            out: mockMobileTransitionOut
+          },
+          npsDesktop: {
+            in: mockDesktopTransitionIn,
+            out: mockDesktopTransitionOut
+          },
+        }
       }
     });
 
@@ -71,6 +93,49 @@ describe('embed.nps', () => {
   afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
+  });
+
+  describe('create', () => {
+    describe('desktop', () => {
+      it('should provide the desktop transition in config', () => {
+        nps.create('adam');
+
+        expect(mockDesktopTransitionIn)
+          .toHaveBeenCalled();
+      });
+      it('should provide the desktop transition out config', () => {
+        nps.create('adam');
+
+        expect(mockDesktopTransitionOut)
+          .toHaveBeenCalled();
+      });
+    });
+    describe('mobile', () => {
+      let oldIsMobileBrower;
+
+      beforeEach(() => {
+        oldIsMobileBrower = mockRegistry['utility/devices'].isMobileBrowser;
+        mockRegistry['utility/devices'].isMobileBrowser = () => true;
+      });
+
+      afterEach(() => {
+        mockRegistry['utility/devices'].isMobileBrowser = oldIsMobileBrower;
+      });
+
+      it('should provide the mobile transition in config', () => {
+        nps.create('adam');
+
+        expect(mockMobileTransitionIn)
+          .toHaveBeenCalled();
+      });
+
+      it('should provide the mobile transition out config', () => {
+        nps.create('adam');
+
+        expect(mockMobileTransitionOut)
+          .toHaveBeenCalled();
+      });
+    });
   });
 
   describe('render', () => {
@@ -121,7 +186,7 @@ describe('embed.nps', () => {
           pluckSubscribeCall(mockMediator, 'nps.activate')();
 
           expect(dan.instance.show.__reactBoundMethod)
-            .toHaveBeenCalledWith(true);
+            .toHaveBeenCalled();
         });
 
         it('should not show if a survey is not available', () => {

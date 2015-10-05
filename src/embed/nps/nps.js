@@ -6,12 +6,12 @@ import { Nps }              from 'component/Nps';
 import { mediator }         from 'service/mediator';
 import { store }            from 'service/persistence';
 import { transport }        from 'service/transport';
-
-import { document,
-         getDocumentHost }  from 'utility/globals';
-import { isMobileBrowser }  from 'utility/devices';
 import { setScrollKiller,
          revertWindowScroll } from 'utility/scrollHacks';
+import { transitionFactory } from 'service/transitionFactory';
+import { document,
+         getDocumentHost } from 'utility/globals';
+import { isMobileBrowser } from 'utility/devices';
 
 const npsCSS = require('./nps.scss');
 
@@ -46,23 +46,36 @@ function create(name, config = {}) {
     }
   };
 
+  const onShow = () => {
+    mediator.channel.broadcast('nps.onShow');
+  };
+
+  const onClose = (frame) => {
+    if (isMobileBrowser()) {
+      setTimeout(() => {
+        setScrollKiller(false);
+        revertWindowScroll();
+      }, 0);
+    }
+    setDismissTimestamp(frame.getRootComponent().state.survey);
+    mediator.channel.broadcast('nps.onClose');
+  };
+
   const frameParams = {
     frameStyle: frameStyle,
     css: npsCSS,
     hideCloseButton: false,
     name: name,
     fullscreenable: isMobileBrowser(),
-    onClose(frame) {
-      setTimeout(() => {
-        setScrollKiller(false);
-        revertWindowScroll();
-      }, 0);
-      setDismissTimestamp(frame.getRootComponent().state.survey);
-      mediator.channel.broadcast('nps.onClose');
-    },
-    onShow() {
-      mediator.channel.broadcast('nps.onShow');
-    }
+    onClose,
+    onShow,
+    /* jshint laxbreak: true */
+    transitionIn: isMobileBrowser()
+      ? transitionFactory.npsMobile.in(onShow)
+      : transitionFactory.npsDesktop.in(onShow),
+    transitionOut: isMobileBrowser()
+      ? transitionFactory.npsMobile.out(onClose)
+      : transitionFactory.npsDesktop.out(onClose)
   };
   const Embed = React.createClass(frameFactory(
     (params) => {
@@ -113,7 +126,7 @@ function render(name) {
     const nps = npses[name].instance.getRootComponent();
 
     if (nps.state.surveyAvailable && shouldShow(nps.state.survey)) {
-      npses[name].instance.show(true);
+      npses[name].instance.show();
     } else if (nps.state.surveyAvailable === null) {
       const err = new Error([
         'An error occurred in your use of the Zendesk Widget API:',

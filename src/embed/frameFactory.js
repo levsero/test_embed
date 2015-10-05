@@ -112,7 +112,6 @@ export var frameFactory = function(childFn, _params) {
           { iframeDimensions: _.extend(this.state.iframeDimensions, dimensions) }
         ), 0);
     },
-
     updateFrameSize(offsetWidth = 0, offsetHeight = 0) {
       const iframe = this.getDOMNode();
       const frameWin = iframe.contentWindow;
@@ -159,7 +158,7 @@ export var frameFactory = function(childFn, _params) {
       frameWin.setTimeout( () => this.setState({iframeDimensions: dimensions()}), 0);
     },
 
-    show(animate) {
+    show() {
       let frameFirstChild = this.getDOMNode().contentDocument.body.firstChild;
 
       this.setState({
@@ -167,43 +166,53 @@ export var frameFactory = function(childFn, _params) {
       });
 
       setTimeout( () => {
-        let existingStyle = frameFirstChild.style;
+        const existingStyle = frameFirstChild.style;
 
         if (!existingStyle.webkitOverflowScrolling) {
           existingStyle.webkitOverflowScrolling = 'touch';
         }
       }, 50);
 
-      if (!isMobileBrowser() && animate) {
-        const springTransition = {
-          /* jshint camelcase: false */
-          from_position: [0, 15, 0],
-          position: [0, 0, 0],
-          easing: 'spring',
-          spring_constant: 0.5,
-          spring_deacceleration: 0.75,
-          callback: () => {
+      if (params.transitionIn) {
+        const transitionIn = _.clone(params.transitionIn);
+        const oldCb = transitionIn.callback;
+        transitionIn.callback = () => {
+          if (params.afterShowAnimate) {
             params.afterShowAnimate(this);
+          }
+          if (oldCb) {
+            oldCb(this);
           }
         };
 
-        snabbt(this.getDOMNode(), springTransition);
+        snabbt(this.getDOMNode(), transitionIn);
       }
 
       params.onShow(this);
     },
 
-    updateBaseFontSize(fontSize) {
-      const iframe = this.getDOMNode();
-      const htmlElem = iframe.contentDocument.documentElement;
-
-      htmlElem.style.fontSize = fontSize;
-    },
-
     hide() {
-      this.setState({ visible: false });
 
-      params.onHide(this);
+      if (params.transitionOut) {
+        const transitionOut = _.clone(params.transitionOut);
+
+        const oldCb = transitionOut.callback;
+
+        transitionOut.callback = () => {
+          this.setState({ visible: false });
+          if (oldCb) {
+            oldCb(this);
+          }
+        };
+
+        snabbt(this.getDOMNode(), transitionOut);
+
+      } else {
+        params.onHide(this);
+        this.setState({
+          visible: false
+        });
+      }
     },
 
     close(ev) {
