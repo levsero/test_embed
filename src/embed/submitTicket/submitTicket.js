@@ -49,11 +49,10 @@ function create(name, config) {
   const onShow = (frame) => {
     if (isMobileBrowser()) {
       setScaleLock(true);
-    }
-    frame.getRootComponent().refs.submitTicketForm.resetTicketFormVisibility();
-    if (!isMobileBrowser()) {
+    } else {
       frame.getRootComponent().refs.submitTicketForm.focusField();
     }
+    frame.getRootComponent().refs.submitTicketForm.resetTicketFormVisibility();
   };
 
   config = _.extend(configDefaults, config);
