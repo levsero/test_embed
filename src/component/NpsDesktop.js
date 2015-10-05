@@ -84,20 +84,18 @@ export const NpsDesktop = React.createClass({
                       : <div className='u-paddingBS'></div>;
 
     const ratingsList = (!this.state.currentPage.thankYou)
-                      ? <div>
-                          <NpsRatingsList
-                            isMobile={false}
-                            className='RatingsList--desktop'
-                            ratingsRange={NPS_RATINGS}
-                            hideRatingsLegend={hideRatingsLegend}
-                            highlightColor={this.props.survey.highlightColor}
-                            isSubmittingRating={this.props.isSubmittingRating}
-                            likelyLabel={this.props.survey.likelyLabel}
-                            notLikelyLabel={this.props.survey.notLikelyLabel}
-                            selectedRating={this.props.response.rating}
-                            onClick={this.ratingChangeValueHandler}
-                            onChangeValue={this.ratingChangeValueHandler} />
-                        </div>
+                      ? <NpsRatingsList
+                          isMobile={false}
+                          className='RatingsList--desktop'
+                          ratingsRange={NPS_RATINGS}
+                          hideRatingsLegend={hideRatingsLegend}
+                          highlightColor={this.props.survey.highlightColor}
+                          isSubmittingRating={this.props.isSubmittingRating}
+                          likelyLabel={this.props.survey.likelyLabel}
+                          notLikelyLabel={this.props.survey.notLikelyLabel}
+                          selectedRating={this.props.response.rating}
+                          onClick={this.ratingChangeValueHandler}
+                          onChangeValue={this.ratingChangeValueHandler} />
                       : null;
 
     const commentsContent = <NpsComment
