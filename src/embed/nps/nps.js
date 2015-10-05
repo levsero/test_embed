@@ -10,7 +10,7 @@ import { setScrollKiller,
          revertWindowScroll } from 'utility/scrollHacks';
 import { transitionFactory } from 'service/transitionFactory';
 import { document,
-         getDocumentHost} from 'utility/globals';
+         getDocumentHost } from 'utility/globals';
 import { isMobileBrowser } from 'utility/devices';
 
 const npsCSS = require('./nps.scss');

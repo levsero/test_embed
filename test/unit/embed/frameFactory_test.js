@@ -220,7 +220,7 @@ describe('frameFactory', function() {
 
       Embed = React.createClass(payload);
       instance = React.render(
-          <Embed />,
+        <Embed />,
         global.document.body
       );
 
@@ -269,7 +269,7 @@ describe('frameFactory', function() {
       Embed = React.createClass(payload);
 
       instance = React.render(
-          <Embed />,
+        <Embed />,
         global.document.body
       );
     });
@@ -308,7 +308,7 @@ describe('frameFactory', function() {
         Embed = React.createClass(payload);
 
         instance = React.render(
-            <Embed />,
+          <Embed />,
           global.document.body
         );
       });
@@ -427,7 +427,7 @@ describe('frameFactory', function() {
           Embed = React.createClass(payload);
 
           instance = React.render(
-              <Embed />,
+            <Embed />,
             global.document.body
           );
         });
@@ -460,7 +460,7 @@ describe('frameFactory', function() {
           Embed = React.createClass(payload);
 
           instance = React.render(
-              <Embed />,
+            <Embed />,
             global.document.body
           );
 
@@ -494,7 +494,7 @@ describe('frameFactory', function() {
       const Embed = React.createClass(payload);
 
       instance = React.render(
-          <Embed />,
+        <Embed />,
         global.document.body
       );
     });
@@ -532,7 +532,7 @@ describe('frameFactory', function() {
         Embed = React.createClass(payload);
 
         instance = React.render(
-            <Embed />,
+          <Embed />,
           global.document.body
         );
       });
@@ -564,7 +564,7 @@ describe('frameFactory', function() {
         const Embed = React.createClass(payload);
 
         instance = React.render(
-            <Embed />,
+          <Embed />,
           global.document.body
         );
       });
@@ -622,7 +622,7 @@ describe('frameFactory', function() {
           const Embed = React.createClass(payload);
 
           instance = React.render(
-              <Embed />,
+            <Embed />,
             global.document.body
           );
         });
