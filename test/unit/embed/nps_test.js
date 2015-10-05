@@ -114,13 +114,11 @@ describe('embed.nps', () => {
       let oldIsMobileBrower;
 
       beforeEach(() => {
-
         oldIsMobileBrower = mockRegistry['utility/devices'].isMobileBrowser;
         mockRegistry['utility/devices'].isMobileBrowser = () => true;
       });
 
       afterEach(() => {
-
         mockRegistry['utility/devices'].isMobileBrowser = oldIsMobileBrower;
       });
 
