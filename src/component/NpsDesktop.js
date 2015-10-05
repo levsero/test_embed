@@ -49,7 +49,7 @@ export const NpsDesktop = React.createClass({
     this.props.updateFrameSize(0, 0);
 
     /* jshint laxbreak: true */
-    const NPS_RATINGS = _.range(11);
+    const npsRatings = _.range(11);
     const hideZendeskLogo = this.props.hideZendeskLogo;
     const hideRatingsLegend = this.state.currentPage.addingComment;
     const containerStyles = this.state.currentPage.thankYou
@@ -87,7 +87,7 @@ export const NpsDesktop = React.createClass({
                       ? <NpsRatingsList
                           isMobile={false}
                           className='RatingsList--desktop'
-                          ratingsRange={NPS_RATINGS}
+                          ratingsRange={npsRatings}
                           hideRatingsLegend={hideRatingsLegend}
                           highlightColor={this.props.survey.highlightColor}
                           isSubmittingRating={this.props.isSubmittingRating}

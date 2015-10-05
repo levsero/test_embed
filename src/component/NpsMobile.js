@@ -166,7 +166,7 @@ export const NpsMobile = React.createClass({
       headingText = this.props.survey.thankYou;
     }
 
-    const NPS_RATINGS = _.range(11);
+    const npsRatings = _.range(11);
 
     const npsMedText = 'u-textSizeMed u-textBold u-textCenter u-textXHeight';
 
@@ -187,7 +187,7 @@ export const NpsMobile = React.createClass({
                              <NpsRatingsList
                                isMobile={true}
                                className='RatingsList--mobile'
-                               ratingsRange={NPS_RATINGS}
+                               ratingsRange={npsRatings}
                                likelyLabel={this.props.survey.likelyLabel}
                                notLikelyLabel={this.props.survey.notLikelyLabel}
                                selectedRating={this.props.response.rating}
@@ -221,7 +221,7 @@ export const NpsMobile = React.createClass({
                           onFocus={this.handleDropDownFocus}
                           onChange={this.handleDropDownChange}
                           selectedItem={this.props.response.rating}
-                          options={NPS_RATINGS}
+                          options={npsRatings}
                           highlightColor={this.props.survey.highlightColor} />
                       </span>
                    : null;
