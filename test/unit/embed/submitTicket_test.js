@@ -127,7 +127,7 @@ describe('embed.submitTicket', function() {
     });
 
     it('changes config.formTitleKey if formTitleKey is set', function() {
-      submitTicket.create('bob', { formTitleKey: 'test_title'} );
+      submitTicket.create('bob', { formTitleKey: 'test_title' } );
 
       const bob = submitTicket.get('bob');
 
