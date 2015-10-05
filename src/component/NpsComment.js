@@ -47,21 +47,21 @@ export const NpsComment = React.createClass({
     const labelClasses = 'NpsComment-label u-marginBN u-textCenter u-borderNone';
 
     /* jshint laxbreak: true */
-    const commentsSubmitButton = (this.props.isSubmittingComment)
-                               ? <ButtonSecondary
-                                   className={sendButtonClasses}
-                                   label={<LoadingSpinner className={loadingButtonClass} />} />
-                               : <Button
-                                   type='submit'
-                                   className={sendButtonClasses}
-                                   label={sendFeedbackLabel}
-                                   disabled={!this.props.comment || this.props.isSubmittingRating} />;
+    const commentSubmitButton = (this.props.isSubmittingComment)
+                              ? <ButtonSecondary
+                                  className={sendButtonClasses}
+                                  label={<LoadingSpinner className={loadingButtonClass} />} />
+                              : <Button
+                                  type='submit'
+                                  className={sendButtonClasses}
+                                  label={sendFeedbackLabel}
+                                  disabled={!this.props.comment || this.props.isSubmittingRating} />;
 
-    const commentsSubmitContents = (this.props.isMobile)
-                                  ? {commentsSubmitButton}
-                                  : <div className='NpsComment-submitContainer'>
-                                      {commentsSubmitButton}
-                                    </div>;
+    const commentSubmitContent = (this.props.isMobile)
+                               ? {commentSubmitButton}
+                               : <div className='NpsComment-submitContainer'>
+                                   {commentSubmitButton}
+                                 </div>;
 
     const inputTextArea = <textarea
                             className={textAreaClasses}
@@ -80,7 +80,7 @@ export const NpsComment = React.createClass({
             name='comment'
             onChange={this.props.onChange}
             input={inputTextArea} />
-          {commentsSubmitContents}
+          {commentSubmitContent}
         </form>
       </div>
     );
