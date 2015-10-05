@@ -447,6 +447,7 @@ describe('frameFactory', function() {
       describe('and no callback', function() {
         let mockFrameParams,
             instance;
+
         beforeEach(function() {
           let payload,
               Embed;
@@ -651,6 +652,7 @@ describe('frameFactory', function() {
           backgroundColor: 'rgb(1, 2, 3)'
         }
       });
+
       const Embed = React.createClass(payload);
 
       instance = React.render(
