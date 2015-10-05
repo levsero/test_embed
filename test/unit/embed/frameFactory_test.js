@@ -347,7 +347,7 @@ describe('frameFactory', function() {
         Embed = React.createClass(payload);
 
         instance = React.render(
-            <Embed />,
+          <Embed />,
           global.document.body
         );
       });
