@@ -53,7 +53,7 @@ export const NpsDesktop = React.createClass({
 
   render() {
     if (this.props.updateFrameSize) {
-      setTimeout( () => { this.props.updateFrameSize() }, 0);
+      setTimeout( () => { this.props.updateFrameSize(); }, 0);
     }
 
     /* jshint laxbreak: true */

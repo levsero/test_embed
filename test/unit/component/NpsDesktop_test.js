@@ -75,7 +75,7 @@ describe('NpsDesktop component', function() {
       'component/NpsRatingsList': {
         NpsRatingsList: React.createClass({
           render: () => {
-            return <div className='RatingsList--desktop'></div>;
+            return <div className='RatingsList'></div>;
           }
         })
       },
@@ -236,7 +236,7 @@ describe('NpsDesktop component', function() {
     });
 
     it('should render NpsRatingsList component', () => {
-      expect(document.querySelectorAll('.RatingsList--desktop').length)
+      expect(document.querySelectorAll('.RatingsList').length)
         .toEqual(1);
     });
 
@@ -262,7 +262,7 @@ describe('NpsDesktop component', function() {
     });
 
     it('should render NpsRatingsList component', () => {
-      expect(document.querySelectorAll('.RatingsList--desktop').length)
+      expect(document.querySelectorAll('.RatingsList').length)
         .toEqual(1);
     });
 
@@ -288,7 +288,7 @@ describe('NpsDesktop component', function() {
     });
 
     it('should not render NpsRatingsList component', () => {
-      expect(document.querySelectorAll('.RatingsList--desktop').length)
+      expect(document.querySelectorAll('.RatingsList').length)
         .toEqual(0);
     });
   });
