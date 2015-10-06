@@ -58,9 +58,12 @@ export const NpsDesktop = React.createClass({
 
     const iconClasses = 'u-inlineBlock u-userFillColor u-posRelative u-marginTL';
 
+    const containerClasses = classSet({
+      'u-paddingBS': hideZendeskLogo && !this.state.currentPage.addingComment
+    });
     const containerContentClasses = classSet({
       'Container-content': true,
-      'u-paddingB30': hideZendeskLogo && !this.state.currentPage.addingComment
+      'u-paddingBL': hideZendeskLogo && !this.state.currentPage.addingComment
     });
     const surveyFormClasses = classSet({
       'u-isHidden': this.state.currentPage.thankYou
@@ -122,7 +125,8 @@ export const NpsDesktop = React.createClass({
          ? <Container
              card={true}
              fullscreen={false}
-             style={containerStyles}>
+             style={containerStyles}
+             className={containerClasses}>
              <div className={containerContentClasses}>
                <h1 className={surveyTitleClasses}>{surveyTitle}</h1>
 
