@@ -127,12 +127,14 @@ export const Nps = React.createClass({
     /* jshint laxbreak: true */
     return (this.state.isMobile)
       ? <NpsMobile
+          ref='mobile'
           {...this.state}
           setFrameSize={this.props.setFrameSize}
           submitCommentHandler={this.submitCommentHandler}
           onCommentChangeHandler={this.onCommentChangeHandler}
           submitRatingHandler={this.submitRatingHandler} />
       : <NpsDesktop
+          ref='desktop'
           {...this.state}
           submitRatingHandler={this.submitRatingHandler}
           submitCommentHandler={this.submitCommentHandler}

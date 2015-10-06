@@ -4,13 +4,13 @@ export const NpsCommentButton = React.createClass({
 
   render() {
     const classes = `
-      Form-field
-      Label
+      Form-fieldLabel
       u-textXHeight
-      u-textSize15
       NpsComment-label
       u-marginBN
       u-textCenter
+      u-borderNone
+      is-mobile
     `;
 
     return (
