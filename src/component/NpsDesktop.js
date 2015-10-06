@@ -60,7 +60,7 @@ export const NpsDesktop = React.createClass({
 
     const containerContentClasses = classSet({
       'Container-content': true,
-      'u-paddingBL': hideZendeskLogo && !this.state.currentPage.addingComment
+      'u-paddingB30': hideZendeskLogo && !this.state.currentPage.addingComment
     });
     const surveyFormClasses = classSet({
       'u-isHidden': this.state.currentPage.thankYou
@@ -70,6 +70,7 @@ export const NpsDesktop = React.createClass({
       'u-paddingTT': !this.state.currentPage.thankYou
     });
     const commentsClasses = classSet({
+      'u-paddingBL': true,
       'u-isHidden': !this.state.currentPage.addingComment
     });
 
@@ -81,7 +82,7 @@ export const NpsDesktop = React.createClass({
                       ? <div className='u-textCenter u-paddingBM'>
                           <ZendeskLogo className='u-posStatic' fullscreen={false} />
                         </div>
-                      : <div className='u-paddingBS'></div>;
+                      : null;
 
     const ratingsList = (!this.state.currentPage.thankYou)
                       ? <NpsRatingsList

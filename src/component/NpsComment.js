@@ -70,7 +70,9 @@ export const NpsComment = React.createClass({
 
     return (
       <div className={this.props.className}>
-        <form onSubmit={this.props.onSubmit}>
+        <form
+          className='NpsComment-form'
+          onSubmit={this.props.onSubmit}>
           <Field
             labelClasses={labelClasses}
             hasError={this.props.hasError}
