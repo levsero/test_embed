@@ -130,7 +130,7 @@ describe('NpsDesktop component', function() {
   });
 
   describe('Container-content', () => {
-    it('should have `u-paddingBL` if ZD Logo is hidden and currentPage is not addingComment', () => {
+    it('should have `u-paddingBL` if logo is hidden and currentPage is not addingComment', () => {
       npsProps.hideZendeskLogo = true;
 
       React.render(
@@ -246,7 +246,7 @@ describe('NpsDesktop component', function() {
     });
   });
 
-  ddescribe('addingComment State', () => {
+  describe('addingComment State', () => {
     beforeEach(() => {
       component.setCurrentPage('addingComment');
     });
