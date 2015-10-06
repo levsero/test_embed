@@ -130,16 +130,16 @@ export const NpsDesktop = React.createClass({
              <div className={containerContentClasses}>
                <h1 className={surveyTitleClasses}>{surveyTitle}</h1>
 
-                <div className={surveyFormClasses}>
-                  {ratingsList}
-                  {commentsContent}
-                </div>
+               <div className={surveyFormClasses}>
+                 {ratingsList}
+                 {commentsContent}
+               </div>
 
-                {thankYouContent}
+               {thankYouContent}
 
-                {zendeskLogo}
-              </div>
-            </Container>
+               {zendeskLogo}
+             </div>
+           </Container>
          : <Container></Container>;
   }
 });
