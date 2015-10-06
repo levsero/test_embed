@@ -28,15 +28,18 @@ export const NpsComment = React.createClass({
     );
 
     const sendButtonClasses = classSet({
-      'u-marginTS': true,
+      'u-marginTS NpsComment-sendButton': true,
       'u-marginBM u-sizeFull NpsComment-loadingButton--mobile': this.props.isMobile,
-      'NpsComment-sendButton--desktop': !this.props.isMobile,
       'u-userBackgroundColor u-userBorderColor': this.props.isSubmittingComment,
-      'NpsComment-loadingButton--desktop': this.props.isSubmittingComment && !this.props.isMobile
+      'NpsComment-loadingButton': this.props.isSubmittingComment,
+      'is-mobile': this.props.isMobile,
+      'is-desktop': !this.props.isMobile
     });
 
     const loadingButtonClass = classSet({
-      'NpsComment-loadingButton--desktop-loadingSpinner': !this.props.isMobile
+      'NpsComment-loadingSpinner': true,
+      'is-mobile': this.props.isMobile,
+      'is-desktop': !this.props.isMobile
     });
 
     const textAreaClasses = classSet({

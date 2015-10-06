@@ -154,7 +154,7 @@ var ButtonRating = React.createClass({
 
   render() {
     const ButtonRatingClasses = classSet({
-      'c-btn--rating': true,
+      'ButtonRating': true,
       'is-mobile': this.props.fullscreen,
       'u-userBackgroundColor u-userTextColorConstrast': this.props.selected,
       'u-userBorderColor': this.props.selected,
