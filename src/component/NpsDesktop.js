@@ -66,7 +66,7 @@ export const NpsDesktop = React.createClass({
       'u-isHidden': this.state.currentPage.thankYou
     });
     const surveyTitleClasses = classSet({
-      'SurveyTitle u-textSize15 u-textCenter': true,
+      'u-textSize15 u-textCenter': true,
       'u-paddingTT': !this.state.currentPage.thankYou
     });
     const commentsClasses = classSet({
