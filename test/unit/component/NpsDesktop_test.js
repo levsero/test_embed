@@ -130,7 +130,7 @@ describe('NpsDesktop component', function() {
   });
 
   describe('Container-content', () => {
-    iit('should have `u-paddingBL` if ZD Logo is hidden and currentPage is not addingComment', () => {
+    it('should have `u-paddingBL` if ZD Logo is hidden and currentPage is not addingComment', () => {
       npsProps.hideZendeskLogo = true;
 
       React.render(
@@ -231,7 +231,7 @@ describe('NpsDesktop component', function() {
     });
 
     it('should put the provided question', () => {
-      expect(document.querySelectorAll('.SurveyTitle')[0].textContent)
+      expect(document.querySelector('.Container-content').children[0].innerHTML)
         .toEqual(npsProps.survey.question);
     });
 
@@ -246,18 +246,18 @@ describe('NpsDesktop component', function() {
     });
   });
 
-  describe('addingComment State', () => {
+  ddescribe('addingComment State', () => {
     beforeEach(() => {
       component.setCurrentPage('addingComment');
     });
 
     it('should render a survey title', () => {
-      expect(document.querySelectorAll('.SurveyTitle').length)
-        .toEqual(1);
+      expect(document.querySelector('.Container-content').children[0])
+        .toBeTruthy();
     });
 
     it('should render a survey title containing the provided text', () => {
-      expect(document.querySelectorAll('.SurveyTitle')[0].textContent)
+      expect(document.querySelector('.Container-content').children[0].innerHTML)
         .toEqual(npsProps.survey.question);
     });
 
