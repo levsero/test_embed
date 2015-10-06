@@ -87,7 +87,14 @@ describe('embed.submitTicket', function() {
         getDocumentHost: function() {
           return document.body;
         }
-      }
+      },
+      'service/transitionFactory' : {
+        transitionFactory: {
+          webWidget: {
+            in: noop
+          }
+        }
+      },
     });
 
     mockery.registerAllowable(submitTicketPath);

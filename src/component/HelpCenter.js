@@ -117,13 +117,17 @@ export const HelpCenter = React.createClass({
     this.focusField();
   },
 
-  contextualSearch(searchQuery) {
-    let searchString;
+  contextualSearch(options) {
+    let payload = {};
 
-    if (typeof searchQuery === 'string') {
-      searchString = searchQuery;
-    } else if (Array.isArray(searchQuery)) {
-      searchString = searchQuery.join(' ');
+    /* jshint laxbreak: true */
+    /* jshint camelcase: false */
+    if (options.hasOwnProperty('search') && options.search) {
+      payload.query = options.search;
+    } else if (options.hasOwnProperty('labels')
+                && Array.isArray(options.labels)
+                && options.labels.length > 0) {
+      payload.label_names = options.labels.join(',');
     } else {
       return;
     }
@@ -131,19 +135,21 @@ export const HelpCenter = React.createClass({
     transport.send({
       method: 'get',
       path: '/api/v2/help_center/search.json',
-      /* jshint camelcase:false */
-      query: {
-        locale: i18n.getLocale(),
-        query: searchString,
-        per_page: 3,
-        origin: null
-      },
+      query: _.extend({
+          locale: i18n.getLocale(),
+          per_page: 3,
+          origin: null
+        },
+        payload
+      ),
       callbacks: {
         done: (res) => {
           if (res.ok && res.body.count > 0) {
             this.setState({
               isLoading: false,
-              searchTerm: searchString,
+              searchTerm: (payload.query)
+                        ? payload.query
+                        : payload.label_names,
               hasSearched: true,
               searchFailed: false,
               showIntroScreen: false,

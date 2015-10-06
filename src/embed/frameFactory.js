@@ -43,23 +43,28 @@ export var frameFactory = function(childFn, _params) {
   const defaultParams = {
     frameStyle: {},
     css: '',
-    fullscreenable: false
+    fullscreenable: false,
+    onShow: () => {},
+    onHide: () => {},
+    onClose: () => {},
+    onBack: () => {},
+    afterShowAnimate: () => {}
   };
-  const params = _.extend(defaultParams, _params);
+  const params = _.extend({}, defaultParams, _params);
 
   if (__DEV__) {
     validateChildFn(childFn, params);
   }
 
   return {
-    getDefaultProps: function() {
+    getDefaultProps() {
       return {
         visible: true,
         position: 'right'
       };
     },
 
-    getInitialState: function() {
+    getInitialState() {
       return {
         visible: this.props.visible,
         hiddenByZoom: false,
@@ -71,17 +76,17 @@ export var frameFactory = function(childFn, _params) {
       };
     },
 
-    getChild: function() {
+    getChild() {
       return child;
     },
 
-    getRootComponent: function() {
+    getRootComponent() {
       if (child) {
         return child.refs.rootComponent;
       }
     },
 
-    setFrameSize: function(width, height, transparent = true) {
+    setFrameSize(width, height, transparent = true) {
       const iframe = this.getDOMNode();
       const frameWin = iframe.contentWindow;
       const frameDoc = iframe.contentDocument;
@@ -108,8 +113,7 @@ export var frameFactory = function(childFn, _params) {
           { iframeDimensions: _.extend(this.state.iframeDimensions, dimensions) }
         ), 0);
     },
-
-    updateFrameSize: function(offsetWidth = 0, offsetHeight = 0) {
+    updateFrameSize(offsetWidth = 0, offsetHeight = 0) {
       const iframe = this.getDOMNode();
       const frameWin = iframe.contentWindow;
       const frameDoc = iframe.contentDocument;
@@ -155,7 +159,7 @@ export var frameFactory = function(childFn, _params) {
       frameWin.setTimeout( () => this.setState({iframeDimensions: dimensions()}), 0);
     },
 
-    show: function(animate) {
+    show() {
       let frameFirstChild = this.getDOMNode().contentDocument.body.firstChild;
 
       this.setState({
@@ -163,86 +167,78 @@ export var frameFactory = function(childFn, _params) {
       });
 
       setTimeout( () => {
-        let existingStyle = frameFirstChild.style;
+        const existingStyle = frameFirstChild.style;
 
         if (!existingStyle.webkitOverflowScrolling) {
           existingStyle.webkitOverflowScrolling = 'touch';
         }
       }, 50);
 
-      if (!isMobileBrowser() && animate) {
-        /* jshint laxbreak: true */
-        const xCoord = (params.name === 'nps')
-                     ? '-50%'
-                     : 0;
-        const springTransition = {
-          /* jshint camelcase: false */
-          from_position: [xCoord, 15, 0],
-          position: [xCoord, 0, 0],
-          easing: 'spring',
-          spring_constant: 0.5,
-          spring_deacceleration: 0.75,
-          callback: () => {
-            if (params.afterShowAnimate) {
-              params.afterShowAnimate(this);
-            }
+      if (params.transitionIn) {
+        const transitionIn = _.clone(params.transitionIn);
+        const oldCb = transitionIn.callback;
+        transitionIn.callback = () => {
+          if (params.afterShowAnimate) {
+            params.afterShowAnimate(this);
+          }
+          if (oldCb) {
+            oldCb(this);
           }
         };
 
-        snabbt(this.getDOMNode(), springTransition);
+        snabbt(this.getDOMNode(), transitionIn);
       }
 
-      if (params.onShow) {
-        params.onShow(this);
-      }
+      params.onShow(this);
     },
 
-    updateBaseFontSize(fontSize) {
-      const iframe = this.getDOMNode();
-      const htmlElem = iframe.contentDocument.documentElement;
+    hide() {
 
-      htmlElem.style.fontSize = fontSize;
-    },
+      if (params.transitionOut) {
+        const transitionOut = _.clone(params.transitionOut);
 
-    hide: function() {
-      this.setState({
-        visible: false
-      });
+        const oldCb = transitionOut.callback;
 
-      if (params.onHide) {
+        transitionOut.callback = () => {
+          this.setState({ visible: false });
+          if (oldCb) {
+            oldCb(this);
+          }
+        };
+
+        snabbt(this.getDOMNode(), transitionOut);
+
+      } else {
         params.onHide(this);
+        this.setState({
+          visible: false
+        });
       }
     },
 
-    close: function(ev) {
+    close(ev) {
       // ev.touches added for  automation testing mobile browsers
       // which is firing 'click' event on iframe close
       if (isMobileBrowser() && ev.touches) {
         clickBusterRegister(ev.touches[0].clientX, ev.touches[0].clientY);
       }
       this.hide();
-      if (params.onClose) {
-        params.onClose(this);
-      }
+      params.onClose(this);
     },
 
-    back: function(ev) {
+    back(ev) {
       ev.preventDefault();
-      if (params.onBack) {
-        params.onBack(this);
-      }
+      params.onBack(this);
     },
 
-    setHiddenByZoom: function(hide) {
+    setHiddenByZoom(hide) {
       this.setState({
         hiddenByZoom: hide
       });
     },
 
-    toggleVisibility: function() {
-      this.setState({
-        visible: !this.state.visible
-      });
+    toggleVisibility() {
+      this.setState({ visible: !this.state.visible });
     },
 
     setHighlightColor: function(color) {
@@ -279,15 +275,15 @@ export var frameFactory = function(childFn, _params) {
       );
     },
 
-    componentDidMount: function() {
+    componentDidMount() {
       this.renderFrameContent();
     },
 
-    componentDidUpdate: function() {
+    componentDidUpdate() {
       this.renderFrameContent();
     },
 
-    renderFrameContent: function() {
+    renderFrameContent() {
       if (this.state._rendered) {
         return false;
       }
@@ -405,7 +401,7 @@ export var frameFactory = function(childFn, _params) {
       }
     },
 
-    componentWillUnmount: function() {
+    componentWillUnmount() {
       React.unmountComponentAtNode(this.getDOMNode().contentDocument.body);
     }
 
