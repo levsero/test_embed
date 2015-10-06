@@ -46,7 +46,9 @@ export const NpsDesktop = React.createClass({
   },
 
   render() {
-    this.props.updateFrameSize(0, 0);
+    if (this.props.updateFrameSize) {
+      setTimeout( () => { this.props.updateFrameSize() }, 0);
+    }
 
     /* jshint laxbreak: true */
     const npsRatings = _.range(11);
