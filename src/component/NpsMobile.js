@@ -231,7 +231,7 @@ export const NpsMobile = React.createClass({
     });
 
     const npsCommentClasses = classSet({
-      'NpsComment-label--mobile': true,
+      'NpsComment-label is-mobile': true,
       'u-isHidden': !this.state.isEditing
     });
 

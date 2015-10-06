@@ -113,6 +113,7 @@ export var frameFactory = function(childFn, _params) {
           { iframeDimensions: _.extend(this.state.iframeDimensions, dimensions) }
         ), 0);
     },
+
     updateFrameSize(offsetWidth = 0, offsetHeight = 0) {
       const iframe = this.getDOMNode();
       const frameWin = iframe.contentWindow;

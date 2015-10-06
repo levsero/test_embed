@@ -10,6 +10,12 @@ import { NpsComment } from 'component/NpsComment';
 const classSet = React.addons.classSet;
 
 export const NpsDesktop = React.createClass({
+  getDefaultProps() {
+    return {
+      isMobile: false
+    };
+  },
+
   getInitialState() {
     return {
       currentPage: {
@@ -78,6 +84,9 @@ export const NpsDesktop = React.createClass({
       'u-paddingBL': true,
       'u-isHidden': !this.state.currentPage.addingComment
     });
+    const ratingsListClasses = classSet({
+      'RatingsList is-desktop': true
+    });
 
     const surveyTitle = (this.state.currentPage.thankYou)
                       ? this.props.survey.thankYou
@@ -85,14 +94,14 @@ export const NpsDesktop = React.createClass({
 
     const zendeskLogo = (!hideZendeskLogo && !this.state.currentPage.addingComment)
                       ? <div className='u-textCenter u-paddingBM'>
-                          <ZendeskLogo className='u-posStatic' fullscreen={false} />
+                          <ZendeskLogo className='u-posStatic' fullscreen={this.props.isMobile} />
                         </div>
                       : null;
 
     const ratingsList = (!this.state.currentPage.thankYou)
                       ? <NpsRatingsList
-                          isMobile={false}
-                          className='RatingsList--desktop'
+                          isMobile={this.props.isMobile}
+                          className={ratingsListClasses}
                           ratingsRange={npsRatings}
                           hideRatingsLegend={hideRatingsLegend}
                           highlightColor={this.props.survey.highlightColor}
@@ -106,7 +115,7 @@ export const NpsDesktop = React.createClass({
 
     const commentsContent = <NpsComment
                               ref='npsComment'
-                              isMobile={false}
+                              isMobile={this.props.isMobile}
                               className={commentsClasses}
                               comment={this.props.response.comment}
                               feedbackPlaceholder={this.props.survey.feedbackPlaceholder}
@@ -126,7 +135,7 @@ export const NpsDesktop = React.createClass({
     return (this.props.survey && this.props.survey.question)
          ? <Container
              card={true}
-             fullscreen={false}
+             fullscreen={this.props.isMobile}
              style={containerStyles}
              className={containerClasses}>
              <div className={containerContentClasses}>

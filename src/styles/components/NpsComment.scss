@@ -14,10 +14,10 @@
   color: $zendesk-color--dark-gray;
   font-size: #{14/$font-size}rem !important;
   border: 0 !important;
-}
 
-.NpsComment-label--mobile {
-  padding: #{12/$font-size}rem 0 !important;
+  &.is-mobile {
+    padding: #{12/$font-size}rem 0 !important;
+  }
 }
 
 //FIXME

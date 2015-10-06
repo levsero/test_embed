@@ -29,7 +29,7 @@ export const NpsComment = React.createClass({
 
     const sendButtonClasses = classSet({
       'u-marginTS NpsComment-sendButton': true,
-      'u-marginBM u-sizeFull NpsComment-loadingButton--mobile': this.props.isMobile,
+      'u-marginBM u-sizeFull NpsComment-loadingButton': this.props.isMobile,
       'u-userBackgroundColor u-userBorderColor': this.props.isSubmittingComment,
       'NpsComment-loadingButton': this.props.isSubmittingComment,
       'is-mobile': this.props.isMobile,
