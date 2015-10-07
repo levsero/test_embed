@@ -108,6 +108,10 @@ var ButtonSecondary = React.createClass({
       [this.props.className]: true
     });
 
+    if (this.props.disabled) {
+      this.props.onClick = null; // Do not re-render using setProps
+    }
+
     return (
       <div
         onClick={this.props.onClick}
@@ -169,10 +173,6 @@ var ButtonRating = React.createClass({
                 ? <LoadingSpinner
                     className={`u-userFillColorContrast ${this.props.loadingSpinnerClassName}`} />
                 : `${this.props.label}`;
-
-    if (this.props.isSubmittingComment) {
-      this.props.onClick = null; // Don't trigger re-render
-    }
 
     return <ButtonSecondary
              label={label}
