@@ -37,8 +37,6 @@ function create(name, config) {
       position: 'fixed',
       left: '50%',
       bottom: 0,
-      transform: 'translate3d(-50%, 0, 0)',
-      webkitTransform: 'translate3d(-50%, 0, 0)',
       width: 620
     };
   }
