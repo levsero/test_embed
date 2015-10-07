@@ -109,10 +109,11 @@ export const NpsDesktop = React.createClass({
                           ratingsRange={npsRatings}
                           hideRatingsLegend={hideRatingsLegend}
                           highlightColor={this.props.survey.highlightColor}
-                          isSubmittingRating={this.props.isSubmittingRating}
                           likelyLabel={this.props.survey.likelyLabel}
                           notLikelyLabel={this.props.survey.notLikelyLabel}
                           selectedRating={this.props.response.rating}
+                          isSubmittingComment={this.props.isSubmittingComment}
+                          isSubmittingRating={this.props.isSubmittingRating}
                           onClick={this.ratingChangeValueHandler}
                           onChangeValue={this.ratingChangeValueHandler} />
                       : null;

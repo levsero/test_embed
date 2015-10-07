@@ -90,7 +90,8 @@ var ButtonPill = React.createClass({
 var ButtonSecondary = React.createClass({
   getDefaultProps() {
     return {
-      className: ''
+      className: '',
+      disabled: false
     };
   },
 
@@ -112,7 +113,8 @@ var ButtonSecondary = React.createClass({
         onClick={this.props.onClick}
         onTouchStart={this.props.onClick}
         className={buttonClasses}
-        style={this.props.style}>
+        style={this.props.style}
+        disabled={this.props.disabled}>
         {this.props.label}
       </div>
     );
@@ -148,7 +150,8 @@ var ButtonRating = React.createClass({
       selected: false,
       loading: false,
       label: null,
-      loadingSpinnerClassName: ''
+      loadingSpinnerClassName: '',
+      isSubmittingComment: false
     };
   },
 
@@ -167,10 +170,15 @@ var ButtonRating = React.createClass({
                     className={`u-userFillColorContrast ${this.props.loadingSpinnerClassName}`} />
                 : `${this.props.label}`;
 
+    if (this.props.isSubmittingComment) {
+      this.props.onClick = null; // Don't trigger re-render
+    }
+
     return <ButtonSecondary
              label={label}
              onClick={this.props.onClick}
-             className={ButtonRatingClasses} />;
+             className={ButtonRatingClasses}
+             disabled={this.props.isSubmittingComment} />;
   }
 });
 

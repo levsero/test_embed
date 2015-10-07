@@ -52,7 +52,8 @@ export const NpsRatingsList = React.createClass({
         selected: isSelected,
         highlightColor: this.props.highlightColor,
         onClick: this.ratingClickHandlerFn(rating),
-        loadingSpinnerClassName: 'RatingsList-spinner'
+        loadingSpinnerClassName: 'RatingsList-spinner',
+        isSubmittingComment: this.props.isSubmittingComment
       };
 
       return (
