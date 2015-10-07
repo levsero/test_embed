@@ -36,6 +36,7 @@ function create(name, config) {
     frameStyle = {
       position: 'fixed',
       left: '50%',
+      marginLeft: -310,
       bottom: 0,
       width: 620
     };

@@ -65,7 +65,7 @@ export const NpsDesktop = React.createClass({
                           : {width: 620, margin: 15};
 
     if (this.props.setOffsetHorizontal && this.state.currentPage.thankYou) {
-      setTimeout( () => { this.props.setOffsetHorizontal(110); }, 0);
+      setTimeout( () => { this.props.setOffsetHorizontal(-215); }, 0);
     }
 
     const iconClasses = 'u-inlineBlock u-userFillColor u-posRelative u-marginTL';
