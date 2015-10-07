@@ -160,7 +160,7 @@ describe('Help center component', function() {
   });
 
   it('should set the button label based on the defaultButtonLabel property', function() {
-    const helpCenter = React.render(
+    React.render(
       <HelpCenter buttonLabelKey='contact' />,
       global.document.body
     );
