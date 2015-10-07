@@ -6,11 +6,11 @@ import { Button,
          ButtonSecondary } from 'component/Button';
 import { Container } from 'component/Container';
 import { Field } from 'component/FormField';
-import { Loading } from 'component/Loading';
+import { LoadingEllipses } from 'component/Loading';
 
 const classSet = React.addons.classSet;
 
-const RatingButton = React.createClass({
+const ButtonRating = React.createClass({
   getDefaultProps() {
     return {
       highlightColor: '',
@@ -31,7 +31,7 @@ const RatingButton = React.createClass({
                 : {};
     const content = (this.props.loading)
                   ? (<div style={{ width:'30px' }}>  {/* FIXME: css */}
-                       <Loading />
+                       <LoadingEllipses />
                      </div>)
                   : (<ButtonSecondary
                        style={style}
@@ -66,13 +66,12 @@ export const NpsDesktop = React.createClass({
         label: rating,
         loading: isSelected && this.props.isSubmittingRating,
         selected: isSelected,
-        highlightColor: this.props.survey.highlightColor,
-        onClick: this.props.ratingClickHandler(rating)
+        highlightColor: this.props.survey.highlightColor
       };
 
       return (
         <li>
-          <RatingButton {...props} />
+          <ButtonRating {...props} />
         </li>
       );
     };
@@ -112,7 +111,7 @@ export const NpsDesktop = React.createClass({
           <div
             className={submittingCommentLoadingClasses}
             style={{paddingTop: '16px', paddingRight: '35px', height: '21px'}}> {/* FIXME: css */}
-            <Loading className='u-textRight' />
+            <LoadingEllipses className='u-textRight' />
           </div>
 
           <div

@@ -5,6 +5,11 @@ import { Icon } from 'component/Icon';
 const classSet = React.addons.classSet;
 
 export var ZendeskLogo = React.createClass({
+  getDefaultProps() {
+    return {
+      className: ''
+    };
+  },
   render() {
     /* jshint quotmark:false */
     const { fullscreen, rtl, formSuccess } = this.props;
@@ -13,7 +18,8 @@ export var ZendeskLogo = React.createClass({
       'u-posAbsolute u-posEnd--vert': !fullscreen || formSuccess,
       'u-posRelative': fullscreen,
       'u-posStart': !rtl,
-      'u-posEnd': rtl
+      'u-posEnd': rtl,
+      [this.props.className]: true
     });
     const logoUrl = [
       '//www.zendesk.com/embeddables/',

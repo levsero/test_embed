@@ -2,6 +2,8 @@ import React from 'react/addons';
 
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
+import { LoadingSpinner } from 'component/Loading';
+import { generateConstrastColor } from 'utility/utils';
 
 const classSet = React.addons.classSet;
 
@@ -87,14 +89,23 @@ var ButtonPill = React.createClass({
 });
 
 var ButtonSecondary = React.createClass({
+  getDefaultProps() {
+    return {
+      className: ''
+    };
+  },
+
   propTypes: {
-    label: React.PropTypes.string.isRequired
+    label: React.PropTypes.oneOfType([
+      React.PropTypes.string.isRequired,
+      React.PropTypes.element
+    ])
   },
 
   render() {
     const buttonClasses = classSet({
       'c-btn c-btn--medium c-btn--secondary': true,
-      [`${this.props.className}`]: true
+      [this.props.className]: true
     });
 
     return (
@@ -131,4 +142,51 @@ var ButtonGroup = React.createClass({
   }
 });
 
-export { Button, ButtonNav, ButtonPill, ButtonSecondary, ButtonGroup };
+var ButtonRating = React.createClass({
+  getDefaultProps() {
+    return {
+      highlightColor: '#77a500',
+      selected: false,
+      loading: false,
+      label: null
+    };
+  },
+
+  render() {
+    /* jshint laxbreak: true */
+    const isSelectedStyles = {
+      borderColor: this.props.highlightColor,
+      background: this.props.highlightColor,
+      color: generateConstrastColor(this.props.highlightColor)
+    };
+
+    const isNotSelectedStyles = {
+      color: this.props.highlightColor
+    };
+
+    const style = (this.props.selected)
+                ? isSelectedStyles
+                : isNotSelectedStyles;
+
+    const label = (this.props.loading)
+                ? <LoadingSpinner
+                   className={this.props.loadingSpinnerClassName}
+                   highlightColor={generateConstrastColor(this.props.highlightColor)} />
+                : this.props.label;
+
+    return <ButtonSecondary
+             style={style}
+             label={label}
+             onClick={this.props.onClick}
+             className='RatingsList-btn u-paddingAN' />;
+  }
+});
+
+export {
+  Button,
+  ButtonNav,
+  ButtonPill,
+  ButtonSecondary,
+  ButtonGroup,
+  ButtonRating
+};

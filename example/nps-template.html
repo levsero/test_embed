@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>eNPS Test</title>
+
+  <script src="/dist/bootstrap.js" inline></script>
+
+  <script>
+    window.localStorage.clear(); // Clear storage to take NPS survey again
+    zE(function() {
+      zE.identify({name: 'Ryan', email: 'ryan@foo.com', externalId: '1234'});
+      zE.activateNps()
+    });
+  </script>
+</head>
+<body>
+  <h1>eNPS</h1>
+  <button onclick="zE.activate({hideOnClose: true})">Activate</button>
+  <button onclick="zE.hide()">Hide</button>
+  <button onclick="zE.show()">Show</button>
+  <button onclick="zE.identify({name: 'Ryan', email: 'ryan@foo.com', externalId: '1234'})">Identify</button>
+  <div style="height: 5000px"></div>
+ </body>
+</html>

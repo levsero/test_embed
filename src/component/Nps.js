@@ -2,6 +2,7 @@ import React from 'react/addons';
 import _     from 'lodash';
 
 import { NpsDesktop } from 'component/NpsDesktop';
+import { NpsMobile } from 'component/NpsMobile';
 
 export const Nps = React.createClass({
   propTypes: {
@@ -14,10 +15,16 @@ export const Nps = React.createClass({
       survey: {
         commentsQuestion: '',
         highlightColor: '',
-        surveyId: null,
+        id: null,
         logoUrl: '',
         question: '',
-        recipientId: null
+        recipientId: null,
+        error: false,
+        thankYou: '',
+        youRated: '',
+        likelyLabel: '',
+        notLikelyLabel: '',
+        feedbackPlaceholder: ''
       },
       response: {
         rating: null,
@@ -32,59 +39,82 @@ export const Nps = React.createClass({
     };
   },
 
-  sendRating() {
+  setError(errorState) {
+    this.setState({
+      survey: _.extend({}, this.state.survey, { error: errorState })
+    });
+  },
+
+  npsSender(params, doneFn, failFn) {
+    const fail = (error) => {
+      this.setError(true);
+      this.setState({isSubmittingRating: false, isSubmittingComment: false});
+      if (failFn) {
+        failFn(error);
+      }
+    };
+
+    const done = () => {
+      this.setError(false);
+      this.setState({isSubmittingRating: false, isSubmittingComment: false});
+      if (doneFn) {
+        doneFn();
+      }
+    };
+
+    this.setError(false);
+    this.props.npsSender(params, done, fail);
+  },
+
+  sendRating(doneFn, failFn) {
     const params = {
       npsResponse: {
-        surveyId: this.state.survey.surveyId,
+        surveyId: this.state.survey.id,
         recipientId: this.state.survey.recipientId,
         rating: this.state.response.rating
       }
     };
-    const doneFn = () => {
-      this.setState({ isSubmittingRating: false });
-    };
-    const failFn = () => {};
 
-    this.props.npsSender(params, doneFn, failFn);
+    this.npsSender(params, doneFn, failFn);
   },
 
-  sendComment() {
+  sendComment(doneFn, failFn) {
     const params = {
       npsResponse: {
-        surveyId: this.state.survey.surveyId,
+        surveyId: this.state.survey.id,
         recipientId: this.state.survey.recipientId,
         rating: this.state.response.rating,
         comment: this.state.response.comment
       }
     };
-    const doneFn = () => {
-      this.setState({
-        isSubmittingComment: false,
-        surveyCompleted: true
-      });
-    };
-    const failFn = () => {};
 
-    this.props.npsSender(params, doneFn, failFn);
+    this.npsSender(params, doneFn, failFn);
   },
 
-  ratingClickHandler(rating) {
-    return () => {
+  submitRatingHandler(rating, doneFn) {
+    const errorHandler = () => {
       this.setState({
-        response: _.extend({}, this.state.response, { rating: rating }),
-        isSubmittingRating: true
+        response: _.extend({}, this.state.response, { rating: null })
       });
-      setTimeout(this.sendRating, 0);
-      setTimeout(() => {
+    };
+
+    this.setState({
+      response: _.extend({}, this.state.response, { rating: rating }),
+      isSubmittingRating: true
+    });
+
+    setTimeout(() => this.sendRating(doneFn, errorHandler), 0);
+    setTimeout(() => {
+      if (!this.state.isMobile) {
         this.refs.commentField.refs.field.getDOMNode().focus();
-      }, 100);
-    };
+      }
+    }, 100);
   },
 
-  submitCommentHandler(ev) {
+  submitCommentHandler(ev, doneFn, failFn) {
     ev.preventDefault();
     this.setState({ isSubmittingComment: true });
-    setTimeout(this.sendComment, 0);
+    setTimeout(() => this.sendComment(doneFn, failFn), 0);
   },
 
   onCommentChangeHandler(ev) {
@@ -99,18 +129,16 @@ export const Nps = React.createClass({
   },
 
   render() {
-    if (this.props.updateFrameSize) {
-      setTimeout(() => this.props.updateFrameSize(), 0);
-    }
-
     /* jshint laxbreak: true */
     return (this.state.isMobile)
-      ? <div
-          className='nps-mobile'
-          style={{background: 'red', height: 100, width: 100}} />
+      ? <NpsMobile
+          {...this.state}
+          setFrameSize={this.props.setFrameSize}
+          submitCommentHandler={this.submitCommentHandler}
+          onCommentChangeHandler={this.onCommentChangeHandler}
+          submitRatingHandler={this.submitRatingHandler} />
       : <NpsDesktop
           {...this.state}
-          ratingClickHandler={this.ratingClickHandler}
           submitCommentHandler={this.submitCommentHandler}
           onCommentChangeHandler={this.onCommentChangeHandler}
           sendComment={this.sendComment} />;

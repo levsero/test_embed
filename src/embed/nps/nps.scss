@@ -1,23 +1,18 @@
+/**
+ * 1. Set margin-top to 98% to allow box-shadow to appear at the top
+ *    of the iframe otherwise box-shadow would be hidden due to container
+ *    taking 100% of iframe space
+ */
 @import 'Container';
+@import 'List';
 @import 'Button';
 @import 'Icon';
 @import 'Form';
 @import 'Loading';
 @import 'Animation';
+@import 'NpsSelectList';
+@import 'NpsMobile';
+@import 'NpsComment';
 
-// HALP @ryanseddon
-// FIXME: css
 
-.nps-ratings {
-  padding-bottom: 10px;
-
-  li {
-    display: inline-block;
-    margin: 1px;
-    .c-btn {
-      padding: 7px;
-      width: 14px;
-    }
-  }
-}
 

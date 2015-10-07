@@ -20,9 +20,40 @@ describe('Nps component', function() {
             );
           }
         })
+      },
+      'component/NpsMobile': {
+        NpsMobile: React.createClass({
+          render() {
+            return (
+              <div className='nps-mobile' />
+            );
+          }
+        })
+      },
+      'component/Container': {
+        Container: React.createClass({
+          render: function() {
+            return <div>{this.props.children}</div>;
+          }
+        }),
+      },
+      'component/Button': {
+        Button: noopReactComponent(),
+        ButtonSecondary: noopReactComponent(),
+        ButtonGroup: noopReactComponent()
+      },
+      'utility/devices': {
+        isMobileBrowser: function() {
+          return false;
+        }
+      },
+      'component/FormField': {
+        Field: noopReactComponent()
+      },
+      'component/Loading': {
+        LoadingEllipses: noopReactComponent()
       }
     });
-
     Nps = requireUncached(npsPath).Nps;
   });
 
@@ -106,5 +137,138 @@ describe('Nps component', function() {
 
     expect(document.querySelectorAll('.nps-mobile').length)
       .toEqual(1);
+  });
+
+  describe('submitRatingHandler', function() {
+    let component,
+        npsSenderSpy;
+
+    beforeEach(function() {
+
+      npsSenderSpy = jasmine.createSpy();
+
+      component = React.render(
+        <Nps npsSender={npsSenderSpy} />,
+        global.document.body
+      );
+
+      component.sendRating = jasmine.createSpy();
+    });
+
+    it('should set `response.rating` to the provided rating', function() {
+      const mockRating = 0;
+
+      component.submitRatingHandler(mockRating, noop);
+
+      expect(component.state.response.rating)
+        .toEqual(mockRating);
+    });
+  });
+
+  describe('npsSender', function() {
+    let component,
+        npsSenderSpy;
+
+    beforeEach(function() {
+
+      npsSenderSpy = jasmine.createSpy();
+
+      component = React.render(
+        <Nps npsSender={npsSenderSpy} />,
+        global.document.body
+      );
+    });
+
+    it('should set survey.error to false', function() {
+      component.npsSender();
+
+      expect(component.state.survey.error)
+        .toEqual(false);
+    });
+
+    it('should call the this.props.npsSender', function() {
+      component.npsSender();
+
+      expect(npsSenderSpy)
+        .toHaveBeenCalled();
+    });
+
+    describe('done', function() {
+      let doneFn;
+
+      beforeEach(function() {
+        doneFn = jasmine.createSpy();
+      });
+
+      it('should set survey.error to false', function() {
+        component.npsSender({}, noop, noop);
+
+        expect(component.state.survey.error)
+          .toEqual(false);
+      });
+
+      it('should set isSubmittingRating to false', function() {
+        component.npsSender({}, noop, noop);
+
+        expect(component.state.isSubmittingRating)
+          .toEqual(false);
+      });
+
+      it('should set isSubmittingComment to false', function() {
+        component.npsSender({}, noop, noop);
+
+        expect(component.state.isSubmittingComment)
+          .toEqual(false);
+      });
+
+      it('should run the provided doneFn', function() {
+        component.npsSender({}, doneFn, noop);
+
+        npsSenderSpy.calls.mostRecent().args[1]();
+
+        expect(doneFn)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('fail', function() {
+      let failFn;
+
+      beforeEach(function() {
+        failFn = jasmine.createSpy();
+      });
+
+      it('should set survey.error to true', function() {
+        component.npsSender({}, noop, noop);
+
+        npsSenderSpy.calls.mostRecent().args[2]();
+
+        expect(component.state.survey.error)
+          .toEqual(true);
+      });
+
+      it('should set isSubmittingRating to false', function() {
+        component.npsSender({}, noop, noop);
+
+        expect(component.state.isSubmittingRating)
+          .toEqual(false);
+      });
+
+      it('should set isSubmittingComment to false', function() {
+        component.npsSender({}, noop, noop);
+
+        expect(component.state.isSubmittingComment)
+          .toEqual(false);
+      });
+
+      it('should run the provided failFn', function() {
+        component.npsSender({}, noop, failFn);
+
+        npsSenderSpy.calls.mostRecent().args[2]();
+
+        expect(failFn)
+          .toHaveBeenCalled();
+      });
+    });
   });
 });

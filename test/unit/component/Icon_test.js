@@ -29,6 +29,7 @@ describe('Icon component', function() {
       'icons/widget-icon_icon.svg': dummyIcon,
       'icons/widget-icon_tick.svg': dummyIcon,
       'icons/widget-icon_checkboxCheck.svg': dummyIcon,
+      'icons/widget-icon_caret.svg': dummyIcon,
       'utility/devices': {
         isMobileBrowser: function() {
           return false;

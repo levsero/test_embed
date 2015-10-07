@@ -1,11 +1,21 @@
 describe('embed.nps', () => {
   let nps,
-      mockRegistry;
+      mockRegistry,
+      mockMobileTransitionIn,
+      mockMobileTransitionOut,
+      mockDesktopTransitionIn,
+      mockDesktopTransitionOut;
 
   const npsPath = buildSrcPath('embed/nps/nps');
 
   beforeEach(() => {
     resetDOM();
+
+    mockDesktopTransitionIn = jasmine.createSpy('transitionFactory-mobile-in');
+    mockDesktopTransitionOut = jasmine.createSpy('transitionFactory-mobile-out');
+
+    mockMobileTransitionIn = jasmine.createSpy('transitionFactory-mobile-in');
+    mockMobileTransitionOut = jasmine.createSpy('transitionFactory-mobile-out');
 
     mockery.enable();
 
@@ -24,6 +34,11 @@ describe('embed.nps', () => {
       'component/Nps': {
         Nps: React.createClass({
           reset: jasmine.createSpy('reset'),
+          getInitialState() {
+            return {
+              survey: {}
+            };
+          },
           render() {
             return (
               <div className='mock-nps' />
@@ -50,6 +65,23 @@ describe('embed.nps', () => {
         isMobileBrowser: function() {
           return false;
         }
+      },
+      'utility/scrollHacks': {
+        setScrollKiller: noop,
+        setWindowScroll: noop,
+        revertWindowScroll: noop
+      },
+      'service/transitionFactory' : {
+        transitionFactory: {
+          npsMobile: {
+            in: mockMobileTransitionIn,
+            out: mockMobileTransitionOut
+          },
+          npsDesktop: {
+            in: mockDesktopTransitionIn,
+            out: mockDesktopTransitionOut
+          },
+        }
       }
     });
 
@@ -61,6 +93,49 @@ describe('embed.nps', () => {
   afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
+  });
+
+  describe('create', () => {
+    describe('desktop', () => {
+      it('should provide the desktop transition in config', () => {
+        nps.create('adam');
+
+        expect(mockDesktopTransitionIn)
+          .toHaveBeenCalled();
+      });
+      it('should provide the desktop transition out config', () => {
+        nps.create('adam');
+
+        expect(mockDesktopTransitionOut)
+          .toHaveBeenCalled();
+      });
+    });
+    describe('mobile', () => {
+      let oldIsMobileBrower;
+
+      beforeEach(() => {
+        oldIsMobileBrower = mockRegistry['utility/devices'].isMobileBrowser;
+        mockRegistry['utility/devices'].isMobileBrowser = () => true;
+      });
+
+      afterEach(() => {
+        mockRegistry['utility/devices'].isMobileBrowser = oldIsMobileBrower;
+      });
+
+      it('should provide the mobile transition in config', () => {
+        nps.create('adam');
+
+        expect(mockMobileTransitionIn)
+          .toHaveBeenCalled();
+      });
+
+      it('should provide the mobile transition out config', () => {
+        nps.create('adam');
+
+        expect(mockMobileTransitionOut)
+          .toHaveBeenCalled();
+      });
+    });
   });
 
   describe('render', () => {
@@ -111,11 +186,11 @@ describe('embed.nps', () => {
           pluckSubscribeCall(mockMediator, 'nps.activate')();
 
           expect(dan.instance.show.__reactBoundMethod)
-            .toHaveBeenCalledWith(true);
+            .toHaveBeenCalled();
         });
 
         it('should not show if a survey is not available', () => {
-          pluckSubscribeCall(mockMediator, 'nps.setSurvey')({});
+          pluckSubscribeCall(mockMediator, 'nps.setSurvey')({ npsSurvey: {} });
           pluckSubscribeCall(mockMediator, 'nps.activate')();
 
           expect(dan.instance.show.__reactBoundMethod)
@@ -133,7 +208,7 @@ describe('embed.nps', () => {
           expect(danNps.reset.__reactBoundMethod)
             .not.toHaveBeenCalled();
 
-          pluckSubscribeCall(mockMediator, 'nps.setSurvey')({});
+          pluckSubscribeCall(mockMediator, 'nps.setSurvey')({ npsSurvey: {} });
 
           expect(danNps.state.surveyAvailable)
             .toEqual(false);
@@ -146,7 +221,7 @@ describe('embed.nps', () => {
             .toHaveBeenCalled();
 
           const surveyKeys = [
-            ['surveyId', 'id'],
+            'id',
             'commentsQuestion',
             'highlightColor',
             'logoUrl',
@@ -155,13 +230,8 @@ describe('embed.nps', () => {
           ];
 
           surveyKeys.forEach((key) => {
-            if (key[1]) {
-              expect(danNps.state.survey[key[0]])
-                .toEqual(surveyParams.npsSurvey[key[1]]);
-            } else {
-              expect(danNps.state.survey[key])
-                .toEqual(surveyParams.npsSurvey[key]);
-            }
+            expect(danNps.state.survey[key])
+              .toEqual(surveyParams.npsSurvey[key]);
           });
 
           expect(danNps.state.surveyAvailable)
@@ -193,7 +263,7 @@ describe('embed.nps', () => {
 
   describe('dismissal functionality', () => {
     const survey = {
-      surveyId: 1234,
+      id: 1234,
       recipientId: 2345
     };
 
@@ -207,7 +277,7 @@ describe('embed.nps', () => {
       transport = mockRegistry['service/transport'].transport;
       expectedKey = [
           transport.getZendeskHost(),
-          survey.surveyId,
+          survey.id,
           survey.recipientId,
           'dismiss-timestamp'
         ].join('-');

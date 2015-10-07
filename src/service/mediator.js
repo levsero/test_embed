@@ -324,8 +324,8 @@ function init(helpCenterAvailable, hideLauncher) {
     }
   });
 
-  c.intercept(`.onSetKeywords`, (__, params) => {
-    c.broadcast(`${helpCenter}.setKeywords`, params);
+  c.intercept(`.onSetHelpCenterSuggestions`, (__, params) => {
+    c.broadcast(`${helpCenter}.setHelpCenterSuggestions`, params);
   });
 
   c.subscribe(`${launcher}.show`, () => {
