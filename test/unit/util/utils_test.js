@@ -227,12 +227,12 @@ describe('util.setScaleLock', function() {
   describe('patchReactIdAttribute()', function() {
     it('updates react data attribute to data-ze-reactid instead of data-reactid', function() {
       require(utilPath).patchReactIdAttribute();
-      const containerDiv = document.createElement('div');
 
-      const React = require('react');
-      React.render(<h1>Hello React!</h1>, containerDiv);
+      // we have to require react again after the ID_ATTRIBUTE is updated for change to take effect
+      const { addons: { TestUtils } } = require('react/addons');
 
-      expect(containerDiv.innerHTML).toEqual('<h1 data-ze-reactid=".0">Hello React!</h1>');
+      const containerDiv = TestUtils.renderIntoDocument(<h1>Hello React!</h1>).getDOMNode();
+      expect(containerDiv.outerHTML).toEqual('<h1 data-ze-reactid=".0">Hello React!</h1>');
     });
   });
 });
