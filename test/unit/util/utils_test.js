@@ -223,4 +223,16 @@ describe('util.setScaleLock', function() {
         .toEqual('! thi𝌆$ is tchüss1@  path');
     });
   });
+
+  describe('patchReactIdAttribute()', function() {
+    it('updates react data attribute to data-ze-reactid instead of data-reactid', function() {
+      require(utilPath).patchReactIdAttribute();
+      const containerDiv = document.createElement('div');
+
+      const React = require('react');
+      React.render(<h1>Hello React!</h1>, containerDiv);
+
+      expect(containerDiv.innerHTML).toEqual('<h1 data-ze-reactid=".0">Hello React!</h1>');
+    });
+  });
 });

@@ -200,6 +200,10 @@ function getPageKeywords() {
   return splitPath(location.pathname).trim();
 }
 
+function patchReactIdAttribute() {
+  require('react/lib/DOMProperty').ID_ATTRIBUTE_NAME = 'data-ze-reactid';
+}
+
 export {
   parseUrl,
   setScaleLock,
@@ -211,5 +215,6 @@ export {
   getPageKeywords,
   splitPath,
   generateHighlightColor,
-  generateConstrastColor
+  generateConstrastColor,
+  patchReactIdAttribute,
 };
