@@ -164,9 +164,6 @@ describe('Help center component', function() {
       <HelpCenter buttonLabelKey='contact' />,
       global.document.body
     );
-    helpCenter.setState({
-      buttonLabel: 'embeddable_framework.helpCenter.submitButton.label.submitTicket.contact'
-    });
 
     expect(document.querySelector('a.u-userTextColor').textContent)
       .toEqual('embeddable_framework.helpCenter.submitButton.label.submitTicket.contact');
