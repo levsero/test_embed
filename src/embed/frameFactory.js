@@ -86,6 +86,35 @@ export var frameFactory = function(childFn, _params) {
       }
     },
 
+    setOffsetHorizontal(offsetValue = 0) {
+      // No percentage offset support for now
+      if (isNaN(offsetValue)) { return ; }
+
+      const iframe = this.getDOMNode();
+      const horizontalPos = iframe.style.left;
+      let adjustedValue = 0;
+
+      if (!horizontalPos) {
+        iframe.style.left = `${offsetValue / win.innerWidth * 100}%`;
+        iframe.style.right = ''; // Remove
+        return;
+      }
+
+      const isPercentage = horizontalPos.indexOf('%') >= 0;
+
+      if (isPercentage) {
+        const percentage = horizontalPos.replace('%', '') / 100;
+        const widthPosValue = win.innerWidth * percentage;
+        adjustedValue = `${(widthPosValue + offsetValue) / win.innerWidth * 100}%`;
+      } else {
+        const widthPosValue = horizontalPos.replace('px', '');
+        adjustedValue = `${widthPosValue + offsetValue}px`;
+      }
+
+      iframe.style.left = adjustedValue;
+      iframe.style.right = ''; // Remove
+    },
+
     setFrameSize(width, height, transparent = true) {
       const iframe = this.getDOMNode();
       const frameWin = iframe.contentWindow;
@@ -347,7 +376,8 @@ export var frameFactory = function(childFn, _params) {
         // into childParams
         childParams = _.extend(childParams, {
           updateFrameSize: this.updateFrameSize,
-          setFrameSize: this.setFrameSize
+          setFrameSize: this.setFrameSize,
+          setOffsetHorizontal: this.setOffsetHorizontal
         });
 
         const Component = React.createClass({

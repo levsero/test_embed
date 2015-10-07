@@ -100,6 +100,7 @@ function create(name, config) {
           ref='rootComponent'
           setFrameSize={params.setFrameSize}
           updateFrameSize={params.updateFrameSize}
+          setOffsetHorizontal={params.setOffsetHorizontal}
           npsSender={npsSender}
           mobile={isMobileBrowser()}
           style={containerStyle} />
