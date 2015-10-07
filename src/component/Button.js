@@ -108,6 +108,7 @@ var ButtonSecondary = React.createClass({
       [this.props.className]: true
     });
 
+    /* jshint laxbreak: true */
     return (this.props.disabled)
          ? <div
              className={buttonClasses}
