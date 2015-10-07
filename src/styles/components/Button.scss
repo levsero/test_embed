@@ -118,6 +118,11 @@ $Button-nudge: 5;
   padding: 0;
   width: #{34/$font-size}rem;
 
+  &.is-disabled {
+    color: $zendesk-color--iron !important;
+    background-color: $zendesk-color--white !important;
+  }
+
   &:hover, &:focus {
     background-color: $zendesk-color--white-smoke;
     border: #{2/$font-size}rem solid $zendesk-color--iron;

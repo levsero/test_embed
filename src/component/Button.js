@@ -155,7 +155,7 @@ var ButtonRating = React.createClass({
       loading: false,
       label: null,
       loadingSpinnerClassName: '',
-      isSubmittingComment: false
+      disabled: false
     };
   },
 
@@ -165,7 +165,8 @@ var ButtonRating = React.createClass({
       'is-mobile': this.props.fullscreen,
       'u-userBackgroundColor u-userTextColorConstrast': this.props.selected,
       'u-userBorderColor': this.props.selected,
-      'u-userTextColor': !this.props.selected
+      'u-userTextColor': !this.props.selected,
+      'is-disabled': this.props.disabled
     });
 
     /* jshint laxbreak: true */
@@ -178,7 +179,7 @@ var ButtonRating = React.createClass({
              label={label}
              onClick={this.props.onClick}
              className={ButtonRatingClasses}
-             disabled={this.props.isSubmittingComment} />;
+             disabled={this.props.disabled} />;
   }
 });
 

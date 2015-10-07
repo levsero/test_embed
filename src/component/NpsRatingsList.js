@@ -20,12 +20,7 @@ export const NpsRatingsList = React.createClass({
 
   render() {
     const ratingsLegendClasses = 'RatingsList-legend u-sizeFull u-paddingHT';
-
-    const ratingsListClasses = classSet({
-      'RatingsList u-textCenter': true,
-      'u-paddingVL': !this.props.isMobile,
-      [this.props.className]: true
-    });
+    const ratingsListClasses = `RatingsList u-textCenter ${this.props.className}`;
 
     const labelClasses = classSet({
       'u-inlineBlock u-size1of2': true,
@@ -47,13 +42,13 @@ export const NpsRatingsList = React.createClass({
       const isSelected = this.props.selectedRating === rating;
 
       const props = {
+        highlightColor: this.props.highlightColor,
         label: rating,
         loading: isSelected && this.props.isSubmittingRating,
-        selected: isSelected,
-        highlightColor: this.props.highlightColor,
-        onClick: !isSelected && !this.props.isSubmittingRating && this.ratingClickHandlerFn(rating),
         loadingSpinnerClassName: 'RatingsList-spinner',
-        isSubmittingComment: !isSelected && this.props.isSubmittingComment
+        selected: isSelected,
+        disabled: !isSelected && (this.props.isSubmittingRating || this.props.isSubmittingComment),
+        onClick: !isSelected && !this.props.isSubmittingRating && this.ratingClickHandlerFn(rating)
       };
 
       return (

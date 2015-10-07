@@ -35,6 +35,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    padding: #{12/$font-size}rem 0 #{14/$font-size}rem;
   }
 }
 
