@@ -131,7 +131,7 @@ describe('embed.helpCenter', function() {
     });
 
     it('changes config.buttonLabelKey if buttonLabelKey is set', function() {
-      helpCenter.create('carlos', { buttonLabelKey: 'test_label' } );
+      helpCenter.create('carlos', { buttonLabelKey: 'test_label' });
 
       const carlos = helpCenter.get('carlos');
 
@@ -140,7 +140,7 @@ describe('embed.helpCenter', function() {
     });
 
     it('changes config.formTitleKey if formTitleKey is set', function() {
-      helpCenter.create('carlos', { formTitleKey: 'test_title' } );
+      helpCenter.create('carlos', { formTitleKey: 'test_title' });
 
       const carlos = helpCenter.get('carlos');
 
