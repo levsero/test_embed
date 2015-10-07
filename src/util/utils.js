@@ -216,5 +216,5 @@ export {
   splitPath,
   generateHighlightColor,
   generateConstrastColor,
-  patchReactIdAttribute,
+  patchReactIdAttribute
 };
