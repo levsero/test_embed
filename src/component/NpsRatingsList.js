@@ -51,9 +51,9 @@ export const NpsRatingsList = React.createClass({
         loading: isSelected && this.props.isSubmittingRating,
         selected: isSelected,
         highlightColor: this.props.highlightColor,
-        onClick: this.ratingClickHandlerFn(rating),
+        onClick: !isSelected && !this.props.isSubmittingRating && this.ratingClickHandlerFn(rating),
         loadingSpinnerClassName: 'RatingsList-spinner',
-        isSubmittingComment: this.props.isSubmittingComment
+        isSubmittingComment: !isSelected && this.props.isSubmittingComment
       };
 
       return (
