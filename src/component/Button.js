@@ -108,20 +108,20 @@ var ButtonSecondary = React.createClass({
       [this.props.className]: true
     });
 
-    if (this.props.disabled) {
-      this.props.onClick = null; // Do not re-render using setProps
-    }
-
-    return (
-      <div
-        onClick={this.props.onClick}
-        onTouchStart={this.props.onClick}
-        className={buttonClasses}
-        style={this.props.style}
-        disabled={this.props.disabled}>
-        {this.props.label}
-      </div>
-    );
+    return (this.props.disabled)
+         ? <div
+             className={buttonClasses}
+             style={this.props.style}
+             disabled>
+             {this.props.label}
+           </div>
+         : <div
+             onClick={this.props.onClick}
+             onTouchStart={this.props.onClick}
+             className={buttonClasses}
+             style={this.props.style}>
+             {this.props.label}
+           </div>;
   }
 });
 
