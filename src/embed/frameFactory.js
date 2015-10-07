@@ -88,7 +88,7 @@ export var frameFactory = function(childFn, _params) {
 
     setOffsetHorizontal(offsetValue = 0) {
       // No percentage offset support for now
-      if (isNaN(offsetValue)) { return ; }
+      if (isNaN(offsetValue)) { return; }
 
       const iframe = this.getDOMNode();
       const horizontalPos = iframe.style.left;
@@ -96,7 +96,7 @@ export var frameFactory = function(childFn, _params) {
 
       if (!horizontalPos) {
         iframe.style.left = `${offsetValue / win.innerWidth * 100}%`;
-        iframe.style.right = ''; // Remove
+        iframe.style.right = ''; // Remove style from attr
         return;
       }
 
@@ -112,7 +112,7 @@ export var frameFactory = function(childFn, _params) {
       }
 
       iframe.style.left = adjustedValue;
-      iframe.style.right = ''; // Remove
+      iframe.style.right = ''; // Remove style from attr
     },
 
     setFrameSize(width, height, transparent = true) {
