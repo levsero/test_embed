@@ -168,7 +168,7 @@ describe('NpsDesktop component', function() {
   });
 
   describe('ZendeskLogo', () => {
-    it('should render logo if currentPage is not addingComment', () => {
+    it('should render logo if hideZendeskLogo is set to false', () => {
       npsProps.hideZendeskLogo = false;
 
       React.render(
@@ -187,11 +187,6 @@ describe('NpsDesktop component', function() {
 
       expect(document.querySelector('.ZendeskLogo'))
         .toBeTruthy();
-
-      component.setCurrentPage('addingComment');
-
-      expect(document.querySelector('.ZendeskLogo'))
-        .toBeFalsy();
     });
 
     it('should not render logo if hideZendeskLogo is true', () => {
@@ -213,6 +208,22 @@ describe('NpsDesktop component', function() {
 
       expect(document.querySelector('.ZendeskLogo'))
         .toBeFalsy();
+
+      component.setCurrentPage('addingComment');
+
+      expect(document.querySelector('.ZendeskLogo'))
+        .toBeFalsy();
+    });
+
+    it('should not render logo if page is addingComment', () => {
+      npsProps.hideZendeskLogo = false;
+
+      React.render(
+        <NpsDesktop
+          {...npsProps}
+          updateFrameSize={noop} />,
+        global.document.body
+      );
 
       component.setCurrentPage('addingComment');
 
