@@ -152,7 +152,7 @@ describe('embed.launcher', function() {
           .toEqual(frameConfig.icon);
 
         expect(payload.props.label)
-          .toEqual('embeddable_framework.launcher.label.' + alice.config.labelKey);
+          .toEqual(`embeddable_framework.launcher.label.${alice.config.labelKey}`);
 
         expect(params.fullscreenable)
           .toEqual(false);
