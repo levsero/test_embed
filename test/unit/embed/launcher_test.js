@@ -97,15 +97,15 @@ describe('embed.launcher', function() {
     });
 
     it('should call i18n.t with the right parameter to get the label', function() {
-      const tSpy = jasmine.createSpy('i18n.t')
-      const labelKey = 'foo bar'
+      const tSpy = jasmine.createSpy('i18n.t');
+      const labelKey = 'foo bar';
 
       mockRegistry['service/i18n'].i18n.t = tSpy;
 
       launcher.create('alice', { labelKey: labelKey});
 
+        .toHaveBeenCalledWith(`embeddable_framework.launcher.label.${labelKey}`);
       expect(tSpy)
-        .toHaveBeenCalledWith(`embeddable_framework.launcher.label.${labelKey}`)
     });
 
     it('changes config.labelKey if labelKey is set', function() {

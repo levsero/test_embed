@@ -170,8 +170,8 @@ describe('Help center component', function() {
   });
 
   it('should call i18n.t with the right parameter to set the label', function() {
-    const tSpy = jasmine.createSpy('i18n.t')
-    const labelKey = 'foo bar'
+    const tSpy = jasmine.createSpy('i18n.t');
+    const labelKey = 'foo bar';
 
     mockRegistry['service/i18n'].i18n.t = tSpy;
 
@@ -181,7 +181,9 @@ describe('Help center component', function() {
     );
 
     expect(tSpy)
-      .toHaveBeenCalledWith(`embeddable_framework.helpCenter.submitButton.label.submitTicket.${labelKey}`)
+      .toHaveBeenCalledWith(
+        `embeddable_framework.helpCenter.submitButton.label.submitTicket.${labelKey}`
+      );
   });
 
   describe('updateResults', function() {

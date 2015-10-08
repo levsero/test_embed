@@ -155,8 +155,8 @@ describe('Submit ticket component', function() {
   });
 
   it('should call i18n.t with the right parameter to set the form title', function() {
-    const tSpy = jasmine.createSpy('i18n.t')
-    const titleKey = 'foo bar'
+    const tSpy = jasmine.createSpy('i18n.t');
+    const titleKey = 'foo bar';
 
     mockRegistry['service/i18n'].i18n.t = tSpy;
 
@@ -166,7 +166,7 @@ describe('Submit ticket component', function() {
     );
 
     expect(tSpy)
-      .toHaveBeenCalledWith(`embeddable_framework.submitTicket.form.title.${titleKey}`)
+      .toHaveBeenCalledWith(`embeddable_framework.submitTicket.form.title.${titleKey}`);
   });
 
   it('should not submit form when invalid', function() {
