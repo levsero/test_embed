@@ -1,12 +1,12 @@
 import React from 'react/addons';
 
-const classSet = React.addons.classSet;
-
 import { Field } from 'component/FormField';
 import { Button,
          ButtonSecondary } from 'component/Button';
 import { LoadingSpinner } from 'component/Loading';
 import { i18n } from 'service/i18n';
+
+const classSet = React.addons.classSet;
 
 export const NpsComment = React.createClass({
   getDefaultProps() {

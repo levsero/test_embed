@@ -130,6 +130,7 @@ describe('component/Button', function() {
 
     it('should render with onClick handler if disabled is false', () => {
       const onClickMock = jasmine.createSpy();
+
       React.render(
         <ButtonSecondary
           disabled={false}
@@ -145,6 +146,7 @@ describe('component/Button', function() {
 
     it('should not render with onClick handler if disabled is true', () => {
       const onClickMock = jasmine.createSpy();
+
       React.render(
         <ButtonSecondary
           disabled={true}
