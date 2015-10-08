@@ -362,8 +362,16 @@ function initNps() {
     const maxRetries = 100;
     let retries = 0;
 
+    const embedVisible = (_state) => {
+      return _.some([
+        _state[`${helpCenter}.isVisible`],
+        _state[`${chat}.isVisible`],
+        _state[`${submitTicket}.isVisible`]
+      ]);
+    };
+
     const fn = () => {
-      if (!state['identify.pending']) {
+      if (!state['identify.pending'] && !embedVisible(state)) {
         c.broadcast(`nps.activate`);
       } else if (retries < maxRetries) {
         retries++;
@@ -371,15 +379,7 @@ function initNps() {
       }
     };
 
-    const embedVisible = _.some([
-      state[`${helpCenter}.isVisible`],
-      state[`${chat}.isVisible`],
-      state[`${submitTicket}.isVisible`]
-    ]);
-
-    if (!embedVisible) {
-      fn();
-    }
+    fn();
   });
 
   c.intercept(`nps.onClose`, () => {
