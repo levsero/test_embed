@@ -314,6 +314,33 @@ describe('mediator', function() {
         expect(npsSub.activate)
           .toHaveBeenCalled();
       });
+
+      /* jshint maxlen:false */
+      it('should not broadcast nps.activate if an embed was activated while identify.pending', function() {
+        c.broadcast('.onIdentify', {});
+
+        // identify still in-flight
+        jasmine.clock().install();
+        c.broadcast('nps.onActivate');
+
+        expect(npsSub.activate)
+          .not.toHaveBeenCalled();
+
+        jasmine.clock().tick(1000);
+
+        // embed visible while identify still inflight
+        c.broadcast(`${launcher}.onClick`);
+
+        jasmine.clock().tick(1000);
+
+        // identify completed
+        c.broadcast('identify.onSuccess', {});
+
+        jasmine.clock().tick(1000);
+
+        expect(npsSub.activate)
+          .not.toHaveBeenCalled();
+      });
     });
 
     describe('.onClose', function() {
