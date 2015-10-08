@@ -71,11 +71,6 @@ describe('Submit ticket component', function() {
             },
             render: function() {
               return <form onSubmit={this.props.handleSubmit} />;
-              // return (
-              //   <form onSubmit={this.props.handleSubmit}>
-              //     <h1 id='formTitle'>{this.props.formTitle}</h1>
-              //   </form>
-              // );
             }
           }),
         MessageFieldset: noop,
