@@ -363,7 +363,7 @@ function initNps() {
     let retries = 0;
 
     const embedVisible = (_state) => {
-      return _.some([
+      return _.any([
         _state[`${helpCenter}.isVisible`],
         _state[`${chat}.isVisible`],
         _state[`${submitTicket}.isVisible`]
