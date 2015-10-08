@@ -129,6 +129,18 @@ describe('NpsDesktop component', function() {
     mockery.disable();
   });
 
+  it('should set focus to npsComment first time if currentPage is addingComment', () => {
+    mockFocusField.calls.reset();
+
+    expect(mockFocusField.calls.count())
+      .toEqual(0);
+
+    component.setCurrentPage('addingComment');
+
+    expect(mockFocusField.calls.count())
+      .toEqual(1);
+  });
+
   describe('Container-content', () => {
     it('should have `u-paddingBL` if logo is hidden and currentPage is not addingComment', () => {
       npsProps.hideZendeskLogo = true;
@@ -207,18 +219,6 @@ describe('NpsDesktop component', function() {
       expect(document.querySelector('.ZendeskLogo'))
         .toBeFalsy();
     });
-  });
-
-  it('should set focus to npsComment first time if currentPage is addingComment', () => {
-    mockFocusField.calls.reset();
-
-    expect(mockFocusField.calls.count())
-      .toEqual(0);
-
-    component.setCurrentPage('addingComment');
-
-    expect(mockFocusField.calls.count())
-      .toEqual(1);
   });
 
   describe('ratingChangeValueHandler', () => {
