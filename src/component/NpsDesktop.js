@@ -137,8 +137,7 @@ export const NpsDesktop = React.createClass({
                             </div>
                           : null;
 
-    return (this.props.survey && this.props.survey.question)
-         ? <Container
+    return <Container
              card={true}
              fullscreen={this.props.isMobile}
              style={containerStyles}
@@ -155,7 +154,6 @@ export const NpsDesktop = React.createClass({
 
                {zendeskLogo}
              </div>
-           </Container>
-         : <Container></Container>;
+           </Container>;
   }
 });
