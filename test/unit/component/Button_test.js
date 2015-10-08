@@ -127,5 +127,37 @@ describe('component/Button', function() {
       expect(buttonStyle.testStyle)
         .toEqual('success');
     });
+
+    it('should render with onClick handler if disabled is false', () => {
+      const onClickMock = jasmine.createSpy();
+
+      React.render(
+        <ButtonSecondary
+          disabled={false}
+          onClick={onClickMock} />,
+        global.document.body
+      );
+
+      ReactTestUtils.Simulate.click(document.querySelector('.c-btn--secondary'));
+
+      expect(onClickMock)
+        .toHaveBeenCalled();
+    });
+
+    it('should not render with onClick handler if disabled is true', () => {
+      const onClickMock = jasmine.createSpy();
+
+      React.render(
+        <ButtonSecondary
+          disabled={true}
+          onClick={onClickMock} />,
+        global.document.body
+      );
+
+      ReactTestUtils.Simulate.click(document.querySelector('.c-btn--secondary'));
+
+      expect(onClickMock)
+        .not.toHaveBeenCalled();
+    });
   });
 });

@@ -10,8 +10,7 @@ export const LoadingSpinner = React.createClass({
   render() {
     return (
       <div
-        className={`LoadingSpinner ${this.props.className}`}
-        style={{ borderColor: this.props.highlightColor }}>
+        className={`LoadingSpinner u-userTextColorConstrast ${this.props.className}`}>
       </div>
     );
   }
@@ -33,9 +32,9 @@ export const LoadingEllipses = React.createClass({
 
     return (
       <div className={`LoadingEllipses u-textCenter ${this.props.className}`}>
-        <div className={loadingEllipsesItemClasses}/>
-        <div className={loadingEllipsesItemClasses}/>
-        <div className={loadingEllipsesItemClasses}/>
+        <div className={loadingEllipsesItemClasses} />
+        <div className={loadingEllipsesItemClasses} />
+        <div className={loadingEllipsesItemClasses} />
       </div>
     );
   }

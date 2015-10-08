@@ -5,6 +5,11 @@ import { ButtonRating } from 'component/Button';
 const classSet = React.addons.classSet;
 
 export const NpsRatingsList = React.createClass({
+  getDefaultProps() {
+    return {
+      className: ''
+    };
+  },
 
   ratingClickHandlerFn(rating) {
     return (ev) => {
@@ -14,11 +19,18 @@ export const NpsRatingsList = React.createClass({
   },
 
   render() {
-    const labelClasses = 'u-size1of2 u-inlineBlock';
+    const ratingsLegendClasses = 'RatingsList-legend u-sizeFull u-paddingHT';
+    const ratingsListClasses = `RatingsList u-textCenter ${this.props.className}`;
+
+    const labelClasses = classSet({
+      'u-inlineBlock u-size1of2': true,
+      'u-marginBN': !this.props.isMobile
+    });
 
     const likelyLabelClasses = classSet({
       [labelClasses]: true,
-      'u-textRight': true
+      'u-textRight': true,
+      'u-marginBN': !this.props.isMobile
     });
 
     const notLikelyLabelClasses = classSet({
@@ -30,12 +42,13 @@ export const NpsRatingsList = React.createClass({
       const isSelected = this.props.selectedRating === rating;
 
       const props = {
+        highlightColor: this.props.highlightColor,
         label: rating,
         loading: isSelected && this.props.isSubmittingRating,
+        loadingSpinnerClassName: 'RatingsList-spinner',
         selected: isSelected,
-        highlightColor: this.props.highlightColor,
-        onClick: this.ratingClickHandlerFn(rating),
-        loadingSpinnerClassName: 'RatingsList-spinner'
+        disabled: !isSelected && (this.props.isSubmittingRating || this.props.isSubmittingComment),
+        onClick: !isSelected && !this.props.isSubmittingRating && this.ratingClickHandlerFn(rating)
       };
 
       return (
@@ -47,19 +60,24 @@ export const NpsRatingsList = React.createClass({
 
     const items = this.props.ratingsRange.map(ratingListItemTemplate);
 
+    /* jshint laxbreak: true */
+    const ratingsLegendContent = (!this.props.hideRatingsLegend)
+                               ? <div className={ratingsLegendClasses}>
+                                   <p className={notLikelyLabelClasses}>
+                                     {this.props.notLikelyLabel}
+                                   </p>
+                                   <p className={likelyLabelClasses}>
+                                     {this.props.likelyLabel}
+                                   </p>
+                                 </div>
+                               : null;
+
     return (
       <div>
-        <ol className='RatingsList u-textCenter'>
+        <ol className={ratingsListClasses}>
           {items}
         </ol>
-        <div className='RatingsList-legend u-sizeFull u-paddingHT'>
-          <p className={notLikelyLabelClasses}>
-            {this.props.notLikelyLabel}
-          </p>
-          <p className={likelyLabelClasses}>
-            {this.props.likelyLabel}
-          </p>
-        </div>
+        {ratingsLegendContent}
       </div>
     );
   }

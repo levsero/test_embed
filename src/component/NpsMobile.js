@@ -166,7 +166,7 @@ export const NpsMobile = React.createClass({
       headingText = this.props.survey.thankYou;
     }
 
-    const NPS_RATINGS = _.range(11);
+    const npsRatings = _.range(11);
 
     const npsMedText = 'u-textSizeMed u-textBold u-textCenter u-textXHeight';
 
@@ -185,9 +185,11 @@ export const NpsMobile = React.createClass({
                                {this.props.survey.question}
                              </p>
                              <NpsRatingsList
+                               isMobile={true}
+                               className='u-paddingBT'
+                               ratingsRange={npsRatings}
                                likelyLabel={this.props.survey.likelyLabel}
                                notLikelyLabel={this.props.survey.notLikelyLabel}
-                               ratingsRange={NPS_RATINGS}
                                selectedRating={this.props.response.rating}
                                isSubmittingRating={this.props.isSubmittingRating}
                                highlightColor={this.props.survey.highlightColor}
@@ -219,7 +221,7 @@ export const NpsMobile = React.createClass({
                           onFocus={this.handleDropDownFocus}
                           onChange={this.handleDropDownChange}
                           selectedItem={this.props.response.rating}
-                          options={NPS_RATINGS}
+                          options={npsRatings}
                           highlightColor={this.props.survey.highlightColor} />
                       </span>
                    : null;
@@ -229,6 +231,7 @@ export const NpsMobile = React.createClass({
     });
 
     const npsCommentClasses = classSet({
+      'NpsComment-label is-mobile': true,
       'u-isHidden': !this.state.isEditing
     });
 
@@ -251,6 +254,7 @@ export const NpsMobile = React.createClass({
           {npsRatingsList}
            <NpsComment
             ref='npsComment'
+            isMobile={true}
             className={npsCommentClasses}
             label={this.props.survey.commentsQuestion}
             comment={this.props.response.comment}

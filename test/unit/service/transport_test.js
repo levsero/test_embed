@@ -2,6 +2,7 @@ describe('transport', function() {
   let transport,
       mockMethods,
       mockRegistry;
+
   const transportPath = buildSrcPath('service/transport');
 
   beforeEach(function() {

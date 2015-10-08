@@ -10,7 +10,7 @@ let clickBusterClicks = [];
 
 function generateUserCSS(params) {
   if (params.color) {
-    const  highlightColor = generateHighlightColor(params.color);
+    const highlightColor = generateHighlightColor(params.color);
 
     return (`
       .rf-CheckboxGroup__checkbox:checked + span:before,
@@ -44,6 +44,48 @@ function generateUserCSS(params) {
   }
 }
 
+function generateNpsCSS(params) {
+  if (params.color) {
+    const highlightColor = generateHighlightColor(params.color);
+    const constrastColor = generateConstrastColor(params.color);
+
+    return (`
+      .u-userFillColor:not([disabled]) svg {
+        fill: ${params.color} !important;
+      }
+      .u-userFillColorContrast:not([disabled]) svg {
+        fill: ${constrastColor} !important;
+      }
+      .u-userTextColor:not([disabled]) {
+        color: ${params.color} !important;
+        fill: ${params.color} !important;
+      }
+      .u-userTextColorConstrast:not([disabled]) {
+        color: ${constrastColor} !important;
+        fill: ${constrastColor} !important;
+      }
+      .u-userBackgroundColor:not([disabled]) {
+        background-color: ${params.color} !important;
+      }
+      .u-userBackgroundColor:not([disabled]):hover,
+      .u-userBackgroundColor:not([disabled]):active,
+      .u-userBackgroundColor:not([disabled]):focus {
+        background-color: ${highlightColor} !important;
+      }
+      .u-userBorderColor:not([disabled]) {
+        border-color: ${params.color} !important;
+      }
+      .u-userBorderColor:not([disabled]):hover,
+      .u-userBorderColor:not([disabled]):active,
+      .u-userBorderColor:not([disabled]):focus {
+        border-color: ${highlightColor} !important;
+      }
+    `);
+  } else {
+    return '';
+  }
+}
+
 function generateConstrastColor(colorStr) {
   try {
     const color = Color(colorStr);
@@ -61,8 +103,8 @@ function generateHighlightColor(colorStr) {
     const color = Color(colorStr);
     /* jshint laxbreak: true */
     return (color.luminosity() > 0.15)
-       ? color.darken(0.1).rgbString()
-       : color.lighten(0.15).rgbString();
+         ? color.darken(0.1).rgbString()
+         : color.lighten(0.15).rgbString();
   } catch (e) {
     return;
   }
@@ -205,16 +247,16 @@ function patchReactIdAttribute() {
 }
 
 export {
-  parseUrl,
-  setScaleLock,
-  clickBusterRegister,
   clickBusterHandler,
-  metaStringToObj,
-  getFrameworkLoadTime,
-  generateUserCSS,
-  getPageKeywords,
-  splitPath,
-  generateHighlightColor,
+  clickBusterRegister,
   generateConstrastColor,
-  patchReactIdAttribute
+  generateNpsCSS,
+  generateUserCSS,
+  getFrameworkLoadTime,
+  getPageKeywords,
+  metaStringToObj,
+  parseUrl,
+  patchReactIdAttribute,
+  setScaleLock,
+  splitPath
 };

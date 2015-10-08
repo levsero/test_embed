@@ -3,7 +3,6 @@ import React from 'react/addons';
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
 import { LoadingSpinner } from 'component/Loading';
-import { generateConstrastColor } from 'utility/utils';
 
 const classSet = React.addons.classSet;
 
@@ -91,7 +90,8 @@ var ButtonPill = React.createClass({
 var ButtonSecondary = React.createClass({
   getDefaultProps() {
     return {
-      className: ''
+      className: '',
+      disabled: false
     };
   },
 
@@ -108,15 +108,21 @@ var ButtonSecondary = React.createClass({
       [this.props.className]: true
     });
 
-    return (
-      <div
-        onClick={this.props.onClick}
-        onTouchStart={this.props.onClick}
-        className={buttonClasses}
-        style={this.props.style}>
-        {this.props.label}
-      </div>
-    );
+    /* jshint laxbreak: true */
+    return (this.props.disabled)
+         ? <div
+             className={buttonClasses}
+             style={this.props.style}
+             disabled>
+             {this.props.label}
+           </div>
+         : <div
+             onClick={this.props.onClick}
+             onTouchStart={this.props.onClick}
+             className={buttonClasses}
+             style={this.props.style}>
+             {this.props.label}
+           </div>;
   }
 });
 
@@ -148,37 +154,33 @@ var ButtonRating = React.createClass({
       highlightColor: '#77a500',
       selected: false,
       loading: false,
-      label: null
+      label: null,
+      loadingSpinnerClassName: '',
+      disabled: false
     };
   },
 
   render() {
+    const ButtonRatingClasses = classSet({
+      'ButtonRating': true,
+      'is-mobile': this.props.fullscreen,
+      'u-userBackgroundColor u-userTextColorConstrast': this.props.selected,
+      'u-userBorderColor': this.props.selected,
+      'u-userTextColor': !this.props.selected,
+      'is-disabled': this.props.disabled
+    });
+
     /* jshint laxbreak: true */
-    const isSelectedStyles = {
-      borderColor: this.props.highlightColor,
-      background: this.props.highlightColor,
-      color: generateConstrastColor(this.props.highlightColor)
-    };
-
-    const isNotSelectedStyles = {
-      color: this.props.highlightColor
-    };
-
-    const style = (this.props.selected)
-                ? isSelectedStyles
-                : isNotSelectedStyles;
-
-    const label = (this.props.loading)
+    const label = this.props.loading
                 ? <LoadingSpinner
-                   className={this.props.loadingSpinnerClassName}
-                   highlightColor={generateConstrastColor(this.props.highlightColor)} />
-                : this.props.label;
+                    className={`u-userFillColorContrast ${this.props.loadingSpinnerClassName}`} />
+                : `${this.props.label}`;
 
     return <ButtonSecondary
-             style={style}
              label={label}
              onClick={this.props.onClick}
-             className='RatingsList-btn u-paddingAN' />;
+             className={ButtonRatingClasses}
+             disabled={this.props.disabled} />;
   }
 });
 

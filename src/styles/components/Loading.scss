@@ -28,7 +28,7 @@
 .LoadingSpinner {
   background: transparent !important;
   border-bottom-color: transparent !important;
-  border: #{2/$font-size}rem solid $cta-color;
+  border: #{2/$font-size}rem solid;
   height: #{12/$font-size}rem;
   width: #{12/$font-size}rem;
 

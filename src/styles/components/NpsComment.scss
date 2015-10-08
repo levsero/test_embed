@@ -1,10 +1,23 @@
+/**
+ * 1. Justifying content will look ugly once wrapped items exist
+ *    For the moment this is fine for Nps 0 - 10 rating
+ *
+ * 2. (Desktop) Adjust LoadingSpinner button to be same size as sendfeedback
+ *
+ */
+
+.NpsComment-form {
+  margin-bottom: 0;
+}
+
 .NpsComment-label {
   color: $zendesk-color--dark-gray;
   font-size: #{14/$font-size}rem !important;
-  padding-bottom: #{12/$font-size}rem !important;
-  padding-top: #{12/$font-size}rem !important;
-  text-align: center;
-  border: none !important;
+  border: 0 !important;
+
+  &.is-mobile {
+    padding: #{12/$font-size}rem 0 !important;
+  }
 }
 
 //FIXME
@@ -34,4 +47,35 @@
   pointer-events: none;
   right: -#{8.5/$font-size}rem;
   top: 0;
+}
+
+.NpsComment-submitContainer {
+  display: flex;
+  justify-content: flex-end; /* 1 */
+  padding-bottom: -#{2/$font-size}rem;
+}
+
+.NpsComment-sendButton {
+  &.is-desktop {
+    min-width: #{95/$font-size}rem;
+    max-height: #{40/$font-size}rem;
+  }
+}
+
+.NpsComment-loadingButton {
+  &.is-desktop {
+    min-width: #{95/$font-size}rem;
+    max-height: #{13/$font-size}rem;
+  }
+
+  &.is-mobile {
+    min-height: #{40/$font-size}rem;
+    max-height: #{40/$font-size}rem;
+  }
+}
+
+.NpsComment-loadingSpinner {
+  &.is-desktop {
+    margin-top: -#{2/$font-size}rem; /* 2 */
+  }
 }

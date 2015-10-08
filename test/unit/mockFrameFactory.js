@@ -1,7 +1,8 @@
 const mockFrameMethods = {
   show: jasmine.createSpy('mockFrameShow'),
   hide: jasmine.createSpy('mockFrameHide'),
-  close: jasmine.createSpy('mockFrameClose')
+  close: jasmine.createSpy('mockFrameClose'),
+  setHighlightColor: jasmine.createSpy('setHighlightColor')
 };
 
 exports.mockFrameMethods = mockFrameMethods;
@@ -14,6 +15,12 @@ var mockFrameFactory = jasmine.createSpy('mockFrameFactory').and.callFake(
       return res;
     }, {});
     const Component = React.createClass({
+      setHighlightColor() {
+        this.setState({
+          css: `setHighlightColorCSS { background-color: red; }`
+        });
+      },
+
       render: function() {
         return (childFn(childParams));
       }
@@ -25,6 +32,7 @@ var mockFrameFactory = jasmine.createSpy('mockFrameFactory').and.callFake(
       show: mockFrameMethods.show,
       hide: mockFrameMethods.hide,
       close: mockFrameMethods.close,
+      setHighlightColor: mockFrameMethods.setHighlightColor,
       getChild: function() {
         return child;
       },

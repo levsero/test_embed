@@ -109,3 +109,22 @@ $Button-nudge: 5;
   border-radius: #{4/$font-size}rem;
   padding: #{11/$font-size}rem #{24/$font-size}rem;
 }
+
+.ButtonRating {
+  border-radius: #{4/$font-size}rem;
+  border: #{2/$font-size}rem solid $zendesk-color--gainsboro;
+  height: #{34/$font-size}rem;
+  line-height: #{34/$font-size}rem;
+  padding: 0;
+  width: #{34/$font-size}rem;
+
+  &.is-disabled {
+    color: $zendesk-color--iron !important;
+    background-color: $zendesk-color--white !important;
+  }
+
+  &:hover, &:focus {
+    background-color: $zendesk-color--white-smoke;
+    border: #{2/$font-size}rem solid $zendesk-color--iron;
+  }
+}

@@ -104,11 +104,6 @@ export const Nps = React.createClass({
     });
 
     setTimeout(() => this.sendRating(doneFn, errorHandler), 0);
-    setTimeout(() => {
-      if (!this.state.isMobile) {
-        this.refs.commentField.refs.field.getDOMNode().focus();
-      }
-    }, 100);
   },
 
   submitCommentHandler(ev, doneFn, failFn) {
@@ -139,8 +134,10 @@ export const Nps = React.createClass({
           submitRatingHandler={this.submitRatingHandler} />
       : <NpsDesktop
           {...this.state}
+          submitRatingHandler={this.submitRatingHandler}
           submitCommentHandler={this.submitCommentHandler}
           onCommentChangeHandler={this.onCommentChangeHandler}
-          sendComment={this.sendComment} />;
+          updateFrameSize={this.props.updateFrameSize}
+          setOffsetHorizontal={this.props.setOffsetHorizontal} />;
   }
 });

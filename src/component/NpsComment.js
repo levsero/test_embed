@@ -5,10 +5,10 @@ import { Button,
          ButtonSecondary } from 'component/Button';
 import { LoadingSpinner } from 'component/Loading';
 import { i18n } from 'service/i18n';
-import { generateConstrastColor } from 'utility/utils';
+
+const classSet = React.addons.classSet;
 
 export const NpsComment = React.createClass({
-
   getDefaultProps() {
     return {
       className: ''
@@ -27,46 +27,65 @@ export const NpsComment = React.createClass({
       { fallback: 'Send Feedback' }
     );
 
-    const sendButtonClasses = 'u-marginTS u-marginBM u-sizeFull';
+    const sendButtonClasses = classSet({
+      'u-marginTS NpsComment-sendButton': true,
+      'u-marginBM u-sizeFull NpsComment-loadingButton': this.props.isMobile,
+      'u-userBackgroundColor u-userBorderColor': this.props.isSubmittingComment,
+      'NpsComment-loadingButton': this.props.isSubmittingComment,
+      'is-mobile': this.props.isMobile,
+      'is-desktop': !this.props.isMobile
+    });
 
-    const loadingSpinner = <LoadingSpinner
-                             highlightColor={generateConstrastColor(this.props.highlightColor)} />;
+    const loadingButtonClass = classSet({
+      'NpsComment-loadingSpinner': true,
+      'is-mobile': this.props.isMobile,
+      'is-desktop': !this.props.isMobile
+    });
+
+    const textAreaClasses = classSet({
+      'NpsComment-textarea': true,
+      'u-textSizeBaseMobile': this.props.isMobile
+    });
+
+    const labelClasses = 'NpsComment-label u-marginBN u-textCenter u-borderNone';
 
     /* jshint laxbreak: true */
-    const buttonColor = (this.props.comment)
-                      ? { backgroundColor: this.props.highlightColor }
-                      : null;
+    const commentSubmitButton = (this.props.isSubmittingComment)
+                              ? <ButtonSecondary
+                                  className={sendButtonClasses}
+                                  label={<LoadingSpinner className={loadingButtonClass} />} />
+                              : <Button
+                                  type='submit'
+                                  className={sendButtonClasses}
+                                  label={sendFeedbackLabel}
+                                  disabled={!this.props.comment || this.props.isSubmittingRating} />;
 
-    const commentsSubmitButton = (this.props.isSubmittingComment)
-                               ? <ButtonSecondary
-                                   className={sendButtonClasses}
-                                   label={loadingSpinner}
-                                   style={buttonColor} />
-                               : <Button
-                                   type='submit'
-                                   className={sendButtonClasses}
-                                   label={sendFeedbackLabel}
-                                   disabled={!this.props.comment}
-                                   style={buttonColor} />;
+    const commentSubmitContent = (this.props.isMobile)
+                               ? {commentSubmitButton}
+                               : <div className='NpsComment-submitContainer'>
+                                   {commentSubmitButton}
+                                 </div>;
 
     const inputTextArea = <textarea
-                            className='NpsComment-textarea u-textSizeBaseMobile'
-                            placeholder={this.props.placeholder}
+                            className={textAreaClasses}
+                            placeholder={this.props.feedbackPlaceholder}
                             rows='1' />;
 
     return (
       <div className={this.props.className}>
-        <form onSubmit={this.props.onSubmit}>
+        <form
+          className='NpsComment-form'
+          onSubmit={this.props.onSubmit}>
           <Field
-            labelClasses='NpsComment-label u-marginBN u-textCenter'
+            labelClasses={labelClasses}
             hasError={this.props.hasError}
             ref='commentField'
-            placeholder={this.props.label}
+            placeholder={this.props.commentsQuestion}
             value={this.props.comment}
             name='comment'
             onChange={this.props.onChange}
             input={inputTextArea} />
-          {commentsSubmitButton}
+          {commentSubmitContent}
         </form>
       </div>
     );

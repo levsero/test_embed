@@ -17,16 +17,27 @@ const npsCSS = require('./nps.scss');
 
 let npses = {};
 
-function create(name, config = {}) {
-  const frameStyle = {
+function create(name, config) {
+  let containerStyle;
+  let frameStyle = {
     position: 'fixed',
-    bottom: '0',
-    right: '0',
-    display: 'block',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    width: '100% !important'
+    bottom: 0
   };
+
+  if (isMobileBrowser()) {
+    frameStyle = _.extend({}, frameStyle, {
+      right: '0',
+      margin: 0,
+      width: '100%'
+    });
+  } else {
+    containerStyle = { width: 620, margin: 15 };
+    frameStyle = _.extend({}, frameStyle, {
+      left: '50%',
+      marginLeft: -310,
+      width: 620
+    });
+  }
 
   const npsSender = (params, doneFn, failFn) => {
     const payload = {
@@ -77,6 +88,7 @@ function create(name, config = {}) {
       ? transitionFactory.npsMobile.out(onClose)
       : transitionFactory.npsDesktop.out(onClose)
   };
+
   const Embed = React.createClass(frameFactory(
     (params) => {
       return (
@@ -84,8 +96,10 @@ function create(name, config = {}) {
           ref='rootComponent'
           setFrameSize={params.setFrameSize}
           updateFrameSize={params.updateFrameSize}
+          setOffsetHorizontal={params.setOffsetHorizontal}
           npsSender={npsSender}
-          mobile={isMobileBrowser()} />
+          mobile={isMobileBrowser()}
+          style={containerStyle} />
       );
     },
     frameParams
@@ -107,7 +121,11 @@ function render(name) {
 
   mediator.channel.subscribe('nps.setSurvey', (params) => {
     const nps = npses[name].instance.getRootComponent();
-    const survey = params.npsSurvey;
+    const survey = params.npsSurvey || {};
+
+    if (survey.highlightColor) {
+      npses[name].instance.setHighlightColor(survey.highlightColor);
+    }
 
     if (survey && survey.id) {
       npses[name].instance.getRootComponent().reset();

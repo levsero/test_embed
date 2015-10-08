@@ -52,7 +52,7 @@ describe('Container component', function() {
     const containerNode = ReactTestUtils
       .findRenderedDOMComponentWithClass(container, 'Container');
 
-    container.setState({fullscreen: false});
+    container.setState({ fullscreen: false });
 
     const containerClasses = containerNode.props.className;
 

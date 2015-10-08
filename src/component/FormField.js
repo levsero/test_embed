@@ -435,4 +435,3 @@ var SearchField = React.createClass({
 });
 
 export { Field, SearchField, SearchFieldButton, getCustomFields };
-

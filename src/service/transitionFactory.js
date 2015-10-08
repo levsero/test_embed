@@ -27,15 +27,15 @@ export const transitionFactory = {
   },
   npsDesktop: {
     in: factoryMaker({
-      from_position: [-310, win.innerHeight, 0],
-      position: [-310, 0, 0],
+      from_position: [0, win.innerHeight, 0],
+      position: [0, 0, 0],
       easing: 'spring',
       spring_constant: 0.5,
       spring_deacceleration: 0.55
     }),
     out: factoryMaker({
-      from_position: [-310, 0, 0],
-      position: [-310, win.innerHeight, 0],
+      from_position: [0, 0, 0],
+      position: [0, win.innerHeight, 0],
       easing: 'spring',
       spring_constant: 0.5,
       spring_deacceleration: 0.55
