@@ -55,8 +55,8 @@ describe('embed.launcher', function() {
       'lodash': _,
       'service/i18n': {
         i18n: {
-          init: jasmine.createSpy(),
-          setLocale: jasmine.createSpy(),
+          init: noop,
+          setLocale: noop,
           t: function(translationKey) {
             return translationKey;
           }

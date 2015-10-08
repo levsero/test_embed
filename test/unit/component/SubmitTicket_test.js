@@ -98,14 +98,11 @@ describe('Submit ticket component', function() {
       },
       'service/i18n': {
         i18n: {
-          init: jasmine.createSpy(),
-          setLocale: jasmine.createSpy(),
-          getLocale: jasmine.createSpy(),
-          getLocaleId : jasmine.createSpy(),
-          isRTL: jasmine.createSpy(),
-          t: function(translationKey) {
-            return translationKey;
-          }
+          init: noop,
+          setLocale: noop,
+          getLocaleId : noop,
+          isRTL: noop,
+          t: noop
         }
       },
       'service/transport': {

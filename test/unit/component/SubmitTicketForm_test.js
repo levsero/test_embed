@@ -65,9 +65,9 @@ describe('SubmitTicketForm component', function() {
       },
       'service/i18n': {
         i18n: {
-          init: jasmine.createSpy(),
-          setLocale: jasmine.createSpy(),
-          isRTL: jasmine.createSpy(),
+          init: noop,
+          setLocale: noop,
+          isRTL: noop,
           t: function(translationKey) {
             return translationKey;
           }
