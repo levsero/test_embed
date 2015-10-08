@@ -104,8 +104,8 @@ describe('embed.launcher', function() {
 
       launcher.create('alice', { labelKey: labelKey});
 
-        .toHaveBeenCalledWith(`embeddable_framework.launcher.label.${labelKey}`);
       expect(tSpy)
+        .toHaveBeenCalledWith(`embeddable_framework.launcher.label.${labelKey}`);
     });
 
     it('changes config.labelKey if labelKey is set', function() {
