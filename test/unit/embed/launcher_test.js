@@ -102,14 +102,14 @@ describe('embed.launcher', function() {
 
       mockRegistry['service/i18n'].i18n.t = tSpy;
 
-      launcher.create('alice', { labelKey: labelKey});
+      launcher.create('alice', { labelKey: labelKey });
 
       expect(tSpy)
         .toHaveBeenCalledWith(`embeddable_framework.launcher.label.${labelKey}`);
     });
 
     it('changes config.labelKey if labelKey is set', function() {
-      launcher.create('alice', { labelKey: 'test_label'} );
+      launcher.create('alice', { labelKey: 'test_label' });
 
       const alice = launcher.get('alice');
 
