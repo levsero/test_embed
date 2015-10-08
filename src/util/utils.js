@@ -242,6 +242,10 @@ function getPageKeywords() {
   return splitPath(location.pathname).trim();
 }
 
+function patchReactIdAttribute() {
+  require('react/lib/DOMProperty').ID_ATTRIBUTE_NAME = 'data-ze-reactid';
+}
+
 export {
   clickBusterHandler,
   clickBusterRegister,
@@ -252,6 +256,7 @@ export {
   getPageKeywords,
   metaStringToObj,
   parseUrl,
+  patchReactIdAttribute,
   setScaleLock,
   splitPath
 };

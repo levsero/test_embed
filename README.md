@@ -33,3 +33,11 @@ To actually run the UI tests follow these steps:
 * Run `gulp test-ui`
 * Bask in the eternal glory
 * Once completed screenshots will be stored in `./webdrivercss/`
+
+## Refreshing Rosetta translations
+
+To download the latest translations, run the following command from the root of this project:
+
+```bash
+./script/fetch_i18n
+```

@@ -223,4 +223,16 @@ describe('util.setScaleLock', function() {
         .toEqual('! thi𝌆$ is tchüss1@  path');
     });
   });
+
+  describe('patchReactIdAttribute()', function() {
+    it('updates react data attribute to data-ze-reactid instead of data-reactid', function() {
+      require(utilPath).patchReactIdAttribute();
+
+      // we have to require react again after the ID_ATTRIBUTE is updated for change to take effect
+      const { addons: { TestUtils } } = require('react/addons');
+
+      const containerDiv = TestUtils.renderIntoDocument(<h1>Hello React!</h1>).getDOMNode();
+      expect(containerDiv.outerHTML).toEqual('<h1 data-ze-reactid=".0">Hello React!</h1>');
+    });
+  });
 });
