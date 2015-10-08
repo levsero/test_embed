@@ -169,6 +169,21 @@ describe('Help center component', function() {
       .toEqual('embeddable_framework.helpCenter.submitButton.label.submitTicket.contact');
   });
 
+  it('should call i18n.t with the right parameter to set the label', function() {
+    const tSpy = jasmine.createSpy('i18n.t')
+    const labelKey = 'foo bar'
+
+    mockRegistry['service/i18n'].i18n.t = tSpy;
+
+    React.render(
+      <HelpCenter buttonLabelKey={labelKey} />,
+      global.document.body
+    );
+
+    expect(tSpy)
+      .toHaveBeenCalledWith(`embeddable_framework.helpCenter.submitButton.label.submitTicket.${labelKey}`)
+  });
+
   describe('updateResults', function() {
     let helpCenter;
 

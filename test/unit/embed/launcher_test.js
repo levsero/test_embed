@@ -75,18 +75,6 @@ describe('embed.launcher', function() {
   });
 
   describe('create', function() {
-    it('should call i18n.t with the right parameter to get the label', function() {
-      const tSpy = jasmine.createSpy('i18n.t')
-      const labelKey = 'foo bar'
-
-      mockRegistry['service/i18n'].i18n.t = tSpy;
-
-      launcher.create('alice', { labelKey: labelKey});
-
-      expect(tSpy)
-        .toHaveBeenCalledWith(`embeddable_framework.launcher.label.${labelKey}`)
-    });
-
     it('should add a new launcher to the internal list', function() {
       expect(_.keys(launcher.list()).length)
         .toBe(0);
@@ -106,6 +94,18 @@ describe('embed.launcher', function() {
 
       expect(alice.config)
         .toBeDefined();
+    });
+
+    it('should call i18n.t with the right parameter to get the label', function() {
+      const tSpy = jasmine.createSpy('i18n.t')
+      const labelKey = 'foo bar'
+
+      mockRegistry['service/i18n'].i18n.t = tSpy;
+
+      launcher.create('alice', { labelKey: labelKey});
+
+      expect(tSpy)
+        .toHaveBeenCalledWith(`embeddable_framework.launcher.label.${labelKey}`)
     });
 
     it('changes config.labelKey if labelKey is set', function() {
