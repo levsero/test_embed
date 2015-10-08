@@ -53,7 +53,7 @@ export const NpsDesktop = React.createClass({
 
   render() {
     if (this.props.updateFrameSize) {
-      setTimeout( () => { this.props.updateFrameSize(); }, 0);
+      setTimeout(() => { this.props.updateFrameSize(); }, 0);
     }
 
     /* jshint laxbreak: true */
@@ -65,7 +65,7 @@ export const NpsDesktop = React.createClass({
                           : {width: 620, margin: 15};
 
     if (this.props.setOffsetHorizontal && this.state.currentPage.thankYou) {
-      setTimeout( () => { this.props.setOffsetHorizontal(-215); }, 0);
+      setTimeout(() => { this.props.setOffsetHorizontal(-215); }, 0);
     }
 
     const iconClasses = 'u-inlineBlock u-userFillColor u-posRelative u-marginTL';
