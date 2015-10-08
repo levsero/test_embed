@@ -352,7 +352,7 @@ var SearchField = React.createClass({
   },
 
   getSearchField() {
-    return this.refs.searchFieldInput.getDOMNode();
+    return React.findDOMNode(this.refs.searchFieldInput);
   },
 
   getValue() {

@@ -2,7 +2,6 @@ import React from 'react/addons';
 import _     from 'lodash';
 
 import { transport }         from 'service/transport';
-import { stopWordsFilter }   from 'mixin/searchFilter';
 import { HelpCenterForm }    from 'component/HelpCenterForm';
 import { HelpCenterArticle } from 'component/HelpCenterArticle';
 import { SearchField,
@@ -219,11 +218,7 @@ export const HelpCenter = React.createClass({
     }
 
     if (searchString.length >= 5 && _.last(searchString) === ' ' || forceSearch) {
-      const filteredStr = stopWordsFilter(searchString);
-
-      if (filteredStr !== '') {
-        this.performSearch(filteredStr, forceSearch);
-      }
+      this.performSearch(searchString, forceSearch);
     }
   },
 

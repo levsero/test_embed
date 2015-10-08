@@ -121,11 +121,6 @@ describe('Help center component', function() {
       'service/persistence': {
         store: jasmine.createSpyObj('store', ['set', 'get'])
       },
-      'mixin/searchFilter': {
-        stopWordsFilter: function(str) {
-          return str;
-        }
-      },
       'utility/devices': {
         getSizingRatio: function() {
           return 1;
