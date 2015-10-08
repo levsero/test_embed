@@ -158,6 +158,13 @@ export var frameFactory = function(childFn, _params) {
       frameWin.setTimeout( () => this.setState({iframeDimensions: dimensions()}), 0);
     },
 
+    updateBaseFontSize(fontSize) {
+      const iframe = this.getDOMNode();
+      const htmlElem = iframe.contentDocument.documentElement;
+
+      htmlElem.style.fontSize = fontSize;
+    },
+
     show() {
       let frameFirstChild = this.getDOMNode().contentDocument.body.firstChild;
 
