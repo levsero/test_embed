@@ -19,27 +19,24 @@ let npses = {};
 
 function create(name, config) {
   let containerStyle;
-  let frameStyle;
+  let frameStyle = {
+    position: 'fixed',
+    bottom: 0
+  };
 
   if (isMobileBrowser()) {
-    frameStyle = {
-      position: 'fixed',
-      bottom: '0',
+    frameStyle = _.extend({}, frameStyle, {
       right: '0',
-      display: 'block',
-      marginLeft: 'auto',
-      marginRight: 'auto',
-      width: '100% !important'
-    };
+      margin: 0,
+      width: '100%'
+    });
   } else {
     containerStyle = { width: 620, margin: 15 };
-    frameStyle = {
-      position: 'fixed',
+    frameStyle = _.extend({}, frameStyle, {
       left: '50%',
       marginLeft: -310,
-      bottom: 0,
       width: 620
-    };
+    });
   }
 
   const npsSender = (params, doneFn, failFn) => {
