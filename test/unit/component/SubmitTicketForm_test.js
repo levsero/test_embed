@@ -54,12 +54,24 @@ describe('SubmitTicketForm component', function() {
         ScrollContainer: React.createClass({
             setScrollShadowVisible: noop,
             render: function() {
-              return <div>{this.props.footerContent}</div>;
+              return (
+                <div>
+                  <h1 id='formTitle'>{this.props.title}</h1>
+                  <div>{this.props.footerContent}</div>
+                </div>
+              );
             }
           }),
       },
       'service/i18n': {
-        i18n: jasmine.createSpyObj('i18n', ['t', 'setLocale', 'init', 'isRTL'])
+        i18n: {
+          init: jasmine.createSpy(),
+          setLocale: jasmine.createSpy(),
+          isRTL: jasmine.createSpy(),
+          t: function(translationKey) {
+            return translationKey;
+          }
+        }
       },
       'lodash': _
     });
@@ -75,6 +87,31 @@ describe('SubmitTicketForm component', function() {
     jasmine.clock().uninstall();
     mockery.deregisterAll();
     mockery.disable();
+  });
+
+  it('should display form title', function() {
+    React.render(
+      <SubmitTicketForm formTitleKey='testTitle' />,
+      global.document.body
+    );
+
+    expect(document.getElementById('formTitle').innerHTML)
+      .toEqual('embeddable_framework.submitTicket.form.title.testTitle');
+  });
+
+  it('should call i18n.t with the right parameter to set the form title', function() {
+    const tSpy = jasmine.createSpy('i18n.t');
+    const titleKey = 'foo bar';
+
+    mockRegistry['service/i18n'].i18n.t = tSpy;
+
+    React.render(
+      <SubmitTicketForm formTitleKey={titleKey} />,
+      global.document.body
+    );
+
+    expect(tSpy)
+      .toHaveBeenCalledWith(`embeddable_framework.submitTicket.form.title.${titleKey}`);
   });
 
   it('should correctly render form with noValidate attribute', function() {
@@ -106,9 +143,10 @@ describe('SubmitTicketForm component', function() {
     );
     const submitTicketFormNode = submitTicketForm.getDOMNode();
     const submitElem = submitTicketFormNode.querySelector('input[type="submit"]');
-    const i18n = mockRegistry['service/i18n'].i18n;
+    const tSpy = jasmine.createSpy('i18n.t');
+    mockRegistry['service/i18n'].i18n.t = tSpy;
 
-    i18n.t.and.returnValue('Foobar...');
+    tSpy.and.returnValue('Foobar...');
 
     expect(submitElem.disabled)
       .toEqual(true);

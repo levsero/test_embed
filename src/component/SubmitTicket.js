@@ -182,9 +182,7 @@ export var SubmitTicket = React.createClass({
           ref='submitTicketForm'
           hide={this.state.showNotification}
           customFields={this.props.customFields}
-          formTitle={
-            i18n.t(`embeddable_framework.submitTicket.form.title.${this.props.formTitleKey}`)
-          }
+          formTitleKey={this.props.formTitleKey}
           submit={this.handleSubmit}>
           <p className={errorClasses}>
             {this.state.errorMessage}

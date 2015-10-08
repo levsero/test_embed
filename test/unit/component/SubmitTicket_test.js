@@ -70,11 +70,12 @@ describe('Submit ticket component', function() {
               };
             },
             render: function() {
-              return (
-                <form onSubmit={this.props.handleSubmit}>
-                  <h1 id='formTitle'>{this.props.formTitle}</h1>
-                </form>
-              );
+              return <form onSubmit={this.props.handleSubmit} />;
+              // return (
+              //   <form onSubmit={this.props.handleSubmit}>
+              //     <h1 id='formTitle'>{this.props.formTitle}</h1>
+              //   </form>
+              // );
             }
           }),
         MessageFieldset: noop,
@@ -142,31 +143,6 @@ describe('Submit ticket component', function() {
 
     expect(submitTicket.state.message)
       .toEqual('');
-  });
-
-  it('should display form title', function() {
-    React.render(
-      <SubmitTicket formTitleKey='testTitle' />,
-      global.document.body
-    );
-
-    expect(document.getElementById('formTitle').innerHTML)
-      .toEqual('embeddable_framework.submitTicket.form.title.testTitle');
-  });
-
-  it('should call i18n.t with the right parameter to set the form title', function() {
-    const tSpy = jasmine.createSpy('i18n.t');
-    const titleKey = 'foo bar';
-
-    mockRegistry['service/i18n'].i18n.t = tSpy;
-
-    React.render(
-      <SubmitTicket formTitleKey={titleKey} />,
-      global.document.body
-    );
-
-    expect(tSpy)
-      .toHaveBeenCalledWith(`embeddable_framework.submitTicket.form.title.${titleKey}`);
   });
 
   it('should not submit form when invalid', function() {
