@@ -297,12 +297,6 @@ export var frameFactory = function(childFn, _params) {
       this.renderFrameContent();
     },
 
-    reRenderCloseButton(fullscreen, isMobile) {
-      child.setState({
-        closeButton: this.renderCloseButton(fullscreen, isMobile)
-      });
-    },
-
     renderFrameContent() {
       if (this.state._rendered) {
         return false;
