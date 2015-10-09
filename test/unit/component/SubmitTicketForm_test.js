@@ -98,17 +98,16 @@ describe('SubmitTicketForm component', function() {
   });
 
   it('should call i18n.t with the right parameter to set the form title', function() {
-    const tSpy = jasmine.createSpy('i18n.t');
     const titleKey = 'foo bar';
 
-    mockRegistry['service/i18n'].i18n.t = tSpy;
+    spyOn(mockRegistry['service/i18n'].i18n, 't').and.callThrough();
 
     React.render(
       <SubmitTicketForm formTitleKey={titleKey} />,
       global.document.body
     );
 
-    expect(tSpy)
+    expect(mockRegistry['service/i18n'].i18n.t)
       .toHaveBeenCalledWith(`embeddable_framework.submitTicket.form.title.${titleKey}`);
   });
 
@@ -141,10 +140,6 @@ describe('SubmitTicketForm component', function() {
     );
     const submitTicketFormNode = submitTicketForm.getDOMNode();
     const submitElem = submitTicketFormNode.querySelector('input[type="submit"]');
-    const tSpy = jasmine.createSpy('i18n.t');
-    mockRegistry['service/i18n'].i18n.t = tSpy;
-
-    tSpy.and.returnValue('Foobar...');
 
     expect(submitElem.disabled)
       .toEqual(true);
