@@ -115,9 +115,7 @@ describe('Help center component', function() {
           setLocale: jasmine.createSpy(),
           getLocale: jasmine.createSpy(),
           isRTL: jasmine.createSpy(),
-          t: function(translationKey) {
-            return translationKey;
-          }
+          t: _.identity
         }
       },
       'service/persistence': {

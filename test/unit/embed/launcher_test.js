@@ -57,9 +57,7 @@ describe('embed.launcher', function() {
         i18n: {
           init: noop,
           setLocale: noop,
-          t: function(translationKey) {
-            return translationKey;
-          }
+          t: _.identity
         }
       }
     });

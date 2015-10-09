@@ -68,9 +68,7 @@ describe('SubmitTicketForm component', function() {
           init: noop,
           setLocale: noop,
           isRTL: noop,
-          t: function(translationKey) {
-            return translationKey;
-          }
+          t: _.identity
         }
       },
       'lodash': _
