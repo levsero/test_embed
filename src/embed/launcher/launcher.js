@@ -125,20 +125,16 @@ function render(name) {
   });
 
   mediator.channel.subscribe(name + '.setLabelHelp', function() {
+    const label = i18n.t(`embeddable_framework.launcher.label.${launchers[name].config.labelKey}`);
     setIcon(name, 'Icon');
-    setLabel(
-      name,
-      i18n.t(`embeddable_framework.launcher.label.${launchers[name].config.labelKey}`)
-    );
+    setLabel(name, label);
     setHasUnreadMessages(name, false);
   });
 
   mediator.channel.subscribe(name + '.setLabelChatHelp', function() {
+    const label = i18n.t(`embeddable_framework.launcher.label.${launchers[name].config.labelKey}`);
     setIcon(name, 'Icon--chat');
-    setLabel(
-      name,
-      i18n.t(`embeddable_framework.launcher.label.${launchers[name].config.labelKey}`)
-    );
+    setLabel(name, label);
     setHasUnreadMessages(name, false);
   });
 
