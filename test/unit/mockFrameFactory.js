@@ -34,7 +34,6 @@ var mockFrameFactory = jasmine.createSpy('mockFrameFactory').and.callFake(
       hide: mockFrameMethods.hide,
       close: mockFrameMethods.close,
       setHighlightColor: mockFrameMethods.setHighlightColor,
-      reRenderCloseButton: mockFrameMethods.reRenderCloseButton,
       getChild: function() {
         return child;
       },
