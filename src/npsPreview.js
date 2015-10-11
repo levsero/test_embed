@@ -11,9 +11,7 @@ const renderNps = (locale, elem) => {
 
   const frameStyle = {
     bottom: '0',
-    display: 'block',
-    marginLeft: 'auto',
-    marginRight: 'auto'
+    margin: '0'
   };
 
   const frameParams = {
@@ -34,9 +32,11 @@ const renderNps = (locale, elem) => {
         if (npsComponent.refs.mobile) {
           npsComponent.refs.mobile.setState(npsComponent.refs.mobile.getInitialState());
         }
+
         if (npsComponent.refs.desktop) {
           npsComponent.refs.desktop.setState(npsComponent.refs.desktop.getInitialState());
         }
+
         nps.show();
       }, 0);
     }
@@ -92,9 +92,7 @@ const renderNps = (locale, elem) => {
     nps.getChild().setState({ isMobile });
     /* jshint laxbreak: true */
     nps.setState({
-      frameStyle: isMobile
-                  ? _.extend({}, frameStyle, { position: 'absolute' })
-                  : frameStyle
+      frameStyle: isMobile ? _.extend({}, frameStyle, { position: 'absolute' }) : frameStyle
     });
   };
 
