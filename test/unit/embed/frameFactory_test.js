@@ -4,7 +4,7 @@ describe('frameFactory', function() {
       mockRegistry,
       mockRegistryMocks,
       mockChildFn,
-      mockSnabbt = jasmine.createSpy('snabbt.js');
+      mockSnabbt;
 
   const frameFactoryPath = buildSrcPath('embed/frameFactory');
 
@@ -14,6 +14,8 @@ describe('frameFactory', function() {
     mockery.enable({
       useCleanCache: true
     });
+
+    mockSnabbt = jasmine.createSpy('snabbt.js');
 
     mockRegistryMocks = {
       'react/addons': React,
