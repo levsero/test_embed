@@ -41,8 +41,7 @@ function isIos() {
 
 function isFirefox() {
   var FIREFOX_BROWSER = /Gecko\/.*\d.*Firefox/;
-  const str = navigator.userAgent || navigator.vendor || win.opera;
-  return FIREFOX_BROWSER.test(str);
+  return FIREFOX_BROWSER.test(navigator.userAgent);
 }
 
 // Taken from Zopim Mobile.js
