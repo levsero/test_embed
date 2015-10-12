@@ -20,11 +20,12 @@ const classSet = React.addons.classSet;
 export const HelpCenter = React.createClass({
   getInitialState() {
     /* jshint maxlen:false */
+    // jscs:disable  maximumLineLength
     return {
       articles: [],
       resultsCount: 0,
       searchTerm: '',
-      buttonLabel: i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket.message'),
+      buttonLabel: i18n.t(`embeddable_framework.helpCenter.submitButton.label.submitTicket.${this.props.buttonLabelKey}`),
       fullscreen: isMobileBrowser(),
       previousSearchTerm: '',
       hasSearched: false,
@@ -36,6 +37,13 @@ export const HelpCenter = React.createClass({
       virtualKeyboardKiller: false,
       searchTracked: false,
       searchResultClicked: false
+    };
+  },
+
+  getDefaultProps() {
+    return {
+      buttonLabelKey: 'message',
+      formTitleKey: 'help'
     };
   },
 
@@ -373,7 +381,11 @@ export const HelpCenter = React.createClass({
       linkLabel = i18n.t('embeddable_framework.helpCenter.label.link.chat');
     } else {
       linkContext = i18n.t('embeddable_framework.helpCenter.label.linkContext.submitTicket');
-      linkLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket.message');
+      linkLabel = i18n.t(
+        `embeddable_framework.helpCenter.submitButton.label.submitTicket.${
+          this.props.buttonLabelKey
+        }`
+      );
     }
 
     const noResultsTemplate = () => {
@@ -468,7 +480,7 @@ export const HelpCenter = React.createClass({
         <ScrollContainer
           ref='scrollContainer'
           hideZendeskLogo={hideZendeskLogo}
-          title={i18n.t('embeddable_framework.launcher.label.help')}
+          title={i18n.t(`embeddable_framework.launcher.label.${this.props.formTitleKey}`)}
           headerContent={headerContent}
           footerContent={
             <div className={buttonContainerClasses}>

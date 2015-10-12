@@ -14,6 +14,10 @@ import { i18n }             from 'service/i18n';
 const classSet = React.addons.classSet;
 
 export var SubmitTicket = React.createClass({
+  propTypes: {
+    formTitleKey: React.PropTypes.string.isRequired
+  },
+
   getInitialState() {
     return {
       showNotification: false,
@@ -178,6 +182,7 @@ export var SubmitTicket = React.createClass({
           ref='submitTicketForm'
           hide={this.state.showNotification}
           customFields={this.props.customFields}
+          formTitleKey={this.props.formTitleKey}
           submit={this.handleSubmit}>
           <p className={errorClasses}>
             {this.state.errorMessage}

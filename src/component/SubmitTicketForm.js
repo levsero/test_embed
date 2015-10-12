@@ -12,6 +12,10 @@ import { Field,
 const classSet = React.addons.classSet;
 
 export const SubmitTicketForm = React.createClass({
+  propTypes: {
+    formTitleKey: React.PropTypes.string.isRequired
+  },
+
   getInitialState() {
     return {
       isValid: false,
@@ -197,7 +201,8 @@ export const SubmitTicketForm = React.createClass({
         className={formClasses}>
         <ScrollContainer
           ref='scrollContainer'
-          title={i18n.t('embeddable_framework.submitTicket.form.title.message')}
+          /* jshint maxlen: false */
+          title={i18n.t(`embeddable_framework.submitTicket.form.title.${this.props.formTitleKey}`)}
           contentExpanded={true}
           footerContent={
             <ButtonGroup rtl={i18n.isRTL()}>

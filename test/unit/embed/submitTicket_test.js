@@ -133,16 +133,35 @@ describe('embed.submitTicket', function() {
         .toBeDefined();
     });
 
+    it('changes config.formTitleKey if formTitleKey is set', function() {
+      submitTicket.create('bob', { formTitleKey: 'test_title' } );
+
+      const bob = submitTicket.get('bob');
+
+      expect(bob.config.formTitleKey)
+        .toEqual('test_title');
+    });
+
     describe('frameFactory', function() {
       let mockFrameFactory,
           mockFrameFactoryCall,
+          childFn,
           params;
 
       beforeEach(function() {
         mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
         submitTicket.create('bob', frameConfig);
         mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
+        childFn = mockFrameFactoryCall[0];
         params = mockFrameFactoryCall[1];
+      });
+
+      it('should apply the configs', function() {
+        const bob = submitTicket.get('bob');
+        const payload = childFn({});
+
+        expect(payload.props.formTitleKey)
+          .toEqual(bob.config.formTitleKey);
       });
 
       it('should not call focusField in afterShowAnimate for non-IE browser', function() {

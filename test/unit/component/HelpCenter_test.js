@@ -110,13 +110,13 @@ describe('Help center component', function() {
         ButtonGroup: noopReactComponent()
       },
       'service/i18n': {
-        i18n: jasmine.createSpyObj('i18n', [
-          'init',
-          'setLocale',
-          'getLocale',
-          't',
-          'isRTL'
-        ])
+        i18n: {
+          init: jasmine.createSpy(),
+          setLocale: jasmine.createSpy(),
+          getLocale: jasmine.createSpy(),
+          isRTL: jasmine.createSpy(),
+          t: _.identity
+        }
       },
       'service/persistence': {
         store: jasmine.createSpyObj('store', ['set', 'get'])
@@ -150,6 +150,31 @@ describe('Help center component', function() {
 
     expect(helpCenter.state.articles)
       .toEqual([]);
+  });
+
+  it('should set the button label based on the defaultButtonLabel property', function() {
+    React.render(
+      <HelpCenter buttonLabelKey='contact' />,
+      global.document.body
+    );
+
+    expect(document.querySelector('a.u-userTextColor').textContent)
+      .toEqual('embeddable_framework.helpCenter.submitButton.label.submitTicket.contact');
+  });
+
+  it('should call i18n.t with the right parameter to set the label', function() {
+    const labelKey = 'foo bar';
+
+    spyOn(mockRegistry['service/i18n'].i18n, 't').and.callThrough();
+
+    React.render(
+      <HelpCenter buttonLabelKey={labelKey} />,
+      global.document.body
+    );
+
+    /* jshint maxlen:false */
+    expect(mockRegistry['service/i18n'].i18n.t)
+      .toHaveBeenCalledWith(`embeddable_framework.helpCenter.submitButton.label.submitTicket.${labelKey}`);
   });
 
   describe('updateResults', function() {

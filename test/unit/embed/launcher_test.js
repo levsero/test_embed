@@ -54,7 +54,11 @@ describe('embed.launcher', function() {
       },
       'lodash': _,
       'service/i18n': {
-        i18n: jasmine.createSpyObj('i18n', ['init', 'setLocale', 't'])
+        i18n: {
+          init: noop,
+          setLocale: noop,
+          t: _.identity
+        }
       }
     });
 
@@ -69,7 +73,6 @@ describe('embed.launcher', function() {
   });
 
   describe('create', function() {
-
     it('should add a new launcher to the internal list', function() {
       expect(_.keys(launcher.list()).length)
         .toBe(0);
@@ -91,6 +94,27 @@ describe('embed.launcher', function() {
         .toBeDefined();
     });
 
+    it('should call i18n.t with the right parameter to get the label', function() {
+      const tSpy = jasmine.createSpy('i18n.t');
+      const labelKey = 'foo bar';
+
+      mockRegistry['service/i18n'].i18n.t = tSpy;
+
+      launcher.create('alice', { labelKey: labelKey });
+
+      expect(tSpy)
+        .toHaveBeenCalledWith(`embeddable_framework.launcher.label.${labelKey}`);
+    });
+
+    it('changes config.labelKey if labelKey is set', function() {
+      launcher.create('alice', { labelKey: 'test_label' });
+
+      const alice = launcher.get('alice');
+
+      expect(alice.config.labelKey)
+        .toEqual('test_label');
+    });
+
     describe('frameFactory', function() {
       let mockFrameFactory,
           mockFrameFactoryCall,
@@ -103,7 +127,6 @@ describe('embed.launcher', function() {
         frameConfig = {
           onClick: jasmine.createSpy(),
           position: 'test_position',
-          label: 'Help',
           icon: '',
           visible: true
         };
@@ -120,9 +143,6 @@ describe('embed.launcher', function() {
         const payload = childFn({});
         const onClickHandler = params.extend.onClickHandler;
 
-        expect(alice.config)
-          .toEqual(frameConfig);
-
         expect(payload.props.position)
           .toEqual(frameConfig.position);
 
@@ -130,7 +150,7 @@ describe('embed.launcher', function() {
           .toEqual(frameConfig.icon);
 
         expect(payload.props.label)
-          .toEqual(frameConfig.label);
+          .toEqual(`embeddable_framework.launcher.label.${alice.config.labelKey}`);
 
         expect(params.fullscreenable)
           .toEqual(false);
@@ -173,7 +193,6 @@ describe('embed.launcher', function() {
       const config = {
         position: 'test_alice_position',
         onClick: function() { return 'alice'; },
-        label: 'Help',
         icon: '',
         visible: true
       };
@@ -184,8 +203,14 @@ describe('embed.launcher', function() {
       expect(alice)
         .not.toBeUndefined();
 
-      expect(alice.config)
-        .toEqual(config);
+      expect(alice.config.position)
+        .toEqual(config.position);
+
+      expect(alice.config.icon)
+        .toEqual(config.icon);
+
+      expect(alice.config.visible)
+        .toEqual(config.visible);
     });
 
   });
@@ -280,7 +305,7 @@ describe('embed.launcher', function() {
 
       beforeEach(function() {
         mockMediator = mockRegistry['service/mediator'].mediator;
-        launcher.create('alice');
+        launcher.create('alice', { labelKey: 'test_label' });
         launcher.render('alice');
         alice = launcher.get('alice');
         aliceLauncher = alice.instance.getChild().refs.rootComponent;
@@ -316,7 +341,7 @@ describe('embed.launcher', function() {
           .toHaveBeenCalledWith('Icon');
 
         expect(aliceLauncher.setLabel.__reactBoundMethod)
-          .toHaveBeenCalled();
+          .toHaveBeenCalledWith('embeddable_framework.launcher.label.test_label');
       });
 
       it('should subscribe to <name>.setLabelChat', function() {
@@ -342,7 +367,7 @@ describe('embed.launcher', function() {
           .toHaveBeenCalledWith('Icon--chat');
 
         expect(aliceLauncher.setLabel.__reactBoundMethod)
-          .toHaveBeenCalled();
+          .toHaveBeenCalledWith('embeddable_framework.launcher.label.test_label');
       });
 
       it('should subscribe to <name>.setLabelUnreadMsgs', function() {

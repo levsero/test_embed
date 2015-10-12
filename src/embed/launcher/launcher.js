@@ -17,8 +17,8 @@ function create(name, config) {
   const configDefaults = {
     onClick: function() {},
     position: 'right',
-    label: i18n.t('embeddable_framework.launcher.label.help'),
     icon: 'Icon',
+    labelKey: 'help',
     visible: true
   };
   const frameStyle = {
@@ -44,7 +44,7 @@ function create(name, config) {
           onTouchEnd={params.onClickHandler}
           updateFrameSize={params.updateFrameSize}
           position={config.position}
-          label={config.label}
+          label={i18n.t(`embeddable_framework.launcher.label.${config.labelKey}`)}
           icon={config.icon} />
       );
     },
@@ -125,14 +125,16 @@ function render(name) {
   });
 
   mediator.channel.subscribe(name + '.setLabelHelp', function() {
+    const label = i18n.t(`embeddable_framework.launcher.label.${launchers[name].config.labelKey}`);
     setIcon(name, 'Icon');
-    setLabel(name, i18n.t('embeddable_framework.launcher.label.help'));
+    setLabel(name, label);
     setHasUnreadMessages(name, false);
   });
 
   mediator.channel.subscribe(name + '.setLabelChatHelp', function() {
+    const label = i18n.t(`embeddable_framework.launcher.label.${launchers[name].config.labelKey}`);
     setIcon(name, 'Icon--chat');
-    setLabel(name, i18n.t('embeddable_framework.launcher.label.help'));
+    setLabel(name, label);
     setHasUnreadMessages(name, false);
   });
 

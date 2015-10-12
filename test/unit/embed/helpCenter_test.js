@@ -137,6 +137,24 @@ describe('embed.helpCenter', function() {
         .toBeDefined();
     });
 
+    it('changes config.buttonLabelKey if buttonLabelKey is set', function() {
+      helpCenter.create('carlos', { buttonLabelKey: 'test_label' });
+
+      const carlos = helpCenter.get('carlos');
+
+      expect(carlos.config.buttonLabelKey)
+        .toEqual('test_label');
+    });
+
+    it('changes config.formTitleKey if formTitleKey is set', function() {
+      helpCenter.create('carlos', { formTitleKey: 'test_title' });
+
+      const carlos = helpCenter.get('carlos');
+
+      expect(carlos.config.formTitleKey)
+        .toEqual('test_title');
+    });
+
     describe('frameFactory', function() {
       let mockFrameFactory,
           mockFrameFactoryCall,
@@ -149,6 +167,17 @@ describe('embed.helpCenter', function() {
         mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
         childFn = mockFrameFactoryCall[0];
         params = mockFrameFactoryCall[1];
+      });
+
+      it('should apply the configs', function() {
+        const carlos = helpCenter.get('carlos');
+        const payload = childFn({});
+
+        expect(payload.props.buttonLabelKey)
+          .toEqual(carlos.config.buttonLabelKey);
+
+        expect(payload.props.formTitleKey)
+          .toEqual(carlos.config.formTitleKey);
       });
 
       it('should pass in zendeskHost from transport.getZendeskHost', function() {

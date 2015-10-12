@@ -54,12 +54,22 @@ describe('SubmitTicketForm component', function() {
         ScrollContainer: React.createClass({
             setScrollShadowVisible: noop,
             render: function() {
-              return <div>{this.props.footerContent}</div>;
+              return (
+                <div>
+                  <h1 id='formTitle'>{this.props.title}</h1>
+                  <div>{this.props.footerContent}</div>
+                </div>
+              );
             }
           }),
       },
       'service/i18n': {
-        i18n: jasmine.createSpyObj('i18n', ['t', 'setLocale', 'init', 'isRTL'])
+        i18n: {
+          init: noop,
+          setLocale: noop,
+          isRTL: noop,
+          t: _.identity
+        }
       },
       'lodash': _
     });
@@ -75,6 +85,30 @@ describe('SubmitTicketForm component', function() {
     jasmine.clock().uninstall();
     mockery.deregisterAll();
     mockery.disable();
+  });
+
+  it('should display form title', function() {
+    React.render(
+      <SubmitTicketForm formTitleKey='testTitle' />,
+      global.document.body
+    );
+
+    expect(document.getElementById('formTitle').innerHTML)
+      .toEqual('embeddable_framework.submitTicket.form.title.testTitle');
+  });
+
+  it('should call i18n.t with the right parameter to set the form title', function() {
+    const titleKey = 'foo bar';
+
+    spyOn(mockRegistry['service/i18n'].i18n, 't').and.callThrough();
+
+    React.render(
+      <SubmitTicketForm formTitleKey={titleKey} />,
+      global.document.body
+    );
+
+    expect(mockRegistry['service/i18n'].i18n.t)
+      .toHaveBeenCalledWith(`embeddable_framework.submitTicket.form.title.${titleKey}`);
   });
 
   it('should correctly render form with noValidate attribute', function() {
@@ -106,9 +140,6 @@ describe('SubmitTicketForm component', function() {
     );
     const submitTicketFormNode = submitTicketForm.getDOMNode();
     const submitElem = submitTicketFormNode.querySelector('input[type="submit"]');
-    const i18n = mockRegistry['service/i18n'].i18n;
-
-    i18n.t.and.returnValue('Foobar...');
 
     expect(submitElem.disabled)
       .toEqual(true);
