@@ -254,8 +254,7 @@ describe('frameFactory', function() {
 
   describe('show', function() {
     let instance,
-        mockOnShow,
-        snabbt;
+        mockOnShow;
 
     beforeEach(function() {
       let payload,
@@ -528,8 +527,7 @@ describe('frameFactory', function() {
 
     describe('without animation', function() {
       let mockFrameParams,
-          instance,
-          snabbt;
+          instance;
 
       beforeEach(function() {
         let payload,
@@ -557,8 +555,7 @@ describe('frameFactory', function() {
 
     describe('with animation', function() {
       let instance,
-          mockFrameParams,
-          snabbt;
+          mockFrameParams;
 
       beforeEach(function() {
         mockSnabbt.calls.reset();
