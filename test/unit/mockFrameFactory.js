@@ -2,7 +2,8 @@ const mockFrameMethods = {
   show: jasmine.createSpy('mockFrameShow'),
   hide: jasmine.createSpy('mockFrameHide'),
   close: jasmine.createSpy('mockFrameClose'),
-  setHighlightColor: jasmine.createSpy('setHighlightColor')
+  setHighlightColor: jasmine.createSpy('setHighlightColor'),
+  reRenderCloseButton: jasmine.createSpy('mockReRenderCloseButton')
 };
 
 exports.mockFrameMethods = mockFrameMethods;

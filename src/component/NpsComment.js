@@ -47,7 +47,10 @@ export const NpsComment = React.createClass({
       'u-textSizeBaseMobile': this.props.isMobile
     });
 
-    const labelClasses = 'NpsComment-label u-marginBN u-textCenter u-borderNone';
+    const labelClasses = classSet({
+      'NpsComment-label u-marginBN u-textCenter u-borderNone': true,
+      'is-mobile': this.props.isMobile
+    });
 
     /* jshint laxbreak: true */
     const commentSubmitButton = (this.props.isSubmittingComment)
@@ -80,7 +83,7 @@ export const NpsComment = React.createClass({
             labelClasses={labelClasses}
             hasError={this.props.hasError}
             ref='commentField'
-            placeholder={this.props.commentsQuestion}
+            placeholder={this.props.label}
             value={this.props.comment}
             name='comment'
             onChange={this.props.onChange}

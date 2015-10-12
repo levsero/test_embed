@@ -4,10 +4,16 @@ import { Icon } from 'component/Icon';
 
 const classSet = React.addons.classSet;
 
+const utm = {
+  embeddednps: 'embeddednps',
+  webwidget: 'webwidget'
+};
+
 export var ZendeskLogo = React.createClass({
   getDefaultProps() {
     return {
-      className: ''
+      className: '',
+      utm: utm.webwidget
     };
   },
   render() {
@@ -23,7 +29,7 @@ export var ZendeskLogo = React.createClass({
     });
     const logoUrl = [
       '//www.zendesk.com/embeddables/',
-      '?utm_source=webwidget&utm_medium=poweredbyzendesk&utm_campaign=image'
+      `?utm_source=${utm[this.props.utm]}&utm_medium=poweredbyzendesk&utm_campaign=image`
     ].join('');
 
     return (

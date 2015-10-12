@@ -46,7 +46,7 @@ export const NpsMobile = React.createClass({
 
   setDefaultNpsMobileSize() {
     setTimeout(() => this.props.setFrameSize(
-      `${win.innerWidth}px`,
+      `100%`,
       this.calcHeightPercentage()),
     0);
   },
@@ -55,8 +55,8 @@ export const NpsMobile = React.createClass({
     if (isIos()) {
       this.startScrollHacks();
       setTimeout(() => this.props.setFrameSize(
-        `${win.innerWidth}px`,
-        `${win.innerHeight}px`,
+        `100%`,
+        `100%`,
         false),
       0);
       this.setState({
@@ -198,7 +198,7 @@ export const NpsMobile = React.createClass({
                          : null;
 
     const zendeskLogo = (!this.state.currentPage.addingComment)
-                      ? <ZendeskLogo className='ZendeskLogo u-posCenter' />
+                      ? <ZendeskLogo utm='embeddednps' className='ZendeskLogo u-posCenter' />
                       : null;
 
     const notification = (this.state.currentPage.thankYou)
@@ -231,7 +231,6 @@ export const NpsMobile = React.createClass({
     });
 
     const npsCommentClasses = classSet({
-      'NpsComment-label is-mobile': true,
       'u-isHidden': !this.state.isEditing
     });
 

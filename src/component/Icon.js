@@ -27,7 +27,8 @@ export var Icon = React.createClass({
   getDefaultProps() {
     return {
       type: '',
-      className: ''
+      className: '',
+      isMobile: isMobileBrowser()
     };
   },
 
@@ -35,7 +36,7 @@ export var Icon = React.createClass({
     const icon = icons[this.props.type];
     const iconClasses = classSet({
       [`Icon ${this.props.type} ${this.props.className}`]: true,
-      'is-mobile': isMobileBrowser()
+      'is-mobile': this.props.isMobile
     });
 
     return (

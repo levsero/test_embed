@@ -48,7 +48,8 @@ export var frameFactory = function(childFn, _params) {
     onHide: () => {},
     onClose: () => {},
     onBack: () => {},
-    afterShowAnimate: () => {}
+    afterShowAnimate: () => {},
+    isMobile: isMobileBrowser()
   };
   const params = _.extend({}, defaultParams, _params);
 
@@ -67,6 +68,7 @@ export var frameFactory = function(childFn, _params) {
     getInitialState() {
       return {
         visible: this.props.visible,
+        frameStyle: params.frameStyle,
         hiddenByZoom: false,
         _rendered: false,
         iframeDimensions: {
@@ -103,7 +105,7 @@ export var frameFactory = function(childFn, _params) {
         background: transparent ? 'linear-gradient(transparent, #FFFFFF)' : '#fff'
       };
 
-      if (params.fullscreenable && isMobileBrowser()) {
+      if (params.fullscreenable) {
         frameDoc.body.firstChild.setAttribute(
           'style',
           ['width: 100%',
@@ -132,7 +134,7 @@ export var frameFactory = function(childFn, _params) {
         const el = frameDoc.body.firstChild;
         const width  = Math.max(el.clientWidth,  el.offsetWidth);
         const height = Math.max(el.clientHeight, el.offsetHeight);
-        const fullscreen = isMobileBrowser() && params.fullscreenable;
+        const fullscreen = params.isMobile && params.fullscreenable;
         //FIXME shouldn't set background & zIndex in a dimensions object
         const fullscreenStyle = {
           width: `${win.innerWidth}px`,
@@ -152,7 +154,7 @@ export var frameFactory = function(childFn, _params) {
              : popoverStyle;
       };
 
-      if (params.fullscreenable && isMobileBrowser()) {
+      if (params.fullscreenable && params.isMobile) {
         frameDoc.body.firstChild.setAttribute(
           'style',
           ['width: 100%',
@@ -231,7 +233,7 @@ export var frameFactory = function(childFn, _params) {
     close(ev) {
       // ev.touches added for  automation testing mobile browsers
       // which is firing 'click' event on iframe close
-      if (isMobileBrowser() && ev.touches) {
+      if (params.isMobile && ev.touches) {
         clickBusterRegister(ev.touches[0].clientX, ev.touches[0].clientY);
       }
       this.hide();
@@ -272,7 +274,7 @@ export var frameFactory = function(childFn, _params) {
           zIndex: 999998,
           transform: 'translateZ(0)'
         },
-        params.frameStyle,
+        this.state.frameStyle,
         this.state.iframeDimensions,
         visibilityRule
       );
@@ -315,32 +317,12 @@ export var frameFactory = function(childFn, _params) {
         /* jshint laxbreak: true */
         const cssText = baseCSS + mainCSS + params.css + baseFontCSS;
         const css = <style dangerouslySetInnerHTML={{ __html: cssText }} />;
-        const fullscreen = isMobileBrowser() && params.fullscreenable;
+        const fullscreen = params.fullscreenable && params.isMobile;
         const positionClasses = classSet({
           'u-borderTransparent u-posRelative': !fullscreen,
           'u-pullRight': this.props.position === 'right',
           'u-pullLeft': this.props.position === 'left'
         });
-        const closeButton = (<ButtonNav
-                               onClick={this.close}
-                               label={
-                                 <Icon
-                                   type='Icon--close'
-                                   className='u-textInheritColor' />
-                               }
-                               rtl={i18n.isRTL()}
-                               position='right'
-                               fullscreen={fullscreen} />);
-        const backButton = (<ButtonNav
-                              onClick={this.back}
-                              label={
-                                <Icon
-                                  type='Icon--back'
-                                  className='u-textInheritColor' />
-                              }
-                              rtl={i18n.isRTL()}
-                              position='left'
-                              fullscreen={fullscreen} />);
 
         // 1. Loop over functions in params.extend
         // 2. Re-bind them to `this` context
@@ -366,7 +348,8 @@ export var frameFactory = function(childFn, _params) {
           getInitialState() {
             return {
               css: '',
-              showBackButton: false
+              showBackButton: false,
+              isMobile: false
             };
           },
 
@@ -378,6 +361,38 @@ export var frameFactory = function(childFn, _params) {
                 css: cssClasses
               });
             }
+          },
+
+          renderCloseButton() {
+            return (
+              <ButtonNav
+                 onClick={this.props.close}
+                 label={
+                   <Icon
+                     type='Icon--close'
+                     className='u-textInheritColor'
+                     isMobile={this.state.isMobile} />
+                 }
+                 rtl={i18n.isRTL()}
+                 position='right'
+                 fullscreen={this.props.fullscreen || this.state.isMobile} />
+            );
+          },
+
+          renderBackButton() {
+            return (
+              <ButtonNav
+                onClick={this.props.back}
+                label={
+                  <Icon
+                    type='Icon--back'
+                    className='u-textInheritColor'
+                    isMobile={this.state.isMobile} />
+                }
+                rtl={i18n.isRTL()}
+                position='left'
+                fullscreen={this.props.fullscreen || this.state.isMobile} />
+            );
           },
 
           render() {
@@ -395,17 +410,23 @@ export var frameFactory = function(childFn, _params) {
                 {styleTag}
                 {childFn(childParams)}
                 <div className={backButtonClasses}>
-                  {backButton}
+                  {this.renderBackButton()}
                 </div>
                 <div className={closeButtonClasses}>
-                  {closeButton}
+                  {this.renderCloseButton()}
                 </div>
               </div>
             );
           }
         });
 
-        child = React.render(<Component />, doc.body);
+        child = React.render(
+          <Component
+            back={this.back}
+            close={this.close}
+            fullscreen={fullscreen} />,
+          doc.body
+        );
 
         this.setState({_rendered: true});
 
