@@ -198,7 +198,7 @@ export const NpsMobile = React.createClass({
                          : null;
 
     const zendeskLogo = (!this.state.currentPage.addingComment)
-                      ? <ZendeskLogo utm={'embeddednps'} className='ZendeskLogo u-posCenter' />
+                      ? <ZendeskLogo utm='embeddednps' className='ZendeskLogo u-posCenter' />
                       : null;
 
     const notification = (this.state.currentPage.thankYou)

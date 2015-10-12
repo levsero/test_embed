@@ -99,7 +99,7 @@ export const NpsDesktop = React.createClass({
     const zendeskLogo = (!hideZendeskLogo && !this.state.currentPage.addingComment)
                       ? <div className='u-textCenter u-paddingBM'>
                           <ZendeskLogo
-                            utm={'embeddednps'}
+                            utm='embeddednps'
                             className='u-posStatic'
                             fullscreen={this.props.isMobile} />
                         </div>
