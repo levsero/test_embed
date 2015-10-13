@@ -11,7 +11,8 @@ const renderNps = (locale, elem) => {
 
   const frameStyle = {
     bottom: '0',
-    margin: '0'
+    margin: '0',
+    display: 'block'
   };
 
   const frameParams = {
