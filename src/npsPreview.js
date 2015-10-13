@@ -90,10 +90,12 @@ const renderNps = (locale, elem) => {
     setNpsState({
       isMobile
     });
-    nps.getChild().setState({ isMobile });
-    nps.setState({
-      frameStyle: isMobile ? _.extend({}, frameStyle, { position: 'absolute' }) : frameStyle
-    });
+    if (nps && nps.getChild()) {
+      nps.getChild().setState({ isMobile });
+      nps.setState({
+        frameStyle: isMobile ? _.extend({}, frameStyle, { position: 'absolute' }) : frameStyle
+      });
+    }
   };
 
   return { setSurvey, setMobile };
