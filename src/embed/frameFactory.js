@@ -3,13 +3,14 @@ import _     from 'lodash';
 
 import { win }                 from 'utility/globals';
 import { getSizingRatio,
-         isMobileBrowser }     from 'utility/devices';
+         isMobileBrowser,
+         isFirefox }           from 'utility/devices';
 import { clickBusterRegister,
          generateNpsCSS }      from 'utility/utils';
 import { i18n }                from 'service/i18n';
-import { snabbt }              from 'snabbt.js';
 import { ButtonNav }           from 'component/Button';
 import { Icon }                from 'component/Icon';
+import snabbt                  from 'snabbt.js';
 
 const classSet = React.addons.classSet;
 const baseCSS = require('baseCSS');
@@ -188,10 +189,10 @@ export var frameFactory = function(childFn, _params) {
         }
       }, 50);
 
-      if (params.transitionIn) {
+      if (params.transitionIn && !isFirefox()) {
         const transitionIn = _.clone(params.transitionIn);
-        const oldCb = transitionIn.callback;
-        transitionIn.callback = () => {
+        const oldCb = transitionIn.complete;
+        transitionIn.complete = () => {
           if (params.afterShowAnimate) {
             params.afterShowAnimate(this);
           }
@@ -202,18 +203,15 @@ export var frameFactory = function(childFn, _params) {
 
         snabbt(this.getDOMNode(), transitionIn);
       }
-
       params.onShow(this);
     },
 
     hide() {
-
-      if (params.transitionOut) {
+      if (params.transitionOut && !isFirefox()) {
         const transitionOut = _.clone(params.transitionOut);
+        const oldCb = transitionOut.complete;
 
-        const oldCb = transitionOut.callback;
-
-        transitionOut.callback = () => {
+        transitionOut.complete = () => {
           this.setState({ visible: false });
           if (oldCb) {
             oldCb(this);
@@ -221,7 +219,6 @@ export var frameFactory = function(childFn, _params) {
         };
 
         snabbt(this.getDOMNode(), transitionOut);
-
       } else {
         params.onHide(this);
         this.setState({
@@ -429,7 +426,6 @@ export var frameFactory = function(childFn, _params) {
         );
 
         this.setState({_rendered: true});
-
       } else {
         setTimeout(this.renderFrameContent, 0);
       }

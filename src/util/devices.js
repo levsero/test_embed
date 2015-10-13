@@ -39,6 +39,11 @@ function isIos() {
   return IOS_MOBILE.test(str);
 }
 
+function isFirefox() {
+  var FIREFOX_BROWSER = /Gecko\/.*\d.*Firefox/;
+  return FIREFOX_BROWSER.test(navigator.userAgent);
+}
+
 // Taken from Zopim Mobile.js
 // Detects mobile and tablet user agents
 // jscs:disable maximumLineLength
@@ -88,6 +93,7 @@ export {
   shouldGoFullscreen,
   isBlacklisted,
   isIE,
-  isIos
+  isIos,
+  isFirefox
 };
 

@@ -3,7 +3,9 @@ describe('frameFactory', function() {
   let frameFactory,
       mockRegistry,
       mockRegistryMocks,
-      mockChildFn;
+      mockChildFn,
+      mockSnabbt;
+
   const frameFactoryPath = buildSrcPath('embed/frameFactory');
 
   beforeEach(function() {
@@ -12,6 +14,8 @@ describe('frameFactory', function() {
     mockery.enable({
       useCleanCache: true
     });
+
+    mockSnabbt = jasmine.createSpy('snabbt.js');
 
     mockRegistryMocks = {
       'react/addons': React,
@@ -27,6 +31,9 @@ describe('frameFactory', function() {
         },
         isMobileBrowser: function() {
           return false;
+        },
+        isFirefox: function() {
+          return false;
         }
       },
       'service/i18n': {
@@ -41,9 +48,7 @@ describe('frameFactory', function() {
       },
       'baseCSS': '.base-css-file {} ',
       'mainCSS': '.main-css-file {} ',
-      'snabbt.js': {
-        snabbt: jasmine.createSpy('snabbt.js')
-      }
+      'snabbt.js': mockSnabbt
     };
 
     mockRegistry = initMockRegistry(mockRegistryMocks);
@@ -251,14 +256,13 @@ describe('frameFactory', function() {
 
   describe('show', function() {
     let instance,
-        mockOnShow,
-        snabbt;
+        mockOnShow;
 
     beforeEach(function() {
       let payload,
           Embed;
 
-      snabbt = mockRegistry['snabbt.js'].snabbt;
+      mockSnabbt.calls.reset();
 
       mockOnShow = jasmine.createSpy('onShow');
 
@@ -316,7 +320,7 @@ describe('frameFactory', function() {
       it('does not apply the animation if it does not exist', function() {
         instance.show();
 
-        expect(snabbt)
+        expect(mockSnabbt)
           .not.toHaveBeenCalled();
       });
     });
@@ -331,13 +335,15 @@ describe('frameFactory', function() {
         let payload,
             Embed;
 
+        mockSnabbt.calls.reset();
+
         mockAfterShowAnimate = jasmine.createSpy('afterShowAnimate');
 
         mockTransitionInCallback = jasmine.createSpy('transitionInCallback');
 
         mockFrameParams = {
           transitionIn: {
-            callback: mockTransitionInCallback
+            complete: mockTransitionInCallback
           },
           afterShowAnimate: mockAfterShowAnimate
         };
@@ -355,25 +361,25 @@ describe('frameFactory', function() {
       it('applies animation on show if transitionIn is provided', function() {
         instance.show();
 
-        expect(snabbt)
+        expect(mockSnabbt)
           .toHaveBeenCalled();
       });
 
       it('should call snabbt with the provided config', function() {
         instance.show();
 
-        const config = snabbt.calls.mostRecent().args[1];
+        const config = mockSnabbt.calls.mostRecent().args[1];
 
         expect(config)
-          .toEqual({ callback: jasmine.any(Function) });
+          .toEqual({ complete: jasmine.any(Function) });
       });
 
       it('should call afterShowAnimate if it\'s available', function() {
         instance.show();
 
-        const config = snabbt.calls.mostRecent().args[1];
+        const config = mockSnabbt.calls.mostRecent().args[1];
 
-        config.callback();
+        config.complete();
 
         expect(mockFrameParams.afterShowAnimate)
           .toHaveBeenCalled();
@@ -382,11 +388,11 @@ describe('frameFactory', function() {
       it('should call the provided callback', function() {
         instance.show();
 
-        const config = snabbt.calls.mostRecent().args[1];
+        const config = mockSnabbt.calls.mostRecent().args[1];
 
-        config.callback();
+        config.complete();
 
-        expect(mockFrameParams.transitionIn.callback)
+        expect(mockFrameParams.transitionIn.complete)
           .toHaveBeenCalled();
       });
 
@@ -416,9 +422,11 @@ describe('frameFactory', function() {
           let payload,
               Embed;
 
+          mockSnabbt.calls.reset();
+
           mockFrameParams = {
             transitionIn: {
-              callback: mockTransitionInCallback
+              complete: mockTransitionInCallback
             }
           };
 
@@ -435,11 +443,11 @@ describe('frameFactory', function() {
         it('should not call afterShowAnimate if it\'s not available', function() {
           instance.show();
 
-          const config = snabbt.calls.mostRecent().args[1];
+          const config = mockSnabbt.calls.mostRecent().args[1];
 
-          config.callback();
+          config.complete();
 
-          expect(config.callback)
+          expect(config.complete)
             .not.toThrow();
         });
       });
@@ -451,6 +459,8 @@ describe('frameFactory', function() {
         beforeEach(function() {
           let payload,
               Embed;
+
+          mockSnabbt.calls.reset();
 
           mockFrameParams = {
             transitionIn: {}
@@ -469,11 +479,11 @@ describe('frameFactory', function() {
         it('should not try to call the provided callback if it\'s not available', function() {
           instance.show();
 
-          const config = snabbt.calls.mostRecent().args[1];
+          const config = mockSnabbt.calls.mostRecent().args[1];
 
-          config.callback();
+          config.complete();
 
-          expect(config.callback)
+          expect(config.complete)
             .not.toThrow();
         });
       })
@@ -485,6 +495,8 @@ describe('frameFactory', function() {
         mockOnHide;
 
     beforeEach(function() {
+      mockSnabbt.calls.reset();
+
       mockOnHide = jasmine.createSpy('onHide');
 
       const payload = frameFactory(mockChildFn, {
@@ -517,16 +529,15 @@ describe('frameFactory', function() {
 
     describe('without animation', function() {
       let mockFrameParams,
-          instance,
-          snabbt;
+          instance;
 
       beforeEach(function() {
         let payload,
             Embed;
 
-        payload = frameFactory(mockChildFn, {}),
+        mockSnabbt.calls.reset();
 
-        snabbt = mockRegistry['snabbt.js'].snabbt;
+        payload = frameFactory(mockChildFn, {}),
 
         Embed = React.createClass(payload);
 
@@ -539,24 +550,23 @@ describe('frameFactory', function() {
       it('does not apply the animation if it does not exist', function() {
         instance.show();
 
-        expect(snabbt)
+        expect(mockSnabbt)
           .not.toHaveBeenCalled();
       });
     });
 
     describe('with animation', function() {
       let instance,
-          mockFrameParams,
-          snabbt;
+          mockFrameParams;
 
       beforeEach(function() {
+        mockSnabbt.calls.reset();
+
         mockFrameParams = {
           transitionOut: {
-            callback: jasmine.createSpy()
+            complete: jasmine.createSpy()
           }
         }
-
-        snabbt = mockRegistry['snabbt.js'].snabbt;
 
         const payload = frameFactory(mockChildFn, mockFrameParams);
 
@@ -571,17 +581,17 @@ describe('frameFactory', function() {
       it('should call snabbt', function() {
         instance.hide();
 
-        expect(snabbt)
+        expect(mockSnabbt)
           .toHaveBeenCalled();
       });
 
       it('should call snabbt with the provided config', function() {
         instance.hide();
 
-        const config = snabbt.calls.mostRecent().args[1];
+        const config = mockSnabbt.calls.mostRecent().args[1];
 
         expect(config)
-          .toEqual({ callback: jasmine.any(Function) });
+          .toEqual({ complete: jasmine.any(Function) });
       });
 
       it('should provide a callback to snabbt that sets `visible` to false', function() {
@@ -589,9 +599,9 @@ describe('frameFactory', function() {
 
         instance.hide();
 
-        const configObject = snabbt.calls.mostRecent().args[1];
+        const configObject = mockSnabbt.calls.mostRecent().args[1];
 
-        configObject.callback();
+        configObject.complete();
 
         expect(instance.state.visible)
           .toEqual(false);
@@ -600,21 +610,21 @@ describe('frameFactory', function() {
       it('should call the provided callback', function() {
         instance.hide();
 
-        const configObject = snabbt.calls.mostRecent().args[1];
+        const configObject = mockSnabbt.calls.mostRecent().args[1];
 
-        configObject.callback();
+        configObject.complete();
 
-        expect(mockFrameParams.transitionOut.callback)
+        expect(mockFrameParams.transitionOut.complete)
           .toHaveBeenCalled();
       });
 
       describe('and no callback', function() {
         beforeEach(function() {
+          mockSnabbt.calls.reset();
+
           mockFrameParams = {
             transitionOut: {}
           }
-
-          snabbt = mockRegistry['snabbt.js'].snabbt;
 
           const payload = frameFactory(mockChildFn, mockFrameParams);
 
@@ -629,11 +639,11 @@ describe('frameFactory', function() {
         it('should not try to call the provided callback if it\'s not available', function() {
           instance.hide();
 
-          const config = snabbt.calls.mostRecent().args[1];
+          const config = mockSnabbt.calls.mostRecent().args[1];
 
-          config.callback();
+          config.complete();
 
-          expect(config.callback)
+          expect(config.complete)
             .not.toThrow();
         });
       });
