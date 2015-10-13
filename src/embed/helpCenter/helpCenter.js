@@ -202,8 +202,8 @@ function render(name) {
   });
 
   mediator.channel.subscribe(name + '.setNextToSubmitTicket', function() {
-    const config = get(name).config;
-    updateHelpCenterButton(name, `submitTicket.${config.buttonLabelKey}`);
+    const buttonLabelKey = get(name).config.buttonLabelKey;
+    updateHelpCenterButton(name, `submitTicket.${buttonLabelKey}`);
   });
 
   mediator.channel.subscribe(name + '.showBackButton', function() {
