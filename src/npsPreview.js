@@ -93,7 +93,10 @@ const renderNps = (locale, elem) => {
       setNpsState({ isMobile });
       nps.getChild().setState({ isMobile });
       nps.setState({
-        frameStyle: isMobile ? _.extend({}, frameStyle, { position: 'absolute' }) : frameStyle
+        /* jshint laxbreak: true */
+        frameStyle: isMobile
+                  ? _.extend({}, frameStyle, { position: 'absolute' })
+                  : frameStyle
       });
     });
   };
