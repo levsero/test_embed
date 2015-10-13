@@ -13,16 +13,12 @@ export const transitionFactory = {
     in: factoryMaker({
       fromPosition: [0, win.innerHeight, 0],
       position: [0, 0, 0],
-      easing: 'easeOut',
-      springConstant: 0.5,
-      springDeacceleration: 0.55,
+      easing: 'easeOut'
     }),
     out: factoryMaker({
       fromPosition: [0, 0, 0],
       position: [0, win.innerHeight, 0],
-      easing: 'easeIn',
-      springConstant: 0.5,
-      springDeacceleration: 0.55
+      easing: 'easeIn'
     })
   },
   npsDesktop: {
@@ -30,25 +26,19 @@ export const transitionFactory = {
       fromPosition: [0, win.innerHeight, 0],
       position: [0, 0, 0],
       easing: 'easeOut',
-      springConstant: 0.5,
-      springDeacceleration: 0.55,
       delay: 0
     }),
     out: factoryMaker({
       fromPosition: [0, 0, 0],
       position: [0, win.innerHeight, 0],
-      easing: 'easeIn',
-      springConstant: 0.5,
-      springDeacceleration: 0.55
+      easing: 'easeIn'
     })
   },
   webWidget: {
     in: factoryMaker({
       fromPosition: [0, 15, 0],
       position: [0, 0, 0],
-      easing: 'ease',
-      springConstant: 0.5,
-      springDeacceleration: 0.75
+      easing: 'ease'
     })
   }
 };
