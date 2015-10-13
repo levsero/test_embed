@@ -9,6 +9,16 @@ const npsCSS = require('embed/nps/nps.scss');
 const renderNps = (locale, elem) => {
   let nps;
 
+  const setTimeoutLoop = (condition, func) => {
+    // Due to timing issues with when the iframe contents get written
+    // getRootComponent or nps.getChild() could throw due to the child not existing yet
+    if (condition()) {
+      func();
+    } else {
+      setTimeout(setTimeoutLoop.bind(null, condition, func));
+    }
+  };
+
   const frameStyle = {
     bottom: '0',
     margin: '0',
@@ -66,18 +76,12 @@ const renderNps = (locale, elem) => {
   nps = React.render(<Embed />, elem);
 
   const setNpsState = (state) => {
-    // Due to timing issues with when the iframe contents get written
-    // getRootComponent could throw due to the child not existing yet
-    if (nps.getRootComponent()) {
+    setTimeoutLoop(() => nps.getRootComponent(), () => {
       nps.getRootComponent().setState(state);
       if (state.survey && state.survey.highlightColor) {
         nps.setHighlightColor(state.survey.highlightColor);
       }
-    } else {
-      setTimeout(() => {
-        setNpsState(state);
-      }, 0);
-    }
+    });
   };
 
   const setSurvey = (survey) => {
@@ -87,15 +91,15 @@ const renderNps = (locale, elem) => {
   };
 
   const setMobile = (isMobile) => {
-    setNpsState({
-      isMobile
-    });
-    if (nps && nps.getChild()) {
+    setTimeoutLoop(() => nps && nps.getChild(), () => {
+      setNpsState({
+        isMobile
+      });
       nps.getChild().setState({ isMobile });
       nps.setState({
         frameStyle: isMobile ? _.extend({}, frameStyle, { position: 'absolute' }) : frameStyle
       });
-    }
+    });
   };
 
   return { setSurvey, setMobile };
