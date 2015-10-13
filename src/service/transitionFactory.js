@@ -7,7 +7,6 @@ const factoryMaker = (obj) => {
   };
 };
 
-/* jshint camelcase: false */
 export const transitionFactory = {
   npsMobile: {
     in: factoryMaker({
@@ -16,8 +15,8 @@ export const transitionFactory = {
       easing: 'easeOut'
     }),
     out: factoryMaker({
-      fromPosition: [0, 0, 0],
       position: [0, win.innerHeight, 0],
+      fromPosition: [0, 0, 0],
       easing: 'easeIn'
     })
   },
