@@ -15,7 +15,7 @@ const renderNps = (locale, elem) => {
     if (condition()) {
       func();
     } else {
-      setTimeout(setTimeoutLoop.bind(null, condition, func));
+      setTimeout(() => setTimeoutLoop(condition, func), 0);
     }
   };
 
@@ -76,7 +76,7 @@ const renderNps = (locale, elem) => {
   nps = React.render(<Embed />, elem);
 
   const setNpsState = (state) => {
-    setTimeoutLoop(() => nps.getRootComponent(), () => {
+    setTimeoutLoop(nps.getRootComponent, () => {
       nps.getRootComponent().setState(state);
       if (state.survey && state.survey.highlightColor) {
         nps.setHighlightColor(state.survey.highlightColor);
