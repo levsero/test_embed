@@ -166,7 +166,6 @@ describe('Nps component', function() {
   });
 
   describe('updateRating', () => {
-
     it('should update the rating on state', () => {
       const component = React.render(
         <Nps mobile={true} />,
