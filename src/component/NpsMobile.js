@@ -134,7 +134,7 @@ export const NpsMobile = React.createClass({
     }
   },
 
-  handleDropDownChange(e) {
+  handleDropDownSelection(e) {
     this.props.updateRating(e.target.value);
   },
 
@@ -227,7 +227,7 @@ export const NpsMobile = React.createClass({
                    ?  <span className={npsMedText}>
                         <NpsSelectList
                           onFocus={this.handleDropDownFocus}
-                          onChange={this.handleDropDownChange}
+                          onChange={this.handleDropDownSelection}
                           onBlur={this.handleDropDownBlur}
                           selectedItem={this.props.response.rating}
                           options={npsRatings}
