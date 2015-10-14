@@ -151,6 +151,20 @@ describe('NpsMobile component', () => {
     mockery.disable();
   });
 
+  describe('removeRatingTemplate', () => {
+
+    it('should remove the %{rating} tempalte from the string', () => {
+      expect(component.removeRatingTemplate('you rated us a %{rating}'))
+        .toEqual('you rated us a');
+    });
+
+    it('should return the same string if there is no %{rating}', () => {
+      expect(component.removeRatingTemplate('you rated us a'))
+        .toEqual('you rated us a');
+    });
+
+  });
+
   describe('calcHeightPercentage', () => {
 
     describe('is less than the threshold', () => {
