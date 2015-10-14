@@ -3,7 +3,8 @@ const mockFrameMethods = {
   hide: jasmine.createSpy('mockFrameHide'),
   close: jasmine.createSpy('mockFrameClose'),
   setHighlightColor: jasmine.createSpy('setHighlightColor'),
-  reRenderCloseButton: jasmine.createSpy('mockReRenderCloseButton')
+  reRenderCloseButton: jasmine.createSpy('mockReRenderCloseButton'),
+  componentDidUpdate: jasmine.createSpy('mockComponentDidUpdate')
 };
 
 exports.mockFrameMethods = mockFrameMethods;
@@ -34,6 +35,7 @@ var mockFrameFactory = jasmine.createSpy('mockFrameFactory').and.callFake(
       hide: mockFrameMethods.hide,
       close: mockFrameMethods.close,
       setHighlightColor: mockFrameMethods.setHighlightColor,
+      componentDidUpdate: mockFrameMethods.componentDidUpdate,
       getChild: function() {
         return child;
       },

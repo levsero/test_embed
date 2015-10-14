@@ -22,7 +22,7 @@ const renderNps = (locale, elem) => {
   const frameStyle = {
     bottom: '0',
     margin: '0',
-    display: 'block'
+    display: 'inline-block'
   };
 
   const frameParams = {
@@ -92,10 +92,10 @@ const renderNps = (locale, elem) => {
     setTimeoutLoop(() => nps && nps.getChild(), () => {
       setNpsState({ isMobile });
       nps.getChild().setState({ isMobile });
+      /* jshint laxbreak: true */
       nps.setState({
-        /* jshint laxbreak: true */
         frameStyle: isMobile
-                  ? _.extend({}, frameStyle, { position: 'absolute' })
+                  ? _.extend({}, frameStyle, { position: 'absolute', display: 'block' })
                   : frameStyle
       });
     });
