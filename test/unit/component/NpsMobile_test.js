@@ -153,7 +153,7 @@ describe('NpsMobile component', () => {
 
   describe('removeRatingTemplate', () => {
 
-    it('should remove the %{rating} tempalte from the string', () => {
+    it('should remove the %{rating} template from the string', () => {
       expect(component.removeRatingTemplate('you rated us a %{rating}'))
         .toEqual('you rated us a');
     });
@@ -162,7 +162,6 @@ describe('NpsMobile component', () => {
       expect(component.removeRatingTemplate('you rated us a'))
         .toEqual('you rated us a');
     });
-
   });
 
   describe('calcHeightPercentage', () => {
