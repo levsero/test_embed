@@ -99,11 +99,17 @@ export const Nps = React.createClass({
     };
 
     this.setState({
-      response: _.extend({}, this.state.response, { rating: rating }),
+      response: _.extend({}, this.state.response, { rating }),
       isSubmittingRating: true
     });
 
     setTimeout(() => this.sendRating(doneFn, errorHandler), 0);
+  },
+
+  updateRating(rating) {
+    this.setState({
+      response: _.extend({}, this.state.response, { rating }),
+    });
   },
 
   submitCommentHandler(ev, doneFn, failFn) {
@@ -132,7 +138,8 @@ export const Nps = React.createClass({
           setFrameSize={this.props.setFrameSize}
           submitCommentHandler={this.submitCommentHandler}
           onCommentChangeHandler={this.onCommentChangeHandler}
-          submitRatingHandler={this.submitRatingHandler} />
+          submitRatingHandler={this.submitRatingHandler}
+          updateRating={this.updateRating} />
       : <NpsDesktop
           ref='desktop'
           {...this.state}

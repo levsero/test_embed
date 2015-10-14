@@ -128,10 +128,11 @@ export const NpsMobile = React.createClass({
     this.props.submitRatingHandler(rating, () => this.setCurrentPage('addingComment'));
   },
 
-  handleDropDownChange() {
+  handleDropDownChange(e) {
     if (isIos()) {
       this.stopScrollHacks();
     }
+    this.props.updateRating(e.target.value);
   },
 
   removeRatingTemplate(ratingText) {
