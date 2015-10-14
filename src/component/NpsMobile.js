@@ -134,6 +134,10 @@ export const NpsMobile = React.createClass({
     }
   },
 
+  removeRatingTemplate(ratingText) {
+    return ratingText.replace('%{rating}', '').trim();
+  },
+
   handleDropDownFocus() {
     if (isIos()) {
       this.startScrollHacks();
@@ -161,7 +165,7 @@ export const NpsMobile = React.createClass({
     }
 
     if (this.state.currentPage.addingComment) {
-      headingText = this.props.survey.youRated;
+      headingText = this.removeRatingTemplate(this.props.survey.youRated);
     } else if (this.state.currentPage.thankYou) {
       headingText = this.props.survey.thankYou;
     }
