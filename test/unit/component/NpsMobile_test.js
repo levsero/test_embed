@@ -153,12 +153,12 @@ describe('NpsMobile component', () => {
 
   describe('removeRatingTemplate', () => {
 
-    it('should remove the %{rating} template from the string', () => {
+    it('should remove the %{rating} parameter from the string', () => {
       expect(component.removeRatingTemplate('you rated us a %{rating}'))
         .toEqual('you rated us a');
     });
 
-    it('should return the same string if there is no %{rating}', () => {
+    it('should return the same string if there is no %{rating} parameter', () => {
       expect(component.removeRatingTemplate('you rated us a'))
         .toEqual('you rated us a');
     });
