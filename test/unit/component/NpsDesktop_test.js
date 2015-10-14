@@ -309,7 +309,7 @@ describe('NpsDesktop component', function() {
 
     it('should render a survey title containing the provided text', () => {
       expect(document.querySelector('.Container-content').children[0].innerHTML)
-        .toEqual(npsProps.survey.question);
+        .toEqual(npsProps.survey.commentsQuestion);
     });
 
     it('should render NpsRatingsList component', () => {

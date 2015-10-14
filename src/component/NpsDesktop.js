@@ -92,9 +92,13 @@ export const NpsDesktop = React.createClass({
       'RatingsList is-desktop': true
     });
 
-    const surveyTitle = (this.state.currentPage.thankYou)
-                      ? this.props.survey.thankYou
-                      : this.props.survey.question;
+    let surveyTitle = this.props.survey.question;
+
+    if (this.state.currentPage.addingComment) {
+      surveyTitle = this.props.survey.commentsQuestion;
+    } else if (this.state.currentPage.thankYou) {
+      surveyTitle = this.props.survey.thankYou;
+    }
 
     const zendeskLogo = (!hideZendeskLogo && !this.state.currentPage.addingComment)
                       ? <div className='u-textCenter u-paddingBM'>
