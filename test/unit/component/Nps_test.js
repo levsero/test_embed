@@ -165,6 +165,24 @@ describe('Nps component', function() {
     });
   });
 
+  describe('updateRating', () => {
+
+    it('should update the rating on state', () => {
+      const component = React.render(
+        <Nps mobile={true} />,
+        global.document.body
+      );
+
+      expect(component.state.response.rating)
+        .toEqual(null);
+
+      component.updateRating('7');
+
+      expect(component.state.response.rating)
+        .toEqual('7');
+    });
+  });
+
   describe('npsSender', function() {
     let component,
         npsSenderSpy;

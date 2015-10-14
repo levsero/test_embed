@@ -128,10 +128,13 @@ export const NpsMobile = React.createClass({
     this.props.submitRatingHandler(rating, () => this.setCurrentPage('addingComment'));
   },
 
-  handleDropDownChange(e) {
+  handleDropDownBlur() {
     if (isIos()) {
       this.stopScrollHacks();
     }
+  },
+
+  handleDropDownChange(e) {
     this.props.updateRating(e.target.value);
   },
 
@@ -225,6 +228,7 @@ export const NpsMobile = React.createClass({
                         <NpsSelectList
                           onFocus={this.handleDropDownFocus}
                           onChange={this.handleDropDownChange}
+                          onBlur={this.handleDropDownBlur}
                           selectedItem={this.props.response.rating}
                           options={npsRatings}
                           highlightColor={this.props.survey.highlightColor} />

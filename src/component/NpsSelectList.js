@@ -13,6 +13,7 @@ export const NpsSelectList = React.createClass({
       iconClassNames: '',
       onChange: () => {},
       onFocus: () => {},
+      onBlur: () => {},
     };
   },
 
@@ -31,6 +32,7 @@ export const NpsSelectList = React.createClass({
         <select
           onFocus={this.props.onFocus}
           onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
           className='NpsComment-selectlist u-textSizeBaseMobile'
           style={{ color: this.props.highlightColor }}>
           {optionsList}
