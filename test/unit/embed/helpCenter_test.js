@@ -584,7 +584,7 @@ describe('embed.helpCenter', function() {
         };
       });
 
-      it('should call keywordSearch on not helpcenter pages', function() {
+      it('should call keywordSearch on non helpcenter pages', function() {
         mockRegistry['utility/globals'].location = {
           pathname: '/foo/bar'
         };
