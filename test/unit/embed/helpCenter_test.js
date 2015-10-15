@@ -83,7 +83,8 @@ describe('embed.helpCenter', function() {
       },
       'utility/utils': {
         setScaleLock: noop,
-        generateUserCSS: jasmine.createSpy().and.returnValue('')
+        generateUserCSS: jasmine.createSpy().and.returnValue(''),
+        getPageKeywords: jasmine.createSpy().and.returnValue('foo bar')
       },
       'utility/globals': {
         document: global.document,
@@ -563,5 +564,53 @@ describe('embed.helpCenter', function() {
       });
     });
 
+    describe('postRender contextual help', function() {
+      let getPageKeywordsSpy,
+          contextualSearchSpy;
+
+      beforeEach(function() {
+        getPageKeywordsSpy = mockRegistry['utility/utils'].getPageKeywords;
+        contextualSearchSpy = jasmine.createSpy('contextualSearch');
+
+        helpCenter.create('carlos', { contextualHelpEnabled: true });
+
+        const helpCenterFrame = helpCenter.get('carlos');
+        helpCenterFrame.instance = {
+          getRootComponent: () => {
+            return {
+              contextualSearch: contextualSearchSpy
+            };
+          }
+        };
+      });
+
+      it('should call keywordSearch on not helpcenter pages', function() {
+        mockRegistry['utility/globals'].location = {
+          pathname: '/foo/bar'
+        };
+        mockery.resetCache();
+
+        helpCenter.postRender('carlos');
+
+        expect(getPageKeywordsSpy)
+          .toHaveBeenCalled();
+
+        // This is 'foo bar' because it's what the getPageKeywords spy returns
+        expect(contextualSearchSpy)
+          .toHaveBeenCalledWith({ search: 'foo bar' });
+      });
+
+      it('should\'t call keywordSearch on helpcenter pages', function() {
+        mockRegistry['utility/globals'].location = {
+          pathname: '/hc/1234-article-foo-bar'
+        };
+        mockery.resetCache();
+
+        helpCenter.postRender('carlos');
+
+        expect(getPageKeywordsSpy)
+          .not.toHaveBeenCalled();
+      });
+    });
   });
 });
