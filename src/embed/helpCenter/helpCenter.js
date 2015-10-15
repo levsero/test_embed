@@ -2,6 +2,7 @@ import React from 'react/addons';
 import _     from 'lodash';
 
 import { document,
+         location,
          getDocumentHost }   from 'utility/globals';
 import { HelpCenter }        from 'component/HelpCenter';
 import { frameFactory }      from 'embed/frameFactory';
@@ -222,7 +223,7 @@ function postRender(name) {
   /* jshint laxbreak: true */
   if (config.contextualHelpEnabled
       && location.pathname && location.pathname.substring(0, 4) !== '/hc/') {
-    keywordsSearch(name, getPageKeywords());
+    keywordsSearch(name, { search: getPageKeywords() });
   }
 }
 
