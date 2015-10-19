@@ -1,8 +1,16 @@
 import React from 'react/addons';
+import _ from 'lodash';
 
 import { ButtonRating } from 'component/Button';
 
 const classSet = React.addons.classSet;
+
+const prependWith = _.curry((prepend, str) => {
+  /* jshint laxbreak: true */
+  return str.indexOf(prepend) > -1
+     ? str
+     : `${prepend}${str}`;
+});
 
 export const NpsRatingsList = React.createClass({
   getDefaultProps() {
@@ -10,6 +18,10 @@ export const NpsRatingsList = React.createClass({
       className: ''
     };
   },
+
+  addRatingToLikelyLabel: prependWith('10 = '),
+
+  addRatingToNotLikelyLabel: prependWith('0 = '),
 
   ratingClickHandlerFn(rating) {
     return (ev) => {
@@ -64,10 +76,10 @@ export const NpsRatingsList = React.createClass({
     const ratingsLegendContent = (!this.props.hideRatingsLegend)
                                ? <div className={ratingsLegendClasses}>
                                    <p className={notLikelyLabelClasses}>
-                                     {this.props.notLikelyLabel}
+                                     {this.addRatingToNotLikelyLabel(this.props.notLikelyLabel)}
                                    </p>
                                    <p className={likelyLabelClasses}>
-                                     {this.props.likelyLabel}
+                                     {this.addRatingToLikelyLabel(this.props.likelyLabel)}
                                    </p>
                                  </div>
                                : null;

@@ -11,8 +11,8 @@ describe('NpsRatingsList component', () => {
     ratingsRange = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
     npsRatingsListProps = {
-      likelyLabel:'',
-      notLikelyLabel:'',
+      likelyLabel:'10 = Extremely likely',
+      notLikelyLabel:'0 = Not likely',
       ratingsRange:ratingsRange,
       selectedRating: null,
       isSubmittingRating: false,
@@ -68,7 +68,6 @@ describe('NpsRatingsList component', () => {
   });
 
   describe('labels', () => {
-
     it('should render both labels', () => {
       expect(document.querySelectorAll('.u-size1of2').length)
         .toEqual(2);
@@ -90,6 +89,28 @@ describe('NpsRatingsList component', () => {
       .toEqual(npsRatingsListProps.notLikelyLabel);
     });
 
-  });
+    describe('notLikely', () => {
+      it('should be prepended with "0 = "', () => {
+        expect(component.addRatingToNotLikelyLabel('Not at all likely'))
+          .toEqual('0 = Not at all likely');
+      });
 
+      it('should not be prepended with "0 = "', () => {
+        expect(component.addRatingToNotLikelyLabel('0 = Not at all likely'))
+          .toEqual('0 = Not at all likely');
+      });
+    });
+
+    describe('likely', () => {
+      it('should be prepended with "10 = "', () => {
+        expect(component.addRatingToLikelyLabel('Extremely likely'))
+          .toEqual('10 = Extremely likely');
+      });
+
+      it('should not be prepended with "10 = "', () => {
+        expect(component.addRatingToLikelyLabel('10 = Extremely likely'))
+          .toEqual('10 = Extremely likely');
+      });
+    });
+  });
 });
