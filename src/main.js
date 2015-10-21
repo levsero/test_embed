@@ -69,6 +69,9 @@ function boot() {
   const activateNps = function(options) {
     mediator.channel.broadcast('nps.onActivate', options);
   };
+  const activateIpm = function(options) {
+    mediator.channel.broadcast('ipm.onActivate', options);
+  };
   const hide = function() {
     mediator.channel.broadcast('.hide');
   };
@@ -113,7 +116,8 @@ function boot() {
     setHelpCenterSuggestions: postRenderQueueCallback.bind('setHelpCenterSuggestions'),
     identify: postRenderQueueCallback.bind('identify'),
     activate: postRenderQueueCallback.bind('activate'),
-    activateNps: postRenderQueueCallback.bind('activateNps')
+    activateNps: postRenderQueueCallback.bind('activateNps'),
+    activateIpm: postRenderQueueCallback.bind('activateIpm')
   };
 
   if (__DEV__) {
@@ -156,6 +160,7 @@ function boot() {
   win.zE.identify = identify;
   win.zE.activate = activate;
   win.zE.activateNps = activateNps;
+  win.zE.activateIpm = activateIpm;
   win.zE.hide = hide;
   win.zE.show = show;
 

@@ -29,22 +29,35 @@ function send(payload, retry = 0) {
     if (payload.path === '/embeddable/identify') {
       console.log(payload.params, payload.method, payload.path);
       setTimeout(function() {
-        payload.callbacks.done({
-          body: {
-            npsSurvey: {
-              commentsQuestion: 'Can you tell us why?',
-              highlightColor: '#77a500',
-              id: 10017,
-              logoUrl: null,
-              question: 'How likely are you to recommend Embeddable Nps to someone you know?',
-              recipientId: 10035,
-              thankYou: 'Thank You',
-              youRated: 'You rated us a',
-              likelyLabel: '10 = Extremely likely',
-              notLikelyLabel: '0 = Not at all likely',
-              feedbackPlaceholder: 'Write your comments here...'
-            }
+        const npsSurvey = {
+          type: 'nps',
+          npsSurvey: {
+            commentsQuestion: 'Can you tell us why?',
+            highlightColor: '#77a500',
+            id: 10017,
+            logoUrl: null,
+            question: 'How likely are you to recommend Embeddable Nps to someone you know?',
+            recipientId: 10035,
+            thankYou: 'Thank You',
+            youRated: 'You rated us a',
+            likelyLabel: '10 = Extremely likely',
+            notLikelyLabel: '0 = Not at all likely',
+            feedbackPlaceholder: 'Write your comments here...'
           }
+        };
+
+        const ipm = {
+          type: 'ipm',
+          ipm: {
+            id: 10017,
+            message: 'Hi Deborah, we just launched a new product called People. Would you like to try it?',
+            signOff: 'Ryan from Zendesk'
+          }
+        };
+
+        // change body to npsSurvey to test eNPS
+        payload.callbacks.done({
+          body: ipm
         });
       }, 3000);
 

@@ -24,6 +24,7 @@ state[`${chat}.isOnline`]          = false;
 state[`${chat}.unreadMsgs`]        = 0;
 state[`${chat}.userClosed`]        = false;
 state['nps.isVisible']             = false;
+state['ipm.isVisible']             = false;
 state['.hideOnClose']              = false;
 state['identify.pending']          = false;
 
@@ -128,7 +129,8 @@ function init(helpCenterAvailable, hideLauncher) {
 
       if (!state[`${launcher}.userHidden`] &&
           !state['identify.pending'] &&
-          !state['nps.isVisible']) {
+          !state['nps.isVisible'] &&
+          !state['ipm.isVisible']) {
         c.broadcast(`${launcher}.show`);
       }
     }
@@ -150,7 +152,8 @@ function init(helpCenterAvailable, hideLauncher) {
       setTimeout(() => {
         if (!state[`${launcher}.userHidden`] &&
             !state['identify.pending'] &&
-            !state['nps.isVisible']) {
+            !state['nps.isVisible'] &&
+            !state['ipm.isVisible']) {
           c.broadcast(`${launcher}.show`);
         }
       }, 3000);
@@ -340,10 +343,10 @@ function init(helpCenterAvailable, hideLauncher) {
     }
   });
 
-  initNps();
+  initIpm();
 }
 
-function initNps() {
+function initIpm() {
   c.intercept(`.onIdentify`, (__, params) => {
     state['identify.pending'] = true;
 
@@ -355,10 +358,16 @@ function initNps() {
   c.intercept(`identify.onSuccess`, (__, params) => {
     state['identify.pending'] = false;
 
-    c.broadcast(`nps.setSurvey`, params);
+    if(params.type === 'nps') {
+      c.broadcast(`nps.setSurvey`, params);
+    }
+
+    if(params.type === 'ipm') {
+      c.broadcast(`ipm.setIpm`, params);
+    }
   });
 
-  c.intercept(`nps.onActivate`, () => {
+  c.intercept(`nps.onActivate, ipm.onActivate`, () => {
     const maxRetries = 100;
     let retries = 0;
 
@@ -372,7 +381,8 @@ function initNps() {
 
     const fn = () => {
       if (!state['identify.pending'] && !embedVisible(state)) {
-        c.broadcast(`nps.activate`);
+        //c.broadcast(`nps.activate`);
+        c.broadcast(`ipm.activate`);
       } else if (retries < maxRetries) {
         retries++;
         setTimeout(fn, 300);
@@ -400,5 +410,5 @@ function initNps() {
 export var mediator = {
   channel: c,
   init: init,
-  initNps: initNps
+  initIpm: initIpm
 };
