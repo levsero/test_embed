@@ -187,8 +187,8 @@ describe('NpsMobile component', () => {
 
     describe('is greater than the threshold', () => {
 
-      it('should return 51%', () => {
-        expect(component.calcHeightPercentage()).toEqual('51%');
+      it('should return 52%', () => {
+        expect(component.calcHeightPercentage()).toEqual('52%');
       });
 
       it('should return 40% when the currentPage is thankyYou', () => {
@@ -321,7 +321,6 @@ describe('NpsMobile component', () => {
   describe('thankYou state', () => {
 
     beforeEach(() => {
-
       component.setCurrentPage('thankYou');
     });
 
@@ -332,6 +331,11 @@ describe('NpsMobile component', () => {
 
     it('should render a thank you tick', () => {
       expect(document.querySelectorAll('.ThankYou').length)
+        .toEqual(1);
+    });
+
+    it('should render ZendeskLogo', () => {
+      expect(document.querySelectorAll('.ZendeskLogo').length)
         .toEqual(1);
     });
   });
@@ -528,9 +532,9 @@ describe('NpsMobile component', () => {
     });
   });
 
-  it('should render a ZendeskLogo', () => {
+  it('should not render a ZendeskLogo on initial state', () => {
     expect(document.querySelectorAll('.ZendeskLogo').length)
-      .toEqual(1);
+      .toEqual(0);
   });
 
 });

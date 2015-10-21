@@ -105,7 +105,7 @@ export const NpsMobile = React.createClass({
            : '70%'
          : (this.state.currentPage.thankYou)
            ? '40%'
-           : '51%';
+           : '52%';
   },
 
   setCurrentPage(page) {
@@ -205,7 +205,7 @@ export const NpsMobile = React.createClass({
                            </div>
                          : null;
 
-    const zendeskLogo = (!this.state.currentPage.addingComment)
+    const zendeskLogo = (this.state.currentPage.thankYou)
                       ? <ZendeskLogo utm='embeddednps' className='ZendeskLogo u-posCenter' />
                       : null;
 
