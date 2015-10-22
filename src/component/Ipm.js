@@ -47,6 +47,6 @@ export const Ipm = React.createClass({
       : <IpmDesktop
           ref='desktop'
           {...this.state}
-          updateFrameSize={this.props.updateFrameSize} />
+          updateFrameSize={this.props.updateFrameSize} />;
   }
 });

@@ -29,6 +29,7 @@ function send(payload, retry = 0) {
     if (payload.path === '/embeddable/identify') {
       console.log(payload.params, payload.method, payload.path);
       setTimeout(function() {
+        /* jshint ignore:start */
         const npsSurvey = {
           type: 'nps',
           npsSurvey: {
@@ -59,6 +60,7 @@ function send(payload, retry = 0) {
         payload.callbacks.done({
           body: ipm
         });
+        /* jshint ignore:end */
       }, 3000);
 
       return;

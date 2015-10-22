@@ -146,7 +146,6 @@ function render(name) {
     if (nps.state.surveyAvailable && shouldShow(nps.state.survey)) {
       npses[name].instance.show();
     } else if (nps.state.surveyAvailable === null) {
-      debugger;
       const err = new Error([
         'An error occurred in your use of the Zendesk Widget API:',
         'zE.activateNps()',
