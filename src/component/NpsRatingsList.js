@@ -35,14 +35,12 @@ export const NpsRatingsList = React.createClass({
     const ratingsListClasses = `RatingsList u-textCenter ${this.props.className}`;
 
     const labelClasses = classSet({
-      'u-inlineBlock u-size1of2': true,
-      'u-marginBN': !this.props.isMobile
+      'u-inlineBlock u-size1of2 u-marginBN': true
     });
 
     const likelyLabelClasses = classSet({
       [labelClasses]: true,
-      'u-textRight': true,
-      'u-marginBN': !this.props.isMobile
+      'u-textRight': true
     });
 
     const notLikelyLabelClasses = classSet({
