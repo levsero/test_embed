@@ -1,5 +1,4 @@
 import React from 'react/addons';
-import _     from 'lodash';
 
 import { IpmDesktop } from 'component/IpmDesktop';
 
@@ -12,6 +11,7 @@ export const Ipm = React.createClass({
   getInitialState() {
     return {
       ipm: {
+        id: null,
         message: '',
         signOff: ''
       },
@@ -21,7 +21,6 @@ export const Ipm = React.createClass({
 
   ipmSender(params, doneFn, failFn) {
     const fail = (error) => {
-      this.setError(true);
       this.setState({isSubmittingRating: false, isSubmittingComment: false});
       if (failFn) {
         failFn(error);
@@ -29,28 +28,13 @@ export const Ipm = React.createClass({
     };
 
     const done = () => {
-      this.setError(false);
       this.setState({isSubmittingRating: false, isSubmittingComment: false});
       if (doneFn) {
         doneFn();
       }
     };
 
-    this.setError(false);
     this.props.ipmSender(params, done, fail);
-  },
-
-  sendResponse(doneFn, failFn) {
-    const params = {
-      ipmResponse: {
-        surveyId: this.state.survey.id,
-        recipientId: this.state.survey.recipientId,
-        rating: this.state.response.rating,
-        comment: this.state.response.comment
-      }
-    };
-
-    this.ipmSender(params, doneFn, failFn);
   },
 
   render() {

@@ -358,16 +358,16 @@ function initIpm() {
   c.intercept(`identify.onSuccess`, (__, params) => {
     state['identify.pending'] = false;
 
-    if(params.type === 'nps') {
+    if (params.type === 'nps') {
       c.broadcast(`nps.setSurvey`, params);
     }
 
-    if(params.type === 'ipm') {
+    if (params.type === 'ipm') {
       c.broadcast(`ipm.setIpm`, params);
     }
   });
 
-  c.intercept(`nps.onActivate, ipm.onActivate`, () => {
+  c.intercept(`nps.onActivate`, () => {
     const maxRetries = 100;
     let retries = 0;
 
@@ -381,7 +381,30 @@ function initIpm() {
 
     const fn = () => {
       if (!state['identify.pending'] && !embedVisible(state)) {
-        //c.broadcast(`nps.activate`);
+        c.broadcast(`nps.activate`);
+      } else if (retries < maxRetries) {
+        retries++;
+        setTimeout(fn, 300);
+      }
+    };
+
+    fn();
+  });
+
+  c.intercept(`ipm.onActivate`, () => {
+    const maxRetries = 100;
+    let retries = 0;
+
+    const embedVisible = (_state) => {
+      return _.any([
+        _state[`${helpCenter}.isVisible`],
+        _state[`${chat}.isVisible`],
+        _state[`${submitTicket}.isVisible`]
+      ]);
+    };
+
+    const fn = () => {
+      if (!state['identify.pending'] && !embedVisible(state)) {
         c.broadcast(`ipm.activate`);
       } else if (retries < maxRetries) {
         retries++;

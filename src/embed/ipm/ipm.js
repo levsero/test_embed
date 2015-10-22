@@ -4,11 +4,9 @@ import _     from 'lodash';
 import { frameFactory }     from 'embed/frameFactory';
 import { Ipm }              from 'component/Ipm';
 import { mediator }         from 'service/mediator';
-import { store }            from 'service/persistence';
 import { transport }        from 'service/transport';
 import { setScrollKiller,
          revertWindowScroll } from 'utility/scrollHacks';
-import { transitionFactory } from 'service/transitionFactory';
 import { document,
          getDocumentHost } from 'utility/globals';
 import { isMobileBrowser } from 'utility/devices';
@@ -61,14 +59,13 @@ function create(name, config) {
     mediator.channel.broadcast('ipm.onShow');
   };
 
-  const onClose = (frame) => {
+  const onClose = () => {
     if (isMobileBrowser()) {
       setTimeout(() => {
         setScrollKiller(false);
         revertWindowScroll();
       }, 0);
     }
-    setDismissTimestamp(frame.getRootComponent().state.survey);
     mediator.channel.broadcast('ipm.onClose');
   };
 
@@ -80,13 +77,6 @@ function create(name, config) {
     fullscreenable: isMobileBrowser(),
     onClose,
     onShow
-    /* jshint laxbreak: true */
-    //transitionIn: isMobileBrowser()
-      //? transitionFactory.ipmMobile.in(onShow)
-      //: transitionFactory.ipmDesktop.in(onShow),
-    //transitionOut: isMobileBrowser()
-      //? transitionFactory.ipmMobile.out(onClose)
-      //: transitionFactory.ipmDesktop.out(onClose)
   };
 
   const Embed = React.createClass(frameFactory(
