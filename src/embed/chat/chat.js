@@ -89,7 +89,7 @@ function render(name) {
   }
 
   // Hack to override previous zopim hideAll state
-  if (config.standalone && store.get('zopimHideAll') !== false) {
+  if (config.standalone && store.get('zopimHideAll') === true) {
     store.set('zopimHideAll', false);
     win.$zopim(function() {
       setTimeout(function() {
