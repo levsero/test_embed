@@ -34,9 +34,74 @@ export const transitionFactory = {
   },
   webWidget: {
     in: factoryMaker({
-      fromPosition: [0, 15, 0],
+      fromPosition: [0, 30, 0],
       position: [0, 0, 0],
-      easing: 'ease'
+      fromOpacity: 0,
+      opacity: 1,
+      easing: 'spring',
+      springConstant: 1.5,
+      springDeceleration: 0.60,
+      springMass: 35
+    }),
+    out: factoryMaker({
+      fromPosition: [0, 0, 0],
+      position: [0, 30, 0],
+      fromOpacity: 1,
+      opacity: 0,
+      easing: 'spring',
+      springConstant: 1.5,
+      springDeceleration: 0.60,
+      springMass: 35
+    }),
+    leftHide: factoryMaker({
+      fromPosition: [0, 0, 0],
+      position: [-30, 0, 0],
+      fromOpacity: 1,
+      opacity: 0,
+      easing: 'spring',
+      springConstant: 1.5,
+      springDeceleration: 0.60,
+      springMass: 35
+    }),
+    leftShow: factoryMaker({
+      fromPosition: [30, 0, 0],
+      position: [0, 0, 0],
+      fromOpacity: 0,
+      opacity: 1,
+      easing: 'spring',
+      springConstant: 1.5,
+      springDeceleration: 0.60,
+      springMass: 35
+    }),
+    rightShow: factoryMaker({
+      fromPosition: [-30, 0, 0],
+      position: [0, 0, 0],
+      fromOpacity: 0,
+      opacity: 1,
+      easing: 'spring',
+      springConstant: 1.5,
+      springDeceleration: 0.60,
+      springMass: 35
+    }),
+    rightHide: factoryMaker({
+      fromPosition: [0, 0, 0],
+      position: [30, 0, 0],
+      fromOpacity: 1,
+      opacity: 0,
+      easing: 'spring',
+      springConstant: 1.5,
+      springDeceleration: 0.60,
+      springMass: 35
+    }),
+    downHide: factoryMaker({
+      fromPosition: [0, 0, 0],
+      position: [0, 30, 0],
+      fromOpacity: 1,
+      opacity: 0,
+      easing: 'spring',
+      springConstant: 1.5,
+      springDeceleration: 0.60,
+      springMass: 35
     })
   }
 };
