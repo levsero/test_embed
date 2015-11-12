@@ -2,8 +2,7 @@ import { win } from 'utility/globals';
 
 const factoryMaker = (obj) => {
   return (cb) => {
-    obj.complete = cb;
-    return obj;
+    return Object.assign({}, obj, { complete: cb });
   };
 };
 
