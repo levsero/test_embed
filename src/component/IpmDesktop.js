@@ -1,8 +1,6 @@
 import React from 'react/addons';
 
 import { Container } from 'component/Container';
-//import { Icon } from 'component/Icon';
-//import { ZendeskLogo } from 'component/ZendeskLogo';
 
 export const IpmDesktop = React.createClass({
   getDefaultProps() {
