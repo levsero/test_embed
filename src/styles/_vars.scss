@@ -43,11 +43,13 @@ $error-text-color: #C14D00;
 $error-field-color: #FFE3D6;
 
 // Spacing units and rem calculations
+$xl: 30;
 $lrg: 20;
 $med: 15;
 $sml: 10;
 $tny: 5;
 
+$spacing-xl: #{$xl/$font-size}rem;
 $spacing-lrg: #{$lrg/$font-size}rem;
 $spacing-med: #{$med/$font-size}rem;
 $spacing-sml: #{$sml/$font-size}rem;

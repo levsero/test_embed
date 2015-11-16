@@ -163,6 +163,11 @@ $Base-posOffset: $med + 1;
   padding-right: $spacing-lrg !important;
 }
 
+.u-paddingHXL {
+  padding-left: $spacing-xl !important;
+  padding-right: $spacing-xl !important;
+}
+
 .u-paddingVM {
   padding-top: $spacing-med !important;
   padding-bottom: $spacing-med !important;
