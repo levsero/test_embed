@@ -343,10 +343,10 @@ function init(helpCenterAvailable, hideLauncher) {
     }
   });
 
-  initIpm();
+  initMessagging();
 }
 
-function initIpm() {
+function initMessagging() {
   c.intercept(`.onIdentify`, (__, params) => {
     state['identify.pending'] = true;
 
@@ -433,5 +433,5 @@ function initIpm() {
 export var mediator = {
   channel: c,
   init: init,
-  initIpm: initIpm
+  initMessagging: initMessagging
 };
