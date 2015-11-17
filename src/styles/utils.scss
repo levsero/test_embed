@@ -114,6 +114,10 @@ $Base-posOffset: $med + 1;
   margin-top: $spacing-lrg !important;
 }
 
+.u-marginVS {
+  margin: $spacing-sml 0;
+}
+
 .u-marginVM {
   margin: $spacing-med 0;
 }
@@ -138,6 +142,11 @@ $Base-posOffset: $med + 1;
 .u-marginHM {
   margin-left: $spacing-med !important;
   margin-right: $spacing-med !important;
+}
+
+.u-marginHN {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
 }
 
 .u-paddingAN {

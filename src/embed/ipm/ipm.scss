@@ -5,34 +5,4 @@
 @import 'Form';
 @import 'Loading';
 @import 'Animation';
-
-.IpmDesktop {
-  margin: 45px 15px 15px;
-}
-
-.IpmDesktop-avatar {
-  border-radius: 50%;
-  top: -30px;
-  left: 50%;
-  margin-left: -30px;
-  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.4);
-}
-
-.IpmDesktop-intro {
-  text-align: center;
-  margin: 10px 0;
-  color: #999;
-  font-size: 12px;
-  line-height: 20px;
-}
-
-.IpmDesktop-message {
-  color: #000;
-  font-size: 14px;
-  line-height: 20px;
-  border-bottom: 1px solid #ccc;
-}
-
-.closeButton .Button {
-  margin-top: 30px;
-}
+@import 'IpmDesktop';
