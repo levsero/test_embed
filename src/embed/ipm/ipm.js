@@ -113,6 +113,10 @@ function render(name) {
     const ipm = ipmes[name].instance.getRootComponent();
     const ipmContent = params.ipm || {};
 
+    if (ipmContent.highlightColor) {
+      ipmes[name].instance.setHighlightColor(ipmContent.highlightColor);
+    }
+
     if (ipmContent && ipmContent.id) {
       //ipmes[name].instance.getRootComponent().reset();
       ipm.setState({
