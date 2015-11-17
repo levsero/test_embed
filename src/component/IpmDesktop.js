@@ -17,10 +17,10 @@ export const IpmDesktop = React.createClass({
         <div className='Container-content u-paddingBM'>
           <img
             className='IpmDesktop-avatar u-posAbsolute'
-            src='https://avatars3.githubusercontent.com/u/143402?v=3&s=96'
+            src={this.props.ipm.avatarUrl}
             width='60'
             height='60' />
-          <p className='IpmDesktop-intro'>{this.props.ipm.signOff}</p>
+          <p className='IpmDesktop-intro'>{this.props.ipm.sender}</p>
           <p className='IpmDesktop-message u-paddingBL'>{this.props.ipm.message}</p>
           <div style={{height: '36px'}}>
             <ZendeskLogo

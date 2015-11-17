@@ -13,7 +13,11 @@ export const Ipm = React.createClass({
       ipm: {
         id: null,
         message: '',
-        signOff: ''
+        sender: '',
+        avatarUrl: '',
+        buttonText: '',
+        buttonLink: '',
+        highlightColor: ''
       },
       ipmAvailable: null
     };
