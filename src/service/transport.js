@@ -52,7 +52,11 @@ function send(payload, retry = 0) {
           ipm: {
             id: 10017,
             message: 'Hi Deborah, we just launched a new product called People. Would you like to try it?',
-            signOff: 'Ryan from Zendesk'
+            sender: 'Ryan from Zendesk',
+            avatarUrl: 'https://avatars3.githubusercontent.com/u/143402?v=3&s=96',
+            highlightColor: '#1393d0',
+            buttonLabel: 'Take a look!',
+            buttonLink: 'http://www.example.com'
           }
         };
 
