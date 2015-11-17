@@ -4,8 +4,10 @@ import { IpmDesktop } from 'component/IpmDesktop';
 
 export const Ipm = React.createClass({
   propTypes: {
-    updateFrameSize: React.PropTypes.func,
-    ipmSender: React.PropTypes.func.isRequired
+    setFrameSize: React.PropTypes.func.isRequired,
+    updateFrameSize: React.PropTypes.func.isRequired,
+    ipmSender: React.PropTypes.func.isRequired,
+    mobile: React.PropTypes.bool.isRequired
   },
 
   getInitialState() {
@@ -17,22 +19,21 @@ export const Ipm = React.createClass({
         avatarUrl: '',
         buttonText: '',
         buttonLink: '',
-        highlightColor: ''
+        buttonColor: ''
       },
-      ipmAvailable: null
+      ipmAvailable: null,
+      isMobile: this.props.mobile
     };
   },
 
   ipmSender(params, doneFn, failFn) {
     const fail = (error) => {
-      this.setState({isSubmittingRating: false, isSubmittingComment: false});
       if (failFn) {
         failFn(error);
       }
     };
 
     const done = () => {
-      this.setState({isSubmittingRating: false, isSubmittingComment: false});
       if (doneFn) {
         doneFn();
       }
