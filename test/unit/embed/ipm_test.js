@@ -1,4 +1,4 @@
-describe('embed.ipm', () => {
+ddescribe('embed.ipm', () => {
   let ipm,
       mockRegistry;
 
@@ -70,7 +70,13 @@ describe('embed.ipm', () => {
   });
 
   describe('create', () => {
-    // TODO
+    it('adds an ipm embed to the ipmes object', () => {
+      ipm.create('bob');
+      const bob = ipm.get('bob');
+
+      expect(bob)
+        .not.toBe(undefined);
+    });
   });
 
   describe('render', () => {
