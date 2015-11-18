@@ -110,13 +110,11 @@ function create(name, config) {
       name: name,
       fullscreenable: true,
       transitions: {
-        upShow: transitionFactory.webWidget.upShow(),
+        close: transitionFactory.webWidget.downHide(),
         upHide: transitionFactory.webWidget.upHide(),
+        upShow: transitionFactory.webWidget.upShow(),
         downHide: transitionFactory.webWidget.downHide(),
-        downShow: transitionFactory.webWidget.downShow(),
-        leftHide: transitionFactory.webWidget.leftHide(),
-        rightShow: transitionFactory.webWidget.rightShow(),
-        close: transitionFactory.webWidget.downHide()
+        downShow: transitionFactory.webWidget.downShow()
       },
       afterShowAnimate(frame) {
         if (isIE()) {

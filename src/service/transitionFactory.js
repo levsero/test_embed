@@ -47,110 +47,90 @@ export const transitionFactory = {
       position: [0, 0, 0],
       fromOpacity: 0,
       opacity: 1,
-      easing: 'spring',
-      springConstant: 1.5,
-      springDeceleration: 0.60,
-      springMass: 35
+      easing: 'easeOut',
+      duration: 500
     }),
+
     launcherDownHide: factoryMaker({
       fromPosition: [0, 0, 0],
       position: [0, 120, 0],
       fromOpacity: 1,
       opacity: 0,
-      easing: 'spring',
-      springConstant: 1.5,
-      springDeceleration: 0.60,
-      springMass: 35
+      easing: 'linear',
+      duration: 200
     }),
-    out: factoryMaker({
-      fromPosition: [0, 0, 0],
-      position: [0, 30, 0],
-      fromOpacity: 1,
-      opacity: 0,
-      easing: 'spring',
-      springConstant: 1.5,
-      springDeceleration: 0.60,
-      springMass: 35
-    }),
-    upShow: factoryMaker({
-      fromPosition: [0, 30, 0],
-      position: [0, 0, 0],
-      fromOpacity: 0,
-      opacity: 1,
-      easing: 'spring',
-      springConstant: 1.5,
-      springDeceleration: 0.60,
-      springMass: 35
-    }),
-    downShow: factoryMaker({
-      fromPosition: [0, -30, 0],
-      position: [0, 0, 0],
-      fromOpacity: 0,
-      opacity: 1,
-      easing: 'spring',
-      springConstant: 1.5,
-      springDeceleration: 0.60,
-      springMass: 35
-    }),
-    leftHide: factoryMaker({
-      fromPosition: [0, 0, 0],
-      position: [-30, 0, 0],
-      fromOpacity: 1,
-      opacity: 0,
-      easing: 'spring',
-      springConstant: 1.5,
-      springDeceleration: 0.60,
-      springMass: 35
-    }),
-    leftShow: factoryMaker({
-      fromPosition: [30, 0, 0],
-      position: [0, 0, 0],
-      fromOpacity: 0,
-      opacity: 1,
-      easing: 'spring',
-      springConstant: 1.5,
-      springDeceleration: 0.60,
-      springMass: 35
-    }),
-    rightShow: factoryMaker({
-      fromPosition: [-30, 0, 0],
-      position: [0, 0, 0],
-      fromOpacity: 0,
-      opacity: 1,
-      easing: 'spring',
-      springConstant: 1.5,
-      springDeceleration: 0.60,
-      springMass: 35
-    }),
-    rightHide: factoryMaker({
-      fromPosition: [0, 0, 0],
-      position: [30, 0, 0],
-      fromOpacity: 1,
-      opacity: 0,
-      easing: 'spring',
-      springConstant: 1.5,
-      springDeceleration: 0.60,
-      springMass: 35
-    }),
+
     downHide: factoryMaker({
       fromPosition: [0, 0, 0],
       position: [0, 30, 0],
       fromOpacity: 1,
       opacity: 0,
-      easing: 'spring',
-      springConstant: 1.5,
-      springDeceleration: 0.60,
-      springMass: 35
+      easing: 'easeOut',
+      duration: 300
     }),
+
+    downShow: factoryMaker({
+      fromPosition: [0, -30, 0],
+      position: [0, 0, 0],
+      fromOpacity: 0,
+      opacity: 1,
+      easing: 'easeOut',
+      duration: 300
+    }),
+
+    leftHide: factoryMaker({
+      fromPosition: [0, 0, 0],
+      position: [-30, 0, 0],
+      fromOpacity: 1,
+      opacity: 0,
+      easing: 'easeOut',
+      duration: 300
+    }),
+
+    leftShow: factoryMaker({
+      fromPosition: [30, 0, 0],
+      position: [0, 0, 0],
+      fromOpacity: 0,
+      opacity: 1,
+      easing: 'easeOut',
+      duration: 300
+    }),
+
+    rightShow: factoryMaker({
+      fromPosition: [-30, 0, 0],
+      position: [0, 0, 0],
+      fromOpacity: 0,
+      opacity: 1,
+      easing: 'easeOut',
+      duration: 300
+    }),
+
+    rightHide: factoryMaker({
+      fromPosition: [0, 0, 0],
+      position: [30, 0, 0],
+      fromOpacity: 1,
+      opacity: 0,
+      easing: 'easeOut',
+      duration: 300
+    }),
+
     upHide: factoryMaker({
       fromPosition: [0, 0, 0],
       position: [0, -30, 0],
       fromOpacity: 1,
       opacity: 0,
-      easing: 'spring',
-      springConstant: 1.5,
-      springDeceleration: 0.60,
-      springMass: 35
+      easing: 'easeOut',
+      duration: 300
+    }),
+
+    upShow: factoryMaker({
+      fromPosition: [0, 30, 0],
+      position: [0, 0, 0],
+      fromOpacity: 0.5,
+      opacity: 1,
+      easing: 'easeOut',
+      duration: 300
     })
+
   }
 };

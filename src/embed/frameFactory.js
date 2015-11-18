@@ -177,10 +177,7 @@ export var frameFactory = function(childFn, _params) {
 
     show(options = {}) {
       let frameFirstChild = this.getDOMNode().contentDocument.body.firstChild;
-
-      this.setState({
-        visible: true
-      });
+      this.setState({ visible: true });
 
       setTimeout( () => {
         const existingStyle = frameFirstChild.style;
@@ -195,16 +192,16 @@ export var frameFactory = function(childFn, _params) {
 
         snabbt(this.getDOMNode(), transition).then({
           callback: () => {
-            params.onShow(this);
             params.afterShowAnimate(this);
           }
         });
-      } else {
-        params.onShow(this);
       }
+
+      params.onShow(this);
     },
 
     hide(options = {}) {
+
       if (params.transitions[options.transition] && !isFirefox()) {
         const transition = params.transitions[options.transition];
 
@@ -215,8 +212,8 @@ export var frameFactory = function(childFn, _params) {
           }
         });
       } else {
-        params.onHide(this);
         this.setState({ visible: false });
+        params.onHide(this);
       }
     },
 
@@ -226,7 +223,13 @@ export var frameFactory = function(childFn, _params) {
       if (params.isMobile && ev.touches) {
         clickBusterRegister(ev.touches[0].clientX, ev.touches[0].clientY);
       }
-      this.hide({ transition: 'close' });
+
+      if (params.isMobile) {
+        this.hide();
+      } else {
+        this.hide({ transition: 'close' });
+      }
+
       params.onClose(this);
     },
 

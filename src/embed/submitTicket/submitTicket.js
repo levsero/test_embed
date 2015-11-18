@@ -89,12 +89,10 @@ function create(name, config) {
       css: submitTicketCSS + generateUserCSS({color: config.color}),
       fullscreenable: true,
       transitions: {
-        upShow: transitionFactory.webWidget.upShow(),
+        close: transitionFactory.webWidget.downHide(),
         downHide: transitionFactory.webWidget.downHide(),
         downShow: transitionFactory.webWidget.downShow(),
-        leftShow: transitionFactory.webWidget.leftShow(),
-        rightHide: transitionFactory.webWidget.rightHide(),
-        close: transitionFactory.webWidget.downHide()
+        upShow: transitionFactory.webWidget.upShow()
       },
       onShow,
       name: name,

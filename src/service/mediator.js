@@ -199,7 +199,11 @@ function init(helpCenterAvailable, hideLauncher) {
       // Run this on a seperate `tick` from helpCenter.hide
       // to mitigate ghost-clicking
       setTimeout(() => {
-        c.broadcast(`${submitTicket}.show`, { transition: 'upShow' });
+        if (isMobileBrowser()) {
+          c.broadcast(`${submitTicket}.show`);
+        } else {
+          c.broadcast(`${submitTicket}.show`, { transition: 'upShow' });
+        }
       }, 0);
     }
 
@@ -207,7 +211,11 @@ function init(helpCenterAvailable, hideLauncher) {
 
     // Run this on a seperate `tick` from submitTicket.show
     setTimeout(() => {
-      c.broadcast(`${helpCenter}.hide`, { transition: 'upHide' });
+      if (isMobileBrowser()) {
+        c.broadcast(`${helpCenter}.hide`);
+      } else {
+        c.broadcast(`${helpCenter}.hide`, { transition: 'upHide' });
+      }
     }, 0);
 
     if (isMobileBrowser()) {
@@ -232,6 +240,7 @@ function init(helpCenterAvailable, hideLauncher) {
        * button is on the left, using a mobile device with small screen
        * e.g. iPhone4. It's not a bulletproof solution, but it helps
        */
+
       setTimeout(() => {
         c.broadcast(`${state.activeEmbed}.show`, { transition: 'upShow' });
         if (isMobileBrowser()) {
@@ -289,7 +298,7 @@ function init(helpCenterAvailable, hideLauncher) {
     // Run these two broadcasts on a seperate `ticks`
     // to mitigate ghost-clicking
     setTimeout(() => {
-      c.broadcast(`${submitTicket}.hide`, { transition: 'rightHide' });
+      c.broadcast(`${submitTicket}.hide`);
     }, 10); // delay hiding so we don't see host page flashing
 
     setTimeout(() => {
