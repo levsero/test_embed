@@ -56,9 +56,11 @@ function send(payload, retry = 0) {
           }
         };
 
+        const loadNPS = win.location.hash === '#zd-testNps';
+
         // change body to npsSurvey to test eNPS
         payload.callbacks.done({
-          body: ipm
+          body: loadNPS ? npsSurvey : ipm
         });
         /* jshint ignore:end */
       }, 3000);

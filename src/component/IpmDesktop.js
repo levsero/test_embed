@@ -3,14 +3,6 @@ import React from 'react/addons';
 import { Container } from 'component/Container';
 
 export const IpmDesktop = React.createClass({
-  getDefaultProps() {
-    return {};
-  },
-
-  getInitialState() {
-    return {};
-  },
-
   render() {
     if (this.props.updateFrameSize) {
       setTimeout(() => { this.props.updateFrameSize(); }, 0);
