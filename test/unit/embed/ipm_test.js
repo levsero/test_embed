@@ -1,4 +1,4 @@
-ddescribe('embed.ipm', () => {
+describe('embed.ipm', () => {
   let ipm,
       mockRegistry;
 
