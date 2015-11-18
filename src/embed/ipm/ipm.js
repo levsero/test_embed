@@ -5,8 +5,6 @@ import { frameFactory }     from 'embed/frameFactory';
 import { Ipm }              from 'component/Ipm';
 import { mediator }         from 'service/mediator';
 import { transport }        from 'service/transport';
-import { setScrollKiller,
-         revertWindowScroll } from 'utility/scrollHacks';
 import { document,
          getDocumentHost } from 'utility/globals';
 import { isMobileBrowser } from 'utility/devices';

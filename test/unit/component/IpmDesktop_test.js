@@ -10,7 +10,7 @@ describe('IpmDesktop component', function() {
     ipmProps = {
       ipm: {
         id: 10017,
-        message: 'Hi Deborah, we just launched a new product called People. Would you like to try it?',
+        message: 'Hi Deborah, derpy derp derp.',
         sender: 'Ryan from Zendesk',
         avatarUrl: 'http://www.example.com/avatar/',
         buttonColor: '#1393d0',
