@@ -6,6 +6,7 @@ import { launcher }     from 'embed/launcher/launcher';
 import { helpCenter }   from 'embed/helpCenter/helpCenter';
 import { chat }         from 'embed/chat/chat';
 import { nps }          from 'embed/nps/nps';
+import { ipm }          from 'embed/ipm/ipm';
 import { i18n }         from 'service/i18n';
 import { mediator }     from 'service/mediator';
 import { logging }      from 'service/logging';
@@ -15,6 +16,7 @@ const embedsMap = {
   'launcher': launcher,
   'helpCenter': helpCenter,
   'nps': nps,
+  'ipm': ipm,
   'chat': chat
 };
 let initialised = false;
@@ -37,6 +39,11 @@ function parseConfig(config) {
 
   rendererConfig.nps = {
     embed: 'nps',
+    props: {}
+  };
+
+  rendererConfig.ipm = {
+    embed: 'ipm',
     props: {}
   };
 

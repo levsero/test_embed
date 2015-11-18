@@ -212,6 +212,7 @@ describe('mediator', function() {
       mediator.init(false);
 
       const survey = {
+        type: 'nps',
         npsSurvey: {
           id: 199
         }
