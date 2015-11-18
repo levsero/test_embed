@@ -1,43 +1,62 @@
-import { win } from 'utility/globals';
-
-const factoryMaker = (obj) => {
-  return (cb) => {
-    return Object.assign({}, obj, { complete: cb });
+const factoryMaker = (defaultParams) => {
+  return (params) => {
+    return Object.assign({}, defaultParams, params);
   };
 };
 
 export const transitionFactory = {
   npsMobile: {
-    in: factoryMaker({
-      fromPosition: [0, win.innerHeight, 0],
+    upShow: factoryMaker({
+      fromPosition: [0, 100, 0],
       position: [0, 0, 0],
+      fromOpacity: 0.5,
+      duration: 300,
+      opacity: 1,
       easing: 'easeOut'
     }),
-    out: factoryMaker({
-      position: [0, win.innerHeight, 0],
+    downHide: factoryMaker({
+      position: [0, 300, 0],
       fromPosition: [0, 0, 0],
+      fromOpacity: 0.7,
+      duration: 300,
+      opacity: 0,
       easing: 'easeIn'
     })
   },
   npsDesktop: {
-    in: factoryMaker({
-      fromPosition: [0, win.innerHeight, 0],
+    upShow: factoryMaker({
+      fromPosition: [0, 100, 0],
       position: [0, 0, 0],
-      easing: 'easeOut',
-      delay: 0
+      fromOpacity: 0,
+      opacity: 1,
+      duration: 300,
+      easing: 'easeOut'
     }),
-    out: factoryMaker({
+    downHide: factoryMaker({
       fromPosition: [0, 0, 0],
-      position: [0, win.innerHeight, 0],
+      position: [0, 100, 0],
+      opacity: 0,
+      fromOpacity: 0.7,
+      duration: 300,
       easing: 'easeIn'
     })
   },
   webWidget: {
-    in: factoryMaker({
-      fromPosition: [0, 30, 0],
+    launcherUpShow: factoryMaker({
+      fromPosition: [0, 120, 0],
       position: [0, 0, 0],
       fromOpacity: 0,
       opacity: 1,
+      easing: 'spring',
+      springConstant: 1.5,
+      springDeceleration: 0.60,
+      springMass: 35
+    }),
+    launcherDownHide: factoryMaker({
+      fromPosition: [0, 0, 0],
+      position: [0, 120, 0],
+      fromOpacity: 1,
+      opacity: 0,
       easing: 'spring',
       springConstant: 1.5,
       springDeceleration: 0.60,
@@ -48,6 +67,26 @@ export const transitionFactory = {
       position: [0, 30, 0],
       fromOpacity: 1,
       opacity: 0,
+      easing: 'spring',
+      springConstant: 1.5,
+      springDeceleration: 0.60,
+      springMass: 35
+    }),
+    upShow: factoryMaker({
+      fromPosition: [0, 30, 0],
+      position: [0, 0, 0],
+      fromOpacity: 0,
+      opacity: 1,
+      easing: 'spring',
+      springConstant: 1.5,
+      springDeceleration: 0.60,
+      springMass: 35
+    }),
+    downShow: factoryMaker({
+      fromPosition: [0, -30, 0],
+      position: [0, 0, 0],
+      fromOpacity: 0,
+      opacity: 1,
       easing: 'spring',
       springConstant: 1.5,
       springDeceleration: 0.60,
@@ -96,6 +135,16 @@ export const transitionFactory = {
     downHide: factoryMaker({
       fromPosition: [0, 0, 0],
       position: [0, 30, 0],
+      fromOpacity: 1,
+      opacity: 0,
+      easing: 'spring',
+      springConstant: 1.5,
+      springDeceleration: 0.60,
+      springMass: 35
+    }),
+    upHide: factoryMaker({
+      fromPosition: [0, 0, 0],
+      position: [0, -30, 0],
       fromOpacity: 1,
       opacity: 0,
       easing: 'spring',

@@ -50,6 +50,7 @@ export var frameFactory = function(childFn, _params) {
     onClose: () => {},
     onBack: () => {},
     afterShowAnimate: () => {},
+    transitions: {},
     isMobile: isMobileBrowser()
   };
   const params = _.extend({}, defaultParams, _params);
@@ -174,7 +175,7 @@ export var frameFactory = function(childFn, _params) {
       htmlElem.style.fontSize = fontSize;
     },
 
-    show() {
+    show(options = {}) {
       let frameFirstChild = this.getDOMNode().contentDocument.body.firstChild;
 
       this.setState({
@@ -189,51 +190,43 @@ export var frameFactory = function(childFn, _params) {
         }
       }, 50);
 
-      if (params.transitionIn && !isFirefox()) {
-        const transitionIn = _.clone(params.transitionIn);
-        const oldCb = transitionIn.complete;
-        transitionIn.complete = () => {
-          if (params.afterShowAnimate) {
+      if (params.transitions[options.transition] && !isFirefox()) {
+        const transition = params.transitions[options.transition];
+
+        snabbt(this.getDOMNode(), transition).then({
+          callback: () => {
+            params.onShow(this);
             params.afterShowAnimate(this);
           }
-          if (oldCb) {
-            oldCb(this);
-          }
-        };
-
-        snabbt(this.getDOMNode(), transitionIn);
+        });
+      } else {
+        params.onShow(this);
       }
-      params.onShow(this);
     },
 
-    hide() {
-      if (params.transitionOut && !isFirefox()) {
-        const transitionOut = _.clone(params.transitionOut);
-        const oldCb = transitionOut.complete;
+    hide(options = {}) {
+      if (params.transitions[options.transition] && !isFirefox()) {
+        const transition = params.transitions[options.transition];
 
-        transitionOut.complete = () => {
-          this.setState({ visible: false });
-          if (oldCb) {
-            oldCb(this);
+        snabbt(this.getDOMNode(), transition).then({
+          callback: () => {
+            this.setState({ visible: false });
+            params.onHide(this);
           }
-        };
-
-        snabbt(this.getDOMNode(), transitionOut);
+        });
       } else {
         params.onHide(this);
-        this.setState({
-          visible: false
-        });
+        this.setState({ visible: false });
       }
     },
 
     close(ev) {
-      // ev.touches added for  automation testing mobile browsers
+      // ev.touches added for automation testing mobile browsers
       // which is firing 'click' event on iframe close
       if (params.isMobile && ev.touches) {
         clickBusterRegister(ev.touches[0].clientX, ev.touches[0].clientY);
       }
-      this.hide();
+      this.hide({ transition: 'close' });
       params.onClose(this);
     },
 

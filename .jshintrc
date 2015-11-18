@@ -39,7 +39,7 @@
   "laxbreak":  false,
   "sub":       false,
 
-  "maxlen":     100,
+  "maxlen":     120,
   "indent":     2,
   "maxerr":     50,
   "passfail":   false,

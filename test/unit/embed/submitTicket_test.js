@@ -89,12 +89,8 @@ describe('embed.submitTicket', function() {
         }
       },
       'service/transitionFactory' : {
-        transitionFactory: {
-          webWidget: {
-            in: noop
-          }
-        }
-      },
+        transitionFactory: require(buildTestPath('unit/mockTransitionFactory')).mockTransitionFactory
+      }
     });
 
     mockery.registerAllowable(submitTicketPath);

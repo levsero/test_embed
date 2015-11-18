@@ -1,21 +1,11 @@
 describe('embed.nps', () => {
   let nps,
-      mockRegistry,
-      mockMobileTransitionIn,
-      mockMobileTransitionOut,
-      mockDesktopTransitionIn,
-      mockDesktopTransitionOut;
+      mockRegistry;
 
   const npsPath = buildSrcPath('embed/nps/nps');
 
   beforeEach(() => {
     resetDOM();
-
-    mockDesktopTransitionIn = jasmine.createSpy('transitionFactory-mobile-in');
-    mockDesktopTransitionOut = jasmine.createSpy('transitionFactory-mobile-out');
-
-    mockMobileTransitionIn = jasmine.createSpy('transitionFactory-mobile-in');
-    mockMobileTransitionOut = jasmine.createSpy('transitionFactory-mobile-out');
 
     mockery.enable();
 
@@ -72,16 +62,7 @@ describe('embed.nps', () => {
         revertWindowScroll: noop
       },
       'service/transitionFactory' : {
-        transitionFactory: {
-          npsMobile: {
-            in: mockMobileTransitionIn,
-            out: mockMobileTransitionOut
-          },
-          npsDesktop: {
-            in: mockDesktopTransitionIn,
-            out: mockDesktopTransitionOut
-          },
-        }
+        transitionFactory: requireUncached(buildTestPath('unit/mockTransitionFactory')).mockTransitionFactory
       }
     });
 
@@ -97,42 +78,31 @@ describe('embed.nps', () => {
 
   describe('create', () => {
     describe('desktop', () => {
-      it('should provide the desktop transition in config', () => {
+      it('should provide the desktop transition in configs', () => {
+        const upShow = mockRegistry['service/transitionFactory'].transitionFactory.npsDesktop.upShow;
+        const downHide = mockRegistry['service/transitionFactory'].transitionFactory.npsDesktop.downHide;
+
         nps.create('adam');
 
-        expect(mockDesktopTransitionIn)
+        expect(upShow)
           .toHaveBeenCalled();
-      });
-      it('should provide the desktop transition out config', () => {
-        nps.create('adam');
-
-        expect(mockDesktopTransitionOut)
+        expect(downHide)
           .toHaveBeenCalled();
       });
     });
+
     describe('mobile', () => {
-      let oldIsMobileBrower;
-
-      beforeEach(() => {
-        oldIsMobileBrower = mockRegistry['utility/devices'].isMobileBrowser;
+      it('should provide the mobile transitions in config', () => {
         mockRegistry['utility/devices'].isMobileBrowser = () => true;
-      });
 
-      afterEach(() => {
-        mockRegistry['utility/devices'].isMobileBrowser = oldIsMobileBrower;
-      });
+        const upShow = mockRegistry['service/transitionFactory'].transitionFactory.npsMobile.upShow;
+        const downHide = mockRegistry['service/transitionFactory'].transitionFactory.npsMobile.downHide;
 
-      it('should provide the mobile transition in config', () => {
         nps.create('adam');
 
-        expect(mockMobileTransitionIn)
+        expect(upShow)
           .toHaveBeenCalled();
-      });
-
-      it('should provide the mobile transition out config', () => {
-        nps.create('adam');
-
-        expect(mockMobileTransitionOut)
+        expect(downHide)
           .toHaveBeenCalled();
       });
     });

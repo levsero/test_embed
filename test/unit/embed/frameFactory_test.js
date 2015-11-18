@@ -4,7 +4,8 @@ describe('frameFactory', function() {
       mockRegistry,
       mockRegistryMocks,
       mockChildFn,
-      mockSnabbt;
+      mockSnabbt,
+      mockSnabbtThen;
 
   const frameFactoryPath = buildSrcPath('embed/frameFactory');
 
@@ -15,7 +16,10 @@ describe('frameFactory', function() {
       useCleanCache: true
     });
 
-    mockSnabbt = jasmine.createSpy('snabbt.js');
+    mockSnabbtThen = jasmine.createSpy();
+    mockSnabbt = jasmine.createSpy('snabbt.js').and.returnValue({
+      then: mockSnabbtThen
+    });
 
     mockRegistryMocks = {
       'react/addons': React,
@@ -327,25 +331,25 @@ describe('frameFactory', function() {
 
     describe('with animation', function() {
       let mockFrameParams,
+          mockOnShow,
           mockAfterShowAnimate,
-          mockTransitionInCallback,
           instance;
 
       beforeEach(function() {
         let payload,
             Embed;
 
-        mockSnabbt.calls.reset();
-
         mockAfterShowAnimate = jasmine.createSpy('afterShowAnimate');
-
-        mockTransitionInCallback = jasmine.createSpy('transitionInCallback');
+        mockOnShow = jasmine.createSpy('onShow');
 
         mockFrameParams = {
-          transitionIn: {
-            complete: mockTransitionInCallback
+          transitions: {
+            upShow: {
+              position: [1, 2, 3]
+            }
           },
-          afterShowAnimate: mockAfterShowAnimate
+          afterShowAnimate: mockAfterShowAnimate,
+          onShow: mockOnShow
         };
 
         payload = frameFactory(mockChildFn, mockFrameParams),
@@ -358,41 +362,38 @@ describe('frameFactory', function() {
         );
       });
 
-      it('applies animation on show if transitionIn is provided', function() {
-        instance.show();
+      it('applies snabbt animation', function() {
+        instance.show({ transition: 'upShow' });
 
         expect(mockSnabbt)
           .toHaveBeenCalled();
       });
 
       it('should call snabbt with the provided config', function() {
-        instance.show();
+        instance.show({ transition: 'upShow' });
 
         const config = mockSnabbt.calls.mostRecent().args[1];
 
-        expect(config)
-          .toEqual({ complete: jasmine.any(Function) });
+        expect(config.position)
+          .toEqual([1, 2, 3]);
       });
 
-      it('should call afterShowAnimate if it\'s available', function() {
-        instance.show();
+      it('should call onShow and afterShowAnimate if it\'s available', function() {
+        instance.show({ transition: 'upShow' });
 
-        const config = mockSnabbt.calls.mostRecent().args[1];
-
-        config.complete();
+        mockSnabbtThen.calls.mostRecent().args[0].callback();
 
         expect(mockFrameParams.afterShowAnimate)
           .toHaveBeenCalled();
+
       });
 
-      it('should call the provided callback', function() {
-        instance.show();
+      it('should call the onShow callback', function() {
+        instance.show({ transition: 'upShow' });
 
-        const config = mockSnabbt.calls.mostRecent().args[1];
+        mockSnabbtThen.calls.mostRecent().args[0].callback();
 
-        config.complete();
-
-        expect(mockFrameParams.transitionIn.complete)
+        expect(mockFrameParams.onShow)
           .toHaveBeenCalled();
       });
 
@@ -401,7 +402,7 @@ describe('frameFactory', function() {
 
         jasmine.clock().install();
 
-        instance.show({ animationType: 'webWidget' });
+        instance.show();
 
         jasmine.clock().tick(50);
 
@@ -425,8 +426,10 @@ describe('frameFactory', function() {
           mockSnabbt.calls.reset();
 
           mockFrameParams = {
-            transitionIn: {
-              complete: mockTransitionInCallback
+            transitions: {
+              upShow: {
+                position: [1, 2, 3]
+              }
             }
           };
 
@@ -441,13 +444,9 @@ describe('frameFactory', function() {
         });
 
         it('should not call afterShowAnimate if it\'s not available', function() {
-          instance.show();
+          instance.show({ transition: 'upShow' });
 
-          const config = mockSnabbt.calls.mostRecent().args[1];
-
-          config.complete();
-
-          expect(config.complete)
+          expect(mockSnabbtThen.calls.mostRecent().args[0].callback)
             .not.toThrow();
         });
       });
@@ -463,7 +462,11 @@ describe('frameFactory', function() {
           mockSnabbt.calls.reset();
 
           mockFrameParams = {
-            transitionIn: {}
+            transitions: {
+              upShow: {
+                position: [1, 2, 3]
+              }
+            }
           };
 
           payload = frameFactory(mockChildFn, mockFrameParams),
@@ -477,13 +480,9 @@ describe('frameFactory', function() {
         });
 
         it('should not try to call the provided callback if it\'s not available', function() {
-          instance.show();
+          instance.show({ transition: 'upShow' });
 
-          const config = mockSnabbt.calls.mostRecent().args[1];
-
-          config.complete();
-
-          expect(config.complete)
+          expect(mockSnabbtThen.calls.mostRecent().args[0].callback)
             .not.toThrow();
         });
       })
@@ -548,7 +547,7 @@ describe('frameFactory', function() {
       });
 
       it('does not apply the animation if it does not exist', function() {
-        instance.show();
+        instance.hide();
 
         expect(mockSnabbt)
           .not.toHaveBeenCalled();
@@ -560,13 +559,14 @@ describe('frameFactory', function() {
           mockFrameParams;
 
       beforeEach(function() {
-        mockSnabbt.calls.reset();
-
         mockFrameParams = {
-          transitionOut: {
-            complete: jasmine.createSpy()
-          }
-        }
+          transitions: {
+            downHide: {
+              position: [1, 2, 3]
+            }
+          },
+          onHide: mockOnHide
+        };
 
         const payload = frameFactory(mockChildFn, mockFrameParams);
 
@@ -579,42 +579,38 @@ describe('frameFactory', function() {
       });
 
       it('should call snabbt', function() {
-        instance.hide();
+        instance.hide({ transition: 'downHide' });
 
         expect(mockSnabbt)
           .toHaveBeenCalled();
       });
 
       it('should call snabbt with the provided config', function() {
-        instance.hide();
+        instance.hide({ transition: 'downHide' });
 
         const config = mockSnabbt.calls.mostRecent().args[1];
 
-        expect(config)
-          .toEqual({ complete: jasmine.any(Function) });
+        expect(config.position)
+          .toEqual([1, 2, 3]);
       });
 
       it('should provide a callback to snabbt that sets `visible` to false', function() {
         instance.setState({ visible: true });
 
-        instance.hide();
+        instance.hide({ transition: 'downHide' });
 
-        const configObject = mockSnabbt.calls.mostRecent().args[1];
-
-        configObject.complete();
+        mockSnabbtThen.calls.mostRecent().args[0].callback();
 
         expect(instance.state.visible)
           .toEqual(false);
       });
 
-      it('should call the provided callback', function() {
-        instance.hide();
+      it('should call the onHide callback', function() {
+        instance.hide({ transition: 'downHide' });
 
-        const configObject = mockSnabbt.calls.mostRecent().args[1];
+        mockSnabbtThen.calls.mostRecent().args[0].callback();
 
-        configObject.complete();
-
-        expect(mockFrameParams.transitionOut.complete)
+        expect(mockOnHide)
           .toHaveBeenCalled();
       });
 
@@ -623,7 +619,11 @@ describe('frameFactory', function() {
           mockSnabbt.calls.reset();
 
           mockFrameParams = {
-            transitionOut: {}
+            transitions: {
+              downHide: {
+                position: [1, 2, 3]
+              }
+            }
           }
 
           const payload = frameFactory(mockChildFn, mockFrameParams);
@@ -637,13 +637,9 @@ describe('frameFactory', function() {
         });
 
         it('should not try to call the provided callback if it\'s not available', function() {
-          instance.hide();
+          instance.hide({ transition: 'downHide' });
 
-          const config = mockSnabbt.calls.mostRecent().args[1];
-
-          config.complete();
-
-          expect(config.complete)
+          expect(mockSnabbtThen.calls.mostRecent().args[0].callback)
             .not.toThrow();
         });
       });

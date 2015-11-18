@@ -199,7 +199,7 @@ function init(helpCenterAvailable, hideLauncher) {
       // Run this on a seperate `tick` from helpCenter.hide
       // to mitigate ghost-clicking
       setTimeout(() => {
-        c.broadcast(`${submitTicket}.show`);
+        c.broadcast(`${submitTicket}.show`, { transition: 'upShow' });
       }, 0);
     }
 
@@ -207,7 +207,7 @@ function init(helpCenterAvailable, hideLauncher) {
 
     // Run this on a seperate `tick` from submitTicket.show
     setTimeout(() => {
-      c.broadcast(`${helpCenter}.hide`);
+      c.broadcast(`${helpCenter}.hide`, { transition: 'upHide' });
     }, 0);
 
     if (isMobileBrowser()) {
@@ -224,7 +224,7 @@ function init(helpCenterAvailable, hideLauncher) {
     if (state.activeEmbed === chat && isMobileBrowser()) {
       c.broadcast(`${chat}.show`);
     } else {
-      c.broadcast(`${launcher}.hide`);
+      c.broadcast(`${launcher}.hide`, { transition: 'downHide' });
       state[`${state.activeEmbed}.isVisible`] = true;
 
       /**
@@ -233,7 +233,7 @@ function init(helpCenterAvailable, hideLauncher) {
        * e.g. iPhone4. It's not a bulletproof solution, but it helps
        */
       setTimeout(() => {
-        c.broadcast(`${state.activeEmbed}.showWithAnimation`);
+        c.broadcast(`${state.activeEmbed}.show`, { transition: 'upShow' });
         if (isMobileBrowser()) {
           /**
            * This timeout ensures the embed is displayed
@@ -276,7 +276,7 @@ function init(helpCenterAvailable, hideLauncher) {
       }
 
       if (!state['.hideOnClose']) {
-        c.broadcast(`${launcher}.show`);
+        c.broadcast(`${launcher}.show`, { transition: 'upShow' });
       }
     }
   );
@@ -289,7 +289,7 @@ function init(helpCenterAvailable, hideLauncher) {
     // Run these two broadcasts on a seperate `ticks`
     // to mitigate ghost-clicking
     setTimeout(() => {
-      c.broadcast(`${submitTicket}.hide`);
+      c.broadcast(`${submitTicket}.hide`, { transition: 'rightHide' });
     }, 10); // delay hiding so we don't see host page flashing
 
     setTimeout(() => {
@@ -299,12 +299,12 @@ function init(helpCenterAvailable, hideLauncher) {
 
   c.intercept(`${submitTicket}.onCancelClick`, () => {
     state[`${submitTicket}.isVisible`] = false;
-    c.broadcast(`${submitTicket}.hide`);
+    c.broadcast(`${submitTicket}.hide`, { transition: 'downHide' });
 
     if (state[`${helpCenter}.isAvailable`]) {
       state[`${helpCenter}.isVisible`] = true;
       state.activeEmbed = helpCenter;
-      c.broadcast(`${helpCenter}.show`);
+      c.broadcast(`${helpCenter}.show`, { transition: 'downShow' });
     } else if (!state['.hideOnClose']) {
       c.broadcast(`${launcher}.show`);
     }

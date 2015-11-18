@@ -57,6 +57,21 @@ function create(name, config) {
     frame.getRootComponent().resetSearchFieldState();
   };
 
+  const onHide = (frame) => {
+    if (isMobileBrowser()) {
+      setScaleLock(false);
+    }
+    frame.getRootComponent().hideVirtualKeyboard();
+    frame.getRootComponent().backtrackSearch();
+
+    if (frame.getRootComponent().state.hasSearched === false &&
+        isMobileBrowser()) {
+      frame.getRootComponent().setState({
+        showIntroScreen: true
+      });
+    }
+  };
+
   config = _.extend(configDefaults, config);
 
   /* jshint laxbreak: true */
@@ -94,26 +109,21 @@ function create(name, config) {
       css: helpCenterCSS + generateUserCSS({color: config.color}),
       name: name,
       fullscreenable: true,
-      transitionIn: transitionFactory.webWidget.in(onShow),
+      transitions: {
+        upShow: transitionFactory.webWidget.upShow(),
+        upHide: transitionFactory.webWidget.upHide(),
+        downHide: transitionFactory.webWidget.downHide(),
+        downShow: transitionFactory.webWidget.downShow(),
+        leftHide: transitionFactory.webWidget.leftHide(),
+        rightShow: transitionFactory.webWidget.rightShow(),
+        close: transitionFactory.webWidget.downHide()
+      },
       afterShowAnimate(frame) {
         if (isIE()) {
           frame.getRootComponent().focusField();
         }
       },
-      onHide(frame) {
-        if (isMobileBrowser()) {
-          setScaleLock(false);
-        }
-        frame.getRootComponent().hideVirtualKeyboard();
-        frame.getRootComponent().backtrackSearch();
-
-        if (frame.getRootComponent().state.hasSearched === false &&
-            isMobileBrowser()) {
-          frame.getRootComponent().setState({
-            showIntroScreen: true
-          });
-        }
-      },
+      onHide,
       onShow,
       onClose() {
         mediator.channel.broadcast(name + '.onClose');
@@ -178,11 +188,11 @@ function render(name) {
 
   helpCenters[name].instance = React.render(helpCenters[name].component, element);
 
-  mediator.channel.subscribe(name + '.show', function() {
+  mediator.channel.subscribe(name + '.show', function(options = {}) {
     // stop stupid host page scrolling
     // when trying to focus HelpCenter's search field
     setTimeout(function() {
-      get(name).instance.show();
+      get(name).instance.show(options);
     }, 0);
   });
 
@@ -190,12 +200,12 @@ function render(name) {
     // stop stupid host page scrolling
     // when trying to focus HelpCenter's search field
     setTimeout(function() {
-      get(name).instance.show();
+      get(name).instance.show({transition: 'upShow'});
     }, 0);
   });
 
-  mediator.channel.subscribe(name + '.hide', function() {
-    get(name).instance.hide();
+  mediator.channel.subscribe(name + '.hide', function(options = {}) {
+    get(name).instance.hide(options);
   });
 
   mediator.channel.subscribe(name + '.setNextToChat', function() {

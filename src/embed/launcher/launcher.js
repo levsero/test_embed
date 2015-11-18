@@ -9,6 +9,7 @@ import { frameFactory }    from 'embed/frameFactory';
 import { i18n }            from 'service/i18n';
 import { mediator }        from 'service/mediator';
 import { generateUserCSS } from 'utility/utils';
+import { transitionFactory } from 'service/transitionFactory';
 
 const launcherCSS = require('./launcher.scss');
 let launchers = {};
@@ -54,6 +55,10 @@ function create(name, config) {
       name: name,
       hideCloseButton: true,
       fullscreenable: false,
+      transitions: {
+        upShow: transitionFactory.webWidget.launcherUpShow(),
+        downHide: transitionFactory.webWidget.launcherDownHide()
+      },
       extend: {
         onClickHandler: function(e) {
           e.preventDefault();
@@ -110,12 +115,12 @@ function render(name) {
 
   launchers[name].instance = React.render(launchers[name].component, element);
 
-  mediator.channel.subscribe(name + '.hide', function() {
-    get(name).instance.hide();
+  mediator.channel.subscribe(name + '.hide', function(options) {
+    get(name).instance.hide(options);
   });
 
-  mediator.channel.subscribe(name + '.show', function() {
-    get(name).instance.show();
+  mediator.channel.subscribe(name + '.show', function(options) {
+    get(name).instance.show(options);
   });
 
   mediator.channel.subscribe(name + '.setLabelChat', function() {
