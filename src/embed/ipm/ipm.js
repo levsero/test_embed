@@ -79,10 +79,6 @@ function create(name, config) {
   };
 }
 
-function list() {
-  return ipmes;
-}
-
 function get(name) {
   return ipmes[name];
 }
@@ -141,7 +137,6 @@ function render(name) {
 
 export var ipm = {
   create: create,
-  list: list,
   get: get,
   render: render
 };
