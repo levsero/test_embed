@@ -96,27 +96,13 @@ describe('embed.ipm', () => {
     });
 
     it('sets the component\'s "visible" property to false', () => {
-      ipm.create('bob');
-      const bob = ipm.get('bob');
-
-      expect(bob.component.props.visible)
+      expect(result.component.props.visible)
         .toEqual(false);
     });
 
     it('passes through supplied config', () => {
-      const testConfig = {
-        test: 'test',
-        thing: 'thing'
-      };
-
-      ipm.create('bob', testConfig);
-      const bob = ipm.get('bob');
-
-      expect(bob.config.test)
-        .toEqual(testConfig.test);
-
-      expect(bob.config.thing)
-        .toEqual(testConfig.thing);
+      expect(result.config)
+        .toEqual(testConfig);
     });
   });
 
