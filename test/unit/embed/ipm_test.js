@@ -70,22 +70,29 @@ describe('embed.ipm', () => {
   });
 
   describe('create', () => {
-    it('adds a new ipm component to the ipm array', () => {
-      expect(_.keys(ipm.list()).length)
-        .toEqual(0);
+    let result, config;
 
-      ipm.create('bob');
+    beforeEach(() => {
+      config = {
+        test: 'test',
+        thing: 'thing'
+      };
+      ipm.create('bob', config);
 
-      expect(_.keys(ipm.list()).length)
-        .toEqual(1);
+      result = ipm.get('bob');
+    });
 
-      const bob = ipm.get('bob');
-
-      expect(bob)
+    it('creates an object with "component" and "config" properties', () => {
+      expect(result.component)
         .toBeDefined();
 
-      expect(bob.component)
+      expect(result.config)
         .toBeDefined();
+    });
+
+    it('creates a React element for the component', () => {
+      expect(ReactTestUtils.isElement(result.component))
+        .toBe(true);
     });
 
     it('sets the component\'s "visible" property to false', () => {
