@@ -28,7 +28,7 @@ export const IpmDesktop = React.createClass({
           <img
             className='IpmDesktop-avatar u-posAbsolute'
             src={this.props.ipm.avatarUrl} />
-          <p className='IpmDesktop-intro u-marginVS u-marginHN u-textCenter'>
+          <p className='IpmDesktop-intro u-marginBS u-marginHN u-textCenter'>
             {this.props.ipm.sender}
           </p>
           <p className='IpmDesktop-message u-paddingBL'>{this.props.ipm.message}</p>
