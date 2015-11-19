@@ -10,7 +10,7 @@
   left: 50%;
   margin-left: #{-32/$font-size}rem;
   border: #{2/$font-size}rem solid $zendesk-color--gainsboro;
-  background-color: white;
+  background-color: $zendesk-color--white;
   height: #{60/$font-size}rem;
   width: #{60/$font-size}rem;
 }
