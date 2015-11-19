@@ -1,6 +1,8 @@
+import _ from 'lodash';
+
 const factoryMaker = (defaultParams) => {
   return (params) => {
-    return Object.assign({}, defaultParams, params);
+    return _.extend({}, defaultParams, params);
   };
 };
 
