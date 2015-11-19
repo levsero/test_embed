@@ -115,11 +115,13 @@ $Base-posOffset: $med + 1;
 }
 
 .u-marginVS {
-  margin: $spacing-sml 0;
+  margin-top: $spacing-sml !important;
+  margin-bottom: $spacing-sml !important;
 }
 
 .u-marginVM {
-  margin: $spacing-med 0;
+  margin-top: $spacing-med !important;
+  margin-bottom: $spacing-med !important;
 }
 
 .u-marginRS {
