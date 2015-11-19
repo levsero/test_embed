@@ -209,6 +209,11 @@ export var frameFactory = function(childFn, _params) {
           callback: () => {
             this.setState({ visible: false });
             params.onHide(this);
+
+            // Ugly, I know, but it's to undo snabbt's destructive style mutations
+            _.each(this.computeIframeStyle(), (val, key) => {
+              this.getDOMNode().style[key] = val;
+            });
           }
         });
       } else {
@@ -252,26 +257,30 @@ export var frameFactory = function(childFn, _params) {
       this.getChild().setHighlightColor(color);
     },
 
-    render: function() {
+    computeIframeStyle: function() {
       /* jshint laxbreak: true */
-      const iframeNamespace = 'zEWidget';
       const visibilityRule = (this.state.visible && !this.state.hiddenByZoom)
                            ? null
                            : {top: '-9999px',
                               [i18n.isRTL() ? 'right' : 'left']: '-9999px',
                               position: 'absolute',
                               bottom: 'auto'};
-      const iframeStyle = _.extend(
+      return _.extend(
         {
           border: 'none',
           background: 'transparent',
           zIndex: 999998,
-          transform: 'translateZ(0)'
+          transform: 'translateZ(0)',
+          opacity: 1
         },
         this.state.frameStyle,
         this.state.iframeDimensions,
         visibilityRule
       );
+    },
+
+    render: function() {
+      const iframeNamespace = 'zEWidget';
 
       const iframeClasses = classSet({
         [`${iframeNamespace}-${params.name}`]: true,
@@ -279,7 +288,7 @@ export var frameFactory = function(childFn, _params) {
       });
 
       return (
-        <iframe style={iframeStyle} id={params.name} className={iframeClasses} />
+        <iframe style={this.computeIframeStyle()} id={params.name} className={iframeClasses} />
       );
     },
 

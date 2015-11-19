@@ -72,6 +72,11 @@ function create(name, config) {
     mediator.channel.broadcast('nps.onClose');
   };
 
+  /* jshint laxbreak: true */
+  const transitionSet = (isMobileBrowser())
+                      ? transitionFactory.npsMobile
+                      : transitionFactory.npsDesktop;
+
   const frameParams = {
     frameStyle: frameStyle,
     css: npsCSS,
@@ -81,16 +86,9 @@ function create(name, config) {
     onClose,
     onShow,
     transitions: {
-      /* jshint laxbreak: true */
-      upShow: isMobileBrowser()
-            ? transitionFactory.npsMobile.upShow()
-            : transitionFactory.npsDesktop.upShow(),
-      downHide: isMobileBrowser()
-              ? transitionFactory.npsMobile.downHide()
-              : transitionFactory.npsDesktop.downHide(),
-      close: isMobileBrowser()
-           ? transitionFactory.npsMobile.downHide()
-           : transitionFactory.npsDesktop.downHide()
+      upShow: transitionSet.upShow(),
+      downHide: transitionSet.downHide(),
+      close: transitionSet.downHide()
     }
   };
 

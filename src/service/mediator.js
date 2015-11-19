@@ -315,7 +315,7 @@ function init(helpCenterAvailable, hideLauncher) {
       state.activeEmbed = helpCenter;
       c.broadcast(`${helpCenter}.show`, { transition: 'downShow' });
     } else if (!state['.hideOnClose']) {
-      c.broadcast(`${launcher}.show`);
+      c.broadcast(`${launcher}.show`, { transition: 'upShow' });
     }
   });
 
@@ -327,7 +327,7 @@ function init(helpCenterAvailable, hideLauncher) {
     if (state[`${helpCenter}.isAvailable`]) {
       state.activeEmbed = helpCenter;
     } else {
-      c.broadcast(`${launcher}.show`);
+      c.broadcast(`${launcher}.show`, { transition: 'upShow' });
       c.broadcast(`${chat}.hide`);
       state[`${chat}.isVisible`] = false;
     }
@@ -395,7 +395,7 @@ function initNps() {
     state['nps.isVisible'] = false;
 
     if (!state['.hideOnClose']) {
-      c.broadcast(`${launcher}.show`);
+      c.broadcast(`${launcher}.show`, { transition: 'upShow' });
     }
   });
 
