@@ -102,7 +102,7 @@ describe('embed.ipm', () => {
 
     it('passes through supplied config', () => {
       expect(result.config)
-        .toEqual(testConfig);
+        .toEqual(config);
     });
   });
 
