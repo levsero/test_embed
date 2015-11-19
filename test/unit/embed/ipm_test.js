@@ -70,12 +70,56 @@ describe('embed.ipm', () => {
   });
 
   describe('create', () => {
-    it('adds an ipm embed to the ipmes object', () => {
+    it('adds a new ipm component to the ipm array', () => {
+      expect(_.keys(ipm.list()).length)
+        .toEqual(0);
+
+      ipm.create('bob');
+
+      expect(_.keys(ipm.list()).length)
+        .toEqual(1);
+
+      const bob = ipm.get('bob');
+
+      expect(bob)
+        .toBeDefined();
+
+      expect(bob.component)
+        .toBeDefined();
+    });
+
+    it('sets the component\'s "visible" property to false', () => {
+      ipm.create('bob');
+      const bob = ipm.get('bob');
+
+      expect(bob.component.props.visible)
+        .toEqual(false);
+    });
+
+    it('passes through supplied config', () => {
+      const testConfig = {
+        test: 'test',
+        thing: 'thing'
+      };
+
+      ipm.create('bob', testConfig);
+      const bob = ipm.get('bob');
+
+      expect(bob.config.test)
+        .toEqual(testConfig.test);
+
+      expect(bob.config.thing)
+        .toEqual(testConfig.thing);
+    });
+  });
+
+  describe('get', () => {
+    it('should return the correct ipm', () => {
       ipm.create('bob');
       const bob = ipm.get('bob');
 
       expect(bob)
-        .not.toBe(undefined);
+        .toBeDefined();
     });
   });
 
