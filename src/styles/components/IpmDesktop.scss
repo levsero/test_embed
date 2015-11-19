@@ -22,19 +22,20 @@
   color: $zendesk-color--oil;
   font-size: #{14/$font-size}rem;
   line-height: #{20/$font-size}rem;
-  border-bottom: #{1/$font-size}rem solid #ccc;
+  border-bottom: #{1/$font-size}rem solid $zendesk-color--gainsboro;
 }
 
 .IpmDesktop-footer {
-  height: #{36/$font-size}rem;
+  overflow: auto;
 }
 
 .IpmDesktop-footer--logo {
-  bottom: #{5/$font-size}rem;
+  bottom: #{1/$font-size}rem;
 }
 
 .closeButton {
   .Button {
     margin-top: #{30/$font-size}rem;
+    padding: #{15/$font-size}rem;
   }
 }
