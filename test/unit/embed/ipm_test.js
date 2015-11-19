@@ -120,16 +120,6 @@ describe('embed.ipm', () => {
     });
   });
 
-  describe('get', () => {
-    it('should return the correct ipm', () => {
-      ipm.create('bob');
-      const bob = ipm.get('bob');
-
-      expect(bob)
-        .toBeDefined();
-    });
-  });
-
   describe('render', () => {
 
     it('renders an ipm embed the document', () => {
