@@ -79,14 +79,8 @@ describe('IpmDesktop component', function() {
   });
 
   describe('handleOnClick', () => {
-    const windowOpen = window.open;
-
     beforeEach(() => {
-      window.open = jasmine.createSpy();
-    });
-
-    afterEach(() => {
-      window.open = windowOpen;
+      spyOn(window, 'open');
     });
 
     it('should call window.open', () => {
