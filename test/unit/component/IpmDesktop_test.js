@@ -1,7 +1,8 @@
 describe('IpmDesktop component', function() {
   let IpmDesktop,
       mockRegistry,
-      ipmProps;
+      ipmProps,
+      component;
 
   const ipmPath = buildSrcPath('component/IpmDesktop');
 
@@ -9,8 +10,12 @@ describe('IpmDesktop component', function() {
     ipmProps = {
       ipm: {
         id: 10017,
-        message: 'Thank You',
-        signOff: 'You rated us a'
+        message: 'Hi Deborah, derpy derp derp.',
+        sender: 'Ryan from Zendesk',
+        avatarUrl: 'http://www.example.com/avatar/',
+        buttonColor: '#1393d0',
+        buttonText: 'Take a look!',
+        buttonLink: 'http://www.example.com'
       }
     };
 
@@ -22,14 +27,28 @@ describe('IpmDesktop component', function() {
       'react/addons': React,
       'component/Container': {
         Container: React.createClass({
-            render: function() {
-              return <div>{this.props.children}</div>;
-            }
-          }),
+          render: function() {
+            return <div>{this.props.children}</div>;
+          }
+        }),
+      },
+      'component/Button': {
+        Button: noopReactComponent()
+      },
+      'component/ZendeskLogo': {
+        ZendeskLogo: noopReactComponent()
       }
     });
 
     IpmDesktop = requireUncached(ipmPath).IpmDesktop;
+
+    component = React.render(
+      <IpmDesktop
+        {...ipmProps}
+        updateFrameSize={noop} />,
+      global.document.body
+    );
+
   });
 
   afterEach(function() {
@@ -37,20 +56,45 @@ describe('IpmDesktop component', function() {
     mockery.disable();
   });
 
-  describe('Container-content', () => {
-    it('should have `u-paddingBL`', () => {
-      const component = React.render(
+  describe('render', () => {
+    it('should call updateFrameSize', () => {
+      const mockUpdateFrameSize = jasmine.createSpy();
+
+      jasmine.clock().install();
+
+      component = React.render(
         <IpmDesktop
           {...ipmProps}
-          updateFrameSize={noop} />,
+          updateFrameSize={mockUpdateFrameSize} />,
         global.document.body
       );
 
-      const containerContentElem = ReactTestUtils
-        .findRenderedDOMComponentWithClass(component, 'Container-content');
+      jasmine.clock().tick(0);
 
-      expect(containerContentElem.getDOMNode().className)
-        .toMatch('u-paddingBL');
+      expect(mockUpdateFrameSize)
+        .toHaveBeenCalled();
+
+      jasmine.clock().uninstall();
+    });
+  });
+
+  describe('handleOnClick', () => {
+    beforeEach(() => {
+      spyOn(window, 'open');
+    });
+
+    it('should call window.open', () => {
+      component.handleOnClick();
+
+      expect(window.open)
+        .toHaveBeenCalled();
+    });
+
+    it('should call window.open with props.ipm.buttonLink', () => {
+      component.handleOnClick();
+
+      expect(window.open)
+        .toHaveBeenCalledWith(ipmProps.ipm.buttonLink, '_blank');
     });
   });
 });

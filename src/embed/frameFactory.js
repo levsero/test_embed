@@ -398,6 +398,7 @@ export var frameFactory = function(childFn, _params) {
               'u-isHidden': !this.state.showBackButton
             });
             const closeButtonClasses = classSet({
+              'closeButton': true,
               'u-isHidden': params.hideCloseButton
             });
             const styleTag = <style dangerouslySetInnerHTML={{ __html: this.state.css }} />;

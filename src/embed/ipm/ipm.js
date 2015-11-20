@@ -5,8 +5,6 @@ import { frameFactory }     from 'embed/frameFactory';
 import { Ipm }              from 'component/Ipm';
 import { mediator }         from 'service/mediator';
 import { transport }        from 'service/transport';
-import { setScrollKiller,
-         revertWindowScroll } from 'utility/scrollHacks';
 import { document,
          getDocumentHost } from 'utility/globals';
 import { isMobileBrowser } from 'utility/devices';
@@ -19,23 +17,9 @@ function create(name, config) {
   let containerStyle;
   let frameStyle = {
     position: 'fixed',
-    bottom: 0
+    top: 0,
+    right: 0
   };
-
-  if (isMobileBrowser()) {
-    frameStyle = _.extend({}, frameStyle, {
-      right: '0',
-      margin: 0,
-      width: '100%'
-    });
-  } else {
-    containerStyle = { width: 300, margin: 15 };
-    frameStyle = _.extend({}, frameStyle, {
-      top: 0,
-      right: 0,
-      width: 300
-    });
-  }
 
   const ipmSender = (params, doneFn, failFn) => {
     const payload = {
@@ -60,12 +44,6 @@ function create(name, config) {
   };
 
   const onClose = () => {
-    if (isMobileBrowser()) {
-      setTimeout(() => {
-        setScrollKiller(false);
-        revertWindowScroll();
-      }, 0);
-    }
     mediator.channel.broadcast('ipm.onClose');
   };
 
@@ -74,7 +52,7 @@ function create(name, config) {
     css: ipmCSS,
     hideCloseButton: false,
     name: name,
-    fullscreenable: isMobileBrowser(),
+    fullscreenable: false,
     onClose,
     onShow
   };
@@ -113,8 +91,11 @@ function render(name) {
     const ipm = ipmes[name].instance.getRootComponent();
     const ipmContent = params.ipm || {};
 
+    if (ipmContent.buttonColor) {
+      ipmes[name].instance.setHighlightColor(ipmContent.buttonColor);
+    }
+
     if (ipmContent && ipmContent.id) {
-      //ipmes[name].instance.getRootComponent().reset();
       ipm.setState({
         ipm: _.extend({}, ipm.state.ipm, ipmContent),
         ipmAvailable: true

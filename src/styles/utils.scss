@@ -114,8 +114,14 @@ $Base-posOffset: $med + 1;
   margin-top: $spacing-lrg !important;
 }
 
+.u-marginVS {
+  margin-top: $spacing-sml !important;
+  margin-bottom: $spacing-sml !important;
+}
+
 .u-marginVM {
-  margin: $spacing-med 0;
+  margin-top: $spacing-med !important;
+  margin-bottom: $spacing-med !important;
 }
 
 .u-marginRS {
@@ -140,6 +146,11 @@ $Base-posOffset: $med + 1;
   margin-right: $spacing-med !important;
 }
 
+.u-marginHN {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
 .u-paddingAN {
   padding: 0 !important;
 }
@@ -161,6 +172,11 @@ $Base-posOffset: $med + 1;
 .u-paddingHL {
   padding-left: $spacing-lrg !important;
   padding-right: $spacing-lrg !important;
+}
+
+.u-paddingHXL {
+  padding-left: $spacing-xl !important;
+  padding-right: $spacing-xl !important;
 }
 
 .u-paddingVM {

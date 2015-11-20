@@ -1,33 +1,46 @@
 import React from 'react/addons';
 
 import { Container } from 'component/Container';
+import { Button } from 'component/Button';
+import { ZendeskLogo } from 'component/ZendeskLogo';
 
 export const IpmDesktop = React.createClass({
-  render() {
+  handleOnClick() {
+    if (this.props.ipm.buttonLink) {
+      window.open(this.props.ipm.buttonLink, '_blank');
+    }
+  },
+
+  updateFrameSize() {
     if (this.props.updateFrameSize) {
       setTimeout(() => { this.props.updateFrameSize(); }, 0);
     }
+  },
 
-    const imgStyles = {
-      position: 'absolute',
-      borderRadius: '50%',
-      top: '-30px',
-      left: '50%',
-      marginLeft: '-30px'
-    };
+  render() {
+    this.updateFrameSize();
 
     return (
       <Container
-        card={true}
-        style={{margin: '60px 15px 15px'}}>
-        <div className='Container-content u-paddingBL'>
+        card
+        className='IpmDesktop u-paddingHXL u-marginHM u-marginBM'>
+        <div className='Container-content u-paddingBM'>
           <img
-            style={imgStyles}
-            src='https://avatars3.githubusercontent.com/u/143402?v=3&s=96'
-            width='60'
-            height='60' />
-          <p>{this.props.ipm.message}</p>
-          <p>{this.props.ipm.signOff}</p>
+            className='IpmDesktop-avatar u-posAbsolute'
+            src={this.props.ipm.avatarUrl} />
+          <p className='IpmDesktop-intro u-marginBS u-marginHN u-textCenter'>
+            {this.props.ipm.sender}
+          </p>
+          <p className='IpmDesktop-message u-paddingBL'>{this.props.ipm.message}</p>
+          <div className='IpmDesktop-footer u-posRelative'>
+            <ZendeskLogo
+              className='IpmDesktop-footer--logo u-posStart--flush'
+              utm='embeddedipm' />
+            <Button
+              className='u-pullRight'
+              onClick={this.handleOnClick}
+              label={this.props.ipm.buttonText} />
+          </div>
         </div>
       </Container>
     );
