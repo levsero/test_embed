@@ -134,15 +134,11 @@ function render(name) {
 
   submitTickets[name].instance = React.render(submitTickets[name].component, element);
 
-  mediator.channel.subscribe(name + '.show', function(options) {
+  mediator.channel.subscribe(name + '.show', function(options = {}) {
     submitTickets[name].instance.show(options);
   });
 
-  mediator.channel.subscribe(name + '.showWithAnimation', function() {
-    submitTickets[name].instance.show({transition: 'upShow'});
-  });
-
-  mediator.channel.subscribe(name + '.hide', function(options) {
+  mediator.channel.subscribe(name + '.hide', function(options = {}) {
     const submitTicket = getRootComponent(name);
 
     submitTickets[name].instance.hide(options);

@@ -194,14 +194,6 @@ function render(name) {
     }, 0);
   });
 
-  mediator.channel.subscribe(name + '.showWithAnimation', function() {
-    // stop stupid host page scrolling
-    // when trying to focus HelpCenter's search field
-    setTimeout(function() {
-      get(name).instance.show({transition: 'upShow'});
-    }, 0);
-  });
-
   mediator.channel.subscribe(name + '.hide', function(options = {}) {
     get(name).instance.hide(options);
   });

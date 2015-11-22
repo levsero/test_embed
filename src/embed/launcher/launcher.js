@@ -115,11 +115,11 @@ function render(name) {
 
   launchers[name].instance = React.render(launchers[name].component, element);
 
-  mediator.channel.subscribe(name + '.hide', function(options) {
+  mediator.channel.subscribe(name + '.hide', function(options = {}) {
     get(name).instance.hide(options);
   });
 
-  mediator.channel.subscribe(name + '.show', function(options) {
+  mediator.channel.subscribe(name + '.show', function(options = {}) {
     get(name).instance.show(options);
   });
 

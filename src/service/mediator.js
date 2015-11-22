@@ -76,11 +76,12 @@ function init(helpCenterAvailable, hideLauncher) {
 
       c.broadcast(`${launcher}.hide`);
 
-      if (options.hideOnClose) {
-        state['.hideOnClose'] = true;
-      }
+      /* jshint laxbreak: true */
+      state['.hideOnClose'] = (options.hideOnClose)
+                            ? true
+                            : false;
 
-      c.broadcast(`${state.activeEmbed}.showWithAnimation`);
+      c.broadcast(`${state.activeEmbed}.show`, { transition: 'upShow' });
       state[`${state.activeEmbed}.isVisible`] = true;
     }
   });
