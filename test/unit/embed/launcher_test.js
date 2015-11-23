@@ -59,6 +59,9 @@ describe('embed.launcher', function() {
           setLocale: noop,
           t: _.identity
         }
+      },
+      'service/transitionFactory' : {
+        transitionFactory: require(buildTestPath('unit/mockTransitionFactory')).mockTransitionFactory
       }
     });
 

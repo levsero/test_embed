@@ -98,16 +98,12 @@ function render(name) {
     });
   }
 
-  mediator.channel.subscribe(
-    [`${name}.show`,
-     `${name}.showWithAnimation`].join(', '),
-    function() {
-      show(name);
-      if (!isMobileBrowser()) {
-        store.set('zopimOpen', true, 'session');
-      }
+  mediator.channel.subscribe(`${name}.show`, function() {
+    show(name);
+    if (!isMobileBrowser()) {
+      store.set('zopimOpen', true, 'session');
     }
-  );
+  });
 
   mediator.channel.subscribe(`${name}.hide`, function() {
     hide();

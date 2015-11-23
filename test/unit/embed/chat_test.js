@@ -271,9 +271,9 @@ describe('embed.chat', function() {
           chat.render(chatName);
 
           expect(mockMediator.channel.subscribe)
-            .toHaveBeenCalledWith('dave.show, dave.showWithAnimation', jasmine.any(Function));
+            .toHaveBeenCalledWith('dave.show', jasmine.any(Function));
 
-          pluckSubscribeCall(mockMediator, 'dave.show, dave.showWithAnimation')();
+          pluckSubscribeCall(mockMediator, 'dave.show')();
 
           expect(mockZopim.livechat.window.show)
             .toHaveBeenCalled();
@@ -297,9 +297,9 @@ describe('embed.chat', function() {
             mockStore.set.calls.reset();
 
             expect(mockMediator.channel.subscribe)
-              .toHaveBeenCalledWith('dave.show, dave.showWithAnimation', jasmine.any(Function));
+              .toHaveBeenCalledWith('dave.show', jasmine.any(Function));
 
-            pluckSubscribeCall(mockMediator, 'dave.show, dave.showWithAnimation')();
+            pluckSubscribeCall(mockMediator, 'dave.show')();
 
             const storeSetZopimOpen = _.chain(mockStore.set.calls.all())
               .filter(function(c) { return c.args[0] === 'zopimOpen'; })
@@ -325,9 +325,9 @@ describe('embed.chat', function() {
             mockStore.set.calls.reset();
 
             expect(mockMediator.channel.subscribe)
-              .toHaveBeenCalledWith('dave.show, dave.showWithAnimation', jasmine.any(Function));
+              .toHaveBeenCalledWith('dave.show', jasmine.any(Function));
 
-            pluckSubscribeCall(mockMediator, 'dave.show, dave.showWithAnimation')();
+            pluckSubscribeCall(mockMediator, 'dave.show')();
 
             const storeSetZopimOpen = _.chain(mockStore.set.calls.all())
               .filter(function(c) { return c.args[0] === 'zopimOpen'; })
@@ -348,7 +348,7 @@ describe('embed.chat', function() {
           chat.render(chatName);
 
           expect(mockMediator.channel.subscribe)
-            .toHaveBeenCalledWith('dave.show, dave.showWithAnimation', jasmine.any(Function));
+            .toHaveBeenCalledWith('dave.show', jasmine.any(Function));
 
           pluckSubscribeCall(mockMediator, 'dave.hide')();
 

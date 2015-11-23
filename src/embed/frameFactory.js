@@ -50,6 +50,7 @@ export var frameFactory = function(childFn, _params) {
     onClose: () => {},
     onBack: () => {},
     afterShowAnimate: () => {},
+    transitions: {},
     isMobile: isMobileBrowser()
   };
   const params = _.extend({}, defaultParams, _params);
@@ -174,12 +175,9 @@ export var frameFactory = function(childFn, _params) {
       htmlElem.style.fontSize = fontSize;
     },
 
-    show() {
+    show(options = {}) {
       let frameFirstChild = this.getDOMNode().contentDocument.body.firstChild;
-
-      this.setState({
-        visible: true
-      });
+      this.setState({ visible: true });
 
       setTimeout( () => {
         const existingStyle = frameFirstChild.style;
@@ -189,51 +187,54 @@ export var frameFactory = function(childFn, _params) {
         }
       }, 50);
 
-      if (params.transitionIn && !isFirefox()) {
-        const transitionIn = _.clone(params.transitionIn);
-        const oldCb = transitionIn.complete;
-        transitionIn.complete = () => {
-          if (params.afterShowAnimate) {
+      if (params.transitions[options.transition] && !isFirefox()) {
+        const transition = params.transitions[options.transition];
+
+        snabbt(this.getDOMNode(), transition).then({
+          callback: () => {
             params.afterShowAnimate(this);
           }
-          if (oldCb) {
-            oldCb(this);
-          }
-        };
-
-        snabbt(this.getDOMNode(), transitionIn);
+        });
       }
+
       params.onShow(this);
     },
 
-    hide() {
-      if (params.transitionOut && !isFirefox()) {
-        const transitionOut = _.clone(params.transitionOut);
-        const oldCb = transitionOut.complete;
+    hide(options = {}) {
 
-        transitionOut.complete = () => {
-          this.setState({ visible: false });
-          if (oldCb) {
-            oldCb(this);
+      if (params.transitions[options.transition] && !isFirefox()) {
+        const transition = params.transitions[options.transition];
+
+        snabbt(this.getDOMNode(), transition).then({
+          callback: () => {
+            this.setState({ visible: false });
+            params.onHide(this);
+
+            // Ugly, I know, but it's to undo snabbt's destructive style mutations
+            _.each(this.computeIframeStyle(), (val, key) => {
+              this.getDOMNode().style[key] = val;
+            });
           }
-        };
-
-        snabbt(this.getDOMNode(), transitionOut);
-      } else {
-        params.onHide(this);
-        this.setState({
-          visible: false
         });
+      } else {
+        this.setState({ visible: false });
+        params.onHide(this);
       }
     },
 
     close(ev) {
-      // ev.touches added for  automation testing mobile browsers
+      // ev.touches added for automation testing mobile browsers
       // which is firing 'click' event on iframe close
       if (params.isMobile && ev.touches) {
         clickBusterRegister(ev.touches[0].clientX, ev.touches[0].clientY);
       }
-      this.hide();
+
+      if (params.isMobile) {
+        this.hide();
+      } else {
+        this.hide({ transition: 'close' });
+      }
+
       params.onClose(this);
     },
 
@@ -256,26 +257,30 @@ export var frameFactory = function(childFn, _params) {
       this.getChild().setHighlightColor(color);
     },
 
-    render: function() {
+    computeIframeStyle: function() {
       /* jshint laxbreak: true */
-      const iframeNamespace = 'zEWidget';
       const visibilityRule = (this.state.visible && !this.state.hiddenByZoom)
                            ? null
                            : {top: '-9999px',
                               [i18n.isRTL() ? 'right' : 'left']: '-9999px',
                               position: 'absolute',
                               bottom: 'auto'};
-      const iframeStyle = _.extend(
+      return _.extend(
         {
           border: 'none',
           background: 'transparent',
           zIndex: 999998,
-          transform: 'translateZ(0)'
+          transform: 'translateZ(0)',
+          opacity: 1
         },
         this.state.frameStyle,
         this.state.iframeDimensions,
         visibilityRule
       );
+    },
+
+    render: function() {
+      const iframeNamespace = 'zEWidget';
 
       const iframeClasses = classSet({
         [`${iframeNamespace}-${params.name}`]: true,
@@ -283,7 +288,7 @@ export var frameFactory = function(childFn, _params) {
       });
 
       return (
-        <iframe style={iframeStyle} id={params.name} className={iframeClasses} />
+        <iframe style={this.computeIframeStyle()} id={params.name} className={iframeClasses} />
       );
     },
 

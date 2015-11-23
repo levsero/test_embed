@@ -77,11 +77,12 @@ function init(helpCenterAvailable, hideLauncher) {
 
       c.broadcast(`${launcher}.hide`);
 
-      if (options.hideOnClose) {
-        state['.hideOnClose'] = true;
-      }
+      /* jshint laxbreak: true */
+      state['.hideOnClose'] = (options.hideOnClose)
+                            ? true
+                            : false;
 
-      c.broadcast(`${state.activeEmbed}.showWithAnimation`);
+      c.broadcast(`${state.activeEmbed}.show`, { transition: 'upShow' });
       state[`${state.activeEmbed}.isVisible`] = true;
     }
   });
@@ -202,7 +203,11 @@ function init(helpCenterAvailable, hideLauncher) {
       // Run this on a seperate `tick` from helpCenter.hide
       // to mitigate ghost-clicking
       setTimeout(() => {
-        c.broadcast(`${submitTicket}.show`);
+        if (isMobileBrowser()) {
+          c.broadcast(`${submitTicket}.show`);
+        } else {
+          c.broadcast(`${submitTicket}.show`, { transition: 'upShow' });
+        }
       }, 0);
     }
 
@@ -210,7 +215,11 @@ function init(helpCenterAvailable, hideLauncher) {
 
     // Run this on a seperate `tick` from submitTicket.show
     setTimeout(() => {
-      c.broadcast(`${helpCenter}.hide`);
+      if (isMobileBrowser()) {
+        c.broadcast(`${helpCenter}.hide`);
+      } else {
+        c.broadcast(`${helpCenter}.hide`, { transition: 'upHide' });
+      }
     }, 0);
 
     if (isMobileBrowser()) {
@@ -227,7 +236,7 @@ function init(helpCenterAvailable, hideLauncher) {
     if (state.activeEmbed === chat && isMobileBrowser()) {
       c.broadcast(`${chat}.show`);
     } else {
-      c.broadcast(`${launcher}.hide`);
+      c.broadcast(`${launcher}.hide`, { transition: 'downHide' });
       state[`${state.activeEmbed}.isVisible`] = true;
 
       /**
@@ -235,8 +244,9 @@ function init(helpCenterAvailable, hideLauncher) {
        * button is on the left, using a mobile device with small screen
        * e.g. iPhone4. It's not a bulletproof solution, but it helps
        */
+
       setTimeout(() => {
-        c.broadcast(`${state.activeEmbed}.showWithAnimation`);
+        c.broadcast(`${state.activeEmbed}.show`, { transition: 'upShow' });
         if (isMobileBrowser()) {
           /**
            * This timeout ensures the embed is displayed
@@ -279,7 +289,7 @@ function init(helpCenterAvailable, hideLauncher) {
       }
 
       if (!state['.hideOnClose']) {
-        c.broadcast(`${launcher}.show`);
+        c.broadcast(`${launcher}.show`, { transition: 'upShow' });
       }
     }
   );
@@ -302,14 +312,14 @@ function init(helpCenterAvailable, hideLauncher) {
 
   c.intercept(`${submitTicket}.onCancelClick`, () => {
     state[`${submitTicket}.isVisible`] = false;
-    c.broadcast(`${submitTicket}.hide`);
+    c.broadcast(`${submitTicket}.hide`, { transition: 'downHide' });
 
     if (state[`${helpCenter}.isAvailable`]) {
       state[`${helpCenter}.isVisible`] = true;
       state.activeEmbed = helpCenter;
-      c.broadcast(`${helpCenter}.show`);
+      c.broadcast(`${helpCenter}.show`, { transition: 'downShow' });
     } else if (!state['.hideOnClose']) {
-      c.broadcast(`${launcher}.show`);
+      c.broadcast(`${launcher}.show`, { transition: 'upShow' });
     }
   });
 
@@ -321,7 +331,7 @@ function init(helpCenterAvailable, hideLauncher) {
     if (state[`${helpCenter}.isAvailable`]) {
       state.activeEmbed = helpCenter;
     } else {
-      c.broadcast(`${launcher}.show`);
+      c.broadcast(`${launcher}.show`, { transition: 'upShow' });
       c.broadcast(`${chat}.hide`);
       state[`${chat}.isVisible`] = false;
     }
@@ -419,7 +429,7 @@ function initMessagging() {
     state['nps.isVisible'] = false;
 
     if (!state['.hideOnClose']) {
-      c.broadcast(`${launcher}.show`);
+      c.broadcast(`${launcher}.show`, { transition: 'upShow' });
     }
   });
 

@@ -88,7 +88,12 @@ function create(name, config) {
       frameStyle: _.extend(frameStyle, posObj),
       css: submitTicketCSS + generateUserCSS({color: config.color}),
       fullscreenable: true,
-      transitionIn: transitionFactory.webWidget.in(onShow),
+      transitions: {
+        close: transitionFactory.webWidget.downHide(),
+        downHide: transitionFactory.webWidget.downHide(),
+        downShow: transitionFactory.webWidget.downShow(),
+        upShow: transitionFactory.webWidget.upShow()
+      },
       onShow,
       name: name,
       afterShowAnimate(frame) {
@@ -129,18 +134,14 @@ function render(name) {
 
   submitTickets[name].instance = React.render(submitTickets[name].component, element);
 
-  mediator.channel.subscribe(name + '.show', function() {
-    submitTickets[name].instance.show();
+  mediator.channel.subscribe(name + '.show', function(options = {}) {
+    submitTickets[name].instance.show(options);
   });
 
-  mediator.channel.subscribe(name + '.showWithAnimation', function() {
-    submitTickets[name].instance.show();
-  });
-
-  mediator.channel.subscribe(name + '.hide', function() {
+  mediator.channel.subscribe(name + '.hide', function(options = {}) {
     const submitTicket = getRootComponent(name);
 
-    submitTickets[name].instance.hide();
+    submitTickets[name].instance.hide(options);
 
     if (submitTicket.state.showNotification) {
       submitTicket.clearNotification();
@@ -196,4 +197,3 @@ export var submitTicket = {
   get: get,
   list: list
 };
-

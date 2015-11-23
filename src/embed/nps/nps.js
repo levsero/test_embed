@@ -72,6 +72,11 @@ function create(name, config) {
     mediator.channel.broadcast('nps.onClose');
   };
 
+  /* jshint laxbreak: true */
+  const transitionSet = (isMobileBrowser())
+                      ? transitionFactory.npsMobile
+                      : transitionFactory.npsDesktop;
+
   const frameParams = {
     frameStyle: frameStyle,
     css: npsCSS,
@@ -80,13 +85,11 @@ function create(name, config) {
     fullscreenable: isMobileBrowser(),
     onClose,
     onShow,
-    /* jshint laxbreak: true */
-    transitionIn: isMobileBrowser()
-      ? transitionFactory.npsMobile.in(onShow)
-      : transitionFactory.npsDesktop.in(onShow),
-    transitionOut: isMobileBrowser()
-      ? transitionFactory.npsMobile.out(onClose)
-      : transitionFactory.npsDesktop.out(onClose)
+    transitions: {
+      upShow: transitionSet.upShow(),
+      downHide: transitionSet.downHide(),
+      close: transitionSet.downHide()
+    }
   };
 
   const Embed = React.createClass(frameFactory(
@@ -144,7 +147,7 @@ function render(name) {
     const nps = npses[name].instance.getRootComponent();
 
     if (nps.state.surveyAvailable && shouldShow(nps.state.survey)) {
-      npses[name].instance.show();
+      npses[name].instance.show({transition: 'upShow'});
     } else if (nps.state.surveyAvailable === null) {
       const err = new Error([
         'An error occurred in your use of the Zendesk Widget API:',
@@ -159,12 +162,12 @@ function render(name) {
     }
   });
 
-  mediator.channel.subscribe('nps.show', function() {
-    npses[name].instance.show();
+  mediator.channel.subscribe('nps.show', function(options = {}) {
+    npses[name].instance.show(options);
   });
 
-  mediator.channel.subscribe('nps.hide', function() {
-    npses[name].instance.hide();
+  mediator.channel.subscribe('nps.hide', function(options = {}) {
+    npses[name].instance.hide(options);
   });
 }
 
