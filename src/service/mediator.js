@@ -353,10 +353,10 @@ function init(helpCenterAvailable, hideLauncher) {
     }
   });
 
-  initMessagging();
+  initMessaging();
 }
 
-function initMessagging() {
+function initMessaging() {
   c.intercept(`.onIdentify`, (__, params) => {
     state['identify.pending'] = true;
 
@@ -368,11 +368,9 @@ function initMessagging() {
   c.intercept(`identify.onSuccess`, (__, params) => {
     state['identify.pending'] = false;
 
-    if (params.type === 'nps') {
+    if (params.npsSurvey) {
       c.broadcast(`nps.setSurvey`, params);
-    }
-
-    if (params.type === 'ipm') {
+    } else if (params.ipm) {
       c.broadcast(`ipm.setIpm`, params);
     }
   });
@@ -443,5 +441,5 @@ function initMessagging() {
 export var mediator = {
   channel: c,
   init: init,
-  initMessagging: initMessagging
+  initMessaging: initMessaging
 };

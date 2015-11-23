@@ -31,7 +31,6 @@ function send(payload, retry = 0) {
       setTimeout(function() {
         /* jshint ignore:start */
         const npsSurvey = {
-          type: 'nps',
           npsSurvey: {
             commentsQuestion: 'Can you tell us why?',
             highlightColor: '#77a500',
@@ -48,7 +47,6 @@ function send(payload, retry = 0) {
         };
 
         const ipm = {
-          type: 'ipm',
           ipm: {
             id: 10017,
             message: 'Hi Deborah, we just launched a new product called People. Would you like to try it?',
