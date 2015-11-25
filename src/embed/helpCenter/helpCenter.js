@@ -49,26 +49,32 @@ function create(name, config) {
   };
 
   const onShow = (frame) => {
-    if (isMobileBrowser()) {
-      setScaleLock(true);
-    } else {
-      frame.getRootComponent().focusField();
+    const rootComponent = frame.getRootComponent();
+
+    if (rootComponent) {
+      if (isMobileBrowser()) {
+        setScaleLock(true);
+      } else {
+        rootComponent.focusField();
+      }
+      rootComponent.resetSearchFieldState();
     }
-    frame.getRootComponent().resetSearchFieldState();
   };
 
   const onHide = (frame) => {
-    if (isMobileBrowser()) {
-      setScaleLock(false);
-    }
-    frame.getRootComponent().hideVirtualKeyboard();
-    frame.getRootComponent().backtrackSearch();
+    const rootComponent = frame.getRootComponent();
 
-    if (frame.getRootComponent().state.hasSearched === false &&
-        isMobileBrowser()) {
-      frame.getRootComponent().setState({
-        showIntroScreen: true
-      });
+    if (rootComponent) {
+      if (isMobileBrowser()) {
+        setScaleLock(false);
+      }
+
+      rootComponent.hideVirtualKeyboard();
+      rootComponent.backtrackSearch();
+
+      if (isMobileBrowser() && rootComponent.state.hasSearched === false) {
+        rootComponent.setState({ showIntroScreen: true });
+      }
     }
   };
 
@@ -117,8 +123,10 @@ function create(name, config) {
         downShow: transitionFactory.webWidget.downShow()
       },
       afterShowAnimate(frame) {
-        if (isIE()) {
-          frame.getRootComponent().focusField();
+        const rootComponent = frame.getRootComponent();
+
+        if (rootComponent && isIE()) {
+          rootComponent.focusField();
         }
       },
       onHide,
@@ -127,12 +135,16 @@ function create(name, config) {
         mediator.channel.broadcast(name + '.onClose');
       },
       onBack(frame) {
-        frame.getRootComponent().setState({
-          articleViewActive: false
-        });
-        frame.getChild().setState({
-          showBackButton: false
-        });
+        const rootComponent = frame.getRootComponent();
+
+        if (rootComponent) {
+          rootComponent.setState({
+            articleViewActive: false
+          });
+          frame.getChild().setState({
+            showBackButton: false
+          });
+        }
       },
       extend: {}
     }));
@@ -158,18 +170,19 @@ function getRootComponent(name) {
 }
 
 function updateHelpCenterButton(name, labelKey) {
-  const helpCenter = getRootComponent(name);
+  const rootComponent = getRootComponent(name);
   const label = i18n.t(`embeddable_framework.helpCenter.submitButton.label.${labelKey}`);
 
-  helpCenter.setState({
-    buttonLabel: label
-  });
+  if (rootComponent) {
+    rootComponent.setState({ buttonLabel: label });
+  }
 }
 
 function keywordsSearch(name, options) {
-  if (getRootComponent(name)) {
-    const helpCenter = getRootComponent(name);
-    helpCenter.contextualSearch(options);
+  const rootComponent = getRootComponent(name);
+
+  if (rootComponent) {
+    rootComponent.contextualSearch(options);
   } else {
     setTimeout(() => {
       keywordsSearch(name, options);
@@ -190,12 +203,16 @@ function render(name) {
     // stop stupid host page scrolling
     // when trying to focus HelpCenter's search field
     setTimeout(function() {
-      get(name).instance.show(options);
+      if (getRootComponent(name)) {
+        get(name).instance.show(options);
+      }
     }, 0);
   });
 
   mediator.channel.subscribe(name + '.hide', function(options = {}) {
-    get(name).instance.hide(options);
+    if (getRootComponent(name)) {
+      get(name).instance.hide(options);
+    }
   });
 
   mediator.channel.subscribe(name + '.setNextToChat', function() {
