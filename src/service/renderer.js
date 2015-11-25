@@ -95,7 +95,7 @@ function initMediator(config) {
     mediator.init(config.embeds.helpCenterForm, hideLauncher);
   } else if ((config.embeds && config.embeds.zopimChat) || _.isEmpty(config.embeds)) {
     //naked zopim or empty config
-    mediator.initNps();
+    mediator.initMessaging();
   } else {
     logging.error({
         error: {
