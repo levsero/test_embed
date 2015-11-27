@@ -468,7 +468,7 @@ describe('Help center component', function() {
         .toEqual(3);
     });
 
-    it('should call focusField', function() {
+    it('should not call focusField', function() {
       const searchOptions = { search: 'foo bar' };
       const focusField = jasmine.createSpy('focusField');
 
