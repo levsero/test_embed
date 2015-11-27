@@ -109,8 +109,6 @@ export const HelpCenter = React.createClass({
       articles: articles,
       resultsCount: json.count
     });
-
-    this.focusField();
   },
 
   searchFail() {
@@ -196,6 +194,7 @@ export const HelpCenter = React.createClass({
                 });
                 this.props.onSearch({searchString: searchString, searchLocale: locale});
                 this.updateResults(res);
+                this.focusField();
               } else {
                 search(searchString);
               }
