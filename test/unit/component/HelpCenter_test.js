@@ -467,6 +467,20 @@ describe('Help center component', function() {
       expect(recentCallArgs.query.per_page)
         .toEqual(3);
     });
+
+    it('should call focusField', function() {
+      const searchOptions = { search: 'foo bar' };
+      const focusField = jasmine.createSpy('focusField');
+
+      helpCenter.focusField = focusField;
+
+      helpCenter.contextualSearch(searchOptions);
+
+      mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayloadResults);
+
+      expect(focusField)
+        .not.toHaveBeenCalled();
+    });
   });
 
   describe('performSearch', function() {
@@ -653,6 +667,20 @@ describe('Help center component', function() {
       /* jshint camelcase:false */
       expect(recentCallArgs.query.per_page)
         .toEqual(3);
+    });
+
+    it('should call focusField', function() {
+      const searchString = 'help me please';
+      const focusField = jasmine.createSpy('focusField');
+
+      helpCenter.focusField = focusField;
+
+      helpCenter.performSearch(searchString);
+
+      mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayloadResults);
+
+      expect(focusField)
+        .toHaveBeenCalled();
     });
   });
 
