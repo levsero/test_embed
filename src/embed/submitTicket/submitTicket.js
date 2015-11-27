@@ -48,12 +48,16 @@ function create(name, config) {
     mediator.channel.broadcast(name + '.onCancelClick');
   };
   const onShow = (frame) => {
-    if (isMobileBrowser()) {
-      setScaleLock(true);
-    } else {
-      frame.getRootComponent().refs.submitTicketForm.focusField();
+    const rootComponent = frame.getRootComponent();
+
+    if (rootComponent) {
+      if (isMobileBrowser()) {
+        setScaleLock(true);
+      } else {
+        rootComponent.refs.submitTicketForm.focusField();
+      }
+      rootComponent.refs.submitTicketForm.resetTicketFormVisibility();
     }
-    frame.getRootComponent().refs.submitTicketForm.resetTicketFormVisibility();
   };
 
   config = _.extend(configDefaults, config);
@@ -97,16 +101,22 @@ function create(name, config) {
       onShow,
       name: name,
       afterShowAnimate(frame) {
-        if (isIE()) {
-          frame.getRootComponent().refs.submitTicketForm.focusField();
+        const rootComponent = frame.getRootComponent();
+
+        if (rootComponent && isIE()) {
+          rootComponent.refs.submitTicketForm.focusField();
         }
       },
       onHide(frame) {
-        if (isMobileBrowser()) {
-          setScaleLock(false);
-          frame.getRootComponent().refs.submitTicketForm.hideVirtualKeyboard();
+        const rootComponent = frame.getRootComponent();
+
+        if (rootComponent) {
+          if (isMobileBrowser()) {
+            setScaleLock(false);
+            rootComponent.refs.submitTicketForm.hideVirtualKeyboard();
+          }
+          rootComponent.clearNotification();
         }
-        frame.getRootComponent().clearNotification();
       },
       onClose() {
         mediator.channel.broadcast(name + '.onClose');
@@ -135,28 +145,33 @@ function render(name) {
   submitTickets[name].instance = React.render(submitTickets[name].component, element);
 
   mediator.channel.subscribe(name + '.show', function(options = {}) {
-    submitTickets[name].instance.show(options);
+    if (getRootComponent(name)) {
+      submitTickets[name].instance.show(options);
+    }
   });
 
   mediator.channel.subscribe(name + '.hide', function(options = {}) {
-    const submitTicket = getRootComponent(name);
+    const rootComponent = getRootComponent(name);
 
-    submitTickets[name].instance.hide(options);
+    if (rootComponent) {
+      submitTickets[name].instance.hide(options);
 
-    if (submitTicket.state.showNotification) {
-      submitTicket.clearNotification();
+      if (rootComponent.state.showNotification) {
+        rootComponent.clearNotification();
+      }
     }
   });
 
   mediator.channel.subscribe(name + '.showBackButton', function() {
-    get(name).instance.getChild().setState({
-      showBackButton: true
-    });
+    get(name).instance.getChild().setState({ showBackButton: true });
   });
 
   mediator.channel.subscribe(name + '.setLastSearch', function(params) {
-    getRootComponent(name)
-      .setState(_.pick(params, ['searchString', 'searchLocale']));
+    const rootComponent = getRootComponent(name);
+
+    if (rootComponent) {
+      rootComponent.setState(_.pick(params, ['searchString', 'searchLocale']));
+    }
   });
 
   mediator.channel.subscribe(name + '.prefill', function(user) {
@@ -165,10 +180,10 @@ function render(name) {
 }
 
 function prefillForm(name, user) {
-  const instance = get(name).instance;
+  const rootComponent = getRootComponent(name);
 
-  if (instance.getChild()) {
-    const submitTicketForm = instance.getRootComponent().refs.submitTicketForm;
+  if (rootComponent) {
+    const submitTicketForm = rootComponent.refs.submitTicketForm;
     submitTicketForm.setState({
       formState: _.pick(user, ['name', 'email'])
     });
