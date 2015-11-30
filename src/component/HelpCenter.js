@@ -49,7 +49,8 @@ export const HelpCenter = React.createClass({
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.showIntroScreen === true &&
-        this.state.showIntroScreen === false) {
+        this.state.showIntroScreen === false &&
+        this.state.hasContextualSearched === false) {
       this.refs.searchField.focus();
     }
 
