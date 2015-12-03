@@ -368,10 +368,10 @@ function initMessaging() {
   c.intercept(`identify.onSuccess`, (__, params) => {
     state['identify.pending'] = false;
 
-    if (params.npsSurvey) {
-      c.broadcast(`nps.setSurvey`, params);
-    } else if (params.ipm) {
+    if (params.ipm) {
       c.broadcast(`ipm.setIpm`, params);
+    } else if (params.npsSurvey) {
+      c.broadcast(`nps.setSurvey`, params);
     }
   });
 
@@ -399,6 +399,20 @@ function initMessaging() {
     fn();
   });
 
+  c.intercept(`nps.onClose`, () => {
+    state['nps.isVisible'] = false;
+
+    if (!state['.hideOnClose']) {
+      c.broadcast(`${launcher}.show`, { transition: 'upShow' });
+    }
+  });
+
+  c.intercept(`nps.onShow`, () => {
+    state['nps.isVisible'] = true;
+
+    c.broadcast(`${launcher}.hide`);
+  });
+
   c.intercept(`ipm.onActivate`, () => {
     const maxRetries = 100;
     let retries = 0;
@@ -423,16 +437,16 @@ function initMessaging() {
     fn();
   });
 
-  c.intercept(`nps.onClose`, () => {
-    state['nps.isVisible'] = false;
+  c.intercept(`ipm.onClose`, () => {
+    state['ipm.isVisible'] = false;
 
     if (!state['.hideOnClose']) {
       c.broadcast(`${launcher}.show`, { transition: 'upShow' });
     }
   });
 
-  c.intercept(`nps.onShow`, () => {
-    state['nps.isVisible'] = true;
+  c.intercept(`ipm.onShow`, () => {
+    state['ipm.isVisible'] = true;
 
     c.broadcast(`${launcher}.hide`);
   });
