@@ -6,7 +6,8 @@ const classSet = React.addons.classSet;
 
 const utm = {
   embeddednps: 'embeddednps',
-  webwidget: 'webwidget'
+  webwidget: 'webwidget',
+  ipm: 'ipm'
 };
 
 export var ZendeskLogo = React.createClass({
