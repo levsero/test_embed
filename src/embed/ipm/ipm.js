@@ -5,6 +5,7 @@ import { frameFactory }     from 'embed/frameFactory';
 import { Ipm }              from 'component/Ipm';
 import { mediator }         from 'service/mediator';
 import { transport }        from 'service/transport';
+import { transitionFactory } from 'service/transitionFactory';
 import { document,
          getDocumentHost } from 'utility/globals';
 import { isMobileBrowser } from 'utility/devices';
@@ -47,6 +48,8 @@ function create(name, config) {
     mediator.channel.broadcast('ipm.onClose');
   };
 
+  const transitionSet = transitionFactory.ipmDesktop;
+
   const frameParams = {
     frameStyle: frameStyle,
     css: ipmCSS,
@@ -54,7 +57,12 @@ function create(name, config) {
     name: name,
     fullscreenable: false,
     onClose,
-    onShow
+    onShow,
+    transitions: {
+      upHide: transitionSet.upHide(),
+      downShow: transitionSet.downShow(),
+      close: transitionSet.upHide()
+    }
   };
 
   const Embed = React.createClass(frameFactory(
@@ -111,7 +119,7 @@ function render(name) {
     const ipm = ipmes[name].instance.getRootComponent();
 
     if (ipm.state.ipmAvailable) {
-      ipmes[name].instance.show();
+      ipmes[name].instance.show({transition: 'downShow'});
     } else if (ipm.state.ipmAvailable === null) {
       const err = new Error([
         'An error occurred in your use of the Zendesk Widget API:',
@@ -126,12 +134,12 @@ function render(name) {
     }
   });
 
-  mediator.channel.subscribe('ipm.show', function() {
-    ipmes[name].instance.show();
+  mediator.channel.subscribe('ipm.show', function(options = {}) {
+    ipmes[name].instance.show(options);
   });
 
-  mediator.channel.subscribe('ipm.hide', function() {
-    ipmes[name].instance.hide();
+  mediator.channel.subscribe('ipm.hide', function(options = {}) {
+    ipmes[name].instance.hide(options);
   });
 }
 
