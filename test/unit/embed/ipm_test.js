@@ -56,6 +56,9 @@ describe('embed.ipm', () => {
         setScrollKiller: noop,
         setWindowScroll: noop,
         revertWindowScroll: noop
+      },
+      'service/transitionFactory' : {
+        transitionFactory: requireUncached(buildTestPath('unit/mockTransitionFactory')).mockTransitionFactory
       }
     });
 
@@ -80,6 +83,20 @@ describe('embed.ipm', () => {
       ipm.create('bob', config);
 
       result = ipm.get('bob');
+    });
+
+    describe('desktop', () => {
+      it('should provide the desktop transition in configs', () => {
+        const upHide = mockRegistry['service/transitionFactory'].transitionFactory.ipmDesktop.upHide;
+        const downShow = mockRegistry['service/transitionFactory'].transitionFactory.ipmDesktop.downShow;
+
+        ipm.create('adam');
+
+        expect(downShow)
+          .toHaveBeenCalled();
+        expect(upHide)
+          .toHaveBeenCalled();
+      });
     });
 
     it('creates an object with "component" and "config" properties', () => {
