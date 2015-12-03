@@ -42,12 +42,10 @@ function parseConfig(config) {
     props: {}
   };
 
-  if (__DEV__) {
-    rendererConfig.ipm = {
-      embed: 'ipm',
-      props: {}
-    };
-  }
+  rendererConfig.ipm = {
+    embed: 'ipm',
+    props: {}
+  };
 
   return rendererConfig;
 }
