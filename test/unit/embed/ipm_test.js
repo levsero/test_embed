@@ -87,8 +87,8 @@ describe('embed.ipm', () => {
 
     describe('desktop', () => {
       it('should provide the desktop transition in configs', () => {
-        const upHide = mockRegistry['service/transitionFactory'].transitionFactory.ipmDesktop.upHide;
-        const downShow = mockRegistry['service/transitionFactory'].transitionFactory.ipmDesktop.downShow;
+        const upHide = mockRegistry['service/transitionFactory'].transitionFactory.ipm.upHide;
+        const downShow = mockRegistry['service/transitionFactory'].transitionFactory.ipm.downShow;
 
         ipm.create('adam');
 

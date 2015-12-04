@@ -48,7 +48,7 @@ function create(name, config) {
     mediator.channel.broadcast('ipm.onClose');
   };
 
-  const transitionSet = transitionFactory.ipmDesktop;
+  const transitionSet = transitionFactory.ipm;
 
   const frameParams = {
     frameStyle: frameStyle,

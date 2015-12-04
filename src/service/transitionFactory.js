@@ -43,25 +43,7 @@ export const transitionFactory = {
       easing: 'easeIn'
     })
   },
-  ipmMobile: {
-    upShow: factoryMaker({
-      fromPosition: [0, 100, 0],
-      position: [0, 0, 0],
-      fromOpacity: 0.5,
-      duration: 300,
-      opacity: 1,
-      easing: 'easeOut'
-    }),
-    downHide: factoryMaker({
-      position: [0, 300, 0],
-      fromPosition: [0, 0, 0],
-      fromOpacity: 0.7,
-      duration: 300,
-      opacity: 0,
-      easing: 'easeIn'
-    })
-  },
-  ipmDesktop: {
+  ipm: {
     downShow: factoryMaker({
       fromPosition: [0, -30, 0],
       position: [0, 0, 0],

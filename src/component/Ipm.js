@@ -43,12 +43,10 @@ export const Ipm = React.createClass({
   },
 
   render() {
-    /* jshint laxbreak: true */
-    return (this.state.isMobile)
-      ? null
-      : <IpmDesktop
-          ref='desktop'
-          {...this.state}
-          updateFrameSize={this.props.updateFrameSize} />;
+    return (
+      <IpmDesktop
+        {...this.state}
+        updateFrameSize={this.props.updateFrameSize} />
+    );
   }
 });
