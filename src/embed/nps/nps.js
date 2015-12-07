@@ -53,7 +53,7 @@ function create(name, config) {
     if (__DEV__) {
       setTimeout(doneFn, 1000);
     } else {
-      transport.sendWithMeta(payload, 1);
+      transport.sendWithMeta(payload);
     }
   };
 
