@@ -1,15 +1,15 @@
 import _ from 'lodash';
 
-import { win }             from 'utility/globals';
-import { submitTicket }    from 'embed/submitTicket/submitTicket';
-import { launcher }        from 'embed/launcher/launcher';
-import { helpCenter }      from 'embed/helpCenter/helpCenter';
-import { chat }            from 'embed/chat/chat';
-import { nps }             from 'embed/nps/nps';
-import { ipm }             from 'embed/ipm/ipm';
-import { i18n }            from 'service/i18n';
-import { mediator }        from 'service/mediator';
-import { logging }         from 'service/logging';
+import { win }          from 'utility/globals';
+import { submitTicket } from 'embed/submitTicket/submitTicket';
+import { launcher }     from 'embed/launcher/launcher';
+import { helpCenter }   from 'embed/helpCenter/helpCenter';
+import { chat }         from 'embed/chat/chat';
+import { nps }          from 'embed/nps/nps';
+import { ipm }          from 'embed/ipm/ipm';
+import { i18n }         from 'service/i18n';
+import { mediator }     from 'service/mediator';
+import { logging }      from 'service/logging';
 import { isMobileBrowser } from 'utility/devices';
 
 const embedsMap = {
