@@ -105,9 +105,6 @@ describe('Submit ticket component', function() {
           t: noop
         }
       },
-      'service/transport': {
-        transport: jasmine.createSpyObj('transport', ['send']),
-      },
       'component/Icon': {
         Icon: noopReactComponent()
       },
@@ -137,24 +134,27 @@ describe('Submit ticket component', function() {
       .toEqual('');
   });
 
-  it('should not submit form when invalid', function() {
-    const mockTransport = mockRegistry['service/transport'].transport;
+  it('should not call submitTicketSender and not send the form when invalid', function() {
+    const mockSubmitTicketSender = jasmine.createSpy('mockSubmitTicketSender');
     const submitTicket = React.render(
-      <SubmitTicket />,
+      <SubmitTicket submitTicketSender={mockSubmitTicketSender} />,
       global.document.body
     );
 
     submitTicket.handleSubmit({preventDefault: noop}, {isFormValid: false});
 
-    expect(mockTransport.send)
+    expect(mockSubmitTicketSender)
       .not.toHaveBeenCalled();
   });
 
-  it('should submit form when valid', function() {
-    const mockTransport = mockRegistry['service/transport'].transport;
+  it('should call submitTicketSender and send the form when valid', function() {
+    const mockSubmitTicketSender = jasmine.createSpy('mockSubmitTicketSender');
     const mockOnSubmitted = jasmine.createSpy('mockOnSubmitted');
     const submitTicket = React.render(
-      <SubmitTicket onSubmitted={mockOnSubmitted} updateFrameSize={noop} />,
+      <SubmitTicket
+        submitTicketSender={mockSubmitTicketSender}
+        onSubmitted={mockOnSubmitted}
+        updateFrameSize={noop} />,
       global.document.body
     );
 
@@ -166,22 +166,28 @@ describe('Submit ticket component', function() {
       }
     });
 
-    const transportRecentCall = mockTransport.send.calls.mostRecent().args[0];
+    expect(mockSubmitTicketSender)
+      .toHaveBeenCalled();
 
-    expect(transportRecentCall)
-      .toBeJSONEqual(payload);
+    const params = mockSubmitTicketSender.calls.mostRecent().args[0];
 
-    transportRecentCall.callbacks.done({});
+    expect(params)
+      .toBeJSONEqual(payload.params);
+
+    mockSubmitTicketSender.calls.mostRecent().args[1]({});
 
     expect(mockOnSubmitted)
       .toHaveBeenCalled();
   });
 
   it('should call onSubmitted with given last search state', function() {
-    const mockTransport = mockRegistry['service/transport'].transport;
+    const mockSubmitTicketSender = jasmine.createSpy('mockSubmitTicketSender');
     const mockOnSubmitted = jasmine.createSpy('mockOnSubmitted');
     const submitTicket = React.render(
-      <SubmitTicket onSubmitted={mockOnSubmitted} updateFrameSize={noop} />,
+      <SubmitTicket
+        submitTicketSender={mockSubmitTicketSender}
+        onSubmitted={mockOnSubmitted}
+        updateFrameSize={noop} />,
       global.document.body
     );
 
@@ -198,9 +204,7 @@ describe('Submit ticket component', function() {
       }
     });
 
-    const transportRecentCall = mockTransport.send.calls.mostRecent().args[0];
-
-    transportRecentCall.callbacks.done({});
+    mockSubmitTicketSender.calls.mostRecent().args[1]({});
 
     expect(mockOnSubmitted)
       .toHaveBeenCalled();
