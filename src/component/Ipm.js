@@ -16,12 +16,7 @@ export const Ipm = React.createClass({
         id: null,
         name: '',
         type: '',
-        message: {},
-        sender: '',
-        avatarUrl: '',
-        buttonText: '',
-        buttonLink: '',
-        buttonColor: ''
+        message: {}
       },
       ipmAvailable: null,
       isMobile: this.props.mobile
