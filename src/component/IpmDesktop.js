@@ -6,8 +6,8 @@ import { ZendeskLogo } from 'component/ZendeskLogo';
 
 export const IpmDesktop = React.createClass({
   handleOnClick() {
-    if (this.props.ipm.message.buttonLink) {
-      window.open(this.props.ipm.message.buttonLink, '_blank');
+    if (this.props.ipm.message.buttonUrl) {
+      window.open(this.props.ipm.message.buttonUrl, '_blank');
     }
   },
 

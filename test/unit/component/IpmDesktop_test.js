@@ -18,7 +18,7 @@ describe('IpmDesktop component', function() {
           avatarUrl: 'http://www.example.com/avatar/',
           color: '#1393d0',
           buttonText: 'Take a look!',
-          buttonLink: 'http://www.example.com'
+          buttonUrl: 'http://www.example.com'
         }
       }
     };
@@ -94,11 +94,11 @@ describe('IpmDesktop component', function() {
         .toHaveBeenCalled();
     });
 
-    it('should call window.open with props.ipm.buttonLink', () => {
+    it('should call window.open with props.ipm.message.buttonUrl', () => {
       component.handleOnClick();
 
       expect(window.open)
-        .toHaveBeenCalledWith(ipmProps.ipm.message.buttonLink, '_blank');
+        .toHaveBeenCalledWith(ipmProps.ipm.message.buttonUrl, '_blank');
     });
   });
 });
