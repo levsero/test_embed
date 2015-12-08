@@ -77,19 +77,17 @@ export var SubmitTicket = React.createClass({
       this.formatTicketSubmission(data)
     );
     const failCallback = (err) => {
-      let msg;
-      if (err.timeout) {
-        msg = i18n.t('embeddable_framework.submitTicket.notify.message.timeout');
-      } else {
-        msg = i18n.t('embeddable_framework.submitTicket.notify.message.error');
-      }
+      /* jshint laxbreak: true */
+      const msg = (err.timeout)
+                ? i18n.t('embeddable_framework.submitTicket.notify.message.timeout')
+                : i18n.t('embeddable_framework.submitTicket.notify.message.error');
 
       this.setState({ errorMessage: msg });
       this.refs.submitTicketForm.failedToSubmit();
     };
     const doneCallback = (res) => {
       if (res && res.error) {
-        errorCallback(res.error);
+        failCallback(res.error);
         return;
       }
 
