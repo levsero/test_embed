@@ -12,7 +12,8 @@ This assumes you already have node installed. Run the following commands inside 
 
 The bootstrap file will do the following:
 
-* Install gulp, bower, jasmine-node & selenium-server globally
+* Set Node version
+* Install gulp, bower & selenium-server globally
 * Run npm install & bower install to get all dependencies
 * Run gulp build-dev to generate snippet, framework and example files
 * Setup pre-commit hook
