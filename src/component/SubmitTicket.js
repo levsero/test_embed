@@ -2,7 +2,6 @@ import React from 'react/addons';
 import _     from 'lodash';
 
 import { win }              from 'utility/globals';
-import { transport }        from 'service/transport';
 import { SubmitTicketForm } from 'component/SubmitTicketForm';
 import { ZendeskLogo }      from 'component/ZendeskLogo';
 import { Container }        from 'component/Container';
@@ -77,7 +76,23 @@ export var SubmitTicket = React.createClass({
       },
       this.formatTicketSubmission(data)
     );
+    const errorCallback = (err) => {
+      let msg;
+      if (err.timeout) {
+        msg = i18n.t('embeddable_framework.submitTicket.notify.message.timeout');
+      } else {
+        msg = i18n.t('embeddable_framework.submitTicket.notify.message.error');
+      }
+
+      this.setState({ errorMessage: msg });
+      this.refs.submitTicketForm.failedToSubmit();
+    };
     const resCallback = (res) => {
+      if (res && res.error) {
+        errorCallback(res.error);
+        return;
+      }
+
       this.setState({
         showNotification: true,
         message: i18n.t('embeddable_framework.submitTicket.notify.message.success')
@@ -90,33 +105,8 @@ export var SubmitTicket = React.createClass({
       });
       this.props.updateFrameSize();
     };
-    const errorCallback = (msg) => {
-      this.setState({ errorMessage: msg });
-      this.refs.submitTicketForm.failedToSubmit();
-    };
-    const payload = {
-      method: 'post',
-      path: '/requests/embedded/create',
-      params: formParams,
-      callbacks: {
-        done(res) {
-          if (res.error) {
-            errorCallback(i18n.t('embeddable_framework.submitTicket.notify.message.error'));
-          } else {
-            resCallback(res);
-          }
-        },
-        fail(err) {
-          if (err.timeout) {
-            errorCallback(i18n.t('embeddable_framework.submitTicket.notify.message.timeout'));
-          } else {
-            errorCallback(i18n.t('embeddable_framework.submitTicket.notify.message.error'));
-          }
-        }
-      }
-    };
 
-    transport.send(payload);
+    this.props.submitTicketSender(formParams, resCallback, errorCallback);
   },
 
   formatTicketSubmission(data) {

@@ -12,6 +12,7 @@ import { transitionFactory } from 'service/transitionFactory';
 import { mediator }          from 'service/mediator';
 import { setScaleLock,
          generateUserCSS }   from 'utility/utils';
+import { transport }         from 'service/transport';
 
 const submitTicketCSS = require('./submitTicket.scss');
 let submitTickets = {};
@@ -29,6 +30,19 @@ function create(name, config) {
     customFields: [],
     hideZendeskLogo: false,
     formTitleKey: 'message'
+  };
+  const submitTicketSender = (params, doneFn, failFn) => {
+    const payload = {
+      method: 'post',
+      path: '/requests/embedded/create',
+      params: params,
+      callbacks: {
+        done: doneFn,
+        fail: failFn
+      }
+    };
+
+    transport.send(payload);
   };
   const onSubmitted = function(params) {
     let ticketIdMatcher = /Request \#([0-9]+)/;
@@ -81,6 +95,7 @@ function create(name, config) {
           customFields={config.customFields}
           hideZendeskLogo={config.hideZendeskLogo}
           onCancel={onCancel}
+          submitTicketSender={submitTicketSender}
           onSubmitted={onSubmitted}
           position={config.position}
           formTitleKey={config.formTitleKey}

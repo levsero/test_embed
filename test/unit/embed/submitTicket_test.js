@@ -90,6 +90,9 @@ describe('embed.submitTicket', function() {
       },
       'service/transitionFactory' : {
         transitionFactory: require(buildTestPath('unit/mockTransitionFactory')).mockTransitionFactory
+      },
+      'service/transport': {
+        transport: jasmine.createSpyObj('transport', ['send']),
       }
     });
 
