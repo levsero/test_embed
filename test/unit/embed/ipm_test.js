@@ -172,7 +172,7 @@ describe('embed.ipm', () => {
         });
 
         it('should set state.ipmAvailable to false if none is available', () => {
-          pluckSubscribeCall(mockMediator, 'ipm.setIpm')({ });
+          pluckSubscribeCall(mockMediator, 'ipm.setIpm')({});
 
           expect(danIpm.state.ipmAvailable)
             .toEqual(false);
