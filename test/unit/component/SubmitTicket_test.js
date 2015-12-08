@@ -137,7 +137,7 @@ describe('Submit ticket component', function() {
   it('should not call submitTicketSender and not send the form when invalid', function() {
     const mockSubmitTicketSender = jasmine.createSpy('mockSubmitTicketSender');
     const submitTicket = React.render(
-      <SubmitTicket submitTicketSender={mockSubmitTicketSender}/>,
+      <SubmitTicket submitTicketSender={mockSubmitTicketSender} />,
       global.document.body
     );
 
@@ -151,9 +151,10 @@ describe('Submit ticket component', function() {
     const mockSubmitTicketSender = jasmine.createSpy('mockSubmitTicketSender');
     const mockOnSubmitted = jasmine.createSpy('mockOnSubmitted');
     const submitTicket = React.render(
-      <SubmitTicket submitTicketSender={mockSubmitTicketSender}
-                    onSubmitted={mockOnSubmitted}
-                    updateFrameSize={noop} />,
+      <SubmitTicket
+        submitTicketSender={mockSubmitTicketSender}
+        onSubmitted={mockOnSubmitted}
+        updateFrameSize={noop} />,
       global.document.body
     );
 
@@ -183,9 +184,10 @@ describe('Submit ticket component', function() {
     const mockSubmitTicketSender = jasmine.createSpy('mockSubmitTicketSender');
     const mockOnSubmitted = jasmine.createSpy('mockOnSubmitted');
     const submitTicket = React.render(
-      <SubmitTicket submitTicketSender={mockSubmitTicketSender}
-                    onSubmitted={mockOnSubmitted}
-                    updateFrameSize={noop} />,
+      <SubmitTicket
+        submitTicketSender={mockSubmitTicketSender}
+        onSubmitted={mockOnSubmitted}
+        updateFrameSize={noop} />,
       global.document.body
     );
 
