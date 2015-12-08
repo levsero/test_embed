@@ -4,7 +4,14 @@ A 3rd party embeddable framework that handles bringing Zendesk outside of the ag
 
 ## Getting started
 
-This assumes you already have node installed. Run the following commands inside this folder:
+This assumes you already have node and nvm installed.
+
+Add the following line to your bash or zsh profile:
+```
+    source $(brew --prefix nvm)/nvm.sh
+```
+
+Run the following commands inside this folder:
 
 ```bash
 ./script/bootstrap
