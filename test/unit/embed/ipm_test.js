@@ -125,10 +125,12 @@ describe('embed.ipm', () => {
           danIpm;
 
       const ipmParams = {
-        ipm: {
+        pendingCampaign: {
           id: 1,
-          message: 'comments question',
-          signOff: 'question'
+          message: {
+            body: 'comments question',
+            color: 'red'
+          },
         }
       };
 
@@ -155,7 +157,7 @@ describe('embed.ipm', () => {
         });
 
         it('should not show if a ipm is not available', () => {
-          pluckSubscribeCall(mockMediator, 'ipm.setIpm')({ ipm: {} });
+          pluckSubscribeCall(mockMediator, 'ipm.setIpm')({});
           pluckSubscribeCall(mockMediator, 'ipm.activate')();
 
           expect(dan.instance.show.__reactBoundMethod)
@@ -170,7 +172,7 @@ describe('embed.ipm', () => {
         });
 
         it('should set state.ipmAvailable to false if none is available', () => {
-          pluckSubscribeCall(mockMediator, 'ipm.setIpm')({ ipmIpm: {} });
+          pluckSubscribeCall(mockMediator, 'ipm.setIpm')({ });
 
           expect(danIpm.state.ipmAvailable)
             .toEqual(false);
@@ -181,13 +183,14 @@ describe('embed.ipm', () => {
 
           const ipmKeys = [
             'id',
-            'message',
-            'signOff'
+            'name',
+            'type',
+            'message'
           ];
 
           ipmKeys.forEach((key) => {
             expect(danIpm.state.ipm[key])
-              .toEqual(ipmParams.ipm[key]);
+              .toEqual(ipmParams.pendingCampaign[key]);
           });
 
           expect(danIpm.state.ipmAvailable)
