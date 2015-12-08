@@ -6,8 +6,8 @@ import { ZendeskLogo } from 'component/ZendeskLogo';
 
 export const IpmDesktop = React.createClass({
   handleOnClick() {
-    if (this.props.ipm.buttonLink) {
-      window.open(this.props.ipm.buttonLink, '_blank');
+    if (this.props.ipm.message.buttonLink) {
+      window.open(this.props.ipm.message.buttonLink, '_blank');
     }
   },
 
@@ -27,11 +27,11 @@ export const IpmDesktop = React.createClass({
         <div className='Container-content u-paddingBM'>
           <img
             className='IpmDesktop-avatar u-posAbsolute'
-            src={this.props.ipm.avatarUrl} />
+            src={this.props.ipm.message.avatarUrl} />
           <p className='IpmDesktop-intro u-marginBS u-marginHN u-textCenter'>
-            {this.props.ipm.sender}
+            {this.props.ipm.message.secondaryText}
           </p>
-          <p className='IpmDesktop-message u-paddingBL'>{this.props.ipm.message}</p>
+          <p className='IpmDesktop-message u-paddingBL'>{this.props.ipm.message.body}</p>
           <div className='IpmDesktop-footer u-posRelative'>
             <ZendeskLogo
               className='IpmDesktop-footer--logo u-posStart--flush'
@@ -39,7 +39,7 @@ export const IpmDesktop = React.createClass({
             <Button
               className='u-pullRight'
               onClick={this.handleOnClick}
-              label={this.props.ipm.buttonText} />
+              label={this.props.ipm.message.buttonText} />
           </div>
         </div>
       </Container>

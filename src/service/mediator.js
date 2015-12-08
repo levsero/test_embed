@@ -370,7 +370,7 @@ function initMessaging() {
 
     if (params.npsSurvey) {
       c.broadcast(`nps.setSurvey`, params);
-    } else if (params.ipm) {
+    } else if (params.pendingCampaign) {
       c.broadcast(`ipm.setIpm`, params);
     }
   });

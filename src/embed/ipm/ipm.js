@@ -89,15 +89,16 @@ function render(name) {
 
   mediator.channel.subscribe('ipm.setIpm', (params) => {
     const ipm = ipmes[name].instance.getRootComponent();
-    const ipmContent = params.ipm || {};
+    const ipmContent = params.pendingCampaign || {};
+    const color = ipmContent.message && ipmContent.message.color;
 
-    if (ipmContent.buttonColor) {
-      ipmes[name].instance.setHighlightColor(ipmContent.buttonColor);
+    if (color) {
+      ipmes[name].instance.setHighlightColor(color);
     }
 
     if (ipmContent && ipmContent.id) {
       ipm.setState({
-        ipm: _.extend({}, ipm.state.ipm, ipmContent),
+        ipm: _.extend({}, ipmContent),
         ipmAvailable: true
       });
     } else {
@@ -116,7 +117,7 @@ function render(name) {
       const err = new Error([
         'An error occurred in your use of the Zendesk Widget API:',
         'zE.activateIpm()',
-        'No survey available. Run zE.identify() first.',
+        'No campaigns available. Run zE.identify() first.',
         'Check out the Developer API docs to make sure you\'re using it correctly',
         'https://developer.zendesk.com/embeddables/docs/widget/api'
       ].join('\n\n'));

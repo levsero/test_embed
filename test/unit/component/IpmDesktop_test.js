@@ -10,12 +10,16 @@ describe('IpmDesktop component', function() {
     ipmProps = {
       ipm: {
         id: 10017,
-        message: 'Hi Deborah, derpy derp derp.',
-        sender: 'Ryan from Zendesk',
-        avatarUrl: 'http://www.example.com/avatar/',
-        buttonColor: '#1393d0',
-        buttonText: 'Take a look!',
-        buttonLink: 'http://www.example.com'
+        type: 'ipm',
+        name: 'My IPM',
+        message: {
+          body: 'Hi Deborah, derpy derp derp.',
+          secondaryText: 'Ryan from Zendesk',
+          avatarUrl: 'http://www.example.com/avatar/',
+          color: '#1393d0',
+          buttonText: 'Take a look!',
+          buttonLink: 'http://www.example.com'
+        }
       }
     };
 
@@ -94,7 +98,7 @@ describe('IpmDesktop component', function() {
       component.handleOnClick();
 
       expect(window.open)
-        .toHaveBeenCalledWith(ipmProps.ipm.buttonLink, '_blank');
+        .toHaveBeenCalledWith(ipmProps.ipm.message.buttonLink, '_blank');
     });
   });
 });

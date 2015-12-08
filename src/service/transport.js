@@ -44,14 +44,18 @@ function send(payload) {
         };
 
         const ipm = {
-          ipm: {
-            id: 10017,
-            message: 'Hi Deborah, we just launched a new product called People. Would you like to try it?',
-            sender: 'Ryan from Zendesk',
-            avatarUrl: 'https://avatars3.githubusercontent.com/u/143402?v=3&s=96',
-            buttonColor: '#1393d0',
-            buttonText: 'Take a look!',
-            buttonLink: 'http://www.example.com'
+          pendingCampaign: {
+            id: 712,
+            name: 'Campaign 712',
+            type: 'ipm',
+            message: {
+              secondaryText: 'Ryan from Zendesk',
+              body: 'Hi Deborah, we just launched a new product called People. Would you like to try it?',
+              avatarUrl: 'https://avatars3.githubusercontent.com/u/143402?v=3&s=96',
+              buttonLink: 'http://www.example.com',
+              buttonText: 'Take a look!',
+              color: '#1393d0'
+            }
           }
         };
 
