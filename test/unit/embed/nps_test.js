@@ -41,7 +41,7 @@ describe('embed.nps', () => {
       },
       'service/transport': {
         transport: {
-          sendWithMeta: jasmine.createSpy(),
+          sendWithMeta: jasmine.createSpy('transport.sendWithMeta'),
           getZendeskHost: () => 'test.zd-dev.com'
         }
       },
@@ -82,7 +82,7 @@ describe('embed.nps', () => {
         const upShow = mockRegistry['service/transitionFactory'].transitionFactory.npsDesktop.upShow;
         const downHide = mockRegistry['service/transitionFactory'].transitionFactory.npsDesktop.downHide;
 
-        nps.create('adam');
+        nps.create('dan');
 
         expect(upShow)
           .toHaveBeenCalled();
@@ -98,13 +98,29 @@ describe('embed.nps', () => {
         const upShow = mockRegistry['service/transitionFactory'].transitionFactory.npsMobile.upShow;
         const downHide = mockRegistry['service/transitionFactory'].transitionFactory.npsMobile.downHide;
 
-        nps.create('adam');
+        nps.create('dan');
 
         expect(upShow)
           .toHaveBeenCalled();
         expect(downHide)
           .toHaveBeenCalled();
       });
+    });
+  });
+
+  describe('npsSender', () => {
+    it('calls transport.sendWithMeta when called', () => {
+      const mockTransport = mockRegistry['service/transport'].transport;
+
+      nps.create('dan');
+      nps.render('dan');
+
+      const embed = nps.get('dan').instance.getRootComponent();
+
+      embed.props.npsSender();
+
+      expect(mockTransport.sendWithMeta)
+        .toHaveBeenCalled();
     });
   });
 
