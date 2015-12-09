@@ -75,6 +75,9 @@ describe('renderer', function() {
       },
       'utility/globals': {
         win: global.window
+      },
+      'utility/devices':  {
+        isMobileBrowser: jasmine.createSpy()
       }
     });
 
