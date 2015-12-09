@@ -78,6 +78,20 @@ function create(name, config) {
     }
   };
 
+  const searchSender = (query, doneFn, failFn) => {
+    const payload = {
+      method: 'get',
+      path: '/api/v2/help_center/search.json',
+      query: query,
+      callbacks: {
+        done: doneFn,
+        fail: failFn
+      }
+    };
+
+    transport.send(payload);
+  };
+
   config = _.extend(configDefaults, config);
 
   /* jshint laxbreak: true */
@@ -105,6 +119,7 @@ function create(name, config) {
           buttonLabelKey={config.buttonLabelKey}
           formTitleKey={config.formTitleKey}
           showBackButton={showBackButton}
+          searchSender={searchSender}
           style={containerStyle}
           updateFrameSize={params.updateFrameSize}
           zendeskHost={transport.getZendeskHost()} />
