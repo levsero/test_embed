@@ -23,14 +23,6 @@ gulp.task('test:spec', function() {
     });
 });
 
-gulp.task('test', function(callback) {
-  runSequence(
-    'build:src',
-    'build:test',
-    callback
-  );
-});
-
 gulp.task('test-spec', function(callback) {
   runSequence(
     'build:prod',
