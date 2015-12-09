@@ -49,6 +49,7 @@ describe('embed.submitTicket', function() {
               uid: defaultValue
             };
           },
+
           render: function() {
             const SubmitTicketForm = mockRegistry['component/SubmitTicketForm'].SubmitTicketForm;
 
@@ -90,6 +91,9 @@ describe('embed.submitTicket', function() {
       },
       'service/transitionFactory' : {
         transitionFactory: require(buildTestPath('unit/mockTransitionFactory')).mockTransitionFactory
+      },
+      'service/transport': {
+        transport: jasmine.createSpyObj('transport', ['send']),
       }
     });
 
@@ -382,6 +386,28 @@ describe('embed.submitTicket', function() {
         .toBeDefined();
     });
 
+  });
+
+  describe('submitTicketSender', () => {
+    it('should call transport.send when invoked', () => {
+      const mockTransport = mockRegistry['service/transport'].transport;
+      const formParams = {
+        'set_tags': 'web_widget',
+        'via_id': 48,
+        'submitted_from': global.window.location.href,
+        'email': 'mock@email.com',
+        'description': 'Mock Description'
+      };
+
+      submitTicket.create('bob');
+      submitTicket.render('bob');
+
+      const embed = submitTicket.get('bob').instance.getRootComponent();
+
+      embed.props.submitTicketSender(formParams, null, null);
+      expect(mockTransport.send)
+        .toHaveBeenCalled();
+    });
   });
 
   describe('render', function() {

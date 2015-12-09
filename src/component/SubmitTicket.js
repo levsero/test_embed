@@ -2,7 +2,6 @@ import React from 'react/addons';
 import _     from 'lodash';
 
 import { win }              from 'utility/globals';
-import { transport }        from 'service/transport';
 import { SubmitTicketForm } from 'component/SubmitTicketForm';
 import { ZendeskLogo }      from 'component/ZendeskLogo';
 import { Container }        from 'component/Container';
@@ -77,7 +76,21 @@ export var SubmitTicket = React.createClass({
       },
       this.formatTicketSubmission(data)
     );
-    const resCallback = (res) => {
+    const failCallback = (err) => {
+      /* jshint laxbreak: true */
+      const msg = (err.timeout)
+                ? i18n.t('embeddable_framework.submitTicket.notify.message.timeout')
+                : i18n.t('embeddable_framework.submitTicket.notify.message.error');
+
+      this.setState({ errorMessage: msg });
+      this.refs.submitTicketForm.failedToSubmit();
+    };
+    const doneCallback = (res) => {
+      if (res && res.error) {
+        failCallback(res.error);
+        return;
+      }
+
       this.setState({
         showNotification: true,
         message: i18n.t('embeddable_framework.submitTicket.notify.message.success')
@@ -90,33 +103,8 @@ export var SubmitTicket = React.createClass({
       });
       this.props.updateFrameSize();
     };
-    const errorCallback = (msg) => {
-      this.setState({ errorMessage: msg });
-      this.refs.submitTicketForm.failedToSubmit();
-    };
-    const payload = {
-      method: 'post',
-      path: '/requests/embedded/create',
-      params: formParams,
-      callbacks: {
-        done(res) {
-          if (res.error) {
-            errorCallback(i18n.t('embeddable_framework.submitTicket.notify.message.error'));
-          } else {
-            resCallback(res);
-          }
-        },
-        fail(err) {
-          if (err.timeout) {
-            errorCallback(i18n.t('embeddable_framework.submitTicket.notify.message.timeout'));
-          } else {
-            errorCallback(i18n.t('embeddable_framework.submitTicket.notify.message.error'));
-          }
-        }
-      }
-    };
 
-    transport.send(payload);
+    this.props.submitTicketSender(formParams, doneCallback, failCallback);
   },
 
   formatTicketSubmission(data) {

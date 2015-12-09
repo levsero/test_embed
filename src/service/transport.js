@@ -1,13 +1,10 @@
 import _          from 'lodash';
 import superagent from 'superagent';
-import superagentRetry from 'superagent-retry';
 
 import { win } from 'utility/globals';
 import { identity } from 'service/identity';
 
 let config;
-
-superagentRetry(superagent);
 
 function init(_config) {
   const defaultConfig = {
@@ -17,7 +14,7 @@ function init(_config) {
   config = _.extend(defaultConfig, _config);
 }
 
-function send(payload, retry = 0) {
+function send(payload) {
   if (!config.zendeskHost) {
     throw 'Missing zendeskHost config param.';
   }
@@ -47,14 +44,18 @@ function send(payload, retry = 0) {
         };
 
         const ipm = {
-          ipm: {
-            id: 10017,
-            message: 'Hi Deborah, we just launched a new product called People. Would you like to try it?',
-            sender: 'Ryan from Zendesk',
-            avatarUrl: 'https://avatars3.githubusercontent.com/u/143402?v=3&s=96',
-            buttonColor: '#1393d0',
-            buttonText: 'Take a look!',
-            buttonLink: 'http://www.example.com'
+          pendingCampaign: {
+            id: 712,
+            name: 'Campaign 712',
+            type: 'ipm',
+            message: {
+              secondaryText: 'Ryan from Zendesk',
+              body: 'Hi Deborah, we just launched a new product called People. Would you like to try it?',
+              avatarUrl: 'https://avatars3.githubusercontent.com/u/143402?v=3&s=96',
+              buttonLink: 'http://www.example.com',
+              buttonText: 'Take a look!',
+              color: '#1393d0'
+            }
           }
         };
 
@@ -76,8 +77,7 @@ function send(payload, retry = 0) {
     .type('json')
     .send(payload.params || {})
     .query(payload.query || {})
-    .timeout(10000)
-    .retry(retry)
+    .timeout(60000)
     .end(function(err, res) {
       if (payload.callbacks) {
         if (err) {
@@ -93,7 +93,7 @@ function send(payload, retry = 0) {
     });
 }
 
-function sendWithMeta(payload, retry = 0) {
+function sendWithMeta(payload) {
   const commonParams = {
     url: win.location.href,
     buid: identity.getBuid(),
@@ -103,7 +103,7 @@ function sendWithMeta(payload, retry = 0) {
 
   payload.params = _.extend(commonParams, payload.params);
 
-  send(payload, retry);
+  send(payload);
 }
 
 function buildFullUrl(path) {

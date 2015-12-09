@@ -37,7 +37,7 @@ describe('embed.ipm', () => {
       },
       'service/transport': {
         transport: {
-          sendWithMeta: jasmine.createSpy(),
+          sendWithMeta: jasmine.createSpy('transport.sendWithMeta'),
           getZendeskHost: () => 'test.zd-dev.com'
         }
       },
@@ -123,6 +123,21 @@ describe('embed.ipm', () => {
     });
   });
 
+  describe('ipmSender', () => {
+    it('calls transport.sendWithMeta when called', () => {
+      const mockTransport = mockRegistry['service/transport'].transport;
+
+      ipm.create('dan');
+      ipm.render('dan');
+
+      const embed = ipm.get('dan').instance.getRootComponent();
+
+      embed.props.ipmSender();
+
+      expect(mockTransport.sendWithMeta)
+        .toHaveBeenCalled();
+    });
+  });
   describe('render', () => {
 
     it('renders an ipm embed the document', () => {
@@ -142,10 +157,12 @@ describe('embed.ipm', () => {
           danIpm;
 
       const ipmParams = {
-        ipm: {
+        pendingCampaign: {
           id: 1,
-          message: 'comments question',
-          signOff: 'question'
+          message: {
+            body: 'comments question',
+            color: 'red'
+          },
         }
       };
 
@@ -172,7 +189,7 @@ describe('embed.ipm', () => {
         });
 
         it('should not show if a ipm is not available', () => {
-          pluckSubscribeCall(mockMediator, 'ipm.setIpm')({ ipm: {} });
+          pluckSubscribeCall(mockMediator, 'ipm.setIpm')({});
           pluckSubscribeCall(mockMediator, 'ipm.activate')();
 
           expect(dan.instance.show.__reactBoundMethod)
@@ -187,7 +204,7 @@ describe('embed.ipm', () => {
         });
 
         it('should set state.ipmAvailable to false if none is available', () => {
-          pluckSubscribeCall(mockMediator, 'ipm.setIpm')({ ipmIpm: {} });
+          pluckSubscribeCall(mockMediator, 'ipm.setIpm')({});
 
           expect(danIpm.state.ipmAvailable)
             .toEqual(false);
@@ -198,13 +215,14 @@ describe('embed.ipm', () => {
 
           const ipmKeys = [
             'id',
-            'message',
-            'signOff'
+            'name',
+            'type',
+            'message'
           ];
 
           ipmKeys.forEach((key) => {
             expect(danIpm.state.ipm[key])
-              .toEqual(ipmParams.ipm[key]);
+              .toEqual(ipmParams.pendingCampaign[key]);
           });
 
           expect(danIpm.state.ipmAvailable)

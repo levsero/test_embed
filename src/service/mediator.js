@@ -368,7 +368,7 @@ function initMessaging() {
   c.intercept(`identify.onSuccess`, (__, params) => {
     state['identify.pending'] = false;
 
-    if (params.ipm) {
+    if (params.pendingCampaign) {
       c.broadcast(`ipm.setIpm`, params);
     } else if (params.npsSurvey) {
       c.broadcast(`nps.setSurvey`, params);
