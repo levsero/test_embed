@@ -8,7 +8,9 @@ describe('mediator', function() {
       chatSub,
       helpCenterSub,
       npsSub,
+      ipmSub,
       initSubscriptionSpies;
+
   const reset = function(spy) {
     spy.calls.reset();
   };
@@ -83,6 +85,14 @@ describe('mediator', function() {
        'hide']
     );
 
+    ipmSub = jasmine.createSpyObj(
+      'ipm',
+      ['activate',
+       'setIpm',
+       'show',
+       'hide']
+    );
+
     initSubscriptionSpies = function(names) {
       c.subscribe(`${names.beacon}.identify`, beaconSub.identify);
 
@@ -115,6 +125,11 @@ describe('mediator', function() {
       c.subscribe(`${names.nps}.setSurvey`, npsSub.setSurvey);
       c.subscribe(`${names.nps}.show`, npsSub.show);
       c.subscribe(`${names.nps}.hide`, npsSub.hide);
+
+      c.subscribe(`${names.ipm}.activate`, ipmSub.activate);
+      c.subscribe(`${names.ipm}.setIpm`, ipmSub.setIpm);
+      c.subscribe(`${names.ipm}.show`, ipmSub.show);
+      c.subscribe(`${names.ipm}.hide`, ipmSub.hide);
     };
 
   });
@@ -201,31 +216,60 @@ describe('mediator', function() {
   });
 
   describe('identify.onSuccess', function() {
-    const nps = 'nps';
-    const names = {
-      nps: nps
-    };
-
-    it('should broadcast nps.setSurvey with params', function() {
-      initSubscriptionSpies(names);
-      mediator.init(false);
-
-      const survey = {
-        type: 'nps',
-        npsSurvey: {
-          id: 199
-        }
+    describe('nps', function() {
+      const nps = 'nps';
+      const names = {
+        nps: nps
       };
 
-      c.broadcast('identify.onSuccess', survey);
+      it('should broadcast nps.setSurvey with params', function() {
+        initSubscriptionSpies(names);
+        mediator.init(false);
 
-      expect(npsSub.setSurvey)
-        .toHaveBeenCalled();
+        const survey = {
+          npsSurvey: {
+            id: 199
+          }
+        };
 
-      const params = npsSub.setSurvey.calls.mostRecent().args[0];
+        c.broadcast('identify.onSuccess', survey);
 
-      expect(params.npsSurvey.id)
-        .toEqual(199);
+        expect(npsSub.setSurvey)
+          .toHaveBeenCalled();
+
+        const params = npsSub.setSurvey.calls.mostRecent().args[0];
+
+        expect(params.npsSurvey.id)
+          .toEqual(199);
+      });
+    });
+
+    describe('ipm', function() {
+      const ipm = 'ipm';
+      const names = {
+        ipm: ipm
+      };
+
+      it('should broadcast ipm.setIpm with params', function() {
+        initSubscriptionSpies(names);
+        mediator.init(false);
+
+        const response = {
+          pendingCampaign: {
+            id: 199
+          }
+        };
+
+        c.broadcast('identify.onSuccess', response);
+
+        expect(ipmSub.setIpm)
+          .toHaveBeenCalled();
+
+        const params = ipmSub.setIpm.calls.mostRecent().args[0];
+
+        expect(params.pendingCampaign.id)
+          .toEqual(199);
+      });
     });
   });
 
@@ -359,6 +403,143 @@ describe('mediator', function() {
         reset(launcherSub.hide);
 
         c.broadcast('nps.onShow');
+
+        expect(launcherSub.hide)
+          .toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('ipm', function() {
+    const ipm = 'ipm';
+    const launcher = 'launcher';
+    const submitTicket = 'ticketSubmissionForm';
+    const chat = 'zopimChat';
+    const helpCenter = 'helpCenterForm';
+
+    const names = {
+      launcher: launcher,
+      submitTicket: submitTicket,
+      chat: chat,
+      helpCenter: helpCenter,
+      ipm: ipm
+    };
+
+    beforeEach(function() {
+      initSubscriptionSpies(names);
+      mediator.init(true);
+    });
+
+    describe('.onActivate', function() {
+      it('should broadcast ipm.activate if identify.pending is false', function() {
+        c.broadcast('identify.onSuccess', {});
+
+        reset(ipmSub.activate);
+
+        jasmine.clock().install();
+        c.broadcast('ipm.onActivate');
+        jasmine.clock().tick(2000);
+
+        expect(ipmSub.activate)
+          .toHaveBeenCalled();
+      });
+
+      it('should not broadcast ipm.activate if identify.pending is true', function() {
+        c.broadcast('.onIdentify', {});
+
+        reset(ipmSub.activate);
+
+        jasmine.clock().install();
+        c.broadcast('ipm.onActivate');
+        jasmine.clock().tick(2000);
+
+        expect(ipmSub.activate)
+          .not.toHaveBeenCalled();
+      });
+
+      it('should not broadcast ipm.activate if an embed is visible', function() {
+        c.broadcast('.onIdentify', {});
+
+        // identify success, identify.pending => false
+        c.broadcast('identify.onSuccess', {});
+
+        // open helpCenter embed
+        c.broadcast(`${launcher}.onClick`);
+
+        reset(ipmSub.activate);
+
+        jasmine.clock().install();
+        c.broadcast('ipm.onActivate');
+        jasmine.clock().tick(2000);
+
+        expect(ipmSub.activate)
+          .not.toHaveBeenCalled();
+      });
+
+      it('should broadcast ipm.activate if an embed is not visible', function() {
+        c.broadcast('.onIdentify', {});
+
+        // identify success, identify.pending => false
+        c.broadcast('identify.onSuccess', {});
+
+        c.broadcast(`${launcher}.onClick`);
+        c.broadcast(`${helpCenter}.onNextClick`);
+        c.broadcast(`${submitTicket}.onClose`);
+
+        reset(ipmSub.activate);
+
+        jasmine.clock().install();
+        c.broadcast('ipm.onActivate');
+        jasmine.clock().tick(2000);
+
+        expect(ipmSub.activate)
+          .toHaveBeenCalled();
+      });
+
+      /* jshint maxlen:false */
+      it('should not broadcast ipm.activate if an embed was activated while identify.pending', function() {
+        c.broadcast('.onIdentify', {});
+
+        // identify still in-flight
+        jasmine.clock().install();
+        c.broadcast('ipm.onActivate');
+
+        expect(ipmSub.activate)
+          .not.toHaveBeenCalled();
+
+        jasmine.clock().tick(1000);
+
+        // embed visible while identify still inflight
+        c.broadcast(`${launcher}.onClick`);
+
+        jasmine.clock().tick(1000);
+
+        // identify completed
+        c.broadcast('identify.onSuccess', {});
+
+        jasmine.clock().tick(1000);
+
+        expect(ipmSub.activate)
+          .not.toHaveBeenCalled();
+      });
+    });
+
+    describe('.onClose', function() {
+      it('should broadcast launcher.show', function() {
+        reset(launcherSub.show);
+
+        c.broadcast('ipm.onClose');
+
+        expect(launcherSub.show)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('.onShow', function() {
+      it('should broadcast launcher.hide', function() {
+        reset(launcherSub.hide);
+
+        c.broadcast('ipm.onShow');
 
         expect(launcherSub.hide)
           .toHaveBeenCalled();

@@ -16,7 +16,7 @@ export const Ipm = React.createClass({
         id: null,
         name: '',
         type: '',
-        userEmail: 'test',
+        recipientEmail: 'test',
         message: {}
       },
       url: '',
@@ -28,7 +28,7 @@ export const Ipm = React.createClass({
   ipmSender(name) {
     const params = {
       campainId: this.state.ipm.id,
-      email: this.state.ipm.userEmail,
+      email: this.state.ipm.recipientEmail,
       type: name,
       url: this.state.url
     };
@@ -37,17 +37,11 @@ export const Ipm = React.createClass({
   },
 
   render() {
-    /* jshint laxbreak: true */
-    return (this.state.isMobile)
-      ? <div
-          ref='mobile'
-          {...this.state}
-          setFrameSize={this.props.setFrameSize}
-          eventSender={this.ipmSender} />
-      : <IpmDesktop
-          ref='desktop'
-          {...this.state}
-          updateFrameSize={this.props.updateFrameSize}
-          eventSender={this.ipmSender} />;
+    return (
+      <IpmDesktop
+        {...this.state}
+        updateFrameSize={this.props.updateFrameSize}
+        ipmSender={this.ipmSender} />
+    );
   }
 });
