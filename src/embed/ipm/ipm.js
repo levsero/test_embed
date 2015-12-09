@@ -12,8 +12,6 @@ import { isMobileBrowser } from 'utility/devices';
 const ipmCSS = require('./ipm.scss');
 
 let ipmes = {};
-let ipmUser;
-let ipmContent;
 
 function create(name, config) {
   let containerStyle;
@@ -33,26 +31,18 @@ function create(name, config) {
     transport.send(payload);
   };
 
-  const eventSender = (type) => {
-    if (!_.isEmpty(ipmContent)) {
-      const params = {
-        campainId: ipmContent.id,
-        email: ipmUser.email,
-        type: type,
-        url: document.referrer
-      };
-      ipmSender(params);
-    }
-  };
+  const onShow = (frame) => {
+    const rootComponent = frame.getRootComponent();
 
-  const onShow = () => {
     mediator.channel.broadcast('ipm.onShow');
-    eventSender('seen');
+    rootComponent.eventSender('seen');
   };
 
-  const onClose = () => {
+  const onClose = (frame) => {
+    const rootComponent = frame.getRootComponent();
+
     mediator.channel.broadcast('ipm.onClose');
-    eventSender('dismiss');
+    rootComponent.eventSender('dismiss');
   };
 
   const frameParams = {
@@ -74,7 +64,6 @@ function create(name, config) {
           updateFrameSize={params.updateFrameSize}
           setOffsetHorizontal={params.setOffsetHorizontal}
           ipmSender={ipmSender}
-          eventSender={eventSender}
           mobile={isMobileBrowser()}
           style={containerStyle} />
       );
@@ -98,7 +87,7 @@ function render(name) {
 
   mediator.channel.subscribe('ipm.setIpm', (params) => {
     const ipm = ipmes[name].instance.getRootComponent();
-    ipmContent = params.pendingCampaign || {};
+    const ipmContent = params.pendingCampaign || {};
     const color = ipmContent.message && ipmContent.message.color;
 
     if (color) {
@@ -108,7 +97,8 @@ function render(name) {
     if (ipmContent && ipmContent.id) {
       ipm.setState({
         ipm: _.extend({}, ipmContent),
-        ipmAvailable: true
+        ipmAvailable: true,
+        url: document.referrer
       });
     } else {
       ipm.setState({
@@ -142,10 +132,6 @@ function render(name) {
 
   mediator.channel.subscribe('ipm.hide', function() {
     ipmes[name].instance.hide();
-  });
-
-  mediator.channel.subscribe('ipm.setUser', function(user) {
-    ipmUser = user;
   });
 }
 

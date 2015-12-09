@@ -8,7 +8,7 @@ export const IpmDesktop = React.createClass({
   handleOnClick() {
     if (this.props.ipm.message.buttonUrl) {
       window.open(this.props.ipm.message.buttonUrl, '_blank');
-      this.props.eventSender('clicked');
+      this.props.ipmSender('clicked');
     }
   },
 
