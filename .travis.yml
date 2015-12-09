@@ -15,7 +15,6 @@ before_script:
 
 script:
   - npm test
-  - gulp test-spec
 
 branches:
   only:
