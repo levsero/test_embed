@@ -16,7 +16,7 @@ export const Ipm = React.createClass({
         id: null,
         name: '',
         type: '',
-        recipientEmail: 'test',
+        recipientEmail: '',
         message: {}
       },
       url: '',
