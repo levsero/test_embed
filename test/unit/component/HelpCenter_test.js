@@ -761,7 +761,7 @@ describe('Help center component', function() {
 
       helpCenter.trackSearch = trackSearch;
 
-     helpCenter.backtrackSearch();
+      helpCenter.backtrackSearch();
 
       expect(trackSearch)
         .not.toHaveBeenCalled();

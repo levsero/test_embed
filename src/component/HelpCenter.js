@@ -186,11 +186,12 @@ export const HelpCenter = React.createClass({
         }
       };
       const query = {
+        /* jshint camelcase: false */
         locale: locale,
         query: searchString,
         per_page: 3,
         origin: forceSearch ? 'web_widget' : null
-      }
+      };
 
       this.props.searchSender(query, doneCallback, () => this.searchFail());
     };
@@ -241,6 +242,7 @@ export const HelpCenter = React.createClass({
 
   trackSearch() {
     this.props.searchSender({
+      /* jshint camelcase: false */
       query: this.state.searchTerm,
       per_page: 0,
       origin: 'web_widget'
