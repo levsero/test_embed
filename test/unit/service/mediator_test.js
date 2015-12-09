@@ -8,6 +8,7 @@ describe('mediator', function() {
       chatSub,
       helpCenterSub,
       npsSub,
+      ipmSub,
       initSubscriptionSpies;
   const reset = function(spy) {
     spy.calls.reset();
@@ -72,8 +73,7 @@ describe('mediator', function() {
        'showWithAnimation',
        'hide',
        'setNextToChat',
-       'setNextToSubmitTicket'
-      ]
+       'setNextToSubmitTicket']
     );
 
     npsSub = jasmine.createSpyObj(
@@ -82,6 +82,11 @@ describe('mediator', function() {
        'setSurvey',
        'show',
        'hide']
+    );
+    
+    ipmSub = jasmine.createSpyObj(
+      'ipm',
+      ['setUser']
     );
 
     initSubscriptionSpies = function(names) {
@@ -116,6 +121,8 @@ describe('mediator', function() {
       c.subscribe(`${names.nps}.setSurvey`, npsSub.setSurvey);
       c.subscribe(`${names.nps}.show`, npsSub.show);
       c.subscribe(`${names.nps}.hide`, npsSub.hide);
+      
+      c.subscribe(`${names.ipm}.setUser`, ipmSub.setUser);
     };
 
   });
@@ -152,11 +159,13 @@ describe('mediator', function() {
     const submitTicket = 'ticketSubmissionForm';
     const chat = 'zopimChat';
     const beacon = 'beacon';
+    const ipm = 'ipm';
 
     const names = {
       submitTicket: submitTicket,
       chat: chat,
-      beacon: beacon
+      beacon: beacon,
+      ipm: ipm
     };
 
     beforeEach(function() {
@@ -197,6 +206,18 @@ describe('mediator', function() {
       c.broadcast('.onIdentify', params);
 
       expect(chatSub.setUser)
+        .toHaveBeenCalledWith(params);
+    });
+    
+    it('should broadcast ipm.setUser with given params', function() {
+      const params = {
+        user: 'James Dean',
+        email: 'james@dean.com'
+      };
+
+      c.broadcast('.onIdentify', params);
+
+      expect(ipmSub.setUser)
         .toHaveBeenCalledWith(params);
     });
   });

@@ -2,7 +2,8 @@ describe('IpmDesktop component', function() {
   let IpmDesktop,
       mockRegistry,
       ipmProps,
-      component;
+      component,
+      eventSenderSpy;
 
   const ipmPath = buildSrcPath('component/IpmDesktop');
 
@@ -46,11 +47,13 @@ describe('IpmDesktop component', function() {
 
     IpmDesktop = requireUncached(ipmPath).IpmDesktop;
 
+    eventSenderSpy = jasmine.createSpy();
+    
     component = React.render(
       <IpmDesktop
         {...ipmProps}
         updateFrameSize={noop}
-        eventSender={noop} />,
+        eventSender={eventSenderSpy} />,
       global.document.body
     );
 
@@ -100,6 +103,13 @@ describe('IpmDesktop component', function() {
 
       expect(window.open)
         .toHaveBeenCalledWith(ipmProps.ipm.message.buttonUrl, '_blank');
+    });
+    
+    it('should call props.eventSender', () => {
+      component.handleOnClick();
+      
+      expect(eventSenderSpy)
+        .toHaveBeenCalled(); 
     });
   });
 });
