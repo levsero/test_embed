@@ -12,8 +12,8 @@ import { isMobileBrowser } from 'utility/devices';
 const ipmCSS = require('./ipm.scss');
 
 let ipmes = {};
-var ipmUser;
-var ipmContent;
+let ipmUser;
+let ipmContent;
 
 function create(name, config) {
   let containerStyle;
@@ -35,7 +35,7 @@ function create(name, config) {
 
   const eventSender = (type) => {
     if (!_.isEmpty(ipmContent)) {
-      var params = {
+      const params = {
         campainId: ipmContent.id,
         email: ipmUser.email,
         type: type,
