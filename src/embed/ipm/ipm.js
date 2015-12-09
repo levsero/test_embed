@@ -12,6 +12,8 @@ import { isMobileBrowser } from 'utility/devices';
 const ipmCSS = require('./ipm.scss');
 
 let ipmes = {};
+var ipmUser;
+var ipmContent;
 
 function create(name, config) {
   let containerStyle;
@@ -21,26 +23,36 @@ function create(name, config) {
     right: 0
   };
 
-  const ipmSender = (params, doneFn, failFn) => {
+  const ipmSender = (params) => {
     const payload = {
       path: '/embeddable/ipm',
       method: 'post',
-      params: params,
-      callbacks: {
-        done: doneFn,
-        fail: failFn
-      }
+      params: params
     };
 
-    transport.sendWithMeta(payload);
+    transport.send(payload);
+  };
+
+  const eventSender = (type) => {
+    if (!_.isEmpty(ipmContent)) {
+      var params = {
+        campainId: ipmContent.id,
+        email: ipmUser.email,
+        type: type,
+        url: document.referrer
+      };
+      ipmSender(params);
+    }
   };
 
   const onShow = () => {
     mediator.channel.broadcast('ipm.onShow');
+    eventSender('seen');
   };
 
   const onClose = () => {
     mediator.channel.broadcast('ipm.onClose');
+    eventSender('dismiss');
   };
 
   const frameParams = {
@@ -62,6 +74,7 @@ function create(name, config) {
           updateFrameSize={params.updateFrameSize}
           setOffsetHorizontal={params.setOffsetHorizontal}
           ipmSender={ipmSender}
+          eventSender={eventSender}
           mobile={isMobileBrowser()}
           style={containerStyle} />
       );
@@ -85,7 +98,7 @@ function render(name) {
 
   mediator.channel.subscribe('ipm.setIpm', (params) => {
     const ipm = ipmes[name].instance.getRootComponent();
-    const ipmContent = params.pendingCampaign || {};
+    ipmContent = params.pendingCampaign || {};
     const color = ipmContent.message && ipmContent.message.color;
 
     if (color) {
@@ -129,6 +142,10 @@ function render(name) {
 
   mediator.channel.subscribe('ipm.hide', function() {
     ipmes[name].instance.hide();
+  });
+
+  mediator.channel.subscribe('ipm.setUser', function(user) {
+    ipmUser = user;
   });
 }
 

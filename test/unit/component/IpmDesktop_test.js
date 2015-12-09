@@ -49,7 +49,8 @@ describe('IpmDesktop component', function() {
     component = React.render(
       <IpmDesktop
         {...ipmProps}
-        updateFrameSize={noop} />,
+        updateFrameSize={noop}
+        eventSender={noop} />,
       global.document.body
     );
 

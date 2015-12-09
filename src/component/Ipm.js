@@ -23,32 +23,18 @@ export const Ipm = React.createClass({
     };
   },
 
-  ipmSender(params, doneFn, failFn) {
-    const fail = (error) => {
-      if (failFn) {
-        failFn(error);
-      }
-    };
-
-    const done = () => {
-      if (doneFn) {
-        doneFn();
-      }
-    };
-
-    this.props.ipmSender(params, done, fail);
-  },
-
   render() {
     /* jshint laxbreak: true */
     return (this.state.isMobile)
       ? <div
           ref='mobile'
           {...this.state}
-          setFrameSize={this.props.setFrameSize} />
+          setFrameSize={this.props.setFrameSize}
+          eventSender={this.props.eventSender} />
       : <IpmDesktop
           ref='desktop'
           {...this.state}
-          updateFrameSize={this.props.updateFrameSize} />;
+          updateFrameSize={this.props.updateFrameSize}
+          eventSender={this.props.eventSender} />;
   }
 });

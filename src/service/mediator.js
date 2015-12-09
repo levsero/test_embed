@@ -363,6 +363,7 @@ function initMessaging() {
     c.broadcast(`beacon.identify`, params);
     c.broadcast(`${submitTicket}.prefill`, params);
     c.broadcast(`${chat}.setUser`, params);
+    c.broadcast(`ipm.setUser`, params);
   });
 
   c.intercept(`identify.onSuccess`, (__, params) => {
