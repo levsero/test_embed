@@ -10,8 +10,7 @@ describe('devices', function() {
       }
     },
     navigator: {
-      /* jshint maxlen: false */
-      userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.122 Safari/537.36'
+      userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.122 Safari/537.36' // jshint ignore:line
     }
   };
   const devicesPath = buildSrcPath('util/devices');

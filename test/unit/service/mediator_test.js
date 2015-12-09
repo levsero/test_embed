@@ -83,7 +83,7 @@ describe('mediator', function() {
        'show',
        'hide']
     );
-    
+
     ipmSub = jasmine.createSpyObj(
       'ipm',
       ['setUser']
@@ -121,7 +121,7 @@ describe('mediator', function() {
       c.subscribe(`${names.nps}.setSurvey`, npsSub.setSurvey);
       c.subscribe(`${names.nps}.show`, npsSub.show);
       c.subscribe(`${names.nps}.hide`, npsSub.hide);
-      
+
       c.subscribe(`${names.ipm}.setUser`, ipmSub.setUser);
     };
 
@@ -208,7 +208,7 @@ describe('mediator', function() {
       expect(chatSub.setUser)
         .toHaveBeenCalledWith(params);
     });
-    
+
     it('should broadcast ipm.setUser with given params', function() {
       const params = {
         user: 'James Dean',
