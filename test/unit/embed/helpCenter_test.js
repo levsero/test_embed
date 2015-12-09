@@ -31,6 +31,7 @@ describe('embed.helpCenter', function() {
       },
       'service/transport': {
         transport: {
+          send: jasmine.createSpy('transport.send'),
           getZendeskHost: function() {
             return 'zendesk.host';
           }
@@ -427,6 +428,22 @@ describe('embed.helpCenter', function() {
 
       expect(carlos)
         .toBeDefined();
+    });
+  });
+
+  describe('searchSender', function() {
+    it('calls transport.sendWithMeta when called', () => {
+      const mockTransport = mockRegistry['service/transport'].transport;
+
+      helpCenter.create('dan');
+      helpCenter.render('dan');
+
+      const embed = helpCenter.get('dan').instance.getRootComponent();
+
+      embed.props.searchSender();
+
+      expect(mockTransport.send)
+        .toHaveBeenCalled();
     });
   });
 

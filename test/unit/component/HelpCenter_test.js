@@ -23,9 +23,6 @@ describe('Help center component', function() {
       'service/beacon': {
         beacon: jasmine.createSpyObj('beacon', ['track'])
       },
-      'service/transport': {
-        transport: jasmine.createSpyObj('transport', ['send'])
-      },
       'service/mediator': {
         mediator: {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
@@ -243,54 +240,54 @@ describe('Help center component', function() {
     const responsePayloadNoResults = {ok: true, body: {results: [], count: 0}};
 
     let helpCenter,
-        mockTransport;
+        mockSearchSender;
 
     beforeEach(function() {
-      mockTransport = mockRegistry['service/transport'].transport;
+      mockSearchSender = jasmine.createSpy('mockSearchSender');
 
       helpCenter = React.render(
-        <HelpCenter />,
+        <HelpCenter searchSender={mockSearchSender}/>,
         global.document.body
       );
     });
 
-    it('should set the right payload for search attribute', function() {
+    it('should call searchSender with the right payload for search attribute', function() {
       const searchOptions = { search: 'foo bar' };
 
       helpCenter.contextualSearch(searchOptions);
 
-      expect(mockTransport.send)
+      expect(mockSearchSender)
         .toHaveBeenCalled();
 
-      let recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
+      const recentCallArgs = mockSearchSender.calls.mostRecent().args[0];
 
-      expect(recentCallArgs.query.query)
+      expect(recentCallArgs.query)
         .toEqual(searchOptions.search);
 
       /* jshint camelcase: false */
-      expect(recentCallArgs.query.label_names)
+      expect(recentCallArgs.label_names)
         .toBeFalsy();
     });
 
-    it('should set the right payload for labels attribute', function() {
+    it('should call searchSender with the right payload for labels attribute', function() {
       const searchOptions = { labels: ['foo', 'bar'] };
 
       helpCenter.contextualSearch(searchOptions);
 
-      expect(mockTransport.send)
+      expect(mockSearchSender)
         .toHaveBeenCalled();
 
-      let recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
+      const recentCallArgs = mockSearchSender.calls.mostRecent().args[0];
 
       /* jshint camelcase: false */
-      expect(recentCallArgs.query)
+      expect(recentCallArgs)
         .toEqual(jasmine.objectContaining({
           query: undefined,
           label_names: searchOptions.labels.join(',')
         }));
     });
 
-    it('should set the right payload for search and labels attribute', function() {
+    it('should call searchSender with the right payload for search and labels attribute', function() {
       const searchOptions = {
         search: 'my search',
         labels: ['foo', 'bar']
@@ -298,60 +295,60 @@ describe('Help center component', function() {
 
       helpCenter.contextualSearch(searchOptions);
 
-      expect(mockTransport.send)
+      expect(mockSearchSender)
         .toHaveBeenCalled();
 
-      let recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
+      const recentCallArgs = mockSearchSender.calls.mostRecent().args[0];
 
       /* jshint camelcase: false */
-      expect(recentCallArgs.query)
+      expect(recentCallArgs)
         .toEqual(jasmine.objectContaining({
           query: searchOptions.search,
           label_names: undefined
         }));
     });
 
-    it('shouldn\'t call transport.send if no valid search options were passed', function() {
+    it('shouldn\'t call searchSender if no valid search options were passed', function() {
       let searchOptions = { foo: 'bar' };
 
       helpCenter.contextualSearch(searchOptions);
 
-      expect(mockTransport.send)
+      expect(mockSearchSender)
         .not.toHaveBeenCalled();
 
       searchOptions = 5;
 
       helpCenter.contextualSearch(searchOptions);
 
-      expect(mockTransport.send)
+      expect(mockSearchSender)
         .not.toHaveBeenCalled();
 
       searchOptions = false;
 
       helpCenter.contextualSearch(searchOptions);
 
-      expect(mockTransport.send)
+      expect(mockSearchSender)
         .not.toHaveBeenCalled();
 
       searchOptions = 'foo bar';
 
       helpCenter.contextualSearch(searchOptions);
 
-      expect(mockTransport.send)
+      expect(mockSearchSender)
         .not.toHaveBeenCalled();
 
       searchOptions = { labels: [] };
 
       helpCenter.contextualSearch(searchOptions);
 
-      expect(mockTransport.send)
+      expect(mockSearchSender)
         .not.toHaveBeenCalled();
 
       searchOptions = { search: '' };
 
       helpCenter.contextualSearch(searchOptions);
 
-      expect(mockTransport.send)
+      expect(mockSearchSender)
         .not.toHaveBeenCalled();
     });
 
@@ -362,22 +359,22 @@ describe('Help center component', function() {
 
       helpCenter.contextualSearch(searchOptions);
 
-      expect(mockTransport.send)
+      expect(mockSearchSender)
         .toHaveBeenCalled();
 
-      let recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
+      const recentCallArgs = mockSearchSender.calls.mostRecent().args[0];
 
       /* jshint camelcase: false */
-      expect(recentCallArgs.query.label_names)
+      expect(recentCallArgs.label_names)
         .toEqual(searchOptions.labels.join(','));
 
-      expect(recentCallArgs.query.locale)
+      expect(recentCallArgs.locale)
         .toBeFalsy();
 
-      expect(recentCallArgs.query.origin)
+      expect(recentCallArgs.origin)
         .toBeFalsy();
 
-      mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayloadNoResults);
+      mockSearchSender.calls.mostRecent().args[1](responsePayloadNoResults);
 
       expect(helpCenter.updateResults)
         .not.toHaveBeenCalled();
@@ -390,13 +387,13 @@ describe('Help center component', function() {
 
       helpCenter.contextualSearch(searchOptions);
 
-      expect(mockTransport.send)
+      expect(mockSearchSender)
         .toHaveBeenCalled();
 
-      let recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
+      const recentCallArgs = mockSearchSender.calls.mostRecent().args[0];
 
       /* jshint camelcase: false */
-      expect(recentCallArgs.query)
+      expect(recentCallArgs)
         .toEqual(jasmine.objectContaining({
           query: searchOptions.search,
           origin: null,
@@ -404,7 +401,7 @@ describe('Help center component', function() {
           label_names: undefined
         }));
 
-      mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayloadResults);
+      mockSearchSender.calls.mostRecent().args[1](responsePayloadResults);
 
       expect(helpCenter.updateResults)
         .toHaveBeenCalledWith(responsePayloadResults);
@@ -425,13 +422,13 @@ describe('Help center component', function() {
 
       helpCenter.contextualSearch(searchOptions);
 
-      expect(mockTransport.send)
+      expect(mockSearchSender)
         .toHaveBeenCalled();
 
-      let recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
+      const recentCallArgs = mockSearchSender.calls.mostRecent().args[0];
 
       /* jshint camelcase: false */
-      expect(recentCallArgs.query)
+      expect(recentCallArgs)
         .toEqual(jasmine.objectContaining({
           query: undefined,
           origin: null,
@@ -439,7 +436,7 @@ describe('Help center component', function() {
           label_names: searchOptions.labels.join(',')
         }));
 
-      mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayloadResults);
+      mockSearchSender.calls.mostRecent().args[1](responsePayloadResults);
 
       expect(helpCenter.updateResults)
         .toHaveBeenCalledWith(responsePayloadResults);
@@ -458,13 +455,13 @@ describe('Help center component', function() {
 
       helpCenter.contextualSearch(searchOptions);
 
-      expect(mockTransport.send)
+      expect(mockSearchSender)
         .toHaveBeenCalled();
 
-      let recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
+      const recentCallArgs = mockSearchSender.calls.mostRecent().args[0];
 
       /* jshint camelcase:false */
-      expect(recentCallArgs.query.per_page)
+      expect(recentCallArgs.per_page)
         .toEqual(3);
     });
 
@@ -476,7 +473,7 @@ describe('Help center component', function() {
 
       helpCenter.contextualSearch(searchOptions);
 
-      mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayloadResults);
+      mockSearchSender.calls.mostRecent().args[1](responsePayloadResults);
 
       expect(focusField)
         .not.toHaveBeenCalled();
@@ -491,15 +488,17 @@ describe('Help center component', function() {
     let searchFail,
         helpCenter,
         mockOnSearch,
-        mockTransport;
+        mockSearchSender;
 
     beforeEach(function() {
       searchFail = jasmine.createSpy('searchFail');
       mockOnSearch = jasmine.createSpy('mockOnSearch');
-      mockTransport = mockRegistry['service/transport'].transport;
+      mockSearchSender = jasmine.createSpy('mockSearchSender');
 
       helpCenter = React.render(
-        <HelpCenter onSearch={mockOnSearch} />,
+        <HelpCenter
+          onSearch={mockOnSearch}
+          searchSender={mockSearchSender} />,
         global.document.body
       );
     });
@@ -509,10 +508,10 @@ describe('Help center component', function() {
 
       helpCenter.performSearch('help me please');
 
-      expect(mockTransport.send)
+      expect(mockSearchSender)
         .toHaveBeenCalled();
 
-      mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayloadError);
+      mockSearchSender.calls.mostRecent().args[1](responsePayloadError);
 
       expect(helpCenter.searchFail)
         .toHaveBeenCalled();
@@ -523,10 +522,10 @@ describe('Help center component', function() {
 
       helpCenter.performSearch('help me please');
 
-      expect(mockTransport.send)
+      expect(mockSearchSender)
         .toHaveBeenCalled();
 
-      mockTransport.send.calls.mostRecent().args[0].callbacks.fail();
+      mockSearchSender.calls.mostRecent().args[2]();
 
       expect(helpCenter.searchFail)
         .toHaveBeenCalled();
@@ -539,13 +538,13 @@ describe('Help center component', function() {
 
       helpCenter.performSearch(searchString);
 
-      expect(mockTransport.send)
+      expect(mockSearchSender)
         .toHaveBeenCalled();
 
-      let recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
+      const recentCallArgs = mockSearchSender.calls.mostRecent().args[0];
 
       /* jshint camelcase: false */
-      expect(recentCallArgs.query)
+      expect(recentCallArgs)
         .toEqual(jasmine.objectContaining({
           query: searchString,
           origin: null,
@@ -553,7 +552,7 @@ describe('Help center component', function() {
           label_names: undefined
         }));
 
-      mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayloadNoResults);
+      mockSearchSender.calls.mostRecent().args[1](responsePayloadNoResults);
 
       expect(helpCenter.updateResults)
         .toHaveBeenCalledWith(responsePayloadNoResults);
@@ -566,13 +565,13 @@ describe('Help center component', function() {
 
       helpCenter.performSearch(searchString);
 
-      expect(mockTransport.send)
+      expect(mockSearchSender)
         .toHaveBeenCalled();
 
-      let recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
+      const recentCallArgs = mockSearchSender.calls.mostRecent().args[0];
 
       /* jshint camelcase: false */
-      expect(recentCallArgs.query)
+      expect(recentCallArgs)
         .toEqual(jasmine.objectContaining({
           query: searchString,
           origin: null,
@@ -580,7 +579,7 @@ describe('Help center component', function() {
           label_names: undefined
         }));
 
-      mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayloadResults);
+      mockSearchSender.calls.mostRecent().args[1](responsePayloadResults);
 
       expect(helpCenter.updateResults)
         .toHaveBeenCalledWith(responsePayloadResults);
@@ -600,13 +599,13 @@ describe('Help center component', function() {
 
       helpCenter.performSearch(searchString);
 
-      expect(mockTransport.send)
+      expect(mockSearchSender)
         .toHaveBeenCalled();
 
-      let recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
+      let recentCallArgs = mockSearchSender.calls.mostRecent().args[0];
 
       /* jshint camelcase: false */
-      expect(recentCallArgs.query)
+      expect(recentCallArgs)
         .toEqual(jasmine.objectContaining({
           query: searchString,
           origin: null,
@@ -614,15 +613,15 @@ describe('Help center component', function() {
           label_names: undefined
         }));
 
-      mockTransport.send.calls.mostRecent().args[0].callbacks.done(
+      mockSearchSender.calls.mostRecent().args[1](
         responsePayloadNoResults,
         searchLocale
       );
 
-      recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
+      recentCallArgs = mockSearchSender.calls.mostRecent().args[0];
 
       /* jshint camelcase: false */
-      expect(recentCallArgs.query)
+      expect(recentCallArgs)
         .toEqual(jasmine.objectContaining({
           query: searchString,
           origin: null,
@@ -639,13 +638,13 @@ describe('Help center component', function() {
 
       helpCenter.performSearch(searchString, forceSearch);
 
-      expect(mockTransport.send)
+      expect(mockSearchSender)
         .toHaveBeenCalled();
 
-      let recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
+      const recentCallArgs = mockSearchSender.calls.mostRecent().args[0];
 
       /* jshint camelcase: false */
-      expect(recentCallArgs.query)
+      expect(recentCallArgs)
         .toEqual(jasmine.objectContaining({
           query: searchString,
           origin: 'web_widget',
@@ -659,13 +658,13 @@ describe('Help center component', function() {
 
       helpCenter.performSearch(searchString);
 
-      expect(mockTransport.send)
+      expect(mockSearchSender)
         .toHaveBeenCalled();
 
-      let recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
+      const recentCallArgs = mockSearchSender.calls.mostRecent().args[0];
 
       /* jshint camelcase:false */
-      expect(recentCallArgs.query.per_page)
+      expect(recentCallArgs.per_page)
         .toEqual(3);
     });
 
@@ -677,7 +676,7 @@ describe('Help center component', function() {
 
       helpCenter.performSearch(searchString);
 
-      mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayloadResults);
+      mockSearchSender.calls.mostRecent().args[1](responsePayloadResults);
 
       expect(focusField)
         .toHaveBeenCalled();
@@ -686,11 +685,13 @@ describe('Help center component', function() {
 
   describe('backtrack search', function() {
     it('should send the right request params when backtracking', function() {
+      const mockSearchSender = jasmine.createSpy('mockSearchSender');
       const helpCenter = React.render(
-        <HelpCenter trackSearch={trackSearch} />,
+        <HelpCenter
+          searchSender={mockSearchSender}
+          trackSearch={trackSearch} />,
         global.document.body
       );
-      const mockTransport = mockRegistry['service/transport'].transport;
       const searchTerm = 'abcd';
 
       helpCenter.setState({
@@ -700,16 +701,12 @@ describe('Help center component', function() {
 
       helpCenter.backtrackSearch();
 
-      expect(mockTransport.send)
+      expect(mockSearchSender)
         .toHaveBeenCalledWith({
-          method: 'get',
-          path: '/api/v2/help_center/search.json',
           /* jshint camelcase:false */
-          query: {
-            query: searchTerm,
-            per_page: 0,
-            origin: 'web_widget'
-          }
+          query: searchTerm,
+          per_page: 0,
+          origin: 'web_widget'
         });
     });
 
@@ -764,7 +761,7 @@ describe('Help center component', function() {
 
       helpCenter.trackSearch = trackSearch;
 
-      helpCenter.backtrackSearch();
+     helpCenter.backtrackSearch();
 
       expect(trackSearch)
         .not.toHaveBeenCalled();
@@ -775,11 +772,13 @@ describe('Help center component', function() {
 
     it('should fire off call to search api when handleSubmit is called', function() {
       const mockOnSearch = jasmine.createSpy('mockOnSearch');
+      const mockSearchSender = jasmine.createSpy('mockSearchSender');
       const helpCenter = React.render(
-        <HelpCenter onSearch={mockOnSearch} />,
+        <HelpCenter
+          searchSender={mockSearchSender}
+          onSearch={mockOnSearch} />,
         global.document.body
       );
-      const mockTransport = mockRegistry['service/transport'].transport;
       const responsePayload = {ok: true, body: {results: [1, 2, 3], count: 3}};
 
       helpCenter.handleSubmit({preventDefault: noop});
@@ -793,13 +792,13 @@ describe('Help center component', function() {
       expect(helpCenter.state.searchTerm)
         .toEqual('Foobar');
 
-      expect(mockTransport.send)
+      expect(mockSearchSender)
         .toHaveBeenCalled();
 
       expect(searchFieldGetValue)
         .toHaveBeenCalled();
 
-      mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayload);
+      mockSearchSender.calls.mostRecent().args[1](responsePayload);
 
       expect(helpCenter.state.isLoading)
         .toBeFalsy();
@@ -811,31 +810,35 @@ describe('Help center component', function() {
     });
 
     it('should render list of results from api', function() {
+      const mockSearchSender = jasmine.createSpy('mockSearchSender');
+      const mockOnSearch = jasmine.createSpy('mockOnSearch');
       const helpCenter = React.render(
-        <HelpCenter onSearch={noop} />,
+        <HelpCenter
+          searchSender={mockSearchSender}
+          onSearch={mockOnSearch} />,
         global.document.body
       );
-      const mockTransport = mockRegistry['service/transport'].transport;
       const searchString = 'help, I\'ve fallen and can\'t get up!';
       const responsePayload = {body: {results: [1, 2, 3], count: 4}, ok: true};
       const listAnchor = ReactTestUtils.findRenderedDOMComponentWithClass(helpCenter, 'List');
 
       helpCenter.handleSubmit({preventDefault: noop}, { value: searchString });
-      mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayload);
+      mockSearchSender.calls.mostRecent().args[1](responsePayload);
 
       expect(listAnchor.props.className)
         .not.toContain('u-isHidden');
     });
 
     it('should track view and render the inline article', function() {
+      const mockSearchSender = jasmine.createSpy('mockSearchSender');
       const helpCenter = React.render(
         <HelpCenter
+          searchSender={mockSearchSender}
           onSearch={noop}
           onLinkClick={noop}
           showBackButton={noop} />,
         global.document.body
       );
-      const mockTransport = mockRegistry['service/transport'].transport;
       const mockBeacon = mockRegistry['service/beacon'].beacon;
       const searchString = 'help, I\'ve fallen and can\'t get up!';
       const responseArticle = {
@@ -858,7 +861,7 @@ describe('Help center component', function() {
 
       helpCenter.trackSearch = trackSearch;
       helpCenter.handleSubmit({preventDefault: noop}, { value: searchString });
-      mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayload);
+      mockSearchSender.calls.mostRecent().args[1](responsePayload);
 
       const listItem = ReactTestUtils
         .scryRenderedDOMComponentsWithClass(helpCenter, 'List-item')[0];
@@ -893,17 +896,19 @@ describe('Help center component', function() {
     });
 
     it('should render error message when search fails', function() {
+      const mockSearchSender = jasmine.createSpy('mockSearchSender');
       const helpCenter = React.render(
-        <HelpCenter onSearch={noop} />,
+        <HelpCenter
+          searchSender={mockSearchSender}
+          onSearch={noop} />,
         global.document.body
       );
-      const mockTransport = mockRegistry['service/transport'].transport;
       const searchString = 'help, I\'ve fallen and can\'t get up!';
       const responsePayload = {ok: false};
       const list = ReactTestUtils.findRenderedDOMComponentWithClass(helpCenter, 'List');
 
       helpCenter.handleSubmit({preventDefault: noop}, { value: searchString });
-      mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayload);
+      mockSearchSender.calls.mostRecent().args[1](responsePayload);
 
       expect(list.props.className).
         toContain('u-isHidden');
@@ -913,17 +918,19 @@ describe('Help center component', function() {
     });
 
     it('should show no results when search returns no results', function() {
+      const mockSearchSender = jasmine.createSpy('mockSearchSender');
       const helpCenter = React.render(
-        <HelpCenter onSearch={noop} />,
+        <HelpCenter
+          searchSender={mockSearchSender}
+          onSearch={noop} />,
         global.document.body
       );
-      const mockTransport = mockRegistry['service/transport'].transport;
       const searchString = 'abcd';
       const responsePayload = {body: {results: [], count: 0}};
       const list = ReactTestUtils.findRenderedDOMComponentWithClass(helpCenter, 'List');
 
       helpCenter.handleSubmit({preventDefault: noop}, { value: searchString });
-      mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayload);
+      mockSearchSender.calls.mostRecent().args[1](responsePayload);
 
       expect(helpCenter.state.searchCount)
         .toBeFalsy();
@@ -933,11 +940,11 @@ describe('Help center component', function() {
     });
 
     it('shouldn\'t call handle search if the string isn\'t valid', function() {
+      const mockSearchSender = jasmine.createSpy('mockSearchSender');
       const helpCenter = React.render(
-        <HelpCenter />,
+        <HelpCenter searchSender={mockSearchSender} />,
         global.document.body
       );
-      const mockTransport = mockRegistry['service/transport'].transport;
       const returnSearchTerm = function(term) { return term; };
       const searchStringTooShort = 'hi! ';
       const searchStringNoSpace = 'help, I\'ve fallen and can\'t get up!';
@@ -949,7 +956,7 @@ describe('Help center component', function() {
       mockGetValue = returnSearchTerm.bind(this, searchStringNoSpace);
       helpCenter.handleSearch();
 
-      expect(mockTransport.send.calls.count())
+      expect(mockSearchSender.calls.count())
         .toEqual(0);
     });
   });
@@ -1111,11 +1118,13 @@ describe('Help center component', function() {
     });
 
     it('sets focus state on searchField when search is made on desktop', function() {
+      const mockSearchSender = jasmine.createSpy('mockSearchSender');
       const helpCenter = React.render(
-        <HelpCenter onSearch={noop} />,
+        <HelpCenter
+         searchSender={mockSearchSender}
+         onSearch={noop} />,
         global.document.body
       );
-      const mockTransport = mockRegistry['service/transport'].transport;
       const searchString = 'help, I\'ve fallen and can\'t get up!';
       const responsePayload = {body: {results: [1], count: 1}, ok: true};
 
@@ -1123,7 +1132,7 @@ describe('Help center component', function() {
         .toBeFalsy();
 
       helpCenter.handleSubmit({preventDefault: noop}, { value: searchString });
-      mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayload);
+      mockSearchSender.calls.mostRecent().args[1](responsePayload);
 
       expect(helpCenter.refs.searchField.state.focused)
         .toEqual(true);
