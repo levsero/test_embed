@@ -36,14 +36,14 @@ function create(name, config) {
     const rootComponent = frame.getRootComponent();
 
     mediator.channel.broadcast('ipm.onShow');
-    rootComponent.eventSender('seen');
+    rootComponent.ipmSender('seen');
   };
 
   const onClose = (frame) => {
     const rootComponent = frame.getRootComponent();
 
     mediator.channel.broadcast('ipm.onClose');
-    rootComponent.eventSender('dismiss');
+    rootComponent.ipmSender('dismiss');
   };
 
   const transitionSet = transitionFactory.ipm;
