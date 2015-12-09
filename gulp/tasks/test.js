@@ -1,6 +1,5 @@
 const gulp = require('gulp');
 const karma = require('gulp-karma');
-const gulpJasmine = require('gulp-jasmine');
 const runSequence = require('run-sequence');
 const shell = require('gulp-shell');
 const prefix = process.cwd();
@@ -22,23 +21,6 @@ gulp.task('test:spec', function() {
     .on('error', function(err) {
       throw err;
     });
-});
-
-gulp.task('test:unit', function() {
-  return gulp.src('build/test/unit/**/*.js')
-    .pipe(gulpJasmine({
-      verbose: true,
-      includeStackTrace: true
-    }));
-});
-
-gulp.task('test', function(callback) {
-  runSequence(
-    'build:src',
-    'build:test',
-    'test:unit',
-    callback
-  );
 });
 
 gulp.task('test-spec', function(callback) {

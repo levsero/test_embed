@@ -7,7 +7,6 @@ const rimraf = require('gulp-rimraf');
 const webpack = require('webpack');
 const runSequence = require('run-sequence');
 const webpackConfig = require('../webpack.config.js');
-const babel = require('gulp-babel');
 const replace = require('gulp-replace');
 const fs = require('fs');
 const shell = require('gulp-shell');
@@ -66,18 +65,6 @@ gulp.task('build:debug', ['build:version:generate'], function(callback) {
   }
 
   return debugBuild.run(webpackCallback(callback));
-});
-
-gulp.task('build:test', function() {
-  return gulp.src(['test/**/*.js'])
-    .pipe(babel())
-    .pipe(gulp.dest('build/test'));
-});
-
-gulp.task('build:src', function() {
-  return gulp.src('src/**/*.js')
-    .pipe(babel())
-    .pipe(gulp.dest('build/src'));
 });
 
 gulp.task('build:version:generate', shell.task(

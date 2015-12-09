@@ -2,8 +2,7 @@
 // because it has 'helper' in its name.
 
 global.basePath = function(path) {
-  // return __dirname + '/../../' + path;   // Alternative path to run with jasmine-es6
-  return __dirname + '/../../../build/' + path;
+  return __dirname + '/../../' + path;
 };
 
 global.buildSrcPath = function(path) {
