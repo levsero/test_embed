@@ -5,7 +5,7 @@
     "**/*_test.js"
   ],
   "helpers": [
-    "*_helper.js",
-    "../../node_modules/jasmine-es6/lib/install.js"
+    "../../node_modules/babel/register.js",
+    "*_helper.js"
   ]
 }

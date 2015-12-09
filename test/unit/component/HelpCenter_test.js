@@ -285,7 +285,6 @@ describe('Help center component', function() {
       /* jshint camelcase: false */
       expect(recentCallArgs.query)
         .toEqual(jasmine.objectContaining({
-          query: undefined,
           label_names: searchOptions.labels.join(',')
         }));
     });
@@ -307,7 +306,6 @@ describe('Help center component', function() {
       expect(recentCallArgs.query)
         .toEqual(jasmine.objectContaining({
           query: searchOptions.search,
-          label_names: undefined
         }));
     });
 
@@ -399,9 +397,8 @@ describe('Help center component', function() {
       expect(recentCallArgs.query)
         .toEqual(jasmine.objectContaining({
           query: searchOptions.search,
-          origin: null,
           locale: undefined,
-          label_names: undefined
+          origin: null
         }));
 
       mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayloadResults);
@@ -433,7 +430,6 @@ describe('Help center component', function() {
       /* jshint camelcase: false */
       expect(recentCallArgs.query)
         .toEqual(jasmine.objectContaining({
-          query: undefined,
           origin: null,
           locale: undefined,
           label_names: searchOptions.labels.join(',')
@@ -549,8 +545,7 @@ describe('Help center component', function() {
         .toEqual(jasmine.objectContaining({
           query: searchString,
           origin: null,
-          locale: undefined,
-          label_names: undefined
+          locale: undefined
         }));
 
       mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayloadNoResults);
@@ -576,8 +571,7 @@ describe('Help center component', function() {
         .toEqual(jasmine.objectContaining({
           query: searchString,
           origin: null,
-          locale: undefined,
-          label_names: undefined
+          locale: undefined
         }));
 
       mockTransport.send.calls.mostRecent().args[0].callbacks.done(responsePayloadResults);
@@ -610,8 +604,7 @@ describe('Help center component', function() {
         .toEqual(jasmine.objectContaining({
           query: searchString,
           origin: null,
-          locale: searchLocale,
-          label_names: undefined
+          locale: searchLocale
         }));
 
       mockTransport.send.calls.mostRecent().args[0].callbacks.done(
@@ -626,8 +619,7 @@ describe('Help center component', function() {
         .toEqual(jasmine.objectContaining({
           query: searchString,
           origin: null,
-          locale: undefined,
-          label_names: undefined
+          locale: undefined
         }));
     });
 
@@ -649,8 +641,7 @@ describe('Help center component', function() {
         .toEqual(jasmine.objectContaining({
           query: searchString,
           origin: 'web_widget',
-          locale: undefined,
-          label_names: undefined
+          locale: undefined
         }));
     });
 

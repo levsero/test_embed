@@ -4,7 +4,7 @@
   "description": "3rd party embeddable framework and API",
   "main": "index.js",
   "scripts": {
-    "test": "gulp test"
+    "test": "jasmine"
   },
   "author": "Zendesk",
   "license": "All Rights Reserved",
