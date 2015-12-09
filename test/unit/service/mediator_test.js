@@ -255,20 +255,20 @@ describe('mediator', function() {
         initSubscriptionSpies(names);
         mediator.init(false);
 
-        const survey = {
-          ipm: {
+        const response = {
+          pendingCampaign: {
             id: 199
           }
         };
 
-        c.broadcast('identify.onSuccess', survey);
+        c.broadcast('identify.onSuccess', response);
 
         expect(ipmSub.setIpm)
           .toHaveBeenCalled();
 
         const params = ipmSub.setIpm.calls.mostRecent().args[0];
 
-        expect(params.ipm.id)
+        expect(params.pendingCampaign.id)
           .toEqual(199);
       });
     });
