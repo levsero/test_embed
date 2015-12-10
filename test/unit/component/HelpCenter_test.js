@@ -591,7 +591,7 @@ describe('Help center component', function() {
 
       helpCenter.updateResults = updateResults;
 
-      helpCenter.performSearch(searchString);
+      helpCenter.performSearch(searchString, searchLocale);
 
       expect(mockSearchSender)
         .toHaveBeenCalled();
@@ -622,13 +622,12 @@ describe('Help center component', function() {
         }));
     });
 
-    it('should set origin properly if forceSearch', function() {
-      const searchString = 'help me please';
+    it('should set origin properly if manualSearch', function() {
       const forceSearch = true;
 
       helpCenter.updateResults = updateResults;
 
-      helpCenter.performSearch(searchString, forceSearch);
+      helpCenter.manualSearch();
 
       expect(mockSearchSender)
         .toHaveBeenCalled();
@@ -638,9 +637,7 @@ describe('Help center component', function() {
       /* jshint camelcase: false */
       expect(recentCallArgs)
         .toEqual(jasmine.objectContaining({
-          query: searchString,
           origin: 'web_widget',
-          locale: undefined
         }));
     });
 
@@ -942,10 +939,10 @@ describe('Help center component', function() {
       let mockGetValue = helpCenter.refs.searchField.getValue;
 
       mockGetValue = returnSearchTerm.bind(this, searchStringTooShort);
-      helpCenter.handleSearch();
+      helpCenter.autoSearch();
 
       mockGetValue = returnSearchTerm.bind(this, searchStringNoSpace);
-      helpCenter.handleSearch();
+      helpCenter.autoSearch();
 
       expect(mockSearchSender.calls.count())
         .toEqual(0);

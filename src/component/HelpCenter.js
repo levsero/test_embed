@@ -97,7 +97,7 @@ export const HelpCenter = React.createClass({
 
   handleSubmit(e) {
     e.preventDefault();
-    this.handleSearch(true);
+    this.manualSearch();
   },
 
   updateResults(res) {
@@ -155,65 +155,79 @@ export const HelpCenter = React.createClass({
     };
 
     this.props.searchSender(_.extend({
-          locale: i18n.getLocale(),
-          per_page: 3,
-          origin: null
-        },
-        payload), doneCallback);
+      locale: i18n.getLocale(),
+      per_page: 3,
+      origin: null
+    },
+    payload),
+    doneCallback);
   },
 
-  performSearch(searchString, forceSearch) {
-    const search = (searchString, locale) => {
-      const doneCallback = (res) => {
-        if (res.ok) {
-          if ((locale && res.body.count > 0) || !locale) {
-            this.setState({
-              isLoading: false,
-              hasSearched: true,
-              searchFailed: false,
-              hasContextualSearched: false,
-              previousSearchTerm: this.state.searchTerm
-            });
-            this.props.onSearch({searchString: searchString, searchLocale: locale});
-            this.updateResults(res);
-            this.focusField();
-          } else {
-            search(searchString);
-          }
+  performSearch(searchString, locale, forceSearch) {
+    const doneCallback = (res) => {
+      if (res.ok) {
+        if ((locale && res.body.count > 0) || !locale) {
+          this.setState({
+            isLoading: false,
+            hasSearched: true,
+            searchFailed: false,
+            hasContextualSearched: false,
+            previousSearchTerm: this.state.searchTerm
+          });
+          this.props.onSearch({searchString: searchString, searchLocale: locale});
+          this.updateResults(res);
+          this.focusField();
         } else {
-          this.searchFail();
+          this.performSearch(searchString);
         }
-      };
-      const query = {
-        /* jshint camelcase: false */
-        locale: locale,
-        query: searchString,
-        per_page: 3,
-        origin: forceSearch ? 'web_widget' : null
-      };
-
-      this.props.searchSender(query, doneCallback, () => this.searchFail());
+      } else {
+        this.searchFail();
+      }
+    };
+    const query = {
+      /* jshint camelcase: false */
+      locale: locale,
+      query: searchString,
+      per_page: 3,
+      origin: forceSearch ? 'web_widget' : null
     };
 
-    this.setState({
-      isLoading: true,
-      searchTerm: searchString,
-      searchTracked: forceSearch,
-      searchResultClicked: false
-    });
-
-    search(searchString, i18n.getLocale());
+    this.props.searchSender(query, doneCallback, () => this.searchFail());
   },
 
-  handleSearch(forceSearch) {
+  manualSearch() {
     const searchString = this.refs.searchField.getValue();
 
     if (_.isEmpty(searchString)) {
       return;
     }
 
-    if (searchString.length >= 5 && _.last(searchString) === ' ' || forceSearch) {
-      this.performSearch(searchString, forceSearch);
+    this.setState({
+      isLoading: true,
+      searchTerm: searchString,
+      searchTracked: true,
+      searchResultClicked: false
+    });
+
+    this.performSearch(searchString, i18n.getLocale(), true);
+  },
+
+  autoSearch() {
+    const searchString = this.refs.searchField.getValue();
+
+    if (_.isEmpty(searchString)) {
+      return;
+    }
+
+    if (searchString.length >= 5 && _.last(searchString) === ' ') {
+      this.setState({
+        isLoading: true,
+        searchTerm: searchString,
+        searchTracked: false,
+        searchResultClicked: false
+      });
+
+      this.performSearch(searchString, i18n.getLocale());
     }
   },
 
@@ -416,7 +430,7 @@ export const HelpCenter = React.createClass({
                           onBlur={onBlurHandler}
                           onChangeValue={onChangeValueHandler}
                           hasSearched={this.state.hasSearched}
-                          onSearchIconClick={this.handleSearch}
+                          onSearchIconClick={this.manualSearch}
                           isLoading={this.state.isLoading} />
                       : null;
 
@@ -438,7 +452,7 @@ export const HelpCenter = React.createClass({
                                || this.state.fullscreen && !this.state.showIntroScreen))
                         ? <HelpCenterForm
                             onSubmit={this.handleSubmit}
-                            onSearch={this.handleSearch}
+                            onSearch={this.autoSearch}
                             children={searchField} />
                         : null;
 
@@ -479,7 +493,7 @@ export const HelpCenter = React.createClass({
           <div className={formClasses}>
             <HelpCenterForm
               ref='helpCenterForm'
-              onSearch={this.handleSearch}
+              onSearch={this.autoSearch}
               onSubmit={this.handleSubmit}>
               <h1 className={searchTitleClasses}>
                 {i18n.t('embeddable_framework.helpCenter.label.searchHelpCenter')}
