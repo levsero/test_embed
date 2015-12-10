@@ -43,6 +43,24 @@ export const transitionFactory = {
       easing: 'easeIn'
     })
   },
+  ipm: {
+    downShow: factoryMaker({
+      fromPosition: [0, -30, 0],
+      position: [0, 0, 0],
+      fromOpacity: 0,
+      opacity: 1,
+      easing: 'easeOut',
+      duration: 300
+    }),
+    upHide: factoryMaker({
+      fromPosition: [0, 0, 0],
+      position: [0, -30, 0],
+      fromOpacity: 1,
+      opacity: 0,
+      easing: 'easeOut',
+      duration: 300
+    })
+  },
   webWidget: {
     launcherUpShow: factoryMaker({
       fromPosition: [0, 120, 0],
