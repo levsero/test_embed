@@ -43,7 +43,7 @@ function create(name, config) {
     const rootComponent = frame.getRootComponent();
 
     mediator.channel.broadcast('ipm.onClose');
-    rootComponent.ipmSender('dismiss');
+    rootComponent.ipmSender('dismissed');
   };
 
   const transitionSet = transitionFactory.ipm;
