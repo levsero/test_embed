@@ -105,7 +105,7 @@ describe('IpmDesktop component', function() {
         .toHaveBeenCalledWith(ipmProps.ipm.message.buttonUrl, '_blank');
     });
 
-    it('should call props.eventSender', () => {
+    it('should call props.ipmSender', () => {
       component.handleOnClick();
 
       expect(ipmSenderSpy)
