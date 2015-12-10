@@ -27,10 +27,12 @@ export const Ipm = React.createClass({
 
   ipmSender(name) {
     const params = {
-      campainId: this.state.ipm.id,
-      email: this.state.ipm.recipientEmail,
-      type: name,
-      url: this.state.url
+      event: {
+        campaignId: this.state.ipm.id,
+        email: this.state.ipm.recipientEmail,
+        type: name,
+        url: this.state.url
+      }
     };
 
     this.props.ipmSender(params);
