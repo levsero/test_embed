@@ -1,5 +1,7 @@
 require('airbrake-js');
 
+const CrossOriginErrMsg = 'Origin is not allowed by Access-Control-Allow-Origin';
+
 function init() {
   Airbrake.setProject('100143', 'abcbe7f85eb9d5e1e77ec0232b62c6e3');
 }
@@ -10,7 +12,7 @@ function error(err) {
   } else {
     if (err.error.special) {
       throw err.error.message;
-    } else {
+    } else if (err.error.message !== CrossOriginErrMsg) {
       Airbrake.push(err);
     }
   }
