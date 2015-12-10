@@ -35,7 +35,7 @@ export const IpmDesktop = React.createClass({
           <div className='IpmDesktop-footer u-posRelative'>
             <ZendeskLogo
               className='IpmDesktop-footer--logo u-posStart--flush'
-              utm='embeddedipm' />
+              utm='ipm' />
             <Button
               className='u-pullRight'
               onClick={this.handleOnClick}

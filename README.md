@@ -4,7 +4,18 @@ A 3rd party embeddable framework that handles bringing Zendesk outside of the ag
 
 ## Getting started
 
-This assumes you already have node installed. Run the following commands inside this folder:
+This assumes you already have node and nvm installed.
+
+```bash
+    brew install node nvm
+```
+
+Ensure the following line is present in your bash or zsh profile:
+```
+    source $(brew --prefix nvm)/nvm.sh
+```
+
+Run the following commands inside this folder:
 
 ```bash
 ./script/bootstrap
@@ -12,7 +23,8 @@ This assumes you already have node installed. Run the following commands inside 
 
 The bootstrap file will do the following:
 
-* Install gulp, bower, jasmine-node & selenium-server globally
+* Set Node version
+* Install gulp, bower & selenium-server globally
 * Run npm install & bower install to get all dependencies
 * Run gulp build-dev to generate snippet, framework and example files
 * Setup pre-commit hook

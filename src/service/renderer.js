@@ -10,6 +10,7 @@ import { ipm }          from 'embed/ipm/ipm';
 import { i18n }         from 'service/i18n';
 import { mediator }     from 'service/mediator';
 import { logging }      from 'service/logging';
+import { isMobileBrowser } from 'utility/devices';
 
 const embedsMap = {
   'submitTicket': submitTicket,
@@ -42,7 +43,7 @@ function parseConfig(config) {
     props: {}
   };
 
-  if (__DEV__) {
+  if (!isMobileBrowser()) {
     rendererConfig.ipm = {
       embed: 'ipm',
       props: {}

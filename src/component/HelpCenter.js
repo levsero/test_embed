@@ -18,13 +18,12 @@ const classSet = React.addons.classSet;
 
 export const HelpCenter = React.createClass({
   getInitialState() {
-    /* jshint maxlen:false */
     // jscs:disable  maximumLineLength
     return {
       articles: [],
       resultsCount: 0,
       searchTerm: '',
-      buttonLabel: i18n.t(`embeddable_framework.helpCenter.submitButton.label.submitTicket.${this.props.buttonLabelKey}`),
+      buttonLabel: i18n.t(`embeddable_framework.helpCenter.submitButton.label.submitTicket.${this.props.buttonLabelKey}`), // jshint ignore:line
       fullscreen: isMobileBrowser(),
       previousSearchTerm: '',
       hasSearched: false,

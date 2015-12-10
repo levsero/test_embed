@@ -36,6 +36,7 @@ try() {
   fi
 }
 
+try "Setting node version" "nvm use"
 try "Installing gulp, bower" "npm install -g --quiet gulp bower > /dev/null"
 try "Installing npm & bower packages" "npm install --quiet > /dev/null && bower install --quiet > /dev/null"
 try "Building Engagement Framework" "gulp build-dev > /dev/null"

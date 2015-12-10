@@ -282,7 +282,6 @@ describe('Help center component', function() {
       /* jshint camelcase: false */
       expect(recentCallArgs)
         .toEqual(jasmine.objectContaining({
-          query: undefined,
           label_names: searchOptions.labels.join(',')
         }));
     });
@@ -304,7 +303,6 @@ describe('Help center component', function() {
       expect(recentCallArgs)
         .toEqual(jasmine.objectContaining({
           query: searchOptions.search,
-          label_names: undefined
         }));
     });
 
@@ -396,9 +394,8 @@ describe('Help center component', function() {
       expect(recentCallArgs)
         .toEqual(jasmine.objectContaining({
           query: searchOptions.search,
-          origin: null,
           locale: undefined,
-          label_names: undefined
+          origin: null
         }));
 
       mockSearchSender.calls.mostRecent().args[1](responsePayloadResults);
@@ -430,7 +427,6 @@ describe('Help center component', function() {
       /* jshint camelcase: false */
       expect(recentCallArgs)
         .toEqual(jasmine.objectContaining({
-          query: undefined,
           origin: null,
           locale: undefined,
           label_names: searchOptions.labels.join(',')
@@ -548,8 +544,7 @@ describe('Help center component', function() {
         .toEqual(jasmine.objectContaining({
           query: searchString,
           origin: null,
-          locale: undefined,
-          label_names: undefined
+          locale: undefined
         }));
 
       mockSearchSender.calls.mostRecent().args[1](responsePayloadNoResults);
@@ -575,8 +570,7 @@ describe('Help center component', function() {
         .toEqual(jasmine.objectContaining({
           query: searchString,
           origin: null,
-          locale: undefined,
-          label_names: undefined
+          locale: undefined
         }));
 
       mockSearchSender.calls.mostRecent().args[1](responsePayloadResults);
@@ -609,8 +603,7 @@ describe('Help center component', function() {
         .toEqual(jasmine.objectContaining({
           query: searchString,
           origin: null,
-          locale: searchLocale,
-          label_names: undefined
+          locale: searchLocale
         }));
 
       mockSearchSender.calls.mostRecent().args[1](
@@ -625,8 +618,7 @@ describe('Help center component', function() {
         .toEqual(jasmine.objectContaining({
           query: searchString,
           origin: null,
-          locale: undefined,
-          label_names: undefined
+          locale: undefined
         }));
     });
 
@@ -648,8 +640,7 @@ describe('Help center component', function() {
         .toEqual(jasmine.objectContaining({
           query: searchString,
           origin: 'web_widget',
-          locale: undefined,
-          label_names: undefined
+          locale: undefined
         }));
     });
 
