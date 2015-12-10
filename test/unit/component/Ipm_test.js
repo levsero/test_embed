@@ -54,7 +54,7 @@ describe('Ipm component', function() {
     });
 
     it('should call the this.props.ipmSender', function() {
-      component.ipmSender();
+      component.props.ipmSender();
 
       expect(ipmSenderSpy)
         .toHaveBeenCalled();

@@ -16,34 +16,32 @@ export const Ipm = React.createClass({
         id: null,
         name: '',
         type: '',
+        recipientEmail: '',
         message: {}
       },
+      url: '',
       ipmAvailable: null,
       isMobile: this.props.mobile
     };
   },
 
-  ipmSender(params, doneFn, failFn) {
-    const fail = (error) => {
-      if (failFn) {
-        failFn(error);
-      }
+  ipmSender(name) {
+    const params = {
+      campainId: this.state.ipm.id,
+      email: this.state.ipm.recipientEmail,
+      type: name,
+      url: this.state.url
     };
 
-    const done = () => {
-      if (doneFn) {
-        doneFn();
-      }
-    };
-
-    this.props.ipmSender(params, done, fail);
+    this.props.ipmSender(params);
   },
 
   render() {
     return (
       <IpmDesktop
         {...this.state}
-        updateFrameSize={this.props.updateFrameSize} />
+        updateFrameSize={this.props.updateFrameSize}
+        ipmSender={this.ipmSender} />
     );
   }
 });
