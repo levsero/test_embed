@@ -82,6 +82,11 @@ function boot() {
     // "this" is bound to the method name
     postRenderQueue.push([this, args]);
   };
+  const errorsToIgnore = [
+    'Error: Origin is not allowed by Access-Control-Allow-Origin',
+    'Error: timeout of 10000ms exceeded',
+    'Error: timeout of 60000ms exceeded',
+  ];
 
   // Firefox has an issue with calculating computed styles from within a iframe
   // with display:none. If getComputedStyle returns null we adjust the styles on
@@ -97,7 +102,7 @@ function boot() {
 
   React.initializeTouchEvents(true);
 
-  logging.init();
+  logging.init(errorsToIgnore);
 
   cacheBuster.bustCache(__EMBEDDABLE_VERSION__);
 

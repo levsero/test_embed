@@ -1,9 +1,19 @@
 require('airbrake-js');
 
-const CrossOriginErrMsg = 'Origin is not allowed by Access-Control-Allow-Origin';
+import _ from 'lodash';
 
-function init() {
+function init(errorsToIgnore) {
   Airbrake.setProject('100143', 'abcbe7f85eb9d5e1e77ec0232b62c6e3');
+  Airbrake.addFilter((notice) => {
+    let ret = notice;
+    _.forEach(notice.errors, (err) => {
+      if (errorsToIgnore.indexOf(err.message) > -1) {
+        ret = null;
+      }
+    });
+
+    return ret;
+  });
 }
 
 function error(err) {
@@ -12,7 +22,7 @@ function error(err) {
   } else {
     if (err.error.special) {
       throw err.error.message;
-    } else if (err.error.message !== CrossOriginErrMsg) {
+    } else {
       Airbrake.push(err);
     }
   }
