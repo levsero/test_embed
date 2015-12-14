@@ -154,12 +154,16 @@ export const HelpCenter = React.createClass({
       }
     };
 
-    this.props.searchSender(_.extend({
-          locale: i18n.getLocale(),
-          per_page: 3,
-          origin: null
-        },
-        payload), doneCallback);
+    const defaultParams = {
+      locale: i18n.getLocale(),
+      per_page: 3,
+      origin: null
+    };
+
+    this.props.searchSender(
+      _.extend(defaultParams, payload),
+      doneCallback
+    );
   },
 
   performSearch(searchString, forceSearch) {
