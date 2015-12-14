@@ -52,7 +52,7 @@ function send(payload) {
               secondaryText: 'Ryan from Zendesk',
               body: 'Hi Deborah, we just launched a new product called People. Would you like to try it?',
               avatarUrl: 'https://avatars3.githubusercontent.com/u/143402?v=3&s=96',
-              buttonLink: 'http://www.example.com',
+              buttonUrl: 'http://www.example.com',
               buttonText: 'Take a look!',
               color: '#1393d0'
             }

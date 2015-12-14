@@ -435,10 +435,10 @@ describe('embed.helpCenter', function() {
     it('calls transport.sendWithMeta when called', () => {
       const mockTransport = mockRegistry['service/transport'].transport;
 
-      helpCenter.create('dan');
-      helpCenter.render('dan');
+      helpCenter.create('carlos');
+      helpCenter.render('carlos');
 
-      const embed = helpCenter.get('dan').instance.getRootComponent();
+      const embed = helpCenter.get('carlos').instance.getRootComponent();
 
       embed.props.searchSender();
 

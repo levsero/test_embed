@@ -9,6 +9,7 @@ export const IpmDesktop = React.createClass({
     if (this.props.ipm.message.buttonUrl) {
       window.open(this.props.ipm.message.buttonUrl, '_blank');
     }
+    this.props.ipmSender('clicked');
   },
 
   updateFrameSize() {

@@ -20,11 +20,14 @@ describe('logging', function() {
 
   describe('#init', function() {
 
-    it('should register Airbrake id and key on init', function() {
+    it('should register Airbrake id and key on init and add errors to filter', function() {
       logging.init();
 
       expect(Airbrake.setProject)
         .toHaveBeenCalledWith('100143', 'abcbe7f85eb9d5e1e77ec0232b62c6e3');
+
+      expect(Airbrake.addFilter)
+        .toHaveBeenCalled();
     });
 
   });

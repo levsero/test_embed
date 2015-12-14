@@ -140,9 +140,7 @@ export const HelpCenter = React.createClass({
       if (res.ok && res.body.count > 0) {
         this.setState({
           isLoading: false,
-          searchTerm: (payload.query)
-                    ? payload.query
-                    : payload.label_names,
+          searchTerm: payload.query || payload.label_names,
           hasSearched: true,
           searchFailed: false,
           showIntroScreen: false,
@@ -153,14 +151,16 @@ export const HelpCenter = React.createClass({
         this.updateResults(res);
       }
     };
-
-    this.props.searchSender(_.extend({
+    const defaultParams = {
       locale: i18n.getLocale(),
       per_page: 3,
       origin: null
-    },
-    payload),
-    doneCallback);
+    };
+
+    this.props.searchSender(
+      _.extend(defaultParams, payload),
+      doneCallback
+    );
   },
 
   performSearch(searchString, locale, forceSearch) {
@@ -215,20 +215,18 @@ export const HelpCenter = React.createClass({
   autoSearch() {
     const searchString = this.refs.searchField.getValue();
 
-    if (_.isEmpty(searchString)) {
+    if (_.isEmpty(searchString) || !(searchString.length >= 5 && _.last(searchString) === ' ')) {
       return;
     }
 
-    if (searchString.length >= 5 && _.last(searchString) === ' ') {
-      this.setState({
-        isLoading: true,
-        searchTerm: searchString,
-        searchTracked: false,
-        searchResultClicked: false
-      });
+    this.setState({
+      isLoading: true,
+      searchTerm: searchString,
+      searchTracked: false,
+      searchResultClicked: false
+    });
 
-      this.performSearch(searchString, i18n.getLocale());
-    }
+    this.performSearch(searchString, i18n.getLocale());
   },
 
   handleArticleClick(articleIndex, e) {

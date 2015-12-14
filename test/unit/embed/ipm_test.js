@@ -37,7 +37,7 @@ describe('embed.ipm', () => {
       },
       'service/transport': {
         transport: {
-          sendWithMeta: jasmine.createSpy('transport.sendWithMeta'),
+          send: jasmine.createSpy('transport.send'),
           getZendeskHost: () => 'test.zd-dev.com'
         }
       },
@@ -124,7 +124,7 @@ describe('embed.ipm', () => {
   });
 
   describe('ipmSender', () => {
-    it('calls transport.sendWithMeta when called', () => {
+    it('calls transport.send when called', () => {
       const mockTransport = mockRegistry['service/transport'].transport;
 
       ipm.create('dan');
@@ -134,7 +134,7 @@ describe('embed.ipm', () => {
 
       embed.props.ipmSender();
 
-      expect(mockTransport.sendWithMeta)
+      expect(mockTransport.send)
         .toHaveBeenCalled();
     });
   });

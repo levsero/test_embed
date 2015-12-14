@@ -74,8 +74,7 @@ describe('mediator', function() {
        'showWithAnimation',
        'hide',
        'setNextToChat',
-       'setNextToSubmitTicket'
-      ]
+       'setNextToSubmitTicket']
     );
 
     npsSub = jasmine.createSpyObj(
