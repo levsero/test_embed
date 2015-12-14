@@ -22,26 +22,28 @@ function create(name, config) {
     right: 0
   };
 
-  const ipmSender = (params, doneFn, failFn) => {
+  const ipmSender = (params) => {
     const payload = {
       path: '/embeddable/ipm',
       method: 'post',
-      params: params,
-      callbacks: {
-        done: doneFn,
-        fail: failFn
-      }
+      params: params
     };
 
-    transport.sendWithMeta(payload);
+    transport.send(payload);
   };
 
-  const onShow = () => {
+  const onShow = (frame) => {
+    const rootComponent = frame.getRootComponent();
+
     mediator.channel.broadcast('ipm.onShow');
+    rootComponent.ipmSender('seen');
   };
 
-  const onClose = () => {
+  const onClose = (frame) => {
+    const rootComponent = frame.getRootComponent();
+
     mediator.channel.broadcast('ipm.onClose');
+    rootComponent.ipmSender('dismissed');
   };
 
   const transitionSet = transitionFactory.ipm;
@@ -103,7 +105,8 @@ function render(name) {
     if (ipmContent && ipmContent.id) {
       ipm.setState({
         ipm: _.extend({}, ipmContent),
-        ipmAvailable: true
+        ipmAvailable: true,
+        url: document.referrer
       });
     } else {
       ipm.setState({

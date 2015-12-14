@@ -210,7 +210,10 @@ function boot() {
 if (!cacheBuster.isCacheBusting(window.name)) {
   try {
     if (!isBlacklisted()) {
-      boot();
+      // setTimeout needed for ie10. Otherwise it calls boot too early
+      // and the other zE functions on the page aren't seen. This leads to
+      // the pre render queue being skipped which breaks zE.hide.
+      setTimeout(boot, 0);
     }
   } catch (err) {
     logging.error({

@@ -623,8 +623,6 @@ describe('Help center component', function() {
     });
 
     it('should set origin properly if manualSearch', function() {
-      const forceSearch = true;
-
       helpCenter.updateResults = updateResults;
 
       helpCenter.manualSearch();
