@@ -1,7 +1,6 @@
 import React from 'react/addons';
 import _     from 'lodash';
 
-import { transport }         from 'service/transport';
 import { HelpCenterForm }    from 'component/HelpCenterForm';
 import { HelpCenterArticle } from 'component/HelpCenterArticle';
 import { SearchField,
@@ -137,74 +136,67 @@ export const HelpCenter = React.createClass({
       return;
     }
 
-    transport.send({
-      method: 'get',
-      path: '/api/v2/help_center/search.json',
-      query: _.extend({
-          locale: i18n.getLocale(),
-          per_page: 3,
-          origin: null
-        },
-        payload
-      ),
-      callbacks: {
-        done: (res) => {
-          if (res.ok && res.body.count > 0) {
-            this.setState({
-              isLoading: false,
-              searchTerm: (payload.query)
-                        ? payload.query
-                        : payload.label_names,
-              hasSearched: true,
-              searchFailed: false,
-              showIntroScreen: false,
-              hasContextualSearched: true,
-              previousSearchTerm: this.state.searchTerm,
-              searchResultClicked: false
-            });
-            this.updateResults(res);
-          }
-        }
+    const doneCallback = (res) => {
+      if (res.ok && res.body.count > 0) {
+        this.setState({
+          isLoading: false,
+          searchTerm: (payload.query)
+                    ? payload.query
+                    : payload.label_names,
+          hasSearched: true,
+          searchFailed: false,
+          showIntroScreen: false,
+          hasContextualSearched: true,
+          previousSearchTerm: this.state.searchTerm,
+          searchResultClicked: false
+        });
+        this.updateResults(res);
       }
-    });
+    };
+
+    const defaultParams = {
+      locale: i18n.getLocale(),
+      per_page: 3,
+      origin: null
+    };
+
+    this.props.searchSender(
+      _.extend(defaultParams, payload),
+      doneCallback
+    );
   },
 
   performSearch(searchString, forceSearch) {
     const search = (searchString, locale) => {
-      transport.send({
-        method: 'get',
-        path: '/api/v2/help_center/search.json',
-        /* jshint camelcase:false */
-        query: {
-          locale: locale,
-          query: searchString,
-          per_page: 3,
-          origin: forceSearch ? 'web_widget' : null
-        },
-        callbacks: {
-          done: (res) => {
-            if (res.ok) {
-              if ((locale && res.body.count > 0) || !locale) {
-                this.setState({
-                  isLoading: false,
-                  hasSearched: true,
-                  searchFailed: false,
-                  hasContextualSearched: false,
-                  previousSearchTerm: this.state.searchTerm
-                });
-                this.props.onSearch({searchString: searchString, searchLocale: locale});
-                this.updateResults(res);
-                this.focusField();
-              } else {
-                search(searchString);
-              }
-            } else {
-              this.searchFail();
-            }
-          },
-          fail: () => this.searchFail()
+      const doneCallback = (res) => {
+        if (res.ok) {
+          if ((locale && res.body.count > 0) || !locale) {
+            this.setState({
+              isLoading: false,
+              hasSearched: true,
+              searchFailed: false,
+              hasContextualSearched: false,
+              previousSearchTerm: this.state.searchTerm
+            });
+            this.props.onSearch({searchString: searchString, searchLocale: locale});
+            this.updateResults(res);
+            this.focusField();
+          } else {
+            search(searchString);
+          }
+        } else {
+          this.searchFail();
         }
-      });
+      };
+      const query = {
+        /* jshint camelcase: false */
+        locale: locale,
+        query: searchString,
+        per_page: 3,
+        origin: forceSearch ? 'web_widget' : null
+      };
+
+      this.props.searchSender(query, doneCallback, () => this.searchFail());
     };
 
     this.setState({
@@ -252,15 +244,11 @@ export const HelpCenter = React.createClass({
   },
 
   trackSearch() {
-    transport.send({
-      method: 'get',
-      path: '/api/v2/help_center/search.json',
-      /* jshint camelcase:false */
-      query: {
-        query: this.state.searchTerm,
-        per_page: 0,
-        origin: 'web_widget'
-      }
+    this.props.searchSender({
+      /* jshint camelcase: false */
+      query: this.state.searchTerm,
+      per_page: 0,
+      origin: 'web_widget'
     });
 
     this.setState({
