@@ -20,17 +20,21 @@ export const IpmDesktop = React.createClass({
   },
 
   getAvatarElement() {
+    const props = {
+      className: 'IpmDesktop-avatar u-posAbsolute u-paddingAN u-textCenter'
+    };
+
     if (this.props.ipm.message.avatarUrl) {
       return (
         <img
-          className='IpmDesktop-avatar u-posAbsolute'
+          {...props}
           src={this.props.ipm.message.avatarUrl} />
       );
     } else {
       return (
         <Icon
-          type='Icon--avatar'
-          className='IpmDesktop-avatar u-posAbsolute' />
+          {...props}
+          type='Icon--avatar' />
       );
     }
   },

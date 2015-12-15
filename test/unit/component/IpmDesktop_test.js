@@ -104,7 +104,7 @@ describe('IpmDesktop component', function() {
         );
 
         expect(document.querySelector('img').src)
-          .toEqual(ipmProps.ipm.message.avatarUrl)
+          .toEqual(ipmProps.ipm.message.avatarUrl);
       });
 
       it('returns an Icon element when avatarUrl is falsy', () => {
@@ -118,7 +118,7 @@ describe('IpmDesktop component', function() {
         );
 
         expect(document.querySelector('.Avatar'))
-          .toBeTruthy()
+          .toBeTruthy();
       });
     });
   });
