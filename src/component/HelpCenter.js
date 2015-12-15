@@ -166,8 +166,8 @@ export const HelpCenter = React.createClass({
     );
   },
 
-  performSearch(searchString, forceSearch) {
-    const search = (searchString, locale) => {
+  performSearch(searchTerm, forceSearch) {
+    const search = (searchTerm, locale) => {
       const doneCallback = (res) => {
         if (res.ok) {
           if ((locale && res.body.count > 0) || !locale) {
@@ -178,11 +178,11 @@ export const HelpCenter = React.createClass({
               hasContextualSearched: false,
               previousSearchTerm: this.state.searchTerm
             });
-            this.props.onSearch({searchString: searchString, searchLocale: locale});
+            this.props.onSearch({searchTerm: searchTerm, searchLocale: locale});
             this.updateResults(res);
             this.focusField();
           } else {
-            search(searchString);
+            search(searchTerm);
           }
         } else {
           this.searchFail();
@@ -191,7 +191,7 @@ export const HelpCenter = React.createClass({
       const query = {
         /* jshint camelcase: false */
         locale: locale,
-        query: searchString,
+        query: searchTerm,
         per_page: 3,
         origin: forceSearch ? 'web_widget' : null
       };
@@ -201,23 +201,23 @@ export const HelpCenter = React.createClass({
 
     this.setState({
       isLoading: true,
-      searchTerm: searchString,
+      searchTerm: searchTerm,
       searchTracked: forceSearch,
       searchResultClicked: false
     });
 
-    search(searchString, i18n.getLocale());
+    search(searchTerm, i18n.getLocale());
   },
 
   handleSearch(forceSearch) {
-    const searchString = this.refs.searchField.getValue();
+    const searchTerm = this.refs.searchField.getValue();
 
-    if (_.isEmpty(searchString)) {
+    if (_.isEmpty(searchTerm)) {
       return;
     }
 
-    if (searchString.length >= 5 && _.last(searchString) === ' ' || forceSearch) {
-      this.performSearch(searchString, forceSearch);
+    if (searchTerm.length >= 5 && _.last(searchTerm) === ' ' || forceSearch) {
+      this.performSearch(searchTerm, forceSearch);
     }
   },
 
