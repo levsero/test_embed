@@ -1,6 +1,6 @@
 describe('embed.launcher', function() {
   let launcher,
-      mockRegistry;
+    mockRegistry;
   const launcherPath = buildSrcPath('embed/launcher/launcher');
 
   beforeEach(function() {
@@ -120,10 +120,10 @@ describe('embed.launcher', function() {
 
     describe('frameFactory', function() {
       let mockFrameFactory,
-          mockFrameFactoryCall,
-          frameConfig,
-          childFn,
-          params;
+        mockFrameFactoryCall,
+        frameConfig,
+        childFn,
+        params;
 
       beforeEach(function() {
         mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
@@ -303,8 +303,8 @@ describe('embed.launcher', function() {
 
     describe('mediator subscriptions', function() {
       let mockMediator,
-          alice,
-          aliceLauncher;
+        alice,
+        aliceLauncher;
 
       beforeEach(function() {
         mockMediator = mockRegistry['service/mediator'].mediator;

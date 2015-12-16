@@ -180,7 +180,6 @@ var Field = React.createClass({
         </div>
         <div className={fieldClasses}>
           {
-            /* jshint laxbreak: true */
             (this.props.input)
               ? React.addons.cloneWithProps(
                   this.props.input,
@@ -228,7 +227,6 @@ var SelectField = React.createClass({
     ];
 
     const optionGroups = _.groupBy(props.options, function(option) {
-      /* jshint laxbreak: true */
       return (option.title.indexOf('::') !== -1)
            ? option.title.split('::')[0]
            : '';
@@ -368,7 +366,6 @@ var SearchField = React.createClass({
   },
 
   render() {
-    /* jshint laxbreak:true */
     const loadingClasses = classSet({
       'u-isHidden': !this.props.isLoading
     });
@@ -402,7 +399,6 @@ var SearchField = React.createClass({
                       : i18n.t('embeddable_framework.helpCenter.search.label.how_can_we_help');
 
     return (
-      /* jshint quotmark:false */
       <div className={searchContainerClasses}>
         <label className={searchInputClasses}>
           <Icon

@@ -1,4 +1,4 @@
 var gulp = require('gulp');
 
-gulp.task('pre-commit', ['lint']);
+gulp.task('pre-commit');
 

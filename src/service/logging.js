@@ -29,6 +29,7 @@ function init() {
 
 function error(err) {
   if (__DEV__) {
+    /* eslint no-console:0 */
     console.error(err.error.message || err.error);
   } else {
     if (err.error.special) {

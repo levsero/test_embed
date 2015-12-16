@@ -1,6 +1,4 @@
 describe('npsPreview entry file', function() {
-  let mockRegistry;
-
   const npsPath = buildSrcPath('npsPreview');
 
   beforeEach(function() {
@@ -8,7 +6,7 @@ describe('npsPreview entry file', function() {
 
     mockery.enable();
 
-    mockRegistry = initMockRegistry({
+    initMockRegistry({
       'react/addons': React,
       'embed/frameFactory': {
         frameFactory: require(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
@@ -23,7 +21,6 @@ describe('npsPreview entry file', function() {
             };
           },
           render() {
-            /* jshint laxbreak: true */
             return (this.state.isMobile)
               ? <div className='nps-mobile'>{this.state.survey.question}</div>
               : <div className='nps-desktop'>{this.state.survey.question}</div>;

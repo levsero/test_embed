@@ -1,13 +1,8 @@
-/* jshint curly: false */
 // Code taken from http://www.lognormal.com/blog/2012/12/12/the-script-loader-pattern/
 window.zEmbed || (function(url, host) {
 
   // Part 1: Creating and appending <iframe /> to the document
-  var dom,
-      doc,
-      where,
-      iWin,
-      iDoc;
+  var dom, doc, where, iWin, iDoc;
   var queue = [];
   var iframe = document.createElement('iframe');
 

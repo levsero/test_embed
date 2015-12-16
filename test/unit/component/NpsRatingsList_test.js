@@ -1,9 +1,8 @@
 describe('NpsRatingsList component', () => {
   let NpsRatingsList,
-      mockRegistry,
-      component,
-      ratingsRange,
-      npsRatingsListProps;
+    component,
+    ratingsRange,
+    npsRatingsListProps;
 
   const npsPath = buildSrcPath('component/NpsRatingsList');
 
@@ -25,7 +24,7 @@ describe('NpsRatingsList component', () => {
 
     mockery.enable();
 
-    mockRegistry = initMockRegistry({
+    initMockRegistry({
       'react/addons': React,
       'component/Button': {
         'ButtonRating': React.createClass({

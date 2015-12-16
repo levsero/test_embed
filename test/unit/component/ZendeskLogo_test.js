@@ -1,7 +1,5 @@
 describe('ZendeskLogo component', function() {
-
-  let mockRegistry,
-      ZendeskLogo;
+  let ZendeskLogo;
   const zendeskLogoPath = buildSrcPath('component/ZendeskLogo');
 
   beforeEach(function() {
@@ -12,7 +10,7 @@ describe('ZendeskLogo component', function() {
       useCleanCache: true
     });
 
-    mockRegistry = initMockRegistry({
+    initMockRegistry({
       'react/addons': React,
       'component/Icon': {
         Icon: noopReactComponent()

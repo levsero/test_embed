@@ -108,7 +108,7 @@ export const Nps = React.createClass({
 
   updateRating(rating) {
     this.setState({
-      response: _.extend({}, this.state.response, { rating }),
+      response: _.extend({}, this.state.response, { rating })
     });
   },
 
@@ -130,7 +130,6 @@ export const Nps = React.createClass({
   },
 
   render() {
-    /* jshint laxbreak: true */
     return (this.state.isMobile)
       ? <NpsMobile
           ref='mobile'

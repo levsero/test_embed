@@ -1,9 +1,8 @@
 describe('IpmDesktop component', function() {
   let IpmDesktop,
-      mockRegistry,
-      ipmProps,
-      component,
-      ipmSenderSpy;
+    ipmProps,
+    component,
+    ipmSenderSpy;
 
   const ipmPath = buildSrcPath('component/IpmDesktop');
 
@@ -28,14 +27,14 @@ describe('IpmDesktop component', function() {
 
     mockery.enable();
 
-    mockRegistry = initMockRegistry({
+    initMockRegistry({
       'react/addons': React,
       'component/Container': {
         Container: React.createClass({
           render: function() {
             return <div>{this.props.children}</div>;
           }
-        }),
+        })
       },
       'component/Button': {
         Button: noopReactComponent()

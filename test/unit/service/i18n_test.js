@@ -1,6 +1,6 @@
 describe('i18n', function() {
   let i18n,
-      mockRegistry;
+    mockRegistry;
   const i18nPath = buildSrcPath('service/i18n');
 
   beforeEach(function() {
@@ -102,7 +102,6 @@ describe('i18n', function() {
     });
 
     it('should return the correct locale_id for de-de', function() {
-      /* jshint sub: true */
       i18n.setLocale('de-de');
       expect(i18n.getLocaleId()).toEqual(localeIdMap['de']);
     });
