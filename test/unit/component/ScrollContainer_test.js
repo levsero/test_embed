@@ -1,6 +1,5 @@
 describe('ScrollContainer component', function() {
-  let ScrollContainer,
-      mockRegistry;
+  let ScrollContainer;
   const containerPath = buildSrcPath('component/ScrollContainer');
 
   beforeEach(function() {
@@ -11,8 +10,8 @@ describe('ScrollContainer component', function() {
       useCleanCache: true
     });
 
-    mockRegistry = initMockRegistry({
-      'react/addons': React,
+    initMockRegistry({
+      'react/addons': React
     });
 
     mockery.registerAllowable(containerPath);

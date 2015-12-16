@@ -44,7 +44,6 @@ var mockFrameFactory = jasmine.createSpy('mockFrameFactory').and.callFake(
       },
       render: function() {
         return (
-          /* jshint quotmark:false */
           <div ref='frame' className='mock-frame'><Component /></div>
         );
       }

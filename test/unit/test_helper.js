@@ -41,6 +41,7 @@ global.noop = function() {};
 
 // TODO: This suppresses the warnings and errors in put tests for now.
 // Once the components and component tests are refactored this should be removed.
+/* eslint no-console:0 */
 console.warn = console.error = noop;
 
 global.resetDOM = function() {

@@ -52,7 +52,6 @@ function hide() {
 }
 
 function render(name) {
-  /* jshint maxlen: false, unused:false, quotmark:false */
   const config = get(name).config;
   const zopimId = config.zopimId;
   const snippet = `
@@ -118,8 +117,7 @@ function render(name) {
 }
 
 function init(name) {
-  let zopimShow,
-      zopimHide;
+  let zopimShow, zopimHide;
   let zopimApiOverwritten = false;
   const zopim = win.$zopim;
   const chat = get(name);

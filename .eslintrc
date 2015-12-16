@@ -1,0 +1,95 @@
+{
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true,
+    "jasmine": true
+  },
+  "extends": "eslint:recommended",
+  "ecmaFeatures": {
+    "jsx": true,
+    "experimentalObjectRestSpread": true
+  },
+  "plugins": [
+    "react"
+  ],
+  "root": true,
+  "parser": "babel-eslint",
+  "globals": {
+    "_": true,
+    "__DEV__": true,
+    "__EMBEDDABLE_VERSION__": true,
+    "addCustomCommands": true,
+    "Airbrake": true,
+    "basePath": true,
+    "buildTestPath": true,
+    "buildSrcPath": true,
+    "initMockRegistry": true,
+    "jsdom": true,
+    "mockery": true,
+    "noop": true,
+    "noopReactComponent": true,
+    "pluckSubscribeCall": true,
+    "React": true,
+    "ReactTestUtils": true,
+    "requireUncached": true,
+    "resetDOM": true,
+    "webdrivercss": true,
+    "webdriverio": true
+  },
+  "rules": {
+    "indent": [
+      2,
+      2
+    ],
+    "quotes": [
+      2,
+      "single",
+      "avoid-escape"
+    ],
+    "linebreak-style": [
+      2,
+      "unix"
+    ],
+    "semi": [
+      2,
+      "always"
+    ],
+    "strict": 0,
+    "no-empty": 0,
+    "no-multiple-empty-lines": [
+      2,
+      {
+        "max": 1
+      }
+    ],
+    "no-trailing-spaces": 2,
+    "no-mixed-spaces-and-tabs": 2,
+    "eol-last": 2,
+    "max-len": [
+      2, 
+      120, 
+      4,
+      {
+        "ignoreComments": true, 
+        "ignoreUrls": true
+      }
+    ],
+    "react/jsx-boolean-value": 0,
+    "react/jsx-curly-spacing": 0,
+    "react/jsx-no-undef": 0,
+    "react/jsx-uses-react": 0,
+    "react/jsx-uses-vars": 2,
+    "react/no-danger": 0,
+    "react/no-did-mount-set-state": 0,
+    "react/no-did-update-set-state": 0,
+    "react/no-multi-comp": 0,
+    "react/no-unknown-property": 0,
+    "react/prop-types": 0,
+    "react/react-in-jsx-scope": 0,
+    "react/require-extension": 0,
+    "react/self-closing-comp": 0,
+    "react/sort-comp": 0,
+    "react/wrap-multilines": 0
+  }
+}

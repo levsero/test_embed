@@ -15,7 +15,7 @@ import snabbt                  from 'snabbt.js';
 const classSet = React.addons.classSet;
 const baseCSS = require('baseCSS');
 const mainCSS = require('mainCSS');
-const sizingRatio = 12 * getSizingRatio(false, true); /* jshint ignore:line */
+const sizingRatio = 12 * getSizingRatio(false, true);
 const baseFontCSS = `html { font-size: ${sizingRatio}px }`;
 
 function validateChildFn(childFn, params) {
@@ -132,7 +132,6 @@ export var frameFactory = function(childFn, _params) {
       }
 
       const dimensions = function() {
-        /* jshint laxbreak: true */
         const el = frameDoc.body.firstChild;
         const width  = Math.max(el.clientWidth,  el.offsetWidth);
         const height = Math.max(el.clientHeight, el.offsetHeight);
@@ -258,7 +257,6 @@ export var frameFactory = function(childFn, _params) {
     },
 
     computeIframeStyle: function() {
-      /* jshint laxbreak: true */
       const visibilityRule = (this.state.visible && !this.state.hiddenByZoom)
                            ? null
                            : {top: '-9999px',
@@ -317,7 +315,6 @@ export var frameFactory = function(childFn, _params) {
           html.setAttribute('lang', i18n.getLocale());
         }
 
-        /* jshint laxbreak: true */
         const cssText = baseCSS + mainCSS + params.css + baseFontCSS;
         const css = <style dangerouslySetInnerHTML={{ __html: cssText }} />;
         const fullscreen = params.fullscreenable && params.isMobile;

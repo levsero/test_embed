@@ -18,12 +18,12 @@ const classSet = React.addons.classSet;
 
 export const HelpCenter = React.createClass({
   getInitialState() {
-    // jscs:disable  maximumLineLength
+    /* eslint max-len:0 */
     return {
       articles: [],
       resultsCount: 0,
       searchTerm: '',
-      buttonLabel: i18n.t(`embeddable_framework.helpCenter.submitButton.label.submitTicket.${this.props.buttonLabelKey}`), // jshint ignore:line
+      buttonLabel: i18n.t(`embeddable_framework.helpCenter.submitButton.label.submitTicket.${this.props.buttonLabelKey}`),
       fullscreen: isMobileBrowser(),
       previousSearchTerm: '',
       hasSearched: false,
@@ -124,8 +124,6 @@ export const HelpCenter = React.createClass({
   contextualSearch(options) {
     let payload = {};
 
-    /* jshint laxbreak: true */
-    /* jshint camelcase: false */
     if (options.hasOwnProperty('search') && options.search) {
       payload.query = options.search;
     } else if (options.hasOwnProperty('labels')
@@ -189,7 +187,6 @@ export const HelpCenter = React.createClass({
         }
       };
       const query = {
-        /* jshint camelcase: false */
         locale: locale,
         query: searchTerm,
         per_page: 3,
@@ -245,7 +242,6 @@ export const HelpCenter = React.createClass({
 
   trackSearch() {
     this.props.searchSender({
-      /* jshint camelcase: false */
       query: this.state.searchTerm,
       per_page: 0,
       origin: 'web_widget'
@@ -288,7 +284,6 @@ export const HelpCenter = React.createClass({
   },
 
   render() {
-    /* jshint quotmark:false */
     const listClasses = classSet({
       'List': true,
       'u-isHidden': !this.state.articles.length,
@@ -327,7 +322,6 @@ export const HelpCenter = React.createClass({
 
     const articleTemplate = function(article, index) {
       return (
-        /* jshint camelcase:false */
         <li key={_.uniqueId('article_')} className={listItemClasses}>
           <a className='u-userTextColor'
              href={article.html_url}
@@ -356,8 +350,7 @@ export const HelpCenter = React.createClass({
     const mobileHideLogoState = this.state.fullscreen && this.state.hasSearched;
     const hideZendeskLogo = this.props.hideZendeskLogo || mobileHideLogoState;
 
-    let linkLabel,
-        linkContext;
+    let linkLabel, linkContext;
 
     if (this.props.updateFrameSize) {
       setTimeout( () => this.props.updateFrameSize(), 0);
@@ -385,7 +378,7 @@ export const HelpCenter = React.createClass({
         'u-textSecondary': true,
         'u-marginBL': !this.state.fullscreen
       });
-      /* jshint laxbreak: true */
+      /* eslint indent:0 */
       const title = (this.state.searchFailed)
                   ? i18n.t('embeddable_framework.helpCenter.search.error.title')
                   : i18n.t('embeddable_framework.helpCenter.search.noResults.title', {
@@ -407,7 +400,6 @@ export const HelpCenter = React.createClass({
       );
     };
 
-    /* jshint laxbreak: true */
     const zendeskLogo = !hideZendeskLogo
                       ? <ZendeskLogo rtl={i18n.isRTL()} fullscreen={this.state.fullscreen} />
                       : null;
@@ -460,7 +452,6 @@ export const HelpCenter = React.createClass({
                         : i18n.t('embeddable_framework.helpCenter.label.results');
 
     return (
-      /* jshint laxbreak: true */
       <Container
         style={this.props.style}
         fullscreen={this.state.fullscreen}>

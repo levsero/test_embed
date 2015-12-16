@@ -1,8 +1,7 @@
 describe('HelpCenterForm component', function() {
   let HelpCenterForm,
-      onSubmit,
-      onSearch,
-      mockRegistry;
+    onSubmit,
+    onSearch;
   const helpCenterFormPath = buildSrcPath('component/HelpCenterForm');
 
   beforeEach(function() {
@@ -17,7 +16,7 @@ describe('HelpCenterForm component', function() {
       useCleanCache: true
     });
 
-    mockRegistry = initMockRegistry({
+    initMockRegistry({
       'react/addons': React,
       'component/Loading': {
         LoadingEllipses: noopReactComponent()

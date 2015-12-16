@@ -20,7 +20,6 @@ var HelpCenterForm = React.createClass({
   },
 
   render() {
-    /* jshint quotmark:false */
     return (
       <form
         noValidate

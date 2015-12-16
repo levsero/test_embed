@@ -1,7 +1,6 @@
 describe('HelpCenterArticle component', function() {
   let HelpCenterArticle,
-      mockRegistry,
-      scrollIntoView;
+    scrollIntoView;
   const helpCenterArticlePath = buildSrcPath('component/HelpCenterArticle');
   const mockArticle = {
     body: `
@@ -28,11 +27,11 @@ describe('HelpCenterArticle component', function() {
       useCleanCache: true
     });
 
-    mockRegistry = initMockRegistry({
+    initMockRegistry({
       'react/addons': React,
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', [
-          't',
+          't'
         ])
       },
       'imports?_=lodash!lodash': _,

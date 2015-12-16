@@ -24,9 +24,9 @@ function send(payload) {
     // MOCK RESPONSES FOR PROTOTYPE TESTING
     //
     if (payload.path === '/embeddable/identify') {
+        /* eslint no-console:0 */
       console.log(payload.params, payload.method, payload.path);
       setTimeout(function() {
-        /* jshint ignore:start */
         const npsSurvey = {
           npsSurvey: {
             commentsQuestion: 'Can you tell us why?',
@@ -65,7 +65,6 @@ function send(payload) {
         payload.callbacks.done({
           body: loadNPS ? npsSurvey : ipm
         });
-        /* jshint ignore:end */
       }, 3000);
 
       return;

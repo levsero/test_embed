@@ -56,7 +56,6 @@ export const NpsDesktop = React.createClass({
       setTimeout(() => { this.props.updateFrameSize(); }, 0);
     }
 
-    /* jshint laxbreak: true */
     const npsRatings = _.range(11);
     const hideZendeskLogo = this.props.hideZendeskLogo;
     const hideRatingsLegend = this.state.currentPage.addingComment;

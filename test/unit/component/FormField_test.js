@@ -1,12 +1,11 @@
 describe('FormField component', function() {
-  let mockRegistry,
-      onSearch,
-      onChangeValue,
-      onClick,
-      SearchField,
-      SearchFieldButton,
-      Field,
-      getCustomFields;
+  let onSearch,
+    onChangeValue,
+    onClick,
+    SearchField,
+    SearchFieldButton,
+    Field,
+    getCustomFields;
   const formFieldPath = buildSrcPath('component/FormField');
 
   beforeEach(function() {
@@ -22,7 +21,7 @@ describe('FormField component', function() {
       useCleanCache: true
     });
 
-    mockRegistry = initMockRegistry({
+    initMockRegistry({
       'react/addons': React,
       'component/Loading': {
         LoadingEllipses: noopReactComponent()
