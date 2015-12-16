@@ -4,6 +4,8 @@
   "description": "3rd party embeddable framework and API",
   "main": "index.js",
   "scripts": {
+    "prebuild-examples": "uglifyjs --compress --mangle -- ./src/bootstrap.js > ./dist/bootstrap.js",
+    "build-examples": "node script/build-examples.js",
     "test": "jasmine JASMINE_CONFIG_PATH=test/jasmine.json"
   },
   "author": "Zendesk",
@@ -31,6 +33,7 @@
     "es5-shim": "~3.4.0",
     "esprima-fb": "^15001.1.0-dev-harmony-fb",
     "express": "~4.3.2",
+    "glob": "^6.0.1",
     "gulp": "~3.8.0",
     "gulp-concat": "~2.2.0",
     "gulp-inline-source": "0.0.2",
@@ -46,6 +49,7 @@
     "gulp-uglify": "~0.2.1",
     "gulp-util": "^2.2.14",
     "imports-loader": "~0.6.2",
+    "inline-source": "^4.2.2",
     "jasmine": "^2.4.1",
     "jasmine-ajax": "git://github.com/pivotal/jasmine-ajax#v2.0.0.rc2",
     "jsdom": "~3.1.2",
@@ -67,6 +71,7 @@
     "svgo": "~0.5.3",
     "svgo-loader": "~1.1.0",
     "tiny-lr": "0.0.7",
+    "uglify-js": "^2.6.1",
     "url-loader": "~0.5.5",
     "webpack": "^1.1.8",
     "when": "~3.4.4"
