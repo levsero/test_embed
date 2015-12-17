@@ -16,6 +16,33 @@ import { beacon }            from 'service/beacon';
 
 const classSet = React.addons.classSet;
 
+const searchStartState = (state) => {
+  return _.extend({
+    isLoading: true,
+    searchResultClicked: false
+  }, state);
+};
+
+const searchCompleteState = (state) => {
+  return _.extend({
+    hasSearched: true,
+    isLoading: false,
+    searchFailed: false,
+    searchResultClicked: false
+  }, state);
+};
+
+const interactiveSearchSuccessFn = function(res, query) {
+  this.setState(searchCompleteState({
+    hasContextualSearched: false,
+    previousSearchTerm: this.state.searchTerm
+  }));
+
+  this.props.onSearch({searchString: query.query, searchLocale: query.locale});
+  this.updateResults(res);
+  this.focusField();
+};
+
 export const HelpCenter = React.createClass({
   getInitialState() {
     // jscs:disable  maximumLineLength
@@ -95,11 +122,6 @@ export const HelpCenter = React.createClass({
     return `https://${this.props.zendeskHost}/hc/search?query=${this.state.searchTerm}`;
   },
 
-  handleSubmit(e) {
-    e.preventDefault();
-    this.manualSearch();
-  },
-
   updateResults(res) {
     const json = res.body;
     const articles = json.results;
@@ -122,80 +144,48 @@ export const HelpCenter = React.createClass({
   },
 
   contextualSearch(options) {
-    let payload = {};
-
-    /* jshint laxbreak: true */
     /* jshint camelcase: false */
-    if (options.hasOwnProperty('search') && options.search) {
-      payload.query = options.search;
-    } else if (options.hasOwnProperty('labels')
-                && Array.isArray(options.labels)
-                && options.labels.length > 0) {
-      payload.label_names = options.labels.join(',');
+
+    const useSearchKey = (options) => {
+      return options.hasOwnProperty('search')
+        && options.search;
+    }
+
+    const useLabelsKey = (options) => {
+      return options.hasOwnProperty('labels')
+        && Array.isArray(options.labels)
+        && options.labels.length > 0;
+    }
+
+    const query = {};
+
+    let searchTerm;
+
+    if (useSearchKey(options)) {
+      searchTerm = searchParams.query = options.search;
+    } else if (useLabelsKey(options)) {
+      searchTerm = searchParams.label_names = options.labels.join(',');
     } else {
       return;
     }
 
-    const doneCallback = (res) => {
-      if (res.ok && res.body.count > 0) {
-        this.setState({
-          isLoading: false,
-          searchTerm: (payload.query)
-                    ? payload.query
-                    : payload.label_names,
-          hasSearched: true,
-          searchFailed: false,
-          showIntroScreen: false,
-          hasContextualSearched: true,
-          previousSearchTerm: this.state.searchTerm,
-          searchResultClicked: false
-        });
-        this.updateResults(res);
-      }
+    const successFn = (res, query) => {
+      this.setState(searchCompleteState({
+        searchTerm: searchTerm,
+        showIntroScreen: false,
+        hasContextualSearched: true,
+        previousSearchTerm: this.state.searchTerm
+      }));
+      this.updateResults(res);
     };
 
-    const defaultParams = {
+    _.extend(query, {
       locale: i18n.getLocale(),
       per_page: 3,
       origin: null
-    };
+    });
 
-    this.props.searchSender(
-      _.extend(defaultParams, payload),
-      doneCallback
-    );
-  },
-
-  performSearch(searchString, locale, forceSearch) {
-    const doneCallback = (res) => {
-      if (res.ok) {
-        if ((locale && res.body.count > 0) || !locale) {
-          this.setState({
-            isLoading: false,
-            hasSearched: true,
-            searchFailed: false,
-            hasContextualSearched: false,
-            previousSearchTerm: this.state.searchTerm
-          });
-          this.props.onSearch({searchString: searchString, searchLocale: locale});
-          this.updateResults(res);
-          this.focusField();
-        } else {
-          this.performSearch(searchString);
-        }
-      } else {
-        this.searchFail();
-      }
-    };
-    const query = {
-      /* jshint camelcase: false */
-      locale: locale,
-      query: searchString,
-      per_page: 3,
-      origin: forceSearch ? 'web_widget' : null
-    };
-
-    this.props.searchSender(query, doneCallback, () => this.searchFail());
+    this.performSearch(query, successFn, false);
   },
 
   manualSearch() {
@@ -205,33 +195,64 @@ export const HelpCenter = React.createClass({
       return;
     }
 
-    this.setState({
-      isLoading: true,
-      searchTerm: searchString,
-      searchTracked: true,
-      searchResultClicked: false
-    });
+    const query = {
+      /* jshint camelcase: false */
+      locale: i18n.getLocale(),
+      query: searchString,
+      per_page: 3,
+      origin: 'web_widget'
+    };
 
-    this.performSearch(searchString, i18n.getLocale(), true);
+    this.setState(
+      searchStartState({
+        searchTerm: searchString,
+        searchTracked: true
+      })
+    );
+
+    this.performSearch(query, interactiveSearchSuccessFn, true);
   },
 
   autoSearch() {
     const searchString = this.refs.searchField.getValue();
 
-    if (_.isEmpty(searchString)) {
+    if (_.isEmpty(searchString) ||
+        !(searchString.length >= 5 && _.last(searchString) === ' ')) {
       return;
     }
 
-    if (searchString.length >= 5 && _.last(searchString) === ' ') {
-      this.setState({
-        isLoading: true,
-        searchTerm: searchString,
-        searchTracked: false,
-        searchResultClicked: false
-      });
+    const query = {
+      /* jshint camelcase: false */
+      locale: i18n.getLocale(),
+      query: searchString,
+      per_page: 3,
+      origin: null
+    };
 
-      this.performSearch(searchString, i18n.getLocale());
-    }
+    this.setState(
+      searchStartState({
+        searchTerm: searchString,
+        searchTracked: false
+      })
+    );
+
+    this.performSearch(query, interactiveSearchSuccessFn, true);
+  },
+
+  performSearch(query, successFn, localeFallback = false) {
+    const doneFn = (res) => {
+      if (res.ok) {
+        if ((query.locale && res.body.count > 0) || !localeFallback) {
+          successFn.bind(this)(res, query);
+        } else if (localeFallback) {
+          this.performSearch(_.omit(query, 'locale'), successFn);
+        }
+      } else {
+        this.searchFail();
+      }
+    };
+
+    this.props.searchSender(query, doneFn, () => this.searchFail());
   },
 
   handleArticleClick(articleIndex, e) {
@@ -454,7 +475,7 @@ export const HelpCenter = React.createClass({
                            && (!this.state.fullscreen && this.state.hasSearched
                                || this.state.fullscreen && !this.state.showIntroScreen))
                         ? <HelpCenterForm
-                            onSubmit={this.handleSubmit}
+                            onSubmit={this.manualSearch}
                             onSearch={this.autoSearch}
                             children={searchField} />
                         : null;
@@ -497,7 +518,7 @@ export const HelpCenter = React.createClass({
             <HelpCenterForm
               ref='helpCenterForm'
               onSearch={this.autoSearch}
-              onSubmit={this.handleSubmit}>
+              onSubmit={this.manualSearch}>
               <h1 className={searchTitleClasses}>
                 {i18n.t('embeddable_framework.helpCenter.label.searchHelpCenter')}
               </h1>

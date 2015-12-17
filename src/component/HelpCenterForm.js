@@ -15,8 +15,19 @@ var HelpCenterForm = React.createClass({
     };
   },
 
-  handleUpdate() {
-    this.props.onSearch();
+  handleSubmit(e) {
+    e.preventDefault();
+
+    // nextTick so that latest values show up on
+    // searchField.getValue() in HelpCenter.*Search()
+    setTimeout(this.props.onSubmit, 0);
+  },
+
+  handleChange() {
+
+    // nextTick so that latest values show up on
+    // searchField.getValue() in HelpCenter.*Search()
+    setTimeout(this.props.onSearch, 0);
   },
 
   render() {
@@ -24,8 +35,8 @@ var HelpCenterForm = React.createClass({
     return (
       <form
         noValidate
-        onSubmit={this.props.onSubmit}
-        onChange={this.handleUpdate}
+        onSubmit={this.handleSubmit}
+        onChange={this.handleChange}
         className='Form u-cf'>
         {this.props.children}
       </form>
