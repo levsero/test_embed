@@ -37,6 +37,9 @@
     "webdrivercss": true,
     "webdriverio": true
   },
+  ecmaFeatures {
+    jsx: true
+  },
   "rules": {
     "indent": [
       2,
