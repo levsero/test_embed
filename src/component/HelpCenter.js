@@ -476,7 +476,7 @@ export const HelpCenter = React.createClass({
                                || this.state.fullscreen && !this.state.showIntroScreen))
                         ? <HelpCenterForm
                             onSubmit={this.manualSearch}
-                            onSearch={this.autoSearch}
+                            onChange={this.autoSearch}
                             children={searchField} />
                         : null;
 
@@ -517,7 +517,7 @@ export const HelpCenter = React.createClass({
           <div className={formClasses}>
             <HelpCenterForm
               ref='helpCenterForm'
-              onSearch={this.autoSearch}
+              onChange={this.autoSearch}
               onSubmit={this.manualSearch}>
               <h1 className={searchTitleClasses}>
                 {i18n.t('embeddable_framework.helpCenter.label.searchHelpCenter')}
