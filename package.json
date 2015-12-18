@@ -4,6 +4,12 @@
   "description": "3rd party embeddable framework and API",
   "main": "index.js",
   "scripts": {
+    "build:version:generate": "git rev-parse --short HEAD > ./dist/VERSION_HASH",
+    "build:version:clean": "rm -rf ./dist/VERSION_HASH",
+    "prebuild:debug": "npm run build:version:generate",
+    "prebuild:prod": "npm run build:version:generate",
+    "build:debug": "webpack --config=./webpack.dev.config.js",
+    "build:prod": "webpack --config=./webpack.prod.config.js",
     "test": "jasmine JASMINE_CONFIG_PATH=test/jasmine.json"
   },
   "author": "Zendesk",
