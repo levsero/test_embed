@@ -16,33 +16,6 @@ import { beacon }            from 'service/beacon';
 
 const classSet = React.addons.classSet;
 
-const searchStartState = (state) => {
-  return _.extend({
-    isLoading: true,
-    searchResultClicked: false
-  }, state);
-};
-
-const searchCompleteState = (state) => {
-  return _.extend({
-    hasSearched: true,
-    isLoading: false,
-    searchFailed: false,
-    searchResultClicked: false
-  }, state);
-};
-
-const interactiveSearchSuccessFn = function(res, query) {
-  this.setState(searchCompleteState({
-    hasContextualSearched: false,
-    previousSearchTerm: this.state.searchTerm
-  }));
-
-  this.props.onSearch({searchTerm: query.query, searchLocale: query.locale});
-  this.updateResults(res);
-  this.focusField();
-};
-
 export const HelpCenter = React.createClass({
   getInitialState() {
     // jscs:disable  maximumLineLength
@@ -122,61 +95,70 @@ export const HelpCenter = React.createClass({
     return `https://${this.props.zendeskHost}/hc/search?query=${this.state.searchTerm}`;
   },
 
-  updateResults(res) {
-    const json = res.body;
-    const articles = json.results;
-
-    this.setState({
-      articles: articles,
-      resultsCount: json.count
-    });
+  searchStartState(state) {
+    return _.extend({
+      isLoading: true,
+      searchResultClicked: false
+    }, state);
   },
 
-  searchFail() {
-    this.setState({
-      isLoading: false,
-      previousSearchTerm: this.state.searchTerm,
+  searchCompleteState(state) {
+    return _.extend({
       hasSearched: true,
-      searchFailed: true
-    });
+      isLoading: false,
+      searchFailed: false,
+      searchResultClicked: false
+    }, state);
+  },
 
+  interactiveSearchSuccessFn(res, query) {
+    this.setState(this.searchCompleteState({
+      hasContextualSearched: false,
+      previousSearchTerm: this.state.searchTerm
+    }));
+
+    this.props.onSearch({searchTerm: query.query, searchLocale: query.locale});
+    this.updateResults(res);
     this.focusField();
   },
 
   contextualSearch(options) {
-    /* jshint camelcase: false */
+    /* jshint camelcase:false, laxbreak:true */
 
     const useSearchKey = (options) => {
       return options.hasOwnProperty('search')
         && options.search;
-    }
+    };
 
     const useLabelsKey = (options) => {
       return options.hasOwnProperty('labels')
         && Array.isArray(options.labels)
         && options.labels.length > 0;
-    }
+    };
 
     const query = {};
 
     let searchTerm;
 
     if (useSearchKey(options)) {
-      searchTerm = searchParams.query = options.search;
+      searchTerm = query.query = options.search;
     } else if (useLabelsKey(options)) {
-      searchTerm = searchParams.label_names = options.labels.join(',');
+      searchTerm = query.label_names = options.labels.join(',');
     } else {
       return;
     }
 
-    const successFn = (res, query) => {
-      this.setState(searchCompleteState({
-        searchTerm: searchTerm,
-        showIntroScreen: false,
-        hasContextualSearched: true,
-        previousSearchTerm: this.state.searchTerm
-      }));
-      this.updateResults(res);
+    const successFn = (res) => {
+      if (res.body.count > 0) {
+        this.setState(
+          this.searchCompleteState({
+            searchTerm: searchTerm,
+            showIntroScreen: false,
+            hasContextualSearched: true,
+            previousSearchTerm: this.state.searchTerm
+          }));
+        this.updateResults(res);
+      }
     };
 
     _.extend(query, {
@@ -204,13 +186,13 @@ export const HelpCenter = React.createClass({
     };
 
     this.setState(
-      searchStartState({
+      this.searchStartState({
         searchTerm: searchTerm,
         searchTracked: true
       })
     );
 
-    this.performSearch(query, interactiveSearchSuccessFn, true);
+    this.performSearch(query, this.interactiveSearchSuccessFn, true);
   },
 
   autoSearch() {
@@ -230,21 +212,42 @@ export const HelpCenter = React.createClass({
     };
 
     this.setState(
-      searchStartState({
+      this.searchStartState({
         searchTerm: searchTerm,
         searchTracked: false
       })
     );
 
-    this.performSearch(query, interactiveSearchSuccessFn, true);
+    this.performSearch(query, this.interactiveSearchSuccessFn, true);
+  },
+
+  updateResults(res) {
+    const json = res.body;
+    const articles = json.results;
+
+    this.setState({
+      articles: articles,
+      resultsCount: json.count
+    });
+  },
+
+  searchFail() {
+    this.setState({
+      isLoading: false,
+      previousSearchTerm: this.state.searchTerm,
+      hasSearched: true,
+      searchFailed: true
+    });
+
+    this.focusField();
   },
 
   performSearch(query, successFn, localeFallback = false) {
     const doneFn = (res) => {
       if (res.ok) {
         if ((query.locale && res.body.count > 0) || !localeFallback) {
-          successFn.bind(this)(res, query);
-        } else if (localeFallback) {
+          successFn(res, query);
+        } else if (localeFallback && query.locale) {
           this.performSearch(_.omit(query, 'locale'), successFn);
         }
       } else {

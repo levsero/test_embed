@@ -1,6 +1,5 @@
 {
   "spec_dir": "test/unit",
-  "verbose": true,
   "spec_files": [
     "**/*_test.js"
   ],
