@@ -38,7 +38,7 @@ const interactiveSearchSuccessFn = function(res, query) {
     previousSearchTerm: this.state.searchTerm
   }));
 
-  this.props.onSearch({searchString: query.query, searchLocale: query.locale});
+  this.props.onSearch({searchTerm: query.query, searchLocale: query.locale});
   this.updateResults(res);
   this.focusField();
 };
@@ -189,23 +189,23 @@ export const HelpCenter = React.createClass({
   },
 
   manualSearch() {
-    const searchString = this.refs.searchField.getValue();
+    const searchTerm = this.refs.searchField.getValue();
 
-    if (_.isEmpty(searchString)) {
+    if (_.isEmpty(searchTerm)) {
       return;
     }
 
     const query = {
       /* jshint camelcase: false */
       locale: i18n.getLocale(),
-      query: searchString,
+      query: searchTerm,
       per_page: 3,
       origin: 'web_widget'
     };
 
     this.setState(
       searchStartState({
-        searchTerm: searchString,
+        searchTerm: searchTerm,
         searchTracked: true
       })
     );
@@ -214,24 +214,24 @@ export const HelpCenter = React.createClass({
   },
 
   autoSearch() {
-    const searchString = this.refs.searchField.getValue();
+    const searchTerm = this.refs.searchField.getValue();
 
-    if (_.isEmpty(searchString) ||
-        !(searchString.length >= 5 && _.last(searchString) === ' ')) {
+    if (_.isEmpty(searchTerm) ||
+        !(searchTerm.length >= 5 && _.last(searchTerm) === ' ')) {
       return;
     }
 
     const query = {
       /* jshint camelcase: false */
       locale: i18n.getLocale(),
-      query: searchString,
+      query: searchTerm,
       per_page: 3,
       origin: null
     };
 
     this.setState(
       searchStartState({
-        searchTerm: searchString,
+        searchTerm: searchTerm,
         searchTracked: false
       })
     );

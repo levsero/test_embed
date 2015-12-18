@@ -44,7 +44,7 @@ function create(name, config) {
     });
   };
   const onSearch = function(params) {
-    beacon.track('helpCenter', 'search', name, params.searchString);
+    beacon.track('helpCenter', 'search', name, params.searchTerm);
     mediator.channel.broadcast(name + '.onSearch', params);
   };
 

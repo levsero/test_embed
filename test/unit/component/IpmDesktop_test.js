@@ -40,6 +40,15 @@ describe('IpmDesktop component', function() {
       'component/Button': {
         Button: noopReactComponent()
       },
+      'component/Icon': {
+        Icon: React.createClass({
+          render: () => {
+            return (
+              <div className='Avatar' />
+            );
+          }
+        })
+      },
       'component/ZendeskLogo': {
         ZendeskLogo: noopReactComponent()
       }
@@ -83,6 +92,34 @@ describe('IpmDesktop component', function() {
         .toHaveBeenCalled();
 
       jasmine.clock().uninstall();
+    });
+
+    describe('#getAvatarElement', () => {
+      it('returns an image when avatarUrl is passed', () => {
+        component = React.render(
+          <IpmDesktop
+            {...ipmProps}
+            updateFrameSize={noop} />,
+          global.document.body
+        );
+
+        expect(document.querySelector('img').src)
+          .toEqual(ipmProps.ipm.message.avatarUrl);
+      });
+
+      it('returns an Icon element when avatarUrl is falsy', () => {
+        const props = _.merge({}, ipmProps, {ipm: {message:{avatarUrl: ''}}});
+
+        component = React.render(
+          <IpmDesktop
+            {...props}
+            updateFrameSize={noop} />,
+          global.document.body
+        );
+
+        expect(document.querySelector('.Avatar'))
+          .toBeTruthy();
+      });
     });
   });
 

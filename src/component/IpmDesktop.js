@@ -3,6 +3,7 @@ import React from 'react/addons';
 import { Container } from 'component/Container';
 import { Button } from 'component/Button';
 import { ZendeskLogo } from 'component/ZendeskLogo';
+import { Icon } from 'component/Icon';
 
 export const IpmDesktop = React.createClass({
   handleOnClick() {
@@ -18,6 +19,26 @@ export const IpmDesktop = React.createClass({
     }
   },
 
+  getAvatarElement() {
+    const props = {
+      className: 'IpmDesktop-avatar u-posAbsolute u-paddingAN u-textCenter'
+    };
+
+    if (this.props.ipm.message.avatarUrl) {
+      return (
+        <img
+          {...props}
+          src={this.props.ipm.message.avatarUrl} />
+      );
+    } else {
+      return (
+        <Icon
+          {...props}
+          type='Icon--avatar' />
+      );
+    }
+  },
+
   render() {
     this.updateFrameSize();
 
@@ -26,9 +47,7 @@ export const IpmDesktop = React.createClass({
         card
         className='IpmDesktop u-paddingHXL u-marginHM u-marginBM'>
         <div className='Container-content u-paddingBM'>
-          <img
-            className='IpmDesktop-avatar u-posAbsolute'
-            src={this.props.ipm.message.avatarUrl} />
+          {this.getAvatarElement()}
           <p className='IpmDesktop-intro u-marginBS u-marginHN u-textCenter'>
             {this.props.ipm.message.secondaryText}
           </p>
