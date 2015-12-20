@@ -91,10 +91,6 @@ export const HelpCenter = React.createClass({
     }
   },
 
-  getViewAllUrl() {
-    return `https://${this.props.zendeskHost}/hc/search?query=${this.state.searchTerm}`;
-  },
-
   searchStartState(state) {
     return _.extend({
       isLoading: true,
