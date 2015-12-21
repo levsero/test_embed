@@ -122,13 +122,14 @@ export const HelpCenter = React.createClass({
   },
 
   contextualSearch(options) {
-    let payload = {};
+    const payload = {};
 
     if (options.hasOwnProperty('search') && options.search) {
       payload.query = options.search;
     } else if (options.hasOwnProperty('labels')
                 && Array.isArray(options.labels)
                 && options.labels.length > 0) {
+      /* eslint camelcase:0 */
       payload.label_names = options.labels.join(',');
     } else {
       return;
@@ -136,6 +137,7 @@ export const HelpCenter = React.createClass({
 
     const doneCallback = (res) => {
       if (res.ok && res.body.count > 0) {
+        /* eslint camelcase:0 */
         this.setState({
           isLoading: false,
           searchTerm: (payload.query)

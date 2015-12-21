@@ -67,6 +67,8 @@
     "no-mixed-spaces-and-tabs": 2,
     "eol-last": 2,
     "no-var": 2,
+    "no-spaced-func": 2,
+    "camelcase": 2,
     "max-len": [
       2,
       120,
