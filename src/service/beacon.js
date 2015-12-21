@@ -98,7 +98,7 @@ function identify(user) {
   transport.sendWithMeta(payload);
 }
 
-export var beacon = {
+export const beacon = {
   init: init,
   send: send,
   track: track,

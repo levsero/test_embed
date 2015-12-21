@@ -1,8 +1,8 @@
-var capturingData = {
+const capturingData = {
   name: 'submitTicket',
   elem: '#ticketSubmissionForm'
 };
-var browser = webdriverio.remote({
+const browser = webdriverio.remote({
   desiredCapabilities: {
     browserName: 'chrome'
   }

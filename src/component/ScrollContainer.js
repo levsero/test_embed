@@ -2,7 +2,7 @@ import React from 'react/addons';
 
 const classSet = React.addons.classSet;
 
-export var ScrollContainer = React.createClass({
+export const ScrollContainer = React.createClass({
   propTypes: {
     title: React.PropTypes.string.isRequired,
     footerContent: React.PropTypes.oneOfType([

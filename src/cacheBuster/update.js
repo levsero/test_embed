@@ -1,4 +1,4 @@
-var currentVersion = '{{versionHash}}';
+const currentVersion = '{{versionHash}}';
 if (location.hash !== ('#' + currentVersion)) {
   location.hash = currentVersion;
   location.reload(true);

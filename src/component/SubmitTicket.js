@@ -12,7 +12,7 @@ import { i18n }             from 'service/i18n';
 
 const classSet = React.addons.classSet;
 
-export var SubmitTicket = React.createClass({
+export const SubmitTicket = React.createClass({
   propTypes: {
     formTitleKey: React.PropTypes.string.isRequired
   },

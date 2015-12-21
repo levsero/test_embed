@@ -66,12 +66,13 @@
     "no-trailing-spaces": 2,
     "no-mixed-spaces-and-tabs": 2,
     "eol-last": 2,
+    "no-var": 2,
     "max-len": [
-      2, 
-      120, 
+      2,
+      120,
       4,
       {
-        "ignoreComments": true, 
+        "ignoreComments": true,
         "ignoreUrls": true
       }
     ],

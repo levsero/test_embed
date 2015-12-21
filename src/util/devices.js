@@ -39,7 +39,7 @@ function isIos() {
 }
 
 function isFirefox() {
-  var FIREFOX_BROWSER = /Gecko\/.*\d.*Firefox/;
+  const FIREFOX_BROWSER = /Gecko\/.*\d.*Firefox/;
   return FIREFOX_BROWSER.test(navigator.userAgent);
 }
 

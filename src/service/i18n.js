@@ -69,7 +69,7 @@ function getLocaleId() {
   return localeIdMap[currentLocale];
 }
 
-export var i18n = {
+export const i18n = {
   t: translate,
   getLocaleId: getLocaleId,
   setLocale: setLocale,

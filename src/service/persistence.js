@@ -4,7 +4,7 @@ import { win } from 'utility/globals';
 
 const prefix = 'ZD-';
 
-var store = {
+const store = {
   get: get,
   set: set,
   remove: remove,

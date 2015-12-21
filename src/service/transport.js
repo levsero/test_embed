@@ -113,7 +113,7 @@ function getZendeskHost() {
   return config.zendeskHost;
 }
 
-export var transport = {
+export const transport = {
   init: init,
   send: send,
   sendWithMeta: sendWithMeta,

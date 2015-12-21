@@ -6,7 +6,7 @@ import { ButtonPill } from 'component/Button';
 const sanitizeHtml = require('sanitize-html');
 const classSet = React.addons.classSet;
 
-var HelpCenterArticle = React.createClass({
+const HelpCenterArticle = React.createClass({
   propTypes: {
     activeArticle: React.PropTypes.object.isRequired
   },

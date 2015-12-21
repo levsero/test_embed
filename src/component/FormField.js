@@ -14,7 +14,7 @@ const geti18nContent = function(field) {
 
   return title ? title.content : field.title;
 };
-var getCustomFields = function(customFields, formState) {
+const getCustomFields = function(customFields, formState) {
   const isCheckbox = (field) => field.props.type === 'checkbox';
   const fields = _.map(customFields, function(field) {
     const sharedProps = {
@@ -56,7 +56,7 @@ var getCustomFields = function(customFields, formState) {
   };
 };
 
-var Field = React.createClass({
+const Field = React.createClass({
   propTypes: {
     name: React.PropTypes.oneOfType([
       React.PropTypes.string,
@@ -211,7 +211,7 @@ var Field = React.createClass({
   }
 });
 
-var SelectField = React.createClass({
+const SelectField = React.createClass({
   propTypes: {
     name: React.PropTypes.oneOfType([
       React.PropTypes.string,
@@ -268,7 +268,7 @@ var SelectField = React.createClass({
   }
 });
 
-var SearchFieldButton = React.createClass({
+const SearchFieldButton = React.createClass({
   propTypes: {
     onClick: React.PropTypes.func.required,
     onTouch: React.PropTypes.func.required
@@ -290,7 +290,7 @@ var SearchFieldButton = React.createClass({
   }
 });
 
-var SearchField = React.createClass({
+const SearchField = React.createClass({
   getInitialState() {
     return {
       focused: false,

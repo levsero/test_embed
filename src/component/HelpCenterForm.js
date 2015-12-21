@@ -1,6 +1,6 @@
 import React from 'react/addons';
 
-var HelpCenterForm = React.createClass({
+const HelpCenterForm = React.createClass({
   getInitialState() {
     return {
       isValid: false,

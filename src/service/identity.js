@@ -20,6 +20,6 @@ function getBuid() {
   return buid;
 }
 
-export var identity = {
+export const identity = {
   getBuid: getBuid
 };

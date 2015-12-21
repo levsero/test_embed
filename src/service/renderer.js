@@ -193,7 +193,7 @@ const hardcodedConfigs = {
   }
 };
 
-export var renderer = {
+export const renderer = {
   init: init,
   propagateFontRatio: propagateFontRatio,
   hideByZoom: hideByZoom,

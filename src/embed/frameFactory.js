@@ -38,7 +38,7 @@ function validateChildFn(childFn, params) {
   }
 }
 
-export var frameFactory = function(childFn, _params) {
+export const frameFactory = function(childFn, _params) {
   let child;
 
   const defaultParams = {

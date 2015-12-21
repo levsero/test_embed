@@ -31,7 +31,7 @@ function isCacheBusting(name) {
   return name === updateFrameName;
 }
 
-export var cacheBuster = {
+export const cacheBuster = {
   bustCache: bustCache,
   isCacheBusting: isCacheBusting
 };
