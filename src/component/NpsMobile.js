@@ -163,6 +163,7 @@ export const NpsMobile = React.createClass({
 
   render() {
     let headingText;
+
     if (!this.state.fullscreen) {
       this.setDefaultNpsMobileSize();
     }

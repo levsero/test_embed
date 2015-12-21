@@ -69,6 +69,7 @@
     "no-var": 2,
     "no-spaced-func": 2,
     "camelcase": 2,
+    "newline-after-var": 2,
     "max-len": [
       2,
       120,

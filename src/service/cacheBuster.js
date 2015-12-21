@@ -19,6 +19,7 @@ function bustCache(versionHash) {
   if (script) {
     const scriptSrc = script.src;
     const updateUrl = scriptSrc.replace('main.js', updatePath);
+
     iframe.setAttribute('style', 'position:absolute;visbility:hidden;left:-999em');
     iframe.src = updateUrl;
     iframe.name = updateFrameName;

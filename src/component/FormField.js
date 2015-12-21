@@ -245,6 +245,7 @@ const SelectField = React.createClass({
       } else {
         nestedOptions = _.map(group, function(nestedOption) {
           const title = nestedOption.title.split('::')[1];
+
           return <option value={nestedOption.value} key={title}>{title}</option>;
         });
 

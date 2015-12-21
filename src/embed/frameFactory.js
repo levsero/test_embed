@@ -27,12 +27,14 @@ function validateChildFn(childFn, params) {
 
   if (!React.isValidElement(component)) {
     const e = new TypeError();
+
     e.message = 'childFn should be a function that returns a React component';
     throw e;
   }
 
   if (component.ref !== 'rootComponent') {
     const e = new TypeError();
+
     e.message = 'childFn should return component with ref="rootComponent"';
     throw e;
   }
@@ -176,6 +178,7 @@ export const frameFactory = function(childFn, _params) {
 
     show(options = {}) {
       let frameFirstChild = this.getDOMNode().contentDocument.body.firstChild;
+
       this.setState({ visible: true });
 
       setTimeout( () => {
@@ -263,6 +266,7 @@ export const frameFactory = function(childFn, _params) {
                               [i18n.isRTL() ? 'right' : 'left']: '-9999px',
                               position: 'absolute',
                               bottom: 'auto'};
+
       return _.extend(
         {
           border: 'none',

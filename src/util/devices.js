@@ -35,11 +35,13 @@ function getSizingRatio(isPinching, isFirstRun) {
 function isIos() {
   const IOS_MOBILE = /iPhone|iPad|iPod/i;
   const str = navigator.userAgent || navigator.vendor || win.opera;
+
   return IOS_MOBILE.test(str);
 }
 
 function isFirefox() {
   const FIREFOX_BROWSER = /Gecko\/.*\d.*Firefox/;
+
   return FIREFOX_BROWSER.test(navigator.userAgent);
 }
 

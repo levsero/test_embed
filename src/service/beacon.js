@@ -12,6 +12,7 @@ import { parseUrl,
 
 function init() {
   const now = Date.now();
+
   store.set('currentTime', now, true);
 
   mediator.channel.subscribe('beacon.identify', identify);

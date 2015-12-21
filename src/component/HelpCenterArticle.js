@@ -48,6 +48,7 @@ const HelpCenterArticle = React.createClass({
 
     if (this.props.activeArticle.body) {
       let cleanHtml = sanitizeHtml(this.props.activeArticle.body, sanitizeHtmlOptions);
+
       container.innerHTML = cleanHtml;
     } else {
       container.innerHTML = '';
@@ -55,6 +56,7 @@ const HelpCenterArticle = React.createClass({
 
     if (this.state.lastActiveArticleId !== this.props.activeArticle.id) {
       let topNode = this.refs.userContent.getDOMNode();
+
       topNode.scrollTop = 0;
 
       this.setState({

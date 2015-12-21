@@ -89,6 +89,7 @@ function generateNpsCSS(params) {
 function generateConstrastColor(colorStr) {
   try {
     const color = Color(colorStr);
+
     return (color.luminosity() <= 0.35)
          ? 'white'
          : 'black';
@@ -100,6 +101,7 @@ function generateConstrastColor(colorStr) {
 function generateHighlightColor(colorStr) {
   try {
     const color = Color(colorStr);
+
     return (color.luminosity() > 0.15)
          ? color.darken(0.1).rgbString()
          : color.lighten(0.15).rgbString();
@@ -115,6 +117,7 @@ function metaStringToObj(str) {
     return _.chain(str.split(','))
       .reduce(function(res, item) {
         const pair = item.trim().split('=');
+
         res[pair[0]] = pair[1];
         return res;
       }, {})
@@ -136,6 +139,7 @@ function initViewportMeta(active) {
     return _.last(viewportMetas);
   } else if (active) {
     const newViewportMeta = doc.createElement('meta');
+
     newViewportMeta.setAttribute('name', 'viewport');
     newViewportMeta.setAttribute('content', '');
     doc.head.appendChild(newViewportMeta);
@@ -180,6 +184,7 @@ function setScaleLock(active) {
 
 function parseUrl(url) {
   const anchor = document.createElement('a');
+
   anchor.href = url;
 
   return anchor;
