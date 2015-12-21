@@ -70,6 +70,9 @@
     "no-spaced-func": 2,
     "camelcase": 2,
     "newline-after-var": 2,
+    "space-after-keywords": 2,
+    "dot-notation": 2,
+    "eqeqeq": 2,
     "max-len": [
       2,
       120,
