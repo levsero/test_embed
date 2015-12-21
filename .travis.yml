@@ -11,7 +11,7 @@ before_script:
   - npm install
   - ./node_modules/.bin/bower install
   - ./script/fetch_i18n
-  - ./node_modules/.bin/gulp build
+  - npm run build
 
 script:
   - npm test
