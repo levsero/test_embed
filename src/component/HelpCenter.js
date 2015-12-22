@@ -258,7 +258,7 @@ export const HelpCenter = React.createClass({
     });
 
     // call nextTick so state has a chance to be consistent
-    setTimeout(() => this.trackArticleView(), 0);;
+    setTimeout(() => this.trackArticleView(), 0);
 
     this.props.showBackButton();
 

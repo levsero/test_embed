@@ -131,9 +131,12 @@ describe('HelpCenter component', function() {
     mockery.registerAllowable(helpCenterPath);
 
     HelpCenter = require(helpCenterPath).HelpCenter;
+
+    jasmine.clock().install();
   });
 
   afterEach(function() {
+    jasmine.clock().uninstall();
     mockery.deregisterAll();
     mockery.disable();
   });
@@ -1048,6 +1051,8 @@ describe('HelpCenter component', function() {
       ReactTestUtils.Simulate.click(listAnchor, {
         target: { getAttribute: function() { return 0; }
       }});
+
+      jasmine.clock().tick(1);
 
       expect(trackSearch)
         .not.toHaveBeenCalled();
