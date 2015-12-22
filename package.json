@@ -6,7 +6,9 @@
   "scripts": {
     "build:version:generate": "git rev-parse --short HEAD > ./dist/VERSION_HASH",
     "build:version:clean": "rm -rf ./dist/VERSION_HASH",
-    "prebuild:debug": "npm run build:version:generate",
+    "prebuild-examples": "uglifyjs --compress --mangle -- ./src/bootstrap.js > ./dist/bootstrap.js",
+    "build-examples": "node script/build-examples.js",
+    "prebuild:debug": "npm run build:version:generate && npm run build-examples",
     "prebuild:prod": "rm -rf ./dist/*.map && npm run build:version:generate",
     "build:cachebuster-clean": "rm -rf ./dist/update.js",
     "build:cachebuster": "npm run build:version:generate && node ./script/cachebuster.js && npm run build:cachebuster-clean",
@@ -14,7 +16,7 @@
     "build:prod": "webpack -p --config=./webpack.prod.config.js",
     "postbuild:debug": "npm run build:version:clean",
     "watch": "concurrent --k --r \"npm run build:debug\" \"live-server --port=1337 --no-browser --ignore=./src\"",
-    "prebuild": "gulp lint && npm run build:cachebuster",
+    "prebuild": "gulp lint && npm run build:cachebuster && npm run build-examples",
     "build": "npm run build:prod",
     "postbuild": "npm run build:version:clean",
     "test": "jasmine JASMINE_CONFIG_PATH=test/jasmine.json"
@@ -43,6 +45,8 @@
     "cssstyle": "0.2.14",
     "es5-shim": "~3.4.0",
     "esprima-fb": "^15001.1.0-dev-harmony-fb",
+    "express": "~4.3.2",
+    "glob": "^6.0.1",
     "gulp": "~3.8.0",
     "gulp-jscs": "~1.6.0",
     "gulp-jshint": "~1.11.0",
