@@ -108,10 +108,12 @@ export const HelpCenter = React.createClass({
   },
 
   interactiveSearchSuccessFn(res, query) {
-    this.setState(this.searchCompleteState({
-      hasContextualSearched: false,
-      previousSearchTerm: this.state.searchTerm
-    }));
+    this.setState(
+      this.searchCompleteState({
+        hasContextualSearched: false,
+        previousSearchTerm: this.state.searchTerm
+      })
+    );
 
     this.props.onSearch({searchTerm: query.query, searchLocale: query.locale});
     this.updateResults(res);

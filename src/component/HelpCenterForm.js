@@ -24,7 +24,6 @@ var HelpCenterForm = React.createClass({
   },
 
   handleChange() {
-
     // nextTick so that latest values show up on
     // searchField.getValue() in HelpCenter.*Search()
     setTimeout(this.props.onChange, 0);
