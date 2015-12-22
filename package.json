@@ -6,7 +6,7 @@
     "prebuild-examples": "uglifyjs --compress --mangle -- ./src/bootstrap.js > ./dist/bootstrap.js",
     "build-examples": "node script/build-examples.js",
     "test": "jasmine JASMINE_CONFIG_PATH=test/jasmine.json",
-    "lint": "eslint src/**/*.js && eslint test/**/*.js"
+    "lint": "eslint src test"
   },
   "author": "Zendesk",
   "license": "All Rights Reserved",
