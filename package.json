@@ -51,8 +51,6 @@
     "gulp-jscs": "~1.6.0",
     "gulp-jshint": "~1.11.0",
     "gulp-karma": "0.0.4",
-    "gulp-rename": "~1.2.0",
-    "gulp-replace": "~0.3.0",
     "gulp-shell": "~0.4.3",
     "htmlmin": "0.0.4",
     "imports-loader": "~0.6.2",
