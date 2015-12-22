@@ -505,7 +505,7 @@ describe('HelpCenter component', function() {
         helpCenter.searchFail = searchFail;
       });
 
-      it('should be called if the result object is not OK', function() {
+      it('should be called if the response status is not 200 OK', function() {
         helpCenter.performSearch({});
 
         expect(mockSearchSender)
@@ -704,7 +704,7 @@ describe('HelpCenter component', function() {
       helpCenter.interactiveSearchSuccessFn(result, query);
     });
 
-    it('it calls props.onSearch', () => {
+    it('calls props.onSearch', () => {
       expect(mockOnSearch)
         .toHaveBeenCalled();
 
@@ -715,7 +715,7 @@ describe('HelpCenter component', function() {
         }));
     });
 
-    it('it calls updateResults', () => {
+    it('calls updateResults', () => {
       expect(helpCenter.updateResults)
         .toHaveBeenCalled();
 
@@ -723,7 +723,7 @@ describe('HelpCenter component', function() {
         .toEqual(result);
     });
 
-    it('it calls focusField', () => {
+    it('calls focusField', () => {
       expect(helpCenter.focusField)
         .toHaveBeenCalled();
     });
@@ -760,7 +760,7 @@ describe('HelpCenter component', function() {
   });
 
   describe('autoSearch', () => {
-    it('should not call performSearch if the string is empty', () => {
+    it('should not call performSearch if the string is not valid', () => {
       const mockPerformSearch = jasmine.createSpy('mockPerformSearch');
       const helpCenter = React.render(
         <HelpCenter searchSender={() => {}} />,
@@ -867,7 +867,7 @@ describe('HelpCenter component', function() {
     });
   });
 
-  describe('manualSearch', function() {
+  describe('manualSearch', () => {
     it('should not call performSearch if the string is empty', () => {
       const mockPerformSearch = jasmine.createSpy('mockPerformSearch');
       const helpCenter = React.render(

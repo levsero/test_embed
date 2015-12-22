@@ -121,24 +121,18 @@ export const HelpCenter = React.createClass({
   contextualSearch(options) {
     /* jshint camelcase:false, laxbreak:true */
 
-    const useSearchKey = (options) => {
-      return options.hasOwnProperty('search')
-        && options.search;
-    };
-
-    const useLabelsKey = (options) => {
-      return options.hasOwnProperty('labels')
-        && Array.isArray(options.labels)
-        && options.labels.length > 0;
-    };
-
+    const hasSearchKey = (options.hasOwnProperty('search')
+                          && options.search);
+    const hasLabelsKey = (options.hasOwnProperty('labels')
+                          && Array.isArray(options.labels)
+                          && options.labels.length > 0);
     const query = {};
 
     let searchTerm;
 
-    if (useSearchKey(options)) {
+    if (hasSearchKey) {
       searchTerm = query.query = options.search;
-    } else if (useLabelsKey(options)) {
+    } else if (hasLabelsKey) {
       searchTerm = query.label_names = options.labels.join(',');
     } else {
       return;
@@ -152,7 +146,8 @@ export const HelpCenter = React.createClass({
             showIntroScreen: false,
             hasContextualSearched: true,
             previousSearchTerm: this.state.searchTerm
-          }));
+          })
+        );
         this.updateResults(res);
       }
     };
@@ -262,7 +257,8 @@ export const HelpCenter = React.createClass({
       articleViewActive: true
     });
 
-    this.trackArticleView(articleIndex);
+    // call nextTick so state has a chance to be consistent
+    setTimeout(() => this.trackArticleView(), 0);;
 
     this.props.showBackButton();
 
@@ -298,12 +294,12 @@ export const HelpCenter = React.createClass({
     }
   },
 
-  trackArticleView(articleIndex) {
+  trackArticleView() {
     const trackPayload = {
       query: this.state.searchTerm,
       resultsCount: this.state.resultsCount > 3 ? 3 : this.state.resultsCount,
       uniqueSearchResultClick: !this.state.searchResultClicked,
-      articleId: this.state.articles[articleIndex].id,
+      articleId: this.state.activeArticle.id,
       locale: i18n.getLocale()
     };
 
