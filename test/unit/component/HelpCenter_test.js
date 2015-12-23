@@ -1,8 +1,8 @@
 describe('HelpCenter component', function() {
   let HelpCenter,
-      mockRegistry,
-      trackSearch,
-      updateResults;
+    mockRegistry,
+    trackSearch,
+    updateResults;
   const searchFieldBlur = jasmine.createSpy();
   const searchFieldGetValue = jasmine.createSpy().and.returnValue('Foobar');
   const helpCenterPath = buildSrcPath('component/HelpCenter');
@@ -29,80 +29,80 @@ describe('HelpCenter component', function() {
       },
       'component/HelpCenterForm': {
         HelpCenterForm: React.createClass({
-            render: function() {
-              return (
-                <form onSubmit={this.handleSubmit}>
-                  {this.props.children}
-                </form>
-              );
-            }
-          })
+          render: function() {
+            return (
+              <form onSubmit={this.handleSubmit}>
+                {this.props.children}
+              </form>
+            );
+          }
+        })
       },
       'component/HelpCenterArticle': {
         HelpCenterArticle: React.createClass({
-            render: function() {
-              return <div className='UserContent' />;
-            }
-          })
+          render: function() {
+            return <div className='UserContent' />;
+          }
+        })
       },
       'component/FormField': {
         SearchField: React.createClass({
-            focus: function() {
-              this.setState({
-                focused: true
-              });
-            },
-            blur: searchFieldBlur,
-            getValue: searchFieldGetValue,
-            render: function() {
-              return (
-                <div ref='searchField' type='search'>
-                  <input ref='searchFieldInput' value='' type='search' />
-                </div>
-              );
-            }
-          }),
+          focus: function() {
+            this.setState({
+              focused: true
+            });
+          },
+          blur: searchFieldBlur,
+          getValue: searchFieldGetValue,
+          render: function() {
+            return (
+              <div ref='searchField' type='search'>
+                <input ref='searchFieldInput' value='' type='search' />
+              </div>
+            );
+          }
+        }),
         SearchFieldButton: React.createClass({
-            render: function() {
-              return (
-                <input
-                  ref='searchFieldButton'
-                  type='search'
-                  onClick={this.props.onClick} />
-              );
-            }
-          })
+          render: function() {
+            return (
+              <input
+                ref='searchFieldButton'
+                type='search'
+                onClick={this.props.onClick} />
+            );
+          }
+        })
       },
       'component/ZendeskLogo': {
         ZendeskLogo: noopReactComponent()
       },
       'component/Container': {
         Container: React.createClass({
-            render: function() {
-              return <div>{this.props.children}</div>;
-            }
-          }),
+          render: function() {
+            return <div>{this.props.children}</div>;
+          }
+        })
       },
       'component/ScrollContainer': {
         ScrollContainer: React.createClass({
-            setScrollShadowVisible: noop,
-            render: function() {
-              return (
-                <div>
-                  {this.props.headerContent}
-                  {this.props.children}
-                  {this.props.footerContent}
-                </div>
-              );
-            }
-          }),
+          setScrollShadowVisible: noop,
+          render: function() {
+            return (
+              <div>
+                {this.props.headerContent}
+                {this.props.children}
+                {this.props.footerContent}
+              </div>
+            );
+          }
+        })
       },
       'component/Button': {
         Button: React.createClass({
-            render: function() {
-              return <input className='Button' type='button' />;
-            }
-          }),
+          render: function() {
+            return <input className='Button' type='button' />;
+          }
+        }),
         ButtonGroup: noopReactComponent()
       },
       'service/i18n': {
@@ -173,7 +173,6 @@ describe('HelpCenter component', function() {
       global.document.body
     );
 
-    /* jshint maxlen:false */
     expect(mockRegistry['service/i18n'].i18n.t)
       .toHaveBeenCalledWith(`embeddable_framework.helpCenter.submitButton.label.submitTicket.${labelKey}`);
   });
@@ -244,7 +243,7 @@ describe('HelpCenter component', function() {
     const responsePayloadNoResults = {ok: true, body: {results: [], count: 0}};
 
     let helpCenter,
-        mockSearchSender;
+      mockSearchSender;
 
     beforeEach(function() {
       mockSearchSender = jasmine.createSpy('mockSearchSender');
@@ -268,7 +267,6 @@ describe('HelpCenter component', function() {
       expect(recentCallArgs.query)
         .toEqual(searchOptions.search);
 
-      /* jshint camelcase: false */
       expect(recentCallArgs.label_names)
         .toBeFalsy();
     });
@@ -283,7 +281,6 @@ describe('HelpCenter component', function() {
 
       const recentCallArgs = mockSearchSender.calls.mostRecent().args[0];
 
-      /* jshint camelcase: false */
       expect(recentCallArgs)
         .toEqual(jasmine.objectContaining({
           label_names: searchOptions.labels.join(',')
@@ -303,10 +300,9 @@ describe('HelpCenter component', function() {
 
       const recentCallArgs = mockSearchSender.calls.mostRecent().args[0];
 
-      /* jshint camelcase: false */
       expect(recentCallArgs)
         .toEqual(jasmine.objectContaining({
-          query: searchOptions.search,
+          query: searchOptions.search
         }));
     });
 
@@ -366,7 +362,6 @@ describe('HelpCenter component', function() {
 
       const recentCallArgs = mockSearchSender.calls.mostRecent().args[0];
 
-      /* jshint camelcase: false */
       expect(recentCallArgs.label_names)
         .toEqual(searchOptions.labels.join(','));
 
@@ -394,7 +389,6 @@ describe('HelpCenter component', function() {
 
       const recentCallArgs = mockSearchSender.calls.mostRecent().args[0];
 
-      /* jshint camelcase: false */
       expect(recentCallArgs)
         .toEqual(jasmine.objectContaining({
           query: searchOptions.search,
@@ -428,7 +422,6 @@ describe('HelpCenter component', function() {
 
       const recentCallArgs = mockSearchSender.calls.mostRecent().args[0];
 
-      /* jshint camelcase: false */
       expect(recentCallArgs)
         .toEqual(jasmine.objectContaining({
           origin: null,
@@ -460,7 +453,6 @@ describe('HelpCenter component', function() {
 
       const recentCallArgs = mockSearchSender.calls.mostRecent().args[0];
 
-      /* jshint camelcase:false */
       expect(recentCallArgs.per_page)
         .toEqual(3);
     });
@@ -486,9 +478,9 @@ describe('HelpCenter component', function() {
     const responsePayloadNoResults = {ok: true, body: {results: [], count: 0}};
 
     let searchFail,
-        helpCenter,
-        mockOnSearch,
-        mockSearchSender;
+      helpCenter,
+      mockOnSearch,
+      mockSearchSender;
 
     beforeEach(function() {
       searchFail = jasmine.createSpy('searchFail');
@@ -546,7 +538,6 @@ describe('HelpCenter component', function() {
 
       const recentCallArgs = mockSearchSender.calls.mostRecent().args;
 
-      /* jshint camelcase: false */
       expect(recentCallArgs[0])
         .toEqual(jasmine.objectContaining({
           query: searchTerm,
@@ -611,7 +602,6 @@ describe('HelpCenter component', function() {
 
       expect(mockSearchSender)
         .toHaveBeenCalledWith({
-          /* jshint camelcase:false */
           query: searchTerm,
           per_page: 0,
           origin: 'web_widget'
@@ -1008,7 +998,6 @@ describe('HelpCenter component', function() {
       const mockBeacon = mockRegistry['service/beacon'].beacon;
       const searchTerm = 'help, I\'ve fallen and can\'t get up!';
       const responseArticle = {
-        /* jshint camelcase: false */
         id: 0,
         title: 'bob',
         name: 'bob',

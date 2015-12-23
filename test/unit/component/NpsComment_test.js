@@ -1,8 +1,7 @@
 describe('NpsComment component', () => {
   let NpsComment,
-      mockRegistry,
-      component,
-      npsCommentProps;
+    mockRegistry,
+    npsCommentProps;
 
   const npsPath = buildSrcPath('component/NpsComment');
 
@@ -64,7 +63,7 @@ describe('NpsComment component', () => {
 
     NpsComment = requireUncached(npsPath).NpsComment;
 
-    component = React.render(
+    React.render(
         <NpsComment {...npsCommentProps} />,
         global.document.body
       );
@@ -80,7 +79,7 @@ describe('NpsComment component', () => {
       beforeEach(() => {
         npsCommentProps.isSubmittingComment = true;
 
-        component = React.render(
+        React.render(
           <NpsComment {...npsCommentProps} />,
           global.document.body
         );
@@ -104,12 +103,12 @@ describe('NpsComment component', () => {
     it(`should use the .sendFeedback label
       and with a fallback of 'Send Feedback'`, () => {
 
-        expect(mockRegistry['service/i18n'].i18n.t)
+      expect(mockRegistry['service/i18n'].i18n.t)
           .toHaveBeenCalledWith(
             'embeddable_framework.npsMobile.submitButton.label.sendFeedback',
             { fallback: 'Send Feedback'}
           );
 
-      });
+    });
   });
 });

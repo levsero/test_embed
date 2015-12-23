@@ -92,7 +92,6 @@ const renderNps = (locale, elem) => {
     setTimeoutLoop(() => nps && nps.getChild(), () => {
       setNpsState({ isMobile });
       nps.getChild().setState({ isMobile });
-      /* jshint laxbreak: true */
       nps.setState({
         frameStyle: isMobile
                   ? _.extend({}, frameStyle, { position: 'absolute', display: 'block' })

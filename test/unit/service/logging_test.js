@@ -1,11 +1,10 @@
 describe('logging', function() {
-  let logging,
-      mockRegistry;
+  let logging;
   const loggingPath = buildSrcPath('service/logging');
 
   beforeEach(function() {
     mockery.enable({useCleanCache: true});
-    mockRegistry = initMockRegistry({
+    initMockRegistry({
       'airbrake-js': jasmine.createSpy()
     });
 
@@ -33,6 +32,7 @@ describe('logging', function() {
   });
 
   describe('#error', function() {
+    /* eslint no-console:0 */
     const errPayload = {
       error: {
         message: 'error'

@@ -1,12 +1,12 @@
 describe('NpsMobile component', () => {
   let NpsMobile,
-      mockRegistry,
-      component,
-      npsProps,
-      mockSetFrameSize,
-      mockSubmitRatingHandler,
-      mockSubmitCommentHandler,
-      mockOnCommentChangeHandler;
+    mockRegistry,
+    component,
+    npsProps,
+    mockSetFrameSize,
+    mockSubmitRatingHandler,
+    mockSubmitCommentHandler,
+    mockOnCommentChangeHandler;
 
   const npsPath = buildSrcPath('component/NpsMobile');
 
@@ -44,11 +44,11 @@ describe('NpsMobile component', () => {
       'react/addons': React,
       'component/Container': {
         Container: React.createClass({
-            render: function() {
-              //used function instead of () => as to not reference outter 'this'
-              return <div>{this.props.children}</div>;
-            }
-          }),
+          render: function() {
+            //used function instead of () => as to not reference outter 'this'
+            return <div>{this.props.children}</div>;
+          }
+        })
       },
       'component/NpsComment': {
         NpsComment:  React.createClass({
@@ -399,7 +399,7 @@ describe('NpsMobile component', () => {
 
   describe('resetFullScreen', () => {
     let mockStopScrollHacks,
-        mockSetDefaultNpsMobileSize;
+      mockSetDefaultNpsMobileSize;
 
     beforeEach(() => {
 
@@ -435,8 +435,8 @@ describe('NpsMobile component', () => {
   describe('startEditing', () => {
     describe('non IOS device', () => {
       let oldIsIos,
-          newIsIos,
-          mockGoToFullScreen;
+        newIsIos,
+        mockGoToFullScreen;
       beforeEach(() => {
 
         newIsIos = () => false;
@@ -486,8 +486,8 @@ describe('NpsMobile component', () => {
   describe('stopEditing', () => {
     describe('non IOS device', () => {
       let oldIsIos,
-          newIsIos,
-          mockResetFullScreen;
+        newIsIos,
+        mockResetFullScreen;
       beforeEach(() => {
 
         newIsIos = () => false;

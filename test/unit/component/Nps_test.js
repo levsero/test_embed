@@ -1,7 +1,5 @@
 describe('Nps component', function() {
-  let Nps,
-      mockRegistry;
-
+  let Nps;
   const npsPath = buildSrcPath('component/Nps');
 
   beforeEach(function() {
@@ -9,7 +7,7 @@ describe('Nps component', function() {
 
     mockery.enable();
 
-    mockRegistry = initMockRegistry({
+    initMockRegistry({
       'react/addons': React,
       'lodash': _,
       'component/NpsDesktop': {
@@ -35,7 +33,7 @@ describe('Nps component', function() {
           render: function() {
             return <div>{this.props.children}</div>;
           }
-        }),
+        })
       },
       'component/Button': {
         Button: noopReactComponent(),
@@ -141,7 +139,7 @@ describe('Nps component', function() {
 
   describe('submitRatingHandler', function() {
     let component,
-        npsSenderSpy;
+      npsSenderSpy;
 
     beforeEach(function() {
 
@@ -184,7 +182,7 @@ describe('Nps component', function() {
 
   describe('npsSender', function() {
     let component,
-        npsSenderSpy;
+      npsSenderSpy;
 
     beforeEach(function() {
 

@@ -1,6 +1,6 @@
 describe('beacon', function() {
   let beacon,
-      mockRegistry;
+    mockRegistry;
   const localeId = 10;
   const beaconPath = buildSrcPath('service/beacon');
 
@@ -94,7 +94,7 @@ describe('beacon', function() {
 
     describe('mediator subscriptions', function() {
       let mockMediator,
-          mockTransport;
+        mockTransport;
 
       beforeEach(function() {
         mockMediator = mockRegistry['service/mediator'].mediator;
@@ -151,7 +151,6 @@ describe('beacon', function() {
 
       const params = payload.params;
 
-      /* jshint sub:true */
       expect(params.pageView.userAgent)
         .toBe(mockGlobals.navigator.userAgent);
 

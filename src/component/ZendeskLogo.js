@@ -12,7 +12,6 @@ export var ZendeskLogo = React.createClass({
     };
   },
   render() {
-    /* jshint quotmark:false */
     const { fullscreen, rtl, formSuccess } = this.props;
     const logoClasses = classSet({
       'u-linkClean': true,

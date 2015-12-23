@@ -1,7 +1,5 @@
 describe('Ipm component', function() {
-  let Ipm,
-      mockRegistry;
-
+  let Ipm;
   const ipmPath = buildSrcPath('component/Ipm');
 
   beforeEach(function() {
@@ -9,7 +7,7 @@ describe('Ipm component', function() {
 
     mockery.enable();
 
-    mockRegistry = initMockRegistry({
+    initMockRegistry({
       'react/addons': React,
       'component/IpmDesktop': {
         IpmDesktop: React.createClass({
@@ -41,7 +39,7 @@ describe('Ipm component', function() {
 
   describe('ipmSender', function() {
     let component,
-        ipmSenderSpy;
+      ipmSenderSpy;
 
     beforeEach(function() {
 

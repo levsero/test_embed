@@ -11,9 +11,8 @@ function bustCache(versionHash) {
   const updatePath = [
     'update.html?',
     (new Date()).getTime(),
-    `#${versionHash}`,
+    `#${versionHash}`
   ].join('');
-  /* jshint laxbreak: true */
   const script = document.getElementById('js-iframe-async')
                || document.querySelector('script[data-ze-csp="true"]');
 

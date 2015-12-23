@@ -68,7 +68,6 @@ function create(name, config) {
     mediator.channel.broadcast('nps.onClose');
   };
 
-  /* jshint laxbreak: true */
   const transitionSet = (isMobileBrowser())
                       ? transitionFactory.npsMobile
                       : transitionFactory.npsDesktop;

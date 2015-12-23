@@ -1,12 +1,12 @@
 describe('renderer', function() {
   let renderer,
-      mockRegistry,
-      mockSubmitTicket,
-      mockLauncher,
-      mockHelpCenter,
-      mockChat,
-      mockNps,
-      mockIpm;
+    mockRegistry,
+    mockSubmitTicket,
+    mockLauncher,
+    mockHelpCenter,
+    mockChat,
+    mockNps,
+    mockIpm;
   const updateBaseFontSize = jasmine.createSpy();
   const updateFrameSize = jasmine.createSpy();
   const rendererPath = buildSrcPath('service/renderer');

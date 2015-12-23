@@ -1,7 +1,7 @@
 describe('embed.chat', function() {
   let chat,
-      mockRegistry,
-      mockZopim;
+    mockRegistry,
+    mockZopim;
 
   const mockDevices = {
     isMobileBrowser: noop
@@ -117,7 +117,7 @@ describe('embed.chat', function() {
 
   describe('render', function() {
     let mockMediator,
-        mockStore;
+      mockStore;
     const chatName = 'dave';
     const zopimId = 'abc123';
 
@@ -182,10 +182,10 @@ describe('embed.chat', function() {
 
     describe('mediator broadcasts', function() {
       let mockZopim,
-          onHideCall,
-          onStatusCall,
-          onUnreadMsgsCall,
-          onChatEndCall;
+        onHideCall,
+        onStatusCall,
+        onUnreadMsgsCall,
+        onChatEndCall;
 
       beforeEach(function() {
         mockMediator = mockRegistry['service/mediator'].mediator;

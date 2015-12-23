@@ -21,8 +21,7 @@ const helpCenterCSS = require('./helpCenter.scss');
 let helpCenters = {};
 
 function create(name, config) {
-  let containerStyle,
-      posObj;
+  let containerStyle, posObj;
 
   const frameStyle = {
     position: 'fixed',
@@ -94,7 +93,6 @@ function create(name, config) {
 
   config = _.extend(configDefaults, config);
 
-  /* jshint laxbreak: true */
   if (isMobileBrowser()) {
     containerStyle = { width: '100%', height: '100%' };
   } else {
@@ -252,7 +250,6 @@ function render(name) {
 
 function postRender(name) {
   const config = get(name).config;
-  /* jshint laxbreak: true */
   if (config.contextualHelpEnabled
       && location.pathname && location.pathname.substring(0, 4) !== '/hc/') {
     keywordsSearch(name, { search: getPageKeywords() });

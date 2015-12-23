@@ -60,7 +60,7 @@ export const NpsMobile = React.createClass({
         false),
       0);
       this.setState({
-        fullscreen: true,
+        fullscreen: true
       });
     }
   },
@@ -70,7 +70,7 @@ export const NpsMobile = React.createClass({
       this.stopScrollHacks();
       this.setDefaultNpsMobileSize();
       this.setState({
-        fullscreen: false,
+        fullscreen: false
       });
     }
   },
@@ -98,7 +98,6 @@ export const NpsMobile = React.createClass({
     const heightThreshold = 450;
     const heightRatio = win.innerHeight / ratio;
 
-    /* jshint laxbreak: true */
     return (heightRatio < heightThreshold)
          ? (this.state.currentPage.thankYou)
            ? '60%'
@@ -186,7 +185,6 @@ export const NpsMobile = React.createClass({
       { fallback: 'Send Feedback' }
     );
 
-    /* jshint laxbreak: true */
     const npsRatingsList = this.state.currentPage.selectingRating
                          ? <div>
                              <p className='u-textBold u-textCenter SurveyQuestion'>

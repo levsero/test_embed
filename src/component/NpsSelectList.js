@@ -13,12 +13,11 @@ export const NpsSelectList = React.createClass({
       iconClassNames: '',
       onChange: () => {},
       onFocus: () => {},
-      onBlur: () => {},
+      onBlur: () => {}
     };
   },
 
   render() {
-    /* jshint laxbreak: true */
     const optionsList = this.props.options.map(
       (label, i) => {
         return (this.props.selectedItem === label)
