@@ -43,7 +43,7 @@ namespace :embeddable_framework do
     sh "npm install"
     sh "node_modules/.bin/bower install"
     sh "script/fetch_i18n"
-    sh "node_modules/.bin/gulp build"
+    sh "npm run build"
 
     logger.info "Uploading assets"
     run "mkdir -p #{framework_deploy_path}/#{build_version}"

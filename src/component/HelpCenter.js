@@ -91,13 +91,123 @@ export const HelpCenter = React.createClass({
     }
   },
 
-  getViewAllUrl() {
-    return `https://${this.props.zendeskHost}/hc/search?query=${this.state.searchTerm}`;
+  searchStartState(state) {
+    return _.extend({
+      isLoading: true,
+      searchResultClicked: false
+    }, state);
   },
 
-  handleSubmit(e) {
-    e.preventDefault();
-    this.handleSearch(true);
+  searchCompleteState(state) {
+    return _.extend({
+      hasSearched: true,
+      isLoading: false,
+      searchFailed: false,
+      searchResultClicked: false
+    }, state);
+  },
+
+  interactiveSearchSuccessFn(res, query) {
+    this.setState(
+      this.searchCompleteState({
+        hasContextualSearched: false,
+        previousSearchTerm: this.state.searchTerm
+      })
+    );
+
+    this.props.onSearch({searchTerm: query.query, searchLocale: query.locale});
+    this.updateResults(res);
+    this.focusField();
+  },
+
+  contextualSearch(options) {
+    const hasSearchKey = (options.hasOwnProperty('search')
+                          && options.search);
+    const hasLabelsKey = (options.hasOwnProperty('labels')
+                          && Array.isArray(options.labels)
+                          && options.labels.length > 0);
+    const query = {};
+
+    let searchTerm;
+
+    if (hasSearchKey) {
+      searchTerm = query.query = options.search;
+    } else if (hasLabelsKey) {
+      searchTerm = query.label_names = options.labels.join(',');
+    } else {
+      return;
+    }
+
+    const successFn = (res) => {
+      if (res.body.count > 0) {
+        this.setState(
+          this.searchCompleteState({
+            searchTerm: searchTerm,
+            showIntroScreen: false,
+            hasContextualSearched: true,
+            previousSearchTerm: this.state.searchTerm
+          })
+        );
+        this.updateResults(res);
+      }
+    };
+
+    _.extend(query, {
+      locale: i18n.getLocale(),
+      per_page: 3,
+      origin: null
+    });
+
+    this.performSearch(query, successFn, false);
+  },
+
+  manualSearch() {
+    const searchTerm = this.refs.searchField.getValue();
+
+    if (_.isEmpty(searchTerm)) {
+      return;
+    }
+
+    const query = {
+      locale: i18n.getLocale(),
+      query: searchTerm,
+      per_page: 3,
+      origin: 'web_widget'
+    };
+
+    this.setState(
+      this.searchStartState({
+        searchTerm: searchTerm,
+        searchTracked: true
+      })
+    );
+
+    this.performSearch(query, this.interactiveSearchSuccessFn, true);
+  },
+
+  autoSearch() {
+    const searchTerm = this.refs.searchField.getValue();
+
+    if (_.isEmpty(searchTerm) ||
+        !(searchTerm.length >= 5 && _.last(searchTerm) === ' ')) {
+      return;
+    }
+
+    const query = {
+      locale: i18n.getLocale(),
+      query: searchTerm,
+      per_page: 3,
+      origin: null
+    };
+
+    this.setState(
+      this.searchStartState({
+        searchTerm: searchTerm,
+        searchTracked: false
+      })
+    );
+
+    this.performSearch(query, this.interactiveSearchSuccessFn, true);
   },
 
   updateResults(res) {
@@ -121,103 +231,20 @@ export const HelpCenter = React.createClass({
     this.focusField();
   },
 
-  contextualSearch(options) {
-    const payload = {};
-
-    if (options.hasOwnProperty('search') && options.search) {
-      payload.query = options.search;
-    } else if (options.hasOwnProperty('labels')
-                && Array.isArray(options.labels)
-                && options.labels.length > 0) {
-      /* eslint camelcase:0 */
-      payload.label_names = options.labels.join(',');
-    } else {
-      return;
-    }
-
-    const doneCallback = (res) => {
-      if (res.ok && res.body.count > 0) {
-        /* eslint camelcase:0 */
-        this.setState({
-          isLoading: false,
-          searchTerm: (payload.query)
-                    ? payload.query
-                    : payload.label_names,
-          hasSearched: true,
-          searchFailed: false,
-          showIntroScreen: false,
-          hasContextualSearched: true,
-          previousSearchTerm: this.state.searchTerm,
-          searchResultClicked: false
-        });
-        this.updateResults(res);
+  performSearch(query, successFn, localeFallback = false) {
+    const doneFn = (res) => {
+      if (res.ok) {
+        if ((query.locale && res.body.count > 0) || !localeFallback) {
+          successFn(res, query);
+        } else if (localeFallback && query.locale) {
+          this.performSearch(_.omit(query, 'locale'), successFn);
+        }
+      } else {
+        this.searchFail();
       }
     };
 
-    const defaultParams = {
-      locale: i18n.getLocale(),
-      per_page: 3,
-      origin: null
-    };
-
-    this.props.searchSender(
-      _.extend(defaultParams, payload),
-      doneCallback
-    );
-  },
-
-  performSearch(searchTerm, forceSearch) {
-    const search = (searchTerm, locale) => {
-      const doneCallback = (res) => {
-        if (res.ok) {
-          if ((locale && res.body.count > 0) || !locale) {
-            this.setState({
-              isLoading: false,
-              hasSearched: true,
-              searchFailed: false,
-              hasContextualSearched: false,
-              previousSearchTerm: this.state.searchTerm
-            });
-            this.props.onSearch({searchTerm: searchTerm, searchLocale: locale});
-            this.updateResults(res);
-            this.focusField();
-          } else {
-            search(searchTerm);
-          }
-        } else {
-          this.searchFail();
-        }
-      };
-      const query = {
-        locale: locale,
-        query: searchTerm,
-        per_page: 3,
-        origin: forceSearch ? 'web_widget' : null
-      };
-
-      this.props.searchSender(query, doneCallback, () => this.searchFail());
-    };
-
-    this.setState({
-      isLoading: true,
-      searchTerm: searchTerm,
-      searchTracked: forceSearch,
-      searchResultClicked: false
-    });
-
-    search(searchTerm, i18n.getLocale());
-  },
-
-  handleSearch(forceSearch) {
-    const searchTerm = this.refs.searchField.getValue();
-
-    if (_.isEmpty(searchTerm)) {
-      return;
-    }
-
-    if (searchTerm.length >= 5 && _.last(searchTerm) === ' ' || forceSearch) {
-      this.performSearch(searchTerm, forceSearch);
-    }
+    this.props.searchSender(query, doneFn, () => this.searchFail());
   },
 
   handleArticleClick(articleIndex, e) {
@@ -228,7 +255,8 @@ export const HelpCenter = React.createClass({
       articleViewActive: true
     });
 
-    this.trackArticleView(articleIndex);
+    // call nextTick so state has a chance to be consistent
+    setTimeout(() => this.trackArticleView(), 0);
 
     this.props.showBackButton();
 
@@ -263,12 +291,12 @@ export const HelpCenter = React.createClass({
     }
   },
 
-  trackArticleView(articleIndex) {
+  trackArticleView() {
     const trackPayload = {
       query: this.state.searchTerm,
       resultsCount: this.state.resultsCount > 3 ? 3 : this.state.resultsCount,
       uniqueSearchResultClick: !this.state.searchResultClicked,
-      articleId: this.state.articles[articleIndex].id,
+      articleId: this.state.activeArticle.id,
       locale: i18n.getLocale()
     };
 
@@ -414,7 +442,7 @@ export const HelpCenter = React.createClass({
                           onBlur={onBlurHandler}
                           onChangeValue={onChangeValueHandler}
                           hasSearched={this.state.hasSearched}
-                          onSearchIconClick={this.handleSearch}
+                          onSearchIconClick={this.manualSearch}
                           isLoading={this.state.isLoading} />
                       : null;
 
@@ -435,8 +463,8 @@ export const HelpCenter = React.createClass({
                            && (!this.state.fullscreen && this.state.hasSearched
                                || this.state.fullscreen && !this.state.showIntroScreen))
                         ? <HelpCenterForm
-                            onSubmit={this.handleSubmit}
-                            onSearch={this.handleSearch}
+                            onSubmit={this.manualSearch}
+                            onChange={this.autoSearch}
                             children={searchField} />
                         : null;
 
@@ -476,8 +504,8 @@ export const HelpCenter = React.createClass({
           <div className={formClasses}>
             <HelpCenterForm
               ref='helpCenterForm'
-              onSearch={this.handleSearch}
-              onSubmit={this.handleSubmit}>
+              onChange={this.autoSearch}
+              onSubmit={this.manualSearch}>
               <h1 className={searchTitleClasses}>
                 {i18n.t('embeddable_framework.helpCenter.label.searchHelpCenter')}
               </h1>
