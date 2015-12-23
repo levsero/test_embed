@@ -84,7 +84,7 @@
         "ignoreUrls": true
       }
     ],
-    "react/jsx-boolean-value": 0,
+    "react/jsx-boolean-value": [2, "always"],
     "react/jsx-curly-spacing": 0,
     "react/jsx-no-undef": 0,
     "react/jsx-uses-react": 0,

@@ -44,7 +44,7 @@ export const IpmDesktop = React.createClass({
 
     return (
       <Container
-        card
+        card={true}
         className='IpmDesktop u-paddingHXL u-marginHM u-marginBM'>
         <div className='Container-content u-paddingBM'>
           {this.getAvatarElement()}

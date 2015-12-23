@@ -32,7 +32,7 @@ const HelpCenterForm = React.createClass({
   render() {
     return (
       <form
-        noValidate
+        noValidate={true}
         onSubmit={this.handleSubmit}
         onChange={this.handleChange}
         className='Form u-cf'>

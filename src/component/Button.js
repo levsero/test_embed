@@ -111,7 +111,7 @@ const ButtonSecondary = React.createClass({
          ? <div
              className={buttonClasses}
              style={this.props.style}
-             disabled>
+             disabled={true}>
              {this.props.label}
            </div>
          : <div

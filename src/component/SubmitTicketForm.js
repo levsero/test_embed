@@ -168,7 +168,7 @@ export const SubmitTicketForm = React.createClass({
                        <Field
                          placeholder={i18n.t('embeddable_framework.form.field.email.label')}
                          type='email'
-                         required
+                         required={true}
                          value={this.state.formState.email}
                          name='email' />
                        {customFields.fields}
@@ -176,7 +176,7 @@ export const SubmitTicketForm = React.createClass({
                          placeholder={
                            i18n.t('embeddable_framework.submitTicket.field.description.label')
                          }
-                         required
+                         required={true}
                          value={this.state.formState.description}
                          name='description'
                          input={<textarea rows='5' />} />
@@ -192,7 +192,7 @@ export const SubmitTicketForm = React.createClass({
 
     return (
       <form
-        noValidate
+        noValidate={true}
         onSubmit={this.handleSubmit}
         onChange={this.handleUpdate}
         ref='form'
