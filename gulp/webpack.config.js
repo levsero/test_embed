@@ -1,11 +1,11 @@
-var path = require('path');
-var prefix = process.cwd();
-var svgoConfig = JSON.stringify({
-      plugins: [
-        {removeTitle: true},
-        {convertPathData: false}
-      ]
-    });
+var path = require('path'),
+  prefix = process.cwd(),
+  svgoConfig = JSON.stringify({
+    plugins: [
+      {removeTitle: true},
+      {convertPathData: false}
+    ]
+  });
 
 module.exports = {
   cache: true,

@@ -134,7 +134,6 @@ export const SubmitTicketForm = React.createClass({
     return _.chain(form.elements)
       .reject((field) => field.type === 'submit')
       .reduce((result, field) => {
-        /* jshint laxbreak: true */
         result[field.name] = (field.type === 'checkbox')
                            ? field.checked ? 1 : 0
                            : field.value;
@@ -159,7 +158,6 @@ export const SubmitTicketForm = React.createClass({
       'u-isHidden': this.props.hide
     });
     const customFields = getCustomFields(this.props.customFields, this.state.formState);
-    /* jshint laxbreak: true */
     const formBody = (this.state.removeTicketForm)
                    ? null
                    : <div ref='formWrapper'>
@@ -201,7 +199,6 @@ export const SubmitTicketForm = React.createClass({
         className={formClasses}>
         <ScrollContainer
           ref='scrollContainer'
-          /* jshint maxlen: false */
           title={i18n.t(`embeddable_framework.submitTicket.form.title.${this.props.formTitleKey}`)}
           contentExpanded={true}
           footerContent={

@@ -56,7 +56,6 @@ export const Launcher = React.createClass({
     }
 
     return (
-      /* jshint quotmark: false */
       <div className={buttonClasses}
         onClick={this.props.onClick}
         onTouchEnd={this.props.onClick}>

@@ -1,8 +1,8 @@
 describe('embed.helpCenter', function() {
   let helpCenter,
-      mockRegistry,
-      frameConfig,
-      focusField;
+    mockRegistry,
+    frameConfig,
+    focusField;
   const helpCenterPath = buildSrcPath('embed/helpCenter/helpCenter');
   const resetSearchFieldState = jasmine.createSpy();
   const hideVirtualKeyboard = jasmine.createSpy();
@@ -155,9 +155,9 @@ describe('embed.helpCenter', function() {
 
     describe('frameFactory', function() {
       let mockFrameFactory,
-          mockFrameFactoryCall,
-          childFn,
-          params;
+        mockFrameFactoryCall,
+        childFn,
+        params;
 
       beforeEach(function() {
         mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
@@ -177,7 +177,6 @@ describe('embed.helpCenter', function() {
         expect(payload.props.formTitleKey)
           .toEqual(carlos.config.formTitleKey);
       });
-
       it('should pass in zendeskHost from transport.getZendeskHost', function() {
         const payload = childFn({});
 
@@ -189,18 +188,18 @@ describe('embed.helpCenter', function() {
         const mockSetState = jasmine.createSpy();
         const mockFrame = {
           getRootComponent() {
-            return { setState: noop }
+            return { setState: noop };
           },
           getChild() {
             return {
               setState: mockSetState
-            }
+            };
           }
         };
 
         params.onBack(mockFrame);
 
-        const mockSetStateArgs = mockSetState.calls.mostRecent().args
+        const mockSetStateArgs = mockSetState.calls.mostRecent().args;
 
         expect(mockSetState)
           .toHaveBeenCalled();
@@ -496,10 +495,9 @@ describe('embed.helpCenter', function() {
 
     describe('mediator subscriptions', function() {
       let mockMediator,
-          mockI18n,
-          carlos,
-          carlosHelpCenter,
-          carlosHelpCenterForm;
+        mockI18n,
+        carlos,
+        carlosHelpCenter;
 
       beforeEach(function() {
         mockMediator = mockRegistry['service/mediator'].mediator;
@@ -508,7 +506,6 @@ describe('embed.helpCenter', function() {
         helpCenter.render('carlos');
         carlos = helpCenter.get('carlos');
         carlosHelpCenter = carlos.instance.getChild().refs.rootComponent;
-        carlosHelpCenterForm = carlosHelpCenter.refs.helpCenterForm;
       });
 
       it('should subscribe to <name>.show', function() {
@@ -579,7 +576,7 @@ describe('embed.helpCenter', function() {
 
     describe('postRender contextual help', function() {
       let getPageKeywordsSpy,
-          contextualSearchSpy;
+        contextualSearchSpy;
 
       beforeEach(function() {
         getPageKeywordsSpy = mockRegistry['utility/utils'].getPageKeywords;

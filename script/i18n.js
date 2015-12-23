@@ -7,7 +7,7 @@ var when  = require('when'),
 
 function filterLocales(locales) {
   return _.reject(locales, function(locale) {
-    return locale.name === 'Deutsch (informell)'
+    return locale.name === 'Deutsch (informell)';
   });
 }
 
@@ -18,7 +18,7 @@ function fetchLocale(locale) {
       process.stdout.write('.');
       return response;
     });
-};
+}
 
 function generateLocaleIdMap(locales) {
   return _.chain(locales)
@@ -36,7 +36,7 @@ rest('https://support.zendesk.com/api/v2/rosetta/locales/public.json')
     var locales = filterLocales(JSON.parse(res.entity).locales);
     var requests = [];
 
-    console.log("\nWriting to " + localeIdMapPath);
+    console.log('\nWriting to ' + localeIdMapPath);
 
     fs.writeFile(
       localeIdMapPath,
@@ -64,7 +64,7 @@ rest('https://support.zendesk.com/api/v2/rosetta/locales/public.json')
         }, {})
         .value();
 
-      console.log("\nWriting to " + translationsPath);
+      console.log('\nWriting to ' + translationsPath);
 
       fs.writeFile(
         translationsPath,

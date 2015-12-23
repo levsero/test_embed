@@ -1,9 +1,9 @@
 import { cacheBuster } from 'service/cacheBuster';
 
 var win = cacheBuster.isCacheBusting(window.name) ? window : window.parent;
-var document = win.document; /* jshint ignore:line */
-var navigator = win.navigator; /* jshint ignore:line */
-var location = win.location; /* jshint ignore:line */
+var document = win.document;
+var navigator = win.navigator;
+var location = win.location;
 
 function getDocumentHost() {
   return document.body || document.documentElement;

@@ -1,15 +1,15 @@
 describe('mediator', function() {
   let mockRegistry,
-      mediator,
-      c,
-      beaconSub,
-      launcherSub,
-      submitTicketSub,
-      chatSub,
-      helpCenterSub,
-      npsSub,
-      ipmSub,
-      initSubscriptionSpies;
+    mediator,
+    c,
+    beaconSub,
+    launcherSub,
+    submitTicketSub,
+    chatSub,
+    helpCenterSub,
+    npsSub,
+    ipmSub,
+    initSubscriptionSpies;
 
   const reset = function(spy) {
     spy.calls.reset();
@@ -359,7 +359,6 @@ describe('mediator', function() {
           .toHaveBeenCalled();
       });
 
-      /* jshint maxlen:false */
       it('should not broadcast nps.activate if an embed was activated while identify.pending', function() {
         c.broadcast('.onIdentify', {});
 
@@ -496,7 +495,6 @@ describe('mediator', function() {
           .toHaveBeenCalled();
       });
 
-      /* jshint maxlen:false */
       it('should not broadcast ipm.activate if an embed was activated while identify.pending', function() {
         c.broadcast('.onIdentify', {});
 

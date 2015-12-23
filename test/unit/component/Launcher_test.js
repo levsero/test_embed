@@ -1,6 +1,5 @@
 describe('Launcher component', function() {
-  let Launcher,
-      mockRegistry;
+  let Launcher;
   const launcherPath = buildSrcPath('component/Launcher');
 
   beforeEach(function() {
@@ -8,7 +7,7 @@ describe('Launcher component', function() {
 
     mockery.enable();
 
-    mockRegistry = initMockRegistry({
+    initMockRegistry({
       'utility/devices': {
         isMobileBrowser: function() {
           return false;
@@ -41,7 +40,6 @@ describe('Launcher component', function() {
   });
 
   it('should correctly set the initial state when created', function() {
-    /* jshint quotmark: false */
     const launcher = React.render(
       <Launcher icon='testIcon' />,
       global.document.body
@@ -52,7 +50,6 @@ describe('Launcher component', function() {
   });
 
   it('should change the state icon when setIcon is called', function() {
-    /* jshint quotmark: false */
     const launcher = React.render(
       <Launcher label='help' />,
       global.document.body
@@ -84,7 +81,6 @@ describe('Launcher component', function() {
   });
 
   it('should change the label when setLabel is called', function() {
-    /* jshint quotmark: false */
     const launcher = React.render(
       <Launcher label='help'/>,
       global.document.body

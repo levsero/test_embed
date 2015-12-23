@@ -1,6 +1,6 @@
 describe('embed.nps', () => {
   let nps,
-      mockRegistry;
+    mockRegistry;
 
   const npsPath = buildSrcPath('embed/nps/nps');
 
@@ -139,8 +139,8 @@ describe('embed.nps', () => {
 
     describe('mediator subscriptions', () => {
       let mockMediator,
-          dan,
-          danNps;
+        dan,
+        danNps;
 
       const surveyParams = {
         npsSurvey: {
@@ -254,19 +254,19 @@ describe('embed.nps', () => {
     };
 
     let store,
-        transport,
-        expectedKey,
-        currentDate;
+      transport,
+      expectedKey,
+      currentDate;
 
     beforeEach(() => {
       store = mockRegistry['service/persistence'].store;
       transport = mockRegistry['service/transport'].transport;
       expectedKey = [
-          transport.getZendeskHost(),
-          survey.id,
-          survey.recipientId,
-          'dismiss-timestamp'
-        ].join('-');
+        transport.getZendeskHost(),
+        survey.id,
+        survey.recipientId,
+        'dismiss-timestamp'
+      ].join('-');
       currentDate = new Date();
       currentDate.setMilliseconds(0);
     });

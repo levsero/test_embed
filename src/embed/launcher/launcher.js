@@ -31,7 +31,6 @@ function create(name, config) {
 
   config = _.extend(configDefaults, config);
 
-  /* jshint laxbreak: true */
   let posObj = (config.position === 'left')
              ? { 'left':  '20px' }
              : { 'right': '20px' };

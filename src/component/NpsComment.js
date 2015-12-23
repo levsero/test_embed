@@ -52,7 +52,6 @@ export const NpsComment = React.createClass({
       'is-mobile': this.props.isMobile
     });
 
-    /* jshint laxbreak: true */
     const commentSubmitButton = (this.props.isSubmittingComment)
                               ? <ButtonSecondary
                                   className={sendButtonClasses}

@@ -1,8 +1,8 @@
 describe('SubmitTicketForm component', function() {
   let SubmitTicketForm,
-      onSubmit,
-      onCancel,
-      mockRegistry;
+    onSubmit,
+    onCancel,
+    mockRegistry;
   const submitTicketFormPath = buildSrcPath('component/SubmitTicketForm');
   const buttonPath = buildSrcPath('component/Button');
 
@@ -22,10 +22,10 @@ describe('SubmitTicketForm component', function() {
       'react/addons': React,
       'component/Button': {
         Button: React.createClass({
-            render: function() {
-              return <input type='submit' disabled={this.props.disabled} />;
-            }
-          }),
+          render: function() {
+            return <input type='submit' disabled={this.props.disabled} />;
+          }
+        }),
         ButtonSecondary: React.createClass({
           render: function() {
             return (
@@ -52,16 +52,16 @@ describe('SubmitTicketForm component', function() {
       },
       'component/ScrollContainer': {
         ScrollContainer: React.createClass({
-            setScrollShadowVisible: noop,
-            render: function() {
-              return (
-                <div>
-                  <h1 id='formTitle'>{this.props.title}</h1>
-                  <div>{this.props.footerContent}</div>
-                </div>
-              );
-            }
-          }),
+          setScrollShadowVisible: noop,
+          render: function() {
+            return (
+              <div>
+                <h1 id='formTitle'>{this.props.title}</h1>
+                <div>{this.props.footerContent}</div>
+              </div>
+            );
+          }
+        })
       },
       'service/i18n': {
         i18n: {

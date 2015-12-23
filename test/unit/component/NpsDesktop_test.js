@@ -1,11 +1,10 @@
 describe('NpsDesktop component', function() {
   let NpsDesktop,
-      mockRegistry,
-      component,
-      mockSubmitRatingHandler,
-      mockSubmitCommentHandler,
-      mockFocusField,
-      npsProps;
+    component,
+    mockSubmitRatingHandler,
+    mockSubmitCommentHandler,
+    mockFocusField,
+    npsProps;
 
   const npsPath = buildSrcPath('component/NpsDesktop');
 
@@ -40,26 +39,26 @@ describe('NpsDesktop component', function() {
 
     mockery.enable();
 
-    mockRegistry = initMockRegistry({
+    initMockRegistry({
       'react/addons': React,
       'component/Container': {
         Container: React.createClass({
-            render: function() {
-              return <div>{this.props.children}</div>;
-            }
-          }),
+          render: function() {
+            return <div>{this.props.children}</div>;
+          }
+        })
       },
       'component/Button': {
         Button: noopReactComponent()
       },
       'component/FormField': {
         Field: React.createClass({
-            render: () => {
-              return (
-                <div ref='commentField'></div>
-              );
-            }
-          })
+          render: () => {
+            return (
+              <div ref='commentField'></div>
+            );
+          }
+        })
       },
       'component/Loading': {
         LoadingEllipses: noopReactComponent()
@@ -90,10 +89,10 @@ describe('NpsDesktop component', function() {
       },
       'component/ZendeskLogo': {
         ZendeskLogo: React.createClass({
-            render: function() {
-              return <div className='ZendeskLogo'></div>;
-            }
-          }),
+          render: function() {
+            return <div className='ZendeskLogo'></div>;
+          }
+        })
       },
       'utility/utils': {
         generateConstrastColor: noop

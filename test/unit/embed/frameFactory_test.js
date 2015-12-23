@@ -1,11 +1,11 @@
 describe('frameFactory', function() {
 
   let frameFactory,
-      mockRegistry,
-      mockRegistryMocks,
-      mockChildFn,
-      mockSnabbt,
-      mockSnabbtThen;
+    mockRegistry,
+    mockRegistryMocks,
+    mockChildFn,
+    mockSnabbt,
+    mockSnabbtThen;
 
   const frameFactoryPath = buildSrcPath('embed/frameFactory');
 
@@ -59,7 +59,6 @@ describe('frameFactory', function() {
 
     mockChildFn = function() {
       return (
-        /* jshint quotmark:false */
         <div
           className='mock-component'
           ref='rootComponent' />
@@ -207,10 +206,10 @@ describe('frameFactory', function() {
 
     it('respects the fullscreenable parameter', function() {
       let payload,
-          Embed,
-          instance,
-          frameContainer,
-          frameContainerStyle;
+        Embed,
+        instance,
+        frameContainer,
+        frameContainerStyle;
 
       mockRegistry['utility/devices'].isMobileBrowser = function() {
         return true;
@@ -260,11 +259,11 @@ describe('frameFactory', function() {
 
   describe('show', function() {
     let instance,
-        mockOnShow;
+      mockOnShow;
 
     beforeEach(function() {
       let payload,
-          Embed;
+        Embed;
 
       mockSnabbt.calls.reset();
 
@@ -299,17 +298,11 @@ describe('frameFactory', function() {
     });
 
     describe('without animation', function() {
-      let mockFrameParams,
-          mockAfterShowAnimate,
-          mockTransitionInCallback,
-          instance;
+      let instance;
 
       beforeEach(function() {
         let payload,
-            Embed;
-
-        mockAfterShowAnimate = jasmine.createSpy();
-        mockTransitionInCallback = jasmine.createSpy();
+          Embed;
 
         payload = frameFactory(mockChildFn, {}),
 
@@ -331,13 +324,13 @@ describe('frameFactory', function() {
 
     describe('with animation', function() {
       let mockFrameParams,
-          mockOnShow,
-          mockAfterShowAnimate,
-          instance;
+        mockOnShow,
+        mockAfterShowAnimate,
+        instance;
 
       beforeEach(function() {
         let payload,
-            Embed;
+          Embed;
 
         mockAfterShowAnimate = jasmine.createSpy('afterShowAnimate');
         mockOnShow = jasmine.createSpy('onShow');
@@ -417,11 +410,11 @@ describe('frameFactory', function() {
 
       describe('and no afterShowAnimate', function() {
         let mockFrameParams,
-            instance;
+          instance;
 
         beforeEach(function() {
           let payload,
-              Embed;
+            Embed;
 
           mockSnabbt.calls.reset();
 
@@ -453,11 +446,11 @@ describe('frameFactory', function() {
 
       describe('and no callback', function() {
         let mockFrameParams,
-            instance;
+          instance;
 
         beforeEach(function() {
           let payload,
-              Embed;
+            Embed;
 
           mockSnabbt.calls.reset();
 
@@ -485,13 +478,13 @@ describe('frameFactory', function() {
           expect(mockSnabbtThen.calls.mostRecent().args[0].callback)
             .not.toThrow();
         });
-      })
+      });
     });
   });
 
   describe('hide', function() {
     let instance,
-        mockOnHide;
+      mockOnHide;
 
     beforeEach(function() {
       mockSnabbt.calls.reset();
@@ -527,12 +520,11 @@ describe('frameFactory', function() {
     });
 
     describe('without animation', function() {
-      let mockFrameParams,
-          instance;
+      let instance;
 
       beforeEach(function() {
         let payload,
-            Embed;
+          Embed;
 
         mockSnabbt.calls.reset();
 
@@ -556,7 +548,7 @@ describe('frameFactory', function() {
 
     describe('with animation', function() {
       let instance,
-          mockFrameParams;
+        mockFrameParams;
 
       beforeEach(function() {
         mockFrameParams = {
@@ -624,7 +616,7 @@ describe('frameFactory', function() {
                 position: [1, 2, 3]
               }
             }
-          }
+          };
 
           const payload = frameFactory(mockChildFn, mockFrameParams);
 
@@ -702,7 +694,7 @@ describe('frameFactory', function() {
 
       mockRegistry['service/i18n'].i18n.isRTL = function() {
         return true;
-      }
+      };
       instance.setState({ visible: false });
 
       expect(frameContainerStyle.top)
@@ -721,7 +713,7 @@ describe('frameFactory', function() {
 
       mockRegistry['service/i18n'].i18n.isRTL = function() {
         return false;
-      }
+      };
       instance.setState({ visible: false });
 
       expect(frameContainerStyle.top)
@@ -788,7 +780,6 @@ describe('frameFactory', function() {
       const payload = frameFactory(
         function(params) {
           return (
-            /* jshint quotmark:false */
             <mockComponent
               ref='rootComponent'
               onClick={params.onClickHandler}
@@ -825,7 +816,6 @@ describe('frameFactory', function() {
       const payload = frameFactory(
         function(params) {
           return (
-            /* jshint quotmark:false */
             <mockComponent
               ref='rootComponent'
               updateFrameSize={params.updateFrameSize} />

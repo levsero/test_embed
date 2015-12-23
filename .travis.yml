@@ -11,6 +11,7 @@ before_script:
   - npm install
   - ./node_modules/.bin/bower install
   - ./script/fetch_i18n
+  - npm run lint
   - ./node_modules/.bin/gulp build
 
 script:

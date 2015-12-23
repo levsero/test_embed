@@ -1,6 +1,5 @@
 describe('Container component', function() {
-  let Container,
-      mockRegistry;
+  let Container;
   const containerPath = buildSrcPath('component/Container');
 
   beforeEach(function() {
@@ -11,8 +10,8 @@ describe('Container component', function() {
       useCleanCache: true
     });
 
-    mockRegistry = initMockRegistry({
-      'react/addons': React,
+    initMockRegistry({
+      'react/addons': React
     });
 
     mockery.registerAllowable(containerPath);

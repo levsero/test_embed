@@ -1,9 +1,8 @@
 describe('util.setScaleLock', function() {
   let setScaleLock,
-      metaStringToObj,
-      mockRegistry,
-      splitPath,
-      metaTag;
+    metaStringToObj,
+    splitPath,
+    metaTag;
   const utilPath = buildSrcPath('util/utils');
 
   beforeEach(function() {
@@ -13,7 +12,7 @@ describe('util.setScaleLock', function() {
       useCleanCache: true
     });
 
-    mockRegistry = initMockRegistry({
+    initMockRegistry({
       'utility/globals': {
         document: document
       },
@@ -45,8 +44,6 @@ describe('util.setScaleLock', function() {
   });
 
   describe('setScaleLock(true)', function() {
-
-    /* jshint maxlen:false */
 
     it('adds a <meta name="viewport" /> tag if one does not exist', function() {
       expect(document.querySelectorAll('meta[name="viewport"]').length)
