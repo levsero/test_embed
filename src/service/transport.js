@@ -24,7 +24,7 @@ function send(payload) {
     // MOCK RESPONSES FOR PROTOTYPE TESTING
     //
     if (payload.path === '/embeddable/identify') {
-        /* eslint no-console:0 */
+      /* eslint no-console:0 */
       console.log(payload.params, payload.method, payload.path);
       setTimeout(function() {
         const npsSurvey = {

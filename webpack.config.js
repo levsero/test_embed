@@ -1,11 +1,14 @@
-var path = require('path'),
-  prefix = process.cwd(),
-  svgoConfig = JSON.stringify({
-    plugins: [
-      {removeTitle: true},
-      {convertPathData: false}
-    ]
-  });
+var path = require('path');
+var webpack = require('webpack');
+var fs = require('fs');
+var prefix = process.cwd();
+var svgoConfig = JSON.stringify({
+      plugins: [
+        {removeTitle: true},
+        {convertPathData: false}
+      ]
+    });
+var version = String(fs.readFileSync('dist/VERSION_HASH')).trim();
 
 module.exports = {
   cache: true,
@@ -62,5 +65,11 @@ module.exports = {
       icons: path.join(prefix + '/src/asset/icons')
     },
     modulesDirectories: ['node_modules', 'bower_components']
-  }
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      __EMBEDDABLE_VERSION__: JSON.stringify(version),
+      __DEV__: JSON.stringify(true)
+    })
+  ]
 };
