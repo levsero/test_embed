@@ -1,10 +1,11 @@
+/* eslint no-var:0 */
 // Code taken from http://www.lognormal.com/blog/2012/12/12/the-script-loader-pattern/
 window.zEmbed || (function(url, host) {
 
   // Part 1: Creating and appending <iframe /> to the document
-  let dom, doc, where, iWin, iDoc;
-  let queue = [];
-  let iframe = document.createElement('iframe');
+  var dom, doc, where, iWin, iDoc;
+  var queue = [];
+  var iframe = document.createElement('iframe');
 
   window.zEmbed = function() {
     queue.push(arguments);
@@ -31,7 +32,7 @@ window.zEmbed || (function(url, host) {
     doc = iDoc;
   }
   doc.open()._l = function() {
-    let js = this.createElement('script');
+    var js = this.createElement('script');
 
     if (dom) { this.domain = dom; }
     js.id = 'js-iframe-async';
