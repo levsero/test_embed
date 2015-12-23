@@ -101,13 +101,13 @@ function initMediator(config) {
     mediator.initMessaging();
   } else {
     logging.error({
-        error: {
-          message: 'Could not find embeds to initialise.'
-        },
-        params: {
-          config: config
-        }
-      });
+      error: {
+        message: 'Could not find embeds to initialise.'
+      },
+      params: {
+        config: config
+      }
+    });
   }
 }
 

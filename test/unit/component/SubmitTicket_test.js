@@ -1,7 +1,6 @@
 describe('Submit ticket component', function() {
   let SubmitTicket,
-      mockRegistry,
-      mockGetSizingRatio;
+    mockRegistry;
   const formParams = {
     'set_tags': 'web_widget',
     'via_id': 48,
@@ -44,10 +43,6 @@ describe('Submit ticket component', function() {
       }
     });
 
-    mockGetSizingRatio = function() {
-      return 1;
-    };
-
     mockRegistry = initMockRegistry({
       'react/addons': React,
       'utility/globals': {
@@ -64,15 +59,15 @@ describe('Submit ticket component', function() {
       },
       'component/SubmitTicketForm': {
         SubmitTicketForm: React.createClass({
-            getInitialState: function() {
-              return {
-                formState: {}
-              };
-            },
-            render: function() {
-              return <form onSubmit={this.props.handleSubmit} />;
-            }
-          }),
+          getInitialState: function() {
+            return {
+              formState: {}
+            };
+          },
+          render: function() {
+            return <form onSubmit={this.props.handleSubmit} />;
+          }
+        }),
         MessageFieldset: noop,
         EmailField: noop
       },
@@ -84,17 +79,17 @@ describe('Submit ticket component', function() {
       },
       'component/Container': {
         Container: React.createClass({
-            render: function() {
-              return <div>{this.props.children}</div>;
-            }
-          }),
+          render: function() {
+            return <div>{this.props.children}</div>;
+          }
+        })
       },
       'component/ScrollContainer': {
         ScrollContainer: React.createClass({
-            render: function() {
-              return <div>{this.props.children}</div>;
-            }
-          }),
+          render: function() {
+            return <div>{this.props.children}</div>;
+          }
+        })
       },
       'service/i18n': {
         i18n: {
@@ -223,7 +218,7 @@ describe('Submit ticket component', function() {
         type: 'text',
         title: 'Text',
         required: true
-      },
+      }
     ];
     const mockValues = {
       value: {

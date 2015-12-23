@@ -77,7 +77,6 @@ function init(helpCenterAvailable, hideLauncher) {
 
       c.broadcast(`${launcher}.hide`);
 
-      /* jshint laxbreak: true */
       state['.hideOnClose'] = (options.hideOnClose)
                             ? true
                             : false;

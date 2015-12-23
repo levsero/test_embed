@@ -1,7 +1,7 @@
 describe('embed.submitTicket', function() {
   let submitTicket,
-      mockRegistry,
-      frameConfig;
+    mockRegistry,
+    frameConfig;
   const resetTicketFormVisibility = jasmine.createSpy();
   const hideVirtualKeyboard = jasmine.createSpy();
   const focusField = jasmine.createSpy();
@@ -93,7 +93,7 @@ describe('embed.submitTicket', function() {
         transitionFactory: require(buildTestPath('unit/mockTransitionFactory')).mockTransitionFactory
       },
       'service/transport': {
-        transport: jasmine.createSpyObj('transport', ['send']),
+        transport: jasmine.createSpyObj('transport', ['send'])
       }
     });
 
@@ -144,9 +144,9 @@ describe('embed.submitTicket', function() {
 
     describe('frameFactory', function() {
       let mockFrameFactory,
-          mockFrameFactoryCall,
-          childFn,
-          params;
+        mockFrameFactoryCall,
+        childFn,
+        params;
 
       beforeEach(function() {
         mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
@@ -342,10 +342,10 @@ describe('embed.submitTicket', function() {
 
         mockery.registerMock(
           'utility/devices', {
-          isMobileBrowser: function() {
-            return true;
-          }
-        });
+            isMobileBrowser: function() {
+              return true;
+            }
+          });
 
         mockery.resetCache();
 
@@ -364,11 +364,11 @@ describe('embed.submitTicket', function() {
             'submitTicket',
             'send',
             'bob',
-            {
-              query: params.searchString,
-              locale: params.searchLocale,
-              ticketId: 149
-            }
+          {
+            query: params.searchString,
+            locale: params.searchLocale,
+            ticketId: 149
+          }
           );
 
         expect(mockMediator.channel.broadcast)
@@ -459,10 +459,10 @@ describe('embed.submitTicket', function() {
 
     describe('mediator subscription', function() {
       let mockMediator,
-          bob,
-          bobFrame,
-          bobSubmitTicket,
-          bobSubmitTicketForm;
+        bob,
+        bobFrame,
+        bobSubmitTicket,
+        bobSubmitTicketForm;
 
       beforeEach(function() {
         mockMediator = mockRegistry['service/mediator'].mediator;

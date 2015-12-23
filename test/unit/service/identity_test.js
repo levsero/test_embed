@@ -1,7 +1,6 @@
 describe('identity', function() {
   let identity,
-      mockRegistry,
-      mockPersistence;
+    mockPersistence;
 
   beforeEach(function() {
     mockery.enable({useCleanCache: true});
@@ -13,7 +12,7 @@ describe('identity', function() {
       }
     };
 
-    mockRegistry = initMockRegistry({
+    initMockRegistry({
       'service/persistence': mockPersistence
     });
 

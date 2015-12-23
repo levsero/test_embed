@@ -1,6 +1,5 @@
 describe('Icon component', function() {
-  let Icon,
-      mockRegistry;
+  let Icon;
   const iconPath = buildSrcPath('component/Icon');
   const onClick = jasmine.createSpy('onClick');
   const dummyIcon = React.createClass({
@@ -17,7 +16,7 @@ describe('Icon component', function() {
       useCleanCache: true
     });
 
-    mockRegistry = initMockRegistry({
+    initMockRegistry({
       'react/addons': React,
       'icons/widget-icon_link.svg': dummyIcon,
       'icons/widget-icon_back.svg': dummyIcon,

@@ -8,7 +8,6 @@ import { getDeviceZoom,
 import { mediator }        from 'service/mediator';
 import { setScrollKiller } from 'utility/scrollHacks';
 
-let isPinching;
 let lastTouchEnd = 0;
 
 const propagateFontRatioChange = (isPinching) => {
@@ -72,8 +71,6 @@ function initMobileScaling() {
   }));
 
   win.addEventListener('touchmove', Airbrake.wrap((e) => {
-    isPinching = e.touches.length > 1;
-
     if (e.touches.length === 2) {
       renderer.hideByZoom(true);
     }

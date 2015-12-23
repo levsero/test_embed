@@ -77,7 +77,6 @@ export var SubmitTicket = React.createClass({
       this.formatTicketSubmission(data)
     );
     const failCallback = (err) => {
-      /* jshint laxbreak: true */
       const msg = (err.timeout)
                 ? i18n.t('embeddable_framework.submitTicket.notify.message.timeout')
                 : i18n.t('embeddable_framework.submitTicket.notify.message.error');
@@ -142,7 +141,6 @@ export var SubmitTicket = React.createClass({
       setTimeout( () => this.props.updateFrameSize(), 0);
     }
 
-    /* jshint laxbreak: true */
     const zendeskLogo = this.props.hideZendeskLogo || this.state.fullscreen
                       ? null
                       : <ZendeskLogo

@@ -1,8 +1,7 @@
 describe('store', function() {
   let store,
-      mockRegistry,
-      mockLocalStorage,
-      mockSessionStorage;
+    mockLocalStorage,
+    mockSessionStorage;
   const prefix = 'ZD-';
   const persistencePath = buildSrcPath('service/persistence');
 
@@ -17,14 +16,14 @@ describe('store', function() {
     };
     mockSessionStorage = _.extend({}, mockLocalStorage);
 
-    mockRegistry = initMockRegistry({
+    initMockRegistry({
       'utility/globals': {
         win: {
           localStorage: mockLocalStorage,
           sessionStorage: mockSessionStorage
         }
       },
-      'lodash': _,
+      'lodash': _
     });
 
     mockery.registerAllowable(persistencePath);

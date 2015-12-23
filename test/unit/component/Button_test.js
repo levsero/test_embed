@@ -1,7 +1,6 @@
 describe('component/Button', function() {
   let Button,
-      ButtonSecondary,
-      mockRegistry;
+    ButtonSecondary;
   const buttonPath = buildSrcPath('component/Button');
 
   beforeEach(function() {
@@ -12,7 +11,7 @@ describe('component/Button', function() {
       useCleanCache: true
     });
 
-    mockRegistry = initMockRegistry({
+    initMockRegistry({
       'react/addons': React,
       'component/Icon': {
         Icon: noopReactComponent()

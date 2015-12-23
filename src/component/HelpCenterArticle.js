@@ -98,7 +98,6 @@ var HelpCenterArticle = React.createClass({
     });
 
     return (
-      /* jshint camelcase:false, maxlen:false */
       <div>
         <div className={userContentClasses} ref='userContent'>
           <h1>{this.props.activeArticle.title}</h1>
@@ -110,7 +109,7 @@ var HelpCenterArticle = React.createClass({
           <div className='u-marginBM'>
             <a
               className='u-linkClean'
-              href={this.props.activeArticle.html_url} // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
+              href={this.props.activeArticle.html_url}
               target='_blank'>
               <ButtonPill
                 fullscreen={this.props.fullscreen}

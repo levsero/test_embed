@@ -1,6 +1,6 @@
 describe('embed.ipm', () => {
   let ipm,
-      mockRegistry;
+    mockRegistry;
 
   const ipmPath = buildSrcPath('embed/ipm/ipm');
 
@@ -153,8 +153,8 @@ describe('embed.ipm', () => {
 
     describe('mediator subscriptions', () => {
       let mockMediator,
-          dan,
-          danIpm;
+        dan,
+        danIpm;
 
       const ipmParams = {
         pendingCampaign: {
@@ -162,7 +162,7 @@ describe('embed.ipm', () => {
           message: {
             body: 'comments question',
             color: 'red'
-          },
+          }
         }
       };
 

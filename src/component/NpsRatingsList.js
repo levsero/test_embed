@@ -6,7 +6,6 @@ import { ButtonRating } from 'component/Button';
 const classSet = React.addons.classSet;
 
 const prependWith = _.curry((prepend, str) => {
-  /* jshint laxbreak: true */
   return str.indexOf(prepend) > -1
      ? str
      : `${prepend}${str}`;
@@ -70,7 +69,6 @@ export const NpsRatingsList = React.createClass({
 
     const items = this.props.ratingsRange.map(ratingListItemTemplate);
 
-    /* jshint laxbreak: true */
     const ratingsLegendContent = (!this.props.hideRatingsLegend)
                                ? <div className={ratingsLegendClasses}>
                                    <p className={notLikelyLabelClasses}>

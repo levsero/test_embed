@@ -15,7 +15,6 @@ var Button = React.createClass({
   },
 
   render() {
-    /* jshint laxbreak: true */
     const buttonClasses = classSet({
       'c-btn c-btn--medium c-btn--primary': true,
       'Anim-color u-textNoWrap u-borderTransparent u-userBackgroundColor': true,
@@ -108,7 +107,6 @@ var ButtonSecondary = React.createClass({
       [this.props.className]: true
     });
 
-    /* jshint laxbreak: true */
     return (this.props.disabled)
          ? <div
              className={buttonClasses}
@@ -170,7 +168,6 @@ var ButtonRating = React.createClass({
       'is-disabled': this.props.disabled
     });
 
-    /* jshint laxbreak: true */
     const label = this.props.loading
                 ? <LoadingSpinner
                     className={`u-userFillColorContrast ${this.props.loadingSpinnerClassName}`} />
