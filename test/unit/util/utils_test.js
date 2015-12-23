@@ -229,7 +229,9 @@ describe('util.setScaleLock', function() {
       const { addons: { TestUtils } } = require('react/addons');
 
       const containerDiv = TestUtils.renderIntoDocument(<h1>Hello React!</h1>).getDOMNode();
-      expect(containerDiv.outerHTML).toEqual('<h1 data-ze-reactid=".0">Hello React!</h1>');
+
+      expect(containerDiv.outerHTML)
+        .toEqual('<h1 data-ze-reactid=".0">Hello React!</h1>');
     });
   });
 });

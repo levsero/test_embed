@@ -62,6 +62,7 @@ describe('logging', function() {
 
     it('should throw when special flag is set on error object', function() {
       const err = errPayload;
+
       err.error.special = true;
 
       expect(logging.error.bind(this, err))

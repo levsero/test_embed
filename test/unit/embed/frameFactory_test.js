@@ -95,6 +95,7 @@ describe('frameFactory', function() {
       const childFn = function() {
         return <mockComponent ref='rootComponent' />;
       };
+
       expect(function() {
         frameFactory(childFn);
       }).not.toThrow();
@@ -104,6 +105,7 @@ describe('frameFactory', function() {
       const childFn = function() {
         return <div ref='rootComponent' />;
       };
+
       expect(function() {
         frameFactory(childFn);
       }).not.toThrow();

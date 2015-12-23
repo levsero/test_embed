@@ -79,9 +79,9 @@ function isBlacklisted() {
 
 function isIE() {
   return (
-    //MSIE is present in all IE user agents since IE 2.0
+    // MSIE is present in all IE user agents since IE 2.0
     (navigator.userAgent.indexOf('MSIE') !== -1) ||
-    //Trident is IE specific
+    // Trident is IE specific
     (navigator.userAgent.indexOf('Trident') !== -1)
   );
 }

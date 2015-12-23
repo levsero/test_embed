@@ -143,7 +143,7 @@ describe('HelpCenterArticle component', function() {
       <HelpCenterArticle activeArticle={mockArticle} />,
       global.document.body
     );
-    //save old version of query selector FIXME
+    // save old version of query selector FIXME
     const oldQuerySelector = global.document.querySelector;
 
     global.document.querySelector = function() {

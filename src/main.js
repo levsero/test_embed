@@ -45,6 +45,7 @@ function boot() {
             'https://developer.zendesk.com/embeddables/docs/widget/api',
             e.stack
           ].join('\n\n'));
+
           err.special = true;
 
           throw err;
@@ -144,6 +145,7 @@ function boot() {
     let $zopim = win.$zopim = function(callback) {
       $zopim._.push(callback);
     };
+
     $zopim.set = function(callback) {
       $zopim.set._.push(callback);
     };
@@ -164,7 +166,7 @@ function boot() {
   win.zE.hide = hide;
   win.zE.show = show;
 
-  //The config for zendesk.com
+  // The config for zendesk.com
   if (host === 'www.zendesk.com') {
     if (_.contains(chatPages, path)) {
       renderer.init(renderer.hardcodedConfigs.zendeskWithChat);
@@ -174,6 +176,7 @@ function boot() {
     handlePostRenderQueue(postRenderQueue);
   } else {
     const configLoadStart = Date.now();
+
     transport.get({
       method: 'get',
       path: '/embeddable/config',

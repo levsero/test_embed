@@ -245,7 +245,9 @@ describe('embed.helpCenter', function() {
           helpCenter = require(helpCenterPath).helpCenter;
           helpCenter.create('carlos', frameConfig);
           helpCenter.render('carlos');
+
           const helpCenterFrame = helpCenter.get('carlos').instance;
+
           mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
           params = mockFrameFactoryCall[1];
 
@@ -259,7 +261,9 @@ describe('embed.helpCenter', function() {
           helpCenter = require(helpCenterPath).helpCenter;
           helpCenter.create('carlos', frameConfig);
           helpCenter.render('carlos');
+
           const helpCenterFrame = helpCenter.get('carlos').instance;
+
           mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
           params = mockFrameFactoryCall[1];
 
@@ -281,7 +285,9 @@ describe('embed.helpCenter', function() {
           helpCenter = require(helpCenterPath).helpCenter;
           helpCenter.create('carlos', frameConfig);
           helpCenter.render('carlos');
+
           const helpCenterFrame = helpCenter.get('carlos').instance;
+
           mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
           params = mockFrameFactoryCall[1];
 
@@ -295,7 +301,9 @@ describe('embed.helpCenter', function() {
           helpCenter = require(helpCenterPath).helpCenter;
           helpCenter.create('carlos', frameConfig);
           helpCenter.render('carlos');
+
           const helpCenterFrame = helpCenter.get('carlos').instance;
+
           mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
           params = mockFrameFactoryCall[1];
 
@@ -309,7 +317,9 @@ describe('embed.helpCenter', function() {
           helpCenter = require(helpCenterPath).helpCenter;
           helpCenter.create('carlos', frameConfig);
           helpCenter.render('carlos');
+
           const helpCenterFrame = helpCenter.get('carlos').instance;
+
           mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
           params = mockFrameFactoryCall[1];
 
@@ -332,7 +342,9 @@ describe('embed.helpCenter', function() {
           helpCenter = require(helpCenterPath).helpCenter;
           helpCenter.create('carlos', frameConfig);
           helpCenter.render('carlos');
+
           const helpCenterFrame = helpCenter.get('carlos').instance;
+
           mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
           params = mockFrameFactoryCall[1];
 
@@ -355,7 +367,9 @@ describe('embed.helpCenter', function() {
           helpCenter = require(helpCenterPath).helpCenter;
           helpCenter.create('carlos', frameConfig);
           helpCenter.render('carlos');
+
           const helpCenterFrame = helpCenter.get('carlos').instance;
+
           mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
           params = mockFrameFactoryCall[1];
 
@@ -564,6 +578,7 @@ describe('embed.helpCenter', function() {
 
       it('should subscribe to <name>.setHelpCenterSuggestions', function() {
         const keywords = ['foo', 'bar'];
+
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('carlos.setHelpCenterSuggestions', jasmine.any(Function));
 
@@ -585,6 +600,7 @@ describe('embed.helpCenter', function() {
         helpCenter.create('carlos', { contextualHelpEnabled: true });
 
         const helpCenterFrame = helpCenter.get('carlos');
+
         helpCenterFrame.instance = {
           getRootComponent: () => {
             return {

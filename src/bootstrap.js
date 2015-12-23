@@ -2,9 +2,9 @@
 window.zEmbed || (function(url, host) {
 
   // Part 1: Creating and appending <iframe /> to the document
-  var dom, doc, where, iWin, iDoc;
-  var queue = [];
-  var iframe = document.createElement('iframe');
+  let dom, doc, where, iWin, iDoc;
+  let queue = [];
+  let iframe = document.createElement('iframe');
 
   window.zEmbed = function() {
     queue.push(arguments);
@@ -31,7 +31,8 @@ window.zEmbed || (function(url, host) {
     doc = iDoc;
   }
   doc.open()._l = function() {
-    var js = this.createElement('script');
+    let js = this.createElement('script');
+
     if (dom) { this.domain = dom; }
     js.id = 'js-iframe-async';
     js.src = url;

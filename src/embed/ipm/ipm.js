@@ -91,6 +91,7 @@ function get(name) {
 
 function render(name) {
   const element = getDocumentHost().appendChild(document.createElement('div'));
+
   ipmes[name].instance = React.render(ipmes[name].component, element);
 
   mediator.channel.subscribe('ipm.setIpm', (params) => {
@@ -128,6 +129,7 @@ function render(name) {
         'Check out the Developer API docs to make sure you\'re using it correctly',
         'https://developer.zendesk.com/embeddables/docs/widget/api'
       ].join('\n\n'));
+
       err.special = true;
 
       throw err;
@@ -143,7 +145,7 @@ function render(name) {
   });
 }
 
-export var ipm = {
+export const ipm = {
   create: create,
   get: get,
   render: render

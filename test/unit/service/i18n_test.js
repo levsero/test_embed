@@ -102,6 +102,7 @@ describe('i18n', function() {
     });
 
     it('should return the correct locale_id for de-de', function() {
+      /* eslint dot-notation:0 */
       i18n.setLocale('de-de');
       expect(i18n.getLocaleId()).toEqual(localeIdMap['de']);
     });

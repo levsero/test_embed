@@ -198,7 +198,7 @@ function init(name) {
     zopimLive.setOnUnreadMsgs(onUnreadMsgs);
     zopimLive.setOnChatEnd(onChatEnd);
 
-    //configure zopim window
+    // configure zopim window
     zopimLive.theme.setColor(config.color);
     zopimLive.theme.setTheme('zendesk');
     zopimWin.setPosition(position);
@@ -208,7 +208,7 @@ function init(name) {
   });
 }
 
-export var chat = {
+export const chat = {
   create: create,
   list: list,
   get: get,

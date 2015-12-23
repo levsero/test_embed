@@ -45,6 +45,7 @@ function create(name, config) {
   };
   const onSubmitted = function(params) {
     let ticketIdMatcher = /Request \#([0-9]+)/;
+
     beacon.track(
       'submitTicket',
       'send',
@@ -197,6 +198,7 @@ function prefillForm(name, user) {
 
   if (rootComponent) {
     const submitTicketForm = rootComponent.refs.submitTicketForm;
+
     submitTicketForm.setState({
       formState: _.pick(user, ['name', 'email'])
     });
@@ -219,7 +221,7 @@ function list() {
   return submitTickets;
 }
 
-export var submitTicket = {
+export const submitTicket = {
   create: create,
   render: render,
   get: get,
