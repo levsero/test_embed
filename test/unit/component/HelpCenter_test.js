@@ -667,10 +667,7 @@ describe('HelpCenter component', function() {
   });
 
   describe('interactiveSearchSuccessFn', () => {
-    let mockOnSearch,
-        helpCenter,
-        result,
-        query;
+    let mockOnSearch, helpCenter, result, query;
 
     beforeEach(() => {
       mockOnSearch = jasmine.createSpy('onSearch');
@@ -788,7 +785,6 @@ describe('HelpCenter component', function() {
     });
 
     it('should build up the query object correctly', () => {
-      /* jshint camelcase:false */
       const searchTerm = 'a search term ';
       const mockPerformSearch = jasmine.createSpy('mockPerformSearch');
       const helpCenter = React.render(
@@ -886,7 +882,6 @@ describe('HelpCenter component', function() {
     });
 
     it('should build up the query object correctly', () => {
-      /* jshint camelcase:false */
       const searchTerm = 'a search term';
       const mockPerformSearch = jasmine.createSpy('mockPerformSearch');
       const helpCenter = React.render(

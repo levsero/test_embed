@@ -1,7 +1,5 @@
 describe('HelpCenterForm component', function() {
-  let HelpCenterForm,
-      onSubmit,
-      onChange;
+  let HelpCenterForm, onSubmit, onChange;
 
   const helpCenterFormPath = buildSrcPath('component/HelpCenterForm');
 

@@ -121,8 +121,6 @@ export const HelpCenter = React.createClass({
   },
 
   contextualSearch(options) {
-    /* jshint camelcase:false, laxbreak:true */
-
     const hasSearchKey = (options.hasOwnProperty('search')
                           && options.search);
     const hasLabelsKey = (options.hasOwnProperty('labels')
@@ -171,7 +169,6 @@ export const HelpCenter = React.createClass({
     }
 
     const query = {
-      /* jshint camelcase: false */
       locale: i18n.getLocale(),
       query: searchTerm,
       per_page: 3,
@@ -197,7 +194,6 @@ export const HelpCenter = React.createClass({
     }
 
     const query = {
-      /* jshint camelcase: false */
       locale: i18n.getLocale(),
       query: searchTerm,
       per_page: 3,
