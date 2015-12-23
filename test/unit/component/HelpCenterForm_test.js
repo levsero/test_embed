@@ -1,15 +1,15 @@
 describe('HelpCenterForm component', function() {
-  let HelpCenterForm,
-    onSubmit,
-    onSearch;
+  let HelpCenterForm, onSubmit, onChange;
+
   const helpCenterFormPath = buildSrcPath('component/HelpCenterForm');
 
   beforeEach(function() {
 
     onSubmit = jasmine.createSpy();
-    onSearch = jasmine.createSpy();
+    onChange = jasmine.createSpy();
 
     resetDOM();
+    jasmine.clock().install();
 
     mockery.enable({
       warnOnReplace:false,
@@ -42,6 +42,7 @@ describe('HelpCenterForm component', function() {
   });
 
   afterEach(function() {
+    jasmine.clock().uninstall();
     mockery.deregisterAll();
     mockery.disable();
   });
@@ -64,13 +65,15 @@ describe('HelpCenterForm component', function() {
 
     ReactTestUtils.Simulate.submit(helpCenterForm.getDOMNode());
 
+    jasmine.clock().tick(0);
+
     expect(onSubmit)
       .toHaveBeenCalled();
   });
 
   it('should call onSearch when input value changes', function() {
     const helpCenterForm = React.render(
-      <HelpCenterForm onSearch={onSearch}>
+      <HelpCenterForm onChange={onChange}>
         <input />
       </HelpCenterForm>,
       global.document.body
@@ -79,7 +82,9 @@ describe('HelpCenterForm component', function() {
 
     ReactTestUtils.Simulate.change(helpCenterFormNode.querySelector('input'));
 
-    expect(onSearch)
+    jasmine.clock().tick(0);
+
+    expect(onChange)
       .toHaveBeenCalled();
   });
 });

@@ -1,4 +1,4 @@
-describe('Help center component', function() {
+describe('HelpCenter component', function() {
   let HelpCenter,
     mockRegistry,
     trackSearch,
@@ -8,7 +8,6 @@ describe('Help center component', function() {
   const helpCenterPath = buildSrcPath('component/HelpCenter');
 
   beforeEach(function() {
-
     trackSearch = jasmine.createSpy('trackSearch');
     updateResults = jasmine.createSpy('updateResults');
 
@@ -132,31 +131,36 @@ describe('Help center component', function() {
     mockery.registerAllowable(helpCenterPath);
 
     HelpCenter = require(helpCenterPath).HelpCenter;
+
+    jasmine.clock().install();
   });
 
   afterEach(function() {
+    jasmine.clock().uninstall();
     mockery.deregisterAll();
     mockery.disable();
   });
 
-  it('should correctly set the initial states when created', function() {
-    const helpCenter = React.render(
-      <HelpCenter />,
-      global.document.body
-    );
+  describe('initial state', () => {
+    let helpCenter;
 
-    expect(helpCenter.state.articles)
-      .toEqual([]);
-  });
+    beforeEach(() => {
+      helpCenter = React.render(
+        <HelpCenter
+          buttonLabelKey='contact' />,
+        global.document.body
+      );
+    });
 
-  it('should set the button label based on the defaultButtonLabel property', function() {
-    React.render(
-      <HelpCenter buttonLabelKey='contact' />,
-      global.document.body
-    );
+    it('has articles set to empty', () => {
+      expect(helpCenter.state.articles)
+        .toEqual([]);
+    });
 
-    expect(document.querySelector('a.u-userTextColor').textContent)
-      .toEqual('embeddable_framework.helpCenter.submitButton.label.submitTicket.contact');
+    it('has buttonLabel reflecting buttonLabelKey prop', () => {
+      expect(helpCenter.state.buttonLabel)
+        .toEqual('embeddable_framework.helpCenter.submitButton.label.submitTicket.contact');
+    });
   });
 
   it('should call i18n.t with the right parameter to set the label', function() {
@@ -491,172 +495,90 @@ describe('Help center component', function() {
       );
     });
 
-    it('should call searchFail if the result object is not OK', function() {
-      helpCenter.searchFail = searchFail;
+    describe('searchFail', () => {
+      beforeEach(() => {
+        helpCenter.searchFail = searchFail;
+      });
 
-      helpCenter.performSearch('help me please');
+      it('should be called if the response status is not 200 OK', function() {
+        helpCenter.performSearch({});
 
-      expect(mockSearchSender)
-        .toHaveBeenCalled();
+        expect(mockSearchSender)
+          .toHaveBeenCalled();
 
-      mockSearchSender.calls.mostRecent().args[1](responsePayloadError);
+        mockSearchSender.calls.mostRecent().args[1](responsePayloadError);
 
-      expect(helpCenter.searchFail)
-        .toHaveBeenCalled();
+        expect(helpCenter.searchFail)
+          .toHaveBeenCalled();
+      });
+
+      it('should be called when the searchSender failFn callback is fired', function() {
+        helpCenter.performSearch({});
+
+        expect(mockSearchSender)
+          .toHaveBeenCalled();
+
+        mockSearchSender.calls.mostRecent().args[2]();
+
+        expect(helpCenter.searchFail)
+          .toHaveBeenCalled();
+      });
     });
 
-    it('should call searchFail if the search fail callback is fired', function() {
-      helpCenter.searchFail = searchFail;
+    it('should call successFn if results returned', function() {
+      const searchTerm = 'help me please';
 
-      helpCenter.performSearch('help me please');
+      const query = { query: searchTerm, locale: 'en-US' };
+      const successFn = jasmine.createSpy();
 
-      expect(mockSearchSender)
-        .toHaveBeenCalled();
-
-      mockSearchSender.calls.mostRecent().args[2]();
-
-      expect(helpCenter.searchFail)
-        .toHaveBeenCalled();
-    });
-
-    it('should call updateResults if no locale', function() {
-      const searchString = 'help me please';
-
-      helpCenter.updateResults = updateResults;
-
-      helpCenter.performSearch(searchString);
+      helpCenter.performSearch(query, successFn);
 
       expect(mockSearchSender)
         .toHaveBeenCalled();
 
-      const recentCallArgs = mockSearchSender.calls.mostRecent().args[0];
+      const recentCallArgs = mockSearchSender.calls.mostRecent().args;
 
-      expect(recentCallArgs)
+      expect(recentCallArgs[0])
         .toEqual(jasmine.objectContaining({
-          query: searchString,
-          origin: null,
-          locale: undefined
+          query: searchTerm,
+          locale: 'en-US'
         }));
+
+      mockSearchSender.calls.mostRecent().args[1](responsePayloadResults);
+
+      expect(successFn)
+        .toHaveBeenCalled();
+    });
+
+    it('should retry search with no locale if query.locale is present localeFallback = true', () => {
+      const query = {
+        query: 'help me please',
+        locale: 'es-ES'
+      };
+
+      mockSearchSender.calls.reset();
+
+      helpCenter.performSearch(query, () => {}, true);
 
       mockSearchSender.calls.mostRecent().args[1](responsePayloadNoResults);
 
-      expect(helpCenter.updateResults)
-        .toHaveBeenCalledWith(responsePayloadNoResults);
+      expect(mockSearchSender.calls.count())
+        .toEqual(2);
+
+      expect(mockSearchSender.calls.mostRecent().args[0].locale)
+        .toBeUndefined();
+
+      expect(mockSearchSender.calls.mostRecent().args[3])
+        .toBeFalsy();
     });
 
-    it('should call updateResults if results returned', function() {
-      const searchString = 'help me please';
+    it('should set origin properly if manualSearch', function() {
+      helpCenter.manualSearch();
 
-      helpCenter.updateResults = updateResults;
+      const recentCallArgs = mockSearchSender.calls.mostRecent().args;
 
-      helpCenter.performSearch(searchString);
-
-      expect(mockSearchSender)
-        .toHaveBeenCalled();
-
-      const recentCallArgs = mockSearchSender.calls.mostRecent().args[0];
-
-      expect(recentCallArgs)
-        .toEqual(jasmine.objectContaining({
-          query: searchString,
-          origin: null,
-          locale: undefined
-        }));
-
-      mockSearchSender.calls.mostRecent().args[1](responsePayloadResults);
-
-      expect(helpCenter.updateResults)
-        .toHaveBeenCalledWith(responsePayloadResults);
-    });
-
-    it('should re-search without locale if with locale and no results', function() {
-      const searchString = 'help me please';
-      const searchLocale = 'es-ES';
-
-      mockRegistry['service/i18n'].i18n.getLocale = function() {
-        return searchLocale;
-      };
-
-      mockery.resetCache();
-
-      helpCenter.updateResults = updateResults;
-
-      helpCenter.performSearch(searchString);
-
-      expect(mockSearchSender)
-        .toHaveBeenCalled();
-
-      let recentCallArgs = mockSearchSender.calls.mostRecent().args[0];
-
-      expect(recentCallArgs)
-        .toEqual(jasmine.objectContaining({
-          query: searchString,
-          origin: null,
-          locale: searchLocale
-        }));
-
-      mockSearchSender.calls.mostRecent().args[1](
-        responsePayloadNoResults,
-        searchLocale
-      );
-
-      recentCallArgs = mockSearchSender.calls.mostRecent().args[0];
-
-      expect(recentCallArgs)
-        .toEqual(jasmine.objectContaining({
-          query: searchString,
-          origin: null,
-          locale: undefined
-        }));
-    });
-
-    it('should set origin properly if forceSearch', function() {
-      const searchString = 'help me please';
-      const forceSearch = true;
-
-      helpCenter.updateResults = updateResults;
-
-      helpCenter.performSearch(searchString, forceSearch);
-
-      expect(mockSearchSender)
-        .toHaveBeenCalled();
-
-      const recentCallArgs = mockSearchSender.calls.mostRecent().args[0];
-
-      expect(recentCallArgs)
-        .toEqual(jasmine.objectContaining({
-          query: searchString,
-          origin: 'web_widget',
-          locale: undefined
-        }));
-    });
-
-    it('should request 3 articles', function() {
-      const searchString = 'help me please';
-
-      helpCenter.performSearch(searchString);
-
-      expect(mockSearchSender)
-        .toHaveBeenCalled();
-
-      const recentCallArgs = mockSearchSender.calls.mostRecent().args[0];
-
-      expect(recentCallArgs.per_page)
-        .toEqual(3);
-    });
-
-    it('should call focusField', function() {
-      const searchString = 'help me please';
-      const focusField = jasmine.createSpy('focusField');
-
-      helpCenter.focusField = focusField;
-
-      helpCenter.performSearch(searchString);
-
-      mockSearchSender.calls.mostRecent().args[1](responsePayloadResults);
-
-      expect(focusField)
-        .toHaveBeenCalled();
+      expect(recentCallArgs[0].origin)
+        .toEqual('web_widget');
     });
   });
 
@@ -744,48 +666,296 @@ describe('Help center component', function() {
     });
   });
 
-  describe('handle change', function() {
+  describe('interactiveSearchSuccessFn', () => {
+    let mockOnSearch, helpCenter, result, query;
 
-    it('should fire off call to search api when handleSubmit is called', function() {
-      const mockOnSearch = jasmine.createSpy('mockOnSearch');
-      const mockSearchSender = jasmine.createSpy('mockSearchSender');
-      const helpCenter = React.render(
+    beforeEach(() => {
+      mockOnSearch = jasmine.createSpy('onSearch');
+      helpCenter = React.render(
         <HelpCenter
-          searchSender={mockSearchSender}
           onSearch={mockOnSearch} />,
         global.document.body
       );
-      const responsePayload = {ok: true, body: {results: [1, 2, 3], count: 3}};
 
-      helpCenter.handleSubmit({preventDefault: noop});
+      result = {
+        body: {
+          results: []
+        }
+      };
 
-      expect(helpCenter.state.hasSearched)
-        .toBeFalsy();
+      query = {
+        query: 'a search query',
+        locale: 'en-US'
+      };
 
-      expect(helpCenter.state.isLoading)
-        .toBeTruthy();
+      helpCenter.updateResults = jasmine.createSpy('updateResults');
+      helpCenter.focusField = jasmine.createSpy('focusField');
 
-      expect(helpCenter.state.searchTerm)
-        .toEqual('Foobar');
+      helpCenter.interactiveSearchSuccessFn(result, query);
+    });
 
-      expect(mockSearchSender)
+    it('calls props.onSearch', () => {
+      expect(mockOnSearch)
         .toHaveBeenCalled();
 
-      expect(searchFieldGetValue)
+      expect(mockOnSearch.calls.mostRecent().args[0])
+        .toEqual(jasmine.objectContaining({
+          searchTerm: query.query,
+          searchLocale: query.locale
+        }));
+    });
+
+    it('calls updateResults', () => {
+      expect(helpCenter.updateResults)
         .toHaveBeenCalled();
 
-      mockSearchSender.calls.mostRecent().args[1](responsePayload);
+      expect(helpCenter.updateResults.calls.mostRecent().args[0])
+        .toEqual(result);
+    });
 
-      expect(helpCenter.state.isLoading)
-        .toBeFalsy();
+    it('calls focusField', () => {
+      expect(helpCenter.focusField)
+        .toHaveBeenCalled();
+    });
+  });
 
-      expect(helpCenter.state.hasSearched)
-        .toBeTruthy();
+  it('searchStartState sets the correct values', () => {
+    const helpCenter = React.render(
+      <HelpCenter />,
+      global.document.body
+    );
+    const result = helpCenter.searchStartState({});
 
-      expect(mockOnSearch).toHaveBeenCalled();
+    expect(result)
+      .toEqual(jasmine.objectContaining({
+        isLoading: true,
+        searchResultClicked: false
+      }));
+  });
+
+  it('searchCompleteState sets the correct values', () => {
+    const helpCenter = React.render(
+      <HelpCenter />,
+      global.document.body
+    );
+    const result = helpCenter.searchCompleteState({});
+
+    expect(result)
+      .toEqual(jasmine.objectContaining({
+        hasSearched: true,
+        isLoading: false,
+        searchFailed: false,
+        searchResultClicked: false
+      }));
+  });
+
+  describe('autoSearch', () => {
+    it('should not call performSearch if the string is not valid', () => {
+      const mockPerformSearch = jasmine.createSpy('mockPerformSearch');
+      const helpCenter = React.render(
+        <HelpCenter searchSender={() => {}} />,
+        global.document.body
+      );
+
+      helpCenter.performSearch = mockPerformSearch;
+
+      helpCenter.refs.searchField.getValue = () => '';
+      helpCenter.autoSearch();
+
+      expect(mockPerformSearch.calls.count())
+        .toEqual(0);
+
+      helpCenter.refs.searchField.getValue = () => '123 ';
+      helpCenter.autoSearch();
+
+      expect(mockPerformSearch)
+        .not.toHaveBeenCalled();
+
+      helpCenter.refs.searchField.getValue = () => 'validnotrailingspace';
+      helpCenter.autoSearch();
+
+      expect(mockPerformSearch)
+        .not.toHaveBeenCalled();
+
+      helpCenter.refs.searchField.getValue = () => 'validwithtrailingspace ';
+      helpCenter.autoSearch();
+
+      expect(mockPerformSearch.calls.count())
+        .toEqual(1);
+    });
+
+    it('should build up the query object correctly', () => {
+      const searchTerm = 'a search term ';
+      const mockPerformSearch = jasmine.createSpy('mockPerformSearch');
+      const helpCenter = React.render(
+        <HelpCenter searchSender={() => {}} />,
+        global.document.body
+      );
+
+      helpCenter.performSearch = mockPerformSearch;
+
+      helpCenter.refs.searchField.getValue = () => searchTerm;
+
+      helpCenter.autoSearch();
+
+      const recentCallArgs = mockPerformSearch.calls.mostRecent().args;
+
+      expect(recentCallArgs[0])
+        .toEqual(jasmine.objectContaining({
+          query: searchTerm,
+          per_page: 3,
+          origin: null
+        }));
+    });
+
+    it('should set the states correctly', () => {
+      const searchTerm = 'a search term ';
+      const helpCenter = React.render(
+        <HelpCenter searchSender={() => {}} />,
+        global.document.body
+      );
+
+      helpCenter.refs.searchField.getValue = () => searchTerm;
+
+      helpCenter.autoSearch();
+
+      expect(helpCenter.state)
+        .toEqual(jasmine.objectContaining({
+          isLoading: true,
+          searchResultClicked: false,
+          searchTerm: searchTerm,
+          searchTracked: false
+        }));
+    });
+
+    it('should call performSearch given a valid search string', () => {
+      const mockPerformSearch = jasmine.createSpy('mockPerformSearch');
+      const mockSearchSuccessFn = jasmine.createSpy('mockSearchSuccess');
+      const helpCenter = React.render(
+        <HelpCenter searchSender={() => {}} />,
+        global.document.body
+      );
+
+      helpCenter.performSearch = mockPerformSearch;
+      helpCenter.interactiveSearchSuccessFn = mockSearchSuccessFn;
+
+      helpCenter.refs.searchField.getValue = () => 'valid ';
+
+      mockPerformSearch.calls.reset();
+      mockSearchSuccessFn.calls.reset();
+
+      helpCenter.autoSearch();
+
+      expect(mockPerformSearch.calls.count())
+        .toEqual(1);
+
+      mockPerformSearch.calls.mostRecent().args[1]();
+
+      expect(mockSearchSuccessFn.calls.count())
+        .toEqual(1);
+    });
+  });
+
+  describe('manualSearch', () => {
+    it('should not call performSearch if the string is empty', () => {
+      const mockPerformSearch = jasmine.createSpy('mockPerformSearch');
+      const helpCenter = React.render(
+        <HelpCenter searchSender={() => {}} />,
+        global.document.body
+      );
+
+      helpCenter.performSearch = mockPerformSearch;
+
+      helpCenter.refs.searchField.getValue = () => '';
+
+      helpCenter.manualSearch();
+
+      expect(mockPerformSearch.calls.count())
+        .toEqual(0);
+
+      helpCenter.refs.searchField.getValue = () => 'valid';
+
+      helpCenter.manualSearch();
+
+      expect(mockPerformSearch.calls.count())
+        .toEqual(1);
+    });
+
+    it('should build up the query object correctly', () => {
+      const searchTerm = 'a search term';
+      const mockPerformSearch = jasmine.createSpy('mockPerformSearch');
+      const helpCenter = React.render(
+        <HelpCenter searchSender={() => {}} />,
+        global.document.body
+      );
+
+      helpCenter.performSearch = mockPerformSearch;
+
+      helpCenter.refs.searchField.getValue = () => searchTerm;
+
+      helpCenter.manualSearch();
+
+      const recentCallArgs = mockPerformSearch.calls.mostRecent().args;
+
+      expect(recentCallArgs[0])
+        .toEqual(jasmine.objectContaining({
+          query: searchTerm,
+          per_page: 3,
+          origin: 'web_widget'
+        }));
+    });
+
+    it('should set the states correctly', () => {
+      const searchTerm = 'a search term';
+      const helpCenter = React.render(
+        <HelpCenter searchSender={() => {}} />,
+        global.document.body
+      );
+
+      helpCenter.refs.searchField.getValue = () => searchTerm;
+
+      helpCenter.manualSearch();
+
+      expect(helpCenter.state)
+        .toEqual(jasmine.objectContaining({
+          isLoading: true,
+          searchResultClicked: false,
+          searchTerm: searchTerm,
+          searchTracked: true
+        }));
+    });
+
+    it('should call performSearch given a valid search string', () => {
+      const mockPerformSearch = jasmine.createSpy('mockPerformSearch');
+      const mockSearchSuccessFn = jasmine.createSpy('mockSearchSuccess');
+      const helpCenter = React.render(
+        <HelpCenter searchSender={() => {}} />,
+        global.document.body
+      );
+
+      helpCenter.performSearch = mockPerformSearch;
+      helpCenter.interactiveSearchSuccessFn = mockSearchSuccessFn;
+
+      helpCenter.refs.searchField.getValue = () => 'valid';
+
+      mockPerformSearch.calls.reset();
+      mockSearchSuccessFn.calls.reset();
+
+      helpCenter.manualSearch();
+
+      expect(mockPerformSearch.calls.count())
+        .toEqual(1);
+
+      mockPerformSearch.calls.mostRecent().args[1]();
+
+      expect(mockSearchSuccessFn.calls.count())
+        .toEqual(1);
     });
 
     it('should render list of results from api', function() {
+      // TODO: Ported over from old performSearch test to catch regression
+      // Needs to be rewritten
+
       const mockSearchSender = jasmine.createSpy('mockSearchSender');
       const mockOnSearch = jasmine.createSpy('mockOnSearch');
       const helpCenter = React.render(
@@ -794,11 +964,13 @@ describe('Help center component', function() {
           onSearch={mockOnSearch} />,
         global.document.body
       );
-      const searchString = 'help, I\'ve fallen and can\'t get up!';
+      const searchTerm = 'help, I\'ve fallen and can\'t get up!';
       const responsePayload = {body: {results: [1, 2, 3], count: 4}, ok: true};
       const listAnchor = ReactTestUtils.findRenderedDOMComponentWithClass(helpCenter, 'List');
 
-      helpCenter.handleSubmit({preventDefault: noop}, { value: searchString });
+      helpCenter.refs.searchField.getValue = () => searchTerm;
+      helpCenter.performSearch({query: searchTerm}, helpCenter.interactiveSearchSuccessFn);
+
       mockSearchSender.calls.mostRecent().args[1](responsePayload);
 
       expect(listAnchor.props.className)
@@ -806,6 +978,9 @@ describe('Help center component', function() {
     });
 
     it('should track view and render the inline article', function() {
+      // TODO: Ported over from old performSearch test to catch regression
+      // Needs to be rewritten
+
       const mockSearchSender = jasmine.createSpy('mockSearchSender');
       const helpCenter = React.render(
         <HelpCenter
@@ -816,7 +991,7 @@ describe('Help center component', function() {
         global.document.body
       );
       const mockBeacon = mockRegistry['service/beacon'].beacon;
-      const searchString = 'help, I\'ve fallen and can\'t get up!';
+      const searchTerm = 'help, I\'ve fallen and can\'t get up!';
       const responseArticle = {
         id: 0,
         title: 'bob',
@@ -835,7 +1010,18 @@ describe('Help center component', function() {
         .parentNode;
 
       helpCenter.trackSearch = trackSearch;
-      helpCenter.handleSubmit({preventDefault: noop}, { value: searchString });
+
+      helpCenter.refs.searchField.getValue = () => searchTerm;
+
+      helpCenter.performSearch({query: searchTerm}, helpCenter.interactiveSearchSuccessFn);
+
+      // THIS setState BLOCK TO SIMULATE manualSearch triggering performSearch
+      // TODO: make a better version of this test case
+      helpCenter.setState({
+        searchTerm: searchTerm,
+        searchTracked: true
+      });
+
       mockSearchSender.calls.mostRecent().args[1](responsePayload);
 
       const listItem = ReactTestUtils
@@ -850,6 +1036,8 @@ describe('Help center component', function() {
         target: { getAttribute: function() { return 0; }
       }});
 
+      jasmine.clock().tick(1);
+
       expect(trackSearch)
         .not.toHaveBeenCalled();
 
@@ -858,7 +1046,7 @@ describe('Help center component', function() {
           'helpCenter',
           'click',
           'helpCenterForm', {
-            query: 'Foobar',
+            query: searchTerm,
             resultsCount: 3,
             uniqueSearchResultClick: true,
             articleId: 0,
@@ -871,6 +1059,9 @@ describe('Help center component', function() {
     });
 
     it('should render error message when search fails', function() {
+      // TODO: Ported over from old performSearch test to catch regression
+      // Needs to be rewritten
+
       const mockSearchSender = jasmine.createSpy('mockSearchSender');
       const helpCenter = React.render(
         <HelpCenter
@@ -878,11 +1069,13 @@ describe('Help center component', function() {
           onSearch={noop} />,
         global.document.body
       );
-      const searchString = 'help, I\'ve fallen and can\'t get up!';
+      const searchTerm = 'help, I\'ve fallen and can\'t get up!';
       const responsePayload = {ok: false};
       const list = ReactTestUtils.findRenderedDOMComponentWithClass(helpCenter, 'List');
 
-      helpCenter.handleSubmit({preventDefault: noop}, { value: searchString });
+      helpCenter.refs.searchField.getValue = () => searchTerm;
+      helpCenter.performSearch({query: searchTerm}, helpCenter.interactiveSearchSuccessFn);
+
       mockSearchSender.calls.mostRecent().args[1](responsePayload);
 
       expect(list.props.className).
@@ -893,6 +1086,9 @@ describe('Help center component', function() {
     });
 
     it('should show no results when search returns no results', function() {
+      // TODO: Ported over from old performSearch test to catch regression
+      // Needs to be rewritten
+
       const mockSearchSender = jasmine.createSpy('mockSearchSender');
       const helpCenter = React.render(
         <HelpCenter
@@ -900,11 +1096,13 @@ describe('Help center component', function() {
           onSearch={noop} />,
         global.document.body
       );
-      const searchString = 'abcd';
+      const searchTerm = 'abcd';
       const responsePayload = {body: {results: [], count: 0}};
       const list = ReactTestUtils.findRenderedDOMComponentWithClass(helpCenter, 'List');
 
-      helpCenter.handleSubmit({preventDefault: noop}, { value: searchString });
+      helpCenter.refs.searchField.getValue = () => searchTerm;
+      helpCenter.performSearch({query: searchTerm}, helpCenter.interactiveSearchSuccessFn);
+
       mockSearchSender.calls.mostRecent().args[1](responsePayload);
 
       expect(helpCenter.state.searchCount)
@@ -912,26 +1110,6 @@ describe('Help center component', function() {
 
       expect(list.props.className)
         .toContain('u-isHidden');
-    });
-
-    it('shouldn\'t call handle search if the string isn\'t valid', function() {
-      const mockSearchSender = jasmine.createSpy('mockSearchSender');
-      const helpCenter = React.render(
-        <HelpCenter searchSender={mockSearchSender} />,
-        global.document.body
-      );
-      const returnSearchTerm = function(term) { return term; };
-      const searchStringTooShort = 'hi! ';
-      const searchStringNoSpace = 'help, I\'ve fallen and can\'t get up!';
-
-      returnSearchTerm.bind(this, searchStringTooShort);
-      helpCenter.handleSearch();
-
-      returnSearchTerm.bind(this, searchStringNoSpace);
-      helpCenter.handleSearch();
-
-      expect(mockSearchSender.calls.count())
-        .toEqual(0);
     });
   });
 
@@ -1089,27 +1267,6 @@ describe('Help center component', function() {
 
       expect(helpCenter.state.showIntroScreen)
         .toBe(false);
-    });
-
-    it('sets focus state on searchField when search is made on desktop', function() {
-      const mockSearchSender = jasmine.createSpy('mockSearchSender');
-      const helpCenter = React.render(
-        <HelpCenter
-         searchSender={mockSearchSender}
-         onSearch={noop} />,
-        global.document.body
-      );
-      const searchString = 'help, I\'ve fallen and can\'t get up!';
-      const responsePayload = {body: {results: [1], count: 1}, ok: true};
-
-      expect(helpCenter.refs.searchField.state)
-        .toBeFalsy();
-
-      helpCenter.handleSubmit({preventDefault: noop}, { value: searchString });
-      mockSearchSender.calls.mostRecent().args[1](responsePayload);
-
-      expect(helpCenter.refs.searchField.state.focused)
-        .toEqual(true);
     });
 
     it('sets focus state on searchField when component is clicked on mobile', function() {
