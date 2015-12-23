@@ -2,7 +2,7 @@ import React from 'react/addons';
 
 const classSet = React.addons.classSet;
 
-export var Container = React.createClass({
+export const Container = React.createClass({
   getDefaultProps() {
     return {
       className: ''

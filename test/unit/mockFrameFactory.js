@@ -9,7 +9,7 @@ const mockFrameMethods = {
 
 exports.mockFrameMethods = mockFrameMethods;
 
-var mockFrameFactory = jasmine.createSpy('mockFrameFactory').and.callFake(
+const mockFrameFactory = jasmine.createSpy('mockFrameFactory').and.callFake(
   function(childFn, params) {
     const self = this;
     const childParams = _.reduce(params.extend, function(res, val, key) {

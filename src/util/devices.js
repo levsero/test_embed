@@ -35,11 +35,13 @@ function getSizingRatio(isPinching, isFirstRun) {
 function isIos() {
   const IOS_MOBILE = /iPhone|iPad|iPod/i;
   const str = navigator.userAgent || navigator.vendor || win.opera;
+
   return IOS_MOBILE.test(str);
 }
 
 function isFirefox() {
-  var FIREFOX_BROWSER = /Gecko\/.*\d.*Firefox/;
+  const FIREFOX_BROWSER = /Gecko\/.*\d.*Firefox/;
+
   return FIREFOX_BROWSER.test(navigator.userAgent);
 }
 
@@ -77,9 +79,9 @@ function isBlacklisted() {
 
 function isIE() {
   return (
-    //MSIE is present in all IE user agents since IE 2.0
+    // MSIE is present in all IE user agents since IE 2.0
     (navigator.userAgent.indexOf('MSIE') !== -1) ||
-    //Trident is IE specific
+    // Trident is IE specific
     (navigator.userAgent.indexOf('Trident') !== -1)
   );
 }

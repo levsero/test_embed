@@ -115,6 +115,7 @@ function get(name) {
 
 function render(name) {
   const element = getDocumentHost().appendChild(document.createElement('div'));
+
   npses[name].instance = React.render(npses[name].component, element);
 
   mediator.channel.subscribe('nps.setSurvey', (params) => {
@@ -151,6 +152,7 @@ function render(name) {
         'Check out the Developer API docs to make sure you\'re using it correctly',
         'https://developer.zendesk.com/embeddables/docs/widget/api'
       ].join('\n\n'));
+
       err.special = true;
 
       throw err;
@@ -187,12 +189,14 @@ function shouldShow(survey = {}) {
     return true;
   } else {
     const timeSinceLastDismissed = Date.now() - lastDismissed;
+
     return timeSinceLastDismissed > dismissPeriod;
   }
 }
 
 function setDismissTimestamp(survey) {
   const dismissTimestamp = new Date();
+
   dismissTimestamp.setMilliseconds(0);
 
   store.set(
@@ -201,7 +205,7 @@ function setDismissTimestamp(survey) {
   );
 }
 
-export var nps = {
+export const nps = {
   create: create,
   get: get,
   render: render,

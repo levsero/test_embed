@@ -448,7 +448,7 @@ function initMessaging() {
   });
 }
 
-export var mediator = {
+export const mediator = {
   channel: c,
   init: init,
   initMessaging: initMessaging

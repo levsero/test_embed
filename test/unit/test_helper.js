@@ -58,6 +58,7 @@ global.initMockRegistry = function(registry) {
 
 global.pluckSubscribeCall = function(mediator, key) {
   const calls = mediator.channel.subscribe.calls.allArgs();
+
   return _.find(calls, function(call) {
     return call[0] === key;
   })[1];

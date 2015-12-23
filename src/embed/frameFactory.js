@@ -27,18 +27,20 @@ function validateChildFn(childFn, params) {
 
   if (!React.isValidElement(component)) {
     const e = new TypeError();
+
     e.message = 'childFn should be a function that returns a React component';
     throw e;
   }
 
   if (component.ref !== 'rootComponent') {
     const e = new TypeError();
+
     e.message = 'childFn should return component with ref="rootComponent"';
     throw e;
   }
 }
 
-export var frameFactory = function(childFn, _params) {
+export const frameFactory = function(childFn, _params) {
   let child;
 
   const defaultParams = {
@@ -98,12 +100,12 @@ export var frameFactory = function(childFn, _params) {
       const iframe = this.getDOMNode();
       const frameWin = iframe.contentWindow;
       const frameDoc = iframe.contentDocument;
-      //FIXME shouldn't set background & zIndex in a dimensions object
+      // FIXME shouldn't set background & zIndex in a dimensions object
       const dimensions = {
         height: height,
         width: width,
         zIndex: '999999',
-        //FIXME addresses combination of dropshadow & margin & white background on iframe
+        // FIXME addresses combination of dropshadow & margin & white background on iframe
         background: transparent ? 'linear-gradient(transparent, #FFFFFF)' : '#fff'
       };
 
@@ -136,7 +138,7 @@ export var frameFactory = function(childFn, _params) {
         const width  = Math.max(el.clientWidth,  el.offsetWidth);
         const height = Math.max(el.clientHeight, el.offsetHeight);
         const fullscreen = params.isMobile && params.fullscreenable;
-        //FIXME shouldn't set background & zIndex in a dimensions object
+        // FIXME shouldn't set background & zIndex in a dimensions object
         const fullscreenStyle = {
           width: `${win.innerWidth}px`,
           height: '100%',
@@ -176,6 +178,7 @@ export var frameFactory = function(childFn, _params) {
 
     show(options = {}) {
       let frameFirstChild = this.getDOMNode().contentDocument.body.firstChild;
+
       this.setState({ visible: true });
 
       setTimeout( () => {
@@ -263,6 +266,7 @@ export var frameFactory = function(childFn, _params) {
                               [i18n.isRTL() ? 'right' : 'left']: '-9999px',
                               position: 'absolute',
                               bottom: 'auto'};
+
       return _.extend(
         {
           border: 'none',

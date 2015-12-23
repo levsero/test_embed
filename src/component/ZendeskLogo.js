@@ -4,7 +4,7 @@ import { Icon } from 'component/Icon';
 
 const classSet = React.addons.classSet;
 
-export var ZendeskLogo = React.createClass({
+export const ZendeskLogo = React.createClass({
   getDefaultProps() {
     return {
       className: '',

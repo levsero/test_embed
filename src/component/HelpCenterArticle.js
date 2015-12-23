@@ -6,7 +6,7 @@ import { ButtonPill } from 'component/Button';
 const sanitizeHtml = require('sanitize-html');
 const classSet = React.addons.classSet;
 
-var HelpCenterArticle = React.createClass({
+const HelpCenterArticle = React.createClass({
   propTypes: {
     activeArticle: React.PropTypes.object.isRequired
   },
@@ -48,6 +48,7 @@ var HelpCenterArticle = React.createClass({
 
     if (this.props.activeArticle.body) {
       let cleanHtml = sanitizeHtml(this.props.activeArticle.body, sanitizeHtmlOptions);
+
       container.innerHTML = cleanHtml;
     } else {
       container.innerHTML = '';
@@ -55,6 +56,7 @@ var HelpCenterArticle = React.createClass({
 
     if (this.state.lastActiveArticleId !== this.props.activeArticle.id) {
       let topNode = this.refs.userContent.getDOMNode();
+
       topNode.scrollTop = 0;
 
       this.setState({

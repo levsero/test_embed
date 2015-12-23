@@ -1,3 +1,4 @@
+/* eslint no-var:0 */
 // Code taken from http://www.lognormal.com/blog/2012/12/12/the-script-loader-pattern/
 window.zEmbed || (function(url, host) {
 
@@ -32,6 +33,7 @@ window.zEmbed || (function(url, host) {
   }
   doc.open()._l = function() {
     var js = this.createElement('script');
+
     if (dom) { this.domain = dom; }
     js.id = 'js-iframe-async';
     js.src = url;

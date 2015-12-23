@@ -234,6 +234,7 @@ function render(name) {
 
   mediator.channel.subscribe(name + '.setNextToSubmitTicket', function() {
     const buttonLabelKey = get(name).config.buttonLabelKey;
+
     updateHelpCenterButton(name, `submitTicket.${buttonLabelKey}`);
   });
 
@@ -250,13 +251,14 @@ function render(name) {
 
 function postRender(name) {
   const config = get(name).config;
+
   if (config.contextualHelpEnabled
       && location.pathname && location.pathname.substring(0, 4) !== '/hc/') {
     keywordsSearch(name, { search: getPageKeywords() });
   }
 }
 
-export var helpCenter = {
+export const helpCenter = {
   create: create,
   list: list,
   get: get,

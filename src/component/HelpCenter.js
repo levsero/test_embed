@@ -121,6 +121,7 @@ export const HelpCenter = React.createClass({
   },
 
   contextualSearch(options) {
+    /* eslint camelcase:0 */
     const hasSearchKey = (options.hasOwnProperty('search')
                           && options.search);
     const hasLabelsKey = (options.hasOwnProperty('labels')
@@ -162,6 +163,7 @@ export const HelpCenter = React.createClass({
   },
 
   manualSearch() {
+    /* eslint camelcase:0 */
     const searchTerm = this.refs.searchField.getValue();
 
     if (_.isEmpty(searchTerm)) {
@@ -271,6 +273,7 @@ export const HelpCenter = React.createClass({
   },
 
   trackSearch() {
+    /* eslint camelcase:0 */
     this.props.searchSender({
       query: this.state.searchTerm,
       per_page: 0,

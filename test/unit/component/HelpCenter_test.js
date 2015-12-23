@@ -272,6 +272,7 @@ describe('HelpCenter component', function() {
     });
 
     it('should call searchSender with the right payload for labels attribute', function() {
+      /* eslint camelcase:0 */
       const searchOptions = { labels: ['foo', 'bar'] };
 
       helpCenter.contextualSearch(searchOptions);
@@ -411,6 +412,7 @@ describe('HelpCenter component', function() {
     });
 
     it('should set states and call updateResults if results, with labels', function() {
+      /* eslint camelcase:0 */
       const searchOptions = { labels: ['foo', 'bar'] };
 
       helpCenter.updateResults = updateResults;
@@ -584,6 +586,7 @@ describe('HelpCenter component', function() {
 
   describe('backtrack search', function() {
     it('should send the right request params when backtracking', function() {
+      /* eslint camelcase:0 */
       const mockSearchSender = jasmine.createSpy('mockSearchSender');
       const helpCenter = React.render(
         <HelpCenter
@@ -978,6 +981,7 @@ describe('HelpCenter component', function() {
     });
 
     it('should track view and render the inline article', function() {
+      /* eslint camelcase:0 */
       // TODO: Ported over from old performSearch test to catch regression
       // Needs to be rewritten
 
@@ -1168,6 +1172,7 @@ describe('HelpCenter component', function() {
       <HelpCenter />,
       global.document.body
     );
+
     ReactTestUtils.Simulate.click(helpCenter.refs.searchFieldButton.getDOMNode());
 
     expect(helpCenter.state.showIntroScreen)
@@ -1199,6 +1204,7 @@ describe('HelpCenter component', function() {
       <HelpCenter />,
       global.document.body
     );
+
     ReactTestUtils.Simulate.click(helpCenter.refs.searchFieldButton.getDOMNode());
 
     helpCenter.setState({ hasSearched: true });

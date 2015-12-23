@@ -19,7 +19,7 @@ const icons = {
   'Icon': require('icons/widget-icon_help.svg')
 };
 
-export var Icon = React.createClass({
+export const Icon = React.createClass({
   propTypes: {
     type: React.PropTypes.string,
     className: React.addons.classSet

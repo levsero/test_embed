@@ -45,7 +45,7 @@ describe('NpsMobile component', () => {
       'component/Container': {
         Container: React.createClass({
           render: function() {
-            //used function instead of () => as to not reference outter 'this'
+            // used function instead of () => as to not reference outter 'this'
             return <div>{this.props.children}</div>;
           }
         })
@@ -437,6 +437,7 @@ describe('NpsMobile component', () => {
       let oldIsIos,
         newIsIos,
         mockGoToFullScreen;
+
       beforeEach(() => {
 
         newIsIos = () => false;
@@ -488,6 +489,7 @@ describe('NpsMobile component', () => {
       let oldIsIos,
         newIsIos,
         mockResetFullScreen;
+
       beforeEach(() => {
 
         newIsIos = () => false;

@@ -40,7 +40,7 @@ function error(err) {
   }
 }
 
-export var logging = {
+export const logging = {
   init: init,
   error: error
 };

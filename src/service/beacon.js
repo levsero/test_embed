@@ -12,6 +12,7 @@ import { parseUrl,
 
 function init() {
   const now = Date.now();
+
   store.set('currentTime', now, true);
 
   mediator.channel.subscribe('beacon.identify', identify);
@@ -98,7 +99,7 @@ function identify(user) {
   transport.sendWithMeta(payload);
 }
 
-export var beacon = {
+export const beacon = {
   init: init,
   send: send,
   track: track,

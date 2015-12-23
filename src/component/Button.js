@@ -6,7 +6,7 @@ import { LoadingSpinner } from 'component/Loading';
 
 const classSet = React.addons.classSet;
 
-var Button = React.createClass({
+const Button = React.createClass({
   propTypes: {
     label: React.PropTypes.string.isRequired,
     disabled: React.PropTypes.bool,
@@ -39,7 +39,7 @@ var Button = React.createClass({
   }
 });
 
-var ButtonNav = React.createClass({
+const ButtonNav = React.createClass({
   render() {
     const { fullscreen, position, rtl } = this.props;
     const isLeft = (position === 'left');
@@ -67,7 +67,7 @@ var ButtonNav = React.createClass({
   }
 });
 
-var ButtonPill = React.createClass({
+const ButtonPill = React.createClass({
   render() {
     const buttonClasses = classSet({
       'c-btn c-btn--medium c-btn--secondary c-btn--pill': true,
@@ -86,7 +86,7 @@ var ButtonPill = React.createClass({
   }
 });
 
-var ButtonSecondary = React.createClass({
+const ButtonSecondary = React.createClass({
   getDefaultProps() {
     return {
       className: '',
@@ -124,7 +124,7 @@ var ButtonSecondary = React.createClass({
   }
 });
 
-var ButtonGroup = React.createClass({
+const ButtonGroup = React.createClass({
   propTypes: {
     rtl: React.PropTypes.bool.isRequired
   },
@@ -146,7 +146,7 @@ var ButtonGroup = React.createClass({
   }
 });
 
-var ButtonRating = React.createClass({
+const ButtonRating = React.createClass({
   getDefaultProps() {
     return {
       highlightColor: '#77a500',

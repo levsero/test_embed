@@ -1731,13 +1731,13 @@ describe('mediator', function() {
 
         c.broadcast(`${chat}.onOnline`);
         c.broadcast(`${chat}.onOffline`);
-        c.broadcast(`${helpCenter}.onClose`); //close
+        c.broadcast(`${helpCenter}.onClose`); // close
 
         reset(helpCenterSub.show);
         reset(submitTicketSub.show);
 
         jasmine.clock().install();
-        c.broadcast(`${launcher}.onClick`); //open
+        c.broadcast(`${launcher}.onClick`); // open
         jasmine.clock().tick(0);
 
         expect(helpCenterSub.show.calls.count())

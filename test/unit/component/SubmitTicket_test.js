@@ -32,6 +32,7 @@ describe('Submit ticket component', function() {
         return {
           compare: function(actual, expected) {
             const result = {};
+
             result.pass = util.equals(
               JSON.stringify(actual),
               JSON.stringify(expected),
