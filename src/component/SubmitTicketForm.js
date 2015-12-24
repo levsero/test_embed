@@ -16,6 +16,12 @@ export const SubmitTicketForm = React.createClass({
     formTitleKey: React.PropTypes.string.isRequired
   },
 
+  getDefaultProps() {
+    return {
+      fullscreen: false
+    };
+  },
+
   getInitialState() {
     return {
       isValid: false,
@@ -34,10 +40,10 @@ export const SubmitTicketForm = React.createClass({
 
   },
 
-  getDefaultProps() {
-    return {
-      fullscreen: false
-    };
+  componentDidMount() {
+    const customFields = getCustomFields(this.props.customFields, this.state.formState);
+
+    this.refs.scrollContainer.setScrollShadowVisible(customFields.fields.length);
   },
 
   componentDidUpdate() {
@@ -68,12 +74,6 @@ export const SubmitTicketForm = React.createClass({
         }
       }, this);
     }
-  },
-
-  componentDidMount() {
-    const customFields = getCustomFields(this.props.customFields, this.state.formState);
-
-    this.refs.scrollContainer.setScrollShadowVisible(customFields.fields.length);
   },
 
   resetTicketFormVisibility() {

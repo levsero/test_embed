@@ -100,16 +100,16 @@ export const NpsDesktop = React.createClass({
     }
 
     const zendeskLogo = (!hideZendeskLogo && !this.state.currentPage.addingComment)
-                      ? <div className='u-textCenter u-paddingBM'>
+                      ? (<div className='u-textCenter u-paddingBM'>
                           <ZendeskLogo
                             utm='embeddednps'
                             className='u-posStatic'
                             fullscreen={this.props.isMobile} />
-                        </div>
+                        </div>)
                       : null;
 
     const ratingsList = (!this.state.currentPage.thankYou)
-                      ? <NpsRatingsList
+                      ? (<NpsRatingsList
                           isMobile={this.props.isMobile}
                           className={ratingsListClasses}
                           ratingsRange={npsRatings}
@@ -121,10 +121,10 @@ export const NpsDesktop = React.createClass({
                           isSubmittingComment={this.props.isSubmittingComment}
                           isSubmittingRating={this.props.isSubmittingRating}
                           onClick={this.ratingChangeValueHandler}
-                          onChangeValue={this.ratingChangeValueHandler} />
+                          onChangeValue={this.ratingChangeValueHandler} />)
                       : null;
 
-    const commentsContent = <NpsComment
+    const commentsContent = (<NpsComment
                               ref='npsComment'
                               isMobile={this.props.isMobile}
                               className={commentsClasses}
@@ -133,17 +133,17 @@ export const NpsDesktop = React.createClass({
                               isSubmittingComment={this.props.isSubmittingComment}
                               isSubmittingRating={this.props.isSubmittingRating}
                               onSubmit={this.submitCommentHandler}
-                              onChange={this.props.onCommentChangeHandler} />;
+                              onChange={this.props.onCommentChangeHandler} />);
 
     const thankYouContent = (this.state.currentPage.thankYou)
-                          ? <div className='u-textCenter'>
+                          ? (<div className='u-textCenter'>
                               <Icon
                                 type='Icon--tick'
                                 className={iconClasses} />
-                            </div>
+                            </div>)
                           : null;
 
-    return <Container
+    return (<Container
              card={true}
              fullscreen={this.props.isMobile}
              style={containerStyles}
@@ -160,6 +160,6 @@ export const NpsDesktop = React.createClass({
 
                {zendeskLogo}
              </div>
-           </Container>;
+           </Container>);
   }
 });

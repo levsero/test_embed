@@ -29,11 +29,11 @@ describe('FormField component', function() {
       'component/Icon': {
         Icon: React.createClass({
           render: function() {
-            return <span
+            return (<span
                     className={`Icon ${this.props.type}`}
                     onClick={this.props.onClick}>
                       <svg />
-                   </span>;
+                   </span>);
           }
         })
       },

@@ -17,6 +17,13 @@ import { beacon }            from 'service/beacon';
 const classSet = React.addons.classSet;
 
 export const HelpCenter = React.createClass({
+  getDefaultProps() {
+    return {
+      buttonLabelKey: 'message',
+      formTitleKey: 'help'
+    };
+  },
+
   getInitialState() {
     /* eslint max-len:0 */
     return {
@@ -35,13 +42,6 @@ export const HelpCenter = React.createClass({
       virtualKeyboardKiller: false,
       searchTracked: false,
       searchResultClicked: false
-    };
-  },
-
-  getDefaultProps() {
-    return {
-      buttonLabelKey: 'message',
-      formTitleKey: 'help'
     };
   },
 

@@ -68,10 +68,10 @@ export const NpsComment = React.createClass({
                                    {commentSubmitButton}
                                  </div>;
 
-    const inputTextArea = <textarea
+    const inputTextArea = (<textarea
                             className={textAreaClasses}
                             placeholder={this.props.feedbackPlaceholder}
-                            rows='1' />;
+                            rows='1' />);
 
     return (
       <div className={this.props.className}>

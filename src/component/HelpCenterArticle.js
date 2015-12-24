@@ -17,6 +17,15 @@ const HelpCenterArticle = React.createClass({
     };
   },
 
+  componentDidMount() {
+    const doc = this.getDOMNode().ownerDocument;
+    const base = doc.createElement('base');
+
+    base.href = `https://${document.zendeskHost}`;
+
+    doc.head.appendChild(base);
+  },
+
   componentDidUpdate() {
     const container = this.refs.article.getDOMNode();
     const sanitizeHtmlOptions = {
@@ -59,19 +68,12 @@ const HelpCenterArticle = React.createClass({
 
       topNode.scrollTop = 0;
 
+      /* eslint-disable */
       this.setState({
         lastActiveArticleId: this.props.activeArticle.id
       });
+      /* eslint-enable */
     }
-  },
-
-  componentDidMount() {
-    const doc = this.getDOMNode().ownerDocument;
-    const base = doc.createElement('base');
-
-    base.href = `https://${document.zendeskHost}`;
-
-    doc.head.appendChild(base);
   },
 
   handleClick(e) {
