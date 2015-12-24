@@ -185,10 +185,10 @@ export const SubmitTicketForm = React.createClass({
                      </div>;
     const buttonCancel = (this.props.fullscreen)
                        ? null
-                       : <ButtonSecondary
-                           label={this.state.cancelButtonMessage}
-                           onClick={this.props.onCancel}
-                           fullscreen={this.props.fullscreen} />;
+                       : (<ButtonSecondary
+                            label={this.state.cancelButtonMessage}
+                            onClick={this.props.onCancel}
+                            fullscreen={this.props.fullscreen} />);
 
     return (
       <form

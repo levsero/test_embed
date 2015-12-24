@@ -357,9 +357,9 @@ export const HelpCenter = React.createClass({
       return (
         <li key={_.uniqueId('article_')} className={listItemClasses}>
           <a className='u-userTextColor'
-             href={article.html_url}
-             target='_blank'
-             onClick={this.handleArticleClick.bind(this, index)}>
+            href={article.html_url}
+            target='_blank'
+            onClick={this.handleArticleClick.bind(this, index)}>
               {article.title || article.name}
           </a>
         </li>

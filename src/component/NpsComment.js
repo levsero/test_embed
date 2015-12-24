@@ -69,9 +69,9 @@ export const NpsComment = React.createClass({
                                  </div>;
 
     const inputTextArea = (<textarea
-                            className={textAreaClasses}
-                            placeholder={this.props.feedbackPlaceholder}
-                            rows='1' />);
+                             className={textAreaClasses}
+                             placeholder={this.props.feedbackPlaceholder}
+                             rows='1' />);
 
     return (
       <div className={this.props.className}>

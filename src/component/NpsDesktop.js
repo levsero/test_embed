@@ -101,46 +101,46 @@ export const NpsDesktop = React.createClass({
 
     const zendeskLogo = (!hideZendeskLogo && !this.state.currentPage.addingComment)
                       ? (<div className='u-textCenter u-paddingBM'>
-                          <ZendeskLogo
-                            utm='embeddednps'
-                            className='u-posStatic'
-                            fullscreen={this.props.isMobile} />
+                           <ZendeskLogo
+                             utm='embeddednps'
+                             className='u-posStatic'
+                             fullscreen={this.props.isMobile} />
                         </div>)
                       : null;
 
     const ratingsList = (!this.state.currentPage.thankYou)
                       ? (<NpsRatingsList
-                          isMobile={this.props.isMobile}
-                          className={ratingsListClasses}
-                          ratingsRange={npsRatings}
-                          hideRatingsLegend={hideRatingsLegend}
-                          highlightColor={this.props.survey.highlightColor}
-                          likelyLabel={this.props.survey.likelyLabel}
-                          notLikelyLabel={this.props.survey.notLikelyLabel}
-                          selectedRating={this.props.response.rating}
-                          isSubmittingComment={this.props.isSubmittingComment}
-                          isSubmittingRating={this.props.isSubmittingRating}
-                          onClick={this.ratingChangeValueHandler}
-                          onChangeValue={this.ratingChangeValueHandler} />)
+                           isMobile={this.props.isMobile}
+                           className={ratingsListClasses}
+                           ratingsRange={npsRatings}
+                           hideRatingsLegend={hideRatingsLegend}
+                           highlightColor={this.props.survey.highlightColor}
+                           likelyLabel={this.props.survey.likelyLabel}
+                           notLikelyLabel={this.props.survey.notLikelyLabel}
+                           selectedRating={this.props.response.rating}
+                           isSubmittingComment={this.props.isSubmittingComment}
+                           isSubmittingRating={this.props.isSubmittingRating}
+                           onClick={this.ratingChangeValueHandler}
+                           onChangeValue={this.ratingChangeValueHandler} />)
                       : null;
 
     const commentsContent = (<NpsComment
-                              ref='npsComment'
-                              isMobile={this.props.isMobile}
-                              className={commentsClasses}
-                              comment={this.props.response.comment}
-                              feedbackPlaceholder={this.props.survey.feedbackPlaceholder}
-                              isSubmittingComment={this.props.isSubmittingComment}
-                              isSubmittingRating={this.props.isSubmittingRating}
-                              onSubmit={this.submitCommentHandler}
-                              onChange={this.props.onCommentChangeHandler} />);
+                               ref='npsComment'
+                               isMobile={this.props.isMobile}
+                               className={commentsClasses}
+                               comment={this.props.response.comment}
+                               feedbackPlaceholder={this.props.survey.feedbackPlaceholder}
+                               isSubmittingComment={this.props.isSubmittingComment}
+                               isSubmittingRating={this.props.isSubmittingRating}
+                               onSubmit={this.submitCommentHandler}
+                               onChange={this.props.onCommentChangeHandler} />);
 
     const thankYouContent = (this.state.currentPage.thankYou)
                           ? (<div className='u-textCenter'>
-                              <Icon
-                                type='Icon--tick'
-                                className={iconClasses} />
-                            </div>)
+                               <Icon
+                                 type='Icon--tick'
+                                 className={iconClasses} />
+                             </div>)
                           : null;
 
     return (<Container

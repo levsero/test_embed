@@ -260,16 +260,16 @@ export const NpsMobile = React.createClass({
         <div className='u-marginHM u-borderTop'>
           {npsRatingsList}
            <NpsComment
-            ref='npsComment'
-            isMobile={true}
-            className={npsCommentClasses}
-            label={this.props.survey.commentsQuestion}
-            comment={this.props.response.comment}
-            placeholder={this.props.survey.feedbackPlaceholder}
-            onChange={this.props.onCommentChangeHandler}
-            onSubmit={this.submitCommentHandler}
-            highlightColor={this.props.survey.highlightColor}
-            isSubmittingComment={this.props.isSubmittingComment} />
+             ref='npsComment'
+             isMobile={true}
+             className={npsCommentClasses}
+             label={this.props.survey.commentsQuestion}
+             comment={this.props.response.comment}
+             placeholder={this.props.survey.feedbackPlaceholder}
+             onChange={this.props.onCommentChangeHandler}
+             onSubmit={this.submitCommentHandler}
+             highlightColor={this.props.survey.highlightColor}
+             isSubmittingComment={this.props.isSubmittingComment} />
           <div className={npsCommentButtonClasses}>
             <NpsCommentButton
               onClick={this.startEditing}

@@ -174,10 +174,10 @@ const ButtonRating = React.createClass({
                 : `${this.props.label}`;
 
     return (<ButtonSecondary
-             label={label}
-             onClick={this.props.onClick}
-             className={ButtonRatingClasses}
-             disabled={this.props.disabled} />);
+              label={label}
+              onClick={this.props.onClick}
+              className={ButtonRatingClasses}
+              disabled={this.props.disabled} />);
   }
 });
 
