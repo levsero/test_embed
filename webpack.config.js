@@ -70,6 +70,11 @@ module.exports = {
     new webpack.DefinePlugin({
       __EMBEDDABLE_VERSION__: JSON.stringify(version),
       __DEV__: JSON.stringify(true)
-    })
+    }),
+    new webpack.WatchIgnorePlugin([
+      path.resolve(__dirname, './node_modules/'),
+      path.resolve(__dirname, './bower_components/'),
+      path.resolve(__dirname, './test/')
+    ])
   ]
 };
