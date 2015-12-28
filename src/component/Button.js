@@ -173,11 +173,13 @@ const ButtonRating = React.createClass({
                     className={`u-userFillColorContrast ${this.props.loadingSpinnerClassName}`} />
                 : `${this.props.label}`;
 
-    return (<ButtonSecondary
-              label={label}
-              onClick={this.props.onClick}
-              className={ButtonRatingClasses}
-              disabled={this.props.disabled} />);
+    return (
+      <ButtonSecondary
+        label={label}
+        onClick={this.props.onClick}
+        className={ButtonRatingClasses}
+        disabled={this.props.disabled} />
+    );
   }
 });
 

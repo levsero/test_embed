@@ -22,7 +22,6 @@ const HelpCenterArticle = React.createClass({
     const base = doc.createElement('base');
 
     base.href = `https://${document.zendeskHost}`;
-
     doc.head.appendChild(base);
   },
 
