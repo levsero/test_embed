@@ -5,7 +5,7 @@ const classSet = React.addons.classSet;
 export const Container = React.createClass({
   propTypes: {
     fullscreen: React.PropTypes.bool,
-    className: React.PropTypes.string,
+    className: React.addons.classSet,
     style: React.PropTypes.element,
     card: React.PropTypes.bool,
     children: React.PropTypes.element

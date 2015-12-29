@@ -22,7 +22,8 @@ const icons = {
 export const Icon = React.createClass({
   propTypes: {
     type: React.PropTypes.string,
-    className: React.addons.classSet
+    className: React.addons.classSet,
+    isMobile: React.PropTypes.bool
   },
 
   getDefaultProps() {

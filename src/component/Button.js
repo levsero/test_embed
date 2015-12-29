@@ -13,7 +13,7 @@ const Button = React.createClass({
     disabled: React.PropTypes.bool,
     onClick: React.PropTypes.func,
     type: React.PropTypes.string,
-    className: React.PropTypes.string,
+    className: React.addons.classSet,
     style: React.PropTypes.element
   },
 
@@ -134,7 +134,7 @@ const ButtonSecondary = React.createClass({
       React.PropTypes.element
     ]),
     disabled: React.PropTypes.bool,
-    className: React.PropTypes.string,
+    className: React.addons.classSet,
     style: React.PropTypes.element,
     onClick: React.PropTypes.func
   },
@@ -145,13 +145,6 @@ const ButtonSecondary = React.createClass({
       className: '',
       style: null,
       onClick: null
-    };
-  },
-
-  getDefaultProps() {
-    return {
-      className: '',
-      disabled: false
     };
   },
 

@@ -5,8 +5,18 @@ import { Icon } from 'component/Icon';
 const classSet = React.addons.classSet;
 
 export const ZendeskLogo = React.createClass({
+  propTypes: {
+    rtl: React.PropTypes.bool.isRequired,
+    fullscreen: React.PropTypes.bool,
+    formSuccess: React.PropTypes.bool,
+    className: React.addons.classSet,
+    utm: React.PropTypes.string
+  },
+
   getDefaultProps() {
     return {
+      fullscreen: false,
+      formSuccess: false,
       className: '',
       utm: 'webwidget'
     };

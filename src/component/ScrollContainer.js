@@ -9,13 +9,21 @@ export const ScrollContainer = React.createClass({
       React.PropTypes.element,
       React.PropTypes.array(React.PropTypes.element)
     ]),
+    headerContent: React.PropTypes.bool,
     contentExpanded: React.PropTypes.bool,
-    fullscreen: React.PropTypes.bool
+    fullscreen: React.PropTypes.bool,
+    children: React.PropTypes.element,
+    hideZendeskLogo: React.PropTypes.bool
   },
 
   getDefaultProps() {
     return {
-      contentExpanded: false
+      footerContent: [],
+      headerContent: false,
+      contentExpanded: false,
+      fullscreen: false,
+      children: null,
+      hideZendeskLogo: false
     };
   },
 
