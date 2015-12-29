@@ -3,9 +3,21 @@ import React from 'react/addons';
 const classSet = React.addons.classSet;
 
 export const Container = React.createClass({
+  propTypes: {
+    fullscreen: React.PropTypes.bool,
+    className: React.PropTypes.string,
+    style: React.PropTypes.element,
+    card: React.PropTypes.bool,
+    children: React.PropTypes.element
+  },
+
   getDefaultProps() {
     return {
-      className: ''
+      fullscreen: false,
+      className: '',
+      style: null,
+      card: false,
+      children: null
     };
   },
 
