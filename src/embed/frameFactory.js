@@ -370,16 +370,16 @@ export const frameFactory = function(childFn, _params) {
           renderCloseButton() {
             return (
               <ButtonNav
-                 onClick={this.props.close}
-                 label={
-                   <Icon
-                     type='Icon--close'
-                     className='u-textInheritColor'
-                     isMobile={this.state.isMobile} />
-                 }
-                 rtl={i18n.isRTL()}
-                 position='right'
-                 fullscreen={this.props.fullscreen || this.state.isMobile} />
+                onClick={this.props.close}
+                label={
+                  <Icon
+                    type='Icon--close'
+                    className='u-textInheritColor'
+                    isMobile={this.state.isMobile} />
+                }
+                rtl={i18n.isRTL()}
+                position='right'
+                fullscreen={this.props.fullscreen || this.state.isMobile} />
             );
           },
 

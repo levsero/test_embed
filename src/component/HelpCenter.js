@@ -17,6 +17,13 @@ import { beacon }            from 'service/beacon';
 const classSet = React.addons.classSet;
 
 export const HelpCenter = React.createClass({
+  getDefaultProps() {
+    return {
+      buttonLabelKey: 'message',
+      formTitleKey: 'help'
+    };
+  },
+
   getInitialState() {
     /* eslint max-len:0 */
     return {
@@ -35,13 +42,6 @@ export const HelpCenter = React.createClass({
       virtualKeyboardKiller: false,
       searchTracked: false,
       searchResultClicked: false
-    };
-  },
-
-  getDefaultProps() {
-    return {
-      buttonLabelKey: 'message',
-      formTitleKey: 'help'
     };
   },
 
@@ -357,9 +357,9 @@ export const HelpCenter = React.createClass({
       return (
         <li key={_.uniqueId('article_')} className={listItemClasses}>
           <a className='u-userTextColor'
-             href={article.html_url}
-             target='_blank'
-             onClick={this.handleArticleClick.bind(this, index)}>
+            href={article.html_url}
+            target='_blank'
+            onClick={this.handleArticleClick.bind(this, index)}>
               {article.title || article.name}
           </a>
         </li>

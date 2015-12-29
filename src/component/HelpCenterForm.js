@@ -1,17 +1,17 @@
 import React from 'react/addons';
 
 const HelpCenterForm = React.createClass({
+  getDefaultProps() {
+    return {
+      fullscreen: false
+    };
+  },
+
   getInitialState() {
     return {
       isValid: false,
       isSubmitting: false,
       focused: false
-    };
-  },
-
-  getDefaultProps() {
-    return {
-      fullscreen: false
     };
   },
 
@@ -32,7 +32,7 @@ const HelpCenterForm = React.createClass({
   render() {
     return (
       <form
-        noValidate
+        noValidate={true}
         onSubmit={this.handleSubmit}
         onChange={this.handleChange}
         className='Form u-cf'>

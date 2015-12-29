@@ -17,6 +17,12 @@ export const SubmitTicket = React.createClass({
     formTitleKey: React.PropTypes.string.isRequired
   },
 
+  getDefaultProps() {
+    return {
+      customFields: []
+    };
+  },
+
   getInitialState() {
     return {
       showNotification: false,
@@ -26,12 +32,6 @@ export const SubmitTicket = React.createClass({
       uid: _.uniqueId('submitTicketForm_'),
       searchString: null,
       searchLocale: null
-    };
-  },
-
-  getDefaultProps() {
-    return {
-      customFields: []
     };
   },
 

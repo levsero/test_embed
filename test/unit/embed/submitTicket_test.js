@@ -39,9 +39,6 @@ describe('embed.submitTicket', function() {
       },
       'component/SubmitTicket': {
         SubmitTicket: React.createClass({
-          show: jasmine.createSpy('show'),
-          hide: jasmine.createSpy('hide'),
-          clearNotification: jasmine.createSpy('clearNotification'),
           getInitialState: function() {
             return {
               showNotification: false,
@@ -49,6 +46,9 @@ describe('embed.submitTicket', function() {
               uid: defaultValue
             };
           },
+          show: jasmine.createSpy('show'),
+          hide: jasmine.createSpy('hide'),
+          clearNotification: jasmine.createSpy('clearNotification'),
 
           render: function() {
             const SubmitTicketForm = mockRegistry['component/SubmitTicketForm'].SubmitTicketForm;

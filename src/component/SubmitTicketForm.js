@@ -16,6 +16,12 @@ export const SubmitTicketForm = React.createClass({
     formTitleKey: React.PropTypes.string.isRequired
   },
 
+  getDefaultProps() {
+    return {
+      fullscreen: false
+    };
+  },
+
   getInitialState() {
     return {
       isValid: false,
@@ -34,10 +40,10 @@ export const SubmitTicketForm = React.createClass({
 
   },
 
-  getDefaultProps() {
-    return {
-      fullscreen: false
-    };
+  componentDidMount() {
+    const customFields = getCustomFields(this.props.customFields, this.state.formState);
+
+    this.refs.scrollContainer.setScrollShadowVisible(customFields.fields.length);
   },
 
   componentDidUpdate() {
@@ -68,12 +74,6 @@ export const SubmitTicketForm = React.createClass({
         }
       }, this);
     }
-  },
-
-  componentDidMount() {
-    const customFields = getCustomFields(this.props.customFields, this.state.formState);
-
-    this.refs.scrollContainer.setScrollShadowVisible(customFields.fields.length);
   },
 
   resetTicketFormVisibility() {
@@ -168,7 +168,7 @@ export const SubmitTicketForm = React.createClass({
                        <Field
                          placeholder={i18n.t('embeddable_framework.form.field.email.label')}
                          type='email'
-                         required
+                         required={true}
                          value={this.state.formState.email}
                          name='email' />
                        {customFields.fields}
@@ -176,7 +176,7 @@ export const SubmitTicketForm = React.createClass({
                          placeholder={
                            i18n.t('embeddable_framework.submitTicket.field.description.label')
                          }
-                         required
+                         required={true}
                          value={this.state.formState.description}
                          name='description'
                          input={<textarea rows='5' />} />
@@ -185,14 +185,14 @@ export const SubmitTicketForm = React.createClass({
                      </div>;
     const buttonCancel = (this.props.fullscreen)
                        ? null
-                       : <ButtonSecondary
-                           label={this.state.cancelButtonMessage}
-                           onClick={this.props.onCancel}
-                           fullscreen={this.props.fullscreen} />;
+                       : (<ButtonSecondary
+                            label={this.state.cancelButtonMessage}
+                            onClick={this.props.onCancel}
+                            fullscreen={this.props.fullscreen} />);
 
     return (
       <form
-        noValidate
+        noValidate={true}
         onSubmit={this.handleSubmit}
         onChange={this.handleUpdate}
         ref='form'

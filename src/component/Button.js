@@ -87,18 +87,18 @@ const ButtonPill = React.createClass({
 });
 
 const ButtonSecondary = React.createClass({
-  getDefaultProps() {
-    return {
-      className: '',
-      disabled: false
-    };
-  },
-
   propTypes: {
     label: React.PropTypes.oneOfType([
       React.PropTypes.string.isRequired,
       React.PropTypes.element
     ])
+  },
+
+  getDefaultProps() {
+    return {
+      className: '',
+      disabled: false
+    };
   },
 
   render() {
@@ -111,7 +111,7 @@ const ButtonSecondary = React.createClass({
          ? <div
              className={buttonClasses}
              style={this.props.style}
-             disabled>
+             disabled={true}>
              {this.props.label}
            </div>
          : <div
@@ -173,11 +173,13 @@ const ButtonRating = React.createClass({
                     className={`u-userFillColorContrast ${this.props.loadingSpinnerClassName}`} />
                 : `${this.props.label}`;
 
-    return <ButtonSecondary
-             label={label}
-             onClick={this.props.onClick}
-             className={ButtonRatingClasses}
-             disabled={this.props.disabled} />;
+    return (
+      <ButtonSecondary
+        label={label}
+        onClick={this.props.onClick}
+        className={ButtonRatingClasses}
+        disabled={this.props.disabled} />
+    );
   }
 });
 
