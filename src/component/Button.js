@@ -9,9 +9,23 @@ const classSet = React.addons.classSet;
 const Button = React.createClass({
   propTypes: {
     label: React.PropTypes.string.isRequired,
+    fullscreen: React.PropTypes.bool,
     disabled: React.PropTypes.bool,
     onClick: React.PropTypes.func,
-    type: React.PropTypes.string
+    type: React.PropTypes.string,
+    className: React.PropTypes.string,
+    style: React.PropTypes.element
+  },
+
+  getDefaultProps() {
+    return {
+      fullscreen: false,
+      disabled: false,
+      onClick: null,
+      type: 'submit',
+      className: '',
+      style: null
+    };
   },
 
   render() {
@@ -40,6 +54,22 @@ const Button = React.createClass({
 });
 
 const ButtonNav = React.createClass({
+  propTypes: {
+    label: React.PropTypes.element.isRequired,
+    rtl: React.PropTypes.bool.isRequired,
+    fullscreen: React.PropTypes.bool,
+    position: React.PropTypes.string,
+    onClick: React.PropTypes.func
+  },
+
+  getDefaultProps() {
+    return {
+      fullscreen: false,
+      position: 'left',
+      onClick: null
+    };
+  },
+
   render() {
     const { fullscreen, position, rtl } = this.props;
     const isLeft = (position === 'left');
@@ -68,6 +98,17 @@ const ButtonNav = React.createClass({
 });
 
 const ButtonPill = React.createClass({
+  propTypes: {
+    label: React.PropTypes.string.isRequired,
+    fullscreen: React.PropTypes.bool
+  },
+
+  getDefaultProps() {
+    return {
+      fullscreen: false
+    };
+  },
+
   render() {
     const buttonClasses = classSet({
       'c-btn c-btn--medium c-btn--secondary c-btn--pill': true,
@@ -91,7 +132,20 @@ const ButtonSecondary = React.createClass({
     label: React.PropTypes.oneOfType([
       React.PropTypes.string.isRequired,
       React.PropTypes.element
-    ])
+    ]),
+    disabled: React.PropTypes.bool,
+    className: React.PropTypes.string,
+    style: React.PropTypes.element,
+    onClick: React.PropTypes.func
+  },
+
+  getDefaultProps() {
+    return {
+      disabled: false,
+      className: '',
+      style: null,
+      onClick: null
+    };
   },
 
   getDefaultProps() {
@@ -126,7 +180,18 @@ const ButtonSecondary = React.createClass({
 
 const ButtonGroup = React.createClass({
   propTypes: {
-    rtl: React.PropTypes.bool.isRequired
+    rtl: React.PropTypes.bool.isRequired,
+    fullscreen: React.PropTypes.bool,
+    style: React.PropTypes.element,
+    children: React.PropTypes.element
+  },
+
+  getDefaultProps() {
+    return {
+      fullscreen: false,
+      style: null,
+      children: null
+    };
   },
 
   render() {
@@ -147,6 +212,20 @@ const ButtonGroup = React.createClass({
 });
 
 const ButtonRating = React.createClass({
+  propTypes: {
+    label: React.PropTypes.oneOfType([
+      React.PropTypes.string.isRequired,
+      React.PropTypes.element
+    ]),
+    fullscreen: React.PropTypes.bool,
+    highlightColor: React.PropTypes.string,
+    selected: React.PropTypes.bool,
+    loading: React.PropTypes.bool,
+    loadingSpinnerClassName: React.PropTypes.string,
+    disabled: React.PropTypes.bool,
+    onClick: React.PropTypes.func
+  },
+
   getDefaultProps() {
     return {
       highlightColor: '#77a500',
@@ -154,7 +233,8 @@ const ButtonRating = React.createClass({
       loading: false,
       label: null,
       loadingSpinnerClassName: '',
-      disabled: false
+      disabled: false,
+      onClick: null
     };
   },
 
