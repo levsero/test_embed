@@ -8,7 +8,7 @@ export const Container = React.createClass({
     fullscreen: React.PropTypes.bool,
     className: React.addons.classSet,
     style: React.PropTypes.element,
-    card: React.PropTypes.bool,
+    card: React.PropTypes.bool
   },
 
   getDefaultProps() {
@@ -16,7 +16,7 @@ export const Container = React.createClass({
       fullscreen: false,
       className: '',
       style: null,
-      card: false,
+      card: false
     };
   },
 

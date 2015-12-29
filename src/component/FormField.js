@@ -85,7 +85,7 @@ const Field = React.createClass({
 
   getDefaultProps() {
     return {
-      placeholder: '',
+      placeholder: 'text',
       value: '',
       input: null,
       required: false,

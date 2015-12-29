@@ -178,7 +178,7 @@ const ButtonGroup = React.createClass({
     children: React.PropTypes.element.isRequired,
     rtl: React.PropTypes.bool,
     fullscreen: React.PropTypes.bool,
-    style: React.PropTypes.element,
+    style: React.PropTypes.element
   },
 
   getDefaultProps() {
