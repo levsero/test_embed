@@ -143,23 +143,25 @@ export const NpsDesktop = React.createClass({
                              </div>)
                           : null;
 
-    return (<Container
-             card={true}
-             fullscreen={this.props.isMobile}
-             style={containerStyles}
-             className={containerClasses}>
-             <div className={containerContentClasses}>
-               <h1 className={surveyTitleClasses}>{surveyTitle}</h1>
+    return (
+      <Container
+        card={true}
+        fullscreen={this.props.isMobile}
+        style={containerStyles}
+        className={containerClasses}>
+        <div className={containerContentClasses}>
+          <h1 className={surveyTitleClasses}>{surveyTitle}</h1>
 
-               <div className={surveyFormClasses}>
-                 {ratingsList}
-                 {commentsContent}
-               </div>
+          <div className={surveyFormClasses}>
+            {ratingsList}
+            {commentsContent}
+          </div>
 
-               {thankYouContent}
+          {thankYouContent}
 
-               {zendeskLogo}
-             </div>
-           </Container>);
+          {zendeskLogo}
+        </div>
+      </Container>
+    );
   }
 });
