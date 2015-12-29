@@ -6,7 +6,7 @@ const classSet = React.addons.classSet;
 
 export const ZendeskLogo = React.createClass({
   propTypes: {
-    rtl: React.PropTypes.bool.isRequired,
+    rtl: React.PropTypes.bool,
     fullscreen: React.PropTypes.bool,
     formSuccess: React.PropTypes.bool,
     className: React.addons.classSet,
@@ -15,6 +15,7 @@ export const ZendeskLogo = React.createClass({
 
   getDefaultProps() {
     return {
+      rtl: false,
       fullscreen: false,
       formSuccess: false,
       className: '',

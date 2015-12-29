@@ -4,11 +4,11 @@ const classSet = React.addons.classSet;
 
 export const Container = React.createClass({
   propTypes: {
+    children: React.PropTypes.element.isRequired,
     fullscreen: React.PropTypes.bool,
     className: React.addons.classSet,
     style: React.PropTypes.element,
     card: React.PropTypes.bool,
-    children: React.PropTypes.element
   },
 
   getDefaultProps() {
@@ -17,7 +17,6 @@ export const Container = React.createClass({
       className: '',
       style: null,
       card: false,
-      children: null
     };
   },
 

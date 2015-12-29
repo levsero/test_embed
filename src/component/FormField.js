@@ -93,9 +93,9 @@ const Field = React.createClass({
       options: false,
       hasSearched: false,
       labelClasses: '',
-      onFocus: null,
-      onBlur: null,
-      onChange: null
+      onFocus: _.noop(),
+      onBlur: _.noop(),
+      onChange: _.noop()
     };
   },
 
@@ -241,8 +241,8 @@ const SelectField = React.createClass({
 
   getDefaultProps() {
     return {
-      onFocus: null,
-      onBlur: null
+      onFocus: _.noop(),
+      onBlur: _.noop()
     };
   },
 
@@ -297,8 +297,15 @@ const SelectField = React.createClass({
 
 const SearchFieldButton = React.createClass({
   propTypes: {
-    onClick: React.PropTypes.func.isRequired,
-    onTouch: React.PropTypes.func.isRequired
+    onClick: React.PropTypes.func,
+    onTouch: React.PropTypes.func
+  },
+
+  getDefaultProps() {
+    return {
+      onClick: _.noop(),
+      onTouch: _.noop()
+    };
   },
 
   render() {
@@ -334,11 +341,11 @@ const SearchField = React.createClass({
       fullscreen: false,
       isLoading: false,
       hasSearched: false,
-      onFocus: null,
-      onBlur: null,
-      onChange: null,
-      onSearchIconClick:  null,
-      onChangeValue: null
+      onFocus: _.noop(),
+      onBlur: _.noop(),
+      onChange: _.noop(),
+      onSearchIconClick:  _.noop(),
+      onChangeValue: _.noop()
     };
   },
 

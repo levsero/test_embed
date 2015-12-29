@@ -1,4 +1,5 @@
 import React from 'react/addons';
+import _ from 'lodash';
 
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
@@ -21,7 +22,7 @@ const Button = React.createClass({
     return {
       fullscreen: false,
       disabled: false,
-      onClick: null,
+      onClick: _.noop(),
       type: 'submit',
       className: '',
       style: null
@@ -56,7 +57,7 @@ const Button = React.createClass({
 const ButtonNav = React.createClass({
   propTypes: {
     label: React.PropTypes.element.isRequired,
-    rtl: React.PropTypes.bool.isRequired,
+    rtl: React.PropTypes.bool,
     fullscreen: React.PropTypes.bool,
     position: React.PropTypes.string,
     onClick: React.PropTypes.func
@@ -64,6 +65,7 @@ const ButtonNav = React.createClass({
 
   getDefaultProps() {
     return {
+      rtl: false,
       fullscreen: false,
       position: 'left',
       onClick: null
@@ -130,9 +132,9 @@ const ButtonPill = React.createClass({
 const ButtonSecondary = React.createClass({
   propTypes: {
     label: React.PropTypes.oneOfType([
-      React.PropTypes.string.isRequired,
+      React.PropTypes.string,
       React.PropTypes.element
-    ]),
+    ]).isRequired,
     disabled: React.PropTypes.bool,
     className: React.addons.classSet,
     style: React.PropTypes.element,
@@ -173,17 +175,17 @@ const ButtonSecondary = React.createClass({
 
 const ButtonGroup = React.createClass({
   propTypes: {
-    rtl: React.PropTypes.bool.isRequired,
+    children: React.PropTypes.element.isRequired,
+    rtl: React.PropTypes.bool,
     fullscreen: React.PropTypes.bool,
     style: React.PropTypes.element,
-    children: React.PropTypes.element
   },
 
   getDefaultProps() {
     return {
+      rtl: false,
       fullscreen: false,
-      style: null,
-      children: null
+      style: null
     };
   },
 
@@ -207,9 +209,9 @@ const ButtonGroup = React.createClass({
 const ButtonRating = React.createClass({
   propTypes: {
     label: React.PropTypes.oneOfType([
-      React.PropTypes.string.isRequired,
+      React.PropTypes.string,
       React.PropTypes.element
-    ]),
+    ]).isRequired,
     fullscreen: React.PropTypes.bool,
     highlightColor: React.PropTypes.string,
     selected: React.PropTypes.bool,
@@ -227,7 +229,7 @@ const ButtonRating = React.createClass({
       label: null,
       loadingSpinnerClassName: '',
       disabled: false,
-      onClick: null
+      onClick: _.noop()
     };
   },
 
