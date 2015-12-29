@@ -14,7 +14,7 @@
     "build:debug": "webpack --config=./webpack.dev.config.js",
     "build:prod": "webpack -p --config=./webpack.prod.config.js",
     "build:watch": "webpack --watch --config=./webpack.dev.config.js",
-    "watch": "npm run build:debug && concurrent --kill-others \"npm run build:watch\" \"live-server --port=1337 --no-browser --ignore=./src\"",
+    "watch": "npm run build:debug && concurrent --kill-others \"npm run build:watch\" \"live-server --port=1337 --no-browser --ignore=src,test,script,config,doc,.*,./*.js\"",
     "build": "npm run build:prod",
     "postbuild": "npm run build:version:clean",
     "test": "jasmine JASMINE_CONFIG_PATH=test/jasmine.json",
