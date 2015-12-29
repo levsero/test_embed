@@ -1,13 +1,12 @@
 var config = require('./webpack.config');
 var webpack = require('webpack');
 
-var defs = config.plugins[0].definitions;
-defs.__DEV__ = false;
-defs['process.env'] = {
-  'NODE_ENV': JSON.stringify('production')
-};
-
-config.plugins.push(
+config.plugins = [
+  new webpack.DefinePlugin({
+    'process.env': {
+      'NODE_ENV': JSON.stringify('production')
+    }
+  }),
   new webpack.optimize.DedupePlugin(),
   new webpack.optimize.UglifyJsPlugin({
     compress: {
@@ -16,6 +15,6 @@ config.plugins.push(
       'warnings': false
     }
   })
-);
+];
 
 module.exports = config;
