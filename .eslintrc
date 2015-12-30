@@ -11,7 +11,8 @@
     "experimentalObjectRestSpread": true
   },
   "plugins": [
-    "react"
+    "react",
+    "jasmine"
   ],
   "root": true,
   "parser": "babel-eslint",
