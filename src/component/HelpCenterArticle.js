@@ -8,7 +8,14 @@ const classSet = React.addons.classSet;
 
 const HelpCenterArticle = React.createClass({
   propTypes: {
-    activeArticle: React.PropTypes.object.isRequired
+    activeArticle: React.PropTypes.object.isRequired,
+    fullscreen: React.PropTypes.bool
+  },
+
+  getDefaultProps() {
+    return {
+      fullscreen: false
+    };
   },
 
   getInitialState() {

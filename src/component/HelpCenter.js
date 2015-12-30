@@ -17,9 +17,27 @@ import { beacon }            from 'service/beacon';
 const classSet = React.addons.classSet;
 
 export const HelpCenter = React.createClass({
+  propTypes: {
+    searchSender: React.PropTypes.func.isRequired,
+    buttonLabelKey: React.PropTypes.string,
+    onSearch: React.PropTypes.func,
+    showBackButton: React.PropTypes.func,
+    onNextClick: React.PropTypes.func,
+    hideZendeskLogo: React.PropTypes.bool,
+    updateFrameSize: React.PropTypes.bool,
+    style: React.PropTypes.element,
+    formTitleKey: React.PropTypes.string
+  },
+
   getDefaultProps() {
     return {
       buttonLabelKey: 'message',
+      onSearch: _.noop,
+      showBackButton: _.noop,
+      onNextClick: _.noop,
+      hideZendeskLogo: false,
+      updateFrameSize: false,
+      style: null,
       formTitleKey: 'help'
     };
   },
