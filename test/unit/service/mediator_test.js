@@ -1,4 +1,4 @@
-describe('mediator', function() {
+fdescribe('mediator', function() {
   let mockRegistry,
     mediator,
     c,
@@ -96,11 +96,11 @@ describe('mediator', function() {
     initSubscriptionSpies = function(names) {
       c.subscribe(`${names.beacon}.identify`, beaconSub.identify);
 
-      c.subscribe(`${names.launcher}.hide`,       launcherSub.hide);
-      c.subscribe(`${names.launcher}.show`,       launcherSub.show);
-      c.subscribe(`${names.launcher}.setLabelChat`,       launcherSub.setLabelChat);
-      c.subscribe(`${names.launcher}.setLabelHelp`,       launcherSub.setLabelHelp);
-      c.subscribe(`${names.launcher}.setLabelChatHelp`,   launcherSub.setLabelChatHelp);
+      c.subscribe(`${names.launcher}.hide`, launcherSub.hide);
+      c.subscribe(`${names.launcher}.show`, launcherSub.show);
+      c.subscribe(`${names.launcher}.setLabelChat`, launcherSub.setLabelChat);
+      c.subscribe(`${names.launcher}.setLabelHelp`, launcherSub.setLabelHelp);
+      c.subscribe(`${names.launcher}.setLabelChatHelp`, launcherSub.setLabelChatHelp);
       c.subscribe(`${names.launcher}.setLabelUnreadMsgs`, launcherSub.setLabelUnreadMsgs);
 
       c.subscribe(`${names.submitTicket}.show`, submitTicketSub.show);
@@ -140,27 +140,9 @@ describe('mediator', function() {
     mockery.disable();
   });
 
-  describe('.zopimShow', function() {
-    it('doesn\'t hide launcher when on mobile', function() {
-      const launcher = 'launcher';
-      const names = {
-        launcher: launcher
-      };
-
-      mockRegistry['utility/devices'].isMobileBrowser = jasmine.createSpy().and.returnValue(true);
-
-      mediator = requireUncached(mediatorPath).mediator;
-
-      c = mediator.channel;
-      initSubscriptionSpies(names);
-      mediator.init(false);
-
-      c.broadcast('.zopimShow');
-
-      expect(launcherSub.hide.calls.count())
-        .toEqual(0);
-    });
-  });
+  /**********************************************
+  *                  IDENTIFY                   *
+  * ********************************************/
 
   describe('.onIdentify', function() {
     const submitTicket = 'ticketSubmissionForm';
@@ -272,6 +254,10 @@ describe('mediator', function() {
       });
     });
   });
+
+  /**********************************************
+  *                     NPS                     *
+  * ********************************************/
 
   describe('nps', function() {
     const nps = 'nps';
@@ -409,6 +395,10 @@ describe('mediator', function() {
     });
   });
 
+  /**********************************************
+  *                     IPM                     *
+  * ********************************************/
+
   describe('ipm', function() {
     const ipm = 'ipm';
     const launcher = 'launcher';
@@ -544,181 +534,110 @@ describe('mediator', function() {
       });
     });
   });
-
-  describe('Ticket Submission', function() {
+  
+  /**********************************************
+  *                  LAUNCHER                   *
+  * ********************************************/
+  
+  describe('Launcher', function() {
     const launcher = 'launcher';
     const submitTicket = 'ticketSubmissionForm';
+    const chat = 'zopimChat';
+    const helpCenter = 'helpCenterForm';
     const names = {
       launcher: launcher,
-      submitTicket: submitTicket
+      submitTicket: submitTicket,
+      chat: chat,
+      helpCenter: helpCenter
     };
 
     beforeEach(function() {
       initSubscriptionSpies(names);
-      mediator.init(false);
     });
-
-    describe('launcher', function() {
+    
+    describe('standalone', function() {
+      beforeEach(function() {
+        mediator.init(false);
+      });
+      
+      it('hides when a hide call is made', function() {
+        c.broadcast('.hide');
+  
+        expect(launcherSub.hide.calls.count())
+          .toEqual(1);
+      });
+  
+      it('shows when a show call is made', function() {
+        c.broadcast('.show');
+  
+        expect(launcherSub.show.calls.count())
+          .toEqual(1);
+      });
+  
+      it('shows and hides launcher when a activate call is made', function() {
+        c.broadcast('.activate');
+  
+        expect(launcherSub.hide.calls.count())
+          .toEqual(1);
+      });
+  
+      it('hides when onClick is called on mobile', function() {
+        mockRegistry['utility/devices'].isMobileBrowser
+          .and.returnValue(true);
+  
+        c.broadcast(`${launcher}.onClick`);
+  
+        expect(launcherSub.hide.calls.count())
+          .toEqual(1);
+      });
+    });
+    
+    describe('with Ticket Submission', function() {
+      beforeEach(function() {
+        mediator.init(false);
+      });
+      
       it('launches Ticket Submission', function() {
         jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`);
         jasmine.clock().tick(0);
-
+  
         expect(submitTicketSub.show.calls.count())
           .toEqual(1);
         expect(launcherSub.hide.calls.count())
           .toEqual(1);
       });
-
-      it('hides when a hide call is made', function() {
-        c.broadcast('.hide');
-
-        expect(launcherSub.hide.calls.count())
-          .toEqual(1);
-      });
-
-      it('shows when a show call is made', function() {
-        c.broadcast('.show');
-
-        expect(launcherSub.show.calls.count())
-          .toEqual(1);
-      });
-
-      it('hides launcher when a activate call is made', function() {
-        c.broadcast('.activate');
-
-        expect(launcherSub.hide.calls.count())
-          .toEqual(1);
-      });
-
+  
       it('activates setScrollKiller and setWindowScroll on mobile', function() {
         const setScrollKiller = mockRegistry['utility/scrollHacks'].setScrollKiller;
         const setWindowScroll = mockRegistry['utility/scrollHacks'].setWindowScroll;
-
+  
         mockRegistry['utility/devices'].isMobileBrowser
           .and.returnValue(true);
-
+  
         jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`);
         jasmine.clock().tick(1); // 1 because of a double setTimeout
-
+  
         expect(setScrollKiller)
           .toHaveBeenCalledWith(true);
-
+  
         expect(setScrollKiller.calls.count())
           .toEqual(1);
-
+  
         expect(setWindowScroll)
           .toHaveBeenCalledWith(0);
-
+  
         expect(setWindowScroll.calls.count())
           .toEqual(1);
       });
     });
-
-    describe('ticket submission', function() {
-      it('shows launcher on close', function() {
-        jasmine.clock().install();
-        c.broadcast(`${launcher}.onClick`);
-        jasmine.clock().tick(0);
-
-        expect(submitTicketSub.show.calls.count())
-          .toEqual(1);
-        expect(launcherSub.hide.calls.count())
-          .toEqual(1);
-
-        c.broadcast(`${submitTicket}.onClose`);
-
-        expect(launcherSub.show.calls.count())
-          .toEqual(1);
+    
+    describe('with Ticket Submission and Chat', function() {
+      beforeEach(function() {
+        mediator.init(false);
       });
-
-      it('hides when a hide call is made', function() {
-        c.broadcast('.hide');
-
-        expect(submitTicketSub.hide.calls.count())
-          .toEqual(1);
-      });
-
-      it('reverts setScrollKiller and setWindowScroll on mobile onClose', function() {
-        const setScrollKiller = mockRegistry['utility/scrollHacks'].setScrollKiller;
-        const revertWindowScroll = mockRegistry['utility/scrollHacks'].revertWindowScroll;
-
-        mockRegistry['utility/devices'].isMobileBrowser
-          .and.returnValue(true);
-
-        c.broadcast(`${launcher}.onClick`);
-
-        reset(setScrollKiller);
-        reset(revertWindowScroll);
-
-        c.broadcast(`${submitTicket}.onClose`);
-
-        expect(setScrollKiller)
-          .toHaveBeenCalledWith(false);
-
-        expect(setScrollKiller.calls.count())
-          .toEqual(1);
-
-        expect(revertWindowScroll.calls.count())
-          .toEqual(1);
-      });
-
-      it('shows after activate is called', function() {
-        c.broadcast('.hide');
-
-        reset(submitTicketSub.show);
-        c.broadcast('.activate');
-
-        expect(submitTicketSub.show.calls.count())
-          .toEqual(1);
-      });
-
-      it('hides after show is called', function() {
-        reset(submitTicketSub.hide);
-        c.broadcast('.show');
-
-        expect(submitTicketSub.hide.calls.count())
-          .toEqual(1);
-      });
-
-      it('shows launcher on cancel if helpcenter is not available', function() {
-        reset(launcherSub.show);
-        c.broadcast(`${submitTicket}.onCancelClick`);
-
-        expect(launcherSub.show.calls.count())
-          .toEqual(1);
-      });
-
-      it('doesn\'t show launcher on cancel if .hideOnClose is true', function() {
-        reset(launcherSub.show);
-
-        c.broadcast('.activate', {hideOnClose: true});
-        c.broadcast(`${submitTicket}.onCancelClick`);
-
-        expect(launcherSub.show.calls.count())
-          .toEqual(0);
-      });
-    });
-
-  });
-
-  describe('Chat, Ticket Submission', function() {
-    const launcher = 'launcher';
-    const submitTicket = 'ticketSubmissionForm';
-    const chat = 'zopimChat';
-    const names = {
-      launcher: launcher,
-      submitTicket: submitTicket,
-      chat: chat
-    };
-
-    beforeEach(function() {
-      initSubscriptionSpies(names);
-      mediator.init(false);
-    });
-
-    describe('launcher', function() {
+      
       it('shows label "Chat" if chat is online', function() {
         c.broadcast(`${chat}.onOnline`);
 
@@ -792,16 +711,6 @@ describe('mediator', function() {
           .toEqual(0);
       });
 
-      it('hides when onClick is called on mobile and chat is offline', function() {
-        mockRegistry['utility/devices'].isMobileBrowser
-          .and.returnValue(true);
-
-        c.broadcast(`${launcher}.onClick`);
-
-        expect(launcherSub.hide.calls.count())
-          .toEqual(1);
-      });
-
       it('doesn\'t hide when onClick is called on mobile and chat is online', function() {
         mockRegistry['utility/devices'].isMobileBrowser
           .and.returnValue(true);
@@ -815,464 +724,269 @@ describe('mediator', function() {
         expect(launcherSub.hide.calls.count())
           .toEqual(0);
       });
-
-      it('hides when a hide call is made', function() {
-        c.broadcast('.hide');
-
-        expect(launcherSub.hide.calls.count())
-          .toEqual(1);
-      });
-
-      it('shows when a activate call is made', function() {
-        c.broadcast('.activate');
-
-        expect(launcherSub.hide.calls.count())
-          .toEqual(1);
-      });
-
-      it('shows when a show call is made', function() {
-        c.broadcast('.show');
-
-        expect(launcherSub.show.calls.count())
-          .toEqual(1);
-      });
     });
-
-    describe('ticket submission', function() {
-      it('shows launcher on close', function() {
-        jasmine.clock().install();
-        c.broadcast(`${launcher}.onClick`);
-        jasmine.clock().tick(0);
-
-        expect(submitTicketSub.show.calls.count())
-          .toEqual(1);
-        expect(launcherSub.hide.calls.count())
-          .toEqual(1);
-
-        c.broadcast(`${submitTicket}.onClose`);
-
-        expect(launcherSub.show.calls.count())
-          .toEqual(1);
+    
+    describe('with Ticket Submission, Chat and Help Center', function() {  
+      beforeEach(function() {
+        mediator.init(true);
       });
-
-      it('hides when a hide call is made', function() {
-        c.broadcast('.hide');
-
-        expect(submitTicketSub.hide.calls.count())
-          .toEqual(1);
-      });
-
-      it('hides after show is called and chat is offline', function() {
-        c.broadcast(`${chat}.onOffline`);
-
-        reset(submitTicketSub.hide);
-        c.broadcast('.show');
-
-        expect(submitTicketSub.hide.calls.count())
-          .toEqual(1);
-      });
-
-      it('shows after activate is called and chat is offline', function() {
-        c.broadcast(`${chat}.onOffline`);
-        c.broadcast(`${launcher}.onClick`);
-
-        c.broadcast('.hide');
-
-        reset(submitTicketSub.show);
-        c.broadcast('.activate');
-
-        expect(submitTicketSub.show.calls.count())
-          .toEqual(1);
-      });
-    });
-
-    describe('chat', function() {
-      it('sets launcher to "Chat" when chat comes online', function() {
+    
+      it('shows label "ChatHelp" if chat is online', function() {
         c.broadcast(`${chat}.onOnline`);
-        expect(launcherSub.setLabelChat)
+  
+        expect(launcherSub.setLabelChatHelp)
           .toHaveBeenCalled();
       });
-
-      it('sets launcher to "Help" when chat goes offline', function() {
+  
+      it('resets label "ChatHelp" on launcher.show if chat is online', function() {
+        c.broadcast(`${chat}.onOnline`);
+        reset(launcherSub.setLabelChatHelp);
+  
+        c.broadcast(`${launcher}.show`);
+  
+        expect(launcherSub.setLabelChatHelp.calls.count())
+          .toEqual(1);
+      });
+  
+      it('shows label "Help" if chat is offline', function() {
         c.broadcast(`${chat}.onOffline`);
+  
         expect(launcherSub.setLabelHelp.calls.count())
           .toEqual(1);
       });
-
-      it('updates launcher with unread message count if chat is online', function() {
-        c.broadcast(`${chat}.onOnline`);
-        c.broadcast(`${chat}.onUnreadMsgs`, 5);
-
-        expect(launcherSub.setLabelUnreadMsgs.calls.count())
-          .toEqual(1);
-        expect(launcherSub.setLabelUnreadMsgs)
-          .toHaveBeenCalledWith(5);
-      });
-
-      it('hides launcher when chat pops open', function() {
-        c.broadcast(`${chat}.onOnline`);
-        c.broadcast(`${chat}.onShow`);
-
-        expect(launcherSub.hide.calls.count())
+  
+      it('resets label "Help" on launcher.show if chat is offline', function() {
+        c.broadcast(`${chat}.onOffline`);
+        reset(launcherSub.setLabelHelp);
+  
+        c.broadcast(`${launcher}.show`);
+  
+        expect(launcherSub.setLabelHelp.calls.count())
           .toEqual(1);
       });
-
-      it('hides the launcher when chat pops open from proactive chat', function() {
-        c.broadcast(`${chat}.onOnline`);
-        c.broadcast(`${chat}.onUnreadMsgs`, 1);
-
-        expect(launcherSub.hide.calls.count())
-          .toEqual(1);
-      });
-
-      it('closes when chat is ended', function() {
-        c.broadcast(`${chat}.onOnline`);
+  
+      it('launches Help Center first', function() {
+        jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`);
-
-        reset(chatSub.hide);
-        reset(launcherSub.show);
-
-        c.broadcast(`${chat}.onChatEnd`);
-
-        expect(chatSub.hide.calls.count())
+        jasmine.clock().tick(0);
+  
+        expect(helpCenterSub.show.calls.count())
           .toEqual(1);
-
-        expect(launcherSub.show.calls.count())
-          .toEqual(1);
-
+      });
+  
+      it('launches chat if user has moved on to chat and chat is online', function() {
+        c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${launcher}.onClick`);  // open
+        c.broadcast(`${helpCenter}.onNextClick`);
+  
         reset(chatSub.show);
-
+        reset(helpCenterSub.show);
+  
+        c.broadcast(`${helpCenter}.onClose`); // close
+  
         jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`); // open
         jasmine.clock().tick(0);
-
+  
         expect(chatSub.show.calls.count())
           .toEqual(1);
+  
+        expect(helpCenterSub.show.calls.count())
+          .toEqual(0);
       });
-
-      it('pops open proactive chat if user has not closed chat before', function() {
+  
+      it('launches help center if user has moved on to chat and chat goes offline', function() {
         c.broadcast(`${chat}.onOnline`);
-        c.broadcast(`${chat}.onUnreadMsgs`, 1);
-
-        expect(launcherSub.hide.calls.count())
-          .toEqual(1);
-
-        reset(chatSub.show);
-
-        c.broadcast(`${chat}.onHide`); // close
-
+        c.broadcast(`${launcher}.onClick`);  // open
+        c.broadcast(`${helpCenter}.onNextClick`);
+  
+        reset(helpCenterSub.show);
+        c.broadcast(`${helpCenter}.onClose`); // close
+        c.broadcast(`${chat}.onOffline`);
+  
         jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`); // open
         jasmine.clock().tick(0);
-
-        expect(chatSub.show.calls.count())
-          .toEqual(1);
-      });
-
-      it('does not pop open chat if user has closed chat', function() {
-        c.broadcast(`${chat}.onOnline`);
-        c.broadcast(`${chat}.onUnreadMsgs`, 1);
-
-        // chat is open at this point
-
-        c.broadcast(`${chat}.onHide`); // close
-
-        reset(chatSub.show);
-
-        c.broadcast(`${chat}.onUnreadMsgs`, 1);
-
-        expect(chatSub.show.calls.count())
-          .toEqual(0);
-      });
-
-      it('hides when a hide call is made', function() {
-        c.broadcast('.hide');
-
-        expect(chatSub.hide.calls.count())
-          .toEqual(1);
-      });
-
-      it('hides after show is called and chat is online', function() {
-        c.broadcast(`${chat}.onOnline`);
-
-        reset(chatSub.hide);
-        c.broadcast('.show');
-
-        expect(chatSub.hide.calls.count())
-          .toEqual(1);
-      });
-
-      it('shows after activate is called and chat is online', function() {
-        c.broadcast(`${chat}.onOnline`);
-
-        c.broadcast('.hide');
-
-        reset(chatSub.show);
-        c.broadcast('.activate');
-
-        expect(chatSub.show.calls.count())
-          .toEqual(1);
-      });
-
-      it('doesn\'t hide when launcher is pressed on mobile', function() {
-        mockRegistry['utility/devices'].isMobileBrowser
-          .and.returnValue(true);
-
-        c.broadcast(`${chat}.onOnline`);
-        c.broadcast(`${launcher}.onClick`);
-
-        reset(chatSub.hide);
-        reset(chatSub.show);
-
-        c.broadcast(`${launcher}.onClick`);
-        expect(chatSub.hide.calls.count())
-          .toEqual(0);
-        expect(chatSub.show.calls.count())
+  
+        expect(helpCenterSub.show.calls.count())
           .toEqual(1);
       });
     });
-
-  });
-
-  describe('launcher final state depends on chat', function() {
-    const launcher = 'launcher';
-    const chat = 'zopimChat';
-    const names = {
-      launcher: launcher,
-      chat: chat
-    };
-
-    beforeEach(function() {
-      initSubscriptionSpies(names);
-    });
-
-    describe('launcher is not hidden by zE.hide() API call', function() {
-      beforeEach(function() {
-        mediator.init(false);
+    
+    describe('launcher final state depends on chat', function() {
+      describe('launcher is not hidden by zE.hide() API call', function() {
+        beforeEach(function() {
+          mediator.init(false);
+        });
+  
+        it('shows launcher when chat is online', function() {
+          c.broadcast(`${chat}.onOnline`);
+  
+          expect(launcherSub.show.calls.count())
+            .toEqual(1);
+        });
+  
+        it('shows launcher after 3000ms if chat is offline', function() {
+          jasmine.clock().install();
+          c.broadcast(`${chat}.onOffline`);
+          jasmine.clock().tick(3000);
+  
+          expect(launcherSub.show.calls.count())
+            .toEqual(1);
+        });
       });
-
-      it('shows launcher when chat is online', function() {
-        c.broadcast(`${chat}.onOnline`);
-
-        expect(launcherSub.show.calls.count())
-          .toEqual(1);
-      });
-
-      it('shows launcher after 3000ms if chat is offline', function() {
-        jasmine.clock().install();
-        c.broadcast(`${chat}.onOffline`);
-        jasmine.clock().tick(3000);
-
-        expect(launcherSub.show.calls.count())
-          .toEqual(1);
-      });
-    });
-
-    describe('launcher is hidden by zE.hide() API call', function() {
-      beforeEach(function() {
-        mediator.init(false, true);
-      });
-
-      it('does not show launcher when chat is online', function() {
-        c.broadcast(`${chat}.onOnline`);
-
-        expect(launcherSub.show.calls.count())
-          .toEqual(0);
-      });
-
-      it('does not show launcher after 3000ms when chat is offline', function() {
-        jasmine.clock().install();
-        c.broadcast(`${chat}.onOffline`);
-        jasmine.clock().tick(3000);
-
-        expect(launcherSub.show.calls.count())
-          .toEqual(0);
+  
+      describe('launcher is hidden by zE.hide() API call', function() {
+        beforeEach(function() {
+          mediator.init(false, true);
+        });
+  
+        it('does not show launcher when chat is online', function() {
+          c.broadcast(`${chat}.onOnline`);
+  
+          expect(launcherSub.show.calls.count())
+            .toEqual(0);
+        });
+  
+        it('does not show launcher after 3000ms when chat is offline', function() {
+          jasmine.clock().install();
+          c.broadcast(`${chat}.onOffline`);
+          jasmine.clock().tick(3000);
+  
+          expect(launcherSub.show.calls.count())
+            .toEqual(0);
+        });
       });
     });
   });
 
-  describe('Help Center, Ticket Submission', function() {
+  /**********************************************
+  *             TICKET SUBMISSION               *
+  * ********************************************/
+
+  describe('Ticket Submission', function() {
     const launcher = 'launcher';
     const submitTicket = 'ticketSubmissionForm';
+    const chat = 'zopimChat';
     const helpCenter = 'helpCenterForm';
     const names = {
       launcher: launcher,
       submitTicket: submitTicket,
+      chat: chat,
       helpCenter: helpCenter
     };
 
     beforeEach(function() {
       initSubscriptionSpies(names);
-      mediator.init(true);
     });
-
-    describe('launcher', function() {
-      it('launches Help Center first', function() {
-        jasmine.clock().install();
-        c.broadcast(`${launcher}.onClick`);
-        jasmine.clock().tick(0);
-
-        expect(helpCenterSub.show.calls.count())
-          .toEqual(1);
+    
+    describe('standalone', function() {
+      beforeEach(function() {
+        mediator.init(false);
       });
-
-      it('launches Ticket Submission if it is active', function() {
-        c.broadcast(`${launcher}.onClick`);
-        c.broadcast(`${helpCenter}.onNextClick`);
-
-        reset(submitTicketSub.show);
-        reset(helpCenterSub.show);
-        c.broadcast(`${helpCenter}.onClose`); // close
-
+      
+      it('shows launcher on close', function() {
         jasmine.clock().install();
-        c.broadcast(`${launcher}.onClick`); // open
+        c.broadcast(`${launcher}.onClick`);
         jasmine.clock().tick(0);
-
-        expect(helpCenterSub.show.calls.count())
-          .toEqual(0);
+  
         expect(submitTicketSub.show.calls.count())
           .toEqual(1);
-      });
-
-      it('hides when a hide call is made', function() {
-        c.broadcast('.hide');
-
         expect(launcherSub.hide.calls.count())
           .toEqual(1);
-      });
-
-      it('shows and deactivates when a show call is made', function() {
-        c.broadcast('.show');
-
+  
+        c.broadcast(`${submitTicket}.onClose`);
+  
         expect(launcherSub.show.calls.count())
           .toEqual(1);
       });
-
-      it('shows and activates when a activate call is made', function() {
-        c.broadcast('.activate');
-
-        expect(launcherSub.hide.calls.count())
-          .toEqual(1);
-      });
-
-      it('hides when onClick is called on mobile', function() {
-        mockRegistry['utility/devices'].isMobileBrowser
-          .and.returnValue(true);
-
-        c.broadcast(`${launcher}.onClick`);
-
-        expect(launcherSub.hide.calls.count())
-          .toEqual(1);
-      });
-
-      it('shows helpcenter on cancel if helpcenter is available', function() {
-        reset(helpCenterSub.show);
-        reset(launcherSub.show);
-
-        c.broadcast(`${submitTicket}.onCancelClick`);
-
-        expect(helpCenterSub.show.calls.count())
-          .toEqual(1);
-
-        expect(launcherSub.show.calls.count())
-          .toEqual(0);
-      });
-    });
-
-    describe('help center', function() {
-      it('moves on to Ticket Submission', function() {
-        c.broadcast(`${launcher}.onClick`);
-
-        reset(helpCenterSub.hide);
-        reset(submitTicketSub.show);
-
-        jasmine.clock().install();
-        c.broadcast(`${helpCenter}.onNextClick`);
-        jasmine.clock().tick(0);
-
-        expect(helpCenterSub.hide.calls.count())
-          .toEqual(1);
-        expect(submitTicketSub.show.calls.count())
-          .toEqual(1);
-      });
-
-      it('does not show back button when transitioning to submit ticket embed', function() {
-        reset(submitTicketSub.showBackButton);
-        c.broadcast(`${helpCenter}.onNextClick`);
-
-        expect(submitTicketSub.showBackButton.calls.count())
-          .toEqual(0);
-      });
-
-      it('triggers Ticket Submission setLastSearch with last search params', function() {
-        const params = {
-          searchString: 'a search',
-          searchLocale: 'en-US'
-        };
-
-        reset(submitTicketSub.setLastSearch);
-
-        c.broadcast(`${helpCenter}.onSearch`, params);
-
-        expect(submitTicketSub.setLastSearch.calls.count())
-          .toEqual(1);
-
-        expect(submitTicketSub.setLastSearch)
-          .toHaveBeenCalledWith(params);
-      });
-
+  
       it('hides when a hide call is made', function() {
         c.broadcast('.hide');
-
-        expect(helpCenterSub.hide.calls.count())
+  
+        expect(submitTicketSub.hide.calls.count())
           .toEqual(1);
       });
-
-      it('hides after show is called', function() {
-        reset(helpCenterSub.hide);
-        c.broadcast('.show');
-
-        expect(helpCenterSub.hide.calls.count())
-          .toEqual(1);
-      });
-
-      it('shows after activate is called', function() {
-        c.broadcast('.hide');
-
-        reset(helpCenterSub.show);
-        c.broadcast('.activate');
-
-        expect(helpCenterSub.show.calls.count())
-          .toEqual(1);
-      });
-
+  
       it('reverts setScrollKiller and setWindowScroll on mobile onClose', function() {
         const setScrollKiller = mockRegistry['utility/scrollHacks'].setScrollKiller;
         const revertWindowScroll = mockRegistry['utility/scrollHacks'].revertWindowScroll;
-
+  
         mockRegistry['utility/devices'].isMobileBrowser
           .and.returnValue(true);
-
+  
         c.broadcast(`${launcher}.onClick`);
-
+  
         reset(setScrollKiller);
         reset(revertWindowScroll);
-
-        c.broadcast(`${helpCenter}.onClose`);
-
+  
+        c.broadcast(`${submitTicket}.onClose`);
+  
         expect(setScrollKiller)
           .toHaveBeenCalledWith(false);
-
+  
         expect(setScrollKiller.calls.count())
           .toEqual(1);
-
+  
         expect(revertWindowScroll.calls.count())
           .toEqual(1);
       });
-
+  
+      it('shows after activate is called', function() {
+        c.broadcast('.hide');
+  
+        reset(submitTicketSub.show);
+        c.broadcast('.activate');
+  
+        expect(submitTicketSub.show.calls.count())
+          .toEqual(1);
+      });
+  
+      it('hides after show is called', function() {
+        reset(submitTicketSub.hide);
+        c.broadcast('.show');
+  
+        expect(submitTicketSub.hide.calls.count())
+          .toEqual(1);
+      });
+  
+      it('shows launcher on cancel if helpcenter is not available', function() {
+        reset(launcherSub.show);
+        c.broadcast(`${submitTicket}.onCancelClick`);
+  
+        expect(launcherSub.show.calls.count())
+          .toEqual(1);
+      });
+  
+      it('doesn\'t show launcher on cancel if .hideOnClose is true', function() {
+        reset(launcherSub.show);
+  
+        c.broadcast('.activate', {hideOnClose: true});
+        c.broadcast(`${submitTicket}.onCancelClick`);
+  
+        expect(launcherSub.show.calls.count())
+          .toEqual(0);
+      });
+      
+      it('shows after activate is called and chat is offline', function() {
+        c.broadcast(`${chat}.onOffline`);
+        c.broadcast(`${launcher}.onClick`);
+  
+        c.broadcast('.hide');
+  
+        reset(submitTicketSub.show);
+        c.broadcast('.activate');
+  
+        expect(submitTicketSub.show.calls.count())
+          .toEqual(1);
+      });
     });
-
-    describe('ticket submission', function() {
+    
+    describe('with Help Center', function() {
+      beforeEach(function() {
+        mediator.init(true);
+      });
+      
       it('goes back to help center', function() {
         c.broadcast(`${launcher}.onClick`);
         c.broadcast(`${helpCenter}.onNextClick`);
@@ -1309,20 +1023,6 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      it('hides when a hide call is made', function() {
-        c.broadcast('.hide');
-
-        expect(submitTicketSub.hide.calls.count())
-          .toEqual(1);
-      });
-
-      it('hides when a show call is made', function() {
-        c.broadcast('.show');
-
-        expect(submitTicketSub.hide.calls.count())
-          .toEqual(1);
-      });
-
       it('does not show after activate is called and was visible before hidden', function() {
         c.broadcast(`${launcher}.onClick`);
         c.broadcast(`${helpCenter}.onNextClick`);
@@ -1337,8 +1037,12 @@ describe('mediator', function() {
       });
     });
   });
+  
+  /**********************************************
+  *                    CHAT                     *
+  * ********************************************/
 
-  describe('Help Center, Chat, Ticket Submission', function() {
+  describe('Chat', function() {
     const launcher = 'launcher';
     const submitTicket = 'ticketSubmissionForm';
     const chat = 'zopimChat';
@@ -1352,345 +1056,143 @@ describe('mediator', function() {
 
     beforeEach(function() {
       initSubscriptionSpies(names);
-      mediator.init(true);
     });
 
-    describe('launcher', function() {
-      it('shows label "ChatHelp" if chat is online', function() {
-        c.broadcast(`${chat}.onOnline`);
-
-        expect(launcherSub.setLabelChatHelp)
-          .toHaveBeenCalled();
+    describe('with Ticket Submission', function() {
+      beforeEach(function() {
+        mediator.init(false);
       });
-
-      it('resets label "ChatHelp" on launcher.show if chat is online', function() {
-        c.broadcast(`${chat}.onOnline`);
-        reset(launcherSub.setLabelChatHelp);
-
-        c.broadcast(`${launcher}.show`);
-
-        expect(launcherSub.setLabelChatHelp.calls.count())
-          .toEqual(1);
-      });
-
-      it('shows label "Help" if chat is offline', function() {
-        c.broadcast(`${chat}.onOffline`);
-
-        expect(launcherSub.setLabelHelp.calls.count())
-          .toEqual(1);
-      });
-
-      it('resets label "Help" on launcher.show if chat is offline', function() {
-        c.broadcast(`${chat}.onOffline`);
-        reset(launcherSub.setLabelHelp);
-
-        c.broadcast(`${launcher}.show`);
-
-        expect(launcherSub.setLabelHelp.calls.count())
-          .toEqual(1);
-      });
-
-      it('launches Help Center first', function() {
-        jasmine.clock().install();
-        c.broadcast(`${launcher}.onClick`);
-        jasmine.clock().tick(0);
-
-        expect(helpCenterSub.show.calls.count())
-          .toEqual(1);
-      });
-
-      it('launches chat if user has moved on to chat and chat is online', function() {
-        c.broadcast(`${chat}.onOnline`);
-        c.broadcast(`${launcher}.onClick`);  // open
-        c.broadcast(`${helpCenter}.onNextClick`);
-
-        reset(chatSub.show);
-        reset(helpCenterSub.show);
-
-        c.broadcast(`${helpCenter}.onClose`); // close
-
-        jasmine.clock().install();
-        c.broadcast(`${launcher}.onClick`); // open
-        jasmine.clock().tick(0);
-
-        expect(chatSub.show.calls.count())
-          .toEqual(1);
-
-        expect(helpCenterSub.show.calls.count())
-          .toEqual(0);
-      });
-
-      it('launches help center if user has moved on to chat and chat goes offline', function() {
-        c.broadcast(`${chat}.onOnline`);
-        c.broadcast(`${launcher}.onClick`);  // open
-        c.broadcast(`${helpCenter}.onNextClick`);
-
-        reset(helpCenterSub.show);
-        c.broadcast(`${helpCenter}.onClose`); // close
-        c.broadcast(`${chat}.onOffline`);
-
-        jasmine.clock().install();
-        c.broadcast(`${launcher}.onClick`); // open
-        jasmine.clock().tick(0);
-
-        expect(helpCenterSub.show.calls.count())
-          .toEqual(1);
-      });
-
-      it('does not hide when chat is launched from launcher on mobile', function() {
-        mockRegistry['utility/devices'].isMobileBrowser
-          .and.returnValue(true);
-
-        c.broadcast(`${chat}.onOnline`);
-        c.broadcast(`${launcher}.onClick`);  // open
-        c.broadcast(`${helpCenter}.onNextClick`);
-        // chat opens in new tab
-        // user switches back to widget
-
-        expect(launcherSub.hide.calls.count())
-          .toEqual(1);
-
-        reset(launcherSub.hide);
-
-        c.broadcast(`${launcher}.onClick`);
-
-        expect(launcherSub.hide.calls.count())
-          .toEqual(0);
-      });
-
-      it('hides when a hide call is made', function() {
-        c.broadcast('.hide');
-
-        expect(launcherSub.hide.calls.count())
-          .toEqual(1);
-      });
-
-      it('shows when a show call is made', function() {
-        c.broadcast('.show');
-
-        expect(launcherSub.show.calls.count())
-          .toEqual(1);
-      });
-
-      it('shows and hides launcher when a activate call is made', function() {
-        c.broadcast('.activate');
-
-        expect(launcherSub.hide.calls.count())
-          .toEqual(1);
-      });
-
-      it('hides when onClick is called on mobile', function() {
-        mockRegistry['utility/devices'].isMobileBrowser
-          .and.returnValue(true);
-
-        c.broadcast(`${launcher}.onClick`);
-
-        expect(launcherSub.hide.calls.count())
-          .toEqual(1);
-      });
-
-      it('doesn\'t hide when onClick is called on mobile and chat is active', function() {
-        mockRegistry['utility/devices'].isMobileBrowser
-          .and.returnValue(true);
-
-        c.broadcast(`${chat}.onOnline`);
-        c.broadcast(`${helpCenter}.onNextClick`);
-
-        c.broadcast(`${launcher}.onClick`);
-        reset(launcherSub.hide);
-
-        expect(launcherSub.hide.calls.count())
-          .toEqual(0);
-      });
-    });
-
-    describe('help center', function() {
-      it('moves on to Chat if chat is online', function() {
-        c.broadcast(`${chat}.onOnline`);
-        c.broadcast(`${launcher}.onClick`);
-
-        reset(helpCenterSub.hide);
-        reset(chatSub.show);
-
-        jasmine.clock().install();
-        c.broadcast(`${helpCenter}.onNextClick`);
-        jasmine.clock().tick(0);
-
-        expect(helpCenterSub.hide.calls.count())
-          .toEqual(1);
-        expect(chatSub.show.calls.count())
-          .toEqual(1);
-      });
-
-      it('moves on to Ticket Submission if chat is offline', function() {
-        c.broadcast(`${chat}.onOffline`);
-        c.broadcast(`${launcher}.onClick`);
-
-        reset(helpCenterSub.hide);
-        reset(submitTicketSub.show);
-
-        jasmine.clock().install();
-        c.broadcast(`${helpCenter}.onNextClick`);
-        jasmine.clock().tick(0);
-
-        expect(helpCenterSub.hide.calls.count())
-          .toEqual(1);
-        expect(submitTicketSub.show.calls.count())
-          .toEqual(1);
-      });
-
-      it('displays "Live Chat" if chat is online', function() {
-        c.broadcast(`${chat}.onOnline`);
-
-        expect(helpCenterSub.setNextToChat.calls.count())
-          .toEqual(1);
-      });
-
-      it('displays "Leave A Message" if chat is offline', function() {
-        c.broadcast(`${chat}.onOffline`);
-
-        expect(helpCenterSub.setNextToSubmitTicket.calls.count())
-          .toEqual(1);
-      });
-
-      it('hides when a hide call is made', function() {
-        c.broadcast('.hide');
-
-        expect(helpCenterSub.hide.calls.count())
-          .toEqual(1);
-      });
-
-      it('hides after show is called', function() {
-        reset(helpCenterSub.hide);
-        c.broadcast('.show');
-
-        expect(helpCenterSub.hide.calls.count())
-          .toEqual(1);
-      });
-
-      it('shows after activate is called', function() {
-        c.broadcast('.hide');
-
-        reset(helpCenterSub.show);
-        c.broadcast('.activate');
-
-        expect(helpCenterSub.show.calls.count())
-          .toEqual(1);
-      });
-    });
-
-    describe('chat', function() {
-      it('sets launcher to "Chat" when chat comes online', function() {
-        c.broadcast(`${chat}.onOnline`);
-        expect(launcherSub.setLabelChatHelp)
-          .toHaveBeenCalled();
-      });
-
-      it('sets launcher to "Help" when chat goes offline', function() {
-        c.broadcast(`${chat}.onOffline`);
-        expect(launcherSub.setLabelHelp.calls.count())
-          .toEqual(1);
-      });
-
+  
       it('updates launcher with unread message count if chat is online', function() {
         c.broadcast(`${chat}.onOnline`);
         c.broadcast(`${chat}.onUnreadMsgs`, 5);
-
+  
         expect(launcherSub.setLabelUnreadMsgs.calls.count())
           .toEqual(1);
         expect(launcherSub.setLabelUnreadMsgs)
           .toHaveBeenCalledWith(5);
       });
-
-      it('hides launcher when chat pops open', function() {
-        c.broadcast(`${chat}.onOnline`);
-        c.broadcast(`${chat}.onShow`);
-
-        expect(launcherSub.hide.calls.count())
-          .toEqual(1);
-      });
-
-      it('hides launcher when chat pops open from proactive chat', function() {
+  
+      it('hides the launcher when chat pops open from proactive chat', function() {
         c.broadcast(`${chat}.onOnline`);
         c.broadcast(`${chat}.onUnreadMsgs`, 1);
-
+  
         expect(launcherSub.hide.calls.count())
           .toEqual(1);
       });
-
+  
       it('closes when chat is ended', function() {
         c.broadcast(`${chat}.onOnline`);
         c.broadcast(`${launcher}.onClick`);
-        c.broadcast(`${helpCenter}.onNextClick`);
-
+  
+        reset(chatSub.hide);
+        reset(launcherSub.show);
+  
         c.broadcast(`${chat}.onChatEnd`);
-
-        reset(helpCenterSub.show);
-        c.broadcast(`${helpCenter}.onClose`); // close
-
+  
+        expect(chatSub.hide.calls.count())
+          .toEqual(1);
+  
+        expect(launcherSub.show.calls.count())
+          .toEqual(1);
+  
+        reset(chatSub.show);
+  
         jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`); // open
         jasmine.clock().tick(0);
-
-        expect(helpCenterSub.show.calls.count())
+  
+        expect(chatSub.show.calls.count())
           .toEqual(1);
       });
-
+  
       it('pops open proactive chat if user has not closed chat before', function() {
         c.broadcast(`${chat}.onOnline`);
         c.broadcast(`${chat}.onUnreadMsgs`, 1);
-
-        expect(chatSub.show.calls.count())
-          .toEqual(1);
+  
         expect(launcherSub.hide.calls.count())
           .toEqual(1);
-
+  
         reset(chatSub.show);
-        reset(launcherSub.show);
-        reset(launcherSub.hide);
-
-        c.broadcast(`${chat}.onHide`);
-
+  
+        c.broadcast(`${chat}.onHide`); // close
+  
         jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`); // open
         jasmine.clock().tick(0);
-
+  
         expect(chatSub.show.calls.count())
           .toEqual(1);
-        expect(launcherSub.hide.calls.count())
-          .toEqual(1);
       });
-
+  
       it('does not pop open chat if user has closed chat', function() {
         c.broadcast(`${chat}.onOnline`);
         c.broadcast(`${chat}.onUnreadMsgs`, 1);
-
+  
         // chat is open at this point
-
+  
         c.broadcast(`${chat}.onHide`); // close
-
+  
         reset(chatSub.show);
-
+  
         c.broadcast(`${chat}.onUnreadMsgs`, 1);
-
+  
         expect(chatSub.show.calls.count())
           .toEqual(0);
       });
-
-      it('hides when a show call is made', function() {
-        c.broadcast('.show');
-
-        expect(chatSub.hide.calls.count())
-          .toEqual(1);
-      });
-
+  
       it('hides when a hide call is made', function() {
         c.broadcast('.hide');
-
+  
         expect(chatSub.hide.calls.count())
           .toEqual(1);
       });
-
+  
+      it('hides after show is called and chat is online', function() {
+        c.broadcast(`${chat}.onOnline`);
+  
+        reset(chatSub.hide);
+        c.broadcast('.show');
+  
+        expect(chatSub.hide.calls.count())
+          .toEqual(1);
+      });
+  
+      it('shows after activate is called and chat is online', function() {
+        c.broadcast(`${chat}.onOnline`);
+  
+        c.broadcast('.hide');
+  
+        reset(chatSub.show);
+        c.broadcast('.activate');
+  
+        expect(chatSub.show.calls.count())
+          .toEqual(1);
+      });
+  
+      it('doesn\'t hide when launcher is pressed on mobile', function() {
+        mockRegistry['utility/devices'].isMobileBrowser
+          .and.returnValue(true);
+  
+        c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${launcher}.onClick`);
+  
+        reset(chatSub.hide);
+        reset(chatSub.show);
+  
+        c.broadcast(`${launcher}.onClick`);
+        expect(chatSub.hide.calls.count())
+          .toEqual(0);
+        expect(chatSub.show.calls.count())
+          .toEqual(1);
+      });
+    });
+    
+    describe('with Help Center', function() {
+      beforeEach(function() {
+        mediator.init(true);
+      });
+      
       it('does not show after activate is called and was visible before hidden', function() {
         c.broadcast(`${chat}.onOnline`);
         c.broadcast(`${launcher}.onClick`);
@@ -1704,25 +1206,7 @@ describe('mediator', function() {
         expect(chatSub.show.calls.count())
           .toEqual(0);
       });
-
-      it('doesn\'t hide when launcher is pressed on mobile', function() {
-        mockRegistry['utility/devices'].isMobileBrowser
-          .and.returnValue(true);
-
-        c.broadcast(`${chat}.onOnline`);
-        c.broadcast(`${launcher}.onClick`);
-        c.broadcast(`${helpCenter}.onNextClick`);
-
-        reset(chatSub.hide);
-        reset(chatSub.show);
-
-        c.broadcast(`${launcher}.onClick`);
-        expect(chatSub.hide.calls.count())
-          .toEqual(0);
-        expect(chatSub.show.calls.count())
-          .toEqual(1);
-      });
-
+      
       it('doesn\'t reset the active embed if it goes offline and is not active', function() {
         c.broadcast(`${chat}.onOffline`);
 
@@ -1746,75 +1230,175 @@ describe('mediator', function() {
           .toEqual(1);
       });
     });
-
-    describe('ticket submission', function() {
-      it('goes back to help center', function() {
-        c.broadcast(`${chat}.onOffline`);
-        c.broadcast(`${launcher}.onClick`);
-        c.broadcast(`${helpCenter}.onNextClick`);
-
-        reset(helpCenterSub.show);
-        reset(submitTicketSub.hide);
-
-        jasmine.clock().install();
-        c.broadcast(`${submitTicket}.onBackClick`);
-        jasmine.clock().tick(10);
-
-        expect(helpCenterSub.show.calls.count())
-          .toEqual(1);
-
-        expect(submitTicketSub.hide.calls.count())
-          .toEqual(1);
-      });
-
-      it('sets Help Center as active embed after form submit', function() {
-        c.broadcast(`${chat}.onOffline`);
-        c.broadcast(`${launcher}.onClick`);
-        c.broadcast(`${helpCenter}.onNextClick`);
-
-        c.broadcast(`${submitTicket}.onFormSubmitted`);
-
-        reset(helpCenterSub.show);
-
-        c.broadcast(`${submitTicket}.onClose`); // close
-
-        jasmine.clock().install();
-        c.broadcast(`${launcher}.onClick`); // open
-        jasmine.clock().tick(0);
-
-        expect(helpCenterSub.show.calls.count())
-          .toEqual(1);
-      });
-
-      it('hides when a show call is made', function() {
-        c.broadcast('.show');
-
-        expect(submitTicketSub.hide.calls.count())
-          .toEqual(1);
-      });
-
-      it('hides when a hide call is made', function() {
-        c.broadcast('.hide');
-
-        expect(submitTicketSub.hide.calls.count())
-          .toEqual(1);
-      });
-
-      it('does not show after activate is called and was visible before hidden', function() {
-        c.broadcast(`${chat}.onOffline`);
-        c.broadcast(`${launcher}.onClick`);
-        c.broadcast(`${helpCenter}.onNextClick`);
-
-        c.broadcast('.hide');
-
-        reset(submitTicketSub.show);
-        c.broadcast('.activate');
-
-        expect(submitTicketSub.show.calls.count())
-          .toEqual(0);
-      });
-    });
-
   });
 
+  /**********************************************
+  *                 HELP CENTER                 *
+  * ********************************************/
+ 
+  describe('Help Center', function() {
+    const launcher = 'launcher';
+    const submitTicket = 'ticketSubmissionForm';
+    const helpCenter = 'helpCenterForm';
+    const chat = 'zopimChat';
+    const names = {
+      launcher: launcher,
+      submitTicket: submitTicket,
+      helpCenter: helpCenter,
+      chat: chat
+    };
+
+    beforeEach(function() {
+      initSubscriptionSpies(names);
+      mediator.init(true);
+    });
+
+    it('moves on to Chat if chat is online', function() {
+      c.broadcast(`${chat}.onOnline`);
+      c.broadcast(`${launcher}.onClick`);
+
+      reset(helpCenterSub.hide);
+      reset(chatSub.show);
+
+      jasmine.clock().install();
+      c.broadcast(`${helpCenter}.onNextClick`);
+      jasmine.clock().tick(0);
+
+      expect(helpCenterSub.hide.calls.count())
+        .toEqual(1);
+      expect(chatSub.show.calls.count())
+        .toEqual(1);
+    });
+
+    it('moves on to Ticket Submission if chat is offline', function() {
+      c.broadcast(`${chat}.onOffline`);
+      c.broadcast(`${launcher}.onClick`);
+
+      reset(helpCenterSub.hide);
+      reset(submitTicketSub.show);
+
+      jasmine.clock().install();
+      c.broadcast(`${helpCenter}.onNextClick`);
+      jasmine.clock().tick(0);
+
+      expect(helpCenterSub.hide.calls.count())
+        .toEqual(1);
+      expect(submitTicketSub.show.calls.count())
+        .toEqual(1);
+    });
+
+    it('displays "Live Chat" if chat is online', function() {
+      c.broadcast(`${chat}.onOnline`);
+
+      expect(helpCenterSub.setNextToChat.calls.count())
+        .toEqual(1);
+    });
+
+    it('displays "Leave A Message" if chat is offline', function() {
+      c.broadcast(`${chat}.onOffline`);
+
+      expect(helpCenterSub.setNextToSubmitTicket.calls.count())
+        .toEqual(1);
+    });
+
+    it('does not show back button when transitioning to submit ticket embed', function() {
+      reset(submitTicketSub.showBackButton);
+      c.broadcast(`${helpCenter}.onNextClick`);
+
+      expect(submitTicketSub.showBackButton.calls.count())
+        .toEqual(0);
+    });
+
+    it('triggers Ticket Submission setLastSearch with last search params', function() {
+      const params = {
+        searchString: 'a search',
+        searchLocale: 'en-US'
+      };
+
+      reset(submitTicketSub.setLastSearch);
+
+      c.broadcast(`${helpCenter}.onSearch`, params);
+
+      expect(submitTicketSub.setLastSearch.calls.count())
+        .toEqual(1);
+
+      expect(submitTicketSub.setLastSearch)
+        .toHaveBeenCalledWith(params);
+    });
+
+    it('hides when a hide call is made', function() {
+      c.broadcast('.hide');
+
+      expect(helpCenterSub.hide.calls.count())
+        .toEqual(1);
+    });
+
+    it('hides after show is called', function() {
+      reset(helpCenterSub.hide);
+      c.broadcast('.show');
+
+      expect(helpCenterSub.hide.calls.count())
+        .toEqual(1);
+    });
+
+    it('shows after activate is called', function() {
+      c.broadcast('.hide');
+
+      reset(helpCenterSub.show);
+      c.broadcast('.activate');
+
+      expect(helpCenterSub.show.calls.count())
+        .toEqual(1);
+    });
+
+    it('reverts setScrollKiller and setWindowScroll on mobile onClose', function() {
+      const setScrollKiller = mockRegistry['utility/scrollHacks'].setScrollKiller;
+      const revertWindowScroll = mockRegistry['utility/scrollHacks'].revertWindowScroll;
+
+      mockRegistry['utility/devices'].isMobileBrowser
+        .and.returnValue(true);
+
+      c.broadcast(`${launcher}.onClick`);
+
+      reset(setScrollKiller);
+      reset(revertWindowScroll);
+
+      c.broadcast(`${helpCenter}.onClose`);
+
+      expect(setScrollKiller)
+        .toHaveBeenCalledWith(false);
+
+      expect(setScrollKiller.calls.count())
+        .toEqual(1);
+
+      expect(revertWindowScroll.calls.count())
+        .toEqual(1);
+    });
+  });
+  
+  /**********************************************
+  *                  ZOPIM API                  *
+  * ********************************************/
+   
+  describe('.zopimShow', function() {
+    it('doesn\'t hide launcher when on mobile', function() {
+      const launcher = 'launcher';
+      const names = {
+        launcher: launcher
+      };
+
+      mockRegistry['utility/devices'].isMobileBrowser = jasmine.createSpy().and.returnValue(true);
+
+      mediator = requireUncached(mediatorPath).mediator;
+
+      c = mediator.channel;
+      initSubscriptionSpies(names);
+      mediator.init(false);
+
+      c.broadcast('.zopimShow');
+
+      expect(launcherSub.hide.calls.count())
+        .toEqual(0);
+    });
+  });
 });
