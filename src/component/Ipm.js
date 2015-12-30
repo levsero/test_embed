@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React, { Component, PropTypes } from 'react';
 
 import { IpmDesktop } from 'component/IpmDesktop';
 

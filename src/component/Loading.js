@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React, { Component, PropTypes } from 'react';
 
 class LoadingSpinner extends React.Component {
   render() {

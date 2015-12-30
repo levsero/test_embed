@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React, { Component, PropTypes } from 'react';
 
 import { i18n } from 'service/i18n';
 import { ButtonPill } from 'component/Button';

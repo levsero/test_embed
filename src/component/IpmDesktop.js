@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React, { Component, PropTypes } from 'react';
 
 import { Container } from 'component/Container';
 import { Button } from 'component/Button';

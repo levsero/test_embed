@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React, { Component, PropTypes } from 'react';
 import { noop } from 'lodash';
 
 import { Icon } from 'component/Icon';

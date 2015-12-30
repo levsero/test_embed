@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React, { Component, PropTypes } from 'react';
 import _     from 'lodash';
 
 import { HelpCenterForm }    from 'component/HelpCenterForm';
@@ -553,6 +553,4 @@ HelpCenter.defaultProps = {
   formTitleKey: 'help'
 };
 
-export {
-  HelpCenter
-};
+export { HelpCenter };
