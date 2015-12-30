@@ -13,12 +13,21 @@ const classSet = React.addons.classSet;
 
 export const SubmitTicketForm = React.createClass({
   propTypes: {
-    formTitleKey: React.PropTypes.string.isRequired
+    formTitleKey: React.PropTypes.string.isRequired,
+    children: React.PropTypes.element.isRequired,
+    submit: React.PropTypes.func.isRequired,
+    hide: React.PropTypes.bool,
+    customFields: React.PropTypes.array,
+    fullscreen: React.PropTypes.bool,
+    onCancel: React.PropTypes.func
   },
 
   getDefaultProps() {
     return {
-      fullscreen: false
+      hide: false,
+      customFields: [],
+      fullscreen: false,
+      onCancel: _.noop
     };
   },
 
