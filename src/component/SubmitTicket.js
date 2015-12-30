@@ -14,12 +14,26 @@ const classSet = React.addons.classSet;
 
 export const SubmitTicket = React.createClass({
   propTypes: {
-    formTitleKey: React.PropTypes.string.isRequired
+    formTitleKey: React.PropTypes.string.isRequired,
+    submitTicketSender: React.PropTypes.func.isRequired,
+    updateFrameSize: React.PropTypes.bool,
+    hideZendeskLogo: React.PropTypes.bool,
+    customFields: React.PropTypes.array,
+    style: React.PropTypes.element,
+    position: React.PropTypes.string,
+    onSubmitted: React.PropTypes.func,
+    onCancel: React.PropTypes.func
   },
 
   getDefaultProps() {
     return {
-      customFields: []
+      updateFrameSize: false,
+      hideZendeskLogo: false,
+      customFields: [],
+      style: null,
+      position: 'right',
+      onSubmitted: _.noop,
+      onCancel: _.noop
     };
   },
 
