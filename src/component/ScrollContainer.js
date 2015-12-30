@@ -5,17 +5,24 @@ const classSet = React.addons.classSet;
 export const ScrollContainer = React.createClass({
   propTypes: {
     title: React.PropTypes.string.isRequired,
+    children: React.PropTypes.element.isRequired,
     footerContent: React.PropTypes.oneOfType([
       React.PropTypes.element,
       React.PropTypes.array(React.PropTypes.element)
     ]),
+    headerContent: React.PropTypes.element,
     contentExpanded: React.PropTypes.bool,
-    fullscreen: React.PropTypes.bool
+    fullscreen: React.PropTypes.bool,
+    hideZendeskLogo: React.PropTypes.bool
   },
 
   getDefaultProps() {
     return {
-      contentExpanded: false
+      footerContent: [],
+      headerContent: null,
+      contentExpanded: false,
+      fullscreen: false,
+      hideZendeskLogo: false
     };
   },
 

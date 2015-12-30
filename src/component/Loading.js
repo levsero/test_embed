@@ -1,6 +1,10 @@
 import React from 'react/addons';
 
 export const LoadingSpinner = React.createClass({
+  propTypes: {
+    className: React.addons.classSet
+  },
+
   getDefaultProps() {
     return {
       className: ''
@@ -17,6 +21,10 @@ export const LoadingSpinner = React.createClass({
 });
 
 export const LoadingEllipses = React.createClass({
+  propTypes: {
+    className: React.addons.classSet
+  },
+
   getDefaultProps() {
     return {
       className: ''

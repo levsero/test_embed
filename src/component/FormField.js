@@ -73,12 +73,29 @@ const Field = React.createClass({
       if (props.type === 'checkbox' && !props[propName]) {
         return new Error(`${componentName} must have a label prop if type is set to "checkbox"`);
       }
-    }
+    },
+    type: React.PropTypes.string,
+    options: React.PropTypes.bool,
+    hasSearched: React.PropTypes.bool,
+    labelClasses: React.PropTypes.string,
+    onFocus: React.PropTypes.func,
+    onBlur: React.PropTypes.func,
+    onChange: React.PropTypes.func
   },
 
   getDefaultProps() {
     return {
-      labelClasses: ''
+      placeholder: 'text',
+      value: '',
+      input: null,
+      required: false,
+      type: '',
+      options: false,
+      hasSearched: false,
+      labelClasses: '',
+      onFocus: _.noop,
+      onBlur: _.noop,
+      onChange: _.noop
     };
   },
 
@@ -217,7 +234,16 @@ const SelectField = React.createClass({
       React.PropTypes.string,
       React.PropTypes.number
     ]).isRequired,
-    options: React.PropTypes.array.isRequired
+    options: React.PropTypes.array.isRequired,
+    onFocus: React.PropTypes.func,
+    onBlur: React.PropTypes.func
+  },
+
+  getDefaultProps() {
+    return {
+      onFocus: _.noop,
+      onBlur: _.noop
+    };
   },
 
   formatOptions() {
@@ -271,8 +297,15 @@ const SelectField = React.createClass({
 
 const SearchFieldButton = React.createClass({
   propTypes: {
-    onClick: React.PropTypes.func.required,
-    onTouch: React.PropTypes.func.required
+    onClick: React.PropTypes.func,
+    onTouch: React.PropTypes.func
+  },
+
+  getDefaultProps() {
+    return {
+      onClick: _.noop,
+      onTouch: _.noop
+    };
   },
 
   render() {
@@ -292,6 +325,30 @@ const SearchFieldButton = React.createClass({
 });
 
 const SearchField = React.createClass({
+  propTypes: {
+    fullscreen: React.PropTypes.bool,
+    isLoading: React.PropTypes.bool,
+    hasSearched: React.PropTypes.bool,
+    onFocus: React.PropTypes.func,
+    onBlur: React.PropTypes.func,
+    onChange: React.PropTypes.func,
+    onSearchIconClick: React.PropTypes.func,
+    onChangeValue: React.PropTypes.func
+  },
+
+  getDefaultProps() {
+    return {
+      fullscreen: false,
+      isLoading: false,
+      hasSearched: false,
+      onFocus: _.noop,
+      onBlur: _.noop,
+      onChange: _.noop,
+      onSearchIconClick:  _.noop,
+      onChangeValue: _.noop
+    };
+  },
+
   getInitialState() {
     return {
       focused: false,

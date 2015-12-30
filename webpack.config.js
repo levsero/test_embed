@@ -8,9 +8,9 @@ var svgoConfig = JSON.stringify({
         {convertPathData: false}
       ]
     });
-var version = String(fs.readFileSync('dist/VERSION_HASH')).trim();
 
 module.exports = {
+  version: String(fs.readFileSync('dist/VERSION_HASH')).trim(),
   cache: true,
   entry: {
     main: path.join(prefix, '/src/main.js'),
