@@ -11,23 +11,17 @@ const prependWith = _.curry((prepend, str) => {
      : `${prepend}${str}`;
 });
 
-export const NpsRatingsList = React.createClass({
-  getDefaultProps() {
-    return {
-      className: ''
-    };
-  },
-
-  addRatingToLikelyLabel: prependWith('10 = '),
-
-  addRatingToNotLikelyLabel: prependWith('0 = '),
-
+class NpsRatingsList extends React.Component {
   ratingClickHandlerFn(rating) {
     return (ev) => {
       ev.preventDefault();
       this.props.onChangeValue(rating);
     };
-  },
+  }
+  
+  addRatingToLikelyLabel: prependWith('10 = ')
+
+  addRatingToNotLikelyLabel: prependWith('0 = ')
 
   render() {
     const ratingsLegendClasses = 'RatingsList-legend u-sizeFull u-paddingHT';
@@ -89,4 +83,10 @@ export const NpsRatingsList = React.createClass({
       </div>
     );
   }
-});
+}
+
+NpsRatingsList.defaultProps = {
+  className: ''
+};
+
+export { NpsRatingsList };

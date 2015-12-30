@@ -11,19 +11,13 @@ import { Field,
 
 const classNames = require('classnames');
 
-export const SubmitTicketForm = React.createClass({
-  propTypes: {
-    formTitleKey: React.PropTypes.string.isRequired
-  },
+class SubmitTicketForm extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
 
-  getDefaultProps() {
-    return {
-      fullscreen: false
-    };
-  },
-
-  getInitialState() {
-    return {
+    this.state = {
       isValid: false,
       buttonMessage: i18n.t(
         'embeddable_framework.submitTicket.form.submitButton.label.send'
@@ -37,18 +31,17 @@ export const SubmitTicketForm = React.createClass({
         'embeddable_framework.submitTicket.form.cancelButton.label.cancel'
       )
     };
-
-  },
+  }
 
   componentDidMount() {
     const customFields = getCustomFields(this.props.customFields, this.state.formState);
 
     this.refs.scrollContainer.setScrollShadowVisible(customFields.fields.length);
-  },
+  }
 
   componentDidUpdate() {
     if (this.refs.formWrapper && this.state.formState && this.state.removeTicketForm) {
-      const form = this.refs.form.getDOMNode();
+      const form = React.findDOMNode(this.refs.form);
 
       _.forEach(form.elements, function(field) {
         if (field.type === 'submit') {
@@ -74,7 +67,7 @@ export const SubmitTicketForm = React.createClass({
         }
       }, this);
     }
-  },
+  }
 
   resetTicketFormVisibility() {
     // if the user closes and reopens, we need to
@@ -82,10 +75,10 @@ export const SubmitTicketForm = React.createClass({
     this.setState({
       removeTicketForm: false
     });
-  },
+  }
 
   focusField() {
-    const form = this.refs.form.getDOMNode();
+    const form = React.findDOMNode(this.refs.form);
 
     // Focus on the first empty text or textarea
     const element = _.find(form.querySelectorAll('input, textarea'), function(input) {
@@ -95,13 +88,13 @@ export const SubmitTicketForm = React.createClass({
     if (element) {
       element.focus();
     }
-  },
+  }
 
   hideVirtualKeyboard() {
     this.setState({
       removeTicketForm: true
     });
-  },
+  }
 
   failedToSubmit() {
     this.setState({
@@ -110,7 +103,7 @@ export const SubmitTicketForm = React.createClass({
     });
 
     this.refs.scrollContainer.scrollToBottom();
-  },
+  }
 
   handleSubmit(e) {
     const isFormValid = this.state.isValid;
@@ -126,10 +119,10 @@ export const SubmitTicketForm = React.createClass({
       isFormValid: isFormValid,
       value: this.getFormState()
     });
-  },
+  }
 
   getFormState() {
-    const form = this.refs.form.getDOMNode();
+    const form = React.findDOMNode(this.refs.form);
 
     return _.chain(form.elements)
       .reject((field) => field.type === 'submit')
@@ -141,16 +134,16 @@ export const SubmitTicketForm = React.createClass({
         return result;
       },
       {}).value();
-  },
+  }
 
   handleUpdate() {
-    const form = this.refs.form.getDOMNode();
+    const form = React.findDOMNode(this.refs.form);
 
     this.setState({
       formState: this.getFormState(),
       isValid: form.checkValidity()
     });
-  },
+  }
 
   render() {
     const formClasses = classNames({
@@ -217,4 +210,14 @@ export const SubmitTicketForm = React.createClass({
       </form>
     );
   }
-});
+}
+
+SubmitTicketForm.defaultProps = {
+  fullscreen: false
+};
+
+SubmitTicketForm.propTypes = {
+  formTitleKey: React.PropTypes.string.isRequired
+};
+
+export { SubmitTicketForm };

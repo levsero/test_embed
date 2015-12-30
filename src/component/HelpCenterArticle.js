@@ -6,27 +6,26 @@ import { ButtonPill } from 'component/Button';
 const sanitizeHtml = require('sanitize-html');
 const classNames = require('classnames');
 
-const HelpCenterArticle = React.createClass({
-  propTypes: {
-    activeArticle: React.PropTypes.object.isRequired
-  },
+class HelpCenterArticle extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+    this.handleClick = this.handleClick.bind(this);
 
-  getInitialState() {
-    return {
+    this.state = {
       lastActiveArticleId: 0
     };
-  },
+  }
 
   componentDidMount() {
-    const doc = this.getDOMNode().ownerDocument;
+    const doc = React.findDOMNode(this).ownerDocument;
     const base = doc.createElement('base');
 
     base.href = `https://${document.zendeskHost}`;
     doc.head.appendChild(base);
-  },
+  }
 
   componentDidUpdate() {
-    const container = this.refs.article.getDOMNode();
+    const container = React.findDOMNode(this.refs.article);
     const sanitizeHtmlOptions = {
       allowedTags: [
         'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'a', 'ul', 'span',
@@ -63,7 +62,7 @@ const HelpCenterArticle = React.createClass({
     }
 
     if (this.state.lastActiveArticleId !== this.props.activeArticle.id) {
-      let topNode = this.refs.userContent.getDOMNode();
+      let topNode = React.findDOMNode(this.refs.userContent);
 
       topNode.scrollTop = 0;
 
@@ -73,7 +72,7 @@ const HelpCenterArticle = React.createClass({
       });
       /* eslint-enable */
     }
-  },
+  }
 
   handleClick(e) {
     const target = e.target;
@@ -92,7 +91,7 @@ const HelpCenterArticle = React.createClass({
     } else {
       target.setAttribute('target', '_blank');
     }
-  },
+  }
 
   render() {
     const userContentClasses = classNames({
@@ -123,7 +122,11 @@ const HelpCenterArticle = React.createClass({
       </div>
     );
   }
-});
+}
+
+HelpCenterArticle.propTypes = {
+  activeArticle: React.PropTypes.object.isRequired
+};
 
 export { HelpCenterArticle };
 

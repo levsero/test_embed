@@ -12,19 +12,12 @@ import { i18n }             from 'service/i18n';
 
 const classNames = require('classnames');
 
-export const SubmitTicket = React.createClass({
-  propTypes: {
-    formTitleKey: React.PropTypes.string.isRequired
-  },
+class SubmitTicket extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+    this.handleSubmit = this.handleSubmit.bind(this);
 
-  getDefaultProps() {
-    return {
-      customFields: []
-    };
-  },
-
-  getInitialState() {
-    return {
+    this.state = {
       showNotification: false,
       message: '',
       fullscreen: isMobileBrowser(),
@@ -33,11 +26,11 @@ export const SubmitTicket = React.createClass({
       searchString: null,
       searchLocale: null
     };
-  },
+  }
 
   clearNotification() {
     this.setState({ showNotification: false });
-  },
+  }
 
   clearForm() {
     const submitTicketForm = this.refs.submitTicketForm;
@@ -51,11 +44,11 @@ export const SubmitTicket = React.createClass({
         email: formData.email
       }
     });
-  },
+  }
 
-  showField: function() {
+  showField() {
     this.setState({showEmail: true});
-  },
+  }
 
   handleSubmit(e, data) {
     e.preventDefault();
@@ -104,7 +97,7 @@ export const SubmitTicket = React.createClass({
     };
 
     this.props.submitTicketSender(formParams, doneCallback, failCallback);
-  },
+  }
 
   formatTicketSubmission(data) {
     if (this.props.customFields.length === 0) {
@@ -125,7 +118,7 @@ export const SubmitTicket = React.createClass({
 
       return params;
     }
-  },
+  }
 
   render() {
     const notifyClasses = classNames({
@@ -178,4 +171,14 @@ export const SubmitTicket = React.createClass({
       </Container>
     );
   }
-});
+}
+
+SubmitTicket.defaultProps = {
+  customFields: []
+};
+
+SubmitTicket.propTypes = {
+  formTitleKey: React.PropTypes.string.isRequired
+};
+
+export { SubmitTicket };

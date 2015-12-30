@@ -8,18 +8,12 @@ import { i18n } from 'service/i18n';
 
 const classNames = require('classnames');
 
-export const NpsComment = React.createClass({
-  getDefaultProps() {
-    return {
-      className: ''
-    };
-  },
-
+class NpsComment extends React.Component {
   focusField() {
-    this.refs.commentField
-      .refs.field.getDOMNode()
+    React.findDOMNode(this.refs.commentField
+      .refs.field)
       .focus();
-  },
+  }
 
   render() {
     const sendFeedbackLabel = i18n.t(
@@ -92,4 +86,10 @@ export const NpsComment = React.createClass({
       </div>
     );
   }
-});
+}
+
+NpsComment.defaultProps = {
+  className: ''
+};
+
+export { NpsComment };

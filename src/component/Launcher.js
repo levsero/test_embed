@@ -5,34 +5,28 @@ import { isMobileBrowser } from 'utility/devices';
 
 var classNames = require('classnames');
 
-export const Launcher = React.createClass({
-  propTypes: {
-    onClick: React.PropTypes.func,
-    updateFrameSize: React.PropTypes.func,
-    position: React.PropTypes.string,
-    label: React.PropTypes.string,
-    icon: React.PropTypes.string
-  },
+class Launcher extends React.Component {
+  constructor(props, context) {
+    super(props, context);
 
-  getInitialState() {
-    return {
-      icon: this.props.icon,
-      label: this.props.label,
+    this.state = {
+      icon: props.icon,
+      label: props.label,
       hasUnreadMessages: false
     };
-  },
+  }
 
   setLabel(label) {
     this.setState({
       label: label
     });
-  },
+  }
 
   setIcon(icon) {
     this.setState({
       icon: icon
     });
-  },
+  }
 
   render() {
     const buttonClasses = classNames({
@@ -66,4 +60,14 @@ export const Launcher = React.createClass({
       </div>
     );
   }
-});
+}
+
+Launcher.propTypes = {
+  onClick: React.PropTypes.func,
+  updateFrameSize: React.PropTypes.func,
+  position: React.PropTypes.string,
+  label: React.PropTypes.string,
+  icon: React.PropTypes.string
+};
+
+export { Launcher };

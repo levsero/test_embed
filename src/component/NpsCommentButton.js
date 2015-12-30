@@ -1,7 +1,6 @@
 import React from 'react/addons';
 
-export const NpsCommentButton = React.createClass({
-
+class NpsCommentButton extends React.Component {
   render() {
     const classes = `
       Form-fieldLabel
@@ -29,4 +28,6 @@ export const NpsCommentButton = React.createClass({
       </div>
     );
   }
-});
+}
+
+export { NpsCommentButton };

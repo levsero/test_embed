@@ -93,11 +93,11 @@ export const frameFactory = function(childFn, _params) {
     },
 
     setOffsetHorizontal(offsetValue = 0) {
-      this.getDOMNode().style.marginLeft = `${offsetValue}px`;
+      React.findDOMNode(this).style.marginLeft = `${offsetValue}px`;
     },
 
     setFrameSize(width, height, transparent = true) {
-      const iframe = this.getDOMNode();
+      const iframe = React.findDOMNode(this);
       const frameWin = iframe.contentWindow;
       const frameDoc = iframe.contentDocument;
       // FIXME shouldn't set background & zIndex in a dimensions object
@@ -125,7 +125,7 @@ export const frameFactory = function(childFn, _params) {
     },
 
     updateFrameSize(offsetWidth = 0, offsetHeight = 0) {
-      const iframe = this.getDOMNode();
+      const iframe = React.findDOMNode(this);
       const frameWin = iframe.contentWindow;
       const frameDoc = iframe.contentDocument;
 
@@ -170,14 +170,14 @@ export const frameFactory = function(childFn, _params) {
     },
 
     updateBaseFontSize(fontSize) {
-      const iframe = this.getDOMNode();
+      const iframe = React.findDOMNode(this);
       const htmlElem = iframe.contentDocument.documentElement;
 
       htmlElem.style.fontSize = fontSize;
     },
 
     show(options = {}) {
-      let frameFirstChild = this.getDOMNode().contentDocument.body.firstChild;
+      let frameFirstChild = React.findDOMNode(this).contentDocument.body.firstChild;
 
       this.setState({ visible: true });
 
@@ -192,7 +192,7 @@ export const frameFactory = function(childFn, _params) {
       if (params.transitions[options.transition] && !isFirefox()) {
         const transition = params.transitions[options.transition];
 
-        snabbt(this.getDOMNode(), transition).then({
+        snabbt(React.findDOMNode(this), transition).then({
           callback: () => {
             params.afterShowAnimate(this);
           }
@@ -207,14 +207,14 @@ export const frameFactory = function(childFn, _params) {
       if (params.transitions[options.transition] && !isFirefox()) {
         const transition = params.transitions[options.transition];
 
-        snabbt(this.getDOMNode(), transition).then({
+        snabbt(React.findDOMNode(this), transition).then({
           callback: () => {
             this.setState({ visible: false });
             params.onHide(this);
 
             // Ugly, I know, but it's to undo snabbt's destructive style mutations
             _.each(this.computeIframeStyle(), (val, key) => {
-              this.getDOMNode().style[key] = val;
+              React.findDOMNode(this).style[key] = val;
             });
           }
         });
@@ -307,7 +307,7 @@ export const frameFactory = function(childFn, _params) {
         return false;
       }
 
-      const iframe = this.getDOMNode();
+      const iframe = React.findDOMNode(this);
       const html = iframe.contentDocument.documentElement;
       const doc = iframe.contentWindow.document;
 
@@ -440,8 +440,7 @@ export const frameFactory = function(childFn, _params) {
     },
 
     componentWillUnmount() {
-      React.unmountComponentAtNode(this.getDOMNode().contentDocument.body);
+      React.unmountComponentAtNode(React.findDOMNode(this).contentDocument.body);
     }
-
   };
 };

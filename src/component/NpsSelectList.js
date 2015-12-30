@@ -2,21 +2,7 @@ import React from 'react/addons';
 
 import { Icon } from 'component/Icon';
 
-export const NpsSelectList = React.createClass({
-  getDefaultProps() {
-    return {
-      options: [],
-      selectedItem: 0,
-      highlightColor: '',
-      wrapperClassNames: '',
-      selectClassNames: '',
-      iconClassNames: '',
-      onChange: () => {},
-      onFocus: () => {},
-      onBlur: () => {}
-    };
-  },
-
+class NpsSelectList extends React.Component {
   render() {
     const optionsList = this.props.options.map(
       (label, i) => {
@@ -42,4 +28,18 @@ export const NpsSelectList = React.createClass({
       </div>
     );
   }
-});
+}
+
+NpsSelectList.defaultProps = {
+  options: [],
+  selectedItem: 0,
+  highlightColor: '',
+  wrapperClassNames: '',
+  selectClassNames: '',
+  iconClassNames: '',
+  onChange: () => {},
+  onFocus: () => {},
+  onBlur: () => {}
+};
+
+export { NpsSelectList };

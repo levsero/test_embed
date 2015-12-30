@@ -9,28 +9,26 @@ import { NpsComment } from 'component/NpsComment';
 
 const classNames = require('classnames');
 
-export const NpsDesktop = React.createClass({
-  getDefaultProps() {
-    return {
-      isMobile: false
-    };
-  },
+class NpsDesktop extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+    this.ratingChangeValueHandler = this.ratingChangeValueHandler.bind(this);
+    this.submitCommentHandler = this.submitCommentHandler.bind(this);
 
-  getInitialState() {
-    return {
+    this.state = {
       currentPage: {
         selectingRating: true,
         thankYou: false,
         addingComment: false
       }
     };
-  },
+  }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.currentPage.selectingRating && this.state.currentPage.addingComment) {
       this.refs.npsComment.focusField();
     }
-  },
+  }
 
   setCurrentPage(page) {
     this.setState({
@@ -39,17 +37,17 @@ export const NpsDesktop = React.createClass({
         (_, key) => key === page
       )
     });
-  },
+  }
 
   ratingChangeValueHandler(rating) {
     this.props.submitRatingHandler(rating, () => this.setCurrentPage('addingComment'));
-  },
+  }
 
   submitCommentHandler(ev) {
     this.props.submitCommentHandler(ev, () => {
       this.setCurrentPage('thankYou');
     });
-  },
+  }
 
   render() {
     if (this.props.updateFrameSize) {
@@ -164,4 +162,10 @@ export const NpsDesktop = React.createClass({
       </Container>
     );
   }
-});
+}
+
+NpsDesktop.defaultProps = {
+  isMobile: false
+};
+
+export { NpsDesktop };

@@ -4,24 +4,7 @@ import { Icon } from 'component/Icon';
 
 const classNames = require('classnames');
 
-export const ZendeskLogo = React.createClass({
-  propTypes: {
-    rtl: React.PropTypes.bool,
-    fullscreen: React.PropTypes.bool,
-    formSuccess: React.PropTypes.bool,
-    className: React.PropTypes.string,
-    utm: React.PropTypes.string
-  },
-
-  getDefaultProps() {
-    return {
-      rtl: false,
-      fullscreen: false,
-      formSuccess: false,
-      className: '',
-      utm: 'webwidget'
-    };
-  },
+class ZendeskLogo extends React.Component {
   render() {
     const { fullscreen, rtl, formSuccess } = this.props;
     const logoClasses = classNames({
@@ -44,4 +27,22 @@ export const ZendeskLogo = React.createClass({
       </a>
     );
   }
-});
+}
+
+ZendeskLogo.defaultProps = {
+  rtl: false,
+  fullscreen: false,
+  formSuccess: false,
+  className: '',
+  utm: 'webwidget'
+};
+
+ZendeskLogo.propTypes = {
+  rtl: React.PropTypes.bool,
+  fullscreen: React.PropTypes.bool,
+  formSuccess: React.PropTypes.bool,
+  className: React.PropTypes.string,
+  utm: React.PropTypes.string
+};
+
+export { ZendeskLogo };

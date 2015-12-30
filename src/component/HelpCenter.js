@@ -16,21 +16,21 @@ import { beacon }            from 'service/beacon';
 
 const classNames = require('classnames');
 
-export const HelpCenter = React.createClass({
-  getDefaultProps() {
-    return {
-      buttonLabelKey: 'message',
-      formTitleKey: 'help'
-    };
-  },
+class HelpCenter extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+    this.autoSearch = this.autoSearch.bind(this);
+    this.handleArticleClick = this.handleArticleClick.bind(this);
+    this.handleNextClick = this.handleNextClick.bind(this);
+    this.interactiveSearchSuccessFn = this.interactiveSearchSuccessFn.bind(this);
+    this.manualSearch = this.manualSearch.bind(this);
+    this.searchBoxClickHandler = this.searchBoxClickHandler.bind(this);
 
-  getInitialState() {
-    /* eslint max-len:0 */
-    return {
+    this.state = {
       articles: [],
       resultsCount: 0,
       searchTerm: '',
-      buttonLabel: i18n.t(`embeddable_framework.helpCenter.submitButton.label.submitTicket.${this.props.buttonLabelKey}`),
+      buttonLabel: i18n.t(`embeddable_framework.helpCenter.submitButton.label.submitTicket.${props.buttonLabelKey}`),
       fullscreen: isMobileBrowser(),
       previousSearchTerm: '',
       hasSearched: false,
@@ -43,7 +43,7 @@ export const HelpCenter = React.createClass({
       searchTracked: false,
       searchResultClicked: false
     };
-  },
+  }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.showIntroScreen === true &&
@@ -59,11 +59,11 @@ export const HelpCenter = React.createClass({
     }
 
     this.refs.scrollContainer.setScrollShadowVisible(this.state.articleViewActive);
-  },
+  }
 
   focusField() {
     if (!this.state.fullscreen && !this.state.articleViewActive) {
-      const searchFieldInputNode = this.refs.searchField.refs.searchFieldInput.getDOMNode();
+      const searchFieldInputNode = React.findDOMNode(this.refs.searchField.refs.searchFieldInput);
       const strLength = searchFieldInputNode.value.length;
 
       this.refs.searchField.focus();
@@ -71,7 +71,7 @@ export const HelpCenter = React.createClass({
         searchFieldInputNode.setSelectionRange(strLength, strLength);
       }
     }
-  },
+  }
 
   resetSearchFieldState() {
     // if the user closes and reopens, we need to
@@ -79,7 +79,7 @@ export const HelpCenter = React.createClass({
     this.setState({
       virtualKeyboardKiller: false
     });
-  },
+  }
 
   hideVirtualKeyboard() {
     if (this.state.fullscreen) {
@@ -89,14 +89,14 @@ export const HelpCenter = React.createClass({
         virtualKeyboardKiller: true
       });
     }
-  },
+  }
 
   searchStartState(state) {
     return _.extend({
       isLoading: true,
       searchResultClicked: false
     }, state);
-  },
+  }
 
   searchCompleteState(state) {
     return _.extend({
@@ -105,7 +105,7 @@ export const HelpCenter = React.createClass({
       searchFailed: false,
       searchResultClicked: false
     }, state);
-  },
+  }
 
   interactiveSearchSuccessFn(res, query) {
     this.setState(
@@ -118,7 +118,7 @@ export const HelpCenter = React.createClass({
     this.props.onSearch({searchTerm: query.query, searchLocale: query.locale});
     this.updateResults(res);
     this.focusField();
-  },
+  }
 
   contextualSearch(options) {
     /* eslint camelcase:0 */
@@ -160,7 +160,7 @@ export const HelpCenter = React.createClass({
     });
 
     this.performSearch(query, successFn, false);
-  },
+  }
 
   manualSearch() {
     /* eslint camelcase:0 */
@@ -185,7 +185,7 @@ export const HelpCenter = React.createClass({
     );
 
     this.performSearch(query, this.interactiveSearchSuccessFn, true);
-  },
+  }
 
   autoSearch() {
     const searchTerm = this.refs.searchField.getValue();
@@ -210,7 +210,7 @@ export const HelpCenter = React.createClass({
     );
 
     this.performSearch(query, this.interactiveSearchSuccessFn, true);
-  },
+  }
 
   updateResults(res) {
     const json = res.body;
@@ -220,7 +220,7 @@ export const HelpCenter = React.createClass({
       articles: articles,
       resultsCount: json.count
     });
-  },
+  }
 
   searchFail() {
     this.setState({
@@ -231,7 +231,7 @@ export const HelpCenter = React.createClass({
     });
 
     this.focusField();
-  },
+  }
 
   performSearch(query, successFn, localeFallback = false) {
     const doneFn = (res) => {
@@ -247,7 +247,7 @@ export const HelpCenter = React.createClass({
     };
 
     this.props.searchSender(query, doneFn, () => this.searchFail());
-  },
+  }
 
   handleArticleClick(articleIndex, e) {
     e.preventDefault();
@@ -265,12 +265,12 @@ export const HelpCenter = React.createClass({
     if (!this.state.searchTracked && !this.state.hasContextualSearched) {
       this.trackSearch();
     }
-  },
+  }
 
   handleNextClick(ev) {
     ev.preventDefault();
     this.props.onNextClick();
-  },
+  }
 
   trackSearch() {
     /* eslint camelcase:0 */
@@ -283,7 +283,7 @@ export const HelpCenter = React.createClass({
     this.setState({
       searchTracked: true
     });
-  },
+  }
 
   /**
    * Instrument the last auto-search, if it's still pending to be instrumented
@@ -292,7 +292,7 @@ export const HelpCenter = React.createClass({
     if (!this.state.searchTracked && this.state.searchTerm && !this.state.hasContextualSearched) {
       this.trackSearch();
     }
-  },
+  }
 
   trackArticleView() {
     const trackPayload = {
@@ -308,13 +308,13 @@ export const HelpCenter = React.createClass({
     this.setState({
       searchResultClicked: true
     });
-  },
+  }
 
   searchBoxClickHandler() {
     this.setState({
       showIntroScreen: false
     });
-  },
+  }
 
   render() {
     const listClasses = classNames({
@@ -546,4 +546,13 @@ export const HelpCenter = React.createClass({
       </Container>
     );
   }
-});
+}
+
+HelpCenter.defaultProps = {
+  buttonLabelKey: 'message',
+  formTitleKey: 'help'
+};
+
+export {
+  HelpCenter
+};

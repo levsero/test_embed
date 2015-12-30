@@ -2,51 +2,30 @@ import React from 'react/addons';
 
 const classNames = require('classnames');
 
-export const ScrollContainer = React.createClass({
-  propTypes: {
-    title: React.PropTypes.string.isRequired,
-    children: React.PropTypes.element.isRequired,
-    footerContent: React.PropTypes.oneOfType([
-      React.PropTypes.element,
-      React.PropTypes.array(React.PropTypes.element)
-    ]),
-    headerContent: React.PropTypes.element,
-    contentExpanded: React.PropTypes.bool,
-    fullscreen: React.PropTypes.bool,
-    hideZendeskLogo: React.PropTypes.bool
-  },
+class ScrollContainer extends React.Component {
+  constructor(props, context) {
+    super(props, context);
 
-  getDefaultProps() {
-    return {
-      footerContent: [],
-      headerContent: null,
-      contentExpanded: false,
-      fullscreen: false,
-      hideZendeskLogo: false
-    };
-  },
-
-  getInitialState() {
-    return {
+    this.state = {
       scrollShadowVisible: false
     };
-  },
+  }
 
   getContentContainer() {
     const elem = React.findDOMNode(this);
 
     return elem.querySelector('.ScrollContainer-content');
-  },
+  }
 
   scrollToBottom() {
     const container = this.getContentContainer();
 
     container.scrollTop = container.scrollHeight;
-  },
+  }
 
   setScrollShadowVisible(visible) {
     this.setState({scrollShadowVisible: visible});
-  },
+  }
 
   render() {
     const containerClasses = classNames({
@@ -87,4 +66,27 @@ export const ScrollContainer = React.createClass({
       </div>
     );
   }
-});
+}
+
+ScrollContainer.defaultProps = {
+  footerContent: [],
+  headerContent: null,
+  contentExpanded: false,
+  fullscreen: false,
+  hideZendeskLogo: false
+};
+
+ScrollContainer.propTypes = {
+  title: React.PropTypes.string.isRequired,
+  children: React.PropTypes.element.isRequired,
+  footerContent: React.PropTypes.oneOfType([
+    React.PropTypes.element,
+    React.PropTypes.array(React.PropTypes.element)
+  ]),
+  headerContent: React.PropTypes.element,
+  contentExpanded: React.PropTypes.bool,
+  fullscreen: React.PropTypes.bool,
+  hideZendeskLogo: React.PropTypes.bool
+};
+
+export { ScrollContainer };

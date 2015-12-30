@@ -19,14 +19,17 @@ import { Button } from 'component/Button';
 
 const classNames = require('classnames');
 
-export const NpsMobile = React.createClass({
-  propTypes: {
-    updateFrameSize: React.PropTypes.func,
-    npsSender: React.PropTypes.func.isRequired
-  },
+class NpsMobile extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+    this.handleDropDownBlur = this.handleDropDownBlur.bind(this);
+    this.handleDropDownFocus = this.handleDropDownFocus.bind(this);
+    this.handleDropDownSelection = this.handleDropDownSelection.bind(this);
+    this.ratingChangeValueHandler = this.ratingChangeValueHandler.bind(this);
+    this.startEditing = this.startEditing.bind(this);
+    this.submitCommentHandler = this.submitCommentHandler.bind(this);
 
-  getInitialState() {
-    return {
+    this.state = {
       currentPage: {
         selectingRating: true,
         thankYou: false,
@@ -35,21 +38,21 @@ export const NpsMobile = React.createClass({
       fullscreen: false,
       isEditing: false
     };
-  },
+  }
 
   componentDidUpdate(prevProps, prevState) {
     if ((!prevState.fullscreen && this.state.fullscreen) ||
         (!prevState.isEditing && this.state.isEditing)) {
       this.refs.npsComment.focusField();
     }
-  },
+  }
 
   setDefaultNpsMobileSize() {
     setTimeout(() => this.props.setFrameSize(
       `100%`,
       this.calcHeightPercentage()),
     0);
-  },
+  }
 
   goToFullScreen() {
     if (isIos()) {
@@ -63,7 +66,7 @@ export const NpsMobile = React.createClass({
         fullscreen: true
       });
     }
-  },
+  }
 
   resetFullScreen() {
     if (isIos()) {
@@ -73,7 +76,7 @@ export const NpsMobile = React.createClass({
         fullscreen: false
       });
     }
-  },
+  }
 
   startEditing() {
     if (isIos()) {
@@ -82,7 +85,7 @@ export const NpsMobile = React.createClass({
     this.setState({
       isEditing: true
     });
-  },
+  }
 
   stopEditing() {
     if (isIos()) {
@@ -91,7 +94,7 @@ export const NpsMobile = React.createClass({
     this.setState({
       isEditing: false
     });
-  },
+  }
 
   calcHeightPercentage() {
     const ratio = getSizingRatio();
@@ -105,7 +108,7 @@ export const NpsMobile = React.createClass({
          : (this.state.currentPage.thankYou)
            ? '40%'
            : '52%';
-  },
+  }
 
   setCurrentPage(page) {
     this.setState({
@@ -114,52 +117,52 @@ export const NpsMobile = React.createClass({
         (_, key) => key === page
       )
     });
-  },
+  }
 
   submitCommentHandler(ev) {
     this.props.submitCommentHandler(ev, () => {
       this.stopEditing();
       this.setCurrentPage('thankYou');
     });
-  },
+  }
 
   ratingChangeValueHandler(rating) {
     this.props.submitRatingHandler(rating, () => this.setCurrentPage('addingComment'));
-  },
+  }
 
   handleDropDownBlur() {
     if (isIos()) {
       this.stopScrollHacks();
     }
-  },
+  }
 
   handleDropDownSelection(e) {
     this.props.updateRating(e.target.value);
-  },
+  }
 
   removeRatingTemplate(ratingText) {
     return ratingText.replace('%{rating}', '').trim();
-  },
+  }
 
   handleDropDownFocus() {
     if (isIos()) {
       this.startScrollHacks();
     }
-  },
+  }
 
   startScrollHacks() {
     setTimeout(() => {
       setWindowScroll(0);
       setScrollKiller(true);
     }, 0);
-  },
+  }
 
   stopScrollHacks() {
     setTimeout(() => {
       setScrollKiller(false);
       revertWindowScroll();
     }, 0);
-  },
+  }
 
   render() {
     let headingText;
@@ -290,4 +293,11 @@ export const NpsMobile = React.createClass({
       </Container>
     );
   }
-});
+}
+
+NpsMobile.propTypes = {
+  updateFrameSize: React.PropTypes.func,
+  npsSender: React.PropTypes.func.isRequired
+};
+
+export { NpsMobile };

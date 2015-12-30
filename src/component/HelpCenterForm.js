@@ -1,19 +1,17 @@
 import React from 'react/addons';
 
-const HelpCenterForm = React.createClass({
-  getDefaultProps() {
-    return {
-      fullscreen: false
-    };
-  },
+class HelpCenterForm extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
 
-  getInitialState() {
-    return {
+    this.state = {
       isValid: false,
       isSubmitting: false,
       focused: false
     };
-  },
+  }
 
   handleSubmit(e) {
     e.preventDefault();
@@ -21,13 +19,13 @@ const HelpCenterForm = React.createClass({
     // nextTick so that latest values show up on
     // searchField.getValue() in HelpCenter.*Search()
     setTimeout(this.props.onSubmit, 0);
-  },
+  }
 
   handleChange() {
     // nextTick so that latest values show up on
     // searchField.getValue() in HelpCenter.*Search()
     setTimeout(this.props.onChange, 0);
-  },
+  }
 
   render() {
     return (
@@ -40,7 +38,11 @@ const HelpCenterForm = React.createClass({
       </form>
     );
   }
-});
+}
+
+HelpCenterForm.defaultProps = {
+  fullscreen: false
+};
 
 export { HelpCenterForm };
 

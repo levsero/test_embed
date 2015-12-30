@@ -5,19 +5,24 @@ import { Button } from 'component/Button';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { Icon } from 'component/Icon';
 
-export const IpmDesktop = React.createClass({
+class IpmDesktop extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+    this.handleOnClick = this.handleOnClick.bind(this);
+  }
+
   handleOnClick() {
     if (this.props.ipm.message.buttonUrl) {
       window.open(this.props.ipm.message.buttonUrl, '_blank');
     }
     this.props.ipmSender('clicked');
-  },
+  }
 
   updateFrameSize() {
     if (this.props.updateFrameSize) {
       setTimeout(() => { this.props.updateFrameSize(); }, 0);
     }
-  },
+  }
 
   getAvatarElement() {
     const props = {
@@ -37,7 +42,7 @@ export const IpmDesktop = React.createClass({
           type='Icon--avatar' />
       );
     }
-  },
+  }
 
   render() {
     this.updateFrameSize();
@@ -65,4 +70,6 @@ export const IpmDesktop = React.createClass({
       </Container>
     );
   }
-});
+}
+
+export { IpmDesktop };

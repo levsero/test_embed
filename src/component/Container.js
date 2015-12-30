@@ -2,24 +2,7 @@ import React from 'react/addons';
 
 const classNames = require('classnames');
 
-export const Container = React.createClass({
-  propTypes: {
-    children: React.PropTypes.element.isRequired,
-    fullscreen: React.PropTypes.bool,
-    className: React.PropTypes.string,
-    style: React.PropTypes.element,
-    card: React.PropTypes.bool
-  },
-
-  getDefaultProps() {
-    return {
-      fullscreen: false,
-      className: '',
-      style: null,
-      card: false
-    };
-  },
-
+class Container extends React.Component {
   render() {
     const containerClasses = classNames({
       [`Container u-posRelative ${this.props.className}`]: true,
@@ -36,4 +19,21 @@ export const Container = React.createClass({
       </div>
     );
   }
-});
+}
+
+Container.defaultProps = {
+  fullscreen: false,
+  className: '',
+  style: null,
+  card: false
+};
+
+Container.propTypes = {
+  children: React.PropTypes.element.isRequired,
+  fullscreen: React.PropTypes.bool,
+  className: React.PropTypes.string,
+  style: React.PropTypes.element,
+  card: React.PropTypes.bool
+};
+
+export { Container };

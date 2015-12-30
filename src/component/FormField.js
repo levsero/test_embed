@@ -56,58 +56,21 @@ const getCustomFields = function(customFields, formState) {
   };
 };
 
-const Field = React.createClass({
-  propTypes: {
-    name: React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.number
-    ]).isRequired,
-    placeholder: React.PropTypes.string,
-    value: React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.number
-    ]),
-    input: React.PropTypes.element,
-    required: React.PropTypes.bool,
-    label: function(props, propName, componentName) {
-      if (props.type === 'checkbox' && !props[propName]) {
-        return new Error(`${componentName} must have a label prop if type is set to "checkbox"`);
-      }
-    },
-    type: React.PropTypes.string,
-    options: React.PropTypes.bool,
-    hasSearched: React.PropTypes.bool,
-    labelClasses: React.PropTypes.string,
-    onFocus: React.PropTypes.func,
-    onBlur: React.PropTypes.func,
-    onChange: React.PropTypes.func
-  },
+class Field extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+    this.onBlur = this.onBlur.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.onFocus = this.onFocus.bind(this);
 
-  getDefaultProps() {
-    return {
-      placeholder: 'text',
-      value: '',
-      input: null,
-      required: false,
-      type: '',
-      options: false,
-      hasSearched: false,
-      labelClasses: '',
-      onFocus: _.noop,
-      onBlur: _.noop,
-      onChange: _.noop
-    };
-  },
-
-  getInitialState() {
-    return {
+    this.state = {
       focused: false,
       blurred: false,
       hasError: false,
       dirty: false,
-      value: this.props.value
+      value: props.value
     };
-  },
+  }
 
   onFocus(e) {
     this.setState({
@@ -117,10 +80,10 @@ const Field = React.createClass({
     if (this.props.onFocus) {
       this.props.onFocus(e);
     }
-  },
+  }
 
   onBlur(e) {
-    const result = this.refs.field.getDOMNode();
+    const result = React.findDOMNode(this.refs.field);
 
     this.setState({
       focused: false,
@@ -132,11 +95,11 @@ const Field = React.createClass({
     if (this.props.onBlur) {
       this.props.onBlur(e);
     }
-  },
+  }
 
   onChange(e) {
     const value = e.target.value;
-    const result = this.refs.field.getDOMNode();
+    const result = React.findDOMNode(this.refs.field);
 
     this.setState({
       value: value,
@@ -146,7 +109,7 @@ const Field = React.createClass({
     if (this.props.onChange) {
       this.props.onChange(e);
     }
-  },
+  }
 
   render() {
     const type = this.props.type;
@@ -226,26 +189,49 @@ const Field = React.createClass({
       </label>
     );
   }
-});
+}
 
-const SelectField = React.createClass({
-  propTypes: {
-    name: React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.number
-    ]).isRequired,
-    options: React.PropTypes.array.isRequired,
-    onFocus: React.PropTypes.func,
-    onBlur: React.PropTypes.func
+Field.defaultProps = {
+  placeholder: 'text',
+  value: '',
+  input: null,
+  required: false,
+  type: '',
+  options: false,
+  hasSearched: false,
+  labelClasses: '',
+  onFocus: _.noop,
+  onBlur: _.noop,
+  onChange: _.noop
+};
+
+Field.propTypes = {
+  name: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.number
+  ]).isRequired,
+  placeholder: React.PropTypes.string,
+  value: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.number
+  ]),
+  input: React.PropTypes.element,
+  required: React.PropTypes.bool,
+  label: function(props, propName, componentName) {
+    if (props.type === 'checkbox' && !props[propName]) {
+      return new Error(`${componentName} must have a label prop if type is set to "checkbox"`);
+    }
   },
+  type: React.PropTypes.string,
+  options: React.PropTypes.bool,
+  hasSearched: React.PropTypes.bool,
+  labelClasses: React.PropTypes.string,
+  onFocus: React.PropTypes.func,
+  onBlur: React.PropTypes.func,
+  onChange: React.PropTypes.func
+};
 
-  getDefaultProps() {
-    return {
-      onFocus: _.noop,
-      onBlur: _.noop
-    };
-  },
-
+class SelectField extends React.Component {
   formatOptions() {
     const props = this.props;
     const options = [
@@ -284,7 +270,7 @@ const SelectField = React.createClass({
     });
 
     return options;
-  },
+  }
 
   render() {
     return (
@@ -293,70 +279,63 @@ const SelectField = React.createClass({
         input={<select>{this.formatOptions()}</select>} />
     );
   }
-});
+}
 
-const SearchFieldButton = React.createClass({
-  propTypes: {
-    onClick: React.PropTypes.func,
-    onTouch: React.PropTypes.func
-  },
+SelectField.defaultProps = {
+  onFocus: _.noop,
+  onBlur: _.noop
+};
 
-  getDefaultProps() {
-    return {
-      onClick: _.noop,
-      onTouch: _.noop
-    };
-  },
+SelectField.propTypes = {
+  name: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.number
+  ]).isRequired,
+  options: React.PropTypes.array.isRequired,
+  onFocus: React.PropTypes.func,
+  onBlur: React.PropTypes.func
+};
 
-  render() {
-    return (
-      <div className='u-cf u-paddingHN u-paddingBN Form-cta--barFullscreen'>
-        <div
-          className='Arrange Arrange--middle Form-field Form-field--search u-isSelectable is-mobile'
-          onClick={this.props.onClick}
-          onTouch={this.props.onTouch}>
-          <Icon
-            className='Arrange-sizeFit u-isActionable'
-            type='Icon--search' />
-        </div>
+function SearchFieldButton(props) {
+  return (
+    <div className='u-cf u-paddingHN u-paddingBN Form-cta--barFullscreen'>
+      <div
+        className='Arrange Arrange--middle Form-field Form-field--search u-isSelectable is-mobile'
+        onClick={props.onClick}
+        onTouch={props.onTouch}>
+        <Icon
+          className='Arrange-sizeFit u-isActionable'
+          type='Icon--search' />
       </div>
-    );
-  }
-});
+    </div>
+  );
+}
 
-const SearchField = React.createClass({
-  propTypes: {
-    fullscreen: React.PropTypes.bool,
-    isLoading: React.PropTypes.bool,
-    hasSearched: React.PropTypes.bool,
-    onFocus: React.PropTypes.func,
-    onBlur: React.PropTypes.func,
-    onChange: React.PropTypes.func,
-    onSearchIconClick: React.PropTypes.func,
-    onChangeValue: React.PropTypes.func
-  },
+SearchFieldButton.defaultProps = {
+  onClick: _.noop,
+  onTouch: _.noop
+};
 
-  getDefaultProps() {
-    return {
-      fullscreen: false,
-      isLoading: false,
-      hasSearched: false,
-      onFocus: _.noop,
-      onBlur: _.noop,
-      onChange: _.noop,
-      onSearchIconClick:  _.noop,
-      onChangeValue: _.noop
-    };
-  },
+SearchFieldButton.propTypes = {
+  onClick: React.PropTypes.func,
+  onTouch: React.PropTypes.func
+};
 
-  getInitialState() {
-    return {
+class SearchField extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+    this.clearInput = this.clearInput.bind(this);
+    this.onBlur = this.onBlur.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.onFocus = this.onFocus.bind(this);
+
+    this.state = {
       focused: false,
       blurred: false,
       searchInputVal: '',
       isClearable: false
     };
-  },
+  }
 
   onFocus(e) {
     this.setState({
@@ -366,7 +345,7 @@ const SearchField = React.createClass({
     if (this.props.onFocus) {
       this.props.onFocus(e);
     }
-  },
+  }
 
   onBlur(e) {
     this.setState({
@@ -377,7 +356,7 @@ const SearchField = React.createClass({
     if (this.props.onBlur) {
       this.props.onBlur(e);
     }
-  },
+  }
 
   onChange(e) {
     const value = e.target.value;
@@ -394,7 +373,7 @@ const SearchField = React.createClass({
     if (this.props.onChangeValue) {
       this.props.onChangeValue(value);
     }
-  },
+  }
 
   clearInput() {
     this.setState({
@@ -405,23 +384,23 @@ const SearchField = React.createClass({
     if (this.props.onChangeValue) {
       this.props.onChangeValue('');
     }
-  },
+  }
 
   getSearchField() {
     return React.findDOMNode(this.refs.searchFieldInput);
-  },
+  }
 
   getValue() {
     return this.state.searchInputVal;
-  },
+  }
 
   focus() {
     this.getSearchField().focus();
-  },
+  }
 
   blur() {
     this.getSearchField().blur();
-  },
+  }
 
   render() {
     const loadingClasses = classNames({
@@ -486,6 +465,28 @@ const SearchField = React.createClass({
       </div>
     );
   }
-});
+}
+
+SearchField.defaultProps = {
+  fullscreen: false,
+  isLoading: false,
+  hasSearched: false,
+  onFocus: _.noop,
+  onBlur: _.noop,
+  onChange: _.noop,
+  onSearchIconClick:  _.noop,
+  onChangeValue: _.noop
+};
+
+SearchField.propTypes = {
+  fullscreen: React.PropTypes.bool,
+  isLoading: React.PropTypes.bool,
+  hasSearched: React.PropTypes.bool,
+  onFocus: React.PropTypes.func,
+  onBlur: React.PropTypes.func,
+  onChange: React.PropTypes.func,
+  onSearchIconClick: React.PropTypes.func,
+  onChangeValue: React.PropTypes.func
+};
 
 export { Field, SearchField, SearchFieldButton, getCustomFields };

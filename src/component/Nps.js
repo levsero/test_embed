@@ -4,14 +4,15 @@ import _     from 'lodash';
 import { NpsDesktop } from 'component/NpsDesktop';
 import { NpsMobile } from 'component/NpsMobile';
 
-export const Nps = React.createClass({
-  propTypes: {
-    updateFrameSize: React.PropTypes.func,
-    npsSender: React.PropTypes.func.isRequired
-  },
+class Nps extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+    this.onCommentChangeHandler = this.onCommentChangeHandler.bind(this);
+    this.submitCommentHandler = this.submitCommentHandler.bind(this);
+    this.submitRatingHandler = this.submitRatingHandler.bind(this);
+    this.updateRating = this.updateRating.bind(this);
 
-  getInitialState() {
-    return {
+    this.state = {
       survey: {
         commentsQuestion: '',
         highlightColor: '',
@@ -35,15 +36,15 @@ export const Nps = React.createClass({
       isSubmittingComment: false,
       surveyCompleted: false,
       surveyAvailable: null, // `null`: survey has not been set
-      isMobile: this.props.mobile
+      isMobile: props.mobile
     };
-  },
+  }
 
   setError(errorState) {
     this.setState({
       survey: _.extend({}, this.state.survey, { error: errorState })
     });
-  },
+  }
 
   npsSender(params, doneFn, failFn) {
     const fail = (error) => {
@@ -64,7 +65,7 @@ export const Nps = React.createClass({
 
     this.setError(false);
     this.props.npsSender(params, done, fail);
-  },
+  }
 
   sendRating(doneFn, failFn) {
     const params = {
@@ -76,7 +77,7 @@ export const Nps = React.createClass({
     };
 
     this.npsSender(params, doneFn, failFn);
-  },
+  }
 
   sendComment(doneFn, failFn) {
     const params = {
@@ -89,7 +90,7 @@ export const Nps = React.createClass({
     };
 
     this.npsSender(params, doneFn, failFn);
-  },
+  }
 
   submitRatingHandler(rating, doneFn) {
     const errorHandler = () => {
@@ -104,30 +105,30 @@ export const Nps = React.createClass({
     });
 
     setTimeout(() => this.sendRating(doneFn, errorHandler), 0);
-  },
+  }
 
   updateRating(rating) {
     this.setState({
       response: _.extend({}, this.state.response, { rating })
     });
-  },
+  }
 
   submitCommentHandler(ev, doneFn, failFn) {
     ev.preventDefault();
     this.setState({ isSubmittingComment: true });
     setTimeout(() => this.sendComment(doneFn, failFn), 0);
-  },
+  }
 
   onCommentChangeHandler(ev) {
     this.setState({
       response: _.extend({}, this.state.response, { comment: ev.target.value }),
       commentFieldDirty: true
     });
-  },
+  }
 
   reset() {
     this.setState(this.getInitialState());
-  },
+  }
 
   render() {
     return (this.state.isMobile)
@@ -148,4 +149,11 @@ export const Nps = React.createClass({
           updateFrameSize={this.props.updateFrameSize}
           setOffsetHorizontal={this.props.setOffsetHorizontal} />;
   }
-});
+}
+
+Nps.propTypes = {
+  updateFrameSize: React.PropTypes.func,
+  npsSender: React.PropTypes.func.isRequired
+};
+
+export { Nps }

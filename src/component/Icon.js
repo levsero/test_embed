@@ -19,22 +19,8 @@ const icons = {
   'Icon': require('icons/widget-icon_help.svg')
 };
 
-export const Icon = React.createClass({
-  propTypes: {
-    type: React.PropTypes.string,
-    className: React.PropTypes.string,
-    isMobile: React.PropTypes.bool
-  },
-
-  getDefaultProps() {
-    return {
-      type: '',
-      className: '',
-      isMobile: isMobileBrowser()
-    };
-  },
-
-  render: function() {
+class Icon extends React.Component {
+  render() {
     const icon = icons[this.props.type];
     const iconClasses = classNames({
       [`Icon ${this.props.type} ${this.props.className}`]: true,
@@ -48,5 +34,18 @@ export const Icon = React.createClass({
         dangerouslySetInnerHTML={{__html: icon}} />
     );
   }
+}
 
-});
+Icon.defaultProps = {
+  type: '',
+  className: '',
+  isMobile: isMobileBrowser()
+};
+
+Icon.propTypes = {
+  type: React.PropTypes.string,
+  className: React.PropTypes.string,
+  isMobile: React.PropTypes.bool
+};
+
+export { Icon };

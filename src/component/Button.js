@@ -7,256 +7,232 @@ import { LoadingSpinner } from 'component/Loading';
 
 const classNames = require('classnames');
 
-const Button = React.createClass({
-  propTypes: {
-    label: React.PropTypes.string.isRequired,
-    fullscreen: React.PropTypes.bool,
-    disabled: React.PropTypes.bool,
-    onClick: React.PropTypes.func,
-    type: React.PropTypes.string,
-    className: React.PropTypes.string,
-    style: React.PropTypes.element
-  },
+function Button(props) {
+  const buttonClasses = classNames({
+    'c-btn c-btn--medium c-btn--primary': true,
+    'Anim-color u-textNoWrap u-borderTransparent u-userBackgroundColor': true,
+    'u-sizeFull u-textSizeBaseMobile': props.fullscreen,
+    [`${props.className}`]: true
+  });
+  const allowedTypes = /^(submit|button)$/i;
+  const type = allowedTypes.test(props.type)
+             ? props.type
+             : 'button';
 
-  getDefaultProps() {
-    return {
-      fullscreen: false,
-      disabled: false,
-      onClick: noop,
-      type: 'submit',
-      className: '',
-      style: null
-    };
-  },
+  return (
+    <input
+      type={type}
+      value={props.label}
+      onClick={props.onClick}
+      onTouchStart={props.onClick}
+      disabled={props.disabled}
+      style={props.style}
+      className={buttonClasses} />
+  );
+}
 
-  render() {
-    const buttonClasses = classNames({
-      'c-btn c-btn--medium c-btn--primary': true,
-      'Anim-color u-textNoWrap u-borderTransparent u-userBackgroundColor': true,
-      'u-sizeFull u-textSizeBaseMobile': this.props.fullscreen,
-      [`${this.props.className}`]: true
-    });
-    const allowedTypes = /^(submit|button)$/i;
-    const type = allowedTypes.test(this.props.type)
-               ? this.props.type
-               : 'button';
+Button.defaultProps = {
+  fullscreen: false,
+  disabled: false,
+  onClick: noop,
+  type: 'submit',
+  className: '',
+  style: null
+};
 
-    return (
-      <input
-        type={type}
-        value={this.props.label}
-        onClick={this.props.onClick}
-        onTouchStart={this.props.onClick}
-        disabled={this.props.disabled}
-        style={this.props.style}
-        className={buttonClasses} />
-    );
-  }
-});
+Button.propTypes = {
+  label: React.PropTypes.string.isRequired,
+  fullscreen: React.PropTypes.bool,
+  disabled: React.PropTypes.bool,
+  onClick: React.PropTypes.func,
+  type: React.PropTypes.string,
+  className: React.PropTypes.string,
+  style: React.PropTypes.element
+};
 
-const ButtonNav = React.createClass({
-  propTypes: {
-    label: React.PropTypes.element.isRequired,
-    rtl: React.PropTypes.bool,
-    fullscreen: React.PropTypes.bool,
-    position: React.PropTypes.string,
-    onClick: React.PropTypes.func
-  },
+function ButtonNav(props) {
+  const { fullscreen, position, rtl } = props;
+  const isLeft = (position === 'left');
+  const isRight = (position === 'right');
+  const buttonClasses = classNames({
+    'Button Button--nav u-posAbsolute u-posStart--vert': true,
+    'u-posStart u-paddingL': isLeft && !rtl,
+    'u-posEnd': isLeft && rtl,
+    'u-posEnd--flush': (isLeft && rtl && fullscreen) || (isRight && !rtl && fullscreen),
+    'u-isActionable u-textSizeBaseMobile u-posStart--vertFlush': fullscreen,
+    'u-posEnd u-paddingR': isRight && !rtl,
+    'u-posStart': isRight && rtl,
+    'u-posStart--flush': (isRight && rtl && fullscreen) || (isLeft && !rtl && fullscreen),
+    'u-flipText': rtl
+  });
 
-  getDefaultProps() {
-    return {
-      rtl: false,
-      fullscreen: false,
-      position: 'left',
-      onClick: noop
-    };
-  },
+  return (
+    <div
+      onClick={props.onClick}
+      onTouchStart={props.onClick}
+      className={buttonClasses}>
+      {props.label}
+    </div>
+  );
+}
 
-  render() {
-    const { fullscreen, position, rtl } = this.props;
-    const isLeft = (position === 'left');
-    const isRight = (position === 'right');
-    const buttonClasses = classNames({
-      'Button Button--nav u-posAbsolute u-posStart--vert': true,
-      'u-posStart u-paddingL': isLeft && !rtl,
-      'u-posEnd': isLeft && rtl,
-      'u-posEnd--flush': (isLeft && rtl && fullscreen) || (isRight && !rtl && fullscreen),
-      'u-isActionable u-textSizeBaseMobile u-posStart--vertFlush': fullscreen,
-      'u-posEnd u-paddingR': isRight && !rtl,
-      'u-posStart': isRight && rtl,
-      'u-posStart--flush': (isRight && rtl && fullscreen) || (isLeft && !rtl && fullscreen),
-      'u-flipText': rtl
-    });
+ButtonNav.defaultProps = {
+  rtl: false,
+  fullscreen: false,
+  position: 'left',
+  onClick: noop
+};
 
-    return (
-      <div
-        onClick={this.props.onClick}
-        onTouchStart={this.props.onClick}
-        className={buttonClasses}>
-        {this.props.label}
-      </div>
-    );
-  }
-});
+ButtonNav.propTypes = {
+  label: React.PropTypes.element.isRequired,
+  rtl: React.PropTypes.bool,
+  fullscreen: React.PropTypes.bool,
+  position: React.PropTypes.string,
+  onClick: React.PropTypes.func
+};
 
-const ButtonPill = React.createClass({
-  propTypes: {
-    label: React.PropTypes.string.isRequired,
-    fullscreen: React.PropTypes.bool
-  },
+function ButtonPill(props) {
+  const buttonClasses = classNames({
+    'c-btn c-btn--medium c-btn--secondary c-btn--pill': true,
+    'u-textNormal': true,
+    'u-sizeFull u-textSizeBaseMobile is-mobile': props.fullscreen,
+    'u-textNoWrap': i18n.isRTL()
+  });
 
-  getDefaultProps() {
-    return {
-      fullscreen: false
-    };
-  },
+  return (
+    <div
+      className={buttonClasses}>
+      {props.label}
+      <Icon type='Icon--link' />
+    </div>
+  );
+}
 
-  render() {
-    const buttonClasses = classNames({
-      'c-btn c-btn--medium c-btn--secondary c-btn--pill': true,
-      'u-textNormal': true,
-      'u-sizeFull u-textSizeBaseMobile is-mobile': this.props.fullscreen,
-      'u-textNoWrap': i18n.isRTL()
-    });
+ButtonPill.defaultProps = {
+  fullscreen: false
+};
 
-    return (
-      <div
-        className={buttonClasses}>
-        {this.props.label}
-        <Icon type='Icon--link' />
-      </div>
-    );
-  }
-});
+ButtonPill.propTypes = {
+  label: React.PropTypes.string.isRequired,
+  fullscreen: React.PropTypes.bool
+};
 
-const ButtonSecondary = React.createClass({
-  propTypes: {
-    label: React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.element
-    ]).isRequired,
-    disabled: React.PropTypes.bool,
-    className: React.PropTypes.string,
-    style: React.PropTypes.element,
-    onClick: React.PropTypes.func
-  },
+function ButtonSecondary(props) {
+  const buttonClasses = classNames({
+    'c-btn c-btn--medium c-btn--secondary': true,
+    [props.className]: true
+  });
 
-  getDefaultProps() {
-    return {
-      disabled: false,
-      className: '',
-      style: null,
-      onClick: noop
-    };
-  },
+  return (props.disabled)
+       ? <div
+           className={buttonClasses}
+           style={props.style}
+           disabled={true}>
+           {props.label}
+         </div>
+       : <div
+           onClick={props.onClick}
+           onTouchStart={props.onClick}
+           className={buttonClasses}
+           style={props.style}>
+           {props.label}
+         </div>;
+}
 
-  render() {
-    const buttonClasses = classNames({
-      'c-btn c-btn--medium c-btn--secondary': true,
-      [this.props.className]: true
-    });
+ButtonSecondary.defaultProps = {
+  disabled: false,
+  className: '',
+  style: null,
+  onClick: noop
+};
 
-    return (this.props.disabled)
-         ? <div
-             className={buttonClasses}
-             style={this.props.style}
-             disabled={true}>
-             {this.props.label}
-           </div>
-         : <div
-             onClick={this.props.onClick}
-             onTouchStart={this.props.onClick}
-             className={buttonClasses}
-             style={this.props.style}>
-             {this.props.label}
-           </div>;
-  }
-});
+ButtonSecondary.propTypes = {
+  label: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.element
+  ]).isRequired,
+  disabled: React.PropTypes.bool,
+  className: React.PropTypes.string,
+  style: React.PropTypes.element,
+  onClick: React.PropTypes.func
+};
 
-const ButtonGroup = React.createClass({
-  propTypes: {
-    children: React.PropTypes.element.isRequired,
-    rtl: React.PropTypes.bool,
-    fullscreen: React.PropTypes.bool,
-    style: React.PropTypes.element
-  },
+function ButtonGroup(props) {
+  const buttonClasses = classNames({
+    'ButtonGroup': true,
+    'u-textRight': !props.fullscreen && !props.rtl,
+    'u-textLeft': !props.fullscreen && props.rtl
+  });
 
-  getDefaultProps() {
-    return {
-      rtl: false,
-      fullscreen: false,
-      style: null
-    };
-  },
+  return (
+    <div
+      style={props.style}
+      className={buttonClasses}>
+      {props.children}
+   </div>
+  );
+}
 
-  render() {
-    const buttonClasses = classNames({
-      'ButtonGroup': true,
-      'u-textRight': !this.props.fullscreen && !this.props.rtl,
-      'u-textLeft': !this.props.fullscreen && this.props.rtl
-    });
+ButtonGroup.defaultProps = {
+  rtl: false,
+  fullscreen: false,
+  style: null
+};
 
-    return (
-      <div
-        style={this.props.style}
-        className={buttonClasses}>
-        {this.props.children}
-     </div>
-    );
-  }
-});
+ButtonGroup.propTypes = {
+  children: React.PropTypes.element.isRequired,
+  rtl: React.PropTypes.bool,
+  fullscreen: React.PropTypes.bool,
+  style: React.PropTypes.element
+};
 
-const ButtonRating = React.createClass({
-  propTypes: {
-    label: React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.element
-    ]).isRequired,
-    fullscreen: React.PropTypes.bool,
-    highlightColor: React.PropTypes.string,
-    selected: React.PropTypes.bool,
-    loading: React.PropTypes.bool,
-    loadingSpinnerClassName: React.PropTypes.string,
-    disabled: React.PropTypes.bool,
-    onClick: React.PropTypes.func
-  },
+function ButtonRating(props) {
+  const ButtonRatingClasses = classNames({
+    'ButtonRating': true,
+    'is-mobile': props.fullscreen,
+    'u-userBackgroundColor u-userTextColorConstrast': props.selected,
+    'u-userBorderColor': props.selected,
+    'u-userTextColor': !props.selected,
+    'is-disabled': props.disabled
+  });
 
-  getDefaultProps() {
-    return {
-      highlightColor: '#77a500',
-      selected: false,
-      loading: false,
-      label: null,
-      loadingSpinnerClassName: '',
-      disabled: false,
-      onClick: noop
-    };
-  },
+  const label = props.loading
+              ? <LoadingSpinner
+                  className={`u-userFillColorContrast ${props.loadingSpinnerClassName}`} />
+              : `${props.label}`;
 
-  render() {
-    const ButtonRatingClasses = classNames({
-      'ButtonRating': true,
-      'is-mobile': this.props.fullscreen,
-      'u-userBackgroundColor u-userTextColorConstrast': this.props.selected,
-      'u-userBorderColor': this.props.selected,
-      'u-userTextColor': !this.props.selected,
-      'is-disabled': this.props.disabled
-    });
+  return (
+    <ButtonSecondary
+      label={label}
+      onClick={props.onClick}
+      className={ButtonRatingClasses}
+      disabled={props.disabled} />
+  );
+}
 
-    const label = this.props.loading
-                ? <LoadingSpinner
-                    className={`u-userFillColorContrast ${this.props.loadingSpinnerClassName}`} />
-                : `${this.props.label}`;
+ButtonRating.defaultProps = {
+  highlightColor: '#77a500',
+  selected: false,
+  loading: false,
+  label: null,
+  loadingSpinnerClassName: '',
+  disabled: false,
+  onClick: noop
+};
 
-    return (
-      <ButtonSecondary
-        label={label}
-        onClick={this.props.onClick}
-        className={ButtonRatingClasses}
-        disabled={this.props.disabled} />
-    );
-  }
-});
+ButtonRating.propTypes = {
+  label: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.element
+  ]).isRequired,
+  fullscreen: React.PropTypes.bool,
+  highlightColor: React.PropTypes.string,
+  selected: React.PropTypes.bool,
+  loading: React.PropTypes.bool,
+  loadingSpinnerClassName: React.PropTypes.string,
+  disabled: React.PropTypes.bool,
+  onClick: React.PropTypes.func
+};
 
 export {
   Button,
