@@ -18,10 +18,6 @@ class NpsRatingsList extends React.Component {
       this.props.onChangeValue(rating);
     };
   }
-  
-  addRatingToLikelyLabel: prependWith('10 = ')
-
-  addRatingToNotLikelyLabel: prependWith('0 = ')
 
   render() {
     const ratingsLegendClasses = 'RatingsList-legend u-sizeFull u-paddingHT';
@@ -66,10 +62,10 @@ class NpsRatingsList extends React.Component {
     const ratingsLegendContent = (!this.props.hideRatingsLegend)
                                ? <div className={ratingsLegendClasses}>
                                    <p className={notLikelyLabelClasses}>
-                                     {this.addRatingToNotLikelyLabel(this.props.notLikelyLabel)}
+                                     {this.prependWith('0 = ', this.props.notLikelyLabel)}
                                    </p>
                                    <p className={likelyLabelClasses}>
-                                     {this.addRatingToLikelyLabel(this.props.likelyLabel)}
+                                     {this.prependWith('10 = ', this.props.likelyLabel)}
                                    </p>
                                  </div>
                                : null;
