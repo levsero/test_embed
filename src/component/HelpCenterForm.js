@@ -1,9 +1,19 @@
 import React from 'react/addons';
+import { noop } from 'lodash';
 
 const HelpCenterForm = React.createClass({
+  propTypes: {
+    children: React.PropTypes.element.isRequired,
+    fullscreen: React.PropTypes.bool,
+    onSubmit: React.PropTypes.func,
+    onChange: React.PropTypes.func
+  },
+
   getDefaultProps() {
     return {
-      fullscreen: false
+      fullscreen: false,
+      onSubmit: noop,
+      onChange: noop
     };
   },
 
