@@ -1,4 +1,4 @@
-fdescribe('mediator', function() {
+describe('mediator', function() {
   let mockRegistry,
     mediator,
     c,
