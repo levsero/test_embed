@@ -6,7 +6,7 @@ import { isMobileBrowser } from 'utility/devices';
 import { i18n }            from 'service/i18n';
 import { Icon }            from 'component/Icon';
 
-const classSet = React.addons.classSet;
+const classNames = require('classnames');
 const geti18nContent = function(field) {
   const title = _.find(field.variants, function(variant) {
     return variant.localeId === i18n.getLocaleId();
@@ -151,7 +151,7 @@ const Field = React.createClass({
   render() {
     const type = this.props.type;
     const isCheckbox = (type === 'checkbox');
-    const fieldClasses = classSet({
+    const fieldClasses = classNames({
       'Form-field u-isSelectable u-posRelative': true,
       'Form-field--invalid': this.state.hasError && this.state.blurred && !isCheckbox,
       'Form-field--focused': this.state.focused && !isCheckbox,
@@ -159,18 +159,18 @@ const Field = React.createClass({
       'Form-field--clean': isCheckbox,
       'is-mobile': isMobileBrowser()
     });
-    const fieldLabelClasses = classSet({
+    const fieldLabelClasses = classNames({
       'Form-fieldLabel u-textXHeight': true,
       'u-textSize15': isMobileBrowser(),
       [this.props.labelClasses]: true
     });
-    const fieldInputClasses = classSet({
+    const fieldInputClasses = classNames({
       'Form-checkboxInput u-isHiddenVisually': isCheckbox,
       'Form-checkboxInput--focused': this.state.focused && isCheckbox,
       'Form-checkboxInput--invalid': this.state.hasError && this.state.blurred && isCheckbox,
       'u-textSizeBaseMobile': isMobileBrowser()
     });
-    const dropdownClasses = classSet({
+    const dropdownClasses = classNames({
       'u-isHidden': !this.props.options,
       'Form-fieldArrows': true
     });
@@ -424,30 +424,30 @@ const SearchField = React.createClass({
   },
 
   render() {
-    const loadingClasses = classSet({
+    const loadingClasses = classNames({
       'u-isHidden': !this.props.isLoading
     });
-    const searchContainerClasses = classSet({
+    const searchContainerClasses = classNames({
       'u-cf': true,
       'u-paddingTM': this.props.hasSearched,
       'u-marginBL': !this.props.hasSearched,
       'u-paddingHN u-paddingBN Form-cta--barFullscreen': this.props.fullscreen
     });
-    const searchInputClasses = classSet({
+    const searchInputClasses = classNames({
       'Arrange Arrange--middle Form-field Form-field--search u-isSelectable': true,
       'Form-field--focused': this.state.focused,
       'is-mobile': this.props.fullscreen
     });
-    const searchInputFieldClasses = classSet({
+    const searchInputFieldClasses = classNames({
       'Arrange-sizeFill u-paddingR Form-placeholder': true,
       'u-textSizeBaseMobile': this.props.fullscreen
     });
-    const searchInputFieldIconClasses = classSet({
+    const searchInputFieldIconClasses = classNames({
       'Arrange-sizeFit u-isActionable': true,
       'u-userTextColor': this.state.focused,
       'u-userFillColor': this.state.focused
     });
-    const clearInputClasses = classSet({
+    const clearInputClasses = classNames({
       'Icon Icon--clearInput': true,
       'u-isActionable u-textCenter': true,
       'u-isHidden': !this.state.isClearable || this.props.isLoading

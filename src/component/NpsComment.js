@@ -6,7 +6,7 @@ import { Button,
 import { LoadingSpinner } from 'component/Loading';
 import { i18n } from 'service/i18n';
 
-const classSet = React.addons.classSet;
+const classNames = require('classnames');
 
 export const NpsComment = React.createClass({
   getDefaultProps() {
@@ -27,7 +27,7 @@ export const NpsComment = React.createClass({
       { fallback: 'Send Feedback' }
     );
 
-    const sendButtonClasses = classSet({
+    const sendButtonClasses = classNames({
       'u-marginTS NpsComment-sendButton': true,
       'u-marginBM u-sizeFull NpsComment-loadingButton': this.props.isMobile,
       'u-userBackgroundColor u-userBorderColor': this.props.isSubmittingComment,
@@ -36,18 +36,18 @@ export const NpsComment = React.createClass({
       'is-desktop': !this.props.isMobile
     });
 
-    const loadingButtonClass = classSet({
+    const loadingButtonClass = classNames({
       'NpsComment-loadingSpinner': true,
       'is-mobile': this.props.isMobile,
       'is-desktop': !this.props.isMobile
     });
 
-    const textAreaClasses = classSet({
+    const textAreaClasses = classNames({
       'NpsComment-textarea': true,
       'u-textSizeBaseMobile': this.props.isMobile
     });
 
-    const labelClasses = classSet({
+    const labelClasses = classNames({
       'NpsComment-label u-marginBN u-textCenter u-borderNone': true,
       'is-mobile': this.props.isMobile
     });

@@ -5,7 +5,7 @@ import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
 import { LoadingSpinner } from 'component/Loading';
 
-const classSet = React.addons.classSet;
+const classNames = require('classnames');
 
 const Button = React.createClass({
   propTypes: {
@@ -14,7 +14,7 @@ const Button = React.createClass({
     disabled: React.PropTypes.bool,
     onClick: React.PropTypes.func,
     type: React.PropTypes.string,
-    className: React.addons.classSet,
+    className: React.PropTypes.string,
     style: React.PropTypes.element
   },
 
@@ -30,7 +30,7 @@ const Button = React.createClass({
   },
 
   render() {
-    const buttonClasses = classSet({
+    const buttonClasses = classNames({
       'c-btn c-btn--medium c-btn--primary': true,
       'Anim-color u-textNoWrap u-borderTransparent u-userBackgroundColor': true,
       'u-sizeFull u-textSizeBaseMobile': this.props.fullscreen,
@@ -76,7 +76,7 @@ const ButtonNav = React.createClass({
     const { fullscreen, position, rtl } = this.props;
     const isLeft = (position === 'left');
     const isRight = (position === 'right');
-    const buttonClasses = classSet({
+    const buttonClasses = classNames({
       'Button Button--nav u-posAbsolute u-posStart--vert': true,
       'u-posStart u-paddingL': isLeft && !rtl,
       'u-posEnd': isLeft && rtl,
@@ -112,7 +112,7 @@ const ButtonPill = React.createClass({
   },
 
   render() {
-    const buttonClasses = classSet({
+    const buttonClasses = classNames({
       'c-btn c-btn--medium c-btn--secondary c-btn--pill': true,
       'u-textNormal': true,
       'u-sizeFull u-textSizeBaseMobile is-mobile': this.props.fullscreen,
@@ -136,7 +136,7 @@ const ButtonSecondary = React.createClass({
       React.PropTypes.element
     ]).isRequired,
     disabled: React.PropTypes.bool,
-    className: React.addons.classSet,
+    className: React.PropTypes.string,
     style: React.PropTypes.element,
     onClick: React.PropTypes.func
   },
@@ -151,7 +151,7 @@ const ButtonSecondary = React.createClass({
   },
 
   render() {
-    const buttonClasses = classSet({
+    const buttonClasses = classNames({
       'c-btn c-btn--medium c-btn--secondary': true,
       [this.props.className]: true
     });
@@ -190,7 +190,7 @@ const ButtonGroup = React.createClass({
   },
 
   render() {
-    const buttonClasses = classSet({
+    const buttonClasses = classNames({
       'ButtonGroup': true,
       'u-textRight': !this.props.fullscreen && !this.props.rtl,
       'u-textLeft': !this.props.fullscreen && this.props.rtl
@@ -234,7 +234,7 @@ const ButtonRating = React.createClass({
   },
 
   render() {
-    const ButtonRatingClasses = classSet({
+    const ButtonRatingClasses = classNames({
       'ButtonRating': true,
       'is-mobile': this.props.fullscreen,
       'u-userBackgroundColor u-userTextColorConstrast': this.props.selected,

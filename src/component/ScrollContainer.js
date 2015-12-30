@@ -1,6 +1,6 @@
 import React from 'react/addons';
 
-const classSet = React.addons.classSet;
+const classNames = require('classnames');
 
 export const ScrollContainer = React.createClass({
   propTypes: {
@@ -49,7 +49,7 @@ export const ScrollContainer = React.createClass({
   },
 
   render() {
-    const containerClasses = classSet({
+    const containerClasses = classNames({
       'ScrollContainer-content': true,
       'u-paddingLL u-marginRS u-paddingRS': true,
       'u-paddingTM': !this.props.hideZendeskLogo,
@@ -59,13 +59,13 @@ export const ScrollContainer = React.createClass({
       'is-bigheader': this.props.headerContent,
       'is-expanded': this.props.contentExpanded
     });
-    const scrollFooterClasses = classSet({
+    const scrollFooterClasses = classNames({
       'ScrollContainer-footer': true,
       'u-paddingHL u-posRelative': true,
       'u-paddingVM': !this.props.hideZendeskLogo,
       'ScrollContainer-footer--shadow': this.state.scrollShadowVisible
     });
-    const titleClasses = classSet({
+    const titleClasses = classNames({
       'u-textSizeMed u-textBold u-extSizeMed u-textCenter u-textXHeight': true,
       'u-textSizeBaseMobile': this.props.fullscreen
     });

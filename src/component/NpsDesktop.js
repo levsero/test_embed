@@ -7,7 +7,7 @@ import { ZendeskLogo } from 'component/ZendeskLogo';
 import { NpsRatingsList } from 'component/NpsRatingsList';
 import { NpsComment } from 'component/NpsComment';
 
-const classSet = React.addons.classSet;
+const classNames = require('classnames');
 
 export const NpsDesktop = React.createClass({
   getDefaultProps() {
@@ -69,25 +69,25 @@ export const NpsDesktop = React.createClass({
 
     const iconClasses = 'u-inlineBlock u-userFillColor u-posRelative u-marginTL';
 
-    const containerClasses = classSet({
+    const containerClasses = classNames({
       'u-paddingBS': hideZendeskLogo && !this.state.currentPage.addingComment
     });
-    const containerContentClasses = classSet({
+    const containerContentClasses = classNames({
       'Container-content': true,
       'u-paddingBL': hideZendeskLogo && !this.state.currentPage.addingComment
     });
-    const surveyFormClasses = classSet({
+    const surveyFormClasses = classNames({
       'u-isHidden': this.state.currentPage.thankYou
     });
-    const surveyTitleClasses = classSet({
+    const surveyTitleClasses = classNames({
       'u-textSize15 u-textCenter': true,
       'u-paddingTT': !this.state.currentPage.thankYou
     });
-    const commentsClasses = classSet({
+    const commentsClasses = classNames({
       'u-paddingBL': true,
       'u-isHidden': !this.state.currentPage.addingComment
     });
-    const ratingsListClasses = classSet({
+    const ratingsListClasses = classNames({
       'RatingsList is-desktop': true
     });
 

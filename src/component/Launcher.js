@@ -3,7 +3,7 @@ import React from 'react/addons';
 import { Icon }            from 'component/Icon';
 import { isMobileBrowser } from 'utility/devices';
 
-const classSet = React.addons.classSet;
+var classNames = require('classnames');
 
 export const Launcher = React.createClass({
   propTypes: {
@@ -35,18 +35,18 @@ export const Launcher = React.createClass({
   },
 
   render() {
-    const buttonClasses = classSet({
+    const buttonClasses = classNames({
       'Button Button--launcher Button--cta': true,
       'u-userBackgroundColor Arrange Arrange--middle': true,
       'u-isActionable u-textLeft u-inlineBlock u-textNoWrap': true,
       'is-mobile': isMobileBrowser()
     });
-    const iconClasses = classSet({
+    const iconClasses = classNames({
       // spaces needed for class concatenation
       'Arrange-sizeFit Icon--launcher u-textInheritColor u-inlineBlock ': true,
       'u-paddingHN ': isMobileBrowser() && !this.state.hasUnreadMessages
     });
-    const labelClasses = classSet({
+    const labelClasses = classNames({
       'Arrange-sizeFit u-textInheritColor u-inlineBlock': true,
       'u-isHidden': isMobileBrowser() && !this.state.hasUnreadMessages
     });

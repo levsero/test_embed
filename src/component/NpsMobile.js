@@ -17,7 +17,7 @@ import { setScrollKiller,
 import { i18n } from 'service/i18n';
 import { Button } from 'component/Button';
 
-const classSet = React.addons.classSet;
+const classNames = require('classnames');
 
 export const NpsMobile = React.createClass({
   propTypes: {
@@ -234,17 +234,17 @@ export const NpsMobile = React.createClass({
                       </span>
                    : null;
 
-    const npsCommentButtonClasses = classSet({
+    const npsCommentButtonClasses = classNames({
       'u-isHidden': this.state.isEditing || !this.state.currentPage.addingComment
     });
 
-    const npsCommentClasses = classSet({
+    const npsCommentClasses = classNames({
       'u-isHidden': !this.state.isEditing
     });
 
     const sendButtonClasses = 'u-marginTS u-marginBM u-sizeFull';
 
-    const containerClassNames = classSet({
+    const containerClassNames = classNames({
       'u-borderTop Container--halfscreen': !this.state.fullscreen,
       'Container--fullscreen--nps': this.state.fullscreen
     });

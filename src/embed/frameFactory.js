@@ -12,7 +12,7 @@ import { ButtonNav }           from 'component/Button';
 import { Icon }                from 'component/Icon';
 import snabbt                  from 'snabbt.js';
 
-const classSet = React.addons.classSet;
+const classNames = require('classnames');
 const baseCSS = require('baseCSS');
 const mainCSS = require('mainCSS');
 const sizingRatio = 12 * getSizingRatio(false, true);
@@ -284,7 +284,7 @@ export const frameFactory = function(childFn, _params) {
     render: function() {
       const iframeNamespace = 'zEWidget';
 
-      const iframeClasses = classSet({
+      const iframeClasses = classNames({
         [`${iframeNamespace}-${params.name}`]: true,
         [`${iframeNamespace}-${params.name}--active`]: this.state.visible
       });
@@ -322,7 +322,7 @@ export const frameFactory = function(childFn, _params) {
         const cssText = baseCSS + mainCSS + params.css + baseFontCSS;
         const css = <style dangerouslySetInnerHTML={{ __html: cssText }} />;
         const fullscreen = params.fullscreenable && params.isMobile;
-        const positionClasses = classSet({
+        const positionClasses = classNames({
           'u-borderTransparent u-posRelative': !fullscreen,
           'u-pullRight': this.props.position === 'right',
           'u-pullLeft': this.props.position === 'left'
@@ -400,10 +400,10 @@ export const frameFactory = function(childFn, _params) {
           },
 
           render() {
-            const backButtonClasses = classSet({
+            const backButtonClasses = classNames({
               'u-isHidden': !this.state.showBackButton
             });
-            const closeButtonClasses = classSet({
+            const closeButtonClasses = classNames({
               'closeButton': true,
               'u-isHidden': params.hideCloseButton
             });

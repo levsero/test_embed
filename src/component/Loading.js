@@ -2,7 +2,7 @@ import React from 'react/addons';
 
 export const LoadingSpinner = React.createClass({
   propTypes: {
-    className: React.addons.classSet
+    className: React.PropTypes.string
   },
 
   getDefaultProps() {
@@ -22,7 +22,7 @@ export const LoadingSpinner = React.createClass({
 
 export const LoadingEllipses = React.createClass({
   propTypes: {
-    className: React.addons.classSet
+    className: React.PropTypes.string
   },
 
   getDefaultProps() {

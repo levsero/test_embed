@@ -10,7 +10,7 @@ import { isMobileBrowser }  from 'utility/devices';
 import { Icon }             from 'component/Icon';
 import { i18n }             from 'service/i18n';
 
-const classSet = React.addons.classSet;
+const classNames = require('classnames');
 
 export const SubmitTicket = React.createClass({
   propTypes: {
@@ -128,11 +128,11 @@ export const SubmitTicket = React.createClass({
   },
 
   render() {
-    const notifyClasses = classSet({
+    const notifyClasses = classNames({
       'u-textCenter': true,
       'u-isHidden': !this.state.showNotification
     });
-    const errorClasses = classSet({
+    const errorClasses = classNames({
       'Error u-marginTL': true,
       'u-isHidden': !this.state.errorMessage
     });

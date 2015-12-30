@@ -4,7 +4,7 @@ import { i18n } from 'service/i18n';
 import { ButtonPill } from 'component/Button';
 
 const sanitizeHtml = require('sanitize-html');
-const classSet = React.addons.classSet;
+const classNames = require('classnames');
 
 const HelpCenterArticle = React.createClass({
   propTypes: {
@@ -95,7 +95,7 @@ const HelpCenterArticle = React.createClass({
   },
 
   render() {
-    const userContentClasses = classSet({
+    const userContentClasses = classNames({
       'UserContent u-userLinkColor': true,
       'is-mobile': this.props.fullscreen
     });

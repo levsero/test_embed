@@ -2,14 +2,14 @@ import React from 'react/addons';
 
 import { Icon } from 'component/Icon';
 
-const classSet = React.addons.classSet;
+const classNames = require('classnames');
 
 export const ZendeskLogo = React.createClass({
   propTypes: {
     rtl: React.PropTypes.bool,
     fullscreen: React.PropTypes.bool,
     formSuccess: React.PropTypes.bool,
-    className: React.addons.classSet,
+    className: React.PropTypes.string,
     utm: React.PropTypes.string
   },
 
@@ -24,7 +24,7 @@ export const ZendeskLogo = React.createClass({
   },
   render() {
     const { fullscreen, rtl, formSuccess } = this.props;
-    const logoClasses = classSet({
+    const logoClasses = classNames({
       'u-linkClean': true,
       'u-posAbsolute u-posEnd--vert': !fullscreen || formSuccess,
       'u-posRelative': fullscreen,

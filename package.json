@@ -40,6 +40,7 @@
     "babel-eslint": "^5.0.0-beta6",
     "babel-loader": "~4.2.0",
     "bower": "~1.5.2",
+    "classnames": "^2.2.1",
     "concurrently": "^1.0.0",
     "css-loader": "^0.6.12",
     "cssstyle": "0.2.14",

@@ -3,7 +3,7 @@ import _ from 'lodash';
 
 import { ButtonRating } from 'component/Button';
 
-const classSet = React.addons.classSet;
+const classNames = require('classnames');
 
 const prependWith = _.curry((prepend, str) => {
   return str.indexOf(prepend) > -1
@@ -33,16 +33,16 @@ export const NpsRatingsList = React.createClass({
     const ratingsLegendClasses = 'RatingsList-legend u-sizeFull u-paddingHT';
     const ratingsListClasses = `RatingsList u-textCenter ${this.props.className}`;
 
-    const labelClasses = classSet({
+    const labelClasses = classNames({
       'u-inlineBlock u-size1of2 u-marginBN': true
     });
 
-    const likelyLabelClasses = classSet({
+    const likelyLabelClasses = classNames({
       [labelClasses]: true,
       'u-textRight': true
     });
 
-    const notLikelyLabelClasses = classSet({
+    const notLikelyLabelClasses = classNames({
       [labelClasses]: true,
       'u-textLeft': true
     });

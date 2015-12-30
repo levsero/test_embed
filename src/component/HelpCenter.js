@@ -14,7 +14,7 @@ import { Button,
          ButtonGroup }       from 'component/Button';
 import { beacon }            from 'service/beacon';
 
-const classSet = React.addons.classSet;
+const classNames = require('classnames');
 
 export const HelpCenter = React.createClass({
   getDefaultProps() {
@@ -317,36 +317,36 @@ export const HelpCenter = React.createClass({
   },
 
   render() {
-    const listClasses = classSet({
+    const listClasses = classNames({
       'List': true,
       'u-isHidden': !this.state.articles.length,
       'u-borderNone u-marginBS List--fullscreen': this.state.fullscreen
     });
-    const listItemClasses = classSet({
+    const listItemClasses = classNames({
       'List-item': true,
       'u-textSizeBaseMobile': this.state.fullscreen
     });
-    const formLegendClasses = classSet({
+    const formLegendClasses = classNames({
       'u-paddingTT u-textSizeNml Arrange Arrange--middle u-textBody': true,
       'u-textSizeBaseMobile': this.state.fullscreen,
       'u-isHidden': !this.state.articles.length
     });
-    const searchTitleClasses = classSet({
+    const searchTitleClasses = classNames({
       'u-textSizeBaseMobile u-marginTM u-textCenter': true,
       'Container--fullscreen-center-vert': true,
       'u-isHidden': !this.state.fullscreen || !this.state.showIntroScreen
     });
-    const linkClasses = classSet({
+    const linkClasses = classNames({
       'u-textSizeBaseMobile u-textCenter u-marginTL': true,
       'u-isHidden': !this.state.showIntroScreen
     });
-    const articleClasses = classSet({
+    const articleClasses = classNames({
       'u-isHidden': !this.state.articleViewActive
     });
-    const formClasses = classSet({
+    const formClasses = classNames({
       'u-isHidden': this.state.articleViewActive
     });
-    const buttonContainerClasses = classSet({
+    const buttonContainerClasses = classNames({
       'u-marginTA': this.state.fullscreen,
       'u-marginVM': this.props.hideZendeskLogo,
       'u-isHidden': this.state.showIntroScreen ||
@@ -402,12 +402,12 @@ export const HelpCenter = React.createClass({
     }
 
     const noResultsTemplate = () => {
-      const noResultsClasses = classSet({
+      const noResultsClasses = classNames({
         'u-marginTM u-textCenter u-textSizeMed': true,
         'u-textSizeBaseMobile': this.state.fullscreen,
         'u-borderBottom List--noResults': !this.state.fullscreen
       });
-      const noResultsParagraphClasses = classSet({
+      const noResultsParagraphClasses = classNames({
         'u-textSecondary': true,
         'u-marginBL': !this.state.fullscreen
       });

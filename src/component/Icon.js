@@ -2,7 +2,7 @@ import React from 'react/addons';
 
 import { isMobileBrowser } from 'utility/devices';
 
-const classSet = React.addons.classSet;
+const classNames = require('classnames');
 
 const icons = {
   'Icon--link': require('icons/widget-icon_link.svg'),
@@ -22,7 +22,7 @@ const icons = {
 export const Icon = React.createClass({
   propTypes: {
     type: React.PropTypes.string,
-    className: React.addons.classSet,
+    className: React.PropTypes.string,
     isMobile: React.PropTypes.bool
   },
 
@@ -36,7 +36,7 @@ export const Icon = React.createClass({
 
   render: function() {
     const icon = icons[this.props.type];
-    const iconClasses = classSet({
+    const iconClasses = classNames({
       [`Icon ${this.props.type} ${this.props.className}`]: true,
       'is-mobile': this.props.isMobile
     });

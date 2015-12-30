@@ -9,7 +9,7 @@ import { i18n }            from 'service/i18n';
 import { Field,
          getCustomFields } from 'component/FormField';
 
-const classSet = React.addons.classSet;
+const classNames = require('classnames');
 
 export const SubmitTicketForm = React.createClass({
   propTypes: {
@@ -153,7 +153,7 @@ export const SubmitTicketForm = React.createClass({
   },
 
   render() {
-    const formClasses = classSet({
+    const formClasses = classNames({
       'Form u-cf': true,
       'u-isHidden': this.props.hide
     });
