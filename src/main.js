@@ -96,8 +96,6 @@ function boot() {
     iframe.setAttribute('style', newStyle);
   }
 
-  React.initializeTouchEvents(true);
-
   logging.init();
 
   cacheBuster.bustCache(__EMBEDDABLE_VERSION__);
