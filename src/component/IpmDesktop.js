@@ -6,6 +6,12 @@ import { ZendeskLogo } from 'component/ZendeskLogo';
 import { Icon } from 'component/Icon';
 
 export const IpmDesktop = React.createClass({
+  propTypes: {
+    ipm: React.PropTypes.object.isRequired,
+    ipmSender: React.PropTypes.func.isRequired,
+    updateFrameSize: React.PropTypes.bool.isRequired
+  },
+
   handleOnClick() {
     if (this.props.ipm.message.buttonUrl) {
       window.open(this.props.ipm.message.buttonUrl, '_blank');
