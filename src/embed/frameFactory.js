@@ -41,6 +41,7 @@ function validateChildFn(childFn, params) {
 }
 
 export const frameFactory = function(childFn, _params) {
+  /* eslint-disable */
   let child;
 
   const defaultParams = {
@@ -62,13 +63,25 @@ export const frameFactory = function(childFn, _params) {
   }
 
   return {
+    propTypes: {
+      fullscreen: React.PropTypes.bool,
+      visible: React.PropTypes.bool,
+      position: React.PropTypes.string,
+      close: React.PropTypes.func,
+      back: React.PropTypes.func
+    },
+
     getDefaultProps() {
       return {
+        fullscreen: false,
         visible: true,
-        position: 'right'
+        position: 'right',
+        close: _.noop,
+        back: _.noop
       };
     },
 
+    /* eslint-disable */
     getInitialState() {
       return {
         visible: this.props.visible,
@@ -424,7 +437,7 @@ export const frameFactory = function(childFn, _params) {
             );
           }
         });
-
+    /* eslint-enable */
         child = React.render(
           <Component
             back={this.back}
@@ -442,6 +455,5 @@ export const frameFactory = function(childFn, _params) {
     componentWillUnmount() {
       React.unmountComponentAtNode(this.getDOMNode().contentDocument.body);
     }
-
   };
 };
