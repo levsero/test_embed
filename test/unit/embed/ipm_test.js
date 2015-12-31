@@ -10,7 +10,7 @@ describe('embed.ipm', () => {
     mockery.enable();
 
     mockRegistry = initMockRegistry({
-      'react/addons': React,
+      'React': React,
       'service/mediator': {
         mediator: {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])

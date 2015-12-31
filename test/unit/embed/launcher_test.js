@@ -11,7 +11,7 @@ describe('embed.launcher', function() {
     });
 
     mockRegistry = initMockRegistry({
-      'react/addons': React,
+      'React': React,
       'utility/globals': {
         document: global.document,
         getDocumentHost: function() {

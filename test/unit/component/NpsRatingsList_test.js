@@ -25,7 +25,7 @@ describe('NpsRatingsList component', () => {
     mockery.enable();
 
     initMockRegistry({
-      'react/addons': React,
+      'React': React,
       'component/Button': {
         'ButtonRating': React.createClass({
           render: () => {

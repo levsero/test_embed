@@ -41,7 +41,7 @@ describe('NpsMobile component', () => {
     mockery.enable();
 
     mockRegistry = initMockRegistry({
-      'react/addons': React,
+      'React': React,
       'component/Container': {
         Container: React.createClass({
           render: function() {

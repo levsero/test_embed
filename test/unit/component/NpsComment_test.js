@@ -24,7 +24,7 @@ describe('NpsComment component', () => {
     mockery.enable();
 
     mockRegistry = initMockRegistry({
-      'react/addons': React,
+      'React': React,
       'component/FormField': {
         'Field': noopReactComponent()
       },

@@ -22,7 +22,7 @@ describe('frameFactory', function() {
     });
 
     mockRegistryMocks = {
-      'react/addons': React,
+      'React': React,
       'utility/utils': {
         clickBusterRegister: noop
       },

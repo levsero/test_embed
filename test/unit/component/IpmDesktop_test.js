@@ -28,7 +28,7 @@ describe('IpmDesktop component', function() {
     mockery.enable();
 
     initMockRegistry({
-      'react/addons': React,
+      'React': React,
       'component/Container': {
         Container: React.createClass({
           render: function() {

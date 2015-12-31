@@ -8,7 +8,7 @@ describe('Nps component', function() {
     mockery.enable();
 
     initMockRegistry({
-      'react/addons': React,
+      'React': React,
       'lodash': _,
       'component/NpsDesktop': {
         NpsDesktop: React.createClass({

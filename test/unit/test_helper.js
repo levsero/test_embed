@@ -1,6 +1,10 @@
 // This file is autoloaded by jasmine
 // because it has 'helper' in its name.
 
+import React from 'react';
+import ReactDOM from 'react-dom';
+import TestUtils from 'react-addons-test-utils';
+
 global.basePath = function(path) {
   return __dirname + '/../../' + path;
 };
@@ -29,8 +33,9 @@ global.document = global.window.document;
 global.navigator = global.window.navigator;
 global.location = global.window.location;
 
-global.React = require('react/addons');
-global.ReactTestUtils = React.addons.TestUtils;
+global.React = React;
+global.ReactDOM = ReactDOM;
+global.ReactTestUtils = TestUtils;
 global.noopReactComponent = function() {
   return React.createClass({
     render: () => <div />

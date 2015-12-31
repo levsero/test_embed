@@ -12,7 +12,7 @@ describe('component/Button', function() {
     });
 
     initMockRegistry({
-      'react/addons': React,
+      'React': React,
       'component/Icon': {
         Icon: noopReactComponent()
       },

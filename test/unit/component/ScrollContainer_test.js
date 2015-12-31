@@ -11,7 +11,7 @@ describe('ScrollContainer component', function() {
     });
 
     initMockRegistry({
-      'react/addons': React
+      'React': React
     });
 
     mockery.registerAllowable(containerPath);

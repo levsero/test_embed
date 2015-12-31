@@ -17,7 +17,7 @@ describe('Icon component', function() {
     });
 
     initMockRegistry({
-      'react/addons': React,
+      'React': React,
       'icons/widget-icon_link.svg': dummyIcon,
       'icons/widget-icon_back.svg': dummyIcon,
       'icons/widget-icon_close.svg': dummyIcon,

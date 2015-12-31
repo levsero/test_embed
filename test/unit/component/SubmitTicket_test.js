@@ -45,7 +45,7 @@ describe('Submit ticket component', function() {
     });
 
     mockRegistry = initMockRegistry({
-      'react/addons': React,
+      'React': React,
       'utility/globals': {
         win: window,
         location: location

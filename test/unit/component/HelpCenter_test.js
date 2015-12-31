@@ -18,7 +18,7 @@ describe('HelpCenter component', function() {
     });
 
     mockRegistry = initMockRegistry({
-      'react/addons': React,
+      'React': React,
       'service/beacon': {
         beacon: jasmine.createSpyObj('beacon', ['track'])
       },
