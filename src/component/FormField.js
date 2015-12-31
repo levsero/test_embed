@@ -482,7 +482,7 @@ const SearchField = React.createClass({
               onClick={this.clearInput}
               onTouch={this.clearInput}
               className={clearInputClasses}
-              type="Icon--close" />
+              type="Icon--clearInput" />
           </div>
         </label>
       </div>

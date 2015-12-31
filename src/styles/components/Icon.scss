@@ -209,12 +209,7 @@
 }
 
 .Icon--clearInput {
-  padding: #{4/$font-size}rem $spacing-tny $spacing-tny;
-  background-color: $icon-inactive-color;
-  border: #{1/$font-size}rem $icon-inactive-color solid;
-  border-radius: $spacing-med;
-
-  svg {
-    fill: $zendesk-color--white;
-  }
+  display: block;
+  padding-left: $spacing-tny;
+  padding-right: 0;
 }
