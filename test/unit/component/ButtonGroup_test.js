@@ -35,34 +35,22 @@ describe('ButtonGroup component', function() {
   });
 
   it('should not have rtl classes when rtl prop is false', function() {
-    const button = React.render(
-      <ButtonGroup />,
-      global.document.body
-    );
-    const buttonElem = ReactTestUtils
-      .findRenderedDOMComponentWithClass(button, 'u-textRight');
-    const buttonGroupClasses = buttonElem.props.className;
-
-    expect(buttonGroupClasses)
+    const buttonGroup = shallowRender(<ButtonGroup />);
+    
+    expect(buttonGroup.props.className)
       .toMatch('u-textRight');
 
-    expect(buttonGroupClasses)
+    expect(buttonGroup.props.className)
       .not.toMatch('u-textLeft');
   });
 
   it('should have rtl classes when rtl prop is true', function() {
-    const button = React.render(
-      <ButtonGroup rtl={true} />,
-      global.document.body
-    );
-    const buttonElem = ReactTestUtils
-      .findRenderedDOMComponentWithClass(button, 'u-textLeft');
-    const buttonGroupClasses = buttonElem.props.className;
+    const buttonGroup = shallowRender(<ButtonGroup rtl={true} />);
 
-    expect(buttonGroupClasses)
+    expect(buttonGroup.props.className)
       .toMatch('u-textLeft');
 
-    expect(buttonGroupClasses)
+    expect(buttonGroup.props.className)
       .not.toMatch('u-textRight');
   });
 

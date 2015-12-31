@@ -71,11 +71,7 @@ describe('FormField component', function() {
 
   describe('Field', function() {
     it('should render form field DOM with a label wrapping two child divs', function() {
-      const field = React.render(
-        <Field name='alice' />,
-        global.document.body
-      );
-      const fieldNode = field.getDOMNode();
+      const field = shallowRender(<Field name='alice' />);
 
       expect(fieldNode.nodeName)
         .toEqual('LABEL');

@@ -48,53 +48,32 @@ describe('Icon component', function() {
   });
 
   it('should insert an SVG icon inside a span, with the right class', function() {
-    const icon = React.render(
-      <Icon type="Icon--zendesk" />,
-      global.document.body
-    );
-    const iconElem = ReactTestUtils
-      .findRenderedDOMComponentWithClass(icon, 'Icon');
-    const iconClasses = iconElem.props.className;
-    const iconOnClick = iconElem.props.onClick;
+    const icon = shallowRender(<Icon type="Icon--zendesk" />);
 
-    expect(iconClasses)
+    expect(icon.props.className)
       .toMatch('Icon Icon--zendesk');
 
-    expect(iconOnClick)
+    expect(icon.props.onClick)
       .toMatch('');
   });
 
-  it('should include the onClick when passed, and be called when clicked', function() {
-    const icon = React.render(
-       <Icon type="Icon--search" onClick={onClick} />,
-       global.document.body
-    );
-    const iconElem = ReactTestUtils
-      .findRenderedDOMComponentWithClass(icon, 'Icon');
-    const iconClasses = iconElem.props.className;
-
-    expect(iconClasses)
+  it('should include the onClick when passed', function() {
+    const icon = shallowRender(<Icon type="Icon--search" />);
+        
+    expect(icon.props.className)
       .toMatch('Icon Icon--search');
 
-    ReactTestUtils.Simulate.click(iconElem);
-
-    expect(onClick)
-      .toHaveBeenCalled();
+    expect(icon.props.onClick)
+      .toMatch('');
   });
 
   it('should not have mobile classes when isMobileBrowser is false', function() {
-    const icon = React.render(
-      <Icon type="Icon--zendesk" />,
-      global.document.body
-    );
-    const iconElem = ReactTestUtils
-      .findRenderedDOMComponentWithClass(icon, 'Icon');
-    const iconClasses = iconElem.props.className;
+    const icon = shallowRender(<Icon type="Icon--zendesk" />);
 
-    expect(iconClasses)
+    expect(icon.props.className)
       .toMatch('Icon Icon--zendesk');
 
-    expect(iconClasses)
+    expect(icon.props.className)
       .not.toMatch('is-mobile');
   });
 
@@ -107,18 +86,12 @@ describe('Icon component', function() {
     });
     Icon = require(iconPath).Icon;
 
-    const icon = React.render(
-      <Icon type="Icon--zendesk" />,
-      global.document.body
-    );
-    const iconElem = ReactTestUtils
-      .findRenderedDOMComponentWithClass(icon, 'Icon');
-    const iconClasses = iconElem.props.className;
+    const icon = shallowRender(<Icon type="Icon--zendesk" />);
 
-    expect(iconClasses)
+    expect(icon.props.className)
       .toMatch('Icon Icon--zendesk');
 
-    expect(iconClasses)
+    expect(icon.props.className)
       .toMatch('is-mobile');
   });
 

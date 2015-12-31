@@ -40,27 +40,17 @@ describe('ButtonPill component', function() {
 
   describe('ButtonPill', function() {
     it('should not have is-mobile class when fullscreen is false', function() {
-      const button = React.render(
-        <ButtonPill fullscreen={false} />,
-        global.document.body
-      );
-      const buttonElem = ReactTestUtils
-        .findRenderedDOMComponentWithClass(button, 'c-btn--pill');
-      const buttonClasses = buttonElem.props.className;
+      const button = shallowRender(<ButtonPill />);
 
-      expect(buttonClasses).not.toMatch('is-mobile');
+      expect(button.props.className)
+        .not.toMatch('is-mobile');
     });
 
     it('should have is-mobile class when fullscreen is true', function() {
-      const button = React.render(
-        <ButtonPill fullscreen={true} />,
-        global.document.body
-      );
-      const buttonElem = ReactTestUtils
-        .findRenderedDOMComponentWithClass(button, 'c-btn--pill');
-      const buttonClasses = buttonElem.props.className;
+      const button = shallowRender(<ButtonPill fullscreen={true} />);
 
-      expect(buttonClasses).toMatch('is-mobile');
+      expect(button.props.className)
+        .toMatch('is-mobile');
     });
   });
 

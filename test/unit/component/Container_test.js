@@ -25,40 +25,22 @@ describe('Container component', function() {
   });
 
   it('should have the `fullscreen` classnames when fullscreen is true', function() {
+    const container = shallowRender(<Container fullscreen={true} />);
 
-    const container = React.render(
-      <Container fullscreen={true} />,
-      global.document.body
-    );
-    const containerNode = ReactTestUtils
-      .findRenderedDOMComponentWithClass(container, 'Container');
-
-    const containerClasses = containerNode.props.className;
-
-    expect(containerClasses)
+    expect(container.props.className)
       .toMatch('Container--fullscreen');
 
-    expect(containerClasses)
+    expect(container.props.className)
       .not.toMatch('Container--popover');
   });
 
   it('should have the `popover` classnames when fullscreen is false', function() {
+    const container = shallowRender(<Container />);
 
-    const container = React.render(
-      <Container />,
-      global.document.body
-    );
-    const containerNode = ReactTestUtils
-      .findRenderedDOMComponentWithClass(container, 'Container');
-
-    container.setState({ fullscreen: false });
-
-    const containerClasses = containerNode.props.className;
-
-    expect(containerClasses)
+    expect(container.props.className)
       .toMatch('Container--popover');
 
-    expect(containerClasses)
+    expect(container.props.className)
       .not.toMatch('Container--fullscreen');
   });
 
