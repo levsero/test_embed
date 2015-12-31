@@ -30,6 +30,7 @@ describe('Icon component', function() {
       'icons/widget-icon_checkboxCheck.svg': dummyIcon,
       'icons/widget-icon_caret.svg': dummyIcon,
       'icons/widget-icon_avatar.svg': dummyIcon,
+      'icons/widget-icon_clearInput.svg': dummyIcon,
       'utility/devices': {
         isMobileBrowser: function() {
           return false;
