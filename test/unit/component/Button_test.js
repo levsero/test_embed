@@ -38,92 +38,52 @@ describe('component/Button', function() {
 
   describe('Button', function() {
     it('should not have fullscreen classes when fullscreen prop is false', function() {
-      const button = React.render(
-        <Button />,
-        global.document.body
-      );
-      const buttonElem = ReactTestUtils
-        .findRenderedDOMComponentWithClass(button, 'c-btn');
-      const buttonClasses = buttonElem.props.className;
+      const button = shallowRender(<Button />);
 
-      expect(buttonClasses)
+      expect(button.props.className)
         .not.toMatch('u-sizeFull');
     });
 
     it('should have fullscreen classes when fullscreen prop is true', function() {
-      const button = React.render(
-        <Button fullscreen={true} />,
-        global.document.body
-      );
-      const buttonElem = ReactTestUtils
-        .findRenderedDOMComponentWithClass(button, 'c-btn');
-      const buttonClasses = buttonElem.props.className;
+      const button = shallowRender(<Button fullscreen={true} />);
 
-      expect(buttonClasses)
+      expect(button.props.className)
         .toMatch('u-sizeFull');
     });
 
     it('should apply className prop to the underlying element', function() {
-      const button = React.render(
-        <Button className='testClass classTest' />,
-        global.document.body
-      );
+      const button = shallowRender(<Button className='testClass classTest' />);
 
-      const buttonElem = ReactTestUtils
-        .findRenderedDOMComponentWithClass(button, 'c-btn');
-      const buttonClasses = buttonElem.props.className;
-
-      expect(buttonClasses)
+      expect(button.props.className)
         .toMatch('testClass');
 
-      expect(buttonClasses)
+      expect(button.props.className)
         .toMatch('classTest');
     });
 
     it('should apply style prop to the underlying element', function() {
-      const button = React.render(
-        <Button style={{ testStyle: 'success' }} />,
-        global.document.body
-      );
-
-      const buttonElem = ReactTestUtils
-        .findRenderedDOMComponentWithClass(button, 'c-btn');
-      const buttonStyle = buttonElem.props.style;
-
-      expect(buttonStyle.testStyle)
+      const button = shallowRender(<Button style={{ testStyle: 'success' }} />);
+     
+      expect(button.props.style.testStyle)
         .toEqual('success');
     });
   });
 
   describe('ButtonSecondary', function() {
     it('should apply className prop to the underlying element', function() {
-      const button = React.render(
-        <ButtonSecondary className='testClass classTest' />,
-        global.document.body
-      );
+      const button = shallowRender(<ButtonSecondary className='testClass classTest' />);
 
-      const buttonElem = ReactTestUtils
-        .findRenderedDOMComponentWithClass(button, 'c-btn');
-      const buttonClasses = buttonElem.props.className;
-
-      expect(buttonClasses)
+      expect(button.props.className)
         .toMatch('testClass');
 
-      expect(buttonClasses)
+      expect(button.props.className)
         .toMatch('classTest');
     });
 
     it('should apply style prop to the underlying element', function() {
-      const button = React.render(
-        <ButtonSecondary style={{ testStyle: 'success' }} />,
-        global.document.body
-      );
-
-      const buttonElem = ReactTestUtils
-        .findRenderedDOMComponentWithClass(button, 'c-btn');
-      const buttonStyle = buttonElem.props.style;
-
-      expect(buttonStyle.testStyle)
+      const button = shallowRender(<ButtonSecondary style={{ testStyle: 'success' }} />);
+     
+      expect(button.props.style.testStyle)
         .toEqual('success');
     });
 
