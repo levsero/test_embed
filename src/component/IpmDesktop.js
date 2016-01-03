@@ -9,7 +9,7 @@ export const IpmDesktop = React.createClass({
   propTypes: {
     ipm: React.PropTypes.object.isRequired,
     ipmSender: React.PropTypes.func.isRequired,
-    updateFrameSize: React.PropTypes.bool.isRequired
+    updateFrameSize: React.PropTypes.func.isRequired
   },
 
   handleOnClick() {
