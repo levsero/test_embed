@@ -480,7 +480,8 @@ export const HelpCenter = React.createClass({
                                   ? <SearchFieldButton
                                       ref='searchFieldButton'
                                       onClick={this.searchBoxClickHandler}
-                                      onTouch={this.searchBoxClickHandler} />
+                                      onTouch={this.searchBoxClickHandler}
+                                      searchTerm={this.state.searchFieldValue} />
                                   : null;
 
     const headerContent = (!this.state.articleViewActive

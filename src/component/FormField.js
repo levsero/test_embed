@@ -299,14 +299,14 @@ const SearchFieldButton = React.createClass({
   propTypes: {
     onClick: React.PropTypes.func,
     onTouch: React.PropTypes.func,
-    searchText: React.PropTypes.string
+    searchTerm: React.PropTypes.string
   },
 
   getDefaultProps() {
     return {
       onClick: () => {},
       onTouch: () => {},
-      searchText: ''
+      searchTerm: ''
     };
   },
 
@@ -320,7 +320,7 @@ const SearchFieldButton = React.createClass({
           <Icon
             className='Arrange-sizeFit u-isActionable'
             type='Icon--search' />
-          {this.props.searchText}
+          <span className='Arrange-sizeFit u-textSizeBaseMobile u-hsizeAll u-textBody'>{this.props.searchTerm}</span>
         </div>
       </div>
     );
