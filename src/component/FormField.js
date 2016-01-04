@@ -298,13 +298,15 @@ const SelectField = React.createClass({
 const SearchFieldButton = React.createClass({
   propTypes: {
     onClick: React.PropTypes.func,
-    onTouch: React.PropTypes.func
+    onTouch: React.PropTypes.func,
+    searchText: React.PropTypes.string,
   },
 
   getDefaultProps() {
     return {
       onClick: () => {},
-      onTouch: () => {}
+      onTouch: () => {},
+      searchText: ''
     };
   },
 
@@ -318,6 +320,7 @@ const SearchFieldButton = React.createClass({
           <Icon
             className='Arrange-sizeFit u-isActionable'
             type='Icon--search' />
+          {this.props.searchText}
         </div>
       </div>
     );
