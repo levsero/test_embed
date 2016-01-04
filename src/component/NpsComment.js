@@ -13,7 +13,7 @@ export const NpsComment = React.createClass({
   propTypes: {
     comment: React.PropTypes.string.isRequired,
     isMobile: React.PropTypes.bool.isRequired,
-    className: React.PropTypes.string,
+    className: React.addons.classSet,
     feedbackPlaceholder: React.PropTypes.string,
     hasError: React.PropTypes.bool,
     isSubmittingComment: React.PropTypes.bool,
