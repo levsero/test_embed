@@ -299,7 +299,7 @@ const SearchFieldButton = React.createClass({
   propTypes: {
     onClick: React.PropTypes.func,
     onTouch: React.PropTypes.func,
-    searchText: React.PropTypes.string,
+    searchText: React.PropTypes.string
   },
 
   getDefaultProps() {
