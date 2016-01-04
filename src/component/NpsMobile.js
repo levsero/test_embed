@@ -37,9 +37,9 @@ export const NpsMobile = React.createClass({
     return {
       isSubmittingComment: false,
       isSubmittingRating: false,
-      onCommentChangeHandler: _.noop,
-      submitCommentHandler: _.noop,
-      submitRatingHandler: _.noop
+      onCommentChangeHandler: () => {},
+      submitCommentHandler: () => {},
+      submitRatingHandler: () => {}
     };
   },
 

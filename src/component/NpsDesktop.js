@@ -30,9 +30,9 @@ export const NpsDesktop = React.createClass({
       isMobile: false,
       isSubmittingComment: false,
       isSubmittingRating: false,
-      onCommentChangeHandler: _.noop,
-      submitCommentHandler: _.noop,
-      submitRatingHandler: _.noop
+      onCommentChangeHandler: () => {},
+      submitCommentHandler: () => {},
+      submitRatingHandler: () => {}
     };
   },
 

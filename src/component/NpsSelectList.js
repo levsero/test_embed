@@ -1,7 +1,6 @@
 import React from 'react/addons';
 
 import { Icon } from 'component/Icon';
-import { noop } from 'lodash';
 
 export const NpsSelectList = React.createClass({
   propTypes: {
@@ -21,9 +20,9 @@ export const NpsSelectList = React.createClass({
       wrapperClassNames: '',
       selectClassNames: '',
       iconClassNames: '',
-      onBlur: noop,
-      onChange: noop,
-      onFocus: noop
+      onBlur: () => {},
+      onChange: () => {},
+      onFocus: () => {}
     };
   },
 

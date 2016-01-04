@@ -5,7 +5,6 @@ import { Button,
          ButtonSecondary } from 'component/Button';
 import { LoadingSpinner } from 'component/Loading';
 import { i18n } from 'service/i18n';
-import { noop } from 'lodash';
 
 const classSet = React.addons.classSet;
 
@@ -30,8 +29,8 @@ export const NpsComment = React.createClass({
       hasError: false,
       isSubmittingComment: false,
       isSubmittingRating: false,
-      onChange: noop,
-      onSubmit: noop
+      onChange: () => {},
+      onSubmit: () => {}
     };
   },
 

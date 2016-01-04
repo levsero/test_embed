@@ -1,5 +1,4 @@
 import React from 'react/addons';
-import { noop } from 'lodash';
 
 export const NpsCommentButton = React.createClass({
   propTypes: {
@@ -10,7 +9,7 @@ export const NpsCommentButton = React.createClass({
 
   getDefaultProps: function() {
     return {
-      onClick: noop,
+      onClick: () => {},
       placeholder: ''
     };
   },

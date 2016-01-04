@@ -32,7 +32,7 @@ export const NpsRatingsList = React.createClass({
       highlightColor: '#77a500',
       isSubmittingComment: false,
       isSubmittingRating: false,
-      onChangeValue: _.noop,
+      onChangeValue: () => {},
       ratingsRange: _.range(11)
     };
   },
