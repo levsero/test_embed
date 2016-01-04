@@ -388,11 +388,14 @@ export const HelpCenter = React.createClass({
       this.setState({ searchFieldFocused: true });
     };
     const onBlurHandler = () => {
-      if (this.state.fullscreen && !this.state.hasSearched) {
-        this.setState({
-          showIntroScreen: true
-        });
-      }
+      _.defer(function(self) {
+        // defer this to allow onClick events to fire before the blur takes place
+        if (self.state.fullscreen && !self.state.hasSearched && !self.state.isLoading) {
+          self.setState({
+            showIntroScreen: true
+          });
+        }
+      }, this);
     };
     const onChangeValueHandler = (value) => {
       this.setState({ searchFieldValue: value });
