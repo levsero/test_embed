@@ -212,4 +212,11 @@
   display: block;
   padding-left: $spacing-tny;
   padding-right: 0;
+
+  svg {
+    min-width: #{16/$font-size}rem;
+    min-height: #{16/$font-size}rem;
+    width: #{16/$font-size}rem;
+    height: #{16/$font-size}rem;
+  }
 }
