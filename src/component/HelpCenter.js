@@ -388,8 +388,8 @@ export const HelpCenter = React.createClass({
       this.setState({ searchFieldFocused: true });
     };
     const onBlurHandler = () => {
+      // defer event to allow onClick events to fire first
       _.defer(function(self) {
-        // defer this to allow onClick events to fire before the blur takes place
         if (self.state.fullscreen && !self.state.hasSearched && !self.state.isLoading) {
           self.setState({
             showIntroScreen: true
