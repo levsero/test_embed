@@ -1,6 +1,19 @@
 import React from 'react/addons';
+import { noop } from 'lodash';
 
 export const NpsCommentButton = React.createClass({
+  propTypes: {
+    label: React.PropTypes.string.isRequired,
+    onClick: React.PropTypes.func,
+    placeholder: React.PropTypes.string
+  },
+
+  getDefaultProps: function() {
+    return {
+      onClick: noop,
+      placeholder: ''
+    };
+  },
 
   render() {
     const classes = `

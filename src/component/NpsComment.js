@@ -5,13 +5,33 @@ import { Button,
          ButtonSecondary } from 'component/Button';
 import { LoadingSpinner } from 'component/Loading';
 import { i18n } from 'service/i18n';
+import { noop } from 'lodash';
 
 const classSet = React.addons.classSet;
 
 export const NpsComment = React.createClass({
-  getDefaultProps() {
+  propTypes: {
+    className: React.PropTypes.string,
+    comment: React.PropTypes.string.isRequired,
+    feedbackPlaceholder: React.PropTypes.string,
+    hasError: React.PropTypes.bool,
+    isMobile: React.PropTypes.bool.isRequired,
+    isSubmittingComment: React.PropTypes.bool,
+    isSubmittingRating: React.PropTypes.bool,
+    label: React.PropTypes.string,
+    onChange: React.PropTypes.func,
+    onSubmit: React.PropTypes.func
+  },
+
+  getDefaultProps: function() {
     return {
-      className: ''
+      className: '',
+      feedbackPlaceholder: '',
+      hasError: false,
+      isSubmittingComment: false,
+      isSubmittingRating: false,
+      onChange: noop,
+      onSubmit: noop
     };
   },
 

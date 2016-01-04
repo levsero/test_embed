@@ -1,8 +1,18 @@
 import React from 'react/addons';
 
 import { Icon } from 'component/Icon';
+import { noop } from 'lodash';
 
 export const NpsSelectList = React.createClass({
+  propTypes: {
+    highlightColor: React.PropTypes.string,
+    onBlur: React.PropTypes.func,
+    onChange: React.PropTypes.func,
+    onFocus: React.PropTypes.func,
+    options: React.PropTypes.array,
+    selectedItem: React.PropTypes.number
+  },
+
   getDefaultProps() {
     return {
       options: [],
@@ -11,9 +21,9 @@ export const NpsSelectList = React.createClass({
       wrapperClassNames: '',
       selectClassNames: '',
       iconClassNames: '',
-      onChange: () => {},
-      onFocus: () => {},
-      onBlur: () => {}
+      onBlur: noop,
+      onChange: noop,
+      onFocus: noop
     };
   },
 

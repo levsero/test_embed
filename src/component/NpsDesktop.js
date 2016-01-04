@@ -10,9 +10,29 @@ import { NpsComment } from 'component/NpsComment';
 const classSet = React.addons.classSet;
 
 export const NpsDesktop = React.createClass({
-  getDefaultProps() {
+  propTypes: {
+    hideZendeskLogo: React.PropTypes.bool,
+    isMobile: React.PropTypes.bool,
+    isSubmittingComment: React.PropTypes.bool,
+    isSubmittingRating: React.PropTypes.bool,
+    onCommentChangeHandler: React.PropTypes.func,
+    updateFrameSize: React.PropTypes.func.isRequired,
+    response: React.PropTypes.object.isRequired,
+    setOffsetHorizontal: React.PropTypes.func.isRequired,
+    submitCommentHandler: React.PropTypes.func,
+    submitRatingHandler: React.PropTypes.func,
+    survey: React.PropTypes.object.isRequired
+  },
+
+  getDefaultProps: function() {
     return {
-      isMobile: false
+      hideZendeskLogo: false,
+      isMobile: false,
+      isSubmittingComment: false,
+      isSubmittingRating: false,
+      onCommentChangeHandler: _.noop,
+      submitCommentHandler: _.noop,
+      submitRatingHandler: _.noop
     };
   },
 
