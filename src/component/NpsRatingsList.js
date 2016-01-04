@@ -13,16 +13,16 @@ const prependWith = _.curry((prepend, str) => {
 
 export const NpsRatingsList = React.createClass({
   propTypes: {
+    likelyLabel: React.PropTypes.string.isRequired,
+    notLikelyLabel: React.PropTypes.string.isRequired,
+    selectedRating: React.PropTypes.number.isRequired,
     className: React.addons.classSet,
     hideRatingsLegend: React.PropTypes.bool,
     highlightColor: React.PropTypes.string,
     isSubmittingComment: React.PropTypes.bool,
     isSubmittingRating: React.PropTypes.bool,
-    likelyLabel: React.PropTypes.string.isRequired,
-    notLikelyLabel: React.PropTypes.string.isRequired,
     onChangeValue: React.PropTypes.func,
-    ratingsRange: React.PropTypes.array,
-    selectedRating: React.PropTypes.number.isRequired
+    ratingsRange: React.PropTypes.array
   },
 
   getDefaultProps: function() {

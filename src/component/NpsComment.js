@@ -11,11 +11,11 @@ const classSet = React.addons.classSet;
 
 export const NpsComment = React.createClass({
   propTypes: {
-    className: React.PropTypes.string,
     comment: React.PropTypes.string.isRequired,
+    isMobile: React.PropTypes.bool.isRequired,
+    className: React.PropTypes.string,
     feedbackPlaceholder: React.PropTypes.string,
     hasError: React.PropTypes.bool,
-    isMobile: React.PropTypes.bool.isRequired,
     isSubmittingComment: React.PropTypes.bool,
     isSubmittingRating: React.PropTypes.bool,
     label: React.PropTypes.string,

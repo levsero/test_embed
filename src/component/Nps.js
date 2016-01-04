@@ -6,11 +6,11 @@ import { NpsMobile } from 'component/NpsMobile';
 
 export const Nps = React.createClass({
   propTypes: {
-    updateFrameSize: React.PropTypes.func,
     npsSender: React.PropTypes.func.isRequired,
     mobile: React.PropTypes.bool.isRequired,
     setFrameSize: React.PropTypes.func.isRequired,
-    setOffsetHorizontal: React.PropTypes.func.isRequired
+    setOffsetHorizontal: React.PropTypes.func.isRequired,
+    updateFrameSize: React.PropTypes.func
   },
 
   getInitialState() {

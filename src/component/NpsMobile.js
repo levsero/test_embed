@@ -21,16 +21,16 @@ const classSet = React.addons.classSet;
 
 export const NpsMobile = React.createClass({
   propTypes: {
-    isSubmittingComment: React.PropTypes.bool,
-    isSubmittingRating: React.PropTypes.bool,
     npsSender: React.PropTypes.func.isRequired,
-    onCommentChangeHandler: React.PropTypes.func,
     response: React.PropTypes.object.isRequired,
     setFrameSize: React.PropTypes.func.isRequired,
-    submitCommentHandler: React.PropTypes.func,
-    submitRatingHandler: React.PropTypes.func,
     survey: React.PropTypes.object.isRequired,
-    updateRating: React.PropTypes.func.isRequired
+    updateRating: React.PropTypes.func.isRequired,
+    isSubmittingComment: React.PropTypes.bool,
+    isSubmittingRating: React.PropTypes.bool,
+    onCommentChangeHandler: React.PropTypes.func,
+    submitCommentHandler: React.PropTypes.func,
+    submitRatingHandler: React.PropTypes.func
   },
 
   getDefaultProps: function() {
