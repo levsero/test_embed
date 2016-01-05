@@ -363,11 +363,7 @@ const SearchField = React.createClass({
 
   componentDidMount() {
     _.defer(() => {
-      if (this.state.searchInputVal) {
-        this.setState({
-          isClearable: true
-        });
-      }
+      this.resetClearable();
     });
   },
 
@@ -417,6 +413,14 @@ const SearchField = React.createClass({
 
     if (this.props.onChangeValue) {
       this.props.onChangeValue('');
+    }
+  },
+
+  resetClearable() {
+    if (this.state.searchInputVal) {
+      this.setState({
+        isClearable: true
+      });
     }
   },
 
