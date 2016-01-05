@@ -361,6 +361,16 @@ const SearchField = React.createClass({
     };
   },
 
+  componentDidMount() {
+    _.defer(() => {
+      if (this.state.searchInputVal) {
+        this.setState({
+          isClearable: true
+        });
+      }
+    });
+  },
+
   onFocus(e) {
     this.setState({
       focused: true
@@ -485,7 +495,7 @@ const SearchField = React.createClass({
               onClick={this.clearInput}
               onTouch={this.clearInput}
               className={clearInputClasses}
-              type="Icon--clearInput" />
+              type='Icon--clearInput' />
           </div>
         </label>
       </div>
