@@ -32,8 +32,8 @@ export const SubmitTicket = React.createClass({
       customFields: [],
       style: null,
       position: 'right',
-      onSubmitted: _.noop,
-      onCancel: _.noop
+      onSubmitted: () => {},
+      onCancel: () => {}
     };
   },
 

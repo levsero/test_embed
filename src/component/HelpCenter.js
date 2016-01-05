@@ -32,9 +32,9 @@ export const HelpCenter = React.createClass({
   getDefaultProps() {
     return {
       buttonLabelKey: 'message',
-      onSearch: _.noop,
-      showBackButton: _.noop,
-      onNextClick: _.noop,
+      onSearch: () => {},
+      showBackButton: () => {},
+      onNextClick: () => {},
       hideZendeskLogo: false,
       updateFrameSize: false,
       style: null,
