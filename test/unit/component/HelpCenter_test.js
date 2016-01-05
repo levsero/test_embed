@@ -116,7 +116,7 @@ describe('HelpCenter component', function() {
         store: jasmine.createSpyObj('store', ['set', 'get'])
       },
       'utility/devices': {
-        getSizingRatio: function() {
+        getZoomSizingRatio: function() {
           return 1;
         },
         isMobileBrowser: function() {

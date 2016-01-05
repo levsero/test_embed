@@ -30,7 +30,7 @@ describe('frameFactory', function() {
         win: window
       },
       'utility/devices': {
-        getSizingRatio: function() {
+        getZoomSizingRatio: function() {
           return 1;
         },
         isMobileBrowser: function() {

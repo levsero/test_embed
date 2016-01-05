@@ -8,7 +8,7 @@ import { Icon } from 'component/Icon';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { NpsSelectList } from 'component/NpsSelectList';
 import { NpsRatingsList } from 'component/NpsRatingsList';
-import { getSizingRatio,
+import { getZoomSizingRatio,
          isIos } from 'utility/devices';
 import { win } from 'utility/globals';
 import { setScrollKiller,
@@ -112,7 +112,7 @@ export const NpsMobile = React.createClass({
   },
 
   calcHeightPercentage() {
-    const ratio = getSizingRatio();
+    const ratio = getZoomSizingRatio();
     const heightThreshold = 450;
     const heightRatio = win.innerHeight / ratio;
 

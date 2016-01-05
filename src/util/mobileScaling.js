@@ -4,7 +4,9 @@ import { win,
          document as doc } from 'utility/globals';
 import { renderer }        from 'service/renderer';
 import { getDeviceZoom,
-         getSizingRatio }  from 'utility/devices';
+         getZoomSizingRatio,
+         isPortait,
+         isLandscape }      from 'utility/devices';
 import { mediator }        from 'service/mediator';
 import { setScrollKiller } from 'utility/scrollHacks';
 
@@ -12,7 +14,7 @@ let lastTouchEnd = 0;
 
 const propagateFontRatioChange = (isPinching) => {
   setTimeout(() => {
-    const hideWidget = getDeviceZoom() > 2  || (Math.abs(win.orientation) === 90);
+    const hideWidget = getDeviceZoom() > 2  || isLandscape();
 
     if (hideWidget) {
       setScrollKiller(false);
@@ -20,7 +22,9 @@ const propagateFontRatioChange = (isPinching) => {
 
     renderer.hideByZoom(hideWidget);
 
-    mediator.channel.broadcast('.updateZoom', getSizingRatio(isPinching));
+    if (isPortait()) {
+      mediator.channel.broadcast('.updateZoom', getZoomSizingRatio())
+    }
   }, 0);
 };
 const zoomMonitor = (() => {
@@ -98,9 +102,7 @@ function initMobileScaling() {
   }, true);
 
   win.addEventListener('orientationchange', () => {
-    const portrait = Math.abs(win.orientation) !== 90;
-
-    if (portrait) {
+    if (isPortait()) {
       setTimeout(() => {
         propagateFontRatioChange();
       }, 1000);

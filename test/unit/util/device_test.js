@@ -1,6 +1,8 @@
 /* eslint max-len:0 */
 describe('devices', function() {
-  let isBlacklisted;
+  let isBlacklisted,
+      isPortait,
+      isLandscape;
   const mockGlobals = {
     win: {
       XMLHttpRequest: function() {
@@ -22,6 +24,8 @@ describe('devices', function() {
 
     mockery.registerAllowable(devicesPath);
     isBlacklisted = requireUncached(devicesPath).isBlacklisted;
+    isPortait = requireUncached(devicesPath).isPortait;
+    isLandscape = requireUncached(devicesPath).isLandscape;
   });
 
   afterEach(function() {
@@ -83,5 +87,25 @@ describe('devices', function() {
         .toBe(true);
     });
 
+  });
+
+  describe('orientation', function() {
+    const win = mockGlobals.win;
+
+    describe('isPortrait', function() {
+      it('should return true if win.orientation is not 90 degrees', function() {
+        win.orientation = 0;
+        expect(isPortait())
+          .toBe(true);
+      });
+    });
+
+    describe('isLandscape', function() {
+      it('should return true if win.orientation is 90 degrees', function() {
+        win.orientation = 90;
+        expect(isLandscape())
+          .toBe(true);
+      });
+    });
   });
 });

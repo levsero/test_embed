@@ -107,7 +107,7 @@ describe('NpsMobile component', () => {
         })
       },
       'utility/devices': {
-        'getSizingRatio': () => 1,
+        'getZoomSizingRatio': () => 1,
         'isIos': () => true
       },
       'utility/globals': {
