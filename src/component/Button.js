@@ -1,5 +1,4 @@
 import React from 'react/addons';
-import { noop } from 'lodash';
 
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
@@ -22,7 +21,7 @@ const Button = React.createClass({
     return {
       fullscreen: false,
       disabled: false,
-      onClick: noop,
+      onClick: () => {},
       type: 'submit',
       className: '',
       style: null
@@ -68,7 +67,7 @@ const ButtonNav = React.createClass({
       rtl: false,
       fullscreen: false,
       position: 'left',
-      onClick: noop
+      onClick: () => {}
     };
   },
 
@@ -146,7 +145,7 @@ const ButtonSecondary = React.createClass({
       disabled: false,
       className: '',
       style: null,
-      onClick: noop
+      onClick: () => {}
     };
   },
 
@@ -229,7 +228,7 @@ const ButtonRating = React.createClass({
       label: null,
       loadingSpinnerClassName: '',
       disabled: false,
-      onClick: noop
+      onClick: () => {}
     };
   },
 

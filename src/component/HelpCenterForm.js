@@ -1,5 +1,4 @@
 import React from 'react/addons';
-import { noop } from 'lodash';
 
 const HelpCenterForm = React.createClass({
   propTypes: {
@@ -12,8 +11,8 @@ const HelpCenterForm = React.createClass({
   getDefaultProps() {
     return {
       fullscreen: false,
-      onSubmit: noop,
-      onChange: noop
+      onSubmit: () => {},
+      onChange: () => {}
     };
   },
 

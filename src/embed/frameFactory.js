@@ -76,8 +76,8 @@ export const frameFactory = function(childFn, _params) {
         fullscreen: false,
         visible: true,
         position: 'right',
-        close: _.noop,
-        back: _.noop
+        close: () => {},
+        back:() => {}
       };
     },
 

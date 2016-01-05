@@ -27,7 +27,7 @@ export const SubmitTicketForm = React.createClass({
       hide: false,
       customFields: [],
       fullscreen: false,
-      onCancel: _.noop
+      onCancel: () => {}
     };
   },
 
