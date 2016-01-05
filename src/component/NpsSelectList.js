@@ -3,6 +3,15 @@ import React from 'react/addons';
 import { Icon } from 'component/Icon';
 
 export const NpsSelectList = React.createClass({
+  propTypes: {
+    highlightColor: React.PropTypes.string,
+    onBlur: React.PropTypes.func,
+    onChange: React.PropTypes.func,
+    onFocus: React.PropTypes.func,
+    options: React.PropTypes.array,
+    selectedItem: React.PropTypes.number
+  },
+
   getDefaultProps() {
     return {
       options: [],
@@ -11,9 +20,9 @@ export const NpsSelectList = React.createClass({
       wrapperClassNames: '',
       selectClassNames: '',
       iconClassNames: '',
+      onBlur: () => {},
       onChange: () => {},
-      onFocus: () => {},
-      onBlur: () => {}
+      onFocus: () => {}
     };
   },
 

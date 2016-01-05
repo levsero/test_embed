@@ -9,9 +9,28 @@ import { i18n } from 'service/i18n';
 const classSet = React.addons.classSet;
 
 export const NpsComment = React.createClass({
-  getDefaultProps() {
+  propTypes: {
+    comment: React.PropTypes.string.isRequired,
+    isMobile: React.PropTypes.bool.isRequired,
+    className: React.addons.classSet,
+    feedbackPlaceholder: React.PropTypes.string,
+    hasError: React.PropTypes.bool,
+    isSubmittingComment: React.PropTypes.bool,
+    isSubmittingRating: React.PropTypes.bool,
+    label: React.PropTypes.string,
+    onChange: React.PropTypes.func,
+    onSubmit: React.PropTypes.func
+  },
+
+  getDefaultProps: function() {
     return {
-      className: ''
+      className: '',
+      feedbackPlaceholder: '',
+      hasError: false,
+      isSubmittingComment: false,
+      isSubmittingRating: false,
+      onChange: () => {},
+      onSubmit: () => {}
     };
   },
 

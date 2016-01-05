@@ -1,6 +1,18 @@
 import React from 'react/addons';
 
 export const NpsCommentButton = React.createClass({
+  propTypes: {
+    label: React.PropTypes.string.isRequired,
+    onClick: React.PropTypes.func,
+    placeholder: React.PropTypes.string
+  },
+
+  getDefaultProps: function() {
+    return {
+      onClick: () => {},
+      placeholder: ''
+    };
+  },
 
   render() {
     const classes = `

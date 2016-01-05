@@ -12,9 +12,28 @@ const prependWith = _.curry((prepend, str) => {
 });
 
 export const NpsRatingsList = React.createClass({
-  getDefaultProps() {
+  propTypes: {
+    likelyLabel: React.PropTypes.string.isRequired,
+    notLikelyLabel: React.PropTypes.string.isRequired,
+    selectedRating: React.PropTypes.number.isRequired,
+    className: React.addons.classSet,
+    hideRatingsLegend: React.PropTypes.bool,
+    highlightColor: React.PropTypes.string,
+    isSubmittingComment: React.PropTypes.bool,
+    isSubmittingRating: React.PropTypes.bool,
+    onChangeValue: React.PropTypes.func,
+    ratingsRange: React.PropTypes.array
+  },
+
+  getDefaultProps: function() {
     return {
-      className: ''
+      className: '',
+      hideRatingsLegend: false,
+      highlightColor: '#77a500',
+      isSubmittingComment: false,
+      isSubmittingRating: false,
+      onChangeValue: () => {},
+      ratingsRange: _.range(11)
     };
   },
 
