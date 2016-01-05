@@ -81,7 +81,6 @@ export const frameFactory = function(childFn, _params) {
       };
     },
 
-    /* eslint-disable */
     getInitialState() {
       return {
         visible: this.props.visible,
