@@ -1,7 +1,6 @@
 /* eslint max-len:0 */
 describe('devices', function() {
   let isBlacklisted;
-  let isPortait;
   let isLandscape;
   let getDeviceZoom;
   let getZoomSizingRatio;
@@ -32,7 +31,6 @@ describe('devices', function() {
 
     mockery.registerAllowable(devicesPath);
     isBlacklisted = requireUncached(devicesPath).isBlacklisted;
-    isPortait = requireUncached(devicesPath).isPortait;
     isLandscape = requireUncached(devicesPath).isLandscape;
     getDeviceZoom = requireUncached(devicesPath).getDeviceZoom;
     getZoomSizingRatio = requireUncached(devicesPath).getZoomSizingRatio;
@@ -99,23 +97,19 @@ describe('devices', function() {
 
   });
 
-  describe('orientation', function() {
+  describe('isLandscape', function() {
     const win = mockGlobals.win;
 
-    describe('isPortrait', function() {
-      it('should return true if win.orientation is not 90 degrees', function() {
-        win.orientation = 0;
-        expect(isPortait())
-          .toBe(true);
-      });
+    it('should return true if win.orientation is 90 degrees', function() {
+      win.orientation = 90;
+      expect(isLandscape())
+        .toBe(true);
     });
 
-    describe('isLandscape', function() {
-      it('should return true if win.orientation is 90 degrees', function() {
-        win.orientation = 90;
-        expect(isLandscape())
-          .toBe(true);
-      });
+    it('should return false if win.orientation is not 90 degrees', function() {
+      win.orientation = 0;
+      expect(isLandscape())
+        .toBe(false);
     });
   });
 

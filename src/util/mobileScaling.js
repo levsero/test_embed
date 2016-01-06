@@ -5,7 +5,6 @@ import { win,
 import { renderer }        from 'service/renderer';
 import { getDeviceZoom,
          getZoomSizingRatio,
-         isPortait,
          isLandscape }      from 'utility/devices';
 import { mediator }        from 'service/mediator';
 import { setScrollKiller } from 'utility/scrollHacks';
@@ -22,7 +21,7 @@ const propagateFontRatioChange = () => {
 
     renderer.hideByZoom(hideWidget);
 
-    if (isPortait()) {
+    if (!isLandscape()) {
       mediator.channel.broadcast('.updateZoom', getZoomSizingRatio());
     }
   }, 0);
@@ -102,7 +101,7 @@ function initMobileScaling() {
   }, true);
 
   win.addEventListener('orientationchange', () => {
-    if (isPortait()) {
+    if (!isLandscape()) {
       setTimeout(() => {
         propagateFontRatioChange();
       }, 1000);
