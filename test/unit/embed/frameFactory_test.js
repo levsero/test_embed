@@ -10,6 +10,8 @@ describe('frameFactory', function() {
   const frameFactoryPath = buildSrcPath('embed/frameFactory');
 
   beforeEach(function() {
+    global.window = jsdom.jsdom('<html><body></body></html>').defaultView;
+    global.document = global.window.document;
     resetDOM();
 
     mockery.enable();
@@ -398,7 +400,7 @@ describe('frameFactory', function() {
         // Get the style AFTER the ticks
         const frameContainerStyle = frameContainer.style;
 
-        expect(frameContainerStyle.webkitOverflowScrolling)
+        expect(frameContainerStyle.WebkitOverflowScrolling)
           .toEqual('touch');
 
         jasmine.clock().uninstall();
