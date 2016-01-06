@@ -6,7 +6,7 @@ describe('HelpCenter component', function() {
   const searchFieldBlur = jasmine.createSpy();
   const searchFieldGetValue = jasmine.createSpy().and.returnValue('Foobar');
   const helpCenterPath = buildSrcPath('component/HelpCenter');
-  let t;
+
   beforeEach(function() {
 
     trackSearch = jasmine.createSpy('trackSearch');
@@ -129,10 +129,8 @@ describe('HelpCenter component', function() {
 
     mockery.registerAllowable(helpCenterPath);
 
-    //t = (new Date());
     HelpCenter = requireUncached(helpCenterPath).HelpCenter;
-    //console.log((new Date()) - t);
-    
+
     jasmine.clock().install();
   });
 
@@ -140,14 +138,14 @@ describe('HelpCenter component', function() {
     jasmine.clock().uninstall();
     mockery.deregisterAll();
     mockery.disable();
-    
+
   });
 
   describe('initial state', () => {
     let helpCenter;
 
     beforeEach(() => {
-      
+
       helpCenter = React.render(
         <HelpCenter
           buttonLabelKey='contact' />,

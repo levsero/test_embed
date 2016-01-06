@@ -215,7 +215,7 @@ describe('FormField component', function() {
         return false;
       }
     });
-    
+
     Field = requireUncached(formFieldPath).Field;
 
     const field = React.render(

@@ -279,7 +279,7 @@ describe('embed.helpCenter', function() {
               return true;
             }
           });
-          
+
           helpCenter = requireUncached(helpCenterPath).helpCenter;
           helpCenter.create('carlos', frameConfig);
           helpCenter.render('carlos');
@@ -336,7 +336,7 @@ describe('embed.helpCenter', function() {
               return true;
             }
           });
-          
+
           helpCenter = requireUncached(helpCenterPath).helpCenter;
           helpCenter.create('carlos', frameConfig);
           helpCenter.render('carlos');
@@ -361,7 +361,7 @@ describe('embed.helpCenter', function() {
               return false;
             }
           });
-          
+
           helpCenter = requireUncached(helpCenterPath).helpCenter;
           helpCenter.create('carlos', frameConfig);
           helpCenter.render('carlos');
@@ -391,7 +391,7 @@ describe('embed.helpCenter', function() {
           return true;
         }
       });
-      
+
       helpCenter = requireUncached(helpCenterPath).helpCenter;
       helpCenter.create('carlos');
 
@@ -416,7 +416,7 @@ describe('embed.helpCenter', function() {
           return true;
         }
       });
-      
+
       helpCenter = requireUncached(helpCenterPath).helpCenter;
       helpCenter.create('carlos');
 

@@ -186,7 +186,7 @@ describe('embed.submitTicket', function() {
             return true;
           }
         });
-        
+
         submitTicket = requireUncached(submitTicketPath).submitTicket;
         submitTicket.create('bob', frameConfig);
         submitTicket.render('bob');
@@ -210,7 +210,7 @@ describe('embed.submitTicket', function() {
             return true;
           }
         });
-        
+
         submitTicket = requireUncached(submitTicketPath).submitTicket;
         submitTicket.create('bob', frameConfig);
         submitTicket.render('bob');
@@ -254,7 +254,7 @@ describe('embed.submitTicket', function() {
             return true;
           }
         });
-        
+
         submitTicket = requireUncached(submitTicketPath).submitTicket;
         submitTicket.create('bob', frameConfig);
         submitTicket.render('bob');
@@ -287,7 +287,7 @@ describe('embed.submitTicket', function() {
             return true;
           }
         });
-        
+
         submitTicket = requireUncached(submitTicketPath).submitTicket;
         submitTicket.create('bob');
 
@@ -312,7 +312,7 @@ describe('embed.submitTicket', function() {
             return true;
           }
         });
-        
+
         submitTicket = requireUncached(submitTicketPath).submitTicket;
         submitTicket.create('bob');
 
