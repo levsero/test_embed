@@ -23,9 +23,7 @@ describe('Submit ticket component', function() {
 
     resetDOM();
 
-    mockery.enable({
-      useCleanCache: true
-    });
+    mockery.enable();
 
     jasmine.addMatchers({
       toBeJSONEqual: function(util, customEqualityTesters) {
@@ -109,7 +107,7 @@ describe('Submit ticket component', function() {
 
     mockery.registerAllowable(submitTicketPath);
 
-    SubmitTicket = require(submitTicketPath).SubmitTicket;
+    SubmitTicket = requireUncached(submitTicketPath).SubmitTicket;
   });
 
   afterEach(function() {
@@ -270,9 +268,6 @@ describe('Submit ticket component', function() {
         return true;
       };
 
-      mockery.resetCache();
-      SubmitTicket = require(submitTicketPath).SubmitTicket;
-
       const submitTicket = React.render(
         <SubmitTicket />,
         global.document.body
@@ -287,9 +282,6 @@ describe('Submit ticket component', function() {
       mockRegistry['utility/devices'].isMobileBrowser = function() {
         return false;
       };
-
-      mockery.resetCache();
-      SubmitTicket = require(submitTicketPath).SubmitTicket;
 
       const submitTicket = React.render(
         <SubmitTicket />,

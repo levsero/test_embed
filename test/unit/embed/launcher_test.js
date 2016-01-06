@@ -6,9 +6,7 @@ describe('embed.launcher', function() {
   beforeEach(function() {
     resetDOM();
 
-    mockery.enable({
-      useCleanCache: true
-    });
+    mockery.enable();
 
     mockRegistry = initMockRegistry({
       'react/addons': React,
@@ -44,8 +42,8 @@ describe('embed.launcher', function() {
       },
       './launcher.scss': '',
       'embed/frameFactory': {
-        frameFactory: require(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
-        frameMethods: require(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
+        frameFactory: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
+        frameMethods: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
       },
       'utility/devices': {
         isMobileBrowser: function() {
@@ -61,12 +59,12 @@ describe('embed.launcher', function() {
         }
       },
       'service/transitionFactory' : {
-        transitionFactory: require(buildTestPath('unit/mockTransitionFactory')).mockTransitionFactory
+        transitionFactory: requireUncached(buildTestPath('unit/mockTransitionFactory')).mockTransitionFactory
       }
     });
 
     mockery.registerAllowable(launcherPath);
-    launcher = require(launcherPath).launcher;
+    launcher = requireUncached(launcherPath).launcher;
   });
 
   afterEach(function() {

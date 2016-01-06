@@ -14,14 +14,14 @@ describe('devices', function() {
   const devicesPath = buildSrcPath('util/devices');
 
   beforeEach(function() {
-    mockery.enable({ useCleanCache: true });
+    mockery.enable();
 
     initMockRegistry({
       'utility/globals': mockGlobals
     });
 
     mockery.registerAllowable(devicesPath);
-    isBlacklisted = require(devicesPath).isBlacklisted;
+    isBlacklisted = requireUncached(devicesPath).isBlacklisted;
   });
 
   afterEach(function() {

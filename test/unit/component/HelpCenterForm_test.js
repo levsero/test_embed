@@ -12,8 +12,7 @@ describe('HelpCenterForm component', function() {
     jasmine.clock().install();
 
     mockery.enable({
-      warnOnReplace:false,
-      useCleanCache: true
+      warnOnReplace: false
     });
 
     initMockRegistry({
@@ -37,8 +36,7 @@ describe('HelpCenterForm component', function() {
     mockery.registerAllowable('utility/globals');
     mockery.registerAllowable(helpCenterFormPath);
 
-    HelpCenterForm = require(helpCenterFormPath).HelpCenterForm;
-
+    HelpCenterForm = requireUncached(helpCenterFormPath).HelpCenterForm;
   });
 
   afterEach(function() {

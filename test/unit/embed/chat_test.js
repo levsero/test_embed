@@ -18,9 +18,7 @@ describe('embed.chat', function() {
   beforeEach(function() {
     resetDOM();
 
-    mockery.enable({
-      useCleanCache: true
-    });
+    mockery.enable();
 
     mockZopim = function(fn) {
       return fn.bind(mockGlobals)();
@@ -71,7 +69,7 @@ describe('embed.chat', function() {
     });
 
     mockery.registerAllowable(chatPath);
-    chat = require(chatPath).chat;
+    chat = requireUncached(chatPath).chat;
   });
 
   afterEach(function() {
@@ -130,8 +128,6 @@ describe('embed.chat', function() {
         mockRegistry['utility/devices'].isMobileBrowser = function() {
           return true;
         };
-        mockery.resetCache();
-        chat = require(chatPath).chat;
 
         chat.create(chatName, {zopimId: zopimId});
         chat.render(chatName);
@@ -151,8 +147,6 @@ describe('embed.chat', function() {
         mockRegistry['utility/devices'].isMobileBrowser = function() {
           return false;
         };
-        mockery.resetCache();
-        chat = require(chatPath).chat;
 
         chat.create(chatName, {zopimId: zopimId});
         chat.render(chatName);
@@ -288,8 +282,6 @@ describe('embed.chat', function() {
             mockRegistry['utility/devices'].isMobileBrowser = function() {
               return false;
             };
-            mockery.resetCache();
-            chat = require(chatPath).chat;
 
             chat.create(chatName, {zopimId: zopimId});
             chat.render(chatName);
@@ -316,8 +308,6 @@ describe('embed.chat', function() {
             mockRegistry['utility/devices'].isMobileBrowser = function() {
               return true;
             };
-            mockery.resetCache();
-            chat = require(chatPath).chat;
 
             chat.create(chatName, {zopimId: zopimId});
             chat.render(chatName);

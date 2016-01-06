@@ -17,9 +17,7 @@ describe('embed.helpCenter', function() {
 
     resetDOM();
 
-    mockery.enable({
-      useCleanCache: true
-    });
+    mockery.enable();
 
     mockRegistry = initMockRegistry({
       'react/addons': React,
@@ -71,8 +69,8 @@ describe('embed.helpCenter', function() {
       './helpCenter.scss': '',
       './helpCenterFrame.scss': '',
       'embed/frameFactory': {
-        frameFactory: require(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
-        frameMethods: require(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
+        frameFactory: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
+        frameMethods: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
       },
       'utility/devices': {
         isMobileBrowser: function() {
@@ -94,14 +92,14 @@ describe('embed.helpCenter', function() {
         }
       },
       'service/transitionFactory' : {
-        transitionFactory: require(buildTestPath('unit/mockTransitionFactory')).mockTransitionFactory
+        transitionFactory: requireUncached(buildTestPath('unit/mockTransitionFactory')).mockTransitionFactory
       },
       'lodash': _
     });
 
     mockery.registerAllowable(helpCenterPath);
 
-    helpCenter = require(helpCenterPath).helpCenter;
+    helpCenter = requireUncached(helpCenterPath).helpCenter;
 
     frameConfig = {
       onShow: jasmine.createSpy('onShow'),
@@ -281,8 +279,8 @@ describe('embed.helpCenter', function() {
               return true;
             }
           });
-          mockery.resetCache();
-          helpCenter = require(helpCenterPath).helpCenter;
+
+          helpCenter = requireUncached(helpCenterPath).helpCenter;
           helpCenter.create('carlos', frameConfig);
           helpCenter.render('carlos');
 
@@ -338,8 +336,8 @@ describe('embed.helpCenter', function() {
               return true;
             }
           });
-          mockery.resetCache();
-          helpCenter = require(helpCenterPath).helpCenter;
+
+          helpCenter = requireUncached(helpCenterPath).helpCenter;
           helpCenter.create('carlos', frameConfig);
           helpCenter.render('carlos');
 
@@ -363,8 +361,8 @@ describe('embed.helpCenter', function() {
               return false;
             }
           });
-          mockery.resetCache();
-          helpCenter = require(helpCenterPath).helpCenter;
+
+          helpCenter = requireUncached(helpCenterPath).helpCenter;
           helpCenter.create('carlos', frameConfig);
           helpCenter.render('carlos');
 
@@ -393,8 +391,8 @@ describe('embed.helpCenter', function() {
           return true;
         }
       });
-      mockery.resetCache();
-      helpCenter = require(helpCenterPath).helpCenter;
+
+      helpCenter = requireUncached(helpCenterPath).helpCenter;
       helpCenter.create('carlos');
 
       const mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
@@ -419,10 +417,7 @@ describe('embed.helpCenter', function() {
         }
       });
 
-      mockery.resetCache();
-
-      helpCenter = require(helpCenterPath).helpCenter;
-
+      helpCenter = requireUncached(helpCenterPath).helpCenter;
       helpCenter.create('carlos');
 
       const mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
@@ -614,7 +609,6 @@ describe('embed.helpCenter', function() {
         mockRegistry['utility/globals'].location = {
           pathname: '/foo/bar'
         };
-        mockery.resetCache();
 
         helpCenter.postRender('carlos');
 
@@ -630,7 +624,6 @@ describe('embed.helpCenter', function() {
         mockRegistry['utility/globals'].location = {
           pathname: '/hc/1234-article-foo-bar'
         };
-        mockery.resetCache();
 
         helpCenter.postRender('carlos');
 

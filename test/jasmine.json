@@ -4,7 +4,7 @@
     "**/*_test.js"
   ],
   "helpers": [
-    "../../node_modules/babel/register.js",
+    "../../node_modules/babel-core/register.js",
     "*_helper.js"
   ]
 }

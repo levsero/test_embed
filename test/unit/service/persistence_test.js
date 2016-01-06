@@ -6,7 +6,7 @@ describe('store', function() {
   const persistencePath = buildSrcPath('service/persistence');
 
   beforeEach(function() {
-    mockery.enable({useCleanCache: true});
+    mockery.enable();
 
     mockLocalStorage = {
       getItem: noop,
@@ -27,7 +27,7 @@ describe('store', function() {
     });
 
     mockery.registerAllowable(persistencePath);
-    store = require(persistencePath).store;
+    store = requireUncached(persistencePath).store;
   });
 
   afterEach(function() {

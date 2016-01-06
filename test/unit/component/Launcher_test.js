@@ -18,7 +18,7 @@ describe('Launcher component', function() {
       }
     });
 
-    Launcher = require(launcherPath).Launcher;
+    Launcher = requireUncached(launcherPath).Launcher;
   });
 
   afterEach(function() {

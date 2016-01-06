@@ -6,9 +6,7 @@ describe('ButtonGroup component', function() {
 
     resetDOM();
 
-    mockery.enable({
-      useCleanCache: true
-    });
+    mockery.enable();
 
     initMockRegistry({
       'react/addons': React,
@@ -26,7 +24,7 @@ describe('ButtonGroup component', function() {
 
     mockery.registerAllowable(buttonPath);
 
-    ButtonGroup = require(buttonPath).ButtonGroup;
+    ButtonGroup = requireUncached(buttonPath).ButtonGroup;
   });
 
   afterEach(function() {

@@ -10,11 +10,11 @@ describe('frameFactory', function() {
   const frameFactoryPath = buildSrcPath('embed/frameFactory');
 
   beforeEach(function() {
+    global.window = jsdom.jsdom('<html><body></body></html>').defaultView;
+    global.document = global.window.document;
     resetDOM();
 
-    mockery.enable({
-      useCleanCache: true
-    });
+    mockery.enable();
 
     mockSnabbtThen = jasmine.createSpy();
     mockSnabbt = jasmine.createSpy('snabbt.js').and.returnValue({
@@ -65,7 +65,7 @@ describe('frameFactory', function() {
       );
     };
 
-    frameFactory = require(frameFactoryPath).frameFactory;
+    frameFactory = requireUncached(frameFactoryPath).frameFactory;
   });
 
   afterEach(function() {
@@ -219,10 +219,6 @@ describe('frameFactory', function() {
       mockRegistry['utility/globals'].win.innerWidth = 100;
 
       jasmine.clock().install();
-
-      mockery.resetCache();
-
-      frameFactory = require(frameFactoryPath).frameFactory;
 
       payload = frameFactory(mockChildFn, {
         fullscreenable: true
@@ -404,7 +400,7 @@ describe('frameFactory', function() {
         // Get the style AFTER the ticks
         const frameContainerStyle = frameContainer.style;
 
-        expect(frameContainerStyle.webkitOverflowScrolling)
+        expect(frameContainerStyle.WebkitOverflowScrolling)
           .toEqual('touch');
 
         jasmine.clock().uninstall();

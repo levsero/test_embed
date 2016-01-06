@@ -12,9 +12,7 @@ describe('Icon component', function() {
 
     resetDOM();
 
-    mockery.enable({
-      useCleanCache: true
-    });
+    mockery.enable();
 
     initMockRegistry({
       'react/addons': React,
@@ -39,7 +37,7 @@ describe('Icon component', function() {
 
     mockery.registerAllowable(iconPath);
 
-    Icon = require(iconPath).Icon;
+    Icon = requireUncached(iconPath).Icon;
   });
 
   afterEach(function() {
@@ -99,13 +97,13 @@ describe('Icon component', function() {
   });
 
   it('should have mobile classes when isMobileBrowser is true', function() {
-    mockery.resetCache();
     mockery.registerMock('utility/devices', {
       isMobileBrowser: function isMobileBrowser() {
         return true;
       }
     });
-    Icon = require(iconPath).Icon;
+
+    Icon = requireUncached(iconPath).Icon;
 
     const icon = React.render(
       <Icon type="Icon--zendesk" />,
