@@ -1,10 +1,8 @@
 import React, { Component, PropTypes } from 'react';
-import { () => {},noop } from 'lodash';
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
 import { LoadingSpinner } from 'component/Loading';
 
-<<<<<<< HEAD
 const classNames = require('classnames');
 
 function Button(props) {
@@ -46,7 +44,7 @@ Button.propTypes = {
   disabled: React.PropTypes.bool,
   onClick: React.PropTypes.func,
   type: React.PropTypes.string,
-  className: React.addons.classSet,
+  className: React.PropTypes.string,
   style: React.PropTypes.element
 };
 
@@ -157,7 +155,6 @@ ButtonSecondary.propTypes = {
   onClick: React.PropTypes.func
 };
 
-<<<<<<< HEAD
 function ButtonGroup(props) {
   const buttonClasses = classNames({
     'ButtonGroup': true,

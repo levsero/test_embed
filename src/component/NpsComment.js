@@ -101,7 +101,7 @@ NpsComment.defaultProps = {
 NpsComment.propTypes = {
   comment: React.PropTypes.string.isRequired,
   isMobile: React.PropTypes.bool.isRequired,
-  className: React.addons.classSet,
+  className: React.PropTypes.string,
   feedbackPlaceholder: React.PropTypes.string,
   hasError: React.PropTypes.bool,
   isSubmittingComment: React.PropTypes.bool,
