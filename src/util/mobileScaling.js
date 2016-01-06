@@ -12,7 +12,7 @@ import { setScrollKiller } from 'utility/scrollHacks';
 
 let lastTouchEnd = 0;
 
-const propagateFontRatioChange = (isPinching) => {
+const propagateFontRatioChange = () => {
   setTimeout(() => {
     const hideWidget = getDeviceZoom() > 2  || isLandscape();
 
@@ -23,7 +23,7 @@ const propagateFontRatioChange = (isPinching) => {
     renderer.hideByZoom(hideWidget);
 
     if (isPortait()) {
-      mediator.channel.broadcast('.updateZoom', getZoomSizingRatio())
+      mediator.channel.broadcast('.updateZoom', getZoomSizingRatio());
     }
   }, 0);
 };

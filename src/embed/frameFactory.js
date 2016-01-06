@@ -2,8 +2,7 @@ import React from 'react/addons';
 import _     from 'lodash';
 
 import { win }                 from 'utility/globals';
-import { getZoomSizingRatio,
-         isMobileBrowser,
+import { isMobileBrowser,
          isFirefox }           from 'utility/devices';
 import { clickBusterRegister,
          generateNpsCSS }      from 'utility/utils';
@@ -15,7 +14,6 @@ import snabbt                  from 'snabbt.js';
 const classSet = React.addons.classSet;
 const baseCSS = require('baseCSS');
 const mainCSS = require('mainCSS');
-const screen = win.screen;
 
 function validateChildFn(childFn, params) {
   if (!_.isFunction(childFn)) {

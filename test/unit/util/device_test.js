@@ -1,10 +1,10 @@
 /* eslint max-len:0 */
 describe('devices', function() {
-  let isBlacklisted,
-      isPortait,
-      isLandscape,
-      getDeviceZoom,
-      getZoomSizingRatio;
+  let isBlacklisted;
+  let isPortait;
+  let isLandscape;
+  let getDeviceZoom;
+  let getZoomSizingRatio;
   const mockGlobals = {
     win: {
       innerWidth: 1,
@@ -144,16 +144,16 @@ describe('devices', function() {
     describe('getZoomSizingRatio', function() {
       it('should return the correct ratio with no mobile device meta tags to ensure the font-size gets updated correctly', function() {
         win.innerWidth = 980;
-
         const fontSize = (12 * getZoomSizingRatio().toFixed(2)) + 'px';
+
         expect(fontSize)
           .toBe('36.72px');
       });
 
       it('should return the correct ratio with mobile device meta tags forcing width to ensure the font-size gets updated correctly', function() {
         win.innerWidth = 640;
-
         const fontSize = (12 * getZoomSizingRatio().toFixed(2)) + 'px';
+
         expect(fontSize)
           .toBe('24px');
       });
