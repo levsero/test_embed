@@ -29,6 +29,14 @@ describe('devices', function() {
       'utility/globals': mockGlobals
     });
 
+    const win = mockGlobals.win;
+
+    // iphone 5 potrait dimensions
+    win.orientation = 0;
+    win.screen.availWidth = 320;
+    win.screen.availHeight = 548;
+    win.innerWidth = 980;
+
     mockery.registerAllowable(devicesPath);
     isBlacklisted = requireUncached(devicesPath).isBlacklisted;
     isLandscape = requireUncached(devicesPath).isLandscape;
@@ -115,14 +123,9 @@ describe('devices', function() {
 
   describe('launcher-scaling', function() {
     const win = mockGlobals.win;
-    const screen = win.screen;
 
     describe('getDeviceZoom', function() {
       it('should return the correct zoom with no mobile device meta tags', function() {
-        // iphone 5 potrait dimensions
-        win.orientation = 0;
-        screen.availWidth = 320;
-        screen.availHeight = 548;
         win.innerWidth = 980;
         expect(getDeviceZoom())
           .toBeCloseTo(0.3265, 4);
@@ -136,20 +139,16 @@ describe('devices', function() {
     });
 
     describe('getZoomSizingRatio', function() {
-      it('should return the correct ratio with no mobile device meta tags to ensure the font-size gets updated correctly', function() {
+      it('should return the correct ratio with no mobile device meta tags', function() {
         win.innerWidth = 980;
-        const fontSize = (12 * getZoomSizingRatio().toFixed(2)) + 'px';
-
-        expect(fontSize)
-          .toBe('36.72px');
+        expect(getZoomSizingRatio())
+          .toBeCloseTo(3.0625, 4);
       });
 
-      it('should return the correct ratio with mobile device meta tags forcing width to ensure the font-size gets updated correctly', function() {
+      it('should return the correct ratio with mobile device meta tags forcing width', function() {
         win.innerWidth = 640;
-        const fontSize = (12 * getZoomSizingRatio().toFixed(2)) + 'px';
-
-        expect(fontSize)
-          .toBe('24px');
+        expect(getZoomSizingRatio())
+          .toBeCloseTo(2, 4);
       });
     });
   });
