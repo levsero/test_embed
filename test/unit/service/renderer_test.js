@@ -31,7 +31,7 @@ describe('renderer', function() {
   };
 
   beforeEach(function() {
-    mockery.enable({useCleanCache: true});
+    mockery.enable();
 
     mockSubmitTicket = embedMocker('mockSubmitTicket');
     mockLauncher = embedMocker('mockLauncher');
@@ -82,7 +82,7 @@ describe('renderer', function() {
     });
 
     mockery.registerAllowable(rendererPath);
-    renderer = require(rendererPath).renderer;
+    renderer = requireUncached(rendererPath).renderer;
   });
 
   afterEach(function() {

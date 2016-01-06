@@ -6,7 +6,7 @@ describe('transport', function() {
   const transportPath = buildSrcPath('service/transport');
 
   beforeEach(function() {
-    mockery.enable({useCleanCache: true});
+    mockery.enable();
     mockMethods = {
       type: function() { return mockMethods; },
       send: function() { return mockMethods; },
@@ -34,7 +34,7 @@ describe('transport', function() {
     });
 
     mockery.registerAllowable(transportPath);
-    transport = require(transportPath).transport;
+    transport = requireUncached(transportPath).transport;
   });
 
   afterEach(function() {

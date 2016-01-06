@@ -11,9 +11,7 @@ describe('embed.submitTicket', function() {
   beforeEach(function() {
     resetDOM();
 
-    mockery.enable({
-      useCleanCache: true
-    });
+    mockery.enable();
 
     mockRegistry = initMockRegistry({
       'react/addons': React,
@@ -65,8 +63,8 @@ describe('embed.submitTicket', function() {
       './submitTicket.scss': '',
       './submitTicketFrame.scss': '',
       'embed/frameFactory': {
-        frameFactory: require(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
-        frameMethods: require(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
+        frameFactory: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
+        frameMethods: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
       },
       'utility/utils': {
         setScaleLock: jasmine.createSpy('setScaleLock'),
@@ -90,7 +88,7 @@ describe('embed.submitTicket', function() {
         }
       },
       'service/transitionFactory' : {
-        transitionFactory: require(buildTestPath('unit/mockTransitionFactory')).mockTransitionFactory
+        transitionFactory: requireUncached(buildTestPath('unit/mockTransitionFactory')).mockTransitionFactory
       },
       'service/transport': {
         transport: jasmine.createSpyObj('transport', ['send'])
@@ -99,7 +97,7 @@ describe('embed.submitTicket', function() {
 
     mockery.registerAllowable(submitTicketPath);
 
-    submitTicket = require(submitTicketPath).submitTicket;
+    submitTicket = requireUncached(submitTicketPath).submitTicket;
 
     frameConfig = {
       onShow: jasmine.createSpy('onShow'),
@@ -165,7 +163,6 @@ describe('embed.submitTicket', function() {
       });
 
       it('should not call focusField in afterShowAnimate for non-IE browser', function() {
-        submitTicket = require(submitTicketPath).submitTicket;
         submitTicket.create('bob', frameConfig);
         submitTicket.render('bob');
 
@@ -189,8 +186,8 @@ describe('embed.submitTicket', function() {
             return true;
           }
         });
-        mockery.resetCache();
-        submitTicket = require(submitTicketPath).submitTicket;
+        
+        submitTicket = requireUncached(submitTicketPath).submitTicket;
         submitTicket.create('bob', frameConfig);
         submitTicket.render('bob');
 
@@ -213,8 +210,8 @@ describe('embed.submitTicket', function() {
             return true;
           }
         });
-        mockery.resetCache();
-        submitTicket = require(submitTicketPath).submitTicket;
+        
+        submitTicket = requireUncached(submitTicketPath).submitTicket;
         submitTicket.create('bob', frameConfig);
         submitTicket.render('bob');
 
@@ -237,7 +234,6 @@ describe('embed.submitTicket', function() {
       });
 
       it('should reset form state onShow', function() {
-        submitTicket = require(submitTicketPath).submitTicket;
         submitTicket.create('bob', frameConfig);
         submitTicket.render('bob');
 
@@ -258,10 +254,8 @@ describe('embed.submitTicket', function() {
             return true;
           }
         });
-
-        mockery.resetCache();
-
-        submitTicket = require(submitTicketPath).submitTicket;
+        
+        submitTicket = requireUncached(submitTicketPath).submitTicket;
         submitTicket.create('bob', frameConfig);
         submitTicket.render('bob');
 
@@ -293,8 +287,8 @@ describe('embed.submitTicket', function() {
             return true;
           }
         });
-        mockery.resetCache();
-        submitTicket = require(submitTicketPath).submitTicket;
+        
+        submitTicket = requireUncached(submitTicketPath).submitTicket;
         submitTicket.create('bob');
 
         const mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
@@ -318,11 +312,8 @@ describe('embed.submitTicket', function() {
             return true;
           }
         });
-
-        mockery.resetCache();
-
-        submitTicket = require(submitTicketPath).submitTicket;
-
+        
+        submitTicket = requireUncached(submitTicketPath).submitTicket;
         submitTicket.create('bob');
 
         const  mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
@@ -356,10 +347,6 @@ describe('embed.submitTicket', function() {
               return true;
             }
           });
-
-        mockery.resetCache();
-
-        submitTicket = require(submitTicketPath).submitTicket;
 
         submitTicket.create('bob');
 

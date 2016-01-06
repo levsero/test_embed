@@ -4,7 +4,7 @@ describe('i18n', function() {
   const i18nPath = buildSrcPath('service/i18n');
 
   beforeEach(function() {
-    mockery.enable({useCleanCache: true});
+    mockery.enable();
     mockRegistry = initMockRegistry({
       'translation/translations.json': {
         'en-US': {
@@ -38,7 +38,7 @@ describe('i18n', function() {
     });
 
     mockery.registerAllowable(i18nPath);
-    i18n = require(i18nPath).i18n;
+    i18n = requireUncached(i18nPath).i18n;
   });
 
   afterEach(function() {

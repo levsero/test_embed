@@ -12,9 +12,7 @@ describe('frameFactory', function() {
   beforeEach(function() {
     resetDOM();
 
-    mockery.enable({
-      useCleanCache: true
-    });
+    mockery.enable();
 
     mockSnabbtThen = jasmine.createSpy();
     mockSnabbt = jasmine.createSpy('snabbt.js').and.returnValue({
@@ -65,7 +63,7 @@ describe('frameFactory', function() {
       );
     };
 
-    frameFactory = require(frameFactoryPath).frameFactory;
+    frameFactory = requireUncached(frameFactoryPath).frameFactory;
   });
 
   afterEach(function() {
@@ -219,10 +217,6 @@ describe('frameFactory', function() {
       mockRegistry['utility/globals'].win.innerWidth = 100;
 
       jasmine.clock().install();
-
-      mockery.resetCache();
-
-      frameFactory = require(frameFactoryPath).frameFactory;
 
       payload = frameFactory(mockChildFn, {
         fullscreenable: true

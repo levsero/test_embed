@@ -3,13 +3,13 @@ describe('logging', function() {
   const loggingPath = buildSrcPath('service/logging');
 
   beforeEach(function() {
-    mockery.enable({useCleanCache: true});
+    mockery.enable();
     initMockRegistry({
       'airbrake-js': jasmine.createSpy()
     });
 
     mockery.registerAllowable(loggingPath);
-    logging = require(loggingPath).logging;
+    logging = requireUncached(loggingPath).logging;
   });
 
   afterEach(function() {

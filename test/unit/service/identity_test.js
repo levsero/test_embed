@@ -3,7 +3,7 @@ describe('identity', function() {
     mockPersistence;
 
   beforeEach(function() {
-    mockery.enable({useCleanCache: true});
+    mockery.enable();
 
     mockPersistence = {
       store: {
@@ -17,7 +17,7 @@ describe('identity', function() {
     });
 
     mockery.registerAllowable(buildSrcPath('service/identity'));
-    identity = require(buildSrcPath('service/identity')).identity;
+    identity = requireUncached(buildSrcPath('service/identity')).identity;
   });
 
   afterEach(function() {

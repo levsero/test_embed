@@ -5,7 +5,7 @@ describe('beacon', function() {
   const beaconPath = buildSrcPath('service/beacon');
 
   beforeEach(function() {
-    mockery.enable({ useCleanCache: true });
+    mockery.enable();
 
     mockRegistry = initMockRegistry({
       'service/transport': {
@@ -59,7 +59,7 @@ describe('beacon', function() {
     });
 
     mockery.registerAllowable(beaconPath);
-    beacon = require(beaconPath).beacon;
+    beacon = requireUncached(beaconPath).beacon;
   });
 
   afterEach(function() {

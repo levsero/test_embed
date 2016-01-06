@@ -6,16 +6,15 @@ describe('HelpCenter component', function() {
   const searchFieldBlur = jasmine.createSpy();
   const searchFieldGetValue = jasmine.createSpy().and.returnValue('Foobar');
   const helpCenterPath = buildSrcPath('component/HelpCenter');
-
+  let t;
   beforeEach(function() {
+
     trackSearch = jasmine.createSpy('trackSearch');
     updateResults = jasmine.createSpy('updateResults');
 
     resetDOM();
 
-    mockery.enable({
-      useCleanCache: true
-    });
+    mockery.enable();
 
     mockRegistry = initMockRegistry({
       'react/addons': React,
@@ -130,8 +129,10 @@ describe('HelpCenter component', function() {
 
     mockery.registerAllowable(helpCenterPath);
 
-    HelpCenter = require(helpCenterPath).HelpCenter;
-
+    //t = (new Date());
+    HelpCenter = requireUncached(helpCenterPath).HelpCenter;
+    //console.log((new Date()) - t);
+    
     jasmine.clock().install();
   });
 
@@ -139,12 +140,14 @@ describe('HelpCenter component', function() {
     jasmine.clock().uninstall();
     mockery.deregisterAll();
     mockery.disable();
+    
   });
 
   describe('initial state', () => {
     let helpCenter;
 
     beforeEach(() => {
+      
       helpCenter = React.render(
         <HelpCenter
           buttonLabelKey='contact' />,
@@ -1124,9 +1127,6 @@ describe('HelpCenter component', function() {
         return true;
       };
 
-      mockery.resetCache();
-      HelpCenter = require(helpCenterPath).HelpCenter;
-
       const helpCenter = React.render(
         <HelpCenter />,
         global.document.body
@@ -1141,9 +1141,6 @@ describe('HelpCenter component', function() {
       mockRegistry['utility/devices'].isMobileBrowser = function() {
         return false;
       };
-
-      mockery.resetCache();
-      HelpCenter = require(helpCenterPath).HelpCenter;
 
       const helpCenter = React.render(
         <HelpCenter />,
@@ -1164,9 +1161,6 @@ describe('HelpCenter component', function() {
     mockRegistry['utility/devices'].isMobileBrowser = function() {
       return true;
     };
-
-    mockery.resetCache();
-    HelpCenter = require(helpCenterPath).HelpCenter;
 
     const helpCenter = React.render(
       <HelpCenter />,
@@ -1196,9 +1190,6 @@ describe('HelpCenter component', function() {
     mockRegistry['utility/devices'].isMobileBrowser = function() {
       return true;
     };
-
-    mockery.resetCache();
-    HelpCenter = require(helpCenterPath).HelpCenter;
 
     const helpCenter = React.render(
       <HelpCenter />,
@@ -1238,9 +1229,6 @@ describe('HelpCenter component', function() {
         return true;
       };
 
-      mockery.resetCache();
-      HelpCenter = require(helpCenterPath).HelpCenter;
-
       const helpCenter = React.render(
         <HelpCenter />,
         global.document.body
@@ -1258,9 +1246,6 @@ describe('HelpCenter component', function() {
       mockRegistry['utility/devices'].isMobileBrowser = function() {
         return true;
       };
-
-      mockery.resetCache();
-      HelpCenter = require(helpCenterPath).HelpCenter;
 
       const helpCenter = React.render(
         <HelpCenter />,
@@ -1280,9 +1265,6 @@ describe('HelpCenter component', function() {
       mockRegistry['utility/devices'].isMobileBrowser = function() {
         return true;
       };
-
-      mockery.resetCache();
-      HelpCenter = require(helpCenterPath).HelpCenter;
 
       const helpCenter = React.render(
         <HelpCenter />,
