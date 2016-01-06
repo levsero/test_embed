@@ -3,8 +3,9 @@ var webpack = require('webpack');
 
 config.plugins = [
   new webpack.DefinePlugin({
+    __EMBEDDABLE_VERSION__: JSON.stringify(config.version),
+    __DEV__: JSON.stringify(false),
     'process.env': {
-      __EMBEDDABLE_VERSION__: JSON.stringify(config.version),
       'NODE_ENV': JSON.stringify('production')
     }
   }),
