@@ -89,7 +89,26 @@ class NpsComment extends React.Component {
 }
 
 NpsComment.defaultProps = {
-  className: ''
+  className: '',
+  feedbackPlaceholder: '',
+  hasError: false,
+  isSubmittingComment: false,
+  isSubmittingRating: false,
+  onChange: () => {},
+  onSubmit: () => {}
+};
+
+NpsComment.propTypes = {
+  comment: React.PropTypes.string.isRequired,
+  isMobile: React.PropTypes.bool.isRequired,
+  className: React.addons.classSet,
+  feedbackPlaceholder: React.PropTypes.string,
+  hasError: React.PropTypes.bool,
+  isSubmittingComment: React.PropTypes.bool,
+  isSubmittingRating: React.PropTypes.bool,
+  label: React.PropTypes.string,
+  onChange: React.PropTypes.func,
+  onSubmit: React.PropTypes.func
 };
 
 export { NpsComment };

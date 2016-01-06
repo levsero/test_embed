@@ -23,8 +23,7 @@ describe('HelpCenterArticle component', function() {
     resetDOM();
 
     mockery.enable({
-      warnOnReplace:false,
-      useCleanCache: true
+      warnOnReplace: false
     });
 
     initMockRegistry({
@@ -42,7 +41,7 @@ describe('HelpCenterArticle component', function() {
 
     mockery.registerAllowable(helpCenterArticlePath);
 
-    HelpCenterArticle = require(helpCenterArticlePath).HelpCenterArticle;
+    HelpCenterArticle = requireUncached(helpCenterArticlePath).HelpCenterArticle;
 
   });
 

@@ -17,8 +17,7 @@ describe('FormField component', function() {
     resetDOM();
 
     mockery.enable({
-      warnOnReplace:false,
-      useCleanCache: true
+      warnOnReplace: false
     });
 
     initMockRegistry({
@@ -58,10 +57,10 @@ describe('FormField component', function() {
 
     mockery.registerAllowable(formFieldPath);
 
-    SearchField = require(formFieldPath).SearchField;
-    SearchFieldButton = require(formFieldPath).SearchFieldButton;
-    Field = require(formFieldPath).Field;
-    getCustomFields = require(formFieldPath).getCustomFields;
+    SearchField = requireUncached(formFieldPath).SearchField;
+    SearchFieldButton = requireUncached(formFieldPath).SearchFieldButton;
+    Field = requireUncached(formFieldPath).Field;
+    getCustomFields = requireUncached(formFieldPath).getCustomFields;
   });
 
   afterEach(function() {
@@ -209,14 +208,13 @@ describe('FormField component', function() {
   });
 
   it('should not have mobile classes when isMobileBrowser is false', function() {
-    mockery.resetCache();
     mockery.registerMock('utility/devices', {
       isMobileBrowser: function() {
         return false;
       }
     });
 
-    Field = require(formFieldPath).Field;
+    Field = requireUncached(formFieldPath).Field;
 
     const field = React.render(
       <Field />,

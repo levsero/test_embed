@@ -72,4 +72,10 @@ class IpmDesktop extends React.Component {
   }
 }
 
+IpmDesktop.propTypes = {
+  ipm: React.PropTypes.object.isRequired,
+  ipmSender: React.PropTypes.func.isRequired,
+  updateFrameSize: React.PropTypes.func.isRequired
+};
+
 export { IpmDesktop };

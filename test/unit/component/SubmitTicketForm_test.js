@@ -14,8 +14,7 @@ describe('SubmitTicketForm component', function() {
     resetDOM();
 
     mockery.enable({
-      warnOnReplace:false,
-      useCleanCache: true
+      warnOnReplace: false
     });
 
     mockRegistry = initMockRegistry({
@@ -78,7 +77,7 @@ describe('SubmitTicketForm component', function() {
     mockery.registerAllowable(submitTicketFormPath);
     mockery.registerAllowable(buttonPath);
 
-    SubmitTicketForm = require(submitTicketFormPath).SubmitTicketForm;
+    SubmitTicketForm = requireUncached(submitTicketFormPath).SubmitTicketForm;
   });
 
   afterEach(function() {

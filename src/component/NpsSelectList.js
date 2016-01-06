@@ -42,4 +42,13 @@ NpsSelectList.defaultProps = {
   onBlur: () => {}
 };
 
+NpsSelectList.propTypes = {
+  highlightColor: React.PropTypes.string,
+  onBlur: React.PropTypes.func,
+  onChange: React.PropTypes.func,
+  onFocus: React.PropTypes.func,
+  options: React.PropTypes.array,
+  selectedItem: React.PropTypes.number
+};
+
 export { NpsSelectList };

@@ -200,9 +200,9 @@ Field.defaultProps = {
   options: false,
   hasSearched: false,
   labelClasses: '',
-  onFocus: _.noop,
-  onBlur: _.noop,
-  onChange: _.noop
+  onFocus: () => {},
+  onBlur: () => {},
+  onChange: () => {}
 };
 
 Field.propTypes = {
@@ -282,8 +282,8 @@ class SelectField extends React.Component {
 }
 
 SelectField.defaultProps = {
-  onFocus: _.noop,
-  onBlur: _.noop
+  onFocus: () => {},
+  onBlur: () => {}
 };
 
 SelectField.propTypes = {
@@ -312,8 +312,8 @@ function SearchFieldButton(props) {
 }
 
 SearchFieldButton.defaultProps = {
-  onClick: _.noop,
-  onTouch: _.noop
+  onClick: () => {},
+  onTouch: () => {}
 };
 
 SearchFieldButton.propTypes = {
@@ -471,11 +471,11 @@ SearchField.defaultProps = {
   fullscreen: false,
   isLoading: false,
   hasSearched: false,
-  onFocus: _.noop,
-  onBlur: _.noop,
-  onChange: _.noop,
-  onSearchIconClick:  _.noop,
-  onChangeValue: _.noop
+  onFocus: () => {},
+  onBlur: () => {},
+  onChange: () => {},
+  onSearchIconClick:  () => {},
+  onChangeValue: () => {}
 };
 
 SearchField.propTypes = {

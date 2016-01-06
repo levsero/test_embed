@@ -6,9 +6,7 @@ describe('ScrollContainer component', function() {
 
     resetDOM();
 
-    mockery.enable({
-      useCleanCache: true
-    });
+    mockery.enable();
 
     initMockRegistry({
       'React': React
@@ -16,7 +14,7 @@ describe('ScrollContainer component', function() {
 
     mockery.registerAllowable(containerPath);
 
-    ScrollContainer = require(containerPath).ScrollContainer;
+    ScrollContainer = requireUncached(containerPath).ScrollContainer;
   });
 
   afterEach(function() {

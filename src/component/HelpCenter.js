@@ -550,7 +550,26 @@ class HelpCenter extends React.Component {
 
 HelpCenter.defaultProps = {
   buttonLabelKey: 'message',
+  onSearch: () => {},
+  showBackButton: () => {},
+  onNextClick: () => {},
+  hideZendeskLogo: false,
+  updateFrameSize: false,
+  style: null,
   formTitleKey: 'help'
 };
+
+HelpCenter.propTypes = {
+  searchSender: React.PropTypes.func.isRequired,
+  buttonLabelKey: React.PropTypes.string,
+  onSearch: React.PropTypes.func,
+  showBackButton: React.PropTypes.func,
+  onNextClick: React.PropTypes.func,
+  hideZendeskLogo: React.PropTypes.bool,
+  updateFrameSize: React.PropTypes.bool,
+  style: React.PropTypes.element,
+  formTitleKey: React.PropTypes.string
+};
+
 
 export { HelpCenter };

@@ -125,7 +125,12 @@ class HelpCenterArticle extends React.Component {
 }
 
 HelpCenterArticle.propTypes = {
-  activeArticle: React.PropTypes.object.isRequired
+  activeArticle: React.PropTypes.object.isRequired,
+  fullscreen: React.PropTypes.bool
+};
+
+HelpCenterArticle.defaultProps = {
+  fullscreen: false
 };
 
 export { HelpCenterArticle };

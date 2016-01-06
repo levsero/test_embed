@@ -41,7 +41,16 @@ class HelpCenterForm extends React.Component {
 }
 
 HelpCenterForm.defaultProps = {
-  fullscreen: false
+  fullscreen: false,
+  onSubmit: () => {},
+  onChange: () => {}
+};
+
+HelpCenterForm.propTypes = {
+  children: React.PropTypes.element.isRequired,
+  fullscreen: React.PropTypes.bool,
+  onSubmit: React.PropTypes.func,
+  onChange: React.PropTypes.func
 };
 
 export { HelpCenterForm };

@@ -6,9 +6,7 @@ describe('ButtonPill component', function() {
 
     resetDOM();
 
-    mockery.enable({
-      useCleanCache: true
-    });
+    mockery.enable();
 
     initMockRegistry({
       'React': React,
@@ -30,7 +28,7 @@ describe('ButtonPill component', function() {
 
     mockery.registerAllowable(buttonPath);
 
-    ButtonPill = require(buttonPath).ButtonPill;
+    ButtonPill = requireUncached(buttonPath).ButtonPill;
   });
 
   afterEach(function() {

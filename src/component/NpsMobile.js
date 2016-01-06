@@ -28,7 +28,6 @@ class NpsMobile extends React.Component {
     this.ratingChangeValueHandler = this.ratingChangeValueHandler.bind(this);
     this.startEditing = this.startEditing.bind(this);
     this.submitCommentHandler = this.submitCommentHandler.bind(this);
-
     this.state = {
       currentPage: {
         selectingRating: true,
@@ -296,8 +295,24 @@ class NpsMobile extends React.Component {
 }
 
 NpsMobile.propTypes = {
-  updateFrameSize: React.PropTypes.func,
-  npsSender: React.PropTypes.func.isRequired
+  npsSender: React.PropTypes.func.isRequired,
+  response: React.PropTypes.object.isRequired,
+  setFrameSize: React.PropTypes.func.isRequired,
+  survey: React.PropTypes.object.isRequired,
+  updateRating: React.PropTypes.func.isRequired,
+  isSubmittingComment: React.PropTypes.bool,
+  isSubmittingRating: React.PropTypes.bool,
+  onCommentChangeHandler: React.PropTypes.func,
+  submitCommentHandler: React.PropTypes.func,
+  submitRatingHandler: React.PropTypes.func
+};
+
+NpsMobile.defaultProps = {
+  isSubmittingComment: false,
+  isSubmittingRating: false,
+  onCommentChangeHandler: () => {},
+  submitCommentHandler: () => {},
+  submitRatingHandler: () => {}
 };
 
 export { NpsMobile };

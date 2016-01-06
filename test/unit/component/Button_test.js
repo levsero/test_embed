@@ -7,9 +7,7 @@ describe('component/Button', function() {
 
     resetDOM();
 
-    mockery.enable({
-      useCleanCache: true
-    });
+    mockery.enable();
 
     initMockRegistry({
       'React': React,
@@ -27,8 +25,8 @@ describe('component/Button', function() {
 
     mockery.registerAllowable(buttonPath);
 
-    Button = require(buttonPath).Button;
-    ButtonSecondary = require(buttonPath).ButtonSecondary;
+    Button = requireUncached(buttonPath).Button;
+    ButtonSecondary = requireUncached(buttonPath).ButtonSecondary;
   });
 
   afterEach(function() {

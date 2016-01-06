@@ -152,8 +152,11 @@ class Nps extends React.Component {
 }
 
 Nps.propTypes = {
-  updateFrameSize: React.PropTypes.func,
-  npsSender: React.PropTypes.func.isRequired
+  npsSender: React.PropTypes.func.isRequired,
+  mobile: React.PropTypes.bool.isRequired,
+  setFrameSize: React.PropTypes.func.isRequired,
+  setOffsetHorizontal: React.PropTypes.func.isRequired,
+  updateFrameSize: React.PropTypes.func
 };
 
 export { Nps }

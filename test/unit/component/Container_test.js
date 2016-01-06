@@ -6,9 +6,7 @@ describe('Container component', function() {
 
     resetDOM();
 
-    mockery.enable({
-      useCleanCache: true
-    });
+    mockery.enable();
 
     initMockRegistry({
       'React': React
@@ -16,7 +14,7 @@ describe('Container component', function() {
 
     mockery.registerAllowable(containerPath);
 
-    Container = require(containerPath).Container;
+    Container = requireUncached(containerPath).Container;
   });
 
   afterEach(function() {

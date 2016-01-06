@@ -213,11 +213,20 @@ class SubmitTicketForm extends React.Component {
 }
 
 SubmitTicketForm.defaultProps = {
-  fullscreen: false
+  hide: false,
+  customFields: [],
+  fullscreen: false,
+  onCancel: () => {}
 };
 
 SubmitTicketForm.propTypes = {
-  formTitleKey: React.PropTypes.string.isRequired
+  formTitleKey: React.PropTypes.string.isRequired,
+  children: React.PropTypes.element.isRequired,
+  submit: React.PropTypes.func.isRequired,
+  hide: React.PropTypes.bool,
+  customFields: React.PropTypes.array,
+  fullscreen: React.PropTypes.bool,
+  onCancel: React.PropTypes.func
 };
 
 export { SubmitTicketForm };

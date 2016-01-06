@@ -30,4 +30,15 @@ class NpsCommentButton extends React.Component {
   }
 }
 
+NpsCommentButton.propTypes = {
+  label: React.PropTypes.string.isRequired,
+  onClick: React.PropTypes.func,
+  placeholder: React.PropTypes.string
+};
+
+NpsCommentButton.defaultProps = {
+  onClick: () => {},
+  placeholder: ''
+};
+
 export { NpsCommentButton };

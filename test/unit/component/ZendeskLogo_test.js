@@ -6,9 +6,7 @@ describe('ZendeskLogo component', function() {
 
     resetDOM();
 
-    mockery.enable({
-      useCleanCache: true
-    });
+    mockery.enable();
 
     initMockRegistry({
       'React': React,
@@ -19,7 +17,7 @@ describe('ZendeskLogo component', function() {
     mockery.registerAllowable('utility/globals');
     mockery.registerAllowable(zendeskLogoPath);
 
-    ZendeskLogo = require(zendeskLogoPath).ZendeskLogo;
+    ZendeskLogo = requireUncached(zendeskLogoPath).ZendeskLogo;
   });
 
   describe('logo class names', function() {

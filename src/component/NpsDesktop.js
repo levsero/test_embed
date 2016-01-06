@@ -14,7 +14,6 @@ class NpsDesktop extends React.Component {
     super(props, context);
     this.ratingChangeValueHandler = this.ratingChangeValueHandler.bind(this);
     this.submitCommentHandler = this.submitCommentHandler.bind(this);
-
     this.state = {
       currentPage: {
         selectingRating: true,
@@ -165,7 +164,27 @@ class NpsDesktop extends React.Component {
 }
 
 NpsDesktop.defaultProps = {
-  isMobile: false
+  hideZendeskLogo: false,
+  isMobile: false,
+  isSubmittingComment: false,
+  isSubmittingRating: false,
+  onCommentChangeHandler: () => {},
+  submitCommentHandler: () => {},
+  submitRatingHandler: () => {}
+};
+
+NpsDesktop.propTypes = {
+  response: React.PropTypes.object.isRequired,
+  setOffsetHorizontal: React.PropTypes.func.isRequired,
+  survey: React.PropTypes.object.isRequired,
+  updateFrameSize: React.PropTypes.func.isRequired,
+  hideZendeskLogo: React.PropTypes.bool,
+  isMobile: React.PropTypes.bool,
+  isSubmittingComment: React.PropTypes.bool,
+  isSubmittingRating: React.PropTypes.bool,
+  onCommentChangeHandler: React.PropTypes.func,
+  submitCommentHandler: React.PropTypes.func,
+  submitRatingHandler: React.PropTypes.func
 };
 
 export { NpsDesktop };

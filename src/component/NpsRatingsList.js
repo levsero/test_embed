@@ -11,7 +11,8 @@ const prependWith = _.curry((prepend, str) => {
      : `${prepend}${str}`;
 });
 
-class NpsRatingsList extends React.Component {
+export const NpsRatingsList = React.createClass({
+
   ratingClickHandlerFn(rating) {
     return (ev) => {
       ev.preventDefault();
@@ -82,7 +83,26 @@ class NpsRatingsList extends React.Component {
 }
 
 NpsRatingsList.defaultProps = {
-  className: ''
+  className: '',
+  hideRatingsLegend: false,
+  highlightColor: '#77a500',
+  isSubmittingComment: false,
+  isSubmittingRating: false,
+  onChangeValue: () => {},
+  ratingsRange: _.range(11)
+};
+
+NpsRatingList.propTypes = {
+  likelyLabel: React.PropTypes.string.isRequired,
+  notLikelyLabel: React.PropTypes.string.isRequired,
+  selectedRating: React.PropTypes.number.isRequired,
+  className: React.addons.classSet,
+  hideRatingsLegend: React.PropTypes.bool,
+  highlightColor: React.PropTypes.string,
+  isSubmittingComment: React.PropTypes.bool,
+  isSubmittingRating: React.PropTypes.bool,
+  onChangeValue: React.PropTypes.func,
+  ratingsRange: React.PropTypes.array
 };
 
 export { NpsRatingsList };
