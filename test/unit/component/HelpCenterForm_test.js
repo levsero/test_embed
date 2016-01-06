@@ -37,7 +37,6 @@ describe('HelpCenterForm component', function() {
     mockery.registerAllowable(helpCenterFormPath);
 
     HelpCenterForm = requireUncached(helpCenterFormPath).HelpCenterForm;
-
   });
 
   afterEach(function() {

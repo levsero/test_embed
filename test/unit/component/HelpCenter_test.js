@@ -8,7 +8,6 @@ describe('HelpCenter component', function() {
   const helpCenterPath = buildSrcPath('component/HelpCenter');
 
   beforeEach(function() {
-
     trackSearch = jasmine.createSpy('trackSearch');
     updateResults = jasmine.createSpy('updateResults');
 
@@ -138,14 +137,12 @@ describe('HelpCenter component', function() {
     jasmine.clock().uninstall();
     mockery.deregisterAll();
     mockery.disable();
-
   });
 
   describe('initial state', () => {
     let helpCenter;
 
     beforeEach(() => {
-
       helpCenter = React.render(
         <HelpCenter
           buttonLabelKey='contact' />,
