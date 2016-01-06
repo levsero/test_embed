@@ -2,11 +2,19 @@
 describe('devices', function() {
   let isBlacklisted,
       isPortait,
-      isLandscape;
+      isLandscape,
+      getDeviceZoom,
+      getZoomSizingRatio;
   const mockGlobals = {
     win: {
+      innerWidth: 1,
+      orientation: 0,
       XMLHttpRequest: function() {
         this.withCredentials = true;
+      },
+      screen: {
+        availWidth: 1,
+        availHeight: 1
       }
     },
     navigator: {
@@ -26,6 +34,8 @@ describe('devices', function() {
     isBlacklisted = requireUncached(devicesPath).isBlacklisted;
     isPortait = requireUncached(devicesPath).isPortait;
     isLandscape = requireUncached(devicesPath).isLandscape;
+    getDeviceZoom = requireUncached(devicesPath).getDeviceZoom;
+    getZoomSizingRatio = requireUncached(devicesPath).getZoomSizingRatio;
   });
 
   afterEach(function() {
@@ -105,6 +115,47 @@ describe('devices', function() {
         win.orientation = 90;
         expect(isLandscape())
           .toBe(true);
+      });
+    });
+  });
+
+  describe('launcher-scaling', function() {
+    const win = mockGlobals.win;
+    const screen = win.screen;
+
+    describe('getDeviceZoom', function() {
+      it('should return the correct zoom with no mobile device meta tags', function() {
+        // iphone 5 potrait dimensions
+        win.orientation = 0;
+        screen.availWidth = 320;
+        screen.availHeight = 548;
+        win.innerWidth = 980;
+        expect(getDeviceZoom())
+          .toBeCloseTo(0.3265, 4);
+      });
+
+      it('should return the correct zoom with mobile device meta tags forcing width', function() {
+        win.innerWidth = 640;
+        expect(getDeviceZoom())
+          .toBeCloseTo(0.5, 4);
+      });
+    });
+
+    describe('getZoomSizingRatio', function() {
+      it('should return the correct ratio with no mobile device meta tags to ensure the font-size gets updated correctly', function() {
+        win.innerWidth = 980;
+
+        const fontSize = (12 * getZoomSizingRatio().toFixed(2)) + 'px';
+        expect(fontSize)
+          .toBe('36.72px');
+      });
+
+      it('should return the correct ratio with mobile device meta tags forcing width to ensure the font-size gets updated correctly', function() {
+        win.innerWidth = 640;
+
+        const fontSize = (12 * getZoomSizingRatio().toFixed(2)) + 'px';
+        expect(fontSize)
+          .toBe('24px');
       });
     });
   });
