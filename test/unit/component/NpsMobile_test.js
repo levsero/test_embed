@@ -437,9 +437,7 @@ describe('NpsMobile component', () => {
 
   describe('startEditing', () => {
     describe('non IOS device', () => {
-      let oldIsIos,
-        newIsIos,
-        mockGoToFullScreen;
+      let mockGoToFullScreen;
 
       beforeEach(() => {
         mockGoToFullScreen = jasmine.createSpy('mockGoToFullScreen');
@@ -481,9 +479,7 @@ describe('NpsMobile component', () => {
 
   describe('stopEditing', () => {
     describe('non IOS device', () => {
-      let oldIsIos,
-        newIsIos,
-        mockResetFullScreen;
+      let mockResetFullScreen;
 
       beforeEach(() => {
         mockIsIosValue = false;
@@ -491,7 +487,6 @@ describe('NpsMobile component', () => {
 
         component.resetFullScreen = mockResetFullScreen;
       });
-
 
       it('should not call resetFullScreen', () => {
         component.stopEditing();

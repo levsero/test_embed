@@ -1,7 +1,7 @@
 describe('Submit ticket component', function() {
   let SubmitTicket,
-    mockIsMobileBrowserValue,
-    mockRegistry;
+    mockIsMobileBrowserValue;
+
   const formParams = {
     'set_tags': 'web_widget',
     'via_id': 48,
@@ -45,7 +45,7 @@ describe('Submit ticket component', function() {
       }
     });
 
-    mockRegistry = initMockRegistry({
+    initMockRegistry({
       'react/addons': React,
       'utility/globals': {
         win: window,
