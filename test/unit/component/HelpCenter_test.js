@@ -1122,6 +1122,8 @@ describe('HelpCenter component', function() {
         return true;
       };
 
+      HelpCenter = requireUncached(helpCenterPath).HelpCenter;
+
       const helpCenter = React.render(
         <HelpCenter />,
         global.document.body
@@ -1136,6 +1138,8 @@ describe('HelpCenter component', function() {
       mockRegistry['utility/devices'].isMobileBrowser = function() {
         return false;
       };
+
+      HelpCenter = requireUncached(helpCenterPath).HelpCenter;
 
       const helpCenter = React.render(
         <HelpCenter />,
@@ -1156,6 +1160,8 @@ describe('HelpCenter component', function() {
     mockRegistry['utility/devices'].isMobileBrowser = function() {
       return true;
     };
+
+    HelpCenter = requireUncached(helpCenterPath).HelpCenter;
 
     const helpCenter = React.render(
       <HelpCenter />,
@@ -1185,6 +1191,8 @@ describe('HelpCenter component', function() {
     mockRegistry['utility/devices'].isMobileBrowser = function() {
       return true;
     };
+
+    HelpCenter = requireUncached(helpCenterPath).HelpCenter;
 
     const helpCenter = React.render(
       <HelpCenter />,
@@ -1224,6 +1232,8 @@ describe('HelpCenter component', function() {
         return true;
       };
 
+      HelpCenter = requireUncached(helpCenterPath).HelpCenter;
+
       const helpCenter = React.render(
         <HelpCenter />,
         global.document.body
@@ -1241,6 +1251,8 @@ describe('HelpCenter component', function() {
       mockRegistry['utility/devices'].isMobileBrowser = function() {
         return true;
       };
+
+      HelpCenter = requireUncached(helpCenterPath).HelpCenter;
 
       const helpCenter = React.render(
         <HelpCenter />,
@@ -1260,6 +1272,8 @@ describe('HelpCenter component', function() {
       mockRegistry['utility/devices'].isMobileBrowser = function() {
         return true;
       };
+
+      HelpCenter = requireUncached(helpCenterPath).HelpCenter;
 
       const helpCenter = React.render(
         <HelpCenter />,

@@ -268,6 +268,8 @@ describe('Submit ticket component', function() {
         return true;
       };
 
+      SubmitTicket = requireUncached(submitTicketPath).SubmitTicket;
+
       const submitTicket = React.render(
         <SubmitTicket />,
         global.document.body
@@ -282,6 +284,8 @@ describe('Submit ticket component', function() {
       mockRegistry['utility/devices'].isMobileBrowser = function() {
         return false;
       };
+
+      SubmitTicket = requireUncached(submitTicketPath).SubmitTicket;
 
       const submitTicket = React.render(
         <SubmitTicket />,

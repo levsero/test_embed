@@ -129,6 +129,8 @@ describe('embed.chat', function() {
           return true;
         };
 
+        chat = requireUncached(chatPath).chat;
+
         chat.create(chatName, {zopimId: zopimId});
         chat.render(chatName);
 
@@ -147,6 +149,8 @@ describe('embed.chat', function() {
         mockRegistry['utility/devices'].isMobileBrowser = function() {
           return false;
         };
+
+        chat = requireUncached(chatPath).chat;
 
         chat.create(chatName, {zopimId: zopimId});
         chat.render(chatName);
@@ -308,6 +312,8 @@ describe('embed.chat', function() {
             mockRegistry['utility/devices'].isMobileBrowser = function() {
               return true;
             };
+
+            chat = requireUncached(chatPath).chat;
 
             chat.create(chatName, {zopimId: zopimId});
             chat.render(chatName);

@@ -592,6 +592,15 @@ describe('embed.helpCenter', function() {
         getPageKeywordsSpy = mockRegistry['utility/utils'].getPageKeywords;
         contextualSearchSpy = jasmine.createSpy('contextualSearch');
 
+      });
+
+      it('should call keywordSearch on non helpcenter pages', function() {
+        mockRegistry['utility/globals'].location = {
+          pathname: '/foo/bar'
+        };
+
+        helpCenter = requireUncached(helpCenterPath).helpCenter;
+
         helpCenter.create('carlos', { contextualHelpEnabled: true });
 
         const helpCenterFrame = helpCenter.get('carlos');
@@ -602,12 +611,6 @@ describe('embed.helpCenter', function() {
               contextualSearch: contextualSearchSpy
             };
           }
-        };
-      });
-
-      it('should call keywordSearch on non helpcenter pages', function() {
-        mockRegistry['utility/globals'].location = {
-          pathname: '/foo/bar'
         };
 
         helpCenter.postRender('carlos');
@@ -623,6 +626,20 @@ describe('embed.helpCenter', function() {
       it('should\'t call keywordSearch on helpcenter pages', function() {
         mockRegistry['utility/globals'].location = {
           pathname: '/hc/1234-article-foo-bar'
+        };
+
+        helpCenter = requireUncached(helpCenterPath).helpCenter;
+
+        helpCenter.create('carlos', { contextualHelpEnabled: true });
+
+        const helpCenterFrame = helpCenter.get('carlos');
+
+        helpCenterFrame.instance = {
+          getRootComponent: () => {
+            return {
+              contextualSearch: contextualSearchSpy
+            };
+          }
         };
 
         helpCenter.postRender('carlos');
