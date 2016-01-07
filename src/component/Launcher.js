@@ -1,9 +1,8 @@
 import React, { Component, PropTypes } from 'react';
+import { classNames } from 'classnames';
 
-import { Icon }            from 'component/Icon';
+import { Icon } from 'component/Icon';
 import { isMobileBrowser } from 'utility/devices';
-
-var classNames = require('classnames');
 
 class Launcher extends Component {
   static propTypes = {

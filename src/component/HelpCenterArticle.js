@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react';
+import { classNames } from 'classnames';
 
 import { i18n } from 'service/i18n';
 import { ButtonPill } from 'component/Button';
 
 const sanitizeHtml = require('sanitize-html');
-const classNames = require('classnames');
 
 class HelpCenterArticle extends Component {
   static propTypes = {

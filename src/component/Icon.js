@@ -1,8 +1,7 @@
 import React, { Component, PropTypes } from 'react';
+import { classNames } from 'classnames';
 
 import { isMobileBrowser } from 'utility/devices';
-
-const classNames = require('classnames');
 
 const icons = {
   'Icon--link': require('icons/widget-icon_link.svg'),

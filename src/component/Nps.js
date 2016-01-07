@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import _     from 'lodash';
+import _ from 'lodash';
 
 import { NpsDesktop } from 'component/NpsDesktop';
 import { NpsMobile } from 'component/NpsMobile';

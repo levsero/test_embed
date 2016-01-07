@@ -1,16 +1,16 @@
 import React, { Component, PropTypes } from 'react';
-import _     from 'lodash';
+import _ from 'lodash';
+import { classNames } from 'classnames';
 
-import { win }              from 'utility/globals';
+import { win } from 'utility/globals';
 import { SubmitTicketForm } from 'component/SubmitTicketForm';
-import { ZendeskLogo }      from 'component/ZendeskLogo';
-import { Container }        from 'component/Container';
-import { ScrollContainer }  from 'component/ScrollContainer';
-import { isMobileBrowser }  from 'utility/devices';
-import { Icon }             from 'component/Icon';
-import { i18n }             from 'service/i18n';
+import { ZendeskLogo } from 'component/ZendeskLogo';
+import { Container } from 'component/Container';
+import { ScrollContainer } from 'component/ScrollContainer';
+import { isMobileBrowser } from 'utility/devices';
+import { Icon } from 'component/Icon';
+import { i18n } from 'service/i18n';
 
-const classNames = require('classnames');
 
 class SubmitTicket extends Component {
   static defaultProps = {

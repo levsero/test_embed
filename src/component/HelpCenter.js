@@ -1,20 +1,19 @@
 import React, { Component, PropTypes } from 'react';
-import _     from 'lodash';
+import _ from 'lodash';
+import { classNames } from 'classnames';
 
-import { HelpCenterForm }    from 'component/HelpCenterForm';
+import { HelpCenterForm } from 'component/HelpCenterForm';
 import { HelpCenterArticle } from 'component/HelpCenterArticle';
 import { SearchField,
          SearchFieldButton } from 'component/FormField';
-import { ZendeskLogo }       from 'component/ZendeskLogo';
-import { Container }         from 'component/Container';
-import { ScrollContainer }   from 'component/ScrollContainer';
-import { isMobileBrowser }   from 'utility/devices';
-import { i18n }              from 'service/i18n';
+import { ZendeskLogo } from 'component/ZendeskLogo';
+import { Container } from 'component/Container';
+import { ScrollContainer } from 'component/ScrollContainer';
+import { isMobileBrowser } from 'utility/devices';
+import { i18n } from 'service/i18n';
 import { Button,
-         ButtonGroup }       from 'component/Button';
-import { beacon }            from 'service/beacon';
-
-const classNames = require('classnames');
+         ButtonGroup } from 'component/Button';
+import { beacon } from 'service/beacon';
 
 class HelpCenter extends Component {
   static defaultProps = {
