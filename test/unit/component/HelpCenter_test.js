@@ -1,8 +1,10 @@
 describe('HelpCenter component', function() {
   let HelpCenter,
     mockRegistry,
+    mockIsMobileBrowserValue,
     trackSearch,
     updateResults;
+
   const searchFieldBlur = jasmine.createSpy();
   const searchFieldGetValue = jasmine.createSpy().and.returnValue('Foobar');
   const helpCenterPath = buildSrcPath('component/HelpCenter');
@@ -14,6 +16,8 @@ describe('HelpCenter component', function() {
     resetDOM();
 
     mockery.enable();
+
+    mockIsMobileBrowserValue = false;
 
     mockRegistry = initMockRegistry({
       'react/addons': React,
@@ -120,7 +124,7 @@ describe('HelpCenter component', function() {
           return 1;
         },
         isMobileBrowser: function() {
-          return false;
+          return mockIsMobileBrowserValue;
         }
       },
       '_': _
@@ -1118,11 +1122,7 @@ describe('HelpCenter component', function() {
   describe('fullscreen state', function() {
     it('should be true if isMobileBrowser() is true', function() {
 
-      mockRegistry['utility/devices'].isMobileBrowser = function() {
-        return true;
-      };
-
-      HelpCenter = requireUncached(helpCenterPath).HelpCenter;
+      mockIsMobileBrowserValue = true;
 
       const helpCenter = React.render(
         <HelpCenter />,
@@ -1135,11 +1135,7 @@ describe('HelpCenter component', function() {
 
     it('should be false if isMobileBrowser() is false', function() {
 
-      mockRegistry['utility/devices'].isMobileBrowser = function() {
-        return false;
-      };
-
-      HelpCenter = requireUncached(helpCenterPath).HelpCenter;
+      mockIsMobileBrowserValue = false;
 
       const helpCenter = React.render(
         <HelpCenter />,
@@ -1157,11 +1153,7 @@ describe('HelpCenter component', function() {
     // resultsCount is 0 &&
     // hasSearched is true
 
-    mockRegistry['utility/devices'].isMobileBrowser = function() {
-      return true;
-    };
-
-    HelpCenter = requireUncached(helpCenterPath).HelpCenter;
+    mockIsMobileBrowserValue = true;
 
     const helpCenter = React.render(
       <HelpCenter />,
@@ -1188,11 +1180,7 @@ describe('HelpCenter component', function() {
     // resultsCount is 0 &&
     // hasSearched is true
 
-    mockRegistry['utility/devices'].isMobileBrowser = function() {
-      return true;
-    };
-
-    HelpCenter = requireUncached(helpCenterPath).HelpCenter;
+    mockIsMobileBrowserValue = true;
 
     const helpCenter = React.render(
       <HelpCenter />,
@@ -1228,11 +1216,7 @@ describe('HelpCenter component', function() {
   describe('searchFieldButton', function() {
     it('should render component if fullscreen is true', function() {
 
-      mockRegistry['utility/devices'].isMobileBrowser = function() {
-        return true;
-      };
-
-      HelpCenter = requireUncached(helpCenterPath).HelpCenter;
+      mockIsMobileBrowserValue = true;
 
       const helpCenter = React.render(
         <HelpCenter />,
@@ -1248,11 +1232,7 @@ describe('HelpCenter component', function() {
 
     it('sets `showIntroScreen` state to false when component is clicked', function() {
 
-      mockRegistry['utility/devices'].isMobileBrowser = function() {
-        return true;
-      };
-
-      HelpCenter = requireUncached(helpCenterPath).HelpCenter;
+      mockIsMobileBrowserValue = true;
 
       const helpCenter = React.render(
         <HelpCenter />,
@@ -1269,11 +1249,7 @@ describe('HelpCenter component', function() {
 
     it('sets focus state on searchField when component is clicked on mobile', function() {
 
-      mockRegistry['utility/devices'].isMobileBrowser = function() {
-        return true;
-      };
-
-      HelpCenter = requireUncached(helpCenterPath).HelpCenter;
+      mockIsMobileBrowserValue = true;
 
       const helpCenter = React.render(
         <HelpCenter />,

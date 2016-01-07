@@ -1,11 +1,9 @@
 describe('embed.chat', function() {
   let chat,
+    mockIsMobileBrowserValue,
     mockRegistry,
     mockZopim;
 
-  const mockDevices = {
-    isMobileBrowser: noop
-  };
   const mockGlobals = {
     document: global.document,
     win: {},
@@ -19,6 +17,8 @@ describe('embed.chat', function() {
     resetDOM();
 
     mockery.enable();
+
+    mockIsMobileBrowserValue = false;
 
     mockZopim = function(fn) {
       return fn.bind(mockGlobals)();
@@ -53,7 +53,11 @@ describe('embed.chat', function() {
 
     mockRegistry = initMockRegistry({
       'utility/globals': mockGlobals,
-      'utility/devices': mockDevices,
+      'utility/devices': {
+        isMobileBrowser: function() {
+          return mockIsMobileBrowserValue;
+        }
+      },
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', ['init', 'setLocale', 'getLocale', 't'])
       },
@@ -125,11 +129,8 @@ describe('embed.chat', function() {
 
     describe('store set zopimOpen', function() {
       it('is set to false if on a mobile browser', function() {
-        mockRegistry['utility/devices'].isMobileBrowser = function() {
-          return true;
-        };
 
-        chat = requireUncached(chatPath).chat;
+        mockIsMobileBrowserValue = true;
 
         chat.create(chatName, {zopimId: zopimId});
         chat.render(chatName);
@@ -146,11 +147,7 @@ describe('embed.chat', function() {
       });
 
       it('is not set if not on a mobile browser', function() {
-        mockRegistry['utility/devices'].isMobileBrowser = function() {
-          return false;
-        };
-
-        chat = requireUncached(chatPath).chat;
+        mockIsMobileBrowserValue = false;
 
         chat.create(chatName, {zopimId: zopimId});
         chat.render(chatName);
@@ -283,9 +280,7 @@ describe('embed.chat', function() {
           });
 
           it('should be true if not on a mobile browser', function() {
-            mockRegistry['utility/devices'].isMobileBrowser = function() {
-              return false;
-            };
+            mockIsMobileBrowserValue = false;
 
             chat.create(chatName, {zopimId: zopimId});
             chat.render(chatName);
@@ -309,11 +304,7 @@ describe('embed.chat', function() {
           });
 
           it('should not be set if on a mobile browser', function() {
-            mockRegistry['utility/devices'].isMobileBrowser = function() {
-              return true;
-            };
-
-            chat = requireUncached(chatPath).chat;
+            mockIsMobileBrowserValue = true;
 
             chat.create(chatName, {zopimId: zopimId});
             chat.render(chatName);

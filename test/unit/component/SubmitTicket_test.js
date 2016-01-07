@@ -1,5 +1,6 @@
 describe('Submit ticket component', function() {
   let SubmitTicket,
+    mockIsMobileBrowserValue,
     mockRegistry;
   const formParams = {
     'set_tags': 'web_widget',
@@ -22,6 +23,8 @@ describe('Submit ticket component', function() {
   beforeEach(function() {
 
     resetDOM();
+
+    mockIsMobileBrowserValue = false;
 
     mockery.enable();
 
@@ -53,7 +56,7 @@ describe('Submit ticket component', function() {
           return 1;
         },
         isMobileBrowser: function() {
-          return false;
+          return mockIsMobileBrowserValue;
         }
       },
       'component/SubmitTicketForm': {
@@ -264,11 +267,7 @@ describe('Submit ticket component', function() {
   describe('fullscreen state', function() {
     it('should be true if isMobileBrowser() is true', function() {
 
-      mockRegistry['utility/devices'].isMobileBrowser = function() {
-        return true;
-      };
-
-      SubmitTicket = requireUncached(submitTicketPath).SubmitTicket;
+      mockIsMobileBrowserValue = true;
 
       const submitTicket = React.render(
         <SubmitTicket />,
@@ -281,11 +280,7 @@ describe('Submit ticket component', function() {
 
     it('should be false if isMobileBrowser() is false', function() {
 
-      mockRegistry['utility/devices'].isMobileBrowser = function() {
-        return false;
-      };
-
-      SubmitTicket = requireUncached(submitTicketPath).SubmitTicket;
+      mockIsMobileBrowserValue = false;
 
       const submitTicket = React.render(
         <SubmitTicket />,
