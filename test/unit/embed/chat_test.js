@@ -54,9 +54,7 @@ describe('embed.chat', function() {
     mockRegistry = initMockRegistry({
       'utility/globals': mockGlobals,
       'utility/devices': {
-        isMobileBrowser: function() {
-          return mockIsMobileBrowserValue;
-        }
+        isMobileBrowser: () => mockIsMobileBrowserValue
       },
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', ['init', 'setLocale', 'getLocale', 't'])
