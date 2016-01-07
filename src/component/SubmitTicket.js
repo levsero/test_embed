@@ -12,11 +12,32 @@ import { i18n }             from 'service/i18n';
 
 const classNames = require('classnames');
 
-class SubmitTicket extends React.Component {
+class SubmitTicket extends Component {
+  static defaultProps = {
+    updateFrameSize: false,
+    hideZendeskLogo: false,
+    customFields: [],
+    style: null,
+    position: 'right',
+    onSubmitted: () => {},
+    onCancel: () => {}
+  };
+  
+  static propTypes = {
+    formTitleKey: React.PropTypes.string.isRequired,
+    submitTicketSender: React.PropTypes.func.isRequired,
+    updateFrameSize: React.PropTypes.bool,
+    hideZendeskLogo: React.PropTypes.bool,
+    customFields: React.PropTypes.array,
+    style: React.PropTypes.element,
+    position: React.PropTypes.string,
+    onSubmitted: React.PropTypes.func,
+    onCancel: React.PropTypes.func
+  };
+
   constructor(props, context) {
     super(props, context);
     this.handleSubmit = this.handleSubmit.bind(this);
-
     this.state = {
       showNotification: false,
       message: '',
@@ -172,27 +193,5 @@ class SubmitTicket extends React.Component {
     );
   }
 }
-
-SubmitTicket.defaultProps = {
-  updateFrameSize: false,
-  hideZendeskLogo: false,
-  customFields: [],
-  style: null,
-  position: 'right',
-  onSubmitted: () => {},
-  onCancel: () => {}
-};
-
-SubmitTicket.propTypes = {
-  formTitleKey: React.PropTypes.string.isRequired,
-  submitTicketSender: React.PropTypes.func.isRequired,
-  updateFrameSize: React.PropTypes.bool,
-  hideZendeskLogo: React.PropTypes.bool,
-  customFields: React.PropTypes.array,
-  style: React.PropTypes.element,
-  position: React.PropTypes.string,
-  onSubmitted: React.PropTypes.func,
-  onCancel: React.PropTypes.func
-};
 
 export { SubmitTicket };

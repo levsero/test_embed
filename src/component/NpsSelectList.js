@@ -2,7 +2,28 @@ import React, { Component, PropTypes } from 'react';
 
 import { Icon } from 'component/Icon';
 
-class NpsSelectList extends React.Component {
+class NpsSelectList extends Component {
+  static defaultProps = {
+    options: [],
+    selectedItem: 0,
+    highlightColor: '',
+    wrapperClassNames: '',
+    selectClassNames: '',
+    iconClassNames: '',
+    onChange: () => {},
+    onFocus: () => {},
+    onBlur: () => {}
+  };
+  
+  static propTypes = {
+    highlightColor: React.PropTypes.string,
+    onBlur: React.PropTypes.func,
+    onChange: React.PropTypes.func,
+    onFocus: React.PropTypes.func,
+    options: React.PropTypes.array,
+    selectedItem: React.PropTypes.number
+  };
+
   render() {
     const optionsList = this.props.options.map(
       (label, i) => {
@@ -29,26 +50,5 @@ class NpsSelectList extends React.Component {
     );
   }
 }
-
-NpsSelectList.defaultProps = {
-  options: [],
-  selectedItem: 0,
-  highlightColor: '',
-  wrapperClassNames: '',
-  selectClassNames: '',
-  iconClassNames: '',
-  onChange: () => {},
-  onFocus: () => {},
-  onBlur: () => {}
-};
-
-NpsSelectList.propTypes = {
-  highlightColor: React.PropTypes.string,
-  onBlur: React.PropTypes.func,
-  onChange: React.PropTypes.func,
-  onFocus: React.PropTypes.func,
-  options: React.PropTypes.array,
-  selectedItem: React.PropTypes.number
-};
 
 export { NpsSelectList };

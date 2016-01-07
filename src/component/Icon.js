@@ -19,7 +19,19 @@ const icons = {
   'Icon': require('icons/widget-icon_help.svg')
 };
 
-class Icon extends React.Component {
+class Icon extends Component {
+  static defaultProps = {
+    type: '',
+    className: '',
+    isMobile: isMobileBrowser()
+  };
+  
+  static propTypes = {
+    type: React.PropTypes.string,
+    className: React.PropTypes.string,
+    isMobile: React.PropTypes.bool
+  };
+  
   render() {
     const icon = icons[this.props.type];
     const iconClasses = classNames({
@@ -35,17 +47,5 @@ class Icon extends React.Component {
     );
   }
 }
-
-Icon.defaultProps = {
-  type: '',
-  className: '',
-  isMobile: isMobileBrowser()
-};
-
-Icon.propTypes = {
-  type: React.PropTypes.string,
-  className: React.PropTypes.string,
-  isMobile: React.PropTypes.bool
-};
 
 export { Icon };

@@ -9,7 +9,31 @@ import { NpsComment } from 'component/NpsComment';
 
 const classNames = require('classnames');
 
-class NpsDesktop extends React.Component {
+class NpsDesktop extends Component {
+  static defaultProps = {
+    hideZendeskLogo: false,
+    isMobile: false,
+    isSubmittingComment: false,
+    isSubmittingRating: false,
+    onCommentChangeHandler: () => {},
+    submitCommentHandler: () => {},
+    submitRatingHandler: () => {}
+  };
+  
+  static propTypes = {
+    response: React.PropTypes.object.isRequired,
+    setOffsetHorizontal: React.PropTypes.func.isRequired,
+    survey: React.PropTypes.object.isRequired,
+    updateFrameSize: React.PropTypes.func.isRequired,
+    hideZendeskLogo: React.PropTypes.bool,
+    isMobile: React.PropTypes.bool,
+    isSubmittingComment: React.PropTypes.bool,
+    isSubmittingRating: React.PropTypes.bool,
+    onCommentChangeHandler: React.PropTypes.func,
+    submitCommentHandler: React.PropTypes.func,
+    submitRatingHandler: React.PropTypes.func
+  };
+
   constructor(props, context) {
     super(props, context);
     this.ratingChangeValueHandler = this.ratingChangeValueHandler.bind(this);
@@ -162,29 +186,5 @@ class NpsDesktop extends React.Component {
     );
   }
 }
-
-NpsDesktop.defaultProps = {
-  hideZendeskLogo: false,
-  isMobile: false,
-  isSubmittingComment: false,
-  isSubmittingRating: false,
-  onCommentChangeHandler: () => {},
-  submitCommentHandler: () => {},
-  submitRatingHandler: () => {}
-};
-
-NpsDesktop.propTypes = {
-  response: React.PropTypes.object.isRequired,
-  setOffsetHorizontal: React.PropTypes.func.isRequired,
-  survey: React.PropTypes.object.isRequired,
-  updateFrameSize: React.PropTypes.func.isRequired,
-  hideZendeskLogo: React.PropTypes.bool,
-  isMobile: React.PropTypes.bool,
-  isSubmittingComment: React.PropTypes.bool,
-  isSubmittingRating: React.PropTypes.bool,
-  onCommentChangeHandler: React.PropTypes.func,
-  submitCommentHandler: React.PropTypes.func,
-  submitRatingHandler: React.PropTypes.func
-};
 
 export { NpsDesktop };

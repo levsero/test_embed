@@ -16,7 +16,30 @@ import { beacon }            from 'service/beacon';
 
 const classNames = require('classnames');
 
-class HelpCenter extends React.Component {
+class HelpCenter extends Component {
+  static defaultProps = {
+    buttonLabelKey: 'message',
+    onSearch: () => {},
+    showBackButton: () => {},
+    onNextClick: () => {},
+    hideZendeskLogo: false,
+    updateFrameSize: false,
+    style: null,
+    formTitleKey: 'help'
+  };
+  
+  static propTypes = {
+    searchSender: React.PropTypes.func.isRequired,
+    buttonLabelKey: React.PropTypes.string,
+    onSearch: React.PropTypes.func,
+    showBackButton: React.PropTypes.func,
+    onNextClick: React.PropTypes.func,
+    hideZendeskLogo: React.PropTypes.bool,
+    updateFrameSize: React.PropTypes.bool,
+    style: React.PropTypes.element,
+    formTitleKey: React.PropTypes.string
+  };
+
   constructor(props, context) {
     super(props, context);
     this.autoSearch = this.autoSearch.bind(this);
@@ -25,7 +48,6 @@ class HelpCenter extends React.Component {
     this.interactiveSearchSuccessFn = this.interactiveSearchSuccessFn.bind(this);
     this.manualSearch = this.manualSearch.bind(this);
     this.searchBoxClickHandler = this.searchBoxClickHandler.bind(this);
-
     this.state = {
       articles: [],
       resultsCount: 0,
@@ -547,29 +569,5 @@ class HelpCenter extends React.Component {
     );
   }
 }
-
-HelpCenter.defaultProps = {
-  buttonLabelKey: 'message',
-  onSearch: () => {},
-  showBackButton: () => {},
-  onNextClick: () => {},
-  hideZendeskLogo: false,
-  updateFrameSize: false,
-  style: null,
-  formTitleKey: 'help'
-};
-
-HelpCenter.propTypes = {
-  searchSender: React.PropTypes.func.isRequired,
-  buttonLabelKey: React.PropTypes.string,
-  onSearch: React.PropTypes.func,
-  showBackButton: React.PropTypes.func,
-  onNextClick: React.PropTypes.func,
-  hideZendeskLogo: React.PropTypes.bool,
-  updateFrameSize: React.PropTypes.bool,
-  style: React.PropTypes.element,
-  formTitleKey: React.PropTypes.string
-};
-
 
 export { HelpCenter };

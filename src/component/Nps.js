@@ -4,14 +4,21 @@ import _     from 'lodash';
 import { NpsDesktop } from 'component/NpsDesktop';
 import { NpsMobile } from 'component/NpsMobile';
 
-class Nps extends React.Component {
+class Nps extends Component {
+  static propTypes = {
+    npsSender: React.PropTypes.func.isRequired,
+    mobile: React.PropTypes.bool.isRequired,
+    setFrameSize: React.PropTypes.func.isRequired,
+    setOffsetHorizontal: React.PropTypes.func.isRequired,
+    updateFrameSize: React.PropTypes.func
+  };
+
   constructor(props, context) {
     super(props, context);
     this.onCommentChangeHandler = this.onCommentChangeHandler.bind(this);
     this.submitCommentHandler = this.submitCommentHandler.bind(this);
     this.submitRatingHandler = this.submitRatingHandler.bind(this);
     this.updateRating = this.updateRating.bind(this);
-
     this.state = {
       survey: {
         commentsQuestion: '',
@@ -150,13 +157,5 @@ class Nps extends React.Component {
           setOffsetHorizontal={this.props.setOffsetHorizontal} />;
   }
 }
-
-Nps.propTypes = {
-  npsSender: React.PropTypes.func.isRequired,
-  mobile: React.PropTypes.bool.isRequired,
-  setFrameSize: React.PropTypes.func.isRequired,
-  setOffsetHorizontal: React.PropTypes.func.isRequired,
-  updateFrameSize: React.PropTypes.func
-};
 
 export { Nps }

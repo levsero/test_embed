@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-class LoadingSpinner extends React.Component {
+class LoadingSpinner extends Component {
   render() {
     return (
       <div
@@ -19,6 +19,14 @@ LoadingSpinner.propTypes = {
 };
 
 class LoadingEllipses extends React.Component {
+  static defaultProps = {
+    className: ''
+  };
+  
+  static propTypes = {
+    className: React.PropTypes.string
+  };
+
   render() {
     const loadingEllipsesItemClasses = `
       LoadingEllipses-item
@@ -35,13 +43,5 @@ class LoadingEllipses extends React.Component {
     );
   }
 }
-
-LoadingEllipses.defaultProps = {
-  className: ''
-};
-
-LoadingEllipses.propTypes = {
-  className: React.PropTypes.string
-};
 
 export { LoadingSpinner, LoadingEllipses };

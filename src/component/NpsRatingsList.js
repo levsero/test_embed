@@ -11,7 +11,29 @@ const prependWith = _.curry((prepend, str) => {
      : `${prepend}${str}`;
 });
 
-class NpsRatingsList extends React.Component {
+class NpsRatingsList extends Component {
+  static defaultProps = {
+    className: '',
+    hideRatingsLegend: false,
+    highlightColor: '#77a500',
+    isSubmittingComment: false,
+    isSubmittingRating: false,
+    onChangeValue: () => {},
+    ratingsRange: _.range(11)
+  };
+  
+  static propTypes = {
+    likelyLabel: React.PropTypes.string.isRequired,
+    notLikelyLabel: React.PropTypes.string.isRequired,
+    selectedRating: React.PropTypes.number.isRequired,
+    className: React.PropTypes.string,
+    hideRatingsLegend: React.PropTypes.bool,
+    highlightColor: React.PropTypes.string,
+    isSubmittingComment: React.PropTypes.bool,
+    isSubmittingRating: React.PropTypes.bool,
+    onChangeValue: React.PropTypes.func,
+    ratingsRange: React.PropTypes.array
+  };
 
   ratingClickHandlerFn(rating) {
     return (ev) => {
@@ -81,28 +103,5 @@ class NpsRatingsList extends React.Component {
     );
   }
 }
-
-NpsRatingsList.defaultProps = {
-  className: '',
-  hideRatingsLegend: false,
-  highlightColor: '#77a500',
-  isSubmittingComment: false,
-  isSubmittingRating: false,
-  onChangeValue: () => {},
-  ratingsRange: _.range(11)
-};
-
-NpsRatingsList.propTypes = {
-  likelyLabel: React.PropTypes.string.isRequired,
-  notLikelyLabel: React.PropTypes.string.isRequired,
-  selectedRating: React.PropTypes.number.isRequired,
-  className: React.PropTypes.string,
-  hideRatingsLegend: React.PropTypes.bool,
-  highlightColor: React.PropTypes.string,
-  isSubmittingComment: React.PropTypes.bool,
-  isSubmittingRating: React.PropTypes.bool,
-  onChangeValue: React.PropTypes.func,
-  ratingsRange: React.PropTypes.array
-};
 
 export { NpsRatingsList };

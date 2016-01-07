@@ -19,7 +19,28 @@ import { Button } from 'component/Button';
 
 const classNames = require('classnames');
 
-class NpsMobile extends React.Component {
+class NpsMobile extends Component {
+  static propTypes = {
+    npsSender: React.PropTypes.func.isRequired,
+    response: React.PropTypes.object.isRequired,
+    setFrameSize: React.PropTypes.func.isRequired,
+    survey: React.PropTypes.object.isRequired,
+    updateRating: React.PropTypes.func.isRequired,
+    isSubmittingComment: React.PropTypes.bool,
+    isSubmittingRating: React.PropTypes.bool,
+    onCommentChangeHandler: React.PropTypes.func,
+    submitCommentHandler: React.PropTypes.func,
+    submitRatingHandler: React.PropTypes.func
+  };
+  
+  static defaultProps = {
+    isSubmittingComment: false,
+    isSubmittingRating: false,
+    onCommentChangeHandler: () => {},
+    submitCommentHandler: () => {},
+    submitRatingHandler: () => {}
+  };
+
   constructor(props, context) {
     super(props, context);
     this.handleDropDownBlur = this.handleDropDownBlur.bind(this);
@@ -293,26 +314,5 @@ class NpsMobile extends React.Component {
     );
   }
 }
-
-NpsMobile.propTypes = {
-  npsSender: React.PropTypes.func.isRequired,
-  response: React.PropTypes.object.isRequired,
-  setFrameSize: React.PropTypes.func.isRequired,
-  survey: React.PropTypes.object.isRequired,
-  updateRating: React.PropTypes.func.isRequired,
-  isSubmittingComment: React.PropTypes.bool,
-  isSubmittingRating: React.PropTypes.bool,
-  onCommentChangeHandler: React.PropTypes.func,
-  submitCommentHandler: React.PropTypes.func,
-  submitRatingHandler: React.PropTypes.func
-};
-
-NpsMobile.defaultProps = {
-  isSubmittingComment: false,
-  isSubmittingRating: false,
-  onCommentChangeHandler: () => {},
-  submitCommentHandler: () => {},
-  submitRatingHandler: () => {}
-};
 
 export { NpsMobile };

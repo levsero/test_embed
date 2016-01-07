@@ -4,7 +4,23 @@ import { Icon } from 'component/Icon';
 
 const classNames = require('classnames');
 
-class ZendeskLogo extends React.Component {
+class ZendeskLogo extends Component {
+  static defaultProps = {
+    rtl: false,
+    fullscreen: false,
+    formSuccess: false,
+    className: '',
+    utm: 'webwidget'
+  };
+  
+  static propTypes = {
+    rtl: React.PropTypes.bool,
+    fullscreen: React.PropTypes.bool,
+    formSuccess: React.PropTypes.bool,
+    className: React.PropTypes.string,
+    utm: React.PropTypes.string
+  };
+
   render() {
     const { fullscreen, rtl, formSuccess } = this.props;
     const logoClasses = classNames({
@@ -28,21 +44,5 @@ class ZendeskLogo extends React.Component {
     );
   }
 }
-
-ZendeskLogo.defaultProps = {
-  rtl: false,
-  fullscreen: false,
-  formSuccess: false,
-  className: '',
-  utm: 'webwidget'
-};
-
-ZendeskLogo.propTypes = {
-  rtl: React.PropTypes.bool,
-  fullscreen: React.PropTypes.bool,
-  formSuccess: React.PropTypes.bool,
-  className: React.PropTypes.string,
-  utm: React.PropTypes.string
-};
 
 export { ZendeskLogo };

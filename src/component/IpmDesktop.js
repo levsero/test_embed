@@ -5,7 +5,13 @@ import { Button } from 'component/Button';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { Icon } from 'component/Icon';
 
-class IpmDesktop extends React.Component {
+class IpmDesktop extends Component {
+  static propTypes = {
+    ipm: React.PropTypes.object.isRequired,
+    ipmSender: React.PropTypes.func.isRequired,
+    updateFrameSize: React.PropTypes.func.isRequired
+  };
+
   constructor(props, context) {
     super(props, context);
     this.handleOnClick = this.handleOnClick.bind(this);
@@ -71,11 +77,5 @@ class IpmDesktop extends React.Component {
     );
   }
 }
-
-IpmDesktop.propTypes = {
-  ipm: React.PropTypes.object.isRequired,
-  ipmSender: React.PropTypes.func.isRequired,
-  updateFrameSize: React.PropTypes.func.isRequired
-};
 
 export { IpmDesktop };

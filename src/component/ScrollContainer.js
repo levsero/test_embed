@@ -2,7 +2,28 @@ import React, { Component, PropTypes } from 'react';
 
 const classNames = require('classnames');
 
-class ScrollContainer extends React.Component {
+class ScrollContainer extends Component {
+  static defaultProps = {
+    footerContent: [],
+    headerContent: null,
+    contentExpanded: false,
+    fullscreen: false,
+    hideZendeskLogo: false
+  };
+  
+  static propTypes = {
+    title: React.PropTypes.string.isRequired,
+    children: React.PropTypes.element.isRequired,
+    footerContent: React.PropTypes.oneOfType([
+      React.PropTypes.element,
+      React.PropTypes.array(React.PropTypes.element)
+    ]),
+    headerContent: React.PropTypes.element,
+    contentExpanded: React.PropTypes.bool,
+    fullscreen: React.PropTypes.bool,
+    hideZendeskLogo: React.PropTypes.bool
+  };
+
   constructor(props, context) {
     super(props, context);
 
@@ -67,26 +88,5 @@ class ScrollContainer extends React.Component {
     );
   }
 }
-
-ScrollContainer.defaultProps = {
-  footerContent: [],
-  headerContent: null,
-  contentExpanded: false,
-  fullscreen: false,
-  hideZendeskLogo: false
-};
-
-ScrollContainer.propTypes = {
-  title: React.PropTypes.string.isRequired,
-  children: React.PropTypes.element.isRequired,
-  footerContent: React.PropTypes.oneOfType([
-    React.PropTypes.element,
-    React.PropTypes.array(React.PropTypes.element)
-  ]),
-  headerContent: React.PropTypes.element,
-  contentExpanded: React.PropTypes.bool,
-  fullscreen: React.PropTypes.bool,
-  hideZendeskLogo: React.PropTypes.bool
-};
 
 export { ScrollContainer };

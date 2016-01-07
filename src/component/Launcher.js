@@ -5,7 +5,15 @@ import { isMobileBrowser } from 'utility/devices';
 
 var classNames = require('classnames');
 
-class Launcher extends React.Component {
+class Launcher extends Component {
+  static propTypes = {
+    onClick: React.PropTypes.func,
+    updateFrameSize: React.PropTypes.func,
+    position: React.PropTypes.string,
+    label: React.PropTypes.string,
+    icon: React.PropTypes.string
+  };
+
   constructor(props, context) {
     super(props, context);
 
@@ -61,13 +69,5 @@ class Launcher extends React.Component {
     );
   }
 }
-
-Launcher.propTypes = {
-  onClick: React.PropTypes.func,
-  updateFrameSize: React.PropTypes.func,
-  position: React.PropTypes.string,
-  label: React.PropTypes.string,
-  icon: React.PropTypes.string
-};
 
 export { Launcher };

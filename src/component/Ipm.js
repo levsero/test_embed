@@ -2,11 +2,17 @@ import React, { Component, PropTypes } from 'react';
 
 import { IpmDesktop } from 'component/IpmDesktop';
 
-class Ipm extends React.Component {
+class Ipm extends Component {
+  static propTypes = {
+    setFrameSize: React.PropTypes.func.isRequired,
+    updateFrameSize: React.PropTypes.func.isRequired,
+    ipmSender: React.PropTypes.func.isRequired,
+    mobile: React.PropTypes.bool.isRequired
+  };
+  
   constructor(props, context) {
     super(props, context);
     this.ipmSender = this.ipmSender.bind(this);
-
     this.state = {
       ipm: {
         id: null,
@@ -43,12 +49,5 @@ class Ipm extends React.Component {
     );
   }
 }
-
-Ipm.propTypes = {
-  setFrameSize: React.PropTypes.func.isRequired,
-  updateFrameSize: React.PropTypes.func.isRequired,
-  ipmSender: React.PropTypes.func.isRequired,
-  mobile: React.PropTypes.bool.isRequired
-};
 
 export { Ipm };

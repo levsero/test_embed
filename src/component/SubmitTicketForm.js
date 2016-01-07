@@ -11,12 +11,28 @@ import { Field,
 
 const classNames = require('classnames');
 
-class SubmitTicketForm extends React.Component {
+class SubmitTicketForm extends Component {
+  static defaultProps = {
+    hide: false,
+    customFields: [],
+    fullscreen: false,
+    onCancel: () => {}
+  };
+  
+  static propTypes = {
+    formTitleKey: React.PropTypes.string.isRequired,
+    children: React.PropTypes.element.isRequired,
+    submit: React.PropTypes.func.isRequired,
+    hide: React.PropTypes.bool,
+    customFields: React.PropTypes.array,
+    fullscreen: React.PropTypes.bool,
+    onCancel: React.PropTypes.func
+  };
+
   constructor(props, context) {
     super(props, context);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
-
     this.state = {
       isValid: false,
       buttonMessage: i18n.t(
@@ -211,22 +227,5 @@ class SubmitTicketForm extends React.Component {
     );
   }
 }
-
-SubmitTicketForm.defaultProps = {
-  hide: false,
-  customFields: [],
-  fullscreen: false,
-  onCancel: () => {}
-};
-
-SubmitTicketForm.propTypes = {
-  formTitleKey: React.PropTypes.string.isRequired,
-  children: React.PropTypes.element.isRequired,
-  submit: React.PropTypes.func.isRequired,
-  hide: React.PropTypes.bool,
-  customFields: React.PropTypes.array,
-  fullscreen: React.PropTypes.bool,
-  onCancel: React.PropTypes.func
-};
 
 export { SubmitTicketForm };

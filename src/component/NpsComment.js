@@ -8,7 +8,30 @@ import { i18n } from 'service/i18n';
 
 const classNames = require('classnames');
 
-class NpsComment extends React.Component {
+class NpsComment extends Component {
+  static defaultProps = {
+    className: '',
+    feedbackPlaceholder: '',
+    hasError: false,
+    isSubmittingComment: false,
+    isSubmittingRating: false,
+    onChange: () => {},
+    onSubmit: () => {}
+  };
+  
+  static propTypes = {
+    comment: React.PropTypes.string.isRequired,
+    isMobile: React.PropTypes.bool.isRequired,
+    className: React.PropTypes.string,
+    feedbackPlaceholder: React.PropTypes.string,
+    hasError: React.PropTypes.bool,
+    isSubmittingComment: React.PropTypes.bool,
+    isSubmittingRating: React.PropTypes.bool,
+    label: React.PropTypes.string,
+    onChange: React.PropTypes.func,
+    onSubmit: React.PropTypes.func
+  };
+
   focusField() {
     React.findDOMNode(this.refs.commentField
       .refs.field)
@@ -87,28 +110,5 @@ class NpsComment extends React.Component {
     );
   }
 }
-
-NpsComment.defaultProps = {
-  className: '',
-  feedbackPlaceholder: '',
-  hasError: false,
-  isSubmittingComment: false,
-  isSubmittingRating: false,
-  onChange: () => {},
-  onSubmit: () => {}
-};
-
-NpsComment.propTypes = {
-  comment: React.PropTypes.string.isRequired,
-  isMobile: React.PropTypes.bool.isRequired,
-  className: React.PropTypes.string,
-  feedbackPlaceholder: React.PropTypes.string,
-  hasError: React.PropTypes.bool,
-  isSubmittingComment: React.PropTypes.bool,
-  isSubmittingRating: React.PropTypes.bool,
-  label: React.PropTypes.string,
-  onChange: React.PropTypes.func,
-  onSubmit: React.PropTypes.func
-};
 
 export { NpsComment };

@@ -6,11 +6,19 @@ import { ButtonPill } from 'component/Button';
 const sanitizeHtml = require('sanitize-html');
 const classNames = require('classnames');
 
-class HelpCenterArticle extends React.Component {
+class HelpCenterArticle extends Component {
+  static propTypes = {
+    activeArticle: React.PropTypes.object.isRequired,
+    fullscreen: React.PropTypes.bool
+  };
+  
+  static defaultProps = {
+    fullscreen: false
+  };
+
   constructor(props, context) {
     super(props, context);
     this.handleClick = this.handleClick.bind(this);
-
     this.state = {
       lastActiveArticleId: 0
     };
@@ -123,15 +131,6 @@ class HelpCenterArticle extends React.Component {
     );
   }
 }
-
-HelpCenterArticle.propTypes = {
-  activeArticle: React.PropTypes.object.isRequired,
-  fullscreen: React.PropTypes.bool
-};
-
-HelpCenterArticle.defaultProps = {
-  fullscreen: false
-};
 
 export { HelpCenterArticle };
 
