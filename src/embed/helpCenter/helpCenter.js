@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import _     from 'lodash';
 
 import { document,
@@ -210,7 +211,7 @@ function render(name) {
 
   const element = getDocumentHost().appendChild(document.createElement('div'));
 
-  helpCenters[name].instance = React.render(helpCenters[name].component, element);
+  helpCenters[name].instance = ReactDOM.render(helpCenters[name].component, element);
 
   mediator.channel.subscribe(name + '.show', function(options = {}) {
     // stop stupid host page scrolling

@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import _     from 'lodash';
 
 import { document,
@@ -112,7 +113,7 @@ function render(name) {
 
   const element = getDocumentHost().appendChild(document.createElement('div'));
 
-  launchers[name].instance = React.render(launchers[name].component, element);
+  launchers[name].instance = ReactDOM.render(launchers[name].component, element);
 
   mediator.channel.subscribe(name + '.hide', function(options = {}) {
     if (getRootComponent(name)) {

@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import _     from 'lodash';
 
 import { frameFactory }     from 'embed/frameFactory';
@@ -92,7 +93,7 @@ function get(name) {
 function render(name) {
   const element = getDocumentHost().appendChild(document.createElement('div'));
 
-  ipmes[name].instance = React.render(ipmes[name].component, element);
+  ipmes[name].instance = ReactDOM.render(ipmes[name].component, element);
 
   mediator.channel.subscribe('ipm.setIpm', (params) => {
     const ipm = ipmes[name].instance.getRootComponent();
