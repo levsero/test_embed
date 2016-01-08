@@ -8,10 +8,10 @@ const sanitizeHtml = require('sanitize-html');
 
 class HelpCenterArticle extends Component {
   static propTypes = {
-    activeArticle: React.PropTypes.object.isRequired,
-    fullscreen: React.PropTypes.bool
+    activeArticle: PropTypes.object.isRequired,
+    fullscreen: PropTypes.bool
   };
-  
+
   static defaultProps = {
     fullscreen: false
   };

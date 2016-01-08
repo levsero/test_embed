@@ -57,6 +57,32 @@ const getCustomFields = function(customFields, formState) {
 };
 
 class Field extends Component {
+  static propTypes = {
+    name: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ]).isRequired,
+    placeholder: PropTypes.string,
+    value: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ]),
+    input: PropTypes.element,
+    required: PropTypes.bool,
+    label: function(props, propName, componentName) {
+      if (props.type === 'checkbox' && !props[propName]) {
+        return new Error(`${componentName} must have a label prop if type is set to "checkbox"`);
+      }
+    },
+    type: PropTypes.string,
+    options: PropTypes.bool,
+    hasSearched: PropTypes.bool,
+    labelClasses: PropTypes.string,
+    onFocus: PropTypes.func,
+    onBlur: PropTypes.func,
+    onChange: PropTypes.func
+  };
+
   static defaultProps = {
     placeholder: 'text',
     value: '',
@@ -69,32 +95,6 @@ class Field extends Component {
     onFocus: () => {},
     onBlur: () => {},
     onChange: () => {}
-  };
-  
-  static propTypes = {
-    name: React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.number
-    ]).isRequired,
-    placeholder: React.PropTypes.string,
-    value: React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.number
-    ]),
-    input: React.PropTypes.element,
-    required: React.PropTypes.bool,
-    label: function(props, propName, componentName) {
-      if (props.type === 'checkbox' && !props[propName]) {
-        return new Error(`${componentName} must have a label prop if type is set to "checkbox"`);
-      }
-    },
-    type: React.PropTypes.string,
-    options: React.PropTypes.bool,
-    hasSearched: React.PropTypes.bool,
-    labelClasses: React.PropTypes.string,
-    onFocus: React.PropTypes.func,
-    onBlur: React.PropTypes.func,
-    onChange: React.PropTypes.func
   };
 
   constructor(props, context) {
@@ -232,21 +232,21 @@ class Field extends Component {
 }
 
 class SelectField extends Component {
+  static propTypes = {
+    name: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ]).isRequired,
+    options: PropTypes.array.isRequired,
+    onFocus: PropTypes.func,
+    onBlur: PropTypes.func
+  };
+
   static defaultProps = {
     onFocus: () => {},
     onBlur: () => {}
   };
-  
-  static propTypes = {
-    name: React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.number
-    ]).isRequired,
-    options: React.PropTypes.array.isRequired,
-    onFocus: React.PropTypes.func,
-    onBlur: React.PropTypes.func
-  };
-  
+
   formatOptions() {
     const props = this.props;
     const options = [
@@ -297,23 +297,23 @@ class SelectField extends Component {
 }
 
 class SearchFieldButton extends Component {
+  static propTypes = {
+    onClick: PropTypes.func,
+    onTouch: PropTypes.func
+  };
+
   static defaultProps = {
     onClick: () => {},
     onTouch: () => {}
   };
-  
-  static propTypes = {
-    onClick: React.PropTypes.func,
-    onTouch: React.PropTypes.func
-  };
-  
+
   render() {
     return (
       <div className='u-cf u-paddingHN u-paddingBN Form-cta--barFullscreen'>
         <div
           className='Arrange Arrange--middle Form-field Form-field--search u-isSelectable is-mobile'
-          onClick={props.onClick}
-          onTouch={props.onTouch}>
+          onClick={this.props.onClick}
+          onTouch={this.props.onTouch}>
           <Icon
             className='Arrange-sizeFit u-isActionable'
             type='Icon--search' />
@@ -324,6 +324,17 @@ class SearchFieldButton extends Component {
 }
 
 class SearchField extends Component {
+  static propTypes = {
+    fullscreen: PropTypes.bool,
+    isLoading: PropTypes.bool,
+    hasSearched: PropTypes.bool,
+    onFocus: PropTypes.func,
+    onBlur: PropTypes.func,
+    onChange: PropTypes.func,
+    onSearchIconClick: PropTypes.func,
+    onChangeValue: PropTypes.func
+  };
+
   static defaultProps = {
     fullscreen: false,
     isLoading: false,
@@ -333,17 +344,6 @@ class SearchField extends Component {
     onChange: () => {},
     onSearchIconClick:  () => {},
     onChangeValue: () => {}
-  };
-  
-  static propTypes = {
-    fullscreen: React.PropTypes.bool,
-    isLoading: React.PropTypes.bool,
-    hasSearched: React.PropTypes.bool,
-    onFocus: React.PropTypes.func,
-    onBlur: React.PropTypes.func,
-    onChange: React.PropTypes.func,
-    onSearchIconClick: React.PropTypes.func,
-    onChangeValue: React.PropTypes.func
   };
 
   constructor(props, context) {

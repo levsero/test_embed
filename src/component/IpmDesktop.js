@@ -7,9 +7,9 @@ import { Icon } from 'component/Icon';
 
 class IpmDesktop extends Component {
   static propTypes = {
-    ipm: React.PropTypes.object.isRequired,
-    ipmSender: React.PropTypes.func.isRequired,
-    updateFrameSize: React.PropTypes.func.isRequired
+    ipm: PropTypes.object.isRequired,
+    ipmSender: PropTypes.func.isRequired,
+    updateFrameSize: PropTypes.func.isRequired
   };
 
   constructor(props, context) {

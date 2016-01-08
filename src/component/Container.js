@@ -3,13 +3,13 @@ import { classNames } from 'classnames';
 
 class Container extends Component {
   static propTypes = {
-    children: React.PropTypes.element.isRequired,
-    fullscreen: React.PropTypes.bool,
-    className: React.PropTypes.string,
-    style: React.PropTypes.element,
-    card: React.PropTypes.bool
+    children: PropTypes.element.isRequired,
+    fullscreen: PropTypes.bool,
+    className: PropTypes.string,
+    style: PropTypes.element,
+    card: PropTypes.bool
   };
-  
+
   static defaultProps = {
     fullscreen: false,
     className: '',

@@ -9,6 +9,20 @@ import { NpsRatingsList } from 'component/NpsRatingsList';
 import { NpsComment } from 'component/NpsComment';
 
 class NpsDesktop extends Component {
+  static propTypes = {
+    response: PropTypes.object.isRequired,
+    setOffsetHorizontal: PropTypes.func.isRequired,
+    survey: PropTypes.object.isRequired,
+    updateFrameSize: PropTypes.func.isRequired,
+    hideZendeskLogo: PropTypes.bool,
+    isMobile: PropTypes.bool,
+    isSubmittingComment: PropTypes.bool,
+    isSubmittingRating: PropTypes.bool,
+    onCommentChangeHandler: PropTypes.func,
+    submitCommentHandler: PropTypes.func,
+    submitRatingHandler: PropTypes.func
+  };
+
   static defaultProps = {
     hideZendeskLogo: false,
     isMobile: false,
@@ -17,20 +31,6 @@ class NpsDesktop extends Component {
     onCommentChangeHandler: () => {},
     submitCommentHandler: () => {},
     submitRatingHandler: () => {}
-  };
-  
-  static propTypes = {
-    response: React.PropTypes.object.isRequired,
-    setOffsetHorizontal: React.PropTypes.func.isRequired,
-    survey: React.PropTypes.object.isRequired,
-    updateFrameSize: React.PropTypes.func.isRequired,
-    hideZendeskLogo: React.PropTypes.bool,
-    isMobile: React.PropTypes.bool,
-    isSubmittingComment: React.PropTypes.bool,
-    isSubmittingRating: React.PropTypes.bool,
-    onCommentChangeHandler: React.PropTypes.func,
-    submitCommentHandler: React.PropTypes.func,
-    submitRatingHandler: React.PropTypes.func
   };
 
   constructor(props, context) {

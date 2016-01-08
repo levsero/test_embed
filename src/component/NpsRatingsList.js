@@ -5,13 +5,20 @@ import { ButtonRating } from 'component/Button';
 
 const classNames = require('classnames');
 
-const prependWith = _.curry((prepend, str) => {
-  return str.indexOf(prepend) > -1
-     ? str
-     : `${prepend}${str}`;
-});
-
 class NpsRatingsList extends Component {
+  static propTypes = {
+    likelyLabel: PropTypes.string.isRequired,
+    notLikelyLabel: PropTypes.string.isRequired,
+    selectedRating: PropTypes.number.isRequired,
+    className: PropTypes.string,
+    hideRatingsLegend: PropTypes.bool,
+    highlightColor: PropTypes.string,
+    isSubmittingComment: PropTypes.bool,
+    isSubmittingRating: PropTypes.bool,
+    onChangeValue: PropTypes.func,
+    ratingsRange: PropTypes.array
+  };
+
   static defaultProps = {
     className: '',
     hideRatingsLegend: false,
@@ -20,19 +27,6 @@ class NpsRatingsList extends Component {
     isSubmittingRating: false,
     onChangeValue: () => {},
     ratingsRange: _.range(11)
-  };
-  
-  static propTypes = {
-    likelyLabel: React.PropTypes.string.isRequired,
-    notLikelyLabel: React.PropTypes.string.isRequired,
-    selectedRating: React.PropTypes.number.isRequired,
-    className: React.PropTypes.string,
-    hideRatingsLegend: React.PropTypes.bool,
-    highlightColor: React.PropTypes.string,
-    isSubmittingComment: React.PropTypes.bool,
-    isSubmittingRating: React.PropTypes.bool,
-    onChangeValue: React.PropTypes.func,
-    ratingsRange: React.PropTypes.array
   };
 
   ratingClickHandlerFn(rating) {
@@ -45,6 +39,11 @@ class NpsRatingsList extends Component {
   render() {
     const ratingsLegendClasses = 'RatingsList-legend u-sizeFull u-paddingHT';
     const ratingsListClasses = `RatingsList u-textCenter ${this.props.className}`;
+    const prependWith = _.curry((prepend, str) => {
+      return str.indexOf(prepend) > -1
+        ? str
+        : `${prepend}${str}`;
+    });
 
     const labelClasses = classNames({
       'u-inlineBlock u-size1of2 u-marginBN': true

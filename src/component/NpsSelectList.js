@@ -3,6 +3,15 @@ import React, { Component, PropTypes } from 'react';
 import { Icon } from 'component/Icon';
 
 class NpsSelectList extends Component {
+  static propTypes = {
+    highlightColor: PropTypes.string,
+    onBlur: PropTypes.func,
+    onChange: PropTypes.func,
+    onFocus: PropTypes.func,
+    options: PropTypes.array,
+    selectedItem: PropTypes.number
+  };
+
   static defaultProps = {
     options: [],
     selectedItem: 0,
@@ -13,15 +22,6 @@ class NpsSelectList extends Component {
     onChange: () => {},
     onFocus: () => {},
     onBlur: () => {}
-  };
-  
-  static propTypes = {
-    highlightColor: React.PropTypes.string,
-    onBlur: React.PropTypes.func,
-    onChange: React.PropTypes.func,
-    onFocus: React.PropTypes.func,
-    options: React.PropTypes.array,
-    selectedItem: React.PropTypes.number
   };
 
   render() {

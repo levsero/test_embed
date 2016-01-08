@@ -15,16 +15,16 @@ LoadingSpinner.defaultProps = {
 };
 
 LoadingSpinner.propTypes = {
-  className: React.PropTypes.string
+  className: PropTypes.string
 };
 
-class LoadingEllipses extends React.Component {
+class LoadingEllipses extends Component {
+  static propTypes = {
+    className: PropTypes.string
+  };
+
   static defaultProps = {
     className: ''
-  };
-  
-  static propTypes = {
-    className: React.PropTypes.string
   };
 
   render() {

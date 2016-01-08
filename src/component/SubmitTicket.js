@@ -11,8 +11,19 @@ import { isMobileBrowser } from 'utility/devices';
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
 
-
 class SubmitTicket extends Component {
+  static propTypes = {
+    formTitleKey: PropTypes.string.isRequired,
+    submitTicketSender: PropTypes.func.isRequired,
+    updateFrameSize: PropTypes.bool,
+    hideZendeskLogo: PropTypes.bool,
+    customFields: PropTypes.array,
+    style: PropTypes.element,
+    position: PropTypes.string,
+    onSubmitted: PropTypes.func,
+    onCancel: PropTypes.func
+  };
+
   static defaultProps = {
     updateFrameSize: false,
     hideZendeskLogo: false,
@@ -21,18 +32,6 @@ class SubmitTicket extends Component {
     position: 'right',
     onSubmitted: () => {},
     onCancel: () => {}
-  };
-  
-  static propTypes = {
-    formTitleKey: React.PropTypes.string.isRequired,
-    submitTicketSender: React.PropTypes.func.isRequired,
-    updateFrameSize: React.PropTypes.bool,
-    hideZendeskLogo: React.PropTypes.bool,
-    customFields: React.PropTypes.array,
-    style: React.PropTypes.element,
-    position: React.PropTypes.string,
-    onSubmitted: React.PropTypes.func,
-    onCancel: React.PropTypes.func
   };
 
   constructor(props, context) {

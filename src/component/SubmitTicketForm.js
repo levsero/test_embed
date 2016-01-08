@@ -11,21 +11,21 @@ import { Field,
          getCustomFields } from 'component/FormField';
 
 class SubmitTicketForm extends Component {
+  static propTypes = {
+    formTitleKey: PropTypes.string.isRequired,
+    children: PropTypes.element.isRequired,
+    submit: PropTypes.func.isRequired,
+    hide: PropTypes.bool,
+    customFields: PropTypes.array,
+    fullscreen: PropTypes.bool,
+    onCancel: PropTypes.func
+  };
+
   static defaultProps = {
     hide: false,
     customFields: [],
     fullscreen: false,
     onCancel: () => {}
-  };
-  
-  static propTypes = {
-    formTitleKey: React.PropTypes.string.isRequired,
-    children: React.PropTypes.element.isRequired,
-    submit: React.PropTypes.func.isRequired,
-    hide: React.PropTypes.bool,
-    customFields: React.PropTypes.array,
-    fullscreen: React.PropTypes.bool,
-    onCancel: React.PropTypes.func
   };
 
   constructor(props, context) {

@@ -6,11 +6,11 @@ import { NpsMobile } from 'component/NpsMobile';
 
 class Nps extends Component {
   static propTypes = {
-    npsSender: React.PropTypes.func.isRequired,
-    mobile: React.PropTypes.bool.isRequired,
-    setFrameSize: React.PropTypes.func.isRequired,
-    setOffsetHorizontal: React.PropTypes.func.isRequired,
-    updateFrameSize: React.PropTypes.func
+    npsSender: PropTypes.func.isRequired,
+    mobile: PropTypes.bool.isRequired,
+    setFrameSize: PropTypes.func.isRequired,
+    setOffsetHorizontal: PropTypes.func.isRequired,
+    updateFrameSize: PropTypes.func
   };
 
   constructor(props, context) {
@@ -158,4 +158,4 @@ class Nps extends Component {
   }
 }
 
-export { Nps }
+export { Nps };

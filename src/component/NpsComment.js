@@ -8,6 +8,19 @@ import { LoadingSpinner } from 'component/Loading';
 import { i18n } from 'service/i18n';
 
 class NpsComment extends Component {
+  static propTypes = {
+    comment: PropTypes.string.isRequired,
+    isMobile: PropTypes.bool.isRequired,
+    className: PropTypes.string,
+    feedbackPlaceholder: PropTypes.string,
+    hasError: PropTypes.bool,
+    isSubmittingComment: PropTypes.bool,
+    isSubmittingRating: PropTypes.bool,
+    label: PropTypes.string,
+    onChange: PropTypes.func,
+    onSubmit: PropTypes.func
+  };
+
   static defaultProps = {
     className: '',
     feedbackPlaceholder: '',
@@ -16,19 +29,6 @@ class NpsComment extends Component {
     isSubmittingRating: false,
     onChange: () => {},
     onSubmit: () => {}
-  };
-  
-  static propTypes = {
-    comment: React.PropTypes.string.isRequired,
-    isMobile: React.PropTypes.bool.isRequired,
-    className: React.PropTypes.string,
-    feedbackPlaceholder: React.PropTypes.string,
-    hasError: React.PropTypes.bool,
-    isSubmittingComment: React.PropTypes.bool,
-    isSubmittingRating: React.PropTypes.bool,
-    label: React.PropTypes.string,
-    onChange: React.PropTypes.func,
-    onSubmit: React.PropTypes.func
   };
 
   focusField() {

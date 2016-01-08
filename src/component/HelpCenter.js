@@ -16,6 +16,18 @@ import { Button,
 import { beacon } from 'service/beacon';
 
 class HelpCenter extends Component {
+  static propTypes = {
+    searchSender: PropTypes.func.isRequired,
+    buttonLabelKey: PropTypes.string,
+    onSearch: PropTypes.func,
+    showBackButton: PropTypes.func,
+    onNextClick: PropTypes.func,
+    hideZendeskLogo: PropTypes.bool,
+    updateFrameSize: PropTypes.bool,
+    style: PropTypes.element,
+    formTitleKey: PropTypes.string
+  };
+
   static defaultProps = {
     buttonLabelKey: 'message',
     onSearch: () => {},
@@ -25,18 +37,6 @@ class HelpCenter extends Component {
     updateFrameSize: false,
     style: null,
     formTitleKey: 'help'
-  };
-  
-  static propTypes = {
-    searchSender: React.PropTypes.func.isRequired,
-    buttonLabelKey: React.PropTypes.string,
-    onSearch: React.PropTypes.func,
-    showBackButton: React.PropTypes.func,
-    onNextClick: React.PropTypes.func,
-    hideZendeskLogo: React.PropTypes.bool,
-    updateFrameSize: React.PropTypes.bool,
-    style: React.PropTypes.element,
-    formTitleKey: React.PropTypes.string
   };
 
   constructor(props, context) {

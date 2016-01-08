@@ -4,20 +4,20 @@ import { classNames } from 'classnames';
 import { Icon } from 'component/Icon';
 
 class ZendeskLogo extends Component {
+  static propTypes = {
+    rtl: PropTypes.bool,
+    fullscreen: PropTypes.bool,
+    formSuccess: PropTypes.bool,
+    className: PropTypes.string,
+    utm: PropTypes.string
+  };
+
   static defaultProps = {
     rtl: false,
     fullscreen: false,
     formSuccess: false,
     className: '',
     utm: 'webwidget'
-  };
-  
-  static propTypes = {
-    rtl: React.PropTypes.bool,
-    fullscreen: React.PropTypes.bool,
-    formSuccess: React.PropTypes.bool,
-    className: React.PropTypes.string,
-    utm: React.PropTypes.string
   };
 
   render() {

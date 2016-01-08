@@ -19,18 +19,18 @@ const icons = {
 };
 
 class Icon extends Component {
+  static propTypes = {
+    type: PropTypes.string,
+    className: PropTypes.string,
+    isMobile: PropTypes.bool
+  };
+
   static defaultProps = {
     type: '',
     className: '',
     isMobile: isMobileBrowser()
   };
-  
-  static propTypes = {
-    type: React.PropTypes.string,
-    className: React.PropTypes.string,
-    isMobile: React.PropTypes.bool
-  };
-  
+
   render() {
     const icon = icons[this.props.type];
     const iconClasses = classNames({

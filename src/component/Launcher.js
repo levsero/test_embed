@@ -6,11 +6,11 @@ import { isMobileBrowser } from 'utility/devices';
 
 class Launcher extends Component {
   static propTypes = {
-    onClick: React.PropTypes.func,
-    updateFrameSize: React.PropTypes.func,
-    position: React.PropTypes.string,
-    label: React.PropTypes.string,
-    icon: React.PropTypes.string
+    onClick: PropTypes.func,
+    updateFrameSize: PropTypes.func,
+    position: PropTypes.string,
+    label: PropTypes.string,
+    icon: PropTypes.string
   };
 
   constructor(props, context) {

@@ -21,18 +21,18 @@ const classNames = require('classnames');
 
 class NpsMobile extends Component {
   static propTypes = {
-    npsSender: React.PropTypes.func.isRequired,
-    response: React.PropTypes.object.isRequired,
-    setFrameSize: React.PropTypes.func.isRequired,
-    survey: React.PropTypes.object.isRequired,
-    updateRating: React.PropTypes.func.isRequired,
-    isSubmittingComment: React.PropTypes.bool,
-    isSubmittingRating: React.PropTypes.bool,
-    onCommentChangeHandler: React.PropTypes.func,
-    submitCommentHandler: React.PropTypes.func,
-    submitRatingHandler: React.PropTypes.func
+    npsSender: PropTypes.func.isRequired,
+    response: PropTypes.object.isRequired,
+    setFrameSize: PropTypes.func.isRequired,
+    survey: PropTypes.object.isRequired,
+    updateRating: PropTypes.func.isRequired,
+    isSubmittingComment: PropTypes.bool,
+    isSubmittingRating: PropTypes.bool,
+    onCommentChangeHandler: PropTypes.func,
+    submitCommentHandler: PropTypes.func,
+    submitRatingHandler: PropTypes.func
   };
-  
+
   static defaultProps = {
     isSubmittingComment: false,
     isSubmittingRating: false,

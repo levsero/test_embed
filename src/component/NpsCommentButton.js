@@ -2,11 +2,11 @@ import React, { Component, PropTypes } from 'react';
 
 class NpsCommentButton extends Component {
   static propTypes = {
-    label: React.PropTypes.string.isRequired,
-    onClick: React.PropTypes.func,
-    placeholder: React.PropTypes.string
+    label: PropTypes.string.isRequired,
+    onClick: PropTypes.func,
+    placeholder: PropTypes.string
   };
-  
+
   static defaultProps = {
     onClick: () => {},
     placeholder: ''
