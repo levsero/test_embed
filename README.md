@@ -33,7 +33,6 @@ The bootstrap file will do the following:
 * Install bower & selenium-server globally
 * Run `npm install & bower install` to get all dependencies
 * Run `npm build:debug` to generate snippet, framework and example files
-* Setup pre-commit hook
 * Download rosetta translation into `src/translation/translation.json`
 * Download graphicsmagick, imagemagick & cairo using brew
 * Run npm install webdriverio & webdrivercss (these depend on the above)
