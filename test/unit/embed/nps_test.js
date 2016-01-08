@@ -95,6 +95,8 @@ describe('embed.nps', () => {
       it('should provide the mobile transitions in config', () => {
         mockRegistry['utility/devices'].isMobileBrowser = () => true;
 
+        nps = requireUncached(npsPath).nps;
+
         const upShow = mockRegistry['service/transitionFactory'].transitionFactory.npsMobile.upShow;
         const downHide = mockRegistry['service/transitionFactory'].transitionFactory.npsMobile.downHide;
 

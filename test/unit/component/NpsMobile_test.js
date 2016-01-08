@@ -1,6 +1,7 @@
 describe('NpsMobile component', () => {
   let NpsMobile,
     mockRegistry,
+    mockIsIosValue,
     component,
     npsProps,
     mockSetFrameSize,
@@ -39,6 +40,8 @@ describe('NpsMobile component', () => {
     resetDOM();
 
     mockery.enable();
+
+    mockIsIosValue = true;
 
     mockRegistry = initMockRegistry({
       'React': React,
@@ -108,7 +111,7 @@ describe('NpsMobile component', () => {
       },
       'utility/devices': {
         'getSizingRatio': () => 1,
-        'isIos': () => true
+        'isIos': () => mockIsIosValue
       },
       'utility/globals': {
         'win': {
@@ -434,25 +437,15 @@ describe('NpsMobile component', () => {
 
   describe('startEditing', () => {
     describe('non IOS device', () => {
-      let oldIsIos,
-        newIsIos,
-        mockGoToFullScreen;
+      let mockGoToFullScreen;
 
       beforeEach(() => {
-
-        newIsIos = () => false;
-        mockGoToFullScreen = jasmine.createSpy();
-
-        oldIsIos = mockRegistry['utility/devices'].isIos;
+        mockGoToFullScreen = jasmine.createSpy('mockGoToFullScreen');
+        mockIsIosValue = false;
 
         component.componentDidUpdate = noop;
-        mockRegistry['utility/devices'].isIos = newIsIos;
+
         component.goToFullScreen = mockGoToFullScreen;
-      });
-
-      afterEach(() => {
-
-        mockRegistry['utility/devices'].isIos = oldIsIos;
       });
 
       it('should not call goToFullScreen', () => {
@@ -486,24 +479,13 @@ describe('NpsMobile component', () => {
 
   describe('stopEditing', () => {
     describe('non IOS device', () => {
-      let oldIsIos,
-        newIsIos,
-        mockResetFullScreen;
+      let mockResetFullScreen;
 
       beforeEach(() => {
+        mockIsIosValue = false;
+        mockResetFullScreen = jasmine.createSpy('mockResetFullScreen');
 
-        newIsIos = () => false;
-        mockResetFullScreen = jasmine.createSpy();
-
-        oldIsIos = mockRegistry['utility/devices'].isIos;
-
-        mockRegistry['utility/devices'].isIos = newIsIos;
         component.resetFullScreen = mockResetFullScreen;
-      });
-
-      afterEach(() => {
-
-        mockRegistry['utility/devices'].isIos = oldIsIos;
       });
 
       it('should not call resetFullScreen', () => {
