@@ -421,24 +421,24 @@ describe('FormField component', function() {
         .toMatch('u-isHidden');
     });
 
-    it('should display `clearInput` Icon when `this.state.isClearable` is truthy', function() {
+    it('should display `clearInput` Icon when the input has text and `this.props.isLoading` is false', function() {
       const searchField = React.render(
-        <SearchField />,
+        <SearchField isLoading={false} />,
         global.document.body
       );
       const clearInputNode = ReactTestUtils.findRenderedDOMComponentWithClass(
                                searchField, 'Icon--clearInput');
 
-      searchField.setState({ isClearable: true });
+      searchField.setState({ searchInputVal: 'something' });
 
-      expect(searchField.state.isClearable)
-        .toEqual(true);
+      expect(searchField.state.searchInputVal)
+        .toEqual('something');
 
       expect(clearInputNode.props.className)
         .not.toMatch('u-isHidden');
     });
 
-    it('should not display `clearInput` Icon when `this.state.isClearable` is falsy', function() {
+    it('should not display `clearInput` Icon when the input has no text', function() {
       const searchField = React.render(
         <SearchField />,
         global.document.body
@@ -446,10 +446,27 @@ describe('FormField component', function() {
       const clearInputNode = ReactTestUtils.findRenderedDOMComponentWithClass(
                                searchField, 'Icon--clearInput');
 
-      searchField.setState({ isClearable: false });
+      searchField.setState({ searchInputVal: '' });
 
-      expect(searchField.state.isClearable)
-        .toEqual(false);
+      expect(searchField.state.searchInputVal)
+        .toEqual('');
+
+      expect(clearInputNode.props.className)
+        .toMatch('u-isHidden');
+    });
+
+    it('should not display `clearInput` Icon when `this.props.isLoading` is true', function() {
+      const searchField = React.render(
+        <SearchField isLoading={true} />,
+        global.document.body
+      );
+      const clearInputNode = ReactTestUtils.findRenderedDOMComponentWithClass(
+                               searchField, 'Icon--clearInput');
+
+      searchField.setState({ searchInputVal: 'something' });
+
+      expect(searchField.state.searchInputVal)
+        .toEqual('something');
 
       expect(clearInputNode.props.className)
         .toMatch('u-isHidden');
