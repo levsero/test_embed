@@ -1,6 +1,7 @@
 describe('Submit ticket component', function() {
   let SubmitTicket,
-    mockRegistry;
+    mockIsMobileBrowserValue;
+
   const formParams = {
     'set_tags': 'web_widget',
     'via_id': 48,
@@ -23,6 +24,8 @@ describe('Submit ticket component', function() {
 
     resetDOM();
 
+    mockIsMobileBrowserValue = false;
+
     mockery.enable();
 
     jasmine.addMatchers({
@@ -42,7 +45,7 @@ describe('Submit ticket component', function() {
       }
     });
 
-    mockRegistry = initMockRegistry({
+    initMockRegistry({
       'react/addons': React,
       'utility/globals': {
         win: window,
@@ -53,7 +56,7 @@ describe('Submit ticket component', function() {
           return 1;
         },
         isMobileBrowser: function() {
-          return false;
+          return mockIsMobileBrowserValue;
         }
       },
       'component/SubmitTicketForm': {
@@ -264,9 +267,7 @@ describe('Submit ticket component', function() {
   describe('fullscreen state', function() {
     it('should be true if isMobileBrowser() is true', function() {
 
-      mockRegistry['utility/devices'].isMobileBrowser = function() {
-        return true;
-      };
+      mockIsMobileBrowserValue = true;
 
       const submitTicket = React.render(
         <SubmitTicket />,
@@ -279,9 +280,7 @@ describe('Submit ticket component', function() {
 
     it('should be false if isMobileBrowser() is false', function() {
 
-      mockRegistry['utility/devices'].isMobileBrowser = function() {
-        return false;
-      };
+      mockIsMobileBrowserValue = false;
 
       const submitTicket = React.render(
         <SubmitTicket />,

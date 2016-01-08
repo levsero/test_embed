@@ -218,6 +218,8 @@ describe('frameFactory', function() {
       };
       mockRegistry['utility/globals'].win.innerWidth = 100;
 
+      frameFactory = requireUncached(frameFactoryPath).frameFactory;
+
       jasmine.clock().install();
 
       payload = frameFactory(mockChildFn, {
@@ -693,6 +695,9 @@ describe('frameFactory', function() {
       mockRegistry['service/i18n'].i18n.isRTL = function() {
         return true;
       };
+
+      frameFactory = requireUncached(frameFactoryPath).frameFactory;
+
       instance.setState({ visible: false });
 
       expect(frameContainerStyle.top)
@@ -712,6 +717,9 @@ describe('frameFactory', function() {
       mockRegistry['service/i18n'].i18n.isRTL = function() {
         return false;
       };
+
+      frameFactory = requireUncached(frameFactoryPath).frameFactory;
+
       instance.setState({ visible: false });
 
       expect(frameContainerStyle.top)
@@ -887,6 +895,8 @@ describe('frameFactory', function() {
       mockRegistry['service/i18n'].i18n.getLocale = function() {
         return 'ar';
       };
+
+      frameFactory = requireUncached(frameFactoryPath).frameFactory;
 
       const payload = frameFactory(mockChildFn);
       const Embed = React.createClass(payload);
