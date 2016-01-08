@@ -22,7 +22,7 @@ describe('util.setScaleLock', function() {
         }
       },
       'utility/devices': {
-        getSizingRatio: function() {
+        getZoomSizingRatio: function() {
           return 1;
         }
       },

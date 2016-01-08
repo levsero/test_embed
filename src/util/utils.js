@@ -3,7 +3,7 @@ import Color from 'color';
 
 import { document as doc,
          location }       from 'utility/globals';
-import { getSizingRatio } from 'utility/devices';
+import { getZoomSizingRatio } from 'utility/devices';
 import { mediator }  from 'service/mediator';
 
 let clickBusterClicks = [];
@@ -164,7 +164,7 @@ function setScaleLock(active) {
       }
 
       setTimeout(function() {
-        mediator.channel.broadcast('.updateZoom', getSizingRatio(true));
+        mediator.channel.broadcast('.updateZoom', getZoomSizingRatio());
       }, 0);
 
     } else {
@@ -208,7 +208,7 @@ function clickBusterRegister(x, y) {
 
 function clickBusterHandler(ev) {
   let x, y;
-  const radius = 25 * getSizingRatio();
+  const radius = 25 * getZoomSizingRatio();
 
   if (clickBusterClicks.length) {
     [x, y] = clickBusterClicks.pop();
