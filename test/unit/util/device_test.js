@@ -110,12 +110,14 @@ describe('devices', function() {
 
     it('should return true if win.orientation is 90 degrees', function() {
       win.orientation = 90;
+
       expect(isLandscape())
         .toBe(true);
     });
 
     it('should return false if win.orientation is not 90 degrees', function() {
       win.orientation = 0;
+
       expect(isLandscape())
         .toBe(false);
     });
@@ -127,12 +129,14 @@ describe('devices', function() {
     describe('getDeviceZoom', function() {
       it('should return the correct zoom with no mobile device meta tags', function() {
         win.innerWidth = 980;
+
         expect(getDeviceZoom())
           .toBeCloseTo(0.3265, 4);
       });
 
       it('should return the correct zoom with mobile device meta tags forcing width', function() {
         win.innerWidth = 640;
+
         expect(getDeviceZoom())
           .toBeCloseTo(0.5, 4);
       });
@@ -141,12 +145,14 @@ describe('devices', function() {
     describe('getZoomSizingRatio', function() {
       it('should return the correct ratio with no mobile device meta tags', function() {
         win.innerWidth = 980;
+
         expect(getZoomSizingRatio())
           .toBeCloseTo(3.0625, 4);
       });
 
       it('should return the correct ratio with mobile device meta tags forcing width', function() {
         win.innerWidth = 640;
+
         expect(getZoomSizingRatio())
           .toBeCloseTo(2, 4);
       });
