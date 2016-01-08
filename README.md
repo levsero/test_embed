@@ -15,6 +15,12 @@ Ensure the following line is present in your bash or zsh profile:
     source $(brew --prefix nvm)/nvm.sh
 ```
 
+Ensure that you can run nvm from your command line, and then run the following
+
+```bash
+  nvm use
+```
+
 Run the following commands inside this folder:
 
 ```bash
@@ -24,27 +30,15 @@ Run the following commands inside this folder:
 The bootstrap file will do the following:
 
 * Set Node version
-* Install gulp, bower & selenium-server globally
-* Run npm install & bower install to get all dependencies
-* Run gulp build-dev to generate snippet, framework and example files
+* Install bower & selenium-server globally
+* Run `npm install & bower install` to get all dependencies
+* Run `npm build:debug` to generate snippet, framework and example files
 * Setup pre-commit hook
 * Download rosetta translation into `src/translation/translation.json`
 * Download graphicsmagick, imagemagick & cairo using brew
 * Run npm install webdriverio & webdrivercss (these depend on the above)
 
-To test the embeddables type `gulp watch` in this folder for it to kick off. This creates a dist folder with `main.js`, `boostrap.js` files and generates some example html files where you can run the framework loaded via our snippet. Visit [http://localhost:1337/example/](http://localhost:1337/example/) to test live examples.
-
-## Automated UI Regression testing (beta)
-
-To run the UI regression tests you'll need to have run `script/bootstrap` to get all the deps.
-
-To actually run the UI tests follow these steps:
-
-* Run `gulp watch` to start the server
-* Run `selenium` command
-* Run `gulp test-ui`
-* Bask in the eternal glory
-* Once completed screenshots will be stored in `./webdrivercss/`
+To test the embeddables type `npm run watch` in this folder for it to kick off. This creates a dist folder with `main.js`, `boostrap.js` files and generates some example html files where you can run the framework loaded via our snippet. Visit [http://localhost:1337/example/](http://localhost:1337/example/) to test live examples.
 
 ## Refreshing Rosetta translations
 
@@ -53,3 +47,13 @@ To download the latest translations, run the following command from the root of 
 ```bash
 ./script/fetch_i18n
 ```
+
+## Npm tasks
+
+Run each task like this: ```npm run taskname```
+
+* **build:debug** - Generates snippet, framework and example files in development mode. This means the final source and assets are not optimised and sourcemaps are generated for debugging.
+* **build** - Generates snippet and framework in production mode. This means the final source and assets are optimised and no sourcemaps are generated.
+* **watch** - Runs build:debug and launches a local server that automatically rebuilds the source and refreshes the browser on any changes. Navigate to http://localhost:1337/example/
+* **test** - Runs all the jasmine unit tests.
+* **lint** - Runs eslint on the *src* and *test* directories.
