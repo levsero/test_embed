@@ -356,15 +356,8 @@ const SearchField = React.createClass({
     return {
       focused: false,
       blurred: false,
-      searchInputVal: '',
-      isClearable: false
+      searchInputVal: ''
     };
-  },
-
-  componentDidMount() {
-    _.defer(() => {
-      this.resetClearable();
-    });
   },
 
   onFocus(e) {
@@ -392,7 +385,6 @@ const SearchField = React.createClass({
     const value = e.target.value;
 
     this.setState({
-      isClearable: (value !== '' && isMobileBrowser()),
       searchInputVal: value
     });
 
@@ -407,20 +399,11 @@ const SearchField = React.createClass({
 
   clearInput() {
     this.setState({
-      searchInputVal: '',
-      isClearable: false
+      searchInputVal: ''
     });
 
     if (this.props.onChangeValue) {
       this.props.onChangeValue('');
-    }
-  },
-
-  resetClearable() {
-    if (this.state.searchInputVal) {
-      this.setState({
-        isClearable: true
-      });
     }
   },
 
@@ -467,7 +450,7 @@ const SearchField = React.createClass({
     const clearInputClasses = classSet({
       'Icon Icon--clearInput': true,
       'u-isActionable u-textCenter': true,
-      'u-isHidden': !this.state.isClearable || this.props.isLoading
+      'u-isHidden': !(this.state.searchInputVal && isMobileBrowser()) || this.props.isLoading
     });
     const placeholder = (isMobileBrowser())
                       ? ''
