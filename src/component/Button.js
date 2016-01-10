@@ -6,25 +6,6 @@ import { i18n } from 'service/i18n';
 import { LoadingSpinner } from 'component/Loading';
 
 class Button extends Component {
-  static propTypes = {
-    label: PropTypes.string.isRequired,
-    fullscreen: PropTypes.bool,
-    disabled: PropTypes.bool,
-    onClick: PropTypes.func,
-    type: PropTypes.string,
-    className: PropTypes.string,
-    style: PropTypes.element
-  };
-
-  static defaultProps = {
-    fullscreen: false,
-    disabled: false,
-    onClick: () => {},
-    type: 'submit',
-    className: '',
-    style: null
-  };
-
   render() {
     const buttonClasses = classNames({
       'c-btn c-btn--medium c-btn--primary': true,
@@ -50,22 +31,26 @@ class Button extends Component {
   }
 }
 
+Button.propTypes = {
+  label: PropTypes.string.isRequired,
+  fullscreen: PropTypes.bool,
+  disabled: PropTypes.bool,
+  onClick: PropTypes.func,
+  type: PropTypes.string,
+  className: PropTypes.string,
+  style: PropTypes.element
+};
+
+Button.defaultProps = {
+  fullscreen: false,
+  disabled: false,
+  onClick: () => {},
+  type: 'submit',
+  className: '',
+  style: null
+};
+
 class ButtonNav extends Component {
-  static propTypes = {
-    label: PropTypes.element.isRequired,
-    rtl: PropTypes.bool,
-    fullscreen: PropTypes.bool,
-    position: PropTypes.string,
-    onClick: PropTypes.func
-  };
-
-  static defaultProps = {
-    rtl: false,
-    fullscreen: false,
-    position: 'left',
-    onClick: () => {}
-  };
-
   render() {
     const { fullscreen, position, rtl } = this.props;
     const isLeft = (position === 'left');
@@ -93,16 +78,22 @@ class ButtonNav extends Component {
   }
 }
 
+ButtonNav.propTypes = {
+  label: PropTypes.element.isRequired,
+  rtl: PropTypes.bool,
+  fullscreen: PropTypes.bool,
+  position: PropTypes.string,
+  onClick: PropTypes.func
+};
+
+ButtonNav.defaultProps = {
+  rtl: false,
+  fullscreen: false,
+  position: 'left',
+  onClick: () => {}
+};
+
 class ButtonPill extends Component {
-  static propTypes = {
-    label: PropTypes.string.isRequired,
-    fullscreen: PropTypes.bool
-  };
-
-  static defaultProps = {
-    fullscreen: false
-  };
-
   render() {
     const buttonClasses = classNames({
       'c-btn c-btn--medium c-btn--secondary c-btn--pill': true,
@@ -121,25 +112,16 @@ class ButtonPill extends Component {
   }
 }
 
+ButtonPill.propTypes = {
+  label: PropTypes.string.isRequired,
+  fullscreen: PropTypes.bool
+};
+
+ButtonPill.defaultProps = {
+  fullscreen: false
+};
+
 class ButtonSecondary extends Component {
-  static propTypes = {
-    label: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.element
-    ]).isRequired,
-    disabled: PropTypes.bool,
-    className: PropTypes.string,
-    style: PropTypes.element,
-    onClick: PropTypes.func
-  };
-
-  static defaultProps = {
-    disabled: false,
-    className: '',
-    style: null,
-    onClick: () => {}
-  };
-
   render() {
     const buttonClasses = classNames({
       'c-btn c-btn--medium c-btn--secondary': true,
@@ -163,20 +145,25 @@ class ButtonSecondary extends Component {
   }
 }
 
+ButtonSecondary.propTypes = {
+  label: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element
+  ]).isRequired,
+  disabled: PropTypes.bool,
+  className: PropTypes.string,
+  style: PropTypes.element,
+  onClick: PropTypes.func
+};
+
+ButtonSecondary.defaultProps = {
+  disabled: false,
+  className: '',
+  style: null,
+  onClick: () => {}
+};
+
 class ButtonGroup extends Component {
-  static propTypes = {
-    children: PropTypes.element.isRequired,
-    rtl: PropTypes.bool,
-    fullscreen: PropTypes.bool,
-    style: PropTypes.element
-  };
-
-  static defaultProps = {
-    rtl: false,
-    fullscreen: false,
-    style: null
-  };
-
   render() {
     const buttonClasses = classNames({
       'ButtonGroup': true,
@@ -194,31 +181,20 @@ class ButtonGroup extends Component {
   }
 }
 
+ButtonGroup.propTypes = {
+  children: PropTypes.element.isRequired,
+  rtl: PropTypes.bool,
+  fullscreen: PropTypes.bool,
+  style: PropTypes.element
+};
+
+ButtonGroup.defaultProps = {
+  rtl: false,
+  fullscreen: false,
+  style: null
+};
+
 class ButtonRating extends Component {
-  static propTypes = {
-    label: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.element
-    ]).isRequired,
-    fullscreen: PropTypes.bool,
-    highlightColor: PropTypes.string,
-    selected: PropTypes.bool,
-    loading: PropTypes.bool,
-    loadingSpinnerClassName: PropTypes.string,
-    disabled: PropTypes.bool,
-    onClick: PropTypes.func
-  };
-
-  static defaultProps = {
-    highlightColor: '#77a500',
-    selected: false,
-    loading: false,
-    label: null,
-    loadingSpinnerClassName: '',
-    disabled: false,
-    onClick: () => {}
-  };
-
   render() {
     const ButtonRatingClasses = classNames({
       'ButtonRating': true,
@@ -243,6 +219,30 @@ class ButtonRating extends Component {
     );
   }
 }
+
+ButtonRating.propTypes = {
+  label: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element
+  ]).isRequired,
+  fullscreen: PropTypes.bool,
+  highlightColor: PropTypes.string,
+  selected: PropTypes.bool,
+  loading: PropTypes.bool,
+  loadingSpinnerClassName: PropTypes.string,
+  disabled: PropTypes.bool,
+  onClick: PropTypes.func
+};
+
+ButtonRating.defaultProps = {
+  highlightColor: '#77a500',
+  selected: false,
+  loading: false,
+  label: null,
+  loadingSpinnerClassName: '',
+  disabled: false,
+  onClick: () => {}
+};
 
 export {
   Button,

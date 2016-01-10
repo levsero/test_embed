@@ -8,29 +8,6 @@ import { LoadingSpinner } from 'component/Loading';
 import { i18n } from 'service/i18n';
 
 class NpsComment extends Component {
-  static propTypes = {
-    comment: PropTypes.string.isRequired,
-    isMobile: PropTypes.bool.isRequired,
-    className: PropTypes.string,
-    feedbackPlaceholder: PropTypes.string,
-    hasError: PropTypes.bool,
-    isSubmittingComment: PropTypes.bool,
-    isSubmittingRating: PropTypes.bool,
-    label: PropTypes.string,
-    onChange: PropTypes.func,
-    onSubmit: PropTypes.func
-  };
-
-  static defaultProps = {
-    className: '',
-    feedbackPlaceholder: '',
-    hasError: false,
-    isSubmittingComment: false,
-    isSubmittingRating: false,
-    onChange: () => {},
-    onSubmit: () => {}
-  };
-
   focusField() {
     React.findDOMNode(this.refs.commentField
       .refs.field)
@@ -109,5 +86,28 @@ class NpsComment extends Component {
     );
   }
 }
+
+NpsComment.propTypes = {
+  comment: PropTypes.string.isRequired,
+  isMobile: PropTypes.bool.isRequired,
+  className: PropTypes.string,
+  feedbackPlaceholder: PropTypes.string,
+  hasError: PropTypes.bool,
+  isSubmittingComment: PropTypes.bool,
+  isSubmittingRating: PropTypes.bool,
+  label: PropTypes.string,
+  onChange: PropTypes.func,
+  onSubmit: PropTypes.func
+};
+
+NpsComment.defaultProps = {
+  className: '',
+  feedbackPlaceholder: '',
+  hasError: false,
+  isSubmittingComment: false,
+  isSubmittingRating: false,
+  onChange: () => {},
+  onSubmit: () => {}
+};
 
 export { NpsComment };

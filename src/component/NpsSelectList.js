@@ -3,27 +3,6 @@ import React, { Component, PropTypes } from 'react';
 import { Icon } from 'component/Icon';
 
 class NpsSelectList extends Component {
-  static propTypes = {
-    highlightColor: PropTypes.string,
-    onBlur: PropTypes.func,
-    onChange: PropTypes.func,
-    onFocus: PropTypes.func,
-    options: PropTypes.array,
-    selectedItem: PropTypes.number
-  };
-
-  static defaultProps = {
-    options: [],
-    selectedItem: 0,
-    highlightColor: '',
-    wrapperClassNames: '',
-    selectClassNames: '',
-    iconClassNames: '',
-    onChange: () => {},
-    onFocus: () => {},
-    onBlur: () => {}
-  };
-
   render() {
     const optionsList = this.props.options.map(
       (label, i) => {
@@ -50,5 +29,26 @@ class NpsSelectList extends Component {
     );
   }
 }
+
+NpsSelectList.propTypes = {
+  highlightColor: PropTypes.string,
+  onBlur: PropTypes.func,
+  onChange: PropTypes.func,
+  onFocus: PropTypes.func,
+  options: PropTypes.array,
+  selectedItem: PropTypes.number
+};
+
+NpsSelectList.defaultProps = {
+  options: [],
+  selectedItem: 0,
+  highlightColor: '',
+  wrapperClassNames: '',
+  selectClassNames: '',
+  iconClassNames: '',
+  onChange: () => {},
+  onFocus: () => {},
+  onBlur: () => {}
+};
 
 export { NpsSelectList };

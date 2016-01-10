@@ -5,14 +5,6 @@ import { Icon } from 'component/Icon';
 import { isMobileBrowser } from 'utility/devices';
 
 class Launcher extends Component {
-  static propTypes = {
-    onClick: PropTypes.func,
-    updateFrameSize: PropTypes.func,
-    position: PropTypes.string,
-    label: PropTypes.string,
-    icon: PropTypes.string
-  };
-
   constructor(props, context) {
     super(props, context);
 
@@ -68,5 +60,13 @@ class Launcher extends Component {
     );
   }
 }
+
+Launcher.propTypes = {
+  onClick: PropTypes.func,
+  updateFrameSize: PropTypes.func,
+  position: PropTypes.string,
+  label: PropTypes.string,
+  icon: PropTypes.string
+};
 
 export { Launcher };

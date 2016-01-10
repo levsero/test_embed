@@ -9,30 +9,6 @@ import { NpsRatingsList } from 'component/NpsRatingsList';
 import { NpsComment } from 'component/NpsComment';
 
 class NpsDesktop extends Component {
-  static propTypes = {
-    response: PropTypes.object.isRequired,
-    setOffsetHorizontal: PropTypes.func.isRequired,
-    survey: PropTypes.object.isRequired,
-    updateFrameSize: PropTypes.func.isRequired,
-    hideZendeskLogo: PropTypes.bool,
-    isMobile: PropTypes.bool,
-    isSubmittingComment: PropTypes.bool,
-    isSubmittingRating: PropTypes.bool,
-    onCommentChangeHandler: PropTypes.func,
-    submitCommentHandler: PropTypes.func,
-    submitRatingHandler: PropTypes.func
-  };
-
-  static defaultProps = {
-    hideZendeskLogo: false,
-    isMobile: false,
-    isSubmittingComment: false,
-    isSubmittingRating: false,
-    onCommentChangeHandler: () => {},
-    submitCommentHandler: () => {},
-    submitRatingHandler: () => {}
-  };
-
   constructor(props, context) {
     super(props, context);
     this.ratingChangeValueHandler = this.ratingChangeValueHandler.bind(this);
@@ -185,5 +161,30 @@ class NpsDesktop extends Component {
     );
   }
 }
+
+NpsDesktop.propTypes = {
+  response: PropTypes.object.isRequired,
+  setOffsetHorizontal: PropTypes.func.isRequired,
+  survey: PropTypes.object.isRequired,
+  updateFrameSize: PropTypes.func.isRequired,
+  hideZendeskLogo: PropTypes.bool,
+  isMobile: PropTypes.bool,
+  isSubmittingComment: PropTypes.bool,
+  isSubmittingRating: PropTypes.bool,
+  onCommentChangeHandler: PropTypes.func,
+  submitCommentHandler: PropTypes.func,
+  submitRatingHandler: PropTypes.func
+};
+
+NpsDesktop.defaultProps = {
+  hideZendeskLogo: false,
+  isMobile: false,
+  isSubmittingComment: false,
+  isSubmittingRating: false,
+  onCommentChangeHandler: () => {},
+  submitCommentHandler: () => {},
+  submitRatingHandler: () => {}
+};
+
 
 export { NpsDesktop };

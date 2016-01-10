@@ -11,23 +11,6 @@ import { Field,
          getCustomFields } from 'component/FormField';
 
 class SubmitTicketForm extends Component {
-  static propTypes = {
-    formTitleKey: PropTypes.string.isRequired,
-    children: PropTypes.element.isRequired,
-    submit: PropTypes.func.isRequired,
-    hide: PropTypes.bool,
-    customFields: PropTypes.array,
-    fullscreen: PropTypes.bool,
-    onCancel: PropTypes.func
-  };
-
-  static defaultProps = {
-    hide: false,
-    customFields: [],
-    fullscreen: false,
-    onCancel: () => {}
-  };
-
   constructor(props, context) {
     super(props, context);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -226,5 +209,22 @@ class SubmitTicketForm extends Component {
     );
   }
 }
+
+SubmitTicketForm.propTypes = {
+  formTitleKey: PropTypes.string.isRequired,
+  children: PropTypes.element.isRequired,
+  submit: PropTypes.func.isRequired,
+  hide: PropTypes.bool,
+  customFields: PropTypes.array,
+  fullscreen: PropTypes.bool,
+  onCancel: PropTypes.func
+};
+
+SubmitTicketForm.defaultProps = {
+  hide: false,
+  customFields: [],
+  fullscreen: false,
+  onCancel: () => {}
+};
 
 export { SubmitTicketForm };

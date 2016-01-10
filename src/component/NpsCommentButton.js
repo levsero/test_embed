@@ -1,17 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
 class NpsCommentButton extends Component {
-  static propTypes = {
-    label: PropTypes.string.isRequired,
-    onClick: PropTypes.func,
-    placeholder: PropTypes.string
-  };
-
-  static defaultProps = {
-    onClick: () => {},
-    placeholder: ''
-  };
-
   render() {
     const classes = `
       Form-fieldLabel
@@ -40,5 +29,16 @@ class NpsCommentButton extends Component {
     );
   }
 }
+
+NpsCommentButton.propTypes = {
+  label: PropTypes.string.isRequired,
+  onClick: PropTypes.func,
+  placeholder: PropTypes.string
+};
+
+NpsCommentButton.defaultProps = {
+  onClick: () => {},
+  placeholder: ''
+};
 
 export { NpsCommentButton };

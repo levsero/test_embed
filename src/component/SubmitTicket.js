@@ -12,28 +12,6 @@ import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
 
 class SubmitTicket extends Component {
-  static propTypes = {
-    formTitleKey: PropTypes.string.isRequired,
-    submitTicketSender: PropTypes.func.isRequired,
-    updateFrameSize: PropTypes.bool,
-    hideZendeskLogo: PropTypes.bool,
-    customFields: PropTypes.array,
-    style: PropTypes.element,
-    position: PropTypes.string,
-    onSubmitted: PropTypes.func,
-    onCancel: PropTypes.func
-  };
-
-  static defaultProps = {
-    updateFrameSize: false,
-    hideZendeskLogo: false,
-    customFields: [],
-    style: null,
-    position: 'right',
-    onSubmitted: () => {},
-    onCancel: () => {}
-  };
-
   constructor(props, context) {
     super(props, context);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -192,5 +170,28 @@ class SubmitTicket extends Component {
     );
   }
 }
+
+SubmitTicket.propTypes = {
+  formTitleKey: PropTypes.string.isRequired,
+  submitTicketSender: PropTypes.func.isRequired,
+  updateFrameSize: PropTypes.bool,
+  hideZendeskLogo: PropTypes.bool,
+  customFields: PropTypes.array,
+  style: PropTypes.element,
+  position: PropTypes.string,
+  onSubmitted: PropTypes.func,
+  onCancel: PropTypes.func
+};
+
+SubmitTicket.defaultProps = {
+  updateFrameSize: false,
+  hideZendeskLogo: false,
+  customFields: [],
+  style: null,
+  position: 'right',
+  onSubmitted: () => {},
+  onCancel: () => {}
+};
+
 
 export { SubmitTicket };

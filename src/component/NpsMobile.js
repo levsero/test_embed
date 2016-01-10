@@ -20,27 +20,6 @@ import { Button } from 'component/Button';
 const classNames = require('classnames');
 
 class NpsMobile extends Component {
-  static propTypes = {
-    npsSender: PropTypes.func.isRequired,
-    response: PropTypes.object.isRequired,
-    setFrameSize: PropTypes.func.isRequired,
-    survey: PropTypes.object.isRequired,
-    updateRating: PropTypes.func.isRequired,
-    isSubmittingComment: PropTypes.bool,
-    isSubmittingRating: PropTypes.bool,
-    onCommentChangeHandler: PropTypes.func,
-    submitCommentHandler: PropTypes.func,
-    submitRatingHandler: PropTypes.func
-  };
-
-  static defaultProps = {
-    isSubmittingComment: false,
-    isSubmittingRating: false,
-    onCommentChangeHandler: () => {},
-    submitCommentHandler: () => {},
-    submitRatingHandler: () => {}
-  };
-
   constructor(props, context) {
     super(props, context);
     this.handleDropDownBlur = this.handleDropDownBlur.bind(this);
@@ -314,5 +293,26 @@ class NpsMobile extends Component {
     );
   }
 }
+
+NpsMobile.propTypes = {
+  npsSender: PropTypes.func.isRequired,
+  response: PropTypes.object.isRequired,
+  setFrameSize: PropTypes.func.isRequired,
+  survey: PropTypes.object.isRequired,
+  updateRating: PropTypes.func.isRequired,
+  isSubmittingComment: PropTypes.bool,
+  isSubmittingRating: PropTypes.bool,
+  onCommentChangeHandler: PropTypes.func,
+  submitCommentHandler: PropTypes.func,
+  submitRatingHandler: PropTypes.func
+};
+
+NpsMobile.defaultProps = {
+  isSubmittingComment: false,
+  isSubmittingRating: false,
+  onCommentChangeHandler: () => {},
+  submitCommentHandler: () => {},
+  submitRatingHandler: () => {}
+};
 
 export { NpsMobile };

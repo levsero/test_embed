@@ -1,19 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
 class HelpCenterForm extends Component {
-  static propTypes = {
-    children: PropTypes.element.isRequired,
-    fullscreen: PropTypes.bool,
-    onSubmit: PropTypes.func,
-    onChange: PropTypes.func
-  };
-
-  static defaultProps = {
-    fullscreen: false,
-    onSubmit: () => {},
-    onChange: () => {}
-  };
-
   constructor(props, context) {
     super(props, context);
     this.handleChange = this.handleChange.bind(this);
@@ -51,6 +38,19 @@ class HelpCenterForm extends Component {
     );
   }
 }
+
+HelpCenterForm.propTypes = {
+  children: PropTypes.element.isRequired,
+  fullscreen: PropTypes.bool,
+  onSubmit: PropTypes.func,
+  onChange: PropTypes.func
+};
+
+HelpCenterForm.defaultProps = {
+  fullscreen: false,
+  onSubmit: () => {},
+  onChange: () => {}
+};
 
 export { HelpCenterForm };
 

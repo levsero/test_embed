@@ -7,15 +7,6 @@ import { ButtonPill } from 'component/Button';
 const sanitizeHtml = require('sanitize-html');
 
 class HelpCenterArticle extends Component {
-  static propTypes = {
-    activeArticle: PropTypes.object.isRequired,
-    fullscreen: PropTypes.bool
-  };
-
-  static defaultProps = {
-    fullscreen: false
-  };
-
   constructor(props, context) {
     super(props, context);
     this.handleClick = this.handleClick.bind(this);
@@ -131,6 +122,15 @@ class HelpCenterArticle extends Component {
     );
   }
 }
+
+HelpCenterArticle.propTypes = {
+  activeArticle: PropTypes.object.isRequired,
+  fullscreen: PropTypes.bool
+};
+
+HelpCenterArticle.defaultProps = {
+  fullscreen: false
+};
 
 export { HelpCenterArticle };
 

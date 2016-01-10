@@ -16,29 +16,6 @@ import { Button,
 import { beacon } from 'service/beacon';
 
 class HelpCenter extends Component {
-  static propTypes = {
-    searchSender: PropTypes.func.isRequired,
-    buttonLabelKey: PropTypes.string,
-    onSearch: PropTypes.func,
-    showBackButton: PropTypes.func,
-    onNextClick: PropTypes.func,
-    hideZendeskLogo: PropTypes.bool,
-    updateFrameSize: PropTypes.bool,
-    style: PropTypes.element,
-    formTitleKey: PropTypes.string
-  };
-
-  static defaultProps = {
-    buttonLabelKey: 'message',
-    onSearch: () => {},
-    showBackButton: () => {},
-    onNextClick: () => {},
-    hideZendeskLogo: false,
-    updateFrameSize: false,
-    style: null,
-    formTitleKey: 'help'
-  };
-
   constructor(props, context) {
     super(props, context);
     this.autoSearch = this.autoSearch.bind(this);
@@ -568,5 +545,28 @@ class HelpCenter extends Component {
     );
   }
 }
+
+HelpCenter.propTypes = {
+  searchSender: PropTypes.func.isRequired,
+  buttonLabelKey: PropTypes.string,
+  onSearch: PropTypes.func,
+  showBackButton: PropTypes.func,
+  onNextClick: PropTypes.func,
+  hideZendeskLogo: PropTypes.bool,
+  updateFrameSize: PropTypes.bool,
+  style: PropTypes.element,
+  formTitleKey: PropTypes.string
+};
+
+HelpCenter.defaultProps = {
+  buttonLabelKey: 'message',
+  onSearch: () => {},
+  showBackButton: () => {},
+  onNextClick: () => {},
+  hideZendeskLogo: false,
+  updateFrameSize: false,
+  style: null,
+  formTitleKey: 'help'
+};
 
 export { HelpCenter };

@@ -5,14 +5,6 @@ import { NpsDesktop } from 'component/NpsDesktop';
 import { NpsMobile } from 'component/NpsMobile';
 
 class Nps extends Component {
-  static propTypes = {
-    npsSender: PropTypes.func.isRequired,
-    mobile: PropTypes.bool.isRequired,
-    setFrameSize: PropTypes.func.isRequired,
-    setOffsetHorizontal: PropTypes.func.isRequired,
-    updateFrameSize: PropTypes.func
-  };
-
   constructor(props, context) {
     super(props, context);
     this.onCommentChangeHandler = this.onCommentChangeHandler.bind(this);
@@ -157,5 +149,13 @@ class Nps extends Component {
           setOffsetHorizontal={this.props.setOffsetHorizontal} />;
   }
 }
+
+Nps.propTypes = {
+  npsSender: PropTypes.func.isRequired,
+  mobile: PropTypes.bool.isRequired,
+  setFrameSize: PropTypes.func.isRequired,
+  setOffsetHorizontal: PropTypes.func.isRequired,
+  updateFrameSize: PropTypes.func
+};
 
 export { Nps };

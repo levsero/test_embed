@@ -6,29 +6,6 @@ import { ButtonRating } from 'component/Button';
 const classNames = require('classnames');
 
 class NpsRatingsList extends Component {
-  static propTypes = {
-    likelyLabel: PropTypes.string.isRequired,
-    notLikelyLabel: PropTypes.string.isRequired,
-    selectedRating: PropTypes.number.isRequired,
-    className: PropTypes.string,
-    hideRatingsLegend: PropTypes.bool,
-    highlightColor: PropTypes.string,
-    isSubmittingComment: PropTypes.bool,
-    isSubmittingRating: PropTypes.bool,
-    onChangeValue: PropTypes.func,
-    ratingsRange: PropTypes.array
-  };
-
-  static defaultProps = {
-    className: '',
-    hideRatingsLegend: false,
-    highlightColor: '#77a500',
-    isSubmittingComment: false,
-    isSubmittingRating: false,
-    onChangeValue: () => {},
-    ratingsRange: _.range(11)
-  };
-
   ratingClickHandlerFn(rating) {
     return (ev) => {
       ev.preventDefault();
@@ -102,5 +79,28 @@ class NpsRatingsList extends Component {
     );
   }
 }
+
+NpsRatingsList.propTypes = {
+  likelyLabel: PropTypes.string.isRequired,
+  notLikelyLabel: PropTypes.string.isRequired,
+  selectedRating: PropTypes.number.isRequired,
+  className: PropTypes.string,
+  hideRatingsLegend: PropTypes.bool,
+  highlightColor: PropTypes.string,
+  isSubmittingComment: PropTypes.bool,
+  isSubmittingRating: PropTypes.bool,
+  onChangeValue: PropTypes.func,
+  ratingsRange: PropTypes.array
+};
+
+NpsRatingsList.defaultProps = {
+  className: '',
+  hideRatingsLegend: false,
+  highlightColor: '#77a500',
+  isSubmittingComment: false,
+  isSubmittingRating: false,
+  onChangeValue: () => {},
+  ratingsRange: _.range(11)
+};
 
 export { NpsRatingsList };

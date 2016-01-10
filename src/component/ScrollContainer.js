@@ -2,28 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import { classNames } from 'classnames';
 
 class ScrollContainer extends Component {
-
-  static propTypes = {
-    title: PropTypes.string.isRequired,
-    children: PropTypes.element.isRequired,
-    footerContent: PropTypes.oneOfType([
-      PropTypes.element,
-      PropTypes.array(PropTypes.element)
-    ]),
-    headerContent: PropTypes.element,
-    contentExpanded: PropTypes.bool,
-    fullscreen: PropTypes.bool,
-    hideZendeskLogo: PropTypes.bool
-  };
-
-  static defaultProps = {
-    footerContent: [],
-    headerContent: null,
-    contentExpanded: false,
-    fullscreen: false,
-    hideZendeskLogo: false
-  };
-
   constructor(props, context) {
     super(props, context);
 
@@ -88,5 +66,26 @@ class ScrollContainer extends Component {
     );
   }
 }
+
+ScrollContainer.propTypes = {
+  title: PropTypes.string.isRequired,
+  children: PropTypes.element.isRequired,
+  footerContent: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.array(PropTypes.element)
+  ]),
+  headerContent: PropTypes.element,
+  contentExpanded: PropTypes.bool,
+  fullscreen: PropTypes.bool,
+  hideZendeskLogo: PropTypes.bool
+};
+
+ScrollContainer.defaultProps = {
+  footerContent: [],
+  headerContent: null,
+  contentExpanded: false,
+  fullscreen: false,
+  hideZendeskLogo: false
+};
 
 export { ScrollContainer };

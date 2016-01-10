@@ -57,46 +57,6 @@ const getCustomFields = function(customFields, formState) {
 };
 
 class Field extends Component {
-  static propTypes = {
-    name: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number
-    ]).isRequired,
-    placeholder: PropTypes.string,
-    value: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number
-    ]),
-    input: PropTypes.element,
-    required: PropTypes.bool,
-    label: function(props, propName, componentName) {
-      if (props.type === 'checkbox' && !props[propName]) {
-        return new Error(`${componentName} must have a label prop if type is set to "checkbox"`);
-      }
-    },
-    type: PropTypes.string,
-    options: PropTypes.bool,
-    hasSearched: PropTypes.bool,
-    labelClasses: PropTypes.string,
-    onFocus: PropTypes.func,
-    onBlur: PropTypes.func,
-    onChange: PropTypes.func
-  };
-
-  static defaultProps = {
-    placeholder: 'text',
-    value: '',
-    input: null,
-    required: false,
-    type: '',
-    options: false,
-    hasSearched: false,
-    labelClasses: '',
-    onFocus: () => {},
-    onBlur: () => {},
-    onChange: () => {}
-  };
-
   constructor(props, context) {
     super(props, context);
     this.onBlur = this.onBlur.bind(this);
@@ -231,22 +191,47 @@ class Field extends Component {
   }
 }
 
+Field.propTypes = {
+  name: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]).isRequired,
+  placeholder: PropTypes.string,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
+  input: PropTypes.element,
+  required: PropTypes.bool,
+  label: function(props, propName, componentName) {
+    if (props.type === 'checkbox' && !props[propName]) {
+      return new Error(`${componentName} must have a label prop if type is set to "checkbox"`);
+    }
+  },
+  type: PropTypes.string,
+  options: PropTypes.bool,
+  hasSearched: PropTypes.bool,
+  labelClasses: PropTypes.string,
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func,
+  onChange: PropTypes.func
+};
+
+Field.defaultProps = {
+  placeholder: 'text',
+  value: '',
+  input: null,
+  required: false,
+  type: '',
+  options: false,
+  hasSearched: false,
+  labelClasses: '',
+  onFocus: () => {},
+  onBlur: () => {},
+  onChange: () => {}
+};
+
 class SelectField extends Component {
-  static propTypes = {
-    name: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number
-    ]).isRequired,
-    options: PropTypes.array.isRequired,
-    onFocus: PropTypes.func,
-    onBlur: PropTypes.func
-  };
-
-  static defaultProps = {
-    onFocus: () => {},
-    onBlur: () => {}
-  };
-
   formatOptions() {
     const props = this.props;
     const options = [
@@ -296,17 +281,23 @@ class SelectField extends Component {
   }
 }
 
+SelectField.propTypes = {
+  name: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]).isRequired,
+  options: PropTypes.array.isRequired,
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func
+};
+
+SelectField.defaultProps = {
+  onFocus: () => {},
+  onBlur: () => {}
+};
+
+
 class SearchFieldButton extends Component {
-  static propTypes = {
-    onClick: PropTypes.func,
-    onTouch: PropTypes.func
-  };
-
-  static defaultProps = {
-    onClick: () => {},
-    onTouch: () => {}
-  };
-
   render() {
     return (
       <div className='u-cf u-paddingHN u-paddingBN Form-cta--barFullscreen'>
@@ -323,29 +314,18 @@ class SearchFieldButton extends Component {
   }
 }
 
+SearchFieldButton.propTypes = {
+  onClick: PropTypes.func,
+  onTouch: PropTypes.func
+};
+
+SearchFieldButton.defaultProps = {
+  onClick: () => {},
+  onTouch: () => {}
+};
+
+
 class SearchField extends Component {
-  static propTypes = {
-    fullscreen: PropTypes.bool,
-    isLoading: PropTypes.bool,
-    hasSearched: PropTypes.bool,
-    onFocus: PropTypes.func,
-    onBlur: PropTypes.func,
-    onChange: PropTypes.func,
-    onSearchIconClick: PropTypes.func,
-    onChangeValue: PropTypes.func
-  };
-
-  static defaultProps = {
-    fullscreen: false,
-    isLoading: false,
-    hasSearched: false,
-    onFocus: () => {},
-    onBlur: () => {},
-    onChange: () => {},
-    onSearchIconClick:  () => {},
-    onChangeValue: () => {}
-  };
-
   constructor(props, context) {
     super(props, context);
     this.clearInput = this.clearInput.bind(this);
@@ -490,5 +470,28 @@ class SearchField extends Component {
     );
   }
 }
+
+SearchField.propTypes = {
+  fullscreen: PropTypes.bool,
+  isLoading: PropTypes.bool,
+  hasSearched: PropTypes.bool,
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func,
+  onChange: PropTypes.func,
+  onSearchIconClick: PropTypes.func,
+  onChangeValue: PropTypes.func
+};
+
+SearchField.defaultProps = {
+  fullscreen: false,
+  isLoading: false,
+  hasSearched: false,
+  onFocus: () => {},
+  onBlur: () => {},
+  onChange: () => {},
+  onSearchIconClick:  () => {},
+  onChangeValue: () => {}
+};
+
 
 export { Field, SearchField, SearchFieldButton, getCustomFields };

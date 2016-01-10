@@ -19,14 +19,6 @@ LoadingSpinner.propTypes = {
 };
 
 class LoadingEllipses extends Component {
-  static propTypes = {
-    className: PropTypes.string
-  };
-
-  static defaultProps = {
-    className: ''
-  };
-
   render() {
     const loadingEllipsesItemClasses = `
       LoadingEllipses-item
@@ -43,5 +35,13 @@ class LoadingEllipses extends Component {
     );
   }
 }
+
+LoadingEllipses.propTypes = {
+  className: PropTypes.string
+};
+
+LoadingEllipses.defaultProps = {
+  className: ''
+};
 
 export { LoadingSpinner, LoadingEllipses };
