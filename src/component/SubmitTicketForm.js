@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
-import { classNames } from 'classnames';
 
 import { Button,
          ButtonSecondary,
@@ -9,6 +8,8 @@ import { ScrollContainer } from 'component/ScrollContainer';
 import { i18n } from 'service/i18n';
 import { Field,
          getCustomFields } from 'component/FormField';
+
+const classNames = require('classnames');
 
 class SubmitTicketForm extends Component {
   constructor(props, context) {

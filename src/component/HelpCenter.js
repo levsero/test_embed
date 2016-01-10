@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
-import { classNames } from 'classnames';
 
 import { HelpCenterForm } from 'component/HelpCenterForm';
 import { HelpCenterArticle } from 'component/HelpCenterArticle';
@@ -14,6 +13,8 @@ import { i18n } from 'service/i18n';
 import { Button,
          ButtonGroup } from 'component/Button';
 import { beacon } from 'service/beacon';
+
+const classNames = require('classnames');
 
 class HelpCenter extends Component {
   constructor(props, context) {

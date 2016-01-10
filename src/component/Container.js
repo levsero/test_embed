@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import { classNames } from 'classnames';
+
+const classNames = require('classnames');
 
 class Container extends Component {
   render() {

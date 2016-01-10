@@ -61,10 +61,10 @@ class NpsRatingsList extends Component {
     const ratingsLegendContent = (!this.props.hideRatingsLegend)
                                ? <div className={ratingsLegendClasses}>
                                    <p className={notLikelyLabelClasses}>
-                                     {this.prependWith('0 = ', this.props.notLikelyLabel)}
+                                     {prependWith('0 = ', this.props.notLikelyLabel)}
                                    </p>
                                    <p className={likelyLabelClasses}>
-                                     {this.prependWith('10 = ', this.props.likelyLabel)}
+                                     {prependWith('10 = ', this.props.likelyLabel)}
                                    </p>
                                  </div>
                                : null;
