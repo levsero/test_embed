@@ -139,7 +139,6 @@ describe('embed.ipm', () => {
     });
   });
   describe('render', () => {
-
     it('renders an ipm embed the document', () => {
       ipm.create('dan');
       ipm.render('dan');

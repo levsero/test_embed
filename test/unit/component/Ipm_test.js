@@ -42,7 +42,6 @@ describe('Ipm component', function() {
       ipmSenderSpy;
 
     beforeEach(function() {
-
       ipmSenderSpy = jasmine.createSpy();
 
       component = React.render(

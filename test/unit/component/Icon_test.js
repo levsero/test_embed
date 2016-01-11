@@ -9,7 +9,6 @@ describe('Icon component', function() {
   });
 
   beforeEach(function() {
-
     resetDOM();
 
     mockery.enable();
@@ -119,5 +118,4 @@ describe('Icon component', function() {
     expect(iconClasses)
       .toMatch('is-mobile');
   });
-
 });

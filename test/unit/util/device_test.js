@@ -50,7 +50,6 @@ describe('devices', function() {
   });
 
   describe('isBlacklisted', function() {
-
     it('returns false if doesn\'t support CORS or user agent has nothing within it blacklisted', function() {
       expect(isBlacklisted())
         .toBe(false);
@@ -102,7 +101,6 @@ describe('devices', function() {
       expect(isBlacklisted())
         .toBe(true);
     });
-
   });
 
   describe('isLandscape', function() {

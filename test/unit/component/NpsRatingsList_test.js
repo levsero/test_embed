@@ -63,7 +63,6 @@ describe('NpsRatingsList component', () => {
       expect(document.querySelectorAll('.ButtonRating').length)
         .toEqual(ratingsRange.length);
     });
-
   });
 
   describe('labels', () => {

@@ -15,7 +15,6 @@ describe('HelpCenterArticle component', function() {
   };
 
   beforeEach(function() {
-
     scrollIntoView = jasmine.createSpy();
 
     global.document.zendeskHost = 'dev.zd-dev.com';
@@ -42,7 +41,6 @@ describe('HelpCenterArticle component', function() {
     mockery.registerAllowable(helpCenterArticlePath);
 
     HelpCenterArticle = requireUncached(helpCenterArticlePath).HelpCenterArticle;
-
   });
 
   afterEach(function() {

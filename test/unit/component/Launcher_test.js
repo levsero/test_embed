@@ -65,7 +65,6 @@ describe('Launcher component', function() {
   });
 
   it('should call the updateFrameSize prop on render if it exists', function() {
-
     const mockUpdateFrameSize = jasmine.createSpy('mockUpdateFrameSize');
 
     jasmine.clock().install();

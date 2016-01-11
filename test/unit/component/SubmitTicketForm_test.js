@@ -7,7 +7,6 @@ describe('SubmitTicketForm component', function() {
   const buttonPath = buildSrcPath('component/Button');
 
   beforeEach(function() {
-
     onSubmit = jasmine.createSpy();
     onCancel = jasmine.createSpy();
 

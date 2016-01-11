@@ -3,7 +3,6 @@ describe('Container component', function() {
   const containerPath = buildSrcPath('component/Container');
 
   beforeEach(function() {
-
     resetDOM();
 
     mockery.enable();
@@ -23,7 +22,6 @@ describe('Container component', function() {
   });
 
   it('should have the `fullscreen` classnames when fullscreen is true', function() {
-
     const container = React.render(
       <Container fullscreen={true} />,
       global.document.body
@@ -41,7 +39,6 @@ describe('Container component', function() {
   });
 
   it('should have the `popover` classnames when fullscreen is false', function() {
-
     const container = React.render(
       <Container />,
       global.document.body
@@ -59,6 +56,4 @@ describe('Container component', function() {
     expect(containerClasses)
       .not.toMatch('Container--fullscreen');
   });
-
 });
-

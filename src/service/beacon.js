@@ -61,7 +61,6 @@ function sendConfigLoadTime(time) {
 }
 
 function track(category, action, label, value) {
-
   if (_.isUndefined(action) || _.isUndefined(category)) {
     return false;
   }
