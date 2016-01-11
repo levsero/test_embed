@@ -52,7 +52,7 @@ describe('Submit ticket component', function() {
         location: location
       },
       'utility/devices': {
-        getSizingRatio: function() {
+        getZoomSizingRatio: function() {
           return 1;
         },
         isMobileBrowser: function() {

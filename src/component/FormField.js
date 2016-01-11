@@ -309,6 +309,7 @@ class SearchFieldButton extends Component {
           <Icon
             className='Arrange-sizeFit u-isActionable'
             type='Icon--search' />
+          <span className='Arrange-sizeFit u-textSizeBaseMobile u-hsizeAll u-textBody'>{this.props.searchTerm}</span>
         </div>
       </div>
     );
@@ -317,12 +318,14 @@ class SearchFieldButton extends Component {
 
 SearchFieldButton.propTypes = {
   onClick: PropTypes.func,
-  onTouch: PropTypes.func
+  onTouch: PropTypes.func,
+  searchTerm: React.PropTypes.string
 };
 
 SearchFieldButton.defaultProps = {
   onClick: () => {},
-  onTouch: () => {}
+  onTouch: () => {},
+  searchTerm: ''
 };
 
 class SearchField extends Component {
@@ -336,8 +339,7 @@ class SearchField extends Component {
     this.state = {
       focused: false,
       blurred: false,
-      searchInputVal: '',
-      isClearable: false
+      searchInputVal: ''
     };
   }
 
@@ -366,7 +368,6 @@ class SearchField extends Component {
     const value = e.target.value;
 
     this.setState({
-      isClearable: (value !== '' && isMobileBrowser()),
       searchInputVal: value
     });
 
@@ -381,8 +382,7 @@ class SearchField extends Component {
 
   clearInput() {
     this.setState({
-      searchInputVal: '',
-      isClearable: false
+      searchInputVal: ''
     });
 
     if (this.props.onChangeValue) {
@@ -433,7 +433,7 @@ class SearchField extends Component {
     const clearInputClasses = classNames({
       'Icon Icon--clearInput': true,
       'u-isActionable u-textCenter': true,
-      'u-isHidden': !this.state.isClearable || this.props.isLoading
+      'u-isHidden': !(isMobileBrowser() && !this.props.isLoading && this.state.searchInputVal)
     });
     const placeholder = (isMobileBrowser())
                       ? ''
@@ -461,9 +461,11 @@ class SearchField extends Component {
           </div>
           <div className='Arrange-sizeFit u-isActionable'>
             <LoadingEllipses className={loadingClasses} />
-            <div
+            <Icon
               onClick={this.clearInput}
-              className={clearInputClasses} />
+              onTouch={this.clearInput}
+              className={clearInputClasses}
+              type='Icon--clearInput' />
           </div>
         </label>
       </div>

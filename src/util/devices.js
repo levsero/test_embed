@@ -1,34 +1,21 @@
 import { win, navigator } from 'utility/globals';
 
+function isLandscape() {
+  return Math.abs(win.orientation) === 90;
+}
+
 function getDeviceZoom() {
-  const landscape = Math.abs(win.orientation) === 90;
   const screen = win.screen;
-  const deviceWidth = landscape ? screen.availHeight : screen.availWidth;
+  const deviceWidth = isLandscape() ? screen.availHeight : screen.availWidth;
 
   return deviceWidth / win.innerWidth;
 }
 
-function getSizingRatio(isPinching, isFirstRun) {
-  const landscape = Math.abs(win.orientation) === 90;
+function getZoomSizingRatio() {
   const ratio = 1 / getDeviceZoom();
-  const ratioThreshold = 2;
-  let defaultRatio = landscape ? ratioThreshold : 3;
-
-  // On first run check the ratio is below threshold
-  // for defaulting to a smaller default font-size for
-  // tablets so the button isn't enormous
-  if (!isPinching && ratio < ratioThreshold && isFirstRun) {
-    defaultRatio = (ratio).toFixed(1);
-  }
-
-  // A scale of 3 is a good base if the ratio is smaller
-  // Android devices will return a smaller ratio compared
-  // to iOS. If loaded in landscape go for 2 ratio.
-  // Unless we're triggering this from a gesture then take
-  // ratio calculation.
 
   return (ratio > 1)
-    ? Math.max(isPinching ? 0 : defaultRatio, ratio)
+    ? Math.max(0, ratio)
     : 1;
 }
 
@@ -58,7 +45,7 @@ function isMobileBrowser() {
 }
 
 function shouldGoFullscreen() {
-  return getSizingRatio() && isMobileBrowser();
+  return getZoomSizingRatio() && isMobileBrowser();
 }
 
 function isBlacklisted() {
@@ -87,8 +74,9 @@ function isIE() {
 }
 
 export {
+  isLandscape,
   getDeviceZoom,
-  getSizingRatio,
+  getZoomSizingRatio,
   isMobileBrowser,
   shouldGoFullscreen,
   isBlacklisted,

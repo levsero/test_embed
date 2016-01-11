@@ -371,11 +371,14 @@ export class HelpCenter extends Component {
       this.setState({ searchFieldFocused: true });
     };
     const onBlurHandler = () => {
-      if (this.state.fullscreen && !this.state.hasSearched) {
-        this.setState({
-          showIntroScreen: true
-        });
-      }
+      // defer event to allow onClick events to fire first
+      _.defer(function(self) {
+        if (self.state.fullscreen && !self.state.hasSearched && !self.state.isLoading) {
+          self.setState({
+            showIntroScreen: true
+          });
+        }
+      }, this);
     };
     const onChangeValueHandler = (value) => {
       this.setState({ searchFieldValue: value });
@@ -460,7 +463,8 @@ export class HelpCenter extends Component {
                                   ? <SearchFieldButton
                                       ref='searchFieldButton'
                                       onClick={this.searchBoxClickHandler}
-                                      onTouch={this.searchBoxClickHandler} />
+                                      onTouch={this.searchBoxClickHandler}
+                                      searchTerm={this.state.searchFieldValue} />
                                   : null;
 
     const headerContent = (!this.state.articleViewActive

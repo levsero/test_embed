@@ -3,8 +3,7 @@ import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
 import { win }                 from 'utility/globals';
-import { getSizingRatio,
-         isMobileBrowser,
+import { isMobileBrowser,
          isFirefox }           from 'utility/devices';
 import { clickBusterRegister,
          generateNpsCSS }      from 'utility/utils';
@@ -16,8 +15,6 @@ import snabbt                  from 'snabbt.js';
 const classNames = require('classnames');
 const baseCSS = require('baseCSS');
 const mainCSS = require('mainCSS');
-const sizingRatio = 12 * getSizingRatio(false, true);
-const baseFontCSS = `html { font-size: ${sizingRatio}px }`;
 
 function validateChildFn(childFn, params) {
   if (!_.isFunction(childFn)) {
@@ -331,7 +328,7 @@ export const frameFactory = function(childFn, _params) {
           html.setAttribute('lang', i18n.getLocale());
         }
 
-        const cssText = baseCSS + mainCSS + params.css + baseFontCSS;
+        const cssText = baseCSS + mainCSS + params.css;
         const css = <style dangerouslySetInnerHTML={{ __html: cssText }} />;
         const fullscreen = params.fullscreenable && params.isMobile;
         const positionClasses = classNames({

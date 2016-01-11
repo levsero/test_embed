@@ -4,15 +4,17 @@ import { win,
          document as doc } from 'utility/globals';
 import { renderer }        from 'service/renderer';
 import { getDeviceZoom,
-         getSizingRatio }  from 'utility/devices';
+         getZoomSizingRatio,
+         isLandscape }      from 'utility/devices';
 import { mediator }        from 'service/mediator';
 import { setScrollKiller } from 'utility/scrollHacks';
+import { cappedIntervalCall } from 'utility/utils';
 
 let lastTouchEnd = 0;
 
-const propagateFontRatioChange = (isPinching) => {
+const propagateFontRatioChange = () => {
   setTimeout(() => {
-    const hideWidget = getDeviceZoom() > 2  || (Math.abs(win.orientation) === 90);
+    const hideWidget = getDeviceZoom() > 2  || isLandscape();
 
     if (hideWidget) {
       setScrollKiller(false);
@@ -20,7 +22,9 @@ const propagateFontRatioChange = (isPinching) => {
 
     renderer.hideByZoom(hideWidget);
 
-    mediator.channel.broadcast('.updateZoom', getSizingRatio(isPinching));
+    if (!isLandscape()) {
+      mediator.channel.broadcast('.updateZoom', getZoomSizingRatio());
+    }
   }, 0);
 };
 const zoomMonitor = (() => {
@@ -94,13 +98,11 @@ function initMobileScaling() {
   // Recalc ratio when user focus on field
   // delay by 500ms so browser zoom is done
   doc.addEventListener('focus', () => {
-    setTimeout(() => propagateFontRatioChange(true), 500);
+    setTimeout(() => propagateFontRatioChange(), 500);
   }, true);
 
   win.addEventListener('orientationchange', () => {
-    const portrait = Math.abs(win.orientation) !== 90;
-
-    if (portrait) {
+    if (!isLandscape()) {
       setTimeout(() => {
         propagateFontRatioChange();
       }, 1000);
@@ -117,7 +119,7 @@ function initMobileScaling() {
     propagateFontRatioChange();
   }, false);
 
-  propagateFontRatioChange();
+  cappedIntervalCall(propagateFontRatioChange, 500, 10);
 }
 
 export {
