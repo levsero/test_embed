@@ -26,6 +26,7 @@ class HelpCenter extends Component {
     this.interactiveSearchSuccessFn = this.interactiveSearchSuccessFn.bind(this);
     this.manualSearch = this.manualSearch.bind(this);
     this.searchBoxClickHandler = this.searchBoxClickHandler.bind(this);
+    
     this.state = {
       articles: [],
       resultsCount: 0,

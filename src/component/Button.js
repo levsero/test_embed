@@ -16,8 +16,8 @@ class Button extends Component {
     });
     const allowedTypes = /^(submit|button)$/i;
     const type = allowedTypes.test(this.props.type)
-              ? this.props.type
-              : 'button';
+               ? this.props.type
+               : 'button';
 
     return (
       <input
@@ -130,19 +130,19 @@ class ButtonSecondary extends Component {
     });
 
     return (this.props.disabled)
-        ? <div
-            className={buttonClasses}
-            style={this.props.style}
-            disabled={true}>
-            {this.props.label}
-          </div>
-        : <div
-            onClick={this.props.onClick}
-            onTouchStart={this.props.onClick}
-            className={buttonClasses}
-            style={this.props.style}>
-            {this.props.label}
-          </div>;
+         ? <div
+             className={buttonClasses}
+             style={this.props.style}
+             disabled={true}>
+             {this.props.label}
+           </div>
+         : <div
+             onClick={this.props.onClick}
+             onTouchStart={this.props.onClick}
+             className={buttonClasses}
+             style={this.props.style}>
+             {this.props.label}
+           </div>;
   }
 }
 
