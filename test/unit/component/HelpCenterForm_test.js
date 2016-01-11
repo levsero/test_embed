@@ -4,7 +4,6 @@ describe('HelpCenterForm component', function() {
   const helpCenterFormPath = buildSrcPath('component/HelpCenterForm');
 
   beforeEach(function() {
-
     onSubmit = jasmine.createSpy();
     onChange = jasmine.createSpy();
 

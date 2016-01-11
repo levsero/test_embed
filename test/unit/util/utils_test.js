@@ -35,7 +35,6 @@ describe('util.setScaleLock', function() {
 
     metaTag = document.createElement('meta');
     metaTag.name = 'viewport';
-
   });
 
   afterEach(function() {
@@ -44,7 +43,6 @@ describe('util.setScaleLock', function() {
   });
 
   describe('setScaleLock(true)', function() {
-
     it('adds a <meta name="viewport" /> tag if one does not exist', function() {
       expect(document.querySelectorAll('meta[name="viewport"]').length)
         .toEqual(0);
@@ -123,11 +121,9 @@ describe('util.setScaleLock', function() {
       expect(viewportContent['user-scalable'])
         .toEqual('no');
     });
-
   });
 
   describe('setScaleLock(false)', function() {
-
     it('does not add a <meta name="viewport" /> tag if one does not exist', function() {
       expect(document.querySelectorAll('meta[name="viewport"]').length)
         .toEqual(0);
@@ -187,7 +183,6 @@ describe('util.setScaleLock', function() {
       expect(viewportContent['user-scalable'])
         .toBeUndefined();
     });
-
   });
 
   describe('splitPath()', function() {

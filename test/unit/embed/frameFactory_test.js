@@ -1,5 +1,4 @@
 describe('frameFactory', function() {
-
   let frameFactory,
     mockRegistry,
     mockRegistryMocks,
@@ -150,7 +149,6 @@ describe('frameFactory', function() {
             'mock-component'
           );
       }).not.toThrow();
-
     });
   });
 
@@ -254,7 +252,6 @@ describe('frameFactory', function() {
       expect(frameContainerStyle.zIndex > 0)
         .toEqual(true);
     });
-
   });
 
   describe('show', function() {
@@ -378,7 +375,6 @@ describe('frameFactory', function() {
 
         expect(mockFrameParams.afterShowAnimate)
           .toHaveBeenCalled();
-
       });
 
       it('should call the onShow callback', function() {
@@ -751,13 +747,10 @@ describe('frameFactory', function() {
 
       expect(frameContainerStyle.bottom)
         .toEqual('');
-
     });
-
   });
 
   describe('renderFrameContent', function() {
-
     it('adds a <style> block with relevant rules to the iframe document', function() {
       const payload = frameFactory(mockChildFn, {
         css: '.params-css {} '
@@ -915,7 +908,5 @@ describe('frameFactory', function() {
       expect(htmlElem.getAttribute('lang'))
         .toEqual('ar');
     });
-
   });
-
 });

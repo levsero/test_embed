@@ -1,7 +1,6 @@
 /* eslint no-var:0 */
 // Code taken from http://www.lognormal.com/blog/2012/12/12/the-script-loader-pattern/
 window.zEmbed || (function(url, host) {
-
   // Part 1: Creating and appending <iframe /> to the document
   var dom, doc, where, iWin, iDoc;
   var queue = [];

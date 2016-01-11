@@ -80,7 +80,6 @@ describe('embed.chat', function() {
   });
 
   describe('create', function() {
-
     it('should create and add a chat', function() {
       expect(_.keys(chat.list()).length)
         .toBe(0);
@@ -100,13 +99,10 @@ describe('embed.chat', function() {
       expect(chat.get(chatName).config.zopimId)
         .toEqual(zopimId);
     });
-
   });
 
   describe('get', function() {
-
     it('should return the correct chat', function() {
-
       chat.create('dave');
       const dave = chat.get('dave');
 
@@ -127,7 +123,6 @@ describe('embed.chat', function() {
 
     describe('store set zopimOpen', function() {
       it('is set to false if on a mobile browser', function() {
-
         mockIsMobileBrowserValue = true;
 
         chat.create(chatName, {zopimId: zopimId});
@@ -204,7 +199,6 @@ describe('embed.chat', function() {
       });
 
       describe('zopim.livechat.onStatus', function() {
-
         it('onStatus(online) should broadcast <name>.onOnline', function() {
           chat.get(chatName).connected = true;
 
@@ -222,11 +216,9 @@ describe('embed.chat', function() {
           expect(mockMediator.channel.broadcast)
             .toHaveBeenCalledWith('dave.onOffline');
         });
-
       });
 
       describe('zopim.onUnreadMsgs', function() {
-
         it('should broadcast <name>.onUnreadMsgs if count > 0', function() {
           onUnreadMsgsCall.args[0](1);
 
@@ -240,7 +232,6 @@ describe('embed.chat', function() {
           expect(mockMediator.channel.broadcast)
             .not.toHaveBeenCalled();
         });
-
       });
 
       describe('zopim.onChatEnd', function() {
@@ -249,15 +240,11 @@ describe('embed.chat', function() {
           expect(mockMediator.channel.broadcast)
             .toHaveBeenCalledWith('dave.onChatEnd');
         });
-
       });
-
     });
 
     describe('mediator subscriptions', function() {
-
       describe('<name>.show', function() {
-
         it('should call zopim.window.show()', function() {
           mockMediator = mockRegistry['service/mediator'].mediator;
           chat.create(chatName, {zopimId: zopimId});
@@ -322,11 +309,9 @@ describe('embed.chat', function() {
               .toEqual(0);
           });
         });
-
       });
 
       describe('<name>.hide', function() {
-
         it('should call zopim.livechat.hideAll()', function() {
           mockMediator = mockRegistry['service/mediator'].mediator;
           chat.create(chatName, {zopimId: zopimId});
@@ -340,11 +325,7 @@ describe('embed.chat', function() {
           expect(mockZopim.livechat.hideAll)
             .toHaveBeenCalled();
         });
-
       });
-
     });
-
   });
-
 });

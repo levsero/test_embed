@@ -3,7 +3,6 @@ describe('ButtonPill component', function() {
   const buttonPath = buildSrcPath('component/Button');
 
   beforeEach(function() {
-
     resetDOM();
 
     mockery.enable();
@@ -61,5 +60,4 @@ describe('ButtonPill component', function() {
       expect(buttonClasses).toMatch('is-mobile');
     });
   });
-
 });

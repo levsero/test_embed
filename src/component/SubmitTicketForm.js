@@ -46,7 +46,6 @@ export const SubmitTicketForm = React.createClass({
         'embeddable_framework.submitTicket.form.cancelButton.label.cancel'
       )
     };
-
   },
 
   componentDidMount() {
@@ -72,7 +71,6 @@ export const SubmitTicketForm = React.createClass({
             field.value = this.state.formState[field.name];
           }
         } else {
-
           // If clearing form after submit we need to make sure
           // formState clears out undefined values
           field.value = '';

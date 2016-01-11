@@ -166,7 +166,6 @@ function setScaleLock(active) {
       setTimeout(function() {
         mediator.channel.broadcast('.updateZoom', getZoomSizingRatio());
       }, 0);
-
     } else {
       if (viewportObj['original-user-scalable']) {
         if (viewportObj['original-user-scalable'] === 'UNDEFINED') {

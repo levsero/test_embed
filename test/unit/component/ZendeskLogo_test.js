@@ -3,7 +3,6 @@ describe('ZendeskLogo component', function() {
   const zendeskLogoPath = buildSrcPath('component/ZendeskLogo');
 
   beforeEach(function() {
-
     resetDOM();
 
     mockery.enable();

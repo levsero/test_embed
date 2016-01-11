@@ -185,11 +185,9 @@ describe('embed.launcher', function() {
           .toBeDefined();
       });
     });
-
   });
 
   describe('get', function() {
-
     it('should return the correct launcher', function() {
       const config = {
         position: 'test_alice_position',
@@ -213,17 +211,13 @@ describe('embed.launcher', function() {
       expect(alice.config.visible)
         .toEqual(config.visible);
     });
-
   });
 
   describe('render', function() {
-
     it('should throw an exception if launcher does not exist', function() {
-
       expect(function() {
         launcher.render('non_existent_launcher');
       }).toThrow();
-
     });
 
     it('renders a launcher to the document', function() {
@@ -241,7 +235,6 @@ describe('embed.launcher', function() {
     });
 
     it('should only be allowed to render an launcher once', function() {
-
       launcher.create('alice');
 
       expect(function() {
@@ -251,7 +244,6 @@ describe('embed.launcher', function() {
       expect(function() {
         launcher.render('alice');
       }).toThrow();
-
     });
 
     it('applies launcher.scss to the frame', function() {
@@ -280,7 +272,6 @@ describe('embed.launcher', function() {
 
       expect(mockFrameStyle.right)
         .toBeDefined();
-
     });
 
     it('can be positioned "left"', function() {
@@ -296,7 +287,6 @@ describe('embed.launcher', function() {
 
       expect(mockFrameStyle.right)
         .toBeUndefined();
-
     });
 
     describe('mediator subscriptions', function() {
@@ -380,9 +370,6 @@ describe('embed.launcher', function() {
         expect(aliceLauncher.setLabel.__reactBoundMethod)
           .toHaveBeenCalled();
       });
-
     });
-
   });
-
 });

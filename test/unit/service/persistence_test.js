@@ -36,7 +36,6 @@ describe('store', function() {
   });
 
   describe('#get', function() {
-
     it('should return a value local storage', function() {
       const key = 'abc';
       const value = 'xyz';
@@ -86,11 +85,9 @@ describe('store', function() {
 
       expect(mockLocalStorage.getItem).not.toHaveBeenCalled();
     });
-
   });
 
   describe('#set', function() {
-
     beforeEach(function() {
       spyOn(mockLocalStorage, 'setItem');
       spyOn(mockSessionStorage, 'setItem');
@@ -128,11 +125,9 @@ describe('store', function() {
 
       expect(JSON.parse(recentCall.args[1])).toEqual(value);
     });
-
   });
 
   describe('#remove', function() {
-
     beforeEach(function() {
       spyOn(mockLocalStorage, 'removeItem');
       spyOn(mockSessionStorage, 'removeItem');
@@ -157,18 +152,15 @@ describe('store', function() {
         .toHaveBeenCalledWith(prefix + key);
       expect(mockLocalStorage.removeItem).not.toHaveBeenCalled();
     });
-
   });
 
   describe('#clear', function() {
-
     beforeEach(function() {
       spyOn(mockSessionStorage, 'removeItem');
       spyOn(mockLocalStorage,   'removeItem');
     });
 
     it('should only delete ZD-* keys in the local storage store', function() {
-
       // We're using _.keys to retreive the keys in storage
       spyOn(_, 'keys')
         .and.returnValue(['ZD-a', 'ZD-b', 'dont-delete']);
@@ -186,7 +178,6 @@ describe('store', function() {
     });
 
     it('should only delete ZD-* keys in the session storage store', function() {
-
       // We're using _.keys to retreive the keys in storage
       spyOn(_, 'keys')
         .and.returnValue(['ZD-a', 'ZD-b', 'dont-delete']);
@@ -202,6 +193,5 @@ describe('store', function() {
       expect(mockSessionStorage.removeItem)
         .not.toHaveBeenCalledWith('dont-delete');
     });
-
   });
 });

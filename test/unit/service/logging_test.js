@@ -18,7 +18,6 @@ describe('logging', function() {
   });
 
   describe('#init', function() {
-
     it('should register Airbrake id and key on init and add errors to filter', function() {
       logging.init();
 
@@ -28,7 +27,6 @@ describe('logging', function() {
       expect(Airbrake.addFilter)
         .toHaveBeenCalled();
     });
-
   });
 
   describe('#error', function() {
@@ -68,7 +66,5 @@ describe('logging', function() {
       expect(logging.error.bind(this, err))
         .toThrow();
     });
-
   });
-
 });

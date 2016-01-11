@@ -86,7 +86,6 @@ describe('i18n', function() {
       i18n.setLocale('xx');
       expect(i18n.getLocale()).toEqual('en-US');
     });
-
   });
 
   describe('getLocaleId', function() {
@@ -106,7 +105,6 @@ describe('i18n', function() {
       i18n.setLocale('de-de');
       expect(i18n.getLocaleId()).toEqual(localeIdMap['de']);
     });
-
   });
 
   describe('parseLocale', function() {
@@ -163,7 +161,5 @@ describe('i18n', function() {
       expect(i18n.getLocale())
         .toEqual('en-US');
     });
-
   });
-
 });

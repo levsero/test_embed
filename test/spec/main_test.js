@@ -10,5 +10,4 @@ describe('main.js', function() {
     expect(zEmbed)
       .toBeDefined();
   });
-
 });

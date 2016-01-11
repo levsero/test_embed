@@ -4,7 +4,6 @@ describe('component/Button', function() {
   const buttonPath = buildSrcPath('component/Button');
 
   beforeEach(function() {
-
     resetDOM();
 
     mockery.enable();

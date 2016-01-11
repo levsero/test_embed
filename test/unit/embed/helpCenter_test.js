@@ -380,7 +380,6 @@ describe('embed.helpCenter', function() {
             .toEqual(false);
         });
       });
-
     });
 
     it('should switch iframe styles based on isMobileBrowser()', function() {
@@ -426,7 +425,6 @@ describe('embed.helpCenter', function() {
       expect(payload.props.style)
         .toEqual({height: '100%', width: '100%'});
     });
-
   });
 
   describe('get', function() {
@@ -456,7 +454,6 @@ describe('embed.helpCenter', function() {
   });
 
   describe('render', function() {
-
     it('should throw an exception if HelpCenter does not exist', function() {
       expect(function() {
         helpCenter.render('non_existent_helpCenter');
@@ -591,7 +588,6 @@ describe('embed.helpCenter', function() {
       beforeEach(function() {
         getPageKeywordsSpy = mockRegistry['utility/utils'].getPageKeywords;
         contextualSearchSpy = jasmine.createSpy('contextualSearch');
-
       });
 
       it('should call keywordSearch on non helpcenter pages', function() {

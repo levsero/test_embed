@@ -68,7 +68,6 @@ describe('beacon', function() {
   });
 
   describe('#init', function() {
-
     it('Saves the currentTime', function() {
       const currentTime = Date.now();
       const mockPersistence = mockRegistry['service/persistence'];
@@ -125,13 +124,10 @@ describe('beacon', function() {
         expect(transportPayload.params.user.email)
           .toEqual(params.email);
       });
-
     });
-
   });
 
   describe('#send', function() {
-
     it('sends correct payload using transport.send', function() {
       const mockTransport = mockRegistry['service/transport'];
       const mockGlobals = mockRegistry['utility/globals'];
@@ -169,7 +165,6 @@ describe('beacon', function() {
       expect(params.pageView.loadTime)
         .toBe(mockUtils.getFrameworkLoadTime());
     });
-
   });
 
   describe('#track', function() {
@@ -222,7 +217,6 @@ describe('beacon', function() {
   });
 
   describe('identify', function() {
-
     it('sends the correct payload', function() {
       const name = 'John';
       const email = 'john@example.com';
