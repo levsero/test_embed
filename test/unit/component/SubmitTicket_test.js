@@ -178,6 +178,31 @@ describe('Submit ticket component', function() {
       .toHaveBeenCalled();
   });
 
+  it('should clear the form on a valid submit', function() {
+    const mockSubmitTicketSender = jasmine.createSpy('mockSubmitTicketSender');
+    const submitTicket = React.render(
+      <SubmitTicket
+        submitTicketSender={mockSubmitTicketSender}
+        updateFrameSize={noop} />,
+      global.document.body
+    );
+
+    spyOn(submitTicket, 'clearForm');
+
+    submitTicket.handleSubmit({preventDefault: noop}, {
+      isFormValid: true,
+      value: {
+        email: formParams.email,
+        description: formParams.description
+      }
+    });
+
+    mockSubmitTicketSender.calls.mostRecent().args[1]({});
+
+    expect(submitTicket.clearForm)
+      .toHaveBeenCalled();
+  });
+
   it('should call onSubmitted with given last search state', function() {
     const mockSubmitTicketSender = jasmine.createSpy('mockSubmitTicketSender');
     const mockOnSubmitted = jasmine.createSpy('mockOnSubmitted');
