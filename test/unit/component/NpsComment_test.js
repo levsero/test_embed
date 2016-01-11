@@ -99,13 +99,12 @@ describe('NpsComment component', () => {
   });
 
   describe('i18n', () => {
-    it(`should use the .sendFeedback label
-      and with a fallback of 'Send Feedback'`, () => {
+    it('should use the .sendFeedback label and with a fallback of "Send Feedback"', () => {
       expect(mockRegistry['service/i18n'].i18n.t)
-          .toHaveBeenCalledWith(
-            'embeddable_framework.npsMobile.submitButton.label.sendFeedback',
-            { fallback: 'Send Feedback'}
-          );
+        .toHaveBeenCalledWith(
+          'embeddable_framework.npsMobile.submitButton.label.sendFeedback',
+          { fallback: 'Send Feedback'}
+        );
     });
   });
 });
