@@ -26,34 +26,15 @@ describe('Launcher component', function() {
     mockery.disable();
   });
 
-  it('should activate the onClick function when clicked on', function() {
-    const onClick = jasmine.createSpy();
-    const launcher = React.render(
-      <Launcher onClick={onClick} />,
-      global.document.body
-    );
-
-    ReactTestUtils.Simulate.click(launcher.getDOMNode());
-
-    expect(onClick)
-      .toHaveBeenCalled();
-  });
-
   it('should correctly set the initial state when created', function() {
-    const launcher = React.render(
-      <Launcher icon='testIcon' />,
-      global.document.body
-    );
+    const launcher = instanceRender(<Launcher icon='testIcon' />);
 
     expect(launcher.state.icon)
       .toEqual('testIcon');
   });
 
   it('should change the state icon when setIcon is called', function() {
-    const launcher = React.render(
-      <Launcher label='help' />,
-      global.document.body
-    );
+    const launcher = instanceRender(<Launcher label='help' />);
 
     expect(launcher.state.icon)
       .not.toEqual('newIcon');
@@ -69,21 +50,14 @@ describe('Launcher component', function() {
 
     jasmine.clock().install();
 
-    React.render(
-      <Launcher updateFrameSize = {mockUpdateFrameSize} />,
-      global.document.body
-    );
-
+    shallowRender(<Launcher updateFrameSize = {mockUpdateFrameSize} />);
     jasmine.clock().tick(10);
 
     expect(mockUpdateFrameSize).toHaveBeenCalled();
   });
 
   it('should change the label when setLabel is called', function() {
-    const launcher = React.render(
-      <Launcher label='help'/>,
-      global.document.body
-    );
+    const launcher = instanceRender(<Launcher label='help' />);
 
     expect(launcher.state.label)
       .toEqual('help');
