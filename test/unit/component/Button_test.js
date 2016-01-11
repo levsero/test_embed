@@ -61,7 +61,7 @@ describe('component/Button', function() {
 
     it('should apply style prop to the underlying element', function() {
       const button = shallowRender(<Button style={{ testStyle: 'success' }} />);
-     
+
       expect(button.props.style.testStyle)
         .toEqual('success');
     });
@@ -80,7 +80,7 @@ describe('component/Button', function() {
 
     it('should apply style prop to the underlying element', function() {
       const button = shallowRender(<ButtonSecondary style={{ testStyle: 'success' }} />);
-     
+
       expect(button.props.style.testStyle)
         .toEqual('success');
     });

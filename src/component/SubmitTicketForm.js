@@ -101,7 +101,7 @@ export class SubmitTicketForm extends Component {
       isSubmitting: false,
       buttonMessage: i18n.t(
         'embeddable_framework.submitTicket.form.submitButton.label.send'
-      ),
+      )
     });
 
     this.refs.scrollContainer.scrollToBottom();

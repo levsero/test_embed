@@ -20,14 +20,14 @@ import { Button } from 'component/Button';
 const classNames = require('classnames');
 
 const initialState = {
-      currentPage: {
-        selectingRating: true,
-        thankYou: false,
-        addingComment: false
-      },
-      fullscreen: false,
-      isEditing: false
-    };
+  currentPage: {
+    selectingRating: true,
+    thankYou: false,
+    addingComment: false
+  },
+  fullscreen: false,
+  isEditing: false
+};
 
 export class NpsMobile extends Component {
   constructor(props, context) {

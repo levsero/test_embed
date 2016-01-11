@@ -34,7 +34,7 @@ describe('ButtonGroup component', function() {
 
   it('should not have rtl classes when rtl prop is false', function() {
     const buttonGroup = shallowRender(<ButtonGroup />);
-    
+
     expect(buttonGroup.props.className)
       .toMatch('u-textRight');
 

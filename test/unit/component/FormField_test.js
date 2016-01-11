@@ -80,6 +80,7 @@ describe('FormField component', function() {
   describe('Field', function() {
     it('should render form field DOM with a label wrapping two child divs', function() {
       const field = shallowRender(<Field name='alice' />);
+      const fieldNode = field.getDOMNode();
 
       expect(fieldNode.nodeName)
         .toEqual('LABEL');

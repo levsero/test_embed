@@ -45,7 +45,7 @@ describe('Submit ticket component', function() {
       }
     });
 
-    mockRegistry = initMockRegistry({
+    initMockRegistry({
       'React': React,
       'utility/globals': {
         win: window,

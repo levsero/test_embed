@@ -15,7 +15,7 @@ const initialState = {
     thankYou: false,
     addingComment: false
   }
-}
+};
 
 export class NpsDesktop extends Component {
   constructor(props, context) {

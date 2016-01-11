@@ -1,7 +1,6 @@
 describe('Icon component', function() {
   let Icon;
   const iconPath = buildSrcPath('component/Icon');
-  const onClick = jasmine.createSpy('onClick');
   const dummyIcon = React.createClass({
     render: function() {
       return (<svg><g id="Layer_Test"><path d="M" /></g></svg>);
@@ -58,7 +57,7 @@ describe('Icon component', function() {
 
   it('should include the onClick when passed', function() {
     const icon = shallowRender(<Icon type="Icon--search" />);
-        
+
     expect(icon.props.className)
       .toMatch('Icon Icon--search');
 

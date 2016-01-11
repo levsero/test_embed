@@ -28,7 +28,7 @@ const initialState = {
   isSubmittingComment: false,
   surveyCompleted: false,
   surveyAvailable: null // `null`: survey has not been set
-}
+};
 
 export class Nps extends Component {
   constructor(props, context) {

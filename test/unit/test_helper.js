@@ -4,6 +4,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
+import ShallowTestUtils from 'react-shallow-testutils';
 
 global.basePath = function(path) {
   return __dirname + '/../../' + path;
@@ -35,7 +36,7 @@ global.location = global.window.location;
 
 global.React = React;
 global.ReactDOM = ReactDOM;
-global.ReactTestUtils = TestUtils;
+global.TestUtils = TestUtils;
 global.noopReactComponent = function() {
   return React.createClass({
     render: () => <div />
@@ -43,10 +44,17 @@ global.noopReactComponent = function() {
 };
 
 global.shallowRender = (component) => {
-  const renderer = ReactTestUtils.createRenderer();
+  const renderer = TestUtils.createRenderer();
 
   renderer.render(component);
   return renderer.getRenderOutput();
+};
+
+global.instanceRender = (component) => {
+  const renderer = TestUtils.createRenderer();
+
+  renderer.render(component);
+  return ShallowTestUtils.getMountedInstance(renderer);
 };
 
 global.noop = function() {};
