@@ -5,6 +5,11 @@ describe('SubmitTicketForm component', function() {
     mockRegistry;
   const submitTicketFormPath = buildSrcPath('component/SubmitTicketForm');
   const buttonPath = buildSrcPath('component/Button');
+  const formParams = {
+    'name': 'jabbathehutt',
+    'email': 'mock@email.com',
+    'description': 'Mock Description'
+  };
 
   beforeEach(function() {
 
@@ -158,6 +163,23 @@ describe('SubmitTicketForm component', function() {
 
     expect(submitElem.disabled)
       .toEqual(true);
+  });
+
+  it('should clear all fields other then name and email on valid submit', function() {
+    const submitTicketForm = React.render(
+      <SubmitTicketForm submit={onSubmit} />,
+      global.document.body
+    );
+
+    submitTicketForm.state.formState = _.clone(formParams);
+    ReactTestUtils.Simulate.submit(submitTicketForm.getDOMNode());
+    submitTicketForm.clear();
+
+    expect(submitTicketForm.state.formState)
+      .toEqual({
+        name: formParams.name,
+        email: formParams.email
+      });
   });
 
   describe('ButtonSecondary', function() {

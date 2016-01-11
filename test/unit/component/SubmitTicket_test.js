@@ -66,6 +66,7 @@ describe('Submit ticket component', function() {
               formState: {}
             };
           },
+          clear: noop,
           render: function() {
             return <form onSubmit={this.props.handleSubmit} />;
           }

@@ -55,16 +55,8 @@ export const SubmitTicket = React.createClass({
 
   clearForm() {
     const submitTicketForm = this.refs.submitTicketForm;
-    const formData = submitTicketForm.state.formState;
 
-    submitTicketForm.setState(submitTicketForm.getInitialState());
-    submitTicketForm.setState({
-      showNotification: true,
-      formState: {
-        name: formData.name,
-        email: formData.email
-      }
-    });
+    submitTicketForm.clear();
   },
 
   showField: function() {
