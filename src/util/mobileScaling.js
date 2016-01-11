@@ -8,7 +8,7 @@ import { getDeviceZoom,
          isLandscape }      from 'utility/devices';
 import { mediator }        from 'service/mediator';
 import { setScrollKiller } from 'utility/scrollHacks';
-import { setIntervalRepeated } from 'utility/utils';
+import { cappedIntervalCall } from 'utility/utils';
 
 let lastTouchEnd = 0;
 
@@ -119,7 +119,7 @@ function initMobileScaling() {
     propagateFontRatioChange();
   }, false);
 
-  setIntervalRepeated(propagateFontRatioChange, 500, 10);
+  cappedIntervalCall(propagateFontRatioChange, 500, 10);
 }
 
 export {
