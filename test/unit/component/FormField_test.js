@@ -23,15 +23,24 @@ describe('FormField component', function() {
     initMockRegistry({
       'react/addons': React,
       'component/Loading': {
-        LoadingEllipses: noopReactComponent()
+        LoadingEllipses: React.createClass({
+          render: function() {
+            return (
+              <div className={`Loading ${this.props.className}`}>
+                <div className='Loading-item'></div>
+              </div>
+            );
+          }
+        })
       },
       'component/Icon': {
         Icon: React.createClass({
           render: function() {
             return (
               <span
-                className={`Icon ${this.props.type}`}
-                onClick={this.props.onClick}>
+                className={this.props.className}
+                onClick={this.props.onClick}
+                type={`${this.props.type}`}>
                 <svg />
               </span>
             );
@@ -357,7 +366,7 @@ describe('FormField component', function() {
       );
       const searchFieldNode = searchField.getDOMNode();
 
-      ReactTestUtils.Simulate.click(searchFieldNode.querySelector('.Icon--search'));
+      ReactTestUtils.Simulate.click(searchFieldNode.querySelector('span[type=Icon--search]'));
 
       expect(onSearch)
         .toHaveBeenCalled();
@@ -380,6 +389,85 @@ describe('FormField component', function() {
 
       expect(onChangeValue)
         .toHaveBeenCalledWith('');
+    });
+
+    it('should display `Loading` component when `this.props.isLoading` is truthy', function() {
+      const searchField = React.render(
+        <SearchField isLoading={true} />,
+        global.document.body
+      );
+      const loadingNode = ReactTestUtils.findRenderedDOMComponentWithClass(searchField, 'Loading');
+
+      expect(searchField.props.isLoading)
+        .toEqual(true);
+
+      expect(loadingNode.props.className)
+        .not.toMatch('u-isHidden');
+    });
+
+    it('should not display `Loading` component when `this.props.isLoading` is falsy', function() {
+      const searchField = React.render(
+        <SearchField isLoading={false} />,
+        global.document.body
+      );
+      const loadingNode = ReactTestUtils.findRenderedDOMComponentWithClass(searchField, 'Loading');
+
+      expect(searchField.props.isLoading)
+        .toEqual(false);
+
+      expect(loadingNode.props.className)
+        .toMatch('u-isHidden');
+    });
+
+    it('should display `clearInput` Icon when the input has text and `this.props.isLoading` is false', function() {
+      const searchField = React.render(
+        <SearchField isLoading={false} />,
+        global.document.body
+      );
+      const clearInputNode = ReactTestUtils.findRenderedDOMComponentWithClass(
+                               searchField, 'Icon--clearInput');
+
+      searchField.setState({ searchInputVal: 'something' });
+
+      expect(searchField.state.searchInputVal)
+        .toEqual('something');
+
+      expect(clearInputNode.props.className)
+        .not.toMatch('u-isHidden');
+    });
+
+    it('should not display `clearInput` Icon when the input has no text', function() {
+      const searchField = React.render(
+        <SearchField />,
+        global.document.body
+      );
+      const clearInputNode = ReactTestUtils.findRenderedDOMComponentWithClass(
+                               searchField, 'Icon--clearInput');
+
+      searchField.setState({ searchInputVal: '' });
+
+      expect(searchField.state.searchInputVal)
+        .toEqual('');
+
+      expect(clearInputNode.props.className)
+        .toMatch('u-isHidden');
+    });
+
+    it('should not display `clearInput` Icon when `this.props.isLoading` is true', function() {
+      const searchField = React.render(
+        <SearchField isLoading={true} />,
+        global.document.body
+      );
+      const clearInputNode = ReactTestUtils.findRenderedDOMComponentWithClass(
+                               searchField, 'Icon--clearInput');
+
+      searchField.setState({ searchInputVal: 'something' });
+
+      expect(searchField.state.searchInputVal)
+        .toEqual('something');
+
+      expect(clearInputNode.props.className)
+        .toMatch('u-isHidden');
     });
   });
 

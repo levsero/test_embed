@@ -332,14 +332,6 @@ $Base-posOffset: $med + 1;
   border: #{1/$font-size}rem solid transparent !important;
 }
 
-/**
- * Vertical sizes
- */
-
-.u-vsizeAll {
-  height: 100% !important;
-}
-
 .u-borderNone {
   border: none !important;
 }
@@ -352,3 +344,18 @@ $Base-posOffset: $med + 1;
   border-bottom: $thin-border-size solid $base-border-color;
 }
 
+/**
+ * Vertical sizes
+ */
+
+.u-vsizeAll {
+  height: 100% !important;
+}
+
+/**
+ * Horizontal sizes
+ */
+
+.u-hsizeAll {
+  width: 100% !important;
+}

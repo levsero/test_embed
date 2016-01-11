@@ -298,13 +298,15 @@ const SelectField = React.createClass({
 const SearchFieldButton = React.createClass({
   propTypes: {
     onClick: React.PropTypes.func,
-    onTouch: React.PropTypes.func
+    onTouch: React.PropTypes.func,
+    searchTerm: React.PropTypes.string
   },
 
   getDefaultProps() {
     return {
       onClick: () => {},
-      onTouch: () => {}
+      onTouch: () => {},
+      searchTerm: ''
     };
   },
 
@@ -318,6 +320,7 @@ const SearchFieldButton = React.createClass({
           <Icon
             className='Arrange-sizeFit u-isActionable'
             type='Icon--search' />
+          <span className='Arrange-sizeFit u-textSizeBaseMobile u-hsizeAll u-textBody'>{this.props.searchTerm}</span>
         </div>
       </div>
     );
@@ -353,8 +356,7 @@ const SearchField = React.createClass({
     return {
       focused: false,
       blurred: false,
-      searchInputVal: '',
-      isClearable: false
+      searchInputVal: ''
     };
   },
 
@@ -383,7 +385,6 @@ const SearchField = React.createClass({
     const value = e.target.value;
 
     this.setState({
-      isClearable: (value !== '' && isMobileBrowser()),
       searchInputVal: value
     });
 
@@ -398,8 +399,7 @@ const SearchField = React.createClass({
 
   clearInput() {
     this.setState({
-      searchInputVal: '',
-      isClearable: false
+      searchInputVal: ''
     });
 
     if (this.props.onChangeValue) {
@@ -450,7 +450,7 @@ const SearchField = React.createClass({
     const clearInputClasses = classSet({
       'Icon Icon--clearInput': true,
       'u-isActionable u-textCenter': true,
-      'u-isHidden': !this.state.isClearable || this.props.isLoading
+      'u-isHidden': !(isMobileBrowser() && !this.props.isLoading && this.state.searchInputVal)
     });
     const placeholder = (isMobileBrowser())
                       ? ''
@@ -478,9 +478,11 @@ const SearchField = React.createClass({
           </div>
           <div className='Arrange-sizeFit u-isActionable'>
             <LoadingEllipses className={loadingClasses} />
-            <div
+            <Icon
               onClick={this.clearInput}
-              className={clearInputClasses} />
+              onTouch={this.clearInput}
+              className={clearInputClasses}
+              type='Icon--clearInput' />
           </div>
         </label>
       </div>
