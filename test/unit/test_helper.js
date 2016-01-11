@@ -44,9 +44,10 @@ global.noopReactComponent = function() {
 
 global.shallowRender = (component) => {
   const renderer = ReactTestUtils.createRenderer();
+
   renderer.render(component);
   return renderer.getRenderOutput();
-}
+};
 
 global.noop = function() {};
 

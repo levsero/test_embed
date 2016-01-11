@@ -2,7 +2,6 @@
 // https://github.com/facebook/react/issues/1939#issuecomment-100786151
 require('utility/utils').patchReactIdAttribute();
 
-import React from 'react';
 import _ from 'lodash';
 
 import { beacon }             from 'service/beacon';

@@ -187,5 +187,4 @@ NpsDesktop.defaultProps = {
   submitRatingHandler: () => {}
 };
 
-
 export { NpsDesktop };

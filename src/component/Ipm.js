@@ -50,5 +50,4 @@ Ipm.propTypes = {
   mobile: PropTypes.bool.isRequired
 };
 
-
 export { Ipm };

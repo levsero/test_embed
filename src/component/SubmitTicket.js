@@ -194,5 +194,4 @@ SubmitTicket.defaultProps = {
   onCancel: () => {}
 };
 
-
 export { SubmitTicket };

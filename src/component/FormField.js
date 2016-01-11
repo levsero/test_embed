@@ -298,7 +298,6 @@ SelectField.defaultProps = {
   onBlur: () => {}
 };
 
-
 class SearchFieldButton extends Component {
   render() {
     return (
@@ -325,7 +324,6 @@ SearchFieldButton.defaultProps = {
   onClick: () => {},
   onTouch: () => {}
 };
-
 
 class SearchField extends Component {
   constructor(props, context) {
@@ -494,6 +492,5 @@ SearchField.defaultProps = {
   onSearchIconClick:  () => {},
   onChangeValue: () => {}
 };
-
 
 export { Field, SearchField, SearchFieldButton, getCustomFields };

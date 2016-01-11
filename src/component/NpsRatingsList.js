@@ -11,7 +11,7 @@ class NpsRatingsList extends Component {
       ev.preventDefault();
       this.props.onChangeValue(rating);
     };
-  };
+  }
 
   render() {
     const ratingsLegendClasses = 'RatingsList-legend u-sizeFull u-paddingHT';

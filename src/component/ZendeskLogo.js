@@ -45,5 +45,4 @@ ZendeskLogo.defaultProps = {
   utm: 'webwidget'
 };
 
-
 export { ZendeskLogo };

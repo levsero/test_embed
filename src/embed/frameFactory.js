@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
@@ -448,7 +448,7 @@ export const frameFactory = function(childFn, _params) {
             fullscreen={fullscreen} />,
           element
         );
-        
+
         this.setState({_rendered: true});
       } else {
         setTimeout(this.renderFrameContent, 0);
