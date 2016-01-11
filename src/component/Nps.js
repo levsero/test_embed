@@ -4,6 +4,32 @@ import _ from 'lodash';
 import { NpsDesktop } from 'component/NpsDesktop';
 import { NpsMobile } from 'component/NpsMobile';
 
+const initialState = {
+  survey: {
+    commentsQuestion: '',
+    highlightColor: '',
+    id: null,
+    logoUrl: '',
+    question: '',
+    recipientId: null,
+    error: false,
+    thankYou: '',
+    youRated: '',
+    likelyLabel: '',
+    notLikelyLabel: '',
+    feedbackPlaceholder: ''
+  },
+  response: {
+    rating: null,
+    comment: ''
+  },
+  commentFieldDirty: false,
+  isSubmittingRating: false,
+  isSubmittingComment: false,
+  surveyCompleted: false,
+  surveyAvailable: null // `null`: survey has not been set
+}
+
 export class Nps extends Component {
   constructor(props, context) {
     super(props, context);
@@ -11,32 +37,10 @@ export class Nps extends Component {
     this.submitCommentHandler = this.submitCommentHandler.bind(this);
     this.submitRatingHandler = this.submitRatingHandler.bind(this);
     this.updateRating = this.updateRating.bind(this);
-    this.state = {
-      survey: {
-        commentsQuestion: '',
-        highlightColor: '',
-        id: null,
-        logoUrl: '',
-        question: '',
-        recipientId: null,
-        error: false,
-        thankYou: '',
-        youRated: '',
-        likelyLabel: '',
-        notLikelyLabel: '',
-        feedbackPlaceholder: ''
-      },
-      response: {
-        rating: null,
-        comment: ''
-      },
-      commentFieldDirty: false,
-      isSubmittingRating: false,
-      isSubmittingComment: false,
-      surveyCompleted: false,
-      surveyAvailable: null, // `null`: survey has not been set
-      isMobile: props.mobile
-    };
+
+    const state =_.extend(initialState, { isMobile: props.mobile });
+
+    this.state = state;
   }
 
   setError(errorState) {
@@ -126,7 +130,9 @@ export class Nps extends Component {
   }
 
   reset() {
-    this.setState(this.getInitialState());
+    const state = _.extend(initialState, { isMobile: this.props.mobile });
+
+    this.setState(state);
   }
 
   render() {

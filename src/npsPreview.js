@@ -33,20 +33,16 @@ const renderNps = (locale, elem) => {
     isMobile: false,
     onClose() {
       const npsComponent = nps.getRootComponent();
-      const newState = npsComponent.getInitialState();
 
-      newState.survey = _.extend(npsComponent.getInitialState().survey, npsComponent.state.survey);
-      newState.isMobile = npsComponent.state.isMobile;
-
-      npsComponent.setState(newState);
+      npsComponent.reset();
 
       setTimeout(() => {
         if (npsComponent.refs.mobile) {
-          npsComponent.refs.mobile.setState(npsComponent.refs.mobile.getInitialState());
+          npsComponent.refs.mobile.setState(npsComponent.refs.mobile.resetState());
         }
 
         if (npsComponent.refs.desktop) {
-          npsComponent.refs.desktop.setState(npsComponent.refs.desktop.getInitialState());
+          npsComponent.refs.desktop.setState(npsComponent.refs.desktop.resetState());
         }
 
         nps.show();

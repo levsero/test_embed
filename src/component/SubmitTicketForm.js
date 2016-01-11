@@ -99,7 +99,9 @@ export class SubmitTicketForm extends Component {
   failedToSubmit() {
     this.setState({
       isSubmitting: false,
-      buttonMessage: this.getInitialState().buttonMessage
+      buttonMessage: i18n.t(
+        'embeddable_framework.submitTicket.form.submitButton.label.send'
+      ),
     });
 
     this.refs.scrollContainer.scrollToBottom();
@@ -143,6 +145,23 @@ export class SubmitTicketForm extends Component {
       formState: this.getFormState(),
       isValid: form.checkValidity()
     });
+  }
+
+  resetForm() {
+    this.setState = {
+      isValid: false,
+      buttonMessage: i18n.t(
+        'embeddable_framework.submitTicket.form.submitButton.label.send'
+      ),
+      isSubmitting: false,
+      isRTL: i18n.isRTL(),
+      removeTicketForm: false,
+      formState: {},
+      showErrorMessage: false,
+      cancelButtonMessage: i18n.t(
+        'embeddable_framework.submitTicket.form.cancelButton.label.cancel'
+      )
+    };
   }
 
   render() {

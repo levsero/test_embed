@@ -35,7 +35,7 @@ export class SubmitTicket extends Component {
     const submitTicketForm = this.refs.submitTicketForm;
     const formData = submitTicketForm.state.formState;
 
-    submitTicketForm.setState(submitTicketForm.getInitialState());
+    submitTicketForm.setState(submitTicketForm.resetForm());
     submitTicketForm.setState({
       showNotification: true,
       formState: {

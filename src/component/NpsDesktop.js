@@ -9,18 +9,20 @@ import { NpsComment } from 'component/NpsComment';
 
 const classNames = require('classnames');
 
+const initialState = {
+  currentPage: {
+    selectingRating: true,
+    thankYou: false,
+    addingComment: false
+  }
+}
+
 export class NpsDesktop extends Component {
   constructor(props, context) {
     super(props, context);
     this.ratingChangeValueHandler = this.ratingChangeValueHandler.bind(this);
     this.submitCommentHandler = this.submitCommentHandler.bind(this);
-    this.state = {
-      currentPage: {
-        selectingRating: true,
-        thankYou: false,
-        addingComment: false
-      }
-    };
+    this.state = initialState;
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -32,7 +34,7 @@ export class NpsDesktop extends Component {
   setCurrentPage(page) {
     this.setState({
       currentPage: _.mapValues(
-        this.getInitialState().currentPage,
+        initialState.currentPage,
         (_, key) => key === page
       )
     });
@@ -46,6 +48,10 @@ export class NpsDesktop extends Component {
     this.props.submitCommentHandler(ev, () => {
       this.setCurrentPage('thankYou');
     });
+  }
+
+  resetState() {
+    this.setState(initialState);
   }
 
   render() {

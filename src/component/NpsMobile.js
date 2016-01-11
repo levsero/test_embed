@@ -19,6 +19,16 @@ import { Button } from 'component/Button';
 
 const classNames = require('classnames');
 
+const initialState = {
+      currentPage: {
+        selectingRating: true,
+        thankYou: false,
+        addingComment: false
+      },
+      fullscreen: false,
+      isEditing: false
+    };
+
 export class NpsMobile extends Component {
   constructor(props, context) {
     super(props, context);
@@ -28,15 +38,7 @@ export class NpsMobile extends Component {
     this.ratingChangeValueHandler = this.ratingChangeValueHandler.bind(this);
     this.startEditing = this.startEditing.bind(this);
     this.submitCommentHandler = this.submitCommentHandler.bind(this);
-    this.state = {
-      currentPage: {
-        selectingRating: true,
-        thankYou: false,
-        addingComment: false
-      },
-      fullscreen: false,
-      isEditing: false
-    };
+    this.state = initialState;
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -112,7 +114,7 @@ export class NpsMobile extends Component {
   setCurrentPage(page) {
     this.setState({
       currentPage: _.mapValues(
-        this.getInitialState().currentPage,
+        initialState.currentPage,
         (_, key) => key === page
       )
     });
@@ -161,6 +163,10 @@ export class NpsMobile extends Component {
       setScrollKiller(false);
       revertWindowScroll();
     }, 0);
+  }
+
+  resetState() {
+    this.setState(initialState);
   }
 
   render() {
