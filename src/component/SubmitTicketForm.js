@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
 import { Button,
@@ -40,7 +41,7 @@ class SubmitTicketForm extends Component {
 
   componentDidUpdate() {
     if (this.refs.formWrapper && this.state.formState && this.state.removeTicketForm) {
-      const form = React.findDOMNode(this.refs.form);
+      const form = ReactDOM.findDOMNode(this.refs.form);
 
       _.forEach(form.elements, function(field) {
         if (field.type === 'submit') {
@@ -77,7 +78,7 @@ class SubmitTicketForm extends Component {
   }
 
   focusField() {
-    const form = React.findDOMNode(this.refs.form);
+    const form = ReactDOM.findDOMNode(this.refs.form);
 
     // Focus on the first empty text or textarea
     const element = _.find(form.querySelectorAll('input, textarea'), function(input) {
@@ -121,7 +122,7 @@ class SubmitTicketForm extends Component {
   }
 
   getFormState() {
-    const form = React.findDOMNode(this.refs.form);
+    const form = ReactDOM.findDOMNode(this.refs.form);
 
     return _.chain(form.elements)
       .reject((field) => field.type === 'submit')
@@ -136,7 +137,7 @@ class SubmitTicketForm extends Component {
   }
 
   handleUpdate() {
-    const form = React.findDOMNode(this.refs.form);
+    const form = ReactDOM.findDOMNode(this.refs.form);
 
     this.setState({
       formState: this.getFormState(),

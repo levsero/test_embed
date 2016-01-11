@@ -1,8 +1,9 @@
-import React                 from 'react';
-import _                     from 'lodash';
+import React from 'react';
+import _ from 'lodash';
+import ReactDOM from 'react-dom';
 
-import { frameFactory }      from 'embed/frameFactory';
-import { Nps }               from 'component/Nps';
+import { frameFactory } from 'embed/frameFactory';
+import { Nps } from 'component/Nps';
 
 const npsCSS = require('embed/nps/nps.scss');
 
@@ -73,7 +74,7 @@ const renderNps = (locale, elem) => {
     frameParams
   ));
 
-  nps = React.render(<Embed />, elem);
+  nps = ReactDOM.render(<Embed />, elem);
 
   const setNpsState = (state) => {
     setTimeoutLoop(nps.getRootComponent, () => {

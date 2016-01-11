@@ -22,10 +22,10 @@ class Container extends Component {
 }
 
 Container.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.any.isRequired,
   fullscreen: PropTypes.bool,
   className: PropTypes.string,
-  style: PropTypes.element,
+  style: PropTypes.object,
   card: PropTypes.bool
 };
 

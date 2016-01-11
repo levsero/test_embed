@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 
 import { Field } from 'component/FormField';
 import { Button,
@@ -10,7 +11,7 @@ const classNames = require('classnames');
 
 class NpsComment extends Component {
   focusField() {
-    React.findDOMNode(this.refs.commentField
+    ReactDOM.findDOMNode(this.refs.commentField
       .refs.field)
       .focus();
   }

@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 
 const classNames = require('classnames');
 
@@ -12,7 +13,7 @@ class ScrollContainer extends Component {
   }
 
   getContentContainer() {
-    const elem = React.findDOMNode(this);
+    const elem = ReactDOM.findDOMNode(this);
 
     return elem.querySelector('.ScrollContainer-content');
   }
@@ -70,7 +71,7 @@ class ScrollContainer extends Component {
 
 ScrollContainer.propTypes = {
   title: PropTypes.string.isRequired,
-  children: PropTypes.element.isRequired,
+  children: PropTypes.any.isRequired,
   footerContent: PropTypes.oneOfType([
     PropTypes.element,
     PropTypes.array(PropTypes.element)

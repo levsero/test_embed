@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 
 import { i18n } from 'service/i18n';
 import { ButtonPill } from 'component/Button';
@@ -16,7 +17,7 @@ class HelpCenterArticle extends Component {
   }
 
   componentDidMount() {
-    const doc = React.findDOMNode(this).ownerDocument;
+    const doc = ReactDOM.findDOMNode(this).ownerDocument;
     const base = doc.createElement('base');
 
     base.href = `https://${document.zendeskHost}`;
@@ -24,7 +25,7 @@ class HelpCenterArticle extends Component {
   }
 
   componentDidUpdate() {
-    const container = React.findDOMNode(this.refs.article);
+    const container = ReactDOM.findDOMNode(this.refs.article);
     const sanitizeHtmlOptions = {
       allowedTags: [
         'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'a', 'ul', 'span',
@@ -61,7 +62,7 @@ class HelpCenterArticle extends Component {
     }
 
     if (this.state.lastActiveArticleId !== this.props.activeArticle.id) {
-      let topNode = React.findDOMNode(this.refs.userContent);
+      let topNode = ReactDOM.findDOMNode(this.refs.userContent);
 
       topNode.scrollTop = 0;
 

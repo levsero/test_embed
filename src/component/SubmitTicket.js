@@ -175,10 +175,10 @@ class SubmitTicket extends Component {
 SubmitTicket.propTypes = {
   formTitleKey: PropTypes.string.isRequired,
   submitTicketSender: PropTypes.func.isRequired,
-  updateFrameSize: PropTypes.bool,
+  updateFrameSize: PropTypes.any,
   hideZendeskLogo: PropTypes.bool,
   customFields: PropTypes.array,
-  style: PropTypes.element,
+  style: PropTypes.object,
   position: PropTypes.string,
   onSubmitted: PropTypes.func,
   onCancel: PropTypes.func

@@ -183,7 +183,7 @@ class ButtonGroup extends Component {
 }
 
 ButtonGroup.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.any.isRequired,
   rtl: PropTypes.bool,
   fullscreen: PropTypes.bool,
   style: PropTypes.element

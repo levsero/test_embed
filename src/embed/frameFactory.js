@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import _     from 'lodash';
+import ReactDOM from 'react-dom';
+import _ from 'lodash';
 
 import { win }                 from 'utility/globals';
 import { getSizingRatio,
@@ -105,11 +106,11 @@ export const frameFactory = function(childFn, _params) {
     },
 
     setOffsetHorizontal(offsetValue = 0) {
-      React.findDOMNode(this).style.marginLeft = `${offsetValue}px`;
+      ReactDOM.findDOMNode(this).style.marginLeft = `${offsetValue}px`;
     },
 
     setFrameSize(width, height, transparent = true) {
-      const iframe = React.findDOMNode(this);
+      const iframe = ReactDOM.findDOMNode(this);
       const frameWin = iframe.contentWindow;
       const frameDoc = iframe.contentDocument;
       // FIXME shouldn't set background & zIndex in a dimensions object
@@ -137,7 +138,7 @@ export const frameFactory = function(childFn, _params) {
     },
 
     updateFrameSize(offsetWidth = 0, offsetHeight = 0) {
-      const iframe = React.findDOMNode(this);
+      const iframe = ReactDOM.findDOMNode(this);
       const frameWin = iframe.contentWindow;
       const frameDoc = iframe.contentDocument;
 
@@ -163,7 +164,6 @@ export const frameFactory = function(childFn, _params) {
           width:  (_.isFinite(width)  ? width  : 0) + offsetWidth,
           height: (_.isFinite(height) ? height : 0) + offsetHeight
         };
-
         return fullscreen
              ? fullscreenStyle
              : popoverStyle;
@@ -182,14 +182,14 @@ export const frameFactory = function(childFn, _params) {
     },
 
     updateBaseFontSize(fontSize) {
-      const iframe = React.findDOMNode(this);
+      const iframe = ReactDOM.findDOMNode(this);
       const htmlElem = iframe.contentDocument.documentElement;
 
       htmlElem.style.fontSize = fontSize;
     },
 
     show(options = {}) {
-      let frameFirstChild = React.findDOMNode(this).contentDocument.body.firstChild;
+      let frameFirstChild = ReactDOM.findDOMNode(this).contentDocument.body.firstChild.firstChild;
 
       this.setState({ visible: true });
 
@@ -204,7 +204,7 @@ export const frameFactory = function(childFn, _params) {
       if (params.transitions[options.transition] && !isFirefox()) {
         const transition = params.transitions[options.transition];
 
-        snabbt(React.findDOMNode(this), transition).then({
+        snabbt(ReactDOM.findDOMNode(this), transition).then({
           callback: () => {
             params.afterShowAnimate(this);
           }
@@ -219,14 +219,14 @@ export const frameFactory = function(childFn, _params) {
       if (params.transitions[options.transition] && !isFirefox()) {
         const transition = params.transitions[options.transition];
 
-        snabbt(React.findDOMNode(this), transition).then({
+        snabbt(ReactDOM.findDOMNode(this), transition).then({
           callback: () => {
             this.setState({ visible: false });
             params.onHide(this);
 
             // Ugly, I know, but it's to undo snabbt's destructive style mutations
             _.each(this.computeIframeStyle(), (val, key) => {
-              React.findDOMNode(this).style[key] = val;
+              ReactDOM.findDOMNode(this).style[key] = val;
             });
           }
         });
@@ -319,7 +319,7 @@ export const frameFactory = function(childFn, _params) {
         return false;
       }
 
-      const iframe = React.findDOMNode(this);
+      const iframe = ReactDOM.findDOMNode(this);
       const html = iframe.contentDocument.documentElement;
       const doc = iframe.contentWindow.document;
 
@@ -422,7 +422,7 @@ export const frameFactory = function(childFn, _params) {
             const styleTag = <style dangerouslySetInnerHTML={{ __html: this.state.css }} />;
 
             return (
-              <div className={positionClasses}>
+              <div>
                 {css}
                 {styleTag}
                 {childFn(childParams)}
@@ -436,15 +436,19 @@ export const frameFactory = function(childFn, _params) {
             );
           }
         });
-    /* eslint-enable */
-        child = React.render(
+
+        const element = doc.body.appendChild(document.createElement('div'));
+        element.className = positionClasses;
+
+        /* eslint-enable */
+        child = ReactDOM.render(
           <Component
             back={this.back}
             close={this.close}
             fullscreen={fullscreen} />,
-          doc.body
+          element
         );
-
+        
         this.setState({_rendered: true});
       } else {
         setTimeout(this.renderFrameContent, 0);
@@ -452,7 +456,7 @@ export const frameFactory = function(childFn, _params) {
     },
 
     componentWillUnmount() {
-      React.unmountComponentAtNode(React.findDOMNode(this).contentDocument.body);
+      React.unmountComponentAtNode(ReactDOM.findDOMNode(this).contentDocument.body);
     }
   };
 };

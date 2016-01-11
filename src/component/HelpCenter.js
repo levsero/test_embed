@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
 import { HelpCenterForm } from 'component/HelpCenterForm';
@@ -62,7 +63,7 @@ class HelpCenter extends Component {
 
   focusField() {
     if (!this.state.fullscreen && !this.state.articleViewActive) {
-      const searchFieldInputNode = React.findDOMNode(this.refs.searchField.refs.searchFieldInput);
+      const searchFieldInputNode = ReactDOM.findDOMNode(this.refs.searchField.refs.searchFieldInput);
       const strLength = searchFieldInputNode.value.length;
 
       this.refs.searchField.focus();
@@ -554,8 +555,8 @@ HelpCenter.propTypes = {
   showBackButton: PropTypes.func,
   onNextClick: PropTypes.func,
   hideZendeskLogo: PropTypes.bool,
-  updateFrameSize: PropTypes.bool,
-  style: PropTypes.element,
+  updateFrameSize: PropTypes.any,
+  style: PropTypes.object,
   formTitleKey: PropTypes.string
 };
 

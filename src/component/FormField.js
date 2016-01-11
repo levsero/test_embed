@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
 import { LoadingEllipses } from 'component/Loading';
@@ -84,7 +85,7 @@ class Field extends Component {
   }
 
   onBlur(e) {
-    const result = React.findDOMNode(this.refs.field);
+    const result = ReactDOM.findDOMNode(this.refs.field);
 
     this.setState({
       focused: false,
@@ -100,7 +101,7 @@ class Field extends Component {
 
   onChange(e) {
     const value = e.target.value;
-    const result = React.findDOMNode(this.refs.field);
+    const result = ReactDOM.findDOMNode(this.refs.field);
 
     this.setState({
       value: value,
@@ -392,7 +393,7 @@ class SearchField extends Component {
   }
 
   getSearchField() {
-    return React.findDOMNode(this.refs.searchFieldInput);
+    return ReactDOM.findDOMNode(this.refs.searchFieldInput);
   }
 
   getValue() {
