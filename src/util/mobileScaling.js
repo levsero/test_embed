@@ -8,6 +8,7 @@ import { getDeviceZoom,
          isLandscape }      from 'utility/devices';
 import { mediator }        from 'service/mediator';
 import { setScrollKiller } from 'utility/scrollHacks';
+import { cappedIntervalCall } from 'utility/utils';
 
 let lastTouchEnd = 0;
 
@@ -97,7 +98,7 @@ function initMobileScaling() {
   // Recalc ratio when user focus on field
   // delay by 500ms so browser zoom is done
   doc.addEventListener('focus', () => {
-    setTimeout(() => propagateFontRatioChange(true), 500);
+    setTimeout(() => propagateFontRatioChange(), 500);
   }, true);
 
   win.addEventListener('orientationchange', () => {
@@ -118,7 +119,7 @@ function initMobileScaling() {
     propagateFontRatioChange();
   }, false);
 
-  propagateFontRatioChange();
+  cappedIntervalCall(propagateFontRatioChange, 500, 10);
 }
 
 export {

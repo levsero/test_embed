@@ -249,6 +249,17 @@ function patchReactIdAttribute() {
   require('react/lib/DOMProperty').ID_ATTRIBUTE_NAME = 'data-ze-reactid';
 }
 
+function cappedIntervalCall(callback, delay, repetitions = 1) {
+  let repCount = 0;
+  const intervalId = setInterval(() => {
+    callback();
+
+    if (++repCount === repetitions) {
+      clearInterval(intervalId);
+    }
+  }, delay);
+}
+
 export {
   clickBusterHandler,
   clickBusterRegister,
@@ -260,6 +271,7 @@ export {
   metaStringToObj,
   parseUrl,
   patchReactIdAttribute,
+  cappedIntervalCall,
   setScaleLock,
   splitPath
 };
