@@ -19,7 +19,7 @@ import { Button } from 'component/Button';
 
 const classNames = require('classnames');
 
-class NpsMobile extends Component {
+export class NpsMobile extends Component {
   constructor(props, context) {
     super(props, context);
     this.handleDropDownBlur = this.handleDropDownBlur.bind(this);
@@ -314,5 +314,3 @@ NpsMobile.defaultProps = {
   submitCommentHandler: () => {},
   submitRatingHandler: () => {}
 };
-
-export { NpsMobile };

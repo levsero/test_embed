@@ -5,7 +5,7 @@ import { Button } from 'component/Button';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { Icon } from 'component/Icon';
 
-class IpmDesktop extends Component {
+export class IpmDesktop extends Component {
   constructor(props, context) {
     super(props, context);
     this.handleOnClick = this.handleOnClick.bind(this);
@@ -77,5 +77,3 @@ IpmDesktop.propTypes = {
   ipmSender: PropTypes.func.isRequired,
   updateFrameSize: PropTypes.func.isRequired
 };
-
-export { IpmDesktop };

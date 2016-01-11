@@ -7,7 +7,7 @@ import { ButtonPill } from 'component/Button';
 const sanitizeHtml = require('sanitize-html');
 const classNames = require('classnames');
 
-class HelpCenterArticle extends Component {
+export class HelpCenterArticle extends Component {
   constructor(props, context) {
     super(props, context);
     this.handleClick = this.handleClick.bind(this);
@@ -132,6 +132,3 @@ HelpCenterArticle.propTypes = {
 HelpCenterArticle.defaultProps = {
   fullscreen: false
 };
-
-export { HelpCenterArticle };
-

@@ -12,7 +12,7 @@ import { Field,
 
 const classNames = require('classnames');
 
-class SubmitTicketForm extends Component {
+export class SubmitTicketForm extends Component {
   constructor(props, context) {
     super(props, context);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -228,5 +228,3 @@ SubmitTicketForm.defaultProps = {
   fullscreen: false,
   onCancel: () => {}
 };
-
-export { SubmitTicketForm };

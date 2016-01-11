@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { NpsDesktop } from 'component/NpsDesktop';
 import { NpsMobile } from 'component/NpsMobile';
 
-class Nps extends Component {
+export class Nps extends Component {
   constructor(props, context) {
     super(props, context);
     this.onCommentChangeHandler = this.onCommentChangeHandler.bind(this);
@@ -157,5 +157,3 @@ Nps.propTypes = {
   setOffsetHorizontal: PropTypes.func.isRequired,
   updateFrameSize: PropTypes.func
 };
-
-export { Nps };

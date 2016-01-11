@@ -9,7 +9,7 @@ import { i18n } from 'service/i18n';
 
 const classNames = require('classnames');
 
-class NpsComment extends Component {
+export class NpsComment extends Component {
   focusField() {
     ReactDOM.findDOMNode(this.refs.commentField
       .refs.field)
@@ -111,5 +111,3 @@ NpsComment.defaultProps = {
   onChange: () => {},
   onSubmit: () => {}
 };
-
-export { NpsComment };

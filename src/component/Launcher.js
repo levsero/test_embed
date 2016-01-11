@@ -5,7 +5,7 @@ import { isMobileBrowser } from 'utility/devices';
 
 const classNames = require('classnames');
 
-class Launcher extends Component {
+export class Launcher extends Component {
   constructor(props, context) {
     super(props, context);
 
@@ -69,5 +69,3 @@ Launcher.propTypes = {
   label: PropTypes.string,
   icon: PropTypes.string
 };
-
-export { Launcher };

@@ -5,7 +5,7 @@ import { ButtonRating } from 'component/Button';
 
 const classNames = require('classnames');
 
-class NpsRatingsList extends Component {
+export class NpsRatingsList extends Component {
   ratingClickHandlerFn(rating) {
     return (ev) => {
       ev.preventDefault();
@@ -102,5 +102,3 @@ NpsRatingsList.defaultProps = {
   onChangeValue: () => {},
   ratingsRange: _.range(11)
 };
-
-export { NpsRatingsList };

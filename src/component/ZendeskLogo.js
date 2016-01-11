@@ -4,7 +4,7 @@ import { Icon } from 'component/Icon';
 
 const classNames = require('classnames');
 
-class ZendeskLogo extends Component {
+export class ZendeskLogo extends Component {
   render() {
     const { fullscreen, rtl, formSuccess } = this.props;
     const logoClasses = classNames({
@@ -44,5 +44,3 @@ ZendeskLogo.defaultProps = {
   className: '',
   utm: 'webwidget'
 };
-
-export { ZendeskLogo };

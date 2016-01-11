@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-class NpsCommentButton extends Component {
+export class NpsCommentButton extends Component {
   render() {
     const classes = `
       Form-fieldLabel
@@ -40,5 +40,3 @@ NpsCommentButton.defaultProps = {
   onClick: () => {},
   placeholder: ''
 };
-
-export { NpsCommentButton };

@@ -17,7 +17,7 @@ import { beacon } from 'service/beacon';
 
 const classNames = require('classnames');
 
-class HelpCenter extends Component {
+export class HelpCenter extends Component {
   constructor(props, context) {
     super(props, context);
     this.autoSearch = this.autoSearch.bind(this);
@@ -26,7 +26,7 @@ class HelpCenter extends Component {
     this.interactiveSearchSuccessFn = this.interactiveSearchSuccessFn.bind(this);
     this.manualSearch = this.manualSearch.bind(this);
     this.searchBoxClickHandler = this.searchBoxClickHandler.bind(this);
-    
+
     this.state = {
       articles: [],
       resultsCount: 0,
@@ -571,5 +571,3 @@ HelpCenter.defaultProps = {
   style: null,
   formTitleKey: 'help'
 };
-
-export { HelpCenter };

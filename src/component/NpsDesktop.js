@@ -9,7 +9,7 @@ import { NpsComment } from 'component/NpsComment';
 
 const classNames = require('classnames');
 
-class NpsDesktop extends Component {
+export class NpsDesktop extends Component {
   constructor(props, context) {
     super(props, context);
     this.ratingChangeValueHandler = this.ratingChangeValueHandler.bind(this);
@@ -186,5 +186,3 @@ NpsDesktop.defaultProps = {
   submitCommentHandler: () => {},
   submitRatingHandler: () => {}
 };
-
-export { NpsDesktop };

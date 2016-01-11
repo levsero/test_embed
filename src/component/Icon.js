@@ -19,7 +19,7 @@ const icons = {
   'Icon': require('icons/widget-icon_help.svg')
 };
 
-class Icon extends Component {
+export class Icon extends Component {
   render() {
     const icon = icons[this.props.type];
     const iconClasses = classNames({
@@ -47,5 +47,3 @@ Icon.defaultProps = {
   className: '',
   isMobile: isMobileBrowser()
 };
-
-export { Icon };

@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 
 import { IpmDesktop } from 'component/IpmDesktop';
 
-class Ipm extends Component {
+export class Ipm extends Component {
   constructor(props, context) {
     super(props, context);
     this.ipmSender = this.ipmSender.bind(this);
@@ -49,5 +49,3 @@ Ipm.propTypes = {
   ipmSender: PropTypes.func.isRequired,
   mobile: PropTypes.bool.isRequired
 };
-
-export { Ipm };

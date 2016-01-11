@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 
 import { Icon } from 'component/Icon';
 
-class NpsSelectList extends Component {
+export class NpsSelectList extends Component {
   render() {
     const optionsList = this.props.options.map(
       (label, i) => {
@@ -50,5 +50,3 @@ NpsSelectList.defaultProps = {
   onFocus: () => {},
   onBlur: () => {}
 };
-
-export { NpsSelectList };

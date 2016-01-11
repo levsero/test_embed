@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 
 const classNames = require('classnames');
 
-class Container extends Component {
+export class Container extends Component {
   render() {
     const containerClasses = classNames({
       [`Container u-posRelative ${this.props.className}`]: true,
@@ -35,5 +35,3 @@ Container.defaultProps = {
   style: null,
   card: false
 };
-
-export { Container };

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-class HelpCenterForm extends Component {
+export class HelpCenterForm extends Component {
   constructor(props, context) {
     super(props, context);
     this.handleChange = this.handleChange.bind(this);
@@ -51,6 +51,3 @@ HelpCenterForm.defaultProps = {
   onSubmit: () => {},
   onChange: () => {}
 };
-
-export { HelpCenterForm };
-

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 const classNames = require('classnames');
 
-class ScrollContainer extends Component {
+export class ScrollContainer extends Component {
   constructor(props, context) {
     super(props, context);
 
@@ -89,5 +89,3 @@ ScrollContainer.defaultProps = {
   fullscreen: false,
   hideZendeskLogo: false
 };
-
-export { ScrollContainer };

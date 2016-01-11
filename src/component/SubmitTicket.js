@@ -12,7 +12,7 @@ import { i18n } from 'service/i18n';
 
 const classNames = require('classnames');
 
-class SubmitTicket extends Component {
+export class SubmitTicket extends Component {
   constructor(props, context) {
     super(props, context);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -193,5 +193,3 @@ SubmitTicket.defaultProps = {
   onSubmitted: () => {},
   onCancel: () => {}
 };
-
-export { SubmitTicket };
