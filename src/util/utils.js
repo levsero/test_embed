@@ -1,7 +1,8 @@
 import _     from 'lodash';
 import Color from 'color';
 
-import { document as doc,
+import { win,
+         document as doc,
          location }       from 'utility/globals';
 import { getZoomSizingRatio } from 'utility/devices';
 import { mediator }  from 'service/mediator';
@@ -249,6 +250,17 @@ function patchReactIdAttribute() {
   require('react/lib/DOMProperty').ID_ATTRIBUTE_NAME = 'data-ze-reactid';
 }
 
+function setIntervalRepeated(callback, delay, repetitions = 1) {
+  let repCount = 0;
+  const intervalId = win.setInterval(() => {
+    callback();
+
+    if (++repCount === repetitions) {
+      win.clearInterval(intervalId);
+    }
+  }, delay);
+}
+
 export {
   clickBusterHandler,
   clickBusterRegister,
@@ -260,6 +272,7 @@ export {
   metaStringToObj,
   parseUrl,
   patchReactIdAttribute,
+  setIntervalRepeated,
   setScaleLock,
   splitPath
 };
