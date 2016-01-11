@@ -71,7 +71,7 @@ export class ScrollContainer extends Component {
 
 ScrollContainer.propTypes = {
   title: PropTypes.string.isRequired,
-  children: PropTypes.any.isRequired,
+  children: PropTypes.node.isRequired,
   footerContent: PropTypes.oneOfType([
     PropTypes.element,
     PropTypes.array(PropTypes.element)

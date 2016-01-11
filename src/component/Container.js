@@ -22,7 +22,7 @@ export class Container extends Component {
 }
 
 Container.propTypes = {
-  children: PropTypes.any.isRequired,
+  children: PropTypes.node.isRequired,
   fullscreen: PropTypes.bool,
   className: PropTypes.string,
   style: PropTypes.object,
