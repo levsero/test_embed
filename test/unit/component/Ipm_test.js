@@ -28,10 +28,7 @@ describe('Ipm component', function() {
   });
 
   it('initializes with state.ipmAvailable set to `null`', function() {
-    const ipm = React.render(
-      <Ipm ipmSender = {() => {}} />,
-      global.document.body
-    );
+    const ipm = instanceRender(<Ipm ipmSender = {() => {}} />);
 
     expect(ipm.state.ipmAvailable)
       .toEqual(null);
@@ -44,10 +41,7 @@ describe('Ipm component', function() {
     beforeEach(function() {
       ipmSenderSpy = jasmine.createSpy();
 
-      component = React.render(
-        <Ipm ipmSender={ipmSenderSpy} />,
-        global.document.body
-      );
+      component = shallowRender(<Ipm ipmSender={ipmSenderSpy} />);
     });
 
     it('should call the this.props.ipmSender', function() {

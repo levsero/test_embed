@@ -57,12 +57,11 @@ describe('IpmDesktop component', function() {
 
     ipmSenderSpy = jasmine.createSpy();
 
-    component = React.render(
+    component = instanceRender(
       <IpmDesktop
         {...ipmProps}
         updateFrameSize={noop}
-        ipmSender={ipmSenderSpy} />,
-      global.document.body
+        ipmSender={ipmSenderSpy} />
     );
   });
 
@@ -77,11 +76,10 @@ describe('IpmDesktop component', function() {
 
       jasmine.clock().install();
 
-      component = React.render(
+      component = shallowRender(
         <IpmDesktop
           {...ipmProps}
-          updateFrameSize={mockUpdateFrameSize} />,
-        global.document.body
+          updateFrameSize={mockUpdateFrameSize} />
       );
 
       jasmine.clock().tick(0);
@@ -94,7 +92,7 @@ describe('IpmDesktop component', function() {
 
     describe('#getAvatarElement', () => {
       it('returns an image when avatarUrl is passed', () => {
-        component = React.render(
+        component = ReactDOM.render(
           <IpmDesktop
             {...ipmProps}
             updateFrameSize={noop} />,
@@ -108,7 +106,7 @@ describe('IpmDesktop component', function() {
       it('returns an Icon element when avatarUrl is falsy', () => {
         const props = _.merge({}, ipmProps, {ipm: {message:{avatarUrl: ''}}});
 
-        component = React.render(
+        component = ReactDOM.render(
           <IpmDesktop
             {...props}
             updateFrameSize={noop} />,
