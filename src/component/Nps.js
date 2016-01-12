@@ -3,6 +3,7 @@ import _ from 'lodash';
 
 import { NpsDesktop } from 'component/NpsDesktop';
 import { NpsMobile } from 'component/NpsMobile';
+import { bindMethods } from 'utility/utils';
 
 const initialState = {
   survey: {
@@ -33,10 +34,7 @@ const initialState = {
 export class Nps extends Component {
   constructor(props, context) {
     super(props, context);
-    this.onCommentChangeHandler = this.onCommentChangeHandler.bind(this);
-    this.submitCommentHandler = this.submitCommentHandler.bind(this);
-    this.submitRatingHandler = this.submitRatingHandler.bind(this);
-    this.updateRating = this.updateRating.bind(this);
+    bindMethods(this, Nps.prototype);
 
     const state =_.extend(initialState, { isMobile: props.mobile });
 

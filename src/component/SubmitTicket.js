@@ -15,6 +15,7 @@ export class SubmitTicket extends Component {
   constructor(props, context) {
     super(props, context);
     this.handleSubmit = this.handleSubmit.bind(this);
+    
     this.state = {
       showNotification: false,
       message: '',

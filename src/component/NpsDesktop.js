@@ -7,6 +7,7 @@ import { Icon } from 'component/Icon';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { NpsRatingsList } from 'component/NpsRatingsList';
 import { NpsComment } from 'component/NpsComment';
+import { bindMethods } from 'utility/utils';
 
 const initialState = {
   currentPage: {
@@ -19,8 +20,8 @@ const initialState = {
 export class NpsDesktop extends Component {
   constructor(props, context) {
     super(props, context);
-    this.ratingChangeValueHandler = this.ratingChangeValueHandler.bind(this);
-    this.submitCommentHandler = this.submitCommentHandler.bind(this);
+    bindMethods(this, NpsDesktop.prototype);
+
     this.state = initialState;
   }
 

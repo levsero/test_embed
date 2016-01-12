@@ -15,16 +15,12 @@ import { i18n } from 'service/i18n';
 import { Button,
          ButtonGroup } from 'component/Button';
 import { beacon } from 'service/beacon';
+import { bindMethods } from 'utility/utils';
 
 export class HelpCenter extends Component {
   constructor(props, context) {
     super(props, context);
-    this.autoSearch = this.autoSearch.bind(this);
-    this.handleArticleClick = this.handleArticleClick.bind(this);
-    this.handleNextClick = this.handleNextClick.bind(this);
-    this.interactiveSearchSuccessFn = this.interactiveSearchSuccessFn.bind(this);
-    this.manualSearch = this.manualSearch.bind(this);
-    this.searchBoxClickHandler = this.searchBoxClickHandler.bind(this);
+    bindMethods(this, HelpCenter.prototype);
 
     this.state = {
       articles: [],

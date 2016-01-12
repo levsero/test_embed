@@ -10,9 +10,7 @@ import { i18n } from 'service/i18n';
 
 export class NpsComment extends Component {
   focusField() {
-    ReactDOM.findDOMNode(this.refs.commentField
-      .refs.field)
-      .focus();
+    ReactDOM.findDOMNode(this.refs.commentField.refs.field).focus();
   }
 
   render() {

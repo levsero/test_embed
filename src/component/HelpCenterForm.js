@@ -1,10 +1,11 @@
 import React, { Component, PropTypes } from 'react';
+import { bindMethods } from 'utility/utils';
 
 export class HelpCenterForm extends Component {
   constructor(props, context) {
     super(props, context);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    bindMethods(this, HelpCenterForm.prototype);
+
     this.state = {
       isValid: false,
       isSubmitting: false,

@@ -17,6 +17,7 @@ import { setScrollKiller,
          revertWindowScroll } from 'utility/scrollHacks';
 import { i18n } from 'service/i18n';
 import { Button } from 'component/Button';
+import { bindMethods } from 'utility/utils';
 
 const initialState = {
   currentPage: {
@@ -31,12 +32,8 @@ const initialState = {
 export class NpsMobile extends Component {
   constructor(props, context) {
     super(props, context);
-    this.handleDropDownBlur = this.handleDropDownBlur.bind(this);
-    this.handleDropDownFocus = this.handleDropDownFocus.bind(this);
-    this.handleDropDownSelection = this.handleDropDownSelection.bind(this);
-    this.ratingChangeValueHandler = this.ratingChangeValueHandler.bind(this);
-    this.startEditing = this.startEditing.bind(this);
-    this.submitCommentHandler = this.submitCommentHandler.bind(this);
+    bindMethods(this, NpsMobile.prototype);
+
     this.state = initialState;
   }
 

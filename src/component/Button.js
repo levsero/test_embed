@@ -176,7 +176,7 @@ class ButtonGroup extends Component {
         style={this.props.style}
         className={buttonClasses}>
         {this.props.children}
-    </div>
+      </div>
     );
   }
 }

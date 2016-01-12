@@ -10,12 +10,13 @@ import { ScrollContainer } from 'component/ScrollContainer';
 import { i18n } from 'service/i18n';
 import { Field,
          getCustomFields } from 'component/FormField';
+import { bindMethods } from 'utility/utils';
 
 export class SubmitTicketForm extends Component {
   constructor(props, context) {
     super(props, context);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleUpdate = this.handleUpdate.bind(this);
+    bindMethods(this, SubmitTicketForm.prototype)
+
     this.state = {
       isValid: false,
       buttonMessage: i18n.t(
