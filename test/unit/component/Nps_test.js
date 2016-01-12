@@ -142,7 +142,6 @@ describe('Nps component', function() {
       npsSenderSpy;
 
     beforeEach(function() {
-
       npsSenderSpy = jasmine.createSpy();
 
       component = React.render(
@@ -185,7 +184,6 @@ describe('Nps component', function() {
       npsSenderSpy;
 
     beforeEach(function() {
-
       npsSenderSpy = jasmine.createSpy();
 
       component = React.render(

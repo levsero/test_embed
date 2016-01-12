@@ -56,7 +56,6 @@ export class SubmitTicketForm extends Component {
             field.value = this.state.formState[field.name];
           }
         } else {
-
           // If clearing form after submit we need to make sure
           // formState clears out undefined values
           field.value = '';

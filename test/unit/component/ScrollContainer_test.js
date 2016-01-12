@@ -3,7 +3,6 @@ describe('ScrollContainer component', function() {
   const containerPath = buildSrcPath('component/ScrollContainer');
 
   beforeEach(function() {
-
     resetDOM();
 
     mockery.enable();
@@ -23,7 +22,6 @@ describe('ScrollContainer component', function() {
   });
 
   it('should have the `is-mobile` className when fullscreen is true', function() {
-
     const container = React.render(
       <ScrollContainer fullscreen={true} />,
       global.document.body
@@ -38,7 +36,6 @@ describe('ScrollContainer component', function() {
   });
 
   it('should call `this.getContentContainer` when `this.scrollToBottom` is called', function() {
-
     const stub = spyOn(ScrollContainer.type.prototype.__reactAutoBindMap, 'getContentContainer')
       .and.callThrough();
     const scrollContainer = React.render(
@@ -53,7 +50,6 @@ describe('ScrollContainer component', function() {
   });
 
   it('should set scrollTop to scrollHeight value when calling `this.scrollToBottom`', function() {
-
     spyOn(ScrollContainer.type.prototype.__reactAutoBindMap, 'getContentContainer')
       .and.returnValue({scrollHeight: 100, scrollTop: 0});
 
@@ -69,7 +65,6 @@ describe('ScrollContainer component', function() {
   });
 
   it('should change component state when calling `this.setScrollShadowVisible`', function() {
-
     const container = React.render(
       <ScrollContainer fullscreen={true} />,
       global.document.body
@@ -88,7 +83,6 @@ describe('ScrollContainer component', function() {
   });
 
   it('should have shadow class on footer if content is scrollable', function() {
-
     const container = React.render(
       <ScrollContainer fullscreen={true} />,
       global.document.body
@@ -148,6 +142,5 @@ describe('ScrollContainer component', function() {
     expect(container.getDOMNode().querySelector('.ScrollContainer-footer').className)
       .toMatch('u-paddingVM');
   });
-
 });
 

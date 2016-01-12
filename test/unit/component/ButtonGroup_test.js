@@ -3,7 +3,6 @@ describe('ButtonGroup component', function() {
   const buttonPath = buildSrcPath('component/Button');
 
   beforeEach(function() {
-
     resetDOM();
 
     mockery.enable();
@@ -51,6 +50,5 @@ describe('ButtonGroup component', function() {
     expect(buttonGroup.props.className)
       .not.toMatch('u-textRight');
   });
-
 });
 

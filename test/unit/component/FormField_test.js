@@ -9,7 +9,6 @@ describe('FormField component', function() {
   const formFieldPath = buildSrcPath('component/FormField');
 
   beforeEach(function() {
-
     onSearch = jasmine.createSpy();
     onChangeValue = jasmine.createSpy('onChangeValue');
     onClick = jasmine.createSpy();

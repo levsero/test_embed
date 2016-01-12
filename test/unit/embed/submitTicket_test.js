@@ -112,7 +112,6 @@ describe('embed.submitTicket', function() {
   });
 
   describe('create', function() {
-
     it('show add a new submit ticket form to the submitTicket array', function() {
       expect(_.keys(submitTicket.list()).length)
         .toEqual(0);
@@ -375,14 +374,12 @@ describe('embed.submitTicket', function() {
   });
 
   describe('get', function() {
-
     it('should return the correct submitTicket form', function() {
       submitTicket.create('bob');
 
       expect(submitTicket.get('bob'))
         .toBeDefined();
     });
-
   });
 
   describe('submitTicketSender', () => {
@@ -408,7 +405,6 @@ describe('embed.submitTicket', function() {
   });
 
   describe('render', function() {
-
     it('should throw an exception if SubmitTicket does not exist', function() {
       expect(function() {
         submitTicket.render('non_existent_submitTicket');
@@ -557,7 +553,5 @@ describe('embed.submitTicket', function() {
           .toEqual(params.email);
       });
     });
-
   });
-
 });

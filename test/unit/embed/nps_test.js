@@ -127,7 +127,6 @@ describe('embed.nps', () => {
   });
 
   describe('render', () => {
-
     it('renders an nps embed the document', () => {
       nps.create('dan');
       nps.render('dan');
@@ -275,7 +274,6 @@ describe('embed.nps', () => {
 
     describe('setDismissTimestamp', () => {
       it('should set the current timestamp correctly', () => {
-
         spyOn(window, 'Date').and.callFake(function() {
           return currentDate;
         });

@@ -64,7 +64,6 @@ describe('IpmDesktop component', function() {
         ipmSender={ipmSenderSpy} />,
       global.document.body
     );
-
   });
 
   afterEach(function() {

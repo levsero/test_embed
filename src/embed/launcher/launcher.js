@@ -158,7 +158,6 @@ function render(name) {
     setLabel(name, label);
     setHasUnreadMessages(name, true);
   });
-
 }
 
 function setLabel(name, label) {

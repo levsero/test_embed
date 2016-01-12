@@ -4,7 +4,6 @@ describe('component/Button', function() {
   const buttonPath = buildSrcPath('component/Button');
 
   beforeEach(function() {
-
     resetDOM();
 
     mockery.enable();
@@ -95,7 +94,7 @@ describe('component/Button', function() {
         global.document.body
       );
 
-      ReactTestUtils.Simulate.click(document.querySelector('.c-btn--secondary'));
+      TestUtils.Simulate.click(document.querySelector('.c-btn--secondary'));
 
       expect(onClickMock)
         .toHaveBeenCalled();
@@ -111,7 +110,7 @@ describe('component/Button', function() {
         global.document.body
       );
 
-      ReactTestUtils.Simulate.click(document.querySelector('.c-btn--secondary'));
+      TestUtils.Simulate.click(document.querySelector('.c-btn--secondary'));
 
       expect(onClickMock)
         .not.toHaveBeenCalled();

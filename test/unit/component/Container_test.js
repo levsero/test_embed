@@ -3,7 +3,6 @@ describe('Container component', function() {
   const containerPath = buildSrcPath('component/Container');
 
   beforeEach(function() {
-
     resetDOM();
 
     mockery.enable();
@@ -41,6 +40,4 @@ describe('Container component', function() {
     expect(container.props.className)
       .not.toMatch('Container--fullscreen');
   });
-
 });
-

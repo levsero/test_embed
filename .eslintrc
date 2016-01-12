@@ -40,6 +40,10 @@
     "webdriverio": true
   },
   "rules": {
+    "padded-blocks": [
+      2,
+      "never"
+    ],
     "indent": [
       2,
       2

@@ -1121,7 +1121,6 @@ describe('HelpCenter component', function() {
 
   describe('fullscreen state', function() {
     it('should be true if isMobileBrowser() is true', function() {
-
       mockIsMobileBrowserValue = true;
 
       const helpCenter = React.render(
@@ -1134,7 +1133,6 @@ describe('HelpCenter component', function() {
     });
 
     it('should be false if isMobileBrowser() is false', function() {
-
       mockIsMobileBrowserValue = false;
 
       const helpCenter = React.render(
@@ -1215,7 +1213,6 @@ describe('HelpCenter component', function() {
 
   describe('searchFieldButton', function() {
     it('should render component if fullscreen is true', function() {
-
       mockIsMobileBrowserValue = true;
 
       const helpCenter = React.render(
@@ -1231,7 +1228,6 @@ describe('HelpCenter component', function() {
     });
 
     it('sets `showIntroScreen` state to false when component is clicked', function() {
-
       mockIsMobileBrowserValue = true;
 
       const helpCenter = React.render(
@@ -1248,7 +1244,6 @@ describe('HelpCenter component', function() {
     });
 
     it('sets focus state on searchField when component is clicked on mobile', function() {
-
       mockIsMobileBrowserValue = true;
 
       const helpCenter = React.render(

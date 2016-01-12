@@ -21,7 +21,6 @@ describe('Submit ticket component', function() {
   const submitTicketPath = buildSrcPath('component/SubmitTicket');
 
   beforeEach(function() {
-
     resetDOM();
 
     mockIsMobileBrowserValue = false;
@@ -266,7 +265,6 @@ describe('Submit ticket component', function() {
 
   describe('fullscreen state', function() {
     it('should be true if isMobileBrowser() is true', function() {
-
       mockIsMobileBrowserValue = true;
 
       const submitTicket = React.render(
@@ -279,7 +277,6 @@ describe('Submit ticket component', function() {
     });
 
     it('should be false if isMobileBrowser() is false', function() {
-
       mockIsMobileBrowserValue = false;
 
       const submitTicket = React.render(
@@ -303,5 +300,4 @@ describe('Submit ticket component', function() {
     expect(submitTicket.state.fullscreen)
       .toEqual('VALUE');
   });
-
 });

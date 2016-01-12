@@ -43,7 +43,6 @@ describe('transport', function() {
   });
 
   describe('#init', function() {
-
     beforeEach(function() {
       spyOn(_, 'extend').and.callThrough();
     });
@@ -116,7 +115,6 @@ describe('transport', function() {
     });
 
     it('sets the json type', function() {
-
       spyOn(mockMethods, 'type').and.callThrough();
 
       transport.init(config);
@@ -127,7 +125,6 @@ describe('transport', function() {
     });
 
     it('sets payload.params to {} if no params are passed through', function() {
-
       delete payload.params;
 
       spyOn(mockMethods, 'send').and.callThrough();
@@ -144,7 +141,6 @@ describe('transport', function() {
     });
 
     it('triggers the done callback if response is successful', function() {
-
       spyOn(payload.callbacks, 'done');
       spyOn(payload.callbacks, 'fail');
       spyOn(mockMethods, 'end').and.callThrough();
@@ -169,7 +165,6 @@ describe('transport', function() {
     });
 
     it('triggers the fail callback if response is unsuccessful', function() {
-
       spyOn(payload.callbacks, 'fail');
       spyOn(payload.callbacks, 'done');
       spyOn(mockMethods, 'end').and.callThrough();
@@ -191,11 +186,9 @@ describe('transport', function() {
 
       expect(payload.callbacks.done)
         .not.toHaveBeenCalled();
-
     });
 
     it('will not die if callbacks object is not present', function() {
-
       spyOn(mockMethods, 'end').and.callThrough();
 
       delete payload.callbacks;
@@ -213,7 +206,6 @@ describe('transport', function() {
     });
 
     it('will not die if callbacks.done is not present', function() {
-
       spyOn(mockMethods, 'end').and.callThrough();
 
       delete payload.callbacks.done;
@@ -231,7 +223,6 @@ describe('transport', function() {
     });
 
     it('will not die if callbacks.fail is not present', function() {
-
       spyOn(mockMethods, 'end').and.callThrough();
 
       delete payload.callbacks.fail;
@@ -300,5 +291,4 @@ describe('transport', function() {
         .toEqual(payload.params.user);
     });
   });
-
 });

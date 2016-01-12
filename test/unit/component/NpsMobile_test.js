@@ -12,7 +12,6 @@ describe('NpsMobile component', () => {
   const npsPath = buildSrcPath('component/NpsMobile');
 
   beforeEach(() => {
-
     npsProps = {
       survey: {
         commentsQuestion: '',
@@ -155,7 +154,6 @@ describe('NpsMobile component', () => {
   });
 
   describe('removeRatingTemplate', () => {
-
     it('should remove the %{rating} parameter from the string', () => {
       expect(component.removeRatingTemplate('you rated us a %{rating}'))
         .toEqual('you rated us a');
@@ -168,9 +166,7 @@ describe('NpsMobile component', () => {
   });
 
   describe('calcHeightPercentage', () => {
-
     describe('is less than the threshold', () => {
-
       beforeEach(() => {
         mockRegistry['utility/globals'].win.innerHeight = 449;
         NpsMobile = requireUncached(npsPath).NpsMobile;
@@ -185,11 +181,9 @@ describe('NpsMobile component', () => {
 
         expect(component.calcHeightPercentage()).toEqual('60%');
       });
-
     });
 
     describe('is greater than the threshold', () => {
-
       it('should return 52%', () => {
         expect(component.calcHeightPercentage()).toEqual('52%');
       });
@@ -199,13 +193,10 @@ describe('NpsMobile component', () => {
 
         expect(component.calcHeightPercentage()).toEqual('40%');
       });
-
     });
-
   });
 
   describe('ratingChangeValueHandler', () => {
-
     it('should set currentPage to addingComment when ratingChangeValueHandler is called', () => {
       component.ratingChangeValueHandler();
 
@@ -216,15 +207,12 @@ describe('NpsMobile component', () => {
       expect(component.state.currentPage.addingComment)
         .toEqual(true);
     });
-
   });
 
   describe('submitCommentHandler', () => {
-
     let mockStopEditing;
 
     beforeEach(() => {
-
       mockStopEditing = jasmine.createSpy();
 
       component.stopEditing = mockStopEditing;
@@ -251,20 +239,16 @@ describe('NpsMobile component', () => {
       expect(mockStopEditing)
         .toHaveBeenCalled();
     });
-
   });
 
   describe('initial State', () => {
-
     it('should set the currentPage to selectingRating when initialState is called', () => {
       expect(component.state.currentPage.selectingRating)
         .toEqual(true);
     });
-
   });
 
   describe('selectingRating State', () => {
-
     it('should not render a heading', () => {
       expect(document.querySelector('.Container--halfscreen-heading').textContent)
         .toEqual('');
@@ -289,13 +273,10 @@ describe('NpsMobile component', () => {
       expect(document.querySelectorAll('.u-isHidden .NpsCommentButton').length)
         .toEqual(1);
     });
-
   });
 
   describe('addingComment State', () => {
-
     beforeEach(() => {
-
       component.setCurrentPage('addingComment');
     });
 
@@ -318,11 +299,9 @@ describe('NpsMobile component', () => {
       expect(document.querySelectorAll('.NpsCommentButton').length)
         .toEqual(1);
     });
-
   });
 
   describe('thankYou state', () => {
-
     beforeEach(() => {
       component.setCurrentPage('thankYou');
     });
@@ -346,7 +325,6 @@ describe('NpsMobile component', () => {
   describe('isEditing', () => {
     describe('is false and currentPage is addingComment', () => {
       beforeEach(() => {
-
         component.setState({
           isEditing: false
         });
@@ -360,7 +338,6 @@ describe('NpsMobile component', () => {
     });
     describe('is true and currentPage is addingComment', () => {
       beforeEach(() => {
-
         component.componentDidUpdate = noop;
         component.setState({
           isEditing: true
@@ -379,7 +356,6 @@ describe('NpsMobile component', () => {
     let mockStartScrollHacks;
 
     beforeEach(() => {
-
       mockStartScrollHacks = jasmine.createSpy();
 
       component.componentDidUpdate = noop;
@@ -405,7 +381,6 @@ describe('NpsMobile component', () => {
       mockSetDefaultNpsMobileSize;
 
     beforeEach(() => {
-
       mockStopScrollHacks = jasmine.createSpy();
       mockSetDefaultNpsMobileSize = jasmine.createSpy();
 
@@ -460,7 +435,6 @@ describe('NpsMobile component', () => {
       let mockGoToFullScreen;
 
       beforeEach(() => {
-
         mockGoToFullScreen = jasmine.createSpy();
 
         component.componentDidUpdate = noop;
@@ -473,7 +447,6 @@ describe('NpsMobile component', () => {
         expect(mockGoToFullScreen)
           .toHaveBeenCalled();
       });
-
     });
   });
 
@@ -500,7 +473,6 @@ describe('NpsMobile component', () => {
       let mockResetFullScreen;
 
       beforeEach(() => {
-
         mockResetFullScreen = jasmine.createSpy();
 
         component.resetFullScreen = mockResetFullScreen;
@@ -512,7 +484,6 @@ describe('NpsMobile component', () => {
         expect(mockResetFullScreen)
           .toHaveBeenCalled();
       });
-
     });
   });
 
@@ -520,5 +491,4 @@ describe('NpsMobile component', () => {
     expect(document.querySelectorAll('.ZendeskLogo').length)
       .toEqual(0);
   });
-
 });

@@ -131,7 +131,6 @@ describe('mediator', function() {
       c.subscribe(`${names.ipm}.show`, ipmSub.show);
       c.subscribe(`${names.ipm}.hide`, ipmSub.hide);
     };
-
   });
 
   afterEach(function() {

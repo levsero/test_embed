@@ -72,7 +72,6 @@ function init(helpCenterAvailable, hideLauncher) {
     if (!state[`${submitTicket}.isVisible`] &&
         !state[`${chat}.isVisible`] &&
         !state[`${helpCenter}.isVisible`]) {
-
       resetActiveEmbed();
 
       c.broadcast(`${launcher}.hide`);
@@ -157,7 +156,6 @@ function init(helpCenterAvailable, hideLauncher) {
           c.broadcast(`${launcher}.show`);
         }
       }, 3000);
-
     }
   });
 
@@ -183,7 +181,6 @@ function init(helpCenterAvailable, hideLauncher) {
 
   c.intercept(`${helpCenter}.onNextClick`, () => {
     if (state[`${chat}.isOnline`]) {
-
       if (!isMobileBrowser()) {
         state[`${chat}.isVisible`] = true;
         c.broadcast(`${launcher}.hide`);
