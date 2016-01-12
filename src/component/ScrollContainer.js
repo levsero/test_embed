@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
-
-const classNames = require('classnames');
+import classNames from 'classnames';
 
 export class ScrollContainer extends Component {
   constructor(props, context) {

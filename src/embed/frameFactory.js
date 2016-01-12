@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
+import classNames from 'classnames';
 
 import { win }                 from 'utility/globals';
 import { isMobileBrowser,
@@ -12,7 +13,6 @@ import { ButtonNav }           from 'component/Button';
 import { Icon }                from 'component/Icon';
 import snabbt                  from 'snabbt.js';
 
-const classNames = require('classnames');
 const baseCSS = require('baseCSS');
 const mainCSS = require('mainCSS');
 

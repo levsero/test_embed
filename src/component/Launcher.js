@@ -1,9 +1,8 @@
 import React, { Component, PropTypes } from 'react';
+import classNames from 'classnames';
 
 import { Icon } from 'component/Icon';
 import { isMobileBrowser } from 'utility/devices';
-
-const classNames = require('classnames');
 
 export class Launcher extends Component {
   constructor(props, context) {

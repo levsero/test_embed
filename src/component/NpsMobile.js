@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import _     from 'lodash';
+import classNames from 'classnames';
 
 import { Container } from 'component/Container';
 import { NpsComment } from 'component/NpsComment';
@@ -16,8 +17,6 @@ import { setScrollKiller,
          revertWindowScroll } from 'utility/scrollHacks';
 import { i18n } from 'service/i18n';
 import { Button } from 'component/Button';
-
-const classNames = require('classnames');
 
 const initialState = {
   currentPage: {

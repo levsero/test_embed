@@ -1,13 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
+import classNames from 'classnames';
 
 import { LoadingEllipses } from 'component/Loading';
 import { isMobileBrowser } from 'utility/devices';
 import { i18n } from 'service/i18n';
 import { Icon } from 'component/Icon';
-
-const classNames = require('classnames');
 
 const geti18nContent = function(field) {
   const title = _.find(field.variants, function(variant) {

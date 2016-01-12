@@ -1,9 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
+import classNames from 'classnames';
 
 import { ButtonRating } from 'component/Button';
-
-const classNames = require('classnames');
 
 export class NpsRatingsList extends Component {
   ratingClickHandlerFn(rating) {

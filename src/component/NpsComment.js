@@ -1,13 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
+import classNames from 'classnames';
 
 import { Field } from 'component/FormField';
 import { Button,
          ButtonSecondary } from 'component/Button';
 import { LoadingSpinner } from 'component/Loading';
 import { i18n } from 'service/i18n';
-
-const classNames = require('classnames');
 
 export class NpsComment extends Component {
   focusField() {

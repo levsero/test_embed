@@ -1,13 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
+import classNames from 'classnames';
 
 import { Container } from 'component/Container';
 import { Icon } from 'component/Icon';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { NpsRatingsList } from 'component/NpsRatingsList';
 import { NpsComment } from 'component/NpsComment';
-
-const classNames = require('classnames');
 
 const initialState = {
   currentPage: {

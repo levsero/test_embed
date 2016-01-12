@@ -1,8 +1,7 @@
 import React, { Component, PropTypes } from 'react';
+import classNames from 'classnames';
 
 import { Icon } from 'component/Icon';
-
-const classNames = require('classnames');
 
 export class ZendeskLogo extends Component {
   render() {
