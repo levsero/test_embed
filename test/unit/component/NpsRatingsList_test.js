@@ -1,6 +1,7 @@
 fdescribe('NpsRatingsList component', () => {
   let NpsRatingsList,
     ratingsRange,
+    component,
     npsRatingsListProps;
 
   const npsPath = buildSrcPath('component/NpsRatingsList');
@@ -91,17 +92,11 @@ fdescribe('NpsRatingsList component', () => {
       describe('when the numeric score is not on the label', () => {
         beforeEach(() => {
           npsRatingsListProps.notLikelyLabel = 'Not quite likely';
-
-          React.render(
-              <NpsRatingsList {...npsRatingsListProps} />,
-              global.document.body
-            );
+          component = instanceRender(<NpsRatingsList {...npsRatingsListProps} />);
         });
 
         it('should be prepended with "0 = "', () => {
-          expect(document
-              .querySelectorAll('.u-size1of2.u-inlineBlock.u-textLeft')[0]
-              .textContent)
+          expect(component.notLikelyLabel())
             .toEqual('0 = Not quite likely');
         });
       });
@@ -109,17 +104,11 @@ fdescribe('NpsRatingsList component', () => {
       describe('when the numeric score is already on the label', () => {
         beforeEach(() => {
           npsRatingsListProps.notLikelyLabel = '0 = Not entirely likely';
-
-          React.render(
-              <NpsRatingsList {...npsRatingsListProps} />,
-              global.document.body
-            );
+          component = instanceRender(<NpsRatingsList {...npsRatingsListProps} />);
         });
 
         it('should not be prepended with "0 = "', () => {
-          expect(document
-              .querySelectorAll('.u-size1of2.u-inlineBlock.u-textLeft')[0]
-              .textContent)
+          expect(component.notLikelyLabel())
             .toEqual('0 = Not entirely likely');
         });
       });
@@ -130,17 +119,11 @@ fdescribe('NpsRatingsList component', () => {
       describe('when the numeric score is not on the label', () => {
         beforeEach(() => {
           npsRatingsListProps.likelyLabel = 'Incredibly likely';
-
-          React.render(
-              <NpsRatingsList {...npsRatingsListProps} />,
-              global.document.body
-            );
+          component = instanceRender(<NpsRatingsList {...npsRatingsListProps} />);
         });
 
         it('should be prepended with "10 = "', () => {
-          expect(document
-              .querySelectorAll('.u-size1of2.u-inlineBlock.u-textRight')[0]
-              .textContent)
+          expect(component.likelyLabel())
             .toEqual('10 = Incredibly likely');
         });
       });
@@ -148,17 +131,11 @@ fdescribe('NpsRatingsList component', () => {
       describe('when the numeric score is already on the label', () => {
         beforeEach(() => {
           npsRatingsListProps.likelyLabel = '10 = Absolutely likely!';
-
-          React.render(
-              <NpsRatingsList {...npsRatingsListProps} />,
-              global.document.body
-            );
+          component = instanceRender(<NpsRatingsList {...npsRatingsListProps} />);
         });
 
         it('should not be prepended with "10 = "', () => {
-          expect(document
-              .querySelectorAll('.u-size1of2.u-inlineBlock.u-textRight')[0]
-                .textContent)
+          expect(component.likelyLabel())
             .toEqual('10 = Absolutely likely!');
         });
       });

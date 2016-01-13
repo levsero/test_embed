@@ -19,6 +19,14 @@ export class NpsRatingsList extends Component {
       : `${prepend}${str}`;
   }
 
+  likelyLabel() {
+    return this._prependWith('10 = ', this.props.likelyLabel);
+  }
+
+  notLikelyLabel() {
+    return this._prependWith('0 = ', this.props.notLikelyLabel);
+  }
+
   render() {
     const ratingsLegendClasses = 'RatingsList-legend u-sizeFull u-paddingHT';
     const ratingsListClasses = `RatingsList u-textCenter ${this.props.className}`;
@@ -59,16 +67,13 @@ export class NpsRatingsList extends Component {
 
     const items = this.props.ratingsRange.map(ratingListItemTemplate);
 
-    const likelyLabel    = this._prependWith('10 = ', this.props.likelyLabel);
-    const notLikelyLabel = this._prependWith('0 = ', this.props.notLikelyLabel);
-
     const ratingsLegendContent = (!this.props.hideRatingsLegend)
                                ? <div className={ratingsLegendClasses}>
                                    <p className={notLikelyLabelClasses}>
-                                     {notLikelyLabel}
+                                     {this.notLikelyLabel()}
                                    </p>
                                    <p className={likelyLabelClasses}>
-                                     {likelyLabel}
+                                     {this.likelyLabel()}
                                    </p>
                                  </div>
                                : null;
