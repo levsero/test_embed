@@ -1,52 +1,45 @@
-import React from 'react/addons';
+import React, { Component, PropTypes } from 'react';
+import classNames from 'classnames';
 
-import { Icon }            from 'component/Icon';
+import { Icon } from 'component/Icon';
 import { isMobileBrowser } from 'utility/devices';
 
-const classSet = React.addons.classSet;
+export class Launcher extends Component {
+  constructor(props, context) {
+    super(props, context);
 
-export const Launcher = React.createClass({
-  propTypes: {
-    onClick: React.PropTypes.func,
-    updateFrameSize: React.PropTypes.func,
-    position: React.PropTypes.string,
-    label: React.PropTypes.string,
-    icon: React.PropTypes.string
-  },
-
-  getInitialState() {
-    return {
-      icon: this.props.icon,
-      label: this.props.label,
+    this.state = {
+      icon: props.icon,
+      label: props.label,
       hasUnreadMessages: false
     };
-  },
+  }
 
   setLabel(label) {
     this.setState({
       label: label
     });
-  },
+  }
 
   setIcon(icon) {
     this.setState({
       icon: icon
     });
-  },
+  }
 
   render() {
-    const buttonClasses = classSet({
+    const buttonClasses = classNames({
       'Button Button--launcher Button--cta': true,
       'u-userBackgroundColor Arrange Arrange--middle': true,
       'u-isActionable u-textLeft u-inlineBlock u-textNoWrap': true,
       'is-mobile': isMobileBrowser()
     });
-    const iconClasses = classSet({
+    const iconClasses = classNames({
       // spaces needed for class concatenation
       'Arrange-sizeFit Icon--launcher u-textInheritColor u-inlineBlock ': true,
       'u-paddingHN ': isMobileBrowser() && !this.state.hasUnreadMessages
     });
-    const labelClasses = classSet({
+    const labelClasses = classNames({
       'Arrange-sizeFit u-textInheritColor u-inlineBlock': true,
       'u-isHidden': isMobileBrowser() && !this.state.hasUnreadMessages
     });
@@ -66,4 +59,12 @@ export const Launcher = React.createClass({
       </div>
     );
   }
-});
+}
+
+Launcher.propTypes = {
+  onClick: PropTypes.func,
+  updateFrameSize: PropTypes.func,
+  position: PropTypes.string,
+  label: PropTypes.string,
+  icon: PropTypes.string
+};

@@ -1,4 +1,5 @@
-import React from 'react/addons';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
 import { document,
@@ -156,7 +157,7 @@ function render(name) {
 
   const element = getDocumentHost().appendChild(document.createElement('div'));
 
-  submitTickets[name].instance = React.render(submitTickets[name].component, element);
+  submitTickets[name].instance = ReactDOM.render(submitTickets[name].component, element);
 
   mediator.channel.subscribe(name + '.show', function(options = {}) {
     if (getRootComponent(name)) {

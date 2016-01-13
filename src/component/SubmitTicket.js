@@ -1,44 +1,22 @@
-import React from 'react/addons';
-import _     from 'lodash';
+import React, { Component, PropTypes } from 'react';
+import _ from 'lodash';
+import classNames from 'classnames';
 
-import { win }              from 'utility/globals';
+import { win } from 'utility/globals';
 import { SubmitTicketForm } from 'component/SubmitTicketForm';
-import { ZendeskLogo }      from 'component/ZendeskLogo';
-import { Container }        from 'component/Container';
-import { ScrollContainer }  from 'component/ScrollContainer';
-import { isMobileBrowser }  from 'utility/devices';
-import { Icon }             from 'component/Icon';
-import { i18n }             from 'service/i18n';
+import { ZendeskLogo } from 'component/ZendeskLogo';
+import { Container } from 'component/Container';
+import { ScrollContainer } from 'component/ScrollContainer';
+import { isMobileBrowser } from 'utility/devices';
+import { Icon } from 'component/Icon';
+import { i18n } from 'service/i18n';
 
-const classSet = React.addons.classSet;
+export class SubmitTicket extends Component {
+  constructor(props, context) {
+    super(props, context);
+    this.handleSubmit = this.handleSubmit.bind(this);
 
-export const SubmitTicket = React.createClass({
-  propTypes: {
-    formTitleKey: React.PropTypes.string.isRequired,
-    submitTicketSender: React.PropTypes.func.isRequired,
-    updateFrameSize: React.PropTypes.bool,
-    hideZendeskLogo: React.PropTypes.bool,
-    customFields: React.PropTypes.array,
-    style: React.PropTypes.element,
-    position: React.PropTypes.string,
-    onSubmitted: React.PropTypes.func,
-    onCancel: React.PropTypes.func
-  },
-
-  getDefaultProps() {
-    return {
-      updateFrameSize: false,
-      hideZendeskLogo: false,
-      customFields: [],
-      style: null,
-      position: 'right',
-      onSubmitted: () => {},
-      onCancel: () => {}
-    };
-  },
-
-  getInitialState() {
-    return {
+    this.state = {
       showNotification: false,
       message: '',
       fullscreen: isMobileBrowser(),
@@ -47,29 +25,28 @@ export const SubmitTicket = React.createClass({
       searchString: null,
       searchLocale: null
     };
-  },
+  }
 
   clearNotification() {
     this.setState({ showNotification: false });
-  },
+  }
 
   clearForm() {
     const submitTicketForm = this.refs.submitTicketForm;
     const formData = submitTicketForm.state.formState;
 
-    submitTicketForm.setState(submitTicketForm.getInitialState());
+    submitTicketForm.resetState();
     submitTicketForm.setState({
-      showNotification: true,
       formState: {
         name: formData.name,
         email: formData.email
       }
     });
-  },
+  }
 
-  showField: function() {
+  showField() {
     this.setState({showEmail: true});
-  },
+  }
 
   handleSubmit(e, data) {
     e.preventDefault();
@@ -118,7 +95,7 @@ export const SubmitTicket = React.createClass({
     };
 
     this.props.submitTicketSender(formParams, doneCallback, failCallback);
-  },
+  }
 
   formatTicketSubmission(data) {
     if (this.props.customFields.length === 0) {
@@ -139,14 +116,14 @@ export const SubmitTicket = React.createClass({
 
       return params;
     }
-  },
+  }
 
   render() {
-    const notifyClasses = classSet({
+    const notifyClasses = classNames({
       'u-textCenter': true,
       'u-isHidden': !this.state.showNotification
     });
-    const errorClasses = classSet({
+    const errorClasses = classNames({
       'Error u-marginTL': true,
       'u-isHidden': !this.state.errorMessage
     });
@@ -192,4 +169,26 @@ export const SubmitTicket = React.createClass({
       </Container>
     );
   }
-});
+}
+
+SubmitTicket.propTypes = {
+  formTitleKey: PropTypes.string.isRequired,
+  submitTicketSender: PropTypes.func.isRequired,
+  updateFrameSize: PropTypes.any,
+  hideZendeskLogo: PropTypes.bool,
+  customFields: PropTypes.array,
+  style: PropTypes.object,
+  position: PropTypes.string,
+  onSubmitted: PropTypes.func,
+  onCancel: PropTypes.func
+};
+
+SubmitTicket.defaultProps = {
+  updateFrameSize: false,
+  hideZendeskLogo: false,
+  customFields: [],
+  style: null,
+  position: 'right',
+  onSubmitted: () => {},
+  onCancel: () => {}
+};

@@ -1,6 +1,11 @@
 // This file is autoloaded by jasmine
 // because it has 'helper' in its name.
 
+import React from 'react';
+import ReactDOM from 'react-dom';
+import TestUtils from 'react-addons-test-utils';
+import ShallowTestUtils from 'react-shallow-testutils';
+
 global.basePath = function(path) {
   return __dirname + '/../../' + path;
 };
@@ -29,12 +34,28 @@ global.document = global.window.document;
 global.navigator = global.window.navigator;
 global.location = global.window.location;
 
-global.React = require('react/addons');
-global.ReactTestUtils = React.addons.TestUtils;
+global.React = React;
+global.ReactDOM = ReactDOM;
+global.TestUtils = TestUtils;
+
 global.noopReactComponent = function() {
   return React.createClass({
     render: () => <div />
   });
+};
+
+global.shallowRender = (component) => {
+  const renderer = TestUtils.createRenderer();
+
+  renderer.render(component);
+  return renderer.getRenderOutput();
+};
+
+global.instanceRender = (component) => {
+  const renderer = TestUtils.createRenderer();
+
+  renderer.render(component);
+  return ShallowTestUtils.getMountedInstance(renderer);
 };
 
 global.noop = function() {};

@@ -20,7 +20,7 @@ describe('FormField component', function() {
     });
 
     initMockRegistry({
-      'react/addons': React,
+      'React': React,
       'component/Loading': {
         LoadingEllipses: React.createClass({
           render: function() {
@@ -78,10 +78,7 @@ describe('FormField component', function() {
 
   describe('Field', function() {
     it('should render form field DOM with a label wrapping two child divs', function() {
-      const field = React.render(
-        <Field name='alice' />,
-        global.document.body
-      );
+      const field = shallowRender(<Field name='alice' />);
       const fieldNode = field.getDOMNode();
 
       expect(fieldNode.nodeName)

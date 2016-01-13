@@ -17,7 +17,7 @@ describe('SubmitTicketForm component', function() {
     });
 
     mockRegistry = initMockRegistry({
-      'react/addons': React,
+      'React': React,
       'component/Button': {
         Button: React.createClass({
           render: function() {

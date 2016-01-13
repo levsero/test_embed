@@ -15,7 +15,7 @@ describe('HelpCenterForm component', function() {
     });
 
     initMockRegistry({
-      'react/addons': React,
+      'React': React,
       'component/Loading': {
         LoadingEllipses: noopReactComponent()
       },

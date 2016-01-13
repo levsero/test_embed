@@ -1,39 +1,32 @@
-import React from 'react/addons';
+import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
+import classNames from 'classnames';
 
 import { i18n } from 'service/i18n';
 import { ButtonPill } from 'component/Button';
 
 const sanitizeHtml = require('sanitize-html');
-const classSet = React.addons.classSet;
 
-const HelpCenterArticle = React.createClass({
-  propTypes: {
-    activeArticle: React.PropTypes.object.isRequired,
-    fullscreen: React.PropTypes.bool
-  },
+export class HelpCenterArticle extends Component {
+  constructor(props, context) {
+    super(props, context);
+    this.handleClick = this.handleClick.bind(this);
 
-  getDefaultProps() {
-    return {
-      fullscreen: false
-    };
-  },
-
-  getInitialState() {
-    return {
+    this.state = {
       lastActiveArticleId: 0
     };
-  },
+  }
 
   componentDidMount() {
-    const doc = this.getDOMNode().ownerDocument;
+    const doc = ReactDOM.findDOMNode(this).ownerDocument;
     const base = doc.createElement('base');
 
     base.href = `https://${document.zendeskHost}`;
     doc.head.appendChild(base);
-  },
+  }
 
   componentDidUpdate() {
-    const container = this.refs.article.getDOMNode();
+    const container = ReactDOM.findDOMNode(this.refs.article);
     const sanitizeHtmlOptions = {
       allowedTags: [
         'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'a', 'ul', 'span',
@@ -70,7 +63,7 @@ const HelpCenterArticle = React.createClass({
     }
 
     if (this.state.lastActiveArticleId !== this.props.activeArticle.id) {
-      let topNode = this.refs.userContent.getDOMNode();
+      let topNode = ReactDOM.findDOMNode(this.refs.userContent);
 
       topNode.scrollTop = 0;
 
@@ -80,7 +73,7 @@ const HelpCenterArticle = React.createClass({
       });
       /* eslint-enable */
     }
-  },
+  }
 
   handleClick(e) {
     const target = e.target;
@@ -99,10 +92,10 @@ const HelpCenterArticle = React.createClass({
     } else {
       target.setAttribute('target', '_blank');
     }
-  },
+  }
 
   render() {
-    const userContentClasses = classSet({
+    const userContentClasses = classNames({
       'UserContent u-userLinkColor': true,
       'is-mobile': this.props.fullscreen
     });
@@ -130,7 +123,13 @@ const HelpCenterArticle = React.createClass({
       </div>
     );
   }
-});
+}
 
-export { HelpCenterArticle };
+HelpCenterArticle.propTypes = {
+  activeArticle: PropTypes.object.isRequired,
+  fullscreen: PropTypes.bool
+};
 
+HelpCenterArticle.defaultProps = {
+  fullscreen: false
+};

@@ -1,29 +1,28 @@
-import React from 'react/addons';
+import React, { Component, PropTypes } from 'react';
 
 import { Container } from 'component/Container';
 import { Button } from 'component/Button';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { Icon } from 'component/Icon';
 
-export const IpmDesktop = React.createClass({
-  propTypes: {
-    ipm: React.PropTypes.object.isRequired,
-    ipmSender: React.PropTypes.func.isRequired,
-    updateFrameSize: React.PropTypes.func.isRequired
-  },
+export class IpmDesktop extends Component {
+  constructor(props, context) {
+    super(props, context);
+    this.handleOnClick = this.handleOnClick.bind(this);
+  }
 
   handleOnClick() {
     if (this.props.ipm.message.buttonUrl) {
       window.open(this.props.ipm.message.buttonUrl, '_blank');
     }
     this.props.ipmSender('clicked');
-  },
+  }
 
   updateFrameSize() {
     if (this.props.updateFrameSize) {
       setTimeout(() => { this.props.updateFrameSize(); }, 0);
     }
-  },
+  }
 
   getAvatarElement() {
     const props = {
@@ -43,7 +42,7 @@ export const IpmDesktop = React.createClass({
           type='Icon--avatar' />
       );
     }
-  },
+  }
 
   render() {
     this.updateFrameSize();
@@ -71,4 +70,10 @@ export const IpmDesktop = React.createClass({
       </Container>
     );
   }
-});
+}
+
+IpmDesktop.propTypes = {
+  ipm: PropTypes.object.isRequired,
+  ipmSender: PropTypes.func.isRequired,
+  updateFrameSize: PropTypes.func.isRequired
+};

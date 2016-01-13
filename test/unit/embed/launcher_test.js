@@ -9,7 +9,7 @@ describe('embed.launcher', function() {
     mockery.enable();
 
     mockRegistry = initMockRegistry({
-      'react/addons': React,
+      'React': React,
       'utility/globals': {
         document: global.document,
         getDocumentHost: function() {

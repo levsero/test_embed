@@ -35,6 +35,7 @@
     "ReactTestUtils": true,
     "requireUncached": true,
     "resetDOM": true,
+    "shallowRender": true,
     "webdrivercss": true,
     "webdriverio": true
   },

@@ -1,8 +1,7 @@
-import React from 'react/addons';
+import React, { Component, PropTypes } from 'react';
+import classNames from 'classnames';
 
 import { isMobileBrowser } from 'utility/devices';
-
-const classSet = React.addons.classSet;
 
 const icons = {
   'Icon--link': require('icons/widget-icon_link.svg'),
@@ -20,24 +19,10 @@ const icons = {
   'Icon': require('icons/widget-icon_help.svg')
 };
 
-export const Icon = React.createClass({
-  propTypes: {
-    type: React.PropTypes.string,
-    className: React.addons.classSet,
-    isMobile: React.PropTypes.bool
-  },
-
-  getDefaultProps() {
-    return {
-      type: '',
-      className: '',
-      isMobile: isMobileBrowser()
-    };
-  },
-
-  render: function() {
+export class Icon extends Component {
+  render() {
     const icon = icons[this.props.type];
-    const iconClasses = classSet({
+    const iconClasses = classNames({
       [`Icon ${this.props.type} ${this.props.className}`]: true,
       'is-mobile': this.props.isMobile
     });
@@ -49,5 +34,16 @@ export const Icon = React.createClass({
         dangerouslySetInnerHTML={{__html: icon}} />
     );
   }
+}
 
-});
+Icon.propTypes = {
+  type: PropTypes.string,
+  className: PropTypes.string,
+  isMobile: PropTypes.bool
+};
+
+Icon.defaultProps = {
+  type: '',
+  className: '',
+  isMobile: isMobileBrowser()
+};

@@ -43,7 +43,7 @@ describe('NpsMobile component', () => {
     mockIsIosValue = true;
 
     mockRegistry = initMockRegistry({
-      'react/addons': React,
+      'React': React,
       'component/Container': {
         Container: React.createClass({
           render: function() {
