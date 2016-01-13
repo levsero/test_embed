@@ -20,6 +20,8 @@ const initialState = {
   formState: {},
   showErrorMessage: false
 }
+const buttonMessageString = 'embeddable_framework.submitTicket.form.submitButton.label.send';
+const cancelButtonMessageString = 'embeddable_framework.submitTicket.form.cancelButton.label.cancel';
 
 export class SubmitTicketForm extends Component {
   constructor(props, context) {
@@ -28,10 +30,10 @@ export class SubmitTicketForm extends Component {
 
     this.state = _.extend(initialState, {
       buttonMessage: i18n.t(
-        'embeddable_framework.submitTicket.form.submitButton.label.send'
+        buttonMessageString
       ),
       cancelButtonMessage: i18n.t(
-        'embeddable_framework.submitTicket.form.cancelButton.label.cancel'
+        cancelButtonMessageString
       )
     });
   }
@@ -102,7 +104,7 @@ export class SubmitTicketForm extends Component {
     this.setState({
       isSubmitting: false,
       buttonMessage: i18n.t(
-        'embeddable_framework.submitTicket.form.submitButton.label.send'
+        buttonMessageString
       )
     });
 
@@ -152,10 +154,10 @@ export class SubmitTicketForm extends Component {
   resetState() {
     this.setState(_.extend(initialState, {
       buttonMessage: i18n.t(
-        'embeddable_framework.submitTicket.form.submitButton.label.send'
+        buttonMessageString
       ),
       cancelButtonMessage: i18n.t(
-        'embeddable_framework.submitTicket.form.cancelButton.label.cancel'
+        cancelButtonMessageString
       )
     }));
   }
