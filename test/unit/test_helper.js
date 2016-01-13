@@ -93,4 +93,11 @@ global.dispatchEvent = function(eventName, node) {
   node.dispatchEvent(event);
 };
 
+global.mockBindMethods = (instance, prototype) => {
+  const methods = Object.getOwnPropertyNames(prototype);
+  methods.forEach((method) => {
+    instance[method] = instance[method].bind(instance);
+  });
+}
+
 global.__DEV__ = true;
