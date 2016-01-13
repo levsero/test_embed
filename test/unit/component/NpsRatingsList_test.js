@@ -1,6 +1,5 @@
-describe('NpsRatingsList component', () => {
+fdescribe('NpsRatingsList component', () => {
   let NpsRatingsList,
-    component,
     ratingsRange,
     npsRatingsListProps;
 
@@ -42,7 +41,7 @@ describe('NpsRatingsList component', () => {
 
     NpsRatingsList = requireUncached(npsPath).NpsRatingsList;
 
-    component = React.render(
+    React.render(
         <NpsRatingsList {...npsRatingsListProps} />,
         global.document.body
       );
@@ -88,26 +87,80 @@ describe('NpsRatingsList component', () => {
     });
 
     describe('notLikely', () => {
-      it('should be prepended with "0 = "', () => {
-        expect(component.addRatingToNotLikelyLabel('Not at all likely'))
-          .toEqual('0 = Not at all likely');
+
+      describe('when the numeric score is not on the label', () => {
+        beforeEach(() => {
+          npsRatingsListProps.notLikelyLabel = 'Not quite likely';
+
+          React.render(
+              <NpsRatingsList {...npsRatingsListProps} />,
+              global.document.body
+            );
+        });
+
+        it('should be prepended with "0 = "', () => {
+          expect(document
+              .querySelectorAll('.u-size1of2.u-inlineBlock.u-textLeft')[0]
+              .textContent)
+            .toEqual('0 = Not quite likely');
+        });
       });
 
-      it('should not be prepended with "0 = "', () => {
-        expect(component.addRatingToNotLikelyLabel('0 = Not at all likely'))
-          .toEqual('0 = Not at all likely');
+      describe('when the numeric score is already on the label', () => {
+        beforeEach(() => {
+          npsRatingsListProps.notLikelyLabel = '0 = Not entirely likely';
+
+          React.render(
+              <NpsRatingsList {...npsRatingsListProps} />,
+              global.document.body
+            );
+        });
+
+        it('should not be prepended with "0 = "', () => {
+          expect(document
+              .querySelectorAll('.u-size1of2.u-inlineBlock.u-textLeft')[0]
+              .textContent)
+            .toEqual('0 = Not entirely likely');
+        });
       });
     });
 
     describe('likely', () => {
-      it('should be prepended with "10 = "', () => {
-        expect(component.addRatingToLikelyLabel('Extremely likely'))
-          .toEqual('10 = Extremely likely');
+
+      describe('when the numeric score is not on the label', () => {
+        beforeEach(() => {
+          npsRatingsListProps.likelyLabel = 'Incredibly likely';
+
+          React.render(
+              <NpsRatingsList {...npsRatingsListProps} />,
+              global.document.body
+            );
+        });
+
+        it('should be prepended with "10 = "', () => {
+          expect(document
+              .querySelectorAll('.u-size1of2.u-inlineBlock.u-textRight')[0]
+              .textContent)
+            .toEqual('10 = Incredibly likely');
+        });
       });
 
-      it('should not be prepended with "10 = "', () => {
-        expect(component.addRatingToLikelyLabel('10 = Extremely likely'))
-          .toEqual('10 = Extremely likely');
+      describe('when the numeric score is already on the label', () => {
+        beforeEach(() => {
+          npsRatingsListProps.likelyLabel = '10 = Absolutely likely!';
+
+          React.render(
+              <NpsRatingsList {...npsRatingsListProps} />,
+              global.document.body
+            );
+        });
+
+        it('should not be prepended with "10 = "', () => {
+          expect(document
+              .querySelectorAll('.u-size1of2.u-inlineBlock.u-textRight')[0]
+                .textContent)
+            .toEqual('10 = Absolutely likely!');
+        });
       });
     });
   });

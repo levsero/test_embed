@@ -1,14 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
-import classNames from 'classnames';
 
 import { ButtonRating } from 'component/Button';
 
-const prependWith = _.curry((prepend, str) => {
-  return str.indexOf(prepend) > -1
-    ? str
-    : `${prepend}${str}`;
-});
+const classNames = require('classnames');
 
 export class NpsRatingsList extends Component {
   ratingClickHandlerFn(rating) {
@@ -18,11 +13,15 @@ export class NpsRatingsList extends Component {
     };
   }
 
+  _prependWith(prepend, str) {
+    return str.indexOf(prepend) > -1
+      ? str
+      : `${prepend}${str}`;
+  }
+
   render() {
     const ratingsLegendClasses = 'RatingsList-legend u-sizeFull u-paddingHT';
     const ratingsListClasses = `RatingsList u-textCenter ${this.props.className}`;
-    const likelyLabel = prependWith('10 = ', this.props.likelyLabel);
-    const notLikelyLabel = prependWith('0 = ', this.props.notLikelyLabel);
 
     const labelClasses = classNames({
       'u-inlineBlock u-size1of2 u-marginBN': true
@@ -59,6 +58,9 @@ export class NpsRatingsList extends Component {
     };
 
     const items = this.props.ratingsRange.map(ratingListItemTemplate);
+
+    const likelyLabel    = this._prependWith('10 = ', this.props.likelyLabel);
+    const notLikelyLabel = this._prependWith('0 = ', this.props.notLikelyLabel);
 
     const ratingsLegendContent = (!this.props.hideRatingsLegend)
                                ? <div className={ratingsLegendClasses}>
