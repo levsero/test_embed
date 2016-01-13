@@ -46,6 +46,7 @@ describe('ScrollContainer component', function() {
       <ScrollContainer fullscreen={true} />,
       global.document.body
     );
+
     spyOn(scrollContainer, 'getContentContainer')
       .and.returnValue({scrollHeight: 100, scrollTop: 0});
 

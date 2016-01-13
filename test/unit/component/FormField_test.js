@@ -1,17 +1,12 @@
 describe('FormField component', function() {
-  let onSearch,
-    onChangeValue,
-    onClick,
+  let onChangeValue,
     SearchField,
-    SearchFieldButton,
     Field,
     getCustomFields;
   const formFieldPath = buildSrcPath('component/FormField');
 
   beforeEach(function() {
-    onSearch = jasmine.createSpy();
     onChangeValue = jasmine.createSpy('onChangeValue');
-    onClick = jasmine.createSpy();
 
     resetDOM();
 
