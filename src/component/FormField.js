@@ -218,7 +218,7 @@ Field.propTypes = {
 };
 
 Field.defaultProps = {
-  placeholder: 'text',
+  placeholder: '',
   value: '',
   input: null,
   required: false,
