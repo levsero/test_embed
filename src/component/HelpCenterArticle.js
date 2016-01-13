@@ -11,6 +11,7 @@ export class HelpCenterArticle extends Component {
   constructor(props, context) {
     super(props, context);
     this.handleClick = this.handleClick.bind(this);
+
     this.state = {
       lastActiveArticleId: 0
     };

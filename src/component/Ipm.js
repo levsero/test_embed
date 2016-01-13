@@ -6,6 +6,7 @@ export class Ipm extends Component {
   constructor(props, context) {
     super(props, context);
     this.ipmSender = this.ipmSender.bind(this);
+
     this.state = {
       ipm: {
         id: null,

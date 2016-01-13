@@ -19,22 +19,18 @@ const initialState = {
   removeTicketForm: false,
   formState: {},
   showErrorMessage: false
-}
+};
 const buttonMessageString = 'embeddable_framework.submitTicket.form.submitButton.label.send';
 const cancelButtonMessageString = 'embeddable_framework.submitTicket.form.cancelButton.label.cancel';
 
 export class SubmitTicketForm extends Component {
   constructor(props, context) {
     super(props, context);
-    bindMethods(this, SubmitTicketForm.prototype)
+    bindMethods(this, SubmitTicketForm.prototype);
 
     this.state = _.extend(initialState, {
-      buttonMessage: i18n.t(
-        buttonMessageString
-      ),
-      cancelButtonMessage: i18n.t(
-        cancelButtonMessageString
-      )
+      buttonMessage: i18n.t(buttonMessageString),
+      cancelButtonMessage: i18n.t(cancelButtonMessageString)
     });
   }
 
@@ -103,9 +99,7 @@ export class SubmitTicketForm extends Component {
   failedToSubmit() {
     this.setState({
       isSubmitting: false,
-      buttonMessage: i18n.t(
-        buttonMessageString
-      )
+      buttonMessage: i18n.t(buttonMessageString)
     });
 
     this.refs.scrollContainer.scrollToBottom();
@@ -153,12 +147,8 @@ export class SubmitTicketForm extends Component {
 
   resetState() {
     this.setState(_.extend(initialState, {
-      buttonMessage: i18n.t(
-        buttonMessageString
-      ),
-      cancelButtonMessage: i18n.t(
-        cancelButtonMessageString
-      )
+      buttonMessage: i18n.t(buttonMessageString),
+      cancelButtonMessage: i18n.t(cancelButtonMessageString)
     }));
   }
 
