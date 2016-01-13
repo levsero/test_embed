@@ -12,25 +12,28 @@ import { Field,
          getCustomFields } from 'component/FormField';
 import { bindMethods } from 'utility/utils';
 
+const initialState = {
+  isValid: false,
+  isSubmitting: false,
+  isRTL: i18n.isRTL(),
+  removeTicketForm: false,
+  formState: {},
+  showErrorMessage: false
+}
+
 export class SubmitTicketForm extends Component {
   constructor(props, context) {
     super(props, context);
     bindMethods(this, SubmitTicketForm.prototype)
 
-    this.state = {
-      isValid: false,
+    this.state = _.extend(initialState, {
       buttonMessage: i18n.t(
         'embeddable_framework.submitTicket.form.submitButton.label.send'
       ),
-      isSubmitting: false,
-      isRTL: i18n.isRTL(),
-      removeTicketForm: false,
-      formState: {},
-      showErrorMessage: false,
       cancelButtonMessage: i18n.t(
         'embeddable_framework.submitTicket.form.cancelButton.label.cancel'
       )
-    };
+    });
   }
 
   componentDidMount() {
@@ -146,21 +149,15 @@ export class SubmitTicketForm extends Component {
     });
   }
 
-  resetForm() {
-    this.setState = {
-      isValid: false,
+  resetState() {
+    this.setState(_.extend(initialState, {
       buttonMessage: i18n.t(
         'embeddable_framework.submitTicket.form.submitButton.label.send'
       ),
-      isSubmitting: false,
-      isRTL: i18n.isRTL(),
-      removeTicketForm: false,
-      formState: {},
-      showErrorMessage: false,
       cancelButtonMessage: i18n.t(
         'embeddable_framework.submitTicket.form.cancelButton.label.cancel'
       )
-    };
+    }));
   }
 
   render() {

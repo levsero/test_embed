@@ -49,19 +49,6 @@ describe('Icon component', function() {
 
     expect(icon.props.className)
       .toMatch('Icon Icon--zendesk');
-
-    expect(icon.props.onClick)
-      .toMatch('');
-  });
-
-  it('should include the onClick when passed', function() {
-    const icon = shallowRender(<Icon type="Icon--search" />);
-
-    expect(icon.props.className)
-      .toMatch('Icon Icon--search');
-
-    expect(icon.props.onClick)
-      .toMatch('');
   });
 
   it('should not have mobile classes when isMobileBrowser is false', function() {

@@ -1,6 +1,6 @@
 import React from 'react';
-import _ from 'lodash';
 import ReactDOM from 'react-dom';
+import _ from 'lodash';
 
 import { frameFactory } from 'embed/frameFactory';
 import { Nps } from 'component/Nps';

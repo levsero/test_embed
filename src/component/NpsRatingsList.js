@@ -4,6 +4,12 @@ import classNames from 'classnames';
 
 import { ButtonRating } from 'component/Button';
 
+const prependWith = _.curry((prepend, str) => {
+  return str.indexOf(prepend) > -1
+    ? str
+    : `${prepend}${str}`;
+});
+
 export class NpsRatingsList extends Component {
   ratingClickHandlerFn(rating) {
     return (ev) => {
@@ -15,11 +21,8 @@ export class NpsRatingsList extends Component {
   render() {
     const ratingsLegendClasses = 'RatingsList-legend u-sizeFull u-paddingHT';
     const ratingsListClasses = `RatingsList u-textCenter ${this.props.className}`;
-    const prependWith = _.curry((prepend, str) => {
-      return str.indexOf(prepend) > -1
-        ? str
-        : `${prepend}${str}`;
-    });
+    const likelyLabel = prependWith('10 = ', this.props.likelyLabel);
+    const notLikelyLabel = prependWith('0 = ', this.props.notLikelyLabel);
 
     const labelClasses = classNames({
       'u-inlineBlock u-size1of2 u-marginBN': true
@@ -60,10 +63,10 @@ export class NpsRatingsList extends Component {
     const ratingsLegendContent = (!this.props.hideRatingsLegend)
                                ? <div className={ratingsLegendClasses}>
                                    <p className={notLikelyLabelClasses}>
-                                     {prependWith('0 = ', this.props.notLikelyLabel)}
+                                     {notLikelyLabel}
                                    </p>
                                    <p className={likelyLabelClasses}>
-                                     {prependWith('10 = ', this.props.likelyLabel)}
+                                     {likelyLabel}
                                    </p>
                                  </div>
                                : null;

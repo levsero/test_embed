@@ -15,7 +15,7 @@ export class SubmitTicket extends Component {
   constructor(props, context) {
     super(props, context);
     this.handleSubmit = this.handleSubmit.bind(this);
-    
+
     this.state = {
       showNotification: false,
       message: '',
@@ -35,9 +35,8 @@ export class SubmitTicket extends Component {
     const submitTicketForm = this.refs.submitTicketForm;
     const formData = submitTicketForm.state.formState;
 
-    submitTicketForm.setState(submitTicketForm.resetForm());
+    submitTicketForm.resetState();
     submitTicketForm.setState({
-      showNotification: true,
       formState: {
         name: formData.name,
         email: formData.email

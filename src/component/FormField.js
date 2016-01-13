@@ -7,6 +7,7 @@ import { LoadingEllipses } from 'component/Loading';
 import { isMobileBrowser } from 'utility/devices';
 import { i18n } from 'service/i18n';
 import { Icon } from 'component/Icon';
+import { bindMethods } from 'utility/utils';
 
 const geti18nContent = function(field) {
   const title = _.find(field.variants, function(variant) {
@@ -60,9 +61,7 @@ const getCustomFields = function(customFields, formState) {
 class Field extends Component {
   constructor(props, context) {
     super(props, context);
-    this.onBlur = this.onBlur.bind(this);
-    this.onChange = this.onChange.bind(this);
-    this.onFocus = this.onFocus.bind(this);
+    bindMethods(this, Field.prototype);
 
     this.state = {
       focused: false,
@@ -330,10 +329,7 @@ SearchFieldButton.defaultProps = {
 class SearchField extends Component {
   constructor(props, context) {
     super(props, context);
-    this.clearInput = this.clearInput.bind(this);
-    this.onBlur = this.onBlur.bind(this);
-    this.onChange = this.onChange.bind(this);
-    this.onFocus = this.onFocus.bind(this);
+    bindMethods(this, SearchField.prototype);
 
     this.state = {
       focused: false,
