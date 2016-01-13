@@ -1,11 +1,6 @@
 // This file is autoloaded by jasmine
 // because it has 'helper' in its name.
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import TestUtils from 'react-addons-test-utils';
-import ShallowTestUtils from 'react-shallow-testutils';
-
 global.basePath = function(path) {
   return __dirname + '/../../' + path;
 };
@@ -33,6 +28,11 @@ global.window = jsdom.jsdom('<html><body></body></html>').defaultView;
 global.document = global.window.document;
 global.navigator = global.window.navigator;
 global.location = global.window.location;
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+import TestUtils from 'react-addons-test-utils';
+import ShallowTestUtils from 'react-shallow-testutils';
 
 global.React = React;
 global.ReactDOM = ReactDOM;
