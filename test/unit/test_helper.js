@@ -37,6 +37,7 @@ global.location = global.window.location;
 global.React = React;
 global.ReactDOM = ReactDOM;
 global.TestUtils = TestUtils;
+
 global.noopReactComponent = function() {
   return React.createClass({
     render: () => <div />
