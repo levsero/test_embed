@@ -172,7 +172,6 @@ describe('SubmitTicketForm component', function() {
     );
 
     submitTicketForm.state.formState = _.clone(formParams);
-    ReactTestUtils.Simulate.submit(submitTicketForm.getDOMNode());
     submitTicketForm.clear();
 
     expect(submitTicketForm.state.formState)
