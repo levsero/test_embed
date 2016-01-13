@@ -1,11 +1,10 @@
 describe('HelpCenterForm component', function() {
-  let HelpCenterForm, onSubmit, onChange;
+  let HelpCenterForm, onSubmit;
 
   const helpCenterFormPath = buildSrcPath('component/HelpCenterForm');
 
   beforeEach(function() {
     onSubmit = jasmine.createSpy();
-    onChange = jasmine.createSpy();
 
     resetDOM();
     jasmine.clock().install();

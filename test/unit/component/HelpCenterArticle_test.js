@@ -198,7 +198,7 @@ describe('HelpCenterArticle component', function() {
 
   it('should display an empty article body if a prop was passed with no content body', function() {
     const helpCenterArticle = ReactDOM.render(
-      <HelpCenterArticle activeArticle={ { body: `` } } />,
+      <HelpCenterArticle activeArticle={{body: ``}} />,
       global.document.body
     );
 
