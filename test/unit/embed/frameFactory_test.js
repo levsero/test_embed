@@ -1,4 +1,4 @@
-describe('frameFactory', function() {
+fdescribe('frameFactory', function() {
 
   let frameFactory,
     mockRegistry,
@@ -399,11 +399,7 @@ describe('frameFactory', function() {
           payload = frameFactory(mockChildFn, mockFrameParams),
 
           Embed = React.createClass(payload);
-
-          instance = React.render(
-            <Embed />,
-            global.document.body
-          );
+          instance = instanceRender(<Embed />);
         });
 
         it('should not call afterShowAnimate if it\'s not available', function() {
@@ -435,11 +431,7 @@ describe('frameFactory', function() {
           payload = frameFactory(mockChildFn, mockFrameParams),
 
           Embed = React.createClass(payload);
-
-          instance = React.render(
-            <Embed />,
-            global.document.body
-          );
+          instance = instanceRender(<Embed />);
         });
 
         it('should not try to call the provided callback if it\'s not available', function() {
@@ -466,11 +458,7 @@ describe('frameFactory', function() {
       });
 
       const Embed = React.createClass(payload);
-
-      instance = React.render(
-        <Embed />,
-        global.document.body
-      );
+      instance = instanceRender(<Embed />);
     });
 
     it('sets `visible` state to false', function() {
@@ -501,11 +489,7 @@ describe('frameFactory', function() {
         payload = frameFactory(mockChildFn, {}),
 
         Embed = React.createClass(payload);
-
-        instance = React.render(
-          <Embed />,
-          global.document.body
-        );
+        instance = instanceRender(<Embed />);
       });
 
       it('does not apply the animation if it does not exist', function() {
@@ -533,11 +517,7 @@ describe('frameFactory', function() {
         const payload = frameFactory(mockChildFn, mockFrameParams);
 
         const Embed = React.createClass(payload);
-
-        instance = React.render(
-          <Embed />,
-          global.document.body
-        );
+        instance = instanceRender(<Embed />);
       });
 
       it('should call snabbt', function() {
@@ -591,11 +571,7 @@ describe('frameFactory', function() {
           const payload = frameFactory(mockChildFn, mockFrameParams);
 
           const Embed = React.createClass(payload);
-
-          instance = React.render(
-            <Embed />,
-            global.document.body
-          );
+          instance = instanceRender(<Embed />);
         });
 
         it('should not try to call the provided callback if it\'s not available', function() {
@@ -620,7 +596,7 @@ describe('frameFactory', function() {
 
       const Embed = React.createClass(payload);
 
-      instance = React.render(
+      instance = ReactDOM.render(
         <Embed visible={false} />,
         global.document.body
       );
@@ -804,10 +780,7 @@ describe('frameFactory', function() {
         }
       );
       const Embed = React.createClass(payload);
-      const instance = React.render(
-        <Embed />,
-        global.document.body
-      );
+      const instance = instanceRender(<Embed />);
       const child = instance.getRootComponent();
 
       jasmine.clock().install();
@@ -834,10 +807,7 @@ describe('frameFactory', function() {
     it('renders the child component to the document', function() {
       const payload = frameFactory(mockChildFn);
       const Embed = React.createClass(payload);
-      const instance = React.render(
-        <Embed />,
-        global.document.body
-      );
+      const instance = instanceRender(<Embed />);
 
       expect(instance.getChild().refs.rootComponent)
         .toBeDefined();
@@ -846,10 +816,8 @@ describe('frameFactory', function() {
     it('updates `state._rendered` at the end', function() {
       const payload = frameFactory(mockChildFn);
       const Embed = React.createClass(payload);
-      const instance = React.render(
-        <Embed />,
-        global.document.body
-      );
+      const instance = instanceRender(<Embed />);
+
 
       expect(instance.getInitialState()._rendered)
         .toEqual(false);
@@ -871,7 +839,7 @@ describe('frameFactory', function() {
       const payload = frameFactory(mockChildFn);
       const Embed = React.createClass(payload);
 
-      React.render(
+      ReactDOM.render(
         <Embed />,
         global.document.body
       );
