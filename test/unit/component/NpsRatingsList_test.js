@@ -1,4 +1,4 @@
-fdescribe('NpsRatingsList component', () => {
+describe('NpsRatingsList component', () => {
   let NpsRatingsList,
     ratingsRange,
     component,
@@ -42,7 +42,7 @@ fdescribe('NpsRatingsList component', () => {
 
     NpsRatingsList = requireUncached(npsPath).NpsRatingsList;
 
-    React.render(
+    ReactDOM.render(
         <NpsRatingsList {...npsRatingsListProps} />,
         global.document.body
       );

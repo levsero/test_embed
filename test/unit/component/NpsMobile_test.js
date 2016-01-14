@@ -137,7 +137,7 @@ describe('NpsMobile component', () => {
     mockSubmitCommentHandler = jasmine.createSpy();
     mockOnCommentChangeHandler = jasmine.createSpy();
 
-    component = React.render(
+    component = ReactDOM.render(
         <NpsMobile
           {...npsProps}
           setFrameSize={mockSetFrameSize}
@@ -388,6 +388,7 @@ describe('NpsMobile component', () => {
       component.stopScrollHacks = mockStopScrollHacks;
       component.setDefaultNpsMobileSize = mockSetDefaultNpsMobileSize;
     });
+
     it('should set fullscreen to false', () => {
       component.resetFullScreen();
 

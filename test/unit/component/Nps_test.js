@@ -61,10 +61,7 @@ describe('Nps component', function() {
   });
 
   it('initializes with state.surveyAvailable set to `null`', function() {
-    const nps = React.render(
-      <Nps npsSender = {() => {}} />,
-      global.document.body
-    );
+    const nps = instanceRender(<Nps npsSender = {() => {}} />);
 
     expect(nps.state.surveyAvailable)
       .toEqual(null);
@@ -72,10 +69,7 @@ describe('Nps component', function() {
 
   it('sends the correct rating', function() {
     const npsSender = jasmine.createSpy('npsSender');
-    const nps = React.render(
-      <Nps npsSender={npsSender} />,
-      global.document.body
-    );
+    const nps = instanceRender(<Nps npsSender={npsSender} />);
 
     const rating = 5;
 
@@ -98,10 +92,7 @@ describe('Nps component', function() {
 
   it('sends the correct comment', function() {
     const npsSender = jasmine.createSpy('npsSender');
-    const nps = React.render(
-      <Nps npsSender={npsSender} />,
-      global.document.body
-    );
+    const nps = instanceRender(<Nps npsSender={npsSender} />);
 
     const rating = 5;
     const comment = 'A comment';
@@ -128,7 +119,7 @@ describe('Nps component', function() {
   });
 
   it('renders NpsMobile when mobile prop is true', function() {
-    React.render(
+    ReactDOM.render(
       <Nps mobile={true} />,
       global.document.body
     );
@@ -143,12 +134,7 @@ describe('Nps component', function() {
 
     beforeEach(function() {
       npsSenderSpy = jasmine.createSpy();
-
-      component = React.render(
-        <Nps npsSender={npsSenderSpy} />,
-        global.document.body
-      );
-
+      component = instanceRender(<Nps npsSender={npsSenderSpy} />);
       component.sendRating = jasmine.createSpy();
     });
 
@@ -164,10 +150,7 @@ describe('Nps component', function() {
 
   describe('updateRating', () => {
     it('should update the rating state', () => {
-      const component = React.render(
-        <Nps mobile={true} />,
-        global.document.body
-      );
+      const component = instanceRender(<Nps mobile={true} />);
 
       expect(component.state.response.rating)
         .toEqual(null);
@@ -185,11 +168,7 @@ describe('Nps component', function() {
 
     beforeEach(function() {
       npsSenderSpy = jasmine.createSpy();
-
-      component = React.render(
-        <Nps npsSender={npsSenderSpy} />,
-        global.document.body
-      );
+      component = instanceRender(<Nps npsSender={npsSenderSpy} />);
     });
 
     it('should set survey.error to false', function() {
