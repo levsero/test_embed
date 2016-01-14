@@ -107,7 +107,7 @@ describe('NpsRatingsList component', () => {
           component = instanceRender(<NpsRatingsList {...npsRatingsListProps} />);
         });
 
-        it('should not be prepended with "0 = "', () => {
+        it('should not be prepended with "0 = " a second time', () => {
           expect(component.notLikelyLabel())
             .toEqual('0 = Not entirely likely');
         });
@@ -134,7 +134,7 @@ describe('NpsRatingsList component', () => {
           component = instanceRender(<NpsRatingsList {...npsRatingsListProps} />);
         });
 
-        it('should not be prepended with "10 = "', () => {
+        it('should not be prepended with "10 = " a second time', () => {
           expect(component.likelyLabel())
             .toEqual('10 = Absolutely likely!');
         });
