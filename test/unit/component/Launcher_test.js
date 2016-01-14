@@ -27,11 +27,11 @@ describe('Launcher component', function() {
   });
 
   describe('state', function() {
-  let launcher;
+    let launcher;
 
-  beforeEach(function() {
-    launcher = instanceRender(<Launcher label='help' />);
-  });
+    beforeEach(function() {
+      launcher = instanceRender(<Launcher label='help' />);
+    });
 
     it('should change the state icon when setIcon is called', function() {
       expect(launcher.state.icon)
