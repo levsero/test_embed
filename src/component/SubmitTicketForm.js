@@ -173,7 +173,6 @@ export const SubmitTicketForm = React.createClass({
 
     this.setState(this.getInitialState());
     this.setState({
-      showNotification: true,
       formState: {
         name: formData.name,
         email: formData.email
