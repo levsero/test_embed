@@ -127,6 +127,9 @@ describe('HelpCenter component', function() {
           return mockIsMobileBrowserValue;
         }
       },
+      'utility/utils': {
+        bindMethods: mockBindMethods
+      },
       '_': _
     });
 

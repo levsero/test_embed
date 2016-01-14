@@ -65,6 +65,8 @@ describe('Submit ticket component', function() {
               formState: {}
             };
           },
+          resetState: noop,
+          resetForm: noop,
           render: function() {
             return <form onSubmit={this.props.handleSubmit} />;
           }
@@ -118,10 +120,7 @@ describe('Submit ticket component', function() {
   });
 
   it('should correctly set the initial states when created', function() {
-    const submitTicket = React.render(
-      <SubmitTicket />,
-      global.document.body
-    );
+    const submitTicket = instanceRender(<SubmitTicket />);
 
     expect(submitTicket.state.showNotification)
       .toEqual(false);
@@ -132,10 +131,7 @@ describe('Submit ticket component', function() {
 
   it('should not call submitTicketSender and not send the form when invalid', function() {
     const mockSubmitTicketSender = jasmine.createSpy('mockSubmitTicketSender');
-    const submitTicket = React.render(
-      <SubmitTicket submitTicketSender={mockSubmitTicketSender} />,
-      global.document.body
-    );
+    const submitTicket = instanceRender(<SubmitTicket submitTicketSender={mockSubmitTicketSender} />);
 
     submitTicket.handleSubmit({preventDefault: noop}, {isFormValid: false});
 
@@ -146,7 +142,7 @@ describe('Submit ticket component', function() {
   it('should call submitTicketSender and send the form when valid', function() {
     const mockSubmitTicketSender = jasmine.createSpy('mockSubmitTicketSender');
     const mockOnSubmitted = jasmine.createSpy('mockOnSubmitted');
-    const submitTicket = React.render(
+    const submitTicket = ReactDOM.render(
       <SubmitTicket
         submitTicketSender={mockSubmitTicketSender}
         onSubmitted={mockOnSubmitted}
@@ -179,7 +175,7 @@ describe('Submit ticket component', function() {
   it('should call onSubmitted with given last search state', function() {
     const mockSubmitTicketSender = jasmine.createSpy('mockSubmitTicketSender');
     const mockOnSubmitted = jasmine.createSpy('mockOnSubmitted');
-    const submitTicket = React.render(
+    const submitTicket = ReactDOM.render(
       <SubmitTicket
         submitTicketSender={mockSubmitTicketSender}
         onSubmitted={mockOnSubmitted}
@@ -236,11 +232,7 @@ describe('Submit ticket component', function() {
       description: 'mockDescription'
     };
 
-    const submitTicket = React.render(
-      <SubmitTicket customFields={mockCustomField} updateFrameSize={noop} />,
-      global.document.body
-    );
-
+    const submitTicket = instanceRender(<SubmitTicket customFields={mockCustomField} />);
     const payload = submitTicket.formatTicketSubmission(mockValues);
 
     expect(payload)
@@ -248,10 +240,7 @@ describe('Submit ticket component', function() {
   });
 
   it('should unhide notification element on state change', function() {
-    const submitTicket = React.render(
-      <SubmitTicket />,
-      global.document.body
-    );
+    const submitTicket = ReactDOM.render(<SubmitTicket />, global.document.body);
     const notificationElem = submitTicket.refs.notification;
 
     expect(notificationElem.props.className)
@@ -267,10 +256,7 @@ describe('Submit ticket component', function() {
     it('should be true if isMobileBrowser() is true', function() {
       mockIsMobileBrowserValue = true;
 
-      const submitTicket = React.render(
-        <SubmitTicket />,
-        global.document.body
-      );
+      const submitTicket = instanceRender(<SubmitTicket />);
 
       expect(submitTicket.state.fullscreen)
         .toEqual(true);
@@ -279,10 +265,7 @@ describe('Submit ticket component', function() {
     it('should be false if isMobileBrowser() is false', function() {
       mockIsMobileBrowserValue = false;
 
-      const submitTicket = React.render(
-        <SubmitTicket />,
-        global.document.body
-      );
+      const submitTicket = instanceRender(<SubmitTicket />);
 
       expect(submitTicket.state.fullscreen)
         .toEqual(false);
@@ -290,10 +273,7 @@ describe('Submit ticket component', function() {
   });
 
   it('should pass on fullscreen to submitTicketForm', function() {
-    const submitTicket = React.render(
-          <SubmitTicket />,
-          global.document.body
-        );
+    const submitTicket = instanceRender(<SubmitTicket />);
 
     submitTicket.setState({fullscreen: 'VALUE'});
 
