@@ -3,7 +3,7 @@ import _ from 'lodash';
 
 import { ButtonRating } from 'component/Button';
 
-const classNames = require('classnames');
+import classNames from 'classnames'
 
 export class NpsRatingsList extends Component {
   ratingClickHandlerFn(rating) {
