@@ -59,7 +59,7 @@ describe('Launcher component', function() {
 
     jasmine.clock().install();
 
-    shallowRender(<Launcher updateFrameSize = {mockUpdateFrameSize} />);
+    shallowRender(<Launcher updateFrameSize={mockUpdateFrameSize} />);
     jasmine.clock().tick(10);
 
     expect(mockUpdateFrameSize).toHaveBeenCalled();
