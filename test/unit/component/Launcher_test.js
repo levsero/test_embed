@@ -26,23 +26,32 @@ describe('Launcher component', function() {
     mockery.disable();
   });
 
-  it('should correctly set the initial state when created', function() {
-    const launcher = instanceRender(<Launcher icon='testIcon' />);
+  describe('state', function() {
+  let launcher;
 
-    expect(launcher.state.icon)
-      .toEqual('testIcon');
+  beforeEach(function() {
+    launcher = instanceRender(<Launcher label='help' />);
   });
 
-  it('should change the state icon when setIcon is called', function() {
-    const launcher = instanceRender(<Launcher label='help' />);
+    it('should change the state icon when setIcon is called', function() {
+      expect(launcher.state.icon)
+        .not.toEqual('newIcon');
 
-    expect(launcher.state.icon)
-      .not.toEqual('newIcon');
+      launcher.setIcon('newIcon');
 
-    launcher.setIcon('newIcon');
+      expect(launcher.state.icon)
+        .toEqual('newIcon');
+    });
 
-    expect(launcher.state.icon)
-      .toEqual('newIcon');
+    it('should change the label when setLabel is called', function() {
+      expect(launcher.state.label)
+        .toEqual('help');
+
+      launcher.setLabel('support');
+
+      expect(launcher.state.label)
+        .toEqual('support');
+    });
   });
 
   it('should call the updateFrameSize prop on render if it exists', function() {
@@ -54,17 +63,5 @@ describe('Launcher component', function() {
     jasmine.clock().tick(10);
 
     expect(mockUpdateFrameSize).toHaveBeenCalled();
-  });
-
-  it('should change the label when setLabel is called', function() {
-    const launcher = instanceRender(<Launcher label='help' />);
-
-    expect(launcher.state.label)
-      .toEqual('help');
-
-    launcher.setLabel('support');
-
-    expect(launcher.state.label)
-      .toEqual('support');
   });
 });
