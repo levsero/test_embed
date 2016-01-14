@@ -69,6 +69,9 @@ describe('SubmitTicketForm component', function() {
           t: _.identity
         }
       },
+      'utility/utils': {
+        bindMethods: mockBindMethods
+      },
       'lodash': _
     });
 

@@ -38,6 +38,7 @@
     "resetDOM": true,
     "shallowRender": true,
     "instanceRender": true,
+    "mockBindMethods": true,
     "webdrivercss": true,
     "webdriverio": true
   },

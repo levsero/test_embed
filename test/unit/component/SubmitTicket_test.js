@@ -65,6 +65,7 @@ describe('Submit ticket component', function() {
               formState: {}
             };
           },
+          resetState: noop,
           resetForm: noop,
           render: function() {
             return <form onSubmit={this.props.handleSubmit} />;
