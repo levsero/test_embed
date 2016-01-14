@@ -159,6 +159,25 @@ export const SubmitTicketForm = React.createClass({
     });
   },
 
+  clear() {
+    const formData = this.state.formState;
+    const form = this.refs.form.getDOMNode();
+
+    _.forEach(form.elements, (field) => {
+      if (this.state.formState[field.name] && field.type === 'checkbox') {
+        field.checked = false;
+      }
+    });
+
+    this.setState(this.getInitialState());
+    this.setState({
+      formState: {
+        name: formData.name,
+        email: formData.email
+      }
+    });
+  },
+
   render() {
     const formClasses = classSet({
       'Form u-cf': true,

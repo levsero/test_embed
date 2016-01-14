@@ -65,6 +65,7 @@ describe('Submit ticket component', function() {
               formState: {}
             };
           },
+          clear: noop,
           render: function() {
             return <form onSubmit={this.props.handleSubmit} />;
           }
@@ -173,6 +174,31 @@ describe('Submit ticket component', function() {
     mockSubmitTicketSender.calls.mostRecent().args[1]({});
 
     expect(mockOnSubmitted)
+      .toHaveBeenCalled();
+  });
+
+  it('should clear the form on a valid submit', function() {
+    const mockSubmitTicketSender = jasmine.createSpy('mockSubmitTicketSender');
+    const submitTicket = React.render(
+      <SubmitTicket
+        submitTicketSender={mockSubmitTicketSender}
+        updateFrameSize={noop} />,
+      global.document.body
+    );
+
+    spyOn(submitTicket, 'clearForm');
+
+    submitTicket.handleSubmit({preventDefault: noop}, {
+      isFormValid: true,
+      value: {
+        email: formParams.email,
+        description: formParams.description
+      }
+    });
+
+    mockSubmitTicketSender.calls.mostRecent().args[1]({});
+
+    expect(submitTicket.clearForm)
       .toHaveBeenCalled();
   });
 
