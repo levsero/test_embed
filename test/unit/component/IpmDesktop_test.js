@@ -76,7 +76,7 @@ describe('IpmDesktop component', function() {
 
       jasmine.clock().install();
 
-      component = shallowRender(
+      shallowRender(
         <IpmDesktop
           {...ipmProps}
           updateFrameSize={mockUpdateFrameSize} />

@@ -35,16 +35,10 @@ describe('Ipm component', function() {
   });
 
   describe('ipmSender', function() {
-    let component,
-      ipmSenderSpy;
-
-    beforeEach(function() {
-      ipmSenderSpy = jasmine.createSpy();
-
-      component = shallowRender(<Ipm ipmSender={ipmSenderSpy} />);
-    });
-
     it('should call the this.props.ipmSender', function() {
+      const ipmSenderSpy = jasmine.createSpy();
+      const component = shallowRender(<Ipm ipmSender={ipmSenderSpy} />);
+
       component.props.ipmSender();
 
       expect(ipmSenderSpy)
