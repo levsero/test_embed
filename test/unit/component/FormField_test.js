@@ -450,7 +450,7 @@ describe('FormField component', function() {
   });
 
   describe('SearchFieldButton', function() {
-    it('should have a onClick function it\'s div', function() {
+    it('should have a onClick function its div', function() {
       const onClick = jasmine.createSpy();
       const searchFieldButton = React.render(
         <SearchFieldButton onClick={onClick} />,
