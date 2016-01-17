@@ -1,6 +1,7 @@
 describe('FormField component', function() {
   let onChangeValue,
     SearchField,
+    SearchFieldButton,
     Field,
     getCustomFields;
   const formFieldPath = buildSrcPath('component/FormField');
@@ -45,6 +46,9 @@ describe('FormField component', function() {
         isMobileBrowser: function() {
           return true;
         }
+      },
+      'utility/utils': {
+        bindMethods: mockBindMethods
       },
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', [
@@ -442,6 +446,24 @@ describe('FormField component', function() {
 
       expect(clearInputNode.props.className)
         .toMatch('u-isHidden');
+    });
+  });
+
+  describe('SearchFieldButton', function() {
+    it('should have a onClick function it\'s div', function() {
+      const onClick = jasmine.createSpy();
+      const searchFieldButton = React.render(
+        <SearchFieldButton onClick={onClick} />,
+        global.document.body
+      );
+
+      const searchFieldButtonNode = ReactDOM.findDOMNode(searchFieldButton);
+
+      TestUtils.Simulate.click(
+        searchFieldButtonNode.querySelector('.Form-field--search'));
+
+      expect(onClick)
+        .toHaveBeenCalled();
     });
   });
 });
