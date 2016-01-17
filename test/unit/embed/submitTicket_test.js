@@ -425,7 +425,7 @@ describe('embed.submitTicket', function() {
       expect(document.querySelectorAll( '.mock-frame .mock-submitTicket').length)
         .toEqual(1);
 
-      expect(ReactTestUtils.isCompositeComponent(submitTicket.get('bob').instance))
+      expect(TestUtils.isCompositeComponent(submitTicket.get('bob').instance))
         .toEqual(true);
     });
 

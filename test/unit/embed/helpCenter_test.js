@@ -473,7 +473,7 @@ describe('embed.helpCenter', function() {
       expect(document.querySelectorAll( '.mock-frame .mock-helpCenter').length)
         .toEqual(1);
 
-      expect(ReactTestUtils.isCompositeComponent(helpCenter.get('carlos').instance))
+      expect(TestUtils.isCompositeComponent(helpCenter.get('carlos').instance))
         .toEqual(true);
     });
 
