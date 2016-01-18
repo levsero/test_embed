@@ -55,7 +55,7 @@ export class NpsComment extends Component {
                                   disabled={!this.props.comment || this.props.isSubmittingRating} />;
 
     const commentSubmitContent = (this.props.isMobile)
-                               ? {commentSubmitButton}
+                               ? <div>{commentSubmitButton}</div>
                                : <div className='NpsComment-submitContainer'>
                                    {commentSubmitButton}
                                  </div>;
