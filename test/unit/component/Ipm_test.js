@@ -28,7 +28,7 @@ describe('Ipm component', function() {
   });
 
   it('initializes with state.ipmAvailable set to `null`', function() {
-    const ipm = instanceRender(<Ipm ipmSender = {() => {}} />);
+    const ipm = instanceRender(<Ipm ipmSender={noop} />);
 
     expect(ipm.state.ipmAvailable)
       .toEqual(null);
