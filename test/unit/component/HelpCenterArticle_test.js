@@ -81,8 +81,6 @@ describe('HelpCenterArticle component', function() {
     });
 
     it('should preserve name attribute on anchors', function() {
-      const content = ReactDOM.findDOMNode(helpCenterArticle.refs.article);
-
       expect(content.querySelector('a[name="foo"]'))
         .not.toBeNull();
     });
@@ -140,9 +138,6 @@ describe('HelpCenterArticle component', function() {
 
     it('should display an article body if a prop was passed with truthy content body', function() {
       const helpCenterArticleNode = ReactDOM.findDOMNode(helpCenterArticle);
-
-      // componentdidupdate only fires after setState not on initial render
-      helpCenterArticle.setState({ foo: 'bar' });
 
       expect(helpCenterArticleNode.querySelector('#foo').innerHTML)
         .toMatch('Foobar');
