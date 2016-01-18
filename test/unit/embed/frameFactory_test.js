@@ -455,6 +455,7 @@ describe('frameFactory', function() {
       });
 
       const Embed = React.createClass(payload);
+
       instance = ReactDOM.render(<Embed />, global.document.body);
     });
 
@@ -514,6 +515,7 @@ describe('frameFactory', function() {
         const payload = frameFactory(mockChildFn, mockFrameParams);
 
         const Embed = React.createClass(payload);
+
         instance = ReactDOM.render(<Embed />, global.document.body);
       });
 
@@ -568,6 +570,7 @@ describe('frameFactory', function() {
           const payload = frameFactory(mockChildFn, mockFrameParams);
 
           const Embed = React.createClass(payload);
+
           instance = ReactDOM.render(<Embed />, global.document.body);
         });
 
