@@ -4,7 +4,6 @@ import classNames from 'classnames';
 
 import { ButtonRating } from 'component/Button';
 
-
 export class NpsRatingsList extends Component {
   ratingClickHandlerFn(rating) {
     return (ev) => {
