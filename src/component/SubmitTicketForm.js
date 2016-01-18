@@ -1,62 +1,48 @@
-import React from 'react/addons';
-import _     from 'lodash';
+import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
+import _ from 'lodash';
+import classNames from 'classnames';
 
 import { Button,
          ButtonSecondary,
-         ButtonGroup }     from 'component/Button';
+         ButtonGroup } from 'component/Button';
 import { ScrollContainer } from 'component/ScrollContainer';
-import { i18n }            from 'service/i18n';
+import { i18n } from 'service/i18n';
 import { Field,
          getCustomFields } from 'component/FormField';
+import { bindMethods } from 'utility/utils';
 
-const classSet = React.addons.classSet;
+const initialState = {
+  isValid: false,
+  isSubmitting: false,
+  isRTL: i18n.isRTL(),
+  removeTicketForm: false,
+  formState: {},
+  showErrorMessage: false
+};
+const buttonMessageString = 'embeddable_framework.submitTicket.form.submitButton.label.send';
+const cancelButtonMessageString = 'embeddable_framework.submitTicket.form.cancelButton.label.cancel';
 
-export const SubmitTicketForm = React.createClass({
-  propTypes: {
-    formTitleKey: React.PropTypes.string.isRequired,
-    children: React.PropTypes.element.isRequired,
-    submit: React.PropTypes.func.isRequired,
-    hide: React.PropTypes.bool,
-    customFields: React.PropTypes.array,
-    fullscreen: React.PropTypes.bool,
-    onCancel: React.PropTypes.func
-  },
+export class SubmitTicketForm extends Component {
+  constructor(props, context) {
+    super(props, context);
+    bindMethods(this, SubmitTicketForm.prototype);
 
-  getDefaultProps() {
-    return {
-      hide: false,
-      customFields: [],
-      fullscreen: false,
-      onCancel: () => {}
-    };
-  },
-
-  getInitialState() {
-    return {
-      isValid: false,
-      buttonMessage: i18n.t(
-        'embeddable_framework.submitTicket.form.submitButton.label.send'
-      ),
-      isSubmitting: false,
-      isRTL: i18n.isRTL(),
-      removeTicketForm: false,
-      formState: {},
-      showErrorMessage: false,
-      cancelButtonMessage: i18n.t(
-        'embeddable_framework.submitTicket.form.cancelButton.label.cancel'
-      )
-    };
-  },
+    this.state = _.extend(initialState, {
+      buttonMessage: i18n.t(buttonMessageString),
+      cancelButtonMessage: i18n.t(cancelButtonMessageString)
+    });
+  }
 
   componentDidMount() {
     const customFields = getCustomFields(this.props.customFields, this.state.formState);
 
     this.refs.scrollContainer.setScrollShadowVisible(customFields.fields.length);
-  },
+  }
 
   componentDidUpdate() {
     if (this.refs.formWrapper && this.state.formState && this.state.removeTicketForm) {
-      const form = this.refs.form.getDOMNode();
+      const form = ReactDOM.findDOMNode(this.refs.form);
 
       _.forEach(form.elements, function(field) {
         if (field.type === 'submit') {
@@ -81,7 +67,7 @@ export const SubmitTicketForm = React.createClass({
         }
       }, this);
     }
-  },
+  }
 
   resetTicketFormVisibility() {
     // if the user closes and reopens, we need to
@@ -89,10 +75,10 @@ export const SubmitTicketForm = React.createClass({
     this.setState({
       removeTicketForm: false
     });
-  },
+  }
 
   focusField() {
-    const form = this.refs.form.getDOMNode();
+    const form = ReactDOM.findDOMNode(this.refs.form);
 
     // Focus on the first empty text or textarea
     const element = _.find(form.querySelectorAll('input, textarea'), function(input) {
@@ -102,22 +88,22 @@ export const SubmitTicketForm = React.createClass({
     if (element) {
       element.focus();
     }
-  },
+  }
 
   hideVirtualKeyboard() {
     this.setState({
       removeTicketForm: true
     });
-  },
+  }
 
   failedToSubmit() {
     this.setState({
       isSubmitting: false,
-      buttonMessage: this.getInitialState().buttonMessage
+      buttonMessage: i18n.t(buttonMessageString)
     });
 
     this.refs.scrollContainer.scrollToBottom();
-  },
+  }
 
   handleSubmit(e) {
     const isFormValid = this.state.isValid;
@@ -133,10 +119,10 @@ export const SubmitTicketForm = React.createClass({
       isFormValid: isFormValid,
       value: this.getFormState()
     });
-  },
+  }
 
   getFormState() {
-    const form = this.refs.form.getDOMNode();
+    const form = ReactDOM.findDOMNode(this.refs.form);
 
     return _.chain(form.elements)
       .reject((field) => field.type === 'submit')
@@ -148,16 +134,23 @@ export const SubmitTicketForm = React.createClass({
         return result;
       },
       {}).value();
-  },
+  }
 
   handleUpdate() {
-    const form = this.refs.form.getDOMNode();
+    const form = ReactDOM.findDOMNode(this.refs.form);
 
     this.setState({
       formState: this.getFormState(),
       isValid: form.checkValidity()
     });
-  },
+  }
+
+  resetState() {
+    this.setState(_.extend(initialState, {
+      buttonMessage: i18n.t(buttonMessageString),
+      cancelButtonMessage: i18n.t(cancelButtonMessageString)
+    }));
+  }
 
   clear() {
     const formData = this.state.formState;
@@ -169,17 +162,17 @@ export const SubmitTicketForm = React.createClass({
       }
     });
 
-    this.setState(this.getInitialState());
+    this.setState(initialState);
     this.setState({
       formState: {
         name: formData.name,
         email: formData.email
       }
     });
-  },
+  }
 
   render() {
-    const formClasses = classSet({
+    const formClasses = classNames({
       'Form u-cf': true,
       'u-isHidden': this.props.hide
     });
@@ -243,4 +236,21 @@ export const SubmitTicketForm = React.createClass({
       </form>
     );
   }
-});
+}
+
+SubmitTicketForm.propTypes = {
+  formTitleKey: PropTypes.string.isRequired,
+  children: PropTypes.element.isRequired,
+  submit: PropTypes.func.isRequired,
+  hide: PropTypes.bool,
+  customFields: PropTypes.array,
+  fullscreen: PropTypes.bool,
+  onCancel: PropTypes.func
+};
+
+SubmitTicketForm.defaultProps = {
+  hide: false,
+  customFields: [],
+  fullscreen: false,
+  onCancel: () => {}
+};

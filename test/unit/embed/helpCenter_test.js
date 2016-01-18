@@ -20,7 +20,7 @@ describe('embed.helpCenter', function() {
     mockery.enable();
 
     mockRegistry = initMockRegistry({
-      'react/addons': React,
+      'React': React,
       'service/beacon': {
         beacon: jasmine.createSpyObj('beacon', ['track'])
       },
@@ -470,7 +470,7 @@ describe('embed.helpCenter', function() {
       expect(document.querySelectorAll( '.mock-frame .mock-helpCenter').length)
         .toEqual(1);
 
-      expect(ReactTestUtils.isCompositeComponent(helpCenter.get('carlos').instance))
+      expect(TestUtils.isCompositeComponent(helpCenter.get('carlos').instance))
         .toEqual(true);
     });
 

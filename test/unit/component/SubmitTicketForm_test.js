@@ -22,7 +22,7 @@ describe('SubmitTicketForm component', function() {
     });
 
     mockRegistry = initMockRegistry({
-      'react/addons': React,
+      'React': React,
       'component/Button': {
         Button: React.createClass({
           render: function() {
@@ -74,6 +74,9 @@ describe('SubmitTicketForm component', function() {
           t: _.identity
         }
       },
+      'utility/utils': {
+        bindMethods: mockBindMethods
+      },
       'lodash': _
     });
 
@@ -91,7 +94,7 @@ describe('SubmitTicketForm component', function() {
   });
 
   it('should display form title', function() {
-    React.render(
+    ReactDOM.render(
       <SubmitTicketForm formTitleKey='testTitle' />,
       global.document.body
     );
@@ -105,7 +108,7 @@ describe('SubmitTicketForm component', function() {
 
     spyOn(mockRegistry['service/i18n'].i18n, 't').and.callThrough();
 
-    React.render(
+    ReactDOM.render(
       <SubmitTicketForm formTitleKey={titleKey} />,
       global.document.body
     );
@@ -115,33 +118,15 @@ describe('SubmitTicketForm component', function() {
   });
 
   it('should correctly render form with noValidate attribute', function() {
-    const submitTicketForm = React.render(
-      <SubmitTicketForm />,
-      global.document.body
-    );
+    const submitTicketForm = ReactDOM.render(<SubmitTicketForm />, global.document.body);
 
-    expect(submitTicketForm.getDOMNode().getAttribute('novalidate'))
+    expect(ReactDOM.findDOMNode(submitTicketForm).getAttribute('novalidate'))
       .toEqual('');
   });
 
-  it('should call parent component submit when form is submitted', function() {
-    const submitTicketForm = React.render(
-      <SubmitTicketForm submit={onSubmit} />,
-      global.document.body
-    );
-
-    ReactTestUtils.Simulate.submit(submitTicketForm.getDOMNode());
-
-    expect(onSubmit)
-      .toHaveBeenCalled();
-  });
-
   it('should change state and alter submit button on valid submit', function() {
-    const submitTicketForm = React.render(
-      <SubmitTicketForm submit={onSubmit} />,
-      global.document.body
-    );
-    const submitTicketFormNode = submitTicketForm.getDOMNode();
+    const submitTicketForm = ReactDOM.render(<SubmitTicketForm submit={onSubmit} />, global.document.body);
+    const submitTicketFormNode = ReactDOM.findDOMNode(submitTicketForm);
     const submitElem = submitTicketFormNode.querySelector('input[type="submit"]');
 
     expect(submitElem.disabled)
@@ -155,7 +140,7 @@ describe('SubmitTicketForm component', function() {
     expect(submitTicketForm.state.isSubmitting)
       .toEqual(false);
 
-    ReactTestUtils.Simulate.submit(submitTicketForm.getDOMNode());
+    submitTicketForm.handleSubmit();
 
     expect(submitTicketForm.state.isSubmitting)
       .toEqual(true);
@@ -165,7 +150,7 @@ describe('SubmitTicketForm component', function() {
   });
 
   it('should clear all fields other then name and email on valid submit', function() {
-    const submitTicketForm = React.render(
+    const submitTicketForm = ReactDOM.render(
       <SubmitTicketForm submit={onSubmit} />,
       global.document.body
     );
@@ -182,42 +167,19 @@ describe('SubmitTicketForm component', function() {
 
   describe('ButtonSecondary', function() {
     it('should be rendered in the form when fullscreen is false', function() {
-      const submitTicketForm = React.render(
-        <SubmitTicketForm fullscreen={false} />,
-        global.document.body
-      );
+      const submitTicketForm = ReactDOM.render(<SubmitTicketForm fullscreen={false} />, global.document.body);
 
       expect(function() {
-        ReactTestUtils.findRenderedDOMComponentWithClass(submitTicketForm, 'c-btn--secondary');
+        TestUtils.findRenderedDOMComponentWithClass(submitTicketForm, 'c-btn--secondary');
       }).not.toThrow();
     });
 
     it('should not be rendered in the form when fullscreen is true', function() {
-      const submitTicketForm = React.render(
-        <SubmitTicketForm fullscreen={true} />,
-        global.document.body
-      );
+      const submitTicketForm = ReactDOM.render(<SubmitTicketForm fullscreen={true} />, global.document.body);
 
       expect(function() {
-        ReactTestUtils.findRenderedDOMComponentWithClass(submitTicketForm, 'c-btn--secondary');
+        TestUtils.findRenderedDOMComponentWithClass(submitTicketForm, 'c-btn--secondary');
       }).toThrow();
-    });
-
-    it('should call the mediator to switch the embed state', function() {
-      const submitTicketForm = React.render(
-        <SubmitTicketForm />,
-        global.document.body
-      );
-
-      ReactTestUtils.Simulate.click(
-        ReactTestUtils.findRenderedDOMComponentWithClass(submitTicketForm, 'c-btn--secondary')
-      );
-      jasmine.clock().install();
-
-      // State might not change, setTimeout to allow the change to register
-      jasmine.clock().tick(0);
-      expect(onCancel)
-        .toHaveBeenCalled();
     });
   });
 });

@@ -1,19 +1,6 @@
-import React from 'react/addons';
+import React, { Component, PropTypes } from 'react';
 
-export const NpsCommentButton = React.createClass({
-  propTypes: {
-    label: React.PropTypes.string.isRequired,
-    onClick: React.PropTypes.func,
-    placeholder: React.PropTypes.string
-  },
-
-  getDefaultProps: function() {
-    return {
-      onClick: () => {},
-      placeholder: ''
-    };
-  },
-
+export class NpsCommentButton extends Component {
   render() {
     const classes = `
       Form-fieldLabel
@@ -41,4 +28,15 @@ export const NpsCommentButton = React.createClass({
       </div>
     );
   }
-});
+}
+
+NpsCommentButton.propTypes = {
+  label: PropTypes.string.isRequired,
+  onClick: PropTypes.func,
+  placeholder: PropTypes.string
+};
+
+NpsCommentButton.defaultProps = {
+  onClick: () => {},
+  placeholder: ''
+};

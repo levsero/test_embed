@@ -1,5 +1,6 @@
-import React from 'react/addons';
+import React, { Component, PropTypes } from 'react';
 import _     from 'lodash';
+import classNames from 'classnames';
 
 import { Container } from 'component/Container';
 import { NpsComment } from 'component/NpsComment';
@@ -16,58 +17,39 @@ import { setScrollKiller,
          revertWindowScroll } from 'utility/scrollHacks';
 import { i18n } from 'service/i18n';
 import { Button } from 'component/Button';
+import { bindMethods } from 'utility/utils';
 
-const classSet = React.addons.classSet;
-
-export const NpsMobile = React.createClass({
-  propTypes: {
-    npsSender: React.PropTypes.func.isRequired,
-    response: React.PropTypes.object.isRequired,
-    setFrameSize: React.PropTypes.func.isRequired,
-    survey: React.PropTypes.object.isRequired,
-    updateRating: React.PropTypes.func.isRequired,
-    isSubmittingComment: React.PropTypes.bool,
-    isSubmittingRating: React.PropTypes.bool,
-    onCommentChangeHandler: React.PropTypes.func,
-    submitCommentHandler: React.PropTypes.func,
-    submitRatingHandler: React.PropTypes.func
+const initialState = {
+  currentPage: {
+    selectingRating: true,
+    thankYou: false,
+    addingComment: false
   },
+  fullscreen: false,
+  isEditing: false
+};
 
-  getDefaultProps: function() {
-    return {
-      isSubmittingComment: false,
-      isSubmittingRating: false,
-      onCommentChangeHandler: () => {},
-      submitCommentHandler: () => {},
-      submitRatingHandler: () => {}
-    };
-  },
+export class NpsMobile extends Component {
+  constructor(props, context) {
+    super(props, context);
+    bindMethods(this, NpsMobile.prototype);
 
-  getInitialState() {
-    return {
-      currentPage: {
-        selectingRating: true,
-        thankYou: false,
-        addingComment: false
-      },
-      fullscreen: false,
-      isEditing: false
-    };
-  },
+    this.state = initialState;
+  }
 
   componentDidUpdate(prevProps, prevState) {
     if ((!prevState.fullscreen && this.state.fullscreen) ||
         (!prevState.isEditing && this.state.isEditing)) {
       this.refs.npsComment.focusField();
     }
-  },
+  }
 
   setDefaultNpsMobileSize() {
     setTimeout(() => this.props.setFrameSize(
       `100%`,
       this.calcHeightPercentage()),
     0);
-  },
+  }
 
   goToFullScreen() {
     if (isIos()) {
@@ -81,7 +63,7 @@ export const NpsMobile = React.createClass({
         fullscreen: true
       });
     }
-  },
+  }
 
   resetFullScreen() {
     if (isIos()) {
@@ -91,7 +73,7 @@ export const NpsMobile = React.createClass({
         fullscreen: false
       });
     }
-  },
+  }
 
   startEditing() {
     if (isIos()) {
@@ -100,7 +82,7 @@ export const NpsMobile = React.createClass({
     this.setState({
       isEditing: true
     });
-  },
+  }
 
   stopEditing() {
     if (isIos()) {
@@ -109,7 +91,7 @@ export const NpsMobile = React.createClass({
     this.setState({
       isEditing: false
     });
-  },
+  }
 
   calcHeightPercentage() {
     const ratio = getZoomSizingRatio();
@@ -123,61 +105,65 @@ export const NpsMobile = React.createClass({
          : (this.state.currentPage.thankYou)
            ? '40%'
            : '52%';
-  },
+  }
 
   setCurrentPage(page) {
     this.setState({
       currentPage: _.mapValues(
-        this.getInitialState().currentPage,
+        initialState.currentPage,
         (_, key) => key === page
       )
     });
-  },
+  }
 
   submitCommentHandler(ev) {
     this.props.submitCommentHandler(ev, () => {
       this.stopEditing();
       this.setCurrentPage('thankYou');
     });
-  },
+  }
 
   ratingChangeValueHandler(rating) {
     this.props.submitRatingHandler(rating, () => this.setCurrentPage('addingComment'));
-  },
+  }
 
   handleDropDownBlur() {
     if (isIos()) {
       this.stopScrollHacks();
     }
-  },
+  }
 
   handleDropDownSelection(e) {
     this.props.updateRating(e.target.value);
-  },
+  }
 
   removeRatingTemplate(ratingText) {
     return ratingText.replace('%{rating}', '').trim();
-  },
+  }
 
   handleDropDownFocus() {
     if (isIos()) {
       this.startScrollHacks();
     }
-  },
+  }
 
   startScrollHacks() {
     setTimeout(() => {
       setWindowScroll(0);
       setScrollKiller(true);
     }, 0);
-  },
+  }
 
   stopScrollHacks() {
     setTimeout(() => {
       setScrollKiller(false);
       revertWindowScroll();
     }, 0);
-  },
+  }
+
+  resetState() {
+    this.setState(initialState);
+  }
 
   render() {
     let headingText;
@@ -252,17 +238,17 @@ export const NpsMobile = React.createClass({
                       </span>
                    : null;
 
-    const npsCommentButtonClasses = classSet({
+    const npsCommentButtonClasses = classNames({
       'u-isHidden': this.state.isEditing || !this.state.currentPage.addingComment
     });
 
-    const npsCommentClasses = classSet({
+    const npsCommentClasses = classNames({
       'u-isHidden': !this.state.isEditing
     });
 
     const sendButtonClasses = 'u-marginTS u-marginBM u-sizeFull';
 
-    const containerClassNames = classSet({
+    const containerClassNames = classNames({
       'u-borderTop Container--halfscreen': !this.state.fullscreen,
       'Container--fullscreen--nps': this.state.fullscreen
     });
@@ -308,4 +294,25 @@ export const NpsMobile = React.createClass({
       </Container>
     );
   }
-});
+}
+
+NpsMobile.propTypes = {
+  npsSender: PropTypes.func.isRequired,
+  response: PropTypes.object.isRequired,
+  setFrameSize: PropTypes.func.isRequired,
+  survey: PropTypes.object.isRequired,
+  updateRating: PropTypes.func.isRequired,
+  isSubmittingComment: PropTypes.bool,
+  isSubmittingRating: PropTypes.bool,
+  onCommentChangeHandler: PropTypes.func,
+  submitCommentHandler: PropTypes.func,
+  submitRatingHandler: PropTypes.func
+};
+
+NpsMobile.defaultProps = {
+  isSubmittingComment: false,
+  isSubmittingRating: false,
+  onCommentChangeHandler: () => {},
+  submitCommentHandler: () => {},
+  submitRatingHandler: () => {}
+};

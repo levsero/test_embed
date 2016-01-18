@@ -1,52 +1,51 @@
-import React from 'react/addons';
-import _     from 'lodash';
+import React, { Component, PropTypes } from 'react';
+import _ from 'lodash';
 
 import { NpsDesktop } from 'component/NpsDesktop';
 import { NpsMobile } from 'component/NpsMobile';
+import { bindMethods } from 'utility/utils';
 
-export const Nps = React.createClass({
-  propTypes: {
-    npsSender: React.PropTypes.func.isRequired,
-    mobile: React.PropTypes.bool.isRequired,
-    setFrameSize: React.PropTypes.func.isRequired,
-    setOffsetHorizontal: React.PropTypes.func.isRequired,
-    updateFrameSize: React.PropTypes.func
+const initialState = {
+  survey: {
+    commentsQuestion: '',
+    highlightColor: '',
+    id: null,
+    logoUrl: '',
+    question: '',
+    recipientId: null,
+    error: false,
+    thankYou: '',
+    youRated: '',
+    likelyLabel: '',
+    notLikelyLabel: '',
+    feedbackPlaceholder: ''
   },
+  response: {
+    rating: null,
+    comment: ''
+  },
+  commentFieldDirty: false,
+  isSubmittingRating: false,
+  isSubmittingComment: false,
+  surveyCompleted: false,
+  surveyAvailable: null // `null`: survey has not been set
+};
 
-  getInitialState() {
-    return {
-      survey: {
-        commentsQuestion: '',
-        highlightColor: '',
-        id: null,
-        logoUrl: '',
-        question: '',
-        recipientId: null,
-        error: false,
-        thankYou: '',
-        youRated: '',
-        likelyLabel: '',
-        notLikelyLabel: '',
-        feedbackPlaceholder: ''
-      },
-      response: {
-        rating: null,
-        comment: ''
-      },
-      commentFieldDirty: false,
-      isSubmittingRating: false,
-      isSubmittingComment: false,
-      surveyCompleted: false,
-      surveyAvailable: null, // `null`: survey has not been set
-      isMobile: this.props.mobile
-    };
-  },
+export class Nps extends Component {
+  constructor(props, context) {
+    super(props, context);
+    bindMethods(this, Nps.prototype);
+
+    const state =_.extend(initialState, { isMobile: props.mobile });
+
+    this.state = state;
+  }
 
   setError(errorState) {
     this.setState({
       survey: _.extend({}, this.state.survey, { error: errorState })
     });
-  },
+  }
 
   npsSender(params, doneFn, failFn) {
     const fail = (error) => {
@@ -67,7 +66,7 @@ export const Nps = React.createClass({
 
     this.setError(false);
     this.props.npsSender(params, done, fail);
-  },
+  }
 
   sendRating(doneFn, failFn) {
     const params = {
@@ -79,7 +78,7 @@ export const Nps = React.createClass({
     };
 
     this.npsSender(params, doneFn, failFn);
-  },
+  }
 
   sendComment(doneFn, failFn) {
     const params = {
@@ -92,7 +91,7 @@ export const Nps = React.createClass({
     };
 
     this.npsSender(params, doneFn, failFn);
-  },
+  }
 
   submitRatingHandler(rating, doneFn) {
     const errorHandler = () => {
@@ -107,30 +106,32 @@ export const Nps = React.createClass({
     });
 
     setTimeout(() => this.sendRating(doneFn, errorHandler), 0);
-  },
+  }
 
   updateRating(rating) {
     this.setState({
       response: _.extend({}, this.state.response, { rating })
     });
-  },
+  }
 
   submitCommentHandler(ev, doneFn, failFn) {
     ev.preventDefault();
     this.setState({ isSubmittingComment: true });
     setTimeout(() => this.sendComment(doneFn, failFn), 0);
-  },
+  }
 
   onCommentChangeHandler(ev) {
     this.setState({
       response: _.extend({}, this.state.response, { comment: ev.target.value }),
       commentFieldDirty: true
     });
-  },
+  }
 
   reset() {
-    this.setState(this.getInitialState());
-  },
+    const state = _.extend(initialState, { isMobile: this.props.mobile });
+
+    this.setState(state);
+  }
 
   render() {
     return (this.state.isMobile)
@@ -151,4 +152,12 @@ export const Nps = React.createClass({
           updateFrameSize={this.props.updateFrameSize}
           setOffsetHorizontal={this.props.setOffsetHorizontal} />;
   }
-});
+}
+
+Nps.propTypes = {
+  npsSender: PropTypes.func.isRequired,
+  mobile: PropTypes.bool.isRequired,
+  setFrameSize: PropTypes.func.isRequired,
+  setOffsetHorizontal: PropTypes.func.isRequired,
+  updateFrameSize: PropTypes.func
+};

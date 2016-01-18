@@ -43,7 +43,7 @@ describe('NpsMobile component', () => {
     mockIsIosValue = true;
 
     mockRegistry = initMockRegistry({
-      'react/addons': React,
+      'React': React,
       'component/Container': {
         Container: React.createClass({
           render: function() {
@@ -117,6 +117,9 @@ describe('NpsMobile component', () => {
           innerHeight: 451
         }
       },
+      'utility/utils': {
+        bindMethods: mockBindMethods
+      },
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', ['t'])
       },
@@ -137,7 +140,7 @@ describe('NpsMobile component', () => {
     mockSubmitCommentHandler = jasmine.createSpy();
     mockOnCommentChangeHandler = jasmine.createSpy();
 
-    component = React.render(
+    component = ReactDOM.render(
         <NpsMobile
           {...npsProps}
           setFrameSize={mockSetFrameSize}
@@ -388,6 +391,7 @@ describe('NpsMobile component', () => {
       component.stopScrollHacks = mockStopScrollHacks;
       component.setDefaultNpsMobileSize = mockSetDefaultNpsMobileSize;
     });
+
     it('should set fullscreen to false', () => {
       component.resetFullScreen();
 

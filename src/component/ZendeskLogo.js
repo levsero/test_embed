@@ -1,30 +1,12 @@
-import React from 'react/addons';
+import React, { Component, PropTypes } from 'react';
+import classNames from 'classnames';
 
 import { Icon } from 'component/Icon';
 
-const classSet = React.addons.classSet;
-
-export const ZendeskLogo = React.createClass({
-  propTypes: {
-    rtl: React.PropTypes.bool,
-    fullscreen: React.PropTypes.bool,
-    formSuccess: React.PropTypes.bool,
-    className: React.addons.classSet,
-    utm: React.PropTypes.string
-  },
-
-  getDefaultProps() {
-    return {
-      rtl: false,
-      fullscreen: false,
-      formSuccess: false,
-      className: '',
-      utm: 'webwidget'
-    };
-  },
+export class ZendeskLogo extends Component {
   render() {
     const { fullscreen, rtl, formSuccess } = this.props;
-    const logoClasses = classSet({
+    const logoClasses = classNames({
       'u-linkClean': true,
       'u-posAbsolute u-posEnd--vert': !fullscreen || formSuccess,
       'u-posRelative': fullscreen,
@@ -44,4 +26,20 @@ export const ZendeskLogo = React.createClass({
       </a>
     );
   }
-});
+}
+
+ZendeskLogo.propTypes = {
+  rtl: PropTypes.bool,
+  fullscreen: PropTypes.bool,
+  formSuccess: PropTypes.bool,
+  className: PropTypes.string,
+  utm: PropTypes.string
+};
+
+ZendeskLogo.defaultProps = {
+  rtl: false,
+  fullscreen: false,
+  formSuccess: false,
+  className: '',
+  utm: 'webwidget'
+};

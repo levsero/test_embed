@@ -1,67 +1,45 @@
-import React from 'react/addons';
+import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
+import classNames from 'classnames';
 
 import { ButtonRating } from 'component/Button';
 
-const classSet = React.addons.classSet;
-
-const prependWith = _.curry((prepend, str) => {
-  return str.indexOf(prepend) > -1
-     ? str
-     : `${prepend}${str}`;
-});
-
-export const NpsRatingsList = React.createClass({
-  propTypes: {
-    likelyLabel: React.PropTypes.string.isRequired,
-    notLikelyLabel: React.PropTypes.string.isRequired,
-    selectedRating: React.PropTypes.number.isRequired,
-    className: React.addons.classSet,
-    hideRatingsLegend: React.PropTypes.bool,
-    highlightColor: React.PropTypes.string,
-    isSubmittingComment: React.PropTypes.bool,
-    isSubmittingRating: React.PropTypes.bool,
-    onChangeValue: React.PropTypes.func,
-    ratingsRange: React.PropTypes.array
-  },
-
-  getDefaultProps: function() {
-    return {
-      className: '',
-      hideRatingsLegend: false,
-      highlightColor: '#77a500',
-      isSubmittingComment: false,
-      isSubmittingRating: false,
-      onChangeValue: () => {},
-      ratingsRange: _.range(11)
-    };
-  },
-
-  addRatingToLikelyLabel: prependWith('10 = '),
-
-  addRatingToNotLikelyLabel: prependWith('0 = '),
-
+export class NpsRatingsList extends Component {
   ratingClickHandlerFn(rating) {
     return (ev) => {
       ev.preventDefault();
       this.props.onChangeValue(rating);
     };
-  },
+  }
+
+  _prependWith(prepend, str) {
+    return str.indexOf(prepend) > -1
+      ? str
+      : `${prepend}${str}`;
+  }
+
+  likelyLabel() {
+    return this._prependWith('10 = ', this.props.likelyLabel);
+  }
+
+  notLikelyLabel() {
+    return this._prependWith('0 = ', this.props.notLikelyLabel);
+  }
 
   render() {
     const ratingsLegendClasses = 'RatingsList-legend u-sizeFull u-paddingHT';
     const ratingsListClasses = `RatingsList u-textCenter ${this.props.className}`;
 
-    const labelClasses = classSet({
+    const labelClasses = classNames({
       'u-inlineBlock u-size1of2 u-marginBN': true
     });
 
-    const likelyLabelClasses = classSet({
+    const likelyLabelClasses = classNames({
       [labelClasses]: true,
       'u-textRight': true
     });
 
-    const notLikelyLabelClasses = classSet({
+    const notLikelyLabelClasses = classNames({
       [labelClasses]: true,
       'u-textLeft': true
     });
@@ -91,10 +69,10 @@ export const NpsRatingsList = React.createClass({
     const ratingsLegendContent = (!this.props.hideRatingsLegend)
                                ? <div className={ratingsLegendClasses}>
                                    <p className={notLikelyLabelClasses}>
-                                     {this.addRatingToNotLikelyLabel(this.props.notLikelyLabel)}
+                                     {this.notLikelyLabel()}
                                    </p>
                                    <p className={likelyLabelClasses}>
-                                     {this.addRatingToLikelyLabel(this.props.likelyLabel)}
+                                     {this.likelyLabel()}
                                    </p>
                                  </div>
                                : null;
@@ -108,4 +86,27 @@ export const NpsRatingsList = React.createClass({
       </div>
     );
   }
-});
+}
+
+NpsRatingsList.propTypes = {
+  likelyLabel: PropTypes.string.isRequired,
+  notLikelyLabel: PropTypes.string.isRequired,
+  selectedRating: PropTypes.number.isRequired,
+  className: PropTypes.string,
+  hideRatingsLegend: PropTypes.bool,
+  highlightColor: PropTypes.string,
+  isSubmittingComment: PropTypes.bool,
+  isSubmittingRating: PropTypes.bool,
+  onChangeValue: PropTypes.func,
+  ratingsRange: PropTypes.array
+};
+
+NpsRatingsList.defaultProps = {
+  className: '',
+  hideRatingsLegend: false,
+  highlightColor: '#77a500',
+  isSubmittingComment: false,
+  isSubmittingRating: false,
+  onChangeValue: () => {},
+  ratingsRange: _.range(11)
+};

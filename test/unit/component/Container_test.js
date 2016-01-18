@@ -8,7 +8,7 @@ describe('Container component', function() {
     mockery.enable();
 
     initMockRegistry({
-      'react/addons': React
+      'React': React
     });
 
     mockery.registerAllowable(containerPath);
@@ -22,38 +22,22 @@ describe('Container component', function() {
   });
 
   it('should have the `fullscreen` classnames when fullscreen is true', function() {
-    const container = React.render(
-      <Container fullscreen={true} />,
-      global.document.body
-    );
-    const containerNode = ReactTestUtils
-      .findRenderedDOMComponentWithClass(container, 'Container');
+    const container = shallowRender(<Container fullscreen={true} />);
 
-    const containerClasses = containerNode.props.className;
-
-    expect(containerClasses)
+    expect(container.props.className)
       .toMatch('Container--fullscreen');
 
-    expect(containerClasses)
+    expect(container.props.className)
       .not.toMatch('Container--popover');
   });
 
   it('should have the `popover` classnames when fullscreen is false', function() {
-    const container = React.render(
-      <Container />,
-      global.document.body
-    );
-    const containerNode = ReactTestUtils
-      .findRenderedDOMComponentWithClass(container, 'Container');
+    const container = shallowRender(<Container />);
 
-    container.setState({ fullscreen: false });
-
-    const containerClasses = containerNode.props.className;
-
-    expect(containerClasses)
+    expect(container.props.className)
       .toMatch('Container--popover');
 
-    expect(containerClasses)
+    expect(container.props.className)
       .not.toMatch('Container--fullscreen');
   });
 });

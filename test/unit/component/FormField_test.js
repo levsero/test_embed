@@ -1,7 +1,5 @@
 describe('FormField component', function() {
-  let onSearch,
-    onChangeValue,
-    onClick,
+  let onChangeValue,
     SearchField,
     SearchFieldButton,
     Field,
@@ -9,9 +7,7 @@ describe('FormField component', function() {
   const formFieldPath = buildSrcPath('component/FormField');
 
   beforeEach(function() {
-    onSearch = jasmine.createSpy();
     onChangeValue = jasmine.createSpy('onChangeValue');
-    onClick = jasmine.createSpy();
 
     resetDOM();
 
@@ -20,7 +16,7 @@ describe('FormField component', function() {
     });
 
     initMockRegistry({
-      'react/addons': React,
+      'React': React,
       'component/Loading': {
         LoadingEllipses: React.createClass({
           render: function() {
@@ -51,6 +47,9 @@ describe('FormField component', function() {
           return true;
         }
       },
+      'utility/utils': {
+        bindMethods: mockBindMethods
+      },
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', [
           'init',
@@ -78,11 +77,11 @@ describe('FormField component', function() {
 
   describe('Field', function() {
     it('should render form field DOM with a label wrapping two child divs', function() {
-      const field = React.render(
+      const field = ReactDOM.render(
         <Field name='alice' />,
         global.document.body
       );
-      const fieldNode = field.getDOMNode();
+      const fieldNode = ReactDOM.findDOMNode(field);
 
       expect(fieldNode.nodeName)
         .toEqual('LABEL');
@@ -98,13 +97,13 @@ describe('FormField component', function() {
     });
 
     it('should pass along all props to underlying input', function() {
-      const field = React.render(
+      const field = ReactDOM.render(
         <Field
           type='email'
           name='alice' />,
         global.document.body
       );
-      const fieldNode = field.getDOMNode();
+      const fieldNode = ReactDOM.findDOMNode(field);
 
       expect(fieldNode.querySelector('input').name)
         .toEqual('alice');
@@ -114,7 +113,7 @@ describe('FormField component', function() {
     });
 
     it('should render input prop component instead of default input', function() {
-      const field = React.render(
+      const field = ReactDOM.render(
         <Field
           input={
             <textarea />
@@ -122,7 +121,7 @@ describe('FormField component', function() {
           name='alice' />,
         global.document.body
       );
-      const fieldNode = field.getDOMNode();
+      const fieldNode = ReactDOM.findDOMNode(field);
 
       expect(fieldNode.querySelector('input'))
         .toBeFalsy();
@@ -135,49 +134,47 @@ describe('FormField component', function() {
     });
 
     it('should render checkbox with label instead of default input', function() {
-      const field = React.render(
+      const field = ReactDOM.render(
         <Field
           label='Agree?'
           type='checkbox'
           name='alice' />,
         global.document.body
       );
-      const fieldNode = field.getDOMNode();
+      const fieldNode = ReactDOM.findDOMNode(field);
 
       expect(fieldNode.querySelector('input').type)
         .toEqual('checkbox');
 
-      expect(ReactTestUtils.findRenderedDOMComponentWithClass(field, 'Form-checkboxCaption'))
+      expect(TestUtils.findRenderedDOMComponentWithClass(field, 'Form-checkboxCaption'))
         .toBeTruthy();
     });
 
     it('should set focused state on field focus', function() {
-      const field = React.render(
-        <Field
-          name='alice' />,
+      const field = ReactDOM.render(
+        <Field name='alice' />,
         global.document.body
       );
-      const fieldNode = field.getDOMNode();
 
       expect(field.state.focused)
         .toBe(false);
 
-      ReactTestUtils.Simulate.focus(fieldNode.querySelector('input'));
+      field.onFocus();
 
       expect(field.state.focused)
         .toBe(true);
 
-      expect(ReactTestUtils.findRenderedDOMComponentWithClass(field, 'Form-field--focused'))
+      expect(TestUtils.findRenderedDOMComponentWithClass(field, 'Form-field--focused'))
         .toBeTruthy();
     });
 
     it('should only set invalid class after focus and blur events', function() {
-      const field = React.render(
+      const field = ReactDOM.render(
         <Field
           name='alice' />,
         global.document.body
       );
-      const fieldNode = field.getDOMNode();
+      const fieldNode = ReactDOM.findDOMNode(field);
 
       // jsdom doesn't seem to support html5 validation api
       // shim it for this test
@@ -188,11 +185,11 @@ describe('FormField component', function() {
       expect(field.state.hasError)
         .toBe(false);
 
-      expect(() => ReactTestUtils.findRenderedDOMComponentWithClass(field, 'Form-field--invalid'))
+      expect(() => TestUtils.findRenderedDOMComponentWithClass(field, 'Form-field--invalid'))
         .toThrow();
 
-      ReactTestUtils.Simulate.focus(fieldNode.querySelector('input'));
-      ReactTestUtils.Simulate.blur(fieldNode.querySelector('input'));
+      field.onFocus();
+      field.onBlur();
 
       expect(field.state.hasError)
         .toBe(true);
@@ -203,7 +200,7 @@ describe('FormField component', function() {
       expect(field.state.blurred)
         .toBe(true);
 
-      expect(ReactTestUtils.findRenderedDOMComponentWithClass(field, 'Form-field--invalid'))
+      expect(TestUtils.findRenderedDOMComponentWithClass(field, 'Form-field--invalid'))
         .toBeTruthy();
     });
   });
@@ -213,10 +210,9 @@ describe('FormField component', function() {
       <Field />,
       global.document.body
     );
-    const fieldNode = field.getDOMNode();
 
-    expect(fieldNode.childNodes[0].className)
-      .toMatch('u-textSize15');
+    expect(TestUtils.findRenderedDOMComponentWithClass(field, 'u-textSize15'))
+      .toBeTruthy();
   });
 
   it('should not have mobile classes when isMobileBrowser is false', function() {
@@ -232,10 +228,9 @@ describe('FormField component', function() {
       <Field />,
       global.document.body
     );
-    const fieldNode = field.getDOMNode();
 
-    expect(fieldNode.childNodes[0].className)
-      .not.toMatch('u-textSize15');
+    expect(() => TestUtils.findRenderedDOMComponentWithClass(field, 'u-textSize15'))
+      .toThrow();
   });
 
   describe('getCustomFields', function() {
@@ -358,30 +353,17 @@ describe('FormField component', function() {
   });
 
   describe('SearchField', function() {
-    it('should call onSearch when search icon is clicked', function() {
-      const searchField = React.render(
-        <SearchField onSearchIconClick={onSearch} />,
-        global.document.body
-      );
-      const searchFieldNode = searchField.getDOMNode();
-
-      ReactTestUtils.Simulate.click(searchFieldNode.querySelector('span[type=Icon--search]'));
-
-      expect(onSearch)
-        .toHaveBeenCalled();
-    });
-
     it('should clear input and call props.onChangeValue when clear icon is clicked', function() {
-      const searchField = React.render(
+      const searchField = ReactDOM.render(
         <SearchField onChangeValue={onChangeValue} />,
         global.document.body
       );
-      const searchFieldNode = searchField.getDOMNode();
+      const searchFieldNode = ReactDOM.findDOMNode(searchField);
       const searchInputNode = searchFieldNode.querySelector('input');
 
       searchInputNode.value = 'Search string';
 
-      ReactTestUtils.Simulate.click(searchFieldNode.querySelector('.Icon--clearInput'));
+      TestUtils.Simulate.click(searchFieldNode.querySelector('.Icon--clearInput'));
 
       expect(searchInputNode.value)
         .toEqual('');
@@ -391,11 +373,11 @@ describe('FormField component', function() {
     });
 
     it('should display `Loading` component when `this.props.isLoading` is truthy', function() {
-      const searchField = React.render(
+      const searchField = ReactDOM.render(
         <SearchField isLoading={true} />,
         global.document.body
       );
-      const loadingNode = ReactTestUtils.findRenderedDOMComponentWithClass(searchField, 'Loading');
+      const loadingNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Loading');
 
       expect(searchField.props.isLoading)
         .toEqual(true);
@@ -405,11 +387,11 @@ describe('FormField component', function() {
     });
 
     it('should not display `Loading` component when `this.props.isLoading` is falsy', function() {
-      const searchField = React.render(
+      const searchField = ReactDOM.render(
         <SearchField isLoading={false} />,
         global.document.body
       );
-      const loadingNode = ReactTestUtils.findRenderedDOMComponentWithClass(searchField, 'Loading');
+      const loadingNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Loading');
 
       expect(searchField.props.isLoading)
         .toEqual(false);
@@ -419,12 +401,11 @@ describe('FormField component', function() {
     });
 
     it('should display `clearInput` Icon when the input has text and `this.props.isLoading` is false', function() {
-      const searchField = React.render(
+      const searchField = ReactDOM.render(
         <SearchField isLoading={false} />,
         global.document.body
       );
-      const clearInputNode = ReactTestUtils.findRenderedDOMComponentWithClass(
-                               searchField, 'Icon--clearInput');
+      const clearInputNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Icon--clearInput');
 
       searchField.setState({ searchInputVal: 'something' });
 
@@ -436,12 +417,11 @@ describe('FormField component', function() {
     });
 
     it('should not display `clearInput` Icon when the input has no text', function() {
-      const searchField = React.render(
+      const searchField = ReactDOM.render(
         <SearchField />,
         global.document.body
       );
-      const clearInputNode = ReactTestUtils.findRenderedDOMComponentWithClass(
-                               searchField, 'Icon--clearInput');
+      const clearInputNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Icon--clearInput');
 
       searchField.setState({ searchInputVal: '' });
 
@@ -453,12 +433,11 @@ describe('FormField component', function() {
     });
 
     it('should not display `clearInput` Icon when `this.props.isLoading` is true', function() {
-      const searchField = React.render(
+      const searchField = ReactDOM.render(
         <SearchField isLoading={true} />,
         global.document.body
       );
-      const clearInputNode = ReactTestUtils.findRenderedDOMComponentWithClass(
-                               searchField, 'Icon--clearInput');
+      const clearInputNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Icon--clearInput');
 
       searchField.setState({ searchInputVal: 'something' });
 
@@ -471,15 +450,16 @@ describe('FormField component', function() {
   });
 
   describe('SearchFieldButton', function() {
-    it('should call onClick when searchField is clicked', function() {
+    it('should have a onClick function its div', function() {
+      const onClick = jasmine.createSpy();
       const searchFieldButton = React.render(
         <SearchFieldButton onClick={onClick} />,
         global.document.body
       );
 
-      const searchFieldButtonNode = searchFieldButton.getDOMNode();
+      const searchFieldButtonNode = ReactDOM.findDOMNode(searchFieldButton);
 
-      ReactTestUtils.Simulate.click(
+      TestUtils.Simulate.click(
         searchFieldButtonNode.querySelector('.Form-field--search'));
 
       expect(onClick)

@@ -1,27 +1,9 @@
-import React from 'react/addons';
+import React, { Component, PropTypes } from 'react';
+import classNames from 'classnames';
 
-const classSet = React.addons.classSet;
-
-export const Container = React.createClass({
-  propTypes: {
-    children: React.PropTypes.element.isRequired,
-    fullscreen: React.PropTypes.bool,
-    className: React.addons.classSet,
-    style: React.PropTypes.element,
-    card: React.PropTypes.bool
-  },
-
-  getDefaultProps() {
-    return {
-      fullscreen: false,
-      className: '',
-      style: null,
-      card: false
-    };
-  },
-
+export class Container extends Component {
   render() {
-    const containerClasses = classSet({
+    const containerClasses = classNames({
       [`Container u-posRelative ${this.props.className}`]: true,
       'Container--popover': !this.props.fullscreen,
       'Container--fullscreen': this.props.fullscreen,
@@ -36,4 +18,19 @@ export const Container = React.createClass({
       </div>
     );
   }
-});
+}
+
+Container.propTypes = {
+  children: PropTypes.node.isRequired,
+  fullscreen: PropTypes.bool,
+  className: PropTypes.string,
+  style: PropTypes.object,
+  card: PropTypes.bool
+};
+
+Container.defaultProps = {
+  fullscreen: false,
+  className: '',
+  style: null,
+  card: false
+};

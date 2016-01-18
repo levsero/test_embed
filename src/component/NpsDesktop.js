@@ -1,75 +1,58 @@
-import React from 'react/addons';
-import _     from 'lodash';
+import React, { Component, PropTypes } from 'react';
+import _ from 'lodash';
+import classNames from 'classnames';
 
 import { Container } from 'component/Container';
 import { Icon } from 'component/Icon';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { NpsRatingsList } from 'component/NpsRatingsList';
 import { NpsComment } from 'component/NpsComment';
+import { bindMethods } from 'utility/utils';
 
-const classSet = React.addons.classSet;
+const initialState = {
+  currentPage: {
+    selectingRating: true,
+    thankYou: false,
+    addingComment: false
+  }
+};
 
-export const NpsDesktop = React.createClass({
-  propTypes: {
-    response: React.PropTypes.object.isRequired,
-    setOffsetHorizontal: React.PropTypes.func.isRequired,
-    survey: React.PropTypes.object.isRequired,
-    updateFrameSize: React.PropTypes.func.isRequired,
-    hideZendeskLogo: React.PropTypes.bool,
-    isMobile: React.PropTypes.bool,
-    isSubmittingComment: React.PropTypes.bool,
-    isSubmittingRating: React.PropTypes.bool,
-    onCommentChangeHandler: React.PropTypes.func,
-    submitCommentHandler: React.PropTypes.func,
-    submitRatingHandler: React.PropTypes.func
-  },
+export class NpsDesktop extends Component {
+  constructor(props, context) {
+    super(props, context);
+    bindMethods(this, NpsDesktop.prototype);
 
-  getDefaultProps: function() {
-    return {
-      hideZendeskLogo: false,
-      isMobile: false,
-      isSubmittingComment: false,
-      isSubmittingRating: false,
-      onCommentChangeHandler: () => {},
-      submitCommentHandler: () => {},
-      submitRatingHandler: () => {}
-    };
-  },
-
-  getInitialState() {
-    return {
-      currentPage: {
-        selectingRating: true,
-        thankYou: false,
-        addingComment: false
-      }
-    };
-  },
+    this.state = initialState;
+  }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.currentPage.selectingRating && this.state.currentPage.addingComment) {
       this.refs.npsComment.focusField();
     }
-  },
+  }
 
   setCurrentPage(page) {
     this.setState({
       currentPage: _.mapValues(
-        this.getInitialState().currentPage,
+        initialState.currentPage,
         (_, key) => key === page
       )
     });
-  },
+  }
 
   ratingChangeValueHandler(rating) {
     this.props.submitRatingHandler(rating, () => this.setCurrentPage('addingComment'));
-  },
+  }
 
   submitCommentHandler(ev) {
     this.props.submitCommentHandler(ev, () => {
       this.setCurrentPage('thankYou');
     });
-  },
+  }
+
+  resetState() {
+    this.setState(initialState);
+  }
 
   render() {
     if (this.props.updateFrameSize) {
@@ -89,25 +72,25 @@ export const NpsDesktop = React.createClass({
 
     const iconClasses = 'u-inlineBlock u-userFillColor u-posRelative u-marginTL';
 
-    const containerClasses = classSet({
+    const containerClasses = classNames({
       'u-paddingBS': hideZendeskLogo && !this.state.currentPage.addingComment
     });
-    const containerContentClasses = classSet({
+    const containerContentClasses = classNames({
       'Container-content': true,
       'u-paddingBL': hideZendeskLogo && !this.state.currentPage.addingComment
     });
-    const surveyFormClasses = classSet({
+    const surveyFormClasses = classNames({
       'u-isHidden': this.state.currentPage.thankYou
     });
-    const surveyTitleClasses = classSet({
+    const surveyTitleClasses = classNames({
       'u-textSize15 u-textCenter': true,
       'u-paddingTT': !this.state.currentPage.thankYou
     });
-    const commentsClasses = classSet({
+    const commentsClasses = classNames({
       'u-paddingBL': true,
       'u-isHidden': !this.state.currentPage.addingComment
     });
-    const ratingsListClasses = classSet({
+    const ratingsListClasses = classNames({
       'RatingsList is-desktop': true
     });
 
@@ -184,4 +167,28 @@ export const NpsDesktop = React.createClass({
       </Container>
     );
   }
-});
+}
+
+NpsDesktop.propTypes = {
+  response: PropTypes.object.isRequired,
+  setOffsetHorizontal: PropTypes.func.isRequired,
+  survey: PropTypes.object.isRequired,
+  updateFrameSize: PropTypes.func.isRequired,
+  hideZendeskLogo: PropTypes.bool,
+  isMobile: PropTypes.bool,
+  isSubmittingComment: PropTypes.bool,
+  isSubmittingRating: PropTypes.bool,
+  onCommentChangeHandler: PropTypes.func,
+  submitCommentHandler: PropTypes.func,
+  submitRatingHandler: PropTypes.func
+};
+
+NpsDesktop.defaultProps = {
+  hideZendeskLogo: false,
+  isMobile: false,
+  isSubmittingComment: false,
+  isSubmittingRating: false,
+  onCommentChangeHandler: () => {},
+  submitCommentHandler: () => {},
+  submitRatingHandler: () => {}
+};

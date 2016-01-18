@@ -1,4 +1,4 @@
-import _     from 'lodash';
+import _ from 'lodash';
 import Color from 'color';
 
 import { document as doc,
@@ -259,6 +259,14 @@ function cappedIntervalCall(callback, delay, repetitions = 1) {
   }, delay);
 }
 
+function bindMethods(instance, prototype) {
+  const methods = Object.getOwnPropertyNames(prototype);
+
+  methods.forEach((method) => {
+    instance[method] = instance[method].bind(instance);
+  });
+}
+
 export {
   clickBusterHandler,
   clickBusterRegister,
@@ -272,5 +280,6 @@ export {
   patchReactIdAttribute,
   cappedIntervalCall,
   setScaleLock,
-  splitPath
+  splitPath,
+  bindMethods
 };

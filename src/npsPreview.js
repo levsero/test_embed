@@ -1,8 +1,9 @@
-import React                 from 'react';
-import _                     from 'lodash';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import _ from 'lodash';
 
-import { frameFactory }      from 'embed/frameFactory';
-import { Nps }               from 'component/Nps';
+import { frameFactory } from 'embed/frameFactory';
+import { Nps } from 'component/Nps';
 
 const npsCSS = require('embed/nps/nps.scss');
 
@@ -32,20 +33,16 @@ const renderNps = (locale, elem) => {
     isMobile: false,
     onClose() {
       const npsComponent = nps.getRootComponent();
-      const newState = npsComponent.getInitialState();
 
-      newState.survey = _.extend(npsComponent.getInitialState().survey, npsComponent.state.survey);
-      newState.isMobile = npsComponent.state.isMobile;
-
-      npsComponent.setState(newState);
+      npsComponent.reset();
 
       setTimeout(() => {
         if (npsComponent.refs.mobile) {
-          npsComponent.refs.mobile.setState(npsComponent.refs.mobile.getInitialState());
+          npsComponent.refs.mobile.setState(npsComponent.refs.mobile.resetState());
         }
 
         if (npsComponent.refs.desktop) {
-          npsComponent.refs.desktop.setState(npsComponent.refs.desktop.getInitialState());
+          npsComponent.refs.desktop.setState(npsComponent.refs.desktop.resetState());
         }
 
         nps.show();
@@ -73,7 +70,7 @@ const renderNps = (locale, elem) => {
     frameParams
   ));
 
-  nps = React.render(<Embed />, elem);
+  nps = ReactDOM.render(<Embed />, elem);
 
   const setNpsState = (state) => {
     setTimeoutLoop(nps.getRootComponent, () => {

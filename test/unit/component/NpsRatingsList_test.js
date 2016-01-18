@@ -1,7 +1,7 @@
 describe('NpsRatingsList component', () => {
   let NpsRatingsList,
-    component,
     ratingsRange,
+    component,
     npsRatingsListProps;
 
   const npsPath = buildSrcPath('component/NpsRatingsList');
@@ -25,7 +25,7 @@ describe('NpsRatingsList component', () => {
     mockery.enable();
 
     initMockRegistry({
-      'react/addons': React,
+      'React': React,
       'component/Button': {
         'ButtonRating': React.createClass({
           render: () => {
@@ -42,7 +42,7 @@ describe('NpsRatingsList component', () => {
 
     NpsRatingsList = requireUncached(npsPath).NpsRatingsList;
 
-    component = React.render(
+    ReactDOM.render(
         <NpsRatingsList {...npsRatingsListProps} />,
         global.document.body
       );
@@ -88,26 +88,54 @@ describe('NpsRatingsList component', () => {
     });
 
     describe('notLikely', () => {
-      it('should be prepended with "0 = "', () => {
-        expect(component.addRatingToNotLikelyLabel('Not at all likely'))
-          .toEqual('0 = Not at all likely');
+      describe('when the numeric score is not on the label', () => {
+        beforeEach(() => {
+          npsRatingsListProps.notLikelyLabel = 'Not quite likely';
+          component = instanceRender(<NpsRatingsList {...npsRatingsListProps} />);
+        });
+
+        it('should be prepended with "0 = "', () => {
+          expect(component.notLikelyLabel())
+            .toEqual('0 = Not quite likely');
+        });
       });
 
-      it('should not be prepended with "0 = "', () => {
-        expect(component.addRatingToNotLikelyLabel('0 = Not at all likely'))
-          .toEqual('0 = Not at all likely');
+      describe('when the numeric score is already on the label', () => {
+        beforeEach(() => {
+          npsRatingsListProps.notLikelyLabel = '0 = Not entirely likely';
+          component = instanceRender(<NpsRatingsList {...npsRatingsListProps} />);
+        });
+
+        it('should not be prepended with "0 = " a second time', () => {
+          expect(component.notLikelyLabel())
+            .toEqual('0 = Not entirely likely');
+        });
       });
     });
 
     describe('likely', () => {
-      it('should be prepended with "10 = "', () => {
-        expect(component.addRatingToLikelyLabel('Extremely likely'))
-          .toEqual('10 = Extremely likely');
+      describe('when the numeric score is not on the label', () => {
+        beforeEach(() => {
+          npsRatingsListProps.likelyLabel = 'Incredibly likely';
+          component = instanceRender(<NpsRatingsList {...npsRatingsListProps} />);
+        });
+
+        it('should be prepended with "10 = "', () => {
+          expect(component.likelyLabel())
+            .toEqual('10 = Incredibly likely');
+        });
       });
 
-      it('should not be prepended with "10 = "', () => {
-        expect(component.addRatingToLikelyLabel('10 = Extremely likely'))
-          .toEqual('10 = Extremely likely');
+      describe('when the numeric score is already on the label', () => {
+        beforeEach(() => {
+          npsRatingsListProps.likelyLabel = '10 = Absolutely likely!';
+          component = instanceRender(<NpsRatingsList {...npsRatingsListProps} />);
+        });
+
+        it('should not be prepended with "10 = " a second time', () => {
+          expect(component.likelyLabel())
+            .toEqual('10 = Absolutely likely!');
+        });
       });
     });
   });

@@ -1,55 +1,34 @@
-import React from 'react/addons';
+import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
+import classNames from 'classnames';
 
-const classSet = React.addons.classSet;
+export class ScrollContainer extends Component {
+  constructor(props, context) {
+    super(props, context);
 
-export const ScrollContainer = React.createClass({
-  propTypes: {
-    title: React.PropTypes.string.isRequired,
-    children: React.PropTypes.element.isRequired,
-    footerContent: React.PropTypes.oneOfType([
-      React.PropTypes.element,
-      React.PropTypes.array(React.PropTypes.element)
-    ]),
-    headerContent: React.PropTypes.element,
-    contentExpanded: React.PropTypes.bool,
-    fullscreen: React.PropTypes.bool,
-    hideZendeskLogo: React.PropTypes.bool
-  },
-
-  getDefaultProps() {
-    return {
-      footerContent: [],
-      headerContent: null,
-      contentExpanded: false,
-      fullscreen: false,
-      hideZendeskLogo: false
-    };
-  },
-
-  getInitialState() {
-    return {
+    this.state = {
       scrollShadowVisible: false
     };
-  },
+  }
 
   getContentContainer() {
-    const elem = React.findDOMNode(this);
+    const elem = ReactDOM.findDOMNode(this);
 
     return elem.querySelector('.ScrollContainer-content');
-  },
+  }
 
   scrollToBottom() {
     const container = this.getContentContainer();
 
     container.scrollTop = container.scrollHeight;
-  },
+  }
 
   setScrollShadowVisible(visible) {
     this.setState({scrollShadowVisible: visible});
-  },
+  }
 
   render() {
-    const containerClasses = classSet({
+    const containerClasses = classNames({
       'ScrollContainer-content': true,
       'u-paddingLL u-marginRS u-paddingRS': true,
       'u-paddingTM': !this.props.hideZendeskLogo,
@@ -59,13 +38,13 @@ export const ScrollContainer = React.createClass({
       'is-bigheader': this.props.headerContent,
       'is-expanded': this.props.contentExpanded
     });
-    const scrollFooterClasses = classSet({
+    const scrollFooterClasses = classNames({
       'ScrollContainer-footer': true,
       'u-paddingHL u-posRelative': true,
       'u-paddingVM': !this.props.hideZendeskLogo,
       'ScrollContainer-footer--shadow': this.state.scrollShadowVisible
     });
-    const titleClasses = classSet({
+    const titleClasses = classNames({
       'u-textSizeMed u-textBold u-extSizeMed u-textCenter u-textXHeight': true,
       'u-textSizeBaseMobile': this.props.fullscreen
     });
@@ -87,4 +66,25 @@ export const ScrollContainer = React.createClass({
       </div>
     );
   }
-});
+}
+
+ScrollContainer.propTypes = {
+  title: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
+  footerContent: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.array(PropTypes.element)
+  ]),
+  headerContent: PropTypes.element,
+  contentExpanded: PropTypes.bool,
+  fullscreen: PropTypes.bool,
+  hideZendeskLogo: PropTypes.bool
+};
+
+ScrollContainer.defaultProps = {
+  footerContent: [],
+  headerContent: null,
+  contentExpanded: false,
+  fullscreen: false,
+  hideZendeskLogo: false
+};

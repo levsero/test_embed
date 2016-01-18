@@ -1,5 +1,7 @@
-import React from 'react/addons';
-import _     from 'lodash';
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import _ from 'lodash';
+import classNames from 'classnames';
 
 import { win }                 from 'utility/globals';
 import { isMobileBrowser,
@@ -11,7 +13,6 @@ import { ButtonNav }           from 'component/Button';
 import { Icon }                from 'component/Icon';
 import snabbt                  from 'snabbt.js';
 
-const classSet = React.addons.classSet;
 const baseCSS = require('baseCSS');
 const mainCSS = require('mainCSS');
 
@@ -102,11 +103,11 @@ export const frameFactory = function(childFn, _params) {
     },
 
     setOffsetHorizontal(offsetValue = 0) {
-      this.getDOMNode().style.marginLeft = `${offsetValue}px`;
+      ReactDOM.findDOMNode(this).style.marginLeft = `${offsetValue}px`;
     },
 
     setFrameSize(width, height, transparent = true) {
-      const iframe = this.getDOMNode();
+      const iframe = ReactDOM.findDOMNode(this);
       const frameWin = iframe.contentWindow;
       const frameDoc = iframe.contentDocument;
       // FIXME shouldn't set background & zIndex in a dimensions object
@@ -134,7 +135,7 @@ export const frameFactory = function(childFn, _params) {
     },
 
     updateFrameSize(offsetWidth = 0, offsetHeight = 0) {
-      const iframe = this.getDOMNode();
+      const iframe = ReactDOM.findDOMNode(this);
       const frameWin = iframe.contentWindow;
       const frameDoc = iframe.contentDocument;
 
@@ -160,7 +161,6 @@ export const frameFactory = function(childFn, _params) {
           width:  (_.isFinite(width)  ? width  : 0) + offsetWidth,
           height: (_.isFinite(height) ? height : 0) + offsetHeight
         };
-
         return fullscreen
              ? fullscreenStyle
              : popoverStyle;
@@ -179,14 +179,14 @@ export const frameFactory = function(childFn, _params) {
     },
 
     updateBaseFontSize(fontSize) {
-      const iframe = this.getDOMNode();
+      const iframe = ReactDOM.findDOMNode(this);
       const htmlElem = iframe.contentDocument.documentElement;
 
       htmlElem.style.fontSize = fontSize;
     },
 
     show(options = {}) {
-      let frameFirstChild = this.getDOMNode().contentDocument.body.firstChild;
+      let frameFirstChild = ReactDOM.findDOMNode(this).contentDocument.body.firstChild.firstChild;
 
       this.setState({ visible: true });
 
@@ -201,7 +201,7 @@ export const frameFactory = function(childFn, _params) {
       if (params.transitions[options.transition] && !isFirefox()) {
         const transition = params.transitions[options.transition];
 
-        snabbt(this.getDOMNode(), transition).then({
+        snabbt(ReactDOM.findDOMNode(this), transition).then({
           callback: () => {
             params.afterShowAnimate(this);
           }
@@ -216,14 +216,14 @@ export const frameFactory = function(childFn, _params) {
       if (params.transitions[options.transition] && !isFirefox()) {
         const transition = params.transitions[options.transition];
 
-        snabbt(this.getDOMNode(), transition).then({
+        snabbt(ReactDOM.findDOMNode(this), transition).then({
           callback: () => {
             this.setState({ visible: false });
             params.onHide(this);
 
             // Ugly, I know, but it's to undo snabbt's destructive style mutations
             _.each(this.computeIframeStyle(), (val, key) => {
-              this.getDOMNode().style[key] = val;
+              ReactDOM.findDOMNode(this).style[key] = val;
             });
           }
         });
@@ -293,7 +293,7 @@ export const frameFactory = function(childFn, _params) {
     render: function() {
       const iframeNamespace = 'zEWidget';
 
-      const iframeClasses = classSet({
+      const iframeClasses = classNames({
         [`${iframeNamespace}-${params.name}`]: true,
         [`${iframeNamespace}-${params.name}--active`]: this.state.visible
       });
@@ -316,7 +316,7 @@ export const frameFactory = function(childFn, _params) {
         return false;
       }
 
-      const iframe = this.getDOMNode();
+      const iframe = ReactDOM.findDOMNode(this);
       const html = iframe.contentDocument.documentElement;
       const doc = iframe.contentWindow.document;
 
@@ -331,7 +331,7 @@ export const frameFactory = function(childFn, _params) {
         const cssText = baseCSS + mainCSS + params.css;
         const css = <style dangerouslySetInnerHTML={{ __html: cssText }} />;
         const fullscreen = params.fullscreenable && params.isMobile;
-        const positionClasses = classSet({
+        const positionClasses = classNames({
           'u-borderTransparent u-posRelative': !fullscreen,
           'u-pullRight': this.props.position === 'right',
           'u-pullLeft': this.props.position === 'left'
@@ -409,17 +409,17 @@ export const frameFactory = function(childFn, _params) {
           },
 
           render() {
-            const backButtonClasses = classSet({
+            const backButtonClasses = classNames({
               'u-isHidden': !this.state.showBackButton
             });
-            const closeButtonClasses = classSet({
+            const closeButtonClasses = classNames({
               'closeButton': true,
               'u-isHidden': params.hideCloseButton
             });
             const styleTag = <style dangerouslySetInnerHTML={{ __html: this.state.css }} />;
 
             return (
-              <div className={positionClasses}>
+              <div>
                 {css}
                 {styleTag}
                 {childFn(childParams)}
@@ -433,13 +433,17 @@ export const frameFactory = function(childFn, _params) {
             );
           }
         });
-    /* eslint-enable */
-        child = React.render(
+
+        const element = doc.body.appendChild(doc.createElement('div'));
+        element.className = positionClasses;
+
+        /* eslint-enable */
+        child = ReactDOM.render(
           <Component
             back={this.back}
             close={this.close}
             fullscreen={fullscreen} />,
-          doc.body
+          element
         );
 
         this.setState({_rendered: true});
@@ -449,7 +453,7 @@ export const frameFactory = function(childFn, _params) {
     },
 
     componentWillUnmount() {
-      React.unmountComponentAtNode(this.getDOMNode().contentDocument.body);
+      React.unmountComponentAtNode(ReactDOM.findDOMNode(this).contentDocument.body);
     }
   };
 };

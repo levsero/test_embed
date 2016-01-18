@@ -14,7 +14,7 @@ describe('embed.submitTicket', function() {
     mockery.enable();
 
     mockRegistry = initMockRegistry({
-      'react/addons': React,
+      'React': React,
       'service/beacon': {
         beacon: jasmine.createSpyObj('beacon', ['track'])
       },
@@ -421,7 +421,7 @@ describe('embed.submitTicket', function() {
       expect(document.querySelectorAll( '.mock-frame .mock-submitTicket').length)
         .toEqual(1);
 
-      expect(ReactTestUtils.isCompositeComponent(submitTicket.get('bob').instance))
+      expect(TestUtils.isCompositeComponent(submitTicket.get('bob').instance))
         .toEqual(true);
     });
 

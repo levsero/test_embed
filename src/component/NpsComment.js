@@ -1,4 +1,6 @@
-import React from 'react/addons';
+import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
+import classNames from 'classnames';
 
 import { Field } from 'component/FormField';
 import { Button,
@@ -6,39 +8,10 @@ import { Button,
 import { LoadingSpinner } from 'component/Loading';
 import { i18n } from 'service/i18n';
 
-const classSet = React.addons.classSet;
-
-export const NpsComment = React.createClass({
-  propTypes: {
-    comment: React.PropTypes.string.isRequired,
-    isMobile: React.PropTypes.bool.isRequired,
-    className: React.addons.classSet,
-    feedbackPlaceholder: React.PropTypes.string,
-    hasError: React.PropTypes.bool,
-    isSubmittingComment: React.PropTypes.bool,
-    isSubmittingRating: React.PropTypes.bool,
-    label: React.PropTypes.string,
-    onChange: React.PropTypes.func,
-    onSubmit: React.PropTypes.func
-  },
-
-  getDefaultProps: function() {
-    return {
-      className: '',
-      feedbackPlaceholder: '',
-      hasError: false,
-      isSubmittingComment: false,
-      isSubmittingRating: false,
-      onChange: () => {},
-      onSubmit: () => {}
-    };
-  },
-
+export class NpsComment extends Component {
   focusField() {
-    this.refs.commentField
-      .refs.field.getDOMNode()
-      .focus();
-  },
+    ReactDOM.findDOMNode(this.refs.commentField.refs.field).focus();
+  }
 
   render() {
     const sendFeedbackLabel = i18n.t(
@@ -46,7 +19,7 @@ export const NpsComment = React.createClass({
       { fallback: 'Send Feedback' }
     );
 
-    const sendButtonClasses = classSet({
+    const sendButtonClasses = classNames({
       'u-marginTS NpsComment-sendButton': true,
       'u-marginBM u-sizeFull NpsComment-loadingButton': this.props.isMobile,
       'u-userBackgroundColor u-userBorderColor': this.props.isSubmittingComment,
@@ -55,18 +28,18 @@ export const NpsComment = React.createClass({
       'is-desktop': !this.props.isMobile
     });
 
-    const loadingButtonClass = classSet({
+    const loadingButtonClass = classNames({
       'NpsComment-loadingSpinner': true,
       'is-mobile': this.props.isMobile,
       'is-desktop': !this.props.isMobile
     });
 
-    const textAreaClasses = classSet({
+    const textAreaClasses = classNames({
       'NpsComment-textarea': true,
       'u-textSizeBaseMobile': this.props.isMobile
     });
 
-    const labelClasses = classSet({
+    const labelClasses = classNames({
       'NpsComment-label u-marginBN u-textCenter u-borderNone': true,
       'is-mobile': this.props.isMobile
     });
@@ -111,4 +84,27 @@ export const NpsComment = React.createClass({
       </div>
     );
   }
-});
+}
+
+NpsComment.propTypes = {
+  comment: PropTypes.string.isRequired,
+  isMobile: PropTypes.bool.isRequired,
+  className: PropTypes.string,
+  feedbackPlaceholder: PropTypes.string,
+  hasError: PropTypes.bool,
+  isSubmittingComment: PropTypes.bool,
+  isSubmittingRating: PropTypes.bool,
+  label: PropTypes.string,
+  onChange: PropTypes.func,
+  onSubmit: PropTypes.func
+};
+
+NpsComment.defaultProps = {
+  className: '',
+  feedbackPlaceholder: '',
+  hasError: false,
+  isSubmittingComment: false,
+  isSubmittingRating: false,
+  onChange: () => {},
+  onSubmit: () => {}
+};

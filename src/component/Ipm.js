@@ -1,17 +1,13 @@
-import React from 'react/addons';
+import React, { Component, PropTypes } from 'react';
 
 import { IpmDesktop } from 'component/IpmDesktop';
 
-export const Ipm = React.createClass({
-  propTypes: {
-    setFrameSize: React.PropTypes.func.isRequired,
-    updateFrameSize: React.PropTypes.func.isRequired,
-    ipmSender: React.PropTypes.func.isRequired,
-    mobile: React.PropTypes.bool.isRequired
-  },
+export class Ipm extends Component {
+  constructor(props, context) {
+    super(props, context);
+    this.ipmSender = this.ipmSender.bind(this);
 
-  getInitialState() {
-    return {
+    this.state = {
       ipm: {
         id: null,
         name: '',
@@ -21,9 +17,9 @@ export const Ipm = React.createClass({
       },
       url: '',
       ipmAvailable: null,
-      isMobile: this.props.mobile
+      isMobile: props.mobile
     };
-  },
+  }
 
   ipmSender(name) {
     const params = {
@@ -36,7 +32,7 @@ export const Ipm = React.createClass({
     };
 
     this.props.ipmSender(params);
-  },
+  }
 
   render() {
     return (
@@ -46,4 +42,11 @@ export const Ipm = React.createClass({
         ipmSender={this.ipmSender} />
     );
   }
-});
+}
+
+Ipm.propTypes = {
+  setFrameSize: PropTypes.func.isRequired,
+  updateFrameSize: PropTypes.func.isRequired,
+  ipmSender: PropTypes.func.isRequired,
+  mobile: PropTypes.bool.isRequired
+};

@@ -10,7 +10,7 @@ describe('embed.ipm', () => {
     mockery.enable();
 
     mockRegistry = initMockRegistry({
-      'react/addons': React,
+      'React': React,
       'service/mediator': {
         mediator: {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
@@ -108,7 +108,7 @@ describe('embed.ipm', () => {
     });
 
     it('creates a React element for the component', () => {
-      expect(ReactTestUtils.isElement(result.component))
+      expect(TestUtils.isElement(result.component))
         .toBe(true);
     });
 

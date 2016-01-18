@@ -1,16 +1,6 @@
-import React from 'react/addons';
+import React, { Component, PropTypes } from 'react';
 
-export const LoadingSpinner = React.createClass({
-  propTypes: {
-    className: React.addons.classSet
-  },
-
-  getDefaultProps() {
-    return {
-      className: ''
-    };
-  },
-
+class LoadingSpinner extends Component {
   render() {
     return (
       <div
@@ -18,19 +8,17 @@ export const LoadingSpinner = React.createClass({
       </div>
     );
   }
-});
+}
 
-export const LoadingEllipses = React.createClass({
-  propTypes: {
-    className: React.addons.classSet
-  },
+LoadingSpinner.defaultProps = {
+  className: ''
+};
 
-  getDefaultProps() {
-    return {
-      className: ''
-    };
-  },
+LoadingSpinner.propTypes = {
+  className: PropTypes.string
+};
 
+class LoadingEllipses extends Component {
   render() {
     const loadingEllipsesItemClasses = `
       LoadingEllipses-item
@@ -46,4 +34,14 @@ export const LoadingEllipses = React.createClass({
       </div>
     );
   }
-});
+}
+
+LoadingEllipses.propTypes = {
+  className: PropTypes.string
+};
+
+LoadingEllipses.defaultProps = {
+  className: ''
+};
+
+export { LoadingSpinner, LoadingEllipses };

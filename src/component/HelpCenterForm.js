@@ -1,28 +1,17 @@
-import React from 'react/addons';
+import React, { Component, PropTypes } from 'react';
+import { bindMethods } from 'utility/utils';
 
-const HelpCenterForm = React.createClass({
-  propTypes: {
-    children: React.PropTypes.element.isRequired,
-    fullscreen: React.PropTypes.bool,
-    onSubmit: React.PropTypes.func,
-    onChange: React.PropTypes.func
-  },
+export class HelpCenterForm extends Component {
+  constructor(props, context) {
+    super(props, context);
+    bindMethods(this, HelpCenterForm.prototype);
 
-  getDefaultProps() {
-    return {
-      fullscreen: false,
-      onSubmit: () => {},
-      onChange: () => {}
-    };
-  },
-
-  getInitialState() {
-    return {
+    this.state = {
       isValid: false,
       isSubmitting: false,
       focused: false
     };
-  },
+  }
 
   handleSubmit(e) {
     e.preventDefault();
@@ -30,13 +19,13 @@ const HelpCenterForm = React.createClass({
     // nextTick so that latest values show up on
     // searchField.getValue() in HelpCenter.*Search()
     setTimeout(this.props.onSubmit, 0);
-  },
+  }
 
   handleChange() {
     // nextTick so that latest values show up on
     // searchField.getValue() in HelpCenter.*Search()
     setTimeout(this.props.onChange, 0);
-  },
+  }
 
   render() {
     return (
@@ -49,7 +38,17 @@ const HelpCenterForm = React.createClass({
       </form>
     );
   }
-});
+}
 
-export { HelpCenterForm };
+HelpCenterForm.propTypes = {
+  children: PropTypes.array.isRequired,
+  fullscreen: PropTypes.bool,
+  onSubmit: PropTypes.func,
+  onChange: PropTypes.func
+};
 
+HelpCenterForm.defaultProps = {
+  fullscreen: false,
+  onSubmit: () => {},
+  onChange: () => {}
+};

@@ -1,31 +1,8 @@
-import React from 'react/addons';
+import React, { Component, PropTypes } from 'react';
 
 import { Icon } from 'component/Icon';
 
-export const NpsSelectList = React.createClass({
-  propTypes: {
-    highlightColor: React.PropTypes.string,
-    onBlur: React.PropTypes.func,
-    onChange: React.PropTypes.func,
-    onFocus: React.PropTypes.func,
-    options: React.PropTypes.array,
-    selectedItem: React.PropTypes.number
-  },
-
-  getDefaultProps() {
-    return {
-      options: [],
-      selectedItem: 0,
-      highlightColor: '',
-      wrapperClassNames: '',
-      selectClassNames: '',
-      iconClassNames: '',
-      onBlur: () => {},
-      onChange: () => {},
-      onFocus: () => {}
-    };
-  },
-
+export class NpsSelectList extends Component {
   render() {
     const optionsList = this.props.options.map(
       (label, i) => {
@@ -51,4 +28,25 @@ export const NpsSelectList = React.createClass({
       </div>
     );
   }
-});
+}
+
+NpsSelectList.propTypes = {
+  highlightColor: PropTypes.string,
+  onBlur: PropTypes.func,
+  onChange: PropTypes.func,
+  onFocus: PropTypes.func,
+  options: PropTypes.array,
+  selectedItem: PropTypes.number
+};
+
+NpsSelectList.defaultProps = {
+  options: [],
+  selectedItem: 0,
+  highlightColor: '',
+  wrapperClassNames: '',
+  selectClassNames: '',
+  iconClassNames: '',
+  onChange: () => {},
+  onFocus: () => {},
+  onBlur: () => {}
+};
