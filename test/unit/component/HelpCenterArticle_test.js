@@ -59,7 +59,7 @@ describe('HelpCenterArticle component', function() {
       );
 
       // componentdidupdate only fires after setState not on initial render
-      helpCenterArticle.setState({foo: 'bar'});
+      helpCenterArticle.setState({ foo: 'bar' });
 
       content = ReactDOM.findDOMNode(helpCenterArticle.refs.article);
     });
@@ -116,7 +116,7 @@ describe('HelpCenterArticle component', function() {
       };
 
       // componentdidupdate only fires after setState not on initial render
-      helpCenterArticle.setState({foo: 'bar'});
+      helpCenterArticle.setState({ foo: 'bar' });
 
       TestUtils.Simulate.click(helpCenterArticle.refs.article, {
         target: {
