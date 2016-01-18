@@ -272,12 +272,12 @@ describe('embed.chat', function() {
             .toHaveBeenCalled();
         });
 
-        describe('on show event store set zopimOpen', function() {
+        describe('on show event set zopimOpen', function() {
           beforeEach(function() {
             mockMediator = mockRegistry['service/mediator'].mediator;
           });
 
-          it('should open if not on a mobile browser', function() {
+          it('should be true if not on a mobile browser', function() {
             mockIsMobileBrowserValue = false;
 
             chat.create(chatName, {zopimId: zopimId});
@@ -301,7 +301,7 @@ describe('embed.chat', function() {
               .toEqual(true);
           });
 
-          it('should not open if on a mobile browser', function() {
+          it('should not be set if on a mobile browser', function() {
             mockIsMobileBrowserValue = true;
 
             chat.create(chatName, {zopimId: zopimId});
