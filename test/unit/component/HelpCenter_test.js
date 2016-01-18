@@ -1026,15 +1026,19 @@ describe('HelpCenter component', function() {
 
       mockSearchSender.calls.mostRecent().args[1](responsePayload);
 
-      const listItem = TestUtils
-        .scryRenderedDOMComponentsWithClass(helpCenter, 'u-userTextColor')[1];
+      const listItem = TestUtils.scryRenderedDOMComponentsWithClass(
+        helpCenter,
+        'u-userTextColor'
+      )[1];
 
       expect(article.className)
         .toMatch('u-isHidden');
 
       TestUtils.Simulate.click(listItem, {
-        target: { getAttribute: function() { return 0; }
-      }});
+        target: {
+          getAttribute: function() { return 0; }
+        }
+      });
 
       jasmine.clock().tick(1);
 

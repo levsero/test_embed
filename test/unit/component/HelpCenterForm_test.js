@@ -62,7 +62,7 @@ describe('HelpCenterForm component', function() {
       global.document.body
     );
 
-    helpCenterForm.handleSubmit({preventDefault: noop});
+    helpCenterForm.handleSubmit({ preventDefault: noop });
 
     jasmine.clock().tick(0);
 
