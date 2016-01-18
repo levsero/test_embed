@@ -152,6 +152,25 @@ export class SubmitTicketForm extends Component {
     }));
   }
 
+  clear() {
+    const formData = this.state.formState;
+    const form = this.refs.form.getDOMNode();
+
+    _.forEach(form.elements, (field) => {
+      if (this.state.formState[field.name] && field.type === 'checkbox') {
+        field.checked = false;
+      }
+    });
+
+    this.setState(initialState);
+    this.setState({
+      formState: {
+        name: formData.name,
+        email: formData.email
+      }
+    });
+  }
+
   render() {
     const formClasses = classNames({
       'Form u-cf': true,

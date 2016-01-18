@@ -33,15 +33,8 @@ export class SubmitTicket extends Component {
 
   clearForm() {
     const submitTicketForm = this.refs.submitTicketForm;
-    const formData = submitTicketForm.state.formState;
 
-    submitTicketForm.resetState();
-    submitTicketForm.setState({
-      formState: {
-        name: formData.name,
-        email: formData.email
-      }
-    });
+    submitTicketForm.clear();
   }
 
   showField() {
