@@ -152,7 +152,7 @@ function init(name) {
     }
   };
   const onStatus = function(status) {
-    chat.online = (status === 'online');
+    chat.online = (status !== 'offline');
     broadcastStatus();
 
     overwriteZopimApi();
