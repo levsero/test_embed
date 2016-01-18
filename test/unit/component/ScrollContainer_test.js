@@ -22,41 +22,33 @@ describe('ScrollContainer component', function() {
   });
 
   it('should have the `is-mobile` className when fullscreen is true', function() {
-    const container = React.render(
-      <ScrollContainer fullscreen={true} />,
-      global.document.body
-    );
-    const containerNode = ReactTestUtils
-      .findRenderedDOMComponentWithClass(container, 'ScrollContainer-content');
+    const container = shallowRender(<ScrollContainer fullscreen={true} />);
 
-    const containerClasses = containerNode.props.className;
-
-    expect(containerClasses)
+    expect(container.props.children[1].props.className)
       .toMatch('is-mobile');
   });
 
   it('should call `this.getContentContainer` when `this.scrollToBottom` is called', function() {
-    const stub = spyOn(ScrollContainer.type.prototype.__reactAutoBindMap, 'getContentContainer')
-      .and.callThrough();
-    const scrollContainer = React.render(
+    const scrollContainer = ReactDOM.render(
       <ScrollContainer fullscreen={true} />,
       global.document.body
     );
+    const spy = spyOn(scrollContainer, 'getContentContainer').and.callThrough();
 
     scrollContainer.scrollToBottom();
 
-    expect(stub)
+    expect(spy)
       .toHaveBeenCalled();
   });
 
   it('should set scrollTop to scrollHeight value when calling `this.scrollToBottom`', function() {
-    spyOn(ScrollContainer.type.prototype.__reactAutoBindMap, 'getContentContainer')
-      .and.returnValue({scrollHeight: 100, scrollTop: 0});
-
-    const scrollContainer = React.render(
+    const scrollContainer = ReactDOM.render(
       <ScrollContainer fullscreen={true} />,
       global.document.body
     );
+
+    spyOn(scrollContainer, 'getContentContainer')
+      .and.returnValue({scrollHeight: 100, scrollTop: 0});
 
     scrollContainer.scrollToBottom();
 
@@ -65,10 +57,7 @@ describe('ScrollContainer component', function() {
   });
 
   it('should change component state when calling `this.setScrollShadowVisible`', function() {
-    const container = React.render(
-      <ScrollContainer fullscreen={true} />,
-      global.document.body
-    );
+    const container = instanceRender(<ScrollContainer fullscreen={true} />);
 
     expect(container.state.scrollShadowVisible)
       .toEqual(false);
@@ -77,25 +66,18 @@ describe('ScrollContainer component', function() {
 
     expect(container.state.scrollShadowVisible)
       .toEqual(true);
-
-    expect(container.getDOMNode().querySelector('.ScrollContainer-footer').className)
-      .toContain('ScrollContainer-footer--shadow');
   });
 
   it('should have shadow class on footer if content is scrollable', function() {
-    const container = React.render(
+    const container = ReactDOM.render(
       <ScrollContainer fullscreen={true} />,
       global.document.body
     );
-    let containerNode;
 
     container.setState({scrollShadowVisible: true});
 
-    containerNode = ReactTestUtils
-      .findRenderedDOMComponentWithClass(container, 'ScrollContainer-footer'),
-
-    expect(containerNode.props.className)
-      .toMatch('ScrollContainer-footer--shadow');
+    expect(ReactDOM.findDOMNode(container).querySelector('.ScrollContainer-footer').className)
+      .toContain('ScrollContainer-footer--shadow');
   });
 
   it('should not contain certain classes when `this.props.hideZendeskLogo` is true', function() {
@@ -111,13 +93,13 @@ describe('ScrollContainer component', function() {
     expect(container.props.hideZendeskLogo)
       .toEqual(true);
 
-    expect(container.getDOMNode().querySelector('.ScrollContainer-content').className)
+    expect(ReactDOM.findDOMNode(container).querySelector('.ScrollContainer-content').className)
       .not.toMatch('u-paddingTM');
 
-    expect(container.getDOMNode().querySelector('.ScrollContainer-content').className)
+    expect(ReactDOM.findDOMNode(container).querySelector('.ScrollContainer-content').className)
       .toMatch('u-paddingTL');
 
-    expect(container.getDOMNode().querySelector('.ScrollContainer-footer').className)
+    expect(ReactDOM.findDOMNode(container).querySelector('.ScrollContainer-footer').className)
       .not.toMatch('u-paddingVM');
   });
 
@@ -133,13 +115,13 @@ describe('ScrollContainer component', function() {
     expect(container.props.hideZendeskLogo)
       .toEqual(false);
 
-    expect(container.getDOMNode().querySelector('.ScrollContainer-content').className)
+    expect(ReactDOM.findDOMNode(container).querySelector('.ScrollContainer-content').className)
       .toMatch('u-paddingTM');
 
-    expect(container.getDOMNode().querySelector('.ScrollContainer-content').className)
+    expect(ReactDOM.findDOMNode(container).querySelector('.ScrollContainer-content').className)
       .not.toMatch('u-paddingTL');
 
-    expect(container.getDOMNode().querySelector('.ScrollContainer-footer').className)
+    expect(ReactDOM.findDOMNode(container).querySelector('.ScrollContainer-footer').className)
       .toMatch('u-paddingVM');
   });
 });
