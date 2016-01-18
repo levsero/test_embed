@@ -4,7 +4,8 @@ import _ from 'lodash';
 import classNames from 'classnames';
 
 import { win }                 from 'utility/globals';
-import { isMobileBrowser,
+import { getZoomSizingRatio,
+         isMobileBrowser,
          isFirefox }           from 'utility/devices';
 import { clickBusterRegister,
          generateNpsCSS }      from 'utility/utils';
@@ -15,6 +16,8 @@ import snabbt                  from 'snabbt.js';
 
 const baseCSS = require('baseCSS');
 const mainCSS = require('mainCSS');
+const sizingRatio = 12 * getZoomSizingRatio(false, true);
+const baseFontCSS = `html { font-size: ${sizingRatio}px }`;
 
 function validateChildFn(childFn, params) {
   if (!_.isFunction(childFn)) {
@@ -328,7 +331,7 @@ export const frameFactory = function(childFn, _params) {
           html.setAttribute('lang', i18n.getLocale());
         }
 
-        const cssText = baseCSS + mainCSS + params.css;
+        const cssText = baseCSS + mainCSS + params.css + baseFontCSS;
         const css = <style dangerouslySetInnerHTML={{ __html: cssText }} />;
         const fullscreen = params.fullscreenable && params.isMobile;
         const positionClasses = classNames({
