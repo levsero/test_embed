@@ -156,16 +156,18 @@ describe('HelpCenterArticle component', function() {
     });
   });
 
-  it('should display an empty article body if a prop was passed with no content body', function() {
-    const helpCenterArticle = ReactDOM.render(
-      <HelpCenterArticle activeArticle={{ body: '' }} />,
-      global.document.body
-    );
+  describe('empty article body', function() {
+    it('should display an empty article body if a prop was passed with no content body', function() {
+      const helpCenterArticle = ReactDOM.render(
+        <HelpCenterArticle activeArticle={{ body: '' }} />,
+        global.document.body
+      );
 
-    // componentdidupdate only fires after setState not on initial render
-    helpCenterArticle.setState({ foo: 'bar' });
+      // componentdidupdate only fires after setState not on initial render
+      helpCenterArticle.setState({ foo: 'bar' });
 
-    expect(ReactDOM.findDOMNode(helpCenterArticle.refs.article).innerHTML)
-      .toEqual('');
+      expect(ReactDOM.findDOMNode(helpCenterArticle.refs.article).innerHTML)
+        .toEqual('');
+    });
   });
 });
