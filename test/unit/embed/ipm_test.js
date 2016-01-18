@@ -108,7 +108,7 @@ describe('embed.ipm', () => {
     });
 
     it('creates a React element for the component', () => {
-      expect(ReactTestUtils.isElement(result.component))
+      expect(TestUtils.isElement(result.component))
         .toBe(true);
     });
 

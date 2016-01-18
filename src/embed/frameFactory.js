@@ -434,7 +434,7 @@ export const frameFactory = function(childFn, _params) {
           }
         });
 
-        const element = doc.body.appendChild(document.createElement('div'));
+        const element = doc.body.appendChild(doc.createElement('div'));
         element.className = positionClasses;
 
         /* eslint-enable */

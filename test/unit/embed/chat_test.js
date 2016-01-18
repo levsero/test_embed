@@ -259,7 +259,7 @@ describe('embed.chat', function() {
             .toHaveBeenCalled();
         });
 
-        describe('store set zopimOpen', function() {
+        describe('on show event set zopimOpen', function() {
           beforeEach(function() {
             mockMediator = mockRegistry['service/mediator'].mediator;
           });
