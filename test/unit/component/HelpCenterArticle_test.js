@@ -48,167 +48,126 @@ describe('HelpCenterArticle component', function() {
     mockery.disable();
   });
 
-  it('should inject html string on componentDidUpdate', function() {
-    const helpCenterArticle = React.render(
-      <HelpCenterArticle activeArticle={mockArticle} />,
-      global.document.body
-    );
+  describe('article body', function() {
+    let helpCenterArticle,
+      content;
 
-    // componentdidupdate only fires after setState not on initial render
-    helpCenterArticle.setState({foo: 'bar'});
+    beforeEach(function(){
+      helpCenterArticle = ReactDOM.render(
+        <HelpCenterArticle activeArticle={mockArticle} />,
+        global.document.body
+      );
 
-    expect(helpCenterArticle.refs.article.getDOMNode().children.length)
-      .toEqual(5);
+      // componentdidupdate only fires after setState not on initial render
+      helpCenterArticle.setState({ foo: 'bar' });
 
-    expect(helpCenterArticle.refs.article.getDOMNode().querySelector('div').style.cssText)
-      .toEqual('');
-  });
-
-  it('should preserve ids on divs and headers', function() {
-    const helpCenterArticle = React.render(
-      <HelpCenterArticle activeArticle={mockArticle} />,
-      global.document.body
-    );
-
-    // componentdidupdate only fires after setState not on initial render
-    helpCenterArticle.setState({foo: 'bar'});
-
-    const content = helpCenterArticle.refs.article.getDOMNode();
-
-    expect(content.querySelector('div').id)
-      .toEqual('preserved');
-
-    expect(content.querySelector('h1').id)
-      .toEqual('foo');
-  });
-
-  it('should preserve name attribute on anchors', function() {
-    const helpCenterArticle = React.render(
-      <HelpCenterArticle activeArticle={mockArticle} />,
-      global.document.body
-    );
-
-    // componentdidupdate only fires after setState not on initial render
-    helpCenterArticle.setState({foo: 'bar'});
-
-    const content = helpCenterArticle.refs.article.getDOMNode();
-
-    expect(content.querySelector('a[name="foo"]'))
-      .not.toBeNull();
-  });
-
-  it('should preserve sub/sups on divs', function() {
-    const helpCenterArticle = React.render(
-      <HelpCenterArticle activeArticle={mockArticle} />,
-      global.document.body
-    );
-
-    // componentdidupdate only fires after setState not on initial render
-    helpCenterArticle.setState({foo: 'bar'});
-
-    const content = helpCenterArticle.refs.article.getDOMNode();
-
-    expect(content.querySelectorAll('sup, sub').length)
-      .toBe(2);
-
-    expect(content.querySelector('#notes').innerHTML)
-      .toBe('<sup>1</sup>This explains the note');
-  });
-
-  it('should inject base tag to alter relative links base url', function() {
-    const helpCenterArticle = React.render(
-      <HelpCenterArticle activeArticle={mockArticle} />,
-      global.document.body
-    );
-    const baseUrl = 'https://' + global.document.zendeskHost;
-
-    // componentdidupdate only fires after setState not on initial render
-    helpCenterArticle.setState({foo: 'bar'});
-
-    const baseTag = global.document.querySelector('head base');
-    const relativeAnchor = helpCenterArticle.getDOMNode().querySelector('a[href^="/relative"]');
-
-    expect(baseTag.href)
-      .toMatch(baseUrl);
-
-    expect(relativeAnchor.href)
-      .toMatch(baseUrl + '/relative/link');
-  });
-
-  it('should hijack inpage anchor clicks and call scrollIntoView on correct element', function() {
-    const helpCenterArticle = React.render(
-      <HelpCenterArticle activeArticle={mockArticle} />,
-      global.document.body
-    );
-    // save old version of query selector FIXME
-    const oldQuerySelector = global.document.querySelector;
-
-    global.document.querySelector = function() {
-      return {
-        scrollIntoView: scrollIntoView
-      };
-    };
-
-    // componentdidupdate only fires after setState not on initial render
-    helpCenterArticle.setState({foo: 'bar'});
-
-    ReactTestUtils.Simulate.click(helpCenterArticle.refs.article, {
-      target: {
-        nodeName: 'A',
-        href: global.document.zendeskHost + '#foo',
-        ownerDocument: global.document,
-        getAttribute: function() {
-          return '#foo';
-        }
-      }
+      content = ReactDOM.findDOMNode(helpCenterArticle.refs.article);
     });
 
-    expect(scrollIntoView)
-      .toHaveBeenCalled();
+    it('should inject html string on componentDidUpdate', function() {
+      expect(content.children.length)
+        .toEqual(5);
 
-    // reset querySelector to the previous, not spy, version.
-    global.document.querySelector = oldQuerySelector;
+      expect(content.querySelector('div').style.cssText)
+        .toEqual('');
+    });
+
+    it('should preserve ids on divs and headers', function() {
+      expect(content.querySelector('div').id)
+        .toEqual('preserved');
+
+      expect(content.querySelector('h1').id)
+        .toEqual('foo');
+    });
+
+    it('should preserve name attribute on anchors', function() {
+      expect(content.querySelector('a[name="foo"]'))
+        .not.toBeNull();
+    });
+
+    it('should preserve sub/sups on divs', function() {
+      expect(content.querySelectorAll('sup, sub').length)
+        .toBe(2);
+
+      expect(content.querySelector('#notes').innerHTML)
+        .toBe('<sup>1</sup>This explains the note');
+    });
+
+    it('should inject base tag to alter relative links base url', function() {
+      const baseTag = global.document.querySelector('head base');
+      const relativeAnchor = ReactDOM.findDOMNode(helpCenterArticle).querySelector('a[href^="/relative"]');
+      const baseUrl = 'https://' + global.document.zendeskHost;
+
+      expect(baseTag.href)
+        .toMatch(baseUrl);
+
+      expect(relativeAnchor.href)
+        .toMatch(baseUrl + '/relative/link');
+    });
+
+    it('should hijack inpage anchor clicks and call scrollIntoView on correct element', function() {
+      // save old version of query selector FIXME
+      const oldQuerySelector = global.document.querySelector;
+
+      global.document.querySelector = function() {
+        return {
+          scrollIntoView: scrollIntoView
+        };
+      };
+
+      // componentdidupdate only fires after setState not on initial render
+      helpCenterArticle.setState({ foo: 'bar' });
+
+      TestUtils.Simulate.click(helpCenterArticle.refs.article, {
+        target: {
+          nodeName: 'A',
+          href: global.document.zendeskHost + '#foo',
+          ownerDocument: global.document,
+          getAttribute: function() {
+            return '#foo';
+          }
+        }
+      });
+
+      expect(scrollIntoView)
+        .toHaveBeenCalled();
+
+      // reset querySelector to the previous, not spy, version.
+      global.document.querySelector = oldQuerySelector;
+    });
+
+    it('should display an article body if a prop was passed with truthy content body', function() {
+      const helpCenterArticleNode = ReactDOM.findDOMNode(helpCenterArticle);
+
+      expect(helpCenterArticleNode.querySelector('#foo').innerHTML)
+        .toMatch('Foobar');
+
+      expect(helpCenterArticleNode.querySelector('a[href="#foo"]').innerHTML)
+        .toMatch('inpage link');
+
+      expect(helpCenterArticleNode.querySelector('a[href^="/relative"]').innerHTML)
+        .toMatch('relative link');
+
+      expect(helpCenterArticleNode.querySelector('#preserved').innerHTML)
+        .toMatch('This text contains a sub-note<sub>1</sub>');
+
+      expect(helpCenterArticleNode.querySelector('#notes').innerHTML)
+        .toMatch('<sup>1</sup>This explains the note');
+    });
   });
 
-  it('should display an article body if a prop was passed with truthy content body', function() {
-    const helpCenterArticle = React.render(
-      <HelpCenterArticle activeArticle={mockArticle} />,
-      global.document.body
-    );
-    const helpCenterArticleNode = helpCenterArticle.getDOMNode();
+  describe('empty article body', function() {
+    it('should display an empty article body if a prop was passed with no content body', function() {
+      const helpCenterArticle = ReactDOM.render(
+        <HelpCenterArticle activeArticle={{ body: '' }} />,
+        global.document.body
+      );
 
-    // componentdidupdate only fires after setState not on initial render
-    helpCenterArticle.setState({ foo: 'bar' });
+      // componentdidupdate only fires after setState not on initial render
+      helpCenterArticle.setState({ foo: 'bar' });
 
-    expect(helpCenterArticleNode.querySelector('#foo').innerHTML)
-      .toMatch('Foobar');
-
-    expect(helpCenterArticleNode.querySelector('a[href="#foo"]').innerHTML)
-      .toMatch('inpage link');
-
-    expect(helpCenterArticleNode.querySelector('a[href^="/relative"]').innerHTML)
-      .toMatch('relative link');
-
-    expect(helpCenterArticleNode.querySelector('#preserved').innerHTML)
-      .toMatch('This text contains a sub-note<sub>1</sub>');
-
-    expect(helpCenterArticleNode.querySelector('#notes').innerHTML)
-      .toMatch('<sup>1</sup>This explains the note');
-  });
-
-  it('should display an empty article body if a prop was passed with no content body', function() {
-    const helpCenterArticle = React.render(
-      <HelpCenterArticle activeArticle={mockArticle} />,
-      global.document.body
-    );
-
-    // componentdidupdate only fires after setState not on initial render
-    helpCenterArticle.setState({ foo: 'bar' });
-
-    // Assume user has visited another article with no content
-    helpCenterArticle.replaceProps({ activeArticle: { body: `` } });
-
-    expect(helpCenterArticle.refs.article.getDOMNode().innerHTML)
-      .toEqual('');
+      expect(ReactDOM.findDOMNode(helpCenterArticle.refs.article).innerHTML)
+        .toEqual('');
+    });
   });
 });

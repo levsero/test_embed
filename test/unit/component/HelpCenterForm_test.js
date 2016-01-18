@@ -1,11 +1,10 @@
 describe('HelpCenterForm component', function() {
-  let HelpCenterForm, onSubmit, onChange;
+  let HelpCenterForm, onSubmit;
 
   const helpCenterFormPath = buildSrcPath('component/HelpCenterForm');
 
   beforeEach(function() {
     onSubmit = jasmine.createSpy();
-    onChange = jasmine.createSpy();
 
     resetDOM();
     jasmine.clock().install();
@@ -29,6 +28,9 @@ describe('HelpCenterForm component', function() {
           't',
           'isRTL'
         ])
+      },
+      'utility/utils': {
+        bindMethods: mockBindMethods
       }
     });
 
@@ -45,43 +47,26 @@ describe('HelpCenterForm component', function() {
   });
 
   it('should correctly render form with noValidate attribute', function() {
-    const helpCenterForm = React.render(
+    const helpCenterForm = ReactDOM.render(
       <HelpCenterForm />,
       global.document.body
     );
 
-    expect(helpCenterForm.getDOMNode().getAttribute('novalidate'))
+    expect(ReactDOM.findDOMNode(helpCenterForm).getAttribute('novalidate'))
       .toEqual('');
   });
 
   it('should call parent component submit when form is submitted', function() {
-    const helpCenterForm = React.render(
+    const helpCenterForm = ReactDOM.render(
       <HelpCenterForm onSubmit={onSubmit} />,
       global.document.body
     );
 
-    ReactTestUtils.Simulate.submit(helpCenterForm.getDOMNode());
+    helpCenterForm.handleSubmit({ preventDefault: noop });
 
     jasmine.clock().tick(0);
 
     expect(onSubmit)
-      .toHaveBeenCalled();
-  });
-
-  it('should call onSearch when input value changes', function() {
-    const helpCenterForm = React.render(
-      <HelpCenterForm onChange={onChange}>
-        <input />
-      </HelpCenterForm>,
-      global.document.body
-    );
-    const helpCenterFormNode = helpCenterForm.getDOMNode();
-
-    ReactTestUtils.Simulate.change(helpCenterFormNode.querySelector('input'));
-
-    jasmine.clock().tick(0);
-
-    expect(onChange)
       .toHaveBeenCalled();
   });
 });
