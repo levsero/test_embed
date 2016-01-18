@@ -199,7 +199,7 @@ describe('embed.chat', function() {
       });
 
       describe('zopim.livechat.onStatus', function() {
-        it('onStatus(online) should broadcast <name>.onOnline', function() {
+        it('onStatus(online) should broadcast <name>.onOnline when agent is online', function() {
           chat.get(chatName).connected = true;
 
           onStatusCall.args[0]('online');
@@ -208,7 +208,16 @@ describe('embed.chat', function() {
             .toHaveBeenCalledWith('dave.onOnline');
         });
 
-        it('onStatus(offline) should broadcast <name>.onOffline', function() {
+        it('onStatus(online) should broadcast <name>.onOnline when agent is away', function() {
+          chat.get(chatName).connected = true;
+
+          onStatusCall.args[0]('away');
+
+          expect(mockMediator.channel.broadcast)
+            .toHaveBeenCalledWith('dave.onOnline');
+        });
+
+        it('onStatus(offline) should broadcast <name>.onOffline when agent is offline', function() {
           chat.get(chatName).connected = true;
 
           onStatusCall.args[0]('offline');
