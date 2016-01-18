@@ -88,7 +88,6 @@ describe('NpsRatingsList component', () => {
     });
 
     describe('notLikely', () => {
-
       describe('when the numeric score is not on the label', () => {
         beforeEach(() => {
           npsRatingsListProps.notLikelyLabel = 'Not quite likely';
@@ -115,7 +114,6 @@ describe('NpsRatingsList component', () => {
     });
 
     describe('likely', () => {
-
       describe('when the numeric score is not on the label', () => {
         beforeEach(() => {
           npsRatingsListProps.likelyLabel = 'Incredibly likely';
