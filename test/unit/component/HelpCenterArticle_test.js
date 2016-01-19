@@ -53,10 +53,7 @@ describe('HelpCenterArticle component', function() {
       content;
 
     beforeEach(function(){
-      helpCenterArticle = ReactDOM.render(
-        <HelpCenterArticle activeArticle={mockArticle} />,
-        global.document.body
-      );
+      helpCenterArticle = domRender(<HelpCenterArticle activeArticle={mockArticle} />);
 
       // componentdidupdate only fires after setState not on initial render
       helpCenterArticle.setState({ foo: 'bar' });
@@ -158,10 +155,7 @@ describe('HelpCenterArticle component', function() {
 
   describe('empty article body', function() {
     it('should display an empty article body if a prop was passed with no content body', function() {
-      const helpCenterArticle = ReactDOM.render(
-        <HelpCenterArticle activeArticle={{ body: '' }} />,
-        global.document.body
-      );
+      const helpCenterArticle = domRender(<HelpCenterArticle activeArticle={{ body: '' }} />);
 
       // componentdidupdate only fires after setState not on initial render
       helpCenterArticle.setState({ foo: 'bar' });

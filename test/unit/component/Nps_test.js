@@ -122,10 +122,7 @@ describe('Nps component', function() {
   });
 
   it('renders NpsMobile when mobile prop is true', function() {
-    ReactDOM.render(
-      <Nps mobile={true} />,
-      global.document.body
-    );
+    domRender(<Nps mobile={true} />);
 
     expect(document.querySelectorAll('.nps-mobile').length)
       .toEqual(1);

@@ -112,15 +112,14 @@ describe('NpsDesktop component', function() {
     mockSubmitCommentHandler = jasmine.createSpy();
     mockFocusField = jasmine.createSpy();
 
-    component = ReactDOM.render(
+    component = domRender(
       <NpsDesktop
         {...npsProps}
         submitRatingHandler={mockSubmitRatingHandler}
         submitCommentHandler={mockSubmitCommentHandler}
         updateFrameSize={noop}
         onChangeHandler={noop}
-        sendComment={noop} />,
-      global.document.body
+        sendComment={noop} />
     );
   });
 
@@ -145,12 +144,7 @@ describe('NpsDesktop component', function() {
     it('should have `u-paddingBL` if logo is hidden and currentPage is not addingComment', () => {
       npsProps.hideZendeskLogo = true;
 
-      ReactDOM.render(
-        <NpsDesktop
-          {...npsProps}
-          updateFrameSize={noop} />,
-        global.document.body
-      );
+      domRender(<NpsDesktop {...npsProps} updateFrameSize={noop} />);
 
       const containerContentElem = ReactDOM.findDOMNode(
         TestUtils.findRenderedDOMComponentWithClass(component, 'Container-content')
@@ -172,12 +166,7 @@ describe('NpsDesktop component', function() {
     it('should render logo if hideZendeskLogo is set to false', () => {
       npsProps.hideZendeskLogo = false;
 
-      ReactDOM.render(
-        <NpsDesktop
-          {...npsProps}
-          updateFrameSize={noop} />,
-        global.document.body
-      );
+      domRender(<NpsDesktop {...npsProps} updateFrameSize={noop} />);
 
       component.setCurrentPage('selectingRating');
 
@@ -193,12 +182,7 @@ describe('NpsDesktop component', function() {
     it('should not render logo if hideZendeskLogo is true', () => {
       npsProps.hideZendeskLogo = true;
 
-      ReactDOM.render(
-        <NpsDesktop
-          {...npsProps}
-          updateFrameSize={noop} />,
-        global.document.body
-      );
+      domRender(<NpsDesktop {...npsProps} updateFrameSize={noop} />);
 
       component.setCurrentPage('selectingRating');
 
@@ -219,12 +203,7 @@ describe('NpsDesktop component', function() {
     it('should not render logo if page is addingComment', () => {
       npsProps.hideZendeskLogo = false;
 
-      ReactDOM.render(
-        <NpsDesktop
-          {...npsProps}
-          updateFrameSize={noop} />,
-        global.document.body
-      );
+      domRender(<NpsDesktop {...npsProps} updateFrameSize={noop} />);
 
       component.setCurrentPage('addingComment');
 

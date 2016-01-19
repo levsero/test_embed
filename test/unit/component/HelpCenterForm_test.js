@@ -47,20 +47,14 @@ describe('HelpCenterForm component', function() {
   });
 
   it('should correctly render form with noValidate attribute', function() {
-    const helpCenterForm = ReactDOM.render(
-      <HelpCenterForm />,
-      global.document.body
-    );
+    const helpCenterForm = domRender(<HelpCenterForm />);
 
     expect(ReactDOM.findDOMNode(helpCenterForm).getAttribute('novalidate'))
       .toEqual('');
   });
 
   it('should call parent component submit when form is submitted', function() {
-    const helpCenterForm = ReactDOM.render(
-      <HelpCenterForm onSubmit={onSubmit} />,
-      global.document.body
-    );
+    const helpCenterForm = domRender(<HelpCenterForm onSubmit={onSubmit} />);
 
     helpCenterForm.handleSubmit({ preventDefault: noop });
 

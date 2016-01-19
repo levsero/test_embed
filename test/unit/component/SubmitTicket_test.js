@@ -141,12 +141,11 @@ describe('Submit ticket component', function() {
   it('should call submitTicketSender and send the form when valid', function() {
     const mockSubmitTicketSender = jasmine.createSpy('mockSubmitTicketSender');
     const mockOnSubmitted = jasmine.createSpy('mockOnSubmitted');
-    const submitTicket = ReactDOM.render(
+    const submitTicket = domRender(
       <SubmitTicket
         submitTicketSender={mockSubmitTicketSender}
         onSubmitted={mockOnSubmitted}
-        updateFrameSize={noop} />,
-      global.document.body
+        updateFrameSize={noop} />
     );
 
     submitTicket.handleSubmit({preventDefault: noop}, {
@@ -199,12 +198,11 @@ describe('Submit ticket component', function() {
   it('should call onSubmitted with given last search state', function() {
     const mockSubmitTicketSender = jasmine.createSpy('mockSubmitTicketSender');
     const mockOnSubmitted = jasmine.createSpy('mockOnSubmitted');
-    const submitTicket = ReactDOM.render(
+    const submitTicket = domRender(
       <SubmitTicket
         submitTicketSender={mockSubmitTicketSender}
         onSubmitted={mockOnSubmitted}
-        updateFrameSize={noop} />,
-      global.document.body
+        updateFrameSize={noop} />
     );
 
     submitTicket.setState({
@@ -264,7 +262,7 @@ describe('Submit ticket component', function() {
   });
 
   it('should unhide notification element on state change', function() {
-    const submitTicket = ReactDOM.render(<SubmitTicket />, global.document.body);
+    const submitTicket = domRender(<SubmitTicket />);
     const notificationElem = submitTicket.refs.notification;
 
     expect(notificationElem.props.className)
