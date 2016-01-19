@@ -148,6 +148,12 @@ function boot() {
     };
     $zopim._ = [];
     $zopim.set._ = [];
+
+    // Make this the first in the queue so that subsequent
+    // user-initiated setTitle(…) calls will override this value
+    $zopim(function() {
+      win.$zopim.livechat.window.setTitle(i18n.t('embeddable_framework.chat.title'));
+    });
   }
 
   _.extend(win.zEmbed, publicApi, devApi);
