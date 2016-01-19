@@ -158,7 +158,7 @@ describe('SubmitTicketForm component', function() {
 
   describe('ButtonSecondary', function() {
     it('should be rendered in the form when fullscreen is false', function() {
-    const submitTicketForm = domRender(<SubmitTicketForm fullscreen={false} />);
+      const submitTicketForm = domRender(<SubmitTicketForm fullscreen={false} />);
 
       expect(function() {
         TestUtils.findRenderedDOMComponentWithClass(submitTicketForm, 'c-btn--secondary');
@@ -166,7 +166,7 @@ describe('SubmitTicketForm component', function() {
     });
 
     it('should not be rendered in the form when fullscreen is true', function() {
-    const submitTicketForm = domRender(<SubmitTicketForm fullscreen={true} />);
+      const submitTicketForm = domRender(<SubmitTicketForm fullscreen={true} />);
 
       expect(function() {
         TestUtils.findRenderedDOMComponentWithClass(submitTicketForm, 'c-btn--secondary');

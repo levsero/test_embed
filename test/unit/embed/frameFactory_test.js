@@ -596,7 +596,7 @@ describe('frameFactory', function() {
 
       const Embed = React.createClass(payload);
 
-        instance = domRender(<Embed visible={false} />);
+      instance = domRender(<Embed visible={false} />);
     });
 
     it('renders an iframe to the document', function() {
