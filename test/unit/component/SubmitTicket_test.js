@@ -172,11 +172,10 @@ describe('Submit ticket component', function() {
 
   it('should clear the form on a valid submit', function() {
     const mockSubmitTicketSender = jasmine.createSpy('mockSubmitTicketSender');
-    const submitTicket = React.render(
+    const submitTicket = domRender(
       <SubmitTicket
         submitTicketSender={mockSubmitTicketSender}
-        updateFrameSize={noop} />,
-      global.document.body
+        updateFrameSize={noop} />
     );
 
     spyOn(submitTicket, 'clearForm');

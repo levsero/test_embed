@@ -703,10 +703,7 @@ describe('frameFactory', function() {
         css: '.params-css {} '
       });
       const Embed = React.createClass(payload);
-      const instance = React.render(
-        <Embed />,
-        global.document.body
-      );
+      const instance = domRender(<Embed />);
       const child = instance.getChild();
       const styleBlock = child.getDOMNode().getElementsByTagName('style')[0];
 

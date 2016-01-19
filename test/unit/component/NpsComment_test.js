@@ -62,10 +62,7 @@ describe('NpsComment component', () => {
 
     NpsComment = requireUncached(npsPath).NpsComment;
 
-    React.render(
-        <NpsComment {...npsCommentProps} />,
-        global.document.body
-      );
+    domRender(<NpsComment {...npsCommentProps} />);
   });
 
   afterEach(() => {
@@ -78,10 +75,7 @@ describe('NpsComment component', () => {
       beforeEach(() => {
         npsCommentProps.isSubmittingComment = true;
 
-        React.render(
-          <NpsComment {...npsCommentProps} />,
-          global.document.body
-        );
+        domRender(<NpsComment {...npsCommentProps} />);
       });
 
       it('should render a secondary button', () => {
