@@ -28,14 +28,7 @@ Adhere to the following core rules:
 * Prefer `const` & `let` over `var`.
 * Only use single quotes (e.g `'string'`).
 * Always end statements with a semicolon.
-* No empty code blocks:
-  ```javascript
-  if () {
-    // nothing = bad
-  } else {
-    // nothing = bad
-  }
-  ```
+* No empty code blocks.
 * No more than **1** empty line.
 * No padding new lines in a function:
   ```javascript
