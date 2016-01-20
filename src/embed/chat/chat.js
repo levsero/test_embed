@@ -13,7 +13,6 @@ const styleTag = document.createElement('style');
 function create(name, config) {
   const configDefaults = {
     position: 'right',
-    title: i18n.t('embeddable_framework.chat.title'),
     color: '#78A300',
     standalone: false,
     offsetVertical: 0,
@@ -202,7 +201,6 @@ function init(name) {
     zopimLive.theme.setColor(config.color);
     zopimLive.theme.setTheme('zendesk');
     zopimWin.setPosition(position);
-    zopimWin.setTitle(config.title);
     zopimWin.setSize(config.size);
     zopimWin.setOffsetVertical(config.offsetVertical);
   });
