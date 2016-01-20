@@ -87,7 +87,6 @@
   .table-wrap {
     width: 100%;
     overflow-y: auto;
-    _overflow: auto;
     margin: 0 0 #{16/$font-size}rem;
 
     &::-webkit-scrollbar {
