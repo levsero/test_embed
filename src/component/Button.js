@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
+import Dropzone from 'react-dropzone';
 
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
@@ -246,11 +247,29 @@ ButtonRating.defaultProps = {
   onClick: () => {}
 };
 
+class ButtonIcon extends Component {
+  render() {
+    const buttonClasses = classNames({
+      'c-btn c-btn--medium c-btn--secondary': true
+    });
+
+    return (
+      <Dropzone
+        onDrop={this.props.onDrop}
+        className={buttonClasses}
+        onClick={this.props.onClick}>
+        <Icon type='Icon--link' />
+      </Dropzone>
+    );
+  }
+}
+
 export {
   Button,
   ButtonNav,
   ButtonPill,
   ButtonSecondary,
   ButtonGroup,
-  ButtonRating
+  ButtonRating,
+  ButtonIcon
 };

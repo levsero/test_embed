@@ -29,6 +29,7 @@
     "lodash": "~3.10.1",
     "react": "^0.14.5",
     "react-dom": "^0.14.5",
+    "react-dropzone": "^3.3.2",
     "sanitize-html": "~1.10.0",
     "snabbt.js": "~0.4.0",
     "superagent": "visionmedia/superagent#608cda651db3ac1559a604032878bae3ac16efd7",

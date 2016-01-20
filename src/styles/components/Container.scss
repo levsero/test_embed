@@ -74,3 +74,13 @@ $Container-spacing: 25/$font-size;
   padding-bottom: #{24/$font-size}rem !important;
   padding-top: #{12/$font-size}rem !important;
 }
+
+.Container--dashed {
+  width: 320px;
+  height: 370px;
+  border-width: 2px;
+  border-color: #666;
+  border-style: dashed;
+  border-radius: 5px;
+  margin: 5px;
+}

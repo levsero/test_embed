@@ -3,10 +3,13 @@ import ReactDOM from 'react-dom';
 import _ from 'lodash';
 import classNames from 'classnames';
 
+import { AttachmentForm } from 'component/AttachmentForm';
 import { Button,
          ButtonSecondary,
-         ButtonGroup } from 'component/Button';
+         ButtonGroup,
+         ButtonIcon } from 'component/Button';
 import { ScrollContainer } from 'component/ScrollContainer';
+import { getAttachmentPreviews } from 'component/Preview';
 import { i18n } from 'service/i18n';
 import { Field,
          getCustomFields } from 'component/FormField';
@@ -18,7 +21,8 @@ const initialState = {
   isRTL: i18n.isRTL(),
   removeTicketForm: false,
   formState: {},
-  showErrorMessage: false
+  showErrorMessage: false,
+  attachments: []
 };
 const buttonMessageString = 'embeddable_framework.submitTicket.form.submitButton.label.send';
 const cancelButtonMessageString = 'embeddable_framework.submitTicket.form.cancelButton.label.cancel';
@@ -121,6 +125,10 @@ export class SubmitTicketForm extends Component {
     });
   }
 
+  openAttachment() {
+    this.setState({showAttachmentForm: true});
+  }
+
   getFormState() {
     const form = ReactDOM.findDOMNode(this.refs.form);
 
@@ -152,6 +160,14 @@ export class SubmitTicketForm extends Component {
     }));
   }
 
+  handleOnDrop(files) {
+    const attachments = _.union(this.state.attachments, files);
+
+    this.setState({
+      attachments: attachments
+    });
+  }
+
   clear() {
     const formData = this.state.formState;
     const form = this.refs.form.getDOMNode();
@@ -176,7 +192,24 @@ export class SubmitTicketForm extends Component {
       'Form u-cf': true,
       'u-isHidden': this.props.hide
     });
+    const removeAttachment = (attachment) => {
+      const idx = this.state.attachments.indexOf(attachment);
+
+      this.state.attachments.splice(idx, 1);
+      this.forceUpdate();
+    };
     const customFields = getCustomFields(this.props.customFields, this.state.formState);
+    const previews = getAttachmentPreviews(this.state.attachments, removeAttachment);
+    const attachments = (this.state.attachments.length !== 0)
+                         ? (
+                            <div>
+                              <div className='Form-fieldLabel u-textXHeight u-marginTL'>
+                                Attachments
+                              </div>
+                              {previews}
+                            </div>
+                          )
+                        : null;
     const formBody = (this.state.removeTicketForm)
                    ? null
                    : <div ref='formWrapper'>
@@ -201,6 +234,7 @@ export class SubmitTicketForm extends Component {
                          input={<textarea rows='5' />} />
                        {customFields.checkboxes}
                        {this.props.children}
+                       {attachments}
                      </div>;
     const buttonCancel = (this.props.fullscreen)
                        ? null
@@ -208,6 +242,9 @@ export class SubmitTicketForm extends Component {
                             label={this.state.cancelButtonMessage}
                             onClick={this.props.onCancel}
                             fullscreen={this.props.fullscreen} />);
+    const attachmentForm = (this.state.showAttachmentForm)
+                         ? <AttachmentForm />
+                         : null;
 
     return (
       <form
@@ -216,12 +253,15 @@ export class SubmitTicketForm extends Component {
         onChange={this.handleUpdate}
         ref='form'
         className={formClasses}>
+        {attachmentForm}
         <ScrollContainer
           ref='scrollContainer'
           title={i18n.t(`embeddable_framework.submitTicket.form.title.${this.props.formTitleKey}`)}
           contentExpanded={true}
           footerContent={
             <ButtonGroup rtl={i18n.isRTL()}>
+              <ButtonIcon
+                onDrop={this.handleOnDrop}/>
               {buttonCancel}
               <Button
                 fullscreen={this.props.fullscreen}
