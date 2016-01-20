@@ -12,10 +12,23 @@ export class IpmDesktop extends Component {
   }
 
   handleOnClick() {
-    if (this.props.ipm.message.buttonUrl) {
-      window.open(this.props.ipm.message.buttonUrl, '_blank');
-    }
     this.props.ipmSender('clicked');
+
+    const { buttonUrl } = this.props.ipm.message;
+
+    if (!buttonUrl || typeof buttonUrl !== 'string') {
+      return;
+    }
+
+    if (buttonUrl.trim().match(/^javascript:/)) {
+      return;
+    }
+
+    const cleanUrl = buttonUrl.trim().match(/^https?/)
+      ? buttonUrl
+      : `//${buttonUrl}`;
+
+    window.open(cleanUrl, '_blank');
   }
 
   updateFrameSize() {
