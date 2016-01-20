@@ -73,7 +73,7 @@ class HelpCenterArticle extends Component {
       // for iOS devices we need to override the width as 100% causes issues
       const iOSStyle = isIos() ? ' style="width: 23rem;"' : '';
 
-      cleanHtml = cleanHtml.replace('<table', '<div class="table-wrap"' + iOSStyle + '><table');
+      cleanHtml = cleanHtml.replace('<table', `<div class="table-wrap"${iOSStyle}><table`);
       cleanHtml = cleanHtml.replace('/table>', '/table></div>');
 
       container.innerHTML = cleanHtml;
