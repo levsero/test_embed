@@ -548,7 +548,7 @@ describe('HelpCenter component', function() {
 
       mockSearchSender.calls.reset();
 
-      helpCenter.performSearch(query, () => {}, true);
+      helpCenter.performSearch(query, noop, true);
 
       mockSearchSender.calls.mostRecent().args[1](responsePayloadNoResults);
 
@@ -723,7 +723,7 @@ describe('HelpCenter component', function() {
   describe('autoSearch', () => {
     it('should not call performSearch if the string is not valid', () => {
       const mockPerformSearch = jasmine.createSpy('mockPerformSearch');
-      const helpCenter = domRender(<HelpCenter searchSender={() => {}} />);
+      const helpCenter = domRender(<HelpCenter searchSender={noop} />);
 
       helpCenter.performSearch = mockPerformSearch;
 
@@ -755,7 +755,7 @@ describe('HelpCenter component', function() {
     it('should build up the query object correctly', () => {
       const searchTerm = 'a search term ';
       const mockPerformSearch = jasmine.createSpy('mockPerformSearch');
-      const helpCenter = domRender(<HelpCenter searchSender={() => {}} />);
+      const helpCenter = domRender(<HelpCenter searchSender={noop} />);
 
       helpCenter.performSearch = mockPerformSearch;
 
@@ -775,7 +775,7 @@ describe('HelpCenter component', function() {
 
     it('should set the states correctly', () => {
       const searchTerm = 'a search term ';
-      const helpCenter = domRender(<HelpCenter searchSender={() => {}} />);
+      const helpCenter = domRender(<HelpCenter searchSender={noop} />);
 
       helpCenter.refs.searchField.getValue = () => searchTerm;
 
@@ -793,7 +793,7 @@ describe('HelpCenter component', function() {
     it('should call performSearch given a valid search string', () => {
       const mockPerformSearch = jasmine.createSpy('mockPerformSearch');
       const mockSearchSuccessFn = jasmine.createSpy('mockSearchSuccess');
-      const helpCenter = domRender(<HelpCenter searchSender={() => {}} />);
+      const helpCenter = domRender(<HelpCenter searchSender={noop} />);
 
       helpCenter.performSearch = mockPerformSearch;
       helpCenter.interactiveSearchSuccessFn = mockSearchSuccessFn;
@@ -818,7 +818,7 @@ describe('HelpCenter component', function() {
   describe('manualSearch', () => {
     it('should not call performSearch if the string is empty', () => {
       const mockPerformSearch = jasmine.createSpy('mockPerformSearch');
-      const helpCenter = domRender(<HelpCenter searchSender={() => {}} />);
+      const helpCenter = domRender(<HelpCenter searchSender={noop} />);
 
       helpCenter.performSearch = mockPerformSearch;
 
@@ -840,7 +840,7 @@ describe('HelpCenter component', function() {
     it('should build up the query object correctly', () => {
       const searchTerm = 'a search term';
       const mockPerformSearch = jasmine.createSpy('mockPerformSearch');
-      const helpCenter = domRender(<HelpCenter searchSender={() => {}} />);
+      const helpCenter = domRender(<HelpCenter searchSender={noop} />);
 
       helpCenter.performSearch = mockPerformSearch;
 
@@ -860,7 +860,7 @@ describe('HelpCenter component', function() {
 
     it('should set the states correctly', () => {
       const searchTerm = 'a search term';
-      const helpCenter = domRender(<HelpCenter searchSender={() => {}} />);
+      const helpCenter = domRender(<HelpCenter searchSender={noop} />);
 
       helpCenter.refs.searchField.getValue = () => searchTerm;
 
@@ -878,7 +878,7 @@ describe('HelpCenter component', function() {
     it('should call performSearch given a valid search string', () => {
       const mockPerformSearch = jasmine.createSpy('mockPerformSearch');
       const mockSearchSuccessFn = jasmine.createSpy('mockSearchSuccess');
-      const helpCenter = domRender(<HelpCenter searchSender={() => {}} />);
+      const helpCenter = domRender(<HelpCenter searchSender={noop} />);
 
       helpCenter.performSearch = mockPerformSearch;
       helpCenter.interactiveSearchSuccessFn = mockSearchSuccessFn;

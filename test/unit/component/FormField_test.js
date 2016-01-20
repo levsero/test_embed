@@ -119,12 +119,7 @@ describe('FormField component', function() {
     });
 
     it('should render checkbox with label instead of default input', function() {
-      const field = domRender(
-        <Field
-          label='Agree?'
-          type='checkbox'
-          name='alice' />
-      );
+      const field = domRender(<Field label='Agree?' type='checkbox' name='alice' />);
       const fieldNode = ReactDOM.findDOMNode(field);
 
       expect(fieldNode.querySelector('input').type)

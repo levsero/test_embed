@@ -64,7 +64,7 @@ describe('Nps component', function() {
   });
 
   it('initializes with state.surveyAvailable set to `null`', function() {
-    const nps = instanceRender(<Nps npsSender={() => {}} />);
+    const nps = instanceRender(<Nps npsSender={noop} />);
 
     expect(nps.state.surveyAvailable)
       .toEqual(null);
