@@ -32,6 +32,11 @@ describe('HelpCenterArticle component', function() {
           't'
         ])
       },
+      'utility/devices': {
+        isIos: () => {
+          return '';
+        }
+      },
       'imports?_=lodash!lodash': _,
       'component/Button': {
         ButtonPill: noopReactComponent()
