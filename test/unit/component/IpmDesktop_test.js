@@ -119,30 +119,76 @@ describe('IpmDesktop component', function() {
     });
   });
 
-  describe('handleOnClick', () => {
+  describe('#handleOnClick', () => {
+    const withButtonUrl = (url) => {
+      beforeEach(() => {
+        ipmProps.ipm.message.buttonUrl = url;
+        component = instanceRender(
+          <IpmDesktop
+            ipmSender={ipmSenderSpy}
+            {...ipmProps}  />
+        );
+
+        component.handleOnClick();
+      });
+    };
+
     beforeEach(() => {
       spyOn(window, 'open');
     });
 
-    it('should call window.open', () => {
-      component.handleOnClick();
-
-      expect(window.open)
-        .toHaveBeenCalled();
-    });
-
-    it('should call window.open with props.ipm.message.buttonUrl', () => {
-      component.handleOnClick();
-
-      expect(window.open)
-        .toHaveBeenCalledWith(ipmProps.ipm.message.buttonUrl, '_blank');
-    });
-
-    it('should call props.ipmSender', () => {
+    it('invokes props.ipmSender with "clicked"', () => {
       component.handleOnClick();
 
       expect(ipmSenderSpy)
-        .toHaveBeenCalled();
+        .toHaveBeenCalledWith('clicked');
+    });
+
+    describe('when ipm has an empty buttonUrl', () => {
+      withButtonUrl('');
+
+      it('does not invoke window.open', () => {
+        expect(window.open)
+          .not.toHaveBeenCalled();
+      });
+    });
+
+    describe('when ipm has a buttonUrl', () => {
+      describe('with no protocol specified', () => {
+        withButtonUrl('zendesk.com');
+
+        it('invokes window.open with protocol relative path', () => {
+          expect(window.open)
+            .toHaveBeenCalledWith('//zendesk.com', '_blank');
+        });
+      });
+
+      describe('with a javascript protocol specified', () => {
+        withButtonUrl('javascript:alert("Hello XSS!")');
+
+        it('does not invoke window.open', () => {
+          expect(window.open)
+            .not.toHaveBeenCalled();
+        });
+      });
+
+      describe('with a http protocol specified', () => {
+        withButtonUrl('http://zendesk.com');
+
+        it('invokes window.open with buttonUrl as-is', () => {
+          expect(window.open)
+            .toHaveBeenCalledWith('http://zendesk.com', '_blank');
+        });
+      });
+
+      describe('with a https protocol specified', () => {
+        withButtonUrl('https://zendesk.com');
+
+        it('invokes window.open with buttonUrl as-is', () => {
+          expect(window.open)
+            .toHaveBeenCalledWith('https://zendesk.com', '_blank');
+        });
+      });
     });
   });
 });
