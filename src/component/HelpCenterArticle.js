@@ -5,6 +5,7 @@ import { pick, some } from 'lodash';
 
 import { i18n } from 'service/i18n';
 import { ButtonPill } from 'component/Button';
+import { isIos } from 'utility/devices';
 
 const sanitizeHtml = require('sanitize-html');
 
@@ -37,7 +38,7 @@ class HelpCenterArticle extends Component {
       allowedTags: [
         'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'a', 'ul', 'span',
         'ol', 'nl', 'li', 'b', 'i', 'strong', 'em', 'strike', 'hr', 'br', 'div',
-        'sup', 'sub', 'img', 'iframe'
+        'sup', 'sub', 'img', 'iframe', 'table', 'thead', 'tbody', 'tr', 'th', 'td'
       ],
       transformTags: { 'iframe': this.filterVideoEmbed },
       allowedAttributes: {
@@ -51,7 +52,9 @@ class HelpCenterArticle extends Component {
         'h4': ['id'],
         'h5': ['id'],
         'h6': ['id'],
-        'iframe': allowedIframeAttribs
+        'iframe': allowedIframeAttribs,
+        'td': ['colspan'],
+        'th': ['colspan']
       },
       allowedClasses: {
         'span': [
@@ -65,6 +68,13 @@ class HelpCenterArticle extends Component {
 
     if (this.props.activeArticle.body) {
       let cleanHtml = sanitizeHtml(this.props.activeArticle.body, sanitizeHtmlOptions);
+
+      // Inject a table wrapper to allow horizontal scrolling
+      // for iOS devices we need to override the width as 100% causes issues
+      const iOSStyle = isIos() ? ' style="width: 23rem;"' : '';
+
+      cleanHtml = cleanHtml.replace('<table', '<div class="table-wrap"' + iOSStyle + '><table');
+      cleanHtml = cleanHtml.replace('/table>', '/table></div>');
 
       container.innerHTML = cleanHtml;
     } else {
