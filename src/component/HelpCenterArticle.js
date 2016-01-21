@@ -1,11 +1,43 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import classNames from 'classnames';
+import { pick, each } from 'lodash';
 
 import { i18n } from 'service/i18n';
 import { ButtonPill } from 'component/Button';
 
 const sanitizeHtml = require('sanitize-html');
+
+const allowedIframeAttribs = [
+  'allowfullscreen', 'mozallowfullscreen', 'webkitallowfullscreen',
+  'src', 'oallowfullscreen', 'msallowfullscreen'
+];
+
+const videoWhiteList = (tagName, attribs) => {
+  const allowedAttribs = pick(attribs, allowedIframeAttribs);
+
+  if (!allowedAttribs.src) {
+    return false;
+  }
+
+  let hasMatched = false;
+  const allowedDomains = [
+    'youtube',
+    'player\.vimeo',
+    'fast\.wistia'
+  ];
+
+  each(allowedDomains, (domain) => {
+    const regex = `^(.*?)\/\/(?:www\.)?${domain}(?:-nocookie)?(\.com|\.net)\/`
+
+    if (allowedAttribs.src.search(regex) >= 0) {
+      hasMatched = true;
+      return false;
+    }
+  });
+
+  return (hasMatched ? { tagName: 'iframe', attribs: allowedAttribs } : false);
+};
 
 export class HelpCenterArticle extends Component {
   constructor(props, context) {
@@ -31,8 +63,9 @@ export class HelpCenterArticle extends Component {
       allowedTags: [
         'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'a', 'ul', 'span',
         'ol', 'nl', 'li', 'b', 'i', 'strong', 'em', 'strike', 'hr', 'br', 'div',
-        'sup', 'sub', 'img'
+        'sup', 'sub', 'img', 'iframe'
       ],
+      transformTags: { 'iframe': videoWhiteList },
       allowedAttributes: {
         'a': ['href', 'target', 'title', 'name'],
         'span': ['name'],
@@ -43,7 +76,8 @@ export class HelpCenterArticle extends Component {
         'h3': ['id'],
         'h4': ['id'],
         'h5': ['id'],
-        'h6': ['id']
+        'h6': ['id'],
+        'iframe': allowedIframeAttribs
       },
       allowedClasses: {
         'span': [
@@ -51,7 +85,8 @@ export class HelpCenterArticle extends Component {
           'wysiwyg-font-size-large',
           'wysiwyg-font-size-small'
         ]
-      }
+      },
+      allowedSchemesByTag: { 'iframe': ['https'] }
     };
 
     if (this.props.activeArticle.body) {
