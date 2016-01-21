@@ -16,10 +16,6 @@ export class IpmDesktop extends Component {
 
     const { buttonUrl } = this.props.ipm.message;
 
-    if (!buttonUrl || typeof buttonUrl !== 'string') {
-      return;
-    }
-
     if (buttonUrl.trim().match(/^javascript:/)) {
       return;
     }
@@ -28,7 +24,11 @@ export class IpmDesktop extends Component {
       ? buttonUrl
       : `//${buttonUrl}`;
 
-    window.open(cleanUrl, '_blank');
+    if (buttonUrl) {
+      window.open(cleanUrl, '_blank');
+    } else {
+      this.props.closeFrame();
+    }
   }
 
   updateFrameSize() {
@@ -88,5 +88,6 @@ export class IpmDesktop extends Component {
 IpmDesktop.propTypes = {
   ipm: PropTypes.object.isRequired,
   ipmSender: PropTypes.func.isRequired,
-  updateFrameSize: PropTypes.func.isRequired
+  updateFrameSize: PropTypes.func.isRequired,
+  closeFrame: PropTypes.func.isRequired
 };

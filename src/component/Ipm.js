@@ -39,6 +39,7 @@ export class Ipm extends Component {
       <IpmDesktop
         {...this.state}
         updateFrameSize={this.props.updateFrameSize}
+        closeFrame={this.props.closeFrame}
         ipmSender={this.ipmSender} />
     );
   }
@@ -48,5 +49,6 @@ Ipm.propTypes = {
   setFrameSize: PropTypes.func.isRequired,
   updateFrameSize: PropTypes.func.isRequired,
   ipmSender: PropTypes.func.isRequired,
-  mobile: PropTypes.bool.isRequired
+  mobile: PropTypes.bool.isRequired,
+  closeFrame: PropTypes.func.isRequired
 };

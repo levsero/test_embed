@@ -47,6 +47,8 @@ function create(name, config) {
     rootComponent.ipmSender('dismissed');
   };
 
+  const closeFrame = () => get(name).instance.close();
+
   const transitionSet = transitionFactory.ipm;
 
   const frameParams = {
@@ -73,6 +75,7 @@ function create(name, config) {
           updateFrameSize={params.updateFrameSize}
           setOffsetHorizontal={params.setOffsetHorizontal}
           ipmSender={ipmSender}
+          closeFrame={closeFrame}
           mobile={isMobileBrowser()}
           style={containerStyle} />
       );
