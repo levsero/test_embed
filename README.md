@@ -11,7 +11,7 @@ Ensure `$NVM_DIR` is set and pointing to the location of your nvm installation:
     echo $NVM_DIR
 ```
 
-Ensure the following line is present in your bash or zsh profile:
+If not already present, add the following line to your bash or zsh profile:
 ```
     source $NVM_DIR/nvm.sh
 ```
