@@ -139,7 +139,7 @@ describe('embed.ipm', () => {
     });
   });
 
-  describe('close', () => {
+  describe('closeFrame', () => {
     it('calls frame.close when called', () => {
       ipm.create('dan');
       ipm.render('dan');
@@ -148,7 +148,7 @@ describe('embed.ipm', () => {
       const embed = frame.getRootComponent();
       const mockFrameClose = spyOn(frame, 'close');
 
-      embed.props.close();
+      embed.props.closeFrame();
 
       expect(mockFrameClose)
         .toHaveBeenCalled();

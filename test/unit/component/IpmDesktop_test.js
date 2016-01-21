@@ -3,7 +3,7 @@ describe('IpmDesktop component', function() {
     ipmProps,
     component,
     ipmSenderSpy,
-    closeSpy;
+    closeFrameSpy;
 
   const ipmPath = buildSrcPath('component/IpmDesktop');
 
@@ -57,7 +57,7 @@ describe('IpmDesktop component', function() {
     IpmDesktop = requireUncached(ipmPath).IpmDesktop;
 
     ipmSenderSpy = jasmine.createSpy();
-    closeSpy = jasmine.createSpy();
+    closeFrameSpy = jasmine.createSpy();
 
     component = instanceRender(
       <IpmDesktop
@@ -128,7 +128,7 @@ describe('IpmDesktop component', function() {
         component = instanceRender(
           <IpmDesktop
             ipmSender={ipmSenderSpy}
-            close={closeSpy}
+            closeFrame={closeFrameSpy}
             {...ipmProps}  />
         );
 
@@ -156,7 +156,7 @@ describe('IpmDesktop component', function() {
       });
 
       it('closes ipm', () => {
-        expect(closeSpy)
+        expect(closeFrameSpy)
           .toHaveBeenCalled();
       });
     });
