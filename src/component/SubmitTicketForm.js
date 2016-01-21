@@ -242,9 +242,6 @@ export class SubmitTicketForm extends Component {
                             label={this.state.cancelButtonMessage}
                             onClick={this.props.onCancel}
                             fullscreen={this.props.fullscreen} />);
-    const attachmentForm = (this.state.showAttachmentForm)
-                         ? <AttachmentForm />
-                         : null;
 
     return (
       <form
@@ -253,7 +250,6 @@ export class SubmitTicketForm extends Component {
         onChange={this.handleUpdate}
         ref='form'
         className={formClasses}>
-        {attachmentForm}
         <ScrollContainer
           ref='scrollContainer'
           title={i18n.t(`embeddable_framework.submitTicket.form.title.${this.props.formTitleKey}`)}

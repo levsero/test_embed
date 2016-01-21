@@ -3,6 +3,7 @@ import _ from 'lodash';
 import classNames from 'classnames';
 
 import { win } from 'utility/globals';
+import { AttachmentForm } from 'component/AttachmentForm';
 import { SubmitTicketForm } from 'component/SubmitTicketForm';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { Container } from 'component/Container';
@@ -15,6 +16,9 @@ export class SubmitTicket extends Component {
   constructor(props, context) {
     super(props, context);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleDragEnter = this.handleDragEnter.bind(this);
+    this.handleDragLeave = this.handleDragLeave.bind(this);
+    this.handleOnDrop = this.handleOnDrop.bind(this);
 
     this.state = {
       showNotification: false,
@@ -23,7 +27,8 @@ export class SubmitTicket extends Component {
       errorMessage: '',
       uid: _.uniqueId('submitTicketForm_'),
       searchString: null,
-      searchLocale: null
+      searchLocale: null,
+      isDragActive: false
     };
   }
 
@@ -111,6 +116,25 @@ export class SubmitTicket extends Component {
     }
   }
 
+  handleDragEnter() {
+    this.setState({
+      isDragActive: true
+    });
+  }
+
+  handleDragLeave() {
+    this.setState({
+      isDragActive: false
+    });
+  }
+
+  handleOnDrop(files) {
+    this.setState({
+      isDragActive: false
+    });
+    this.refs.submitTicketForm.handleOnDrop(files);
+  }
+
   render() {
     const notifyClasses = classNames({
       'u-textCenter': true,
@@ -131,13 +155,19 @@ export class SubmitTicket extends Component {
                           formSuccess={this.state.showNotification}
                           rtl={i18n.isRTL()}
                           fullscreen={this.state.fullscreen} />;
-
+    const attachmentForm = this.state.isDragActive
+                         ? <AttachmentForm
+                             onDragLeave={this.handleDragLeave}
+                             onDrop={this.handleOnDrop} />
+                         : null
     return (
       <Container
         style={this.props.style}
         fullscreen={this.state.fullscreen}
         position={this.props.position}
+        onDragEnter={this.handleDragEnter}
         key={this.state.uid}>
+        {attachmentForm}
         <div className={notifyClasses} ref='notification'>
           <ScrollContainer
             title={this.state.message}>

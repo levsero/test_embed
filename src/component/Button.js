@@ -250,7 +250,7 @@ ButtonRating.defaultProps = {
 class ButtonIcon extends Component {
   render() {
     const buttonClasses = classNames({
-      'c-btn c-btn--medium c-btn--secondary': true
+      'c-btn c-btn--medium c-btn--secondary u-pullLeft': true
     });
 
     return (
