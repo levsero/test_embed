@@ -138,6 +138,23 @@ describe('embed.ipm', () => {
         .toHaveBeenCalled();
     });
   });
+
+  describe('close', () => {
+    it('calls frame.close when called', () => {
+      ipm.create('dan');
+      ipm.render('dan');
+
+      const frame = ipm.get('dan').instance;
+      const embed = frame.getRootComponent();
+      const mockFrameClose = spyOn(frame, 'close');
+
+      embed.props.close();
+
+      expect(mockFrameClose)
+        .toHaveBeenCalled();
+    });
+  });
+
   describe('render', () => {
     it('renders an ipm embed the document', () => {
       ipm.create('dan');
