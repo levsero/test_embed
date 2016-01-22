@@ -9,37 +9,11 @@ import { ButtonPill } from 'component/Button';
 const sanitizeHtml = require('sanitize-html');
 
 const allowedIframeAttribs = [
-  'allowfullscreen', 'mozallowfullscreen', 'webkitallowfullscreen',
-  'src', 'oallowfullscreen', 'msallowfullscreen'
+  'src', 'allowfullscreen', 'mozallowfullscreen', 'webkitallowfullscreen',
+  'oallowfullscreen', 'msallowfullscreen'
 ];
 
-const videoWhiteList = (tagName, attribs) => {
-  const allowedAttribs = pick(attribs, allowedIframeAttribs);
-
-  if (!allowedAttribs.src) {
-    return false;
-  }
-
-  let hasMatched = false;
-  const allowedDomains = [
-    'youtube',
-    'player\.vimeo',
-    'fast\.wistia'
-  ];
-
-  each(allowedDomains, (domain) => {
-    const regex = `^(.*?)\/\/(?:www\.)?${domain}(?:-nocookie)?(\.com|\.net)\/`
-
-    if (allowedAttribs.src.search(regex) >= 0) {
-      hasMatched = true;
-      return false;
-    }
-  });
-
-  return (hasMatched ? { tagName: 'iframe', attribs: allowedAttribs } : false);
-};
-
-export class HelpCenterArticle extends Component {
+class HelpCenterArticle extends Component {
   constructor(props, context) {
     super(props, context);
     this.handleClick = this.handleClick.bind(this);
@@ -65,7 +39,7 @@ export class HelpCenterArticle extends Component {
         'ol', 'nl', 'li', 'b', 'i', 'strong', 'em', 'strike', 'hr', 'br', 'div',
         'sup', 'sub', 'img', 'iframe'
       ],
-      transformTags: { 'iframe': videoWhiteList },
+      transformTags: { 'iframe': this.filterVideoEmbed },
       allowedAttributes: {
         'a': ['href', 'target', 'title', 'name'],
         'span': ['name'],
@@ -129,6 +103,32 @@ export class HelpCenterArticle extends Component {
     }
   }
 
+  filterVideoEmbed(tagName, attribs) {
+    const allowedAttribs = pick(attribs, allowedIframeAttribs);
+
+    if (!allowedAttribs.src) {
+      return false;
+    }
+
+    let hasMatched = false;
+    const allowedDomains = [
+      'youtube',
+      'player\.vimeo',
+      'fast\.wistia'
+    ];
+
+    each(allowedDomains, (domain) => {
+      const regex = `^(.*?)\/\/(?:www\.)?${domain}(?:-nocookie)?(\.com|\.net)\/`;
+
+      if (allowedAttribs.src.search(regex) >= 0) {
+        hasMatched = true;
+        return false;
+      }
+    });
+
+    return (hasMatched ? { tagName: 'iframe', attribs: allowedAttribs } : false);
+  }
+
   render() {
     const userContentClasses = classNames({
       'UserContent u-userLinkColor': true,
@@ -168,3 +168,5 @@ HelpCenterArticle.propTypes = {
 HelpCenterArticle.defaultProps = {
   fullscreen: false
 };
+
+export { HelpCenterArticle };

@@ -154,6 +154,55 @@ describe('HelpCenterArticle component', function() {
       expect(helpCenterArticleNode.querySelector('#notes').innerHTML)
         .toMatch('<sup>1</sup>This explains the note');
     });
+
+    describe('filterVideoEmbed', function() {
+      it('should return a filtered iframe object for video embeds that are from valid sources', function() {
+        const youtubeUrl = 'https://youtube.com/embed/fooid';
+        let attribs = {
+          src: youtubeUrl,
+          allowfullscreen: '',
+          width: '480px',
+          height: '320px'
+        };
+        let returnObj = {
+          tagName: 'iframe',
+          attribs: {
+            src: youtubeUrl,
+            allowfullscreen: ''
+          }
+        };
+
+        expect(helpCenterArticle.filterVideoEmbed('iframe', attribs))
+          .toEqual(returnObj);
+
+        const vimeoUrl = 'https://player.vimeo.com/video/fooid';
+
+        attribs.src = returnObj.attribs.src = vimeoUrl;
+        expect(helpCenterArticle.filterVideoEmbed('iframe', attribs))
+          .toEqual(returnObj);
+
+        const wistiaUrl = '//fast.wistia.net/embed/iframe/0kpsylzz9j';
+
+        attribs.src = returnObj.attribs.src = wistiaUrl;
+        expect(helpCenterArticle.filterVideoEmbed('iframe', attribs))
+          .toEqual(returnObj);
+      });
+
+      it('should return false for video embeds that are from invalid sources', function() {
+        let url = 'https://yoVutube.com/embed/fooid';
+
+        expect(helpCenterArticle.filterVideoEmbed('iframe', { src: url }))
+          .toBe(false);
+
+        url = '//fast.wiStia.net/embed/iframe/0kpsylzz9j';
+        expect(helpCenterArticle.filterVideoEmbed('iframe', { src: url }))
+          .toBe(false);
+
+        url = '.com';
+        expect(helpCenterArticle.filterVideoEmbed('iframe', { src: url }))
+          .toBe(false);
+      });
+    });
   });
 
   describe('empty article body', function() {
