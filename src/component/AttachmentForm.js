@@ -2,13 +2,15 @@ import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 import Dropzone from 'react-dropzone';
 
+import { Icon } from 'component/Icon';
+
 export class AttachmentForm extends Component {
   render() {
-    const dropZoneClasses = classNames({
-      'Container--dashed u-posAbsolute u-backgroundOverlay': true
-    });
     const containerClasses = classNames({
-      'u-posRelative u-zIndex': true
+      'u-posRelative u-posOverlay': true
+    });
+    const dropZoneClasses = classNames({
+      'Container--overlay Container--dashed u-posAbsolute u-marginAS': true
     });
 
     return (
@@ -18,7 +20,10 @@ export class AttachmentForm extends Component {
           className={dropZoneClasses}
           onDragLeave={this.props.onDragLeave}
           disableClick={true}>
-          Attach A file here
+          <div className='u-textCenter u-posRelative u-posCenter--vert u-textSize15'>
+            <Icon type='Icon--link'/>
+            <p>Attach A file</p>
+          </div>
         </Dropzone>
       </div>
     );

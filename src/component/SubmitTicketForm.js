@@ -7,7 +7,7 @@ import { AttachmentForm } from 'component/AttachmentForm';
 import { Button,
          ButtonSecondary,
          ButtonGroup,
-         ButtonIcon } from 'component/Button';
+         ButtonDropzone } from 'component/Button';
 import { ScrollContainer } from 'component/ScrollContainer';
 import { getAttachmentPreviews } from 'component/Preview';
 import { i18n } from 'service/i18n';
@@ -256,7 +256,7 @@ export class SubmitTicketForm extends Component {
           contentExpanded={true}
           footerContent={
             <ButtonGroup rtl={i18n.isRTL()}>
-              <ButtonIcon
+              <ButtonDropzone
                 onDrop={this.handleOnDrop}/>
               {buttonCancel}
               <Button

@@ -247,7 +247,7 @@ ButtonRating.defaultProps = {
   onClick: () => {}
 };
 
-class ButtonIcon extends Component {
+class ButtonDropzone extends Component {
   render() {
     const buttonClasses = classNames({
       'c-btn c-btn--medium c-btn--secondary u-pullLeft': true
@@ -271,5 +271,5 @@ export {
   ButtonSecondary,
   ButtonGroup,
   ButtonRating,
-  ButtonIcon
+  ButtonDropzone
 };

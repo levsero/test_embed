@@ -60,6 +60,10 @@ $Base-posOffset: $med + 1;
   position: static !important;
 }
 
+.u-posOverlay {
+  z-index: 10;
+}
+
 /**
  * Used to adjust the default spacing between components
  * Use with great care!
@@ -81,6 +85,10 @@ $Base-posOffset: $med + 1;
  * M = medium 15px
  * L = large 20px
  */
+
+.u-marginAS {
+  margin: $spacing-sml !important;
+}
 
 .u-marginBN {
   margin-bottom: 0 !important;
@@ -143,6 +151,10 @@ $Base-posOffset: $med + 1;
 
 .u-marginRL {
   margin-right: $spacing-lrg !important;
+}
+
+.u-marginLS {
+  margin-left: $spacing-sml !important;
 }
 
 .u-marginHM {
@@ -371,12 +383,4 @@ $Base-posOffset: $med + 1;
 
 .u-hsizeAll {
   width: 100% !important;
-}
-
-.u-backgroundOverlay {
-   background-color: white;
-}
-
-.u-zIndex {
-  z-index: 10;
 }
