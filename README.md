@@ -4,15 +4,16 @@ A 3rd party embeddable framework that handles bringing Zendesk outside of the ag
 
 ## Getting started
 
-This assumes you already have node and nvm installed.
+This assumes you already have node and [nvm](https://github.com/creationix/nvm) installed.
 
-```bash
-    brew install node nvm
+Ensure `$NVM_DIR` is set and pointing to the location of your nvm installation:
+```
+    echo $NVM_DIR
 ```
 
-Ensure the following line is present in your bash or zsh profile:
+If not already present, add the following line to your bash or zsh profile:
 ```
-    source $(brew --prefix nvm)/nvm.sh
+    source $NVM_DIR/nvm.sh
 ```
 
 Ensure that you can run nvm from your command line, and then run the following
