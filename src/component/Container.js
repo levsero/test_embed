@@ -2,15 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
 export class Container extends Component {
-  constructor(props, context) {
-    super(props, context);
-    this.handleDragEnter = this.handleDragEnter.bind(this);
-  }
-
-  handleDragEnter() {
-    this.props.onDragEnter();
-  }
-
   render() {
     const containerClasses = classNames({
       [`Container u-posRelative ${this.props.className}`]: true,
@@ -22,7 +13,7 @@ export class Container extends Component {
     return (
       <div
         className={containerClasses}
-        onDragEnter={this.handleDragEnter}
+        onDragEnter={this.props.onDragEnter}
         style={this.props.style}>
         {this.props.children}
       </div>

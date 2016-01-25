@@ -43,7 +43,8 @@ describe('SubmitTicketForm component', function() {
           render: function() {
             return <div>{this.props.children}</div>;
           }
-        })
+        }),
+        ButtonDropzone: noopReactComponent()
       },
       'component/FormField': {
         Field: noopReactComponent(),
@@ -65,6 +66,10 @@ describe('SubmitTicketForm component', function() {
             );
           }
         })
+      },
+      'component/Preview': {
+        Preview: noopReactComponent(),
+        getAttachmentPreviews: noop
       },
       'service/i18n': {
         i18n: {

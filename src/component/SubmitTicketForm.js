@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import _ from 'lodash';
 import classNames from 'classnames';
 
-import { AttachmentForm } from 'component/AttachmentForm';
 import { Button,
          ButtonSecondary,
          ButtonGroup,

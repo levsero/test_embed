@@ -58,6 +58,9 @@ describe('Submit ticket component', function() {
           return mockIsMobileBrowserValue;
         }
       },
+      'component/AttachmentForm': {
+        AttachmentForm: noopReactComponent()
+      },
       'component/SubmitTicketForm': {
         SubmitTicketForm: React.createClass({
           getInitialState: function() {
@@ -90,6 +93,13 @@ describe('Submit ticket component', function() {
         ScrollContainer: React.createClass({
           render: function() {
             return <div>{this.props.children}</div>;
+          }
+        })
+      },
+      'component/AttachmentForm': {
+        AttachmentForm: React.createClass({
+          render: function() {
+            return <div className='attachment_form' />;
           }
         })
       },
@@ -300,5 +310,19 @@ describe('Submit ticket component', function() {
 
     expect(submitTicket.state.fullscreen)
       .toEqual('VALUE');
+  });
+
+  it('should display the attachment form when isDragActive is true', function() {
+    global.__DEV__ = true;
+
+    const submitTicket = domRender(<SubmitTicket />);
+
+    submitTicket.handleDragEnter();
+
+    expect(submitTicket.state.isDragActive)
+      .toEqual(true);
+
+    expect(document.querySelectorAll('.attachment_form').length)
+      .toEqual(1);
   });
 });
