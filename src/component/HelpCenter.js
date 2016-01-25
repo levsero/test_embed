@@ -160,7 +160,8 @@ export class HelpCenter extends Component {
 
   manualSearch() {
     /* eslint camelcase:0 */
-    const searchTerm = this.refs.searchField.getValue();
+    const searchField = this.refs.searchField;
+    const searchTerm = searchField.getValue();
 
     if (_.isEmpty(searchTerm)) {
       return;
@@ -181,6 +182,10 @@ export class HelpCenter extends Component {
     );
 
     this.performSearch(query, this.interactiveSearchSuccessFn, true);
+
+    if (this.state.fullscreen) {
+      searchField.blur();
+    }
   }
 
   autoSearch() {

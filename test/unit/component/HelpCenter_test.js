@@ -1049,6 +1049,27 @@ describe('HelpCenter component', function() {
       expect(list.props.className)
         .toContain('u-isHidden');
     });
+
+    it('should hide the virtual keyboard', function() {
+      mockIsMobileBrowserValue = true;
+
+      const searchTerm = 'a search term';
+      const helpCenter = ReactDOM.render(
+        <HelpCenter searchSender={() => {}} />,
+        global.document.body
+      );
+
+      helpCenter.searchBoxClickHandler();
+
+      const searchField = helpCenter.refs.searchField;
+
+      searchField.getValue = () => searchTerm;
+      spyOn(searchField, 'blur');
+      helpCenter.manualSearch();
+
+      expect(searchField.blur)
+        .toHaveBeenCalled();
+    });
   });
 
   describe('fullscreen state', function() {

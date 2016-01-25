@@ -14,17 +14,14 @@ let lastTouchEnd = 0;
 
 const propagateFontRatioChange = () => {
   setTimeout(() => {
-    const hideWidget = getDeviceZoom() > 2  || isLandscape();
+    const hideWidget = getDeviceZoom() > 2;
 
     if (hideWidget) {
       setScrollKiller(false);
     }
 
     renderer.hideByZoom(hideWidget);
-
-    if (!isLandscape()) {
-      mediator.channel.broadcast('.updateZoom', getZoomSizingRatio());
-    }
+    mediator.channel.broadcast('.updateZoom', getZoomSizingRatio());
   }, 0);
 };
 const zoomMonitor = (() => {
