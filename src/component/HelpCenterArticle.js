@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import classNames from 'classnames';
-import { pick, each } from 'lodash';
+import { pick, some } from 'lodash';
 
 import { i18n } from 'service/i18n';
 import { ButtonPill } from 'component/Button';
@@ -110,23 +110,20 @@ class HelpCenterArticle extends Component {
       return false;
     }
 
-    let hasMatched = false;
     const allowedDomains = [
       'youtube',
       'player\.vimeo',
       'fast\.wistia'
     ];
-
-    each(allowedDomains, (domain) => {
+    const hasMatched = some(allowedDomains, (domain) => {
       const validDomainTest = `^(.*?)\/\/(?:www\.)?${domain}(?:-nocookie)?(\.com|\.net)\/`;
 
-      if (allowedAttribs.src.search(validDomainTest) >= 0) {
-        hasMatched = true;
-        return false;
-      }
+      return (allowedAttribs.src.search(validDomainTest) >= 0);
     });
 
-    return (hasMatched ? { tagName: 'iframe', attribs: allowedAttribs } : false);
+    return hasMatched
+           ? { tagName: 'iframe', attribs: allowedAttribs }
+           : false;
   }
 
   render() {
