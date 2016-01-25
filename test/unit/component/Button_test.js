@@ -87,12 +87,7 @@ describe('component/Button', function() {
     it('should render with onClick handler if disabled is false', () => {
       const onClickMock = jasmine.createSpy();
 
-      React.render(
-        <ButtonSecondary
-          disabled={false}
-          onClick={onClickMock} />,
-        global.document.body
-      );
+      domRender(<ButtonSecondary disabled={false} onClick={onClickMock} />);
 
       TestUtils.Simulate.click(document.querySelector('.c-btn--secondary'));
 
@@ -103,12 +98,7 @@ describe('component/Button', function() {
     it('should not render with onClick handler if disabled is true', () => {
       const onClickMock = jasmine.createSpy();
 
-      React.render(
-        <ButtonSecondary
-          disabled={true}
-          onClick={onClickMock} />,
-        global.document.body
-      );
+      domRender(<ButtonSecondary disabled={true} onClick={onClickMock} />);
 
       TestUtils.Simulate.click(document.querySelector('.c-btn--secondary'));
 

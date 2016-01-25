@@ -29,10 +29,7 @@ describe('ScrollContainer component', function() {
   });
 
   it('should call `this.getContentContainer` when `this.scrollToBottom` is called', function() {
-    const scrollContainer = ReactDOM.render(
-      <ScrollContainer fullscreen={true} />,
-      global.document.body
-    );
+    const scrollContainer = domRender(<ScrollContainer fullscreen={true} />);
     const spy = spyOn(scrollContainer, 'getContentContainer').and.callThrough();
 
     scrollContainer.scrollToBottom();
@@ -42,10 +39,7 @@ describe('ScrollContainer component', function() {
   });
 
   it('should set scrollTop to scrollHeight value when calling `this.scrollToBottom`', function() {
-    const scrollContainer = ReactDOM.render(
-      <ScrollContainer fullscreen={true} />,
-      global.document.body
-    );
+    const scrollContainer = domRender(<ScrollContainer fullscreen={true} />);
 
     spyOn(scrollContainer, 'getContentContainer')
       .and.returnValue({scrollHeight: 100, scrollTop: 0});
@@ -69,10 +63,7 @@ describe('ScrollContainer component', function() {
   });
 
   it('should have shadow class on footer if content is scrollable', function() {
-    const container = ReactDOM.render(
-      <ScrollContainer fullscreen={true} />,
-      global.document.body
-    );
+    const container = domRender(<ScrollContainer fullscreen={true} />);
 
     container.setState({scrollShadowVisible: true});
 
@@ -85,10 +76,7 @@ describe('ScrollContainer component', function() {
     // ScrollContainer-content - u-paddingTM
     // ScrollContainer-footer - u-paddingVM
 
-    const container = React.render(
-      <ScrollContainer hideZendeskLogo={true} />,
-      global.document.body
-    );
+    const container = domRender(<ScrollContainer hideZendeskLogo={true} />);
 
     expect(container.props.hideZendeskLogo)
       .toEqual(true);
@@ -107,10 +95,7 @@ describe('ScrollContainer component', function() {
     // Should not contain
     // ScrollContainer-content - u-paddingTL
 
-    const container = React.render(
-      <ScrollContainer hideZendeskLogo={false} />,
-      global.document.body
-    );
+    const container = domRender(<ScrollContainer hideZendeskLogo={false} />);
 
     expect(container.props.hideZendeskLogo)
       .toEqual(false);

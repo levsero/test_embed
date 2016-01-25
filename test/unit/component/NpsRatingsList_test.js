@@ -42,10 +42,7 @@ describe('NpsRatingsList component', () => {
 
     NpsRatingsList = requireUncached(npsPath).NpsRatingsList;
 
-    ReactDOM.render(
-        <NpsRatingsList {...npsRatingsListProps} />,
-        global.document.body
-      );
+    domRender(<NpsRatingsList {...npsRatingsListProps} />);
   });
 
   afterEach(() => {

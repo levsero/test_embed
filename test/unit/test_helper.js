@@ -58,6 +58,10 @@ global.instanceRender = (component) => {
   return ShallowTestUtils.getMountedInstance(renderer);
 };
 
+global.domRender = (component) => {
+  return ReactDOM.render(component, global.document.body);
+};
+
 global.noop = function() {};
 
 // TODO: This suppresses the warnings and errors in put tests for now.

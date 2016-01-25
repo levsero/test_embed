@@ -94,11 +94,10 @@ describe('IpmDesktop component', function() {
 
     describe('#getAvatarElement', () => {
       it('returns an image when avatarUrl is passed', () => {
-        component = ReactDOM.render(
+        component = domRender(
           <IpmDesktop
             {...ipmProps}
-            updateFrameSize={noop} />,
-          global.document.body
+            updateFrameSize={noop} />
         );
 
         expect(document.querySelector('img').src)
@@ -108,11 +107,10 @@ describe('IpmDesktop component', function() {
       it('returns an Icon element when avatarUrl is falsy', () => {
         const props = _.merge({}, ipmProps, {ipm: {message:{avatarUrl: ''}}});
 
-        component = ReactDOM.render(
+        component = domRender(
           <IpmDesktop
             {...props}
-            updateFrameSize={noop} />,
-          global.document.body
+            updateFrameSize={noop} />
         );
 
         expect(document.querySelector('.Avatar'))

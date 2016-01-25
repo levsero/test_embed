@@ -77,10 +77,7 @@ describe('FormField component', function() {
 
   describe('Field', function() {
     it('should render form field DOM with a label wrapping two child divs', function() {
-      const field = ReactDOM.render(
-        <Field name='alice' />,
-        global.document.body
-      );
+      const field = domRender(<Field name='alice' />);
       const fieldNode = ReactDOM.findDOMNode(field);
 
       expect(fieldNode.nodeName)
@@ -97,12 +94,7 @@ describe('FormField component', function() {
     });
 
     it('should pass along all props to underlying input', function() {
-      const field = ReactDOM.render(
-        <Field
-          type='email'
-          name='alice' />,
-        global.document.body
-      );
+      const field = domRender(<Field type='email' name='alice' />);
       const fieldNode = ReactDOM.findDOMNode(field);
 
       expect(fieldNode.querySelector('input').name)
@@ -113,14 +105,7 @@ describe('FormField component', function() {
     });
 
     it('should render input prop component instead of default input', function() {
-      const field = ReactDOM.render(
-        <Field
-          input={
-            <textarea />
-          }
-          name='alice' />,
-        global.document.body
-      );
+      const field = domRender(<Field input={<textarea />} name='alice' />);
       const fieldNode = ReactDOM.findDOMNode(field);
 
       expect(fieldNode.querySelector('input'))
@@ -134,13 +119,7 @@ describe('FormField component', function() {
     });
 
     it('should render checkbox with label instead of default input', function() {
-      const field = ReactDOM.render(
-        <Field
-          label='Agree?'
-          type='checkbox'
-          name='alice' />,
-        global.document.body
-      );
+      const field = domRender(<Field label='Agree?' type='checkbox' name='alice' />);
       const fieldNode = ReactDOM.findDOMNode(field);
 
       expect(fieldNode.querySelector('input').type)
@@ -151,10 +130,7 @@ describe('FormField component', function() {
     });
 
     it('should set focused state on field focus', function() {
-      const field = ReactDOM.render(
-        <Field name='alice' />,
-        global.document.body
-      );
+      const field = domRender(<Field name='alice' />);
 
       expect(field.state.focused)
         .toBe(false);
@@ -169,11 +145,7 @@ describe('FormField component', function() {
     });
 
     it('should only set invalid class after focus and blur events', function() {
-      const field = ReactDOM.render(
-        <Field
-          name='alice' />,
-        global.document.body
-      );
+      const field = domRender(<Field name='alice' />);
       const fieldNode = ReactDOM.findDOMNode(field);
 
       // jsdom doesn't seem to support html5 validation api
@@ -206,10 +178,7 @@ describe('FormField component', function() {
   });
 
   it('should have mobile classes when isMobileBrowser is true', function() {
-    const field = React.render(
-      <Field />,
-      global.document.body
-    );
+    const field = domRender(<Field />);
 
     expect(TestUtils.findRenderedDOMComponentWithClass(field, 'u-textSize15'))
       .toBeTruthy();
@@ -224,10 +193,7 @@ describe('FormField component', function() {
 
     Field = requireUncached(formFieldPath).Field;
 
-    const field = React.render(
-      <Field />,
-      global.document.body
-    );
+    const field = domRender(<Field />);
 
     expect(() => TestUtils.findRenderedDOMComponentWithClass(field, 'u-textSize15'))
       .toThrow();
@@ -354,10 +320,7 @@ describe('FormField component', function() {
 
   describe('SearchField', function() {
     it('should clear input and call props.onChangeValue when clear icon is clicked', function() {
-      const searchField = ReactDOM.render(
-        <SearchField onChangeValue={onChangeValue} />,
-        global.document.body
-      );
+      const searchField = domRender(<SearchField onChangeValue={onChangeValue} />);
       const searchFieldNode = ReactDOM.findDOMNode(searchField);
       const searchInputNode = searchFieldNode.querySelector('input');
 
@@ -373,10 +336,7 @@ describe('FormField component', function() {
     });
 
     it('should display `Loading` component when `this.props.isLoading` is truthy', function() {
-      const searchField = ReactDOM.render(
-        <SearchField isLoading={true} />,
-        global.document.body
-      );
+      const searchField = domRender(<SearchField isLoading={true} />);
       const loadingNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Loading');
 
       expect(searchField.props.isLoading)
@@ -387,10 +347,7 @@ describe('FormField component', function() {
     });
 
     it('should not display `Loading` component when `this.props.isLoading` is falsy', function() {
-      const searchField = ReactDOM.render(
-        <SearchField isLoading={false} />,
-        global.document.body
-      );
+      const searchField = domRender(<SearchField isLoading={false} />);
       const loadingNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Loading');
 
       expect(searchField.props.isLoading)
@@ -401,10 +358,7 @@ describe('FormField component', function() {
     });
 
     it('should display `clearInput` Icon when the input has text and `this.props.isLoading` is false', function() {
-      const searchField = ReactDOM.render(
-        <SearchField isLoading={false} />,
-        global.document.body
-      );
+      const searchField = domRender(<SearchField isLoading={false} />);
       const clearInputNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Icon--clearInput');
 
       searchField.setState({ searchInputVal: 'something' });
@@ -417,10 +371,7 @@ describe('FormField component', function() {
     });
 
     it('should not display `clearInput` Icon when the input has no text', function() {
-      const searchField = ReactDOM.render(
-        <SearchField />,
-        global.document.body
-      );
+      const searchField = domRender(<SearchField />);
       const clearInputNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Icon--clearInput');
 
       searchField.setState({ searchInputVal: '' });
@@ -433,10 +384,7 @@ describe('FormField component', function() {
     });
 
     it('should not display `clearInput` Icon when `this.props.isLoading` is true', function() {
-      const searchField = ReactDOM.render(
-        <SearchField isLoading={true} />,
-        global.document.body
-      );
+      const searchField = domRender(<SearchField isLoading={true} />);
       const clearInputNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Icon--clearInput');
 
       searchField.setState({ searchInputVal: 'something' });
@@ -452,10 +400,7 @@ describe('FormField component', function() {
   describe('SearchFieldButton', function() {
     it('should have a onClick function its div', function() {
       const onClick = jasmine.createSpy();
-      const searchFieldButton = React.render(
-        <SearchFieldButton onClick={onClick} />,
-        global.document.body
-      );
+      const searchFieldButton = domRender(<SearchFieldButton onClick={onClick} />);
 
       const searchFieldButtonNode = ReactDOM.findDOMNode(searchFieldButton);
 

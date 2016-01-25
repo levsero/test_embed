@@ -179,10 +179,7 @@ describe('HelpCenter component', function() {
     let helpCenter;
 
     beforeEach(function() {
-      helpCenter = ReactDOM.render(
-        <HelpCenter />,
-        global.document.body
-      );
+      helpCenter = domRender(<HelpCenter />);
     });
 
     it('should set states matching the response with results', function() {
@@ -213,10 +210,7 @@ describe('HelpCenter component', function() {
   describe('searchFail', function() {
     it('should set states accordingly to the search failure', function() {
       const searchTerm = 'abcd';
-      const helpCenter = ReactDOM.render(
-        <HelpCenter />,
-        global.document.body
-      );
+      const helpCenter = domRender(<HelpCenter />);
 
       helpCenter.setState({ searchTerm: searchTerm });
 
@@ -246,10 +240,7 @@ describe('HelpCenter component', function() {
     beforeEach(function() {
       mockSearchSender = jasmine.createSpy('mockSearchSender');
 
-      helpCenter = ReactDOM.render(
-        <HelpCenter searchSender={mockSearchSender}/>,
-        global.document.body
-      );
+      helpCenter = domRender(<HelpCenter searchSender={mockSearchSender}/>);
     });
 
     it('should call searchSender with the right payload for search attribute', function() {
@@ -487,11 +478,10 @@ describe('HelpCenter component', function() {
       mockOnSearch = jasmine.createSpy('mockOnSearch');
       mockSearchSender = jasmine.createSpy('mockSearchSender');
 
-      helpCenter = ReactDOM.render(
+      helpCenter = domRender(
         <HelpCenter
           onSearch={mockOnSearch}
-          searchSender={mockSearchSender} />,
-        global.document.body
+          searchSender={mockSearchSender} />
       );
     });
 
@@ -558,7 +548,7 @@ describe('HelpCenter component', function() {
 
       mockSearchSender.calls.reset();
 
-      helpCenter.performSearch(query, () => {}, true);
+      helpCenter.performSearch(query, noop, true);
 
       mockSearchSender.calls.mostRecent().args[1](responsePayloadNoResults);
 
@@ -586,11 +576,10 @@ describe('HelpCenter component', function() {
     it('should send the right request params when backtracking', function() {
       /* eslint camelcase:0 */
       const mockSearchSender = jasmine.createSpy('mockSearchSender');
-      const helpCenter = ReactDOM.render(
+      const helpCenter = domRender(
         <HelpCenter
           searchSender={mockSearchSender}
-          trackSearch={trackSearch} />,
-        global.document.body
+          trackSearch={trackSearch} />
       );
       const searchTerm = 'abcd';
 
@@ -610,10 +599,7 @@ describe('HelpCenter component', function() {
     });
 
     it('should correctly backtrack if not done before and have searched', function() {
-      const helpCenter = ReactDOM.render(
-        <HelpCenter trackSearch={trackSearch} />,
-        global.document.body
-      );
+      const helpCenter = domRender(<HelpCenter trackSearch={trackSearch} />);
 
       helpCenter.setState({
         searchTracked: false,
@@ -629,10 +615,7 @@ describe('HelpCenter component', function() {
     });
 
     it('shouldn\'t backtrack if already tracked', function() {
-      const helpCenter = ReactDOM.render(
-        <HelpCenter trackSearch={trackSearch} />,
-        global.document.body
-      );
+      const helpCenter = domRender(<HelpCenter trackSearch={trackSearch} />);
 
       helpCenter.setState({
         searchTracked: true,
@@ -648,10 +631,7 @@ describe('HelpCenter component', function() {
     });
 
     it('shouldn\'t backtrack if no search has been performed', function() {
-      const helpCenter = ReactDOM.render(
-        <HelpCenter trackSearch={trackSearch} />,
-        global.document.body
-      );
+      const helpCenter = domRender(<HelpCenter trackSearch={trackSearch} />);
 
       helpCenter.setState({
         searchTracked: false,
@@ -672,11 +652,7 @@ describe('HelpCenter component', function() {
 
     beforeEach(() => {
       mockOnSearch = jasmine.createSpy('onSearch');
-      helpCenter = ReactDOM.render(
-        <HelpCenter
-          onSearch={mockOnSearch} />,
-        global.document.body
-      );
+      helpCenter = domRender(<HelpCenter onSearch={mockOnSearch} />);
 
       result = {
         body: {
@@ -721,10 +697,7 @@ describe('HelpCenter component', function() {
   });
 
   it('searchStartState sets the correct values', () => {
-    const helpCenter = ReactDOM.render(
-      <HelpCenter />,
-      global.document.body
-    );
+    const helpCenter = domRender(<HelpCenter />);
     const result = helpCenter.searchStartState({});
 
     expect(result)
@@ -735,10 +708,7 @@ describe('HelpCenter component', function() {
   });
 
   it('searchCompleteState sets the correct values', () => {
-    const helpCenter = ReactDOM.render(
-      <HelpCenter />,
-      global.document.body
-    );
+    const helpCenter = domRender(<HelpCenter />);
     const result = helpCenter.searchCompleteState({});
 
     expect(result)
@@ -753,10 +723,7 @@ describe('HelpCenter component', function() {
   describe('autoSearch', () => {
     it('should not call performSearch if the string is not valid', () => {
       const mockPerformSearch = jasmine.createSpy('mockPerformSearch');
-      const helpCenter = ReactDOM.render(
-        <HelpCenter searchSender={() => {}} />,
-        global.document.body
-      );
+      const helpCenter = domRender(<HelpCenter searchSender={noop} />);
 
       helpCenter.performSearch = mockPerformSearch;
 
@@ -788,10 +755,7 @@ describe('HelpCenter component', function() {
     it('should build up the query object correctly', () => {
       const searchTerm = 'a search term ';
       const mockPerformSearch = jasmine.createSpy('mockPerformSearch');
-      const helpCenter = ReactDOM.render(
-        <HelpCenter searchSender={() => {}} />,
-        global.document.body
-      );
+      const helpCenter = domRender(<HelpCenter searchSender={noop} />);
 
       helpCenter.performSearch = mockPerformSearch;
 
@@ -811,10 +775,7 @@ describe('HelpCenter component', function() {
 
     it('should set the states correctly', () => {
       const searchTerm = 'a search term ';
-      const helpCenter = ReactDOM.render(
-        <HelpCenter searchSender={() => {}} />,
-        global.document.body
-      );
+      const helpCenter = domRender(<HelpCenter searchSender={noop} />);
 
       helpCenter.refs.searchField.getValue = () => searchTerm;
 
@@ -832,10 +793,7 @@ describe('HelpCenter component', function() {
     it('should call performSearch given a valid search string', () => {
       const mockPerformSearch = jasmine.createSpy('mockPerformSearch');
       const mockSearchSuccessFn = jasmine.createSpy('mockSearchSuccess');
-      const helpCenter = ReactDOM.render(
-        <HelpCenter searchSender={() => {}} />,
-        global.document.body
-      );
+      const helpCenter = domRender(<HelpCenter searchSender={noop} />);
 
       helpCenter.performSearch = mockPerformSearch;
       helpCenter.interactiveSearchSuccessFn = mockSearchSuccessFn;
@@ -860,10 +818,7 @@ describe('HelpCenter component', function() {
   describe('manualSearch', () => {
     it('should not call performSearch if the string is empty', () => {
       const mockPerformSearch = jasmine.createSpy('mockPerformSearch');
-      const helpCenter = ReactDOM.render(
-        <HelpCenter searchSender={() => {}} />,
-        global.document.body
-      );
+      const helpCenter = domRender(<HelpCenter searchSender={noop} />);
 
       helpCenter.performSearch = mockPerformSearch;
 
@@ -885,10 +840,7 @@ describe('HelpCenter component', function() {
     it('should build up the query object correctly', () => {
       const searchTerm = 'a search term';
       const mockPerformSearch = jasmine.createSpy('mockPerformSearch');
-      const helpCenter = ReactDOM.render(
-        <HelpCenter searchSender={() => {}} />,
-        global.document.body
-      );
+      const helpCenter = domRender(<HelpCenter searchSender={noop} />);
 
       helpCenter.performSearch = mockPerformSearch;
 
@@ -908,10 +860,7 @@ describe('HelpCenter component', function() {
 
     it('should set the states correctly', () => {
       const searchTerm = 'a search term';
-      const helpCenter = ReactDOM.render(
-        <HelpCenter searchSender={() => {}} />,
-        global.document.body
-      );
+      const helpCenter = domRender(<HelpCenter searchSender={noop} />);
 
       helpCenter.refs.searchField.getValue = () => searchTerm;
 
@@ -929,10 +878,7 @@ describe('HelpCenter component', function() {
     it('should call performSearch given a valid search string', () => {
       const mockPerformSearch = jasmine.createSpy('mockPerformSearch');
       const mockSearchSuccessFn = jasmine.createSpy('mockSearchSuccess');
-      const helpCenter = ReactDOM.render(
-        <HelpCenter searchSender={() => {}} />,
-        global.document.body
-      );
+      const helpCenter = domRender(<HelpCenter searchSender={noop} />);
 
       helpCenter.performSearch = mockPerformSearch;
       helpCenter.interactiveSearchSuccessFn = mockSearchSuccessFn;
@@ -959,11 +905,10 @@ describe('HelpCenter component', function() {
 
       const mockSearchSender = jasmine.createSpy('mockSearchSender');
       const mockOnSearch = jasmine.createSpy('mockOnSearch');
-      const helpCenter = ReactDOM.render(
+      const helpCenter = domRender(
         <HelpCenter
           searchSender={mockSearchSender}
-          onSearch={mockOnSearch} />,
-        global.document.body
+          onSearch={mockOnSearch} />
       );
       const searchTerm = 'help, I\'ve fallen and can\'t get up!';
       const responsePayload = {body: {results: [1, 2, 3], count: 4}, ok: true};
@@ -984,13 +929,12 @@ describe('HelpCenter component', function() {
       // Needs to be rewritten
 
       const mockSearchSender = jasmine.createSpy('mockSearchSender');
-      const helpCenter = ReactDOM.render(
+      const helpCenter = domRender(
         <HelpCenter
           searchSender={mockSearchSender}
           onSearch={noop}
           onLinkClick={noop}
-          showBackButton={noop} />,
-        global.document.body
+          showBackButton={noop} />
       );
       const mockBeacon = mockRegistry['service/beacon'].beacon;
       const searchTerm = 'help, I\'ve fallen and can\'t get up!';
@@ -1067,12 +1011,7 @@ describe('HelpCenter component', function() {
       // Needs to be rewritten
 
       const mockSearchSender = jasmine.createSpy('mockSearchSender');
-      const helpCenter = ReactDOM.render(
-        <HelpCenter
-          searchSender={mockSearchSender}
-          onSearch={noop} />,
-        global.document.body
-      );
+      const helpCenter = domRender(<HelpCenter searchSender={mockSearchSender} onSearch={noop} />);
       const searchTerm = 'help, I\'ve fallen and can\'t get up!';
       const responsePayload = {ok: false};
       const list = TestUtils.findRenderedDOMComponentWithClass(helpCenter, 'List');
@@ -1094,12 +1033,7 @@ describe('HelpCenter component', function() {
       // Needs to be rewritten
 
       const mockSearchSender = jasmine.createSpy('mockSearchSender');
-      const helpCenter = ReactDOM.render(
-        <HelpCenter
-          searchSender={mockSearchSender}
-          onSearch={noop} />,
-        global.document.body
-      );
+      const helpCenter = domRender(<HelpCenter searchSender={mockSearchSender} onSearch={noop} />);
       const searchTerm = 'abcd';
       const responsePayload = {body: {results: [], count: 0}};
       const list = TestUtils.findRenderedDOMComponentWithClass(helpCenter, 'List');
@@ -1145,10 +1079,7 @@ describe('HelpCenter component', function() {
 
     mockIsMobileBrowserValue = true;
 
-    const helpCenter = ReactDOM.render(
-      <HelpCenter />,
-      global.document.body
-    );
+    const helpCenter = domRender(<HelpCenter />);
 
     helpCenter.searchBoxClickHandler();
 
@@ -1172,10 +1103,7 @@ describe('HelpCenter component', function() {
 
     mockIsMobileBrowserValue = true;
 
-    const helpCenter = ReactDOM.render(
-      <HelpCenter />,
-      global.document.body
-    );
+    const helpCenter = domRender(<HelpCenter />);
 
     helpCenter.searchBoxClickHandler();
 
@@ -1190,10 +1118,7 @@ describe('HelpCenter component', function() {
 
   describe('searchField', function() {
     it('should render component if fullscreen is false', function() {
-      const helpCenter = ReactDOM.render(
-        <HelpCenter />,
-        global.document.body
-      );
+      const helpCenter = domRender(<HelpCenter />);
 
       expect(helpCenter.refs.searchField)
         .toBeTruthy();
@@ -1204,14 +1129,15 @@ describe('HelpCenter component', function() {
   });
 
   describe('searchFieldButton', function() {
-    it('should render component if fullscreen is true', function() {
+    let helpCenter;
+
+    beforeEach(function() {
       mockIsMobileBrowserValue = true;
 
-      const helpCenter = ReactDOM.render(
-        <HelpCenter />,
-        global.document.body
-      );
+      helpCenter = domRender(<HelpCenter />);
+    });
 
+    it('should render component if fullscreen is true', function() {
       expect(helpCenter.refs.searchFieldButton)
         .toBeTruthy();
 
@@ -1220,13 +1146,6 @@ describe('HelpCenter component', function() {
     });
 
     it('sets `showIntroScreen` state to false when component is clicked', function() {
-      mockIsMobileBrowserValue = true;
-
-      const helpCenter = ReactDOM.render(
-        <HelpCenter />,
-        global.document.body
-      );
-
       expect(helpCenter.state.showIntroScreen)
         .toBe(true);
 
@@ -1237,13 +1156,6 @@ describe('HelpCenter component', function() {
     });
 
     it('sets focus state on searchField when component is clicked on mobile', function() {
-      mockIsMobileBrowserValue = true;
-
-      const helpCenter = ReactDOM.render(
-        <HelpCenter />,
-        global.document.body
-      );
-
       expect(helpCenter.refs.searchField)
         .toBeFalsy();
 

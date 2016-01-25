@@ -140,14 +140,13 @@ describe('NpsMobile component', () => {
     mockSubmitCommentHandler = jasmine.createSpy();
     mockOnCommentChangeHandler = jasmine.createSpy();
 
-    component = ReactDOM.render(
+    component = domRender(
         <NpsMobile
           {...npsProps}
           setFrameSize={mockSetFrameSize}
           submitCommentHandler={mockSubmitCommentHandler}
           onCommentChangeHandler={mockOnCommentChangeHandler}
-          submitRatingHandler={mockSubmitRatingHandler} />,
-        global.document.body
+          submitRatingHandler={mockSubmitRatingHandler} />
       );
   });
 

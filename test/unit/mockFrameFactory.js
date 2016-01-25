@@ -28,7 +28,7 @@ const mockFrameFactory = jasmine.createSpy('mockFrameFactory').and.callFake(
       }
     });
 
-    const child = React.render(<Component />, global.document.body);
+    const child = domRender(<Component />);
 
     return _.extend({
       show: mockFrameMethods.show,

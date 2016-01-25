@@ -94,10 +94,7 @@ describe('SubmitTicketForm component', function() {
   });
 
   it('should display form title', function() {
-    ReactDOM.render(
-      <SubmitTicketForm formTitleKey='testTitle' />,
-      global.document.body
-    );
+    domRender(<SubmitTicketForm formTitleKey='testTitle' />);
 
     expect(document.getElementById('formTitle').innerHTML)
       .toEqual('embeddable_framework.submitTicket.form.title.testTitle');
@@ -108,24 +105,21 @@ describe('SubmitTicketForm component', function() {
 
     spyOn(mockRegistry['service/i18n'].i18n, 't').and.callThrough();
 
-    ReactDOM.render(
-      <SubmitTicketForm formTitleKey={titleKey} />,
-      global.document.body
-    );
+    domRender(<SubmitTicketForm formTitleKey={titleKey} />);
 
     expect(mockRegistry['service/i18n'].i18n.t)
       .toHaveBeenCalledWith(`embeddable_framework.submitTicket.form.title.${titleKey}`);
   });
 
   it('should correctly render form with noValidate attribute', function() {
-    const submitTicketForm = ReactDOM.render(<SubmitTicketForm />, global.document.body);
+    const submitTicketForm = domRender(<SubmitTicketForm />);
 
     expect(ReactDOM.findDOMNode(submitTicketForm).getAttribute('novalidate'))
       .toEqual('');
   });
 
   it('should change state and alter submit button on valid submit', function() {
-    const submitTicketForm = ReactDOM.render(<SubmitTicketForm submit={onSubmit} />, global.document.body);
+    const submitTicketForm = domRender(<SubmitTicketForm submit={onSubmit} />);
     const submitTicketFormNode = ReactDOM.findDOMNode(submitTicketForm);
     const submitElem = submitTicketFormNode.querySelector('input[type="submit"]');
 
@@ -150,10 +144,7 @@ describe('SubmitTicketForm component', function() {
   });
 
   it('should clear all fields other then name and email on valid submit', function() {
-    const submitTicketForm = ReactDOM.render(
-      <SubmitTicketForm submit={onSubmit} />,
-      global.document.body
-    );
+    const submitTicketForm = domRender(<SubmitTicketForm submit={onSubmit} />);
 
     submitTicketForm.state.formState = _.clone(formParams);
     submitTicketForm.clear();
@@ -167,7 +158,7 @@ describe('SubmitTicketForm component', function() {
 
   describe('ButtonSecondary', function() {
     it('should be rendered in the form when fullscreen is false', function() {
-      const submitTicketForm = ReactDOM.render(<SubmitTicketForm fullscreen={false} />, global.document.body);
+      const submitTicketForm = domRender(<SubmitTicketForm fullscreen={false} />);
 
       expect(function() {
         TestUtils.findRenderedDOMComponentWithClass(submitTicketForm, 'c-btn--secondary');
@@ -175,7 +166,7 @@ describe('SubmitTicketForm component', function() {
     });
 
     it('should not be rendered in the form when fullscreen is true', function() {
-      const submitTicketForm = ReactDOM.render(<SubmitTicketForm fullscreen={true} />, global.document.body);
+      const submitTicketForm = domRender(<SubmitTicketForm fullscreen={true} />);
 
       expect(function() {
         TestUtils.findRenderedDOMComponentWithClass(submitTicketForm, 'c-btn--secondary');

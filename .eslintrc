@@ -25,6 +25,7 @@
     "basePath": true,
     "buildTestPath": true,
     "buildSrcPath": true,
+    "domRender": true,
     "initMockRegistry": true,
     "jsdom": true,
     "mockery": true,
