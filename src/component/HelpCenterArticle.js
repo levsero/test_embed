@@ -118,9 +118,9 @@ class HelpCenterArticle extends Component {
     ];
 
     each(allowedDomains, (domain) => {
-      const regex = `^(.*?)\/\/(?:www\.)?${domain}(?:-nocookie)?(\.com|\.net)\/`;
+      const validDomainTest = `^(.*?)\/\/(?:www\.)?${domain}(?:-nocookie)?(\.com|\.net)\/`;
 
-      if (allowedAttribs.src.search(regex) >= 0) {
+      if (allowedAttribs.src.search(validDomainTest) >= 0) {
         hasMatched = true;
         return false;
       }

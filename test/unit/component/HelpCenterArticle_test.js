@@ -201,6 +201,10 @@ describe('HelpCenterArticle component', function() {
         url = '.com';
         expect(helpCenterArticle.filterVideoEmbed('iframe', { src: url }))
           .toBe(false);
+
+        url = 'https://player.notvimeo.com/video/fooid';
+        expect(helpCenterArticle.filterVideoEmbed('iframe', { src: url }))
+          .toBe(false);
       });
     });
   });
