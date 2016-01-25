@@ -249,20 +249,23 @@ ButtonRating.defaultProps = {
 
 class ButtonDropzone extends Component {
   render() {
-    const buttonClasses = classNames({
-      'c-btn c-btn--medium c-btn--secondary u-pullLeft': true
-    });
-
     return (
       <Dropzone
         onDrop={this.props.onDrop}
-        className={buttonClasses}
-        onClick={this.props.onClick}>
+        className='c-btn c-btn--medium c-btn--secondary u-pullLeft'>
         <Icon type='Icon--link' />
       </Dropzone>
     );
   }
 }
+
+ButtonDropzone.propTypes = {
+  onDrop: PropTypes.func
+};
+
+ButtonDropzone.defaultProps = {
+  onDrop: () => {}
+};
 
 export {
   Button,

@@ -155,7 +155,7 @@ export class SubmitTicket extends Component {
                           formSuccess={this.state.showNotification}
                           rtl={i18n.isRTL()}
                           fullscreen={this.state.fullscreen} />;
-    const attachmentForm = this.state.isDragActive
+    const attachmentForm = this.state.isDragActive && __DEV__
                          ? <AttachmentForm
                              onDragLeave={this.handleDragLeave}
                              onDrop={this.handleOnDrop} />

@@ -242,6 +242,10 @@ export class SubmitTicketForm extends Component {
                             label={this.state.cancelButtonMessage}
                             onClick={this.props.onCancel}
                             fullscreen={this.props.fullscreen} />);
+    const buttonDropzone = __DEV__
+                         ? <ButtonDropzone
+                             onDrop={this.handleOnDrop} />
+                         : null
 
     return (
       <form
@@ -256,8 +260,7 @@ export class SubmitTicketForm extends Component {
           contentExpanded={true}
           footerContent={
             <ButtonGroup rtl={i18n.isRTL()}>
-              <ButtonDropzone
-                onDrop={this.handleOnDrop}/>
+              {buttonDropzone}
               {buttonCancel}
               <Button
                 fullscreen={this.props.fullscreen}

@@ -1,23 +1,15 @@
 import React, { Component, PropTypes } from 'react';
-import classNames from 'classnames';
 import Dropzone from 'react-dropzone';
 
 import { Icon } from 'component/Icon';
 
 export class AttachmentForm extends Component {
   render() {
-    const containerClasses = classNames({
-      'u-posRelative u-posOverlay': true
-    });
-    const dropZoneClasses = classNames({
-      'Container--overlay Container--dashed u-posAbsolute u-marginAS': true
-    });
-
     return (
-      <div className={containerClasses}>
+      <div className='u-posRelative u-posOverlay'>
         <Dropzone
           onDrop={this.props.onDrop}
-          className={dropZoneClasses}
+          className='Container--overlay Container--dashed u-posAbsolute u-marginAS'
           onDragLeave={this.props.onDragLeave}
           disableClick={true}>
           <div className='u-textCenter u-posRelative u-posCenter--vert u-textSize15'>
@@ -29,4 +21,13 @@ export class AttachmentForm extends Component {
     );
   }
 }
+
+AttachmentForm.propTypes = {
+  onDrop: PropTypes.func.isRequired,
+  onDragLeave: PropTypes.func
+};
+
+AttachmentForm.defaultProps = {
+  onDragLeave: () => {}
+};
 
