@@ -37,7 +37,8 @@ export class HelpCenter extends Component {
       showIntroScreen: isMobileBrowser(),
       virtualKeyboardKiller: false,
       searchTracked: false,
-      searchResultClicked: false
+      searchResultClicked: false,
+      searchFieldFocused: false
     };
   }
 
@@ -368,6 +369,10 @@ export class HelpCenter extends Component {
     const onBlurHandler = () => {
       // defer event to allow onClick events to fire first
       _.defer(function(self) {
+        self.setState({
+          searchFieldFocused: false
+        });
+
         if (self.state.fullscreen && !self.state.hasSearched && !self.state.isLoading) {
           self.setState({
             showIntroScreen: true
@@ -484,6 +489,17 @@ export class HelpCenter extends Component {
                           )
                         : i18n.t('embeddable_framework.helpCenter.label.results');
 
+    const footerContent = !this.state.searchFieldFocused
+                        ? <div className={buttonContainerClasses}>
+                            <ButtonGroup rtl={i18n.isRTL()}>
+                              <Button
+                                fullscreen={this.state.fullscreen}
+                                label={this.state.buttonLabel}
+                                onClick={this.handleNextClick} />
+                            </ButtonGroup>
+                          </div>
+                        : null;
+
     return (
       <Container
         style={this.props.style}
@@ -493,16 +509,7 @@ export class HelpCenter extends Component {
           hideZendeskLogo={hideZendeskLogo}
           title={i18n.t(`embeddable_framework.launcher.label.${this.props.formTitleKey}`)}
           headerContent={headerContent}
-          footerContent={
-            <div className={buttonContainerClasses}>
-              <ButtonGroup rtl={i18n.isRTL()}>
-                <Button
-                  fullscreen={this.state.fullscreen}
-                  label={this.state.buttonLabel}
-                  onClick={this.handleNextClick} />
-              </ButtonGroup>
-            </div>
-          }
+          footerContent={footerContent}
           fullscreen={this.state.fullscreen}>
           <div className={formClasses}>
             <HelpCenterForm
