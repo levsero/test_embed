@@ -26,12 +26,14 @@ Container.propTypes = {
   fullscreen: PropTypes.bool,
   className: PropTypes.string,
   style: PropTypes.object,
-  card: PropTypes.bool
+  card: PropTypes.bool,
+  onDragEnter: PropTypes.func
 };
 
 Container.defaultProps = {
   fullscreen: false,
   className: '',
   style: null,
-  card: false
+  card: false,
+  onDragEnter: () => {}
 };

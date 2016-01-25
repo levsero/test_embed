@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { map, reject } from 'lodash';
-import classNames from 'classnames';
+import { map } from 'lodash';
 
 import { Icon } from 'component/Icon';
 
@@ -40,7 +39,12 @@ class Preview extends Component {
   }
 }
 
+Preview.propTypes = {
+  attachment: PropTypes.object.isRequired,
+  handleRemoveAttachment: PropTypes.func.isRequired
+};
+
 export {
   Preview,
   getAttachmentPreviews
-}
+};

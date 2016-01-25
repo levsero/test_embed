@@ -58,9 +58,6 @@ describe('Submit ticket component', function() {
           return mockIsMobileBrowserValue;
         }
       },
-      'component/AttachmentForm': {
-        AttachmentForm: noopReactComponent()
-      },
       'component/SubmitTicketForm': {
         SubmitTicketForm: React.createClass({
           getInitialState: function() {

@@ -159,7 +159,8 @@ export class SubmitTicket extends Component {
                          ? <AttachmentForm
                              onDragLeave={this.handleDragLeave}
                              onDrop={this.handleOnDrop} />
-                         : null
+                         : null;
+
     return (
       <Container
         style={this.props.style}

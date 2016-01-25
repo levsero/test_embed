@@ -244,7 +244,7 @@ export class SubmitTicketForm extends Component {
     const buttonDropzone = __DEV__
                          ? <ButtonDropzone
                              onDrop={this.handleOnDrop} />
-                         : null
+                         : null;
 
     return (
       <form
