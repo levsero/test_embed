@@ -122,8 +122,8 @@ class HelpCenterArticle extends Component {
     });
 
     return hasMatched
-           ? { tagName: 'iframe', attribs: allowedAttribs }
-           : false;
+         ? { tagName: 'iframe', attribs: allowedAttribs }
+         : false;
   }
 
   render() {
