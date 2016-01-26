@@ -1,13 +1,19 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import classNames from 'classnames';
+import { pick, some } from 'lodash';
 
 import { i18n } from 'service/i18n';
 import { ButtonPill } from 'component/Button';
 
 const sanitizeHtml = require('sanitize-html');
 
-export class HelpCenterArticle extends Component {
+const allowedIframeAttribs = [
+  'src', 'allowfullscreen', 'mozallowfullscreen', 'webkitallowfullscreen',
+  'oallowfullscreen', 'msallowfullscreen'
+];
+
+class HelpCenterArticle extends Component {
   constructor(props, context) {
     super(props, context);
     this.handleClick = this.handleClick.bind(this);
@@ -31,8 +37,9 @@ export class HelpCenterArticle extends Component {
       allowedTags: [
         'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'a', 'ul', 'span',
         'ol', 'nl', 'li', 'b', 'i', 'strong', 'em', 'strike', 'hr', 'br', 'div',
-        'sup', 'sub', 'img'
+        'sup', 'sub', 'img', 'iframe'
       ],
+      transformTags: { 'iframe': this.filterVideoEmbed },
       allowedAttributes: {
         'a': ['href', 'target', 'title', 'name'],
         'span': ['name'],
@@ -43,7 +50,8 @@ export class HelpCenterArticle extends Component {
         'h3': ['id'],
         'h4': ['id'],
         'h5': ['id'],
-        'h6': ['id']
+        'h6': ['id'],
+        'iframe': allowedIframeAttribs
       },
       allowedClasses: {
         'span': [
@@ -51,7 +59,8 @@ export class HelpCenterArticle extends Component {
           'wysiwyg-font-size-large',
           'wysiwyg-font-size-small'
         ]
-      }
+      },
+      allowedSchemesByTag: { 'iframe': ['https'] }
     };
 
     if (this.props.activeArticle.body) {
@@ -94,6 +103,29 @@ export class HelpCenterArticle extends Component {
     }
   }
 
+  filterVideoEmbed(tagName, attribs) {
+    const allowedAttribs = pick(attribs, allowedIframeAttribs);
+
+    if (!allowedAttribs.src) {
+      return false;
+    }
+
+    const allowedDomains = [
+      'youtube',
+      'player\.vimeo',
+      'fast\.wistia'
+    ];
+    const hasMatched = some(allowedDomains, (domain) => {
+      const validDomainTest = `^(.*?)\/\/(?:www\.)?${domain}(?:-nocookie)?(\.com|\.net)\/`;
+
+      return (allowedAttribs.src.search(validDomainTest) >= 0);
+    });
+
+    return hasMatched
+         ? { tagName: 'iframe', attribs: allowedAttribs }
+         : false;
+  }
+
   render() {
     const userContentClasses = classNames({
       'UserContent u-userLinkColor': true,
@@ -133,3 +165,5 @@ HelpCenterArticle.propTypes = {
 HelpCenterArticle.defaultProps = {
   fullscreen: false
 };
+
+export { HelpCenterArticle };
