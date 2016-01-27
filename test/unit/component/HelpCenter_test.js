@@ -1167,4 +1167,17 @@ describe('HelpCenter component', function() {
         .toEqual(true);
     });
   });
+
+  describe('nextButton', function() {
+    mockIsMobileBrowserValue = true;
+
+    it('should hide when searchField is focused', function() {
+      const helpCenter = domRender(<HelpCenter />);
+
+      helpCenter.setState({ searchFieldFocused: true });
+
+      expect(helpCenter.refs.scrollContainer.props.footerContent)
+        .toBe(null);
+    });
+  });
 });

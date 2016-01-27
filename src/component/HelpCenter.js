@@ -510,7 +510,8 @@ export class HelpCenter extends Component {
           title={i18n.t(`embeddable_framework.launcher.label.${this.props.formTitleKey}`)}
           headerContent={headerContent}
           footerContent={footerContent}
-          fullscreen={this.state.fullscreen}>
+          fullscreen={this.state.fullscreen}
+          isVirtualKeyboardOpen={this.state.searchFieldFocused}>
           <div className={formClasses}>
             <HelpCenterForm
               ref='helpCenterForm'
