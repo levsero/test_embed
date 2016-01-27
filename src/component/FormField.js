@@ -149,7 +149,11 @@ class Field extends Component {
       value: this.props.value,
       required: this.props.required,
       label: this.props.label,
-      type: this.props.type
+      type: this.props.type,
+      autoCapitalize: 'off',
+      autoCorrect: 'off',
+      autoComplete: 'off',
+      spellCheck: 'false'
     };
 
     return (
@@ -451,6 +455,8 @@ class SearchField extends Component {
               onBlur={this.onBlur}
               autoCapitalize="off"
               autoCorrect="off"
+              autoComplete="off"
+              spellCheck="false"
               placeholder={placeholder}
               type='search' />
           </div>
