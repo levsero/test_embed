@@ -1,5 +1,5 @@
 const inline = require('inline-source').sync;
-const babel = require('babel-core')
+const babel = require('babel-core');
 const htmlmin = require('htmlmin');
 const uglify = require('uglify-js');
 const fs = require('fs');
