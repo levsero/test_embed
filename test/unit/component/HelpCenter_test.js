@@ -1054,10 +1054,7 @@ describe('HelpCenter component', function() {
       mockIsMobileBrowserValue = true;
 
       const searchTerm = 'a search term';
-      const helpCenter = ReactDOM.render(
-        <HelpCenter searchSender={() => {}} />,
-        global.document.body
-      );
+      const helpCenter = domRender(<HelpCenter searchSender={noop} />);
 
       helpCenter.searchBoxClickHandler();
 
