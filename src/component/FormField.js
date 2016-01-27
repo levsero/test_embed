@@ -114,6 +114,7 @@ class Field extends Component {
 
   render() {
     const type = this.props.type;
+    const landscape = (isMobileBrowser() && isLandscape());
     const isCheckbox = (type === 'checkbox');
     const fieldClasses = classNames({
       'Form-field u-isSelectable u-posRelative': true,
@@ -122,12 +123,12 @@ class Field extends Component {
       'Form-field--dropdown': this.props.options,
       'Form-field--clean': isCheckbox,
       'is-mobile': isMobileBrowser(),
-      'Form-field--small': (isMobileBrowser() && isLandscape())
+      'Form-field--small': landscape
     });
     const fieldLabelClasses = classNames({
       'Form-fieldLabel u-textXHeight': true,
       'u-textSize15': (isMobileBrowser() && !isLandscape()),
-      'u-textSizeSml': (isMobileBrowser() && isLandscape()),
+      'u-textSizeSml': landscape,
       [this.props.labelClasses]: true
     });
     const fieldInputClasses = classNames({
@@ -138,7 +139,8 @@ class Field extends Component {
     });
     const dropdownClasses = classNames({
       'u-isHidden': !this.props.options,
-      'Form-fieldArrows': true
+      'Form-fieldArrows': true,
+      'Form-fieldArrows--small': landscape
     });
     const sharedProps = {
       onChange: this.onChange,

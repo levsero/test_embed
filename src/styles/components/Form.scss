@@ -111,6 +111,10 @@ $Form-fontSize: #{13/$font-size}rem;
   pointer-events: none;
 }
 
+.Form-fieldArrows--small {
+  top: #{9/$font-size}rem;
+}
+
 .Form-field--search {
   padding: #{11/$font-size}rem $Form-spacing;
   height: #{43/$font-size}rem;
