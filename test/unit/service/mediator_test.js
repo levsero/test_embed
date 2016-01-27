@@ -57,7 +57,8 @@ describe('mediator', function() {
        'hide',
        'showBackButton',
        'setLastSearch',
-       'prefill']
+       'prefill',
+       'update']
     );
 
     chatSub = jasmine.createSpyObj(
@@ -109,6 +110,7 @@ describe('mediator', function() {
       c.subscribe(`${names.submitTicket}.showBackButton`, submitTicketSub.showBackButton);
       c.subscribe(`${names.submitTicket}.setLastSearch`, submitTicketSub.setLastSearch);
       c.subscribe(`${names.submitTicket}.prefill`, submitTicketSub.prefill);
+      c.subscribe(`${names.submitTicket}.update`, submitTicketSub.update);
 
       c.subscribe(`${names.chat}.show`, chatSub.show);
       c.subscribe(`${names.chat}.showWithAnimation`, chatSub.show);
@@ -926,6 +928,15 @@ describe('mediator', function() {
 
         expect(submitTicketSub.show.calls.count())
           .toEqual(1);
+      });
+
+      describe('.orientationChange', function() {
+        it('calls update on submitTicket', function() {
+          c.broadcast('.orientationChange');
+
+          expect(submitTicketSub.update)
+            .toHaveBeenCalled();
+        });
       });
     });
 

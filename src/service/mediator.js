@@ -323,6 +323,10 @@ function init(helpCenterAvailable, hideLauncher) {
     resetActiveEmbed();
   });
 
+  c.intercept('.orientationChange', () => {
+    c.broadcast(`${submitTicket}.update`);
+  });
+
   c.intercept(`${chat}.onChatEnd`, () => {
     if (state[`${helpCenter}.isAvailable`]) {
       state.activeEmbed = helpCenter;
@@ -347,10 +351,6 @@ function init(helpCenterAvailable, hideLauncher) {
     if (state[`${chat}.isOnline`] && !state[`${helpCenter}.isAvailable`]) {
       c.broadcast(`${launcher}.setLabelChat`);
     }
-  });
-
-  c.intercept('.orientationChange', () => {
-    c.broadcast(`${submitTicket}.update`);
   });
 
   initMessaging();

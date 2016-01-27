@@ -122,12 +122,12 @@ class Field extends Component {
       'Form-field--dropdown': this.props.options,
       'Form-field--clean': isCheckbox,
       'is-mobile': isMobileBrowser(),
-      'Form-field--small': isMobileBrowser() && isLandscape()
+      'Form-field--small': (isMobileBrowser() && isLandscape())
     });
     const fieldLabelClasses = classNames({
       'Form-fieldLabel u-textXHeight': true,
-      'u-textSize15': isMobileBrowser() && !isLandscape(),
-      'u-textSizeSml': isMobileBrowser() && isLandscape(),
+      'u-textSize15': (isMobileBrowser() && !isLandscape()),
+      'u-textSizeSml': (isMobileBrowser() && isLandscape()),
       [this.props.labelClasses]: true
     });
     const fieldInputClasses = classNames({
