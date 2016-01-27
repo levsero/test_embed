@@ -192,6 +192,10 @@ function render(name) {
   mediator.channel.subscribe(name + '.prefill', function(user) {
     prefillForm(name, user);
   });
+
+  mediator.channel.subscribe(name + '.update', function() {
+    submitTickets[name].instance.getChild().forceUpdate();
+  });
 }
 
 function prefillForm(name, user) {

@@ -77,6 +77,10 @@ $Form-fontSize: #{13/$font-size}rem;
   }
 }
 
+.Form-field--small {
+  padding: #{4/$font-size}rem $spacing-sml #{4/$font-size}rem;
+}
+
 .Form-checkbox {
   width: #{14/$font-size}rem;
   height: #{14/$font-size}rem;

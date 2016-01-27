@@ -102,6 +102,7 @@ function initMobileScaling() {
   }, true);
 
   win.addEventListener('orientationchange', () => {
+    mediator.channel.broadcast('.orientationChange');
     if (!isLandscape()) {
       setTimeout(() => {
         propagateFontRatioChange();

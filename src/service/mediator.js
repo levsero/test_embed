@@ -349,6 +349,10 @@ function init(helpCenterAvailable, hideLauncher) {
     }
   });
 
+  c.intercept('.orientationChange', () => {
+    c.broadcast(`${submitTicket}.update`);
+  });
+
   initMessaging();
 }
 

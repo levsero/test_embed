@@ -4,7 +4,8 @@ import _ from 'lodash';
 import classNames from 'classnames';
 
 import { LoadingEllipses } from 'component/Loading';
-import { isMobileBrowser } from 'utility/devices';
+import { isMobileBrowser,
+         isLandscape } from 'utility/devices';
 import { i18n } from 'service/i18n';
 import { Icon } from 'component/Icon';
 import { bindMethods } from 'utility/utils';
@@ -120,11 +121,13 @@ class Field extends Component {
       'Form-field--focused': this.state.focused && !isCheckbox,
       'Form-field--dropdown': this.props.options,
       'Form-field--clean': isCheckbox,
-      'is-mobile': isMobileBrowser()
+      'is-mobile': isMobileBrowser(),
+      'Form-field--small': isMobileBrowser() && isLandscape()
     });
     const fieldLabelClasses = classNames({
       'Form-fieldLabel u-textXHeight': true,
-      'u-textSize15': isMobileBrowser(),
+      'u-textSize15': isMobileBrowser() && !isLandscape(),
+      'u-textSizeSml': isMobileBrowser() && isLandscape(),
       [this.props.labelClasses]: true
     });
     const fieldInputClasses = classNames({
