@@ -1,11 +1,12 @@
 const inline = require('inline-source').sync;
+const babel = require('babel-core')
 const htmlmin = require('htmlmin');
 const uglify = require('uglify-js');
 const fs = require('fs');
 
 const ver = String(fs.readFileSync('dist/VERSION_HASH')).trim();
 const str = fs.readFileSync('./src/cacheBuster/update.js').toString().replace('{{versionHash}}', ver);
-const result = uglify.minify(str, { fromString: true });
+const result = babel.transform(uglify.minify(str, { fromString: true }).code);
 
 fs.writeFileSync('./dist/update.js', result.code);
 
