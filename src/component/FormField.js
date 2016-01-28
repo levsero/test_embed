@@ -115,6 +115,7 @@ class Field extends Component {
   render() {
     const type = this.props.type;
     const landscape = (isMobileBrowser() && isLandscape());
+    const portrait = (isMobileBrowser() && !isLandscape());
     const isCheckbox = (type === 'checkbox');
     const fieldClasses = classNames({
       'Form-field u-isSelectable u-posRelative': true,
@@ -127,7 +128,7 @@ class Field extends Component {
     });
     const fieldLabelClasses = classNames({
       'Form-fieldLabel u-textXHeight': true,
-      'u-textSize15': (isMobileBrowser() && !isLandscape()),
+      'u-textSize15': portrait,
       'u-textSizeSml': landscape,
       [this.props.labelClasses]: true
     });
