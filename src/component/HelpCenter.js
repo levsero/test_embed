@@ -347,6 +347,7 @@ export class HelpCenter extends Component {
       'u-marginTA': this.state.fullscreen,
       'u-marginVM': this.props.hideZendeskLogo,
       'u-isHidden': this.state.showIntroScreen ||
+                    this.state.searchFieldFocused ||
                     (!this.state.fullscreen && !this.state.hasSearched)
     });
 
@@ -489,17 +490,6 @@ export class HelpCenter extends Component {
                           )
                         : i18n.t('embeddable_framework.helpCenter.label.results');
 
-    const footerContent = !this.state.searchFieldFocused
-                        ? <div className={buttonContainerClasses}>
-                            <ButtonGroup rtl={i18n.isRTL()}>
-                              <Button
-                                fullscreen={this.state.fullscreen}
-                                label={this.state.buttonLabel}
-                                onClick={this.handleNextClick} />
-                            </ButtonGroup>
-                          </div>
-                        : null;
-
     return (
       <Container
         style={this.props.style}
@@ -509,7 +499,16 @@ export class HelpCenter extends Component {
           hideZendeskLogo={hideZendeskLogo}
           title={i18n.t(`embeddable_framework.launcher.label.${this.props.formTitleKey}`)}
           headerContent={headerContent}
-          footerContent={footerContent}
+          footerContent={
+            <div className={buttonContainerClasses}>
+              <ButtonGroup rtl={i18n.isRTL()}>
+                <Button
+                  fullscreen={this.state.fullscreen}
+                  label={this.state.buttonLabel}
+                  onClick={this.handleNextClick} />
+              </ButtonGroup>
+            </div>
+          }
           fullscreen={this.state.fullscreen}
           isVirtualKeyboardOpen={this.state.searchFieldFocused}>
           <div className={formClasses}>
