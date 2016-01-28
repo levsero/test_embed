@@ -1177,7 +1177,16 @@ describe('HelpCenter component', function() {
       helpCenter.setState({ searchFieldFocused: true });
 
       expect(helpCenter.refs.scrollContainer.props.footerContent)
-        .toBe(null);
+        .toBeFalsy();
+    });
+
+    it('should appear when searchField is blurred', function() {
+      const helpCenter = domRender(<HelpCenter />);
+
+      helpCenter.setState({ searchFieldFocused: false });
+
+      expect(helpCenter.refs.scrollContainer.props.footerContent)
+        .toBeTruthy();
     });
   });
 });
