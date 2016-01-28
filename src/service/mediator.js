@@ -323,6 +323,10 @@ function init(helpCenterAvailable, hideLauncher) {
     resetActiveEmbed();
   });
 
+  c.intercept('.orientationChange', () => {
+    c.broadcast(`${submitTicket}.update`);
+  });
+
   c.intercept(`${chat}.onChatEnd`, () => {
     if (state[`${helpCenter}.isAvailable`]) {
       state.activeEmbed = helpCenter;

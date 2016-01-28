@@ -14,7 +14,7 @@ let lastTouchEnd = 0;
 
 const propagateFontRatioChange = () => {
   setTimeout(() => {
-    const hideWidget = getDeviceZoom() > 2  || isLandscape();
+    const hideWidget = getDeviceZoom() > 2 || (isLandscape() && !__DEV__);
 
     if (hideWidget) {
       setScrollKiller(false);
@@ -22,7 +22,7 @@ const propagateFontRatioChange = () => {
 
     renderer.hideByZoom(hideWidget);
 
-    if (!isLandscape()) {
+    if (!isLandscape() || __DEV__) {
       mediator.channel.broadcast('.updateZoom', getZoomSizingRatio());
     }
   }, 0);
@@ -102,6 +102,7 @@ function initMobileScaling() {
   }, true);
 
   win.addEventListener('orientationchange', () => {
+    mediator.channel.broadcast('.orientationChange');
     if (!isLandscape()) {
       setTimeout(() => {
         propagateFontRatioChange();

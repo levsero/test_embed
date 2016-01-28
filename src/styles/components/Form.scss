@@ -77,6 +77,10 @@ $Form-fontSize: #{13/$font-size}rem;
   }
 }
 
+.Form-field--small {
+  padding: #{4/$font-size}rem $spacing-sml #{4/$font-size}rem;
+}
+
 .Form-checkbox {
   width: #{14/$font-size}rem;
   height: #{14/$font-size}rem;
@@ -105,6 +109,10 @@ $Form-fontSize: #{13/$font-size}rem;
   right: #{14/$font-size}rem;
   top: #{13/$font-size}rem;
   pointer-events: none;
+}
+
+.Form-fieldArrows--small {
+  top: #{9/$font-size}rem;
 }
 
 .Form-field--search {
