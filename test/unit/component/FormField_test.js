@@ -45,7 +45,8 @@ describe('FormField component', function() {
       'utility/devices': {
         isMobileBrowser: function() {
           return true;
-        }
+        },
+        isIos: noop
       },
       'utility/utils': {
         bindMethods: mockBindMethods
@@ -188,7 +189,8 @@ describe('FormField component', function() {
     mockery.registerMock('utility/devices', {
       isMobileBrowser: function() {
         return false;
-      }
+      },
+      isIos: noop
     });
 
     Field = requireUncached(formFieldPath).Field;

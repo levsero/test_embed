@@ -470,7 +470,7 @@ class SearchField extends Component {
               value={this.state.searchInputVal}
               onFocus={this.onFocus}
               onBlur={this.onBlur}
-              {... attribs} />
+              {...attribs} />
           </div>
           <div className='Arrange-sizeFit u-isActionable'>
             <LoadingEllipses className={loadingClasses} />
