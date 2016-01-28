@@ -5,7 +5,6 @@ import { pick, some } from 'lodash';
 
 import { i18n } from 'service/i18n';
 import { ButtonPill } from 'component/Button';
-import { isIos } from 'utility/devices';
 
 const sanitizeHtml = require('sanitize-html');
 
@@ -70,10 +69,7 @@ class HelpCenterArticle extends Component {
       let cleanHtml = sanitizeHtml(this.props.activeArticle.body, sanitizeHtmlOptions);
 
       // Inject a table wrapper to allow horizontal scrolling
-      // for iOS devices we need to override the width as 100% causes issues
-      const iOSStyle = isIos() ? ' style="width: 23rem;"' : '';
-
-      cleanHtml = cleanHtml.replace('<table', `<div class="table-wrap"${iOSStyle}><table`);
+      cleanHtml = cleanHtml.replace('<table', `<div class="table-wrap"><table`);
       cleanHtml = cleanHtml.replace('/table>', '/table></div>');
 
       container.innerHTML = cleanHtml;
