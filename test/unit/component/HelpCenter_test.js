@@ -1049,6 +1049,25 @@ describe('HelpCenter component', function() {
       expect(list.props.className)
         .toContain('u-isHidden');
     });
+
+    it('should call blur and hide the virtual keyboard', function() {
+      mockIsMobileBrowserValue = true;
+
+      const helpCenter = domRender(<HelpCenter searchSender={noop} />);
+
+      helpCenter.searchBoxClickHandler();
+
+      const searchField = helpCenter.refs.searchField;
+
+      searchField.getValue = () => 'a search term';
+
+      // blur is manually called in manualSearch to hide the virtual keyboard
+      spyOn(searchField, 'blur');
+      helpCenter.manualSearch();
+
+      expect(searchField.blur)
+        .toHaveBeenCalled();
+    });
   });
 
   describe('fullscreen state', function() {

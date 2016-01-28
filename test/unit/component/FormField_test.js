@@ -3,7 +3,9 @@ describe('FormField component', function() {
     SearchField,
     SearchFieldButton,
     Field,
-    getCustomFields;
+    getCustomFields,
+    mockIsLandscapeValue,
+    mockIsMobileBrowserValue;
   const formFieldPath = buildSrcPath('component/FormField');
 
   beforeEach(function() {
@@ -14,6 +16,9 @@ describe('FormField component', function() {
     mockery.enable({
       warnOnReplace: false
     });
+
+    mockIsMobileBrowserValue = false;
+    mockIsLandscapeValue = false;
 
     initMockRegistry({
       'React': React,
@@ -44,9 +49,12 @@ describe('FormField component', function() {
       },
       'utility/devices': {
         isMobileBrowser: function() {
-          return true;
+          return mockIsMobileBrowserValue;
         },
-        isIos: noop
+        isIos: noop,
+        isLandscape: function() {
+          return mockIsLandscapeValue;
+        }
       },
       'utility/utils': {
         bindMethods: mockBindMethods
@@ -178,27 +186,38 @@ describe('FormField component', function() {
     });
   });
 
-  it('should have mobile classes when isMobileBrowser is true', function() {
-    const field = domRender(<Field />);
+  describe('mobile', function() {
+    it('should have default mobile classes when isMobileBrowser is true', function() {
+      mockIsMobileBrowserValue = true;
 
-    expect(TestUtils.findRenderedDOMComponentWithClass(field, 'u-textSize15'))
-      .toBeTruthy();
-  });
+      const field = domRender(<Field />);
 
-  it('should not have mobile classes when isMobileBrowser is false', function() {
-    mockery.registerMock('utility/devices', {
-      isMobileBrowser: function() {
-        return false;
-      },
-      isIos: noop
+      expect(TestUtils.findRenderedDOMComponentWithClass(field, 'u-textSize15'))
+        .toBeTruthy();
+
+      expect(() => TestUtils.findRenderedDOMComponentWithClass(field, 'u-textSizeSml'))
+        .toThrow();
     });
 
-    Field = requireUncached(formFieldPath).Field;
+    it('should have extra landscape classes when isLandscape is true', function() {
+      mockIsMobileBrowserValue = true;
+      mockIsLandscapeValue = true;
 
-    const field = domRender(<Field />);
+      const field = domRender(<Field />);
 
-    expect(() => TestUtils.findRenderedDOMComponentWithClass(field, 'u-textSize15'))
-      .toThrow();
+      expect(TestUtils.findRenderedDOMComponentWithClass(field, 'u-textSizeSml'))
+        .toBeTruthy();
+
+      expect(() => TestUtils.findRenderedDOMComponentWithClass(field, 'u-textSize15'))
+        .toThrow();
+    });
+
+    it('should not have mobile classes when isMobileBrowser is false', function() {
+      const field = domRender(<Field />);
+
+      expect(() => TestUtils.findRenderedDOMComponentWithClass(field, 'u-textSize15'))
+        .toThrow();
+    });
   });
 
   describe('getCustomFields', function() {
@@ -360,6 +379,8 @@ describe('FormField component', function() {
     });
 
     it('should display `clearInput` Icon when the input has text and `this.props.isLoading` is false', function() {
+      mockIsMobileBrowserValue = true;
+
       const searchField = domRender(<SearchField isLoading={false} />);
       const clearInputNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Icon--clearInput');
 

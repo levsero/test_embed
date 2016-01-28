@@ -4,7 +4,9 @@ import _ from 'lodash';
 import classNames from 'classnames';
 
 import { LoadingEllipses } from 'component/Loading';
-import { isMobileBrowser, isIos } from 'utility/devices';
+import { isMobileBrowser,
+         isLandscape,
+         isIos } from 'utility/devices';
 import { i18n } from 'service/i18n';
 import { Icon } from 'component/Icon';
 import { bindMethods } from 'utility/utils';
@@ -113,6 +115,8 @@ class Field extends Component {
 
   render() {
     const type = this.props.type;
+    const landscape = (isMobileBrowser() && isLandscape());
+    const portrait = (isMobileBrowser() && !isLandscape());
     const isCheckbox = (type === 'checkbox');
     const fieldClasses = classNames({
       'Form-field u-isSelectable u-posRelative': true,
@@ -120,11 +124,13 @@ class Field extends Component {
       'Form-field--focused': this.state.focused && !isCheckbox,
       'Form-field--dropdown': this.props.options,
       'Form-field--clean': isCheckbox,
-      'is-mobile': isMobileBrowser()
+      'is-mobile': isMobileBrowser(),
+      'Form-field--small': landscape
     });
     const fieldLabelClasses = classNames({
       'Form-fieldLabel u-textXHeight': true,
-      'u-textSize15': isMobileBrowser(),
+      'u-textSize15': portrait,
+      'u-textSizeSml': landscape,
       [this.props.labelClasses]: true
     });
     const fieldInputClasses = classNames({
@@ -135,7 +141,8 @@ class Field extends Component {
     });
     const dropdownClasses = classNames({
       'u-isHidden': !this.props.options,
-      'Form-fieldArrows': true
+      'Form-fieldArrows': true,
+      'Form-fieldArrows--small': landscape
     });
     const sharedProps = {
       onChange: this.onChange,
