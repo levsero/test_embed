@@ -12,9 +12,17 @@ import { cappedIntervalCall } from 'utility/utils';
 
 let lastTouchEnd = 0;
 
+const isQaLandscapeEnabled = () => {
+  const url = win.location.href;
+  const suffix = '#zd-landscape';
+
+  // check if the url ends with "#zd-landscape. If so then return true and enable
+  // landscape for QA testing. TODO: Remove this when landscape is enabled in prod.
+  return url.indexOf(suffix, url.length - suffix.length) !== -1;
+};
 const propagateFontRatioChange = () => {
   setTimeout(() => {
-    const hideWidget = getDeviceZoom() > 2 || (isLandscape() && !__DEV__);
+    const hideWidget = getDeviceZoom() > 2 || (isLandscape() && !isQaLandscapeEnabled());
 
     if (hideWidget) {
       setScrollKiller(false);
@@ -22,7 +30,7 @@ const propagateFontRatioChange = () => {
 
     renderer.hideByZoom(hideWidget);
 
-    if (!isLandscape() || __DEV__) {
+    if (!isLandscape() || isQaLandscapeEnabled()) {
       mediator.channel.broadcast('.updateZoom', getZoomSizingRatio());
     }
   }, 0);
