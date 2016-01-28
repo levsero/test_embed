@@ -79,8 +79,9 @@ export class HelpCenter extends Component {
 
   hideVirtualKeyboard() {
     if (this.state.fullscreen) {
-      // in order for the virtual keyboard to hide,
-      // we need to remove the element from the DOM
+      // in order for the virtual keyboard to hide in iOS 7,
+      // we need to remove the element from the DOM. It has been fixed
+      // in iOS 8.
       this.setState({
         virtualKeyboardKiller: true
       });
@@ -160,7 +161,8 @@ export class HelpCenter extends Component {
 
   manualSearch() {
     /* eslint camelcase:0 */
-    const searchTerm = this.refs.searchField.getValue();
+    const searchField = this.refs.searchField;
+    const searchTerm = searchField.getValue();
 
     if (_.isEmpty(searchTerm)) {
       return;
@@ -181,6 +183,10 @@ export class HelpCenter extends Component {
     );
 
     this.performSearch(query, this.interactiveSearchSuccessFn, true);
+
+    if (this.state.fullscreen) {
+      searchField.blur();
+    }
   }
 
   autoSearch() {
