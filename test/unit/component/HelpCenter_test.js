@@ -1050,17 +1050,18 @@ describe('HelpCenter component', function() {
         .toContain('u-isHidden');
     });
 
-    it('should hide the virtual keyboard', function() {
+    it('should call blur and hide the virtual keyboard', function() {
       mockIsMobileBrowserValue = true;
 
-      const searchTerm = 'a search term';
       const helpCenter = domRender(<HelpCenter searchSender={noop} />);
 
       helpCenter.searchBoxClickHandler();
 
       const searchField = helpCenter.refs.searchField;
 
-      searchField.getValue = () => searchTerm;
+      searchField.getValue = () => 'a search term';
+
+      // blur is manually called in manualSearch to hide the virtual keyboard
       spyOn(searchField, 'blur');
       helpCenter.manualSearch();
 
