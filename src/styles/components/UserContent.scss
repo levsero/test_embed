@@ -9,7 +9,10 @@
   &.is-mobile {
     font-size: #{14/$font-size}rem;
     max-width: 100%;
-    width: 100%;
+    /* hack to make the iframe work properly in iOS */
+    width: 1px;
+    min-width: 100%;
+    *width: 100%;
 
     table {
       font-size: #{14/$font-size}rem;
