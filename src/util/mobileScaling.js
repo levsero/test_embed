@@ -18,7 +18,7 @@ const isQaLandscapeEnabled = () => {
 
   // check if the url ends with "#zd-landscape. If so then return true and enable
   // landscape for QA testing. TODO: Remove this when landscape is enabled in prod.
-  return url.indexOf(suffix, url.length - suffix.length) !== -1;
+  return (url.indexOf(suffix, url.length - suffix.length) !== -1 || __DEV__);
 };
 const propagateFontRatioChange = () => {
   setTimeout(() => {
