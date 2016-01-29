@@ -4,11 +4,15 @@
   word-break: break-word;
   line-height: 1.5;
   font-size: #{13/$font-size}rem;
-  max-width:#{339/$font-size}rem;
+  max-width: #{339/$font-size}rem;
 
   &.is-mobile {
     font-size: #{14/$font-size}rem;
     max-width: 100%;
+
+    table {
+      font-size: #{14/$font-size}rem;
+    }
   }
 
   ul {
@@ -77,6 +81,38 @@
   iframe {
     width: 100%;
     min-height: #{225/$font-size}rem;
+  }
+
+  .table-wrap {
+    /* hack to make the iframe work properly in iOS */
+    width: 1px;
+    *width: 100%;
+    min-width: 100%;
+    overflow-y: auto;
+    margin: 0 0 #{16/$font-size}rem;
+
+    &::-webkit-scrollbar {
+      box-shadow: none;
+      height: #{6/$font-size}rem;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: $base-border-color;
+      border-radius: #{6/$font-size}rem;
+    }
+  }
+
+  table {
+    word-break: normal;
+    text-align: left;
+    font-size: #{13/$font-size}rem;
+    margin-bottom: #{10/$font-size}rem;
+    margin-right: #{3/$font-size}rem;
+  }
+
+  th, td {
+    padding: #{10/$font-size}rem;
+    border: #{1/$font-size}rem solid $stroke-color;
   }
 }
 
