@@ -1169,24 +1169,30 @@ describe('HelpCenter component', function() {
   });
 
   describe('nextButton', function() {
-    mockIsMobileBrowserValue = true;
+    let helpCenter;
+
+    beforeEach(function() {
+      helpCenter = domRender(<HelpCenter />);
+
+      helpCenter.setState({ fullscreen: true });
+    });
 
     it('should hide when searchField is focused', function() {
-      const helpCenter = domRender(<HelpCenter />);
+      helpCenter.refs.searchField.props.onFocus();
 
-      helpCenter.setState({ searchFieldFocused: true });
+      const footerContent = helpCenter.refs.scrollContainer.props.footerContent;
 
-      expect(helpCenter.refs.scrollContainer.props.footerContent)
-        .toBeFalsy();
+      expect(footerContent.props.className)
+        .toContain('u-isHidden');
     });
 
     it('should appear when searchField is blurred', function() {
-      const helpCenter = domRender(<HelpCenter />);
+      helpCenter.refs.searchField.props.onBlur();
 
-      helpCenter.setState({ searchFieldFocused: false });
+      const footerContent = helpCenter.refs.scrollContainer.props.footerContent;
 
-      expect(helpCenter.refs.scrollContainer.props.footerContent)
-        .toBeTruthy();
+      expect(footerContent.props.className)
+        .not.toContain('u-isHidden');
     });
   });
 });
