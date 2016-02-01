@@ -6,7 +6,9 @@ function isLandscape() {
 
 function getDeviceZoom() {
   const screen = win.screen;
-  const deviceWidth = isLandscape() ? screen.availHeight : screen.availWidth;
+  const deviceWidth = isLandscape()
+                    ? Math.max(screen.availWidth, screen.availHeight)
+                    : screen.availWidth;
 
   return deviceWidth / win.innerWidth;
 }
