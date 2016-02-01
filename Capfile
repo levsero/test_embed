@@ -1,3 +1,5 @@
+require 'aws-sdk'
+require 'yaml'
 require 'zendesk/deployment'
 require 'airbrake/capistrano'
 
@@ -21,6 +23,9 @@ before 'embeddable_framework:deploy', 'deploy:setup'
 before 'embeddable_framework:deploy', 'deploy:verify_local_git_status'
 after  'embeddable_framework:deploy', 'deploy:notify'
 
+before 'embeddable_framework:release_to_s3', 'deploy:setup'
+before 'embeddable_framework:release_to_s3', 'deploy:verify_local_git_status'
+
 def sh(command)
   logger.trace "executing locally: #{command.inspect}" if logger
   result = `#{command}`
@@ -37,6 +42,53 @@ namespace :deploy do
 end
 
 namespace :embeddable_framework do
+  task :release_to_s3 do
+    logger.info "Building assets"
+    sh "npm install"
+    sh "node_modules/.bin/bower install"
+    sh "script/fetch_i18n"
+    sh "npm run build"
+
+    secrets_file = YAML.load(File.read('/etc/zendesk/zendesk.yml'))
+    key = secrets_file['production']['aws_access_key']
+    secret = secrets_file['production']['aws_secret_key']
+
+    bucket_name = 'zendesk-embeddable-framework'
+
+    if tag
+      release_directory = "releases/#{tag}"
+    else
+      release_directory = "releases/#{build_version}"
+    end
+
+    Aws.config.update({
+      region: 'us-east-1',
+      credentials: Aws::Credentials.new(key, secret)
+    })
+
+    res = Aws::S3::Resource.new
+
+    bucket = res.bucket(bucket_name)
+
+    # clear release directory
+    logger.info "#{release_directory} exists?"
+
+    if bucket.object("#{release_directory}/").exists?
+      logger.info "#{release_directory} exists - batch deleting"
+      bucket.objects({ prefix: "#{release_directory}/" }).batch_delete!
+    end
+
+    # upload
+    bucket.put_object({key: "#{release_directory}/", acl: 'public-read'})
+
+    framework_files.each do |file|
+      logger.info "put_object #{release_directory}/#{file}"
+      bucket.put_object({key: "#{release_directory}/#{file}", acl: 'public-read'})
+
+      logger.info "upload_file dist/#{file}"
+      bucket.object("#{release_directory}/#{file}").upload_file("dist/#{file}", {acl: 'public-read'})
+    end
+  end
 
   task :deploy do
     logger.info "Generating assets"
