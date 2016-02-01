@@ -1169,17 +1169,26 @@ describe('HelpCenter component', function() {
   });
 
   describe('nextButton', function() {
-    let helpCenter;
+    let helpCenter,
+      searchField;
 
     beforeEach(function() {
-      helpCenter = domRender(<HelpCenter />);
+      mockIsMobileBrowserValue = true;
 
-      helpCenter.setState({ fullscreen: true });
+      const mockSearchSender = jasmine.createSpy('mockSearchSender');
+
+      helpCenter = domRender(<HelpCenter searchSender={mockSearchSender} />);
+
+      helpCenter.searchBoxClickHandler();
+
+      helpCenter.refs.searchField.getValue = () => 'help';
+      helpCenter.manualSearch();
+
+      searchField = helpCenter.refs.searchField;
+      searchField.props.onFocus();
     });
 
     it('should hide when searchField is focused', function() {
-      helpCenter.refs.searchField.props.onFocus();
-
       const footerContent = helpCenter.refs.scrollContainer.props.footerContent;
 
       expect(footerContent.props.className)
@@ -1187,7 +1196,9 @@ describe('HelpCenter component', function() {
     });
 
     it('should appear when searchField is blurred', function() {
-      helpCenter.refs.searchField.props.onBlur();
+      searchField.props.onBlur();
+
+      jasmine.clock().tick(1);
 
       const footerContent = helpCenter.refs.scrollContainer.props.footerContent;
 

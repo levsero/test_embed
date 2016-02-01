@@ -369,17 +369,17 @@ export class HelpCenter extends Component {
     };
     const onBlurHandler = () => {
       // defer event to allow onClick events to fire first
-      _.defer(function(self) {
-        self.setState({
+      setTimeout(() => {
+        this.setState({
           searchFieldFocused: false
         });
 
-        if (self.state.fullscreen && !self.state.hasSearched && !self.state.isLoading) {
-          self.setState({
+        if (this.state.fullscreen && !this.state.hasSearched && !this.state.isLoading) {
+          this.setState({
             showIntroScreen: true
           });
         }
-      }, this);
+      }, 1);
     };
     const onChangeValueHandler = (value) => {
       this.setState({ searchFieldValue: value });
