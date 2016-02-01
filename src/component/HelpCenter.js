@@ -185,9 +185,9 @@ export class HelpCenter extends Component {
     this.performSearch(query, this.interactiveSearchSuccessFn, true);
 
     if (this.state.fullscreen) {
-      _.defer(() => {
+      setTimeout(() => {
         searchField.blur();
-      });
+      }, 1);
     }
   }
 
