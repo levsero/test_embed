@@ -90,6 +90,54 @@ namespace :embeddable_framework do
     end
   end
 
+  task :deploy_from_s3 do
+    secrets_file = YAML.load(File.read('/etc/zendesk/zendesk.yml'))
+    key = secrets_file['production']['aws_access_key']
+    secret = secrets_file['production']['aws_secret_key']
+
+    bucket_name = 'zendesk-embeddable-framework'
+
+    if tag
+      release_directory = "releases/#{tag}"
+    else
+      release_directory = "releases/#{build_version}"
+    end
+
+    Aws.config.update({
+      region: 'us-east-1',
+      credentials: Aws::Credentials.new(key, secret)
+    })
+
+    res = Aws::S3::Resource.new
+    client = Aws::S3::Client.new
+
+    bucket = res.bucket(bucket_name)
+
+    logger.info "Checking if #{release_directory}/ exists"
+
+    unless bucket.object("#{release_directory}/").exists?
+      logger.error "RELEASE NOT ON S3 YET"
+      return
+    end
+
+    framework_files.each do |file|
+      logger.info "Downloading #{release_directory}/#{file} to dist/#{file}"
+
+      client.get_object(
+        response_target: "dist/#{file}",
+        bucket: bucket_name,
+        key: "#{release_directory}/#{file}"
+      )
+    end
+
+    logger.info "Uploading assets"
+    run "mkdir -p #{framework_deploy_path}/#{build_version}"
+    framework_files.each do |file|
+      upload "dist/#{file}", "#{framework_deploy_path}/#{build_version}/#{file}", :via => :scp
+    end
+    find_and_execute_task "embeddable_framework:update_current"
+  end
+
   task :deploy do
     logger.info "Generating assets"
     sh "npm install"
