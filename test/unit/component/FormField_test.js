@@ -51,6 +51,7 @@ describe('FormField component', function() {
         isMobileBrowser: function() {
           return mockIsMobileBrowserValue;
         },
+        isIos: noop,
         isLandscape: function() {
           return mockIsLandscapeValue;
         }

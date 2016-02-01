@@ -5,7 +5,8 @@ import classNames from 'classnames';
 
 import { LoadingEllipses } from 'component/Loading';
 import { isMobileBrowser,
-         isLandscape } from 'utility/devices';
+         isLandscape,
+         isIos } from 'utility/devices';
 import { i18n } from 'service/i18n';
 import { Icon } from 'component/Icon';
 import { bindMethods } from 'utility/utils';
@@ -150,13 +151,21 @@ class Field extends Component {
       ref: 'field',
       value: this.props.value
     };
-    const fieldProps = {
+    let fieldProps = {
       name: this.props.name,
       value: this.props.value,
       required: this.props.required,
       label: this.props.label,
       type: this.props.type
     };
+
+    if (isIos()) {
+      fieldProps = _.extend(fieldProps, {
+        autoCorrect: 'off',
+        autoComplete: 'off',
+        spellCheck: 'false'
+      });
+    }
 
     return (
       <label className='Form-fieldContainer u-block'>
@@ -439,6 +448,19 @@ class SearchField extends Component {
     const placeholder = (isMobileBrowser())
                       ? ''
                       : i18n.t('embeddable_framework.helpCenter.search.label.how_can_we_help');
+    let attribs = {
+      autoCapitalize: 'off',
+      placeholder: placeholder,
+      type: 'search'
+    };
+
+    if (isIos()) {
+      attribs = _.extend(attribs, {
+        autoCorrect: 'off',
+        autoComplete: 'off',
+        spellCheck: 'false'
+      });
+    }
 
     return (
       <div className={searchContainerClasses}>
@@ -455,10 +477,7 @@ class SearchField extends Component {
               value={this.state.searchInputVal}
               onFocus={this.onFocus}
               onBlur={this.onBlur}
-              autoCapitalize="off"
-              autoCorrect="off"
-              placeholder={placeholder}
-              type='search' />
+              {...attribs} />
           </div>
           <div className='Arrange-sizeFit u-isActionable'>
             <LoadingEllipses className={loadingClasses} />
