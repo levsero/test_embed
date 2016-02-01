@@ -79,14 +79,14 @@ namespace :embeddable_framework do
     end
 
     # upload
-    bucket.put_object({key: "#{release_directory}/", acl: 'public-read'})
+    bucket.put_object({key: "#{release_directory}/"})
 
     framework_files.each do |file|
       logger.info "put_object #{release_directory}/#{file}"
-      bucket.put_object({key: "#{release_directory}/#{file}", acl: 'public-read'})
+      bucket.put_object({key: "#{release_directory}/#{file}"})
 
       logger.info "upload_file dist/#{file}"
-      bucket.object("#{release_directory}/#{file}").upload_file("dist/#{file}", {acl: 'public-read'})
+      bucket.object("#{release_directory}/#{file}").upload_file("dist/#{file}")
     end
   end
 
