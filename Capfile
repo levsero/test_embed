@@ -19,6 +19,23 @@ set(:build_version) { (tag && tag.gsub(/^v/, '')) || fetch(:branch, nil) || loca
 
 set(:real_revision) { Zendesk::Deployment::Committish.new(revision).sha }
 
+set(:aws_credentials) {
+  secrets_file = YAML.load(File.read('/etc/zendesk/zendesk.yml'))
+  key = secrets_file['production']['aws_access_key']
+  secret = secrets_file['production']['aws_secret_key']
+  Aws::Credentials.new(key, secret)
+}
+
+set(:s3_bucket_name) { 'zendesk-embeddable-framework' }
+
+set(:s3_release_directory) {
+  if tag
+    "releases/#{tag}"
+  else
+    "releases/#{build_version}"
+  end
+}
+
 before 'embeddable_framework:deploy', 'deploy:setup'
 before 'embeddable_framework:deploy', 'deploy:verify_local_git_status'
 after  'embeddable_framework:deploy', 'deploy:notify'
@@ -49,84 +66,60 @@ namespace :embeddable_framework do
     sh "script/fetch_i18n"
     sh "npm run build"
 
-    secrets_file = YAML.load(File.read('/etc/zendesk/zendesk.yml'))
-    key = secrets_file['production']['aws_access_key']
-    secret = secrets_file['production']['aws_secret_key']
-
-    bucket_name = 'zendesk-embeddable-framework'
-
-    if tag
-      release_directory = "releases/#{tag}"
-    else
-      release_directory = "releases/#{build_version}"
-    end
-
     Aws.config.update({
       region: 'us-east-1',
-      credentials: Aws::Credentials.new(key, secret)
+      credentials: aws_credentials
     })
 
-    res = Aws::S3::Resource.new
+    resource = Aws::S3::Resource.new
 
-    bucket = res.bucket(bucket_name)
+    bucket = resource.bucket(s3_bucket_name)
 
     # clear release directory
-    logger.info "#{release_directory} exists?"
+    logger.info "#{s3_release_directory} exists?"
 
-    if bucket.object("#{release_directory}/").exists?
-      logger.info "#{release_directory} exists - batch deleting"
-      bucket.objects({ prefix: "#{release_directory}/" }).batch_delete!
+    if bucket.object("#{s3_release_directory}/").exists?
+      logger.info "#{s3_release_directory} exists - batch deleting"
+      bucket.objects({ prefix: "#{s3_release_directory}/" }).batch_delete!
     end
 
     # upload
-    bucket.put_object({key: "#{release_directory}/"})
+    bucket.put_object({key: "#{s3_release_directory}/"})
 
     framework_files.each do |file|
-      logger.info "put_object #{release_directory}/#{file}"
-      bucket.put_object({key: "#{release_directory}/#{file}"})
+      logger.info "put_object #{s3_release_directory}/#{file}"
+      bucket.put_object({key: "#{s3_release_directory}/#{file}"})
 
       logger.info "upload_file dist/#{file}"
-      bucket.object("#{release_directory}/#{file}").upload_file("dist/#{file}")
+      bucket.object("#{s3_release_directory}/#{file}").upload_file("dist/#{file}")
     end
   end
 
   task :deploy_from_s3 do
-    secrets_file = YAML.load(File.read('/etc/zendesk/zendesk.yml'))
-    key = secrets_file['production']['aws_access_key']
-    secret = secrets_file['production']['aws_secret_key']
-
-    bucket_name = 'zendesk-embeddable-framework'
-
-    if tag
-      release_directory = "releases/#{tag}"
-    else
-      release_directory = "releases/#{build_version}"
-    end
-
     Aws.config.update({
       region: 'us-east-1',
-      credentials: Aws::Credentials.new(key, secret)
+      credentials: aws_credentials
     })
 
-    res = Aws::S3::Resource.new
+    resource = Aws::S3::Resource.new
     client = Aws::S3::Client.new
 
-    bucket = res.bucket(bucket_name)
+    bucket = resource.bucket(s3_bucket_name)
 
-    logger.info "Checking if #{release_directory}/ exists"
+    logger.info "Checking if #{s3_release_directory}/ exists"
 
-    unless bucket.object("#{release_directory}/").exists?
+    unless bucket.object("#{s3_release_directory}/").exists?
       logger.error "RELEASE NOT ON S3 YET"
       return
     end
 
     framework_files.each do |file|
-      logger.info "Downloading #{release_directory}/#{file} to dist/#{file}"
+      logger.info "Downloading #{s3_release_directory}/#{file} to dist/#{file}"
 
       client.get_object(
         response_target: "dist/#{file}",
-        bucket: bucket_name,
-        key: "#{release_directory}/#{file}"
+        bucket: s3_bucket_name,
+        key: "#{s3_release_directory}/#{file}"
       )
     end
 
