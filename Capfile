@@ -27,21 +27,16 @@ set(:aws_credentials) {
 }
 
 set(:s3_bucket_name) { 'zendesk-embeddable-framework' }
-
-set(:s3_release_directory) {
-  if tag
-    "releases/#{tag}"
-  else
-    "releases/#{build_version}"
-  end
-}
+set(:s3_release_directory) { tag ? "releases/#{tag}" : "releases/#{build_version}" }
 
 before 'embeddable_framework:deploy', 'deploy:setup'
 before 'embeddable_framework:deploy', 'deploy:verify_local_git_status'
+before 'embeddable_framework:deploy', 'embeddable_framework:build_assets'
 after  'embeddable_framework:deploy', 'deploy:notify'
 
 before 'embeddable_framework:release_to_s3', 'deploy:setup'
 before 'embeddable_framework:release_to_s3', 'deploy:verify_local_git_status'
+before 'embeddable_framework:release_to_s3', 'embeddable_framework:build_assets'
 
 def sh(command)
   logger.trace "executing locally: #{command.inspect}" if logger
@@ -59,13 +54,15 @@ namespace :deploy do
 end
 
 namespace :embeddable_framework do
-  task :release_to_s3 do
+  task :build_assets do
     logger.info "Building assets"
     sh "npm install"
     sh "node_modules/.bin/bower install"
     sh "script/fetch_i18n"
     sh "npm run build"
+  end
 
+  task :release_to_s3 do
     Aws.config.update({
       region: 'us-east-1',
       credentials: aws_credentials
@@ -132,12 +129,6 @@ namespace :embeddable_framework do
   end
 
   task :deploy do
-    logger.info "Generating assets"
-    sh "npm install"
-    sh "node_modules/.bin/bower install"
-    sh "script/fetch_i18n"
-    sh "npm run build"
-
     logger.info "Uploading assets"
     run "mkdir -p #{framework_deploy_path}/#{build_version}"
     framework_files.each do |file|
