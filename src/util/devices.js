@@ -6,7 +6,13 @@ function isLandscape() {
 
 function getDeviceZoom() {
   const screen = win.screen;
-  const deviceWidth = isLandscape() ? screen.availHeight : screen.availWidth;
+
+  // We need to grab the max in landscape because of the different ways iOS and android handle
+  // orientation change. On android, 'screen.availWidth' and 'screen.availHeight' are swapped for us,
+  // while on iOS they remain the same.
+  const deviceWidth = isLandscape()
+                    ? Math.max(screen.availWidth, screen.availHeight)
+                    : screen.availWidth;
 
   return deviceWidth / win.innerWidth;
 }
