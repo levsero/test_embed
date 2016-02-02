@@ -1,5 +1,7 @@
 /**
  * 1. fallback for old android browsers
+ * 2. fix big margin-top in landscape
+ * 3. fix margin-top for box-shadow
  */
 
 @import '../_vars.scss';
@@ -41,6 +43,11 @@ $Container-spacing: 25/$font-size;
 .Container--fullscreen-center-vert {
   padding-top: 20%; /* 1 */
   padding-top: calc(30% - (#{40/$font-size}rem));
+
+  /* 2 */
+  @media screen and (orientation: landscape) {
+    padding-top: calc(10% - (#{40/$font-size}rem));
+  }
 }
 
 .Container-pullout {
@@ -58,7 +65,7 @@ $Container-spacing: 25/$font-size;
 
 .Container--halfscreen {
   box-shadow: 0 0 #{4/$font-size}rem 0 rgba(0, 0, 0, 0.12);
-  height: 98%; // fix margin-top for box-shadow
+  height: 98%; /* 3 */
   margin-top: #{4/$font-size}rem;
 }
 
