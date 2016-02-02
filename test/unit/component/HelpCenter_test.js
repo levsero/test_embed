@@ -1175,12 +1175,13 @@ describe('HelpCenter component', function() {
     beforeEach(function() {
       mockIsMobileBrowserValue = true;
 
-      const mockSearchSender = jasmine.createSpy('mockSearchSender');
-
-      helpCenter = domRender(<HelpCenter searchSender={mockSearchSender} />);
+      helpCenter = domRender(<HelpCenter searchSender={noop} />);
 
       helpCenter.searchBoxClickHandler();
 
+      // We need to simulate a search here so that we can properly test the on blur
+      // case. If no search has been performed, 'helpCenter.state.showIntroField' will be
+      // true on a search and therefore the button will still be hidden.
       helpCenter.refs.searchField.getValue = () => 'help';
       helpCenter.manualSearch();
 
