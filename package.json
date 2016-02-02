@@ -17,7 +17,7 @@
     "watch": "npm run build:debug && concurrent --kill-others \"npm run build:watch\" \"live-server --port=1337 --no-browser --ignore=src,test,script,config,doc,.*,./*.js\"",
     "build": "npm run build:prod",
     "postbuild": "npm run build:version:clean",
-    "test": "jasmine JASMINE_CONFIG_PATH=test/jasmine.json",
+    "test": "node script/jasmine-runner.js",
     "lint": "eslint src test"
   },
   "author": "Zendesk",
@@ -55,6 +55,7 @@
     "inline-source": "^4.2.2",
     "jasmine": "^2.4.1",
     "jasmine-ajax": "git://github.com/pivotal/jasmine-ajax#v2.0.0.rc2",
+    "jasmine-spec-reporter": "^2.4.0",
     "jsdom": "~7.2.2",
     "json-loader": "~0.5.1",
     "live-server": "^0.9.0",

@@ -35,7 +35,7 @@ export class ScrollContainer extends Component {
       'u-paddingTL': this.props.hideZendeskLogo,
       'u-paddingBM': this.state.scrollShadowVisible,
       'is-mobile': this.props.fullscreen,
-      'is-bigheader': this.props.headerContent,
+      'is-bigheader': this.props.headerContent && !this.props.isVirtualKeyboardOpen,
       'is-expanded': this.props.contentExpanded
     });
     const scrollFooterClasses = classNames({
@@ -78,7 +78,8 @@ ScrollContainer.propTypes = {
   headerContent: PropTypes.element,
   contentExpanded: PropTypes.bool,
   fullscreen: PropTypes.bool,
-  hideZendeskLogo: PropTypes.bool
+  hideZendeskLogo: PropTypes.bool,
+  isVirtualKeyboardOpen: PropTypes.bool
 };
 
 ScrollContainer.defaultProps = {
@@ -86,5 +87,6 @@ ScrollContainer.defaultProps = {
   headerContent: null,
   contentExpanded: false,
   fullscreen: false,
-  hideZendeskLogo: false
+  hideZendeskLogo: false,
+  isVirtualKeyboardOpen: false
 };

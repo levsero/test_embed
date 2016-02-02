@@ -1188,4 +1188,44 @@ describe('HelpCenter component', function() {
         .toEqual(true);
     });
   });
+
+  describe('nextButton', function() {
+    let helpCenter,
+      searchField;
+
+    beforeEach(function() {
+      mockIsMobileBrowserValue = true;
+
+      helpCenter = domRender(<HelpCenter searchSender={noop} />);
+
+      helpCenter.searchBoxClickHandler();
+
+      // We need to simulate a search here so that we can properly test the on blur
+      // case. If no search has been performed, 'helpCenter.state.showIntroField' will be
+      // true on a search and therefore the button will still be hidden.
+      helpCenter.refs.searchField.getValue = () => 'help';
+      helpCenter.manualSearch();
+
+      searchField = helpCenter.refs.searchField;
+      searchField.props.onFocus();
+    });
+
+    it('should hide when searchField is focused', function() {
+      const footerContent = helpCenter.refs.scrollContainer.props.footerContent;
+
+      expect(footerContent.props.className)
+        .toContain('u-isHidden');
+    });
+
+    it('should appear when searchField is blurred', function() {
+      searchField.props.onBlur();
+
+      jasmine.clock().tick(1);
+
+      const footerContent = helpCenter.refs.scrollContainer.props.footerContent;
+
+      expect(footerContent.props.className)
+        .not.toContain('u-isHidden');
+    });
+  });
 });

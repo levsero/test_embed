@@ -37,7 +37,8 @@ export class HelpCenter extends Component {
       showIntroScreen: isMobileBrowser(),
       virtualKeyboardKiller: false,
       searchTracked: false,
-      searchResultClicked: false
+      searchResultClicked: false,
+      searchFieldFocused: false
     };
   }
 
@@ -354,6 +355,7 @@ export class HelpCenter extends Component {
       'u-marginTA': this.state.fullscreen,
       'u-marginVM': this.props.hideZendeskLogo,
       'u-isHidden': this.state.showIntroScreen ||
+                    this.state.searchFieldFocused ||
                     (!this.state.fullscreen && !this.state.hasSearched)
     });
 
@@ -375,13 +377,17 @@ export class HelpCenter extends Component {
     };
     const onBlurHandler = () => {
       // defer event to allow onClick events to fire first
-      _.defer(function(self) {
-        if (self.state.fullscreen && !self.state.hasSearched && !self.state.isLoading) {
-          self.setState({
+      setTimeout(() => {
+        this.setState({
+          searchFieldFocused: false
+        });
+
+        if (this.state.fullscreen && !this.state.hasSearched && !this.state.isLoading) {
+          this.setState({
             showIntroScreen: true
           });
         }
-      }, this);
+      }, 1);
     };
     const onChangeValueHandler = (value) => {
       this.setState({ searchFieldValue: value });
@@ -511,7 +517,8 @@ export class HelpCenter extends Component {
               </ButtonGroup>
             </div>
           }
-          fullscreen={this.state.fullscreen}>
+          fullscreen={this.state.fullscreen}
+          isVirtualKeyboardOpen={this.state.searchFieldFocused}>
           <div className={formClasses}>
             <HelpCenterForm
               ref='helpCenterForm'
