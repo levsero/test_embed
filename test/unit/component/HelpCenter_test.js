@@ -1065,6 +1065,8 @@ describe('HelpCenter component', function() {
       spyOn(searchField, 'blur');
       helpCenter.manualSearch();
 
+      jasmine.clock().tick(1);
+
       expect(searchField.blur)
         .toHaveBeenCalled();
     });
