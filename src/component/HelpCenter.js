@@ -355,7 +355,7 @@ export class HelpCenter extends Component {
       'u-marginTA': this.state.fullscreen,
       'u-marginVM': this.props.hideZendeskLogo,
       'u-isHidden': this.state.showIntroScreen ||
-                    this.state.searchFieldFocused ||
+                    (this.state.fullscreen && this.state.searchFieldFocused) ||
                     (!this.state.fullscreen && !this.state.hasSearched)
     });
 
