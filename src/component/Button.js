@@ -56,11 +56,11 @@ class ButtonNav extends Component {
     const isLeft = (position === 'left');
     const isRight = (position === 'right');
     const buttonClasses = classNames({
-      'Button Button--nav u-posAbsolute u-posStart--vert': true,
+      'Button Button--nav u-posAbsolute u-posStart--vertFlush': true,
       'u-posStart u-paddingL': isLeft && !rtl,
       'u-posEnd': isLeft && rtl,
       'u-posEnd--flush': (isLeft && rtl && fullscreen) || (isRight && !rtl && fullscreen),
-      'u-isActionable u-textSizeBaseMobile u-posStart--vertFlush': fullscreen,
+      'u-isActionable u-textSizeBaseMobile': fullscreen,
       'u-posEnd u-paddingR': isRight && !rtl,
       'u-posStart': isRight && rtl,
       'u-posStart--flush': (isRight && rtl && fullscreen) || (isLeft && !rtl && fullscreen),
@@ -68,11 +68,13 @@ class ButtonNav extends Component {
     });
 
     return (
-      <div
-        onClick={this.props.onClick}
-        onTouchStart={this.props.onClick}
-        className={buttonClasses}>
-        {this.props.label}
+      <div className='u-posRelative u-posOverlay'>
+        <div
+          onClick={this.props.onClick}
+          onTouchStart={this.props.onClick}
+          className={buttonClasses}>
+          {this.props.label}
+        </div>
       </div>
     );
   }
