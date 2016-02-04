@@ -109,6 +109,11 @@ $Form-fontSize: #{13/$font-size}rem;
   right: #{14/$font-size}rem;
   top: #{13/$font-size}rem;
   pointer-events: none;
+
+  [dir='rtl'] & {
+    left: #{14/$font-size}rem;
+    right: initial;
+  }
 }
 
 .Form-fieldArrows--small {
