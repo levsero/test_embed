@@ -68,7 +68,7 @@ class ButtonNav extends Component {
     });
 
     return (
-      <div className='u-posRelative u-posOverlay'>
+      <div className='u-posRelative u-zIndex1'>
         <div
           onClick={this.props.onClick}
           onTouchStart={this.props.onClick}

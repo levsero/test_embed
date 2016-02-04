@@ -60,10 +60,6 @@ $Base-posOffset: $med + 1;
   position: static !important;
 }
 
-.u-posOverlay {
-  z-index: 1;
-}
-
 /**
  * Used to adjust the default spacing between components
  * Use with great care!
@@ -347,6 +343,11 @@ $Base-posOffset: $med + 1;
 .u-borderBottom {
   border-bottom: $thin-border-size solid $base-border-color;
 }
+
+.u-zIndex1 {
+  z-index: 1;
+}
+
 
 /**
  * Vertical sizes
