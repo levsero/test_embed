@@ -26,7 +26,8 @@ const getCustomFields = function(customFields, formState) {
       value: formState[field.id],
       required: field.required,
       placeholder: field.title,
-      key: field.title
+      key: field.title,
+      type: 'text'
     };
 
     if (field.variants) {
@@ -44,8 +45,10 @@ const getCustomFields = function(customFields, formState) {
       });
       return <SelectField {...sharedProps} options={field.options} />;
     case 'integer':
+      sharedProps.type = 'number';
       return <Field {...sharedProps} pattern='\d+' />;
     case 'decimal':
+      sharedProps.type = 'number';
       return <Field {...sharedProps} pattern='\d*([.,]\d+)?' />;
     case 'textarea':
       return <Field {...sharedProps} input={<textarea rows='5' />} />;
