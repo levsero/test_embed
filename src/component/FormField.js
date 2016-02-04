@@ -44,9 +44,9 @@ const getCustomFields = function(customFields, formState) {
       });
       return <SelectField {...sharedProps} options={field.options} />;
     case 'integer':
-      return <Field {...sharedProps} pattern='\d+' />;
+      return <Field {...sharedProps} pattern='\d+' type='number' />;
     case 'decimal':
-      return <Field {...sharedProps} pattern='\d*([.,]\d+)?' />;
+      return <Field {...sharedProps} pattern='\d*([.,]\d+)?' type='number' />;
     case 'textarea':
       return <Field {...sharedProps} input={<textarea rows='5' />} />;
     case 'checkbox':
