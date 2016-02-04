@@ -344,6 +344,11 @@ $Base-posOffset: $med + 1;
   border-bottom: $thin-border-size solid $base-border-color;
 }
 
+.u-zIndex1 {
+  z-index: 1;
+}
+
+
 /**
  * Vertical sizes
  */

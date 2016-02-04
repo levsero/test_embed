@@ -425,13 +425,13 @@ export const frameFactory = function(childFn, _params) {
               <div>
                 {css}
                 {styleTag}
-                {childFn(childParams)}
                 <div className={backButtonClasses}>
                   {this.renderBackButton()}
                 </div>
                 <div className={closeButtonClasses}>
                   {this.renderCloseButton()}
                 </div>
+                {childFn(childParams)}
               </div>
             );
           }
