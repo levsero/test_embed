@@ -5,7 +5,6 @@ import { win,
 import { renderer }        from 'service/renderer';
 import { getDeviceZoom,
          getZoomSizingRatio,
-         isLandscapeBlacklisted,
          isLandscape }      from 'utility/devices';
 import { mediator }        from 'service/mediator';
 import { setScrollKiller } from 'utility/scrollHacks';
@@ -15,7 +14,7 @@ let lastTouchEnd = 0;
 
 const propagateFontRatioChange = () => {
   setTimeout(() => {
-    const hideWidget = getDeviceZoom() > 2 || (isLandscape() && isLandscapeBlacklisted());
+    const hideWidget = getDeviceZoom() > 2;
 
     if (hideWidget) {
       setScrollKiller(false);
