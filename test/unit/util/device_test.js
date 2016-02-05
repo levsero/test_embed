@@ -4,6 +4,7 @@ describe('devices', function() {
   let isLandscape;
   let getDeviceZoom;
   let getZoomSizingRatio;
+  let isLandscapeBlacklisted;
   const mockGlobals = {
     win: {
       innerWidth: 1,
@@ -42,6 +43,7 @@ describe('devices', function() {
     isLandscape = requireUncached(devicesPath).isLandscape;
     getDeviceZoom = requireUncached(devicesPath).getDeviceZoom;
     getZoomSizingRatio = requireUncached(devicesPath).getZoomSizingRatio;
+    isLandscapeBlacklisted = requireUncached(devicesPath).isLandscapeBlacklisted;
   });
 
   afterEach(function() {
@@ -99,6 +101,20 @@ describe('devices', function() {
       mockGlobals.win.XMLHttpRequest = noop;
 
       expect(isBlacklisted())
+        .toBe(true);
+    });
+  });
+
+  describe('isLandscapeBlacklisted', function() {
+    it('returns false if user agent has nothing within it blacklisted', function() {
+      expect(isLandscapeBlacklisted())
+        .toBe(false);
+    });
+
+    it('returns true if chrome browser on ios version 48 is within the user agent string', function() {
+      mockGlobals.navigator.userAgent = 'Mozilla/5.0 (iPhone; U; CPU iPhone OS 5_1_1 like Mac OS X; en) AppleWebKit/534.46.0 (KHTML, like Gecko) CriOS/48.0.1084.60 Mobile/9B206 Safari/7534.48.3';
+
+      expect(isLandscapeBlacklisted())
         .toBe(true);
     });
   });
