@@ -2,11 +2,10 @@ import _ from 'lodash';
 
 import { win,
          document as doc } from 'utility/globals';
-import { renderer }        from 'service/renderer';
+import { renderer } from 'service/renderer';
 import { getDeviceZoom,
-         getZoomSizingRatio,
-         isLandscape }      from 'utility/devices';
-import { mediator }        from 'service/mediator';
+         getZoomSizingRatio } from 'utility/devices';
+import { mediator } from 'service/mediator';
 import { setScrollKiller } from 'utility/scrollHacks';
 import { cappedIntervalCall } from 'utility/utils';
 
