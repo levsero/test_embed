@@ -70,13 +70,6 @@ function isBlacklisted() {
   );
 }
 
-function isLandscapeBlacklisted() {
-  return (
-    // Ios chrome v48 doesn't handle rotation changes well
-    navigator.userAgent.indexOf('CriOS/48') !== -1
-  );
-}
-
 function isIE() {
   return (
     // MSIE is present in all IE user agents since IE 2.0
@@ -93,7 +86,6 @@ export {
   isMobileBrowser,
   shouldGoFullscreen,
   isBlacklisted,
-  isLandscapeBlacklisted,
   isIE,
   isIos,
   isFirefox
