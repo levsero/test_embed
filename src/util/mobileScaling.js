@@ -5,6 +5,7 @@ import { win,
 import { renderer }        from 'service/renderer';
 import { getDeviceZoom,
          getZoomSizingRatio,
+         isLandscapeBlacklisted,
          isLandscape }      from 'utility/devices';
 import { mediator }        from 'service/mediator';
 import { setScrollKiller } from 'utility/scrollHacks';
@@ -12,17 +13,9 @@ import { cappedIntervalCall } from 'utility/utils';
 
 let lastTouchEnd = 0;
 
-const isQaLandscapeEnabled = () => {
-  const url = win.location.href;
-  const suffix = '#zd-landscape';
-
-  // check if the url ends with "#zd-landscape. If so then return true and enable
-  // landscape for QA testing. TODO: Remove this when landscape is enabled in prod.
-  return (url.indexOf(suffix, url.length - suffix.length) !== -1 || __DEV__);
-};
 const propagateFontRatioChange = () => {
   setTimeout(() => {
-    const hideWidget = getDeviceZoom() > 2 || (isLandscape() && !isQaLandscapeEnabled());
+    const hideWidget = getDeviceZoom() > 2 || (isLandscape() && isLandscapeBlacklisted());
 
     if (hideWidget) {
       setScrollKiller(false);
@@ -30,9 +23,7 @@ const propagateFontRatioChange = () => {
 
     renderer.hideByZoom(hideWidget);
 
-    if (!isLandscape() || isQaLandscapeEnabled()) {
-      mediator.channel.broadcast('.updateZoom', getZoomSizingRatio());
-    }
+    mediator.channel.broadcast('.updateZoom', getZoomSizingRatio());
   }, 0);
 };
 const zoomMonitor = (() => {
