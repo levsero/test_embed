@@ -23,7 +23,6 @@ const embedsMap = {
 let initialised = false;
 let hideLauncher = false;
 let renderedEmbeds;
-let prevFontSize;
 
 function hide() {
   hideLauncher = true;
@@ -136,11 +135,7 @@ function propagateFontRatio(ratio) {
   const fontSize = (12 * ratio.toFixed(2)) + 'px';
 
   renderedEmbedsApply(function(embed) {
-    if (prevFontSize !== fontSize) {
-      embed.updateBaseFontSize(fontSize);
-      prevFontSize = fontSize;
-    }
-
+    embed.updateBaseFontSize(fontSize);
     embed.updateFrameSize();
   });
 }
