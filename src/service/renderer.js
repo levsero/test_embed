@@ -135,14 +135,12 @@ function postRenderCallbacks(embeds) {
 function propagateFontRatio(ratio) {
   const fontSize = (12 * ratio.toFixed(2)) + 'px';
 
-  if (prevFontSize === fontSize) {
-    return;
-  }
-
-  prevFontSize = fontSize;
-
   renderedEmbedsApply(function(embed) {
-    embed.updateBaseFontSize(fontSize);
+    if (prevFontSize !== fontSize) {
+      embed.updateBaseFontSize(fontSize);
+      prevFontSize = fontSize;
+    }
+
     embed.updateFrameSize();
   });
 }
