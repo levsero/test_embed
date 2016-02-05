@@ -46,7 +46,7 @@ const getCustomFields = function(customFields, formState) {
     case 'integer':
       return <Field {...sharedProps} pattern='\d+' type='number' />;
     case 'decimal':
-      return <Field {...sharedProps} pattern='\d*([.,]\d+)?' type='number' />;
+      return <Field {...sharedProps} pattern='\d*([.,]\d+)?' type='number' step='any' />;
     case 'textarea':
       return <Field {...sharedProps} input={<textarea rows='5' />} />;
     case 'checkbox':
@@ -156,7 +156,8 @@ class Field extends Component {
       value: this.props.value,
       required: this.props.required,
       label: this.props.label,
-      type: this.props.type
+      type: this.props.type,
+      step: this.props.step
     };
 
     if (isIos()) {
@@ -229,7 +230,8 @@ Field.propTypes = {
   labelClasses: PropTypes.string,
   onFocus: PropTypes.func,
   onBlur: PropTypes.func,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  step: PropTypes.string
 };
 
 Field.defaultProps = {
@@ -243,7 +245,8 @@ Field.defaultProps = {
   labelClasses: '',
   onFocus: () => {},
   onBlur: () => {},
-  onChange: () => {}
+  onChange: () => {},
+  step: ''
 };
 
 class SelectField extends Component {
