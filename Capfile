@@ -34,7 +34,6 @@ before 'embeddable_framework:deploy', 'deploy:verify_local_git_status'
 before 'embeddable_framework:deploy', 'embeddable_framework:build_assets'
 after  'embeddable_framework:deploy', 'deploy:notify'
 
-before 'embeddable_framework:release_to_s3', 'deploy:setup'
 before 'embeddable_framework:release_to_s3', 'deploy:verify_local_git_status'
 before 'embeddable_framework:release_to_s3', 'embeddable_framework:build_assets'
 
