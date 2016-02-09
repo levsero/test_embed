@@ -71,9 +71,7 @@ namespace :embeddable_framework do
 
     bucket = resource.bucket(s3_bucket_name)
 
-    # clear release directory
-    logger.info "#{s3_release_directory} exists?"
-
+    # clear release directory if exists
     if bucket.object("#{s3_release_directory}/").exists?
       logger.info "#{s3_release_directory} exists - batch deleting"
       bucket.objects({ prefix: "#{s3_release_directory}/" }).batch_delete!
