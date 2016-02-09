@@ -26,6 +26,8 @@ set(:aws_credentials) {
   Aws::Credentials.new(key, secret)
 }
 
+set(:aws_region) { 'us-east-1' }
+
 set(:s3_bucket_name) { 'zendesk-embeddable-framework' }
 set(:s3_release_directory) { tag ? "releases/#{tag}" : "releases/#{build_version}" }
 
@@ -63,7 +65,7 @@ namespace :embeddable_framework do
 
   task :release_to_s3 do
     Aws.config.update({
-      region: 'us-east-1',
+      region: aws_region,
       credentials: aws_credentials
     })
 
@@ -91,7 +93,7 @@ namespace :embeddable_framework do
 
   task :deploy_from_s3 do
     Aws.config.update({
-      region: 'us-east-1',
+      region: aws_region,
       credentials: aws_credentials
     })
 
