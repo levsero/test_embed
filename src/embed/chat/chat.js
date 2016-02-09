@@ -165,6 +165,10 @@ function init(name) {
       mediator.channel.broadcast(`${name}.onUnreadMsgs`, unreadMessageCount);
     }
   };
+  const onChatStart = function() {
+    console.log('onChatStart cb');
+    mediator.channel.broadcast(`${name}.onChatStart`);
+  };
   const onChatEnd = function() {
     mediator.channel.broadcast(`${name}.onChatEnd`);
   };
@@ -195,6 +199,7 @@ function init(name) {
     zopimLive.setOnConnected(onConnect);
     zopimLive.setOnStatus(onStatus);
     zopimLive.setOnUnreadMsgs(onUnreadMsgs);
+    zopimLive.setOnChatStart(onChatStart);
     zopimLive.setOnChatEnd(onChatEnd);
 
     // configure zopim window

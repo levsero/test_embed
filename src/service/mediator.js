@@ -21,6 +21,7 @@ state[`${chat}.isVisible`]         = false;
 state[`${helpCenter}.isVisible`]   = false;
 state[`${helpCenter}.isAvailable`] = false;
 state[`${chat}.isOnline`]          = false;
+state[`${chat}.isChatActive`]      = false;
 state[`${chat}.unreadMsgs`]        = 0;
 state[`${chat}.userClosed`]        = false;
 state['nps.isVisible']             = false;
@@ -40,7 +41,7 @@ function init(helpCenterAvailable, hideLauncher) {
   };
 
   state[`${launcher}.userHidden`]    = hideLauncher;
-  state[`${helpCenter}.isAvailable`] = helpCenterAvailable;
+  state[`${helpCenter}.isAvailable`] = !!helpCenterAvailable;
 
   resetActiveEmbed();
 
@@ -133,6 +134,7 @@ function init(helpCenterAvailable, hideLauncher) {
         c.broadcast(`${launcher}.show`);
       }
     }
+    console.log('chat.onOnline', state);
   });
 
   c.intercept(`${chat}.onOffline`, () => {
@@ -157,11 +159,15 @@ function init(helpCenterAvailable, hideLauncher) {
         }
       }, 3000);
     }
+
+    console.log('chat.onOffline', state);
   });
 
   c.intercept(`${chat}.onShow`, () => {
     state[`${chat}.isVisible`] = true;
     c.broadcast(`${launcher}.hide`);
+
+    console.log('chat.onShow', state);
   });
 
   c.intercept(`${chat}.onUnreadMsgs`, (__, count) => {
@@ -171,12 +177,15 @@ function init(helpCenterAvailable, hideLauncher) {
       c.broadcast(`${launcher}.setLabelUnreadMsgs`, count);
 
       if (state[`${chat}.userClosed`] === false && !isMobileBrowser()) {
-        state[`${chat}.isVisible`] = true;
+        resetActiveEmbed();
         state.activeEmbed = chat;
+        state[`${chat}.isVisible`] = true;
         c.broadcast(`${chat}.show`);
         c.broadcast(`${launcher}.hide`);
       }
     }
+
+    console.log('chat.onUnreadMsgs', state);
   });
 
   c.intercept(`${helpCenter}.onNextClick`, () => {
@@ -231,6 +240,10 @@ function init(helpCenterAvailable, hideLauncher) {
     // chat opens in new window so hide isn't needed
     if (state.activeEmbed === chat && isMobileBrowser()) {
       c.broadcast(`${chat}.show`);
+    } else if (state[`${chat}.isOnline`] && state[`${chat}.unreadMsgs`]) {
+      state[`${chat}.unreadMsgs`] = 0;
+      state.activeEmbed = chat;
+      c.broadcast(`${chat}.show`);
     } else {
       c.broadcast(`${launcher}.hide`, { transition: 'downHide' });
       state[`${state.activeEmbed}.isVisible`] = true;
@@ -256,6 +269,8 @@ function init(helpCenterAvailable, hideLauncher) {
         }
       }, 0);
     }
+    console.log('launcher.onClick', state);
+
   });
 
   c.intercept(`${helpCenter}.onClose`, (_broadcast) => {
@@ -265,8 +280,11 @@ function init(helpCenterAvailable, hideLauncher) {
 
   c.intercept(`${chat}.onHide`, (_broadcast) => {
     state[`${chat}.isVisible`]  = false;
-    state[`${chat}.userClosed`] = true;
+    // THIS DOES NOT WORK!!!!
+    state[`${chat}.userClosed`] = state[`${chat}.isChatActive`];
     _broadcast();
+
+    console.log('chat.onHide', state);
   });
 
   c.intercept(`${submitTicket}.onClose`, (_broadcast) => {
@@ -283,7 +301,9 @@ function init(helpCenterAvailable, hideLauncher) {
         setScrollKiller(false);
         revertWindowScroll();
       }
-
+      if (state[`${chat}.isOnline`] && state[`${chat}.unreadMsgs`]) {
+        c.broadcast(`${launcher}.setLabelUnreadMsgs`, state[`${chat}.unreadMsgs`]);
+      }
       if (!state['.hideOnClose']) {
         c.broadcast(`${launcher}.show`, { transition: 'upShow' });
       }
@@ -327,7 +347,14 @@ function init(helpCenterAvailable, hideLauncher) {
     c.broadcast(`${submitTicket}.update`);
   });
 
+  c.intercept(`${chat}.onChatStart`, () => {
+    state[`${chat}.isChatActive`] = true;
+    console.log('chat.onChatStart', state);
+  });
+
   c.intercept(`${chat}.onChatEnd`, () => {
+    state[`${chat}.isChatActive`] = false;
+
     if (state[`${helpCenter}.isAvailable`]) {
       state.activeEmbed = helpCenter;
     } else {
@@ -335,6 +362,8 @@ function init(helpCenterAvailable, hideLauncher) {
       c.broadcast(`${chat}.hide`);
       state[`${chat}.isVisible`] = false;
     }
+
+    console.log('chat.onChatEnd', state);
   });
 
   c.intercept(`.onSetHelpCenterSuggestions`, (__, params) => {
