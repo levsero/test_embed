@@ -14,6 +14,12 @@ const chat = 'zopimChat';
 const helpCenter = 'helpCenterForm';
 const state = {};
 
+const embedVisible = (_state) => _.any([
+  _state[`${helpCenter}.isVisible`],
+  _state[`${chat}.isVisible`],
+  _state[`${submitTicket}.isVisible`]
+]);
+
 state[`${chat}.connectionPending`] = true;
 state[`${launcher}.userHidden`]    = false;
 state[`${submitTicket}.isVisible`] = false;
@@ -384,14 +390,6 @@ function initMessaging() {
     const maxRetries = 100;
     let retries = 0;
 
-    const embedVisible = (_state) => {
-      return _.any([
-        _state[`${helpCenter}.isVisible`],
-        _state[`${chat}.isVisible`],
-        _state[`${submitTicket}.isVisible`]
-      ]);
-    };
-
     const fn = () => {
       if (!state['identify.pending'] && !embedVisible(state)) {
         c.broadcast(`nps.activate`);
@@ -421,14 +419,6 @@ function initMessaging() {
   c.intercept(`ipm.onActivate`, () => {
     const maxRetries = 100;
     let retries = 0;
-
-    const embedVisible = (_state) => {
-      return _.any([
-        _state[`${helpCenter}.isVisible`],
-        _state[`${chat}.isVisible`],
-        _state[`${submitTicket}.isVisible`]
-      ]);
-    };
 
     const fn = () => {
       if (!state['identify.pending'] && !embedVisible(state)) {
