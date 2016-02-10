@@ -29,6 +29,7 @@ state[`${helpCenter}.isAvailable`] = false;
 state[`${chat}.isOnline`]          = false;
 state[`${chat}.unreadMsgs`]        = 0;
 state[`${chat}.userClosed`]        = false;
+state[`${chat}.chatEnded`]         = false;
 state['nps.isVisible']             = false;
 state['ipm.isVisible']             = false;
 state['.hideOnClose']              = false;
@@ -281,9 +282,27 @@ function init(helpCenterAvailable, hideLauncher) {
 
   c.intercept(`${chat}.onHide`, (_broadcast) => {
     state[`${chat}.isVisible`]  = false;
-    // THIS DOES NOT WORK!!!!
-    state[`${chat}.userClosed`] = state[`${chat}.isChatActive`];
+
+    // Reset .userClosed to false if chat ended
+    // so that the next incoming message will pop open
+    // chat again.
+    state[`${chat}.userClosed`] = !state[`${chat}.chatEnded`];
+    state[`${chat}.chatEnded`] = false;
+
     _broadcast();
+  });
+
+  c.intercept(`${chat}.onChatEnd`, () => {
+    state[`${chat}.chatEnded`] = true;
+
+    if (state[`${helpCenter}.isAvailable`]) {
+      state.activeEmbed = helpCenter;
+    } else {
+      c.broadcast(`${launcher}.show`, { transition: 'upShow' });
+      c.broadcast(`${chat}.hide`);
+
+      state[`${chat}.isVisible`] = false;
+    }
   });
 
   c.intercept(`${submitTicket}.onClose`, (_broadcast) => {
@@ -344,16 +363,6 @@ function init(helpCenterAvailable, hideLauncher) {
 
   c.intercept('.orientationChange', () => {
     c.broadcast(`${submitTicket}.update`);
-  });
-
-  c.intercept(`${chat}.onChatEnd`, () => {
-    if (state[`${helpCenter}.isAvailable`]) {
-      state.activeEmbed = helpCenter;
-    } else {
-      c.broadcast(`${launcher}.show`, { transition: 'upShow' });
-      c.broadcast(`${chat}.hide`);
-      state[`${chat}.isVisible`] = false;
-    }
   });
 
   c.intercept(`.onSetHelpCenterSuggestions`, (__, params) => {
