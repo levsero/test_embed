@@ -760,6 +760,17 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
+      it('shows unread messages on launcher.show if chat is online with unread messages', function() {
+        c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${chat}.onUnreadMsgs`, 1);
+        reset(launcherSub.setLabelUnreadMsgs);
+
+        c.broadcast(`${launcher}.show`);
+
+        expect(launcherSub.setLabelUnreadMsgs.calls.count())
+          .toEqual(1);
+      });
+
       it('launches Help Center first', function() {
         jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`);
@@ -805,6 +816,53 @@ describe('mediator', function() {
 
         expect(helpCenterSub.show.calls.count())
           .toEqual(1);
+      });
+
+      it('launches chat if chat is online and there are unread messages', function() {
+        c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${launcher}.onClick`);
+        c.broadcast(`${helpCenter}.onHide`);
+
+        c.broadcast(`${chat}.onUnreadMsgs`, 1);
+
+        c.broadcast(`${chat}.onHide`);
+
+        reset(chatSub.show);
+        reset(helpCenterSub.show);
+
+        jasmine.clock().install();
+        c.broadcast(`${launcher}.onClick`);
+        jasmine.clock().tick(0);
+
+        expect(helpCenterSub.show.calls.count())
+          .toEqual(0);
+
+        expect(chatSub.show.calls.count())
+          .toEqual(1);
+      });
+
+      it('launches help center if chat is offline and there are unread messages', function() {
+        c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${launcher}.onClick`);
+        c.broadcast(`${helpCenter}.onHide`);
+
+        c.broadcast(`${chat}.onUnreadMsgs`, 1);
+
+        c.broadcast(`${chat}.onHide`);
+        c.broadcast(`${chat}.onOffline`);
+
+        reset(chatSub.show);
+        reset(helpCenterSub.show);
+
+        jasmine.clock().install();
+        c.broadcast(`${launcher}.onClick`);
+        jasmine.clock().tick(0);
+
+        expect(helpCenterSub.show.calls.count())
+          .toEqual(1);
+
+        expect(chatSub.show.calls.count())
+         .toEqual(0);
       });
     });
   });
@@ -1099,6 +1157,40 @@ describe('mediator', function() {
           .toEqual(0);
       });
 
+      it('pops open proactive chat after chat ends and user closes it', function() {
+        c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${chat}.onUnreadMsgs`, 1);
+
+        // chat is open at this point
+
+        c.broadcast(`${chat}.onChatEnd`);
+        c.broadcast(`${chat}.onHide`);
+
+        reset(chatSub.show);
+
+        c.broadcast(`${chat}.onUnreadMsgs`, 1);
+
+        expect(chatSub.show.calls.count())
+          .toEqual(1);
+      });
+
+      it('does not pop open if ticket submission embed is visible', function() {
+        jasmine.clock().install();
+        c.broadcast(`${launcher}.onClick`);
+        jasmine.clock().tick(0);
+
+        // ticket submission is open at this point
+
+        c.broadcast(`${chat}.onOnline`);
+
+        reset(chatSub.show);
+
+        c.broadcast(`${chat}.onUnreadMsgs`, 1);
+
+        expect(chatSub.show.calls.count())
+          .toEqual(0);
+      });
+
       it('hides when a hide call is made', function() {
         c.broadcast('.hide');
 
@@ -1186,6 +1278,40 @@ describe('mediator', function() {
           .toEqual(0);
         expect(submitTicketSub.show.calls.count())
           .toEqual(1);
+      });
+
+      it('pops open proactive chat after chat ends and user closes it', function() {
+        c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${chat}.onUnreadMsgs`, 1);
+
+        // chat is open at this point
+
+        c.broadcast(`${chat}.onChatEnd`);
+        c.broadcast(`${chat}.onHide`);
+
+        reset(chatSub.show);
+
+        c.broadcast(`${chat}.onUnreadMsgs`, 1);
+
+        expect(chatSub.show.calls.count())
+          .toEqual(1);
+      });
+
+      it('does not pop open if help center embed is visible', function() {
+        c.broadcast(`${chat}.onOnline`);
+
+        jasmine.clock().install();
+        c.broadcast(`${launcher}.onClick`);
+        jasmine.clock().tick(0);
+
+        // help center is open at this point
+
+        reset(chatSub.show);
+
+        c.broadcast(`${chat}.onUnreadMsgs`, 1);
+
+        expect(chatSub.show.calls.count())
+          .toEqual(0);
       });
     });
   });
