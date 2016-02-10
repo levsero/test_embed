@@ -21,7 +21,6 @@ state[`${chat}.isVisible`]         = false;
 state[`${helpCenter}.isVisible`]   = false;
 state[`${helpCenter}.isAvailable`] = false;
 state[`${chat}.isOnline`]          = false;
-state[`${chat}.isChatActive`]      = false;
 state[`${chat}.unreadMsgs`]        = 0;
 state[`${chat}.userClosed`]        = false;
 state['nps.isVisible']             = false;
@@ -134,7 +133,6 @@ function init(helpCenterAvailable, hideLauncher) {
         c.broadcast(`${launcher}.show`);
       }
     }
-    console.log('chat.onOnline', state);
   });
 
   c.intercept(`${chat}.onOffline`, () => {
@@ -159,15 +157,11 @@ function init(helpCenterAvailable, hideLauncher) {
         }
       }, 3000);
     }
-
-    console.log('chat.onOffline', state);
   });
 
   c.intercept(`${chat}.onShow`, () => {
     state[`${chat}.isVisible`] = true;
     c.broadcast(`${launcher}.hide`);
-
-    console.log('chat.onShow', state);
   });
 
   c.intercept(`${chat}.onUnreadMsgs`, (__, count) => {
@@ -184,8 +178,6 @@ function init(helpCenterAvailable, hideLauncher) {
         c.broadcast(`${launcher}.hide`);
       }
     }
-
-    console.log('chat.onUnreadMsgs', state);
   });
 
   c.intercept(`${helpCenter}.onNextClick`, () => {
@@ -269,8 +261,6 @@ function init(helpCenterAvailable, hideLauncher) {
         }
       }, 0);
     }
-    console.log('launcher.onClick', state);
-
   });
 
   c.intercept(`${helpCenter}.onClose`, (_broadcast) => {
@@ -283,8 +273,6 @@ function init(helpCenterAvailable, hideLauncher) {
     // THIS DOES NOT WORK!!!!
     state[`${chat}.userClosed`] = state[`${chat}.isChatActive`];
     _broadcast();
-
-    console.log('chat.onHide', state);
   });
 
   c.intercept(`${submitTicket}.onClose`, (_broadcast) => {
@@ -347,14 +335,7 @@ function init(helpCenterAvailable, hideLauncher) {
     c.broadcast(`${submitTicket}.update`);
   });
 
-  c.intercept(`${chat}.onChatStart`, () => {
-    state[`${chat}.isChatActive`] = true;
-    console.log('chat.onChatStart', state);
-  });
-
   c.intercept(`${chat}.onChatEnd`, () => {
-    state[`${chat}.isChatActive`] = false;
-
     if (state[`${helpCenter}.isAvailable`]) {
       state.activeEmbed = helpCenter;
     } else {
@@ -362,8 +343,6 @@ function init(helpCenterAvailable, hideLauncher) {
       c.broadcast(`${chat}.hide`);
       state[`${chat}.isVisible`] = false;
     }
-
-    console.log('chat.onChatEnd', state);
   });
 
   c.intercept(`.onSetHelpCenterSuggestions`, (__, params) => {
