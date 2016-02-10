@@ -281,7 +281,7 @@ function init(helpCenterAvailable, hideLauncher) {
   });
 
   c.intercept(`${chat}.onHide`, (_broadcast) => {
-    state[`${chat}.isVisible`]  = false;
+    state[`${chat}.isVisible`] = false;
 
     // Reset .userClosed to false if chat ended
     // so that the next incoming message will pop open
@@ -318,9 +318,6 @@ function init(helpCenterAvailable, hideLauncher) {
       if (isMobileBrowser()) {
         setScrollKiller(false);
         revertWindowScroll();
-      }
-      if (state[`${chat}.isOnline`] && state[`${chat}.unreadMsgs`]) {
-        c.broadcast(`${launcher}.setLabelUnreadMsgs`, state[`${chat}.unreadMsgs`]);
       }
       if (!state['.hideOnClose']) {
         c.broadcast(`${launcher}.show`, { transition: 'upShow' });
@@ -370,14 +367,17 @@ function init(helpCenterAvailable, hideLauncher) {
   });
 
   c.subscribe(`${launcher}.show`, () => {
-    if (!state[`${chat}.isOnline`]) {
+    if (state[`${chat}.isOnline`]) {
+      if (state[`${chat}.unreadMsgs`]) {
+        c.broadcast(`${launcher}.setLabelUnreadMsgs`, state[`${chat}.unreadMsgs`]);
+      }
+      else if (state[`${helpCenter}.isAvailable`]) {
+        c.broadcast(`${launcher}.setLabelChatHelp`);
+      } else {
+        c.broadcast(`${launcher}.setLabelChat`);
+      }
+    } else {
       c.broadcast(`${launcher}.setLabelHelp`);
-    }
-    if (state[`${chat}.isOnline`] && state[`${helpCenter}.isAvailable`]) {
-      c.broadcast(`${launcher}.setLabelChatHelp`);
-    }
-    if (state[`${chat}.isOnline`] && !state[`${helpCenter}.isAvailable`]) {
-      c.broadcast(`${launcher}.setLabelChat`);
     }
   });
 
