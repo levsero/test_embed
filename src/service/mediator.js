@@ -171,12 +171,17 @@ function init(helpCenterAvailable, hideLauncher) {
   });
 
   c.intercept(`${chat}.onUnreadMsgs`, (__, count) => {
+    if (state[`${chat}.connectionPending`]) {
+      return
+    };
     state[`${chat}.unreadMsgs`] = count;
 
     if (state[`${chat}.isOnline`]) {
       c.broadcast(`${launcher}.setLabelUnreadMsgs`, count);
 
-      if (state[`${chat}.userClosed`] === false && !isMobileBrowser()) {
+      if (!embedVisible(state) &&
+          !state[`${chat}.userClosed`] &&
+          !isMobileBrowser()) {
         resetActiveEmbed();
         state.activeEmbed = chat;
         state[`${chat}.isVisible`] = true;
