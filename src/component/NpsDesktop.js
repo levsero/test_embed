@@ -66,7 +66,6 @@ export class NpsDesktop extends Component {
                           ? {width: 400, margin: 15}
                           : {width: 620, margin: 15};
 
-
     setTimeout(() => {
       if (this.props.setOffsetHorizontal && this.state.currentPage.thankYou) {
         this.props.setOffsetHorizontal(-215);

@@ -46,7 +46,7 @@ const renderNps = (locale, elem) => {
         }
 
         nps.show();
-        frame.setOffsetHorizontal(0)
+        frame.setOffsetHorizontal(0);
       }, 0);
     }
   };
