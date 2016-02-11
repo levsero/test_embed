@@ -105,8 +105,10 @@ namespace :embeddable_framework do
     logger.info "Checking if #{s3_release_directory}/ exists"
 
     unless bucket.object("#{s3_release_directory}/").exists?
-      logger.error "RELEASE NOT ON S3 YET"
-      return
+      logger.info " "
+      logger.info "!!!!!   RELEASE '#{s3_release_directory}' NOT FOUND ON S3 YET   !!!!!"
+      logger.info " "
+      abort
     end
 
     framework_files.each do |file|
