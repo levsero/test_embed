@@ -173,8 +173,8 @@ function init(helpCenterAvailable, hideLauncher) {
 
   c.intercept(`${chat}.onUnreadMsgs`, (__, count) => {
     if (state[`${chat}.connectionPending`]) {
-      return
-    };
+      return;
+    }
     state[`${chat}.unreadMsgs`] = count;
 
     if (state[`${chat}.isOnline`]) {
