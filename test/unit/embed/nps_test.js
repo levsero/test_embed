@@ -28,7 +28,7 @@ describe('embed.nps', () => {
               survey: {}
             };
           },
-          reset: jasmine.createSpy('reset'),
+          resetState: jasmine.createSpy('resetState'),
           render() {
             return (
               <div className='mock-nps' />
@@ -192,7 +192,7 @@ describe('embed.nps', () => {
         });
 
         it('should set state.surveyAvailable to false if none is available', () => {
-          expect(danNps.reset.__reactBoundMethod)
+          expect(danNps.resetState.__reactBoundMethod)
             .not.toHaveBeenCalled();
 
           pluckSubscribeCall(mockMediator, 'nps.setSurvey')({ npsSurvey: {} });
@@ -204,7 +204,7 @@ describe('embed.nps', () => {
         it('should set the survey correctly if one is available', () => {
           pluckSubscribeCall(mockMediator, 'nps.setSurvey')(surveyParams);
 
-          expect(danNps.reset.__reactBoundMethod)
+          expect(danNps.resetState.__reactBoundMethod)
             .toHaveBeenCalled();
 
           const surveyKeys = [
