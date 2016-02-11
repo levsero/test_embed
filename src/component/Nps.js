@@ -157,7 +157,7 @@ export class Nps extends Component {
 Nps.propTypes = {
   npsSender: PropTypes.func.isRequired,
   mobile: PropTypes.bool.isRequired,
-  setFrameSize: PropTypes.func,
-  setOffsetHorizontal: PropTypes.func,
+  setFrameSize: PropTypes.func.isRequired,
+  setOffsetHorizontal: PropTypes.func.isRequired,
   updateFrameSize: PropTypes.func
 };

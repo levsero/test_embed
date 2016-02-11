@@ -31,7 +31,6 @@ const renderNps = (locale, elem) => {
     frameStyle,
     fullscreenable: true,
     isMobile: false,
-
     onClose() {
       const npsComponent = nps.getRootComponent();
 
@@ -63,6 +62,7 @@ const renderNps = (locale, elem) => {
         <Nps
           setFrameSize={params.setFrameSize}
           updateFrameSize={params.updateFrameSize}
+          setOffsetHorizontal={params.setOffsetHorizontal}
           npsSender={npsSender}
           mobile={false}
           ref='rootComponent' />

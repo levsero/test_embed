@@ -171,7 +171,7 @@ export class NpsDesktop extends Component {
 
 NpsDesktop.propTypes = {
   response: PropTypes.object.isRequired,
-  setOffsetHorizontal: PropTypes.func,
+  setOffsetHorizontal: PropTypes.func.isRequired,
   survey: PropTypes.object.isRequired,
   updateFrameSize: PropTypes.func.isRequired,
   hideZendeskLogo: PropTypes.bool,
