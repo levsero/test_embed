@@ -128,7 +128,7 @@ function render(name) {
     }
 
     if (survey && survey.id) {
-      npses[name].instance.getRootComponent().reset();
+      npses[name].instance.getRootComponent().resetState();
       nps.setState({
         survey: _.extend({}, nps.state.survey, survey),
         surveyAvailable: true
