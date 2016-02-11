@@ -66,9 +66,12 @@ export class NpsDesktop extends Component {
                           ? {width: 400, margin: 15}
                           : {width: 620, margin: 15};
 
-    if (this.props.setOffsetHorizontal && this.state.currentPage.thankYou) {
-      setTimeout(() => { this.props.setOffsetHorizontal(-215); }, 0);
-    }
+
+    setTimeout(() => {
+      if (this.props.setOffsetHorizontal && this.state.currentPage.thankYou) {
+        this.props.setOffsetHorizontal(-215);
+      }
+    }, 0);
 
     const iconClasses = 'u-inlineBlock u-userFillColor u-posRelative u-marginTL';
 
