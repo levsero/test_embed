@@ -240,7 +240,7 @@ ButtonRating.defaultProps = {
   highlightColor: '#77a500',
   selected: false,
   loading: false,
-  label: null,
+  label: '',
   loadingSpinnerClassName: '',
   disabled: false,
   onClick: () => {}

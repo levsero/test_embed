@@ -36,7 +36,7 @@ export class Nps extends Component {
     super(props, context);
     bindMethods(this, Nps.prototype);
 
-    const state =_.extend(initialState, { isMobile: props.mobile });
+    const state =_.extend({}, initialState, { isMobile: props.mobile });
 
     this.state = state;
   }
@@ -127,8 +127,8 @@ export class Nps extends Component {
     });
   }
 
-  reset() {
-    const state = _.extend(initialState, { isMobile: this.props.mobile });
+  resetState(mergeObj = {}) {
+    const state = _.extend({}, initialState, mergeObj, { isMobile: this.props.mobile });
 
     this.setState(state);
   }

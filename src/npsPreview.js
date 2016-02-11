@@ -34,15 +34,15 @@ const renderNps = (locale, elem) => {
     onClose() {
       const npsComponent = nps.getRootComponent();
 
-      npsComponent.reset();
+      npsComponent.resetState({survey: npsComponent.state.survey});
 
       setTimeout(() => {
         if (npsComponent.refs.mobile) {
-          npsComponent.refs.mobile.setState(npsComponent.refs.mobile.resetState());
+          npsComponent.refs.mobile.resetState();
         }
 
         if (npsComponent.refs.desktop) {
-          npsComponent.refs.desktop.setState(npsComponent.refs.desktop.resetState());
+          npsComponent.refs.desktop.resetState();
         }
 
         nps.show();
@@ -62,6 +62,7 @@ const renderNps = (locale, elem) => {
         <Nps
           setFrameSize={params.setFrameSize}
           updateFrameSize={params.updateFrameSize}
+          setOffsetHorizontal={params.setOffsetHorizontal}
           npsSender={npsSender}
           mobile={false}
           ref='rootComponent' />
