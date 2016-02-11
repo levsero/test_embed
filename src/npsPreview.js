@@ -31,6 +31,7 @@ const renderNps = (locale, elem) => {
     frameStyle,
     fullscreenable: true,
     isMobile: false,
+
     onClose() {
       const npsComponent = nps.getRootComponent();
 

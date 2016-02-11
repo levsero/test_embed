@@ -49,7 +49,7 @@ export class NpsRatingsList extends Component {
 
       const props = {
         highlightColor: this.props.highlightColor,
-        label: rating,
+        label: `${rating}`,
         loading: isSelected && this.props.isSubmittingRating,
         loadingSpinnerClassName: 'RatingsList-spinner',
         selected: isSelected,
@@ -91,7 +91,7 @@ export class NpsRatingsList extends Component {
 NpsRatingsList.propTypes = {
   likelyLabel: PropTypes.string.isRequired,
   notLikelyLabel: PropTypes.string.isRequired,
-  selectedRating: PropTypes.number.isRequired,
+  selectedRating: PropTypes.number,
   className: PropTypes.string,
   hideRatingsLegend: PropTypes.bool,
   highlightColor: PropTypes.string,
