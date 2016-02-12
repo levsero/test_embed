@@ -55,7 +55,8 @@ export const frameFactory = function(childFn, _params) {
     onBack: () => {},
     afterShowAnimate: () => {},
     transitions: {},
-    isMobile: isMobileBrowser()
+    isMobile: isMobileBrowser(),
+    disableSetOffsetHorizontal: false
   };
   const params = _.extend({}, defaultParams, _params);
 
@@ -106,7 +107,9 @@ export const frameFactory = function(childFn, _params) {
     },
 
     setOffsetHorizontal(offsetValue = 0) {
-      ReactDOM.findDOMNode(this).style.marginLeft = `${offsetValue}px`;
+      if (!params.disableSetOffsetHorizontal) {
+        ReactDOM.findDOMNode(this).style.marginLeft = `${offsetValue}px`;
+      }
     },
 
     setFrameSize(width, height, transparent = true) {

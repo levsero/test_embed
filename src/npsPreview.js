@@ -28,10 +28,12 @@ const renderNps = (locale, elem) => {
 
   const frameParams = {
     css: npsCSS,
+    name: 'npsPreview',
     frameStyle,
     fullscreenable: true,
     isMobile: false,
-    onClose() {
+    disableSetOffsetHorizontal: true,
+    onClose(frame) {
       const npsComponent = nps.getRootComponent();
 
       npsComponent.resetState({survey: npsComponent.state.survey});
@@ -46,6 +48,7 @@ const renderNps = (locale, elem) => {
         }
 
         nps.show();
+        frame.setOffsetHorizontal(0);
       }, 0);
     }
   };

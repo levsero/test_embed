@@ -128,7 +128,7 @@ export class Nps extends Component {
   }
 
   resetState(mergeObj = {}) {
-    const state = _.extend({}, initialState, mergeObj, { isMobile: this.props.mobile });
+    const state = _.extend({}, initialState, { isMobile: this.state.isMobile }, mergeObj);
 
     this.setState(state);
   }
