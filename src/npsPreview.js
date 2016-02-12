@@ -28,9 +28,11 @@ const renderNps = (locale, elem) => {
 
   const frameParams = {
     css: npsCSS,
+    name: 'npsPreview',
     frameStyle,
     fullscreenable: true,
     isMobile: false,
+    disableSetOffsetHorizontal: true,
     onClose(frame) {
       const npsComponent = nps.getRootComponent();
 
