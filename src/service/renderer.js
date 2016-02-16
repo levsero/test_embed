@@ -95,7 +95,7 @@ function init(config) {
 
 function initMediator(config) {
   if (config.embeds && config.embeds.ticketSubmissionForm) {
-    mediator.init(config.embeds.helpCenterForm, hideLauncher);
+    mediator.init(!!config.embeds.helpCenterForm, hideLauncher);
   } else if ((config.embeds && config.embeds.zopimChat) || _.isEmpty(config.embeds)) {
     // naked zopim or empty config
     mediator.initMessaging();

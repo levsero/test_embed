@@ -47,7 +47,7 @@ function init(helpCenterAvailable, hideLauncher) {
   };
 
   state[`${launcher}.userHidden`]    = hideLauncher;
-  state[`${helpCenter}.isAvailable`] = !!helpCenterAvailable;
+  state[`${helpCenter}.isAvailable`] = helpCenterAvailable;
 
   resetActiveEmbed();
 
@@ -247,6 +247,11 @@ function init(helpCenterAvailable, hideLauncher) {
     } else if (state[`${chat}.isOnline`] && state[`${chat}.unreadMsgs`]) {
       state[`${chat}.unreadMsgs`] = 0;
       state.activeEmbed = chat;
+
+      /**
+       *  In case you're wondering, `launcher.hide`
+       *  is broadcasted by chat.onShow broadcast
+       */
       c.broadcast(`${chat}.show`);
     } else {
       c.broadcast(`${launcher}.hide`, { transition: 'downHide' });
