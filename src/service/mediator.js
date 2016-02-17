@@ -302,11 +302,6 @@ function init(helpCenterAvailable, hideLauncher) {
 
     if (state[`${helpCenter}.isAvailable`]) {
       state.activeEmbed = helpCenter;
-    } else {
-      c.broadcast(`${launcher}.show`, { transition: 'upShow' });
-      c.broadcast(`${chat}.hide`);
-
-      state[`${chat}.isVisible`] = false;
     }
   });
 

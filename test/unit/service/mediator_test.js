@@ -1097,7 +1097,7 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      it('closes when chat is ended', function() {
+      it('doesn\'t close when chat is ended', function() {
         c.broadcast(`${chat}.onOnline`);
         c.broadcast(`${launcher}.onClick`);
 
@@ -1107,19 +1107,10 @@ describe('mediator', function() {
         c.broadcast(`${chat}.onChatEnd`);
 
         expect(chatSub.hide.calls.count())
-          .toEqual(1);
+          .toEqual(0);
 
         expect(launcherSub.show.calls.count())
-          .toEqual(1);
-
-        reset(chatSub.show);
-
-        jasmine.clock().install();
-        c.broadcast(`${launcher}.onClick`); // open
-        jasmine.clock().tick(0);
-
-        expect(chatSub.show.calls.count())
-          .toEqual(1);
+          .toEqual(0);
       });
 
       it('pops open proactive chat if user has not closed chat before', function() {
