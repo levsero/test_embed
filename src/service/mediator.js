@@ -14,6 +14,12 @@ const chat = 'zopimChat';
 const helpCenter = 'helpCenterForm';
 const state = {};
 
+const embedVisible = (_state) => _.any([
+  _state[`${helpCenter}.isVisible`],
+  _state[`${chat}.isVisible`],
+  _state[`${submitTicket}.isVisible`]
+]);
+
 state[`${chat}.connectionPending`] = true;
 state[`${launcher}.userHidden`]    = false;
 state[`${submitTicket}.isVisible`] = false;
@@ -23,6 +29,7 @@ state[`${helpCenter}.isAvailable`] = false;
 state[`${chat}.isOnline`]          = false;
 state[`${chat}.unreadMsgs`]        = 0;
 state[`${chat}.userClosed`]        = false;
+state[`${chat}.chatEnded`]         = false;
 state['nps.isVisible']             = false;
 state['ipm.isVisible']             = false;
 state['.hideOnClose']              = false;
@@ -165,14 +172,20 @@ function init(helpCenterAvailable, hideLauncher) {
   });
 
   c.intercept(`${chat}.onUnreadMsgs`, (__, count) => {
+    if (state[`${chat}.connectionPending`]) {
+      return;
+    }
     state[`${chat}.unreadMsgs`] = count;
 
     if (state[`${chat}.isOnline`]) {
       c.broadcast(`${launcher}.setLabelUnreadMsgs`, count);
 
-      if (state[`${chat}.userClosed`] === false && !isMobileBrowser()) {
-        state[`${chat}.isVisible`] = true;
+      if (!embedVisible(state) &&
+          !state[`${chat}.userClosed`] &&
+          !isMobileBrowser()) {
+        resetActiveEmbed();
         state.activeEmbed = chat;
+        state[`${chat}.isVisible`] = true;
         c.broadcast(`${chat}.show`);
         c.broadcast(`${launcher}.hide`);
       }
@@ -231,6 +244,15 @@ function init(helpCenterAvailable, hideLauncher) {
     // chat opens in new window so hide isn't needed
     if (state.activeEmbed === chat && isMobileBrowser()) {
       c.broadcast(`${chat}.show`);
+    } else if (state[`${chat}.isOnline`] && state[`${chat}.unreadMsgs`]) {
+      state[`${chat}.unreadMsgs`] = 0;
+      state.activeEmbed = chat;
+
+      /**
+       *  In case you're wondering, `launcher.hide`
+       *  is broadcasted by chat.onShow broadcast
+       */
+      c.broadcast(`${chat}.show`);
     } else {
       c.broadcast(`${launcher}.hide`, { transition: 'downHide' });
       state[`${state.activeEmbed}.isVisible`] = true;
@@ -264,9 +286,23 @@ function init(helpCenterAvailable, hideLauncher) {
   });
 
   c.intercept(`${chat}.onHide`, (_broadcast) => {
-    state[`${chat}.isVisible`]  = false;
-    state[`${chat}.userClosed`] = true;
+    state[`${chat}.isVisible`] = false;
+
+    // Reset .userClosed to false if chat ended
+    // so that the next incoming message will pop open
+    // chat again.
+    state[`${chat}.userClosed`] = !state[`${chat}.chatEnded`];
+    state[`${chat}.chatEnded`] = false;
+
     _broadcast();
+  });
+
+  c.intercept(`${chat}.onChatEnd`, () => {
+    state[`${chat}.chatEnded`] = true;
+
+    if (state[`${helpCenter}.isAvailable`]) {
+      state.activeEmbed = helpCenter;
+    }
   });
 
   c.intercept(`${submitTicket}.onClose`, (_broadcast) => {
@@ -283,7 +319,6 @@ function init(helpCenterAvailable, hideLauncher) {
         setScrollKiller(false);
         revertWindowScroll();
       }
-
       if (!state['.hideOnClose']) {
         c.broadcast(`${launcher}.show`, { transition: 'upShow' });
       }
@@ -327,29 +362,22 @@ function init(helpCenterAvailable, hideLauncher) {
     c.broadcast(`${submitTicket}.update`);
   });
 
-  c.intercept(`${chat}.onChatEnd`, () => {
-    if (state[`${helpCenter}.isAvailable`]) {
-      state.activeEmbed = helpCenter;
-    } else {
-      c.broadcast(`${launcher}.show`, { transition: 'upShow' });
-      c.broadcast(`${chat}.hide`);
-      state[`${chat}.isVisible`] = false;
-    }
-  });
-
   c.intercept(`.onSetHelpCenterSuggestions`, (__, params) => {
     c.broadcast(`${helpCenter}.setHelpCenterSuggestions`, params);
   });
 
   c.subscribe(`${launcher}.show`, () => {
-    if (!state[`${chat}.isOnline`]) {
+    if (state[`${chat}.isOnline`]) {
+      if (state[`${chat}.unreadMsgs`]) {
+        c.broadcast(`${launcher}.setLabelUnreadMsgs`, state[`${chat}.unreadMsgs`]);
+      }
+      else if (state[`${helpCenter}.isAvailable`]) {
+        c.broadcast(`${launcher}.setLabelChatHelp`);
+      } else {
+        c.broadcast(`${launcher}.setLabelChat`);
+      }
+    } else {
       c.broadcast(`${launcher}.setLabelHelp`);
-    }
-    if (state[`${chat}.isOnline`] && state[`${helpCenter}.isAvailable`]) {
-      c.broadcast(`${launcher}.setLabelChatHelp`);
-    }
-    if (state[`${chat}.isOnline`] && !state[`${helpCenter}.isAvailable`]) {
-      c.broadcast(`${launcher}.setLabelChat`);
     }
   });
 
@@ -375,14 +403,6 @@ function initMessaging() {
   c.intercept(`nps.onActivate`, () => {
     const maxRetries = 100;
     let retries = 0;
-
-    const embedVisible = (_state) => {
-      return _.any([
-        _state[`${helpCenter}.isVisible`],
-        _state[`${chat}.isVisible`],
-        _state[`${submitTicket}.isVisible`]
-      ]);
-    };
 
     const fn = () => {
       if (!state['identify.pending'] && !embedVisible(state)) {
@@ -413,14 +433,6 @@ function initMessaging() {
   c.intercept(`ipm.onActivate`, () => {
     const maxRetries = 100;
     let retries = 0;
-
-    const embedVisible = (_state) => {
-      return _.any([
-        _state[`${helpCenter}.isVisible`],
-        _state[`${chat}.isVisible`],
-        _state[`${submitTicket}.isVisible`]
-      ]);
-    };
 
     const fn = () => {
       if (!state['identify.pending'] && !embedVisible(state)) {
