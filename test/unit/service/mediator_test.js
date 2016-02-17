@@ -1457,6 +1457,26 @@ describe('mediator', function() {
           .toEqual(0);
       });
     });
+
+    describe('with naked zopim on desktop', function() {
+      beforeEach(function() {
+        mediator.initMessaging(true);
+      });
+
+      it('hides when a hide call is made', function() {
+        c.broadcast('.hide');
+
+        expect(chatSub.hide.calls.count())
+          .toEqual(1);
+      });
+
+      it('shows when a show call is made', function() {
+        c.broadcast('.show');
+
+        expect(chatSub.show.calls.count())
+          .toEqual(1);
+      });
+    });
   });
 
  /* ****************************************** *

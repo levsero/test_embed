@@ -427,7 +427,17 @@ function init(helpCenterAccessible, params = {}) {
   initMessaging();
 }
 
-function initMessaging() {
+function initMessaging(isZopimStandalone) {
+  if (isZopimStandalone && !isMobileBrowser()) {
+    c.intercept('.hide', () => {
+      c.broadcast(`${chat}.hide`);
+    });
+
+    c.intercept('.show', () => {
+      c.broadcast(`${chat}.show`);
+    });
+  }
+
   c.intercept(`.onIdentify`, (__, params) => {
     state['identify.pending'] = true;
 
