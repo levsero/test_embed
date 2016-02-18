@@ -183,7 +183,7 @@ function shouldShow(survey = {}) {
     return false;
   }
 
-  const dismissPeriod = 3 * 24 * 60 * 60 * 1000; // in ms
+  const dismissPeriod = 21 * 24 * 60 * 60 * 1000; // in ms
   const lastDismissed = store.get(getDismissTimestampKey(survey));
 
   if (!lastDismissed) { // no last dismissed timestamp exists
