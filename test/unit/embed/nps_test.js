@@ -296,8 +296,8 @@ describe('embed.nps', () => {
           .toEqual(true);
       });
 
-      it('should return true if dismissTimestamp is more than 3 days ago', () => {
-        const dismissDate = new Date(currentDate.getTime() - (3 * 24 * 60 * 60 * 1000));
+      it('should return true if dismissTimestamp is more than 21 days ago', () => {
+        const dismissDate = new Date(currentDate.getTime() - (21 * 24 * 60 * 60 * 1000));
 
         spyOn(window, 'Date').and.callFake(() => currentDate);
 
@@ -318,8 +318,8 @@ describe('embed.nps', () => {
           .toEqual(false);
       });
 
-      it('should return false if dismissTimestamp is 2.9 days ago', () => {
-        const dismissDate = new Date(currentDate.getTime() - (2.9 * 24 * 60 * 60 * 1000));
+      it('should return false if dismissTimestamp is 20.9 days ago', () => {
+        const dismissDate = new Date(currentDate.getTime() - (20.9 * 24 * 60 * 60 * 1000));
 
         spyOn(window, 'Date').and.callFake(() => currentDate);
 
