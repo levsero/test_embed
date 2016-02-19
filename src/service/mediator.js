@@ -287,6 +287,7 @@ function init(helpCenterAvailable, hideLauncher) {
 
   c.intercept(`${chat}.onHide`, (_broadcast) => {
     state[`${chat}.isVisible`] = false;
+    state[`${chat}.unreadMsgs`] = 0;
 
     // Reset .userClosed to false if chat ended
     // so that the next incoming message will pop open

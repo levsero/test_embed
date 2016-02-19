@@ -821,11 +821,12 @@ describe('mediator', function() {
       it('launches chat if chat is online and there are unread messages', function() {
         c.broadcast(`${chat}.onOnline`);
         c.broadcast(`${launcher}.onClick`);
-        c.broadcast(`${helpCenter}.onHide`);
+
+        // help center is open at this point
 
         c.broadcast(`${chat}.onUnreadMsgs`, 1);
 
-        c.broadcast(`${chat}.onHide`);
+        c.broadcast(`${helpCenter}.onHide`);
 
         reset(chatSub.show);
         reset(helpCenterSub.show);
