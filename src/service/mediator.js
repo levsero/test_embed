@@ -428,6 +428,10 @@ function init(helpCenterAccessible, params = {}) {
 }
 
 function initMessaging(isZopimStandalone) {
+  // Intercept zE.hide() and zE.show() api calls and make them an alias for zopims
+  // hide and show functions if the user is on a naked zopim configuration.
+  // zE.hide() = $zopim.livechat.hideAll(),
+  // zE.show() = $zopim.livechat.window.show().
   if (isZopimStandalone && !isMobileBrowser()) {
     c.intercept('.hide', () => {
       c.broadcast(`${chat}.hide`);
