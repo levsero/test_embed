@@ -80,43 +80,13 @@ describe('util.setScaleLock', function() {
         .toEqual('1.0');
     });
 
-    it('sets `original-user-scalable` to "UNDEFINED" if `user-scalable` does not exist', function() {
+    it('sets `user-scalable` to "No" if `user-scalable` does not exist', function() {
       metaTag.content = '';
       document.head.appendChild(metaTag);
 
       setScaleLock(true);
 
       const viewportContent = metaStringToObj(metaTag.content);
-
-      expect(viewportContent['user-scalable'])
-        .toEqual('no');
-
-      expect(viewportContent['original-user-scalable'])
-        .toEqual('UNDEFINED');
-    });
-
-    it('does nothing if `original-user-scalable` exists', function() {
-      metaTag.content = 'original-user-scalable=no, user-scalable=NO_CHANGE';
-      document.head.appendChild(metaTag);
-
-      setScaleLock(true);
-
-      const viewportContent = metaStringToObj(metaTag.content);
-
-      expect(viewportContent['user-scalable'])
-        .toEqual('NO_CHANGE');
-    });
-
-    it('stores original `user-scalable` value in `original-user-scalable`', function() {
-      metaTag.content = 'user-scalable=SAVE_ME';
-      document.head.appendChild(metaTag);
-
-      setScaleLock(true);
-
-      const viewportContent = metaStringToObj(metaTag.content);
-
-      expect(viewportContent['original-user-scalable'])
-        .toEqual('SAVE_ME');
 
       expect(viewportContent['user-scalable'])
         .toEqual('no');
@@ -134,44 +104,26 @@ describe('util.setScaleLock', function() {
         .toEqual(0);
     });
 
-    it('does nothing if `original-user-scalable` does not exist', function() {
+    it('resets user-scalable if `originalUserScalable` does exists', function() {
       metaTag.content = 'user-scalable=NO_CHANGE';
       document.head.appendChild(metaTag);
 
+      setScaleLock(true);
+
+      const viewportContentBefore = metaStringToObj(metaTag.content);
+
+      expect(viewportContentBefore['user-scalable'])
+        .toEqual('no');
+
       setScaleLock(false);
 
-      const viewportContent = metaStringToObj(metaTag.content);
+      const viewportContentAfter = metaStringToObj(metaTag.content);
 
-      expect(viewportContent['user-scalable'])
+      expect(viewportContentAfter['user-scalable'])
         .toEqual('NO_CHANGE');
     });
 
-    it('sets `user-scalable` to `original-user-scalable`', function() {
-      metaTag.content = 'original-user-scalable=ORIGINAL_VALUE, user-scalable=no';
-      document.head.appendChild(metaTag);
-
-      setScaleLock(false);
-
-      const viewportContent = metaStringToObj(metaTag.content);
-
-      expect(viewportContent['user-scalable'])
-        .toEqual('ORIGINAL_VALUE');
-    });
-
-    it('unsets `original-user-scalable`', function() {
-      metaTag.content = 'original-user-scalable=ORIGINAL_VALUE, user-scalable=no';
-      document.head.appendChild(metaTag);
-
-      setScaleLock(false);
-
-      const viewportContent = metaStringToObj(metaTag.content);
-
-      expect(viewportContent['original-user-scalable'])
-        .toBeUndefined();
-    });
-
-    it('unsets `user-scalable` if `original-user-scalable` is UNDEFINED', function() {
-      metaTag.content = 'original-user-scalable=UNDEFINED, user-scalable=no';
+    it('unsets `user-scalable` if `originalUserScalable` is null', function() {
       document.head.appendChild(metaTag);
 
       setScaleLock(false);

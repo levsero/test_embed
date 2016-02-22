@@ -7,6 +7,7 @@ import { getZoomSizingRatio } from 'utility/devices';
 import { mediator }  from 'service/mediator';
 
 let clickBusterClicks = [];
+let originalUserScalable = null;
 
 function generateUserCSS(params) {
   if (params.color) {
@@ -156,10 +157,10 @@ function setScaleLock(active) {
 
     if (active) {
       if (_.isUndefined(viewportObj['user-scalable'])) {
-        viewportObj['original-user-scalable'] = 'UNDEFINED';
+        originalUserScalable = null;
         viewportObj['user-scalable'] = 'no';
-      } else if (!viewportObj['original-user-scalable']) {
-        viewportObj['original-user-scalable'] = viewportObj['user-scalable'];
+      } else if (originalUserScalable === null) {
+        originalUserScalable = viewportObj['user-scalable'];
         viewportObj['user-scalable'] = 'no';
       }
 
@@ -167,14 +168,12 @@ function setScaleLock(active) {
         mediator.channel.broadcast('.updateZoom', getZoomSizingRatio());
       }, 0);
     } else {
-      if (viewportObj['original-user-scalable']) {
-        if (viewportObj['original-user-scalable'] === 'UNDEFINED') {
-          delete viewportObj['user-scalable'];
-        } else {
-          viewportObj['user-scalable'] = viewportObj['original-user-scalable'];
-        }
-        delete viewportObj['original-user-scalable'];
+      if (originalUserScalable === null) {
+        delete viewportObj['user-scalable'];
+      } else {
+        viewportObj['user-scalable'] = originalUserScalable;
       }
+      originalUserScalable = null;
     }
 
     meta.setAttribute('content', metaObjToString(viewportObj));
