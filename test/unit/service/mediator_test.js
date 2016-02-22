@@ -1090,7 +1090,7 @@ describe('mediator', function() {
           .toHaveBeenCalledWith(5);
       });
 
-      it('resets launcher label when unread message count is 0', function() {
+      it('resets launcher label to Chat when unread message count is 0', function() {
         c.broadcast(`${chat}.onOnline`);
         c.broadcast(`${chat}.onUnreadMsgs`, 5);
 
@@ -1250,7 +1250,7 @@ describe('mediator', function() {
         mediator.init(true);
       });
 
-      it('resets launcher label when unread message count is 0', function() {
+      it('resets launcher label to ChatHelp when unread message count is 0', function() {
         c.broadcast(`${chat}.onOnline`);
         c.broadcast(`${chat}.onUnreadMsgs`, 5);
 
