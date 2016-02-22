@@ -228,18 +228,13 @@ describe('embed.chat', function() {
       });
 
       describe('zopim.onUnreadMsgs', function() {
-        it('should broadcast <name>.onUnreadMsgs if count > 0', function() {
-          onUnreadMsgsCall.args[0](1);
+        it('should broadcast <name>.onUnreadMsgs regardless of count', function() {
+          const count = Math.floor(Math.random() * 100);
+
+          onUnreadMsgsCall.args[0](count);
 
           expect(mockMediator.channel.broadcast)
-            .toHaveBeenCalledWith('dave.onUnreadMsgs', 1);
-        });
-
-        it('should not broadcast <name>.onUnreadMsgs if count <= 0', function() {
-          onUnreadMsgsCall.args[0](0);
-
-          expect(mockMediator.channel.broadcast)
-            .not.toHaveBeenCalled();
+            .toHaveBeenCalledWith('dave.onUnreadMsgs', count);
         });
       });
 

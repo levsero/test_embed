@@ -1090,6 +1090,21 @@ describe('mediator', function() {
           .toHaveBeenCalledWith(5);
       });
 
+      it('resets launcher label to Chat when unread message count is 0', function() {
+        c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${chat}.onUnreadMsgs`, 5);
+
+        reset(launcherSub.setLabelUnreadMsgs);
+        reset(launcherSub.setLabelChat);
+
+        c.broadcast(`${chat}.onUnreadMsgs`, 0);
+
+        expect(launcherSub.setLabelUnreadMsgs.calls.count())
+          .toEqual(0);
+        expect(launcherSub.setLabelChat.calls.count())
+          .toEqual(1);
+      });
+
       it('hides the launcher when chat pops open from proactive chat', function() {
         c.broadcast(`${chat}.onOnline`);
         c.broadcast(`${chat}.onUnreadMsgs`, 1);
@@ -1233,6 +1248,21 @@ describe('mediator', function() {
     describe('with Help Center', function() {
       beforeEach(function() {
         mediator.init(true);
+      });
+
+      it('resets launcher label to ChatHelp when unread message count is 0', function() {
+        c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${chat}.onUnreadMsgs`, 5);
+
+        reset(launcherSub.setLabelUnreadMsgs);
+        reset(launcherSub.setLabelChatHelp);
+
+        c.broadcast(`${chat}.onUnreadMsgs`, 0);
+
+        expect(launcherSub.setLabelUnreadMsgs.calls.count())
+          .toEqual(0);
+        expect(launcherSub.setLabelChatHelp.calls.count())
+          .toEqual(1);
       });
 
       it('does not show after activate is called and was visible before hidden', function() {
