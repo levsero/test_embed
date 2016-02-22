@@ -161,9 +161,7 @@ function init(name) {
     broadcastStatus();
   };
   const onUnreadMsgs = function(unreadMessageCount) {
-    if (unreadMessageCount > 0) {
-      mediator.channel.broadcast(`${name}.onUnreadMsgs`, unreadMessageCount);
-    }
+    mediator.channel.broadcast(`${name}.onUnreadMsgs`, unreadMessageCount);
   };
   const onChatEnd = function() {
     mediator.channel.broadcast(`${name}.onChatEnd`);

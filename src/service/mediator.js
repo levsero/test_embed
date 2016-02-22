@@ -46,6 +46,21 @@ function init(helpCenterAvailable, hideLauncher) {
     }
   };
 
+  const updateLauncherLabel = () => {
+    if (state[`${chat}.isOnline`]) {
+      if (state[`${chat}.unreadMsgs`]) {
+        c.broadcast(`${launcher}.setLabelUnreadMsgs`, state[`${chat}.unreadMsgs`]);
+      }
+      else if (state[`${helpCenter}.isAvailable`]) {
+        c.broadcast(`${launcher}.setLabelChatHelp`);
+      } else {
+        c.broadcast(`${launcher}.setLabelChat`);
+      }
+    } else {
+      c.broadcast(`${launcher}.setLabelHelp`);
+    }
+  };
+
   state[`${launcher}.userHidden`]    = hideLauncher;
   state[`${helpCenter}.isAvailable`] = helpCenterAvailable;
 
@@ -175,21 +190,21 @@ function init(helpCenterAvailable, hideLauncher) {
     if (state[`${chat}.connectionPending`]) {
       return;
     }
+
     state[`${chat}.unreadMsgs`] = count;
 
-    if (state[`${chat}.isOnline`]) {
-      c.broadcast(`${launcher}.setLabelUnreadMsgs`, count);
-
-      if (!embedVisible(state) &&
-          !state[`${chat}.userClosed`] &&
-          !isMobileBrowser()) {
-        resetActiveEmbed();
-        state.activeEmbed = chat;
-        state[`${chat}.isVisible`] = true;
-        c.broadcast(`${chat}.show`);
-        c.broadcast(`${launcher}.hide`);
-      }
+    if (count > 0 &&
+        !embedVisible(state) &&
+        !state[`${chat}.userClosed`] &&
+        !isMobileBrowser()) {
+      resetActiveEmbed();
+      state.activeEmbed = chat;
+      state[`${chat}.isVisible`] = true;
+      c.broadcast(`${chat}.show`);
+      c.broadcast(`${launcher}.hide`);
     }
+
+    updateLauncherLabel();
   });
 
   c.intercept(`${helpCenter}.onNextClick`, () => {
@@ -367,20 +382,7 @@ function init(helpCenterAvailable, hideLauncher) {
     c.broadcast(`${helpCenter}.setHelpCenterSuggestions`, params);
   });
 
-  c.subscribe(`${launcher}.show`, () => {
-    if (state[`${chat}.isOnline`]) {
-      if (state[`${chat}.unreadMsgs`]) {
-        c.broadcast(`${launcher}.setLabelUnreadMsgs`, state[`${chat}.unreadMsgs`]);
-      }
-      else if (state[`${helpCenter}.isAvailable`]) {
-        c.broadcast(`${launcher}.setLabelChatHelp`);
-      } else {
-        c.broadcast(`${launcher}.setLabelChat`);
-      }
-    } else {
-      c.broadcast(`${launcher}.setLabelHelp`);
-    }
-  });
+  c.subscribe(`${launcher}.show`, updateLauncherLabel);
 
   initMessaging();
 }
