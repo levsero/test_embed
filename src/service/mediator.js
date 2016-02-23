@@ -511,7 +511,7 @@ function initMessaging() {
   });
 }
 
-function initNakedZopim() {
+function initZopimStandalone() {
   // Intercept zE.hide() and zE.show() api calls and make them an alias for zopims
   // hide and show functions if the user is on a naked zopim configuration.
   // zE.hide() = $zopim.livechat.hideAll(),
@@ -533,5 +533,5 @@ export const mediator = {
   channel: c,
   init: init,
   initMessaging: initMessaging,
-  initNakedZopim: initNakedZopim
+  initZopimStandalone: initZopimStandalone
 };

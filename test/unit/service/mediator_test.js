@@ -1460,7 +1460,7 @@ describe('mediator', function() {
 
     describe('with naked zopim', function() {
       beforeEach(function() {
-        mediator.initNakedZopim();
+        mediator.initZopimStandalone();
       });
 
       it('hides when a hide call is made', function() {

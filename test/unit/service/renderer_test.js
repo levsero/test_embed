@@ -67,7 +67,7 @@ describe('renderer', function() {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe']),
           init: jasmine.createSpy(),
           initMessaging: jasmine.createSpy(),
-          initNakedZopim: jasmine.createSpy()
+          initZopimStandalone: jasmine.createSpy()
         }
       },
       'lodash': _,
