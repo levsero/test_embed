@@ -378,9 +378,11 @@ export class HelpCenter extends Component {
     const onBlurHandler = () => {
       // defer event to allow onClick events to fire first
       setTimeout(() => {
-        this.setState({
-          searchFieldFocused: false
-        });
+        if (this.state.fullscreen) {
+          this.setState({
+            searchFieldFocused: false
+          });
+        }
 
         if (this.state.fullscreen && !this.state.hasSearched && !this.state.isLoading) {
           this.setState({
