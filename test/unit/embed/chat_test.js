@@ -231,11 +231,13 @@ describe('embed.chat', function() {
 
     describe('mediator subscriptions', function() {
       describe('<name>.show', function() {
-        it('should call zopim.window.show() if showButtonOnly option is falsy', function() {
+        beforeEach(function() {
           mockMediator = mockRegistry['service/mediator'].mediator;
           chat.create(chatName, {zopimId: zopimId});
           chat.render(chatName);
+        });
 
+        it('should call zopim.window.show() if showButtonOnly option is falsy', function() {
           expect(mockMediator.channel.subscribe)
             .toHaveBeenCalledWith('dave.show', jasmine.any(Function));
 
@@ -246,10 +248,6 @@ describe('embed.chat', function() {
         });
 
         it('should call zopim.button.show() if showButtonOnly option is true', function() {
-          mockMediator = mockRegistry['service/mediator'].mediator;
-          chat.create(chatName, {zopimId: zopimId});
-          chat.render(chatName);
-
           expect(mockMediator.channel.subscribe)
             .toHaveBeenCalledWith('dave.show', jasmine.any(Function));
 
@@ -260,10 +258,6 @@ describe('embed.chat', function() {
         });
 
         it('should call zopim.window.show() if zopim window is already open', function() {
-          mockMediator = mockRegistry['service/mediator'].mediator;
-          chat.create(chatName, {zopimId: zopimId});
-          chat.render(chatName);
-
           mockZopim.livechat.window.onShow();
 
           expect(mockMediator.channel.subscribe)
