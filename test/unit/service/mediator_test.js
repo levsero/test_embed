@@ -1458,7 +1458,7 @@ describe('mediator', function() {
       });
     });
 
-    describe('with naked zopim on desktop', function() {
+    describe('with naked zopim', function() {
       beforeEach(function() {
         mediator.initNakedZopim();
       });
