@@ -104,7 +104,7 @@ describe('util.setScaleLock', function() {
         .toEqual(0);
     });
 
-    it('resets user-scalable if `originalUserScalable` does exists', function() {
+    it('resets user-scalable if `originalUserScalable` does exist', function() {
       metaTag.content = 'user-scalable=NO_CHANGE';
       document.head.appendChild(metaTag);
 
