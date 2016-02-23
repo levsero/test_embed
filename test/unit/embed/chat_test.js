@@ -43,6 +43,7 @@ describe('embed.chat', function() {
         'setPosition',
         'setTitle',
         'setOffsetVertical',
+        'onShow',
         'onHide',
         'getDisplay',
         'setSize'
@@ -50,7 +51,10 @@ describe('embed.chat', function() {
       mobileNotifications: {
         setIgnoreChatButtonVisibility: jasmine.createSpy('setIgnoreChatButtonVisibility'),
         setDisabled: jasmine.createSpy('setDisabled')
-      }
+      },
+      button: jasmine.createSpyObj('button', [
+        'show'
+      ])
     };
 
     mockGlobals.win.$zopim = mockZopim;
@@ -227,7 +231,7 @@ describe('embed.chat', function() {
 
     describe('mediator subscriptions', function() {
       describe('<name>.show', function() {
-        it('should call zopim.window.show()', function() {
+        it('should call zopim.window.show() if showButtonOnly option is falsy', function() {
           mockMediator = mockRegistry['service/mediator'].mediator;
           chat.create(chatName, {zopimId: zopimId});
           chat.render(chatName);
@@ -238,6 +242,36 @@ describe('embed.chat', function() {
           pluckSubscribeCall(mockMediator, 'dave.show')();
 
           expect(mockZopim.livechat.window.show)
+            .toHaveBeenCalled();
+        });
+
+        it('should call zopim.button.show() if showButtonOnly option is true', function() {
+          mockMediator = mockRegistry['service/mediator'].mediator;
+          chat.create(chatName, {zopimId: zopimId});
+          chat.render(chatName);
+
+          expect(mockMediator.channel.subscribe)
+            .toHaveBeenCalledWith('dave.show', jasmine.any(Function));
+
+          pluckSubscribeCall(mockMediator, 'dave.show')({ showButtonOnly: true });
+
+          expect(mockZopim.livechat.button.show)
+            .toHaveBeenCalled();
+        });
+
+        it('should call zopim.window.show() if zopim window is already open', function() {
+          mockMediator = mockRegistry['service/mediator'].mediator;
+          chat.create(chatName, {zopimId: zopimId});
+          chat.render(chatName);
+
+          mockZopim.livechat.window.onShow();
+
+          expect(mockMediator.channel.subscribe)
+            .toHaveBeenCalledWith('dave.show', jasmine.any(Function));
+
+          pluckSubscribeCall(mockMediator, 'dave.show')({ showButtonOnly: true });
+
+          expect(mockZopim.livechat.button.show)
             .toHaveBeenCalled();
         });
 
