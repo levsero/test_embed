@@ -100,7 +100,10 @@ function render(name) {
   }
 
   mediator.channel.subscribe(`${name}.show`, function(params) {
-    show(params.showButtonOnly);
+    show(params && params.showButtonOnly);
+    if (!isMobileBrowser()) {
+      store.set('zopimOpen', true, 'session');
+    }
   });
 
   mediator.channel.subscribe(`${name}.hide`, function() {
