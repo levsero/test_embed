@@ -31,20 +31,19 @@ function get(name) {
   return chats[name];
 }
 
-function show(showButtonOnly) {
+function showButton() {
+  win.$zopim(function() {
+    win.$zopim.livechat.button.show();
+  });
+}
+
+function show() {
   win.$zopim(function() {
     win.$zopim.livechat.window.show();
+
     // TODO remove when zopim has release mobile notifications
     if (win.$zopim.livechat.mobileNotifications) {
       win.$zopim.livechat.mobileNotifications.setDisabled(false);
-    }
-
-    const livechat = win.$zopim.livechat;
-
-    if (showButtonOnly && !livechat.window.getDisplay()) {
-      livechat.button.show();
-    } else {
-      livechat.window.show();
     }
   });
 }
@@ -100,9 +99,10 @@ function render(name) {
   }
 
   mediator.channel.subscribe(`${name}.show`, function(params) {
-    show(params && params.showButtonOnly);
-    if (!isMobileBrowser()) {
-      store.set('zopimOpen', true, 'session');
+    if (params && params.showButtonOnly) {
+      showButton();
+    } else {
+      show();
     }
   });
 

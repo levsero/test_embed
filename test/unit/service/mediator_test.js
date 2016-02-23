@@ -1460,7 +1460,7 @@ describe('mediator', function() {
 
     describe('with naked zopim on desktop', function() {
       beforeEach(function() {
-        mediator.initMessaging(true);
+        mediator.initNakedZopim();
       });
 
       it('hides when a hide call is made', function() {

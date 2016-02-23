@@ -66,7 +66,8 @@ describe('renderer', function() {
         mediator: {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe']),
           init: jasmine.createSpy(),
-          initMessaging: jasmine.createSpy()
+          initMessaging: jasmine.createSpy(),
+          initNakedZopim: jasmine.createSpy()
         }
       },
       'lodash': _,
