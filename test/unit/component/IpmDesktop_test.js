@@ -63,7 +63,8 @@ describe('IpmDesktop component', function() {
       <IpmDesktop
         {...ipmProps}
         updateFrameSize={noop}
-        ipmSender={ipmSenderSpy} />
+        ipmSender={ipmSenderSpy}
+        closeFrame={noop} />
     );
   });
 

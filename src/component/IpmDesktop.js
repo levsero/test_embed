@@ -26,9 +26,9 @@ export class IpmDesktop extends Component {
 
     if (buttonUrl) {
       window.open(cleanUrl, '_blank');
-    } else {
-      this.props.closeFrame();
     }
+
+    this.props.closeFrame();
   }
 
   updateFrameSize() {

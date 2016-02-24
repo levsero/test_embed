@@ -14,6 +14,7 @@ import { isMobileBrowser } from 'utility/devices';
 const ipmCSS = require('./ipm.scss');
 
 let ipmes = {};
+let hasSeenIpm = false;
 
 function create(name, config) {
   let containerStyle;
@@ -38,6 +39,8 @@ function create(name, config) {
 
     mediator.channel.broadcast('ipm.onShow');
     rootComponent.ipmSender('seen');
+
+    hasSeenIpm = true;
   };
 
   const onClose = (frame) => {
@@ -123,7 +126,7 @@ function render(name) {
   mediator.channel.subscribe('ipm.activate', function() {
     const ipm = ipmes[name].instance.getRootComponent();
 
-    if (ipm.state.ipmAvailable) {
+    if (ipm.state.ipmAvailable && !hasSeenIpm) {
       ipmes[name].instance.show({transition: 'downShow'});
     } else if (ipm.state.ipmAvailable === null) {
       const err = new Error([

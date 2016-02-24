@@ -28,6 +28,7 @@ describe('embed.ipm', () => {
               ipm: {}
             };
           },
+          ipmSender() {},
           render() {
             return (
               <div className='mock-ipm' />
@@ -168,7 +169,8 @@ describe('embed.ipm', () => {
     });
 
     describe('mediator subscriptions', () => {
-      let mockMediator,
+      let mockFrameFactory,
+        mockMediator,
         dan,
         danIpm;
 
@@ -183,6 +185,7 @@ describe('embed.ipm', () => {
       };
 
       beforeEach(() => {
+        mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
         mockMediator = mockRegistry['service/mediator'].mediator;
         ipm.create('dan');
         ipm.render('dan');
@@ -209,7 +212,20 @@ describe('embed.ipm', () => {
           pluckSubscribeCall(mockMediator, 'ipm.activate')();
 
           expect(dan.instance.show.__reactBoundMethod)
-            .not.toHaveBeenCalledWith();
+            .not.toHaveBeenCalled();
+        });
+
+        it('should not show ipm if already seen', function() {
+          const mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
+          const params = mockFrameFactoryCall[1];
+
+          params.onShow(dan.instance);
+
+          // Attempt to activate the ipm a second time
+          pluckSubscribeCall(mockMediator, 'ipm.activate')();
+
+          expect(dan.instance.show.__reactBoundMethod)
+            .not.toHaveBeenCalled();
         });
       });
 
