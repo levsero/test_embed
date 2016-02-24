@@ -124,6 +124,10 @@ describe('devices', function() {
   });
 
   describe('isDevice', function() {
+    beforeEach(function() {
+      mockGlobals.navigator.userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.122 Safari/537.36';
+    });
+
     it('should return true if user agent matches array of strings', function() {
       expect(isDevice(['Mozilla', '10_9_5', 'Safari']))
         .toBe(true);
