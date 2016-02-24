@@ -23,6 +23,8 @@ LoadingSpinner.propTypes = {
 
 class LoadingEllipses extends Component {
   render() {
+    // On IOS8 iphone the scale animation crashes the webpage so
+    // we need to animation differently.
     const ios8 = isDevice(['iPhone', 'OS 8']);
     const loadingEllipsesItemClasses = classNames({
       'LoadingEllipses-item--bounce': !ios8,
