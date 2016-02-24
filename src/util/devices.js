@@ -1,4 +1,5 @@
 import { win, navigator } from 'utility/globals';
+import _ from 'lodash';
 
 function isLandscape() {
   return Math.abs(win.orientation) === 90;
@@ -30,6 +31,16 @@ function isIos() {
   const str = navigator.userAgent || navigator.vendor || win.opera;
 
   return IOS_MOBILE.test(str);
+}
+
+function isDevice(testStrings) {
+  let match = true;
+  _.forEach(testStrings, function(string) {
+    if (navigator.userAgent.indexOf(string) === -1) {
+      match = false;
+    }
+  });
+  return match;
 }
 
 function isFirefox() {
@@ -88,6 +99,7 @@ export {
   isBlacklisted,
   isIE,
   isIos,
-  isFirefox
+  isFirefox,
+  isDevice
 };
 

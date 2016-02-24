@@ -1,4 +1,7 @@
 import React, { Component, PropTypes } from 'react';
+import classNames from 'classnames';
+
+import { isDevice } from 'utility/devices';
 
 class LoadingSpinner extends Component {
   render() {
@@ -20,11 +23,12 @@ LoadingSpinner.propTypes = {
 
 class LoadingEllipses extends Component {
   render() {
-    const loadingEllipsesItemClasses = `
-      LoadingEllipses-item
-      u-userBackgroundColor
-      u-inlineBlock
-    `;
+    const ios8 = isDevice(['iPhone', 'OS 8']);
+    const loadingEllipsesItemClasses = classNames({
+      'LoadingEllipses-item--bounce': !ios8,
+      'LoadingEllipses-item--fade': ios8,
+      'LoadingEllipses-item u-userBackgroundColor u-inlineBlock': true
+    });
 
     return (
       <div className={`LoadingEllipses u-textCenter ${this.props.className}`}>
