@@ -35,6 +35,10 @@ function get(name) {
 function show() {
   win.$zopim(function() {
     win.$zopim.livechat.window.show();
+    // TODO remove when zopim has release mobile notifications
+    if (win.$zopim.livechat.mobileNotifications) {
+      win.$zopim.livechat.mobileNotifications.setDisabled(false);
+    }
   });
 }
 
@@ -47,6 +51,10 @@ function postRender(name) {
 function hide() {
   win.$zopim(function() {
     win.$zopim.livechat.hideAll();
+    // TODO remove when zopim has release mobile notifications
+    if (win.$zopim.livechat.mobileNotifications) {
+      win.$zopim.livechat.mobileNotifications.setDisabled(true);
+    }
   });
 }
 
@@ -194,6 +202,11 @@ function init(name) {
     zopimLive.setOnStatus(onStatus);
     zopimLive.setOnUnreadMsgs(onUnreadMsgs);
     zopimLive.setOnChatEnd(onChatEnd);
+
+    // TODO remove when zopim has release mobile notifications
+    if (win.$zopim.livechat.mobileNotifications) {
+      zopimLive.mobileNotifications.setIgnoreChatButtonVisibility(true);
+    }
 
     // configure zopim window
     zopimLive.theme.setColor(config.color);
