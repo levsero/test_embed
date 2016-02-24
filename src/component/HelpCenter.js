@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import _ from 'lodash';
 import classNames from 'classnames';
 
-import { HelpCenterForm } from 'component/HelpCenterForm';
 import { HelpCenterArticle } from 'component/HelpCenterArticle';
 import { SearchField,
          SearchFieldButton } from 'component/FormField';
@@ -160,8 +159,10 @@ export class HelpCenter extends Component {
     this.performSearch(query, successFn, { isContextual: true });
   }
 
-  manualSearch() {
+  manualSearch(e) {
     /* eslint camelcase:0 */
+    e.preventDefault();
+
     const searchField = this.refs.searchField;
     const searchTerm = searchField.getValue();
 
@@ -192,7 +193,9 @@ export class HelpCenter extends Component {
     }
   }
 
-  autoSearch() {
+  autoSearch(e) {
+    e.preventDefault();
+
     const searchTerm = this.refs.searchField.getValue();
 
     if (_.isEmpty(searchTerm) ||
@@ -355,6 +358,8 @@ export class HelpCenter extends Component {
     });
     const formClasses = classNames({
       'u-isHidden': this.state.articleViewActive
+                    || (!this.state.fullscreen && this.state.hasSearched)
+                    || (this.state.fullscreen && !this.state.showIntroScreen)
     });
     const buttonContainerClasses = classNames({
       'u-marginTA': this.state.fullscreen,
@@ -483,15 +488,7 @@ export class HelpCenter extends Component {
                                       searchTerm={this.state.searchFieldValue} />
                                   : null;
 
-    const headerContent = (!this.state.articleViewActive
-                           && (!this.state.fullscreen && this.state.hasSearched
-                               || this.state.fullscreen && !this.state.showIntroScreen))
-                        ? <HelpCenterForm
-                            onSubmit={this.manualSearch}
-                            onChange={this.autoSearch}
-                            children={searchField} />
-                        : null;
-
+                                  //no article shown, not mobile and has searched, mobile and isn't showing inital screen
     const noResults = (!this.state.showIntroScreen
                        && !this.state.resultsCount
                        && this.state.hasSearched)
@@ -505,6 +502,40 @@ export class HelpCenter extends Component {
                           )
                         : i18n.t('embeddable_framework.helpCenter.label.results');
 
+   const hcform = (
+      <div className={formClasses}>
+        <form
+          ref='helpCenterForm'
+          className='Form u-cf'
+          onChange={this.autoSearch}
+          onSubmit={this.manualSearch}>
+          <h1 className={searchTitleClasses}>
+            {i18n.t('embeddable_framework.helpCenter.label.searchHelpCenter')}
+          </h1>
+
+          {searchFieldButton || introSearchField}
+
+          <div className={linkClasses}>
+            <p className='u-marginBN'>{linkContext}</p>
+            <a className='u-userTextColor' onClick={this.handleNextClick}>
+              {linkLabel}
+            </a>
+          </div>
+
+          <h1 className={formLegendClasses}>
+            <span className='Arrange-sizeFill'>
+              {resultsLegend}
+            </span>
+          </h1>
+
+          {noResults}
+          <ul className={listClasses}>
+            {_.chain(this.state.articles).take(3).map(articleTemplate.bind(this)).value()}
+          </ul>
+        </form>
+      </div>
+    );
+
     return (
       <Container
         style={this.props.style}
@@ -513,7 +544,7 @@ export class HelpCenter extends Component {
           ref='scrollContainer'
           hideZendeskLogo={hideZendeskLogo}
           title={i18n.t(`embeddable_framework.launcher.label.${this.props.formTitleKey}`)}
-          headerContent={headerContent}
+          headerContent={hcform}
           footerContent={
             <div className={buttonContainerClasses}>
               <ButtonGroup rtl={i18n.isRTL()}>
@@ -526,36 +557,6 @@ export class HelpCenter extends Component {
           }
           fullscreen={this.state.fullscreen}
           isVirtualKeyboardOpen={this.state.searchFieldFocused}>
-          <div className={formClasses}>
-            <HelpCenterForm
-              ref='helpCenterForm'
-              onChange={this.autoSearch}
-              onSubmit={this.manualSearch}>
-              <h1 className={searchTitleClasses}>
-                {i18n.t('embeddable_framework.helpCenter.label.searchHelpCenter')}
-              </h1>
-
-              {searchFieldButton || introSearchField}
-
-              <div className={linkClasses}>
-                <p className='u-marginBN'>{linkContext}</p>
-                <a className='u-userTextColor' onClick={this.handleNextClick}>
-                  {linkLabel}
-                </a>
-              </div>
-
-              <h1 className={formLegendClasses}>
-                <span className='Arrange-sizeFill'>
-                  {resultsLegend}
-                </span>
-              </h1>
-
-              {noResults}
-              <ul className={listClasses}>
-                {_.chain(this.state.articles).take(3).map(articleTemplate.bind(this)).value()}
-              </ul>
-            </HelpCenterForm>
-          </div>
 
           <div className={articleClasses}>
             <HelpCenterArticle
