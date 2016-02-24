@@ -157,7 +157,7 @@ export class HelpCenter extends Component {
       origin: null
     });
 
-    this.performSearch(query, successFn, false);
+    this.performSearch(query, successFn, false, true);
   }
 
   manualSearch() {
@@ -238,7 +238,10 @@ export class HelpCenter extends Component {
     this.focusField();
   }
 
-  performSearch(query, successFn, localeFallback = false) {
+  performSearch(query, successFn, localeFallback, isContextual) {
+    const searchFn = isContextual
+                   ? this.props.performContextualSearchRequest
+                   : this.props.performRegularSearchRequest;
     const doneFn = (res) => {
       if (res.ok) {
         if ((query.locale && res.body.count > 0) || !localeFallback) {
@@ -250,8 +253,9 @@ export class HelpCenter extends Component {
         this.searchFail();
       }
     };
+    const failFn = () => this.searchFail();
 
-    this.props.searchSender(query, doneFn, () => this.searchFail());
+    searchFn(query, doneFn, failFn);
   }
 
   handleArticleClick(articleIndex, e) {
@@ -279,7 +283,7 @@ export class HelpCenter extends Component {
 
   trackSearch() {
     /* eslint camelcase:0 */
-    this.props.searchSender({
+    this.props.performRegularSearchRequest({
       query: this.state.searchTerm,
       per_page: 0,
       origin: 'web_widget'
@@ -564,7 +568,8 @@ export class HelpCenter extends Component {
 }
 
 HelpCenter.propTypes = {
-  searchSender: PropTypes.func.isRequired,
+  performRegularSearchRequest: PropTypes.func.isRequired,
+  performContextualSearchRequest: PropTypes.func.isRequired,
   buttonLabelKey: PropTypes.string,
   onSearch: PropTypes.func,
   showBackButton: PropTypes.func,

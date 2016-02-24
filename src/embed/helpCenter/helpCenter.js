@@ -78,18 +78,34 @@ function create(name, config) {
     }
   };
 
-  const searchSender = (query, doneFn, failFn) => {
-    const payload = {
+  const performSearchRequest = (payload, doneFn, failFn) => {
+    _.extend(payload, {
       method: 'get',
-      path: '/api/v2/help_center/search.json',
-      query: query,
       callbacks: {
         done: doneFn,
         fail: failFn
       }
-    };
+    });
 
     transport.send(payload);
+  };
+
+  const performRegularSearchRequest = (query, doneFn, failFn) => {
+    const payload = {
+      path: '/api/v2/help_center/search.json',
+      query: query
+    };
+
+    performSearchRequest(payload, doneFn, failFn);
+  };
+
+  const performContextualSearchRequest = (query, doneFn, failFn) => {
+    const payload = {
+      path: '/hc/api/v2/articles/embeddable_search.json',
+      query: query
+    };
+
+    performSearchRequest(payload, doneFn, failFn);
   };
 
   config = _.extend(configDefaults, config);
@@ -118,7 +134,8 @@ function create(name, config) {
           buttonLabelKey={config.buttonLabelKey}
           formTitleKey={config.formTitleKey}
           showBackButton={showBackButton}
-          searchSender={searchSender}
+          performRegularSearchRequest={performRegularSearchRequest}
+          performContextualSearchRequest={performContextualSearchRequest}
           style={containerStyle}
           updateFrameSize={params.updateFrameSize}
           zendeskHost={transport.getZendeskHost()} />
