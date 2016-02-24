@@ -35,6 +35,7 @@ function isIos() {
 
 function isDevice(testStrings) {
   let match = true;
+
   _.forEach(testStrings, function(string) {
     if (navigator.userAgent.indexOf(string) === -1) {
       match = false;

@@ -4,6 +4,7 @@ describe('devices', function() {
   let isLandscape;
   let getDeviceZoom;
   let getZoomSizingRatio;
+  let isDevice;
   const mockGlobals = {
     win: {
       innerWidth: 1,
@@ -42,6 +43,7 @@ describe('devices', function() {
     isLandscape = requireUncached(devicesPath).isLandscape;
     getDeviceZoom = requireUncached(devicesPath).getDeviceZoom;
     getZoomSizingRatio = requireUncached(devicesPath).getZoomSizingRatio;
+    isDevice = requireUncached(devicesPath).isDevice;
   });
 
   afterEach(function() {
@@ -117,6 +119,18 @@ describe('devices', function() {
       win.orientation = 0;
 
       expect(isLandscape())
+        .toBe(false);
+    });
+  });
+
+  describe('isDevice', function() {
+    it('should return true if user agent matches array of strings', function() {
+      expect(isDevice(['Mozilla', '10_9_5', 'Safari']))
+        .toBe(true);
+    });
+
+    it('should return false if user agent does not match anything in a array of strings', function() {
+      expect(isDevice(['Mozilla', '10_9_4', 'Safari']))
         .toBe(false);
     });
   });
