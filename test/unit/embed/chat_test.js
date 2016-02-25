@@ -46,7 +46,11 @@ describe('embed.chat', function() {
         'onHide',
         'getDisplay',
         'setSize'
-      ])
+      ]),
+      mobileNotifications: {
+        setIgnoreChatButtonVisibility: jasmine.createSpy('setIgnoreChatButtonVisibility'),
+        setDisabled: jasmine.createSpy('setDisabled')
+      }
     };
 
     mockGlobals.win.$zopim = mockZopim;
@@ -166,6 +170,15 @@ describe('embed.chat', function() {
 
       expect(snippetText.indexOf(zopimId))
         .not.toBe(false);
+    });
+
+    it('should call zopim.livechat.mobileNotifications.setIgnoreChatButtonVisibility()', function() {
+      mockMediator = mockRegistry['service/mediator'].mediator;
+      chat.create(chatName, {zopimId: zopimId});
+      chat.render(chatName);
+
+      expect(mockZopim.livechat.mobileNotifications.setIgnoreChatButtonVisibility)
+        .toHaveBeenCalled();
     });
 
     describe('mediator broadcasts', function() {
@@ -312,6 +325,17 @@ describe('embed.chat', function() {
             expect(storeSetZopimOpen.length)
               .toEqual(0);
           });
+
+          it('should call zopim.livechat.mobileNotifications.setDisabled(false)', function() {
+            mockMediator = mockRegistry['service/mediator'].mediator;
+            chat.create(chatName, {zopimId: zopimId});
+            chat.render(chatName);
+
+            pluckSubscribeCall(mockMediator, 'dave.show')();
+
+            expect(mockZopim.livechat.mobileNotifications.setDisabled)
+              .toHaveBeenCalledWith(false);
+          });
         });
       });
 
@@ -328,6 +352,17 @@ describe('embed.chat', function() {
 
           expect(mockZopim.livechat.hideAll)
             .toHaveBeenCalled();
+        });
+
+        it('should call zopim.livechat.mobileNotifications.setDiabled(true)', function() {
+          mockMediator = mockRegistry['service/mediator'].mediator;
+          chat.create(chatName, {zopimId: zopimId});
+          chat.render(chatName);
+
+          pluckSubscribeCall(mockMediator, 'dave.hide')();
+
+          expect(mockZopim.livechat.mobileNotifications.setDisabled)
+            .toHaveBeenCalledWith(true);
         });
       });
     });
