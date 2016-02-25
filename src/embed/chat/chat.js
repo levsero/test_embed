@@ -43,9 +43,6 @@ function show() {
 }
 
 function postRender(name) {
-  if (store.get('zopimOpen', 'session')) {
-    mediator.channel.broadcast(`${name}.onShow`);
-  }
 }
 
 function hide() {
@@ -79,14 +76,6 @@ function render(name) {
     });
   }
 
-  if (isMobileBrowser()) {
-    store.set('zopimOpen', false, 'session');
-  }
-
-  if (store.get('zopimOpen', 'session')) {
-    show(name);
-  }
-
   if (!config.standalone) {
     if (!store.get('zopimOpen', 'session')) {
       host.appendChild(styleTag);
@@ -106,9 +95,6 @@ function render(name) {
 
   mediator.channel.subscribe(`${name}.show`, function() {
     show(name);
-    if (!isMobileBrowser()) {
-      store.set('zopimOpen', true, 'session');
-    }
   });
 
   mediator.channel.subscribe(`${name}.hide`, function() {
@@ -176,7 +162,6 @@ function init(name) {
   };
   const onHide = function() {
     mediator.channel.broadcast(`${name}.onHide`);
-    store.set('zopimOpen', false, 'session');
 
     win.$zopim(function() {
       win.$zopim.livechat.hideAll();
@@ -192,7 +177,9 @@ function init(name) {
 
     store.set('zopimHideAll', true);
 
-    if (!store.get('zopimOpen', 'session')) {
+    if (zopimWin.getDisplay() || zopimLive.isChatting()) {
+      mediator.channel.broadcast('.zopimShow');
+    } else {
       zopimLive.hideAll();
     }
 
