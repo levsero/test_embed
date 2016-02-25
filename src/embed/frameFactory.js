@@ -239,7 +239,7 @@ export const frameFactory = function(childFn, _params) {
       }
     },
 
-    close(ev) {
+    close(ev, options = {}) {
       // ev.touches added for automation testing mobile browsers
       // which is firing 'click' event on iframe close
       if (params.isMobile && ev.touches) {
@@ -252,7 +252,7 @@ export const frameFactory = function(childFn, _params) {
         this.hide({ transition: 'close' });
       }
 
-      params.onClose(this);
+      params.onClose(this, options);
     },
 
     back(ev) {
