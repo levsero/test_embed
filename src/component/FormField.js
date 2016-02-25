@@ -253,7 +253,7 @@ class SelectField extends Component {
   formatOptions() {
     const props = this.props;
     const options = [
-      <option value='' key=''>-</option>
+      <option value='' key='' disabled={props.required}>-</option>
     ];
 
     const optionGroups = _.groupBy(props.options, function(option) {
