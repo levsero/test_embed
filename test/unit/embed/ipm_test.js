@@ -170,6 +170,20 @@ describe('embed.ipm', () => {
       expect(mockIpmSender)
         .toHaveBeenCalledWith('dismissed');
     });
+
+    it('should send a clicked event if closed call to action', () => {
+      ipm.create('dan');
+      ipm.render('dan');
+
+      const frame = ipm.get('dan').instance;
+      const embed = frame.getRootComponent();
+      const mockIpmSender = spyOn(embed, 'ipmSender');
+
+      frame.close({ eventToEmit: 'clicked' });
+
+      expect(mockIpmSender)
+        .toHaveBeenCalledWith('clicked');
+    });
   });
 
   describe('render', () => {

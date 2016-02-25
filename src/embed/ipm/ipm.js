@@ -47,13 +47,10 @@ function create(name, config) {
     const rootComponent = frame.getRootComponent();
 
     mediator.channel.broadcast('ipm.onClose');
-
-    if (!options.callToActionClicked) {
-      rootComponent.ipmSender('dismissed');
-    }
+    rootComponent.ipmSender(options.eventToEmit || 'dismissed');
   };
 
-  const closeFrame = () => get(name).instance.close(null, { callToActionClicked: true });
+  const closeFrame = () => get(name).instance.close(null, { eventToEmit: 'clicked' });
 
   const transitionSet = transitionFactory.ipm;
 

@@ -12,8 +12,6 @@ export class IpmDesktop extends Component {
   }
 
   handleOnClick() {
-    this.props.ipmSender('clicked');
-
     const { buttonUrl } = this.props.ipm.message;
 
     if (buttonUrl.trim().match(/^javascript:/)) {
