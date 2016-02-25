@@ -2,6 +2,7 @@ describe('util.setScaleLock', function() {
   let setScaleLock,
     metaStringToObj,
     splitPath,
+    getPageKeywords,
     metaTag;
   const utilPath = buildSrcPath('util/utils');
 
@@ -14,7 +15,11 @@ describe('util.setScaleLock', function() {
 
     initMockRegistry({
       'utility/globals': {
-        document: document
+        document: document,
+        location: {
+          pathname: '/anthony/is/awesome',
+          href: 'http://foo.com/#/anthony/is/awesome'
+        }
       },
       'service/mediator': {
         mediator: {
@@ -32,6 +37,7 @@ describe('util.setScaleLock', function() {
     setScaleLock = require(utilPath).setScaleLock;
     metaStringToObj = require(utilPath).metaStringToObj;
     splitPath = require(utilPath).splitPath;
+    getPageKeywords = require(utilPath).getPageKeywords;
 
     metaTag = document.createElement('meta');
     metaTag.name = 'viewport';
@@ -165,6 +171,25 @@ describe('util.setScaleLock', function() {
 
       expect(splitPath('!/thi𝌆$/is/tchüss1@-_path.html'))
         .toEqual('! thi𝌆$ is tchüss1@  path');
+    });
+  });
+
+  describe('getPageKeywords()', function() {
+    it('should return the pathname in the form of space seperated keywords', function() {
+      expect(getPageKeywords())
+        .toEqual('anthony is awesome');
+    });
+
+    it('should still return valid keywords with weird `#` urls', function() {
+      location.pathname = '/';
+
+      expect(getPageKeywords())
+        .toEqual('anthony is awesome');
+
+      location.href = 'http://foo.com/#/anthony/#/is/#/awesome';
+
+      expect(getPageKeywords())
+        .toEqual('anthony is awesome');
     });
   });
 

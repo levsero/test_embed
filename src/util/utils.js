@@ -240,7 +240,17 @@ function getFrameworkLoadTime() {
 }
 
 function getPageKeywords() {
-  return splitPath(location.pathname).trim();
+  // If the hostpage has a URL pathname starting with a hash (e.g http://foo.com/#/path),
+  // location.pathname will break and only return '/'. In this case some logic is added
+  // here to grab the path manually.
+  if (location.pathname === '/') {
+    const pathnameArr = location.href.split('/').slice(3);
+    const keywords = _.without(pathnameArr, '#').join(' ');
+
+    return splitPath(keywords).trim();
+  } else {
+    return splitPath(location.pathname).trim();
+  }
 }
 
 function patchReactIdAttribute() {

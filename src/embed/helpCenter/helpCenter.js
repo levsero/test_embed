@@ -253,8 +253,9 @@ function render(name) {
 function postRender(name) {
   const config = get(name).config;
 
-  if (config.contextualHelpEnabled
-      && location.pathname && location.pathname.substring(0, 4) !== '/hc/') {
+  if (config.contextualHelpEnabled &&
+      location.pathname &&
+      location.pathname.substring(0, 4) !== '/hc/') {
     keywordsSearch(name, { search: getPageKeywords() });
   }
 }
