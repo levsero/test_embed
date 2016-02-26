@@ -164,7 +164,7 @@ function init(helpCenterAvailable, hideLauncher) {
       return;
     }
 
-    if (state.activeEmbed === chat ) {
+    if (state.activeEmbed === chat) {
       resetActiveEmbed();
     }
 
