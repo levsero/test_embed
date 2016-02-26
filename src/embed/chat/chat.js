@@ -77,9 +77,11 @@ function render(name) {
   }
 
   if (!config.standalone) {
-    if (!store.get('zopimOpen', 'session')) {
-      host.appendChild(styleTag);
-    }
+    win.$zopim(function() {
+      if (!win.$zopim.livechat.window.getDisplay()) {
+        host.appendChild(styleTag);
+      }
+    });
     init(name);
   }
 

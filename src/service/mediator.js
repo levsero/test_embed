@@ -158,11 +158,14 @@ function init(helpCenterAvailable, hideLauncher) {
   });
 
   c.intercept(`${chat}.onOffline`, () => {
-    state[`${chat}.isOnline`] = false;
-
-    if (state.activeEmbed === chat) {
+    // On offline fires initially when chat is being set up. We should
+    // only reset the embed if they're going offline when they were online
+    // otherwise the active embed could be wrong
+    if (state.activeEmbed === chat && state[`${chat}.isOnline`] === true) {
       resetActiveEmbed();
     }
+
+    state[`${chat}.isOnline`] = false;
 
     c.broadcast(`${launcher}.setLabelHelp`);
     c.broadcast(`${helpCenter}.setNextToSubmitTicket`);
