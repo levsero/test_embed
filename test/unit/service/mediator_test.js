@@ -1302,6 +1302,21 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
+      it('does not reset the active embed if it goes offline and was not online initally', function() {
+        c.broadcast('.zopimShow');
+        c.broadcast(`${chat}.onOffline`);
+        c.broadcast(`${chat}.onOnline`);
+
+        jasmine.clock().install();
+        c.broadcast(`${launcher}.onClick`); // open
+        jasmine.clock().tick(0);
+
+        expect(helpCenterSub.show.calls.count())
+          .toEqual(0);
+        expect(chatSub.show.calls.count())
+          .toEqual(1);
+      });
+
       it('pops open proactive chat after chat ends and user closes it', function() {
         c.broadcast(`${chat}.onOnline`);
         c.broadcast(`${chat}.onUnreadMsgs`, 1);
