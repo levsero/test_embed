@@ -116,47 +116,9 @@ describe('embed.chat', function() {
   });
 
   describe('render', function() {
-    let mockMediator,
-      mockStore;
+    let mockMediator;
     const chatName = 'dave';
     const zopimId = 'abc123';
-
-    beforeEach(function() {
-      mockStore = mockRegistry['service/persistence'].store;
-    });
-
-    describe('store set zopimOpen', function() {
-      it('is set to false if on a mobile browser', function() {
-        mockIsMobileBrowserValue = true;
-
-        chat.create(chatName, {zopimId: zopimId});
-        chat.render(chatName);
-
-        const storeSetZopimOpen = _.chain(mockStore.set.calls.all())
-          .filter(function(c) { return c.args[0] === 'zopimOpen'; })
-          .value();
-
-        expect(storeSetZopimOpen.length)
-          .toEqual(1);
-
-        expect(storeSetZopimOpen[0].args[1])
-          .toEqual(false);
-      });
-
-      it('is not set if not on a mobile browser', function() {
-        mockIsMobileBrowserValue = false;
-
-        chat.create(chatName, {zopimId: zopimId});
-        chat.render(chatName);
-
-        const storeSetZopimOpen = _.chain(mockStore.set.calls.all())
-          .filter(function(c) { return c.args[0] === 'zopimOpen'; })
-          .value();
-
-        expect(storeSetZopimOpen.length)
-          .toEqual(0);
-      });
-    });
 
     it('should inject the zopim bootstrap script into the document', function() {
       mockMediator = mockRegistry['service/mediator'].mediator;
@@ -276,66 +238,15 @@ describe('embed.chat', function() {
             .toHaveBeenCalled();
         });
 
-        describe('on show event set zopimOpen', function() {
-          beforeEach(function() {
-            mockMediator = mockRegistry['service/mediator'].mediator;
-          });
+        it('should call zopim.livechat.mobileNotifications.setDisabled(false)', function() {
+          mockMediator = mockRegistry['service/mediator'].mediator;
+          chat.create(chatName, {zopimId: zopimId});
+          chat.render(chatName);
 
-          it('should be true if not on a mobile browser', function() {
-            mockIsMobileBrowserValue = false;
+          pluckSubscribeCall(mockMediator, 'dave.show')();
 
-            chat.create(chatName, {zopimId: zopimId});
-            chat.render(chatName);
-
-            mockStore.set.calls.reset();
-
-            expect(mockMediator.channel.subscribe)
-              .toHaveBeenCalledWith('dave.show', jasmine.any(Function));
-
-            pluckSubscribeCall(mockMediator, 'dave.show')();
-
-            const storeSetZopimOpen = _.chain(mockStore.set.calls.all())
-              .filter(function(c) { return c.args[0] === 'zopimOpen'; })
-              .value();
-
-            expect(storeSetZopimOpen.length)
-              .toEqual(1);
-
-            expect(storeSetZopimOpen[0].args[1])
-              .toEqual(true);
-          });
-
-          it('should not be set if on a mobile browser', function() {
-            mockIsMobileBrowserValue = true;
-
-            chat.create(chatName, {zopimId: zopimId});
-            chat.render(chatName);
-
-            mockStore.set.calls.reset();
-
-            expect(mockMediator.channel.subscribe)
-              .toHaveBeenCalledWith('dave.show', jasmine.any(Function));
-
-            pluckSubscribeCall(mockMediator, 'dave.show')();
-
-            const storeSetZopimOpen = _.chain(mockStore.set.calls.all())
-              .filter(function(c) { return c.args[0] === 'zopimOpen'; })
-              .value();
-
-            expect(storeSetZopimOpen.length)
-              .toEqual(0);
-          });
-
-          it('should call zopim.livechat.mobileNotifications.setDisabled(false)', function() {
-            mockMediator = mockRegistry['service/mediator'].mediator;
-            chat.create(chatName, {zopimId: zopimId});
-            chat.render(chatName);
-
-            pluckSubscribeCall(mockMediator, 'dave.show')();
-
-            expect(mockZopim.livechat.mobileNotifications.setDisabled)
-              .toHaveBeenCalledWith(false);
-          });
+          expect(mockZopim.livechat.mobileNotifications.setDisabled)
+            .toHaveBeenCalledWith(false);
         });
       });
 

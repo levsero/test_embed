@@ -5,7 +5,6 @@ import { document, win,
 import { i18n }            from 'service/i18n';
 import { mediator }        from 'service/mediator';
 import { store }           from 'service/persistence';
-import { isMobileBrowser } from 'utility/devices';
 
 let chats = {};
 const styleTag = document.createElement('style');
@@ -42,12 +41,6 @@ function show() {
   });
 }
 
-function postRender(name) {
-  if (store.get('zopimOpen', 'session')) {
-    mediator.channel.broadcast(`${name}.onShow`);
-  }
-}
-
 function hide() {
   win.$zopim(function() {
     win.$zopim.livechat.hideAll();
@@ -79,18 +72,12 @@ function render(name) {
     });
   }
 
-  if (isMobileBrowser()) {
-    store.set('zopimOpen', false, 'session');
-  }
-
-  if (store.get('zopimOpen', 'session')) {
-    show(name);
-  }
-
   if (!config.standalone) {
-    if (!store.get('zopimOpen', 'session')) {
-      host.appendChild(styleTag);
-    }
+    win.$zopim(function() {
+      if (!win.$zopim.livechat.window.getDisplay()) {
+        host.appendChild(styleTag);
+      }
+    });
     init(name);
   }
 
@@ -106,9 +93,6 @@ function render(name) {
 
   mediator.channel.subscribe(`${name}.show`, function() {
     show(name);
-    if (!isMobileBrowser()) {
-      store.set('zopimOpen', true, 'session');
-    }
   });
 
   mediator.channel.subscribe(`${name}.hide`, function() {
@@ -176,7 +160,6 @@ function init(name) {
   };
   const onHide = function() {
     mediator.channel.broadcast(`${name}.onHide`);
-    store.set('zopimOpen', false, 'session');
 
     win.$zopim(function() {
       win.$zopim.livechat.hideAll();
@@ -192,7 +175,9 @@ function init(name) {
 
     store.set('zopimHideAll', true);
 
-    if (!store.get('zopimOpen', 'session')) {
+    if (zopimWin.getDisplay() || zopimLive.isChatting()) {
+      mediator.channel.broadcast('.zopimShow');
+    } else {
       zopimLive.hideAll();
     }
 
@@ -221,6 +206,5 @@ export const chat = {
   create: create,
   list: list,
   get: get,
-  render: render,
-  postRender: postRender
+  render: render
 };
