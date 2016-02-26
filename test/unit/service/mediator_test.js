@@ -651,6 +651,7 @@ describe('mediator', function() {
       });
 
       it('shows label "Help" if chat is offline', function() {
+        c.broadcast(`${chat}.onOnline`);
         c.broadcast(`${chat}.onOffline`);
 
         expect(launcherSub.setLabelHelp.calls.count())
@@ -744,6 +745,7 @@ describe('mediator', function() {
       });
 
       it('shows label "Help" if chat is offline', function() {
+        c.broadcast(`${chat}.onOnline`);
         c.broadcast(`${chat}.onOffline`);
 
         expect(launcherSub.setLabelHelp.calls.count())
@@ -1416,6 +1418,7 @@ describe('mediator', function() {
     });
 
     it('displays "Leave A Message" if chat is offline', function() {
+      c.broadcast(`${chat}.onOnline`);
       c.broadcast(`${chat}.onOffline`);
 
       expect(helpCenterSub.setNextToSubmitTicket.calls.count())
@@ -1527,6 +1530,7 @@ describe('mediator', function() {
 
       it('shows launcher after 3000ms if chat is offline', function() {
         jasmine.clock().install();
+        c.broadcast(`${chat}.onOnline`);
         c.broadcast(`${chat}.onOffline`);
         jasmine.clock().tick(3000);
 
