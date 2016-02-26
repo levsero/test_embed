@@ -5,7 +5,6 @@ import { document, win,
 import { i18n }            from 'service/i18n';
 import { mediator }        from 'service/mediator';
 import { store }           from 'service/persistence';
-import { isMobileBrowser } from 'utility/devices';
 
 let chats = {};
 const styleTag = document.createElement('style');
@@ -40,9 +39,6 @@ function show() {
       win.$zopim.livechat.mobileNotifications.setDisabled(false);
     }
   });
-}
-
-function postRender(name) {
 }
 
 function hide() {
@@ -210,6 +206,5 @@ export const chat = {
   create: create,
   list: list,
   get: get,
-  render: render,
-  postRender: postRender
+  render: render
 };

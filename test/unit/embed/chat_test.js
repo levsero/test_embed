@@ -116,14 +116,9 @@ describe('embed.chat', function() {
   });
 
   describe('render', function() {
-    let mockMediator,
-      mockStore;
+    let mockMediator;
     const chatName = 'dave';
     const zopimId = 'abc123';
-
-    beforeEach(function() {
-      mockStore = mockRegistry['service/persistence'].store;
-    });
 
     it('should inject the zopim bootstrap script into the document', function() {
       mockMediator = mockRegistry['service/mediator'].mediator;
@@ -243,16 +238,16 @@ describe('embed.chat', function() {
             .toHaveBeenCalled();
         });
 
-          it('should call zopim.livechat.mobileNotifications.setDisabled(false)', function() {
-            mockMediator = mockRegistry['service/mediator'].mediator;
-            chat.create(chatName, {zopimId: zopimId});
-            chat.render(chatName);
+        it('should call zopim.livechat.mobileNotifications.setDisabled(false)', function() {
+          mockMediator = mockRegistry['service/mediator'].mediator;
+          chat.create(chatName, {zopimId: zopimId});
+          chat.render(chatName);
 
-            pluckSubscribeCall(mockMediator, 'dave.show')();
+          pluckSubscribeCall(mockMediator, 'dave.show')();
 
-            expect(mockZopim.livechat.mobileNotifications.setDisabled)
-              .toHaveBeenCalledWith(false);
-          });
+          expect(mockZopim.livechat.mobileNotifications.setDisabled)
+            .toHaveBeenCalledWith(false);
+        });
       });
 
       describe('<name>.hide', function() {
