@@ -139,13 +139,6 @@ describe('IpmDesktop component', function() {
       spyOn(window, 'open');
     });
 
-    it('invokes props.ipmSender with "clicked"', () => {
-      component.handleOnClick();
-
-      expect(ipmSenderSpy)
-        .toHaveBeenCalledWith('clicked');
-    });
-
     describe('when ipm has an empty buttonUrl', () => {
       withButtonUrl('');
 

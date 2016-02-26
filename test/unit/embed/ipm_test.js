@@ -156,6 +156,36 @@ describe('embed.ipm', () => {
     });
   });
 
+  describe('onClose', () => {
+    it('should send a dismissed event if closed via x button', () => {
+      ipm.create('dan');
+      ipm.render('dan');
+
+      const frame = ipm.get('dan').instance;
+      const embed = frame.getRootComponent();
+      const mockIpmSender = spyOn(embed, 'ipmSender');
+
+      frame.close();
+
+      expect(mockIpmSender)
+        .toHaveBeenCalledWith('dismissed');
+    });
+
+    it('should send a clicked event if closed call to action', () => {
+      ipm.create('dan');
+      ipm.render('dan');
+
+      const frame = ipm.get('dan').instance;
+      const embed = frame.getRootComponent();
+      const mockIpmSender = spyOn(embed, 'ipmSender');
+
+      frame.close({ eventToEmit: 'clicked' });
+
+      expect(mockIpmSender)
+        .toHaveBeenCalledWith('clicked');
+    });
+  });
+
   describe('render', () => {
     it('renders an ipm embed the document', () => {
       ipm.create('dan');
