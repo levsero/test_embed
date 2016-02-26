@@ -475,9 +475,7 @@ export class HelpCenter extends Component {
                       : null;
 
     // intro search field on DESKTOP
-    const introSearchField = (!this.state.fullscreen && !this.state.hasSearched)
-                           ? searchField
-                           : null;
+    const introSearchField = (!this.state.fullscreen) ? searchField : null;
 
     // intro search field *button* on MOBILE
     const searchFieldButton = (this.state.fullscreen && this.state.showIntroScreen)
@@ -503,39 +501,26 @@ export class HelpCenter extends Component {
                         : i18n.t('embeddable_framework.helpCenter.label.results');
 
    const hcform = (
-      <div className={formClasses}>
-        <form
-          ref='helpCenterForm'
-          className='Form u-cf'
-          onChange={this.autoSearch}
-          onSubmit={this.manualSearch}>
-          <h1 className={searchTitleClasses}>
-            {i18n.t('embeddable_framework.helpCenter.label.searchHelpCenter')}
-          </h1>
+      <form
+        ref='helpCenterForm'
+        className='Form u-cf'
+        onChange={this.autoSearch}
+        onSubmit={this.manualSearch}>
+        <h1 className={searchTitleClasses}>
+          {i18n.t('embeddable_framework.helpCenter.label.searchHelpCenter')}
+        </h1>
 
-          {searchFieldButton || introSearchField}
-
-          <div className={linkClasses}>
-            <p className='u-marginBN'>{linkContext}</p>
-            <a className='u-userTextColor' onClick={this.handleNextClick}>
-              {linkLabel}
-            </a>
-          </div>
-
-          <h1 className={formLegendClasses}>
-            <span className='Arrange-sizeFill'>
-              {resultsLegend}
-            </span>
-          </h1>
-
-          {noResults}
-          <ul className={listClasses}>
-            {_.chain(this.state.articles).take(3).map(articleTemplate.bind(this)).value()}
-          </ul>
-        </form>
-      </div>
+        {searchFieldButton || introSearchField || searchField}
+      </form>
     );
 
+   const headerContent = (!this.state.articleViewActive &&
+                    (!this.state.fullscreen && this.state.hasSearched ||
+                     this.state.fullscreen && !this.state.showIntroScreen))
+                 ? hcform
+                 : null;
+
+    console.log(headerContent)
     return (
       <Container
         style={this.props.style}
@@ -544,7 +529,7 @@ export class HelpCenter extends Component {
           ref='scrollContainer'
           hideZendeskLogo={hideZendeskLogo}
           title={i18n.t(`embeddable_framework.launcher.label.${this.props.formTitleKey}`)}
-          headerContent={hcform}
+          headerContent={headerContent}
           footerContent={
             <div className={buttonContainerClasses}>
               <ButtonGroup rtl={i18n.isRTL()}>
@@ -557,6 +542,27 @@ export class HelpCenter extends Component {
           }
           fullscreen={this.state.fullscreen}
           isVirtualKeyboardOpen={this.state.searchFieldFocused}>
+
+          <div className={formClasses}>
+            {hcform}
+            <div className={linkClasses}>
+              <p className='u-marginBN'>{linkContext}</p>
+              <a className='u-userTextColor' onClick={this.handleNextClick}>
+                {linkLabel}
+              </a>
+            </div>
+          </div>
+
+        <h1 className={formLegendClasses}>
+          <span className='Arrange-sizeFill'>
+            {resultsLegend}
+          </span>
+        </h1>
+
+        {noResults}
+        <ul className={listClasses}>
+          {_.chain(this.state.articles).take(3).map(articleTemplate.bind(this)).value()}
+        </ul>
 
           <div className={articleClasses}>
             <HelpCenterArticle
