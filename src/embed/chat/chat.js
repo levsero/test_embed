@@ -2,9 +2,10 @@ import _ from 'lodash';
 
 import { document, win,
          getDocumentHost } from 'utility/globals';
-import { i18n }            from 'service/i18n';
-import { mediator }        from 'service/mediator';
-import { store }           from 'service/persistence';
+import { i18n } from 'service/i18n';
+import { mediator } from 'service/mediator';
+import { store } from 'service/persistence';
+import { isMobileBrowser } from 'utility/devices';
 
 let chats = {};
 const styleTag = document.createElement('style');
@@ -178,6 +179,10 @@ function init(name) {
     if (zopimWin.getDisplay() || zopimLive.isChatting()) {
       mediator.channel.broadcast('.zopimShow');
     } else {
+      zopimLive.hideAll();
+    }
+
+    if (isMobileBrowser()) {
       zopimLive.hideAll();
     }
 
