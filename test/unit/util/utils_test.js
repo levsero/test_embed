@@ -1,9 +1,16 @@
-describe('util.setScaleLock', function() {
+describe('utils', function() {
   let setScaleLock,
     metaStringToObj,
     splitPath,
     getPageKeywords,
     metaTag;
+  const mockGlobals = {
+    document: document,
+    location: {
+      pathname: '/anthony/is/awesome',
+      href: 'http://foo.com/#/anthony/is/awesome'
+    }
+  };
   const utilPath = buildSrcPath('util/utils');
 
   beforeEach(function() {
@@ -13,14 +20,10 @@ describe('util.setScaleLock', function() {
       useCleanCache: true
     });
 
+    mockGlobals.document = document;
+
     initMockRegistry({
-      'utility/globals': {
-        document: document,
-        location: {
-          pathname: '/anthony/is/awesome',
-          href: 'http://foo.com/#/anthony/is/awesome'
-        }
-      },
+      'utility/globals': mockGlobals,
       'service/mediator': {
         mediator: {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
@@ -175,6 +178,8 @@ describe('util.setScaleLock', function() {
   });
 
   describe('getPageKeywords()', function() {
+    const location = mockGlobals.location;
+
     it('should return the pathname in the form of space seperated keywords', function() {
       expect(getPageKeywords())
         .toEqual('anthony is awesome');
@@ -190,6 +195,11 @@ describe('util.setScaleLock', function() {
 
       expect(getPageKeywords())
         .toEqual('anthony is awesome');
+
+      location.href = 'http://foo.com/fat/#/cats';
+
+      expect(getPageKeywords())
+        .toEqual('fat cats');
     });
   });
 
