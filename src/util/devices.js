@@ -1,5 +1,5 @@
 import { win, navigator } from 'utility/globals';
-import _ from 'lodash';
+import { every } from 'lodash';
 
 function isLandscape() {
   return Math.abs(win.orientation) === 90;
@@ -34,14 +34,11 @@ function isIos() {
 }
 
 function isDevice(testStrings) {
-  let match = true;
+  const str = navigator.userAgent;
 
-  _.forEach(testStrings, function(string) {
-    if (navigator.userAgent.indexOf(string) === -1) {
-      match = false;
-    }
+  return every(testStrings, (string) => {
+    return (str.indexOf(string) !== -1);
   });
-  return match;
 }
 
 function isFirefox() {
