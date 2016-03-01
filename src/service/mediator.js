@@ -192,6 +192,10 @@ function init(helpCenterAvailable, hideLauncher) {
     c.broadcast(`${launcher}.hide`);
   });
 
+  c.intercept(`${chat}.onIsChatting`, () => {
+    state.activeEmbed = chat;
+  });
+
   c.intercept(`${chat}.onUnreadMsgs`, (__, count) => {
     if (state[`${chat}.connectionPending`]) {
       return;

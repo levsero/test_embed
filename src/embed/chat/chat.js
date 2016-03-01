@@ -5,7 +5,6 @@ import { document, win,
 import { i18n } from 'service/i18n';
 import { mediator } from 'service/mediator';
 import { store } from 'service/persistence';
-import { isMobileBrowser } from 'utility/devices';
 
 let chats = {};
 const styleTag = document.createElement('style');
@@ -176,15 +175,24 @@ function init(name) {
 
     store.set('zopimHideAll', true);
 
-    if (zopimWin.getDisplay() || zopimLive.isChatting()) {
-      mediator.channel.broadcast('.zopimShow');
-    } else {
-      zopimLive.hideAll();
-    }
+    (function() {
+      let checksLeft = 10;
+      const intervalId = setInterval(function() {
+        if (zopimWin.getDisplay() || zopimLive.isChatting()) {
+          mediator.channel.broadcast(`${name}.onIsChatting`);
+          clearInterval(intervalId);
+          return;
+        }
 
-    if (isMobileBrowser()) {
-      zopimLive.hideAll();
-    }
+        checksLeft--;
+
+        if (checksLeft <= 0) {
+          clearInterval(intervalId);
+        }
+      }, 1000);
+    })();
+
+    zopimLive.hideAll();
 
     zopimWin.onHide(onHide);
     zopimLive.setLanguage(i18n.getLocale());
