@@ -409,6 +409,14 @@ function initMessaging() {
     c.broadcast(`nps.setSurvey`, params);
   });
 
+  c.intercept(`.onAuthenticate`, (__, params) => {
+    c.broadcast(`beacon.authenticate`, params);
+  });
+
+  c.intercept(`authenticate.onSuccess`, (__, params) => {
+
+  });
+
   c.intercept(`nps.onActivate`, () => {
     const maxRetries = 100;
     let retries = 0;

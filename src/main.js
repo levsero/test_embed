@@ -60,6 +60,9 @@ function boot() {
   const identify = function(user) {
     mediator.channel.broadcast('.onIdentify', user);
   };
+  const authenticate = function(secret) {
+    mediator.channel.broadcast('.onAuthenticate', secret);
+  };
   const setHelpCenterSuggestions = function(options) {
     mediator.channel.broadcast('.onSetHelpCenterSuggestions', options);
   };
@@ -113,6 +116,7 @@ function boot() {
     show: postRenderQueueCallback.bind('show'),
     setHelpCenterSuggestions: postRenderQueueCallback.bind('setHelpCenterSuggestions'),
     identify: postRenderQueueCallback.bind('identify'),
+    authenticate: postRenderQueueCallback.bind('authenticate'),
     activate: postRenderQueueCallback.bind('activate'),
     activateNps: postRenderQueueCallback.bind('activateNps'),
     activateIpm: postRenderQueueCallback.bind('activateIpm')
@@ -163,6 +167,7 @@ function boot() {
   // Post-render methods
   win.zE.setHelpCenterSuggestions = setHelpCenterSuggestions;
   win.zE.identify = identify;
+  win.zE.authenticate = authenticate;
   win.zE.activate = activate;
   win.zE.activateNps = activateNps;
   win.zE.activateIpm = activateIpm;
