@@ -133,10 +133,10 @@ describe('beacon', function() {
 
         pluckSubscribeCall(mockMediator, 'beacon.authenticate')(params);
 
-        expect(mockTransport.sendWithMeta)
+        expect(mockTransport.send)
           .toHaveBeenCalled();
 
-        const transportPayload = mockTransport.sendWithMeta.calls.mostRecent().args[0];
+        const transportPayload = mockTransport.send.calls.mostRecent().args[0];
 
         expect(transportPayload.params.secret)
           .toEqual(params.secret);
@@ -280,10 +280,10 @@ describe('beacon', function() {
 
       beacon.authenticate(secret);
 
-      expect(mockTransport.transport.sendWithMeta)
+      expect(mockTransport.transport.send)
         .toHaveBeenCalled();
 
-      const payload = mockTransport.transport.sendWithMeta.calls.mostRecent().args[0];
+      const payload = mockTransport.transport.send.calls.mostRecent().args[0];
 
       expect(payload.method)
         .toBe('POST');
