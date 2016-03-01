@@ -102,7 +102,7 @@ function identify(user) {
 function authenticate(secret) {
   const payload = {
     method: 'POST',
-    path: 'embeddable/authenticate', // TODO: update this when we know the actual endpoint
+    path: '/embeddable/authenticate', // TODO: update this when we know the actual endpoint
     params: secret,
     callbacks: {
       done: function(res) {

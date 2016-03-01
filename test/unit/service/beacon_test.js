@@ -124,6 +124,23 @@ describe('beacon', function() {
         expect(transportPayload.params.user.email)
           .toEqual(params.email);
       });
+
+      it('should subscribe to beacon.authenticate', function() {
+        const params = { secret: 'abc' };
+
+        expect(mockMediator.channel.subscribe)
+          .toHaveBeenCalledWith('beacon.authenticate', jasmine.any(Function));
+
+        pluckSubscribeCall(mockMediator, 'beacon.authenticate')(params);
+
+        expect(mockTransport.sendWithMeta)
+          .toHaveBeenCalled();
+
+        const transportPayload = mockTransport.sendWithMeta.calls.mostRecent().args[0];
+
+        expect(transportPayload.params.secret)
+          .toEqual(params.secret);
+      });
     });
   });
 
@@ -251,6 +268,33 @@ describe('beacon', function() {
 
       expect(params.user.localeId)
         .toEqual(localeId);
+    });
+  });
+
+  describe('authenticate', function() {
+    it('sends the correct payload', function() {
+      const secret = { secret: 'abc' };
+      const mockTransport = mockRegistry['service/transport'];
+
+      beacon.init();
+
+      beacon.authenticate(secret);
+
+      expect(mockTransport.transport.sendWithMeta)
+        .toHaveBeenCalled();
+
+      const payload = mockTransport.transport.sendWithMeta.calls.mostRecent().args[0];
+
+      expect(payload.method)
+        .toBe('POST');
+
+      expect(payload.path)
+        .toBe('/embeddable/authenticate');
+
+      const params = payload.params;
+
+      expect(params.secret)
+        .toEqual('abc');
     });
   });
 });
