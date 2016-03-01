@@ -56,22 +56,25 @@ describe('embed.chat', function() {
     mockGlobals.win.$zopim = mockZopim;
 
     mockRegistry = initMockRegistry({
-      'utility/globals': mockGlobals,
-      'utility/devices': {
-        isMobileBrowser: () => mockIsMobileBrowserValue
-      },
+      'lodash': _,
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', ['init', 'setLocale', 'getLocale', 't'])
-      },
-      'service/persistence': {
-        store: jasmine.createSpyObj('store', ['set', 'get'])
       },
       'service/mediator': {
         mediator: {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
         }
       },
-      'lodash': _
+      'service/persistence': {
+        store: jasmine.createSpyObj('store', ['set', 'get'])
+      },
+      'utility/devices': {
+        isMobileBrowser: () => mockIsMobileBrowserValue
+      },
+      'utility/globals': mockGlobals,
+      'utility/utils': {
+        cappedIntervalCall: () => {}
+      }
     });
 
     mockery.registerAllowable(chatPath);

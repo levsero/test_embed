@@ -1,10 +1,10 @@
 import _ from 'lodash';
-
+import { i18n } from 'service/i18n';
+import { store } from 'service/persistence';
+import { mediator } from 'service/mediator';
 import { document, win,
          getDocumentHost } from 'utility/globals';
-import { i18n } from 'service/i18n';
-import { mediator } from 'service/mediator';
-import { store } from 'service/persistence';
+import { cappedIntervalCall } from 'utility/utils';
 
 let chats = {};
 const styleTag = document.createElement('style');
@@ -175,22 +175,12 @@ function init(name) {
 
     store.set('zopimHideAll', true);
 
-    (function() {
-      let checksLeft = 10;
-      const intervalId = setInterval(function() {
-        if (zopimWin.getDisplay() || zopimLive.isChatting()) {
-          mediator.channel.broadcast(`${name}.onIsChatting`);
-          clearInterval(intervalId);
-          return;
-        }
-
-        checksLeft--;
-
-        if (checksLeft <= 0) {
-          clearInterval(intervalId);
-        }
-      }, 1000);
-    })();
+    cappedIntervalCall(function() {
+      if (zopimWin.getDisplay() || zopimLive.isChatting()) {
+        mediator.channel.broadcast(`${name}.onIsChatting`);
+        return true;
+      }
+    }, 1000, 10);
 
     zopimLive.hideAll();
 
