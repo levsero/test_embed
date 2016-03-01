@@ -37,7 +37,7 @@ describe('mediator', function() {
 
     beaconSub = jasmine.createSpyObj(
       'beacon',
-      ['identify']
+      ['identify', 'authenticate']
     );
 
     launcherSub = jasmine.createSpyObj(
@@ -96,6 +96,7 @@ describe('mediator', function() {
 
     initSubscriptionSpies = function(names) {
       c.subscribe(`${names.beacon}.identify`, beaconSub.identify);
+      c.subscribe(`${names.beacon}.authenticate`, beaconSub.authenticate);
 
       c.subscribe(`${names.launcher}.hide`, launcherSub.hide);
       c.subscribe(`${names.launcher}.show`, launcherSub.show);
@@ -253,6 +254,32 @@ describe('mediator', function() {
         expect(params.pendingCampaign.id)
           .toEqual(199);
       });
+    });
+  });
+
+ /* ****************************************** *
+  *                 AUTHENTICATE               *
+  * ****************************************** */
+
+  describe('.onAuthenticate', function() {
+    const beacon = 'beacon';
+
+    const names = {
+      beacon: beacon
+    };
+
+    beforeEach(function() {
+      initSubscriptionSpies(names);
+      mediator.init(false);
+    });
+
+    it('should broadcast beacon.authenticate with given params', function() {
+      const params = { secret: 'abc' };
+
+      c.broadcast('.onAuthenticate', params);
+
+      expect(beaconSub.authenticate)
+        .toHaveBeenCalledWith(params);
     });
   });
 
