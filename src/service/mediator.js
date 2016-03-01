@@ -149,6 +149,7 @@ function init(helpCenterAvailable, hideLauncher) {
       state[`${chat}.connectionPending`] = false;
 
       if (!state[`${launcher}.userHidden`] &&
+          !embedVisible(state) &&
           !state['identify.pending'] &&
           !state['nps.isVisible'] &&
           !state['ipm.isVisible']) {
