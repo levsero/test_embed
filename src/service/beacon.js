@@ -107,14 +107,15 @@ function authenticate(secret) {
     callbacks: {
       done: function(res) {
         // TODO: logic depending on the status we get
+        return res;
       },
       fail: function(err) {
-        console.log('REACHED HERE!', err.message);
+        return err;
       }
     }
   };
 
-  transport.sendWithMeta(payload);
+  transport.send(payload);
 }
 
 export const beacon = {
