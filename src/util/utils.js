@@ -196,7 +196,7 @@ function parseUrl(url) {
  */
 function splitPath(path) {
   return decodeURIComponent(path)
-          .replace(/\#/g, '')
+          .replace(/\#/g, ' ')
           .replace(/\.[^.]{1,4}$/, '')
           .replace(/[\/\.\|_\-]/g, ' ');
 }

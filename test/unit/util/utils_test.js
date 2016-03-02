@@ -204,6 +204,13 @@ describe('utils', function() {
 
       expect(getPageKeywords())
         .toEqual('fat cats');
+
+      location.href = 'http://foo.com/fred#bar';
+      location.pathname = '/fred/';
+      location.hash = '#bar';
+
+      expect(getPageKeywords())
+        .toEqual('fred bar');
     });
   });
 
