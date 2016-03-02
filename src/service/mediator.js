@@ -149,6 +149,7 @@ function init(helpCenterAvailable, hideLauncher) {
       state[`${chat}.connectionPending`] = false;
 
       if (!state[`${launcher}.userHidden`] &&
+          !embedVisible(state) &&
           !state['identify.pending'] &&
           !state['nps.isVisible'] &&
           !state['ipm.isVisible']) {
@@ -190,6 +191,10 @@ function init(helpCenterAvailable, hideLauncher) {
   c.intercept(`${chat}.onShow`, () => {
     state[`${chat}.isVisible`] = true;
     c.broadcast(`${launcher}.hide`);
+  });
+
+  c.intercept(`${chat}.onIsChatting`, () => {
+    state.activeEmbed = chat;
   });
 
   c.intercept(`${chat}.onUnreadMsgs`, (__, count) => {

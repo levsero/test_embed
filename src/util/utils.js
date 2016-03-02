@@ -250,9 +250,7 @@ function patchReactIdAttribute() {
 function cappedIntervalCall(callback, delay, repetitions = 1) {
   let repCount = 0;
   const intervalId = setInterval(() => {
-    callback();
-
-    if (++repCount === repetitions) {
+    if (callback() || ++repCount === repetitions) {
       clearInterval(intervalId);
     }
   }, delay);
