@@ -99,11 +99,13 @@ function render(name) {
   }
 
   mediator.channel.subscribe(`${name}.show`, function(params) {
-    if (params && params.showButtonOnly) {
-      showButton();
-    } else {
-      show();
-    }
+    win.$zopim && win.$zopim(function() {
+      if (win.$zopim.livechat.window.getDisplay()) {
+        show();
+      } else if (params && params.showButtonOnly) {
+        showButton();
+      }
+    });
   });
 
   mediator.channel.subscribe(`${name}.hide`, function() {
