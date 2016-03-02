@@ -34,6 +34,7 @@ state['nps.isVisible']             = false;
 state['ipm.isVisible']             = false;
 state['.hideOnClose']              = false;
 state['identify.pending']          = false;
+state['authenticate.pending']      = false;
 
 function init(helpCenterAvailable, hideLauncher) {
   const resetActiveEmbed = () => {
@@ -277,6 +278,9 @@ function init(helpCenterAvailable, hideLauncher) {
     } else {
       c.broadcast(`${launcher}.hide`, { transition: 'downHide' });
       state[`${state.activeEmbed}.isVisible`] = true;
+      if (state.activeEmbed === 'helpCenterForm' && state['authenticate.pending']) {
+        c.broadcast(`beacon.authenticate`);
+      }
 
       /**
        * This timeout mitigates the Ghost Click produced when the launcher
@@ -411,6 +415,14 @@ function initMessaging() {
 
   c.intercept(`.onAuthenticate`, (__, params) => {
     c.broadcast(`authentication.authenticate`, params);
+  });
+
+  c.intercept(`authenticate.pending`, () => {
+    state['authenticate.pending'] = true;
+  });
+
+  c.intercept(`authenticate.onSuccess`, () => {
+    state['authenticate.pending'] = false;
   });
 
   c.intercept(`nps.onActivate`, () => {

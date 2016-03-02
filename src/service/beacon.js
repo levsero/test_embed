@@ -10,6 +10,8 @@ import { win,
 import { parseUrl,
          getFrameworkLoadTime } from 'utility/utils';
 
+let encodedToken;
+
 function init() {
   const now = Date.now();
 
@@ -96,6 +98,33 @@ function identify(user) {
   };
 
   transport.sendWithMeta(payload);
+}
+
+function authenticate(token) {
+  const payload = {
+    method: 'POST',
+    path: '/embeddable/authenticate',
+    params: token || encodedToken,
+    callbacks: {
+      done: function(res) {
+        // TODO: logic depending on the status we get
+        if (res.status === 200) {
+          store.set('zE_oauth', {'token': res.body.oauth_token, 'expiry': res.body.oauth_expiry});
+          mediator.channel.broadcast('authenticate.onSuccess');
+        } else if (res.status === 202) {
+          if (!encodedToken) {
+            encodedToken = token;
+          }
+          mediator.channel.broadcast('authenticate.pending');
+        }
+      },
+      fail: function(err) {
+        return err;
+      }
+    }
+  };
+
+  transport.send(payload);
 }
 
 export const beacon = {
