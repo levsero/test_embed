@@ -129,12 +129,12 @@ describe('devices', function() {
     });
 
     it('should return true if user agent matches array of strings', function() {
-      expect(isDevice(['Mozilla', '10_9_5', 'Safari']))
+      expect(isDevice('Mozilla', '10_9_5', 'Safari'))
         .toBe(true);
     });
 
     it('should return false if user agent does not match anything in a array of strings', function() {
-      expect(isDevice(['Mozilla', '10_9_4', 'Safari']))
+      expect(isDevice('Mozilla', '10_9_4', 'Safari'))
         .toBe(false);
     });
   });

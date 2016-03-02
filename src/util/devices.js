@@ -33,7 +33,7 @@ function isIos() {
   return IOS_MOBILE.test(str);
 }
 
-function isDevice(testStrings) {
+function isDevice(...testStrings) {
   const str = navigator.userAgent;
 
   return every(testStrings, (string) => {

@@ -25,7 +25,7 @@ class LoadingEllipses extends Component {
   render() {
     // On IOS8 iphone the scale animation crashes the webpage so
     // we need to animation differently.
-    const isIos8 = isDevice(['iPhone', 'OS 8']);
+    const isIos8 = isDevice('iPhone', 'OS 8');
     const loadingEllipsesItemClasses = classNames({
       'LoadingEllipses-item--bounce': !isIos8,
       'LoadingEllipses-item--fade': isIos8,
