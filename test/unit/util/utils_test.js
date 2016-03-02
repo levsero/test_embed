@@ -1,8 +1,17 @@
-describe('util.setScaleLock', function() {
+describe('utils', function() {
   let setScaleLock,
     metaStringToObj,
     splitPath,
+    getPageKeywords,
     metaTag;
+  const mockGlobals = {
+    document: document,
+    location: {
+      href: 'http://foo.com/anthony/is/awesome',
+      pathname: '/anthony/is/awesome',
+      hash: ''
+    }
+  };
   const utilPath = buildSrcPath('util/utils');
 
   beforeEach(function() {
@@ -12,10 +21,10 @@ describe('util.setScaleLock', function() {
       useCleanCache: true
     });
 
+    mockGlobals.document = document;
+
     initMockRegistry({
-      'utility/globals': {
-        document: document
-      },
+      'utility/globals': mockGlobals,
       'service/mediator': {
         mediator: {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
@@ -32,6 +41,7 @@ describe('util.setScaleLock', function() {
     setScaleLock = require(utilPath).setScaleLock;
     metaStringToObj = require(utilPath).metaStringToObj;
     splitPath = require(utilPath).splitPath;
+    getPageKeywords = require(utilPath).getPageKeywords;
 
     metaTag = document.createElement('meta');
     metaTag.name = 'viewport';
@@ -165,6 +175,42 @@ describe('util.setScaleLock', function() {
 
       expect(splitPath('!/thi𝌆$/is/tchüss1@-_path.html'))
         .toEqual('! thi𝌆$ is tchüss1@  path');
+    });
+  });
+
+  describe('getPageKeywords()', function() {
+    let location;
+
+    beforeEach(function() {
+      location = mockGlobals.location;
+    });
+
+    it('should return the pathname in the form of space seperated keywords', function() {
+      expect(getPageKeywords())
+        .toEqual('anthony is awesome');
+    });
+
+    it('should still return valid keywords with weird `#` urls', function() {
+      location.href = 'http://foo.com/#/anthony/#/is/#/awesome';
+      location.pathname = '/';
+      location.hash = '#/anthony/#/is/#/awesome';
+
+      expect(getPageKeywords())
+        .toEqual('anthony is awesome');
+
+      location.href = 'http://foo.com/fat/#/cats';
+      location.pathname = '/fat/';
+      location.hash = '#/cats';
+
+      expect(getPageKeywords())
+        .toEqual('fat cats');
+
+      location.href = 'http://foo.com/fred#bar';
+      location.pathname = '/fred/';
+      location.hash = '#bar';
+
+      expect(getPageKeywords())
+        .toEqual('fred bar');
     });
   });
 
