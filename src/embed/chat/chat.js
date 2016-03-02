@@ -100,10 +100,14 @@ function render(name) {
 
   mediator.channel.subscribe(`${name}.show`, function(params) {
     win.$zopim && win.$zopim(function() {
-      if (win.$zopim.livechat.window.getDisplay()) {
+      if (params && params.showButtonOnly) {
+        if (win.$zopim.livechat.window.getDisplay()) {
+          show();
+        } else {
+          showButton();
+        }
+      } else {
         show();
-      } else if (params && params.showButtonOnly) {
-        showButton();
       }
     });
   });
