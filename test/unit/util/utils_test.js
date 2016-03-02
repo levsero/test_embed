@@ -7,8 +7,9 @@ describe('utils', function() {
   const mockGlobals = {
     document: document,
     location: {
+      href: 'http://foo.com/anthony/is/awesome',
       pathname: '/anthony/is/awesome',
-      href: 'http://foo.com/#/anthony/is/awesome'
+      hash: ''
     }
   };
   const utilPath = buildSrcPath('util/utils');
@@ -178,7 +179,11 @@ describe('utils', function() {
   });
 
   describe('getPageKeywords()', function() {
-    const location = mockGlobals.location;
+    let location;
+
+    beforeEach(function() {
+      location = mockGlobals.location;
+    });
 
     it('should return the pathname in the form of space seperated keywords', function() {
       expect(getPageKeywords())
@@ -186,17 +191,16 @@ describe('utils', function() {
     });
 
     it('should still return valid keywords with weird `#` urls', function() {
-      location.pathname = '/';
-
-      expect(getPageKeywords())
-        .toEqual('anthony is awesome');
-
       location.href = 'http://foo.com/#/anthony/#/is/#/awesome';
+      location.pathname = '/';
+      location.hash = '#/anthony/#/is/#/awesome';
 
       expect(getPageKeywords())
         .toEqual('anthony is awesome');
 
       location.href = 'http://foo.com/fat/#/cats';
+      location.pathname = '/fat/';
+      location.hash = '#/cats';
 
       expect(getPageKeywords())
         .toEqual('fat cats');
