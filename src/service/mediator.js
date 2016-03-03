@@ -162,7 +162,9 @@ function init(helpCenterAvailable, hideLauncher) {
     // On offline fires initially when chat is being set up. We only care
     // about when chat comes offline after being online
     if (state[`${chat}.isOnline`]) {
-      resetActiveEmbed();
+      if (state.activeEmbed === chat) {
+        resetActiveEmbed();
+      }
       state[`${chat}.isOnline`] = false;
 
       c.broadcast(`${launcher}.setLabelHelp`);
