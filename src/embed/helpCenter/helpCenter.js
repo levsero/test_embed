@@ -1,22 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import _     from 'lodash';
+import _ from 'lodash';
 
 import { document,
          location,
-         getDocumentHost }   from 'utility/globals';
-import { HelpCenter }        from 'component/HelpCenter';
-import { frameFactory }      from 'embed/frameFactory';
-import { setScaleLock }      from 'utility/utils';
+         getDocumentHost } from 'utility/globals';
+import { HelpCenter } from 'component/HelpCenter';
+import { frameFactory } from 'embed/frameFactory';
+import { setScaleLock } from 'utility/utils';
 import { isMobileBrowser,
-         isIE }              from 'utility/devices';
-import { beacon }            from 'service/beacon';
-import { i18n }              from 'service/i18n';
-import { transport }         from 'service/transport';
+         isIE } from 'utility/devices';
+import { beacon } from 'service/beacon';
+import { i18n } from 'service/i18n';
+import { transport } from 'service/transport';
 import { transitionFactory } from 'service/transitionFactory';
-import { mediator }          from 'service/mediator';
+import { mediator } from 'service/mediator';
 import { generateUserCSS,
-         getPageKeywords }   from 'utility/utils';
+         getPageKeywords } from 'utility/utils';
+import { store } from 'service/persistence';
 
 const helpCenterCSS = require('./helpCenter.scss');
 let helpCenters = {};
@@ -79,10 +80,13 @@ function create(name, config) {
   };
 
   const searchSender = (query, doneFn, failFn) => {
+    const token = store.get('zE_oauth');
+
     const payload = {
       method: 'get',
       path: '/api/v2/help_center/search.json',
       query: query,
+      authorization: `Bearer ${token.token}`,
       callbacks: {
         done: doneFn,
         fail: failFn
