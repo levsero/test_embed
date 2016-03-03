@@ -60,8 +60,8 @@ function boot() {
   const identify = function(user) {
     mediator.channel.broadcast('.onIdentify', user);
   };
-  const authenticate = function(secret) {
-    mediator.channel.broadcast('.onAuthenticate', secret);
+  const authenticate = function(token) {
+    mediator.channel.broadcast('.onAuthenticate', token);
   };
   const setHelpCenterSuggestions = function(options) {
     mediator.channel.broadcast('.onSetHelpCenterSuggestions', options);

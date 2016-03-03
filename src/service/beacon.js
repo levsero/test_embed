@@ -99,11 +99,11 @@ function identify(user) {
   transport.sendWithMeta(payload);
 }
 
-function authenticate(secret) {
+function authenticate(token) {
   const payload = {
     method: 'POST',
     path: '/embeddable/authenticate', // TODO: update this when we know the actual endpoint
-    params: secret,
+    params: token,
     callbacks: {
       done: function(res) {
         // TODO: logic depending on the status we get

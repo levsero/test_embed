@@ -126,7 +126,7 @@ describe('beacon', function() {
       });
 
       it('should subscribe to beacon.authenticate', function() {
-        const params = { secret: 'abc' };
+        const params = { token: 'abc' };
 
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('beacon.authenticate', jasmine.any(Function));
@@ -138,8 +138,8 @@ describe('beacon', function() {
 
         const transportPayload = mockTransport.send.calls.mostRecent().args[0];
 
-        expect(transportPayload.params.secret)
-          .toEqual(params.secret);
+        expect(transportPayload.params.token)
+          .toEqual(params.token);
       });
     });
   });
@@ -273,12 +273,12 @@ describe('beacon', function() {
 
   describe('authenticate', function() {
     it('sends the correct payload', function() {
-      const secret = { secret: 'abc' };
+      const token = { token: 'abc' };
       const mockTransport = mockRegistry['service/transport'];
 
       beacon.init();
 
-      beacon.authenticate(secret);
+      beacon.authenticate(token);
 
       expect(mockTransport.transport.send)
         .toHaveBeenCalled();
@@ -293,7 +293,7 @@ describe('beacon', function() {
 
       const params = payload.params;
 
-      expect(params.secret)
+      expect(params.token)
         .toEqual('abc');
     });
   });

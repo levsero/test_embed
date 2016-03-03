@@ -274,7 +274,7 @@ describe('mediator', function() {
     });
 
     it('should broadcast beacon.authenticate with given params', function() {
-      const params = { secret: 'abc' };
+      const params = { token: 'abc' };
 
       c.broadcast('.onAuthenticate', params);
 
