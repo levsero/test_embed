@@ -1001,6 +1001,30 @@ describe('mediator', function() {
       });
     });
 
+    describe('with chat', function() {
+      beforeEach(function() {
+        mediator.init(false);
+      });
+
+      it('shows ticket submission if chat goes offline', function() {
+        c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${chat}.onOffline`);
+
+        reset(submitTicketSub.show);
+        reset(chatSub.show);
+
+        jasmine.clock().install();
+        c.broadcast(`${launcher}.onClick`);
+        jasmine.clock().tick(10);
+
+        expect(submitTicketSub.show.calls.count())
+          .toEqual(1);
+
+        expect(chatSub.show.calls.count())
+          .toEqual(0);
+      });
+    });
+
     describe('with Help Center', function() {
       beforeEach(function() {
         mediator.init(true);
