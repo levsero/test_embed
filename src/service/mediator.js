@@ -161,18 +161,15 @@ function init(helpCenterAvailable, hideLauncher) {
   c.intercept(`${chat}.onOffline`, () => {
     // On offline fires initially when chat is being set up. We only care
     // about when chat comes offline after being online
-    if (state[`${chat}.isOnline`] === false) {
-      return;
+    if (state[`${chat}.isOnline`]) {
+      if (state.activeEmbed === chat) {
+        resetActiveEmbed();
+      }
+      state[`${chat}.isOnline`] = false;
+
+      c.broadcast(`${launcher}.setLabelHelp`);
+      c.broadcast(`${helpCenter}.setNextToSubmitTicket`);
     }
-
-    if (state.activeEmbed === chat) {
-      resetActiveEmbed();
-    }
-
-    state[`${chat}.isOnline`] = false;
-
-    c.broadcast(`${launcher}.setLabelHelp`);
-    c.broadcast(`${helpCenter}.setNextToSubmitTicket`);
 
     if (state[`${chat}.connectionPending`]) {
       state[`${chat}.connectionPending`] = false;
