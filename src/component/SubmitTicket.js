@@ -3,7 +3,7 @@ import _ from 'lodash';
 import classNames from 'classnames';
 
 import { win } from 'utility/globals';
-import { AttachmentForm } from 'component/AttachmentForm';
+import { AttachmentBox } from 'component/AttachmentBox';
 import { SubmitTicketForm } from 'component/SubmitTicketForm';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { Container } from 'component/Container';
@@ -155,8 +155,8 @@ export class SubmitTicket extends Component {
                           formSuccess={this.state.showNotification}
                           rtl={i18n.isRTL()}
                           fullscreen={this.state.fullscreen} />;
-    const attachmentForm = this.state.isDragActive && __DEV__
-                         ? <AttachmentForm
+    const attachmentBox = this.state.isDragActive && __DEV__
+                         ? <AttachmentBox
                              onDragLeave={this.handleDragLeave}
                              onDrop={this.handleOnDrop} />
                          : null;
@@ -168,7 +168,7 @@ export class SubmitTicket extends Component {
         position={this.props.position}
         onDragEnter={this.handleDragEnter}
         key={this.state.uid}>
-        {attachmentForm}
+        {attachmentBox}
         <div className={notifyClasses} ref='notification'>
           <ScrollContainer
             title={this.state.message}>

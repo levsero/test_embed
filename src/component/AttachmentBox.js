@@ -3,10 +3,10 @@ import Dropzone from 'react-dropzone';
 
 import { Icon } from 'component/Icon';
 
-export class AttachmentForm extends Component {
+export class AttachmentBox extends Component {
   render() {
     return (
-      <div className='u-posRelative u-posOverlay'>
+      <div className='u-posRelative u-zIndex1'>
         <Dropzone
           onDrop={this.props.onDrop}
           className='Container--overlay Container--dashed u-posAbsolute u-marginAS'
@@ -22,12 +22,12 @@ export class AttachmentForm extends Component {
   }
 }
 
-AttachmentForm.propTypes = {
+AttachmentBox.propTypes = {
   onDrop: PropTypes.func.isRequired,
   onDragLeave: PropTypes.func
 };
 
-AttachmentForm.defaultProps = {
+AttachmentBox.defaultProps = {
   onDragLeave: () => {}
 };
 

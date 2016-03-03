@@ -93,10 +93,10 @@ describe('Submit ticket component', function() {
           }
         })
       },
-      'component/AttachmentForm': {
-        AttachmentForm: React.createClass({
+      'component/AttachmentBox': {
+        AttachmentBox: React.createClass({
           render: function() {
-            return <div className='attachment_form' />;
+            return <div className='attachment_box' />;
           }
         })
       },
@@ -309,7 +309,7 @@ describe('Submit ticket component', function() {
       .toEqual('VALUE');
   });
 
-  it('should display the attachment form when isDragActive is true', function() {
+  it('should display the attachment box when isDragActive is true', function() {
     global.__DEV__ = true;
 
     const submitTicket = domRender(<SubmitTicket />);
@@ -319,7 +319,7 @@ describe('Submit ticket component', function() {
     expect(submitTicket.state.isDragActive)
       .toEqual(true);
 
-    expect(document.querySelectorAll('.attachment_form').length)
+    expect(document.querySelectorAll('.attachment_box').length)
       .toEqual(1);
   });
 });
