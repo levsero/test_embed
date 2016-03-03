@@ -101,7 +101,7 @@ function create(name, config) {
 
   const performContextualSearchRequest = (query, doneFn, failFn) => {
     const payload = {
-      path: '/hc/api/v2/articles/embeddable_search.json',
+      path: '/api/v2/help_center/articles/embeddable_search.json',
       query: query
     };
 
