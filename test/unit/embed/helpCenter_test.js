@@ -437,8 +437,8 @@ describe('embed.helpCenter', function() {
     });
   });
 
-  describe('searchSender', function() {
-    it('calls transport.sendWithMeta when called', () => {
+  describe('performRegularSearchRequest', function() {
+    it('calls transport.send with regular search endpoint when called', () => {
       const mockTransport = mockRegistry['service/transport'].transport;
 
       helpCenter.create('carlos');
@@ -446,10 +446,33 @@ describe('embed.helpCenter', function() {
 
       const embed = helpCenter.get('carlos').instance.getRootComponent();
 
-      embed.props.searchSender();
+      embed.props.performRegularSearchRequest();
 
       expect(mockTransport.send)
         .toHaveBeenCalled();
+
+      const recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
+
+      expect(recentCallArgs.path)
+        .toEqual('/api/v2/help_center/search.json');
+    });
+  });
+
+  describe('performContextualSearchRequest', function() {
+    it('calls transport.send with contextual search endpoint when called', () => {
+      const mockTransport = mockRegistry['service/transport'].transport;
+
+      helpCenter.create('carlos');
+      helpCenter.render('carlos');
+
+      const embed = helpCenter.get('carlos').instance.getRootComponent();
+
+      embed.props.performContextualSearchRequest();
+
+      const recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
+
+      expect(recentCallArgs.path)
+        .toEqual('/api/v2/help_center/articles/embeddable_search.json');
     });
   });
 
