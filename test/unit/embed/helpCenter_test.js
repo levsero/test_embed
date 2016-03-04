@@ -437,7 +437,7 @@ describe('embed.helpCenter', function() {
     });
   });
 
-  describe('performRegularSearchRequest', function() {
+  describe('searchSender', function() {
     it('calls transport.send with regular search endpoint when called', () => {
       const mockTransport = mockRegistry['service/transport'].transport;
 
@@ -446,7 +446,7 @@ describe('embed.helpCenter', function() {
 
       const embed = helpCenter.get('carlos').instance.getRootComponent();
 
-      embed.props.performRegularSearchRequest();
+      embed.props.searchSender();
 
       expect(mockTransport.send)
         .toHaveBeenCalled();
@@ -458,7 +458,7 @@ describe('embed.helpCenter', function() {
     });
   });
 
-  describe('performContextualSearchRequest', function() {
+  describe('contextualSearchSender', function() {
     it('calls transport.send with contextual search endpoint when called', () => {
       const mockTransport = mockRegistry['service/transport'].transport;
 
@@ -467,7 +467,7 @@ describe('embed.helpCenter', function() {
 
       const embed = helpCenter.get('carlos').instance.getRootComponent();
 
-      embed.props.performContextualSearchRequest();
+      embed.props.contextualSearchSender();
 
       const recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
 

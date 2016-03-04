@@ -90,7 +90,7 @@ function create(name, config) {
     transport.send(payload);
   };
 
-  const performRegularSearchRequest = (query, doneFn, failFn) => {
+  const searchSender = (query, doneFn, failFn) => {
     const payload = {
       path: '/api/v2/help_center/search.json',
       query: query
@@ -99,7 +99,7 @@ function create(name, config) {
     performSearchRequest(payload, doneFn, failFn);
   };
 
-  const performContextualSearchRequest = (query, doneFn, failFn) => {
+  const contextualSearchSender = (query, doneFn, failFn) => {
     const payload = {
       path: '/api/v2/help_center/articles/embeddable_search.json',
       query: query
@@ -134,8 +134,8 @@ function create(name, config) {
           buttonLabelKey={config.buttonLabelKey}
           formTitleKey={config.formTitleKey}
           showBackButton={showBackButton}
-          performRegularSearchRequest={performRegularSearchRequest}
-          performContextualSearchRequest={performContextualSearchRequest}
+          searchSender={searchSender}
+          contextualSearchSender={contextualSearchSender}
           style={containerStyle}
           updateFrameSize={params.updateFrameSize}
           zendeskHost={transport.getZendeskHost()} />

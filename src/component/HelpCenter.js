@@ -157,7 +157,7 @@ export class HelpCenter extends Component {
       origin: null
     });
 
-    this.performSearch(query, successFn, false, true);
+    this.performSearch(query, successFn, { isContextual: true });
   }
 
   manualSearch() {
@@ -183,7 +183,7 @@ export class HelpCenter extends Component {
       })
     );
 
-    this.performSearch(query, this.interactiveSearchSuccessFn, true);
+    this.performSearch(query, this.interactiveSearchSuccessFn, { localeFallback: true });
 
     if (this.state.fullscreen) {
       setTimeout(() => {
@@ -214,7 +214,7 @@ export class HelpCenter extends Component {
       })
     );
 
-    this.performSearch(query, this.interactiveSearchSuccessFn, true);
+    this.performSearch(query, this.interactiveSearchSuccessFn, { localeFallback: true });
   }
 
   updateResults(res) {
@@ -238,16 +238,17 @@ export class HelpCenter extends Component {
     this.focusField();
   }
 
-  performSearch(query, successFn, localeFallback, isContextual) {
+  performSearch(query, successFn, options = {}) {
+    const isContextual = options.isContextual;
     const searchFn = isContextual
-                   ? this.props.performContextualSearchRequest
-                   : this.props.performRegularSearchRequest;
+                   ? this.props.contextualSearchSender
+                   : this.props.searchSender;
     const doneFn = (res) => {
       if (res.ok) {
-        if ((query.locale && res.body.count > 0) || !localeFallback) {
+        if ((query.locale && res.body.count > 0) || !options.localeFallback) {
           successFn(res, query);
-        } else if (localeFallback && query.locale) {
-          this.performSearch(_.omit(query, 'locale'), successFn);
+        } else if (options.localeFallback && query.locale) {
+          this.performSearch(_.omit(query, 'locale'), successFn, { isContextual: isContextual });
         }
       } else {
         this.searchFail();
@@ -283,7 +284,7 @@ export class HelpCenter extends Component {
 
   trackSearch() {
     /* eslint camelcase:0 */
-    this.props.performRegularSearchRequest({
+    this.props.searchSender({
       query: this.state.searchTerm,
       per_page: 0,
       origin: 'web_widget'
@@ -568,8 +569,8 @@ export class HelpCenter extends Component {
 }
 
 HelpCenter.propTypes = {
-  performRegularSearchRequest: PropTypes.func.isRequired,
-  performContextualSearchRequest: PropTypes.func.isRequired,
+  searchSender: PropTypes.func.isRequired,
+  contextualSearchSender: PropTypes.func.isRequired,
   buttonLabelKey: PropTypes.string,
   onSearch: PropTypes.func,
   showBackButton: PropTypes.func,
