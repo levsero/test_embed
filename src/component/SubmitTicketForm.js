@@ -259,7 +259,6 @@ export class SubmitTicketForm extends Component {
           contentExpanded={true}
           footerContent={
             <ButtonGroup rtl={i18n.isRTL()}>
-              {buttonDropzone}
               {buttonCancel}
               <Button
                 fullscreen={this.props.fullscreen}
@@ -270,6 +269,7 @@ export class SubmitTicketForm extends Component {
           }
           fullscreen={this.props.fullscreen}>
           {formBody}
+          {buttonDropzone}
         </ScrollContainer>
       </form>
     );

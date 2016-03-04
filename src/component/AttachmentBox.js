@@ -14,7 +14,9 @@ export class AttachmentBox extends Component {
           disableClick={true}>
           <div className='u-textCenter u-posRelative u-posCenter--vert u-textSize15'>
             <Icon type='Icon--link'/>
-            <p>Attach A file</p>
+            <p>{i18n.t('embeddable_framework.submitTicket.attachments.box.label',
+              { fallback: 'Drop to attach' }
+            )}</p>
           </div>
         </Dropzone>
       </div>

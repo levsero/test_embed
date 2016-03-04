@@ -252,8 +252,13 @@ class ButtonDropzone extends Component {
     return (
       <Dropzone
         onDrop={this.props.onDrop}
-        className='c-btn c-btn--medium c-btn--secondary u-pullLeft'>
-        <Icon type='Icon--link' />
+        className='Form-field--display u-marginVM Container--dashed'>
+        <div className='u-textCenter'>
+          <Icon type='Icon--link' />
+          {i18n.t('embeddable_framework.submitTicket.attachments.button.label',
+            { fallback: 'Add file or drop here' }
+          )}
+        </div>
       </Dropzone>
     );
   }
