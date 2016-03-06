@@ -245,7 +245,7 @@ export class SubmitTicketForm extends Component {
                          ? (
                            <label className='Form-fieldContainer u-block u-marginTM'>
                              <div className='Form-fieldLabel u-textXHeight'>
-                               { i18n.t('embeddable_framework.submitTicket.attachments.title',
+                               {i18n.t('embeddable_framework.submitTicket.attachments.title',
                                  { fallback: 'Attachments' }
                                )}
                              </div>

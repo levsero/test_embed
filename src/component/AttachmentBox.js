@@ -16,7 +16,7 @@ export class AttachmentBox extends Component {
           <div className='u-textCenter u-posRelative u-posCenter--vert u-textSize15'>
             <Icon type='Icon--paperclip' className='Icon--paperclip-large' />
             <p className='Form-fieldLabel'>
-              { i18n.t('embeddable_framework.submitTicket.attachments.box.label',
+              {i18n.t('embeddable_framework.submitTicket.attachments.box.label',
                 { fallback: 'Drop to attach' }
               )}
             </p>
