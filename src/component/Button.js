@@ -252,12 +252,14 @@ class ButtonDropzone extends Component {
     return (
       <Dropzone
         onDrop={this.props.onDrop}
-        className='Form-field--display u-marginVM Container--dashed'>
+        className='Form-field--display Container--dashed'>
         <div className='u-textCenter'>
-          <Icon type='Icon--link' />
-          {i18n.t('embeddable_framework.submitTicket.attachments.button.label',
-            { fallback: 'Add file or drop here' }
-          )}
+          <Icon type='Icon--paperclip' />
+          <div className='u-inlineBlock u-alignTop'>
+            {i18n.t('embeddable_framework.submitTicket.attachments.button.label',
+              { fallback: 'Add file or drop here' }
+            )}
+          </div>
         </div>
       </Dropzone>
     );

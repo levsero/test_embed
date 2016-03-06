@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import Dropzone from 'react-dropzone';
 
 import { Icon } from 'component/Icon';
+import { i18n } from 'service/i18n';
 
 export class AttachmentBox extends Component {
   render() {
@@ -13,10 +14,12 @@ export class AttachmentBox extends Component {
           onDragLeave={this.props.onDragLeave}
           disableClick={true}>
           <div className='u-textCenter u-posRelative u-posCenter--vert u-textSize15'>
-            <Icon type='Icon--link'/>
-            <p>{i18n.t('embeddable_framework.submitTicket.attachments.box.label',
-              { fallback: 'Drop to attach' }
-            )}</p>
+            <Icon type='Icon--paperclip' className='Icon--paperclip-large' />
+            <p className='Form-fieldLabel'>
+              { i18n.t('embeddable_framework.submitTicket.attachments.box.label',
+                { fallback: 'Drop to attach' }
+              )}
+            </p>
           </div>
         </Dropzone>
       </div>

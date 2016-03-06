@@ -16,6 +16,7 @@ const icons = {
   'Icon--caret': require('icons/widget-icon_caret.svg'),
   'Icon--avatar': require('icons/widget-icon_avatar.svg'),
   'Icon--clearInput': require('icons/widget-icon_clearInput.svg'),
+  'Icon--paperclip': require('icons/widget-icon_paperclip.svg'),
   'Icon': require('icons/widget-icon_help.svg')
 };
 

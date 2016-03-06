@@ -242,8 +242,17 @@ export class SubmitTicketForm extends Component {
                             onClick={this.props.onCancel}
                             fullscreen={this.props.fullscreen} />);
     const buttonDropzone = __DEV__
-                         ? <ButtonDropzone
-                             onDrop={this.handleOnDrop} />
+                         ? (
+                           <label className='Form-fieldContainer u-block u-marginTM'>
+                             <div className='Form-fieldLabel u-textXHeight'>
+                               { i18n.t('embeddable_framework.submitTicket.attachments.title',
+                                 { fallback: 'Attachments' }
+                               )}
+                             </div>
+                             <ButtonDropzone
+                               onDrop={this.handleOnDrop} />
+                           </label>
+                         )
                          : null;
 
     return (
