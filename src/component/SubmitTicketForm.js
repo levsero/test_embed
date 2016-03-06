@@ -202,9 +202,6 @@ export class SubmitTicketForm extends Component {
     const attachments = (this.state.attachments.length !== 0)
                          ? (
                             <div>
-                              <div className='Form-fieldLabel u-textXHeight u-marginTL'>
-                                Attachments
-                              </div>
                               {previews}
                             </div>
                           )
@@ -233,7 +230,6 @@ export class SubmitTicketForm extends Component {
                          input={<textarea rows='5' />} />
                        {customFields.checkboxes}
                        {this.props.children}
-                       {attachments}
                      </div>;
     const buttonCancel = (this.props.fullscreen)
                        ? null
@@ -243,7 +239,7 @@ export class SubmitTicketForm extends Component {
                             fullscreen={this.props.fullscreen} />);
     const buttonDropzone = __DEV__
                          ? (
-                           <label className='Form-fieldContainer u-block u-marginTM'>
+                           <label className='Form-fieldContainer u-block u-marginVM'>
                              <div className='Form-fieldLabel u-textXHeight'>
                                {i18n.t('embeddable_framework.submitTicket.attachments.title',
                                  { fallback: 'Attachments' }
@@ -279,6 +275,7 @@ export class SubmitTicketForm extends Component {
           fullscreen={this.props.fullscreen}>
           {formBody}
           {buttonDropzone}
+          {attachments}
         </ScrollContainer>
       </form>
     );
