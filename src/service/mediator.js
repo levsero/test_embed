@@ -62,7 +62,7 @@ function init(helpCenterAvailable, hideLauncher) {
     }
   };
 
-  state[`.hasHidden`]                = hideLauncher;
+  state['.hasHidden']                = hideLauncher;
   state[`${launcher}.userHidden`]    = hideLauncher;
   state[`${helpCenter}.isAvailable`] = helpCenterAvailable;
 
@@ -72,7 +72,7 @@ function init(helpCenterAvailable, hideLauncher) {
     state[`${submitTicket}.isVisible`] = false;
     state[`${chat}.isVisible`]         = false;
     state[`${helpCenter}.isVisible`]   = false;
-    state['.hasHidden'] = true;
+    state['.hasHidden']                = true;
 
     c.broadcast(`${submitTicket}.hide`);
     c.broadcast(`${chat}.hide`);
@@ -84,7 +84,7 @@ function init(helpCenterAvailable, hideLauncher) {
     state[`${submitTicket}.isVisible`] = false;
     state[`${chat}.isVisible`]         = false;
     state[`${helpCenter}.isVisible`]   = false;
-    state['.hasHidden'] = false;
+    state['.hasHidden']                = false;
 
     resetActiveEmbed();
 
