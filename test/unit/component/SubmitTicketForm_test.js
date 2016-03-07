@@ -82,6 +82,9 @@ describe('SubmitTicketForm component', function() {
       'utility/utils': {
         bindMethods: mockBindMethods
       },
+      'utility/globals': {
+        win: window
+      },
       'lodash': _
     });
 

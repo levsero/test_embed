@@ -13,6 +13,7 @@ import { i18n } from 'service/i18n';
 import { Field,
          getCustomFields } from 'component/FormField';
 import { bindMethods } from 'utility/utils';
+import { win } from 'utility/globals';
 
 const initialState = {
   isValid: false,
@@ -237,7 +238,7 @@ export class SubmitTicketForm extends Component {
                             label={this.state.cancelButtonMessage}
                             onClick={this.props.onCancel}
                             fullscreen={this.props.fullscreen} />);
-    const buttonDropzone = __DEV__
+    const buttonDropzone = win.location.hash === '#ze-attachments-alpha' || __DEV__
                          ? (
                            <label className='Form-fieldContainer u-block u-marginVM'>
                              <div className='Form-fieldLabel u-textXHeight'>

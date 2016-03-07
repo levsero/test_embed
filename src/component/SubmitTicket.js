@@ -155,7 +155,7 @@ export class SubmitTicket extends Component {
                           formSuccess={this.state.showNotification}
                           rtl={i18n.isRTL()}
                           fullscreen={this.state.fullscreen} />;
-    const attachmentBox = this.state.isDragActive && __DEV__
+    const attachmentBox = this.state.isDragActive && (win.location.hash === '#ze-attachments-alpha' || __DEV__)
                          ? <AttachmentBox
                              onDragLeave={this.handleDragLeave}
                              onDrop={this.handleOnDrop} />
