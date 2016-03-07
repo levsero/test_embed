@@ -235,23 +235,23 @@ describe('HelpCenter component', function() {
     const responsePayloadNoResults = {ok: true, body: {results: [], count: 0}};
 
     let helpCenter,
-      mockSearchSender;
+      mockContextualSearchSender;
 
     beforeEach(function() {
-      mockSearchSender = jasmine.createSpy('mockSearchSender');
+      mockContextualSearchSender = jasmine.createSpy('mockContextualSearchSender');
 
-      helpCenter = domRender(<HelpCenter searchSender={mockSearchSender}/>);
+      helpCenter = domRender(<HelpCenter contextualSearchSender={mockContextualSearchSender}/>);
     });
 
-    it('should call searchSender with the right payload for search attribute', function() {
+    it('should call contextualSearchSender with the right payload for search attribute', function() {
       const searchOptions = { search: 'foo bar' };
 
       helpCenter.contextualSearch(searchOptions);
 
-      expect(mockSearchSender)
+      expect(mockContextualSearchSender)
         .toHaveBeenCalled();
 
-      const recentCallArgs = mockSearchSender.calls.mostRecent().args[0];
+      const recentCallArgs = mockContextualSearchSender.calls.mostRecent().args[0];
 
       expect(recentCallArgs.query)
         .toEqual(searchOptions.search);
@@ -260,16 +260,16 @@ describe('HelpCenter component', function() {
         .toBeFalsy();
     });
 
-    it('should call searchSender with the right payload for labels attribute', function() {
+    it('should call contextualSearchSender with the right payload for labels attribute', function() {
       /* eslint camelcase:0 */
       const searchOptions = { labels: ['foo', 'bar'] };
 
       helpCenter.contextualSearch(searchOptions);
 
-      expect(mockSearchSender)
+      expect(mockContextualSearchSender)
         .toHaveBeenCalled();
 
-      const recentCallArgs = mockSearchSender.calls.mostRecent().args[0];
+      const recentCallArgs = mockContextualSearchSender.calls.mostRecent().args[0];
 
       expect(recentCallArgs)
         .toEqual(jasmine.objectContaining({
@@ -277,7 +277,7 @@ describe('HelpCenter component', function() {
         }));
     });
 
-    it('should call searchSender with the right payload for search and labels attribute', function() {
+    it('should call contextualSearchSender with the right payload for search and labels attribute', function() {
       const searchOptions = {
         search: 'my search',
         labels: ['foo', 'bar']
@@ -285,10 +285,10 @@ describe('HelpCenter component', function() {
 
       helpCenter.contextualSearch(searchOptions);
 
-      expect(mockSearchSender)
+      expect(mockContextualSearchSender)
         .toHaveBeenCalled();
 
-      const recentCallArgs = mockSearchSender.calls.mostRecent().args[0];
+      const recentCallArgs = mockContextualSearchSender.calls.mostRecent().args[0];
 
       expect(recentCallArgs)
         .toEqual(jasmine.objectContaining({
@@ -296,47 +296,47 @@ describe('HelpCenter component', function() {
         }));
     });
 
-    it('shouldn\'t call searchSender if no valid search options were passed', function() {
+    it('shouldn\'t call contextualSearchSender if no valid search options were passed', function() {
       let searchOptions = { foo: 'bar' };
 
       helpCenter.contextualSearch(searchOptions);
 
-      expect(mockSearchSender)
+      expect(mockContextualSearchSender)
         .not.toHaveBeenCalled();
 
       searchOptions = 5;
 
       helpCenter.contextualSearch(searchOptions);
 
-      expect(mockSearchSender)
+      expect(mockContextualSearchSender)
         .not.toHaveBeenCalled();
 
       searchOptions = false;
 
       helpCenter.contextualSearch(searchOptions);
 
-      expect(mockSearchSender)
+      expect(mockContextualSearchSender)
         .not.toHaveBeenCalled();
 
       searchOptions = 'foo bar';
 
       helpCenter.contextualSearch(searchOptions);
 
-      expect(mockSearchSender)
+      expect(mockContextualSearchSender)
         .not.toHaveBeenCalled();
 
       searchOptions = { labels: [] };
 
       helpCenter.contextualSearch(searchOptions);
 
-      expect(mockSearchSender)
+      expect(mockContextualSearchSender)
         .not.toHaveBeenCalled();
 
       searchOptions = { search: '' };
 
       helpCenter.contextualSearch(searchOptions);
 
-      expect(mockSearchSender)
+      expect(mockContextualSearchSender)
         .not.toHaveBeenCalled();
     });
 
@@ -347,10 +347,10 @@ describe('HelpCenter component', function() {
 
       helpCenter.contextualSearch(searchOptions);
 
-      expect(mockSearchSender)
+      expect(mockContextualSearchSender)
         .toHaveBeenCalled();
 
-      const recentCallArgs = mockSearchSender.calls.mostRecent().args[0];
+      const recentCallArgs = mockContextualSearchSender.calls.mostRecent().args[0];
 
       expect(recentCallArgs.label_names)
         .toEqual(searchOptions.labels.join(','));
@@ -361,7 +361,7 @@ describe('HelpCenter component', function() {
       expect(recentCallArgs.origin)
         .toBeFalsy();
 
-      mockSearchSender.calls.mostRecent().args[1](responsePayloadNoResults);
+      mockContextualSearchSender.calls.mostRecent().args[1](responsePayloadNoResults);
 
       expect(helpCenter.updateResults)
         .not.toHaveBeenCalled();
@@ -374,10 +374,10 @@ describe('HelpCenter component', function() {
 
       helpCenter.contextualSearch(searchOptions);
 
-      expect(mockSearchSender)
+      expect(mockContextualSearchSender)
         .toHaveBeenCalled();
 
-      const recentCallArgs = mockSearchSender.calls.mostRecent().args[0];
+      const recentCallArgs = mockContextualSearchSender.calls.mostRecent().args[0];
 
       expect(recentCallArgs)
         .toEqual(jasmine.objectContaining({
@@ -386,7 +386,7 @@ describe('HelpCenter component', function() {
           origin: null
         }));
 
-      mockSearchSender.calls.mostRecent().args[1](responsePayloadResults);
+      mockContextualSearchSender.calls.mostRecent().args[1](responsePayloadResults);
 
       expect(helpCenter.updateResults)
         .toHaveBeenCalledWith(responsePayloadResults);
@@ -408,10 +408,10 @@ describe('HelpCenter component', function() {
 
       helpCenter.contextualSearch(searchOptions);
 
-      expect(mockSearchSender)
+      expect(mockContextualSearchSender)
         .toHaveBeenCalled();
 
-      const recentCallArgs = mockSearchSender.calls.mostRecent().args[0];
+      const recentCallArgs = mockContextualSearchSender.calls.mostRecent().args[0];
 
       expect(recentCallArgs)
         .toEqual(jasmine.objectContaining({
@@ -420,7 +420,7 @@ describe('HelpCenter component', function() {
           label_names: searchOptions.labels.join(',')
         }));
 
-      mockSearchSender.calls.mostRecent().args[1](responsePayloadResults);
+      mockContextualSearchSender.calls.mostRecent().args[1](responsePayloadResults);
 
       expect(helpCenter.updateResults)
         .toHaveBeenCalledWith(responsePayloadResults);
@@ -439,10 +439,10 @@ describe('HelpCenter component', function() {
 
       helpCenter.contextualSearch(searchOptions);
 
-      expect(mockSearchSender)
+      expect(mockContextualSearchSender)
         .toHaveBeenCalled();
 
-      const recentCallArgs = mockSearchSender.calls.mostRecent().args[0];
+      const recentCallArgs = mockContextualSearchSender.calls.mostRecent().args[0];
 
       expect(recentCallArgs.per_page)
         .toEqual(3);
@@ -456,7 +456,7 @@ describe('HelpCenter component', function() {
 
       helpCenter.contextualSearch(searchOptions);
 
-      mockSearchSender.calls.mostRecent().args[1](responsePayloadResults);
+      mockContextualSearchSender.calls.mostRecent().args[1](responsePayloadResults);
 
       expect(focusField)
         .not.toHaveBeenCalled();
@@ -548,7 +548,7 @@ describe('HelpCenter component', function() {
 
       mockSearchSender.calls.reset();
 
-      helpCenter.performSearch(query, noop, true);
+      helpCenter.performSearch(query, noop, { localeFallback: true });
 
       mockSearchSender.calls.mostRecent().args[1](responsePayloadNoResults);
 

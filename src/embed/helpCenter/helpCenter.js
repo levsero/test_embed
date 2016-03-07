@@ -78,10 +78,10 @@ function create(name, config) {
     }
   };
 
-  const searchSender = (query, doneFn, failFn) => {
+  const searchSenderFn = (url) => (query, doneFn, failFn) => {
     const payload = {
       method: 'get',
-      path: '/api/v2/help_center/search.json',
+      path: url,
       query: query,
       callbacks: {
         done: doneFn,
@@ -118,7 +118,8 @@ function create(name, config) {
           buttonLabelKey={config.buttonLabelKey}
           formTitleKey={config.formTitleKey}
           showBackButton={showBackButton}
-          searchSender={searchSender}
+          searchSender={searchSenderFn('/api/v2/help_center/search.json')}
+          contextualSearchSender={searchSenderFn('/api/v2/help_center/articles/embeddable_search.json')}
           style={containerStyle}
           updateFrameSize={params.updateFrameSize}
           zendeskHost={transport.getZendeskHost()} />
