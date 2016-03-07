@@ -91,13 +91,13 @@ describe('embed.helpCenter', function() {
           return document.body;
         }
       },
+      'service/authorization' : {
+        getToken: noop
+      },
       'service/transitionFactory' : {
         transitionFactory: requireUncached(buildTestPath('unit/mockTransitionFactory')).mockTransitionFactory
       },
-      'lodash': _,
-      'service/authorization' : {
-        getToken: noop
-      }
+      'lodash': _
     });
 
     mockery.registerAllowable(helpCenterPath);

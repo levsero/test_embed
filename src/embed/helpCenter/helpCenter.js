@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
-import { getToken } from 'service/authorization'
+import { getToken } from 'service/authorization';
 import { beacon } from 'service/beacon';
 import { document,
          getDocumentHost,
@@ -80,13 +80,11 @@ function create(name, config) {
   };
 
   const searchSender = (query, doneFn, failFn) => {
-    const token = getToken();
-
     const payload = {
       method: 'get',
       path: '/api/v2/help_center/search.json',
       query: query,
-      authorization: `Bearer ${token}`,
+      authorization: `Bearer ${getToken()}`,
       callbacks: {
         done: doneFn,
         fail: failFn
