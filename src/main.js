@@ -4,20 +4,20 @@ require('utility/utils').patchReactIdAttribute();
 
 import _ from 'lodash';
 
-import { beacon }             from 'service/beacon';
-import { authentication }     from 'service/authentication';
-import { logging }            from 'service/logging';
-import { renderer }           from 'service/renderer';
-import { transport }          from 'service/transport';
-import { cacheBuster }        from 'service/cacheBuster';
-import { i18n }               from 'service/i18n';
-import { win, location,
-         document as doc }    from 'utility/globals';
-import { mediator }           from 'service/mediator';
+import { authentication } from 'service/authentication';
+import { beacon } from 'service/beacon';
+import { cacheBuster } from 'service/cacheBuster';
+import { i18n } from 'service/i18n';
+import { logging } from 'service/logging';
+import { mediator } from 'service/mediator';
+import { renderer } from 'service/renderer';
+import { transport } from 'service/transport';
 import { isMobileBrowser,
-         isBlacklisted }      from 'utility/devices';
+         isBlacklisted } from 'utility/devices';
+import { win, location,
+         document as doc } from 'utility/globals';
+import { initMobileScaling } from 'utility/mobileScaling';
 import { clickBusterHandler } from 'utility/utils';
-import { initMobileScaling }  from 'utility/mobileScaling';
 
 function boot() {
   let devApi;

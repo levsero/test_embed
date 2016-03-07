@@ -1,5 +1,5 @@
-import { transport } from 'service/transport';
 import { mediator } from 'service/mediator';
+import { transport } from 'service/transport';
 
 function init() {
   mediator.channel.subscribe('authentication.authenticate', authenticate);
