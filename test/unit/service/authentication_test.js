@@ -10,6 +10,11 @@ describe('authentication', function() {
       'service/transport': {
         transport: jasmine.createSpyObj('transport', ['send'])
       },
+      'service/persistence': {
+        store: {
+          get: noop
+        }
+      },
       'service/mediator': {
         mediator: {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])

@@ -94,7 +94,10 @@ describe('embed.helpCenter', function() {
       'service/transitionFactory' : {
         transitionFactory: requireUncached(buildTestPath('unit/mockTransitionFactory')).mockTransitionFactory
       },
-      'lodash': _
+      'lodash': _,
+      'service/authorization' : {
+        getToken: noop
+      }
     });
 
     mockery.registerAllowable(helpCenterPath);

@@ -12,7 +12,8 @@ describe('transport', function() {
       send: function() { return mockMethods; },
       query: function() { return mockMethods; },
       timeout: function() { return mockMethods; },
-      end:  function() { return mockMethods; }
+      set: function() { return mockMethods; },
+      end: function() { return mockMethods; }
     };
     mockRegistry = initMockRegistry({
       'superagent': jasmine.createSpy().and.callFake(function() {
