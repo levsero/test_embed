@@ -78,34 +78,18 @@ function create(name, config) {
     }
   };
 
-  const performSearchRequest = (payload, doneFn, failFn) => {
-    _.extend(payload, {
+  const searchSenderFn = (url) => (query, doneFn, failFn) => {
+    const payload = {
       method: 'get',
+      path: url,
+      query: query,
       callbacks: {
         done: doneFn,
         fail: failFn
       }
-    });
+    };
 
     transport.send(payload);
-  };
-
-  const searchSender = (query, doneFn, failFn) => {
-    const payload = {
-      path: '/api/v2/help_center/search.json',
-      query: query
-    };
-
-    performSearchRequest(payload, doneFn, failFn);
-  };
-
-  const contextualSearchSender = (query, doneFn, failFn) => {
-    const payload = {
-      path: '/api/v2/help_center/articles/embeddable_search.json',
-      query: query
-    };
-
-    performSearchRequest(payload, doneFn, failFn);
   };
 
   config = _.extend(configDefaults, config);
@@ -134,8 +118,8 @@ function create(name, config) {
           buttonLabelKey={config.buttonLabelKey}
           formTitleKey={config.formTitleKey}
           showBackButton={showBackButton}
-          searchSender={searchSender}
-          contextualSearchSender={contextualSearchSender}
+          searchSender={searchSenderFn('/api/v2/help_center/search.json')}
+          contextualSearchSender={searchSenderFn('/api/v2/help_center/articles/embeddable_search.json')}
           style={containerStyle}
           updateFrameSize={params.updateFrameSize}
           zendeskHost={transport.getZendeskHost()} />

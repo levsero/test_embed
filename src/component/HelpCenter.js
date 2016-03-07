@@ -239,7 +239,7 @@ export class HelpCenter extends Component {
   }
 
   performSearch(query, successFn, options = {}) {
-    const isContextual = options.isContextual;
+    const isContextual = !!options.isContextual;
     const searchFn = isContextual
                    ? this.props.contextualSearchSender
                    : this.props.searchSender;
