@@ -410,7 +410,7 @@ function initMessaging() {
   });
 
   c.intercept(`.onAuthenticate`, (__, params) => {
-    c.broadcast(`beacon.authenticate`, params);
+    c.broadcast(`authentication.authenticate`, params);
   });
 
   c.intercept(`nps.onActivate`, () => {

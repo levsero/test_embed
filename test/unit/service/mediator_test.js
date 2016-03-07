@@ -2,6 +2,7 @@ describe('mediator', function() {
   let mockRegistry,
     mediator,
     c,
+    authenticationSub,
     beaconSub,
     launcherSub,
     submitTicketSub,
@@ -35,9 +36,14 @@ describe('mediator', function() {
 
     c = mediator.channel;
 
+    authenticationSub = jasmine.createSpyObj(
+      'authentication',
+      ['authenticate']
+    );
+
     beaconSub = jasmine.createSpyObj(
       'beacon',
-      ['identify', 'authenticate']
+      ['identify']
     );
 
     launcherSub = jasmine.createSpyObj(
@@ -96,7 +102,8 @@ describe('mediator', function() {
 
     initSubscriptionSpies = function(names) {
       c.subscribe(`${names.beacon}.identify`, beaconSub.identify);
-      c.subscribe(`${names.beacon}.authenticate`, beaconSub.authenticate);
+
+      c.subscribe(`${names.authentication}.authenticate`, authenticationSub.authenticate);
 
       c.subscribe(`${names.launcher}.hide`, launcherSub.hide);
       c.subscribe(`${names.launcher}.show`, launcherSub.show);
@@ -262,10 +269,8 @@ describe('mediator', function() {
   * ****************************************** */
 
   describe('.onAuthenticate', function() {
-    const beacon = 'beacon';
-
     const names = {
-      beacon: beacon
+      authentication: 'authentication'
     };
 
     beforeEach(function() {
@@ -273,12 +278,12 @@ describe('mediator', function() {
       mediator.init(false);
     });
 
-    it('should broadcast beacon.authenticate with given params', function() {
+    it('should broadcast authentication.authenticate with given params', function() {
       const params = { token: 'abc' };
 
       c.broadcast('.onAuthenticate', params);
 
-      expect(beaconSub.authenticate)
+      expect(authenticationSub.authenticate)
         .toHaveBeenCalledWith(params);
     });
   });

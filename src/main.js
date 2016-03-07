@@ -5,6 +5,7 @@ require('utility/utils').patchReactIdAttribute();
 import _ from 'lodash';
 
 import { beacon }             from 'service/beacon';
+import { authentication }     from 'service/authentication';
 import { logging }            from 'service/logging';
 import { renderer }           from 'service/renderer';
 import { transport }          from 'service/transport';
@@ -60,8 +61,8 @@ function boot() {
   const identify = function(user) {
     mediator.channel.broadcast('.onIdentify', user);
   };
-  const authenticate = function(token) {
-    mediator.channel.broadcast('.onAuthenticate', token);
+  const authenticate = function(webToken) {
+    mediator.channel.broadcast('.onAuthenticate', webToken);
   };
   const setHelpCenterSuggestions = function(options) {
     mediator.channel.broadcast('.onSetHelpCenterSuggestions', options);
@@ -108,6 +109,7 @@ function boot() {
   });
 
   beacon.init().send();
+  authentication.init();
 
   const publicApi = {
     version: __EMBEDDABLE_VERSION__,

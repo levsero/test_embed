@@ -16,7 +16,6 @@ function init() {
   store.set('currentTime', now, true);
 
   mediator.channel.subscribe('beacon.identify', identify);
-  mediator.channel.subscribe('beacon.authenticate', authenticate);
 
   return this;
 }
@@ -99,30 +98,10 @@ function identify(user) {
   transport.sendWithMeta(payload);
 }
 
-function authenticate(token) {
-  const payload = {
-    method: 'POST',
-    path: '/embeddable/authenticate', // TODO: update this when we know the actual endpoint
-    params: token,
-    callbacks: {
-      done: function(res) {
-        // TODO: logic depending on the status we get
-        return res;
-      },
-      fail: function(err) {
-        return err;
-      }
-    }
-  };
-
-  transport.send(payload);
-}
-
 export const beacon = {
   init: init,
   send: send,
   track: track,
   identify: identify,
-  authenticate: authenticate,
   sendConfigLoadTime: sendConfigLoadTime
 };
