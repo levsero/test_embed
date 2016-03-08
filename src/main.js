@@ -4,19 +4,20 @@ require('utility/utils').patchReactIdAttribute();
 
 import _ from 'lodash';
 
-import { beacon }             from 'service/beacon';
-import { logging }            from 'service/logging';
-import { renderer }           from 'service/renderer';
-import { transport }          from 'service/transport';
-import { cacheBuster }        from 'service/cacheBuster';
-import { i18n }               from 'service/i18n';
-import { win, location,
-         document as doc }    from 'utility/globals';
-import { mediator }           from 'service/mediator';
+import { authentication } from 'service/authentication';
+import { beacon } from 'service/beacon';
+import { cacheBuster } from 'service/cacheBuster';
+import { i18n } from 'service/i18n';
+import { logging } from 'service/logging';
+import { mediator } from 'service/mediator';
+import { renderer } from 'service/renderer';
+import { transport } from 'service/transport';
 import { isMobileBrowser,
-         isBlacklisted }      from 'utility/devices';
+         isBlacklisted } from 'utility/devices';
+import { win, location,
+         document as doc } from 'utility/globals';
+import { initMobileScaling } from 'utility/mobileScaling';
 import { clickBusterHandler } from 'utility/utils';
-import { initMobileScaling }  from 'utility/mobileScaling';
 
 function boot() {
   let devApi;
@@ -59,6 +60,9 @@ function boot() {
   };
   const identify = function(user) {
     mediator.channel.broadcast('.onIdentify', user);
+  };
+  const authenticate = function(webToken) {
+    mediator.channel.broadcast('.onAuthenticate', webToken);
   };
   const setHelpCenterSuggestions = function(options) {
     mediator.channel.broadcast('.onSetHelpCenterSuggestions', options);
@@ -105,6 +109,7 @@ function boot() {
   });
 
   beacon.init().send();
+  authentication.init();
 
   const publicApi = {
     version: __EMBEDDABLE_VERSION__,
@@ -113,6 +118,7 @@ function boot() {
     show: postRenderQueueCallback.bind('show'),
     setHelpCenterSuggestions: postRenderQueueCallback.bind('setHelpCenterSuggestions'),
     identify: postRenderQueueCallback.bind('identify'),
+    authenticate: postRenderQueueCallback.bind('authenticate'),
     activate: postRenderQueueCallback.bind('activate'),
     activateNps: postRenderQueueCallback.bind('activateNps'),
     activateIpm: postRenderQueueCallback.bind('activateIpm')
@@ -163,6 +169,7 @@ function boot() {
   // Post-render methods
   win.zE.setHelpCenterSuggestions = setHelpCenterSuggestions;
   win.zE.identify = identify;
+  win.zE.authenticate = authenticate;
   win.zE.activate = activate;
   win.zE.activateNps = activateNps;
   win.zE.activateIpm = activateIpm;
