@@ -33,6 +33,7 @@ state[`${chat}.chatEnded`]         = false;
 state['nps.isVisible']             = false;
 state['ipm.isVisible']             = false;
 state['.hideOnClose']              = false;
+state['.hasHidden']                = false;
 state['identify.pending']          = false;
 
 function init(helpCenterAvailable, hideLauncher) {
@@ -61,6 +62,7 @@ function init(helpCenterAvailable, hideLauncher) {
     }
   };
 
+  state['.hasHidden']                = hideLauncher;
   state[`${launcher}.userHidden`]    = hideLauncher;
   state[`${helpCenter}.isAvailable`] = helpCenterAvailable;
 
@@ -70,6 +72,7 @@ function init(helpCenterAvailable, hideLauncher) {
     state[`${submitTicket}.isVisible`] = false;
     state[`${chat}.isVisible`]         = false;
     state[`${helpCenter}.isVisible`]   = false;
+    state['.hasHidden']                = true;
 
     c.broadcast(`${submitTicket}.hide`);
     c.broadcast(`${chat}.hide`);
@@ -81,6 +84,7 @@ function init(helpCenterAvailable, hideLauncher) {
     state[`${submitTicket}.isVisible`] = false;
     state[`${chat}.isVisible`]         = false;
     state[`${helpCenter}.isVisible`]   = false;
+    state['.hasHidden']                = false;
 
     resetActiveEmbed();
 
@@ -343,7 +347,10 @@ function init(helpCenterAvailable, hideLauncher) {
         setScrollKiller(false);
         revertWindowScroll();
       }
-      if (!state['.hideOnClose']) {
+
+      // Fix for when a pro-active message is recieved which opens the zopim window but the launcher
+      // was previously hidden with zE.hide()
+      if (!state['.hideOnClose'] && !state['.hasHidden']) {
         c.broadcast(`${launcher}.show`, { transition: 'upShow' });
       }
     }
