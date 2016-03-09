@@ -15,7 +15,6 @@ function authenticate(webToken) {
       done: function(res) {
         if (res.status === 200) {
           store.set('zE_oauth', {'token': res.body.oauth_token, 'expiry': res.body.oauth_expiry});
-          mediator.channel.broadcast('authenticate.onSuccess');
         }
       }
     }
