@@ -18,6 +18,8 @@ function authenticate(webToken) {
   if (currentToken === null || tokenId !== currentToken.id) {
     store.remove('zE_oauth');
     requestOAuthToken(webToken);
+  } else {
+    mediator.channel.broadcast('authentication.onSuccess');
   }
 }
 
@@ -56,6 +58,7 @@ function requestOAuthToken(jwt) {
               'expiry': res.body.oauth_expiry
             }
           );
+          mediator.channel.broadcast('authentication.onSuccess');
         }
       }
     }

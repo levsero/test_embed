@@ -20,12 +20,23 @@ const embedVisible = (_state) => _.any([
   _state[`${submitTicket}.isVisible`]
 ]);
 
+const resetActiveEmbed = () => {
+  if (state[`${helpCenter}.isAvailable`]) {
+    state.activeEmbed = helpCenter;
+  } else if (state[`${chat}.isOnline`]) {
+    state.activeEmbed = chat;
+  } else {
+    state.activeEmbed = submitTicket;
+  }
+};
+
 state[`${chat}.connectionPending`] = true;
 state[`${launcher}.userHidden`]    = false;
 state[`${submitTicket}.isVisible`] = false;
 state[`${chat}.isVisible`]         = false;
 state[`${helpCenter}.isVisible`]   = false;
 state[`${helpCenter}.isAvailable`] = false;
+state[`${helpCenter}.isOn`]        = false;
 state[`${chat}.isOnline`]          = false;
 state[`${chat}.unreadMsgs`]        = 0;
 state[`${chat}.userClosed`]        = false;
@@ -36,17 +47,7 @@ state['.hideOnClose']              = false;
 state['.hasHidden']                = false;
 state['identify.pending']          = false;
 
-function init(helpCenterAvailable, hideLauncher) {
-  const resetActiveEmbed = () => {
-    if (state[`${helpCenter}.isAvailable`]) {
-      state.activeEmbed = helpCenter;
-    } else if (state[`${chat}.isOnline`]) {
-      state.activeEmbed = chat;
-    } else {
-      state.activeEmbed = submitTicket;
-    }
-  };
-
+function init(helpCenterAvailable, params = {}) {
   const updateLauncherLabel = () => {
     if (state[`${chat}.isOnline`]) {
       if (state[`${chat}.unreadMsgs`]) {
@@ -62,9 +63,10 @@ function init(helpCenterAvailable, hideLauncher) {
     }
   };
 
-  state['.hasHidden']                = hideLauncher;
-  state[`${launcher}.userHidden`]    = hideLauncher;
-  state[`${helpCenter}.isAvailable`] = helpCenterAvailable;
+  state['.hasHidden']                = params.hideLauncher;
+  state[`${launcher}.userHidden`]    = params.hideLauncher;
+  state[`${helpCenter}.isAvailable`] = helpCenterAvailable && (params && !params.helpCenterSignInRequired);
+  state[`${helpCenter}.isOn`]        = helpCenterAvailable;
 
   resetActiveEmbed();
 
@@ -424,6 +426,13 @@ function initMessaging() {
 
   c.intercept(`.onAuthenticate`, (__, params) => {
     c.broadcast(`authentication.authenticate`, params);
+  });
+
+  c.intercept(`authentication.onSuccess`, () => {
+    state[`${helpCenter}.isAvailable`] = state[`${helpCenter}.isOn`];
+    if (!embedVisible(state)) {
+      resetActiveEmbed();
+    }
   });
 
   c.intercept(`nps.onActivate`, () => {
