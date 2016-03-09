@@ -2,22 +2,22 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
+import { HelpCenter } from 'component/HelpCenter';
+import { frameFactory } from 'embed/frameFactory';
 import { getToken } from 'service/authorization';
 import { beacon } from 'service/beacon';
+import { i18n } from 'service/i18n';
+import { mediator } from 'service/mediator';
+import { transport } from 'service/transport';
+import { transitionFactory } from 'service/transitionFactory';
+import { isIE,
+         isMobileBrowser } from 'utility/devices';
 import { document,
          getDocumentHost,
          location } from 'utility/globals';
-import { frameFactory } from 'embed/frameFactory';
 import { generateUserCSS,
-         getPageKeywords } from 'utility/utils';
-import { HelpCenter } from 'component/HelpCenter';
-import { i18n } from 'service/i18n';
-import { isIE,
-         isMobileBrowser } from 'utility/devices';
-import { mediator } from 'service/mediator';
-import { setScaleLock } from 'utility/utils';
-import { transitionFactory } from 'service/transitionFactory';
-import { transport } from 'service/transport';
+         getPageKeywords,
+         setScaleLock } from 'utility/utils';
 
 const helpCenterCSS = require('./helpCenter.scss');
 let helpCenters = {};
