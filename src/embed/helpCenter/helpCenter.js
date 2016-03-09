@@ -1,22 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import _     from 'lodash';
+import _ from 'lodash';
 
-import { document,
-         location,
-         getDocumentHost }   from 'utility/globals';
-import { HelpCenter }        from 'component/HelpCenter';
-import { frameFactory }      from 'embed/frameFactory';
-import { setScaleLock }      from 'utility/utils';
-import { isMobileBrowser,
-         isIE }              from 'utility/devices';
-import { beacon }            from 'service/beacon';
-import { i18n }              from 'service/i18n';
-import { transport }         from 'service/transport';
+import { HelpCenter } from 'component/HelpCenter';
+import { frameFactory } from 'embed/frameFactory';
+import { getToken } from 'service/authorization';
+import { beacon } from 'service/beacon';
+import { i18n } from 'service/i18n';
+import { mediator } from 'service/mediator';
+import { transport } from 'service/transport';
 import { transitionFactory } from 'service/transitionFactory';
-import { mediator }          from 'service/mediator';
+import { isIE,
+         isMobileBrowser } from 'utility/devices';
+import { document,
+         getDocumentHost,
+         location } from 'utility/globals';
 import { generateUserCSS,
-         getPageKeywords }   from 'utility/utils';
+         getPageKeywords,
+         setScaleLock } from 'utility/utils';
 
 const helpCenterCSS = require('./helpCenter.scss');
 let helpCenters = {};
@@ -83,6 +84,7 @@ function create(name, config) {
       method: 'get',
       path: url,
       query: query,
+      authorization: `Bearer ${getToken()}`,
       callbacks: {
         done: doneFn,
         fail: failFn

@@ -91,6 +91,9 @@ describe('embed.helpCenter', function() {
           return document.body;
         }
       },
+      'service/authorization' : {
+        getToken: noop
+      },
       'service/transitionFactory' : {
         transitionFactory: requireUncached(buildTestPath('unit/mockTransitionFactory')).mockTransitionFactory
       },

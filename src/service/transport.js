@@ -77,6 +77,7 @@ function send(payload) {
     .send(payload.params || {})
     .query(payload.query || {})
     .timeout(60000)
+    .set('Authorization', payload.authorization)
     .end(function(err, res) {
       if (payload.callbacks) {
         if (err) {

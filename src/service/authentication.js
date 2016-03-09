@@ -1,4 +1,5 @@
 import { mediator } from 'service/mediator';
+import { store } from 'service/persistence';
 import { transport } from 'service/transport';
 
 function init() {
@@ -12,11 +13,9 @@ function authenticate(webToken) {
     params: webToken,
     callbacks: {
       done: function(res) {
-        // TODO: logic depending on the status we get
-        return res;
-      },
-      fail: function(err) {
-        return err;
+        if (res.status === 200) {
+          store.set('zE_oauth', { 'token': res.body.oauth_token, 'expiry': res.body.oauth_expiry });
+        }
       }
     }
   };
@@ -24,7 +23,12 @@ function authenticate(webToken) {
   transport.send(payload);
 }
 
+function getToken() {
+  return store.get('zE_oauth').token;
+}
+
 export const authentication = {
   init: init,
-  authenticate: authenticate
+  authenticate: authenticate,
+  getToken: getToken
 };
