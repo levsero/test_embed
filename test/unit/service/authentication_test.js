@@ -13,7 +13,7 @@ describe('authentication', function() {
       'service/persistence': {
         store: {
           get: noop,
-          remove: noop
+          remove: jasmine.createSpy('store.remove')
         }
       },
       'service/mediator': {
@@ -65,16 +65,22 @@ describe('authentication', function() {
   });
 
   describe('authenticate', function() {
-    it('sends the correct payload', function() {
+    beforeEach(function() {
       const token = { webToken: 'abc' };
-      const mockTransport = mockRegistry['service/transport'];
 
       authentication.init();
-
       authentication.authenticate(token);
+    });
 
-      expect(mockTransport.transport.remove)
-        .toHaveBeenCalled();
+    it('clears existing zE_oauth objects from localstorage', function() {
+      const mockPersistence = mockRegistry['service/persistence'];
+
+      expect(mockPersistence.store.remove)
+        .toHaveBeenCalledWith('zE_oauth');
+    });
+
+    it('sends the correct payload', function() {
+      const mockTransport = mockRegistry['service/transport'];
 
       expect(mockTransport.transport.send)
         .toHaveBeenCalled();
