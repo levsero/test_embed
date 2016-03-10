@@ -442,7 +442,7 @@ describe('embed.helpCenter', function() {
     });
   });
 
-  fdescribe('searchSender', function() {
+  describe('searchSender', function() {
     it('calls transport.send with regular search endpoint when called', () => {
       const mockTransport = mockRegistry['service/transport'].transport;
 
@@ -463,7 +463,7 @@ describe('embed.helpCenter', function() {
     });
   });
 
-  fdescribe('contextualSearchSender', function() {
+  describe('contextualSearchSender', function() {
     it('calls transport.send with contextual search endpoint when called', () => {
       const mockTransport = mockRegistry['service/transport'].transport;
 

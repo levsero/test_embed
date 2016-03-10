@@ -14,12 +14,14 @@ function authenticate(webToken) {
     callbacks: {
       done: function(res) {
         if (res.status === 200) {
-          store.set('zE_oauth', { 'token': res.body.oauth_token, 'expiry': res.body.oauth_expiry });
+          store.set('zE_oauth', { 'email': res.body.email, 'token': res.body.oauth_token, 'expiry': res.body.oauth_expiry });
         }
       }
     }
   };
 
+  // remove any previous oauth tokens
+  store.remove('zE_oauth');
   transport.send(payload);
 }
 
