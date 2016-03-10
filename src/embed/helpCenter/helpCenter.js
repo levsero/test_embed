@@ -84,7 +84,7 @@ function create(name, config) {
       method: 'get',
       path: url,
       query: query,
-      authorization: `Bearer ${getToken()}`,
+      authorization: ``,
       callbacks: {
         done: doneFn,
         fail: failFn

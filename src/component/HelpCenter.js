@@ -520,7 +520,6 @@ export class HelpCenter extends Component {
                  ? hcform
                  : null;
 
-    console.log(headerContent)
     return (
       <Container
         style={this.props.style}
