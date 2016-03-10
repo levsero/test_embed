@@ -8,7 +8,7 @@ import { Button,
          ButtonGroup,
          ButtonDropzone } from 'component/Button';
 import { ScrollContainer } from 'component/ScrollContainer';
-import { getAttachmentPreviews } from 'component/Preview';
+import { getAttachmentPreviews } from 'component/AttachmentPreview';
 import { i18n } from 'service/i18n';
 import { Field,
          getCustomFields } from 'component/FormField';
@@ -126,7 +126,7 @@ export class SubmitTicketForm extends Component {
   }
 
   openAttachment() {
-    this.setState({showAttachmentForm: true});
+    this.setState({ showAttachmentForm: true });
   }
 
   getFormState() {
@@ -163,9 +163,7 @@ export class SubmitTicketForm extends Component {
   handleOnDrop(files) {
     const attachments = _.union(this.state.attachments, files);
 
-    this.setState({
-      attachments: attachments
-    });
+    this.setState({ attachments });
   }
 
   clear() {
@@ -201,12 +199,8 @@ export class SubmitTicketForm extends Component {
     const customFields = getCustomFields(this.props.customFields, this.state.formState);
     const previews = getAttachmentPreviews(this.state.attachments, removeAttachment);
     const attachments = (this.state.attachments.length !== 0)
-                         ? (
-                            <div>
-                              {previews}
-                            </div>
-                          )
-                        : null;
+                      ? <div>{previews}</div>
+                      : null;
     const formBody = (this.state.removeTicketForm)
                    ? null
                    : <div ref='formWrapper'>
@@ -239,17 +233,15 @@ export class SubmitTicketForm extends Component {
                             onClick={this.props.onCancel}
                             fullscreen={this.props.fullscreen} />);
     const buttonDropzone = win.location.hash === '#ze-attachments-alpha' || __DEV__
-                         ? (
-                           <label className='Form-fieldContainer u-block u-marginVM'>
-                             <div className='Form-fieldLabel u-textXHeight'>
-                               {i18n.t('embeddable_framework.submitTicket.attachments.title',
-                                 { fallback: 'Attachments' }
-                               )}
-                             </div>
-                             <ButtonDropzone
-                               onDrop={this.handleOnDrop} />
-                           </label>
-                         )
+                         ? (<label className='Form-fieldContainer u-block u-marginVM'>
+                              <div className='Form-fieldLabel u-textXHeight'>
+                                {i18n.t('embeddable_framework.submitTicket.attachments.title',
+                                  { fallback: 'Attachments' }
+                                )}
+                              </div>
+                              <ButtonDropzone
+                                onDrop={this.handleOnDrop} />
+                            </label>)
                          : null;
 
     return (

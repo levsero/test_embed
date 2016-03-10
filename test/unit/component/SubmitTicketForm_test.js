@@ -67,8 +67,7 @@ describe('SubmitTicketForm component', function() {
           }
         })
       },
-      'component/Preview': {
-        Preview: noopReactComponent(),
+      'component/AttachmentPreview': {
         getAttachmentPreviews: noop
       },
       'service/i18n': {

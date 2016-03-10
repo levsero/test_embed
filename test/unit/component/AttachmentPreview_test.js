@@ -1,6 +1,6 @@
-describe('Preview component', function() {
+describe('AttachmentPreview component', function() {
   let getAttachmentPreviews;
-  const previewPath = buildSrcPath('component/Preview');
+  const attachmentPreviewPath = buildSrcPath('component/AttachmentPreview');
 
   beforeEach(function() {
     resetDOM();
@@ -14,9 +14,9 @@ describe('Preview component', function() {
       }
     });
 
-    mockery.registerAllowable(previewPath);
+    mockery.registerAllowable(attachmentPreviewPath);
 
-    getAttachmentPreviews = requireUncached(previewPath).getAttachmentPreviews;
+    getAttachmentPreviews = requireUncached(attachmentPreviewPath).getAttachmentPreviews;
   });
 
   afterEach(function() {

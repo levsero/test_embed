@@ -5,13 +5,13 @@ import { Icon } from 'component/Icon';
 
 const getAttachmentPreviews = (attachments, removeAttachment) => {
   const previews = map(attachments, function(attachment) {
-    return <Preview attachment={attachment} handleRemoveAttachment={removeAttachment} />;
+    return <AttachmentPreview attachment={attachment} handleRemoveAttachment={removeAttachment} />;
   });
 
   return previews;
 };
 
-class Preview extends Component {
+class AttachmentPreview extends Component {
   constructor(props, context) {
     super(props, context);
     this.handleClick = this.handleClick.bind(this);
@@ -39,12 +39,12 @@ class Preview extends Component {
   }
 }
 
-Preview.propTypes = {
+AttachmentPreview.propTypes = {
   attachment: PropTypes.object.isRequired,
   handleRemoveAttachment: PropTypes.func.isRequired
 };
 
 export {
-  Preview,
+  AttachmentPreview,
   getAttachmentPreviews
 };

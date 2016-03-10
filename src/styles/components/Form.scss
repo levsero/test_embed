@@ -82,7 +82,7 @@ $Form-fontSize: #{13/$font-size}rem;
 }
 
 .Form-field--display {
-  background: $form-fill-color;
+  background: $zendesk-color--white-smoke;
   border: $thin-border-size solid $stroke-color;
   border-radius: #{4/$font-size}rem;
   padding: #{9/$font-size}rem $spacing-sml $spacing-sml;

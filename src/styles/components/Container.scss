@@ -76,9 +76,9 @@ $Container-spacing: 25/$font-size;
 }
 
 .Container--overlay {
-  width: calc(#{$container-width} - (#{20/$font-size}rem));
-  height: calc(#{$container-height} - #{20/$font-size}rem);
-  background-color: $form-fill-color;
+  width: calc(#{$container-width} - $spacing-lrg);
+  height: calc(#{$container-height} - $spacing-lrg);
+  background-color: $zendesk-color--white-smoke;
   opacity: 0.8;
 }
 
