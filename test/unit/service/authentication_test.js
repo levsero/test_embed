@@ -12,7 +12,8 @@ describe('authentication', function() {
       },
       'service/persistence': {
         store: {
-          get: noop
+          get: noop,
+          remove: noop
         }
       },
       'service/mediator': {
@@ -71,6 +72,9 @@ describe('authentication', function() {
       authentication.init();
 
       authentication.authenticate(token);
+
+      expect(mockTransport.transport.remove)
+        .toHaveBeenCalled();
 
       expect(mockTransport.transport.send)
         .toHaveBeenCalled();
