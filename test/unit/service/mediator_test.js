@@ -271,8 +271,15 @@ describe('mediator', function() {
   * ****************************************** */
 
   describe('.onAuthenticate', function() {
+    const launcher = 'launcher';
+    const submitTicket = 'ticketSubmissionForm';
+    const helpCenter = 'helpCenterForm';
+    const authentication = 'authentication';
     const names = {
-      authentication: 'authentication'
+      launcher: launcher,
+      submitTicket: submitTicket,
+      helpCenter: helpCenter,
+      authentication: authentication
     };
 
     beforeEach(function() {
@@ -287,6 +294,48 @@ describe('mediator', function() {
 
       expect(authenticationSub.authenticate)
         .toHaveBeenCalledWith(params);
+    });
+
+    describe('onSuccess', function() {
+      it('should set helpCenterForm to avaliable if it is passed in', function() {
+        mediator.init(true, { helpCenterSignInRequired: true });
+
+        jasmine.clock().install();
+        c.broadcast(`${launcher}.onClick`);
+        jasmine.clock().tick(0);
+
+        expect(helpCenterSub.show.calls.count())
+          .toEqual(0);
+
+        c.broadcast(`${submitTicket}.onClose`);
+        c.broadcast('authentication.onSuccess');
+
+        c.broadcast(`${launcher}.onClick`);
+        jasmine.clock().tick(0);
+
+        expect(helpCenterSub.show.calls.count())
+          .toEqual(1);
+      });
+
+      it('should not set helpCenterForm to avaliable if it is not passed in', function() {
+        mediator.init(false);
+
+        jasmine.clock().install();
+        c.broadcast(`${launcher}.onClick`);
+        jasmine.clock().tick(0);
+
+        expect(helpCenterSub.show.calls.count())
+          .toEqual(0);
+
+        c.broadcast(`${submitTicket}.onClose`);
+        c.broadcast('authentication.onSuccess');
+
+        c.broadcast(`${launcher}.onClick`);
+        jasmine.clock().tick(0);
+
+        expect(helpCenterSub.show.calls.count())
+          .toEqual(0);
+      });
     });
   });
 
@@ -1573,6 +1622,20 @@ describe('mediator', function() {
 
       expect(revertWindowScroll.calls.count())
         .toEqual(1);
+    });
+
+    it('should not show set helpCenterForm to avaliable if sign is in required', function() {
+      mediator.init(true, { helpCenterSignInRequired: true });
+
+      jasmine.clock().install();
+      c.broadcast(`${launcher}.onClick`);
+      jasmine.clock().tick(0);
+
+      expect(submitTicketSub.show.calls.count())
+        .toEqual(1);
+
+      expect(helpCenterSub.show.calls.count())
+        .toEqual(0);
     });
   });
 
