@@ -24,7 +24,7 @@ function authenticate(webToken) {
 }
 
 function getToken() {
-  return store.get('zE_oauth').token;
+  return store.get('zE_oauth') ? store.get('zE_oauth').token : null;
 }
 
 export const authentication = {

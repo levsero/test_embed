@@ -92,7 +92,9 @@ describe('embed.helpCenter', function() {
         }
       },
       'service/authentication' : {
-        getToken: noop
+        authentication: {
+          getToken: noop
+        }
       },
       'service/transitionFactory' : {
         transitionFactory: requireUncached(buildTestPath('unit/mockTransitionFactory')).mockTransitionFactory
@@ -440,7 +442,7 @@ describe('embed.helpCenter', function() {
     });
   });
 
-  describe('searchSender', function() {
+  fdescribe('searchSender', function() {
     it('calls transport.send with regular search endpoint when called', () => {
       const mockTransport = mockRegistry['service/transport'].transport;
 
@@ -461,7 +463,7 @@ describe('embed.helpCenter', function() {
     });
   });
 
-  describe('contextualSearchSender', function() {
+  fdescribe('contextualSearchSender', function() {
     it('calls transport.send with contextual search endpoint when called', () => {
       const mockTransport = mockRegistry['service/transport'].transport;
 

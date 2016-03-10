@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import { HelpCenter } from 'component/HelpCenter';
 import { frameFactory } from 'embed/frameFactory';
-import { getToken } from 'service/authentication';
+import { authentication } from 'service/authentication';
 import { beacon } from 'service/beacon';
 import { i18n } from 'service/i18n';
 import { mediator } from 'service/mediator';
@@ -80,11 +80,12 @@ function create(name, config) {
   };
 
   const searchSenderFn = (url) => (query, doneFn, failFn) => {
+    const token = authentication.getToken();
     const payload = {
       method: 'get',
       path: url,
       query: query,
-      authorization: `Bearer ${getToken()}`,
+      authorization: token ? `Bearer ${token}` : '',
       callbacks: {
         done: doneFn,
         fail: failFn
