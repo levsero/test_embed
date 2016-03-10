@@ -91,7 +91,7 @@ describe('embed.helpCenter', function() {
           return document.body;
         }
       },
-      'service/authorization' : {
+      'service/authentication' : {
         getToken: noop
       },
       'service/transitionFactory' : {
