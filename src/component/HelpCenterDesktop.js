@@ -4,8 +4,7 @@ import _ from 'lodash';
 import classNames from 'classnames';
 
 import { HelpCenterArticle } from 'component/HelpCenterArticle';
-import { SearchField,
-         SearchFieldButton } from 'component/FormField';
+import { SearchField } from 'component/FormField';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { ScrollContainer } from 'component/ScrollContainer';
 import { isMobileBrowser } from 'utility/devices';
@@ -38,22 +37,6 @@ export class HelpCenterDesktop extends Component {
       searchResultClicked: false,
       searchFieldFocused: false
     };
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.showIntroScreen === true &&
-        this.state.showIntroScreen === false &&
-        this.state.hasContextualSearched === false) {
-      this.refs.searchField.focus();
-    }
-
-    if (this.refs.searchField) {
-      this.refs.searchField.setState({
-        searchInputVal: this.state.searchFieldValue
-      });
-    }
-
-    this.refs.scrollContainer.setScrollShadowVisible(this.state.articleViewActive);
   }
 
   focusField() {
@@ -140,7 +123,6 @@ export class HelpCenterDesktop extends Component {
         this.setState(
           this.searchCompleteState({
             searchTerm: searchTerm,
-            showIntroScreen: false,
             hasContextualSearched: true,
             previousSearchTerm: this.state.searchTerm
           })
@@ -322,55 +304,29 @@ export class HelpCenterDesktop extends Component {
     });
   }
 
-  searchBoxClickHandler() {
-    this.setState({
-      showIntroScreen: false
-    });
-  }
-
   render() {
     const listClasses = classNames({
       'List': true,
-      'u-isHidden': !this.state.articles.length,
-      'u-borderNone u-marginBS List--fullscreen': this.state.fullscreen
-    });
-    const listItemClasses = classNames({
-      'List-item': true,
-      'u-textSizeBaseMobile': this.state.fullscreen
+      'u-isHidden': !this.state.articles.length || this.state.articleViewActive
     });
     const formLegendClasses = classNames({
       'u-paddingTT u-textSizeNml Arrange Arrange--middle u-textBody': true,
-      'u-textSizeBaseMobile': this.state.fullscreen,
-      'u-isHidden': !this.state.articles.length
-    });
-    const searchTitleClasses = classNames({
-      'u-textSizeBaseMobile u-marginTM u-textCenter': true,
-      'Container--fullscreen-center-vert': true,
-      'u-isHidden': !this.state.fullscreen || !this.state.showIntroScreen
-    });
-    const linkClasses = classNames({
-      'u-textSizeBaseMobile u-textCenter u-marginTL': true,
-      'u-isHidden': !this.state.showIntroScreen
+      'u-isHidden': !this.state.articles.length || this.state.articleViewActive
     });
     const articleClasses = classNames({
       'u-isHidden': !this.state.articleViewActive
     });
     const formClasses = classNames({
-      'u-isHidden': this.state.articleViewActive
-                    || (!this.state.fullscreen && this.state.hasSearched)
-                    || (this.state.fullscreen && !this.state.showIntroScreen)
+      'u-isHidden': this.state.articleViewActive || this.state.hasSearched
     });
     const buttonContainerClasses = classNames({
-      'u-marginTA': this.state.fullscreen,
       'u-marginVM': this.props.hideZendeskLogo,
-      'u-isHidden': this.state.showIntroScreen ||
-                    (this.state.fullscreen && this.state.searchFieldFocused) ||
-                    (!this.state.fullscreen && !this.state.hasSearched)
+      'u-isHidden': !this.state.hasSearched
     });
 
     const articleTemplate = function(article, index) {
       return (
-        <li key={_.uniqueId('article_')} className={listItemClasses}>
+        <li key={_.uniqueId('article_')} className='List-item'>
           <a className='u-userTextColor'
             href={article.html_url}
             target='_blank'
@@ -384,56 +340,22 @@ export class HelpCenterDesktop extends Component {
     const onFocusHandler = () => {
       this.setState({ searchFieldFocused: true });
     };
-    const onBlurHandler = () => {
-      // defer event to allow onClick events to fire first
-      setTimeout(() => {
-        if (this.state.fullscreen) {
-          this.setState({
-            searchFieldFocused: false
-          });
-        }
-
-        if (this.state.fullscreen && !this.state.hasSearched && !this.state.isLoading) {
-          this.setState({
-            showIntroScreen: true
-          });
-        }
-      }, 1);
-    };
     const onChangeValueHandler = (value) => {
       this.setState({ searchFieldValue: value });
     };
-    const chatButtonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.chat');
-    const mobileHideLogoState = this.state.fullscreen && this.state.hasSearched;
-    const hideZendeskLogo = this.props.hideZendeskLogo || mobileHideLogoState;
-
-    let linkLabel, linkContext;
+    const hideZendeskLogo = this.props.hideZendeskLogo;
 
     if (this.props.updateFrameSize) {
       setTimeout( () => this.props.updateFrameSize(), 0);
     }
 
-    if (this.state.buttonLabel === chatButtonLabel) {
-      linkContext = i18n.t('embeddable_framework.helpCenter.label.linkContext.chat');
-      linkLabel = i18n.t('embeddable_framework.helpCenter.label.link.chat');
-    } else {
-      linkContext = i18n.t('embeddable_framework.helpCenter.label.linkContext.submitTicket');
-      linkLabel = i18n.t(
-        `embeddable_framework.helpCenter.submitButton.label.submitTicket.${
-          this.props.buttonLabelKey
-        }`
-      );
-    }
-
     const noResultsTemplate = () => {
       const noResultsClasses = classNames({
         'u-marginTM u-textCenter u-textSizeMed': true,
-        'u-textSizeBaseMobile': this.state.fullscreen,
-        'u-borderBottom List--noResults': !this.state.fullscreen
+        'u-borderBottom List--noResults': true
       });
       const noResultsParagraphClasses = classNames({
-        'u-textSecondary': true,
-        'u-marginBL': !this.state.fullscreen
+        'u-textSecondary u-marginBL': true
       });
       /* eslint indent:0 */
       const title = (this.state.searchFailed)
@@ -461,25 +383,7 @@ export class HelpCenterDesktop extends Component {
                       ? <ZendeskLogo rtl={i18n.isRTL()} fullscreen={false} />
                       : null;
 
-    const searchField = (!this.state.virtualKeyboardKiller)
-                      ? <SearchField
-                          ref='searchField'
-                          fullscreen={false}
-                          onFocus={onFocusHandler}
-                          onBlur={onBlurHandler}
-                          onChangeValue={onChangeValueHandler}
-                          hasSearched={this.state.hasSearched}
-                          onSearchIconClick={this.manualSearch}
-                          isLoading={this.state.isLoading} />
-                      : null;
-
-    // intro search field on DESKTOP
-    const introSearchField = searchField;
-
-    //no article shown, not mobile and has searched, mobile and isn't showing inital screen
-    const noResults = (!this.state.showIntroScreen
-                       && !this.state.resultsCount
-                       && this.state.hasSearched)
+    const noResults = (!this.state.resultsCount && this.state.hasSearched)
                     ? noResultsTemplate()
                     : null;
 
@@ -493,17 +397,31 @@ export class HelpCenterDesktop extends Component {
         className='Form u-cf'
         onChange={this.autoSearch}
         onSubmit={this.manualSearch}>
-        <h1 className={searchTitleClasses}>
-          {i18n.t('embeddable_framework.helpCenter.label.searchHelpCenter')}
-        </h1>
 
-        {introSearchField || searchField}
+        <SearchField
+          ref='searchField'
+          fullscreen={false}
+          onFocus={onFocusHandler}
+          onChangeValue={onChangeValueHandler}
+          hasSearched={this.state.hasSearched}
+          onSearchIconClick={this.manualSearch}
+          isLoading={this.state.isLoading} />
       </form>
-    );
+   );
 
    const headerContent = (!this.state.articleViewActive && this.state.hasSearched)
                        ? hcform
                        : null;
+
+   const footerContent = (
+     <div className={buttonContainerClasses}>
+       <ButtonGroup rtl={i18n.isRTL()}>
+         <Button
+           fullscreen={this.state.fullscreen}
+           label={this.state.buttonLabel}
+           onClick={this.handleNextClick} />
+       </ButtonGroup>
+     </div>)
 
     return (
       <div>
@@ -512,39 +430,22 @@ export class HelpCenterDesktop extends Component {
           hideZendeskLogo={hideZendeskLogo}
           title={i18n.t(`embeddable_framework.launcher.label.${this.props.formTitleKey}`)}
           headerContent={headerContent}
-          footerContent={
-            <div className={buttonContainerClasses}>
-              <ButtonGroup rtl={i18n.isRTL()}>
-                <Button
-                  fullscreen={this.state.fullscreen}
-                  label={this.state.buttonLabel}
-                  onClick={this.handleNextClick} />
-              </ButtonGroup>
-            </div>
-          }
-          fullscreen={this.state.fullscreen}
-          isVirtualKeyboardOpen={this.state.searchFieldFocused}>
+          footerContent={footerContent}>
 
           <div className={formClasses}>
             {hcform}
-            <div className={linkClasses}>
-              <p className='u-marginBN'>{linkContext}</p>
-              <a className='u-userTextColor' onClick={this.handleNextClick}>
-                {linkLabel}
-              </a>
-            </div>
           </div>
 
-        <h1 className={formLegendClasses}>
-          <span className='Arrange-sizeFill'>
-            {resultsLegend}
-          </span>
-        </h1>
+          <h1 className={formLegendClasses}>
+            <span className='Arrange-sizeFill'>
+              {resultsLegend}
+            </span>
+          </h1>
+          <ul className={listClasses}>
+            {_.chain(this.state.articles).take(3).map(articleTemplate.bind(this)).value()}
+          </ul>
 
-        {noResults}
-        <ul className={listClasses}>
-          {_.chain(this.state.articles).take(3).map(articleTemplate.bind(this)).value()}
-        </ul>
+          {noResults}
 
           <div className={articleClasses}>
             <HelpCenterArticle
