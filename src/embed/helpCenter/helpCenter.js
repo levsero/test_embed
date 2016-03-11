@@ -58,7 +58,6 @@ function create(name, config) {
       } else {
         rootComponent.focusField();
       }
-      rootComponent.resetSearchFieldState();
     }
   };
 
@@ -68,10 +67,11 @@ function create(name, config) {
     if (rootComponent) {
       if (isMobileBrowser()) {
         setScaleLock(false);
+
+        rootComponent.hideVirtualKeyboard();
       }
 
-      rootComponent.hideVirtualKeyboard();
-      rootComponent.backtrackSearch();
+      frame.getRootComponent().backtrackSearch();
 
       if (isMobileBrowser() && rootComponent.state.hasSearched === false) {
         rootComponent.setState({ showIntroScreen: true });
@@ -155,7 +155,7 @@ function create(name, config) {
         const rootComponent = frame.getRootComponent().refs.rootComponent;
 
         if (rootComponent) {
-          rootComponent.setState({
+          frame.getRootComponent().setState({
             articleViewActive: false
           });
           frame.getChild().setState({
@@ -199,7 +199,7 @@ function keywordsSearch(name, options) {
   const rootComponent = getRootComponent(name);
 
   if (rootComponent) {
-    rootComponent.contextualSearch(options);
+    get(name).instance.getRootComponent().contextualSearch(options);
   } else {
     setTimeout(() => {
       keywordsSearch(name, options);
