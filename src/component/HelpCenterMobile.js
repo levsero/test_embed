@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
 import _ from 'lodash';
 import classNames from 'classnames';
 
@@ -15,17 +14,16 @@ import { Button,
 import { beacon } from 'service/beacon';
 import { bindMethods } from 'utility/utils';
 
-export class HelpCenter extends Component {
+export class HelpCenterMobile extends Component {
   constructor(props, context) {
     super(props, context);
-    bindMethods(this, HelpCenter.prototype);
+    bindMethods(this, HelpCenterMobile.prototype);
 
     this.state = {
       articles: [],
       resultsCount: 0,
       searchTerm: '',
       buttonLabel: i18n.t(`embeddable_framework.helpCenter.submitButton.label.submitTicket.${props.buttonLabelKey}`),
-      fullscreen: isMobileBrowser(),
       previousSearchTerm: '',
       hasSearched: false,
       hasContextualSearched: false,
@@ -56,18 +54,6 @@ export class HelpCenter extends Component {
     this.refs.scrollContainer.setScrollShadowVisible(this.state.articleViewActive);
   }
 
-  focusField() {
-    if (!this.state.fullscreen && !this.state.articleViewActive) {
-      const searchFieldInputNode = ReactDOM.findDOMNode(this.refs.searchField.refs.searchFieldInput);
-      const strLength = searchFieldInputNode.value.length;
-
-      this.refs.searchField.focus();
-      if (searchFieldInputNode.setSelectionRange) {
-        searchFieldInputNode.setSelectionRange(strLength, strLength);
-      }
-    }
-  }
-
   resetSearchFieldState() {
     // if the user closes and reopens, we need to
     // re-render the search field
@@ -77,14 +63,12 @@ export class HelpCenter extends Component {
   }
 
   hideVirtualKeyboard() {
-    if (this.state.fullscreen) {
-      // in order for the virtual keyboard to hide in iOS 7,
-      // we need to remove the element from the DOM. It has been fixed
-      // in iOS 8.
-      this.setState({
-        virtualKeyboardKiller: true
-      });
-    }
+    // in order for the virtual keyboard to hide in iOS 7,
+    // we need to remove the element from the DOM. It has been fixed
+    // in iOS 8.
+    this.setState({
+      virtualKeyboardKiller: true
+    });
   }
 
   searchStartState(state) {
@@ -185,11 +169,9 @@ export class HelpCenter extends Component {
 
     this.performSearch(query, this.interactiveSearchSuccessFn, { localeFallback: true });
 
-    if (this.state.fullscreen) {
-      setTimeout(() => {
-        searchField.blur();
-      }, 1);
-    }
+    setTimeout(() => {
+      searchField.blur();
+    }, 1);
   }
 
   autoSearch(e) {
@@ -330,23 +312,20 @@ export class HelpCenter extends Component {
 
   render() {
     const listClasses = classNames({
-      'List': true,
-      'u-isHidden': !this.state.articles.length,
-      'u-borderNone u-marginBS List--fullscreen': this.state.fullscreen
+      'List u-borderNone u-marginBS List--fullscreen': true,
+      'u-isHidden': !this.state.articles.length || this.state.articleViewActive
     });
     const listItemClasses = classNames({
-      'List-item': true,
-      'u-textSizeBaseMobile': this.state.fullscreen
+      'List-item u-textSizeBaseMobile': true
     });
     const formLegendClasses = classNames({
-      'u-paddingTT u-textSizeNml Arrange Arrange--middle u-textBody': true,
-      'u-textSizeBaseMobile': this.state.fullscreen,
-      'u-isHidden': !this.state.articles.length
+      'u-paddingTT u-textSizeNml Arrange Arrange--middle u-textBody u-textSizeBaseMobile': true,
+      'u-isHidden': !this.state.articles.length || this.state.articleViewActive
     });
     const searchTitleClasses = classNames({
       'u-textSizeBaseMobile u-marginTM u-textCenter': true,
       'Container--fullscreen-center-vert': true,
-      'u-isHidden': !this.state.fullscreen || !this.state.showIntroScreen
+      'u-isHidden': !this.state.showIntroScreen
     });
     const linkClasses = classNames({
       'u-textSizeBaseMobile u-textCenter u-marginTL': true,
@@ -356,16 +335,12 @@ export class HelpCenter extends Component {
       'u-isHidden': !this.state.articleViewActive
     });
     const formClasses = classNames({
-      'u-isHidden': this.state.articleViewActive
-                    || (!this.state.fullscreen && this.state.hasSearched)
-                    || (this.state.fullscreen && !this.state.showIntroScreen)
+      'u-isHidden': this.state.articleViewActive || !this.state.showIntroScreen
     });
     const buttonContainerClasses = classNames({
-      'u-marginTA': this.state.fullscreen,
+      'u-marginTA': true,
       'u-marginVM': this.props.hideZendeskLogo,
-      'u-isHidden': this.state.showIntroScreen ||
-                    (this.state.fullscreen && this.state.searchFieldFocused) ||
-                    (!this.state.fullscreen && !this.state.hasSearched)
+      'u-isHidden': this.state.showIntroScreen || this.state.searchFieldFocused
     });
 
     const articleTemplate = function(article, index) {
@@ -387,13 +362,11 @@ export class HelpCenter extends Component {
     const onBlurHandler = () => {
       // defer event to allow onClick events to fire first
       setTimeout(() => {
-        if (this.state.fullscreen) {
-          this.setState({
-            searchFieldFocused: false
-          });
-        }
+        this.setState({
+          searchFieldFocused: false
+        });
 
-        if (this.state.fullscreen && !this.state.hasSearched && !this.state.isLoading) {
+        if (!this.state.hasSearched && !this.state.isLoading) {
           this.setState({
             showIntroScreen: true
           });
@@ -404,7 +377,7 @@ export class HelpCenter extends Component {
       this.setState({ searchFieldValue: value });
     };
     const chatButtonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.chat');
-    const mobileHideLogoState = this.state.fullscreen && this.state.hasSearched;
+    const mobileHideLogoState = this.state.hasSearched;
     const hideZendeskLogo = this.props.hideZendeskLogo || mobileHideLogoState;
 
     let linkLabel, linkContext;
@@ -428,12 +401,10 @@ export class HelpCenter extends Component {
     const noResultsTemplate = () => {
       const noResultsClasses = classNames({
         'u-marginTM u-textCenter u-textSizeMed': true,
-        'u-textSizeBaseMobile': this.state.fullscreen,
-        'u-borderBottom List--noResults': !this.state.fullscreen
+        'u-textSizeBaseMobile': true
       });
       const noResultsParagraphClasses = classNames({
-        'u-textSecondary': true,
-        'u-marginBL': !this.state.fullscreen
+        'u-textSecondary': true
       });
       /* eslint indent:0 */
       const title = (this.state.searchFailed)
@@ -473,7 +444,6 @@ export class HelpCenter extends Component {
                           isLoading={this.state.isLoading} />
                       : null;
 
-    // intro search field *button* on MOBILE
     const searchFieldButton = this.state.showIntroScreen
                             ? <SearchFieldButton
                                 ref='searchFieldButton'
@@ -482,17 +452,13 @@ export class HelpCenter extends Component {
                                 searchTerm={this.state.searchFieldValue} />
                              : null;
 
-                                  //no article shown, not mobile and has searched, mobile and isn't showing inital screen
-    const noResults = (!this.state.showIntroScreen
-                       && !this.state.resultsCount
-                       && this.state.hasSearched)
+    const noResults = (!this.state.showIntroScreen && !this.state.resultsCount && this.state.hasSearched)
                     ? noResultsTemplate()
                     : null;
 
     const resultsLegend = this.state.hasContextualSearched
                         ? i18n.t('embeddable_framework.helpCenter.label.topSuggestions')
                         : i18n.t('embeddable_framework.helpCenter.label.results');
-
 
    const hcform = (
       <form
@@ -504,36 +470,33 @@ export class HelpCenter extends Component {
           {i18n.t('embeddable_framework.helpCenter.label.searchHelpCenter')}
         </h1>
 
-        {searchFieldButton || introSearchField || searchField}
+        {searchFieldButton || searchField}
       </form>
     );
 
-   const headerContent = (!this.state.articleViewActive &&
-                    (!this.state.fullscreen && this.state.hasSearched ||
-                     this.state.fullscreen && !this.state.showIntroScreen))
-                 ? hcform
-                 : null;
+   const headerContent = (!this.state.articleViewActive && !this.state.showIntroScreen)
+                       ? hcform
+                       : null;
+
+   const footerContent = (
+      <div className={buttonContainerClasses}>
+        <ButtonGroup rtl={i18n.isRTL()}>
+          <Button
+            fullscreen={true}
+            label={this.state.buttonLabel}
+            onClick={this.handleNextClick} />
+        </ButtonGroup>
+      </div>);
 
     return (
-      <Container
-        style={this.props.style}
-        fullscreen={this.state.fullscreen}>
+      <div>
         <ScrollContainer
           ref='scrollContainer'
           hideZendeskLogo={hideZendeskLogo}
           title={i18n.t(`embeddable_framework.launcher.label.${this.props.formTitleKey}`)}
           headerContent={headerContent}
-          footerContent={
-            <div className={buttonContainerClasses}>
-              <ButtonGroup rtl={i18n.isRTL()}>
-                <Button
-                  fullscreen={this.state.fullscreen}
-                  label={this.state.buttonLabel}
-                  onClick={this.handleNextClick} />
-              </ButtonGroup>
-            </div>
-          }
-          fullscreen={this.state.fullscreen}
+          footerContent={footerContent}
+          fullscreen={true}
           isVirtualKeyboardOpen={this.state.searchFieldFocused}>
 
           <div className={formClasses}>
@@ -560,17 +523,17 @@ export class HelpCenter extends Component {
           <div className={articleClasses}>
             <HelpCenterArticle
               activeArticle={this.state.activeArticle}
-              fullscreen={this.state.fullscreen} />
+              fullscreen={true} />
           </div>
         </ScrollContainer>
 
         {zendeskLogo}
-      </Container>
+      </div>
     );
   }
 }
 
-HelpCenter.propTypes = {
+HelpCenterMobile.propTypes = {
   searchSender: PropTypes.func.isRequired,
   contextualSearchSender: PropTypes.func.isRequired,
   buttonLabelKey: PropTypes.string,
@@ -583,7 +546,7 @@ HelpCenter.propTypes = {
   formTitleKey: PropTypes.string
 };
 
-HelpCenter.defaultProps = {
+HelpCenterMobile.defaultProps = {
   buttonLabelKey: 'message',
   onSearch: () => {},
   showBackButton: () => {},
