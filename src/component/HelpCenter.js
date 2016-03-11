@@ -218,6 +218,11 @@ export class HelpCenter extends Component {
     });
   }
 
+  handleNextClick(ev) {
+    ev.preventDefault();
+    this.props.onNextClick();
+  }
+
   /**
    * Instrument the last auto-search, if it's still pending to be instrumented
    */
@@ -276,6 +281,7 @@ export class HelpCenter extends Component {
                           parentState={this.state}
                           updateParentState={updateState}
                           handleArticleClick={this.handleArticleClick}
+                          handleNextClick={this.handleNextClick}
                           autoSearch={this.autoSearch}
                           manualSearch={this.manualSearch}
                           hideZendeskLogo={this.props.hideZendeskLogo}
@@ -292,6 +298,12 @@ export class HelpCenter extends Component {
                           zendeskHost={this.props.zendeskHost} />
                      : <HelpCenterMobile
                           ref='rootComponent'
+                          parentState={this.state}
+                          updateParentState={updateState}
+                          handleArticleClick={this.handleArticleClick}
+                          handleNextClick={this.handleNextClick}
+                          autoSearch={this.autoSearch}
+                          manualSearch={this.manualSearch}
                           hideZendeskLogo={this.props.hideZendeskLogo}
                           onNextClick={this.props.onNextClick}
                           onSearch={this.props.onSearch}

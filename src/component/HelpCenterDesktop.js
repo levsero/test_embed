@@ -30,11 +30,6 @@ export class HelpCenterDesktop extends Component {
     }
   }
 
-  handleNextClick(ev) {
-    ev.preventDefault();
-    this.props.onNextClick();
-  }
-
   render() {
     const listClasses = classNames({
       'List': true,
@@ -150,7 +145,7 @@ export class HelpCenterDesktop extends Component {
          <Button
            fullscreen={this.props.parentState.fullscreen}
            label={this.props.parentState.buttonLabel}
-           onClick={this.handleNextClick} />
+           onClick={this.props.handleNextClick} />
        </ButtonGroup>
      </div>
   );
@@ -196,6 +191,7 @@ HelpCenterDesktop.propTypes = {
   parentState: PropTypes.object.isRequired,
   updateParentState: PropTypes.func.isRequired,
   handleArticleClick: PropTypes.func.isRequired,
+  handleNextClick: PropTypes.func.isRequired,
   autoSearch: PropTypes.func.isRequired,
   manualSearch: PropTypes.func.isRequired,
   buttonLabelKey: PropTypes.string,
