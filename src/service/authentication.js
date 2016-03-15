@@ -1,7 +1,7 @@
 import { mediator } from 'service/mediator';
 import { store } from 'service/persistence';
 import { transport } from 'service/transport';
-import { win } from 'util/globals';
+import { win } from 'utility/globals';
 
 function init() {
   mediator.channel.subscribe('authentication.authenticate', authenticate);

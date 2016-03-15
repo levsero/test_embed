@@ -21,7 +21,7 @@ describe('authentication', function() {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
         }
       },
-      'util/globals': {
+      'utility/globals': {
         win: {
           atob: noop,
           btoa: noop
@@ -48,10 +48,10 @@ describe('authentication', function() {
       beforeEach(function() {
         mockMediator = mockRegistry['service/mediator'].mediator;
         mockTransport = mockRegistry['service/transport'].transport;
-        mockRegistry['util/globals'].win.atob = function() {
+        mockRegistry['utility/globals'].win.atob = function() {
           return '{ "iat": 1458011438, "jti": "1234567890", "name": "Adrian Evans", "email": "aevans@zendesk.com" }';
         };
-        mockRegistry['util/globals'].win.btoa = function() {
+        mockRegistry['utility/globals'].win.btoa = function() {
           return 'YWV2YW5zQHplbmRlc2suY29t';
         };
 
@@ -79,10 +79,10 @@ describe('authentication', function() {
     const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE0NTgwMTE0MzgsImp0aSI6IjEyMzQ1Njc4OTAiLCJuYW1lIjoiQWRyaWFuIEV2YW5zIiwiZW1haWwiOiJhZXZhbnNAemVuZGVzay5jb20ifQ.sMM-1hA8g2hXtKeHfvtSO-4nRatycpsKK6f5NxOUXzk';
 
     beforeEach(function() {
-      mockRegistry['util/globals'].win.atob = function() {
+      mockRegistry['utility/globals'].win.atob = function() {
         return '{ "iat": 1458011438, "jti": "1234567890", "name": "Adrian Evans", "email": "aevans@zendesk.com" }';
       };
-      mockRegistry['util/globals'].win.btoa = function() {
+      mockRegistry['utility/globals'].win.btoa = function() {
         return 'YWV2YW5zQHplbmRlc2suY29t';
       };
 
