@@ -7,34 +7,10 @@ function init() {
 }
 
 function authenticate(webToken) {
-  authenticateRequest('/embeddable/authenticate', webtoken);
-}
-
-function renew() {
-  const token = store.get('zE_oauth').token;
-
-  authenticateRequest('/embeddable/authenticate/renew', token);
-}
-
-function getToken() {
-  if (isExpired()) {
-    renew();
-  } else {
-    console.log('NOT EXPIRED');
-  }
-
-  return store.get('zE_oauth').token;
-}
-
-function renew() {
-  const token = store.get('zE_oauth').token;
-}
-
-function authenticateRequest(path, params) {
   const payload = {
     method: 'POST',
-    path: path,
-    params: params,
+    path: '/embeddable/authenticate',
+    params: webToken,
     callbacks: {
       done: function(res) {
         if (res.status === 200) {
@@ -51,6 +27,15 @@ function authenticateRequest(path, params) {
   };
 
   transport.send(payload);
+}
+
+function getToken() {
+  if (isExpired()) {
+    store.remove('zE_oauth');
+    return null;
+  }
+
+  return store.get('zE_oauth') ? store.get('zE_oauth').token : null;
 }
 
 function isExpired() {
