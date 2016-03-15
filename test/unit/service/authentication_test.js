@@ -12,13 +12,19 @@ describe('authentication', function() {
       },
       'service/persistence': {
         store: {
-          get: noop,
+          get: function() { return null; },
           remove: jasmine.createSpy('store.remove')
         }
       },
       'service/mediator': {
         mediator: {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
+        }
+      },
+      'util/globals': {
+        win: {
+          atob: noop,
+          btoa: noop
         }
       },
       'lodash': _
@@ -37,36 +43,48 @@ describe('authentication', function() {
     describe('mediator subscriptions', function() {
       let mockMediator,
         mockTransport;
+      const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE0NTgwMTE0MzgsImp0aSI6IjEyMzQ1Njc4OTAiLCJuYW1lIjoiQWRyaWFuIEV2YW5zIiwiZW1haWwiOiJhZXZhbnNAemVuZGVzay5jb20ifQ.sMM-1hA8g2hXtKeHfvtSO-4nRatycpsKK6f5NxOUXzk';
 
       beforeEach(function() {
         mockMediator = mockRegistry['service/mediator'].mediator;
         mockTransport = mockRegistry['service/transport'].transport;
+        mockRegistry['util/globals'].win.atob = function() {
+          return '{ "iat": 1458011438, "jti": "1234567890", "name": "Adrian Evans", "email": "aevans@zendesk.com" }';
+        };
+        mockRegistry['util/globals'].win.btoa = function() {
+          return 'YWV2YW5zQHplbmRlc2suY29t';
+        };
 
         authentication.init();
       });
 
       it('should subscribe to authentication.authenticate', function() {
-        const params = { webToken: 'abc' };
-
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('authentication.authenticate', jasmine.any(Function));
 
-        pluckSubscribeCall(mockMediator, 'authentication.authenticate')(params);
+        pluckSubscribeCall(mockMediator, 'authentication.authenticate')(token);
 
         expect(mockTransport.send)
           .toHaveBeenCalled();
 
         const transportPayload = mockTransport.send.calls.mostRecent().args[0];
 
-        expect(transportPayload.params.webToken)
-          .toEqual(params.webToken);
+        expect(transportPayload.params.body)
+          .toEqual(token);
       });
     });
   });
 
   describe('authenticate', function() {
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE0NTgwMTE0MzgsImp0aSI6IjEyMzQ1Njc4OTAiLCJuYW1lIjoiQWRyaWFuIEV2YW5zIiwiZW1haWwiOiJhZXZhbnNAemVuZGVzay5jb20ifQ.sMM-1hA8g2hXtKeHfvtSO-4nRatycpsKK6f5NxOUXzk';
+
     beforeEach(function() {
-      const token = { webToken: 'abc' };
+      mockRegistry['util/globals'].win.atob = function() {
+        return '{ "iat": 1458011438, "jti": "1234567890", "name": "Adrian Evans", "email": "aevans@zendesk.com" }';
+      };
+      mockRegistry['util/globals'].win.btoa = function() {
+        return 'YWV2YW5zQHplbmRlc2suY29t';
+      };
 
       authentication.init();
       authentication.authenticate(token);
@@ -95,8 +113,8 @@ describe('authentication', function() {
 
       const params = payload.params;
 
-      expect(params.webToken)
-        .toEqual('abc');
+      expect(params.body)
+        .toEqual(token);
     });
   });
 });
