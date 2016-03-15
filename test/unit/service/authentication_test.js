@@ -11,7 +11,11 @@ describe('authentication', function() {
         transport: jasmine.createSpyObj('transport', ['send'])
       },
       'service/persistence': {
-        store: jasmine.createSpyObj('store', ['set', 'get'])
+        store: {
+          get: noop,
+          set: noop,
+          remove: noop
+        }
       },
       'service/mediator': {
         mediator: {
@@ -94,51 +98,27 @@ describe('authentication', function() {
 
     describe('#getToken', function() {
       let mockPersistence;
-      const expiryTime = 1000 * 60 * 20; // 20 mins in ms
+      const expiryTime = 1000 * 60 * 30;
 
       beforeEach(function() {
         mockPersistence = mockRegistry['service/persistence'];
       });
 
       it('should return the oauth token cached in local storage', function() {
-        expect(mockTransport.transport.send)
-          .toHaveBeenCalled();
-
-        const doneFn = mockTransport.transport.send.calls.mostRecent().args[0].callbacks.done;
-
-        doneFn({
-          status: 200,
-          body: {
-            'oauth_token': 'abc',
-            'oauth_expiry': Date.now() + expiryTime
-          }
-        });
-
-        expect(mockPersistence.store.set)
-          .toHaveBeenCalled();
-
-        console.log(mockPersistence.store.set.calls.mostRecent().args[1]);
+        spyOn(mockPersistence.store, 'get')
+          .and
+          .returnValue({ token: 'abc', expiry: Date.now() + expiryTime });
+        spyOn(mockPersistence.store, 'set');
 
         expect(authentication.getToken())
           .toEqual('abc');
       });
 
       it('should return null if the cached oauth token is expired', function() {
-        expect(mockTransport.transport.send)
-          .toHaveBeenCalled();
-
-        const doneFn = mockTransport.transport.send.calls.mostRecent().args[0].callbacks.done;
-
-        doneFn({
-          status: 200,
-          body: {
-            'oauth_token': 'abc',
-            'oauth_expiry': Date.now() - expiryTime
-          }
-        });
-
-        expect(mockPersistence.store.set)
-          .toHaveBeenCalled();
+        spyOn(mockPersistence.store, 'get')
+          .and
+          .returnValue({ token: 'abc', expiry: Date.now() - expiryTime });
+        spyOn(mockPersistence.store, 'set');
 
         expect(authentication.getToken())
           .toEqual(null);
