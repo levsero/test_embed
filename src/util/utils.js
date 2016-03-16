@@ -267,6 +267,14 @@ function bindMethods(instance, prototype) {
   });
 }
 
+function base64encode(string) {
+  return window.btoa(string);
+}
+
+function base64decode(string) {
+  return window.atob(string);
+}
+
 export {
   clickBusterHandler,
   clickBusterRegister,
@@ -281,5 +289,7 @@ export {
   cappedIntervalCall,
   setScaleLock,
   splitPath,
-  bindMethods
+  bindMethods,
+  base64encode,
+  base64decode
 };
