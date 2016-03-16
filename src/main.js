@@ -65,7 +65,7 @@ function boot() {
     mediator.channel.broadcast('.onAuthenticate', webToken);
   };
   const logout = function() {
-    mediator.channel.broadcast('.onLogout');
+    mediator.channel.broadcast('.logout');
   };
   const setHelpCenterSuggestions = function(options) {
     mediator.channel.broadcast('.onSetHelpCenterSuggestions', options);
@@ -122,6 +122,7 @@ function boot() {
     setHelpCenterSuggestions: postRenderQueueCallback.bind('setHelpCenterSuggestions'),
     identify: postRenderQueueCallback.bind('identify'),
     authenticate: postRenderQueueCallback.bind('authenticate'),
+    logout: postRenderQueueCallback.bind('logout'),
     activate: postRenderQueueCallback.bind('activate'),
     activateNps: postRenderQueueCallback.bind('activateNps'),
     activateIpm: postRenderQueueCallback.bind('activateIpm')
@@ -173,6 +174,7 @@ function boot() {
   win.zE.setHelpCenterSuggestions = setHelpCenterSuggestions;
   win.zE.identify = identify;
   win.zE.authenticate = authenticate;
+  win.zE.logout = logout;
   win.zE.activate = activate;
   win.zE.activateNps = activateNps;
   win.zE.activateIpm = activateIpm;

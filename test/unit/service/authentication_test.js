@@ -156,4 +156,15 @@ describe('authentication', function() {
       });
     });
   });
+
+  describe('logout', function() {
+    it('clears existing zE_oauth objects from localstorage', function() {
+      const mockStore = mockRegistry['service/persistence'].store;
+
+      authentication.logout();
+
+      expect(mockStore.remove)
+        .toHaveBeenCalledWith('zE_oauth');
+    });
+  });
 });

@@ -38,7 +38,8 @@ describe('mediator', function() {
 
     authenticationSub = jasmine.createSpyObj(
       'authentication',
-      ['authenticate']
+      ['authenticate',
+       'logout']
     );
 
     beaconSub = jasmine.createSpyObj(
@@ -104,6 +105,7 @@ describe('mediator', function() {
       c.subscribe(`${names.beacon}.identify`, beaconSub.identify);
 
       c.subscribe(`${names.authentication}.authenticate`, authenticationSub.authenticate);
+      c.subscribe(`${names.authentication}.logout`, authenticationSub.logout);
 
       c.subscribe(`${names.launcher}.hide`, launcherSub.hide);
       c.subscribe(`${names.launcher}.show`, launcherSub.show);
@@ -285,6 +287,24 @@ describe('mediator', function() {
 
       expect(authenticationSub.authenticate)
         .toHaveBeenCalledWith(params);
+    });
+  });
+
+  describe('.logout', function() {
+    const names = {
+      authentication: 'authentication'
+    };
+
+    beforeEach(function() {
+      initSubscriptionSpies(names);
+      mediator.init(false);
+    });
+
+    it('should broadcast authentication.logout', function() {
+      c.broadcast('.logout');
+
+      expect(authenticationSub.logout)
+        .toHaveBeenCalled();
     });
   });
 

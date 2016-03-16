@@ -111,6 +111,10 @@ function init(helpCenterAvailable, hideLauncher) {
     }
   });
 
+  c.intercept(`.logout`, () => {
+    c.broadcast(`authentication.logout`);
+  });
+
   c.intercept('.zopimShow', () => {
     c.broadcast(`${submitTicket}.hide`);
     c.broadcast(`${helpCenter}.hide`);
@@ -420,10 +424,6 @@ function initMessaging() {
 
   c.intercept(`.onAuthenticate`, (__, params) => {
     c.broadcast(`authentication.authenticate`, params);
-  });
-
-  c.intercept(`.onLogout`, () => {
-    c.broadcast(`authentication.logout`);
   });
 
   c.intercept(`nps.onActivate`, () => {
