@@ -5,6 +5,7 @@ import { base64encode, base64decode } from 'utility/utils';
 
 function init() {
   mediator.channel.subscribe('authentication.authenticate', authenticate);
+  mediator.channel.subscribe('authentication.logout', logout);
 }
 
 function authenticate(webToken) {
@@ -26,6 +27,10 @@ function getToken() {
   }
 
   return zeoauth.token;
+}
+
+function logout() {
+  store.remove('zE_oauth');
 }
 
 // private
@@ -74,5 +79,6 @@ function decodeEmail(jwt) {
 export const authentication = {
   init: init,
   authenticate: authenticate,
-  getToken: getToken
+  getToken: getToken,
+  logout: logout
 };
