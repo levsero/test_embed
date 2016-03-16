@@ -1,3 +1,5 @@
+const jsonwebtoken = require('jsonwebtoken');
+
 describe('authentication', function() {
   let authentication,
     mockRegistry;
@@ -12,7 +14,7 @@ describe('authentication', function() {
       },
       'service/persistence': {
         store: {
-          get: function() { return null; },
+          get: noop,
           remove: jasmine.createSpy('store.remove')
         }
       },
@@ -23,8 +25,8 @@ describe('authentication', function() {
       },
       'utility/globals': {
         win: {
-          atob: noop,
-          btoa: noop
+          atob: window.atob,
+          btoa: window.btoa
         }
       },
       'lodash': _
@@ -41,80 +43,120 @@ describe('authentication', function() {
 
   describe('#init', function() {
     describe('mediator subscriptions', function() {
-      let mockMediator,
-        mockTransport;
-      const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE0NTgwMTE0MzgsImp0aSI6IjEyMzQ1Njc4OTAiLCJuYW1lIjoiQWRyaWFuIEV2YW5zIiwiZW1haWwiOiJhZXZhbnNAemVuZGVzay5jb20ifQ.sMM-1hA8g2hXtKeHfvtSO-4nRatycpsKK6f5NxOUXzk';
-
-      beforeEach(function() {
-        mockMediator = mockRegistry['service/mediator'].mediator;
-        mockTransport = mockRegistry['service/transport'].transport;
-        mockRegistry['utility/globals'].win.atob = function() {
-          return '{ "iat": 1458011438, "jti": "1234567890", "name": "Adrian Evans", "email": "aevans@zendesk.com" }';
-        };
-        mockRegistry['utility/globals'].win.btoa = function() {
-          return 'YWV2YW5zQHplbmRlc2suY29t';
-        };
+      it('should subscribe to authentication.authenticate', function() {
+        const mockMediator = mockRegistry['service/mediator'].mediator;
 
         authentication.init();
-      });
 
-      it('should subscribe to authentication.authenticate', function() {
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('authentication.authenticate', jasmine.any(Function));
-
-        pluckSubscribeCall(mockMediator, 'authentication.authenticate')(token);
-
-        expect(mockTransport.send)
-          .toHaveBeenCalled();
-
-        const transportPayload = mockTransport.send.calls.mostRecent().args[0];
-
-        expect(transportPayload.params.body)
-          .toEqual(token);
       });
     });
   });
 
   describe('authenticate', function() {
-    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE0NTgwMTE0MzgsImp0aSI6IjEyMzQ1Njc4OTAiLCJuYW1lIjoiQWRyaWFuIEV2YW5zIiwiZW1haWwiOiJhZXZhbnNAemVuZGVzay5jb20ifQ.sMM-1hA8g2hXtKeHfvtSO-4nRatycpsKK6f5NxOUXzk';
+    let mockStore,
+      mockTransport,
+      jwtPayload,
+      jwt;
 
     beforeEach(function() {
-      mockRegistry['utility/globals'].win.atob = function() {
-        return '{ "iat": 1458011438, "jti": "1234567890", "name": "Adrian Evans", "email": "aevans@zendesk.com" }';
+      mockTransport = mockRegistry['service/transport'].transport;
+      mockStore = mockRegistry['service/persistence'].store;
+
+      mockStore.get = function() {
+        return { id: window.btoa('jbob@zendesk.com') };
       };
-      mockRegistry['utility/globals'].win.btoa = function() {
-        return 'YWV2YW5zQHplbmRlc2suY29t';
+
+      jwtPayload = {
+        'iat': 1458011438,
+        'jti': '1234567890',
+        'name': 'Jim Bob',
+        'email': 'jbob@zendesk.com'
       };
+      jwt = jsonwebtoken.sign(jwtPayload, 'pencil');
 
       authentication.init();
-      authentication.authenticate(token);
     });
 
-    it('clears existing zE_oauth objects from localstorage', function() {
-      const mockPersistence = mockRegistry['service/persistence'];
+    describe('when a token is stored in localstorage for the user', function() {
+      beforeEach(function() {
+        authentication.authenticate(jwt);
+      });
 
-      expect(mockPersistence.store.remove)
-        .toHaveBeenCalledWith('zE_oauth');
+      it('does not clear the zE_oauth objects from localstorage', function() {
+        expect(mockStore.remove)
+          .not.toHaveBeenCalled();
+      });
+
+      it('does not request a new token', function() {
+        expect(mockTransport.send)
+          .not.toHaveBeenCalled();
+      });
     });
 
-    it('sends the correct payload', function() {
-      const mockTransport = mockRegistry['service/transport'];
+    describe('when a token is stored in localstorage for a different user', function() {
+      beforeEach(function() {
+        mockStore.get = function() {
+          return { id: window.btoa('someone@example.com') };
+        };
 
-      expect(mockTransport.transport.send)
-        .toHaveBeenCalled();
+        authentication.authenticate(jwt);
+      });
 
-      const payload = mockTransport.transport.send.calls.mostRecent().args[0];
+      it('clears existing zE_oauth objects from localstorage', function() {
+        expect(mockStore.remove)
+          .toHaveBeenCalledWith('zE_oauth');
+      });
 
-      expect(payload.method)
-        .toBe('POST');
+      it('requests a new OAuth token', function() {
+        const payload = mockTransport.send.calls.mostRecent().args[0];
+        const params = payload.params;
 
-      expect(payload.path)
-        .toBe('/embeddable/authenticate');
+        expect(mockTransport.send)
+          .toHaveBeenCalled();
 
-      const params = payload.params;
+        expect(payload.method)
+          .toBe('POST');
 
-      expect(params.body)
-        .toEqual(token);
+        expect(payload.path)
+          .toBe('/embeddable/authenticate');
+
+        expect(params.body)
+          .toEqual(jwt);
+      });
+    });
+
+    describe('when there is no token stored in localstorage', function() {
+      beforeEach(function() {
+        mockStore.get = function() {
+          return null;
+        };
+
+        authentication.authenticate(jwt);
+      });
+
+      it('clears existing zE_oauth objects from localstorage', function() {
+        expect(mockStore.remove)
+          .toHaveBeenCalledWith('zE_oauth');
+      });
+
+      it('requests a new OAuth token', function() {
+        const payload = mockTransport.send.calls.mostRecent().args[0];
+        const params = payload.params;
+
+        expect(mockTransport.send)
+          .toHaveBeenCalled();
+
+        expect(payload.method)
+          .toBe('POST');
+
+        expect(payload.path)
+          .toBe('/embeddable/authenticate');
+
+        expect(params.body)
+          .toEqual(jwt);
+      });
     });
   });
 });
