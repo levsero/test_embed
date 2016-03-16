@@ -430,7 +430,7 @@ function initMessaging() {
 
   c.intercept(`authentication.onSuccess`, () => {
     state[`${helpCenter}.isAccessible`] = state[`${helpCenter}.isAvaliable`];
-    if (!embedVisible(state)) {
+    if (!embedVisible(state) && state[`${helpCenter}.isAccessible`]) {
       resetActiveEmbed();
     }
   });
