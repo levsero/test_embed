@@ -95,12 +95,12 @@ function init(config) {
 
 function initMediator(config) {
   if (config.embeds && config.embeds.ticketSubmissionForm) {
-    const signIn = config.embeds.helpCenterForm
-                 ? config.embeds.helpCenterForm.props.signInRequired
-                 : false;
+    const signInRequired = config.embeds.helpCenterForm
+                         ? config.embeds.helpCenterForm.props.signInRequired
+                         : false;
     const params = {
       'hideLauncher': hideLauncher,
-      'helpCenterSignInRequired': signIn
+      'helpCenterSignInRequired': signInRequired
     };
 
     mediator.init(!!config.embeds.helpCenterForm, params);
