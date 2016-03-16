@@ -15,6 +15,7 @@ describe('authentication', function() {
       'service/persistence': {
         store: {
           get: noop,
+          set: noop,
           remove: jasmine.createSpy('store.remove')
         }
       },
@@ -153,6 +154,33 @@ describe('authentication', function() {
 
         expect(params.body)
           .toEqual(jwt);
+      });
+    });
+
+    describe('#getToken', function() {
+      let mockPersistence;
+      const expiryTime = 1000 * 60 * 30;
+
+      beforeEach(function() {
+        mockPersistence = mockRegistry['service/persistence'];
+      });
+
+      it('should return the oauth token cached in local storage', function() {
+        spyOn(mockPersistence.store, 'get')
+          .and
+          .returnValue({ token: 'abc', expiry: Date.now() + expiryTime });
+
+        expect(authentication.getToken())
+          .toEqual('abc');
+      });
+
+      it('should return null if the cached oauth token is expired', function() {
+        spyOn(mockPersistence.store, 'get')
+          .and
+          .returnValue({ token: 'abc', expiry: Date.now() - expiryTime });
+
+        expect(authentication.getToken())
+          .toEqual(null);
       });
     });
   });

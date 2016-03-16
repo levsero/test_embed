@@ -18,7 +18,14 @@ function authenticate(webToken) {
 }
 
 function getToken() {
-  return store.get('zE_oauth') ? store.get('zE_oauth').token : null;
+  const zeoauth = store.get('zE_oauth');
+
+  if (isExpired(zeoauth)) {
+    store.remove('zE_oauth');
+    return null;
+  }
+
+  return zeoauth.token;
 }
 
 // private
@@ -45,6 +52,16 @@ function requestToken(userHash, jwt) {
   };
 
   transport.send(payload);
+}
+
+function isExpired(zeoauth) {
+  const timeInterval = 1000 * 60 * 10; // 10 mins in ms
+
+  if (zeoauth && zeoauth.expiry) {
+    return Date.now() > zeoauth.expiry - timeInterval;
+  } else {
+    return false;
+  }
 }
 
 function decodeEmail(jwt) {
