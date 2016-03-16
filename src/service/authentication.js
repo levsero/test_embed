@@ -9,7 +9,13 @@ function init() {
 }
 
 function authenticate(webToken) {
-  const userHash = base64encode(decodeEmail(webToken));
+  const userEmail = decodeEmail(webToken);
+
+  if (userEmail === null) {
+    return;
+  }
+
+  const userHash = base64encode(userEmail);
   const currentToken = store.get('zE_oauth');
 
   if (currentToken === null || userHash !== currentToken.id) {
@@ -70,7 +76,13 @@ function isExpired(zeoauth) {
 }
 
 function decodeEmail(jwt) {
-  const decodedBody = base64decode(jwt.split('.')[1]);
+  const jwtBody = jwt.split('.')[1];
+
+  if (typeof jwtBody === 'undefined') {
+    return null;
+  }
+
+  const decodedBody = base64decode(jwtBody);
   const message = JSON.parse(decodedBody);
 
   return message.email;
