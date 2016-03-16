@@ -80,11 +80,12 @@ function create(name, config) {
   };
 
   const searchSenderFn = (url) => (query, doneFn, failFn) => {
+    const token = authentication.getToken();
     const payload = {
       method: 'get',
       path: url,
       query: query,
-      authorization: `Bearer ${authentication.getToken()}`,
+      authorization: token ? `Bearer ${token}` : '',
       callbacks: {
         done: doneFn,
         fail: failFn

@@ -30,16 +30,17 @@ function authenticate(webToken) {
 }
 
 function getToken() {
-  if (isExpired()) {
+  const zeoauth = store.get('zE_oauth');
+
+  if (isExpired(zeoauth)) {
     store.remove('zE_oauth');
     return null;
   }
 
-  return store.get('zE_oauth') ? store.get('zE_oauth').token : null;
+  return zeoauth.token;
 }
 
-function isExpired() {
-  const zeoauth = store.get('zE_oauth');
+function isExpired(zeoauth) {
   const timeInterval = 1000 * 60 * 10; // 10 mins in ms
 
   if (zeoauth && zeoauth.expiry) {
