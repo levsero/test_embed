@@ -125,6 +125,38 @@ describe('authentication', function() {
       });
     });
 
+    describe('when there is no token stored in localstorage', function() {
+      beforeEach(function() {
+        mockStore.get = function() {
+          return null;
+        };
+
+        authentication.authenticate(jwt);
+      });
+
+      it('clears existing zE_oauth objects from localstorage', function() {
+        expect(mockStore.remove)
+          .toHaveBeenCalledWith('zE_oauth');
+      });
+
+      it('requests a new OAuth token', function() {
+        const payload = mockTransport.send.calls.mostRecent().args[0];
+        const params = payload.params;
+
+        expect(mockTransport.send)
+          .toHaveBeenCalled();
+
+        expect(payload.method)
+          .toBe('POST');
+
+        expect(payload.path)
+          .toBe('/embeddable/authenticate');
+
+        expect(params.body)
+          .toEqual(jwt);
+      });
+    });
+
     describe('#getToken', function() {
       let mockPersistence;
       const expiryTime = 1000 * 60 * 30;
