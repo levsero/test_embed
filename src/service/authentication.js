@@ -4,6 +4,7 @@ import { transport } from 'service/transport';
 import { base64encode, base64decode } from 'utility/utils';
 
 function init() {
+  mediator.channel.subscribe('authentication.authenticate', authenticate);
   mediator.channel.subscribe('authentication.logout', logout);
 }
 

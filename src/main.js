@@ -61,10 +61,8 @@ function boot() {
   const identify = function(user) {
     mediator.channel.broadcast('.onIdentify', user);
   };
-  const init = function(params) {
-    if (params.authenticate) {
-      authentication.authenticate(params.authenticate);
-    }
+  const authenticate = function(webToken) {
+    mediator.channel.broadcast('.onAuthenticate', webToken);
   };
   const logout = function() {
     mediator.channel.broadcast('.logout');
@@ -120,10 +118,10 @@ function boot() {
     version: __EMBEDDABLE_VERSION__,
     setLocale: i18n.setLocale,
     hide: renderer.hide,
-    init: init,
     show: postRenderQueueCallback.bind('show'),
     setHelpCenterSuggestions: postRenderQueueCallback.bind('setHelpCenterSuggestions'),
     identify: postRenderQueueCallback.bind('identify'),
+    authenticate: postRenderQueueCallback.bind('authenticate'),
     logout: postRenderQueueCallback.bind('logout'),
     activate: postRenderQueueCallback.bind('activate'),
     activateNps: postRenderQueueCallback.bind('activateNps'),
