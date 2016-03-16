@@ -92,7 +92,9 @@ describe('embed.helpCenter', function() {
         }
       },
       'service/authentication' : {
-        getToken: noop
+        authentication: {
+          getToken: noop
+        }
       },
       'service/transitionFactory' : {
         transitionFactory: requireUncached(buildTestPath('unit/mockTransitionFactory')).mockTransitionFactory

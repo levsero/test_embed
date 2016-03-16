@@ -1,3 +1,5 @@
+const jsonwebtoken = require('jsonwebtoken');
+
 describe('authentication', function() {
   let authentication,
     mockRegistry;
@@ -12,7 +14,8 @@ describe('authentication', function() {
       },
       'service/persistence': {
         store: {
-          get: noop
+          get: noop,
+          remove: jasmine.createSpy('store.remove')
         }
       },
       'service/mediator': {
@@ -20,7 +23,10 @@ describe('authentication', function() {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
         }
       },
-      'lodash': _
+      'utility/utils': {
+        base64encode: window.btoa,
+        base64decode: window.atob
+      }
     });
 
     mockery.registerAllowable(authenticationPath);
@@ -34,59 +40,120 @@ describe('authentication', function() {
 
   describe('#init', function() {
     describe('mediator subscriptions', function() {
-      let mockMediator,
-        mockTransport;
-
-      beforeEach(function() {
-        mockMediator = mockRegistry['service/mediator'].mediator;
-        mockTransport = mockRegistry['service/transport'].transport;
+      it('should subscribe to authentication.authenticate', function() {
+        const mockMediator = mockRegistry['service/mediator'].mediator;
 
         authentication.init();
-      });
-
-      it('should subscribe to authentication.authenticate', function() {
-        const params = { webToken: 'abc' };
 
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('authentication.authenticate', jasmine.any(Function));
-
-        pluckSubscribeCall(mockMediator, 'authentication.authenticate')(params);
-
-        expect(mockTransport.send)
-          .toHaveBeenCalled();
-
-        const transportPayload = mockTransport.send.calls.mostRecent().args[0];
-
-        expect(transportPayload.params.webToken)
-          .toEqual(params.webToken);
       });
     });
   });
 
   describe('authenticate', function() {
-    it('sends the correct payload', function() {
-      const token = { webToken: 'abc' };
-      const mockTransport = mockRegistry['service/transport'];
+    let mockStore,
+      mockTransport,
+      jwtPayload,
+      jwt;
+
+    beforeEach(function() {
+      mockTransport = mockRegistry['service/transport'].transport;
+      mockStore = mockRegistry['service/persistence'].store;
+
+      mockStore.get = function() {
+        return { id: window.btoa('jbob@zendesk.com') };
+      };
+
+      jwtPayload = {
+        'iat': 1458011438,
+        'jti': '1234567890',
+        'name': 'Jim Bob',
+        'email': 'jbob@zendesk.com'
+      };
+      jwt = jsonwebtoken.sign(jwtPayload, 'pencil');
 
       authentication.init();
+    });
 
-      authentication.authenticate(token);
+    describe('when a token is stored in localstorage for the user', function() {
+      beforeEach(function() {
+        authentication.authenticate(jwt);
+      });
 
-      expect(mockTransport.transport.send)
-        .toHaveBeenCalled();
+      it('does not clear the zE_oauth objects from localstorage', function() {
+        expect(mockStore.remove)
+          .not.toHaveBeenCalled();
+      });
 
-      const payload = mockTransport.transport.send.calls.mostRecent().args[0];
+      it('does not request a new token', function() {
+        expect(mockTransport.send)
+          .not.toHaveBeenCalled();
+      });
+    });
 
-      expect(payload.method)
-        .toBe('POST');
+    describe('when a token is stored in localstorage for a different user', function() {
+      beforeEach(function() {
+        mockStore.get = function() {
+          return { id: window.btoa('someone@example.com') };
+        };
 
-      expect(payload.path)
-        .toBe('/embeddable/authenticate');
+        authentication.authenticate(jwt);
+      });
 
-      const params = payload.params;
+      it('clears existing zE_oauth objects from localstorage', function() {
+        expect(mockStore.remove)
+          .toHaveBeenCalledWith('zE_oauth');
+      });
 
-      expect(params.webToken)
-        .toEqual('abc');
+      it('requests a new OAuth token', function() {
+        const payload = mockTransport.send.calls.mostRecent().args[0];
+        const params = payload.params;
+
+        expect(mockTransport.send)
+          .toHaveBeenCalled();
+
+        expect(payload.method)
+          .toBe('POST');
+
+        expect(payload.path)
+          .toBe('/embeddable/authenticate');
+
+        expect(params.body)
+          .toEqual(jwt);
+      });
+    });
+
+    describe('when there is no token stored in localstorage', function() {
+      beforeEach(function() {
+        mockStore.get = function() {
+          return null;
+        };
+
+        authentication.authenticate(jwt);
+      });
+
+      it('clears existing zE_oauth objects from localstorage', function() {
+        expect(mockStore.remove)
+          .toHaveBeenCalledWith('zE_oauth');
+      });
+
+      it('requests a new OAuth token', function() {
+        const payload = mockTransport.send.calls.mostRecent().args[0];
+        const params = payload.params;
+
+        expect(mockTransport.send)
+          .toHaveBeenCalled();
+
+        expect(payload.method)
+          .toBe('POST');
+
+        expect(payload.path)
+          .toBe('/embeddable/authenticate');
+
+        expect(params.body)
+          .toEqual(jwt);
+      });
     });
   });
 });
