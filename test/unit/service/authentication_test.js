@@ -108,7 +108,6 @@ describe('authentication', function() {
         spyOn(mockPersistence.store, 'get')
           .and
           .returnValue({ token: 'abc', expiry: Date.now() + expiryTime });
-        spyOn(mockPersistence.store, 'set');
 
         expect(authentication.getToken())
           .toEqual('abc');
@@ -118,7 +117,6 @@ describe('authentication', function() {
         spyOn(mockPersistence.store, 'get')
           .and
           .returnValue({ token: 'abc', expiry: Date.now() - expiryTime });
-        spyOn(mockPersistence.store, 'set');
 
         expect(authentication.getToken())
           .toEqual(null);
