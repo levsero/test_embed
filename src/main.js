@@ -64,6 +64,9 @@ function boot() {
   const authenticate = function(webToken) {
     mediator.channel.broadcast('.onAuthenticate', webToken);
   };
+  const logout = function() {
+    mediator.channel.broadcast('.onLogout');
+  };
   const setHelpCenterSuggestions = function(options) {
     mediator.channel.broadcast('.onSetHelpCenterSuggestions', options);
   };

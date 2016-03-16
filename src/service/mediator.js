@@ -422,6 +422,10 @@ function initMessaging() {
     c.broadcast(`authentication.authenticate`, params);
   });
 
+  c.intercept(`.onLogout`, () => {
+    c.broadcast(`authentication.logout`);
+  });
+
   c.intercept(`nps.onActivate`, () => {
     const maxRetries = 100;
     let retries = 0;
