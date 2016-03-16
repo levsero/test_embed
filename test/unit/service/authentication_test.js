@@ -23,13 +23,10 @@ describe('authentication', function() {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
         }
       },
-      'utility/globals': {
-        win: {
-          atob: window.atob,
-          btoa: window.btoa
-        }
-      },
-      'lodash': _
+      'utility/utils': {
+        base64encode: window.btoa,
+        base64decode: window.atob
+      }
     });
 
     mockery.registerAllowable(authenticationPath);

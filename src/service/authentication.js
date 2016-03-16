@@ -1,14 +1,14 @@
 import { mediator } from 'service/mediator';
 import { store } from 'service/persistence';
 import { transport } from 'service/transport';
-import { win } from 'utility/globals';
+import { base64encode, base64decode } from 'utility/utils';
 
 function init() {
   mediator.channel.subscribe('authentication.authenticate', authenticate);
 }
 
 function authenticate(webToken) {
-  const userHash = win.btoa(decodeEmail(webToken));
+  const userHash = base64encode(decodeEmail(webToken));
   const currentToken = store.get('zE_oauth');
 
   if (currentToken === null || userHash !== currentToken.id) {
@@ -48,7 +48,7 @@ function requestToken(userHash, jwt) {
 }
 
 function decodeEmail(jwt) {
-  const decodedBody = win.atob(jwt.split('.')[1]);
+  const decodedBody = base64decode(jwt.split('.')[1]);
   const message = JSON.parse(decodedBody);
 
   return message.email;
