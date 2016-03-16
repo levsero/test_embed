@@ -65,7 +65,7 @@ function init(helpCenterAvailable, params = {}) {
 
   state['.hasHidden']                = params.hideLauncher;
   state[`${launcher}.userHidden`]    = params.hideLauncher;
-  state[`${helpCenter}.isAvailable`] = helpCenterAvailable && (params && !params.helpCenterSignInRequired);
+  state[`${helpCenter}.isAvailable`] = helpCenterAvailable && !params.helpCenterSignInRequired;
   state[`${helpCenter}.isOn`]        = helpCenterAvailable;
 
   resetActiveEmbed();
