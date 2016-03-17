@@ -422,10 +422,6 @@ function initMessaging() {
     c.broadcast(`nps.setSurvey`, params);
   });
 
-  c.intercept(`.onAuthenticate`, (__, params) => {
-    c.broadcast(`authentication.authenticate`, params);
-  });
-
   c.intercept(`nps.onActivate`, () => {
     const maxRetries = 100;
     let retries = 0;

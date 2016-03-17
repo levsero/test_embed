@@ -147,7 +147,7 @@ function boot() {
   }
 
   if (win.zESettings) {
-    handleSettings(win.zESettings)
+    handleSettings(win.zESettings);
   }
 
   // To enable $zopim api calls to work we need to define the queue callback.
@@ -178,7 +178,6 @@ function boot() {
   // Post-render methods
   win.zE.setHelpCenterSuggestions = setHelpCenterSuggestions;
   win.zE.identify = identify;
-  win.zE.authenticate = authenticate;
   win.zE.logout = logout;
   win.zE.activate = activate;
   win.zE.activateNps = activateNps;
