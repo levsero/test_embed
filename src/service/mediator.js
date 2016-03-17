@@ -424,10 +424,6 @@ function initMessaging() {
     c.broadcast(`nps.setSurvey`, params);
   });
 
-  c.intercept(`.onAuthenticate`, (__, params) => {
-    c.broadcast(`authentication.authenticate`, params);
-  });
-
   c.intercept(`authentication.onSuccess`, () => {
     state[`${helpCenter}.isAccessible`] = state[`${helpCenter}.isAvaliable`];
     if (!embedVisible(state) && state[`${helpCenter}.isAccessible`]) {
