@@ -69,10 +69,8 @@ function requestToken(userHash, jwt) {
 }
 
 function isExpired(zeoauth) {
-  const timeInterval = 1000 * 60 * 10; // 10 mins in ms
-
   if (zeoauth && zeoauth.expiry) {
-    return Date.now() > zeoauth.expiry - timeInterval;
+    return Math.floor(Date.now() / 1000) > zeoauth.expiry;
   } else {
     return false;
   }
