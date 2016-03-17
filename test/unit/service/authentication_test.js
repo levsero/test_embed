@@ -174,6 +174,15 @@ describe('authentication', function() {
           .toEqual('abc');
       });
 
+      it('should return null if there is no cached oauth token', function() {
+        spyOn(mockPersistence.store, 'get')
+          .and
+          .returnValue(null);
+
+        expect(authentication.getToken())
+          .toEqual(null);
+      });
+
       it('should return null if the cached oauth token is expired', function() {
         spyOn(mockPersistence.store, 'get')
           .and

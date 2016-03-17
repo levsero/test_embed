@@ -19,14 +19,14 @@ function authenticate(webToken) {
 }
 
 function getToken() {
-  const zeoauth = store.get('zE_oauth');
+  const oauth = store.get('zE_oauth');
 
-  if (isExpired(zeoauth)) {
+  if (!oauth || isExpired(oauth)) {
     store.remove('zE_oauth');
     return null;
+  } else {
+    return oauth.token;
   }
-
-  return zeoauth ? zeoauth.token : null;
 }
 
 function logout() {
