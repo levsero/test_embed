@@ -15,7 +15,8 @@ function authenticate(webToken) {
     return;
   }
 
-  const userHash = base64encode(userEmail);
+  // md5 hash the email
+  const userHash = require('crypto').createHash('md5').update(userEmail).digest('hex');
   const currentToken = store.get('zE_oauth');
 
   if (currentToken === null || userHash !== currentToken.id) {
