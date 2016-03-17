@@ -3,15 +3,15 @@ import ReactDOM from 'react-dom';
 import _ from 'lodash';
 import classNames from 'classnames';
 
+import { getAttachmentPreviews } from 'component/AttachmentPreview';
 import { Button,
          ButtonSecondary,
          ButtonGroup,
          ButtonDropzone } from 'component/Button';
-import { ScrollContainer } from 'component/ScrollContainer';
-import { getAttachmentPreviews } from 'component/AttachmentPreview';
-import { i18n } from 'service/i18n';
 import { Field,
          getCustomFields } from 'component/FormField';
+import { ScrollContainer } from 'component/ScrollContainer';
+import { i18n } from 'service/i18n';
 import { bindMethods } from 'utility/utils';
 import { win } from 'utility/globals';
 
@@ -226,14 +226,14 @@ export class SubmitTicketForm extends Component {
                        {customFields.checkboxes}
                        {this.props.children}
                      </div>;
-    const buttonCancel = (this.props.fullscreen)
+    const buttonCancel = this.props.fullscreen
                        ? null
                        : (<ButtonSecondary
                             label={this.state.cancelButtonMessage}
                             onClick={this.props.onCancel}
                             fullscreen={this.props.fullscreen} />);
-    const buttonDropzone = win.location.hash === '#ze-attachments-alpha' || __DEV__
-                         ? (<label className='Form-fieldContainer u-block u-marginVM'>
+    const buttonDropzone = (win.location.hash === '#ze-attachments-alpha' || __DEV__)
+                         ? <label className='Form-fieldContainer u-block u-marginVM'>
                               <div className='Form-fieldLabel u-textXHeight'>
                                 {i18n.t('embeddable_framework.submitTicket.attachments.title',
                                   { fallback: 'Attachments' }
@@ -241,7 +241,7 @@ export class SubmitTicketForm extends Component {
                               </div>
                               <ButtonDropzone
                                 onDrop={this.handleOnDrop} />
-                            </label>)
+                            </label>
                          : null;
 
     return (

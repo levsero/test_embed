@@ -2,15 +2,15 @@ import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
 
-import { win } from 'utility/globals';
 import { AttachmentBox } from 'component/AttachmentBox';
+import { Container } from 'component/Container';
+import { Icon } from 'component/Icon';
+import { ScrollContainer } from 'component/ScrollContainer';
 import { SubmitTicketForm } from 'component/SubmitTicketForm';
 import { ZendeskLogo } from 'component/ZendeskLogo';
-import { Container } from 'component/Container';
-import { ScrollContainer } from 'component/ScrollContainer';
-import { isMobileBrowser } from 'utility/devices';
-import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
+import { isMobileBrowser } from 'utility/devices';
+import { win } from 'utility/globals';
 
 export class SubmitTicket extends Component {
   constructor(props, context) {
