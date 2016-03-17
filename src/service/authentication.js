@@ -1,3 +1,5 @@
+import crypto from 'crypto';
+
 import { mediator } from 'service/mediator';
 import { store } from 'service/persistence';
 import { transport } from 'service/transport';
@@ -16,7 +18,7 @@ function authenticate(webToken) {
   }
 
   // md5 hash the email
-  const userHash = require('crypto').createHash('md5').update(userEmail).digest('hex');
+  const userHash = crypto.createHash('md5').update(userEmail).digest('hex');
   const currentToken = store.get('zE_oauth');
 
   if (currentToken === null || userHash !== currentToken.id) {
