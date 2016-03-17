@@ -16,7 +16,7 @@ function authenticate(webToken) {
 
   if (currentToken === null || tokenId !== currentToken.id) {
     store.remove('zE_oauth');
-    requestToken(tokenId, webToken);
+    requestOAuthToken(tokenId, webToken);
   }
 }
 
@@ -37,7 +37,7 @@ function logout() {
 
 // private
 
-function requestToken(tokenId, jwt) {
+function requestOAuthToken(tokenId, jwt) {
   const payload = {
     method: 'POST',
     path: '/embeddable/authenticate',
