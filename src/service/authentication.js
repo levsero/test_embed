@@ -11,30 +11,23 @@ function init() {
 }
 
 function authenticate(webToken) {
-  const userEmail = decodeEmail(webToken);
-
-  if (userEmail === null) {
-    return;
-  }
-
-  // hash the email
-  const userHash = crypto.createHash('sha1').update(userEmail).digest('hex');
   const currentToken = store.get('zE_oauth');
+  const tokenId = extractTokenId(webToken);
 
-  if (currentToken === null || userHash !== currentToken.id) {
+  if (currentToken === null || tokenId !== currentToken.id) {
     store.remove('zE_oauth');
-    requestToken(userHash, webToken);
+    requestToken(tokenId, webToken);
   }
 }
 
 function getToken() {
-  const oauth = store.get('zE_oauth');
+  const currentToken = store.get('zE_oauth');
 
-  if (!oauth || isExpired(oauth)) {
+  if (!currentToken || isExpired(currentToken)) {
     store.remove('zE_oauth');
     return null;
   } else {
-    return oauth.token;
+    return currentToken.token;
   }
 }
 
@@ -44,7 +37,7 @@ function logout() {
 
 // private
 
-function requestToken(userHash, jwt) {
+function requestToken(tokenId, jwt) {
   const payload = {
     method: 'POST',
     path: '/embeddable/authenticate',
@@ -55,7 +48,7 @@ function requestToken(userHash, jwt) {
           store.set(
             'zE_oauth',
             {
-              'id': userHash,
+              'id': tokenId,
               'token': res.body.oauth_token,
               'expiry': res.body.oauth_expiry
             }
@@ -68,15 +61,15 @@ function requestToken(userHash, jwt) {
   transport.send(payload);
 }
 
-function isExpired(zeoauth) {
-  if (zeoauth && zeoauth.expiry) {
-    return Math.floor(Date.now() / 1000) > zeoauth.expiry;
+function isExpired(currentToken) {
+  if (currentToken && currentToken.expiry) {
+    return Math.floor(Date.now() / 1000) > currentToken.expiry;
   } else {
     return false;
   }
 }
 
-function decodeEmail(jwt) {
+function extractTokenId(jwt) {
   const jwtBody = jwt.split('.')[1];
 
   if (typeof jwtBody === 'undefined') {
@@ -86,7 +79,9 @@ function decodeEmail(jwt) {
   const decodedBody = base64decode(jwtBody);
   const message = JSON.parse(decodedBody);
 
-  return message.email;
+  return message.email
+    ? crypto.createHash('sha1').update(message.email).digest('hex')
+    : null;
 }
 
 export const authentication = {

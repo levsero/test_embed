@@ -158,7 +158,6 @@ describe('authentication', function() {
 
     describe('#getToken', function() {
       let mockPersistence;
-      const expiryTime = 1000 * 60 * 30;
 
       beforeEach(function() {
         mockPersistence = mockRegistry['service/persistence'];
@@ -167,7 +166,7 @@ describe('authentication', function() {
       it('should return the oauth token cached in local storage', function() {
         spyOn(mockPersistence.store, 'get')
           .and
-          .returnValue({ token: 'abc', expiry: Date.now() + expiryTime });
+          .returnValue({ token: 'abc', expiry: Math.floor(Date.now() / 1000) + 1000 });
 
         expect(authentication.getToken())
           .toEqual('abc');
@@ -185,7 +184,7 @@ describe('authentication', function() {
       it('should return null if the cached oauth token is expired', function() {
         spyOn(mockPersistence.store, 'get')
           .and
-          .returnValue({ token: 'abc', expiry: Date.now() - expiryTime });
+          .returnValue({ token: 'abc', expiry: Math.floor(Date.now() / 1000) - 1000 });
 
         expect(authentication.getToken())
           .toEqual(null);
