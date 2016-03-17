@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import _ from 'lodash';
 
 import { mediator } from 'service/mediator';
 import { store } from 'service/persistence';
@@ -16,18 +17,18 @@ function authenticate(webToken) {
 
   if (currentToken === null || tokenId !== currentToken.id) {
     store.remove('zE_oauth');
-    requestOAuthToken(tokenId, webToken);
+    requestOAuthToken(webToken);
   }
 }
 
 function getToken() {
   const currentToken = store.get('zE_oauth');
 
-  if (!currentToken || isExpired(currentToken)) {
+  if (isValid(currentToken)) {
+    return currentToken.token;
+  } else {
     store.remove('zE_oauth');
     return null;
-  } else {
-    return currentToken.token;
   }
 }
 
@@ -37,13 +38,15 @@ function logout() {
 
 // private
 
-function requestOAuthToken(tokenId, jwt) {
+function requestOAuthToken(jwt) {
   const payload = {
     method: 'POST',
     path: '/embeddable/authenticate',
     params: { body: jwt },
     callbacks: {
       done: function(res) {
+        const tokenId = extractTokenId(jwt);
+
         if (res.status === 200) {
           store.set(
             'zE_oauth',
@@ -61,15 +64,17 @@ function requestOAuthToken(tokenId, jwt) {
   transport.send(payload);
 }
 
-function isExpired(currentToken) {
-  if (currentToken && currentToken.expiry) {
-    return Math.floor(Date.now() / 1000) > currentToken.expiry;
+function isValid(token) {
+  if (token && token.expiry) {
+    const now = Math.floor(Date.now() / 1000);
+
+    return token.expiry > now;
   } else {
     return false;
   }
 }
 
-function extractTokenId(jwt) {
+const extractTokenId = _.memoize(function(jwt) {
   const jwtBody = jwt.split('.')[1];
 
   if (typeof jwtBody === 'undefined') {
@@ -82,7 +87,7 @@ function extractTokenId(jwt) {
   return message.email
     ? crypto.createHash('sha1').update(message.email).digest('hex')
     : null;
-}
+});
 
 export const authentication = {
   init: init,
