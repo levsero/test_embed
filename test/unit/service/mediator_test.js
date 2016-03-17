@@ -1680,7 +1680,7 @@ describe('mediator', function() {
 
     describe('launcher is hidden by zE.hide() API call', function() {
       beforeEach(function() {
-        mediator.init(false, { 'hideLauncher': true });
+        mediator.init(false, { hideLauncher: true });
       });
 
       it('does not show launcher when chat is online', function() {
