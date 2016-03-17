@@ -25,7 +25,6 @@ describe('authentication', function() {
         }
       },
       'utility/utils': {
-        base64encode: window.btoa,
         base64decode: window.atob
       }
     });

@@ -1,7 +1,7 @@
 import { mediator } from 'service/mediator';
 import { store } from 'service/persistence';
 import { transport } from 'service/transport';
-import { base64encode, base64decode } from 'utility/utils';
+import { base64decode } from 'utility/utils';
 
 function init() {
   mediator.channel.subscribe('authentication.authenticate', authenticate);
