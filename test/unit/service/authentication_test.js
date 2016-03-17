@@ -62,7 +62,7 @@ describe('authentication', function() {
       mockStore = mockRegistry['service/persistence'].store;
 
       mockStore.get = function() {
-        return { id: '839ad58373ce4fac1b564e6e2bac1ef9' }; // md5 hash of jbob@zendesk.com
+        return { id: '3498589cd03c34be6155b5a6498fe9786985da01' }; // sha1 hash of jbob@zendesk.com
       };
 
       jwtPayload = {
