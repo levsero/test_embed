@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import _ from 'lodash';
+import { memoize } from 'lodash';
 
 import { mediator } from 'service/mediator';
 import { store } from 'service/persistence';
@@ -74,7 +74,7 @@ function isValid(token) {
   }
 }
 
-const extractTokenId = _.memoize(function(jwt) {
+const extractTokenId = memoize(function(jwt) {
   const jwtBody = jwt.split('.')[1];
 
   if (typeof jwtBody === 'undefined') {
