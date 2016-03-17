@@ -26,7 +26,7 @@ function getToken() {
     return null;
   }
 
-  return zeoauth.token;
+  return zeoauth ? zeoauth.token : null;
 }
 
 function logout() {
