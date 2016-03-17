@@ -1,7 +1,10 @@
+import crypto from 'crypto';
+import { memoize } from 'lodash';
+
 import { mediator } from 'service/mediator';
 import { store } from 'service/persistence';
 import { transport } from 'service/transport';
-import { base64encode, base64decode } from 'utility/utils';
+import { base64decode } from 'utility/utils';
 
 function init() {
   mediator.channel.subscribe('authentication.authenticate', authenticate);
@@ -9,23 +12,23 @@ function init() {
 }
 
 function authenticate(webToken) {
-  const userHash = base64encode(decodeEmail(webToken));
   const currentToken = store.get('zE_oauth');
+  const tokenId = extractTokenId(webToken);
 
-  if (currentToken === null || userHash !== currentToken.id) {
+  if (currentToken === null || tokenId !== currentToken.id) {
     store.remove('zE_oauth');
-    requestToken(userHash, webToken);
+    requestOAuthToken(webToken);
   }
 }
 
 function getToken() {
-  const oauth = store.get('zE_oauth');
+  const currentToken = store.get('zE_oauth');
 
-  if (!oauth || isExpired(oauth)) {
+  if (isValid(currentToken)) {
+    return currentToken.token;
+  } else {
     store.remove('zE_oauth');
     return null;
-  } else {
-    return oauth.token;
   }
 }
 
@@ -35,18 +38,20 @@ function logout() {
 
 // private
 
-function requestToken(userHash, jwt) {
+function requestOAuthToken(jwt) {
   const payload = {
     method: 'POST',
     path: '/embeddable/authenticate',
     params: { body: jwt },
     callbacks: {
       done: function(res) {
+        const tokenId = extractTokenId(jwt);
+
         if (res.status === 200) {
           store.set(
             'zE_oauth',
             {
-              'id': userHash,
+              'id': tokenId,
               'token': res.body.oauth_token,
               'expiry': res.body.oauth_expiry
             }
@@ -59,22 +64,30 @@ function requestToken(userHash, jwt) {
   transport.send(payload);
 }
 
-function isExpired(zeoauth) {
-  const timeInterval = 1000 * 60 * 10; // 10 mins in ms
+function isValid(token) {
+  if (token && token.expiry) {
+    const now = Math.floor(Date.now() / 1000);
 
-  if (zeoauth && zeoauth.expiry) {
-    return Date.now() > zeoauth.expiry - timeInterval;
+    return token.expiry > now;
   } else {
     return false;
   }
 }
 
-function decodeEmail(jwt) {
-  const decodedBody = base64decode(jwt.split('.')[1]);
+const extractTokenId = memoize(function(jwt) {
+  const jwtBody = jwt.split('.')[1];
+
+  if (typeof jwtBody === 'undefined') {
+    return null;
+  }
+
+  const decodedBody = base64decode(jwtBody);
   const message = JSON.parse(decodedBody);
 
-  return message.email;
-}
+  return message.email
+    ? crypto.createHash('sha1').update(message.email).digest('hex')
+    : null;
+});
 
 export const authentication = {
   init: init,
