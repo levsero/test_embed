@@ -12,8 +12,8 @@ import { Field,
          getCustomFields } from 'component/FormField';
 import { ScrollContainer } from 'component/ScrollContainer';
 import { i18n } from 'service/i18n';
-import { bindMethods } from 'utility/utils';
 import { win } from 'utility/globals';
+import { bindMethods } from 'utility/utils';
 
 const initialState = {
   isValid: false,
@@ -228,10 +228,10 @@ export class SubmitTicketForm extends Component {
                      </div>;
     const buttonCancel = this.props.fullscreen
                        ? null
-                       : (<ButtonSecondary
-                            label={this.state.cancelButtonMessage}
-                            onClick={this.props.onCancel}
-                            fullscreen={this.props.fullscreen} />);
+                       : <ButtonSecondary
+                           label={this.state.cancelButtonMessage}
+                           onClick={this.props.onCancel}
+                           fullscreen={this.props.fullscreen} />;
     const buttonDropzone = (win.location.hash === '#ze-attachments-alpha' || __DEV__)
                          ? <label className='Form-fieldContainer u-block u-marginVM'>
                               <div className='Form-fieldLabel u-textXHeight'>
