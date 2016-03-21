@@ -11,6 +11,7 @@ import { i18n } from 'service/i18n';
 import { logging } from 'service/logging';
 import { mediator } from 'service/mediator';
 import { renderer } from 'service/renderer';
+import { settings } from 'service/settings';
 import { transport } from 'service/transport';
 import { isMobileBrowser,
          isBlacklisted } from 'utility/devices';
@@ -61,9 +62,6 @@ function boot() {
   const identify = function(user) {
     mediator.channel.broadcast('.onIdentify', user);
   };
-  const authenticate = function(token) {
-    authentication.authenticate(token);
-  };
   const logout = function() {
     mediator.channel.broadcast('.logout');
   };
@@ -91,7 +89,7 @@ function boot() {
   };
   const handleSettings = function(params) {
     if (params.authenticate) {
-      postRenderQueue.push(['authenticate', params.authenticate]);
+      settings.set('authenticationToken', params.authenticate);
     }
   };
 
@@ -183,7 +181,6 @@ function boot() {
   win.zE.identify = identify;
   win.zE.logout = logout;
   win.zE.activate = activate;
-  win.zE.authenticate = authenticate;
   win.zE.activateNps = activateNps;
   win.zE.activateIpm = activateIpm;
   win.zE.hide = hide;

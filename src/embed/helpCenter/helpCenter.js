@@ -8,6 +8,7 @@ import { authentication } from 'service/authentication';
 import { beacon } from 'service/beacon';
 import { i18n } from 'service/i18n';
 import { mediator } from 'service/mediator';
+import { settings } from 'service/settings';
 import { transport } from 'service/transport';
 import { transitionFactory } from 'service/transitionFactory';
 import { isIE,
@@ -261,6 +262,12 @@ function postRender(name) {
       location.pathname &&
       location.pathname.substring(0, 4) !== '/hc/') {
     keywordsSearch(name, { search: getPageKeywords() });
+  }
+
+  const token = settings.get('authenticationToken');
+
+  if (token !== null) {
+    authentication.authenticate(token);
   }
 }
 
