@@ -46,7 +46,7 @@ describe('authentication', function() {
         authentication.init();
 
         expect(mockMediator.channel.subscribe)
-          .toHaveBeenCalledWith('authentication.logout', jasmine.any(Function));
+          .toHaveBeenCalledWith('authentication.authenticate', jasmine.any(Function));
       });
     });
   });
