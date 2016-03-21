@@ -20,40 +20,39 @@ const embedVisible = (_state) => _.any([
   _state[`${submitTicket}.isVisible`]
 ]);
 
-const resetActiveEmbed = () => {
-  if (state[`${helpCenter}.isAccessible`]) {
-    state.activeEmbed = helpCenter;
-  } else if (state[`${chat}.isOnline`]) {
-    state.activeEmbed = chat;
-  } else {
-    state.activeEmbed = submitTicket;
-  }
-};
+state[`${chat}.connectionPending`] = true;
+state[`${launcher}.userHidden`]    = false;
+state[`${submitTicket}.isVisible`] = false;
+state[`${chat}.isVisible`]         = false;
+state[`${helpCenter}.isVisible`]   = false;
+state[`${helpCenter}.isAvailable`] = false;
+state[`${chat}.isOnline`]          = false;
+state[`${chat}.unreadMsgs`]        = 0;
+state[`${chat}.userClosed`]        = false;
+state[`${chat}.chatEnded`]         = false;
+state['nps.isVisible']             = false;
+state['ipm.isVisible']             = false;
+state['.hideOnClose']              = false;
+state['.hasHidden']                = false;
+state['identify.pending']          = false;
 
-state[`${chat}.connectionPending`]  = true;
-state[`${launcher}.userHidden`]     = false;
-state[`${submitTicket}.isVisible`]  = false;
-state[`${chat}.isVisible`]          = false;
-state[`${helpCenter}.isVisible`]    = false;
-state[`${helpCenter}.isAccessible`] = false;
-state[`${helpCenter}.isAvaliable`]  = false;
-state[`${chat}.isOnline`]           = false;
-state[`${chat}.unreadMsgs`]         = 0;
-state[`${chat}.userClosed`]         = false;
-state[`${chat}.chatEnded`]          = false;
-state['nps.isVisible']              = false;
-state['ipm.isVisible']              = false;
-state['.hideOnClose']               = false;
-state['.hasHidden']                 = false;
-state['identify.pending']           = false;
+function init(helpCenterAvailable, hideLauncher) {
+  const resetActiveEmbed = () => {
+    if (state[`${helpCenter}.isAvailable`]) {
+      state.activeEmbed = helpCenter;
+    } else if (state[`${chat}.isOnline`]) {
+      state.activeEmbed = chat;
+    } else {
+      state.activeEmbed = submitTicket;
+    }
+  };
 
-function init(helpCenterAvailable, params = {}) {
   const updateLauncherLabel = () => {
     if (state[`${chat}.isOnline`]) {
       if (state[`${chat}.unreadMsgs`]) {
         c.broadcast(`${launcher}.setLabelUnreadMsgs`, state[`${chat}.unreadMsgs`]);
       }
-      else if (state[`${helpCenter}.isAccessible`]) {
+      else if (state[`${helpCenter}.isAvailable`]) {
         c.broadcast(`${launcher}.setLabelChatHelp`);
       } else {
         c.broadcast(`${launcher}.setLabelChat`);
@@ -63,10 +62,9 @@ function init(helpCenterAvailable, params = {}) {
     }
   };
 
-  state['.hasHidden']                 = params.hideLauncher;
-  state[`${launcher}.userHidden`]     = params.hideLauncher;
-  state[`${helpCenter}.isAccessible`] = helpCenterAvailable && !params.helpCenterSignInRequired;
-  state[`${helpCenter}.isAvaliable`]  = helpCenterAvailable;
+  state['.hasHidden']                = hideLauncher;
+  state[`${launcher}.userHidden`]    = hideLauncher;
+  state[`${helpCenter}.isAvailable`] = helpCenterAvailable;
 
   resetActiveEmbed();
 
@@ -143,11 +141,11 @@ function init(helpCenterAvailable, params = {}) {
   c.intercept(`${chat}.onOnline`, () => {
     state[`${chat}.isOnline`] = true;
     if (state.activeEmbed === submitTicket &&
-        !state[`${helpCenter}.isAccessible`]) {
+        !state[`${helpCenter}.isAvailable`]) {
       state.activeEmbed = chat;
     }
 
-    if (state[`${helpCenter}.isAccessible`]) {
+    if (state[`${helpCenter}.isAvailable`]) {
       c.broadcast(`${launcher}.setLabelChatHelp`);
     } else {
       c.broadcast(`${launcher}.setLabelChat`);
@@ -334,7 +332,7 @@ function init(helpCenterAvailable, params = {}) {
   c.intercept(`${chat}.onChatEnd`, () => {
     state[`${chat}.chatEnded`] = true;
 
-    if (state[`${helpCenter}.isAccessible`]) {
+    if (state[`${helpCenter}.isAvailable`]) {
       state.activeEmbed = helpCenter;
     }
   });
@@ -382,7 +380,7 @@ function init(helpCenterAvailable, params = {}) {
     state[`${submitTicket}.isVisible`] = false;
     c.broadcast(`${submitTicket}.hide`, { transition: 'downHide' });
 
-    if (state[`${helpCenter}.isAccessible`]) {
+    if (state[`${helpCenter}.isAvailable`]) {
       state[`${helpCenter}.isVisible`] = true;
       state.activeEmbed = helpCenter;
       c.broadcast(`${helpCenter}.show`, { transition: 'downShow' });
@@ -424,11 +422,8 @@ function initMessaging() {
     c.broadcast(`nps.setSurvey`, params);
   });
 
-  c.intercept(`authentication.onSuccess`, () => {
-    state[`${helpCenter}.isAccessible`] = state[`${helpCenter}.isAvaliable`];
-    if (!embedVisible(state) && state[`${helpCenter}.isAccessible`]) {
-      resetActiveEmbed();
-    }
+  c.intercept(`.onAuthenticate`, (__, params) => {
+    c.broadcast(`authentication.authenticate`, params);
   });
 
   c.intercept(`nps.onActivate`, () => {

@@ -95,15 +95,7 @@ function init(config) {
 
 function initMediator(config) {
   if (config.embeds && config.embeds.ticketSubmissionForm) {
-    const signInRequired = config.embeds.helpCenterForm
-                         ? config.embeds.helpCenterForm.props.signInRequired
-                         : false;
-    const params = {
-      'hideLauncher': hideLauncher,
-      'helpCenterSignInRequired': signInRequired
-    };
-
-    mediator.init(!!config.embeds.helpCenterForm, params);
+    mediator.init(!!config.embeds.helpCenterForm, hideLauncher);
   } else if ((config.embeds && config.embeds.zopimChat) || _.isEmpty(config.embeds)) {
     // naked zopim or empty config
     mediator.initMessaging();
