@@ -61,10 +61,8 @@ function boot() {
   const identify = function(user) {
     mediator.channel.broadcast('.onIdentify', user);
   };
-  const handleSettings = function(params) {
-    if (params.authenticate) {
-      authentication.authenticate(params.authenticate);
-    }
+  const authenticate = function(token) {
+    authentication.authenticate(token);
   };
   const logout = function() {
     mediator.channel.broadcast('.logout');
@@ -90,6 +88,11 @@ function boot() {
   const postRenderQueueCallback = function(...args) {
     // "this" is bound to the method name
     postRenderQueue.push([this, args]);
+  };
+  const handleSettings = function(params) {
+    if (params.authenticate) {
+      postRenderQueue.push(['authenticate', params.authenticate]);
+    }
   };
 
   // Firefox has an issue with calculating computed styles from within a iframe
@@ -180,6 +183,7 @@ function boot() {
   win.zE.identify = identify;
   win.zE.logout = logout;
   win.zE.activate = activate;
+  win.zE.authenticate = authenticate;
   win.zE.activateNps = activateNps;
   win.zE.activateIpm = activateIpm;
   win.zE.hide = hide;
