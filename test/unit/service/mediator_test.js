@@ -38,8 +38,7 @@ describe('mediator', function() {
 
     authenticationSub = jasmine.createSpyObj(
       'authentication',
-      ['authenticate',
-       'logout']
+      ['logout']
     );
 
     beaconSub = jasmine.createSpyObj(
@@ -104,7 +103,6 @@ describe('mediator', function() {
     initSubscriptionSpies = function(names) {
       c.subscribe(`${names.beacon}.identify`, beaconSub.identify);
 
-      c.subscribe(`${names.authentication}.authenticate`, authenticationSub.authenticate);
       c.subscribe(`${names.authentication}.logout`, authenticationSub.logout);
 
       c.subscribe(`${names.launcher}.hide`, launcherSub.hide);
@@ -271,8 +269,15 @@ describe('mediator', function() {
   * ****************************************** */
 
   describe('.onAuthenticate', function() {
+    const launcher = 'launcher';
+    const submitTicket = 'ticketSubmissionForm';
+    const helpCenter = 'helpCenterForm';
+    const authentication = 'authentication';
     const names = {
-      authentication: 'authentication'
+      launcher: launcher,
+      submitTicket: submitTicket,
+      helpCenter: helpCenter,
+      authentication: authentication
     };
 
     beforeEach(function() {
@@ -280,13 +285,46 @@ describe('mediator', function() {
       mediator.init(false);
     });
 
-    it('should broadcast authentication.authenticate with given params', function() {
-      const params = { token: 'abc' };
+    describe('onSuccess', function() {
+      it('should set helpCenterForm to avaliable if it is passed in', function() {
+        mediator.init(true, { helpCenterSignInRequired: true });
 
-      c.broadcast('.onAuthenticate', params);
+        jasmine.clock().install();
+        c.broadcast(`${launcher}.onClick`);
+        jasmine.clock().tick(0);
 
-      expect(authenticationSub.authenticate)
-        .toHaveBeenCalledWith(params);
+        expect(helpCenterSub.show.calls.count())
+          .toEqual(0);
+
+        c.broadcast(`${submitTicket}.onClose`);
+        c.broadcast('authentication.onSuccess');
+
+        c.broadcast(`${launcher}.onClick`);
+        jasmine.clock().tick(0);
+
+        expect(helpCenterSub.show.calls.count())
+          .toEqual(1);
+      });
+
+      it('should not set helpCenterForm to avaliable if it is not passed in', function() {
+        mediator.init(false);
+
+        jasmine.clock().install();
+        c.broadcast(`${launcher}.onClick`);
+        jasmine.clock().tick(0);
+
+        expect(helpCenterSub.show.calls.count())
+          .toEqual(0);
+
+        c.broadcast(`${submitTicket}.onClose`);
+        c.broadcast('authentication.onSuccess');
+
+        c.broadcast(`${launcher}.onClick`);
+        jasmine.clock().tick(0);
+
+        expect(helpCenterSub.show.calls.count())
+          .toEqual(0);
+      });
     });
   });
 
@@ -1574,6 +1612,20 @@ describe('mediator', function() {
       expect(revertWindowScroll.calls.count())
         .toEqual(1);
     });
+
+    it('should not set helpCenterForm to avaliable if sign is in required', function() {
+      mediator.init(true, { helpCenterSignInRequired: true });
+
+      jasmine.clock().install();
+      c.broadcast(`${launcher}.onClick`);
+      jasmine.clock().tick(0);
+
+      expect(submitTicketSub.show.calls.count())
+        .toEqual(1);
+
+      expect(helpCenterSub.show.calls.count())
+        .toEqual(0);
+    });
   });
 
  /* ****************************************** *
@@ -1617,7 +1669,7 @@ describe('mediator', function() {
 
     describe('launcher is hidden by zE.hide() API call', function() {
       beforeEach(function() {
-        mediator.init(false, true);
+        mediator.init(false, { hideLauncher: true });
       });
 
       it('does not show launcher when chat is online', function() {

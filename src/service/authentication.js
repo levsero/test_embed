@@ -7,7 +7,6 @@ import { transport } from 'service/transport';
 import { base64decode } from 'utility/utils';
 
 function init() {
-  mediator.channel.subscribe('authentication.authenticate', authenticate);
   mediator.channel.subscribe('authentication.logout', logout);
 }
 
@@ -18,6 +17,8 @@ function authenticate(webToken) {
   if (currentToken === null || tokenId !== currentToken.id) {
     store.remove('zE_oauth');
     requestOAuthToken(webToken);
+  } else {
+    mediator.channel.broadcast('authentication.onSuccess');
   }
 }
 
@@ -56,6 +57,7 @@ function requestOAuthToken(jwt) {
               'expiry': res.body.oauth_expiry
             }
           );
+          mediator.channel.broadcast('authentication.onSuccess');
         }
       }
     }
