@@ -1613,7 +1613,7 @@ describe('mediator', function() {
         .toEqual(1);
     });
 
-    it('should not show set helpCenterForm to avaliable if sign is in required', function() {
+    it('should not set helpCenterForm to avaliable if sign is in required', function() {
       mediator.init(true, { helpCenterSignInRequired: true });
 
       jasmine.clock().install();
