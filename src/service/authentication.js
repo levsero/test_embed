@@ -25,6 +25,7 @@ function getToken() {
   const currentToken = store.get('zE_oauth');
 
   if (isValid(currentToken)) {
+    mediator.channel.broadcast('authentication.onSuccess');
     return currentToken.token;
   } else {
     store.remove('zE_oauth');
@@ -56,6 +57,7 @@ function requestOAuthToken(jwt) {
               'expiry': res.body.oauth_expiry
             }
           );
+          mediator.channel.broadcast('authentication.onSuccess');
         }
       }
     }
