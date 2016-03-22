@@ -35,6 +35,11 @@ describe('embed.helpCenter', function() {
           }
         }
       },
+      'service/settings': {
+        settings: {
+          get: () => { return 'token'; }
+        }
+      },
       'service/mediator': {
         mediator: {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
@@ -93,7 +98,8 @@ describe('embed.helpCenter', function() {
       },
       'service/authentication' : {
         authentication: {
-          getToken: noop
+          getToken: noop,
+          authenticate: jasmine.createSpy('authenticate')
         }
       },
       'service/transitionFactory' : {
@@ -670,6 +676,19 @@ describe('embed.helpCenter', function() {
 
         expect(getPageKeywordsSpy)
           .not.toHaveBeenCalled();
+      });
+    });
+
+    describe('postRender contextual help', function() {
+      it('should call keywordSearch on non helpcenter pages', function() {
+        const authenticate = mockRegistry['service/authentication'].authentication.authenticate;
+
+        helpCenter.create('carlos');
+
+        helpCenter.postRender('carlos');
+
+        expect(authenticate)
+          .toHaveBeenCalled();
       });
     });
   });

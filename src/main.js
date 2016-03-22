@@ -87,11 +87,6 @@ function boot() {
     // "this" is bound to the method name
     postRenderQueue.push([this, args]);
   };
-  const handleSettings = function(params) {
-    if (params.authenticate) {
-      settings.set('authenticationToken', params.authenticate);
-    }
-  };
 
   // Firefox has an issue with calculating computed styles from within a iframe
   // with display:none. If getComputedStyle returns null we adjust the styles on
@@ -148,7 +143,7 @@ function boot() {
   }
 
   if (win.zESettings) {
-    handleSettings(win.zESettings);
+    settings.init(win.zESettings);
   }
 
   // To enable $zopim api calls to work we need to define the queue callback.

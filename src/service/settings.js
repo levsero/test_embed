@@ -1,18 +1,16 @@
 let store = {};
 
-function set(name, value) {
-  store[name] = value;
-}
-
-function get(name) {
-  if (store[name]) {
-    return store[name];
-  } else {
-    return null;
+function init(params = {}) {
+  if (params.authenticate) {
+    store.authenticationToken = params.authenticate;
   }
 }
 
+function get(name) {
+  return (store[name]) ? store[name] : null;
+}
+
 export const settings = {
-  set: set,
+  init: init,
   get: get
 };
