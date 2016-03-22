@@ -2,6 +2,7 @@ describe('embed.helpCenter', function() {
   let helpCenter,
     mockRegistry,
     frameConfig,
+    mockSettingsValue,
     focusField;
   const helpCenterPath = buildSrcPath('embed/helpCenter/helpCenter');
   const resetSearchFieldState = jasmine.createSpy();
@@ -9,9 +10,12 @@ describe('embed.helpCenter', function() {
   const backtrackSearch = jasmine.createSpy();
   const performSearch = jasmine.createSpy();
   const contextualSearch = jasmine.createSpy();
+  const authenticateSpy = jasmine.createSpy();
 
   beforeEach(function() {
     const mockForm = noopReactComponent();
+
+    mockSettingsValue = '';
 
     focusField = jasmine.createSpy();
 
@@ -37,7 +41,7 @@ describe('embed.helpCenter', function() {
       },
       'service/settings': {
         settings: {
-          get: () => { return { jwt: 'token' }; }
+          get: () => { return mockSettingsValue; }
         }
       },
       'service/mediator': {
@@ -99,7 +103,7 @@ describe('embed.helpCenter', function() {
       'service/authentication' : {
         authentication: {
           getToken: noop,
-          authenticate: jasmine.createSpy()
+          authenticate: authenticateSpy
         }
       },
       'service/transitionFactory' : {
@@ -681,13 +685,13 @@ describe('embed.helpCenter', function() {
 
     describe('postRender authentication', function() {
       it('should call authentication.authenticate if there is a jwt token in settings', function() {
-        const authenticate = mockRegistry['service/authentication'].authentication.authenticate;
+        mockSettingsValue = { jwt: 'token' };
 
         helpCenter.create('carlos');
         helpCenter.postRender('carlos');
 
-        expect(authenticate)
-          .toHaveBeenCalled();
+        expect(authenticateSpy)
+          .toHaveBeenCalledWith('token');
       });
     });
   });
