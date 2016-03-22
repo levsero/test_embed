@@ -297,7 +297,7 @@ describe('mediator', function() {
     });
 
     describe('onSuccess', function() {
-      it('should set helpCenterForm to available if it is passed in', function() {
+      it('should set helpCenterForm to available if sign in required is passed in', function() {
         mediator.init(true, { helpCenterSignInRequired: true });
 
         jasmine.clock().install();
@@ -317,7 +317,7 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      it('should not set helpCenterForm to available if it is not passed in', function() {
+      it('should not set helpCenterForm to available if sign in required is not passed in', function() {
         mediator.init(false);
 
         jasmine.clock().install();
@@ -1624,7 +1624,7 @@ describe('mediator', function() {
         .toEqual(1);
     });
 
-    it('should not set helpCenterForm to available if sign is in required', function() {
+    it('should not set helpCenterForm to available if sign in is required', function() {
       mediator.init(true, { helpCenterSignInRequired: true });
 
       jasmine.clock().install();
