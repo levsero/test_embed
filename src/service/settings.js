@@ -7,7 +7,7 @@ function init(params = {}) {
 }
 
 function get(name) {
-  return (store[name]) ? store[name] : null;
+  return store[name] || null;
 }
 
 export const settings = {
