@@ -99,7 +99,7 @@ describe('embed.helpCenter', function() {
       'service/authentication' : {
         authentication: {
           getToken: noop,
-          authenticate: jasmine.createSpy('authenticate')
+          authenticate: jasmine.createSpy()
         }
       },
       'service/transitionFactory' : {
@@ -684,7 +684,6 @@ describe('embed.helpCenter', function() {
         const authenticate = mockRegistry['service/authentication'].authentication.authenticate;
 
         helpCenter.create('carlos');
-
         helpCenter.postRender('carlos');
 
         expect(authenticate)

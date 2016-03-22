@@ -2,7 +2,7 @@ let store = {};
 
 function init(params = {}) {
   if (params.authenticate) {
-    store.authenticationToken = params.authenticate;
+    store.authenticationJWT = params.authenticate;
   }
 }
 

@@ -257,14 +257,13 @@ function render(name) {
 
 function postRender(name) {
   const config = get(name).config;
+  const token = settings.get('authenticationToken');
 
   if (config.contextualHelpEnabled &&
       location.pathname &&
       location.pathname.substring(0, 4) !== '/hc/') {
     keywordsSearch(name, { search: getPageKeywords() });
   }
-
-  const token = settings.get('authenticationToken');
 
   if (token !== null) {
     authentication.authenticate(token);
