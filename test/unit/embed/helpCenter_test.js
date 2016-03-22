@@ -37,7 +37,7 @@ describe('embed.helpCenter', function() {
       },
       'service/settings': {
         settings: {
-          get: () => { return 'token'; }
+          get: () => { return { jwt: 'token' }; }
         }
       },
       'service/mediator': {
@@ -679,8 +679,8 @@ describe('embed.helpCenter', function() {
       });
     });
 
-    describe('postRender contextual help', function() {
-      it('should call keywordSearch on non helpcenter pages', function() {
+    describe('postRender authentication', function() {
+      it('should call authentication.authenticate if there is a jwt token in settings', function() {
         const authenticate = mockRegistry['service/authentication'].authentication.authenticate;
 
         helpCenter.create('carlos');

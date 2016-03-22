@@ -257,7 +257,7 @@ function render(name) {
 
 function postRender(name) {
   const config = get(name).config;
-  const token = settings.get('authenticate');
+  const authSetting = settings.get('authenticate');
 
   if (config.contextualHelpEnabled &&
       location.pathname &&
@@ -265,8 +265,8 @@ function postRender(name) {
     keywordsSearch(name, { search: getPageKeywords() });
   }
 
-  if (token !== null) {
-    authentication.authenticate(token);
+  if (authSetting !== null && authSetting.jwt) {
+    authentication.authenticate(authSetting.jwt);
   }
 }
 
