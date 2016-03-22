@@ -257,7 +257,7 @@ function render(name) {
 
 function postRender(name) {
   const config = get(name).config;
-  const token = settings.get('authenticationToken');
+  const token = settings.get('authenticate');
 
   if (config.contextualHelpEnabled &&
       location.pathname &&
