@@ -199,7 +199,6 @@ function updateHelpCenterButton(name, labelKey) {
 
 function keywordsSearch(name, options) {
   const rootComponent = getRootComponent(name);
-  console.log('HERE', options);
 
   if (rootComponent) {
     rootComponent.contextualSearch(options);

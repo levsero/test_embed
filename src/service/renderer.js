@@ -127,8 +127,8 @@ function renderedEmbedsApply(fn) {
   });
 }
 
-function postRenderCallbacks(embeds) {
-  _.forEach(embeds, function(embed, name) {
+function postRenderCallbacks() {
+  _.forEach(renderedEmbeds, function(embed, name) {
     const currentEmbed = embedsMap[embed.embed];
 
     if (currentEmbed.postRender) {
