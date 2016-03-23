@@ -22,7 +22,8 @@ function create(name, config) {
   let containerStyle;
   let frameStyle = {
     position: 'fixed',
-    bottom: 0
+    bottom: 0,
+    zIndex: 2147483647
   };
 
   if (isMobileBrowser()) {
