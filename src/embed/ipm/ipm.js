@@ -21,7 +21,8 @@ function create(name, config) {
   let frameStyle = {
     position: 'fixed',
     top: 0,
-    right: 0
+    right: 0,
+    zIndex: 2147483647
   };
 
   const ipmSender = (params) => {
