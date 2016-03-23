@@ -81,8 +81,6 @@ function init(config) {
 
     initialised = true;
 
-    postRenderCallbacks(renderedEmbeds);
-
     if (Math.abs(win.orientation) === 90) {
       hideByZoom(true);
     }
@@ -203,6 +201,7 @@ const hardcodedConfigs = {
 
 export const renderer = {
   init: init,
+  postRenderCallbacks: postRenderCallbacks,
   propagateFontRatio: propagateFontRatio,
   hideByZoom: hideByZoom,
   hardcodedConfigs: hardcodedConfigs,

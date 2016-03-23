@@ -53,10 +53,13 @@ function boot() {
       }
     });
   };
-  const handlePostRenderQueue = function(postRenderQueue) {
+  const handlePostRenderQueue = function(postRenderQueue, config) {
     _.forEach(postRenderQueue, function(method) {
       win.zE[method[0]](...method[1]);
     });
+
+    console.log(config.embeds);
+    renderer.postRenderCallbacks(config.embeds);
   };
   const identify = function(user) {
     mediator.channel.broadcast('.onIdentify', user);
@@ -129,8 +132,14 @@ function boot() {
   };
 
   if (__DEV__) {
+    const devRender = (config) => {
+      renderer.init(config);
+      console.log(config);
+      renderer.postRenderCallbacks(config.embeds);
+    };
+
     devApi = {
-      devRender: renderer.init,
+      devRender: devRender,
       bustCache: transport.bustCache
     };
   }
@@ -181,14 +190,18 @@ function boot() {
   win.zE.hide = hide;
   win.zE.show = show;
 
+  let config;
+
   // The config for zendesk.com
   if (host === 'www.zendesk.com') {
     if (_.contains(chatPages, path)) {
-      renderer.init(renderer.hardcodedConfigs.zendeskWithChat);
+      config = renderer.hardcodedConfigs.zendeskWithChat;
+      renderer.init(config);
     } else {
-      renderer.init(renderer.hardcodedConfigs.zendeskDefault);
+      config = renderer.hardcodedConfigs.zendeskDefault;
+      renderer.init(config);
     }
-    handlePostRenderQueue(postRenderQueue);
+    handlePostRenderQueue(postRenderQueue, config);
   } else {
     const configLoadStart = Date.now();
 
@@ -202,8 +215,9 @@ function boot() {
             beacon.sendConfigLoadTime(Date.now() - configLoadStart);
           }
 
-          renderer.init(res.body);
-          handlePostRenderQueue(postRenderQueue);
+          config = res.body;
+          renderer.init(config);
+          handlePostRenderQueue(postRenderQueue, config);
         },
         fail(error) {
           logging.error({

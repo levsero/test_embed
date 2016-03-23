@@ -256,26 +256,6 @@ describe('renderer', function() {
       .toEqual(1);
   });
 
-  it('should call any postRender calls', function() {
-    renderer.init({
-      embeds: {
-        'zopimChat': {
-          'embed': 'chat',
-          'props': {
-            'zopimId': '2EkTn0An31opxOLXuGgRCy5nPnSNmpe6'
-          }
-        },
-        'chatLauncher': {
-          'embed': 'launcher',
-          'props': {}
-        }
-      }
-    });
-
-    expect(mockChat.postRender.calls.count())
-      .toEqual(1);
-  });
-
   describe('#propagateFontRatio', function() {
     it('should loop over all rendered embeds and update base font-size based on ratio', function() {
       renderer.init({
