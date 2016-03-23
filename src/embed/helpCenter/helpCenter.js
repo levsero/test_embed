@@ -265,7 +265,7 @@ function postRender(name) {
     keywordsSearch(name, { search: getPageKeywords() });
   }
 
-  if (authSetting !== null && authSetting.jwt) {
+  if (authSetting && authSetting.jwt) {
     authentication.authenticate(authSetting.jwt);
   }
 }
