@@ -40,13 +40,13 @@ describe('authentication', function() {
 
   describe('#init', function() {
     describe('mediator subscriptions', function() {
-      it('should subscribe to authentication.authenticate', function() {
+      it('should subscribe to authentication.logout', function() {
         const mockMediator = mockRegistry['service/mediator'].mediator;
 
         authentication.init();
 
         expect(mockMediator.channel.subscribe)
-          .toHaveBeenCalledWith('authentication.authenticate', jasmine.any(Function));
+          .toHaveBeenCalledWith('authentication.logout', jasmine.any(Function));
       });
     });
   });

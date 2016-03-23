@@ -8,6 +8,7 @@ import { authentication } from 'service/authentication';
 import { beacon } from 'service/beacon';
 import { i18n } from 'service/i18n';
 import { mediator } from 'service/mediator';
+import { settings } from 'service/settings';
 import { transport } from 'service/transport';
 import { transitionFactory } from 'service/transitionFactory';
 import { isIE,
@@ -256,11 +257,16 @@ function render(name) {
 
 function postRender(name) {
   const config = get(name).config;
+  const authSetting = settings.get('authenticate');
 
   if (config.contextualHelpEnabled &&
       location.pathname &&
       location.pathname.substring(0, 4) !== '/hc/') {
     keywordsSearch(name, { search: getPageKeywords() });
+  }
+
+  if (authSetting && authSetting.jwt) {
+    authentication.authenticate(authSetting.jwt);
   }
 }
 

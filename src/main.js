@@ -11,6 +11,7 @@ import { i18n } from 'service/i18n';
 import { logging } from 'service/logging';
 import { mediator } from 'service/mediator';
 import { renderer } from 'service/renderer';
+import { settings } from 'service/settings';
 import { transport } from 'service/transport';
 import { isMobileBrowser,
          isBlacklisted } from 'utility/devices';
@@ -60,9 +61,6 @@ function boot() {
   };
   const identify = function(user) {
     mediator.channel.broadcast('.onIdentify', user);
-  };
-  const authenticate = function(webToken) {
-    mediator.channel.broadcast('.onAuthenticate', webToken);
   };
   const logout = function() {
     mediator.channel.broadcast('.logout');
@@ -121,7 +119,6 @@ function boot() {
     show: postRenderQueueCallback.bind('show'),
     setHelpCenterSuggestions: postRenderQueueCallback.bind('setHelpCenterSuggestions'),
     identify: postRenderQueueCallback.bind('identify'),
-    authenticate: postRenderQueueCallback.bind('authenticate'),
     logout: postRenderQueueCallback.bind('logout'),
     activate: postRenderQueueCallback.bind('activate'),
     activateNps: postRenderQueueCallback.bind('activateNps'),
@@ -143,6 +140,10 @@ function boot() {
     win.zEmbed = function(callback) {
       callback();
     };
+  }
+
+  if (win.zESettings) {
+    settings.init(win.zESettings);
   }
 
   // To enable $zopim api calls to work we need to define the queue callback.
@@ -173,7 +174,6 @@ function boot() {
   // Post-render methods
   win.zE.setHelpCenterSuggestions = setHelpCenterSuggestions;
   win.zE.identify = identify;
-  win.zE.authenticate = authenticate;
   win.zE.logout = logout;
   win.zE.activate = activate;
   win.zE.activateNps = activateNps;
