@@ -38,7 +38,8 @@
 
   h1, h2, h3, h4, h5, h6,
   .wysiwyg-font-size-large,
-  .wysiwyg-font-size-x-large {
+  .wysiwyg-font-size-x-large,
+  .u-textSizeLrg {
     font-weight: 600;
     color: $body-color;
     margin-bottom: #{5/$font-size}rem;
