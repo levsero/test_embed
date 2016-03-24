@@ -141,7 +141,7 @@ class HelpCenterArticle extends Component {
     return (
       <div>
         <div className={userContentClasses} ref='userContent'>
-          <h1>{this.props.activeArticle.title}</h1>
+          <div className={"wysiwyg-font-size-x-large"}>{this.props.activeArticle.title}</div>
           <div
             ref='article'
             className='u-marginTM'

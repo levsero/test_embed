@@ -337,7 +337,7 @@ export class HelpCenter extends Component {
       'u-textSizeBaseMobile': this.state.fullscreen
     });
     const formLegendClasses = classNames({
-      'u-paddingTT u-textSizeNml Arrange Arrange--middle u-textBody': true,
+      'u-paddingTT u-textSizeNml Arrange Arrange--middle u-textBody u-textBold': true,
       'u-textSizeBaseMobile': this.state.fullscreen,
       'u-isHidden': !this.state.articles.length
     });
@@ -531,9 +531,9 @@ export class HelpCenter extends Component {
               ref='helpCenterForm'
               onChange={this.autoSearch}
               onSubmit={this.manualSearch}>
-              <h1 className={searchTitleClasses}>
+              <div className={searchTitleClasses}>
                 {i18n.t('embeddable_framework.helpCenter.label.searchHelpCenter')}
-              </h1>
+              </div>
 
               {searchFieldButton || introSearchField}
 
@@ -544,11 +544,11 @@ export class HelpCenter extends Component {
                 </a>
               </div>
 
-              <h1 className={formLegendClasses}>
+              <div className={formLegendClasses}>
                 <span className='Arrange-sizeFill'>
                   {resultsLegend}
                 </span>
-              </h1>
+              </div>
 
               {noResults}
               <ul className={listClasses}>
