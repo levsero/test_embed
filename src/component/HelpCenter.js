@@ -342,7 +342,7 @@ export class HelpCenter extends Component {
       'u-isHidden': !this.state.articles.length
     });
     const searchTitleClasses = classNames({
-      'u-textSizeBaseMobile u-marginTM u-textCenter': true,
+      'u-textSizeBaseMobile u-marginTM u-textCenter u-textBold': true,
       'Container--fullscreen-center-vert': true,
       'u-isHidden': !this.state.fullscreen || !this.state.showIntroScreen
     });
