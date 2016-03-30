@@ -9,27 +9,6 @@ let currentLocale;
 // is a flat structure and counterpart tries to look in object
 translate.setSeparator('*');
 
-function parseLocale(str) {
-  const locale = regulateLocaleStringCase(str);
-  const extractLang = function(locale) {
-    return locale.substring(0, locale.indexOf('-'));
-  };
-
-  if (translations[locale]) {
-    return locale;
-  } else if (translations[extractLang(locale)]) {
-    return extractLang(locale);
-  } else if (str === 'zh') {
-    return 'zh-CN';
-  } else if (str === 'nb' || str === 'nn') {
-    return 'no';
-  } else if (str === 'tl') {
-    return 'fil';
-  } else {
-    return 'en-US';
-  }
-}
-
 // force is for the nps preview use case where multiple embeds are rendered
 // in multiple locales.
 function setLocale(str = 'en-US', force = false) {
@@ -52,9 +31,15 @@ function getLocale() {
   return translate.getLocale();
 }
 
+function getLocaleId() {
+  return localeIdMap[currentLocale];
+}
+
 function isRTL() {
   return translations[getLocale()] && translations[getLocale()].rtl;
 }
+
+// private
 
 function regulateLocaleStringCase(locale) {
   const dashIndex = locale.indexOf('-');
@@ -65,8 +50,25 @@ function regulateLocaleStringCase(locale) {
   return locale.substring(0, dashIndex).toLowerCase() + locale.substring(dashIndex).toUpperCase();
 }
 
-function getLocaleId() {
-  return localeIdMap[currentLocale];
+function parseLocale(str) {
+  const locale = regulateLocaleStringCase(str);
+  const extractLang = function(locale) {
+    return locale.substring(0, locale.indexOf('-'));
+  };
+
+  if (translations[locale]) {
+    return locale;
+  } else if (translations[extractLang(locale)]) {
+    return extractLang(locale);
+  } else if (str === 'zh') {
+    return 'zh-CN';
+  } else if (str === 'nb' || str === 'nn') {
+    return 'no';
+  } else if (str === 'tl') {
+    return 'fil';
+  } else {
+    return 'en-US';
+  }
 }
 
 export const i18n = {
