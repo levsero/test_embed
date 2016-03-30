@@ -3,7 +3,20 @@ describe('settings', function() {
   const settingsPath = buildSrcPath('service/settings');
 
   beforeEach(function() {
+    mockery.enable();
+
+    initMockRegistry({
+      'service/mediator': {
+        supress: noop
+      }
+    });
+
     settings = requireUncached(settingsPath).settings;
+  });
+
+  afterEach(function() {
+    mockery.deregisterAll();
+    mockery.disable();
   });
 
   describe('#init', function() {

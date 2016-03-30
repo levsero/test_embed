@@ -6,6 +6,9 @@ import { setScrollKiller,
          setWindowScroll,
          revertWindowScroll } from 'utility/scrollHacks';
 
+let chatSuppressed = false;
+let helpCenterSuppressed = false;
+
 const c = new airwaves.Channel();
 
 const submitTicket = 'ticketSubmissionForm';
@@ -14,19 +17,12 @@ const chat = 'zopimChat';
 const helpCenter = 'helpCenterForm';
 const state = {};
 
-const embedVisible = (_state) => _.any([
-  _state[`${helpCenter}.isVisible`],
-  _state[`${chat}.isVisible`],
-  _state[`${submitTicket}.isVisible`]
-]);
-
-const resetActiveEmbed = () => {
-  if (state[`${helpCenter}.isAccessible`]) {
-    state.activeEmbed = helpCenter;
-  } else if (state[`${chat}.isOnline`]) {
-    state.activeEmbed = chat;
-  } else {
-    state.activeEmbed = submitTicket;
+const suppress = (embeds) => {
+  if (embeds.indexOf('helpCenter') !== -1) {
+    helpCenterSuppressed = true;
+  }
+  if (embeds.indexOf('chat') !== -1) {
+    chatSuppressed = true;
   }
 };
 
@@ -37,7 +33,9 @@ state[`${chat}.isVisible`]          = false;
 state[`${helpCenter}.isVisible`]    = false;
 state[`${helpCenter}.isAccessible`] = false;
 state[`${helpCenter}.isAvailable`]  = false;
+state[`${helpCenter}.isSuppressed`] = false;
 state[`${chat}.isOnline`]           = false;
+state[`${chat}.isSuppressed`]       = false;
 state[`${chat}.unreadMsgs`]         = 0;
 state[`${chat}.userClosed`]         = false;
 state[`${chat}.chatEnded`]          = false;
@@ -47,13 +45,38 @@ state['.hideOnClose']               = false;
 state['.hasHidden']                 = false;
 state['identify.pending']           = false;
 
-function init(helpCenterAvailable, params = {}) {
+const helpCenterAvailable = () => {
+  return state[`${helpCenter}.isAccessible`] && !state[`${helpCenter}.isSuppressed`];
+};
+
+const chatAvailable = () => {
+  return state[`${chat}.isOnline`] && !state[`${chat}.isSuppressed`];
+};
+
+const embedVisible = (_state) => _.any([
+  _state[`${helpCenter}.isVisible`],
+  _state[`${chat}.isVisible`],
+  _state[`${submitTicket}.isVisible`]
+]);
+
+const resetActiveEmbed = () => {
+  if (helpCenterAvailable()) {
+    state.activeEmbed = helpCenter;
+  } else if (chatAvailable()) {
+    state.activeEmbed = chat;
+  } else {
+    state.activeEmbed = submitTicket;
+  }
+};
+
+
+function init(helpCenterEmbed, params = {}) {
   const updateLauncherLabel = () => {
-    if (state[`${chat}.isOnline`]) {
+    if (chatAvailable()) {
       if (state[`${chat}.unreadMsgs`]) {
         c.broadcast(`${launcher}.setLabelUnreadMsgs`, state[`${chat}.unreadMsgs`]);
       }
-      else if (state[`${helpCenter}.isAccessible`]) {
+      else if (helpCenterAvailable()) {
         c.broadcast(`${launcher}.setLabelChatHelp`);
       } else {
         c.broadcast(`${launcher}.setLabelChat`);
@@ -65,8 +88,10 @@ function init(helpCenterAvailable, params = {}) {
 
   state['.hasHidden']                 = params.hideLauncher;
   state[`${launcher}.userHidden`]     = params.hideLauncher;
-  state[`${helpCenter}.isAccessible`] = helpCenterAvailable && !params.helpCenterSignInRequired;
-  state[`${helpCenter}.isAvailable`]  = helpCenterAvailable;
+  state[`${helpCenter}.isAccessible`] = helpCenterEmbed && !params.helpCenterSignInRequired;
+  state[`${helpCenter}.isAvailable`]  = helpCenterEmbed && !helpCenterSuppressed;
+  state[`${helpCenter}.isSuppressed`] = helpCenterSuppressed;
+  state[`${chat}.isSuppressed`]       = chatSuppressed;
 
   resetActiveEmbed();
 
@@ -142,12 +167,17 @@ function init(helpCenterAvailable, params = {}) {
 
   c.intercept(`${chat}.onOnline`, () => {
     state[`${chat}.isOnline`] = true;
+
+    if (!chatAvailable()) {
+      return;
+    }
+
     if (state.activeEmbed === submitTicket &&
-        !state[`${helpCenter}.isAccessible`]) {
+        !helpCenterAvailable()) {
       state.activeEmbed = chat;
     }
 
-    if (state[`${helpCenter}.isAccessible`]) {
+    if (helpCenterAvailable()) {
       c.broadcast(`${launcher}.setLabelChatHelp`);
     } else {
       c.broadcast(`${launcher}.setLabelChat`);
@@ -226,7 +256,7 @@ function init(helpCenterAvailable, params = {}) {
   });
 
   c.intercept(`${helpCenter}.onNextClick`, () => {
-    if (state[`${chat}.isOnline`]) {
+    if (chatAvailable()) {
       if (!isMobileBrowser()) {
         state[`${chat}.isVisible`] = true;
         c.broadcast(`${launcher}.hide`);
@@ -277,7 +307,7 @@ function init(helpCenterAvailable, params = {}) {
     // chat opens in new window so hide isn't needed
     if (state.activeEmbed === chat && isMobileBrowser()) {
       c.broadcast(`${chat}.show`);
-    } else if (state[`${chat}.isOnline`] && state[`${chat}.unreadMsgs`]) {
+    } else if (chatAvailable() && state[`${chat}.unreadMsgs`]) {
       state[`${chat}.unreadMsgs`] = 0;
       state.activeEmbed = chat;
 
@@ -382,7 +412,7 @@ function init(helpCenterAvailable, params = {}) {
     state[`${submitTicket}.isVisible`] = false;
     c.broadcast(`${submitTicket}.hide`, { transition: 'downHide' });
 
-    if (state[`${helpCenter}.isAccessible`]) {
+    if (helpCenterAvailable()) {
       state[`${helpCenter}.isVisible`] = true;
       state.activeEmbed = helpCenter;
       c.broadcast(`${helpCenter}.show`, { transition: 'downShow' });
@@ -495,5 +525,6 @@ function initMessaging() {
 export const mediator = {
   channel: c,
   init: init,
-  initMessaging: initMessaging
+  initMessaging: initMessaging,
+  suppress: suppress
 };
