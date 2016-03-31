@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { i18n } from 'service/i18n';
+import { settings } from 'service/settings';
 import { store } from 'service/persistence';
 import { mediator } from 'service/mediator';
 import { document, win,
@@ -14,7 +15,8 @@ function create(name, config) {
     position: 'right',
     color: '#78A300',
     standalone: false,
-    offsetVertical: 0,
+    offsetVertical: settings.get('offset').vertical,
+    offsetHorizontal: parseInt(settings.get('offset').horizontal) + settings.get('widgetMargin'),
     size: 'large'
   };
 
@@ -220,6 +222,7 @@ function init(name) {
     zopimWin.setPosition(position);
     zopimWin.setSize(config.size);
     zopimWin.setOffsetVertical(config.offsetVertical);
+    zopimWin.setOffsetHorizontal(config.offsetHorizontal);
   });
 }
 

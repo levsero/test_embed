@@ -27,6 +27,12 @@ export class Launcher extends Component {
     });
   }
 
+  componentDidUpdate() {
+    if (this.props.setOffsetHorizontal) {
+      this.props.setOffsetHorizontal(20);
+    }
+  }
+
   render() {
     const buttonClasses = classNames({
       'Button Button--launcher Button--cta': true,
@@ -45,7 +51,7 @@ export class Launcher extends Component {
     });
 
     if (this.props.updateFrameSize) {
-      setTimeout( () => this.props.updateFrameSize(5, 0), 0);
+      setTimeout( () => this.props.updateFrameSize(5, 10), 0);
     }
 
     return (

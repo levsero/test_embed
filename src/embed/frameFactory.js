@@ -2,17 +2,18 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
 import classNames from 'classnames';
+import snabbt from 'snabbt.js';
 
-import { win }                 from 'utility/globals';
+import { ButtonNav } from 'component/Button';
+import { Icon } from 'component/Icon';
+import { i18n } from 'service/i18n';
+import { settings } from 'service/settings';
+import { win } from 'utility/globals';
 import { getZoomSizingRatio,
          isMobileBrowser,
-         isFirefox }           from 'utility/devices';
+         isFirefox } from 'utility/devices';
 import { clickBusterRegister,
-         generateNpsCSS }      from 'utility/utils';
-import { i18n }                from 'service/i18n';
-import { ButtonNav }           from 'component/Button';
-import { Icon }                from 'component/Icon';
-import snabbt                  from 'snabbt.js';
+         generateNpsCSS } from 'utility/utils';
 
 const baseCSS = require('baseCSS');
 const mainCSS = require('mainCSS');
@@ -56,7 +57,8 @@ export const frameFactory = function(childFn, _params) {
     afterShowAnimate: () => {},
     transitions: {},
     isMobile: isMobileBrowser(),
-    disableSetOffsetHorizontal: false
+    disableSetOffsetHorizontal: false,
+    position: 'right'
   };
   const params = _.extend({}, defaultParams, _params);
 
@@ -109,6 +111,7 @@ export const frameFactory = function(childFn, _params) {
     setOffsetHorizontal(offsetValue = 0) {
       if (!params.disableSetOffsetHorizontal) {
         ReactDOM.findDOMNode(this).style.marginLeft = `${offsetValue}px`;
+        ReactDOM.findDOMNode(this).style.marginRight = `${offsetValue}px`;
       }
     },
 
@@ -281,6 +284,9 @@ export const frameFactory = function(childFn, _params) {
                               [i18n.isRTL() ? 'right' : 'left']: '-9999px',
                               position: 'absolute',
                               bottom: 'auto'};
+      let posObj = (params.position === 'left')
+                 ? { left: settings.get('offset').horizontal }
+                 : { right: settings.get('offset').horizontal };
 
       return _.extend(
         {
@@ -288,8 +294,11 @@ export const frameFactory = function(childFn, _params) {
           background: 'transparent',
           zIndex: 999998,
           transform: 'translateZ(0)',
+          position: 'fixed',
+          bottom: settings.get('offset').vertical,
           opacity: 1
         },
+        posObj,
         this.state.frameStyle,
         this.state.iframeDimensions,
         visibilityRule
