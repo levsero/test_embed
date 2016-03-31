@@ -128,12 +128,10 @@ function expandMappedTranslations(mappedTranslations) {
 
     if (idx > -1) {
       const prefix = key.substring(0, idx);
-      const newKeys = key.substring(idx+1, key.length-1).split(',');
-      const newMapTranslations = {};
-
-      _.forEach(newKeys, (newKey) => {
-        newMapTranslations[`${prefix}${newKey}`] = mappedTranslations[key];
+      const newKeys = _.map(key.substring(idx+1, key.length-1).split(','), (newKey) => {
+        return `${prefix}${newKey}`;
       });
+      const newMapTranslations = _.zipObject(newKeys, _.times(newKeys.length, () => mappedTranslations[key]));
 
       expandedMap = _.merge({}, mappedTranslations, newMapTranslations);
       delete mappedTranslations[key];
