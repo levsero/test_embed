@@ -93,15 +93,15 @@ parts:
   # Help Center component
   - translation:
       key: "embeddable_framework.helpCenter.form.title.help"
-      title: "Default title of the help center form"
+      title: "Default title of the help center form (https://zendesk.box.com/s/wps7c9vl82ev0pwipvhljin7762cfi4c)"
       value: "Help"
   - translation:
       key: "embeddable_framework.helpCenter.form.title.support"
-      title: "Alternative title of the help center form"
+      title: "Alternative title of the help center form (https://zendesk.box.com/s/u3ds6jlwl5q9mau3h108jorpcsi7r1d8)"
       value: "Support"
   - translation:
       key: "embeddable_framework.helpCenter.form.title.feedback"
-      title: "Alternative title of the help center form"
+      title: "Alternative title of the help center form (https://zendesk.box.com/s/83vvtwg4gm66zgfyd4s5pv3nwxv6162o)"
       value: "Feedback"
   - translation:
       key: "embeddable_framework.helpCenter.label.topSuggestions"
