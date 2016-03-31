@@ -1,3 +1,13 @@
+import { forEach, pick } from 'lodash';
+
+import { win } from 'utility/globals';
+
+const optionWhitelist = [
+  'authenticate',
+  'translations',
+  'suppress',
+  'offset'
+];
 let store = {
   offset: {
     horizontal: 0,
@@ -6,16 +16,16 @@ let store = {
   widgetMargin: 15
 };
 
-function init(params = {}) {
-  if (params.authenticate) {
-    store.authenticate = params.authenticate;
+function init() {
+  if (!win.zESettings) {
+    return;
   }
-  if (params.suppress) {
-    store.suppress = params.suppress;
-  }
-  if (params.offset) {
-    store.offset = params.offset;
-  }
+
+  const whiteListedParams = pick(win.zESettings, optionWhitelist);
+
+  forEach(whiteListedParams, (val, key) => {
+    store[key] = val;
+  });
 }
 
 function get(name) {
