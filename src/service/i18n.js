@@ -5,6 +5,15 @@ import { settings } from 'service/settings';
 const translate = require('counterpart');
 const translations = require('translation/translations.json');
 const localeIdMap = require('translation/localeIdMap.json');
+const translationLookupTable = {
+  launcherText: 'embeddable_framework.launcher.label.[help,support,feedback]',
+  launcherTextChat: 'embeddable_framework.launcher.label.chat',
+  helpFormTitle: 'embeddable_framework.helpCenter.form.title.[help,support,feedback]',
+  helpFormButtonText: 'embeddable_framework.helpCenter.submitButtton.label.submitTicket.[message,contact]',
+  helpFormButtonTextChat: 'embeddable_framework.helpCenter.submitButtton.label.chat',
+  contactFormTitle: 'embeddable_framework.submitTicket.form.title.[message,contact]'
+};
+
 let currentLocale;
 
 // Setting to something other than (.) as our translation hash
@@ -16,7 +25,6 @@ function init() {
 
   if (newTranslations) {
     overrideTranslations(newTranslations);
-    debugger
   }
 }
 
@@ -83,39 +91,55 @@ function parseLocale(str) {
 }
 
 function overrideTranslations(newTranslations) {
-  const transLookupTable = {
-    launcherText: 'embeddable_framework.launcher.label.[help,support,feedback]',
-    launcherTextChat: 'embeddable_framework.launcher.label.chat'
-  };
+  let mappedTranslations;
 
-  const newTranslationLocales = _.keys(newTranslations);
-
-  if (_.includes(newTranslationLocales, '*')) {
-    const mappedTranslations = _.mapKeys(newTranslations['*'], (val, key) => {
-      return transLookupTable[key];
-    });
-
-    for (let key in mappedTranslations) {
-      const idx = key.indexOf('[');
-
-      if (idx > -1) {
-        const prefix = key.substring(0, idx);
-        const newKeys = key.substring(idx+1, key.length-1).split(',');
-        const newMapTranslations = {};
-
-        _.forEach(newKeys, (newKey) => {
-          newMapTranslations[`${prefix}${newKey}`] = mappedTranslations[key];
-        });
-
-        _.merge(mappedTranslations, newMapTranslations);
-        delete mappedTranslations[key];
-      }
-    }
+  // override all locales if there are wild card translations
+  if (newTranslations.hasOwnProperty('*')) {
+    mappedTranslations = mappedTranslationsForLocale(newTranslations, '*');
 
     for (let locale in translations) {
       _.merge(translations[locale], mappedTranslations);
     }
   }
+
+  // overrride any other specified locales
+  for (let locale in newTranslations) {
+    if (locale === '*') continue;
+
+    mappedTranslations = mappedTranslationsForLocale(newTranslations, locale);
+    _.merge(translations[locale], mappedTranslations);
+  }
+}
+
+function mappedTranslationsForLocale(newTranslations, locale) {
+  const translationOverrides = _.mapKeys(newTranslations[locale], (val, key) => {
+    return translationLookupTable[key];
+  });
+
+  return expandMappedTranslations(translationOverrides);
+}
+
+function expandMappedTranslations(mappedTranslations) {
+  let expandedMap;
+
+  for (let key in mappedTranslations) {
+    const idx = key.indexOf('[');
+
+    if (idx > -1) {
+      const prefix = key.substring(0, idx);
+      const newKeys = key.substring(idx+1, key.length-1).split(',');
+      const newMapTranslations = {};
+
+      _.forEach(newKeys, (newKey) => {
+        newMapTranslations[`${prefix}${newKey}`] = mappedTranslations[key];
+      });
+
+      expandedMap = _.merge({}, mappedTranslations, newMapTranslations);
+      delete mappedTranslations[key];
+    }
+  }
+
+  return expandedMap;
 }
 
 export const i18n = {
