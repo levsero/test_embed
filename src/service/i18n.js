@@ -91,14 +91,13 @@ function parseLocale(str) {
 }
 
 function overrideTranslations(newTranslations) {
-  let mappedTranslations;
-
   // override all locales if there are wild card translations
   if (newTranslations.hasOwnProperty('*')) {
-    mappedTranslations = mappedTranslationsForLocale(newTranslations, '*');
-
     for (let locale in translations) {
-      _.merge(translations[locale], mappedTranslations);
+      _.merge(
+        translations[locale],
+        mappedTranslationsForLocale(newTranslations, '*')
+      );
     }
   }
 
@@ -106,8 +105,10 @@ function overrideTranslations(newTranslations) {
   for (let locale in newTranslations) {
     if (locale === '*') continue;
 
-    mappedTranslations = mappedTranslationsForLocale(newTranslations, locale);
-    _.merge(translations[locale], mappedTranslations);
+    _.merge(
+      translations[locale],
+      mappedTranslationsForLocale(newTranslations, locale)
+    );
   }
 }
 
