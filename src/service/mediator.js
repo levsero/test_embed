@@ -46,11 +46,11 @@ state['.hasHidden']                 = false;
 state['identify.pending']           = false;
 
 const helpCenterAvailable = () => {
-  return state[`${helpCenter}.isAccessible`] && !state[`${helpCenter}.isSuppressed`];
+  return state[`${helpCenter}.isAccessible`] && !helpCenterSuppressed;
 };
 
 const chatAvailable = () => {
-  return state[`${chat}.isOnline`] && !state[`${chat}.isSuppressed`];
+  return state[`${chat}.isOnline`] && !chatSuppressed;
 };
 
 const embedVisible = (_state) => _.any([
@@ -90,8 +90,6 @@ function init(helpCenterEmbed, params = {}) {
   state[`${launcher}.userHidden`]     = params.hideLauncher;
   state[`${helpCenter}.isAccessible`] = helpCenterEmbed && !params.helpCenterSignInRequired;
   state[`${helpCenter}.isAvailable`]  = helpCenterEmbed && !helpCenterSuppressed;
-  state[`${helpCenter}.isSuppressed`] = helpCenterSuppressed;
-  state[`${chat}.isSuppressed`]       = chatSuppressed;
 
   resetActiveEmbed();
 
@@ -285,7 +283,7 @@ function init(helpCenterEmbed, params = {}) {
 
     state[`${helpCenter}.isVisible`] = false;
 
-    // Run this on a seperate `tick` from submitTicket.show
+    // Run this on a separate `tick` from submitTicket.show
     setTimeout(() => {
       if (isMobileBrowser()) {
         c.broadcast(`${helpCenter}.hide`);

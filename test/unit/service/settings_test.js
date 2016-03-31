@@ -1,13 +1,16 @@
 describe('settings', function() {
-  let settings;
+  let settings,
+    mockRegistry;
   const settingsPath = buildSrcPath('service/settings');
 
   beforeEach(function() {
     mockery.enable();
 
-    initMockRegistry({
+    mockRegistry = initMockRegistry({
       'service/mediator': {
-        supress: noop
+        mediator: {
+          suppress: jasmine.createSpy()
+        }
       }
     });
 
@@ -25,6 +28,15 @@ describe('settings', function() {
 
       expect(settings.get('authenticate'))
         .toEqual({ jwt: 'token' });
+    });
+
+    it('should call mediator suppress when a suppress object is passed in', function() {
+      const mediatorSuppressor = mockRegistry['service/mediator'].mediator.suppress;
+
+      settings.init({ suppress: ['helpCenter', 'chat'] });
+
+      expect(mediatorSuppressor)
+        .toHaveBeenCalled();
     });
   });
 

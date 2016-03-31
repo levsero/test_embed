@@ -1629,6 +1629,94 @@ describe('mediator', function() {
   });
 
  /* ****************************************** *
+  *                  SUPPRESS                  *
+  * ****************************************** */
+
+  describe('suppress', function() {
+    const launcher = 'launcher';
+    const submitTicket = 'ticketSubmissionForm';
+    const helpCenter = 'helpCenterForm';
+    const chat = 'zopimChat';
+    const names = {
+      launcher: launcher,
+      submitTicket: submitTicket,
+      helpCenter: helpCenter,
+      chat: chat
+    };
+
+    beforeEach(function() {
+      initSubscriptionSpies(names);
+    });
+
+    it('does not display if it is suppressed', function() {
+      mediator.suppress(['chat']);
+      mediator.init();
+
+      c.broadcast(`${chat}.isOnline`);
+
+      jasmine.clock().install();
+      c.broadcast(`${launcher}.onClick`);
+      jasmine.clock().tick(0);
+
+      expect(submitTicketSub.show.calls.count())
+        .toEqual(1);
+      expect(chatSub.show.calls.count())
+        .toEqual(0);
+    });
+
+    it('does not display chat if it is suppressed', function() {
+      mediator.suppress(['chat']);
+      mediator.init(true);
+
+      c.broadcast(`${chat}.isOnline`);
+
+      jasmine.clock().install();
+      c.broadcast(`${launcher}.onClick`);
+      jasmine.clock().tick(0);
+
+      c.broadcast(`${helpCenter}.onNextClick`);
+      jasmine.clock().tick(0);
+
+      expect(submitTicketSub.show.calls.count())
+        .toEqual(1);
+      expect(chatSub.show.calls.count())
+        .toEqual(0);
+    });
+
+    it('should not display if it is suppressed', function() {
+      mediator.suppress(['helpCenter']);
+      mediator.init(true);
+
+      jasmine.clock().install();
+      c.broadcast(`${launcher}.onClick`);
+      jasmine.clock().tick(0);
+
+      expect(submitTicketSub.show.calls.count())
+        .toEqual(1);
+      expect(helpCenterSub.show.calls.count())
+        .toEqual(0);
+    });
+
+    it('does not display chat or helpCenter if they are suppressed', function() {
+      mediator.suppress(['chat', 'helpCenter']);
+      mediator.init(true);
+
+      c.broadcast(`${chat}.isOnline`);
+
+      jasmine.clock().install();
+      c.broadcast(`${launcher}.onClick`);
+      jasmine.clock().tick(0);
+
+      expect(submitTicketSub.show.calls.count())
+        .toEqual(1);
+      expect(chatSub.show.calls.count())
+        .toEqual(0);
+      expect(helpCenterSub.show.calls.count())
+        .toEqual(0);
+    });
+  });
+
+ /* ****************************************** *
   *                 NAKED ZOPIM                *
   * ****************************************** */
 
