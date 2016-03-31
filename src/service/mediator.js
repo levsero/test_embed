@@ -69,8 +69,7 @@ const resetActiveEmbed = () => {
   }
 };
 
-
-function init(helpCenterEmbed, params = {}) {
+function init(helpCenterAccessible, params = {}) {
   const updateLauncherLabel = () => {
     if (chatAvailable()) {
       if (state[`${chat}.unreadMsgs`]) {
@@ -88,8 +87,8 @@ function init(helpCenterEmbed, params = {}) {
 
   state['.hasHidden']                 = params.hideLauncher;
   state[`${launcher}.userHidden`]     = params.hideLauncher;
-  state[`${helpCenter}.isAccessible`] = helpCenterEmbed && !params.helpCenterSignInRequired;
-  state[`${helpCenter}.isAvailable`]  = helpCenterEmbed && !helpCenterSuppressed;
+  state[`${helpCenter}.isAccessible`] = helpCenterAccessible && !params.helpCenterSignInRequired;
+  state[`${helpCenter}.isAvailable`]  = helpCenterAccessible;
 
   resetActiveEmbed();
 
