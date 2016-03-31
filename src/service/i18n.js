@@ -9,8 +9,8 @@ const translationLookupTable = {
   launcherText: 'embeddable_framework.launcher.label.[help,support,feedback]',
   launcherTextChat: 'embeddable_framework.launcher.label.chat',
   helpFormTitle: 'embeddable_framework.helpCenter.form.title.[help,support,feedback]',
-  helpFormButtonText: 'embeddable_framework.helpCenter.submitButtton.label.submitTicket.[message,contact]',
-  helpFormButtonTextChat: 'embeddable_framework.helpCenter.submitButtton.label.chat',
+  helpFormButtonText: 'embeddable_framework.helpCenter.submitButton.label.submitTicket.[message,contact]',
+  helpFormButtonTextChat: 'embeddable_framework.helpCenter.submitButton.label.chat',
   contactFormTitle: 'embeddable_framework.submitTicket.form.title.[message,contact]'
 };
 
