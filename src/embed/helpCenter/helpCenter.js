@@ -264,7 +264,6 @@ function postRender(name) {
       location.pathname &&
       location.pathname.substring(0, 4) !== '/hc/') {
     keywordsSearch(name, { search: getPageKeywords() });
-    hasManuallySetContextualSuggestions = false;
   }
 }
 
