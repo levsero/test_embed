@@ -121,8 +121,6 @@ function mappedTranslationsForLocale(newTranslations, locale) {
 }
 
 function expandMappedTranslations(mappedTranslations) {
-  let expandedMap;
-
   for (let key in mappedTranslations) {
     const idx = key.indexOf('[');
 
@@ -133,12 +131,12 @@ function expandMappedTranslations(mappedTranslations) {
       });
       const newMapTranslations = _.zipObject(newKeys, _.times(newKeys.length, () => mappedTranslations[key]));
 
-      expandedMap = _.merge({}, mappedTranslations, newMapTranslations);
+      _.merge(mappedTranslations, newMapTranslations);
       delete mappedTranslations[key];
     }
   }
 
-  return expandedMap;
+  return mappedTranslations;
 }
 
 export const i18n = {
