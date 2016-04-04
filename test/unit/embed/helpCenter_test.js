@@ -89,6 +89,9 @@ describe('embed.helpCenter', function() {
         document: global.document,
         getDocumentHost: function() {
           return document.body;
+        },
+        location: {
+          pathname: ''
         }
       },
       'service/authentication' : {
@@ -610,22 +613,21 @@ describe('embed.helpCenter', function() {
     });
 
     describe('postRender contextual help', function() {
-      let getPageKeywordsSpy,
+      let helpCenter,
+        mockLocation,
+        getPageKeywordsSpy,
         contextualSearchSpy;
 
       beforeEach(function() {
+        helpCenter = requireUncached(helpCenterPath).helpCenter;
+        mockLocation = mockRegistry['utility/globals'].location;
+        helpCenter.create('carlos', { contextualHelpEnabled: true });
         getPageKeywordsSpy = mockRegistry['utility/utils'].getPageKeywords;
         contextualSearchSpy = jasmine.createSpy('contextualSearch');
       });
 
       it('should call keywordSearch on non helpcenter pages', function() {
-        mockRegistry['utility/globals'].location = {
-          pathname: '/foo/bar'
-        };
-
-        helpCenter = requireUncached(helpCenterPath).helpCenter;
-
-        helpCenter.create('carlos', { contextualHelpEnabled: true });
+        mockLocation.pathname = '/foo/bar';
 
         const helpCenterFrame = helpCenter.get('carlos');
 
@@ -648,23 +650,20 @@ describe('embed.helpCenter', function() {
       });
 
       it('should\'t call keywordSearch on helpcenter pages', function() {
-        mockRegistry['utility/globals'].location = {
-          pathname: '/hc/1234-article-foo-bar'
-        };
+        mockLocation.pathname = '/hc/1234-article-foo-bar';
 
-        helpCenter = requireUncached(helpCenterPath).helpCenter;
+        helpCenter.postRender('carlos');
 
-        helpCenter.create('carlos', { contextualHelpEnabled: true });
+        expect(getPageKeywordsSpy)
+          .not.toHaveBeenCalled();
+      });
 
-        const helpCenterFrame = helpCenter.get('carlos');
+      it('should\'t call keywordSearch if user has manually set suggestions', function() {
+        const mockMediator = mockRegistry['service/mediator'].mediator;
 
-        helpCenterFrame.instance = {
-          getRootComponent: () => {
-            return {
-              contextualSearch: contextualSearchSpy
-            };
-          }
-        };
+        helpCenter.render('carlos');
+
+        pluckSubscribeCall(mockMediator, 'carlos.setHelpCenterSuggestions')(['foo']);
 
         helpCenter.postRender('carlos');
 
