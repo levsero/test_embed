@@ -4,6 +4,9 @@ function init(params = {}) {
   if (params.authenticate) {
     store.authenticate = params.authenticate;
   }
+  if (params.suppress) {
+    store.suppress = params.suppress;
+  }
 }
 
 function get(name) {

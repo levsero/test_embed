@@ -10,6 +10,7 @@ describe('mediator', function() {
     helpCenterSub,
     npsSub,
     ipmSub,
+    mockSettingsGetValue,
     initSubscriptionSpies;
 
   const reset = function(spy) {
@@ -20,7 +21,16 @@ describe('mediator', function() {
   beforeEach(function() {
     mockery.enable();
 
+    mockSettingsGetValue = null;
+
     mockRegistry = initMockRegistry({
+      'service/settings':  {
+        settings : {
+          get: () => {
+            return mockSettingsGetValue;
+          }
+        }
+      },
       'utility/devices':  {
         isMobileBrowser: jasmine.createSpy().and.returnValue(false)
       },
@@ -304,26 +314,6 @@ describe('mediator', function() {
 
         expect(helpCenterSub.show.calls.count())
           .toEqual(1);
-      });
-
-      it('should not set helpCenterForm to available if sign in required is not passed in', function() {
-        mediator.init(false);
-
-        jasmine.clock().install();
-        c.broadcast(`${launcher}.onClick`);
-        jasmine.clock().tick(0);
-
-        expect(helpCenterSub.show.calls.count())
-          .toEqual(0);
-
-        c.broadcast(`${submitTicket}.onClose`);
-        c.broadcast('authentication.onSuccess');
-
-        c.broadcast(`${launcher}.onClick`);
-        jasmine.clock().tick(0);
-
-        expect(helpCenterSub.show.calls.count())
-          .toEqual(0);
       });
     });
   });
@@ -1623,6 +1613,94 @@ describe('mediator', function() {
       expect(submitTicketSub.show.calls.count())
         .toEqual(1);
 
+      expect(helpCenterSub.show.calls.count())
+        .toEqual(0);
+    });
+  });
+
+ /* ****************************************** *
+  *                  SUPPRESS                  *
+  * ****************************************** */
+
+  describe('suppress', function() {
+    const launcher = 'launcher';
+    const submitTicket = 'ticketSubmissionForm';
+    const helpCenter = 'helpCenterForm';
+    const chat = 'zopimChat';
+    const names = {
+      launcher: launcher,
+      submitTicket: submitTicket,
+      helpCenter: helpCenter,
+      chat: chat
+    };
+
+    beforeEach(function() {
+      initSubscriptionSpies(names);
+    });
+
+    it('does not display chat if it is suppressed', function() {
+      mockSettingsGetValue = ['chat'];
+      mediator.init();
+
+      c.broadcast(`${chat}.isOnline`);
+
+      jasmine.clock().install();
+      c.broadcast(`${launcher}.onClick`);
+      jasmine.clock().tick(0);
+
+      expect(submitTicketSub.show.calls.count())
+        .toEqual(1);
+      expect(chatSub.show.calls.count())
+        .toEqual(0);
+    });
+
+    it('does not display chat if it is suppressed and help center is active', function() {
+      mockSettingsGetValue = ['chat'];
+      mediator.init(true);
+
+      c.broadcast(`${chat}.isOnline`);
+
+      jasmine.clock().install();
+      c.broadcast(`${launcher}.onClick`);
+      jasmine.clock().tick(0);
+
+      c.broadcast(`${helpCenter}.onNextClick`);
+      jasmine.clock().tick(0);
+
+      expect(submitTicketSub.show.calls.count())
+        .toEqual(1);
+      expect(chatSub.show.calls.count())
+        .toEqual(0);
+    });
+
+    it('should not display if it is suppressed', function() {
+      mockSettingsGetValue = ['helpCenter'];
+      mediator.init(true);
+
+      jasmine.clock().install();
+      c.broadcast(`${launcher}.onClick`);
+      jasmine.clock().tick(0);
+
+      expect(submitTicketSub.show.calls.count())
+        .toEqual(1);
+      expect(helpCenterSub.show.calls.count())
+        .toEqual(0);
+    });
+
+    it('does not display chat or helpCenter if they are suppressed', function() {
+      mockSettingsGetValue = ['chat', 'helpCenter'];
+      mediator.init(true);
+
+      c.broadcast(`${chat}.isOnline`);
+
+      jasmine.clock().install();
+      c.broadcast(`${launcher}.onClick`);
+      jasmine.clock().tick(0);
+
+      expect(submitTicketSub.show.calls.count())
+        .toEqual(1);
+      expect(chatSub.show.calls.count())
+        .toEqual(0);
       expect(helpCenterSub.show.calls.count())
         .toEqual(0);
     });
