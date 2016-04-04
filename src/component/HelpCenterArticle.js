@@ -137,11 +137,14 @@ class HelpCenterArticle extends Component {
       'UserContent u-userLinkColor': true,
       'is-mobile': this.props.fullscreen
     });
+    const activeArticleTitleClasses = classNames({
+      'u-textSizeLrg u-marginBT u-textBold u-textBody': true
+    });
 
     return (
       <div>
         <div className={userContentClasses} ref='userContent'>
-          <div className='u-textSizeLrg'>{this.props.activeArticle.title}</div>
+          <div className={activeArticleTitleClasses}>{this.props.activeArticle.title}</div>
           <div
             ref='article'
             className='u-marginTM'
