@@ -10,7 +10,7 @@ describe('mediator', function() {
     helpCenterSub,
     npsSub,
     ipmSub,
-    mockSuppressedValue,
+    mockSettingsGetValue,
     initSubscriptionSpies;
 
   const reset = function(spy) {
@@ -21,13 +21,13 @@ describe('mediator', function() {
   beforeEach(function() {
     mockery.enable();
 
-    mockSuppressedValue = [];
+    mockSettingsGetValue = [];
 
     mockRegistry = initMockRegistry({
       'service/settings':  {
         settings : {
           get: () => {
-            return mockSuppressedValue;
+            return mockSettingsGetValue;
           }
         }
       },
@@ -1659,7 +1659,7 @@ describe('mediator', function() {
     });
 
     it('does not display chat if it is suppressed', function() {
-      mockSuppressedValue = ['chat'];
+      mockSettingsGetValue = ['chat'];
       mediator.init();
 
       c.broadcast(`${chat}.isOnline`);
@@ -1675,7 +1675,7 @@ describe('mediator', function() {
     });
 
     it('does not display chat if it is suppressed and help center is active', function() {
-      mockSuppressedValue = ['chat'];
+      mockSettingsGetValue = ['chat'];
       mediator.init(true);
 
       c.broadcast(`${chat}.isOnline`);
@@ -1694,7 +1694,7 @@ describe('mediator', function() {
     });
 
     it('should not display if it is suppressed', function() {
-      mockSuppressedValue = ['helpCenter'];
+      mockSettingsGetValue = ['helpCenter'];
       mediator.init(true);
 
       jasmine.clock().install();
@@ -1708,7 +1708,7 @@ describe('mediator', function() {
     });
 
     it('does not display chat or helpCenter if they are suppressed', function() {
-      mockSuppressedValue = ['chat', 'helpCenter'];
+      mockSettingsGetValue = ['chat', 'helpCenter'];
       mediator.init(true);
 
       c.broadcast(`${chat}.isOnline`);

@@ -42,6 +42,10 @@ const chatAvailable = () => {
   return state[`${chat}.isOnline`] && !state[`${chat}.isSuppressed`];
 };
 
+const isSuppressed = (embed) => {
+  return settings.get('suppress').indexOf(embed) !== -1;
+};
+
 const embedVisible = (_state) => _.any([
   _state[`${helpCenter}.isVisible`],
   _state[`${chat}.isVisible`],
@@ -78,8 +82,8 @@ function init(helpCenterAccessible, params = {}) {
   state[`${launcher}.userHidden`]     = params.hideLauncher;
   state[`${helpCenter}.isAccessible`] = helpCenterAccessible && !params.helpCenterSignInRequired;
   state[`${helpCenter}.isAvailable`]  = helpCenterAccessible;
-  state[`${helpCenter}.isSuppressed`] = settings.get('suppress').indexOf('helpCenter') !== -1;
-  state[`${chat}.isSuppressed`]       = settings.get('suppress').indexOf('chat') !== -1;
+  state[`${helpCenter}.isSuppressed`] = isSuppressed('helpCenter');
+  state[`${chat}.isSuppressed`]       = isSuppressed('chat');
 
   resetActiveEmbed();
 
@@ -160,8 +164,7 @@ function init(helpCenterAccessible, params = {}) {
       return;
     }
 
-    if (state.activeEmbed === submitTicket &&
-        !helpCenterAvailable()) {
+    if (state.activeEmbed === submitTicket && !helpCenterAvailable()) {
       state.activeEmbed = chat;
     }
 
