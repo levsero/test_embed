@@ -197,6 +197,7 @@ export class SubmitTicketForm extends Component {
       this.forceUpdate();
     };
     const customFields = getCustomFields(this.props.customFields, this.state.formState);
+    const attachmentsEnabled = (win.location.hash === '#ze-attachments-alpha' || __DEV__);
     const previews = getAttachmentPreviews(this.state.attachments, removeAttachment);
     const attachments = (this.state.attachments.length !== 0)
                       ? <div>{previews}</div>
@@ -232,7 +233,7 @@ export class SubmitTicketForm extends Component {
                            label={this.state.cancelButtonMessage}
                            onClick={this.props.onCancel}
                            fullscreen={this.props.fullscreen} />;
-    const buttonDropzone = (win.location.hash === '#ze-attachments-alpha' || __DEV__)
+    const buttonDropzone = attachmentsEnabled
                          ? <label className='Form-fieldContainer u-block u-marginVM'>
                               <div className='Form-fieldLabel u-textXHeight'>
                                 {i18n.t('embeddable_framework.submitTicket.attachments.title',

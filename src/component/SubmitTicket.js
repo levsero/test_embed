@@ -144,6 +144,7 @@ export class SubmitTicket extends Component {
       'Error u-marginTL': true,
       'u-isHidden': !this.state.errorMessage
     });
+    const attachmentsEnabled = (win.location.hash === '#ze-attachments-alpha' || __DEV__);
 
     if (this.props.updateFrameSize) {
       setTimeout( () => this.props.updateFrameSize(), 0);
@@ -155,7 +156,7 @@ export class SubmitTicket extends Component {
                           formSuccess={this.state.showNotification}
                           rtl={i18n.isRTL()}
                           fullscreen={this.state.fullscreen} />;
-    const attachmentBox = this.state.isDragActive && (win.location.hash === '#ze-attachments-alpha' || __DEV__)
+    const attachmentBox = this.state.isDragActive && attachmentsEnabled
                          ? <AttachmentBox
                              onDragLeave={this.handleDragLeave}
                              onDrop={this.handleOnDrop} />

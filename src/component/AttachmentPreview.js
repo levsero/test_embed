@@ -4,7 +4,7 @@ import { map } from 'lodash';
 import { Icon } from 'component/Icon';
 
 const getAttachmentPreviews = (attachments, removeAttachment) => {
-  const previews = map(attachments, function(attachment) {
+  const previews = map(attachments, (attachment) => {
     return <AttachmentPreview attachment={attachment} handleRemoveAttachment={removeAttachment} />;
   });
 
