@@ -1,25 +1,9 @@
 describe('settings', function() {
-  let settings,
-    mockRegistry;
+  let settings;
   const settingsPath = buildSrcPath('service/settings');
 
   beforeEach(function() {
-    mockery.enable();
-
-    mockRegistry = initMockRegistry({
-      'service/mediator': {
-        mediator: {
-          suppress: jasmine.createSpy()
-        }
-      }
-    });
-
     settings = requireUncached(settingsPath).settings;
-  });
-
-  afterEach(function() {
-    mockery.deregisterAll();
-    mockery.disable();
   });
 
   describe('#init', function() {
@@ -28,15 +12,6 @@ describe('settings', function() {
 
       expect(settings.get('authenticate'))
         .toEqual({ jwt: 'token' });
-    });
-
-    it('should call mediator suppress when a suppress object is passed in', function() {
-      const mediatorSuppressor = mockRegistry['service/mediator'].mediator.suppress;
-
-      settings.init({ suppress: ['helpCenter', 'chat'] });
-
-      expect(mediatorSuppressor)
-        .toHaveBeenCalled();
     });
   });
 

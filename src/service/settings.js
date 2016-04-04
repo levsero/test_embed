@@ -1,5 +1,3 @@
-import { mediator } from 'service/mediator';
-
 let store = {};
 
 function init(params = {}) {
@@ -7,7 +5,7 @@ function init(params = {}) {
     store.authenticate = params.authenticate;
   }
   if (params.suppress) {
-    mediator.suppress(params.suppress);
+    store.suppress = params.suppress;
   }
 }
 

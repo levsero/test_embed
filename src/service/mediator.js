@@ -1,13 +1,11 @@
 import airwaves from 'airwaves';
 import _ from 'lodash';
 
+import { settings } from 'service/settings';
 import { isMobileBrowser } from 'utility/devices';
 import { setScrollKiller,
          setWindowScroll,
          revertWindowScroll } from 'utility/scrollHacks';
-
-let chatSuppressed = false;
-let helpCenterSuppressed = false;
 
 const c = new airwaves.Channel();
 
@@ -16,15 +14,6 @@ const launcher = 'launcher';
 const chat = 'zopimChat';
 const helpCenter = 'helpCenterForm';
 const state = {};
-
-const suppress = (embeds) => {
-  if (embeds.indexOf('helpCenter') !== -1) {
-    helpCenterSuppressed = true;
-  }
-  if (embeds.indexOf('chat') !== -1) {
-    chatSuppressed = true;
-  }
-};
 
 state[`${chat}.connectionPending`]  = true;
 state[`${launcher}.userHidden`]     = false;
@@ -46,11 +35,11 @@ state['.hasHidden']                 = false;
 state['identify.pending']           = false;
 
 const helpCenterAvailable = () => {
-  return state[`${helpCenter}.isAccessible`] && !helpCenterSuppressed;
+  return state[`${helpCenter}.isAccessible`] && !state[`${helpCenter}.isSuppressed`];
 };
 
 const chatAvailable = () => {
-  return state[`${chat}.isOnline`] && !chatSuppressed;
+  return state[`${chat}.isOnline`] && !state[`${chat}.isSuppressed`];
 };
 
 const embedVisible = (_state) => _.any([
@@ -89,6 +78,8 @@ function init(helpCenterAccessible, params = {}) {
   state[`${launcher}.userHidden`]     = params.hideLauncher;
   state[`${helpCenter}.isAccessible`] = helpCenterAccessible && !params.helpCenterSignInRequired;
   state[`${helpCenter}.isAvailable`]  = helpCenterAccessible;
+  state[`${helpCenter}.isSuppressed`] = settings.get('suppress').indexOf('helpCenter') !== -1;
+  state[`${chat}.isSuppressed`]       = settings.get('suppress').indexOf('chat') !== -1;
 
   resetActiveEmbed();
 
@@ -522,6 +513,5 @@ function initMessaging() {
 export const mediator = {
   channel: c,
   init: init,
-  initMessaging: initMessaging,
-  suppress: suppress
+  initMessaging: initMessaging
 };
