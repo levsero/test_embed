@@ -86,6 +86,10 @@ $Base-posOffset: $med + 1;
   margin-bottom: 0 !important;
 }
 
+.u-marginBT {
+  margin-bottom: $spacing-tny !important;
+}
+
 .u-marginBS {
   margin-bottom: $spacing-sml !important;
 }
@@ -293,6 +297,10 @@ $Base-posOffset: $med + 1;
 
 .u-textSize15 {
   font-size: $spacing-med !important;
+}
+
+.u-textSizeLrg {
+  font-size: #{16/$font-size}rem;
 }
 
 .u-textSizeBaseMobile {

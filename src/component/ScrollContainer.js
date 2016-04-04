@@ -52,9 +52,9 @@ export class ScrollContainer extends Component {
     return (
       <div className='ScrollContainer u-nbfc'>
         <header className='ScrollContainer-header u-paddingBM u-paddingHL'>
-          <h2 className={titleClasses}>
+          <div className={titleClasses}>
             {this.props.title}
-          </h2>
+          </div>
           {this.props.headerContent}
         </header>
         <div className={containerClasses}>

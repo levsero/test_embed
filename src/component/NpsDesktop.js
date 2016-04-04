@@ -85,7 +85,7 @@ export class NpsDesktop extends Component {
       'u-isHidden': this.state.currentPage.thankYou
     });
     const surveyTitleClasses = classNames({
-      'u-textSize15 u-textCenter': true,
+      'u-textSize15 u-textCenter u-textBold': true,
       'u-paddingTT': !this.state.currentPage.thankYou
     });
     const commentsClasses = classNames({
@@ -155,7 +155,7 @@ export class NpsDesktop extends Component {
         style={containerStyles}
         className={containerClasses}>
         <div className={containerContentClasses}>
-          <h1 className={surveyTitleClasses}>{surveyTitle}</h1>
+          <div className={surveyTitleClasses}>{surveyTitle}</div>
 
           <div className={surveyFormClasses}>
             {ratingsList}
