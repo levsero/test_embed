@@ -649,8 +649,12 @@ describe('embed.helpCenter', function() {
           .toHaveBeenCalledWith({ search: 'foo bar' });
       });
 
-      it('should\'t call keywordSearch on helpcenter pages', function() {
-        mockLocation.pathname = '/hc/1234-article-foo-bar';
+      it('should\'t call keywordSearch if user has manually set suggestions', function() {
+        const mockMediator = mockRegistry['service/mediator'].mediator;
+
+        helpCenter.render('carlos');
+
+        pluckSubscribeCall(mockMediator, 'carlos.setHelpCenterSuggestions')(['foo']);
 
         helpCenter.postRender('carlos');
 
@@ -658,12 +662,8 @@ describe('embed.helpCenter', function() {
           .not.toHaveBeenCalled();
       });
 
-      it('should\'t call keywordSearch if user has manually set suggestions', function() {
-        const mockMediator = mockRegistry['service/mediator'].mediator;
-
-        helpCenter.render('carlos');
-
-        pluckSubscribeCall(mockMediator, 'carlos.setHelpCenterSuggestions')(['foo']);
+      it('should\'t call keywordSearch on helpcenter pages', function() {
+        mockLocation.pathname = '/hc/1234-article-foo-bar';
 
         helpCenter.postRender('carlos');
 
