@@ -21,7 +21,7 @@ describe('mediator', function() {
   beforeEach(function() {
     mockery.enable();
 
-    mockSettingsGetValue = [];
+    mockSettingsGetValue = null;
 
     mockRegistry = initMockRegistry({
       'service/settings':  {
@@ -314,26 +314,6 @@ describe('mediator', function() {
 
         expect(helpCenterSub.show.calls.count())
           .toEqual(1);
-      });
-
-      it('should not set helpCenterForm to available if sign in required is not passed in', function() {
-        mediator.init(false);
-
-        jasmine.clock().install();
-        c.broadcast(`${launcher}.onClick`);
-        jasmine.clock().tick(0);
-
-        expect(helpCenterSub.show.calls.count())
-          .toEqual(0);
-
-        c.broadcast(`${submitTicket}.onClose`);
-        c.broadcast('authentication.onSuccess');
-
-        c.broadcast(`${launcher}.onClick`);
-        jasmine.clock().tick(0);
-
-        expect(helpCenterSub.show.calls.count())
-          .toEqual(0);
       });
     });
   });

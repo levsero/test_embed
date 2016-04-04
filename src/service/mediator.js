@@ -21,7 +21,6 @@ state[`${submitTicket}.isVisible`]  = false;
 state[`${chat}.isVisible`]          = false;
 state[`${helpCenter}.isVisible`]    = false;
 state[`${helpCenter}.isAccessible`] = false;
-state[`${helpCenter}.isAvailable`]  = false;
 state[`${helpCenter}.isSuppressed`] = false;
 state[`${chat}.isOnline`]           = false;
 state[`${chat}.isSuppressed`]       = false;
@@ -43,7 +42,7 @@ const chatAvailable = () => {
 };
 
 const isSuppressed = (embed) => {
-  return settings.get('suppress').indexOf(embed) !== -1;
+  return settings.get('suppress') ? settings.get('suppress').indexOf(embed) !== -1 : false;
 };
 
 const embedVisible = (_state) => _.any([
@@ -81,7 +80,6 @@ function init(helpCenterAccessible, params = {}) {
   state['.hasHidden']                 = params.hideLauncher;
   state[`${launcher}.userHidden`]     = params.hideLauncher;
   state[`${helpCenter}.isAccessible`] = helpCenterAccessible && !params.helpCenterSignInRequired;
-  state[`${helpCenter}.isAvailable`]  = helpCenterAccessible;
   state[`${helpCenter}.isSuppressed`] = isSuppressed('helpCenter');
   state[`${chat}.isSuppressed`]       = isSuppressed('chat');
 
@@ -446,7 +444,7 @@ function initMessaging() {
   });
 
   c.intercept(`authentication.onSuccess`, () => {
-    state[`${helpCenter}.isAccessible`] = state[`${helpCenter}.isAvailable`];
+    state[`${helpCenter}.isAccessible`] = true;
     if (!embedVisible(state) && state[`${helpCenter}.isAccessible`]) {
       resetActiveEmbed();
     }
