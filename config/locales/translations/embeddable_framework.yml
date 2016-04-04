@@ -187,12 +187,15 @@ parts:
       key: "embeddable_framework.submitTicket.attachments.title"
       title: "The label on the form above the attached files. Will wrap as needed."
       value: "Attachments"
+      wip: true
     - translation:
       key: "embeddable_framework.submitTicket.attachments.box.label"
       title: "The label that appears when attaching a file through drag and drop. Will wrap as needed."
       value: "Drop to attach"
+      wip: true
     - translation:
       key: "embeddable_framework.submitTicket.attachments.button.label"
       title: "The label on the form about attaching files. Will wrap as needed."
       value: "Add file or drop here"
+      wip: true
 
