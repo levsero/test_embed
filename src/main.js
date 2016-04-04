@@ -58,6 +58,8 @@ function boot() {
     _.forEach(postRenderQueue, function(method) {
       win.zE[method[0]](...method[1]);
     });
+
+    renderer.postRenderCallbacks();
   };
   const identify = function(user) {
     mediator.channel.broadcast('.onIdentify', user);

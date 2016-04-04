@@ -81,8 +81,6 @@ function init(config) {
 
     initialised = true;
 
-    postRenderCallbacks(renderedEmbeds);
-
     if (Math.abs(win.orientation) === 90) {
       hideByZoom(true);
     }
@@ -129,8 +127,8 @@ function renderedEmbedsApply(fn) {
   });
 }
 
-function postRenderCallbacks(embeds) {
-  _.forEach(embeds, function(embed, name) {
+function postRenderCallbacks() {
+  _.forEach(renderedEmbeds, function(embed, name) {
     const currentEmbed = embedsMap[embed.embed];
 
     if (currentEmbed.postRender) {
@@ -203,6 +201,7 @@ const hardcodedConfigs = {
 
 export const renderer = {
   init: init,
+  postRenderCallbacks: postRenderCallbacks,
   propagateFontRatio: propagateFontRatio,
   hideByZoom: hideByZoom,
   hardcodedConfigs: hardcodedConfigs,

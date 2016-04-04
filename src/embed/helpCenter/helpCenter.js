@@ -22,6 +22,7 @@ import { generateUserCSS,
 
 const helpCenterCSS = require('./helpCenter.scss');
 let helpCenters = {};
+let hasManuallySetContextualSuggestions = false;
 
 function create(name, config) {
   let containerStyle, posObj;
@@ -251,6 +252,7 @@ function render(name) {
   });
 
   mediator.channel.subscribe(name + '.setHelpCenterSuggestions', function(options) {
+    hasManuallySetContextualSuggestions = true;
     keywordsSearch(name, options);
   });
 }
@@ -260,6 +262,7 @@ function postRender(name) {
   const authSetting = settings.get('authenticate');
 
   if (config.contextualHelpEnabled &&
+      !hasManuallySetContextualSuggestions &&
       location.pathname &&
       location.pathname.substring(0, 4) !== '/hc/') {
     keywordsSearch(name, { search: getPageKeywords() });
