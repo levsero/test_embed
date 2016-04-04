@@ -74,3 +74,17 @@ $Container-spacing: 25/$font-size;
   padding-bottom: #{24/$font-size}rem !important;
   padding-top: #{12/$font-size}rem !important;
 }
+
+.Container--overlay {
+  width: calc(#{$container-width} - $spacing-lrg);
+  height: calc(#{$container-height} - $spacing-lrg);
+  background-color: $zendesk-color--white-smoke;
+  opacity: 0.8;
+}
+
+.Container--dashed {
+  border-width: #{2/$font-size}rem;
+  border-color: $base-border-color;
+  border-style: dashed;
+  border-radius: #{5/$font-size}rem;
+}

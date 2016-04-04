@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
+import Dropzone from 'react-dropzone';
 
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
@@ -246,11 +247,39 @@ ButtonRating.defaultProps = {
   onClick: () => {}
 };
 
+class ButtonDropzone extends Component {
+  render() {
+    return (
+      <Dropzone
+        onDrop={this.props.onDrop}
+        className='Form-field--display Container--dashed'>
+        <div className='u-textCenter'>
+          <Icon type='Icon--paperclip' />
+          <div className='u-inlineBlock u-alignTop'>
+            {i18n.t('embeddable_framework.submitTicket.attachments.button.label',
+              { fallback: 'Add file or drop here' }
+            )}
+          </div>
+        </div>
+      </Dropzone>
+    );
+  }
+}
+
+ButtonDropzone.propTypes = {
+  onDrop: PropTypes.func
+};
+
+ButtonDropzone.defaultProps = {
+  onDrop: () => {}
+};
+
 export {
   Button,
   ButtonNav,
   ButtonPill,
   ButtonSecondary,
   ButtonGroup,
-  ButtonRating
+  ButtonRating,
+  ButtonDropzone
 };

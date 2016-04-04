@@ -81,6 +81,14 @@ $Form-fontSize: #{13/$font-size}rem;
   padding: #{4/$font-size}rem $spacing-sml #{4/$font-size}rem;
 }
 
+.Form-field--display {
+  background: $zendesk-color--white-smoke;
+  border: $thin-border-size solid $stroke-color;
+  border-radius: #{4/$font-size}rem;
+  padding: #{9/$font-size}rem $spacing-sml $spacing-sml;
+  color: $secondary-color;
+}
+
 .Form-checkbox {
   width: #{14/$font-size}rem;
   height: #{14/$font-size}rem;

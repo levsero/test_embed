@@ -119,6 +119,29 @@
   }
 }
 
+.Icon--paperclip {
+  padding-right: #{5/$font-size}rem;
+
+  svg {
+    fill: $icon-inactive-color;
+    min-width: #{16/$font-size}rem; /* 1 */
+    min-height: #{16/$font-size}rem; /* 1 */
+    height: #{16/$font-size}rem;
+    width: #{16/$font-size}rem;
+  }
+}
+
+.Icon--paperclip-large {
+  padding-right: 0;
+
+  svg {
+    min-width: #{36/$font-size}rem; /* 1 */
+    min-height: #{36/$font-size}rem; /* 1 */
+    height: #{36/$font-size}rem;
+    width: #{36/$font-size}rem;
+  }
+}
+
 .Icon--tick {
   border: #{2/$font-size}rem solid $icon-color;
   padding: $spacing-lrg;

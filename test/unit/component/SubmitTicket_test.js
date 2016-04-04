@@ -93,6 +93,13 @@ describe('Submit ticket component', function() {
           }
         })
       },
+      'component/AttachmentBox': {
+        AttachmentBox: React.createClass({
+          render: function() {
+            return <div className='attachment_box' />;
+          }
+        })
+      },
       'service/i18n': {
         i18n: {
           init: noop,
@@ -300,5 +307,17 @@ describe('Submit ticket component', function() {
 
     expect(submitTicket.state.fullscreen)
       .toEqual('VALUE');
+  });
+
+  it('should display the attachment box when isDragActive is true', function() {
+    const submitTicket = domRender(<SubmitTicket />);
+
+    submitTicket.handleDragEnter();
+
+    expect(submitTicket.state.isDragActive)
+      .toEqual(true);
+
+    expect(document.querySelectorAll('.attachment_box').length)
+      .toEqual(1);
   });
 });

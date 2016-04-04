@@ -2,19 +2,23 @@ import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
 
-import { win } from 'utility/globals';
+import { AttachmentBox } from 'component/AttachmentBox';
+import { Container } from 'component/Container';
+import { Icon } from 'component/Icon';
+import { ScrollContainer } from 'component/ScrollContainer';
 import { SubmitTicketForm } from 'component/SubmitTicketForm';
 import { ZendeskLogo } from 'component/ZendeskLogo';
-import { Container } from 'component/Container';
-import { ScrollContainer } from 'component/ScrollContainer';
-import { isMobileBrowser } from 'utility/devices';
-import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
+import { isMobileBrowser } from 'utility/devices';
+import { win } from 'utility/globals';
 
 export class SubmitTicket extends Component {
   constructor(props, context) {
     super(props, context);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleDragEnter = this.handleDragEnter.bind(this);
+    this.handleDragLeave = this.handleDragLeave.bind(this);
+    this.handleOnDrop = this.handleOnDrop.bind(this);
 
     this.state = {
       showNotification: false,
@@ -23,7 +27,8 @@ export class SubmitTicket extends Component {
       errorMessage: '',
       uid: _.uniqueId('submitTicketForm_'),
       searchString: null,
-      searchLocale: null
+      searchLocale: null,
+      isDragActive: false
     };
   }
 
@@ -111,6 +116,25 @@ export class SubmitTicket extends Component {
     }
   }
 
+  handleDragEnter() {
+    this.setState({
+      isDragActive: true
+    });
+  }
+
+  handleDragLeave() {
+    this.setState({
+      isDragActive: false
+    });
+  }
+
+  handleOnDrop(files) {
+    this.setState({
+      isDragActive: false
+    });
+    this.refs.submitTicketForm.handleOnDrop(files);
+  }
+
   render() {
     const notifyClasses = classNames({
       'u-textCenter': true,
@@ -120,6 +144,7 @@ export class SubmitTicket extends Component {
       'Error u-marginTL': true,
       'u-isHidden': !this.state.errorMessage
     });
+    const attachmentsEnabled = (win.location.hash === '#ze-attachments-alpha' || __DEV__);
 
     if (this.props.updateFrameSize) {
       setTimeout( () => this.props.updateFrameSize(), 0);
@@ -131,13 +156,20 @@ export class SubmitTicket extends Component {
                           formSuccess={this.state.showNotification}
                           rtl={i18n.isRTL()}
                           fullscreen={this.state.fullscreen} />;
+    const attachmentBox = this.state.isDragActive && attachmentsEnabled
+                         ? <AttachmentBox
+                             onDragLeave={this.handleDragLeave}
+                             onDrop={this.handleOnDrop} />
+                         : null;
 
     return (
       <Container
         style={this.props.style}
         fullscreen={this.state.fullscreen}
         position={this.props.position}
+        onDragEnter={this.handleDragEnter}
         key={this.state.uid}>
+        {attachmentBox}
         <div className={notifyClasses} ref='notification'>
           <ScrollContainer
             title={this.state.message}>

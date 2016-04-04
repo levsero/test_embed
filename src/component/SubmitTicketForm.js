@@ -3,13 +3,16 @@ import ReactDOM from 'react-dom';
 import _ from 'lodash';
 import classNames from 'classnames';
 
+import { getAttachmentPreviews } from 'component/AttachmentPreview';
 import { Button,
          ButtonSecondary,
-         ButtonGroup } from 'component/Button';
-import { ScrollContainer } from 'component/ScrollContainer';
-import { i18n } from 'service/i18n';
+         ButtonGroup,
+         ButtonDropzone } from 'component/Button';
 import { Field,
          getCustomFields } from 'component/FormField';
+import { ScrollContainer } from 'component/ScrollContainer';
+import { i18n } from 'service/i18n';
+import { win } from 'utility/globals';
 import { bindMethods } from 'utility/utils';
 
 const initialState = {
@@ -18,7 +21,8 @@ const initialState = {
   isRTL: i18n.isRTL(),
   removeTicketForm: false,
   formState: {},
-  showErrorMessage: false
+  showErrorMessage: false,
+  attachments: []
 };
 const buttonMessageString = 'embeddable_framework.submitTicket.form.submitButton.label.send';
 const cancelButtonMessageString = 'embeddable_framework.submitTicket.form.cancelButton.label.cancel';
@@ -121,6 +125,10 @@ export class SubmitTicketForm extends Component {
     });
   }
 
+  openAttachment() {
+    this.setState({ showAttachmentForm: true });
+  }
+
   getFormState() {
     const form = ReactDOM.findDOMNode(this.refs.form);
 
@@ -152,6 +160,12 @@ export class SubmitTicketForm extends Component {
     }));
   }
 
+  handleOnDrop(files) {
+    const attachments = _.union(this.state.attachments, files);
+
+    this.setState({ attachments });
+  }
+
   clear() {
     const formData = this.state.formState;
     const form = this.refs.form.getDOMNode();
@@ -176,7 +190,18 @@ export class SubmitTicketForm extends Component {
       'Form u-cf': true,
       'u-isHidden': this.props.hide
     });
+    const removeAttachment = (attachment) => {
+      const idx = this.state.attachments.indexOf(attachment);
+
+      this.state.attachments.splice(idx, 1);
+      this.forceUpdate();
+    };
     const customFields = getCustomFields(this.props.customFields, this.state.formState);
+    const attachmentsEnabled = (win.location.hash === '#ze-attachments-alpha' || __DEV__);
+    const previews = getAttachmentPreviews(this.state.attachments, removeAttachment);
+    const attachments = (this.state.attachments.length !== 0)
+                      ? <div>{previews}</div>
+                      : null;
     const formBody = (this.state.removeTicketForm)
                    ? null
                    : <div ref='formWrapper'>
@@ -202,12 +227,23 @@ export class SubmitTicketForm extends Component {
                        {customFields.checkboxes}
                        {this.props.children}
                      </div>;
-    const buttonCancel = (this.props.fullscreen)
+    const buttonCancel = this.props.fullscreen
                        ? null
-                       : (<ButtonSecondary
-                            label={this.state.cancelButtonMessage}
-                            onClick={this.props.onCancel}
-                            fullscreen={this.props.fullscreen} />);
+                       : <ButtonSecondary
+                           label={this.state.cancelButtonMessage}
+                           onClick={this.props.onCancel}
+                           fullscreen={this.props.fullscreen} />;
+    const buttonDropzone = attachmentsEnabled
+                         ? <label className='Form-fieldContainer u-block u-marginVM'>
+                              <div className='Form-fieldLabel u-textXHeight'>
+                                {i18n.t('embeddable_framework.submitTicket.attachments.title',
+                                  { fallback: 'Attachments' }
+                                )}
+                              </div>
+                              <ButtonDropzone
+                                onDrop={this.handleOnDrop} />
+                            </label>
+                         : null;
 
     return (
       <form
@@ -232,6 +268,8 @@ export class SubmitTicketForm extends Component {
           }
           fullscreen={this.props.fullscreen}>
           {formBody}
+          {buttonDropzone}
+          {attachments}
         </ScrollContainer>
       </form>
     );

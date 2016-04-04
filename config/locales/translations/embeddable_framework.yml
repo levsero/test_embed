@@ -91,7 +91,7 @@ parts:
       value: "Email address"
 
   # Help Center component
-  - translation: 
+  - translation:
       key: "embeddable_framework.helpCenter.label.topSuggestions"
       title: "The text that is shown after a contextual help search is completed with results. (http://tinyurl.com/pkuvu72). Best Help Center articles found to match search query"
       value: "Top suggestions"
@@ -181,3 +181,21 @@ parts:
       key: "embeddable_framework.navigation.close"
       title: "The link to close the embeddable. Displays at the top right of the widget. If over 5 characters will just display icon (tinyurl.com/p33xnz2)"
       value: "Close"
+
+  # Attachments
+    - translation:
+      key: "embeddable_framework.submitTicket.attachments.title"
+      title: "The label on the form above the attached files. Will wrap as needed."
+      value: "Attachments"
+      wip: true
+    - translation:
+      key: "embeddable_framework.submitTicket.attachments.box.label"
+      title: "The label that appears when attaching a file through drag and drop. Will wrap as needed."
+      value: "Drop to attach"
+      wip: true
+    - translation:
+      key: "embeddable_framework.submitTicket.attachments.button.label"
+      title: "The label on the form about attaching files. Will wrap as needed."
+      value: "Add file or drop here"
+      wip: true
+
