@@ -92,6 +92,18 @@ parts:
 
   # Help Center component
   - translation:
+      key: "embeddable_framework.helpCenter.form.title.help"
+      title: "Default title of the help center form (https://zendesk.box.com/s/4kqdjtt90g8o9g6zu3jdnnlqarwhavpi)"
+      value: "Help"
+  - translation:
+      key: "embeddable_framework.helpCenter.form.title.support"
+      title: "Alternative title of the help center form (https://zendesk.box.com/s/giqiugq93xt75pay5xwxr6whhtyundrr)"
+      value: "Support"
+  - translation:
+      key: "embeddable_framework.helpCenter.form.title.feedback"
+      title: "Alternative title of the help center form (https://zendesk.box.com/s/fi01o7rd1f6qr398zzoko4jnj9ickt8c)"
+      value: "Feedback"
+  - translation:
       key: "embeddable_framework.helpCenter.label.topSuggestions"
       title: "The text that is shown after a contextual help search is completed with results. (http://tinyurl.com/pkuvu72). Best Help Center articles found to match search query"
       value: "Top suggestions"
