@@ -82,6 +82,7 @@ describe('mediator', function() {
       ['show',
        'showWithAnimation',
        'hide',
+       'activate',
        'setUser']
     );
 
@@ -133,6 +134,7 @@ describe('mediator', function() {
       c.subscribe(`${names.chat}.show`, chatSub.show);
       c.subscribe(`${names.chat}.showWithAnimation`, chatSub.show);
       c.subscribe(`${names.chat}.hide`, chatSub.hide);
+      c.subscribe(`${names.chat}.activate`, chatSub.activate);
       c.subscribe(`${names.chat}.setUser`, chatSub.setUser);
 
       c.subscribe(`${names.helpCenter}.show`, helpCenterSub.show);
@@ -1474,6 +1476,13 @@ describe('mediator', function() {
         c.broadcast('.show');
 
         expect(chatSub.show.calls.count())
+          .toEqual(1);
+      });
+
+      it('activates when a activate call is made', function() {
+        c.broadcast('.activate');
+
+        expect(chatSub.activate.calls.count())
           .toEqual(1);
       });
     });
