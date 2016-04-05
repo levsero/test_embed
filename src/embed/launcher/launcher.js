@@ -39,6 +39,7 @@ function create(name, config) {
           onTouchEnd={params.onClickHandler}
           updateFrameSize={params.updateFrameSize}
           setOffsetHorizontal={params.setOffsetHorizontal}
+          setOffsetVertical={params.setOffsetVertical}
           position={config.position}
           label={i18n.t(`embeddable_framework.launcher.label.${config.labelKey}`)}
           icon={config.icon} />

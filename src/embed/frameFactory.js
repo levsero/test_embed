@@ -115,6 +115,10 @@ export const frameFactory = function(childFn, _params) {
       }
     },
 
+    setOffsetVertical(offsetValue = 0) {
+      ReactDOM.findDOMNode(this).style.marginBottom = `${offsetValue}px`;
+    },
+
     setFrameSize(width, height, transparent = true) {
       const iframe = ReactDOM.findDOMNode(this);
       const frameWin = iframe.contentWindow;
@@ -284,9 +288,11 @@ export const frameFactory = function(childFn, _params) {
                               [i18n.isRTL() ? 'right' : 'left']: '-9999px',
                               position: 'absolute',
                               bottom: 'auto'};
+      const horizontalOffset = (isMobileBrowser()) ? 0 : settings.get('offset').horizontal;
+      const verticalOffset = (isMobileBrowser()) ? 0 : settings.get('offset').vertical;
       let posObj = (params.position === 'left')
-                 ? { left: settings.get('offset').horizontal }
-                 : { right: settings.get('offset').horizontal };
+                 ? { left: horizontalOffset }
+                 : { right: horizontalOffset };
 
       return _.extend(
         {
@@ -295,7 +301,7 @@ export const frameFactory = function(childFn, _params) {
           zIndex: 999998,
           transform: 'translateZ(0)',
           position: 'fixed',
-          bottom: settings.get('offset').vertical,
+          bottom: verticalOffset,
           opacity: 1
         },
         posObj,
@@ -369,7 +375,8 @@ export const frameFactory = function(childFn, _params) {
         childParams = _.extend(childParams, {
           updateFrameSize: this.updateFrameSize,
           setFrameSize: this.setFrameSize,
-          setOffsetHorizontal: this.setOffsetHorizontal
+          setOffsetHorizontal: this.setOffsetHorizontal,
+          setOffsetVertical: this.setOffsetVertical
         });
 
         const Component = React.createClass({

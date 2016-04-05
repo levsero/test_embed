@@ -31,6 +31,9 @@ export class Launcher extends Component {
     if (this.props.setOffsetHorizontal) {
       this.props.setOffsetHorizontal(20);
     }
+    if (this.props.setOffsetVertical) {
+      this.props.setOffsetVertical(10);
+    }
   }
 
   render() {
@@ -51,7 +54,7 @@ export class Launcher extends Component {
     });
 
     if (this.props.updateFrameSize) {
-      setTimeout( () => this.props.updateFrameSize(5, 10), 0);
+      setTimeout( () => this.props.updateFrameSize(5, 0), 0);
     }
 
     return (
