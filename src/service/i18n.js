@@ -5,14 +5,6 @@ import { settings } from 'service/settings';
 const translate = require('counterpart');
 const translations = require('translation/translations.json');
 const localeIdMap = require('translation/localeIdMap.json');
-const translationLookupTable = {
-  launcherText: 'embeddable_framework.launcher.label.[help,support,feedback]',
-  launcherTextChat: 'embeddable_framework.launcher.label.chat',
-  helpFormTitle: 'embeddable_framework.helpCenter.form.title.[help,support,feedback]',
-  helpFormButtonText: 'embeddable_framework.helpCenter.submitButton.label.submitTicket.[message,contact]',
-  helpFormButtonTextChat: 'embeddable_framework.helpCenter.submitButton.label.chat',
-  contactFormTitle: 'embeddable_framework.submitTicket.form.title.[message,contact]'
-};
 
 let currentLocale;
 
@@ -93,11 +85,10 @@ function parseLocale(str) {
 function overrideTranslations(newTranslations) {
   // override all locales if there are wild card translations
   if (newTranslations.hasOwnProperty('*')) {
+    const globalOverrides = mappedTranslationsForLocale(newTranslations['*']);
+
     for (let locale in translations) {
-      _.merge(
-        translations[locale],
-        mappedTranslationsForLocale(newTranslations, '*')
-      );
+      _.merge(translations[locale], globalOverrides);
     }
   }
 
@@ -105,38 +96,34 @@ function overrideTranslations(newTranslations) {
   for (let locale in newTranslations) {
     if (locale === '*') continue;
 
-    _.merge(
-      translations[locale],
-      mappedTranslationsForLocale(newTranslations, locale)
-    );
+    _.merge(translations[locale], mappedTranslationsForLocale(newTranslations[locale]));
   }
 }
 
-function mappedTranslationsForLocale(newTranslations, locale) {
-  const translationOverrides = _.mapKeys(newTranslations[locale], (val, key) => {
-    return translationLookupTable[key];
-  });
+function mappedTranslationsForLocale(localeTranslations) {
+  const translationLookupTable = {
+    'embeddable_framework.launcher.label.help': 'launcherText',
+    'embeddable_framework.launcher.label.support': 'launcherText',
+    'embeddable_framework.launcher.label.feedback': 'launcherText',
+    'embeddable_framework.launcher.label.chat': 'launcherTextChat',
+    'embeddable_framework.helpCenter.form.title.help': 'helpFormTitle',
+    'embeddable_framework.helpCenter.form.title.support': 'helpFormTitle',
+    'embeddable_framework.helpCenter.form.title.feedback': 'helpFormTitle',
+    'embeddable_framework.helpCenter.submitButton.label.submitTicket.message': 'helpFormButtonText',
+    'embeddable_framework.helpCenter.submitButton.label.submitTicket.contact': 'helpFormButtonText',
+    'embeddable_framework.helpCenter.submitButton.label.chat': 'helpFormButtonTextChat',
+    'embeddable_framework.submitTicket.form.title.message': 'contactFormTitle',
+    'embeddable_framework.submitTicket.form.title.contact': 'contactFormTitle'
+  };
+  const translationOverrides = {};
 
-  return expandMappedTranslations(translationOverrides);
-}
-
-function expandMappedTranslations(mappedTranslations) {
-  for (let key in mappedTranslations) {
-    const idx = key.indexOf('[');
-
-    if (idx > -1) {
-      const prefix = key.substring(0, idx);
-      const newKeys = _.map(key.substring(idx+1, key.length-1).split(','), (newKey) => {
-        return `${prefix}${newKey}`;
-      });
-      const newMapTranslations = _.zipObject(newKeys, _.times(newKeys.length, () => mappedTranslations[key]));
-
-      _.merge(mappedTranslations, newMapTranslations);
-      delete mappedTranslations[key];
+  for (let key in translationLookupTable) {
+    if (localeTranslations.hasOwnProperty(translationLookupTable[key])) {
+      _.merge(translationOverrides, { [key]: localeTranslations[translationLookupTable[key]] });
     }
   }
 
-  return mappedTranslations;
+  return translationOverrides;
 }
 
 export const i18n = {
