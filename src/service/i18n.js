@@ -115,15 +115,12 @@ function mappedTranslationsForLocale(localeTranslations) {
     'embeddable_framework.submitTicket.form.title.message': 'contactFormTitle',
     'embeddable_framework.submitTicket.form.title.contact': 'contactFormTitle'
   };
-  const translationOverrides = {};
 
-  for (let key in translationLookupTable) {
-    if (localeTranslations.hasOwnProperty(translationLookupTable[key])) {
-      _.merge(translationOverrides, { [key]: localeTranslations[translationLookupTable[key]] });
-    }
-  }
-
-  return translationOverrides;
+  return Object.keys(translationLookupTable)
+    .filter((key) => localeTranslations.hasOwnProperty(translationLookupTable[key]))
+    .reduce((obj, key) => {
+      return _.merge(obj, { [key]: localeTranslations[translationLookupTable[key]] });
+    }, {});
 }
 
 export const i18n = {
