@@ -2,13 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import _     from 'lodash';
 
-import { frameFactory }     from 'embed/frameFactory';
-import { Ipm }              from 'component/Ipm';
-import { mediator }         from 'service/mediator';
-import { transport }        from 'service/transport';
+import { frameFactory } from 'embed/frameFactory';
+import { Ipm } from 'component/Ipm';
+import { mediator } from 'service/mediator';
+import { transport } from 'service/transport';
 import { transitionFactory } from 'service/transitionFactory';
 import { document,
-         getDocumentHost } from 'utility/globals';
+         getDocumentHost,
+         location } from 'utility/globals';
 import { isMobileBrowser } from 'utility/devices';
 
 const ipmCSS = require('./ipm.scss');
@@ -115,7 +116,7 @@ function render(name) {
       ipm.setState({
         ipm: _.extend({}, ipmContent),
         ipmAvailable: true,
-        url: document.referrer
+        url: location.href
       });
     } else {
       ipm.setState({
