@@ -2,15 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import _     from 'lodash';
 
-import { frameFactory } from 'embed/frameFactory';
 import { Ipm } from 'component/Ipm';
+import { frameFactory } from 'embed/frameFactory';
 import { mediator } from 'service/mediator';
-import { transport } from 'service/transport';
 import { transitionFactory } from 'service/transitionFactory';
+import { transport } from 'service/transport';
+import { isMobileBrowser } from 'utility/devices';
 import { document,
          getDocumentHost,
          location } from 'utility/globals';
-import { isMobileBrowser } from 'utility/devices';
 
 const ipmCSS = require('./ipm.scss');
 
