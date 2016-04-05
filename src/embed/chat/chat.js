@@ -34,6 +34,11 @@ function get(name) {
 function showButton() {
   win.$zopim(function() {
     win.$zopim.livechat.button.show();
+
+    // TODO remove when zopim has release mobile notifications
+    if (win.$zopim.livechat.mobileNotifications) {
+      win.$zopim.livechat.mobileNotifications.setDisabled(false);
+    }
   });
 }
 
@@ -51,6 +56,7 @@ function show() {
 function hide() {
   win.$zopim(function() {
     win.$zopim.livechat.hideAll();
+
     // TODO remove when zopim has release mobile notifications
     if (win.$zopim.livechat.mobileNotifications) {
       win.$zopim.livechat.mobileNotifications.setDisabled(true);
@@ -98,25 +104,20 @@ function render(name) {
     });
   }
 
-  mediator.channel.subscribe(`${name}.show`, function(params) {
-    win.$zopim && win.$zopim(function() {
-      if (params && params.showButtonOnly) {
-        if (win.$zopim.livechat.window.getDisplay()) {
-          show();
-        } else {
-          showButton();
-        }
-      } else {
+  mediator.channel.subscribe(`${name}.show`, () => {
+    win.$zopim && win.$zopim(() => {
+      if (win.$zopim.livechat.window.getDisplay()) {
         show();
+      } else {
+        showButton();
       }
     });
   });
 
-  mediator.channel.subscribe(`${name}.hide`, function() {
-    hide();
-  });
+  mediator.channel.subscribe(`${name}.hide`, () => hide());
+  mediator.channel.subscribe(`${name}.activate`, () => show());
 
-  mediator.channel.subscribe(`${name}.setUser`, function(user) {
+  mediator.channel.subscribe(`${name}.setUser`, (user) => {
     win.$zopim && win.$zopim(function() {
       win.$zopim.livechat.setName(user.name);
       win.$zopim.livechat.setEmail(user.email);

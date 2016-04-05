@@ -512,8 +512,8 @@ function initMessaging() {
 }
 
 function initZopimStandalone() {
-  // Intercept zE.hide() and zE.show() api calls and make them an alias for zopims
-  // hide and show functions if the user is on a naked zopim configuration.
+  // Intercept zE.hide() zE.show(), and zE.activate() API calls.
+  // Make them an alias for zopims hide and show functions if the user is on a naked zopim configuration.
   // zE.hide() = $zopim.livechat.hideAll(),
   // zE.show() = $zopim.livechat.button.show().
   c.intercept('.hide', () => {
@@ -525,7 +525,16 @@ function initZopimStandalone() {
   c.intercept('.show', () => {
     state[`${chat}.isVisible`] = true;
 
-    c.broadcast(`${chat}.show`, { showButtonOnly: true });
+    c.broadcast(`${chat}.show`);
+  });
+
+  c.intercept('.activate', () => {
+    if (!state[`${chat}.isVisible`]) {
+      resetActiveEmbed();
+    }
+
+    c.broadcast(`${chat}.activate`);
+    state[`${chat}.isVisible`] = true;
   });
 }
 
