@@ -518,23 +518,17 @@ function initZopimStandalone() {
   // zE.show() = $zopim.livechat.button.show().
   c.intercept('.hide', () => {
     state[`${chat}.isVisible`] = false;
-
     c.broadcast(`${chat}.hide`);
   });
 
   c.intercept('.show', () => {
     state[`${chat}.isVisible`] = true;
-
     c.broadcast(`${chat}.show`);
   });
 
   c.intercept('.activate', () => {
-    if (!state[`${chat}.isVisible`]) {
-      resetActiveEmbed();
-    }
-
-    c.broadcast(`${chat}.activate`);
     state[`${chat}.isVisible`] = true;
+    c.broadcast(`${chat}.activate`);
   });
 }
 

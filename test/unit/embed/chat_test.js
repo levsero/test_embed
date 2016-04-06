@@ -252,7 +252,7 @@ describe('embed.chat', function() {
       });
 
       describe('<name>.show', function() {
-        it('should call zopim.button.show()', function() {
+        it('should call zopim.button.show() if livechat window has not been opened', function() {
           pluckSubscribeCall(mockMediator, 'dave.show')();
 
           expect(mockZopim.livechat.button.show)
