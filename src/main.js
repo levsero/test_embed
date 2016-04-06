@@ -2,7 +2,10 @@
 // https://github.com/facebook/react/issues/1939#issuecomment-100786151
 require('utility/utils').patchReactIdAttribute();
 
-import _ from 'lodash';
+import { extend,
+         contains,
+         forEach,
+         noop } from 'lodash';
 
 import { authentication } from 'service/authentication';
 import { beacon } from 'service/beacon';
@@ -23,6 +26,7 @@ import { clickBusterHandler } from 'utility/utils';
 function boot() {
   let devApi;
   let postRenderQueue = [];
+  let $zopim = noop;
   const host = location.host;
   const path = location.pathname;
   const chatPages = [
@@ -31,7 +35,7 @@ function boot() {
     '/product/tour'
   ];
   const handleQueue = function(queue) {
-    _.forEach(queue, function(method) {
+    forEach(queue, function(method) {
       if (method[0].locale) {
         // Backwards compat with zE({locale: 'zh-CN'}) calls
         i18n.setLocale(method[0].locale);
@@ -55,7 +59,7 @@ function boot() {
     });
   };
   const handlePostRenderQueue = function(postRenderQueue) {
-    _.forEach(postRenderQueue, function(method) {
+    forEach(postRenderQueue, function(method) {
       win.zE[method[0]](...method[1]);
     });
 
@@ -152,7 +156,7 @@ function boot() {
   // When we inject the snippet we remove the queue method and just inject
   // the script tag.
   if (!win.$zopim) {
-    let $zopim = win.$zopim = function(callback) {
+    $zopim = win.$zopim = function(callback) {
       $zopim._.push(callback);
     };
 
@@ -161,15 +165,9 @@ function boot() {
     };
     $zopim._ = [];
     $zopim.set._ = [];
-
-    // Make this the first in the queue so that subsequent
-    // user-initiated setTitle(…) calls will override this value
-    $zopim(function() {
-      win.$zopim.livechat.window.setTitle(i18n.t('embeddable_framework.chat.title'));
-    });
   }
 
-  _.extend(win.zEmbed, publicApi, devApi);
+  extend(win.zEmbed, publicApi, devApi);
 
   handleQueue(document.zEQueue);
 
@@ -185,7 +183,7 @@ function boot() {
 
   // The config for zendesk.com
   if (host === 'www.zendesk.com') {
-    if (_.contains(chatPages, path)) {
+    if (contains(chatPages, path)) {
       renderer.init(renderer.hardcodedConfigs.zendeskWithChat);
     } else {
       renderer.init(renderer.hardcodedConfigs.zendeskDefault);
@@ -202,6 +200,13 @@ function boot() {
           // only send 1/10 times
           if (Math.random() <= 0.1) {
             beacon.sendConfigLoadTime(Date.now() - configLoadStart);
+          }
+          if (res.body.embeds.zopimChat) {
+            // Make this the first in the queue so that subsequent
+            // user-initiated setTitle(…) calls will override this value
+            $zopim._.unshift((function() {
+              win.$zopim.livechat.window.setTitle(i18n.t('embeddable_framework.chat.title'));
+            }));
           }
 
           renderer.init(res.body);
