@@ -20,7 +20,7 @@ const submitTicketCSS = require('./submitTicket.scss');
 let submitTickets = {};
 
 function create(name, config) {
-  let containerStyle, posObj;
+  let containerStyle;
   let frameStyle = {};
 
   const configDefaults = {

@@ -15,6 +15,15 @@ export class Launcher extends Component {
     };
   }
 
+  componentDidUpdate() {
+    if (this.props.setOffsetHorizontal) {
+      this.props.setOffsetHorizontal(20);
+    }
+    if (this.props.setOffsetVertical) {
+      this.props.setOffsetVertical(10);
+    }
+  }
+
   setLabel(label) {
     this.setState({
       label: label
@@ -25,15 +34,6 @@ export class Launcher extends Component {
     this.setState({
       icon: icon
     });
-  }
-
-  componentDidUpdate() {
-    if (this.props.setOffsetHorizontal) {
-      this.props.setOffsetHorizontal(20);
-    }
-    if (this.props.setOffsetVertical) {
-      this.props.setOffsetVertical(10);
-    }
   }
 
   render() {
@@ -73,6 +73,8 @@ export class Launcher extends Component {
 Launcher.propTypes = {
   onClick: PropTypes.func,
   updateFrameSize: PropTypes.func,
+  setOffsetHorizontal: PropTypes.func,
+  setOffsetVertical: PropTypes.func,
   position: PropTypes.string,
   label: PropTypes.string,
   icon: PropTypes.string

@@ -25,7 +25,7 @@ let helpCenters = {};
 let hasManuallySetContextualSuggestions = false;
 
 function create(name, config) {
-  let containerStyle, posObj;
+  let containerStyle;
 
   const frameStyle = {};
   const configDefaults = {
