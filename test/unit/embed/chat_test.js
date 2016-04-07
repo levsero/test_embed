@@ -78,7 +78,7 @@ describe('embed.chat', function() {
       },
       'service/settings': {
         settings: {
-          get: (name) => { return mockSettingsValue[name]; }
+          get: (name) => mockSettingsValue[name]
         }
       },
       'utility/devices': {
@@ -122,7 +122,7 @@ describe('embed.chat', function() {
 
     it('should correctly parse the value for offsetHorizontal', function() {
       mockSettingsValue = {
-        offset: { horizontal: '20px' },
+        offset: { horizontal: 20 },
         widgetMargin: 15
       };
 
@@ -138,7 +138,7 @@ describe('embed.chat', function() {
       chat.create('dave');
 
       expect(chat.get('dave').config.offsetVertical)
-        .toEqual('20px');
+        .toEqual(20);
     });
   });
 

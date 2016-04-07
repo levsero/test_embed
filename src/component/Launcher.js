@@ -4,6 +4,9 @@ import classNames from 'classnames';
 import { Icon } from 'component/Icon';
 import { isMobileBrowser } from 'utility/devices';
 
+const offsetHorizontal = 20;
+const offsetVertical = 10;
+
 export class Launcher extends Component {
   constructor(props, context) {
     super(props, context);
@@ -16,12 +19,8 @@ export class Launcher extends Component {
   }
 
   componentDidUpdate() {
-    if (this.props.setOffsetHorizontal) {
-      this.props.setOffsetHorizontal(20);
-    }
-    if (this.props.setOffsetVertical) {
-      this.props.setOffsetVertical(10);
-    }
+    this.props.setOffsetHorizontal(offsetHorizontal);
+    this.props.setOffsetVertical(offsetVertical);
   }
 
   setLabel(label) {
@@ -53,9 +52,7 @@ export class Launcher extends Component {
       'u-isHidden': isMobileBrowser() && !this.state.hasUnreadMessages
     });
 
-    if (this.props.updateFrameSize) {
-      setTimeout( () => this.props.updateFrameSize(5, 0), 0);
-    }
+    setTimeout( () => this.props.updateFrameSize(5, 0), 0);
 
     return (
       <div className={buttonClasses}
@@ -71,11 +68,17 @@ export class Launcher extends Component {
 }
 
 Launcher.propTypes = {
-  onClick: PropTypes.func,
+  onClick: PropTypes.func.isRequired,
   updateFrameSize: PropTypes.func,
   setOffsetHorizontal: PropTypes.func,
   setOffsetVertical: PropTypes.func,
-  position: PropTypes.string,
-  label: PropTypes.string,
-  icon: PropTypes.string
+  position: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  icon: PropTypes.string.isRequired
+};
+
+Launcher.defaultProps = {
+  updateFrameSize: () => {},
+  setOffsetHorizontal: () => {},
+  setOffsetVertical: () => {}
 };

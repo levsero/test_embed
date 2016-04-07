@@ -290,9 +290,9 @@ export const frameFactory = function(childFn, _params) {
                               bottom: 'auto'};
       const horizontalOffset = (isMobileBrowser()) ? 0 : settings.get('offset').horizontal;
       const verticalOffset = (isMobileBrowser()) ? 0 : settings.get('offset').vertical;
-      let posObj = (params.position === 'left')
-                 ? { left: horizontalOffset }
-                 : { right: horizontalOffset };
+      let posObj = {}
+
+      posObj[params.position] = horizontalOffset;
 
       return _.extend(
         {

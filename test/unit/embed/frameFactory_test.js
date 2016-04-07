@@ -47,7 +47,7 @@ describe('frameFactory', function() {
       },
       'service/settings': {
         settings: {
-          get: (name) => { return  mockSettingsValue[name]; }
+          get: (name) => mockSettingsValue[name]
         }
       },
       'component/Button': {
