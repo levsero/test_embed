@@ -511,8 +511,30 @@ function initMessaging() {
   });
 }
 
+function initZopimStandalone() {
+  // Intercept zE.hide() zE.show(), and zE.activate() API calls.
+  // Make them an alias for zopims hide and show functions if the user is on a naked zopim configuration.
+  // zE.hide() = $zopim.livechat.hideAll(),
+  // zE.show() = $zopim.livechat.button.show().
+  c.intercept('.hide', () => {
+    state[`${chat}.isVisible`] = false;
+    c.broadcast(`${chat}.hide`);
+  });
+
+  c.intercept('.show', () => {
+    state[`${chat}.isVisible`] = true;
+    c.broadcast(`${chat}.show`);
+  });
+
+  c.intercept('.activate', () => {
+    state[`${chat}.isVisible`] = true;
+    c.broadcast(`${chat}.activate`);
+  });
+}
+
 export const mediator = {
   channel: c,
   init: init,
-  initMessaging: initMessaging
+  initMessaging: initMessaging,
+  initZopimStandalone: initZopimStandalone
 };

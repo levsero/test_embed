@@ -82,6 +82,7 @@ describe('mediator', function() {
       ['show',
        'showWithAnimation',
        'hide',
+       'activate',
        'setUser']
     );
 
@@ -133,6 +134,7 @@ describe('mediator', function() {
       c.subscribe(`${names.chat}.show`, chatSub.show);
       c.subscribe(`${names.chat}.showWithAnimation`, chatSub.show);
       c.subscribe(`${names.chat}.hide`, chatSub.hide);
+      c.subscribe(`${names.chat}.activate`, chatSub.activate);
       c.subscribe(`${names.chat}.setUser`, chatSub.setUser);
 
       c.subscribe(`${names.helpCenter}.show`, helpCenterSub.show);
@@ -1710,60 +1712,89 @@ describe('mediator', function() {
   *                 NAKED ZOPIM                *
   * ****************************************** */
 
-  describe('launcher final state depends on chat', function() {
-    const launcher = 'launcher';
-    const chat = 'zopimChat';
-    const names = {
-      launcher: launcher,
-      chat: chat
-    };
+  describe('naked zopim', function() {
+    describe('launcher final state depends on chat', function() {
+      const launcher = 'launcher';
+      const chat = 'zopimChat';
+      const names = {
+        launcher: launcher,
+        chat: chat
+      };
 
-    beforeEach(function() {
-      initSubscriptionSpies(names);
-    });
-
-    describe('launcher is not hidden by zE.hide() API call', function() {
       beforeEach(function() {
-        mediator.init(false);
+        initSubscriptionSpies(names);
       });
 
-      it('shows launcher when chat is online', function() {
-        c.broadcast(`${chat}.onOnline`);
+      describe('launcher is not hidden by zE.hide() API call', function() {
+        beforeEach(function() {
+          mediator.init(false);
+        });
 
-        expect(launcherSub.show.calls.count())
-          .toEqual(1);
+        it('shows launcher when chat is online', function() {
+          c.broadcast(`${chat}.onOnline`);
+
+          expect(launcherSub.show.calls.count())
+            .toEqual(1);
+        });
+
+        it('shows launcher after 3000ms if chat is offline', function() {
+          jasmine.clock().install();
+          c.broadcast(`${chat}.onOnline`);
+          c.broadcast(`${chat}.onOffline`);
+          jasmine.clock().tick(3000);
+
+          expect(launcherSub.show.calls.count())
+            .toEqual(1);
+        });
       });
 
-      it('shows launcher after 3000ms if chat is offline', function() {
-        jasmine.clock().install();
-        c.broadcast(`${chat}.onOnline`);
-        c.broadcast(`${chat}.onOffline`);
-        jasmine.clock().tick(3000);
+      describe('launcher is hidden by zE.hide() API call', function() {
+        beforeEach(function() {
+          mediator.init(false, { hideLauncher: true });
+        });
 
-        expect(launcherSub.show.calls.count())
-          .toEqual(1);
+        it('does not show launcher when chat is online', function() {
+          c.broadcast(`${chat}.onOnline`);
+
+          expect(launcherSub.show.calls.count())
+            .toEqual(0);
+        });
+
+        it('does not show launcher after 3000ms when chat is offline', function() {
+          jasmine.clock().install();
+          c.broadcast(`${chat}.onOffline`);
+          jasmine.clock().tick(3000);
+
+          expect(launcherSub.show.calls.count())
+            .toEqual(0);
+        });
       });
-    });
 
-    describe('launcher is hidden by zE.hide() API call', function() {
-      beforeEach(function() {
-        mediator.init(false, { hideLauncher: true });
-      });
+      describe('should use zE hide, show, and activate methods as an alias for zopim show / hide functionality', function() {
+        beforeEach(function() {
+          mediator.initZopimStandalone();
+        });
 
-      it('does not show launcher when chat is online', function() {
-        c.broadcast(`${chat}.onOnline`);
+        it('should hide when a call to zE.hide() is made', function() {
+          c.broadcast('.hide');
 
-        expect(launcherSub.show.calls.count())
-          .toEqual(0);
-      });
+          expect(chatSub.hide.calls.count())
+            .toEqual(1);
+        });
 
-      it('does not show launcher after 3000ms when chat is offline', function() {
-        jasmine.clock().install();
-        c.broadcast(`${chat}.onOffline`);
-        jasmine.clock().tick(3000);
+        it('should show when a call to zE.show() is made', function() {
+          c.broadcast('.show');
 
-        expect(launcherSub.show.calls.count())
-          .toEqual(0);
+          expect(chatSub.show.calls.count())
+            .toEqual(1);
+        });
+
+        it('should activate when a call to zE.activate() is made', function() {
+          c.broadcast('.activate');
+
+          expect(chatSub.activate.calls.count())
+            .toEqual(1);
+        });
       });
     });
   });
