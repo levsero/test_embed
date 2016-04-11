@@ -73,9 +73,6 @@ describe('embed.chat', function() {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
         }
       },
-      'service/persistence': {
-        store: jasmine.createSpyObj('store', ['set', 'get'])
-      },
       'service/settings': {
         settings: {
           get: (name) => mockSettingsValue[name]
@@ -282,7 +279,9 @@ describe('embed.chat', function() {
       });
 
       describe('<name>.show', function() {
-        it('should call zopim.button.show() if livechat window has not been opened', function() {
+        it('should call zopim.button.show() if livechat window has not been opened and it is standalone', function() {
+          chat.create('dave', { zopimId: zopimId, standalone: true });
+
           pluckSubscribeCall(mockMediator, 'dave.show')();
 
           expect(mockZopim.livechat.button.show)
@@ -314,7 +313,7 @@ describe('embed.chat', function() {
             .toHaveBeenCalled();
         });
 
-        it('should call zopim.livechat.mobileNotifications.setDiabled(true)', function() {
+        it('should call zopim.livechat.mobileNotifications.setDisabled(true)', function() {
           pluckSubscribeCall(mockMediator, 'dave.hide')();
 
           expect(mockZopim.livechat.mobileNotifications.setDisabled)

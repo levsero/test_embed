@@ -516,6 +516,8 @@ function initZopimStandalone() {
   // Make them an alias for zopims hide and show functions if the user is on a naked zopim configuration.
   // zE.hide() = $zopim.livechat.hideAll(),
   // zE.show() = $zopim.livechat.button.show().
+  // zE.activate() = $zopim.livechat.window.show().
+
   c.intercept('.hide', () => {
     state[`${chat}.isVisible`] = false;
     c.broadcast(`${chat}.hide`);
@@ -530,6 +532,8 @@ function initZopimStandalone() {
     state[`${chat}.isVisible`] = true;
     c.broadcast(`${chat}.activate`);
   });
+
+  initMessaging();
 }
 
 export const mediator = {

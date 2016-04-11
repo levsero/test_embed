@@ -102,9 +102,11 @@ function initMediator(config) {
     };
 
     mediator.init(!!config.embeds.helpCenterForm, params);
-  } else if ((config.embeds && config.embeds.zopimChat) || _.isEmpty(config.embeds)) {
-    // naked zopim or empty config
+  } else if (config.embeds && config.embeds.zopimChat) {
+    // naked zopim
     mediator.initZopimStandalone();
+  } else if (_.isEmpty(config.embeds)) {
+    // No embeds
     mediator.initMessaging();
   } else {
     logging.error({
