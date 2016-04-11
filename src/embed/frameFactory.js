@@ -2,17 +2,18 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
 import classNames from 'classnames';
+import snabbt from 'snabbt.js';
 
-import { win }                 from 'utility/globals';
+import { ButtonNav } from 'component/Button';
+import { Icon } from 'component/Icon';
+import { i18n } from 'service/i18n';
+import { settings } from 'service/settings';
+import { win } from 'utility/globals';
 import { getZoomSizingRatio,
          isMobileBrowser,
-         isFirefox }           from 'utility/devices';
+         isFirefox } from 'utility/devices';
 import { clickBusterRegister,
-         generateNpsCSS }      from 'utility/utils';
-import { i18n }                from 'service/i18n';
-import { ButtonNav }           from 'component/Button';
-import { Icon }                from 'component/Icon';
-import snabbt                  from 'snabbt.js';
+         generateNpsCSS } from 'utility/utils';
 
 const baseCSS = require('baseCSS');
 const mainCSS = require('mainCSS');
@@ -56,7 +57,8 @@ export const frameFactory = function(childFn, _params) {
     afterShowAnimate: () => {},
     transitions: {},
     isMobile: isMobileBrowser(),
-    disableSetOffsetHorizontal: false
+    disableSetOffsetHorizontal: false,
+    position: 'right'
   };
   const params = _.extend({}, defaultParams, _params);
 
@@ -109,7 +111,12 @@ export const frameFactory = function(childFn, _params) {
     setOffsetHorizontal(offsetValue = 0) {
       if (!params.disableSetOffsetHorizontal) {
         ReactDOM.findDOMNode(this).style.marginLeft = `${offsetValue}px`;
+        ReactDOM.findDOMNode(this).style.marginRight = `${offsetValue}px`;
       }
+    },
+
+    setOffsetVertical(offsetValue = 0) {
+      ReactDOM.findDOMNode(this).style.marginBottom = `${offsetValue}px`;
     },
 
     setFrameSize(width, height, transparent = true) {
@@ -281,6 +288,11 @@ export const frameFactory = function(childFn, _params) {
                               [i18n.isRTL() ? 'right' : 'left']: '-9999px',
                               position: 'absolute',
                               bottom: 'auto'};
+      const horizontalOffset = (isMobileBrowser()) ? 0 : settings.get('offset').horizontal;
+      const verticalOffset = (isMobileBrowser()) ? 0 : settings.get('offset').vertical;
+      let posObj = {}
+
+      posObj[params.position] = horizontalOffset;
 
       return _.extend(
         {
@@ -288,8 +300,11 @@ export const frameFactory = function(childFn, _params) {
           background: 'transparent',
           zIndex: 999998,
           transform: 'translateZ(0)',
+          position: 'fixed',
+          bottom: verticalOffset,
           opacity: 1
         },
+        posObj,
         this.state.frameStyle,
         this.state.iframeDimensions,
         visibilityRule
@@ -360,7 +375,8 @@ export const frameFactory = function(childFn, _params) {
         childParams = _.extend(childParams, {
           updateFrameSize: this.updateFrameSize,
           setFrameSize: this.setFrameSize,
-          setOffsetHorizontal: this.setOffsetHorizontal
+          setOffsetHorizontal: this.setOffsetHorizontal,
+          setOffsetVertical: this.setOffsetVertical
         });
 
         const Component = React.createClass({

@@ -6,6 +6,16 @@ describe('settings', function() {
     settings = requireUncached(settingsPath).settings;
   });
 
+  describe('#store', function() {
+    it('has the correct default values', function() {
+      expect(settings.get('offset'))
+        .toEqual({ horizontal: 0, vertical: 0 });
+
+      expect(settings.get('widgetMargin'))
+        .toEqual(15);
+    });
+  });
+
   describe('#init', function() {
     it('should store an authenticate object if it is passed in', function() {
       settings.init({ authenticate: { jwt: 'token' } });

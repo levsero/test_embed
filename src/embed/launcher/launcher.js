@@ -25,16 +25,10 @@ function create(name, config) {
   };
   const frameStyle = {
     width: '80px',
-    height: '50px',
-    position: 'fixed',
-    bottom: '10px'
+    height: '50px'
   };
 
   config = _.extend(configDefaults, config);
-
-  let posObj = (config.position === 'left')
-             ? { 'left':  '20px' }
-             : { 'right': '20px' };
 
   const Embed = React.createClass(frameFactory(
     (params) => {
@@ -44,13 +38,16 @@ function create(name, config) {
           onClick={params.onClickHandler}
           onTouchEnd={params.onClickHandler}
           updateFrameSize={params.updateFrameSize}
+          setOffsetHorizontal={params.setOffsetHorizontal}
+          setOffsetVertical={params.setOffsetVertical}
           position={config.position}
           label={i18n.t(`embeddable_framework.launcher.label.${config.labelKey}`)}
           icon={config.icon} />
       );
     },
     {
-      frameStyle: _.extend(frameStyle, posObj),
+      frameStyle: frameStyle,
+      position: config.position,
       css: launcherCSS + generateUserCSS({color: config.color}),
       name: name,
       hideCloseButton: true,

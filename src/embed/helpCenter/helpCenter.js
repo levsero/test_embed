@@ -25,12 +25,9 @@ let helpCenters = {};
 let hasManuallySetContextualSuggestions = false;
 
 function create(name, config) {
-  let containerStyle, posObj;
+  let containerStyle;
 
-  const frameStyle = {
-    position: 'fixed',
-    bottom: 0
-  };
+  const frameStyle = {};
   const configDefaults = {
     position: 'right',
     contextualHelpEnabled: false,
@@ -102,13 +99,9 @@ function create(name, config) {
   if (isMobileBrowser()) {
     containerStyle = { width: '100%', height: '100%' };
   } else {
-    posObj = (config.position === 'left')
-           ? { left:  0 }
-           : { right: 0 };
-
     frameStyle.width = 342;
     frameStyle.maxHeight = 500;
-    containerStyle = { width: 342, margin: 15 };
+    containerStyle = { width: 342, margin: settings.get('widgetMargin') };
   }
 
   const Embed = React.createClass(frameFactory(
@@ -131,7 +124,8 @@ function create(name, config) {
       );
     },
     {
-      frameStyle: _.extend(frameStyle, posObj),
+      frameStyle: frameStyle,
+      position: config.position,
       css: helpCenterCSS + generateUserCSS({color: config.color}),
       name: name,
       fullscreenable: true,

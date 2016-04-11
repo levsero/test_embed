@@ -1,6 +1,7 @@
 describe('embed.submitTicket', function() {
   let submitTicket,
     mockRegistry,
+    mockSettingsValue,
     frameConfig;
   const resetTicketFormVisibility = jasmine.createSpy();
   const hideVirtualKeyboard = jasmine.createSpy();
@@ -12,6 +13,8 @@ describe('embed.submitTicket', function() {
     resetDOM();
 
     mockery.enable();
+
+    mockSettingsValue = '';
 
     mockRegistry = initMockRegistry({
       'React': React,
@@ -85,6 +88,11 @@ describe('embed.submitTicket', function() {
         document: global.document,
         getDocumentHost: function() {
           return document.body;
+        }
+      },
+      'service/settings': {
+        settings: {
+          get: () => { return mockSettingsValue; }
         }
       },
       'service/transitionFactory' : {

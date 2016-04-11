@@ -2,6 +2,7 @@ describe('embed.chat', function() {
   let chat,
     mockIsMobileBrowserValue,
     mockRegistry,
+    mockSettingsValue,
     mockZopim;
 
   const mockGlobals = {
@@ -19,6 +20,8 @@ describe('embed.chat', function() {
     mockery.enable();
 
     mockIsMobileBrowserValue = false;
+
+    mockSettingsValue = { offset: { horizontal: 0, vertical: 0 } };
 
     mockZopim = function(fn) {
       return fn.bind(mockGlobals)();
@@ -44,6 +47,7 @@ describe('embed.chat', function() {
         'setTitle',
         'setOffsetVertical',
         'onShow',
+        'setOffsetHorizontal',
         'onHide',
         'getDisplay',
         'setSize'
@@ -71,6 +75,11 @@ describe('embed.chat', function() {
       },
       'service/persistence': {
         store: jasmine.createSpyObj('store', ['set', 'get'])
+      },
+      'service/settings': {
+        settings: {
+          get: (name) => mockSettingsValue[name]
+        }
       },
       'utility/devices': {
         isMobileBrowser: () => mockIsMobileBrowserValue
@@ -109,6 +118,27 @@ describe('embed.chat', function() {
 
       expect(chat.get(chatName).config.zopimId)
         .toEqual(zopimId);
+    });
+
+    it('should correctly parse the value for offsetHorizontal', function() {
+      mockSettingsValue = {
+        offset: { horizontal: 20 },
+        widgetMargin: 15
+      };
+
+      chat.create('dave');
+
+      expect(chat.get('dave').config.offsetHorizontal)
+        .toEqual(35);
+    });
+
+    it('should correctly grab the value for offsetVertical', function() {
+      mockSettingsValue = { offset: { vertical: '20px' } };
+
+      chat.create('dave');
+
+      expect(chat.get('dave').config.offsetVertical)
+        .toEqual(20);
     });
   });
 

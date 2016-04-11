@@ -3,28 +3,26 @@ import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
 import { document,
-         getDocumentHost }   from 'utility/globals';
-import { SubmitTicket }      from 'component/SubmitTicket';
-import { frameFactory }      from 'embed/frameFactory';
+         getDocumentHost } from 'utility/globals';
+import { SubmitTicket } from 'component/SubmitTicket';
+import { frameFactory } from 'embed/frameFactory';
 import { isMobileBrowser,
-         isIE }              from 'utility/devices';
-import { beacon }            from 'service/beacon';
+         isIE } from 'utility/devices';
+import { beacon } from 'service/beacon';
 import { transitionFactory } from 'service/transitionFactory';
-import { mediator }          from 'service/mediator';
+import { mediator } from 'service/mediator';
+import { settings } from 'service/settings';
 import { setScaleLock,
-         generateUserCSS }   from 'utility/utils';
-import { transport }         from 'service/transport';
+         generateUserCSS } from 'utility/utils';
+import { transport } from 'service/transport';
 
 const submitTicketCSS = require('./submitTicket.scss');
 let submitTickets = {};
 
 function create(name, config) {
-  let containerStyle, posObj;
+  let containerStyle;
+  let frameStyle = {};
 
-  const frameStyle = {
-    position: 'fixed',
-    bottom: 0
-  };
   const configDefaults = {
     position: 'right',
     customFields: [],
@@ -80,11 +78,8 @@ function create(name, config) {
   if (isMobileBrowser()) {
     containerStyle = { width: '100%', height: '100%' };
   } else {
-    posObj = (config.position === 'left')
-           ? { left:  0 }
-           : { right: 0 };
     frameStyle.width = 342;
-    containerStyle = { width: 342, margin: 15 };
+    containerStyle = { width: 342, margin: settings.get('widgetMargin') };
   }
 
   let Embed = React.createClass(frameFactory(
@@ -104,8 +99,9 @@ function create(name, config) {
       );
     },
     {
-      frameStyle: _.extend(frameStyle, posObj),
+      frameStyle: frameStyle,
       css: submitTicketCSS + generateUserCSS({color: config.color}),
+      position: config.position,
       fullscreenable: true,
       transitions: {
         close: transitionFactory.webWidget.downHide(),
