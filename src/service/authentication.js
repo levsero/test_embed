@@ -41,7 +41,7 @@ function renew() {
   const currentToken = store.get('zE_oauth');
 
   if (shouldRenew(currentToken)) {
-    renewOauthToken(currentToken);
+    renewOAuthToken(currentToken);
     store.remove('zE_oauth');
   }
 }
@@ -60,7 +60,7 @@ function requestOAuthToken(jwt) {
   transport.send(payload);
 }
 
-function renewOauthToken(token) {
+function renewOAuthToken(token) {
   const id = token.id;
   const payload = {
     method: 'POST',
@@ -85,7 +85,7 @@ function onRequestSuccess(res, id) {
       {
         'id': id,
         'token': res.body.oauth_token,
-        'expiry': res.body.oauth_expiry
+        'expiry': res.body.oauth_expiry // (Date.now() / 1000) + 21 * 60
       }
     );
     mediator.channel.broadcast('authentication.onSuccess');
