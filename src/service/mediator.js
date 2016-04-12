@@ -293,6 +293,11 @@ function init(helpCenterAccessible, params = {}) {
   });
 
   c.intercept(`${launcher}.onClick`, () => {
+    // Re-authenticate user if their oauth token is within 20 minutes of expiring
+    if (helpCenterAvailable()) {
+      c.broadcast('authentication.renew');
+    }
+
     // chat opens in new window so hide isn't needed
     if (state.activeEmbed === chat && isMobileBrowser()) {
       c.broadcast(`${chat}.show`);

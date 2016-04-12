@@ -7,6 +7,7 @@ import { transport } from 'service/transport';
 import { base64decode } from 'utility/utils';
 
 function init() {
+  mediator.channel.subscribe('authentication.renew', renew);
   mediator.channel.subscribe('authentication.logout', logout);
 }
 
@@ -36,41 +37,75 @@ function logout() {
 
 // private
 
+function renew() {
+  const currentToken = store.get('zE_oauth');
+
+  if (shouldRenew(currentToken)) {
+    renewOauthToken(currentToken);
+    store.remove('zE_oauth');
+  }
+}
+
 function requestOAuthToken(jwt) {
+  const id = extractTokenId(jwt);
   const payload = {
     method: 'POST',
     path: '/embeddable/authenticate',
     params: { body: jwt },
     callbacks: {
-      done: function(res) {
-        const tokenId = extractTokenId(jwt);
-
-        if (res.status === 200) {
-          store.set(
-            'zE_oauth',
-            {
-              'id': tokenId,
-              'token': res.body.oauth_token,
-              'expiry': res.body.oauth_expiry
-            }
-          );
-          mediator.channel.broadcast('authentication.onSuccess');
-        }
-      }
+      done: (res) => onRequestSuccess(res, id)
     }
   };
 
   transport.send(payload);
 }
 
-function isValid(token) {
+function renewOauthToken(token) {
+  const id = token.id;
+  const payload = {
+    method: 'POST',
+    path: '/embeddable/authenticate/renew',
+    params: {
+      body: token.token,
+      expiry: token.expiry,
+      id: token.id
+    },
+    callbacks: {
+      done: (res) => onRequestSuccess(res, id)
+    }
+  };
+
+  transport.send(payload);
+}
+
+function onRequestSuccess(res, id) {
+  if (res.status === 200) {
+    store.set(
+      'zE_oauth',
+      {
+        'id': id,
+        'token': res.body.oauth_token,
+        'expiry': res.body.oauth_expiry
+      }
+    );
+    mediator.channel.broadcast('authentication.onSuccess');
+  }
+}
+
+function isValid(token, expiryInterval = 0) {
   if (token && token.expiry) {
     const now = Math.floor(Date.now() / 1000);
 
-    return token.expiry > now;
+    return token.expiry > now + expiryInterval;
   } else {
     return false;
   }
+}
+
+function shouldRenew(token) {
+  const time = 20 * 60; // 20 mins in secs
+
+  return !isValid(token, time);
 }
 
 const extractTokenId = memoize(function(jwt) {
