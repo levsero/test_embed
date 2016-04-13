@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import { i18n } from 'service/i18n';
 import { settings } from 'service/settings';
-import { store } from 'service/persistence';
 import { mediator } from 'service/mediator';
 import { document, win,
          getDocumentHost } from 'utility/globals';
@@ -96,24 +95,18 @@ function render(name) {
     init(name);
   }
 
-  // Hack to override previous zopim hideAll state
-  if (config.standalone && store.get('zopimHideAll') === true) {
-    store.set('zopimHideAll', false);
-    win.$zopim(function() {
-      setTimeout(function() {
-        win.$zopim.livechat.button.show();
-      }, 1500);
-    });
-  }
-
   mediator.channel.subscribe(`${name}.show`, () => {
-    win.$zopim && win.$zopim(() => {
-      if (win.$zopim.livechat.window.getDisplay()) {
-        show();
-      } else {
-        showButton();
-      }
-    });
+    if (get(name).config.standalone) {
+      win.$zopim(() => {
+        if (win.$zopim.livechat.window.getDisplay()) {
+          show();
+        } else {
+          showButton();
+        }
+      });
+    } else {
+      show();
+    }
   });
 
   mediator.channel.subscribe(`${name}.hide`, () => hide());
@@ -192,8 +185,6 @@ function init(name) {
   zopim(function() {
     const zopimLive = win.$zopim.livechat;
     const zopimWin = zopimLive.window;
-
-    store.set('zopimHideAll', true);
 
     cappedIntervalCall(function() {
       if (zopimWin.getDisplay() || zopimLive.isChatting()) {
