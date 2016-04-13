@@ -1,7 +1,7 @@
-var jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 
 function generateJWT(sharedSecret) {
-  var message = {
+  const message = {
     name: 'zendick',
     email: 'zendick@zendesk.com',
     iat: Date.now(),
@@ -16,7 +16,7 @@ if (process.argv.length !== 3) {
   process.exit(1);
 }
 
-var sharedSecret = process.argv[2];
-var jwtToken = generateJWT(sharedSecret);
+const sharedSecret = process.argv[2];
+const jwtToken = generateJWT(sharedSecret);
 
 console.log(jwtToken);

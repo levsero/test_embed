@@ -4,3 +4,6 @@ languages:
 engines:
   eslint:
     enabled: true
+
+exclude_paths:
+- "script/**"
