@@ -105,13 +105,13 @@ function initMediator(config) {
   } else if (config.embeds && config.embeds.zopimChat) {
     // naked zopim
     mediator.initZopimStandalone();
-  } else if (_.isEmpty(config.embeds)) {
+  } else if (config.embeds && _.isEmpty(config.embeds)) {
     // No embeds
     mediator.initMessaging();
   } else {
     logging.error({
       error: {
-        message: 'Could not find embeds to initialise.'
+        message: 'Could not find correct embeds to initialise.'
       },
       params: {
         config: config
