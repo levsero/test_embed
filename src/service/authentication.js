@@ -40,7 +40,7 @@ function logout() {
 function renew() {
   const currentToken = store.get('zE_oauth');
 
-  if (shouldRenew(currentToken)) {
+  if (isRenewable(currentToken)) {
     renewOAuthToken(currentToken);
     store.remove('zE_oauth');
   }
@@ -85,27 +85,31 @@ function onRequestSuccess(res, id) {
       {
         'id': id,
         'token': res.body.oauth_token,
-        'expiry': res.body.oauth_expiry // (Date.now() / 1000) + 21 * 60
+        'expiry': res.body.oauth_expiry
       }
     );
     mediator.channel.broadcast('authentication.onSuccess');
   }
 }
 
-function isValid(token, expiryInterval = 0) {
-  if (token && token.expiry) {
-    const now = Math.floor(Date.now() / 1000);
+function isValid(token) {
+  return (token && token.expiry) ? checkTokenExpiry(token.expiry) : false;
+}
 
-    return token.expiry > now + expiryInterval;
+function isRenewable(token) {
+  if (token && token.expiry) {
+    const expiryInterval = 20 * 60; // 20 mins in secs
+
+    return !checkTokenExpiry(token.expiry, expiryInterval);
   } else {
     return false;
   }
 }
 
-function shouldRenew(token) {
-  const time = 20 * 60; // 20 mins in secs
+function checkTokenExpiry(expiry, expiryInterval = 0) {
+  const now = Math.floor(Date.now() / 1000);
 
-  return !isValid(token, time);
+  return expiry > now + expiryInterval;
 }
 
 const extractTokenId = memoize(function(jwt) {
