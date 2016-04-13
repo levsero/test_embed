@@ -97,7 +97,7 @@ function render(name) {
 
   mediator.channel.subscribe(`${name}.show`, () => {
     if (get(name).config.standalone) {
-      win.$zopim && win.$zopim(() => {
+      win.$zopim(() => {
         if (win.$zopim.livechat.window.getDisplay()) {
           show();
         } else {
