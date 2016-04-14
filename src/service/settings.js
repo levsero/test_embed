@@ -1,4 +1,4 @@
-import { forEach, pick } from 'lodash';
+import _ from 'lodash';
 
 import { win } from 'utility/globals';
 
@@ -17,13 +17,11 @@ let store = {
 };
 
 function init() {
-  if (!win.zESettings) {
-    return;
-  }
+  if (!win.zESettings) return;
 
-  const whiteListedParams = pick(win.zESettings, optionWhitelist);
+  const whiteListedParams = _.pick(win.zESettings, optionWhitelist);
 
-  forEach(whiteListedParams, (val, key) => {
+  _.forEach(whiteListedParams, (val, key) => {
     store[key] = val;
   });
 }
