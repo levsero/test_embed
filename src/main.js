@@ -201,9 +201,11 @@ function boot() {
           if (res.body.embeds.zopimChat) {
             // Make this the first in the queue so that subsequent
             // user-initiated setTitle(…) calls will override this value
-            $zopim._.unshift(() => {
-              win.$zopim.livechat.window.setTitle(i18n.t('embeddable_framework.chat.title'));
-            });
+            if ($zopim._) {
+              $zopim._.unshift(() => {
+                win.$zopim.livechat.window.setTitle(i18n.t('embeddable_framework.chat.title'));
+              });
+            }
           }
 
           renderer.init(res.body);
