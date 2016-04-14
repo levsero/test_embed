@@ -21,9 +21,7 @@ function init() {
 
   const whiteListedParams = _.pick(win.zESettings, optionWhitelist);
 
-  _.forEach(whiteListedParams, (val, key) => {
-    store[key] = val;
-  });
+  _.merge(store, whiteListedParams);
 }
 
 function get(name) {

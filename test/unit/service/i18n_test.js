@@ -6,6 +6,9 @@ describe('i18n', function() {
   beforeEach(function() {
     mockery.enable();
     mockRegistry = initMockRegistry({
+      'service/settings': {
+        get: jasmine.createSpy()
+      },
       'translation/translations.json': {
         'en-US': {
           'launcher.label.hello': 'Hello'
