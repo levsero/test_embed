@@ -102,16 +102,16 @@ function overrideTranslations(newTranslations) {
 
 function mappedTranslationsForLocale(localeTranslations) {
   const translationLookupTable = {
-    'embeddable_framework.launcher.label.help': 'launcherText',
-    'embeddable_framework.launcher.label.support': 'launcherText',
-    'embeddable_framework.launcher.label.feedback': 'launcherText',
-    'embeddable_framework.launcher.label.chat': 'launcherTextChat',
-    'embeddable_framework.helpCenter.form.title.help': 'helpFormTitle',
-    'embeddable_framework.helpCenter.form.title.support': 'helpFormTitle',
-    'embeddable_framework.helpCenter.form.title.feedback': 'helpFormTitle',
-    'embeddable_framework.helpCenter.submitButton.label.submitTicket.message': 'helpFormButtonText',
-    'embeddable_framework.helpCenter.submitButton.label.submitTicket.contact': 'helpFormButtonText',
-    'embeddable_framework.helpCenter.submitButton.label.chat': 'helpFormButtonTextChat',
+    'embeddable_framework.launcher.label.help': 'launcherLabel',
+    'embeddable_framework.launcher.label.support': 'launcherLabel',
+    'embeddable_framework.launcher.label.feedback': 'launcherLabel',
+    'embeddable_framework.launcher.label.chat': 'launcherChatLabel',
+    'embeddable_framework.helpCenter.form.title.help': 'helpCenterTitle',
+    'embeddable_framework.helpCenter.form.title.support': 'helpCenterTitle',
+    'embeddable_framework.helpCenter.form.title.feedback': 'helpCenterTitle',
+    'embeddable_framework.helpCenter.submitButton.label.submitTicket.message': 'helpCenterMessageButton',
+    'embeddable_framework.helpCenter.submitButton.label.submitTicket.contact': 'helpCenterMessageButton',
+    'embeddable_framework.helpCenter.submitButton.label.chat': 'helpCenterChatButton',
     'embeddable_framework.submitTicket.form.title.message': 'contactFormTitle',
     'embeddable_framework.submitTicket.form.title.contact': 'contactFormTitle'
   };

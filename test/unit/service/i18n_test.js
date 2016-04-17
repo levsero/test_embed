@@ -60,7 +60,7 @@ describe('i18n', function() {
       beforeEach(function() {
         mockRegistry['service/settings'].settings.get = () => {
           return {
-            'en-US': { launcherText: 'Wat' }
+            'en-US': { launcherLabel: 'Wat' }
           };
         };
 
@@ -79,7 +79,7 @@ describe('i18n', function() {
       beforeEach(function() {
         mockRegistry['service/settings'].settings.get = () => {
           return {
-            '*': { launcherText: 'Wat' }
+            '*': { launcherLabel: 'Wat' }
           };
         };
 
