@@ -255,9 +255,9 @@ describe('beacon', function() {
         .toEqual(localeId);
     });
 
-    it('stores the user email in localstorage', function() {
+    it('stores the user email in SessionStorage', function() {
       expect(mockStore.store.set)
-        .toHaveBeenCalledWith('identify.email', email);
+        .toHaveBeenCalledWith('identifyEmail', email, true);
     });
   });
 });
