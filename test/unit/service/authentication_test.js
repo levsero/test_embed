@@ -62,7 +62,10 @@ describe('authentication', function() {
       mockStore = mockRegistry['service/persistence'].store;
 
       mockStore.get = function() {
-        return { id: '3498589cd03c34be6155b5a6498fe9786985da01', expiry: Math.floor(Date.now() / 1000) + 1000 }; // sha1 hash of jbob@zendesk.com
+        return {
+          id: '3498589cd03c34be6155b5a6498fe9786985da01',
+          expiry: Math.floor(Date.now() / 1000) + 1000
+        };
       };
 
       jwtPayload = {
@@ -94,7 +97,10 @@ describe('authentication', function() {
       describe('when the token is expired', function() {
         it('should request a new token', function() {
           mockStore.get = function() {
-            return { id: '3498589cd03c34be6155b5a6498fe9786985da01', expiry: Math.floor(Date.now() / 1000) - 1000 };
+            return {
+              id: '3498589cd03c34be6155b5a6498fe9786985da01',
+              expiry: Math.floor(Date.now() / 1000) - 1000
+            };
           };
           authentication.authenticate(jwt);
 

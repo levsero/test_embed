@@ -25,9 +25,9 @@ function authenticate(webToken) {
 }
 
 function getToken() {
-  const token = store.get('zE_oauth');
+  const oauth = store.get('zE_oauth');
 
-  return (token && token.token) ? token.token : null;
+  return (oauth && oauth.token) ? oauth.token : null;
 }
 
 function logout() {
