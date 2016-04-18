@@ -62,7 +62,7 @@ describe('authentication', function() {
       mockStore = mockRegistry['service/persistence'].store;
 
       mockStore.get = function() {
-        return { id: '3498589cd03c34be6155b5a6498fe9786985da01' }; // sha1 hash of jbob@zendesk.com
+        return { id: '3498589cd03c34be6155b5a6498fe9786985da01', expiry: Math.floor(Date.now() / 1000) + 1000 }; // sha1 hash of jbob@zendesk.com
       };
 
       jwtPayload = {
@@ -89,6 +89,18 @@ describe('authentication', function() {
       it('does not request a new token', function() {
         expect(mockTransport.send)
           .not.toHaveBeenCalled();
+      });
+
+      describe('when the token is expired', function() {
+        it('should request a new token', function() {
+          mockStore.get = function() {
+            return { id: '3498589cd03c34be6155b5a6498fe9786985da01', expiry: Math.floor(Date.now() / 1000) - 1000 };
+          };
+          authentication.authenticate(jwt);
+
+          expect(mockTransport.send)
+            .toHaveBeenCalled();
+        });
       });
     });
 
@@ -176,15 +188,6 @@ describe('authentication', function() {
         spyOn(mockPersistence.store, 'get')
           .and
           .returnValue(null);
-
-        expect(authentication.getToken())
-          .toEqual(null);
-      });
-
-      it('should return null if the cached oauth token is expired', function() {
-        spyOn(mockPersistence.store, 'get')
-          .and
-          .returnValue({ token: 'abc', expiry: Math.floor(Date.now() / 1000) - 1000 });
 
         expect(authentication.getToken())
           .toEqual(null);

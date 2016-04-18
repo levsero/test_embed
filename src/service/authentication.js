@@ -11,25 +11,23 @@ function init() {
 }
 
 function authenticate(webToken) {
-  const currentToken = store.get('zE_oauth');
-  const tokenId = extractTokenId(webToken);
+  const currentStoredToken = store.get('zE_oauth');
+  const webTokenId = extractTokenId(webToken);
 
-  if (currentToken === null || tokenId !== currentToken.id) {
+  if (currentStoredToken === null ||
+      webTokenId !== currentStoredToken.id ||
+      !isValid(currentStoredToken)) {
     store.remove('zE_oauth');
     requestOAuthToken(webToken);
+  } else {
+    mediator.channel.broadcast('authentication.onSuccess');
   }
 }
 
 function getToken() {
-  const currentToken = store.get('zE_oauth');
+  const token = store.get('zE_oauth');
 
-  if (isValid(currentToken)) {
-    mediator.channel.broadcast('authentication.onSuccess');
-    return currentToken.token;
-  } else {
-    store.remove('zE_oauth');
-    return null;
-  }
+  return (token && token.token) ? token.token : null;
 }
 
 function logout() {
