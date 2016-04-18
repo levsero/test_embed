@@ -95,6 +95,7 @@ function identify(user) {
     }
   };
 
+  store.set('identify.email', user.email);
   transport.sendWithMeta(payload);
 }
 

@@ -217,19 +217,21 @@ describe('beacon', function() {
   });
 
   describe('identify', function() {
-    it('sends the correct payload', function() {
-      const name = 'John';
-      const email = 'john@example.com';
-      const user = {
-        name: name,
-        email: email
-      };
-      const mockTransport = mockRegistry['service/transport'];
+    let mockStore,
+      mockTransport;
+
+    const name = 'John';
+    const email = 'john@example.com';
+
+    beforeEach(function() {
+      mockStore = mockRegistry['service/persistence'];
+      mockTransport = mockRegistry['service/transport'];
 
       beacon.init();
+      beacon.identify({ name: name, email: email });
+    });
 
-      beacon.identify(user);
-
+    it('sends the correct payload', function() {
       expect(mockTransport.transport.sendWithMeta)
         .toHaveBeenCalled();
 
@@ -251,6 +253,11 @@ describe('beacon', function() {
 
       expect(params.user.localeId)
         .toEqual(localeId);
+    });
+
+    it('stores the user email in localstorage', function() {
+      expect(mockStore.store.set)
+        .toHaveBeenCalledWith('identify.email', email);
     });
   });
 });
