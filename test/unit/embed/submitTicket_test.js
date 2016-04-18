@@ -342,6 +342,9 @@ describe('embed.submitTicket', function() {
           res: {
             body: {
               message: 'Request #149 "bla bla" created'
+            },
+            req: {
+              _data: { email: 'mock@email.com' }
             }
           },
           searchString: 'a search',
@@ -371,7 +374,8 @@ describe('embed.submitTicket', function() {
           {
             query: params.searchString,
             locale: params.searchLocale,
-            ticketId: 149
+            ticketId: 149,
+            email: 'mock@email.com'
           }
           );
 
