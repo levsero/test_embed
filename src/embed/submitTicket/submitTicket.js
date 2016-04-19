@@ -52,7 +52,8 @@ function create(name, config) {
       {
         query: params.searchString,
         ticketId: parseInt(ticketIdMatcher.exec(params.res.body.message)[1], 10),
-        locale: params.searchLocale
+        locale: params.searchLocale,
+        email: params.res.req._data.email
       }
     );
     mediator.channel.broadcast(name + '.onFormSubmitted');
