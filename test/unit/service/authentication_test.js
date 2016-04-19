@@ -224,7 +224,7 @@ describe('authentication', function() {
         expiry: Math.floor(Date.now() / 1000) + 20 * 60
       };
       renewPayload = {
-        jwt: jwt,
+        body: jwt,
         token: {
           'oauth_token': zeoauth.token,
           'oauth_expiry': zeoauth.expiry
