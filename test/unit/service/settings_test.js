@@ -39,6 +39,14 @@ describe('settings', function() {
       expect(settings.get('authenticate'))
         .toEqual('foo');
     });
+
+    it('should not store a value if it is not in the whitelist', function() {
+      mockRegistry['utility/globals'].win.zESettings = { foo: 'bar' };
+      settings.init();
+
+      expect(settings.get('foo'))
+        .toEqual(null);
+    });
   });
 
   describe('#get', function() {

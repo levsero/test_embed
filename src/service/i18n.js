@@ -13,10 +13,10 @@ let currentLocale;
 translate.setSeparator('*');
 
 function init() {
-  const newTranslations = settings.get('translations');
+  const customerTranslations = settings.get('translations');
 
-  if (newTranslations) {
-    overrideTranslations(newTranslations);
+  if (customerTranslations) {
+    overrideTranslations(customerTranslations);
   }
 }
 
