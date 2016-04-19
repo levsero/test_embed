@@ -100,8 +100,8 @@ function overrideTranslations(newTranslations) {
   }
 }
 
-function mappedTranslationsForLocale(localeTranslations) {
-  const translationLookupTable = {
+function mappedTranslationsForLocale(localeOverrides) {
+  const keyLookupTable = {
     'embeddable_framework.launcher.label.help': 'launcherLabel',
     'embeddable_framework.launcher.label.support': 'launcherLabel',
     'embeddable_framework.launcher.label.feedback': 'launcherLabel',
@@ -116,10 +116,17 @@ function mappedTranslationsForLocale(localeTranslations) {
     'embeddable_framework.submitTicket.form.title.contact': 'contactFormTitle'
   };
 
-  return Object.keys(translationLookupTable)
-    .filter((key) => localeTranslations.hasOwnProperty(translationLookupTable[key]))
+  // for each key in the lookup table
+  return Object.keys(keyLookupTable)
+    // filter out any keys whose values are not present (as keys) in the localeOverrides
+    .filter((key) => localeOverrides.hasOwnProperty(keyLookupTable[key]))
+    // create a new object using the keys from the lookup table, and the values from localeOverrides
     .reduce((obj, key) => {
-      return _.merge(obj, { [key]: localeTranslations[translationLookupTable[key]] });
+      const overrideKey = keyLookupTable[key];
+      const overrideValue = localeOverrides[overrideKey];
+      const translationOverride = { [key]: overrideValue };
+
+      return _.merge(obj, translationOverride);
     }, {});
 }
 
