@@ -3,8 +3,11 @@ import { memoize } from 'lodash';
 
 import { mediator } from 'service/mediator';
 import { store } from 'service/persistence';
+import { settings } from 'service/settings';
 import { transport } from 'service/transport';
 import { base64decode } from 'utility/utils';
+
+const renewTime = 20 * 60; // 20 mins in secs
 
 function init() {
   mediator.channel.subscribe('authentication.renew', renew);
@@ -31,12 +34,6 @@ function getToken() {
   return (oauth && oauth.token) ? oauth.token : null;
 }
 
-function logout() {
-  store.remove('zE_oauth');
-}
-
-// private
-
 function renew() {
   const currentToken = store.get('zE_oauth');
 
@@ -45,6 +42,12 @@ function renew() {
     store.remove('zE_oauth');
   }
 }
+
+function logout() {
+  store.remove('zE_oauth');
+}
+
+// private
 
 function requestOAuthToken(jwt) {
   const id = extractTokenId(jwt);
@@ -62,14 +65,17 @@ function requestOAuthToken(jwt) {
 
 function renewOAuthToken(token) {
   const id = token.id;
+  const params = {
+    jwt: settings.get('authenticate'),
+    token: {
+      'oauth_token': token.token,
+      'oauth_expiry': token.expiry
+    }
+  };
   const payload = {
     method: 'POST',
     path: '/embeddable/authenticate/renew',
-    params: {
-      body: token.token,
-      expiry: token.expiry,
-      id: token.id
-    },
+    params: params,
     callbacks: {
       done: (res) => onRequestSuccess(res, id)
     }
@@ -93,23 +99,24 @@ function onRequestSuccess(res, id) {
 }
 
 function isValid(token) {
-  return (token && token.expiry) ? checkTokenExpiry(token.expiry) : false;
-}
-
-function isRenewable(token) {
   if (token && token.expiry) {
-    const expiryInterval = 20 * 60; // 20 mins in secs
+    const now = Math.floor(Date.now() / 1000);
 
-    return !checkTokenExpiry(token.expiry, expiryInterval);
+    return token.expiry > now;
   } else {
     return false;
   }
 }
 
-function checkTokenExpiry(expiry, expiryInterval = 0) {
-  const now = Math.floor(Date.now() / 1000);
+function isRenewable(token) {
+  if (token && token.expiry) {
+    const now = Math.floor(Date.now() / 1000);
+    const timeDiff = Math.abs(now - token.expiry);
 
-  return expiry > now + expiryInterval;
+    return timeDiff <= renewTime;
+  } else {
+    return false;
+  }
 }
 
 const extractTokenId = memoize(function(jwt) {
@@ -131,5 +138,6 @@ export const authentication = {
   init: init,
   authenticate: authenticate,
   getToken: getToken,
+  renew: renew,
   logout: logout
 };

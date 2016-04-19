@@ -4,11 +4,22 @@ describe('authentication', function() {
   let authentication,
     mockRegistry;
   const authenticationPath = buildSrcPath('service/authentication');
+  const jwtPayload = {
+    'iat': 1458011438,
+    'jti': '1234567890',
+    'name': 'Jim Bob',
+    'email': 'jbob@zendesk.com'
+  };
 
   beforeEach(function() {
     mockery.enable();
 
     mockRegistry = initMockRegistry({
+      'service/settings': {
+        settings: {
+          get: noop
+        }
+      },
       'service/transport': {
         transport: jasmine.createSpyObj('transport', ['send'])
       },
@@ -54,7 +65,6 @@ describe('authentication', function() {
   describe('authenticate', function() {
     let mockStore,
       mockTransport,
-      jwtPayload,
       jwt;
 
     beforeEach(function() {
@@ -68,12 +78,6 @@ describe('authentication', function() {
         };
       };
 
-      jwtPayload = {
-        'iat': 1458011438,
-        'jti': '1234567890',
-        'name': 'Jim Bob',
-        'email': 'jbob@zendesk.com'
-      };
       jwt = jsonwebtoken.sign(jwtPayload, 'pencil');
 
       authentication.init();
@@ -197,6 +201,66 @@ describe('authentication', function() {
 
         expect(authentication.getToken())
           .toEqual(null);
+      });
+    });
+  });
+
+  describe('renew', function() {
+    let mockTransport,
+      mockStore,
+      mockSettings,
+      jwt,
+      zeoauth,
+      renewPayload;
+
+    beforeEach(function() {
+      mockTransport = mockRegistry['service/transport'].transport;
+      mockStore = mockRegistry['service/persistence'].store;
+      mockSettings = mockRegistry['service/settings'].settings;
+      jwt = jsonwebtoken.sign(jwtPayload, 'pencil');
+      zeoauth = {
+        id: '3498589cd03c34be6155b5a6498fe9786985da01', // sha1 hash of jbob@zendesk.com
+        token: 'abcde',
+        expiry: Math.floor(Date.now() / 1000) + 20 * 60
+      };
+      renewPayload = {
+        jwt: jwt,
+        token: {
+          'oauth_token': zeoauth.token,
+          'oauth_expiry': zeoauth.expiry
+        }
+      };
+      mockStore.get = function() { return zeoauth; };
+      mockSettings.get = function() { return jwt; };
+
+      authentication.init();
+    });
+
+    describe('when the oauth token is renewable', function() {
+      beforeEach(function() {
+        authentication.renew();
+      });
+
+      it('should request for a new oauth token', function() {
+        const payload = mockTransport.send.calls.mostRecent().args[0];
+        const params = payload.params;
+
+        expect(mockTransport.send)
+          .toHaveBeenCalled();
+
+        expect(payload.method)
+          .toBe('POST');
+
+        expect(payload.path)
+          .toBe('/embeddable/authenticate/renew');
+
+        expect(params)
+          .toEqual(renewPayload);
+      });
+
+      it('clears existing zE_oauth objects from localstorage', function() {
+        expect(mockStore.remove)
+          .toHaveBeenCalledWith('zE_oauth');
       });
     });
   });
