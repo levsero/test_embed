@@ -95,6 +95,8 @@ function identify(user) {
     }
   };
 
+  // store email address in SessionStorage to use for page view blips
+  store.set('identifyEmail', user.email, true);
   transport.sendWithMeta(payload);
 }
 
