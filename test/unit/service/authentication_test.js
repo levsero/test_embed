@@ -221,7 +221,7 @@ describe('authentication', function() {
       zeoauth = {
         id: '3498589cd03c34be6155b5a6498fe9786985da01', // sha1 hash of jbob@zendesk.com
         token: 'abcde',
-        expiry: Math.floor(Date.now() / 1000) + 20 * 60
+        expiry: Math.floor(Date.now() / 1000) + (20 * 60)
       };
       renewPayload = {
         body: jwt,

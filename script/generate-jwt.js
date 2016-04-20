@@ -2,10 +2,11 @@ const jwt = require('jsonwebtoken');
 
 function generateJWT(sharedSecret) {
   const message = {
-    name: 'zendick',
-    email: 'zendick@zendesk.com',
+    name: 'zenguy',
+    email: 'zenguy@zendesk.com',
     iat: Date.now(),
-    jti: ((Math.random() * 0xFFFFFF) | 0).toString(16) // don't ask.. just shh
+    // returns a random int between 0 and 0xFFFFFF, and then converts it to a string in hex format (base 16).
+    jti: ((Math.random() * 0xFFFFFF) | 0).toString(16)
   };
 
   return jwt.sign(message, sharedSecret);
