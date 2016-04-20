@@ -241,7 +241,7 @@ describe('authentication', function() {
         authentication.renew();
       });
 
-      it('should request for a new oauth token', function() {
+      it('should request a new oauth token', function() {
         const payload = mockTransport.send.calls.mostRecent().args[0];
         const params = payload.params;
 
