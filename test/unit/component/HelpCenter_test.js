@@ -22,7 +22,7 @@ describe('HelpCenter component', function() {
     mockRegistry = initMockRegistry({
       'React': React,
       'service/beacon': {
-        beacon: jasmine.createSpyObj('beacon', ['track'])
+        beacon: jasmine.createSpyObj('beacon', ['trackUserAction'])
       },
       'service/mediator': {
         mediator: {
@@ -989,7 +989,7 @@ describe('HelpCenter component', function() {
       expect(trackSearch)
         .not.toHaveBeenCalled();
 
-      expect(mockBeacon.track)
+      expect(mockBeacon.trackUserAction)
         .toHaveBeenCalledWith(
           'helpCenter',
           'click',

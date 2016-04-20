@@ -313,7 +313,7 @@ export class HelpCenter extends Component {
       locale: i18n.getLocale()
     };
 
-    beacon.track('helpCenter', 'click', 'helpCenterForm', trackPayload);
+    beacon.trackUserAction('helpCenter', 'click', 'helpCenterForm', trackPayload);
 
     this.setState({
       searchResultClicked: true

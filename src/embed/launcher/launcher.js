@@ -59,7 +59,7 @@ function create(name, config) {
       extend: {
         onClickHandler: function(e) {
           e.preventDefault();
-          beacon.track('launcher', 'click', name);
+          beacon.trackUserAction('launcher', 'click', name);
           mediator.channel.broadcast(name + '.onClick');
         }
       }

@@ -33,7 +33,7 @@ describe('embed.launcher', function() {
         })
       },
       'service/beacon': {
-        beacon: jasmine.createSpyObj('mockBeacon', ['track'])
+        beacon: jasmine.createSpyObj('mockBeacon', ['trackUserAction'])
       },
       'service/mediator': {
         mediator: {
