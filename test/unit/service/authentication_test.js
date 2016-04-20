@@ -257,11 +257,6 @@ describe('authentication', function() {
         expect(params)
           .toEqual(renewPayload);
       });
-
-      it('clears existing zE_oauth objects from localstorage', function() {
-        expect(mockStore.remove)
-          .toHaveBeenCalledWith('zE_oauth');
-      });
     });
   });
 

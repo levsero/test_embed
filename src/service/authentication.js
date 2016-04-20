@@ -39,7 +39,6 @@ function renew() {
 
   if (isRenewable(currentToken)) {
     renewOAuthToken(currentToken);
-    store.remove('zE_oauth');
   }
 }
 
