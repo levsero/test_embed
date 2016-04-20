@@ -110,9 +110,9 @@ function isValid(token) {
 function isRenewable(token) {
   if (token && token.expiry) {
     const now = Math.floor(Date.now() / 1000);
-    const timeDiff = Math.abs(now - token.expiry);
+    const timeDiff = token.expiry - now;
 
-    return timeDiff <= renewTime;
+    return timeDiff > 0 && timeDiff <= renewTime;
   } else {
     return false;
   }
