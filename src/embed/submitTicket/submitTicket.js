@@ -45,7 +45,7 @@ function create(name, config) {
   const onSubmitted = function(params) {
     let ticketIdMatcher = /Request \#([0-9]+)/;
 
-    beacon.track(
+    beacon.trackUserAction(
       'submitTicket',
       'send',
       name,

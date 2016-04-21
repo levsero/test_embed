@@ -113,7 +113,6 @@ function boot() {
     version: __EMBEDDABLE_VERSION__
   });
 
-  beacon.init().send();
   authentication.init();
 
   const publicApi = {
@@ -168,6 +167,14 @@ function boot() {
   _.extend(win.zEmbed, publicApi, devApi);
 
   handleQueue(document.zEQueue);
+
+  // Delay initialising beacon until after the postRenderQueue is populated.
+  // Once populated we can determine if we need to delay the page view blip based on whether
+  // the customer is using identify or not.
+  const delaySendPageView = postRenderQueue.length > 0 &&
+                            postRenderQueue[0].indexOf('identify') > -1;
+
+  beacon.init(delaySendPageView);
 
   // Post-render methods
   win.zE.setHelpCenterSuggestions = setHelpCenterSuggestions;

@@ -68,6 +68,12 @@ describe('beacon', function() {
   });
 
   describe('#init', function() {
+    let mockTransport;
+
+    beforeEach(function() {
+      mockTransport = mockRegistry['service/transport'].transport;
+    });
+
     it('Saves the currentTime', function() {
       const currentTime = Date.now();
       const mockPersistence = mockRegistry['service/persistence'];
@@ -92,12 +98,10 @@ describe('beacon', function() {
     });
 
     describe('mediator subscriptions', function() {
-      let mockMediator,
-        mockTransport;
+      let mockMediator;
 
       beforeEach(function() {
         mockMediator = mockRegistry['service/mediator'].mediator;
-        mockTransport = mockRegistry['service/transport'].transport;
 
         beacon.init();
       });
@@ -125,16 +129,23 @@ describe('beacon', function() {
           .toEqual(params.email);
       });
     });
+
+    it('should send a pageview blip if identify is not being used', function() {
+      beacon.init(false);
+
+      expect(mockTransport.sendWithMeta)
+        .toHaveBeenCalled();
+    });
   });
 
-  describe('#send', function() {
+  describe('#sendPageView', function() {
     it('sends correct payload using transport.send', function() {
       const mockTransport = mockRegistry['service/transport'];
       const mockGlobals = mockRegistry['utility/globals'];
       const mockUtils = mockRegistry['utility/utils'];
 
       beacon.init();
-      beacon.send();
+      beacon.sendPageView();
       expect(mockTransport.transport.sendWithMeta).toHaveBeenCalled();
 
       const payload = mockTransport.transport.sendWithMeta.calls.mostRecent().args[0];
@@ -167,14 +178,14 @@ describe('beacon', function() {
     });
   });
 
-  describe('#track', function() {
+  describe('#trackUserAction', function() {
     it('should not send anything if the first two params are not provided', function() {
       const mockTransport = mockRegistry['service/transport'];
 
-      beacon.track();
-      beacon.track('only one param');
-      beacon.track(undefined, 'second param');
-      beacon.track(undefined, undefined, 'third param');
+      beacon.trackUserAction();
+      beacon.trackUserAction('only one param');
+      beacon.trackUserAction(undefined, 'second param');
+      beacon.trackUserAction(undefined, undefined, 'third param');
 
       expect(mockTransport.transport.send)
         .not.toHaveBeenCalled();
@@ -191,7 +202,7 @@ describe('beacon', function() {
 
       beacon.init();
 
-      beacon.track(
+      beacon.trackUserAction(
         userActionParams.category,
         userActionParams.action,
         userActionParams.label,
@@ -227,7 +238,9 @@ describe('beacon', function() {
       mockStore = mockRegistry['service/persistence'];
       mockTransport = mockRegistry['service/transport'];
 
-      beacon.init();
+      spyOn(beacon, 'sendPageView');
+
+      beacon.init(true);
       beacon.identify({ name: name, email: email });
     });
 
@@ -253,6 +266,20 @@ describe('beacon', function() {
 
       expect(params.user.localeId)
         .toEqual(localeId);
+    });
+
+    it('sends out a page view blip containing the users email', function() {
+      let payload = mockTransport.transport.sendWithMeta.calls.mostRecent().args[0];
+
+      mockStore.store.get = () => email;
+
+      payload.callbacks.done({ body: '' });
+      payload = mockTransport.transport.sendWithMeta.calls.mostRecent().args[0];
+
+      const pageView = payload.params.pageView;
+
+      expect(pageView.email)
+        .toEqual(email);
     });
 
     it('stores the user email in SessionStorage', function() {

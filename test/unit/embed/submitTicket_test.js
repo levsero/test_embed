@@ -19,7 +19,7 @@ describe('embed.submitTicket', function() {
     mockRegistry = initMockRegistry({
       'React': React,
       'service/beacon': {
-        beacon: jasmine.createSpyObj('beacon', ['track'])
+        beacon: jasmine.createSpyObj('beacon', ['trackUserAction'])
       },
       'service/mediator': {
         mediator: {
@@ -366,7 +366,7 @@ describe('embed.submitTicket', function() {
 
         payload.props.onSubmitted(params);
 
-        expect(mockBeacon.track)
+        expect(mockBeacon.trackUserAction)
           .toHaveBeenCalledWith(
             'submitTicket',
             'send',

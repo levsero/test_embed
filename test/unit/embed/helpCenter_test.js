@@ -26,7 +26,7 @@ describe('embed.helpCenter', function() {
     mockRegistry = initMockRegistry({
       'React': React,
       'service/beacon': {
-        beacon: jasmine.createSpyObj('beacon', ['track'])
+        beacon: jasmine.createSpyObj('beacon', ['trackUserAction'])
       },
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', ['t'])

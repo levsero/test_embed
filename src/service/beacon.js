@@ -10,17 +10,23 @@ import { win,
 import { parseUrl,
          getFrameworkLoadTime } from 'utility/utils';
 
-function init() {
+let pageViewSent = false;
+
+function init(delaySendPageView) {
   const now = Date.now();
 
   store.set('currentTime', now, true);
 
   mediator.channel.subscribe('beacon.identify', identify);
 
-  return this;
+  if (!delaySendPageView) {
+    sendPageView();
+  }
 }
 
-function send() {
+function sendPageView() {
+  if (pageViewSent) return;
+
   const now = Date.now();
   const referrer = parseUrl(doc.referrer);
   const previousTime = store.get('currentTime', true) || 0;
@@ -43,8 +49,14 @@ function send() {
     path: '/embeddable/blips',
     params: params
   };
+  const userEmail = store.get('identifyEmail', true);
+
+  if (userEmail) {
+    _.extend(params.pageView, { email: userEmail });
+  }
 
   transport.sendWithMeta(payload);
+  pageViewSent = true;
 }
 
 function sendConfigLoadTime(time) {
@@ -60,7 +72,7 @@ function sendConfigLoadTime(time) {
   transport.sendWithMeta(payload);
 }
 
-function track(category, action, label, value) {
+function trackUserAction(category, action, label, value) {
   if (_.isUndefined(action) || _.isUndefined(category)) {
     return false;
   }
@@ -89,9 +101,11 @@ function identify(user) {
     path: '/embeddable/identify',
     params:  { user: user },
     callbacks: {
-      done: function(res) {
+      done: (res) => {
         mediator.channel.broadcast('identify.onSuccess', res.body);
-      }
+        sendPageView();
+      },
+      fail: () => sendPageView() // send pageview blip even on failure
     }
   };
 
@@ -102,8 +116,8 @@ function identify(user) {
 
 export const beacon = {
   init: init,
-  send: send,
-  track: track,
+  sendPageView: sendPageView,
+  trackUserAction: trackUserAction,
   identify: identify,
   sendConfigLoadTime: sendConfigLoadTime
 };
