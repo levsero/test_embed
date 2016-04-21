@@ -256,7 +256,7 @@ describe('beacon', function() {
       expect(params.user.localeId)
         .toEqual(localeId);
 
-      expect(params.useragent)
+      expect(params.userAgent)
         .toEqual(mockGlobals.navigator.userAgent);
     });
 

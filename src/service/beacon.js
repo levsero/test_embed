@@ -89,7 +89,7 @@ function identify(user) {
     path: '/embeddable/identify',
     params:  {
       user: user,
-      useragent: navigator.userAgent
+      userAgent: navigator.userAgent
     },
     callbacks: {
       done: function(res) {
