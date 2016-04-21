@@ -25,11 +25,7 @@ function init(delaySendPageView) {
 }
 
 function sendPageView() {
-  if (pageViewSent) {
-    return;
-  } else {
-    pageViewSent = true;
-  }
+  if (pageViewSent) return;
 
   const now = Date.now();
   const referrer = parseUrl(doc.referrer);
@@ -60,6 +56,7 @@ function sendPageView() {
   }
 
   transport.sendWithMeta(payload);
+  pageViewSent = true;
 }
 
 function sendConfigLoadTime(time) {
