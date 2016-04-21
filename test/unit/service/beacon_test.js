@@ -218,7 +218,8 @@ describe('beacon', function() {
 
   describe('identify', function() {
     let mockStore,
-      mockTransport;
+      mockTransport,
+      mockGlobals;
 
     const name = 'John';
     const email = 'john@example.com';
@@ -226,6 +227,7 @@ describe('beacon', function() {
     beforeEach(function() {
       mockStore = mockRegistry['service/persistence'];
       mockTransport = mockRegistry['service/transport'];
+      mockGlobals = mockRegistry['utility/globals'];
 
       beacon.init();
       beacon.identify({ name: name, email: email });
@@ -253,6 +255,9 @@ describe('beacon', function() {
 
       expect(params.user.localeId)
         .toEqual(localeId);
+
+      expect(params.useragent)
+        .toEqual(mockGlobals.navigator.userAgent);
     });
 
     it('stores the user email in SessionStorage', function() {
