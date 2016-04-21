@@ -10,25 +10,25 @@ import { win,
 import { parseUrl,
          getFrameworkLoadTime } from 'utility/utils';
 
-let pageViewBlipAlreadySent = false;
+let pageViewSent = false;
 
-function init(isUsingIdentify) {
+function init(delaySendPageView) {
   const now = Date.now();
 
   store.set('currentTime', now, true);
 
   mediator.channel.subscribe('beacon.identify', identify);
 
-  if (!isUsingIdentify) {
+  if (!delaySendPageView) {
     sendPageView();
   }
 }
 
-function sendPageView(user) {
-  if (pageViewBlipAlreadySent) {
+function sendPageView() {
+  if (pageViewSent) {
     return;
   } else {
-    pageViewBlipAlreadySent = true;
+    pageViewSent = true;
   }
 
   const now = Date.now();
@@ -53,9 +53,10 @@ function sendPageView(user) {
     path: '/embeddable/blips',
     params: params
   };
+  const userEmail = store.get('identifyEmail', true);
 
-  if (user && user.email) {
-    _.extend(params.pageView, { email: user.email });
+  if (userEmail) {
+    _.extend(params.pageView, { email: userEmail });
   }
 
   transport.sendWithMeta(payload);
@@ -105,7 +106,7 @@ function identify(user) {
     callbacks: {
       done: (res) => {
         mediator.channel.broadcast('identify.onSuccess', res.body);
-        sendPageView(user);
+        sendPageView();
       },
       fail: () => sendPageView() // send pageview blip even on failure
     }

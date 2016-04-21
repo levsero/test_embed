@@ -271,6 +271,8 @@ describe('beacon', function() {
     it('sends out a page view blip containing the users email', function() {
       let payload = mockTransport.transport.sendWithMeta.calls.mostRecent().args[0];
 
+      mockStore.store.get = () => email;
+
       payload.callbacks.done({ body: '' });
       payload = mockTransport.transport.sendWithMeta.calls.mostRecent().args[0];
 
