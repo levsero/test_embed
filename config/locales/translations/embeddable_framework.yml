@@ -197,8 +197,8 @@ parts:
 # Attachments
   - translation:
       key: "embeddable_framework.submitTicket.attachments.title"
-      title: "The label on the form above the attached files. Will wrap as needed."
-      value: "Attachments"
+      title: "The label on the form above the attached files. Will wrap as needed. %()s stands for string and does not need to be translated. Wrap the count in brackets"
+      value: "Attachments (%(count)s)"
       wip: true
   - translation:
       key: "embeddable_framework.submitTicket.attachments.box.label"
