@@ -42,15 +42,15 @@ The following example displays the widget in German:
 
 `zE.identify(userObj)`
 
-The method takes a JavaScript object with a `name`, `email` and optionally, `externalId` and `organization` properties.
+The method takes a JavaScript object with a `name`, `email` and optionally, `organization` property.
 
-If you have access to your end user's name and email on the web page (for example, if your user is logged in), you can use `zE.identify()` to pass the details of that user into your Zendesk account, ensuring your user data is in sync.
+If you have access to your end user's name and email on the web page (for example, if your user is signed in), you can use `zE.identify()` to pass the details of that user to your Zendesk account, ensuring your user data is in sync.
 
-The way this works is: if the user's email (and external ID, if included) does not already exist in your Zendesk, a new user record with those details will be created.
+Here's how it works: If the user's email doesn't already exist in your Zendesk, a new user record with those details is created.
 
 The Widget also uses the information in the `zE.identify()` call to pre-populate the contact or pre-chat chat form, saving the user from having to type in the information. This is especially useful for end users using your website on a mobile device (screenshot below).
 
-Note: Passing an `organization` with `zE.identify()` will only work for existing organizations in your Zendesk account, it will *not* create a new organization.
+Note: Passing an `organization` with `zE.identify()` only works for existing organizations in your Zendesk account. It does *not* create a new organization.
 
 ```html
 <script>
@@ -58,7 +58,6 @@ Note: Passing an `organization` with `zE.identify()` will only work for existing
     zE.identify({
       name: 'John Citizen',
       email: 'john@example.com',
-      externalId: '123',
       organization: 'VIP'
     });
   });
