@@ -209,7 +209,7 @@ describe('authentication', function() {
     let mockTransport,
       mockStore,
       mockSettings,
-      jwt,
+      body,
       zeoauth,
       renewPayload;
 
@@ -217,21 +217,21 @@ describe('authentication', function() {
       mockTransport = mockRegistry['service/transport'].transport;
       mockStore = mockRegistry['service/persistence'].store;
       mockSettings = mockRegistry['service/settings'].settings;
-      jwt = jsonwebtoken.sign(jwtPayload, 'pencil');
+      body = { jwt: jsonwebtoken.sign(jwtPayload, 'pencil') };
       zeoauth = {
         id: '3498589cd03c34be6155b5a6498fe9786985da01', // sha1 hash of jbob@zendesk.com
         token: 'abcde',
         expiry: Math.floor(Date.now() / 1000) + (20 * 60)
       };
       renewPayload = {
-        body: jwt,
+        body: body.jwt,
         token: {
           'oauth_token': zeoauth.token,
           'oauth_expiry': zeoauth.expiry
         }
       };
       mockStore.get = function() { return zeoauth; };
-      mockSettings.get = function() { return jwt; };
+      mockSettings.get = function() { return body; };
 
       authentication.init();
     });
