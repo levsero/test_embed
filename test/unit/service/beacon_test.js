@@ -128,6 +128,27 @@ describe('beacon', function() {
         expect(transportPayload.params.user.email)
           .toEqual(params.email);
       });
+
+      it('should subscribe to beacon.trackUserAction', function() {
+        const params = {
+          category: 'launcher',
+          action: 'clicked',
+          name: 'launcher'
+        };
+
+        expect(mockMediator.channel.subscribe)
+          .toHaveBeenCalledWith('beacon.trackUserAction', jasmine.any(Function));
+
+        pluckSubscribeCall(mockMediator, 'beacon.trackUserAction')(params);
+
+        expect(mockTransport.sendWithMeta)
+          .toHaveBeenCalled();
+
+        const transportPayload = mockTransport.sendWithMeta.calls.mostRecent().args[0];
+
+        expect(transportPayload.params.userAction)
+          .toEqual(params);
+      });
     });
 
     it('should send a pageview blip if identify is not being used', function() {

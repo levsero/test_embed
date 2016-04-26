@@ -1873,17 +1873,27 @@ describe('mediator', function() {
     it('sends a `chat launch` user action blip with correct params', function() {
       c.broadcast('.zopimShow');
 
+      const expectedArgs = {
+        category: 'chat',
+        action: 'started',
+        name: 'chat'
+      };
       const calls = beaconSub.trackUserAction.calls;
 
       expect(calls.count())
         .toEqual(1);
 
       expect(calls.argsFor(0)[0])
-        .toEqual({
-          category: 'chat',
-          action: 'started',
-          name: 'chat'
-        });
+        .toEqual(expectedArgs);
+
+      mockStoreGetValue = 'bob@z.com';
+
+      c.broadcast('.zopimShow');
+
+      expectedArgs.value = { email: mockStoreGetValue };
+
+      expect(calls.argsFor(1)[0])
+        .toEqual(expectedArgs);
     });
   });
 });
