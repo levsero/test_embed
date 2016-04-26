@@ -8,7 +8,6 @@ import { SubmitTicket } from 'component/SubmitTicket';
 import { frameFactory } from 'embed/frameFactory';
 import { isMobileBrowser,
          isIE } from 'utility/devices';
-import { beacon } from 'service/beacon';
 import { transitionFactory } from 'service/transitionFactory';
 import { mediator } from 'service/mediator';
 import { settings } from 'service/settings';
@@ -45,17 +44,17 @@ function create(name, config) {
   const onSubmitted = function(params) {
     let ticketIdMatcher = /Request \#([0-9]+)/;
 
-    beacon.trackUserAction(
-      'submitTicket',
-      'send',
-      name,
-      {
+    mediator.channel.broadcast('beacon.trackUserAction', {
+      category: 'submitTicket',
+      action: 'send',
+      name: name,
+      value: {
         query: params.searchString,
-        ticketId: parseInt(ticketIdMatcher.exec(params.res.body.message)[1], 10),
         locale: params.searchLocale,
+        ticketId: parseInt(ticketIdMatcher.exec(params.res.body.message)[1], 10),
         email: params.res.req._data.email
       }
-    );
+    });
     mediator.channel.broadcast(name + '.onFormSubmitted');
   };
   const onCancel = function() {

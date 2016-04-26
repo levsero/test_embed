@@ -14,7 +14,7 @@ import { isMobileBrowser } from 'utility/devices';
 import { i18n } from 'service/i18n';
 import { Button,
          ButtonGroup } from 'component/Button';
-import { beacon } from 'service/beacon';
+import { mediator } from 'service/mediator';
 import { bindMethods } from 'utility/utils';
 
 export class HelpCenter extends Component {
@@ -313,7 +313,12 @@ export class HelpCenter extends Component {
       locale: i18n.getLocale()
     };
 
-    beacon.trackUserAction('helpCenter', 'click', 'helpCenterForm', trackPayload);
+    mediator.channel.broadcast('beacon.trackUserAction', {
+      category: 'helpCenter',
+      action: 'click',
+      name: 'helpCenterForm',
+      value: trackPayload
+    });
 
     this.setState({
       searchResultClicked: true

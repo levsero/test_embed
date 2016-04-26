@@ -2,6 +2,7 @@ import airwaves from 'airwaves';
 import _ from 'lodash';
 
 import { settings } from 'service/settings';
+import { store } from 'service/persistence';
 import { isMobileBrowser } from 'utility/devices';
 import { setScrollKiller,
          setWindowScroll,
@@ -135,6 +136,19 @@ function init(helpCenterAccessible, params = {}) {
   c.intercept('.zopimShow', () => {
     c.broadcast(`${submitTicket}.hide`);
     c.broadcast(`${helpCenter}.hide`);
+
+    const email = store.get('identifyEmail', true);
+    const params = {
+      category: 'chat',
+      action: 'started',
+      name: 'chat'
+    };
+
+    if (email) {
+      _.extend(params, { value: { email } });
+    }
+
+    c.broadcast('beacon.trackUserAction', params);
 
     /*
       zopim opens up in a seperate tab on mobile,

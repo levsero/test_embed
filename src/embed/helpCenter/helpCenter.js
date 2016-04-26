@@ -5,7 +5,6 @@ import _ from 'lodash';
 import { HelpCenter } from 'component/HelpCenter';
 import { frameFactory } from 'embed/frameFactory';
 import { authentication } from 'service/authentication';
-import { beacon } from 'service/beacon';
 import { i18n } from 'service/i18n';
 import { mediator } from 'service/mediator';
 import { settings } from 'service/settings';
@@ -44,7 +43,12 @@ function create(name, config) {
     });
   };
   const onSearch = function(params) {
-    beacon.trackUserAction('helpCenter', 'search', name, params.searchTerm);
+    mediator.channel.broadcast('beacon.trackUserAction', {
+      category: 'helpCenter',
+      action: 'search',
+      name: name,
+      value: params.searchTerm
+    });
     mediator.channel.broadcast(name + '.onSearch', params);
   };
 

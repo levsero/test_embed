@@ -21,9 +21,6 @@ describe('HelpCenter component', function() {
 
     mockRegistry = initMockRegistry({
       'React': React,
-      'service/beacon': {
-        beacon: jasmine.createSpyObj('beacon', ['trackUserAction'])
-      },
       'service/mediator': {
         mediator: {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
@@ -936,7 +933,7 @@ describe('HelpCenter component', function() {
           onLinkClick={noop}
           showBackButton={noop} />
       );
-      const mockBeacon = mockRegistry['service/beacon'].beacon;
+      const mockMediator = mockRegistry['service/mediator'].mediator;
       const searchTerm = 'help, I\'ve fallen and can\'t get up!';
       const responseArticle = {
         id: 0,
@@ -989,16 +986,19 @@ describe('HelpCenter component', function() {
       expect(trackSearch)
         .not.toHaveBeenCalled();
 
-      expect(mockBeacon.trackUserAction)
+      expect(mockMediator.channel.broadcast)
         .toHaveBeenCalledWith(
-          'helpCenter',
-          'click',
-          'helpCenterForm', {
-            query: searchTerm,
-            resultsCount: 3,
-            uniqueSearchResultClick: true,
-            articleId: 0,
-            locale: undefined
+          'beacon.trackUserAction', {
+            category: 'helpCenter',
+            action: 'click',
+            name: 'helpCenterForm',
+            value: {
+              query: searchTerm,
+              resultsCount: 3,
+              uniqueSearchResultClick: true,
+              articleId: 0,
+              locale: undefined
+            }
           }
         );
 

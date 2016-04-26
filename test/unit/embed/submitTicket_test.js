@@ -18,9 +18,6 @@ describe('embed.submitTicket', function() {
 
     mockRegistry = initMockRegistry({
       'React': React,
-      'service/beacon': {
-        beacon: jasmine.createSpyObj('beacon', ['trackUserAction'])
-      },
       'service/mediator': {
         mediator: {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
@@ -333,7 +330,6 @@ describe('embed.submitTicket', function() {
       it('should broadcast <name>.onSubmitted with onSubmitted', function() {
         const mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
         const mockMediator = mockRegistry['service/mediator'].mediator;
-        const mockBeacon = mockRegistry['service/beacon'].beacon;
 
         const childFnParams = {
           updateFrameSize: noop
@@ -366,17 +362,19 @@ describe('embed.submitTicket', function() {
 
         payload.props.onSubmitted(params);
 
-        expect(mockBeacon.trackUserAction)
+        expect(mockMediator.channel.broadcast)
           .toHaveBeenCalledWith(
-            'submitTicket',
-            'send',
-            'bob',
-          {
-            query: params.searchString,
-            locale: params.searchLocale,
-            ticketId: 149,
-            email: 'mock@email.com'
-          }
+            'beacon.trackUserAction', {
+              category: 'submitTicket',
+              action: 'send',
+              name: 'bob',
+              value: {
+                query: params.searchString,
+                locale: params.searchLocale,
+                ticketId: 149,
+                email: 'mock@email.com'
+              }
+            }
           );
 
         expect(mockMediator.channel.broadcast)

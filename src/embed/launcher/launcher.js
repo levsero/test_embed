@@ -5,7 +5,6 @@ import _     from 'lodash';
 import { document,
          getDocumentHost } from 'utility/globals';
 import { Launcher }        from 'component/Launcher';
-import { beacon }          from 'service/beacon';
 import { frameFactory }    from 'embed/frameFactory';
 import { i18n }            from 'service/i18n';
 import { mediator }        from 'service/mediator';
@@ -59,7 +58,11 @@ function create(name, config) {
       extend: {
         onClickHandler: function(e) {
           e.preventDefault();
-          beacon.trackUserAction('launcher', 'click', name);
+          mediator.channel.broadcast('beacon.trackUserAction', {
+            category: 'launcher',
+            action: 'click',
+            name: name
+          });
           mediator.channel.broadcast(name + '.onClick');
         }
       }

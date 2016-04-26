@@ -179,13 +179,13 @@ describe('beacon', function() {
   });
 
   describe('#trackUserAction', function() {
-    it('should not send anything if the first two params are not provided', function() {
+    it('should not send anything if the first two properties are not provided', function() {
       const mockTransport = mockRegistry['service/transport'];
 
-      beacon.trackUserAction();
-      beacon.trackUserAction('only one param');
-      beacon.trackUserAction(undefined, 'second param');
-      beacon.trackUserAction(undefined, undefined, 'third param');
+      beacon.trackUserAction({});
+      beacon.trackUserAction({ category: 'only one param' });
+      beacon.trackUserAction({ action: 'second param' });
+      beacon.trackUserAction({ name: 'third param' });
 
       expect(mockTransport.transport.send)
         .not.toHaveBeenCalled();
@@ -202,12 +202,7 @@ describe('beacon', function() {
 
       beacon.init();
 
-      beacon.trackUserAction(
-        userActionParams.category,
-        userActionParams.action,
-        userActionParams.label,
-        userActionParams.value
-      );
+      beacon.trackUserAction(userActionParams);
 
       expect(mockTransport.transport.sendWithMeta)
         .toHaveBeenCalled();
