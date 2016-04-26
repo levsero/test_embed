@@ -48,6 +48,16 @@ To download the latest translations, run the following command from the root of 
 ./script/fetch_i18n
 ```
 
+## Generating a JWT token
+
+To generate a JWT token for development purposes, run the following command from the root of this project:
+
+```bash
+node ./script/generate-jwt.js <shared_secret>
+```
+
+*`<shared_secret>` = a generated shared secret (e.g `4fcd8ac941baf1b9cf1bf0b8272d5bcf`)*
+
 ## Npm tasks
 
 Run each task like this: ```npm run taskname```

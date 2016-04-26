@@ -3,10 +3,14 @@ import { memoize } from 'lodash';
 
 import { mediator } from 'service/mediator';
 import { store } from 'service/persistence';
+import { settings } from 'service/settings';
 import { transport } from 'service/transport';
 import { base64decode } from 'utility/utils';
 
+const renewTime = 20 * 60; // 20 mins in secs
+
 function init() {
+  mediator.channel.subscribe('authentication.renew', renew);
   mediator.channel.subscribe('authentication.logout', logout);
 }
 
@@ -30,6 +34,14 @@ function getToken() {
   return (oauth && oauth.token) ? oauth.token : null;
 }
 
+function renew() {
+  const currentToken = store.get('zE_oauth');
+
+  if (isRenewable(currentToken)) {
+    renewOAuthToken(currentToken);
+  }
+}
+
 function logout() {
   store.remove('zE_oauth');
 }
@@ -37,30 +49,52 @@ function logout() {
 // private
 
 function requestOAuthToken(jwt) {
+  const id = extractTokenId(jwt);
   const payload = {
     method: 'POST',
     path: '/embeddable/authenticate',
     params: { body: jwt },
     callbacks: {
-      done: function(res) {
-        const tokenId = extractTokenId(jwt);
-
-        if (res.status === 200) {
-          store.set(
-            'zE_oauth',
-            {
-              'id': tokenId,
-              'token': res.body.oauth_token,
-              'expiry': res.body.oauth_expiry
-            }
-          );
-          mediator.channel.broadcast('authentication.onSuccess');
-        }
-      }
+      done: (res) => onRequestSuccess(res, id)
     }
   };
 
   transport.send(payload);
+}
+
+function renewOAuthToken(token) {
+  const id = token.id;
+  const params = {
+    body: settings.get('authenticate').jwt,
+    token: {
+      'oauth_token': token.token,
+      'oauth_expiry': token.expiry
+    }
+  };
+  const payload = {
+    method: 'POST',
+    path: '/embeddable/authenticate/renew',
+    params: params,
+    callbacks: {
+      done: (res) => onRequestSuccess(res, id)
+    }
+  };
+
+  transport.send(payload);
+}
+
+function onRequestSuccess(res, id) {
+  if (res.status === 200) {
+    store.set(
+      'zE_oauth',
+      {
+        'id': id,
+        'token': res.body.oauth_token,
+        'expiry': res.body.oauth_expiry
+      }
+    );
+    mediator.channel.broadcast('authentication.onSuccess');
+  }
 }
 
 function isValid(token) {
@@ -68,6 +102,17 @@ function isValid(token) {
     const now = Math.floor(Date.now() / 1000);
 
     return token.expiry > now;
+  } else {
+    return false;
+  }
+}
+
+function isRenewable(token) {
+  if (token && token.expiry) {
+    const now = Math.floor(Date.now() / 1000);
+    const timeDiff = token.expiry - now;
+
+    return timeDiff > 0 && timeDiff <= renewTime;
   } else {
     return false;
   }
@@ -92,5 +137,6 @@ export const authentication = {
   init: init,
   authenticate: authenticate,
   getToken: getToken,
+  renew: renew,
   logout: logout
 };

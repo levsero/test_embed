@@ -48,7 +48,8 @@ describe('mediator', function() {
 
     authenticationSub = jasmine.createSpyObj(
       'authentication',
-      ['logout']
+      ['logout',
+       'renew']
     );
 
     beaconSub = jasmine.createSpyObj(
@@ -115,6 +116,7 @@ describe('mediator', function() {
       c.subscribe(`${names.beacon}.identify`, beaconSub.identify);
 
       c.subscribe(`${names.authentication}.logout`, authenticationSub.logout);
+      c.subscribe(`${names.authentication}.renew`, authenticationSub.renew);
 
       c.subscribe(`${names.launcher}.hide`, launcherSub.hide);
       c.subscribe(`${names.launcher}.show`, launcherSub.show);
@@ -331,9 +333,27 @@ describe('mediator', function() {
     });
 
     it('should broadcast authentication.logout', function() {
-      c.broadcast('.logout');
+      c.broadcast('authentication.logout');
 
       expect(authenticationSub.logout)
+        .toHaveBeenCalled();
+    });
+  });
+
+  describe('.renew', function() {
+    const names = {
+      authentication: 'authentication'
+    };
+
+    beforeEach(function() {
+      initSubscriptionSpies(names);
+      mediator.init(false);
+    });
+
+    it('should broadcast authentication.renew', function() {
+      c.broadcast('authentication.renew');
+
+      expect(authenticationSub.renew)
         .toHaveBeenCalled();
     });
   });
@@ -627,11 +647,13 @@ describe('mediator', function() {
     const submitTicket = 'ticketSubmissionForm';
     const chat = 'zopimChat';
     const helpCenter = 'helpCenterForm';
+    const authentication = 'authentication';
     const names = {
       launcher: launcher,
       submitTicket: submitTicket,
       chat: chat,
-      helpCenter: helpCenter
+      helpCenter: helpCenter,
+      authentication: authentication
     };
 
     beforeEach(function() {
@@ -948,6 +970,18 @@ describe('mediator', function() {
 
         expect(chatSub.show.calls.count())
          .toEqual(0);
+      });
+    });
+
+    describe('with authenticated help center', function() {
+      it('broadcasts authentication.renew when onClick is called', function() {
+        mediator.init(true, { helpCenterSignInRequired: true });
+
+        c.broadcast(`authentication.onSuccess`);
+        c.broadcast(`${launcher}.onClick`);
+
+        expect(authenticationSub.renew)
+          .toHaveBeenCalled();
       });
     });
   });
