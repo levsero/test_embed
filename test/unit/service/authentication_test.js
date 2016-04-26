@@ -209,20 +209,20 @@ describe('authentication', function() {
     let mockTransport,
       mockStore,
       mockSettings,
-      body,
       zeoauth,
       renewPayload;
 
     beforeEach(function() {
-      mockTransport = mockRegistry['service/transport'].transport;
-      mockStore = mockRegistry['service/persistence'].store;
-      mockSettings = mockRegistry['service/settings'].settings;
-      body = { jwt: jsonwebtoken.sign(jwtPayload, 'pencil') };
+      const body = { jwt: jsonwebtoken.sign(jwtPayload, 'pencil') };
+
       zeoauth = {
         id: '3498589cd03c34be6155b5a6498fe9786985da01', // sha1 hash of jbob@zendesk.com
         token: 'abcde',
         expiry: Math.floor(Date.now() / 1000) + (20 * 60)
       };
+      mockTransport = mockRegistry['service/transport'].transport;
+      mockStore = mockRegistry['service/persistence'].store;
+      mockSettings = mockRegistry['service/settings'].settings;
       renewPayload = {
         body: body.jwt,
         token: {
@@ -237,11 +237,9 @@ describe('authentication', function() {
     });
 
     describe('when the oauth token is renewable', function() {
-      beforeEach(function() {
-        authentication.renew();
-      });
-
       it('should request a new oauth token', function() {
+        authentication.renew();
+
         const payload = mockTransport.send.calls.mostRecent().args[0];
         const params = payload.params;
 
@@ -256,6 +254,17 @@ describe('authentication', function() {
 
         expect(params)
           .toEqual(renewPayload);
+      });
+    });
+
+    describe('when the oauth token is not renewable', function() {
+      it('should return and not request a new oauth token', function() {
+        zeoauth.expiry = Math.floor(Date.now() / 1000) + (120 * 60);
+
+        authentication.renew();
+
+        expect(mockTransport.send)
+          .not.toHaveBeenCalled();
       });
     });
   });
