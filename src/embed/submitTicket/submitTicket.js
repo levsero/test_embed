@@ -27,12 +27,18 @@ function create(name, config) {
     position: 'right',
     customFields: [],
     hideZendeskLogo: false,
-    formTitleKey: 'message'
+    formTitleKey: 'message',
+    attachmentsEnabled: false
   };
+
+  config = _.extend(configDefaults, config);
+  const path = config.attachmentsEnabled
+             ? '/embeddable/tickets'
+             : '/requests/embedded/create';
   const submitTicketSender = (params, doneFn, failFn) => {
     const payload = {
       method: 'post',
-      path: '/requests/embedded/create',
+      path: path,
       params: params,
       callbacks: {
         done: doneFn,
@@ -74,8 +80,6 @@ function create(name, config) {
     }
   };
 
-  config = _.extend(configDefaults, config);
-
   if (isMobileBrowser()) {
     containerStyle = { width: '100%', height: '100%' };
   } else {
@@ -96,6 +100,7 @@ function create(name, config) {
           position={config.position}
           formTitleKey={config.formTitleKey}
           style={containerStyle}
+          attachmentsEnabled={config.attachmentsEnabled}
           updateFrameSize={params.updateFrameSize} />
       );
     },

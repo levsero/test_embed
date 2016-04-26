@@ -310,7 +310,7 @@ describe('Submit ticket component', function() {
   });
 
   it('should display the attachment box when isDragActive is true', function() {
-    const submitTicket = domRender(<SubmitTicket />);
+    const submitTicket = domRender(<SubmitTicket attachmentsEnabled={true} />);
 
     submitTicket.handleDragEnter();
 
