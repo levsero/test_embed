@@ -63,7 +63,7 @@ describe('mediator', function() {
 
     beaconSub = jasmine.createSpyObj(
       'beacon',
-      ['identify']
+      ['identify', 'trackUserAction']
     );
 
     launcherSub = jasmine.createSpyObj(
@@ -123,6 +123,7 @@ describe('mediator', function() {
 
     initSubscriptionSpies = function(names) {
       c.subscribe(`${names.beacon}.identify`, beaconSub.identify);
+      c.subscribe(`${names.beacon}.trackUserAction`, beaconSub.trackUserAction);
 
       c.subscribe(`${names.authentication}.logout`, authenticationSub.logout);
       c.subscribe(`${names.authentication}.renew`, authenticationSub.renew);
@@ -1847,24 +1848,42 @@ describe('mediator', function() {
   * ****************************************** */
 
   describe('.zopimShow', function() {
-    it('doesn\'t hide launcher when on mobile', function() {
+    beforeEach(function() {
       const launcher = 'launcher';
+      const beacon = 'beacon';
       const names = {
-        launcher: launcher
+        launcher: launcher,
+        beacon: beacon
       };
 
-      mockRegistry['utility/devices'].isMobileBrowser = jasmine.createSpy().and.returnValue(true);
-
-      mediator = requireUncached(mediatorPath).mediator;
-
-      c = mediator.channel;
       initSubscriptionSpies(names);
       mediator.init(false);
+    });
+
+    it('doesn\'t hide launcher when on mobile', function() {
+      mockRegistry['utility/devices'].isMobileBrowser
+        .and.returnValue(true);
 
       c.broadcast('.zopimShow');
 
       expect(launcherSub.hide.calls.count())
         .toEqual(0);
+    });
+
+    it('sends a `chat launch` user action blip with correct params', function() {
+      c.broadcast('.zopimShow');
+
+      const calls = beaconSub.trackUserAction.calls;
+
+      expect(calls.count())
+        .toEqual(1);
+
+      expect(calls.argsFor(0)[0])
+        .toEqual({
+          category: 'chat',
+          action: 'started',
+          name: 'chat'
+        });
     });
   });
 });
