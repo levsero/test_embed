@@ -420,12 +420,12 @@ describe('embed.submitTicket', function() {
         .toHaveBeenCalled();
     });
 
-    it('should with the default path', () => {
+    it('should send with the default path', () => {
       expect(mockTransport.send.calls.mostRecent().args[0].path)
         .toEqual('/requests/embedded/create');
     });
 
-    it('should with an alternative path when attachments are enabled', () => {
+    it('should send with an alternative path when attachments are enabled', () => {
       submitTicket.create('bob', { attachmentsEnabled: true });
       submitTicket.render('bob');
 
