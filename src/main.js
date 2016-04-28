@@ -113,6 +113,8 @@ function boot() {
     version: __EMBEDDABLE_VERSION__
   });
 
+  settings.init();
+  i18n.init();
   authentication.init();
 
   const publicApi = {
@@ -143,10 +145,6 @@ function boot() {
     win.zEmbed = (callback) => {
       callback();
     };
-  }
-
-  if (win.zESettings) {
-    settings.init(win.zESettings);
   }
 
   // To enable $zopim api calls to work we need to define the queue callback.

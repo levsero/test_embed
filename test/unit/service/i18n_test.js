@@ -6,24 +6,33 @@ describe('i18n', function() {
   beforeEach(function() {
     mockery.enable();
     mockRegistry = initMockRegistry({
+      'service/settings': {
+        'settings': { get: noop }
+      },
       'translation/translations.json': {
         'en-US': {
-          'launcher.label.hello': 'Hello'
+          'launcher.label.hello': 'Hello',
+          'embeddable_framework.launcher.label.help': 'Help'
         },
         'de': {
-          'launcher.label.hello': 'Hallo'
+          'launcher.label.hello': 'Hallo',
+          'embeddable_framework.launcher.label.help': 'Hilfe'
         },
         'zh-CN': {
-          'launcher.label.hello': '你好'
+          'launcher.label.hello': '你好',
+          'embeddable_framework.launcher.label.help': '%E5%B8%AE%E5%8A%A9'
         },
         'pt-BR': {
-          'launcher.label.hello': 'Olá'
+          'launcher.label.hello': 'Olá',
+          'embeddable_framework.launcher.label.help': 'Ajuda'
         },
         'no': {
-          'launcher.label.hello': 'Hallo'
+          'launcher.label.hello': 'Hallo',
+          'embeddable_framework.launcher.label.help': 'Hjelp'
         },
         'fil': {
-          'launcher.label.hello': 'Kumusta'
+          'launcher.label.hello': 'Kumusta',
+          'embeddable_framework.launcher.label.help': 'Tulong'
         }
       },
       'translation/localeIdMap.json': {
@@ -44,6 +53,71 @@ describe('i18n', function() {
   afterEach(function() {
     mockery.deregisterAll();
     mockery.disable();
+  });
+
+  describe('#init', function() {
+    describe('with a specific translation override', function() {
+      beforeEach(function() {
+        mockRegistry['service/settings'].settings.get = () => {
+          return {
+            'en-US': { launcherLabel: 'Wat' }
+          };
+        };
+
+        i18n.init();
+      });
+
+      it('should override the key for the specified locale', function() {
+        i18n.setLocale('en-US');
+
+        expect(i18n.t('embeddable_framework.launcher.label.help'))
+          .toEqual('Wat');
+      });
+    });
+
+    describe('with a wildcard translation override', function() {
+      beforeEach(function() {
+        mockRegistry['service/settings'].settings.get = () => {
+          return {
+            '*': { launcherLabel: 'Wat' }
+          };
+        };
+
+        i18n.init();
+      });
+
+      it('should override the key for the all locales', function() {
+        i18n.setLocale();
+
+        expect(i18n.t('embeddable_framework.launcher.label.help'))
+          .toEqual('Wat');
+
+        i18n.setLocale('de');
+
+        expect(i18n.t('embeddable_framework.launcher.label.help'))
+          .toEqual('Wat');
+
+        i18n.setLocale('zh-CN');
+
+        expect(i18n.t('embeddable_framework.launcher.label.help'))
+          .toEqual('Wat');
+
+        i18n.setLocale('pt-BR');
+
+        expect(i18n.t('embeddable_framework.launcher.label.help'))
+          .toEqual('Wat');
+
+        i18n.setLocale('no');
+
+        expect(i18n.t('embeddable_framework.launcher.label.help'))
+          .toEqual('Wat');
+
+        i18n.setLocale('fil');
+
+        expect(i18n.t('embeddable_framework.launcher.label.help'))
+          .toEqual('Wat');
+      });
+    });
   });
 
   describe('setLocale', function() {

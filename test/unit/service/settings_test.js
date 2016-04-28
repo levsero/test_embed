@@ -1,36 +1,61 @@
 describe('settings', function() {
-  let settings;
+  let settings,
+    mockRegistry;
   const settingsPath = buildSrcPath('service/settings');
 
   beforeEach(function() {
+    mockery.enable();
+    mockRegistry = initMockRegistry({
+      'utility/globals': {
+        win: {
+          zESettings: {}
+        }
+      }
+    });
+    mockery.registerAllowable(settingsPath);
     settings = requireUncached(settingsPath).settings;
   });
 
-  describe('#store', function() {
+  describe('store', function() {
     it('has the correct default values', function() {
+      const defaults = {
+        offset: { horizontal: 0, vertical: 0 },
+        widgetMargin: 15
+      };
+
       expect(settings.get('offset'))
-        .toEqual({ horizontal: 0, vertical: 0 });
+        .toEqual(defaults.offset);
 
       expect(settings.get('widgetMargin'))
-        .toEqual(15);
+        .toEqual(defaults.widgetMargin);
     });
   });
 
   describe('#init', function() {
-    it('should store an authenticate object if it is passed in', function() {
-      settings.init({ authenticate: { jwt: 'token' } });
+    it('should store a whitelisted value if it is in win.zESetting', function() {
+      mockRegistry['utility/globals'].win.zESettings = { authenticate: 'foo' };
+      settings.init();
 
       expect(settings.get('authenticate'))
-        .toEqual({ jwt: 'token' });
+        .toEqual('foo');
+    });
+
+    it('should not store a value if it is not in the whitelist', function() {
+      mockRegistry['utility/globals'].win.zESettings = { foo: 'bar' };
+      settings.init();
+
+      expect(settings.get('foo'))
+        .toEqual(null);
     });
   });
 
   describe('#get', function() {
     it('should return a value if it exists in the store', function() {
-      settings.init({ authenticate: { jwt: 'token' }});
+      mockRegistry['utility/globals'].win.zESettings = { authenticate: 'foo' };
+      settings.init();
 
       expect(settings.get('authenticate'))
-        .toEqual({ jwt: 'token' });
+        .toEqual('foo');
     });
 
     it('should return null if a value does not exist in the store', function() {

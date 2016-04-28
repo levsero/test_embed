@@ -1,32 +1,22 @@
 import _ from 'lodash';
 
+import { settings } from 'service/settings';
+
 const translate = require('counterpart');
 const translations = require('translation/translations.json');
 const localeIdMap = require('translation/localeIdMap.json');
+
 let currentLocale;
 
 // Setting to something other than (.) as our translation hash
 // is a flat structure and counterpart tries to look in object
 translate.setSeparator('*');
 
-function parseLocale(str) {
-  const locale = regulateLocaleStringCase(str);
-  const extractLang = function(locale) {
-    return locale.substring(0, locale.indexOf('-'));
-  };
+function init() {
+  const customerTranslations = settings.get('translations');
 
-  if (translations[locale]) {
-    return locale;
-  } else if (translations[extractLang(locale)]) {
-    return extractLang(locale);
-  } else if (str === 'zh') {
-    return 'zh-CN';
-  } else if (str === 'nb' || str === 'nn') {
-    return 'no';
-  } else if (str === 'tl') {
-    return 'fil';
-  } else {
-    return 'en-US';
+  if (customerTranslations) {
+    overrideTranslations(customerTranslations);
   }
 }
 
@@ -52,9 +42,15 @@ function getLocale() {
   return translate.getLocale();
 }
 
+function getLocaleId() {
+  return localeIdMap[currentLocale];
+}
+
 function isRTL() {
   return translations[getLocale()] && translations[getLocale()].rtl;
 }
+
+// private
 
 function regulateLocaleStringCase(locale) {
   const dashIndex = locale.indexOf('-');
@@ -65,11 +61,77 @@ function regulateLocaleStringCase(locale) {
   return locale.substring(0, dashIndex).toLowerCase() + locale.substring(dashIndex).toUpperCase();
 }
 
-function getLocaleId() {
-  return localeIdMap[currentLocale];
+function parseLocale(str) {
+  const locale = regulateLocaleStringCase(str);
+  const extractLang = function(locale) {
+    return locale.substring(0, locale.indexOf('-'));
+  };
+
+  if (translations[locale]) {
+    return locale;
+  } else if (translations[extractLang(locale)]) {
+    return extractLang(locale);
+  } else if (str === 'zh') {
+    return 'zh-CN';
+  } else if (str === 'nb' || str === 'nn') {
+    return 'no';
+  } else if (str === 'tl') {
+    return 'fil';
+  } else {
+    return 'en-US';
+  }
+}
+
+function overrideTranslations(newTranslations) {
+  // override all locales if there are wild card translations
+  if (newTranslations.hasOwnProperty('*')) {
+    const globalOverrides = mappedTranslationsForLocale(newTranslations['*']);
+
+    for (let locale in translations) {
+      _.merge(translations[locale], globalOverrides);
+    }
+  }
+
+  // overrride any other specified locales
+  for (let locale in newTranslations) {
+    if (locale === '*') continue;
+
+    _.merge(translations[locale], mappedTranslationsForLocale(newTranslations[locale]));
+  }
+}
+
+function mappedTranslationsForLocale(localeOverrides) {
+  const keyLookupTable = {
+    'embeddable_framework.launcher.label.help': 'launcherLabel',
+    'embeddable_framework.launcher.label.support': 'launcherLabel',
+    'embeddable_framework.launcher.label.feedback': 'launcherLabel',
+    'embeddable_framework.launcher.label.chat': 'launcherChatLabel',
+    'embeddable_framework.helpCenter.form.title.help': 'helpCenterTitle',
+    'embeddable_framework.helpCenter.form.title.support': 'helpCenterTitle',
+    'embeddable_framework.helpCenter.form.title.feedback': 'helpCenterTitle',
+    'embeddable_framework.helpCenter.submitButton.label.submitTicket.message': 'helpCenterMessageButton',
+    'embeddable_framework.helpCenter.submitButton.label.submitTicket.contact': 'helpCenterMessageButton',
+    'embeddable_framework.helpCenter.submitButton.label.chat': 'helpCenterChatButton',
+    'embeddable_framework.submitTicket.form.title.message': 'contactFormTitle',
+    'embeddable_framework.submitTicket.form.title.contact': 'contactFormTitle'
+  };
+
+  // for each key in the lookup table
+  return Object.keys(keyLookupTable)
+    // filter out any keys whose values are not present (as keys) in the localeOverrides
+    .filter((key) => localeOverrides.hasOwnProperty(keyLookupTable[key]))
+    // create a new object using the keys from the lookup table, and the values from localeOverrides
+    .reduce((obj, key) => {
+      const overrideKey = keyLookupTable[key];
+      const overrideValue = localeOverrides[overrideKey];
+      const translationOverride = { [key]: overrideValue };
+
+      return _.merge(obj, translationOverride);
+    }, {});
 }
 
 export const i18n = {
+  init: init,
   t: translate,
   getLocaleId: getLocaleId,
   setLocale: setLocale,
