@@ -243,3 +243,12 @@
     height: #{16/$font-size}rem;
   }
 }
+
+.Icon--preview {
+  svg {
+    min-width: #{16/$font-size}rem; /* 1 */
+    min-height: #{16/$font-size}rem; /* 1 */
+    height: #{16/$font-size}rem;
+    width: #{16/$font-size}rem;
+  }
+}
