@@ -99,7 +99,10 @@ function identify(user) {
   const payload = {
     method: 'POST',
     path: '/embeddable/identify',
-    params:  { user: user },
+    params:  {
+      user: user,
+      userAgent: navigator.userAgent
+    },
     callbacks: {
       done: (res) => {
         mediator.channel.broadcast('identify.onSuccess', res.body);

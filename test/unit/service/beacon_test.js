@@ -229,7 +229,8 @@ describe('beacon', function() {
 
   describe('identify', function() {
     let mockStore,
-      mockTransport;
+      mockTransport,
+      mockGlobals;
 
     const name = 'John';
     const email = 'john@example.com';
@@ -237,6 +238,7 @@ describe('beacon', function() {
     beforeEach(function() {
       mockStore = mockRegistry['service/persistence'];
       mockTransport = mockRegistry['service/transport'];
+      mockGlobals = mockRegistry['utility/globals'];
 
       spyOn(beacon, 'sendPageView');
 
@@ -266,6 +268,9 @@ describe('beacon', function() {
 
       expect(params.user.localeId)
         .toEqual(localeId);
+
+      expect(params.userAgent)
+        .toEqual(mockGlobals.navigator.userAgent);
     });
 
     it('sends out a page view blip containing the users email', function() {
