@@ -309,15 +309,29 @@ describe('Submit ticket component', function() {
       .toEqual('VALUE');
   });
 
-  it('should display the attachment box when isDragActive is true', function() {
-    const submitTicket = domRender(<SubmitTicket attachmentsEnabled={true} />);
+  describe('attachmentBox', function() {
+    it('should display the attachment box when isDragActive is true', function() {
+      const submitTicket = domRender(<SubmitTicket attachmentsEnabled={true} />);
 
-    submitTicket.handleDragEnter();
+      submitTicket.handleDragEnter();
 
-    expect(submitTicket.state.isDragActive)
-      .toEqual(true);
+      expect(submitTicket.state.isDragActive)
+        .toEqual(true);
 
-    expect(document.querySelectorAll('.attachment_box').length)
-      .toEqual(1);
+      expect(document.querySelectorAll('.attachment_box').length)
+        .toEqual(1);
+    });
+
+    it('should not display the attachment box if attachmentsEnabled is false', function() {
+      const submitTicket = domRender(<SubmitTicket attachmentsEnabled={false} />);
+
+      submitTicket.handleDragEnter();
+
+      expect(submitTicket.state.isDragActive)
+        .toEqual(true);
+
+      expect(document.querySelectorAll('.attachment_box').length)
+        .toEqual(0);
+    });
   });
 });
