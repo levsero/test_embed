@@ -144,7 +144,6 @@ export class SubmitTicket extends Component {
       'Error u-marginTL': true,
       'u-isHidden': !this.state.errorMessage
     });
-    const attachmentsEnabled = (win.location.hash === '#ze-attachments-alpha' || __DEV__);
 
     if (this.props.updateFrameSize) {
       setTimeout( () => this.props.updateFrameSize(), 0);
@@ -156,7 +155,7 @@ export class SubmitTicket extends Component {
                           formSuccess={this.state.showNotification}
                           rtl={i18n.isRTL()}
                           fullscreen={this.state.fullscreen} />;
-    const attachmentBox = this.state.isDragActive && attachmentsEnabled
+    const attachmentBox = this.state.isDragActive && this.props.attachmentsEnabled
                          ? <AttachmentBox
                              onDragLeave={this.handleDragLeave}
                              onDrop={this.handleOnDrop} />
@@ -185,6 +184,7 @@ export class SubmitTicket extends Component {
           hide={this.state.showNotification}
           customFields={this.props.customFields}
           formTitleKey={this.props.formTitleKey}
+          attachmentsEnabled={this.props.attachmentsEnabled}
           submit={this.handleSubmit}>
           <p className={errorClasses}>
             {this.state.errorMessage}
@@ -205,7 +205,8 @@ SubmitTicket.propTypes = {
   style: PropTypes.object,
   position: PropTypes.string,
   onSubmitted: PropTypes.func,
-  onCancel: PropTypes.func
+  onCancel: PropTypes.func,
+  attachmentsEnabled: PropTypes.bool
 };
 
 SubmitTicket.defaultProps = {
@@ -215,5 +216,6 @@ SubmitTicket.defaultProps = {
   style: null,
   position: 'right',
   onSubmitted: () => {},
-  onCancel: () => {}
+  onCancel: () => {},
+  attachmentsEnabled: false
 };

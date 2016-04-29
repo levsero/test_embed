@@ -12,7 +12,6 @@ import { Field,
          getCustomFields } from 'component/FormField';
 import { ScrollContainer } from 'component/ScrollContainer';
 import { i18n } from 'service/i18n';
-import { win } from 'utility/globals';
 import { bindMethods } from 'utility/utils';
 
 const initialState = {
@@ -197,7 +196,6 @@ export class SubmitTicketForm extends Component {
       this.forceUpdate();
     };
     const customFields = getCustomFields(this.props.customFields, this.state.formState);
-    const attachmentsEnabled = (win.location.hash === '#ze-attachments-alpha' || __DEV__);
     const previews = getAttachmentPreviews(this.state.attachments, removeAttachment);
     const attachments = (this.state.attachments.length !== 0)
                       ? <div>{previews}</div>
@@ -233,7 +231,7 @@ export class SubmitTicketForm extends Component {
                            label={this.state.cancelButtonMessage}
                            onClick={this.props.onCancel}
                            fullscreen={this.props.fullscreen} />;
-    const buttonDropzone = attachmentsEnabled
+    const buttonDropzone = this.props.attachmentsEnabled
                          ? <label className='Form-fieldContainer u-block u-marginVM'>
                               <div className='Form-fieldLabel u-textXHeight'>
                                 {i18n.t('embeddable_framework.submitTicket.attachments.title',
@@ -283,12 +281,14 @@ SubmitTicketForm.propTypes = {
   hide: PropTypes.bool,
   customFields: PropTypes.array,
   fullscreen: PropTypes.bool,
-  onCancel: PropTypes.func
+  onCancel: PropTypes.func,
+  attachmentsEnabled: PropTypes.bool
 };
 
 SubmitTicketForm.defaultProps = {
   hide: false,
   customFields: [],
   fullscreen: false,
-  onCancel: () => {}
+  onCancel: () => {},
+  attachmentsEnabled: false
 };

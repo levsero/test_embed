@@ -395,24 +395,45 @@ describe('embed.submitTicket', function() {
   });
 
   describe('submitTicketSender', () => {
-    it('should call transport.send when invoked', () => {
-      const mockTransport = mockRegistry['service/transport'].transport;
-      const formParams = {
+    let formParams,
+      mockTransport,
+      embed;
+
+    beforeEach(function() {
+      mockTransport = mockRegistry['service/transport'].transport;
+      formParams = {
         'set_tags': 'web_widget',
         'via_id': 48,
         'submitted_from': global.window.location.href,
         'email': 'mock@email.com',
         'description': 'Mock Description'
       };
-
       submitTicket.create('bob');
       submitTicket.render('bob');
 
-      const embed = submitTicket.get('bob').instance.getRootComponent();
-
+      embed = submitTicket.get('bob').instance.getRootComponent();
       embed.props.submitTicketSender(formParams, null, null);
+    });
+
+    it('should call transport.send when invoked', () => {
       expect(mockTransport.send)
         .toHaveBeenCalled();
+    });
+
+    it('should send with the default path', () => {
+      expect(mockTransport.send.calls.mostRecent().args[0].path)
+        .toEqual('/requests/embedded/create');
+    });
+
+    it('should send with an alternative path when attachments are enabled', () => {
+      submitTicket.create('bob', { attachmentsEnabled: true });
+      submitTicket.render('bob');
+
+      embed = submitTicket.get('bob').instance.getRootComponent();
+      embed.props.submitTicketSender(formParams, null, null);
+
+      expect(mockTransport.send.calls.mostRecent().args[0].path)
+        .toEqual('/embeddable/tickets');
     });
   });
 
