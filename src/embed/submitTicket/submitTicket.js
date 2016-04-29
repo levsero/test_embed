@@ -32,13 +32,13 @@ function create(name, config) {
   };
 
   config = _.extend(configDefaults, config);
-  const path = config.attachmentsEnabled
+  const ticketEndpointPath = config.attachmentsEnabled
              ? '/embeddable/tickets'
              : '/requests/embedded/create';
   const submitTicketSender = (params, doneFn, failFn) => {
     const payload = {
       method: 'post',
-      path: path,
+      path: ticketEndpointPath,
       params: params,
       callbacks: {
         done: doneFn,
