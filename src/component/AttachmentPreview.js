@@ -27,10 +27,10 @@ const getAttachmentPreviews = (attachments, removeAttachment) => {
     const extension = attachment.name.split('.').pop();
     const icon = _.pick(iconMapper, [extension])[extension];
 
-    return <AttachmentPreview
+    return (<AttachmentPreview
              attachment={attachment}
              handleRemoveAttachment={removeAttachment}
-             icon={icon || 'Icon--preview-default'} />;
+             icon={icon || 'Icon--preview-default'} />);
   });
 
   return previews;
@@ -68,7 +68,8 @@ class AttachmentPreview extends Component {
 
 AttachmentPreview.propTypes = {
   attachment: PropTypes.object.isRequired,
-  handleRemoveAttachment: PropTypes.func.isRequired
+  handleRemoveAttachment: PropTypes.func.isRequired,
+  icon: PropTypes.string.isRequired
 };
 
 export {
