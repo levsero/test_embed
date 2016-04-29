@@ -8,6 +8,7 @@ import { SubmitTicket } from 'component/SubmitTicket';
 import { frameFactory } from 'embed/frameFactory';
 import { isMobileBrowser,
          isIE } from 'utility/devices';
+import { beacon } from 'service/beacon';
 import { transitionFactory } from 'service/transitionFactory';
 import { mediator } from 'service/mediator';
 import { settings } from 'service/settings';
@@ -44,7 +45,7 @@ function create(name, config) {
   const onSubmitted = function(params) {
     let ticketIdMatcher = /Request \#([0-9]+)/;
 
-    mediator.channel.broadcast('beacon.trackUserAction', {
+    beacon.trackUserAction({
       category: 'submitTicket',
       action: 'send',
       name: name,

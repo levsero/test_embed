@@ -5,6 +5,7 @@ import _ from 'lodash';
 import { HelpCenter } from 'component/HelpCenter';
 import { frameFactory } from 'embed/frameFactory';
 import { authentication } from 'service/authentication';
+import { beacon } from 'service/beacon';
 import { i18n } from 'service/i18n';
 import { mediator } from 'service/mediator';
 import { settings } from 'service/settings';
@@ -38,7 +39,7 @@ function create(name, config) {
     mediator.channel.broadcast(name + '.onNextClick');
   };
   const onArticleClick = function(trackPayload) {
-    mediator.channel.broadcast('beacon.trackUserAction', {
+    beacon.trackUserAction({
       category: 'helpCenter',
       action: 'click',
       name: name,
@@ -51,7 +52,7 @@ function create(name, config) {
     });
   };
   const onSearch = function(params) {
-    mediator.channel.broadcast('beacon.trackUserAction', {
+    beacon.trackUserAction({
       category: 'helpCenter',
       action: 'search',
       name: name,
