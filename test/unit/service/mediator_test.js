@@ -11,7 +11,6 @@ describe('mediator', function() {
     npsSub,
     ipmSub,
     mockSettingsGetValue,
-    mockStoreGetValue,
     initSubscriptionSpies;
 
   const reset = function(spy) {
@@ -23,7 +22,6 @@ describe('mediator', function() {
     mockery.enable();
 
     mockSettingsGetValue = null;
-    mockStoreGetValue = null;
 
     mockRegistry = initMockRegistry({
       'service/settings':  {
@@ -35,9 +33,7 @@ describe('mediator', function() {
       },
       'service/persistence': {
         store: {
-          get: () => {
-            return mockStoreGetValue;
-          }
+          get: noop
         }
       },
       'utility/devices':  {
