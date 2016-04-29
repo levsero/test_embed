@@ -231,12 +231,18 @@ export class SubmitTicketForm extends Component {
                            label={this.state.cancelButtonMessage}
                            onClick={this.props.onCancel}
                            fullscreen={this.props.fullscreen} />;
+    const attachmentsTitle = (this.state.attachments.length > 0)
+                           ? i18n.t('embeddable_framework.submitTicket.attachments.title.withCount',
+                               { fallback: 'Attachments (%(count)s)',
+                               count: this.state.attachments.length }
+                             )
+                           : i18n.t('embeddable_framework.submitTicket.attachments.title',
+                               { fallback: 'Attachments' }
+                             );
     const buttonDropzone = this.props.attachmentsEnabled
                          ? <label className='Form-fieldContainer u-block u-marginVM'>
                               <div className='Form-fieldLabel u-textXHeight'>
-                                {i18n.t('embeddable_framework.submitTicket.attachments.title',
-                                  { fallback: 'Attachments' }
-                                )}
+                                {attachmentsTitle}
                               </div>
                               <ButtonDropzone
                                 onDrop={this.handleOnDrop} />

@@ -201,6 +201,11 @@ parts:
       value: "Attachments"
       wip: true
   - translation:
+      key: "embeddable_framework.submitTicket.attachments.title.withCount"
+      title: "The label on the form above the attached files. Will wrap as needed. %()s stands for string and does not need to be translated. Wrap the count in brackets"
+      value: "Attachments (%(count)s)"
+      wip: true
+  - translation:
       key: "embeddable_framework.submitTicket.attachments.box.label"
       title: "The label that appears when attaching a file through drag and drop. Will wrap as needed."
       value: "Drop to attach"
