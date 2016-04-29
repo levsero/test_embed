@@ -25,12 +25,12 @@ const iconMapper = {
 const getAttachmentPreviews = (attachments, removeAttachment) => {
   const previews = _.map(attachments, (attachment) => {
     const extension = attachment.name.split('.').pop();
-    const icon = _.pick(iconMapper, [extension])[extension];
+    const icon = iconMapper[extension] || 'Icon--preview-default';
 
     return (<AttachmentPreview
              attachment={attachment}
              handleRemoveAttachment={removeAttachment}
-             icon={icon || 'Icon--preview-default'} />);
+             icon={icon} />);
   });
 
   return previews;
