@@ -37,6 +37,14 @@ function create(name, config) {
   const onNextClick = function() {
     mediator.channel.broadcast(name + '.onNextClick');
   };
+  const onArticleClick = function(trackPayload) {
+    mediator.channel.broadcast('beacon.trackUserAction', {
+      category: 'helpCenter',
+      action: 'click',
+      name: name,
+      value: trackPayload
+    });
+  };
   const showBackButton = function() {
     get(name).instance.getChild().setState({
       showBackButton: true
@@ -115,6 +123,7 @@ function create(name, config) {
           ref='rootComponent'
           hideZendeskLogo={config.hideZendeskLogo}
           onNextClick={onNextClick}
+          onArticleClick={onArticleClick}
           onSearch={onSearch}
           position={config.position}
           buttonLabelKey={config.buttonLabelKey}

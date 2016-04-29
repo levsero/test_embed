@@ -658,12 +658,14 @@ describe('mediator', function() {
     const chat = 'zopimChat';
     const helpCenter = 'helpCenterForm';
     const authentication = 'authentication';
+    const beacon = 'beacon';
     const names = {
       launcher: launcher,
       submitTicket: submitTicket,
       chat: chat,
       helpCenter: helpCenter,
-      authentication: authentication
+      authentication: authentication,
+      beacon: beacon
     };
 
     beforeEach(function() {
@@ -797,17 +799,26 @@ describe('mediator', function() {
           .toEqual(0);
       });
 
-      it('launches Chat if chat is online', function() {
-        c.broadcast(`${chat}.onOnline`);
+      describe('when chat is online', function() {
+        beforeEach(function() {
+          c.broadcast(`${chat}.onOnline`);
 
-        jasmine.clock().install();
-        c.broadcast(`${launcher}.onClick`);
-        jasmine.clock().tick(0);
+          jasmine.clock().install();
+          c.broadcast(`${launcher}.onClick`);
+          jasmine.clock().tick(0);
+        });
 
-        expect(submitTicketSub.show.calls.count())
-          .toEqual(0);
-        expect(chatSub.show.calls.count())
-          .toEqual(1);
+        it('sends a `chat launch` user action blip', function() {
+          expect(beaconSub.trackUserAction.calls.count())
+            .toEqual(1);
+        });
+
+        it('launches chat', function() {
+          expect(submitTicketSub.show.calls.count())
+            .toEqual(0);
+          expect(chatSub.show.calls.count())
+            .toEqual(1);
+        });
       });
 
       it('does not hide if launching chat on mobile', function() {
@@ -896,13 +907,14 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      it('launches chat if user has moved on to chat and chat is online', function() {
+      it('launches chat when the user moves on to chat and chat is online', function() {
         c.broadcast(`${chat}.onOnline`);
         c.broadcast(`${launcher}.onClick`);  // open
         c.broadcast(`${helpCenter}.onNextClick`);
 
         reset(chatSub.show);
         reset(helpCenterSub.show);
+        reset(beaconSub.trackUserAction);
 
         c.broadcast(`${helpCenter}.onClose`); // close
 
@@ -915,6 +927,15 @@ describe('mediator', function() {
 
         expect(helpCenterSub.show.calls.count())
           .toEqual(0);
+      });
+
+      it('sends a `chat launch` user action blip on next click to open chat', function() {
+        c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${launcher}.onClick`);  // open
+        c.broadcast(`${helpCenter}.onNextClick`);
+
+        expect(beaconSub.trackUserAction.calls.count())
+          .toEqual(1);
       });
 
       it('launches help center if user has moved on to chat and chat goes offline', function() {
@@ -1005,11 +1026,13 @@ describe('mediator', function() {
     const submitTicket = 'ticketSubmissionForm';
     const chat = 'zopimChat';
     const helpCenter = 'helpCenterForm';
+    const beacon = 'beacon';
     const names = {
       launcher: launcher,
       submitTicket: submitTicket,
       chat: chat,
-      helpCenter: helpCenter
+      helpCenter: helpCenter,
+      beacon: beacon
     };
 
     beforeEach(function() {
@@ -1848,19 +1871,15 @@ describe('mediator', function() {
   * ****************************************** */
 
   describe('.zopimShow', function() {
-    beforeEach(function() {
+    it('doesn\'t hide launcher when on mobile', function() {
       const launcher = 'launcher';
-      const beacon = 'beacon';
       const names = {
-        launcher: launcher,
-        beacon: beacon
+        launcher: launcher
       };
 
       initSubscriptionSpies(names);
       mediator.init(false);
-    });
 
-    it('doesn\'t hide launcher when on mobile', function() {
       mockRegistry['utility/devices'].isMobileBrowser
         .and.returnValue(true);
 
@@ -1868,32 +1887,6 @@ describe('mediator', function() {
 
       expect(launcherSub.hide.calls.count())
         .toEqual(0);
-    });
-
-    it('sends a `chat launch` user action blip with correct params', function() {
-      c.broadcast('.zopimShow');
-
-      const expectedArgs = {
-        category: 'chat',
-        action: 'started',
-        name: 'chat'
-      };
-      const calls = beaconSub.trackUserAction.calls;
-
-      expect(calls.count())
-        .toEqual(1);
-
-      expect(calls.argsFor(0)[0])
-        .toEqual(expectedArgs);
-
-      mockStoreGetValue = 'bob@z.com';
-
-      c.broadcast('.zopimShow');
-
-      expectedArgs.value = { email: mockStoreGetValue };
-
-      expect(calls.argsFor(1)[0])
-        .toEqual(expectedArgs);
     });
   });
 });

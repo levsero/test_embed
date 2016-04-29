@@ -21,11 +21,6 @@ describe('HelpCenter component', function() {
 
     mockRegistry = initMockRegistry({
       'React': React,
-      'service/mediator': {
-        mediator: {
-          channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
-        }
-      },
       'component/HelpCenterForm': {
         HelpCenterForm: React.createClass({
           render: function() {
@@ -926,14 +921,15 @@ describe('HelpCenter component', function() {
       // Needs to be rewritten
 
       const mockSearchSender = jasmine.createSpy('mockSearchSender');
+      const mockOnArticleClick = jasmine.createSpy('mockOnArticleClick');
       const helpCenter = domRender(
         <HelpCenter
           searchSender={mockSearchSender}
+          onArticleClick={mockOnArticleClick}
           onSearch={noop}
           onLinkClick={noop}
           showBackButton={noop} />
       );
-      const mockMediator = mockRegistry['service/mediator'].mediator;
       const searchTerm = 'help, I\'ve fallen and can\'t get up!';
       const responseArticle = {
         id: 0,
@@ -986,21 +982,14 @@ describe('HelpCenter component', function() {
       expect(trackSearch)
         .not.toHaveBeenCalled();
 
-      expect(mockMediator.channel.broadcast)
-        .toHaveBeenCalledWith(
-          'beacon.trackUserAction', {
-            category: 'helpCenter',
-            action: 'click',
-            name: 'helpCenterForm',
-            value: {
-              query: searchTerm,
-              resultsCount: 3,
-              uniqueSearchResultClick: true,
-              articleId: 0,
-              locale: undefined
-            }
-          }
-        );
+      expect(mockOnArticleClick)
+        .toHaveBeenCalledWith({
+          query: searchTerm,
+          resultsCount: 3,
+          uniqueSearchResultClick: true,
+          articleId: 0,
+          locale: undefined
+        });
 
       expect(article.className)
         .not.toMatch('u-isHidden');

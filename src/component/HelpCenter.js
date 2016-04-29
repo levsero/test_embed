@@ -14,7 +14,6 @@ import { isMobileBrowser } from 'utility/devices';
 import { i18n } from 'service/i18n';
 import { Button,
          ButtonGroup } from 'component/Button';
-import { mediator } from 'service/mediator';
 import { bindMethods } from 'utility/utils';
 
 export class HelpCenter extends Component {
@@ -313,12 +312,7 @@ export class HelpCenter extends Component {
       locale: i18n.getLocale()
     };
 
-    mediator.channel.broadcast('beacon.trackUserAction', {
-      category: 'helpCenter',
-      action: 'click',
-      name: 'helpCenterForm',
-      value: trackPayload
-    });
+    this.props.onArticleClick(trackPayload);
 
     this.setState({
       searchResultClicked: true
@@ -582,6 +576,7 @@ HelpCenter.propTypes = {
   onSearch: PropTypes.func,
   showBackButton: PropTypes.func,
   onNextClick: PropTypes.func,
+  onArticleClick: PropTypes.func,
   hideZendeskLogo: PropTypes.bool,
   updateFrameSize: PropTypes.any,
   style: PropTypes.object,
@@ -593,6 +588,7 @@ HelpCenter.defaultProps = {
   onSearch: () => {},
   showBackButton: () => {},
   onNextClick: () => {},
+  onArticleClick: () => {},
   hideZendeskLogo: false,
   updateFrameSize: false,
   style: null,

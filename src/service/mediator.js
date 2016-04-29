@@ -62,6 +62,21 @@ const resetActiveEmbed = () => {
   }
 };
 
+const trackChatStarted = () => {
+  const email = store.get('identifyEmail', true);
+  const params = {
+    category: 'chat',
+    action: 'started',
+    name: chat
+  };
+
+  if (email) {
+    _.extend(params, { value: { email } });
+  }
+
+  c.broadcast('beacon.trackUserAction', params);
+};
+
 function init(helpCenterAccessible, params = {}) {
   const updateLauncherLabel = () => {
     if (chatAvailable()) {
@@ -136,19 +151,6 @@ function init(helpCenterAccessible, params = {}) {
   c.intercept('.zopimShow', () => {
     c.broadcast(`${submitTicket}.hide`);
     c.broadcast(`${helpCenter}.hide`);
-
-    const email = store.get('identifyEmail', true);
-    const params = {
-      category: 'chat',
-      action: 'started',
-      name: 'chat'
-    };
-
-    if (email) {
-      _.extend(params, { value: { email } });
-    }
-
-    c.broadcast('beacon.trackUserAction', params);
 
     /*
       zopim opens up in a seperate tab on mobile,
@@ -269,6 +271,8 @@ function init(helpCenterAccessible, params = {}) {
         c.broadcast(`${launcher}.show`);
       }
 
+      trackChatStarted();
+
       state.activeEmbed = chat;
       c.broadcast(`${chat}.show`);
     } else {
@@ -335,6 +339,10 @@ function init(helpCenterAccessible, params = {}) {
        */
 
       setTimeout(() => {
+        if (state.activeEmbed === chat) {
+          trackChatStarted();
+        }
+
         c.broadcast(`${state.activeEmbed}.show`, { transition: 'upShow' });
         if (isMobileBrowser()) {
           /**
