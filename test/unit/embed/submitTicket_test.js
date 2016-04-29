@@ -379,8 +379,7 @@ describe('embed.submitTicket', function() {
               ticketId: 149,
               email: 'mock@email.com'
             }
-          }
-          );
+          });
 
         expect(mockMediator.channel.broadcast)
           .toHaveBeenCalledWith('bob.onFormSubmitted');

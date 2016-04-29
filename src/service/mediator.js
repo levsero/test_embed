@@ -338,11 +338,11 @@ function init(helpCenterAccessible, params = {}) {
        * e.g. iPhone4. It's not a bulletproof solution, but it helps
        */
 
-      setTimeout(() => {
-        if (state.activeEmbed === chat) {
-          trackChatStarted();
-        }
+      if (state.activeEmbed === chat) {
+        trackChatStarted();
+      }
 
+      setTimeout(() => {
         c.broadcast(`${state.activeEmbed}.show`, { transition: 'upShow' });
         if (isMobileBrowser()) {
           /**
