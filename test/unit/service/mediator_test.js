@@ -910,7 +910,6 @@ describe('mediator', function() {
 
         reset(chatSub.show);
         reset(helpCenterSub.show);
-        reset(beaconSub.trackUserAction);
 
         c.broadcast(`${helpCenter}.onClose`); // close
 
@@ -1022,13 +1021,11 @@ describe('mediator', function() {
     const submitTicket = 'ticketSubmissionForm';
     const chat = 'zopimChat';
     const helpCenter = 'helpCenterForm';
-    const beacon = 'beacon';
     const names = {
       launcher: launcher,
       submitTicket: submitTicket,
       chat: chat,
-      helpCenter: helpCenter,
-      beacon: beacon
+      helpCenter: helpCenter
     };
 
     beforeEach(function() {
@@ -1873,11 +1870,13 @@ describe('mediator', function() {
         launcher: launcher
       };
 
+      mockRegistry['utility/devices'].isMobileBrowser = jasmine.createSpy().and.returnValue(true);
+
+      mediator = requireUncached(mediatorPath).mediator;
+
+      c = mediator.channel;
       initSubscriptionSpies(names);
       mediator.init(false);
-
-      mockRegistry['utility/devices'].isMobileBrowser
-        .and.returnValue(true);
 
       c.broadcast('.zopimShow');
 
