@@ -232,7 +232,7 @@ export class SubmitTicketForm extends Component {
                            onClick={this.props.onCancel}
                            fullscreen={this.props.fullscreen} />;
     const attachmentsTitle = (this.state.attachments.length > 0)
-                           ? i18n.t('embeddable_framework.submitTicket.attachments.title.withCount',
+                           ? i18n.t('embeddable_framework.submitTicket.attachments.title_withCount',
                                { fallback: 'Attachments (%(count)s)',
                                count: this.state.attachments.length }
                              )
