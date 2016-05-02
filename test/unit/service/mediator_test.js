@@ -31,11 +31,6 @@ describe('mediator', function() {
           }
         }
       },
-      'service/persistence': {
-        store: {
-          get: noop
-        }
-      },
       'utility/devices':  {
         isMobileBrowser: jasmine.createSpy().and.returnValue(false)
       },

@@ -2,7 +2,6 @@ import airwaves from 'airwaves';
 import _ from 'lodash';
 
 import { settings } from 'service/settings';
-import { store } from 'service/persistence';
 import { isMobileBrowser } from 'utility/devices';
 import { setScrollKiller,
          setWindowScroll,
@@ -63,18 +62,11 @@ const resetActiveEmbed = () => {
 };
 
 const trackChatStarted = () => {
-  const email = store.get('identifyEmail', true);
-  const params = {
+  c.broadcast('beacon.trackUserAction', {
     category: 'chat',
     action: 'started',
     name: chat
-  };
-
-  if (email) {
-    _.extend(params, { value: { email } });
-  }
-
-  c.broadcast('beacon.trackUserAction', params);
+  });
 };
 
 function init(helpCenterAccessible, params = {}) {
