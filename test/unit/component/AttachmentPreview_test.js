@@ -26,12 +26,14 @@ describe('AttachmentPreview component', function() {
 
   describe('getAttachmentPreviews', function() {
     it('Creates preview components with the attachment objects', function() {
-      const attachments = [{ name: 'test.txt' }];
+      const attachments = [{ name: 'test.foo.txt' }];
 
       const previews = getAttachmentPreviews(attachments, noop);
 
       expect(previews[0].props.attachment)
         .toEqual(attachments[0]);
+      expect(previews[0].props.icon)
+        .toEqual('Icon--preview-txt');
     });
 
     describe('iconMapper', function() {
@@ -76,6 +78,7 @@ describe('AttachmentPreview component', function() {
           { name: 'test.img' },
           { name: 'test.png' },
           { name: 'test.jpeg' },
+          { name: 'test.jpg' },
           { name: 'test.gif' }
         ];
 

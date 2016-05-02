@@ -9,6 +9,7 @@ const iconMapper = {
   'png': 'Icon--preview-img',
   'gif': 'Icon--preview-img',
   'jpeg': 'Icon--preview-img',
+  'jpg': 'Icon--preview-img',
   'docx': 'Icon--preview-doc',
   'doc': 'Icon--preview-doc',
   'key': 'Icon--preview-key',
