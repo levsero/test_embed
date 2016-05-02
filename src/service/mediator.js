@@ -61,6 +61,14 @@ const resetActiveEmbed = () => {
   }
 };
 
+const trackChatStarted = () => {
+  c.broadcast('beacon.trackUserAction', {
+    category: 'chat',
+    action: 'started',
+    name: chat
+  });
+};
+
 function init(helpCenterAccessible, params = {}) {
   const updateLauncherLabel = () => {
     if (chatAvailable()) {
@@ -255,6 +263,8 @@ function init(helpCenterAccessible, params = {}) {
         c.broadcast(`${launcher}.show`);
       }
 
+      trackChatStarted();
+
       state.activeEmbed = chat;
       c.broadcast(`${chat}.show`);
     } else {
@@ -319,6 +329,10 @@ function init(helpCenterAccessible, params = {}) {
        * button is on the left, using a mobile device with small screen
        * e.g. iPhone4. It's not a bulletproof solution, but it helps
        */
+
+      if (state.activeEmbed === chat) {
+        trackChatStarted();
+      }
 
       setTimeout(() => {
         c.broadcast(`${state.activeEmbed}.show`, { transition: 'upShow' });

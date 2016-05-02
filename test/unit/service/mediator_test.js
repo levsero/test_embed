@@ -54,7 +54,7 @@ describe('mediator', function() {
 
     beaconSub = jasmine.createSpyObj(
       'beacon',
-      ['identify']
+      ['identify', 'trackUserAction']
     );
 
     launcherSub = jasmine.createSpyObj(
@@ -114,6 +114,7 @@ describe('mediator', function() {
 
     initSubscriptionSpies = function(names) {
       c.subscribe(`${names.beacon}.identify`, beaconSub.identify);
+      c.subscribe(`${names.beacon}.trackUserAction`, beaconSub.trackUserAction);
 
       c.subscribe(`${names.authentication}.logout`, authenticationSub.logout);
       c.subscribe(`${names.authentication}.renew`, authenticationSub.renew);
@@ -648,12 +649,14 @@ describe('mediator', function() {
     const chat = 'zopimChat';
     const helpCenter = 'helpCenterForm';
     const authentication = 'authentication';
+    const beacon = 'beacon';
     const names = {
       launcher: launcher,
       submitTicket: submitTicket,
       chat: chat,
       helpCenter: helpCenter,
-      authentication: authentication
+      authentication: authentication,
+      beacon: beacon
     };
 
     beforeEach(function() {
@@ -787,17 +790,26 @@ describe('mediator', function() {
           .toEqual(0);
       });
 
-      it('launches Chat if chat is online', function() {
-        c.broadcast(`${chat}.onOnline`);
+      describe('when chat is online', function() {
+        beforeEach(function() {
+          c.broadcast(`${chat}.onOnline`);
 
-        jasmine.clock().install();
-        c.broadcast(`${launcher}.onClick`);
-        jasmine.clock().tick(0);
+          jasmine.clock().install();
+          c.broadcast(`${launcher}.onClick`);
+          jasmine.clock().tick(0);
+        });
 
-        expect(submitTicketSub.show.calls.count())
-          .toEqual(0);
-        expect(chatSub.show.calls.count())
-          .toEqual(1);
+        it('sends a `chat launch` user action blip', function() {
+          expect(beaconSub.trackUserAction.calls.count())
+            .toEqual(1);
+        });
+
+        it('launches chat', function() {
+          expect(submitTicketSub.show.calls.count())
+            .toEqual(0);
+          expect(chatSub.show.calls.count())
+            .toEqual(1);
+        });
       });
 
       it('does not hide if launching chat on mobile', function() {
@@ -886,7 +898,7 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      it('launches chat if user has moved on to chat and chat is online', function() {
+      it('launches chat when the user moves on to chat and chat is online', function() {
         c.broadcast(`${chat}.onOnline`);
         c.broadcast(`${launcher}.onClick`);  // open
         c.broadcast(`${helpCenter}.onNextClick`);
@@ -905,6 +917,15 @@ describe('mediator', function() {
 
         expect(helpCenterSub.show.calls.count())
           .toEqual(0);
+      });
+
+      it('sends a `chat launch` user action blip on next click to open chat', function() {
+        c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${launcher}.onClick`);  // open
+        c.broadcast(`${helpCenter}.onNextClick`);
+
+        expect(beaconSub.trackUserAction.calls.count())
+          .toEqual(1);
       });
 
       it('launches help center if user has moved on to chat and chat goes offline', function() {

@@ -19,7 +19,9 @@ describe('embed.submitTicket', function() {
     mockRegistry = initMockRegistry({
       'React': React,
       'service/beacon': {
-        beacon: jasmine.createSpyObj('beacon', ['trackUserAction'])
+        beacon: {
+          trackUserAction: jasmine.createSpy('trackUserAction')
+        }
       },
       'service/mediator': {
         mediator: {
@@ -323,7 +325,7 @@ describe('embed.submitTicket', function() {
         submitTicket = requireUncached(submitTicketPath).submitTicket;
         submitTicket.create('bob');
 
-        const  mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
+        const mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
         const payload = mockFrameFactoryCall[0](childFnParams);
 
         expect(payload.props.style)
@@ -367,17 +369,17 @@ describe('embed.submitTicket', function() {
         payload.props.onSubmitted(params);
 
         expect(mockBeacon.trackUserAction)
-          .toHaveBeenCalledWith(
-            'submitTicket',
-            'send',
-            'bob',
-          {
-            query: params.searchString,
-            locale: params.searchLocale,
-            ticketId: 149,
-            email: 'mock@email.com'
-          }
-          );
+          .toHaveBeenCalledWith({
+            category: 'submitTicket',
+            action: 'send',
+            name: 'bob',
+            value: {
+              query: params.searchString,
+              locale: params.searchLocale,
+              ticketId: 149,
+              email: 'mock@email.com'
+            }
+          });
 
         expect(mockMediator.channel.broadcast)
           .toHaveBeenCalledWith('bob.onFormSubmitted');

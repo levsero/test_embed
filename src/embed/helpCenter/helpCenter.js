@@ -38,13 +38,26 @@ function create(name, config) {
   const onNextClick = function() {
     mediator.channel.broadcast(name + '.onNextClick');
   };
+  const onArticleClick = function(trackPayload) {
+    beacon.trackUserAction({
+      category: 'helpCenter',
+      action: 'click',
+      name: name,
+      value: trackPayload
+    });
+  };
   const showBackButton = function() {
     get(name).instance.getChild().setState({
       showBackButton: true
     });
   };
   const onSearch = function(params) {
-    beacon.trackUserAction('helpCenter', 'search', name, params.searchTerm);
+    beacon.trackUserAction({
+      category: 'helpCenter',
+      action: 'search',
+      name: name,
+      value: params.searchTerm
+    });
     mediator.channel.broadcast(name + '.onSearch', params);
   };
 
@@ -111,6 +124,7 @@ function create(name, config) {
           ref='rootComponent'
           hideZendeskLogo={config.hideZendeskLogo}
           onNextClick={onNextClick}
+          onArticleClick={onArticleClick}
           onSearch={onSearch}
           position={config.position}
           buttonLabelKey={config.buttonLabelKey}

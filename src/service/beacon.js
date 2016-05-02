@@ -18,6 +18,7 @@ function init(delaySendPageView) {
   store.set('currentTime', now, true);
 
   mediator.channel.subscribe('beacon.identify', identify);
+  mediator.channel.subscribe('beacon.trackUserAction', trackUserAction);
 
   if (!delaySendPageView) {
     sendPageView();
@@ -72,23 +73,17 @@ function sendConfigLoadTime(time) {
   transport.sendWithMeta(payload);
 }
 
-function trackUserAction(category, action, label, value) {
-  if (_.isUndefined(action) || _.isUndefined(category)) {
+function trackUserAction(params = {}) {
+  if (_.isUndefined(params.action) || _.isUndefined(params.category)) {
     return false;
   }
 
-  const params = {
-    userAction: {
-      category: category,
-      action: action,
-      label: label,
-      value: value
-    }
-  };
+  const validParams = ['action', 'category', 'name', 'value', 'label'];
+  const userAction = _.pick(params, validParams);
   const payload = {
     method: 'POST',
     path: '/embeddable/blips',
-    params: params
+    params: { userAction }
   };
 
   transport.sendWithMeta(payload);

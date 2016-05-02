@@ -128,6 +128,27 @@ describe('beacon', function() {
         expect(transportPayload.params.user.email)
           .toEqual(params.email);
       });
+
+      it('should subscribe to beacon.trackUserAction', function() {
+        const params = {
+          category: 'launcher',
+          action: 'clicked',
+          name: 'launcher'
+        };
+
+        expect(mockMediator.channel.subscribe)
+          .toHaveBeenCalledWith('beacon.trackUserAction', jasmine.any(Function));
+
+        pluckSubscribeCall(mockMediator, 'beacon.trackUserAction')(params);
+
+        expect(mockTransport.sendWithMeta)
+          .toHaveBeenCalled();
+
+        const transportPayload = mockTransport.sendWithMeta.calls.mostRecent().args[0];
+
+        expect(transportPayload.params.userAction)
+          .toEqual(params);
+      });
     });
 
     it('should send a pageview blip if identify is not being used', function() {
@@ -179,13 +200,13 @@ describe('beacon', function() {
   });
 
   describe('#trackUserAction', function() {
-    it('should not send anything if the first two params are not provided', function() {
+    it('should not send anything if the first two properties are not provided', function() {
       const mockTransport = mockRegistry['service/transport'];
 
-      beacon.trackUserAction();
-      beacon.trackUserAction('only one param');
-      beacon.trackUserAction(undefined, 'second param');
-      beacon.trackUserAction(undefined, undefined, 'third param');
+      beacon.trackUserAction({});
+      beacon.trackUserAction({ category: 'only one param' });
+      beacon.trackUserAction({ action: 'second param' });
+      beacon.trackUserAction({ name: 'third param' });
 
       expect(mockTransport.transport.send)
         .not.toHaveBeenCalled();
@@ -202,12 +223,7 @@ describe('beacon', function() {
 
       beacon.init();
 
-      beacon.trackUserAction(
-        userActionParams.category,
-        userActionParams.action,
-        userActionParams.label,
-        userActionParams.value
-      );
+      beacon.trackUserAction(userActionParams);
 
       expect(mockTransport.transport.sendWithMeta)
         .toHaveBeenCalled();
