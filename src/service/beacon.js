@@ -10,9 +10,7 @@ import { win,
 import { parseUrl,
          getFrameworkLoadTime } from 'utility/utils';
 
-let pageViewSent = false;
-
-function init(delaySendPageView) {
+function init() {
   const now = Date.now();
 
   store.set('currentTime', now, true);
@@ -20,44 +18,7 @@ function init(delaySendPageView) {
   mediator.channel.subscribe('beacon.identify', identify);
   mediator.channel.subscribe('beacon.trackUserAction', trackUserAction);
 
-  if (!delaySendPageView) {
-    sendPageView();
-  }
-}
-
-function sendPageView() {
-  if (pageViewSent) return;
-
-  const now = Date.now();
-  const referrer = parseUrl(doc.referrer);
-  const previousTime = store.get('currentTime', true) || 0;
-  const url = win.location.origin;
-  const timeOnLastPage = () => {
-    return referrer.origin === url && previousTime ? (now - previousTime) : 0;
-  };
-  const params = {
-    pageView: {
-      referrer: referrer.href,
-      time: timeOnLastPage(),
-      loadTime: getFrameworkLoadTime(),
-      navigatorLanguage: navigator.language,
-      pageTitle: doc.title,
-      userAgent: navigator.userAgent
-    }
-  };
-  const payload = {
-    method: 'POST',
-    path: '/embeddable/blips',
-    params: params
-  };
-  const userEmail = store.get('identifyEmail', true);
-
-  if (userEmail) {
-    _.extend(params.pageView, { email: userEmail });
-  }
-
-  transport.sendWithMeta(payload);
-  pageViewSent = true;
+  sendPageView();
 }
 
 function sendConfigLoadTime(time) {
@@ -101,20 +62,44 @@ function identify(user) {
     callbacks: {
       done: (res) => {
         mediator.channel.broadcast('identify.onSuccess', res.body);
-        sendPageView();
-      },
-      fail: () => sendPageView() // send pageview blip even on failure
+      }
     }
   };
 
-  // store email address in SessionStorage to use for page view blips
-  store.set('identifyEmail', user.email, true);
+  transport.sendWithMeta(payload);
+}
+
+// private
+
+function sendPageView() {
+  const now = Date.now();
+  const referrer = parseUrl(doc.referrer);
+  const previousTime = store.get('currentTime', true) || 0;
+  const url = win.location.origin;
+  const timeOnLastPage = () => {
+    return referrer.origin === url && previousTime ? (now - previousTime) : 0;
+  };
+  const params = {
+    pageView: {
+      referrer: referrer.href,
+      time: timeOnLastPage(),
+      loadTime: getFrameworkLoadTime(),
+      navigatorLanguage: navigator.language,
+      pageTitle: doc.title,
+      userAgent: navigator.userAgent
+    }
+  };
+  const payload = {
+    method: 'POST',
+    path: '/embeddable/blips',
+    params: params
+  };
+
   transport.sendWithMeta(payload);
 }
 
 export const beacon = {
   init: init,
-  sendPageView: sendPageView,
   trackUserAction: trackUserAction,
   identify: identify,
   sendConfigLoadTime: sendConfigLoadTime

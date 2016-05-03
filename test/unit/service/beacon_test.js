@@ -151,11 +151,16 @@ describe('beacon', function() {
       });
     });
 
-    it('should send a pageview blip if identify is not being used', function() {
-      beacon.init(false);
+    it('should send a pageview blip', function() {
+      beacon.init();
+
+      const transportPayload = mockTransport.sendWithMeta.calls.mostRecent().args[0];
 
       expect(mockTransport.sendWithMeta)
         .toHaveBeenCalled();
+
+      expect(transportPayload.params.pageView)
+        .toBeDefined();
     });
   });
 
@@ -166,7 +171,6 @@ describe('beacon', function() {
       const mockUtils = mockRegistry['utility/utils'];
 
       beacon.init();
-      beacon.sendPageView();
       expect(mockTransport.transport.sendWithMeta).toHaveBeenCalled();
 
       const payload = mockTransport.transport.sendWithMeta.calls.mostRecent().args[0];
@@ -244,19 +248,15 @@ describe('beacon', function() {
   });
 
   describe('identify', function() {
-    let mockStore,
-      mockTransport,
+    let mockTransport,
       mockGlobals;
 
     const name = 'John';
     const email = 'john@example.com';
 
     beforeEach(function() {
-      mockStore = mockRegistry['service/persistence'];
       mockTransport = mockRegistry['service/transport'];
       mockGlobals = mockRegistry['utility/globals'];
-
-      spyOn(beacon, 'sendPageView');
 
       beacon.init(true);
       beacon.identify({ name: name, email: email });
@@ -287,25 +287,6 @@ describe('beacon', function() {
 
       expect(params.userAgent)
         .toEqual(mockGlobals.navigator.userAgent);
-    });
-
-    it('sends out a page view blip containing the users email', function() {
-      let payload = mockTransport.transport.sendWithMeta.calls.mostRecent().args[0];
-
-      mockStore.store.get = () => email;
-
-      payload.callbacks.done({ body: '' });
-      payload = mockTransport.transport.sendWithMeta.calls.mostRecent().args[0];
-
-      const pageView = payload.params.pageView;
-
-      expect(pageView.email)
-        .toEqual(email);
-    });
-
-    it('stores the user email in SessionStorage', function() {
-      expect(mockStore.store.set)
-        .toHaveBeenCalledWith('identifyEmail', email, true);
     });
   });
 });

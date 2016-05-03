@@ -166,13 +166,7 @@ function boot() {
 
   handleQueue(document.zEQueue);
 
-  // Delay initialising beacon until after the postRenderQueue is populated.
-  // Once populated we can determine if we need to delay the page view blip based on whether
-  // the customer is using identify or not.
-  const delaySendPageView = postRenderQueue.length > 0 &&
-                            postRenderQueue[0].indexOf('identify') > -1;
-
-  beacon.init(delaySendPageView);
+  beacon.init();
 
   // Post-render methods
   win.zE.setHelpCenterSuggestions = setHelpCenterSuggestions;
