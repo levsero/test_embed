@@ -15,6 +15,12 @@ function init() {
 
   store.set('currentTime', now, true);
 
+  // Some end-users may still have a email left over in their session-storage,
+  // we need to ensure that we clear it.
+  if (store.get('identifyEmail', true)) {
+    store.remove('identifyEmail', true);
+  }
+
   mediator.channel.subscribe('beacon.identify', identify);
   mediator.channel.subscribe('beacon.trackUserAction', trackUserAction);
 

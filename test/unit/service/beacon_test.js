@@ -38,7 +38,7 @@ describe('beacon', function() {
         }
       },
       'service/persistence': {
-        store: jasmine.createSpyObj('store', ['set', 'get'])
+        store: jasmine.createSpyObj('store', ['set', 'get', 'remove'])
       },
       'service/i18n': {
         i18n: {
@@ -95,6 +95,17 @@ describe('beacon', function() {
 
       expect(resultTime < (currentTime + 30))
         .toBeTruthy();
+    });
+
+    it('Clears userEmail from session storage if present', function() {
+      const mockPersistence = mockRegistry['service/persistence'];
+
+      mockPersistence.store.get = () => 'bob@gmail.com';
+
+      beacon.init();
+
+      expect(mockPersistence.store.remove)
+        .toHaveBeenCalledWith('identifyEmail', true);
     });
 
     describe('mediator subscriptions', function() {
