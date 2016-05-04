@@ -2,6 +2,7 @@ describe('HelpCenter component', function() {
   let HelpCenter,
     mockRegistry,
     mockIsMobileBrowserValue,
+    mockPageKeywords,
     trackSearch,
     updateResults;
 
@@ -18,6 +19,7 @@ describe('HelpCenter component', function() {
     mockery.enable();
 
     mockIsMobileBrowserValue = false;
+    mockPageKeywords = 'billy bob thorton';
 
     mockRegistry = initMockRegistry({
       'React': React,
@@ -120,7 +122,8 @@ describe('HelpCenter component', function() {
         }
       },
       'utility/utils': {
-        bindMethods: mockBindMethods
+        bindMethods: mockBindMethods,
+        getPageKeywords: () => mockPageKeywords
       },
       '_': _
     });
@@ -235,13 +238,17 @@ describe('HelpCenter component', function() {
       helpCenter = domRender(<HelpCenter contextualSearchSender={mockContextualSearchSender}/>);
     });
 
+    it('should call contextualSearchSender', function() {
+      helpCenter.contextualSearch({ search: 'foo bar' });
+
+      expect(mockContextualSearchSender)
+        .toHaveBeenCalled();
+    });
+
     it('should call contextualSearchSender with the right payload for search attribute', function() {
       const searchOptions = { search: 'foo bar' };
 
       helpCenter.contextualSearch(searchOptions);
-
-      expect(mockContextualSearchSender)
-        .toHaveBeenCalled();
 
       const recentCallArgs = mockContextualSearchSender.calls.mostRecent().args[0];
 
@@ -253,13 +260,9 @@ describe('HelpCenter component', function() {
     });
 
     it('should call contextualSearchSender with the right payload for labels attribute', function() {
-      /* eslint camelcase:0 */
       const searchOptions = { labels: ['foo', 'bar'] };
 
       helpCenter.contextualSearch(searchOptions);
-
-      expect(mockContextualSearchSender)
-        .toHaveBeenCalled();
 
       const recentCallArgs = mockContextualSearchSender.calls.mostRecent().args[0];
 
@@ -277,14 +280,57 @@ describe('HelpCenter component', function() {
 
       helpCenter.contextualSearch(searchOptions);
 
-      expect(mockContextualSearchSender)
-        .toHaveBeenCalled();
+      const recentCallArgs = mockContextualSearchSender.calls.mostRecent().args[0];
+
+      expect(recentCallArgs)
+        .toEqual(jasmine.objectContaining({
+          query: searchOptions.search
+        }));
+    });
+
+    it('should call contextualSearchSender with the right payload for search, labels and url attribute', function() {
+      const searchOptions = {
+        search: 'my search',
+        labels: ['foo', 'bar'],
+        url: true
+      };
+
+      helpCenter.contextualSearch(searchOptions);
 
       const recentCallArgs = mockContextualSearchSender.calls.mostRecent().args[0];
 
       expect(recentCallArgs)
         .toEqual(jasmine.objectContaining({
           query: searchOptions.search
+        }));
+    });
+
+    it('should call contextualSearchSender with the right payload for labels and url attribute', function() {
+      const searchOptions = {
+        labels: ['foo', 'bar'],
+        url: true
+      };
+
+      helpCenter.contextualSearch(searchOptions);
+
+      const recentCallArgs = mockContextualSearchSender.calls.mostRecent().args[0];
+
+      expect(recentCallArgs)
+        .toEqual(jasmine.objectContaining({
+          label_names: searchOptions.labels.join(',')
+        }));
+    });
+
+    it('should call contextualSearchSender with the right payload for url attribute', function() {
+      const searchOptions = { url: true };
+
+      helpCenter.contextualSearch(searchOptions);
+
+      const recentCallArgs = mockContextualSearchSender.calls.mostRecent().args[0];
+
+      expect(recentCallArgs)
+        .toEqual(jasmine.objectContaining({
+          query: mockPageKeywords
         }));
     });
 

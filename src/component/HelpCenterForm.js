@@ -41,7 +41,7 @@ export class HelpCenterForm extends Component {
 }
 
 HelpCenterForm.propTypes = {
-  children: PropTypes.array.isRequired,
+  children: PropTypes.object.isRequired,
   fullscreen: PropTypes.bool,
   onSubmit: PropTypes.func,
   onChange: PropTypes.func

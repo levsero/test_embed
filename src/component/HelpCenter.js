@@ -1,20 +1,21 @@
+import classNames from 'classnames';
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
-import classNames from 'classnames';
 
-import { HelpCenterForm } from 'component/HelpCenterForm';
-import { HelpCenterArticle } from 'component/HelpCenterArticle';
-import { SearchField,
-         SearchFieldButton } from 'component/FormField';
-import { ZendeskLogo } from 'component/ZendeskLogo';
-import { Container } from 'component/Container';
-import { ScrollContainer } from 'component/ScrollContainer';
-import { isMobileBrowser } from 'utility/devices';
-import { i18n } from 'service/i18n';
 import { Button,
          ButtonGroup } from 'component/Button';
-import { bindMethods } from 'utility/utils';
+import { Container } from 'component/Container';
+import { SearchField,
+         SearchFieldButton } from 'component/FormField';
+import { HelpCenterArticle } from 'component/HelpCenterArticle';
+import { HelpCenterForm } from 'component/HelpCenterForm';
+import { ScrollContainer } from 'component/ScrollContainer';
+import { ZendeskLogo } from 'component/ZendeskLogo';
+import { i18n } from 'service/i18n';
+import { isMobileBrowser } from 'utility/devices';
+import { bindMethods,
+         getPageKeywords } from 'utility/utils';
 
 export class HelpCenter extends Component {
   constructor(props, context) {
@@ -117,21 +118,23 @@ export class HelpCenter extends Component {
     this.focusField();
   }
 
-  contextualSearch(options) {
+  contextualSearch(options = {}) {
     /* eslint camelcase:0 */
-    const hasSearchKey = (options.hasOwnProperty('search')
-                          && options.search);
-    const hasLabelsKey = (options.hasOwnProperty('labels')
-                          && Array.isArray(options.labels)
-                          && options.labels.length > 0);
+    const hasLabelsKey = options.labels &&
+                         _.isArray(options.labels) &&
+                         options.labels.length > 0;
     const query = {};
-
     let searchTerm;
 
-    if (hasSearchKey) {
+    // This `isString` check is needed in the case that a user passes in only a
+    // string to `zE.setHelpCenterSuggestions`. It avoids options.search evaluating
+    // to true in that case because it equals the string function `String.prototype.search`
+    if (_.isString(options.search) && options.search.length > 0) {
       searchTerm = query.query = options.search;
     } else if (hasLabelsKey) {
       searchTerm = query.label_names = options.labels.join(',');
+    } else if (options.url) {
+      searchTerm = query.query = getPageKeywords();
     } else {
       return;
     }
