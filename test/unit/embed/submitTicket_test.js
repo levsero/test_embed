@@ -435,7 +435,7 @@ describe('embed.submitTicket', function() {
       embed.props.submitTicketSender(formParams, null, null);
 
       expect(mockTransport.send.calls.mostRecent().args[0].path)
-        .toEqual('/embeddable/tickets');
+        .toEqual('/embeddable/ticket');
     });
   });
 
