@@ -129,7 +129,7 @@ export class HelpCenter extends Component {
     // This `isString` check is needed in the case that a user passes in only a
     // string to `zE.setHelpCenterSuggestions`. It avoids options.search evaluating
     // to true in that case because it equals the string function `String.prototype.search`
-    if (_.isString(options.search || undefined)) {
+    if (_.isString(options.search) && options.search.length > 0) {
       searchTerm = query.query = options.search;
     } else if (hasLabelsKey) {
       searchTerm = query.label_names = options.labels.join(',');
