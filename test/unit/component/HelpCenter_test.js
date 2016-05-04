@@ -240,13 +240,17 @@ describe('HelpCenter component', function() {
       helpCenter = domRender(<HelpCenter contextualSearchSender={mockContextualSearchSender}/>);
     });
 
+    it('should call contextualSearchSender', function() {
+      helpCenter.contextualSearch({ search: 'foo bar' });
+
+      expect(mockContextualSearchSender)
+        .toHaveBeenCalled();
+    });
+
     it('should call contextualSearchSender with the right payload for search attribute', function() {
       const searchOptions = { search: 'foo bar' };
 
       helpCenter.contextualSearch(searchOptions);
-
-      expect(mockContextualSearchSender)
-        .toHaveBeenCalled();
 
       const recentCallArgs = mockContextualSearchSender.calls.mostRecent().args[0];
 
@@ -258,13 +262,9 @@ describe('HelpCenter component', function() {
     });
 
     it('should call contextualSearchSender with the right payload for labels attribute', function() {
-      /* eslint camelcase:0 */
       const searchOptions = { labels: ['foo', 'bar'] };
 
       helpCenter.contextualSearch(searchOptions);
-
-      expect(mockContextualSearchSender)
-        .toHaveBeenCalled();
 
       const recentCallArgs = mockContextualSearchSender.calls.mostRecent().args[0];
 
@@ -281,9 +281,6 @@ describe('HelpCenter component', function() {
       };
 
       helpCenter.contextualSearch(searchOptions);
-
-      expect(mockContextualSearchSender)
-        .toHaveBeenCalled();
 
       const recentCallArgs = mockContextualSearchSender.calls.mostRecent().args[0];
 
@@ -302,9 +299,6 @@ describe('HelpCenter component', function() {
 
       helpCenter.contextualSearch(searchOptions);
 
-      expect(mockContextualSearchSender)
-        .toHaveBeenCalled();
-
       const recentCallArgs = mockContextualSearchSender.calls.mostRecent().args[0];
 
       expect(recentCallArgs)
@@ -314,16 +308,12 @@ describe('HelpCenter component', function() {
     });
 
     it('should call contextualSearchSender with the right payload for labels and url attribute', function() {
-      /* eslint camelcase:0 */
       const searchOptions = {
         labels: ['foo', 'bar'],
         url: true
       };
 
       helpCenter.contextualSearch(searchOptions);
-
-      expect(mockContextualSearchSender)
-        .toHaveBeenCalled();
 
       const recentCallArgs = mockContextualSearchSender.calls.mostRecent().args[0];
 
@@ -334,13 +324,9 @@ describe('HelpCenter component', function() {
     });
 
     it('should call contextualSearchSender with the right payload for url attribute', function() {
-      /* eslint camelcase:0 */
       const searchOptions = { url: true };
 
       helpCenter.contextualSearch(searchOptions);
-
-      expect(mockContextualSearchSender)
-        .toHaveBeenCalled();
 
       const recentCallArgs = mockContextualSearchSender.calls.mostRecent().args[0];
 
