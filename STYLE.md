@@ -40,7 +40,7 @@ var dontDoThis;             // Bad!
 
 ##### Pad object literals with a space
 
-Always pad object literals with a space at the beginning and end e.g:
+Always pad object literals with a space at the beginning and end.
 
 ```javascript
 const x = { someVar }
@@ -48,7 +48,7 @@ const x = { someVar }
 
 ##### Always use object literal shorthand if possible
 
-Always use the ES6 object literal shorthand if possible e.g:
+Always use the ES6 object literal shorthand if possible.
 
 ```javascript
 const key = 'value';
@@ -59,7 +59,7 @@ const foo = { key };
 
 ##### Multi-line object literals with **2 or more** properties
 
-Always multi-line object literal initialisation if there are 2 or more properties e.g:
+Always multi-line object literal initialisation if there are 2 or more properties.
 
 ```javascript
 const obj = {
@@ -71,7 +71,7 @@ const obj = {
 
 ##### Single quotes only
 
-Always use single quotes for strings
+Always use single quotes for strings.
 
 ```javascript
 const good = 'foo';
@@ -91,11 +91,11 @@ const foobad = 'foo ' + foo; // bad
 
 ##### Always append semicolons
 
-Always append semicolons to the end of statements (this isn't ruby...)
+Always append semicolons to the end of statements (this isn't ruby...).
 
 ##### New line after variable declarations
 
-Always leave a new line after declaring variables and beginning the next part of the logic e.g:
+Always leave a new line after declaring variables and beginning the next part of the logic.
 
 ```javascript
 let something;
@@ -110,7 +110,7 @@ if (someFn()) {
 
 ##### Never leave empty blocks
 
-Never leave an empty code block e.g:
+Never leave an empty code block.
 
 ```javascript
 if () {
@@ -120,7 +120,7 @@ if () {
 
 ##### Never leave multiple empty lines
 
-Never leave more than **1** new line e.g:
+Never leave more than **1** new line.
 
 ```javascript
 // This will throw a eslint error
@@ -132,7 +132,7 @@ someFn(foo);
 
 ##### No padding new lines within a function
 
-Never leave padding new lines in a function e.g:
+Never leave padding new lines in a function.
 
 ```javascript
 function foo() {
@@ -146,7 +146,7 @@ function foo() {
 
 ##### Prefer dot notation
 
-Always prefer dot notation unless unavoidable e.g:
+Always prefer dot notation unless unavoidable.
 
 ```javascript
 someFn(foo.bar)     // Good
@@ -169,7 +169,7 @@ if (foo == bar) {
 
 ##### Multi-line very long statements
 
-Try to multi-line long statements that reduce readability e.g:
+Try to multi-line long statements that reduce readability.
 
 ```javascript
 const toBeOrNotToBe = foo === bar ||
@@ -183,7 +183,7 @@ const someThingos = someVar === thisThingyMagingy
 
 ##### Prefer ES6 fat-arrow
 
-Use ES6 fat-arrow notation for both anonymous functions and function expressions e.g:
+Use ES6 fat-arrow notation for both anonymous functions and function expressions.
 
 ```javascript
 // anonymous function
@@ -199,7 +199,7 @@ const foo = () => {
 
 ##### Prefer ES6 fat-arrow shorthand expression
 
-Use the ES6 shorthand expression if the function simply returns some value e.g:
+Use the ES6 shorthand expression if the function simply returns some value.
 
 ```javascript
 const isThisThingAvailable = () => isThingOnline && isThingVisible;
@@ -209,7 +209,7 @@ const isThisThingAvailable = () => isThingOnline && isThingVisible;
 
 ##### Prefer function expressions for local functions
 
-Use function expressions for functions local to a scope that are not exported e.g:
+Use function expressions for functions local to a scope that are not exported.
 
 ```javascript
 const someLocalFileMethod = () => {
@@ -234,13 +234,13 @@ export {
 
 <a name="headModulesExternal"></a>**External Modules**
 
-Install dependencies via NPM
+Install dependencies via NPM.
 
 ```zsh
 npm install package-name --save
 ```
 
-Use ES6 `import` statements over require if possible:
+Use ES6 `import` statements over require if possible.
 
 ```javascript
 import React from 'react';
@@ -248,7 +248,7 @@ import React from 'react';
 
 <a name="headModulesInternal"></a>**Internal Modules**
 
-Export Classes, Functions, Variables and Objects individually in an export statement:
+Export Classes, Functions, Variables and Objects individually in an export statement.
 
 ```javascript
 class foo {
@@ -273,7 +273,7 @@ export {
 };
 ```
 
-When importing either from an internal or external module, try to import only what function(s) or module(s) are actually required:
+When importing either from an internal or external module, try to import only what function(s) or module(s) are actually required.
 
 ```javascript
 import { FooComponent } from 'component/FooComponent';
@@ -286,7 +286,7 @@ import { FooComponent } from 'component/FooComponent';
 import _ from 'lodash';
 ```
 
-When importing modules, make sure that they are imported in alphabetical order by the path/names e.g:
+When importing modules, make sure that they are imported in alphabetical order by the path/names.
 
 ```javascript
 import { Container } from 'component/Container';
@@ -301,7 +301,7 @@ import { isMobileBrowser } from 'utility/devices';
 
 <a name="headReactComponents"></a>**Components**
 
-Define components using ES6 Classes that extend from `React.Component`:
+Define components using ES6 Classes that extend from `React.Component`.
 
 ```javascript
 import React, { Component, PropTypes } from 'react';
@@ -326,7 +326,7 @@ export {
 
 <a name="headReactProps"></a>**Props**
 
-Component `propTypes` must be defined for each prop as a static object literal that is added to the class:
+Component `propTypes` must be defined for each prop as a static object literal that is added to the class.
 
 ```javascript
 class NewComponent extends Component { ... }
@@ -337,7 +337,7 @@ NewComponent.propTypes = {
 };
 ```
 
-For all optional (non-required) props, a default value must be supplied to the `defaultProps` static object literal:
+For all optional (non-required) props, a default value must be supplied to the `defaultProps` static object literal.
 
 ```javascript
 NewComponent.defaultProps = {
@@ -352,7 +352,7 @@ NewComponent.defaultProps = {
 
 Prepend event handler functions with *handle* (e.g `handleOnClick`, `handleSubmit`, ...).
 
-Due to the upgrade to ES6 class syntax, event handlers passed to React components require context binding. If a component has *more than 1* event handler, use the `bindMethods` function in *util/utils.js*:
+Due to the upgrade to ES6 class syntax, event handlers passed to React components require context binding. If a component has *more than 1* event handler, use the `bindMethods` function in *util/utils.js*.
 
 ```javascript
 class NewComponent extends Component {
