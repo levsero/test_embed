@@ -5,14 +5,14 @@ A 3rd party embeddable framework that handles bringing Zendesk outside of the ag
 
 ## Owners
 This repository is maintained by [Team Taipan](https://zendesk.atlassian.net/wiki/pages/viewpage.action?pageId=86114732). You can get in touch with us via:
+* Email **taipan@zendesk.com**
 * Flowdock **Engagement** flow
-* Email (**taipan@zendesk.com**)
 * Mention **@zendesk/taipan** on Github
 
-We are based in Melbourne, Australia and our timezone is **GMT+10**.
+We are based in Melbourne, Australia and our timezone is **GMT+10**. You can always check the [time](http://time.is/Melbourne) in Melbourne.
 
 ## Getting Started
-This assumes you already have node and [nvm](https://github.com/creationix/nvm) installed.
+*Note: This assumes you already have node and [nvm](https://github.com/creationix/nvm) installed.*
 
 Ensure `$NVM_DIR` is set and pointing to the location of your nvm installation:
 ```
@@ -56,7 +56,7 @@ npm run lint && npm t
 ```
 
 ## Contribute
-All pull requests need two :+1:'s' to be merged, at least one from a Taipan team member. Please also include a /cc to **@zendesk/taipan**.
+All pull requests need two :+1:'s to be merged, at least one from a Taipan team member. Please also include a `/cc` to **@zendesk/taipan**.
 
 See the **STYLE.md** document for more information on code style.
 
