@@ -149,8 +149,18 @@ function foo() {
 Always prefer dot notation unless unavoidable.
 
 ```javascript
-someFn(foo.bar)     // Good
-someFn(foo['bar'])  // Bad
+const foo = {
+  'bar': 'bar',
+  'foo-bar': 'foobar'
+}
+
+someFn(foo.bar);            // good
+someFn(foo['bar']);         // bad
+someFn(foo['foo-bar']);     // unavoidable
+
+const getKey() => 'foo-bar';
+
+soneFn(foo[getKey()])       // unavoidable
 ```
 
 ##### Triple equals
