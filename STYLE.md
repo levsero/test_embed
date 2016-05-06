@@ -29,9 +29,22 @@ Always use spaces for tabs and indent **2** spaces.
 
 Always use `const` and `let` over `var`, preferably `const` unless mutability is required.
 
+```javascript
+let thisWillChange;         // Good
+const thisWontChange = 10;  // Good
+
+var dontDoThis;             // Bad!
+```
+
+*Note: `var` means the variable is both mutable and function scoped, while `let` is block scope. This is why we prefer `let`.*
+
 ##### Pad object literals with a space
 
-Always pad object literals with a space at the beginning and end e.g: `const x = { someVar }`
+Always pad object literals with a space at the beginning and end e.g:
+
+```javascript
+const x = { someVar }
+```
 
 ##### Always use object literal shorthand if possible
 
@@ -58,11 +71,23 @@ const obj = {
 
 ##### Single quotes only
 
-Always use single quotes for strings `'foo'`.
+Always use single quotes for strings
+
+```javascript
+const good = 'foo';
+const bad = "foo";
+```
 
 ##### Use string interpolation
 
-Always favour ES6 string interpolation (`${foo} is bar`) over old style `+` concatenation.
+Always favour ES6 string interpolation over old style `+` concatenation.
+
+```javascript
+const foo = 'bar';
+
+const foobar = `foo ${foo}`; // good
+const foobad = 'foo ' + foo; // bad
+```
 
 ##### Always append semicolons
 
@@ -73,8 +98,8 @@ Always append semicolons to the end of statements (this isn't ruby...)
 Always leave a new line after declaring variables and beginning the next part of the logic e.g:
 
 ```javascript
-const foo = 'bar';
 let something;
+const foo = 'bar';
 
 if (someFn()) {
   // ..
@@ -111,21 +136,36 @@ Never leave padding new lines in a function e.g:
 
 ```javascript
 function foo() {
-  // bad
+
   const foo = 'bar';
 
   return foo;
-  // bad
+
 }
 ```
 
 ##### Prefer dot notation
 
-Always prefer dot notation unless unavoidable e.g `foo.bar` instead of `foo['bar']`.
+Always prefer dot notation unless unavoidable e.g:
+
+```javascript
+someFn(foo.bar)     // Good
+someFn(foo['bar'])  // Bad
+```
 
 ##### Triple equals
 
 Always use triple equals `===` for comparisons.
+
+```javascript
+if (foo === bar) {
+  // Good
+}
+
+if (foo == bar) {
+  // Bad
+}
+```
 
 ##### Multi-line very long statements
 
@@ -139,8 +179,6 @@ const toBeOrNotToBe = foo === bar ||
 const someThingos = someVar === thisThingyMagingy
                   ? grabThoseThingos()
                   : someString().split(',');
-
-
 ```
 
 ##### Prefer ES6 fat-arrow
@@ -241,14 +279,14 @@ When importing either from an internal or external module, try to import only wh
 import { FooComponent } from 'component/FooComponent';
 ```
 
-*Note: the lodash library is an exception to this rule*
+*Note: the lodash library is an exception to this rule as we typically use a range of different functions from it.*
 
 ```javascript
 // always import the whole library
 import _ from 'lodash';
 ```
 
-When importing modules, make sure that they are imported in alphabetical order e.g:
+When importing modules, make sure that they are imported in alphabetical order by the path/names e.g:
 
 ```javascript
 import { Container } from 'component/Container';
