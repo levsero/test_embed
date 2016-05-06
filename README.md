@@ -16,18 +16,18 @@ We are based in Melbourne, Australia and our timezone is **GMT+10**. You can alw
 
 Ensure `$NVM_DIR` is set and pointing to the location of your nvm installation:
 ```
-    echo $NVM_DIR
+echo $NVM_DIR
 ```
 
 If not already present, add the following line to your bash or zsh profile:
 ```
-    source $NVM_DIR/nvm.sh
+source $NVM_DIR/nvm.sh
 ```
 
 Ensure that you can run nvm from your command line, and then run the following
 
 ```bash
-  nvm use
+nvm use
 ```
 
 Run the following commands inside this folder:
