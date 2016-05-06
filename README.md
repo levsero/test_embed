@@ -1,9 +1,17 @@
 # Embeddable Framework [![Build Status](https://magnum.travis-ci.com/zendesk/embeddable_framework.svg?token=eFe58axP7zq8qUuk6pMA&branch=master)](https://magnum.travis-ci.com/zendesk/embeddable_framework)
 
+## Description
 A 3rd party embeddable framework that handles bringing Zendesk outside of the agent view and onto 3rd party websites.
 
-## Getting started
+## Owners
+This repository is maintained by [Team Taipan](https://zendesk.atlassian.net/wiki/pages/viewpage.action?pageId=86114732). You can get in touch with us via:
+* Flowdock **Engagement** flow
+* Email (**taipan@zendesk.com**)
+* Mention **@zendesk/taipan** on Github
 
+We are based in Melbourne, Australia and our timezone is **GMT+10**.
+
+## Getting Started
 This assumes you already have node and [nvm](https://github.com/creationix/nvm) installed.
 
 Ensure `$NVM_DIR` is set and pointing to the location of your nvm installation:
@@ -40,6 +48,19 @@ The bootstrap file will do the following:
 
 To test the embeddables type `npm run watch` in this folder for it to kick off. This creates a dist folder with `main.js`, `boostrap.js` files and generates some example html files where you can run the framework loaded via our snippet. Visit [http://localhost:1337/example/](http://localhost:1337/example/) to test live examples.
 
+## Testing
+We use the [Jasmine]() framework for all our unit tests, and [ESlint]() for Javascript linting. Please run both the test and lint npm tasks before opening a pull request.
+
+```bash
+npm run lint && npm t
+```
+
+## Contribute
+All pull requests need two :+1:'s from Taipan team members and a /cc to **@zendesk/taipan**. Also please see the **STYLE.md** document for more information on code style.
+
+## Bugs
+Bugs are tracked in JIRA under the Customer Engagement project (`CE`) with the component *Web Widget*. Bugs should always have clear reproduction steps, some notion of urgency/scope and relevant references.
+
 ## Refreshing Rosetta translations
 
 To download the latest translations, run the following command from the root of this project:
@@ -58,7 +79,7 @@ node ./script/generate-jwt.js <shared_secret>
 
 *`<shared_secret>` = a generated shared secret (e.g `4fcd8ac941baf1b9cf1bf0b8272d5bcf`)*
 
-## Npm tasks
+## NPM tasks
 
 Run each task like this: ```npm run taskname```
 
