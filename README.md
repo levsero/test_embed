@@ -56,7 +56,9 @@ npm run lint && npm t
 ```
 
 ## Contribute
-All pull requests need two :+1:'s from Taipan team members and a /cc to **@zendesk/taipan**. Also please see the **STYLE.md** document for more information on code style.
+All pull requests need two :+1:'s' to be merged, at least one from a Taipan team member. Please also include a /cc to **@zendesk/taipan**.
+
+See the **STYLE.md** document for more information on code style.
 
 ## Bugs
 Bugs are tracked in JIRA under the Customer Engagement project (`CE`) with the component *Web Widget*. Bugs should always have clear reproduction steps, some notion of urgency/scope and relevant references.
