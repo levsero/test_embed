@@ -49,7 +49,7 @@ The bootstrap file will do the following:
 To test the embeddables type `npm run watch` in this folder for it to kick off. This creates a dist folder with `main.js`, `boostrap.js` files and generates some example html files where you can run the framework loaded via our snippet. Visit [http://localhost:1337/example/](http://localhost:1337/example/) to test live examples.
 
 ## Testing
-We use the [Jasmine]() framework for all our unit tests, and [ESlint]() for Javascript linting. Please run both the test and lint npm tasks before opening a pull request.
+We use the [Jasmine](http://jasmine.github.io/) framework for all our unit tests, and [ESlint](http://eslint.org/) for Javascript linting. Please run both the test and lint npm tasks before opening a pull request.
 
 ```bash
 npm run lint && npm t
