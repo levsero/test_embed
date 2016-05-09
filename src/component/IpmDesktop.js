@@ -85,7 +85,6 @@ export class IpmDesktop extends Component {
 
 IpmDesktop.propTypes = {
   ipm: PropTypes.object.isRequired,
-  ipmSender: PropTypes.func.isRequired,
   updateFrameSize: PropTypes.func.isRequired,
   closeFrame: PropTypes.func.isRequired
 };
