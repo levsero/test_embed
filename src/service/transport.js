@@ -48,6 +48,7 @@ function send(payload) {
             id: 712,
             name: 'Campaign 712',
             type: 'ipm',
+            recipientEmail: 'ryan@foo.com',
             message: {
               secondaryText: 'Ryan from Zendesk',
               body: 'Hi Deborah, we just launched a new product called People. Would you like to try it?',
