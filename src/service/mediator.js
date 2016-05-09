@@ -467,6 +467,8 @@ function initMessaging() {
     if (!embedVisible(state) && state[`${helpCenter}.isAccessible`]) {
       resetActiveEmbed();
     }
+
+    c.broadcast(`${helpCenter}.isAuthenticated`);
   });
 
   c.intercept(`nps.onActivate`, () => {

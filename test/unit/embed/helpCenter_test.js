@@ -680,6 +680,40 @@ describe('embed.helpCenter', function() {
         expect(getPageKeywordsSpy)
           .not.toHaveBeenCalled();
       });
+
+      describe('with authenticated help center', function() {
+        let mockMediator;
+
+        beforeEach(function() {
+          mockMediator = mockRegistry['service/mediator'].mediator;
+
+          helpCenter.create('carlos', { contextualHelpEnabled: true, signInRequired: true });
+          helpCenter.render('carlos');
+
+          helpCenter.get('carlos').instance = {
+            getRootComponent: () => {
+              return {
+                contextualSearch: contextualSearchSpy
+              };
+            }
+          };
+          jasmine.clock().install();
+        });
+
+        it('should wait until authenticate is true before searching', function() {
+          pluckSubscribeCall(mockMediator, 'carlos.setHelpCenterSuggestions')();
+          jasmine.clock().tick();
+
+          expect(contextualSearchSpy)
+            .not.toHaveBeenCalled();
+
+          pluckSubscribeCall(mockMediator, 'carlos.isAuthenticated')();
+          jasmine.clock().tick();
+
+          expect(contextualSearchSpy)
+            .toHaveBeenCalled();
+        });
+      });
     });
 
     describe('postRender authentication', function() {
