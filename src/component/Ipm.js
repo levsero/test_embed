@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 
 import { IpmDesktop } from 'component/IpmDesktop';
+import { i18n } from 'service/i18n';
+import { getPageTitle } from 'utility/utils';
 
 export class Ipm extends Component {
   constructor(props, context) {
@@ -27,7 +29,9 @@ export class Ipm extends Component {
         campaignId: this.state.ipm.id,
         email: this.state.ipm.recipientEmail,
         type: name,
-        url: this.state.url
+        url: this.state.url,
+        title: getPageTitle(),
+        locale: i18n.getLocale()
       }
     };
 
