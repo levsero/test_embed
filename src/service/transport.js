@@ -70,6 +70,12 @@ function send(payload) {
 
       return;
     }
+
+    // no need to actually send IPM results back in dev
+    if (payload.path === '/embeddable/ipm') {
+      console.log('Stubbing IPM request', payload);
+      return;
+    }
   }
 
   superagent(payload.method.toUpperCase(),
