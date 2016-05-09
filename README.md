@@ -1,25 +1,33 @@
 # Embeddable Framework [![Build Status](https://magnum.travis-ci.com/zendesk/embeddable_framework.svg?token=eFe58axP7zq8qUuk6pMA&branch=master)](https://magnum.travis-ci.com/zendesk/embeddable_framework)
 
+## Description
 A 3rd party embeddable framework that handles bringing Zendesk outside of the agent view and onto 3rd party websites.
 
-## Getting started
+## Owners
+This repository is maintained by [Team Taipan](https://zendesk.atlassian.net/wiki/pages/viewpage.action?pageId=86114732). You can get in touch with us via:
+* Email **taipan@zendesk.com**
+* Flowdock **Engagement** flow
+* Mention **@zendesk/taipan** on Github
 
-This assumes you already have node and [nvm](https://github.com/creationix/nvm) installed.
+We are based in Melbourne, Australia and our timezone is **GMT+10**. You can always check the [time](http://time.is/Melbourne) in Melbourne.
+
+## Getting Started
+*Note: This assumes you already have node and [nvm](https://github.com/creationix/nvm) installed.*
 
 Ensure `$NVM_DIR` is set and pointing to the location of your nvm installation:
 ```
-    echo $NVM_DIR
+echo $NVM_DIR
 ```
 
 If not already present, add the following line to your bash or zsh profile:
 ```
-    source $NVM_DIR/nvm.sh
+source $NVM_DIR/nvm.sh
 ```
 
 Ensure that you can run nvm from your command line, and then run the following
 
 ```bash
-  nvm use
+nvm use
 ```
 
 Run the following commands inside this folder:
@@ -38,7 +46,24 @@ The bootstrap file will do the following:
 * Download graphicsmagick, imagemagick & cairo using brew
 * Run npm install webdriverio & webdrivercss (these depend on the above)
 
-To test the embeddables type `npm run watch` in this folder for it to kick off. This creates a dist folder with `main.js`, `boostrap.js` files and generates some example html files where you can run the framework loaded via our snippet. Visit [http://localhost:1337/example/](http://localhost:1337/example/) to test live examples.
+To run the embeddables locally type `npm run watch` in this folder for it to kick off. This creates a dist folder with `main.js`, `boostrap.js` files and generates some example html files where you can run the framework loaded via our snippet. Visit [http://localhost:1337/example/](http://localhost:1337/example/) to test live examples.
+
+## Testing
+We use the [Jasmine](http://jasmine.github.io/) framework for all our unit tests, and [ESlint](http://eslint.org/) for Javascript linting. Please run both the test and lint npm tasks before opening a pull request.
+
+```bash
+npm run lint && npm t
+```
+
+## Contribute
+All pull requests need two :+1:'s to be merged, at least one from a Taipan team member. Please also include a `/cc` to **@zendesk/taipan**.
+
+See the **STYLE.md** document for more information on code style.
+
+*Note: There is a pull request template (PULL_REQUEST_TEMPLATE.md) for auto completing the description. If you have the Zendesk chrome dev tools installed this will cause a conflict so disable the dev tools before opening a PR.*
+
+## Bugs
+Bugs are tracked in JIRA under the Customer Engagement project (`CE`) with the component *Web Widget*. Bugs should always have clear reproduction steps, some notion of urgency/scope and relevant references.
 
 ## Refreshing Rosetta translations
 
@@ -58,7 +83,7 @@ node ./script/generate-jwt.js <shared_secret>
 
 *`<shared_secret>` = a generated shared secret (e.g `4fcd8ac941baf1b9cf1bf0b8272d5bcf`)*
 
-## Npm tasks
+## NPM tasks
 
 Run each task like this: ```npm run taskname```
 
