@@ -209,7 +209,7 @@ function updateHelpCenterButton(name, labelKey) {
 
 function keywordsSearch(name, options) {
   const rootComponent = getRootComponent(name);
-  const isAuthenticated = !get(name).config.signInRequired || hasAuthenticatedSuccessfully;
+  const isAuthenticated = get(name).config.signInRequired === false || hasAuthenticatedSuccessfully;
 
   if (isAuthenticated && rootComponent) {
     rootComponent.contextualSearch(options);
