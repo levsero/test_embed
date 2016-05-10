@@ -260,7 +260,7 @@ class ButtonDropzone extends Component {
         onDrop={this.props.onDrop}
         className='Form-field--display Container--dashed'>
         <div className='u-textCenter'>
-          <Icon type='Icon--paperclip' />
+          <Icon type='Icon--paperclip' className='u-inlineBlock' />
           <div className='u-inlineBlock u-alignTop'>{label}</div>
         </div>
       </Dropzone>
