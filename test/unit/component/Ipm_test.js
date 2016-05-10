@@ -17,6 +17,11 @@ describe('Ipm component', function() {
           getLocale: () => 'un-US'
         }
       },
+      'service/identity': {
+        identity: {
+          getBuid: () => '1357911abc'
+        }
+      },
       'component/IpmDesktop': {
         IpmDesktop: React.createClass({
           render() {
@@ -62,7 +67,8 @@ describe('Ipm component', function() {
             type: 'clicked',
             url: 'https://askjeeves.com',
             title: 'Awesome Page',
-            locale: 'un-US'
+            locale: 'un-US',
+            'anonymous_id': '1357911abc'
           }
         });
     });
