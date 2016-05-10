@@ -34,7 +34,8 @@ function create(name, config) {
     contextualHelpEnabled: false,
     buttonLabelKey: 'message',
     formTitleKey: 'help',
-    hideZendeskLogo: false
+    hideZendeskLogo: false,
+    signInRequired: false
   };
   const onNextClick = function() {
     mediator.channel.broadcast(name + '.onNextClick');
