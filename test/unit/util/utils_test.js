@@ -3,6 +3,7 @@ describe('utils', function() {
     metaStringToObj,
     splitPath,
     getPageKeywords,
+    getPageTitle,
     metaTag;
   const mockGlobals = {
     document: document,
@@ -22,6 +23,7 @@ describe('utils', function() {
     });
 
     mockGlobals.document = document;
+    mockGlobals.document.title = 'Utils tests';
 
     initMockRegistry({
       'utility/globals': mockGlobals,
@@ -42,6 +44,7 @@ describe('utils', function() {
     metaStringToObj = require(utilPath).metaStringToObj;
     splitPath = require(utilPath).splitPath;
     getPageKeywords = require(utilPath).getPageKeywords;
+    getPageTitle = require(utilPath).getPageTitle;
 
     metaTag = document.createElement('meta');
     metaTag.name = 'viewport';
@@ -211,6 +214,13 @@ describe('utils', function() {
 
       expect(getPageKeywords())
         .toEqual('fred bar');
+    });
+  });
+
+  describe('getPageTitle()', function() {
+    it('returns the document.title', function() {
+      expect(getPageTitle())
+        .toEqual(document.title);
     });
   });
 

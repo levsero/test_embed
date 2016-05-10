@@ -2,7 +2,6 @@ describe('IpmDesktop component', function() {
   let IpmDesktop,
     ipmProps,
     component,
-    ipmSenderSpy,
     closeFrameSpy;
 
   const ipmPath = buildSrcPath('component/IpmDesktop');
@@ -56,14 +55,12 @@ describe('IpmDesktop component', function() {
 
     IpmDesktop = requireUncached(ipmPath).IpmDesktop;
 
-    ipmSenderSpy = jasmine.createSpy();
     closeFrameSpy = jasmine.createSpy();
 
     component = instanceRender(
       <IpmDesktop
         {...ipmProps}
         updateFrameSize={noop}
-        ipmSender={ipmSenderSpy}
         closeFrame={noop} />
     );
   });
@@ -126,7 +123,6 @@ describe('IpmDesktop component', function() {
         ipmProps.ipm.message.buttonUrl = url;
         component = instanceRender(
           <IpmDesktop
-            ipmSender={ipmSenderSpy}
             closeFrame={closeFrameSpy}
             {...ipmProps}  />
         );

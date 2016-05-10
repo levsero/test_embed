@@ -246,6 +246,10 @@ function getPageKeywords() {
   return splitPath(location.pathname + location.hash).replace(/\s+/g, ' ').trim();
 }
 
+function getPageTitle() {
+  return doc.title || '';
+}
+
 function patchReactIdAttribute() {
   require('react/lib/DOMProperty').ID_ATTRIBUTE_NAME = 'data-ze-reactid';
 }
@@ -279,6 +283,7 @@ export {
   generateUserCSS,
   getFrameworkLoadTime,
   getPageKeywords,
+  getPageTitle,
   metaStringToObj,
   parseUrl,
   patchReactIdAttribute,

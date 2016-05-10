@@ -9,6 +9,14 @@ describe('Ipm component', function() {
 
     initMockRegistry({
       'React': React,
+      'utility/utils': {
+        getPageTitle: () => 'Awesome Page'
+      },
+      'service/i18n': {
+        i18n: {
+          getLocale: () => 'un-US'
+        }
+      },
       'component/IpmDesktop': {
         IpmDesktop: React.createClass({
           render() {
@@ -35,14 +43,28 @@ describe('Ipm component', function() {
   });
 
   describe('ipmSender', function() {
-    it('should call the this.props.ipmSender', function() {
+    it('should call the this.props.ipmSender with event details', function() {
       const ipmSenderSpy = jasmine.createSpy();
-      const component = shallowRender(<Ipm ipmSender={ipmSenderSpy} />);
+      const component = instanceRender(<Ipm ipmSender={ipmSenderSpy} />);
+      const ipm = {
+        id: 123,
+        recipientEmail: 'imissryan@zendesk.com'
+      };
 
-      component.props.ipmSender();
+      component.setState({ ipm, url: 'https://askjeeves.com' });
+      component.ipmSender('clicked');
 
       expect(ipmSenderSpy)
-        .toHaveBeenCalled();
+        .toHaveBeenCalledWith({
+          event: {
+            campaignId: ipm.id,
+            email: ipm.recipientEmail,
+            type: 'clicked',
+            url: 'https://askjeeves.com',
+            title: 'Awesome Page',
+            locale: 'un-US'
+          }
+        });
     });
   });
 });
