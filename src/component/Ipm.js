@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 
 import { IpmDesktop } from 'component/IpmDesktop';
 import { i18n } from 'service/i18n';
+import { identity } from 'service/identity';
 import { getPageTitle } from 'utility/utils';
 
 export class Ipm extends Component {
@@ -31,7 +32,8 @@ export class Ipm extends Component {
         type: name,
         url: this.state.url,
         title: getPageTitle(),
-        locale: i18n.getLocale()
+        locale: i18n.getLocale(),
+        'anonymous_id': identity.getBuid()
       }
     };
 
