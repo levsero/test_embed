@@ -251,7 +251,7 @@ class ButtonDropzone extends Component {
   render() {
     const label = this.props.isMobile
                 ? i18n.t('embeddable_framework.submitTicket.attachments.button.label_mobile',
-                  { fallback: 'Add file' })
+                  { fallback: 'Add file from device' })
                 : i18n.t('embeddable_framework.submitTicket.attachments.button.label',
                   { fallback: 'Add file or drop here' });
 

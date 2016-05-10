@@ -196,7 +196,7 @@ parts:
   - translation:
       key: "embeddable_framework.submitTicket.attachments.button.label_mobile"
       title: "The label on the form about attaching files. Will wrap as needed."
-      value: "Add file"
+      value: "Add file from device"
       wip: true
 
 # Attachments
