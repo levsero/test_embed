@@ -249,17 +249,19 @@ ButtonRating.defaultProps = {
 
 class ButtonDropzone extends Component {
   render() {
+    const label = this.props.isMobile
+                ? i18n.t('embeddable_framework.submitTicket.attachments.button.label_mobile',
+                  { fallback: 'Add file from device' })
+                : i18n.t('embeddable_framework.submitTicket.attachments.button.label',
+                  { fallback: 'Add file or drop here' });
+
     return (
       <Dropzone
         onDrop={this.props.onDrop}
         className='Form-field--display Container--dashed'>
         <div className='u-textCenter'>
-          <Icon type='Icon--paperclip' />
-          <div className='u-inlineBlock u-alignTop'>
-            {i18n.t('embeddable_framework.submitTicket.attachments.button.label',
-              { fallback: 'Add file or drop here' }
-            )}
-          </div>
+          <Icon type='Icon--paperclip' className='u-inlineBlock' />
+          <div className='u-inlineBlock u-alignTop'>{label}</div>
         </div>
       </Dropzone>
     );
@@ -267,11 +269,13 @@ class ButtonDropzone extends Component {
 }
 
 ButtonDropzone.propTypes = {
-  onDrop: PropTypes.func
+  onDrop: PropTypes.func,
+  isMobile: PropTypes.bool
 };
 
 ButtonDropzone.defaultProps = {
-  onDrop: () => {}
+  onDrop: () => {},
+  isMobile: false
 };
 
 export {
