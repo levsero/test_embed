@@ -23,6 +23,7 @@ import { generateUserCSS,
 const helpCenterCSS = require('./helpCenter.scss');
 let helpCenters = {};
 let hasManuallySetContextualSuggestions = false;
+let hasAuthenticatedSuccessfully = false;
 
 function create(name, config) {
   let containerStyle;
@@ -33,7 +34,8 @@ function create(name, config) {
     contextualHelpEnabled: false,
     buttonLabelKey: 'message',
     formTitleKey: 'help',
-    hideZendeskLogo: false
+    hideZendeskLogo: false,
+    signInRequired: false
   };
   const onNextClick = function() {
     mediator.channel.broadcast(name + '.onNextClick');
@@ -208,8 +210,9 @@ function updateHelpCenterButton(name, labelKey) {
 
 function keywordsSearch(name, options) {
   const rootComponent = getRootComponent(name);
+  const isAuthenticated = get(name).config.signInRequired === false || hasAuthenticatedSuccessfully;
 
-  if (rootComponent) {
+  if (isAuthenticated && rootComponent) {
     rootComponent.contextualSearch(options);
   } else {
     setTimeout(() => {
@@ -262,6 +265,10 @@ function render(name) {
   mediator.channel.subscribe(name + '.setHelpCenterSuggestions', function(options) {
     hasManuallySetContextualSuggestions = true;
     keywordsSearch(name, options);
+  });
+
+  mediator.channel.subscribe(name + '.isAuthenticated', function() {
+    hasAuthenticatedSuccessfully = true;
   });
 }
 
