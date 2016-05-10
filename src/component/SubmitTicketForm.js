@@ -245,7 +245,8 @@ export class SubmitTicketForm extends Component {
                                 {attachmentsTitle}
                               </div>
                               <ButtonDropzone
-                                onDrop={this.handleOnDrop} />
+                                onDrop={this.handleOnDrop}
+                                isMobile={this.props.fullscreen} />
                             </label>
                          : null;
 

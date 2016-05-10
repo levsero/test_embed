@@ -193,6 +193,11 @@ parts:
       key: "embeddable_framework.navigation.close"
       title: "The link to close the embeddable. Displays at the top right of the widget. If over 5 characters will just display icon (tinyurl.com/p33xnz2)"
       value: "Close"
+  - translation:
+      key: "embeddable_framework.submitTicket.attachments.button.label_mobile"
+      title: "The label on the form about attaching files. Will wrap as needed."
+      value: "Add file"
+      wip: true
 
 # Attachments
   - translation:
