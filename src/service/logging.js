@@ -23,7 +23,7 @@ function addFilter(notice) {
 }
 
 function init() {
-  Airbrake.setProject('100143', 'abcbe7f85eb9d5e1e77ec0232b62c6e3');
+  Airbrake.setProject('124081', '8191392d5f8c97c8297a08521aab9189');
   Airbrake.addFilter(addFilter);
 }
 
