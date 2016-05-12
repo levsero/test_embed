@@ -22,7 +22,7 @@ describe('logging', function() {
       logging.init();
 
       expect(Airbrake.setProject)
-        .toHaveBeenCalledWith('100143', 'abcbe7f85eb9d5e1e77ec0232b62c6e3');
+        .toHaveBeenCalledWith('124081', '8191392d5f8c97c8297a08521aab9189');
 
       expect(Airbrake.addFilter)
         .toHaveBeenCalled();
