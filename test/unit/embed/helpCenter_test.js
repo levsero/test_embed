@@ -93,7 +93,7 @@ describe('embed.helpCenter', function() {
         setScaleLock: noop,
         generateUserCSS: jasmine.createSpy().and.returnValue(''),
         getPageKeywords: jasmine.createSpy().and.returnValue('foo bar'),
-        cappedIntervalCall: noop
+        cappedIntervalCall: (callback) => { callback(); }
       },
       'utility/globals': {
         document: global.document,

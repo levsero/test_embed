@@ -209,16 +209,18 @@ function updateHelpCenterButton(name, labelKey) {
   }
 }
 
-function keywordsSearch(name, options, retry = false) {
-  const rootComponent = getRootComponent(name);
-  const isAuthenticated = get(name).config.signInRequired === false || hasAuthenticatedSuccessfully;
+function keywordsSearch(name, options) {
+  cappedIntervalCall(() => {
+    const rootComponent = getRootComponent(name);
+    const isAuthenticated = get(name).config.signInRequired === false || hasAuthenticatedSuccessfully;
 
-  if (isAuthenticated && rootComponent) {
-    rootComponent.contextualSearch(options);
-    return true;
-  } else if (retry === false) {
-    cappedIntervalCall(() => keywordsSearch(name, options, true), 500, 10);
-  }
+    if (isAuthenticated && rootComponent) {
+      rootComponent.contextualSearch(options);
+      return true;
+    } else {
+      return false;
+    }
+  }, 500, 10);
 }
 
 function render(name) {
