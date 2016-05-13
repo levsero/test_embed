@@ -16,7 +16,8 @@ import { isIE,
 import { document,
          getDocumentHost,
          location } from 'utility/globals';
-import { generateUserCSS,
+import { cappedIntervalCall,
+         generateUserCSS,
          getPageKeywords,
          setScaleLock } from 'utility/utils';
 
@@ -209,16 +210,17 @@ function updateHelpCenterButton(name, labelKey) {
 }
 
 function keywordsSearch(name, options) {
-  const rootComponent = getRootComponent(name);
-  const isAuthenticated = get(name).config.signInRequired === false || hasAuthenticatedSuccessfully;
+  cappedIntervalCall(() => {
+    const rootComponent = getRootComponent(name);
+    const isAuthenticated = get(name).config.signInRequired === false || hasAuthenticatedSuccessfully;
 
-  if (isAuthenticated && rootComponent) {
-    rootComponent.contextualSearch(options);
-  } else {
-    setTimeout(() => {
-      keywordsSearch(name, options);
-    }, 0);
-  }
+    if (isAuthenticated && rootComponent) {
+      rootComponent.contextualSearch(options);
+      return true;
+    } else {
+      return false;
+    }
+  }, 500, 10);
 }
 
 function render(name) {
