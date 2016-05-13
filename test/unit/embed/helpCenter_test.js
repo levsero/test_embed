@@ -92,7 +92,8 @@ describe('embed.helpCenter', function() {
       'utility/utils': {
         setScaleLock: noop,
         generateUserCSS: jasmine.createSpy().and.returnValue(''),
-        getPageKeywords: jasmine.createSpy().and.returnValue('foo bar')
+        getPageKeywords: jasmine.createSpy().and.returnValue('foo bar'),
+        cappedIntervalCall: noop
       },
       'utility/globals': {
         document: global.document,
@@ -708,6 +709,8 @@ describe('embed.helpCenter', function() {
             .not.toHaveBeenCalled();
 
           pluckSubscribeCall(mockMediator, 'carlos.isAuthenticated')();
+          jasmine.clock().tick();
+          pluckSubscribeCall(mockMediator, 'carlos.setHelpCenterSuggestions')();
           jasmine.clock().tick();
 
           expect(contextualSearchSpy)

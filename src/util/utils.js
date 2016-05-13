@@ -254,10 +254,10 @@ function patchReactIdAttribute() {
   require('react/lib/DOMProperty').ID_ATTRIBUTE_NAME = 'data-ze-reactid';
 }
 
-function cappedIntervalCall(callback, delay, repetitions = 1) {
+function cappedIntervalCall(callback, delay, repetitions = 1, callbackParams = []) {
   let repCount = 0;
   const intervalId = setInterval(() => {
-    if (callback() || ++repCount === repetitions) {
+    if (callback.apply(this, callbackParams) || ++repCount === repetitions) {
       clearInterval(intervalId);
     }
   }, delay);
