@@ -216,7 +216,7 @@ function keywordsSearch(name, options, retry = false) {
   if (isAuthenticated && rootComponent) {
     rootComponent.contextualSearch(options);
   } else if (retry === false) {
-    cappedIntervalCall(keywordsSearch, 1, 20, [name, options, true]);
+    cappedIntervalCall(() => keywordsSearch(name, options, true), 1, 20);
   }
 }
 
