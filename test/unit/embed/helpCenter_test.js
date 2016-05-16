@@ -3,7 +3,8 @@ describe('embed.helpCenter', function() {
     mockRegistry,
     frameConfig,
     mockSettingsValue,
-    focusField;
+    focusField,
+    mockIsOnHelpCenterPageValue;
   const helpCenterPath = buildSrcPath('embed/helpCenter/helpCenter');
   const resetSearchFieldState = jasmine.createSpy();
   const hideVirtualKeyboard = jasmine.createSpy();
@@ -16,6 +17,7 @@ describe('embed.helpCenter', function() {
     const mockForm = noopReactComponent();
 
     mockSettingsValue = '';
+    mockIsOnHelpCenterPageValue = false;
 
     focusField = jasmine.createSpy();
 
@@ -93,15 +95,13 @@ describe('embed.helpCenter', function() {
         setScaleLock: noop,
         generateUserCSS: jasmine.createSpy().and.returnValue(''),
         getPageKeywords: jasmine.createSpy().and.returnValue('foo bar'),
-        cappedIntervalCall: (callback) => { callback(); }
+        cappedIntervalCall: (callback) => { callback(); },
+        isOnHelpCenterPage: () => mockIsOnHelpCenterPageValue
       },
       'utility/globals': {
         document: global.document,
         getDocumentHost: function() {
           return document.body;
-        },
-        location: {
-          pathname: ''
         }
       },
       'service/authentication' : {
@@ -625,21 +625,17 @@ describe('embed.helpCenter', function() {
 
     describe('postRender contextual help', function() {
       let helpCenter,
-        mockLocation,
         getPageKeywordsSpy,
         contextualSearchSpy;
 
       beforeEach(function() {
         helpCenter = requireUncached(helpCenterPath).helpCenter;
-        mockLocation = mockRegistry['utility/globals'].location;
         helpCenter.create('carlos', { contextualHelpEnabled: true });
         getPageKeywordsSpy = mockRegistry['utility/utils'].getPageKeywords;
         contextualSearchSpy = jasmine.createSpy('contextualSearch');
       });
 
       it('should call keywordSearch on non helpcenter pages', function() {
-        mockLocation.pathname = '/foo/bar';
-
         const helpCenterFrame = helpCenter.get('carlos');
 
         helpCenterFrame.instance = {
@@ -674,7 +670,7 @@ describe('embed.helpCenter', function() {
       });
 
       it('should\'t call keywordSearch on helpcenter pages', function() {
-        mockLocation.pathname = '/hc/1234-article-foo-bar';
+        mockIsOnHelpCenterPageValue = true;
 
         helpCenter.postRender('carlos');
 

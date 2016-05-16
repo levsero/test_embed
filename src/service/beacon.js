@@ -8,7 +8,36 @@ import { win,
          document as doc,
          navigator } from 'utility/globals';
 import { parseUrl,
-         getFrameworkLoadTime } from 'utility/utils';
+         getFrameworkLoadTime,
+         isOnHelpCenterPage } from 'utility/utils';
+
+const sendPageView = () => {
+  const now = Date.now();
+  const referrer = parseUrl(doc.referrer);
+  const previousTime = store.get('currentTime', true) || 0;
+  const url = win.location.origin;
+  const timeOnLastPage = () => {
+    return referrer.origin === url && previousTime ? (now - previousTime) : 0;
+  };
+  const params = {
+    pageView: {
+      referrer: referrer.href,
+      time: timeOnLastPage(),
+      loadTime: getFrameworkLoadTime(),
+      navigatorLanguage: navigator.language,
+      pageTitle: doc.title,
+      userAgent: navigator.userAgent,
+      onHelpCenter: isOnHelpCenterPage()
+    }
+  };
+  const payload = {
+    method: 'POST',
+    path: '/embeddable/blips',
+    params: params
+  };
+
+  transport.sendWithMeta(payload);
+};
 
 function init() {
   const now = Date.now();
@@ -70,35 +99,6 @@ function identify(user) {
         mediator.channel.broadcast('identify.onSuccess', res.body);
       }
     }
-  };
-
-  transport.sendWithMeta(payload);
-}
-
-// private
-
-function sendPageView() {
-  const now = Date.now();
-  const referrer = parseUrl(doc.referrer);
-  const previousTime = store.get('currentTime', true) || 0;
-  const url = win.location.origin;
-  const timeOnLastPage = () => {
-    return referrer.origin === url && previousTime ? (now - previousTime) : 0;
-  };
-  const params = {
-    pageView: {
-      referrer: referrer.href,
-      time: timeOnLastPage(),
-      loadTime: getFrameworkLoadTime(),
-      navigatorLanguage: navigator.language,
-      pageTitle: doc.title,
-      userAgent: navigator.userAgent
-    }
-  };
-  const payload = {
-    method: 'POST',
-    path: '/embeddable/blips',
-    params: params
   };
 
   transport.sendWithMeta(payload);

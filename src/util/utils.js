@@ -2,7 +2,8 @@ import _ from 'lodash';
 import Color from 'color';
 
 import { document as doc,
-         location }       from 'utility/globals';
+         location,
+         win } from 'utility/globals';
 import { getZoomSizingRatio } from 'utility/devices';
 import { mediator }  from 'service/mediator';
 
@@ -275,6 +276,12 @@ function base64decode(string) {
   return window.atob(string);
 }
 
+function isOnHelpCenterPage() {
+  return _.has(win.HelpCenter, 'account', 'user') &&
+         location.pathname &&
+         location.pathname.includes('/hc/');
+}
+
 export {
   clickBusterHandler,
   clickBusterRegister,
@@ -291,5 +298,6 @@ export {
   setScaleLock,
   splitPath,
   bindMethods,
-  base64decode
+  base64decode,
+  isOnHelpCenterPage
 };
