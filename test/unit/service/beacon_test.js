@@ -213,7 +213,7 @@ describe('beacon', function() {
       expect(params.pageView.loadTime)
         .toBe(mockUtils.getFrameworkLoadTime());
 
-      expect(params.pageView.onHelpCenter)
+      expect(params.pageView.helpCenterDedup)
         .toBe(mockUtils.isOnHelpCenterPage());
     });
   });

@@ -27,7 +27,7 @@ const sendPageView = () => {
       navigatorLanguage: navigator.language,
       pageTitle: doc.title,
       userAgent: navigator.userAgent,
-      onHelpCenter: isOnHelpCenterPage()
+      helpCenterDedup: isOnHelpCenterPage()
     }
   };
   const payload = {
