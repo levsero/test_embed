@@ -277,9 +277,11 @@ function base64decode(string) {
 }
 
 function isOnHelpCenterPage() {
+  const hcTest = /^\/hc\//;
+
   return _.has(win.HelpCenter, 'account', 'user') &&
          location.pathname &&
-         location.pathname.includes('/hc/');
+         hcTest.test(location.pathname);
 }
 
 export {

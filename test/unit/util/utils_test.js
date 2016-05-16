@@ -7,7 +7,9 @@ describe('utils', function() {
     isOnHelpCenterPage,
     metaTag;
   const mockGlobals = {
-    win: {},
+    win: {
+      HelpCenter: {}
+    },
     document: document,
     location: {
       href: 'http://foo.com/anthony/is/awesome',
@@ -242,12 +244,14 @@ describe('utils', function() {
   });
 
   describe('isOnHelpCenterPage()', function() {
-    let location;
+    let location,
+      win;
 
     beforeEach(function() {
       location = mockGlobals.location;
+      win = mockGlobals.win;
 
-      mockGlobals.win.HelpCenter = { account: '', user: '' };
+      win.HelpCenter = { account: '', user: '' };
       location.pathname = '/hc/en-us';
     });
 
@@ -263,6 +267,11 @@ describe('utils', function() {
 
     it('returns false if the host page is not a helpcenter', function() {
       location.pathname = '/foo/bar';
+
+      expect(isOnHelpCenterPage())
+        .toBe(false);
+
+      win.HelpCenter = null;
 
       expect(isOnHelpCenterPage())
         .toBe(false);
