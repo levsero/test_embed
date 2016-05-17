@@ -59,6 +59,7 @@ describe('Ipm component', function() {
         <Ipm ipmSender={this.ipmSenderSpy} />
       );
     });
+
     describe('when there is a campaign', () => {
       it('should call the this.props.ipmSender with event details', function() {
         const ipm = { id: 123, recipientEmail: 'imissryan@zendesk.com' };
@@ -67,17 +68,17 @@ describe('Ipm component', function() {
         this.component.ipmSender('clicked');
 
         expect(this.ipmSenderSpy)
-        .toHaveBeenCalledWith({
-          event: {
-            campaignId: ipm.id,
-            email: ipm.recipientEmail,
-            type: 'clicked',
-            url: 'https://askjeeves.com',
-            title: 'Awesome Page',
-            locale: 'un-US',
-            'anonymous_id': '1357911abc'
-          }
-        });
+          .toHaveBeenCalledWith({
+            event: {
+              campaignId: ipm.id,
+              email: ipm.recipientEmail,
+              type: 'clicked',
+              url: 'https://askjeeves.com',
+              title: 'Awesome Page',
+              locale: 'un-US',
+              'anonymous_id': '1357911abc'
+            }
+          });
       });
     });
 
