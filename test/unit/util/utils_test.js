@@ -252,10 +252,11 @@ describe('utils', function() {
       win = mockGlobals.win;
 
       win.HelpCenter = { account: '', user: '' };
-      location.pathname = '/hc/en-us';
     });
 
     it('returns true if the host page is a helpcenter', function() {
+      location.pathname = '/hc/en-us';
+
       expect(isOnHelpCenterPage())
         .toBe(true);
 
@@ -265,12 +266,14 @@ describe('utils', function() {
         .toBe(true);
     });
 
-    it('returns false if the host page is not a helpcenter', function() {
+    it('returns false if the URL is not a help center URL', function() {
       location.pathname = '/foo/bar';
 
       expect(isOnHelpCenterPage())
         .toBe(false);
+    });
 
+    it('returns false if window.HelpCenter is not set', function() {
       win.HelpCenter = null;
 
       expect(isOnHelpCenterPage())
