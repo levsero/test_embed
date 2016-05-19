@@ -1,10 +1,11 @@
 import _ from 'lodash';
 import Color from 'color';
 
-import { document as doc,
-         location }       from 'utility/globals';
-import { getZoomSizingRatio } from 'utility/devices';
 import { mediator }  from 'service/mediator';
+import { getZoomSizingRatio } from 'utility/devices';
+import { document as doc,
+         location,
+         win } from 'utility/globals';
 
 let clickBusterClicks = [];
 let originalUserScalable = null;
@@ -275,6 +276,14 @@ function base64decode(string) {
   return window.atob(string);
 }
 
+function isOnHelpCenterPage() {
+  const hcPattern = /^\/hc\//;
+
+  return _.has(win.HelpCenter, 'account', 'user') &&
+         location.pathname &&
+         hcPattern.test(location.pathname);
+}
+
 export {
   clickBusterHandler,
   clickBusterRegister,
@@ -291,5 +300,6 @@ export {
   setScaleLock,
   splitPath,
   bindMethods,
-  base64decode
+  base64decode,
+  isOnHelpCenterPage
 };

@@ -14,12 +14,12 @@ import { transitionFactory } from 'service/transitionFactory';
 import { isIE,
          isMobileBrowser } from 'utility/devices';
 import { document,
-         getDocumentHost,
-         location } from 'utility/globals';
+         getDocumentHost } from 'utility/globals';
 import { cappedIntervalCall,
          generateUserCSS,
          getPageKeywords,
-         setScaleLock } from 'utility/utils';
+         setScaleLock,
+         isOnHelpCenterPage } from 'utility/utils';
 
 const helpCenterCSS = require('./helpCenter.scss');
 let helpCenters = {};
@@ -280,8 +280,7 @@ function postRender(name) {
 
   if (config.contextualHelpEnabled &&
       !hasManuallySetContextualSuggestions &&
-      location.pathname &&
-      location.pathname.substring(0, 4) !== '/hc/') {
+      !isOnHelpCenterPage()) {
     keywordsSearch(name, { search: getPageKeywords() });
   }
 

@@ -53,7 +53,8 @@ describe('beacon', function() {
         },
         getFrameworkLoadTime: function() {
           return 200;
-        }
+        },
+        isOnHelpCenterPage: () => true
       },
       'lodash': _
     });
@@ -211,6 +212,9 @@ describe('beacon', function() {
 
       expect(params.pageView.loadTime)
         .toBe(mockUtils.getFrameworkLoadTime());
+
+      expect(params.pageView.helpCenterDedup)
+        .toBe(mockUtils.isOnHelpCenterPage());
     });
   });
 
