@@ -9,6 +9,7 @@ import { win,
          navigator } from 'utility/globals';
 import { parseUrl,
          getFrameworkLoadTime,
+         cappedIntervalCall,
          isOnHelpCenterPage } from 'utility/utils';
 
 const sendPageView = () => {
@@ -56,9 +57,12 @@ function init() {
   // We need to delay `sendPageView()` for help center host pages.
   // This is because we check for the `HelpCenter` object on the host page,
   // but the script that defines it may not be loaded yet.
-  setTimeout(() => {
-    sendPageView();
-  }, 1);
+  cappedIntervalCall(() => {
+    if (win.HelpCenter) {
+      sendPageView();
+      return true;
+    }
+  }, 100, 10);
 }
 
 function sendConfigLoadTime(time) {
