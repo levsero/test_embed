@@ -145,13 +145,18 @@ describe('beacon', function() {
         const params = {
           category: 'launcher',
           action: 'clicked',
-          name: 'launcher'
+          label: 'launcher',
+          value: null
         };
 
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('beacon.trackUserAction', jasmine.any(Function));
 
-        pluckSubscribeCall(mockMediator, 'beacon.trackUserAction')(params);
+        pluckSubscribeCall(mockMediator, 'beacon.trackUserAction')(
+          params.category,
+          params.action,
+          params.label
+        );
 
         expect(mockTransport.sendWithMeta)
           .toHaveBeenCalled();
@@ -222,10 +227,10 @@ describe('beacon', function() {
     it('should not send anything if the first two properties are not provided', function() {
       const mockTransport = mockRegistry['service/transport'];
 
-      beacon.trackUserAction({});
-      beacon.trackUserAction({ category: 'only one param' });
-      beacon.trackUserAction({ action: 'second param' });
-      beacon.trackUserAction({ name: 'third param' });
+      beacon.trackUserAction();
+      beacon.trackUserAction('only first param', null);
+      beacon.trackUserAction(null, 'only second param');
+      beacon.trackUserAction(null, null, 'label');
 
       expect(mockTransport.transport.send)
         .not.toHaveBeenCalled();
@@ -242,7 +247,12 @@ describe('beacon', function() {
 
       beacon.init();
 
-      beacon.trackUserAction(userActionParams);
+      beacon.trackUserAction(
+        userActionParams.category,
+        userActionParams.action,
+        userActionParams.label,
+        userActionParams.value
+      );
 
       expect(mockTransport.transport.sendWithMeta)
         .toHaveBeenCalled();

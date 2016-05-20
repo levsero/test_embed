@@ -69,13 +69,17 @@ function sendConfigLoadTime(time) {
   transport.sendWithMeta(payload);
 }
 
-function trackUserAction(params = {}) {
-  if (_.isUndefined(params.action) || _.isUndefined(params.category)) {
+function trackUserAction(category, action, label = null, value = null) {
+  if (_.isUndefined(category) || _.isUndefined(action)) {
     return false;
   }
 
-  const validParams = ['action', 'category', 'name', 'value', 'label'];
-  const userAction = _.pick(params, validParams);
+  const userAction = {
+    category: category,
+    action: action,
+    label: label,
+    value: value
+  };
   const payload = {
     method: 'POST',
     path: '/embeddable/blips',
