@@ -53,7 +53,12 @@ function init() {
   mediator.channel.subscribe('beacon.identify', identify);
   mediator.channel.subscribe('beacon.trackUserAction', trackUserAction);
 
-  sendPageView();
+  // We need to delay `sendPageView()` for help center host pages.
+  // This is because we check for the `HelpCenter` object on the host page,
+  // but the script that defines it may not be loaded yet.
+  setTimeout(() => {
+    sendPageView();
+  }, 1);
 }
 
 function sendConfigLoadTime(time) {
