@@ -9,7 +9,6 @@ import { win,
          navigator } from 'utility/globals';
 import { parseUrl,
          getFrameworkLoadTime,
-         cappedIntervalCall,
          isOnHelpCenterPage } from 'utility/utils';
 
 const sendPageView = () => {
@@ -54,15 +53,18 @@ function init() {
   mediator.channel.subscribe('beacon.identify', identify);
   mediator.channel.subscribe('beacon.trackUserAction', trackUserAction);
 
-  // We need to delay `sendPageView()` for help center host pages.
-  // This is because we check for the `HelpCenter` object on the host page,
-  // but the script that defines it may not be loaded yet.
-  cappedIntervalCall(() => {
-    if (win.HelpCenter) {
+  // We need to invoke `sendPageView` on `DOMContentLoaded` because
+  // for help center host pages, the script that defines the `HelpCenter`
+  // global object may not be executed yet.
+  // DOMContentLoaded: https://developer.mozilla.org/en-US/docs/Web/Events/DOMContentLoaded
+  if (doc.readyState !== 'complete' &&
+      doc.readyState !== 'interactive') {
+    doc.addEventListener('DOMContentLoaded', () => {
       sendPageView();
-      return true;
-    }
-  }, 100, 10);
+    }, false);
+  } else {
+    sendPageView();
+  }
 }
 
 function sendConfigLoadTime(time) {
