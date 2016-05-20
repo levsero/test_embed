@@ -42,12 +42,7 @@ function create(name, config) {
     mediator.channel.broadcast(name + '.onNextClick');
   };
   const onArticleClick = function(trackPayload) {
-    beacon.trackUserAction({
-      category: 'helpCenter',
-      action: 'click',
-      name: name,
-      value: trackPayload
-    });
+    beacon.trackUserAction('helpCenter', 'click', name, trackPayload);
   };
   const showBackButton = function() {
     get(name).instance.getChild().setState({
@@ -55,12 +50,7 @@ function create(name, config) {
     });
   };
   const onSearch = function(params) {
-    beacon.trackUserAction({
-      category: 'helpCenter',
-      action: 'search',
-      name: name,
-      value: params.searchTerm
-    });
+    beacon.trackUserAction('helpCenter', 'search', name, params.searchTerm);
     mediator.channel.broadcast(name + '.onSearch', params);
   };
 

@@ -51,17 +51,17 @@ function create(name, config) {
   const onSubmitted = function(params) {
     let ticketIdMatcher = /Request \#([0-9]+)/;
 
-    beacon.trackUserAction({
-      category: 'submitTicket',
-      action: 'send',
-      name: name,
-      value: {
+    beacon.trackUserAction(
+      'submitTicket',
+      'send',
+      name,
+      {
         query: params.searchString,
         locale: params.searchLocale,
         ticketId: parseInt(ticketIdMatcher.exec(params.res.body.message)[1], 10),
         email: params.res.req._data.email
       }
-    });
+    );
     mediator.channel.broadcast(name + '.onFormSubmitted');
   };
   const onCancel = function() {

@@ -62,11 +62,7 @@ const resetActiveEmbed = () => {
 };
 
 const trackChatStarted = () => {
-  c.broadcast('beacon.trackUserAction', {
-    category: 'chat',
-    action: 'opened',
-    name: chat
-  });
+  c.broadcast('beacon.trackUserAction', 'chat', 'opened', chat);
 };
 
 function init(helpCenterAccessible, params = {}) {
