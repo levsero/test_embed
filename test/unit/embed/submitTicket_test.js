@@ -368,18 +368,15 @@ describe('embed.submitTicket', function() {
 
         payload.props.onSubmitted(params);
 
+        const value = {
+          query: params.searchString,
+          locale: params.searchLocale,
+          ticketId: 149,
+          email: 'mock@email.com'
+        };
+
         expect(mockBeacon.trackUserAction)
-          .toHaveBeenCalledWith(
-            'submitTicket',
-            'send',
-            'bob',
-            {
-              query: params.searchString,
-              locale: params.searchLocale,
-              ticketId: 149,
-              email: 'mock@email.com'
-            }
-          );
+          .toHaveBeenCalledWith('submitTicket', 'send', 'bob', value);
 
         expect(mockMediator.channel.broadcast)
           .toHaveBeenCalledWith('bob.onFormSubmitted');
