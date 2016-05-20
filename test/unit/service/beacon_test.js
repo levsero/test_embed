@@ -25,7 +25,9 @@ describe('beacon', function() {
         },
         document: {
           referrer: 'http://document.referrer',
-          title: 'Document Title'
+          title: 'Document Title',
+          readyState: 'complete',
+          addEventListener: noop
         },
         navigator: {
           language: 'navigator.language',
@@ -163,16 +165,49 @@ describe('beacon', function() {
       });
     });
 
-    it('should send a pageview blip', function() {
-      beacon.init();
+    describe('sending a page view blip', function() {
+      let mockDocument;
 
-      const transportPayload = mockTransport.sendWithMeta.calls.mostRecent().args[0];
+      beforeEach(function() {
+        mockDocument = mockRegistry['utility/globals'].document;
+      });
 
-      expect(mockTransport.sendWithMeta)
-        .toHaveBeenCalled();
+      it('if the document has readyState `complete` it should send a pageview blip', function() {
+        mockDocument.readyState = 'complete';
 
-      expect(transportPayload.params.pageView)
-        .toBeDefined();
+        beacon.init();
+
+        const transportPayload = mockTransport.sendWithMeta.calls.mostRecent().args[0];
+
+        expect(mockTransport.sendWithMeta)
+          .toHaveBeenCalled();
+
+        expect(transportPayload.params.pageView)
+          .toBeDefined();
+      });
+
+      it('if the document has readyState `interactive` it should send a pageview blip', function() {
+        mockDocument.readyState = 'interactive';
+
+        beacon.init();
+
+        const transportPayload = mockTransport.sendWithMeta.calls.mostRecent().args[0];
+
+        expect(mockTransport.sendWithMeta)
+          .toHaveBeenCalled();
+
+        expect(transportPayload.params.pageView)
+          .toBeDefined();
+      });
+
+      it('if the document has readyState `loading` it should not send a pageview blip', function() {
+        mockDocument.readyState = 'loading';
+
+        beacon.init();
+
+        expect(mockTransport.sendWithMeta)
+          .not.toHaveBeenCalled();
+      });
     });
   });
 
