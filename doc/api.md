@@ -9,6 +9,7 @@ The API consists of the following methods:
 * `zE.hide`
 * `zE.show`
 * `zE.activate`
+* `zE.setHelpCenterSuggestions`
 
 You can use the `zE.identify`, `zE.hide`, `zE.show`, and `zE.activate` methods before and after page load. For example, you can use them in click event handlers.
 
