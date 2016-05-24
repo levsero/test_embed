@@ -29,7 +29,8 @@ describe('transport', function() {
       },
       'service/identity': {
         identity: {
-          getBuid: jasmine.createSpy('getBuid').and.returnValue('abc123')
+          getBuid: jasmine.createSpy('getBuid').and.returnValue('abc123'),
+          getSuid: jasmine.createSpy('getBuid').and.returnValue('123abc')
         }
       }
     });

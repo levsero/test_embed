@@ -100,17 +100,6 @@ describe('beacon', function() {
         .toBeTruthy();
     });
 
-    it('Clears userEmail from session storage if present', function() {
-      const mockPersistence = mockRegistry['service/persistence'];
-
-      mockPersistence.store.get = () => 'bob@gmail.com';
-
-      beacon.init();
-
-      expect(mockPersistence.store.remove)
-        .toHaveBeenCalledWith('identifyEmail', true);
-    });
-
     describe('mediator subscriptions', function() {
       let mockMediator;
 
