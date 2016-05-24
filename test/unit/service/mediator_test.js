@@ -11,6 +11,7 @@ describe('mediator', function() {
     npsSub,
     ipmSub,
     mockSettingsGetValue,
+    mockOnHelpCenterPageValue,
     initSubscriptionSpies;
 
   const reset = function(spy) {
@@ -22,16 +23,17 @@ describe('mediator', function() {
     mockery.enable();
 
     mockSettingsGetValue = null;
+    mockOnHelpCenterPageValue = false;
 
     mockRegistry = initMockRegistry({
-      'service/settings':  {
+      'service/settings': {
         settings : {
           get: () => {
             return mockSettingsGetValue;
           }
         }
       },
-      'utility/devices':  {
+      'utility/devices': {
         isMobileBrowser: jasmine.createSpy().and.returnValue(false)
       },
       'utility/scrollHacks': jasmine.createSpyObj(
@@ -39,7 +41,12 @@ describe('mediator', function() {
         ['setScrollKiller',
          'setWindowScroll',
          'revertWindowScroll']
-      )
+      ),
+      'utility/utils': {
+        isOnHelpCenterPage: () => {
+          return mockOnHelpCenterPageValue;
+        }
+      }
     });
 
     mediator = requireUncached(mediatorPath).mediator;
@@ -1694,6 +1701,22 @@ describe('mediator', function() {
 
       expect(helpCenterSub.show.calls.count())
         .toEqual(0);
+    });
+
+    it('should set helpCenterForm to available if sign in is required and is on a hc page', function() {
+      mockOnHelpCenterPageValue = true;
+
+      mediator.init(true, { helpCenterSignInRequired: true });
+
+      jasmine.clock().install();
+      c.broadcast(`${launcher}.onClick`);
+      jasmine.clock().tick(0);
+
+      expect(submitTicketSub.show.calls.count())
+        .toEqual(0);
+
+      expect(helpCenterSub.show.calls.count())
+        .toEqual(1);
     });
   });
 
