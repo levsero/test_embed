@@ -108,6 +108,16 @@ export const frameFactory = function(childFn, _params) {
       }
     },
 
+    waitForRootComponent(callback) {
+      if (this.getRootComponent()) {
+        callback();
+      } else {
+        setTimeout(() => {
+          waitForRootComponent(callback);
+        }, 0);
+      }
+    },
+
     setOffsetHorizontal(offsetValue = 0) {
       if (!params.disableSetOffsetHorizontal) {
         ReactDOM.findDOMNode(this).style.marginLeft = `${offsetValue}px`;

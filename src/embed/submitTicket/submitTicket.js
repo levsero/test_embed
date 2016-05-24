@@ -217,13 +217,7 @@ function getRootComponent(name) {
 }
 
 function waitForRootComponent(name, callback) {
-  if (getRootComponent(name)) {
-    callback();
-  } else {
-    setTimeout(() => {
-      waitForRootComponent(name, callback);
-    }, 0);
-  }
+  get(name).instance.waitForRootComponent(callback);
 }
 
 function list() {
