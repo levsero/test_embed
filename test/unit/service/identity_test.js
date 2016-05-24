@@ -174,7 +174,7 @@ describe('identity', function() {
     it('creates a new suid if none is found', function() {
       spyOn(mockPersistence.store, 'set');
 
-      identity.getSuid()
+      identity.getSuid();
 
       const recentCall = mockPersistence.store.set.calls.mostRecent();
 

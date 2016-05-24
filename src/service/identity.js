@@ -5,13 +5,13 @@ const expiry = now + 1000*60*15; // 15 minutes
 
 const hex = () => {
   return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-}
+};
 
 const generateBuid = () => {
   return [
     hex(), hex(), hex(), hex(), hex(), hex(), hex(), hex()
   ].join('');
-}
+};
 
 const checkSuid = (suid) => {
   // If the session hasn't expired
@@ -19,7 +19,7 @@ const checkSuid = (suid) => {
   return suid &&
          suid.expiry > now &&
          (suid.tabs.number !== 0 || suid.tabs.expiry > now);
-}
+};
 
 function init() {
   const suid = store.get('suid');
@@ -59,7 +59,9 @@ function getSuid() {
   const suid = store.get('suid');
 
   return checkSuid(suid) ? suid
-                         : store.set('suid', {
+                         : store.set(
+                           'suid',
+                           {
                              id: generateBuid(),
                              expiry: expiry,
                              tabs: {
@@ -85,7 +87,6 @@ function unload() {
     });
   }
 }
-
 
 export const identity = {
   getBuid: getBuid,
