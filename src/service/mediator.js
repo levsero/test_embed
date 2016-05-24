@@ -516,7 +516,7 @@ function initMessaging() {
   c.intercept(`ipm.onClose`, () => {
     state['ipm.isVisible'] = false;
 
-    if (!state['.hideOnClose']) {
+    if (!state['.hideOnClose'] && !state[`${launcher}.userHidden`]) {
       c.broadcast(`${launcher}.show`, { transition: 'upShow' });
     }
   });
