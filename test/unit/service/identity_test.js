@@ -68,7 +68,7 @@ describe('identity', function() {
 
         expect(recentCall.args[0])
           .toEqual('suid');
-        expect(recentCall.args[1].tabs.number)
+        expect(recentCall.args[1].tabs.count)
           .toEqual(1);
       });
     });
@@ -79,7 +79,7 @@ describe('identity', function() {
         id: '123abc',
         expiry: Date.now() + 1000*60*15,
         tabs: {
-          number: 1,
+          count: 1,
           expiry: 0
         }
       };
@@ -107,8 +107,8 @@ describe('identity', function() {
           .toBeTruthy();
       });
 
-      it('increments the number of tabs', function() {
-        expect(recentCall.args[1].tabs.number)
+      it('increments the count of tabs', function() {
+        expect(recentCall.args[1].tabs.count)
           .toEqual(2);
       });
     });
@@ -120,7 +120,7 @@ describe('identity', function() {
       id: '123abc',
       expiry: 12345,
       tabs: {
-        number: 2,
+        count: 2,
         expiry: 0
       }
     };
@@ -134,8 +134,8 @@ describe('identity', function() {
       recentCall = mockPersistence.store.set.calls.mostRecent();
     });
 
-    it('decrements the number of tabs', function() {
-      expect(recentCall.args[1].tabs.number)
+    it('decrements the count of tabs', function() {
+      expect(recentCall.args[1].tabs.count)
         .toEqual(1);
     });
 
@@ -160,7 +160,7 @@ describe('identity', function() {
         id: '123abc',
         expiry: Date.now() + 1000*60*15,
         tabs: {
-          number: 1,
+          count: 1,
           expiry: 0
         }
       };
@@ -180,7 +180,7 @@ describe('identity', function() {
 
       expect(recentCall.args[0])
         .toEqual('suid');
-      expect(recentCall.args[1].tabs.number)
+      expect(recentCall.args[1].tabs.count)
         .toEqual(1);
     });
   });

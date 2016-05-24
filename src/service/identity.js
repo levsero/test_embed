@@ -1,8 +1,5 @@
 import { store } from 'service/persistence';
 
-const now = Date.now();
-const expiry = now + 1000*60*15; // 15 minutes
-
 const hex = () => {
   return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
 };
@@ -14,22 +11,25 @@ const generateBuid = () => {
 };
 
 const checkSuid = (suid) => {
+  const now = Date.now();
+
   // If the session hasn't expired
   // if there is more then one tab or tab hasn't expired
   return suid &&
          suid.expiry > now &&
-         (suid.tabs.number !== 0 || suid.tabs.expiry > now);
+         (suid.tabs.count !== 0 || suid.tabs.expiry > now);
 };
 
 function init() {
   const suid = store.get('suid');
+  const expiry = Date.now() + 1000*60*15; // 15 minutes
 
   if (checkSuid(suid)) {
     store.set('suid', {
       id: suid.id,
       expiry: expiry,
       tabs: {
-        number : suid.tabs.number + 1,
+        count : suid.tabs.count + 1,
         expiry: 0
       }
     });
@@ -38,7 +38,7 @@ function init() {
       id: generateBuid(),
       expiry: expiry,
       tabs: {
-        number : 1,
+        count : 1,
         expiry: 0
       }
     });
@@ -57,6 +57,7 @@ function getBuid() {
 
 function getSuid() {
   const suid = store.get('suid');
+  const expiry = Date.now() + 1000*60*15; // 15 minutes
 
   return checkSuid(suid) ? suid
                          : store.set(
@@ -65,7 +66,7 @@ function getSuid() {
                              id: generateBuid(),
                              expiry: expiry,
                              tabs: {
-                               number : 1,
+                               count : 1,
                                expiry: 0
                              }
                            });
@@ -81,7 +82,7 @@ function unload() {
       id: suid.id,
       expiry: suid.expiry,
       tabs: {
-        number: suid.tabs.number - 1,
+        count: suid.tabs.count - 1,
         expiry: expiry
       }
     });
