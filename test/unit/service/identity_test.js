@@ -43,7 +43,8 @@ describe('identity', function() {
 
       identity.getBuid();
 
-      expect(mockPersistence.store.set).toHaveBeenCalled();
+      expect(mockPersistence.store.set)
+        .toHaveBeenCalled();
 
       const recentCall = mockPersistence.store.set.calls.mostRecent();
 
@@ -58,7 +59,7 @@ describe('identity', function() {
 
   describe('init', function() {
     describe('if there is no suid in local storage', function() {
-      it('generates a new suid and stores it', function() {
+      it('generates a new suid with the correct structure and stores it', function() {
         spyOn(mockPersistence.store, 'get').and.returnValue(undefined);
         spyOn(mockPersistence.store, 'set');
 
@@ -171,7 +172,7 @@ describe('identity', function() {
         .toEqual(mockSuid);
     });
 
-    it('creates a new suid if none is found', function() {
+    it('creates a new suid with the correct structure if none is found', function() {
       spyOn(mockPersistence.store, 'set');
 
       identity.getSuid();

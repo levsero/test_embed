@@ -2,6 +2,7 @@ import { store } from 'service/persistence';
 import _ from 'lodash';
 
 const timeToExpire = 1000*60*15; // 15 Minutes
+const tabTimeToExpire = 1000*30; // 30 Seconds
 
 const hex = () => Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
 
@@ -57,7 +58,7 @@ function getSuid() {
 function unload() {
   const now = Date.now();
   const suid = store.get('suid');
-  const tabExpiry = now + 1000*30; // 30 seconds
+  const tabExpiry = now + tabTimeToExpire;
 
   if (suid) {
     setSuid(suid.id, suid.expiry, suid.tabs.count - 1, tabExpiry);
