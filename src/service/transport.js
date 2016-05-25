@@ -104,7 +104,7 @@ function sendWithMeta(payload) {
   const commonParams = {
     url: win.location.href,
     buid: identity.getBuid(),
-    sid: identity.getSuid().id || null,
+    suid: identity.getSuid().id || null,
     version: config.version,
     timestamp: (new Date()).toISOString()
   };
