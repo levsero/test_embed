@@ -136,24 +136,19 @@ For example, when someone clicks a 'Contact' button of your website, you could c
 Note: Calling `zE.activate()` will also display the widget if it is hidden, you do not need to call `zE.show()` to use `zE.activate()`.
 
 ### zE.SetHelpCenterSuggestions
+`zE.SetHelpCenterSuggestions(options)`
 
-You can enhance your use of the Contextual Help feature with the Web Widget with the following API methods:
+The method enhances the contextual help provided by the Web Widget.
 
-`zE.setHelpCenterSuggestions({ url: true });`
- 
-With this method call, those with single page apps can set the terms in the URL as search terms without requiring the end user to refresh the page as they engage with the site.
+**Options**
 
- `zE.setHelpCenterSuggestions({ search: 'search string' });`
- 
-With this method call, the Web Widget will search the Help Center for a specified search string and if results are found, display the results as 'Top Suggestions (to be presented to end-users when they click on the Web Widget).
+* `zE.setHelpCenterSuggestions({ url: true });` - In single-page apps, sets the query parameters in the URL as search terms without requiring the end user to refresh the page.
 
-`zE.setHelpCenterSuggestions({ labels: ['label1'] });`
+*`zE.setHelpCenterSuggestions({ search: 'search string' });` - Searches the Help Center for the specified search string. If results are found, displays the results as top suggestions when users click the Web Widget.
 
-For Plus and Enterprise customers who use Help Center labels, one or more labels can be passed to the above method.
+*`zE.setHelpCenterSuggestions({ labels: ['label1'] });` -  For Plus and Enterprise customers who use Help Center labels, searches the Help Center for articles with the given label(s). If results are found, displays the results as top suggestions when users click the Web Widget.
 
-When this call is made, the Web Widget will search your Help Center for articles with the given label(s) and if results are found, display results as 'Top Suggestions (to be presented to end-users when they click on the Web Widget). 
-
-To add either of these methods to your web page, put them in your HTML source code immediately after your Web Widget code snippet. For example:
+To add this method to your web page, add it to your HTML source code immediately after your Web Widget code snippet. For example:
 
 ``` javascript
 <script>
@@ -163,8 +158,6 @@ zE.setHelpCenterSuggestions({ search: 'credit card' });
 </script>
 ```
 
-Note:
-
-If you pass both search strings and labels to the zE.setHelpCenterSuggestions method, the labels are ignored (and the search strings will be used).
+**Note**:If you pass both search strings and labels to the zE.setHelpCenterSuggestions method, the labels are ignored (and the search strings will be used).
 
 The `zE.setHelpCenterSuggestions` method can be called multiple times which will be beneficial if you are using a single page application.
