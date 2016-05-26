@@ -12,10 +12,13 @@ import { HelpCenterArticle } from 'component/HelpCenterArticle';
 import { HelpCenterForm } from 'component/HelpCenterForm';
 import { ScrollContainer } from 'component/ScrollContainer';
 import { ZendeskLogo } from 'component/ZendeskLogo';
+import { authentication } from 'service/authentication';
 import { i18n } from 'service/i18n';
 import { isMobileBrowser } from 'utility/devices';
+import { win } from 'utility/globals';
 import { bindMethods,
-         getPageKeywords } from 'utility/utils';
+         getPageKeywords,
+         parseHtmlString } from 'utility/utils';
 
 export class HelpCenter extends Component {
   constructor(props, context) {
@@ -264,8 +267,11 @@ export class HelpCenter extends Component {
   handleArticleClick(articleIndex, e) {
     e.preventDefault();
 
+    const activeArticle = this.state.articles[articleIndex];
+
+    this.fetchArticleImages(activeArticle);
     this.setState({
-      activeArticle: this.state.articles[articleIndex],
+      activeArticle: activeArticle,
       articleViewActive: true
     });
 
@@ -325,6 +331,26 @@ export class HelpCenter extends Component {
   searchBoxClickHandler() {
     this.setState({
       showIntroScreen: false
+    });
+  }
+
+  fetchArticleImages(article) {
+    const htmlEl = parseHtmlString(article.body);
+    const imgEls = htmlEl.getElementsByTagName('img');
+
+    if (imgEls.length === 0 || !authentication.getToken()) {
+      return;
+    }
+
+    _.each(imgEls, (img) => {
+      this.props.restrictedImagesSender(img.src, (res) => {
+        const url = win.URL.createObjectURL(res.xhr.response);
+
+        img.src = url;
+        article.body = htmlEl.outerHTML;
+
+        this.setState({ activeArticle: article });
+      });
     });
   }
 
@@ -575,6 +601,7 @@ export class HelpCenter extends Component {
 HelpCenter.propTypes = {
   searchSender: PropTypes.func.isRequired,
   contextualSearchSender: PropTypes.func.isRequired,
+  restrictedImagesSender: PropTypes.func.isRequired,
   buttonLabelKey: PropTypes.string,
   onSearch: PropTypes.func,
   showBackButton: PropTypes.func,

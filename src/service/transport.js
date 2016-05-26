@@ -114,6 +114,26 @@ function sendWithMeta(payload) {
   send(payload);
 }
 
+function getImage(payload) {
+  superagent(payload.method.toUpperCase(), payload.path)
+    .timeout(60000)
+    .responseType('blob')
+    .set('Authorization', payload.authorization)
+    .end(function(err, res) {
+      if (payload.callbacks) {
+        if (err) {
+          if (_.isFunction(payload.callbacks.fail)) {
+            payload.callbacks.fail(err);
+          }
+        } else {
+          if (_.isFunction(payload.callbacks.done)) {
+            payload.callbacks.done(res);
+          }
+        }
+      }
+    });
+}
+
 function buildFullUrl(path) {
   return config.scheme + '://' + config.zendeskHost + path;
 }
@@ -126,6 +146,7 @@ export const transport = {
   init: init,
   send: send,
   sendWithMeta: sendWithMeta,
+  getImage: getImage,
   get: send,
   getZendeskHost: getZendeskHost
 };
