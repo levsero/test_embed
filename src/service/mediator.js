@@ -6,7 +6,7 @@ import { isMobileBrowser } from 'utility/devices';
 import { setScrollKiller,
          setWindowScroll,
          revertWindowScroll } from 'utility/scrollHacks';
-import { isOnHelpCenterPage } from 'utility/utils';
+import { isOnHelpCenterPage } from 'utility/pages';
 
 const c = new airwaves.Channel();
 

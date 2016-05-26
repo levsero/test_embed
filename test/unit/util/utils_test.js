@@ -4,12 +4,9 @@ describe('utils', function() {
     splitPath,
     getPageKeywords,
     getPageTitle,
-    isOnHelpCenterPage,
     metaTag;
   const mockGlobals = {
-    win: {
-      HelpCenter: {}
-    },
+    win: {},
     document: document,
     location: {
       href: 'http://foo.com/anthony/is/awesome',
@@ -49,7 +46,6 @@ describe('utils', function() {
     splitPath = require(utilPath).splitPath;
     getPageKeywords = require(utilPath).getPageKeywords;
     getPageTitle = require(utilPath).getPageTitle;
-    isOnHelpCenterPage = require(utilPath).isOnHelpCenterPage;
 
     metaTag = document.createElement('meta');
     metaTag.name = 'viewport';
@@ -240,44 +236,6 @@ describe('utils', function() {
 
       expect(containerDiv.outerHTML)
         .toEqual('<h1 data-ze-reactid=".0">Hello React!</h1>');
-    });
-  });
-
-  describe('isOnHelpCenterPage()', function() {
-    let location,
-      win;
-
-    beforeEach(function() {
-      location = mockGlobals.location;
-      win = mockGlobals.win;
-
-      win.HelpCenter = { account: '', user: '' };
-    });
-
-    it('returns true if the host page is a helpcenter', function() {
-      location.pathname = '/hc/en-us';
-
-      expect(isOnHelpCenterPage())
-        .toBe(true);
-
-      location.pathname = '/hc/1234-article-foo-bar';
-
-      expect(isOnHelpCenterPage())
-        .toBe(true);
-    });
-
-    it('returns false if the URL is not a help center URL', function() {
-      location.pathname = '/foo/bar';
-
-      expect(isOnHelpCenterPage())
-        .toBe(false);
-    });
-
-    it('returns false if window.HelpCenter is not set', function() {
-      win.HelpCenter = null;
-
-      expect(isOnHelpCenterPage())
-        .toBe(false);
     });
   });
 });

@@ -7,9 +7,9 @@ import { transport } from 'service/transport';
 import { win,
          document as doc,
          navigator } from 'utility/globals';
+import { isOnHelpCenterPage } from 'utility/pages';
 import { parseUrl,
-         getFrameworkLoadTime,
-         isOnHelpCenterPage } from 'utility/utils';
+         getFrameworkLoadTime } from 'utility/utils';
 
 const sendPageView = () => {
   const now = Date.now();

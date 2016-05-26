@@ -18,8 +18,8 @@ import { document,
 import { cappedIntervalCall,
          generateUserCSS,
          getPageKeywords,
-         setScaleLock,
-         isOnHelpCenterPage } from 'utility/utils';
+         setScaleLock } from 'utility/utils';
+import { isOnHelpCenterPage } from 'utility/pages';
 
 const helpCenterCSS = require('./helpCenter.scss');
 let helpCenters = {};

@@ -42,7 +42,7 @@ describe('mediator', function() {
          'setWindowScroll',
          'revertWindowScroll']
       ),
-      'utility/utils': {
+      'utility/pages': {
         isOnHelpCenterPage: () => {
           return mockOnHelpCenterPageValue;
         }
