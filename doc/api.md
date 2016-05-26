@@ -9,6 +9,7 @@ The API consists of the following methods:
 * `zE.hide`
 * `zE.show`
 * `zE.activate`
+* `zE.setHelpCenterSuggestions`
 
 You can use the `zE.identify`, `zE.hide`, `zE.show`, and `zE.activate` methods before and after page load. For example, you can use them in click event handlers.
 
@@ -133,3 +134,33 @@ For example, when someone clicks a 'Contact' button of your website, you could c
 ```
 
 Note: Calling `zE.activate()` will also display the widget if it is hidden, you do not need to call `zE.show()` to use `zE.activate()`.
+
+### zE.SetHelpCenterSuggestions
+
+`zE.SetHelpCenterSuggestions(options)`
+
+The method enhances the contextual help provided by the Web Widget.
+
+#### Options
+
+* `zE.setHelpCenterSuggestions({ url: true })` - In single-page apps, sets the query parameters in the URL as search terms without requiring the end user to refresh the page.
+
+* `zE.setHelpCenterSuggestions({ search: 'search string' })` - Searches the Help Center for the specified search string. If results are found, displays the results as top suggestions when users click the Web Widget.
+
+*`zE.setHelpCenterSuggestions({ labels: ['label1'] })` -  For Plus and Enterprise customers who use Help Center labels, searches the Help Center for articles with the given labels. If results are found, displays the results as top suggestions when users click the Web Widget.
+
+**Note**: If you pass both search strings and labels, the labels are ignored.
+
+#### Usage
+
+Add the method in your HTML source code immediately after your Web Widget code snippet. Example:
+
+```javascript
+<script>
+zE(function() {
+  zE.setHelpCenterSuggestions({ search: 'credit card' });
+});
+</script>
+```
+
+The `zE.setHelpCenterSuggestions()` method can be called multiple times, which can be useful in a single-page application.
