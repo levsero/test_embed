@@ -212,7 +212,7 @@ describe('Submit ticket component', function() {
     );
 
     submitTicket.setState({
-      searchString: 'a search',
+      searchTerm: 'a search',
       searchLocale: 'en-US'
     });
 
@@ -229,7 +229,7 @@ describe('Submit ticket component', function() {
     expect(mockOnSubmitted)
       .toHaveBeenCalled();
 
-    expect(mockOnSubmitted.calls.mostRecent().args[0].searchString)
+    expect(mockOnSubmitted.calls.mostRecent().args[0].searchTerm)
       .toEqual('a search');
 
     expect(mockOnSubmitted.calls.mostRecent().args[0].searchLocale)

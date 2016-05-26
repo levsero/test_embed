@@ -26,7 +26,7 @@ export class SubmitTicket extends Component {
       fullscreen: isMobileBrowser(),
       errorMessage: '',
       uid: _.uniqueId('submitTicketForm_'),
-      searchString: null,
+      searchTerm: null,
       searchLocale: null,
       isDragActive: false
     };
@@ -86,7 +86,7 @@ export class SubmitTicket extends Component {
       this.clearForm();
       this.props.onSubmitted({
         res: res,
-        searchString: this.state.searchString,
+        searchTerm: this.state.searchTerm,
         searchLocale: this.state.searchLocale
       });
       this.props.updateFrameSize();
