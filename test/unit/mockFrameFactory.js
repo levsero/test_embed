@@ -43,6 +43,9 @@ const mockFrameFactory = jasmine.createSpy('mockFrameFactory').and.callFake(
       getRootComponent: function() {
         return child.refs.rootComponent;
       },
+      waitForRootComponent: function(callback) {
+        callback();
+      },
       render: function() {
         return (
           <div ref='frame' className='mock-frame'><Component /></div>

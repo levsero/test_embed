@@ -162,21 +162,21 @@ function render(name) {
   submitTickets[name].instance = ReactDOM.render(submitTickets[name].component, element);
 
   mediator.channel.subscribe(name + '.show', function(options = {}) {
-    if (getRootComponent(name)) {
+    waitForRootComponent(name, () => {
       submitTickets[name].instance.show(options);
-    }
+    });
   });
 
   mediator.channel.subscribe(name + '.hide', function(options = {}) {
-    const rootComponent = getRootComponent(name);
+    waitForRootComponent(name, () => {
+      const rootComponent = getRootComponent(name);
 
-    if (rootComponent) {
       submitTickets[name].instance.hide(options);
 
       if (rootComponent.state.showNotification) {
         rootComponent.clearNotification();
       }
-    }
+    });
   });
 
   mediator.channel.subscribe(name + '.showBackButton', function() {
@@ -184,11 +184,9 @@ function render(name) {
   });
 
   mediator.channel.subscribe(name + '.setLastSearch', function(params) {
-    const rootComponent = getRootComponent(name);
-
-    if (rootComponent) {
-      rootComponent.setState(_.pick(params, ['searchString', 'searchLocale']));
-    }
+    waitForRootComponent(name, () => {
+      getRootComponent(name).setState(_.pick(params, ['searchString', 'searchLocale']));
+    });
   });
 
   mediator.channel.subscribe(name + '.prefill', function(user) {
@@ -201,19 +199,13 @@ function render(name) {
 }
 
 function prefillForm(name, user) {
-  const rootComponent = getRootComponent(name);
-
-  if (rootComponent) {
-    const submitTicketForm = rootComponent.refs.submitTicketForm;
+  waitForRootComponent(name, function() {
+    const submitTicketForm = getRootComponent(name).refs.submitTicketForm;
 
     submitTicketForm.setState({
       formState: _.pick(user, ['name', 'email'])
     });
-  } else {
-    setTimeout(() => {
-      prefillForm(name, user);
-    }, 0);
-  }
+  });
 }
 
 function get(name) {
@@ -222,6 +214,10 @@ function get(name) {
 
 function getRootComponent(name) {
   return get(name).instance.getRootComponent();
+}
+
+function waitForRootComponent(name, callback) {
+  get(name).instance.waitForRootComponent(callback);
 }
 
 function list() {

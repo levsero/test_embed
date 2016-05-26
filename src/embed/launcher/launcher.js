@@ -85,23 +85,15 @@ function getRootComponent(name) {
 }
 
 function setIcon(name, icon) {
-  if (getRootComponent(name)) {
+  waitForRootComponent(name, () => {
     getRootComponent(name).setIcon(icon);
-  } else {
-    setTimeout(() => {
-      setIcon(name, icon);
-    }, 0);
-  }
+  });
 }
 
 function setHasUnreadMessages(name, unread) {
-  if (getRootComponent(name)) {
+  waitForRootComponent(name, () => {
     getRootComponent(name).setState({ hasUnreadMessages: unread });
-  } else {
-    setTimeout(() => {
-      setHasUnreadMessages(name, unread);
-    }, 0);
-  }
+  });
 }
 
 function render(name) {
@@ -114,15 +106,15 @@ function render(name) {
   launchers[name].instance = ReactDOM.render(launchers[name].component, element);
 
   mediator.channel.subscribe(name + '.hide', function(options = {}) {
-    if (getRootComponent(name)) {
+    waitForRootComponent(name, () => {
       get(name).instance.hide(options);
-    }
+    });
   });
 
   mediator.channel.subscribe(name + '.show', function(options = {}) {
-    if (getRootComponent(name)) {
+    waitForRootComponent(name, () => {
       get(name).instance.show(options);
-    }
+    });
   });
 
   mediator.channel.subscribe(name + '.setLabelChat', function() {
@@ -159,13 +151,13 @@ function render(name) {
 }
 
 function setLabel(name, label) {
-  if (getRootComponent(name)) {
+  waitForRootComponent(name, () => {
     getRootComponent(name).setLabel(label);
-  } else {
-    setTimeout(() => {
-      setLabel(name, label);
-    }, 0);
-  }
+  });
+}
+
+function waitForRootComponent(name, callback) {
+  get(name).instance.waitForRootComponent(callback);
 }
 
 export const launcher = {

@@ -190,13 +190,16 @@ function getRootComponent(name) {
   return get(name).instance.getRootComponent();
 }
 
-function updateHelpCenterButton(name, labelKey) {
-  const rootComponent = getRootComponent(name);
-  const label = i18n.t(`embeddable_framework.helpCenter.submitButton.label.${labelKey}`);
+function waitForRootComponent(name, callback) {
+  get(name).instance.waitForRootComponent(callback);
+}
 
-  if (rootComponent) {
-    rootComponent.setState({ buttonLabel: label });
-  }
+function updateHelpCenterButton(name, labelKey) {
+  waitForRootComponent(name, () => {
+    const label = i18n.t(`embeddable_framework.helpCenter.submitButton.label.${labelKey}`);
+
+    getRootComponent(name).setState({ buttonLabel: label });
+  });
 }
 
 function keywordsSearch(name, options) {
@@ -226,16 +229,16 @@ function render(name) {
     // stop stupid host page scrolling
     // when trying to focus HelpCenter's search field
     setTimeout(function() {
-      if (getRootComponent(name)) {
+      waitForRootComponent(name, () => {
         get(name).instance.show(options);
-      }
+      });
     }, 0);
   });
 
   mediator.channel.subscribe(name + '.hide', function(options = {}) {
-    if (getRootComponent(name)) {
+    waitForRootComponent(name, () => {
       get(name).instance.hide(options);
-    }
+    });
   });
 
   mediator.channel.subscribe(name + '.setNextToChat', function() {
