@@ -8,6 +8,7 @@ import { authentication } from 'service/authentication';
 import { beacon } from 'service/beacon';
 import { cacheBuster } from 'service/cacheBuster';
 import { i18n } from 'service/i18n';
+import { identity } from 'service/identity';
 import { logging } from 'service/logging';
 import { mediator } from 'service/mediator';
 import { renderer } from 'service/renderer';
@@ -104,6 +105,7 @@ function boot() {
     iframe.setAttribute('style', newStyle);
   }
 
+  identity.init();
   logging.init();
 
   cacheBuster.bustCache(__EMBEDDABLE_VERSION__);
@@ -167,6 +169,8 @@ function boot() {
   handleQueue(document.zEQueue);
 
   beacon.init();
+
+  win.onunload = identity.unload;
 
   // Post-render methods
   win.zE.setHelpCenterSuggestions = setHelpCenterSuggestions;
