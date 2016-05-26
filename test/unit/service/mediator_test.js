@@ -625,6 +625,28 @@ describe('mediator', function() {
         expect(launcherSub.show)
           .toHaveBeenCalled();
       });
+
+      describe('when `hideOnClose` option is true', function() {
+        it('should not broadcast launcher.show', function() {
+          c.broadcast('.activate', { hideOnClose: true });
+
+          c.broadcast('ipm.onClose');
+
+          expect(launcherSub.show)
+            .not.toHaveBeenCalled();
+        });
+      });
+
+      describe('when zE.hide() has been called', function() {
+        it('should not broadcast launcher.show', function() {
+          mediator.init(true, { hideLauncher: true });
+
+          c.broadcast('ipm.onClose');
+
+          expect(launcherSub.show)
+            .not.toHaveBeenCalled();
+        });
+      });
     });
 
     describe('.onShow', function() {
