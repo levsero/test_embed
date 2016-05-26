@@ -200,6 +200,10 @@ function getRootComponent(name) {
   return get(name).instance.getRootComponent();
 }
 
+function waitForRootComponent(name, callback) {
+  get(name).instance.waitForRootComponent(callback);
+}
+
 function updateHelpCenterButton(name, labelKey) {
   waitForRootComponent(name, () => {
     const label = i18n.t(`embeddable_framework.helpCenter.submitButton.label.${labelKey}`);
@@ -287,10 +291,6 @@ function postRender(name) {
   if (authSetting && authSetting.jwt) {
     authentication.authenticate(authSetting.jwt);
   }
-}
-
-function waitForRootComponent(name, callback) {
-  get(name).instance.waitForRootComponent(callback);
 }
 
 export const helpCenter = {
