@@ -23,6 +23,7 @@
   "author": "Zendesk",
   "license": "All Rights Reserved",
   "dependencies": {
+    "airbrake-js": "^0.5.9",
     "airwaves": "~0.3.0",
     "color": "~0.7.3",
     "counterpart": "~0.16.0",
