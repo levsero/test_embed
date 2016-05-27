@@ -1,11 +1,16 @@
 describe('logging', function() {
   let logging;
+  let mockRegistry;
   const loggingPath = buildSrcPath('service/logging');
 
   beforeEach(function() {
     mockery.enable();
-    initMockRegistry({
-      'lib/airbrake': jasmine.createSpy()
+    mockRegistry = initMockRegistry({
+      'airbrake-js': jasmine.createSpy().and.returnValue(
+          setProject: jasmine.createSpy(),
+          addFilter: jasmine.createSpy()
+        };
+      })
     });
 
     mockery.registerAllowable(loggingPath);
@@ -17,14 +22,16 @@ describe('logging', function() {
     mockery.disable();
   });
 
-  describe('#init', function() {
+  fdescribe('#init', function() {
     it('should register Airbrake id and key on init and add errors to filter', function() {
+      const mockAirbrake = mockRegistry['airbrake-js'];
+
       logging.init();
 
-      expect(Airbrake.setProject)
+      expect(mockAirbrake.setProject)
         .toHaveBeenCalledWith('124081', '8191392d5f8c97c8297a08521aab9189');
 
-      expect(Airbrake.addFilter)
+      expect(mockAirbrake.addFilter)
         .toHaveBeenCalled();
     });
   });
