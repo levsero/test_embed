@@ -49,6 +49,7 @@ module.exports = {
   },
   resolve: {
     alias: {
+      lib: path.join(prefix + '/lib'),
       // Framework
       component: path.join(prefix + '/src/component'),
       embed: path.join(prefix + '/src/embed'),
