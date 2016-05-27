@@ -337,21 +337,28 @@ export class HelpCenter extends Component {
   fetchArticleImages(article) {
     const htmlEl = parseHtmlString(article.body);
     const imgEls = htmlEl.getElementsByTagName('img');
+    const filteredImgEls = _.filter(imgEls, (img) => this.filterArticleImage(img));
 
-    if (imgEls.length === 0 || !authentication.getToken()) {
+    // TODO: check if article is private
+    if (filteredImgEls.length === 0 || !authentication.getToken()) {
       return;
     }
 
-    _.each(imgEls, (img) => {
+    _.each(filteredImgEls, (img) => {
       this.props.restrictedImagesSender(img.src, (res) => {
         const url = win.URL.createObjectURL(res.xhr.response);
 
         img.src = url;
         article.body = htmlEl.outerHTML;
-
         this.setState({ activeArticle: article });
       });
     });
+  }
+
+  filterArticleImage(img) {
+    // TODO:
+    // verify image domains
+    return img;
   }
 
   render() {
