@@ -1,4 +1,4 @@
-require('airbrake-js');
+require('lib/airbrake');
 
 import _ from 'lodash';
 

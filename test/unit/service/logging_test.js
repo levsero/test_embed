@@ -5,7 +5,7 @@ describe('logging', function() {
   beforeEach(function() {
     mockery.enable();
     initMockRegistry({
-      'airbrake-js': jasmine.createSpy()
+      'lib/airbrake': jasmine.createSpy()
     });
 
     mockery.registerAllowable(loggingPath);
