@@ -157,7 +157,13 @@ function setLabel(name, label) {
 }
 
 function waitForRootComponent(name, callback) {
-  get(name).instance.waitForRootComponent(callback);
+  if (getRootComponent(name)) {
+    callback();
+  } else {
+    setTimeout(() => {
+      waitForRootComponent(name, callback);
+    }, 0);
+  }
 }
 
 export const launcher = {

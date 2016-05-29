@@ -191,7 +191,13 @@ function getRootComponent(name) {
 }
 
 function waitForRootComponent(name, callback) {
-  get(name).instance.waitForRootComponent(callback);
+  if (getRootComponent(name)) {
+    callback();
+  } else {
+    setTimeout(() => {
+      waitForRootComponent(name, callback);
+    }, 0);
+  }
 }
 
 function updateHelpCenterButton(name, labelKey) {
