@@ -9,13 +9,17 @@ const errorFilters = [
 const errorFilter = (notice) => {
   const combinedRegex = new RegExp(errorFilters.join('|'));
 
+  // The notice object always contains a single element errors array.
+  // airbrake-js will filter out the error if null is returned, and will
+  // send it through if the notice object is returned.
+  // See #Filtering Errors: https://github.com/airbrake/airbrake-js
   return combinedRegex.test(notice.errors[0].message)
          ? null
          : notice;
 };
 
 function init() {
-  airbrake.setProject({ projectId: '124081', projectKey: '8191392d5f8c97c8297a08521aab9189' });
+  airbrake.setProject('124081', '8191392d5f8c97c8297a08521aab9189');
   airbrake.addFilter(errorFilter);
 }
 
@@ -27,7 +31,7 @@ function error(err) {
     if (err.error.special) {
       throw err.error.message;
     } else {
-      airbrake.notify({error: err});
+      airbrake.notify(err);
     }
   }
 }

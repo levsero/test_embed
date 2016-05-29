@@ -1,20 +1,23 @@
 describe('logging', function() {
   let logging;
-  let mockRegistry;
+  let mockAirbrakeClient;
   const loggingPath = buildSrcPath('service/logging');
 
   beforeEach(function() {
     mockery.enable();
-    mockRegistry = initMockRegistry({
-      'airbrake-js': jasmine.createSpy().and.returnValue(
-          setProject: jasmine.createSpy(),
-          addFilter: jasmine.createSpy()
-        };
+    const mockRegistry = initMockRegistry({
+      'airbrake-js': jasmine.createSpy().and.returnValue({
+        setProject: jasmine.createSpy(),
+        addFilter: jasmine.createSpy(),
+        notify: jasmine.createSpy()
       })
     });
 
+    mockAirbrakeClient = mockRegistry['airbrake-js']();
+
     mockery.registerAllowable(loggingPath);
     logging = requireUncached(loggingPath).logging;
+    logging.init();
   });
 
   afterEach(function() {
@@ -22,16 +25,15 @@ describe('logging', function() {
     mockery.disable();
   });
 
-  fdescribe('#init', function() {
+  describe('#init', function() {
     it('should register Airbrake id and key on init and add errors to filter', function() {
-      const mockAirbrake = mockRegistry['airbrake-js'];
+      expect(mockAirbrakeClient.setProject)
+        .toHaveBeenCalledWith(
+          '124081',
+          '8191392d5f8c97c8297a08521aab9189'
+        );
 
-      logging.init();
-
-      expect(mockAirbrake.setProject)
-        .toHaveBeenCalledWith('124081', '8191392d5f8c97c8297a08521aab9189');
-
-      expect(mockAirbrake.addFilter)
+      expect(mockAirbrakeClient.addFilter)
         .toHaveBeenCalled();
     });
   });
@@ -53,7 +55,7 @@ describe('logging', function() {
     it('should call Airbrake.push', function() {
       logging.error(errPayload);
 
-      expect(Airbrake.push)
+      expect(mockAirbrakeClient.notify)
         .toHaveBeenCalledWith(errPayload);
     });
 
@@ -72,6 +74,45 @@ describe('logging', function() {
 
       expect(logging.error.bind(this, err))
         .toThrow();
+    });
+  });
+
+  describe('errorFilter', function() {
+    let errMessage;
+    let notice;
+
+    beforeEach(function() {
+      errMessage = 'No \'Access-Control-Allow-Origin\' header is present on the requested resource';
+      notice = {
+        errors: [
+          { message: errMessage }
+        ]
+      };
+    });
+
+    it('should filter out timeout exceeded and cross origin errors', function() {
+      expect(logging.errorFilter(notice))
+        .toBe(null);
+
+      errMessage = 'timeout of 10000ms exceeded';
+      notice.errors[0].message = errMessage;
+
+      expect(logging.errorFilter(notice))
+        .toBe(null);
+    });
+
+    it('should not filter out any other errors', function() {
+      errMessage = 'Attempted to assign to readonly property.';
+      notice.errors[0].message = errMessage;
+
+      expect(logging.errorFilter(notice))
+        .toBe(notice);
+
+      errMessage = 'Some other error';
+      notice.errors[0].message = errMessage;
+
+      expect(logging.errorFilter(notice))
+        .toBe(notice);
     });
   });
 });
