@@ -1,6 +1,6 @@
 describe('logging', function() {
-  let logging;
-  let mockAirbrakeClient;
+  let logging,
+    mockAirbrakeClient;
   const loggingPath = buildSrcPath('service/logging');
 
   beforeEach(function() {
@@ -78,8 +78,8 @@ describe('logging', function() {
   });
 
   describe('errorFilter', function() {
-    let errMessage;
-    let notice;
+    let errMessage,
+      notice;
 
     beforeEach(function() {
       errMessage = 'No \'Access-Control-Allow-Origin\' header is present on the requested resource';
