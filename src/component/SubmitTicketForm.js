@@ -240,14 +240,14 @@ export class SubmitTicketForm extends Component {
                                { fallback: 'Attachments' }
                              );
     const buttonDropzone = this.props.attachmentsEnabled
-                         ? <label className='Form-fieldContainer u-block u-marginVM'>
-                              <div className='Form-fieldLabel u-textXHeight'>
+                         ? <div className='Form-fieldContainer u-block u-marginVM'>
+                              <label className='Form-fieldLabel u-textXHeight'>
                                 {attachmentsTitle}
-                              </div>
+                              </label>
                               <ButtonDropzone
                                 onDrop={this.handleOnDrop}
                                 isMobile={this.props.fullscreen} />
-                            </label>
+                            </div>
                          : null;
 
     return (
