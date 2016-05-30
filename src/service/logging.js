@@ -1,30 +1,26 @@
-require('lib/airbrake');
+import airbrakeJs from 'airbrake-js';
 
-import _ from 'lodash';
-
+const airbrake = new airbrakeJs();
 const errorFilters = [
   'Access-Control-Allow-Origin',
-  '/timeout of [0-9]+ms exceeded/'
+  'timeout of [0-9]+ms exceeded'
 ];
 
-function addFilter(notice) {
-  const nonFilteredErrors = _.reject(notice.errors, (err) => {
-    let ret;
+const errorFilter = (notice) => {
+  const combinedRegex = new RegExp(errorFilters.join('|'));
 
-    _.forEach(errorFilters, (pat) => {
-      ret = err.message.search(pat) < 0;
-      if (ret) { return false; }
-    });
-
-    return ret;
-  });
-
-  return (nonFilteredErrors.length > 0 ? notice : null);
-}
+  // The notice object always contains a single element errors array.
+  // airbrake-js will filter out the error if null is returned, and will
+  // send it through if the notice object is returned.
+  // See #Filtering Errors: https://github.com/airbrake/airbrake-js
+  return combinedRegex.test(notice.errors[0].message)
+         ? null
+         : notice;
+};
 
 function init() {
-  Airbrake.setProject('124081', '8191392d5f8c97c8297a08521aab9189');
-  Airbrake.addFilter(addFilter);
+  airbrake.setProject('124081', '8191392d5f8c97c8297a08521aab9189');
+  airbrake.addFilter(errorFilter);
 }
 
 function error(err) {
@@ -35,12 +31,13 @@ function error(err) {
     if (err.error.special) {
       throw err.error.message;
     } else {
-      Airbrake.push(err);
+      airbrake.notify(err);
     }
   }
 }
 
 export const logging = {
-  init: init,
-  error: error
+  init,
+  error,
+  errorFilter
 };

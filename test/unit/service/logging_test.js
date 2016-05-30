@@ -1,15 +1,23 @@
 describe('logging', function() {
-  let logging;
+  let logging,
+    mockAirbrakeClient;
   const loggingPath = buildSrcPath('service/logging');
 
   beforeEach(function() {
     mockery.enable();
-    initMockRegistry({
-      'lib/airbrake': jasmine.createSpy()
+    const mockRegistry = initMockRegistry({
+      'airbrake-js': jasmine.createSpy().and.returnValue({
+        setProject: jasmine.createSpy(),
+        addFilter: jasmine.createSpy(),
+        notify: jasmine.createSpy()
+      })
     });
+
+    mockAirbrakeClient = mockRegistry['airbrake-js']();
 
     mockery.registerAllowable(loggingPath);
     logging = requireUncached(loggingPath).logging;
+    logging.init();
   });
 
   afterEach(function() {
@@ -19,12 +27,13 @@ describe('logging', function() {
 
   describe('#init', function() {
     it('should register Airbrake id and key on init and add errors to filter', function() {
-      logging.init();
+      expect(mockAirbrakeClient.setProject)
+        .toHaveBeenCalledWith(
+          '124081',
+          '8191392d5f8c97c8297a08521aab9189'
+        );
 
-      expect(Airbrake.setProject)
-        .toHaveBeenCalledWith('124081', '8191392d5f8c97c8297a08521aab9189');
-
-      expect(Airbrake.addFilter)
+      expect(mockAirbrakeClient.addFilter)
         .toHaveBeenCalled();
     });
   });
@@ -46,7 +55,7 @@ describe('logging', function() {
     it('should call Airbrake.push', function() {
       logging.error(errPayload);
 
-      expect(Airbrake.push)
+      expect(mockAirbrakeClient.notify)
         .toHaveBeenCalledWith(errPayload);
     });
 
@@ -65,6 +74,47 @@ describe('logging', function() {
 
       expect(logging.error.bind(this, err))
         .toThrow();
+    });
+  });
+
+  describe('errorFilter', function() {
+    let errMessage,
+      notice;
+
+    beforeEach(function() {
+      errMessage = 'No \'Access-Control-Allow-Origin\' header is present on the requested resource';
+      notice = {
+        errors: [
+          { message: errMessage }
+        ]
+      };
+    });
+
+    it('should filter out cross origin errors', function() {
+      expect(logging.errorFilter(notice))
+        .toBe(null);
+    });
+
+    it('should filter out timeout exceeded errors', function() {
+      errMessage = 'timeout of 10000ms exceeded';
+      notice.errors[0].message = errMessage;
+
+      expect(logging.errorFilter(notice))
+        .toBe(null);
+    });
+
+    it('should not filter out any other errors', function() {
+      errMessage = 'Attempted to assign to readonly property.';
+      notice.errors[0].message = errMessage;
+
+      expect(logging.errorFilter(notice))
+        .toBe(notice);
+
+      errMessage = 'Some other error';
+      notice.errors[0].message = errMessage;
+
+      expect(logging.errorFilter(notice))
+        .toBe(notice);
     });
   });
 });
