@@ -56,7 +56,7 @@ function create(name, config) {
       'send',
       name,
       {
-        query: params.searchString,
+        query: params.searchTerm,
         locale: params.searchLocale,
         ticketId: parseInt(ticketIdMatcher.exec(params.res.body.message)[1], 10),
         email: params.res.req._data.email
@@ -185,7 +185,7 @@ function render(name) {
 
   mediator.channel.subscribe(name + '.setLastSearch', function(params) {
     waitForRootComponent(name, () => {
-      getRootComponent(name).setState(_.pick(params, ['searchString', 'searchLocale']));
+      getRootComponent(name).setState(_.pick(params, ['searchTerm', 'searchLocale']));
     });
   });
 

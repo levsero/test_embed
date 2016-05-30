@@ -349,7 +349,7 @@ describe('embed.submitTicket', function() {
               _data: { email: 'mock@email.com' }
             }
           },
-          searchString: 'a search',
+          searchTerm: 'a search',
           searchLocale: 'en-US'
         };
 
@@ -369,7 +369,7 @@ describe('embed.submitTicket', function() {
         payload.props.onSubmitted(params);
 
         const value = {
-          query: params.searchString,
+          query: params.searchTerm,
           locale: params.searchLocale,
           ticketId: 149,
           email: 'mock@email.com'
@@ -547,7 +547,7 @@ describe('embed.submitTicket', function() {
 
       it('should subscribe to <name>.setLastSearch', function() {
         const params = {
-          searchString: 'a search',
+          searchTerm: 'a search',
           searchLocale: 'en-US'
         };
 
@@ -555,14 +555,14 @@ describe('embed.submitTicket', function() {
           .toHaveBeenCalledWith('bob.setLastSearch', jasmine.any(Function));
 
         bobSubmitTicket.setState({
-          searchString: null,
+          searchTerm: null,
           searchLocale: null
         });
 
         pluckSubscribeCall(mockMediator, 'bob.setLastSearch')(params);
 
-        expect(bobSubmitTicket.state.searchString)
-          .toEqual(params.searchString);
+        expect(bobSubmitTicket.state.searchTerm)
+          .toEqual(params.searchTerm);
         expect(bobSubmitTicket.state.searchLocale)
           .toEqual(params.searchLocale);
       });
