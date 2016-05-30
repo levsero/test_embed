@@ -90,10 +90,12 @@ describe('logging', function() {
       };
     });
 
-    it('should filter out timeout exceeded and cross origin errors', function() {
+    it('should filter out cross origin errors', function() {
       expect(logging.errorFilter(notice))
         .toBe(null);
+    });
 
+    it('should filter out timeout exceeded errors', function() {
       errMessage = 'timeout of 10000ms exceeded';
       notice.errors[0].message = errMessage;
 
