@@ -15,11 +15,11 @@ import { isIE,
          isMobileBrowser } from 'utility/devices';
 import { document,
          getDocumentHost } from 'utility/globals';
+import { isOnHelpCenterPage } from 'utility/pages';
 import { cappedIntervalCall,
          generateUserCSS,
          getPageKeywords,
-         setScaleLock,
-         isOnHelpCenterPage } from 'utility/utils';
+         setScaleLock } from 'utility/utils';
 
 const helpCenterCSS = require('./helpCenter.scss');
 let helpCenters = {};

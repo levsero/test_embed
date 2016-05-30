@@ -95,7 +95,9 @@ describe('embed.helpCenter', function() {
         setScaleLock: noop,
         generateUserCSS: jasmine.createSpy().and.returnValue(''),
         getPageKeywords: jasmine.createSpy().and.returnValue('foo bar'),
-        cappedIntervalCall: (callback) => { callback(); },
+        cappedIntervalCall: (callback) => { callback(); }
+      },
+      'utility/pages': {
         isOnHelpCenterPage: () => mockIsOnHelpCenterPageValue
       },
       'utility/globals': {

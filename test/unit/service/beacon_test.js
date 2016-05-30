@@ -55,7 +55,9 @@ describe('beacon', function() {
         },
         getFrameworkLoadTime: function() {
           return 200;
-        },
+        }
+      },
+      'utility/pages': {
         isOnHelpCenterPage: () => true
       },
       'lodash': _
@@ -210,6 +212,7 @@ describe('beacon', function() {
       const mockTransport = mockRegistry['service/transport'];
       const mockGlobals = mockRegistry['utility/globals'];
       const mockUtils = mockRegistry['utility/utils'];
+      const mockPages = mockRegistry['utility/pages'];
 
       beacon.init();
       expect(mockTransport.transport.sendWithMeta).toHaveBeenCalled();
@@ -243,7 +246,7 @@ describe('beacon', function() {
         .toBe(mockUtils.getFrameworkLoadTime());
 
       expect(params.pageView.helpCenterDedup)
-        .toBe(mockUtils.isOnHelpCenterPage());
+        .toBe(mockPages.isOnHelpCenterPage());
     });
   });
 

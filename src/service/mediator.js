@@ -6,6 +6,7 @@ import { isMobileBrowser } from 'utility/devices';
 import { setScrollKiller,
          setWindowScroll,
          revertWindowScroll } from 'utility/scrollHacks';
+import { isOnHelpCenterPage } from 'utility/pages';
 
 const c = new airwaves.Channel();
 
@@ -83,7 +84,9 @@ function init(helpCenterAccessible, params = {}) {
 
   state['.hasHidden']                 = params.hideLauncher;
   state[`${launcher}.userHidden`]     = params.hideLauncher;
-  state[`${helpCenter}.isAccessible`] = helpCenterAccessible && !params.helpCenterSignInRequired;
+  state[`${helpCenter}.isAccessible`] = helpCenterAccessible &&
+                                        (!params.helpCenterSignInRequired ||
+                                        isOnHelpCenterPage());
   state[`${helpCenter}.isSuppressed`] = isSuppressed('helpCenter');
   state[`${chat}.isSuppressed`]       = isSuppressed('chat');
 
