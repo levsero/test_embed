@@ -9,6 +9,7 @@ describe('logging', function() {
       'airbrake-js': jasmine.createSpy().and.returnValue({
         setProject: jasmine.createSpy(),
         addFilter: jasmine.createSpy(),
+        wrap: jasmine.createSpy(),
         notify: jasmine.createSpy()
       })
     });
@@ -74,6 +75,17 @@ describe('logging', function() {
 
       expect(logging.error.bind(this, err))
         .toThrow();
+    });
+  });
+
+  describe('wrap', function() {
+    it('should call airbrake.wrap() with the passed in callback', function() {
+      const fn = () => {};
+
+      logging.wrap(fn);
+
+      expect(mockAirbrakeClient.wrap)
+        .toHaveBeenCalledWith(fn);
     });
   });
 
