@@ -17,8 +17,6 @@ global._ = require('lodash');
 
 global.requireUncached = require('require-uncached');
 
-global.Airbrake = jasmine.createSpyObj('Airbrake', ['push', 'wrap', 'setProject', 'addFilter']);
-
 global.mockery = require('mockery');
 
 global.jsdom = require('jsdom');

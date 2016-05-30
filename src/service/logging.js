@@ -18,6 +18,8 @@ const errorFilter = (notice) => {
          : notice;
 };
 
+const wrap = (fn) => airbrake.wrap(fn);
+
 function init() {
   airbrake.setProject('124081', '8191392d5f8c97c8297a08521aab9189');
   airbrake.addFilter(errorFilter);
@@ -39,5 +41,6 @@ function error(err) {
 export const logging = {
   init,
   error,
+  wrap,
   errorFilter
 };
