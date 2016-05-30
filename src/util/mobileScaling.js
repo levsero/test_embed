@@ -5,6 +5,7 @@ import { win,
 import { renderer } from 'service/renderer';
 import { getDeviceZoom,
          getZoomSizingRatio } from 'utility/devices';
+import { logging } from 'service/logging';
 import { mediator } from 'service/mediator';
 import { setScrollKiller } from 'utility/scrollHacks';
 import { cappedIntervalCall } from 'utility/utils';
@@ -64,21 +65,21 @@ const zoomMonitor = (() => {
 })();
 
 function initMobileScaling() {
-  win.addEventListener('touchstart', Airbrake.wrap((e) => {
+  win.addEventListener('touchstart', logging.wrap((e) => {
     if (e.touches.length === 2) {
       renderer.hideByZoom(true);
     }
     zoomMonitor();
   }));
 
-  win.addEventListener('touchmove', Airbrake.wrap((e) => {
+  win.addEventListener('touchmove', logging.wrap((e) => {
     if (e.touches.length === 2) {
       renderer.hideByZoom(true);
     }
     zoomMonitor();
   }));
 
-  win.addEventListener('touchend', Airbrake.wrap((e) => {
+  win.addEventListener('touchend', logging.wrap((e) => {
     const now = e.timeStamp;
 
     // If touchend's fire within 250ms of each other,

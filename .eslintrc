@@ -21,7 +21,6 @@
     "__DEV__": true,
     "__EMBEDDABLE_VERSION__": true,
     "addCustomCommands": true,
-    "Airbrake": true,
     "basePath": true,
     "buildTestPath": true,
     "buildSrcPath": true,

@@ -36,8 +36,13 @@ function error(err) {
   }
 }
 
+function wrap(fn) {
+  return airbrake.wrap(fn);
+}
+
 export const logging = {
   init,
   error,
+  wrap,
   errorFilter
 };
