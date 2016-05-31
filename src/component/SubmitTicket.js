@@ -13,6 +13,11 @@ import { isMobileBrowser } from 'utility/devices';
 import { win } from 'utility/globals';
 import { bindMethods } from 'utility/utils';
 
+let frameDimensions = {
+  width: 0,
+  height: 0
+};
+
 export class SubmitTicket extends Component {
   constructor(props, context) {
     super(props, context);
@@ -26,32 +31,8 @@ export class SubmitTicket extends Component {
       uid: _.uniqueId('submitTicketForm_'),
       searchTerm: null,
       searchLocale: null,
-      isDragActive: false,
-      dimensions: {
-        width: 0,
-        height: 0
-      }
+      isDragActive: false
     };
-  }
-
-  componentDidMount() {
-    this.updateFrameSize();
-  }
-
-  componentDidUpdate() {
-    this.updateFrameSize();
-  }
-
-  updateFrameSize() {
-    if (this.props.updateFrameSize) {
-      setTimeout( () => {
-        const dimensions = this.props.updateFrameSize();
-
-        this.setState({
-          dimensions: dimensions
-        });
-      }, 0);
-    }
   }
 
   clearNotification() {
@@ -111,7 +92,7 @@ export class SubmitTicket extends Component {
         searchTerm: this.state.searchTerm,
         searchLocale: this.state.searchLocale
       });
-      this.updateFrameSize();
+      this.props.updateFrameSize();
     };
 
     this.props.submitTicketSender(formParams, doneCallback, failCallback);
@@ -168,7 +149,9 @@ export class SubmitTicket extends Component {
     });
 
     if (this.props.updateFrameSize) {
-      setTimeout( () => this.props.updateFrameSize(), 0);
+      setTimeout( () => {
+        frameDimensions = this.props.updateFrameSize();
+      }, 0);
     }
 
     const zendeskLogo = this.props.hideZendeskLogo || this.state.fullscreen
@@ -180,7 +163,7 @@ export class SubmitTicket extends Component {
     const attachmentBox = this.state.isDragActive && this.props.attachmentsEnabled
                         ? <AttachmentBox
                             onDragLeave={this.handleDragLeave}
-                            dimensions={this.state.dimensions}
+                            dimensions={frameDimensions}
                             onDrop={this.handleOnDrop} />
                         : null;
 

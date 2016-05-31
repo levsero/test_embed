@@ -40,7 +40,7 @@ AttachmentBox.propTypes = {
 };
 
 AttachmentBox.defaultProps = {
-  dimensions: { width: 50, height: 50 },
+  dimensions: { width: 0, height: 0 },
   onDragLeave: () => {}
 };
 
