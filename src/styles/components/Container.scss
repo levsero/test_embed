@@ -15,7 +15,7 @@ $Container-spacing: 25/$font-size;
 .Container--popover {
   border-radius: #{8/$font-size}rem;
   box-shadow: 0 0 #{6/$font-size}rem 0 rgba($base-shadow, .2);
-  background: rgba($base-color, .98)
+  background: rgba($base-color, .98);
 }
 
 .Container--fullscreen {
@@ -76,8 +76,6 @@ $Container-spacing: 25/$font-size;
 }
 
 .Container--overlay {
-  width: calc(#{$container-width} - $spacing-lrg);
-  height: calc(#{$container-height} - $spacing-lrg);
   background-color: $zendesk-color--white-smoke;
   opacity: 0.8;
 }

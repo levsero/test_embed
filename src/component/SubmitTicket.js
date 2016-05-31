@@ -11,14 +11,12 @@ import { ZendeskLogo } from 'component/ZendeskLogo';
 import { i18n } from 'service/i18n';
 import { isMobileBrowser } from 'utility/devices';
 import { win } from 'utility/globals';
+import { bindMethods } from 'utility/utils';
 
 export class SubmitTicket extends Component {
   constructor(props, context) {
     super(props, context);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleDragEnter = this.handleDragEnter.bind(this);
-    this.handleDragLeave = this.handleDragLeave.bind(this);
-    this.handleOnDrop = this.handleOnDrop.bind(this);
+    bindMethods(this, SubmitTicket.prototype);
 
     this.state = {
       showNotification: false,
@@ -28,8 +26,32 @@ export class SubmitTicket extends Component {
       uid: _.uniqueId('submitTicketForm_'),
       searchTerm: null,
       searchLocale: null,
-      isDragActive: false
+      isDragActive: false,
+      dimensions: {
+        width: 0,
+        height: 0
+      }
     };
+  }
+
+  componentDidMount() {
+    this.updateFrameSize();
+  }
+
+  componentDidUpdate() {
+    this.updateFrameSize();
+  }
+
+  updateFrameSize() {
+    if (this.props.updateFrameSize) {
+      setTimeout( () => {
+        const dimensions = this.props.updateFrameSize();
+
+        this.setState({
+          dimensions: dimensions
+        });
+      }, 0);
+    }
   }
 
   clearNotification() {
@@ -89,7 +111,7 @@ export class SubmitTicket extends Component {
         searchTerm: this.state.searchTerm,
         searchLocale: this.state.searchLocale
       });
-      this.props.updateFrameSize();
+      this.updateFrameSize();
     };
 
     this.props.submitTicketSender(formParams, doneCallback, failCallback);
@@ -156,10 +178,11 @@ export class SubmitTicket extends Component {
                           rtl={i18n.isRTL()}
                           fullscreen={this.state.fullscreen} />;
     const attachmentBox = this.state.isDragActive && this.props.attachmentsEnabled
-                         ? <AttachmentBox
-                             onDragLeave={this.handleDragLeave}
-                             onDrop={this.handleOnDrop} />
-                         : null;
+                        ? <AttachmentBox
+                            onDragLeave={this.handleDragLeave}
+                            dimensions={this.state.dimensions}
+                            onDrop={this.handleOnDrop} />
+                        : null;
 
     return (
       <Container
