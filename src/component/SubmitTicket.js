@@ -190,6 +190,7 @@ export class SubmitTicket extends Component {
           hide={this.state.showNotification}
           customFields={this.props.customFields}
           formTitleKey={this.props.formTitleKey}
+          attachmentSender={this.props.attachmentSender}
           attachmentsEnabled={this.props.attachmentsEnabled}
           submit={this.handleSubmit}>
           <p className={errorClasses}>
@@ -205,6 +206,7 @@ export class SubmitTicket extends Component {
 SubmitTicket.propTypes = {
   formTitleKey: PropTypes.string.isRequired,
   submitTicketSender: PropTypes.func.isRequired,
+  attachmentSender: PropTypes.func.isRequired,
   updateFrameSize: PropTypes.any,
   hideZendeskLogo: PropTypes.bool,
   customFields: PropTypes.array,

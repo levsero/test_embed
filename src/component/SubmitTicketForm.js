@@ -160,9 +160,11 @@ export class SubmitTicketForm extends Component {
   }
 
   handleOnDrop(files) {
-    const attachments = _.union(this.state.attachments, files);
+    const doneFn = () => { console.log('success'); };
+    const failFn = () => { console.log('failure'); };
+    const progressFn = (e) => { console.log('Percentage done: ', e.percent); };
 
-    this.setState({ attachments });
+    this.props.attachmentSender(files[0], doneFn, failFn, progressFn);
   }
 
   clear() {
@@ -289,6 +291,7 @@ SubmitTicketForm.propTypes = {
   customFields: PropTypes.array,
   fullscreen: PropTypes.bool,
   onCancel: PropTypes.func,
+  attachmentSender: PropTypes.func.isRequired,
   attachmentsEnabled: PropTypes.bool
 };
 

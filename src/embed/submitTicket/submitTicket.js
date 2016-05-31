@@ -35,6 +35,7 @@ function create(name, config) {
   const ticketEndpointPath = config.attachmentsEnabled
              ? '/embeddable/ticket'
              : '/requests/embedded/create';
+  const ticketAttachmentsEndpoint = '/embeddable/ticket_attachments';
   const submitTicketSender = (params, doneFn, failFn) => {
     const payload = {
       method: 'post',
@@ -47,6 +48,20 @@ function create(name, config) {
     };
 
     transport.send(payload);
+  };
+  const attachmentSender = (file, doneFn, failFn, progressFn) => {
+    const payload = {
+      method: 'post',
+      path: ticketAttachmentsEndpoint,
+      file: file,
+      callbacks: {
+        done: doneFn,
+        fail: failFn,
+        progress: progressFn
+      }
+    };
+
+    transport.sendFile(payload);
   };
   const onSubmitted = function(params) {
     let ticketIdMatcher = /Request \#([0-9]+)/;
@@ -96,6 +111,7 @@ function create(name, config) {
           hideZendeskLogo={config.hideZendeskLogo}
           onCancel={onCancel}
           submitTicketSender={submitTicketSender}
+          attachmentSender={attachmentSender}
           onSubmitted={onSubmitted}
           position={config.position}
           formTitleKey={config.formTitleKey}
