@@ -40,7 +40,7 @@ class HelpCenterArticle extends Component {
         'sup', 'sub', 'img', 'iframe', 'table', 'thead', 'tfoot', 'tbody', 'tr', 'th', 'td'
       ],
       transformTags: { 'iframe': this.filterVideoEmbed },
-      allowedSchemes: ['blob'],
+      allowedSchemes: ['http', 'https', 'blob'],
       allowedAttributes: {
         'a': ['href', 'target', 'title', 'name'],
         'span': ['name'],

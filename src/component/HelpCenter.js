@@ -18,6 +18,7 @@ import { isMobileBrowser } from 'utility/devices';
 import { win } from 'utility/globals';
 import { bindMethods,
          getPageKeywords,
+         parseUrl,
          parseHtmlString } from 'utility/utils';
 
 export class HelpCenter extends Component {
@@ -37,6 +38,7 @@ export class HelpCenter extends Component {
       searchFailed: false,
       articleViewActive: false,
       activeArticle: {},
+      images: {},
       showIntroScreen: isMobileBrowser(),
       virtualKeyboardKiller: false,
       searchTracked: false,
@@ -267,11 +269,8 @@ export class HelpCenter extends Component {
   handleArticleClick(articleIndex, e) {
     e.preventDefault();
 
-    const activeArticle = this.state.articles[articleIndex];
-
-    this.fetchArticleImages(activeArticle);
     this.setState({
-      activeArticle: activeArticle,
+      activeArticle: this.state.articles[articleIndex],
       articleViewActive: true
     });
 
@@ -334,31 +333,62 @@ export class HelpCenter extends Component {
     });
   }
 
-  fetchArticleImages(article) {
-    const htmlEl = parseHtmlString(article.body);
-    const imgEls = htmlEl.getElementsByTagName('img');
-    const filteredImgEls = _.filter(imgEls, (img) => this.filterArticleImage(img));
+  getFilteredImageElements(htmlElement, articleDomain) {
+    const imgEls = htmlElement.getElementsByTagName('img');
+    const srcPattern = new RegExp(`${this.props.zendeskHost}|${articleDomain}`);
 
-    // TODO: check if article is private
-    if (filteredImgEls.length === 0 || !authentication.getToken()) {
-      return;
-    }
-
-    _.each(filteredImgEls, (img) => {
-      this.props.restrictedImagesSender(img.src, (res) => {
-        const url = win.URL.createObjectURL(res.xhr.response);
-
-        img.src = url;
-        article.body = htmlEl.outerHTML;
-        this.setState({ activeArticle: article });
-      });
-    });
+    return _.filter(imgEls, (img) => srcPattern.test(img.src));
   }
 
-  filterArticleImage(img) {
-    // TODO:
-    // verify image domains
-    return img;
+  processActiveArticle(activeArticle) {
+    const { body, url } = activeArticle;
+
+    if (!body || !authentication.getToken()) {
+      return activeArticle;
+    }
+
+    const htmlEl = parseHtmlString(body);
+    const articleDomain = parseUrl(url).hostname;
+    const filteredImgEls = this.getFilteredImageElements(htmlEl, articleDomain);
+
+    if (filteredImgEls.length === 0) {
+      return activeArticle;
+    }
+
+    return this.replaceActiveArticleImages(activeArticle, htmlEl, filteredImgEls);
+  }
+
+  replaceActiveArticleImages(activeArticle, htmlEl, filteredImgEls) {
+    let { articleBody } = activeArticle;
+
+    this.queueUpImgRequests(articleBody, filteredImgEls);
+
+    const { images } = this.state;
+
+    _.each(filteredImgEls, (img) => img.src = !images[img.src] ? '' : images[img.src]);
+    articleBody = htmlEl.outerHTML;
+
+    return _.extend({}, activeArticle, { body: articleBody });
+  }
+
+  queueUpImgRequests(articleBody, imgElements) {
+    const { images } = this.state;
+    const queuedImgs = _.transform(imgElements, (val, img) => {
+      if (!images.hasOwnProperty(img.src)) {
+        val[img.src] = null;
+      }
+    }, {});
+
+    _.each(queuedImgs, (_, src) => {
+      this.props.restrictedImagesSender(src, (res) => {
+        const url = win.URL.createObjectURL(res.xhr.response);
+
+        images[src] = url;
+        this.setState({ images: images });
+      });
+    });
+
+    _.extend(images, queuedImgs);
   }
 
   render() {
@@ -594,7 +624,7 @@ export class HelpCenter extends Component {
 
           <div className={articleClasses}>
             <HelpCenterArticle
-              activeArticle={this.state.activeArticle}
+              activeArticle={this.processActiveArticle(this.state.activeArticle)}
               fullscreen={this.state.fullscreen} />
           </div>
         </ScrollContainer>
@@ -609,6 +639,7 @@ HelpCenter.propTypes = {
   searchSender: PropTypes.func.isRequired,
   contextualSearchSender: PropTypes.func.isRequired,
   restrictedImagesSender: PropTypes.func.isRequired,
+  zendeskHost: PropTypes.string.isRequired,
   buttonLabelKey: PropTypes.string,
   onSearch: PropTypes.func,
   showBackButton: PropTypes.func,
