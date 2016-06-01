@@ -65,6 +65,14 @@ export class Attachment extends Component {
     this.state.uploadRequest.abort();
   }
 
+  renderProgressBar() {
+    return (
+      <div
+        className='Attachment-progress u-vsizeAll u-posAbsolute u-posStart--flush u-posStart--vertFlush'
+        ref='progressBar' />
+    );
+  }
+
   render() {
     const { icon, attachment } = this.props;
     const { uploading } = this.state;
@@ -79,7 +87,7 @@ export class Attachment extends Component {
       'u-marginBS': true
     });
 
-    const progressBar = uploading ? <div className='Attachment-progress' ref='progressBar' /> : null;
+    const progressBar = uploading ? this.renderProgressBar() : null;
     const iconOnClick = uploading ? this.handleStopUpload : this.handleRemoveAttachment;
 
     return (
