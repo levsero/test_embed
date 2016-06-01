@@ -185,52 +185,75 @@ export class SubmitTicketForm extends Component {
     return true;
   }
 
-  render() {
+  renderFormBody() {
+    const { formState } = this.state;
+    const { children } = this.props;
+
+    const customFields = getCustomFields(this.props.customFields, this.state.formState);
+
+    return (
+      <div ref='formWrapper'>
+        <Field
+          placeholder={i18n.t('embeddable_framework.submitTicket.field.name.label')}
+          value={formState.name}
+          name='name' />
+        <Field
+          placeholder={i18n.t('embeddable_framework.form.field.email.label')}
+          type='email'
+          required={true}
+          value={formState.email}
+          name='email' />
+        {customFields.fields}
+        <Field
+          placeholder={
+            i18n.t('embeddable_framework.submitTicket.field.description.label')
+          }
+          required={true}
+          value={formState.description}
+          name='description'
+          input={<textarea rows='5' />} />
+        {customFields.checkboxes}
+        {children}
+      </div>
+    );
+  }
+
+  renderCancelButton() {
+    const { cancelButtonMessage } = this.state;
+    const { onCancel, fullscreen } = this.props;
+
+    return (
+      <ButtonSecondary
+        label={cancelButtonMessage}
+        onClick={onCancel}
+        fullscreen={fullscreen} />
+    );
+  }
+
+  renderAttachments() {
     const { attachmentSender, fullscreen } = this.props;
+
+    return (
+      <Attachments
+        ref="attachments"
+        attachmentSender={attachmentSender}
+        updateAttachments={this.updateAttachments}
+        fullscreen={fullscreen} />
+    );
+  }
+
+  render() {
+    const { attachmentsEnabled, fullscreen, formTitleKey, hide } = this.props;
+    const { buttonMessage, isSubmitting, isValid, removeTicketForm } = this.state;
 
     const formClasses = classNames({
       'Form u-cf': true,
-      'u-isHidden': this.props.hide
+      'u-isHidden': hide
     });
-    const customFields = getCustomFields(this.props.customFields, this.state.formState);
-    const formBody = (this.state.removeTicketForm)
-                   ? null
-                   : <div ref='formWrapper'>
-                       <Field
-                         placeholder={i18n.t('embeddable_framework.submitTicket.field.name.label')}
-                         value={this.state.formState.name}
-                         name='name' />
-                       <Field
-                         placeholder={i18n.t('embeddable_framework.form.field.email.label')}
-                         type='email'
-                         required={true}
-                         value={this.state.formState.email}
-                         name='email' />
-                       {customFields.fields}
-                       <Field
-                         placeholder={
-                           i18n.t('embeddable_framework.submitTicket.field.description.label')
-                         }
-                         required={true}
-                         value={this.state.formState.description}
-                         name='description'
-                         input={<textarea rows='5' />} />
-                       {customFields.checkboxes}
-                       {this.props.children}
-                     </div>;
-    const buttonCancel = this.props.fullscreen
-                       ? null
-                       : <ButtonSecondary
-                           label={this.state.cancelButtonMessage}
-                           onClick={this.props.onCancel}
-                           fullscreen={this.props.fullscreen} />;
-    const attachments = this.props.attachmentsEnabled
-                      ? <Attachments
-                          ref="attachments"
-                          attachmentSender={attachmentSender}
-                          updateAttachments={this.updateAttachments}
-                          fullscreen={fullscreen} />
-                      : null;
+
+    const formBody = removeTicketForm ? null : this.renderFormBody();
+    const buttonCancel = fullscreen ? null : this.renderCancelButton();
+    const attachments = attachmentsEnabled ? this.renderAttachments() : null;
 
     return (
       <form
@@ -241,19 +264,19 @@ export class SubmitTicketForm extends Component {
         className={formClasses}>
         <ScrollContainer
           ref='scrollContainer'
-          title={i18n.t(`embeddable_framework.submitTicket.form.title.${this.props.formTitleKey}`)}
+          title={i18n.t(`embeddable_framework.submitTicket.form.title.${formTitleKey}`)}
           contentExpanded={true}
           footerContent={
             <ButtonGroup rtl={i18n.isRTL()}>
               {buttonCancel}
               <Button
-                fullscreen={this.props.fullscreen}
-                label={this.state.buttonMessage}
-                disabled={!this.state.isValid || this.state.isSubmitting}
+                fullscreen={fullscreen}
+                label={buttonMessage}
+                disabled={!isValid || isSubmitting}
                 type='submit' />
             </ButtonGroup>
           }
-          fullscreen={this.props.fullscreen}>
+          fullscreen={fullscreen}>
           {formBody}
           {attachments}
         </ScrollContainer>
