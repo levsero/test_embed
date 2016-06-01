@@ -143,11 +143,6 @@ $Form-fontSize: #{13/$font-size}rem;
   }
 }
 
-.Form-field--attachments {
-  height: #{16/$font-size}rem;
-  width: 100%;
-}
-
 .Form-field--focused,
 .Form-field:hover,
 .Form-checkboxInput--focused + .Form-checkbox {

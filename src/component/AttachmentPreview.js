@@ -54,9 +54,9 @@ class AttachmentPreview extends Component {
 
     return (
       <div className='Form-field--display u-marginBS'>
-        <div className='Form-field--attachments'>
+        <div className='Attachment-preview'>
           <Icon type={this.props.icon} className='Icon--preview u-pullLeft' />
-          <div className='u-alignTop u-pullLeft u-textTruncate attachmentPreviewName'>
+          <div className='Attachment-preview-name u-alignTop u-pullLeft u-textTruncate'>
             {nameStart}
           </div>
           <div className='u-pullLeft'>
