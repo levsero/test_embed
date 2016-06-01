@@ -4,11 +4,13 @@ import Dropzone from 'react-dropzone';
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
 
+const dropzoneMargin = 53; // the frames margin, border and padding
+
 export class AttachmentBox extends Component {
   render() {
     const style = {
-      width: this.props.dimensions.width - 53 + 'px',
-      height: this.props.dimensions.height - 53 + 'px'
+      width: this.props.dimensions.width - dropzoneMargin + 'px',
+      height: this.props.dimensions.height - dropzoneMargin + 'px'
     };
 
     return (
