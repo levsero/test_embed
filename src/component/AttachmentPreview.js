@@ -48,19 +48,26 @@ class AttachmentPreview extends Component {
   }
 
   render() {
+    const name = this.props.attachment.name;
+    const nameStart = name.slice(0, -7);
+    const nameEnd = name.slice(-7);
+
     return (
       <div className='Form-field--display u-marginBS'>
-        <div className='Arrange-sizeFill'>
-          <Icon type={this.props.icon} className='Icon--preview u-inlineBlock' />
-          <div className='u-alignTop u-inlineBlock'>
-            {this.props.attachment.name}
+        <div className='Attachment-preview'>
+          <Icon type={this.props.icon} className='Icon--preview u-pullLeft' />
+          <div className='Attachment-preview-name u-alignTop u-pullLeft u-textTruncate'>
+            {nameStart}
           </div>
-        </div>
-        <div className='Arrange-sizeFit'>
-          <Icon
-            onClick={this.handleClick}
-            className='u-isActionable'
-            type='Icon--clearInput' />
+          <div className='u-pullLeft'>
+            {nameEnd}
+          </div>
+          <div className='u-pullRight'>
+            <Icon
+              onClick={this.handleClick}
+              className='u-isActionable'
+              type='Icon--clearInput' />
+          </div>
         </div>
       </div>
     );
