@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import _ from 'lodash';
 import classNames from 'classnames';
 
-import { Attachments } from 'component/Attachments';
+import { AttachmentList } from 'component/AttachmentList';
 import { Button,
          ButtonSecondary,
          ButtonGroup } from 'component/Button';
@@ -232,7 +232,7 @@ export class SubmitTicketForm extends Component {
     const { attachmentSender, fullscreen } = this.props;
 
     return (
-      <Attachments
+      <AttachmentList
         ref="attachments"
         attachmentSender={attachmentSender}
         updateAttachments={this.updateAttachments}

@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
 
-import { AttachmentPreview } from 'component/AttachmentPreview';
+import { Attachment } from 'component/Attachment';
 import { ButtonDropzone } from 'component/Button';
 import { i18n } from 'service/i18n';
 import { bindMethods } from 'utility/utils';
@@ -26,10 +26,10 @@ const iconMapper = {
   'xls': 'Icon--preview-xls'
 };
 
-export class Attachments extends Component {
+export class AttachmentList extends Component {
   constructor(props, context) {
     super(props, context);
-    bindMethods(this, Attachments.prototype);
+    bindMethods(this, AttachmentList.prototype);
 
     this.state = {
       attachments: []
@@ -57,7 +57,7 @@ export class Attachments extends Component {
       const extension = attachment.name.split('.').pop();
       const icon = iconMapper[extension] || 'Icon--preview-default';
 
-      return (<AttachmentPreview
+      return (<Attachment
                attachment={attachment}
                handleRemoveAttachment={this.removeAttachment}
                attachmentSender={attachmentSender}
@@ -97,12 +97,12 @@ export class Attachments extends Component {
   }
 }
 
-Attachments.propTypes = {
+AttachmentList.propTypes = {
   attachmentSender: PropTypes.func.isRequired,
   fullscreen: PropTypes.bool,
   updateAttachments: PropTypes.func.isRequired
 };
 
-Attachments.defaultProps = {
+AttachmentList.defaultProps = {
   fullscreen: false
 };

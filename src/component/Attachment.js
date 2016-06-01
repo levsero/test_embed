@@ -5,10 +5,10 @@ import classNames from 'classnames';
 import { Icon } from 'component/Icon';
 import { bindMethods } from 'utility/utils';
 
-export class AttachmentPreview extends Component {
+export class Attachment extends Component {
   constructor(props, context) {
     super(props, context);
-    bindMethods(this, AttachmentPreview.prototype);
+    bindMethods(this, Attachment.prototype);
 
     this.state = {
       uploaded: false,
@@ -105,7 +105,7 @@ export class AttachmentPreview extends Component {
   }
 }
 
-AttachmentPreview.propTypes = {
+Attachment.propTypes = {
   attachment: PropTypes.object.isRequired,
   handleRemoveAttachment: PropTypes.func.isRequired,
   attachmentSender: PropTypes.func.isRequired,
