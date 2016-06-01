@@ -42,7 +42,7 @@ export class AttachmentList extends Component {
     this.setState({ attachments });
   }
 
-  removeAttachment(attachment) {
+  handleRemoveAttachment(attachment) {
     const idx = this.state.attachments.indexOf(attachment);
 
     this.state.attachments.splice(idx, 1);
@@ -59,7 +59,7 @@ export class AttachmentList extends Component {
 
       return (<Attachment
                attachment={attachment}
-               handleRemoveAttachment={this.removeAttachment}
+               handleRemoveAttachment={this.handleRemoveAttachment}
                attachmentSender={attachmentSender}
                icon={icon} />);
     });
