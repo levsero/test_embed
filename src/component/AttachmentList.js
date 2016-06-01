@@ -70,7 +70,7 @@ export class AttachmentList extends Component {
   }
 
   render() {
-    const { fullscreen, attachmentSender } = this.props;
+    const { fullscreen } = this.props;
     const { attachments } = this.state;
 
     const attachmentComponents = this.renderAttachments();

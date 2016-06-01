@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import _ from 'lodash';
 import classNames from 'classnames';
 
 import { Icon } from 'component/Icon';
@@ -25,12 +24,10 @@ export class Attachment extends Component {
 
     const doneFn = (response) => {
       // console.log('success');
-      const { upload_token } = response.body;
-
       this.setState({
         uploading: false,
         uploaded: true,
-        uploadToken: upload_token
+        uploadToken: response.body.upload_token
       });
     };
     const failFn = (error) => {
