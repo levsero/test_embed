@@ -119,8 +119,8 @@ function sendFile(payload) {
     throw 'Missing zendeskHost config param.';
   }
 
-  superagent(payload.method.toUpperCase(),
-             buildFullUrl(payload.path))
+  return superagent(payload.method.toUpperCase(),
+                    buildFullUrl(payload.path))
     .attach('file', payload.file)
     .on('progress', function(e) {
       if (payload.callbacks) {

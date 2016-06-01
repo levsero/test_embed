@@ -1,8 +1,23 @@
+.Attachment--uploading {
+  background-color: transparent;
+  border: 1px dashed #ccc;
+}
+
 .Attachment-preview {
   height: #{16/$font-size}rem;
-  width: 100%;
+  z-index: 2;
 }
 
 .Attachment-preview-name {
   max-width: 62%;
+}
+
+.Attachment-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  z-index: 1;
+  border-radius: #{4/$font-size}rem;
+  background-color: rgba(119, 163, 0, 0.15);
 }

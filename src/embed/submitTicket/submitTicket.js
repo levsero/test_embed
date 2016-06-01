@@ -61,7 +61,7 @@ function create(name, config) {
       }
     };
 
-    transport.sendFile(payload);
+    return transport.sendFile(payload);
   };
   const onSubmitted = function(params) {
     let ticketIdMatcher = /Request \#([0-9]+)/;

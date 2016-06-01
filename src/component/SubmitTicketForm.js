@@ -205,9 +205,7 @@ export class SubmitTicketForm extends Component {
           name='email' />
         {customFields.fields}
         <Field
-          placeholder={
-            i18n.t('embeddable_framework.submitTicket.field.description.label')
-          }
+          placeholder={i18n.t('embeddable_framework.submitTicket.field.description.label')}
           required={true}
           value={formState.description}
           name='description'

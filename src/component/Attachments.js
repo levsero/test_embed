@@ -49,11 +49,11 @@ export class Attachments extends Component {
           <label className='Form-fieldLabel u-textXHeight'>
             {title}
           </label>
+          {previews}
           <ButtonDropzone
             onDrop={this.handleOnDrop}
             isMobile={fullscreen} />
         </div>
-        {previews}
       </div>
     );
   }
