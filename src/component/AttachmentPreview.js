@@ -23,7 +23,7 @@ const iconMapper = {
   'xls': 'Icon--preview-xls'
 };
 
-const getAttachmentPreviews = (attachments, removeAttachment) => {
+const getAttachmentPreviews = (attachments, removeAttachment, attachmentSender) => {
   const previews = _.map(attachments, (attachment) => {
     const extension = attachment.name.split('.').pop();
     const icon = iconMapper[extension] || 'Icon--preview-default';
@@ -31,6 +31,7 @@ const getAttachmentPreviews = (attachments, removeAttachment) => {
     return (<AttachmentPreview
              attachment={attachment}
              handleRemoveAttachment={removeAttachment}
+             attachmentSender={attachmentSender}
              icon={icon} />);
   });
 
@@ -41,6 +42,39 @@ class AttachmentPreview extends Component {
   constructor(props, context) {
     super(props, context);
     this.handleClick = this.handleClick.bind(this);
+
+    this.state = {
+      uploaded: false,
+      uploading: false
+    };
+  }
+
+  componentWillMount() {
+    const { attachment } = this.props;
+    const { uploaded, uploading } = this.state;
+
+    const doneFn = () => {
+      console.log('success');
+      this.setState({
+        uploading: false,
+        uploaded: true
+      });
+    };
+    const failFn = () => {
+      console.log('failure');
+      this.setState({
+        uploading: false,
+        uploaded: false
+      });
+    };
+    const progressFn = (e) => {
+      console.log('Percentage done: ', e.percent);
+    };
+
+    if (!(uploading || uploaded)) {
+      this.setState({ uploading: true });
+      this.props.attachmentSender(attachment, doneFn, failFn, progressFn);
+    }
   }
 
   handleClick() {
@@ -48,14 +82,15 @@ class AttachmentPreview extends Component {
   }
 
   render() {
-    const name = this.props.attachment.name;
-    const nameStart = name.slice(0, -7);
-    const nameEnd = name.slice(-7);
+    const { icon, attachment } = this.props;
+
+    const nameStart = attachment.name.slice(0, -7);
+    const nameEnd = attachment.name.slice(-7);
 
     return (
       <div className='Form-field--display u-marginBS'>
         <div className='Attachment-preview'>
-          <Icon type={this.props.icon} className='Icon--preview u-pullLeft' />
+          <Icon type={icon} className='Icon--preview u-pullLeft' />
           <div className='Attachment-preview-name u-alignTop u-pullLeft u-textTruncate'>
             {nameStart}
           </div>
@@ -77,6 +112,7 @@ class AttachmentPreview extends Component {
 AttachmentPreview.propTypes = {
   attachment: PropTypes.object.isRequired,
   handleRemoveAttachment: PropTypes.func.isRequired,
+  attachmentSender: PropTypes.func.isRequired,
   icon: PropTypes.string.isRequired
 };
 
