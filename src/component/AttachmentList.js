@@ -57,11 +57,13 @@ export class AttachmentList extends Component {
       const extension = attachment.name.split('.').pop();
       const icon = iconMapper[extension] || 'Icon--preview-default';
 
-      return (<Attachment
-               attachment={attachment}
-               handleRemoveAttachment={this.handleRemoveAttachment}
-               attachmentSender={attachmentSender}
-               icon={icon} />);
+      return (
+        <Attachment
+          attachment={attachment}
+          handleRemoveAttachment={this.handleRemoveAttachment}
+          attachmentSender={attachmentSender}
+          icon={icon} />
+      );
     });
 
     return previews;

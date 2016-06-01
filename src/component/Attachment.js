@@ -77,9 +77,6 @@ export class Attachment extends Component {
     const { icon, attachment } = this.props;
     const { uploading } = this.state;
 
-    const nameStart = attachment.name.slice(0, -7);
-    const nameEnd = attachment.name.slice(-7);
-
     const containerClasses = classNames({
       'Form-field--display': true,
       'Attachment--uploading': uploading,
@@ -89,6 +86,8 @@ export class Attachment extends Component {
 
     const progressBar = uploading ? this.renderProgressBar() : null;
     const iconOnClick = uploading ? this.handleStopUpload : this.handleRemoveAttachment;
+    const nameStart = attachment.name.slice(0, -7);
+    const nameEnd = attachment.name.slice(-7);
 
     return (
       <div className={containerClasses}>
