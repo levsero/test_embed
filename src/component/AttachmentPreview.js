@@ -3,71 +3,43 @@ import _ from 'lodash';
 import classNames from 'classnames';
 
 import { Icon } from 'component/Icon';
+import { bindMethods } from 'utility/utils';
 
-const iconMapper = {
-  'pdf': 'Icon--preview-pdf',
-  'img': 'Icon--preview-img',
-  'png': 'Icon--preview-img',
-  'gif': 'Icon--preview-img',
-  'jpeg': 'Icon--preview-img',
-  'jpg': 'Icon--preview-img',
-  'docx': 'Icon--preview-doc',
-  'doc': 'Icon--preview-doc',
-  'key': 'Icon--preview-key',
-  'numbers': 'Icon--preview-num',
-  'pptx': 'Icon--preview-ppt',
-  'ppt': 'Icon--preview-ppt',
-  'pages': 'Icon--preview-pag',
-  'rtf': 'Icon--preview-txt',
-  'txt': 'Icon--preview-txt',
-  'xlsx': 'Icon--preview-xls',
-  'xls': 'Icon--preview-xls'
-};
-
-const getAttachmentPreviews = (attachments, removeAttachment, attachmentSender) => {
-  const previews = _.map(attachments, (attachment) => {
-    const extension = attachment.name.split('.').pop();
-    const icon = iconMapper[extension] || 'Icon--preview-default';
-
-    return (<AttachmentPreview
-             attachment={attachment}
-             handleRemoveAttachment={removeAttachment}
-             attachmentSender={attachmentSender}
-             icon={icon} />);
-  });
-
-  return previews;
-};
-
-class AttachmentPreview extends Component {
+export class AttachmentPreview extends Component {
   constructor(props, context) {
     super(props, context);
-    this.handleRemoveAttachment = this.handleRemoveAttachment.bind(this);
-    this.handleStopUpload = this.handleStopUpload.bind(this);
+    bindMethods(this, AttachmentPreview.prototype);
 
     this.state = {
       uploaded: false,
       uploading: false,
+      uploadToken: null,
+      uploadError: null,
       uploadRequest: () => {}
     };
   }
 
   componentWillMount() {
     const { attachment } = this.props;
-    const { uploaded, uploading } = this.state;
+    const { uploaded, uploading, uploadError } = this.state;
 
-    const doneFn = () => {
+    const doneFn = (response) => {
       // console.log('success');
+      const { upload_token } = response.body;
+
       this.setState({
         uploading: false,
-        uploaded: true
+        uploaded: true,
+        uploadToken: upload_token
       });
     };
-    const failFn = () => {
+    const failFn = (error) => {
       // console.log('failure');
+      const { message } = error;
+
       this.setState({
         uploading: false,
-        uploaded: false
+        uploadError: message
       });
     };
     const progressFn = (e) => {
@@ -75,7 +47,7 @@ class AttachmentPreview extends Component {
       this.refs.progressBar.style.width = `${Math.floor(e.percent)}%`;
     };
 
-    if (!(uploading || uploaded)) {
+    if (!(uploading || uploaded || uploadError)) {
       const uploadRequest = this.props.attachmentSender(attachment, doneFn, failFn, progressFn);
 
       this.setState({
@@ -138,9 +110,4 @@ AttachmentPreview.propTypes = {
   handleRemoveAttachment: PropTypes.func.isRequired,
   attachmentSender: PropTypes.func.isRequired,
   icon: PropTypes.string.isRequired
-};
-
-export {
-  AttachmentPreview,
-  getAttachmentPreviews
 };
