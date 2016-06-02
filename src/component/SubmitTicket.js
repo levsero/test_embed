@@ -149,7 +149,7 @@ export class SubmitTicket extends Component {
     });
 
     if (this.props.updateFrameSize) {
-      setTimeout( () => {
+      setTimeout(() => {
         frameDimensions = this.props.updateFrameSize();
       }, 0);
     }

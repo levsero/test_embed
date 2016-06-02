@@ -190,7 +190,7 @@ export const frameFactory = function(childFn, _params) {
 
       const dimensions = getDimensions();
 
-      frameWin.setTimeout( () => this.setState({iframeDimensions: dimensions}), 0);
+      frameWin.setTimeout(() => this.setState({ iframeDimensions: dimensions }), 0);
       return dimensions;
     },
 

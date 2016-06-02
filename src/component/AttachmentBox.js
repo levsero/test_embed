@@ -9,8 +9,8 @@ const dropzoneMargin = 53; // the frames margin, border and padding
 export class AttachmentBox extends Component {
   render() {
     const style = {
-      width: this.props.dimensions.width - dropzoneMargin + 'px',
-      height: this.props.dimensions.height - dropzoneMargin + 'px'
+      width: `${this.props.dimensions.width - dropzoneMargin}px`,
+      height: `${this.props.dimensions.height - dropzoneMargin}px`
     };
 
     return (
