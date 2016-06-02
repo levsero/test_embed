@@ -218,7 +218,7 @@ parts:
   - translation:
       key: "embeddable_framework.submitTicket.attachments.error.size"
       title: "The error notification that appears when trying to attach a file that's too large. Will wrap as needed. %()s stands for string and does not need to be translated (https://zendesk.box.com/s/pp2ill6v8idllvvejuhh9reigptt4ven)"
-      value: "The file is too big. Please attach files that are less then %(maxSize)s."
+      value: "The file is too big. Please attach files that are less than %(maxSize)s."
   - translation:
       key: "embeddable_framework.submitTicket.attachments.error.limit"
       title: "The error notification that appears when trying to attach too many files. Will wrap as needed. %()s stands for string and does not need to be translated (https://zendesk.box.com/s/ywfifzwv5667dlhjpspuw9xd0u0j58mz)"
