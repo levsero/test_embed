@@ -193,31 +193,38 @@ parts:
       key: "embeddable_framework.navigation.close"
       title: "The link to close the embeddable. Displays at the top right of the widget. If over 5 characters will just display icon (tinyurl.com/p33xnz2)"
       value: "Close"
-  - translation:
-      key: "embeddable_framework.submitTicket.attachments.button.label_mobile"
-      title: "The label on the form about attaching files for mobile devices. Will wrap as needed."
-      value: "Add file from device"
-      wip: true
 
 # Attachments
   - translation:
       key: "embeddable_framework.submitTicket.attachments.title"
-      title: "The label on the form above the attached files. Will wrap as needed."
+      title: "The label on the form above the attached files. Will wrap as needed. (https://zendesk.box.com/s/48ji0gkux7aomc2xbn4jntxvaa7ow4m1)"
       value: "Attachments"
-      wip: true
   - translation:
       key: "embeddable_framework.submitTicket.attachments.title_withCount"
-      title: "The label on the form above the attached files. Will wrap as needed. %()s stands for string and does not need to be translated. Wrap the count in brackets"
+      title: "The label on the form above the attached files. Will wrap as needed. %()s stands for string and does not need to be translated. Wrap the count in brackets (https://zendesk.box.com/s/8mk0lk54gntkwpsfd66l161ubwok8i8g)"
       value: "Attachments (%(count)s)"
-      wip: true
   - translation:
       key: "embeddable_framework.submitTicket.attachments.box.label"
-      title: "The label that appears when attaching a file through drag and drop. Will wrap as needed."
+      title: "The label that appears when attaching a file through drag and drop. Will wrap as needed. (https://zendesk.box.com/s/q2pl86lfl5ryxcqm3g0wxksptgh89cna)"
       value: "Drop to attach"
-      wip: true
   - translation:
       key: "embeddable_framework.submitTicket.attachments.button.label"
-      title: "The label on the form about attaching files. Will wrap as needed."
+      title: "The label on the form about attaching files. Will wrap as needed. (https://zendesk.box.com/s/iglhqt5vb2ds5pmxujckzvg3pga2r7lz)"
       value: "Add file or drop here"
-      wip: true
+  - translation:
+      key: "embeddable_framework.submitTicket.attachments.button.label_mobile"
+      title: "The label on the form about attaching files for mobile devices. Will wrap as needed. (https://zendesk.box.com/s/lruwde2mxcqddsdwx2ktk7b9hrd71qcu)"
+      value: "Add file from device"
+  - translation:
+      key: "embeddable_framework.submitTicket.attachments.error.size"
+      title: "The error notification that appears when trying to attach a file that's too large. Will wrap as needed. %()s stands for string and does not need to be translated (https://zendesk.box.com/s/pp2ill6v8idllvvejuhh9reigptt4ven)"
+      value: "The file is too big. Please attach files that are less then %(maxSize)s."
+  - translation:
+      key: "embeddable_framework.submitTicket.attachments.error.limit"
+      title: "The error notification that appears when trying to attach too many files. Will wrap as needed. %()s stands for string and does not need to be translated (https://zendesk.box.com/s/ywfifzwv5667dlhjpspuw9xd0u0j58mz)"
+      value: "You have already reached the limit of %(maxFiles)s attachments."
+  - translation:
+      key: "embeddable_framework.submitTicket.attachments.error.other"
+      title: "The error notification that appears when something goes wrong with the upload. Will wrap as needed. (https://zendesk.box.com/s/i2vh170lwc39bffkjl59zu0ztq6zafnq)"
+      value: "There was a problem attaching this file. Please try again."
 
