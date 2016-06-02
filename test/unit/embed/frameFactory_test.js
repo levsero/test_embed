@@ -185,7 +185,7 @@ describe('frameFactory', function() {
 
       // jsdom doesn't actually attempt to render a document
       // so client*/offset* will give use NaN which then gets ||'ed with 0.
-      instance.updateFrameSize();
+      const dimensions = instance.updateFrameSize();
 
       jasmine.clock().tick(10);
 
@@ -196,6 +196,9 @@ describe('frameFactory', function() {
 
       expect(frameContainerStyle.height)
         .toEqual('0px');
+
+      expect(dimensions)
+        .toEqual({ width: 0, height: 0 });
 
       // TODO: real browser tests that work off client*/offset* values.
     });

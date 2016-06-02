@@ -156,7 +156,7 @@ export const frameFactory = function(childFn, _params) {
         return false;
       }
 
-      const dimensions = function() {
+      const getDimensions = function() {
         const el = frameDoc.body.firstChild;
         const width  = Math.max(el.clientWidth,  el.offsetWidth);
         const height = Math.max(el.clientHeight, el.offsetHeight);
@@ -188,7 +188,10 @@ export const frameFactory = function(childFn, _params) {
         );
       }
 
-      frameWin.setTimeout( () => this.setState({iframeDimensions: dimensions()}), 0);
+      const dimensions = getDimensions();
+
+      frameWin.setTimeout(() => this.setState({ iframeDimensions: dimensions }), 0);
+      return dimensions;
     },
 
     updateBaseFontSize(fontSize) {

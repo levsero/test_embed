@@ -11,14 +11,17 @@ import { ZendeskLogo } from 'component/ZendeskLogo';
 import { i18n } from 'service/i18n';
 import { isMobileBrowser } from 'utility/devices';
 import { win } from 'utility/globals';
+import { bindMethods } from 'utility/utils';
+
+let frameDimensions = {
+  width: 0,
+  height: 0
+};
 
 export class SubmitTicket extends Component {
   constructor(props, context) {
     super(props, context);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleDragEnter = this.handleDragEnter.bind(this);
-    this.handleDragLeave = this.handleDragLeave.bind(this);
-    this.handleOnDrop = this.handleOnDrop.bind(this);
+    bindMethods(this, SubmitTicket.prototype);
 
     this.state = {
       showNotification: false,
@@ -146,7 +149,9 @@ export class SubmitTicket extends Component {
     });
 
     if (this.props.updateFrameSize) {
-      setTimeout( () => this.props.updateFrameSize(), 0);
+      setTimeout(() => {
+        frameDimensions = this.props.updateFrameSize();
+      }, 0);
     }
 
     const zendeskLogo = this.props.hideZendeskLogo || this.state.fullscreen
@@ -156,10 +161,11 @@ export class SubmitTicket extends Component {
                           rtl={i18n.isRTL()}
                           fullscreen={this.state.fullscreen} />;
     const attachmentBox = this.state.isDragActive && this.props.attachmentsEnabled
-                         ? <AttachmentBox
-                             onDragLeave={this.handleDragLeave}
-                             onDrop={this.handleOnDrop} />
-                         : null;
+                        ? <AttachmentBox
+                            onDragLeave={this.handleDragLeave}
+                            dimensions={frameDimensions}
+                            onDrop={this.handleOnDrop} />
+                        : null;
 
     return (
       <Container
