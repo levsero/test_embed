@@ -8,12 +8,13 @@ describe('transport', function() {
   beforeEach(function() {
     mockery.enable();
     mockMethods = {
-      type: function() { return mockMethods; },
-      send: function() { return mockMethods; },
-      query: function() { return mockMethods; },
-      timeout: function() { return mockMethods; },
-      set: function() { return mockMethods; },
-      end: function() { return mockMethods; }
+      type: () => mockMethods,
+      send: () => mockMethods,
+      responseType: () => mockMethods,
+      query: () => mockMethods,
+      timeout: () => mockMethods,
+      set: () => mockMethods,
+      end: () => mockMethods
     };
     mockRegistry = initMockRegistry({
       'superagent': jasmine.createSpy().and.callFake(function() {
@@ -291,6 +292,79 @@ describe('transport', function() {
 
       expect(params.user)
         .toEqual(payload.params.user);
+    });
+  });
+
+  describe('getImage', function() {
+    let payload,
+      config;
+
+    beforeEach(function() {
+      payload = {
+        method: 'get',
+        path: 'https://url.com/image',
+        authorization: 'abc',
+        callbacks: {
+          done: noop,
+          fail: noop
+        }
+      };
+    });
+
+    it('sets the correct http method and url on superagent', function() {
+      const mockSuperagent = mockRegistry.superagent;
+
+      transport.init(config);
+      transport.getImage(payload);
+
+      expect(mockSuperagent)
+        .toHaveBeenCalledWith(
+          'GET',
+          payload.path);
+    });
+
+    it('sets the responseType to `blob`', function() {
+      spyOn(mockMethods, 'responseType').and.callThrough();
+
+      transport.init(config);
+      transport.getImage(payload);
+
+      expect(mockMethods.responseType)
+        .toHaveBeenCalledWith('blob');
+    });
+
+    it('sets an authentication header with `Bearer <token>`', function() {
+      spyOn(mockMethods, 'set').and.callThrough();
+
+      transport.init(config);
+      transport.getImage(payload);
+
+      expect(mockMethods.set)
+        .toHaveBeenCalledWith('Authorization', payload.authorization);
+    });
+
+    it('triggers the done callback if response is successful', function() {
+      spyOn(payload.callbacks, 'done');
+      spyOn(payload.callbacks, 'fail');
+      spyOn(mockMethods, 'end').and.callThrough();
+
+      transport.init(config);
+      transport.getImage(payload);
+
+      expect(mockMethods.end)
+        .toHaveBeenCalled();
+
+      const recentCall = mockMethods.end.calls.mostRecent();
+
+      const callback = recentCall.args[0];
+
+      callback(null, {ok: true});
+
+      expect(payload.callbacks.done)
+        .toHaveBeenCalled();
+
+      expect(payload.callbacks.fail)
+        .not.toHaveBeenCalled();
     });
   });
 });

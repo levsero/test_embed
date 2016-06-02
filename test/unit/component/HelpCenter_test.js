@@ -123,7 +123,9 @@ describe('HelpCenter component', function() {
       },
       'utility/utils': {
         bindMethods: mockBindMethods,
-        getPageKeywords: () => mockPageKeywords
+        getPageKeywords: () => mockPageKeywords,
+        parseUrl: () => noop,
+        parseHtmlString: () => noop
       },
       '_': _
     });

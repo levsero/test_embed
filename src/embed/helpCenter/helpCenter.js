@@ -91,7 +91,7 @@ function create(name, config) {
       method: 'get',
       path: url,
       query: query,
-      authorization: token ? `bearer ${token}` : '',
+      authorization: token ? `Bearer ${token}` : '',
       callbacks: {
         done: doneFn,
         fail: failFn
@@ -105,8 +105,8 @@ function create(name, config) {
     transport.send(payload);
   };
 
-  const restrictedImagesSenderFn = (url, doneFn, failFn) => {
-    const payload = senderPayload(url)(null, doneFn, failFn);
+  const restrictedImagesSenderFn = (url, doneFn) => {
+    const payload = senderPayload(url)(null, doneFn);
 
     transport.getImage(payload);
   };

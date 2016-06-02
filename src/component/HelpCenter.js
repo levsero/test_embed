@@ -365,7 +365,7 @@ export class HelpCenter extends Component {
 
     const { images } = this.state;
 
-    _.each(filteredImgEls, (img) => img.src = !images[img.src] ? '' : images[img.src]);
+    _.each(filteredImgEls, (img) => img.src = images[img.src]);
     articleBody = htmlEl.outerHTML;
 
     return _.extend({}, activeArticle, { body: articleBody });
@@ -375,7 +375,7 @@ export class HelpCenter extends Component {
     const { images } = this.state;
     const queuedImgs = _.transform(imgElements, (val, img) => {
       if (!images.hasOwnProperty(img.src)) {
-        val[img.src] = null;
+        val[img.src] = '';
       }
     }, {});
 

@@ -36,6 +36,7 @@ describe('embed.helpCenter', function() {
       'service/transport': {
         transport: {
           send: jasmine.createSpy('transport.send'),
+          getImage: jasmine.createSpy('transport.getImage'),
           getZendeskHost: function() {
             return 'zendesk.host';
           }
@@ -494,6 +495,25 @@ describe('embed.helpCenter', function() {
 
       expect(recentCallArgs.path)
         .toEqual('/api/v2/help_center/articles/embeddable_search.json');
+    });
+  });
+
+  describe('restrictedImagesSender', function() {
+    it('calls transport.send with passed in image url when called', () => {
+      const mockTransport = mockRegistry['service/transport'].transport;
+
+      helpCenter.create('carlos');
+      helpCenter.render('carlos');
+
+      const embed = helpCenter.get('carlos').instance.getRootComponent();
+      const url = 'https://url.com/image';
+
+      embed.props.restrictedImagesSender(url);
+
+      const recentCallArgs = mockTransport.getImage.calls.mostRecent().args[0];
+
+      expect(recentCallArgs.path)
+        .toEqual(url);
     });
   });
 

@@ -121,14 +121,8 @@ function getImage(payload) {
     .set('Authorization', payload.authorization)
     .end(function(err, res) {
       if (payload.callbacks) {
-        if (err) {
-          if (_.isFunction(payload.callbacks.fail)) {
-            payload.callbacks.fail(err);
-          }
-        } else {
-          if (_.isFunction(payload.callbacks.done)) {
-            payload.callbacks.done(res);
-          }
+        if (_.isFunction(payload.callbacks.done)) {
+          payload.callbacks.done(res);
         }
       }
     });
