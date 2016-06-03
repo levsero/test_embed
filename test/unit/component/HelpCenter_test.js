@@ -110,6 +110,9 @@ describe('HelpCenter component', function() {
           t: _.identity
         }
       },
+      'service/authentication': {
+        authentication: jasmine.createSpyObj('authentication', ['getToken'])
+      },
       'service/persistence': {
         store: jasmine.createSpyObj('store', ['set', 'get'])
       },
@@ -120,6 +123,9 @@ describe('HelpCenter component', function() {
         isMobileBrowser: function() {
           return mockIsMobileBrowserValue;
         }
+      },
+      'utility/globals': {
+        win: window
       },
       'utility/utils': {
         bindMethods: mockBindMethods,
@@ -1223,6 +1229,49 @@ describe('HelpCenter component', function() {
 
       expect(searchField.state.focused)
         .toEqual(true);
+    });
+  });
+
+  fdescribe('Fetching restricted HC articles', function() {
+    let helpCenter;
+
+    beforeEach(function() {
+      helpCenter = domRender(<HelpCenter restrictedImagesSender={noop} />);
+    });
+
+    describe('getFilteredImageElements', function() {
+      it('should return an array of image elements from a helpcenter or host mapped domain', function() {
+        const images = '<img src="bob.zd.com/img.png" /><img src="hostmapped.com/img.png"i />';
+        const articleBody = `<html><body>${images}</body></html>`;
+        const htmlEl = document.createElement('html');
+
+        htmlEl.innerHTML = articleBody;
+
+        expect(helpCenter.getFilteredImageElements(htmlEl, 'hostmapped'))
+          .toBe(images.split('/>'));
+      });
+
+      it('should filter out image elements from another arbritary domain', function() {
+
+      });
+    });
+
+    describe('replaceActiveArticleImages', function() {
+      it('should replace the active articles body with the modified html element', function() {
+
+      });
+
+      it('should return the active article as a new object', function() {
+
+      });
+    });
+
+    describe('queueUpImgRequests', function() {
+
+    });
+
+    describe('processActiveArticle', function() {
+
     });
   });
 
