@@ -3,6 +3,7 @@ describe('HelpCenter component', function() {
     mockRegistry,
     mockIsMobileBrowserValue,
     mockPageKeywords,
+    mockOauthToken,
     trackSearch,
     updateResults;
 
@@ -20,6 +21,7 @@ describe('HelpCenter component', function() {
 
     mockIsMobileBrowserValue = false;
     mockPageKeywords = 'billy bob thorton';
+    mockOauthToken = null;
 
     mockRegistry = initMockRegistry({
       'React': React,
@@ -111,7 +113,9 @@ describe('HelpCenter component', function() {
         }
       },
       'service/authentication': {
-        authentication: jasmine.createSpyObj('authentication', ['getToken'])
+        authentication: {
+          getToken: () => mockOauthToken
+        }
       },
       'service/persistence': {
         store: jasmine.createSpyObj('store', ['set', 'get'])
@@ -131,7 +135,12 @@ describe('HelpCenter component', function() {
         bindMethods: mockBindMethods,
         getPageKeywords: () => mockPageKeywords,
         parseUrl: () => noop,
-        parseHtmlString: () => noop
+        parseHtmlString: (htmlStr) => {
+          const el = document.createElement('html');
+
+          el.innerHTML = htmlStr;
+          return el;
+        }
       },
       '_': _
     });
@@ -1232,46 +1241,104 @@ describe('HelpCenter component', function() {
     });
   });
 
-  fdescribe('Fetching restricted HC articles', function() {
-    let helpCenter;
+  describe('processActiveArticle', function() {
+    const domain = 'zd.com/hc';
+    let helpCenter,
+      activeArticle,
+      mockRestrictedImagesSender;
 
     beforeEach(function() {
-      helpCenter = domRender(<HelpCenter restrictedImagesSender={noop} />);
+      mockRegistry['utility/globals'].win.URL.createObjectURL = () => `${domain}/abc/img.png`;
+
+      mockRestrictedImagesSender = jasmine.createSpy();
+      activeArticle = {
+        body: `<html><body><img src="${domain}/article_attachments/img.png"></body></html>`
+      };
+      helpCenter = domRender(
+        <HelpCenter
+          zendeskHost={'zd.com'}
+          restrictedImagesSender={mockRestrictedImagesSender} />
+      );
     });
 
-    describe('getFilteredImageElements', function() {
-      it('should return an array of image elements from a helpcenter or host mapped domain', function() {
-        const images = '<img src="bob.zd.com/img.png" /><img src="hostmapped.com/img.png"i />';
-        const articleBody = `<html><body>${images}</body></html>`;
-        const htmlEl = document.createElement('html');
-
-        htmlEl.innerHTML = articleBody;
-
-        expect(helpCenter.getFilteredImageElements(htmlEl, 'hostmapped'))
-          .toBe(images.split('/>'));
-      });
-
-      it('should filter out image elements from another arbritary domain', function() {
-
-      });
-    });
-
-    describe('replaceActiveArticleImages', function() {
-      it('should replace the active articles body with the modified html element', function() {
-
-      });
-
-      it('should return the active article as a new object', function() {
-
+    describe('when there is no valid oauth token', function() {
+      it('should return the unmodified active article', function() {
+        expect(helpCenter.processActiveArticle(activeArticle))
+          .toBe(activeArticle);
       });
     });
 
-    describe('queueUpImgRequests', function() {
+    describe('when there is no active article', function() {
+      it('should return an empty object', function() {
+        delete activeArticle.body;
 
+        expect(helpCenter.processActiveArticle(activeArticle))
+          .toEqual({});
+      });
     });
 
-    describe('processActiveArticle', function() {
+    describe('when there is an active article and a valid oauth token', function() {
+      beforeEach(function() {
+        mockOauthToken = 'abc';
+      });
 
+      describe('when there are no img tags in the articles body', function() {
+        it('should return the unmodified active article', function() {
+          activeArticle.body = '<html><body></body></html>';
+
+          expect(helpCenter.processActiveArticle(activeArticle))
+            .toBe(activeArticle);
+        });
+      });
+
+      describe('when there are no images from the host domain', function() {
+        it('should return the unmodified active article', function() {
+          activeArticle.body = '<html><body><img src="cloudhost/img.png"></body></html>';
+
+          expect(helpCenter.processActiveArticle(activeArticle))
+            .toBe(activeArticle);
+        });
+      });
+
+      describe('when there are valid img tags in the articles body', function() {
+        it('should queue up a async GET request for each image', function() {
+          helpCenter.processActiveArticle(activeArticle);
+
+          expect(mockRestrictedImagesSender)
+            .toHaveBeenCalledWith(`${domain}/article_attachments/img.png`, jasmine.any(Function));
+        });
+
+        it('should store the new URL reference in the images state object keyed by the original URL', function() {
+          helpCenter.processActiveArticle(activeArticle);
+
+          const res = {
+            xhr: {
+              response: new window.Blob([''], { type: 'image/png' })
+            }
+          };
+
+          mockRestrictedImagesSender.calls.mostRecent().args[1](res);
+
+          expect(helpCenter.state.images)
+            .toEqual({ 'zd.com/hc/article_attachments/img.png': `${domain}/abc/img.png` });
+        });
+
+        it('should return the active article with replaced img tags', function() {
+          helpCenter.processActiveArticle(activeArticle);
+
+          const expected = `<html><head></head><body><img src="${domain}/abc/img.png"></body></html>`;
+          const res = {
+            xhr: {
+              response: new window.Blob([''], { type: 'image/png' })
+            }
+          };
+
+          mockRestrictedImagesSender.calls.mostRecent().args[1](res);
+
+          expect(helpCenter.processActiveArticle(activeArticle).body)
+            .toBe(expected);
+        });
+      });
     });
   });
 
