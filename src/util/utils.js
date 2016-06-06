@@ -275,14 +275,6 @@ function base64decode(string) {
   return window.atob(string);
 }
 
-function parseHtmlString(htmlStr) {
-  const el = doc.createElement('html');
-
-  el.innerHTML = htmlStr;
-
-  return el;
-}
-
 export {
   clickBusterHandler,
   clickBusterRegister,
@@ -299,6 +291,5 @@ export {
   setScaleLock,
   splitPath,
   bindMethods,
-  base64decode,
-  parseHtmlString
+  base64decode
 };

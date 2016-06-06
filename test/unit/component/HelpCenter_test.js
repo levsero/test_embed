@@ -129,18 +129,13 @@ describe('HelpCenter component', function() {
         }
       },
       'utility/globals': {
-        win: window
+        win: window,
+        document: document
       },
       'utility/utils': {
         bindMethods: mockBindMethods,
         getPageKeywords: () => mockPageKeywords,
-        parseUrl: () => noop,
-        parseHtmlString: (htmlStr) => {
-          const el = document.createElement('html');
-
-          el.innerHTML = htmlStr;
-          return el;
-        }
+        parseUrl: () => noop
       },
       '_': _
     });

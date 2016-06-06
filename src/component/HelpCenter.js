@@ -15,11 +15,11 @@ import { ZendeskLogo } from 'component/ZendeskLogo';
 import { authentication } from 'service/authentication';
 import { i18n } from 'service/i18n';
 import { isMobileBrowser } from 'utility/devices';
-import { win } from 'utility/globals';
+import { win,
+         document as doc } from 'utility/globals';
 import { bindMethods,
          getPageKeywords,
-         parseUrl,
-         parseHtmlString } from 'utility/utils';
+         parseUrl } from 'utility/utils';
 
 export class HelpCenter extends Component {
   constructor(props, context) {
@@ -342,6 +342,12 @@ export class HelpCenter extends Component {
 
   processActiveArticle(activeArticle) {
     const { body, url } = activeArticle;
+    const parseHtmlString = (htmlStr) => {
+      const el = doc.createElement('html');
+
+      el.innerHTML = htmlStr;
+      return el;
+    };
 
     if (!body || !authentication.getToken()) {
       return activeArticle;
