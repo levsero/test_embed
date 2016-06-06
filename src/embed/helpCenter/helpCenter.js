@@ -36,7 +36,8 @@ function create(name, config) {
     buttonLabelKey: 'message',
     formTitleKey: 'help',
     hideZendeskLogo: false,
-    signInRequired: false
+    signInRequired: false,
+    disableAutoSearch: false
   };
   const onNextClick = function() {
     mediator.channel.broadcast(name + '.onNextClick');
@@ -127,6 +128,7 @@ function create(name, config) {
           contextualSearchSender={searchSenderFn('/api/v2/help_center/articles/embeddable_search.json')}
           style={containerStyle}
           updateFrameSize={params.updateFrameSize}
+          disableAutoSearch={config.disableAutoSearch}
           zendeskHost={transport.getZendeskHost()} />
       );
     },

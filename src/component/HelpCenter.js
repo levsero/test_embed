@@ -198,7 +198,8 @@ export class HelpCenter extends Component {
     const searchTerm = this.refs.searchField.getValue();
 
     if (_.isEmpty(searchTerm) ||
-        !(searchTerm.length >= 5 && _.last(searchTerm) === ' ')) {
+        !(searchTerm.length >= 5 && _.last(searchTerm) === ' ') ||
+        this.props.disableAutoSearch) {
       return;
     }
 
@@ -583,7 +584,8 @@ HelpCenter.propTypes = {
   hideZendeskLogo: PropTypes.bool,
   updateFrameSize: PropTypes.any,
   style: PropTypes.object,
-  formTitleKey: PropTypes.string
+  formTitleKey: PropTypes.string,
+  disableAutoSearch: PropTypes.bool
 };
 
 HelpCenter.defaultProps = {
@@ -595,5 +597,6 @@ HelpCenter.defaultProps = {
   hideZendeskLogo: false,
   updateFrameSize: false,
   style: null,
-  formTitleKey: 'help'
+  formTitleKey: 'help',
+  disableAutoSearch: false
 };
