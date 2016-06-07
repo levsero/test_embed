@@ -384,16 +384,17 @@ export class HelpCenter extends Component {
       }
     }, {});
 
-    _.each(queuedImgs, (_, src) => {
+    _.each(queuedImgs, (__, src) => {
+      this.state.images[src] = '';
+
       this.props.restrictedImagesSender(src, (res) => {
         const url = win.URL.createObjectURL(res.xhr.response);
 
-        this.state.images[src] = url;
-        this.setState({ images: this.state.images });
+        this.setState({
+          images: _.extend({}, this.state.images, { [src]: url })
+        });
       });
     });
-
-    _.extend(this.state.images, queuedImgs);
   }
 
   render() {
