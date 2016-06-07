@@ -798,8 +798,8 @@ describe('HelpCenter component', function() {
 
       helpCenter.autoSearch();
 
-      expect(mockPerformSearch.calls.count())
-        .toEqual(0);
+      expect(mockPerformSearch)
+        .not.toHaveBeenCalled();
     });
 
     it('should build up the query object correctly', () => {
