@@ -45,8 +45,13 @@ export class AttachmentList extends Component {
   handleRemoveAttachment(attachment) {
     const idx = this.state.attachments.indexOf(attachment);
 
-    this.state.attachments.splice(idx, 1);
-    this.forceUpdate();
+    if (idx > -1) {
+      const attachments = this.state.attachments;
+
+      attachments.splice(idx, 1);
+
+      this.setState({ attachments });
+    }
   }
 
   renderAttachments() {
@@ -54,16 +59,19 @@ export class AttachmentList extends Component {
     const { attachmentSender } = this.props;
 
     const previews = _.map(attachments, (attachment) => {
-      const extension = attachment.name.split('.').pop();
-      const icon = iconMapper[extension] || 'Icon--preview-default';
+      if (attachment.name && attachment.name.indexOf('.') > -1) {
+        const extension = attachment.name.split('.').pop();
+        const icon = iconMapper[extension] || 'Icon--preview-default';
 
-      return (
-        <Attachment
-          attachment={attachment}
-          handleRemoveAttachment={this.handleRemoveAttachment}
-          attachmentSender={attachmentSender}
-          icon={icon} />
-      );
+        return (
+          <Attachment
+            attachment={attachment}
+            handleRemoveAttachment={this.handleRemoveAttachment}
+            attachmentSender={attachmentSender}
+            icon={icon} />
+        );
+      }
+      return null;
     });
 
     return previews;
