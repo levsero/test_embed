@@ -790,6 +790,18 @@ describe('HelpCenter component', function() {
         .toEqual(1);
     });
 
+    it('should not call performSearch if disableAutoSearch is true', () => {
+      const mockPerformSearch = jasmine.createSpy('mockPerformSearch');
+      const helpCenter = domRender(<HelpCenter searchSender={noop} disableAutoSearch={true} />);
+
+      helpCenter.performSearch = mockPerformSearch;
+
+      helpCenter.autoSearch();
+
+      expect(mockPerformSearch)
+        .not.toHaveBeenCalled();
+    });
+
     it('should build up the query object correctly', () => {
       const searchTerm = 'a search term ';
       const mockPerformSearch = jasmine.createSpy('mockPerformSearch');
