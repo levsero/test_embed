@@ -1,10 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
+import _ from 'lodash';
 import classNames from 'classnames';
 import { pick, some } from 'lodash';
 
 import { i18n } from 'service/i18n';
 import { ButtonPill } from 'component/Button';
+import { document as doc,
+         win } from 'utility/globals';
+import { parseUrl } from 'utility/utils';
 
 const sanitizeHtml = require('sanitize-html');
 
@@ -19,7 +23,8 @@ class HelpCenterArticle extends Component {
     this.handleClick = this.handleClick.bind(this);
 
     this.state = {
-      lastActiveArticleId: 0
+      lastActiveArticleId: 0,
+      queuedImages: false
     };
   }
 
@@ -65,9 +70,11 @@ class HelpCenterArticle extends Component {
       },
       allowedSchemesByTag: { 'iframe': ['https'] }
     };
+    const { activeArticle } = this.props;
 
-    if (this.props.activeArticle.body) {
-      let cleanHtml = sanitizeHtml(this.props.activeArticle.body, sanitizeHtmlOptions);
+    if (activeArticle.body) {
+      const body = this.replaceArticleImages(activeArticle);
+      let cleanHtml = sanitizeHtml(body, sanitizeHtmlOptions);
 
       // Inject a table wrapper to allow horizontal scrolling
       cleanHtml = cleanHtml.replace('<table', `<div class="table-wrap"><table`);
@@ -133,6 +140,59 @@ class HelpCenterArticle extends Component {
          : false;
   }
 
+  replaceArticleImages(activeArticle) {
+    const parseHtmlString = (htmlStr) => {
+      const el = doc.createElement('html');
+
+      el.innerHTML = htmlStr;
+      return el;
+    };
+    const filteredImages = (imgEls) => {
+      const articleDomain = parseUrl(activeArticle.url).hostname;
+      const srcPattern = new RegExp(`${this.props.zendeskHost}|${articleDomain}`);
+
+      return _.filter(imgEls, (img) => srcPattern.test(img.src));
+    };
+
+    const htmlEl = parseHtmlString(activeArticle.body);
+    const imgEls = filteredImages(htmlEl.getElementsByTagName('img'));
+    const { storedImages } = this.props;
+
+    // If the image has not already been downloaded, then queue up
+    // an async request for it. The src attribute is set to empty so we can
+    // still render the image while waiting for the response.
+    let imgUrls = [];
+
+    _.each(imgEls, (img) => {
+      if (storedImages[img.src]) {
+        img.src = storedImages[img.src];
+      } else {
+        imgUrls.push(img.src);
+        img.src = '//:0';
+      }
+    });
+
+    if (!this.state.queuedImages) {
+      this.queueImageRequests(imgUrls);
+    }
+
+    return htmlEl.outerHTML;
+  }
+
+  queueImageRequests(imgUrls) {
+    const handleSuccess = (src, res) => {
+      const url = win.URL.createObjectURL(res.xhr.response);
+
+      this.props.updateStoredImages({ [src]: url });
+    };
+
+    _.each(imgUrls, (src) => {
+      this.props.imagesSender(src, (res) => handleSuccess(src, res));
+    });
+
+    this.setState({ queuedImages: true });
+  }
+
   render() {
     const userContentClasses = classNames({
       'UserContent u-userLinkColor': true,
@@ -169,6 +229,10 @@ class HelpCenterArticle extends Component {
 
 HelpCenterArticle.propTypes = {
   activeArticle: PropTypes.object.isRequired,
+  zendeskHost: PropTypes.string.isRequired,
+  storedImages: PropTypes.array.isRequired,
+  imagesSender: PropTypes.func.isRequired,
+  updateStoredImages: PropTypes.func.isRequired,
   fullscreen: PropTypes.bool
 };
 

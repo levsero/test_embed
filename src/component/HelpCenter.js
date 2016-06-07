@@ -18,8 +18,7 @@ import { isMobileBrowser } from 'utility/devices';
 import { win,
          document as doc } from 'utility/globals';
 import { bindMethods,
-         getPageKeywords,
-         parseUrl } from 'utility/utils';
+         getPageKeywords } from 'utility/utils';
 
 export class HelpCenter extends Component {
   constructor(props, context) {
@@ -333,68 +332,76 @@ export class HelpCenter extends Component {
     });
   }
 
-  getFilteredImageElements(htmlElement, articleDomain) {
-    const imgEls = htmlElement.getElementsByTagName('img');
-    const srcPattern = new RegExp(`${this.props.zendeskHost}|${articleDomain}`);
+  //getFilteredImageElements(htmlElement, articleDomain) {
+    //const imgEls = htmlElement.getElementsByTagName('img');
+    //const srcPattern = new RegExp(`${this.props.zendeskHost}|${articleDomain}`);
 
-    return _.filter(imgEls, (img) => srcPattern.test(img.src));
-  }
+    //return _.filter(imgEls, (img) => srcPattern.test(img.src));
+  //}
 
-  processActiveArticle(activeArticle) {
-    const { body, url } = activeArticle;
-    const parseHtmlString = (htmlStr) => {
-      const el = doc.createElement('html');
+  //processActiveArticle(activeArticle) {
+    //const { body, url } = activeArticle;
+    //const parseHtmlString = (htmlStr) => {
+      //const el = doc.createElement('html');
 
-      el.innerHTML = htmlStr;
-      return el;
-    };
+      //el.innerHTML = htmlStr;
+      //return el;
+    //};
 
-    if (!body || !authentication.getToken()) {
-      return activeArticle;
-    }
+    //if (!body || !authentication.getToken()) {
+      //return activeArticle;
+    //}
 
-    const htmlEl = parseHtmlString(body);
-    const articleDomain = parseUrl(url).hostname;
-    const filteredImgEls = this.getFilteredImageElements(htmlEl, articleDomain);
+    //const htmlEl = parseHtmlString(body);
+    //const articleDomain = parseUrl(url).hostname;
+    //const filteredImgEls = this.getFilteredImageElements(htmlEl, articleDomain);
 
-    if (filteredImgEls.length === 0) {
-      return activeArticle;
-    }
+    //if (filteredImgEls.length === 0) {
+      //return activeArticle;
+    //}
 
-    return this.replaceActiveArticleImages(activeArticle, htmlEl, filteredImgEls);
-  }
+    //return this.replaceActiveArticleImages(activeArticle, htmlEl, filteredImgEls);
+  //}
 
-  replaceActiveArticleImages(activeArticle, htmlEl, filteredImgEls) {
-    let { articleBody } = activeArticle;
+  //replaceActiveArticleImages(activeArticle, htmlEl, filteredImgEls) {
+    //const { articleBody } = activeArticle;
 
-    this.queueUpImgRequests(articleBody, filteredImgEls);
+    //this.queueUpImgRequests(articleBody, filteredImgEls);
 
-    const { images } = this.state;
+    //const { images } = this.state;
 
-    _.each(filteredImgEls, (img) => img.src = images[img.src]);
-    articleBody = htmlEl.outerHTML;
+    //_.each(filteredImgEls, (img) => img.src = images[img.src]);
+    //articleBody = htmlEl.outerHTML;
 
-    return _.extend({}, activeArticle, { body: articleBody });
-  }
+    //return _.extend({}, activeArticle, { body: articleBody });
+  //}
 
-  queueUpImgRequests(articleBody, imgElements) {
-    const queuedImgs = _.transform(imgElements, (result, img) => {
-      if (!this.state.images.hasOwnProperty(img.src)) {
-        result[img.src] = '';
-      }
-    }, {});
+  //queueUpImgRequests(articleBody, imgElements) {
+    //const queuedImgs = _.transform(imgElements, (result, img) => {
+      //if (!this.state.images.hasOwnProperty(img.src)) {
+        //result[img.src] = '';
+      //}
+    //}, {});
 
-    _.each(queuedImgs, (__, src) => {
-      this.state.images[src] = '';
+    //_.each(queuedImgs, (__, src) => {
+      //this.state.images[src] = '';
 
-      this.props.restrictedImagesSender(src, (res) => {
-        const url = win.URL.createObjectURL(res.xhr.response);
+      //this.props.restrictedImagesSender(src, (res) => {
+        //const url = win.URL.createObjectURL(res.xhr.response);
 
-        this.setState({
-          images: _.extend({}, this.state.images, { [src]: url })
-        });
-      });
+        //this.setState({
+          //images: _.extend({}, this.state.images, { [src]: url })
+        //});
+      //});
+    //});
+  //}
+
+  updateImages(img) {
+    this.setState({
+      images: _.extend({}, this.state.images, img)
     });
+
+    console.log(this.state.images);
   }
 
   render() {
@@ -630,7 +637,11 @@ export class HelpCenter extends Component {
 
           <div className={articleClasses}>
             <HelpCenterArticle
-              activeArticle={this.processActiveArticle(this.state.activeArticle)}
+              activeArticle={this.state.activeArticle}
+              zendeskHost={this.props.zendeskHost}
+              storedImages={this.state.images}
+              imagesSender={this.props.restrictedImagesSender}
+              updateStoredImages={this.updateImages}
               fullscreen={this.state.fullscreen} />
           </div>
         </ScrollContainer>
