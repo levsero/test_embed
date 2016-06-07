@@ -1240,10 +1240,11 @@ describe('HelpCenter component', function() {
     const domain = 'zd.com/hc';
     let helpCenter,
       activeArticle,
+      mockObjectUrl,
       mockRestrictedImagesSender;
 
     beforeEach(function() {
-      mockRegistry['utility/globals'].win.URL.createObjectURL = () => `${domain}/abc/img.png`;
+      mockRegistry['utility/globals'].win.URL.createObjectURL = () => mockObjectUrl;
 
       mockRestrictedImagesSender = jasmine.createSpy();
       activeArticle = {
@@ -1296,42 +1297,87 @@ describe('HelpCenter component', function() {
       });
 
       describe('when there are valid img tags in the articles body', function() {
+        const xhrRes = {
+          xhr: {
+            response: new window.Blob([''], { type: 'image/png' })
+          }
+        };
+
+        beforeEach(function() {
+          activeArticle.body = `<html><head></head><body>
+                                  <img src="${domain}/article_attachments/img0.png">
+                                  <img src="${domain}/article_attachments/img1.png">
+                                  <img src="${domain}/article_attachments/img2.png">
+                                </body></html>`;
+        });
+
         it('should queue up a async GET request for each image', function() {
           helpCenter.processActiveArticle(activeArticle);
 
           expect(mockRestrictedImagesSender)
-            .toHaveBeenCalledWith(`${domain}/article_attachments/img.png`, jasmine.any(Function));
+            .toHaveBeenCalledWith(`${domain}/article_attachments/img0.png`, jasmine.any(Function));
+
+          expect(mockRestrictedImagesSender)
+            .toHaveBeenCalledWith(`${domain}/article_attachments/img1.png`, jasmine.any(Function));
+
+          expect(mockRestrictedImagesSender)
+            .toHaveBeenCalledWith(`${domain}/article_attachments/img2.png`, jasmine.any(Function));
         });
 
         it('should store the new URL reference in the images state object keyed by the original URL', function() {
+          mockObjectUrl =`${domain}/abc/img0.png`;
           helpCenter.processActiveArticle(activeArticle);
 
-          const res = {
-            xhr: {
-              response: new window.Blob([''], { type: 'image/png' })
-            }
-          };
-
-          mockRestrictedImagesSender.calls.mostRecent().args[1](res);
+          mockRestrictedImagesSender.calls.argsFor(0)[1](xhrRes);
 
           expect(helpCenter.state.images)
-            .toEqual({ 'zd.com/hc/article_attachments/img.png': `${domain}/abc/img.png` });
+            .toEqual({
+              [`${domain}/article_attachments/img0.png`]: `${domain}/abc/img0.png`,
+              [`${domain}/article_attachments/img1.png`]: '',
+              [`${domain}/article_attachments/img2.png`]: ''
+            });
+
+          mockObjectUrl =`${domain}/abc/img1.png`;
+          mockRestrictedImagesSender.calls.argsFor(1)[1](xhrRes);
+
+          expect(helpCenter.state.images)
+            .toEqual({
+              [`${domain}/article_attachments/img0.png`]: `${domain}/abc/img0.png`,
+              [`${domain}/article_attachments/img1.png`]: `${domain}/abc/img1.png`,
+              [`${domain}/article_attachments/img2.png`]: ''
+            });
+
+          mockObjectUrl =`${domain}/abc/img2.png`;
+          mockRestrictedImagesSender.calls.argsFor(2)[1](xhrRes);
+
+          expect(helpCenter.state.images)
+            .toEqual({
+              [`${domain}/article_attachments/img0.png`]: `${domain}/abc/img0.png`,
+              [`${domain}/article_attachments/img1.png`]: `${domain}/abc/img1.png`,
+              [`${domain}/article_attachments/img2.png`]: `${domain}/abc/img2.png`
+            });
         });
 
         it('should return the active article with replaced img tags', function() {
           helpCenter.processActiveArticle(activeArticle);
 
-          const expected = `<html><head></head><body><img src="${domain}/abc/img.png"></body></html>`;
-          const res = {
-            xhr: {
-              response: new window.Blob([''], { type: 'image/png' })
-            }
-          };
+          mockObjectUrl =`${domain}/abc/img0.png`;
+          mockRestrictedImagesSender.calls.argsFor(0)[1](xhrRes);
 
-          mockRestrictedImagesSender.calls.mostRecent().args[1](res);
+          mockObjectUrl =`${domain}/abc/img1.png`;
+          mockRestrictedImagesSender.calls.argsFor(1)[1](xhrRes);
+
+          mockObjectUrl =`${domain}/abc/img2.png`;
+          mockRestrictedImagesSender.calls.argsFor(2)[1](xhrRes);
 
           expect(helpCenter.processActiveArticle(activeArticle).body)
-            .toBe(expected);
+            .toContain(`<img src="${domain}/abc/img0.png">`);
+
+          expect(helpCenter.processActiveArticle(activeArticle).body)
+            .toContain(`<img src="${domain}/abc/img1.png">`);
+
+          expect(helpCenter.processActiveArticle(activeArticle).body)
+            .toContain(`<img src="${domain}/abc/img2.png">`);
         });
       });
     });

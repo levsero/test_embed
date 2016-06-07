@@ -378,10 +378,9 @@ export class HelpCenter extends Component {
   }
 
   queueUpImgRequests(articleBody, imgElements) {
-    const { images } = this.state;
-    const queuedImgs = _.transform(imgElements, (val, img) => {
-      if (!images.hasOwnProperty(img.src)) {
-        val[img.src] = '';
+    const queuedImgs = _.transform(imgElements, (result, img) => {
+      if (!this.state.images.hasOwnProperty(img.src)) {
+        result[img.src] = '';
       }
     }, {});
 
@@ -389,12 +388,12 @@ export class HelpCenter extends Component {
       this.props.restrictedImagesSender(src, (res) => {
         const url = win.URL.createObjectURL(res.xhr.response);
 
-        images[src] = url;
-        this.setState({ images: images });
+        this.state.images[src] = url;
+        this.setState({ images: this.state.images });
       });
     });
 
-    _.extend(images, queuedImgs);
+    _.extend(this.state.images, queuedImgs);
   }
 
   render() {
