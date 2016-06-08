@@ -12,11 +12,8 @@ import { HelpCenterArticle } from 'component/HelpCenterArticle';
 import { HelpCenterForm } from 'component/HelpCenterForm';
 import { ScrollContainer } from 'component/ScrollContainer';
 import { ZendeskLogo } from 'component/ZendeskLogo';
-import { authentication } from 'service/authentication';
 import { i18n } from 'service/i18n';
 import { isMobileBrowser } from 'utility/devices';
-import { win,
-         document as doc } from 'utility/globals';
 import { bindMethods,
          getPageKeywords } from 'utility/utils';
 
@@ -332,76 +329,10 @@ export class HelpCenter extends Component {
     });
   }
 
-  //getFilteredImageElements(htmlElement, articleDomain) {
-    //const imgEls = htmlElement.getElementsByTagName('img');
-    //const srcPattern = new RegExp(`${this.props.zendeskHost}|${articleDomain}`);
-
-    //return _.filter(imgEls, (img) => srcPattern.test(img.src));
-  //}
-
-  //processActiveArticle(activeArticle) {
-    //const { body, url } = activeArticle;
-    //const parseHtmlString = (htmlStr) => {
-      //const el = doc.createElement('html');
-
-      //el.innerHTML = htmlStr;
-      //return el;
-    //};
-
-    //if (!body || !authentication.getToken()) {
-      //return activeArticle;
-    //}
-
-    //const htmlEl = parseHtmlString(body);
-    //const articleDomain = parseUrl(url).hostname;
-    //const filteredImgEls = this.getFilteredImageElements(htmlEl, articleDomain);
-
-    //if (filteredImgEls.length === 0) {
-      //return activeArticle;
-    //}
-
-    //return this.replaceActiveArticleImages(activeArticle, htmlEl, filteredImgEls);
-  //}
-
-  //replaceActiveArticleImages(activeArticle, htmlEl, filteredImgEls) {
-    //const { articleBody } = activeArticle;
-
-    //this.queueUpImgRequests(articleBody, filteredImgEls);
-
-    //const { images } = this.state;
-
-    //_.each(filteredImgEls, (img) => img.src = images[img.src]);
-    //articleBody = htmlEl.outerHTML;
-
-    //return _.extend({}, activeArticle, { body: articleBody });
-  //}
-
-  //queueUpImgRequests(articleBody, imgElements) {
-    //const queuedImgs = _.transform(imgElements, (result, img) => {
-      //if (!this.state.images.hasOwnProperty(img.src)) {
-        //result[img.src] = '';
-      //}
-    //}, {});
-
-    //_.each(queuedImgs, (__, src) => {
-      //this.state.images[src] = '';
-
-      //this.props.restrictedImagesSender(src, (res) => {
-        //const url = win.URL.createObjectURL(res.xhr.response);
-
-        //this.setState({
-          //images: _.extend({}, this.state.images, { [src]: url })
-        //});
-      //});
-    //});
-  //}
-
   updateImages(img) {
     this.setState({
       images: _.extend({}, this.state.images, img)
     });
-
-    console.log(this.state.images);
   }
 
   render() {
@@ -640,7 +571,7 @@ export class HelpCenter extends Component {
               activeArticle={this.state.activeArticle}
               zendeskHost={this.props.zendeskHost}
               storedImages={this.state.images}
-              imagesSender={this.props.restrictedImagesSender}
+              imagesSender={this.props.imagesSender}
               updateStoredImages={this.updateImages}
               fullscreen={this.state.fullscreen} />
           </div>
@@ -655,7 +586,7 @@ export class HelpCenter extends Component {
 HelpCenter.propTypes = {
   searchSender: PropTypes.func.isRequired,
   contextualSearchSender: PropTypes.func.isRequired,
-  restrictedImagesSender: PropTypes.func.isRequired,
+  imagesSender: PropTypes.func.isRequired,
   zendeskHost: PropTypes.string.isRequired,
   buttonLabelKey: PropTypes.string,
   onSearch: PropTypes.func,

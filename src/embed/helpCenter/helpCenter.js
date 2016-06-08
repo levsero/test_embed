@@ -105,7 +105,7 @@ function create(name, config) {
     transport.send(payload);
   };
 
-  const restrictedImagesSenderFn = (url, doneFn) => {
+  const imagesSenderFn = (url, doneFn) => {
     const payload = senderPayload(url)(null, doneFn);
 
     transport.getImage(payload);
@@ -136,7 +136,7 @@ function create(name, config) {
           showBackButton={showBackButton}
           searchSender={searchSenderFn('/api/v2/help_center/search.json')}
           contextualSearchSender={searchSenderFn('/api/v2/help_center/articles/embeddable_search.json')}
-          restrictedImagesSender={restrictedImagesSenderFn}
+          imagesSender={imagesSenderFn}
           style={containerStyle}
           updateFrameSize={params.updateFrameSize}
           zendeskHost={transport.getZendeskHost()} />

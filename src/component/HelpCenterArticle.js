@@ -4,10 +4,11 @@ import _ from 'lodash';
 import classNames from 'classnames';
 import { pick, some } from 'lodash';
 
-import { i18n } from 'service/i18n';
 import { ButtonPill } from 'component/Button';
+import { authentication } from 'service/authentication';
 import { document as doc,
          win } from 'utility/globals';
+import { i18n } from 'service/i18n';
 import { parseUrl } from 'utility/utils';
 
 const sanitizeHtml = require('sanitize-html');
@@ -24,7 +25,7 @@ class HelpCenterArticle extends Component {
 
     this.state = {
       lastActiveArticleId: 0,
-      queuedImages: false
+      queuedImages: {}
     };
   }
 
@@ -158,6 +159,10 @@ class HelpCenterArticle extends Component {
     const imgEls = filteredImages(htmlEl.getElementsByTagName('img'));
     const { storedImages } = this.props;
 
+    if (imgEls.length === 0 || !authentication.getToken()) {
+      return activeArticle.body;
+    }
+
     // If the image has not already been downloaded, then queue up
     // an async request for it. The src attribute is set to empty so we can
     // still render the image while waiting for the response.
@@ -172,8 +177,12 @@ class HelpCenterArticle extends Component {
       }
     });
 
-    if (!this.state.queuedImages) {
-      this.queueImageRequests(imgUrls);
+    if (this.state.lastActiveArticleId !== this.props.activeArticle.id) {
+      const urls =  _.filter(imgUrls, (src) => !this.state.queuedImages.hasOwnProperty(src));
+
+      if (urls.length > 0) {
+        this.queueImageRequests(urls);
+      }
     }
 
     return htmlEl.outerHTML;
@@ -183,14 +192,23 @@ class HelpCenterArticle extends Component {
     const handleSuccess = (src, res) => {
       const url = win.URL.createObjectURL(res.xhr.response);
 
+      this.setState({
+        queuedImages: _.omit(this.state.queuedImages, src)
+      });
       this.props.updateStoredImages({ [src]: url });
     };
 
+    const imagesQueued = {};
+
     _.each(imgUrls, (src) => {
       this.props.imagesSender(src, (res) => handleSuccess(src, res));
+
+      imagesQueued[src] = '';
     });
 
-    this.setState({ queuedImages: true });
+    this.setState({
+      queuedImages: _.extend({}, this.state.queuedImages, imagesQueued)
+    });
   }
 
   render() {

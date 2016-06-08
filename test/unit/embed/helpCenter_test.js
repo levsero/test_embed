@@ -508,7 +508,7 @@ describe('embed.helpCenter', function() {
       const embed = helpCenter.get('carlos').instance.getRootComponent();
       const url = 'https://url.com/image';
 
-      embed.props.restrictedImagesSender(url);
+      embed.props.imagesSender(url);
 
       const recentCallArgs = mockTransport.getImage.calls.mostRecent().args[0];
 
