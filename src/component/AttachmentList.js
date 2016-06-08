@@ -43,11 +43,10 @@ export class AttachmentList extends Component {
   }
 
   handleRemoveAttachment(attachment) {
-    const idx = this.state.attachments.indexOf(attachment);
+    const { attachments } = this.state;
+    const idx = attachments.indexOf(attachment);
 
     if (idx > -1) {
-      const attachments = this.state.attachments;
-
       attachments.splice(idx, 1);
 
       this.setState({ attachments });
