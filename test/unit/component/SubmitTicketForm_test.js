@@ -71,7 +71,7 @@ describe('SubmitTicketForm component', function() {
         render: function() {
           return (
             <div attachmentSender={noop} />
-            );
+          );
         }
       }),
       'service/i18n': {
