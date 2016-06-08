@@ -138,136 +138,135 @@ describe('Submit ticket component', function() {
       .toEqual('');
   });
 
-  it('should not call submitTicketSender and not send the form when invalid', function() {
-    const mockSubmitTicketSender = jasmine.createSpy('mockSubmitTicketSender');
-    const submitTicket = instanceRender(<SubmitTicket submitTicketSender={mockSubmitTicketSender} />);
+  describe('submitTicketSender', function() {
+    let submitTicket,
+      mockSubmitTicketSender,
+      mockOnSubmitted,
+      mockValues;
 
-    submitTicket.handleSubmit({preventDefault: noop}, {isFormValid: false});
+    beforeEach(function() {
+      mockSubmitTicketSender = jasmine.createSpy('mockSubmitTicketSender');
+      mockOnSubmitted = jasmine.createSpy('mockOnSubmitted');
+      mockValues = {
+        isFormValid: true,
+        value: {
+          email: formParams.email,
+          description: formParams.description
+        }
+      };
 
-    expect(mockSubmitTicketSender)
-      .not.toHaveBeenCalled();
-  });
-
-  it('should call submitTicketSender and send the form when valid', function() {
-    const mockSubmitTicketSender = jasmine.createSpy('mockSubmitTicketSender');
-    const mockOnSubmitted = jasmine.createSpy('mockOnSubmitted');
-    const submitTicket = domRender(
-      <SubmitTicket
-        submitTicketSender={mockSubmitTicketSender}
-        onSubmitted={mockOnSubmitted}
-        updateFrameSize={noop} />
-    );
-
-    submitTicket.handleSubmit({preventDefault: noop}, {
-      isFormValid: true,
-      value: {
-        email: formParams.email,
-        description: formParams.description
-      }
+      submitTicket = domRender(
+        <SubmitTicket
+          submitTicketSender={mockSubmitTicketSender}
+          onSubmitted={mockOnSubmitted}
+          updateFrameSize={noop} />
+      );
     });
 
-    expect(mockSubmitTicketSender)
-      .toHaveBeenCalled();
+    it('should not send the form when invalid', function() {
+      submitTicket.handleSubmit({ preventDefault: noop }, { isFormValid: false });
 
-    const params = mockSubmitTicketSender.calls.mostRecent().args[0];
-
-    expect(params)
-      .toBeJSONEqual(payload.params);
-
-    mockSubmitTicketSender.calls.mostRecent().args[1]({});
-
-    expect(mockOnSubmitted)
-      .toHaveBeenCalled();
-  });
-
-  it('should clear the form on a valid submit', function() {
-    const mockSubmitTicketSender = jasmine.createSpy('mockSubmitTicketSender');
-    const submitTicket = domRender(
-      <SubmitTicket
-        submitTicketSender={mockSubmitTicketSender}
-        updateFrameSize={noop} />
-    );
-
-    spyOn(submitTicket, 'clearForm');
-
-    submitTicket.handleSubmit({preventDefault: noop}, {
-      isFormValid: true,
-      value: {
-        email: formParams.email,
-        description: formParams.description
-      }
+      expect(mockSubmitTicketSender)
+        .not.toHaveBeenCalled();
     });
 
-    mockSubmitTicketSender.calls.mostRecent().args[1]({});
+    it('should send the form when valid', function() {
+      submitTicket.handleSubmit({ preventDefault: noop }, mockValues);
 
-    expect(submitTicket.clearForm)
-      .toHaveBeenCalled();
-  });
+      expect(mockSubmitTicketSender)
+        .toHaveBeenCalled();
 
-  it('should call onSubmitted with given last search state', function() {
-    const mockSubmitTicketSender = jasmine.createSpy('mockSubmitTicketSender');
-    const mockOnSubmitted = jasmine.createSpy('mockOnSubmitted');
-    const submitTicket = domRender(
-      <SubmitTicket
-        submitTicketSender={mockSubmitTicketSender}
-        onSubmitted={mockOnSubmitted}
-        updateFrameSize={noop} />
-    );
+      const params = mockSubmitTicketSender.calls.mostRecent().args[0];
 
-    submitTicket.setState({
-      searchTerm: 'a search',
-      searchLocale: 'en-US'
+      expect(params)
+        .toBeJSONEqual(payload.params);
+
+      mockSubmitTicketSender.calls.mostRecent().args[1]({});
+
+      expect(mockOnSubmitted)
+        .toHaveBeenCalled();
     });
 
-    submitTicket.handleSubmit({preventDefault: noop}, {
-      isFormValid: true,
-      value: {
-        email: formParams.email,
-        description: formParams.description
-      }
+    it('should clear the form on a valid submit', function() {
+      spyOn(submitTicket, 'clearForm');
+
+      submitTicket.handleSubmit({ preventDefault: noop }, mockValues);
+
+      mockSubmitTicketSender.calls.mostRecent().args[1]({});
+
+      expect(submitTicket.clearForm)
+        .toHaveBeenCalled();
     });
 
-    mockSubmitTicketSender.calls.mostRecent().args[1]({});
+    it('should call onSubmitted with given last search state', function() {
+      submitTicket.setState({
+        searchTerm: 'a search',
+        searchLocale: 'en-US'
+      });
 
-    expect(mockOnSubmitted)
-      .toHaveBeenCalled();
+      submitTicket.handleSubmit({ preventDefault: noop }, mockValues);
 
-    expect(mockOnSubmitted.calls.mostRecent().args[0].searchTerm)
-      .toEqual('a search');
+      mockSubmitTicketSender.calls.mostRecent().args[1]({});
 
-    expect(mockOnSubmitted.calls.mostRecent().args[0].searchLocale)
-      .toEqual('en-US');
-  });
+      expect(mockOnSubmitted)
+        .toHaveBeenCalled();
 
-  it('should correctly format custom fields', function() {
-    const mockCustomField = [
-      {
-        id: '22660514',
-        type: 'text',
-        title: 'Text',
-        required: true
-      }
-    ];
-    const mockValues = {
-      value: {
-        22660514: 'mockCustomField',
+      expect(mockOnSubmitted.calls.mostRecent().args[0].searchTerm)
+        .toEqual('a search');
+
+      expect(mockOnSubmitted.calls.mostRecent().args[0].searchLocale)
+        .toEqual('en-US');
+    });
+
+    it('should correctly format custom fields', function() {
+      const mockCustomField = [
+        {
+          id: '22660514',
+          type: 'text',
+          title: 'Text',
+          required: true
+        }
+      ];
+      const mockValues = {
+        value: {
+          22660514: 'mockCustomField',
+          name: 'mockName',
+          description: 'mockDescription'
+        }
+      };
+      const expectedPayload = {
+        fields: {
+          22660514: 'mockCustomField'
+        },
         name: 'mockName',
         description: 'mockDescription'
-      }
-    };
-    const expectedPayload = {
-      fields: {
-        22660514: 'mockCustomField'
-      },
-      name: 'mockName',
-      description: 'mockDescription'
-    };
+      };
 
-    const submitTicket = instanceRender(<SubmitTicket customFields={mockCustomField} />);
-    const payload = submitTicket.formatTicketSubmission(mockValues);
+      const submitTicket = instanceRender(<SubmitTicket customFields={mockCustomField} />);
+      const payload = submitTicket.formatTicketSubmission(mockValues);
 
-    expect(payload)
-      .toBeJSONEqual(expectedPayload);
+      expect(payload)
+        .toBeJSONEqual(expectedPayload);
+    });
+
+    it('adds submitted from to the description when attachments are enabled', function() {
+      submitTicket = domRender(
+        <SubmitTicket
+          submitTicketSender={mockSubmitTicketSender}
+          attachmentsEnabled={true}
+          updateFrameSize={noop} />
+      );
+
+      submitTicket.handleSubmit({ preventDefault: noop }, mockValues);
+
+      const params = mockSubmitTicketSender.calls.mostRecent().args[0];
+
+      expect(params)
+        .not.toBeJSONEqual(payload.params);
+
+      expect(params.description)
+        .toContain(`${payload.params.description}\n\n------------------\n`);
+    });
   });
 
   it('should unhide notification element on state change', function() {
