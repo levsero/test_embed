@@ -19,11 +19,10 @@ export class Attachment extends Component {
   }
 
   componentWillMount() {
-    const { attachment } = this.props;
+    const { attachment, attachmentSender } = this.props;
     const { uploaded, uploading, uploadError } = this.state;
 
     const doneFn = (response) => {
-      // console.log('success');
       this.setState({
         uploading: false,
         uploaded: true,
@@ -31,25 +30,21 @@ export class Attachment extends Component {
       });
     };
     const failFn = (error) => {
-      // console.log('failure');
-      const { message } = error;
-
       this.setState({
         uploading: false,
-        uploadError: message
+        uploadError: error.message
       });
     };
-    const progressFn = (e) => {
-      // console.log('Percentage done: ', e.percent);
-      this.refs.progressBar.style.width = `${Math.floor(e.percent)}%`;
+    const progressFn = (event) => {
+      const { progressBar } = this.refs;
+
+      progressBar.style.width = `${Math.floor(event.percent)}%`;
     };
 
     if (!(uploading || uploaded || uploadError)) {
-      const uploadRequest = this.props.attachmentSender(attachment, doneFn, failFn, progressFn);
-
       this.setState({
         uploading: true,
-        uploadRequest: uploadRequest
+        uploadRequest: attachmentSender(attachment, doneFn, failFn, progressFn)
       });
     }
   }
