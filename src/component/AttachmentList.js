@@ -109,8 +109,7 @@ export class AttachmentList extends Component {
 
 AttachmentList.propTypes = {
   attachmentSender: PropTypes.func.isRequired,
-  fullscreen: PropTypes.bool,
-  updateAttachments: PropTypes.func.isRequired
+  fullscreen: PropTypes.bool
 };
 
 AttachmentList.defaultProps = {

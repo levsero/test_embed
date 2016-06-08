@@ -181,10 +181,6 @@ export class SubmitTicketForm extends Component {
     });
   }
 
-  updateAttachments() {
-    return true;
-  }
-
   renderFormBody() {
     const { formState } = this.state;
     const { children } = this.props;
@@ -235,7 +231,6 @@ export class SubmitTicketForm extends Component {
       <AttachmentList
         ref="attachments"
         attachmentSender={attachmentSender}
-        updateAttachments={this.updateAttachments}
         fullscreen={fullscreen} />
     );
   }

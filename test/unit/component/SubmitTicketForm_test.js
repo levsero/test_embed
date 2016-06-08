@@ -70,9 +70,7 @@ describe('SubmitTicketForm component', function() {
       'component/AttachmentList': React.createClass({
         render: function() {
           return (
-            <div
-              attachmentSender={noop}
-              updateAttachments={noop} />
+            <div attachmentSender={noop} />
             );
         }
       }),
