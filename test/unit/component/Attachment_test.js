@@ -32,7 +32,10 @@ describe('Attachment component', function() {
     });
     mockHandleRemoveAttachment = jasmine.createSpy('mockHandleRemoveAttachment');
 
-    attachment = { name: 'foo.bar' };
+    attachment = {
+      id: 1,
+      file: { name: 'foo.bar' }
+    };
     icon = 'Icon--preview-default';
 
     component = domRender(
@@ -53,12 +56,6 @@ describe('Attachment component', function() {
     expect(mockAttachmentSender)
       .toHaveBeenCalled();
   });
-
-  it('does not call attachmentSender if the file has been uploaded');
-
-  it('does not call attachmentSender if the file is uploading');
-
-  it('does not call attachmentSender if there was an error uploading the file');
 
   describe('#handleRemoveAttachment', () => {
     it('calls the handleRemoveAttachment prop', () => {

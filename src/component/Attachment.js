@@ -20,7 +20,6 @@ export class Attachment extends Component {
 
   componentWillMount() {
     const { attachment, attachmentSender } = this.props;
-    const { uploaded, uploading, uploadError } = this.state;
 
     const doneFn = (response) => {
       this.setState({
@@ -41,16 +40,16 @@ export class Attachment extends Component {
       progressBar.style.width = `${Math.floor(event.percent)}%`;
     };
 
-    if (!(uploading || uploaded || uploadError)) {
-      this.setState({
-        uploading: true,
-        uploadRequestSender: attachmentSender(attachment, doneFn, failFn, progressFn)
-      });
-    }
+    this.setState({
+      uploading: true,
+      uploadRequestSender: attachmentSender(attachment.file, doneFn, failFn, progressFn)
+    });
   }
 
   handleRemoveAttachment() {
-    this.props.handleRemoveAttachment(this.props.attachment);
+    const { attachment, handleRemoveAttachment } = this.props;
+
+    handleRemoveAttachment(attachment.id);
   }
 
   handleStopUpload() {
@@ -80,8 +79,8 @@ export class Attachment extends Component {
 
     const progressBar = uploading ? this.renderProgressBar() : null;
     const iconOnClick = uploading ? this.handleStopUpload : this.handleRemoveAttachment;
-    const nameStart = attachment.name.slice(0, -7);
-    const nameEnd = attachment.name.slice(-7);
+    const nameStart = attachment.file.name.slice(0, -7);
+    const nameEnd = attachment.file.name.slice(-7);
 
     return (
       <div className={containerClasses}>

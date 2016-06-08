@@ -32,34 +32,53 @@ export class AttachmentList extends Component {
     bindMethods(this, AttachmentList.prototype);
 
     this.state = {
-      attachments: []
+      attachments: [],
+      numAttachments: 0
     };
   }
 
   handleOnDrop(files) {
-    const attachments = _.union(this.state.attachments, files);
+    const { attachments, numAttachments } = this.state;
 
-    this.setState({ attachments });
+    let nextId = _.size(attachments) + 1;
+
+    const newFiles = files.map((file) => {
+      const fileObj = {
+        id: nextId,
+        file: file
+      };
+
+      nextId++;
+
+      return fileObj;
+    });
+
+    this.setState({
+      attachments: _.union(attachments, newFiles),
+      numAttachments: numAttachments + files.length
+    });
   }
 
-  handleRemoveAttachment(attachment) {
-    const { attachments } = this.state;
-    const idx = attachments.indexOf(attachment);
+  handleRemoveAttachment(attachmentId) {
+    const { attachments, numAttachments } = this.state;
 
-    if (idx > -1) {
-      attachments.splice(idx, 1);
+    _.find(attachments, (a) => a.id === attachmentId).file = null;
 
-      this.setState({ attachments });
-    }
+    this.setState({
+      attachments,
+      numAttachments: numAttachments - 1
+    });
   }
 
   renderAttachments() {
     const { attachments } = this.state;
     const { attachmentSender } = this.props;
 
-    const previews = _.map(attachments, (attachment) => {
-      if (attachment.name && attachment.name.indexOf('.') > -1) {
-        const extension = attachment.name.split('.').pop();
+    return _.map(attachments, (attachment) => {
+      const { file } = attachment;
+
+      if (file && file.name && file.name.indexOf('.') > -1) {
+        const extension = file.name.split('.').pop();
         const icon = iconMapper[extension] || 'Icon--preview-default';
 
         return (
@@ -70,21 +89,18 @@ export class AttachmentList extends Component {
             icon={icon} />
         );
       }
-      return null;
     });
-
-    return previews;
   }
 
   render() {
     const { fullscreen } = this.props;
-    const { attachments } = this.state;
+    const { numAttachments } = this.state;
 
     const attachmentComponents = this.renderAttachments();
-    const title = (attachments.length > 0)
+    const title = (numAttachments > 0)
                 ? i18n.t('embeddable_framework.submitTicket.attachments.title_withCount',
                     { fallback: 'Attachments (%(count)s)',
-                    count: attachments.length }
+                    count: numAttachments }
                   )
                 : i18n.t('embeddable_framework.submitTicket.attachments.title',
                     { fallback: 'Attachments' }

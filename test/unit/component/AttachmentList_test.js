@@ -96,7 +96,7 @@ describe('AttachmentList component', () => {
 
       const previews = component.renderAttachments();
 
-      expect(previews[0].props.attachment)
+      expect(previews[0].props.attachment.file)
         .toEqual(attachments[0]);
       expect(previews[0].props.icon)
         .toEqual('Icon--preview-txt');
@@ -258,13 +258,13 @@ describe('AttachmentList component', () => {
     });
 
     it('removes the attachment matching the passed in argument', () => {
-      component.handleRemoveAttachment('foo');
+      component.handleRemoveAttachment(1);
 
-      expect(component.state.attachments.length)
-        .toEqual(1);
+      expect(component.state.numAttachments)
+        .toBe(1);
 
-      expect(component.state.attachments[0])
-        .toEqual('bar');
+      expect(component.state.attachments[0].file)
+        .toBe(null);
     });
   });
 
@@ -277,8 +277,14 @@ describe('AttachmentList component', () => {
 
       component.handleOnDrop(attachments);
 
-      expect(component.state.attachments)
-        .toEqual(attachments);
+      expect(component.state.attachments[0].file)
+        .toEqual(attachments[0]);
+
+      expect(component.state.attachments[1].file)
+        .toEqual(attachments[1]);
+
+      expect(component.state.numAttachments)
+        .toBe(2);
     });
   });
 });
