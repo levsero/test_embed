@@ -14,7 +14,7 @@ export class Attachment extends Component {
       uploading: false,
       uploadToken: null,
       uploadError: null,
-      uploadRequest: () => {}
+      uploadRequestSender: () => {}
     };
   }
 
@@ -44,7 +44,7 @@ export class Attachment extends Component {
     if (!(uploading || uploaded || uploadError)) {
       this.setState({
         uploading: true,
-        uploadRequest: attachmentSender(attachment, doneFn, failFn, progressFn)
+        uploadRequestSender: attachmentSender(attachment, doneFn, failFn, progressFn)
       });
     }
   }
@@ -54,7 +54,9 @@ export class Attachment extends Component {
   }
 
   handleStopUpload() {
-    this.state.uploadRequest.abort();
+    const { uploadRequestSender } = this.state;
+
+    uploadRequestSender.abort();
   }
 
   renderProgressBar() {
