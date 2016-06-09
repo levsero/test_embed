@@ -106,7 +106,7 @@ describe('Submit ticket component', function() {
           setLocale: noop,
           getLocaleId : noop,
           isRTL: noop,
-          t: noop
+          t: _.identity
         }
       },
       'component/Icon': {
@@ -250,6 +250,8 @@ describe('Submit ticket component', function() {
     });
 
     it('adds submitted from to the description when attachments are enabled', function() {
+      const label = 'embeddable_framework.submitTicket.form.submittedFrom.label';
+
       submitTicket = domRender(
         <SubmitTicket
           submitTicketSender={mockSubmitTicketSender}
@@ -265,7 +267,7 @@ describe('Submit ticket component', function() {
         .not.toBeJSONEqual(payload.params);
 
       expect(params.description)
-        .toContain(`${payload.params.description}\n\n------------------\n`);
+        .toBe(`${payload.params.description}\n\n------------------\n${label}`);
     });
   });
 

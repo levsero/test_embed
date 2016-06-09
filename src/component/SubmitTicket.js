@@ -102,7 +102,7 @@ export class SubmitTicket extends Component {
   formatTicketSubmission(data) {
     if (this.props.attachmentsEnabled) {
       const submittedFrom = i18n.t(
-        'embeddable_framework.submitTicket.submittedFrom.label',
+        'embeddable_framework.submitTicket.form.submittedFrom.label',
         {
           fallback: 'Submitted from: %(url)s',
           url: location.href
