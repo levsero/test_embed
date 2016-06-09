@@ -38,35 +38,25 @@ export class AttachmentList extends Component {
   }
 
   handleOnDrop(files) {
-    const { attachments, numAttachments } = this.state;
-
-    let nextId = _.size(attachments) + 1;
+    const { attachments } = this.state;
 
     const newFiles = files.map((file) => {
-      const fileObj = {
-        id: nextId,
+      return {
+        id: _.uniqueId(),
         file: file
       };
-
-      nextId++;
-
-      return fileObj;
     });
 
     this.setState({
-      attachments: _.union(attachments, newFiles),
-      numAttachments: numAttachments + files.length
+      attachments: _.union(attachments, newFiles)
     });
   }
 
   handleRemoveAttachment(attachmentId) {
-    const { attachments, numAttachments } = this.state;
-
-    _.find(attachments, (a) => a.id === attachmentId).file = null;
+    const { attachments } = this.state;
 
     this.setState({
-      attachments,
-      numAttachments: numAttachments - 1
+      attachments: _.reject(attachments, (a) => a.id === attachmentId)
     });
   }
 
@@ -75,7 +65,7 @@ export class AttachmentList extends Component {
     const { attachmentSender } = this.props;
 
     return _.map(attachments, (attachment) => {
-      const { file } = attachment;
+      const { id, file } = attachment;
 
       if (file && file.name && file.name.indexOf('.') > -1) {
         const extension = file.name.split('.').pop();
@@ -83,6 +73,7 @@ export class AttachmentList extends Component {
 
         return (
           <Attachment
+            key={id}
             attachment={attachment}
             handleRemoveAttachment={this.handleRemoveAttachment}
             attachmentSender={attachmentSender}
@@ -94,13 +85,13 @@ export class AttachmentList extends Component {
 
   render() {
     const { fullscreen } = this.props;
-    const { numAttachments } = this.state;
+    const { attachments } = this.state;
 
     const attachmentComponents = this.renderAttachments();
-    const title = (numAttachments > 0)
+    const title = (attachments.length > 0)
                 ? i18n.t('embeddable_framework.submitTicket.attachments.title_withCount',
                     { fallback: 'Attachments (%(count)s)',
-                    count: numAttachments }
+                    count: attachments.length }
                   )
                 : i18n.t('embeddable_framework.submitTicket.attachments.title',
                     { fallback: 'Attachments' }

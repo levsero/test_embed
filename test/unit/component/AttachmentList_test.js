@@ -258,13 +258,15 @@ describe('AttachmentList component', () => {
     });
 
     it('removes the attachment matching the passed in argument', () => {
-      component.handleRemoveAttachment(1);
+      const removedAttachment = component.state.attachments[0];
 
-      expect(component.state.numAttachments)
+      component.handleRemoveAttachment(removedAttachment.id);
+
+      expect(component.state.attachments.length)
         .toBe(1);
 
       expect(component.state.attachments[0].file)
-        .toBe(null);
+        .toBe('bar');
     });
   });
 
@@ -277,13 +279,7 @@ describe('AttachmentList component', () => {
 
       component.handleOnDrop(attachments);
 
-      expect(component.state.attachments[0].file)
-        .toEqual(attachments[0]);
-
-      expect(component.state.attachments[1].file)
-        .toEqual(attachments[1]);
-
-      expect(component.state.numAttachments)
+      expect(component.state.attachments.length)
         .toBe(2);
     });
   });
