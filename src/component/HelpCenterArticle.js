@@ -168,11 +168,14 @@ class HelpCenterArticle extends Component {
     // still render the image while waiting for the response.
     let imgUrls = [];
 
-    _.each(imgEls, (img) => {
+    _.forEach(imgEls, (img) => {
       if (storedImages[img.src]) {
         img.src = storedImages[img.src];
       } else {
         imgUrls.push(img.src);
+
+        // '//:0' ensures that the img src is blank on all browsers.
+        // http://stackoverflow.com/questions/19126185/setting-an-image-src-to-empty
         img.src = '//:0';
       }
     });
@@ -200,7 +203,7 @@ class HelpCenterArticle extends Component {
 
     const imagesQueued = {};
 
-    _.each(imgUrls, (src) => {
+    _.forEach(imgUrls, (src) => {
       this.props.imagesSender(src, (res) => handleSuccess(src, res));
 
       imagesQueued[src] = '';
