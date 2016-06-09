@@ -47,15 +47,11 @@ export class Attachment extends Component {
   }
 
   handleRemoveAttachment() {
-    const { attachment, handleRemoveAttachment } = this.props;
-
-    handleRemoveAttachment(attachment.id);
+    this.props.handleRemoveAttachment(this.props.attachment.id);
   }
 
   handleStopUpload() {
-    const { uploadRequestSender } = this.state;
-
-    uploadRequestSender.abort();
+    this.state.uploadRequestSender.abort();
   }
 
   renderProgressBar() {
@@ -67,8 +63,8 @@ export class Attachment extends Component {
   }
 
   render() {
-    const { icon, attachment } = this.props;
     const { uploading } = this.state;
+    const { file } = this.props.attachment;
 
     const containerClasses = classNames({
       'Form-field--display': true,
@@ -79,13 +75,13 @@ export class Attachment extends Component {
 
     const progressBar = uploading ? this.renderProgressBar() : null;
     const iconOnClick = uploading ? this.handleStopUpload : this.handleRemoveAttachment;
-    const nameStart = attachment.file.name.slice(0, -7);
-    const nameEnd = attachment.file.name.slice(-7);
+    const nameStart = file.name.slice(0, -7);
+    const nameEnd = file.name.slice(-7);
 
     return (
       <div className={containerClasses}>
         <div className='Attachment-preview u-posRelative u-hsizeAll'>
-          <Icon type={icon} className='Icon--preview u-pullLeft' />
+          <Icon type={this.props.icon} className='Icon--preview u-pullLeft' />
           <div className='Attachment-preview-name u-alignTop u-pullLeft u-textTruncate'>
             {nameStart}
           </div>

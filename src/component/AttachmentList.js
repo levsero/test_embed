@@ -37,8 +37,6 @@ export class AttachmentList extends Component {
   }
 
   handleOnDrop(files) {
-    const { attachments } = this.state;
-
     const newFiles = files.map((file) => {
       return {
         id: _.uniqueId(),
@@ -47,23 +45,18 @@ export class AttachmentList extends Component {
     });
 
     this.setState({
-      attachments: _.union(attachments, newFiles)
+      attachments: _.union(this.state.attachments, newFiles)
     });
   }
 
   handleRemoveAttachment(attachmentId) {
-    const { attachments } = this.state;
-
     this.setState({
-      attachments: _.reject(attachments, (a) => a.id === attachmentId)
+      attachments: _.reject(this.state.attachments, (a) => a.id === attachmentId)
     });
   }
 
   renderAttachments() {
-    const { attachments } = this.state;
-    const { attachmentSender } = this.props;
-
-    return _.map(attachments, (attachment) => {
+    return _.map(this.state.attachments, (attachment) => {
       const { id, file } = attachment;
 
       if (file && file.name && file.name.indexOf('.') > -1) {
@@ -75,7 +68,7 @@ export class AttachmentList extends Component {
             key={id}
             attachment={attachment}
             handleRemoveAttachment={this.handleRemoveAttachment}
-            attachmentSender={attachmentSender}
+            attachmentSender={this.props.attachmentSender}
             icon={icon} />
         );
       }
@@ -83,7 +76,6 @@ export class AttachmentList extends Component {
   }
 
   render() {
-    const { fullscreen } = this.props;
     const { attachments } = this.state;
 
     const attachmentComponents = this.renderAttachments();
@@ -105,7 +97,7 @@ export class AttachmentList extends Component {
           {attachmentComponents}
           <ButtonDropzone
             onDrop={this.handleOnDrop}
-            isMobile={fullscreen} />
+            isMobile={this.props.fullscreen} />
         </div>
       </div>
     );
