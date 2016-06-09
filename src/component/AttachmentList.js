@@ -32,8 +32,7 @@ export class AttachmentList extends Component {
     bindMethods(this, AttachmentList.prototype);
 
     this.state = {
-      attachments: [],
-      numAttachments: 0
+      attachments: []
     };
   }
 
