@@ -6,8 +6,6 @@ import { pick, some } from 'lodash';
 
 import { ButtonPill } from 'component/Button';
 import { authentication } from 'service/authentication';
-import { document as doc,
-         win } from 'utility/globals';
 import { i18n } from 'service/i18n';
 import { parseUrl } from 'utility/utils';
 
@@ -144,12 +142,12 @@ class HelpCenterArticle extends Component {
   replaceArticleImages(activeArticle) {
     const { storedImages } = this.props;
     const parseHtmlString = (htmlStr) => {
-      const el = doc.createElement('html');
+      const el = document.createElement('html');
 
       el.innerHTML = htmlStr;
       return el;
     };
-    const filteredImages = (imgEls) => {
+    const helpCenterImages = (imgEls) => {
       const articleDomain = parseUrl(activeArticle.url).hostname;
       const srcPattern = new RegExp(`${this.props.zendeskHost}|${articleDomain}`);
 
@@ -157,7 +155,7 @@ class HelpCenterArticle extends Component {
     };
 
     const htmlEl = parseHtmlString(activeArticle.body);
-    const imgEls = filteredImages(htmlEl.getElementsByTagName('img'));
+    const imgEls = helpCenterImages(htmlEl.getElementsByTagName('img'));
 
     if (imgEls.length === 0 || !authentication.getToken()) {
       return activeArticle.body;
@@ -193,7 +191,7 @@ class HelpCenterArticle extends Component {
 
   queueImageRequests(imgUrls) {
     const handleSuccess = (src, res) => {
-      const url = win.URL.createObjectURL(res.xhr.response);
+      const url = window.URL.createObjectURL(res.xhr.response);
 
       this.setState({
         queuedImages: _.omit(this.state.queuedImages, src)

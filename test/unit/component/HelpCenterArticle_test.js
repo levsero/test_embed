@@ -2,7 +2,6 @@ describe('HelpCenterArticle component', function() {
   let HelpCenterArticle,
     scrollIntoView,
     mockArticle,
-    mockRegistry,
     mockOauthToken;
   const helpCenterArticlePath = buildSrcPath('component/HelpCenterArticle');
 
@@ -18,7 +17,7 @@ describe('HelpCenterArticle component', function() {
       warnOnReplace: false
     });
 
-    mockRegistry = initMockRegistry({
+    initMockRegistry({
       'React': React,
       'service/authentication': {
         authentication: {
@@ -29,10 +28,6 @@ describe('HelpCenterArticle component', function() {
         i18n: jasmine.createSpyObj('i18n', [
           't'
         ])
-      },
-      'utility/globals': {
-        win: window,
-        document: document
       },
       'utility/utils': {
         parseUrl: () => noop
@@ -322,7 +317,7 @@ describe('HelpCenterArticle component', function() {
 
         beforeEach(function() {
           mockObjectUrl = `https://${mockZendeskHost}/abc/img0.png`;
-          mockRegistry['utility/globals'].win.URL.createObjectURL = () => mockObjectUrl;
+          window.URL.createObjectURL = () => mockObjectUrl;
         });
 
         it('should store it in HelpCenter\'s storedImages state object', function() {
