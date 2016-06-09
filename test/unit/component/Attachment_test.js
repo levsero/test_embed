@@ -71,7 +71,7 @@ describe('Attachment component', function() {
       component.handleStopUpload();
 
       expect(mockUploadAbort)
-        .toHaveBeenCalled;
+        .toHaveBeenCalled();
     });
   });
 });
