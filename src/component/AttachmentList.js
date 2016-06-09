@@ -76,17 +76,16 @@ export class AttachmentList extends Component {
   }
 
   render() {
-    const { attachments } = this.state;
-
-    const attachmentComponents = this.renderAttachments();
-    const title = (attachments.length > 0)
+    const numAttachments = this.state.attachments.length;
+    const title = (numAttachments > 0)
                 ? i18n.t('embeddable_framework.submitTicket.attachments.title_withCount',
                     { fallback: 'Attachments (%(count)s)',
-                    count: attachments.length }
+                    count: numAttachments }
                   )
                 : i18n.t('embeddable_framework.submitTicket.attachments.title',
                     { fallback: 'Attachments' }
                   );
+    const attachmentComponents = this.renderAttachments();
 
     return (
       <div>

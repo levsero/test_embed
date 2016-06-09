@@ -63,18 +63,17 @@ export class Attachment extends Component {
   }
 
   render() {
-    const { uploading } = this.state;
     const { file } = this.props.attachment;
 
     const containerClasses = classNames({
       'Form-field--display': true,
-      'Attachment--uploading': uploading,
+      'Attachment--uploading': this.state.uploading,
       'u-posRelative': true,
       'u-marginBS': true
     });
 
-    const progressBar = uploading ? this.renderProgressBar() : null;
-    const iconOnClick = uploading ? this.handleStopUpload : this.handleRemoveAttachment;
+    const progressBar = this.state.uploading ? this.renderProgressBar() : null;
+    const iconOnClick = this.state.uploading ? this.handleStopUpload : this.handleRemoveAttachment;
     const nameStart = file.name.slice(0, -7);
     const nameEnd = file.name.slice(-7);
 

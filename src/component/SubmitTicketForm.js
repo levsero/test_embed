@@ -183,9 +183,7 @@ export class SubmitTicketForm extends Component {
 
   renderFormBody() {
     const { formState } = this.state;
-    const { children } = this.props;
-
-    const customFields = getCustomFields(this.props.customFields, this.state.formState);
+    const customFields = getCustomFields(this.props.customFields, formState);
 
     return (
       <div ref='formWrapper'>
@@ -207,18 +205,17 @@ export class SubmitTicketForm extends Component {
           name='description'
           input={<textarea rows='5' />} />
         {customFields.checkboxes}
-        {children}
+        {this.props.children}
       </div>
     );
   }
 
   renderCancelButton() {
-    const { cancelButtonMessage } = this.state;
     const { onCancel, fullscreen } = this.props;
 
     return (
       <ButtonSecondary
-        label={cancelButtonMessage}
+        label={this.state.cancelButtonMessage}
         onClick={onCancel}
         fullscreen={fullscreen} />
     );
@@ -237,14 +234,13 @@ export class SubmitTicketForm extends Component {
 
   render() {
     const { attachmentsEnabled, fullscreen, formTitleKey, hide } = this.props;
-    const { buttonMessage, isSubmitting, isValid, removeTicketForm } = this.state;
 
     const formClasses = classNames({
       'Form u-cf': true,
       'u-isHidden': hide
     });
 
-    const formBody = removeTicketForm ? null : this.renderFormBody();
+    const formBody = this.state.removeTicketForm ? null : this.renderFormBody();
     const buttonCancel = fullscreen ? null : this.renderCancelButton();
     const attachments = attachmentsEnabled ? this.renderAttachments() : null;
 
@@ -264,8 +260,8 @@ export class SubmitTicketForm extends Component {
               {buttonCancel}
               <Button
                 fullscreen={fullscreen}
-                label={buttonMessage}
-                disabled={!isValid || isSubmitting}
+                label={this.state.buttonMessage}
+                disabled={!this.state.isValid || this.state.isSubmitting}
                 type='submit' />
             </ButtonGroup>
           }
