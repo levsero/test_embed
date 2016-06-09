@@ -259,7 +259,7 @@ describe('HelpCenterArticle component', function() {
     });
 
     describe('when there are no valid images in the article', function() {
-      it('should return the unomodified article body', function() {
+      it('should return the unmodified article body', function() {
         expect(helpCenterArticle.replaceArticleImages(mockArticle))
           .toEqual(mockArticle.body);
 
@@ -271,7 +271,7 @@ describe('HelpCenterArticle component', function() {
     });
 
     describe('when there is no valid oauth token', function() {
-      it('should return the unomodified article body', function() {
+      it('should return the unmodified article body', function() {
         mockOauthToken = null;
         mockArticle.body += `<img src="https://${mockZendeskHost}/article_attachments/img.png">`;
 
