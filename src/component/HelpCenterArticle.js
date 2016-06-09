@@ -250,14 +250,18 @@ class HelpCenterArticle extends Component {
 
 HelpCenterArticle.propTypes = {
   activeArticle: PropTypes.object.isRequired,
-  zendeskHost: PropTypes.string.isRequired,
-  storedImages: PropTypes.array.isRequired,
-  imagesSender: PropTypes.func.isRequired,
-  updateStoredImages: PropTypes.func.isRequired,
+  zendeskHost: PropTypes.string,
+  storedImages: PropTypes.array,
+  imagesSender: PropTypes.func,
+  updateStoredImages: PropTypes.func,
   fullscreen: PropTypes.bool
 };
 
 HelpCenterArticle.defaultProps = {
+  zendeskHost: '',
+  storedImages: [],
+  imagesSender: () => {},
+  updateStoredImages: () => {},
   fullscreen: false
 };
 
