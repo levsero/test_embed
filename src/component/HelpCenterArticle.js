@@ -36,6 +36,7 @@ class HelpCenterArticle extends Component {
   }
 
   componentDidUpdate() {
+    const { activeArticle } = this.props;
     const container = ReactDOM.findDOMNode(this.refs.article);
     const sanitizeHtmlOptions = {
       allowedTags: [
@@ -69,7 +70,6 @@ class HelpCenterArticle extends Component {
       },
       allowedSchemesByTag: { 'iframe': ['https'] }
     };
-    const { activeArticle } = this.props;
 
     if (activeArticle.body) {
       const body = this.replaceArticleImages(activeArticle);
@@ -164,32 +164,34 @@ class HelpCenterArticle extends Component {
     // If the image has not already been downloaded, then queue up
     // an async request for it. The src attribute is set to empty so we can
     // still render the image while waiting for the response.
-    let imgUrls = [];
+    let pendingImageUrls = [];
 
-    _.forEach(imgEls, (img) => {
-      if (storedImages[img.src]) {
-        img.src = storedImages[img.src];
+    _.forEach(imgEls, (imgEl) => {
+      if (storedImages[imgEl.src]) {
+        imgEl.src = storedImages[imgEl.src];
       } else {
-        imgUrls.push(img.src);
+        pendingImageUrls.push(imgEl.src);
 
         // '//:0' ensures that the img src is blank on all browsers.
         // http://stackoverflow.com/questions/19126185/setting-an-image-src-to-empty
-        img.src = '//:0';
+        imgEl.src = '//:0';
       }
     });
 
     if (this.state.lastActiveArticleId !== this.props.activeArticle.id) {
-      const urls = _.filter(imgUrls, (src) => !this.state.queuedImages.hasOwnProperty(src));
+      const urls = _.filter(pendingImageUrls, (src) => !this.state.queuedImages.hasOwnProperty(src));
 
-      if (urls.length > 0) {
-        this.queueImageRequests(urls);
-      }
+      this.queueImageRequests(urls);
     }
 
     return htmlEl.outerHTML;
   }
 
-  queueImageRequests(imgUrls) {
+  queueImageRequests(pendingImageUrls) {
+    if (pendingImageUrls.length === 0) {
+      return;
+    }
+
     const handleSuccess = (src, res) => {
       const url = window.URL.createObjectURL(res.xhr.response);
 
@@ -201,7 +203,7 @@ class HelpCenterArticle extends Component {
 
     const imagesQueued = {};
 
-    _.forEach(imgUrls, (src) => {
+    _.forEach(pendingImageUrls, (src) => {
       this.props.imagesSender(src, (res) => handleSuccess(src, res));
 
       imagesQueued[src] = '';
