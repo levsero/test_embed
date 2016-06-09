@@ -280,7 +280,7 @@ describe('HelpCenterArticle component', function() {
       });
     });
 
-    describe('when there are valid images and a oauth token', function() {
+    describe('when there are valid images and an oauth token', function() {
       beforeEach(function() {
         mockOauthToken = 'abc';
         mockArticle.body += `<img src="https://${mockZendeskHost}/article_attachments/img0.png">

@@ -142,6 +142,7 @@ class HelpCenterArticle extends Component {
   }
 
   replaceArticleImages(activeArticle) {
+    const { storedImages } = this.props;
     const parseHtmlString = (htmlStr) => {
       const el = doc.createElement('html');
 
@@ -157,7 +158,6 @@ class HelpCenterArticle extends Component {
 
     const htmlEl = parseHtmlString(activeArticle.body);
     const imgEls = filteredImages(htmlEl.getElementsByTagName('img'));
-    const { storedImages } = this.props;
 
     if (imgEls.length === 0 || !authentication.getToken()) {
       return activeArticle.body;
@@ -181,7 +181,7 @@ class HelpCenterArticle extends Component {
     });
 
     if (this.state.lastActiveArticleId !== this.props.activeArticle.id) {
-      const urls =  _.filter(imgUrls, (src) => !this.state.queuedImages.hasOwnProperty(src));
+      const urls = _.filter(imgUrls, (src) => !this.state.queuedImages.hasOwnProperty(src));
 
       if (urls.length > 0) {
         this.queueImageRequests(urls);
