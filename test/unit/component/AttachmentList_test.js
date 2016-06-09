@@ -258,9 +258,9 @@ describe('AttachmentList component', () => {
     });
 
     it('removes the attachment matching the passed in argument', () => {
-      const removedAttachment = component.state.attachments[0];
+      const attachmentToRemove = component.state.attachments[0];
 
-      component.handleRemoveAttachment(removedAttachment.id);
+      component.handleRemoveAttachment(attachmentToRemove.id);
 
       expect(component.state.attachments.length)
         .toBe(1);
