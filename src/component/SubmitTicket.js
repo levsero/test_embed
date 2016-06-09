@@ -150,6 +150,7 @@ export class SubmitTicket extends Component {
       isDragActive: false
     });
     this.refs.submitTicketForm.handleOnDrop(files);
+    this.refs.scrollContainer.scrollToBottom();
   }
 
   render() {
@@ -191,6 +192,7 @@ export class SubmitTicket extends Component {
         {attachmentBox}
         <div className={notifyClasses} ref='notification'>
           <ScrollContainer
+            ref='scrollContainer'
             title={this.state.message}>
             <Icon
               type='Icon--tick'

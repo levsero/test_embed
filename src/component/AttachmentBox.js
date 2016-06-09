@@ -18,11 +18,12 @@ export class AttachmentBox extends Component {
         <Dropzone
           onDrop={this.props.onDrop}
           className='Container--overlay Container--dashed u-posAbsolute u-marginAS'
+          activeClassName='Anim-color u-textBold u-userFillColor'
           style={style}
           onDragLeave={this.props.onDragLeave}
           disableClick={true}>
           <div className='u-textCenter u-posRelative u-posCenter--vert u-textSize15'>
-            <Icon type='Icon--paperclip' className='Icon--paperclip-large' />
+            <Icon type='Icon--paperclip-large' />
             <p className='Form-fieldLabel'>
               {i18n.t('embeddable_framework.submitTicket.attachments.box.label',
                 { fallback: 'Drop to attach' }

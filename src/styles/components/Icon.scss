@@ -119,7 +119,7 @@
   }
 }
 
-.Icon--paperclip {
+.Icon--paperclip-small {
   padding-right: #{5/$font-size}rem;
 
   svg {
@@ -131,10 +131,23 @@
   }
 }
 
+.Icon--paperclip-medium {
+  padding-right: 0;
+
+  svg {
+    fill: $icon-inactive-color;
+    min-width: #{36/$font-size}rem; /* 1 */
+    min-height: #{36/$font-size}rem; /* 1 */
+    height: #{36/$font-size}rem;
+    width: #{36/$font-size}rem;
+  }
+}
+
 .Icon--paperclip-large {
   padding-right: 0;
 
   svg {
+    fill: $icon-inactive-color;
     min-width: #{36/$font-size}rem; /* 1 */
     min-height: #{36/$font-size}rem; /* 1 */
     height: #{36/$font-size}rem;
