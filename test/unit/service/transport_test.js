@@ -397,7 +397,7 @@ describe('transport', function() {
         transport.init();
       });
 
-      it('should throw an exception if zendeskHost is not set in config', function() {
+      it('should throw an exception', function() {
         expect(() => transport.send(payload))
           .toThrow();
       });
