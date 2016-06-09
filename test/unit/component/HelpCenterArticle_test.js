@@ -236,6 +236,7 @@ describe('HelpCenterArticle component', function() {
       mockZendeskHost,
       mockUpdateStoredImages,
       mockImagesSender;
+    const lastActiveArticleId = 2;
 
     beforeEach(function() {
       global.document.zendeskHost = 'dev.zd-dev.com';
@@ -255,12 +256,12 @@ describe('HelpCenterArticle component', function() {
 
     describe('when there are no valid images in the article', function() {
       it('should return the unmodified article body', function() {
-        expect(helpCenterArticle.replaceArticleImages(mockArticle))
+        expect(helpCenterArticle.replaceArticleImages(mockArticle, lastActiveArticleId))
           .toEqual(mockArticle.body);
 
         mockArticle.body += `<img src="https://cdn.com/id/img.png">`;
 
-        expect(helpCenterArticle.replaceArticleImages(mockArticle))
+        expect(helpCenterArticle.replaceArticleImages(mockArticle, lastActiveArticleId))
           .toEqual(mockArticle.body);
       });
     });
@@ -270,7 +271,7 @@ describe('HelpCenterArticle component', function() {
         mockOauthToken = null;
         mockArticle.body += `<img src="https://${mockZendeskHost}/article_attachments/img.png">`;
 
-        expect(helpCenterArticle.replaceArticleImages(mockArticle))
+        expect(helpCenterArticle.replaceArticleImages(mockArticle, lastActiveArticleId))
           .toEqual(mockArticle.body);
       });
     });
@@ -284,7 +285,7 @@ describe('HelpCenterArticle component', function() {
 
       describe('when there are no images stored or already queued', function() {
         it('should queue the images for download', function() {
-          helpCenterArticle.replaceArticleImages(mockArticle);
+          helpCenterArticle.replaceArticleImages(mockArticle, lastActiveArticleId);
 
           expect(mockImagesSender.calls.count())
             .toBe(2);
@@ -297,15 +298,24 @@ describe('HelpCenterArticle component', function() {
         });
       });
 
+      describe('when the same article is viewed again', function() {
+        it('should not requeue the images for download', function() {
+          helpCenterArticle.replaceArticleImages(mockArticle, 1);
+
+          expect(mockImagesSender.calls.count())
+            .toBe(0);
+        });
+      });
+
       describe('when there are queued images', function() {
         it('should not requeue the images for download', function() {
-          helpCenterArticle.replaceArticleImages(mockArticle);
+          helpCenterArticle.replaceArticleImages(mockArticle, lastActiveArticleId);
 
           expect(mockImagesSender.calls.count())
             .toBe(2);
 
           mockImagesSender.calls.reset();
-          helpCenterArticle.replaceArticleImages(mockArticle);
+          helpCenterArticle.replaceArticleImages(mockArticle, lastActiveArticleId);
 
           expect(mockImagesSender.calls.count())
             .toBe(0);
@@ -321,7 +331,7 @@ describe('HelpCenterArticle component', function() {
         });
 
         it('should store it in HelpCenter\'s storedImages state object', function() {
-          helpCenterArticle.replaceArticleImages(mockArticle);
+          helpCenterArticle.replaceArticleImages(mockArticle, lastActiveArticleId);
 
           expect(mockImagesSender.calls.count())
             .toBe(2);
@@ -361,10 +371,10 @@ describe('HelpCenterArticle component', function() {
               zendeskHost={mockZendeskHost} />
           );
 
-          expect(helpCenterArticle.replaceArticleImages(mockArticle))
+          expect(helpCenterArticle.replaceArticleImages(mockArticle, lastActiveArticleId))
             .toContain(`https://${mockZendeskHost}/abc/img0.png`);
 
-          expect(helpCenterArticle.replaceArticleImages(mockArticle))
+          expect(helpCenterArticle.replaceArticleImages(mockArticle, lastActiveArticleId))
             .toContain(`https://${mockZendeskHost}/abc/img1.png`);
         });
       });

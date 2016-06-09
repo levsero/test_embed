@@ -22,7 +22,6 @@ class HelpCenterArticle extends Component {
     this.handleClick = this.handleClick.bind(this);
 
     this.state = {
-      lastActiveArticleId: 0,
       queuedImages: {}
     };
   }
@@ -35,7 +34,7 @@ class HelpCenterArticle extends Component {
     doc.head.appendChild(base);
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     const { activeArticle } = this.props;
     const container = ReactDOM.findDOMNode(this.refs.article);
     const sanitizeHtmlOptions = {
@@ -70,9 +69,10 @@ class HelpCenterArticle extends Component {
       },
       allowedSchemesByTag: { 'iframe': ['https'] }
     };
+    const lastActiveArticleId = prevProps.activeArticle.id;
 
     if (activeArticle.body) {
-      const body = this.replaceArticleImages(activeArticle);
+      const body = this.replaceArticleImages(activeArticle, lastActiveArticleId);
       let cleanHtml = sanitizeHtml(body, sanitizeHtmlOptions);
 
       // Inject a table wrapper to allow horizontal scrolling
@@ -84,16 +84,10 @@ class HelpCenterArticle extends Component {
       container.innerHTML = '';
     }
 
-    if (this.state.lastActiveArticleId !== this.props.activeArticle.id) {
+    if (lastActiveArticleId !== this.props.activeArticle.id) {
       let topNode = ReactDOM.findDOMNode(this.refs.userContent);
 
       topNode.scrollTop = 0;
-
-      /* eslint-disable */
-      this.setState({
-        lastActiveArticleId: this.props.activeArticle.id
-      });
-      /* eslint-enable */
     }
   }
 
@@ -139,7 +133,7 @@ class HelpCenterArticle extends Component {
          : false;
   }
 
-  replaceArticleImages(activeArticle) {
+  replaceArticleImages(activeArticle, lastActiveArticleId) {
     const { storedImages } = this.props;
     const parseHtmlString = (htmlStr) => {
       const el = document.createElement('html');
@@ -178,7 +172,7 @@ class HelpCenterArticle extends Component {
       }
     });
 
-    if (this.state.lastActiveArticleId !== this.props.activeArticle.id) {
+    if (lastActiveArticleId !== this.props.activeArticle.id) {
       const urls = _.filter(pendingImageUrls, (src) => !this.state.queuedImages.hasOwnProperty(src));
 
       this.queueImageRequests(urls);
