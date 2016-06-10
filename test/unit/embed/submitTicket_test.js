@@ -101,7 +101,7 @@ describe('embed.submitTicket', function() {
         transitionFactory: requireUncached(buildTestPath('unit/mockTransitionFactory')).mockTransitionFactory
       },
       'service/transport': {
-        transport: jasmine.createSpyObj('transport', ['send'])
+        transport: jasmine.createSpyObj('transport', ['send', 'sendFile'])
       }
     });
 
@@ -433,6 +433,35 @@ describe('embed.submitTicket', function() {
 
       expect(mockTransport.send.calls.mostRecent().args[0].path)
         .toEqual('/embeddable/ticket');
+    });
+  });
+
+  describe('attachmentSender', () => {
+    let file,
+      mockTransport,
+      embed;
+
+    beforeEach(function() {
+      mockTransport = mockRegistry['service/transport'].transport;
+      file = {
+        name: 'foo.bar'
+      };
+
+      submitTicket.create('bob');
+      submitTicket.render('bob');
+
+      embed = submitTicket.get('bob').instance.getRootComponent();
+      embed.props.attachmentSender(file, null, null, null);
+    });
+
+    it('calls transport.sendFile when invoked', () => {
+      expect(mockTransport.sendFile)
+        .toHaveBeenCalled();
+    });
+
+    it('sends to the correct endpoint', () => {
+      expect(mockTransport.sendFile.calls.mostRecent().args[0].path)
+        .toEqual('/embeddable/ticket_attachments');
     });
   });
 
