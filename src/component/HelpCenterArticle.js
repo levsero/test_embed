@@ -158,34 +158,30 @@ class HelpCenterArticle extends Component {
     // If the image has not already been downloaded, then queue up
     // an async request for it. The src attribute is set to empty so we can
     // still render the image while waiting for the response.
-    let pendingImageUrls = [];
+    const pendingImageUrls = _.chain(imgEls)
+      .reject((imgEl) => storedImages[imgEl.src])
+      .map((imgEl) => imgEl.src)
+      .value();
 
     _.forEach(imgEls, (imgEl) => {
-      if (storedImages[imgEl.src]) {
-        imgEl.src = storedImages[imgEl.src];
-      } else {
-        pendingImageUrls.push(imgEl.src);
+      const storedImage = storedImages[imgEl.src];
 
-        // '//:0' ensures that the img src is blank on all browsers.
-        // http://stackoverflow.com/questions/19126185/setting-an-image-src-to-empty
-        imgEl.src = '//:0';
-      }
+      // '//:0' ensures that the img src is blank on all browsers.
+      // http://stackoverflow.com/questions/19126185/setting-an-image-src-to-empty
+      imgEl.src = storedImage ? storedImage : '//:0';
     });
 
     if (lastActiveArticleId !== this.props.activeArticle.id) {
-      const urls = _.filter(pendingImageUrls, (src) => !this.state.queuedImages.hasOwnProperty(src));
-
-      this.queueImageRequests(urls);
+      _.chain(pendingImageUrls)
+        .filter((src) => !this.state.queuedImages.hasOwnProperty(src))
+        .tap(this.queueImageRequests.bind(this))
+        .value();
     }
 
     return htmlEl.outerHTML;
   }
 
-  queueImageRequests(pendingImageUrls) {
-    if (pendingImageUrls.length === 0) {
-      return;
-    }
-
+  queueImageRequests(imageUrls = []) {
     const handleSuccess = (src, res) => {
       const url = window.URL.createObjectURL(res.xhr.response);
 
@@ -195,13 +191,13 @@ class HelpCenterArticle extends Component {
       this.props.updateStoredImages({ [src]: url });
     };
 
-    const imagesQueued = {};
-
-    _.forEach(pendingImageUrls, (src) => {
-      this.props.imagesSender(src, (res) => handleSuccess(src, res));
-
-      imagesQueued[src] = '';
-    });
+    const imagesQueued = _.transform(imageUrls,
+      (result, url) => {
+        this.props.imagesSender(url, (res) => handleSuccess(url, res));
+        result[url] = '';
+      },
+      {}
+    );
 
     this.setState({
       queuedImages: _.extend({}, this.state.queuedImages, imagesQueued)
