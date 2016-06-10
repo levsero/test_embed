@@ -121,9 +121,14 @@ describe('HelpCenter component', function() {
           return mockIsMobileBrowserValue;
         }
       },
+      'utility/globals': {
+        win: window,
+        document: document
+      },
       'utility/utils': {
         bindMethods: mockBindMethods,
-        getPageKeywords: () => mockPageKeywords
+        getPageKeywords: () => mockPageKeywords,
+        parseUrl: () => noop
       },
       '_': _
     });

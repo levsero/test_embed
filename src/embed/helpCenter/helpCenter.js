@@ -85,9 +85,10 @@ function create(name, config) {
     }
   };
 
-  const searchSenderFn = (url) => (query, doneFn, failFn) => {
+  const senderPayload = (url) => (query, doneFn, failFn) => {
     const token = authentication.getToken();
-    const payload = {
+
+    return {
       method: 'get',
       path: url,
       query: query,
@@ -97,8 +98,18 @@ function create(name, config) {
         fail: failFn
       }
     };
+  };
+
+  const searchSenderFn = (url) => (query, doneFn, failFn) => {
+    const payload = senderPayload(url)(query, doneFn, failFn);
 
     transport.send(payload);
+  };
+
+  const imagesSenderFn = (url, doneFn) => {
+    const payload = senderPayload(url)(null, doneFn);
+
+    transport.getImage(payload);
   };
 
   config = _.extend(configDefaults, config);
@@ -126,6 +137,7 @@ function create(name, config) {
           showBackButton={showBackButton}
           searchSender={searchSenderFn('/api/v2/help_center/search.json')}
           contextualSearchSender={searchSenderFn('/api/v2/help_center/articles/embeddable_search.json')}
+          imagesSender={imagesSenderFn}
           style={containerStyle}
           updateFrameSize={params.updateFrameSize}
           disableAutoSearch={config.disableAutoSearch}

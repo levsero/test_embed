@@ -34,6 +34,7 @@ export class HelpCenter extends Component {
       searchFailed: false,
       articleViewActive: false,
       activeArticle: {},
+      images: {},
       showIntroScreen: isMobileBrowser(),
       virtualKeyboardKiller: false,
       searchTracked: false,
@@ -329,6 +330,12 @@ export class HelpCenter extends Component {
     });
   }
 
+  updateImages(img) {
+    this.setState({
+      images: _.extend({}, this.state.images, img)
+    });
+  }
+
   render() {
     const listClasses = classNames({
       'List': true,
@@ -563,6 +570,10 @@ export class HelpCenter extends Component {
           <div className={articleClasses}>
             <HelpCenterArticle
               activeArticle={this.state.activeArticle}
+              zendeskHost={this.props.zendeskHost}
+              storedImages={this.state.images}
+              imagesSender={this.props.imagesSender}
+              updateStoredImages={this.updateImages}
               fullscreen={this.state.fullscreen} />
           </div>
         </ScrollContainer>
@@ -576,6 +587,8 @@ export class HelpCenter extends Component {
 HelpCenter.propTypes = {
   searchSender: PropTypes.func.isRequired,
   contextualSearchSender: PropTypes.func.isRequired,
+  imagesSender: PropTypes.func.isRequired,
+  zendeskHost: PropTypes.string.isRequired,
   buttonLabelKey: PropTypes.string,
   onSearch: PropTypes.func,
   showBackButton: PropTypes.func,

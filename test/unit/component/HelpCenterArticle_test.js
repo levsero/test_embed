@@ -1,25 +1,17 @@
 describe('HelpCenterArticle component', function() {
   let HelpCenterArticle,
-    scrollIntoView;
+    scrollIntoView,
+    mockArticle,
+    mockOauthToken;
   const helpCenterArticlePath = buildSrcPath('component/HelpCenterArticle');
-  const mockArticle = {
-    body: `
-      <h1 id="foo">Foobar</h1>
-      <a href="#foo" name="foo">inpage link</a>
-      <a class="relative" href="/relative/link">relative link</a>
-      <div id="preserved" style="bad styles not allowed">
-        This text contains a sub-note<sub>1</sub>
-      </div>
-      <div id="notes"><sup>1</sup>This explains the note</div>
-    `
-  };
 
   beforeEach(function() {
     scrollIntoView = jasmine.createSpy();
 
-    global.document.zendeskHost = 'dev.zd-dev.com';
-
     resetDOM();
+
+    global.document.zendeskHost = 'dev.zd-dev.com';
+    mockOauthToken = 'abc';
 
     mockery.enable({
       warnOnReplace: false
@@ -27,10 +19,18 @@ describe('HelpCenterArticle component', function() {
 
     initMockRegistry({
       'React': React,
+      'service/authentication': {
+        authentication: {
+          getToken: () => mockOauthToken
+        }
+      },
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', [
           't'
         ])
+      },
+      'utility/utils': {
+        parseUrl: () => noop
       },
       'imports?_=lodash!lodash': _,
       'component/Button': {
@@ -41,6 +41,19 @@ describe('HelpCenterArticle component', function() {
     mockery.registerAllowable(helpCenterArticlePath);
 
     HelpCenterArticle = requireUncached(helpCenterArticlePath).HelpCenterArticle;
+
+    mockArticle = {
+      id: 1,
+      body: `
+        <h1 id="foo">Foobar</h1>
+        <a href="#foo" name="foo">inpage link</a>
+        <a class="relative" href="/relative/link">relative link</a>
+        <div id="preserved" style="bad styles not allowed">
+          This text contains a sub-note<sub>1</sub>
+        </div>
+        <div id="notes"><sup>1</sup>This explains the note</div>
+      `
+    };
   });
 
   afterEach(function() {
@@ -215,6 +228,155 @@ describe('HelpCenterArticle component', function() {
 
       expect(ReactDOM.findDOMNode(helpCenterArticle.refs.article).innerHTML)
         .toEqual('');
+    });
+  });
+
+  describe('replaceArticleImages', function() {
+    let helpCenterArticle,
+      mockZendeskHost,
+      mockUpdateStoredImages,
+      mockImagesSender;
+    const lastActiveArticleId = 2;
+
+    beforeEach(function() {
+      mockZendeskHost = 'dev.zd.dev.com';
+      mockImagesSender = jasmine.createSpy('mockImagesSender');
+      mockUpdateStoredImages = jasmine.createSpy('mockUpdateStoredImages');
+
+      helpCenterArticle = domRender(
+        <HelpCenterArticle
+          activeArticle={mockArticle}
+          storedImages={{}}
+          imagesSender={mockImagesSender}
+          updateStoredImages={mockUpdateStoredImages}
+          zendeskHost={mockZendeskHost} />
+      );
+    });
+
+    describe('when there are no valid images in the article', function() {
+      it('should return the unmodified article body', function() {
+        expect(helpCenterArticle.replaceArticleImages(mockArticle, lastActiveArticleId))
+          .toEqual(mockArticle.body);
+
+        mockArticle.body += `<img src="https://cdn.com/id/img.png">`;
+
+        expect(helpCenterArticle.replaceArticleImages(mockArticle, lastActiveArticleId))
+          .toEqual(mockArticle.body);
+      });
+    });
+
+    describe('when there is no valid oauth token', function() {
+      it('should return the unmodified article body', function() {
+        mockOauthToken = null;
+        mockArticle.body += `<img src="https://${mockZendeskHost}/article_attachments/img.png">`;
+
+        expect(helpCenterArticle.replaceArticleImages(mockArticle, lastActiveArticleId))
+          .toEqual(mockArticle.body);
+      });
+    });
+
+    describe('when there are valid images and an oauth token', function() {
+      beforeEach(function() {
+        mockOauthToken = 'abc';
+        mockArticle.body += `<img src="https://${mockZendeskHost}/article_attachments/img0.png">
+                             <img src="https://${mockZendeskHost}/article_attachments/img1.png">`;
+      });
+
+      describe('when there are no images stored or already queued', function() {
+        it('should queue the images for download', function() {
+          helpCenterArticle.replaceArticleImages(mockArticle, lastActiveArticleId);
+
+          expect(mockImagesSender.calls.count())
+            .toBe(2);
+
+          expect(mockImagesSender.calls.argsFor(0)[0])
+            .toBe(`https://${mockZendeskHost}/article_attachments/img0.png`);
+
+          expect(mockImagesSender.calls.argsFor(1)[0])
+            .toBe(`https://${mockZendeskHost}/article_attachments/img1.png`);
+        });
+      });
+
+      describe('when the same article is viewed again', function() {
+        it('should not requeue the images for download', function() {
+          helpCenterArticle.replaceArticleImages(mockArticle, 1);
+
+          expect(mockImagesSender.calls.count())
+            .toBe(0);
+        });
+      });
+
+      describe('when there are queued images', function() {
+        it('should not requeue the images for download', function() {
+          helpCenterArticle.replaceArticleImages(mockArticle, lastActiveArticleId);
+
+          expect(mockImagesSender.calls.count())
+            .toBe(2);
+
+          mockImagesSender.calls.reset();
+          helpCenterArticle.replaceArticleImages(mockArticle, lastActiveArticleId);
+
+          expect(mockImagesSender.calls.count())
+            .toBe(0);
+        });
+      });
+
+      describe('when an image successfully downloads', function() {
+        let mockObjectUrl;
+
+        beforeEach(function() {
+          mockObjectUrl = `https://${mockZendeskHost}/abc/img0.png`;
+          window.URL.createObjectURL = () => mockObjectUrl;
+        });
+
+        it('should store it in HelpCenter\'s storedImages state object', function() {
+          helpCenterArticle.replaceArticleImages(mockArticle, lastActiveArticleId);
+
+          expect(mockImagesSender.calls.count())
+            .toBe(2);
+
+          const mockRes = {
+            xhr: {
+              response: new window.Blob([''], { type: 'image/png' })
+            }
+          };
+
+          mockImagesSender.calls.argsFor(0)[1](mockRes);
+
+          expect(mockUpdateStoredImages)
+            .toHaveBeenCalledWith({
+              [`https://${mockZendeskHost}/article_attachments/img0.png`]: `https://${mockZendeskHost}/abc/img0.png`
+            });
+
+          mockObjectUrl = `https://${mockZendeskHost}/abc/img1.png`;
+          mockImagesSender.calls.argsFor(1)[1](mockRes);
+
+          expect(mockUpdateStoredImages)
+            .toHaveBeenCalledWith({
+              [`https://${mockZendeskHost}/article_attachments/img1.png`]: `https://${mockZendeskHost}/abc/img1.png`
+            });
+        });
+
+        it('The url of the new downloaded image should be used in the article body', function() {
+          const storedImages = {
+            [`https://${mockZendeskHost}/article_attachments/img0.png`]: `https://${mockZendeskHost}/abc/img0.png`,
+            [`https://${mockZendeskHost}/article_attachments/img1.png`]: `https://${mockZendeskHost}/abc/img1.png`
+          };
+
+          helpCenterArticle = domRender(
+            <HelpCenterArticle
+              activeArticle={mockArticle}
+              storedImages={storedImages}
+              zendeskHost={mockZendeskHost} />
+          );
+
+          expect(helpCenterArticle.replaceArticleImages(mockArticle, lastActiveArticleId))
+            .toContain(`https://${mockZendeskHost}/abc/img0.png`);
+
+          expect(helpCenterArticle.replaceArticleImages(mockArticle, lastActiveArticleId))
+            .toContain(`https://${mockZendeskHost}/abc/img1.png`);
+        });
+      });
     });
   });
 });
