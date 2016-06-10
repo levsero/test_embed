@@ -73,6 +73,10 @@ parts:
       key: "embeddable_framework.submitTicket.form.cancelButton.label.cancel"
       title: "The label on the button to cancel the form in the submit ticket form (tinyurl.com/pd286zm)"
       value: "Cancel"
+  - translation:
+      key: "embeddable_framework.submitTicket.form.submittedFrom.label"
+      title: "The label added to tickets to show what page they were submitted from. %()s stands for string and does not need to be translated (https://zendesk.box.com/s/xphceiyfi5lod5978fxuwynm9hg0xcs9)"
+      value: "Submitted from: %(url)s"
 
   # Submit Ticket Schema component
   - translation:

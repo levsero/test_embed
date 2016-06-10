@@ -10,7 +10,8 @@ import { SubmitTicketForm } from 'component/SubmitTicketForm';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { i18n } from 'service/i18n';
 import { isMobileBrowser } from 'utility/devices';
-import { win } from 'utility/globals';
+import { location,
+         win } from 'utility/globals';
 import { bindMethods } from 'utility/utils';
 
 let frameDimensions = {
@@ -99,6 +100,19 @@ export class SubmitTicket extends Component {
   }
 
   formatTicketSubmission(data) {
+    if (this.props.attachmentsEnabled) {
+      const submittedFrom = i18n.t(
+        'embeddable_framework.submitTicket.form.submittedFrom.label',
+        {
+          fallback: 'Submitted from: %(url)s',
+          url: location.href
+        }
+      );
+      const newDesc = `${data.value.description}\n\n------------------\n${submittedFrom}`;
+
+      data.value.description = newDesc;
+    }
+
     if (this.props.customFields.length === 0) {
       return data.value;
     } else {
