@@ -3,7 +3,6 @@ describe('HelpCenter component', function() {
     mockRegistry,
     mockIsMobileBrowserValue,
     mockPageKeywords,
-    mockOauthToken,
     trackSearch,
     updateResults;
 
@@ -21,7 +20,6 @@ describe('HelpCenter component', function() {
 
     mockIsMobileBrowserValue = false;
     mockPageKeywords = 'billy bob thorton';
-    mockOauthToken = null;
 
     mockRegistry = initMockRegistry({
       'React': React,
@@ -110,11 +108,6 @@ describe('HelpCenter component', function() {
           getLocale: jasmine.createSpy(),
           isRTL: jasmine.createSpy(),
           t: _.identity
-        }
-      },
-      'service/authentication': {
-        authentication: {
-          getToken: () => mockOauthToken
         }
       },
       'service/persistence': {

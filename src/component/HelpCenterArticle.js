@@ -164,11 +164,9 @@ class HelpCenterArticle extends Component {
       .value();
 
     _.forEach(imgEls, (imgEl) => {
-      const storedImage = storedImages[imgEl.src];
-
       // '//:0' ensures that the img src is blank on all browsers.
       // http://stackoverflow.com/questions/19126185/setting-an-image-src-to-empty
-      imgEl.src = storedImage ? storedImage : '//:0';
+      imgEl.src = storedImages[imgEl.src] || '//:0';
     });
 
     if (lastActiveArticleId !== this.props.activeArticle.id) {
@@ -191,13 +189,10 @@ class HelpCenterArticle extends Component {
       this.props.updateStoredImages({ [src]: url });
     };
 
-    const imagesQueued = _.transform(imageUrls,
-      (result, url) => {
-        this.props.imagesSender(url, (res) => handleSuccess(url, res));
-        result[url] = '';
-      },
-      {}
-    );
+    const imagesQueued = _.transform(imageUrls, (result, url) => {
+      this.props.imagesSender(url, (res) => handleSuccess(url, res));
+      result[url] = '';
+    }, {});
 
     this.setState({
       queuedImages: _.extend({}, this.state.queuedImages, imagesQueued)

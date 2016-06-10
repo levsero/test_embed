@@ -239,7 +239,6 @@ describe('HelpCenterArticle component', function() {
     const lastActiveArticleId = 2;
 
     beforeEach(function() {
-      global.document.zendeskHost = 'dev.zd-dev.com';
       mockZendeskHost = 'dev.zd.dev.com';
       mockImagesSender = jasmine.createSpy('mockImagesSender');
       mockUpdateStoredImages = jasmine.createSpy('mockUpdateStoredImages');
