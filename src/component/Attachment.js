@@ -82,7 +82,7 @@ export class Attachment extends Component {
     return (
       <div className={containerClasses}>
         <div className='Attachment-preview u-posRelative u-hsizeAll'>
-          <Icon type={this.props.icon} className='Icon--preview u-pullLeft u-clearLeft' />
+          <Icon type={this.props.icon} className='Icon--preview u-pullLeft' />
           <div className="u-pullLeft">
             <div className='Attachment-preview-name u-alignTop u-pullLeft u-textTruncate u-textBody'>
               {nameStart}
