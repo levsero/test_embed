@@ -4,7 +4,8 @@
 }
 
 .Attachment-preview {
-  height: #{16/$font-size}rem;
+  overflow: auto;
+  height: #{32/$font-size}rem;
   z-index: 2;
 }
 
