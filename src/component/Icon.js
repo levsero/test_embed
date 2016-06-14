@@ -27,8 +27,7 @@ const icons = {
   'Icon--preview-ppt': require('icons/attach_ppt.svg'),
   'Icon--preview-txt': require('icons/attach_txt.svg'),
   'Icon--preview-default': require('icons/attach_unknown.svg'),
-  'Icon--preview-xls': require('icons/attach_xls.svg'),
-  'Icon--preview-close': require('icons/widget-icon_close.svg')
+  'Icon--preview-xls': require('icons/attach_xls.svg')
 };
 
 export class Icon extends Component {
