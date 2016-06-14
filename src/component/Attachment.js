@@ -71,13 +71,17 @@ export class Attachment extends Component {
       'u-posRelative': true,
       'u-marginBS': true
     });
+    const fileSizeFormatter = (size) => {
+      const sizeInMb = size / 1024 / 1024;
+
+      return Math.round(sizeInMb * 10) / 10;
+    };
 
     const progressBar = this.state.uploading ? this.renderProgressBar() : null;
     const iconOnClick = this.state.uploading ? this.handleStopUpload : this.handleRemoveAttachment;
     const nameStart = file.name.slice(0, -7);
     const nameEnd = file.name.slice(-7);
-    const sizeInMb = Math.round((file.size / 1024 / 1024) * 10) / 10;
-    const size = `${sizeInMb} mb`;
+    const size = `${fileSizeFormatter(file.size)} mb`;
 
     return (
       <div className={containerClasses}>
@@ -96,8 +100,8 @@ export class Attachment extends Component {
           </div>
           <Icon
             onClick={iconOnClick}
-            className='u-isActionable u-pullRight'
-            type='Icon--preview-close' />
+            className='Icon--preview-close u-isActionable u-pullRight'
+            type='Icon--close' />
         </div>
         {progressBar}
       </div>
