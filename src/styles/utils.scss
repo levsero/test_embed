@@ -380,3 +380,11 @@ $Base-posOffset: $med + 1;
 .u-hsizeAll {
   width: 100% !important;
 }
+
+/**
+* Clear float utils
+*/
+
+.u-clearLeft {
+  clear: left;
+}

@@ -66,7 +66,7 @@ export class Attachment extends Component {
     const { file } = this.props.attachment;
 
     const containerClasses = classNames({
-      'Form-field--display': true,
+      'Form-field--display-preview': true,
       'Attachment--uploading': this.state.uploading,
       'u-posRelative': true,
       'u-marginBS': true
@@ -76,23 +76,28 @@ export class Attachment extends Component {
     const iconOnClick = this.state.uploading ? this.handleStopUpload : this.handleRemoveAttachment;
     const nameStart = file.name.slice(0, -7);
     const nameEnd = file.name.slice(-7);
+    const sizeInMb = Math.round((file.size / 1024 / 1024) * 10) / 10;
+    const size = `${sizeInMb} mb`;
 
     return (
       <div className={containerClasses}>
         <div className='Attachment-preview u-posRelative u-hsizeAll'>
-          <Icon type={this.props.icon} className='Icon--preview u-pullLeft' />
-          <div className='Attachment-preview-name u-alignTop u-pullLeft u-textTruncate'>
-            {nameStart}
+          <Icon type={this.props.icon} className='Icon--preview u-pullLeft u-clearLeft' />
+          <div className="u-pullLeft">
+            <div className='Attachment-preview-name u-alignTop u-pullLeft u-textTruncate u-textBody'>
+              {nameStart}
+            </div>
+            <div className='u-pullLeft u-textBody'>
+              {nameEnd}
+            </div>
+            <div className='u-pullLeft u-clearLeft'>
+              {size}
+            </div>
           </div>
-          <div className='u-pullLeft'>
-            {nameEnd}
-          </div>
-          <div className='u-pullRight'>
-            <Icon
-              onClick={iconOnClick}
-              className='u-isActionable'
-              type='Icon--clearInput' />
-          </div>
+          <Icon
+            onClick={iconOnClick}
+            className='u-isActionable u-pullRight'
+            type='Icon--preview-close' />
         </div>
         {progressBar}
       </div>

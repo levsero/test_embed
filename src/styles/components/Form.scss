@@ -89,6 +89,12 @@ $Form-fontSize: #{13/$font-size}rem;
   color: $secondary-color;
 }
 
+.Form-field--display-preview {
+  @extend .Form-field--display;
+
+  padding: #{7/$font-size}rem;
+}
+
 .Form-checkbox {
   width: #{14/$font-size}rem;
   height: #{14/$font-size}rem;
