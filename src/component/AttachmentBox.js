@@ -14,7 +14,7 @@ export class AttachmentBox extends Component {
     };
 
     return (
-      <div className='u-posRelative u-zIndex1'>
+      <div className='AttachmentBox u-posRelative'>
         <Dropzone
           onDrop={this.props.onDrop}
           className='Container--overlay Container--dashed u-posAbsolute u-marginAS'

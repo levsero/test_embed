@@ -1,8 +1,23 @@
+.Attachment--uploading {
+  background-color: transparent;
+  border: #{1/$font-size}rem dashed $zendesk-color--iron;
+}
+
 .Attachment-preview {
   height: #{16/$font-size}rem;
-  width: 100%;
+  z-index: 2;
 }
 
 .Attachment-preview-name {
   max-width: 62%;
+}
+
+.Attachment-progress {
+  z-index: 1;
+  border-radius: #{4/$font-size}rem;
+  background-color: rgba(119, 163, 0, 0.15);
+}
+
+.AttachmentBox {
+  z-index: 100;
 }

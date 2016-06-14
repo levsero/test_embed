@@ -114,6 +114,36 @@ function sendWithMeta(payload) {
   send(payload);
 }
 
+function sendFile(payload) {
+  if (!config.zendeskHost) {
+    throw 'Missing zendeskHost config param.';
+  }
+
+  return superagent(payload.method.toUpperCase(),
+                    buildFullUrl(payload.path))
+    .attach('file', payload.file)
+    .on('progress', function(e) {
+      if (payload.callbacks) {
+        if (_.isFunction(payload.callbacks.progress)) {
+          payload.callbacks.progress(e);
+        }
+      }
+    })
+    .end(function(err, res) {
+      if (payload.callbacks) {
+        if (err) {
+          if (_.isFunction(payload.callbacks.fail)) {
+            payload.callbacks.fail(err);
+          }
+        } else {
+          if (_.isFunction(payload.callbacks.done)) {
+            payload.callbacks.done(res);
+          }
+        }
+      }
+    });
+}
+
 function getImage(payload) {
   superagent(payload.method.toUpperCase(), payload.path)
     .timeout(60000)
@@ -140,6 +170,7 @@ export const transport = {
   init: init,
   send: send,
   sendWithMeta: sendWithMeta,
+  sendFile: sendFile,
   getImage: getImage,
   get: send,
   getZendeskHost: getZendeskHost

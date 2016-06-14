@@ -67,9 +67,13 @@ describe('SubmitTicketForm component', function() {
           }
         })
       },
-      'component/AttachmentPreview': {
-        getAttachmentPreviews: noop
-      },
+      'component/AttachmentList': React.createClass({
+        render: function() {
+          return (
+            <div attachmentSender={noop} />
+          );
+        }
+      }),
       'service/i18n': {
         i18n: {
           init: noop,

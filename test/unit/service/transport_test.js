@@ -11,9 +11,11 @@ describe('transport', function() {
       type: () => mockMethods,
       send: () => mockMethods,
       responseType: () => mockMethods,
+      attach: () => mockMethods,
       query: () => mockMethods,
       timeout: () => mockMethods,
       set: () => mockMethods,
+      on: () => mockMethods,
       end: () => mockMethods
     };
     mockRegistry = initMockRegistry({
@@ -365,6 +367,166 @@ describe('transport', function() {
 
       expect(payload.callbacks.fail)
         .not.toHaveBeenCalled();
+    });
+  });
+
+  describe('#sendFile', function() {
+    let payload,
+      config;
+
+    beforeEach(function() {
+      payload = {
+        method: 'post',
+        path: '/test/path',
+        file: 'fakeFile',
+        callbacks: {
+          done: noop,
+          fail: noop,
+          progress: noop
+        }
+      };
+
+      config = {
+        zendeskHost: 'test.zendesk.host',
+        version: 'version123'
+      };
+    });
+
+    describe('when zendeskHost is not set in config', function() {
+      beforeEach(function() {
+        transport.init();
+      });
+
+      it('should throw an exception', function() {
+        expect(() => transport.send(payload))
+          .toThrow();
+      });
+    });
+
+    describe('when zendeskHost is set in config', function() {
+      let mockSuperagent;
+
+      beforeEach(function() {
+        spyOn(payload.callbacks, 'done');
+        spyOn(payload.callbacks, 'fail');
+        spyOn(payload.callbacks, 'progress');
+
+        spyOn(mockMethods, 'end').and.callThrough();
+        spyOn(mockMethods, 'on').and.callThrough();
+
+        mockSuperagent = mockRegistry.superagent;
+
+        transport.init(config);
+      });
+
+      describe('when callbacks are present', function() {
+        beforeEach(function() {
+          transport.sendFile(payload);
+        });
+
+        it('sets the correct http method and url on superagent', function() {
+          expect(mockSuperagent)
+            .toHaveBeenCalledWith(
+              'POST',
+              'https://test.zendesk.host/test/path');
+        });
+
+        it('triggers the done callback if response is successful', function() {
+          expect(mockMethods.end)
+            .toHaveBeenCalled();
+
+          const recentCall = mockMethods.end.calls.mostRecent();
+          const callback = recentCall.args[0];
+
+          callback(null, { ok: true });
+
+          expect(payload.callbacks.done)
+            .toHaveBeenCalled();
+
+          expect(payload.callbacks.fail)
+            .not.toHaveBeenCalled();
+        });
+
+        it('triggers the fail callback if response is unsuccessful', function() {
+          expect(mockMethods.end)
+            .toHaveBeenCalled();
+
+          const recentCall = mockMethods.end.calls.mostRecent();
+          const callback = recentCall.args[0];
+
+          callback({ error: true }, undefined);
+
+          expect(payload.callbacks.fail)
+            .toHaveBeenCalled();
+
+          expect(payload.callbacks.done)
+            .not.toHaveBeenCalled();
+        });
+      });
+
+      describe('when callbacks object is not present', function() {
+        beforeEach(function() {
+          delete payload.callbacks;
+
+          transport.sendFile(payload);
+        });
+
+        it('will not die', function() {
+          const recentCall = mockMethods.end.calls.mostRecent();
+          const callback = recentCall.args[0];
+
+          expect(() => callback(null, { ok: true }))
+            .not.toThrow();
+        });
+      });
+
+      describe('when callbacks.done is not present', function() {
+        beforeEach(function() {
+          delete payload.callbacks.done;
+
+          transport.sendFile(payload);
+        });
+
+        it('will not die', function() {
+          const recentCall = mockMethods.end.calls.mostRecent();
+          const callback = recentCall.args[0];
+
+          expect(() => callback(null, { ok: true }))
+            .not.toThrow();
+        });
+      });
+
+      describe('when callbacks.fail is not present', function() {
+        beforeEach(function() {
+          delete payload.callbacks.fail;
+
+          transport.sendFile(payload);
+        });
+
+        it('will not die', function() {
+          const recentCall = mockMethods.end.calls.mostRecent();
+          const callback = recentCall.args[0];
+
+          expect(() => callback({ error: true }, undefined))
+            .not.toThrow();
+        });
+      });
+
+      describe('when callbacks.progress is not present', function() {
+        beforeEach(function() {
+          delete payload.callbacks.progress;
+
+          transport.sendFile(payload);
+        });
+
+        it('will not die', function() {
+          const recentCall = mockMethods.on.calls.mostRecent();
+          const callback = recentCall.args[1];
+
+          expect(() => callback({ percent: 10 }))
+            .not.toThrow();
+        });
+      });
     });
   });
 });
