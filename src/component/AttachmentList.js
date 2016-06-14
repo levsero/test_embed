@@ -32,17 +32,37 @@ export class AttachmentList extends Component {
     bindMethods(this, AttachmentList.prototype);
 
     this.state = {
-      attachments: []
+      attachments: [],
+      errorCount: 0
     };
   }
 
   handleOnDrop(files) {
+    const maxFileLimit = 5;
+    const maxFileSize = 5 * 1024 * 1024; // 5 mb
+    const numFilesToAdd = maxFileLimit - this.state.attachments.length;
+
+    if (numFilesToAdd < 1 || files.length > maxFileLimit) {
+      // TODO: get general form error working
+      this.setState({ errorCount: this.state.errorCount + 1 });
+      return;
+    }
+
     const newFiles = files.map((file) => {
-      return {
+      const fileObj = {
         id: _.uniqueId(),
         file: file,
         uploadToken: null
       };
+
+      if (__DEV__ || file.size > maxFileSize) {
+        _.extend(fileObj, {
+          error: { message: `The file is too big. Please attach files that are less than 5 mb.` }
+        });
+        this.setState({ errorCount: this.state.errorCount + 1 });
+      }
+
+      return fileObj;
     });
 
     this.setState({
@@ -81,7 +101,8 @@ export class AttachmentList extends Component {
             handleOnUpload={this.handleOnUpload}
             handleRemoveAttachment={this.handleRemoveAttachment}
             attachmentSender={this.props.attachmentSender}
-            icon={icon} />
+            icon={icon}
+            error={attachment.error}/>
         );
       }
     });

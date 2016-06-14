@@ -19,7 +19,7 @@ export class Attachment extends Component {
   }
 
   componentWillMount() {
-    const { attachment, attachmentSender } = this.props;
+    const { attachment, attachmentSender, error } = this.props;
 
     const doneFn = (response) => {
       const token = JSON.parse(response.text).upload.token;
@@ -43,6 +43,11 @@ export class Attachment extends Component {
 
       progressBar.style.width = `${Math.floor(event.percent)}%`;
     };
+
+    if (error) {
+      failFn(error);
+      return;
+    }
 
     this.setState({
       uploading: true,
@@ -81,15 +86,23 @@ export class Attachment extends Component {
       return `${Math.round(sizeInMb * 10) / 10} mb`;
     };
 
-    const progressBar = this.state.uploading ? this.renderProgressBar() : null;
-    const iconOnClick = this.state.uploading ? this.handleStopUpload : this.handleRemoveAttachment;
+    const icon = this.state.uploadError
+               ? null
+               : <Icon type={this.props.icon} className='Icon--preview u-pullLeft' />;
+
+    const progressBar = this.state.uploading && !this.state.uploadError
+                      ? this.renderProgressBar()
+                      : null;
+
     const nameStart = file.name.slice(0, -7);
     const nameEnd = file.name.slice(-7);
+    const secondaryText = this.state.uploadError || fileSizeFormatter(file.size);
+    const iconOnClick = this.state.uploading ? this.handleStopUpload : this.handleRemoveAttachment;
 
     return (
       <div className={containerClasses}>
         <div className='Attachment-preview u-posRelative u-hsizeAll'>
-          <Icon type={this.props.icon} className='Icon--preview u-pullLeft' />
+          {icon}
           <div className="u-pullLeft">
             <div className='Attachment-preview-name u-alignTop u-pullLeft u-textTruncate u-textBody'>
               {nameStart}
@@ -98,7 +111,7 @@ export class Attachment extends Component {
               {nameEnd}
             </div>
             <div className='u-pullLeft u-clearLeft'>
-              {fileSizeFormatter(file.size)}
+              {secondaryText}
             </div>
           </div>
           <Icon
@@ -117,5 +130,10 @@ Attachment.propTypes = {
   handleRemoveAttachment: PropTypes.func.isRequired,
   handleOnUpload: PropTypes.func.isRequired,
   attachmentSender: PropTypes.func.isRequired,
-  icon: PropTypes.string.isRequired
+  icon: PropTypes.string.isRequired,
+  error: PropTypes.object
+};
+
+Attachment.defaultProps = {
+  error: null
 };
