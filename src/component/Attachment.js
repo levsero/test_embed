@@ -27,6 +27,7 @@ export class Attachment extends Component {
         uploaded: true,
         uploadToken: response.body.upload_token
       });
+      this.props.handleOnUpload(this.props.attachment.id, response.body.upload_token);
     };
     const failFn = (error) => {
       this.setState({

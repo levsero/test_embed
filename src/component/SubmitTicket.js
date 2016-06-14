@@ -60,15 +60,17 @@ export class SubmitTicket extends Component {
       return;
     }
 
-    const formParams = _.extend(
-      {
-        'set_tags': 'web_widget',
-        'via_id': 48,
-        'locale_id': i18n.getLocaleId(),
-        'submitted_from': win.location.href
-      },
-      this.formatTicketSubmission(data)
-    );
+    const formParams = !this.props.attachmentsEnabled
+                     ? _.extend(
+                       {
+                         'set_tags': 'web_widget',
+                         'via_id': 48,
+                         'locale_id': i18n.getLocaleId(),
+                         'submitted_from': win.location.href
+                       },
+                       this.formatTicketFieldData(data))
+                     : this.formatRequestTicketData(data);
+
     const failCallback = (err) => {
       const msg = (err.timeout)
                 ? i18n.t('embeddable_framework.submitTicket.notify.message.timeout')
@@ -99,20 +101,34 @@ export class SubmitTicket extends Component {
     this.props.submitTicketSender(formParams, doneCallback, failCallback);
   }
 
-  formatTicketSubmission(data) {
-    if (this.props.attachmentsEnabled) {
-      const submittedFrom = i18n.t(
-        'embeddable_framework.submitTicket.form.submittedFrom.label',
-        {
-          fallback: 'Submitted from: %(url)s',
-          url: location.href
+  formatRequestTicketData(data) {
+    const submittedFrom = i18n.t(
+      'embeddable_framework.submitTicket.form.submittedFrom.label',
+      {
+        fallback: 'Submitted from: %(url)s',
+        url: location.href
+      }
+    );
+    const desc = data.value.description;
+    const newDesc = `${desc}\n\n------------------\n${submittedFrom}`;
+
+    return {
+      request: {
+        subject: desc.length < 50 ? desc : `${desc.slice(50)}...`,
+        comment: {
+          body: newDesc,
+          uploads: this.refs.submitTicketForm.refs.attachments.getAttachmentTokens()
+        },
+        requester: {
+          name: data.value.name,
+          email: data.value.email,
+          locale_id: i18n.getLocaleId()
         }
-      );
-      const newDesc = `${data.value.description}\n\n------------------\n${submittedFrom}`;
-
-      data.value.description = newDesc;
+      }
     }
+  }
 
+  formatTicketFieldData(data) {
     if (this.props.customFields.length === 0) {
       return data.value;
     } else {
