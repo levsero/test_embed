@@ -270,8 +270,10 @@
 }
 
 .Icon--preview-close {
-  padding-right: #{4/$font-size}rem;
-  margin-top: #{11/$font-size}rem;
+  position: absolute;
+  top: 50%;
+  right: #{5/$font-size}rem;
+  margin-top: #{-3/$font-size}rem;
 
   svg {
     fill: $icon-inactive-color;

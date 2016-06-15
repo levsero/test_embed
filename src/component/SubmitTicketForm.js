@@ -142,12 +142,13 @@ export class SubmitTicketForm extends Component {
       {}).value();
   }
 
-  handleUpdate() {
+  updateForm() {
     const form = ReactDOM.findDOMNode(this.refs.form);
 
     this.setState({
       formState: this.getFormState(),
-      isValid: form.checkValidity()
+      isValid: form.checkValidity() &&
+               this.refs.attachments.state.errorCount === 0
     });
   }
 
@@ -219,6 +220,7 @@ export class SubmitTicketForm extends Component {
       <ButtonSecondary
         label={this.state.cancelButtonMessage}
         onClick={onCancel}
+
         fullscreen={fullscreen} />
     );
   }
@@ -230,6 +232,7 @@ export class SubmitTicketForm extends Component {
       <AttachmentList
         ref="attachments"
         attachmentSender={attachmentSender}
+        updateForm={this.updateForm}
         fullscreen={fullscreen} />
     );
   }
@@ -250,7 +253,7 @@ export class SubmitTicketForm extends Component {
       <form
         noValidate={true}
         onSubmit={this.handleSubmit}
-        onChange={this.handleUpdate}
+        onChange={this.updateForm}
         ref='form'
         className={formClasses}>
         <ScrollContainer

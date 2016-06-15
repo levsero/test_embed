@@ -287,6 +287,10 @@ $Base-posOffset: $med + 1;
   color: $body-color;
 }
 
+.u-textError {
+  color: $error-text-color;
+}
+
 .u-textPlaceholder {
   color: #DADADA;
 }
@@ -358,6 +362,10 @@ $Base-posOffset: $med + 1;
 
 .u-borderBottom {
   border-bottom: $thin-border-size solid $base-border-color;
+}
+
+.u-borderError {
+  border-color: $error-border-color !important;
 }
 
 .u-zIndex1 {

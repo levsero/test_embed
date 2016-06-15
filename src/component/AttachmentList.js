@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
+import classNames from 'classnames';
 
 import { Attachment } from 'component/Attachment';
 import { ButtonDropzone } from 'component/Button';
@@ -33,6 +34,7 @@ export class AttachmentList extends Component {
 
     this.state = {
       attachments: [],
+      errorMessage: '',
       errorCount: 0
     };
   }
@@ -41,33 +43,51 @@ export class AttachmentList extends Component {
     const maxFileLimit = 5;
     const maxFileSize = 5 * 1024 * 1024; // 5 mb
     const numFilesToAdd = maxFileLimit - this.state.attachments.length;
+    const setLimitError = () => {
+      this.setState({
+        errorMessage: 'You have already reached the limit of 5 attachments.'
+      });
+    };
 
-    if (numFilesToAdd < 1 || files.length > maxFileLimit) {
-      // TODO: get general form error working
-      this.setState({ errorCount: this.state.errorCount + 1 });
+    if (this.state.errorMessage) {
+      this.setState({ errorMessage: '' });
+    }
+
+    if (numFilesToAdd < 1) {
+      setLimitError();
       return;
     }
 
-    const newFiles = files.map((file) => {
+    const mapFile = (file) => {
       const fileObj = {
         id: _.uniqueId(),
         file: file,
         uploadToken: null
       };
 
-      if (__DEV__ || file.size > maxFileSize) {
+      if (file.size > maxFileSize) {
         _.extend(fileObj, {
-          error: { message: `The file is too big. Please attach files that are less than 5 mb.` }
+          error: { message: `The file exceeds the 5 mb limit.` }
         });
-        this.setState({ errorCount: this.state.errorCount + 1 });
+        this.addAttachmentError();
       }
 
       return fileObj;
-    });
+    };
+
+    const newFiles = _.chain(files)
+      .slice(0, numFilesToAdd)
+      .map(mapFile)
+      .value();
+
+    if (this.state.attachments.length + files.length > maxFileLimit) {
+      setLimitError();
+    }
 
     this.setState({
       attachments: _.union(this.state.attachments, newFiles)
     });
+    this.props.updateForm();
   }
 
   handleOnUpload(attachmentId, token) {
@@ -80,9 +100,16 @@ export class AttachmentList extends Component {
     return _.map(this.state.attachments, (a) => a.uploadToken);
   }
 
-  handleRemoveAttachment(attachmentId) {
+  handleRemoveAttachment(attachmentId, attachmentError) {
+    if (attachmentError) {
+      this.setState({ errorCount: this.state.errorCount - 1 });
+
+      setTimeout(() => this.props.updateForm(), 1);
+    }
+
     this.setState({
-      attachments: _.reject(this.state.attachments, (a) => a.id === attachmentId)
+      attachments: _.reject(this.state.attachments, (a) => a.id === attachmentId),
+      errorMessage: ''
     });
   }
 
@@ -102,13 +129,23 @@ export class AttachmentList extends Component {
             handleRemoveAttachment={this.handleRemoveAttachment}
             attachmentSender={this.props.attachmentSender}
             icon={icon}
-            error={attachment.error}/>
+            error={attachment.error}
+            addAttachmentError={this.addAttachmentError} />
         );
       }
     });
   }
 
+  addAttachmentError() {
+    this.setState({ errorCount: this.state.errorCount + 1 });
+    this.props.updateForm();
+  }
+
   render() {
+    const errorClasses = classNames({
+      'Error u-marginTL': true,
+      'u-isHidden': !this.state.errorMessage
+    });
     const numAttachments = this.state.attachments.length;
     const title = (numAttachments > 0)
                 ? i18n.t('embeddable_framework.submitTicket.attachments.title_withCount',
@@ -122,6 +159,9 @@ export class AttachmentList extends Component {
 
     return (
       <div>
+        <p className={errorClasses}>
+          {this.state.errorMessage}
+        </p>
         <div className='Form-fieldContainer u-block u-marginVM'>
           <label className='Form-fieldLabel u-textXHeight'>
             {title}
@@ -138,6 +178,7 @@ export class AttachmentList extends Component {
 
 AttachmentList.propTypes = {
   attachmentSender: PropTypes.func.isRequired,
+  updateForm: PropTypes.func.isRequired,
   fullscreen: PropTypes.bool
 };
 

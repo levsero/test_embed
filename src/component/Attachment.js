@@ -30,6 +30,7 @@ export class Attachment extends Component {
         uploadToken: token
       });
 
+      this.props.addAttachmentError();
       this.props.handleOnUpload(this.props.attachment.id, token);
     };
     const failFn = (error) => {
@@ -56,7 +57,7 @@ export class Attachment extends Component {
   }
 
   handleRemoveAttachment() {
-    this.props.handleRemoveAttachment(this.props.attachment.id);
+    this.props.handleRemoveAttachment(this.props.attachment.id, this.state.uploadError);
   }
 
   handleStopUpload() {
@@ -78,8 +79,15 @@ export class Attachment extends Component {
       'Form-field--display-preview': true,
       'Attachment--uploading': this.state.uploading,
       'u-posRelative': true,
-      'u-marginBS': true
+      'u-marginBS': true,
+      'u-borderError': this.state.uploadError
     });
+    const secondaryTextClasses = classNames({
+      'u-pullLeft': true,
+      'u-clearLeft': true,
+      'u-textError': this.state.uploadError
+    });
+
     const fileSizeFormatter = (size) => {
       const sizeInMb = size / 1024 / 1024;
 
@@ -89,7 +97,6 @@ export class Attachment extends Component {
     const icon = this.state.uploadError
                ? null
                : <Icon type={this.props.icon} className='Icon--preview u-pullLeft' />;
-
     const progressBar = this.state.uploading && !this.state.uploadError
                       ? this.renderProgressBar()
                       : null;
@@ -110,7 +117,7 @@ export class Attachment extends Component {
             <div className='u-pullLeft u-textBody'>
               {nameEnd}
             </div>
-            <div className='u-pullLeft u-clearLeft'>
+            <div className={secondaryTextClasses}>
               {secondaryText}
             </div>
           </div>
@@ -131,9 +138,11 @@ Attachment.propTypes = {
   handleOnUpload: PropTypes.func.isRequired,
   attachmentSender: PropTypes.func.isRequired,
   icon: PropTypes.string.isRequired,
+  addAttachmentError: PropTypes.func,
   error: PropTypes.object
 };
 
 Attachment.defaultProps = {
+  addAttachmentError: () => {},
   error: null
 };
