@@ -28,7 +28,7 @@ export class SubmitTicket extends Component {
       showNotification: false,
       message: '',
       fullscreen: isMobileBrowser(),
-      errorMessage: '',
+      errorMessage: null,
       uid: _.uniqueId('submitTicketForm_'),
       searchTerm: null,
       searchLocale: null,
@@ -53,7 +53,7 @@ export class SubmitTicket extends Component {
   handleSubmit(e, data) {
     e.preventDefault();
 
-    this.setState({errorMessage: ''});
+    this.setState({ errorMessage: null });
 
     if (!data.isFormValid) {
       // TODO: Handle invalid form submission

@@ -134,15 +134,14 @@ export class Attachment extends Component {
 
 Attachment.propTypes = {
   attachment: PropTypes.object.isRequired,
+  icon: PropTypes.string.isRequired,
+  error: PropTypes.object,
   handleRemoveAttachment: PropTypes.func.isRequired,
   handleOnUpload: PropTypes.func.isRequired,
   attachmentSender: PropTypes.func.isRequired,
-  icon: PropTypes.string.isRequired,
-  addAttachmentError: PropTypes.func,
-  error: PropTypes.object
+  addAttachmentError: PropTypes.func.isRequired
 };
 
 Attachment.defaultProps = {
-  addAttachmentError: () => {},
   error: null
 };

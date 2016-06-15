@@ -34,7 +34,7 @@ export class AttachmentList extends Component {
 
     this.state = {
       attachments: [],
-      errorMessage: '',
+      errorMessage: null,
       errorCount: 0
     };
   }
@@ -50,7 +50,7 @@ export class AttachmentList extends Component {
     };
 
     if (this.state.errorMessage) {
-      this.setState({ errorMessage: '' });
+      this.setState({ errorMessage: null });
     }
 
     if (numFilesToAdd < 1) {
@@ -103,7 +103,6 @@ export class AttachmentList extends Component {
   handleRemoveAttachment(attachmentId, attachmentError) {
     if (attachmentError) {
       this.setState({ errorCount: this.state.errorCount - 1 });
-
       setTimeout(() => this.props.updateForm(), 1);
     }
 
