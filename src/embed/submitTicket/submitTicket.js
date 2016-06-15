@@ -28,7 +28,8 @@ function create(name, config) {
     customFields: [],
     hideZendeskLogo: false,
     formTitleKey: 'message',
-    attachmentsEnabled: false
+    attachmentsEnabled: false,
+    color: '#659700'
   };
 
   config = _.extend(configDefaults, config);
@@ -122,7 +123,7 @@ function create(name, config) {
     },
     {
       frameStyle: frameStyle,
-      css: submitTicketCSS + generateUserCSS({color: config.color}),
+      css: submitTicketCSS + generateUserCSS(config.color),
       position: config.position,
       fullscreenable: true,
       transitions: {

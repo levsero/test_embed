@@ -21,7 +21,8 @@ function create(name, config) {
     position: 'right',
     icon: 'Icon',
     labelKey: 'help',
-    visible: true
+    visible: true,
+    color: '#659700'
   };
   const frameStyle = {
     width: '80px',
@@ -48,7 +49,7 @@ function create(name, config) {
     {
       frameStyle: frameStyle,
       position: config.position,
-      css: launcherCSS + generateUserCSS({color: config.color}),
+      css: launcherCSS + generateUserCSS(config.color),
       name: name,
       hideCloseButton: true,
       fullscreenable: false,
