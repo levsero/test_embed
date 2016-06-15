@@ -161,9 +161,7 @@ export class SubmitTicketForm extends Component {
   handleOnDrop(files) {
     this.refs.attachments.handleOnDrop(files);
 
-    setTimeout(() => {
-      this.refs.scrollContainer.scrollToBottom();
-    }, 0);
+    setTimeout(() => this.refs.scrollContainer.scrollToBottom(), 0);
   }
 
   clear() {
