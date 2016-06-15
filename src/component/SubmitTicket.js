@@ -120,19 +120,22 @@ export class SubmitTicket extends Component {
     );
     const desc = data.value.description;
     const newDesc = `${desc}\n\n------------------\n${submittedFrom}`;
+    const uploads = this.refs.submitTicketForm.refs.attachments
+                  ? this.refs.submitTicketForm.refs.attachments.getAttachmentTokens()
+                  : null;
     const params = _.extend(
       {
-        subject: desc.length < 50 ? desc : `${desc.slice(50)}...`,
-        set_tags: 'web_widget',
-        via_id: 48,
-        comment: {
-          body: newDesc,
-          uploads: this.refs.submitTicketForm.refs.attachments.getAttachmentTokens()
+        'subject': desc.length < 50 ? desc : `${desc.slice(0,50)}...`,
+        'set_tags': 'web_widget',
+        'via_id': 48,
+        'comment': {
+          'body': newDesc,
+          'uploads': uploads
         },
-        requester: {
-          name: data.value.name,
-          email: data.value.email,
-          locale_id: i18n.getLocaleId()
+        'requester': {
+          'name': data.value.name,
+          'email': data.value.email,
+          'locale_id': i18n.getLocaleId()
         }
       },
       this.formatTicketFieldData(data)

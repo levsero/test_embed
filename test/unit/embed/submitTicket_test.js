@@ -432,7 +432,7 @@ describe('embed.submitTicket', function() {
       embed.props.submitTicketSender(formParams, null, null);
 
       expect(mockTransport.send.calls.mostRecent().args[0].path)
-        .toEqual('/embeddable/ticket');
+        .toEqual('/api/v2/requests');
     });
   });
 
@@ -461,7 +461,7 @@ describe('embed.submitTicket', function() {
 
     it('sends to the correct endpoint', () => {
       expect(mockTransport.sendFile.calls.mostRecent().args[0].path)
-        .toEqual('/embeddable/ticket_attachments');
+        .toEqual('/api/v2/uploads');
     });
   });
 

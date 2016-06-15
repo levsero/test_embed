@@ -29,6 +29,7 @@ export class Attachment extends Component {
         uploaded: true,
         uploadToken: token
       });
+
       this.props.handleOnUpload(this.props.attachment.id, token);
     };
     const failFn = (error) => {
@@ -106,6 +107,7 @@ export class Attachment extends Component {
 Attachment.propTypes = {
   attachment: PropTypes.object.isRequired,
   handleRemoveAttachment: PropTypes.func.isRequired,
+  handleOnUpload: PropTypes.func.isRequired,
   attachmentSender: PropTypes.func.isRequired,
   icon: PropTypes.string.isRequired
 };
