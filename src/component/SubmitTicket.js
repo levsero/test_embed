@@ -111,10 +111,11 @@ export class SubmitTicket extends Component {
     );
     const desc = data.value.description;
     const newDesc = `${desc}\n\n------------------\n${submittedFrom}`;
-
-    return {
-      request: {
+    const params = _.extend(
+      {
         subject: desc.length < 50 ? desc : `${desc.slice(50)}...`,
+        set_tags: 'web_widget',
+        via_id: 48,
         comment: {
           body: newDesc,
           uploads: this.refs.submitTicketForm.refs.attachments.getAttachmentTokens()
@@ -124,8 +125,11 @@ export class SubmitTicket extends Component {
           email: data.value.email,
           locale_id: i18n.getLocaleId()
         }
-      }
-    }
+      },
+      this.formatTicketFieldData(data)
+    );
+
+    return { request: params };
   }
 
   formatTicketFieldData(data) {

@@ -22,12 +22,14 @@ export class Attachment extends Component {
     const { attachment, attachmentSender } = this.props;
 
     const doneFn = (response) => {
+      const token = JSON.parse(response.text).upload.token;
+
       this.setState({
         uploading: false,
         uploaded: true,
-        uploadToken: response.body.upload_token
+        uploadToken: token
       });
-      this.props.handleOnUpload(this.props.attachment.id, response.body.upload_token);
+      this.props.handleOnUpload(this.props.attachment.id, token);
     };
     const failFn = (error) => {
       this.setState({
