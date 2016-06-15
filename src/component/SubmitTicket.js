@@ -61,14 +61,7 @@ export class SubmitTicket extends Component {
     }
 
     const formParams = !this.props.attachmentsEnabled
-                     ? _.extend(
-                       {
-                         'set_tags': 'web_widget',
-                         'via_id': 48,
-                         'locale_id': i18n.getLocaleId(),
-                         'submitted_from': win.location.href
-                       },
-                       this.formatTicketFieldData(data))
+                     ? this.formatEmbeddedTicketData(data)
                      : this.formatRequestTicketData(data);
 
     const failCallback = (err) => {
@@ -101,6 +94,22 @@ export class SubmitTicket extends Component {
     this.props.submitTicketSender(formParams, doneCallback, failCallback);
   }
 
+  formatEmbeddedTicketData(data) {
+    const params = {
+      'name': data.value.name,
+      'email': data.value.email,
+      'description': data.value.description,
+      'set_tags': 'web_widget',
+      'via_id': 48,
+      'locale_id': i18n.getLocaleId(),
+      'submitted_from': win.location.href
+    };
+
+    return this.props.customFields.length === 0
+         ? params
+         : _.extend(params, this.formatTicketFieldData(data.value));
+  }
+
   formatRequestTicketData(data) {
     const submittedFrom = i18n.t(
       'embeddable_framework.submitTicket.form.submittedFrom.label',
@@ -129,28 +138,24 @@ export class SubmitTicket extends Component {
       this.formatTicketFieldData(data)
     );
 
-    return { request: params };
+    return this.props.customFields.length === 0
+         ? { request: params }
+         : { request: _.extend(params, this.formatTicketFieldData(data)) };
   }
 
   formatTicketFieldData(data) {
-    if (this.props.customFields.length === 0) {
-      return data.value;
-    } else {
-      let params = {
-        fields: {}
-      };
+    let params = {
+      fields: {}
+    };
 
-      _.forEach(data.value, function(value, name) {
-        // Custom field names are numbers so we check if name is NaN
-        if (isNaN(parseInt(name, 10))) {
-          params[name] = value;
-        } else {
-          params.fields[name] = value;
-        }
-      });
+    _.forEach(data.value, function(value, name) {
+      // Custom field names are numbers so we check if name is NaN
+      if (!isNaN(parseInt(name, 10))) {
+        params.fields[name] = value;
+      }
+    });
 
-      return params;
-    }
+    return params;
   }
 
   handleDragEnter() {
