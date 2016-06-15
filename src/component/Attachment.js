@@ -19,7 +19,7 @@ export class Attachment extends Component {
   }
 
   componentWillMount() {
-    const { attachment, attachmentSender, error } = this.props;
+    const { attachment, attachmentSender } = this.props;
 
     const doneFn = (response) => {
       const token = JSON.parse(response.text).upload.token;
@@ -45,8 +45,8 @@ export class Attachment extends Component {
       progressBar.style.width = `${Math.floor(event.percent)}%`;
     };
 
-    if (error) {
-      failFn(error);
+    if (attachment.error) {
+      failFn(attachment.error);
       return;
     }
 
@@ -135,13 +135,9 @@ export class Attachment extends Component {
 Attachment.propTypes = {
   attachment: PropTypes.object.isRequired,
   icon: PropTypes.string.isRequired,
-  error: PropTypes.object,
   handleRemoveAttachment: PropTypes.func.isRequired,
   handleOnUpload: PropTypes.func.isRequired,
   attachmentSender: PropTypes.func.isRequired,
   addAttachmentError: PropTypes.func.isRequired
 };
 
-Attachment.defaultProps = {
-  error: null
-};

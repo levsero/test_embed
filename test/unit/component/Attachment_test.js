@@ -17,7 +17,18 @@ describe('Attachment component', function() {
     initMockRegistry({
       'React': React,
       'component/Icon': {
-        Icon: noopReactComponent()
+        Icon: React.createClass({
+          render: function() {
+            return (
+              <span
+                className={this.props.className}
+                onClick={this.props.onClick}
+                type={`${this.props.type}`}>
+                <svg />
+              </span>
+            );
+          }
+        })
       },
       'utility/utils': {
         bindMethods: mockBindMethods
@@ -36,7 +47,8 @@ describe('Attachment component', function() {
 
     attachment = {
       id: 1,
-      file: { name: 'foo.bar' }
+      file: { name: 'foo.bar' },
+      error: { message: 'Some error' }
     };
     icon = 'Icon--preview-default';
 
@@ -45,6 +57,7 @@ describe('Attachment component', function() {
         attachment={attachment}
         attachmentSender={mockAttachmentSender}
         handleOnUpload={mockHandleOnUpload}
+        addAttachmentError={noop}
         handleRemoveAttachment={mockHandleRemoveAttachment}
         icon={icon} />
     );
@@ -87,6 +100,35 @@ describe('Attachment component', function() {
 
       expect(mockHandleOnUpload)
         .toHaveBeenCalledWith(1, '12345');
+    });
+  });
+
+  describe('render', () => {
+    describe('if there is an error', () => {
+      it('should not render the icon', () => {
+        expect(() => TestUtils.findRenderedDOMComponentWithClass(component, 'Icon--preview'))
+          .toThrow();
+      });
+
+      it('should not render the progress bar', () => {
+        expect(() => TestUtils.findRenderedDOMComponentWithClass(component, 'Attachment-progress'))
+          .toThrow();
+      });
+
+      it('should set error classes', () => {
+        expect(TestUtils.findRenderedDOMComponentWithClass(component, 'u-borderError'))
+          .toBeTruthy();
+
+        expect(TestUtils.findRenderedDOMComponentWithClass(component, 'u-textError'))
+          .toBeTruthy();
+      });
+
+      it('should set the text body to the error message', () => {
+        const secondaryText = TestUtils.findRenderedDOMComponentWithClass(component, 'u-textError').textContent;
+
+        expect(secondaryText)
+          .toBe('Some error');
+      });
     });
   });
 });

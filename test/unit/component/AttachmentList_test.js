@@ -1,6 +1,7 @@
 describe('AttachmentList component', () => {
   let AttachmentList,
-    component;
+    component,
+    mockUpdateForm;
   const attachmentListPath = buildSrcPath('component/AttachmentList');
 
   beforeEach(() => {
@@ -43,8 +44,13 @@ describe('AttachmentList component', () => {
     mockery.registerAllowable(attachmentListPath);
     AttachmentList = requireUncached(attachmentListPath).AttachmentList;
 
+    mockUpdateForm = jasmine.createSpy('updateForm');
+
     component = instanceRender(
-      <AttachmentList attachmentSender={noop} updateAttachments={noop} />
+      <AttachmentList
+        attachmentSender={noop}
+        updateAttachments={noop}
+        updateForm={mockUpdateForm} />
     );
   });
 
@@ -61,7 +67,10 @@ describe('AttachmentList component', () => {
   describe('#render', () => {
     beforeEach(() => {
       component = domRender(
-        <AttachmentList attachmentSender={noop} updateAttachments={noop} />
+        <AttachmentList
+          attachmentSender={noop}
+          updateAttachments={noop}
+          updateForm={noop} />
       );
     });
 
@@ -249,9 +258,10 @@ describe('AttachmentList component', () => {
 
   describe('handleRemoveAttachment', () => {
     beforeEach(() => {
+      const maxSize = 5 * 1024 * 1024;
       const attachments = [
-        'foo',
-        'bar'
+        { name: 'foo', size: 1024 },
+        { name: 'bar', size: maxSize + 1024 }
       ];
 
       component.handleOnDrop(attachments);
@@ -265,22 +275,128 @@ describe('AttachmentList component', () => {
       expect(component.state.attachments.length)
         .toBe(1);
 
-      expect(component.state.attachments[0].file)
+      expect(component.state.attachments[0].file.name)
         .toBe('bar');
+    });
+
+    describe('when the attachment has an error', () => {
+      beforeEach(function() {
+        const attachmentToRemove = component.state.attachments[1];
+
+        component.handleRemoveAttachment(attachmentToRemove.id, attachmentToRemove.error);
+      });
+
+      it('should decrement the error count', () => {
+        expect(component.state.attachments.length)
+          .toBe(1);
+
+        expect(component.state.attachments[0].file.name)
+          .toBe('foo');
+
+        expect(component.state.errorCount)
+          .toBe(0);
+      });
+
+      it('should call updateForm', () => {
+        expect(mockUpdateForm)
+          .toHaveBeenCalled();
+      });
     });
   });
 
   describe('handleOnDrop', () => {
-    it('adds the passed in attachments to state.attachments', () => {
-      const attachments = [
-        'foo',
-        'bar'
-      ];
+    let attachments;
 
+    beforeEach(function() {
+      attachments = [
+        { name: 'foo', size: 1024 },
+        { name: 'bar', size: 1024 }
+      ];
+    });
+
+    it('adds the passed in attachments to state.attachments', () => {
       component.handleOnDrop(attachments);
 
       expect(component.state.attachments.length)
         .toBe(2);
+    });
+
+    it('calls updateForm', () => {
+      component.handleOnDrop(attachments);
+
+      expect(mockUpdateForm)
+        .toHaveBeenCalled();
+    });
+
+    describe('when too many attachments are selected in one go', () => {
+      beforeEach(function() {
+        attachments.push(
+          { name: 'bob', size: 1024 },
+          { name: 'jim', size: 1024 },
+          { name: 'tim', size: 1024 },
+          { name: 'dan', size: 1024 }
+        );
+      });
+
+      it('only adds the attachments up to the maximum', () => {
+        component.handleOnDrop(attachments);
+
+        expect(component.state.attachments.length)
+          .toBe(5);
+      });
+    });
+
+    describe('when too many attachments are selected', () => {
+      it('only adds the attachments up to the maximum', () => {
+        component.handleOnDrop(attachments);
+
+        expect(component.state.attachments.length)
+          .toBe(2);
+
+        const newAttachments = [
+          { name: 'foo', size: 1024 },
+          { name: 'bar', size: 1024 },
+          { name: 'bob', size: 1024 },
+          { name: 'jim', size: 1024 }
+        ];
+
+        component.handleOnDrop(newAttachments);
+
+        expect(component.state.attachments.length)
+          .toBe(5);
+      });
+    });
+
+    describe('when an attachment exceeds the maximum filesize', () => {
+      it('should add an error to the attachment', () => {
+        const maxSize = 5 * 1024 * 1024;
+
+        attachments.push({ name: 'fatty', size: maxSize + 1024 });
+
+        component.handleOnDrop(attachments);
+
+        expect(component.state.attachments[2].error)
+          .toBeTruthy();
+
+        expect(component.state.errorCount)
+          .toBe(1);
+      });
+    });
+  });
+
+  describe('addAttachmentError', () => {
+    beforeEach(function() {
+      component.addAttachmentError();
+    });
+
+    it('should increment the errorCount', () => {
+      expect(component.state.errorCount)
+        .toBe(1);
+    });
+
+    it('should call updateForm', () => {
+      expect(mockUpdateForm)
+        .toHaveBeenCalled();
     });
   });
 

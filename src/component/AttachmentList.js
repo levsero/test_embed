@@ -125,10 +125,9 @@ export class AttachmentList extends Component {
             key={id}
             attachment={attachment}
             handleOnUpload={this.handleOnUpload}
+            icon={icon}
             handleRemoveAttachment={this.handleRemoveAttachment}
             attachmentSender={this.props.attachmentSender}
-            icon={icon}
-            error={attachment.error}
             addAttachmentError={this.addAttachmentError} />
         );
       }
