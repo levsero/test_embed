@@ -258,9 +258,10 @@ class ButtonDropzone extends Component {
     return (
       <Dropzone
         onDrop={this.props.onDrop}
+        activeClassName='Anim-color u-userTextColor u-textBold u-userFillColor'
         className='Form-field--display Container--dashed'>
         <div className='u-textCenter'>
-          <Icon type='Icon--paperclip' className='u-inlineBlock' />
+          <Icon type='Icon--paperclip-small' className='u-inlineBlock' />
           <div className='u-inlineBlock u-alignTop'>{label}</div>
         </div>
       </Dropzone>

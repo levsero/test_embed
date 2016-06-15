@@ -37,7 +37,8 @@ function create(name, config) {
     formTitleKey: 'help',
     hideZendeskLogo: false,
     signInRequired: false,
-    disableAutoSearch: false
+    disableAutoSearch: false,
+    color: '#659700'
   };
   const onNextClick = function() {
     mediator.channel.broadcast(name + '.onNextClick');
@@ -147,7 +148,7 @@ function create(name, config) {
     {
       frameStyle: frameStyle,
       position: config.position,
-      css: helpCenterCSS + generateUserCSS({color: config.color}),
+      css: helpCenterCSS + generateUserCSS(config.color),
       name: name,
       fullscreenable: true,
       transitions: {

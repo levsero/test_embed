@@ -9,40 +9,36 @@ import { document as doc,
 let clickBusterClicks = [];
 let originalUserScalable = null;
 
-function generateUserCSS(params) {
-  if (params.color) {
-    const highlightColor = generateHighlightColor(params.color);
+function generateUserCSS(color = '#659700') {
+  const highlightColor = generateHighlightColor(color);
 
-    return (`
-      .rf-CheckboxGroup__checkbox:checked + span:before,
-      .u-userTextColor:not([disabled]) {
-        color: ${params.color} !important;
-        fill: ${params.color} !important;
-      }
-      .u-userFillColor:not([disabled]) svg {
-        fill: ${params.color} !important;
-      }
-      .u-userTextColor:not([disabled]):hover,
-      .u-userTextColor:not([disabled]):active,
-      .u-userTextColor:not([disabled]):focus {
-        color: ${highlightColor} !important;
-        fill: ${highlightColor} !important;
-      }
-      .u-userBackgroundColor:not([disabled]) {
-        background-color: ${params.color} !important;
-      }
-      .u-userBackgroundColor:not([disabled]):hover,
-      .u-userBackgroundColor:not([disabled]):active,
-      .u-userBackgroundColor:not([disabled]):focus {
-        background-color: ${highlightColor} !important;
-      }
-      .u-userLinkColor a {
-        color: ${params.color} !important;
-      }
-    `);
-  } else {
-    return '';
-  }
+  return (`
+    .rf-CheckboxGroup__checkbox:checked + span:before,
+    .u-userTextColor:not([disabled]) {
+      color: ${color} !important;
+      fill: ${color} !important;
+    }
+    .u-userFillColor:not([disabled]) svg {
+      fill: ${color} !important;
+    }
+    .u-userTextColor:not([disabled]):hover,
+    .u-userTextColor:not([disabled]):active,
+    .u-userTextColor:not([disabled]):focus {
+      color: ${highlightColor} !important;
+      fill: ${highlightColor} !important;
+    }
+    .u-userBackgroundColor:not([disabled]) {
+      background-color: ${color} !important;
+    }
+    .u-userBackgroundColor:not([disabled]):hover,
+    .u-userBackgroundColor:not([disabled]):active,
+    .u-userBackgroundColor:not([disabled]):focus {
+      background-color: ${highlightColor} !important;
+    }
+    .u-userLinkColor a {
+      color: ${color} !important;
+    }
+  `);
 }
 
 function generateNpsCSS(params) {
