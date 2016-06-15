@@ -123,23 +123,20 @@ export class SubmitTicket extends Component {
     const uploads = this.refs.submitTicketForm.refs.attachments
                   ? this.refs.submitTicketForm.refs.attachments.getAttachmentTokens()
                   : null;
-    const params = _.extend(
-      {
-        'subject': desc.length < 50 ? desc : `${desc.slice(0,50)}...`,
-        'set_tags': 'web_widget',
-        'via_id': 48,
-        'comment': {
-          'body': newDesc,
-          'uploads': uploads
-        },
-        'requester': {
-          'name': data.value.name,
-          'email': data.value.email,
-          'locale_id': i18n.getLocaleId()
-        }
+    const params = {
+      'subject': desc.length < 50 ? desc : `${desc.slice(0,50)}...`,
+      'set_tags': 'web_widget',
+      'via_id': 48,
+      'comment': {
+        'body': newDesc,
+        'uploads': uploads
       },
-      this.formatTicketFieldData(data)
-    );
+      'requester': {
+        'name': data.value.name,
+        'email': data.value.email,
+        'locale_id': i18n.getLocaleId()
+      }
+    };
 
     return this.props.customFields.length === 0
          ? { request: params }
