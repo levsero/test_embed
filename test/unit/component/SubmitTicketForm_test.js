@@ -64,20 +64,21 @@ describe('SubmitTicketForm component', function() {
             return (
               <div>
                 <h1 id='formTitle'>{this.props.title}</h1>
+                {this.props.children}
                 <div>{this.props.footerContent}</div>
               </div>
             );
           }
         })
       },
-      'component/AttachmentList': React.createClass({
-        attachmentsReady: () => mockAttachmentsReadyValue,
-        render: function() {
-          return (
-            <div ref="attachments" attachmentSender={noop} />
-          );
-        }
-      }),
+      'component/AttachmentList': {
+        AttachmentList: React.createClass({
+          attachmentsReady: () => mockAttachmentsReadyValue,
+          render: function() {
+            return <div ref="attachments" />;
+          }
+        })
+      },
       'service/i18n': {
         i18n: {
           init: noop,
@@ -171,15 +172,15 @@ describe('SubmitTicketForm component', function() {
       });
   });
 
-  fit('should disable submit button when attachments not ready', function() {
-    const submitTicketForm = domRender(<SubmitTicketForm submit={onSubmit} />);
+  it('should disable submit button when attachments not ready', function() {
+    const submitTicketForm = domRender(<SubmitTicketForm submit={onSubmit} attachmentsEnabled={true} />);
     const submitTicketFormNode = ReactDOM.findDOMNode(submitTicketForm);
     const submitElem = submitTicketFormNode.querySelector('input[type="submit"]');
 
-    spyOn(submitTicketForm.refs.form, 'checkValidity').andReturn(true);
-    submitTicketForm.updateForm();
+    submitTicketForm.refs.form.checkValidity = () => true;
+    mockAttachmentsReadyValue = false;
 
-    //mockAttachmentsReadyValue = false;
+    submitTicketForm.updateForm();
 
     expect(submitElem.disabled)
       .toEqual(true);

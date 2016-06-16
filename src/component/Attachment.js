@@ -19,7 +19,7 @@ export class Attachment extends Component {
   }
 
   componentWillMount() {
-    const { attachment, attachmentSender } = this.props;
+    const { attachment, attachmentSender, updateAttachmentsList } = this.props;
 
     const doneFn = (response) => {
       const token = JSON.parse(response.text).upload.token;
@@ -31,7 +31,7 @@ export class Attachment extends Component {
       });
 
       this.props.handleOnUpload(this.props.attachment.id, token);
-      setTimeout(() => this.props.updateAttachmentsList(), 1);
+      setTimeout(() => updateAttachmentsList(), 1);
     };
     const failFn = (error) => {
       this.setState({
@@ -39,7 +39,7 @@ export class Attachment extends Component {
         uploadError: error.message
       });
 
-      this.props.updateAttachmentsList();
+      updateAttachmentsList();
     };
     const progressFn = (event) => {
       const { progressBar } = this.refs;
@@ -57,7 +57,7 @@ export class Attachment extends Component {
       uploadRequestSender: attachmentSender(attachment.file, doneFn, failFn, progressFn)
     });
 
-    setTimeout(() => this.props.updateAttachmentsList(), 1);
+    setTimeout(() => updateAttachmentsList(), 1);
   }
 
   handleRemoveAttachment() {

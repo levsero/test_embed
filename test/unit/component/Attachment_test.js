@@ -61,9 +61,12 @@ describe('Attachment component', function() {
         handleRemoveAttachment={mockHandleRemoveAttachment}
         icon={icon} />
     );
+
+    jasmine.clock().install();
   });
 
   afterEach(function() {
+    jasmine.clock().uninstall();
     mockery.deregisterAll();
     mockery.disable();
   });
@@ -79,7 +82,6 @@ describe('Attachment component', function() {
         <Attachment
           attachment={attachment}
           attachmentSender={mockAttachmentSender}
-          addAttachmentError={noop}
           handleRemoveAttachment={mockHandleRemoveAttachment}
           icon={icon} />
       );
@@ -133,8 +135,6 @@ describe('Attachment component', function() {
         <Attachment
           attachment={attachment}
           attachmentSender={mockAttachmentSender}
-          addAttachmentError={noop}
-          handleRemoveAttachment={mockHandleRemoveAttachment}
           icon={icon} />
       );
     });
