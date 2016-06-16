@@ -43,9 +43,11 @@ export class AttachmentList extends Component {
     const maxFileSize = 5 * 1024 * 1024; // 5 mb
     const numFilesToAdd = maxFileLimit - this.state.attachments.length;
     const setLimitError = () => {
-      this.setState({
-        errorMessage: 'You have already reached the limit of 5 attachments.'
+      const errorMessage = i18n.t('embeddable_framework.submitTicket.attachments.error.limit', {
+        maxFiles: maxFileLimit
       });
+
+      this.setState({ errorMessage });
     };
 
     if (this.state.errorMessage) {
@@ -65,9 +67,11 @@ export class AttachmentList extends Component {
       };
 
       if (file.size > maxFileSize) {
-        _.extend(fileObj, {
-          error: { message: `The file exceeds the 5 mb limit.` }
+        const message = i18n.t('embeddable_framework.submitTicket.attachments.error.size', {
+          maxSize: '5 mb'
         });
+
+        _.extend(fileObj, { error: { message } });
       }
 
       return fileObj;
