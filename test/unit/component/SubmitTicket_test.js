@@ -21,9 +21,7 @@ describe('Submit ticket component', function() {
     }
   };
   const MockAttachmentList = React.createClass({
-    getAttachmentTokens: function() {
-      return ['12345'];
-    },
+    getAttachmentTokens: () => ['12345'],
     render: function() {
       return <div />;
     }
@@ -78,7 +76,7 @@ describe('Submit ticket component', function() {
           clear: noop,
           render: function() {
             return (
-              <form ref='submitTicketForm' onSubmit={this.props.handleSubmit}>
+              <form ref='submitTicketForm'>
                 <MockAttachmentList ref='attachments' />
               </form>
             );
@@ -278,18 +276,18 @@ describe('Submit ticket component', function() {
         params = mockSubmitTicketSender.calls.mostRecent().args[0];
       });
 
-      it('formats the data correctly', function() {
+      it('wraps the data in a request object', function() {
         expect(params.request)
           .toBeTruthy();
       });
 
       it('formats the requester correctly', function() {
         expect(params.request.requester)
-        .toBeJSONEqual({
-          'name': formParams.name,
-          'email': formParams.email,
-          'locale_id': formParams.locale_id
-        });
+          .toBeJSONEqual({
+            'name': formParams.name,
+            'email': formParams.email,
+            'locale_id': formParams.locale_id
+          });
       });
 
       it('uses the description as the subject', function() {
@@ -304,7 +302,7 @@ describe('Submit ticket component', function() {
         params = mockSubmitTicketSender.calls.mostRecent().args[0];
 
         expect(params.request.subject)
-        .toEqual('this text is longer then 50 characters xxxxxxxxxxx...');
+          .toEqual('this text is longer then 50 characters xxxxxxxxxxx...');
       });
 
       it('adds submitted from to the description', function() {

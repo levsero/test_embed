@@ -434,7 +434,7 @@ describe('transport', function() {
               'https://test.zendesk.host/test/path');
         });
 
-        it('adds a query string with the filename to the path', function() {
+        it('adds a query string with the filename', function() {
           expect(mockMethods.query)
             .toHaveBeenCalledWith({ filename: 'fakeFile' });
         });
