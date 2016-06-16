@@ -273,7 +273,7 @@
   position: absolute;
   top: 50%;
   right: #{5/$font-size}rem;
-  margin-top: #{-3/$font-size}rem;
+  margin-top: #{-3.5/$font-size}rem !important;
 
   svg {
     fill: $icon-inactive-color;
