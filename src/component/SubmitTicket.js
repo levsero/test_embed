@@ -60,9 +60,9 @@ export class SubmitTicket extends Component {
       return;
     }
 
-    const formParams = !this.props.attachmentsEnabled
-                     ? this.formatEmbeddedTicketData(data)
-                     : this.formatRequestTicketData(data);
+    const formParams = this.props.attachmentsEnabled
+                     ? this.formatRequestTicketData(data)
+                     : this.formatEmbeddedTicketData(data);
 
     const failCallback = (err) => {
       const msg = (err.timeout)
@@ -124,7 +124,7 @@ export class SubmitTicket extends Component {
                   ? this.refs.submitTicketForm.refs.attachments.getAttachmentTokens()
                   : null;
     const params = {
-      'subject': desc.length < 50 ? desc : `${desc.slice(0,50)}...`,
+      'subject': (desc.length <= 50) ? desc : `${desc.slice(0,50)}...`,
       'set_tags': 'web_widget',
       'via_id': 48,
       'comment': {

@@ -20,6 +20,14 @@ describe('Submit ticket component', function() {
       fail: noop
     }
   };
+  const MockAttachmentList = React.createClass({
+    getAttachmentTokens: function() {
+      return ['12345'];
+    },
+    render: function() {
+      return <div />;
+    }
+  });
   const submitTicketPath = buildSrcPath('component/SubmitTicket');
 
   beforeEach(function() {
@@ -69,7 +77,11 @@ describe('Submit ticket component', function() {
           },
           clear: noop,
           render: function() {
-            return <form onSubmit={this.props.handleSubmit} />;
+            return (
+              <form ref='submitTicketForm' onSubmit={this.props.handleSubmit}>
+                <MockAttachmentList ref='attachments' />
+              </form>
+            );
           }
         }),
         MessageFieldset: noop,
@@ -285,7 +297,7 @@ describe('Submit ticket component', function() {
           .toEqual(formParams.description);
       });
 
-      it('Trims the subject if it is too long', function() {
+      it('trims the subject if it is too long', function() {
         mockValues.value.description = 'this text is longer then 50 characters xxxxxxxxxxxx';
         submitTicket.handleSubmit({ preventDefault: noop }, mockValues);
 
@@ -300,6 +312,13 @@ describe('Submit ticket component', function() {
 
         expect(params.request.comment.body)
           .toBe(`${payload.params.description}\n\n------------------\n${label}`);
+      });
+
+      it('gets the attachments from AttachmentList', function() {
+        const label = 'embeddable_framework.submitTicket.form.submittedFrom.label';
+
+        expect(params.request.comment.uploads)
+          .toEqual(['12345']);
       });
     });
   });

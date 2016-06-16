@@ -426,11 +426,11 @@ describe('transport', function() {
           transport.sendFile(payload);
         });
 
-        it('sets the correct http method and appends the filename to the url', function() {
+        it('sets the correct http method and path', function() {
           expect(mockSuperagent)
             .toHaveBeenCalledWith(
               'POST',
-              'https://test.zendesk.host/test/path?filename=fakeFile');
+              'https://test.zendesk.host/test/path');
         });
 
         it('triggers the done callback if response is successful', function() {

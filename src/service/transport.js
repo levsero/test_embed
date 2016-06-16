@@ -120,7 +120,8 @@ function sendFile(payload) {
   }
 
   return superagent(payload.method.toUpperCase(),
-                    `${buildFullUrl(payload.path)}?filename=${payload.file.name}`)
+                    buildFullUrl(payload.path))
+    .query({ filename: payload.file.name })
     .attach('file', payload.file)
     .on('progress', function(e) {
       if (payload.callbacks) {
