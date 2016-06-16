@@ -415,6 +415,7 @@ describe('transport', function() {
 
         spyOn(mockMethods, 'end').and.callThrough();
         spyOn(mockMethods, 'on').and.callThrough();
+        spyOn(mockMethods, 'query').and.callThrough();
 
         mockSuperagent = mockRegistry.superagent;
 
@@ -431,6 +432,11 @@ describe('transport', function() {
             .toHaveBeenCalledWith(
               'POST',
               'https://test.zendesk.host/test/path');
+        });
+
+        it('adds a query string with the filename to the path', function() {
+          expect(mockMethods.query)
+            .toHaveBeenCalledWith({ filename: 'fakeFile' });
         });
 
         it('triggers the done callback if response is successful', function() {

@@ -5,6 +5,7 @@ describe('Attachment component', function() {
     icon,
     mockAttachmentSender,
     mockHandleRemoveAttachment,
+    mockHandleOnUpload,
     mockUploadAbort;
   const attachmentPath = buildSrcPath('component/Attachment');
 
@@ -31,6 +32,7 @@ describe('Attachment component', function() {
       abort: mockUploadAbort
     });
     mockHandleRemoveAttachment = jasmine.createSpy('mockHandleRemoveAttachment');
+    mockHandleOnUpload = jasmine.createSpy('mockHandleOnUpload');
 
     attachment = {
       id: 1,
@@ -42,6 +44,7 @@ describe('Attachment component', function() {
       <Attachment
         attachment={attachment}
         attachmentSender={mockAttachmentSender}
+        handleOnUpload={mockHandleOnUpload}
         handleRemoveAttachment={mockHandleRemoveAttachment}
         icon={icon} />
     );
@@ -72,6 +75,18 @@ describe('Attachment component', function() {
 
       expect(mockUploadAbort)
         .toHaveBeenCalled();
+    });
+  });
+
+  describe('#handleOnUpload', () => {
+    it('gets called after successful upload', () => {
+      const upload = JSON.stringify({ upload: { token: '12345' } });
+      const response = { text: upload };
+
+      mockAttachmentSender.calls.mostRecent().args[1](response);
+
+      expect(mockHandleOnUpload)
+        .toHaveBeenCalledWith(1, '12345');
     });
   });
 });

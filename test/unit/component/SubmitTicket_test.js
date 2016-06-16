@@ -315,8 +315,6 @@ describe('Submit ticket component', function() {
       });
 
       it('gets the attachments from AttachmentList', function() {
-        const label = 'embeddable_framework.submitTicket.form.submittedFrom.label';
-
         expect(params.request.comment.uploads)
           .toEqual(['12345']);
       });
