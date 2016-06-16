@@ -68,67 +68,99 @@ describe('Attachment component', function() {
     mockery.disable();
   });
 
-  it('calls attachmentSender if the file hasnt been uploaded', () => {
-    expect(mockAttachmentSender)
-      .toHaveBeenCalled();
-  });
+  describe('when there is no attachment error', () => {
+    beforeEach(function() {
+      attachment = {
+        id: 1,
+        file: { name: 'foo.bar' }
+      };
 
-  describe('#handleRemoveAttachment', () => {
-    it('calls the handleRemoveAttachment prop', () => {
-      component.handleRemoveAttachment();
+      component = domRender(
+        <Attachment
+          attachment={attachment}
+          attachmentSender={mockAttachmentSender}
+          addAttachmentError={noop}
+          handleRemoveAttachment={mockHandleRemoveAttachment}
+          icon={icon} />
+      );
+    });
 
-      expect(mockHandleRemoveAttachment)
+    it('calls attachmentSender if the file hasnt been uploaded', () => {
+      expect(mockAttachmentSender)
         .toHaveBeenCalled();
     });
-  });
 
-  describe('#handleStopUpload', () => {
-    it('calls the abort method of the attachmentSender object', () => {
-      component.handleStopUpload();
+    describe('#handleRemoveAttachment', () => {
+      it('calls the handleRemoveAttachment prop', () => {
+        component.handleRemoveAttachment();
 
-      expect(mockUploadAbort)
-        .toHaveBeenCalled();
+        expect(mockHandleRemoveAttachment)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('#handleOnUpload', () => {
+      it('gets called after successful upload', () => {
+        const upload = JSON.stringify({ upload: { token: '12345' } });
+        const response = { text: upload };
+
+        mockAttachmentSender.calls.mostRecent().args[1](response);
+
+        expect(mockHandleOnUpload)
+          .toHaveBeenCalledWith(1, '12345');
+      });
+    });
+
+    describe('#handleStopUpload', () => {
+      it('calls the abort method of the attachmentSender object', () => {
+        component.handleStopUpload();
+
+        expect(mockUploadAbort)
+          .toHaveBeenCalled();
+      });
     });
   });
 
-  describe('#handleOnUpload', () => {
-    it('gets called after successful upload', () => {
-      const upload = JSON.stringify({ upload: { token: '12345' } });
-      const response = { text: upload };
+  describe('when there is an attachment error', () => {
+    beforeEach(function() {
+      attachment = {
+        id: 1,
+        file: { name: 'foo.bar' },
+        error: { message: 'Some error' }
+      };
 
-      mockAttachmentSender.calls.mostRecent().args[1](response);
-
-      expect(mockHandleOnUpload)
-        .toHaveBeenCalledWith(1, '12345');
+      component = domRender(
+        <Attachment
+          attachment={attachment}
+          attachmentSender={mockAttachmentSender}
+          addAttachmentError={noop}
+          handleRemoveAttachment={mockHandleRemoveAttachment}
+          icon={icon} />
+      );
     });
-  });
+    it('should not render the icon', () => {
+      expect(() => TestUtils.findRenderedDOMComponentWithClass(component, 'Icon--preview'))
+        .toThrow();
+    });
 
-  describe('render', () => {
-    describe('if there is an error', () => {
-      it('should not render the icon', () => {
-        expect(() => TestUtils.findRenderedDOMComponentWithClass(component, 'Icon--preview'))
-          .toThrow();
-      });
+    it('should not render the progress bar', () => {
+      expect(() => TestUtils.findRenderedDOMComponentWithClass(component, 'Attachment-progress'))
+        .toThrow();
+    });
 
-      it('should not render the progress bar', () => {
-        expect(() => TestUtils.findRenderedDOMComponentWithClass(component, 'Attachment-progress'))
-          .toThrow();
-      });
+    it('should set error classes', () => {
+      expect(TestUtils.findRenderedDOMComponentWithClass(component, 'u-borderError'))
+        .toBeTruthy();
 
-      it('should set error classes', () => {
-        expect(TestUtils.findRenderedDOMComponentWithClass(component, 'u-borderError'))
-          .toBeTruthy();
+      expect(TestUtils.findRenderedDOMComponentWithClass(component, 'u-textError'))
+        .toBeTruthy();
+    });
 
-        expect(TestUtils.findRenderedDOMComponentWithClass(component, 'u-textError'))
-          .toBeTruthy();
-      });
+    it('should set the text body to the error message', () => {
+      const secondaryText = TestUtils.findRenderedDOMComponentWithClass(component, 'u-textError').textContent;
 
-      it('should set the text body to the error message', () => {
-        const secondaryText = TestUtils.findRenderedDOMComponentWithClass(component, 'u-textError').textContent;
-
-        expect(secondaryText)
-          .toBe('Some error');
-      });
+      expect(secondaryText)
+        .toBe('Some error');
     });
   });
 });

@@ -1,24 +1,35 @@
 describe('AttachmentList component', () => {
   let AttachmentList,
     component,
-    mockUpdateForm;
+    mockUpdateForm,
+    mockAttachmentState;
   const attachmentListPath = buildSrcPath('component/AttachmentList');
+  const maxFileSize = 5 * 1024 * 1024;
 
   beforeEach(() => {
     resetDOM();
 
     mockery.enable();
 
+    mockAttachmentState = {
+      uploading: false,
+      uploadError: null,
+      uploadRequestSender: () => {}
+    };
+
     initMockRegistry({
       'React': React,
       'component/Attachment': {
         Attachment: React.createClass({
+          getInitialState: () => mockAttachmentState,
+          componentWillMount: noop,
           render: function() {
             return (
               <div
+                ref={_.uniqueId()}
                 attachment={{}}
                 handleRemoveAttachment={noop}
-                attachmentSender={noop}
+                updateAttachmentsList={noop}
                 icon='' />
             );
           }
@@ -258,10 +269,9 @@ describe('AttachmentList component', () => {
 
   describe('handleRemoveAttachment', () => {
     beforeEach(() => {
-      const maxSize = 5 * 1024 * 1024;
       const attachments = [
         { name: 'foo', size: 1024 },
-        { name: 'bar', size: maxSize + 1024 }
+        { name: 'bar', size: maxFileSize + 1024 }
       ];
 
       component.handleOnDrop(attachments);
@@ -284,17 +294,6 @@ describe('AttachmentList component', () => {
         const attachmentToRemove = component.state.attachments[1];
 
         component.handleRemoveAttachment(attachmentToRemove.id, attachmentToRemove.error);
-      });
-
-      it('should decrement the error count', () => {
-        expect(component.state.attachments.length)
-          .toBe(1);
-
-        expect(component.state.attachments[0].file.name)
-          .toBe('foo');
-
-        expect(component.state.errorCount)
-          .toBe(0);
       });
 
       it('should call updateForm', () => {
@@ -369,34 +368,55 @@ describe('AttachmentList component', () => {
 
     describe('when an attachment exceeds the maximum filesize', () => {
       it('should add an error to the attachment', () => {
-        const maxSize = 5 * 1024 * 1024;
-
-        attachments.push({ name: 'fatty', size: maxSize + 1024 });
+        attachments.push({ name: 'fatty', size: maxFileSize + 1024 });
 
         component.handleOnDrop(attachments);
 
         expect(component.state.attachments[2].error)
           .toBeTruthy();
-
-        expect(component.state.errorCount)
-          .toBe(1);
       });
     });
   });
 
-  describe('addAttachmentError', () => {
+  describe('attachmentsReady', () => {
+    let attachments;
+
     beforeEach(function() {
-      component.addAttachmentError();
+      component = domRender(
+        <AttachmentList
+          attachmentSender={noop}
+          updateAttachments={noop}
+          updateForm={noop} />
+      );
+
+      attachments = [
+        { name: 'foo.txt', size: 1024 },
+        { name: 'bar.png', size: 1024 }
+      ];
+
+      component.handleOnDrop(attachments);
     });
 
-    it('should increment the errorCount', () => {
-      expect(component.state.errorCount)
-        .toBe(1);
+    it('should return true if there are no attachment errors or uploading attachments', () => {
+      expect(component.attachmentsReady())
+        .toBeTruthy();
     });
 
-    it('should call updateForm', () => {
-      expect(mockUpdateForm)
-        .toHaveBeenCalled();
+    it('should return false if there are attachment errors or uploading attachments', () => {
+      mockAttachmentState.uploadError = 'Some error';
+
+      component.handleOnDrop(attachments);
+
+      expect(component.attachmentsReady())
+        .toBeFalsy();
+
+      mockAttachmentState.uploadError = null;
+      mockAttachmentState.uploading = true;
+
+      component.handleOnDrop(attachments);
+
+      expect(component.attachmentsReady())
+        .toBeFalsy();
     });
   });
 

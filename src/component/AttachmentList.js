@@ -34,8 +34,7 @@ export class AttachmentList extends Component {
 
     this.state = {
       attachments: [],
-      errorMessage: null,
-      errorCount: 0
+      errorMessage: null
     };
   }
 
@@ -69,7 +68,6 @@ export class AttachmentList extends Component {
         _.extend(fileObj, {
           error: { message: `The file exceeds the 5 mb limit.` }
         });
-        this.addAttachmentError();
       }
 
       return fileObj;
@@ -122,20 +120,28 @@ export class AttachmentList extends Component {
 
         return (
           <Attachment
+            ref={id}
             key={id}
             attachment={attachment}
             handleOnUpload={this.handleOnUpload}
             icon={icon}
             handleRemoveAttachment={this.handleRemoveAttachment}
             attachmentSender={this.props.attachmentSender}
-            addAttachmentError={this.addAttachmentError} />
+            updateAttachmentsList={this.updateAttachmentsList} />
         );
       }
     });
   }
 
-  addAttachmentError() {
-    this.setState({ errorCount: this.state.errorCount + 1 });
+  attachmentsReady() {
+    const unreadyAttachment = _.find(this.refs, (attachment) => {
+      return attachment.state.uploadError || attachment.state.uploading;
+    });
+
+    return !unreadyAttachment;
+  }
+
+  updateAttachmentsList() {
     this.props.updateForm();
   }
 
@@ -153,6 +159,7 @@ export class AttachmentList extends Component {
                 : i18n.t('embeddable_framework.submitTicket.attachments.title',
                     { fallback: 'Attachments' }
                   );
+
     const attachmentComponents = this.renderAttachments();
 
     return (

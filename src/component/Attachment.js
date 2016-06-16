@@ -30,14 +30,16 @@ export class Attachment extends Component {
         uploadToken: token
       });
 
-      this.props.addAttachmentError();
       this.props.handleOnUpload(this.props.attachment.id, token);
+      setTimeout(() => this.props.updateAttachmentsList(), 1);
     };
     const failFn = (error) => {
       this.setState({
         uploading: false,
         uploadError: error.message
       });
+
+      this.props.updateAttachmentsList();
     };
     const progressFn = (event) => {
       const { progressBar } = this.refs;
@@ -54,6 +56,8 @@ export class Attachment extends Component {
       uploading: true,
       uploadRequestSender: attachmentSender(attachment.file, doneFn, failFn, progressFn)
     });
+
+    setTimeout(() => this.props.updateAttachmentsList(), 1);
   }
 
   handleRemoveAttachment() {
@@ -138,6 +142,6 @@ Attachment.propTypes = {
   handleRemoveAttachment: PropTypes.func.isRequired,
   handleOnUpload: PropTypes.func.isRequired,
   attachmentSender: PropTypes.func.isRequired,
-  addAttachmentError: PropTypes.func.isRequired
+  updateAttachmentsList: PropTypes.func.isRequired
 };
 
