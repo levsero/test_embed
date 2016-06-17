@@ -34,9 +34,9 @@ function create(name, config) {
 
   config = _.extend(configDefaults, config);
   const ticketEndpointPath = config.attachmentsEnabled
-             ? '/embeddable/ticket'
+             ? '/api/v2/requests'
              : '/requests/embedded/create';
-  const ticketAttachmentsEndpoint = '/embeddable/ticket_attachments';
+  const ticketAttachmentsEndpoint = '/api/v2/uploads';
   const submitTicketSender = (params, doneFn, failFn) => {
     const payload = {
       method: 'post',

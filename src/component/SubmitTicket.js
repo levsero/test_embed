@@ -60,15 +60,10 @@ export class SubmitTicket extends Component {
       return;
     }
 
-    const formParams = _.extend(
-      {
-        'set_tags': 'web_widget',
-        'via_id': 48,
-        'locale_id': i18n.getLocaleId(),
-        'submitted_from': win.location.href
-      },
-      this.formatTicketSubmission(data)
-    );
+    const formParams = this.props.attachmentsEnabled
+                     ? this.formatRequestTicketData(data)
+                     : this.formatEmbeddedTicketData(data);
+
     const failCallback = (err) => {
       const msg = (err.timeout)
                 ? i18n.t('embeddable_framework.submitTicket.notify.message.timeout')
@@ -99,38 +94,68 @@ export class SubmitTicket extends Component {
     this.props.submitTicketSender(formParams, doneCallback, failCallback);
   }
 
-  formatTicketSubmission(data) {
-    if (this.props.attachmentsEnabled) {
-      const submittedFrom = i18n.t(
-        'embeddable_framework.submitTicket.form.submittedFrom.label',
-        {
-          fallback: 'Submitted from: %(url)s',
-          url: location.href
-        }
-      );
-      const newDesc = `${data.value.description}\n\n------------------\n${submittedFrom}`;
+  formatEmbeddedTicketData(data) {
+    const params = {
+      'name': data.value.name,
+      'email': data.value.email,
+      'description': data.value.description,
+      'set_tags': 'web_widget',
+      'via_id': 48,
+      'locale_id': i18n.getLocaleId(),
+      'submitted_from': win.location.href
+    };
 
-      data.value.description = newDesc;
-    }
+    return this.props.customFields.length === 0
+         ? params
+         : _.extend(params, this.formatTicketFieldData(data.value));
+  }
 
-    if (this.props.customFields.length === 0) {
-      return data.value;
-    } else {
-      let params = {
-        fields: {}
-      };
+  formatRequestTicketData(data) {
+    const submittedFrom = i18n.t(
+      'embeddable_framework.submitTicket.form.submittedFrom.label',
+      {
+        fallback: 'Submitted from: %(url)s',
+        url: location.href
+      }
+    );
+    const desc = data.value.description;
+    const newDesc = `${desc}\n\n------------------\n${submittedFrom}`;
+    const uploads = this.refs.submitTicketForm.refs.attachments
+                  ? this.refs.submitTicketForm.refs.attachments.getAttachmentTokens()
+                  : null;
+    const params = {
+      'subject': (desc.length <= 50) ? desc : `${desc.slice(0,50)}...`,
+      'set_tags': 'web_widget',
+      'via_id': 48,
+      'comment': {
+        'body': newDesc,
+        'uploads': uploads
+      },
+      'requester': {
+        'name': data.value.name,
+        'email': data.value.email,
+        'locale_id': i18n.getLocaleId()
+      }
+    };
 
-      _.forEach(data.value, function(value, name) {
-        // Custom field names are numbers so we check if name is NaN
-        if (isNaN(parseInt(name, 10))) {
-          params[name] = value;
-        } else {
-          params.fields[name] = value;
-        }
-      });
+    return this.props.customFields.length === 0
+         ? { request: params }
+         : { request: _.extend(params, this.formatTicketFieldData(data)) };
+  }
 
-      return params;
-    }
+  formatTicketFieldData(data) {
+    let params = {
+      fields: {}
+    };
+
+    _.forEach(data.value, function(value, name) {
+      // Custom field names are numbers so we check if name is NaN
+      if (!isNaN(parseInt(name, 10))) {
+        params.fields[name] = value;
+      }
+    });
+
+    return params;
   }
 
   handleDragEnter() {

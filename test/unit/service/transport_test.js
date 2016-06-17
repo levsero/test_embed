@@ -378,7 +378,9 @@ describe('transport', function() {
       payload = {
         method: 'post',
         path: '/test/path',
-        file: 'fakeFile',
+        file: {
+          name: 'fakeFile'
+        },
         callbacks: {
           done: noop,
           fail: noop,
@@ -413,6 +415,7 @@ describe('transport', function() {
 
         spyOn(mockMethods, 'end').and.callThrough();
         spyOn(mockMethods, 'on').and.callThrough();
+        spyOn(mockMethods, 'query').and.callThrough();
 
         mockSuperagent = mockRegistry.superagent;
 
@@ -424,11 +427,16 @@ describe('transport', function() {
           transport.sendFile(payload);
         });
 
-        it('sets the correct http method and url on superagent', function() {
+        it('sets the correct http method and path', function() {
           expect(mockSuperagent)
             .toHaveBeenCalledWith(
               'POST',
               'https://test.zendesk.host/test/path');
+        });
+
+        it('adds a query string with the filename', function() {
+          expect(mockMethods.query)
+            .toHaveBeenCalledWith({ filename: 'fakeFile' });
         });
 
         it('triggers the done callback if response is successful', function() {

@@ -283,4 +283,46 @@ describe('AttachmentList component', () => {
         .toBe(2);
     });
   });
+
+  describe('handleOnUpload', () => {
+    it('updates attachments to include their upload token', () => {
+      component.setState({
+        attachments: [
+          {
+            id: 1,
+            file: 'foo',
+            uploadedToken: null
+          }
+        ]
+      });
+
+      component.handleOnUpload(1, '12345');
+
+      expect(component.state.attachments[0].uploadToken)
+        .toBe('12345');
+    });
+  });
+
+  describe('getAttachmentTokens', () => {
+    it('returns an array of the uploaded tokens', () => {
+      component.setState({
+        attachments: [
+          {
+            uploadToken: '12345'
+          },
+          {
+            uploadToken: '54321'
+          }
+        ]
+      });
+
+      const uploadArray = component.getAttachmentTokens();
+
+      expect(uploadArray)
+        .toContain('12345');
+
+      expect(uploadArray)
+        .toContain('54321');
+    });
+  });
 });

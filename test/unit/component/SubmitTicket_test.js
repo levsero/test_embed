@@ -3,11 +3,13 @@ describe('Submit ticket component', function() {
     mockIsMobileBrowserValue;
 
   const formParams = {
+    'name': 'bob',
+    'email': 'mock@email.com',
+    'description': 'Mock Description',
     'set_tags': 'web_widget',
     'via_id': 48,
-    'submitted_from': global.window.location.href,
-    'email': 'mock@email.com',
-    'description': 'Mock Description'
+    'locale_id': 'fr',
+    'submitted_from': global.window.location.href
   };
   const payload = {
     method: 'post',
@@ -18,6 +20,12 @@ describe('Submit ticket component', function() {
       fail: noop
     }
   };
+  const MockAttachmentList = React.createClass({
+    getAttachmentTokens: () => ['12345'],
+    render: function() {
+      return <div />;
+    }
+  });
   const submitTicketPath = buildSrcPath('component/SubmitTicket');
 
   beforeEach(function() {
@@ -67,7 +75,11 @@ describe('Submit ticket component', function() {
           },
           clear: noop,
           render: function() {
-            return <form onSubmit={this.props.handleSubmit} />;
+            return (
+              <form ref='submitTicketForm'>
+                <MockAttachmentList ref='attachments' />
+              </form>
+            );
           }
         }),
         MessageFieldset: noop,
@@ -104,7 +116,7 @@ describe('Submit ticket component', function() {
         i18n: {
           init: noop,
           setLocale: noop,
-          getLocaleId : noop,
+          getLocaleId : () => 'fr',
           isRTL: noop,
           t: _.identity
         }
@@ -151,7 +163,8 @@ describe('Submit ticket component', function() {
         isFormValid: true,
         value: {
           email: formParams.email,
-          description: formParams.description
+          description: formParams.description,
+          name: formParams.name
         }
       };
 
@@ -237,37 +250,72 @@ describe('Submit ticket component', function() {
       const expectedPayload = {
         fields: {
           22660514: 'mockCustomField'
-        },
-        name: 'mockName',
-        description: 'mockDescription'
+        }
       };
 
       const submitTicket = instanceRender(<SubmitTicket customFields={mockCustomField} />);
-      const payload = submitTicket.formatTicketSubmission(mockValues);
+      const payload = submitTicket.formatTicketFieldData(mockValues);
 
       expect(payload)
         .toBeJSONEqual(expectedPayload);
     });
 
-    it('adds submitted from to the description when attachments are enabled', function() {
-      const label = 'embeddable_framework.submitTicket.form.submittedFrom.label';
+    describe('when attachments are enabled', function() {
+      let params;
 
-      submitTicket = domRender(
-        <SubmitTicket
-          submitTicketSender={mockSubmitTicketSender}
-          attachmentsEnabled={true}
-          updateFrameSize={noop} />
-      );
+      beforeEach(function() {
+        submitTicket = domRender(
+          <SubmitTicket
+            submitTicketSender={mockSubmitTicketSender}
+            attachmentsEnabled={true}
+            updateFrameSize={noop} />
+        );
 
-      submitTicket.handleSubmit({ preventDefault: noop }, mockValues);
+        submitTicket.handleSubmit({ preventDefault: noop }, mockValues);
 
-      const params = mockSubmitTicketSender.calls.mostRecent().args[0];
+        params = mockSubmitTicketSender.calls.mostRecent().args[0];
+      });
 
-      expect(params)
-        .not.toBeJSONEqual(payload.params);
+      it('wraps the data in a request object', function() {
+        expect(params.request)
+          .toBeTruthy();
+      });
 
-      expect(params.description)
-        .toBe(`${payload.params.description}\n\n------------------\n${label}`);
+      it('formats the requester correctly', function() {
+        expect(params.request.requester)
+          .toBeJSONEqual({
+            'name': formParams.name,
+            'email': formParams.email,
+            'locale_id': formParams.locale_id
+          });
+      });
+
+      it('uses the description as the subject', function() {
+        expect(params.request.subject)
+          .toEqual(formParams.description);
+      });
+
+      it('trims the subject if it is too long', function() {
+        mockValues.value.description = 'this text is longer then 50 characters xxxxxxxxxxxx';
+        submitTicket.handleSubmit({ preventDefault: noop }, mockValues);
+
+        params = mockSubmitTicketSender.calls.mostRecent().args[0];
+
+        expect(params.request.subject)
+          .toEqual('this text is longer then 50 characters xxxxxxxxxxx...');
+      });
+
+      it('adds submitted from to the description', function() {
+        const label = 'embeddable_framework.submitTicket.form.submittedFrom.label';
+
+        expect(params.request.comment.body)
+          .toBe(`${payload.params.description}\n\n------------------\n${label}`);
+      });
+
+      it('gets the attachments from AttachmentList', function() {
+        expect(params.request.comment.uploads)
+          .toEqual(['12345']);
+      });
     });
   });
 

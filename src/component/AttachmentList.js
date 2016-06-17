@@ -40,13 +40,24 @@ export class AttachmentList extends Component {
     const newFiles = files.map((file) => {
       return {
         id: _.uniqueId(),
-        file: file
+        file: file,
+        uploadToken: null
       };
     });
 
     this.setState({
       attachments: _.union(this.state.attachments, newFiles)
     });
+  }
+
+  handleOnUpload(attachmentId, token) {
+    let attachment = _.find(this.state.attachments, (a) => a.id === attachmentId);
+
+    attachment.uploadToken = token;
+  }
+
+  getAttachmentTokens() {
+    return _.map(this.state.attachments, (a) => a.uploadToken);
   }
 
   handleRemoveAttachment(attachmentId) {
@@ -67,6 +78,7 @@ export class AttachmentList extends Component {
           <Attachment
             key={id}
             attachment={attachment}
+            handleOnUpload={this.handleOnUpload}
             handleRemoveAttachment={this.handleRemoveAttachment}
             attachmentSender={this.props.attachmentSender}
             icon={icon} />
