@@ -6,7 +6,8 @@ describe('Attachment component', function() {
     mockAttachmentSender,
     mockHandleRemoveAttachment,
     mockHandleOnUpload,
-    mockUploadAbort;
+    mockUploadAbort,
+    mockUpdateAttachmentsList;
   const attachmentPath = buildSrcPath('component/Attachment');
 
   beforeEach(function() {
@@ -44,6 +45,7 @@ describe('Attachment component', function() {
     });
     mockHandleRemoveAttachment = jasmine.createSpy('mockHandleRemoveAttachment');
     mockHandleOnUpload = jasmine.createSpy('mockHandleOnUpload');
+    mockUpdateAttachmentsList = jasmine.createSpy('mockUpdateAttachmentsList');
 
     attachment = {
       id: 1,
@@ -51,16 +53,6 @@ describe('Attachment component', function() {
       error: { message: 'Some error' }
     };
     icon = 'Icon--preview-default';
-
-    component = domRender(
-      <Attachment
-        attachment={attachment}
-        attachmentSender={mockAttachmentSender}
-        handleOnUpload={mockHandleOnUpload}
-        addAttachmentError={noop}
-        handleRemoveAttachment={mockHandleRemoveAttachment}
-        icon={icon} />
-    );
 
     jasmine.clock().install();
   });
@@ -71,7 +63,7 @@ describe('Attachment component', function() {
     mockery.disable();
   });
 
-  describe('when there is no attachment error', () => {
+  describe('when there is no initial attachment error', () => {
     beforeEach(function() {
       attachment = {
         id: 1,
@@ -83,12 +75,21 @@ describe('Attachment component', function() {
           attachment={attachment}
           attachmentSender={mockAttachmentSender}
           handleRemoveAttachment={mockHandleRemoveAttachment}
+          handleOnUpload={mockHandleOnUpload}
+          updateAttachmentsList={mockUpdateAttachmentsList}
           icon={icon} />
       );
     });
 
     it('calls attachmentSender if the file hasnt been uploaded', () => {
       expect(mockAttachmentSender)
+        .toHaveBeenCalled();
+    });
+
+    it('calls updateAttachmentsList', () => {
+      jasmine.clock().tick(1);
+
+      expect(mockUpdateAttachmentsList)
         .toHaveBeenCalled();
     });
 
@@ -101,15 +102,43 @@ describe('Attachment component', function() {
       });
     });
 
-    describe('#handleOnUpload', () => {
-      it('gets called after successful upload', () => {
+    describe('when the attachment is successfully uploaded', () => {
+      beforeEach(function() {
         const upload = JSON.stringify({ upload: { token: '12345' } });
         const response = { text: upload };
 
         mockAttachmentSender.calls.mostRecent().args[1](response);
+      });
 
+      it('calls handleOnUpload', () => {
         expect(mockHandleOnUpload)
           .toHaveBeenCalledWith(1, '12345');
+      });
+
+      it('calls updateAttachmentsList', () => {
+        jasmine.clock().tick(1);
+
+        expect(mockUpdateAttachmentsList)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('when the attachment is not successfully uploaded', () => {
+      let response;
+
+      beforeEach(function() {
+        response = { message: 'Some upload error' };
+        mockAttachmentSender.calls.mostRecent().args[2](response);
+      });
+
+      it('sets the uploadError', () => {
+        expect(component.state.uploadError)
+          .toBe(response.message);
+      });
+
+      it('calls updateAttachmentsList', () => {
+        expect(mockUpdateAttachmentsList)
+          .toHaveBeenCalled();
       });
     });
 
@@ -123,7 +152,7 @@ describe('Attachment component', function() {
     });
   });
 
-  describe('when there is an attachment error', () => {
+  describe('when there is an initial attachment error', () => {
     beforeEach(function() {
       attachment = {
         id: 1,
@@ -135,9 +164,11 @@ describe('Attachment component', function() {
         <Attachment
           attachment={attachment}
           attachmentSender={mockAttachmentSender}
+          updateAttachmentsList={mockUpdateAttachmentsList}
           icon={icon} />
       );
     });
+
     it('should not render the icon', () => {
       expect(() => TestUtils.findRenderedDOMComponentWithClass(component, 'Icon--preview'))
         .toThrow();

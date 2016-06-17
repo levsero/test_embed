@@ -61,7 +61,7 @@ export class Attachment extends Component {
   }
 
   handleRemoveAttachment() {
-    this.props.handleRemoveAttachment(this.props.attachment.id, this.state.uploadError);
+    this.props.handleRemoveAttachment(this.props.attachment.id);
   }
 
   handleStopUpload() {

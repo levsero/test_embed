@@ -102,16 +102,13 @@ export class AttachmentList extends Component {
     return _.map(this.state.attachments, (a) => a.uploadToken);
   }
 
-  handleRemoveAttachment(attachmentId, attachmentError) {
-    if (attachmentError) {
-      this.setState({ errorCount: this.state.errorCount - 1 });
-      setTimeout(() => this.props.updateForm(), 1);
-    }
-
+  handleRemoveAttachment(attachmentId) {
     this.setState({
       attachments: _.reject(this.state.attachments, (a) => a.id === attachmentId),
-      errorMessage: ''
+      errorMessage: null
     });
+
+    setTimeout(() => this.props.updateForm(), 1);
   }
 
   renderAttachments() {
