@@ -68,7 +68,7 @@ export class AttachmentList extends Component {
       if (file.size > maxFileSize) {
         const maxFileSizeInMB = Math.round(maxFileSize / 1024 / 1024);
         const message = i18n.t('embeddable_framework.submitTicket.attachments.error.size', {
-          maxSize: `${maxFileSizeInMB} MB`
+          maxSize: maxFileSizeInMB
         });
 
         _.extend(fileObj, { error: { message } });
