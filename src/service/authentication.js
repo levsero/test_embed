@@ -42,6 +42,14 @@ function renew() {
   }
 }
 
+function revoke(revokedAt) {
+  const currentToken = store.get('zE_oauth');
+
+  if (currentToken && isTokenRevoked(currentToken, revokedAt)) {
+    logout();
+  }
+}
+
 function logout() {
   store.remove('zE_oauth');
 }
@@ -90,7 +98,8 @@ function onRequestSuccess(res, id) {
       {
         'id': id,
         'token': res.body.oauth_token,
-        'expiry': res.body.oauth_expiry
+        'expiry': res.body.oauth_expiry,
+        'createdAt': res.body.oauth_created_at
       }
     );
     mediator.channel.broadcast('authentication.onSuccess');
@@ -118,6 +127,10 @@ function isRenewable(token) {
   }
 }
 
+function isTokenRevoked(token, revokedAt) {
+  return token.createdAt <= revokedAt;
+}
+
 const extractTokenId = memoize(function(jwt) {
   const jwtBody = jwt.split('.')[1];
 
@@ -138,5 +151,6 @@ export const authentication = {
   authenticate: authenticate,
   getToken: getToken,
   renew: renew,
+  revoke: revoke,
   logout: logout
 };

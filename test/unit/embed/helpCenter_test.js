@@ -12,6 +12,7 @@ describe('embed.helpCenter', function() {
   const performSearch = jasmine.createSpy();
   const contextualSearch = jasmine.createSpy();
   const authenticateSpy = jasmine.createSpy();
+  const revokeSpy = jasmine.createSpy();
 
   beforeEach(function() {
     const mockForm = noopReactComponent();
@@ -110,7 +111,8 @@ describe('embed.helpCenter', function() {
       'service/authentication' : {
         authentication: {
           getToken: noop,
-          authenticate: authenticateSpy
+          authenticate: authenticateSpy,
+          revoke: revokeSpy
         }
       },
       'service/transitionFactory' : {
@@ -738,6 +740,16 @@ describe('embed.helpCenter', function() {
     });
 
     describe('postRender authentication', function() {
+      it('should call authentication.revoke if there is a tokensRevokedAt property in the config', function() {
+        helpCenter.create('carlos', { tokensRevokedAt: Math.floor(Date.now() / 1000) });
+        helpCenter.postRender('carlos');
+
+        const carlos = helpCenter.get('carlos');
+
+        expect(revokeSpy)
+          .toHaveBeenCalledWith(carlos.config.tokensRevokedAt);
+      });
+
       it('should call authentication.authenticate if there is a jwt token in settings', function() {
         mockSettingsValue = { jwt: 'token' };
 

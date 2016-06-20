@@ -298,6 +298,10 @@ function postRender(name) {
     keywordsSearch(name, { search: getPageKeywords() });
   }
 
+  if (config.tokensRevokedAt) {
+    authentication.revoke(config.tokensRevokedAt);
+  }
+
   if (authSetting && authSetting.jwt) {
     authentication.authenticate(authSetting.jwt);
   }

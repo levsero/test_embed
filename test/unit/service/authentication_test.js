@@ -218,7 +218,8 @@ describe('authentication', function() {
       zeoauth = {
         id: '3498589cd03c34be6155b5a6498fe9786985da01', // sha1 hash of jbob@zendesk.com
         token: 'abcde',
-        expiry: Math.floor(Date.now() / 1000) + (20 * 60)
+        expiry: Math.floor(Date.now() / 1000) + (20 * 60),
+        createdAt: Math.floor(Date.now() / 1000) - 1.6 * 60 * 60
       };
       mockTransport = mockRegistry['service/transport'].transport;
       mockStore = mockRegistry['service/persistence'].store;
@@ -265,6 +266,43 @@ describe('authentication', function() {
 
         expect(mockTransport.send)
           .not.toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('revoke', function() {
+    let mockStore;
+    const timeOffset = 1.5 * 60 * 60; // 1 hour 30 mins in secs
+
+    beforeEach(function() {
+      mockStore = mockRegistry['service/persistence'].store;
+
+      mockStore.get = function() {
+        return {
+          id: '3498589cd03c34be6155b5a6498fe9786985da01',
+          expiry: Math.floor(Date.now() / 1000) + timeOffset, // expires in 1 hour 30 mins
+          createdAt: Math.floor(Date.now() / 1000) - timeOffset  // created 30 mins ago
+        };
+      };
+
+      authentication.init();
+    });
+
+    describe('when the current token has been revoked', function() {
+      it('should clear existing zE_oauth objects from localstorage', function() {
+        authentication.revoke(Math.floor(Date.now() / 1000));
+
+        expect(mockStore.remove)
+          .toHaveBeenCalledWith('zE_oauth');
+      });
+    });
+
+    describe('when the current token has not been revoked', function() {
+      it('should not clear existing zE_oauth objects from localstorage', function() {
+        authentication.revoke(Math.floor(Date.now() / 1000) - (timeOffset + 5));
+
+        expect(mockStore.remove)
+          .not.toHaveBeenCalledWith('zE_oauth');
       });
     });
   });
