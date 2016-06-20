@@ -4,6 +4,7 @@ describe('AttachmentList component', () => {
     mockUpdateForm,
     mockAttachmentState;
   const attachmentListPath = buildSrcPath('component/AttachmentList');
+  const maxFileLimit = 5;
   const maxFileSize = 5 * 1024 * 1024;
 
   beforeEach(() => {
@@ -22,7 +23,6 @@ describe('AttachmentList component', () => {
       'component/Attachment': {
         Attachment: React.createClass({
           getInitialState: () => mockAttachmentState,
-          componentWillMount: noop,
           render: function() {
             return (
               <div
@@ -61,6 +61,8 @@ describe('AttachmentList component', () => {
       <AttachmentList
         attachmentSender={noop}
         updateAttachments={noop}
+        maxFileLimit={maxFileLimit}
+        maxFileSize={maxFileSize}
         updateForm={mockUpdateForm} />
     );
   });
@@ -81,6 +83,8 @@ describe('AttachmentList component', () => {
         <AttachmentList
           attachmentSender={noop}
           updateAttachments={noop}
+          maxFileLimit={maxFileLimit}
+          maxFileSize={maxFileSize}
           updateForm={noop} />
       );
     });
@@ -386,6 +390,8 @@ describe('AttachmentList component', () => {
         <AttachmentList
           attachmentSender={noop}
           updateAttachments={noop}
+          maxFileLimit={maxFileLimit}
+          maxFileSize={maxFileSize}
           updateForm={noop} />
       );
 

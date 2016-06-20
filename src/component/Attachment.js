@@ -31,7 +31,7 @@ export class Attachment extends Component {
       });
 
       this.props.handleOnUpload(this.props.attachment.id, token);
-      setTimeout(() => updateAttachmentsList(), 1);
+      setTimeout(() => updateAttachmentsList(), 0);
     };
     const failFn = (error) => {
       this.setState({
@@ -44,7 +44,9 @@ export class Attachment extends Component {
     const progressFn = (event) => {
       const { progressBar } = this.refs;
 
-      progressBar.style.width = `${Math.floor(event.percent)}%`;
+      if (progressBar) {
+        progressBar.style.width = `${Math.floor(event.percent)}%`;
+      }
     };
 
     if (attachment.error) {
@@ -57,7 +59,7 @@ export class Attachment extends Component {
       uploadRequestSender: attachmentSender(attachment.file, doneFn, failFn, progressFn)
     });
 
-    setTimeout(() => updateAttachmentsList(), 1);
+    setTimeout(() => updateAttachmentsList(), 0);
   }
 
   handleRemoveAttachment() {

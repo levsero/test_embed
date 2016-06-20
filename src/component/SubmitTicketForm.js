@@ -220,7 +220,6 @@ export class SubmitTicketForm extends Component {
       <ButtonSecondary
         label={this.state.cancelButtonMessage}
         onClick={onCancel}
-
         fullscreen={fullscreen} />
     );
   }
@@ -233,6 +232,8 @@ export class SubmitTicketForm extends Component {
         ref="attachments"
         attachmentSender={attachmentSender}
         updateForm={this.updateForm}
+        maxFileLimit={this.props.maxFileLimit}
+        maxFileSize={this.props.maxFileSize}
         fullscreen={fullscreen} />
     );
   }
@@ -288,7 +289,9 @@ SubmitTicketForm.propTypes = {
   fullscreen: PropTypes.bool,
   onCancel: PropTypes.func,
   attachmentSender: PropTypes.func.isRequired,
-  attachmentsEnabled: PropTypes.bool
+  attachmentsEnabled: PropTypes.bool,
+  maxFileLimit: PropTypes.number,
+  maxFileSize: PropTypes.number
 };
 
 SubmitTicketForm.defaultProps = {
@@ -296,5 +299,7 @@ SubmitTicketForm.defaultProps = {
   customFields: [],
   fullscreen: false,
   onCancel: () => {},
-  attachmentsEnabled: false
+  attachmentsEnabled: false,
+  maxFileLimit: 5,
+  maxFileSize: 5 * 1024 * 1024
 };

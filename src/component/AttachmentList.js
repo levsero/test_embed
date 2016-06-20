@@ -39,8 +39,7 @@ export class AttachmentList extends Component {
   }
 
   handleOnDrop(files) {
-    const maxFileLimit = 5;
-    const maxFileSize = 5 * 1024 * 1024; // 5 mb
+    const { maxFileLimit, maxFileSize } = this.props;
     const numFilesToAdd = maxFileLimit - this.state.attachments.length;
     const setLimitError = () => {
       const errorMessage = i18n.t('embeddable_framework.submitTicket.attachments.error.limit', {
@@ -67,8 +66,9 @@ export class AttachmentList extends Component {
       };
 
       if (file.size > maxFileSize) {
+        const maxFileSizeInMB = Math.round(maxFileSize / 1024 / 1024);
         const message = i18n.t('embeddable_framework.submitTicket.attachments.error.size', {
-          maxSize: '5 mb'
+          maxSize: `${maxFileSizeInMB} MB`
         });
 
         _.extend(fileObj, { error: { message } });
@@ -154,13 +154,9 @@ export class AttachmentList extends Component {
     const numAttachments = this.state.attachments.length;
     const title = (numAttachments > 0)
                 ? i18n.t('embeddable_framework.submitTicket.attachments.title_withCount',
-                    { fallback: 'Attachments (%(count)s)',
-                    count: numAttachments }
+                    { count: numAttachments }
                   )
-                : i18n.t('embeddable_framework.submitTicket.attachments.title',
-                    { fallback: 'Attachments' }
-                  );
-
+                : i18n.t('embeddable_framework.submitTicket.attachments.title');
     const attachmentComponents = this.renderAttachments();
 
     return (
@@ -185,6 +181,8 @@ export class AttachmentList extends Component {
 AttachmentList.propTypes = {
   attachmentSender: PropTypes.func.isRequired,
   updateForm: PropTypes.func.isRequired,
+  maxFileLimit: PropTypes.number.isRequired,
+  maxFileSize: PropTypes.number.isRequired,
   fullscreen: PropTypes.bool
 };
 
