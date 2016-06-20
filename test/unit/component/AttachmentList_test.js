@@ -408,14 +408,16 @@ describe('AttachmentList component', () => {
         .toBeTruthy();
     });
 
-    it('should return false if there are attachment errors or uploading attachments', () => {
+    it('should return false if there are attachment errors', () => {
       mockAttachmentState.uploadError = 'Some error';
 
       component.handleOnDrop(attachments);
 
       expect(component.attachmentsReady())
         .toBeFalsy();
+    });
 
+    it('should return false if there are uploading attachments', function() {
       mockAttachmentState.uploadError = null;
       mockAttachmentState.uploading = true;
 
