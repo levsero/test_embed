@@ -97,7 +97,7 @@ export class Attachment extends Component {
     const fileSizeFormatter = (size) => {
       const sizeInMb = size / 1024 / 1024;
 
-      return `${Math.round(sizeInMb * 10) / 10} mb`;
+      return `${Math.round(sizeInMb * 10) / 10} MB`;
     };
 
     const icon = this.state.uploadError
