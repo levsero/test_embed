@@ -18,18 +18,7 @@ describe('Attachment component', function() {
     initMockRegistry({
       'React': React,
       'component/Icon': {
-        Icon: React.createClass({
-          render: function() {
-            return (
-              <span
-                className={this.props.className}
-                onClick={this.props.onClick}
-                type={`${this.props.type}`}>
-                <svg />
-              </span>
-            );
-          }
-        })
+        Icon: noopReactComponent()
       },
       'utility/utils': {
         bindMethods: mockBindMethods

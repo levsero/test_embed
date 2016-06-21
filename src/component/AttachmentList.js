@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
-import classNames from 'classnames';
 
 import { Attachment } from 'component/Attachment';
 import { ButtonDropzone } from 'component/Button';
@@ -128,7 +127,7 @@ export class AttachmentList extends Component {
             icon={icon}
             handleRemoveAttachment={this.handleRemoveAttachment}
             attachmentSender={this.props.attachmentSender}
-            updateAttachmentsList={this.updateAttachmentsList} />
+            updateAttachmentsList={this.props.updateForm} />
         );
       }
     });
@@ -142,28 +141,27 @@ export class AttachmentList extends Component {
     return !unreadyAttachment;
   }
 
-  updateAttachmentsList() {
-    this.props.updateForm();
+  renderErrorMessage() {
+    return (
+      <p className='Error u-marginTL'>
+        {this.state.errorMessage}
+      </p>
+    );
   }
 
   render() {
-    const errorClasses = classNames({
-      'Error u-marginTL': true,
-      'u-isHidden': !this.state.errorMessage
-    });
     const numAttachments = this.state.attachments.length;
     const title = (numAttachments > 0)
                 ? i18n.t('embeddable_framework.submitTicket.attachments.title_withCount',
                     { count: numAttachments }
                   )
                 : i18n.t('embeddable_framework.submitTicket.attachments.title');
+    const errorMessage = this.state.errorMessage ? this.renderAttachments() : null;
     const attachmentComponents = this.renderAttachments();
 
     return (
       <div>
-        <p className={errorClasses}>
-          {this.state.errorMessage}
-        </p>
+        {errorMessage}
         <div className='Form-fieldContainer u-block u-marginVM'>
           <label className='Form-fieldLabel u-textXHeight'>
             {title}

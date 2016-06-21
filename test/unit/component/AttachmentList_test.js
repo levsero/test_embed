@@ -297,7 +297,7 @@ describe('AttachmentList component', () => {
       beforeEach(function() {
         const attachmentToRemove = component.state.attachments[1];
 
-        component.handleRemoveAttachment(attachmentToRemove.id, attachmentToRemove.error);
+        component.handleRemoveAttachment(attachmentToRemove.id);
       });
 
       it('should call updateForm', () => {
@@ -331,25 +331,23 @@ describe('AttachmentList component', () => {
         .toHaveBeenCalled();
     });
 
-    describe('when too many attachments are selected in one go', () => {
-      beforeEach(function() {
+    describe('when too many attachments are selected', () => {
+      it('only adds the attachments up to the maximum', () => {
         attachments.push(
           { name: 'bob', size: 1024 },
           { name: 'jim', size: 1024 },
           { name: 'tim', size: 1024 },
           { name: 'dan', size: 1024 }
         );
-      });
-
-      it('only adds the attachments up to the maximum', () => {
         component.handleOnDrop(attachments);
 
         expect(component.state.attachments.length)
           .toBe(5);
-      });
-    });
 
-    describe('when too many attachments are selected', () => {
+        expect(component.state.errorMessage)
+          .toBe('embeddable_framework.submitTicket.attachments.error.limit');
+      });
+
       it('only adds the attachments up to the maximum', () => {
         component.handleOnDrop(attachments);
 
@@ -367,6 +365,9 @@ describe('AttachmentList component', () => {
 
         expect(component.state.attachments.length)
           .toBe(5);
+
+        expect(component.state.errorMessage)
+          .toBe('embeddable_framework.submitTicket.attachments.error.limit');
       });
     });
 
