@@ -108,7 +108,7 @@ export class AttachmentList extends Component {
       errorMessage: null
     });
 
-    setTimeout(() => this.props.updateForm(), 1);
+    setTimeout(() => this.props.updateForm(), 0);
   }
 
   renderAttachments() {
