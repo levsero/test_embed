@@ -32,22 +32,63 @@ export class AttachmentList extends Component {
     bindMethods(this, AttachmentList.prototype);
 
     this.state = {
-      attachments: []
+      attachments: [],
+      errorMessage: null
     };
   }
 
   handleOnDrop(files) {
-    const newFiles = files.map((file) => {
-      return {
+    const { maxFileLimit, maxFileSize } = this.props;
+    const numFilesToAdd = maxFileLimit - this.state.attachments.length;
+    const setLimitError = () => {
+      const errorMessage = i18n.t('embeddable_framework.submitTicket.attachments.error.limit', {
+        maxFiles: maxFileLimit
+      });
+
+      this.setState({ errorMessage });
+    };
+
+    if (this.state.errorMessage) {
+      this.setState({ errorMessage: null });
+    }
+
+    if (numFilesToAdd < 1) {
+      setLimitError();
+      return;
+    }
+
+    const mapFile = (file) => {
+      const fileObj = {
         id: _.uniqueId(),
         file: file,
         uploadToken: null
       };
-    });
+
+      if (file.size > maxFileSize) {
+        const maxFileSizeInMB = Math.round(maxFileSize / 1024 / 1024);
+        const message = i18n.t('embeddable_framework.submitTicket.attachments.error.size', {
+          maxSize: maxFileSizeInMB
+        });
+
+        _.extend(fileObj, { error: { message } });
+      }
+
+      return fileObj;
+    };
+
+    const newFiles = _.chain(files)
+      .slice(0, numFilesToAdd)
+      .map(mapFile)
+      .value();
+
+    if (this.state.attachments.length + files.length > maxFileLimit) {
+      setLimitError();
+    }
 
     this.setState({
       attachments: _.union(this.state.attachments, newFiles)
     });
+    this.props.updateForm();
   }
 
   handleOnUpload(attachmentId, token) {
@@ -62,8 +103,11 @@ export class AttachmentList extends Component {
 
   handleRemoveAttachment(attachmentId) {
     this.setState({
-      attachments: _.reject(this.state.attachments, (a) => a.id === attachmentId)
+      attachments: _.reject(this.state.attachments, (a) => a.id === attachmentId),
+      errorMessage: null
     });
+
+    setTimeout(() => this.props.updateForm(), 0);
   }
 
   renderAttachments() {
@@ -76,31 +120,48 @@ export class AttachmentList extends Component {
 
         return (
           <Attachment
+            ref={id}
             key={id}
             attachment={attachment}
             handleOnUpload={this.handleOnUpload}
+            icon={icon}
             handleRemoveAttachment={this.handleRemoveAttachment}
             attachmentSender={this.props.attachmentSender}
-            icon={icon} />
+            updateAttachmentsList={this.props.updateForm} />
         );
       }
     });
+  }
+
+  attachmentsReady() {
+    const unreadyAttachment = _.find(this.refs, (attachment) => {
+      return attachment.state.uploadError || attachment.state.uploading;
+    });
+
+    return !unreadyAttachment;
+  }
+
+  renderErrorMessage() {
+    return (
+      <p className='Error u-marginTL'>
+        {this.state.errorMessage}
+      </p>
+    );
   }
 
   render() {
     const numAttachments = this.state.attachments.length;
     const title = (numAttachments > 0)
                 ? i18n.t('embeddable_framework.submitTicket.attachments.title_withCount',
-                    { fallback: 'Attachments (%(count)s)',
-                    count: numAttachments }
+                    { count: numAttachments }
                   )
-                : i18n.t('embeddable_framework.submitTicket.attachments.title',
-                    { fallback: 'Attachments' }
-                  );
+                : i18n.t('embeddable_framework.submitTicket.attachments.title');
+    const errorMessage = this.state.errorMessage ? this.renderAttachments() : null;
     const attachmentComponents = this.renderAttachments();
 
     return (
       <div>
+        {errorMessage}
         <div className='Form-fieldContainer u-block u-marginVM'>
           <label className='Form-fieldLabel u-textXHeight'>
             {title}
@@ -117,6 +178,9 @@ export class AttachmentList extends Component {
 
 AttachmentList.propTypes = {
   attachmentSender: PropTypes.func.isRequired,
+  updateForm: PropTypes.func.isRequired,
+  maxFileLimit: PropTypes.number.isRequired,
+  maxFileSize: PropTypes.number.isRequired,
   fullscreen: PropTypes.bool
 };
 

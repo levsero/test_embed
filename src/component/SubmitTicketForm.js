@@ -142,12 +142,13 @@ export class SubmitTicketForm extends Component {
       {}).value();
   }
 
-  handleUpdate() {
+  updateForm() {
     const form = ReactDOM.findDOMNode(this.refs.form);
+    const attachmentsReady = this.refs.attachments.attachmentsReady();
 
     this.setState({
       formState: this.getFormState(),
-      isValid: form.checkValidity()
+      isValid: form.checkValidity() && attachmentsReady
     });
   }
 
@@ -230,6 +231,9 @@ export class SubmitTicketForm extends Component {
       <AttachmentList
         ref="attachments"
         attachmentSender={attachmentSender}
+        updateForm={this.updateForm}
+        maxFileLimit={this.props.maxFileLimit}
+        maxFileSize={this.props.maxFileSize}
         fullscreen={fullscreen} />
     );
   }
@@ -250,7 +254,7 @@ export class SubmitTicketForm extends Component {
       <form
         noValidate={true}
         onSubmit={this.handleSubmit}
-        onChange={this.handleUpdate}
+        onChange={this.updateForm}
         ref='form'
         className={formClasses}>
         <ScrollContainer
@@ -285,7 +289,9 @@ SubmitTicketForm.propTypes = {
   fullscreen: PropTypes.bool,
   onCancel: PropTypes.func,
   attachmentSender: PropTypes.func.isRequired,
-  attachmentsEnabled: PropTypes.bool
+  attachmentsEnabled: PropTypes.bool,
+  maxFileLimit: PropTypes.number,
+  maxFileSize: PropTypes.number
 };
 
 SubmitTicketForm.defaultProps = {
@@ -293,5 +299,7 @@ SubmitTicketForm.defaultProps = {
   customFields: [],
   fullscreen: false,
   onCancel: () => {},
-  attachmentsEnabled: false
+  attachmentsEnabled: false,
+  maxFileLimit: 5,
+  maxFileSize: 5 * 1024 * 1024
 };

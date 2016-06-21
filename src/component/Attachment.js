@@ -19,7 +19,7 @@ export class Attachment extends Component {
   }
 
   componentWillMount() {
-    const { attachment, attachmentSender } = this.props;
+    const { attachment, attachmentSender, updateAttachmentsList } = this.props;
 
     const doneFn = (response) => {
       const token = JSON.parse(response.text).upload.token;
@@ -31,23 +31,35 @@ export class Attachment extends Component {
       });
 
       this.props.handleOnUpload(this.props.attachment.id, token);
+      setTimeout(() => updateAttachmentsList(), 0);
     };
     const failFn = (error) => {
       this.setState({
         uploading: false,
         uploadError: error.message
       });
+
+      updateAttachmentsList();
     };
     const progressFn = (event) => {
       const { progressBar } = this.refs;
 
-      progressBar.style.width = `${Math.floor(event.percent)}%`;
+      if (progressBar) {
+        progressBar.style.width = `${Math.floor(event.percent)}%`;
+      }
     };
+
+    if (attachment.error) {
+      failFn(attachment.error);
+      return;
+    }
 
     this.setState({
       uploading: true,
       uploadRequestSender: attachmentSender(attachment.file, doneFn, failFn, progressFn)
     });
+
+    setTimeout(() => updateAttachmentsList(), 0);
   }
 
   handleRemoveAttachment() {
@@ -73,23 +85,37 @@ export class Attachment extends Component {
       'Form-field--display-preview': true,
       'Attachment--uploading': this.state.uploading,
       'u-posRelative': true,
-      'u-marginBS': true
+      'u-marginBS': true,
+      'u-borderError': this.state.uploadError
     });
+    const secondaryTextClasses = classNames({
+      'u-pullLeft': true,
+      'u-clearLeft': true,
+      'u-textError': this.state.uploadError
+    });
+
     const fileSizeFormatter = (size) => {
       const sizeInMb = size / 1024 / 1024;
 
-      return `${Math.round(sizeInMb * 10) / 10} mb`;
+      return `${Math.round(sizeInMb * 10) / 10} MB`;
     };
 
-    const progressBar = this.state.uploading ? this.renderProgressBar() : null;
-    const iconOnClick = this.state.uploading ? this.handleStopUpload : this.handleRemoveAttachment;
+    const icon = this.state.uploadError
+               ? null
+               : <Icon type={this.props.icon} className='Icon--preview u-pullLeft' />;
+    const progressBar = this.state.uploading && !this.state.uploadError
+                      ? this.renderProgressBar()
+                      : null;
+
     const nameStart = file.name.slice(0, -7);
     const nameEnd = file.name.slice(-7);
+    const secondaryText = this.state.uploadError || fileSizeFormatter(file.size);
+    const iconOnClick = this.state.uploading ? this.handleStopUpload : this.handleRemoveAttachment;
 
     return (
       <div className={containerClasses}>
         <div className='Attachment-preview u-posRelative u-hsizeAll'>
-          <Icon type={this.props.icon} className='Icon--preview u-pullLeft' />
+          {icon}
           <div className="u-pullLeft">
             <div className='Attachment-preview-name u-alignTop u-pullLeft u-textTruncate u-textBody'>
               {nameStart}
@@ -97,8 +123,8 @@ export class Attachment extends Component {
             <div className='u-pullLeft u-textBody'>
               {nameEnd}
             </div>
-            <div className='u-pullLeft u-clearLeft'>
-              {fileSizeFormatter(file.size)}
+            <div className={secondaryTextClasses}>
+              {secondaryText}
             </div>
           </div>
           <Icon
@@ -114,8 +140,10 @@ export class Attachment extends Component {
 
 Attachment.propTypes = {
   attachment: PropTypes.object.isRequired,
+  icon: PropTypes.string.isRequired,
   handleRemoveAttachment: PropTypes.func.isRequired,
   handleOnUpload: PropTypes.func.isRequired,
   attachmentSender: PropTypes.func.isRequired,
-  icon: PropTypes.string.isRequired
+  updateAttachmentsList: PropTypes.func.isRequired
 };
+

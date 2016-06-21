@@ -29,6 +29,8 @@ function create(name, config) {
     hideZendeskLogo: false,
     formTitleKey: 'message',
     attachmentsEnabled: false,
+    maxFileLimit: 5,
+    maxFileSize: 5 * 1024 * 1024, // 5 MB
     color: '#659700'
   };
 
@@ -118,6 +120,8 @@ function create(name, config) {
           formTitleKey={config.formTitleKey}
           style={containerStyle}
           attachmentsEnabled={config.attachmentsEnabled}
+          maxFileLimit={config.maxFileLimit}
+          maxFileSize={config.maxFileSize}
           updateFrameSize={params.updateFrameSize} />
       );
     },

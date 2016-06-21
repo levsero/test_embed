@@ -28,7 +28,7 @@ export class SubmitTicket extends Component {
       showNotification: false,
       message: '',
       fullscreen: isMobileBrowser(),
-      errorMessage: '',
+      errorMessage: null,
       uid: _.uniqueId('submitTicketForm_'),
       searchTerm: null,
       searchLocale: null,
@@ -53,7 +53,7 @@ export class SubmitTicket extends Component {
   handleSubmit(e, data) {
     e.preventDefault();
 
-    this.setState({errorMessage: ''});
+    this.setState({ errorMessage: null });
 
     if (!data.isFormValid) {
       // TODO: Handle invalid form submission
@@ -231,6 +231,8 @@ export class SubmitTicket extends Component {
           formTitleKey={this.props.formTitleKey}
           attachmentSender={this.props.attachmentSender}
           attachmentsEnabled={this.props.attachmentsEnabled}
+          maxFileLimit={this.props.maxFileLimit}
+          maxFileSize={this.props.maxFileSize}
           submit={this.handleSubmit}>
           <p className={errorClasses}>
             {this.state.errorMessage}
@@ -253,7 +255,9 @@ SubmitTicket.propTypes = {
   position: PropTypes.string,
   onSubmitted: PropTypes.func,
   onCancel: PropTypes.func,
-  attachmentsEnabled: PropTypes.bool
+  attachmentsEnabled: PropTypes.bool,
+  maxFileLimit: PropTypes.number,
+  maxFileSize: PropTypes.number
 };
 
 SubmitTicket.defaultProps = {
@@ -264,5 +268,7 @@ SubmitTicket.defaultProps = {
   position: 'right',
   onSubmitted: () => {},
   onCancel: () => {},
-  attachmentsEnabled: false
+  attachmentsEnabled: false,
+  maxFileLimit: 5,
+  maxFileSize: 5 * 1024 * 1024
 };
