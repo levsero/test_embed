@@ -317,13 +317,6 @@ describe('AttachmentList component', () => {
       ];
     });
 
-    it('adds the passed in attachments to state.attachments', () => {
-      component.handleOnDrop(attachments);
-
-      expect(component.state.attachments.length)
-        .toBe(2);
-    });
-
     it('calls updateForm', () => {
       component.handleOnDrop(attachments);
 
@@ -331,15 +324,42 @@ describe('AttachmentList component', () => {
         .toHaveBeenCalled();
     });
 
-    describe('when too many attachments are selected', () => {
-      it('only adds the attachments up to the maximum', () => {
-        attachments.push(
-          { name: 'bob', size: 1024 },
-          { name: 'jim', size: 1024 },
-          { name: 'tim', size: 1024 },
-          { name: 'dan', size: 1024 }
-        );
+    describe('when there is space for all new attachments', () => {
+      it('should add all the attachments', () => {
         component.handleOnDrop(attachments);
+
+        expect(component.state.attachments.length)
+          .toBe(2);
+
+        const moreAttachments = [
+          { name: 'foo', size: 1024 },
+          { name: 'bar', size: 1024 },
+          { name: 'bob', size: 1024 }
+        ];
+
+        component.handleOnDrop(moreAttachments);
+
+        expect(component.state.attachments.length)
+          .toBe(5);
+      });
+    });
+
+    describe('when there is not space for all new attachments', () => {
+      it('should only add new attachments up to the max limit of 5', () => {
+        component.handleOnDrop(attachments);
+
+        expect(component.state.attachments.length)
+          .toBe(2);
+
+        const moreAttachments = [
+          { name: 'foo', size: 1024 },
+          { name: 'bar', size: 1024 },
+          { name: 'bob', size: 1024 },
+          { name: 'tim', size: 1024 },
+          { name: 'jim', size: 1024 }
+        ];
+
+        component.handleOnDrop(moreAttachments);
 
         expect(component.state.attachments.length)
           .toBe(5);
@@ -347,21 +367,19 @@ describe('AttachmentList component', () => {
         expect(component.state.errorMessage)
           .toBe('embeddable_framework.submitTicket.attachments.error.limit');
       });
+    });
 
-      it('only adds the attachments up to the maximum', () => {
+    describe('when there is no space for new attachments', () => {
+      it('should not add any new attachments', () => {
+        attachments.push(
+          { name: 'bob', size: 1024 },
+          { name: 'jim', size: 1024 },
+          { name: 'dan', size: 1024 }
+        );
+
         component.handleOnDrop(attachments);
 
-        expect(component.state.attachments.length)
-          .toBe(2);
-
-        const newAttachments = [
-          { name: 'foo', size: 1024 },
-          { name: 'bar', size: 1024 },
-          { name: 'bob', size: 1024 },
-          { name: 'jim', size: 1024 }
-        ];
-
-        component.handleOnDrop(newAttachments);
+        component.handleOnDrop([{ name: 'fat', size: 1024 }]);
 
         expect(component.state.attachments.length)
           .toBe(5);
