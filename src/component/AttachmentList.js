@@ -156,7 +156,7 @@ export class AttachmentList extends Component {
                     { count: numAttachments }
                   )
                 : i18n.t('embeddable_framework.submitTicket.attachments.title');
-    const errorMessage = this.state.errorMessage ? this.renderAttachments() : null;
+    const errorMessage = this.state.errorMessage ? this.renderErrorMessage() : null;
     const attachmentComponents = this.renderAttachments();
 
     return (
