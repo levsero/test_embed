@@ -423,8 +423,8 @@ describe('AttachmentList component', () => {
       it('should call attachment sender', () => {
         component.createAttachment(file);
 
-        expect(mockAttachmentSender.calls.count())
-          .toBe(1);
+        expect(mockAttachmentSender)
+          .toHaveBeenCalled();
       });
 
       it('should return an attachment object with no error', () => {
@@ -437,8 +437,8 @@ describe('AttachmentList component', () => {
       it('should not call attachment sender', () => {
         component.createAttachment(file, 'Some error');
 
-        expect(mockAttachmentSender.calls.count())
-          .toBe(0);
+        expect(mockAttachmentSender)
+          .not.toHaveBeenCalled();
       });
 
       it('should return an attachment object with an error', () => {
@@ -512,10 +512,12 @@ describe('AttachmentList component', () => {
       mockAttachmentSender.calls.mostRecent().args[1](response);
     });
 
-    it('sets the upload token and uploading to false', () => {
+    it('sets the upload token', () => {
       expect(component.state.attachments[0].uploadToken)
         .toBe('12345');
+    });
 
+    it('sets uploading to false', () => {
       expect(component.state.attachments[0].uploading)
         .toBe(false);
     });
@@ -537,10 +539,12 @@ describe('AttachmentList component', () => {
       mockAttachmentSender.calls.mostRecent().args[2](response);
     });
 
-    it('does not set the upload token and sets error message', () => {
+    it('does not set the upload token', () => {
       expect(component.state.attachments[0].uploadToken)
         .toBeFalsy();
+    });
 
+    it('sets the error message', () => {
       expect(component.state.attachments[0].errorMessage)
         .toBe('Some error');
     });
