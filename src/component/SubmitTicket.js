@@ -107,7 +107,7 @@ export class SubmitTicket extends Component {
 
     return this.props.customFields.length === 0
          ? params
-         : _.extend(params, this.formatTicketFieldData(data.value));
+         : _.extend(params, this.formatTicketFieldData(data));
   }
 
   formatRequestTicketData(data) {
