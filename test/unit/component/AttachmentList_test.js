@@ -2,7 +2,7 @@ describe('AttachmentList component', () => {
   let AttachmentList,
     component,
     mockUpdateForm,
-    mockAttachmentState;
+    mockAttachmentSender;
   const attachmentListPath = buildSrcPath('component/AttachmentList');
   const maxFileLimit = 5;
   const maxFileSize = 5 * 1024 * 1024;
@@ -12,22 +12,13 @@ describe('AttachmentList component', () => {
 
     mockery.enable();
 
-    mockAttachmentState = {
-      uploading: false,
-      uploadError: null,
-      uploadRequestSender: () => {}
-    };
-
     initMockRegistry({
       'React': React,
       'component/Attachment': {
         Attachment: React.createClass({
-          getInitialState: () => mockAttachmentState,
           render: function() {
             return (
               <div
-                ref={_.uniqueId()}
-                attachment={{}}
                 handleRemoveAttachment={noop}
                 updateAttachmentsList={noop}
                 icon='' />
@@ -56,18 +47,22 @@ describe('AttachmentList component', () => {
     AttachmentList = requireUncached(attachmentListPath).AttachmentList;
 
     mockUpdateForm = jasmine.createSpy('updateForm');
+    mockAttachmentSender = jasmine.createSpy('mockAttachmentSender');
 
     component = instanceRender(
       <AttachmentList
-        attachmentSender={noop}
+        attachmentSender={mockAttachmentSender}
         updateAttachments={noop}
         maxFileLimit={maxFileLimit}
         maxFileSize={maxFileSize}
         updateForm={mockUpdateForm} />
     );
+
+    jasmine.clock().install();
   });
 
   afterEach(() => {
+    jasmine.clock().uninstall();
     mockery.deregisterAll();
     mockery.disable();
   });
@@ -81,7 +76,7 @@ describe('AttachmentList component', () => {
     beforeEach(() => {
       component = domRender(
         <AttachmentList
-          attachmentSender={noop}
+          attachmentSender={mockAttachmentSender}
           updateAttachments={noop}
           maxFileLimit={maxFileLimit}
           maxFileSize={maxFileSize}
@@ -98,12 +93,32 @@ describe('AttachmentList component', () => {
       });
     });
 
-    describe('when there are some attachments', () => {
-      beforeEach(() => {
-        component.handleOnDrop([{ name: 'bob.gif' }]);
-      });
+    describe('when there are no valid attachments', () => {
+      it('has a label with the embeddable_framework.submitTicket.attachments.title string', () => {
+        component.handleOnDrop([{ name: 'bob.gif', size: maxFileSize + 1024 }]);
 
+        let label = document.querySelector('label.Form-fieldLabel').innerHTML;
+
+        expect(label)
+          .toEqual('embeddable_framework.submitTicket.attachments.title');
+
+        component.handleOnDrop([{ name: 'jim.gif', size: 1024 }]);
+        mockAttachmentSender.calls.mostRecent().args[2]({ message: 'Some error' });
+
+        label = document.querySelector('label.Form-fieldLabel').innerHTML;
+
+        expect(label)
+          .toEqual('embeddable_framework.submitTicket.attachments.title');
+      });
+    });
+
+    describe('when there are some valid attachments', () => {
       it('has a label with the embeddable_framework.submitTicket.attachments.title_withCount string', () => {
+        const upload = JSON.stringify({ upload: { token: '12345' } });
+
+        component.handleOnDrop([{ name: 'bob.gif', size: 1024 }]);
+        mockAttachmentSender.calls.mostRecent().args[1]({ text: upload });
+
         const label = document.querySelector('label.Form-fieldLabel').innerHTML;
 
         expect(label)
@@ -120,7 +135,7 @@ describe('AttachmentList component', () => {
 
       const previews = component.renderAttachments();
 
-      expect(previews[0].props.attachment.file)
+      expect(previews[0].props.file)
         .toEqual(attachments[0]);
       expect(previews[0].props.icon)
         .toEqual('Icon--preview-txt');
@@ -395,74 +410,159 @@ describe('AttachmentList component', () => {
 
         component.handleOnDrop(attachments);
 
-        expect(component.state.attachments[2].error)
+        expect(component.state.attachments[2].errorMessage)
           .toBeTruthy();
       });
     });
   });
 
-  describe('attachmentsReady', () => {
-    let attachments;
+  describe('createAttachment', () => {
+    const file = { name: 'bob.gif', size: maxFileSize + 1024 };
 
-    beforeEach(function() {
-      component = domRender(
-        <AttachmentList
-          attachmentSender={noop}
-          updateAttachments={noop}
-          maxFileLimit={maxFileLimit}
-          maxFileSize={maxFileSize}
-          updateForm={noop} />
-      );
+    describe('when there is no attachment error', () => {
+      it('should call attachment sender', () => {
+        component.createAttachment(file);
 
-      attachments = [
-        { name: 'foo.txt', size: 1024 },
-        { name: 'bar.png', size: 1024 }
-      ];
+        expect(mockAttachmentSender.calls.count())
+          .toBe(1);
+      });
 
-      component.handleOnDrop(attachments);
+      it('should return an attachment object with no error', () => {
+        expect(component.createAttachment(file).errorMessage)
+          .toBeFalsy();
+      });
     });
 
-    it('should return true if there are no attachment errors or uploading attachments', () => {
-      expect(component.attachmentsReady())
-        .toBeTruthy();
-    });
+    describe('when there is an attachment error', () => {
+      it('should not call attachment sender', () => {
+        component.createAttachment(file, 'Some error');
 
-    it('should return false if there are attachment errors', () => {
-      mockAttachmentState.uploadError = 'Some error';
+        expect(mockAttachmentSender.calls.count())
+          .toBe(0);
+      });
 
-      component.handleOnDrop(attachments);
-
-      expect(component.attachmentsReady())
-        .toBeFalsy();
-    });
-
-    it('should return false if there are uploading attachments', function() {
-      mockAttachmentState.uploadError = null;
-      mockAttachmentState.uploading = true;
-
-      component.handleOnDrop(attachments);
-
-      expect(component.attachmentsReady())
-        .toBeFalsy();
+      it('should return an attachment object with an error', () => {
+        expect(component.createAttachment(file, 'someError').errorMessage)
+          .toBeTruthy();
+      });
     });
   });
 
-  describe('handleOnUpload', () => {
-    it('updates attachments to include their upload token', () => {
-      component.setState({
-        attachments: [
-          {
-            id: 1,
-            file: 'foo',
-            uploadedToken: null
-          }
-        ]
-      });
+  describe('numValidAttachments', () => {
+    it('should return the number of valid attachments', () => {
+      component.handleOnDrop([
+        { name: 'foo.txt', size: maxFileSize + 1024 },
+        { name: 'jim.png', size: 1024 },
+        { name: 'bar.png', size: 1024 }
+      ]);
 
-      component.handleOnUpload(1, '12345');
+      const upload = JSON.stringify({ upload: { token: '12345' } });
 
+      mockAttachmentSender.calls.mostRecent().args[1]({ text: upload });
+
+      expect(component.numValidAttachments())
+        .toBe(1);
+    });
+  });
+
+  describe('attachmentsReady', () => {
+    it('should return true if there are no attachment errors or uploading attachments', () => {
+      component.handleOnDrop([
+        { name: 'jim.png', size: 1024 },
+        { name: 'bar.png', size: 1024 }
+      ]);
+
+      const upload = JSON.stringify({ upload: { token: '12345' } });
+      const calls = mockAttachmentSender.calls;
+
+      calls.argsFor(0)[1]({ text: upload });
+      calls.argsFor(1)[1]({ text: upload });
+
+      expect(component.attachmentsReady())
+        .toBe(true);
+    });
+
+    it('should return false if there are attachment errors', () => {
+      component.handleOnDrop([
+        { name: 'jim.png', size: maxFileSize + 1024 }
+      ]);
+
+      expect(component.attachmentsReady())
+        .toBe(false);
+    });
+
+    it('should return false if there are uploading attachments', function() {
+      component.handleOnDrop([
+        { name: 'jim.png', size: 1024 },
+        { name: 'bar.png', size: 1024 }
+      ]);
+
+      expect(component.attachmentsReady())
+        .toBe(false);
+    });
+  });
+
+  describe('when an attachment is successfully uploaded', () => {
+    beforeEach(function() {
+      component.handleOnDrop([{ name: 'bob.gif', size: 1024 }]);
+
+      const upload = JSON.stringify({ upload: { token: '12345' } });
+      const response = { text: upload };
+
+      mockAttachmentSender.calls.mostRecent().args[1](response);
+    });
+
+    it('sets the upload token and uploading to false', () => {
       expect(component.state.attachments[0].uploadToken)
         .toBe('12345');
+
+      expect(component.state.attachments[0].uploading)
+        .toBe(false);
+    });
+
+    it('calls updateForm', () => {
+      jasmine.clock().tick(1);
+
+      expect(mockUpdateForm)
+        .toHaveBeenCalled();
+    });
+  });
+
+  describe('when an attachment is not successfully uploaded', () => {
+    beforeEach(function() {
+      component.handleOnDrop([{ name: 'bob.gif', size: 1024 }]);
+
+      const response = { message: 'Some error' };
+
+      mockAttachmentSender.calls.mostRecent().args[2](response);
+    });
+
+    it('does not set the upload token and sets error message', () => {
+      expect(component.state.attachments[0].uploadToken)
+        .toBeFalsy();
+
+      expect(component.state.attachments[0].errorMessage)
+        .toBe('Some error');
+    });
+
+    it('calls updateForm', () => {
+      jasmine.clock().tick(1);
+
+      expect(mockUpdateForm)
+        .toHaveBeenCalled();
+    });
+  });
+
+  describe('when an attachment receives an on progress event', () => {
+    it('sets the uploadProgress', () => {
+      component.handleOnDrop([{ name: 'bob.gif', size: 1024 }]);
+
+      const response = { percent: 20 };
+
+      mockAttachmentSender.calls.mostRecent().args[3](response);
+
+      expect(component.state.attachments[0].uploadProgress)
+        .toBe(20);
     });
   });
 

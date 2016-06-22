@@ -39,6 +39,7 @@ export class AttachmentList extends Component {
 
   handleOnDrop(files) {
     const { maxFileLimit, maxFileSize } = this.props;
+    const { attachments } = this.state;
     const numFilesToAdd = maxFileLimit - this.state.attachments.length;
     const setLimitError = () => {
       const errorMessage = i18n.t('embeddable_framework.submitTicket.attachments.error.limit', {
@@ -48,32 +49,23 @@ export class AttachmentList extends Component {
       this.setState({ errorMessage });
     };
 
-    if (this.state.errorMessage) {
-      this.setState({ errorMessage: null });
-    }
-
-    if (numFilesToAdd < 1) {
+    if (attachments.length === maxFileLimit) {
       setLimitError();
       return;
     }
 
     const mapFile = (file) => {
-      const fileObj = {
-        id: _.uniqueId(),
-        file: file,
-        uploadToken: null
-      };
+      let errorMessage = null;
 
       if (file.size > maxFileSize) {
         const maxFileSizeInMB = Math.round(maxFileSize / 1024 / 1024);
-        const message = i18n.t('embeddable_framework.submitTicket.attachments.error.size', {
+
+        errorMessage = i18n.t('embeddable_framework.submitTicket.attachments.error.size', {
           maxSize: maxFileSizeInMB
         });
-
-        _.extend(fileObj, { error: { message } });
       }
 
-      return fileObj;
+      return this.createAttachment(file, errorMessage);
     };
 
     const newFiles = _.chain(files)
@@ -81,33 +73,84 @@ export class AttachmentList extends Component {
       .map(mapFile)
       .value();
 
-    if (this.state.attachments.length + files.length > maxFileLimit) {
+    if (attachments.length + files.length > maxFileLimit) {
       setLimitError();
     }
 
-    this.setState({
-      attachments: _.union(this.state.attachments, newFiles)
-    });
+    this.setState({ attachments: _.union(attachments, newFiles) });
     this.props.updateForm();
   }
 
-  handleOnUpload(attachmentId, token) {
-    let attachment = _.find(this.state.attachments, (a) => a.id === attachmentId);
+  handleRemoveAttachment(id) {
+    this.setState({
+      attachments: _.reject(this.state.attachments, (a) => a.id === id),
+      errorMessage: null
+    });
 
-    attachment.uploadToken = token;
+    setTimeout(() => this.props.updateForm(), 0);
+  }
+
+  createAttachment(file, errorMessage) {
+    const attachment = {
+      id: _.uniqueId(),
+      file: file,
+      uploading: true,
+      uploadProgress: 0,
+      uploadRequestSender: () => {},
+      errorMessage,
+      uploadToken: null
+    };
+    const doneFn = (response) => {
+      const token = JSON.parse(response.text).upload.token;
+
+      this.updateAttachmentState(attachment, {
+        uploading: false,
+        uploadToken: token
+      });
+
+      setTimeout(() => this.props.updateForm(), 0);
+    };
+    const failFn = (error) => {
+      this.updateAttachmentState(attachment, {
+        uploading: false,
+        errorMessage: error.message
+      });
+
+      setTimeout(() => this.props.updateForm(), 0);
+    };
+    const progressFn = (event) => this.updateAttachmentState(attachment, { uploadProgress: event.percent });
+
+    if (!errorMessage) {
+      this.updateAttachmentState(attachment, {
+        uploadRequestSender: this.props.attachmentSender(file, doneFn, failFn, progressFn)
+      });
+    } else {
+      failFn({ message: errorMessage });
+    }
+
+    return attachment;
+  }
+
+  updateAttachmentState(attachment, newState = {}) {
+    const { attachments } = this.state;
+
+    _.extend(attachment, newState);
+    this.setState({ attachments: _.clone(attachments) });
   }
 
   getAttachmentTokens() {
     return _.map(this.state.attachments, (a) => a.uploadToken);
   }
 
-  handleRemoveAttachment(attachmentId) {
-    this.setState({
-      attachments: _.reject(this.state.attachments, (a) => a.id === attachmentId),
-      errorMessage: null
-    });
+  numValidAttachments() {
+    return _.chain(this.state.attachments)
+            .filter((a) => !a.uploading && !a.errorMessage)
+            .size()
+            .value();
+  }
 
-    setTimeout(() => this.props.updateForm(), 0);
+  attachmentsReady() {
+    return this.numValidAttachments() === this.state.attachments.length;
   }
 
   renderAttachments() {
@@ -120,25 +163,18 @@ export class AttachmentList extends Component {
 
         return (
           <Attachment
-            ref={id}
             key={id}
-            attachment={attachment}
-            handleOnUpload={this.handleOnUpload}
+            id={id}
+            file={file}
+            errorMessage={attachment.errorMessage}
+            uploading={attachment.uploading}
+            uploadProgress={attachment.uploadProgress}
             icon={icon}
             handleRemoveAttachment={this.handleRemoveAttachment}
-            attachmentSender={this.props.attachmentSender}
-            updateAttachmentsList={this.props.updateForm} />
+            uploadRequestSender={attachment.uploadRequestSender} />
         );
       }
     });
-  }
-
-  attachmentsReady() {
-    const unreadyAttachment = _.find(this.refs, (attachment) => {
-      return attachment.state.uploadError || attachment.state.uploading;
-    });
-
-    return !unreadyAttachment;
   }
 
   renderErrorMessage() {
@@ -150,7 +186,7 @@ export class AttachmentList extends Component {
   }
 
   render() {
-    const numAttachments = this.state.attachments.length;
+    const numAttachments = this.numValidAttachments();
     const title = (numAttachments > 0)
                 ? i18n.t('embeddable_framework.submitTicket.attachments.title_withCount',
                     { count: numAttachments }
