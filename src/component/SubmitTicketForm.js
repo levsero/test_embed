@@ -144,7 +144,8 @@ export class SubmitTicketForm extends Component {
 
   updateForm() {
     const form = ReactDOM.findDOMNode(this.refs.form);
-    const attachmentsReady = this.refs.attachments.attachmentsReady();
+    const { attachments } = this.refs;
+    const attachmentsReady = attachments ? attachments.attachmentsReady() : true;
 
     this.setState({
       formState: this.getFormState(),
