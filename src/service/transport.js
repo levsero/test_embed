@@ -119,9 +119,11 @@ function sendFile(payload) {
     throw 'Missing zendeskHost config param.';
   }
 
+  /* eslint camelcase:0 */
   return superagent(payload.method.toUpperCase(),
                     buildFullUrl(payload.path))
     .query({ filename: payload.file.name })
+    .query({ via_id: 48 })
     .attach('file', payload.file)
     .on('progress', function(e) {
       if (payload.callbacks) {

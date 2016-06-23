@@ -125,8 +125,8 @@ export class SubmitTicket extends Component {
                   : null;
     const params = {
       'subject': (desc.length <= 50) ? desc : `${desc.slice(0,50)}...`,
-      'set_tags': 'web_widget',
       'via_id': 48,
+      'tags': [ 'web_widget' ],
       'comment': {
         'body': newDesc,
         'uploads': uploads
