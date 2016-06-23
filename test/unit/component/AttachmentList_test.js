@@ -522,6 +522,24 @@ describe('AttachmentList component', () => {
     });
   });
 
+  describe('numUploadedAttachments', () => {
+    it('should return the number of uploaded attachments', () => {
+      component.handleOnDrop([
+        { name: 'foo.txt', size: maxFileSize + 1024 },
+        { name: 'jim.png', size: 1024 },
+        { name: 'bar.png', size: 1024 }
+      ]);
+      jasmine.clock().tick(1);
+
+      const upload = JSON.stringify({ upload: { token: '12345' } });
+
+      mockAttachmentSender.calls.mostRecent().args[1]({ text: upload });
+
+      expect(component.numUploadedAttachments())
+        .toBe(1);
+    });
+  });
+
   describe('numValidAttachments', () => {
     it('should return the number of valid attachments', () => {
       component.handleOnDrop([
@@ -536,7 +554,7 @@ describe('AttachmentList component', () => {
       mockAttachmentSender.calls.mostRecent().args[1]({ text: upload });
 
       expect(component.numValidAttachments())
-        .toBe(1);
+        .toBe(2);
     });
   });
 

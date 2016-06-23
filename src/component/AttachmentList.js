@@ -39,7 +39,7 @@ export class AttachmentList extends Component {
 
   handleOnDrop(files) {
     const { maxFileLimit, maxFileSize } = this.props;
-    const numAttachments = _.size(this.state.attachments);
+    const numAttachments = this.numValidAttachments();
     const numFilesToAdd = maxFileLimit - numAttachments;
     const setLimitError = () => {
       const errorMessage = i18n.t('embeddable_framework.submitTicket.attachments.error.limit', {
@@ -146,15 +146,23 @@ export class AttachmentList extends Component {
     return _.map(this.state.attachments, (a) => a.uploadToken);
   }
 
-  numValidAttachments() {
+  filterAttachments(allowUploading) {
     return _.chain(this.state.attachments)
-            .filter((a) => !a.uploading && !a.errorMessage)
+            .filter((a) => (!a.uploading || allowUploading) && !a.errorMessage)
             .size()
             .value();
   }
 
+  numUploadedAttachments() {
+    return this.filterAttachments(false);
+  }
+
+  numValidAttachments() {
+    return this.filterAttachments(true);
+  }
+
   attachmentsReady() {
-    return this.numValidAttachments() === _.size(this.state.attachments);
+    return this.numUploadedAttachments() === _.size(this.state.attachments);
   }
 
   renderAttachments() {
@@ -190,7 +198,7 @@ export class AttachmentList extends Component {
   }
 
   render() {
-    const numAttachments = this.numValidAttachments();
+    const numAttachments = this.numUploadedAttachments();
     const title = (numAttachments > 0)
                 ? i18n.t('embeddable_framework.submitTicket.attachments.title_withCount',
                     { count: numAttachments }

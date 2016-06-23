@@ -50,7 +50,7 @@ describe('Attachment component', function() {
       beforeEach(function() {
         component = instanceRender(
           <Attachment
-            attachmentId={'1'}
+            attachmentId='1'
             file={attachment.file}
             uploading={true}
             handleRemoveAttachment={mockHandleRemoveAttachment}
@@ -76,7 +76,7 @@ describe('Attachment component', function() {
       beforeEach(function() {
         component = instanceRender(
           <Attachment
-            attachmentId={'1'}
+            attachmentId='1'
             file={attachment.file}
             uploading={false}
             handleRemoveAttachment={mockHandleRemoveAttachment}
@@ -108,7 +108,7 @@ describe('Attachment component', function() {
 
       component = domRender(
         <Attachment
-          id={'1'}
+          attachmentId='1'
           file={attachment.file}
           errorMessage={attachment.error.message}
           icon={icon} />
