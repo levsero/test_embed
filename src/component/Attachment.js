@@ -18,13 +18,12 @@ export class Attachment extends Component {
     }
   }
 
-  handleRemoveAttachment() {
-    this.props.handleRemoveAttachment(this.props.id);
-  }
+  handleIconClick() {
+    if (this.props.uploading) {
+      this.props.uploadRequestSender.abort();
+    }
 
-  handleStopUpload() {
-    this.props.uploadRequestSender.abort();
-    this.handleRemoveAttachment();
+    this.props.handleRemoveAttachment(this.props.attachmentId);
   }
 
   renderProgressBar() {
@@ -66,7 +65,6 @@ export class Attachment extends Component {
     const nameStart = file.name.slice(0, -7);
     const nameEnd = file.name.slice(-7);
     const secondaryText = errorMessage || fileSizeFormatter(file.size);
-    const iconOnClick = uploading ? this.handleStopUpload : this.handleRemoveAttachment;
 
     return (
       <div className={containerClasses}>
@@ -84,7 +82,7 @@ export class Attachment extends Component {
             </div>
           </div>
           <Icon
-            onClick={iconOnClick}
+            onClick={this.handleIconClick}
             className='Icon--preview-close u-isActionable u-pullRight'
             type='Icon--close' />
         </div>
@@ -95,7 +93,7 @@ export class Attachment extends Component {
 }
 
 Attachment.propTypes = {
-  id: PropTypes.string.isRequired,
+  attachmentId: PropTypes.string.isRequired,
   file: PropTypes.object.isRequired,
   uploading: PropTypes.bool.isRequired,
   icon: PropTypes.string.isRequired,

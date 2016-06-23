@@ -49,48 +49,45 @@ export class AttachmentList extends Component {
       this.setState({ errorMessage });
     };
 
-    if (numAttachments > maxFileLimit) {
+    if (numAttachments >= maxFileLimit) {
       setLimitError();
       return;
     }
 
+    // This check is needed so that we can fill the remaining space for attachments regardless of
+    // whether or not they go over the limit. If they do we notify them by displaying the limit error.
     if (numAttachments + files.length > maxFileLimit) {
       setLimitError();
     }
 
-    const mapFile = (file) => {
-      let errorMessage = null;
-
-      if (file.size > maxFileSize) {
-        const maxFileSizeInMB = Math.round(maxFileSize / 1024 / 1024);
-
-        errorMessage = i18n.t('embeddable_framework.submitTicket.attachments.error.size', {
-          maxSize: maxFileSizeInMB
-        });
-      }
+    const createAttachmentFn = (file) => {
+      const maxSize = Math.round(maxFileSize / 1024 / 1024);
+      const errorMessage = (file.size >= maxFileSize)
+                         ? i18n.t('embeddable_framework.submitTicket.attachments.error.size', { maxSize })
+                         : null;
 
       setTimeout(() => this.createAttachment(file, errorMessage), 0);
     };
 
     _.chain(files)
       .slice(0, numFilesToAdd)
-      .forEach(mapFile)
+      .forEach(createAttachmentFn)
       .value();
 
-    setTimeout(() => this.props.updateForm(), 0);
+    setTimeout(this.props.updateForm, 0);
   }
 
   handleRemoveAttachment(attachmentId) {
     this.setState({
-      attachments: _.omitBy(this.state.attachments, (_, id) => id === attachmentId),
+      attachments: _.omit(this.state.attachments, attachmentId),
       errorMessage: null
     });
 
-    setTimeout(() => this.props.updateForm(), 0);
+    setTimeout(this.props.updateForm, 0);
   }
 
   createAttachment(file, errorMessage) {
-    const attachmentId =_.uniqueId();
+    const attachmentId = _.uniqueId();
     const attachment = {
       file: file,
       uploading: true,
@@ -108,7 +105,7 @@ export class AttachmentList extends Component {
         uploadToken: token
       });
 
-      setTimeout(() => this.props.updateForm(), 0);
+      setTimeout(this.props.updateForm, 0);
     };
     const failFn = (error) => {
       this.updateAttachmentState(attachmentId, {
@@ -116,9 +113,11 @@ export class AttachmentList extends Component {
         errorMessage: error.message
       });
 
-      setTimeout(() => this.props.updateForm(), 0);
+      setTimeout(this.props.updateForm, 0);
     };
-    const progressFn = (event) => this.updateAttachmentState(attachmentId, { uploadProgress: event.percent });
+    const progressFn = (event) => {
+      this.updateAttachmentState(attachmentId, { uploadProgress: event.percent });
+    };
 
     this.setState({
       attachments: _.extend({}, this.state.attachments, { [attachmentId]: attachment })
@@ -169,7 +168,7 @@ export class AttachmentList extends Component {
         return (
           <Attachment
             key={id}
-            id={id}
+            attachmentId={id}
             file={file}
             errorMessage={attachment.errorMessage}
             uploading={attachment.uploading}

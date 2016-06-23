@@ -31,20 +31,10 @@ describe('Attachment component', function() {
     mockHandleRemoveAttachment = jasmine.createSpy('mockHandleRemoveAttachment');
 
     attachment = {
-      id: 1,
       file: { name: 'foo.bar' }
     };
 
     icon = 'Icon--preview-default';
-
-    component = domRender(
-      <Attachment
-        id={attachment.id}
-        file={attachment.file}
-        handleRemoveAttachment={mockHandleRemoveAttachment}
-        uploadRequestSender={mockUploadRequestSender}
-        icon={icon} />
-    );
 
     jasmine.clock().install();
   });
@@ -55,42 +45,70 @@ describe('Attachment component', function() {
     mockery.disable();
   });
 
-  describe('#handleRemoveAttachment', () => {
-    it('calls the handleRemoveAttachment prop', () => {
-      component.handleRemoveAttachment();
+  describe('handleIconClick', () => {
+    describe('when the attachment is still uploading', () => {
+      beforeEach(function() {
+        component = instanceRender(
+          <Attachment
+            attachmentId={'1'}
+            file={attachment.file}
+            uploading={true}
+            handleRemoveAttachment={mockHandleRemoveAttachment}
+            uploadRequestSender={mockUploadRequestSender}
+            icon={icon} />
+        );
 
-      expect(mockHandleRemoveAttachment)
-        .toHaveBeenCalled();
+        component.handleIconClick();
+      });
+
+      it('should call the abort method of the attachmentSender object', () => {
+        expect(mockUploadAbort)
+          .toHaveBeenCalled();
+      });
+
+      it('should call the handleRemoveAttachment prop', () => {
+        expect(mockHandleRemoveAttachment)
+          .toHaveBeenCalled();
+      });
     });
-  });
 
-  describe('#handleStopUpload', () => {
-    it('calls the abort method of the attachmentSender object', () => {
-      component.handleStopUpload();
+    describe('when the attachment is not uploading', () => {
+      beforeEach(function() {
+        component = instanceRender(
+          <Attachment
+            attachmentId={'1'}
+            file={attachment.file}
+            uploading={false}
+            handleRemoveAttachment={mockHandleRemoveAttachment}
+            uploadRequestSender={mockUploadRequestSender}
+            icon={icon} />
+        );
 
-      expect(mockUploadAbort)
-        .toHaveBeenCalled();
-    });
+        component.handleIconClick();
+      });
 
-    it('calls the handleRemoveAttachment prop', () => {
-      component.handleRemoveAttachment();
+      it('should not call the abort method of the attachmentSender object', () => {
+        expect(mockUploadAbort)
+          .not.toHaveBeenCalled();
+      });
 
-      expect(mockHandleRemoveAttachment)
-        .toHaveBeenCalled();
+      it('should call the handleRemoveAttachment prop', () => {
+        expect(mockHandleRemoveAttachment)
+          .toHaveBeenCalled();
+      });
     });
   });
 
   describe('when there is an initial attachment error', () => {
     beforeEach(function() {
       attachment = {
-        id: 1,
         file: { name: 'foo.bar' },
         error: { message: 'Some error' }
       };
 
       component = domRender(
         <Attachment
-          id={attachment.id}
+          id={'1'}
           file={attachment.file}
           errorMessage={attachment.error.message}
           icon={icon} />
