@@ -316,6 +316,8 @@ describe('AttachmentList component', () => {
       });
 
       it('should call updateForm', () => {
+        jasmine.clock().tick(1);
+
         expect(mockUpdateForm)
           .toHaveBeenCalled();
       });
@@ -334,6 +336,8 @@ describe('AttachmentList component', () => {
 
     it('calls updateForm', () => {
       component.handleOnDrop(attachments);
+
+      jasmine.clock().tick(1);
 
       expect(mockUpdateForm)
         .toHaveBeenCalled();

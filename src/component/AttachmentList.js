@@ -39,8 +39,8 @@ export class AttachmentList extends Component {
 
   handleOnDrop(files) {
     const { maxFileLimit, maxFileSize } = this.props;
-    const { attachments } = this.state;
-    const numFilesToAdd = maxFileLimit - this.state.attachments.length;
+    const numAttachments = this.state.attachments.length;
+    const numFilesToAdd = maxFileLimit - numAttachments;
     const setLimitError = () => {
       const errorMessage = i18n.t('embeddable_framework.submitTicket.attachments.error.limit', {
         maxFiles: maxFileLimit
@@ -49,7 +49,7 @@ export class AttachmentList extends Component {
       this.setState({ errorMessage });
     };
 
-    if (attachments.length === maxFileLimit) {
+    if (numAttachments === maxFileLimit) {
       setLimitError();
       return;
     }
@@ -73,12 +73,12 @@ export class AttachmentList extends Component {
       .map(mapFile)
       .value();
 
-    if (attachments.length + files.length > maxFileLimit) {
+    if (numAttachments + files.length > maxFileLimit) {
       setLimitError();
     }
 
-    this.setState({ attachments: _.union(attachments, newFiles) });
-    this.props.updateForm();
+    this.setState({ attachments: _.union(this.state.attachments, newFiles) });
+    setTimeout(() => this.props.updateForm(), 0);
   }
 
   handleRemoveAttachment(id) {

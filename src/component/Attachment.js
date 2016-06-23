@@ -24,6 +24,7 @@ export class Attachment extends Component {
 
   handleStopUpload() {
     this.props.uploadRequestSender.abort();
+    this.handleRemoveAttachment();
   }
 
   renderProgressBar() {

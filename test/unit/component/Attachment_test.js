@@ -71,6 +71,13 @@ describe('Attachment component', function() {
       expect(mockUploadAbort)
         .toHaveBeenCalled();
     });
+
+    it('calls the handleRemoveAttachment prop', () => {
+      component.handleRemoveAttachment();
+
+      expect(mockHandleRemoveAttachment)
+        .toHaveBeenCalled();
+    });
   });
 
   describe('when there is an initial attachment error', () => {
