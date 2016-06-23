@@ -98,14 +98,15 @@ Attachment.propTypes = {
   id: PropTypes.string.isRequired,
   file: PropTypes.object.isRequired,
   uploading: PropTypes.bool.isRequired,
-  uploadRequestSender: PropTypes.object.isRequired,
   icon: PropTypes.string.isRequired,
   handleRemoveAttachment: PropTypes.func.isRequired,
   uploadProgress: PropTypes.number,
-  errorMessage: PropTypes.string
+  errorMessage: PropTypes.string,
+  uploadRequestSender: PropTypes.object
 };
 
 Attachment.defaultProps = {
   uploadProgress: 0,
-  errorMessage: null
+  errorMessage: null,
+  uploadRequestSender: {}
 };

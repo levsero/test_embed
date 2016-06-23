@@ -46,7 +46,7 @@ const isSuppressed = (embed) => {
   return settings.get('suppress') ? settings.get('suppress').indexOf(embed) !== -1 : false;
 };
 
-const embedVisible = (_state) => _.any([
+const embedVisible = (_state) => _.some([
   _state[`${helpCenter}.isVisible`],
   _state[`${chat}.isVisible`],
   _state[`${submitTicket}.isVisible`]

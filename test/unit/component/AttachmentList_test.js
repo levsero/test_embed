@@ -47,7 +47,7 @@ describe('AttachmentList component', () => {
     AttachmentList = requireUncached(attachmentListPath).AttachmentList;
 
     mockUpdateForm = jasmine.createSpy('updateForm');
-    mockAttachmentSender = jasmine.createSpy('mockAttachmentSender');
+    mockAttachmentSender = jasmine.createSpy('mockAttachmentSender').and.returnValue({});
 
     component = instanceRender(
       <AttachmentList
@@ -67,9 +67,9 @@ describe('AttachmentList component', () => {
     mockery.disable();
   });
 
-  it('initializes with an empty array for state.attachments', function() {
+  it('initializes with an empty object for state.attachments', function() {
     expect(component.state.attachments)
-      .toEqual([]);
+      .toEqual({});
   });
 
   describe('#render', () => {
@@ -103,6 +103,9 @@ describe('AttachmentList component', () => {
           .toEqual('embeddable_framework.submitTicket.attachments.title');
 
         component.handleOnDrop([{ name: 'jim.gif', size: 1024 }]);
+
+        jasmine.clock().tick(1);
+
         mockAttachmentSender.calls.mostRecent().args[2]({ message: 'Some error' });
 
         label = document.querySelector('label.Form-fieldLabel').innerHTML;
@@ -117,6 +120,9 @@ describe('AttachmentList component', () => {
         const upload = JSON.stringify({ upload: { token: '12345' } });
 
         component.handleOnDrop([{ name: 'bob.gif', size: 1024 }]);
+
+        jasmine.clock().tick(1);
+
         mockAttachmentSender.calls.mostRecent().args[1]({ text: upload });
 
         const label = document.querySelector('label.Form-fieldLabel').innerHTML;
@@ -133,6 +139,8 @@ describe('AttachmentList component', () => {
 
       component.handleOnDrop(attachments);
 
+      jasmine.clock().tick(1);
+
       const previews = component.renderAttachments();
 
       expect(previews[0].props.file)
@@ -146,6 +154,8 @@ describe('AttachmentList component', () => {
 
       component.handleOnDrop(attachments);
 
+      jasmine.clock().tick(1);
+
       const previews = component.renderAttachments();
 
       expect(previews[0].props.icon)
@@ -156,6 +166,8 @@ describe('AttachmentList component', () => {
       const attachments = [{ name: 'test.key' }];
 
       component.handleOnDrop(attachments);
+
+      jasmine.clock().tick(1);
 
       const previews = component.renderAttachments();
 
@@ -168,6 +180,8 @@ describe('AttachmentList component', () => {
 
       component.handleOnDrop(attachments);
 
+      jasmine.clock().tick(1);
+
       const previews = component.renderAttachments();
 
       expect(previews[0].props.icon)
@@ -178,6 +192,8 @@ describe('AttachmentList component', () => {
       const attachments = [{ name: 'test.pages' }];
 
       component.handleOnDrop(attachments);
+
+      jasmine.clock().tick(1);
 
       const previews = component.renderAttachments();
 
@@ -196,6 +212,8 @@ describe('AttachmentList component', () => {
 
       component.handleOnDrop(attachments);
 
+      jasmine.clock().tick(1);
+
       const previews = component.renderAttachments();
 
       previews.forEach(function(preview) {
@@ -211,6 +229,8 @@ describe('AttachmentList component', () => {
       ];
 
       component.handleOnDrop(attachments);
+
+      jasmine.clock().tick(1);
 
       const previews = component.renderAttachments();
 
@@ -228,6 +248,8 @@ describe('AttachmentList component', () => {
 
       component.handleOnDrop(attachments);
 
+      jasmine.clock().tick(1);
+
       const previews = component.renderAttachments();
 
       previews.forEach(function(preview) {
@@ -244,6 +266,8 @@ describe('AttachmentList component', () => {
 
       component.handleOnDrop(attachments);
 
+      jasmine.clock().tick(1);
+
       const previews = component.renderAttachments();
 
       previews.forEach(function(preview) {
@@ -259,6 +283,8 @@ describe('AttachmentList component', () => {
       ];
 
       component.handleOnDrop(attachments);
+
+      jasmine.clock().tick(1);
 
       const previews = component.renderAttachments();
 
@@ -277,6 +303,8 @@ describe('AttachmentList component', () => {
 
       component.handleOnDrop(attachments);
 
+      jasmine.clock().tick(1);
+
       const previews = component.renderAttachments();
 
       previews.forEach(function(preview) {
@@ -287,6 +315,8 @@ describe('AttachmentList component', () => {
   });
 
   describe('handleRemoveAttachment', () => {
+    let keys;
+
     beforeEach(() => {
       const attachments = [
         { name: 'foo', size: 1024 },
@@ -294,25 +324,28 @@ describe('AttachmentList component', () => {
       ];
 
       component.handleOnDrop(attachments);
+      jasmine.clock().tick(1);
+
+      keys = _.keys(component.state.attachments);
     });
 
     it('removes the attachment matching the passed in argument', () => {
-      const attachmentToRemove = component.state.attachments[0];
+      const attachmentToRemoveId = keys[0];
 
-      component.handleRemoveAttachment(attachmentToRemove.id);
+      component.handleRemoveAttachment(attachmentToRemoveId);
 
-      expect(component.state.attachments.length)
+      expect(_.size(component.state.attachments))
         .toBe(1);
 
-      expect(component.state.attachments[0].file.name)
+      expect(component.state.attachments[keys[1]].file.name)
         .toBe('bar');
     });
 
     describe('when the attachment has an error', () => {
       beforeEach(function() {
-        const attachmentToRemove = component.state.attachments[1];
+        const attachmentToRemoveId = keys[1];
 
-        component.handleRemoveAttachment(attachmentToRemove.id);
+        component.handleRemoveAttachment(attachmentToRemoveId);
       });
 
       it('should call updateForm', () => {
@@ -346,8 +379,9 @@ describe('AttachmentList component', () => {
     describe('when there is space for all new attachments', () => {
       it('should add all the attachments', () => {
         component.handleOnDrop(attachments);
+        jasmine.clock().tick(1);
 
-        expect(component.state.attachments.length)
+        expect(_.size(component.state.attachments))
           .toBe(2);
 
         const moreAttachments = [
@@ -357,8 +391,9 @@ describe('AttachmentList component', () => {
         ];
 
         component.handleOnDrop(moreAttachments);
+        jasmine.clock().tick(1);
 
-        expect(component.state.attachments.length)
+        expect(_.size(component.state.attachments))
           .toBe(5);
       });
     });
@@ -366,8 +401,9 @@ describe('AttachmentList component', () => {
     describe('when there is not space for all new attachments', () => {
       it('should only add new attachments up to the max limit of 5', () => {
         component.handleOnDrop(attachments);
+        jasmine.clock().tick(1);
 
-        expect(component.state.attachments.length)
+        expect(_.size(component.state.attachments))
           .toBe(2);
 
         const moreAttachments = [
@@ -379,8 +415,9 @@ describe('AttachmentList component', () => {
         ];
 
         component.handleOnDrop(moreAttachments);
+        jasmine.clock().tick(1);
 
-        expect(component.state.attachments.length)
+        expect(_.size(component.state.attachments))
           .toBe(5);
 
         expect(component.state.errorMessage)
@@ -397,10 +434,12 @@ describe('AttachmentList component', () => {
         );
 
         component.handleOnDrop(attachments);
+        jasmine.clock().tick(1);
 
         component.handleOnDrop([{ name: 'fat', size: 1024 }]);
+        jasmine.clock().tick(1);
 
-        expect(component.state.attachments.length)
+        expect(_.size(component.state.attachments))
           .toBe(5);
 
         expect(component.state.errorMessage)
@@ -413,41 +452,72 @@ describe('AttachmentList component', () => {
         attachments.push({ name: 'fatty', size: maxFileSize + 1024 });
 
         component.handleOnDrop(attachments);
+        jasmine.clock().tick(1);
 
-        expect(component.state.attachments[2].errorMessage)
+        const keys = _.keys(component.state.attachments);
+
+        expect(component.state.attachments[keys[2]].errorMessage)
           .toBeTruthy();
       });
     });
   });
 
-  describe('createAttachment', () => {
-    const file = { name: 'bob.gif', size: maxFileSize + 1024 };
+  describe('creating attachments', () => {
+    let file;
 
     describe('when there is no attachment error', () => {
-      it('should call attachment sender', () => {
-        component.createAttachment(file);
+      beforeEach(function() {
+        file = { name: 'bob.gif', size: 1024 };
 
+        component.handleOnDrop([file]);
+        jasmine.clock().tick(1);
+      });
+
+      it('should call attachment sender', () => {
         expect(mockAttachmentSender)
           .toHaveBeenCalled();
       });
 
-      it('should return an attachment object with no error', () => {
-        expect(component.createAttachment(file).errorMessage)
-          .toBeFalsy();
+      it('should create an attachment object with default state', () => {
+        const attachmentId = _.keys(component.state.attachments)[0];
+
+        expect(component.state.attachments[attachmentId])
+          .toEqual({
+            file: file,
+            uploading: true,
+            uploadProgress: 0,
+            uploadRequestSender: {},
+            uploadToken: null,
+            errorMessage: null
+          });
+      });
+
+      it('should create an attachment object with no error', () => {
+        const attachmentId = _.keys(component.state.attachments)[0];
+
+        expect(component.state.attachments[attachmentId].errorMessage)
+          .toBe(null);
       });
     });
 
     describe('when there is an attachment error', () => {
-      it('should not call attachment sender', () => {
-        component.createAttachment(file, 'Some error');
+      beforeEach(function() {
+        file = { name: 'bob.gif', size: maxFileSize + 1024 };
 
+        component.createAttachment(file, 'Some error');
+        jasmine.clock().tick(1);
+      });
+
+      it('should not call attachment sender', () => {
         expect(mockAttachmentSender)
           .not.toHaveBeenCalled();
       });
 
-      it('should return an attachment object with an error', () => {
-        expect(component.createAttachment(file, 'someError').errorMessage)
-          .toBeTruthy();
+      it('should create an attachment object with an error', () => {
+        const attachmentId = _.keys(component.state.attachments)[0];
+
+        expect(component.state.attachments[attachmentId].errorMessage)
+          .toBe('Some error');
       });
     });
   });
@@ -459,6 +529,7 @@ describe('AttachmentList component', () => {
         { name: 'jim.png', size: 1024 },
         { name: 'bar.png', size: 1024 }
       ]);
+      jasmine.clock().tick(1);
 
       const upload = JSON.stringify({ upload: { token: '12345' } });
 
@@ -475,6 +546,7 @@ describe('AttachmentList component', () => {
         { name: 'jim.png', size: 1024 },
         { name: 'bar.png', size: 1024 }
       ]);
+      jasmine.clock().tick(1);
 
       const upload = JSON.stringify({ upload: { token: '12345' } });
       const calls = mockAttachmentSender.calls;
@@ -490,6 +562,7 @@ describe('AttachmentList component', () => {
       component.handleOnDrop([
         { name: 'jim.png', size: maxFileSize + 1024 }
       ]);
+      jasmine.clock().tick(1);
 
       expect(component.attachmentsReady())
         .toBe(false);
@@ -500,77 +573,82 @@ describe('AttachmentList component', () => {
         { name: 'jim.png', size: 1024 },
         { name: 'bar.png', size: 1024 }
       ]);
+      jasmine.clock().tick(1);
 
       expect(component.attachmentsReady())
         .toBe(false);
     });
   });
 
-  describe('when an attachment is successfully uploaded', () => {
+  describe('attachment event handling', () => {
+    let attachmentId;
+
     beforeEach(function() {
       component.handleOnDrop([{ name: 'bob.gif', size: 1024 }]);
-
-      const upload = JSON.stringify({ upload: { token: '12345' } });
-      const response = { text: upload };
-
-      mockAttachmentSender.calls.mostRecent().args[1](response);
-    });
-
-    it('sets the upload token', () => {
-      expect(component.state.attachments[0].uploadToken)
-        .toBe('12345');
-    });
-
-    it('sets uploading to false', () => {
-      expect(component.state.attachments[0].uploading)
-        .toBe(false);
-    });
-
-    it('calls updateForm', () => {
       jasmine.clock().tick(1);
-
-      expect(mockUpdateForm)
-        .toHaveBeenCalled();
-    });
-  });
-
-  describe('when an attachment is not successfully uploaded', () => {
-    beforeEach(function() {
-      component.handleOnDrop([{ name: 'bob.gif', size: 1024 }]);
-
-      const response = { message: 'Some error' };
-
-      mockAttachmentSender.calls.mostRecent().args[2](response);
+      attachmentId = _.keys(component.state.attachments)[0];
     });
 
-    it('does not set the upload token', () => {
-      expect(component.state.attachments[0].uploadToken)
-        .toBeFalsy();
+    describe('when an attachment is successfully uploaded', () => {
+      beforeEach(function() {
+        const upload = JSON.stringify({ upload: { token: '12345' } });
+        const response = { text: upload };
+
+        mockAttachmentSender.calls.mostRecent().args[1](response);
+      });
+
+      it('sets the upload token', () => {
+        expect(component.state.attachments[attachmentId].uploadToken)
+          .toBe('12345');
+      });
+
+      it('sets uploading to false', () => {
+        expect(component.state.attachments[attachmentId].uploading)
+          .toBe(false);
+      });
+
+      it('calls updateForm', () => {
+        jasmine.clock().tick(1);
+
+        expect(mockUpdateForm)
+          .toHaveBeenCalled();
+      });
     });
 
-    it('sets the error message', () => {
-      expect(component.state.attachments[0].errorMessage)
-        .toBe('Some error');
+    describe('when an attachment is not successfully uploaded', () => {
+      beforeEach(function() {
+        const response = { message: 'Some error' };
+
+        mockAttachmentSender.calls.mostRecent().args[2](response);
+      });
+
+      it('does not set the upload token', () => {
+        expect(component.state.attachments[attachmentId].uploadToken)
+          .toBeFalsy();
+      });
+
+      it('sets the error message', () => {
+        expect(component.state.attachments[attachmentId].errorMessage)
+          .toBe('Some error');
+      });
+
+      it('calls updateForm', () => {
+        jasmine.clock().tick(1);
+
+        expect(mockUpdateForm)
+          .toHaveBeenCalled();
+      });
     });
 
-    it('calls updateForm', () => {
-      jasmine.clock().tick(1);
+    describe('when an attachment receives an on progress event', () => {
+      it('sets the uploadProgress', () => {
+        const response = { percent: 20 };
 
-      expect(mockUpdateForm)
-        .toHaveBeenCalled();
-    });
-  });
+        mockAttachmentSender.calls.mostRecent().args[3](response);
 
-  describe('when an attachment receives an on progress event', () => {
-    it('sets the uploadProgress', () => {
-      component.handleOnDrop([{ name: 'bob.gif', size: 1024 }]);
-
-      const response = { percent: 20 };
-
-      mockAttachmentSender.calls.mostRecent().args[3](response);
-
-      expect(component.state.attachments[0].uploadProgress)
-        .toBe(20);
+        expect(component.state.attachments[attachmentId].uploadProgress)
+          .toBe(20);
+      });
     });
   });
 

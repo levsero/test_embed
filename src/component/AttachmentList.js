@@ -32,14 +32,14 @@ export class AttachmentList extends Component {
     bindMethods(this, AttachmentList.prototype);
 
     this.state = {
-      attachments: [],
+      attachments: {},
       errorMessage: null
     };
   }
 
   handleOnDrop(files) {
     const { maxFileLimit, maxFileSize } = this.props;
-    const numAttachments = this.state.attachments.length;
+    const numAttachments = _.size(this.state.attachments);
     const numFilesToAdd = maxFileLimit - numAttachments;
     const setLimitError = () => {
       const errorMessage = i18n.t('embeddable_framework.submitTicket.attachments.error.limit', {
@@ -49,9 +49,13 @@ export class AttachmentList extends Component {
       this.setState({ errorMessage });
     };
 
-    if (numAttachments === maxFileLimit) {
+    if (numAttachments > maxFileLimit) {
       setLimitError();
       return;
+    }
+
+    if (numAttachments + files.length > maxFileLimit) {
+      setLimitError();
     }
 
     const mapFile = (file) => {
@@ -65,25 +69,20 @@ export class AttachmentList extends Component {
         });
       }
 
-      return this.createAttachment(file, errorMessage);
+      setTimeout(() => this.createAttachment(file, errorMessage), 0);
     };
 
-    const newFiles = _.chain(files)
+    _.chain(files)
       .slice(0, numFilesToAdd)
-      .map(mapFile)
+      .forEach(mapFile)
       .value();
 
-    if (numAttachments + files.length > maxFileLimit) {
-      setLimitError();
-    }
-
-    this.setState({ attachments: _.union(this.state.attachments, newFiles) });
     setTimeout(() => this.props.updateForm(), 0);
   }
 
-  handleRemoveAttachment(id) {
+  handleRemoveAttachment(attachmentId) {
     this.setState({
-      attachments: _.reject(this.state.attachments, (a) => a.id === id),
+      attachments: _.omitBy(this.state.attachments, (_, id) => id === attachmentId),
       errorMessage: null
     });
 
@@ -91,19 +90,20 @@ export class AttachmentList extends Component {
   }
 
   createAttachment(file, errorMessage) {
+    const attachmentId =_.uniqueId();
     const attachment = {
-      id: _.uniqueId(),
       file: file,
       uploading: true,
       uploadProgress: 0,
-      uploadRequestSender: () => {},
+      uploadRequestSender: {},
       errorMessage,
       uploadToken: null
     };
+
     const doneFn = (response) => {
       const token = JSON.parse(response.text).upload.token;
 
-      this.updateAttachmentState(attachment, {
+      this.updateAttachmentState(attachmentId, {
         uploading: false,
         uploadToken: token
       });
@@ -111,31 +111,36 @@ export class AttachmentList extends Component {
       setTimeout(() => this.props.updateForm(), 0);
     };
     const failFn = (error) => {
-      this.updateAttachmentState(attachment, {
+      this.updateAttachmentState(attachmentId, {
         uploading: false,
         errorMessage: error.message
       });
 
       setTimeout(() => this.props.updateForm(), 0);
     };
-    const progressFn = (event) => this.updateAttachmentState(attachment, { uploadProgress: event.percent });
+    const progressFn = (event) => this.updateAttachmentState(attachmentId, { uploadProgress: event.percent });
 
-    if (!errorMessage) {
-      this.updateAttachmentState(attachment, {
-        uploadRequestSender: this.props.attachmentSender(file, doneFn, failFn, progressFn)
-      });
-    } else {
-      failFn({ message: errorMessage });
-    }
+    this.setState({
+      attachments: _.extend({}, this.state.attachments, { [attachmentId]: attachment })
+    });
 
-    return attachment;
+    setTimeout(() => {
+      if (!errorMessage) {
+        this.updateAttachmentState(attachmentId, {
+          uploadRequestSender: this.props.attachmentSender(file, doneFn, failFn, progressFn)
+        });
+      } else {
+        failFn({ message: errorMessage });
+      }
+    }, 0);
   }
 
-  updateAttachmentState(attachment, newState = {}) {
-    const { attachments } = this.state;
+  updateAttachmentState(attachmentId, newState = {}) {
+    const attachment = _.extend({}, this.state.attachments[attachmentId], newState);
 
-    _.extend(attachment, newState);
-    this.setState({ attachments: _.clone(attachments) });
+    this.setState({
+      attachments: _.extend({}, this.state.attachments, { [attachmentId]: attachment })
+    });
   }
 
   getAttachmentTokens() {
@@ -150,12 +155,12 @@ export class AttachmentList extends Component {
   }
 
   attachmentsReady() {
-    return this.numValidAttachments() === this.state.attachments.length;
+    return this.numValidAttachments() === _.size(this.state.attachments);
   }
 
   renderAttachments() {
-    return _.map(this.state.attachments, (attachment) => {
-      const { id, file } = attachment;
+    return _.map(this.state.attachments, (attachment, id) => {
+      const { file } = attachment;
 
       if (file && file.name && file.name.indexOf('.') > -1) {
         const extension = file.name.split('.').pop();

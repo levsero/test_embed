@@ -84,7 +84,7 @@ export class SubmitTicketForm extends Component {
 
     // Focus on the first empty text or textarea
     const element = _.find(form.querySelectorAll('input, textarea'), function(input) {
-      return input.value === '' && _.contains(['text', 'textarea', 'email'], input.type);
+      return input.value === '' && _.includes(['text', 'textarea', 'email'], input.type);
     });
 
     if (element) {
