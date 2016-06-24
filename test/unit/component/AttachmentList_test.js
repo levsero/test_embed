@@ -4,7 +4,7 @@ describe('AttachmentList component', () => {
     mockUpdateForm,
     mockAttachmentSender;
   const attachmentListPath = buildSrcPath('component/AttachmentList');
-  const maxFileLimit = 5;
+  const maxFileCount = 5;
   const maxFileSize = 5 * 1024 * 1024;
 
   beforeEach(() => {
@@ -53,7 +53,7 @@ describe('AttachmentList component', () => {
       <AttachmentList
         attachmentSender={mockAttachmentSender}
         updateAttachments={noop}
-        maxFileLimit={maxFileLimit}
+        maxFileCount={maxFileCount}
         maxFileSize={maxFileSize}
         updateForm={mockUpdateForm} />
     );
@@ -78,7 +78,7 @@ describe('AttachmentList component', () => {
         <AttachmentList
           attachmentSender={mockAttachmentSender}
           updateAttachments={noop}
-          maxFileLimit={maxFileLimit}
+          maxFileCount={maxFileCount}
           maxFileSize={maxFileSize}
           updateForm={noop} />
       );

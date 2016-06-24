@@ -38,25 +38,25 @@ export class AttachmentList extends Component {
   }
 
   handleOnDrop(files) {
-    const { maxFileLimit, maxFileSize } = this.props;
+    const { maxFileCount, maxFileSize } = this.props;
     const numAttachments = this.numValidAttachments();
-    const numFilesToAdd = maxFileLimit - numAttachments;
+    const numFilesToAdd = maxFileCount - numAttachments;
     const setLimitError = () => {
       const errorMessage = i18n.t('embeddable_framework.submitTicket.attachments.error.limit', {
-        maxFiles: maxFileLimit
+        maxFiles: maxFileCount
       });
 
       this.setState({ errorMessage });
     };
 
-    if (numAttachments >= maxFileLimit) {
+    if (numAttachments >= maxFileCount) {
       setLimitError();
       return;
     }
 
     // This check is needed so that we can fill the remaining space for attachments regardless of
     // whether or not they go over the limit. If they do we notify them by displaying the limit error.
-    if (numAttachments + files.length > maxFileLimit) {
+    if (numAttachments + files.length > maxFileCount) {
       setLimitError();
     }
 
@@ -116,7 +116,9 @@ export class AttachmentList extends Component {
       setTimeout(this.props.updateForm, 0);
     };
     const progressFn = (event) => {
-      this.updateAttachmentState(attachmentId, { uploadProgress: event.percent });
+      this.updateAttachmentState(attachmentId, {
+        uploadProgress: event.percent
+      });
     };
 
     this.setState({
@@ -227,7 +229,7 @@ export class AttachmentList extends Component {
 AttachmentList.propTypes = {
   attachmentSender: PropTypes.func.isRequired,
   updateForm: PropTypes.func.isRequired,
-  maxFileLimit: PropTypes.number.isRequired,
+  maxFileCount: PropTypes.number.isRequired,
   maxFileSize: PropTypes.number.isRequired,
   fullscreen: PropTypes.bool
 };
