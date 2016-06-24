@@ -36,17 +36,18 @@ export class Attachment extends Component {
 
   render() {
     const { file, errorMessage, uploading } = this.props;
+    const hasError = !!errorMessage;
     const containerClasses = classNames({
       'Form-field--display-preview': true,
       'Attachment--uploading': uploading,
       'u-posRelative': true,
       'u-marginBS': true,
-      'u-borderError': errorMessage
+      'u-borderError': hasError
     });
     const secondaryTextClasses = classNames({
       'u-pullLeft': true,
       'u-clearLeft': true,
-      'u-textError': errorMessage
+      'u-textError': hasError
     });
 
     const fileSizeFormatter = (size) => {
@@ -55,16 +56,16 @@ export class Attachment extends Component {
       return `${Math.round(sizeInMb * 10) / 10} MB`;
     };
 
-    const icon = errorMessage
+    const icon = hasError
                ? null
                : <Icon type={this.props.icon} className='Icon--preview u-pullLeft' />;
-    const progressBar = uploading && !errorMessage
+    const progressBar = uploading && !hasError
                       ? this.renderProgressBar()
                       : null;
 
     const nameStart = file.name.slice(0, -7);
     const nameEnd = file.name.slice(-7);
-    const secondaryText = errorMessage || fileSizeFormatter(file.size);
+    const secondaryText = (hasError) ? errorMessage : fileSizeFormatter(file.size);
 
     return (
       <div className={containerClasses}>
@@ -105,6 +106,6 @@ Attachment.propTypes = {
 
 Attachment.defaultProps = {
   uploadProgress: 0,
-  errorMessage: null,
+  errorMessage: '',
   uploadRequestSender: {}
 };
