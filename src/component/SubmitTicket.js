@@ -231,7 +231,7 @@ export class SubmitTicket extends Component {
           formTitleKey={this.props.formTitleKey}
           attachmentSender={this.props.attachmentSender}
           attachmentsEnabled={this.props.attachmentsEnabled}
-          maxFileLimit={this.props.maxFileLimit}
+          maxFileCount={this.props.maxFileCount}
           maxFileSize={this.props.maxFileSize}
           submit={this.handleSubmit}>
           <p className={errorClasses}>
@@ -256,7 +256,7 @@ SubmitTicket.propTypes = {
   onSubmitted: PropTypes.func,
   onCancel: PropTypes.func,
   attachmentsEnabled: PropTypes.bool,
-  maxFileLimit: PropTypes.number,
+  maxFileCount: PropTypes.number,
   maxFileSize: PropTypes.number
 };
 
@@ -269,6 +269,6 @@ SubmitTicket.defaultProps = {
   onSubmitted: () => {},
   onCancel: () => {},
   attachmentsEnabled: false,
-  maxFileLimit: 5,
+  maxFileCount: 5,
   maxFileSize: 5 * 1024 * 1024
 };

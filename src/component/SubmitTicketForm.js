@@ -84,7 +84,7 @@ export class SubmitTicketForm extends Component {
 
     // Focus on the first empty text or textarea
     const element = _.find(form.querySelectorAll('input, textarea'), function(input) {
-      return input.value === '' && _.contains(['text', 'textarea', 'email'], input.type);
+      return input.value === '' && _.includes(['text', 'textarea', 'email'], input.type);
     });
 
     if (element) {
@@ -234,7 +234,7 @@ export class SubmitTicketForm extends Component {
         ref="attachments"
         attachmentSender={attachmentSender}
         updateForm={this.updateForm}
-        maxFileLimit={this.props.maxFileLimit}
+        maxFileCount={this.props.maxFileCount}
         maxFileSize={this.props.maxFileSize}
         fullscreen={fullscreen} />
     );
@@ -292,7 +292,7 @@ SubmitTicketForm.propTypes = {
   onCancel: PropTypes.func,
   attachmentSender: PropTypes.func.isRequired,
   attachmentsEnabled: PropTypes.bool,
-  maxFileLimit: PropTypes.number,
+  maxFileCount: PropTypes.number,
   maxFileSize: PropTypes.number
 };
 
@@ -302,6 +302,6 @@ SubmitTicketForm.defaultProps = {
   fullscreen: false,
   onCancel: () => {},
   attachmentsEnabled: false,
-  maxFileLimit: 5,
+  maxFileCount: 5,
   maxFileSize: 5 * 1024 * 1024
 };

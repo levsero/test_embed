@@ -184,7 +184,7 @@ function boot() {
 
   // The config for zendesk.com
   if (host === 'www.zendesk.com') {
-    if (_.contains(chatPages, path)) {
+    if (_.includes(chatPages, path)) {
       renderer.init(renderer.hardcodedConfigs.zendeskWithChat);
     } else {
       renderer.init(renderer.hardcodedConfigs.zendeskDefault);
