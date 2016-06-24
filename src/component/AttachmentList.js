@@ -148,9 +148,9 @@ export class AttachmentList extends Component {
     return _.map(this.state.attachments, (a) => a.uploadToken);
   }
 
-  filterAttachments(allowUploading) {
+  filterAttachments(includeUploading) {
     return _.chain(this.state.attachments)
-            .filter((a) => (!a.uploading || allowUploading) && !a.errorMessage)
+            .filter((a) => (!a.uploading || includeUploading) && !a.errorMessage)
             .size()
             .value();
   }
