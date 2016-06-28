@@ -5,6 +5,9 @@ import _ from 'lodash';
 import { frameFactory } from 'embed/frameFactory';
 import { Nps } from 'component/Nps';
 
+// unregister lodash from window._
+_.noConflict();
+
 const npsCSS = require('embed/nps/nps.scss');
 
 const renderNps = (locale, elem) => {
