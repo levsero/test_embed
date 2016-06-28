@@ -6,7 +6,9 @@ import { frameFactory } from 'embed/frameFactory';
 import { Nps } from 'component/Nps';
 
 // unregister lodash from window._
-_.noConflict();
+if (!__DEV__) {
+  _.noConflict();
+}
 
 const npsCSS = require('embed/nps/nps.scss');
 
