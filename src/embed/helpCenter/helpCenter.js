@@ -46,9 +46,9 @@ function create(name, config) {
   const onArticleClick = function(trackPayload) {
     beacon.trackUserAction('helpCenter', 'click', name, trackPayload);
   };
-  const showBackButton = function() {
+  const showBackButton = function(show = true) {
     get(name).instance.getChild().setState({
-      showBackButton: true
+      showBackButton: show
     });
   };
   const onSearch = function(params) {

@@ -227,8 +227,11 @@ export class HelpCenter extends Component {
 
     this.setState({
       articles: articles,
-      resultsCount: json.count
+      resultsCount: json.count,
+      articleViewActive: false
     });
+
+    this.props.showBackButton(false);
   }
 
   searchFail() {

@@ -176,26 +176,37 @@ describe('HelpCenter component', function() {
   });
 
   describe('updateResults', function() {
-    let helpCenter;
+    let helpCenter,
+      mockShowBackButton,
+      responsePayloadResults;
 
     beforeEach(function() {
-      helpCenter = domRender(<HelpCenter />);
+      mockShowBackButton = jasmine.createSpy('mockShowBackButton');
+
+      helpCenter = domRender(<HelpCenter showBackButton={mockShowBackButton} />);
+
+      responsePayloadResults = { ok: true, body: { results: [1, 2, 3], count: 3 } };
+      helpCenter.updateResults(responsePayloadResults);
     });
 
     it('should set states matching the response with results', function() {
-      const responsePayloadResults = {ok: true, body: {results: [1, 2, 3], count: 3}};
-
-      helpCenter.updateResults(responsePayloadResults);
-
       expect(helpCenter.state.articles)
         .toEqual(responsePayloadResults.body.results);
 
       expect(helpCenter.state.resultsCount)
         .toEqual(responsePayloadResults.body.count);
+
+      expect(helpCenter.state.articleViewActive)
+        .toEqual(false);
+    });
+
+    it('should call props.showBackButton', function() {
+      expect(mockShowBackButton)
+        .toHaveBeenCalledWith(false);
     });
 
     it('should set states matching the response without results', function() {
-      const responsePayloadNoResults = {ok: true, body: {results: [], count: 0}};
+      const responsePayloadNoResults = { ok: true, body: { results: [], count: 0 } };
 
       helpCenter.updateResults(responsePayloadNoResults);
 
