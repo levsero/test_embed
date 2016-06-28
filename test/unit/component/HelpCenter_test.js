@@ -185,7 +185,7 @@ describe('HelpCenter component', function() {
 
       helpCenter = domRender(<HelpCenter showBackButton={mockShowBackButton} />);
 
-      responsePayloadResults = {ok: true, body: {results: [1, 2, 3], count: 3}};
+      responsePayloadResults = { ok: true, body: { results: [1, 2, 3], count: 3 } };
       helpCenter.updateResults(responsePayloadResults);
     });
 
@@ -206,7 +206,7 @@ describe('HelpCenter component', function() {
     });
 
     it('should set states matching the response without results', function() {
-      const responsePayloadNoResults = {ok: true, body: {results: [], count: 0}};
+      const responsePayloadNoResults = { ok: true, body: { results: [], count: 0 } };
 
       helpCenter.updateResults(responsePayloadNoResults);
 
