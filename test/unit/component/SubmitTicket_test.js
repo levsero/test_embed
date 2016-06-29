@@ -121,6 +121,11 @@ describe('Submit ticket component', function() {
           t: _.identity
         }
       },
+      'service/settings': {
+        settings: {
+          get: () => 48
+        }
+      },
       'component/Icon': {
         Icon: noopReactComponent()
       },

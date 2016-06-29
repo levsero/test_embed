@@ -13,7 +13,8 @@ let store = {
     horizontal: 0,
     vertical: 0
   },
-  widgetMargin: 15
+  widgetMargin: 15,
+  widgetViaId: 48
 };
 
 function init() {

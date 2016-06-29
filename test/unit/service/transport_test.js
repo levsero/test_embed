@@ -35,6 +35,11 @@ describe('transport', function() {
           getBuid: jasmine.createSpy('getBuid').and.returnValue('abc123'),
           getSuid: jasmine.createSpy('getBuid').and.returnValue('123abc')
         }
+      },
+      'service/settings': {
+        settings: {
+          get: () => 48
+        }
       }
     });
 
