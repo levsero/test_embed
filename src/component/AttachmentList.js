@@ -171,7 +171,7 @@ export class AttachmentList extends Component {
     return _.map(this.state.attachments, (attachment, id) => {
       const { file } = attachment;
 
-      if (file && file.name && file.name.indexOf('.') > -1) {
+      if (file && file.name) {
         const extension = file.name.split('.').pop();
         const icon = iconMapper[extension] || 'Icon--preview-default';
 
