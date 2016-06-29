@@ -220,6 +220,14 @@ parts:
       title: "The label on the form about attaching files for mobile devices. Will wrap as needed. (https://zendesk.box.com/s/lruwde2mxcqddsdwx2ktk7b9hrd71qcu)"
       value: "Add file from device"
   - translation:
+      key: "embeddable_framework.submitTicket.attachments.size_megabyte"
+      title: "The size of the file shown in the attachment preview. Megabytes will be the unit of measurement."
+      value: "%(size)s MB"
+  - translation:
+      key: "embeddable_framework.submitTicket.attachments.size_kilobyte"
+      title: "The size of the file shown in the attachment preview. Kilobytes will be the unit of measurement."
+      value: "%(size)s KB"
+  - translation:
       key: "embeddable_framework.submitTicket.attachments.error.size"
       title: "The error notification that appears when trying to attach a file that's too large. Will wrap as needed. MB is the unit of measurement to be used for the number. %()s stands for string and does not need to be translated (https://zendesk.box.com/s/pp2ill6v8idllvvejuhh9reigptt4ven)"
       value: "The file is too big. Please attach files that are less than %(maxSize)s MB."

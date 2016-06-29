@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
 import { Icon } from 'component/Icon';
+import { i18n } from 'service/i18n';
 import { bindMethods } from 'utility/utils';
 
 export class Attachment extends Component {
@@ -24,6 +25,17 @@ export class Attachment extends Component {
     }
 
     this.props.handleRemoveAttachment(this.props.attachmentId);
+  }
+
+  formatAttachmentSize(bytes) {
+    // If the size of the file is less than 1KB, just round it up.
+    const size = Math.max(bytes, 1000);
+
+    return size >= 1000000
+           ? i18n.t('embeddable_framework.submitTicket.attachments.size_megabyte',
+                    { size: Math.floor((size / 1000000) * 10) / 10 })
+           : i18n.t('embeddable_framework.submitTicket.attachments.size_kilobyte',
+                    { size: Math.floor((size / 1000) * 10) / 10 });
   }
 
   renderProgressBar() {
@@ -50,12 +62,6 @@ export class Attachment extends Component {
       'u-textError': hasError
     });
 
-    const fileSizeFormatter = (size) => {
-      const sizeInMb = size / 1024 / 1024;
-
-      return `${Math.round(sizeInMb * 10) / 10} MB`;
-    };
-
     const icon = hasError
                ? null
                : <Icon type={this.props.icon} className='Icon--preview u-pullLeft' />;
@@ -65,7 +71,7 @@ export class Attachment extends Component {
 
     const nameStart = file.name.slice(0, -7);
     const nameEnd = file.name.slice(-7);
-    const secondaryText = (hasError) ? errorMessage : fileSizeFormatter(file.size);
+    const secondaryText = (hasError) ? errorMessage : this.formatAttachmentSize(file.size);
 
     return (
       <div className={containerClasses}>
