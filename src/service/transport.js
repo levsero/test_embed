@@ -1,6 +1,7 @@
 import _          from 'lodash';
 import superagent from 'superagent';
 
+import { settings } from 'service/settings';
 import { win } from 'utility/globals';
 import { identity } from 'service/identity';
 
@@ -119,9 +120,11 @@ function sendFile(payload) {
     throw 'Missing zendeskHost config param.';
   }
 
+  /* eslint camelcase:0 */
   return superagent(payload.method.toUpperCase(),
                     buildFullUrl(payload.path))
     .query({ filename: payload.file.name })
+    .query({ via_id: settings.get('widgetViaId') })
     .attach('file', payload.file)
     .on('progress', function(e) {
       if (payload.callbacks) {

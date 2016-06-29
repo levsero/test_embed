@@ -35,6 +35,11 @@ describe('transport', function() {
           getBuid: jasmine.createSpy('getBuid').and.returnValue('abc123'),
           getSuid: jasmine.createSpy('getBuid').and.returnValue('123abc')
         }
+      },
+      'service/settings': {
+        settings: {
+          get: () => 48
+        }
       }
     });
 
@@ -437,6 +442,12 @@ describe('transport', function() {
         it('adds a query string with the filename', function() {
           expect(mockMethods.query)
             .toHaveBeenCalledWith({ filename: 'fakeFile' });
+        });
+
+        it('adds a query string with the web_widget via_id', function() {
+          /* eslint camelcase:0 */
+          expect(mockMethods.query)
+            .toHaveBeenCalledWith({ via_id: 48 });
         });
 
         it('triggers the done callback if response is successful', function() {

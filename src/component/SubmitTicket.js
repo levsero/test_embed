@@ -9,6 +9,7 @@ import { ScrollContainer } from 'component/ScrollContainer';
 import { SubmitTicketForm } from 'component/SubmitTicketForm';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { i18n } from 'service/i18n';
+import { settings } from 'service/settings';
 import { isMobileBrowser } from 'utility/devices';
 import { location,
          win } from 'utility/globals';
@@ -100,7 +101,7 @@ export class SubmitTicket extends Component {
       'email': data.value.email,
       'description': data.value.description,
       'set_tags': 'web_widget',
-      'via_id': 48,
+      'via_id': settings.get('widgetViaId'),
       'locale_id': i18n.getLocaleId(),
       'submitted_from': win.location.href
     };
@@ -125,8 +126,8 @@ export class SubmitTicket extends Component {
                   : null;
     const params = {
       'subject': (desc.length <= 50) ? desc : `${desc.slice(0,50)}...`,
-      'set_tags': 'web_widget',
-      'via_id': 48,
+      'tags': ['web_widget'],
+      'via_id': settings.get('widgetViaId'),
       'comment': {
         'body': newDesc,
         'uploads': uploads

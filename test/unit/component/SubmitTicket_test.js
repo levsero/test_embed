@@ -121,6 +121,11 @@ describe('Submit ticket component', function() {
           t: _.identity
         }
       },
+      'service/settings': {
+        settings: {
+          get: () => 48
+        }
+      },
       'component/Icon': {
         Icon: noopReactComponent()
       },
@@ -315,6 +320,17 @@ describe('Submit ticket component', function() {
       it('gets the attachments from AttachmentList', function() {
         expect(params.request.comment.uploads)
           .toEqual(['12345']);
+      });
+
+      it('Adds the correct tag', function() {
+        expect(params.request.tags)
+          .toEqual(['web_widget']);
+      });
+
+      it('Adds the correct via_id', function() {
+        /* eslint camelcase:0 */
+        expect(params.request.via_id)
+          .toEqual(48);
       });
     });
   });
