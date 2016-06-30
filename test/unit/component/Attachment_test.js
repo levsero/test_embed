@@ -179,7 +179,7 @@ describe('Attachment component', function() {
           .toBe('embeddable_framework.submitTicket.attachments.size_kilobyte');
 
         expect(mocki18nTranslate.calls.mostRecent().args[1])
-          .toEqual({ size: 999.9 });
+          .toEqual({ size: 999 });
       });
     });
 
