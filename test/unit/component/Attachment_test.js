@@ -5,7 +5,8 @@ describe('Attachment component', function() {
     icon,
     mockHandleRemoveAttachment,
     mockUploadRequestSender,
-    mockUploadAbort;
+    mockUploadAbort,
+    mocki18nTranslate;
   const attachmentPath = buildSrcPath('component/Attachment');
 
   beforeEach(function() {
@@ -13,10 +14,17 @@ describe('Attachment component', function() {
 
     mockery.enable();
 
+    mocki18nTranslate = jasmine.createSpy('mocki18nTranslate');
+
     initMockRegistry({
       'React': React,
       'component/Icon': {
         Icon: noopReactComponent()
+      },
+      'service/i18n': {
+        i18n: {
+          t: mocki18nTranslate
+        }
       },
       'utility/utils': {
         bindMethods: mockBindMethods
@@ -138,6 +146,53 @@ describe('Attachment component', function() {
 
       expect(secondaryText)
         .toBe('Some error');
+    });
+  });
+
+  describe('formatAttachmentSize', () => {
+    beforeEach(function() {
+      component = instanceRender(
+        <Attachment
+          attachmentId='1'
+          file={{ name: 'foo.bar' }}
+          icon={icon} />
+      );
+    });
+
+    describe('when the file size is greater than or equal to one megabyte', () => {
+      it('should return the file size in megabytes', () => {
+        component.formatAttachmentSize(1000000);
+
+        expect(mocki18nTranslate.calls.mostRecent().args[0])
+          .toBe('embeddable_framework.submitTicket.attachments.size_megabyte');
+
+        expect(mocki18nTranslate.calls.mostRecent().args[1])
+          .toEqual({ size: 1 });
+      });
+    });
+
+    describe('when the file size is less than one megabyte', () => {
+      it('should return the file size in kilobytes', () => {
+        component.formatAttachmentSize(999999);
+
+        expect(mocki18nTranslate.calls.mostRecent().args[0])
+          .toBe('embeddable_framework.submitTicket.attachments.size_kilobyte');
+
+        expect(mocki18nTranslate.calls.mostRecent().args[1])
+          .toEqual({ size: 999 });
+      });
+    });
+
+    describe('when the file size is less than one kilobyte', () => {
+      it('should return the file size as 1 KB', () => {
+        component.formatAttachmentSize(999);
+
+        expect(mocki18nTranslate.calls.mostRecent().args[0])
+          .toBe('embeddable_framework.submitTicket.attachments.size_kilobyte');
+
+        expect(mocki18nTranslate.calls.mostRecent().args[1])
+          .toEqual({ size: 1 });
+      });
     });
   });
 });
