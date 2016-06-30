@@ -221,11 +221,11 @@ parts:
       value: "Add file from device"
   - translation:
       key: "embeddable_framework.submitTicket.attachments.size_megabyte"
-      title: "The size of the file shown in the attachment preview. Megabytes will be the unit of measurement."
+      title: "The size of the file shown in the attachment preview. Megabytes will be the unit of measurement. %()s stands for string and does not need to be translated."
       value: "%(size)s MB"
   - translation:
       key: "embeddable_framework.submitTicket.attachments.size_kilobyte"
-      title: "The size of the file shown in the attachment preview. Kilobytes will be the unit of measurement."
+      title: "The size of the file shown in the attachment preview. Kilobytes will be the unit of measurement. %()s stands for string and does not need to be translated."
       value: "%(size)s KB"
   - translation:
       key: "embeddable_framework.submitTicket.attachments.error.size"
