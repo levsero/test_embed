@@ -166,8 +166,8 @@ describe('Attachment component', function() {
         expect(mocki18nTranslate.calls.mostRecent().args[0])
           .toBe('embeddable_framework.submitTicket.attachments.size_megabyte');
 
-        expect(mocki18nTranslate.calls.mostRecent().args[1])
-          .toEqual({ size: 1 });
+        expect(mocki18nTranslate.calls.mostRecent().args[1].size)
+          .toBe(1);
       });
     });
 
@@ -178,8 +178,8 @@ describe('Attachment component', function() {
         expect(mocki18nTranslate.calls.mostRecent().args[0])
           .toBe('embeddable_framework.submitTicket.attachments.size_kilobyte');
 
-        expect(mocki18nTranslate.calls.mostRecent().args[1])
-          .toEqual({ size: 999 });
+        expect(mocki18nTranslate.calls.mostRecent().args[1].size)
+          .toEqual(999);
       });
     });
 
@@ -190,8 +190,8 @@ describe('Attachment component', function() {
         expect(mocki18nTranslate.calls.mostRecent().args[0])
           .toBe('embeddable_framework.submitTicket.attachments.size_kilobyte');
 
-        expect(mocki18nTranslate.calls.mostRecent().args[1])
-          .toEqual({ size: 1 });
+        expect(mocki18nTranslate.calls.mostRecent().args[1].size)
+          .toEqual(1);
       });
     });
   });

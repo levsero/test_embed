@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import _ from 'lodash';
 import classNames from 'classnames';
 
 import { Icon } from 'component/Icon';
@@ -33,9 +34,15 @@ export class Attachment extends Component {
 
     return size >= 1000000
            ? i18n.t('embeddable_framework.submitTicket.attachments.size_megabyte',
-                    { size: Math.floor((size / 1000000) * 10) / 10 })
+             {
+               size: _.floor(size / 1000000, 1),
+               fallback: '%(size)s MB'
+             })
            : i18n.t('embeddable_framework.submitTicket.attachments.size_kilobyte',
-                    { size: Math.floor(size / 1000) });
+             {
+               size: _.floor(size / 1000),
+               fallback: '%(size)s KB'
+             });
   }
 
   renderProgressBar() {
