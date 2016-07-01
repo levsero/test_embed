@@ -107,6 +107,7 @@ class HelpCenterArticle extends Component {
       e.preventDefault();
     } else {
       target.setAttribute('target', '_blank');
+      target.setAttribute('rel', 'noopener noreferrer');
     }
   }
 

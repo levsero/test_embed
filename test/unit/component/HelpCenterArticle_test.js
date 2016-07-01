@@ -115,35 +115,61 @@ describe('HelpCenterArticle component', function() {
         .toMatch(baseUrl + '/relative/link');
     });
 
-    it('should hijack inpage anchor clicks and call scrollIntoView on correct element', function() {
-      // save old version of query selector FIXME
-      const oldQuerySelector = global.document.querySelector;
+    describe('when an anchor is present', function() {
+      it('should hijack inpage anchor clicks and call scrollIntoView on correct element', function() {
+        // save old version of query selector FIXME
+        const oldQuerySelector = global.document.querySelector;
 
-      global.document.querySelector = function() {
-        return {
-          scrollIntoView: scrollIntoView
+        global.document.querySelector = function() {
+          return {
+            scrollIntoView: scrollIntoView
+          };
         };
-      };
 
-      // componentdidupdate only fires after setState not on initial render
-      helpCenterArticle.setState({ foo: 'bar' });
+        // componentdidupdate only fires after setState not on initial render
+        helpCenterArticle.setState({ foo: 'bar' });
 
-      TestUtils.Simulate.click(helpCenterArticle.refs.article, {
-        target: {
-          nodeName: 'A',
-          href: global.document.zendeskHost + '#foo',
-          ownerDocument: global.document,
-          getAttribute: function() {
-            return '#foo';
+        TestUtils.Simulate.click(helpCenterArticle.refs.article, {
+          target: {
+            nodeName: 'A',
+            href: global.document.zendeskHost + '#foo',
+            ownerDocument: global.document,
+            getAttribute: function() {
+              return '#foo';
+            }
           }
-        }
+        });
+
+        expect(scrollIntoView)
+          .toHaveBeenCalled();
+
+        // reset querySelector to the previous, not spy, version.
+        global.document.querySelector = oldQuerySelector;
       });
 
-      expect(scrollIntoView)
-        .toHaveBeenCalled();
+      describe('when clicking an external link', function() {
+        let externalAnchor;
 
-      // reset querySelector to the previous, not spy, version.
-      global.document.querySelector = oldQuerySelector;
+        beforeEach(function() {
+          const helpCenterArticleNode = helpCenterArticle.refs.article;
+
+          externalAnchor = helpCenterArticleNode.querySelector('a[href^="/relative"]');
+
+          TestUtils.Simulate.click(helpCenterArticleNode, {
+            target: externalAnchor
+          });
+        });
+
+        it('adds target="_blank"  to anchor', function() {
+          expect(externalAnchor.target)
+            .toEqual('_blank');
+        });
+
+        it('adds rel="noopener noreferrer" to anchor', function() {
+          expect(externalAnchor.rel)
+            .toEqual('noopener noreferrer');
+        });
+      });
     });
 
     it('should display an article body if a prop was passed with truthy content body', function() {

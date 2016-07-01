@@ -132,7 +132,7 @@ describe('IpmDesktop component', function() {
     };
 
     beforeEach(() => {
-      spyOn(window, 'open');
+      spyOn(window, 'open').and.returnValue({opener: {}});
     });
 
     describe('when ipm has an empty buttonUrl', () => {
