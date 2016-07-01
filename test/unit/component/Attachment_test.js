@@ -160,7 +160,7 @@ describe('Attachment component', function() {
     });
 
     describe('when the file size is greater than or equal to one megabyte', () => {
-      it('should return the file size in megabytes', () => {
+      it('should return the file size in megabytes to one decimal place precision', () => {
         component.formatAttachmentSize(1000000);
 
         expect(mocki18nTranslate.calls.mostRecent().args[0])
@@ -168,6 +168,11 @@ describe('Attachment component', function() {
 
         expect(mocki18nTranslate.calls.mostRecent().args[1].size)
           .toBe(1);
+
+        component.formatAttachmentSize(1120000);
+
+        expect(mocki18nTranslate.calls.mostRecent().args[1].size)
+          .toBe(1.1);
       });
     });
 
