@@ -23,7 +23,10 @@ export class IpmDesktop extends Component {
       : `//${buttonUrl}`;
 
     if (buttonUrl) {
-      window.open(cleanUrl, '_blank');
+      const ipmWindow = window.open(cleanUrl, '_blank');
+
+      // Fixes security issue with new windows changing opener url
+      ipmWindow.opener = null;
     }
 
     this.props.closeFrame();
