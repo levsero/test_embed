@@ -479,7 +479,6 @@ export class HelpCenter extends Component {
                           onChangeValue={onChangeValueHandler}
                           hasSearched={this.state.hasSearched}
                           onSearchIconClick={this.manualSearch}
-                          disableAutoSearch={this.props.disableAutoSearch}
                           isLoading={this.state.isLoading} />
                       : null;
 
