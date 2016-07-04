@@ -5,9 +5,9 @@ import _ from 'lodash';
 
 import { Button,
          ButtonGroup } from 'component/Button';
+import { SearchFieldButton } from 'component/button/SearchFieldButton';
 import { Container } from 'component/Container';
-import { SearchField,
-         SearchFieldButton } from 'component/FormField';
+import { SearchField } from 'component/field/SearchField';
 import { HelpCenterArticle } from 'component/HelpCenterArticle';
 import { HelpCenterForm } from 'component/HelpCenterForm';
 import { ScrollContainer } from 'component/ScrollContainer';

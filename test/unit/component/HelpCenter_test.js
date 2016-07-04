@@ -41,7 +41,7 @@ describe('HelpCenter component', function() {
           }
         })
       },
-      'component/FormField': {
+      'component/field/SearchField': {
         SearchField: React.createClass({
           focus: function() {
             this.setState({
@@ -57,7 +57,9 @@ describe('HelpCenter component', function() {
               </div>
             );
           }
-        }),
+        })
+      },
+      'component/button/SearchFieldButton': {
         SearchFieldButton: React.createClass({
           render: function() {
             return (
