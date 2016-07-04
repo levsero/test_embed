@@ -84,11 +84,23 @@ export class SubmitTicket extends Component {
         message: i18n.t('embeddable_framework.submitTicket.notify.message.success')
       });
       this.clearForm();
-      this.props.onSubmitted({
+
+      const params = {
         res: res,
         searchTerm: this.state.searchTerm,
         searchLocale: this.state.searchLocale
-      });
+      };
+
+      if (this.props.attachmentsEnabled) {
+        const attachmentsList = this.refs.submitTicketForm.refs.attachments;
+
+        _.extend(params, {
+          attachmentsCount: attachmentsList.numUploadedAttachments(),
+          attachmentTypes: _.map(attachmentsList.uploadedAttachments(), (a) => a.file.type)
+        });
+      }
+
+      this.props.onSubmitted(params);
       this.props.updateFrameSize();
     };
 

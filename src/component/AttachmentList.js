@@ -150,17 +150,23 @@ export class AttachmentList extends Component {
 
   filterAttachments(includeUploading) {
     return _.chain(this.state.attachments)
-            .filter((a) => (!a.uploading || includeUploading) && !a.errorMessage)
-            .size()
-            .value();
+            .filter((a) => (!a.uploading || includeUploading) && !a.errorMessage);
+  }
+
+  uploadedAttachments() {
+    return this.filterAttachments(false).value();
   }
 
   numUploadedAttachments() {
-    return this.filterAttachments(false);
+    return this.filterAttachments(false)
+           .size()
+           .value();
   }
 
   numValidAttachments() {
-    return this.filterAttachments(true);
+    return this.filterAttachments(true)
+           .size()
+           .value();
   }
 
   attachmentsReady() {

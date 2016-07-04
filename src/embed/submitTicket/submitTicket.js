@@ -66,20 +66,36 @@ function create(name, config) {
 
     return transport.sendFile(payload);
   };
-  const onSubmitted = function(params) {
-    let ticketIdMatcher = /Request \#([0-9]+)/;
+  const createUserActionPayload = (payload, params) => {
+    const ticketIdMatcher = /Request \#([0-9]+)/;
 
-    beacon.trackUserAction(
-      'submitTicket',
-      'send',
-      name,
-      {
-        query: params.searchTerm,
-        locale: params.searchLocale,
-        ticketId: parseInt(ticketIdMatcher.exec(params.res.body.message)[1], 10),
-        email: params.res.req._data.email
-      }
-    );
+    return _.extend({}, payload, {
+      ticketId: parseInt(ticketIdMatcher.exec(params.res.body.message)[1], 10),
+      email: params.res.req._data.email
+    });
+  };
+  const createUserActionPayloadAttachments = (payload, params) => {
+    const reqData = params.res.req._data.request;
+
+    return _.extend({}, payload, {
+      ticketId: params.res.body.request.id,
+      email: reqData.requester.email,
+      attachmentsCount: params.attachmentsCount,
+      attachmentTypes: params.attachmentTypes
+    });
+  };
+  const onSubmitted = (params) => {
+    let userActionPayload = {
+      query: params.searchTerm,
+      locale: params.searchLocale
+    };
+
+    // TODO: Remove createUserActionPayload when new endpoint is complete.
+    userActionPayload = config.attachmentsEnabled
+                      ? createUserActionPayloadAttachments(userActionPayload, params)
+                      : createUserActionPayload(userActionPayload, params);
+
+    beacon.trackUserAction('submitTicket', 'send', name, userActionPayload);
     mediator.channel.broadcast(name + '.onFormSubmitted');
   };
   const onCancel = function() {
