@@ -343,30 +343,35 @@ describe('Submit ticket component', function() {
           .toEqual(48);
       });
 
-      it('should call onSubmitted with given last search and attachments list state', function() {
-        submitTicket.setState({
-          searchTerm: 'a search',
-          searchLocale: 'en-US'
+      describe('when there is a successful response', () => {
+        beforeEach(function() {
+          submitTicket.setState({
+            searchTerm: 'a search',
+            searchLocale: 'en-US'
+          });
+
+          submitTicket.handleSubmit({ preventDefault: noop }, mockValues);
+          mockSubmitTicketSender.calls.mostRecent().args[1]({});
+
+          expect(mockOnSubmitted)
+            .toHaveBeenCalled();
         });
 
-        submitTicket.handleSubmit({ preventDefault: noop }, mockValues);
+        it('should call onSubmitted with given last search', function() {
+          expect(mockOnSubmitted.calls.mostRecent().args[0].searchTerm)
+            .toEqual('a search');
 
-        mockSubmitTicketSender.calls.mostRecent().args[1]({});
+          expect(mockOnSubmitted.calls.mostRecent().args[0].searchLocale)
+            .toEqual('en-US');
+        });
 
-        expect(mockOnSubmitted)
-          .toHaveBeenCalled();
+        it('should call onSubmitted with the attachments list state', () => {
+          expect(mockOnSubmitted.calls.mostRecent().args[0].attachmentsCount)
+            .toEqual(1);
 
-        expect(mockOnSubmitted.calls.mostRecent().args[0].searchTerm)
-          .toEqual('a search');
-
-        expect(mockOnSubmitted.calls.mostRecent().args[0].searchLocale)
-          .toEqual('en-US');
-
-        expect(mockOnSubmitted.calls.mostRecent().args[0].attachmentsCount)
-          .toEqual(1);
-
-        expect(mockOnSubmitted.calls.mostRecent().args[0].attachmentTypes)
-          .toEqual(['image/png']);
+          expect(mockOnSubmitted.calls.mostRecent().args[0].attachmentTypes)
+            .toEqual(['image/png']);
+        });
       });
     });
   });
