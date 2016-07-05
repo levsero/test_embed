@@ -159,14 +159,14 @@ export class AttachmentList extends Component {
 
   numUploadedAttachments() {
     return this.filterAttachments(false)
-           .size()
-           .value();
+               .size()
+               .value();
   }
 
   numValidAttachments() {
     return this.filterAttachments(true)
-           .size()
-           .value();
+               .size()
+               .value();
   }
 
   attachmentsReady() {

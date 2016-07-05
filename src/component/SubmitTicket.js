@@ -94,7 +94,7 @@ export class SubmitTicket extends Component {
       if (this.props.attachmentsEnabled) {
         const attachmentsList = this.refs.submitTicketForm.refs.attachments;
 
-        // When the MIME type is unknown. use 'application/octet-stream' which
+        // When the MIME type is unknown use 'application/octet-stream' which
         // represents arbitrary binary data.
         // Reference: http://stackoverflow.com/questions/1176022/unknown-file-type-mime
         const attachmentTypes = _.chain(attachmentsList.uploadedAttachments())
