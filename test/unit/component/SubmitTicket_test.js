@@ -22,11 +22,12 @@ describe('Submit ticket component', function() {
   };
   const MockAttachmentList = React.createClass({
     getAttachmentTokens: () => ['12345'],
-    numUploadedAttachments: () => 1,
+    numUploadedAttachments: () => 2,
     uploadedAttachments: () => {
-      return [{
-        file: { type: 'image/png' }
-      }];
+      return [
+        { file: { type: 'image/png' } },
+        { file: { type: '' } } // Unrecognised MIME type
+      ];
     },
     render: function() {
       return <div />;
@@ -367,10 +368,10 @@ describe('Submit ticket component', function() {
 
         it('should call onSubmitted with the attachments list state', () => {
           expect(mockOnSubmitted.calls.mostRecent().args[0].attachmentsCount)
-            .toEqual(1);
+            .toEqual(2);
 
           expect(mockOnSubmitted.calls.mostRecent().args[0].attachmentTypes)
-            .toEqual(['image/png']);
+            .toEqual(['image/png', 'application/octet-stream']);
         });
       });
     });
