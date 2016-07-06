@@ -332,101 +332,102 @@ describe('embed.submitTicket', function() {
         .toEqual({height: '100%', width: '100%'});
       });
 
-      describe('when attachments are disabled', () => {
-        it('should broadcast <name>.onSubmitted with onSubmitted using correct params for existing endpoint', () => {
-          const mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
-          const mockMediator = mockRegistry['service/mediator'].mediator;
-          const mockBeacon = mockRegistry['service/beacon'].beacon;
+      describe('when onSubmitted is called', () => {
+        let mockFrameFactory,
+          mockMediator,
+          mockBeacon;
+        const childFnParams = {
+          updateFrameSize: noop
+        };
 
-          const childFnParams = {
-            updateFrameSize: noop
-          };
-          const params = {
-            res: {
-              body: {
-                message: 'Request #149 "bla bla" created'
-              },
-              req: {
-                _data: { email: 'mock@email.com' }
-              }
-            },
-            searchTerm: 'a search',
-            searchLocale: 'en-US'
-          };
-
-          submitTicket.create('bob', { attachmentsEnabled: false });
-
-          const mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
-
-          const payload = mockFrameFactoryCall[0](childFnParams);
-
-          payload.props.onSubmitted(params);
-
-          const value = {
-            query: params.searchTerm,
-            locale: params.searchLocale,
-            ticketId: 149,
-            email: 'mock@email.com'
-          };
-
-          expect(mockBeacon.trackUserAction)
-            .toHaveBeenCalledWith('submitTicket', 'send', 'bob', value);
-
-          expect(mockMediator.channel.broadcast)
-            .toHaveBeenCalledWith('bob.onFormSubmitted');
+        beforeEach(function() {
+          mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
+          mockMediator = mockRegistry['service/mediator'].mediator;
+          mockBeacon = mockRegistry['service/beacon'].beacon;
         });
-      });
 
-      describe('when attachments are enabled', () => {
-        it('should broadcast <name>.onSubmitted with onSubmitted using correct params for new request endpoint', () => {
-          const mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
-          const mockMediator = mockRegistry['service/mediator'].mediator;
-          const mockBeacon = mockRegistry['service/beacon'].beacon;
-
-          const childFnParams = {
-            updateFrameSize: noop
-          };
-          const params = {
-            res: {
-              req: {
-                _data: {
-                  request: {
-                    requester: { email: 'mock@email.com' }
-                  }
+        describe('when attachments are disabled', () => {
+          it('should broadcast <name>.onSubmitted using correct params for existing endpoint', () => {
+            const params = {
+              res: {
+                body: {
+                  message: 'Request #149 "bla bla" created'
+                },
+                req: {
+                  _data: { email: 'mock@email.com' }
                 }
               },
-              body: {
-                request: { id: 149 }
-              }
-            },
-            searchTerm: 'a search',
-            searchLocale: 'en-US',
-            attachmentsCount: 2,
-            attachmentTypes: ['image/gif', 'image/png']
-          };
+              searchTerm: 'a search',
+              searchLocale: 'en-US'
+            };
 
-          submitTicket.create('bob', { attachmentsEnabled: true });
+            submitTicket.create('bob', { attachmentsEnabled: false });
 
-          const mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
+            const mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
 
-          const payload = mockFrameFactoryCall[0](childFnParams);
+            const payload = mockFrameFactoryCall[0](childFnParams);
 
-          payload.props.onSubmitted(params);
+            payload.props.onSubmitted(params);
 
-          const value = {
-            query: params.searchTerm,
-            locale: params.searchLocale,
-            ticketId: 149,
-            email: 'mock@email.com',
-            attachmentsCount: 2,
-            attachmentTypes: ['image/gif', 'image/png']
-          };
+            const value = {
+              query: params.searchTerm,
+              locale: params.searchLocale,
+              ticketId: 149,
+              email: 'mock@email.com'
+            };
 
-          expect(mockBeacon.trackUserAction)
-            .toHaveBeenCalledWith('submitTicket', 'send', 'bob', value);
+            expect(mockBeacon.trackUserAction)
+              .toHaveBeenCalledWith('submitTicket', 'send', 'bob', value);
 
-          expect(mockMediator.channel.broadcast)
-            .toHaveBeenCalledWith('bob.onFormSubmitted');
+            expect(mockMediator.channel.broadcast)
+              .toHaveBeenCalledWith('bob.onFormSubmitted');
+          });
+        });
+
+        describe('when attachments are enabled', () => {
+          it('should broadcast <name>.onSubmitted using correct params for new request endpoint', () => {
+            const params = {
+              res: {
+                req: {
+                  _data: {
+                    request: {
+                      requester: { email: 'mock@email.com' }
+                    }
+                  }
+                },
+                body: {
+                  request: { id: 149 }
+                }
+              },
+              searchTerm: 'a search',
+              searchLocale: 'en-US',
+              attachmentsCount: 2,
+              attachmentTypes: ['image/gif', 'image/png']
+            };
+
+            submitTicket.create('bob', { attachmentsEnabled: true });
+
+            const mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
+
+            const payload = mockFrameFactoryCall[0](childFnParams);
+
+            payload.props.onSubmitted(params);
+
+            const value = {
+              query: params.searchTerm,
+              locale: params.searchLocale,
+              ticketId: 149,
+              email: 'mock@email.com',
+              attachmentsCount: 2,
+              attachmentTypes: ['image/gif', 'image/png']
+            };
+
+            expect(mockBeacon.trackUserAction)
+              .toHaveBeenCalledWith('submitTicket', 'send', 'bob', value);
+
+            expect(mockMediator.channel.broadcast)
+              .toHaveBeenCalledWith('bob.onFormSubmitted');
+          });
         });
       });
     });
