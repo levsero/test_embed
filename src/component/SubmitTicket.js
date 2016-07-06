@@ -84,11 +84,31 @@ export class SubmitTicket extends Component {
         message: i18n.t('embeddable_framework.submitTicket.notify.message.success')
       });
       this.clearForm();
-      this.props.onSubmitted({
+
+      const params = {
         res: res,
         searchTerm: this.state.searchTerm,
         searchLocale: this.state.searchLocale
-      });
+      };
+
+      if (this.props.attachmentsEnabled) {
+        const attachmentsList = this.refs.submitTicketForm.refs.attachments;
+
+        // When the MIME type is unknown use 'application/octet-stream' which
+        // represents arbitrary binary data.
+        // Reference: http://stackoverflow.com/questions/1176022/unknown-file-type-mime
+        const attachmentTypes = _.chain(attachmentsList.uploadedAttachments())
+                                 .map('file.type')
+                                 .map((t) => _.isEmpty(t) ? 'application/octet-stream' : t)
+                                 .value();
+
+        _.extend(params, {
+          attachmentsCount: attachmentsList.numUploadedAttachments(),
+          attachmentTypes: attachmentTypes
+        });
+      }
+
+      this.props.onSubmitted(params);
       this.props.updateFrameSize();
     };
 

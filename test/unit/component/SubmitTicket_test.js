@@ -22,6 +22,13 @@ describe('Submit ticket component', function() {
   };
   const MockAttachmentList = React.createClass({
     getAttachmentTokens: () => ['12345'],
+    numUploadedAttachments: () => 2,
+    uploadedAttachments: () => {
+      return [
+        { file: { type: 'image/png' } },
+        { file: { type: '' } } // Unrecognised MIME type
+      ];
+    },
     render: function() {
       return <div />;
     }
@@ -266,13 +273,17 @@ describe('Submit ticket component', function() {
     });
 
     describe('when attachments are enabled', function() {
-      let params;
+      let params,
+        mockOnSubmitted;
 
       beforeEach(function() {
+        mockOnSubmitted = jasmine.createSpy('mockOnSubmitted');
+
         submitTicket = domRender(
           <SubmitTicket
             submitTicketSender={mockSubmitTicketSender}
             attachmentsEnabled={true}
+            onSubmitted={mockOnSubmitted}
             updateFrameSize={noop} />
         );
 
@@ -331,6 +342,37 @@ describe('Submit ticket component', function() {
         /* eslint camelcase:0 */
         expect(params.request.via_id)
           .toEqual(48);
+      });
+
+      describe('when there is a successful response', () => {
+        beforeEach(function() {
+          submitTicket.setState({
+            searchTerm: 'a search',
+            searchLocale: 'en-US'
+          });
+
+          submitTicket.handleSubmit({ preventDefault: noop }, mockValues);
+          mockSubmitTicketSender.calls.mostRecent().args[1]({});
+
+          expect(mockOnSubmitted)
+            .toHaveBeenCalled();
+        });
+
+        it('should call onSubmitted with given last search', function() {
+          expect(mockOnSubmitted.calls.mostRecent().args[0].searchTerm)
+            .toEqual('a search');
+
+          expect(mockOnSubmitted.calls.mostRecent().args[0].searchLocale)
+            .toEqual('en-US');
+        });
+
+        it('should call onSubmitted with the attachments list state', () => {
+          expect(mockOnSubmitted.calls.mostRecent().args[0].attachmentsCount)
+            .toEqual(2);
+
+          expect(mockOnSubmitted.calls.mostRecent().args[0].attachmentTypes)
+            .toEqual(['image/png', 'application/octet-stream']);
+        });
       });
     });
   });
