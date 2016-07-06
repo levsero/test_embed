@@ -6,6 +6,7 @@ const optionWhitelist = [
   'authenticate',
   'translations',
   'suppress',
+  'attachmentsDisabled',
   'offset'
 ];
 let store = {

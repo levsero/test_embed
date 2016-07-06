@@ -33,8 +33,14 @@ function create(name, config) {
     maxFileSize: 5 * 1024 * 1024, // 5 MB
     color: '#659700'
   };
+  const attachmentsDisabledSetting = settings.get('attachmentsDisabled');
 
   config = _.extend(configDefaults, config);
+
+  if (attachmentsDisabledSetting === true) {
+    config.attachmentsEnabled = false;
+  }
+
   const ticketEndpointPath = config.attachmentsEnabled
              ? '/api/v2/requests'
              : '/requests/embedded/create';
