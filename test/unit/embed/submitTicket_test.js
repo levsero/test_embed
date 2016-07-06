@@ -94,7 +94,7 @@ describe('embed.submitTicket', function() {
       },
       'service/settings': {
         settings: {
-          get: () => { return mockSettingsValue; }
+          get: jasmine.createSpy('get').and.returnValue(mockSettingsValue)
         }
       },
       'service/transitionFactory' : {
@@ -147,6 +147,22 @@ describe('embed.submitTicket', function() {
 
       expect(bob.config.formTitleKey)
         .toEqual('test_title');
+    });
+
+    it('changes config.attachmentsEnabled if zESettings.attachmentsDisabled is true', () => {
+      const mockSettingsGet = mockRegistry['service/settings'].settings.get;
+
+      mockSettingsValue = true; // emulate settings.get('attachmentsDisabled')
+
+      submitTicket.create('bob');
+
+      const bob = submitTicket.get('bob');
+
+      expect(mockSettingsGet)
+        .toHaveBeenCalledWith('attachmentsDisabled');
+
+      expect(bob.config.attachmentsEnabled)
+        .toEqual(false);
     });
 
     describe('frameFactory', function() {
