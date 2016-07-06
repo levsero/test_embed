@@ -38,7 +38,7 @@ function create(name, config) {
   config = _.extend(configDefaults, config);
 
   if (attachmentsDisabledSetting === true) {
-    config = _.extend(config, { attachmentsEnabled: false });
+    config.attachmentsEnabled = false;
   }
 
   const ticketEndpointPath = config.attachmentsEnabled
