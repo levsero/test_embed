@@ -4,7 +4,7 @@ function generateJWT(sharedSecret) {
   const message = {
     name: 'zenguy',
     email: 'zenguy@zendesk.com',
-    iat: Date.now(),
+    iat: Date.now() / 1000,
     // returns a random int between 0 and 0xFFFFFF, and then converts it to a string in hex format (base 16).
     jti: ((Math.random() * 0xFFFFFF) | 0).toString(16)
   };

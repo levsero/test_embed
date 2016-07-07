@@ -280,8 +280,8 @@ describe('authentication', function() {
       mockStore.get = function() {
         return {
           id: '3498589cd03c34be6155b5a6498fe9786985da01',
-          expiry: Math.floor(Date.now() / 1000) + timeOffset, // expires in 1 hour 30 mins
-          createdAt: Math.floor(Date.now() / 1000) - timeOffset  // created 30 mins ago
+          expiry: Math.floor(Date.now() / 1000) + timeOffset, // expires 30 mins
+          createdAt: Math.floor(Date.now() / 1000) - timeOffset  // created 1 hour and 30 mins ago
         };
       };
 
