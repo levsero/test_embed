@@ -191,6 +191,11 @@ $Base-posOffset: $med + 1;
   padding-right: $spacing-xl !important;
 }
 
+.u-paddingVN {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
 .u-paddingVM {
   padding-top: $spacing-med !important;
   padding-bottom: $spacing-med !important;
@@ -210,12 +215,20 @@ $Base-posOffset: $med + 1;
   }
 }
 
+.u-paddingLN {
+  padding-left: 0 !important;
+}
+
 .u-paddingL {
   padding-left: #{25/$font-size}rem;
 }
 
 .u-paddingLL {
   padding-left: $spacing-lrg;
+}
+
+.u-paddingRN {
+  padding-right: 0 !important;
 }
 
 .u-paddingRS {
@@ -293,6 +306,14 @@ $Base-posOffset: $med + 1;
 
 .u-textPlaceholder {
   color: #DADADA;
+}
+
+.u-fillBase {
+  fill: $base-color !important;
+
+  svg {
+    fill: $base-color !important;
+  }
 }
 
 .u-textSizeSml {

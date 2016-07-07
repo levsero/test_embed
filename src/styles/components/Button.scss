@@ -66,6 +66,19 @@ $Button-nudge: 5;
   font-size: #{15/$font-size}rem;
 }
 
+.Button--fieldEnd {
+  border-top-right-radius: #{3/$font-size}rem;
+  border-bottom-right-radius: #{3/$font-size}rem;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  padding: #{14/$font-size}rem #{14/$font-size}rem #{10/$font-size}rem;
+  background: $inactive-color;
+
+  &:hover, &:focus, &:active {
+    background: $active-color;
+  }
+}
+
 /**
 * ZendeskGarden style override
 */
