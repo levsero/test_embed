@@ -123,45 +123,53 @@ export class SearchField extends Component {
     }
 
     let searchElement;
-    const SearchIcon = <Icon
-                         className={searchInputFieldIconClasses}
-                         onClick={this.props.onSearchIconClick}
-                         type='Icon--search' />
-    const SearchIconButton = <IconFieldButton
-                               onClick={this.props.onSearchIconClick}
-                               className='Button--fieldEnd'
-                               icon='Icon--search' />
-    const SearchInput = <div className='Arrange-sizeFill u-vsizeAll u-posRelative'>
-                          <input
-                            className={searchInputFieldClasses}
-                            ref='searchFieldInput'
-                            onChange={this.onChange}
-                            value={this.state.searchInputVal}
-                            onFocus={this.onFocus}
-                            onBlur={this.onBlur}
-                            {...attribs} />
-                        </div>
-    const SearchClear = <div className='Arrange-sizeFit u-isActionable'>
-                        <LoadingEllipses className={loadingClasses} />
-                        <Icon
-                          onClick={this.clearInput}
-                          onTouch={this.clearInput}
-                          className={clearInputClasses}
-                          type='Icon--clearInput' />
-                      </div>
+    const SearchIcon = (
+      <Icon
+        className={searchInputFieldIconClasses}
+        onClick={this.props.onSearchIconClick}
+        type='Icon--search' />
+    );
+    const SearchIconButton = (
+      <IconFieldButton
+        onClick={this.props.onSearchIconClick}
+        className='Button--fieldEnd'
+        icon='Icon--search' />
+    );
+    const SearchInput = (
+      <div className='Arrange-sizeFill u-vsizeAll u-posRelative'>
+        <input
+          className={searchInputFieldClasses}
+          ref='searchFieldInput'
+          onChange={this.onChange}
+          value={this.state.searchInputVal}
+          onFocus={this.onFocus}
+          onBlur={this.onBlur}
+          {...attribs} />
+      </div>
+    );
+    const SearchClear = (
+      <div className='Arrange-sizeFit u-isActionable'>
+        <LoadingEllipses className={loadingClasses} />
+        <Icon
+          onClick={this.clearInput}
+          onTouch={this.clearInput}
+          className={clearInputClasses}
+          type='Icon--clearInput' />
+      </div>
+    );
 
     if (this.props.fullscreen && this.props.disableAutoSearch) {
       searchElement = [
         SearchInput, SearchClear, SearchIconButton
-      ]
+      ];
     } else if (this.props.disableAutoSearch) {
       searchElement = [
         SearchInput, SearchClear, SearchIcon
-      ]
+      ];
     } else {
       searchElement = [
         SearchIcon, SearchInput, SearchClear
-      ]
+      ];
     }
 
     return (
@@ -178,6 +186,7 @@ SearchField.propTypes = {
   fullscreen: PropTypes.bool,
   isLoading: PropTypes.bool,
   hasSearched: PropTypes.bool,
+  disableAutoSearch: PropTypes.bool,
   onFocus: PropTypes.func,
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
@@ -189,6 +198,7 @@ SearchField.defaultProps = {
   fullscreen: false,
   isLoading: false,
   hasSearched: false,
+  disableAutoSearch: false,
   onFocus: () => {},
   onBlur: () => {},
   onChange: () => {},

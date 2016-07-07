@@ -17,7 +17,7 @@ describe('SearchField component', function() {
 
     initMockRegistry({
       'React': React,
-      'component/button/SearchFieldButton': {
+      'component/button/IconFieldButton': {
         SearchFieldButton: noopReactComponent()
       },
       'component/Loading': {

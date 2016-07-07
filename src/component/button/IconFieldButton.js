@@ -1,12 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import classNames from 'classnames';
-import Dropzone from 'react-dropzone';
 
 import { Icon } from 'component/Icon';
 
 export class IconFieldButton extends Component {
   render() {
-
     return (
       <div
         onClick={this.props.onClick}
