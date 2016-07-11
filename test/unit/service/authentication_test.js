@@ -219,7 +219,7 @@ describe('authentication', function() {
         id: '3498589cd03c34be6155b5a6498fe9786985da01', // sha1 hash of jbob@zendesk.com
         token: 'abcde',
         expiry: Math.floor(Date.now() / 1000) + (20 * 60),
-        createdAt: Math.floor(Date.now() / 1000) - 1.6 * 60 * 60
+        createdAt: Math.floor(Date.now() / 1000) - (1.6 * 60 * 60)
       };
       mockTransport = mockRegistry['service/transport'].transport;
       mockStore = mockRegistry['service/persistence'].store;
@@ -297,7 +297,7 @@ describe('authentication', function() {
       });
     });
 
-    describe('when the current token has not been revoked', function() {
+    describe('when the current token was created after tokens were revoked', function() {
       it('should not clear existing zE_oauth objects from localstorage', function() {
         authentication.revoke(Math.floor(Date.now() / 1000) - (timeOffset + 5));
 
