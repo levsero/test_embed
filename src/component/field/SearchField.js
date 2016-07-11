@@ -1,13 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
-import _ from 'lodash';
 import classNames from 'classnames';
 
-import { LoadingEllipses } from 'component/Loading';
 import { IconFieldButton } from 'component/button/IconFieldButton';
-import { isMobileBrowser,
-         isIos } from 'utility/devices';
-import { i18n } from 'service/i18n';
+import { SearchInput } from 'component/field/SearchInput';
+import { LoadingEllipses } from 'component/Loading';
 import { Icon } from 'component/Icon';
 import { bindMethods } from 'utility/utils';
 
@@ -60,7 +57,7 @@ export class SearchField extends Component {
   }
 
   getSearchField() {
-    return ReactDOM.findDOMNode(this.refs.searchFieldInput);
+    return ReactDOM.findDOMNode(this.refs.searchFieldInput.refs.input);
   }
 
   getValue() {
@@ -75,79 +72,56 @@ export class SearchField extends Component {
     this.getSearchField().blur();
   }
 
-  render() {
-    const loadingClasses = classNames({
-      'u-isHidden': !this.props.isLoading
-    });
-    const searchContainerClasses = classNames({
-      'u-cf': true,
-      'u-paddingTM': this.props.hasSearched,
-      'u-marginBL': !this.props.hasSearched,
-      'u-paddingHN u-paddingBN Form-cta--barFullscreen': this.props.fullscreen
-    });
-    const searchInputClasses = classNames({
-      'Arrange Arrange--middle Form-field Form-field--search u-isSelectable': true,
-      'Form-field--focused': this.state.focused,
-      'is-mobile': this.props.fullscreen,
-      'u-paddingVN u-paddingRN': this.props.disableAutoSearch && this.props.fullscreen
-    });
-    const searchInputFieldClasses = classNames({
-      'Arrange-sizeFill u-paddingR Form-placeholder': true,
-      'u-textSizeBaseMobile': this.props.fullscreen
-    });
-    const searchInputFieldIconClasses = classNames({
-      'Arrange-sizeFit u-isActionable': true,
-      'u-userTextColor': this.state.focused,
-      'u-userFillColor': this.state.focused
-    });
-    const clearInputClasses = classNames({
-      'Icon Icon--clearInput': true,
-      'u-isActionable u-textCenter': true,
-      'u-isHidden': !(isMobileBrowser() && !this.props.isLoading && this.state.searchInputVal)
-    });
-    const placeholder = (isMobileBrowser())
-                      ? ''
-                      : i18n.t('embeddable_framework.helpCenter.search.label.how_can_we_help');
-    let attribs = {
-      autoCapitalize: 'off',
-      placeholder: placeholder,
-      type: 'search'
-    };
-
-    if (isIos()) {
-      attribs = _.extend(attribs, {
-        autoCorrect: 'off',
-        autoComplete: 'off',
-        spellCheck: 'false'
-      });
-    }
-
-    let searchElement;
-    const SearchIcon = (
-      <Icon
-        className={searchInputFieldIconClasses}
-        onClick={this.props.onSearchIconClick}
-        type='Icon--search' />
-    );
-    const SearchIconButton = (
+  renderSearchIconButton() {
+    return (
       <IconFieldButton
         onClick={this.props.onSearchIconClick}
         className='Button--fieldEnd'
         icon='Icon--search' />
     );
-    const SearchInput = (
-      <div className='Arrange-sizeFill u-vsizeAll u-posRelative'>
-        <input
-          className={searchInputFieldClasses}
-          ref='searchFieldInput'
-          onChange={this.onChange}
-          value={this.state.searchInputVal}
-          onFocus={this.onFocus}
-          onBlur={this.onBlur}
-          {...attribs} />
-      </div>
+  }
+
+  renderSearchInput() {
+    const { fullscreen } = this.props;
+
+    return (
+      <SearchInput
+        fullscreen={fullscreen}
+        onChange={this.onChange}
+        onBlur={this.onBlur}
+        searchInputValue={this.state.searchInputVal}
+        onFocus={this.onFocus}
+        ref='searchFieldInput' />
     );
-    const SearchClear = (
+  }
+
+  renderSearchIcon() {
+    const searchInputFieldIconClasses = classNames({
+      'Arrange-sizeFit u-isActionable': true,
+      'u-userTextColor': this.state.focused,
+      'u-userFillColor': this.state.focused
+    });
+
+    return (
+      <Icon
+        className={searchInputFieldIconClasses}
+        onClick={this.props.onSearchIconClick}
+        type='Icon--search' />
+    );
+  }
+
+  renderSearchClear() {
+    const { fullscreen, isLoading } = this.props;
+    const loadingClasses = classNames({
+      'u-isHidden': !isLoading
+    });
+    const clearInputClasses = classNames({
+      'Icon Icon--clearInput': true,
+      'u-isActionable u-textCenter': true,
+      'u-isHidden': !(fullscreen && !isLoading && this.state.searchInputVal)
+    });
+
+    return (
       <div className='Arrange-sizeFit u-isActionable'>
         <LoadingEllipses className={loadingClasses} />
         <Icon
@@ -157,18 +131,36 @@ export class SearchField extends Component {
           type='Icon--clearInput' />
       </div>
     );
+  }
 
-    if (this.props.fullscreen && this.props.disableAutoSearch) {
+  render() {
+    const { fullscreen, hasSearched, disableAutoSearch } = this.props;
+    const searchContainerClasses = classNames({
+      'u-cf': true,
+      'u-paddingTM': hasSearched,
+      'u-marginBL': !hasSearched,
+      'u-paddingHN u-paddingBN Form-cta--barFullscreen': fullscreen
+    });
+    const searchInputClasses = classNames({
+      'Arrange Arrange--middle Form-field Form-field--search u-isSelectable': true,
+      'Form-field--focused': this.state.focused,
+      'is-mobile': fullscreen,
+      'u-paddingVN u-paddingRN': disableAutoSearch && fullscreen
+    });
+
+    let searchElement;
+
+    if (fullscreen && disableAutoSearch) {
       searchElement = [
-        SearchInput, SearchClear, SearchIconButton
+        this.renderSearchInput(), this.renderSearchClear(), this.renderSearchIconButton()
       ];
-    } else if (this.props.disableAutoSearch) {
+    } else if (disableAutoSearch) {
       searchElement = [
-        SearchInput, SearchClear, SearchIcon
+        this.renderSearchInput(), this.renderSearchClear(), this.renderSearchIcon()
       ];
     } else {
       searchElement = [
-        SearchIcon, SearchInput, SearchClear
+        this.renderSearchIcon(), this.renderSearchInput(), this.renderSearchClear()
       ];
     }
 

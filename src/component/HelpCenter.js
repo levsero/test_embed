@@ -1,6 +1,5 @@
 import classNames from 'classnames';
 import React, { Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
 import { Button,
@@ -61,10 +60,11 @@ export class HelpCenter extends Component {
 
   focusField() {
     if (!this.state.fullscreen && !this.state.articleViewActive) {
-      const searchFieldInputNode = ReactDOM.findDOMNode(this.refs.searchField.refs.searchFieldInput);
+      const searchField = this.refs.searchField;
+      const searchFieldInputNode = searchField.getSearchField();
       const strLength = searchFieldInputNode.value.length;
 
-      this.refs.searchField.focus();
+      searchField.focus();
       if (searchFieldInputNode.setSelectionRange) {
         searchFieldInputNode.setSelectionRange(strLength, strLength);
       }

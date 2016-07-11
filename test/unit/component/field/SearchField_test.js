@@ -1,7 +1,6 @@
 describe('SearchField component', function() {
   let onChangeValue,
-    SearchField,
-    mockIsMobileBrowserValue;
+    SearchField;
   const searchFieldPath = buildSrcPath('component/field/SearchField');
 
   beforeEach(function() {
@@ -13,12 +12,19 @@ describe('SearchField component', function() {
       warnOnReplace: false
     });
 
-    mockIsMobileBrowserValue = false;
-
     initMockRegistry({
       'React': React,
       'component/button/IconFieldButton': {
         SearchFieldButton: noopReactComponent()
+      },
+      'component/field/SearchInput': {
+        SearchInput: React.createClass({
+          render: function() {
+            return (
+              <input onChange={this.props.onChange} />
+            );
+          }
+        })
       },
       'component/Loading': {
         LoadingEllipses: React.createClass({
@@ -45,24 +51,8 @@ describe('SearchField component', function() {
           }
         })
       },
-      'utility/devices': {
-        isMobileBrowser: function() {
-          return mockIsMobileBrowserValue;
-        },
-        isIos: noop
-      },
       'utility/utils': {
         bindMethods: mockBindMethods
-      },
-      'service/i18n': {
-        i18n: jasmine.createSpyObj('i18n', [
-          'init',
-          'setLocale',
-          'getLocale',
-          't',
-          'isRTL',
-          'getLocaleId'
-        ])
       }
     });
 
@@ -85,9 +75,6 @@ describe('SearchField component', function() {
       searchInputNode.value = 'Search string';
 
       TestUtils.Simulate.click(searchFieldNode.querySelector('.Icon--clearInput'));
-
-      expect(searchInputNode.value)
-        .toEqual('');
 
       expect(onChangeValue)
         .toHaveBeenCalledWith('');
@@ -116,9 +103,7 @@ describe('SearchField component', function() {
     });
 
     it('should display `clearInput` Icon when the input has text and `this.props.isLoading` is false', function() {
-      mockIsMobileBrowserValue = true;
-
-      const searchField = domRender(<SearchField isLoading={false} />);
+      const searchField = domRender(<SearchField isLoading={false} fullscreen={true} />);
       const clearInputNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Icon--clearInput');
 
       searchField.setState({ searchInputVal: 'something' });
