@@ -1,4 +1,5 @@
 import airbrakeJs from 'airbrake-js';
+import _ from 'lodash';
 
 const airbrake = new airbrakeJs();
 const errorFilters = [
@@ -8,12 +9,18 @@ const errorFilters = [
 
 const errorFilter = (notice) => {
   const combinedRegex = new RegExp(errorFilters.join('|'));
+  const error = notice.errors[0];
 
   // The notice object always contains a single element errors array.
   // airbrake-js will filter out the error if null is returned, and will
   // send it through if the notice object is returned.
   // See #Filtering Errors: https://github.com/airbrake/airbrake-js
-  return combinedRegex.test(notice.errors[0].message)
+  const isFromEmbeddable = _.chain(error.backtrace)
+                            .map('file')
+                            .find((f) => f.includes('embeddable_framework/main.js'))
+                            .value();
+
+  return combinedRegex.test(error.message) || !isFromEmbeddable
          ? null
          : notice;
 };
