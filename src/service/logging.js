@@ -11,16 +11,17 @@ const errorFilter = (notice) => {
   const combinedRegex = new RegExp(errorFilters.join('|'));
   const error = notice.errors[0];
 
+  // Only push the error if it originated from embeddable framework's main.js
+  const errorFromEmbeddable = !!_.chain(error.backtrace)
+                                 .map('file')
+                                 .find((f) => f.includes('embeddable_framework/main.js'))
+                                 .value();
+
   // The notice object always contains a single element errors array.
   // airbrake-js will filter out the error if null is returned, and will
   // send it through if the notice object is returned.
   // See #Filtering Errors: https://github.com/airbrake/airbrake-js
-  const isFromEmbeddable = _.chain(error.backtrace)
-                            .map('file')
-                            .find((f) => f.includes('embeddable_framework/main.js'))
-                            .value();
-
-  return combinedRegex.test(error.message) || !isFromEmbeddable
+  return combinedRegex.test(error.message) || !errorFromEmbeddable
          ? null
          : notice;
 };

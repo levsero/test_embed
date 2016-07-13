@@ -219,12 +219,14 @@ function boot() {
           handlePostRenderQueue(postRenderQueue);
         },
         fail(error) {
-          logging.error({
-            error: error,
-            context: {
-              account: document.zendeskHost
-            }
-          });
+          if (error.status !== 404) {
+            logging.error({
+              error: error,
+              context: {
+                account: document.zendeskHost
+              }
+            });
+          }
         }
       }
     });
