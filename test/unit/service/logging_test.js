@@ -89,44 +89,50 @@ describe('logging', function() {
     });
   });
 
-  describe('errorFilter', function() {
-    let errMessage,
-      notice;
+  describe('errorFilter', () => {
+    let notice;
 
     beforeEach(function() {
-      errMessage = 'No \'Access-Control-Allow-Origin\' header is present on the requested resource';
       notice = {
         errors: [
-          { message: errMessage }
+          {
+            message: '',
+            backtrace: [{ file: 'eval at <anonymous> (http:\/\/zd\/embeddable_framework\/main.js:101:2), <anonymous>' }]
+          }
         ]
       };
     });
 
-    it('should filter out cross origin errors', function() {
+    it('should filter out cross origin errors', () => {
+      notice.errors[0].message = 'No \'Access-Control-Allow-Origin\' header is present on the requested resource';
       expect(logging.errorFilter(notice))
-        .toBe(null);
+        .toEqual(null);
     });
 
-    it('should filter out timeout exceeded errors', function() {
-      errMessage = 'timeout of 10000ms exceeded';
-      notice.errors[0].message = errMessage;
+    it('should filter out timeout exceeded errors', () => {
+      notice.errors[0].message = 'timeout of 10000ms exceeded';
 
       expect(logging.errorFilter(notice))
-        .toBe(null);
+        .toEqual(null);
     });
 
-    it('should not filter out any other errors', function() {
-      errMessage = 'Attempted to assign to readonly property.';
-      notice.errors[0].message = errMessage;
+    it('should not filter out any other errors', () => {
+      notice.errors[0].message = 'Attempted to assign to readonly property.';
 
       expect(logging.errorFilter(notice))
-        .toBe(notice);
+        .toEqual(notice);
 
-      errMessage = 'Some other error';
-      notice.errors[0].message = errMessage;
+      notice.errors[0].message = 'Some other error';
 
       expect(logging.errorFilter(notice))
-        .toBe(notice);
+        .toEqual(notice);
+    });
+
+    it('should filter out errors that dont originate from embeddable framework', () => {
+      notice.errors[0].backtrace[0].file = 'eval at <anonymous> (http:\/\/cdn\/lib\/somelib.js:101:2), <anonymous>';
+
+      expect(logging.errorFilter(notice))
+        .toEqual(null);
     });
   });
 });
