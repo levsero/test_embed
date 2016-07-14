@@ -1,20 +1,32 @@
 describe('logging', function() {
   let logging,
-    mockAirbrakeClient;
+    airbrakeInitSpy,
+    airbrakeAddFilterSpy,
+    airbrakeWrapSpy,
+    airbrakeNotifySpy;
   const loggingPath = buildSrcPath('service/logging');
 
   beforeEach(function() {
     mockery.enable();
-    const mockRegistry = initMockRegistry({
-      'airbrake-js': jasmine.createSpy().and.returnValue({
-        setProject: jasmine.createSpy(),
-        addFilter: jasmine.createSpy(),
-        wrap: jasmine.createSpy(),
-        notify: jasmine.createSpy()
-      })
-    });
 
-    mockAirbrakeClient = mockRegistry['airbrake-js']();
+    airbrakeInitSpy = jasmine.createSpy();
+    airbrakeAddFilterSpy = jasmine.createSpy('addFilter');
+    airbrakeWrapSpy = jasmine.createSpy('wrap');
+    airbrakeNotifySpy = jasmine.createSpy('notify');
+
+    initMockRegistry({
+      'airbrake-js': (opts) => {
+        airbrakeInitSpy(opts);
+        return {
+          addFilter: airbrakeAddFilterSpy,
+          wrap: airbrakeWrapSpy,
+          notify: airbrakeNotifySpy
+        };
+      },
+      'utility/globals': {
+        win: global.window
+      }
+    });
 
     mockery.registerAllowable(loggingPath);
     logging = requireUncached(loggingPath).logging;
@@ -27,14 +39,17 @@ describe('logging', function() {
   });
 
   describe('#init', function() {
-    it('should register Airbrake id and key on init and add errors to filter', function() {
-      expect(mockAirbrakeClient.setProject)
-        .toHaveBeenCalledWith(
-          '124081',
-          '8191392d5f8c97c8297a08521aab9189'
-        );
+    it('should register Airbrake id and key', function() {
+      expect(airbrakeInitSpy)
+        .toHaveBeenCalledWith({
+          projectId: '124081',
+          projectKey: '8191392d5f8c97c8297a08521aab9189',
+          onerror: false
+        });
+    });
 
-      expect(mockAirbrakeClient.addFilter)
+    it('should add a filter event handler', () => {
+      expect(airbrakeAddFilterSpy)
         .toHaveBeenCalled();
     });
   });
@@ -56,7 +71,7 @@ describe('logging', function() {
     it('should call Airbrake.push', function() {
       logging.error(errPayload);
 
-      expect(mockAirbrakeClient.notify)
+      expect(airbrakeNotifySpy)
         .toHaveBeenCalledWith(errPayload);
     });
 
@@ -84,7 +99,7 @@ describe('logging', function() {
 
       logging.wrap(fn);
 
-      expect(mockAirbrakeClient.wrap)
+      expect(airbrakeWrapSpy)
         .toHaveBeenCalledWith(fn);
     });
   });
@@ -96,8 +111,7 @@ describe('logging', function() {
       notice = {
         errors: [
           {
-            message: '',
-            backtrace: [{ file: 'eval at <anonymous> (http:\/\/zd\/embeddable_framework\/main.js:101:2), <anonymous>' }]
+            message: ''
           }
         ]
       };
@@ -126,13 +140,6 @@ describe('logging', function() {
 
       expect(logging.errorFilter(notice))
         .toEqual(notice);
-    });
-
-    it('should filter out errors that dont originate from embeddable framework', () => {
-      notice.errors[0].backtrace[0].file = 'eval at <anonymous> (http:\/\/cdn\/lib\/somelib.js:101:2), <anonymous>';
-
-      expect(logging.errorFilter(notice))
-        .toEqual(null);
     });
   });
 });
