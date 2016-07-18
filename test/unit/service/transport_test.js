@@ -421,6 +421,7 @@ describe('transport', function() {
         spyOn(mockMethods, 'end').and.callThrough();
         spyOn(mockMethods, 'on').and.callThrough();
         spyOn(mockMethods, 'query').and.callThrough();
+        spyOn(mockMethods, 'attach').and.callThrough();
 
         mockSuperagent = mockRegistry.superagent;
 
@@ -448,6 +449,11 @@ describe('transport', function() {
           /* eslint camelcase:0 */
           expect(mockMethods.query)
             .toHaveBeenCalledWith({ via_id: 48 });
+        });
+
+        it('adds the file data with the key `uploaded_data`', () => {
+          expect(mockMethods.attach)
+            .toHaveBeenCalledWith('uploaded_data', payload.file);
         });
 
         it('triggers the done callback if response is successful', function() {
