@@ -125,7 +125,7 @@ function sendFile(payload) {
                     buildFullUrl(payload.path))
     .query({ filename: payload.file.name })
     .query({ via_id: settings.get('widgetViaId') })
-    .attach('file', payload.file)
+    .attach('uploaded_data', payload.file)
     .on('progress', function(e) {
       if (payload.callbacks) {
         if (_.isFunction(payload.callbacks.progress)) {
