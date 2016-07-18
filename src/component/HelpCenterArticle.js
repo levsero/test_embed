@@ -88,6 +88,7 @@ class HelpCenterArticle extends Component {
       let topNode = ReactDOM.findDOMNode(this.refs.userContent);
 
       topNode.scrollTop = 0;
+      this.props.updateFrameSize();
     }
   }
 
@@ -187,7 +188,9 @@ class HelpCenterArticle extends Component {
       this.setState({
         queuedImages: _.omit(this.state.queuedImages, src)
       });
+
       this.props.updateStoredImages({ [src]: url });
+      this.props.updateFrameSize();
     };
 
     const imagesQueued = _.transform(imageUrls, (result, url) => {
@@ -240,6 +243,7 @@ HelpCenterArticle.propTypes = {
   storedImages: PropTypes.array,
   imagesSender: PropTypes.func,
   updateStoredImages: PropTypes.func,
+  updateFrameSize: PropTypes.func,
   fullscreen: PropTypes.bool
 };
 
@@ -248,6 +252,7 @@ HelpCenterArticle.defaultProps = {
   storedImages: [],
   imagesSender: () => {},
   updateStoredImages: () => {},
+  updateFrameSize: () => {},
   fullscreen: false
 };
 
