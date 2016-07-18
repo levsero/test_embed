@@ -3,18 +3,19 @@ describe('logging', function() {
     airbrakeInitSpy,
     airbrakeAddFilterSpy,
     airbrakeWrapSpy,
-    airbrakeNotifySpy;
+    airbrakeNotifySpy,
+    mockRegistry;
   const loggingPath = buildSrcPath('service/logging');
 
   beforeEach(function() {
     mockery.enable();
 
-    airbrakeInitSpy = jasmine.createSpy();
+    airbrakeInitSpy = jasmine.createSpy('init');
     airbrakeAddFilterSpy = jasmine.createSpy('addFilter');
     airbrakeWrapSpy = jasmine.createSpy('wrap');
     airbrakeNotifySpy = jasmine.createSpy('notify');
 
-    initMockRegistry({
+    mockRegistry = initMockRegistry({
       'airbrake-js': (opts) => {
         airbrakeInitSpy(opts);
         return {
@@ -24,7 +25,7 @@ describe('logging', function() {
         };
       },
       'utility/globals': {
-        win: global.window
+        win: { onerror: null }
       }
     });
 
@@ -39,18 +40,39 @@ describe('logging', function() {
   });
 
   describe('#init', function() {
+    let expectedOptions;
+
+    beforeEach(function() {
+      expectedOptions = {
+        projectId: '124081',
+        projectKey: '8191392d5f8c97c8297a08521aab9189',
+        onerror: true
+      };
+    });
+
     it('should register Airbrake id and key', function() {
       expect(airbrakeInitSpy)
-        .toHaveBeenCalledWith({
-          projectId: '124081',
-          projectKey: '8191392d5f8c97c8297a08521aab9189',
-          onerror: false
-        });
+        .toHaveBeenCalledWith(expectedOptions);
     });
 
     it('should add a filter event handler', () => {
       expect(airbrakeAddFilterSpy)
         .toHaveBeenCalled();
+    });
+
+    describe('when main.js is embedded directly on the host page', () => {
+      beforeEach(function() {
+        mockRegistry['utility/globals'].win = global.window;
+        logging = requireUncached(loggingPath).logging;
+        logging.init();
+      });
+
+      it('should initialise airbrake with `onerror` false', () => {
+        expectedOptions.onerror = false;
+
+        expect(airbrakeInitSpy)
+          .toHaveBeenCalledWith(expectedOptions);
+      });
     });
   });
 
@@ -68,7 +90,7 @@ describe('logging', function() {
       spyOn(logging, 'error').and.callThrough();
     });
 
-    it('should call Airbrake.push', function() {
+    it('should call Airbrake.notify', function() {
       logging.error(errPayload);
 
       expect(airbrakeNotifySpy)
