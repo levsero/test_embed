@@ -390,9 +390,18 @@ $Base-posOffset: $med + 1;
 }
 
 /**
-* Clear float utils
-*/
+ * Clear float utils
+ */
 
 .u-clearLeft {
   clear: left;
+}
+
+/**
+ * Used to hide the widget when printing the host page
+ */
+@media print {
+  .u-noPrint, .u-noPrint * {
+    display: none !important;
+  }
 }

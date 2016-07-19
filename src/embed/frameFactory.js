@@ -358,7 +358,8 @@ export const frameFactory = function(childFn, _params) {
         const positionClasses = classNames({
           'u-borderTransparent u-posRelative': !fullscreen,
           'u-pullRight': this.props.position === 'right',
-          'u-pullLeft': this.props.position === 'left'
+          'u-pullLeft': this.props.position === 'left',
+          'u-noPrint': !fullscreen
         });
 
         // 1. Loop over functions in params.extend
