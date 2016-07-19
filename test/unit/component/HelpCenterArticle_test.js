@@ -115,23 +115,35 @@ describe('HelpCenterArticle component', function() {
         .toMatch(baseUrl + '/relative/link');
     });
 
-    describe('when lastArticleId is not equal to the current article id', () => {
+    describe('when the article has images', () => {
       let mockUpdateFrameSize;
 
       beforeEach(function() {
-        mockUpdateFrameSize = jasmine.createSpy('mockUpdateFrameSize');
-        mockArticle = _.extend({}, mockArticle, { id: 2 });
+        mockArticle.body += `
+          <img src="imgur.mofo/quit-creepin.png" />
+          <img src="giphy.mofo/thats-sick.jpg" />
+          <img src="giphy.mofo/this-is-important.png" />
+        `;
 
-        domRender(
+        mockUpdateFrameSize = jasmine.createSpy('mockUpdateFrameSize');
+        helpCenterArticle = domRender(
           <HelpCenterArticle
             activeArticle={mockArticle}
             updateFrameSize={mockUpdateFrameSize} />
         );
+        helpCenterArticle.setState({ foo: 'bar' });
+        content = ReactDOM.findDOMNode(helpCenterArticle.refs.article);
       });
 
-      it('should call this.props.updateFrameSize', () => {
-        expect(mockUpdateFrameSize)
-          .toHaveBeenCalled();
+      it('should call `this.props.updateFrameSize` for each image onload event', () => {
+        const imgs = content.getElementsByTagName('img');
+
+        imgs[0].onload();
+        imgs[1].onload();
+        imgs[2].onload();
+
+        expect(mockUpdateFrameSize.calls.count())
+          .toBe(3);
       });
     });
 
@@ -281,15 +293,13 @@ describe('HelpCenterArticle component', function() {
     let helpCenterArticle,
       mockZendeskHost,
       mockUpdateStoredImages,
-      mockImagesSender,
-      mockUpdateFrameSize;
+      mockImagesSender;
     const lastActiveArticleId = 2;
 
     beforeEach(function() {
       mockZendeskHost = 'dev.zd.dev.com';
       mockImagesSender = jasmine.createSpy('mockImagesSender');
       mockUpdateStoredImages = jasmine.createSpy('mockUpdateStoredImages');
-      mockUpdateFrameSize = jasmine.createSpy('mockUpdateFrameSize');
 
       helpCenterArticle = domRender(
         <HelpCenterArticle
@@ -297,7 +307,6 @@ describe('HelpCenterArticle component', function() {
           storedImages={{}}
           imagesSender={mockImagesSender}
           updateStoredImages={mockUpdateStoredImages}
-          updateFrameSize={mockUpdateFrameSize}
           zendeskHost={mockZendeskHost} />
       );
     });
@@ -372,11 +381,6 @@ describe('HelpCenterArticle component', function() {
 
       describe('when an image successfully downloads', function() {
         let mockObjectUrl;
-        const mockRes = {
-          xhr: {
-            response: new window.Blob([''], { type: 'image/png' })
-          }
-        };
 
         beforeEach(function() {
           mockObjectUrl = `https://${mockZendeskHost}/abc/img0.png`;
@@ -388,6 +392,12 @@ describe('HelpCenterArticle component', function() {
 
           expect(mockImagesSender.calls.count())
             .toBe(2);
+
+          const mockRes = {
+            xhr: {
+              response: new window.Blob([''], { type: 'image/png' })
+            }
+          };
 
           mockImagesSender.calls.argsFor(0)[1](mockRes);
 
@@ -403,15 +413,6 @@ describe('HelpCenterArticle component', function() {
             .toHaveBeenCalledWith({
               [`https://${mockZendeskHost}/article_attachments/img1.png`]: `https://${mockZendeskHost}/abc/img1.png`
             });
-        });
-
-        it('should call this.props.updateFrameSize', () => {
-          helpCenterArticle.replaceArticleImages(mockArticle, lastActiveArticleId);
-
-          mockImagesSender.calls.argsFor(0)[1](mockRes);
-
-          expect(mockUpdateFrameSize)
-            .toHaveBeenCalled();
         });
 
         it('The url of the new downloaded image should be used in the article body', function() {
