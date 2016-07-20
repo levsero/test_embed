@@ -401,7 +401,7 @@ $Base-posOffset: $med + 1;
  * Used to hide the widget when printing the host page
  */
 @media print {
-  .u-noPrint, .u-noPrint * {
+  .u-noPrint {
     display: none !important;
   }
 }
