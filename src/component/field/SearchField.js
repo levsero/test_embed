@@ -76,7 +76,7 @@ export class SearchField extends Component {
     return (
       <IconFieldButton
         onClick={this.props.onSearchIconClick}
-        className='Button--fieldEnd'
+        fullscreen={this.props.fullscreen}
         icon='Icon--search' />
     );
   }
@@ -98,8 +98,8 @@ export class SearchField extends Component {
   renderSearchIcon() {
     const searchInputFieldIconClasses = classNames({
       'Arrange-sizeFit u-isActionable': true,
-      'u-userTextColor': this.state.focused,
-      'u-userFillColor': this.state.focused
+      'u-userTextColor u-userFillColor': this.state.focused,
+      'u-paddingHN': this.props.disableAutoSearch
     });
 
     return (
@@ -107,6 +107,27 @@ export class SearchField extends Component {
         className={searchInputFieldIconClasses}
         onClick={this.props.onSearchIconClick}
         type='Icon--search' />
+    );
+  }
+
+  renderSearchLoadingIcon() {
+    const { isLoading } = this.props;
+    const loadingClasses = classNames({
+      'u-paddingRS': true,
+      'u-isHidden': !isLoading
+    });
+    const searchInputFieldIconClasses = classNames({
+      'u-isHidden': isLoading
+    });
+
+    return (
+      <div className='Arrange-sizeFit u-isActionable'>
+        <LoadingEllipses className={loadingClasses} />
+        <IconFieldButton
+          className={searchInputFieldIconClasses}
+          onClick={this.props.onSearchIconClick}
+          icon='Icon--search' />
+      </div>
     );
   }
 
@@ -145,7 +166,7 @@ export class SearchField extends Component {
       'Arrange Arrange--middle Form-field Form-field--search u-isSelectable': true,
       'Form-field--focused': this.state.focused,
       'is-mobile': fullscreen,
-      'u-paddingVN u-paddingRN': disableAutoSearch && fullscreen
+      'u-paddingVN u-paddingRN': disableAutoSearch
     });
 
     let searchElement;
@@ -156,7 +177,7 @@ export class SearchField extends Component {
       ];
     } else if (disableAutoSearch) {
       searchElement = [
-        this.renderSearchInput(), this.renderSearchClear(), this.renderSearchIcon()
+        this.renderSearchInput(), this.renderSearchLoadingIcon()
       ];
     } else {
       searchElement = [

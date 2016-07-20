@@ -479,7 +479,7 @@ export class HelpCenter extends Component {
                           onChangeValue={onChangeValueHandler}
                           hasSearched={this.state.hasSearched}
                           onSearchIconClick={this.manualSearch}
-                          disableAutoSearch={true}
+                          disableAutoSearch={this.props.disableAutoSearch}
                           isLoading={this.state.isLoading} />
                       : null;
 
@@ -492,6 +492,7 @@ export class HelpCenter extends Component {
     const searchFieldButton = (this.state.fullscreen && this.state.showIntroScreen)
                                   ? <SearchFieldButton
                                       ref='searchFieldButton'
+                                      disableAutoSearch={this.props.disableAutoSearch}
                                       onClick={this.searchBoxClickHandler}
                                       onTouch={this.searchBoxClickHandler}
                                       searchTerm={this.state.searchFieldValue} />

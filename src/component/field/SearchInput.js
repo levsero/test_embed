@@ -50,13 +50,12 @@ SearchInput.propTypes = {
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
   fullscreen: PropTypes.bool,
-  searchInputVal: PropTypes.string
+  searchInputVal: PropTypes.string.isRequired
 };
 
 SearchInput.defaultProps = {
   onFocus: () => {},
   onBlur: () => {},
   onChange: () => {},
-  fullscreen: false,
-  searchInputVal: ''
+  fullscreen: false
 };
