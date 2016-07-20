@@ -577,6 +577,7 @@ export class HelpCenter extends Component {
               storedImages={this.state.images}
               imagesSender={this.props.imagesSender}
               updateStoredImages={this.updateImages}
+              updateFrameSize={this.props.updateFrameSize}
               fullscreen={this.state.fullscreen} />
           </div>
         </ScrollContainer>

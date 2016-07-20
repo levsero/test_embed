@@ -80,12 +80,20 @@ class HelpCenterArticle extends Component {
       cleanHtml = cleanHtml.replace('/table>', '/table></div>');
 
       container.innerHTML = cleanHtml;
+
+      // When an article has only an image and no body content to resize it,
+      // the framesize is updated before the image has fully loaded. This results
+      // in the article being cut off from the bottom. We ensure here that
+      // `updateFrameSize` is called when each img has loaded and rendered.
+      const imgs = container.getElementsByTagName('img');
+
+      _.forEach(imgs, (img) => img.onload = this.props.updateFrameSize);
     } else {
       container.innerHTML = '';
     }
 
     if (lastActiveArticleId !== this.props.activeArticle.id) {
-      let topNode = ReactDOM.findDOMNode(this.refs.userContent);
+      const topNode = ReactDOM.findDOMNode(this.refs.userContent);
 
       topNode.scrollTop = 0;
     }
@@ -240,6 +248,7 @@ HelpCenterArticle.propTypes = {
   storedImages: PropTypes.array,
   imagesSender: PropTypes.func,
   updateStoredImages: PropTypes.func,
+  updateFrameSize: PropTypes.func,
   fullscreen: PropTypes.bool
 };
 
@@ -248,6 +257,7 @@ HelpCenterArticle.defaultProps = {
   storedImages: [],
   imagesSender: () => {},
   updateStoredImages: () => {},
+  updateFrameSize: () => {},
   fullscreen: false
 };
 
