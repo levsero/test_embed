@@ -310,7 +310,8 @@ describe('HelpCenter component', function() {
       const searchOptions = {
         search: 'my search',
         labels: ['foo', 'bar'],
-        url: true
+        url: true,
+        pageKeywords: mockPageKeywords
       };
 
       helpCenter.contextualSearch(searchOptions);
@@ -326,7 +327,8 @@ describe('HelpCenter component', function() {
     it('should call contextualSearchSender with the right payload for labels and url attribute', function() {
       const searchOptions = {
         labels: ['foo', 'bar'],
-        url: true
+        url: true,
+        pageKeywords: mockPageKeywords
       };
 
       helpCenter.contextualSearch(searchOptions);
@@ -340,7 +342,7 @@ describe('HelpCenter component', function() {
     });
 
     it('should call contextualSearchSender with the right payload for url attribute', function() {
-      const searchOptions = { url: true };
+      const searchOptions = { url: true, pageKeywords: mockPageKeywords };
 
       helpCenter.contextualSearch(searchOptions);
 
@@ -389,6 +391,15 @@ describe('HelpCenter component', function() {
         .not.toHaveBeenCalled();
 
       searchOptions = { search: '' };
+
+      helpCenter.contextualSearch(searchOptions);
+
+      expect(mockContextualSearchSender)
+        .not.toHaveBeenCalled();
+    });
+
+    it('shouldn\'t call contextualSearchSender if url keywords are empty', function() {
+      let searchOptions = { url: true, pageKeywords: '' };
 
       helpCenter.contextualSearch(searchOptions);
 
