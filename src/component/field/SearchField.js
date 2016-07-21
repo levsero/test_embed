@@ -89,7 +89,7 @@ export class SearchField extends Component {
         fullscreen={fullscreen}
         onChange={this.onChange}
         onBlur={this.onBlur}
-        searchInputValue={this.state.searchInputVal}
+        searchInputVal={this.state.searchInputVal}
         onFocus={this.onFocus}
         ref='searchFieldInput' />
     );
