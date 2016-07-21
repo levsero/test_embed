@@ -11,18 +11,17 @@ export class SearchFieldButton extends Component {
       'Arrange Arrange--middle Form-field Form-field--search u-isSelectable is-mobile': true,
       'u-paddingRN u-paddingVN': disableAutoSearch
     });
-    const icon = disableAutoSearch
-               ? (<IconFieldButton
-                    fullscreen={true}
-                    icon='Icon--search' />)
-               : (<Icon
-                    className='Arrange-sizeFit u-isActionable'
-                    type='Icon--search' />);
     const searchTerm = (
       <span className='Arrange-sizeFit u-textSizeBaseMobile u-hsizeAll u-textBody'>
         {this.props.searchTerm}
       </span>
     );
+    const icon = disableAutoSearch ? <IconFieldButton
+                                        fullscreen={true}
+                                        icon='Icon--search' />
+                                   : <Icon
+                                        className='Arrange-sizeFit u-isActionable'
+                                        type='Icon--search' />;
 
     let searchBar;
 

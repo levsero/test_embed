@@ -1,5 +1,6 @@
 describe('SearchField component', function() {
   let onChangeValue,
+    mockRegistry,
     SearchField;
   const searchFieldPath = buildSrcPath('component/field/SearchField');
 
@@ -12,10 +13,10 @@ describe('SearchField component', function() {
       warnOnReplace: false
     });
 
-    initMockRegistry({
+    mockRegistry = initMockRegistry({
       'React': React,
       'component/button/IconFieldButton': {
-        SearchFieldButton: noopReactComponent()
+        IconFieldButton: noopReactComponent()
       },
       'component/field/SearchInput': {
         SearchInput: React.createClass({
@@ -139,6 +140,37 @@ describe('SearchField component', function() {
 
       expect(clearInputNode.props.className)
         .toMatch('u-isHidden');
+    });
+  });
+
+  describe('disableAutoSearch', function() {
+    let Icon,
+      IconFieldButton,
+      searchField;
+
+    beforeEach(function() {
+      Icon = mockRegistry['component/Icon'].Icon;
+      IconFieldButton = mockRegistry['component/button/IconFieldButton'].IconFieldButton;
+    });
+
+    it('should display the IconFieldButton component if true', function() {
+      searchField = domRender(<SearchField disableAutoSearch={true} />);
+
+      expect(TestUtils.scryRenderedComponentsWithType(searchField, IconFieldButton).length)
+        .not.toEqual(0);
+
+      expect(TestUtils.scryRenderedComponentsWithType(searchField, Icon).length)
+        .toEqual(0);
+    });
+
+    it('should display the Icon component if false', function() {
+      searchField = domRender(<SearchField />);
+
+      expect(TestUtils.scryRenderedComponentsWithType(searchField, Icon).length)
+        .not.toEqual(0);
+
+      expect(TestUtils.scryRenderedComponentsWithType(searchField, IconFieldButton).length)
+        .toEqual(0);
     });
   });
 });
