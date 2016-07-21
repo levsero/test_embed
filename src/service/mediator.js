@@ -130,7 +130,10 @@ function init(helpCenterAccessible, params = {}) {
                             ? true
                             : false;
 
-      c.broadcast(`${state.activeEmbed}.show`, { transition: 'upShow' });
+      c.broadcast(`${state.activeEmbed}.show`, {
+        transition: 'upShow',
+        viaActivate: true
+      });
       state[`${state.activeEmbed}.isVisible`] = true;
     }
   });
