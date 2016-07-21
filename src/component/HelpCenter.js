@@ -18,6 +18,9 @@ import { isMobileBrowser } from 'utility/devices';
 import { bindMethods,
          getPageKeywords } from 'utility/utils';
 
+const MINIMUM_SEARCH_RESULTS = 3;
+const MAXIMUM_SEARCH_RESULTS = 9;
+
 export class HelpCenter extends Component {
   constructor(props, context) {
     super(props, context);
@@ -40,7 +43,10 @@ export class HelpCenter extends Component {
       virtualKeyboardKiller: false,
       searchTracked: false,
       searchResultClicked: false,
-      searchFieldFocused: false
+      searchFieldFocused: false,
+      resultsPerPage: MINIMUM_SEARCH_RESULTS,
+      showViewMore: true,
+      viewMoreActive: false
     };
   }
 
@@ -157,7 +163,7 @@ export class HelpCenter extends Component {
 
     _.extend(query, {
       locale: i18n.getLocale(),
-      per_page: 3,
+      per_page: this.state.resultsPerPage,
       origin: null
     });
 
@@ -176,7 +182,7 @@ export class HelpCenter extends Component {
     const query = {
       locale: i18n.getLocale(),
       query: searchTerm,
-      per_page: 3,
+      per_page: this.state.resultsPerPage,
       origin: 'web_widget'
     };
 
@@ -208,7 +214,7 @@ export class HelpCenter extends Component {
     const query = {
       locale: i18n.getLocale(),
       query: searchTerm,
-      per_page: 3,
+      per_page: this.state.resultsPerPage,
       origin: null
     };
 
@@ -229,7 +235,10 @@ export class HelpCenter extends Component {
     this.setState({
       articles: articles,
       resultsCount: json.count,
-      articleViewActive: false
+      articleViewActive: false,
+      resultsPerPage: MINIMUM_SEARCH_RESULTS,
+      showViewMore: !this.state.viewMoreActive,
+      viewMoreActive: false
     });
 
     this.props.showBackButton(false);
@@ -283,6 +292,17 @@ export class HelpCenter extends Component {
     if (!this.state.searchTracked && !this.state.hasContextualSearched) {
       this.trackSearch();
     }
+  }
+
+  handleViewMoreClick(e) {
+    e.preventDefault();
+
+    this.setState({
+      resultsPerPage: MAXIMUM_SEARCH_RESULTS,
+      viewMoreActive: true
+    });
+
+    setTimeout(() => this.manualSearch(), 0);
   }
 
   handleNextClick(ev) {
@@ -447,14 +467,17 @@ export class HelpCenter extends Component {
                             children={searchField} />
                         : null;
 
+    const showViewMore = this.state.showViewMore && this.state.resultsCount > MINIMUM_SEARCH_RESULTS;
+
     const results = this.state.hasSearched || this.state.hasContextualSearched
                   ? <HelpCenterResults
                       fullscreen={this.state.fullscreen}
                       articles={this.state.articles}
-                      showViewMore={false}
+                      showViewMore={showViewMore}
                       searchFailed={this.state.searchFailed}
                       previousSearchTerm={this.state.previousSearchTerm}
                       handleArticleClick={this.handleArticleClick}
+                      handleViewMoreClick={this.handleViewMoreClick}
                       hasContextualSearched={this.state.hasContextualSearched} />
                   : null;
 

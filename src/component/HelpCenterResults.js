@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
 
+import { ButtonPill } from 'component/Button';
 import { i18n } from 'service/i18n';
 
 export class HelpCenterResults extends Component {
@@ -29,7 +30,6 @@ export class HelpCenterResults extends Component {
       'u-borderNone u-marginBS List--fullscreen': this.props.fullscreen
     });
     const articleLinks = _.chain(this.props.articles)
-      .take(3)
       .map(this.renderResultRow.bind(this))
       .value();
 
@@ -72,6 +72,16 @@ export class HelpCenterResults extends Component {
     );
   }
 
+  renderViewMoreButton() {
+    return (
+      <ButtonPill
+        fullscreen={this.props.fullscreen}
+        showIcon={false}
+        onClick={this.props.handleViewMoreClick}
+        label={i18n.t('embeddable_framework.helpCenter.results.viewMoreLinkText', { fallback: 'View more' })} />
+    );
+  }
+
   render() {
     const legendClasses = classNames({
       'u-paddingTT u-textSizeNml Arrange Arrange--middle u-textBody u-textBold': true,
@@ -86,6 +96,7 @@ export class HelpCenterResults extends Component {
     const results = this.props.articles.length > 0
                   ? this.renderResults()
                   : this.renderNoResults();
+    const viewMoreButton = this.props.showViewMore ? this.renderViewMoreButton() : null;
 
     return (
       <div>
@@ -94,8 +105,8 @@ export class HelpCenterResults extends Component {
             {resultsLegend}
           </span>
         </div>
-
         {results}
+        {viewMoreButton}
       </div>
     );
   }
@@ -104,7 +115,7 @@ export class HelpCenterResults extends Component {
 HelpCenterResults.propTypes = {
   articles: PropTypes.array.isRequired,
   fullscreen: PropTypes.bool.isRequired,
-  showViewMore: PropTypes.bool.isRequired,
+  showViewMore: PropTypes.bool,
   searchFailed: PropTypes.bool,
   previousSearchTerm: PropTypes.string,
   hasContextualSearched: PropTypes.bool.isRequired,
@@ -113,6 +124,7 @@ HelpCenterResults.propTypes = {
 };
 
 HelpCenterResults.defaultProps = {
+  showViewMore: false,
   searchFailed: false,
   previousSearchTerm: '',
   handleViewMoreClick: () => {}
