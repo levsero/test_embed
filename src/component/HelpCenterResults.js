@@ -113,19 +113,23 @@ export class HelpCenterResults extends Component {
 }
 
 HelpCenterResults.propTypes = {
-  articles: PropTypes.array.isRequired,
-  fullscreen: PropTypes.bool.isRequired,
+  articles: PropTypes.array,
+  fullscreen: PropTypes.bool,
   showViewMore: PropTypes.bool,
   searchFailed: PropTypes.bool,
   previousSearchTerm: PropTypes.string,
-  hasContextualSearched: PropTypes.bool.isRequired,
-  handleArticleClick: PropTypes.func.isRequired,
+  hasContextualSearched: PropTypes.bool,
+  handleArticleClick: PropTypes.func,
   handleViewMoreClick: PropTypes.func
 };
 
 HelpCenterResults.defaultProps = {
+  articles: [],
+  fullscreen: false,
   showViewMore: false,
   searchFailed: false,
   previousSearchTerm: '',
+  hasContextualSearched: false,
+  handleArticleClick: () => {},
   handleViewMoreClick: () => {}
 };

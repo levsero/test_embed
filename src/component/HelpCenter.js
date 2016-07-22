@@ -18,8 +18,8 @@ import { isMobileBrowser } from 'utility/devices';
 import { bindMethods,
          getPageKeywords } from 'utility/utils';
 
-const MINIMUM_SEARCH_RESULTS = 3;
-const MAXIMUM_SEARCH_RESULTS = 9;
+const minimumSearchResults = 3;
+const maximumSearchResults = 9;
 
 export class HelpCenter extends Component {
   constructor(props, context) {
@@ -44,7 +44,7 @@ export class HelpCenter extends Component {
       searchTracked: false,
       searchResultClicked: false,
       searchFieldFocused: false,
-      resultsPerPage: MINIMUM_SEARCH_RESULTS,
+      resultsPerPage: minimumSearchResults,
       showViewMore: true,
       viewMoreActive: false
     };
@@ -236,7 +236,7 @@ export class HelpCenter extends Component {
       articles: articles,
       resultsCount: json.count,
       articleViewActive: false,
-      resultsPerPage: MINIMUM_SEARCH_RESULTS,
+      resultsPerPage: minimumSearchResults,
       showViewMore: !this.state.viewMoreActive,
       viewMoreActive: false
     });
@@ -298,7 +298,7 @@ export class HelpCenter extends Component {
     e.preventDefault();
 
     this.setState({
-      resultsPerPage: MAXIMUM_SEARCH_RESULTS,
+      resultsPerPage: maximumSearchResults,
       viewMoreActive: true
     });
 
@@ -467,7 +467,7 @@ export class HelpCenter extends Component {
                             children={searchField} />
                         : null;
 
-    const showViewMore = this.state.showViewMore && this.state.resultsCount > MINIMUM_SEARCH_RESULTS;
+    const showViewMore = this.state.showViewMore && this.state.resultsCount > minimumSearchResults;
 
     const results = this.state.hasSearched || this.state.hasContextualSearched
                   ? <HelpCenterResults
