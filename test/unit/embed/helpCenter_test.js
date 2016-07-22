@@ -675,9 +675,12 @@ describe('embed.helpCenter', function() {
         expect(getPageKeywordsSpy)
           .toHaveBeenCalled();
 
-        // This is 'foo bar' because it's what the getPageKeywords spy returns
         expect(contextualSearchSpy)
-          .toHaveBeenCalledWith({ search: 'foo bar' });
+          .toHaveBeenCalledWith({
+            url: true,
+            // This is 'foo bar' because it's what the getPageKeywords spy returns
+            pageKeywords: 'foo bar'
+          });
       });
 
       it('should\'t call keywordSearch if user has manually set suggestions', function() {

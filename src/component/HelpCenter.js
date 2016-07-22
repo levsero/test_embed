@@ -14,8 +14,7 @@ import { ScrollContainer } from 'component/ScrollContainer';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { i18n } from 'service/i18n';
 import { isMobileBrowser } from 'utility/devices';
-import { bindMethods,
-         getPageKeywords } from 'utility/utils';
+import { bindMethods } from 'utility/utils';
 
 export class HelpCenter extends Component {
   constructor(props, context) {
@@ -119,7 +118,7 @@ export class HelpCenter extends Component {
     this.focusField();
   }
 
-  contextualSearch(options = {}) {
+  contextualSearch(options) {
     /* eslint camelcase:0 */
     const hasLabelsKey = options.labels &&
                          _.isArray(options.labels) &&
@@ -129,13 +128,13 @@ export class HelpCenter extends Component {
 
     // This `isString` check is needed in the case that a user passes in only a
     // string to `zE.setHelpCenterSuggestions`. It avoids options.search evaluating
-    // to true in that case because it equals the string function `String.prototype.search`
+    // to true in that case because it equals the string function `String.prototype.search`.
     if (_.isString(options.search) && options.search.length > 0) {
       searchTerm = query.query = options.search;
     } else if (hasLabelsKey) {
       searchTerm = query.label_names = options.labels.join(',');
-    } else if (options.url) {
-      searchTerm = query.query = getPageKeywords();
+    } else if (options.url && options.pageKeywords && options.pageKeywords.length > 0) {
+      searchTerm = query.query = options.pageKeywords;
     } else {
       return;
     }

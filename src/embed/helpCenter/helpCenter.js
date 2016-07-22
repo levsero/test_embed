@@ -223,12 +223,16 @@ function updateHelpCenterButton(name, labelKey) {
   });
 }
 
-function keywordsSearch(name, options) {
+function keywordsSearch(name, options = {}) {
   cappedIntervalCall(() => {
     const rootComponent = getRootComponent(name);
     const isAuthenticated = get(name).config.signInRequired === false || hasAuthenticatedSuccessfully;
 
     if (isAuthenticated && rootComponent) {
+      if (options.url) {
+        options.pageKeywords = getPageKeywords();
+      }
+
       rootComponent.contextualSearch(options);
       return true;
     } else {
@@ -295,7 +299,7 @@ function postRender(name) {
   if (config.contextualHelpEnabled &&
       !hasManuallySetContextualSuggestions &&
       !isOnHelpCenterPage()) {
-    keywordsSearch(name, { search: getPageKeywords() });
+    keywordsSearch(name, { url: true });
   }
 
   if (config.tokensRevokedAt) {
