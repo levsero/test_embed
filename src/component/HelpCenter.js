@@ -133,7 +133,7 @@ export class HelpCenter extends Component {
       searchTerm = query.query = options.search;
     } else if (hasLabelsKey) {
       searchTerm = query.label_names = options.labels.join(',');
-    } else if (options.url && options.pageKeywords.length > 0) {
+    } else if (options.url && options.pageKeywords && options.pageKeywords.length > 0) {
       searchTerm = query.query = options.pageKeywords;
     } else {
       return;
