@@ -82,8 +82,16 @@ $Base-posOffset: $med + 1;
  * L = large 20px
  */
 
+.u-marginAS {
+  margin: $spacing-sml !important;
+}
+
 .u-marginBN {
   margin-bottom: 0 !important;
+}
+
+.u-marginBT {
+  margin-bottom: $spacing-tny !important;
 }
 
 .u-marginBS {
@@ -139,6 +147,10 @@ $Base-posOffset: $med + 1;
 
 .u-marginRL {
   margin-right: $spacing-lrg !important;
+}
+
+.u-marginLS {
+  margin-left: $spacing-sml !important;
 }
 
 .u-marginHM {
@@ -275,6 +287,10 @@ $Base-posOffset: $med + 1;
   color: $body-color;
 }
 
+.u-textError {
+  color: $error-text-color;
+}
+
 .u-textPlaceholder {
   color: #DADADA;
 }
@@ -293,6 +309,10 @@ $Base-posOffset: $med + 1;
 
 .u-textSize15 {
   font-size: $spacing-med !important;
+}
+
+.u-textSizeLrg {
+  font-size: #{16/$font-size}rem;
 }
 
 .u-textSizeBaseMobile {
@@ -344,6 +364,10 @@ $Base-posOffset: $med + 1;
   border-bottom: $thin-border-size solid $base-border-color;
 }
 
+.u-borderError {
+  border-color: $error-border-color !important;
+}
+
 .u-zIndex1 {
   z-index: 1;
 }
@@ -363,4 +387,21 @@ $Base-posOffset: $med + 1;
 
 .u-hsizeAll {
   width: 100% !important;
+}
+
+/**
+ * Clear float utils
+ */
+
+.u-clearLeft {
+  clear: left;
+}
+
+/**
+ * Used to hide the widget when printing the host page
+ */
+@media print {
+  .u-noPrint {
+    display: none !important;
+  }
 }

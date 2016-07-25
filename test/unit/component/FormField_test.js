@@ -1,16 +1,11 @@
 describe('FormField component', function() {
-  let onChangeValue,
-    SearchField,
-    SearchFieldButton,
-    Field,
+  let Field,
     getCustomFields,
     mockIsLandscapeValue,
     mockIsMobileBrowserValue;
   const formFieldPath = buildSrcPath('component/FormField');
 
   beforeEach(function() {
-    onChangeValue = jasmine.createSpy('onChangeValue');
-
     resetDOM();
 
     mockery.enable({
@@ -22,25 +17,11 @@ describe('FormField component', function() {
 
     initMockRegistry({
       'React': React,
-      'component/Loading': {
-        LoadingEllipses: React.createClass({
-          render: function() {
-            return (
-              <div className={`Loading ${this.props.className}`}>
-                <div className='Loading-item'></div>
-              </div>
-            );
-          }
-        })
-      },
       'component/Icon': {
         Icon: React.createClass({
           render: function() {
             return (
-              <span
-                className={this.props.className}
-                onClick={this.props.onClick}
-                type={`${this.props.type}`}>
+              <span>
                 <svg />
               </span>
             );
@@ -73,8 +54,6 @@ describe('FormField component', function() {
 
     mockery.registerAllowable(formFieldPath);
 
-    SearchField = requireUncached(formFieldPath).SearchField;
-    SearchFieldButton = requireUncached(formFieldPath).SearchFieldButton;
     Field = requireUncached(formFieldPath).Field;
     getCustomFields = requireUncached(formFieldPath).getCustomFields;
   });
@@ -336,102 +315,6 @@ describe('FormField component', function() {
 
       expect(customFields.fields.length)
         .toEqual(6);
-    });
-  });
-
-  describe('SearchField', function() {
-    it('should clear input and call props.onChangeValue when clear icon is clicked', function() {
-      const searchField = domRender(<SearchField onChangeValue={onChangeValue} />);
-      const searchFieldNode = ReactDOM.findDOMNode(searchField);
-      const searchInputNode = searchFieldNode.querySelector('input');
-
-      searchInputNode.value = 'Search string';
-
-      TestUtils.Simulate.click(searchFieldNode.querySelector('.Icon--clearInput'));
-
-      expect(searchInputNode.value)
-        .toEqual('');
-
-      expect(onChangeValue)
-        .toHaveBeenCalledWith('');
-    });
-
-    it('should display `Loading` component when `this.props.isLoading` is truthy', function() {
-      const searchField = domRender(<SearchField isLoading={true} />);
-      const loadingNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Loading');
-
-      expect(searchField.props.isLoading)
-        .toEqual(true);
-
-      expect(loadingNode.props.className)
-        .not.toMatch('u-isHidden');
-    });
-
-    it('should not display `Loading` component when `this.props.isLoading` is falsy', function() {
-      const searchField = domRender(<SearchField isLoading={false} />);
-      const loadingNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Loading');
-
-      expect(searchField.props.isLoading)
-        .toEqual(false);
-
-      expect(loadingNode.props.className)
-        .toMatch('u-isHidden');
-    });
-
-    it('should display `clearInput` Icon when the input has text and `this.props.isLoading` is false', function() {
-      mockIsMobileBrowserValue = true;
-
-      const searchField = domRender(<SearchField isLoading={false} />);
-      const clearInputNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Icon--clearInput');
-
-      searchField.setState({ searchInputVal: 'something' });
-
-      expect(searchField.state.searchInputVal)
-        .toEqual('something');
-
-      expect(clearInputNode.props.className)
-        .not.toMatch('u-isHidden');
-    });
-
-    it('should not display `clearInput` Icon when the input has no text', function() {
-      const searchField = domRender(<SearchField />);
-      const clearInputNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Icon--clearInput');
-
-      searchField.setState({ searchInputVal: '' });
-
-      expect(searchField.state.searchInputVal)
-        .toEqual('');
-
-      expect(clearInputNode.props.className)
-        .toMatch('u-isHidden');
-    });
-
-    it('should not display `clearInput` Icon when `this.props.isLoading` is true', function() {
-      const searchField = domRender(<SearchField isLoading={true} />);
-      const clearInputNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Icon--clearInput');
-
-      searchField.setState({ searchInputVal: 'something' });
-
-      expect(searchField.state.searchInputVal)
-        .toEqual('something');
-
-      expect(clearInputNode.props.className)
-        .toMatch('u-isHidden');
-    });
-  });
-
-  describe('SearchFieldButton', function() {
-    it('should have a onClick function its div', function() {
-      const onClick = jasmine.createSpy();
-      const searchFieldButton = domRender(<SearchFieldButton onClick={onClick} />);
-
-      const searchFieldButtonNode = ReactDOM.findDOMNode(searchFieldButton);
-
-      TestUtils.Simulate.click(
-        searchFieldButtonNode.querySelector('.Form-field--search'));
-
-      expect(onClick)
-        .toHaveBeenCalled();
     });
   });
 });

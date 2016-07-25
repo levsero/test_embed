@@ -3,38 +3,52 @@ import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
 import { document,
-         getDocumentHost }   from 'utility/globals';
-import { SubmitTicket }      from 'component/SubmitTicket';
-import { frameFactory }      from 'embed/frameFactory';
+         getDocumentHost } from 'utility/globals';
+import { SubmitTicket } from 'component/SubmitTicket';
+import { frameFactory } from 'embed/frameFactory';
 import { isMobileBrowser,
-         isIE }              from 'utility/devices';
-import { beacon }            from 'service/beacon';
+         isIE } from 'utility/devices';
+import { beacon } from 'service/beacon';
 import { transitionFactory } from 'service/transitionFactory';
-import { mediator }          from 'service/mediator';
+import { mediator } from 'service/mediator';
+import { settings } from 'service/settings';
 import { setScaleLock,
-         generateUserCSS }   from 'utility/utils';
-import { transport }         from 'service/transport';
+         generateUserCSS } from 'utility/utils';
+import { transport } from 'service/transport';
 
 const submitTicketCSS = require('./submitTicket.scss');
 let submitTickets = {};
 
 function create(name, config) {
-  let containerStyle, posObj;
+  let containerStyle;
+  let frameStyle = {};
 
-  const frameStyle = {
-    position: 'fixed',
-    bottom: 0
-  };
   const configDefaults = {
     position: 'right',
     customFields: [],
     hideZendeskLogo: false,
-    formTitleKey: 'message'
+    formTitleKey: 'message',
+    attachmentsEnabled: false,
+    maxFileCount: 5,
+    maxFileSize: 5 * 1024 * 1024, // 5 MB
+    color: '#659700'
   };
+  const attachmentsDisabledSetting = settings.get('attachmentsDisabled');
+
+  config = _.extend(configDefaults, config);
+
+  if (attachmentsDisabledSetting === true) {
+    config.attachmentsEnabled = false;
+  }
+
+  const ticketEndpointPath = config.attachmentsEnabled
+             ? '/api/v2/requests'
+             : '/requests/embedded/create';
+  const ticketAttachmentsEndpoint = '/api/v2/uploads';
   const submitTicketSender = (params, doneFn, failFn) => {
     const payload = {
       method: 'post',
-      path: '/requests/embedded/create',
+      path: ticketEndpointPath,
       params: params,
       callbacks: {
         done: doneFn,
@@ -44,19 +58,50 @@ function create(name, config) {
 
     transport.send(payload);
   };
-  const onSubmitted = function(params) {
-    let ticketIdMatcher = /Request \#([0-9]+)/;
-
-    beacon.track(
-      'submitTicket',
-      'send',
-      name,
-      {
-        query: params.searchString,
-        ticketId: parseInt(ticketIdMatcher.exec(params.res.body.message)[1], 10),
-        locale: params.searchLocale
+  const attachmentSender = (file, doneFn, failFn, progressFn) => {
+    const payload = {
+      method: 'post',
+      path: ticketAttachmentsEndpoint,
+      file: file,
+      callbacks: {
+        done: doneFn,
+        fail: failFn,
+        progress: progressFn
       }
-    );
+    };
+
+    return transport.sendFile(payload);
+  };
+  const createUserActionPayload = (payload, params) => {
+    const ticketIdMatcher = /Request \#([0-9]+)/;
+
+    return _.extend({}, payload, {
+      ticketId: parseInt(ticketIdMatcher.exec(params.res.body.message)[1], 10),
+      email: params.res.req._data.email
+    });
+  };
+  const createUserActionPayloadAttachments = (payload, params) => {
+    const reqData = params.res.req._data.request;
+
+    return _.extend({}, payload, {
+      ticketId: params.res.body.request.id,
+      email: reqData.requester.email,
+      attachmentsCount: params.attachmentsCount,
+      attachmentTypes: params.attachmentTypes
+    });
+  };
+  const onSubmitted = (params) => {
+    let userActionPayload = {
+      query: params.searchTerm,
+      locale: params.searchLocale
+    };
+
+    // TODO: Remove createUserActionPayload when new endpoint is complete.
+    userActionPayload = config.attachmentsEnabled
+                      ? createUserActionPayloadAttachments(userActionPayload, params)
+                      : createUserActionPayload(userActionPayload, params);
+
+    beacon.trackUserAction('submitTicket', 'send', name, userActionPayload);
     mediator.channel.broadcast(name + '.onFormSubmitted');
   };
   const onCancel = function() {
@@ -75,16 +120,11 @@ function create(name, config) {
     }
   };
 
-  config = _.extend(configDefaults, config);
-
   if (isMobileBrowser()) {
     containerStyle = { width: '100%', height: '100%' };
   } else {
-    posObj = (config.position === 'left')
-           ? { left:  0 }
-           : { right: 0 };
     frameStyle.width = 342;
-    containerStyle = { width: 342, margin: 15 };
+    containerStyle = { width: 342, margin: settings.get('widgetMargin') };
   }
 
   let Embed = React.createClass(frameFactory(
@@ -96,16 +136,21 @@ function create(name, config) {
           hideZendeskLogo={config.hideZendeskLogo}
           onCancel={onCancel}
           submitTicketSender={submitTicketSender}
+          attachmentSender={attachmentSender}
           onSubmitted={onSubmitted}
           position={config.position}
           formTitleKey={config.formTitleKey}
           style={containerStyle}
+          attachmentsEnabled={config.attachmentsEnabled}
+          maxFileCount={config.maxFileCount}
+          maxFileSize={config.maxFileSize}
           updateFrameSize={params.updateFrameSize} />
       );
     },
     {
-      frameStyle: _.extend(frameStyle, posObj),
-      css: submitTicketCSS + generateUserCSS({color: config.color}),
+      frameStyle: frameStyle,
+      css: submitTicketCSS + generateUserCSS(config.color),
+      position: config.position,
       fullscreenable: true,
       transitions: {
         close: transitionFactory.webWidget.downHide(),
@@ -160,21 +205,21 @@ function render(name) {
   submitTickets[name].instance = ReactDOM.render(submitTickets[name].component, element);
 
   mediator.channel.subscribe(name + '.show', function(options = {}) {
-    if (getRootComponent(name)) {
+    waitForRootComponent(name, () => {
       submitTickets[name].instance.show(options);
-    }
+    });
   });
 
   mediator.channel.subscribe(name + '.hide', function(options = {}) {
-    const rootComponent = getRootComponent(name);
+    waitForRootComponent(name, () => {
+      const rootComponent = getRootComponent(name);
 
-    if (rootComponent) {
       submitTickets[name].instance.hide(options);
 
       if (rootComponent.state.showNotification) {
         rootComponent.clearNotification();
       }
-    }
+    });
   });
 
   mediator.channel.subscribe(name + '.showBackButton', function() {
@@ -182,11 +227,9 @@ function render(name) {
   });
 
   mediator.channel.subscribe(name + '.setLastSearch', function(params) {
-    const rootComponent = getRootComponent(name);
-
-    if (rootComponent) {
-      rootComponent.setState(_.pick(params, ['searchString', 'searchLocale']));
-    }
+    waitForRootComponent(name, () => {
+      getRootComponent(name).setState(_.pick(params, ['searchTerm', 'searchLocale']));
+    });
   });
 
   mediator.channel.subscribe(name + '.prefill', function(user) {
@@ -199,19 +242,13 @@ function render(name) {
 }
 
 function prefillForm(name, user) {
-  const rootComponent = getRootComponent(name);
-
-  if (rootComponent) {
-    const submitTicketForm = rootComponent.refs.submitTicketForm;
+  waitForRootComponent(name, function() {
+    const submitTicketForm = getRootComponent(name).refs.submitTicketForm;
 
     submitTicketForm.setState({
       formState: _.pick(user, ['name', 'email'])
     });
-  } else {
-    setTimeout(() => {
-      prefillForm(name, user);
-    }, 0);
-  }
+  });
 }
 
 function get(name) {
@@ -220,6 +257,16 @@ function get(name) {
 
 function getRootComponent(name) {
   return get(name).instance.getRootComponent();
+}
+
+function waitForRootComponent(name, callback) {
+  if (getRootComponent(name)) {
+    callback();
+  } else {
+    setTimeout(() => {
+      waitForRootComponent(name, callback);
+    }, 0);
+  }
 }
 
 function list() {

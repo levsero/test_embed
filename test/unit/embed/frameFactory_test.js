@@ -4,6 +4,7 @@ describe('frameFactory', function() {
     mockRegistryMocks,
     mockChildFn,
     mockSnabbt,
+    mockSettingsValue,
     mockSnabbtThen;
 
   const frameFactoryPath = buildSrcPath('embed/frameFactory');
@@ -19,6 +20,8 @@ describe('frameFactory', function() {
     mockSnabbt = jasmine.createSpy('snabbt.js').and.returnValue({
       then: mockSnabbtThen
     });
+
+    mockSettingsValue = { offset: { vertical: 0, horizontal: 0 } };
 
     mockRegistryMocks = {
       'React': React,
@@ -41,6 +44,11 @@ describe('frameFactory', function() {
       },
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', ['t', 'isRTL', 'getLocale'])
+      },
+      'service/settings': {
+        settings: {
+          get: (name) => mockSettingsValue[name]
+        }
       },
       'component/Button': {
         ButtonNav: noopReactComponent()
@@ -177,7 +185,7 @@ describe('frameFactory', function() {
 
       // jsdom doesn't actually attempt to render a document
       // so client*/offset* will give use NaN which then gets ||'ed with 0.
-      instance.updateFrameSize();
+      const dimensions = instance.updateFrameSize();
 
       jasmine.clock().tick(10);
 
@@ -188,6 +196,9 @@ describe('frameFactory', function() {
 
       expect(frameContainerStyle.height)
         .toEqual('0px');
+
+      expect(dimensions)
+        .toEqual({ width: 0, height: 0 });
 
       // TODO: real browser tests that work off client*/offset* values.
     });
@@ -588,6 +599,7 @@ describe('frameFactory', function() {
     let instance;
 
     beforeEach(function() {
+      mockSettingsValue = { offset: { vertical: 31, horizontal: 52 } };
       const payload = frameFactory(mockChildFn, {
         frameStyle: {
           backgroundColor: 'rgb(1, 2, 3)'
@@ -695,6 +707,19 @@ describe('frameFactory', function() {
       expect(frameContainerStyle.bottom)
         .toEqual('');
     });
+
+    it('gets the settings values to determine the offset', function() {
+      const frameContainer = global.document.body.getElementsByTagName('iframe')[0];
+      const frameContainerStyle = frameContainer.style;
+
+      instance.setState({ visible: true });
+
+      expect(frameContainerStyle.bottom)
+        .toEqual('31px');
+
+      expect(frameContainerStyle.right)
+        .toEqual('52px');
+    });
   });
 
   describe('renderFrameContent', function() {
@@ -790,6 +815,48 @@ describe('frameFactory', function() {
       // shouldn't call the injected updateFrameSize prop
       expect(mockUpdateFrameSize)
         .not.toHaveBeenCalled();
+    });
+
+    it('setOffsetVertical sets the widgets bottom margin', function() {
+      const payload = frameFactory(
+        function(params) {
+          return (
+            <mockComponent
+              ref='rootComponent'
+              setOffsetVertical={params.setOffsetVertical} />
+          );
+        }
+      );
+      const Embed = React.createClass(payload);
+      const instance = domRender(<Embed />);
+      const child = instance.getRootComponent();
+
+      child.props.setOffsetVertical(72);
+
+      expect(ReactDOM.findDOMNode(instance).style.marginBottom)
+        .toEqual('72px');
+    });
+
+    it('setOffsetHorizontal sets the widgets left and right margin', function() {
+      const payload = frameFactory(
+        function(params) {
+          return (
+            <mockComponent
+              ref='rootComponent'
+              setOffsetHorizontal={params.setOffsetHorizontal} />
+          );
+        }
+      );
+      const Embed = React.createClass(payload);
+      const instance = domRender(<Embed />);
+      const child = instance.getRootComponent();
+
+      child.props.setOffsetHorizontal(72);
+
+      expect(ReactDOM.findDOMNode(instance).style.marginLeft)
+        .toEqual('72px');
+      expect(ReactDOM.findDOMNode(instance).style.marginRight)
+        .toEqual('72px');
     });
 
     it('renders the child component to the document', function() {

@@ -4,48 +4,55 @@ import _ from 'lodash';
 
 import { HelpCenter } from 'component/HelpCenter';
 import { frameFactory } from 'embed/frameFactory';
-import { getToken } from 'service/authentication';
+import { authentication } from 'service/authentication';
 import { beacon } from 'service/beacon';
 import { i18n } from 'service/i18n';
 import { mediator } from 'service/mediator';
+import { settings } from 'service/settings';
 import { transport } from 'service/transport';
 import { transitionFactory } from 'service/transitionFactory';
 import { isIE,
          isMobileBrowser } from 'utility/devices';
 import { document,
-         getDocumentHost,
-         location } from 'utility/globals';
-import { generateUserCSS,
+         getDocumentHost } from 'utility/globals';
+import { isOnHelpCenterPage } from 'utility/pages';
+import { cappedIntervalCall,
+         generateUserCSS,
          getPageKeywords,
          setScaleLock } from 'utility/utils';
 
 const helpCenterCSS = require('./helpCenter.scss');
 let helpCenters = {};
+let hasManuallySetContextualSuggestions = false;
+let hasAuthenticatedSuccessfully = false;
 
 function create(name, config) {
-  let containerStyle, posObj;
+  let containerStyle;
 
-  const frameStyle = {
-    position: 'fixed',
-    bottom: 0
-  };
+  const frameStyle = {};
   const configDefaults = {
     position: 'right',
     contextualHelpEnabled: false,
     buttonLabelKey: 'message',
     formTitleKey: 'help',
-    hideZendeskLogo: false
+    hideZendeskLogo: false,
+    signInRequired: false,
+    disableAutoSearch: false,
+    color: '#659700'
   };
   const onNextClick = function() {
     mediator.channel.broadcast(name + '.onNextClick');
   };
-  const showBackButton = function() {
+  const onArticleClick = function(trackPayload) {
+    beacon.trackUserAction('helpCenter', 'click', name, trackPayload);
+  };
+  const showBackButton = function(show = true) {
     get(name).instance.getChild().setState({
-      showBackButton: true
+      showBackButton: show
     });
   };
   const onSearch = function(params) {
-    beacon.track('helpCenter', 'search', name, params.searchTerm);
+    beacon.trackUserAction('helpCenter', 'search', name, params.searchTerm);
     mediator.channel.broadcast(name + '.onSearch', params);
   };
 
@@ -79,19 +86,31 @@ function create(name, config) {
     }
   };
 
-  const searchSenderFn = (url) => (query, doneFn, failFn) => {
-    const payload = {
+  const senderPayload = (url) => (query, doneFn, failFn) => {
+    const token = authentication.getToken();
+
+    return {
       method: 'get',
       path: url,
       query: query,
-      authorization: ``,
+      authorization: token ? `Bearer ${token}` : '',
       callbacks: {
         done: doneFn,
         fail: failFn
       }
     };
+  };
+
+  const searchSenderFn = (url) => (query, doneFn, failFn) => {
+    const payload = senderPayload(url)(query, doneFn, failFn);
 
     transport.send(payload);
+  };
+
+  const imagesSenderFn = (url, doneFn) => {
+    const payload = senderPayload(url)(null, doneFn);
+
+    transport.getImage(payload);
   };
 
   config = _.extend(configDefaults, config);
@@ -99,13 +118,9 @@ function create(name, config) {
   if (isMobileBrowser()) {
     containerStyle = { width: '100%', height: '100%' };
   } else {
-    posObj = (config.position === 'left')
-           ? { left:  0 }
-           : { right: 0 };
-
     frameStyle.width = 342;
     frameStyle.maxHeight = 500;
-    containerStyle = { width: 342, margin: 15 };
+    containerStyle = { width: 342, margin: settings.get('widgetMargin') };
   }
 
   const Embed = React.createClass(frameFactory(
@@ -115,6 +130,7 @@ function create(name, config) {
           ref='rootComponent'
           hideZendeskLogo={config.hideZendeskLogo}
           onNextClick={onNextClick}
+          onArticleClick={onArticleClick}
           onSearch={onSearch}
           position={config.position}
           buttonLabelKey={config.buttonLabelKey}
@@ -122,14 +138,17 @@ function create(name, config) {
           showBackButton={showBackButton}
           searchSender={searchSenderFn('/api/v2/help_center/search.json')}
           contextualSearchSender={searchSenderFn('/api/v2/help_center/articles/embeddable_search.json')}
+          imagesSender={imagesSenderFn}
           style={containerStyle}
           updateFrameSize={params.updateFrameSize}
+          disableAutoSearch={config.disableAutoSearch}
           zendeskHost={transport.getZendeskHost()} />
       );
     },
     {
-      frameStyle: _.extend(frameStyle, posObj),
-      css: helpCenterCSS + generateUserCSS({color: config.color}),
+      frameStyle: frameStyle,
+      position: config.position,
+      css: helpCenterCSS + generateUserCSS(config.color),
       name: name,
       fullscreenable: true,
       transitions: {
@@ -186,25 +205,40 @@ function getRootComponent(name) {
   return get(name).instance.getRootComponent().refs.rootComponent;
 }
 
-function updateHelpCenterButton(name, labelKey) {
-  const rootComponent = getRootComponent(name);
-  const label = i18n.t(`embeddable_framework.helpCenter.submitButton.label.${labelKey}`);
-
-  if (rootComponent) {
-    rootComponent.setState({ buttonLabel: label });
+function waitForRootComponent(name, callback) {
+  if (getRootComponent(name)) {
+    callback();
+  } else {
+    setTimeout(() => {
+      waitForRootComponent(name, callback);
+    }, 0);
   }
 }
 
-function keywordsSearch(name, options) {
-  const rootComponent = getRootComponent(name);
+function updateHelpCenterButton(name, labelKey) {
+  waitForRootComponent(name, () => {
+    const label = i18n.t(`embeddable_framework.helpCenter.submitButton.label.${labelKey}`);
 
-  if (rootComponent) {
-    get(name).instance.getRootComponent().contextualSearch(options);
-  } else {
-    setTimeout(() => {
-      keywordsSearch(name, options);
-    }, 0);
-  }
+    getRootComponent(name).setState({ buttonLabel: label });
+  });
+}
+
+function keywordsSearch(name, options = {}) {
+  cappedIntervalCall(() => {
+    const rootComponent = getRootComponent(name);
+    const isAuthenticated = get(name).config.signInRequired === false || hasAuthenticatedSuccessfully;
+
+    if (isAuthenticated && rootComponent) {
+      if (options.url) {
+        options.pageKeywords = getPageKeywords();
+      }
+
+      rootComponent.contextualSearch(options);
+      return true;
+    } else {
+      return false;
+    }
+  }, 500, 10);
 }
 
 function render(name) {
@@ -220,16 +254,16 @@ function render(name) {
     // stop stupid host page scrolling
     // when trying to focus HelpCenter's search field
     setTimeout(function() {
-      if (getRootComponent(name)) {
+      waitForRootComponent(name, () => {
         get(name).instance.show(options);
-      }
+      });
     }, 0);
   });
 
   mediator.channel.subscribe(name + '.hide', function(options = {}) {
-    if (getRootComponent(name)) {
+    waitForRootComponent(name, () => {
       get(name).instance.hide(options);
-    }
+    });
   });
 
   mediator.channel.subscribe(name + '.setNextToChat', function() {
@@ -249,17 +283,31 @@ function render(name) {
   });
 
   mediator.channel.subscribe(name + '.setHelpCenterSuggestions', function(options) {
+    hasManuallySetContextualSuggestions = true;
     keywordsSearch(name, options);
+  });
+
+  mediator.channel.subscribe(name + '.isAuthenticated', function() {
+    hasAuthenticatedSuccessfully = true;
   });
 }
 
 function postRender(name) {
   const config = get(name).config;
+  const authSetting = settings.get('authenticate');
 
   if (config.contextualHelpEnabled &&
-      location.pathname &&
-      location.pathname.substring(0, 4) !== '/hc/') {
-    keywordsSearch(name, { search: getPageKeywords() });
+      !hasManuallySetContextualSuggestions &&
+      !isOnHelpCenterPage()) {
+    keywordsSearch(name, { url: true });
+  }
+
+  if (config.tokensRevokedAt) {
+    authentication.revoke(config.tokensRevokedAt);
+  }
+
+  if (authSetting && authSetting.jwt) {
+    authentication.authenticate(authSetting.jwt);
   }
 }
 

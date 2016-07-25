@@ -66,7 +66,8 @@ describe('renderer', function() {
         mediator: {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe']),
           init: jasmine.createSpy(),
-          initMessaging: jasmine.createSpy()
+          initMessaging: jasmine.createSpy(),
+          initZopimStandalone: jasmine.createSpy()
         }
       },
       'lodash': _,
@@ -253,26 +254,6 @@ describe('renderer', function() {
       .toEqual(1);
 
     expect(mockLauncher.render.calls.count())
-      .toEqual(1);
-  });
-
-  it('should call any postRender calls', function() {
-    renderer.init({
-      embeds: {
-        'zopimChat': {
-          'embed': 'chat',
-          'props': {
-            'zopimId': '2EkTn0An31opxOLXuGgRCy5nPnSNmpe6'
-          }
-        },
-        'chatLauncher': {
-          'embed': 'launcher',
-          'props': {}
-        }
-      }
-    });
-
-    expect(mockChat.postRender.calls.count())
       .toEqual(1);
   });
 

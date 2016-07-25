@@ -1,10 +1,12 @@
 import airwaves from 'airwaves';
 import _ from 'lodash';
 
+import { settings } from 'service/settings';
 import { isMobileBrowser } from 'utility/devices';
 import { setScrollKiller,
          setWindowScroll,
          revertWindowScroll } from 'utility/scrollHacks';
+import { isOnHelpCenterPage } from 'utility/pages';
 
 const c = new airwaves.Channel();
 
@@ -14,45 +16,63 @@ const chat = 'zopimChat';
 const helpCenter = 'helpCenterForm';
 const state = {};
 
-const embedVisible = (_state) => _.any([
+state[`${chat}.connectionPending`]  = true;
+state[`${launcher}.userHidden`]     = false;
+state[`${submitTicket}.isVisible`]  = false;
+state[`${chat}.isVisible`]          = false;
+state[`${helpCenter}.isVisible`]    = false;
+state[`${helpCenter}.isAccessible`] = false;
+state[`${helpCenter}.isSuppressed`] = false;
+state[`${chat}.isOnline`]           = false;
+state[`${chat}.isSuppressed`]       = false;
+state[`${chat}.unreadMsgs`]         = 0;
+state[`${chat}.userClosed`]         = false;
+state[`${chat}.chatEnded`]          = false;
+state['nps.isVisible']              = false;
+state['ipm.isVisible']              = false;
+state['.hideOnClose']               = false;
+state['.hasHidden']                 = false;
+state['identify.pending']           = false;
+
+const helpCenterAvailable = () => {
+  return state[`${helpCenter}.isAccessible`] && !state[`${helpCenter}.isSuppressed`];
+};
+
+const chatAvailable = () => {
+  return state[`${chat}.isOnline`] && !state[`${chat}.isSuppressed`];
+};
+
+const isSuppressed = (embed) => {
+  return settings.get('suppress') ? settings.get('suppress').indexOf(embed) !== -1 : false;
+};
+
+const embedVisible = (_state) => _.some([
   _state[`${helpCenter}.isVisible`],
   _state[`${chat}.isVisible`],
   _state[`${submitTicket}.isVisible`]
 ]);
 
-state[`${chat}.connectionPending`] = true;
-state[`${launcher}.userHidden`]    = false;
-state[`${submitTicket}.isVisible`] = false;
-state[`${chat}.isVisible`]         = false;
-state[`${helpCenter}.isVisible`]   = false;
-state[`${helpCenter}.isAvailable`] = false;
-state[`${chat}.isOnline`]          = false;
-state[`${chat}.unreadMsgs`]        = 0;
-state[`${chat}.userClosed`]        = false;
-state[`${chat}.chatEnded`]         = false;
-state['nps.isVisible']             = false;
-state['ipm.isVisible']             = false;
-state['.hideOnClose']              = false;
-state['.hasHidden']                = false;
-state['identify.pending']          = false;
+const resetActiveEmbed = () => {
+  if (helpCenterAvailable()) {
+    state.activeEmbed = helpCenter;
+  } else if (chatAvailable()) {
+    state.activeEmbed = chat;
+  } else {
+    state.activeEmbed = submitTicket;
+  }
+};
 
-function init(helpCenterAvailable, hideLauncher) {
-  const resetActiveEmbed = () => {
-    if (state[`${helpCenter}.isAvailable`]) {
-      state.activeEmbed = helpCenter;
-    } else if (state[`${chat}.isOnline`]) {
-      state.activeEmbed = chat;
-    } else {
-      state.activeEmbed = submitTicket;
-    }
-  };
+const trackChatStarted = () => {
+  c.broadcast('beacon.trackUserAction', 'chat', 'opened', chat);
+};
 
+function init(helpCenterAccessible, params = {}) {
   const updateLauncherLabel = () => {
-    if (state[`${chat}.isOnline`]) {
+    if (chatAvailable()) {
       if (state[`${chat}.unreadMsgs`]) {
         c.broadcast(`${launcher}.setLabelUnreadMsgs`, state[`${chat}.unreadMsgs`]);
       }
-      else if (state[`${helpCenter}.isAvailable`]) {
+      else if (helpCenterAvailable()) {
         c.broadcast(`${launcher}.setLabelChatHelp`);
       } else {
         c.broadcast(`${launcher}.setLabelChat`);
@@ -62,9 +82,13 @@ function init(helpCenterAvailable, hideLauncher) {
     }
   };
 
-  state['.hasHidden']                = hideLauncher;
-  state[`${launcher}.userHidden`]    = hideLauncher;
-  state[`${helpCenter}.isAvailable`] = helpCenterAvailable;
+  state['.hasHidden']                 = params.hideLauncher;
+  state[`${launcher}.userHidden`]     = params.hideLauncher;
+  state[`${helpCenter}.isAccessible`] = helpCenterAccessible &&
+                                        (!params.helpCenterSignInRequired ||
+                                        isOnHelpCenterPage());
+  state[`${helpCenter}.isSuppressed`] = isSuppressed('helpCenter');
+  state[`${chat}.isSuppressed`]       = isSuppressed('chat');
 
   resetActiveEmbed();
 
@@ -111,6 +135,10 @@ function init(helpCenterAvailable, hideLauncher) {
     }
   });
 
+  c.intercept(`.logout`, () => {
+    c.broadcast(`authentication.logout`);
+  });
+
   c.intercept('.zopimShow', () => {
     c.broadcast(`${submitTicket}.hide`);
     c.broadcast(`${helpCenter}.hide`);
@@ -136,12 +164,16 @@ function init(helpCenterAvailable, hideLauncher) {
 
   c.intercept(`${chat}.onOnline`, () => {
     state[`${chat}.isOnline`] = true;
-    if (state.activeEmbed === submitTicket &&
-        !state[`${helpCenter}.isAvailable`]) {
+
+    if (!chatAvailable()) {
+      return;
+    }
+
+    if (state.activeEmbed === submitTicket && !helpCenterAvailable()) {
       state.activeEmbed = chat;
     }
 
-    if (state[`${helpCenter}.isAvailable`]) {
+    if (helpCenterAvailable()) {
       c.broadcast(`${launcher}.setLabelChatHelp`);
     } else {
       c.broadcast(`${launcher}.setLabelChat`);
@@ -220,7 +252,7 @@ function init(helpCenterAvailable, hideLauncher) {
   });
 
   c.intercept(`${helpCenter}.onNextClick`, () => {
-    if (state[`${chat}.isOnline`]) {
+    if (chatAvailable()) {
       if (!isMobileBrowser()) {
         state[`${chat}.isVisible`] = true;
         c.broadcast(`${launcher}.hide`);
@@ -229,6 +261,8 @@ function init(helpCenterAvailable, hideLauncher) {
       if (isMobileBrowser()) {
         c.broadcast(`${launcher}.show`);
       }
+
+      trackChatStarted();
 
       state.activeEmbed = chat;
       c.broadcast(`${chat}.show`);
@@ -249,7 +283,7 @@ function init(helpCenterAvailable, hideLauncher) {
 
     state[`${helpCenter}.isVisible`] = false;
 
-    // Run this on a seperate `tick` from submitTicket.show
+    // Run this on a separate `tick` from submitTicket.show
     setTimeout(() => {
       if (isMobileBrowser()) {
         c.broadcast(`${helpCenter}.hide`);
@@ -268,10 +302,15 @@ function init(helpCenterAvailable, hideLauncher) {
   });
 
   c.intercept(`${launcher}.onClick`, () => {
+    // Re-authenticate user if their oauth token is within 20 minutes of expiring
+    if (helpCenterAvailable()) {
+      c.broadcast('authentication.renew');
+    }
+
     // chat opens in new window so hide isn't needed
     if (state.activeEmbed === chat && isMobileBrowser()) {
       c.broadcast(`${chat}.show`);
-    } else if (state[`${chat}.isOnline`] && state[`${chat}.unreadMsgs`]) {
+    } else if (chatAvailable() && state[`${chat}.unreadMsgs`]) {
       state[`${chat}.unreadMsgs`] = 0;
       state.activeEmbed = chat;
 
@@ -289,6 +328,10 @@ function init(helpCenterAvailable, hideLauncher) {
        * button is on the left, using a mobile device with small screen
        * e.g. iPhone4. It's not a bulletproof solution, but it helps
        */
+
+      if (state.activeEmbed === chat) {
+        trackChatStarted();
+      }
 
       setTimeout(() => {
         c.broadcast(`${state.activeEmbed}.show`, { transition: 'upShow' });
@@ -328,7 +371,7 @@ function init(helpCenterAvailable, hideLauncher) {
   c.intercept(`${chat}.onChatEnd`, () => {
     state[`${chat}.chatEnded`] = true;
 
-    if (state[`${helpCenter}.isAvailable`]) {
+    if (state[`${helpCenter}.isAccessible`]) {
       state.activeEmbed = helpCenter;
     }
   });
@@ -376,7 +419,7 @@ function init(helpCenterAvailable, hideLauncher) {
     state[`${submitTicket}.isVisible`] = false;
     c.broadcast(`${submitTicket}.hide`, { transition: 'downHide' });
 
-    if (state[`${helpCenter}.isAvailable`]) {
+    if (helpCenterAvailable()) {
       state[`${helpCenter}.isVisible`] = true;
       state.activeEmbed = helpCenter;
       c.broadcast(`${helpCenter}.show`, { transition: 'downShow' });
@@ -418,8 +461,13 @@ function initMessaging() {
     c.broadcast(`nps.setSurvey`, params);
   });
 
-  c.intercept(`.onAuthenticate`, (__, params) => {
-    c.broadcast(`authentication.authenticate`, params);
+  c.intercept(`authentication.onSuccess`, () => {
+    state[`${helpCenter}.isAccessible`] = true;
+    if (!embedVisible(state) && state[`${helpCenter}.isAccessible`]) {
+      resetActiveEmbed();
+    }
+
+    c.broadcast(`${helpCenter}.isAuthenticated`);
   });
 
   c.intercept(`nps.onActivate`, () => {
@@ -471,7 +519,7 @@ function initMessaging() {
   c.intercept(`ipm.onClose`, () => {
     state['ipm.isVisible'] = false;
 
-    if (!state['.hideOnClose']) {
+    if (!state['.hideOnClose'] && !state[`${launcher}.userHidden`]) {
       c.broadcast(`${launcher}.show`, { transition: 'upShow' });
     }
   });
@@ -483,8 +531,34 @@ function initMessaging() {
   });
 }
 
+function initZopimStandalone() {
+  // Intercept zE.hide() zE.show(), and zE.activate() API calls.
+  // Make them an alias for zopims hide and show functions if the user is on a naked zopim configuration.
+  // zE.hide() = $zopim.livechat.hideAll(),
+  // zE.show() = $zopim.livechat.button.show().
+  // zE.activate() = $zopim.livechat.window.show().
+
+  c.intercept('.hide', () => {
+    state[`${chat}.isVisible`] = false;
+    c.broadcast(`${chat}.hide`);
+  });
+
+  c.intercept('.show', () => {
+    state[`${chat}.isVisible`] = true;
+    c.broadcast(`${chat}.show`);
+  });
+
+  c.intercept('.activate', () => {
+    state[`${chat}.isVisible`] = true;
+    c.broadcast(`${chat}.activate`);
+  });
+
+  initMessaging();
+}
+
 export const mediator = {
   channel: c,
   init: init,
-  initMessaging: initMessaging
+  initMessaging: initMessaging,
+  initZopimStandalone: initZopimStandalone
 };

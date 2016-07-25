@@ -33,7 +33,7 @@ describe('embed.launcher', function() {
         })
       },
       'service/beacon': {
-        beacon: jasmine.createSpyObj('mockBeacon', ['track'])
+        beacon: jasmine.createSpyObj('mockBeacon', ['trackUserAction'])
       },
       'service/mediator': {
         mediator: {
@@ -257,36 +257,6 @@ describe('embed.launcher', function() {
 
       expect(mockFrameCss)
         .toEqual(mockCss);
-    });
-
-    it('is positioned "right" if no position value is set', function() {
-      const mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
-
-      launcher.create('alice');
-      launcher.render('alice');
-
-      const mockFrameStyle = mockFrameFactory.calls.mostRecent().args[1].frameStyle;
-
-      expect(mockFrameStyle.left)
-        .toBeUndefined();
-
-      expect(mockFrameStyle.right)
-        .toBeDefined();
-    });
-
-    it('can be positioned "left"', function() {
-      const mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
-
-      launcher.create('alice', {position: 'left'});
-      launcher.render('alice');
-
-      const mockFrameStyle = mockFrameFactory.calls.mostRecent().args[1].frameStyle;
-
-      expect(mockFrameStyle.left)
-        .toBeDefined();
-
-      expect(mockFrameStyle.right)
-        .toBeUndefined();
     });
 
     describe('mediator subscriptions', function() {

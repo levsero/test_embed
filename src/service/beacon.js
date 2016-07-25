@@ -7,20 +7,11 @@ import { transport } from 'service/transport';
 import { win,
          document as doc,
          navigator } from 'utility/globals';
+import { isOnHelpCenterPage } from 'utility/pages';
 import { parseUrl,
          getFrameworkLoadTime } from 'utility/utils';
 
-function init() {
-  const now = Date.now();
-
-  store.set('currentTime', now, true);
-
-  mediator.channel.subscribe('beacon.identify', identify);
-
-  return this;
-}
-
-function send() {
+const sendPageView = () => {
   const now = Date.now();
   const referrer = parseUrl(doc.referrer);
   const previousTime = store.get('currentTime', true) || 0;
@@ -35,7 +26,8 @@ function send() {
       loadTime: getFrameworkLoadTime(),
       navigatorLanguage: navigator.language,
       pageTitle: doc.title,
-      userAgent: navigator.userAgent
+      userAgent: navigator.userAgent,
+      helpCenterDedup: isOnHelpCenterPage()
     }
   };
   const payload = {
@@ -45,6 +37,28 @@ function send() {
   };
 
   transport.sendWithMeta(payload);
+};
+
+function init() {
+  const now = Date.now();
+
+  store.set('currentTime', now, true);
+
+  mediator.channel.subscribe('beacon.identify', identify);
+  mediator.channel.subscribe('beacon.trackUserAction', trackUserAction);
+
+  // We need to invoke `sendPageView` on `DOMContentLoaded` because
+  // for help center host pages, the script that defines the `HelpCenter`
+  // global object may not be executed yet.
+  // DOMContentLoaded: https://developer.mozilla.org/en-US/docs/Web/Events/DOMContentLoaded
+  if (doc.readyState !== 'complete' &&
+      doc.readyState !== 'interactive') {
+    doc.addEventListener('DOMContentLoaded', () => {
+      sendPageView();
+    }, false);
+  } else {
+    sendPageView();
+  }
 }
 
 function sendConfigLoadTime(time) {
@@ -60,23 +74,21 @@ function sendConfigLoadTime(time) {
   transport.sendWithMeta(payload);
 }
 
-function track(category, action, label, value) {
-  if (_.isUndefined(action) || _.isUndefined(category)) {
+function trackUserAction(category, action, label = null, value = null) {
+  if (_.isUndefined(category) || _.isUndefined(action)) {
     return false;
   }
 
-  const params = {
-    userAction: {
-      category: category,
-      action: action,
-      label: label,
-      value: value
-    }
+  const userAction = {
+    category: category,
+    action: action,
+    label: label,
+    value: value
   };
   const payload = {
     method: 'POST',
     path: '/embeddable/blips',
-    params: params
+    params: { userAction }
   };
 
   transport.sendWithMeta(payload);
@@ -87,9 +99,12 @@ function identify(user) {
   const payload = {
     method: 'POST',
     path: '/embeddable/identify',
-    params:  { user: user },
+    params:  {
+      user: user,
+      userAgent: navigator.userAgent
+    },
     callbacks: {
-      done: function(res) {
+      done: (res) => {
         mediator.channel.broadcast('identify.onSuccess', res.body);
       }
     }
@@ -100,8 +115,7 @@ function identify(user) {
 
 export const beacon = {
   init: init,
-  send: send,
-  track: track,
+  trackUserAction: trackUserAction,
   identify: identify,
   sendConfigLoadTime: sendConfigLoadTime
 };

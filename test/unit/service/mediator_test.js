@@ -10,6 +10,8 @@ describe('mediator', function() {
     helpCenterSub,
     npsSub,
     ipmSub,
+    mockSettingsGetValue,
+    mockOnHelpCenterPageValue,
     initSubscriptionSpies;
 
   const reset = function(spy) {
@@ -20,8 +22,18 @@ describe('mediator', function() {
   beforeEach(function() {
     mockery.enable();
 
+    mockSettingsGetValue = null;
+    mockOnHelpCenterPageValue = false;
+
     mockRegistry = initMockRegistry({
-      'utility/devices':  {
+      'service/settings': {
+        settings : {
+          get: () => {
+            return mockSettingsGetValue;
+          }
+        }
+      },
+      'utility/devices': {
         isMobileBrowser: jasmine.createSpy().and.returnValue(false)
       },
       'utility/scrollHacks': jasmine.createSpyObj(
@@ -29,7 +41,12 @@ describe('mediator', function() {
         ['setScrollKiller',
          'setWindowScroll',
          'revertWindowScroll']
-      )
+      ),
+      'utility/pages': {
+        isOnHelpCenterPage: () => {
+          return mockOnHelpCenterPageValue;
+        }
+      }
     });
 
     mediator = requireUncached(mediatorPath).mediator;
@@ -38,12 +55,13 @@ describe('mediator', function() {
 
     authenticationSub = jasmine.createSpyObj(
       'authentication',
-      ['authenticate']
+      ['logout',
+       'renew']
     );
 
     beaconSub = jasmine.createSpyObj(
       'beacon',
-      ['identify']
+      ['identify', 'trackUserAction']
     );
 
     launcherSub = jasmine.createSpyObj(
@@ -72,6 +90,7 @@ describe('mediator', function() {
       ['show',
        'showWithAnimation',
        'hide',
+       'activate',
        'setUser']
     );
 
@@ -102,8 +121,10 @@ describe('mediator', function() {
 
     initSubscriptionSpies = function(names) {
       c.subscribe(`${names.beacon}.identify`, beaconSub.identify);
+      c.subscribe(`${names.beacon}.trackUserAction`, beaconSub.trackUserAction);
 
-      c.subscribe(`${names.authentication}.authenticate`, authenticationSub.authenticate);
+      c.subscribe(`${names.authentication}.logout`, authenticationSub.logout);
+      c.subscribe(`${names.authentication}.renew`, authenticationSub.renew);
 
       c.subscribe(`${names.launcher}.hide`, launcherSub.hide);
       c.subscribe(`${names.launcher}.show`, launcherSub.show);
@@ -123,6 +144,7 @@ describe('mediator', function() {
       c.subscribe(`${names.chat}.show`, chatSub.show);
       c.subscribe(`${names.chat}.showWithAnimation`, chatSub.show);
       c.subscribe(`${names.chat}.hide`, chatSub.hide);
+      c.subscribe(`${names.chat}.activate`, chatSub.activate);
       c.subscribe(`${names.chat}.setUser`, chatSub.setUser);
 
       c.subscribe(`${names.helpCenter}.show`, helpCenterSub.show);
@@ -269,6 +291,46 @@ describe('mediator', function() {
   * ****************************************** */
 
   describe('.onAuthenticate', function() {
+    const launcher = 'launcher';
+    const submitTicket = 'ticketSubmissionForm';
+    const helpCenter = 'helpCenterForm';
+    const authentication = 'authentication';
+    const names = {
+      launcher: launcher,
+      submitTicket: submitTicket,
+      helpCenter: helpCenter,
+      authentication: authentication
+    };
+
+    beforeEach(function() {
+      initSubscriptionSpies(names);
+      mediator.init(false);
+    });
+
+    describe('onSuccess', function() {
+      it('should set helpCenterForm to available if sign in required is passed in', function() {
+        mediator.init(true, { helpCenterSignInRequired: true });
+
+        jasmine.clock().install();
+        c.broadcast(`${launcher}.onClick`);
+        jasmine.clock().tick(0);
+
+        expect(helpCenterSub.show.calls.count())
+          .toEqual(0);
+
+        c.broadcast(`${submitTicket}.onClose`);
+        c.broadcast('authentication.onSuccess');
+
+        c.broadcast(`${launcher}.onClick`);
+        jasmine.clock().tick(0);
+
+        expect(helpCenterSub.show.calls.count())
+          .toEqual(1);
+      });
+    });
+  });
+
+  describe('.logout', function() {
     const names = {
       authentication: 'authentication'
     };
@@ -278,13 +340,29 @@ describe('mediator', function() {
       mediator.init(false);
     });
 
-    it('should broadcast authentication.authenticate with given params', function() {
-      const params = { token: 'abc' };
+    it('should broadcast authentication.logout', function() {
+      c.broadcast('authentication.logout');
 
-      c.broadcast('.onAuthenticate', params);
+      expect(authenticationSub.logout)
+        .toHaveBeenCalled();
+    });
+  });
 
-      expect(authenticationSub.authenticate)
-        .toHaveBeenCalledWith(params);
+  describe('.renew', function() {
+    const names = {
+      authentication: 'authentication'
+    };
+
+    beforeEach(function() {
+      initSubscriptionSpies(names);
+      mediator.init(false);
+    });
+
+    it('should broadcast authentication.renew', function() {
+      c.broadcast('authentication.renew');
+
+      expect(authenticationSub.renew)
+        .toHaveBeenCalled();
     });
   });
 
@@ -554,6 +632,28 @@ describe('mediator', function() {
         expect(launcherSub.show)
           .toHaveBeenCalled();
       });
+
+      describe('when `hideOnClose` option is true', function() {
+        it('should not broadcast launcher.show', function() {
+          c.broadcast('.activate', { hideOnClose: true });
+
+          c.broadcast('ipm.onClose');
+
+          expect(launcherSub.show)
+            .not.toHaveBeenCalled();
+        });
+      });
+
+      describe('when zE.hide() has been called', function() {
+        it('should not broadcast launcher.show', function() {
+          mediator.init(true, { hideLauncher: true });
+
+          c.broadcast('ipm.onClose');
+
+          expect(launcherSub.show)
+            .not.toHaveBeenCalled();
+        });
+      });
     });
 
     describe('.onShow', function() {
@@ -577,11 +677,15 @@ describe('mediator', function() {
     const submitTicket = 'ticketSubmissionForm';
     const chat = 'zopimChat';
     const helpCenter = 'helpCenterForm';
+    const authentication = 'authentication';
+    const beacon = 'beacon';
     const names = {
       launcher: launcher,
       submitTicket: submitTicket,
       chat: chat,
-      helpCenter: helpCenter
+      helpCenter: helpCenter,
+      authentication: authentication,
+      beacon: beacon
     };
 
     beforeEach(function() {
@@ -715,17 +819,26 @@ describe('mediator', function() {
           .toEqual(0);
       });
 
-      it('launches Chat if chat is online', function() {
-        c.broadcast(`${chat}.onOnline`);
+      describe('when chat is online', function() {
+        beforeEach(function() {
+          c.broadcast(`${chat}.onOnline`);
 
-        jasmine.clock().install();
-        c.broadcast(`${launcher}.onClick`);
-        jasmine.clock().tick(0);
+          jasmine.clock().install();
+          c.broadcast(`${launcher}.onClick`);
+          jasmine.clock().tick(0);
+        });
 
-        expect(submitTicketSub.show.calls.count())
-          .toEqual(0);
-        expect(chatSub.show.calls.count())
-          .toEqual(1);
+        it('sends a `chat launch` user action blip', function() {
+          expect(beaconSub.trackUserAction.calls.count())
+            .toEqual(1);
+        });
+
+        it('launches chat', function() {
+          expect(submitTicketSub.show.calls.count())
+            .toEqual(0);
+          expect(chatSub.show.calls.count())
+            .toEqual(1);
+        });
       });
 
       it('does not hide if launching chat on mobile', function() {
@@ -814,7 +927,7 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      it('launches chat if user has moved on to chat and chat is online', function() {
+      it('launches chat when the user moves on to chat and chat is online', function() {
         c.broadcast(`${chat}.onOnline`);
         c.broadcast(`${launcher}.onClick`);  // open
         c.broadcast(`${helpCenter}.onNextClick`);
@@ -833,6 +946,15 @@ describe('mediator', function() {
 
         expect(helpCenterSub.show.calls.count())
           .toEqual(0);
+      });
+
+      it('sends a `chat launch` user action blip on next click to open chat', function() {
+        c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${launcher}.onClick`);  // open
+        c.broadcast(`${helpCenter}.onNextClick`);
+
+        expect(beaconSub.trackUserAction.calls.count())
+          .toEqual(1);
       });
 
       it('launches help center if user has moved on to chat and chat goes offline', function() {
@@ -898,6 +1020,18 @@ describe('mediator', function() {
 
         expect(chatSub.show.calls.count())
          .toEqual(0);
+      });
+    });
+
+    describe('with authenticated help center', function() {
+      it('broadcasts authentication.renew when onClick is called', function() {
+        mediator.init(true, { helpCenterSignInRequired: true });
+
+        c.broadcast(`authentication.onSuccess`);
+        c.broadcast(`${launcher}.onClick`);
+
+        expect(authenticationSub.renew)
+          .toHaveBeenCalled();
       });
     });
   });
@@ -1554,17 +1688,51 @@ describe('mediator', function() {
       expect(revertWindowScroll.calls.count())
         .toEqual(1);
     });
+
+    it('should not set helpCenterForm to available if sign in is required', function() {
+      mediator.init(true, { helpCenterSignInRequired: true });
+
+      jasmine.clock().install();
+      c.broadcast(`${launcher}.onClick`);
+      jasmine.clock().tick(0);
+
+      expect(submitTicketSub.show.calls.count())
+        .toEqual(1);
+
+      expect(helpCenterSub.show.calls.count())
+        .toEqual(0);
+    });
+
+    it('should set helpCenterForm to available if sign in is required and is on a hc page', function() {
+      mockOnHelpCenterPageValue = true;
+
+      mediator.init(true, { helpCenterSignInRequired: true });
+
+      jasmine.clock().install();
+      c.broadcast(`${launcher}.onClick`);
+      jasmine.clock().tick(0);
+
+      expect(submitTicketSub.show.calls.count())
+        .toEqual(0);
+
+      expect(helpCenterSub.show.calls.count())
+        .toEqual(1);
+    });
   });
 
  /* ****************************************** *
-  *                 NAKED ZOPIM                *
+  *                  SUPPRESS                  *
   * ****************************************** */
 
-  describe('launcher final state depends on chat', function() {
+  describe('suppress', function() {
     const launcher = 'launcher';
+    const submitTicket = 'ticketSubmissionForm';
+    const helpCenter = 'helpCenterForm';
     const chat = 'zopimChat';
     const names = {
       launcher: launcher,
+      submitTicket: submitTicket,
+      helpCenter: helpCenter,
       chat: chat
     };
 
@@ -1572,48 +1740,161 @@ describe('mediator', function() {
       initSubscriptionSpies(names);
     });
 
-    describe('launcher is not hidden by zE.hide() API call', function() {
-      beforeEach(function() {
-        mediator.init(false);
-      });
+    it('does not display chat if it is suppressed', function() {
+      mockSettingsGetValue = ['chat'];
+      mediator.init();
 
-      it('shows launcher when chat is online', function() {
-        c.broadcast(`${chat}.onOnline`);
+      c.broadcast(`${chat}.isOnline`);
 
-        expect(launcherSub.show.calls.count())
-          .toEqual(1);
-      });
+      jasmine.clock().install();
+      c.broadcast(`${launcher}.onClick`);
+      jasmine.clock().tick(0);
 
-      it('shows launcher after 3000ms if chat is offline', function() {
-        jasmine.clock().install();
-        c.broadcast(`${chat}.onOnline`);
-        c.broadcast(`${chat}.onOffline`);
-        jasmine.clock().tick(3000);
-
-        expect(launcherSub.show.calls.count())
-          .toEqual(1);
-      });
+      expect(submitTicketSub.show.calls.count())
+        .toEqual(1);
+      expect(chatSub.show.calls.count())
+        .toEqual(0);
     });
 
-    describe('launcher is hidden by zE.hide() API call', function() {
+    it('does not display chat if it is suppressed and help center is active', function() {
+      mockSettingsGetValue = ['chat'];
+      mediator.init(true);
+
+      c.broadcast(`${chat}.isOnline`);
+
+      jasmine.clock().install();
+      c.broadcast(`${launcher}.onClick`);
+      jasmine.clock().tick(0);
+
+      c.broadcast(`${helpCenter}.onNextClick`);
+      jasmine.clock().tick(0);
+
+      expect(submitTicketSub.show.calls.count())
+        .toEqual(1);
+      expect(chatSub.show.calls.count())
+        .toEqual(0);
+    });
+
+    it('should not display if it is suppressed', function() {
+      mockSettingsGetValue = ['helpCenter'];
+      mediator.init(true);
+
+      jasmine.clock().install();
+      c.broadcast(`${launcher}.onClick`);
+      jasmine.clock().tick(0);
+
+      expect(submitTicketSub.show.calls.count())
+        .toEqual(1);
+      expect(helpCenterSub.show.calls.count())
+        .toEqual(0);
+    });
+
+    it('does not display chat or helpCenter if they are suppressed', function() {
+      mockSettingsGetValue = ['chat', 'helpCenter'];
+      mediator.init(true);
+
+      c.broadcast(`${chat}.isOnline`);
+
+      jasmine.clock().install();
+      c.broadcast(`${launcher}.onClick`);
+      jasmine.clock().tick(0);
+
+      expect(submitTicketSub.show.calls.count())
+        .toEqual(1);
+      expect(chatSub.show.calls.count())
+        .toEqual(0);
+      expect(helpCenterSub.show.calls.count())
+        .toEqual(0);
+    });
+  });
+
+ /* ****************************************** *
+  *                 NAKED ZOPIM                *
+  * ****************************************** */
+
+  describe('naked zopim', function() {
+    describe('launcher final state depends on chat', function() {
+      const launcher = 'launcher';
+      const chat = 'zopimChat';
+      const names = {
+        launcher: launcher,
+        chat: chat
+      };
+
       beforeEach(function() {
-        mediator.init(false, true);
+        initSubscriptionSpies(names);
       });
 
-      it('does not show launcher when chat is online', function() {
-        c.broadcast(`${chat}.onOnline`);
+      describe('launcher is not hidden by zE.hide() API call', function() {
+        beforeEach(function() {
+          mediator.init(false);
+        });
 
-        expect(launcherSub.show.calls.count())
-          .toEqual(0);
+        it('shows launcher when chat is online', function() {
+          c.broadcast(`${chat}.onOnline`);
+
+          expect(launcherSub.show.calls.count())
+            .toEqual(1);
+        });
+
+        it('shows launcher after 3000ms if chat is offline', function() {
+          jasmine.clock().install();
+          c.broadcast(`${chat}.onOnline`);
+          c.broadcast(`${chat}.onOffline`);
+          jasmine.clock().tick(3000);
+
+          expect(launcherSub.show.calls.count())
+            .toEqual(1);
+        });
       });
 
-      it('does not show launcher after 3000ms when chat is offline', function() {
-        jasmine.clock().install();
-        c.broadcast(`${chat}.onOffline`);
-        jasmine.clock().tick(3000);
+      describe('launcher is hidden by zE.hide() API call', function() {
+        beforeEach(function() {
+          mediator.init(false, { hideLauncher: true });
+        });
 
-        expect(launcherSub.show.calls.count())
-          .toEqual(0);
+        it('does not show launcher when chat is online', function() {
+          c.broadcast(`${chat}.onOnline`);
+
+          expect(launcherSub.show.calls.count())
+            .toEqual(0);
+        });
+
+        it('does not show launcher after 3000ms when chat is offline', function() {
+          jasmine.clock().install();
+          c.broadcast(`${chat}.onOffline`);
+          jasmine.clock().tick(3000);
+
+          expect(launcherSub.show.calls.count())
+            .toEqual(0);
+        });
+      });
+
+      describe('should use zE hide, show, and activate methods as an alias for zopim show / hide functionality', function() {
+        beforeEach(function() {
+          mediator.initZopimStandalone();
+        });
+
+        it('should hide when a call to zE.hide() is made', function() {
+          c.broadcast('.hide');
+
+          expect(chatSub.hide.calls.count())
+            .toEqual(1);
+        });
+
+        it('should show when a call to zE.show() is made', function() {
+          c.broadcast('.show');
+
+          expect(chatSub.show.calls.count())
+            .toEqual(1);
+        });
+
+        it('should activate when a call to zE.activate() is made', function() {
+          c.broadcast('.activate');
+
+          expect(chatSub.activate.calls.count())
+            .toEqual(1);
+        });
       });
     });
   });

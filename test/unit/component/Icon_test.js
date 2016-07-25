@@ -27,6 +27,19 @@ describe('Icon component', function() {
       'icons/widget-icon_caret.svg': dummyIcon,
       'icons/widget-icon_avatar.svg': dummyIcon,
       'icons/widget-icon_clearInput.svg': dummyIcon,
+      'icons/widget-icon_paperclip_small.svg': dummyIcon,
+      'icons/widget-icon_paperclip_medium.svg': dummyIcon,
+      'icons/widget-icon_paperclip_large.svg': dummyIcon,
+      'icons/attach_pdf.svg': dummyIcon,
+      'icons/attach_doc.svg': dummyIcon,
+      'icons/attach_img.svg': dummyIcon,
+      'icons/attach_num.svg': dummyIcon,
+      'icons/attach_pag.svg': dummyIcon,
+      'icons/attach_ppt.svg': dummyIcon,
+      'icons/attach_txt.svg': dummyIcon,
+      'icons/attach_key.svg': dummyIcon,
+      'icons/attach_xls.svg': dummyIcon,
+      'icons/attach_unknown.svg': dummyIcon,
       'utility/devices': {
         isMobileBrowser: function() {
           return false;

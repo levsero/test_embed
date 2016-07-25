@@ -9,6 +9,7 @@ The API consists of the following methods:
 * `zE.hide`
 * `zE.show`
 * `zE.activate`
+* `zE.setHelpCenterSuggestions`
 
 You can use the `zE.identify`, `zE.hide`, `zE.show`, and `zE.activate` methods before and after page load. For example, you can use them in click event handlers.
 
@@ -42,15 +43,15 @@ The following example displays the widget in German:
 
 `zE.identify(userObj)`
 
-The method takes a JavaScript object with a `name`, `email` and optionally, `externalId` and `organization` properties.
+The method takes a JavaScript object with a `name`, `email` and optionally, `organization` property.
 
-If you have access to your end user's name and email on the web page (for example, if your user is logged in), you can use `zE.identify()` to pass the details of that user into your Zendesk account, ensuring your user data is in sync.
+If you have access to your end user's name and email on the web page (for example, if your user is signed in), you can use `zE.identify()` to pass the details of that user to your Zendesk account, ensuring your user data is in sync.
 
-The way this works is: if the user's email (and external ID, if included) does not already exist in your Zendesk, a new user record with those details will be created.
+Here's how it works: If the user's email doesn't already exist in your Zendesk, a new user record with those details is created.
 
 The Widget also uses the information in the `zE.identify()` call to pre-populate the contact or pre-chat chat form, saving the user from having to type in the information. This is especially useful for end users using your website on a mobile device (screenshot below).
 
-Note: Passing an `organization` with `zE.identify()` will only work for existing organizations in your Zendesk account, it will *not* create a new organization.
+Note: Passing an `organization` with `zE.identify()` only works for existing organizations in your Zendesk account. It does *not* create a new organization.
 
 ```html
 <script>
@@ -58,7 +59,6 @@ Note: Passing an `organization` with `zE.identify()` will only work for existing
     zE.identify({
       name: 'John Citizen',
       email: 'john@example.com',
-      externalId: '123',
       organization: 'VIP'
     });
   });
@@ -134,3 +134,33 @@ For example, when someone clicks a 'Contact' button of your website, you could c
 ```
 
 Note: Calling `zE.activate()` will also display the widget if it is hidden, you do not need to call `zE.show()` to use `zE.activate()`.
+
+### zE.SetHelpCenterSuggestions
+
+`zE.SetHelpCenterSuggestions(options)`
+
+The method enhances the contextual help provided by the Web Widget.
+
+#### Options
+
+* `zE.setHelpCenterSuggestions({ url: true })` - In single-page apps, sets the query parameters in the URL as search terms without requiring the end user to refresh the page.
+
+* `zE.setHelpCenterSuggestions({ search: 'search string' })` - Searches the Help Center for the specified search string. If results are found, displays the results as top suggestions when users click the Web Widget.
+
+*`zE.setHelpCenterSuggestions({ labels: ['label1'] })` -  For Plus and Enterprise customers who use Help Center labels, searches the Help Center for articles with the given labels. If results are found, displays the results as top suggestions when users click the Web Widget.
+
+**Note**: If you pass both search strings and labels, the labels are ignored.
+
+#### Usage
+
+Add the method in your HTML source code immediately after your Web Widget code snippet. Example:
+
+```javascript
+<script>
+zE(function() {
+  zE.setHelpCenterSuggestions({ search: 'credit card' });
+});
+</script>
+```
+
+The `zE.setHelpCenterSuggestions()` method can be called multiple times, which can be useful in a single-page application.

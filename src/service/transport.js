@@ -1,6 +1,7 @@
 import _          from 'lodash';
 import superagent from 'superagent';
 
+import { settings } from 'service/settings';
 import { win } from 'utility/globals';
 import { identity } from 'service/identity';
 
@@ -48,6 +49,7 @@ function send(payload) {
             id: 712,
             name: 'Campaign 712',
             type: 'ipm',
+            recipientEmail: 'ryan@foo.com',
             message: {
               secondaryText: 'Ryan from Zendesk',
               body: 'Hi Deborah, we just launched a new product called People. Would you like to try it?',
@@ -67,6 +69,12 @@ function send(payload) {
         });
       }, 3000);
 
+      return;
+    }
+
+    // no need to actually send IPM results back in dev
+    if (payload.path === '/embeddable/ipm') {
+      console.log('Stubbing IPM request', payload);
       return;
     }
   }
@@ -97,6 +105,7 @@ function sendWithMeta(payload) {
   const commonParams = {
     url: win.location.href,
     buid: identity.getBuid(),
+    suid: identity.getSuid().id || null,
     version: config.version,
     timestamp: (new Date()).toISOString()
   };
@@ -104,6 +113,53 @@ function sendWithMeta(payload) {
   payload.params = _.extend(commonParams, payload.params);
 
   send(payload);
+}
+
+function sendFile(payload) {
+  if (!config.zendeskHost) {
+    throw 'Missing zendeskHost config param.';
+  }
+
+  /* eslint camelcase:0 */
+  return superagent(payload.method.toUpperCase(),
+                    buildFullUrl(payload.path))
+    .query({ filename: payload.file.name })
+    .query({ via_id: settings.get('widgetViaId') })
+    .attach('uploaded_data', payload.file)
+    .on('progress', function(e) {
+      if (payload.callbacks) {
+        if (_.isFunction(payload.callbacks.progress)) {
+          payload.callbacks.progress(e);
+        }
+      }
+    })
+    .end(function(err, res) {
+      if (payload.callbacks) {
+        if (err) {
+          if (_.isFunction(payload.callbacks.fail)) {
+            payload.callbacks.fail(err);
+          }
+        } else {
+          if (_.isFunction(payload.callbacks.done)) {
+            payload.callbacks.done(res);
+          }
+        }
+      }
+    });
+}
+
+function getImage(payload) {
+  superagent(payload.method.toUpperCase(), payload.path)
+    .timeout(60000)
+    .responseType('blob')
+    .set('Authorization', payload.authorization)
+    .end(function(err, res) {
+      if (payload.callbacks) {
+        if (_.isFunction(payload.callbacks.done)) {
+          payload.callbacks.done(res);
+        }
+      }
+    });
 }
 
 function buildFullUrl(path) {
@@ -118,6 +174,8 @@ export const transport = {
   init: init,
   send: send,
   sendWithMeta: sendWithMeta,
+  sendFile: sendFile,
+  getImage: getImage,
   get: send,
   getZendeskHost: getZendeskHost
 };

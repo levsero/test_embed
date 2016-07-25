@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="18px" height="24px" viewBox="0 0 18 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.7.2 (28276) - http://www.bohemiancoding.com/sketch -->
+    <title>attach_img copy</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="attachment-icons" transform="translate(-776.000000, -257.000000)">
+            <g id="attach_img-copy" transform="translate(776.000000, 256.000000)">
+                <g id="Stroke-8275-+-Stroke-8276-+-W">
+                    <g id="Stroke-8275-+-Stroke-8276">
+                        <path d="M1.99508929,25 C0.893231902,25 0,24.1029738 0,22.9950534 L0,3.00494659 C0,1.89764516 0.894585797,1 2.00220079,1 L11.6470588,1 L18,7.26086957 L18,22.9995788 C18,24.1043809 17.1073772,25 16.0049107,25 L1.99508929,25 Z" id="Stroke-8275" fill="#0097A7"></path>
+                        <path d="M11.6420288,0.974487305 L11.6420288,5.24900448 C11.6420288,6.35564069 12.5405887,7.25274658 13.6387367,7.25274658 L18.0078125,7.25274658" id="Stroke-8276" fill-opacity="0.799999952" fill="#FFFFFF"></path>
+                    </g>
+                </g>
+                <g id="ic" opacity="0.799999952" transform="translate(4.000000, 11.000000)" fill="#FFFFFF">
+                    <path d="M10,8 L8.41671199,4.92679671 C7.91042594,3.9440823 6.87839806,3.78726963 6.1053915,4.58295001 L4.5,6.23543086 L3.40637207,5.75298533 C2.9057966,5.53216033 2.19345093,5.67770251 1.81686401,6.0764107 L0,8 L10,8 Z" id="Stroke-8590"></path>
+                    <path d="M2.5,3 C1.672,3 1,2.328 1,1.5 C1,0.672 1.672,0 2.5,0 C3.328,0 4,0.672 4,1.5 C4,2.328 3.328,3 2.5,3 Z" id="Stroke-8591"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

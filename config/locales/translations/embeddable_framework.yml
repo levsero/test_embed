@@ -60,6 +60,7 @@ parts:
   - translation:
       key: "embeddable_framework.submitTicket.form.title.contact"
       title: "Alternative title of the submit ticket form, will wrap as needed (https://zendesk.box.com/s/m2pcgq75k0k6kmec757mlobk8qhxep40)"
+      screenshot: "https://zendesk.box.com/s/m2pcgq75k0k6kmec757mlobk8qhxep40"
       value: "Contact us"
   - translation:
       key: "embeddable_framework.submitTicket.form.submitButton.label.send"
@@ -73,6 +74,11 @@ parts:
       key: "embeddable_framework.submitTicket.form.cancelButton.label.cancel"
       title: "The label on the button to cancel the form in the submit ticket form (tinyurl.com/pd286zm)"
       value: "Cancel"
+  - translation:
+      key: "embeddable_framework.submitTicket.form.submittedFrom.label"
+      title: "The label added to tickets to show what page they were submitted from. %()s stands for string and does not need to be edited as it us part of the placeholder %(url)s. (https://zendesk.box.com/s/xphceiyfi5lod5978fxuwynm9hg0xcs9)"
+      screenshot: "https://zendesk.box.com/s/xphceiyfi5lod5978fxuwynm9hg0xcs9"
+      value: "Submitted from: %(url)s"
 
   # Submit Ticket Schema component
   - translation:
@@ -91,7 +97,22 @@ parts:
       value: "Email address"
 
   # Help Center component
-  - translation: 
+  - translation:
+      key: "embeddable_framework.helpCenter.form.title.help"
+      title: "Default title of the help center form (https://zendesk.box.com/s/4kqdjtt90g8o9g6zu3jdnnlqarwhavpi). Must match glossary entry."
+      screenshot: "https://zendesk.box.com/s/4kqdjtt90g8o9g6zu3jdnnlqarwhavpi"
+      value: "Help"
+  - translation:
+      key: "embeddable_framework.helpCenter.form.title.support"
+      title: "Alternative title of the help center form (https://zendesk.box.com/s/giqiugq93xt75pay5xwxr6whhtyundrr). Must match glossary entry"
+      screenshot: "https://zendesk.box.com/s/giqiugq93xt75pay5xwxr6whhtyundrr"
+      value: "Support"
+  - translation:
+      key: "embeddable_framework.helpCenter.form.title.feedback"
+      title: "Alternative title of the help center form (https://zendesk.box.com/s/fi01o7rd1f6qr398zzoko4jnj9ickt8c)"
+      screenshot: "https://zendesk.box.com/s/fi01o7rd1f6qr398zzoko4jnj9ickt8c"
+      value: "Feedback"
+  - translation:
       key: "embeddable_framework.helpCenter.label.topSuggestions"
       title: "The text that is shown after a contextual help search is completed with results. (http://tinyurl.com/pkuvu72). Best Help Center articles found to match search query"
       value: "Top suggestions"
@@ -134,6 +155,7 @@ parts:
   - translation:
       key: "embeddable_framework.helpCenter.submitButton.label.submitTicket.contact"
       title: "Alternative label on the button in help center when no chat agents are online to let customers know that if they click it they will go to the submit ticket form. Will wrap if needed (https://zendesk.box.com/s/yt5paokjfmnyhe78d1eaircqdgmrhs1q)"
+      screenshot: "https://zendesk.box.com/s/yt5paokjfmnyhe78d1eaircqdgmrhs1q"
       value: "Contact us"
   - translation:
       key: "embeddable_framework.helpCenter.label.default"
@@ -181,3 +203,54 @@ parts:
       key: "embeddable_framework.navigation.close"
       title: "The link to close the embeddable. Displays at the top right of the widget. If over 5 characters will just display icon (tinyurl.com/p33xnz2)"
       value: "Close"
+
+# Attachments
+  - translation:
+      key: "embeddable_framework.submitTicket.attachments.title"
+      title: "The label on the form above the attached files. Will wrap as needed. (https://zendesk.box.com/s/48ji0gkux7aomc2xbn4jntxvaa7ow4m1)"
+      screenshot: "https://zendesk.box.com/s/48ji0gkux7aomc2xbn4jntxvaa7ow4m1"
+      value: "Attachments"
+  - translation:
+      key: "embeddable_framework.submitTicket.attachments.title_withCount"
+      title: "The label on the form above the attached files. Will wrap as needed. %()s stands for string and does not need to be translated. Wrap the count in brackets (https://zendesk.box.com/s/8mk0lk54gntkwpsfd66l161ubwok8i8g)"
+      screenshot: "https://zendesk.box.com/s/8mk0lk54gntkwpsfd66l161ubwok8i8g"
+      value: "Attachments (%(count)s)"
+  - translation:
+      key: "embeddable_framework.submitTicket.attachments.box.label"
+      title: "The label that appears when attaching a file through drag and drop. Will wrap as needed. (https://zendesk.box.com/s/q2pl86lfl5ryxcqm3g0wxksptgh89cna)"
+      screenshot: "https://zendesk.box.com/s/q2pl86lfl5ryxcqm3g0wxksptgh89cna"
+      value: "Drop to attach"
+  - translation:
+      key: "embeddable_framework.submitTicket.attachments.button.label"
+      title: "The label on the form about attaching files. Will wrap as needed. (https://zendesk.box.com/s/iglhqt5vb2ds5pmxujckzvg3pga2r7lz)"
+      screenshot: "https://zendesk.box.com/s/iglhqt5vb2ds5pmxujckzvg3pga2r7lz"
+      value: "Add file or drop here"
+  - translation:
+      key: "embeddable_framework.submitTicket.attachments.button.label_mobile"
+      title: "The label on the form about attaching files for mobile devices. Will wrap as needed. (https://zendesk.box.com/s/lruwde2mxcqddsdwx2ktk7b9hrd71qcu)"
+      screenshot: "https://zendesk.box.com/s/lruwde2mxcqddsdwx2ktk7b9hrd71qcu"
+      value: "Add file from device"
+  - translation:
+      key: "embeddable_framework.submitTicket.attachments.size_megabyte"
+      title: "The size of the file shown in the attachment preview. Megabytes will be the unit of measurement. %()s stands for string and does not need to be translated."
+      value: "%(size)s MB"
+  - translation:
+      key: "embeddable_framework.submitTicket.attachments.size_kilobyte"
+      title: "The size of the file shown in the attachment preview. Kilobytes will be the unit of measurement. %()s stands for string and does not need to be translated."
+      value: "%(size)s KB"
+  - translation:
+      key: "embeddable_framework.submitTicket.attachments.error.size"
+      title: "The error notification that appears when trying to attach a file that's too large. Will wrap as needed. MB is the unit of measurement to be used for the number. %()s stands for string and does not need to be translated (https://zendesk.box.com/s/pp2ill6v8idllvvejuhh9reigptt4ven)"
+      screenshot: "https://zendesk.box.com/s/pp2ill6v8idllvvejuhh9reigptt4ven"
+      value: "The file is too big. Please attach files that are less than %(maxSize)s MB."
+  - translation:
+      key: "embeddable_framework.submitTicket.attachments.error.limit"
+      title: "The error notification that appears when trying to attach too many files. Will wrap as needed. %()s stands for string and does not need to be translated (https://zendesk.box.com/s/ywfifzwv5667dlhjpspuw9xd0u0j58mz)"
+      screenshot: "https://zendesk.box.com/s/ywfifzwv5667dlhjpspuw9xd0u0j58mz"
+      value: "You have already reached the limit of %(maxFiles)s attachments."
+  - translation:
+      key: "embeddable_framework.submitTicket.attachments.error.other"
+      title: "The error notification that appears when something goes wrong with the upload. Will wrap as needed. (https://zendesk.box.com/s/i2vh170lwc39bffkjl59zu0ztq6zafnq)"
+      screenshot: "https://zendesk.box.com/s/i2vh170lwc39bffkjl59zu0ztq6zafnq"
+      value: "There was a problem attaching this file. Please try again."
+

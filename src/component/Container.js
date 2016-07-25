@@ -13,6 +13,7 @@ export class Container extends Component {
     return (
       <div
         className={containerClasses}
+        onDragEnter={this.props.onDragEnter}
         style={this.props.style}>
         {this.props.children}
       </div>
@@ -25,12 +26,14 @@ Container.propTypes = {
   fullscreen: PropTypes.bool,
   className: PropTypes.string,
   style: PropTypes.object,
-  card: PropTypes.bool
+  card: PropTypes.bool,
+  onDragEnter: PropTypes.func
 };
 
 Container.defaultProps = {
   fullscreen: false,
   className: '',
   style: null,
-  card: false
+  card: false,
+  onDragEnter: () => {}
 };

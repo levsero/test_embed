@@ -8,12 +8,15 @@ describe('transport', function() {
   beforeEach(function() {
     mockery.enable();
     mockMethods = {
-      type: function() { return mockMethods; },
-      send: function() { return mockMethods; },
-      query: function() { return mockMethods; },
-      timeout: function() { return mockMethods; },
-      set: function() { return mockMethods; },
-      end: function() { return mockMethods; }
+      type: () => mockMethods,
+      send: () => mockMethods,
+      responseType: () => mockMethods,
+      attach: () => mockMethods,
+      query: () => mockMethods,
+      timeout: () => mockMethods,
+      set: () => mockMethods,
+      on: () => mockMethods,
+      end: () => mockMethods
     };
     mockRegistry = initMockRegistry({
       'superagent': jasmine.createSpy().and.callFake(function() {
@@ -29,7 +32,13 @@ describe('transport', function() {
       },
       'service/identity': {
         identity: {
-          getBuid: jasmine.createSpy('getBuid').and.returnValue('abc123')
+          getBuid: jasmine.createSpy('getBuid').and.returnValue('abc123'),
+          getSuid: jasmine.createSpy('getBuid').and.returnValue('123abc')
+        }
+      },
+      'service/settings': {
+        settings: {
+          get: () => 48
         }
       }
     });
@@ -290,6 +299,259 @@ describe('transport', function() {
 
       expect(params.user)
         .toEqual(payload.params.user);
+    });
+  });
+
+  describe('getImage', function() {
+    let payload,
+      config;
+
+    beforeEach(function() {
+      payload = {
+        method: 'get',
+        path: 'https://url.com/image',
+        authorization: 'abc',
+        callbacks: {
+          done: noop,
+          fail: noop
+        }
+      };
+    });
+
+    it('sets the correct http method and url on superagent', function() {
+      const mockSuperagent = mockRegistry.superagent;
+
+      transport.init(config);
+      transport.getImage(payload);
+
+      expect(mockSuperagent)
+        .toHaveBeenCalledWith(
+          'GET',
+          payload.path);
+    });
+
+    it('sets the responseType to `blob`', function() {
+      spyOn(mockMethods, 'responseType').and.callThrough();
+
+      transport.init(config);
+      transport.getImage(payload);
+
+      expect(mockMethods.responseType)
+        .toHaveBeenCalledWith('blob');
+    });
+
+    it('sets an authentication header with `Bearer <token>`', function() {
+      spyOn(mockMethods, 'set').and.callThrough();
+
+      transport.init(config);
+      transport.getImage(payload);
+
+      expect(mockMethods.set)
+        .toHaveBeenCalledWith('Authorization', payload.authorization);
+    });
+
+    it('triggers the done callback if response is successful', function() {
+      spyOn(payload.callbacks, 'done');
+      spyOn(payload.callbacks, 'fail');
+      spyOn(mockMethods, 'end').and.callThrough();
+
+      transport.init(config);
+      transport.getImage(payload);
+
+      expect(mockMethods.end)
+        .toHaveBeenCalled();
+
+      const recentCall = mockMethods.end.calls.mostRecent();
+
+      const callback = recentCall.args[0];
+
+      callback(null, {ok: true});
+
+      expect(payload.callbacks.done)
+        .toHaveBeenCalled();
+
+      expect(payload.callbacks.fail)
+        .not.toHaveBeenCalled();
+    });
+  });
+
+  describe('#sendFile', function() {
+    let payload,
+      config;
+
+    beforeEach(function() {
+      payload = {
+        method: 'post',
+        path: '/test/path',
+        file: {
+          name: 'fakeFile'
+        },
+        callbacks: {
+          done: noop,
+          fail: noop,
+          progress: noop
+        }
+      };
+
+      config = {
+        zendeskHost: 'test.zendesk.host',
+        version: 'version123'
+      };
+    });
+
+    describe('when zendeskHost is not set in config', function() {
+      beforeEach(function() {
+        transport.init();
+      });
+
+      it('should throw an exception', function() {
+        expect(() => transport.send(payload))
+          .toThrow();
+      });
+    });
+
+    describe('when zendeskHost is set in config', function() {
+      let mockSuperagent;
+
+      beforeEach(function() {
+        spyOn(payload.callbacks, 'done');
+        spyOn(payload.callbacks, 'fail');
+        spyOn(payload.callbacks, 'progress');
+
+        spyOn(mockMethods, 'end').and.callThrough();
+        spyOn(mockMethods, 'on').and.callThrough();
+        spyOn(mockMethods, 'query').and.callThrough();
+        spyOn(mockMethods, 'attach').and.callThrough();
+
+        mockSuperagent = mockRegistry.superagent;
+
+        transport.init(config);
+      });
+
+      describe('when callbacks are present', function() {
+        beforeEach(function() {
+          transport.sendFile(payload);
+        });
+
+        it('sets the correct http method and path', function() {
+          expect(mockSuperagent)
+            .toHaveBeenCalledWith(
+              'POST',
+              'https://test.zendesk.host/test/path');
+        });
+
+        it('adds a query string with the filename', function() {
+          expect(mockMethods.query)
+            .toHaveBeenCalledWith({ filename: 'fakeFile' });
+        });
+
+        it('adds a query string with the web_widget via_id', function() {
+          /* eslint camelcase:0 */
+          expect(mockMethods.query)
+            .toHaveBeenCalledWith({ via_id: 48 });
+        });
+
+        it('adds the file data with the key `uploaded_data`', () => {
+          expect(mockMethods.attach)
+            .toHaveBeenCalledWith('uploaded_data', payload.file);
+        });
+
+        it('triggers the done callback if response is successful', function() {
+          expect(mockMethods.end)
+            .toHaveBeenCalled();
+
+          const recentCall = mockMethods.end.calls.mostRecent();
+          const callback = recentCall.args[0];
+
+          callback(null, { ok: true });
+
+          expect(payload.callbacks.done)
+            .toHaveBeenCalled();
+
+          expect(payload.callbacks.fail)
+            .not.toHaveBeenCalled();
+        });
+
+        it('triggers the fail callback if response is unsuccessful', function() {
+          expect(mockMethods.end)
+            .toHaveBeenCalled();
+
+          const recentCall = mockMethods.end.calls.mostRecent();
+          const callback = recentCall.args[0];
+
+          callback({ error: true }, undefined);
+
+          expect(payload.callbacks.fail)
+            .toHaveBeenCalled();
+
+          expect(payload.callbacks.done)
+            .not.toHaveBeenCalled();
+        });
+      });
+
+      describe('when callbacks object is not present', function() {
+        beforeEach(function() {
+          delete payload.callbacks;
+
+          transport.sendFile(payload);
+        });
+
+        it('will not die', function() {
+          const recentCall = mockMethods.end.calls.mostRecent();
+          const callback = recentCall.args[0];
+
+          expect(() => callback(null, { ok: true }))
+            .not.toThrow();
+        });
+      });
+
+      describe('when callbacks.done is not present', function() {
+        beforeEach(function() {
+          delete payload.callbacks.done;
+
+          transport.sendFile(payload);
+        });
+
+        it('will not die', function() {
+          const recentCall = mockMethods.end.calls.mostRecent();
+          const callback = recentCall.args[0];
+
+          expect(() => callback(null, { ok: true }))
+            .not.toThrow();
+        });
+      });
+
+      describe('when callbacks.fail is not present', function() {
+        beforeEach(function() {
+          delete payload.callbacks.fail;
+
+          transport.sendFile(payload);
+        });
+
+        it('will not die', function() {
+          const recentCall = mockMethods.end.calls.mostRecent();
+          const callback = recentCall.args[0];
+
+          expect(() => callback({ error: true }, undefined))
+            .not.toThrow();
+        });
+      });
+
+      describe('when callbacks.progress is not present', function() {
+        beforeEach(function() {
+          delete payload.callbacks.progress;
+
+          transport.sendFile(payload);
+        });
+
+        it('will not die', function() {
+          const recentCall = mockMethods.on.calls.mostRecent();
+          const callback = recentCall.args[1];
+
+          expect(() => callback({ percent: 10 }))
+            .not.toThrow();
+        });
+      });
     });
   });
 });

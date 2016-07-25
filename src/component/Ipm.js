@@ -1,6 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 
 import { IpmDesktop } from 'component/IpmDesktop';
+import { i18n } from 'service/i18n';
+import { identity } from 'service/identity';
+import { logging } from 'service/logging';
+import { getPageTitle } from 'utility/utils';
 
 export class Ipm extends Component {
   constructor(props, context) {
@@ -22,12 +26,24 @@ export class Ipm extends Component {
   }
 
   ipmSender(name) {
+    if (!this.state.ipm.id) {
+      logging.error({
+        error: new Error('Cannot send an IPM event without a campaign'),
+        context: this.state
+      });
+
+      return;
+    }
+
     const params = {
       event: {
         campaignId: this.state.ipm.id,
         email: this.state.ipm.recipientEmail,
         type: name,
-        url: this.state.url
+        url: this.state.url,
+        title: getPageTitle(),
+        locale: i18n.getLocale(),
+        'anonymous_id': identity.getBuid()
       }
     };
 
@@ -39,8 +55,7 @@ export class Ipm extends Component {
       <IpmDesktop
         {...this.state}
         updateFrameSize={this.props.updateFrameSize}
-        closeFrame={this.props.closeFrame}
-        ipmSender={this.ipmSender} />
+        closeFrame={this.props.closeFrame} />
     );
   }
 }

@@ -4,11 +4,11 @@ import _     from 'lodash';
 
 import { document,
          getDocumentHost } from 'utility/globals';
-import { Launcher }        from 'component/Launcher';
-import { beacon }          from 'service/beacon';
-import { frameFactory }    from 'embed/frameFactory';
-import { i18n }            from 'service/i18n';
-import { mediator }        from 'service/mediator';
+import { Launcher } from 'component/Launcher';
+import { frameFactory } from 'embed/frameFactory';
+import { beacon } from 'service/beacon';
+import { i18n } from 'service/i18n';
+import { mediator } from 'service/mediator';
 import { generateUserCSS } from 'utility/utils';
 import { transitionFactory } from 'service/transitionFactory';
 
@@ -21,20 +21,15 @@ function create(name, config) {
     position: 'right',
     icon: 'Icon',
     labelKey: 'help',
-    visible: true
+    visible: true,
+    color: '#659700'
   };
   const frameStyle = {
     width: '80px',
-    height: '50px',
-    position: 'fixed',
-    bottom: '10px'
+    height: '50px'
   };
 
   config = _.extend(configDefaults, config);
-
-  let posObj = (config.position === 'left')
-             ? { 'left':  '20px' }
-             : { 'right': '20px' };
 
   const Embed = React.createClass(frameFactory(
     (params) => {
@@ -44,14 +39,17 @@ function create(name, config) {
           onClick={params.onClickHandler}
           onTouchEnd={params.onClickHandler}
           updateFrameSize={params.updateFrameSize}
+          setOffsetHorizontal={params.setOffsetHorizontal}
+          setOffsetVertical={params.setOffsetVertical}
           position={config.position}
           label={i18n.t(`embeddable_framework.launcher.label.${config.labelKey}`)}
           icon={config.icon} />
       );
     },
     {
-      frameStyle: _.extend(frameStyle, posObj),
-      css: launcherCSS + generateUserCSS({color: config.color}),
+      frameStyle: frameStyle,
+      position: config.position,
+      css: launcherCSS + generateUserCSS(config.color),
       name: name,
       hideCloseButton: true,
       fullscreenable: false,
@@ -62,7 +60,8 @@ function create(name, config) {
       extend: {
         onClickHandler: function(e) {
           e.preventDefault();
-          beacon.track('launcher', 'click', name);
+
+          beacon.trackUserAction('launcher', 'click', name);
           mediator.channel.broadcast(name + '.onClick');
         }
       }
@@ -87,23 +86,15 @@ function getRootComponent(name) {
 }
 
 function setIcon(name, icon) {
-  if (getRootComponent(name)) {
+  waitForRootComponent(name, () => {
     getRootComponent(name).setIcon(icon);
-  } else {
-    setTimeout(() => {
-      setIcon(name, icon);
-    }, 0);
-  }
+  });
 }
 
 function setHasUnreadMessages(name, unread) {
-  if (getRootComponent(name)) {
+  waitForRootComponent(name, () => {
     getRootComponent(name).setState({ hasUnreadMessages: unread });
-  } else {
-    setTimeout(() => {
-      setHasUnreadMessages(name, unread);
-    }, 0);
-  }
+  });
 }
 
 function render(name) {
@@ -116,15 +107,15 @@ function render(name) {
   launchers[name].instance = ReactDOM.render(launchers[name].component, element);
 
   mediator.channel.subscribe(name + '.hide', function(options = {}) {
-    if (getRootComponent(name)) {
+    waitForRootComponent(name, () => {
       get(name).instance.hide(options);
-    }
+    });
   });
 
   mediator.channel.subscribe(name + '.show', function(options = {}) {
-    if (getRootComponent(name)) {
+    waitForRootComponent(name, () => {
       get(name).instance.show(options);
-    }
+    });
   });
 
   mediator.channel.subscribe(name + '.setLabelChat', function() {
@@ -161,11 +152,17 @@ function render(name) {
 }
 
 function setLabel(name, label) {
-  if (getRootComponent(name)) {
+  waitForRootComponent(name, () => {
     getRootComponent(name).setLabel(label);
+  });
+}
+
+function waitForRootComponent(name, callback) {
+  if (getRootComponent(name)) {
+    callback();
   } else {
     setTimeout(() => {
-      setLabel(name, label);
+      waitForRootComponent(name, callback);
     }, 0);
   }
 }

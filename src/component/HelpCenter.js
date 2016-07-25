@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
 
@@ -63,19 +64,21 @@ export class HelpCenter extends Component {
 
   contextualSearch(options) {
     /* eslint camelcase:0 */
-    const hasSearchKey = (options.hasOwnProperty('search')
-                          && options.search);
-    const hasLabelsKey = (options.hasOwnProperty('labels')
-                          && Array.isArray(options.labels)
-                          && options.labels.length > 0);
+    const hasLabelsKey = options.labels &&
+                         _.isArray(options.labels) &&
+                         options.labels.length > 0;
     const query = {};
-
     let searchTerm;
 
-    if (hasSearchKey) {
+    // This `isString` check is needed in the case that a user passes in only a
+    // string to `zE.setHelpCenterSuggestions`. It avoids options.search evaluating
+    // to true in that case because it equals the string function `String.prototype.search`.
+    if (_.isString(options.search) && options.search.length > 0) {
       searchTerm = query.query = options.search;
     } else if (hasLabelsKey) {
       searchTerm = query.label_names = options.labels.join(',');
+    } else if (options.url && options.pageKeywords && options.pageKeywords.length > 0) {
+      searchTerm = query.query = options.pageKeywords;
     } else {
       return;
     }
@@ -142,7 +145,8 @@ export class HelpCenter extends Component {
     const searchTerm = this.refs.rootComponent.refs.searchField.getValue();
 
     if (_.isEmpty(searchTerm) ||
-        !(searchTerm.length >= 5 && _.last(searchTerm) === ' ')) {
+        !(searchTerm.length >= 5 && _.last(searchTerm) === ' ') ||
+        this.props.disableAutoSearch) {
       return;
     }
 
@@ -169,8 +173,11 @@ export class HelpCenter extends Component {
 
     this.setState({
       articles: articles,
-      resultsCount: json.count
+      resultsCount: json.count,
+      articleViewActive: false
     });
+
+    this.props.showBackButton(false);
   }
 
   searchFail() {
@@ -259,14 +266,104 @@ export class HelpCenter extends Component {
       locale: i18n.getLocale()
     };
 
-    beacon.track('helpCenter', 'click', 'helpCenterForm', trackPayload);
+    this.props.onArticleClick(trackPayload);
 
     this.setState({
       searchResultClicked: true
     });
   }
 
+  searchBoxClickHandler() {
+    this.setState({
+      showIntroScreen: false
+    });
+  }
+
+  updateImages(img) {
+    this.setState({
+      images: _.extend({}, this.state.images, img)
+    });
+  }
+
   render() {
+    const listClasses = classNames({
+      'List': true,
+      'u-isHidden': !this.state.articles.length,
+      'u-borderNone u-marginBS List--fullscreen': this.state.fullscreen
+    });
+    const listItemClasses = classNames({
+      'List-item': true,
+      'u-textSizeBaseMobile': this.state.fullscreen
+    });
+    const formLegendClasses = classNames({
+      'u-paddingTT u-textSizeNml Arrange Arrange--middle u-textBody u-textBold': true,
+      'u-textSizeBaseMobile': this.state.fullscreen,
+      'u-isHidden': !this.state.articles.length
+    });
+    const searchTitleClasses = classNames({
+      'u-textSizeBaseMobile u-marginTM u-textCenter u-textBold': true,
+      'Container--fullscreen-center-vert': true,
+      'u-isHidden': !this.state.fullscreen || !this.state.showIntroScreen
+    });
+    const linkClasses = classNames({
+      'u-textSizeBaseMobile u-textCenter u-marginTL': true,
+      'u-isHidden': !this.state.showIntroScreen
+    });
+    const articleClasses = classNames({
+      'u-isHidden': !this.state.articleViewActive
+    });
+    const formClasses = classNames({
+      'u-isHidden': this.state.articleViewActive
+    });
+    const buttonContainerClasses = classNames({
+      'u-marginTA': this.state.fullscreen,
+      'u-marginVM': this.props.hideZendeskLogo,
+      'u-isHidden': this.state.showIntroScreen ||
+                    (this.state.fullscreen && this.state.searchFieldFocused) ||
+                    (!this.state.fullscreen && !this.state.hasSearched)
+    });
+
+    const articleTemplate = function(article, index) {
+      return (
+        <li key={_.uniqueId('article_')} className={listItemClasses}>
+          <a className='u-userTextColor'
+            href={article.html_url}
+            target='_blank'
+            onClick={this.handleArticleClick.bind(this, index)}>
+              {article.title || article.name}
+          </a>
+        </li>
+      );
+    };
+
+    const onFocusHandler = () => {
+      this.setState({ searchFieldFocused: true });
+    };
+    const onBlurHandler = () => {
+      // defer event to allow onClick events to fire first
+      setTimeout(() => {
+        if (this.state.fullscreen) {
+          this.setState({
+            searchFieldFocused: false
+          });
+        }
+
+        if (this.state.fullscreen && !this.state.hasSearched && !this.state.isLoading) {
+          this.setState({
+            showIntroScreen: true
+          });
+        }
+      }, 1);
+    };
+    const onChangeValueHandler = (value) => {
+      this.setState({ searchFieldValue: value });
+    };
+    const chatButtonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.chat');
+    const mobileHideLogoState = this.state.fullscreen && this.state.hasSearched;
+    const hideZendeskLogo = this.props.hideZendeskLogo || mobileHideLogoState;
+
+    let linkLabel, linkContext;
+
     if (this.props.updateFrameSize) {
       setTimeout( () => this.props.updateFrameSize(), 0);
     }
@@ -326,14 +423,20 @@ export class HelpCenter extends Component {
 }
 
 HelpCenter.propTypes = {
+  searchSender: PropTypes.func.isRequired,
+  contextualSearchSender: PropTypes.func.isRequired,
+  imagesSender: PropTypes.func.isRequired,
+  zendeskHost: PropTypes.string.isRequired,
   buttonLabelKey: PropTypes.string,
   onSearch: PropTypes.func,
   showBackButton: PropTypes.func,
   onNextClick: PropTypes.func,
+  onArticleClick: PropTypes.func,
   hideZendeskLogo: PropTypes.bool,
   updateFrameSize: PropTypes.any,
   style: PropTypes.object,
-  formTitleKey: PropTypes.string
+  formTitleKey: PropTypes.string,
+  disableAutoSearch: PropTypes.bool
 };
 
 HelpCenter.defaultProps = {
@@ -341,8 +444,10 @@ HelpCenter.defaultProps = {
   onSearch: () => {},
   showBackButton: () => {},
   onNextClick: () => {},
+  onArticleClick: () => {},
   hideZendeskLogo: false,
   updateFrameSize: false,
   style: null,
-  formTitleKey: 'help'
+  formTitleKey: 'help',
+  disableAutoSearch: false
 };

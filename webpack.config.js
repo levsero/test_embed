@@ -31,7 +31,7 @@ module.exports = {
         test: /\.scss$/,
         loader: [
           'css',
-          '!autoprefixer?browsers=last 2 versions, > 1%, Firefox ESR, ie >= 9',
+          '!autoprefixer?browsers=last 2 versions, Firefox ESR, ie >= 9',
           '!sass?includePaths[]=src/styles/components/'
         ].join('')
       },

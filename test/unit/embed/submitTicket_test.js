@@ -1,6 +1,7 @@
 describe('embed.submitTicket', function() {
   let submitTicket,
     mockRegistry,
+    mockSettingsValue,
     frameConfig;
   const resetTicketFormVisibility = jasmine.createSpy();
   const hideVirtualKeyboard = jasmine.createSpy();
@@ -13,10 +14,14 @@ describe('embed.submitTicket', function() {
 
     mockery.enable();
 
+    mockSettingsValue = '';
+
     mockRegistry = initMockRegistry({
       'React': React,
       'service/beacon': {
-        beacon: jasmine.createSpyObj('beacon', ['track'])
+        beacon: {
+          trackUserAction: jasmine.createSpy('trackUserAction')
+        }
       },
       'service/mediator': {
         mediator: {
@@ -87,11 +92,16 @@ describe('embed.submitTicket', function() {
           return document.body;
         }
       },
+      'service/settings': {
+        settings: {
+          get: jasmine.createSpy('get').and.returnValue(mockSettingsValue)
+        }
+      },
       'service/transitionFactory' : {
         transitionFactory: requireUncached(buildTestPath('unit/mockTransitionFactory')).mockTransitionFactory
       },
       'service/transport': {
-        transport: jasmine.createSpyObj('transport', ['send'])
+        transport: jasmine.createSpyObj('transport', ['send', 'sendFile'])
       }
     });
 
@@ -137,6 +147,22 @@ describe('embed.submitTicket', function() {
 
       expect(bob.config.formTitleKey)
         .toEqual('test_title');
+    });
+
+    it('changes config.attachmentsEnabled if zESettings.attachmentsDisabled is true', () => {
+      const mockSettingsGet = mockRegistry['service/settings'].settings.get;
+
+      mockSettingsValue = true; // emulate settings.get('attachmentsDisabled')
+
+      submitTicket.create('bob');
+
+      const bob = submitTicket.get('bob');
+
+      expect(mockSettingsGet)
+        .toHaveBeenCalledWith('attachmentsDisabled');
+
+      expect(bob.config.attachmentsEnabled)
+        .toEqual(false);
     });
 
     describe('frameFactory', function() {
@@ -315,60 +341,110 @@ describe('embed.submitTicket', function() {
         submitTicket = requireUncached(submitTicketPath).submitTicket;
         submitTicket.create('bob');
 
-        const  mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
+        const mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
         const payload = mockFrameFactoryCall[0](childFnParams);
 
         expect(payload.props.style)
         .toEqual({height: '100%', width: '100%'});
       });
 
-      it('should broadcast <name>.onSubmitted with onSubmitted', function() {
-        const mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
-        const mockMediator = mockRegistry['service/mediator'].mediator;
-        const mockBeacon = mockRegistry['service/beacon'].beacon;
-
+      describe('when onSubmitted is called', () => {
+        let mockFrameFactory,
+          mockMediator,
+          mockBeacon;
         const childFnParams = {
           updateFrameSize: noop
         };
-        const params = {
-          res: {
-            body: {
-              message: 'Request #149 "bla bla" created'
-            }
-          },
-          searchString: 'a search',
-          searchLocale: 'en-US'
-        };
 
-        mockery.registerMock(
-          'utility/devices', {
-            isMobileBrowser: function() {
-              return true;
-            }
+        beforeEach(function() {
+          mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
+          mockMediator = mockRegistry['service/mediator'].mediator;
+          mockBeacon = mockRegistry['service/beacon'].beacon;
+        });
+
+        describe('when attachments are disabled', () => {
+          it('should broadcast <name>.onSubmitted using correct params for existing endpoint', () => {
+            const params = {
+              res: {
+                body: {
+                  message: 'Request #149 "bla bla" created'
+                },
+                req: {
+                  _data: { email: 'mock@email.com' }
+                }
+              },
+              searchTerm: 'a search',
+              searchLocale: 'en-US'
+            };
+
+            submitTicket.create('bob', { attachmentsEnabled: false });
+
+            const mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
+
+            const payload = mockFrameFactoryCall[0](childFnParams);
+
+            payload.props.onSubmitted(params);
+
+            const value = {
+              query: params.searchTerm,
+              locale: params.searchLocale,
+              ticketId: 149,
+              email: 'mock@email.com'
+            };
+
+            expect(mockBeacon.trackUserAction)
+              .toHaveBeenCalledWith('submitTicket', 'send', 'bob', value);
+
+            expect(mockMediator.channel.broadcast)
+              .toHaveBeenCalledWith('bob.onFormSubmitted');
           });
+        });
 
-        submitTicket.create('bob');
+        describe('when attachments are enabled', () => {
+          it('should broadcast <name>.onSubmitted using correct params for new request endpoint', () => {
+            const params = {
+              res: {
+                req: {
+                  _data: {
+                    request: {
+                      requester: { email: 'mock@email.com' }
+                    }
+                  }
+                },
+                body: {
+                  request: { id: 149 }
+                }
+              },
+              searchTerm: 'a search',
+              searchLocale: 'en-US',
+              attachmentsCount: 2,
+              attachmentTypes: ['image/gif', 'image/png']
+            };
 
-        const mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
+            submitTicket.create('bob', { attachmentsEnabled: true });
 
-        const payload = mockFrameFactoryCall[0](childFnParams);
+            const mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
 
-        payload.props.onSubmitted(params);
+            const payload = mockFrameFactoryCall[0](childFnParams);
 
-        expect(mockBeacon.track)
-          .toHaveBeenCalledWith(
-            'submitTicket',
-            'send',
-            'bob',
-          {
-            query: params.searchString,
-            locale: params.searchLocale,
-            ticketId: 149
-          }
-          );
+            payload.props.onSubmitted(params);
 
-        expect(mockMediator.channel.broadcast)
-          .toHaveBeenCalledWith('bob.onFormSubmitted');
+            const value = {
+              query: params.searchTerm,
+              locale: params.searchLocale,
+              ticketId: 149,
+              email: 'mock@email.com',
+              attachmentsCount: 2,
+              attachmentTypes: ['image/gif', 'image/png']
+            };
+
+            expect(mockBeacon.trackUserAction)
+              .toHaveBeenCalledWith('submitTicket', 'send', 'bob', value);
+
+            expect(mockMediator.channel.broadcast)
+              .toHaveBeenCalledWith('bob.onFormSubmitted');
+          });
+        });
       });
     });
   });
@@ -383,24 +459,74 @@ describe('embed.submitTicket', function() {
   });
 
   describe('submitTicketSender', () => {
-    it('should call transport.send when invoked', () => {
-      const mockTransport = mockRegistry['service/transport'].transport;
-      const formParams = {
+    let formParams,
+      mockTransport,
+      embed;
+
+    beforeEach(function() {
+      mockTransport = mockRegistry['service/transport'].transport;
+      formParams = {
         'set_tags': 'web_widget',
         'via_id': 48,
         'submitted_from': global.window.location.href,
         'email': 'mock@email.com',
         'description': 'Mock Description'
       };
+      submitTicket.create('bob');
+      submitTicket.render('bob');
+
+      embed = submitTicket.get('bob').instance.getRootComponent();
+      embed.props.submitTicketSender(formParams, null, null);
+    });
+
+    it('should call transport.send when invoked', () => {
+      expect(mockTransport.send)
+        .toHaveBeenCalled();
+    });
+
+    it('should send with the default path', () => {
+      expect(mockTransport.send.calls.mostRecent().args[0].path)
+        .toEqual('/requests/embedded/create');
+    });
+
+    it('should send with an alternative path when attachments are enabled', () => {
+      submitTicket.create('bob', { attachmentsEnabled: true });
+      submitTicket.render('bob');
+
+      embed = submitTicket.get('bob').instance.getRootComponent();
+      embed.props.submitTicketSender(formParams, null, null);
+
+      expect(mockTransport.send.calls.mostRecent().args[0].path)
+        .toEqual('/api/v2/requests');
+    });
+  });
+
+  describe('attachmentSender', () => {
+    let file,
+      mockTransport,
+      embed;
+
+    beforeEach(function() {
+      mockTransport = mockRegistry['service/transport'].transport;
+      file = {
+        name: 'foo.bar'
+      };
 
       submitTicket.create('bob');
       submitTicket.render('bob');
 
-      const embed = submitTicket.get('bob').instance.getRootComponent();
+      embed = submitTicket.get('bob').instance.getRootComponent();
+      embed.props.attachmentSender(file, null, null, null);
+    });
 
-      embed.props.submitTicketSender(formParams, null, null);
-      expect(mockTransport.send)
+    it('calls transport.sendFile when invoked', () => {
+      expect(mockTransport.sendFile)
         .toHaveBeenCalled();
+    });
+
+    it('sends to the correct endpoint', () => {
+      expect(mockTransport.sendFile.calls.mostRecent().args[0].path)
+        .toEqual('/api/v2/uploads');
     });
   });
 
@@ -515,7 +641,7 @@ describe('embed.submitTicket', function() {
 
       it('should subscribe to <name>.setLastSearch', function() {
         const params = {
-          searchString: 'a search',
+          searchTerm: 'a search',
           searchLocale: 'en-US'
         };
 
@@ -523,14 +649,14 @@ describe('embed.submitTicket', function() {
           .toHaveBeenCalledWith('bob.setLastSearch', jasmine.any(Function));
 
         bobSubmitTicket.setState({
-          searchString: null,
+          searchTerm: null,
           searchLocale: null
         });
 
         pluckSubscribeCall(mockMediator, 'bob.setLastSearch')(params);
 
-        expect(bobSubmitTicket.state.searchString)
-          .toEqual(params.searchString);
+        expect(bobSubmitTicket.state.searchTerm)
+          .toEqual(params.searchTerm);
         expect(bobSubmitTicket.state.searchLocale)
           .toEqual(params.searchLocale);
       });

@@ -2,7 +2,8 @@ describe('SubmitTicketForm component', function() {
   let SubmitTicketForm,
     onSubmit,
     onCancel,
-    mockRegistry;
+    mockRegistry,
+    mockAttachmentsReadyValue;
   const submitTicketFormPath = buildSrcPath('component/SubmitTicketForm');
   const buttonPath = buildSrcPath('component/Button');
   const formParams = {
@@ -20,6 +21,8 @@ describe('SubmitTicketForm component', function() {
     mockery.enable({
       warnOnReplace: false
     });
+
+    mockAttachmentsReadyValue = true;
 
     mockRegistry = initMockRegistry({
       'React': React,
@@ -43,7 +46,8 @@ describe('SubmitTicketForm component', function() {
           render: function() {
             return <div>{this.props.children}</div>;
           }
-        })
+        }),
+        ButtonDropzone: noopReactComponent()
       },
       'component/FormField': {
         Field: noopReactComponent(),
@@ -60,9 +64,18 @@ describe('SubmitTicketForm component', function() {
             return (
               <div>
                 <h1 id='formTitle'>{this.props.title}</h1>
+                {this.props.children}
                 <div>{this.props.footerContent}</div>
               </div>
             );
+          }
+        })
+      },
+      'component/AttachmentList': {
+        AttachmentList: React.createClass({
+          attachmentsReady: () => mockAttachmentsReadyValue,
+          render: function() {
+            return <div ref="attachments" />;
           }
         })
       },
@@ -76,6 +89,9 @@ describe('SubmitTicketForm component', function() {
       },
       'utility/utils': {
         bindMethods: mockBindMethods
+      },
+      'utility/globals': {
+        win: window
       },
       'lodash': _
     });
@@ -154,6 +170,20 @@ describe('SubmitTicketForm component', function() {
         name: formParams.name,
         email: formParams.email
       });
+  });
+
+  it('should disable submit button when attachments not ready', function() {
+    const submitTicketForm = domRender(<SubmitTicketForm submit={onSubmit} attachmentsEnabled={true} />);
+    const submitTicketFormNode = ReactDOM.findDOMNode(submitTicketForm);
+    const submitElem = submitTicketFormNode.querySelector('input[type="submit"]');
+
+    submitTicketForm.refs.form.checkValidity = () => true;
+    mockAttachmentsReadyValue = false;
+
+    submitTicketForm.updateForm();
+
+    expect(submitElem.disabled)
+      .toEqual(true);
   });
 
   describe('ButtonSecondary', function() {

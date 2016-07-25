@@ -46,7 +46,8 @@ describe('embed.ipm', () => {
         document: global.document,
         getDocumentHost: function() {
           return document.body;
-        }
+        },
+        location: global.location
       },
       'utility/devices': {
         isMobileBrowser: function() {

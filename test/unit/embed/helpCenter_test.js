@@ -2,16 +2,23 @@ describe('embed.helpCenter', function() {
   let helpCenter,
     mockRegistry,
     frameConfig,
-    focusField;
+    mockSettingsValue,
+    focusField,
+    mockIsOnHelpCenterPageValue;
   const helpCenterPath = buildSrcPath('embed/helpCenter/helpCenter');
   const resetSearchFieldState = jasmine.createSpy();
   const hideVirtualKeyboard = jasmine.createSpy();
   const backtrackSearch = jasmine.createSpy();
   const performSearch = jasmine.createSpy();
   const contextualSearch = jasmine.createSpy();
+  const authenticateSpy = jasmine.createSpy();
+  const revokeSpy = jasmine.createSpy();
 
   beforeEach(function() {
     const mockForm = noopReactComponent();
+
+    mockSettingsValue = '';
+    mockIsOnHelpCenterPageValue = false;
 
     focusField = jasmine.createSpy();
 
@@ -22,7 +29,7 @@ describe('embed.helpCenter', function() {
     mockRegistry = initMockRegistry({
       'React': React,
       'service/beacon': {
-        beacon: jasmine.createSpyObj('beacon', ['track'])
+        beacon: jasmine.createSpyObj('beacon', ['trackUserAction'])
       },
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', ['t'])
@@ -30,9 +37,15 @@ describe('embed.helpCenter', function() {
       'service/transport': {
         transport: {
           send: jasmine.createSpy('transport.send'),
+          getImage: jasmine.createSpy('transport.getImage'),
           getZendeskHost: function() {
             return 'zendesk.host';
           }
+        }
+      },
+      'service/settings': {
+        settings: {
+          get: () => { return mockSettingsValue; }
         }
       },
       'service/mediator': {
@@ -83,7 +96,11 @@ describe('embed.helpCenter', function() {
       'utility/utils': {
         setScaleLock: noop,
         generateUserCSS: jasmine.createSpy().and.returnValue(''),
-        getPageKeywords: jasmine.createSpy().and.returnValue('foo bar')
+        getPageKeywords: jasmine.createSpy().and.returnValue('foo bar'),
+        cappedIntervalCall: (callback) => { callback(); }
+      },
+      'utility/pages': {
+        isOnHelpCenterPage: () => mockIsOnHelpCenterPageValue
       },
       'utility/globals': {
         document: global.document,
@@ -92,7 +109,11 @@ describe('embed.helpCenter', function() {
         }
       },
       'service/authentication' : {
-        getToken: noop
+        authentication: {
+          getToken: noop,
+          authenticate: authenticateSpy,
+          revoke: revokeSpy
+        }
       },
       'service/transitionFactory' : {
         transitionFactory: requireUncached(buildTestPath('unit/mockTransitionFactory')).mockTransitionFactory
@@ -479,6 +500,25 @@ describe('embed.helpCenter', function() {
     });
   });
 
+  describe('restrictedImagesSender', function() {
+    it('calls transport.send with passed in image url when called', () => {
+      const mockTransport = mockRegistry['service/transport'].transport;
+
+      helpCenter.create('carlos');
+      helpCenter.render('carlos');
+
+      const embed = helpCenter.get('carlos').instance.getRootComponent();
+      const url = 'https://url.com/image';
+
+      embed.props.imagesSender(url);
+
+      const recentCallArgs = mockTransport.getImage.calls.mostRecent().args[0];
+
+      expect(recentCallArgs.path)
+        .toEqual(url);
+    });
+  });
+
   describe('render', function() {
     it('should throw an exception if HelpCenter does not exist', function() {
       expect(function() {
@@ -608,23 +648,18 @@ describe('embed.helpCenter', function() {
     });
 
     describe('postRender contextual help', function() {
-      let getPageKeywordsSpy,
+      let helpCenter,
+        getPageKeywordsSpy,
         contextualSearchSpy;
 
       beforeEach(function() {
+        helpCenter = requireUncached(helpCenterPath).helpCenter;
+        helpCenter.create('carlos', { contextualHelpEnabled: true });
         getPageKeywordsSpy = mockRegistry['utility/utils'].getPageKeywords;
         contextualSearchSpy = jasmine.createSpy('contextualSearch');
       });
 
       it('should call keywordSearch on non helpcenter pages', function() {
-        mockRegistry['utility/globals'].location = {
-          pathname: '/foo/bar'
-        };
-
-        helpCenter = requireUncached(helpCenterPath).helpCenter;
-
-        helpCenter.create('carlos', { contextualHelpEnabled: true });
-
         const helpCenterFrame = helpCenter.get('carlos');
 
         helpCenterFrame.instance = {
@@ -640,34 +675,92 @@ describe('embed.helpCenter', function() {
         expect(getPageKeywordsSpy)
           .toHaveBeenCalled();
 
-        // This is 'foo bar' because it's what the getPageKeywords spy returns
         expect(contextualSearchSpy)
-          .toHaveBeenCalledWith({ search: 'foo bar' });
+          .toHaveBeenCalledWith({
+            url: true,
+            // This is 'foo bar' because it's what the getPageKeywords spy returns
+            pageKeywords: 'foo bar'
+          });
       });
 
-      it('should\'t call keywordSearch on helpcenter pages', function() {
-        mockRegistry['utility/globals'].location = {
-          pathname: '/hc/1234-article-foo-bar'
-        };
+      it('should\'t call keywordSearch if user has manually set suggestions', function() {
+        const mockMediator = mockRegistry['service/mediator'].mediator;
 
-        helpCenter = requireUncached(helpCenterPath).helpCenter;
+        helpCenter.render('carlos');
 
-        helpCenter.create('carlos', { contextualHelpEnabled: true });
-
-        const helpCenterFrame = helpCenter.get('carlos');
-
-        helpCenterFrame.instance = {
-          getRootComponent: () => {
-            return {
-              contextualSearch: contextualSearchSpy
-            };
-          }
-        };
+        pluckSubscribeCall(mockMediator, 'carlos.setHelpCenterSuggestions')(['foo']);
 
         helpCenter.postRender('carlos');
 
         expect(getPageKeywordsSpy)
           .not.toHaveBeenCalled();
+      });
+
+      it('should\'t call keywordSearch on helpcenter pages', function() {
+        mockIsOnHelpCenterPageValue = true;
+
+        helpCenter.postRender('carlos');
+
+        expect(getPageKeywordsSpy)
+          .not.toHaveBeenCalled();
+      });
+
+      describe('with authenticated help center', function() {
+        let mockMediator;
+
+        beforeEach(function() {
+          mockMediator = mockRegistry['service/mediator'].mediator;
+
+          helpCenter.create('carlos', { contextualHelpEnabled: true, signInRequired: true });
+          helpCenter.render('carlos');
+
+          helpCenter.get('carlos').instance = {
+            getRootComponent: () => {
+              return {
+                contextualSearch: contextualSearchSpy
+              };
+            }
+          };
+          jasmine.clock().install();
+        });
+
+        it('should wait until authenticate is true before searching', function() {
+          pluckSubscribeCall(mockMediator, 'carlos.setHelpCenterSuggestions')();
+          jasmine.clock().tick();
+
+          expect(contextualSearchSpy)
+            .not.toHaveBeenCalled();
+
+          pluckSubscribeCall(mockMediator, 'carlos.isAuthenticated')();
+          jasmine.clock().tick();
+          pluckSubscribeCall(mockMediator, 'carlos.setHelpCenterSuggestions')();
+          jasmine.clock().tick();
+
+          expect(contextualSearchSpy)
+            .toHaveBeenCalled();
+        });
+      });
+    });
+
+    describe('postRender authentication', function() {
+      it('should call authentication.revoke if there is a tokensRevokedAt property in the config', function() {
+        helpCenter.create('carlos', { tokensRevokedAt: Math.floor(Date.now() / 1000) });
+        helpCenter.postRender('carlos');
+
+        const carlos = helpCenter.get('carlos');
+
+        expect(revokeSpy)
+          .toHaveBeenCalledWith(carlos.config.tokensRevokedAt);
+      });
+
+      it('should call authentication.authenticate if there is a jwt token in settings', function() {
+        mockSettingsValue = { jwt: 'token' };
+
+        helpCenter.create('carlos');
+        helpCenter.postRender('carlos');
+
+        expect(authenticateSpy)
+          .toHaveBeenCalledWith('token');
       });
     });
   });

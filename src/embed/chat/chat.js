@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { i18n } from 'service/i18n';
-import { store } from 'service/persistence';
+import { settings } from 'service/settings';
 import { mediator } from 'service/mediator';
 import { document, win,
          getDocumentHost } from 'utility/globals';
@@ -14,7 +14,8 @@ function create(name, config) {
     position: 'right',
     color: '#78A300',
     standalone: false,
-    offsetVertical: 0,
+    offsetVertical: parseInt(settings.get('offset').vertical), // Zopim api can accept numbers, this trims off the 'px' value
+    offsetHorizontal: parseInt(settings.get('offset').horizontal) + settings.get('widgetMargin'),
     size: 'large'
   };
 
@@ -31,9 +32,21 @@ function get(name) {
   return chats[name];
 }
 
+function showButton() {
+  win.$zopim(function() {
+    win.$zopim.livechat.button.show();
+
+    // TODO remove when zopim has release mobile notifications
+    if (win.$zopim.livechat.mobileNotifications) {
+      win.$zopim.livechat.mobileNotifications.setDisabled(false);
+    }
+  });
+}
+
 function show() {
   win.$zopim(function() {
     win.$zopim.livechat.window.show();
+
     // TODO remove when zopim has release mobile notifications
     if (win.$zopim.livechat.mobileNotifications) {
       win.$zopim.livechat.mobileNotifications.setDisabled(false);
@@ -44,6 +57,7 @@ function show() {
 function hide() {
   win.$zopim(function() {
     win.$zopim.livechat.hideAll();
+
     // TODO remove when zopim has release mobile notifications
     if (win.$zopim.livechat.mobileNotifications) {
       win.$zopim.livechat.mobileNotifications.setDisabled(true);
@@ -81,25 +95,24 @@ function render(name) {
     init(name);
   }
 
-  // Hack to override previous zopim hideAll state
-  if (config.standalone && store.get('zopimHideAll') === true) {
-    store.set('zopimHideAll', false);
-    win.$zopim(function() {
-      setTimeout(function() {
-        win.$zopim.livechat.button.show();
-      }, 1500);
-    });
-  }
-
-  mediator.channel.subscribe(`${name}.show`, function() {
-    show(name);
+  mediator.channel.subscribe(`${name}.show`, () => {
+    if (get(name).config.standalone) {
+      win.$zopim(() => {
+        if (win.$zopim.livechat.window.getDisplay()) {
+          show();
+        } else {
+          showButton();
+        }
+      });
+    } else {
+      show();
+    }
   });
 
-  mediator.channel.subscribe(`${name}.hide`, function() {
-    hide();
-  });
+  mediator.channel.subscribe(`${name}.hide`, () => hide());
+  mediator.channel.subscribe(`${name}.activate`, () => show());
 
-  mediator.channel.subscribe(`${name}.setUser`, function(user) {
+  mediator.channel.subscribe(`${name}.setUser`, (user) => {
     win.$zopim && win.$zopim(function() {
       win.$zopim.livechat.setName(user.name);
       win.$zopim.livechat.setEmail(user.email);
@@ -173,8 +186,6 @@ function init(name) {
     const zopimLive = win.$zopim.livechat;
     const zopimWin = zopimLive.window;
 
-    store.set('zopimHideAll', true);
-
     cappedIntervalCall(function() {
       if (zopimWin.getDisplay() || zopimLive.isChatting()) {
         mediator.channel.broadcast(`${name}.onIsChatting`);
@@ -202,6 +213,7 @@ function init(name) {
     zopimWin.setPosition(position);
     zopimWin.setSize(config.size);
     zopimWin.setOffsetVertical(config.offsetVertical);
+    zopimWin.setOffsetHorizontal(config.offsetHorizontal);
   });
 }
 

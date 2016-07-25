@@ -25,7 +25,9 @@ describe('beacon', function() {
         },
         document: {
           referrer: 'http://document.referrer',
-          title: 'Document Title'
+          title: 'Document Title',
+          readyState: 'complete',
+          addEventListener: noop
         },
         navigator: {
           language: 'navigator.language',
@@ -38,7 +40,7 @@ describe('beacon', function() {
         }
       },
       'service/persistence': {
-        store: jasmine.createSpyObj('store', ['set', 'get'])
+        store: jasmine.createSpyObj('store', ['set', 'get', 'remove'])
       },
       'service/i18n': {
         i18n: {
@@ -55,6 +57,9 @@ describe('beacon', function() {
           return 200;
         }
       },
+      'utility/pages': {
+        isOnHelpCenterPage: () => true
+      },
       'lodash': _
     });
 
@@ -68,6 +73,12 @@ describe('beacon', function() {
   });
 
   describe('#init', function() {
+    let mockTransport;
+
+    beforeEach(function() {
+      mockTransport = mockRegistry['service/transport'].transport;
+    });
+
     it('Saves the currentTime', function() {
       const currentTime = Date.now();
       const mockPersistence = mockRegistry['service/persistence'];
@@ -92,12 +103,10 @@ describe('beacon', function() {
     });
 
     describe('mediator subscriptions', function() {
-      let mockMediator,
-        mockTransport;
+      let mockMediator;
 
       beforeEach(function() {
         mockMediator = mockRegistry['service/mediator'].mediator;
-        mockTransport = mockRegistry['service/transport'].transport;
 
         beacon.init();
       });
@@ -124,17 +133,88 @@ describe('beacon', function() {
         expect(transportPayload.params.user.email)
           .toEqual(params.email);
       });
+
+      it('should subscribe to beacon.trackUserAction', function() {
+        const params = {
+          category: 'launcher',
+          action: 'clicked',
+          label: 'launcher',
+          value: null
+        };
+
+        expect(mockMediator.channel.subscribe)
+          .toHaveBeenCalledWith('beacon.trackUserAction', jasmine.any(Function));
+
+        pluckSubscribeCall(mockMediator, 'beacon.trackUserAction')(
+          params.category,
+          params.action,
+          params.label
+        );
+
+        expect(mockTransport.sendWithMeta)
+          .toHaveBeenCalled();
+
+        const transportPayload = mockTransport.sendWithMeta.calls.mostRecent().args[0];
+
+        expect(transportPayload.params.userAction)
+          .toEqual(params);
+      });
+    });
+
+    describe('sending a page view blip', function() {
+      let mockDocument;
+
+      beforeEach(function() {
+        mockDocument = mockRegistry['utility/globals'].document;
+      });
+
+      it('if the document has readyState `complete` it should send a pageview blip', function() {
+        mockDocument.readyState = 'complete';
+
+        beacon.init();
+
+        const transportPayload = mockTransport.sendWithMeta.calls.mostRecent().args[0];
+
+        expect(mockTransport.sendWithMeta)
+          .toHaveBeenCalled();
+
+        expect(transportPayload.params.pageView)
+          .toBeDefined();
+      });
+
+      it('if the document has readyState `interactive` it should send a pageview blip', function() {
+        mockDocument.readyState = 'interactive';
+
+        beacon.init();
+
+        const transportPayload = mockTransport.sendWithMeta.calls.mostRecent().args[0];
+
+        expect(mockTransport.sendWithMeta)
+          .toHaveBeenCalled();
+
+        expect(transportPayload.params.pageView)
+          .toBeDefined();
+      });
+
+      it('if the document has readyState `loading` it should not send a pageview blip', function() {
+        mockDocument.readyState = 'loading';
+
+        beacon.init();
+
+        expect(mockTransport.sendWithMeta)
+          .not.toHaveBeenCalled();
+      });
     });
   });
 
-  describe('#send', function() {
+  describe('#sendPageView', function() {
     it('sends correct payload using transport.send', function() {
       const mockTransport = mockRegistry['service/transport'];
       const mockGlobals = mockRegistry['utility/globals'];
       const mockUtils = mockRegistry['utility/utils'];
+      const mockPages = mockRegistry['utility/pages'];
 
       beacon.init();
-      beacon.send();
       expect(mockTransport.transport.sendWithMeta).toHaveBeenCalled();
 
       const payload = mockTransport.transport.sendWithMeta.calls.mostRecent().args[0];
@@ -164,17 +244,20 @@ describe('beacon', function() {
 
       expect(params.pageView.loadTime)
         .toBe(mockUtils.getFrameworkLoadTime());
+
+      expect(params.pageView.helpCenterDedup)
+        .toBe(mockPages.isOnHelpCenterPage());
     });
   });
 
-  describe('#track', function() {
-    it('should not send anything if the first two params are not provided', function() {
+  describe('#trackUserAction', function() {
+    it('should not send anything if the first two properties are not provided', function() {
       const mockTransport = mockRegistry['service/transport'];
 
-      beacon.track();
-      beacon.track('only one param');
-      beacon.track(undefined, 'second param');
-      beacon.track(undefined, undefined, 'third param');
+      beacon.trackUserAction();
+      beacon.trackUserAction('only first param', null);
+      beacon.trackUserAction(null, 'only second param');
+      beacon.trackUserAction(null, null, 'label');
 
       expect(mockTransport.transport.send)
         .not.toHaveBeenCalled();
@@ -191,7 +274,7 @@ describe('beacon', function() {
 
       beacon.init();
 
-      beacon.track(
+      beacon.trackUserAction(
         userActionParams.category,
         userActionParams.action,
         userActionParams.label,
@@ -217,19 +300,21 @@ describe('beacon', function() {
   });
 
   describe('identify', function() {
+    let mockTransport,
+      mockGlobals;
+
+    const name = 'John';
+    const email = 'john@example.com';
+
+    beforeEach(function() {
+      mockTransport = mockRegistry['service/transport'];
+      mockGlobals = mockRegistry['utility/globals'];
+
+      beacon.init(true);
+      beacon.identify({ name: name, email: email });
+    });
+
     it('sends the correct payload', function() {
-      const name = 'John';
-      const email = 'john@example.com';
-      const user = {
-        name: name,
-        email: email
-      };
-      const mockTransport = mockRegistry['service/transport'];
-
-      beacon.init();
-
-      beacon.identify(user);
-
       expect(mockTransport.transport.sendWithMeta)
         .toHaveBeenCalled();
 
@@ -251,6 +336,9 @@ describe('beacon', function() {
 
       expect(params.user.localeId)
         .toEqual(localeId);
+
+      expect(params.userAgent)
+        .toEqual(mockGlobals.navigator.userAgent);
     });
   });
 });

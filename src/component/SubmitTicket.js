@@ -2,28 +2,38 @@ import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
 
-import { win } from 'utility/globals';
+import { AttachmentBox } from 'component/AttachmentBox';
+import { Container } from 'component/Container';
+import { Icon } from 'component/Icon';
+import { ScrollContainer } from 'component/ScrollContainer';
 import { SubmitTicketForm } from 'component/SubmitTicketForm';
 import { ZendeskLogo } from 'component/ZendeskLogo';
-import { Container } from 'component/Container';
-import { ScrollContainer } from 'component/ScrollContainer';
-import { isMobileBrowser } from 'utility/devices';
-import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
+import { settings } from 'service/settings';
+import { isMobileBrowser } from 'utility/devices';
+import { location,
+         win } from 'utility/globals';
+import { bindMethods } from 'utility/utils';
+
+let frameDimensions = {
+  width: 0,
+  height: 0
+};
 
 export class SubmitTicket extends Component {
   constructor(props, context) {
     super(props, context);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    bindMethods(this, SubmitTicket.prototype);
 
     this.state = {
       showNotification: false,
       message: '',
       fullscreen: isMobileBrowser(),
-      errorMessage: '',
+      errorMessage: null,
       uid: _.uniqueId('submitTicketForm_'),
-      searchString: null,
-      searchLocale: null
+      searchTerm: null,
+      searchLocale: null,
+      isDragActive: false
     };
   }
 
@@ -44,22 +54,17 @@ export class SubmitTicket extends Component {
   handleSubmit(e, data) {
     e.preventDefault();
 
-    this.setState({errorMessage: ''});
+    this.setState({ errorMessage: null });
 
     if (!data.isFormValid) {
       // TODO: Handle invalid form submission
       return;
     }
 
-    const formParams = _.extend(
-      {
-        'set_tags': 'web_widget',
-        'via_id': 48,
-        'locale_id': i18n.getLocaleId(),
-        'submitted_from': win.location.href
-      },
-      this.formatTicketSubmission(data)
-    );
+    const formParams = this.props.attachmentsEnabled
+                     ? this.formatRequestTicketData(data)
+                     : this.formatEmbeddedTicketData(data);
+
     const failCallback = (err) => {
       const msg = (err.timeout)
                 ? i18n.t('embeddable_framework.submitTicket.notify.message.timeout')
@@ -79,36 +84,118 @@ export class SubmitTicket extends Component {
         message: i18n.t('embeddable_framework.submitTicket.notify.message.success')
       });
       this.clearForm();
-      this.props.onSubmitted({
+
+      const params = {
         res: res,
-        searchString: this.state.searchString,
+        searchTerm: this.state.searchTerm,
         searchLocale: this.state.searchLocale
-      });
+      };
+
+      if (this.props.attachmentsEnabled) {
+        const attachmentsList = this.refs.submitTicketForm.refs.attachments;
+
+        // When the MIME type is unknown use 'application/octet-stream' which
+        // represents arbitrary binary data.
+        // Reference: http://stackoverflow.com/questions/1176022/unknown-file-type-mime
+        const attachmentTypes = _.chain(attachmentsList.uploadedAttachments())
+                                 .map('file.type')
+                                 .map((t) => _.isEmpty(t) ? 'application/octet-stream' : t)
+                                 .value();
+
+        _.extend(params, {
+          attachmentsCount: attachmentsList.numUploadedAttachments(),
+          attachmentTypes: attachmentTypes
+        });
+      }
+
+      this.props.onSubmitted(params);
       this.props.updateFrameSize();
     };
 
     this.props.submitTicketSender(formParams, doneCallback, failCallback);
   }
 
-  formatTicketSubmission(data) {
-    if (this.props.customFields.length === 0) {
-      return data.value;
-    } else {
-      let params = {
-        fields: {}
-      };
+  formatEmbeddedTicketData(data) {
+    const params = {
+      'name': data.value.name,
+      'email': data.value.email,
+      'description': data.value.description,
+      'set_tags': 'web_widget',
+      'via_id': settings.get('widgetViaId'),
+      'locale_id': i18n.getLocaleId(),
+      'submitted_from': win.location.href
+    };
 
-      _.forEach(data.value, function(value, name) {
-        // Custom field names are numbers so we check if name is NaN
-        if (isNaN(parseInt(name, 10))) {
-          params[name] = value;
-        } else {
-          params.fields[name] = value;
-        }
-      });
+    return this.props.customFields.length === 0
+         ? params
+         : _.extend(params, this.formatTicketFieldData(data));
+  }
 
-      return params;
-    }
+  formatRequestTicketData(data) {
+    const submittedFrom = i18n.t(
+      'embeddable_framework.submitTicket.form.submittedFrom.label',
+      {
+        fallback: 'Submitted from: %(url)s',
+        url: location.href
+      }
+    );
+    const desc = data.value.description;
+    const newDesc = `${desc}\n\n------------------\n${submittedFrom}`;
+    const uploads = this.refs.submitTicketForm.refs.attachments
+                  ? this.refs.submitTicketForm.refs.attachments.getAttachmentTokens()
+                  : null;
+    const params = {
+      'subject': (desc.length <= 50) ? desc : `${desc.slice(0,50)}...`,
+      'tags': ['web_widget'],
+      'via_id': settings.get('widgetViaId'),
+      'comment': {
+        'body': newDesc,
+        'uploads': uploads
+      },
+      'requester': {
+        'name': data.value.name,
+        'email': data.value.email,
+        'locale_id': i18n.getLocaleId()
+      }
+    };
+
+    return this.props.customFields.length === 0
+         ? { request: params }
+         : { request: _.extend(params, this.formatTicketFieldData(data)) };
+  }
+
+  formatTicketFieldData(data) {
+    let params = {
+      fields: {}
+    };
+
+    _.forEach(data.value, function(value, name) {
+      // Custom field names are numbers so we check if name is NaN
+      if (!isNaN(parseInt(name, 10))) {
+        params.fields[name] = value;
+      }
+    });
+
+    return params;
+  }
+
+  handleDragEnter() {
+    this.setState({
+      isDragActive: true
+    });
+  }
+
+  handleDragLeave() {
+    this.setState({
+      isDragActive: false
+    });
+  }
+
+  handleOnDrop(files) {
+    this.setState({
+      isDragActive: false
+    });
+    this.refs.submitTicketForm.handleOnDrop(files);
   }
 
   render() {
@@ -122,7 +209,9 @@ export class SubmitTicket extends Component {
     });
 
     if (this.props.updateFrameSize) {
-      setTimeout( () => this.props.updateFrameSize(), 0);
+      setTimeout(() => {
+        frameDimensions = this.props.updateFrameSize();
+      }, 0);
     }
 
     const zendeskLogo = this.props.hideZendeskLogo || this.state.fullscreen
@@ -131,13 +220,21 @@ export class SubmitTicket extends Component {
                           formSuccess={this.state.showNotification}
                           rtl={i18n.isRTL()}
                           fullscreen={this.state.fullscreen} />;
+    const attachmentBox = this.state.isDragActive && this.props.attachmentsEnabled
+                        ? <AttachmentBox
+                            onDragLeave={this.handleDragLeave}
+                            dimensions={frameDimensions}
+                            onDrop={this.handleOnDrop} />
+                        : null;
 
     return (
       <Container
         style={this.props.style}
         fullscreen={this.state.fullscreen}
         position={this.props.position}
+        onDragEnter={this.handleDragEnter}
         key={this.state.uid}>
+        {attachmentBox}
         <div className={notifyClasses} ref='notification'>
           <ScrollContainer
             title={this.state.message}>
@@ -153,6 +250,10 @@ export class SubmitTicket extends Component {
           hide={this.state.showNotification}
           customFields={this.props.customFields}
           formTitleKey={this.props.formTitleKey}
+          attachmentSender={this.props.attachmentSender}
+          attachmentsEnabled={this.props.attachmentsEnabled}
+          maxFileCount={this.props.maxFileCount}
+          maxFileSize={this.props.maxFileSize}
           submit={this.handleSubmit}>
           <p className={errorClasses}>
             {this.state.errorMessage}
@@ -167,13 +268,17 @@ export class SubmitTicket extends Component {
 SubmitTicket.propTypes = {
   formTitleKey: PropTypes.string.isRequired,
   submitTicketSender: PropTypes.func.isRequired,
+  attachmentSender: PropTypes.func.isRequired,
   updateFrameSize: PropTypes.any,
   hideZendeskLogo: PropTypes.bool,
   customFields: PropTypes.array,
   style: PropTypes.object,
   position: PropTypes.string,
   onSubmitted: PropTypes.func,
-  onCancel: PropTypes.func
+  onCancel: PropTypes.func,
+  attachmentsEnabled: PropTypes.bool,
+  maxFileCount: PropTypes.number,
+  maxFileSize: PropTypes.number
 };
 
 SubmitTicket.defaultProps = {
@@ -183,5 +288,8 @@ SubmitTicket.defaultProps = {
   style: null,
   position: 'right',
   onSubmitted: () => {},
-  onCancel: () => {}
+  onCancel: () => {},
+  attachmentsEnabled: false,
+  maxFileCount: 5,
+  maxFileSize: 5 * 1024 * 1024
 };

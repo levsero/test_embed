@@ -2,6 +2,7 @@ describe('embed.chat', function() {
   let chat,
     mockIsMobileBrowserValue,
     mockRegistry,
+    mockSettingsValue,
     mockZopim;
 
   const mockGlobals = {
@@ -19,6 +20,8 @@ describe('embed.chat', function() {
     mockery.enable();
 
     mockIsMobileBrowserValue = false;
+
+    mockSettingsValue = { offset: { horizontal: 0, vertical: 0 } };
 
     mockZopim = function(fn) {
       return fn.bind(mockGlobals)();
@@ -43,6 +46,8 @@ describe('embed.chat', function() {
         'setPosition',
         'setTitle',
         'setOffsetVertical',
+        'onShow',
+        'setOffsetHorizontal',
         'onHide',
         'getDisplay',
         'setSize'
@@ -50,7 +55,10 @@ describe('embed.chat', function() {
       mobileNotifications: {
         setIgnoreChatButtonVisibility: jasmine.createSpy('setIgnoreChatButtonVisibility'),
         setDisabled: jasmine.createSpy('setDisabled')
-      }
+      },
+      button: jasmine.createSpyObj('button', [
+        'show'
+      ])
     };
 
     mockGlobals.win.$zopim = mockZopim;
@@ -65,8 +73,10 @@ describe('embed.chat', function() {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
         }
       },
-      'service/persistence': {
-        store: jasmine.createSpyObj('store', ['set', 'get'])
+      'service/settings': {
+        settings: {
+          get: (name) => mockSettingsValue[name]
+        }
       },
       'utility/devices': {
         isMobileBrowser: () => mockIsMobileBrowserValue
@@ -105,6 +115,27 @@ describe('embed.chat', function() {
 
       expect(chat.get(chatName).config.zopimId)
         .toEqual(zopimId);
+    });
+
+    it('should correctly parse the value for offsetHorizontal', function() {
+      mockSettingsValue = {
+        offset: { horizontal: 20 },
+        widgetMargin: 15
+      };
+
+      chat.create('dave');
+
+      expect(chat.get('dave').config.offsetHorizontal)
+        .toEqual(35);
+    });
+
+    it('should correctly grab the value for offsetVertical', function() {
+      mockSettingsValue = { offset: { vertical: '20px' } };
+
+      chat.create('dave');
+
+      expect(chat.get('dave').config.offsetVertical)
+        .toEqual(20);
     });
   });
 
@@ -226,14 +257,39 @@ describe('embed.chat', function() {
     });
 
     describe('mediator subscriptions', function() {
-      describe('<name>.show', function() {
-        it('should call zopim.window.show()', function() {
-          mockMediator = mockRegistry['service/mediator'].mediator;
-          chat.create(chatName, {zopimId: zopimId});
-          chat.render(chatName);
+      beforeEach(function() {
+        mockMediator = mockRegistry['service/mediator'].mediator;
+        chat.create(chatName, {zopimId: zopimId});
+        chat.render(chatName);
+      });
 
-          expect(mockMediator.channel.subscribe)
-            .toHaveBeenCalledWith('dave.show', jasmine.any(Function));
+      it('should subscribe to chat.show', function() {
+        expect(mockMediator.channel.subscribe)
+          .toHaveBeenCalledWith('dave.show', jasmine.any(Function));
+      });
+
+      it('should subscribe to chat.hide', function() {
+        expect(mockMediator.channel.subscribe)
+          .toHaveBeenCalledWith('dave.hide', jasmine.any(Function));
+      });
+
+      it('should subscribe to chat.activate', function() {
+        expect(mockMediator.channel.subscribe)
+          .toHaveBeenCalledWith('dave.activate', jasmine.any(Function));
+      });
+
+      describe('<name>.show', function() {
+        it('should call zopim.button.show() if livechat window has not been opened and it is standalone', function() {
+          chat.create('dave', { zopimId: zopimId, standalone: true });
+
+          pluckSubscribeCall(mockMediator, 'dave.show')();
+
+          expect(mockZopim.livechat.button.show)
+            .toHaveBeenCalled();
+        });
+
+        it('should call zopim.window.show() if livechat window is open', function() {
+          mockZopim.livechat.window.show();
 
           pluckSubscribeCall(mockMediator, 'dave.show')();
 
@@ -242,10 +298,6 @@ describe('embed.chat', function() {
         });
 
         it('should call zopim.livechat.mobileNotifications.setDisabled(false)', function() {
-          mockMediator = mockRegistry['service/mediator'].mediator;
-          chat.create(chatName, {zopimId: zopimId});
-          chat.render(chatName);
-
           pluckSubscribeCall(mockMediator, 'dave.show')();
 
           expect(mockZopim.livechat.mobileNotifications.setDisabled)
@@ -255,28 +307,26 @@ describe('embed.chat', function() {
 
       describe('<name>.hide', function() {
         it('should call zopim.livechat.hideAll()', function() {
-          mockMediator = mockRegistry['service/mediator'].mediator;
-          chat.create(chatName, {zopimId: zopimId});
-          chat.render(chatName);
-
-          expect(mockMediator.channel.subscribe)
-            .toHaveBeenCalledWith('dave.show', jasmine.any(Function));
-
           pluckSubscribeCall(mockMediator, 'dave.hide')();
 
           expect(mockZopim.livechat.hideAll)
             .toHaveBeenCalled();
         });
 
-        it('should call zopim.livechat.mobileNotifications.setDiabled(true)', function() {
-          mockMediator = mockRegistry['service/mediator'].mediator;
-          chat.create(chatName, {zopimId: zopimId});
-          chat.render(chatName);
-
+        it('should call zopim.livechat.mobileNotifications.setDisabled(true)', function() {
           pluckSubscribeCall(mockMediator, 'dave.hide')();
 
           expect(mockZopim.livechat.mobileNotifications.setDisabled)
             .toHaveBeenCalledWith(true);
+        });
+      });
+
+      describe('<name>.activate', function() {
+        it('should call zopim.window.show()', function() {
+          pluckSubscribeCall(mockMediator, 'dave.activate')();
+
+          expect(mockZopim.livechat.window.show)
+            .toHaveBeenCalled();
         });
       });
     });

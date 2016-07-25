@@ -16,7 +16,20 @@ const icons = {
   'Icon--caret': require('icons/widget-icon_caret.svg'),
   'Icon--avatar': require('icons/widget-icon_avatar.svg'),
   'Icon--clearInput': require('icons/widget-icon_clearInput.svg'),
-  'Icon': require('icons/widget-icon_help.svg')
+  'Icon--paperclip-small': require('icons/widget-icon_paperclip_small.svg'),
+  'Icon--paperclip-medium': require('icons/widget-icon_paperclip_medium.svg'),
+  'Icon--paperclip-large': require('icons/widget-icon_paperclip_large.svg'),
+  'Icon': require('icons/widget-icon_help.svg'),
+  'Icon--preview-doc': require('icons/attach_doc.svg'),
+  'Icon--preview-img': require('icons/attach_img.svg'),
+  'Icon--preview-key': require('icons/attach_key.svg'),
+  'Icon--preview-num': require('icons/attach_num.svg'),
+  'Icon--preview-pag': require('icons/attach_pag.svg'),
+  'Icon--preview-pdf': require('icons/attach_pdf.svg'),
+  'Icon--preview-ppt': require('icons/attach_ppt.svg'),
+  'Icon--preview-txt': require('icons/attach_txt.svg'),
+  'Icon--preview-default': require('icons/attach_unknown.svg'),
+  'Icon--preview-xls': require('icons/attach_xls.svg')
 };
 
 export class Icon extends Component {
