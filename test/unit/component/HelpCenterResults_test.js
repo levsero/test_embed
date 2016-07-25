@@ -53,7 +53,7 @@ describe('HelpCenterResults component', () => {
       });
 
       it('renders a noResults div', () => {
-        expect(document.querySelector('#noResults'))
+        expect(document.querySelector('.List--noResults'))
           .toBeTruthy();
       });
 
@@ -74,7 +74,7 @@ describe('HelpCenterResults component', () => {
       });
 
       it('does not render a noResults div', () => {
-        expect(document.querySelector('#noResults'))
+        expect(document.querySelector('.List--noResults'))
           .toBeFalsy();
       });
     });
