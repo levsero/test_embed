@@ -308,14 +308,6 @@ $Base-posOffset: $med + 1;
   color: #DADADA;
 }
 
-.u-fillBase {
-  fill: $base-color !important;
-
-  svg {
-    fill: $base-color !important;
-  }
-}
-
 .u-textSizeSml {
   font-size: #{12/$font-size}rem !important;
 }
