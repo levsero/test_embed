@@ -970,85 +970,76 @@ describe('HelpCenter component', function() {
         .toEqual(1);
     });
 
-    // it('should track view and render the inline article', function() {
-    //   /* eslint camelcase:0 */
-    //   // TODO: Ported over from old performSearch test to catch regression
-    //   // Needs to be rewritten
+    fit('should track view and render the inline article', function() {
+      /* eslint camelcase:0 */
+      // TODO: Ported over from old performSearch test to catch regression
+      // Needs to be rewritten
 
-    //   const mockSearchSender = jasmine.createSpy('mockSearchSender');
-    //   const mockOnArticleClick = jasmine.createSpy('mockOnArticleClick');
-    //   const helpCenter = domRender(
-    //     <HelpCenter
-    //       searchSender={mockSearchSender}
-    //       onArticleClick={mockOnArticleClick}
-    //       onSearch={noop}
-    //       onLinkClick={noop}
-    //       showBackButton={noop} />
-    //   );
-    //   const searchTerm = 'help, I\'ve fallen and can\'t get up!';
-    //   const responseArticle = {
-    //     id: 0,
-    //     title: 'bob',
-    //     name: 'bob',
-    //     html_url: 'bob.com'
-    //   };
-    //   const responsePayload = {
-    //     body: {
-    //       results: [responseArticle, responseArticle, responseArticle],
-    //       count: 3
-    //     },
-    //     ok: true
-    //   };
-    //   const article = ReactDOM.findDOMNode(
-    //     TestUtils.findRenderedDOMComponentWithClass(helpCenter, 'UserContent')
-    //   ).parentNode;
+      const mockSearchSender = jasmine.createSpy('mockSearchSender');
+      const mockOnArticleClick = jasmine.createSpy('mockOnArticleClick');
+      const helpCenter = domRender(
+        <HelpCenter
+          searchSender={mockSearchSender}
+          onArticleClick={mockOnArticleClick}
+          onSearch={noop}
+          onLinkClick={noop}
+          showBackButton={noop} />
+      );
+      const searchTerm = 'help, I\'ve fallen and can\'t get up!';
+      const responseArticle = {
+        id: 0,
+        title: 'bob',
+        name: 'bob',
+        html_url: 'bob.com'
+      };
+      const responsePayload = {
+        body: {
+          results: [responseArticle, responseArticle, responseArticle],
+          count: 3
+        },
+        ok: true
+      };
+      const article = ReactDOM.findDOMNode(
+        TestUtils.findRenderedDOMComponentWithClass(helpCenter, 'UserContent')
+      ).parentNode;
 
-    //   helpCenter.trackSearch = trackSearch;
+      helpCenter.trackSearch = trackSearch;
 
-    //   helpCenter.refs.searchField.getValue = () => searchTerm;
+      helpCenter.refs.searchField.getValue = () => searchTerm;
 
-    //   helpCenter.performSearch({query: searchTerm}, helpCenter.interactiveSearchSuccessFn);
+      helpCenter.performSearch({query: searchTerm}, helpCenter.interactiveSearchSuccessFn);
 
-    //   // THIS setState BLOCK TO SIMULATE manualSearch triggering performSearch
-    //   // TODO: make a better version of this test case
-    //   helpCenter.setState({
-    //     searchTerm: searchTerm,
-    //     searchTracked: true
-    //   });
+      // THIS setState BLOCK TO SIMULATE manualSearch triggering performSearch
+      // TODO: make a better version of this test case
+      helpCenter.setState({
+        searchTerm: searchTerm,
+        searchTracked: true
+      });
 
-    //   mockSearchSender.calls.mostRecent().args[1](responsePayload);
+      mockSearchSender.calls.mostRecent().args[1](responsePayload);
 
-    //   const listItem = TestUtils.scryRenderedDOMComponentsWithClass(
-    //     helpCenter,
-    //     'u-userTextColor'
-    //   )[1];
+      expect(article.className)
+        .toMatch('u-isHidden');
 
-    //   expect(article.className)
-    //     .toMatch('u-isHidden');
+      helpCenter.handleArticleClick(1, { preventDefault: noop });
 
-    //   TestUtils.Simulate.click(listItem, {
-    //     target: {
-    //       getAttribute: function() { return 0; }
-    //     }
-    //   });
+      jasmine.clock().tick(1);
 
-    //   jasmine.clock().tick(1);
+      expect(trackSearch)
+        .not.toHaveBeenCalled();
 
-    //   expect(trackSearch)
-    //     .not.toHaveBeenCalled();
+      expect(mockOnArticleClick)
+        .toHaveBeenCalledWith({
+          query: searchTerm,
+          resultsCount: 3,
+          uniqueSearchResultClick: true,
+          articleId: 0,
+          locale: undefined
+        });
 
-    //   expect(mockOnArticleClick)
-    //     .toHaveBeenCalledWith({
-    //       query: searchTerm,
-    //       resultsCount: 3,
-    //       uniqueSearchResultClick: true,
-    //       articleId: 0,
-    //       locale: undefined
-    //     });
-
-    //   expect(article.className)
-    //     .not.toMatch('u-isHidden');
-    // });
+      expect(article.className)
+        .not.toMatch('u-isHidden');
+    });
 
     it('should call blur and hide the virtual keyboard', function() {
       mockIsMobileBrowserValue = true;
