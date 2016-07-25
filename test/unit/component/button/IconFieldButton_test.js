@@ -1,9 +1,9 @@
-describe('IconFieldButton component', function() {
+describe('IconFieldButton component', () => {
   let IconFieldButton;
 
   const iconFieldButtonPath = buildSrcPath('component/button/IconFieldButton');
 
-  beforeEach(function() {
+  beforeEach(() => {
     resetDOM();
 
     mockery.enable();
@@ -20,12 +20,12 @@ describe('IconFieldButton component', function() {
     IconFieldButton = requireUncached(iconFieldButtonPath).IconFieldButton;
   });
 
-  afterEach(function() {
+  afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
   });
 
-  it('should display the correct classes when not fullscreen', function() {
+  it('should display the correct classes when not fullscreen', () => {
     const button = shallowRender(<IconFieldButton fullscreen={false} />);
 
     expect(button.props.className)
@@ -35,7 +35,7 @@ describe('IconFieldButton component', function() {
       .not.toMatch('Button--fieldMobile');
   });
 
-  it('should display the correct classes when fullscreen', function() {
+  it('should display the correct classes when fullscreen', () => {
     const button = shallowRender(<IconFieldButton fullscreen={true} />);
 
     expect(button.props.className)

@@ -1,10 +1,10 @@
-describe('SearchField component', function() {
+describe('SearchField component', () => {
   let onChangeValue,
     mockRegistry,
     SearchField;
   const searchFieldPath = buildSrcPath('component/field/SearchField');
 
-  beforeEach(function() {
+  beforeEach(() => {
     onChangeValue = jasmine.createSpy('onChangeValue');
 
     resetDOM();
@@ -62,13 +62,13 @@ describe('SearchField component', function() {
     SearchField = requireUncached(searchFieldPath).SearchField;
   });
 
-  afterEach(function() {
+  afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
   });
 
-  describe('SearchField', function() {
-    it('should clear input and call props.onChangeValue when clear icon is clicked', function() {
+  describe('SearchField', () => {
+    it('should clear input and call props.onChangeValue when clear icon is clicked', () => {
       const searchField = domRender(<SearchField onChangeValue={onChangeValue} />);
       const searchFieldNode = ReactDOM.findDOMNode(searchField);
       const searchInputNode = searchFieldNode.querySelector('input');
@@ -81,7 +81,7 @@ describe('SearchField component', function() {
         .toHaveBeenCalledWith('');
     });
 
-    it('should display `Loading` component when `this.props.isLoading` is truthy', function() {
+    it('should display `Loading` component when `this.props.isLoading` is truthy', () => {
       const searchField = domRender(<SearchField isLoading={true} />);
       const loadingNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Loading');
 
@@ -92,7 +92,7 @@ describe('SearchField component', function() {
         .not.toMatch('u-isHidden');
     });
 
-    it('should not display `Loading` component when `this.props.isLoading` is falsy', function() {
+    it('should not display `Loading` component when `this.props.isLoading` is falsy', () => {
       const searchField = domRender(<SearchField isLoading={false} />);
       const loadingNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Loading');
 
@@ -103,7 +103,7 @@ describe('SearchField component', function() {
         .toMatch('u-isHidden');
     });
 
-    it('should display `clearInput` Icon when the input has text and `this.props.isLoading` is false', function() {
+    it('should display `clearInput` Icon when the input has text and `this.props.isLoading` is false', () => {
       const searchField = domRender(<SearchField isLoading={false} fullscreen={true} />);
       const clearInputNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Icon--clearInput');
 
@@ -116,7 +116,7 @@ describe('SearchField component', function() {
         .not.toMatch('u-isHidden');
     });
 
-    it('should not display `clearInput` Icon when the input has no text', function() {
+    it('should not display `clearInput` Icon when the input has no text', () => {
       const searchField = domRender(<SearchField />);
       const clearInputNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Icon--clearInput');
 
@@ -129,7 +129,7 @@ describe('SearchField component', function() {
         .toMatch('u-isHidden');
     });
 
-    it('should not display `clearInput` Icon when `this.props.isLoading` is true', function() {
+    it('should not display `clearInput` Icon when `this.props.isLoading` is true', () => {
       const searchField = domRender(<SearchField isLoading={true} />);
       const clearInputNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Icon--clearInput');
 
@@ -143,34 +143,34 @@ describe('SearchField component', function() {
     });
   });
 
-  describe('disableAutoSearch', function() {
+  describe('disableAutoSearch', () => {
     let Icon,
       IconFieldButton,
       searchField;
 
-    beforeEach(function() {
+    beforeEach(() => {
       Icon = mockRegistry['component/Icon'].Icon;
       IconFieldButton = mockRegistry['component/button/IconFieldButton'].IconFieldButton;
     });
 
-    it('should display the IconFieldButton component if true', function() {
+    it('should display the IconFieldButton component if true', () => {
       searchField = domRender(<SearchField disableAutoSearch={true} />);
 
-      expect(TestUtils.scryRenderedComponentsWithType(searchField, IconFieldButton).length)
-        .not.toEqual(0);
+      expect(TestUtils.findRenderedComponentWithType(searchField, IconFieldButton))
+        .toBeTruthy();
 
-      expect(TestUtils.scryRenderedComponentsWithType(searchField, Icon).length)
-        .toEqual(0);
+      expect(() => TestUtils.findRenderedComponentWithType(searchField, Icon))
+        .toThrow();
     });
 
-    it('should display the Icon component if false', function() {
+    it('should display the Icon component if false', () => {
       searchField = domRender(<SearchField />);
 
       expect(TestUtils.scryRenderedComponentsWithType(searchField, Icon).length)
         .not.toEqual(0);
 
-      expect(TestUtils.scryRenderedComponentsWithType(searchField, IconFieldButton).length)
-        .toEqual(0);
+      expect(() => TestUtils.findRenderedComponentWithType(searchField, IconFieldButton))
+        .toThrow();
     });
   });
 });

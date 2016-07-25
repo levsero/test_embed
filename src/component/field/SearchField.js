@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 
 import { IconFieldButton } from 'component/button/IconFieldButton';
@@ -57,7 +56,7 @@ export class SearchField extends Component {
   }
 
   getSearchField() {
-    return ReactDOM.findDOMNode(this.refs.searchFieldInput.refs.input);
+    return this.refs.searchFieldInput.getInput();
   }
 
   getValue() {
@@ -82,11 +81,9 @@ export class SearchField extends Component {
   }
 
   renderSearchInput() {
-    const { fullscreen } = this.props;
-
     return (
       <SearchInput
-        fullscreen={fullscreen}
+        fullscreen={this.props.fullscreen}
         onChange={this.onChange}
         onBlur={this.onBlur}
         searchInputVal={this.state.searchInputVal}

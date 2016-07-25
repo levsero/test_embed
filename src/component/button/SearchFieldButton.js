@@ -23,13 +23,9 @@ export class SearchFieldButton extends Component {
                                         className='Arrange-sizeFit u-isActionable'
                                         type='Icon--search' />;
 
-    let searchBar;
-
-    if (disableAutoSearch) {
-      searchBar = [ searchTerm, icon ];
-    } else {
-      searchBar = [ icon, searchTerm ];
-    }
+    const searchBar = (disableAutoSearch)
+                    ? [ searchTerm, icon ]
+                    : [ icon, searchTerm ];
 
     return (
       <div className='u-cf u-paddingHN u-paddingBN Form-cta--barFullscreen'>
