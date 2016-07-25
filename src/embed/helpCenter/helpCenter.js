@@ -29,6 +29,7 @@ let hasManuallySetContextualSuggestions = false;
 let hasAuthenticatedSuccessfully = false;
 let hasInitialContextualSearchFired = false;
 let useMouseDistanceContexualSearch = true;
+let drawDebugLine = null;
 
 function create(name, config) {
   let containerStyle;
@@ -323,7 +324,7 @@ function render(name) {
 }
 
 if (__DEV__) {
-  function drawDebugLine(widgetCoords, mouseCoords) {
+  drawDebugLine = (widgetCoords, mouseCoords) => {
     const line = document.getElementById('zeLine');
     const clientWidth = document.documentElement.clientWidth;
     const clientHeight = document.documentElement.clientHeight;
@@ -332,7 +333,7 @@ if (__DEV__) {
     line.setAttribute('x2', Math.round(widgetCoords.x * clientWidth));
     line.setAttribute('y1', Math.round(mouseCoords.y * clientHeight));
     line.setAttribute('y2', Math.round(widgetCoords.y * clientHeight));
-  }
+  };
 }
 
 function getWidgetBounds() {
