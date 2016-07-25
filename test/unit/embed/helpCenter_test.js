@@ -93,6 +93,12 @@ describe('embed.helpCenter', function() {
           return false;
         }
       },
+      'utility/mouse': {
+        mouse: {
+          addListener: noop,
+          removeListener: noop
+        }
+      },
       'utility/utils': {
         setScaleLock: noop,
         generateUserCSS: jasmine.createSpy().and.returnValue(''),
