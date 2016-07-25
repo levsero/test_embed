@@ -88,10 +88,7 @@ export class HelpCenterResults extends Component {
       'u-textSizeBaseMobile': this.props.fullscreen
     });
     const resultsLegend = this.props.hasContextualSearched
-                        ? i18n.t(
-                            'embeddable_framework.helpCenter.label.topSuggestions',
-                            { fallback: 'Top Suggestions' }
-                          )
+                        ? i18n.t('embeddable_framework.helpCenter.label.topSuggestions')
                         : i18n.t('embeddable_framework.helpCenter.label.results');
     const results = this.props.articles.length > 0
                   ? this.renderResults()
