@@ -4,7 +4,7 @@ import _ from 'lodash';
 import classNames from 'classnames';
 
 import { HelpCenterArticle } from 'component/HelpCenterArticle';
-import { SearchField } from 'component/FormField';
+import { SearchField } from 'component/field/SearchField';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { ScrollContainer } from 'component/ScrollContainer';
 import { i18n } from 'service/i18n';

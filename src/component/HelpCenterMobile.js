@@ -3,10 +3,10 @@ import _ from 'lodash';
 import classNames from 'classnames';
 
 import { HelpCenterArticle } from 'component/HelpCenterArticle';
-import { SearchField,
-         SearchFieldButton } from 'component/FormField';
+import { SearchField } from 'component/field/SearchField';
+import { SearchFieldButton } from 'component/button/SearchFieldButton';
 import { ZendeskLogo } from 'component/ZendeskLogo';
-import { SrollContainer } from 'component/ScrollContainer';
+import { ScrollContainer } from 'component/ScrollContainer';
 import { i18n } from 'service/i18n';
 import { Button,
          ButtonGroup } from 'component/Button';
@@ -24,14 +24,16 @@ export class HelpCenterMobile extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    const searchField = this.refs.searchField;
+
     if (prevState.showIntroScreen === true &&
         this.state.showIntroScreen === false &&
         this.props.parentState.hasContextualSearched === false) {
-      this.refs.searchField.focus();
+      searchField.focus();
     }
 
-    if (this.refs.searchField) {
-      this.refs.searchField.setState({
+    if (searchField) {
+      searchField.setState({
         searchInputVal: this.props.parentState.searchFieldValue
       });
     }
