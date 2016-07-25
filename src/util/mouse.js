@@ -1,12 +1,14 @@
 import _ from 'lodash';
 
 import { document } from 'utility/globals';
+import { getDistance } from 'utility/utils';
 
 let listeners = {};
 let lastPosition = { x: -1, y: -1 };
 let lastEvent = null;
 const eventMap = {
-  'mousemove': handleMouseMove
+  'onmousemove': handleMouseMove,
+  'onmousedown': handleMouseDown
 };
 
 function addListener(eventType, listener, key) {
@@ -14,22 +16,44 @@ function addListener(eventType, listener, key) {
     return;
   }
 
-  if (_.isEmpty(listeners)) {
-    document.addEventListener(eventType, eventMap[eventType]);
+  if (!listeners[eventType]) {
+    document[eventType] = eventMap[eventType];
+    listeners[eventType] = {};
   }
 
-  listeners[key] = listener;
+  listeners[eventType][key] = listener;
+}
+
+function getListener(eventType, key) {
+  if (listeners[eventType]) {
+    return listeners[eventType][key] || null;
+  }
+
+  return null;
 }
 
 function removeListener(eventType, key) {
+  if (!eventMap.hasOwnProperty(eventType) ||
+      !listeners.hasOwnProperty(eventType)) {
+    return;
+  }
+
+  listeners[eventType] = _.omit(listeners[eventType], key);
+
+  if (_.isEmpty(listeners[eventType])) {
+    document[eventType] = null;
+    listeners = _.omit(listeners, eventType);
+  }
+}
+
+function removeAllListeners(eventType) {
   if (!eventMap.hasOwnProperty(eventType)) {
     return;
   }
 
-  listeners = _.omit(listeners, key);
-
-  if (_.isEmpty(listeners)) {
-    document.removeEventListener(eventType, eventMap[eventType]);
+  if (!_.isEmpty(listeners[eventType])) {
+    listeners[eventType] = {};
+    document[eventType] = null;
   }
 }
 
@@ -38,10 +62,11 @@ function handleMouseMove(event) {
 
   const position = { x: event.clientX, y: event.clientY };
   const speed = calculateMouseSpeed(position);
+  const eventListeners = listeners.onmousemove;
 
   lastEvent = event;
 
-  _.forEach(listeners, (l) => l({
+  _.forEach(eventListeners, (l) => l({
     position,
     speed,
     event
@@ -50,14 +75,15 @@ function handleMouseMove(event) {
   _.merge(lastPosition, position);
 }
 
+function handleMouseDown(event) {} // eslint-disable-line no-unused-vars
+
 function calculateMouseSpeed(position) {
   if (!lastEvent) {
     return 0;
   }
 
-  const distX = lastEvent.clientX - position.x;
-  const distY = lastEvent.clientY - position.y;
-  const distance = Math.sqrt(distX*distX + distY*distY);
+  const lastPos = { x: lastEvent.clientX, y: lastEvent.clientY };
+  const distance = getDistance(lastPos, position);
   const time = Date.now() - lastEvent.time;
 
   return distance / time;
@@ -65,5 +91,7 @@ function calculateMouseSpeed(position) {
 
 export const mouse = {
   addListener,
-  removeListener
+  getListener,
+  removeListener,
+  removeAllListeners
 };

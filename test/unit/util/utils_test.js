@@ -4,6 +4,7 @@ describe('utils', function() {
     splitPath,
     getPageKeywords,
     getPageTitle,
+    getDistance,
     metaTag;
   const mockGlobals = {
     win: {},
@@ -46,6 +47,7 @@ describe('utils', function() {
     splitPath = require(utilPath).splitPath;
     getPageKeywords = require(utilPath).getPageKeywords;
     getPageTitle = require(utilPath).getPageTitle;
+    getDistance = require(utilPath).getDistance;
 
     metaTag = document.createElement('meta');
     metaTag.name = 'viewport';
@@ -236,6 +238,16 @@ describe('utils', function() {
 
       expect(containerDiv.outerHTML)
         .toEqual('<h1 data-ze-reactid=".0">Hello React!</h1>');
+    });
+  });
+
+  describe('getDistance', () => {
+    it('should return the euclidean distance between two 2D points', () => {
+      const pointA = { x: 0, y: 3 };
+      const pointB = { x: 3, y: 1 };
+
+      expect(getDistance(pointA, pointB))
+        .toBeCloseTo(3.61);
     });
   });
 });

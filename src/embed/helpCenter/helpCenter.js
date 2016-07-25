@@ -20,7 +20,8 @@ import { isOnHelpCenterPage } from 'utility/pages';
 import { cappedIntervalCall,
          generateUserCSS,
          getPageKeywords,
-         setScaleLock } from 'utility/utils';
+         setScaleLock,
+         getDistance } from 'utility/utils';
 
 const helpCenterCSS = require('./helpCenter.scss');
 let helpCenters = {};
@@ -227,7 +228,6 @@ function updateHelpCenterButton(name, labelKey) {
 }
 
 function keywordsSearch(name, options, mouseProps) {
-  const minMouseDistance = mouseProps.speed > 1.5 ? 0.6 : 0.25;
   const contextualSearchFn = () => {
     const rootComponent = getRootComponent(name);
     const isAuthenticated = get(name).config.signInRequired === false || hasAuthenticatedSuccessfully;
@@ -237,7 +237,7 @@ function keywordsSearch(name, options, mouseProps) {
         options.pageKeywords = getPageKeywords();
       }
 
-      rootComponent.contextualSearch({ search: 'help' } /* options */);
+      rootComponent.contextualSearch(options);
       return true;
     } else {
       return false;
@@ -245,20 +245,22 @@ function keywordsSearch(name, options, mouseProps) {
   };
 
   if (!useMouseDistanceContexualSearch ||
-      hasManuallySetContextualSuggestions ||
       hasInitialContextualSearchFired ||
       isMobileBrowser()) {
     // If we have fired the initial page load contextual search request.
     // Then the subsequent calls must be via the API.
     cappedIntervalCall(contextualSearchFn, 500, 10);
-  } else if (mouseProps.distance < minMouseDistance) {
-    hasInitialContextualSearchFired = true;
+  } else {
+    const minMouseDistance = mouseProps.speed > 1.5 ? 0.6 : 0.25;
 
     // Remove the `mousemove` event handler once the mouse reaches
     // the minimum distance from the widget. We only want this check
     // for the page load contextual search.
-    mouse.removeListener('mousemove', 'contextual');
-    cappedIntervalCall(contextualSearchFn, 500, 10);
+    if (mouseProps.distance < minMouseDistance) {
+      mouse.removeListener('onmousemove', 'contextual');
+      cappedIntervalCall(contextualSearchFn, 500, 10);
+      hasInitialContextualSearchFired = true;
+    }
   }
 }
 
@@ -307,7 +309,12 @@ function render(name) {
 
   mediator.channel.subscribe(name + '.setHelpCenterSuggestions', function(options) {
     hasManuallySetContextualSuggestions = true;
-    keywordsSearch(name, options);
+
+    if (hasInitialContextualSearchFired || !useMouseDistanceContexualSearch) {
+      keywordsSearch(name, options);
+    } else if (useMouseDistanceContexualSearch) {
+      mouse.addListener('onmousemove', handleMouse(name, options), 'contextual');
+    }
   });
 
   mediator.channel.subscribe(name + '.isAuthenticated', function() {
@@ -315,15 +322,17 @@ function render(name) {
   });
 }
 
-function drawDebugLine(widgetCoords, mouseCoords) {
-  const line = document.getElementById('zeLine');
-  const clientWidth = document.documentElement.clientWidth;
-  const clientHeight = document.documentElement.clientHeight;
+if (__DEV__) {
+  function drawDebugLine(widgetCoords, mouseCoords) {
+    const line = document.getElementById('zeLine');
+    const clientWidth = document.documentElement.clientWidth;
+    const clientHeight = document.documentElement.clientHeight;
 
-  line.setAttribute('x1', Math.round(mouseCoords.x * clientWidth));
-  line.setAttribute('x2', Math.round(widgetCoords.x * clientWidth));
-  line.setAttribute('y1', Math.round(mouseCoords.y * clientHeight));
-  line.setAttribute('y2', Math.round(widgetCoords.y * clientHeight));
+    line.setAttribute('x1', Math.round(mouseCoords.x * clientWidth));
+    line.setAttribute('x2', Math.round(widgetCoords.x * clientWidth));
+    line.setAttribute('y1', Math.round(mouseCoords.y * clientHeight));
+    line.setAttribute('y2', Math.round(widgetCoords.y * clientHeight));
+  }
 }
 
 function getWidgetBounds() {
@@ -352,9 +361,7 @@ const handleMouse = (name, options) => (props) => {
   }
 
   // Calculate the euclidean distance between the mouse and the widget.
-  const lhs = Math.pow(widgetCoords.x - mouseCoords.x, 2);
-  const rhs = Math.pow(widgetCoords.y - mouseCoords.y, 2);
-  const distance = Math.sqrt(lhs + rhs);
+  const distance = getDistance(widgetCoords, mouseCoords);
 
   keywordsSearch(name, options, {
     distance: distance,
@@ -369,12 +376,12 @@ function postRender(name) {
   if (config.contextualHelpEnabled &&
       !hasManuallySetContextualSuggestions &&
       !isOnHelpCenterPage()) {
-    const options = { search: getPageKeywords() };
+    const options = { url: true };
 
     // Listen to the `mousemove` event so we can grab the x and y coordinate
     // of the end-users mouse relative to the host page viewport.
     if (!isMobileBrowser() && useMouseDistanceContexualSearch) {
-      mouse.addListener('mousemove', handleMouse(name, options), 'contextual');
+      mouse.addListener('onmousemove', handleMouse(name, options), 'contextual');
     } else {
       keywordsSearch(name, options);
     }
