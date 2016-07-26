@@ -27,7 +27,7 @@ export class HelpCenterResults extends Component {
   renderResults() {
     const listClasses = classNames({
       'List': true,
-      'u-borderNone u-marginBS List--fullscreen': this.props.fullscreen
+      'u-marginBS List--fullscreen': this.props.fullscreen
     });
     const articleLinks = _.chain(this.props.articles)
       .map(this.renderResultRow.bind(this))
@@ -61,7 +61,7 @@ export class HelpCenterResults extends Component {
                : i18n.t('embeddable_framework.helpCenter.search.noResults.body');
 
     return (
-      <div className={noResultsClasses} id='noResults'>
+      <div className={noResultsClasses}>
         <p className='u-marginBN u-marginTL'>
           {title}
         </p>
@@ -87,6 +87,10 @@ export class HelpCenterResults extends Component {
       'u-paddingTT u-textSizeNml Arrange Arrange--middle u-textBody u-textBold': true,
       'u-textSizeBaseMobile': this.props.fullscreen
     });
+    const showBottomBorder = !this.props.fullscreen && this.props.articles.length > 0 && this.props.articles.length < 4;
+    const resultsClasses = classNames({
+      'u-paddingBM u-borderBottom': showBottomBorder
+    });
     const resultsLegend = this.props.hasContextualSearched
                         ? i18n.t('embeddable_framework.helpCenter.label.topSuggestions')
                         : i18n.t('embeddable_framework.helpCenter.label.results');
@@ -96,7 +100,7 @@ export class HelpCenterResults extends Component {
     const viewMoreButton = this.props.showViewMore ? this.renderViewMoreButton() : null;
 
     return (
-      <div>
+      <div className={resultsClasses}>
         <div className={legendClasses}>
           <span className='Arrange-sizeFill'>
             {resultsLegend}

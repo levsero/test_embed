@@ -63,7 +63,9 @@ export class HelpCenter extends Component {
       });
     }
 
-    this.refs.scrollContainer.setScrollShadowVisible(this.state.articleViewActive);
+    const shadowVisible = this.state.articleViewActive || this.state.articles.length > minimumSearchResults;
+
+    this.refs.scrollContainer.setScrollShadowVisible(shadowVisible);
   }
 
   focusField() {
