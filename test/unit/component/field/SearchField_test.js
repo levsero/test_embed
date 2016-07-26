@@ -1,10 +1,10 @@
-describe('SearchField component', function() {
+describe('SearchField component', () => {
   let onChangeValue,
-    SearchField,
-    mockIsMobileBrowserValue;
+    mockRegistry,
+    SearchField;
   const searchFieldPath = buildSrcPath('component/field/SearchField');
 
-  beforeEach(function() {
+  beforeEach(() => {
     onChangeValue = jasmine.createSpy('onChangeValue');
 
     resetDOM();
@@ -13,12 +13,19 @@ describe('SearchField component', function() {
       warnOnReplace: false
     });
 
-    mockIsMobileBrowserValue = false;
-
-    initMockRegistry({
+    mockRegistry = initMockRegistry({
       'React': React,
-      'component/button/SearchFieldButton': {
-        SearchFieldButton: noopReactComponent()
+      'component/button/IconFieldButton': {
+        IconFieldButton: noopReactComponent()
+      },
+      'component/field/SearchInput': {
+        SearchInput: React.createClass({
+          render: function() {
+            return (
+              <input onChange={this.props.onChange} />
+            );
+          }
+        })
       },
       'component/Loading': {
         LoadingEllipses: React.createClass({
@@ -45,24 +52,8 @@ describe('SearchField component', function() {
           }
         })
       },
-      'utility/devices': {
-        isMobileBrowser: function() {
-          return mockIsMobileBrowserValue;
-        },
-        isIos: noop
-      },
       'utility/utils': {
         bindMethods: mockBindMethods
-      },
-      'service/i18n': {
-        i18n: jasmine.createSpyObj('i18n', [
-          'init',
-          'setLocale',
-          'getLocale',
-          't',
-          'isRTL',
-          'getLocaleId'
-        ])
       }
     });
 
@@ -71,13 +62,13 @@ describe('SearchField component', function() {
     SearchField = requireUncached(searchFieldPath).SearchField;
   });
 
-  afterEach(function() {
+  afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
   });
 
-  describe('SearchField', function() {
-    it('should clear input and call props.onChangeValue when clear icon is clicked', function() {
+  describe('SearchField', () => {
+    it('should clear input and call props.onChangeValue when clear icon is clicked', () => {
       const searchField = domRender(<SearchField onChangeValue={onChangeValue} />);
       const searchFieldNode = ReactDOM.findDOMNode(searchField);
       const searchInputNode = searchFieldNode.querySelector('input');
@@ -86,14 +77,11 @@ describe('SearchField component', function() {
 
       TestUtils.Simulate.click(searchFieldNode.querySelector('.Icon--clearInput'));
 
-      expect(searchInputNode.value)
-        .toEqual('');
-
       expect(onChangeValue)
         .toHaveBeenCalledWith('');
     });
 
-    it('should display `Loading` component when `this.props.isLoading` is truthy', function() {
+    it('should display `Loading` component when `this.props.isLoading` is truthy', () => {
       const searchField = domRender(<SearchField isLoading={true} />);
       const loadingNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Loading');
 
@@ -104,7 +92,7 @@ describe('SearchField component', function() {
         .not.toMatch('u-isHidden');
     });
 
-    it('should not display `Loading` component when `this.props.isLoading` is falsy', function() {
+    it('should not display `Loading` component when `this.props.isLoading` is falsy', () => {
       const searchField = domRender(<SearchField isLoading={false} />);
       const loadingNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Loading');
 
@@ -115,10 +103,8 @@ describe('SearchField component', function() {
         .toMatch('u-isHidden');
     });
 
-    it('should display `clearInput` Icon when the input has text and `this.props.isLoading` is false', function() {
-      mockIsMobileBrowserValue = true;
-
-      const searchField = domRender(<SearchField isLoading={false} />);
+    it('should display `clearInput` Icon when the input has text and `this.props.isLoading` is false', () => {
+      const searchField = domRender(<SearchField isLoading={false} fullscreen={true} />);
       const clearInputNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Icon--clearInput');
 
       searchField.setState({ searchInputVal: 'something' });
@@ -130,7 +116,7 @@ describe('SearchField component', function() {
         .not.toMatch('u-isHidden');
     });
 
-    it('should not display `clearInput` Icon when the input has no text', function() {
+    it('should not display `clearInput` Icon when the input has no text', () => {
       const searchField = domRender(<SearchField />);
       const clearInputNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Icon--clearInput');
 
@@ -143,7 +129,7 @@ describe('SearchField component', function() {
         .toMatch('u-isHidden');
     });
 
-    it('should not display `clearInput` Icon when `this.props.isLoading` is true', function() {
+    it('should not display `clearInput` Icon when `this.props.isLoading` is true', () => {
       const searchField = domRender(<SearchField isLoading={true} />);
       const clearInputNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Icon--clearInput');
 
@@ -154,6 +140,37 @@ describe('SearchField component', function() {
 
       expect(clearInputNode.props.className)
         .toMatch('u-isHidden');
+    });
+  });
+
+  describe('disableAutoSearch', () => {
+    let Icon,
+      IconFieldButton,
+      searchField;
+
+    beforeEach(() => {
+      Icon = mockRegistry['component/Icon'].Icon;
+      IconFieldButton = mockRegistry['component/button/IconFieldButton'].IconFieldButton;
+    });
+
+    it('should display the IconFieldButton component if true', () => {
+      searchField = domRender(<SearchField disableAutoSearch={true} />);
+
+      expect(TestUtils.findRenderedComponentWithType(searchField, IconFieldButton))
+        .toBeTruthy();
+
+      expect(() => TestUtils.findRenderedComponentWithType(searchField, Icon))
+        .toThrow();
+    });
+
+    it('should display the Icon component if false', () => {
+      searchField = domRender(<SearchField />);
+
+      expect(TestUtils.scryRenderedComponentsWithType(searchField, Icon).length)
+        .not.toEqual(0);
+
+      expect(() => TestUtils.findRenderedComponentWithType(searchField, IconFieldButton))
+        .toThrow();
     });
   });
 });

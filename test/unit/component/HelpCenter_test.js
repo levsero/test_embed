@@ -48,6 +48,9 @@ describe('HelpCenter component', function() {
               focused: true
             });
           },
+          getSearchField: function() {
+            return this.refs.searchFieldInput;
+          },
           blur: searchFieldBlur,
           getValue: searchFieldGetValue,
           render: function() {

@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
 
-import { HelpCenterArticle } from 'component/HelpCenterArticle';
 import { SearchField } from 'component/field/SearchField';
 import { SearchFieldButton } from 'component/button/SearchFieldButton';
 import { ZendeskLogo } from 'component/ZendeskLogo';
@@ -19,17 +18,18 @@ export class HelpCenterMobile extends Component {
 
     this.state = {
       showIntroScreen: true,
+      searchFieldFocused: false,
       virtualKeyboardKiller: false
     };
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  focusField() {
     const searchField = this.refs.searchField;
 
-    if (prevState.showIntroScreen === true &&
-        this.state.showIntroScreen === false &&
-        this.props.parentState.hasContextualSearched === false) {
-      searchField.focus();
+    if (this.props.parentState.hasContextualSearched === false) {
+        const searchField = this.refs.searchField;
+
+        searchField.focus();
     }
 
     if (searchField) {
@@ -62,6 +62,10 @@ export class HelpCenterMobile extends Component {
     this.setState({
       showIntroScreen: false
     });
+
+    setTimeout(() => {
+      this.focusField();
+    }, 0)
   }
 
   render() {
@@ -94,7 +98,7 @@ export class HelpCenterMobile extends Component {
     const buttonContainerClasses = classNames({
       'u-marginTA': true,
       'u-marginVM': this.props.hideZendeskLogo,
-      'u-isHidden': this.state.showIntroScreen || this.props.parentState.searchFieldFocused
+      'u-isHidden': this.state.showIntroScreen || this.state.searchFieldFocused
     });
 
     const articleTemplate = function(article, index) {
@@ -110,15 +114,10 @@ export class HelpCenterMobile extends Component {
       );
     };
 
-    const onFocusHandler = () => {
-      this.setState({ searchFieldFocused: true });
-    };
     const onBlurHandler = () => {
       // defer event to allow onClick events to fire first
       setTimeout(() => {
-        this.setState({
-          searchFieldFocused: false
-        });
+        this.setState({ searchFieldFocused: false });
 
         if (!this.props.parentState.hasSearched && !this.props.parentState.isLoading) {
           this.setState({
@@ -127,8 +126,8 @@ export class HelpCenterMobile extends Component {
         }
       }, 1);
     };
-    const onChangeValueHandler = (value) => {
-      this.setState({ searchFieldValue: value });
+    const onFocusHandler = () => {
+      this.setState({ searchFieldFocused: true });
     };
     const chatButtonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.chat');
     const mobileHideLogoState = this.props.parentState.hasSearched;
@@ -192,7 +191,7 @@ export class HelpCenterMobile extends Component {
                           fullscreen={true}
                           onFocus={onFocusHandler}
                           onBlur={onBlurHandler}
-                          onChangeValue={onChangeValueHandler}
+                          onChangeValue={this.props.onChangeValueHandler}
                           hasSearched={this.props.parentState.hasSearched}
                           onSearchIconClick={this.manualSearch}
                           isLoading={this.props.parentState.isLoading} />
@@ -251,7 +250,7 @@ export class HelpCenterMobile extends Component {
           headerContent={headerContent}
           footerContent={footerContent}
           fullscreen={true}
-          isVirtualKeyboardOpen={this.props.parentState.searchFieldFocused}>
+          isVirtualKeyboardOpen={this.state.searchFieldFocused}>
 
           <div className={formClasses}>
             {hcform}
@@ -263,22 +262,18 @@ export class HelpCenterMobile extends Component {
             </div>
           </div>
 
-        <h1 className={formLegendClasses}>
-          <span className='Arrange-sizeFill'>
-            {resultsLegend}
-          </span>
-        </h1>
+          <h1 className={formLegendClasses}>
+            <span className='Arrange-sizeFill'>
+              {resultsLegend}
+            </span>
+          </h1>
 
-        {noResults}
-        <ul className={listClasses}>
-          {_.chain(this.props.parentState.articles).take(3).map(articleTemplate.bind(this)).value()}
-        </ul>
+          {noResults}
+          <ul className={listClasses}>
+            {_.chain(this.props.parentState.articles).take(3).map(articleTemplate.bind(this)).value()}
+          </ul>
 
-          <div className={articleClasses}>
-            <HelpCenterArticle
-              activeArticle={this.props.parentState.activeArticle}
-              fullscreen={true} />
-          </div>
+          {this.props.children}
         </ScrollContainer>
 
         {zendeskLogo}
@@ -289,7 +284,6 @@ export class HelpCenterMobile extends Component {
 
 HelpCenterMobile.propTypes = {
   parentState: PropTypes.object.isRequired,
-  updateParentState: PropTypes.func.isRequired,
   handleArticleClick: PropTypes.func.isRequired,
   handleNextClick: PropTypes.func.isRequired,
   autoSearch: PropTypes.func.isRequired,
@@ -297,7 +291,6 @@ HelpCenterMobile.propTypes = {
   buttonLabelKey: PropTypes.string,
   onSearch: PropTypes.func,
   showBackButton: PropTypes.func,
-  onNextClick: PropTypes.func,
   hideZendeskLogo: PropTypes.bool,
   updateFrameSize: PropTypes.any,
   style: PropTypes.object,
@@ -308,7 +301,6 @@ HelpCenterMobile.defaultProps = {
   buttonLabelKey: 'message',
   onSearch: () => {},
   showBackButton: () => {},
-  onNextClick: () => {},
   hideZendeskLogo: false,
   updateFrameSize: false,
   style: null,

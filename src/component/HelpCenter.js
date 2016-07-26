@@ -3,6 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
 
 import { Container } from 'component/Container';
+import { HelpCenterArticle } from 'component/HelpCenterArticle';
 import { HelpCenterDesktop } from 'component/HelpCenterDesktop';
 import { HelpCenterMobile } from 'component/HelpCenterMobile';
 import { beacon } from 'service/beacon';
@@ -28,8 +29,7 @@ export class HelpCenter extends Component {
       articleViewActive: false,
       activeArticle: {},
       searchTracked: false,
-      searchResultClicked: false,
-      searchFieldFocused: false
+      searchResultClicked: false
     };
   }
 
@@ -59,7 +59,10 @@ export class HelpCenter extends Component {
 
     this.props.onSearch({searchTerm: query.query, searchLocale: query.locale});
     this.updateResults(res);
-    this.refs.rootComponent.focusField();
+
+    if (!this.props.fullscreen) {
+      this.refs.rootComponent.focusField();
+    }
   }
 
   contextualSearch(options) {
@@ -188,7 +191,9 @@ export class HelpCenter extends Component {
       searchFailed: true
     });
 
-    this.refs.rootComponent.focusField();
+    if (!this.props.fullscreen) {
+      this.refs.rootComponent.focusField();
+    }
   }
 
   performSearch(query, successFn, options = {}) {
@@ -273,12 +278,6 @@ export class HelpCenter extends Component {
     });
   }
 
-  searchBoxClickHandler() {
-    this.setState({
-      showIntroScreen: false
-    });
-  }
-
   updateImages(img) {
     this.setState({
       images: _.extend({}, this.state.images, img)
@@ -315,46 +314,7 @@ export class HelpCenter extends Component {
     const formClasses = classNames({
       'u-isHidden': this.state.articleViewActive
     });
-    const buttonContainerClasses = classNames({
-      'u-marginTA': this.state.fullscreen,
-      'u-marginVM': this.props.hideZendeskLogo,
-      'u-isHidden': this.state.showIntroScreen ||
-                    (this.state.fullscreen && this.state.searchFieldFocused) ||
-                    (!this.state.fullscreen && !this.state.hasSearched)
-    });
 
-    const articleTemplate = function(article, index) {
-      return (
-        <li key={_.uniqueId('article_')} className={listItemClasses}>
-          <a className='u-userTextColor'
-            href={article.html_url}
-            target='_blank'
-            onClick={this.handleArticleClick.bind(this, index)}>
-              {article.title || article.name}
-          </a>
-        </li>
-      );
-    };
-
-    const onFocusHandler = () => {
-      this.setState({ searchFieldFocused: true });
-    };
-    const onBlurHandler = () => {
-      // defer event to allow onClick events to fire first
-      setTimeout(() => {
-        if (this.state.fullscreen) {
-          this.setState({
-            searchFieldFocused: false
-          });
-        }
-
-        if (this.state.fullscreen && !this.state.hasSearched && !this.state.isLoading) {
-          this.setState({
-            showIntroScreen: true
-          });
-        }
-      }, 1);
-    };
     const onChangeValueHandler = (value) => {
       this.setState({ searchFieldValue: value });
     };
@@ -372,45 +332,53 @@ export class HelpCenter extends Component {
       this.setState(state);
     };
 
+    const articles = (
+      <div className={articleClasses}>
+        <HelpCenterArticle
+          activeArticle={this.state.activeArticle}
+          zendeskHost={this.props.zendeskHost}
+          storedImages={this.state.images}
+          imagesSender={this.props.imagesSender}
+          updateStoredImages={this.updateImages}
+          updateFrameSize={this.props.updateFrameSize}
+          fullscreen={this.state.fullscreen} />
+      </div>
+    )
+
     const helpCenter = (!isMobileBrowser())
-                     ? <HelpCenterDesktop
+                     ? (<HelpCenterDesktop
                           ref='rootComponent'
                           parentState={this.state}
-                          updateParentState={updateState}
+                          onChangeValueHandler={onChangeValueHandler}
                           handleArticleClick={this.handleArticleClick}
                           handleNextClick={this.handleNextClick}
                           autoSearch={this.autoSearch}
                           manualSearch={this.manualSearch}
                           hideZendeskLogo={this.props.hideZendeskLogo}
-                          onNextClick={this.props.onNextClick}
                           onSearch={this.props.onSearch}
-                          position={this.props.position}
-                          buttonLabelKey={this.props.buttonLabelKey}
                           formTitleKey={this.props.formTitleKey}
-                          showBackButton={this.props.showBackButton}
                           searchSender={this.props.searchSender}
                           contextualSearchSender={this.props.contextualSearchSender}
-                          style={this.props.containerStyle}
                           updateFrameSize={this.props.updateFrameSize}
-                          zendeskHost={this.props.zendeskHost} />
-                     : <HelpCenterMobile
+                          >
+                          {articles}
+                        </HelpCenterDesktop>)
+                     : (<HelpCenterMobile
                           ref='rootComponent'
                           parentState={this.state}
-                          updateParentState={updateState}
+                          onChangeValueHandler={onChangeValueHandler}
                           handleArticleClick={this.handleArticleClick}
                           handleNextClick={this.handleNextClick}
                           autoSearch={this.autoSearch}
                           manualSearch={this.manualSearch}
                           hideZendeskLogo={this.props.hideZendeskLogo}
-                          onNextClick={this.props.onNextClick}
                           onSearch={this.props.onSearch}
-                          position={this.props.position}
                           buttonLabelKey={this.props.buttonLabelKey}
                           formTitleKey={this.props.formTitleKey}
-                          showBackButton={this.props.showBackButton}
-                          style={this.props.containerStyle}
                           updateFrameSize={this.props.updateFrameSize}
-                          zendeskHost={this.props.zendeskHost} />
+                          >
+                          {articles}
+                        </HelpCenterMobile>)
 
     return (
       <Container

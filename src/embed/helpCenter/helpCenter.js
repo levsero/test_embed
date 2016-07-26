@@ -62,6 +62,7 @@ function create(name, config) {
     if (rootComponent) {
       if (isMobileBrowser()) {
         setScaleLock(true);
+        rootComponent.resetSearchFieldState();
       } else {
         rootComponent.focusField();
       }

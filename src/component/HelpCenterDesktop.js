@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import _ from 'lodash';
 import classNames from 'classnames';
 
-import { HelpCenterArticle } from 'component/HelpCenterArticle';
 import { SearchField } from 'component/field/SearchField';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { ScrollContainer } from 'component/ScrollContainer';
@@ -20,10 +19,11 @@ export class HelpCenterDesktop extends Component {
 
   focusField() {
     if (!this.props.parentState.articleViewActive) {
-      const searchFieldInputNode = ReactDOM.findDOMNode(this.refs.searchField.refs.searchFieldInput);
+      const searchField = this.refs.searchField;
+      const searchFieldInputNode = searchField.getSearchField();
       const strLength = searchFieldInputNode.value.length;
 
-      this.refs.searchField.focus();
+      searchField.focus();
       if (searchFieldInputNode.setSelectionRange) {
         searchFieldInputNode.setSelectionRange(strLength, strLength);
       }
@@ -38,9 +38,6 @@ export class HelpCenterDesktop extends Component {
     const formLegendClasses = classNames({
       'u-paddingTT u-textSizeNml Arrange Arrange--middle u-textBody': true,
       'u-isHidden': !this.props.parentState.articles.length || this.props.parentState.articleViewActive
-    });
-    const articleClasses = classNames({
-      'u-isHidden': !this.props.parentState.articleViewActive
     });
     const formClasses = classNames({
       'u-isHidden': this.props.parentState.articleViewActive || this.props.parentState.hasSearched
@@ -63,12 +60,6 @@ export class HelpCenterDesktop extends Component {
       );
     };
 
-    const onFocusHandler = () => {
-      this.props.updateParentState({ searchFieldFocused: true });
-    };
-    const onChangeValueHandler = (value) => {
-      this.props.updateParentState({ searchFieldValue: value });
-    };
     const hideZendeskLogo = this.props.hideZendeskLogo;
 
     if (this.props.updateFrameSize) {
@@ -127,8 +118,7 @@ export class HelpCenterDesktop extends Component {
         <SearchField
           ref='searchField'
           fullscreen={false}
-          onFocus={onFocusHandler}
-          onChangeValue={onChangeValueHandler}
+          onChangeValue={this.props.onChangeValueHandler}
           hasSearched={this.props.parentState.hasSearched}
           onSearchIconClick={this.props.manualSearch}
           isLoading={this.props.parentState.isLoading} />
@@ -174,11 +164,7 @@ export class HelpCenterDesktop extends Component {
 
           {noResults}
 
-          <div className={articleClasses}>
-            <HelpCenterArticle
-              activeArticle={this.props.parentState.activeArticle}
-              fullscreen={this.props.parentState.fullscreen} />
-          </div>
+          {this.props.children}
         </ScrollContainer>
 
         {zendeskLogo}
@@ -194,7 +180,6 @@ HelpCenterDesktop.propTypes = {
   handleNextClick: PropTypes.func.isRequired,
   autoSearch: PropTypes.func.isRequired,
   manualSearch: PropTypes.func.isRequired,
-  buttonLabelKey: PropTypes.string,
   onSearch: PropTypes.func,
   showBackButton: PropTypes.func,
   onNextClick: PropTypes.func,
@@ -205,7 +190,6 @@ HelpCenterDesktop.propTypes = {
 };
 
 HelpCenterDesktop.defaultProps = {
-  buttonLabelKey: 'message',
   onSearch: () => {},
   showBackButton: () => {},
   onNextClick: () => {},
