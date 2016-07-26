@@ -57,7 +57,7 @@ function create(name, config) {
   };
 
   const onShow = (frame) => {
-    const rootComponent = frame.getRootComponent().refs.rootComponent;
+    const rootComponent = frame.getRootComponent().getHelpCenterComponent();
 
     if (rootComponent) {
       if (isMobileBrowser()) {
@@ -70,7 +70,7 @@ function create(name, config) {
   };
 
   const onHide = (frame) => {
-    const rootComponent = frame.getRootComponent().refs.rootComponent;
+    const rootComponent = frame.getRootComponent().getHelpCenterComponent();
 
     if (rootComponent) {
       if (isMobileBrowser()) {
@@ -161,7 +161,7 @@ function create(name, config) {
         downShow: transitionFactory.webWidget.downShow()
       },
       afterShowAnimate(frame) {
-        const rootComponent = frame.getRootComponent().refs.rootComponent;
+        const rootComponent = frame.getRootComponent().getHelpCenterComponent();
 
         if (rootComponent && isIE()) {
           rootComponent.focusField();
@@ -173,7 +173,7 @@ function create(name, config) {
         mediator.channel.broadcast(name + '.onClose');
       },
       onBack(frame) {
-        const rootComponent = frame.getRootComponent().refs.rootComponent;
+        const rootComponent = frame.getRootComponent().getHelpCenterComponent();
 
         if (rootComponent) {
           frame.getRootComponent().setState({
@@ -204,7 +204,7 @@ function get(name) {
 }
 
 function getRootComponent(name) {
-  return get(name).instance.getRootComponent().refs.rootComponent;
+  return get(name).instance.getRootComponent().getHelpCenterComponent();
 }
 
 function waitForRootComponent(name, callback) {

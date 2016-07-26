@@ -40,6 +40,12 @@ export class HelpCenter extends Component {
     };
   }
 
+  getHelpCenterComponent() {
+     return (this.props.fullscreen)
+            ? this.refs.helpCenterMobile
+            : this.refs.helpCenterDesktop;
+  }
+
   searchStartState(state) {
     return _.extend({
       isLoading: true,
@@ -67,9 +73,7 @@ export class HelpCenter extends Component {
     this.props.onSearch({searchTerm: query.query, searchLocale: query.locale});
     this.updateResults(res);
 
-    if (!this.props.fullscreen) {
-      this.refs.rootComponent.focusField();
-    }
+    this.refs.helpCenterDesktop.focusField();
   }
 
   contextualSearch(options) {
@@ -119,7 +123,7 @@ export class HelpCenter extends Component {
     /* eslint camelcase:0 */
     e.preventDefault();
 
-    const searchField = this.refs.rootComponent.refs.searchField;
+    const searchField = this.getHelpCenterComponent().refs.searchField;
     const searchTerm = searchField.getValue();
 
     if (_.isEmpty(searchTerm)) {
@@ -152,7 +156,7 @@ export class HelpCenter extends Component {
   autoSearch(e) {
     e.preventDefault();
 
-    const searchTerm = this.refs.rootComponent.refs.searchField.getValue();
+    const searchTerm = this.getHelpCenterComponent().refs.searchField.getValue();
 
     if (_.isEmpty(searchTerm) ||
         !(searchTerm.length >= 5 && _.last(searchTerm) === ' ') ||
@@ -201,9 +205,7 @@ export class HelpCenter extends Component {
       searchFailed: true
     });
 
-    if (!this.props.fullscreen) {
-      this.refs.rootComponent.focusField();
-    }
+    this.refs.helpCenterDesktop.focusField();
   }
 
   performSearch(query, successFn, options = {}) {
@@ -375,7 +377,7 @@ export class HelpCenter extends Component {
   renderHelpCenterDesktop() {
     return (
       <HelpCenterDesktop
-        ref='rootComponent'
+        ref='helpCenterDesktop'
         onChangeValueHandler={this.onChangeValueHandler}
         handleNextClick={this.handleNextClick}
         autoSearch={this.autoSearch}
@@ -396,7 +398,7 @@ export class HelpCenter extends Component {
   renderHelpCenterMobile() {
     return (
       <HelpCenterMobile
-        ref='rootComponent'
+        ref='helpCenterMobile'
         onChangeValueHandler={this.onChangeValueHandler}
         handleNextClick={this.handleNextClick}
         autoSearch={this.autoSearch}
