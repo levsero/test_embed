@@ -690,8 +690,6 @@ describe('embed.helpCenter', function() {
 
       describe('when the page load contextual request has already been sent', () => {
         beforeEach(function() {
-          const mouseProps = { distance: '0.24' };
-
           // Simulate the page load contextual request that is sent when mouse distance
           // is less than minimum.
           helpCenter.keywordsSearch('carlos', {}, {

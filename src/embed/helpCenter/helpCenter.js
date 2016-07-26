@@ -311,7 +311,6 @@ function render(name) {
   mediator.channel.subscribe(name + '.setHelpCenterSuggestions', function(options) {
     hasManuallySetContextualSuggestions = true;
 
-    console.log(isMobileBrowser());
     if (!useMouseDistanceContexualSearch || isMobileBrowser()) {
       helpCenter.keywordsSearch(name, options);
     } else {
