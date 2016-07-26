@@ -255,6 +255,10 @@
     width: #{16/$font-size}rem;
     height: #{16/$font-size}rem;
   }
+
+  [dir='rtl'] & {
+    padding-left: 0;
+  }
 }
 
 .Icon--preview {
