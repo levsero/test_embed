@@ -199,9 +199,9 @@ export class AttachmentList extends Component {
 
   renderErrorMessage() {
     return (
-      <p className='Error u-marginTL'>
-        {this.state.errorMessage}
-      </p>
+      <div className='Form-field--display-preview u-marginBS u-borderError'>
+        <span className='u-textError'>{this.state.errorMessage}</span>
+      </div>
     );
   }
 
@@ -217,12 +217,12 @@ export class AttachmentList extends Component {
 
     return (
       <div>
-        {errorMessage}
         <div className='Form-fieldContainer u-block u-marginVM'>
           <label className='Form-fieldLabel u-textXHeight'>
             {title}
           </label>
           {attachmentComponents}
+          {errorMessage}
           <ButtonDropzone
             onDrop={this.handleOnDrop}
             isMobile={this.props.fullscreen} />
