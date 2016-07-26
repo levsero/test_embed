@@ -23,17 +23,6 @@ describe('HelpCenter component', function() {
 
     mockRegistry = initMockRegistry({
       'React': React,
-      'component/HelpCenterForm': {
-        HelpCenterForm: React.createClass({
-          render: function() {
-            return (
-              <form onSubmit={this.handleSubmit}>
-                {this.props.children}
-              </form>
-            );
-          }
-        })
-      },
       'component/HelpCenterArticle': {
         HelpCenterArticle: React.createClass({
           render: function() {
@@ -44,41 +33,11 @@ describe('HelpCenter component', function() {
       'component/HelpCenterResults': {
         HelpCenterResults: noopReactComponent()
       },
-      'component/field/SearchField': {
-        SearchField: React.createClass({
-          focus: function() {
-            this.setState({
-              focused: true
-            });
-          },
-          getSearchField: function() {
-            return this.refs.searchFieldInput;
-          },
-          blur: searchFieldBlur,
-          getValue: searchFieldGetValue,
-          render: function() {
-            return (
-              <div ref='searchField' type='search'>
-                <input ref='searchFieldInput' value='' type='search' />
-              </div>
-            );
-          }
-        })
+      'component/HelpCenterDesktop': {
+        HelpCenterDesktop: noopReactComponent()
       },
-      'component/button/SearchFieldButton': {
-        SearchFieldButton: React.createClass({
-          render: function() {
-            return (
-              <input
-                ref='searchFieldButton'
-                type='search'
-                onClick={this.props.onClick} />
-            );
-          }
-        })
-      },
-      'component/ZendeskLogo': {
-        ZendeskLogo: noopReactComponent()
+      'component/HelpCenterMobile': {
+        HelpCenterMobile: noopReactComponent()
       },
       'component/Container': {
         Container: React.createClass({
@@ -86,28 +45,6 @@ describe('HelpCenter component', function() {
             return <div>{this.props.children}</div>;
           }
         })
-      },
-      'component/ScrollContainer': {
-        ScrollContainer: React.createClass({
-          setScrollShadowVisible: noop,
-          render: function() {
-            return (
-              <div>
-                {this.props.headerContent}
-                {this.props.children}
-                {this.props.footerContent}
-              </div>
-            );
-          }
-        })
-      },
-      'component/Button': {
-        Button: React.createClass({
-          render: function() {
-            return <input className='Button' type='button' />;
-          }
-        }),
-        ButtonGroup: noopReactComponent()
       },
       'service/i18n': {
         i18n: {
@@ -118,27 +55,13 @@ describe('HelpCenter component', function() {
           t: _.identity
         }
       },
-      'service/persistence': {
-        store: jasmine.createSpyObj('store', ['set', 'get'])
-      },
-      'utility/devices': {
-        getZoomSizingRatio: function() {
-          return 1;
-        },
-        isMobileBrowser: function() {
-          return mockIsMobileBrowserValue;
-        }
-      },
       'utility/globals': {
         win: window,
         document: document
       },
       'utility/utils': {
-        bindMethods: mockBindMethods,
-        getPageKeywords: () => mockPageKeywords,
-        parseUrl: () => noop
-      },
-      '_': _
+        bindMethods: mockBindMethods
+      }
     });
 
     mockery.registerAllowable(helpCenterPath);
@@ -984,7 +907,7 @@ describe('HelpCenter component', function() {
         .toEqual(1);
     });
 
-    fit('should track view and render the inline article', function() {
+    it('should track view and render the inline article', function() {
       /* eslint camelcase:0 */
       // TODO: Ported over from old performSearch test to catch regression
       // Needs to be rewritten

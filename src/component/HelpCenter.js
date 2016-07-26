@@ -8,7 +8,6 @@ import { HelpCenterDesktop } from 'component/HelpCenterDesktop';
 import { HelpCenterMobile } from 'component/HelpCenterMobile';
 import { HelpCenterResults } from 'component/HelpCenterResults';
 import { i18n } from 'service/i18n';
-import { search } from 'service/search';
 import { bindMethods } from 'utility/utils';
 
 const minimumSearchResults = 3;
@@ -210,8 +209,8 @@ export class HelpCenter extends Component {
   performSearch(query, successFn, options = {}) {
     const isContextual = !!options.isContextual;
     const searchFn = isContextual
-                   ? search.contextualSender
-                   : search.sender;
+                   ? this.props.contextualSearchSender
+                   : this.props.searchSender;
     const doneFn = (res) => {
       if (res.ok) {
         if ((query.locale && res.body.count > 0) || !options.localeFallback) {
@@ -268,7 +267,7 @@ export class HelpCenter extends Component {
 
   trackSearch() {
     /* eslint camelcase:0 */
-    search.sender({
+    this.props.searchSender({
       query: this.state.searchTerm,
       per_page: 0,
       origin: 'web_widget'

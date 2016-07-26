@@ -1,13 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
-import { SearchField } from 'component/field/SearchField';
-import { SearchFieldButton } from 'component/button/SearchFieldButton';
-import { ZendeskLogo } from 'component/ZendeskLogo';
-import { ScrollContainer } from 'component/ScrollContainer';
-import { i18n } from 'service/i18n';
 import { Button,
          ButtonGroup } from 'component/Button';
+import { SearchField } from 'component/field/SearchField';
+import { SearchFieldButton } from 'component/button/SearchFieldButton';
+import { ScrollContainer } from 'component/ScrollContainer';
+import { ZendeskLogo } from 'component/ZendeskLogo';
+import { i18n } from 'service/i18n';
 import { bindMethods } from 'utility/utils';
 
 export class HelpCenterMobile extends Component {
