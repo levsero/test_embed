@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import _ from 'lodash';
 import classNames from 'classnames';
 
 import { SearchField } from 'component/field/SearchField';
@@ -27,9 +26,9 @@ export class HelpCenterMobile extends Component {
     const searchField = this.refs.searchField;
 
     if (this.props.hasContextualSearched === false) {
-        const searchField = this.refs.searchField;
+      const searchField = this.refs.searchField;
 
-        searchField.focus();
+      searchField.focus();
     }
 
     if (searchField) {
@@ -65,7 +64,7 @@ export class HelpCenterMobile extends Component {
 
     setTimeout(() => {
       this.focusField();
-    }, 0)
+    }, 0);
   }
 
   onBlurHandler() {
@@ -140,7 +139,7 @@ export class HelpCenterMobile extends Component {
         {this.renderSearchFieldButton()}
         {this.renderSearchField()}
       </form>
-    )
+    );
   }
 
   renderFormContainer() {
@@ -191,11 +190,11 @@ export class HelpCenterMobile extends Component {
     const zendeskLogo = !hideZendeskLogo
                       ? <ZendeskLogo rtl={i18n.isRTL()} fullscreen={true} />
                       : null;
-   const headerContent = (!this.props.articleViewActive && !this.state.showIntroScreen)
-                       ? this.renderForm()
-                       : null;
+    const headerContent = (!this.props.articleViewActive && !this.state.showIntroScreen)
+                        ? this.renderForm()
+                        : null;
 
-   const footerContent = (
+    const footerContent = (
       <div className={buttonContainerClasses}>
         <ButtonGroup rtl={i18n.isRTL()}>
           <Button
@@ -229,6 +228,7 @@ HelpCenterMobile.propTypes = {
   autoSearch: PropTypes.func.isRequired,
   manualSearch: PropTypes.func.isRequired,
   onChangeValueHandler: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
   buttonLabelKey: PropTypes.string,
   hideZendeskLogo: PropTypes.bool,
   formTitleKey: PropTypes.string,

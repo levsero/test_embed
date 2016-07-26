@@ -7,7 +7,6 @@ import { HelpCenterArticle } from 'component/HelpCenterArticle';
 import { HelpCenterDesktop } from 'component/HelpCenterDesktop';
 import { HelpCenterMobile } from 'component/HelpCenterMobile';
 import { HelpCenterResults } from 'component/HelpCenterResults';
-import { beacon } from 'service/beacon';
 import { i18n } from 'service/i18n';
 import { search } from 'service/search';
 import { bindMethods } from 'utility/utils';
@@ -41,9 +40,9 @@ export class HelpCenter extends Component {
   }
 
   getHelpCenterComponent() {
-     return (this.props.fullscreen)
-            ? this.refs.helpCenterMobile
-            : this.refs.helpCenterDesktop;
+    return (this.props.fullscreen)
+           ? this.refs.helpCenterMobile
+           : this.refs.helpCenterDesktop;
   }
 
   searchStartState(state) {
@@ -421,7 +420,7 @@ export class HelpCenter extends Component {
   render() {
     const helpCenter = (this.props.fullscreen)
                      ? this.renderHelpCenterMobile()
-                     : this.renderHelpCenterDesktop()
+                     : this.renderHelpCenterDesktop();
 
     if (this.props.updateFrameSize) {
       setTimeout( () => this.props.updateFrameSize(), 0);
@@ -442,6 +441,7 @@ HelpCenter.propTypes = {
   contextualSearchSender: PropTypes.func.isRequired,
   imagesSender: PropTypes.func.isRequired,
   zendeskHost: PropTypes.string.isRequired,
+  fullscreen: PropTypes.bool.isRequired,
   buttonLabelKey: PropTypes.string,
   onSearch: PropTypes.func,
   showBackButton: PropTypes.func,

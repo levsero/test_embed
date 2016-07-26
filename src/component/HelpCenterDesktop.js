@@ -1,6 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
-import _ from 'lodash';
 import classNames from 'classnames';
 
 import { SearchField } from 'component/field/SearchField';
@@ -104,6 +102,7 @@ HelpCenterDesktop.propTypes = {
   autoSearch: PropTypes.func.isRequired,
   manualSearch: PropTypes.func.isRequired,
   onChangeValueHandler: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
   onNextClick: PropTypes.func,
   hideZendeskLogo: PropTypes.bool,
   updateFrameSize: PropTypes.any,
