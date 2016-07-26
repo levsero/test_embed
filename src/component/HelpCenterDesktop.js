@@ -31,14 +31,6 @@ export class HelpCenterDesktop extends Component {
   }
 
   render() {
-    const listClasses = classNames({
-      'List': true,
-      'u-isHidden': !this.props.parentState.articles.length || this.props.parentState.articleViewActive
-    });
-    const formLegendClasses = classNames({
-      'u-paddingTT u-textSizeNml Arrange Arrange--middle u-textBody': true,
-      'u-isHidden': !this.props.parentState.articles.length || this.props.parentState.articleViewActive
-    });
     const formClasses = classNames({
       'u-isHidden': this.props.parentState.articleViewActive || this.props.parentState.hasSearched
     });
@@ -47,66 +39,15 @@ export class HelpCenterDesktop extends Component {
       'u-isHidden': !this.props.parentState.hasSearched
     });
 
-    const articleTemplate = function(article, index) {
-      return (
-        <li key={_.uniqueId('article_')} className='List-item'>
-          <a className='u-userTextColor'
-            href={article.html_url}
-            target='_blank'
-            onClick={this.props.handleArticleClick.bind(this, index)}>
-              {article.title || article.name}
-          </a>
-        </li>
-      );
-    };
-
     const hideZendeskLogo = this.props.hideZendeskLogo;
 
     if (this.props.updateFrameSize) {
       setTimeout( () => this.props.updateFrameSize(), 0);
     }
 
-    const noResultsTemplate = () => {
-      const noResultsClasses = classNames({
-        'u-marginTM u-textCenter u-textSizeMed': true,
-        'u-borderBottom List--noResults': true
-      });
-      const noResultsParagraphClasses = classNames({
-        'u-textSecondary u-marginBL': true
-      });
-      /* eslint indent:0 */
-      const title = (this.props.parentState.searchFailed)
-                  ? i18n.t('embeddable_framework.helpCenter.search.error.title')
-                  : i18n.t('embeddable_framework.helpCenter.search.noResults.title', {
-                      searchTerm: this.props.parentState.previousSearchTerm
-                    });
-      const body = (this.props.parentState.searchFailed)
-                 ? i18n.t('embeddable_framework.helpCenter.search.error.body')
-                 : i18n.t('embeddable_framework.helpCenter.search.noResults.body');
-
-      return (
-        <div className={noResultsClasses} id='noResults'>
-          <p className='u-marginBN u-marginTL'>
-            {title}
-          </p>
-          <p className={noResultsParagraphClasses}>
-            {body}
-          </p>
-        </div>
-      );
-    };
-
     const zendeskLogo = !hideZendeskLogo
                       ? <ZendeskLogo rtl={i18n.isRTL()} fullscreen={false} />
                       : null;
-
-    const noResults = (!this.props.parentState.resultsCount && this.props.parentState.hasSearched)
-                    ? noResultsTemplate()
-                    : null;
-
-    const resultsLegend = this.props.parentState.hasContextualSearched
-                        ? i18n.t('embeddable_framework.helpCenter.label.topSuggestions')
-                        : i18n.t('embeddable_framework.helpCenter.label.results');
 
    const hcform = (
       <form
@@ -153,17 +94,6 @@ export class HelpCenterDesktop extends Component {
             {hcform}
           </div>
 
-          <h1 className={formLegendClasses}>
-            <span className='Arrange-sizeFill'>
-              {resultsLegend}
-            </span>
-          </h1>
-          <ul className={listClasses}>
-            {_.chain(this.props.parentState.articles).take(3).map(articleTemplate.bind(this)).value()}
-          </ul>
-
-          {noResults}
-
           {this.props.children}
         </ScrollContainer>
 
@@ -175,7 +105,6 @@ export class HelpCenterDesktop extends Component {
 
 HelpCenterDesktop.propTypes = {
   parentState: PropTypes.object.isRequired,
-  updateParentState: PropTypes.func.isRequired,
   handleArticleClick: PropTypes.func.isRequired,
   handleNextClick: PropTypes.func.isRequired,
   autoSearch: PropTypes.func.isRequired,

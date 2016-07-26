@@ -6,11 +6,15 @@ import { Container } from 'component/Container';
 import { HelpCenterArticle } from 'component/HelpCenterArticle';
 import { HelpCenterDesktop } from 'component/HelpCenterDesktop';
 import { HelpCenterMobile } from 'component/HelpCenterMobile';
+import { HelpCenterResults } from 'component/HelpCenterResults';
 import { beacon } from 'service/beacon';
 import { i18n } from 'service/i18n';
 import { search } from 'service/search';
 import { isMobileBrowser } from 'utility/devices';
 import { bindMethods } from 'utility/utils';
+
+const minimumSearchResults = 3;
+const maximumSearchResults = 9;
 
 export class HelpCenter extends Component {
   constructor(props, context) {
@@ -29,7 +33,11 @@ export class HelpCenter extends Component {
       articleViewActive: false,
       activeArticle: {},
       searchTracked: false,
-      searchResultClicked: false
+      searchResultClicked: false,
+      searchFieldFocused: false,
+      resultsPerPage: minimumSearchResults,
+      showViewMore: true,
+      viewMoreActive: false
     };
   }
 
@@ -101,7 +109,7 @@ export class HelpCenter extends Component {
 
     _.extend(query, {
       locale: i18n.getLocale(),
-      per_page: 3,
+      per_page: this.state.resultsPerPage,
       origin: null
     });
 
@@ -114,6 +122,7 @@ export class HelpCenter extends Component {
 
     const searchField = this.refs.rootComponent.refs.searchField;
     const searchTerm = searchField.getValue();
+    console.log('here', searchTerm, searchField)
 
     if (_.isEmpty(searchTerm)) {
       return;
@@ -122,7 +131,7 @@ export class HelpCenter extends Component {
     const query = {
       locale: i18n.getLocale(),
       query: searchTerm,
-      per_page: 3,
+      per_page: this.state.resultsPerPage,
       origin: 'web_widget'
     };
 
@@ -156,7 +165,7 @@ export class HelpCenter extends Component {
     const query = {
       locale: i18n.getLocale(),
       query: searchTerm,
-      per_page: 3,
+      per_page: this.state.resultsPerPage,
       origin: null
     };
 
@@ -177,7 +186,10 @@ export class HelpCenter extends Component {
     this.setState({
       articles: articles,
       resultsCount: json.count,
-      articleViewActive: false
+      articleViewActive: false,
+      resultsPerPage: minimumSearchResults,
+      showViewMore: !this.state.viewMoreActive,
+      viewMoreActive: false
     });
 
     this.props.showBackButton(false);
@@ -215,6 +227,44 @@ export class HelpCenter extends Component {
     const failFn = () => this.searchFail();
 
     searchFn(query, doneFn, failFn);
+  }
+
+  handleArticleClick(articleIndex, e) {
+    e.preventDefault();
+
+    this.setState({
+      activeArticle: this.state.articles[articleIndex],
+      articleViewActive: true
+    });
+
+    // call nextTick so state has a chance to be consistent
+    setTimeout(() => this.trackArticleView(), 0);
+
+    this.props.showBackButton();
+
+    if (!this.state.searchTracked && !this.state.hasContextualSearched) {
+      this.trackSearch();
+    }
+  }
+
+  handleViewMoreClick(e) {
+    e.preventDefault();
+
+    this.setState({
+      resultsPerPage: maximumSearchResults,
+      viewMoreActive: true
+    });
+
+    setTimeout(() => this.manualSearch(), 0);
+  }
+
+  handleNextClick(ev) {
+    ev.preventDefault();
+    this.props.onNextClick();
+  }
+
+  onChangeValueHandler(value) {
+    this.setState({ searchFieldValue: value });
   }
 
   trackSearch() {
@@ -285,39 +335,16 @@ export class HelpCenter extends Component {
   }
 
   render() {
-    const listClasses = classNames({
-      'List': true,
-      'u-isHidden': !this.state.articles.length,
-      'u-borderNone u-marginBS List--fullscreen': this.state.fullscreen
-    });
-    const listItemClasses = classNames({
-      'List-item': true,
-      'u-textSizeBaseMobile': this.state.fullscreen
-    });
-    const formLegendClasses = classNames({
-      'u-paddingTT u-textSizeNml Arrange Arrange--middle u-textBody u-textBold': true,
-      'u-textSizeBaseMobile': this.state.fullscreen,
-      'u-isHidden': !this.state.articles.length
-    });
-    const searchTitleClasses = classNames({
-      'u-textSizeBaseMobile u-marginTM u-textCenter u-textBold': true,
-      'Container--fullscreen-center-vert': true,
-      'u-isHidden': !this.state.fullscreen || !this.state.showIntroScreen
-    });
-    const linkClasses = classNames({
-      'u-textSizeBaseMobile u-textCenter u-marginTL': true,
-      'u-isHidden': !this.state.showIntroScreen
-    });
     const articleClasses = classNames({
       'u-isHidden': !this.state.articleViewActive
     });
     const formClasses = classNames({
       'u-isHidden': this.state.articleViewActive
     });
+    const resultsClasses = classNames({
+      'u-isHidden': !(this.state.hasSearched || this.state.hasContextualSearched) || this.state.articleViewActive
+    });
 
-    const onChangeValueHandler = (value) => {
-      this.setState({ searchFieldValue: value });
-    };
     const chatButtonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.chat');
     const mobileHideLogoState = this.state.fullscreen && this.state.hasSearched;
     const hideZendeskLogo = this.props.hideZendeskLogo || mobileHideLogoState;
@@ -343,13 +370,27 @@ export class HelpCenter extends Component {
           updateFrameSize={this.props.updateFrameSize}
           fullscreen={this.state.fullscreen} />
       </div>
-    )
+    );
+    const showViewMore = this.state.showViewMore && this.state.resultsCount > minimumSearchResults;
+    const results = (
+      <div className={resultsClasses}>
+        <HelpCenterResults
+          fullscreen={this.state.fullscreen}
+          articles={this.state.articles}
+          showViewMore={showViewMore}
+          searchFailed={this.state.searchFailed}
+          previousSearchTerm={this.state.previousSearchTerm}
+          handleArticleClick={this.handleArticleClick}
+          handleViewMoreClick={this.handleViewMoreClick}
+          hasContextualSearched={this.state.hasContextualSearched} />
+      </div>
+    );
 
     const helpCenter = (!isMobileBrowser())
                      ? (<HelpCenterDesktop
                           ref='rootComponent'
                           parentState={this.state}
-                          onChangeValueHandler={onChangeValueHandler}
+                          onChangeValueHandler={this.onChangeValueHandler}
                           handleArticleClick={this.handleArticleClick}
                           handleNextClick={this.handleNextClick}
                           autoSearch={this.autoSearch}
@@ -359,14 +400,14 @@ export class HelpCenter extends Component {
                           formTitleKey={this.props.formTitleKey}
                           searchSender={this.props.searchSender}
                           contextualSearchSender={this.props.contextualSearchSender}
-                          updateFrameSize={this.props.updateFrameSize}
-                          >
+                          updateFrameSize={this.props.updateFrameSize}>
+                          {results}
                           {articles}
                         </HelpCenterDesktop>)
                      : (<HelpCenterMobile
                           ref='rootComponent'
                           parentState={this.state}
-                          onChangeValueHandler={onChangeValueHandler}
+                          onChangeValueHandler={this.onChangeValueHandler}
                           handleArticleClick={this.handleArticleClick}
                           handleNextClick={this.handleNextClick}
                           autoSearch={this.autoSearch}
@@ -374,9 +415,8 @@ export class HelpCenter extends Component {
                           hideZendeskLogo={this.props.hideZendeskLogo}
                           onSearch={this.props.onSearch}
                           buttonLabelKey={this.props.buttonLabelKey}
-                          formTitleKey={this.props.formTitleKey}
-                          updateFrameSize={this.props.updateFrameSize}
-                          >
+                          formTitleKey={this.props.formTitleKey}>
+                          {results}
                           {articles}
                         </HelpCenterMobile>)
 

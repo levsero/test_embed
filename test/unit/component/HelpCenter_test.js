@@ -41,6 +41,9 @@ describe('HelpCenter component', function() {
           }
         })
       },
+      'component/HelpCenterResults': {
+        HelpCenterResults: noopReactComponent()
+      },
       'component/field/SearchField': {
         SearchField: React.createClass({
           focus: function() {
@@ -981,31 +984,7 @@ describe('HelpCenter component', function() {
         .toEqual(1);
     });
 
-    it('should render list of results from api', function() {
-      // TODO: Ported over from old performSearch test to catch regression
-      // Needs to be rewritten
-
-      const mockSearchSender = jasmine.createSpy('mockSearchSender');
-      const mockOnSearch = jasmine.createSpy('mockOnSearch');
-      const helpCenter = domRender(
-        <HelpCenter
-          searchSender={mockSearchSender}
-          onSearch={mockOnSearch} />
-      );
-      const searchTerm = 'help, I\'ve fallen and can\'t get up!';
-      const responsePayload = {body: {results: [1, 2, 3], count: 4}, ok: true};
-      const listAnchor = TestUtils.findRenderedDOMComponentWithClass(helpCenter, 'List');
-
-      helpCenter.refs.searchField.getValue = () => searchTerm;
-      helpCenter.performSearch({query: searchTerm}, helpCenter.interactiveSearchSuccessFn);
-
-      mockSearchSender.calls.mostRecent().args[1](responsePayload);
-
-      expect(listAnchor.props.className)
-        .not.toContain('u-isHidden');
-    });
-
-    it('should track view and render the inline article', function() {
+    fit('should track view and render the inline article', function() {
       /* eslint camelcase:0 */
       // TODO: Ported over from old performSearch test to catch regression
       // Needs to be rewritten
@@ -1053,19 +1032,10 @@ describe('HelpCenter component', function() {
 
       mockSearchSender.calls.mostRecent().args[1](responsePayload);
 
-      const listItem = TestUtils.scryRenderedDOMComponentsWithClass(
-        helpCenter,
-        'u-userTextColor'
-      )[1];
-
       expect(article.className)
         .toMatch('u-isHidden');
 
-      TestUtils.Simulate.click(listItem, {
-        target: {
-          getAttribute: function() { return 0; }
-        }
-      });
+      helpCenter.handleArticleClick(1, { preventDefault: noop });
 
       jasmine.clock().tick(1);
 
@@ -1083,50 +1053,6 @@ describe('HelpCenter component', function() {
 
       expect(article.className)
         .not.toMatch('u-isHidden');
-    });
-
-    it('should render error message when search fails', function() {
-      // TODO: Ported over from old performSearch test to catch regression
-      // Needs to be rewritten
-
-      const mockSearchSender = jasmine.createSpy('mockSearchSender');
-      const helpCenter = domRender(<HelpCenter searchSender={mockSearchSender} onSearch={noop} />);
-      const searchTerm = 'help, I\'ve fallen and can\'t get up!';
-      const responsePayload = {ok: false};
-      const list = TestUtils.findRenderedDOMComponentWithClass(helpCenter, 'List');
-
-      helpCenter.refs.searchField.getValue = () => searchTerm;
-      helpCenter.performSearch({query: searchTerm}, helpCenter.interactiveSearchSuccessFn);
-
-      mockSearchSender.calls.mostRecent().args[1](responsePayload);
-
-      expect(list.props.className).
-        toContain('u-isHidden');
-
-      expect(ReactDOM.findDOMNode(helpCenter).querySelector('#noResults').className)
-        .not.toContain('u-isHidden');
-    });
-
-    it('should show no results when search returns no results', function() {
-      // TODO: Ported over from old performSearch test to catch regression
-      // Needs to be rewritten
-
-      const mockSearchSender = jasmine.createSpy('mockSearchSender');
-      const helpCenter = domRender(<HelpCenter searchSender={mockSearchSender} onSearch={noop} />);
-      const searchTerm = 'abcd';
-      const responsePayload = {body: {results: [], count: 0}};
-      const list = TestUtils.findRenderedDOMComponentWithClass(helpCenter, 'List');
-
-      helpCenter.refs.searchField.getValue = () => searchTerm;
-      helpCenter.performSearch({query: searchTerm}, helpCenter.interactiveSearchSuccessFn);
-
-      mockSearchSender.calls.mostRecent().args[1](responsePayload);
-
-      expect(helpCenter.state.searchCount)
-        .toBeFalsy();
-
-      expect(list.props.className)
-        .toContain('u-isHidden');
     });
 
     it('should call blur and hide the virtual keyboard', function() {
@@ -1169,51 +1095,6 @@ describe('HelpCenter component', function() {
       expect(helpCenter.state.fullscreen)
         .toEqual(false);
     });
-  });
-
-  it('should not display noResults message for unsatisfied conditions', function() {
-    // if any is not satisfied
-    // if showIntroScreen is false &&
-    // resultsCount is 0 &&
-    // hasSearched is true
-
-    mockIsMobileBrowserValue = true;
-
-    const helpCenter = domRender(<HelpCenter />);
-
-    helpCenter.searchBoxClickHandler();
-
-    expect(helpCenter.state.showIntroScreen)
-      .toEqual(false);
-
-    expect(helpCenter.state.resultsCount)
-      .toEqual(0);
-
-    expect(helpCenter.state.hasSearched)
-      .toEqual(false);
-
-    expect(ReactDOM.findDOMNode(helpCenter).querySelector('#noResults'))
-      .toBeFalsy();
-  });
-
-  it('should display noResults message for satisfied conditions', function() {
-    // if showIntroScreen is false &&
-    // resultsCount is 0 &&
-    // hasSearched is true
-
-    mockIsMobileBrowserValue = true;
-
-    const helpCenter = domRender(<HelpCenter />);
-
-    helpCenter.searchBoxClickHandler();
-
-    helpCenter.setState({ hasSearched: true });
-
-    expect(helpCenter.state.hasSearched)
-      .toEqual(true);
-
-    expect(ReactDOM.findDOMNode(helpCenter).querySelector('#noResults'))
-      .toBeTruthy();
   });
 
   describe('searchField', function() {

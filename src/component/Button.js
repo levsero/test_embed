@@ -104,12 +104,14 @@ class ButtonPill extends Component {
       'u-sizeFull u-textSizeBaseMobile is-mobile': this.props.fullscreen,
       'u-textNoWrap': i18n.isRTL()
     });
+    const icon = this.props.showIcon ? <Icon type='Icon--link' /> : null;
 
     return (
       <div
+        onClick={this.props.onClick}
         className={buttonClasses}>
         {this.props.label}
-        <Icon type='Icon--link' />
+        {icon}
       </div>
     );
   }
@@ -117,11 +119,15 @@ class ButtonPill extends Component {
 
 ButtonPill.propTypes = {
   label: PropTypes.string.isRequired,
-  fullscreen: PropTypes.bool
+  fullscreen: PropTypes.bool,
+  showIcon: PropTypes.bool,
+  onClick: PropTypes.func
 };
 
 ButtonPill.defaultProps = {
-  fullscreen: false
+  fullscreen: false,
+  showIcon: true,
+  onClick: () => {}
 };
 
 class ButtonSecondary extends Component {
