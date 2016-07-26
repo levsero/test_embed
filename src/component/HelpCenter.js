@@ -10,7 +10,6 @@ import { HelpCenterResults } from 'component/HelpCenterResults';
 import { beacon } from 'service/beacon';
 import { i18n } from 'service/i18n';
 import { search } from 'service/search';
-import { isMobileBrowser } from 'utility/devices';
 import { bindMethods } from 'utility/utils';
 
 const minimumSearchResults = 3;
@@ -122,7 +121,6 @@ export class HelpCenter extends Component {
 
     const searchField = this.refs.rootComponent.refs.searchField;
     const searchTerm = searchField.getValue();
-    console.log('here', searchTerm, searchField)
 
     if (_.isEmpty(searchTerm)) {
       return;
@@ -334,45 +332,13 @@ export class HelpCenter extends Component {
     });
   }
 
-  render() {
-    const articleClasses = classNames({
-      'u-isHidden': !this.state.articleViewActive
-    });
-    const formClasses = classNames({
-      'u-isHidden': this.state.articleViewActive
-    });
+  renderResults() {
     const resultsClasses = classNames({
       'u-isHidden': !(this.state.hasSearched || this.state.hasContextualSearched) || this.state.articleViewActive
     });
-
-    const chatButtonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.chat');
-    const mobileHideLogoState = this.state.fullscreen && this.state.hasSearched;
-    const hideZendeskLogo = this.props.hideZendeskLogo || mobileHideLogoState;
-
-    let linkLabel, linkContext;
-
-    if (this.props.updateFrameSize) {
-      setTimeout( () => this.props.updateFrameSize(), 0);
-    }
-
-    const updateState = (state = {}) => {
-      this.setState(state);
-    };
-
-    const articles = (
-      <div className={articleClasses}>
-        <HelpCenterArticle
-          activeArticle={this.state.activeArticle}
-          zendeskHost={this.props.zendeskHost}
-          storedImages={this.state.images}
-          imagesSender={this.props.imagesSender}
-          updateStoredImages={this.updateImages}
-          updateFrameSize={this.props.updateFrameSize}
-          fullscreen={this.state.fullscreen} />
-      </div>
-    );
     const showViewMore = this.state.showViewMore && this.state.resultsCount > minimumSearchResults;
-    const results = (
+
+    return (
       <div className={resultsClasses}>
         <HelpCenterResults
           fullscreen={this.state.fullscreen}
@@ -385,45 +351,84 @@ export class HelpCenter extends Component {
           hasContextualSearched={this.state.hasContextualSearched} />
       </div>
     );
+  }
 
-    const helpCenter = (!isMobileBrowser())
-                     ? (<HelpCenterDesktop
-                          ref='rootComponent'
-                          parentState={this.state}
-                          onChangeValueHandler={this.onChangeValueHandler}
-                          handleArticleClick={this.handleArticleClick}
-                          handleNextClick={this.handleNextClick}
-                          autoSearch={this.autoSearch}
-                          manualSearch={this.manualSearch}
-                          hideZendeskLogo={this.props.hideZendeskLogo}
-                          onSearch={this.props.onSearch}
-                          formTitleKey={this.props.formTitleKey}
-                          searchSender={this.props.searchSender}
-                          contextualSearchSender={this.props.contextualSearchSender}
-                          updateFrameSize={this.props.updateFrameSize}>
-                          {results}
-                          {articles}
-                        </HelpCenterDesktop>)
-                     : (<HelpCenterMobile
-                          ref='rootComponent'
-                          parentState={this.state}
-                          onChangeValueHandler={this.onChangeValueHandler}
-                          handleArticleClick={this.handleArticleClick}
-                          handleNextClick={this.handleNextClick}
-                          autoSearch={this.autoSearch}
-                          manualSearch={this.manualSearch}
-                          hideZendeskLogo={this.props.hideZendeskLogo}
-                          onSearch={this.props.onSearch}
-                          buttonLabelKey={this.props.buttonLabelKey}
-                          formTitleKey={this.props.formTitleKey}>
-                          {results}
-                          {articles}
-                        </HelpCenterMobile>)
+  renderArticles() {
+    const articleClasses = classNames({
+      'u-isHidden': !this.state.articleViewActive
+    });
+
+    return (
+      <div className={articleClasses}>
+        <HelpCenterArticle
+          activeArticle={this.state.activeArticle}
+          zendeskHost={this.props.zendeskHost}
+          storedImages={this.state.images}
+          imagesSender={this.props.imagesSender}
+          updateStoredImages={this.updateImages}
+          updateFrameSize={this.props.updateFrameSize}
+          fullscreen={this.state.fullscreen} />
+      </div>
+    );
+  }
+
+  renderHelpCenterDesktop() {
+    return (
+      <HelpCenterDesktop
+        ref='rootComponent'
+        onChangeValueHandler={this.onChangeValueHandler}
+        handleNextClick={this.handleNextClick}
+        autoSearch={this.autoSearch}
+        manualSearch={this.manualSearch}
+        hideZendeskLogo={this.props.hideZendeskLogo}
+        isLoading={this.state.isLoading}
+        articleViewActive={this.state.articleViewActive}
+        hasSearched={this.state.hasSearched}
+        buttonLabel={this.state.buttonLabel}
+        formTitleKey={this.props.formTitleKey}
+        updateFrameSize={this.props.updateFrameSize}>
+        {this.renderResults()}
+        {this.renderArticles()}
+      </HelpCenterDesktop>
+    );
+  }
+
+  renderHelpCenterMobile() {
+    return (
+      <HelpCenterMobile
+        ref='rootComponent'
+        onChangeValueHandler={this.onChangeValueHandler}
+        handleNextClick={this.handleNextClick}
+        autoSearch={this.autoSearch}
+        manualSearch={this.manualSearch}
+        isLoading={this.state.isLoading}
+        articleViewActive={this.state.articleViewActive}
+        hasSearched={this.state.hasSearched}
+        buttonLabel={this.state.buttonLabel}
+        hasContextualSearched={this.state.hasContextualSearched}
+        searchFieldValue={this.state.searchFieldValue}
+        hideZendeskLogo={this.props.hideZendeskLogo}
+        buttonLabelKey={this.props.buttonLabelKey}
+        formTitleKey={this.props.formTitleKey}>
+        {this.renderResults()}
+        {this.renderArticles()}
+      </HelpCenterMobile>
+    );
+  }
+
+  render() {
+    const helpCenter = (this.props.fullscreen)
+                     ? this.renderHelpCenterMobile()
+                     : this.renderHelpCenterDesktop()
+
+    if (this.props.updateFrameSize) {
+      setTimeout( () => this.props.updateFrameSize(), 0);
+    }
 
     return (
       <Container
         style={this.props.style}
-        fullscreen={isMobileBrowser()}>
+        fullscreen={this.props.fullscreen}>
         {helpCenter}
       </Container>
     );

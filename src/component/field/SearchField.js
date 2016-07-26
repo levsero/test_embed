@@ -20,7 +20,6 @@ export class SearchField extends Component {
   }
 
   onFocus(e) {
-    console.log('are we triggering?')
     this.setState({
       focused: true
     });
@@ -29,7 +28,6 @@ export class SearchField extends Component {
   }
 
   onBlur(e) {
-    console.log('is this triggering too?')
     this.setState({
       focused: false,
       blurred: true

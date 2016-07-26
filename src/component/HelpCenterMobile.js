@@ -26,7 +26,7 @@ export class HelpCenterMobile extends Component {
   focusField() {
     const searchField = this.refs.searchField;
 
-    if (this.props.parentState.hasContextualSearched === false) {
+    if (this.props.hasContextualSearched === false) {
         const searchField = this.refs.searchField;
 
         searchField.focus();
@@ -34,11 +34,11 @@ export class HelpCenterMobile extends Component {
 
     if (searchField) {
       searchField.setState({
-        searchInputVal: this.props.parentState.searchFieldValue
+        searchInputVal: this.props.searchFieldValue
       });
     }
 
-    this.refs.scrollContainer.setScrollShadowVisible(this.props.parentState.articleViewActive);
+    this.refs.scrollContainer.setScrollShadowVisible(this.props.articleViewActive);
   }
 
   resetSearchFieldState() {
@@ -73,7 +73,7 @@ export class HelpCenterMobile extends Component {
     setTimeout(() => {
       this.setState({ searchFieldFocused: false });
 
-      if (!this.props.parentState.hasSearched && !this.props.parentState.isLoading) {
+      if (!this.props.hasSearched && !this.props.isLoading) {
         this.setState({
           showIntroScreen: true
         });
@@ -85,38 +85,77 @@ export class HelpCenterMobile extends Component {
     this.setState({ searchFieldFocused: true });
   }
 
-  render() {
+  renderSearchField() {
+    const searchFieldClasses = classNames({
+      'u-isHidden': this.state.showIntroScreen
+    });
+
+    return (
+      <div className={searchFieldClasses}>
+        <SearchField
+          ref='searchField'
+          fullscreen={true}
+          onFocus={this.onFocusHandler}
+          onBlur={this.onBlurHandler}
+          onChangeValue={this.props.onChangeValueHandler}
+          hasSearched={this.props.hasSearched}
+          onSearchIconClick={this.manualSearch}
+          isLoading={this.props.isLoading} />
+      </div>
+    );
+  }
+
+  renderSearchFieldButton() {
+    const searchFieldButtonClasses = classNames({
+      'u-isHidden': !this.state.showIntroScreen
+    });
+
+    return (
+      <div className={searchFieldButtonClasses}>
+        <SearchFieldButton
+          ref='searchFieldButton'
+          onClick={this.searchBoxClickHandler}
+          onTouch={this.searchBoxClickHandler}
+          searchTerm={this.props.searchFieldValue} />
+      </div>
+    );
+  }
+
+  renderForm() {
     const searchTitleClasses = classNames({
       'u-textSizeBaseMobile u-marginTM u-textCenter': true,
       'Container--fullscreen-center-vert': true,
       'u-isHidden': !this.state.showIntroScreen
     });
+
+    return (
+      <form
+        ref='helpCenterForm'
+        className='Form u-cf'
+        onSubmit={this.props.manualSearch}>
+        <h1 className={searchTitleClasses}>
+          {i18n.t('embeddable_framework.helpCenter.label.searchHelpCenter')}
+        </h1>
+
+        {this.renderSearchFieldButton()}
+        {this.renderSearchField()}
+      </form>
+    )
+  }
+
+  renderFormContainer() {
     const linkClasses = classNames({
       'u-textSizeBaseMobile u-textCenter u-marginTL': true,
       'u-isHidden': !this.state.showIntroScreen
     });
     const formClasses = classNames({
-      'u-isHidden': this.props.parentState.articleViewActive || !this.state.showIntroScreen
+      'u-isHidden': this.props.articleViewActive || !this.state.showIntroScreen
     });
-    const buttonContainerClasses = classNames({
-      'u-marginTA': true,
-      'u-marginVM': this.props.hideZendeskLogo,
-      'u-isHidden': this.state.showIntroScreen || this.state.searchFieldFocused
-    });
-    const searchFieldClasses = classNames({
-      'u-isHidden': this.state.showIntroScreen
-    });
-    const searchFieldButtonClasses = classNames({
-      'u-isHidden': !this.state.showIntroScreen
-    })
-
     const chatButtonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.chat');
-    const mobileHideLogoState = this.props.parentState.hasSearched;
-    const hideZendeskLogo = this.props.hideZendeskLogo || mobileHideLogoState;
 
     let linkLabel, linkContext;
 
-    if (this.props.parentState.buttonLabel === chatButtonLabel) {
+    if (this.props.buttonLabel === chatButtonLabel) {
       linkContext = i18n.t('embeddable_framework.helpCenter.label.linkContext.chat');
       linkLabel = i18n.t('embeddable_framework.helpCenter.label.link.chat');
     } else {
@@ -128,50 +167,32 @@ export class HelpCenterMobile extends Component {
       );
     }
 
+    return (
+      <div className={formClasses}>
+        {this.renderForm()}
+        <div className={linkClasses}>
+          <p className='u-marginBN'>{linkContext}</p>
+          <a className='u-userTextColor' onClick={this.props.handleNextClick}>
+            {linkLabel}
+          </a>
+        </div>
+      </div>
+    );
+  }
+
+  render() {
+    const buttonContainerClasses = classNames({
+      'u-marginTA': true,
+      'u-marginVM': this.props.hideZendeskLogo,
+      'u-isHidden': this.state.showIntroScreen || this.state.searchFieldFocused
+    });
+    const mobileHideLogoState = this.props.hasSearched;
+    const hideZendeskLogo = this.props.hideZendeskLogo || mobileHideLogoState;
     const zendeskLogo = !hideZendeskLogo
                       ? <ZendeskLogo rtl={i18n.isRTL()} fullscreen={true} />
                       : null;
-
-    const searchField = (
-      <div className={searchFieldClasses}>
-        <SearchField
-          ref='searchField'
-          fullscreen={true}
-          onFocus={this.onFocusHandler}
-          onBlur={this.onBlurHandler}
-          onChangeValue={this.props.onChangeValueHandler}
-          hasSearched={this.props.parentState.hasSearched}
-          onSearchIconClick={this.manualSearch}
-          isLoading={this.props.parentState.isLoading} />
-      </div>
-    );
-
-    const searchFieldButton = (
-      <div className={searchFieldButtonClasses}>
-        <SearchFieldButton
-          ref='searchFieldButton'
-          onClick={this.searchBoxClickHandler}
-          onTouch={this.searchBoxClickHandler}
-          searchTerm={this.props.parentState.searchFieldValue} />
-      </div>
-    );
-
-    const hcform = (
-      <form
-        ref='helpCenterForm'
-        className='Form u-cf'
-        onSubmit={this.props.manualSearch}>
-        <h1 className={searchTitleClasses}>
-          {i18n.t('embeddable_framework.helpCenter.label.searchHelpCenter')}
-        </h1>
-
-        {searchFieldButton}
-        {searchField}
-      </form>
-    );
-
-   const headerContent = (!this.props.parentState.articleViewActive && !this.state.showIntroScreen)
-                       ? hcform
+   const headerContent = (!this.props.articleViewActive && !this.state.showIntroScreen)
+                       ? this.renderForm()
                        : null;
 
    const footerContent = (
@@ -179,7 +200,7 @@ export class HelpCenterMobile extends Component {
         <ButtonGroup rtl={i18n.isRTL()}>
           <Button
             fullscreen={true}
-            label={this.props.parentState.buttonLabel}
+            label={this.props.buttonLabel}
             onClick={this.props.handleNextClick} />
         </ButtonGroup>
       </div>);
@@ -194,20 +215,9 @@ export class HelpCenterMobile extends Component {
           footerContent={footerContent}
           fullscreen={true}
           isVirtualKeyboardOpen={this.state.searchFieldFocused}>
-
-          <div className={formClasses}>
-            {hcform}
-            <div className={linkClasses}>
-              <p className='u-marginBN'>{linkContext}</p>
-              <a className='u-userTextColor' onClick={this.props.handleNextClick}>
-                {linkLabel}
-              </a>
-            </div>
-          </div>
-
+          {this.renderFormContainer()}
           {this.props.children}
         </ScrollContainer>
-
         {zendeskLogo}
       </div>
     );
@@ -215,24 +225,29 @@ export class HelpCenterMobile extends Component {
 }
 
 HelpCenterMobile.propTypes = {
-  parentState: PropTypes.object.isRequired,
-  handleArticleClick: PropTypes.func.isRequired,
   handleNextClick: PropTypes.func.isRequired,
   autoSearch: PropTypes.func.isRequired,
   manualSearch: PropTypes.func.isRequired,
+  onChangeValueHandler: PropTypes.func.isRequired,
   buttonLabelKey: PropTypes.string,
-  onSearch: PropTypes.func,
-  showBackButton: PropTypes.func,
   hideZendeskLogo: PropTypes.bool,
-  style: PropTypes.object,
-  formTitleKey: PropTypes.string
+  formTitleKey: PropTypes.string,
+  isLoading: PropTypes.bool,
+  articleViewActive: PropTypes.bool,
+  hasSearched: PropTypes.bool,
+  buttonLabel: PropTypes.string,
+  hasContextualSearched: PropTypes.bool,
+  searchFieldValue: PropTypes.string
 };
 
 HelpCenterMobile.defaultProps = {
   buttonLabelKey: 'message',
-  onSearch: () => {},
-  showBackButton: () => {},
   hideZendeskLogo: false,
-  style: null,
-  formTitleKey: 'help'
+  formTitleKey: 'help',
+  isLoading: false,
+  articleViewActive: false,
+  hasSearched: false,
+  buttonLabel: 'Leave a Message',
+  hasContextualSearched: false,
+  searchFieldValue: ''
 };

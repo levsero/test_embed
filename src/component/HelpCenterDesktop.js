@@ -18,7 +18,7 @@ export class HelpCenterDesktop extends Component {
   }
 
   focusField() {
-    if (!this.props.parentState.articleViewActive) {
+    if (!this.props.articleViewActive) {
       const searchField = this.refs.searchField;
       const searchFieldInputNode = searchField.getSearchField();
       const strLength = searchFieldInputNode.value.length;
@@ -30,73 +30,69 @@ export class HelpCenterDesktop extends Component {
     }
   }
 
-  render() {
+  renderForm(shouldHide) {
     const formClasses = classNames({
-      'u-isHidden': this.props.parentState.articleViewActive || this.props.parentState.hasSearched
-    });
-    const buttonContainerClasses = classNames({
-      'u-marginVM': this.props.hideZendeskLogo,
-      'u-isHidden': !this.props.parentState.hasSearched
+      'u-isHidden': shouldHide
     });
 
-    const hideZendeskLogo = this.props.hideZendeskLogo;
+    return (
+      <div className={formClasses}>
+        <form
+          ref='helpCenterForm'
+          className='Form u-cf'
+          onChange={this.props.autoSearch}
+          onSubmit={this.props.manualSearch}>
+
+          <SearchField
+            ref='searchField'
+            fullscreen={false}
+            onChangeValue={this.props.onChangeValueHandler}
+            hasSearched={this.props.hasSearched}
+            onSearchIconClick={this.props.manualSearch}
+            isLoading={this.props.isLoading} />
+        </form>
+      </div>
+    );
+  }
+
+  render() {
+    const buttonContainerClasses = classNames({
+      'u-marginVM': this.props.hideZendeskLogo,
+      'u-isHidden': !this.props.hasSearched
+    });
+    const zendeskLogo = !this.props.hideZendeskLogo
+                      ? <ZendeskLogo rtl={i18n.isRTL()} fullscreen={false} />
+                      : null;
+    const headerContent = (!this.props.articleViewActive && this.props.hasSearched)
+                       ? this.renderForm(this.props.articleViewActive)
+                       : null;
 
     if (this.props.updateFrameSize) {
       setTimeout( () => this.props.updateFrameSize(), 0);
     }
 
-    const zendeskLogo = !hideZendeskLogo
-                      ? <ZendeskLogo rtl={i18n.isRTL()} fullscreen={false} />
-                      : null;
-
-   const hcform = (
-      <form
-        ref='helpCenterForm'
-        className='Form u-cf'
-        onChange={this.props.autoSearch}
-        onSubmit={this.props.manualSearch}>
-
-        <SearchField
-          ref='searchField'
-          fullscreen={false}
-          onChangeValue={this.props.onChangeValueHandler}
-          hasSearched={this.props.parentState.hasSearched}
-          onSearchIconClick={this.props.manualSearch}
-          isLoading={this.props.parentState.isLoading} />
-      </form>
-   );
-
-   const headerContent = (!this.props.parentState.articleViewActive && this.props.parentState.hasSearched)
-                       ? hcform
-                       : null;
-
-   const footerContent = (
-     <div className={buttonContainerClasses}>
-       <ButtonGroup rtl={i18n.isRTL()}>
-         <Button
-           fullscreen={this.props.parentState.fullscreen}
-           label={this.props.parentState.buttonLabel}
-           onClick={this.props.handleNextClick} />
-       </ButtonGroup>
-     </div>
-  );
+    const footerContent = (
+      <div className={buttonContainerClasses}>
+        <ButtonGroup rtl={i18n.isRTL()}>
+          <Button
+            fullscreen={false}
+            label={this.props.buttonLabel}
+            onClick={this.props.handleNextClick} />
+        </ButtonGroup>
+      </div>
+    );
 
     return (
       <div>
         <ScrollContainer
           ref='scrollContainer'
-          hideZendeskLogo={hideZendeskLogo}
+          hideZendeskLogo={this.props.hideZendeskLogo}
           title={i18n.t(`embeddable_framework.launcher.label.${this.props.formTitleKey}`)}
           headerContent={headerContent}
           footerContent={footerContent}>
-
-          <div className={formClasses}>
-            {hcform}
-          </div>
-
+          {this.renderForm(this.props.articleViewActive || this.props.hasSearched)}
           {this.props.children}
         </ScrollContainer>
-
         {zendeskLogo}
       </div>
     );
@@ -104,26 +100,27 @@ export class HelpCenterDesktop extends Component {
 }
 
 HelpCenterDesktop.propTypes = {
-  parentState: PropTypes.object.isRequired,
-  handleArticleClick: PropTypes.func.isRequired,
   handleNextClick: PropTypes.func.isRequired,
   autoSearch: PropTypes.func.isRequired,
   manualSearch: PropTypes.func.isRequired,
-  onSearch: PropTypes.func,
-  showBackButton: PropTypes.func,
+  onChangeValueHandler: PropTypes.func.isRequired,
   onNextClick: PropTypes.func,
   hideZendeskLogo: PropTypes.bool,
   updateFrameSize: PropTypes.any,
-  style: PropTypes.object,
-  formTitleKey: PropTypes.string
+  formTitleKey: PropTypes.string,
+  isLoading: PropTypes.bool,
+  articleViewActive: PropTypes.bool,
+  hasSearched: PropTypes.bool,
+  buttonLabel:PropTypes.string
 };
 
 HelpCenterDesktop.defaultProps = {
-  onSearch: () => {},
-  showBackButton: () => {},
   onNextClick: () => {},
   hideZendeskLogo: false,
   updateFrameSize: false,
-  style: null,
-  formTitleKey: 'help'
+  formTitleKey: 'help',
+  isLoading: false,
+  articleViewActive: false,
+  hasSearched: false,
+  buttonLabel: 'Send a Message'
 };

@@ -141,6 +141,7 @@ function create(name, config) {
           contextualSearchSender={searchSenderFn('/api/v2/help_center/articles/embeddable_search.json')}
           imagesSender={imagesSenderFn}
           style={containerStyle}
+          fullscreen={isMobileBrowser()}
           updateFrameSize={params.updateFrameSize}
           disableAutoSearch={config.disableAutoSearch}
           zendeskHost={transport.getZendeskHost()} />
