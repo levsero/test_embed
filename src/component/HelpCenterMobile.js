@@ -142,6 +142,7 @@ export class HelpCenterMobile extends Component {
       <form
         ref='helpCenterForm'
         className='Form u-cf'
+        noValidate={true}
         onSubmit={this.props.manualSearch}>
         <h1 className={searchTitleClasses}>
           {i18n.t('embeddable_framework.helpCenter.label.searchHelpCenter')}

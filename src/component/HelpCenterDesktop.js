@@ -41,6 +41,7 @@ export class HelpCenterDesktop extends Component {
       <div className={formClasses}>
         <form
           ref='helpCenterForm'
+          noValidate={true}
           className='Form u-cf'
           onChange={this.props.autoSearch}
           onSubmit={this.props.manualSearch}>
