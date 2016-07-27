@@ -44,6 +44,12 @@ export class HelpCenter extends Component {
            : this.refs.helpCenterDesktop;
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    //const shadowVisible = this.state.articleViewActive || this.state.articles.length > minimumSearchResults;
+
+    //this.refs.scrollContainer.setScrollShadowVisible(shadowVisible);
+  }
+
   searchStartState(state) {
     return _.extend({
       isLoading: true,
@@ -188,7 +194,7 @@ export class HelpCenter extends Component {
       resultsCount: json.count,
       articleViewActive: false,
       resultsPerPage: minimumSearchResults,
-      showViewMore: !this.state.viewMoreActive,
+      showViewMore: !this.state.viewMoreActive && !this.state.hasContextualSearched,
       viewMoreActive: false
     });
 

@@ -107,8 +107,8 @@
 }
 
 .Icon--link {
-  padding-left: #{5/$font-size}rem !important;
-  padding-right: #{5/$font-size}rem !important;
+  padding-left: #{7/$font-size}rem !important;
+  padding-right: 0 !important;
 
   svg {
     fill: $icon-inactive-color;
@@ -254,6 +254,10 @@
     min-height: #{16/$font-size}rem;
     width: #{16/$font-size}rem;
     height: #{16/$font-size}rem;
+  }
+
+  [dir='rtl'] & {
+    padding-left: 0;
   }
 }
 

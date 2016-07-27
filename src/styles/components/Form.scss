@@ -147,6 +147,11 @@ $Form-fontSize: #{13/$font-size}rem;
       width: calc(100% - #{40/$font-size}rem); /* 1 */
     }
   }
+
+  [dir='rtl'] & {
+    padding-left: 0 !important;
+    padding-right: #{11/$font-size}rem !important;
+  }
 }
 
 .Form-field--focused,

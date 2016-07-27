@@ -3,7 +3,8 @@ fdescribe('HelpCenter component', function() {
     mockRegistry,
     mockPageKeywords,
     trackSearch,
-    updateResults;
+    updateResults,
+    manualSearch;
 
   const searchFieldBlur = jasmine.createSpy();
   const searchFieldGetValue = jasmine.createSpy().and.returnValue('Foobar');
@@ -12,6 +13,7 @@ fdescribe('HelpCenter component', function() {
   beforeEach(function() {
     trackSearch = jasmine.createSpy('trackSearch');
     updateResults = jasmine.createSpy('updateResults');
+    manualSearch = jasmine.createSpy('manualSearch');
 
     resetDOM();
 
@@ -29,7 +31,11 @@ fdescribe('HelpCenter component', function() {
         })
       },
       'component/HelpCenterResults': {
-        HelpCenterResults: noopReactComponent()
+        HelpCenterResults: React.createClass({
+          render: function() {
+            return <div className='HelpCenterResults' />;
+          }
+        })
       },
       'component/HelpCenterDesktop': {
         HelpCenterDesktop: React.createClass({
@@ -920,7 +926,6 @@ fdescribe('HelpCenter component', function() {
       /* eslint camelcase:0 */
       // TODO: Ported over from old performSearch test to catch regression
       // Needs to be rewritten
-
       const mockSearchSender = jasmine.createSpy('mockSearchSender');
       const mockOnArticleClick = jasmine.createSpy('mockOnArticleClick');
       const helpCenter = domRender(
@@ -985,6 +990,77 @@ fdescribe('HelpCenter component', function() {
 
       expect(article.className)
         .not.toMatch('u-isHidden');
+    });
+  });
+
+  describe('results', () => {
+    let helpCenter,
+      results;
+
+    beforeEach(() => {
+      helpCenter = domRender(<HelpCenter />);
+    });
+
+    it('renders HelpCenterResults when state.hasSearched is true', () => {
+      helpCenter.setState({ hasSearched: true });
+
+      jasmine.clock().tick(1);
+
+      results = ReactDOM.findDOMNode(
+        TestUtils.findRenderedDOMComponentWithClass(helpCenter, 'HelpCenterResults')
+      ).parentNode;
+
+      expect(results)
+        .toBeTruthy();
+    });
+
+    it('renders HelpCenterResults when state.hasContextualSearched is true', () => {
+      helpCenter.setState({ hasContextualSearched: true });
+
+      results = ReactDOM.findDOMNode(
+        TestUtils.findRenderedDOMComponentWithClass(helpCenter, 'HelpCenterResults')
+      ).parentNode;
+
+      expect(results)
+        .toBeTruthy();
+    });
+  });
+
+  describe('handleViewMoreClick', () => {
+    let helpCenter;
+
+    beforeEach(() => {
+      helpCenter = domRender(<HelpCenter searchSender={noop}/>);
+      helpCenter.manualSearch = manualSearch;
+    });
+
+    it('sets state.resultsPerPage to 9', () => {
+      expect(helpCenter.state.resultsPerPage)
+        .toEqual(3);
+
+      helpCenter.handleViewMoreClick({ preventDefault: noop });
+
+      expect(helpCenter.state.resultsPerPage)
+        .toEqual(9);
+    });
+
+    it('sets state.viewMoreActive to true', () => {
+      expect(helpCenter.state.viewMoreActive)
+        .toEqual(false);
+
+      helpCenter.handleViewMoreClick({ preventDefault: noop });
+
+      expect(helpCenter.state.viewMoreActive)
+        .toEqual(true);
+    });
+
+    it('calls manualSearch', () => {
+      helpCenter.handleViewMoreClick({ preventDefault: noop });
+
+      jasmine.clock().tick(1);
+
+      expect(helpCenter.manualSearch)
+        .toHaveBeenCalled();
     });
   });
 });
