@@ -4,7 +4,8 @@ describe('HelpCenter component', function() {
     mockIsMobileBrowserValue,
     mockPageKeywords,
     trackSearch,
-    updateResults;
+    updateResults,
+    manualSearch;
 
   const searchFieldBlur = jasmine.createSpy();
   const searchFieldGetValue = jasmine.createSpy().and.returnValue('Foobar');
@@ -13,6 +14,7 @@ describe('HelpCenter component', function() {
   beforeEach(function() {
     trackSearch = jasmine.createSpy('trackSearch');
     updateResults = jasmine.createSpy('updateResults');
+    manualSearch = jasmine.createSpy('manualSearch');
 
     resetDOM();
 
@@ -38,6 +40,13 @@ describe('HelpCenter component', function() {
         HelpCenterArticle: React.createClass({
           render: function() {
             return <div className='UserContent' />;
+          }
+        })
+      },
+      'component/HelpCenterResults': {
+        HelpCenterResults: React.createClass({
+          render: function() {
+            return <div className='HelpCenterResults' />;
           }
         })
       },
@@ -981,30 +990,6 @@ describe('HelpCenter component', function() {
         .toEqual(1);
     });
 
-    it('should render list of results from api', function() {
-      // TODO: Ported over from old performSearch test to catch regression
-      // Needs to be rewritten
-
-      const mockSearchSender = jasmine.createSpy('mockSearchSender');
-      const mockOnSearch = jasmine.createSpy('mockOnSearch');
-      const helpCenter = domRender(
-        <HelpCenter
-          searchSender={mockSearchSender}
-          onSearch={mockOnSearch} />
-      );
-      const searchTerm = 'help, I\'ve fallen and can\'t get up!';
-      const responsePayload = {body: {results: [1, 2, 3], count: 4}, ok: true};
-      const listAnchor = TestUtils.findRenderedDOMComponentWithClass(helpCenter, 'List');
-
-      helpCenter.refs.searchField.getValue = () => searchTerm;
-      helpCenter.performSearch({query: searchTerm}, helpCenter.interactiveSearchSuccessFn);
-
-      mockSearchSender.calls.mostRecent().args[1](responsePayload);
-
-      expect(listAnchor.props.className)
-        .not.toContain('u-isHidden');
-    });
-
     it('should track view and render the inline article', function() {
       /* eslint camelcase:0 */
       // TODO: Ported over from old performSearch test to catch regression
@@ -1053,19 +1038,10 @@ describe('HelpCenter component', function() {
 
       mockSearchSender.calls.mostRecent().args[1](responsePayload);
 
-      const listItem = TestUtils.scryRenderedDOMComponentsWithClass(
-        helpCenter,
-        'u-userTextColor'
-      )[1];
-
       expect(article.className)
         .toMatch('u-isHidden');
 
-      TestUtils.Simulate.click(listItem, {
-        target: {
-          getAttribute: function() { return 0; }
-        }
-      });
+      helpCenter.handleArticleClick(1, { preventDefault: noop });
 
       jasmine.clock().tick(1);
 
@@ -1083,50 +1059,6 @@ describe('HelpCenter component', function() {
 
       expect(article.className)
         .not.toMatch('u-isHidden');
-    });
-
-    it('should render error message when search fails', function() {
-      // TODO: Ported over from old performSearch test to catch regression
-      // Needs to be rewritten
-
-      const mockSearchSender = jasmine.createSpy('mockSearchSender');
-      const helpCenter = domRender(<HelpCenter searchSender={mockSearchSender} onSearch={noop} />);
-      const searchTerm = 'help, I\'ve fallen and can\'t get up!';
-      const responsePayload = {ok: false};
-      const list = TestUtils.findRenderedDOMComponentWithClass(helpCenter, 'List');
-
-      helpCenter.refs.searchField.getValue = () => searchTerm;
-      helpCenter.performSearch({query: searchTerm}, helpCenter.interactiveSearchSuccessFn);
-
-      mockSearchSender.calls.mostRecent().args[1](responsePayload);
-
-      expect(list.props.className).
-        toContain('u-isHidden');
-
-      expect(ReactDOM.findDOMNode(helpCenter).querySelector('#noResults').className)
-        .not.toContain('u-isHidden');
-    });
-
-    it('should show no results when search returns no results', function() {
-      // TODO: Ported over from old performSearch test to catch regression
-      // Needs to be rewritten
-
-      const mockSearchSender = jasmine.createSpy('mockSearchSender');
-      const helpCenter = domRender(<HelpCenter searchSender={mockSearchSender} onSearch={noop} />);
-      const searchTerm = 'abcd';
-      const responsePayload = {body: {results: [], count: 0}};
-      const list = TestUtils.findRenderedDOMComponentWithClass(helpCenter, 'List');
-
-      helpCenter.refs.searchField.getValue = () => searchTerm;
-      helpCenter.performSearch({query: searchTerm}, helpCenter.interactiveSearchSuccessFn);
-
-      mockSearchSender.calls.mostRecent().args[1](responsePayload);
-
-      expect(helpCenter.state.searchCount)
-        .toBeFalsy();
-
-      expect(list.props.className)
-        .toContain('u-isHidden');
     });
 
     it('should call blur and hide the virtual keyboard', function() {
@@ -1169,51 +1101,6 @@ describe('HelpCenter component', function() {
       expect(helpCenter.state.fullscreen)
         .toEqual(false);
     });
-  });
-
-  it('should not display noResults message for unsatisfied conditions', function() {
-    // if any is not satisfied
-    // if showIntroScreen is false &&
-    // resultsCount is 0 &&
-    // hasSearched is true
-
-    mockIsMobileBrowserValue = true;
-
-    const helpCenter = domRender(<HelpCenter />);
-
-    helpCenter.searchBoxClickHandler();
-
-    expect(helpCenter.state.showIntroScreen)
-      .toEqual(false);
-
-    expect(helpCenter.state.resultsCount)
-      .toEqual(0);
-
-    expect(helpCenter.state.hasSearched)
-      .toEqual(false);
-
-    expect(ReactDOM.findDOMNode(helpCenter).querySelector('#noResults'))
-      .toBeFalsy();
-  });
-
-  it('should display noResults message for satisfied conditions', function() {
-    // if showIntroScreen is false &&
-    // resultsCount is 0 &&
-    // hasSearched is true
-
-    mockIsMobileBrowserValue = true;
-
-    const helpCenter = domRender(<HelpCenter />);
-
-    helpCenter.searchBoxClickHandler();
-
-    helpCenter.setState({ hasSearched: true });
-
-    expect(helpCenter.state.hasSearched)
-      .toEqual(true);
-
-    expect(ReactDOM.findDOMNode(helpCenter).querySelector('#noResults'))
-      .toBeTruthy();
   });
 
   describe('searchField', function() {
@@ -1305,6 +1192,77 @@ describe('HelpCenter component', function() {
 
       expect(footerContent.props.className)
         .not.toContain('u-isHidden');
+    });
+  });
+
+  describe('results', () => {
+    let helpCenter,
+      results;
+
+    beforeEach(() => {
+      helpCenter = domRender(<HelpCenter />);
+    });
+
+    it('renders HelpCenterResults when state.hasSearched is true', () => {
+      helpCenter.setState({ hasSearched: true });
+
+      jasmine.clock().tick(1);
+
+      results = ReactDOM.findDOMNode(
+        TestUtils.findRenderedDOMComponentWithClass(helpCenter, 'HelpCenterResults')
+      ).parentNode;
+
+      expect(results)
+        .toBeTruthy();
+    });
+
+    it('renders HelpCenterResults when state.hasContextualSearched is true', () => {
+      helpCenter.setState({ hasContextualSearched: true });
+
+      results = ReactDOM.findDOMNode(
+        TestUtils.findRenderedDOMComponentWithClass(helpCenter, 'HelpCenterResults')
+      ).parentNode;
+
+      expect(results)
+        .toBeTruthy();
+    });
+  });
+
+  describe('handleViewMoreClick', () => {
+    let helpCenter;
+
+    beforeEach(() => {
+      helpCenter = domRender(<HelpCenter searchSender={noop}/>);
+      helpCenter.manualSearch = manualSearch;
+    });
+
+    it('sets state.resultsPerPage to 9', () => {
+      expect(helpCenter.state.resultsPerPage)
+        .toEqual(3);
+
+      helpCenter.handleViewMoreClick({ preventDefault: noop });
+
+      expect(helpCenter.state.resultsPerPage)
+        .toEqual(9);
+    });
+
+    it('sets state.viewMoreActive to true', () => {
+      expect(helpCenter.state.viewMoreActive)
+        .toEqual(false);
+
+      helpCenter.handleViewMoreClick({ preventDefault: noop });
+
+      expect(helpCenter.state.viewMoreActive)
+        .toEqual(true);
+    });
+
+    it('calls manualSearch', () => {
+      helpCenter.handleViewMoreClick({ preventDefault: noop });
+
+      jasmine.clock().tick(1);
+
+      expect(helpCenter.manualSearch)
+        .toHaveBeenCalled();
     });
   });
 });

@@ -9,11 +9,15 @@ import { Container } from 'component/Container';
 import { SearchField } from 'component/field/SearchField';
 import { HelpCenterArticle } from 'component/HelpCenterArticle';
 import { HelpCenterForm } from 'component/HelpCenterForm';
+import { HelpCenterResults } from 'component/HelpCenterResults';
 import { ScrollContainer } from 'component/ScrollContainer';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { i18n } from 'service/i18n';
 import { isMobileBrowser } from 'utility/devices';
 import { bindMethods } from 'utility/utils';
+
+const minimumSearchResults = 3;
+const maximumSearchResults = 9;
 
 export class HelpCenter extends Component {
   constructor(props, context) {
@@ -37,7 +41,10 @@ export class HelpCenter extends Component {
       virtualKeyboardKiller: false,
       searchTracked: false,
       searchResultClicked: false,
-      searchFieldFocused: false
+      searchFieldFocused: false,
+      resultsPerPage: minimumSearchResults,
+      showViewMore: true,
+      viewMoreActive: false
     };
   }
 
@@ -54,7 +61,9 @@ export class HelpCenter extends Component {
       });
     }
 
-    this.refs.scrollContainer.setScrollShadowVisible(this.state.articleViewActive);
+    const shadowVisible = this.state.articleViewActive || this.state.articles.length > minimumSearchResults;
+
+    this.refs.scrollContainer.setScrollShadowVisible(shadowVisible);
   }
 
   focusField() {
@@ -155,7 +164,7 @@ export class HelpCenter extends Component {
 
     _.extend(query, {
       locale: i18n.getLocale(),
-      per_page: 3,
+      per_page: this.state.resultsPerPage,
       origin: null
     });
 
@@ -174,7 +183,7 @@ export class HelpCenter extends Component {
     const query = {
       locale: i18n.getLocale(),
       query: searchTerm,
-      per_page: 3,
+      per_page: this.state.resultsPerPage,
       origin: 'web_widget'
     };
 
@@ -206,7 +215,7 @@ export class HelpCenter extends Component {
     const query = {
       locale: i18n.getLocale(),
       query: searchTerm,
-      per_page: 3,
+      per_page: this.state.resultsPerPage,
       origin: null
     };
 
@@ -227,7 +236,10 @@ export class HelpCenter extends Component {
     this.setState({
       articles: articles,
       resultsCount: json.count,
-      articleViewActive: false
+      articleViewActive: false,
+      resultsPerPage: minimumSearchResults,
+      showViewMore: !this.state.viewMoreActive && !this.state.hasContextualSearched,
+      viewMoreActive: false
     });
 
     this.props.showBackButton(false);
@@ -281,6 +293,17 @@ export class HelpCenter extends Component {
     if (!this.state.searchTracked && !this.state.hasContextualSearched) {
       this.trackSearch();
     }
+  }
+
+  handleViewMoreClick(e) {
+    e.preventDefault();
+
+    this.setState({
+      resultsPerPage: maximumSearchResults,
+      viewMoreActive: true
+    });
+
+    setTimeout(() => this.manualSearch(), 0);
   }
 
   handleNextClick(ev) {
@@ -339,20 +362,6 @@ export class HelpCenter extends Component {
   }
 
   render() {
-    const listClasses = classNames({
-      'List': true,
-      'u-isHidden': !this.state.articles.length,
-      'u-borderNone u-marginBS List--fullscreen': this.state.fullscreen
-    });
-    const listItemClasses = classNames({
-      'List-item': true,
-      'u-textSizeBaseMobile': this.state.fullscreen
-    });
-    const formLegendClasses = classNames({
-      'u-paddingTT u-textSizeNml Arrange Arrange--middle u-textBody u-textBold': true,
-      'u-textSizeBaseMobile': this.state.fullscreen,
-      'u-isHidden': !this.state.articles.length
-    });
     const searchTitleClasses = classNames({
       'u-textSizeBaseMobile u-marginTM u-textCenter u-textBold': true,
       'Container--fullscreen-center-vert': true,
@@ -375,19 +384,6 @@ export class HelpCenter extends Component {
                     (this.state.fullscreen && this.state.searchFieldFocused) ||
                     (!this.state.fullscreen && !this.state.hasSearched)
     });
-
-    const articleTemplate = function(article, index) {
-      return (
-        <li key={_.uniqueId('article_')} className={listItemClasses}>
-          <a className='u-userTextColor'
-            href={article.html_url}
-            target='_blank'
-            onClick={this.handleArticleClick.bind(this, index)}>
-              {article.title || article.name}
-          </a>
-        </li>
-      );
-    };
 
     const onFocusHandler = () => {
       this.setState({ searchFieldFocused: true });
@@ -433,38 +429,6 @@ export class HelpCenter extends Component {
       );
     }
 
-    const noResultsTemplate = () => {
-      const noResultsClasses = classNames({
-        'u-marginTM u-textCenter u-textSizeMed': true,
-        'u-textSizeBaseMobile': this.state.fullscreen,
-        'u-borderBottom List--noResults': !this.state.fullscreen
-      });
-      const noResultsParagraphClasses = classNames({
-        'u-textSecondary': true,
-        'u-marginBL': !this.state.fullscreen
-      });
-      /* eslint indent:0 */
-      const title = (this.state.searchFailed)
-                  ? i18n.t('embeddable_framework.helpCenter.search.error.title')
-                  : i18n.t('embeddable_framework.helpCenter.search.noResults.title', {
-                      searchTerm: this.state.previousSearchTerm
-                    });
-      const body = (this.state.searchFailed)
-                 ? i18n.t('embeddable_framework.helpCenter.search.error.body')
-                 : i18n.t('embeddable_framework.helpCenter.search.noResults.body');
-
-      return (
-        <div className={noResultsClasses} id='noResults'>
-          <p className='u-marginBN u-marginTL'>
-            {title}
-          </p>
-          <p className={noResultsParagraphClasses}>
-            {body}
-          </p>
-        </div>
-      );
-    };
-
     const zendeskLogo = !hideZendeskLogo
                       ? <ZendeskLogo rtl={i18n.isRTL()} fullscreen={this.state.fullscreen} />
                       : null;
@@ -506,18 +470,19 @@ export class HelpCenter extends Component {
                             children={searchField} />
                         : null;
 
-    const noResults = (!this.state.showIntroScreen
-                       && !this.state.resultsCount
-                       && this.state.hasSearched)
-                    ? noResultsTemplate()
-                    : null;
+    const showViewMore = this.state.showViewMore && this.state.resultsCount > minimumSearchResults;
 
-    const resultsLegend = this.state.hasContextualSearched
-                        ? i18n.t(
-                            'embeddable_framework.helpCenter.label.topSuggestions',
-                            { fallback: 'Top Suggestions' }
-                          )
-                        : i18n.t('embeddable_framework.helpCenter.label.results');
+    const results = this.state.hasSearched || this.state.hasContextualSearched
+                  ? <HelpCenterResults
+                      fullscreen={this.state.fullscreen}
+                      articles={this.state.articles}
+                      showViewMore={showViewMore}
+                      searchFailed={this.state.searchFailed}
+                      previousSearchTerm={this.state.previousSearchTerm}
+                      handleArticleClick={this.handleArticleClick}
+                      handleViewMoreClick={this.handleViewMoreClick}
+                      hasContextualSearched={this.state.hasContextualSearched} />
+                  : null;
 
     return (
       <Container
@@ -558,16 +523,8 @@ export class HelpCenter extends Component {
                 </a>
               </div>
 
-              <div className={formLegendClasses}>
-                <span className='Arrange-sizeFill'>
-                  {resultsLegend}
-                </span>
-              </div>
+              {results}
 
-              {noResults}
-              <ul className={listClasses}>
-                {_.chain(this.state.articles).take(3).map(articleTemplate.bind(this)).value()}
-              </ul>
             </HelpCenterForm>
           </div>
 
