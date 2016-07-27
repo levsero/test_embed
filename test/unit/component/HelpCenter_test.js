@@ -1,7 +1,6 @@
-describe('HelpCenter component', function() {
+fdescribe('HelpCenter component', function() {
   let HelpCenter,
     mockRegistry,
-    mockIsMobileBrowserValue,
     mockPageKeywords,
     trackSearch,
     updateResults;
@@ -18,7 +17,6 @@ describe('HelpCenter component', function() {
 
     mockery.enable();
 
-    mockIsMobileBrowserValue = false;
     mockPageKeywords = 'billy bob thorton';
 
     mockRegistry = initMockRegistry({
@@ -34,7 +32,18 @@ describe('HelpCenter component', function() {
         HelpCenterResults: noopReactComponent()
       },
       'component/HelpCenterDesktop': {
-        HelpCenterDesktop: noopReactComponent()
+        HelpCenterDesktop: React.createClass({
+          focusField: function() {
+            return;
+          },
+          render: function() {
+            return (
+              <div ref='searchField' type='search'>
+                <input ref='searchFieldInput' value='' type='search' />
+              </div>
+            );
+          }
+        })
       },
       'component/HelpCenterMobile': {
         HelpCenterMobile: noopReactComponent()
@@ -559,7 +568,7 @@ describe('HelpCenter component', function() {
     });
 
     it('should set origin properly if manualSearch', function() {
-      helpCenter.manualSearch();
+      helpCenter.manualSearch({ preventDefault: noop });
 
       const recentCallArgs = mockSearchSender.calls.mostRecent().args;
 
@@ -976,139 +985,6 @@ describe('HelpCenter component', function() {
 
       expect(article.className)
         .not.toMatch('u-isHidden');
-    });
-
-    it('should call blur and hide the virtual keyboard', function() {
-      mockIsMobileBrowserValue = true;
-
-      const helpCenter = domRender(<HelpCenter searchSender={noop} />);
-
-      helpCenter.searchBoxClickHandler();
-
-      const searchField = helpCenter.refs.searchField;
-
-      searchField.getValue = () => 'a search term';
-
-      // blur is manually called in manualSearch to hide the virtual keyboard
-      spyOn(searchField, 'blur');
-      helpCenter.manualSearch();
-
-      jasmine.clock().tick(1);
-
-      expect(searchField.blur)
-        .toHaveBeenCalled();
-    });
-  });
-
-  describe('fullscreen state', function() {
-    it('should be true if isMobileBrowser() is true', function() {
-      mockIsMobileBrowserValue = true;
-
-      const helpCenter = instanceRender(<HelpCenter />);
-
-      expect(helpCenter.state.fullscreen)
-        .toEqual(true);
-    });
-
-    it('should be false if isMobileBrowser() is false', function() {
-      mockIsMobileBrowserValue = false;
-
-      const helpCenter = instanceRender(<HelpCenter />);
-
-      expect(helpCenter.state.fullscreen)
-        .toEqual(false);
-    });
-  });
-
-  describe('searchField', function() {
-    it('should render component if fullscreen is false', function() {
-      const helpCenter = domRender(<HelpCenter />);
-
-      expect(helpCenter.refs.searchField)
-        .toBeTruthy();
-
-      expect(helpCenter.refs.searchFieldButton)
-        .toBeFalsy();
-    });
-  });
-
-  describe('searchFieldButton', function() {
-    let helpCenter;
-
-    beforeEach(function() {
-      mockIsMobileBrowserValue = true;
-
-      helpCenter = domRender(<HelpCenter />);
-    });
-
-    it('should render component if fullscreen is true', function() {
-      expect(helpCenter.refs.searchFieldButton)
-        .toBeTruthy();
-
-      expect(helpCenter.refs.searchField)
-        .toBeFalsy();
-    });
-
-    it('sets `showIntroScreen` state to false when component is clicked', function() {
-      expect(helpCenter.state.showIntroScreen)
-        .toBe(true);
-
-      helpCenter.searchBoxClickHandler();
-
-      expect(helpCenter.state.showIntroScreen)
-        .toBe(false);
-    });
-
-    it('sets focus state on searchField when component is clicked on mobile', function() {
-      expect(helpCenter.refs.searchField)
-        .toBeFalsy();
-
-      helpCenter.searchBoxClickHandler();
-
-      const searchField = helpCenter.refs.searchField;
-
-      expect(searchField.state.focused)
-        .toEqual(true);
-    });
-  });
-
-  describe('nextButton', function() {
-    let helpCenter,
-      searchField;
-
-    beforeEach(function() {
-      mockIsMobileBrowserValue = true;
-
-      helpCenter = domRender(<HelpCenter searchSender={noop} />);
-
-      helpCenter.searchBoxClickHandler();
-
-      // We need to simulate a search here so that we can properly test the on blur
-      // case. If no search has been performed, 'helpCenter.state.showIntroField' will be
-      // true on a search and therefore the button will still be hidden.
-      helpCenter.refs.searchField.getValue = () => 'help';
-      helpCenter.manualSearch();
-
-      searchField = helpCenter.refs.searchField;
-      searchField.props.onFocus();
-    });
-
-    it('should hide when searchField is focused', function() {
-      const footerContent = helpCenter.refs.scrollContainer.props.footerContent;
-
-      expect(footerContent.props.className)
-        .toContain('u-isHidden');
-    });
-
-    it('should appear when searchField is blurred', function() {
-      searchField.props.onBlur();
-
-      jasmine.clock().tick(1);
-
-      const footerContent = helpCenter.refs.scrollContainer.props.footerContent;
-
-      expect(footerContent.props.className)
-        .not.toContain('u-isHidden');
     });
   });
 });
