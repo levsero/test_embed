@@ -27,7 +27,7 @@ const helpCenterCSS = require('./helpCenter.scss');
 let helpCenters = {};
 let hasManuallySetContextualSuggestions = false;
 let hasAuthenticatedSuccessfully = false;
-let useMouseDistanceContexualSearch = true;
+let useMouseDistanceContexualSearch = false;
 let drawDebugLine = null;
 
 function create(name, config) {
@@ -42,6 +42,7 @@ function create(name, config) {
     hideZendeskLogo: false,
     signInRequired: false,
     disableAutoSearch: false,
+    enableMouseDrivenContextualSearch: false,
     color: '#659700'
   };
   const onNextClick = function() {
@@ -118,6 +119,8 @@ function create(name, config) {
   };
 
   config = _.extend(configDefaults, config);
+
+  useMouseDistanceContexualSearch = config.enableMouseDrivenContextualSearch;
 
   if (isMobileBrowser()) {
     containerStyle = { width: '100%', height: '100%' };
