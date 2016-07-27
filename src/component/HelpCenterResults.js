@@ -27,6 +27,7 @@ export class HelpCenterResults extends Component {
   renderResults() {
     const listClasses = classNames({
       'List': true,
+      'u-paddingBM': !this.props.fullscreen,
       'u-marginBS List--fullscreen': this.props.fullscreen
     });
     const articleLinks = _.chain(this.props.articles)
@@ -89,7 +90,8 @@ export class HelpCenterResults extends Component {
     });
     const showBottomBorder = !this.props.fullscreen && this.props.articles.length > 0 && this.props.articles.length < 4;
     const resultsClasses = classNames({
-      'u-paddingBM u-borderBottom': showBottomBorder
+      'u-borderBottom': showBottomBorder,
+      'u-paddingBL': showBottomBorder && this.props.showViewMore
     });
     const resultsLegend = this.props.hasContextualSearched
                         ? i18n.t('embeddable_framework.helpCenter.label.topSuggestions')

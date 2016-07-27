@@ -239,7 +239,7 @@ export class HelpCenter extends Component {
       resultsCount: json.count,
       articleViewActive: false,
       resultsPerPage: minimumSearchResults,
-      showViewMore: !this.state.viewMoreActive,
+      showViewMore: !this.state.viewMoreActive && !this.state.hasContextualSearched,
       viewMoreActive: false
     });
 
