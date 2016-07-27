@@ -18,14 +18,15 @@ export class HelpCenterMobile extends Component {
     this.state = {
       showIntroScreen: true,
       searchFieldFocused: false,
-      virtualKeyboardKiller: false
+      virtualKeyboardKiller: false,
+      hasContextualSearched: true
     };
   }
 
   focusField() {
     const searchField = this.refs.searchField;
 
-    if (this.props.hasContextualSearched === false) {
+    if (this.state.hasContextualSearched === false) {
       const searchField = this.refs.searchField;
 
       searchField.focus();
@@ -66,6 +67,13 @@ export class HelpCenterMobile extends Component {
         searchFieldFocused: false
       });
     }
+  }
+
+  hasContextualSearched() {
+    this.setState({
+      showIntroScreen: false,
+      hasContextualSearched: true
+    });
   }
 
   searchBoxClickHandler() {
@@ -248,7 +256,6 @@ HelpCenterMobile.propTypes = {
   articleViewActive: PropTypes.bool,
   hasSearched: PropTypes.bool,
   buttonLabel: PropTypes.string,
-  hasContextualSearched: PropTypes.bool,
   searchFieldValue: PropTypes.string
 };
 
@@ -260,6 +267,5 @@ HelpCenterMobile.defaultProps = {
   articleViewActive: false,
   hasSearched: false,
   buttonLabel: 'Leave a Message',
-  hasContextualSearched: false,
   searchFieldValue: ''
 };

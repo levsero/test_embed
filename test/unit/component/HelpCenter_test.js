@@ -59,6 +59,7 @@ describe('HelpCenter component', function() {
       },
       'component/HelpCenterMobile': {
         HelpCenterMobile: React.createClass({
+          hasContextualSearched: noop,
           render: function() {
             return (
               <div>

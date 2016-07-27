@@ -109,6 +109,10 @@ export class HelpCenter extends Component {
           })
         );
         this.updateResults(res);
+
+        if (this.refs.helpCenterMobile) {
+          this.refs.helpCenterMobile.hasContextualSearched();
+        }
       }
     };
 
@@ -416,7 +420,6 @@ export class HelpCenter extends Component {
         articleViewActive={this.state.articleViewActive}
         hasSearched={this.state.hasSearched}
         buttonLabel={this.state.buttonLabel}
-        hasContextualSearched={this.state.hasContextualSearched}
         searchFieldValue={this.state.searchFieldValue}
         hideZendeskLogo={this.props.hideZendeskLogo}
         buttonLabelKey={this.props.buttonLabelKey}
