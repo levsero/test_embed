@@ -44,12 +44,6 @@ export class HelpCenter extends Component {
            : this.refs.helpCenterDesktop;
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    //const shadowVisible = this.state.articleViewActive || this.state.articles.length > minimumSearchResults;
-
-    //this.refs.scrollContainer.setScrollShadowVisible(shadowVisible);
-  }
-
   searchStartState(state) {
     return _.extend({
       isLoading: true,
@@ -77,6 +71,10 @@ export class HelpCenter extends Component {
     this.props.onSearch({searchTerm: query.query, searchLocale: query.locale});
     this.updateResults(res);
 
+    this.refs.helpCenterDesktop.focusField();
+  }
+
+  focusField() {
     this.refs.helpCenterDesktop.focusField();
   }
 
@@ -150,7 +148,7 @@ export class HelpCenter extends Component {
 
     this.performSearch(query, this.interactiveSearchSuccessFn, { localeFallback: true });
 
-    if (this.state.fullscreen) {
+    if (this.props.fullscreen) {
       setTimeout(() => {
         searchField.blur();
       }, 1);
@@ -298,6 +296,10 @@ export class HelpCenter extends Component {
     }
   }
 
+  hideVirtualKeyboard() {
+    this.refs.helpCenterMobile.hideVirtualKeyboard();
+  }
+
   handleArticleClick(articleIndex, e) {
     e.preventDefault();
 
@@ -347,7 +349,7 @@ export class HelpCenter extends Component {
     return (
       <div className={resultsClasses}>
         <HelpCenterResults
-          fullscreen={this.state.fullscreen}
+          fullscreen={this.props.fullscreen}
           articles={this.state.articles}
           showViewMore={showViewMore}
           searchFailed={this.state.searchFailed}
@@ -373,12 +375,14 @@ export class HelpCenter extends Component {
           imagesSender={this.props.imagesSender}
           updateStoredImages={this.updateImages}
           updateFrameSize={this.props.updateFrameSize}
-          fullscreen={this.state.fullscreen} />
+          fullscreen={this.props.fullscreen} />
       </div>
     );
   }
 
   renderHelpCenterDesktop() {
+    const shadowVisible = this.state.articleViewActive || this.state.articles.length > minimumSearchResults;
+
     return (
       <HelpCenterDesktop
         ref='helpCenterDesktop'
@@ -392,6 +396,7 @@ export class HelpCenter extends Component {
         hasSearched={this.state.hasSearched}
         buttonLabel={this.state.buttonLabel}
         formTitleKey={this.props.formTitleKey}
+        shadowVisible={shadowVisible}
         updateFrameSize={this.props.updateFrameSize}>
         {this.renderResults()}
         {this.renderArticles()}

@@ -15,6 +15,10 @@ export class HelpCenterDesktop extends Component {
     bindMethods(this, HelpCenterDesktop.prototype);
   }
 
+  componentDidUpdate() {
+    this.refs.scrollContainer.setScrollShadowVisible(this.props.shadowVisible);
+  }
+
   focusField() {
     if (!this.props.articleViewActive) {
       const searchField = this.refs.searchField;
@@ -110,7 +114,8 @@ HelpCenterDesktop.propTypes = {
   isLoading: PropTypes.bool,
   articleViewActive: PropTypes.bool,
   hasSearched: PropTypes.bool,
-  buttonLabel:PropTypes.string
+  buttonLabel:PropTypes.string,
+  shadowVisible: PropTypes.bool
 };
 
 HelpCenterDesktop.defaultProps = {
@@ -121,5 +126,6 @@ HelpCenterDesktop.defaultProps = {
   isLoading: false,
   articleViewActive: false,
   hasSearched: false,
-  buttonLabel: 'Send a Message'
+  buttonLabel: 'Send a Message',
+  shadowVisible: false
 };

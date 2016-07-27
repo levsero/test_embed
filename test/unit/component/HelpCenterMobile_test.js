@@ -1,38 +1,21 @@
 describe('HelpCenterMobile component', function() {
-  let HelpCenterMobile,
-    mockRegistry,
-    mockPageKeywords,
-    trackSearch,
-    updateResults;
+  let HelpCenterMobile;
 
-  const searchFieldBlur = jasmine.createSpy();
-  const searchFieldGetValue = jasmine.createSpy().and.returnValue('Foobar');
   const helpCenterMobilePath = buildSrcPath('component/HelpCenterMobile');
 
   beforeEach(function() {
-    trackSearch = jasmine.createSpy('trackSearch');
-    updateResults = jasmine.createSpy('updateResults');
-
     resetDOM();
 
     mockery.enable();
 
-    mockPageKeywords = 'billy bob thorton';
-
-    mockRegistry = initMockRegistry({
+    initMockRegistry({
       'React': React,
       'component/field/SearchField': {
         SearchField: React.createClass({
-          focus: function() {
-            this.setState({
-              focused: true
-            });
-          },
+          focus: noop,
           getSearchField: function() {
             return this.refs.searchFieldInput;
           },
-          blur: searchFieldBlur,
-          getValue: searchFieldGetValue,
           render: function() {
             return (
               <div ref='searchField' type='search'>
@@ -43,16 +26,7 @@ describe('HelpCenterMobile component', function() {
         })
       },
       'component/button/SearchFieldButton': {
-        SearchFieldButton: React.createClass({
-          render: function() {
-            return (
-              <input
-                ref='searchFieldButton'
-                type='search'
-                onClick={this.props.onClick} />
-            );
-          }
-        })
+        SearchFieldButton: noopReactComponent()
       },
       'component/ZendeskLogo': {
         ZendeskLogo: noopReactComponent()
@@ -72,11 +46,7 @@ describe('HelpCenterMobile component', function() {
         })
       },
       'component/Button': {
-        Button: React.createClass({
-          render: function() {
-            return <input className='Button' type='button' />;
-          }
-        }),
+        Button: noopReactComponent(),
         ButtonGroup: noopReactComponent()
       },
       'service/i18n': {
@@ -106,54 +76,15 @@ describe('HelpCenterMobile component', function() {
     mockery.disable();
   });
 
-  it('should call blur and hide the virtual keyboard', function() {
-    const helpCenterMobile = domRender(<HelpCenterMobile searchSender={noop} />);
-
-    helpCenterMobile.searchBoxClickHandler();
-
-    const searchField = helpCenterMobile.refs.searchField;
-
-    searchField.getValue = () => 'a search term';
-
-    // blur is manually called in manualSearch to hide the virtual keyboard
-    spyOn(searchField, 'blur');
-    helpCenterMobile.manualSearch();
-
-    jasmine.clock().tick(1);
-
-    expect(searchField.blur)
-      .toHaveBeenCalled();
-  });
-
-  describe('searchField', function() {
-    it('should render component if fullscreen is false', function() {
-      const helpCenterMobile = domRender(<HelpCenterMobile />);
-
-      expect(helpCenterMobile.refs.searchField)
-        .toBeTruthy();
-
-      expect(helpCenterMobile.refs.searchFieldButton)
-        .toBeFalsy();
-    });
-  });
-
   describe('nextButton', function() {
-    let helpCenterMobile,
-      searchField;
+    let helpCenterMobile;
 
     beforeEach(function() {
-      helpCenterMobile = domRender(<HelpCenterMobile searchSender={noop} />);
+      helpCenterMobile = domRender(<HelpCenterMobile hasSearched={true} />);
 
       helpCenterMobile.searchBoxClickHandler();
 
-      // We need to simulate a search here so that we can properly test the on blur
-      // case. If no search has been performed, 'helpCenterMobile.state.showIntroField' will be
-      // true on a search and therefore the button will still be hidden.
-      helpCenterMobile.refs.searchField.getValue = () => 'help';
-      helpCenterMobile.manualSearch();
-
-      searchField = helpCenterMobile.refs.searchField;
-      searchField.props.onFocus();
+      jasmine.clock().tick(1);
     });
 
     it('should hide when searchField is focused', function() {
@@ -164,7 +95,7 @@ describe('HelpCenterMobile component', function() {
     });
 
     it('should appear when searchField is blurred', function() {
-      searchField.props.onBlur();
+      helpCenterMobile.onBlurHandler();
 
       jasmine.clock().tick(1);
 
@@ -179,17 +110,7 @@ describe('HelpCenterMobile component', function() {
     let helpCenterMobile;
 
     beforeEach(function() {
-      mockIsMobileBrowserValue = true;
-
       helpCenterMobile = domRender(<HelpCenterMobile />);
-    });
-
-    it('should render component if fullscreen is true', function() {
-      expect(helpCenterMobile.refs.searchFieldButton)
-        .toBeTruthy();
-
-      expect(helpCenterMobile.refs.searchField)
-        .toBeFalsy();
     });
 
     it('sets `showIntroScreen` state to false when component is clicked', function() {
@@ -202,15 +123,14 @@ describe('HelpCenterMobile component', function() {
         .toBe(false);
     });
 
-    it('sets focus state on searchField when component is clicked on mobile', function() {
-      expect(helpCenterMobile.refs.searchField)
-        .toBeFalsy();
+    it('sets searchFieldFocused state when component is clicked', function() {
+      expect(helpCenterMobile.state.searchFieldFocused)
+        .toEqual(false);
 
       helpCenterMobile.searchBoxClickHandler();
+      jasmine.clock().tick(1);
 
-      const searchField = helpCenterMobile.refs.searchField;
-
-      expect(searchField.state.focused)
+      expect(helpCenterMobile.state.searchFieldFocused)
         .toEqual(true);
     });
   });

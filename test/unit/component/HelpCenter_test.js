@@ -1,4 +1,4 @@
-fdescribe('HelpCenter component', function() {
+describe('HelpCenter component', function() {
   let HelpCenter,
     mockRegistry,
     mockPageKeywords,
@@ -6,9 +6,16 @@ fdescribe('HelpCenter component', function() {
     updateResults,
     manualSearch;
 
-  const searchFieldBlur = jasmine.createSpy();
-  const searchFieldGetValue = jasmine.createSpy().and.returnValue('Foobar');
   const helpCenterPath = buildSrcPath('component/HelpCenter');
+  const SearchField = React.createClass({
+    blur: jasmine.createSpy(),
+    getValue: function() {
+      return '';
+    },
+    render: function() {
+      return <input ref='searchField' value='' type='search' />;
+    }
+  });
 
   beforeEach(function() {
     trackSearch = jasmine.createSpy('trackSearch');
@@ -39,20 +46,28 @@ fdescribe('HelpCenter component', function() {
       },
       'component/HelpCenterDesktop': {
         HelpCenterDesktop: React.createClass({
-          focusField: function() {
-            return;
-          },
+          focusField: noop,
           render: function() {
             return (
-              <div ref='searchField' type='search'>
-                <input ref='searchFieldInput' value='' type='search' />
+              <div>
+                <SearchField ref='searchField' />
+                {this.props.children}
               </div>
             );
           }
         })
       },
       'component/HelpCenterMobile': {
-        HelpCenterMobile: noopReactComponent()
+        HelpCenterMobile: React.createClass({
+          render: function() {
+            return (
+              <div>
+                <SearchField ref='searchField' />
+                {this.props.children}
+              </div>
+            );
+          }
+        })
       },
       'component/Container': {
         Container: React.createClass({
@@ -406,7 +421,6 @@ fdescribe('HelpCenter component', function() {
         .toEqual(jasmine.objectContaining({
           isLoading: false,
           searchTerm: searchOptions.search,
-          showIntroScreen: false,
           hasContextualSearched: true
         }));
     });
@@ -440,7 +454,6 @@ fdescribe('HelpCenter component', function() {
         .toEqual(jasmine.objectContaining({
           isLoading: false,
           searchTerm: searchOptions.labels.join(','),
-          showIntroScreen: false,
           hasContextualSearched: true
         }));
     });
@@ -494,6 +507,8 @@ fdescribe('HelpCenter component', function() {
           onSearch={mockOnSearch}
           searchSender={mockSearchSender} />
       );
+
+      helpCenter.getHelpCenterComponent().refs.searchField.getValue = () => 'valid';
     });
 
     describe('searchFail', () => {
@@ -677,7 +692,7 @@ fdescribe('HelpCenter component', function() {
       };
 
       helpCenter.updateResults = jasmine.createSpy('updateResults');
-      helpCenter.focusField = jasmine.createSpy('focusField');
+      helpCenter.getHelpCenterComponent().focusField = jasmine.createSpy('focusField');
 
       helpCenter.interactiveSearchSuccessFn(result, query);
     });
@@ -702,7 +717,7 @@ fdescribe('HelpCenter component', function() {
     });
 
     it('calls focusField', () => {
-      expect(helpCenter.focusField)
+      expect(helpCenter.getHelpCenterComponent().focusField)
         .toHaveBeenCalled();
     });
   });
@@ -738,26 +753,26 @@ fdescribe('HelpCenter component', function() {
 
       helpCenter.performSearch = mockPerformSearch;
 
-      helpCenter.refs.searchField.getValue = () => '';
-      helpCenter.autoSearch();
+      helpCenter.getHelpCenterComponent().refs.searchField.getValue = () => '';
+      helpCenter.autoSearch({ preventDefault: noop });
 
       expect(mockPerformSearch.calls.count())
         .toEqual(0);
 
-      helpCenter.refs.searchField.getValue = () => '123 ';
-      helpCenter.autoSearch();
+      helpCenter.getHelpCenterComponent().refs.searchField.getValue = () => '123';
+      helpCenter.autoSearch({ preventDefault: noop });
 
       expect(mockPerformSearch)
         .not.toHaveBeenCalled();
 
-      helpCenter.refs.searchField.getValue = () => 'validnotrailingspace';
-      helpCenter.autoSearch();
+      helpCenter.getHelpCenterComponent().refs.searchField.getValue = () => 'validnotrailingspace';
+      helpCenter.autoSearch({ preventDefault: noop });
 
       expect(mockPerformSearch)
         .not.toHaveBeenCalled();
 
-      helpCenter.refs.searchField.getValue = () => 'validwithtrailingspace ';
-      helpCenter.autoSearch();
+      helpCenter.getHelpCenterComponent().refs.searchField.getValue = () => 'validwithtrailingspace ';
+      helpCenter.autoSearch({ preventDefault: noop });
 
       expect(mockPerformSearch.calls.count())
         .toEqual(1);
@@ -769,7 +784,7 @@ fdescribe('HelpCenter component', function() {
 
       helpCenter.performSearch = mockPerformSearch;
 
-      helpCenter.autoSearch();
+      helpCenter.autoSearch({ preventDefault: noop });
 
       expect(mockPerformSearch)
         .not.toHaveBeenCalled();
@@ -782,9 +797,9 @@ fdescribe('HelpCenter component', function() {
 
       helpCenter.performSearch = mockPerformSearch;
 
-      helpCenter.refs.searchField.getValue = () => searchTerm;
+      helpCenter.getHelpCenterComponent().refs.searchField.getValue = () => searchTerm;
 
-      helpCenter.autoSearch();
+      helpCenter.autoSearch({ preventDefault: noop });
 
       const recentCallArgs = mockPerformSearch.calls.mostRecent().args;
 
@@ -800,9 +815,9 @@ fdescribe('HelpCenter component', function() {
       const searchTerm = 'a search term ';
       const helpCenter = domRender(<HelpCenter searchSender={noop} />);
 
-      helpCenter.refs.searchField.getValue = () => searchTerm;
+      helpCenter.getHelpCenterComponent().refs.searchField.getValue = () => searchTerm;
 
-      helpCenter.autoSearch();
+      helpCenter.autoSearch({ preventDefault: noop });
 
       expect(helpCenter.state)
         .toEqual(jasmine.objectContaining({
@@ -821,12 +836,12 @@ fdescribe('HelpCenter component', function() {
       helpCenter.performSearch = mockPerformSearch;
       helpCenter.interactiveSearchSuccessFn = mockSearchSuccessFn;
 
-      helpCenter.refs.searchField.getValue = () => 'valid ';
+      helpCenter.getHelpCenterComponent().refs.searchField.getValue = () => 'valid ';
 
       mockPerformSearch.calls.reset();
       mockSearchSuccessFn.calls.reset();
 
-      helpCenter.autoSearch();
+      helpCenter.autoSearch({ preventDefault: noop });
 
       expect(mockPerformSearch.calls.count())
         .toEqual(1);
@@ -845,19 +860,34 @@ fdescribe('HelpCenter component', function() {
 
       helpCenter.performSearch = mockPerformSearch;
 
-      helpCenter.refs.searchField.getValue = () => '';
+      helpCenter.getHelpCenterComponent().refs.searchField.getValue = () => '';
 
-      helpCenter.manualSearch();
+      helpCenter.manualSearch({ preventDefault: noop });
 
       expect(mockPerformSearch.calls.count())
         .toEqual(0);
 
-      helpCenter.refs.searchField.getValue = () => 'valid';
+      helpCenter.getHelpCenterComponent().refs.searchField.getValue = () => 'valid';
 
-      helpCenter.manualSearch();
+      helpCenter.manualSearch({ preventDefault: noop });
 
       expect(mockPerformSearch.calls.count())
         .toEqual(1);
+    });
+
+    it('should call blur and hide the virtual keyboard', function() {
+      const helpCenter = domRender(<HelpCenter searchSender={noop} fullscreen={true} />);
+      const searchField = helpCenter.getHelpCenterComponent().refs.searchField;
+
+      searchField.getValue = () => 'valid';
+
+      spyOn(searchField, 'blur');
+      helpCenter.manualSearch({ preventDefault: noop });
+
+      jasmine.clock().tick(1);
+
+      expect(searchField.blur)
+        .toHaveBeenCalled();
     });
 
     it('should build up the query object correctly', () => {
@@ -867,9 +897,9 @@ fdescribe('HelpCenter component', function() {
 
       helpCenter.performSearch = mockPerformSearch;
 
-      helpCenter.refs.searchField.getValue = () => searchTerm;
+      helpCenter.getHelpCenterComponent().refs.searchField.getValue = () => searchTerm;
 
-      helpCenter.manualSearch();
+      helpCenter.manualSearch({ preventDefault: noop });
 
       const recentCallArgs = mockPerformSearch.calls.mostRecent().args;
 
@@ -885,9 +915,9 @@ fdescribe('HelpCenter component', function() {
       const searchTerm = 'a search term';
       const helpCenter = domRender(<HelpCenter searchSender={noop} />);
 
-      helpCenter.refs.searchField.getValue = () => searchTerm;
+      helpCenter.getHelpCenterComponent().refs.searchField.getValue = () => searchTerm;
 
-      helpCenter.manualSearch();
+      helpCenter.manualSearch({ preventDefault: noop });
 
       expect(helpCenter.state)
         .toEqual(jasmine.objectContaining({
@@ -906,12 +936,12 @@ fdescribe('HelpCenter component', function() {
       helpCenter.performSearch = mockPerformSearch;
       helpCenter.interactiveSearchSuccessFn = mockSearchSuccessFn;
 
-      helpCenter.refs.searchField.getValue = () => 'valid';
+      helpCenter.getHelpCenterComponent().refs.searchField.getValue = () => 'valid';
 
       mockPerformSearch.calls.reset();
       mockSearchSuccessFn.calls.reset();
 
-      helpCenter.manualSearch();
+      helpCenter.manualSearch({ preventDefault: noop });
 
       expect(mockPerformSearch.calls.count())
         .toEqual(1);
@@ -956,7 +986,7 @@ fdescribe('HelpCenter component', function() {
 
       helpCenter.trackSearch = trackSearch;
 
-      helpCenter.refs.searchField.getValue = () => searchTerm;
+      helpCenter.getHelpCenterComponent().refs.searchField.getValue = () => searchTerm;
 
       helpCenter.performSearch({query: searchTerm}, helpCenter.interactiveSearchSuccessFn);
 

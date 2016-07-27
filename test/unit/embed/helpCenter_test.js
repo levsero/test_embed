@@ -3,22 +3,24 @@ describe('embed.helpCenter', function() {
     mockRegistry,
     frameConfig,
     mockSettingsValue,
+    mockIsMobileBrowserValue,
     focusField,
     mockIsOnHelpCenterPageValue;
   const helpCenterPath = buildSrcPath('embed/helpCenter/helpCenter');
-  const resetSearchFieldState = jasmine.createSpy();
   const hideVirtualKeyboard = jasmine.createSpy();
   const backtrackSearch = jasmine.createSpy();
   const performSearch = jasmine.createSpy();
   const contextualSearch = jasmine.createSpy();
   const authenticateSpy = jasmine.createSpy();
   const revokeSpy = jasmine.createSpy();
+  const getHelpCenterComponent = jasmine.createSpy();
 
   beforeEach(function() {
     const mockForm = noopReactComponent();
 
     mockSettingsValue = '';
     mockIsOnHelpCenterPageValue = false;
+    mockIsMobileBrowserValue = false;
 
     focusField = jasmine.createSpy();
 
@@ -64,12 +66,12 @@ describe('embed.helpCenter', function() {
               showIntroScreen: false
             };
           },
-          resetSearchFieldState: resetSearchFieldState,
           hideVirtualKeyboard: hideVirtualKeyboard,
           backtrackSearch: backtrackSearch,
           contextualSearch: contextualSearch,
           performSearch: performSearch,
           focusField: focusField,
+          getHelpCenterComponent: getHelpCenterComponent,
           render: function() {
             return (
               <div className='mock-helpCenter'>
@@ -87,7 +89,7 @@ describe('embed.helpCenter', function() {
       },
       'utility/devices': {
         isMobileBrowser: function() {
-          return false;
+          return mockIsMobileBrowserValue;
         },
         isIE: function() {
           return false;
@@ -263,22 +265,6 @@ describe('embed.helpCenter', function() {
             .toHaveBeenCalledWith('carlos.onSearch', params);
         });
 
-        it('should reset form state onShow', function() {
-          helpCenter = require(helpCenterPath).helpCenter;
-          helpCenter.create('carlos', frameConfig);
-          helpCenter.render('carlos');
-
-          const helpCenterFrame = helpCenter.get('carlos').instance;
-
-          mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
-          params = mockFrameFactoryCall[1];
-
-          params.onShow(helpCenterFrame);
-
-          expect(resetSearchFieldState)
-            .toHaveBeenCalled();
-        });
-
         it('should not call focusField in afterShowAnimate for non-IE browser', function() {
           helpCenter = require(helpCenterPath).helpCenter;
           helpCenter.create('carlos', frameConfig);
@@ -320,6 +306,7 @@ describe('embed.helpCenter', function() {
         });
 
         it('should hide virtual keyboard onHide', function() {
+          mockIsMobileBrowserValue = true;
           helpCenter = require(helpCenterPath).helpCenter;
           helpCenter.create('carlos', frameConfig);
           helpCenter.render('carlos');
@@ -349,59 +336,6 @@ describe('embed.helpCenter', function() {
 
           expect(backtrackSearch)
             .toHaveBeenCalled();
-        });
-
-        it('should set showIntroScreen to true for satisfied conditions on hide', function() {
-          // hasSearched === false &&
-          // isMobileBrowser()
-
-          mockery.registerMock('utility/devices', {
-            isMobileBrowser: function() {
-              return true;
-            }
-          });
-
-          helpCenter = requireUncached(helpCenterPath).helpCenter;
-          helpCenter.create('carlos', frameConfig);
-          helpCenter.render('carlos');
-
-          const helpCenterFrame = helpCenter.get('carlos').instance;
-
-          mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
-          params = mockFrameFactoryCall[1];
-
-          expect(helpCenterFrame.getRootComponent().state.showIntroScreen)
-            .toEqual(false);
-
-          params.onHide(helpCenterFrame);
-
-          expect(helpCenterFrame.getRootComponent().state.showIntroScreen)
-            .toEqual(true);
-        });
-
-        it('should not set showIntroScreen to true for unsatisfied conditions on hide', function() {
-          mockery.registerMock('utility/devices', {
-            isMobileBrowser: function() {
-              return false;
-            }
-          });
-
-          helpCenter = requireUncached(helpCenterPath).helpCenter;
-          helpCenter.create('carlos', frameConfig);
-          helpCenter.render('carlos');
-
-          const helpCenterFrame = helpCenter.get('carlos').instance;
-
-          mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
-          params = mockFrameFactoryCall[1];
-
-          expect(helpCenterFrame.getRootComponent().state.showIntroScreen)
-            .toEqual(false);
-
-          params.onHide(helpCenterFrame);
-
-          expect(helpCenterFrame.getRootComponent().state.showIntroScreen)
-            .toEqual(false);
         });
       });
     });

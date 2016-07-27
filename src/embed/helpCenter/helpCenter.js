@@ -70,20 +70,15 @@ function create(name, config) {
   };
 
   const onHide = (frame) => {
-    const rootComponent = frame.getRootComponent().getHelpCenterComponent();
+    const rootComponent = frame.getRootComponent();
 
     if (rootComponent) {
       if (isMobileBrowser()) {
         setScaleLock(false);
-
         rootComponent.hideVirtualKeyboard();
       }
 
       frame.getRootComponent().backtrackSearch();
-
-      if (isMobileBrowser() && rootComponent.state.hasSearched === false) {
-        rootComponent.setState({ showIntroScreen: true });
-      }
     }
   };
 
@@ -161,7 +156,7 @@ function create(name, config) {
         downShow: transitionFactory.webWidget.downShow()
       },
       afterShowAnimate(frame) {
-        const rootComponent = frame.getRootComponent().getHelpCenterComponent();
+        const rootComponent = frame.getRootComponent();
 
         if (rootComponent && isIE()) {
           rootComponent.focusField();
@@ -173,7 +168,7 @@ function create(name, config) {
         mediator.channel.broadcast(name + '.onClose');
       },
       onBack(frame) {
-        const rootComponent = frame.getRootComponent().getHelpCenterComponent();
+        const rootComponent = frame.getRootComponent();
 
         if (rootComponent) {
           frame.getRootComponent().setState({
@@ -204,7 +199,7 @@ function get(name) {
 }
 
 function getRootComponent(name) {
-  return get(name).instance.getRootComponent().getHelpCenterComponent();
+  return get(name).instance.getRootComponent();
 }
 
 function waitForRootComponent(name, callback) {

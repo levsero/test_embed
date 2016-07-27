@@ -37,6 +37,10 @@ export class HelpCenterMobile extends Component {
       });
     }
 
+    this.setState({
+      searchFieldFocused: true
+    });
+
     this.refs.scrollContainer.setScrollShadowVisible(this.props.articleViewActive);
   }
 
@@ -55,6 +59,13 @@ export class HelpCenterMobile extends Component {
     this.setState({
       virtualKeyboardKiller: true
     });
+
+    if (!this.props.hasSearched) {
+      this.setState({
+        showIntroScreen: true,
+        searchFieldFocused: false
+      });
+    }
   }
 
   searchBoxClickHandler() {

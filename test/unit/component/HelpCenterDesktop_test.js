@@ -1,40 +1,21 @@
 describe('HelpCenterDesktop component', function() {
-  let HelpCenterDesktop,
-    mockRegistry,
-    mockIsMobileBrowserValue,
-    mockPageKeywords,
-    trackSearch,
-    updateResults;
+  let HelpCenterDesktop;
 
-  const searchFieldBlur = jasmine.createSpy();
-  const searchFieldGetValue = jasmine.createSpy().and.returnValue('Foobar');
   const helpCenterDesktopPath = buildSrcPath('component/HelpCenterDesktop');
 
   beforeEach(function() {
-    trackSearch = jasmine.createSpy('trackSearch');
-    updateResults = jasmine.createSpy('updateResults');
-
     resetDOM();
 
     mockery.enable();
 
-    mockIsMobileBrowserValue = false;
-    mockPageKeywords = 'billy bob thorton';
-
-    mockRegistry = initMockRegistry({
+    initMockRegistry({
       'React': React,
       'component/field/SearchField': {
         SearchField: React.createClass({
-          focus: function() {
-            this.setState({
-              focused: true
-            });
-          },
+          focus: noop,
           getSearchField: function() {
             return this.refs.searchFieldInput;
           },
-          blur: searchFieldBlur,
-          getValue: searchFieldGetValue,
           render: function() {
             return (
               <div ref='searchField' type='search'>
@@ -62,11 +43,7 @@ describe('HelpCenterDesktop component', function() {
         })
       },
       'component/Button': {
-        Button: React.createClass({
-          render: function() {
-            return <input className='Button' type='button' />;
-          }
-        }),
+        Button: noopReactComponent(),
         ButtonGroup: noopReactComponent()
       },
       'service/i18n': {
@@ -94,5 +71,29 @@ describe('HelpCenterDesktop component', function() {
     jasmine.clock().uninstall();
     mockery.deregisterAll();
     mockery.disable();
+  });
+
+  describe('nextButton', function() {
+    let helpCenterDesktop;
+
+    beforeEach(function() {
+      helpCenterDesktop = domRender(<HelpCenterDesktop />);
+    });
+
+    it('should not show initially', function() {
+      const footerContent = helpCenterDesktop.refs.scrollContainer.props.footerContent;
+
+      expect(footerContent.props.className)
+        .toContain('u-isHidden');
+    });
+
+    it('should show after the field is focused', function() {
+      helpCenterDesktop.focusField();
+
+      const footerContent = helpCenterDesktop.refs.scrollContainer.props.footerContent;
+
+      expect(footerContent.props.className)
+        .toContain('u-isHidden');
+    });
   });
 });
