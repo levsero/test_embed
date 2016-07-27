@@ -230,7 +230,7 @@ function updateHelpCenterButton(name, labelKey) {
   });
 }
 
-function keywordsSearch(name, options, mouseProps) {
+function keywordsSearch(name, options = {}, mouseProps = {}) {
   const contextualSearchFn = () => {
     const rootComponent = getRootComponent(name);
     const isAuthenticated = get(name).config.signInRequired === false || hasAuthenticatedSuccessfully;
