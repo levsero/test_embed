@@ -261,7 +261,7 @@ export class HelpCenter extends Component {
       viewMoreActive: true
     });
 
-    setTimeout(() => this.manualSearch(), 0);
+    setTimeout(() => this.manualSearch({ preventDefault: _.noop }), 0);
   }
 
   handleNextClick(ev) {
