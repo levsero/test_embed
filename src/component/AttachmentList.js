@@ -42,8 +42,9 @@ export class AttachmentList extends Component {
     const numAttachments = this.numValidAttachments();
     const numFilesToAdd = maxFileCount - numAttachments;
     const setLimitError = () => {
-      const errorMessage = i18n.t('embeddable_framework.submitTicket.attachments.error.limit', {
-        maxFiles: maxFileCount
+      const errorMessage = i18n.t('embeddable_framework.submitTicket.attachments.error.limit_reached', {
+        maxFiles: maxFileCount,
+        fallback: 'Attachment limit reached (%(maxFiles)s)'
       });
 
       this.setState({ errorMessage });
@@ -199,8 +200,8 @@ export class AttachmentList extends Component {
 
   renderErrorMessage() {
     return (
-      <div className='Form-field--display-preview u-marginBS u-borderError'>
-        <span className='u-textError'>{this.state.errorMessage}</span>
+      <div className='Error u-textError u-marginBS'>
+        {this.state.errorMessage}
       </div>
     );
   }
