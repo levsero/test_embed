@@ -970,7 +970,6 @@ describe('embed.helpCenter', function() {
               .not.toHaveBeenCalled();
           });
         });
-
       });
 
       describe('when mouse driven contextual help is disabled', () => {

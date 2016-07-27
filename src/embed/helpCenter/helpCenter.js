@@ -247,8 +247,7 @@ function keywordsSearch(name, options, mouseProps) {
     }
   };
 
-  if (!useMouseDistanceContexualSearch ||
-      isMobileBrowser()) {
+  if (!useMouseDistanceContexualSearch || isMobileBrowser()) {
     // If we have fired the initial page load contextual search request.
     // Then the subsequent calls must be via the API.
     cappedIntervalCall(contextualSearchFn, 500, 10);
