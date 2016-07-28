@@ -30,6 +30,10 @@ let hasAuthenticatedSuccessfully = false;
 let useMouseDistanceContexualSearch = false;
 let drawDebugLine = null;
 
+const mouseSpeedThreshold = 1.5;
+const fastMinMouseDistance = 0.6;
+const slowMinMouseDistance = 0.25;
+
 function create(name, config) {
   let containerStyle;
 
@@ -254,7 +258,9 @@ function keywordsSearch(name, options = {}, mouseProps = {}) {
   } else {
     // After we have some end-user data, we can tweak these numbers to get
     // a good balance between limiting requests and showing no delay for the results.
-    const minMouseDistance = mouseProps.speed > 1.5 ? 0.6 : 0.25;
+    const minMouseDistance = mouseProps.speed > mouseSpeedThreshold
+                           ? fastMinMouseDistance
+                           : slowMinMouseDistance;
 
     // Remove the `onmousemove` event handler once the mouse reaches
     // the minimum distance from the widget. We only want this check

@@ -624,7 +624,7 @@ describe('embed.helpCenter', function() {
 
         describe('when mouse driven contextual search is enabled', () => {
           beforeEach(function() {
-            helpCenter.create('carlos', { enableMouseDrivenContextualSearch: true });
+            helpCenter.create('carlos', { enableMouseDrivenContextualHelp: true });
             helpCenter.render('carlos');
           });
 
@@ -743,7 +743,7 @@ describe('embed.helpCenter', function() {
           };
           removeListenerSpy = mockRegistry['utility/mouse'].mouse.removeListener;
 
-          helpCenter.create('carlos', { contextualHelpEnabled: true, enableMouseDrivenContextualSearch: true });
+          helpCenter.create('carlos', { contextualHelpEnabled: true, enableMouseDrivenContextualHelp: true });
           helpCenter.get('carlos').instance = {
             getRootComponent: () => {
               return {
@@ -897,7 +897,7 @@ describe('embed.helpCenter', function() {
 
         beforeEach(function() {
           addListenerSpy = mockRegistry['utility/mouse'].mouse.addListener;
-          helpCenter.create('carlos', { contextualHelpEnabled: true, enableMouseDrivenContextualSearch: true });
+          helpCenter.create('carlos', { contextualHelpEnabled: true, enableMouseDrivenContextualHelp: true });
         });
 
         it('should add a listener to the onmousemove event', () => {
