@@ -42,7 +42,7 @@ function create(name, config) {
     hideZendeskLogo: false,
     signInRequired: false,
     disableAutoSearch: false,
-    enableMouseDrivenContextualSearch: false,
+    enableMouseDrivenContextualHelp: false,
     color: '#659700'
   };
   const onNextClick = function() {
@@ -120,7 +120,7 @@ function create(name, config) {
 
   config = _.extend(configDefaults, config);
 
-  useMouseDistanceContexualSearch = config.enableMouseDrivenContextualSearch;
+  useMouseDistanceContexualSearch = config.enableMouseDrivenContextualHelp;
 
   if (isMobileBrowser()) {
     containerStyle = { width: '100%', height: '100%' };
@@ -242,9 +242,9 @@ function keywordsSearch(name, options = {}, mouseProps = {}) {
 
       rootComponent.contextualSearch(options);
       return true;
-    } else {
-      return false;
     }
+
+    return false;
   };
 
   if (!useMouseDistanceContexualSearch || isMobileBrowser()) {
@@ -312,12 +312,7 @@ function render(name) {
 
   mediator.channel.subscribe(name + '.setHelpCenterSuggestions', function(options) {
     hasManuallySetContextualSuggestions = true;
-
-    if (!useMouseDistanceContexualSearch || isMobileBrowser()) {
-      helpCenter.keywordsSearch(name, options);
-    } else {
-      mouse.addListener('onmousemove', handleMouse(name, options), 'contextual');
-    }
+    performContextualHelp(name, options);
   });
 
   mediator.channel.subscribe(name + '.isAuthenticated', function() {
@@ -377,6 +372,16 @@ const handleMouse = (name, options) => (props) => {
   });
 };
 
+function performContextualHelp(name, options) {
+  if (!isMobileBrowser() && useMouseDistanceContexualSearch) {
+    // Listen to the `onmousemove` event so we can grab the x and y coordinate
+    // of the end-users mouse relative to the host page viewport.
+    mouse.addListener('onmousemove', handleMouse(name, options), 'contextual');
+  } else {
+    helpCenter.keywordsSearch(name, options);
+  }
+}
+
 function postRender(name) {
   const config = get(name).config;
   const authSetting = settings.get('authenticate');
@@ -386,13 +391,7 @@ function postRender(name) {
       !isOnHelpCenterPage()) {
     const options = { url: true };
 
-    // Listen to the `onmousemove` event so we can grab the x and y coordinate
-    // of the end-users mouse relative to the host page viewport.
-    if (!isMobileBrowser() && useMouseDistanceContexualSearch) {
-      mouse.addListener('onmousemove', handleMouse(name, options), 'contextual');
-    } else {
-      helpCenter.keywordsSearch(name, options);
-    }
+    performContextualHelp(name, options);
   }
 
   if (config.tokensRevokedAt) {
