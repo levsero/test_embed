@@ -75,7 +75,7 @@ function create(name, config) {
     if (rootComponent) {
       if (isMobileBrowser()) {
         setScaleLock(false);
-        rootComponent.hideVirtualKeyboard();
+        rootComponent.resetState();
       }
 
       frame.getRootComponent().backtrackSearch();

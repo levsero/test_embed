@@ -18,41 +18,27 @@ export class HelpCenterMobile extends Component {
     this.state = {
       showIntroScreen: true,
       searchFieldFocused: false,
-      virtualKeyboardKiller: false,
       hasContextualSearched: false
     };
   }
 
-  focusField() {
+  componentDidUpdate(prevProps, prevState) {
     const searchField = this.refs.searchField;
 
-    if (!this.state.hasContextualSearched) {
-      const searchField = this.refs.searchField;
-
+    if (prevState.showIntroScreen === true &&
+        this.state.showIntroScreen === false &&
+        this.state.hasContextualSearched === false) {
       searchField.focus();
     }
 
     if (searchField) {
-      searchField.setState({ searchInputVal: this.props.searchFieldValue });
+      searchField.setState({
+        searchInputVal: this.props.searchFieldValue
+      });
     }
-
-    this.setState({ searchFieldFocused: true });
-
-    this.refs.scrollContainer.setScrollShadowVisible(this.props.articleViewActive);
   }
 
-  resetSearchFieldState() {
-    // if the user closes and reopens, we need to
-    // re-render the search field
-    this.setState({ virtualKeyboardKiller: false });
-  }
-
-  hideVirtualKeyboard() {
-    // in order for the virtual keyboard to hide in iOS 7,
-    // we need to remove the element from the DOM. It has been fixed
-    // in iOS 8.
-    this.setState({ virtualKeyboardKiller: true });
-
+  resetState() {
     if (!this.props.hasSearched) {
       this.setState({
         showIntroScreen: true,
@@ -69,11 +55,10 @@ export class HelpCenterMobile extends Component {
   }
 
   searchBoxClickHandler() {
-    this.setState({ showIntroScreen: false });
-
-    setTimeout(() => {
-      this.focusField();
-    }, 0);
+    this.setState({
+      showIntroScreen: false,
+      searchFieldFocused: true
+    });
   }
 
   onBlurHandler() {

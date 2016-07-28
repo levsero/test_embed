@@ -256,7 +256,7 @@ export class HelpCenter extends Component {
     }
   }
 
-  handleViewMoreClick(e) {
+  handleViewMoreClick(e = { preventDefault: () => {} }) {
     e.preventDefault();
 
     this.setState({
@@ -264,7 +264,7 @@ export class HelpCenter extends Component {
       viewMoreActive: true
     });
 
-    setTimeout(() => this.manualSearch({ preventDefault: _.noop, overrideSearchTerm: this.state.searchTerm }), 0);
+    setTimeout(() => this.manualSearch({ preventDefault: () => {}, overrideSearchTerm: this.state.searchTerm }), 0);
   }
 
   handleNextClick(e) {
@@ -305,8 +305,8 @@ export class HelpCenter extends Component {
     }
   }
 
-  hideVirtualKeyboard() {
-    this.refs.helpCenterMobile.hideVirtualKeyboard();
+  resetState() {
+    this.refs.helpCenterMobile.resetState();
   }
 
   handleArticleClick(articleIndex, e) {
@@ -409,7 +409,7 @@ export class HelpCenter extends Component {
         hasSearched={this.state.hasSearched}
         buttonLabel={this.state.buttonLabel}
         formTitleKey={this.props.formTitleKey}
-        searchTerm={this.state.searchTerm}
+        searchFieldValue={this.state.searchFieldValue}
         shadowVisible={shadowVisible}
         updateFrameSize={this.props.updateFrameSize}>
         {this.renderResults()}
@@ -482,7 +482,7 @@ HelpCenter.defaultProps = {
   onNextClick: () => {},
   onArticleClick: () => {},
   hideZendeskLogo: false,
-  updateFrameSize: false,
+  updateFrameSize: () => {},
   style: null,
   formTitleKey: 'help',
   disableAutoSearch: false

@@ -16,15 +16,18 @@ export class HelpCenterDesktop extends Component {
   }
 
   componentDidUpdate() {
+    if (this.refs.searchField) {
+      this.refs.searchField.setState({
+        searchInputVal: this.props.searchFieldValue
+      });
+    }
+
     this.refs.scrollContainer.setScrollShadowVisible(this.props.shadowVisible);
   }
 
   focusField() {
     if (!this.props.articleViewActive) {
       const searchField = this.refs.searchField;
-
-      searchField.setValue(this.props.searchTerm);
-
       const searchFieldInputNode = searchField.getSearchField();
       const strLength = searchFieldInputNode.value.length;
 
@@ -117,17 +120,19 @@ HelpCenterDesktop.propTypes = {
   articleViewActive: PropTypes.bool,
   hasSearched: PropTypes.bool,
   buttonLabel:PropTypes.string,
-  shadowVisible: PropTypes.bool
+  shadowVisible: PropTypes.bool,
+  searchFieldValue: PropTypes.string
 };
 
 HelpCenterDesktop.defaultProps = {
   onNextClick: () => {},
   hideZendeskLogo: false,
-  updateFrameSize: false,
+  updateFrameSize: () => {},
   formTitleKey: 'help',
   isLoading: false,
   articleViewActive: false,
   hasSearched: false,
   buttonLabel: 'Send a Message',
-  shadowVisible: false
+  shadowVisible: false,
+  searchFieldValue: ''
 };

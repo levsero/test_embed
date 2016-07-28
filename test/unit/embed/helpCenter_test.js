@@ -7,7 +7,7 @@ describe('embed.helpCenter', function() {
     focusField,
     mockIsOnHelpCenterPageValue;
   const helpCenterPath = buildSrcPath('embed/helpCenter/helpCenter');
-  const hideVirtualKeyboard = jasmine.createSpy();
+  const resetState = jasmine.createSpy();
   const backtrackSearch = jasmine.createSpy();
   const performSearch = jasmine.createSpy();
   const contextualSearch = jasmine.createSpy();
@@ -66,7 +66,7 @@ describe('embed.helpCenter', function() {
               showIntroScreen: false
             };
           },
-          hideVirtualKeyboard: hideVirtualKeyboard,
+          resetState: resetState,
           backtrackSearch: backtrackSearch,
           contextualSearch: contextualSearch,
           performSearch: performSearch,
@@ -318,7 +318,7 @@ describe('embed.helpCenter', function() {
 
           params.onHide(helpCenterFrame);
 
-          expect(hideVirtualKeyboard)
+          expect(resetState)
             .toHaveBeenCalled();
         });
 
