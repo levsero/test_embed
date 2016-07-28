@@ -177,6 +177,11 @@ parts:
       key: "embeddable_framework.helpCenter.label.popularArticles"
       title: "The title for the help center widget when we are offering articles that are popular in the Help Center"
       value: "Popular articles"
+  - translation:
+      key: "embeddable_framework.helpCenter.results.viewMoreLinkText"
+      title: "The button that is displayed after user has searched and there are more then 3 results. Clicking it loads more results."
+      screenshot: "https://zendesk.box.com/s/m8r7h3g7b8nzgz87m3xpah3tzhdqpqqb"
+      value: "View more"
 
   # Mobile
   - translation:

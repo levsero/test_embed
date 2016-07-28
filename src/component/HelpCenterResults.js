@@ -74,12 +74,20 @@ export class HelpCenterResults extends Component {
   }
 
   renderViewMoreButton() {
+    const buttonClasses = classNames({
+      'u-pullRight': i18n.isRTL()
+    });
+
     return (
-      <ButtonPill
-        fullscreen={this.props.fullscreen}
-        showIcon={false}
-        onClick={this.props.handleViewMoreClick}
-        label={i18n.t('embeddable_framework.helpCenter.results.viewMoreLinkText', { fallback: 'View more' })} />
+      <div className='u-cf'>
+        <div className={buttonClasses}>
+          <ButtonPill
+            fullscreen={this.props.fullscreen}
+            showIcon={false}
+            onClick={this.props.handleViewMoreClick}
+            label={i18n.t('embeddable_framework.helpCenter.results.viewMoreLinkText', { fallback: 'View more' })} />
+        </div>
+      </div>
     );
   }
 
@@ -113,13 +121,14 @@ export class HelpCenterResults extends Component {
     const results = this.props.articles.length > 0
                   ? this.renderResults()
                   : this.renderNoResults();
+    /* eslint no-unused-vars:0 */
     const viewMoreButton = this.props.showViewMore ? this.renderViewMoreButton() : null;
 
+    // TODO add {viewMoreButton} beneath {results} once the "View more" string has been translated
     return (
       <div className={resultsClasses}>
         {legend}
         {results}
-        {viewMoreButton}
       </div>
     );
   }
