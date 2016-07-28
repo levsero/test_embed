@@ -129,7 +129,9 @@ export class HelpCenter extends Component {
     e.preventDefault();
 
     const searchField = this.getHelpCenterComponent().refs.searchField;
-    const searchTerm = searchField.getValue();
+    const searchTerm = (e.overrideSearchTerm)
+                     ? e.overrideSearchTerm
+                     : searchField.getValue();
 
     if (_.isEmpty(searchTerm)) {
       return;
@@ -260,7 +262,7 @@ export class HelpCenter extends Component {
       viewMoreActive: true
     });
 
-    setTimeout(() => this.manualSearch(), 0);
+    setTimeout(() => this.manualSearch({ preventDefault: _.noop, overrideSearchTerm: this.state.searchTerm }), 0);
   }
 
   handleNextClick(e) {
