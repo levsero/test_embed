@@ -19,14 +19,14 @@ export class HelpCenterMobile extends Component {
       showIntroScreen: true,
       searchFieldFocused: false,
       virtualKeyboardKiller: false,
-      hasContextualSearched: true
+      hasContextualSearched: false
     };
   }
 
   focusField() {
     const searchField = this.refs.searchField;
 
-    if (this.state.hasContextualSearched === false) {
+    if (!this.state.hasContextualSearched) {
       const searchField = this.refs.searchField;
 
       searchField.focus();

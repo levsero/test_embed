@@ -212,7 +212,9 @@ export class HelpCenter extends Component {
       searchFailed: true
     });
 
-    this.refs.helpCenterDesktop.focusField();
+    if (this.refs.helpCenterDesktop) {
+      this.refs.helpCenterDesktop.focusField();
+    }
   }
 
   performSearch(query, successFn, options = {}) {
