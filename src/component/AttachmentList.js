@@ -37,6 +37,12 @@ export class AttachmentList extends Component {
     };
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.errorMessage === null && this.state.errorMessage) {
+      this.props.handleAttachmentsError();
+    }
+  }
+
   handleOnDrop(files) {
     const { maxFileCount, maxFileSize } = this.props;
     const numAttachments = this.numValidAttachments();
@@ -238,9 +244,11 @@ AttachmentList.propTypes = {
   updateForm: PropTypes.func.isRequired,
   maxFileCount: PropTypes.number.isRequired,
   maxFileSize: PropTypes.number.isRequired,
-  fullscreen: PropTypes.bool
+  fullscreen: PropTypes.bool,
+  handleAttachmentsError: PropTypes.func
 };
 
 AttachmentList.defaultProps = {
-  fullscreen: false
+  fullscreen: false,
+  handleAttachmentsError: () => {}
 };
