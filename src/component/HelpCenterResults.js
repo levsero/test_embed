@@ -74,12 +74,20 @@ export class HelpCenterResults extends Component {
   }
 
   renderViewMoreButton() {
+    const buttonClasses = classNames({
+      'u-pullRight': i18n.isRTL()
+    });
+
     return (
-      <ButtonPill
-        fullscreen={this.props.fullscreen}
-        showIcon={false}
-        onClick={this.props.handleViewMoreClick}
-        label={i18n.t('embeddable_framework.helpCenter.results.viewMoreLinkText', { fallback: 'View more' })} />
+      <div className='u-cf'>
+        <div className={buttonClasses}>
+          <ButtonPill
+            fullscreen={this.props.fullscreen}
+            showIcon={false}
+            onClick={this.props.handleViewMoreClick}
+            label={i18n.t('embeddable_framework.helpCenter.results.viewMoreLinkText', { fallback: 'View more' })} />
+        </div>
+      </div>
     );
   }
 
