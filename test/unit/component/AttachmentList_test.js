@@ -421,7 +421,7 @@ describe('AttachmentList component', () => {
           .toBe(5);
 
         expect(component.state.errorMessage)
-          .toBe('embeddable_framework.submitTicket.attachments.error.limit');
+          .toBe('embeddable_framework.submitTicket.attachments.error.limit_reached');
       });
     });
 
@@ -443,7 +443,7 @@ describe('AttachmentList component', () => {
           .toBe(5);
 
         expect(component.state.errorMessage)
-          .toBe('embeddable_framework.submitTicket.attachments.error.limit');
+          .toBe('embeddable_framework.submitTicket.attachments.error.limit_reached');
       });
     });
 
