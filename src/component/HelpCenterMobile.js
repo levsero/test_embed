@@ -3,9 +3,9 @@ import classNames from 'classnames';
 
 import { Button,
          ButtonGroup } from 'component/Button';
+import { ScrollContainer } from 'component/ScrollContainer';
 import { SearchField } from 'component/field/SearchField';
 import { SearchFieldButton } from 'component/button/SearchFieldButton';
-import { ScrollContainer } from 'component/ScrollContainer';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { i18n } from 'service/i18n';
 import { bindMethods } from 'utility/utils';
@@ -33,14 +33,10 @@ export class HelpCenterMobile extends Component {
     }
 
     if (searchField) {
-      searchField.setState({
-        searchInputVal: this.props.searchFieldValue
-      });
+      searchField.setState({ searchInputVal: this.props.searchFieldValue });
     }
 
-    this.setState({
-      searchFieldFocused: true
-    });
+    this.setState({ searchFieldFocused: true });
 
     this.refs.scrollContainer.setScrollShadowVisible(this.props.articleViewActive);
   }
@@ -48,18 +44,14 @@ export class HelpCenterMobile extends Component {
   resetSearchFieldState() {
     // if the user closes and reopens, we need to
     // re-render the search field
-    this.setState({
-      virtualKeyboardKiller: false
-    });
+    this.setState({ virtualKeyboardKiller: false });
   }
 
   hideVirtualKeyboard() {
     // in order for the virtual keyboard to hide in iOS 7,
     // we need to remove the element from the DOM. It has been fixed
     // in iOS 8.
-    this.setState({
-      virtualKeyboardKiller: true
-    });
+    this.setState({ virtualKeyboardKiller: true });
 
     if (!this.props.hasSearched) {
       this.setState({
@@ -69,7 +61,7 @@ export class HelpCenterMobile extends Component {
     }
   }
 
-  hasContextualSearched() {
+  setContextualSearched() {
     this.setState({
       showIntroScreen: false,
       hasContextualSearched: true
@@ -77,9 +69,7 @@ export class HelpCenterMobile extends Component {
   }
 
   searchBoxClickHandler() {
-    this.setState({
-      showIntroScreen: false
-    });
+    this.setState({ showIntroScreen: false });
 
     setTimeout(() => {
       this.focusField();
@@ -92,9 +82,7 @@ export class HelpCenterMobile extends Component {
       this.setState({ searchFieldFocused: false });
 
       if (!this.props.hasSearched && !this.props.isLoading) {
-        this.setState({
-          showIntroScreen: true
-        });
+        this.setState({ showIntroScreen: true });
       }
     }, 1);
   }

@@ -1,12 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
-import { SearchField } from 'component/field/SearchField';
-import { ZendeskLogo } from 'component/ZendeskLogo';
-import { ScrollContainer } from 'component/ScrollContainer';
-import { i18n } from 'service/i18n';
 import { Button,
          ButtonGroup } from 'component/Button';
+import { ScrollContainer } from 'component/ScrollContainer';
+import { SearchField } from 'component/field/SearchField';
+import { ZendeskLogo } from 'component/ZendeskLogo';
+import { i18n } from 'service/i18n';
 import { bindMethods } from 'utility/utils';
 
 export class HelpCenterDesktop extends Component {
@@ -70,9 +70,7 @@ export class HelpCenterDesktop extends Component {
                        ? this.renderForm(this.props.articleViewActive)
                        : null;
 
-    if (this.props.updateFrameSize) {
-      setTimeout( () => this.props.updateFrameSize(), 0);
-    }
+    setTimeout(() => this.props.updateFrameSize(), 0);
 
     const footerContent = (
       <div className={buttonContainerClasses}>

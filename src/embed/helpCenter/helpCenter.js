@@ -171,7 +171,7 @@ function create(name, config) {
         const rootComponent = frame.getRootComponent();
 
         if (rootComponent) {
-          frame.getRootComponent().setState({
+          rootComponent.setState({
             articleViewActive: false
           });
           frame.getChild().setState({

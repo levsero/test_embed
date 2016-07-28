@@ -70,7 +70,6 @@ export class HelpCenter extends Component {
 
     this.props.onSearch({searchTerm: query.query, searchLocale: query.locale});
     this.updateResults(res);
-
     this.refs.helpCenterDesktop.focusField();
   }
 
@@ -111,7 +110,7 @@ export class HelpCenter extends Component {
         this.updateResults(res);
 
         if (this.refs.helpCenterMobile) {
-          this.refs.helpCenterMobile.hasContextualSearched();
+          this.refs.helpCenterMobile.setContextualSearched();
         }
       }
     };
@@ -125,7 +124,7 @@ export class HelpCenter extends Component {
     this.performSearch(query, successFn, { isContextual: true });
   }
 
-  manualSearch(e) {
+  manualSearch(e = { preventDefault: _.noop }) {
     /* eslint camelcase:0 */
     e.preventDefault();
 
@@ -159,7 +158,7 @@ export class HelpCenter extends Component {
     }
   }
 
-  autoSearch(e) {
+  autoSearch(e = { preventDefault: _.noop }) {
     e.preventDefault();
 
     const searchTerm = this.getHelpCenterComponent().refs.searchField.getValue();
@@ -261,11 +260,11 @@ export class HelpCenter extends Component {
       viewMoreActive: true
     });
 
-    setTimeout(() => this.manualSearch({ preventDefault: _.noop }), 0);
+    setTimeout(() => this.manualSearch(), 0);
   }
 
-  handleNextClick(ev) {
-    ev.preventDefault();
+  handleNextClick(e) {
+    e.preventDefault();
     this.props.onNextClick();
   }
 
@@ -286,8 +285,8 @@ export class HelpCenter extends Component {
     });
   }
 
-  handleNextClick(ev) {
-    ev.preventDefault();
+  handleNextClick(e) {
+    e.preventDefault();
     this.props.onNextClick();
   }
 
@@ -295,7 +294,9 @@ export class HelpCenter extends Component {
    * Instrument the last auto-search, if it's still pending to be instrumented
    */
   backtrackSearch() {
-    if (!this.state.searchTracked && this.state.searchTerm && !this.state.hasContextualSearched) {
+    if (!this.state.searchTracked &&
+        this.state.searchTerm &&
+        !this.state.hasContextualSearched) {
       this.trackSearch();
     }
   }
@@ -346,9 +347,12 @@ export class HelpCenter extends Component {
 
   renderResults() {
     const resultsClasses = classNames({
-      'u-isHidden': !(this.state.hasSearched || this.state.hasContextualSearched) || this.state.articleViewActive
+      'u-isHidden': !(this.state.hasSearched ||
+                    this.state.hasContextualSearched) ||
+                    this.state.articleViewActive
     });
-    const showViewMore = this.state.showViewMore && this.state.resultsCount > minimumSearchResults;
+    const showViewMore = this.state.showViewMore &&
+                         this.state.resultsCount > minimumSearchResults;
 
     return (
       <div className={resultsClasses}>
@@ -385,7 +389,8 @@ export class HelpCenter extends Component {
   }
 
   renderHelpCenterDesktop() {
-    const shadowVisible = this.state.articleViewActive || this.state.articles.length > minimumSearchResults;
+    const shadowVisible = this.state.articleViewActive ||
+                          this.state.articles.length > minimumSearchResults;
 
     return (
       <HelpCenterDesktop
@@ -435,9 +440,7 @@ export class HelpCenter extends Component {
                      ? this.renderHelpCenterMobile()
                      : this.renderHelpCenterDesktop();
 
-    if (this.props.updateFrameSize) {
-      setTimeout( () => this.props.updateFrameSize(), 0);
-    }
+    setTimeout(() => this.props.updateFrameSize(), 0);
 
     return (
       <Container
