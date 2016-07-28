@@ -57,12 +57,11 @@ function create(name, config) {
   };
 
   const onShow = (frame) => {
-    const rootComponent = frame.getRootComponent().getHelpCenterComponent();
+    const rootComponent = frame.getRootComponent();
 
     if (rootComponent) {
       if (isMobileBrowser()) {
         setScaleLock(true);
-        rootComponent.resetSearchFieldState();
       } else {
         rootComponent.focusField();
       }

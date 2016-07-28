@@ -70,7 +70,7 @@ export class HelpCenter extends Component {
 
     this.props.onSearch({searchTerm: query.query, searchLocale: query.locale});
     this.updateResults(res);
-    this.refs.helpCenterDesktop.focusField();
+    this.focusField();
   }
 
   focusField() {
@@ -125,7 +125,6 @@ export class HelpCenter extends Component {
   }
 
   manualSearch(e = { preventDefault: _.noop }) {
-    /* eslint camelcase:0 */
     e.preventDefault();
 
     const searchField = this.getHelpCenterComponent().refs.searchField;
@@ -140,7 +139,7 @@ export class HelpCenter extends Component {
     const query = {
       locale: i18n.getLocale(),
       query: searchTerm,
-      per_page: this.state.resultsPerPage,
+      per_page: this.state.resultsPerPage, // eslint camelcase:0
       origin: 'web_widget'
     };
 
