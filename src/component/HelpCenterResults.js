@@ -86,7 +86,8 @@ export class HelpCenterResults extends Component {
   render() {
     const legendClasses = classNames({
       'u-paddingTT u-textSizeNml Arrange Arrange--middle u-textBody u-textBold': true,
-      'u-textSizeBaseMobile': this.props.fullscreen
+      'u-textSizeBaseMobile': this.props.fullscreen,
+      'u-isHidden': this.props.searchFailed || this.props.articles.length === 0
     });
     const showBottomBorder = !this.props.fullscreen && this.props.articles.length > 0 && this.props.articles.length < 4;
     const resultsClasses = classNames({
