@@ -736,9 +736,13 @@ describe('embed.helpCenter', function() {
         let mouseProps,
           removeListenerSpy;
 
+        const mouseSpeedThreshold = 1.5;
+        const fastMinMouseDistance = 0.6;
+        const slowMinMouseDistance = 0.25;
+
         beforeEach(function() {
           mouseProps = {
-            distance: 0.24,
+            distance: slowMinMouseDistance - 0.01,
             speed: 0
           };
           removeListenerSpy = mockRegistry['utility/mouse'].mouse.removeListener;
@@ -751,8 +755,6 @@ describe('embed.helpCenter', function() {
               };
             }
           };
-
-          helpCenter.postRender('carlos');
         });
 
         describe('when the mouse speed is less than the treshhold', () => {
@@ -774,11 +776,7 @@ describe('embed.helpCenter', function() {
 
           describe('when the mouse has not reached the minimum distance from the widget', () => {
             beforeEach(function() {
-              _.merge(mouseProps, {
-                speed: 1.6,
-                distance: 0.7
-              });
-
+              _.merge(mouseProps, { distance: slowMinMouseDistance + 0.1 });
               helpCenter.keywordsSearch('carlos', { search: 'foo' }, mouseProps);
             });
 
@@ -793,8 +791,8 @@ describe('embed.helpCenter', function() {
           describe('when the mouse has reached the higher minimum distance from the widget', () => {
             beforeEach(function() {
               _.merge(mouseProps, {
-                speed: 1.6,
-                distance: 0.5
+                speed: mouseSpeedThreshold + 0.1,
+                distance: fastMinMouseDistance - 0.1
               });
 
               helpCenter.keywordsSearch('carlos', { search: 'foo' }, mouseProps);
@@ -813,8 +811,11 @@ describe('embed.helpCenter', function() {
         });
 
         describe('when the user is on mobile', () => {
+          let addListenerSpy;
+
           beforeEach(function() {
             mockIsMobileBrowser = true;
+            addListenerSpy = mockRegistry['utility/mouse'].mouse.addListener;
 
             helpCenter.get('carlos').instance = {
               getRootComponent: () => {
@@ -823,12 +824,13 @@ describe('embed.helpCenter', function() {
                 };
               }
             };
-
-            helpCenter.postRender('carlos');
           });
 
           it('should skip mouse distance check and call contextual search with correct options', () => {
             helpCenter.keywordsSearch('carlos', { search: 'foo' });
+
+            expect(addListenerSpy)
+              .not.toHaveBeenCalled();
 
             expect(contextualSearchSpy)
               .toHaveBeenCalledWith({ search: 'foo' });
