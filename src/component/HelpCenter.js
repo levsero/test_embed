@@ -409,6 +409,7 @@ export class HelpCenter extends Component {
         hasSearched={this.state.hasSearched}
         buttonLabel={this.state.buttonLabel}
         formTitleKey={this.props.formTitleKey}
+        searchTerm={this.state.searchTerm}
         shadowVisible={shadowVisible}
         updateFrameSize={this.props.updateFrameSize}>
         {this.renderResults()}

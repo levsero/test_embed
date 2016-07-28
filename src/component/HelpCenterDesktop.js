@@ -22,6 +22,9 @@ export class HelpCenterDesktop extends Component {
   focusField() {
     if (!this.props.articleViewActive) {
       const searchField = this.refs.searchField;
+
+      searchField.setValue(this.props.searchTerm);
+
       const searchFieldInputNode = searchField.getSearchField();
       const strLength = searchFieldInputNode.value.length;
 
