@@ -227,7 +227,7 @@ describe('mouse', function() {
         .toEqual({ x: 150, y: 250});
 
       expect(args[0].speed)
-        .toBeCloseTo(0.071);
+        .toBeCloseTo(0.071, 3);
 
       expect(args[0].event)
         .toEqual(nextMockEvent);
