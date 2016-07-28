@@ -83,19 +83,33 @@ export class HelpCenterResults extends Component {
     );
   }
 
-  render() {
+  renderLegend() {
     const legendClasses = classNames({
-      'u-paddingTT u-textSizeNml Arrange Arrange--middle u-textBody u-textBold': true,
+      'Legend u-paddingTT u-textSizeNml Arrange Arrange--middle u-textBody u-textBold': true,
       'u-textSizeBaseMobile': this.props.fullscreen
     });
+    const resultsLegend = this.props.hasContextualSearched
+                        ? i18n.t('embeddable_framework.helpCenter.label.topSuggestions')
+                        : i18n.t('embeddable_framework.helpCenter.label.results');
+
+    return (
+      <div className={legendClasses}>
+        <span className='Arrange-sizeFill'>
+          {resultsLegend}
+        </span>
+      </div>
+    );
+  }
+
+  render() {
     const showBottomBorder = !this.props.fullscreen && this.props.articles.length > 0 && this.props.articles.length < 4;
     const resultsClasses = classNames({
       'u-borderBottom': showBottomBorder,
       'u-paddingBL': showBottomBorder && this.props.showViewMore
     });
-    const resultsLegend = this.props.hasContextualSearched
-                        ? i18n.t('embeddable_framework.helpCenter.label.topSuggestions')
-                        : i18n.t('embeddable_framework.helpCenter.label.results');
+    const legend = !(this.props.searchFailed || this.props.articles.length === 0)
+                 ? this.renderLegend()
+                 : null;
     const results = this.props.articles.length > 0
                   ? this.renderResults()
                   : this.renderNoResults();
@@ -103,11 +117,7 @@ export class HelpCenterResults extends Component {
 
     return (
       <div className={resultsClasses}>
-        <div className={legendClasses}>
-          <span className='Arrange-sizeFill'>
-            {resultsLegend}
-          </span>
-        </div>
+        {legend}
         {results}
         {viewMoreButton}
       </div>
