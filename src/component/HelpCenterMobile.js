@@ -25,6 +25,9 @@ export class HelpCenterMobile extends Component {
   componentDidUpdate(prevProps, prevState) {
     const searchField = this.refs.searchField;
 
+    // We have to do this check in componentDidUpdate so that
+    // the searchField is the most recent one and ios focuses
+    // on the correct one.
     if (prevState.showIntroScreen === true &&
         this.state.showIntroScreen === false &&
         this.state.hasContextualSearched === false) {
