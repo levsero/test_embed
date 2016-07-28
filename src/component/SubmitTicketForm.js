@@ -167,6 +167,10 @@ export class SubmitTicketForm extends Component {
     setTimeout(() => this.refs.scrollContainer.scrollToBottom(), 0);
   }
 
+  handleAttachmentsError() {
+    setTimeout(() => this.refs.scrollContainer.scrollToBottom(), 0);
+  }
+
   clear() {
     const formData = this.state.formState;
     const form = this.refs.form.getDOMNode();
@@ -236,7 +240,8 @@ export class SubmitTicketForm extends Component {
         updateForm={this.updateForm}
         maxFileCount={this.props.maxFileCount}
         maxFileSize={this.props.maxFileSize}
-        fullscreen={fullscreen} />
+        fullscreen={fullscreen}
+        handleAttachmentsError={this.handleAttachmentsError} />
     );
   }
 

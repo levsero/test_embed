@@ -3,7 +3,8 @@ describe('SubmitTicketForm component', function() {
     onSubmit,
     onCancel,
     mockRegistry,
-    mockAttachmentsReadyValue;
+    mockAttachmentsReadyValue,
+    scrollToBottomSpy;
   const submitTicketFormPath = buildSrcPath('component/SubmitTicketForm');
   const buttonPath = buildSrcPath('component/Button');
   const formParams = {
@@ -23,6 +24,7 @@ describe('SubmitTicketForm component', function() {
     });
 
     mockAttachmentsReadyValue = true;
+    scrollToBottomSpy = jasmine.createSpy();
 
     mockRegistry = initMockRegistry({
       'React': React,
@@ -60,6 +62,7 @@ describe('SubmitTicketForm component', function() {
       'component/ScrollContainer': {
         ScrollContainer: React.createClass({
           setScrollShadowVisible: noop,
+          scrollToBottom: scrollToBottomSpy,
           render: function() {
             return (
               <div>
@@ -201,6 +204,24 @@ describe('SubmitTicketForm component', function() {
       expect(function() {
         TestUtils.findRenderedDOMComponentWithClass(submitTicketForm, 'c-btn--secondary');
       }).toThrow();
+    });
+  });
+
+  describe('#handleAttachmentsError', () => {
+    let component;
+
+    beforeEach(() => {
+      jasmine.clock().install();
+
+      component = domRender(<SubmitTicketForm />);
+      component.handleAttachmentsError();
+
+      jasmine.clock().tick(1);
+    });
+
+    it('calls ScrollContainer.scrollToBottom', () => {
+      expect(scrollToBottomSpy)
+        .toHaveBeenCalled();
     });
   });
 });

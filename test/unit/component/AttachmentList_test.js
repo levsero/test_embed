@@ -2,7 +2,8 @@ describe('AttachmentList component', () => {
   let AttachmentList,
     component,
     mockUpdateForm,
-    mockAttachmentSender;
+    mockAttachmentSender,
+    mockHandleAttachmentsError;
   const attachmentListPath = buildSrcPath('component/AttachmentList');
   const maxFileCount = 5;
   const maxFileSize = 5 * 1024 * 1024;
@@ -48,6 +49,7 @@ describe('AttachmentList component', () => {
 
     mockUpdateForm = jasmine.createSpy('updateForm');
     mockAttachmentSender = jasmine.createSpy('mockAttachmentSender').and.returnValue({});
+    mockHandleAttachmentsError = jasmine.createSpy('handleAttachmentsError');
 
     component = instanceRender(
       <AttachmentList
@@ -55,7 +57,8 @@ describe('AttachmentList component', () => {
         updateAttachments={noop}
         maxFileCount={maxFileCount}
         maxFileSize={maxFileSize}
-        updateForm={mockUpdateForm} />
+        updateForm={mockUpdateForm}
+        handleAttachmentsError={mockHandleAttachmentsError} />
     );
 
     jasmine.clock().install();
@@ -399,7 +402,7 @@ describe('AttachmentList component', () => {
     });
 
     describe('when there is not space for all new attachments', () => {
-      it('should only add new attachments up to the max limit of 5', () => {
+      beforeEach(() => {
         component.handleOnDrop(attachments);
         jasmine.clock().tick(1);
 
@@ -416,17 +419,26 @@ describe('AttachmentList component', () => {
 
         component.handleOnDrop(moreAttachments);
         jasmine.clock().tick(1);
+      });
 
+      it('only adds new attachments up to the max limit of 5', () => {
         expect(_.size(component.state.attachments))
           .toBe(5);
+      });
 
+      it('displays an error message', () => {
         expect(component.state.errorMessage)
           .toBe('embeddable_framework.submitTicket.attachments.error.limit_reached');
+      });
+
+      it('calls props.handleAttachmentsError', () => {
+        expect(mockHandleAttachmentsError)
+          .toHaveBeenCalled();
       });
     });
 
     describe('when there is no space for new attachments', () => {
-      it('should not add any new attachments', () => {
+      beforeEach(() => {
         attachments.push(
           { name: 'bob', size: 1024 },
           { name: 'jim', size: 1024 },
@@ -438,12 +450,21 @@ describe('AttachmentList component', () => {
 
         component.handleOnDrop([{ name: 'fat', size: 1024 }]);
         jasmine.clock().tick(1);
+      });
 
+      it('does not add any new attachments', () => {
         expect(_.size(component.state.attachments))
           .toBe(5);
+      });
 
+      it('displays an error message', () => {
         expect(component.state.errorMessage)
           .toBe('embeddable_framework.submitTicket.attachments.error.limit_reached');
+      });
+
+      it('calls props.handleAttachmentsError', () => {
+        expect(mockHandleAttachmentsError)
+          .toHaveBeenCalled();
       });
     });
 
