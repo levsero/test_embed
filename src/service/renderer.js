@@ -42,6 +42,10 @@ function parseConfig(config) {
     }, {});
   });
 
+  if (!rendererConfig.ticketSubmissionForm && rendererConfig.helpCenterForm) {
+    rendererConfig.helpCenterForm.props.showNextButton = false;
+  }
+
   rendererConfig.nps = {
     embed: 'nps',
     props: {}
@@ -101,7 +105,7 @@ function init(config) {
 }
 
 function initMediator(config) {
-  if (config.embeds && config.embeds.ticketSubmissionForm) {
+  if (config.embeds) {
     const signInRequired = config.embeds.helpCenterForm
                          ? config.embeds.helpCenterForm.props.signInRequired
                          : false;

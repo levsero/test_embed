@@ -182,6 +182,8 @@ export class HelpCenterMobile extends Component {
   }
 
   renderFooterContent() {
+    if (!this.props.showNextButton) return;
+
     const buttonContainerClasses = classNames({
       'u-marginTA': true,
       'u-marginVM': this.props.hideZendeskLogo,

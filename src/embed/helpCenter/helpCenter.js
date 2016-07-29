@@ -42,7 +42,8 @@ function create(name, config) {
     signInRequired: false,
     disableAutoSearch: false,
     enableMouseDrivenContextualHelp: false,
-    color: '#659700'
+    color: '#659700',
+    showNextButton: true
   };
   const onNextClick = function() {
     mediator.channel.broadcast(name + '.onNextClick');
@@ -141,6 +142,7 @@ function create(name, config) {
           contextualSearchSender={searchSenderFn('/api/v2/help_center/articles/embeddable_search.json')}
           imagesSender={imagesSenderFn}
           style={containerStyle}
+          showNextButton={config.showNextButton}
           fullscreen={isMobileBrowser()}
           updateFrameSize={params.updateFrameSize}
           disableAutoSearch={config.disableAutoSearch}

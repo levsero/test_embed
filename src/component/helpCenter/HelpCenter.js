@@ -371,6 +371,7 @@ export class HelpCenter extends Component {
         handleNextClick={this.handleNextClick}
         autoSearch={this.autoSearch}
         manualSearch={this.manualSearch}
+        showNextButton={this.props.showNextButton}
         hideZendeskLogo={this.props.hideZendeskLogo}
         disableAutoSearch={this.props.disableAutoSearch}
         isLoading={this.state.isLoading}
@@ -395,6 +396,7 @@ export class HelpCenter extends Component {
         handleNextClick={this.handleNextClick}
         manualSearch={this.manualSearch}
         isLoading={this.state.isLoading}
+        showNextButton={this.props.showNextButton}
         articleViewActive={this.state.articleViewActive}
         hasSearched={this.state.hasSearched}
         buttonLabel={this.state.buttonLabel}

@@ -95,16 +95,18 @@ export class HelpCenterDesktop extends Component {
 
     setTimeout(() => this.props.updateFrameSize(), 0);
 
-    const footerContent = (
-      <div className={buttonContainerClasses}>
-        <ButtonGroup rtl={i18n.isRTL()}>
-          <Button
-            fullscreen={false}
-            label={this.props.buttonLabel}
-            onClick={this.props.handleNextClick} />
-        </ButtonGroup>
-      </div>
-    );
+    const footerContent = this.props.showNextButton
+                        ? (
+                          <div className={buttonContainerClasses}>
+                            <ButtonGroup rtl={i18n.isRTL()}>
+                              <Button
+                                fullscreen={false}
+                                label={this.props.buttonLabel}
+                                onClick={this.props.handleNextClick} />
+                            </ButtonGroup>
+                          </div>
+                        )
+                        : null;
 
     return (
       <div>
