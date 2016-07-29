@@ -57,14 +57,14 @@ export class HelpCenterMobile extends Component {
     });
   }
 
-  searchBoxClickHandler() {
+  handleSearchBoxClicked() {
     this.setState({
       showIntroScreen: false,
       searchFieldFocused: true
     });
   }
 
-  onBlurHandler() {
+  handleOnBlur() {
     // defer event to allow onClick events to fire first
     setTimeout(() => {
       this.setState({ searchFieldFocused: false });
@@ -75,8 +75,13 @@ export class HelpCenterMobile extends Component {
     }, 1);
   }
 
-  onFocusHandler() {
+  handleOnFocus() {
     this.setState({ searchFieldFocused: true });
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    this.props.manualSearch();
   }
 
   renderSearchField() {
@@ -89,11 +94,11 @@ export class HelpCenterMobile extends Component {
         <SearchField
           ref='searchField'
           fullscreen={true}
-          onFocus={this.onFocusHandler}
-          onBlur={this.onBlurHandler}
-          onChangeValue={this.props.onChangeValueHandler}
+          onFocus={this.handleOnFocus}
+          onBlur={this.handleOnBlur}
+          onChangeValue={this.props.handleOnChangeValue}
           hasSearched={this.props.hasSearched}
-          onSearchIconClick={this.manualSearch}
+          onSearchIconClick={this.handleSubmit}
           isLoading={this.props.isLoading} />
       </div>
     );
@@ -108,8 +113,8 @@ export class HelpCenterMobile extends Component {
       <div className={searchFieldButtonClasses}>
         <SearchFieldButton
           ref='searchFieldButton'
-          onClick={this.searchBoxClickHandler}
-          onTouch={this.searchBoxClickHandler}
+          onClick={this.handleSearchBoxClicked}
+          onTouch={this.handleSearchBoxClicked}
           searchTerm={this.props.searchFieldValue} />
       </div>
     );
@@ -127,7 +132,7 @@ export class HelpCenterMobile extends Component {
         ref='helpCenterForm'
         className='Form u-cf'
         noValidate={true}
-        onSubmit={this.props.manualSearch}>
+        onSubmit={this.handleSubmit}>
         <h1 className={searchTitleClasses}>
           {i18n.t('embeddable_framework.helpCenter.label.searchHelpCenter')}
         </h1>
@@ -175,6 +180,14 @@ export class HelpCenterMobile extends Component {
     );
   }
 
+  renderHeaderContent() {
+    if (this.props.articleViewActive || this.state.showIntroScreen) {
+      return null;
+    }
+
+    return this.renderForm();
+  }
+
   render() {
     const buttonContainerClasses = classNames({
       'u-marginTA': true,
@@ -186,9 +199,6 @@ export class HelpCenterMobile extends Component {
     const zendeskLogo = !hideZendeskLogo
                       ? <ZendeskLogo rtl={i18n.isRTL()} fullscreen={true} />
                       : null;
-    const headerContent = (!this.props.articleViewActive && !this.state.showIntroScreen)
-                        ? this.renderForm()
-                        : null;
 
     const footerContent = (
       <div className={buttonContainerClasses}>
@@ -206,7 +216,7 @@ export class HelpCenterMobile extends Component {
           ref='scrollContainer'
           hideZendeskLogo={hideZendeskLogo}
           title={i18n.t(`embeddable_framework.launcher.label.${this.props.formTitleKey}`)}
-          headerContent={headerContent}
+          headerContent={this.renderHeaderContent()}
           footerContent={footerContent}
           fullscreen={true}
           isVirtualKeyboardOpen={this.state.searchFieldFocused}>
@@ -221,9 +231,8 @@ export class HelpCenterMobile extends Component {
 
 HelpCenterMobile.propTypes = {
   handleNextClick: PropTypes.func.isRequired,
-  autoSearch: PropTypes.func.isRequired,
   manualSearch: PropTypes.func.isRequired,
-  onChangeValueHandler: PropTypes.func.isRequired,
+  handleOnChangeValue: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
   buttonLabelKey: PropTypes.string,
   hideZendeskLogo: PropTypes.bool,

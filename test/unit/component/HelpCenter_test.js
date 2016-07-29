@@ -1069,7 +1069,7 @@ describe('HelpCenter component', function() {
       expect(helpCenter.state.resultsPerPage)
         .toEqual(3);
 
-      helpCenter.handleViewMoreClick();
+      helpCenter.handleViewMoreClick({ preventDefault: noop });
 
       expect(helpCenter.state.resultsPerPage)
         .toEqual(9);
@@ -1079,14 +1079,14 @@ describe('HelpCenter component', function() {
       expect(helpCenter.state.viewMoreActive)
         .toEqual(false);
 
-      helpCenter.handleViewMoreClick();
+      helpCenter.handleViewMoreClick({ preventDefault: noop });
 
       expect(helpCenter.state.viewMoreActive)
         .toEqual(true);
     });
 
     it('calls manualSearch', () => {
-      helpCenter.handleViewMoreClick();
+      helpCenter.handleViewMoreClick({ preventDefault: noop });
 
       jasmine.clock().tick(1);
 

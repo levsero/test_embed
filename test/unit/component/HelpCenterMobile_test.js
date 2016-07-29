@@ -82,7 +82,7 @@ describe('HelpCenterMobile component', function() {
     beforeEach(function() {
       helpCenterMobile = domRender(<HelpCenterMobile hasSearched={true} />);
 
-      helpCenterMobile.searchBoxClickHandler();
+      helpCenterMobile.handleSearchBoxClicked();
 
       jasmine.clock().tick(1);
     });
@@ -95,7 +95,7 @@ describe('HelpCenterMobile component', function() {
     });
 
     it('should appear when searchField is blurred', function() {
-      helpCenterMobile.onBlurHandler();
+      helpCenterMobile.handleOnBlur();
 
       jasmine.clock().tick(1);
 
@@ -117,7 +117,7 @@ describe('HelpCenterMobile component', function() {
       expect(helpCenterMobile.state.showIntroScreen)
         .toBe(true);
 
-      helpCenterMobile.searchBoxClickHandler();
+      helpCenterMobile.handleSearchBoxClicked();
 
       expect(helpCenterMobile.state.showIntroScreen)
         .toBe(false);
@@ -127,7 +127,7 @@ describe('HelpCenterMobile component', function() {
       expect(helpCenterMobile.state.searchFieldFocused)
         .toEqual(false);
 
-      helpCenterMobile.searchBoxClickHandler();
+      helpCenterMobile.handleSearchBoxClicked();
       jasmine.clock().tick(1);
 
       expect(helpCenterMobile.state.searchFieldFocused)

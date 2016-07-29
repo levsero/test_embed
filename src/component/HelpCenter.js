@@ -124,12 +124,10 @@ export class HelpCenter extends Component {
     this.performSearch(query, successFn, { isContextual: true });
   }
 
-  manualSearch(e = { preventDefault: _.noop }) {
-    e.preventDefault();
-
+  manualSearch() {
     const searchField = this.getHelpCenterComponent().refs.searchField;
-    const searchTerm = (e.overrideSearchTerm)
-                     ? e.overrideSearchTerm
+    const searchTerm = (this.state.viewMoreActive)
+                     ? this.state.previousSearchTerm
                      : searchField.getValue();
 
     if (_.isEmpty(searchTerm)) {
@@ -159,9 +157,7 @@ export class HelpCenter extends Component {
     }
   }
 
-  autoSearch(e = { preventDefault: _.noop }) {
-    e.preventDefault();
-
+  autoSearch() {
     const searchTerm = this.getHelpCenterComponent().refs.searchField.getValue();
 
     if (_.isEmpty(searchTerm) ||
@@ -255,7 +251,7 @@ export class HelpCenter extends Component {
     }
   }
 
-  handleViewMoreClick(e = { preventDefault: () => {} }) {
+  handleViewMoreClick(e) {
     e.preventDefault();
 
     this.setState({
@@ -263,7 +259,7 @@ export class HelpCenter extends Component {
       viewMoreActive: true
     });
 
-    setTimeout(() => this.manualSearch({ preventDefault: () => {}, overrideSearchTerm: this.state.searchTerm }), 0);
+    setTimeout(() => this.manualSearch(), 0);
   }
 
   handleNextClick(e) {
@@ -271,7 +267,7 @@ export class HelpCenter extends Component {
     this.props.onNextClick();
   }
 
-  onChangeValueHandler(value) {
+  handleOnChangeValue(value) {
     this.setState({ searchFieldValue: value });
   }
 
@@ -286,11 +282,6 @@ export class HelpCenter extends Component {
     this.setState({
       searchTracked: true
     });
-  }
-
-  handleNextClick(e) {
-    e.preventDefault();
-    this.props.onNextClick();
   }
 
   /**
@@ -398,7 +389,7 @@ export class HelpCenter extends Component {
     return (
       <HelpCenterDesktop
         ref='helpCenterDesktop'
-        onChangeValueHandler={this.onChangeValueHandler}
+        handleOnChangeValue={this.handleOnChangeValue}
         handleNextClick={this.handleNextClick}
         autoSearch={this.autoSearch}
         manualSearch={this.manualSearch}
@@ -421,9 +412,8 @@ export class HelpCenter extends Component {
     return (
       <HelpCenterMobile
         ref='helpCenterMobile'
-        onChangeValueHandler={this.onChangeValueHandler}
+        handleOnChangeValue={this.handleOnChangeValue}
         handleNextClick={this.handleNextClick}
-        autoSearch={this.autoSearch}
         manualSearch={this.manualSearch}
         isLoading={this.state.isLoading}
         articleViewActive={this.state.articleViewActive}
