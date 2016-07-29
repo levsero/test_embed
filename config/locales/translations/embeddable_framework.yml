@@ -258,7 +258,7 @@ parts:
       key: "embeddable_framework.submitTicket.attachments.error.limit_reached"
       title: "The error notification that appears when trying to attach too many files. Will wrap as needed. %()s stands for string and does not need to be translated."
       screenshot: "https://zendesk.box.com/s/ka45f3gykenp9xil4uijbm6dwhd6d3e7"
-      value: "Attachment limit reached (%(maxFiles)s)"
+      value: "You have already reached the limit of (%(maxFiles)s) attachments"
   - translation:
       key: "embeddable_framework.submitTicket.attachments.error.other"
       title: "The error notification that appears when something goes wrong with the upload. Will wrap as needed. (https://zendesk.box.com/s/i2vh170lwc39bffkjl59zu0ztq6zafnq)"
