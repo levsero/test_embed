@@ -7,7 +7,8 @@ const optionWhitelist = [
   'translations',
   'suppress',
   'attachmentsDisabled',
-  'offset'
+  'offset',
+  'hideViewOriginalArticleButton'
 ];
 let store = {
   offset: {
@@ -15,7 +16,8 @@ let store = {
     vertical: 0
   },
   widgetMargin: 15,
-  widgetViaId: 48
+  widgetViaId: 48,
+  hideViewOriginalArticleButton: false
 };
 
 function init() {
