@@ -1,9 +1,9 @@
-describe('mouse', function() {
+describe('mouse', () => {
   let mouse,
     mockDocument;
   const mousePath = buildSrcPath('util/mouse');
 
-  beforeEach(function() {
+  beforeEach(() => {
     mockery.enable();
 
     const mockRegistry = initMockRegistry({
@@ -29,13 +29,13 @@ describe('mouse', function() {
     mockDocument = mockRegistry['utility/globals'].document;
   });
 
-  afterEach(function() {
+  afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
   });
 
   describe('#addListener', () => {
-    beforeEach(function() {
+    beforeEach(() => {
       mouse.removeAllListeners('mousemove');
     });
 
@@ -70,7 +70,7 @@ describe('mouse', function() {
   });
 
   describe('#getListener', () => {
-    beforeEach(function() {
+    beforeEach(() => {
       mouse.addListener('mousemove', noop, 'ratatouille');
       mouse.addListener('mousedown', noop, 'ratatouille');
     });
@@ -99,7 +99,7 @@ describe('mouse', function() {
   });
 
   describe('#removeListener', () => {
-    beforeEach(function() {
+    beforeEach(() => {
       mouse.addListener('mousemove', noop, 'ratatouille');
       mouse.addListener('mousemove', noop, 'mickey');
     });
@@ -112,7 +112,7 @@ describe('mouse', function() {
     });
 
     describe('when the last listener for the event type is to be removed', () => {
-      beforeEach(function() {
+      beforeEach(() => {
         mouse.removeListener('mousemove', 'ratatouille');
         mouse.removeListener('mousemove', 'mickey');
       });
@@ -124,7 +124,7 @@ describe('mouse', function() {
     });
 
     describe('when the event type does not exist', () => {
-      beforeEach(function() {
+      beforeEach(() => {
         mouse.removeListener('mouseparty', 'ratatouille');
         mouse.removeListener('mouseparty', 'mickey');
       });
@@ -139,7 +139,7 @@ describe('mouse', function() {
     });
 
     describe('when the event type has no listeners', () => {
-      beforeEach(function() {
+      beforeEach(() => {
         mouse.removeListener('mousedown', 'ratatouille');
         mouse.removeListener('mousedown', 'mickey');
       });
@@ -155,7 +155,7 @@ describe('mouse', function() {
   });
 
   describe('#removeAllListeners', () => {
-    beforeEach(function() {
+    beforeEach(() => {
       mouse.addListener('mousemove', noop, 'ratatouille');
       mouse.addListener('mousemove', noop, 'mickey');
     });
@@ -182,7 +182,7 @@ describe('mouse', function() {
     let mockEvent,
       mockListener;
 
-    beforeEach(function() {
+    beforeEach(() => {
       mockEvent = {
         clientX: 100,
         clientY: 200
