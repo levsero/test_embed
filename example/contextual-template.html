@@ -28,6 +28,9 @@
       Aliquam varius ante magna, a adipiscing sapien vehicula ut. Phasellus mattis, ligula sed faucibus vehicula, nunc mi pharetra elit, ac aliquet arcu risus in diam. Vestibulum bibendum feugiat felis, a venenatis risus auctor vitae. Nulla nisl massa, fringilla non tempor et, aliquet vel mi. Nunc volutpat purus nulla, ut fermentum diam suscipit vel. Mauris et libero eget lectus dapibus interdum. Nam vel diam enim.
     </p>
 
+    <svg style="width:100%;height:100%;z-index:-1;position:absolute;top:0;left:0;">
+      <line id="zeLine" style="stroke:rgb(255,0,0);stroke-width:2" />
+    </svg>
     <script src="/dist/bootstrap.js" inline></script>
 
     <script>
@@ -55,9 +58,9 @@
             }
           }
         });
-        zE.activate();
-        // zE.setHelpCenterSuggestions({ search: 'images' });
-        // zE.setHelpCenterSuggestions({ labels: ['images'] });
+        // zE.activate();
+        zE.setHelpCenterSuggestions({ search: 'help' });
+        // zE.setHelpCenterSuggestions({ labels: ['help'] });
       });
     </script>
 

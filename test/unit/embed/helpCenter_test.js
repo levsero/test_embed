@@ -4,7 +4,9 @@ describe('embed.helpCenter', function() {
     frameConfig,
     mockSettingsValue,
     focusField,
-    mockIsOnHelpCenterPageValue;
+    mockIsOnHelpCenterPageValue,
+    mockIsMobileBrowser,
+    mockIsIE;
   const helpCenterPath = buildSrcPath('embed/helpCenter/helpCenter');
   const resetSearchFieldState = jasmine.createSpy();
   const hideVirtualKeyboard = jasmine.createSpy();
@@ -19,6 +21,8 @@ describe('embed.helpCenter', function() {
 
     mockSettingsValue = '';
     mockIsOnHelpCenterPageValue = false;
+    mockIsMobileBrowser = false;
+    mockIsIE = false;
 
     focusField = jasmine.createSpy();
 
@@ -86,11 +90,13 @@ describe('embed.helpCenter', function() {
         frameMethods: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
       },
       'utility/devices': {
-        isMobileBrowser: function() {
-          return false;
-        },
-        isIE: function() {
-          return false;
+        isMobileBrowser: () => mockIsMobileBrowser,
+        isIE: () => mockIsIE
+      },
+      'utility/mouse': {
+        mouse: {
+          addListener: jasmine.createSpy('addListener'),
+          removeListener: jasmine.createSpy('removeListener')
         }
       },
       'utility/utils': {
@@ -295,16 +301,8 @@ describe('embed.helpCenter', function() {
         });
 
         it('should call focusField in afterShowAnimate for IE browser', function() {
-          mockery.registerMock('utility/devices', {
-            isMobileBrowser: function() {
-              return false;
-            },
-            isIE: function() {
-              return true;
-            }
-          });
+          mockIsIE = true;
 
-          helpCenter = requireUncached(helpCenterPath).helpCenter;
           helpCenter.create('carlos', frameConfig);
           helpCenter.render('carlos');
 
@@ -355,13 +353,8 @@ describe('embed.helpCenter', function() {
           // hasSearched === false &&
           // isMobileBrowser()
 
-          mockery.registerMock('utility/devices', {
-            isMobileBrowser: function() {
-              return true;
-            }
-          });
+          mockIsMobileBrowser = true;
 
-          helpCenter = requireUncached(helpCenterPath).helpCenter;
           helpCenter.create('carlos', frameConfig);
           helpCenter.render('carlos');
 
@@ -380,13 +373,8 @@ describe('embed.helpCenter', function() {
         });
 
         it('should not set showIntroScreen to true for unsatisfied conditions on hide', function() {
-          mockery.registerMock('utility/devices', {
-            isMobileBrowser: function() {
-              return false;
-            }
-          });
+          mockIsMobileBrowser = false;
 
-          helpCenter = requireUncached(helpCenterPath).helpCenter;
           helpCenter.create('carlos', frameConfig);
           helpCenter.render('carlos');
 
@@ -409,13 +397,8 @@ describe('embed.helpCenter', function() {
     it('should switch iframe styles based on isMobileBrowser()', function() {
       const mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
 
-      mockery.registerMock('utility/devices', {
-        isMobileBrowser: function() {
-          return true;
-        }
-      });
+      mockIsMobileBrowser = true;
 
-      helpCenter = requireUncached(helpCenterPath).helpCenter;
       helpCenter.create('carlos');
 
       const mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
@@ -434,13 +417,8 @@ describe('embed.helpCenter', function() {
         updateFrameSize: function() {}
       };
 
-      mockery.registerMock('utility/devices', {
-        isMobileBrowser: function() {
-          return true;
-        }
-      });
+      mockIsMobileBrowser = true;
 
-      helpCenter = requireUncached(helpCenterPath).helpCenter;
       helpCenter.create('carlos');
 
       const mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
@@ -634,83 +612,242 @@ describe('embed.helpCenter', function() {
           .toEqual('submitTicket label');
       });
 
-      it('should subscribe to <name>.setHelpCenterSuggestions', function() {
-        const keywords = ['foo', 'bar'];
+      describe('when subscribing to <name>.setHelpCenterSuggestions', () => {
+        it('should subscribe to <name>.setHelpCenterSuggestions', () => {
+          expect(mockMediator.channel.subscribe)
+            .toHaveBeenCalledWith('carlos.setHelpCenterSuggestions', jasmine.any(Function));
+        });
 
-        expect(mockMediator.channel.subscribe)
-          .toHaveBeenCalledWith('carlos.setHelpCenterSuggestions', jasmine.any(Function));
+        describe('when mouse driven contextual search is enabled', () => {
+          let addListener;
 
-        pluckSubscribeCall(mockMediator, 'carlos.setHelpCenterSuggestions')(keywords);
+          beforeEach(() => {
+            addListener = mockRegistry['utility/mouse'].mouse.addListener;
 
-        expect(contextualSearch)
-          .toHaveBeenCalledWith(keywords);
+            helpCenter.create('carlos', { enableMouseDrivenContextualHelp: true });
+            helpCenter.render('carlos');
+          });
+
+          it('should add the mousemove listener', () => {
+            pluckSubscribeCall(mockMediator, 'carlos.setHelpCenterSuggestions')({ search: 'foo' });
+
+            expect(addListener)
+              .toHaveBeenCalledWith('mousemove', jasmine.any(Function), 'contextual');
+          });
+
+          describe('when the page load request has already been sent', () => {
+            beforeEach(() => {
+              // Simulate the page load contextual request that is sent when mouse distance
+              // is less than minimum.
+              helpCenter.keywordsSearch('carlos', {}, {
+                distance: 0.24,
+                speed: 0
+              });
+
+              spyOn(helpCenter, 'keywordsSearch');
+
+              pluckSubscribeCall(mockMediator, 'carlos.setHelpCenterSuggestions')({ search: 'foo' });
+            });
+
+            it('should not add another mousemove listener', () => {
+              pluckSubscribeCall(mockMediator, 'carlos.setHelpCenterSuggestions')({ search: 'foo' });
+
+              expect(addListener)
+                .not.toHaveBeenCalled();
+            });
+
+            it('should call keywordsSearch', () => {
+              expect(helpCenter.keywordsSearch)
+                .toHaveBeenCalledWith('carlos', { search: 'foo' });
+            });
+          });
+
+          describe('when user is on mobile', () => {
+            beforeEach(() => {
+              mockIsMobileBrowser = true;
+              spyOn(helpCenter, 'keywordsSearch');
+              pluckSubscribeCall(mockMediator, 'carlos.setHelpCenterSuggestions')({ search: 'foo' });
+            });
+
+            it('should call keywordsSearch', () => {
+              expect(helpCenter.keywordsSearch)
+                .toHaveBeenCalledWith('carlos', { search: 'foo' });
+            });
+          });
+        });
+
+        describe('when mouse driven contextual search is disabled', () => {
+          beforeEach(() => {
+            spyOn(helpCenter, 'keywordsSearch');
+            pluckSubscribeCall(mockMediator, 'carlos.setHelpCenterSuggestions')({ search: 'foo' });
+          });
+
+          it('should call keywordsSearch', () => {
+            expect(helpCenter.keywordsSearch)
+              .toHaveBeenCalledWith('carlos', { search: 'foo' });
+          });
+        });
       });
     });
 
-    describe('postRender contextual help', function() {
-      let helpCenter,
-        getPageKeywordsSpy,
-        contextualSearchSpy;
+    describe('keywordsSearch', () => {
+      let contextualSearchSpy;
 
-      beforeEach(function() {
-        helpCenter = requireUncached(helpCenterPath).helpCenter;
-        helpCenter.create('carlos', { contextualHelpEnabled: true });
-        getPageKeywordsSpy = mockRegistry['utility/utils'].getPageKeywords;
+      beforeEach(() => {
         contextualSearchSpy = jasmine.createSpy('contextualSearch');
       });
 
-      it('should call keywordSearch on non helpcenter pages', function() {
-        const helpCenterFrame = helpCenter.get('carlos');
+      describe('when mouse driven contextual help is disabled', () => {
+        beforeEach(() => {
+          helpCenter.create('carlos', { contextualHelpEnabled: true });
+          helpCenter.get('carlos').instance = {
+            getRootComponent: () => {
+              return {
+                contextualSearch: contextualSearchSpy
+              };
+            }
+          };
 
-        helpCenterFrame.instance = {
-          getRootComponent: () => {
-            return {
-              contextualSearch: contextualSearchSpy
-            };
-          }
-        };
+          helpCenter.postRender('carlos');
+        });
 
-        helpCenter.postRender('carlos');
+        it('should skip mouse distance check and call contextual search with correct options', () => {
+          helpCenter.keywordsSearch('carlos', { search: 'foo' });
 
-        expect(getPageKeywordsSpy)
-          .toHaveBeenCalled();
+          expect(contextualSearchSpy)
+            .toHaveBeenCalledWith({ search: 'foo' });
+        });
 
-        expect(contextualSearchSpy)
-          .toHaveBeenCalledWith({
-            url: true,
-            // This is 'foo bar' because it's what the getPageKeywords spy returns
-            pageKeywords: 'foo bar'
+        describe('when url option is true', () => {
+          it('should skip mouse distance check and call contextual search with correct options', () => {
+            helpCenter.keywordsSearch('carlos', { url: true });
+
+            expect(contextualSearchSpy)
+              .toHaveBeenCalledWith({ url: true, pageKeywords: 'foo bar' });
           });
+        });
       });
 
-      it('should\'t call keywordSearch if user has manually set suggestions', function() {
-        const mockMediator = mockRegistry['service/mediator'].mediator;
+      describe('when mouse distance contextual search is enabled', () => {
+        let mouseProps,
+          removeListenerSpy;
 
-        helpCenter.render('carlos');
+        const mouseSpeedThreshold = 1.5;
+        const fastMinMouseDistance = 0.6;
+        const slowMinMouseDistance = 0.25;
 
-        pluckSubscribeCall(mockMediator, 'carlos.setHelpCenterSuggestions')(['foo']);
+        beforeEach(() => {
+          mouseProps = {
+            distance: slowMinMouseDistance - 0.01,
+            speed: 0
+          };
+          removeListenerSpy = mockRegistry['utility/mouse'].mouse.removeListener;
 
-        helpCenter.postRender('carlos');
+          helpCenter.create('carlos', { contextualHelpEnabled: true, enableMouseDrivenContextualHelp: true });
+          helpCenter.get('carlos').instance = {
+            getRootComponent: () => {
+              return {
+                contextualSearch: contextualSearchSpy
+              };
+            }
+          };
+        });
 
-        expect(getPageKeywordsSpy)
-          .not.toHaveBeenCalled();
-      });
+        describe('when the mouse speed is less than the treshhold', () => {
+          describe('when the mouse has reached the lower minimum distance from the widget', () => {
+            beforeEach(() => {
+              helpCenter.keywordsSearch('carlos', { search: 'foo' }, mouseProps);
+            });
 
-      it('should\'t call keywordSearch on helpcenter pages', function() {
-        mockIsOnHelpCenterPageValue = true;
+            it('should call contextual search', () => {
+              expect(contextualSearchSpy)
+                .toHaveBeenCalledWith({ search: 'foo' });
+            });
 
-        helpCenter.postRender('carlos');
+            it('should remove the mousemove listener', () => {
+              expect(removeListenerSpy)
+                .toHaveBeenCalledWith('mousemove', 'contextual');
+            });
+          });
 
-        expect(getPageKeywordsSpy)
-          .not.toHaveBeenCalled();
+          describe('when the mouse has not reached the minimum distance from the widget', () => {
+            beforeEach(() => {
+              _.merge(mouseProps, { distance: slowMinMouseDistance + 0.1 });
+              helpCenter.keywordsSearch('carlos', { search: 'foo' }, mouseProps);
+            });
+
+            it('should not call contextual search', () => {
+              expect(contextualSearchSpy)
+                .not.toHaveBeenCalled();
+            });
+          });
+        });
+
+        describe('when the mouse speed is greater than the treshhold', () => {
+          describe('when the mouse has reached the higher minimum distance from the widget', () => {
+            beforeEach(() => {
+              _.merge(mouseProps, {
+                speed: mouseSpeedThreshold + 0.1,
+                distance: fastMinMouseDistance - 0.1
+              });
+
+              helpCenter.keywordsSearch('carlos', { search: 'foo' }, mouseProps);
+            });
+
+            it('should call contextual search', () => {
+              expect(contextualSearchSpy)
+                .toHaveBeenCalledWith({ search: 'foo' });
+            });
+
+            it('should remove the mousemove listener', () => {
+              expect(removeListenerSpy)
+                .toHaveBeenCalledWith('mousemove', 'contextual');
+            });
+          });
+        });
+
+        describe('when the user is on mobile', () => {
+          let addListenerSpy;
+
+          beforeEach(() => {
+            mockIsMobileBrowser = true;
+            addListenerSpy = mockRegistry['utility/mouse'].mouse.addListener;
+
+            helpCenter.get('carlos').instance = {
+              getRootComponent: () => {
+                return {
+                  contextualSearch: contextualSearchSpy
+                };
+              }
+            };
+          });
+
+          it('should skip mouse distance check and call contextual search with correct options', () => {
+            helpCenter.keywordsSearch('carlos', { search: 'foo' });
+
+            expect(addListenerSpy)
+              .not.toHaveBeenCalled();
+
+            expect(contextualSearchSpy)
+              .toHaveBeenCalledWith({ search: 'foo' });
+          });
+
+          describe('when url option is true', () => {
+            it('should skip mouse distance check and call contextual search with correct options', () => {
+              helpCenter.keywordsSearch('carlos', { url: true });
+
+              expect(contextualSearchSpy)
+                .toHaveBeenCalledWith({ url: true, pageKeywords: 'foo bar' });
+            });
+          });
+        });
       });
 
       describe('with authenticated help center', function() {
         let mockMediator;
 
-        beforeEach(function() {
+        beforeEach(() => {
           mockMediator = mockRegistry['service/mediator'].mediator;
-
           helpCenter.create('carlos', { contextualHelpEnabled: true, signInRequired: true });
           helpCenter.render('carlos');
 
@@ -721,11 +858,17 @@ describe('embed.helpCenter', function() {
               };
             }
           };
+
           jasmine.clock().install();
         });
 
         it('should wait until authenticate is true before searching', function() {
-          pluckSubscribeCall(mockMediator, 'carlos.setHelpCenterSuggestions')();
+          // Simulate the page load contextual request that is sent when mouse distance
+          // is less than minimum.
+          helpCenter.keywordsSearch('carlos', { url: true }, {
+            distance: 0.24,
+            speed: 0
+          });
           jasmine.clock().tick();
 
           expect(contextualSearchSpy)
@@ -733,11 +876,140 @@ describe('embed.helpCenter', function() {
 
           pluckSubscribeCall(mockMediator, 'carlos.isAuthenticated')();
           jasmine.clock().tick();
-          pluckSubscribeCall(mockMediator, 'carlos.setHelpCenterSuggestions')();
+          helpCenter.keywordsSearch('carlos', { url: true });
           jasmine.clock().tick();
 
           expect(contextualSearchSpy)
+            .toHaveBeenCalledWith({ url: true, pageKeywords: 'foo bar' });
+        });
+      });
+    });
+
+    describe('postRender contextual help', () => {
+      beforeEach(() => {
+        helpCenter.create('carlos', { contextualHelpEnabled: true });
+      });
+
+      describe('when mouse driven contextual help is enabled', () => {
+        let addListenerSpy;
+
+        beforeEach(() => {
+          addListenerSpy = mockRegistry['utility/mouse'].mouse.addListener;
+          helpCenter.create('carlos', { contextualHelpEnabled: true, enableMouseDrivenContextualHelp: true });
+        });
+
+        it('should add a listener to the mousemove event', () => {
+          helpCenter.postRender('carlos');
+
+          expect(addListenerSpy)
             .toHaveBeenCalled();
+
+          const args = addListenerSpy.calls.mostRecent().args;
+
+          expect(args[0])
+            .toBe('mousemove');
+
+          expect(args[1])
+            .toEqual(jasmine.any(Function));
+
+          expect(args[2])
+            .toBe('contextual');
+        });
+
+        describe('when zE.activate API function has been used', () => {
+          beforeEach(() => {
+            const mockMediator = mockRegistry['service/mediator'].mediator;
+
+            helpCenter.render('carlos');
+
+            spyOn(helpCenter, 'keywordsSearch');
+            pluckSubscribeCall(mockMediator, 'carlos.show')({ viaActivate: true });
+
+            helpCenter.postRender('carlos');
+          });
+
+          it('should\'t add a listener to the mousemove event', () => {
+            expect(addListenerSpy)
+              .not.toHaveBeenCalled();
+          });
+
+          it('should call keywordsSearch', () => {
+            expect(helpCenter.keywordsSearch)
+              .toHaveBeenCalledWith('carlos', { url: true });
+          });
+        });
+
+        describe('when the user has manually set suggestions', () => {
+          beforeEach(() => {
+            const mockMediator = mockRegistry['service/mediator'].mediator;
+
+            helpCenter.render('carlos');
+            pluckSubscribeCall(mockMediator, 'carlos.setHelpCenterSuggestions')(['foo']);
+
+            addListenerSpy.calls.reset();
+
+            helpCenter.postRender('carlos');
+          });
+
+          it('should\'t add another listener to the mousemove event', () => {
+            expect(addListenerSpy)
+              .not.toHaveBeenCalled();
+          });
+        });
+
+        describe('when the user is on a help center host page', () => {
+          beforeEach(() => {
+            mockIsOnHelpCenterPageValue = true;
+            helpCenter.postRender('carlos');
+          });
+
+          it('should\'t add a listener to the mousemove event', () => {
+            expect(addListenerSpy)
+              .not.toHaveBeenCalled();
+          });
+        });
+      });
+
+      describe('when mouse driven contextual help is disabled', () => {
+        beforeEach(() => {
+          spyOn(helpCenter, 'keywordsSearch');
+        });
+
+        it('should call keywordSearch', () => {
+          helpCenter.postRender('carlos');
+
+          expect(helpCenter.keywordsSearch)
+            .toHaveBeenCalledWith('carlos', { url: true });
+        });
+
+        describe('when the user has manually set suggestions', () => {
+          beforeEach(() => {
+            const mockMediator = mockRegistry['service/mediator'].mediator;
+
+            helpCenter.render('carlos');
+            pluckSubscribeCall(mockMediator, 'carlos.setHelpCenterSuggestions')(['foo']);
+
+            helpCenter.keywordsSearch.calls.reset();
+
+            helpCenter.postRender('carlos');
+          });
+
+          it('should\'t call keywordSearch', () => {
+            expect(helpCenter.keywordsSearch)
+              .not.toHaveBeenCalled();
+          });
+        });
+
+        describe('when the user is on a help center host page', () => {
+          beforeEach(() => {
+            mockIsOnHelpCenterPageValue = true;
+            helpCenter.postRender('carlos');
+          });
+
+          it('should\'t call keywordSearch', () => {
+            expect(helpCenter.keywordsSearch)
+              .not.toHaveBeenCalled();
+          });
         });
       });
     });
