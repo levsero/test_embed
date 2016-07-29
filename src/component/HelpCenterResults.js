@@ -74,42 +74,61 @@ export class HelpCenterResults extends Component {
   }
 
   renderViewMoreButton() {
+    const buttonClasses = classNames({
+      'u-pullRight': i18n.isRTL()
+    });
+
     return (
-      <ButtonPill
-        fullscreen={this.props.fullscreen}
-        showIcon={false}
-        onClick={this.props.handleViewMoreClick}
-        label={i18n.t('embeddable_framework.helpCenter.results.viewMoreLinkText', { fallback: 'View more' })} />
+      <div className='u-cf'>
+        <div className={buttonClasses}>
+          <ButtonPill
+            fullscreen={this.props.fullscreen}
+            showIcon={false}
+            onClick={this.props.handleViewMoreClick}
+            label={i18n.t('embeddable_framework.helpCenter.results.viewMoreLinkText', { fallback: 'View more' })} />
+        </div>
+      </div>
+    );
+  }
+
+  renderLegend() {
+    const legendClasses = classNames({
+      'Legend u-paddingTT u-textSizeNml Arrange Arrange--middle u-textBody u-textBold': true,
+      'u-textSizeBaseMobile': this.props.fullscreen
+    });
+    const resultsLegend = this.props.hasContextualSearched
+                        ? i18n.t('embeddable_framework.helpCenter.label.topSuggestions')
+                        : i18n.t('embeddable_framework.helpCenter.label.results');
+
+    return (
+      <div className={legendClasses}>
+        <span className='Arrange-sizeFill'>
+          {resultsLegend}
+        </span>
+      </div>
     );
   }
 
   render() {
-    const legendClasses = classNames({
-      'u-paddingTT u-textSizeNml Arrange Arrange--middle u-textBody u-textBold': true,
-      'u-textSizeBaseMobile': this.props.fullscreen
-    });
     const showBottomBorder = !this.props.fullscreen && this.props.articles.length > 0 && this.props.articles.length < 4;
     const resultsClasses = classNames({
       'u-borderBottom': showBottomBorder,
       'u-paddingBL': showBottomBorder && this.props.showViewMore
     });
-    const resultsLegend = this.props.hasContextualSearched
-                        ? i18n.t('embeddable_framework.helpCenter.label.topSuggestions')
-                        : i18n.t('embeddable_framework.helpCenter.label.results');
+    const legend = !(this.props.searchFailed || this.props.articles.length === 0)
+                 ? this.renderLegend()
+                 : null;
     const results = this.props.articles.length > 0
                   ? this.renderResults()
                   : this.renderNoResults();
+    /* eslint no-unused-vars:0 */
     const viewMoreButton = this.props.showViewMore ? this.renderViewMoreButton() : null;
 
+    // TODO add {viewMoreButton} beneath {results} once the "View more" string has been translated
     return (
       <div className={resultsClasses}>
-        <div className={legendClasses}>
-          <span className='Arrange-sizeFill'>
-            {resultsLegend}
-          </span>
-        </div>
+        {legend}
         {results}
-        {viewMoreButton}
       </div>
     );
   }

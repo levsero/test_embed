@@ -61,6 +61,11 @@ describe('HelpCenterResults component', () => {
         expect(document.querySelector('.List'))
           .toBeFalsy();
       });
+
+      it('does not render a legend/header', () => {
+        expect(document.querySelector('.Legend'))
+          .toBeFalsy();
+      });
     });
 
     describe('when there are results', () => {
@@ -77,22 +82,29 @@ describe('HelpCenterResults component', () => {
         expect(document.querySelector('.List--noResults'))
           .toBeFalsy();
       });
-    });
 
-    describe('when props.showViewMore is true', () => {
-      beforeEach(() => {
-        component = domRender(<HelpCenterResults showViewMore={true} />);
-      });
-
-      it('renders a View More button', () => {
-        expect(document.querySelector('.ButtonPill'))
+      it('renders a legend/header', () => {
+        expect(document.querySelector('.Legend'))
           .toBeTruthy();
       });
     });
 
+    describe('when props.showViewMore is true', () => {
+      beforeEach(() => {
+        component = domRender(<HelpCenterResults articles={articles} showViewMore={true} />);
+      });
+
+      // TODO: re-enable this test when the translation string for the button is ready
+      it('renders a View More button');
+      // it('renders a View More button', () => {
+      //   expect(document.querySelector('.ButtonPill'))
+      //     .toBeTruthy();
+      // });
+    });
+
     describe('when props.showViewMore is false', () => {
       beforeEach(() => {
-        component = domRender(<HelpCenterResults showViewMore={false} />);
+        component = domRender(<HelpCenterResults articles={articles} showViewMore={false} />);
       });
 
       it('does not render a View More button', () => {
@@ -103,7 +115,7 @@ describe('HelpCenterResults component', () => {
 
     describe('when props.hasContextualSearched is true', () => {
       beforeEach(() => {
-        shallowRender(<HelpCenterResults hasContextualSearched={true} />);
+        shallowRender(<HelpCenterResults articles={articles} hasContextualSearched={true} />);
       });
 
       it('displays the embeddable_framework.helpCenter.label.topSuggestions label', () => {
@@ -114,7 +126,7 @@ describe('HelpCenterResults component', () => {
 
     describe('when props.hasContextualSearched is false', () => {
       beforeEach(() => {
-        shallowRender(<HelpCenterResults hasContextualSearched={false} />);
+        shallowRender(<HelpCenterResults articles={articles} hasContextualSearched={false} />);
       });
 
       it('displays the embeddable_framework.helpCenter.label.results label', () => {

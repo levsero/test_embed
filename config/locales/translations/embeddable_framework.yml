@@ -177,6 +177,11 @@ parts:
       key: "embeddable_framework.helpCenter.label.popularArticles"
       title: "The title for the help center widget when we are offering articles that are popular in the Help Center"
       value: "Popular articles"
+  - translation:
+      key: "embeddable_framework.helpCenter.results.viewMoreLinkText"
+      title: "The button that is displayed after user has searched and there are more then 3 results. Clicking it loads more results."
+      screenshot: "https://zendesk.box.com/s/m8r7h3g7b8nzgz87m3xpah3tzhdqpqqb"
+      value: "View more"
 
   # Mobile
   - translation:
@@ -248,6 +253,12 @@ parts:
       title: "The error notification that appears when trying to attach too many files. Will wrap as needed. %()s stands for string and does not need to be translated (https://zendesk.box.com/s/ywfifzwv5667dlhjpspuw9xd0u0j58mz)"
       screenshot: "https://zendesk.box.com/s/ywfifzwv5667dlhjpspuw9xd0u0j58mz"
       value: "You have already reached the limit of %(maxFiles)s attachments."
+      obsolete: "2016-07-27"
+  - translation:
+      key: "embeddable_framework.submitTicket.attachments.error.limit_reached"
+      title: "The error notification that appears when trying to attach too many files. Will wrap as needed. %()s stands for string and does not need to be translated."
+      screenshot: "https://zendesk.box.com/s/ka45f3gykenp9xil4uijbm6dwhd6d3e7"
+      value: "Attachment limit reached (%(maxFiles)s)"
   - translation:
       key: "embeddable_framework.submitTicket.attachments.error.other"
       title: "The error notification that appears when something goes wrong with the upload. Will wrap as needed. (https://zendesk.box.com/s/i2vh170lwc39bffkjl59zu0ztq6zafnq)"

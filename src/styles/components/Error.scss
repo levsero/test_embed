@@ -1,8 +1,7 @@
 @import '../_vars.scss';
 
 .Error {
-  color: $error-text-color;
-  border-radius: #{5/$font-size}rem;
+  border-radius: #{4/$font-size}rem;
   background-color: $error-field-color;
-  padding: #{8/$font-size}rem;
+  padding: #{10/$font-size}rem #{13/$font-size}rem;
 }
