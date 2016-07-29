@@ -90,12 +90,8 @@ describe('embed.helpCenter', function() {
         frameMethods: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
       },
       'utility/devices': {
-        isMobileBrowser: function() {
-          return mockIsMobileBrowser;
-        },
-        isIE: function() {
-          return mockIsIE;
-        }
+        isMobileBrowser: () => mockIsMobileBrowser,
+        isIE: () => mockIsIE
       },
       'utility/mouse': {
         mouse: {
@@ -623,22 +619,24 @@ describe('embed.helpCenter', function() {
         });
 
         describe('when mouse driven contextual search is enabled', () => {
-          beforeEach(function() {
+          let addListener;
+
+          beforeEach(() => {
+            addListener = mockRegistry['utility/mouse'].mouse.addListener;
+
             helpCenter.create('carlos', { enableMouseDrivenContextualHelp: true });
             helpCenter.render('carlos');
           });
 
-          it('should add the onmousemove listener', () => {
-            const addListener = mockRegistry['utility/mouse'].mouse.addListener;
-
+          it('should add the mousemove listener', () => {
             pluckSubscribeCall(mockMediator, 'carlos.setHelpCenterSuggestions')({ search: 'foo' });
 
             expect(addListener)
-              .toHaveBeenCalledWith('onmousemove', jasmine.any(Function), 'contextual');
+              .toHaveBeenCalledWith('mousemove', jasmine.any(Function), 'contextual');
           });
 
           describe('when the page load request has already been sent', () => {
-            beforeEach(function() {
+            beforeEach(() => {
               // Simulate the page load contextual request that is sent when mouse distance
               // is less than minimum.
               helpCenter.keywordsSearch('carlos', {}, {
@@ -651,9 +649,7 @@ describe('embed.helpCenter', function() {
               pluckSubscribeCall(mockMediator, 'carlos.setHelpCenterSuggestions')({ search: 'foo' });
             });
 
-            it('should not add another onmousemove listener', () => {
-              const addListener = mockRegistry['utility/mouse'].mouse.addListener;
-
+            it('should not add another mousemove listener', () => {
               pluckSubscribeCall(mockMediator, 'carlos.setHelpCenterSuggestions')({ search: 'foo' });
 
               expect(addListener)
@@ -667,7 +663,7 @@ describe('embed.helpCenter', function() {
           });
 
           describe('when user is on mobile', () => {
-            beforeEach(function() {
+            beforeEach(() => {
               mockIsMobileBrowser = true;
               spyOn(helpCenter, 'keywordsSearch');
               pluckSubscribeCall(mockMediator, 'carlos.setHelpCenterSuggestions')({ search: 'foo' });
@@ -681,7 +677,7 @@ describe('embed.helpCenter', function() {
         });
 
         describe('when mouse driven contextual search is disabled', () => {
-          beforeEach(function() {
+          beforeEach(() => {
             spyOn(helpCenter, 'keywordsSearch');
             pluckSubscribeCall(mockMediator, 'carlos.setHelpCenterSuggestions')({ search: 'foo' });
           });
@@ -697,12 +693,12 @@ describe('embed.helpCenter', function() {
     describe('keywordsSearch', () => {
       let contextualSearchSpy;
 
-      beforeEach(function() {
+      beforeEach(() => {
         contextualSearchSpy = jasmine.createSpy('contextualSearch');
       });
 
       describe('when mouse driven contextual help is disabled', () => {
-        beforeEach(function() {
+        beforeEach(() => {
           helpCenter.create('carlos', { contextualHelpEnabled: true });
           helpCenter.get('carlos').instance = {
             getRootComponent: () => {
@@ -740,7 +736,7 @@ describe('embed.helpCenter', function() {
         const fastMinMouseDistance = 0.6;
         const slowMinMouseDistance = 0.25;
 
-        beforeEach(function() {
+        beforeEach(() => {
           mouseProps = {
             distance: slowMinMouseDistance - 0.01,
             speed: 0
@@ -759,7 +755,7 @@ describe('embed.helpCenter', function() {
 
         describe('when the mouse speed is less than the treshhold', () => {
           describe('when the mouse has reached the lower minimum distance from the widget', () => {
-            beforeEach(function() {
+            beforeEach(() => {
               helpCenter.keywordsSearch('carlos', { search: 'foo' }, mouseProps);
             });
 
@@ -768,14 +764,14 @@ describe('embed.helpCenter', function() {
                 .toHaveBeenCalledWith({ search: 'foo' });
             });
 
-            it('should remove the onmousemove listener', () => {
+            it('should remove the mousemove listener', () => {
               expect(removeListenerSpy)
-                .toHaveBeenCalledWith('onmousemove', 'contextual');
+                .toHaveBeenCalledWith('mousemove', 'contextual');
             });
           });
 
           describe('when the mouse has not reached the minimum distance from the widget', () => {
-            beforeEach(function() {
+            beforeEach(() => {
               _.merge(mouseProps, { distance: slowMinMouseDistance + 0.1 });
               helpCenter.keywordsSearch('carlos', { search: 'foo' }, mouseProps);
             });
@@ -789,7 +785,7 @@ describe('embed.helpCenter', function() {
 
         describe('when the mouse speed is greater than the treshhold', () => {
           describe('when the mouse has reached the higher minimum distance from the widget', () => {
-            beforeEach(function() {
+            beforeEach(() => {
               _.merge(mouseProps, {
                 speed: mouseSpeedThreshold + 0.1,
                 distance: fastMinMouseDistance - 0.1
@@ -803,9 +799,9 @@ describe('embed.helpCenter', function() {
                 .toHaveBeenCalledWith({ search: 'foo' });
             });
 
-            it('should remove the onmousemove listener', () => {
+            it('should remove the mousemove listener', () => {
               expect(removeListenerSpy)
-                .toHaveBeenCalledWith('onmousemove', 'contextual');
+                .toHaveBeenCalledWith('mousemove', 'contextual');
             });
           });
         });
@@ -813,7 +809,7 @@ describe('embed.helpCenter', function() {
         describe('when the user is on mobile', () => {
           let addListenerSpy;
 
-          beforeEach(function() {
+          beforeEach(() => {
             mockIsMobileBrowser = true;
             addListenerSpy = mockRegistry['utility/mouse'].mouse.addListener;
 
@@ -850,7 +846,7 @@ describe('embed.helpCenter', function() {
       describe('with authenticated help center', function() {
         let mockMediator;
 
-        beforeEach(function() {
+        beforeEach(() => {
           mockMediator = mockRegistry['service/mediator'].mediator;
           helpCenter.create('carlos', { contextualHelpEnabled: true, signInRequired: true });
           helpCenter.render('carlos');
@@ -890,19 +886,19 @@ describe('embed.helpCenter', function() {
     });
 
     describe('postRender contextual help', () => {
-      beforeEach(function() {
+      beforeEach(() => {
         helpCenter.create('carlos', { contextualHelpEnabled: true });
       });
 
       describe('when mouse driven contextual help is enabled', () => {
         let addListenerSpy;
 
-        beforeEach(function() {
+        beforeEach(() => {
           addListenerSpy = mockRegistry['utility/mouse'].mouse.addListener;
           helpCenter.create('carlos', { contextualHelpEnabled: true, enableMouseDrivenContextualHelp: true });
         });
 
-        it('should add a listener to the onmousemove event', () => {
+        it('should add a listener to the mousemove event', () => {
           helpCenter.postRender('carlos');
 
           expect(addListenerSpy)
@@ -911,7 +907,7 @@ describe('embed.helpCenter', function() {
           const args = addListenerSpy.calls.mostRecent().args;
 
           expect(args[0])
-            .toBe('onmousemove');
+            .toBe('mousemove');
 
           expect(args[1])
             .toEqual(jasmine.any(Function));
@@ -921,7 +917,7 @@ describe('embed.helpCenter', function() {
         });
 
         describe('when zE.activate API function has been used', () => {
-          beforeEach(function() {
+          beforeEach(() => {
             const mockMediator = mockRegistry['service/mediator'].mediator;
 
             helpCenter.render('carlos');
@@ -932,7 +928,7 @@ describe('embed.helpCenter', function() {
             helpCenter.postRender('carlos');
           });
 
-          it('should\'t add a listener to the onmousemove event', () => {
+          it('should\'t add a listener to the mousemove event', () => {
             expect(addListenerSpy)
               .not.toHaveBeenCalled();
           });
@@ -944,7 +940,7 @@ describe('embed.helpCenter', function() {
         });
 
         describe('when the user has manually set suggestions', () => {
-          beforeEach(function() {
+          beforeEach(() => {
             const mockMediator = mockRegistry['service/mediator'].mediator;
 
             helpCenter.render('carlos');
@@ -955,19 +951,19 @@ describe('embed.helpCenter', function() {
             helpCenter.postRender('carlos');
           });
 
-          it('should\'t add another listener to the onmousemove event', () => {
+          it('should\'t add another listener to the mousemove event', () => {
             expect(addListenerSpy)
               .not.toHaveBeenCalled();
           });
         });
 
         describe('when the user is on a help center host page', () => {
-          beforeEach(function() {
+          beforeEach(() => {
             mockIsOnHelpCenterPageValue = true;
             helpCenter.postRender('carlos');
           });
 
-          it('should\'t add a listener to the onmousemove event', () => {
+          it('should\'t add a listener to the mousemove event', () => {
             expect(addListenerSpy)
               .not.toHaveBeenCalled();
           });
@@ -975,7 +971,7 @@ describe('embed.helpCenter', function() {
       });
 
       describe('when mouse driven contextual help is disabled', () => {
-        beforeEach(function() {
+        beforeEach(() => {
           spyOn(helpCenter, 'keywordsSearch');
         });
 
@@ -987,7 +983,7 @@ describe('embed.helpCenter', function() {
         });
 
         describe('when the user has manually set suggestions', () => {
-          beforeEach(function() {
+          beforeEach(() => {
             const mockMediator = mockRegistry['service/mediator'].mediator;
 
             helpCenter.render('carlos');
@@ -1005,7 +1001,7 @@ describe('embed.helpCenter', function() {
         });
 
         describe('when the user is on a help center host page', () => {
-          beforeEach(function() {
+          beforeEach(() => {
             mockIsOnHelpCenterPageValue = true;
             helpCenter.postRender('carlos');
           });

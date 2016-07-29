@@ -1,4 +1,4 @@
-fdescribe('mouse', function() {
+describe('mouse', function() {
   let mouse,
     mockDocument;
   const mousePath = buildSrcPath('util/mouse');
@@ -63,7 +63,7 @@ fdescribe('mouse', function() {
       it('should not store the listener', () => {
         mouse.addListener('null', noop, 'ratatouille');
 
-        expect(mouse.getListener('mousemove', 'ratatouille'))
+        expect(mouse.getListener('null', 'ratatouille'))
           .toBe(null);
       });
     });
