@@ -266,7 +266,7 @@ function keywordsSearch(name, options = {}, mouseProps = {}) {
     // the minimum distance from the widget. We only want this check
     // for the page load contextual search.
     if (mouseProps.distance < minMouseDistance) {
-      mouse.removeListener('onmousemove', 'contextual');
+      mouse.removeListener('mousemove', 'contextual');
       cappedIntervalCall(contextualSearchFn, 500, 10);
       useMouseDistanceContexualSearch = false;
     }
@@ -283,7 +283,8 @@ function render(name) {
   helpCenters[name].instance = ReactDOM.render(helpCenters[name].component, element);
 
   mediator.channel.subscribe(name + '.show', function(options = {}) {
-    useMouseDistanceContexualSearch = !options.viaActivate;
+    useMouseDistanceContexualSearch = useMouseDistanceContexualSearch &&
+                                      !options.viaActivate;
 
     // Stop stupid host page scrolling
     // when trying to focus HelpCenter's search field.
@@ -382,7 +383,7 @@ function performContextualHelp(name, options) {
   if (!isMobileBrowser() && useMouseDistanceContexualSearch) {
     // Listen to the `onmousemove` event so we can grab the x and y coordinate
     // of the end-users mouse relative to the host page viewport.
-    mouse.addListener('onmousemove', handleMouse(name, options), 'contextual');
+    mouse.addListener('mousemove', handleMouse(name, options), 'contextual');
   } else {
     helpCenter.keywordsSearch(name, options);
   }

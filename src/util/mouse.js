@@ -4,11 +4,10 @@ import { document } from 'utility/globals';
 import { getDistance } from 'utility/utils';
 
 let listeners = {};
-let lastPosition = { x: -1, y: -1 };
-let lastEvent = null;
+let previousEvent = null;
 const eventMap = {
-  'onmousemove': handleMouseMove,
-  'onmousedown': handleMouseDown
+  'mousemove': handleMouseMove,
+  'mousedown': handleMouseDown
 };
 
 function addListener(eventType, listener, key) {
@@ -17,7 +16,7 @@ function addListener(eventType, listener, key) {
   }
 
   if (!listeners[eventType]) {
-    document[eventType] = eventMap[eventType];
+    document.addEventListener(eventType, eventMap[eventType]);
     listeners[eventType] = {};
   }
 
@@ -41,8 +40,8 @@ function removeListener(eventType, key) {
   listeners[eventType] = _.omit(listeners[eventType], key);
 
   if (_.isEmpty(listeners[eventType])) {
-    document[eventType] = null;
     listeners = _.omit(listeners, eventType);
+    document.removeEventListener(eventType, eventMap[eventType]);
   }
 }
 
@@ -53,7 +52,7 @@ function removeAllListeners(eventType) {
 
   if (!_.isEmpty(listeners[eventType])) {
     listeners[eventType] = {};
-    document[eventType] = null;
+    document.removeEventListener(eventType, eventMap[eventType]);
   }
 }
 
@@ -62,29 +61,27 @@ function handleMouseMove(event) {
 
   const position = { x: event.clientX, y: event.clientY };
   const speed = calculateMouseSpeed(position);
-  const eventListeners = listeners.onmousemove;
+  const eventListeners = listeners.mousemove;
 
-  lastEvent = event;
+  previousEvent = event;
 
-  _.forEach(eventListeners, (l) => l({
+  _.forEach(eventListeners, (listener) => listener({
     position,
     speed,
     event
   }));
-
-  _.merge(lastPosition, position);
 }
 
 function handleMouseDown(event) {} // eslint-disable-line no-unused-vars
 
 function calculateMouseSpeed(position) {
-  if (!lastEvent) {
+  if (!previousEvent) {
     return 0;
   }
 
-  const lastPos = { x: lastEvent.clientX, y: lastEvent.clientY };
+  const lastPos = { x: previousEvent.clientX, y: previousEvent.clientY };
   const distance = getDistance(lastPos, position);
-  const time = Date.now() - lastEvent.time;
+  const time = Date.now() - previousEvent.time;
 
   return distance / time;
 }
@@ -93,5 +90,7 @@ export const mouse = {
   addListener,
   getListener,
   removeListener,
-  removeAllListeners
+  removeAllListeners,
+  // The event handlers are exposed because we can't simulate mouse events in our tests.
+  handleMouseMove
 };

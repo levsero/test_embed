@@ -1,13 +1,17 @@
-describe('mouse', function() {
-  let mouse;
+fdescribe('mouse', function() {
+  let mouse,
+    mockDocument;
   const mousePath = buildSrcPath('util/mouse');
 
   beforeEach(function() {
     mockery.enable();
 
-    initMockRegistry({
+    const mockRegistry = initMockRegistry({
       'utility/globals': {
-        document: global.document
+        document: {
+          addEventListener: jasmine.createSpy('addEventListener'),
+          removeEventListener: jasmine.createSpy('removeEventListener')
+        }
       },
       'utility/utils' : {
         getDistance: (pointA, pointB) => {
@@ -21,6 +25,8 @@ describe('mouse', function() {
 
     mockery.registerAllowable(mousePath);
     mouse = requireUncached(mousePath).mouse;
+
+    mockDocument = mockRegistry['utility/globals'].document;
   });
 
   afterEach(function() {
@@ -30,26 +36,26 @@ describe('mouse', function() {
 
   describe('#addListener', () => {
     beforeEach(function() {
-      mouse.removeAllListeners('onmousemove');
+      mouse.removeAllListeners('mousemove');
     });
 
     it('should store the listener', () => {
-      mouse.addListener('onmousemove', noop, 'ratatouille');
-      mouse.addListener('onmousemove', noop, 'mickey');
+      mouse.addListener('mousemove', noop, 'ratatouille');
+      mouse.addListener('mousemove', noop, 'mickey');
 
-      expect(mouse.getListener('onmousemove', 'ratatouille'))
+      expect(mouse.getListener('mousemove', 'ratatouille'))
         .toBeTruthy();
 
-      expect(mouse.getListener('onmousemove', 'mickey'))
+      expect(mouse.getListener('mousemove', 'mickey'))
         .toBeTruthy();
     });
 
     describe('when there are no listeners for the event type attached', () => {
       it('should add the event type handler to the document', () => {
-        mouse.addListener('onmousemove', noop, 'ratatouille');
+        mouse.addListener('mousemove', noop, 'ratatouille');
 
-        expect(global.document.onmousemove)
-          .toEqual(jasmine.any(Function));
+        expect(mockDocument.addEventListener)
+          .toHaveBeenCalledWith('mousemove', jasmine.any(Function));
       });
     });
 
@@ -57,7 +63,7 @@ describe('mouse', function() {
       it('should not store the listener', () => {
         mouse.addListener('null', noop, 'ratatouille');
 
-        expect(mouse.getListener('onmousemove', 'ratatouille'))
+        expect(mouse.getListener('mousemove', 'ratatouille'))
           .toBe(null);
       });
     });
@@ -65,21 +71,21 @@ describe('mouse', function() {
 
   describe('#getListener', () => {
     beforeEach(function() {
-      mouse.addListener('onmousemove', noop, 'ratatouille');
-      mouse.addListener('onmousedown', noop, 'ratatouille');
+      mouse.addListener('mousemove', noop, 'ratatouille');
+      mouse.addListener('mousedown', noop, 'ratatouille');
     });
 
     it('should return the listener for the event type', () => {
-      expect(mouse.getListener('onmousemove', 'ratatouille'))
+      expect(mouse.getListener('mousemove', 'ratatouille'))
         .toEqual(jasmine.any(Function));
 
-      expect(mouse.getListener('onmousedown', 'ratatouille'))
+      expect(mouse.getListener('mousedown', 'ratatouille'))
         .toEqual(jasmine.any(Function));
     });
 
     describe('when the listener for the event type does not exist', () => {
       it('should return null', () => {
-        expect(mouse.getListener('onmousemove', 'mickey'))
+        expect(mouse.getListener('mousemove', 'mickey'))
           .toBe(null);
       });
     });
@@ -94,26 +100,26 @@ describe('mouse', function() {
 
   describe('#removeListener', () => {
     beforeEach(function() {
-      mouse.addListener('onmousemove', noop, 'ratatouille');
-      mouse.addListener('onmousemove', noop, 'mickey');
+      mouse.addListener('mousemove', noop, 'ratatouille');
+      mouse.addListener('mousemove', noop, 'mickey');
     });
 
     it('should remove the listener', () => {
-      mouse.removeListener('onmousemove', 'mickey');
+      mouse.removeListener('mousemove', 'mickey');
 
-      expect(mouse.getListener('onmousemove', 'mickey'))
+      expect(mouse.getListener('mousemove', 'mickey'))
         .toBe(null);
     });
 
     describe('when the last listener for the event type is to be removed', () => {
       beforeEach(function() {
-        mouse.removeListener('onmousemove', 'ratatouille');
-        mouse.removeListener('onmousemove', 'mickey');
+        mouse.removeListener('mousemove', 'ratatouille');
+        mouse.removeListener('mousemove', 'mickey');
       });
 
       it('should remove the event type handler from the document', () => {
-        expect(global.document.onmousemove)
-          .toBe(null);
+        expect(mockDocument.removeEventListener)
+          .toHaveBeenCalledWith('mousemove', jasmine.any(Function));
       });
     });
 
@@ -124,25 +130,25 @@ describe('mouse', function() {
       });
 
       it('should not remove any matching listeners', () => {
-        expect(mouse.getListener('onmousemove', 'ratatouille'))
+        expect(mouse.getListener('mousemove', 'ratatouille'))
           .toEqual(jasmine.any(Function));
 
-        expect(mouse.getListener('onmousemove', 'mickey'))
+        expect(mouse.getListener('mousemove', 'mickey'))
           .toEqual(jasmine.any(Function));
       });
     });
 
     describe('when the event type has no listeners', () => {
       beforeEach(function() {
-        mouse.removeListener('onmousedown', 'ratatouille');
-        mouse.removeListener('onmousedown', 'mickey');
+        mouse.removeListener('mousedown', 'ratatouille');
+        mouse.removeListener('mousedown', 'mickey');
       });
 
       it('should not remove any matching listeners', () => {
-        expect(mouse.getListener('onmousemove', 'ratatouille'))
+        expect(mouse.getListener('mousemove', 'ratatouille'))
           .toEqual(jasmine.any(Function));
 
-        expect(mouse.getListener('onmousemove', 'mickey'))
+        expect(mouse.getListener('mousemove', 'mickey'))
           .toEqual(jasmine.any(Function));
       });
     });
@@ -150,25 +156,25 @@ describe('mouse', function() {
 
   describe('#removeAllListeners', () => {
     beforeEach(function() {
-      mouse.addListener('onmousemove', noop, 'ratatouille');
-      mouse.addListener('onmousemove', noop, 'mickey');
+      mouse.addListener('mousemove', noop, 'ratatouille');
+      mouse.addListener('mousemove', noop, 'mickey');
     });
 
     it('should remove all listeners for the event type', () => {
-      mouse.removeAllListeners('onmousemove');
+      mouse.removeAllListeners('mousemove');
 
-      expect(mouse.getListener('onmousemove', 'ratatouille'))
+      expect(mouse.getListener('mousemove', 'ratatouille'))
         .toBe(null);
 
-      expect(mouse.getListener('onmousemove', 'mickey'))
+      expect(mouse.getListener('mousemove', 'mickey'))
         .toBe(null);
     });
 
     it('should remove the event type handler from the document', () => {
-      mouse.removeAllListeners('onmousemove');
+      mouse.removeAllListeners('mousemove');
 
-      expect(global.document.onmousemove)
-        .toBe(null);
+      expect(mockDocument.removeEventListener)
+        .toHaveBeenCalledWith('mousemove', jasmine.any(Function));
     });
   });
 
@@ -183,12 +189,12 @@ describe('mouse', function() {
       };
       mockListener = jasmine.createSpy('listener');
 
-      mouse.removeAllListeners('onmousemove');
-      mouse.addListener('onmousemove', mockListener, 'ratatouille');
+      mouse.removeAllListeners('mousemove');
+      mouse.addListener('mousemove', mockListener, 'ratatouille');
     });
 
     it('should call that listener on the event with valid params', () => {
-      global.document.onmousemove(mockEvent);
+      mouse.handleMouseMove(mockEvent);
 
       expect(mockListener)
         .toHaveBeenCalledWith({
@@ -203,7 +209,7 @@ describe('mouse', function() {
 
       // The mouse is initially at is at x: 100, y: 200.
       jasmine.clock().mockDate(now);
-      global.document.onmousemove(mockEvent);
+      mouse.handleMouseMove(mockEvent);
 
       // Advance the clock by 1 second.
       jasmine.clock().mockDate(new Date(now.getTime() + 1000));
@@ -216,7 +222,7 @@ describe('mouse', function() {
         clientY: 250
       });
 
-      global.document.onmousemove(nextMockEvent);
+      mouse.handleMouseMove(nextMockEvent);
 
       expect(mockListener)
         .toHaveBeenCalled();
