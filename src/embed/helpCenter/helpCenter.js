@@ -36,6 +36,7 @@ function create(name, config) {
   let containerStyle;
   let frameStyle = {};
 
+  const channelChoice = settings.get('channelChoice');
   const configDefaults = {
     position: 'right',
     contextualHelpEnabled: false,
@@ -47,8 +48,8 @@ function create(name, config) {
     enableMouseDrivenContextualHelp: false,
     color: '#659700'
   };
-  const onNextClick = function() {
-    mediator.channel.broadcast(name + '.onNextClick');
+  const onNextClick = function(embed = '') {
+    mediator.channel.broadcast(name + '.onNextClick', embed);
   };
   const onArticleClick = function(trackPayload) {
     beacon.trackUserAction('helpCenter', 'click', name, trackPayload);
@@ -119,6 +120,10 @@ function create(name, config) {
 
   config = _.extend(configDefaults, config);
 
+  if (channelChoice) {
+    config.buttonLabelKey = 'contact';
+  }
+
   useMouseDistanceContexualSearch = config.enableMouseDrivenContextualHelp;
 
   if (isMobileBrowser()) {
@@ -157,6 +162,7 @@ function create(name, config) {
           disableAutoSearch={config.disableAutoSearch}
           originalArticleButton={settings.get('helpCenter.originalArticleButton')}
           localeFallbacks={settings.get('helpCenter.localeFallbacks')}
+          channelChoice={channelChoice}
           zendeskHost={transport.getZendeskHost()} />
       );
     },

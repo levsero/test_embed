@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import classNames from 'classnames';
 
 import { i18n } from 'service/i18n';
 import { mediator } from 'service/mediator';
@@ -11,25 +10,26 @@ export class ChannelChoice extends Component {
     bindMethods(this, ChannelChoice.prototype);
   }
 
-  handleTicketFormClick() {
-    mediator.channel.broadcast(`helpCenterForm.onNextClick`, 'submitTicket');
-  }
-
-  handleLiveChatClick() {
-    mediator.channel.broadcast(`helpCenterForm.onNextClick`, 'chat');
+  handleClick(embed) {
+    return () => {
+        this.props.onNextClick(embed);
+    };
   }
 
   render() {
     return (
       <div className='Container--channelChoice'>
-        <div onClick={this.handleTicketFormClick}>
-          Submit a Ticket
+        <div onClick={this.handleClick('chat')}>
+          {i18n.t("embeddable_framework.channelChoice.button.label.chat")}
         </div>
-        <hr/>
-        <div onClick={this.handleLiveChatClick}>
-          Live Chat
+        <div onClick={this.handleClick('submitTicket')}>
+          {i18n.t("embeddable_framework.channelChoice.button.label.submitTicket")}
         </div>
       </div>
     );
   }
+}
+
+ChannelChoice.propTypes = {
+  onNextClick: PropTypes.func.isRequired
 }

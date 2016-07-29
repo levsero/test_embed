@@ -397,6 +397,7 @@ export class HelpCenter extends Component {
         hideZendeskLogo={this.props.hideZendeskLogo}
         disableAutoSearch={this.props.disableAutoSearch}
         isLoading={this.state.isLoading}
+        onNextClick={this.props.onNextClick}
         articleViewActive={this.state.articleViewActive}
         hasSearched={this.state.hasSearched}
         buttonLabel={this.state.buttonLabel}
@@ -467,6 +468,7 @@ HelpCenter.propTypes = {
   formTitleKey: PropTypes.string,
   originalArticleButton: PropTypes.bool,
   localeFallbacks: PropTypes.arr,
+  channelChoice: PropTypes.bool,
   disableAutoSearch: PropTypes.bool
 };
 
@@ -482,5 +484,6 @@ HelpCenter.defaultProps = {
   formTitleKey: 'help',
   originalArticleButton: true,
   localeFallbacks: [],
+  channelChoice: false,
   disableAutoSearch: false
 };

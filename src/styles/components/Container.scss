@@ -91,8 +91,8 @@ $Container-spacing: 25/$font-size;
 .Container--channelChoice {
   background-color: $zendesk-color--white-smoke;
   position: absolute;
-  bottom: 44px;
-  right: 90px;
-  width: 100px;
-  border: 1px solid $base-border-color;
+  bottom: #{40/$font-size}rem;
+  right: 0;
+  width: #{100/$font-size}rem;
+  border: #{1/$font-size}rem solid $base-border-color;
 }

@@ -15,9 +15,7 @@ export class HelpCenterDesktop extends Component {
     super(props, context);
     bindMethods(this, HelpCenterDesktop.prototype);
 
-    this.state = {
-      hideChannelChoice: true
-    };
+    this.state = { channelChoiceShown: false };
   }
 
   componentDidUpdate() {
@@ -46,10 +44,6 @@ export class HelpCenterDesktop extends Component {
     }
   }
 
-  showChannelChoice() {
-    this.setState({ hideChannelChoice: false });
-  }
-
   handleSubmit(e) {
     e.preventDefault();
     this.props.manualSearch();
@@ -58,6 +52,16 @@ export class HelpCenterDesktop extends Component {
   handleChange(e) {
     e.preventDefault();
     this.props.autoSearch();
+  }
+
+  handleNextButtonClick(e) {
+    e.preventDefault();
+
+    if (!this.props.channelChoice) {
+      this.setState({ channelChoiceShown: true });
+    } else {
+      this.props.onNextClick();
+    }
   }
 
   renderForm() {
@@ -101,11 +105,12 @@ export class HelpCenterDesktop extends Component {
 
   render() {
     const buttonContainerClasses = classNames({
+      'u-posRelative': true,
       'u-marginVM': this.props.hideZendeskLogo,
       'u-isHidden': !this.props.hasSearched
     });
     const channelChoiceClasses = classNames({
-      'u-isHidden': this.state.hideChannelChoice
+      'u-isHidden': !this.state.channelChoiceShown
     });
 
     setTimeout(() => this.props.updateFrameSize(), 0);
@@ -117,10 +122,12 @@ export class HelpCenterDesktop extends Component {
                               <Button
                                 fullscreen={false}
                                 label={this.props.buttonLabel}
-                                onClick={this.showChannelChoice} />
+                                onClick={this.handleNextButtonClick} />
                             </ButtonGroup>
                             <div className={channelChoiceClasses}>
-                              <ChannelChoice />
+                              <ChannelChoice
+                                buttonLabel={this.props.buttonLabel}
+                                onNextClick={this.props.onNextClick} />
                             </div>
                           </div>
                         )
@@ -161,6 +168,7 @@ HelpCenterDesktop.propTypes = {
   shadowVisible: PropTypes.bool,
   searchFieldValue: PropTypes.string,
   disableAutoSearch: PropTypes.bool,
+  channelChoice: PropTypes.bool,
   showNextButton: PropTypes.bool
 };
 
@@ -176,5 +184,6 @@ HelpCenterDesktop.defaultProps = {
   shadowVisible: false,
   searchFieldValue: '',
   disableAutoSearch: false,
+  channelChoice: false,
   showNextButton: true
 };
