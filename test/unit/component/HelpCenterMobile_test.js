@@ -1,9 +1,9 @@
-describe('HelpCenterMobile component', function() {
+describe('HelpCenterMobile component', () => {
   let HelpCenterMobile;
 
   const helpCenterMobilePath = buildSrcPath('component/HelpCenterMobile');
 
-  beforeEach(function() {
+  beforeEach(() => {
     resetDOM();
 
     mockery.enable();
@@ -70,16 +70,16 @@ describe('HelpCenterMobile component', function() {
     jasmine.clock().install();
   });
 
-  afterEach(function() {
+  afterEach(() => {
     jasmine.clock().uninstall();
     mockery.deregisterAll();
     mockery.disable();
   });
 
-  describe('nextButton', function() {
+  describe('nextButton', () => {
     let helpCenterMobile;
 
-    beforeEach(function() {
+    beforeEach(() => {
       helpCenterMobile = domRender(<HelpCenterMobile hasSearched={true} />);
 
       helpCenterMobile.handleSearchBoxClicked();
@@ -87,14 +87,14 @@ describe('HelpCenterMobile component', function() {
       jasmine.clock().tick(1);
     });
 
-    it('should hide when searchField is focused', function() {
+    it('should hide when searchField is focused', () => {
       const footerContent = helpCenterMobile.refs.scrollContainer.props.footerContent;
 
       expect(footerContent.props.className)
         .toContain('u-isHidden');
     });
 
-    it('should appear when searchField is blurred', function() {
+    it('should appear when searchField is blurred', () => {
       helpCenterMobile.handleOnBlur();
 
       jasmine.clock().tick(1);
@@ -106,14 +106,14 @@ describe('HelpCenterMobile component', function() {
     });
   });
 
-  describe('searchFieldButton', function() {
+  describe('searchFieldButton', () => {
     let helpCenterMobile;
 
-    beforeEach(function() {
+    beforeEach(() => {
       helpCenterMobile = domRender(<HelpCenterMobile />);
     });
 
-    it('sets `showIntroScreen` state to false when component is clicked', function() {
+    it('sets `showIntroScreen` state to false when component is clicked', () => {
       expect(helpCenterMobile.state.showIntroScreen)
         .toBe(true);
 
@@ -123,7 +123,7 @@ describe('HelpCenterMobile component', function() {
         .toBe(false);
     });
 
-    it('sets searchFieldFocused state when component is clicked', function() {
+    it('sets searchFieldFocused state when component is clicked', () => {
       expect(helpCenterMobile.state.searchFieldFocused)
         .toEqual(false);
 

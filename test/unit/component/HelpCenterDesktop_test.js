@@ -1,9 +1,9 @@
-describe('HelpCenterDesktop component', function() {
+describe('HelpCenterDesktop component', () => {
   let HelpCenterDesktop;
 
   const helpCenterDesktopPath = buildSrcPath('component/HelpCenterDesktop');
 
-  beforeEach(function() {
+  beforeEach(() => {
     resetDOM();
 
     mockery.enable();
@@ -67,27 +67,27 @@ describe('HelpCenterDesktop component', function() {
     jasmine.clock().install();
   });
 
-  afterEach(function() {
+  afterEach(() => {
     jasmine.clock().uninstall();
     mockery.deregisterAll();
     mockery.disable();
   });
 
-  describe('nextButton', function() {
+  describe('nextButton', () => {
     let helpCenterDesktop;
 
-    beforeEach(function() {
+    beforeEach(() => {
       helpCenterDesktop = domRender(<HelpCenterDesktop />);
     });
 
-    it('should not show initially', function() {
+    it('should not show initially', () => {
       const footerContent = helpCenterDesktop.refs.scrollContainer.props.footerContent;
 
       expect(footerContent.props.className)
         .toContain('u-isHidden');
     });
 
-    it('should show after the field is focused', function() {
+    it('should show after the field is focused', () => {
       helpCenterDesktop.focusField();
 
       const footerContent = helpCenterDesktop.refs.scrollContainer.props.footerContent;
