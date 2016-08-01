@@ -1435,6 +1435,15 @@ describe('mediator', function() {
         expect(chatSub.show.calls.count())
           .toEqual(1);
       });
+
+      describe('when there is a zopim error', () => {
+        it('should show the launcher', () => {
+          c.broadcast(`${chat}.onError`);
+
+          expect(launcherSub.show.calls.count())
+            .toBe(1);
+        });
+      });
     });
 
     describe('with Help Center', function() {
@@ -1541,6 +1550,15 @@ describe('mediator', function() {
 
         expect(chatSub.show.calls.count())
           .toEqual(0);
+      });
+
+      describe('when there is a zopim error', () => {
+        it('should show the launcher', () => {
+          c.broadcast(`${chat}.onError`);
+
+          expect(launcherSub.show.calls.count())
+            .toBe(1);
+        });
       });
     });
   });

@@ -1,4 +1,4 @@
-describe('embed.chat', function() {
+describe('embed.chat', () => {
   let chat,
     mockIsMobileBrowserValue,
     mockRegistry,
@@ -8,13 +8,13 @@ describe('embed.chat', function() {
   const mockGlobals = {
     document: global.document,
     win: {},
-    getDocumentHost: function() {
+    getDocumentHost: () => {
       return document.body;
     }
   };
   const chatPath = buildSrcPath('embed/chat/chat');
 
-  beforeEach(function() {
+  beforeEach(() => {
     resetDOM();
 
     mockery.enable();
@@ -23,9 +23,8 @@ describe('embed.chat', function() {
 
     mockSettingsValue = { offset: { horizontal: 0, vertical: 0 } };
 
-    mockZopim = function(fn) {
-      return fn.bind(mockGlobals)();
-    };
+    mockZopim = (fn) => fn.bind(mockGlobals)();
+    mockZopim.onError = jasmine.createSpy('onError');
 
     mockZopim.livechat = {
       setOnStatus: jasmine.createSpy('setOnStatus'),
@@ -91,13 +90,13 @@ describe('embed.chat', function() {
     chat = requireUncached(chatPath).chat;
   });
 
-  afterEach(function() {
+  afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
   });
 
-  describe('create', function() {
-    it('should create and add a chat', function() {
+  describe('create', () => {
+    it('should create and add a chat', () => {
       expect(_.keys(chat.list()).length)
         .toBe(0);
 
@@ -107,7 +106,7 @@ describe('embed.chat', function() {
         .toBe(1);
     });
 
-    it('should store the zopimId in config', function() {
+    it('should store the zopimId in config', () => {
       const chatName = 'dave';
       const zopimId = 'abc123';
 
@@ -117,7 +116,7 @@ describe('embed.chat', function() {
         .toEqual(zopimId);
     });
 
-    it('should correctly parse the value for offsetHorizontal', function() {
+    it('should correctly parse the value for offsetHorizontal', () => {
       mockSettingsValue = {
         offset: { horizontal: 20 },
         widgetMargin: 15
@@ -129,7 +128,7 @@ describe('embed.chat', function() {
         .toEqual(35);
     });
 
-    it('should correctly grab the value for offsetVertical', function() {
+    it('should correctly grab the value for offsetVertical', () => {
       mockSettingsValue = { offset: { vertical: '20px' } };
 
       chat.create('dave');
@@ -139,8 +138,8 @@ describe('embed.chat', function() {
     });
   });
 
-  describe('get', function() {
-    it('should return the correct chat', function() {
+  describe('get', () => {
+    it('should return the correct chat', () => {
       chat.create('dave');
       const dave = chat.get('dave');
 
@@ -149,12 +148,12 @@ describe('embed.chat', function() {
     });
   });
 
-  describe('render', function() {
+  describe('render', () => {
     let mockMediator;
     const chatName = 'dave';
     const zopimId = 'abc123';
 
-    it('should inject the zopim bootstrap script into the document', function() {
+    it('should inject the zopim bootstrap script into the document', () => {
       mockMediator = mockRegistry['service/mediator'].mediator;
       chat.create(chatName, {zopimId: zopimId});
       chat.render(chatName);
@@ -168,7 +167,7 @@ describe('embed.chat', function() {
         .not.toBe(false);
     });
 
-    it('should call zopim.livechat.mobileNotifications.setIgnoreChatButtonVisibility()', function() {
+    it('should call zopim.livechat.mobileNotifications.setIgnoreChatButtonVisibility()', () => {
       mockMediator = mockRegistry['service/mediator'].mediator;
       chat.create(chatName, {zopimId: zopimId});
       chat.render(chatName);
@@ -177,19 +176,19 @@ describe('embed.chat', function() {
         .toHaveBeenCalled();
     });
 
-    describe('mediator broadcasts', function() {
+    describe('mediator broadcasts', () => {
       let mockZopim,
         onHideCall,
         onStatusCall,
         onUnreadMsgsCall,
         onChatEndCall;
 
-      beforeEach(function() {
+      beforeEach(() => {
         mockMediator = mockRegistry['service/mediator'].mediator;
+        mockZopim = mockRegistry['utility/globals'].win.$zopim;
         chat.create(chatName, {zopimId: zopimId});
         chat.render(chatName);
 
-        mockZopim = mockRegistry['utility/globals'].win.$zopim;
         const livechat = mockZopim.livechat;
 
         onHideCall = livechat.window.onHide.calls.mostRecent();
@@ -198,8 +197,8 @@ describe('embed.chat', function() {
         onChatEndCall = livechat.setOnChatEnd.calls.mostRecent();
       });
 
-      describe('livechat.onHide', function() {
-        it('should broadcast <name>.onHide', function() {
+      describe('livechat.onHide', () => {
+        it('should broadcast <name>.onHide', () => {
           onHideCall.args[0]();
 
           expect(mockMediator.channel.broadcast)
@@ -207,8 +206,8 @@ describe('embed.chat', function() {
         });
       });
 
-      describe('zopim.livechat.onStatus', function() {
-        it('onStatus(online) should broadcast <name>.onOnline when agent is online', function() {
+      describe('zopim.livechat.onStatus', () => {
+        it('onStatus(online) should broadcast <name>.onOnline when agent is online', () => {
           chat.get(chatName).connected = true;
 
           onStatusCall.args[0]('online');
@@ -217,7 +216,7 @@ describe('embed.chat', function() {
             .toHaveBeenCalledWith('dave.onOnline');
         });
 
-        it('onStatus(online) should broadcast <name>.onOnline when agent is away', function() {
+        it('onStatus(online) should broadcast <name>.onOnline when agent is away', () => {
           chat.get(chatName).connected = true;
 
           onStatusCall.args[0]('away');
@@ -226,7 +225,7 @@ describe('embed.chat', function() {
             .toHaveBeenCalledWith('dave.onOnline');
         });
 
-        it('onStatus(offline) should broadcast <name>.onOffline when agent is offline', function() {
+        it('onStatus(offline) should broadcast <name>.onOffline when agent is offline', () => {
           chat.get(chatName).connected = true;
 
           onStatusCall.args[0]('offline');
@@ -236,8 +235,8 @@ describe('embed.chat', function() {
         });
       });
 
-      describe('zopim.onUnreadMsgs', function() {
-        it('should broadcast <name>.onUnreadMsgs regardless of count', function() {
+      describe('zopim.onUnreadMsgs', () => {
+        it('should broadcast <name>.onUnreadMsgs regardless of count', () => {
           const count = Math.floor(Math.random() * 100);
 
           onUnreadMsgsCall.args[0](count);
@@ -247,39 +246,48 @@ describe('embed.chat', function() {
         });
       });
 
-      describe('zopim.onChatEnd', function() {
-        it('should broadcast <name>.onChatEnd', function() {
+      describe('zopim.onChatEnd', () => {
+        it('should broadcast <name>.onChatEnd', () => {
           onChatEndCall.args[0]();
           expect(mockMediator.channel.broadcast)
             .toHaveBeenCalledWith('dave.onChatEnd');
         });
       });
+
+      describe('zopim.onError', () => {
+        it('should broadcast <name>.onError', () => {
+          mockZopim.onError();
+
+          expect(mockMediator.channel.broadcast)
+            .toHaveBeenCalledWith('dave.onError');
+        });
+      });
     });
 
-    describe('mediator subscriptions', function() {
-      beforeEach(function() {
+    describe('mediator subscriptions', () => {
+      beforeEach(() => {
         mockMediator = mockRegistry['service/mediator'].mediator;
         chat.create(chatName, {zopimId: zopimId});
         chat.render(chatName);
       });
 
-      it('should subscribe to chat.show', function() {
+      it('should subscribe to chat.show', () => {
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('dave.show', jasmine.any(Function));
       });
 
-      it('should subscribe to chat.hide', function() {
+      it('should subscribe to chat.hide', () => {
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('dave.hide', jasmine.any(Function));
       });
 
-      it('should subscribe to chat.activate', function() {
+      it('should subscribe to chat.activate', () => {
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('dave.activate', jasmine.any(Function));
       });
 
-      describe('<name>.show', function() {
-        it('should call zopim.button.show() if livechat window has not been opened and it is standalone', function() {
+      describe('<name>.show', () => {
+        it('should call zopim.button.show() if livechat window has not been opened and it is standalone', () => {
           chat.create('dave', { zopimId: zopimId, standalone: true });
 
           pluckSubscribeCall(mockMediator, 'dave.show')();
@@ -288,7 +296,7 @@ describe('embed.chat', function() {
             .toHaveBeenCalled();
         });
 
-        it('should call zopim.window.show() if livechat window is open', function() {
+        it('should call zopim.window.show() if livechat window is open', () => {
           mockZopim.livechat.window.show();
 
           pluckSubscribeCall(mockMediator, 'dave.show')();
@@ -297,7 +305,7 @@ describe('embed.chat', function() {
             .toHaveBeenCalled();
         });
 
-        it('should call zopim.livechat.mobileNotifications.setDisabled(false)', function() {
+        it('should call zopim.livechat.mobileNotifications.setDisabled(false)', () => {
           pluckSubscribeCall(mockMediator, 'dave.show')();
 
           expect(mockZopim.livechat.mobileNotifications.setDisabled)
@@ -305,15 +313,15 @@ describe('embed.chat', function() {
         });
       });
 
-      describe('<name>.hide', function() {
-        it('should call zopim.livechat.hideAll()', function() {
+      describe('<name>.hide', () => {
+        it('should call zopim.livechat.hideAll()', () => {
           pluckSubscribeCall(mockMediator, 'dave.hide')();
 
           expect(mockZopim.livechat.hideAll)
             .toHaveBeenCalled();
         });
 
-        it('should call zopim.livechat.mobileNotifications.setDisabled(true)', function() {
+        it('should call zopim.livechat.mobileNotifications.setDisabled(true)', () => {
           pluckSubscribeCall(mockMediator, 'dave.hide')();
 
           expect(mockZopim.livechat.mobileNotifications.setDisabled)
@@ -321,8 +329,8 @@ describe('embed.chat', function() {
         });
       });
 
-      describe('<name>.activate', function() {
-        it('should call zopim.window.show()', function() {
+      describe('<name>.activate', () => {
+        it('should call zopim.window.show()', () => {
           pluckSubscribeCall(mockMediator, 'dave.activate')();
 
           expect(mockZopim.livechat.window.show)

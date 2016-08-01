@@ -104,19 +104,23 @@ function init(helpCenterAccessible, params = {}) {
     c.broadcast(`${launcher}.hide`);
   });
 
-  c.intercept('.show', () => {
-    state[`${submitTicket}.isVisible`] = false;
-    state[`${chat}.isVisible`]         = false;
-    state[`${helpCenter}.isVisible`]   = false;
-    state['.hasHidden']                = false;
+  c.intercept(
+    ['.show',
+    `${chat}.onError`].join(','),
+    () => {
+      state[`${submitTicket}.isVisible`] = false;
+      state[`${chat}.isVisible`]         = false;
+      state[`${helpCenter}.isVisible`]   = false;
+      state['.hasHidden']                = false;
 
-    resetActiveEmbed();
+      resetActiveEmbed();
 
-    c.broadcast(`${submitTicket}.hide`);
-    c.broadcast(`${chat}.hide`);
-    c.broadcast(`${helpCenter}.hide`);
-    c.broadcast(`${launcher}.show`);
-  });
+      c.broadcast(`${submitTicket}.hide`);
+      c.broadcast(`${chat}.hide`);
+      c.broadcast(`${helpCenter}.hide`);
+      c.broadcast(`${launcher}.show`);
+    }
+  );
 
   c.intercept('.activate', (__, options = {}) => {
     if (!state[`${submitTicket}.isVisible`] &&
@@ -538,7 +542,7 @@ function initZopimStandalone() {
   // Intercept zE.hide() zE.show(), and zE.activate() API calls.
   // Make them an alias for zopims hide and show functions if the user is on a naked zopim configuration.
   // zE.hide() = $zopim.livechat.hideAll(),
-  // zE.show() = $zopim.livechat.button.show().
+  // zE.show() = $zopim.livechat.button.show(),
   // zE.activate() = $zopim.livechat.window.show().
 
   c.intercept('.hide', () => {
