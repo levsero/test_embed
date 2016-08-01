@@ -15,16 +15,24 @@ import { isIE,
          isMobileBrowser } from 'utility/devices';
 import { document,
          getDocumentHost } from 'utility/globals';
+import { mouse } from 'utility/mouse';
 import { isOnHelpCenterPage } from 'utility/pages';
 import { cappedIntervalCall,
          generateUserCSS,
          getPageKeywords,
-         setScaleLock } from 'utility/utils';
+         setScaleLock,
+         getDistance } from 'utility/utils';
 
 const helpCenterCSS = require('./helpCenter.scss');
 let helpCenters = {};
 let hasManuallySetContextualSuggestions = false;
 let hasAuthenticatedSuccessfully = false;
+let useMouseDistanceContexualSearch = false;
+let drawDebugLine = null;
+
+const mouseSpeedThreshold = 1.5;
+const fastMinMouseDistance = 0.6;
+const slowMinMouseDistance = 0.25;
 
 function create(name, config) {
   let containerStyle;
@@ -38,6 +46,7 @@ function create(name, config) {
     hideZendeskLogo: false,
     signInRequired: false,
     disableAutoSearch: false,
+    enableMouseDrivenContextualHelp: false,
     color: '#659700'
   };
   const onNextClick = function() {
@@ -109,6 +118,8 @@ function create(name, config) {
   };
 
   config = _.extend(configDefaults, config);
+
+  useMouseDistanceContexualSearch = config.enableMouseDrivenContextualHelp;
 
   if (isMobileBrowser()) {
     containerStyle = { width: '100%', height: '100%' };
@@ -219,8 +230,8 @@ function updateHelpCenterButton(name, labelKey) {
   });
 }
 
-function keywordsSearch(name, options = {}) {
-  cappedIntervalCall(() => {
+function keywordsSearch(name, options = {}, mouseProps = {}) {
+  const contextualSearchFn = () => {
     const rootComponent = getRootComponent(name);
     const isAuthenticated = get(name).config.signInRequired === false || hasAuthenticatedSuccessfully;
 
@@ -231,10 +242,31 @@ function keywordsSearch(name, options = {}) {
 
       rootComponent.contextualSearch(options);
       return true;
-    } else {
-      return false;
     }
-  }, 500, 10);
+
+    return false;
+  };
+
+  if (!useMouseDistanceContexualSearch || isMobileBrowser()) {
+    // If we have fired the initial page load contextual search request.
+    // Then the subsequent calls must be via the API.
+    cappedIntervalCall(contextualSearchFn, 500, 10);
+  } else {
+    // After we have some end-user data, we can tweak these numbers to get
+    // a good balance between limiting requests and showing no delay for the results.
+    const minMouseDistance = mouseProps.speed > mouseSpeedThreshold
+                           ? fastMinMouseDistance
+                           : slowMinMouseDistance;
+
+    // Remove the `onmousemove` event handler once the mouse reaches
+    // the minimum distance from the widget. We only want this check
+    // for the page load contextual search.
+    if (mouseProps.distance < minMouseDistance) {
+      mouse.removeListener('mousemove', 'contextual');
+      cappedIntervalCall(contextualSearchFn, 500, 10);
+      useMouseDistanceContexualSearch = false;
+    }
+  }
 }
 
 function render(name) {
@@ -247,8 +279,11 @@ function render(name) {
   helpCenters[name].instance = ReactDOM.render(helpCenters[name].component, element);
 
   mediator.channel.subscribe(name + '.show', function(options = {}) {
-    // stop stupid host page scrolling
-    // when trying to focus HelpCenter's search field
+    useMouseDistanceContexualSearch = useMouseDistanceContexualSearch &&
+                                      !options.viaActivate;
+
+    // Stop stupid host page scrolling
+    // when trying to focus HelpCenter's search field.
     setTimeout(function() {
       waitForRootComponent(name, () => {
         get(name).instance.show(options);
@@ -280,12 +315,74 @@ function render(name) {
 
   mediator.channel.subscribe(name + '.setHelpCenterSuggestions', function(options) {
     hasManuallySetContextualSuggestions = true;
-    keywordsSearch(name, options);
+    performContextualHelp(name, options);
   });
 
   mediator.channel.subscribe(name + '.isAuthenticated', function() {
     hasAuthenticatedSuccessfully = true;
   });
+}
+
+if (__DEV__) {
+  drawDebugLine = (widgetCoords, mouseCoords) => {
+    const line = document.getElementById('zeLine');
+
+    if (!line) {
+      return;
+    }
+
+    const clientWidth = document.documentElement.clientWidth;
+    const clientHeight = document.documentElement.clientHeight;
+
+    line.setAttribute('x1', Math.round(mouseCoords.x * clientWidth));
+    line.setAttribute('x2', Math.round(widgetCoords.x * clientWidth));
+    line.setAttribute('y1', Math.round(mouseCoords.y * clientHeight));
+    line.setAttribute('y2', Math.round(widgetCoords.y * clientHeight));
+  };
+}
+
+function getWidgetBounds() {
+  return document.getElementById('launcher').getBoundingClientRect();
+}
+
+function normaliseCoords(x, y) {
+  const docEl = document.documentElement;
+
+  return {
+    x: x / docEl.clientWidth,
+    y: y / docEl.clientHeight
+  };
+}
+
+const handleMouse = (name, options) => (props) => {
+  const widgetBounds = getWidgetBounds();
+
+  // Get the positions in normalized coordinates to make the distance check
+  // more simple for different window sizes.
+  const widgetCoords = normaliseCoords(widgetBounds.left, widgetBounds.top);
+  const mouseCoords = normaliseCoords(props.position.x, props.position.y);
+
+  if (__DEV__) {
+    drawDebugLine(widgetCoords, mouseCoords);
+  }
+
+  // Calculate the euclidean distance between the mouse and the widget.
+  const distance = getDistance(widgetCoords, mouseCoords);
+
+  helpCenter.keywordsSearch(name, options, {
+    distance: distance,
+    speed: props.speed
+  });
+};
+
+function performContextualHelp(name, options) {
+  if (!isMobileBrowser() && useMouseDistanceContexualSearch) {
+    // Listen to the `onmousemove` event so we can grab the x and y coordinate
+    // of the end-users mouse relative to the host page viewport.
+    mouse.addListener('mousemove', handleMouse(name, options), 'contextual');
+  } else {
+    helpCenter.keywordsSearch(name, options);
+  }
 }
 
 function postRender(name) {
@@ -295,7 +392,9 @@ function postRender(name) {
   if (config.contextualHelpEnabled &&
       !hasManuallySetContextualSuggestions &&
       !isOnHelpCenterPage()) {
-    keywordsSearch(name, { url: true });
+    const options = { url: true };
+
+    performContextualHelp(name, options);
   }
 
   if (config.tokensRevokedAt) {
@@ -311,6 +410,7 @@ export const helpCenter = {
   create: create,
   list: list,
   get: get,
+  keywordsSearch: keywordsSearch,
   render: render,
   postRender: postRender
 };
