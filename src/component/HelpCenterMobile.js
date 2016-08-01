@@ -85,6 +85,8 @@ export class HelpCenterMobile extends Component {
   }
 
   renderSearchField() {
+    // needs to be hidden rather then return null so the
+    // field can be focused on
     const searchFieldClasses = classNames({
       'u-isHidden': this.state.showIntroScreen
     });
@@ -105,19 +107,13 @@ export class HelpCenterMobile extends Component {
   }
 
   renderSearchFieldButton() {
-    const searchFieldButtonClasses = classNames({
-      'u-isHidden': !this.state.showIntroScreen
-    });
-
-    return (
-      <div className={searchFieldButtonClasses}>
-        <SearchFieldButton
-          ref='searchFieldButton'
-          onClick={this.handleSearchBoxClicked}
-          onTouch={this.handleSearchBoxClicked}
-          searchTerm={this.props.searchFieldValue} />
-      </div>
-    );
+    return !this.state.showIntroScreen
+         ? null
+         : <SearchFieldButton
+             ref='searchFieldButton'
+             onClick={this.handleSearchBoxClicked}
+             onTouch={this.handleSearchBoxClicked}
+             searchTerm={this.props.searchFieldValue} />;
   }
 
   renderForm() {
@@ -148,9 +144,6 @@ export class HelpCenterMobile extends Component {
       'u-textSizeBaseMobile u-textCenter u-marginTL': true,
       'u-isHidden': !this.state.showIntroScreen
     });
-    const formClasses = classNames({
-      'u-isHidden': this.props.articleViewActive || !this.state.showIntroScreen
-    });
     const chatButtonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.chat');
 
     let linkLabel, linkContext;
@@ -167,40 +160,33 @@ export class HelpCenterMobile extends Component {
       );
     }
 
-    return (
-      <div className={formClasses}>
-        {this.renderForm()}
-        <div className={linkClasses}>
-          <p className='u-marginBN'>{linkContext}</p>
-          <a className='u-userTextColor' onClick={this.props.handleNextClick}>
-            {linkLabel}
-          </a>
-        </div>
-      </div>
-    );
+    return this.props.articleViewActive || !this.state.showIntroScreen
+         ? null
+         : (<div>
+             {this.renderForm()}
+             <div className={linkClasses}>
+               <p className='u-marginBN'>{linkContext}</p>
+               <a className='u-userTextColor' onClick={this.props.handleNextClick}>
+                 {linkLabel}
+               </a>
+             </div>
+           </div>);
   }
 
   renderHeaderContent() {
-    if (this.props.articleViewActive || this.state.showIntroScreen) {
-      return null;
-    }
-
-    return this.renderForm();
+    return (this.props.articleViewActive || this.state.showIntroScreen)
+         ? null
+         : this.renderForm();
   }
 
-  render() {
+  renderFooterContent() {
     const buttonContainerClasses = classNames({
       'u-marginTA': true,
       'u-marginVM': this.props.hideZendeskLogo,
       'u-isHidden': this.state.showIntroScreen || this.state.searchFieldFocused
     });
-    const mobileHideLogoState = this.props.hasSearched;
-    const hideZendeskLogo = this.props.hideZendeskLogo || mobileHideLogoState;
-    const zendeskLogo = !hideZendeskLogo
-                      ? <ZendeskLogo rtl={i18n.isRTL()} fullscreen={true} />
-                      : null;
 
-    const footerContent = (
+    return (
       <div className={buttonContainerClasses}>
         <ButtonGroup rtl={i18n.isRTL()}>
           <Button
@@ -208,7 +194,19 @@ export class HelpCenterMobile extends Component {
             label={this.props.buttonLabel}
             onClick={this.props.handleNextClick} />
         </ButtonGroup>
-      </div>);
+      </div>
+    );
+  }
+
+  renderZendeskLogo(hideZendeskLogo) {
+    return !hideZendeskLogo
+         ? <ZendeskLogo rtl={i18n.isRTL()} fullscreen={true} />
+         : null;
+  }
+
+  render() {
+    const mobileHideLogoState = this.props.hasSearched;
+    const hideZendeskLogo = this.props.hideZendeskLogo || mobileHideLogoState;
 
     return (
       <div>
@@ -217,13 +215,13 @@ export class HelpCenterMobile extends Component {
           hideZendeskLogo={hideZendeskLogo}
           title={i18n.t(`embeddable_framework.launcher.label.${this.props.formTitleKey}`)}
           headerContent={this.renderHeaderContent()}
-          footerContent={footerContent}
+          footerContent={this.renderFooterContent()}
           fullscreen={true}
           isVirtualKeyboardOpen={this.state.searchFieldFocused}>
           {this.renderFormContainer()}
           {this.props.children}
         </ScrollContainer>
-        {zendeskLogo}
+        {this.renderZendeskLogo(hideZendeskLogo)}
       </div>
     );
   }

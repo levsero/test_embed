@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
 
@@ -340,45 +339,41 @@ export class HelpCenter extends Component {
   }
 
   renderResults() {
-    const resultsClasses = classNames({
-      'u-isHidden': !(this.state.hasSearched ||
-                    this.state.hasContextualSearched) ||
-                    this.state.articleViewActive
-    });
+    const hasSearched = this.state.hasSearched || this.state.hasContextualSearched;
+
+    if (this.state.articleViewActive || !hasSearched) {
+      return null;
+    }
     const showViewMore = this.state.showViewMore &&
                          this.state.resultsCount > minimumSearchResults;
 
     return (
-      <div className={resultsClasses}>
-        <HelpCenterResults
-          fullscreen={this.props.fullscreen}
-          articles={this.state.articles}
-          showViewMore={showViewMore}
-          searchFailed={this.state.searchFailed}
-          previousSearchTerm={this.state.previousSearchTerm}
-          handleArticleClick={this.handleArticleClick}
-          handleViewMoreClick={this.handleViewMoreClick}
-          hasContextualSearched={this.state.hasContextualSearched} />
-      </div>
+      <HelpCenterResults
+        fullscreen={this.props.fullscreen}
+        articles={this.state.articles}
+        showViewMore={showViewMore}
+        searchFailed={this.state.searchFailed}
+        previousSearchTerm={this.state.previousSearchTerm}
+        handleArticleClick={this.handleArticleClick}
+        handleViewMoreClick={this.handleViewMoreClick}
+        hasContextualSearched={this.state.hasContextualSearched} />
     );
   }
 
   renderArticles() {
-    const articleClasses = classNames({
-      'u-isHidden': !this.state.articleViewActive
-    });
+    if (!this.state.articleViewActive) {
+      return null;
+    }
 
     return (
-      <div className={articleClasses}>
-        <HelpCenterArticle
-          activeArticle={this.state.activeArticle}
-          zendeskHost={this.props.zendeskHost}
-          storedImages={this.state.images}
-          imagesSender={this.props.imagesSender}
-          updateStoredImages={this.updateImages}
-          updateFrameSize={this.props.updateFrameSize}
-          fullscreen={this.props.fullscreen} />
-      </div>
+      <HelpCenterArticle
+        activeArticle={this.state.activeArticle}
+        zendeskHost={this.props.zendeskHost}
+        storedImages={this.state.images}
+        imagesSender={this.props.imagesSender}
+        updateStoredImages={this.updateImages}
+        updateFrameSize={this.props.updateFrameSize}
+        fullscreen={this.props.fullscreen} />
     );
   }
 

@@ -981,9 +981,6 @@ describe('HelpCenter component', function() {
         },
         ok: true
       };
-      const article = ReactDOM.findDOMNode(
-        TestUtils.findRenderedDOMComponentWithClass(helpCenter, 'UserContent')
-      ).parentNode;
 
       helpCenter.trackSearch = trackSearch;
 
@@ -1000,8 +997,8 @@ describe('HelpCenter component', function() {
 
       mockSearchSender.calls.mostRecent().args[1](responsePayload);
 
-      expect(article.className)
-        .toMatch('u-isHidden');
+      expect(() => TestUtils.findRenderedDOMComponentWithClass(helpCenter, 'UserContent'))
+        .toThrow();
 
       helpCenter.handleArticleClick(1, { preventDefault: noop });
 
@@ -1019,8 +1016,8 @@ describe('HelpCenter component', function() {
           locale: undefined
         });
 
-      expect(article.className)
-        .not.toMatch('u-isHidden');
+      expect(() => TestUtils.findRenderedDOMComponentWithClass(helpCenter, 'UserContent'))
+        .toBeTruthy();
     });
   });
 

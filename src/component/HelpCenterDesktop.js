@@ -69,19 +69,21 @@ export class HelpCenterDesktop extends Component {
   }
 
   renderHeaderContent() {
-    if (this.props.articleViewActive || !this.props.hasSearched) {
-      return null;
-    }
-
-    return this.renderForm();
+    return (this.props.articleViewActive || !this.props.hasSearched)
+         ? null
+         : this.renderForm();
   }
 
   renderBodyForm() {
-    if (this.props.hasSearched) {
-      return null;
-    }
+    return this.props.hasSearched
+         ? null
+         : this.renderForm();
+  }
 
-    return this.renderForm();
+  renderZendeskLogo() {
+    return !this.props.hideZendeskLogo
+         ? <ZendeskLogo rtl={i18n.isRTL()} fullscreen={false} />
+         : null;
   }
 
   render() {
@@ -89,9 +91,6 @@ export class HelpCenterDesktop extends Component {
       'u-marginVM': this.props.hideZendeskLogo,
       'u-isHidden': !this.props.hasSearched
     });
-    const zendeskLogo = !this.props.hideZendeskLogo
-                      ? <ZendeskLogo rtl={i18n.isRTL()} fullscreen={false} />
-                      : null;
 
     setTimeout(() => this.props.updateFrameSize(), 0);
 
@@ -117,7 +116,7 @@ export class HelpCenterDesktop extends Component {
           {this.renderBodyForm()}
           {this.props.children}
         </ScrollContainer>
-        {zendeskLogo}
+        {this.renderZendeskLogo()}
       </div>
     );
   }
