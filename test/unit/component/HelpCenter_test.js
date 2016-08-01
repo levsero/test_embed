@@ -1,15 +1,21 @@
 describe('HelpCenter component', function() {
   let HelpCenter,
     mockRegistry,
-    mockIsMobileBrowserValue,
     mockPageKeywords,
     trackSearch,
     updateResults,
     manualSearch;
 
-  const searchFieldBlur = jasmine.createSpy();
-  const searchFieldGetValue = jasmine.createSpy().and.returnValue('Foobar');
   const helpCenterPath = buildSrcPath('component/HelpCenter');
+  const SearchField = React.createClass({
+    blur: jasmine.createSpy(),
+    getValue: function() {
+      return '';
+    },
+    render: function() {
+      return <input ref='searchField' value='' type='search' />;
+    }
+  });
 
   beforeEach(function() {
     trackSearch = jasmine.createSpy('trackSearch');
@@ -20,22 +26,10 @@ describe('HelpCenter component', function() {
 
     mockery.enable();
 
-    mockIsMobileBrowserValue = false;
     mockPageKeywords = 'billy bob thorton';
 
     mockRegistry = initMockRegistry({
       'React': React,
-      'component/HelpCenterForm': {
-        HelpCenterForm: React.createClass({
-          render: function() {
-            return (
-              <form onSubmit={this.handleSubmit}>
-                {this.props.children}
-              </form>
-            );
-          }
-        })
-      },
       'component/HelpCenterArticle': {
         HelpCenterArticle: React.createClass({
           render: function() {
@@ -50,41 +44,31 @@ describe('HelpCenter component', function() {
           }
         })
       },
-      'component/field/SearchField': {
-        SearchField: React.createClass({
-          focus: function() {
-            this.setState({
-              focused: true
-            });
-          },
-          getSearchField: function() {
-            return this.refs.searchFieldInput;
-          },
-          blur: searchFieldBlur,
-          getValue: searchFieldGetValue,
+      'component/HelpCenterDesktop': {
+        HelpCenterDesktop: React.createClass({
+          focusField: noop,
           render: function() {
             return (
-              <div ref='searchField' type='search'>
-                <input ref='searchFieldInput' value='' type='search' />
+              <div>
+                <SearchField ref='searchField' />
+                {this.props.children}
               </div>
             );
           }
         })
       },
-      'component/button/SearchFieldButton': {
-        SearchFieldButton: React.createClass({
+      'component/HelpCenterMobile': {
+        HelpCenterMobile: React.createClass({
+          hasContextualSearched: noop,
           render: function() {
             return (
-              <input
-                ref='searchFieldButton'
-                type='search'
-                onClick={this.props.onClick} />
+              <div>
+                <SearchField ref='searchField' />
+                {this.props.children}
+              </div>
             );
           }
         })
-      },
-      'component/ZendeskLogo': {
-        ZendeskLogo: noopReactComponent()
       },
       'component/Container': {
         Container: React.createClass({
@@ -92,28 +76,6 @@ describe('HelpCenter component', function() {
             return <div>{this.props.children}</div>;
           }
         })
-      },
-      'component/ScrollContainer': {
-        ScrollContainer: React.createClass({
-          setScrollShadowVisible: noop,
-          render: function() {
-            return (
-              <div>
-                {this.props.headerContent}
-                {this.props.children}
-                {this.props.footerContent}
-              </div>
-            );
-          }
-        })
-      },
-      'component/Button': {
-        Button: React.createClass({
-          render: function() {
-            return <input className='Button' type='button' />;
-          }
-        }),
-        ButtonGroup: noopReactComponent()
       },
       'service/i18n': {
         i18n: {
@@ -124,27 +86,13 @@ describe('HelpCenter component', function() {
           t: _.identity
         }
       },
-      'service/persistence': {
-        store: jasmine.createSpyObj('store', ['set', 'get'])
-      },
-      'utility/devices': {
-        getZoomSizingRatio: function() {
-          return 1;
-        },
-        isMobileBrowser: function() {
-          return mockIsMobileBrowserValue;
-        }
-      },
       'utility/globals': {
         win: window,
         document: document
       },
       'utility/utils': {
-        bindMethods: mockBindMethods,
-        getPageKeywords: () => mockPageKeywords,
-        parseUrl: () => noop
-      },
-      '_': _
+        bindMethods: mockBindMethods
+      }
     });
 
     mockery.registerAllowable(helpCenterPath);
@@ -474,7 +422,6 @@ describe('HelpCenter component', function() {
         .toEqual(jasmine.objectContaining({
           isLoading: false,
           searchTerm: searchOptions.search,
-          showIntroScreen: false,
           hasContextualSearched: true
         }));
     });
@@ -508,7 +455,6 @@ describe('HelpCenter component', function() {
         .toEqual(jasmine.objectContaining({
           isLoading: false,
           searchTerm: searchOptions.labels.join(','),
-          showIntroScreen: false,
           hasContextualSearched: true
         }));
     });
@@ -562,6 +508,8 @@ describe('HelpCenter component', function() {
           onSearch={mockOnSearch}
           searchSender={mockSearchSender} />
       );
+
+      helpCenter.getHelpCenterComponent().refs.searchField.getValue = () => 'valid';
     });
 
     describe('searchFail', () => {
@@ -745,7 +693,7 @@ describe('HelpCenter component', function() {
       };
 
       helpCenter.updateResults = jasmine.createSpy('updateResults');
-      helpCenter.focusField = jasmine.createSpy('focusField');
+      helpCenter.getHelpCenterComponent().focusField = jasmine.createSpy('focusField');
 
       helpCenter.interactiveSearchSuccessFn(result, query);
     });
@@ -770,7 +718,7 @@ describe('HelpCenter component', function() {
     });
 
     it('calls focusField', () => {
-      expect(helpCenter.focusField)
+      expect(helpCenter.getHelpCenterComponent().focusField)
         .toHaveBeenCalled();
     });
   });
@@ -806,25 +754,25 @@ describe('HelpCenter component', function() {
 
       helpCenter.performSearch = mockPerformSearch;
 
-      helpCenter.refs.searchField.getValue = () => '';
+      helpCenter.getHelpCenterComponent().refs.searchField.getValue = () => '';
       helpCenter.autoSearch();
 
       expect(mockPerformSearch.calls.count())
         .toEqual(0);
 
-      helpCenter.refs.searchField.getValue = () => '123 ';
+      helpCenter.getHelpCenterComponent().refs.searchField.getValue = () => '123';
       helpCenter.autoSearch();
 
       expect(mockPerformSearch)
         .not.toHaveBeenCalled();
 
-      helpCenter.refs.searchField.getValue = () => 'validnotrailingspace';
+      helpCenter.getHelpCenterComponent().refs.searchField.getValue = () => 'validnotrailingspace';
       helpCenter.autoSearch();
 
       expect(mockPerformSearch)
         .not.toHaveBeenCalled();
 
-      helpCenter.refs.searchField.getValue = () => 'validwithtrailingspace ';
+      helpCenter.getHelpCenterComponent().refs.searchField.getValue = () => 'validwithtrailingspace ';
       helpCenter.autoSearch();
 
       expect(mockPerformSearch.calls.count())
@@ -850,7 +798,7 @@ describe('HelpCenter component', function() {
 
       helpCenter.performSearch = mockPerformSearch;
 
-      helpCenter.refs.searchField.getValue = () => searchTerm;
+      helpCenter.getHelpCenterComponent().refs.searchField.getValue = () => searchTerm;
 
       helpCenter.autoSearch();
 
@@ -868,7 +816,7 @@ describe('HelpCenter component', function() {
       const searchTerm = 'a search term ';
       const helpCenter = domRender(<HelpCenter searchSender={noop} />);
 
-      helpCenter.refs.searchField.getValue = () => searchTerm;
+      helpCenter.getHelpCenterComponent().refs.searchField.getValue = () => searchTerm;
 
       helpCenter.autoSearch();
 
@@ -889,7 +837,7 @@ describe('HelpCenter component', function() {
       helpCenter.performSearch = mockPerformSearch;
       helpCenter.interactiveSearchSuccessFn = mockSearchSuccessFn;
 
-      helpCenter.refs.searchField.getValue = () => 'valid ';
+      helpCenter.getHelpCenterComponent().refs.searchField.getValue = () => 'valid ';
 
       mockPerformSearch.calls.reset();
       mockSearchSuccessFn.calls.reset();
@@ -913,19 +861,34 @@ describe('HelpCenter component', function() {
 
       helpCenter.performSearch = mockPerformSearch;
 
-      helpCenter.refs.searchField.getValue = () => '';
+      helpCenter.getHelpCenterComponent().refs.searchField.getValue = () => '';
 
       helpCenter.manualSearch();
 
       expect(mockPerformSearch.calls.count())
         .toEqual(0);
 
-      helpCenter.refs.searchField.getValue = () => 'valid';
+      helpCenter.getHelpCenterComponent().refs.searchField.getValue = () => 'valid';
 
       helpCenter.manualSearch();
 
       expect(mockPerformSearch.calls.count())
         .toEqual(1);
+    });
+
+    it('should call blur and hide the virtual keyboard', function() {
+      const helpCenter = domRender(<HelpCenter searchSender={noop} fullscreen={true} />);
+      const searchField = helpCenter.getHelpCenterComponent().refs.searchField;
+
+      searchField.getValue = () => 'valid';
+
+      spyOn(searchField, 'blur');
+      helpCenter.manualSearch();
+
+      jasmine.clock().tick(1);
+
+      expect(searchField.blur)
+        .toHaveBeenCalled();
     });
 
     it('should build up the query object correctly', () => {
@@ -935,7 +898,7 @@ describe('HelpCenter component', function() {
 
       helpCenter.performSearch = mockPerformSearch;
 
-      helpCenter.refs.searchField.getValue = () => searchTerm;
+      helpCenter.getHelpCenterComponent().refs.searchField.getValue = () => searchTerm;
 
       helpCenter.manualSearch();
 
@@ -953,7 +916,7 @@ describe('HelpCenter component', function() {
       const searchTerm = 'a search term';
       const helpCenter = domRender(<HelpCenter searchSender={noop} />);
 
-      helpCenter.refs.searchField.getValue = () => searchTerm;
+      helpCenter.getHelpCenterComponent().refs.searchField.getValue = () => searchTerm;
 
       helpCenter.manualSearch();
 
@@ -974,7 +937,7 @@ describe('HelpCenter component', function() {
       helpCenter.performSearch = mockPerformSearch;
       helpCenter.interactiveSearchSuccessFn = mockSearchSuccessFn;
 
-      helpCenter.refs.searchField.getValue = () => 'valid';
+      helpCenter.getHelpCenterComponent().refs.searchField.getValue = () => 'valid';
 
       mockPerformSearch.calls.reset();
       mockSearchSuccessFn.calls.reset();
@@ -994,7 +957,6 @@ describe('HelpCenter component', function() {
       /* eslint camelcase:0 */
       // TODO: Ported over from old performSearch test to catch regression
       // Needs to be rewritten
-
       const mockSearchSender = jasmine.createSpy('mockSearchSender');
       const mockOnArticleClick = jasmine.createSpy('mockOnArticleClick');
       const helpCenter = domRender(
@@ -1019,13 +981,10 @@ describe('HelpCenter component', function() {
         },
         ok: true
       };
-      const article = ReactDOM.findDOMNode(
-        TestUtils.findRenderedDOMComponentWithClass(helpCenter, 'UserContent')
-      ).parentNode;
 
       helpCenter.trackSearch = trackSearch;
 
-      helpCenter.refs.searchField.getValue = () => searchTerm;
+      helpCenter.getHelpCenterComponent().refs.searchField.getValue = () => searchTerm;
 
       helpCenter.performSearch({query: searchTerm}, helpCenter.interactiveSearchSuccessFn);
 
@@ -1038,8 +997,8 @@ describe('HelpCenter component', function() {
 
       mockSearchSender.calls.mostRecent().args[1](responsePayload);
 
-      expect(article.className)
-        .toMatch('u-isHidden');
+      expect(() => TestUtils.findRenderedDOMComponentWithClass(helpCenter, 'UserContent'))
+        .toThrow();
 
       helpCenter.handleArticleClick(1, { preventDefault: noop });
 
@@ -1057,141 +1016,8 @@ describe('HelpCenter component', function() {
           locale: undefined
         });
 
-      expect(article.className)
-        .not.toMatch('u-isHidden');
-    });
-
-    it('should call blur and hide the virtual keyboard', function() {
-      mockIsMobileBrowserValue = true;
-
-      const helpCenter = domRender(<HelpCenter searchSender={noop} />);
-
-      helpCenter.searchBoxClickHandler();
-
-      const searchField = helpCenter.refs.searchField;
-
-      searchField.getValue = () => 'a search term';
-
-      // blur is manually called in manualSearch to hide the virtual keyboard
-      spyOn(searchField, 'blur');
-      helpCenter.manualSearch();
-
-      jasmine.clock().tick(1);
-
-      expect(searchField.blur)
-        .toHaveBeenCalled();
-    });
-  });
-
-  describe('fullscreen state', function() {
-    it('should be true if isMobileBrowser() is true', function() {
-      mockIsMobileBrowserValue = true;
-
-      const helpCenter = instanceRender(<HelpCenter />);
-
-      expect(helpCenter.state.fullscreen)
-        .toEqual(true);
-    });
-
-    it('should be false if isMobileBrowser() is false', function() {
-      mockIsMobileBrowserValue = false;
-
-      const helpCenter = instanceRender(<HelpCenter />);
-
-      expect(helpCenter.state.fullscreen)
-        .toEqual(false);
-    });
-  });
-
-  describe('searchField', function() {
-    it('should render component if fullscreen is false', function() {
-      const helpCenter = domRender(<HelpCenter />);
-
-      expect(helpCenter.refs.searchField)
+      expect(() => TestUtils.findRenderedDOMComponentWithClass(helpCenter, 'UserContent'))
         .toBeTruthy();
-
-      expect(helpCenter.refs.searchFieldButton)
-        .toBeFalsy();
-    });
-  });
-
-  describe('searchFieldButton', function() {
-    let helpCenter;
-
-    beforeEach(function() {
-      mockIsMobileBrowserValue = true;
-
-      helpCenter = domRender(<HelpCenter />);
-    });
-
-    it('should render component if fullscreen is true', function() {
-      expect(helpCenter.refs.searchFieldButton)
-        .toBeTruthy();
-
-      expect(helpCenter.refs.searchField)
-        .toBeFalsy();
-    });
-
-    it('sets `showIntroScreen` state to false when component is clicked', function() {
-      expect(helpCenter.state.showIntroScreen)
-        .toBe(true);
-
-      helpCenter.searchBoxClickHandler();
-
-      expect(helpCenter.state.showIntroScreen)
-        .toBe(false);
-    });
-
-    it('sets focus state on searchField when component is clicked on mobile', function() {
-      expect(helpCenter.refs.searchField)
-        .toBeFalsy();
-
-      helpCenter.searchBoxClickHandler();
-
-      const searchField = helpCenter.refs.searchField;
-
-      expect(searchField.state.focused)
-        .toEqual(true);
-    });
-  });
-
-  describe('nextButton', function() {
-    let helpCenter,
-      searchField;
-
-    beforeEach(function() {
-      mockIsMobileBrowserValue = true;
-
-      helpCenter = domRender(<HelpCenter searchSender={noop} />);
-
-      helpCenter.searchBoxClickHandler();
-
-      // We need to simulate a search here so that we can properly test the on blur
-      // case. If no search has been performed, 'helpCenter.state.showIntroField' will be
-      // true on a search and therefore the button will still be hidden.
-      helpCenter.refs.searchField.getValue = () => 'help';
-      helpCenter.manualSearch();
-
-      searchField = helpCenter.refs.searchField;
-      searchField.props.onFocus();
-    });
-
-    it('should hide when searchField is focused', function() {
-      const footerContent = helpCenter.refs.scrollContainer.props.footerContent;
-
-      expect(footerContent.props.className)
-        .toContain('u-isHidden');
-    });
-
-    it('should appear when searchField is blurred', function() {
-      searchField.props.onBlur();
-
-      jasmine.clock().tick(1);
-
-      const footerContent = helpCenter.refs.scrollContainer.props.footerContent;
-
-      expect(footerContent.props.className)
-        .not.toContain('u-isHidden');
     });
   });
 

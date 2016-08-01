@@ -74,7 +74,6 @@ function create(name, config) {
       } else {
         rootComponent.focusField();
       }
-      rootComponent.resetSearchFieldState();
     }
   };
 
@@ -84,14 +83,10 @@ function create(name, config) {
     if (rootComponent) {
       if (isMobileBrowser()) {
         setScaleLock(false);
+        rootComponent.resetState();
       }
 
-      rootComponent.hideVirtualKeyboard();
-      rootComponent.backtrackSearch();
-
-      if (isMobileBrowser() && rootComponent.state.hasSearched === false) {
-        rootComponent.setState({ showIntroScreen: true });
-      }
+      frame.getRootComponent().backtrackSearch();
     }
   };
 
@@ -151,6 +146,7 @@ function create(name, config) {
           contextualSearchSender={searchSenderFn('/api/v2/help_center/articles/embeddable_search.json')}
           imagesSender={imagesSenderFn}
           style={containerStyle}
+          fullscreen={isMobileBrowser()}
           updateFrameSize={params.updateFrameSize}
           disableAutoSearch={config.disableAutoSearch}
           zendeskHost={transport.getZendeskHost()} />

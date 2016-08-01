@@ -1,19 +1,12 @@
-import classNames from 'classnames';
 import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
 
-import { Button,
-         ButtonGroup } from 'component/Button';
-import { SearchFieldButton } from 'component/button/SearchFieldButton';
 import { Container } from 'component/Container';
-import { SearchField } from 'component/field/SearchField';
 import { HelpCenterArticle } from 'component/HelpCenterArticle';
-import { HelpCenterForm } from 'component/HelpCenterForm';
+import { HelpCenterDesktop } from 'component/HelpCenterDesktop';
+import { HelpCenterMobile } from 'component/HelpCenterMobile';
 import { HelpCenterResults } from 'component/HelpCenterResults';
-import { ScrollContainer } from 'component/ScrollContainer';
-import { ZendeskLogo } from 'component/ZendeskLogo';
 import { i18n } from 'service/i18n';
-import { isMobileBrowser } from 'utility/devices';
 import { bindMethods } from 'utility/utils';
 
 const minimumSearchResults = 3;
@@ -29,16 +22,12 @@ export class HelpCenter extends Component {
       resultsCount: 0,
       searchTerm: '',
       buttonLabel: i18n.t(`embeddable_framework.helpCenter.submitButton.label.submitTicket.${props.buttonLabelKey}`),
-      fullscreen: isMobileBrowser(),
       previousSearchTerm: '',
       hasSearched: false,
       hasContextualSearched: false,
       searchFailed: false,
       articleViewActive: false,
       activeArticle: {},
-      images: {},
-      showIntroScreen: isMobileBrowser(),
-      virtualKeyboardKiller: false,
       searchTracked: false,
       searchResultClicked: false,
       searchFieldFocused: false,
@@ -48,54 +37,10 @@ export class HelpCenter extends Component {
     };
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.showIntroScreen === true &&
-        this.state.showIntroScreen === false &&
-        this.state.hasContextualSearched === false) {
-      this.refs.searchField.focus();
-    }
-
-    if (this.refs.searchField) {
-      this.refs.searchField.setState({
-        searchInputVal: this.state.searchFieldValue
-      });
-    }
-
-    const shadowVisible = this.state.articleViewActive || this.state.articles.length > minimumSearchResults;
-
-    this.refs.scrollContainer.setScrollShadowVisible(shadowVisible);
-  }
-
-  focusField() {
-    if (!this.state.fullscreen && !this.state.articleViewActive) {
-      const searchField = this.refs.searchField;
-      const searchFieldInputNode = searchField.getSearchField();
-      const strLength = searchFieldInputNode.value.length;
-
-      searchField.focus();
-      if (searchFieldInputNode.setSelectionRange) {
-        searchFieldInputNode.setSelectionRange(strLength, strLength);
-      }
-    }
-  }
-
-  resetSearchFieldState() {
-    // if the user closes and reopens, we need to
-    // re-render the search field
-    this.setState({
-      virtualKeyboardKiller: false
-    });
-  }
-
-  hideVirtualKeyboard() {
-    if (this.state.fullscreen) {
-      // in order for the virtual keyboard to hide in iOS 7,
-      // we need to remove the element from the DOM. It has been fixed
-      // in iOS 8.
-      this.setState({
-        virtualKeyboardKiller: true
-      });
-    }
+  getHelpCenterComponent() {
+    return (this.props.fullscreen)
+           ? this.refs.helpCenterMobile
+           : this.refs.helpCenterDesktop;
   }
 
   searchStartState(state) {
@@ -127,6 +72,10 @@ export class HelpCenter extends Component {
     this.focusField();
   }
 
+  focusField() {
+    this.refs.helpCenterDesktop.focusField();
+  }
+
   contextualSearch(options) {
     /* eslint camelcase:0 */
     const hasLabelsKey = options.labels &&
@@ -153,12 +102,15 @@ export class HelpCenter extends Component {
         this.setState(
           this.searchCompleteState({
             searchTerm: searchTerm,
-            showIntroScreen: false,
             hasContextualSearched: true,
             previousSearchTerm: this.state.searchTerm
           })
         );
         this.updateResults(res);
+
+        if (this.refs.helpCenterMobile) {
+          this.refs.helpCenterMobile.setContextualSearched();
+        }
       }
     };
 
@@ -172,9 +124,10 @@ export class HelpCenter extends Component {
   }
 
   manualSearch() {
-    /* eslint camelcase:0 */
-    const searchField = this.refs.searchField;
-    const searchTerm = searchField.getValue();
+    const searchField = this.getHelpCenterComponent().refs.searchField;
+    const searchTerm = (this.state.viewMoreActive)
+                     ? this.state.previousSearchTerm
+                     : searchField.getValue();
 
     if (_.isEmpty(searchTerm)) {
       return;
@@ -183,7 +136,7 @@ export class HelpCenter extends Component {
     const query = {
       locale: i18n.getLocale(),
       query: searchTerm,
-      per_page: this.state.resultsPerPage,
+      per_page: this.state.resultsPerPage, // eslint camelcase:0
       origin: 'web_widget'
     };
 
@@ -196,7 +149,7 @@ export class HelpCenter extends Component {
 
     this.performSearch(query, this.interactiveSearchSuccessFn, { localeFallback: true });
 
-    if (this.state.fullscreen) {
+    if (this.props.fullscreen) {
       setTimeout(() => {
         searchField.blur();
       }, 1);
@@ -204,7 +157,7 @@ export class HelpCenter extends Component {
   }
 
   autoSearch() {
-    const searchTerm = this.refs.searchField.getValue();
+    const searchTerm = this.getHelpCenterComponent().refs.searchField.getValue();
 
     if (_.isEmpty(searchTerm) ||
         !(searchTerm.length >= 5 && _.last(searchTerm) === ' ') ||
@@ -253,7 +206,9 @@ export class HelpCenter extends Component {
       searchFailed: true
     });
 
-    this.focusField();
+    if (this.refs.helpCenterDesktop) {
+      this.refs.helpCenterDesktop.focusField();
+    }
   }
 
   performSearch(query, successFn, options = {}) {
@@ -306,9 +261,13 @@ export class HelpCenter extends Component {
     setTimeout(() => this.manualSearch(), 0);
   }
 
-  handleNextClick(ev) {
-    ev.preventDefault();
+  handleNextClick(e) {
+    e.preventDefault();
     this.props.onNextClick();
+  }
+
+  handleOnChangeValue(value) {
+    this.setState({ searchFieldValue: value });
   }
 
   trackSearch() {
@@ -328,7 +287,31 @@ export class HelpCenter extends Component {
    * Instrument the last auto-search, if it's still pending to be instrumented
    */
   backtrackSearch() {
-    if (!this.state.searchTracked && this.state.searchTerm && !this.state.hasContextualSearched) {
+    if (!this.state.searchTracked &&
+        this.state.searchTerm &&
+        !this.state.hasContextualSearched) {
+      this.trackSearch();
+    }
+  }
+
+  resetState() {
+    this.refs.helpCenterMobile.resetState();
+  }
+
+  handleArticleClick(articleIndex, e) {
+    e.preventDefault();
+
+    this.setState({
+      activeArticle: this.state.articles[articleIndex],
+      articleViewActive: true
+    });
+
+    // call nextTick so state has a chance to be consistent
+    setTimeout(() => this.trackArticleView(), 0);
+
+    this.props.showBackButton();
+
+    if (!this.state.searchTracked && !this.state.hasContextualSearched) {
       this.trackSearch();
     }
   }
@@ -349,198 +332,110 @@ export class HelpCenter extends Component {
     });
   }
 
-  searchBoxClickHandler() {
-    this.setState({
-      showIntroScreen: false
-    });
-  }
-
   updateImages(img) {
     this.setState({
       images: _.extend({}, this.state.images, img)
     });
   }
 
+  renderResults() {
+    const hasSearched = this.state.hasSearched || this.state.hasContextualSearched;
+
+    if (this.state.articleViewActive || !hasSearched) {
+      return null;
+    }
+    const showViewMore = this.state.showViewMore &&
+                         this.state.resultsCount > minimumSearchResults;
+
+    return (
+      <HelpCenterResults
+        fullscreen={this.props.fullscreen}
+        articles={this.state.articles}
+        showViewMore={showViewMore}
+        searchFailed={this.state.searchFailed}
+        previousSearchTerm={this.state.previousSearchTerm}
+        handleArticleClick={this.handleArticleClick}
+        handleViewMoreClick={this.handleViewMoreClick}
+        hasContextualSearched={this.state.hasContextualSearched} />
+    );
+  }
+
+  renderArticles() {
+    if (!this.state.articleViewActive) {
+      return null;
+    }
+
+    return (
+      <HelpCenterArticle
+        activeArticle={this.state.activeArticle}
+        zendeskHost={this.props.zendeskHost}
+        storedImages={this.state.images}
+        imagesSender={this.props.imagesSender}
+        updateStoredImages={this.updateImages}
+        updateFrameSize={this.props.updateFrameSize}
+        fullscreen={this.props.fullscreen} />
+    );
+  }
+
+  renderHelpCenterDesktop() {
+    const shadowVisible = this.state.articleViewActive ||
+                          this.state.articles.length > minimumSearchResults;
+
+    return (
+      <HelpCenterDesktop
+        ref='helpCenterDesktop'
+        handleOnChangeValue={this.handleOnChangeValue}
+        handleNextClick={this.handleNextClick}
+        autoSearch={this.autoSearch}
+        manualSearch={this.manualSearch}
+        hideZendeskLogo={this.props.hideZendeskLogo}
+        isLoading={this.state.isLoading}
+        articleViewActive={this.state.articleViewActive}
+        hasSearched={this.state.hasSearched}
+        buttonLabel={this.state.buttonLabel}
+        formTitleKey={this.props.formTitleKey}
+        searchFieldValue={this.state.searchFieldValue}
+        shadowVisible={shadowVisible}
+        updateFrameSize={this.props.updateFrameSize}>
+        {this.renderResults()}
+        {this.renderArticles()}
+      </HelpCenterDesktop>
+    );
+  }
+
+  renderHelpCenterMobile() {
+    return (
+      <HelpCenterMobile
+        ref='helpCenterMobile'
+        handleOnChangeValue={this.handleOnChangeValue}
+        handleNextClick={this.handleNextClick}
+        manualSearch={this.manualSearch}
+        isLoading={this.state.isLoading}
+        articleViewActive={this.state.articleViewActive}
+        hasSearched={this.state.hasSearched}
+        buttonLabel={this.state.buttonLabel}
+        searchFieldValue={this.state.searchFieldValue}
+        hideZendeskLogo={this.props.hideZendeskLogo}
+        buttonLabelKey={this.props.buttonLabelKey}
+        formTitleKey={this.props.formTitleKey}>
+        {this.renderResults()}
+        {this.renderArticles()}
+      </HelpCenterMobile>
+    );
+  }
+
   render() {
-    const searchTitleClasses = classNames({
-      'u-textSizeBaseMobile u-marginTM u-textCenter u-textBold': true,
-      'Container--fullscreen-center-vert': true,
-      'u-isHidden': !this.state.fullscreen || !this.state.showIntroScreen
-    });
-    const linkClasses = classNames({
-      'u-textSizeBaseMobile u-textCenter u-marginTL': true,
-      'u-isHidden': !this.state.showIntroScreen
-    });
-    const articleClasses = classNames({
-      'u-isHidden': !this.state.articleViewActive
-    });
-    const formClasses = classNames({
-      'u-isHidden': this.state.articleViewActive
-    });
-    const buttonContainerClasses = classNames({
-      'u-marginTA': this.state.fullscreen,
-      'u-marginVM': this.props.hideZendeskLogo,
-      'u-isHidden': this.state.showIntroScreen ||
-                    (this.state.fullscreen && this.state.searchFieldFocused) ||
-                    (!this.state.fullscreen && !this.state.hasSearched)
-    });
+    const helpCenter = (this.props.fullscreen)
+                     ? this.renderHelpCenterMobile()
+                     : this.renderHelpCenterDesktop();
 
-    const onFocusHandler = () => {
-      this.setState({ searchFieldFocused: true });
-    };
-    const onBlurHandler = () => {
-      // defer event to allow onClick events to fire first
-      setTimeout(() => {
-        if (this.state.fullscreen) {
-          this.setState({
-            searchFieldFocused: false
-          });
-        }
-
-        if (this.state.fullscreen && !this.state.hasSearched && !this.state.isLoading) {
-          this.setState({
-            showIntroScreen: true
-          });
-        }
-      }, 1);
-    };
-    const onChangeValueHandler = (value) => {
-      this.setState({ searchFieldValue: value });
-    };
-    const chatButtonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.chat');
-    const mobileHideLogoState = this.state.fullscreen && this.state.hasSearched;
-    const hideZendeskLogo = this.props.hideZendeskLogo || mobileHideLogoState;
-
-    let linkLabel, linkContext;
-
-    if (this.props.updateFrameSize) {
-      setTimeout( () => this.props.updateFrameSize(), 0);
-    }
-
-    if (this.state.buttonLabel === chatButtonLabel) {
-      linkContext = i18n.t('embeddable_framework.helpCenter.label.linkContext.chat');
-      linkLabel = i18n.t('embeddable_framework.helpCenter.label.link.chat');
-    } else {
-      linkContext = i18n.t('embeddable_framework.helpCenter.label.linkContext.submitTicket');
-      linkLabel = i18n.t(
-        `embeddable_framework.helpCenter.submitButton.label.submitTicket.${
-          this.props.buttonLabelKey
-        }`
-      );
-    }
-
-    const zendeskLogo = !hideZendeskLogo
-                      ? <ZendeskLogo rtl={i18n.isRTL()} fullscreen={this.state.fullscreen} />
-                      : null;
-
-    const searchField = (!this.state.virtualKeyboardKiller)
-                      ? <SearchField
-                          ref='searchField'
-                          fullscreen={this.state.fullscreen}
-                          onFocus={onFocusHandler}
-                          onBlur={onBlurHandler}
-                          onChangeValue={onChangeValueHandler}
-                          hasSearched={this.state.hasSearched}
-                          onSearchIconClick={this.manualSearch}
-                          disableAutoSearch={this.props.disableAutoSearch}
-                          isLoading={this.state.isLoading} />
-                      : null;
-
-    // intro search field on DESKTOP
-    const introSearchField = (!this.state.fullscreen && !this.state.hasSearched)
-                           ? searchField
-                           : null;
-
-    // intro search field *button* on MOBILE
-    const searchFieldButton = (this.state.fullscreen && this.state.showIntroScreen)
-                                  ? <SearchFieldButton
-                                      ref='searchFieldButton'
-                                      disableAutoSearch={this.props.disableAutoSearch}
-                                      onClick={this.searchBoxClickHandler}
-                                      onTouch={this.searchBoxClickHandler}
-                                      searchTerm={this.state.searchFieldValue} />
-                                  : null;
-
-    const headerContent = (!this.state.articleViewActive
-                           && (!this.state.fullscreen && this.state.hasSearched
-                               || this.state.fullscreen && !this.state.showIntroScreen))
-                        ? <HelpCenterForm
-                            onSubmit={this.manualSearch}
-                            onChange={this.autoSearch}
-                            children={searchField} />
-                        : null;
-
-    const showViewMore = this.state.showViewMore && this.state.resultsCount > minimumSearchResults;
-
-    const results = this.state.hasSearched || this.state.hasContextualSearched
-                  ? <HelpCenterResults
-                      fullscreen={this.state.fullscreen}
-                      articles={this.state.articles}
-                      showViewMore={showViewMore}
-                      searchFailed={this.state.searchFailed}
-                      previousSearchTerm={this.state.previousSearchTerm}
-                      handleArticleClick={this.handleArticleClick}
-                      handleViewMoreClick={this.handleViewMoreClick}
-                      hasContextualSearched={this.state.hasContextualSearched} />
-                  : null;
+    setTimeout(() => this.props.updateFrameSize(), 0);
 
     return (
       <Container
         style={this.props.style}
-        fullscreen={this.state.fullscreen}>
-        <ScrollContainer
-          ref='scrollContainer'
-          hideZendeskLogo={hideZendeskLogo}
-          title={i18n.t(`embeddable_framework.helpCenter.form.title.${this.props.formTitleKey}`)}
-          headerContent={headerContent}
-          footerContent={
-            <div className={buttonContainerClasses}>
-              <ButtonGroup rtl={i18n.isRTL()}>
-                <Button
-                  fullscreen={this.state.fullscreen}
-                  label={this.state.buttonLabel}
-                  onClick={this.handleNextClick} />
-              </ButtonGroup>
-            </div>
-          }
-          fullscreen={this.state.fullscreen}
-          isVirtualKeyboardOpen={this.state.searchFieldFocused}>
-          <div className={formClasses}>
-            <HelpCenterForm
-              ref='helpCenterForm'
-              onChange={this.autoSearch}
-              onSubmit={this.manualSearch}>
-              <div className={searchTitleClasses}>
-                {i18n.t('embeddable_framework.helpCenter.label.searchHelpCenter')}
-              </div>
-
-              {searchFieldButton || introSearchField}
-
-              <div className={linkClasses}>
-                <p className='u-marginBN'>{linkContext}</p>
-                <a className='u-userTextColor' onClick={this.handleNextClick}>
-                  {linkLabel}
-                </a>
-              </div>
-
-              {results}
-
-            </HelpCenterForm>
-          </div>
-
-          <div className={articleClasses}>
-            <HelpCenterArticle
-              activeArticle={this.state.activeArticle}
-              zendeskHost={this.props.zendeskHost}
-              storedImages={this.state.images}
-              imagesSender={this.props.imagesSender}
-              updateStoredImages={this.updateImages}
-              updateFrameSize={this.props.updateFrameSize}
-              fullscreen={this.state.fullscreen} />
-          </div>
-        </ScrollContainer>
-
-        {zendeskLogo}
+        fullscreen={this.props.fullscreen}>
+        {helpCenter}
       </Container>
     );
   }
@@ -551,6 +446,7 @@ HelpCenter.propTypes = {
   contextualSearchSender: PropTypes.func.isRequired,
   imagesSender: PropTypes.func.isRequired,
   zendeskHost: PropTypes.string.isRequired,
+  fullscreen: PropTypes.bool.isRequired,
   buttonLabelKey: PropTypes.string,
   onSearch: PropTypes.func,
   showBackButton: PropTypes.func,
@@ -570,7 +466,7 @@ HelpCenter.defaultProps = {
   onNextClick: () => {},
   onArticleClick: () => {},
   hideZendeskLogo: false,
-  updateFrameSize: false,
+  updateFrameSize: () => {},
   style: null,
   formTitleKey: 'help',
   disableAutoSearch: false

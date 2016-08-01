@@ -63,6 +63,11 @@ export class SearchField extends Component {
     return this.state.searchInputVal;
   }
 
+  setValue(value) {
+    this.setState({ searchInputVal: value });
+    this.props.onChangeValue(value);
+  }
+
   focus() {
     this.getSearchField().focus();
   }
