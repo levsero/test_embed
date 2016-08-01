@@ -23,7 +23,7 @@ export class HelpCenterMobile extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const searchField = this.refs.searchField;
+    const { searchField } = this.refs;
 
     // We have to do this check in componentDidUpdate so that
     // the searchField is the most recent one and ios focuses
