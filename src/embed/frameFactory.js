@@ -4,7 +4,7 @@ import _ from 'lodash';
 import classNames from 'classnames';
 import snabbt from 'snabbt.js';
 
-import { ButtonNav } from 'component/Button';
+import { ButtonNav } from 'component/button/ButtonNav';
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
 import { settings } from 'service/settings';

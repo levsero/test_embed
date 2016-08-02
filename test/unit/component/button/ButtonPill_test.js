@@ -1,6 +1,6 @@
 describe('ButtonPill component', function() {
   let ButtonPill;
-  const buttonPath = buildSrcPath('component/Button');
+  const buttonPath = buildSrcPath('component/button/ButtonPill');
 
   beforeEach(function() {
     resetDOM();

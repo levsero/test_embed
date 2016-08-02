@@ -1,6 +1,6 @@
 describe('ButtonGroup component', function() {
   let ButtonGroup;
-  const buttonPath = buildSrcPath('component/Button');
+  const buttonPath = buildSrcPath('component/button/ButtonGroup');
 
   beforeEach(function() {
     resetDOM();

@@ -95,7 +95,7 @@ describe('Submit ticket component', function() {
       'component/ZendeskLogo': {
         ZendeskLogo: noopReactComponent()
       },
-      'component/Button': {
+      'component/button/Button': {
         Button: noopReactComponent()
       },
       'component/Container': {

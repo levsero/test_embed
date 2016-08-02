@@ -27,14 +27,16 @@ describe('NpsComment component', () => {
       'component/field/Field': {
         'Field': noopReactComponent()
       },
-      'component/Button': {
+      'component/button/Button': {
         'Button': React.createClass({
           render: () => {
             return (
               <div className='Button'></div>
             );
           }
-        }),
+        })
+      },
+      'component/button/ButtonSecondary': {
         'ButtonSecondary': React.createClass({
           render: () => {
             return (

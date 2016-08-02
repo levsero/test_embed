@@ -16,7 +16,7 @@ import { setScrollKiller,
          setWindowScroll,
          revertWindowScroll } from 'utility/scrollHacks';
 import { i18n } from 'service/i18n';
-import { Button } from 'component/Button';
+import { Button } from 'component/button/Button';
 import { bindMethods } from 'utility/utils';
 
 const initialState = {

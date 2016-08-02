@@ -27,7 +27,7 @@ describe('AttachmentList component', () => {
           }
         })
       },
-      'component/Button': {
+      'component/button/ButtonDropzone': {
         ButtonDropzone: noopReactComponent()
       },
       'service/i18n': {

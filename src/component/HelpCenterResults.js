@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
 
-import { ButtonPill } from 'component/Button';
+import { ButtonPill } from 'component/button/ButtonPill';
 import { i18n } from 'service/i18n';
 
 export class HelpCenterResults extends Component {

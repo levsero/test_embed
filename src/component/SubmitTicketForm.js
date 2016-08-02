@@ -4,9 +4,9 @@ import _ from 'lodash';
 import classNames from 'classnames';
 
 import { AttachmentList } from 'component/AttachmentList';
-import { Button,
-         ButtonSecondary,
-         ButtonGroup } from 'component/Button';
+import { Button } from 'component/button/Button';
+import { ButtonSecondary } from 'component/button/ButtonSecondary';
+import { ButtonGroup } from 'component/button/ButtonGroup';
 import { Field } from 'component/field/Field';
 import { ScrollContainer } from 'component/ScrollContainer';
 import { i18n } from 'service/i18n';

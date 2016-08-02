@@ -50,7 +50,7 @@ describe('frameFactory', function() {
           get: (name) => mockSettingsValue[name]
         }
       },
-      'component/Button': {
+      'component/button/ButtonNav': {
         ButtonNav: noopReactComponent()
       },
       'lodash': _,

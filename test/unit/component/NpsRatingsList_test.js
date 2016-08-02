@@ -26,7 +26,7 @@ describe('NpsRatingsList component', () => {
 
     initMockRegistry({
       'React': React,
-      'component/Button': {
+      'component/button/ButtonRating': {
         'ButtonRating': React.createClass({
           render: () => {
             return (
