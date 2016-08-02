@@ -1,8 +1,8 @@
-describe('ButtonPill component', function() {
+describe('ButtonPill component', () => {
   let ButtonPill;
   const buttonPath = buildSrcPath('component/button/ButtonPill');
 
-  beforeEach(function() {
+  beforeEach(() => {
     resetDOM();
 
     mockery.enable();
@@ -30,20 +30,20 @@ describe('ButtonPill component', function() {
     ButtonPill = requireUncached(buttonPath).ButtonPill;
   });
 
-  afterEach(function() {
+  afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
   });
 
-  describe('ButtonPill', function() {
-    it('should not have is-mobile class when fullscreen is false', function() {
+  describe('ButtonPill', () => {
+    it('should not have is-mobile class when fullscreen is false', () => {
       const button = shallowRender(<ButtonPill />);
 
       expect(button.props.className)
         .not.toMatch('is-mobile');
     });
 
-    it('should have is-mobile class when fullscreen is true', function() {
+    it('should have is-mobile class when fullscreen is true', () => {
       const button = shallowRender(<ButtonPill fullscreen={true} />);
 
       expect(button.props.className)
