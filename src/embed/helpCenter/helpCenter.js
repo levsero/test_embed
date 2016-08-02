@@ -279,8 +279,10 @@ function render(name) {
   helpCenters[name].instance = ReactDOM.render(helpCenters[name].component, element);
 
   mediator.channel.subscribe(name + '.show', function(options = {}) {
-    useMouseDistanceContexualSearch = useMouseDistanceContexualSearch &&
-                                      !options.viaActivate;
+    if (useMouseDistanceContexualSearch && options.viaActivate) {
+      useMouseDistanceContexualSearch = false;
+      mouse.removeListener('mousemove', 'contextual');
+    }
 
     // Stop stupid host page scrolling
     // when trying to focus HelpCenter's search field.
