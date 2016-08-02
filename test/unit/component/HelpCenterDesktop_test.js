@@ -1,7 +1,7 @@
-describe('HelpCenterMobile component', () => {
-  let HelpCenterMobile;
+describe('HelpCenterDesktop component', () => {
+  let HelpCenterDesktop;
 
-  const helpCenterMobilePath = buildSrcPath('component/helpCenter/HelpCenterMobile');
+  const helpCenterDesktopPath = buildSrcPath('component/HelpCenterDesktop');
 
   beforeEach(() => {
     resetDOM();
@@ -24,9 +24,6 @@ describe('HelpCenterMobile component', () => {
             );
           }
         })
-      },
-      'component/button/SearchFieldButton': {
-        SearchFieldButton: noopReactComponent()
       },
       'component/ZendeskLogo': {
         ZendeskLogo: noopReactComponent()
@@ -65,9 +62,9 @@ describe('HelpCenterMobile component', () => {
       }
     });
 
-    mockery.registerAllowable(helpCenterMobilePath);
+    mockery.registerAllowable(helpCenterDesktopPath);
 
-    HelpCenterMobile = requireUncached(helpCenterMobilePath).HelpCenterMobile;
+    HelpCenterDesktop = requireUncached(helpCenterDesktopPath).HelpCenterDesktop;
 
     jasmine.clock().install();
   });
@@ -79,61 +76,26 @@ describe('HelpCenterMobile component', () => {
   });
 
   describe('nextButton', () => {
-    let helpCenterMobile;
+    let helpCenterDesktop;
 
     beforeEach(() => {
-      helpCenterMobile = domRender(<HelpCenterMobile hasSearched={true} />);
-
-      helpCenterMobile.handleSearchBoxClicked();
-
-      jasmine.clock().tick(1);
+      helpCenterDesktop = domRender(<HelpCenterDesktop />);
     });
 
-    it('should hide when searchField is focused', () => {
-      const footerContent = helpCenterMobile.refs.scrollContainer.props.footerContent;
+    it('should not show initially', () => {
+      const footerContent = helpCenterDesktop.refs.scrollContainer.props.footerContent;
 
       expect(footerContent.props.className)
         .toContain('u-isHidden');
     });
 
-    it('should appear when searchField is blurred', () => {
-      helpCenterMobile.handleOnBlur();
+    it('should show after the field is focused', () => {
+      helpCenterDesktop.focusField();
 
-      jasmine.clock().tick(1);
-
-      const footerContent = helpCenterMobile.refs.scrollContainer.props.footerContent;
+      const footerContent = helpCenterDesktop.refs.scrollContainer.props.footerContent;
 
       expect(footerContent.props.className)
-        .not.toContain('u-isHidden');
-    });
-  });
-
-  describe('searchFieldButton', () => {
-    let helpCenterMobile;
-
-    beforeEach(() => {
-      helpCenterMobile = domRender(<HelpCenterMobile />);
-    });
-
-    it('sets `showIntroScreen` state to false when component is clicked', () => {
-      expect(helpCenterMobile.state.showIntroScreen)
-        .toBe(true);
-
-      helpCenterMobile.handleSearchBoxClicked();
-
-      expect(helpCenterMobile.state.showIntroScreen)
-        .toBe(false);
-    });
-
-    it('sets searchFieldFocused state when component is clicked', () => {
-      expect(helpCenterMobile.state.searchFieldFocused)
-        .toEqual(false);
-
-      helpCenterMobile.handleSearchBoxClicked();
-      jasmine.clock().tick(1);
-
-      expect(helpCenterMobile.state.searchFieldFocused)
-        .toEqual(true);
+        .toContain('u-isHidden');
     });
   });
 });

@@ -33,7 +33,7 @@ describe('Submit ticket component', function() {
       return <div />;
     }
   });
-  const submitTicketPath = buildSrcPath('component/submitTicket/SubmitTicket');
+  const submitTicketPath = buildSrcPath('component/SubmitTicket');
 
   beforeEach(function() {
     resetDOM();
@@ -73,7 +73,7 @@ describe('Submit ticket component', function() {
           return mockIsMobileBrowserValue;
         }
       },
-      'component/submitTicket/SubmitTicketForm': {
+      'component/SubmitTicketForm': {
         SubmitTicketForm: React.createClass({
           getInitialState: function() {
             return {
@@ -112,7 +112,7 @@ describe('Submit ticket component', function() {
           }
         })
       },
-      'component/attachment/AttachmentBox': {
+      'component/AttachmentBox': {
         AttachmentBox: React.createClass({
           render: function() {
             return <div className='attachment_box' />;

@@ -12,7 +12,7 @@ describe('npsPreview entry file', function() {
         frameFactory: require(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
         frameMethods: require(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
       },
-      'component/nps/Nps': {
+      'component/Nps': {
         Nps: React.createClass({
           getInitialState() {
             return {

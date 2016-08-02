@@ -3,7 +3,7 @@ describe('HelpCenterArticle component', function() {
     scrollIntoView,
     mockArticle,
     mockOauthToken;
-  const helpCenterArticlePath = buildSrcPath('component/helpCenter/HelpCenterArticle');
+  const helpCenterArticlePath = buildSrcPath('component/HelpCenterArticle');
 
   beforeEach(function() {
     scrollIntoView = jasmine.createSpy();

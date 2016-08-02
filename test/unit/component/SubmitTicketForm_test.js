@@ -5,7 +5,7 @@ describe('SubmitTicketForm component', function() {
     mockRegistry,
     mockAttachmentsReadyValue,
     scrollToBottomSpy;
-  const submitTicketFormPath = buildSrcPath('component/submitTicket/SubmitTicketForm');
+  const submitTicketFormPath = buildSrcPath('component/SubmitTicketForm');
   const buttonPath = buildSrcPath('component/button/Button');
   const formParams = {
     'name': 'jabbathehutt',
@@ -75,7 +75,7 @@ describe('SubmitTicketForm component', function() {
           }
         })
       },
-      'component/attachment/AttachmentList': {
+      'component/AttachmentList': {
         AttachmentList: React.createClass({
           attachmentsReady: () => mockAttachmentsReadyValue,
           render: function() {

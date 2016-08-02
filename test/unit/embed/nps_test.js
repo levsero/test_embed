@@ -21,7 +21,7 @@ describe('embed.nps', () => {
         frameFactory: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
         frameMethods: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
       },
-      'component/nps/Nps': {
+      'component/Nps': {
         Nps: React.createClass({
           getInitialState() {
             return {

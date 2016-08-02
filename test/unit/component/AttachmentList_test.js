@@ -4,7 +4,7 @@ describe('AttachmentList component', () => {
     mockUpdateForm,
     mockAttachmentSender,
     mockHandleAttachmentsError;
-  const attachmentListPath = buildSrcPath('component/attachment/AttachmentList');
+  const attachmentListPath = buildSrcPath('component/AttachmentList');
   const maxFileCount = 5;
   const maxFileSize = 5 * 1024 * 1024;
 
@@ -15,7 +15,7 @@ describe('AttachmentList component', () => {
 
     initMockRegistry({
       'React': React,
-      'component/attachment/Attachment': {
+      'component/Attachment': {
         Attachment: React.createClass({
           render: function() {
             return (

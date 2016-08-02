@@ -9,7 +9,7 @@ describe('NpsMobile component', () => {
     mockSubmitCommentHandler,
     mockOnCommentChangeHandler;
 
-  const npsPath = buildSrcPath('component/nps/NpsMobile');
+  const npsPath = buildSrcPath('component/NpsMobile');
 
   beforeEach(() => {
     npsProps = {
@@ -52,7 +52,7 @@ describe('NpsMobile component', () => {
           }
         })
       },
-      'component/nps/NpsComment': {
+      'component/NpsComment': {
         NpsComment:  React.createClass({
           render: function() {
             return (
@@ -63,7 +63,7 @@ describe('NpsMobile component', () => {
           }
         })
       },
-      'component/nps/NpsRatingsList': {
+      'component/NpsRatingsList': {
         NpsRatingsList: React.createClass({
           render: () => {
             return (
@@ -90,7 +90,7 @@ describe('NpsMobile component', () => {
           }
         })
       },
-      'component/nps/NpsSelectList': {
+      'component/NpsSelectList': {
         'NpsSelectList': React.createClass({
           render: () => {
             return (
@@ -99,7 +99,7 @@ describe('NpsMobile component', () => {
           }
         })
       },
-      'component/nps/NpsCommentButton': {
+      'component/NpsCommentButton': {
         'NpsCommentButton': React.createClass({
           render: () => {
             return (

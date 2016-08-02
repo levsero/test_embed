@@ -3,7 +3,7 @@ describe('NpsComment component', () => {
     mockRegistry,
     npsCommentProps;
 
-  const npsPath = buildSrcPath('component/nps/NpsComment');
+  const npsPath = buildSrcPath('component/NpsComment');
 
   beforeEach(() => {
     npsCommentProps = {

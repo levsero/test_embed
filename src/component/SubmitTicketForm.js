@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import _ from 'lodash';
 import classNames from 'classnames';
 
-import { AttachmentList } from 'component/attachment/AttachmentList';
+import { AttachmentList } from 'component/AttachmentList';
 import { Button } from 'component/button/Button';
 import { ButtonSecondary } from 'component/button/ButtonSecondary';
 import { ButtonGroup } from 'component/button/ButtonGroup';

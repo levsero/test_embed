@@ -1,7 +1,7 @@
 describe('Ipm component', function() {
   let Ipm;
   let loggingErrorSpy;
-  const ipmPath = buildSrcPath('component/ipm/Ipm');
+  const ipmPath = buildSrcPath('component/Ipm');
 
   beforeEach(function() {
     resetDOM();
@@ -27,7 +27,7 @@ describe('Ipm component', function() {
       'service/logging': {
         logging: { error: loggingErrorSpy }
       },
-      'component/ipm/IpmDesktop': {
+      'component/IpmDesktop': {
         IpmDesktop: React.createClass({
           render() {
             return (

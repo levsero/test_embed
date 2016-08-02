@@ -3,7 +3,7 @@ describe('HelpCenterResults component', () => {
     component,
     mockRegistry;
 
-  const helpCenterResultsPath = buildSrcPath('component/helpCenter/HelpCenterResults');
+  const helpCenterResultsPath = buildSrcPath('component/HelpCenterResults');
   const articles = [
     { 'html_url': 'http://www.example.com', title: 'Test article one', name: 'Test article 1' },
     { 'html_url': 'http://www.example.com', title: 'Test article two', name: 'Test article 2' }

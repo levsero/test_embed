@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
-import { HelpCenter } from 'component/helpCenter/HelpCenter';
+import { HelpCenter } from 'component/HelpCenter';
 import { frameFactory } from 'embed/frameFactory';
 import { authentication } from 'service/authentication';
 import { beacon } from 'service/beacon';

@@ -7,7 +7,7 @@ describe('Attachment component', function() {
     mockUploadRequestSender,
     mockUploadAbort,
     mocki18nTranslate;
-  const attachmentPath = buildSrcPath('component/attachment/Attachment');
+  const attachmentPath = buildSrcPath('component/Attachment');
 
   beforeEach(function() {
     resetDOM();
