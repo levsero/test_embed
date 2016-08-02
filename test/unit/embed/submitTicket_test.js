@@ -28,7 +28,7 @@ describe('embed.submitTicket', function() {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
         }
       },
-      'component/SubmitTicketForm': {
+      'component/submitTicket/SubmitTicketForm': {
         SubmitTicketForm: React.createClass({
           resetTicketFormVisibility: resetTicketFormVisibility,
           hideVirtualKeyboard: hideVirtualKeyboard,
@@ -40,7 +40,7 @@ describe('embed.submitTicket', function() {
           }
         })
       },
-      'component/SubmitTicket': {
+      'component/submitTicket/SubmitTicket': {
         SubmitTicket: React.createClass({
           getInitialState: function() {
             return {
@@ -54,7 +54,7 @@ describe('embed.submitTicket', function() {
           clearNotification: jasmine.createSpy('clearNotification'),
 
           render: function() {
-            const SubmitTicketForm = mockRegistry['component/SubmitTicketForm'].SubmitTicketForm;
+            const SubmitTicketForm = mockRegistry['component/submitTicket/SubmitTicketForm'].SubmitTicketForm;
 
             return (
               <div className='mock-submitTicket'>

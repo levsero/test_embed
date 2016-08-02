@@ -300,7 +300,7 @@ When importing modules, make sure that they are imported in alphabetical order b
 
 ```javascript
 import { Container } from 'component/Container';
-import { HelpCenterArticle } from 'component/HelpCenterArticle';
+import { HelpCenterArticle } from 'component/helpCenter/HelpCenterArticle';
 import { i18n } from 'service/i18n';
 import { isMobileBrowser } from 'utility/devices';
 

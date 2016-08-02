@@ -4,7 +4,7 @@ describe('NpsRatingsList component', () => {
     component,
     npsRatingsListProps;
 
-  const npsPath = buildSrcPath('component/NpsRatingsList');
+  const npsPath = buildSrcPath('component/nps/NpsRatingsList');
 
   beforeEach(() => {
     ratingsRange = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
