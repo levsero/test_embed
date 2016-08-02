@@ -192,7 +192,7 @@ function parseUrl(url) {
  */
 function splitPath(path) {
   return decodeURIComponent(path)
-          .replace(/\#/g, ' ')
+          .replace(/\#|\:/g, ' ') // Strip out '#' and ':' characters.
           .replace(/\.[^.]{1,4}$/, '')
           .replace(/[\/\.\|_\-]/g, ' ');
 }
@@ -239,7 +239,9 @@ function getFrameworkLoadTime() {
 function getPageKeywords() {
   // If the hostpage has a URL pathname containing a hash (e.g http://foo.com/#/path),
   // location.pathname will break and only return '/', so we need to append location.hash.
-  return splitPath(location.pathname + location.hash).replace(/\s+/g, ' ').trim();
+  return splitPath(location.pathname + location.hash)
+         .replace(/\s+/g, ' ')
+         .trim();
 }
 
 function getPageTitle() {

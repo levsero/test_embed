@@ -182,6 +182,16 @@ describe('utils', function() {
       expect(splitPath('!/thi𝌆$/is/tchüss1@-_path.html'))
         .toEqual('! thi𝌆$ is tchüss1@  path');
     });
+
+    describe(`when there are ':' or '#' characters in the path`, () => {
+      it('should strip them out and replace them with spaces', () => {
+        expect(splitPath('/this:5/is/#a-2-path.html'))
+          .toEqual(' this 5 is  a 2 path');
+
+        expect(splitPath('/this/#/is/a|2|path:.html'))
+          .toEqual(' this   is a 2 path ');
+      });
+    });
   });
 
   describe('getPageKeywords()', function() {
@@ -189,6 +199,7 @@ describe('utils', function() {
 
     beforeEach(function() {
       location = mockGlobals.location;
+      location.hash = '';
     });
 
     it('should return the pathname in the form of space seperated keywords', function() {
@@ -197,26 +208,35 @@ describe('utils', function() {
     });
 
     it('should still return valid keywords with weird `#` urls', function() {
-      location.href = 'http://foo.com/#/anthony/#/is/#/awesome';
       location.pathname = '/';
       location.hash = '#/anthony/#/is/#/awesome';
 
       expect(getPageKeywords())
         .toEqual('anthony is awesome');
 
-      location.href = 'http://foo.com/fat/#/cats';
       location.pathname = '/fat/';
       location.hash = '#/cats';
 
       expect(getPageKeywords())
         .toEqual('fat cats');
 
-      location.href = 'http://foo.com/fred#bar';
       location.pathname = '/fred/';
       location.hash = '#bar';
 
       expect(getPageKeywords())
         .toEqual('fred bar');
+    });
+
+    it(`should return valid keywords with ':' characters in the url`, () => {
+      location.pathname = '/buy/page:5/hardcover:false';
+
+      expect(getPageKeywords())
+        .toEqual('buy page 5 hardcover false');
+
+      location.pathname = '/:buy:/:page::5/hardcover:false:';
+
+      expect(getPageKeywords())
+        .toEqual('buy page 5 hardcover false');
     });
   });
 
