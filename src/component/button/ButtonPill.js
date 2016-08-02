@@ -1,10 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
-import Dropzone from 'react-dropzone';
 
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
-import { LoadingSpinner } from 'component/Loading';
 
 export class ButtonPill extends Component {
   render() {

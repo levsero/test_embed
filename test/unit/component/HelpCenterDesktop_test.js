@@ -43,7 +43,7 @@ describe('HelpCenterDesktop component', () => {
         })
       },
       'component/button/Button': {
-        Button: noopReactComponent(),
+        Button: noopReactComponent()
       },
       'component/button/ButtonGroup': {
         ButtonGroup: noopReactComponent()

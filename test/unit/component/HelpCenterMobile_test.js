@@ -46,7 +46,7 @@ describe('HelpCenterMobile component', () => {
         })
       },
       'component/button/Button': {
-        Button: noopReactComponent(),
+        Button: noopReactComponent()
       },
       'component/button/ButtonGroup': {
         ButtonGroup: noopReactComponent()

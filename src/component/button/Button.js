@@ -1,10 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
-import { Icon } from 'component/Icon';
-import { i18n } from 'service/i18n';
-import { LoadingSpinner } from 'component/Loading';
-
 export class Button extends Component {
   render() {
     const buttonClasses = classNames({

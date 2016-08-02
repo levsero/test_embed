@@ -1,8 +1,8 @@
-describe('ButtonSecondary', function() {
+describe('ButtonSecondary', () => {
   let ButtonSecondary;
   const buttonSecondaryPath = buildSrcPath('component/button/ButtonSecondary');
 
-  beforeEach(function() {
+  beforeEach(() => {
     resetDOM();
 
     mockery.enable();
@@ -26,12 +26,12 @@ describe('ButtonSecondary', function() {
     ButtonSecondary = requireUncached(buttonSecondaryPath).ButtonSecondary;
   });
 
-  afterEach(function() {
+  afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
   });
 
-  it('should apply className prop to the underlying element', function() {
+  it('should apply className prop to the underlying element', () => {
     const button = shallowRender(<ButtonSecondary className='testClass classTest' />);
 
     expect(button.props.className)
@@ -41,7 +41,7 @@ describe('ButtonSecondary', function() {
       .toMatch('classTest');
   });
 
-  it('should apply style prop to the underlying element', function() {
+  it('should apply style prop to the underlying element', () => {
     const button = shallowRender(<ButtonSecondary style={{ testStyle: 'success' }} />);
 
     expect(button.props.style.testStyle)

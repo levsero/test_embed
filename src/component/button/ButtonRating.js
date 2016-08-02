@@ -53,5 +53,3 @@ ButtonRating.defaultProps = {
   disabled: false,
   onClick: () => {}
 };
-
-
