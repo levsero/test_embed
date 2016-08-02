@@ -207,31 +207,41 @@ describe('embed.chat', () => {
       });
 
       describe('zopim.livechat.onStatus', () => {
-        it('onStatus(online) should broadcast <name>.onOnline when agent is online', () => {
+        beforeEach(() => {
           chat.get(chatName).connected = true;
-
-          onStatusCall.args[0]('online');
-
-          expect(mockMediator.channel.broadcast)
-            .toHaveBeenCalledWith('dave.onOnline');
         });
 
-        it('onStatus(online) should broadcast <name>.onOnline when agent is away', () => {
-          chat.get(chatName).connected = true;
+        describe('when agent is online', () => {
+          beforeEach(() => {
+            onStatusCall.args[0]('online');
+          });
 
-          onStatusCall.args[0]('away');
-
-          expect(mockMediator.channel.broadcast)
-            .toHaveBeenCalledWith('dave.onOnline');
+          it('should broadcast <name>.onOnline', () => {
+            expect(mockMediator.channel.broadcast)
+              .toHaveBeenCalledWith('dave.onOnline');
+          });
         });
 
-        it('onStatus(offline) should broadcast <name>.onOffline when agent is offline', () => {
-          chat.get(chatName).connected = true;
+        describe('when agent is away', () => {
+          beforeEach(() => {
+            onStatusCall.args[0]('away');
+          });
 
-          onStatusCall.args[0]('offline');
+          it('should broadcast <name>.onOnline', () => {
+            expect(mockMediator.channel.broadcast)
+              .toHaveBeenCalledWith('dave.onOnline');
+          });
+        });
 
-          expect(mockMediator.channel.broadcast)
-            .toHaveBeenCalledWith('dave.onOffline');
+        describe('when agent is offline', () => {
+          beforeEach(() => {
+            onStatusCall.args[0]('offline');
+          });
+
+          it('should broadcast <name>.onOffline', () => {
+            expect(mockMediator.channel.broadcast)
+              .toHaveBeenCalledWith('dave.onOffline');
+          });
         });
       });
 
