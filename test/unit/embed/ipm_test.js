@@ -21,7 +21,7 @@ describe('embed.ipm', () => {
         frameFactory: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
         frameMethods: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
       },
-      'component/Ipm': {
+      'component/ipm/Ipm': {
         Ipm: React.createClass({
           getInitialState() {
             return {

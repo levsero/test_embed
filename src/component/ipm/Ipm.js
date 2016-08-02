@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-import { IpmDesktop } from 'component/IpmDesktop';
+import { IpmDesktop } from 'component/ipm/IpmDesktop';
 import { i18n } from 'service/i18n';
 import { identity } from 'service/identity';
 import { logging } from 'service/logging';

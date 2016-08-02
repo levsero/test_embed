@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import _     from 'lodash';
 
-import { Ipm } from 'component/Ipm';
+import { Ipm } from 'component/ipm/Ipm';
 import { frameFactory } from 'embed/frameFactory';
 import { mediator } from 'service/mediator';
 import { transitionFactory } from 'service/transitionFactory';

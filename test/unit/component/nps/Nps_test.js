@@ -1,6 +1,6 @@
 describe('Nps component', function() {
   let Nps;
-  const npsPath = buildSrcPath('component/Nps');
+  const npsPath = buildSrcPath('component/nps/Nps');
 
   beforeEach(function() {
     resetDOM();
@@ -10,7 +10,7 @@ describe('Nps component', function() {
     initMockRegistry({
       'React': React,
       'lodash': _,
-      'component/NpsDesktop': {
+      'component/nps/NpsDesktop': {
         NpsDesktop: React.createClass({
           render() {
             return (
@@ -19,7 +19,7 @@ describe('Nps component', function() {
           }
         })
       },
-      'component/NpsMobile': {
+      'component/nps/NpsMobile': {
         NpsMobile: React.createClass({
           render() {
             return (

@@ -6,7 +6,7 @@ describe('HelpCenter component', function() {
     updateResults,
     manualSearch;
 
-  const helpCenterPath = buildSrcPath('component/HelpCenter');
+  const helpCenterPath = buildSrcPath('component/helpCenter/HelpCenter');
   const SearchField = React.createClass({
     blur: jasmine.createSpy(),
     getValue: function() {
@@ -30,21 +30,21 @@ describe('HelpCenter component', function() {
 
     mockRegistry = initMockRegistry({
       'React': React,
-      'component/HelpCenterArticle': {
+      'component/helpCenter/HelpCenterArticle': {
         HelpCenterArticle: React.createClass({
           render: function() {
             return <div className='UserContent' />;
           }
         })
       },
-      'component/HelpCenterResults': {
+      'component/helpCenter/HelpCenterResults': {
         HelpCenterResults: React.createClass({
           render: function() {
             return <div className='HelpCenterResults' />;
           }
         })
       },
-      'component/HelpCenterDesktop': {
+      'component/helpCenter/HelpCenterDesktop': {
         HelpCenterDesktop: React.createClass({
           focusField: noop,
           render: function() {
@@ -57,7 +57,7 @@ describe('HelpCenter component', function() {
           }
         })
       },
-      'component/HelpCenterMobile': {
+      'component/helpCenter/HelpCenterMobile': {
         HelpCenterMobile: React.createClass({
           hasContextualSearched: noop,
           render: function() {

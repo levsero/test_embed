@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
 import { frameFactory } from 'embed/frameFactory';
-import { Nps } from 'component/Nps';
+import { Nps } from 'component/nps/Nps';
 
 // unregister lodash from window._
 if (!__DEV__) {

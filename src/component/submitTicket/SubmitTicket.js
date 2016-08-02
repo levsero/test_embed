@@ -2,11 +2,11 @@ import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
 
-import { AttachmentBox } from 'component/AttachmentBox';
+import { AttachmentBox } from 'component/attachment/AttachmentBox';
 import { Container } from 'component/Container';
 import { Icon } from 'component/Icon';
 import { ScrollContainer } from 'component/ScrollContainer';
-import { SubmitTicketForm } from 'component/SubmitTicketForm';
+import { SubmitTicketForm } from 'component/submitTicket/SubmitTicketForm';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { i18n } from 'service/i18n';
 import { settings } from 'service/settings';

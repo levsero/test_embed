@@ -4,7 +4,7 @@ describe('IpmDesktop component', function() {
     component,
     closeFrameSpy;
 
-  const ipmPath = buildSrcPath('component/IpmDesktop');
+  const ipmPath = buildSrcPath('component/ipm/IpmDesktop');
 
   beforeEach(function() {
     ipmProps = {
