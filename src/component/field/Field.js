@@ -6,60 +6,10 @@ import classNames from 'classnames';
 import { isMobileBrowser,
          isLandscape,
          isIos } from 'utility/devices';
-import { i18n } from 'service/i18n';
 import { Icon } from 'component/Icon';
 import { bindMethods } from 'utility/utils';
 
-const geti18nContent = function(field) {
-  const title = _.find(field.variants, function(variant) {
-    return variant.localeId === i18n.getLocaleId();
-  });
-
-  return title ? title.content : field.title;
-};
-const getCustomFields = function(customFields, formState) {
-  const isCheckbox = (field) => field.props.type === 'checkbox';
-  const fields = _.map(customFields, function(field) {
-    const sharedProps = {
-      name: field.id,
-      value: formState[field.id],
-      required: field.required,
-      placeholder: field.title,
-      key: field.title
-    };
-
-    if (field.variants) {
-      sharedProps.placeholder = geti18nContent(field);
-    }
-
-    switch (field.type) {
-    case 'text':
-      return <Field {...sharedProps} />;
-    case 'tagger':
-      _.forEach(field.options, function(option) {
-        if (option.variants) {
-          option.title = geti18nContent(option);
-        }
-      });
-      return <SelectField {...sharedProps} options={field.options} />;
-    case 'integer':
-      return <Field {...sharedProps} pattern='\d+' type='number' />;
-    case 'decimal':
-      return <Field {...sharedProps} pattern='\d*([.,]\d+)?' type='number' step='any' />;
-    case 'textarea':
-      return <Field {...sharedProps} input={<textarea rows='5' />} />;
-    case 'checkbox':
-      return <Field {...sharedProps} label={field.title} type='checkbox' />;
-    }
-  });
-
-  return {
-    fields: _.reject(fields, isCheckbox),
-    checkboxes: _.filter(fields, isCheckbox)
-  };
-};
-
-class Field extends Component {
+export class Field extends Component {
   constructor(props, context) {
     super(props, context);
     bindMethods(this, Field.prototype);
@@ -218,7 +168,7 @@ Field.propTypes = {
   ]),
   input: PropTypes.element,
   required: PropTypes.bool,
-  label: function(props, propName, componentName) {
+  label: (props, propName, componentName) => {
     if (props.type === 'checkbox' && !props[propName]) {
       return new Error(`${componentName} must have a label prop if type is set to "checkbox"`);
     }
@@ -247,70 +197,3 @@ Field.defaultProps = {
   onChange: () => {},
   step: ''
 };
-
-class SelectField extends Component {
-  formatOptions() {
-    const props = this.props;
-    const options = [
-      <option value='' key='' disabled={props.required}>-</option>
-    ];
-
-    const optionGroups = _.groupBy(props.options, function(option) {
-      return (option.title.indexOf('::') !== -1)
-           ? option.title.split('::')[0]
-           : '';
-    });
-
-    _.forEach(optionGroups, function(group, key) {
-      let nestedOptions;
-
-      // if not a nested field
-      if (_.isEmpty(key)) {
-        _.forEach(group, function(option) {
-          options.push(
-            <option value={option.value} key={option.title}>{option.title}</option>
-          );
-        });
-      } else {
-        nestedOptions = _.map(group, function(nestedOption) {
-          const title = nestedOption.title.split('::')[1];
-
-          return <option value={nestedOption.value} key={title}>{title}</option>;
-        });
-
-        options.push(
-          <optgroup label={key} key={key}>
-            {nestedOptions}
-          </optgroup>
-        );
-      }
-    });
-
-    return options;
-  }
-
-  render() {
-    return (
-      <Field
-        {...this.props}
-        input={<select>{this.formatOptions()}</select>} />
-    );
-  }
-}
-
-SelectField.propTypes = {
-  name: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ]).isRequired,
-  options: PropTypes.array.isRequired,
-  onFocus: PropTypes.func,
-  onBlur: PropTypes.func
-};
-
-SelectField.defaultProps = {
-  onFocus: () => {},
-  onBlur: () => {}
-};
-
-export { Field, getCustomFields };

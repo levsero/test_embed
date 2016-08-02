@@ -1,11 +1,10 @@
-describe('FormField component', function() {
+describe('Field component', () => {
   let Field,
-    getCustomFields,
     mockIsLandscapeValue,
     mockIsMobileBrowserValue;
-  const formFieldPath = buildSrcPath('component/FormField');
+  const fieldPath = buildSrcPath('component/field/Field');
 
-  beforeEach(function() {
+  beforeEach(() => {
     resetDOM();
 
     mockery.enable({
@@ -52,19 +51,18 @@ describe('FormField component', function() {
       }
     });
 
-    mockery.registerAllowable(formFieldPath);
+    mockery.registerAllowable(fieldPath);
 
-    Field = requireUncached(formFieldPath).Field;
-    getCustomFields = requireUncached(formFieldPath).getCustomFields;
+    Field = requireUncached(fieldPath).Field;
   });
 
-  afterEach(function() {
+  afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
   });
 
-  describe('Field', function() {
-    it('should render form field DOM with a label wrapping two child divs', function() {
+  describe('Field', () => {
+    it('should render field DOM with a label wrapping two child divs', () => {
       const field = domRender(<Field name='alice' />);
       const fieldNode = ReactDOM.findDOMNode(field);
 
@@ -81,7 +79,7 @@ describe('FormField component', function() {
         .toEqual('DIV');
     });
 
-    it('should pass along all props to underlying input', function() {
+    it('should pass along all props to underlying input', () => {
       const field = domRender(<Field type='email' name='alice' />);
       const fieldNode = ReactDOM.findDOMNode(field);
 
@@ -92,7 +90,7 @@ describe('FormField component', function() {
         .toEqual('email');
     });
 
-    it('should render input prop component instead of default input', function() {
+    it('should render input prop component instead of default input', () => {
       const field = domRender(<Field input={<textarea />} name='alice' />);
       const fieldNode = ReactDOM.findDOMNode(field);
 
@@ -106,7 +104,7 @@ describe('FormField component', function() {
         .toEqual('alice');
     });
 
-    it('should render checkbox with label instead of default input', function() {
+    it('should render checkbox with label instead of default input', () => {
       const field = domRender(<Field label='Agree?' type='checkbox' name='alice' />);
       const fieldNode = ReactDOM.findDOMNode(field);
 
@@ -117,7 +115,7 @@ describe('FormField component', function() {
         .toBeTruthy();
     });
 
-    it('should set focused state on field focus', function() {
+    it('should set focused state on field focus', () => {
       const field = domRender(<Field name='alice' />);
 
       expect(field.state.focused)
@@ -132,7 +130,7 @@ describe('FormField component', function() {
         .toBeTruthy();
     });
 
-    it('should only set invalid class after focus and blur events', function() {
+    it('should only set invalid class after focus and blur events', () => {
       const field = domRender(<Field name='alice' />);
       const fieldNode = ReactDOM.findDOMNode(field);
 
@@ -165,8 +163,8 @@ describe('FormField component', function() {
     });
   });
 
-  describe('mobile', function() {
-    it('should have default mobile classes when isMobileBrowser is true', function() {
+  describe('mobile', () => {
+    it('should have default mobile classes when isMobileBrowser is true', () => {
       mockIsMobileBrowserValue = true;
 
       const field = domRender(<Field />);
@@ -178,7 +176,7 @@ describe('FormField component', function() {
         .toThrow();
     });
 
-    it('should have extra landscape classes when isLandscape is true', function() {
+    it('should have extra landscape classes when isLandscape is true', () => {
       mockIsMobileBrowserValue = true;
       mockIsLandscapeValue = true;
 
@@ -191,130 +189,11 @@ describe('FormField component', function() {
         .toThrow();
     });
 
-    it('should not have mobile classes when isMobileBrowser is false', function() {
+    it('should not have mobile classes when isMobileBrowser is false', () => {
       const field = domRender(<Field />);
 
       expect(() => TestUtils.findRenderedDOMComponentWithClass(field, 'u-textSize15'))
         .toThrow();
-    });
-  });
-
-  describe('getCustomFields', function() {
-    it('should convert custom field payload into array of React components', function() {
-      const payload = [
-        {
-          id: '22660514',
-          type: 'text',
-          title: 'Text',
-          required: true,
-          variants: [
-            {
-              localeId: 1,
-              content: 'Option 1'
-            },
-            {
-              localeId: 16,
-              content: 'FrenchField'
-            }
-          ]
-        },
-        {
-          id: 10006,
-          type: 'tagger',
-          title: 'Nested Drop Down',
-          required: false,
-          options: [
-            {
-              title: 'Option1::Part1',
-              value: 'option1__part1'
-            },
-            {
-              title: 'Option2::Part2',
-              value: 'option2__part2'
-            },
-            {
-              title: 'Option1::Part2',
-              value: 'option1__part2'
-            }
-          ]
-        },
-        {
-          id: '22666574',
-          type: 'tagger',
-          title: 'Department',
-          variants: [
-            {
-              localeId: 1,
-              content: 'Drop Down English'
-            },
-            {
-              localeId: 16,
-              content: 'Drop Down français'
-            }
-          ],
-          options: [
-            {
-              title: 'Sales',
-              value: 1,
-              variants: [
-                {
-                  localeId: 1,
-                  content: 'English'
-                },
-                {
-                  localeId: 16,
-                  content: 'French'
-                }
-              ]
-            },
-            {
-              title: 'Support',
-              value: 2
-            }
-          ],
-          required: true
-        },
-        {
-          id: '22660524',
-          type: 'textarea',
-          title: 'Order Details',
-          required: true
-        },
-        {
-          id: '22823250',
-          type: 'integer',
-          title: 'Age',
-          required: true
-        },
-        {
-          id: '22823260',
-          type: 'decimal',
-          title: 'Total Cost',
-          required: true
-        },
-        {
-          id: '22823270',
-          type: 'checkbox',
-          title: 'Can we call you?',
-          required: false
-        }
-      ];
-      const customFields = getCustomFields(payload, {});
-
-      expect(Object.keys(customFields))
-        .toEqual(['fields', 'checkboxes']);
-
-      _.chain(_.union(customFields.fields, customFields.checkboxes))
-        .forEach(function(customField) {
-          expect(React.isValidElement(customField))
-            .toBeTruthy();
-        });
-
-      expect(customFields.checkboxes.length)
-        .toEqual(1);
-
-      expect(customFields.fields.length)
-        .toEqual(6);
     });
   });
 });
