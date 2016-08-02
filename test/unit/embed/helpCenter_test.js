@@ -859,25 +859,44 @@ describe('embed.helpCenter', function() {
         });
 
         describe('when zE.activate API function has been used', () => {
+          let mockMediator;
+
           beforeEach(() => {
-            const mockMediator = mockRegistry['service/mediator'].mediator;
-
+            mockMediator = mockRegistry['service/mediator'].mediator;
             helpCenter.render('carlos');
-
-            spyOn(helpCenter, 'keywordsSearch');
-            pluckSubscribeCall(mockMediator, 'carlos.show')({ viaActivate: true });
-
-            helpCenter.postRender('carlos');
           });
 
-          it('should\'t add a listener to the mousemove event', () => {
-            expect(addListenerSpy)
-              .not.toHaveBeenCalled();
+          describe('before post render', () => {
+            beforeEach(() => {
+              spyOn(helpCenter, 'keywordsSearch');
+              pluckSubscribeCall(mockMediator, 'carlos.show')({ viaActivate: true });
+              helpCenter.postRender('carlos');
+            });
+
+            it('should\'t add a listener to the mousemove event', () => {
+              expect(addListenerSpy)
+                .not.toHaveBeenCalled();
+            });
+
+            it('should call keywordsSearch', () => {
+              expect(helpCenter.keywordsSearch)
+                .toHaveBeenCalledWith('carlos', { url: true });
+            });
           });
 
-          it('should call keywordsSearch', () => {
-            expect(helpCenter.keywordsSearch)
-              .toHaveBeenCalledWith('carlos', { url: true });
+          describe('after post render', () => {
+            let removeListenerSpy;
+
+            beforeEach(() => {
+              removeListenerSpy = mockRegistry['utility/mouse'].mouse.removeListener;
+              helpCenter.postRender('carlos');
+              pluckSubscribeCall(mockMediator, 'carlos.show')({ viaActivate: true });
+            });
+
+            it('should remove the mousemove listener', () => {
+              expect(removeListenerSpy)
+                .toHaveBeenCalledWith('mousemove', 'contextual');
+            });
           });
         });
 
