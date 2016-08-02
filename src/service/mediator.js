@@ -104,23 +104,19 @@ function init(helpCenterAccessible, params = {}) {
     c.broadcast(`${launcher}.hide`);
   });
 
-  c.intercept(
-    ['.show',
-    `${chat}.onError`].join(','),
-    () => {
-      state[`${submitTicket}.isVisible`] = false;
-      state[`${chat}.isVisible`]         = false;
-      state[`${helpCenter}.isVisible`]   = false;
-      state['.hasHidden']                = false;
+  c.intercept(`.show, ${chat}.onError`, () => {
+    state[`${submitTicket}.isVisible`] = false;
+    state[`${chat}.isVisible`]         = false;
+    state[`${helpCenter}.isVisible`]   = false;
+    state['.hasHidden']                = false;
 
-      resetActiveEmbed();
+    resetActiveEmbed();
 
-      c.broadcast(`${submitTicket}.hide`);
-      c.broadcast(`${chat}.hide`);
-      c.broadcast(`${helpCenter}.hide`);
-      c.broadcast(`${launcher}.show`);
-    }
-  );
+    c.broadcast(`${submitTicket}.hide`);
+    c.broadcast(`${chat}.hide`);
+    c.broadcast(`${helpCenter}.hide`);
+    c.broadcast(`${launcher}.show`);
+  });
 
   c.intercept('.activate', (__, options = {}) => {
     if (!state[`${submitTicket}.isVisible`] &&
