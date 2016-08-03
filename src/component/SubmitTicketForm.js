@@ -7,10 +7,10 @@ import { AttachmentList } from 'component/AttachmentList';
 import { Button,
          ButtonSecondary,
          ButtonGroup } from 'component/Button';
-import { Field,
-         getCustomFields } from 'component/FormField';
+import { Field } from 'component/field/Field';
 import { ScrollContainer } from 'component/ScrollContainer';
 import { i18n } from 'service/i18n';
+import { getCustomFields } from 'utility/fields';
 import { bindMethods } from 'utility/utils';
 
 const initialState = {

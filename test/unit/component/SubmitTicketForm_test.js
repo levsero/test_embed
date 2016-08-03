@@ -51,13 +51,8 @@ describe('SubmitTicketForm component', function() {
         }),
         ButtonDropzone: noopReactComponent()
       },
-      'component/FormField': {
-        Field: noopReactComponent(),
-        getCustomFields: function() {
-          return {
-            fields: []
-          };
-        }
+      'component/field/Field': {
+        Field: noopReactComponent()
       },
       'component/ScrollContainer': {
         ScrollContainer: React.createClass({
@@ -88,6 +83,13 @@ describe('SubmitTicketForm component', function() {
           setLocale: noop,
           isRTL: noop,
           t: _.identity
+        }
+      },
+      'utility/fields': {
+        getCustomFields: function() {
+          return {
+            fields: []
+          };
         }
       },
       'utility/utils': {

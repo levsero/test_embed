@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 
-import { Field } from 'component/FormField';
+import { Field } from 'component/field/Field';
 import { Button,
          ButtonSecondary } from 'component/Button';
 import { LoadingSpinner } from 'component/Loading';
