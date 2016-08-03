@@ -73,7 +73,7 @@ ScrollContainer.propTypes = {
   children: PropTypes.node.isRequired,
   footerContent: PropTypes.oneOfType([
     PropTypes.element,
-    PropTypes.array(PropTypes.element)
+    PropTypes.arrayOf(PropTypes.element)
   ]),
   headerContent: PropTypes.element,
   contentExpanded: PropTypes.bool,

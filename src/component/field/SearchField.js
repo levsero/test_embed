@@ -170,27 +170,27 @@ export class SearchField extends Component {
       'is-mobile': fullscreen,
       'u-paddingVN u-paddingRN': disableAutoSearch
     });
-
-    let searchElement;
-
-    if (fullscreen && disableAutoSearch) {
-      searchElement = [
-        this.renderSearchInput(), this.renderSearchClear(), this.renderSearchIconButton()
-      ];
-    } else if (disableAutoSearch) {
-      searchElement = [
-        this.renderSearchInput(), this.renderSearchLoadingIcon()
-      ];
-    } else {
-      searchElement = [
-        this.renderSearchIcon(), this.renderSearchInput(), this.renderSearchClear()
-      ];
-    }
+    const searchIcon = !fullscreen && !disableAutoSearch
+                     ? this.renderSearchIcon()
+                     : null;
+    const searchClear = (!fullscreen && !disableAutoSearch) || fullscreen
+                      ? this.renderSearchClear()
+                      : null;
+    const searchIconButton = fullscreen && disableAutoSearch
+                           ? this.renderSearchIconButton()
+                           : null;
+    const searchLoadingIcon = !fullscreen && disableAutoSearch
+                            ? this.renderSearchLoadingIcon()
+                            : null;
 
     return (
       <div className={searchContainerClasses}>
         <label className={searchInputClasses}>
-          {searchElement}
+          {searchIcon}
+          {this.renderSearchInput()}
+          {searchClear}
+          {searchIconButton}
+          {searchLoadingIcon}
         </label>
       </div>
     );

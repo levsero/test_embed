@@ -28,7 +28,7 @@ export class Button extends Component {
 }
 
 Button.propTypes = {
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   fullscreen: PropTypes.bool,
   disabled: PropTypes.bool,
   onClick: PropTypes.func,
@@ -38,6 +38,7 @@ Button.propTypes = {
 };
 
 Button.defaultProps = {
+  label: '',
   fullscreen: false,
   disabled: false,
   onClick: () => {},

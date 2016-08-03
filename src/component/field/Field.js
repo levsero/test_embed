@@ -174,7 +174,7 @@ Field.propTypes = {
     }
   },
   type: PropTypes.string,
-  options: PropTypes.bool,
+  options: PropTypes.array,
   hasSearched: PropTypes.bool,
   labelClasses: PropTypes.string,
   onFocus: PropTypes.func,
@@ -189,7 +189,7 @@ Field.defaultProps = {
   input: null,
   required: false,
   type: '',
-  options: false,
+  options: [],
   hasSearched: false,
   labelClasses: '',
   onFocus: () => {},
