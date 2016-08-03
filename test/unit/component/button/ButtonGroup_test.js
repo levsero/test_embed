@@ -8,17 +8,7 @@ describe('ButtonGroup component', () => {
     mockery.enable();
 
     initMockRegistry({
-      'React': React,
-      'component/Icon': {
-        Icon: noopReactComponent()
-      },
-      'component/Loading': {
-        LoadingEllipses: noopReactComponent()
-      },
-      'utility/utils': {
-        'generateConstrastColor': noop
-      },
-      'service/i18n': noop
+      'React': React
     });
 
     mockery.registerAllowable(buttonPath);
