@@ -61,106 +61,104 @@ describe('Field component', () => {
     mockery.disable();
   });
 
-  describe('Field', () => {
-    it('should render field DOM with a label wrapping two child divs', () => {
-      const field = domRender(<Field name='alice' />);
-      const fieldNode = ReactDOM.findDOMNode(field);
+  it('should render field DOM with a label wrapping two child divs', () => {
+    const field = domRender(<Field name='alice' />);
+    const fieldNode = ReactDOM.findDOMNode(field);
 
-      expect(fieldNode.nodeName)
-        .toEqual('LABEL');
+    expect(fieldNode.nodeName)
+      .toEqual('LABEL');
 
-      expect(fieldNode.children.length)
-        .toEqual(2);
+    expect(fieldNode.children.length)
+      .toEqual(2);
 
-      expect(fieldNode.children[0].nodeName)
-        .toEqual('DIV');
+    expect(fieldNode.children[0].nodeName)
+      .toEqual('DIV');
 
-      expect(fieldNode.children[1].nodeName)
-        .toEqual('DIV');
-    });
+    expect(fieldNode.children[1].nodeName)
+      .toEqual('DIV');
+  });
 
-    it('should pass along all props to underlying input', () => {
-      const field = domRender(<Field type='email' name='alice' />);
-      const fieldNode = ReactDOM.findDOMNode(field);
+  it('should pass along all props to underlying input', () => {
+    const field = domRender(<Field type='email' name='alice' />);
+    const fieldNode = ReactDOM.findDOMNode(field);
 
-      expect(fieldNode.querySelector('input').name)
-        .toEqual('alice');
+    expect(fieldNode.querySelector('input').name)
+      .toEqual('alice');
 
-      expect(fieldNode.querySelector('input').type)
-        .toEqual('email');
-    });
+    expect(fieldNode.querySelector('input').type)
+      .toEqual('email');
+  });
 
-    it('should render input prop component instead of default input', () => {
-      const field = domRender(<Field input={<textarea />} name='alice' />);
-      const fieldNode = ReactDOM.findDOMNode(field);
+  it('should render input prop component instead of default input', () => {
+    const field = domRender(<Field input={<textarea />} name='alice' />);
+    const fieldNode = ReactDOM.findDOMNode(field);
 
-      expect(fieldNode.querySelector('input'))
-        .toBeFalsy();
+    expect(fieldNode.querySelector('input'))
+      .toBeFalsy();
 
-      expect(fieldNode.querySelector('textarea'))
-        .toBeTruthy();
+    expect(fieldNode.querySelector('textarea'))
+      .toBeTruthy();
 
-      expect(fieldNode.querySelector('textarea').name)
-        .toEqual('alice');
-    });
+    expect(fieldNode.querySelector('textarea').name)
+      .toEqual('alice');
+  });
 
-    it('should render checkbox with label instead of default input', () => {
-      const field = domRender(<Field label='Agree?' type='checkbox' name='alice' />);
-      const fieldNode = ReactDOM.findDOMNode(field);
+  it('should render checkbox with label instead of default input', () => {
+    const field = domRender(<Field label='Agree?' type='checkbox' name='alice' />);
+    const fieldNode = ReactDOM.findDOMNode(field);
 
-      expect(fieldNode.querySelector('input').type)
-        .toEqual('checkbox');
+    expect(fieldNode.querySelector('input').type)
+      .toEqual('checkbox');
 
-      expect(TestUtils.findRenderedDOMComponentWithClass(field, 'Form-checkboxCaption'))
-        .toBeTruthy();
-    });
+    expect(TestUtils.findRenderedDOMComponentWithClass(field, 'Form-checkboxCaption'))
+      .toBeTruthy();
+  });
 
-    it('should set focused state on field focus', () => {
-      const field = domRender(<Field name='alice' />);
+  it('should set focused state on field focus', () => {
+    const field = domRender(<Field name='alice' />);
 
-      expect(field.state.focused)
-        .toBe(false);
+    expect(field.state.focused)
+      .toBe(false);
 
-      field.onFocus();
+    field.onFocus();
 
-      expect(field.state.focused)
-        .toBe(true);
+    expect(field.state.focused)
+      .toBe(true);
 
-      expect(TestUtils.findRenderedDOMComponentWithClass(field, 'Form-field--focused'))
-        .toBeTruthy();
-    });
+    expect(TestUtils.findRenderedDOMComponentWithClass(field, 'Form-field--focused'))
+      .toBeTruthy();
+  });
 
-    it('should only set invalid class after focus and blur events', () => {
-      const field = domRender(<Field name='alice' />);
-      const fieldNode = ReactDOM.findDOMNode(field);
+  it('should only set invalid class after focus and blur events', () => {
+    const field = domRender(<Field name='alice' />);
+    const fieldNode = ReactDOM.findDOMNode(field);
 
-      // jsdom doesn't seem to support html5 validation api
-      // shim it for this test
-      fieldNode.querySelector('input').validity = {
-        valid: false
-      };
+    // jsdom doesn't seem to support html5 validation api
+    // shim it for this test
+    fieldNode.querySelector('input').validity = {
+      valid: false
+    };
 
-      expect(field.state.hasError)
-        .toBe(false);
+    expect(field.state.hasError)
+      .toBe(false);
 
-      expect(() => TestUtils.findRenderedDOMComponentWithClass(field, 'Form-field--invalid'))
-        .toThrow();
+    expect(() => TestUtils.findRenderedDOMComponentWithClass(field, 'Form-field--invalid'))
+      .toThrow();
 
-      field.onFocus();
-      field.onBlur();
+    field.onFocus();
+    field.onBlur();
 
-      expect(field.state.hasError)
-        .toBe(true);
+    expect(field.state.hasError)
+      .toBe(true);
 
-      expect(field.state.focused)
-        .toBe(false);
+    expect(field.state.focused)
+      .toBe(false);
 
-      expect(field.state.blurred)
-        .toBe(true);
+    expect(field.state.blurred)
+      .toBe(true);
 
-      expect(TestUtils.findRenderedDOMComponentWithClass(field, 'Form-field--invalid'))
-        .toBeTruthy();
-    });
+    expect(TestUtils.findRenderedDOMComponentWithClass(field, 'Form-field--invalid'))
+      .toBeTruthy();
   });
 
   describe('mobile', () => {
