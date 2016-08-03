@@ -60,6 +60,7 @@ export class HelpCenterDesktop extends Component {
         <SearchField
           ref='searchField'
           fullscreen={false}
+          disableAutoSearch={this.props.disableAutoSearch}
           onChangeValue={this.props.handleOnChangeValue}
           hasSearched={this.props.hasSearched}
           onSearchIconClick={this.handleSubmit}
@@ -137,7 +138,8 @@ HelpCenterDesktop.propTypes = {
   hasSearched: PropTypes.bool,
   buttonLabel:PropTypes.string,
   shadowVisible: PropTypes.bool,
-  searchFieldValue: PropTypes.string
+  searchFieldValue: PropTypes.string,
+  disableAutoSearch: PropTypes.bool
 };
 
 HelpCenterDesktop.defaultProps = {
@@ -150,5 +152,6 @@ HelpCenterDesktop.defaultProps = {
   hasSearched: false,
   buttonLabel: 'Send a Message',
   shadowVisible: false,
-  searchFieldValue: ''
+  searchFieldValue: '',
+  disableAutoSearch: false
 };

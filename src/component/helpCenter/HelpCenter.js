@@ -389,6 +389,7 @@ export class HelpCenter extends Component {
         autoSearch={this.autoSearch}
         manualSearch={this.manualSearch}
         hideZendeskLogo={this.props.hideZendeskLogo}
+        disableAutoSearch={this.props.disableAutoSearch}
         isLoading={this.state.isLoading}
         articleViewActive={this.state.articleViewActive}
         hasSearched={this.state.hasSearched}
@@ -414,6 +415,7 @@ export class HelpCenter extends Component {
         articleViewActive={this.state.articleViewActive}
         hasSearched={this.state.hasSearched}
         buttonLabel={this.state.buttonLabel}
+        disableAutoSearch={this.props.disableAutoSearch}
         searchFieldValue={this.state.searchFieldValue}
         hideZendeskLogo={this.props.hideZendeskLogo}
         buttonLabelKey={this.props.buttonLabelKey}
