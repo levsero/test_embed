@@ -130,7 +130,7 @@ HelpCenterDesktop.propTypes = {
   children: PropTypes.node.isRequired,
   onNextClick: PropTypes.func,
   hideZendeskLogo: PropTypes.bool,
-  updateFrameSize: PropTypes.any,
+  updateFrameSize: PropTypes.func,
   formTitleKey: PropTypes.string,
   isLoading: PropTypes.bool,
   articleViewActive: PropTypes.bool,
