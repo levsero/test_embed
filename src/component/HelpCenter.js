@@ -453,7 +453,7 @@ HelpCenter.propTypes = {
   onNextClick: PropTypes.func,
   onArticleClick: PropTypes.func,
   hideZendeskLogo: PropTypes.bool,
-  updateFrameSize: PropTypes.any,
+  updateFrameSize: PropTypes.func,
   style: PropTypes.object,
   formTitleKey: PropTypes.string,
   disableAutoSearch: PropTypes.bool

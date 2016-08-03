@@ -269,7 +269,7 @@ SubmitTicket.propTypes = {
   formTitleKey: PropTypes.string.isRequired,
   submitTicketSender: PropTypes.func.isRequired,
   attachmentSender: PropTypes.func.isRequired,
-  updateFrameSize: PropTypes.any,
+  updateFrameSize: PropTypes.func,
   hideZendeskLogo: PropTypes.bool,
   customFields: PropTypes.array,
   style: PropTypes.object,
@@ -282,7 +282,7 @@ SubmitTicket.propTypes = {
 };
 
 SubmitTicket.defaultProps = {
-  updateFrameSize: false,
+  updateFrameSize: () => {},
   hideZendeskLogo: false,
   customFields: [],
   style: null,
