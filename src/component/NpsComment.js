@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 
 import { Field } from 'component/field/Field';
-import { Button,
-         ButtonSecondary } from 'component/Button';
+import { Button } from 'component/button/Button';
+import { ButtonSecondary } from 'component/button/ButtonSecondary';
 import { LoadingSpinner } from 'component/Loading';
 import { i18n } from 'service/i18n';
 

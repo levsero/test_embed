@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
-import { Button,
-         ButtonGroup } from 'component/Button';
+import { Button } from 'component/button/Button';
+import { ButtonGroup } from 'component/button/ButtonGroup';
 import { ScrollContainer } from 'component/ScrollContainer';
 import { SearchField } from 'component/field/SearchField';
 import { ZendeskLogo } from 'component/ZendeskLogo';

@@ -128,7 +128,7 @@ describe('NpsMobile component', () => {
         setWindowScroll: noop,
         revertWindowScroll: noop
       },
-      'component/Button' : {
+      'component/button/Button' : {
         Button: noopReactComponent()
       }
     });

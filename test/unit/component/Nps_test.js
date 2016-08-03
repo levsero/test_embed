@@ -35,9 +35,13 @@ describe('Nps component', function() {
           }
         })
       },
-      'component/Button': {
-        Button: noopReactComponent(),
-        ButtonSecondary: noopReactComponent(),
+      'component/button/Button': {
+        Button: noopReactComponent()
+      },
+      'component/button/ButtonSecondary': {
+        ButtonSecondary: noopReactComponent()
+      },
+      'component/button/ButtonGroup': {
         ButtonGroup: noopReactComponent()
       },
       'utility/devices': {

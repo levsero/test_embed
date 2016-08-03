@@ -16,7 +16,7 @@ describe('HelpCenterResults component', () => {
 
     mockRegistry = initMockRegistry({
       'React': React,
-      'component/Button': {
+      'component/button/ButtonPill': {
         ButtonPill: React.createClass({
           render: () => {
             return <input className='ButtonPill' type='button' />;

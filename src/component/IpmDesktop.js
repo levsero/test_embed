@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
 import { Container } from 'component/Container';
-import { Button } from 'component/Button';
+import { Button } from 'component/button/Button';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { Icon } from 'component/Icon';
 

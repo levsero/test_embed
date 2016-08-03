@@ -1,24 +1,14 @@
-describe('ButtonGroup component', function() {
+describe('ButtonGroup component', () => {
   let ButtonGroup;
-  const buttonPath = buildSrcPath('component/Button');
+  const buttonPath = buildSrcPath('component/button/ButtonGroup');
 
-  beforeEach(function() {
+  beforeEach(() => {
     resetDOM();
 
     mockery.enable();
 
     initMockRegistry({
-      'React': React,
-      'component/Icon': {
-        Icon: noopReactComponent()
-      },
-      'component/Loading': {
-        LoadingEllipses: noopReactComponent()
-      },
-      'utility/utils': {
-        'generateConstrastColor': noop
-      },
-      'service/i18n': noop
+      'React': React
     });
 
     mockery.registerAllowable(buttonPath);
@@ -26,12 +16,12 @@ describe('ButtonGroup component', function() {
     ButtonGroup = requireUncached(buttonPath).ButtonGroup;
   });
 
-  afterEach(function() {
+  afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
   });
 
-  it('should not have rtl classes when rtl prop is false', function() {
+  it('should not have rtl classes when rtl prop is false', () => {
     const buttonGroup = shallowRender(<ButtonGroup />);
 
     expect(buttonGroup.props.className)
@@ -41,7 +31,7 @@ describe('ButtonGroup component', function() {
       .not.toMatch('u-textLeft');
   });
 
-  it('should have rtl classes when rtl prop is true', function() {
+  it('should have rtl classes when rtl prop is true', () => {
     const buttonGroup = shallowRender(<ButtonGroup rtl={true} />);
 
     expect(buttonGroup.props.className)

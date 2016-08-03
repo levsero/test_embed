@@ -48,7 +48,7 @@ describe('NpsDesktop component', function() {
           }
         })
       },
-      'component/Button': {
+      'component/button/Button': {
         Button: noopReactComponent()
       },
       'component/FormField': {

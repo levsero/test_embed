@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
 
-import { ButtonRating } from 'component/Button';
+import { ButtonRating } from 'component/button/ButtonRating';
 
 export class NpsRatingsList extends Component {
   ratingClickHandlerFn(rating) {

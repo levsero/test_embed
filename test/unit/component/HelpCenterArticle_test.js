@@ -33,7 +33,7 @@ describe('HelpCenterArticle component', function() {
         parseUrl: () => noop
       },
       'imports?_=lodash!lodash': _,
-      'component/Button': {
+      'component/button/ButtonPill': {
         ButtonPill: noopReactComponent()
       }
     });

@@ -6,7 +6,7 @@ describe('SubmitTicketForm component', function() {
     mockAttachmentsReadyValue,
     scrollToBottomSpy;
   const submitTicketFormPath = buildSrcPath('component/SubmitTicketForm');
-  const buttonPath = buildSrcPath('component/Button');
+  const buttonPath = buildSrcPath('component/button/Button');
   const formParams = {
     'name': 'jabbathehutt',
     'email': 'mock@email.com',
@@ -28,12 +28,14 @@ describe('SubmitTicketForm component', function() {
 
     mockRegistry = initMockRegistry({
       'React': React,
-      'component/Button': {
+      'component/button/Button': {
         Button: React.createClass({
           render: function() {
             return <input type='submit' disabled={this.props.disabled} />;
           }
-        }),
+        })
+      },
+      'component/button/ButtonSecondary': {
         ButtonSecondary: React.createClass({
           render: function() {
             return (
@@ -43,12 +45,16 @@ describe('SubmitTicketForm component', function() {
                 onClick={onCancel} />
             );
           }
-        }),
+        })
+      },
+      'component/button/ButtonGroup': {
         ButtonGroup: React.createClass({
           render: function() {
             return <div>{this.props.children}</div>;
           }
-        }),
+        })
+      },
+      'component/button/ButtonDropzone': {
         ButtonDropzone: noopReactComponent()
       },
       'component/field/Field': {

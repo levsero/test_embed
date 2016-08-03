@@ -4,7 +4,7 @@ import _ from 'lodash';
 import classNames from 'classnames';
 import { pick, some } from 'lodash';
 
-import { ButtonPill } from 'component/Button';
+import { ButtonPill } from 'component/button/ButtonPill';
 import { authentication } from 'service/authentication';
 import { i18n } from 'service/i18n';
 import { parseUrl } from 'utility/utils';

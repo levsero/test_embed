@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
 
 import { Attachment } from 'component/Attachment';
-import { ButtonDropzone } from 'component/Button';
+import { ButtonDropzone } from 'component/button/ButtonDropzone';
 import { i18n } from 'service/i18n';
 import { bindMethods } from 'utility/utils';
 

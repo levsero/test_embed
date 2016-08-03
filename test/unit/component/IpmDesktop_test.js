@@ -36,7 +36,7 @@ describe('IpmDesktop component', function() {
           }
         })
       },
-      'component/Button': {
+      'component/button/Button': {
         Button: noopReactComponent()
       },
       'component/Icon': {
