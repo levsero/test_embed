@@ -16,7 +16,7 @@ import { settings } from 'service/settings';
 import { transport } from 'service/transport';
 import { isMobileBrowser,
          isBlacklisted } from 'utility/devices';
-import { win, location,
+import { win,
          document as doc } from 'utility/globals';
 import { initMobileScaling } from 'utility/mobileScaling';
 import { clickBusterHandler } from 'utility/utils';
@@ -28,13 +28,6 @@ function boot() {
   let devApi;
   let postRenderQueue = [];
   let $zopim = _.noop;
-  const host = location.host;
-  const path = location.pathname;
-  const chatPages = [
-    '/zopim',
-    '/product/pricing',
-    '/product/tour'
-  ];
   const handleQueue = (queue) => {
     _.forEach(queue, (method) => {
       if (method[0].locale) {
