@@ -170,27 +170,31 @@ export class SearchField extends Component {
       'is-mobile': fullscreen,
       'u-paddingVN u-paddingRN': disableAutoSearch
     });
-    const searchIcon = !fullscreen && !disableAutoSearch
-                     ? this.renderSearchIcon()
-                     : null;
-    const searchClear = (!fullscreen && !disableAutoSearch) || fullscreen
-                      ? this.renderSearchClear()
-                      : null;
-    const searchIconButton = fullscreen && disableAutoSearch
-                           ? this.renderSearchIconButton()
-                           : null;
-    const searchLoadingIcon = !fullscreen && disableAutoSearch
-                            ? this.renderSearchLoadingIcon()
-                            : null;
+
+    // Rendering the components without a key property into an array causes React to throw an error.
+    // Related to: https://facebook.github.io/react/docs/multiple-components.html#dynamic-children.
+    // TODO: Refactor this logic when auto search is completely removed so we can remove the final
+    // react warning.
+    let searchElement;
+
+    if (fullscreen && disableAutoSearch) {
+      searchElement = [
+        this.renderSearchInput(), this.renderSearchClear(), this.renderSearchIconButton()
+      ];
+    } else if (disableAutoSearch) {
+      searchElement = [
+        this.renderSearchInput(), this.renderSearchLoadingIcon()
+      ];
+    } else {
+      searchElement = [
+        this.renderSearchIcon(), this.renderSearchInput(), this.renderSearchClear()
+      ];
+    }
 
     return (
       <div className={searchContainerClasses}>
         <label className={searchInputClasses}>
-          {searchIcon}
-          {this.renderSearchInput()}
-          {searchClear}
-          {searchIconButton}
-          {searchLoadingIcon}
+          {searchElement}
         </label>
       </div>
     );
