@@ -16,7 +16,7 @@ import { settings } from 'service/settings';
 import { transport } from 'service/transport';
 import { isMobileBrowser,
          isBlacklisted } from 'utility/devices';
-import { win, location,
+import { win,
          document as doc } from 'utility/globals';
 import { initMobileScaling } from 'utility/mobileScaling';
 import { clickBusterHandler } from 'utility/utils';
@@ -28,13 +28,6 @@ function boot() {
   let devApi;
   let postRenderQueue = [];
   let $zopim = _.noop;
-  const host = location.host;
-  const path = location.pathname;
-  const chatPages = [
-    '/zopim',
-    '/product/pricing',
-    '/product/tour'
-  ];
   const handleQueue = (queue) => {
     _.forEach(queue, (method) => {
       if (method[0].locale) {
@@ -185,52 +178,42 @@ function boot() {
   win.zE.hide = hide;
   win.zE.show = show;
 
-  // The config for zendesk.com
-  if (host === 'www.zendesk.com') {
-    if (_.includes(chatPages, path)) {
-      renderer.init(renderer.hardcodedConfigs.zendeskWithChat);
-    } else {
-      renderer.init(renderer.hardcodedConfigs.zendeskDefault);
-    }
-    handlePostRenderQueue(postRenderQueue);
-  } else {
-    const configLoadStart = Date.now();
+  const configLoadStart = Date.now();
 
-    transport.get({
-      method: 'get',
-      path: '/embeddable/config',
-      callbacks: {
-        done(res) {
-          // only send 1/10 times
-          if (Math.random() <= 0.1) {
-            beacon.sendConfigLoadTime(Date.now() - configLoadStart);
-          }
-          if (res.body.embeds.zopimChat) {
-            // Make this the first in the queue so that subsequent
-            // user-initiated setTitle(…) calls will override this value
-            if ($zopim._) {
-              $zopim._.unshift(() => {
-                win.$zopim.livechat.window.setTitle(i18n.t('embeddable_framework.chat.title'));
-              });
-            }
-          }
-
-          renderer.init(res.body);
-          handlePostRenderQueue(postRenderQueue);
-        },
-        fail(error) {
-          if (error.status !== 404) {
-            logging.error({
-              error: error,
-              context: {
-                account: document.zendeskHost
-              }
+  transport.get({
+    method: 'get',
+    path: '/embeddable/config',
+    callbacks: {
+      done(res) {
+        // only send 1/10 times
+        if (Math.random() <= 0.1) {
+          beacon.sendConfigLoadTime(Date.now() - configLoadStart);
+        }
+        if (res.body.embeds.zopimChat) {
+          // Make this the first in the queue so that subsequent
+          // user-initiated setTitle(…) calls will override this value
+          if ($zopim._) {
+            $zopim._.unshift(() => {
+              win.$zopim.livechat.window.setTitle(i18n.t('embeddable_framework.chat.title'));
             });
           }
         }
+
+        renderer.init(res.body);
+        handlePostRenderQueue(postRenderQueue);
+      },
+      fail(error) {
+        if (error.status !== 404) {
+          logging.error({
+            error: error,
+            context: {
+              account: document.zendeskHost
+            }
+          });
+        }
       }
-    });
-  }
+    }
+  });
 
   if (isMobileBrowser()) {
     initMobileScaling();

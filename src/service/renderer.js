@@ -155,58 +155,10 @@ function hideByZoom(hide) {
   });
 }
 
-const hardcodedConfigs = {
-  zendeskWithChat: {
-    'embeds': {
-      'zopimChat': {
-        'embed': 'chat',
-        'props': {
-          'zopimId': '2ItCA9Tu3W5bksDB4EJzPSCz4kIymONo'
-        }
-      },
-      'launcher': {
-        'embed': 'launcher',
-        'props': {
-          'position': 'right'
-        }
-      },
-      'ticketSubmissionForm': {
-        'embed': 'submitTicket',
-        'props': {}
-      }
-    }
-  },
-  zendeskDefault: {
-    'embeds': {
-      'helpCenterForm': {
-        'embed': 'helpCenter',
-        'props': { }
-      },
-      'zopimChat': {
-        'embed': 'chat',
-        'props': {
-          'zopimId': '2ItCA9Tu3W5bksDB4EJzPSCz4kIymONo'
-        }
-      },
-      'launcher': {
-        'embed': 'launcher',
-        'props': {
-          'position': 'right'
-        }
-      },
-      'ticketSubmissionForm': {
-        'embed': 'submitTicket',
-        'props': {}
-      }
-    }
-  }
-};
-
 export const renderer = {
   init: init,
   postRenderCallbacks: postRenderCallbacks,
   propagateFontRatio: propagateFontRatio,
   hideByZoom: hideByZoom,
-  hardcodedConfigs: hardcodedConfigs,
   hide: hide
 };

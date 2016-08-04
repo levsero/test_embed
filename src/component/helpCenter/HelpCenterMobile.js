@@ -98,6 +98,7 @@ export class HelpCenterMobile extends Component {
           fullscreen={true}
           onFocus={this.handleOnFocus}
           onBlur={this.handleOnBlur}
+          disableAutoSearch={this.props.disableAutoSearch}
           onChangeValue={this.props.handleOnChangeValue}
           hasSearched={this.props.hasSearched}
           onSearchIconClick={this.handleSubmit}
@@ -239,7 +240,8 @@ HelpCenterMobile.propTypes = {
   articleViewActive: PropTypes.bool,
   hasSearched: PropTypes.bool,
   buttonLabel: PropTypes.string,
-  searchFieldValue: PropTypes.string
+  searchFieldValue: PropTypes.string,
+  disableAutoSearch: PropTypes.bool
 };
 
 HelpCenterMobile.defaultProps = {
@@ -250,5 +252,6 @@ HelpCenterMobile.defaultProps = {
   articleViewActive: false,
   hasSearched: false,
   buttonLabel: 'Leave a Message',
-  searchFieldValue: ''
+  searchFieldValue: '',
+  disableAutoSearch: false
 };
