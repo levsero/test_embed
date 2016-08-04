@@ -57,7 +57,7 @@ describe('embed.helpCenter', function() {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
         }
       },
-      'component/HelpCenter': {
+      'component/helpCenter/HelpCenter': {
         HelpCenter: React.createClass({
           getInitialState: function() {
             return {

@@ -6,7 +6,7 @@ describe('NpsDesktop component', function() {
     mockFocusField,
     npsProps;
 
-  const npsPath = buildSrcPath('component/NpsDesktop');
+  const npsPath = buildSrcPath('component/nps/NpsDesktop');
 
   beforeEach(function() {
     npsProps = {
@@ -63,7 +63,7 @@ describe('NpsDesktop component', function() {
       'component/Loading': {
         LoadingEllipses: noopReactComponent()
       },
-      'component/NpsComment': {
+      'component/nps/NpsComment': {
         NpsComment: React.createClass({
           focusField: () => mockFocusField(),
           render: () => {
@@ -71,7 +71,7 @@ describe('NpsDesktop component', function() {
           }
         })
       },
-      'component/NpsRatingsList': {
+      'component/nps/NpsRatingsList': {
         NpsRatingsList: React.createClass({
           render: () => {
             return <div className='RatingsList'></div>;

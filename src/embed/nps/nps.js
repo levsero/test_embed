@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import _     from 'lodash';
 
 import { frameFactory }     from 'embed/frameFactory';
-import { Nps }              from 'component/Nps';
+import { Nps }              from 'component/nps/Nps';
 import { mediator }         from 'service/mediator';
 import { store }            from 'service/persistence';
 import { transport }        from 'service/transport';

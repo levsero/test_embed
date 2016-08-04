@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import { document,
          getDocumentHost } from 'utility/globals';
-import { SubmitTicket } from 'component/SubmitTicket';
+import { SubmitTicket } from 'component/submitTicket/SubmitTicket';
 import { frameFactory } from 'embed/frameFactory';
 import { isMobileBrowser,
          isIE } from 'utility/devices';

@@ -3,12 +3,12 @@ import _     from 'lodash';
 import classNames from 'classnames';
 
 import { Container } from 'component/Container';
-import { NpsComment } from 'component/NpsComment';
-import { NpsCommentButton } from 'component/NpsCommentButton';
+import { NpsComment } from 'component/nps/NpsComment';
+import { NpsCommentButton } from 'component/nps/NpsCommentButton';
 import { Icon } from 'component/Icon';
 import { ZendeskLogo } from 'component/ZendeskLogo';
-import { NpsSelectList } from 'component/NpsSelectList';
-import { NpsRatingsList } from 'component/NpsRatingsList';
+import { NpsSelectList } from 'component/nps/NpsSelectList';
+import { NpsRatingsList } from 'component/nps/NpsRatingsList';
 import { getZoomSizingRatio,
          isIos } from 'utility/devices';
 import { win } from 'utility/globals';

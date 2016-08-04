@@ -2,10 +2,10 @@ import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
 
 import { Container } from 'component/Container';
-import { HelpCenterArticle } from 'component/HelpCenterArticle';
-import { HelpCenterDesktop } from 'component/HelpCenterDesktop';
-import { HelpCenterMobile } from 'component/HelpCenterMobile';
-import { HelpCenterResults } from 'component/HelpCenterResults';
+import { HelpCenterArticle } from 'component/helpCenter/HelpCenterArticle';
+import { HelpCenterDesktop } from 'component/helpCenter/HelpCenterDesktop';
+import { HelpCenterMobile } from 'component/helpCenter/HelpCenterMobile';
+import { HelpCenterResults } from 'component/helpCenter/HelpCenterResults';
 import { i18n } from 'service/i18n';
 import { bindMethods } from 'utility/utils';
 
