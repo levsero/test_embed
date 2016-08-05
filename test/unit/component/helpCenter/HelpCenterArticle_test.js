@@ -2,6 +2,7 @@ describe('HelpCenterArticle component', function() {
   let HelpCenterArticle,
     scrollIntoView,
     mockArticle,
+    mockHideOriginalArticleSettingsValue,
     mockOauthToken;
   const helpCenterArticlePath = buildSrcPath('component/helpCenter/HelpCenterArticle');
 
@@ -9,6 +10,8 @@ describe('HelpCenterArticle component', function() {
     scrollIntoView = jasmine.createSpy();
 
     resetDOM();
+
+    mockHideOriginalArticleSettingsValue = false;
 
     global.document.zendeskHost = 'dev.zd-dev.com';
     mockOauthToken = 'abc';
@@ -28,6 +31,11 @@ describe('HelpCenterArticle component', function() {
         i18n: jasmine.createSpyObj('i18n', [
           't'
         ])
+      },
+      'service/settings': {
+        settings: {
+          get: () => { return mockHideOriginalArticleSettingsValue; }
+        }
       },
       'utility/utils': {
         parseUrl: () => noop
@@ -435,6 +443,23 @@ describe('HelpCenterArticle component', function() {
             .toContain(`https://${mockZendeskHost}/abc/img1.png`);
         });
       });
+    });
+  });
+
+  describe('view original article button', function() {
+    it('is visible by default', function() {
+      const helpCenterArticle = domRender(<HelpCenterArticle activeArticle={mockArticle} />);
+
+      expect(ReactDOM.findDOMNode(helpCenterArticle).querySelector('.u-marginBM').className)
+        .not.toMatch('u-isHidden');
+    });
+
+    it('is hidden if hideViewOriginalArticleButton setting is true', function() {
+      mockHideOriginalArticleSettingsValue = true;
+      const helpCenterArticle = domRender(<HelpCenterArticle activeArticle={mockArticle} />);
+
+      expect(ReactDOM.findDOMNode(helpCenterArticle).querySelector('.u-marginBM').className)
+        .toMatch('u-isHidden');
     });
   });
 });
