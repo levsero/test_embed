@@ -171,6 +171,10 @@ export class SearchField extends Component {
       'u-paddingVN u-paddingRN': disableAutoSearch
     });
 
+    // Rendering the components without a key property into an array causes React to throw an error.
+    // Related to: https://facebook.github.io/react/docs/multiple-components.html#dynamic-children.
+    // TODO: Refactor this logic when auto search is completely removed so we can remove the final
+    // react warning.
     let searchElement;
 
     if (fullscreen && disableAutoSearch) {

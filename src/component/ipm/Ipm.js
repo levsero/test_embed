@@ -61,9 +61,14 @@ export class Ipm extends Component {
 }
 
 Ipm.propTypes = {
-  setFrameSize: PropTypes.func.isRequired,
-  updateFrameSize: PropTypes.func.isRequired,
   ipmSender: PropTypes.func.isRequired,
   mobile: PropTypes.bool.isRequired,
-  closeFrame: PropTypes.func.isRequired
+  closeFrame: PropTypes.func.isRequired,
+  setFrameSize: PropTypes.func,
+  updateFrameSize: PropTypes.func
+};
+
+Ipm.defaultProps = {
+  setFrameSize: () => {},
+  updateFrameSize: () => {}
 };
