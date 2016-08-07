@@ -62,16 +62,32 @@ export class Field extends Component {
     }
   }
 
+  renderDropdownArrow() {
+    const landscape = (isMobileBrowser() && isLandscape());
+    const dropdownClasses = classNames({
+      'Form-fieldArrows': true,
+      'Form-fieldArrows--small': landscape
+    });
+
+    return (
+      <div className={dropdownClasses}>
+        <i className='Icon--dropdownArrow' />
+        <i className='Icon--dropdownArrow Icon--dropdownArrowBottom' />
+      </div>
+    );
+  }
+
   render() {
     const type = this.props.type;
     const landscape = (isMobileBrowser() && isLandscape());
     const portrait = (isMobileBrowser() && !isLandscape());
     const isCheckbox = (type === 'checkbox');
+    const isDropdown = this.props.options.length > 0;
     const fieldClasses = classNames({
       'Form-field u-isSelectable u-posRelative': true,
       'Form-field--invalid': this.state.hasError && this.state.blurred && !isCheckbox,
       'Form-field--focused': this.state.focused && !isCheckbox,
-      'Form-field--dropdown': this.props.options,
+      'Form-field--dropdown': isDropdown,
       'Form-field--clean': isCheckbox,
       'is-mobile': isMobileBrowser(),
       'Form-field--small': landscape
@@ -87,11 +103,6 @@ export class Field extends Component {
       'Form-checkboxInput--focused': this.state.focused && isCheckbox,
       'Form-checkboxInput--invalid': this.state.hasError && this.state.blurred && isCheckbox,
       'u-textSizeBaseMobile': isMobileBrowser()
-    });
-    const dropdownClasses = classNames({
-      'u-isHidden': !this.props.options,
-      'Form-fieldArrows': true,
-      'Form-fieldArrows--small': landscape
     });
     const sharedProps = {
       onChange: this.onChange,
@@ -116,6 +127,8 @@ export class Field extends Component {
         spellCheck: 'false'
       });
     }
+
+    const dropdownArrow = isDropdown ? this.renderDropdownArrow() : null;
 
     return (
       <label className='Form-fieldContainer u-block'>
@@ -146,10 +159,7 @@ export class Field extends Component {
                 </span>
               : null
           }
-          <div className={dropdownClasses}>
-            <i className='Icon--dropdownArrow' />
-            <i className='Icon--dropdownArrow Icon--dropdownArrowBottom' />
-          </div>
+          {dropdownArrow}
         </div>
       </label>
     );
