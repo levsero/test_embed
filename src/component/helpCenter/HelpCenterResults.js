@@ -124,11 +124,11 @@ export class HelpCenterResults extends Component {
     /* eslint no-unused-vars:0 */
     const viewMoreButton = this.props.showViewMore ? this.renderViewMoreButton() : null;
 
+    // TODO add {viewMoreButton} beneath {results} once the "View more" string has been translated
     return (
       <div className={resultsClasses}>
         {legend}
         {results}
-        {viewMoreButton}
       </div>
     );
   }
