@@ -14,6 +14,7 @@ Make sure you check all of these. If they're not relevant to your PR then cross 
  - [ ] Chat offline
  - [ ] Help Center
  - [ ] No Help Center
+ - [ ] Contextual Help
  - [ ] Desktop
  - [ ] Mobile
  - [ ] Design Team
