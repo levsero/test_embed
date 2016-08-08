@@ -71,7 +71,7 @@ $Button-nudge: 5;
   border-bottom-right-radius: #{3/$font-size}rem;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
-  padding: #{14/$font-size}rem #{14/$font-size}rem #{10/$font-size}rem;
+  padding: #{12/$font-size}rem #{14/$font-size}rem #{8/$font-size}rem;
 
   [dir='rtl'] & {
     border-top-right-radius: 0;
@@ -85,16 +85,11 @@ $Button-nudge: 5;
 }
 
 .Button--fieldMobile {
+  padding: #{14/$font-size}rem #{14/$font-size}rem #{10/$font-size}rem;
   background: $zendesk-color--anti-flash-white;
 
-  &:hover, &:focus, &:active {
-    background: $active-color;
-  }
-}
-
-.Button--fieldDesktop {
-  &:hover, &:focus, &:active {
-    background: $zendesk-color--anti-flash-white;
+  &:focus, &:active {
+    background: $zendesk-color--gainsboro !important;
   }
 }
 

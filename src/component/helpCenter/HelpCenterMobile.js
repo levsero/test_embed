@@ -113,6 +113,7 @@ export class HelpCenterMobile extends Component {
          : <SearchFieldButton
              ref='searchFieldButton'
              onClick={this.handleSearchBoxClicked}
+             disableAutoSearch={this.props.disableAutoSearch}
              onTouch={this.handleSearchBoxClicked}
              searchTerm={this.props.searchFieldValue} />;
   }

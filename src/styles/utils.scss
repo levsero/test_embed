@@ -308,6 +308,18 @@ $Base-posOffset: $med + 1;
   color: #DADADA;
 }
 
+.u-fillAluminum {
+  svg {
+    fill: $zendesk-color--aluminum !important;
+  }
+}
+
+.u-fillGainsboro {
+  svg {
+    fill: $zendesk-color--gainsboro !important;
+  }
+}
+
 .u-textSizeSml {
   font-size: #{12/$font-size}rem !important;
 }

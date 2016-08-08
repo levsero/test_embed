@@ -128,6 +128,7 @@ export class SearchField extends Component {
         <IconFieldButton
           className={searchInputFieldIconClasses}
           onClick={this.props.onSearchIconClick}
+          focused={this.state.focused}
           icon='Icon--search' />
       </div>
     );
@@ -140,7 +141,7 @@ export class SearchField extends Component {
     });
     const clearInputClasses = classNames({
       'Icon Icon--clearInput': true,
-      'u-isActionable u-textCenter': true,
+      'u-isActionable u-textCenter u-marginRS': true,
       'u-isHidden': !(fullscreen && !isLoading && this.state.searchInputVal)
     });
 

@@ -12,6 +12,9 @@ describe('IconFieldButton component', () => {
       'React': React,
       'component/Icon': {
         Icon: noopReactComponent()
+      },
+      'utility/utils': {
+        bindMethods: mockBindMethods
       }
     });
 
@@ -29,7 +32,7 @@ describe('IconFieldButton component', () => {
     const button = shallowRender(<IconFieldButton fullscreen={false} />);
 
     expect(button.props.className)
-      .toMatch('Button--fieldDesktop');
+      .toMatch('u-fillGainsboro');
 
     expect(button.props.className)
       .not.toMatch('Button--fieldMobile');
@@ -42,6 +45,30 @@ describe('IconFieldButton component', () => {
       .toMatch('Button--fieldMobile');
 
     expect(button.props.className)
-      .not.toMatch('Button--fieldDesktop');
+      .not.toMatch('u-fillGainsboro');
+  });
+
+  it('should display the correct classes when focus is true', () => {
+    const button = shallowRender(<IconFieldButton focused={true} />);
+
+    expect(button.props.className)
+      .toMatch('u-fillAluminum');
+
+    expect(button.props.className)
+      .not.toMatch('u-fillGainsboro');
+  });
+
+  it('should display the correct classes on mouse enter and leave', () => {
+    const button = domRender(<IconFieldButton />);
+
+    button.handleMouseEnter();
+
+    expect(() => TestUtils.findRenderedDOMComponentWithClass(button, 'u-userFillColor'))
+      .toBeTruthy();
+
+    button.handleMouseLeave();
+
+    expect(() => TestUtils.findRenderedDOMComponentWithClass(button, 'u-userFillColor'))
+      .toThrow();
   });
 });
