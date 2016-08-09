@@ -38,8 +38,9 @@ export class SubmitTicketForm extends Component {
 
   componentDidMount() {
     const customFields = getCustomFields(this.props.customFields, this.state.formState);
+    const showShadow = customFields.fields.length > 0 || this.props.attachmentsEnabled;
 
-    this.refs.scrollContainer.setScrollShadowVisible(customFields.fields.length);
+    this.refs.scrollContainer.setScrollShadowVisible(showShadow);
   }
 
   componentDidUpdate() {
@@ -68,12 +69,6 @@ export class SubmitTicketForm extends Component {
           field.checked = false;
         }
       }, this);
-    }
-
-    const attachments = this.refs.attachments;
-
-    if (attachments) {
-      this.refs.scrollContainer.setScrollShadowVisible(true);
     }
   }
 

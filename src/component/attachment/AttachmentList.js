@@ -206,7 +206,7 @@ export class AttachmentList extends Component {
 
   renderErrorMessage() {
     return (
-            <div className='Error u-textError u-marginBS u-marginTS'>
+      <div className='Error u-textError u-marginBS u-marginTS'>
         {this.state.errorMessage}
       </div>
     );
