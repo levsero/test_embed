@@ -73,7 +73,7 @@ export class SubmitTicketForm extends Component {
     const attachments = this.refs.attachments;
 
     if (attachments) {
-      this.refs.scrollContainer.setScrollShadowVisible(attachments.getAttachmentTokens().length);
+      this.refs.scrollContainer.setScrollShadowVisible(true);
     }
   }
 

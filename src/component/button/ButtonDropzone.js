@@ -16,7 +16,7 @@ export class ButtonDropzone extends Component {
       <Dropzone
         onDrop={this.props.onDrop}
         activeClassName='Anim-color u-userTextColor u-textBold'
-        className='Form-field--display Container--dashed u-isInteractable'>
+        className='Form-field--display Button--dropzone Container--dashed u-isInteractable u-marginTS'>
         <div className='u-textCenter'>
           <Icon type='Icon--paperclip-small' className='u-inlineBlock u-userFillColor' />
           <div className='u-inlineBlock u-alignTop'>{label}</div>
