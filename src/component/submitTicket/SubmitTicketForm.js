@@ -69,6 +69,12 @@ export class SubmitTicketForm extends Component {
         }
       }, this);
     }
+
+    const attachments = this.refs.attachments;
+
+    if (attachments) {
+      this.refs.scrollContainer.setScrollShadowVisible(attachments.getAttachmentTokens().length);
+    }
   }
 
   resetTicketFormVisibility() {

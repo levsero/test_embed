@@ -75,14 +75,15 @@ $Container-spacing: 25/$font-size;
   padding-top: #{12/$font-size}rem !important;
 }
 
-.Container--overlay {
-  background-color: $zendesk-color--white-smoke;
-  opacity: 0.8;
-}
-
 .Container--dashed {
   border-width: #{2/$font-size}rem;
   border-color: $base-border-color;
   border-style: dashed;
   border-radius: #{5/$font-size}rem;
+  background-color: $base-color;
+  opacity: 0.9;
+
+  &:hover {
+    background-color: $zendesk-color--white-smoke;
+  }
 }
