@@ -666,9 +666,9 @@ describe('AttachmentList component', () => {
           .toBeFalsy();
       });
 
-      it('sets the error message', () => {
+      it('sets the error message to the generic translated error message', () => {
         expect(component.state.attachments[attachmentId].errorMessage)
-          .toBe('Some error');
+          .toBe('embeddable_framework.submitTicket.attachments.error.other');
       });
 
       it('calls updateForm', () => {

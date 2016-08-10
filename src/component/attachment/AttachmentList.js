@@ -114,10 +114,10 @@ export class AttachmentList extends Component {
 
       setTimeout(this.props.updateForm, 0);
     };
-    const failFn = (error) => {
+    const failFn = (errorMessage) => () => {
       this.updateAttachmentState(attachmentId, {
         uploading: false,
-        errorMessage: error.message
+        errorMessage: errorMessage
       });
 
       setTimeout(this.props.updateForm, 0);
@@ -134,11 +134,13 @@ export class AttachmentList extends Component {
 
     setTimeout(() => {
       if (!errorMessage) {
+        const error = i18n.t('embeddable_framework.submitTicket.attachments.error.other');
+
         this.updateAttachmentState(attachmentId, {
-          uploadRequestSender: this.props.attachmentSender(file, doneFn, failFn, progressFn)
+          uploadRequestSender: this.props.attachmentSender(file, doneFn, failFn(error), progressFn)
         });
       } else {
-        failFn({ message: errorMessage });
+        failFn(errorMessage)();
       }
     }, 0);
   }
