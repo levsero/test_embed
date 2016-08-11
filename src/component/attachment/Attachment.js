@@ -66,7 +66,7 @@ export class Attachment extends Component {
     const secondaryTextClasses = classNames({
       'u-pullLeft': true,
       'u-clearLeft': true,
-      'u-textError': hasError
+      'Attachment-error u-textError': hasError
     });
 
     const icon = hasError
@@ -84,7 +84,7 @@ export class Attachment extends Component {
       <div className={containerClasses}>
         <div className='Attachment-preview u-posRelative u-hsizeAll'>
           {icon}
-          <div className="u-pullLeft">
+          <div className="u-pullLeft u-hsizeAll">
             <div className='Attachment-preview-name u-alignTop u-pullLeft u-textTruncate u-textBody'>
               {nameStart}
             </div>
