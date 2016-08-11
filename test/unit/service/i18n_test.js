@@ -1,9 +1,9 @@
-describe('i18n', function() {
+describe('i18n', () => {
   let i18n,
     mockRegistry;
   const i18nPath = buildSrcPath('service/i18n');
 
-  beforeEach(function() {
+  beforeEach(() => {
     mockery.enable();
     mockRegistry = initMockRegistry({
       'service/settings': {
@@ -11,6 +11,10 @@ describe('i18n', function() {
       },
       'translation/translations.json': {
         'en-US': {
+          'launcher.label.hello': 'Hello',
+          'embeddable_framework.launcher.label.help': 'Help'
+        },
+        'en-au': {
           'launcher.label.hello': 'Hello',
           'embeddable_framework.launcher.label.help': 'Help'
         },
@@ -50,14 +54,14 @@ describe('i18n', function() {
     i18n = requireUncached(i18nPath).i18n;
   });
 
-  afterEach(function() {
+  afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
   });
 
-  describe('#init', function() {
-    describe('with a specific translation override', function() {
-      beforeEach(function() {
+  describe('#init', () => {
+    describe('with a specific translation override', () => {
+      beforeEach(() => {
         mockRegistry['service/settings'].settings.get = () => {
           return {
             'en-US': { launcherLabel: 'Wat' }
@@ -67,7 +71,7 @@ describe('i18n', function() {
         i18n.init();
       });
 
-      it('should override the key for the specified locale', function() {
+      it('should override the key for the specified locale', () => {
         i18n.setLocale('en-US');
 
         expect(i18n.t('embeddable_framework.launcher.label.help'))
@@ -75,8 +79,8 @@ describe('i18n', function() {
       });
     });
 
-    describe('with a wildcard translation override', function() {
-      beforeEach(function() {
+    describe('with a wildcard translation override', () => {
+      beforeEach(() => {
         mockRegistry['service/settings'].settings.get = () => {
           return {
             '*': { launcherLabel: 'Wat' }
@@ -86,7 +90,7 @@ describe('i18n', function() {
         i18n.init();
       });
 
-      it('should override the key for the all locales', function() {
+      it('should override the key for the all locales', () => {
         i18n.setLocale();
 
         expect(i18n.t('embeddable_framework.launcher.label.help'))
@@ -120,90 +124,90 @@ describe('i18n', function() {
     });
   });
 
-  describe('setLocale', function() {
-    it('should default setLocale to en-US', function() {
+  describe('setLocale', () => {
+    it('should default setLocale to en-US', () => {
       i18n.setLocale();
 
       expect(i18n.t('launcher.label.hello'))
         .toEqual('Hello');
     });
 
-    it('should grab the german strings when locale is changed', function() {
+    it('should grab the german strings when locale is changed', () => {
       i18n.setLocale('de');
 
       expect(i18n.t('launcher.label.hello'))
         .toEqual('Hallo');
     });
 
-    it('should convert lang code to lower case', function() {
+    it('should convert lang code to lower case', () => {
       i18n.setLocale('DE');
 
       expect(i18n.getLocale()).toEqual('de');
     });
 
-    it('should convert region code to upper case', function() {
+    it('should convert region code to upper case', () => {
       i18n.setLocale('zh-cn');
       expect(i18n.getLocale()).toEqual('zh-CN');
     });
 
-    it('should try lang code if lang-region code does not exist (2 letters)', function() {
+    it('should try lang code if lang-region code does not exist (2 letters)', () => {
       i18n.setLocale('de-de');
       expect(i18n.getLocale()).toEqual('de');
     });
 
-    it('should try lang code if lang-region code does not exist (3 letters)', function() {
+    it('should try lang code if lang-region code does not exist (3 letters)', () => {
       i18n.setLocale('fil-PH');
       expect(i18n.getLocale()).toEqual('fil');
     });
 
-    it('should use en-US when there are no translations for the specified locale', function() {
+    it('should use en-US when there are no translations for the specified locale', () => {
       i18n.setLocale('xx');
       expect(i18n.getLocale()).toEqual('en-US');
     });
   });
 
-  describe('getLocaleId', function() {
+  describe('getLocaleId', () => {
     let localeIdMap;
 
-    beforeEach(function() {
+    beforeEach(() => {
       localeIdMap = mockRegistry['translation/localeIdMap.json'];
     });
 
-    it('should return the correct locale_id for en-US', function() {
+    it('should return the correct locale_id for en-US', () => {
       i18n.setLocale();
       expect(i18n.getLocaleId()).toEqual(localeIdMap['en-US']);
     });
 
-    it('should return the correct locale_id for de-de', function() {
+    it('should return the correct locale_id for de-de', () => {
       /* eslint dot-notation:0 */
       i18n.setLocale('de-de');
       expect(i18n.getLocaleId()).toEqual(localeIdMap['de']);
     });
   });
 
-  describe('parseLocale', function() {
-    it('should return locale when locale key is found', function() {
+  describe('parseLocale', () => {
+    it('should return locale when locale key is found', () => {
       i18n.setLocale('de');
 
       expect(i18n.getLocale())
         .toEqual('de');
     });
 
-    it('should return locale when locale with country key is found', function() {
+    it('should return locale when locale with country key is found', () => {
       i18n.setLocale('pt-BR');
 
       expect(i18n.getLocale())
         .toEqual('pt-BR');
     });
 
-    it('should return China\'s locale for `zh` key', function() {
+    it('should return China\'s locale for `zh` key', () => {
       i18n.setLocale('zh');
 
       expect(i18n.getLocale())
         .toEqual('zh-CN');
     });
 
-    it('should return Norwegian locale for `nb` and `nn` key', function() {
+    it('should return Norwegian locale for `nb` and `nn` key', () => {
       i18n.setLocale('nb');
 
       expect(i18n.getLocale())
@@ -215,25 +219,36 @@ describe('i18n', function() {
         .toEqual('no');
     });
 
-    it('should return Filipino locale for `tl` key', function() {
+    it('should return Filipino locale for `tl` key', () => {
       i18n.setLocale('tl');
 
       expect(i18n.getLocale())
         .toEqual('fil');
     });
 
-    it('should return `en-US` if locale key is not found', function() {
+    it('should return `en-US` if locale key is not found', () => {
       i18n.setLocale('Carlos');
 
       expect(i18n.getLocale())
         .toEqual('en-US');
     });
 
-    it('should return `en-US` by default if locale key is not passed', function() {
+    it('should return `en-US` by default if locale key is not passed', () => {
       i18n.setLocale();
 
       expect(i18n.getLocale())
         .toEqual('en-US');
+    });
+
+    describe('when translation is all lower-case', () => {
+      beforeEach(() => {
+        i18n.setLocale('en-au');
+      });
+
+      it('should return locale when locale with country key is found', () => {
+        expect(i18n.getLocale())
+          .toEqual('en-au');
+      });
     });
   });
 });
