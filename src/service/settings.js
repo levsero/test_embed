@@ -50,7 +50,7 @@ const initStore = (settings, store, options) => {
   });
 
   _.merge(store, whiteListedParams);
-}
+};
 
 function init() {
   const settings = win.zESettings;
@@ -62,8 +62,8 @@ function init() {
 }
 
 function get(path, store = 'webWidget') {
-  return store == 'webWidget' ? _.get(webWidgetStore, path, null)
-                              : _.get(ipmStore, path, null)
+  return store === 'webWidget' ? _.get(webWidgetStore, path, null)
+                              : _.get(ipmStore, path, null);
 }
 
 export const settings = {

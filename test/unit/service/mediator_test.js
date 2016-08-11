@@ -10,7 +10,8 @@ describe('mediator', function() {
     helpCenterSub,
     npsSub,
     ipmSub,
-    mockSettingsGetValue,
+    mockSettingsChatValue,
+    mockSettingsHelpCenterValue,
     mockOnHelpCenterPageValue,
     initSubscriptionSpies;
 
@@ -22,14 +23,16 @@ describe('mediator', function() {
   beforeEach(function() {
     mockery.enable();
 
-    mockSettingsGetValue = null;
+    mockSettingsChatValue = false;
+    mockSettingsHelpCenterValue = false;
     mockOnHelpCenterPageValue = false;
 
     mockRegistry = initMockRegistry({
       'service/settings': {
         settings : {
-          get: () => {
-            return mockSettingsGetValue;
+          get: (value) => {
+            return (value === 'chat.suppressed') ? mockSettingsChatValue
+                                                 : mockSettingsHelpCenterValue;
           }
         }
       },
@@ -1759,7 +1762,7 @@ describe('mediator', function() {
     });
 
     it('does not display chat if it is suppressed', function() {
-      mockSettingsGetValue = ['chat'];
+      mockSettingsChatValue = true;
       mediator.init();
 
       c.broadcast(`${chat}.isOnline`);
@@ -1775,7 +1778,7 @@ describe('mediator', function() {
     });
 
     it('does not display chat if it is suppressed and help center is active', function() {
-      mockSettingsGetValue = ['chat'];
+      mockSettingsChatValue = true;
       mediator.init(true);
 
       c.broadcast(`${chat}.isOnline`);
@@ -1794,7 +1797,7 @@ describe('mediator', function() {
     });
 
     it('should not display if it is suppressed', function() {
-      mockSettingsGetValue = ['helpCenter'];
+      mockSettingsHelpCenterValue = true;
       mediator.init(true);
 
       jasmine.clock().install();
@@ -1808,7 +1811,8 @@ describe('mediator', function() {
     });
 
     it('does not display chat or helpCenter if they are suppressed', function() {
-      mockSettingsGetValue = ['chat', 'helpCenter'];
+      mockSettingsChatValue = true;
+      mockSettingsHelpCenterValue = true;
       mediator.init(true);
 
       c.broadcast(`${chat}.isOnline`);

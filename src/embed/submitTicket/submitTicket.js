@@ -37,7 +37,7 @@ function create(name, config) {
 
   config = _.extend(configDefaults, config);
 
-  if (!attachmentsDisabledSetting) {
+  if (attachmentsDisabledSetting === false) {
     config.attachmentsEnabled = false;
   }
 
