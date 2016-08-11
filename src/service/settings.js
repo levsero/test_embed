@@ -2,34 +2,61 @@ import _ from 'lodash';
 
 import { win } from 'utility/globals';
 
-const optionWhitelist = [
+const webWidgetOptionWhitelist = [
   'authenticate',
   'translations',
   'suppress',
-  'attachmentsDisabled',
+  'contactForm.attachments',
   'offset',
-  'hideViewOriginalArticleButton'
+  'color',
+  'helpCenter.viewOriginalArticleButton'
 ];
-let store = {
+const ipmOptionWhitelist = [
+  'offset'
+];
+let webWidgetStore = {
   offset: {
     horizontal: 0,
     vertical: 0
   },
   widgetMargin: 15,
   widgetViaId: 48,
-  hideViewOriginalArticleButton: false
+  helpCenter: {
+    viewOriginalArticleButton: true
+  }
+};
+let ipmStore = {
+  offset: {
+    horizontal: 0,
+    vertical: 0
+  }
 };
 
-function init() {
-  if (!win.zESettings) return;
+const initStore = (settings, store, options) => {
+  if (!settings) return;
 
-  const whiteListedParams = _.pick(win.zESettings, optionWhitelist);
+  let whiteListedParams = {};
+
+  _.forEach(options, (option) => {
+    if (_.has(settings, option)) {
+      _.set(whiteListedParams, option, settings[option]);
+    }
+  });
 
   _.merge(store, whiteListedParams);
 }
 
+function init() {
+  const settings = win.zESettings;
+
+  if (!settings) return;
+
+  initStore(settings.webWidget, webWidgetStore, webWidgetOptionWhitelist);
+  initStore(settings.ipm, ipmStore, ipmOptionWhitelist);
+}
+
 function get(name) {
-  return store[name] || null;
+  return webWidgetStore[name] || null;
 }
 
 export const settings = {
