@@ -63,11 +63,13 @@ function regulateLocaleStringCase(locale) {
 
 function parseLocale(str) {
   const locale = regulateLocaleStringCase(str);
-  const extractLang = function(locale) {
+  const extractLang = (locale) => {
     return locale.substring(0, locale.indexOf('-'));
   };
 
-  if (translations[locale]) {
+  if (translations[str]) {
+    return str;
+  } else if (translations[locale]) {
     return locale;
   } else if (translations[extractLang(locale)]) {
     return extractLang(locale);
