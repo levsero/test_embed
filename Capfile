@@ -80,14 +80,15 @@ namespace :embeddable_framework do
     end
 
     # upload
-    bucket.put_object({key: "#{s3_release_directory}/"})
+    bucket.put_object({key: "#{s3_release_directory}/", server_side_encryption: 'AES256'})
 
     framework_files.each do |file|
       logger.info "put_object #{s3_release_directory}/#{file}"
-      bucket.put_object({key: "#{s3_release_directory}/#{file}"})
+      bucket.put_object({key: "#{s3_release_directory}/#{file}", server_side_encryption: 'AES256'})
 
       logger.info "upload_file dist/#{file}"
-      bucket.object("#{s3_release_directory}/#{file}").upload_file("dist/#{file}")
+      bucket.object("#{s3_release_directory}/#{file}")
+            .upload_file("dist/#{file}", {server_side_encryption: 'AES256'})
     end
   end
 
