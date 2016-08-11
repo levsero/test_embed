@@ -149,6 +149,7 @@ function create(name, config) {
           fullscreen={isMobileBrowser()}
           updateFrameSize={params.updateFrameSize}
           disableAutoSearch={config.disableAutoSearch}
+          viewOriginalArticleButton={settings.get('helpCenter.viewOriginalArticleButton')}
           zendeskHost={transport.getZendeskHost()} />
       );
     },

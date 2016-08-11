@@ -219,7 +219,7 @@ class HelpCenterArticle extends Component {
     });
     const viewOriginalClasses = classNames({
       'u-marginBM': true,
-      'u-isHidden': settings.get('hideViewOriginalArticleButton')
+      'u-isHidden': !this.props.viewOriginalArticleButton
     });
 
     return (
@@ -254,6 +254,7 @@ HelpCenterArticle.propTypes = {
   imagesSender: PropTypes.func,
   updateStoredImages: PropTypes.func,
   updateFrameSize: PropTypes.func,
+  viewOriginalArticleButton: PropTypes.bool,
   fullscreen: PropTypes.bool
 };
 
@@ -263,6 +264,7 @@ HelpCenterArticle.defaultProps = {
   imagesSender: () => {},
   updateStoredImages: () => {},
   updateFrameSize: () => {},
+  viewOriginalArticleButton: true,
   fullscreen: false
 };
 

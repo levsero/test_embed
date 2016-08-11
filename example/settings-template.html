@@ -51,7 +51,9 @@
             },
             "ticketSubmissionForm": {
               "embed": "submitTicket",
-              "props": {}
+              "props": {
+                "attachmentsEnabled": true
+              }
             }
           }
         });
@@ -60,7 +62,8 @@
       zESettings = {
         webWidget: {
           helpCenter: {
-            viewOriginalArticleButton: true
+            viewOriginalArticleButton: true,
+            supressed: true
           },
           contactForm: {
             attachments: true

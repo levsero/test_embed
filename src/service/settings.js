@@ -2,18 +2,21 @@ import _ from 'lodash';
 
 import { win } from 'utility/globals';
 
-const webWidgetOptionWhitelist = [
-  'authenticate',
-  'translations',
-  'suppress',
-  'contactForm.attachments',
-  'offset',
-  'color',
-  'helpCenter.viewOriginalArticleButton'
-];
-const ipmOptionWhitelist = [
-  'offset'
-];
+const optionWhitelist = {
+  webWidget: [
+    'authenticate',
+    'contactForm.attachments',
+    'offset',
+    'color',
+    'helpCenter.viewOriginalArticleButton',
+    'helpCenter.suppressed',
+    'chat.suppressed',
+    'launcher.label'
+  ],
+  ipm: [
+    'offset'
+  ]
+};
 let webWidgetStore = {
   offset: {
     horizontal: 0,
@@ -23,6 +26,9 @@ let webWidgetStore = {
   widgetViaId: 48,
   helpCenter: {
     viewOriginalArticleButton: true
+  },
+  contactForm: {
+    attachments: true
   }
 };
 let ipmStore = {
@@ -39,7 +45,7 @@ const initStore = (settings, store, options) => {
 
   _.forEach(options, (option) => {
     if (_.has(settings, option)) {
-      _.set(whiteListedParams, option, settings[option]);
+      _.set(whiteListedParams, option, _.get(settings, option, null));
     }
   });
 
@@ -51,12 +57,13 @@ function init() {
 
   if (!settings) return;
 
-  initStore(settings.webWidget, webWidgetStore, webWidgetOptionWhitelist);
-  initStore(settings.ipm, ipmStore, ipmOptionWhitelist);
+  initStore(settings.webWidget, webWidgetStore, optionWhitelist.webWidget);
+  initStore(settings.ipm, ipmStore, optionWhitelist.ipm);
 }
 
-function get(name) {
-  return webWidgetStore[name] || null;
+function get(path, store = 'webWidget') {
+  return store == 'webWidget' ? _.get(webWidgetStore, path, null)
+                              : _.get(ipmStore, path, null)
 }
 
 export const settings = {
