@@ -15,10 +15,10 @@ export class ButtonDropzone extends Component {
     return (
       <Dropzone
         onDrop={this.props.onDrop}
-        activeClassName='Anim-color u-userTextColor u-textBold u-userFillColor'
-        className='Form-field--display Container--dashed'>
+        activeClassName='Anim-color u-userTextColor u-textBold'
+        className='Button--dropzone Container--dashed u-isActionable u-marginTS'>
         <div className='u-textCenter'>
-          <Icon type='Icon--paperclip-small' className='u-inlineBlock' />
+          <Icon type='Icon--paperclip-small' className='u-inlineBlock u-userFillColor' />
           <div className='u-inlineBlock u-alignTop'>{label}</div>
         </div>
       </Dropzone>

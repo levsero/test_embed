@@ -60,7 +60,7 @@ export class Attachment extends Component {
       'Form-field--display-preview': true,
       'Attachment--uploading': uploading,
       'u-posRelative': true,
-      'u-marginBS': true,
+      'u-marginTT': true,
       'u-borderError': hasError
     });
     const secondaryTextClasses = classNames({
@@ -97,7 +97,7 @@ export class Attachment extends Component {
           </div>
           <Icon
             onClick={this.handleIconClick}
-            className='Icon--preview-close u-isActionable u-pullRight'
+            className='Icon--preview-close u-isActionable u-pullRight Button--nav'
             type='Icon--close' />
         </div>
         {progressBar}

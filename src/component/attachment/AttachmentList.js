@@ -208,7 +208,7 @@ export class AttachmentList extends Component {
 
   renderErrorMessage() {
     return (
-      <div className='Error u-textError u-marginBS'>
+      <div className='Error u-textError u-marginVS'>
         {this.state.errorMessage}
       </div>
     );
@@ -226,7 +226,7 @@ export class AttachmentList extends Component {
 
     return (
       <div>
-        <div className='Form-fieldContainer u-block u-marginVM'>
+        <div className='Form-fieldContainer u-block u-marginTM u-marginBS'>
           <label className='Form-fieldLabel u-textXHeight'>
             {title}
           </label>

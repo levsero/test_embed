@@ -21,6 +21,9 @@ function generateUserCSS(color = '#659700') {
     .u-userFillColor:not([disabled]) svg {
       fill: ${color} !important;
     }
+    .u-userFillColor:not([disabled]) svg path {
+      fill: ${color} !important;
+    }
     .u-userTextColor:not([disabled]):hover,
     .u-userTextColor:not([disabled]):active,
     .u-userTextColor:not([disabled]):focus {
