@@ -127,7 +127,11 @@ export const frameFactory = function(childFn, _params) {
 
     getRootComponent() {
       if (child) {
-        return child.refs.rootComponent;
+        const rootComponent = child.refs.rootComponent;
+
+        return rootComponent.getWrappedInstance
+          ? rootComponent.getWrappedInstance()
+          : rootComponent;
       }
     }
 

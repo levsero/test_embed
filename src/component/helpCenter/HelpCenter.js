@@ -543,4 +543,4 @@ HelpCenter.defaultProps = {
   viewMoreEnabled: false
 };
 
-export default connect(mapStateToProps, { updateSearchTerm })(HelpCenter);
+export default connect(mapStateToProps, { updateSearchTerm }, null, { withRef: true })(HelpCenter);
