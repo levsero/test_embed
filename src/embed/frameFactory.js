@@ -20,9 +20,10 @@ if (!__DEV__) {
 }
 
 import { Provider } from 'react-redux'
-import { createStore, compose, combineReducers } from 'redux';
 
-import helpCenterReducer from 'src/redux/reducers/helpCenterReducer';
+import createStore from 'src/redux/createStore';
+
+const store = createStore();
 
 let expanded = false;
 
@@ -30,8 +31,6 @@ const baseCSS = require('baseCSS');
 const mainCSS = require('mainCSS');
 const sizingRatio = 12 * getZoomSizingRatio(false, true);
 const baseFontCSS = `html { font-size: ${sizingRatio}px }`;
-
-const store = createStore(helpCenterReducer);
 
 function validateChildFn(childFn, params) {
   if (!_.isFunction(childFn)) {
@@ -400,16 +399,18 @@ export const frameFactory = function(childFn, _params) {
       element.className = positionClasses;
 
       child = ReactDOM.render(
-        <EmbedWrapper
-          baseCSS={cssText}
-          handleBackClick={this.back}
-          handleCloseClick={this.close}
-          handleExpandClick={this.expand}
-          showExpandButton={params.expandable}
-          hideCloseButton={params.hideCloseButton}
-          childFn={childFn}
-          childParams={childParams}
-          fullscreen={fullscreen} />,
+        <Provider store={store}>
+          <EmbedWrapper
+            baseCSS={cssText}
+            handleBackClick={this.back}
+            handleCloseClick={this.close}
+            handleExpandClick={this.expand}
+            showExpandButton={params.expandable}
+            hideCloseButton={params.hideCloseButton}
+            childFn={childFn}
+            childParams={childParams}
+            fullscreen={fullscreen} />,
+        </Provider>,
         element
       );
 

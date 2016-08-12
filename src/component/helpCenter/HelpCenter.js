@@ -16,7 +16,7 @@ const minimumSearchResults = 3;
 const maximumSearchResults = 9;
 
 const mapStateToProps = (state) => {
-  return { helpCenter: state }
+  return { helpCenter: state.helpCenter }
 };
 
 export class HelpCenter extends Component {
