@@ -4,3 +4,14 @@ export function updateSearchTerm(searchTerm) {
     payload: { searchTerm }
   }
 }
+
+// example thunk action
+export function updateSearchTermSlowly(searchTerm) {
+  return (dispatch) => {
+    request(thing).then((response) => {
+      dispatch(happyAction(response))
+    }).catch((err) => {
+      dispatch(sadAction(err.message))
+    })
+  }
+}
