@@ -10,7 +10,7 @@ import { HelpCenterResults } from 'component/helpCenter/HelpCenterResults';
 import { i18n } from 'service/i18n';
 import { bindMethods } from 'utility/utils';
 
-import { updateSearchTerm } from 'src/redux/actions/helpCenter'
+import { updateSearchTerm, performSearch } from 'src/redux/actions/helpCenter'
 
 const minimumSearchResults = 3;
 const maximumSearchResults = 9;
@@ -248,7 +248,7 @@ export class HelpCenter extends Component {
       }
     };
 
-    this.props.searchSender(query, doneFn, this.searchFail);
+    this.props.performSearch(query);
   }
 
   performContextualSearch(query, successFn) {
@@ -325,7 +325,7 @@ export class HelpCenter extends Component {
     e.preventDefault();
 
     this.setState({
-      activeArticle: this.state.articles[articleIndex],
+      activeArticle: this.props.helpCenter.results[articleIndex],
       articleViewActive: true
     });
 
@@ -369,8 +369,9 @@ export class HelpCenter extends Component {
 
   renderResults() {
     const hasSearched = this.state.hasSearched || this.state.hasContextualSearched;
+    const { results, searched, searchTerm } = this.props.helpCenter;
 
-    if (this.state.articleViewActive || !hasSearched) {
+    if (this.state.articleViewActive || !searched) {
       return null;
     }
     const showViewMore = this.props.viewMoreEnabled &&
@@ -386,12 +387,13 @@ export class HelpCenter extends Component {
     return (
       <HelpCenterResults
         fullscreen={this.props.fullscreen}
-        articles={this.state.articles}
+        articles={this.props.helpCenter.results}
+        error={this.props.helpCenter.error}
         showViewMore={showViewMore}
         applyPadding={applyPadding}
         searchFailed={this.state.searchFailed}
         showBottomBorder={showBottomBorder}
-        previousSearchTerm={this.state.previousSearchTerm}
+        previousSearchTerm={searchTerm}
         handleArticleClick={this.handleArticleClick}
         handleViewMoreClick={this.handleViewMoreClick}
         hasContextualSearched={this.state.hasContextualSearched}
@@ -421,6 +423,7 @@ export class HelpCenter extends Component {
   renderHelpCenterDesktop(buttonLabel) {
     const shadowVisible = this.state.articleViewActive ||
                           this.state.articles.length > minimumSearchResults;
+    const { searched, loading, searchValue } = this.props.helpCenter;
 
     return (
       <HelpCenterDesktop
@@ -432,15 +435,15 @@ export class HelpCenter extends Component {
         showNextButton={this.state.showNextButton}
         hideZendeskLogo={this.props.hideZendeskLogo}
         disableAutoSearch={this.props.disableAutoSearch}
-        isLoading={this.state.isLoading}
+        isLoading={loading}
         onNextClick={this.props.onNextClick}
         channelChoice={this.props.channelChoice && this.state.chatOnline}
         articleViewActive={this.state.articleViewActive}
-        hasSearched={this.state.hasSearched}
+        hasSearched={searched}
         buttonLabel={buttonLabel}
         expanded={this.state.expanded}
         formTitleKey={this.props.formTitleKey}
-        searchFieldValue={this.props.helpCenter.searchTerm}
+        searchFieldValue={searchValue}
         shadowVisible={shadowVisible}
         updateFrameSize={this.props.updateFrameSize}>
         {this.renderResults()}
@@ -522,8 +525,8 @@ HelpCenter.propTypes = {
   localeFallbacks: PropTypes.arr,
   disableAutoSearch: PropTypes.bool,
   viewMoreEnabled: PropTypes.bool,
-  disableAutoSearch: PropTypes.bool,
-  updateSearchTerm: PropTypes.func.isRequired
+  updateSearchTerm: PropTypes.func.isRequired,
+  performSearch: PropTypes.func.isRequired
 };
 
 HelpCenter.defaultProps = {
@@ -543,4 +546,4 @@ HelpCenter.defaultProps = {
   viewMoreEnabled: false
 };
 
-export default connect(mapStateToProps, { updateSearchTerm }, null, { withRef: true })(HelpCenter);
+export default connect(mapStateToProps, { updateSearchTerm, performSearch }, null, { withRef: true })(HelpCenter);

@@ -176,7 +176,8 @@ HelpCenterDesktop.propTypes = {
   disableAutoSearch: PropTypes.bool,
   channelChoice: PropTypes.bool,
   showNextButton: PropTypes.bool,
-  expanded: PropTypes.bool
+  expanded: PropTypes.bool,
+  showFooter: PropTypes.bool
 };
 
 HelpCenterDesktop.defaultProps = {
@@ -192,5 +193,6 @@ HelpCenterDesktop.defaultProps = {
   disableAutoSearch: false,
   channelChoice: false,
   showNextButton: true,
-  expanded: false
+  expanded: false,
+  showFooter: false
 };

@@ -53,12 +53,12 @@ export class HelpCenterResults extends Component {
       'u-marginBL': !this.props.fullscreen
     });
     /* eslint indent:0 */
-    const title = this.props.searchFailed
+    const title = this.props.error
                 ? i18n.t('embeddable_framework.helpCenter.search.error.title')
                 : i18n.t('embeddable_framework.helpCenter.search.noResults.title', {
                     searchTerm: this.props.previousSearchTerm
                   });
-    const body = this.props.searchFailed && this.props.showContactButton
+    const body = this.props.error && this.props.showContactButton
                ? i18n.t('embeddable_framework.helpCenter.search.error.body')
                : i18n.t('embeddable_framework.helpCenter.search.noResults.body');
 
