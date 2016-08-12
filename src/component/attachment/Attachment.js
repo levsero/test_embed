@@ -70,6 +70,7 @@ export class Attachment extends Component {
     });
     const titleClasses = classNames({
       'u-pullLeft': true,
+      'Attachment-title': !hasError,
       'u-hsizeAll': hasError
     })
 
