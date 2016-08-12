@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
+import { connect } from 'react-redux';
 
 import { Container } from 'component/Container';
 import { HelpCenterArticle } from 'component/helpCenter/HelpCenterArticle';
@@ -9,8 +10,14 @@ import { HelpCenterResults } from 'component/helpCenter/HelpCenterResults';
 import { i18n } from 'service/i18n';
 import { bindMethods } from 'utility/utils';
 
+import { updateSearchTerm } from 'src/redux/actions/helpCenter'
+
 const minimumSearchResults = 3;
 const maximumSearchResults = 9;
+
+const mapStateToProps = (state) => {
+  return { helpCenter: state }
+};
 
 export class HelpCenter extends Component {
   constructor(props, context) {
@@ -273,6 +280,8 @@ export class HelpCenter extends Component {
   }
 
   handleOnChangeValue(value) {
+    this.props.updateSearchTerm(value);
+
     this.setState({ searchFieldValue: value });
   }
 
@@ -431,7 +440,7 @@ export class HelpCenter extends Component {
         buttonLabel={buttonLabel}
         expanded={this.state.expanded}
         formTitleKey={this.props.formTitleKey}
-        searchFieldValue={this.state.searchFieldValue}
+        searchFieldValue={this.props.helpCenter.searchTerm}
         shadowVisible={shadowVisible}
         updateFrameSize={this.props.updateFrameSize}>
         {this.renderResults()}
@@ -493,6 +502,7 @@ export class HelpCenter extends Component {
 }
 
 HelpCenter.propTypes = {
+  helpCenter: PropTypes.object.isRequired,
   searchSender: PropTypes.func.isRequired,
   contextualSearchSender: PropTypes.func.isRequired,
   imagesSender: PropTypes.func.isRequired,
@@ -511,7 +521,9 @@ HelpCenter.propTypes = {
   channelChoice: PropTypes.bool,
   localeFallbacks: PropTypes.arr,
   disableAutoSearch: PropTypes.bool,
-  viewMoreEnabled: PropTypes.bool
+  viewMoreEnabled: PropTypes.bool,
+  disableAutoSearch: PropTypes.bool,
+  updateSearchTerm: PropTypes.func.isRequired
 };
 
 HelpCenter.defaultProps = {
@@ -530,3 +542,5 @@ HelpCenter.defaultProps = {
   disableAutoSearch: false,
   viewMoreEnabled: false
 };
+
+export default connect(mapStateToProps, { updateSearchTerm })(HelpCenter);

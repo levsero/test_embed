@@ -19,12 +19,19 @@ if (!__DEV__) {
   _.noConflict();
 }
 
+import { Provider } from 'react-redux'
+import { createStore, compose, combineReducers } from 'redux';
+
+import helpCenterReducer from 'src/redux/reducers/helpCenterReducer';
+
+let expanded = false;
+
 const baseCSS = require('baseCSS');
 const mainCSS = require('mainCSS');
 const sizingRatio = 12 * getZoomSizingRatio(false, true);
 const baseFontCSS = `html { font-size: ${sizingRatio}px }`;
 
-let expanded = false;
+const store = createStore(helpCenterReducer);
 
 function validateChildFn(childFn, params) {
   if (!_.isFunction(childFn)) {
