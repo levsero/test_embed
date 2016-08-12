@@ -72,7 +72,7 @@ export class Attachment extends Component {
       'u-pullLeft': true,
       'Attachment-title': !hasError,
       'u-hsizeAll': hasError
-    })
+    });
 
     const icon = hasError
                ? null
