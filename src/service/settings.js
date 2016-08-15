@@ -8,8 +8,13 @@ const optionWhitelist = {
     'chat.suppressed',
     'color',
     'contactForm.attachments',
+    'contactForm.title',
+    'helpCenter.chatButton',
+    'helpCenter.messageButton',
     'helpCenter.originalArticleButton',
     'helpCenter.suppressed',
+    'helpCenter.title',
+    'launcher.chatLabel',
     'launcher.label',
     'offset'
   ],
@@ -24,6 +29,7 @@ let webWidgetStore = {
   helpCenter: {
     originalArticleButton: true
   },
+  launcher: {},
   margin: 15,
   offset: {
     horizontal: 0,
@@ -66,7 +72,23 @@ function get(path, store = 'webWidget') {
                                : _.get(ipmStore, path, null);
 }
 
+function getTranslations() {
+  const translations = {
+    launcherLabel: webWidgetStore.launcher.label,
+    launcherChatLabel: webWidgetStore.launcher.chatLabel,
+    helpCenterTitle: webWidgetStore.helpCenter.title,
+    helpCenterMessageButton: webWidgetStore.helpCenter.messageButton,
+    helpCenterChatButton: webWidgetStore.helpCenter.chatButton,
+    contactFormTitle: webWidgetStore.contactForm.title
+  };
+
+  return _.omit(translations, _.filter(_.keys(translations), (key) => {
+    return _.isUndefined(translations[key]);
+  }));
+}
+
 export const settings = {
   init: init,
-  get: get
+  get: get,
+  getTranslations
 };

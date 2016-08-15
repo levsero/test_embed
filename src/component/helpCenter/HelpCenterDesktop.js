@@ -111,7 +111,7 @@ export class HelpCenterDesktop extends Component {
         <ScrollContainer
           ref='scrollContainer'
           hideZendeskLogo={this.props.hideZendeskLogo}
-          title={i18n.t(`embeddable_framework.launcher.label.${this.props.formTitleKey}`)}
+          title={i18n.t(`embeddable_framework.helpCenter.form.title.${this.props.formTitleKey}`)}
           headerContent={this.renderHeaderContent()}
           footerContent={footerContent}>
           {this.renderBodyForm()}

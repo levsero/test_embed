@@ -63,12 +63,35 @@
         webWidget: {
           helpCenter: {
             originalArticleButton: true,
-            supressed: true
+            supressed: false,
+            title: {
+              '*': 'help center title',
+              'en-US': 'why?'
+            },
+            contactButton: {
+              'en-US': 'Yo',
+              'fr': ':('
+            }
           },
           contactForm: {
-            attachments: true
+            attachments: true,
+            title: {
+              '*': 'test',
+              'en-US': 'test2'
+            }
           },
-          color: '#648297'
+          launcher: {
+            label: {
+              '*': 'hello!',
+              'fr': 'bonjour!'
+            }
+          },
+          color: '#648297',
+          translations: {
+            '*': {
+              'launcherLabel': 'test'
+            }
+          }
         }
       };
     </script>
