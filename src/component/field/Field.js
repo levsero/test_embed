@@ -77,33 +77,7 @@ export class Field extends Component {
     );
   }
 
-  render() {
-    const type = this.props.type;
-    const landscape = (isMobileBrowser() && isLandscape());
-    const portrait = (isMobileBrowser() && !isLandscape());
-    const isCheckbox = (type === 'checkbox');
-    const isDropdown = this.props.options.length > 0;
-    const fieldClasses = classNames({
-      'Form-field u-isSelectable u-posRelative': true,
-      'Form-field--invalid': this.state.hasError && this.state.blurred && !isCheckbox,
-      'Form-field--focused': this.state.focused && !isCheckbox,
-      'Form-field--dropdown': isDropdown,
-      'Form-field--clean': isCheckbox,
-      'is-mobile': isMobileBrowser(),
-      'Form-field--small': landscape
-    });
-    const fieldLabelClasses = classNames({
-      'Form-fieldLabel u-textXHeight': true,
-      'u-textSize15': portrait,
-      'u-textSizeSml': landscape,
-      [this.props.labelClasses]: true
-    });
-    const fieldInputClasses = classNames({
-      'Form-checkboxInput u-isHiddenVisually': isCheckbox,
-      'Form-checkboxInput--focused': this.state.focused && isCheckbox,
-      'Form-checkboxInput--invalid': this.state.hasError && this.state.blurred && isCheckbox,
-      'u-textSizeBaseMobile': isMobileBrowser()
-    });
+  renderInput() {
     const sharedProps = {
       onChange: this.onChange,
       onBlur: this.onBlur,
@@ -111,6 +85,13 @@ export class Field extends Component {
       ref: 'field',
       value: this.props.value
     };
+    const isCheckbox = (this.props.type === 'checkbox');
+    const fieldInputClasses = classNames({
+      'Form-checkboxInput u-isHiddenVisually': isCheckbox,
+      'Form-checkboxInput--focused': this.state.focused && isCheckbox,
+      'Form-checkboxInput--invalid': this.state.hasError && this.state.blurred && isCheckbox,
+      'u-textSizeBaseMobile': isMobileBrowser()
+    });
     let fieldProps = {
       name: this.props.name,
       value: this.props.value,
@@ -128,6 +109,41 @@ export class Field extends Component {
       });
     }
 
+    if (this.props.pattern !== '') {
+      fieldProps = _.extend(fieldProps, {
+        pattern: this.props.pattern
+      });
+    }
+
+    return (this.props.input)
+         ? React.cloneElement(
+            this.props.input,
+            _.extend({}, sharedProps, fieldProps, {className: fieldInputClasses})
+           )
+         : <input {...sharedProps} {...fieldProps} className={fieldInputClasses} />;
+  }
+
+  render() {
+    const landscape = (isMobileBrowser() && isLandscape());
+    const portrait = (isMobileBrowser() && !isLandscape());
+    const isCheckbox = (this.props.type === 'checkbox');
+    const isDropdown = this.props.options.length > 0;
+    const fieldClasses = classNames({
+      'Form-field u-isSelectable u-posRelative': true,
+      'Form-field--invalid': this.state.hasError && this.state.blurred && !isCheckbox,
+      'Form-field--focused': this.state.focused && !isCheckbox,
+      'Form-field--dropdown': isDropdown,
+      'Form-field--clean': isCheckbox,
+      'is-mobile': isMobileBrowser(),
+      'Form-field--small': landscape
+    });
+    const fieldLabelClasses = classNames({
+      'Form-fieldLabel u-textXHeight': true,
+      'u-textSize15': portrait,
+      'u-textSizeSml': landscape,
+      [this.props.labelClasses]: true
+    });
+
     const dropdownArrow = isDropdown ? this.renderDropdownArrow() : null;
 
     return (
@@ -137,20 +153,13 @@ export class Field extends Component {
           {this.props.required && !isCheckbox ? '*' : ''}
         </div>
         <div className={fieldClasses}>
+          {this.renderInput()}
           {
-            (this.props.input)
-              ? React.cloneElement(
-                  this.props.input,
-                _.extend({}, sharedProps, fieldProps, {className: fieldInputClasses})
-                )
-              : <input {...sharedProps} {...fieldProps} className={fieldInputClasses} />
-          }
-          {
-          (isCheckbox)
-            ? <div className='Form-checkbox u-pullLeft u-posRelative u-isActionable'>
-                <Icon type='Icon--check' />
-              </div>
-            : null
+            (isCheckbox)
+              ? <div className='Form-checkbox u-pullLeft u-posRelative u-isActionable'>
+                  <Icon type='Icon--check' />
+                </div>
+              : null
           }
           {
             (this.props.label)
@@ -190,7 +199,8 @@ Field.propTypes = {
   onFocus: PropTypes.func,
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
-  step: PropTypes.string
+  step: PropTypes.string,
+  pattern: PropTypes.string
 };
 
 Field.defaultProps = {
@@ -205,5 +215,6 @@ Field.defaultProps = {
   onFocus: () => {},
   onBlur: () => {},
   onChange: () => {},
-  step: ''
+  step: '',
+  pattern: ''
 };
