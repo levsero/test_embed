@@ -33,11 +33,11 @@ function create(name, config) {
     maxFileSize: 5 * 1024 * 1024, // 5 MB
     color: '#659700'
   };
-  const attachmentsDisabledSetting = settings.get('contactForm.attachments');
+  const attachmentsSetting = settings.get('contactForm.attachments');
 
   config = _.extend(configDefaults, config);
 
-  if (attachmentsDisabledSetting === false) {
+  if (attachmentsSetting === false) {
     config.attachmentsEnabled = false;
   }
 
