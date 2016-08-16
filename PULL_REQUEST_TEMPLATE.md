@@ -17,8 +17,8 @@ Make sure you check all of these. If they're not relevant to your PR then cross 
  - [ ] Contextual Help
  - [ ] Desktop
  - [ ] Mobile
- - [ ] Design Team
  - [ ] RTL
+ - [ ] Design Sign-Off
 
 ### Risks
  - %SAY_SOMETHING%
