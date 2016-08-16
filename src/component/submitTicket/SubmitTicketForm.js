@@ -182,6 +182,10 @@ export class SubmitTicketForm extends Component {
       }
     });
 
+    if (this.props.attachmentsEnabled) {
+      this.refs.attachments.clear();
+    }
+
     this.setState(initialState);
     this.setState({
       formState: {

@@ -4,6 +4,7 @@ describe('SubmitTicketForm component', function() {
     onCancel,
     mockRegistry,
     mockAttachmentsReadyValue,
+    mockAttachmentsListClear,
     scrollToBottomSpy;
   const submitTicketFormPath = buildSrcPath('component/submitTicket/SubmitTicketForm');
   const buttonPath = buildSrcPath('component/button/Button');
@@ -24,6 +25,7 @@ describe('SubmitTicketForm component', function() {
     });
 
     mockAttachmentsReadyValue = true;
+    mockAttachmentsListClear = jasmine.createSpy('attachmentsListClear');
     scrollToBottomSpy = jasmine.createSpy();
 
     mockRegistry = initMockRegistry({
@@ -78,9 +80,8 @@ describe('SubmitTicketForm component', function() {
       'component/attachment/AttachmentList': {
         AttachmentList: React.createClass({
           attachmentsReady: () => mockAttachmentsReadyValue,
-          render: function() {
-            return <div ref="attachments" />;
-          }
+          clear: mockAttachmentsListClear,
+          render: () => <div ref="attachments" />
         })
       },
       'service/i18n': {
@@ -170,17 +171,41 @@ describe('SubmitTicketForm component', function() {
       .toEqual(true);
   });
 
-  it('should clear all fields other then name and email on valid submit', function() {
-    const submitTicketForm = domRender(<SubmitTicketForm submit={onSubmit} />);
+  describe('on a valid submission', () => {
+    let submitTicketForm;
+    const expectedFormState = {
+      name: formParams.name,
+      email: formParams.email
+    };
 
-    submitTicketForm.state.formState = _.clone(formParams);
-    submitTicketForm.clear();
+    it('should clear all fields other then name and email', () => {
+      submitTicketForm = domRender(<SubmitTicketForm submit={onSubmit} />);
 
-    expect(submitTicketForm.state.formState)
-      .toEqual({
-        name: formParams.name,
-        email: formParams.email
+      submitTicketForm.state.formState = _.clone(formParams);
+      submitTicketForm.clear();
+
+      expect(submitTicketForm.state.formState)
+        .toEqual(expectedFormState);
+    });
+
+    describe('when attachments are enabled', () => {
+      beforeEach(() => {
+        submitTicketForm = domRender(<SubmitTicketForm submit={onSubmit} attachmentsEnabled={true} />);
+
+        submitTicketForm.state.formState = _.clone(formParams);
+        submitTicketForm.clear();
       });
+
+      it('should clear all fields other then name and email', () => {
+        expect(submitTicketForm.state.formState)
+          .toEqual(expectedFormState);
+      });
+
+      it('should clear the attachments list', () => {
+        expect(mockAttachmentsListClear)
+          .toHaveBeenCalled();
+      });
+    });
   });
 
   it('should disable submit button when attachments not ready', function() {

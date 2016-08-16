@@ -182,6 +182,10 @@ export class AttachmentList extends Component {
     return this.numUploadedAttachments() === _.size(this.state.attachments);
   }
 
+  clear() {
+    this.setState({ attachments: {} });
+  }
+
   renderAttachments() {
     return _.map(this.state.attachments, (attachment, id) => {
       const { file } = attachment;

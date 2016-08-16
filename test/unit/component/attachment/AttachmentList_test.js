@@ -619,6 +619,23 @@ describe('AttachmentList component', () => {
     });
   });
 
+  describe('clear', () => {
+    beforeEach(() => {
+      component.handleOnDrop([
+        { name: 'jim.png', size: 1024 },
+        { name: 'bar.png', size: 1024 }
+      ]);
+      jasmine.clock().tick(1);
+    });
+
+    it('should clear the attachments array', () => {
+      component.clear();
+
+      expect(_.size(component.state.attachments))
+        .toBe(0);
+    });
+  });
+
   describe('attachment event handling', () => {
     let attachmentId;
 
