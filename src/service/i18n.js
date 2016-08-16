@@ -63,14 +63,15 @@ function regulateLocaleStringCase(locale) {
 
 function parseLocale(str) {
   const locale = regulateLocaleStringCase(str);
+  const lowercaseLocale = locale.toLowerCase();
   const extractLang = (locale) => {
     return locale.substring(0, locale.indexOf('-'));
   };
 
-  if (translations[str]) {
-    return str;
-  } else if (translations[locale]) {
+  if (translations[locale]) {
     return locale;
+  } else if (translations[lowercaseLocale]) {
+    return lowercaseLocale;
   } else if (translations[extractLang(locale)]) {
     return extractLang(locale);
   } else if (str === 'zh') {
