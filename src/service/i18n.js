@@ -13,9 +13,9 @@ let currentLocale;
 translate.setSeparator('*');
 
 function init() {
-  const customerTranslations = settings.get('translations');
+  const customerTranslations = settings.getTranslations();
 
-  if (customerTranslations) {
+  if (!_.isEmpty(customerTranslations)) {
     overrideTranslations(customerTranslations);
   }
 }
@@ -86,23 +86,27 @@ function parseLocale(str) {
 
 function overrideTranslations(newTranslations) {
   // override all locales if there are wild card translations
-  if (newTranslations.hasOwnProperty('*')) {
-    const globalOverrides = mappedTranslationsForLocale(newTranslations['*']);
+  _.forEach(newTranslations, (newTranslation, translationKey) => {
+    if (newTranslation.hasOwnProperty('*')) {
+      const globalOverrides = mappedTranslationsForLocale(newTranslation['*'], translationKey);
 
-    for (let locale in translations) {
-      _.merge(translations[locale], globalOverrides);
+      for (let locale in translations) {
+        _.merge(translations[locale], globalOverrides);
+      }
     }
-  }
 
-  // overrride any other specified locales
-  for (let locale in newTranslations) {
-    if (locale === '*') continue;
+    // overrride any other specified locales
+    for (let locale in newTranslation) {
+      if (locale === '*') continue;
 
-    _.merge(translations[locale], mappedTranslationsForLocale(newTranslations[locale]));
-  }
+      const localeOverrides = mappedTranslationsForLocale(newTranslation[locale], translationKey);
+
+      _.merge(translations[locale], localeOverrides);
+    }
+  });
 }
 
-function mappedTranslationsForLocale(localeOverrides) {
+function mappedTranslationsForLocale(localeOverride, translationKey) {
   const keyLookupTable = {
     'embeddable_framework.launcher.label.help': 'launcherLabel',
     'embeddable_framework.launcher.label.support': 'launcherLabel',
@@ -118,18 +122,15 @@ function mappedTranslationsForLocale(localeOverrides) {
     'embeddable_framework.submitTicket.form.title.contact': 'contactFormTitle'
   };
 
-  // for each key in the lookup table
-  return Object.keys(keyLookupTable)
-    // filter out any keys whose values are not present (as keys) in the localeOverrides
-    .filter((key) => localeOverrides.hasOwnProperty(keyLookupTable[key]))
-    // create a new object using the keys from the lookup table, and the values from localeOverrides
+  return _.chain(keyLookupTable)
+    .map((value, key) => {
+      if (value === translationKey) return key;
+    })
+    .compact()
     .reduce((obj, key) => {
-      const overrideKey = keyLookupTable[key];
-      const overrideValue = localeOverrides[overrideKey];
-      const translationOverride = { [key]: overrideValue };
-
-      return _.merge(obj, translationOverride);
-    }, {});
+      return _.merge(obj, { [key]: localeOverride });
+    }, {})
+    .value();
 }
 
 export const i18n = {

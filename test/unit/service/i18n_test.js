@@ -7,7 +7,7 @@ describe('i18n', () => {
     mockery.enable();
     mockRegistry = initMockRegistry({
       'service/settings': {
-        'settings': { get: noop }
+        'settings': { getTranslations: noop }
       },
       'translation/translations.json': {
         'en-US': {
@@ -62,9 +62,9 @@ describe('i18n', () => {
   describe('#init', () => {
     describe('with a specific translation override', () => {
       beforeEach(() => {
-        mockRegistry['service/settings'].settings.get = () => {
+        mockRegistry['service/settings'].settings.getTranslations = () => {
           return {
-            'en-US': { launcherLabel: 'Wat' }
+            launcherLabel: { 'en-US': 'Wat' }
           };
         };
 
@@ -81,9 +81,9 @@ describe('i18n', () => {
 
     describe('with a wildcard translation override', () => {
       beforeEach(() => {
-        mockRegistry['service/settings'].settings.get = () => {
+        mockRegistry['service/settings'].settings.getTranslations = () => {
           return {
-            '*': { launcherLabel: 'Wat' }
+            launcherLabel: { '*': 'Wat' }
           };
         };
 
