@@ -119,7 +119,7 @@ describe('embed.chat', () => {
     it('should correctly parse the value for offsetHorizontal', () => {
       mockSettingsValue = {
         offset: { horizontal: 20 },
-        widgetMargin: 15
+        margin: 15
       };
 
       chat.create('dave');

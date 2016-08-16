@@ -22,14 +22,15 @@ describe('settings', () => {
 
       beforeEach(() => {
         defaults = {
-          offset: { horizontal: 0, vertical: 0 },
-          widgetMargin: 15,
+          contactForm: {
+            attachments: true
+          },
           helpCenter: {
             originalArticleButton: true
           },
-          contactForm: {
-            attachments: true
-          }
+          margin: 15,
+          offset: { horizontal: 0, vertical: 0 },
+          viaId: 48
         };
       });
 
@@ -38,9 +39,14 @@ describe('settings', () => {
           .toEqual(defaults.offset);
       });
 
-      it('has the correct value for widgetMargin', () => {
-        expect(settings.get('widgetMargin'))
-          .toEqual(defaults.widgetMargin);
+      it('has the correct value for margin', () => {
+        expect(settings.get('margin'))
+          .toEqual(defaults.margin);
+      });
+
+      it('has the correct value for via id', () => {
+        expect(settings.get('viaId'))
+          .toEqual(defaults.viaId);
       });
 
       it('has the correct value for helpCenter.originalArticleButton', () => {

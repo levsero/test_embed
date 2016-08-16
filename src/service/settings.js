@@ -24,12 +24,12 @@ let webWidgetStore = {
   helpCenter: {
     originalArticleButton: true
   },
+  margin: 15,
   offset: {
     horizontal: 0,
     vertical: 0
   },
-  widgetMargin: 15,
-  widgetViaId: 48
+  viaId: 48
 };
 let ipmStore = {
   offset: {

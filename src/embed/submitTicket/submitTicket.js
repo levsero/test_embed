@@ -124,7 +124,7 @@ function create(name, config) {
     containerStyle = { width: '100%', height: '100%' };
   } else {
     frameStyle.width = 342;
-    containerStyle = { width: 342, margin: settings.get('widgetMargin') };
+    containerStyle = { width: 342, margin: settings.get('margin') };
   }
 
   let Embed = React.createClass(frameFactory(
