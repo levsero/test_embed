@@ -135,7 +135,8 @@ function handleMouseMove(event) {
   callListeners(listeners, {
     x: position.x,
     y: position.y,
-    speed
+    speed,
+    event
   });
 }
 
