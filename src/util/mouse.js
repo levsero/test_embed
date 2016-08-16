@@ -1,8 +1,6 @@
 import _ from 'lodash';
 
 import { document } from 'utility/globals';
-import { getDistance,
-         normaliseCoords } from 'utility/utils';
 
 let previousEvent = null;
 
@@ -160,6 +158,22 @@ function calculateMouseSpeed(position) {
   const time = Date.now() - previousEvent.time;
 
   return distance / time;
+}
+
+function getDistance(pointA, pointB) {
+  const lhs = Math.pow(pointA.x - pointB.x, 2);
+  const rhs = Math.pow(pointA.y - pointB.y, 2);
+
+  return Math.sqrt(lhs + rhs);
+}
+
+function normaliseCoords(x, y) {
+  const docEl = document.documentElement;
+
+  return {
+    x: x / docEl.clientWidth,
+    y: y / docEl.clientHeight
+  };
 }
 
 function drawDebugLine(widgetCoords, mouseCoords) {

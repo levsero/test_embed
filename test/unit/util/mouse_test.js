@@ -10,17 +10,13 @@ describe('mouse', () => {
       'utility/globals': {
         document: {
           addEventListener: jasmine.createSpy('addEventListener'),
-          removeEventListener: jasmine.createSpy('removeEventListener')
+          removeEventListener: jasmine.createSpy('removeEventListener'),
+          getElementById: document.getElementById,
+          documentElement: {
+            clientWidth: 1920,
+            clientHeight: 1080
+          }
         }
-      },
-      'utility/utils' : {
-        getDistance: (pointA, pointB) => {
-          const lhs = Math.pow(pointA.x - pointB.x, 2);
-          const rhs = Math.pow(pointA.y - pointB.y, 2);
-
-          return Math.sqrt(lhs + rhs);
-        },
-        normaliseCoords: () => {}
       }
     });
 
@@ -86,11 +82,65 @@ describe('mouse', () => {
   });
 
   describe('once', () => {
+    it('should store the listener', () => {
+      const listener = () => {};
 
+      mouse.on('move', listener);
+
+      expect(mouse.getListeners('move')[0])
+        .toEqual(listener);
+    });
+
+    it('should remove the listener once the event is fired', () => {
+      mouse.handleMouseMove({});
+
+      expect(mouse.getListeners('move').length)
+        .toBe(0);
+    });
   });
 
   describe('target', () => {
+    let mockEvent,
+      mockTarget,
+      mockTargetBounds,
+      mockOnHit;
 
+    beforeEach(() => {
+      mockEvent = {
+        clientX: 100,
+        clientY: 200
+      };
+      mockOnHit = jasmine.createSpy('mockOnHit');
+      mockTarget = document.createElement('div');
+      mockTargetBounds = { top: 0, left: 0, bottom: 20, right: 20 };
+      mockTarget.getBoundingClientRect = () => mockTargetBounds;
+
+      mouse.target(mockTarget, mockOnHit);
+
+      mockEvent.clientX = mockTargetBounds.right + 1;
+      mockEvent.clienty = mockTargetBounds.bottom + 1;
+      mouse.handleMouseMove(mockEvent);
+    });
+
+    describe('when the minimum distance is reached', () => {
+      beforeEach(() => {
+        // Needs to be called again because we check the previousDistance
+        // to see if the mouse is moving away from the element.
+        mockEvent.clientX -= 1; // Move one pixel closer
+        mockEvent.clienty -= 1;
+        mouse.handleMouseMove(mockEvent);
+      });
+
+      it('should call the onHit callback', () => {
+        expect(mockOnHit)
+          .toHaveBeenCalled();
+      });
+
+      it('should remove the listener', () => {
+        expect(mouse.getListeners('move').length)
+          .toBe(0);
+      });
+    });
   });
 
   describe('#remove', () => {

@@ -225,28 +225,24 @@ function updateHelpCenterButton(name, labelKey) {
   });
 }
 
-const contextualSearchFn = (name, options = {}) => () => {
-  const rootComponent = getRootComponent(name);
-  const isAuthenticated = get(name).config.signInRequired === false || hasAuthenticatedSuccessfully;
+function keywordsSearch(name, options) {
+  const contextualSearchFn = () => {
+    const rootComponent = getRootComponent(name);
+    const isAuthenticated = get(name).config.signInRequired === false || hasAuthenticatedSuccessfully;
 
-  if (isAuthenticated && rootComponent) {
-    if (options.url) {
-      options.pageKeywords = getPageKeywords();
+    if (isAuthenticated && rootComponent) {
+      if (options.url) {
+        options.pageKeywords = getPageKeywords();
+      }
+
+      rootComponent.contextualSearch(options);
+      return true;
     }
 
-    rootComponent.contextualSearch(options);
-    return true;
-  }
+    return false;
+  };
 
-  return false;
-};
-
-function keywordsSearch(name, options) {
-  if (!useMouseDistanceContexualSearch || isMobileBrowser()) {
-    // If we have fired the initial page load contextual search request.
-    // Then the subsequent calls must be via the API.
-    cappedIntervalCall(contextualSearchFn(name, options), 500, 10);
-  }
+  cappedIntervalCall(contextualSearchFn, 500, 10);
 }
 
 function render(name) {
@@ -310,7 +306,7 @@ function render(name) {
 
 function performContextualHelp(name, options) {
   const onHitFn = (name, options) => () => {
-    cappedIntervalCall(contextualSearchFn(name, options), 500, 10);
+    keywordsSearch(name, options);
     useMouseDistanceContexualSearch = false;
   };
 
