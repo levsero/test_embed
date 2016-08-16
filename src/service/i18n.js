@@ -15,7 +15,7 @@ translate.setSeparator('*');
 function init() {
   const customerTranslations = settings.getTranslations();
 
-  if (customerTranslations.length > 0) {
+  if (!_.isEmpty(customerTranslations)) {
     overrideTranslations(customerTranslations);
   }
 }
@@ -122,21 +122,15 @@ function mappedTranslationsForLocale(localeOverride, translationKey) {
     'embeddable_framework.submitTicket.form.title.contact': 'contactFormTitle'
   };
 
-  // Find all the keys to change
-  const overrides = _.compact(_.map(keyLookupTable, (value, key) => {
-    if (value === translationKey) {
-      return key;
-    }
-  }));
-
-  let values = {};
-
-  // Set them to the new translation
-  _.forEach(overrides, (override) => {
-    values[override] = localeOverride;
-  });
-
-  return values;
+  return _.chain(keyLookupTable)
+    .map((value, key) => {
+      if (value === translationKey) return key;
+    })
+    .compact()
+    .reduce((obj, key) => {
+      return _.merge(obj, { [key]: localeOverride });
+    }, {})
+    .value();
 }
 
 export const i18n = {
