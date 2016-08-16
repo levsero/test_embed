@@ -25,7 +25,7 @@ describe('settings', () => {
           offset: { horizontal: 0, vertical: 0 },
           widgetMargin: 15,
           helpCenter: {
-            viewOriginalArticleButton: true
+            originalArticleButton: true
           },
           contactForm: {
             attachments: true
@@ -43,9 +43,9 @@ describe('settings', () => {
           .toEqual(defaults.widgetMargin);
       });
 
-      it('has the correct value for helpCenter.viewOriginalArticleButton', () => {
-        expect(settings.get('helpCenter.viewOriginalArticleButton'))
-          .toEqual(defaults.helpCenter.viewOriginalArticleButton);
+      it('has the correct value for helpCenter.originalArticleButton', () => {
+        expect(settings.get('helpCenter.originalArticleButton'))
+          .toEqual(defaults.helpCenter.originalArticleButton);
       });
 
       it('has the correct value for contactForm.attachments', () => {
@@ -56,12 +56,8 @@ describe('settings', () => {
 
     describe('ipm defaults', () => {
       it('has the correct value for offset', () => {
-        const defaults = {
-          offset: { horizontal: 0, vertical: 0 }
-        };
-
         expect(settings.get('offset'))
-          .toEqual(defaults.offset);
+          .toEqual({ horizontal: 0, vertical: 0 });
       });
     });
   });

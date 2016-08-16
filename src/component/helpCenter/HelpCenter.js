@@ -369,7 +369,7 @@ export class HelpCenter extends Component {
       <HelpCenterArticle
         activeArticle={this.state.activeArticle}
         zendeskHost={this.props.zendeskHost}
-        viewOriginalArticleButton={this.props.viewOriginalArticleButton}
+        originalArticleButton={this.props.originalArticleButton}
         storedImages={this.state.images}
         imagesSender={this.props.imagesSender}
         updateStoredImages={this.updateImages}
@@ -459,7 +459,7 @@ HelpCenter.propTypes = {
   updateFrameSize: PropTypes.func,
   style: PropTypes.object,
   formTitleKey: PropTypes.string,
-  viewOriginalArticleButton: PropTypes.bool,
+  originalArticleButton: PropTypes.bool,
   disableAutoSearch: PropTypes.bool
 };
 
@@ -473,6 +473,6 @@ HelpCenter.defaultProps = {
   updateFrameSize: () => {},
   style: null,
   formTitleKey: 'help',
-  viewOriginalArticleButton: true,
+  originalArticleButton: true,
   disableAutoSearch: false
 };

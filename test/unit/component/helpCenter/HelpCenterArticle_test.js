@@ -446,11 +446,11 @@ describe('HelpCenterArticle component', function() {
         .not.toMatch('u-isHidden');
     });
 
-    it('is hidden if hideViewOriginalArticleButton setting is true', function() {
+    it('is hidden if originalArticleButton prop is true', function() {
       const helpCenterArticle = domRender(
         <HelpCenterArticle
           activeArticle={mockArticle}
-          viewOriginalArticleButton={false} />);
+          originalArticleButton={false} />);
 
       expect(ReactDOM.findDOMNode(helpCenterArticle).querySelector('.u-marginBM').className)
         .toMatch('u-isHidden');

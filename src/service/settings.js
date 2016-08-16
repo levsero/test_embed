@@ -5,31 +5,31 @@ import { win } from 'utility/globals';
 const optionWhitelist = {
   webWidget: [
     'authenticate',
-    'contactForm.attachments',
-    'offset',
-    'color',
-    'helpCenter.viewOriginalArticleButton',
-    'helpCenter.suppressed',
     'chat.suppressed',
-    'launcher.label'
+    'color',
+    'contactForm.attachments',
+    'helpCenter.originalArticleButton',
+    'helpCenter.suppressed',
+    'launcher.label',
+    'offset'
   ],
   ipm: [
     'offset'
   ]
 };
 let webWidgetStore = {
+  contactForm: {
+    attachments: true
+  },
+  helpCenter: {
+    originalArticleButton: true
+  },
   offset: {
     horizontal: 0,
     vertical: 0
   },
   widgetMargin: 15,
-  widgetViaId: 48,
-  helpCenter: {
-    viewOriginalArticleButton: true
-  },
-  contactForm: {
-    attachments: true
-  }
+  widgetViaId: 48
 };
 let ipmStore = {
   offset: {
@@ -63,7 +63,7 @@ function init() {
 
 function get(path, store = 'webWidget') {
   return store === 'webWidget' ? _.get(webWidgetStore, path, null)
-                              : _.get(ipmStore, path, null);
+                               : _.get(ipmStore, path, null);
 }
 
 export const settings = {
