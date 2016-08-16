@@ -82,9 +82,7 @@ function getTranslations() {
     contactFormTitle: webWidgetStore.contactForm.title
   };
 
-  return _.omit(translations, _.filter(_.keys(translations), (key) => {
-    return _.isUndefined(translations[key]);
-  }));
+  return _.omitBy(translations, _.isUndefined);
 }
 
 export const settings = {
