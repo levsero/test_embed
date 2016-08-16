@@ -283,6 +283,15 @@ function getDistance(pointA, pointB) {
   return Math.sqrt(lhs + rhs);
 }
 
+function normaliseCoords(x, y) {
+  const docEl = doc.documentElement;
+
+  return {
+    x: x / docEl.clientWidth,
+    y: y / docEl.clientHeight
+  };
+}
+
 export {
   clickBusterHandler,
   clickBusterRegister,
@@ -300,5 +309,6 @@ export {
   splitPath,
   bindMethods,
   base64decode,
-  getDistance
+  getDistance,
+  normaliseCoords
 };

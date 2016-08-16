@@ -20,19 +20,14 @@ import { isOnHelpCenterPage } from 'utility/pages';
 import { cappedIntervalCall,
          generateUserCSS,
          getPageKeywords,
-         setScaleLock,
-         getDistance } from 'utility/utils';
+         setScaleLock } from 'utility/utils';
 
 const helpCenterCSS = require('./helpCenter.scss');
 let helpCenters = {};
 let hasManuallySetContextualSuggestions = false;
 let hasAuthenticatedSuccessfully = false;
 let useMouseDistanceContexualSearch = false;
-let drawDebugLine = null;
-
-const mouseSpeedThreshold = 1.5;
-const fastMinMouseDistance = 0.6;
-const slowMinMouseDistance = 0.25;
+let cancelTargetHandler = null;
 
 function create(name, config) {
   let containerStyle;
@@ -230,42 +225,27 @@ function updateHelpCenterButton(name, labelKey) {
   });
 }
 
-function keywordsSearch(name, options = {}, mouseProps = {}) {
-  const contextualSearchFn = () => {
-    const rootComponent = getRootComponent(name);
-    const isAuthenticated = get(name).config.signInRequired === false || hasAuthenticatedSuccessfully;
+const contextualSearchFn = (name, options = {}) => () => {
+  const rootComponent = getRootComponent(name);
+  const isAuthenticated = get(name).config.signInRequired === false || hasAuthenticatedSuccessfully;
 
-    if (isAuthenticated && rootComponent) {
-      if (options.url) {
-        options.pageKeywords = getPageKeywords();
-      }
-
-      rootComponent.contextualSearch(options);
-      return true;
+  if (isAuthenticated && rootComponent) {
+    if (options.url) {
+      options.pageKeywords = getPageKeywords();
     }
 
-    return false;
-  };
+    rootComponent.contextualSearch(options);
+    return true;
+  }
 
+  return false;
+};
+
+function keywordsSearch(name, options) {
   if (!useMouseDistanceContexualSearch || isMobileBrowser()) {
     // If we have fired the initial page load contextual search request.
     // Then the subsequent calls must be via the API.
-    cappedIntervalCall(contextualSearchFn, 500, 10);
-  } else {
-    // After we have some end-user data, we can tweak these numbers to get
-    // a good balance between limiting requests and showing no delay for the results.
-    const minMouseDistance = mouseProps.speed > mouseSpeedThreshold
-                           ? fastMinMouseDistance
-                           : slowMinMouseDistance;
-
-    // Remove the `onmousemove` event handler once the mouse reaches
-    // the minimum distance from the widget. We only want this check
-    // for the page load contextual search.
-    if (mouseProps.distance < minMouseDistance) {
-      mouse.removeListener('mousemove', 'contextual');
-      cappedIntervalCall(contextualSearchFn, 500, 10);
-      useMouseDistanceContexualSearch = false;
-    }
+    cappedIntervalCall(contextualSearchFn(name, options), 500, 10);
   }
 }
 
@@ -281,7 +261,10 @@ function render(name) {
   mediator.channel.subscribe(name + '.show', function(options = {}) {
     if (useMouseDistanceContexualSearch && options.viaActivate) {
       useMouseDistanceContexualSearch = false;
-      mouse.removeListener('mousemove', 'contextual');
+
+      if (cancelTargetHandler) {
+        cancelTargetHandler();
+      }
     }
 
     // Stop stupid host page scrolling
@@ -325,63 +308,16 @@ function render(name) {
   });
 }
 
-if (__DEV__) {
-  drawDebugLine = (widgetCoords, mouseCoords) => {
-    const line = document.getElementById('zeLine');
-
-    if (!line) {
-      return;
-    }
-
-    const clientWidth = document.documentElement.clientWidth;
-    const clientHeight = document.documentElement.clientHeight;
-
-    line.setAttribute('x1', Math.round(mouseCoords.x * clientWidth));
-    line.setAttribute('x2', Math.round(widgetCoords.x * clientWidth));
-    line.setAttribute('y1', Math.round(mouseCoords.y * clientHeight));
-    line.setAttribute('y2', Math.round(widgetCoords.y * clientHeight));
-  };
-}
-
-function getWidgetBounds() {
-  return document.getElementById('launcher').getBoundingClientRect();
-}
-
-function normaliseCoords(x, y) {
-  const docEl = document.documentElement;
-
-  return {
-    x: x / docEl.clientWidth,
-    y: y / docEl.clientHeight
-  };
-}
-
-const handleMouse = (name, options) => (props) => {
-  const widgetBounds = getWidgetBounds();
-
-  // Get the positions in normalized coordinates to make the distance check
-  // more simple for different window sizes.
-  const widgetCoords = normaliseCoords(widgetBounds.left, widgetBounds.top);
-  const mouseCoords = normaliseCoords(props.position.x, props.position.y);
-
-  if (__DEV__) {
-    drawDebugLine(widgetCoords, mouseCoords);
-  }
-
-  // Calculate the euclidean distance between the mouse and the widget.
-  const distance = getDistance(widgetCoords, mouseCoords);
-
-  helpCenter.keywordsSearch(name, options, {
-    distance: distance,
-    speed: props.speed
-  });
-};
-
 function performContextualHelp(name, options) {
+  const onHitFn = (name, options) => () => {
+    cappedIntervalCall(contextualSearchFn(name, options), 500, 10);
+    useMouseDistanceContexualSearch = false;
+  };
+
   if (!isMobileBrowser() && useMouseDistanceContexualSearch) {
-    // Listen to the `onmousemove` event so we can grab the x and y coordinate
-    // of the end-users mouse relative to the host page viewport.
-    mouse.addListener('mousemove', handleMouse(name, options), 'contextual');
+    const launcherElement = document.getElementById('launcher');
+
+    cancelTargetHandler = mouse.target(launcherElement, onHitFn(name, options));
   } else {
     helpCenter.keywordsSearch(name, options);
   }
