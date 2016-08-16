@@ -1343,6 +1343,27 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
+      describe('with suppress on', () => {
+        beforeEach(() => {
+          mockSettingsChatValue = true;
+          mediator.init(false);
+
+          c.broadcast(`${chat}.onOnline`);
+          c.broadcast(`${chat}.onUnreadMsgs`, 1);
+        });
+
+        it('when proactive chat is closed it moves onto ticket submission', () => {
+          c.broadcast(`${chat}.onHide`); // close
+
+          jasmine.clock().install();
+          c.broadcast(`${launcher}.onClick`); // open
+          jasmine.clock().tick(0);
+
+          expect(submitTicketSub.show.calls.count())
+            .toEqual(1);
+        });
+      });
+
       it('does not pop open chat if user has closed chat', function() {
         c.broadcast(`${chat}.onOnline`);
         c.broadcast(`${chat}.onUnreadMsgs`, 1);
@@ -1536,6 +1557,27 @@ describe('mediator', function() {
 
         expect(chatSub.show.calls.count())
           .toEqual(1);
+      });
+
+      describe('with suppress on', () => {
+        beforeEach(() => {
+          mockSettingsChatValue = true;
+          mediator.init(true);
+
+          c.broadcast(`${chat}.onOnline`);
+          c.broadcast(`${chat}.onUnreadMsgs`, 1);
+        });
+
+        it('when proactive chat is closed it moves onto help center', () => {
+          c.broadcast(`${chat}.onHide`); // close
+
+          jasmine.clock().install();
+          c.broadcast(`${launcher}.onClick`); // open
+          jasmine.clock().tick(0);
+
+          expect(helpCenterSub.show.calls.count())
+            .toEqual(1);
+        });
       });
 
       it('does not pop open if help center embed is visible', function() {

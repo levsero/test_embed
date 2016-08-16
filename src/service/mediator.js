@@ -244,6 +244,7 @@ function init(helpCenterAccessible, params = {}) {
       state.activeEmbed = chat;
       state[`${chat}.isVisible`] = true;
       c.broadcast(`${chat}.show`);
+      state[`${chat}.isSuppressed`] = false;
       c.broadcast(`${launcher}.hide`);
     }
 
