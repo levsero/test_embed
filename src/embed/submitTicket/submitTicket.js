@@ -33,11 +33,11 @@ function create(name, config) {
     maxFileSize: 5 * 1024 * 1024, // 5 MB
     color: '#659700'
   };
-  const attachmentsDisabledSetting = settings.get('attachmentsDisabled');
+  const attachmentsSetting = settings.get('contactForm.attachments');
 
   config = _.extend(configDefaults, config);
 
-  if (attachmentsDisabledSetting === true) {
+  if (attachmentsSetting === false) {
     config.attachmentsEnabled = false;
   }
 
@@ -124,7 +124,7 @@ function create(name, config) {
     containerStyle = { width: '100%', height: '100%' };
   } else {
     frameStyle.width = 342;
-    containerStyle = { width: 342, margin: settings.get('widgetMargin') };
+    containerStyle = { width: 342, margin: settings.get('margin') };
   }
 
   let Embed = React.createClass(frameFactory(

@@ -42,10 +42,6 @@ const chatAvailable = () => {
   return state[`${chat}.isOnline`] && !state[`${chat}.isSuppressed`];
 };
 
-const isSuppressed = (embed) => {
-  return settings.get('suppress') ? settings.get('suppress').indexOf(embed) !== -1 : false;
-};
-
 const embedVisible = (_state) => _.some([
   _state[`${helpCenter}.isVisible`],
   _state[`${chat}.isVisible`],
@@ -87,8 +83,8 @@ function init(helpCenterAccessible, params = {}) {
   state[`${helpCenter}.isAccessible`] = helpCenterAccessible &&
                                         (!params.helpCenterSignInRequired ||
                                         isOnHelpCenterPage());
-  state[`${helpCenter}.isSuppressed`] = isSuppressed('helpCenter');
-  state[`${chat}.isSuppressed`]       = isSuppressed('chat');
+  state[`${helpCenter}.isSuppressed`] = settings.get('helpCenter.suppressed');
+  state[`${chat}.isSuppressed`]       = settings.get('chat.suppressed');
 
   resetActiveEmbed();
 

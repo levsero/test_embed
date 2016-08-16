@@ -15,7 +15,7 @@ function create(name, config) {
     color: '#78A300',
     standalone: false,
     offsetVertical: parseInt(settings.get('offset').vertical), // Zopim api can accept numbers, this trims off the 'px' value
-    offsetHorizontal: parseInt(settings.get('offset').horizontal) + settings.get('widgetMargin'),
+    offsetHorizontal: parseInt(settings.get('offset').horizontal) + settings.get('margin'),
     size: 'large'
   };
 

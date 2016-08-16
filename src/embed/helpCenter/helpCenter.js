@@ -126,7 +126,7 @@ function create(name, config) {
   } else {
     frameStyle.width = 342;
     frameStyle.maxHeight = 500;
-    containerStyle = { width: 342, margin: settings.get('widgetMargin') };
+    containerStyle = { width: 342, margin: settings.get('margin') };
   }
 
   const Embed = React.createClass(frameFactory(
@@ -149,6 +149,7 @@ function create(name, config) {
           fullscreen={isMobileBrowser()}
           updateFrameSize={params.updateFrameSize}
           disableAutoSearch={config.disableAutoSearch}
+          originalArticleButton={settings.get('helpCenter.originalArticleButton')}
           zendeskHost={transport.getZendeskHost()} />
       );
     },

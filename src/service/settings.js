@@ -2,34 +2,68 @@ import _ from 'lodash';
 
 import { win } from 'utility/globals';
 
-const optionWhitelist = [
-  'authenticate',
-  'translations',
-  'suppress',
-  'attachmentsDisabled',
-  'offset',
-  'hideViewOriginalArticleButton'
-];
-let store = {
+const optionWhitelist = {
+  webWidget: [
+    'authenticate',
+    'chat.suppressed',
+    'color',
+    'contactForm.attachments',
+    'helpCenter.originalArticleButton',
+    'helpCenter.suppressed',
+    'launcher.label',
+    'offset'
+  ],
+  ipm: [
+    'offset'
+  ]
+};
+let webWidgetStore = {
+  contactForm: {
+    attachments: true
+  },
+  helpCenter: {
+    originalArticleButton: true
+  },
+  margin: 15,
   offset: {
     horizontal: 0,
     vertical: 0
   },
-  widgetMargin: 15,
-  widgetViaId: 48,
-  hideViewOriginalArticleButton: false
+  viaId: 48
+};
+let ipmStore = {
+  offset: {
+    horizontal: 0,
+    vertical: 0
+  }
+};
+
+const initStore = (settings, store, options) => {
+  if (!settings) return;
+
+  let whiteListedParams = {};
+
+  _.forEach(options, (option) => {
+    if (_.has(settings, option)) {
+      _.set(whiteListedParams, option, _.get(settings, option, null));
+    }
+  });
+
+  _.merge(store, whiteListedParams);
 };
 
 function init() {
-  if (!win.zESettings) return;
+  const settings = win.zESettings;
 
-  const whiteListedParams = _.pick(win.zESettings, optionWhitelist);
+  if (!settings) return;
 
-  _.merge(store, whiteListedParams);
+  initStore(settings.webWidget, webWidgetStore, optionWhitelist.webWidget);
+  initStore(settings.ipm, ipmStore, optionWhitelist.ipm);
 }
 
-function get(name) {
-  return store[name] || null;
+function get(path, store = 'webWidget') {
+  return store === 'webWidget' ? _.get(webWidgetStore, path, null)
+                               : _.get(ipmStore, path, null);
 }
 
 export const settings = {

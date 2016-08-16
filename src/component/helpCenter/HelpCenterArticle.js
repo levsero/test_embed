@@ -7,7 +7,6 @@ import { pick, some } from 'lodash';
 import { ButtonPill } from 'component/button/ButtonPill';
 import { authentication } from 'service/authentication';
 import { i18n } from 'service/i18n';
-import { settings } from 'service/settings';
 import { parseUrl } from 'utility/utils';
 
 const sanitizeHtml = require('sanitize-html');
@@ -219,7 +218,7 @@ class HelpCenterArticle extends Component {
     });
     const viewOriginalClasses = classNames({
       'u-marginBM': true,
-      'u-isHidden': settings.get('hideViewOriginalArticleButton')
+      'u-isHidden': !this.props.originalArticleButton
     });
 
     return (
@@ -254,6 +253,7 @@ HelpCenterArticle.propTypes = {
   imagesSender: PropTypes.func,
   updateStoredImages: PropTypes.func,
   updateFrameSize: PropTypes.func,
+  originalArticleButton: PropTypes.bool,
   fullscreen: PropTypes.bool
 };
 
@@ -263,6 +263,7 @@ HelpCenterArticle.defaultProps = {
   imagesSender: () => {},
   updateStoredImages: () => {},
   updateFrameSize: () => {},
+  originalArticleButton: true,
   fullscreen: false
 };
 

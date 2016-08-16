@@ -124,7 +124,7 @@ function sendFile(payload) {
   return superagent(payload.method.toUpperCase(),
                     buildFullUrl(payload.path))
     .query({ filename: payload.file.name })
-    .query({ via_id: settings.get('widgetViaId') })
+    .query({ via_id: settings.get('viaId') })
     .attach('uploaded_data', payload.file)
     .on('progress', function(e) {
       if (payload.callbacks) {

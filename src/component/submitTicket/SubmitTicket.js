@@ -121,7 +121,7 @@ export class SubmitTicket extends Component {
       'email': data.value.email,
       'description': data.value.description,
       'set_tags': 'web_widget',
-      'via_id': settings.get('widgetViaId'),
+      'via_id': settings.get('viaId'),
       'locale_id': i18n.getLocaleId(),
       'submitted_from': win.location.href
     };
@@ -147,7 +147,7 @@ export class SubmitTicket extends Component {
     const params = {
       'subject': (desc.length <= 50) ? desc : `${desc.slice(0,50)}...`,
       'tags': ['web_widget'],
-      'via_id': settings.get('widgetViaId'),
+      'via_id': settings.get('viaId'),
       'comment': {
         'body': newDesc,
         'uploads': uploads

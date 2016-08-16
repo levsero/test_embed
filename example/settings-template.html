@@ -51,14 +51,25 @@
             },
             "ticketSubmissionForm": {
               "embed": "submitTicket",
-              "props": {}
+              "props": {
+                "attachmentsEnabled": true
+              }
             }
           }
         });
       });
 
       zESettings = {
-        hideViewOriginalArticleButton: true
+        webWidget: {
+          helpCenter: {
+            originalArticleButton: true,
+            supressed: true
+          },
+          contactForm: {
+            attachments: true
+          },
+          color: '#648297'
+        }
       };
     </script>
 

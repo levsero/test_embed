@@ -14,7 +14,7 @@ describe('embed.submitTicket', function() {
 
     mockery.enable();
 
-    mockSettingsValue = '';
+    mockSettingsValue = false;
 
     mockRegistry = initMockRegistry({
       'React': React,
@@ -94,7 +94,7 @@ describe('embed.submitTicket', function() {
       },
       'service/settings': {
         settings: {
-          get: jasmine.createSpy('get').and.returnValue(mockSettingsValue)
+          get: () => mockSettingsValue
         }
       },
       'service/transitionFactory' : {
@@ -149,17 +149,11 @@ describe('embed.submitTicket', function() {
         .toEqual('test_title');
     });
 
-    it('changes config.attachmentsEnabled if zESettings.attachmentsDisabled is true', () => {
-      const mockSettingsGet = mockRegistry['service/settings'].settings.get;
-
-      mockSettingsValue = true; // emulate settings.get('attachmentsDisabled')
-
-      submitTicket.create('bob');
+    it('changes config.attachmentsEnabled if zESettings.contactForm.attachments is false', () => {
+      mockSettingsValue = false; // emulate settings.get('contactForm.attachments')
+      submitTicket.create('bob', { attachmentsEnabled: true } );
 
       const bob = submitTicket.get('bob');
-
-      expect(mockSettingsGet)
-        .toHaveBeenCalledWith('attachmentsDisabled');
 
       expect(bob.config.attachmentsEnabled)
         .toEqual(false);
@@ -421,6 +415,7 @@ describe('embed.submitTicket', function() {
               attachmentTypes: ['image/gif', 'image/png']
             };
 
+            mockSettingsValue = true;
             submitTicket.create('bob', { attachmentsEnabled: true });
 
             const mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
@@ -490,6 +485,7 @@ describe('embed.submitTicket', function() {
     });
 
     it('should send with an alternative path when attachments are enabled', () => {
+      mockSettingsValue = true; // emulate settings.get('attachmentsDisabled')
       submitTicket.create('bob', { attachmentsEnabled: true });
       submitTicket.render('bob');
 
