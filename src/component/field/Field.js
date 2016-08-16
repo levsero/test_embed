@@ -117,8 +117,8 @@ export class Field extends Component {
 
     return (this.props.input)
          ? React.cloneElement(
-            this.props.input,
-            _.extend({}, sharedProps, fieldProps, {className: fieldInputClasses})
+             this.props.input,
+             _.extend({}, sharedProps, fieldProps, { className: fieldInputClasses })
            )
          : <input {...sharedProps} {...fieldProps} className={fieldInputClasses} />;
   }
