@@ -15,7 +15,7 @@ translate.setSeparator('*');
 function init() {
   const customerTranslations = settings.getTranslations();
 
-  if (customerTranslations.length !== 0) {
+  if (customerTranslations.length > 0) {
     overrideTranslations(customerTranslations);
   }
 }
@@ -135,6 +135,7 @@ function mappedTranslationsForLocale(localeOverride, translationKey) {
   _.forEach(overrides, (override) => {
     values[override] = localeOverride;
   });
+
   return values;
 }
 
