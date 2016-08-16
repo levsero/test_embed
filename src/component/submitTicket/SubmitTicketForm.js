@@ -209,6 +209,7 @@ export class SubmitTicketForm extends Component {
           placeholder={i18n.t('embeddable_framework.form.field.email.label')}
           type='email'
           required={true}
+          pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?" // eslint-disable-line
           value={formState.email}
           name='email' />
         {customFields.fields}
