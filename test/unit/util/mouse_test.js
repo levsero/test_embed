@@ -33,21 +33,33 @@ describe('mouse', () => {
   });
 
   describe('#on', () => {
-    it('should store the listener', () => {
-      const listener = () => {};
+    const listener = () => {};
 
+    beforeEach(() => {
       mouse.on('move', listener);
+    });
 
+    it('should store the listener', () => {
       expect(mouse.getListeners('move')[0])
         .toEqual(listener);
     });
 
     describe('when there are no listeners for the event type attached', () => {
       it('should add the event type handler to the document', () => {
-        mouse.on('move', noop);
-
         expect(mockDocument.addEventListener)
           .toHaveBeenCalledWith('mousemove', jasmine.any(Function));
+      });
+    });
+
+    describe('when there are existing listeners for the event type attached', () => {
+      beforeEach(() => {
+        mockDocument.addEventListener.calls.reset();
+        mouse.on('move', noop);
+      });
+
+      it('should not add the event type handler to the document', () => {
+        expect(mockDocument.addEventListener)
+          .not.toHaveBeenCalled();
       });
     });
   });
