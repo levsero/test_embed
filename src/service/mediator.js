@@ -226,7 +226,9 @@ function init(helpCenterAccessible, params = {}) {
   });
 
   c.intercept(`${chat}.onIsChatting`, () => {
-    state.activeEmbed = chat;
+    if (!state[`${chat}.isSuppressed`]) {
+      state.activeEmbed = chat;
+    }
   });
 
   c.intercept(`${chat}.onUnreadMsgs`, (__, count) => {
