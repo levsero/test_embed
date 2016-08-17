@@ -19,7 +19,7 @@ describe('beacon', function() {
       },
       'service/settings': {
         settings: {
-          trackSettings: jasmine.createSpy('trackSettings').and.returnValue(mockSettings)
+          getTrackSettings: jasmine.createSpy('getTrackSettings').and.returnValue(mockSettings)
         }
       },
       'utility/globals': {
@@ -116,7 +116,7 @@ describe('beacon', function() {
       });
 
       it('gets the settings from settings service', () => {
-        expect(mockRegistry['service/settings'].settings.trackSettings)
+        expect(mockRegistry['service/settings'].settings.getTrackSettings)
           .toHaveBeenCalled();
       });
 

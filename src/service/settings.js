@@ -85,7 +85,7 @@ function getTranslations() {
   return _.omitBy(translations, _.isUndefined);
 }
 
-function trackSettings() {
+function getTrackSettings() {
   const widgetSettings = _.omit(webWidgetStore, 'margin', 'viaId');
 
   return {
@@ -98,5 +98,5 @@ export const settings = {
   init: init,
   get: get,
   getTranslations,
-  trackSettings
+  getTrackSettings
 };

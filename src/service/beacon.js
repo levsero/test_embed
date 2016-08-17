@@ -44,7 +44,7 @@ const trackSettings = () => {
   const payload = {
     method: 'POST',
     path: '/embeddable/blips',
-    params: { settings: settings.trackSettings() }
+    params: { settings: settings.getTrackSettings() }
   };
 
   transport.sendWithMeta(payload);

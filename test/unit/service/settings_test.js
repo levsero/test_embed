@@ -124,22 +124,22 @@ describe('settings', () => {
     });
   });
 
-  describe('#trackSettings', () => {
+  describe('#getTrackSettings', () => {
     it('should return a web Widget Object', () => {
-      expect(settings.trackSettings().webWidget)
+      expect(settings.getTrackSettings().webWidget)
         .toBeDefined();
     });
 
     it('should return a ipm Object', () => {
-      expect(settings.trackSettings().ipm)
+      expect(settings.getTrackSettings().ipm)
         .toBeDefined();
     });
 
     it('should filter out unwanted values from the store', () => {
-      expect(settings.trackSettings().webWidget.margin)
+      expect(settings.getTrackSettings().webWidget.margin)
         .toBeUndefined();
 
-      expect(settings.trackSettings().webWidget.viaId)
+      expect(settings.getTrackSettings().webWidget.viaId)
         .toBeUndefined();
     });
   });
