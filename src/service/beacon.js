@@ -131,7 +131,6 @@ function identify(user) {
 export const beacon = {
   init: init,
   trackUserAction: trackUserAction,
-  trackSettings: trackSettings,
   identify: identify,
   sendConfigLoadTime: sendConfigLoadTime
 };

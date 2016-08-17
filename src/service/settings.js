@@ -65,7 +65,6 @@ function init() {
 
   initStore(settings.webWidget, webWidgetStore, optionWhitelist.webWidget);
   initStore(settings.ipm, ipmStore, optionWhitelist.ipm);
-  trackSettings();
 }
 
 function get(path, store = 'webWidget') {
