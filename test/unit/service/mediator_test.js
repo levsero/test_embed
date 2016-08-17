@@ -1343,27 +1343,6 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      describe('with suppress on', () => {
-        beforeEach(() => {
-          mockSettingsChatValue = true;
-          mediator.init(false);
-
-          c.broadcast(`${chat}.onOnline`);
-          c.broadcast(`${chat}.onUnreadMsgs`, 1);
-        });
-
-        it('when proactive chat is closed it moves onto ticket submission', () => {
-          c.broadcast(`${chat}.onHide`); // close
-
-          jasmine.clock().install();
-          c.broadcast(`${launcher}.onClick`); // open
-          jasmine.clock().tick(0);
-
-          expect(submitTicketSub.show.calls.count())
-            .toEqual(1);
-        });
-      });
-
       it('does not pop open chat if user has closed chat', function() {
         c.broadcast(`${chat}.onOnline`);
         c.broadcast(`${chat}.onUnreadMsgs`, 1);
@@ -1557,27 +1536,6 @@ describe('mediator', function() {
 
         expect(chatSub.show.calls.count())
           .toEqual(1);
-      });
-
-      describe('with suppress on', () => {
-        beforeEach(() => {
-          mockSettingsChatValue = true;
-          mediator.init(true);
-
-          c.broadcast(`${chat}.onOnline`);
-          c.broadcast(`${chat}.onUnreadMsgs`, 1);
-        });
-
-        it('when proactive chat is closed it moves onto help center', () => {
-          c.broadcast(`${chat}.onHide`); // close
-
-          jasmine.clock().install();
-          c.broadcast(`${launcher}.onClick`); // open
-          jasmine.clock().tick(0);
-
-          expect(helpCenterSub.show.calls.count())
-            .toEqual(1);
-        });
       });
 
       it('does not pop open if help center embed is visible', function() {
@@ -1803,27 +1761,48 @@ describe('mediator', function() {
       initSubscriptionSpies(names);
     });
 
-    it('does not display chat if it is suppressed', function() {
-      mockSettingsChatValue = true;
-      mediator.init();
+    describe('when chat is suppressed', () => {
+      beforeEach(() => {
+        mockSettingsChatValue = true;
+        mediator.init();
 
-      c.broadcast(`${chat}.isOnline`);
+        c.broadcast(`${chat}.onOnline`);
+      });
 
-      jasmine.clock().install();
-      c.broadcast(`${launcher}.onClick`);
-      jasmine.clock().tick(0);
+      it('does not display chat if it is suppressed', function() {
+        jasmine.clock().install();
+        c.broadcast(`${launcher}.onClick`);
+        jasmine.clock().tick(0);
 
-      expect(submitTicketSub.show.calls.count())
-        .toEqual(1);
-      expect(chatSub.show.calls.count())
-        .toEqual(0);
+        expect(submitTicketSub.show.calls.count())
+          .toEqual(1);
+        expect(chatSub.show.calls.count())
+          .toEqual(0);
+      });
+
+      describe('there are is a proactive chat', () => {
+        it('should disable suppression', () => {
+          c.broadcast(`${chat}.onUnreadMsgs`, 1);
+
+          reset(chatSub.show);
+
+          c.broadcast(`${chat}.onHide`); // close
+
+          jasmine.clock().install();
+          c.broadcast(`${launcher}.onClick`); // open
+          jasmine.clock().tick(0);
+
+          expect(chatSub.show.calls.count())
+            .toEqual(1);
+        });
+      });
     });
 
     it('does not display chat if it is suppressed and help center is active', function() {
       mockSettingsChatValue = true;
       mediator.init(true);
 
-      c.broadcast(`${chat}.isOnline`);
+      c.broadcast(`${chat}.onOnline`);
 
       jasmine.clock().install();
       c.broadcast(`${launcher}.onClick`);
