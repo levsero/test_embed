@@ -62,6 +62,9 @@ describe('mouse', () => {
     });
 
     it('should remove the listener', () => {
+      expect(mouse.getListeners('move')[0])
+        .toEqual(listenerA);
+
       mouse.off('move', listenerA);
 
       expect(mouse.getListeners('move')[0])
@@ -104,6 +107,7 @@ describe('mouse', () => {
       mockTarget,
       mockTargetBounds,
       mockOnHit;
+    const minDistanceInPixels = 303;
 
     beforeEach(() => {
       mockEvent = {
@@ -117,17 +121,37 @@ describe('mouse', () => {
 
       mouse.target(mockTarget, mockOnHit);
 
-      mockEvent.clientX = mockTargetBounds.right + 1;
-      mockEvent.clienty = mockTargetBounds.bottom + 1;
+      mockEvent.clientX = mockTargetBounds.right + minDistanceInPixels + 1;
+      mockEvent.clienty = mockTargetBounds.bottom + minDistanceInPixels + 1;
       mouse.handleMouseMove(mockEvent);
+    });
+
+    describe('when the minimum distance has not been reached', () => {
+      beforeEach(() => {
+        // Needs to be called again because we check the previousDistance
+        // to see if the mouse is moving away from the element.
+        mockEvent.clientX -= 1; // Move one pixel closer
+        mockEvent.clienty -= 1;
+        mouse.handleMouseMove(mockEvent);
+      });
+
+      it('should not call the onHit callback', () => {
+        expect(mockOnHit)
+          .not.toHaveBeenCalled();
+      });
+
+      it('should not remove the listener', () => {
+        expect(mouse.getListeners('move').length)
+          .toBe(1);
+      });
     });
 
     describe('when the minimum distance is reached', () => {
       beforeEach(() => {
         // Needs to be called again because we check the previousDistance
         // to see if the mouse is moving away from the element.
-        mockEvent.clientX -= 1; // Move one pixel closer
-        mockEvent.clienty -= 1;
+        mockEvent.clientX -= 2; // Move 2 pixels closer
+        mockEvent.clienty -= 2;
         mouse.handleMouseMove(mockEvent);
       });
 
