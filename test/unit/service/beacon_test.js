@@ -3,6 +3,7 @@ describe('beacon', function() {
     mockRegistry;
   const localeId = 10;
   const beaconPath = buildSrcPath('service/beacon');
+  const mockSettings = { webWidget: 'foo' };
 
   beforeEach(function() {
     mockery.enable();
@@ -16,12 +17,18 @@ describe('beacon', function() {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
         }
       },
+      'service/settings': {
+        settings: {
+          trackSettings: jasmine.createSpy('trackSettings').and.returnValue(mockSettings)
+        }
+      },
       'utility/globals': {
         win: {
           location: {
             origin: 'http://window.location.origin',
             href: 'http://window.location.href'
-          }
+          },
+          zESettings: null
         },
         document: {
           referrer: 'http://document.referrer',
@@ -100,6 +107,29 @@ describe('beacon', function() {
 
       expect(resultTime < (currentTime + 30))
         .toBeTruthy();
+    });
+
+    describe('when there is a zESettings object on the page', function() {
+      beforeEach(() => {
+        mockRegistry['utility/globals'].win.zESettings = mockSettings;
+        beacon.init();
+      });
+
+      it('gets the settings from settings service', () => {
+        expect(mockRegistry['service/settings'].settings.trackSettings)
+          .toHaveBeenCalled();
+      });
+
+      it('sends a settings blip', () => {
+        expect(mockTransport.sendWithMeta)
+          .toHaveBeenCalled();
+
+        // page view is most recent call so we need to look at the first one
+        const transportPayload = mockTransport.sendWithMeta.calls.first().args[0];
+
+        expect(transportPayload.params.settings)
+          .toEqual(mockSettings);
+      });
     });
 
     describe('mediator subscriptions', function() {

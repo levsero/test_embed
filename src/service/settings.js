@@ -65,6 +65,7 @@ function init() {
 
   initStore(settings.webWidget, webWidgetStore, optionWhitelist.webWidget);
   initStore(settings.ipm, ipmStore, optionWhitelist.ipm);
+  trackSettings();
 }
 
 function get(path, store = 'webWidget') {
@@ -85,8 +86,18 @@ function getTranslations() {
   return _.omitBy(translations, _.isUndefined);
 }
 
+function trackSettings() {
+  const widgetSettings = _.omit(webWidgetStore, 'margin', 'viaId');
+
+  return {
+    webWidget: widgetSettings,
+    ipm: ipmStore
+  };
+}
+
 export const settings = {
   init: init,
   get: get,
-  getTranslations
+  getTranslations,
+  trackSettings
 };
