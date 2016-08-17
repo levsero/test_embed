@@ -242,7 +242,7 @@ describe('i18n', () => {
 
     describe('when translation is all lower-case', () => {
       beforeEach(() => {
-        i18n.setLocale('en-au');
+        i18n.setLocale('en-AU');
       });
 
       it('should return locale when locale with country key is found', () => {
