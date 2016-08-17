@@ -1745,7 +1745,7 @@ describe('mediator', function() {
   *                  SUPPRESS                  *
   * ****************************************** */
 
-  describe('suppress', function() {
+  describe('suppress', () => {
     const launcher = 'launcher';
     const submitTicket = 'ticketSubmissionForm';
     const helpCenter = 'helpCenterForm';
@@ -1757,8 +1757,13 @@ describe('mediator', function() {
       chat: chat
     };
 
-    beforeEach(function() {
+    beforeEach(() => {
       initSubscriptionSpies(names);
+      jasmine.clock().install();
+    });
+
+    afterEach(() => {
+      jasmine.clock().uninstall();
     });
 
     describe('when chat is suppressed', () => {
@@ -1769,8 +1774,7 @@ describe('mediator', function() {
         c.broadcast(`${chat}.onOnline`);
       });
 
-      it('does not display chat if it is suppressed', function() {
-        jasmine.clock().install();
+      it('does not display chat if it is suppressed', () => {
         c.broadcast(`${launcher}.onClick`);
         jasmine.clock().tick(0);
 
@@ -1788,7 +1792,6 @@ describe('mediator', function() {
 
           c.broadcast(`${chat}.onHide`); // close
 
-          jasmine.clock().install();
           c.broadcast(`${launcher}.onClick`); // open
           jasmine.clock().tick(0);
 
@@ -1798,13 +1801,12 @@ describe('mediator', function() {
       });
     });
 
-    it('does not display chat if it is suppressed and help center is active', function() {
+    it('does not display chat if it is suppressed and help center is active', () => {
       mockSettingsChatValue = true;
       mediator.init(true);
 
       c.broadcast(`${chat}.onOnline`);
 
-      jasmine.clock().install();
       c.broadcast(`${launcher}.onClick`);
       jasmine.clock().tick(0);
 
@@ -1817,11 +1819,10 @@ describe('mediator', function() {
         .toEqual(0);
     });
 
-    it('should not display if it is suppressed', function() {
+    it('should not display if it is suppressed', () => {
       mockSettingsHelpCenterValue = true;
       mediator.init(true);
 
-      jasmine.clock().install();
       c.broadcast(`${launcher}.onClick`);
       jasmine.clock().tick(0);
 
@@ -1831,14 +1832,13 @@ describe('mediator', function() {
         .toEqual(0);
     });
 
-    it('does not display chat or helpCenter if they are suppressed', function() {
+    it('does not display chat or helpCenter if they are suppressed', () => {
       mockSettingsChatValue = true;
       mockSettingsHelpCenterValue = true;
       mediator.init(true);
 
       c.broadcast(`${chat}.isOnline`);
 
-      jasmine.clock().install();
       c.broadcast(`${launcher}.onClick`);
       jasmine.clock().tick(0);
 
