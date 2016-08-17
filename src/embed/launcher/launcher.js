@@ -141,10 +141,12 @@ function render(name) {
   });
 
   mediator.channel.subscribe(name + '.setLabelUnreadMsgs', function(unreadMsgs) {
-    const label = i18n.t(
-      'embeddable_framework.chat.notification',
-      {count: unreadMsgs}
-    );
+    const label = unreadMsgs > 1
+                ? i18n.t(
+                    'embeddable_framework.chat.notification_multiple',
+                    { count: unreadMsgs, fallback: `${unreadMsgs} new` }
+                )
+                : i18n.t('embeddable_framework.chat.notification');
 
     setLabel(name, label);
     setHasUnreadMessages(name, true);

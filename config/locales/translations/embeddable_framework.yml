@@ -30,7 +30,10 @@ parts:
       value: "Live Chat"
   - translation:
       key: "embeddable_framework.chat.notification"
-      title: "The notification message that appears on the launcher button when a new message is received. Count will be the number of messages. %()s stands for string and does not need to be translated (tinyurl.com/kzchjkw)"
+      title: "The notification message that appears on the launcher button when a new message is received. This is for a singular notification (tinyurl.com/j5ckrk4)"
+      value: "1 new"
+      key: "embeddable_framework.chat.notification_multiple"
+      title: "The notification message that appears on the launcher button when a new message is received. This is for plural notifications. Count will be the number of messages. %()s stands for string and does not need to be translated (tinyurl.com/kzchjkw)"
       value: "%(count)s new"
 
   # Submit Ticket component

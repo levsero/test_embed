@@ -331,14 +331,36 @@ describe('embed.launcher', function() {
           .toHaveBeenCalledWith('embeddable_framework.launcher.label.test_label');
       });
 
-      it('should subscribe to <name>.setLabelUnreadMsgs', function() {
-        expect(mockMediator.channel.subscribe)
-          .toHaveBeenCalledWith('alice.setLabelUnreadMsgs', jasmine.any(Function));
+      describe('<name>.setLabelUnreadMsgs', () => {
+        it('should subscribe to setLabelUnreadMsgs', () => {
+          expect(mockMediator.channel.subscribe)
+            .toHaveBeenCalledWith('alice.setLabelUnreadMsgs', jasmine.any(Function));
+        });
 
-        pluckSubscribeCall(mockMediator, 'alice.setLabelUnreadMsgs')();
+        it('should call setLabel', () => {
+          pluckSubscribeCall(mockMediator, 'alice.setLabelUnreadMsgs')();
 
-        expect(aliceLauncher.setLabel.__reactBoundMethod)
-          .toHaveBeenCalled();
+          expect(aliceLauncher.setLabel.__reactBoundMethod)
+            .toHaveBeenCalled();
+        });
+
+        describe('when there is one unread message', () => {
+          it('should call setLabel with the singular notification translation', () => {
+            pluckSubscribeCall(mockMediator, 'alice.setLabelUnreadMsgs')(1);
+
+            expect(aliceLauncher.setLabel.__reactBoundMethod)
+              .toHaveBeenCalledWith('embeddable_framework.chat.notification');
+          });
+        });
+
+        describe('when there is more than one unread message', () => {
+          it('should call setLabel with the multiple notification translation', () => {
+            pluckSubscribeCall(mockMediator, 'alice.setLabelUnreadMsgs')(2);
+
+            expect(aliceLauncher.setLabel.__reactBoundMethod)
+              .toHaveBeenCalledWith('embeddable_framework.chat.notification_multiple');
+          });
+        });
       });
     });
   });
