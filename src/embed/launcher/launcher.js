@@ -144,7 +144,7 @@ function render(name) {
     const label = unreadMsgs > 1
                 ? i18n.t(
                     'embeddable_framework.chat.notification_multiple',
-                    { count: unreadMsgs, fallback: `${unreadMsgs} New` }
+                    { count: unreadMsgs, fallback: `${unreadMsgs} new` }
                 )
                 : i18n.t('embeddable_framework.chat.notification');
 
