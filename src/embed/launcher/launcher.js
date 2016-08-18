@@ -146,7 +146,8 @@ function render(name) {
                     'embeddable_framework.chat.notification_multiple',
                     { count: unreadMsgs, fallback: `${unreadMsgs} new` }
                 )
-                : i18n.t('embeddable_framework.chat.notification');
+                // TODO: Remove the count here when the notification translations changes are swept.
+                : i18n.t('embeddable_framework.chat.notification', { count: 1 });
 
     setLabel(name, label);
     setHasUnreadMessages(name, true);
