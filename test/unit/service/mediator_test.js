@@ -1745,7 +1745,7 @@ describe('mediator', function() {
   *                  SUPPRESS                  *
   * ****************************************** */
 
-  describe('suppress', function() {
+  describe('suppress', () => {
     const launcher = 'launcher';
     const submitTicket = 'ticketSubmissionForm';
     const helpCenter = 'helpCenterForm';
@@ -1757,33 +1757,56 @@ describe('mediator', function() {
       chat: chat
     };
 
-    beforeEach(function() {
+    beforeEach(() => {
       initSubscriptionSpies(names);
-    });
-
-    it('does not display chat if it is suppressed', function() {
-      mockSettingsChatValue = true;
-      mediator.init();
-
-      c.broadcast(`${chat}.isOnline`);
-
       jasmine.clock().install();
-      c.broadcast(`${launcher}.onClick`);
-      jasmine.clock().tick(0);
-
-      expect(submitTicketSub.show.calls.count())
-        .toEqual(1);
-      expect(chatSub.show.calls.count())
-        .toEqual(0);
     });
 
-    it('does not display chat if it is suppressed and help center is active', function() {
+    afterEach(() => {
+      jasmine.clock().uninstall();
+    });
+
+    describe('when chat is suppressed', () => {
+      beforeEach(() => {
+        mockSettingsChatValue = true;
+        mediator.init();
+
+        c.broadcast(`${chat}.onOnline`);
+      });
+
+      it('does not display chat if it is suppressed', () => {
+        c.broadcast(`${launcher}.onClick`);
+        jasmine.clock().tick(0);
+
+        expect(submitTicketSub.show.calls.count())
+          .toEqual(1);
+        expect(chatSub.show.calls.count())
+          .toEqual(0);
+      });
+
+      describe('there are is a proactive chat', () => {
+        it('should disable suppression', () => {
+          c.broadcast(`${chat}.onUnreadMsgs`, 1);
+
+          reset(chatSub.show);
+
+          c.broadcast(`${chat}.onHide`); // close
+
+          c.broadcast(`${launcher}.onClick`); // open
+          jasmine.clock().tick(0);
+
+          expect(chatSub.show.calls.count())
+            .toEqual(1);
+        });
+      });
+    });
+
+    it('does not display chat if it is suppressed and help center is active', () => {
       mockSettingsChatValue = true;
       mediator.init(true);
 
-      c.broadcast(`${chat}.isOnline`);
+      c.broadcast(`${chat}.onOnline`);
 
-      jasmine.clock().install();
       c.broadcast(`${launcher}.onClick`);
       jasmine.clock().tick(0);
 
@@ -1796,11 +1819,10 @@ describe('mediator', function() {
         .toEqual(0);
     });
 
-    it('should not display if it is suppressed', function() {
+    it('should not display if it is suppressed', () => {
       mockSettingsHelpCenterValue = true;
       mediator.init(true);
 
-      jasmine.clock().install();
       c.broadcast(`${launcher}.onClick`);
       jasmine.clock().tick(0);
 
@@ -1810,14 +1832,13 @@ describe('mediator', function() {
         .toEqual(0);
     });
 
-    it('does not display chat or helpCenter if they are suppressed', function() {
+    it('does not display chat or helpCenter if they are suppressed', () => {
       mockSettingsChatValue = true;
       mockSettingsHelpCenterValue = true;
       mediator.init(true);
 
       c.broadcast(`${chat}.isOnline`);
 
-      jasmine.clock().install();
       c.broadcast(`${launcher}.onClick`);
       jasmine.clock().tick(0);
 
