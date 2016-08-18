@@ -123,4 +123,24 @@ describe('settings', () => {
         .toEqual('bar');
     });
   });
+
+  describe('#getTrackSettings', () => {
+    it('should return a web Widget Object', () => {
+      expect(settings.getTrackSettings().webWidget)
+        .toBeDefined();
+    });
+
+    it('should return a ipm Object', () => {
+      expect(settings.getTrackSettings().ipm)
+        .toBeDefined();
+    });
+
+    it('should filter out unwanted values from the store', () => {
+      expect(settings.getTrackSettings().webWidget.margin)
+        .toBeUndefined();
+
+      expect(settings.getTrackSettings().webWidget.viaId)
+        .toBeUndefined();
+    });
+  });
 });
