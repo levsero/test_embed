@@ -30,7 +30,13 @@ parts:
       value: "Live Chat"
   - translation:
       key: "embeddable_framework.chat.notification"
-      title: "The notification message that appears on the launcher button when a new message is received. Count will be the number of messages. %()s stands for string and does not need to be translated (tinyurl.com/kzchjkw)"
+      title: "The notification message that appears on the launcher button when a new message is received. This is for a singular notification"
+      screenshot: "https://zendesk.app.box.com/s/ukzss6aw8s8wp5nqbn1zt3zit2caglsm"
+      value: "1 new"
+  - translation:
+      key: "embeddable_framework.chat.notification_multiple"
+      title: "The notification message that appears on the launcher button when a new message is received. This is for plural notifications. Count will be the number of messages. %()s stands for string and does not need to be translated"
+      screenshot: "https://zendesk.box.com/s/xo1cgwawbuyf0j9sygxka8fabfv4rwbp"
       value: "%(count)s new"
 
   # Submit Ticket component

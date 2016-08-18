@@ -17,7 +17,7 @@ let launchers = {};
 
 function create(name, config) {
   const configDefaults = {
-    onClick: function() {},
+    onClick: () => {},
     position: 'right',
     icon: 'Icon',
     labelKey: 'help',
@@ -58,7 +58,7 @@ function create(name, config) {
         downHide: transitionFactory.webWidget.launcherDownHide()
       },
       extend: {
-        onClickHandler: function(e) {
+        onClickHandler: (e) => {
           e.preventDefault();
 
           beacon.trackUserAction('launcher', 'click', name);
@@ -106,25 +106,25 @@ function render(name) {
 
   launchers[name].instance = ReactDOM.render(launchers[name].component, element);
 
-  mediator.channel.subscribe(name + '.hide', function(options = {}) {
+  mediator.channel.subscribe(name + '.hide', (options = {}) => {
     waitForRootComponent(name, () => {
       get(name).instance.hide(options);
     });
   });
 
-  mediator.channel.subscribe(name + '.show', function(options = {}) {
+  mediator.channel.subscribe(name + '.show', (options = {}) => {
     waitForRootComponent(name, () => {
       get(name).instance.show(options);
     });
   });
 
-  mediator.channel.subscribe(name + '.setLabelChat', function() {
+  mediator.channel.subscribe(name + '.setLabelChat', () => {
     setIcon(name, 'Icon--chat');
     setLabel(name, i18n.t('embeddable_framework.launcher.label.chat'));
     setHasUnreadMessages(name, false);
   });
 
-  mediator.channel.subscribe(name + '.setLabelHelp', function() {
+  mediator.channel.subscribe(name + '.setLabelHelp', () => {
     const label = i18n.t(`embeddable_framework.launcher.label.${launchers[name].config.labelKey}`);
 
     setIcon(name, 'Icon');
@@ -132,7 +132,7 @@ function render(name) {
     setHasUnreadMessages(name, false);
   });
 
-  mediator.channel.subscribe(name + '.setLabelChatHelp', function() {
+  mediator.channel.subscribe(name + '.setLabelChatHelp', () => {
     const label = i18n.t(`embeddable_framework.launcher.label.${launchers[name].config.labelKey}`);
 
     setIcon(name, 'Icon--chat');
@@ -140,11 +140,13 @@ function render(name) {
     setHasUnreadMessages(name, false);
   });
 
-  mediator.channel.subscribe(name + '.setLabelUnreadMsgs', function(unreadMsgs) {
-    const label = i18n.t(
-      'embeddable_framework.chat.notification',
-      {count: unreadMsgs}
-    );
+  mediator.channel.subscribe(name + '.setLabelUnreadMsgs', (unreadMsgs) => {
+    const label = unreadMsgs > 1
+                ? i18n.t(
+                    'embeddable_framework.chat.notification_multiple',
+                    { count: unreadMsgs, fallback: `${unreadMsgs} new` }
+                )
+                : i18n.t('embeddable_framework.chat.notification');
 
     setLabel(name, label);
     setHasUnreadMessages(name, true);
