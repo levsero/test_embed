@@ -81,8 +81,8 @@ function target(element, onHit, options = {}) {
     // Check the euclidean distance between the mouse and the widget.
     const distance = getDistance(targetCoords, mouseCoords);
     const minDistance = props.speed > options.speedThreshold
-                           ? options.fastMinDistance
-                           : options.slowMinDistance;
+                      ? options.fastMinDistance
+                      : options.slowMinDistance;
 
     if (distance < minDistance && previousDistance > distance) {
       onHit();
