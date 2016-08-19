@@ -10,15 +10,12 @@ describe('mouse', () => {
       'utility/globals': {
         document: {
           addEventListener: jasmine.createSpy('addEventListener'),
-          removeEventListener: jasmine.createSpy('removeEventListener')
-        }
-      },
-      'utility/utils' : {
-        getDistance: (pointA, pointB) => {
-          const lhs = Math.pow(pointA.x - pointB.x, 2);
-          const rhs = Math.pow(pointA.y - pointB.y, 2);
-
-          return Math.sqrt(lhs + rhs);
+          removeEventListener: jasmine.createSpy('removeEventListener'),
+          getElementById: document.getElementById,
+          documentElement: {
+            clientWidth: 1920,
+            clientHeight: 1080
+          }
         }
       }
     });
@@ -27,6 +24,7 @@ describe('mouse', () => {
     mouse = requireUncached(mousePath).mouse;
 
     mockDocument = mockRegistry['utility/globals'].document;
+    mouse.remove('move');
   });
 
   afterEach(() => {
@@ -34,87 +32,61 @@ describe('mouse', () => {
     mockery.disable();
   });
 
-  describe('#addListener', () => {
+  describe('#on', () => {
+    const listener = () => {};
+
     beforeEach(() => {
-      mouse.removeAllListeners('mousemove');
+      mouse.on('move', listener);
     });
 
     it('should store the listener', () => {
-      mouse.addListener('mousemove', noop, 'ratatouille');
-      mouse.addListener('mousemove', noop, 'mickey');
-
-      expect(mouse.getListener('mousemove', 'ratatouille'))
-        .toBeTruthy();
-
-      expect(mouse.getListener('mousemove', 'mickey'))
-        .toBeTruthy();
+      expect(mouse.getListeners('move')[0])
+        .toEqual(listener);
     });
 
     describe('when there are no listeners for the event type attached', () => {
       it('should add the event type handler to the document', () => {
-        mouse.addListener('mousemove', noop, 'ratatouille');
-
         expect(mockDocument.addEventListener)
           .toHaveBeenCalledWith('mousemove', jasmine.any(Function));
       });
     });
 
-    describe('when the event type does not exist', () => {
-      it('should not store the listener', () => {
-        mouse.addListener('null', noop, 'ratatouille');
+    describe('when there are existing listeners for the event type attached', () => {
+      beforeEach(() => {
+        mockDocument.addEventListener.calls.reset();
+        mouse.on('move', noop);
+      });
 
-        expect(mouse.getListener('null', 'ratatouille'))
-          .toBe(null);
+      it('should not add the event type handler to the document', () => {
+        expect(mockDocument.addEventListener)
+          .not.toHaveBeenCalled();
       });
     });
   });
 
-  describe('#getListener', () => {
+  describe('#off', () => {
+    const listenerA = () => {};
+    const listenerB = () => {};
+
     beforeEach(() => {
-      mouse.addListener('mousemove', noop, 'ratatouille');
-      mouse.addListener('mousedown', noop, 'ratatouille');
-    });
-
-    it('should return the listener for the event type', () => {
-      expect(mouse.getListener('mousemove', 'ratatouille'))
-        .toEqual(jasmine.any(Function));
-
-      expect(mouse.getListener('mousedown', 'ratatouille'))
-        .toEqual(jasmine.any(Function));
-    });
-
-    describe('when the listener for the event type does not exist', () => {
-      it('should return null', () => {
-        expect(mouse.getListener('mousemove', 'mickey'))
-          .toBe(null);
-      });
-    });
-
-    describe('when there are no listeners for the event type', () => {
-      it('should return null', () => {
-        expect(mouse.getListener('mouseparty', 'ratatouille'))
-          .toBe(null);
-      });
-    });
-  });
-
-  describe('#removeListener', () => {
-    beforeEach(() => {
-      mouse.addListener('mousemove', noop, 'ratatouille');
-      mouse.addListener('mousemove', noop, 'mickey');
+      mouse.on('move', listenerA);
+      mouse.on('move', listenerB);
     });
 
     it('should remove the listener', () => {
-      mouse.removeListener('mousemove', 'mickey');
+      expect(mouse.getListeners('move')[0])
+        .toEqual(listenerA);
 
-      expect(mouse.getListener('mousemove', 'mickey'))
-        .toBe(null);
+      mouse.off('move', listenerA);
+
+      expect(mouse.getListeners('move')[0])
+        .toBe(listenerB);
     });
 
     describe('when the last listener for the event type is to be removed', () => {
       beforeEach(() => {
-        mouse.removeListener('mousemove', 'ratatouille');
-        mouse.removeListener('mousemove', 'mickey');
+        mouse.off('move', listenerA);
+        mouse.off('move', listenerB);
       });
 
       it('should remove the event type handler from the document', () => {
@@ -122,59 +94,134 @@ describe('mouse', () => {
           .toHaveBeenCalledWith('mousemove', jasmine.any(Function));
       });
     });
+  });
 
-    describe('when the event type does not exist', () => {
+  describe('#once', () => {
+    it('should store the listener', () => {
+      const listener = () => {};
+
+      mouse.once('move', listener);
+
+      expect(mouse.getListeners('move')[0])
+        .toEqual(listener);
+    });
+
+    it('should remove the listener once the event is fired', () => {
+      mouse.handleMouseMove({});
+
+      expect(mouse.getListeners('move').length)
+        .toBe(0);
+    });
+  });
+
+  describe('#target', () => {
+    let mockEvent,
+      mockTarget,
+      mockTargetBounds,
+      mockOnHit;
+    const minDistanceInPixels = 303;
+
+    beforeEach(() => {
+      mockEvent = {
+        clientX: 100,
+        clientY: 200
+      };
+      mockOnHit = jasmine.createSpy('mockOnHit');
+      mockTarget = document.createElement('div');
+      mockTargetBounds = { top: 0, left: 0, bottom: 20, right: 20 };
+      mockTarget.getBoundingClientRect = () => mockTargetBounds;
+
+      mouse.target(mockTarget, mockOnHit);
+
+      mockEvent.clientX = mockTargetBounds.right + minDistanceInPixels + 1;
+      mockEvent.clienty = mockTargetBounds.bottom + minDistanceInPixels + 1;
+      mouse.handleMouseMove(mockEvent);
+    });
+
+    describe('when the minimum distance has not been reached', () => {
       beforeEach(() => {
-        mouse.removeListener('mouseparty', 'ratatouille');
-        mouse.removeListener('mouseparty', 'mickey');
+        // Needs to be called again because we check the previousDistance
+        // to see if the mouse is moving away from the element.
+        mockEvent.clientX -= 1; // Move one pixel closer
+        mockEvent.clienty -= 1;
+        mouse.handleMouseMove(mockEvent);
       });
 
-      it('should not remove any matching listeners', () => {
-        expect(mouse.getListener('mousemove', 'ratatouille'))
-          .toEqual(jasmine.any(Function));
+      it('should not call the onHit callback', () => {
+        expect(mockOnHit)
+          .not.toHaveBeenCalled();
+      });
 
-        expect(mouse.getListener('mousemove', 'mickey'))
-          .toEqual(jasmine.any(Function));
+      it('should not remove the listener', () => {
+        expect(mouse.getListeners('move').length)
+          .toBe(1);
       });
     });
 
-    describe('when the event type has no listeners', () => {
+    describe('when the minimum distance is reached', () => {
       beforeEach(() => {
-        mouse.removeListener('mousedown', 'ratatouille');
-        mouse.removeListener('mousedown', 'mickey');
+        // Needs to be called again because we check the previousDistance
+        // to see if the mouse is moving away from the element.
+        mockEvent.clientX -= 2; // Move 2 pixels closer
+        mockEvent.clienty -= 2;
+        mouse.handleMouseMove(mockEvent);
       });
 
-      it('should not remove any matching listeners', () => {
-        expect(mouse.getListener('mousemove', 'ratatouille'))
-          .toEqual(jasmine.any(Function));
+      it('should call the onHit callback', () => {
+        expect(mockOnHit)
+          .toHaveBeenCalled();
+      });
 
-        expect(mouse.getListener('mousemove', 'mickey'))
-          .toEqual(jasmine.any(Function));
+      it('should remove the listener', () => {
+        expect(mouse.getListeners('move').length)
+          .toBe(0);
       });
     });
   });
 
-  describe('#removeAllListeners', () => {
+  describe('#remove', () => {
     beforeEach(() => {
-      mouse.addListener('mousemove', noop, 'ratatouille');
-      mouse.addListener('mousemove', noop, 'mickey');
+      mouse.once('move', noop);
+      mouse.once('move', noop);
+
+      mouse.remove('move');
     });
 
     it('should remove all listeners for the event type', () => {
-      mouse.removeAllListeners('mousemove');
-
-      expect(mouse.getListener('mousemove', 'ratatouille'))
-        .toBe(null);
-
-      expect(mouse.getListener('mousemove', 'mickey'))
-        .toBe(null);
+      expect(mouse.getListeners('move').length)
+        .toBe(0);
     });
 
     it('should remove the event type handler from the document', () => {
-      mouse.removeAllListeners('mousemove');
-
       expect(mockDocument.removeEventListener)
         .toHaveBeenCalledWith('mousemove', jasmine.any(Function));
+    });
+  });
+
+  describe('#getListeners', () => {
+    describe('when the event type exists', () => {
+      const listenerA = () => {};
+      const listenerB = () => {};
+
+      beforeEach(() => {
+        mouse.on('move', listenerA);
+        mouse.on('move', listenerB);
+      });
+
+      it('should return the array of listeners', () => {
+        expect(mouse.getListeners('move')[0])
+          .toEqual(listenerA);
+
+        expect(mouse.getListeners('move')[1])
+          .toEqual(listenerB);
+      });
+    });
+
+    describe('when the event type does not exist', () => {
+      it('should return null', () => {
+        expect(mouse.getListeners('bort simpson'))
+          .toBe(null);
+      });
     });
   });
 
@@ -189,8 +236,7 @@ describe('mouse', () => {
       };
       mockListener = jasmine.createSpy('listener');
 
-      mouse.removeAllListeners('mousemove');
-      mouse.addListener('mousemove', mockListener, 'ratatouille');
+      mouse.on('move', mockListener);
     });
 
     it('should call that listener on the event with valid params', () => {
@@ -198,7 +244,8 @@ describe('mouse', () => {
 
       expect(mockListener)
         .toHaveBeenCalledWith({
-          position: { x: 100, y: 200 },
+          x: 100,
+          y: 200,
           speed: 0,
           event: mockEvent
         });
@@ -229,8 +276,11 @@ describe('mouse', () => {
 
       const args = mockListener.calls.mostRecent().args;
 
-      expect(args[0].position)
-        .toEqual({ x: 150, y: 250});
+      expect(args[0].x)
+        .toBe(150);
+
+      expect(args[0].y)
+        .toBe(250);
 
       expect(args[0].speed)
         .toBeCloseTo(0.071, 3);

@@ -276,13 +276,6 @@ function base64decode(string) {
   return window.atob(string);
 }
 
-function getDistance(pointA, pointB) {
-  const lhs = Math.pow(pointA.x - pointB.x, 2);
-  const rhs = Math.pow(pointA.y - pointB.y, 2);
-
-  return Math.sqrt(lhs + rhs);
-}
-
 export {
   clickBusterHandler,
   clickBusterRegister,
@@ -299,6 +292,5 @@ export {
   setScaleLock,
   splitPath,
   bindMethods,
-  base64decode,
-  getDistance
+  base64decode
 };
