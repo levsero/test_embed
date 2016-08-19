@@ -96,11 +96,11 @@ describe('mouse', () => {
     });
   });
 
-  describe('once', () => {
+  describe('#once', () => {
     it('should store the listener', () => {
       const listener = () => {};
 
-      mouse.on('move', listener);
+      mouse.once('move', listener);
 
       expect(mouse.getListeners('move')[0])
         .toEqual(listener);
@@ -114,7 +114,7 @@ describe('mouse', () => {
     });
   });
 
-  describe('target', () => {
+  describe('#target', () => {
     let mockEvent,
       mockTarget,
       mockTargetBounds,

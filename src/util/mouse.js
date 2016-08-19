@@ -104,8 +104,9 @@ function target(element, onHit, options = {}) {
 function getListeners(event) {
   const eventName = eventNameMap[event];
 
-  return eventHandlerMap[eventName] ? listenersStore[eventName]
-                                    : null;
+  return eventHandlerMap[eventName]
+       ? listenersStore[eventName]
+       : null;
 }
 
 function remove(event) {

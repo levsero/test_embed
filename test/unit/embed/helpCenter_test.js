@@ -627,7 +627,7 @@ describe('embed.helpCenter', function() {
           helpCenter.postRender('carlos');
         });
 
-        it('call contextual search with correct options', () => {
+        it('calls contextual search with correct options', () => {
           helpCenter.keywordsSearch('carlos', { search: 'foo' });
 
           expect(contextualSearchSpy)
