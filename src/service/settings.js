@@ -45,7 +45,7 @@ let ipmStore = {
 };
 
 const initStore = (settings, store, options) => {
-  if (!settings) return;
+  if (_.isEmpty(settings)) return;
 
   let whiteListedParams = {};
 
@@ -59,9 +59,17 @@ const initStore = (settings, store, options) => {
 };
 
 function init() {
-  const settings = win.zESettings;
+  const settings = _.assign({}, win.zESettings);
 
-  if (!settings) return;
+  if (_.isEmpty(settings)) return;
+
+  // for backwards compatibility with authenticate
+  if (settings.authenticate) {
+    if (!settings.webWidget) {
+      settings.webWidget = {};
+    }
+    settings.webWidget.authenticate = settings.authenticate;
+  }
 
   initStore(settings.webWidget, webWidgetStore, optionWhitelist.webWidget);
   initStore(settings.ipm, ipmStore, optionWhitelist.ipm);
@@ -86,7 +94,7 @@ function getTranslations() {
 }
 
 function getTrackSettings() {
-  const widgetSettings = _.omit(webWidgetStore, 'margin', 'viaId');
+  const widgetSettings = _.omit(webWidgetStore, 'margin', 'viaId', 'authenticate');
 
   return {
     webWidget: widgetSettings,
