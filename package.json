@@ -18,6 +18,7 @@
     "build": "npm run build:prod",
     "postbuild": "npm run build:version:clean",
     "test": "node script/jasmine-runner.js",
+    "test:debug": "node debug script/jasmine-runner.js",
     "lint": "eslint src test"
   },
   "author": "Zendesk",
