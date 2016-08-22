@@ -135,9 +135,9 @@ For example, when someone clicks a 'Contact' button of your website, you could c
 
 Note: Calling `zE.activate()` will also display the widget if it is hidden, you do not need to call `zE.show()` to use `zE.activate()`.
 
-### zE.SetHelpCenterSuggestions
+### zE.setHelpCenterSuggestions
 
-`zE.SetHelpCenterSuggestions(options)`
+`zE.setHelpCenterSuggestions(options)`
 
 The method enhances the contextual help provided by the Web Widget.
 
