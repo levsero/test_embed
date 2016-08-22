@@ -5,14 +5,14 @@ import { win } from 'utility/globals';
 const optionWhitelist = {
   webWidget: [
     'authenticate',
-    'chat.suppressed',
+    'chat.suppress',
     'color',
     'contactForm.attachments',
     'contactForm.title',
     'helpCenter.chatButton',
     'helpCenter.messageButton',
     'helpCenter.originalArticleButton',
-    'helpCenter.suppressed',
+    'helpCenter.suppress',
     'helpCenter.title',
     'launcher.chatLabel',
     'launcher.label',

@@ -31,8 +31,8 @@ describe('mediator', function() {
       'service/settings': {
         settings : {
           get: (value) => {
-            return (value === 'chat.suppressed') ? mockSettingsChatValue
-                                                 : mockSettingsHelpCenterValue;
+            return (value === 'chat.suppress') ? mockSettingsChatValue
+                                               : mockSettingsHelpCenterValue;
           }
         }
       },
