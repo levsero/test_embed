@@ -85,7 +85,6 @@ function init(helpCenterAccessible, params = {}) {
                                         isOnHelpCenterPage());
   state[`${helpCenter}.isSuppressed`] = settings.get('helpCenter.suppress');
   state[`${chat}.isSuppressed`]       = settings.get('chat.suppress');
-  state[`${chat}.connectionPending`]  = !state[`${chat}.isSuppressed`];
 
   resetActiveEmbed();
 
@@ -227,9 +226,8 @@ function init(helpCenterAccessible, params = {}) {
   });
 
   c.intercept(`${chat}.onIsChatting`, () => {
-    if (!state[`${chat}.isSuppressed`]) {
-      state.activeEmbed = chat;
-    }
+    state.activeEmbed = chat;
+    state[`${chat}.isSuppressed`] = false;
   });
 
   c.intercept(`${chat}.onUnreadMsgs`, (__, count) => {
