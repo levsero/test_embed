@@ -83,7 +83,6 @@ export class SubmitTicket extends Component {
         showNotification: true,
         message: i18n.t('embeddable_framework.submitTicket.notify.message.success')
       });
-      this.clearForm();
 
       const params = {
         res: res,
@@ -109,6 +108,7 @@ export class SubmitTicket extends Component {
       }
 
       this.props.onSubmitted(params);
+      this.clearForm();
       this.props.updateFrameSize();
     };
 
