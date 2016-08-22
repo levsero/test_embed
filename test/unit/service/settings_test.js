@@ -84,6 +84,14 @@ describe('settings', () => {
       expect(settings.get('foo'))
         .toEqual(null);
     });
+
+    it('should be backwards compatible with authenticate', () => {
+      mockRegistry['utility/globals'].win.zESettings = { authenticate: 'foo' };
+      settings.init();
+
+      expect(settings.get('authenticate'))
+        .toEqual('foo');
+    });
   });
 
   describe('#get', () => {
