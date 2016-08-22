@@ -1,47 +1,9 @@
 {
   "env": {
-    "es6": true,
-    "browser": true,
-    "node": true,
-    "jasmine": true
+    "node": true
   },
-  "extends": "eslint:recommended",
-  "ecmaFeatures": {
-    "jsx": true,
-    "experimentalObjectRestSpread": true
-  },
-  "plugins": [
-    "react",
-    "jasmine"
-  ],
   "root": true,
-  "parser": "babel-eslint",
-  "globals": {
-    "_": true,
-    "__DEV__": true,
-    "__EMBEDDABLE_VERSION__": true,
-    "addCustomCommands": true,
-    "basePath": true,
-    "buildTestPath": true,
-    "buildSrcPath": true,
-    "domRender": true,
-    "initMockRegistry": true,
-    "jsdom": true,
-    "mockery": true,
-    "noop": true,
-    "noopReactComponent": true,
-    "pluckSubscribeCall": true,
-    "React": true,
-    "TestUtils": true,
-    "ReactDOM": true,
-    "requireUncached": true,
-    "resetDOM": true,
-    "shallowRender": true,
-    "instanceRender": true,
-    "mockBindMethods": true,
-    "webdrivercss": true,
-    "webdriverio": true
-  },
+  "extends": "eslint:recommended",
   "rules": {
     "padded-blocks": [
       2,
@@ -75,7 +37,6 @@
     "no-trailing-spaces": 2,
     "no-mixed-spaces-and-tabs": 2,
     "eol-last": 2,
-    "no-var": 2,
     "no-spaced-func": 2,
     "camelcase": 2,
     "newline-after-var": 2,
@@ -92,21 +53,6 @@
         "ignoreComments": true,
         "ignoreUrls": true
       }
-    ],
-    "react/jsx-boolean-value": [2, "always"],
-    "react/jsx-curly-spacing": 2,
-    "react/jsx-no-undef": 2,
-    "react/jsx-uses-react": 2,
-    "react/jsx-uses-vars": 2,
-    "react/no-did-mount-set-state": 2,
-    "react/no-did-update-set-state": 2,
-    "react/no-unknown-property": 2,
-    "react/react-in-jsx-scope": 2,
-    "react/require-extension": 2,
-    "react/self-closing-comp": 2,
-    "react/sort-comp": 2,
-    "react/wrap-multilines": 2,
-    "react/jsx-no-duplicate-props": 2,
-    "react/prop-types": 2
+    ]
   }
 }
