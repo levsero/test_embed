@@ -45,7 +45,7 @@ let ipmStore = {
 };
 
 const initStore = (settings, store, options) => {
-  if (!settings) return;
+  if (_.isEmpty(settings)) return;
 
   let whiteListedParams = {};
 
@@ -59,9 +59,9 @@ const initStore = (settings, store, options) => {
 };
 
 function init() {
-  const settings = win.zESettings;
+  const settings = _.assign({}, win.zESettings);
 
-  if (!settings) return;
+  if (_.isEmpty(settings)) return;
 
   // for backwards compatibility with authenticate
   if (settings.authenticate) {
