@@ -29,9 +29,7 @@ describe('Submit ticket component', function() {
         { file: { type: '' } } // Unrecognised MIME type
       ];
     },
-    render: function() {
-      return <div />;
-    }
+    render: () => <div />
   });
   const submitTicketPath = buildSrcPath('component/submitTicket/SubmitTicket');
 
@@ -345,7 +343,8 @@ describe('Submit ticket component', function() {
       });
 
       describe('when there is a successful response', () => {
-        beforeEach(function() {
+        beforeEach(() => {
+          spyOn(submitTicket, 'clearForm');
           submitTicket.setState({
             searchTerm: 'a search',
             searchLocale: 'en-US'
@@ -372,6 +371,11 @@ describe('Submit ticket component', function() {
 
           expect(mockOnSubmitted.calls.mostRecent().args[0].attachmentTypes)
             .toEqual(['image/png', 'application/octet-stream']);
+        });
+
+        it('should call clearForm', () => {
+          expect(submitTicket.clearForm)
+            .toHaveBeenCalled();
         });
       });
     });
