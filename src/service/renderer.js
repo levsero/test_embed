@@ -1,17 +1,18 @@
 import _ from 'lodash';
 
-import { win }          from 'utility/globals';
-import { submitTicket } from 'embed/submitTicket/submitTicket';
-import { launcher }     from 'embed/launcher/launcher';
-import { helpCenter }   from 'embed/helpCenter/helpCenter';
-import { chat }         from 'embed/chat/chat';
-import { nps }          from 'embed/nps/nps';
-import { ipm }          from 'embed/ipm/ipm';
 import { automaticAnswers } from 'embed/automaticAnswers/automaticAnswers';
-import { i18n }         from 'service/i18n';
-import { mediator }     from 'service/mediator';
-import { logging }      from 'service/logging';
+import { submitTicket } from 'embed/submitTicket/submitTicket';
+import { launcher } from 'embed/launcher/launcher';
+import { helpCenter } from 'embed/helpCenter/helpCenter';
+import { chat } from 'embed/chat/chat';
+import { nps } from 'embed/nps/nps';
+import { ipm } from 'embed/ipm/ipm';
+import { i18n } from 'service/i18n';
+import { mediator } from 'service/mediator';
+import { logging } from 'service/logging';
+import { settings } from 'service/settings';
 import { isMobileBrowser } from 'utility/devices';
+import { win } from 'utility/globals';
 
 const embedsMap = {
   'submitTicket': submitTicket,
@@ -57,6 +58,7 @@ function parseConfig(config) {
 
 function init(config) {
   if (!initialised) {
+    settings.setWebWidgetCustomisations(config.webWidgetCustomisations);
     i18n.setLocale(config.locale);
 
     _.forEach(parseConfig(config), function(configItem, embedName) {

@@ -22,7 +22,13 @@ const optionWhitelist = {
     'offset'
   ]
 };
-let webWidgetStore = {
+const customisationsWhitelist = [
+  'offset',
+  'helpCenter.originalArticleButton',
+  'chat.suppress',
+  'helpCenter.suppress'
+];
+const webWidgetStoreDefaults = {
   contactForm: {
     attachments: true
   },
@@ -37,25 +43,28 @@ let webWidgetStore = {
   },
   viaId: 48
 };
-let ipmStore = {
+const ipmStoreDefaults = {
   offset: {
     horizontal: 0,
     vertical: 0
   }
 };
+let webWidgetStore = {};
+let ipmStore = {};
+let webWidgetCustomisations = false;
 
-const initStore = (settings, store, options) => {
-  if (_.isEmpty(settings)) return;
-
-  let whiteListedParams = {};
-
-  _.forEach(options, (option) => {
-    if (_.has(settings, option)) {
-      _.set(whiteListedParams, option, _.get(settings, option, null));
+const initStore = (settings, options, defaults) => {
+  const reduceFn = (res, val) => {
+    if (_.has(settings, val)) {
+      _.set(res, val, _.get(settings, val, null));
     }
-  });
+    return res;
+  };
 
-  _.merge(store, whiteListedParams);
+  return _.chain(options)
+          .reduce(reduceFn, {})
+          .defaultsDeep(defaults)
+          .value();
 };
 
 function init() {
@@ -71,11 +80,17 @@ function init() {
     settings.webWidget.authenticate = settings.authenticate;
   }
 
-  initStore(settings.webWidget, webWidgetStore, optionWhitelist.webWidget);
-  initStore(settings.ipm, ipmStore, optionWhitelist.ipm);
+  webWidgetStore = initStore(settings.webWidget, optionWhitelist.webWidget, webWidgetStoreDefaults);
+  ipmStore = initStore(settings.ipm, optionWhitelist.ipm, ipmStoreDefaults);
 }
 
 function get(path, store = 'webWidget') {
+  // TODO: Remove this check when web widget customisations are out of beta.
+  if (customisationsWhitelist.indexOf(path) > -1 &&
+      !webWidgetCustomisations) {
+    return _.get(webWidgetStoreDefaults, path, null);
+  }
+
   return store === 'webWidget' ? _.get(webWidgetStore, path, null)
                                : _.get(ipmStore, path, null);
 }
@@ -102,9 +117,14 @@ function getTrackSettings() {
   };
 }
 
+function setWebWidgetCustomisations(customisationsEnabled) {
+  webWidgetCustomisations = customisationsEnabled;
+}
+
 export const settings = {
   init: init,
   get: get,
   getTranslations,
-  getTrackSettings
+  getTrackSettings,
+  setWebWidgetCustomisations
 };
