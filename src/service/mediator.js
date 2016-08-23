@@ -83,8 +83,8 @@ function init(helpCenterAccessible, params = {}) {
   state[`${helpCenter}.isAccessible`] = helpCenterAccessible &&
                                         (!params.helpCenterSignInRequired ||
                                         isOnHelpCenterPage());
-  state[`${helpCenter}.isSuppressed`] = settings.get('helpCenter.suppressed');
-  state[`${chat}.isSuppressed`]       = settings.get('chat.suppressed');
+  state[`${helpCenter}.isSuppressed`] = settings.get('helpCenter.suppress');
+  state[`${chat}.isSuppressed`]       = settings.get('chat.suppress');
   state[`${chat}.connectionPending`]  = !state[`${chat}.isSuppressed`];
 
   resetActiveEmbed();
