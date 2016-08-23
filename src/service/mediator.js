@@ -135,8 +135,8 @@ function init(helpCenterAccessible, params = {}) {
     }
   });
 
-  c.intercept(`.logout`, () => {
-    c.broadcast(`authentication.logout`);
+  c.intercept('.logout', () => {
+    c.broadcast('authentication.logout');
   });
 
   c.intercept('.zopimShow', () => {
@@ -439,7 +439,7 @@ function init(helpCenterAccessible, params = {}) {
     c.broadcast(`${submitTicket}.update`);
   });
 
-  c.intercept(`.onSetHelpCenterSuggestions`, (__, params) => {
+  c.intercept('.onSetHelpCenterSuggestions', (__, params) => {
     c.broadcast(`${helpCenter}.setHelpCenterSuggestions`, params);
   });
 
@@ -449,22 +449,22 @@ function init(helpCenterAccessible, params = {}) {
 }
 
 function initMessaging() {
-  c.intercept(`.onIdentify`, (__, params) => {
+  c.intercept('.onIdentify', (__, params) => {
     state['identify.pending'] = true;
 
-    c.broadcast(`beacon.identify`, params);
+    c.broadcast('beacon.identify', params);
     c.broadcast(`${submitTicket}.prefill`, params);
     c.broadcast(`${chat}.setUser`, params);
   });
 
-  c.intercept(`identify.onSuccess`, (__, params) => {
+  c.intercept('identify.onSuccess', (__, params) => {
     state['identify.pending'] = false;
 
-    c.broadcast(`ipm.setIpm`, params);
-    c.broadcast(`nps.setSurvey`, params);
+    c.broadcast('ipm.setIpm', params);
+    c.broadcast('nps.setSurvey', params);
   });
 
-  c.intercept(`authentication.onSuccess`, () => {
+  c.intercept('authentication.onSuccess', () => {
     state[`${helpCenter}.isAccessible`] = true;
     if (!embedVisible(state) && state[`${helpCenter}.isAccessible`]) {
       resetActiveEmbed();
@@ -473,13 +473,13 @@ function initMessaging() {
     c.broadcast(`${helpCenter}.isAuthenticated`);
   });
 
-  c.intercept(`nps.onActivate`, () => {
+  c.intercept('nps.onActivate', () => {
     const maxRetries = 100;
     let retries = 0;
 
     const fn = () => {
       if (!state['identify.pending'] && !embedVisible(state)) {
-        c.broadcast(`nps.activate`);
+        c.broadcast('nps.activate');
       } else if (retries < maxRetries) {
         retries++;
         setTimeout(fn, 300);
@@ -489,7 +489,7 @@ function initMessaging() {
     fn();
   });
 
-  c.intercept(`nps.onClose`, () => {
+  c.intercept('nps.onClose', () => {
     state['nps.isVisible'] = false;
 
     if (!state['.hideOnClose']) {
@@ -497,19 +497,19 @@ function initMessaging() {
     }
   });
 
-  c.intercept(`nps.onShow`, () => {
+  c.intercept('nps.onShow', () => {
     state['nps.isVisible'] = true;
 
     c.broadcast(`${launcher}.hide`);
   });
 
-  c.intercept(`ipm.onActivate`, () => {
+  c.intercept('ipm.onActivate', () => {
     const maxRetries = 100;
     let retries = 0;
 
     const fn = () => {
       if (!state['identify.pending'] && !embedVisible(state)) {
-        c.broadcast(`ipm.activate`);
+        c.broadcast('ipm.activate');
       } else if (retries < maxRetries) {
         retries++;
         setTimeout(fn, 300);
@@ -519,7 +519,7 @@ function initMessaging() {
     fn();
   });
 
-  c.intercept(`ipm.onClose`, () => {
+  c.intercept('ipm.onClose', () => {
     state['ipm.isVisible'] = false;
 
     if (!state['.hideOnClose'] && !state[`${launcher}.userHidden`]) {
@@ -527,7 +527,7 @@ function initMessaging() {
     }
   });
 
-  c.intercept(`ipm.onShow`, () => {
+  c.intercept('ipm.onShow', () => {
     state['ipm.isVisible'] = true;
 
     c.broadcast(`${launcher}.hide`);

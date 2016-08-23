@@ -1030,7 +1030,7 @@ describe('mediator', function() {
       it('broadcasts authentication.renew when onClick is called', function() {
         mediator.init(true, { helpCenterSignInRequired: true });
 
-        c.broadcast(`authentication.onSuccess`);
+        c.broadcast('authentication.onSuccess');
         c.broadcast(`${launcher}.onClick`);
 
         expect(authenticationSub.renew)

@@ -18,7 +18,7 @@ const mockFrameFactory = jasmine.createSpy('mockFrameFactory').and.callFake(
     const Component = React.createClass({
       setHighlightColor() {
         this.setState({
-          css: `setHighlightColorCSS { background-color: red; }`
+          css: 'setHighlightColorCSS { background-color: red; }'
         });
       },
 

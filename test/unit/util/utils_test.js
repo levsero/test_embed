@@ -183,7 +183,7 @@ describe('utils', function() {
         .toEqual('! thi𝌆$ is tchüss1@  path');
     });
 
-    describe(`when there are ':' or '#' characters in the path`, () => {
+    describe('when there are \':\' or \'#\' characters in the path', () => {
       it('should strip them out and replace them with spaces', () => {
         expect(splitPath('/this:5/is/#a-2-path.html'))
           .toEqual(' this 5 is  a 2 path');
@@ -227,7 +227,7 @@ describe('utils', function() {
         .toEqual('fred bar');
     });
 
-    it(`should return valid keywords with ':' characters in the url`, () => {
+    it('should return valid keywords with \':\' characters in the url', () => {
       location.pathname = '/buy/page:5/hardcover:false';
 
       expect(getPageKeywords())
