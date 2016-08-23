@@ -1771,6 +1771,7 @@ describe('mediator', function() {
         mockSettingsChatValue = true;
         mediator.init();
 
+        c.broadcast(`${chat}.onOffline`);
         c.broadcast(`${chat}.onOnline`);
       });
 
@@ -1784,9 +1785,25 @@ describe('mediator', function() {
           .toEqual(0);
       });
 
-      describe('there are is a proactive chat', () => {
+      describe('there is a proactive chat', () => {
         it('should disable suppression', () => {
           c.broadcast(`${chat}.onUnreadMsgs`, 1);
+
+          reset(chatSub.show);
+
+          c.broadcast(`${chat}.onHide`); // close
+
+          c.broadcast(`${launcher}.onClick`); // open
+          jasmine.clock().tick(0);
+
+          expect(chatSub.show.calls.count())
+            .toEqual(1);
+        });
+      });
+
+      describe('there is an ongoing chat', () => {
+        it('should disable suppression', () => {
+          c.broadcast(`${chat}.onIsChatting`);
 
           reset(chatSub.show);
 
