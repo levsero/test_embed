@@ -1,16 +1,6 @@
 module.exports = {
-  'env': {
-    'node': true,
-    'browser': true
-  },
+  'env': { 'node': true },
   'extends': 'eslint:recommended',
-  'globals': {
-    '__DEV__': true,
-    '__EMBEDDABLE_VERSION__': true,
-    'addCustomCommands': true,
-    'webdrivercss': true,
-    'webdriverio': true
-  },
   'rules': {
     'padded-blocks': [
       2,
