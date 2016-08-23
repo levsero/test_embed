@@ -12,12 +12,14 @@ let currentLocale;
 // is a flat structure and counterpart tries to look in object
 translate.setSeparator('*');
 
-function init() {
+function init(locale) {
   const customerTranslations = settings.getTranslations();
 
   if (!_.isEmpty(customerTranslations)) {
     overrideTranslations(customerTranslations);
   }
+
+  setLocale(locale);
 }
 
 // force is for the nps preview use case where multiple embeds are rendered

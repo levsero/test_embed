@@ -67,7 +67,7 @@ const initStore = (settings, options, defaults) => {
           .value();
 };
 
-function init() {
+function init(customisationsEnabled) {
   const settings = _.assign({}, win.zESettings);
 
   if (_.isEmpty(settings)) return;
@@ -80,6 +80,7 @@ function init() {
     settings.webWidget.authenticate = settings.authenticate;
   }
 
+  webWidgetCustomisations = customisationsEnabled;
   webWidgetStore = initStore(settings.webWidget, optionWhitelist.webWidget, webWidgetStoreDefaults);
   ipmStore = initStore(settings.ipm, optionWhitelist.ipm, ipmStoreDefaults);
 }
@@ -105,7 +106,9 @@ function getTranslations() {
     contactFormTitle: webWidgetStore.contactForm.title
   };
 
-  return _.omitBy(translations, _.isUndefined);
+  return webWidgetCustomisations
+       ? _.omitBy(translations, _.isUndefined)
+       : null;
 }
 
 function getTrackSettings() {
@@ -117,14 +120,9 @@ function getTrackSettings() {
   };
 }
 
-function setWebWidgetCustomisations(customisationsEnabled) {
-  webWidgetCustomisations = customisationsEnabled;
-}
-
 export const settings = {
   init: init,
   get: get,
   getTranslations,
-  getTrackSettings,
-  setWebWidgetCustomisations
+  getTrackSettings
 };

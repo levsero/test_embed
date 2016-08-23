@@ -58,8 +58,8 @@ function parseConfig(config) {
 
 function init(config) {
   if (!initialised) {
-    settings.setWebWidgetCustomisations(config.webWidgetCustomisations);
-    i18n.setLocale(config.locale);
+    settings.init(config.webWidgetCustomisations);
+    i18n.init(config.locale);
 
     _.forEach(parseConfig(config), function(configItem, embedName) {
       try {
