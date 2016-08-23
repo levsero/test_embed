@@ -7,6 +7,7 @@ import { helpCenter }   from 'embed/helpCenter/helpCenter';
 import { chat }         from 'embed/chat/chat';
 import { nps }          from 'embed/nps/nps';
 import { ipm }          from 'embed/ipm/ipm';
+import { automaticAnswers } from 'embed/automaticAnswers/automaticAnswers';
 import { i18n }         from 'service/i18n';
 import { mediator }     from 'service/mediator';
 import { logging }      from 'service/logging';
@@ -18,7 +19,8 @@ const embedsMap = {
   'helpCenter': helpCenter,
   'nps': nps,
   'ipm': ipm,
-  'chat': chat
+  'chat': chat,
+  'automaticAnswers': automaticAnswers
 };
 let initialised = false;
 let hideLauncher = false;
