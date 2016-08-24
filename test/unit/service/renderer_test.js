@@ -79,6 +79,9 @@ describe('renderer', function() {
       'service/logging': {
         logging: jasmine.createSpyObj('logging', ['init', 'error'])
       },
+      'service/settings': {
+        settings: jasmine.createSpyObj('settings', ['init'])
+      },
       'utility/globals': {
         win: global.window
       },

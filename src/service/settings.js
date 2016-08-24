@@ -70,8 +70,6 @@ const initStore = (settings, options, defaults) => {
 function init(customisationsEnabled) {
   const settings = _.assign({}, win.zESettings);
 
-  if (_.isEmpty(settings)) return;
-
   // for backwards compatibility with authenticate
   if (settings.authenticate) {
     if (!settings.webWidget) {
