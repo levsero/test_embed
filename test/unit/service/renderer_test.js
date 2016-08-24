@@ -6,7 +6,8 @@ describe('renderer', function() {
     mockHelpCenter,
     mockChat,
     mockNps,
-    mockIpm;
+    mockIpm,
+    mockAutomaticAnswers;
   const updateBaseFontSize = jasmine.createSpy();
   const updateFrameSize = jasmine.createSpy();
   const rendererPath = buildSrcPath('service/renderer');
@@ -39,6 +40,7 @@ describe('renderer', function() {
     mockChat = embedMocker('mockChat');
     mockNps = embedMocker('mockNps');
     mockIpm = embedMocker('mockIpm');
+    mockAutomaticAnswers = embedMocker('mockAutomaticAnswers');
 
     mockRegistry = initMockRegistry({
       'embed/submitTicket/submitTicket': {
@@ -58,6 +60,9 @@ describe('renderer', function() {
       },
       'embed/ipm/ipm': {
         ipm: mockIpm
+      },
+      'embed/automaticAnswers/automaticAnswers': {
+        automaticAnswers: mockAutomaticAnswers
       },
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', ['init', 'setLocale', 't'])
@@ -115,6 +120,9 @@ describe('renderer', function() {
               'zopimId': '2EkTn0An31opxOLXuGgRCy5nPnSNmpe6',
               'position': 'br'
             }
+          },
+          'automaticAnswers': {
+            'embed': 'automaticAnswers'
           }
         }
       };
@@ -147,6 +155,12 @@ describe('renderer', function() {
         .toHaveBeenCalledWith('helpCenterForm');
 
       expect(mockMediator.init)
+        .toHaveBeenCalled();
+
+      expect(mockAutomaticAnswers.create)
+        .toHaveBeenCalled();
+
+      expect(mockAutomaticAnswers.render)
         .toHaveBeenCalled();
     });
 
@@ -408,4 +422,3 @@ describe('renderer', function() {
     });
   });
 });
-
