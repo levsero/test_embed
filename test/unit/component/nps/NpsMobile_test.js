@@ -56,7 +56,7 @@ describe('NpsMobile component', () => {
         NpsComment:  React.createClass({
           render: function() {
             return (
-              <div ref='commentField' className={`NpsComment`}>
+              <div ref='commentField' className={'NpsComment'}>
                 <input ref='field'/>
               </div>
             );

@@ -232,24 +232,6 @@ export class HelpCenter extends Component {
     searchFn(query, doneFn, failFn);
   }
 
-  handleArticleClick(articleIndex, e) {
-    e.preventDefault();
-
-    this.setState({
-      activeArticle: this.state.articles[articleIndex],
-      articleViewActive: true
-    });
-
-    // call nextTick so state has a chance to be consistent
-    setTimeout(() => this.trackArticleView(), 0);
-
-    this.props.showBackButton();
-
-    if (!this.state.searchTracked && !this.state.hasContextualSearched) {
-      this.trackSearch();
-    }
-  }
-
   handleViewMoreClick(e) {
     e.preventDefault();
 

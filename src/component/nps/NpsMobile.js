@@ -46,7 +46,7 @@ export class NpsMobile extends Component {
 
   setDefaultNpsMobileSize() {
     setTimeout(() => this.props.setFrameSize(
-      `100%`,
+      '100%',
       this.calcHeightPercentage()),
     0);
   }
@@ -55,8 +55,8 @@ export class NpsMobile extends Component {
     if (isIos()) {
       this.startScrollHacks();
       setTimeout(() => this.props.setFrameSize(
-        `100%`,
-        `100%`,
+        '100%',
+        '100%',
         false),
       0);
       this.setState({

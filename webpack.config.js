@@ -1,13 +1,12 @@
 var path = require('path');
-var webpack = require('webpack');
 var fs = require('fs');
 var prefix = process.cwd();
 var svgoConfig = JSON.stringify({
-      plugins: [
-        {removeTitle: true},
-        {convertPathData: false}
-      ]
-    });
+  plugins: [
+    {removeTitle: true},
+    {convertPathData: false}
+  ]
+});
 
 module.exports = {
   version: String(fs.readFileSync('dist/VERSION_HASH')).trim(),

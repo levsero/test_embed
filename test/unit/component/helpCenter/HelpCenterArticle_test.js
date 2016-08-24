@@ -316,7 +316,7 @@ describe('HelpCenterArticle component', function() {
         expect(helpCenterArticle.replaceArticleImages(mockArticle, lastActiveArticleId))
           .toEqual(mockArticle.body);
 
-        mockArticle.body += `<img src="https://cdn.com/id/img.png">`;
+        mockArticle.body += '<img src="https://cdn.com/id/img.png">';
 
         expect(helpCenterArticle.replaceArticleImages(mockArticle, lastActiveArticleId))
           .toEqual(mockArticle.body);
