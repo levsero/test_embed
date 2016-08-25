@@ -32,6 +32,8 @@ describe('settings', () => {
           offset: { horizontal: 0, vertical: 0 },
           viaId: 48
         };
+
+        settings.init();
       });
 
       it('has the correct value for offset', () => {
@@ -95,15 +97,64 @@ describe('settings', () => {
   });
 
   describe('#get', () => {
-    it('should return a value if it exists in the store', () => {
-      mockRegistry['utility/globals'].win.zESettings = { webWidget: { authenticate: 'foo' } };
-      settings.init();
+    beforeEach(() => {
+      mockRegistry['utility/globals'].win.zESettings = {
+        webWidget: {
+          authenticate: 'foo',
+          helpCenter: {
+            originalArticleButton: false,
+            suppress: true
+          },
+          chat: {
+            suppress: true
+          }
+        }
+      };
 
+      settings.init();
+    });
+
+    describe('when web widget customisations are enabled', () => {
+      beforeEach(() => {
+        settings.init(true);
+      });
+
+      it('should return user setting for helpCenter.originalArticleButton', () => {
+        expect(settings.get('helpCenter.originalArticleButton'))
+          .toBe(false);
+      });
+
+      it('should return user setting for suppress', () => {
+        expect(settings.get('helpCenter.suppress'))
+          .toBe(true);
+
+        expect(settings.get('chat.suppress'))
+          .toBe(true);
+      });
+    });
+
+    describe('when web widget customisations are disabled', () => {
+      it('should return default setting for helpCenter.originalArticleButton', () => {
+        expect(settings.get('helpCenter.originalArticleButton'))
+          .toBe(true);
+      });
+
+      it('should return default setting for suppress', () => {
+        expect(settings.get('helpCenter.suppress'))
+          .toBe(null);
+
+        expect(settings.get('chat.suppress'))
+          .toBe(null);
+      });
+    });
+
+    it('should return a value if it exists in the store', () => {
       expect(settings.get('authenticate'))
         .toEqual('foo');
     });
 
     it('should return null if a value does not exist in the store', () => {
+      mockRegistry['utility/globals'].win.zESettings = { webWidget: {} };
       settings.init();
 
       expect(settings.get('authenticate'))
@@ -120,19 +171,83 @@ describe('settings', () => {
 
     it('should be able to get things from different stores', () => {
       mockRegistry['utility/globals'].win.zESettings = {
-        ipm: { offset: 'foo' },
-        webWidget: { offset: 'bar' }
+        ipm: {
+          offset: {
+            horizontal: 10,
+            vertical: 10
+          }
+        },
+        webWidget: {
+          offset: {
+            horizontal: 20,
+            vertical: 20
+          }
+        }
       };
-      settings.init();
+      settings.init(true);
 
       expect(settings.get('offset', 'ipm'))
-        .toEqual('foo');
-      expect(settings.get('offset'))
-        .toEqual('bar');
+        .toEqual({ horizontal: 10, vertical: 10 });
+      expect(settings.get('offset', 'webWidget'))
+        .toEqual({ horizontal: 20, vertical: 20 });
+    });
+  });
+
+  describe('#getTranslations', () => {
+    beforeEach(() => {
+      mockRegistry['utility/globals'].win.zESettings = {
+        webWidget: {
+          helpCenter: {
+            title: {
+              '*': 'help center title',
+              'en-US': 'why?'
+            },
+            messageButton: {
+              'en-US': 'Yo',
+              'fr': ':('
+            }
+          }
+        }
+      };
+    });
+
+    describe('when web widget customisations are enabled', () => {
+      beforeEach(() => {
+        settings.init(true);
+      });
+
+      it('should return the translations', () => {
+        expect(settings.getTranslations())
+          .toEqual({
+            helpCenterTitle: {
+              '*': 'help center title',
+              'en-US': 'why?'
+            },
+            helpCenterMessageButton: {
+              'en-US': 'Yo',
+              'fr': ':('
+            }
+          });
+      });
+    });
+
+    describe('when web widget customisations are disabled', () => {
+      beforeEach(() => {
+        settings.init();
+      });
+
+      it('should return null', () => {
+        expect(settings.getTranslations())
+          .toBe(null);
+      });
     });
   });
 
   describe('#getTrackSettings', () => {
+    beforeEach(() => {
+      settings.init();
+    });
+
     it('should return a web Widget Object', () => {
       expect(settings.getTrackSettings().webWidget)
         .toBeDefined();

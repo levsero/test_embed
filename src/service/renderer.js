@@ -1,17 +1,19 @@
 import _ from 'lodash';
 
-import { win }          from 'utility/globals';
-import { submitTicket } from 'embed/submitTicket/submitTicket';
-import { launcher }     from 'embed/launcher/launcher';
-import { helpCenter }   from 'embed/helpCenter/helpCenter';
-import { chat }         from 'embed/chat/chat';
-import { nps }          from 'embed/nps/nps';
-import { ipm }          from 'embed/ipm/ipm';
 import { automaticAnswers } from 'embed/automaticAnswers/automaticAnswers';
-import { i18n }         from 'service/i18n';
-import { mediator }     from 'service/mediator';
-import { logging }      from 'service/logging';
+import { chat } from 'embed/chat/chat';
+import { helpCenter } from 'embed/helpCenter/helpCenter';
+import { ipm } from 'embed/ipm/ipm';
+import { launcher } from 'embed/launcher/launcher';
+import { nps } from 'embed/nps/nps';
+import { submitTicket } from 'embed/submitTicket/submitTicket';
+import { beacon } from 'service/beacon';
+import { i18n } from 'service/i18n';
+import { mediator } from 'service/mediator';
+import { logging } from 'service/logging';
+import { settings } from 'service/settings';
 import { isMobileBrowser } from 'utility/devices';
+import { win } from 'utility/globals';
 
 const embedsMap = {
   'submitTicket': submitTicket,
@@ -57,7 +59,9 @@ function parseConfig(config) {
 
 function init(config) {
   if (!initialised) {
-    i18n.setLocale(config.locale);
+    settings.init(config.webWidgetCustomizations);
+    beacon.trackSettings(settings.getTrackSettings());
+    i18n.init(config.locale);
 
     _.forEach(parseConfig(config), function(configItem, embedName) {
       try {

@@ -11,6 +11,7 @@ describe('renderer', function() {
   const updateBaseFontSize = jasmine.createSpy();
   const updateFrameSize = jasmine.createSpy();
   const rendererPath = buildSrcPath('service/renderer');
+  const mockTrackSettings = { webWidget: 'foo' };
   const embedMocker = function(name) {
     const mock = jasmine.createSpyObj(name, [
       'create',
@@ -64,6 +65,9 @@ describe('renderer', function() {
       'embed/automaticAnswers/automaticAnswers': {
         automaticAnswers: mockAutomaticAnswers
       },
+      'service/beacon': {
+        beacon: jasmine.createSpyObj('beacon', ['trackSettings'])
+      },
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', ['init', 'setLocale', 't'])
       },
@@ -78,6 +82,12 @@ describe('renderer', function() {
       'lodash': _,
       'service/logging': {
         logging: jasmine.createSpyObj('logging', ['init', 'error'])
+      },
+      'service/settings': {
+        settings: {
+          init: jasmine.createSpy(),
+          getTrackSettings: jasmine.createSpy().and.returnValue(mockTrackSettings)
+        }
       },
       'utility/globals': {
         win: global.window
@@ -269,6 +279,38 @@ describe('renderer', function() {
 
     expect(mockLauncher.render.calls.count())
       .toEqual(1);
+  });
+
+  describe('initialising services', () => {
+    let mockSettings,
+      mockBeacon,
+      mocki18n;
+
+    beforeEach(() => {
+      mockSettings = mockRegistry['service/settings'].settings;
+      mockBeacon = mockRegistry['service/beacon'].beacon;
+      mocki18n = mockRegistry['service/i18n'].i18n;
+
+      renderer.init({
+        locale: 'en',
+        webWidgetCustomizations: true
+      });
+    });
+
+    it('should call settings.init with config.webWidgetCustomizations', () => {
+      expect(mockSettings.init)
+        .toHaveBeenCalledWith(true);
+    });
+
+    it('should call beacon.trackSettings', () => {
+      expect(mockBeacon.trackSettings)
+        .toHaveBeenCalledWith(mockTrackSettings);
+    });
+
+    it('should call i18n.init with the correct locale', () => {
+      expect(mocki18n.init)
+        .toHaveBeenCalledWith('en');
+    });
   });
 
   describe('#propagateFontRatio', function() {

@@ -22,7 +22,13 @@ const optionWhitelist = {
     'offset'
   ]
 };
-let webWidgetStore = {
+const customizationsWhitelist = [
+  'offset',
+  'helpCenter.originalArticleButton',
+  'chat.suppress',
+  'helpCenter.suppress'
+];
+const webWidgetStoreDefaults = {
   contactForm: {
     attachments: true
   },
@@ -37,31 +43,32 @@ let webWidgetStore = {
   },
   viaId: 48
 };
-let ipmStore = {
+const ipmStoreDefaults = {
   offset: {
     horizontal: 0,
     vertical: 0
   }
 };
+let webWidgetStore = {};
+let ipmStore = {};
+let webWidgetCustomizations = false;
 
-const initStore = (settings, store, options) => {
-  if (_.isEmpty(settings)) return;
-
-  let whiteListedParams = {};
-
-  _.forEach(options, (option) => {
-    if (_.has(settings, option)) {
-      _.set(whiteListedParams, option, _.get(settings, option, null));
+const initStore = (settings, options, defaults) => {
+  const reduceFn = (res, val) => {
+    if (_.has(settings, val)) {
+      _.set(res, val, _.get(settings, val, null));
     }
-  });
+    return res;
+  };
 
-  _.merge(store, whiteListedParams);
+  return _.chain(options)
+          .reduce(reduceFn, {})
+          .defaultsDeep(defaults)
+          .value();
 };
 
-function init() {
+function init(customizationsEnabled = false) {
   const settings = _.assign({}, win.zESettings);
-
-  if (_.isEmpty(settings)) return;
 
   // for backwards compatibility with authenticate
   if (settings.authenticate) {
@@ -71,11 +78,18 @@ function init() {
     settings.webWidget.authenticate = settings.authenticate;
   }
 
-  initStore(settings.webWidget, webWidgetStore, optionWhitelist.webWidget);
-  initStore(settings.ipm, ipmStore, optionWhitelist.ipm);
+  webWidgetCustomizations = customizationsEnabled;
+  webWidgetStore = initStore(settings.webWidget, optionWhitelist.webWidget, webWidgetStoreDefaults);
+  ipmStore = initStore(settings.ipm, optionWhitelist.ipm, ipmStoreDefaults);
 }
 
 function get(path, store = 'webWidget') {
+  // TODO: Remove this check when web widget customizations are out of beta.
+  if (customizationsWhitelist.indexOf(path) > -1 &&
+      !webWidgetCustomizations) {
+    return _.get(webWidgetStoreDefaults, path, null);
+  }
+
   return store === 'webWidget' ? _.get(webWidgetStore, path, null)
                                : _.get(ipmStore, path, null);
 }
@@ -90,7 +104,9 @@ function getTranslations() {
     contactFormTitle: webWidgetStore.contactForm.title
   };
 
-  return _.omitBy(translations, _.isUndefined);
+  return webWidgetCustomizations
+       ? _.omitBy(translations, _.isUndefined)
+       : null;
 }
 
 function getTrackSettings() {
