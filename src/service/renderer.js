@@ -1,12 +1,12 @@
 import _ from 'lodash';
 
 import { automaticAnswers } from 'embed/automaticAnswers/automaticAnswers';
-import { submitTicket } from 'embed/submitTicket/submitTicket';
-import { launcher } from 'embed/launcher/launcher';
-import { helpCenter } from 'embed/helpCenter/helpCenter';
 import { chat } from 'embed/chat/chat';
-import { nps } from 'embed/nps/nps';
+import { helpCenter } from 'embed/helpCenter/helpCenter';
 import { ipm } from 'embed/ipm/ipm';
+import { launcher } from 'embed/launcher/launcher';
+import { nps } from 'embed/nps/nps';
+import { submitTicket } from 'embed/submitTicket/submitTicket';
 import { beacon } from 'service/beacon';
 import { i18n } from 'service/i18n';
 import { mediator } from 'service/mediator';
