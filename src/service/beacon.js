@@ -3,7 +3,6 @@ import _ from 'lodash';
 import { i18n } from 'service/i18n';
 import { mediator } from 'service/mediator';
 import { store } from 'service/persistence';
-import { settings } from 'service/settings';
 import { transport } from 'service/transport';
 import { win,
          document as doc,
@@ -40,16 +39,6 @@ const sendPageView = () => {
   transport.sendWithMeta(payload);
 };
 
-const trackSettings = () => {
-  const payload = {
-    method: 'POST',
-    path: '/embeddable/blips',
-    params: { settings: settings.getTrackSettings() }
-  };
-
-  transport.sendWithMeta(payload);
-};
-
 function init() {
   const now = Date.now();
 
@@ -57,10 +46,6 @@ function init() {
 
   mediator.channel.subscribe('beacon.identify', identify);
   mediator.channel.subscribe('beacon.trackUserAction', trackUserAction);
-
-  if (win.zESettings) {
-    trackSettings();
-  }
 
   // We need to invoke `sendPageView` on `DOMContentLoaded` because
   // for help center host pages, the script that defines the `HelpCenter`
@@ -109,6 +94,18 @@ function trackUserAction(category, action, label = null, value = null) {
   transport.sendWithMeta(payload);
 }
 
+function trackSettings(settings) {
+  if (!win.zESettings) return;
+
+  const payload = {
+    method: 'POST',
+    path: '/embeddable/blips',
+    params: { settings }
+  };
+
+  transport.sendWithMeta(payload);
+}
+
 function identify(user) {
   user.localeId = i18n.getLocaleId();
   const payload = {
@@ -131,6 +128,7 @@ function identify(user) {
 export const beacon = {
   init: init,
   trackUserAction: trackUserAction,
+  trackSettings: trackSettings,
   identify: identify,
   sendConfigLoadTime: sendConfigLoadTime
 };

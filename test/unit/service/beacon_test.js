@@ -3,7 +3,6 @@ describe('beacon', function() {
     mockRegistry;
   const localeId = 10;
   const beaconPath = buildSrcPath('service/beacon');
-  const mockSettings = { webWidget: 'foo' };
 
   beforeEach(function() {
     mockery.enable();
@@ -15,11 +14,6 @@ describe('beacon', function() {
       'service/mediator': {
         mediator: {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
-        }
-      },
-      'service/settings': {
-        settings: {
-          getTrackSettings: jasmine.createSpy('getTrackSettings').and.returnValue(mockSettings)
         }
       },
       'utility/globals': {
@@ -107,29 +101,6 @@ describe('beacon', function() {
 
       expect(resultTime < (currentTime + 30))
         .toBeTruthy();
-    });
-
-    describe('when there is a zESettings object on the page', function() {
-      beforeEach(() => {
-        mockRegistry['utility/globals'].win.zESettings = mockSettings;
-        beacon.init();
-      });
-
-      it('gets the settings from settings service', () => {
-        expect(mockRegistry['service/settings'].settings.getTrackSettings)
-          .toHaveBeenCalled();
-      });
-
-      it('sends a settings blip', () => {
-        expect(mockTransport.sendWithMeta)
-          .toHaveBeenCalled();
-
-        // page view is most recent call so we need to look at the first one
-        const transportPayload = mockTransport.sendWithMeta.calls.first().args[0];
-
-        expect(transportPayload.params.settings)
-          .toEqual(mockSettings);
-      });
     });
 
     describe('mediator subscriptions', function() {
@@ -326,6 +297,40 @@ describe('beacon', function() {
 
       expect(params.userAction)
         .toEqual(userActionParams);
+    });
+  });
+
+  describe('#trackSettings', () => {
+    const mockSettings = { webWidget: { viaId: 48 } };
+    let mockTransport;
+
+    beforeEach(() => {
+      mockTransport = mockRegistry['service/transport'].transport;
+    });
+
+    describe('when there is a zESettings object on the page', function() {
+      beforeEach(() => {
+        mockRegistry['utility/globals'].win.zESettings = mockSettings;
+        beacon.trackSettings(mockSettings);
+      });
+
+      it('sends a settings blip', () => {
+        expect(mockTransport.sendWithMeta)
+          .toHaveBeenCalled();
+
+        // page view is most recent call so we need to look at the first one
+        const transportPayload = mockTransport.sendWithMeta.calls.first().args[0];
+
+        expect(transportPayload.params.settings)
+          .toEqual(mockSettings);
+      });
+    });
+
+    describe('when there is no zESettings object on the page', () => {
+      it('should not send the settings blip', () => {
+        expect(mockTransport.sendWithMeta)
+          .not.toHaveBeenCalled();
+      });
     });
   });
 
