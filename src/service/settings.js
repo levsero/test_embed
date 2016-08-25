@@ -67,7 +67,7 @@ const initStore = (settings, options, defaults) => {
           .value();
 };
 
-function init(customizationsEnabled) {
+function init(customizationsEnabled = false) {
   const settings = _.assign({}, win.zESettings);
 
   // for backwards compatibility with authenticate

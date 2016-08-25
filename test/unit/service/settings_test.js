@@ -33,7 +33,7 @@ describe('settings', () => {
           viaId: 48
         };
 
-        settings.init(false);
+        settings.init();
       });
 
       it('has the correct value for offset', () => {
@@ -111,7 +111,7 @@ describe('settings', () => {
         }
       };
 
-      settings.init(false);
+      settings.init();
     });
 
     describe('when web widget customisations are enabled', () => {
@@ -155,7 +155,7 @@ describe('settings', () => {
 
     it('should return null if a value does not exist in the store', () => {
       mockRegistry['utility/globals'].win.zESettings = { webWidget: {} };
-      settings.init(false);
+      settings.init();
 
       expect(settings.get('authenticate'))
         .toEqual(null);
@@ -163,7 +163,7 @@ describe('settings', () => {
 
     it('should return a value for a nested param if it exists in the store', () => {
       mockRegistry['utility/globals'].win.zESettings = { webWidget: { contactForm: { attachments: 'foo' } } };
-      settings.init(false);
+      settings.init();
 
       expect(settings.get('contactForm.attachments'))
         .toEqual('foo');
@@ -233,7 +233,7 @@ describe('settings', () => {
 
     describe('when web widget customisations are disabled', () => {
       beforeEach(() => {
-        settings.init(false);
+        settings.init();
       });
 
       it('should return null', () => {
@@ -245,7 +245,7 @@ describe('settings', () => {
 
   describe('#getTrackSettings', () => {
     beforeEach(() => {
-      settings.init(false);
+      settings.init();
     });
 
     it('should return a web Widget Object', () => {
