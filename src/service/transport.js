@@ -170,6 +170,25 @@ function getZendeskHost() {
   return config.zendeskHost;
 }
 
+function automaticAnswersApiRequest(payload) {
+  if (!config.zendeskHost) {
+    throw 'Missing zendeskHost config param.';
+  }
+
+  superagent(payload.method.toUpperCase(), buildFullUrl(payload.path))
+    .end((err, res) => {
+      if (err) {
+        if (_.isFunction(payload.callbacks.fail)) {
+          payload.callbacks.fail(err, res);
+        }
+      } else {
+        if (_.isFunction(payload.callbacks.done)) {
+          payload.callbacks.done(res);
+        }
+      }
+    });
+}
+
 export const transport = {
   init: init,
   send: send,
@@ -177,5 +196,6 @@ export const transport = {
   sendFile: sendFile,
   getImage: getImage,
   get: send,
-  getZendeskHost: getZendeskHost
+  getZendeskHost: getZendeskHost,
+  automaticAnswersApiRequest: automaticAnswersApiRequest
 };
