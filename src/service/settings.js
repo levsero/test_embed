@@ -22,7 +22,7 @@ const optionWhitelist = {
     'offset'
   ]
 };
-const customisationsWhitelist = [
+const customizationsWhitelist = [
   'offset',
   'helpCenter.originalArticleButton',
   'chat.suppress',
@@ -51,7 +51,7 @@ const ipmStoreDefaults = {
 };
 let webWidgetStore = {};
 let ipmStore = {};
-let webWidgetCustomisations = false;
+let webWidgetCustomizations = false;
 
 const initStore = (settings, options, defaults) => {
   const reduceFn = (res, val) => {
@@ -67,7 +67,7 @@ const initStore = (settings, options, defaults) => {
           .value();
 };
 
-function init(customisationsEnabled) {
+function init(customizationsEnabled) {
   const settings = _.assign({}, win.zESettings);
 
   // for backwards compatibility with authenticate
@@ -78,15 +78,15 @@ function init(customisationsEnabled) {
     settings.webWidget.authenticate = settings.authenticate;
   }
 
-  webWidgetCustomisations = customisationsEnabled;
+  webWidgetCustomizations = customizationsEnabled;
   webWidgetStore = initStore(settings.webWidget, optionWhitelist.webWidget, webWidgetStoreDefaults);
   ipmStore = initStore(settings.ipm, optionWhitelist.ipm, ipmStoreDefaults);
 }
 
 function get(path, store = 'webWidget') {
-  // TODO: Remove this check when web widget customisations are out of beta.
-  if (customisationsWhitelist.indexOf(path) > -1 &&
-      !webWidgetCustomisations) {
+  // TODO: Remove this check when web widget customizations are out of beta.
+  if (customizationsWhitelist.indexOf(path) > -1 &&
+      !webWidgetCustomizations) {
     return _.get(webWidgetStoreDefaults, path, null);
   }
 
@@ -104,7 +104,7 @@ function getTranslations() {
     contactFormTitle: webWidgetStore.contactForm.title
   };
 
-  return webWidgetCustomisations
+  return webWidgetCustomizations
        ? _.omitBy(translations, _.isUndefined)
        : null;
 }
