@@ -4,8 +4,7 @@ import _ from 'lodash';
 import classNames from 'classnames';
 import snabbt from 'snabbt.js';
 
-import { ButtonNav } from 'component/button/ButtonNav';
-import { Icon } from 'component/Icon';
+import { EmbedWrapper } from 'component/frameFactory/EmbedWrapper';
 import { i18n } from 'service/i18n';
 import { settings } from 'service/settings';
 import { generateNpsCSS } from 'utility/color';
@@ -101,6 +100,14 @@ export const frameFactory = function(childFn, _params) {
           width: 0
         }
       };
+    },
+
+    componentDidMount() {
+      this.renderFrameContent();
+    },
+
+    componentDidUpdate() {
+      this.renderFrameContent();
     },
 
     getChild() {
@@ -332,14 +339,6 @@ export const frameFactory = function(childFn, _params) {
       );
     },
 
-    componentDidMount() {
-      this.renderFrameContent();
-    },
-
-    componentDidUpdate() {
-      this.renderFrameContent();
-    },
-
     renderFrameContent() {
       if (this.state._rendered) {
         return false;
@@ -358,7 +357,6 @@ export const frameFactory = function(childFn, _params) {
         }
 
         const cssText = baseCSS + mainCSS + params.css + baseFontCSS;
-        const css = <style dangerouslySetInnerHTML={{ __html: cssText }} />;
         const fullscreen = params.fullscreenable && params.isMobile;
         const positionClasses = classNames({
           'u-borderTransparent u-posRelative': !fullscreen,
@@ -388,91 +386,18 @@ export const frameFactory = function(childFn, _params) {
           setOffsetVertical: this.setOffsetVertical
         });
 
-        const Component = React.createClass({
-          getInitialState() {
-            return {
-              css: '',
-              showBackButton: false,
-              isMobile: false
-            };
-          },
-
-          setHighlightColor(color) {
-            const cssClasses = generateNpsCSS({ color: color });
-
-            if (cssClasses) {
-              this.setState({
-                css: cssClasses
-              });
-            }
-          },
-
-          renderCloseButton() {
-            return (
-              <ButtonNav
-                onClick={this.props.close}
-                label={
-                  <Icon
-                    type='Icon--close'
-                    className='u-textInheritColor'
-                    isMobile={this.state.isMobile} />
-                }
-                rtl={i18n.isRTL()}
-                position='right'
-                fullscreen={this.props.fullscreen || this.state.isMobile} />
-            );
-          },
-
-          renderBackButton() {
-            return (
-              <ButtonNav
-                onClick={this.props.back}
-                label={
-                  <Icon
-                    type='Icon--back'
-                    className='u-textInheritColor'
-                    isMobile={this.state.isMobile} />
-                }
-                rtl={i18n.isRTL()}
-                position='left'
-                fullscreen={this.props.fullscreen || this.state.isMobile} />
-            );
-          },
-
-          render() {
-            const backButtonClasses = classNames({
-              'u-isHidden': !this.state.showBackButton
-            });
-            const closeButtonClasses = classNames({
-              'closeButton': true,
-              'u-isHidden': params.hideCloseButton
-            });
-            const styleTag = <style dangerouslySetInnerHTML={{ __html: this.state.css }} />;
-
-            return (
-              <div>
-                {css}
-                {styleTag}
-                <div className={backButtonClasses}>
-                  {this.renderBackButton()}
-                </div>
-                <div className={closeButtonClasses}>
-                  {this.renderCloseButton()}
-                </div>
-                {childFn(childParams)}
-              </div>
-            );
-          }
-        });
-
         const element = doc.body.appendChild(doc.createElement('div'));
         element.className = positionClasses;
 
         /* eslint-enable */
         child = ReactDOM.render(
-          <Component
+          <EmbedWrapper
             back={this.back}
+            baseCSS={cssText}
             close={this.close}
+            hideCloseButton={params.hideCloseButton}
+            childFn={childFn}
+            childParams={childParams}
             fullscreen={fullscreen} />,
           element
         );
