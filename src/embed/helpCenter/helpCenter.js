@@ -11,6 +11,7 @@ import { mediator } from 'service/mediator';
 import { settings } from 'service/settings';
 import { transport } from 'service/transport';
 import { transitionFactory } from 'service/transitionFactory';
+import { generateUserCSS } from 'utility/color';
 import { isIE,
          isMobileBrowser } from 'utility/devices';
 import { document,
@@ -18,7 +19,6 @@ import { document,
 import { mouse } from 'utility/mouse';
 import { isOnHelpCenterPage } from 'utility/pages';
 import { cappedIntervalCall,
-         generateUserCSS,
          getPageKeywords,
          setScaleLock } from 'utility/utils';
 

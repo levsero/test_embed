@@ -73,10 +73,12 @@ describe('embed.submitTicket', function() {
       },
       'utility/utils': {
         setScaleLock: jasmine.createSpy('setScaleLock'),
-        generateUserCSS: jasmine.createSpy().and.returnValue(''),
         setScrollKiller: jasmine.createSpy(),
         setWindowScroll: jasmine.createSpy(),
         revertWindowScroll: jasmine.createSpy()
+      },
+      'utility/color': {
+        generateUserCSS: jasmine.createSpy().and.returnValue('')
       },
       'utility/devices': {
         isMobileBrowser: function() {

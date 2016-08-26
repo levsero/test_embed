@@ -24,6 +24,7 @@ const optionWhitelist = {
 };
 const customizationsWhitelist = [
   'offset',
+  'color',
   'helpCenter.originalArticleButton',
   'chat.suppress',
   'helpCenter.suppress'
