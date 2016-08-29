@@ -554,4 +554,88 @@ describe('transport', function() {
       });
     });
   });
+
+  describe('#automaticAnswersApiRequest', () => {
+    let config,
+      mockSuperagent,
+      payload,
+      ticket_id = '123',
+      token = 'abc';
+
+    beforeEach(() => {
+      config = {
+        zendeskHost: 'lolz.zendesk.host'
+      };
+      mockSuperagent = mockRegistry.superagent;
+    });
+
+    describe('when zendeskHost is not set in config', () => {
+      beforeEach(() => {
+        transport.init();
+      });
+
+      it('should throw an exception', () => {
+        expect(() => transport.automaticAnswersApiRequest(payload))
+          .toThrow();
+      });
+    });
+
+    describe('when zendeskHost is set in config', () => {
+      beforeEach(() => {
+        transport.init(config);
+        payload = {
+          method: 'get',
+          path: `/test/fetch/${ticket_id}/token/${token}`,
+          callbacks: {
+            done: noop,
+            fail: noop
+          }
+        };
+        spyOn(payload.callbacks, 'done');
+        spyOn(payload.callbacks, 'fail');
+        spyOn(mockMethods, 'end').and.callThrough();
+      });
+
+      describe('when sending a request', () => {
+        beforeEach(() => {
+          transport.automaticAnswersApiRequest(payload);
+        });
+
+        it('sets the correct http method and path', () => {
+          expect(mockSuperagent)
+            .toHaveBeenCalledWith(
+              'GET',
+              'https://lolz.zendesk.host/test/fetch/123/token/abc');
+        });
+      });
+
+      describe('when a response is received', () => {
+        let recentCall,
+          callback;
+
+        beforeEach(() => {
+          transport.automaticAnswersApiRequest(payload);
+          expect(mockMethods.end)
+            .toHaveBeenCalled();
+
+          recentCall = mockMethods.end.calls.mostRecent();
+          callback = recentCall.args[0];
+        });
+
+        it('triggers the fail callback if response is successful', () => {
+          callback(null, { ok: true });
+
+          expect(payload.callbacks.done)
+            .toHaveBeenCalled();
+        });
+
+        it('triggers the fail callback if response is unsuccessful', () => {
+          callback({ error: true }, undefined);
+
+          expect(payload.callbacks.fail)
+            .toHaveBeenCalled();
+        });
+      });
+    });
+  });
 });
