@@ -8,9 +8,10 @@ function bustCache(versionHash) {
       window.removeEventListener('message', onMessage);
     }
   };
+  const timestamp = Math.floor((Date.now() / 1000) / 60); // Timestamp in minutes.
   const updatePath = [
     'update.html?',
-    (new Date()).getTime(),
+    `t=${timestamp}`,
     `#${versionHash}`
   ].join('');
   const script = document.getElementById('js-iframe-async')
