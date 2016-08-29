@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { i18n } from 'service/i18n';
 import { settings } from 'service/settings';
 import { mediator } from 'service/mediator';
+import { validSettingsColor } from 'utility/color';
 import { document, win,
          getDocumentHost } from 'utility/globals';
 import { cappedIntervalCall } from 'utility/utils';
@@ -18,6 +19,10 @@ function create(name, config) {
     offsetHorizontal: parseInt(settings.get('offset').horizontal) + settings.get('margin'),
     size: 'large'
   };
+
+  if (validSettingsColor()) {
+    config.color = validSettingsColor();
+  }
 
   chats[name] = {
     config: _.extend(configDefaults, config)

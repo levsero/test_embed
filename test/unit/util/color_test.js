@@ -1,5 +1,6 @@
 describe('color', function() {
   let generateUserCSS,
+    validSettingsColor,
     mockSettingsValue;
 
   const colorPath = buildSrcPath('util/color');
@@ -23,6 +24,7 @@ describe('color', function() {
     });
 
     generateUserCSS = require(colorPath).generateUserCSS;
+    validSettingsColor = require(colorPath).validSettingsColor;
   });
 
   afterEach(function() {
@@ -50,6 +52,47 @@ describe('color', function() {
 
       expect(cssString)
         .toMatch('#aaaaaa');
+    });
+  });
+
+  describe('validSettingsColor', function() {
+    it('allows valid hex values', function() {
+      mockSettingsValue = '#aaaaaa';
+
+      expect(validSettingsColor())
+        .not.toBeNull();
+
+      mockSettingsValue = '#eee';
+
+      expect(validSettingsColor())
+        .not.toBeNull();
+
+      mockSettingsValue = '#AEAEAE';
+
+      expect(validSettingsColor())
+        .not.toBeNull();
+    });
+
+    it('wont allow non valid hex values', function() {
+      mockSettingsValue = '#aaaa';
+
+      expect(validSettingsColor())
+        .toBeNull();
+
+      mockSettingsValue = '#hhh';
+
+      expect(validSettingsColor())
+        .toBeNull();
+
+      mockSettingsValue = '#638927384';
+
+      expect(validSettingsColor())
+        .toBeNull();
+
+      mockSettingsValue = 'eee';
+
+      expect(validSettingsColor())
+        .toBeNull();
     });
   });
 });

@@ -1,10 +1,10 @@
 import Color from 'color';
 
-import { settings }  from 'service/settings';
+import { settings } from 'service/settings';
 
 function generateUserCSS(color = '#659700') {
-  if (settings.get('color.theme')) {
-    color = settings.get('color.theme');
+  if (validSettingsColor()) {
+    color = validSettingsColor();
   }
 
   const highlightColor = generateHighlightColor(color);
@@ -83,6 +83,20 @@ function generateNpsCSS(params) {
   }
 }
 
+function validSettingsColor() {
+  const settingsColor = settings.get('color.theme');
+
+  return settingsColor && isValidHex(settingsColor)
+       ? settingsColor
+       : null;
+}
+
+function isValidHex(color) {
+  const validRegex = /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i;
+
+  return validRegex.test(color);
+}
+
 function generateContrastColor(colorStr) {
   try {
     const color = Color(colorStr);
@@ -109,5 +123,6 @@ function generateHighlightColor(colorStr) {
 
 export {
   generateNpsCSS,
-  generateUserCSS
+  generateUserCSS,
+  validSettingsColor
 };
