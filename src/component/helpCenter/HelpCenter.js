@@ -147,7 +147,7 @@ export class HelpCenter extends Component {
       })
     );
 
-    this.performSearch(query, this.interactiveSearchSuccessFn, { localeFallback: true });
+    this.performSearchWithLocaleFallback(query, this.interactiveSearchSuccessFn);
 
     if (this.props.fullscreen) {
       setTimeout(() => {
@@ -179,7 +179,7 @@ export class HelpCenter extends Component {
       })
     );
 
-    this.performSearch(query, this.interactiveSearchSuccessFn, { localeFallback: true });
+    this.performSearchWithLocaleFallback(query, this.interactiveSearchSuccessFn);
   }
 
   updateResults(res) {
@@ -211,25 +211,37 @@ export class HelpCenter extends Component {
     }
   }
 
-  performSearch(query, successFn, options = {}) {
-    const isContextual = !!options.isContextual;
-    const searchFn = isContextual
+  performSearchWithLocaleFallback(query, successFn, options = {}) {
+    const searchFn = options.isContextual
                    ? this.props.contextualSearchSender
                    : this.props.searchSender;
+    const localeFallbacks = this.props.localeFallbacks || [''];
     const doneFn = (res) => {
       if (res.ok) {
-        if ((query.locale && res.body.count > 0) || !options.localeFallback) {
+        if (res.body.count > 0 || _.isEmpty(localeFallbacks)) {
           successFn(res, query);
-        } else if (options.localeFallback && query.locale) {
-          this.performSearch(_.omit(query, 'locale'), successFn, { isContextual: isContextual });
+        } else {
+          query.locale = localeFallbacks.shift();
+          searchFn(query, doneFn, this.searchFail);
         }
       } else {
         this.searchFail();
       }
     };
-    const failFn = () => this.searchFail();
 
-    searchFn(query, doneFn, failFn);
+    searchFn(query, doneFn, this.searchFail);
+  }
+
+  performSearch(query, successFn) {
+    const doneFn = (res) => {
+      if (res.ok) {
+        successFn(res, query);
+      } else {
+        this.searchFail();
+      }
+    };
+
+    this.props.searchSender(query, doneFn);
   }
 
   handleViewMoreClick(e) {
@@ -442,6 +454,7 @@ HelpCenter.propTypes = {
   style: PropTypes.object,
   formTitleKey: PropTypes.string,
   originalArticleButton: PropTypes.bool,
+  localeFallbacks: PropTypes.arr,
   disableAutoSearch: PropTypes.bool
 };
 
@@ -456,5 +469,6 @@ HelpCenter.defaultProps = {
   style: null,
   formTitleKey: 'help',
   originalArticleButton: true,
+  localeFallbacks: null,
   disableAutoSearch: false
 };

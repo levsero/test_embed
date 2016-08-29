@@ -14,6 +14,7 @@ const optionWhitelist = {
     'helpCenter.originalArticleButton',
     'helpCenter.suppress',
     'helpCenter.title',
+    'helpCenter.localeFallbacks',
     'launcher.chatLabel',
     'launcher.label',
     'offset'

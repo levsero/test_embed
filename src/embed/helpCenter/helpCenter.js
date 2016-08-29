@@ -145,6 +145,7 @@ function create(name, config) {
           updateFrameSize={params.updateFrameSize}
           disableAutoSearch={config.disableAutoSearch}
           originalArticleButton={settings.get('helpCenter.originalArticleButton')}
+          localeFallbacks={settings.get('helpCenter.localeFallbacks')}
           zendeskHost={transport.getZendeskHost()} />
       );
     },
