@@ -10,6 +10,13 @@ function isOnHelpCenterPage() {
          hcPattern.test(location.pathname);
 }
 
+function getURLParameterByName(name) {
+  const half = location.search.split(`${name}=`)[1];
+
+  return half ? decodeURIComponent(half.split('&')[0]) : null;
+}
+
 export {
-  isOnHelpCenterPage
+  isOnHelpCenterPage,
+  getURLParameterByName
 };

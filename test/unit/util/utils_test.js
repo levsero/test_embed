@@ -4,7 +4,6 @@ describe('utils', function() {
     splitPath,
     getPageKeywords,
     getPageTitle,
-    getURLParameterByName,
     metaTag;
   const mockGlobals = {
     win: {},
@@ -47,7 +46,6 @@ describe('utils', function() {
     splitPath = require(utilPath).splitPath;
     getPageKeywords = require(utilPath).getPageKeywords;
     getPageTitle = require(utilPath).getPageTitle;
-    getURLParameterByName = require(utilPath).getURLParameterByName;
 
     metaTag = document.createElement('meta');
     metaTag.name = 'viewport';
@@ -190,28 +188,6 @@ describe('utils', function() {
 
         expect(splitPath('/this/#/is/a|2|path:.html'))
           .toEqual(' this   is a 2 path ');
-      });
-    });
-  });
-
-  describe('getURLParameterByName', function() {
-    let location;
-
-    beforeEach(function() {
-      location = mockGlobals.location;
-      location.search = '?ticket_id=123&token=a1b2c3';
-    });
-
-    describe('when given a key name that exists in the url', function() {
-      it('returns the parameter value for a given key', function() {
-        expect(getURLParameterByName('ticket_id')).toBe('123');
-        expect(getURLParameterByName('token')).toBe('a1b2c3');
-      });
-    });
-
-    describe('when given a key name that does not exist in the url', function() {
-      it('returns null', function() {
-        expect(getURLParameterByName('derp')).toBe(null);
       });
     });
   });

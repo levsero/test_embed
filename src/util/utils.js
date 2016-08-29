@@ -200,12 +200,6 @@ function splitPath(path) {
           .replace(/[\/\.\|_\-]/g, ' ');
 }
 
-function getURLParameterByName(name) {
-  const half = location.search.split(`${name}=`)[1];
-
-  return half ? decodeURIComponent(half.split('&')[0]) : null;
-}
-
 function clickBusterRegister(x, y) {
   clickBusterClicks.push([x, y]);
 }
@@ -293,7 +287,6 @@ export {
   getPageTitle,
   metaStringToObj,
   parseUrl,
-  getURLParameterByName,
   patchReactIdAttribute,
   cappedIntervalCall,
   setScaleLock,
