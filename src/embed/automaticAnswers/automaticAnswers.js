@@ -5,7 +5,7 @@ import { AutomaticAnswers } from 'component/automaticAnswers/AutomaticAnswers';
 import { frameFactory } from 'embed/frameFactory';
 import { getDocumentHost } from 'utility/globals';
 
-let aaEmbed;
+let embed;
 
 function create(name, config) {
   const frameParams = {
@@ -22,20 +22,20 @@ function create(name, config) {
     frameParams
   ));
 
-  aaEmbed = {
+  embed = {
     component: <Embed visible={false} />,
     config: config
   };
 }
 
 function get() {
-  return aaEmbed;
+  return embed;
 }
 
 function render() {
   const element = getDocumentHost().appendChild(document.createElement('div'));
 
-  aaEmbed.instance = ReactDOM.render(aaEmbed.component, element);
+  embed.instance = ReactDOM.render(embed.component, element);
 }
 
 export const automaticAnswers = {
