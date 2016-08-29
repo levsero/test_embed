@@ -1,5 +1,6 @@
 describe('pages', function() {
-  let isOnHelpCenterPage;
+  let isOnHelpCenterPage,
+    getURLParameterByName;
   const mockGlobals = {
     win: {
       HelpCenter: {}
@@ -25,6 +26,7 @@ describe('pages', function() {
     });
 
     isOnHelpCenterPage = require(pagePath).isOnHelpCenterPage;
+    getURLParameterByName = require(pagePath).getURLParameterByName;
   });
 
   afterEach(function() {
@@ -67,6 +69,28 @@ describe('pages', function() {
 
       expect(isOnHelpCenterPage())
         .toBe(false);
+    });
+  });
+
+  describe('getURLParameterByName', () => {
+    let location;
+
+    beforeEach(() => {
+      location = mockGlobals.location;
+      location.search = '?ticket_id=123&token=a1b2c3';
+    });
+
+    describe('when given a key name that exists in the url', () => {
+      it('returns the parameter value for a given key', () =>  {
+        expect(getURLParameterByName('ticket_id')).toBe('123');
+        expect(getURLParameterByName('token')).toBe('a1b2c3');
+      });
+    });
+
+    describe('when given a key name that does not exist in the url', () => {
+      it('returns null', () => {
+        expect(getURLParameterByName('derp')).toBe(null);
+      });
     });
   });
 });
