@@ -27,7 +27,8 @@ const customizationsWhitelist = [
   'offset',
   'helpCenter.originalArticleButton',
   'chat.suppress',
-  'helpCenter.suppress'
+  'helpCenter.suppress',
+  'helpCenter.localeFallbacks'
 ];
 const webWidgetStoreDefaults = {
   contactForm: {

@@ -120,7 +120,7 @@ export class HelpCenter extends Component {
       origin: null
     });
 
-    this.performSearch(query, successFn, { isContextual: true });
+    this.performSearch(query, successFn);
   }
 
   manualSearch() {
@@ -211,10 +211,10 @@ export class HelpCenter extends Component {
     }
   }
 
-  performSearchWithLocaleFallback(query, successFn, options = {}) {
-    const searchFn = options.isContextual
-                   ? this.props.contextualSearchSender
-                   : this.props.searchSender;
+  performSearchWithLocaleFallback(query, successFn) {
+    // When localeFallbacks is defined in the zESettings object then
+    // attempt the search with each locale in that array in order. Otherwise
+    // try the search with no locale.
     const localeFallbacks = this.props.localeFallbacks || [''];
     const doneFn = (res) => {
       if (res.ok) {
@@ -222,14 +222,14 @@ export class HelpCenter extends Component {
           successFn(res, query);
         } else {
           query.locale = localeFallbacks.shift();
-          searchFn(query, doneFn, this.searchFail);
+          this.props.searchSender(_.pickBy(query), doneFn, this.searchFail);
         }
       } else {
         this.searchFail();
       }
     };
 
-    searchFn(query, doneFn, this.searchFail);
+    this.props.searchSender(query, doneFn, this.searchFail);
   }
 
   performSearch(query, successFn) {
@@ -241,7 +241,7 @@ export class HelpCenter extends Component {
       }
     };
 
-    this.props.searchSender(query, doneFn);
+    this.props.contextualSearchSender(query, doneFn, this.searchFail);
   }
 
   handleViewMoreClick(e) {
