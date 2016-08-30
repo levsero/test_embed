@@ -57,7 +57,7 @@ function fetchTicketFn(ticketId, token) {
     const ticket = res.body.ticket;
 
     if (_.includes(unsolvedStatusIds, ticket.status_id)) {
-      // TODO - Pass ticket data to react component;
+      embed.instance.getRootComponent().updateTicket(ticket);
       embed.instance.show();
     }
   };
