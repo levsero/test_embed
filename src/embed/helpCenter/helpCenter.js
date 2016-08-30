@@ -23,6 +23,7 @@ import { cappedIntervalCall,
          setScaleLock } from 'utility/utils';
 
 const helpCenterCSS = require('./helpCenter.scss');
+
 let helpCenters = {};
 let hasManuallySetContextualSuggestions = false;
 let hasAuthenticatedSuccessfully = false;

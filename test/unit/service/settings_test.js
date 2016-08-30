@@ -94,6 +94,20 @@ describe('settings', () => {
       expect(settings.get('authenticate'))
         .toEqual('foo');
     });
+
+    it('should limit number of locale fallbacks to 3', () => {
+      mockRegistry['utility/globals'].win.zESettings = {
+        webWidget: {
+          helpCenter: {
+            localeFallbacks: ['en-US', 'en-AU', 'fr', 'zh-CH']
+          }
+        }
+      };
+      settings.init(true);
+
+      expect(settings.get('helpCenter.localeFallbacks'))
+        .toEqual(['en-US', 'en-AU', 'fr']);
+    });
   });
 
   describe('#get', () => {

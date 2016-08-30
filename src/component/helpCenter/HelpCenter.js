@@ -215,7 +215,9 @@ export class HelpCenter extends Component {
     // When localeFallbacks is defined in the zESettings object then
     // attempt the search with each locale in that array in order. Otherwise
     // try the search with no locale.
-    const localeFallbacks = this.props.localeFallbacks || [''];
+    const localeFallbacks = !_.isEmpty(this.props.localeFallbacks)
+                          ? this.props.localeFallbacks.slice()
+                          : [''];
     const doneFn = (res) => {
       if (res.ok) {
         if (res.body.count > 0 || _.isEmpty(localeFallbacks)) {
@@ -469,6 +471,6 @@ HelpCenter.defaultProps = {
   style: null,
   formTitleKey: 'help',
   originalArticleButton: true,
-  localeFallbacks: null,
+  localeFallbacks: [],
   disableAutoSearch: false
 };

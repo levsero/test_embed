@@ -35,7 +35,8 @@ const webWidgetStoreDefaults = {
     attachments: true
   },
   helpCenter: {
-    originalArticleButton: true
+    originalArticleButton: true,
+    localeFallbacks: []
   },
   launcher: {},
   margin: 15,
@@ -72,7 +73,7 @@ const initStore = (settings, options, defaults) => {
 function init() {
   const settings = _.assign({}, win.zESettings);
 
-  // for backwards compatibility with authenticate
+  // for backwards compatibility with authenticate.
   if (settings.authenticate) {
     if (!settings.webWidget) {
       settings.webWidget = {};
@@ -82,6 +83,9 @@ function init() {
 
   webWidgetStore = initStore(settings.webWidget, optionWhitelist.webWidget, webWidgetStoreDefaults);
   ipmStore = initStore(settings.ipm, optionWhitelist.ipm, ipmStoreDefaults);
+
+  // Limit number of fallback locales to 3.
+  webWidgetStore.helpCenter.localeFallbacks = _.take(webWidgetStore.helpCenter.localeFallbacks, 3);
 }
 
 function get(path, store = 'webWidget') {
