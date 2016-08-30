@@ -127,7 +127,7 @@ function create(name, config) {
     containerStyle = { width: 342, margin: settings.get('margin') };
   }
 
-  let Embed = React.createClass(frameFactory(
+  const Embed = frameFactory(
     (params) => {
       return (
         <SubmitTicket
@@ -185,7 +185,7 @@ function create(name, config) {
         mediator.channel.broadcast(name + '.onBackClick');
       },
       extend: {}
-    }));
+    });
 
   submitTickets[name] = {
     component: <Embed visible={false} />,

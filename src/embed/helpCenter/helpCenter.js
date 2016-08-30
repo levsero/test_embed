@@ -125,7 +125,7 @@ function create(name, config) {
     containerStyle = { width: 342, margin: settings.get('margin') };
   }
 
-  const Embed = React.createClass(frameFactory(
+  const Embed = frameFactory(
     (params) => {
       return (
         <HelpCenter
@@ -188,7 +188,7 @@ function create(name, config) {
         }
       },
       extend: {}
-    }));
+    });
 
   helpCenters[name] = {
     component: <Embed visible={false} />,

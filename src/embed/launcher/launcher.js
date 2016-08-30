@@ -31,8 +31,7 @@ function create(name, config) {
 
   config = _.extend(configDefaults, config);
 
-  const Embed = React.createClass(frameFactory(
-    (params) => {
+  const Embed = frameFactory((params) => {
       return (
         <Launcher
           ref='rootComponent'
@@ -65,10 +64,11 @@ function create(name, config) {
           mediator.channel.broadcast(name + '.onClick');
         }
       }
-    }));
+    }
+    );
 
   launchers[name] = {
-    component: <Embed visible={config.visible} position={config.position} />,
+    component: <Embed visible={config.visible} position={config.position} ><div ref='test'/></Embed>,
     config: config
   };
 }

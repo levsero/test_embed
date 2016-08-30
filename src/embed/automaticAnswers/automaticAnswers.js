@@ -17,7 +17,7 @@ function create(name, config) {
     name: name
   };
 
-  const Embed = React.createClass(frameFactory(
+  const Embed = frameFactory(
     () => {
       return (
         <AutomaticAnswers
@@ -25,7 +25,7 @@ function create(name, config) {
       );
     },
     frameParams
-  ));
+  );
 
   embed = {
     component: <Embed visible={false} />,

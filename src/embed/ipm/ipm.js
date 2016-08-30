@@ -71,7 +71,7 @@ function create(name, config) {
     }
   };
 
-  const Embed = React.createClass(frameFactory(
+  const Embed = frameFactory(
     (params) => {
       return (
         <Ipm
@@ -86,7 +86,7 @@ function create(name, config) {
       );
     },
     frameParams
-  ));
+  );
 
   ipmes[name] = {
     component: <Embed visible={false} />,

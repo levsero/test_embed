@@ -89,7 +89,7 @@ function create(name, config) {
     }
   };
 
-  const Embed = React.createClass(frameFactory(
+  const Embed = frameFactory(
     (params) => {
       return (
         <Nps
@@ -103,7 +103,7 @@ function create(name, config) {
       );
     },
     frameParams
-  ));
+  );
 
   npses[name] = {
     component: <Embed visible={false} />,

@@ -12,7 +12,8 @@ import { getZoomSizingRatio,
          isMobileBrowser,
          isFirefox } from 'utility/devices';
 import { win } from 'utility/globals';
-import { clickBusterRegister } from 'utility/utils';
+import { bindMethods,
+         clickBusterRegister } from 'utility/utils';
 
 // Unregister lodash from window._
 if (!__DEV__) {
@@ -47,7 +48,6 @@ function validateChildFn(childFn, params) {
 }
 
 export const frameFactory = function(childFn, _params) {
-  /* eslint-disable */
   let child;
 
   const defaultParams = {
@@ -70,27 +70,12 @@ export const frameFactory = function(childFn, _params) {
     validateChildFn(childFn, params);
   }
 
-  return {
-    propTypes: {
-      fullscreen: React.PropTypes.bool,
-      visible: React.PropTypes.bool,
-      position: React.PropTypes.string,
-      close: React.PropTypes.func,
-      back: React.PropTypes.func
-    },
+  return class Frame extends Component {
+    constructor(props, context) {
+      super(props, context);
+      bindMethods(this, Frame.prototype);
 
-    getDefaultProps() {
-      return {
-        fullscreen: false,
-        visible: true,
-        position: 'right',
-        close: () => {},
-        back:() => {}
-      };
-    },
-
-    getInitialState() {
-      return {
+      this.state = {
         visible: this.props.visible,
         frameStyle: params.frameStyle,
         hiddenByZoom: false,
@@ -100,36 +85,57 @@ export const frameFactory = function(childFn, _params) {
           width: 0
         }
       };
-    },
+    }
+    //propTypes: {
+      //fullscreen: React.PropTypes.bool,
+      //visible: React.PropTypes.bool,
+      //position: React.PropTypes.string,
+      //close: React.PropTypes.func,
+      //back: React.PropTypes.func
+    //},
+
+    //getDefaultProps() {
+      //return {
+        //fullscreen: false,
+        //visible: true,
+        //position: 'right',
+        //close: () => {},
+        //back:() => {}
+      //};
+    //},
 
     componentDidMount() {
       this.renderFrameContent();
-    },
+    }
 
     componentDidUpdate() {
       this.renderFrameContent();
-    },
+    }
+
+    componentWillUnmount() {
+      React.unmountComponentAtNode(ReactDOM.findDOMNode(this).contentDocument.body);
+    }
 
     getChild() {
       return child;
-    },
+    }
 
     getRootComponent() {
       if (child) {
         return child.refs.rootComponent;
       }
-    },
+    }
 
     setOffsetHorizontal(offsetValue = 0) {
       if (!params.disableSetOffsetHorizontal) {
         ReactDOM.findDOMNode(this).style.marginLeft = `${offsetValue}px`;
         ReactDOM.findDOMNode(this).style.marginRight = `${offsetValue}px`;
       }
-    },
+    }
 
     setOffsetVertical(offsetValue = 0) {
       ReactDOM.findDOMNode(this).style.marginBottom = `${offsetValue}px`;
-    },
+    }
 
     setFrameSize(width, height, transparent = true) {
       const iframe = ReactDOM.findDOMNode(this);
@@ -157,7 +163,7 @@ export const frameFactory = function(childFn, _params) {
         () => this.setState(
           { iframeDimensions: _.extend(this.state.iframeDimensions, dimensions) }
         ), 0);
-    },
+    }
 
     updateFrameSize(offsetWidth = 0, offsetHeight = 0) {
       const iframe = ReactDOM.findDOMNode(this);
@@ -204,14 +210,14 @@ export const frameFactory = function(childFn, _params) {
 
       frameWin.setTimeout(() => this.setState({ iframeDimensions: dimensions }), 0);
       return dimensions;
-    },
+    }
 
     updateBaseFontSize(fontSize) {
       const iframe = ReactDOM.findDOMNode(this);
       const htmlElem = iframe.contentDocument.documentElement;
 
       htmlElem.style.fontSize = fontSize;
-    },
+    }
 
     show(options = {}) {
       let frameFirstChild = ReactDOM.findDOMNode(this).contentDocument.body.firstChild.firstChild;
@@ -237,10 +243,9 @@ export const frameFactory = function(childFn, _params) {
       }
 
       params.onShow(this);
-    },
+    }
 
     hide(options = {}) {
-
       if (params.transitions[options.transition] && !isFirefox()) {
         const transition = params.transitions[options.transition];
 
@@ -259,7 +264,7 @@ export const frameFactory = function(childFn, _params) {
         this.setState({ visible: false });
         params.onHide(this);
       }
-    },
+    }
 
     close(ev, options = {}) {
       // ev.touches added for automation testing mobile browsers
@@ -275,28 +280,28 @@ export const frameFactory = function(childFn, _params) {
       }
 
       params.onClose(this, options);
-    },
+    }
 
     back(ev) {
       ev.preventDefault();
       params.onBack(this);
-    },
+    }
 
     setHiddenByZoom(hide) {
       this.setState({
         hiddenByZoom: hide
       });
-    },
+    }
 
     toggleVisibility() {
       this.setState({ visible: !this.state.visible });
-    },
+    }
 
-    setHighlightColor: function(color) {
+    setHighlightColor(color) {
       this.getChild().setHighlightColor(color);
-    },
+    }
 
-    computeIframeStyle: function() {
+    computeIframeStyle() {
       const visibilityRule = (this.state.visible && !this.state.hiddenByZoom)
                            ? null
                            : {top: '-9999px',
@@ -324,20 +329,60 @@ export const frameFactory = function(childFn, _params) {
         this.state.iframeDimensions,
         visibilityRule
       );
-    },
+    }
 
-    render: function() {
-      const iframeNamespace = 'zEWidget';
+    constructEmbed(html, doc) {
+      if (i18n.isRTL()) {
+        html.setAttribute('dir', 'rtl');
+        html.setAttribute('lang', i18n.getLocale());
+      }
 
-      const iframeClasses = classNames({
-        [`${iframeNamespace}-${params.name}`]: true,
-        [`${iframeNamespace}-${params.name}--active`]: this.state.visible
+      const cssText = baseCSS + mainCSS + params.css + baseFontCSS;
+      const fullscreen = params.fullscreenable && params.isMobile;
+      const positionClasses = classNames({
+        'u-borderTransparent u-posRelative': !fullscreen,
+        'u-pullRight': this.props.position === 'right',
+        'u-pullLeft': this.props.position === 'left',
+        'u-noPrint': !fullscreen
       });
 
-      return (
-        <iframe style={this.computeIframeStyle()} id={params.name} className={iframeClasses} />
+      // 1. Loop over functions in params.extend
+      // 2. Re-bind them to `this` context
+      // 3. Store in childParams
+      let childParams = _.reduce(
+        params.extend,
+        (res, val, key) => {
+          res[key] = val.bind(this);
+          return res;
+        },
+        {}
       );
-    },
+
+      // Callbacks to be passed down to child component
+      childParams = _.extend(childParams, {
+        updateFrameSize: this.updateFrameSize,
+        setFrameSize: this.setFrameSize,
+        setOffsetHorizontal: this.setOffsetHorizontal,
+        setOffsetVertical: this.setOffsetVertical
+      });
+
+      const element = doc.body.appendChild(doc.createElement('div'));
+      element.className = positionClasses;
+
+      child = ReactDOM.render(
+        <EmbedWrapper
+          back={this.back}
+          baseCSS={cssText}
+          close={this.close}
+          hideCloseButton={params.hideCloseButton}
+          childFn={childFn}
+          childParams={childParams}
+          fullscreen={fullscreen} />,
+        element
+      );
+
+      this.setState({_rendered: true});
+    }
 
     renderFrameContent() {
       if (this.state._rendered) {
@@ -351,65 +396,23 @@ export const frameFactory = function(childFn, _params) {
       // In order for iframe correctly render in some browsers
       // we need to do it on nextTick
       if (doc.readyState === 'complete') {
-        if (i18n.isRTL()) {
-          html.setAttribute('dir', 'rtl');
-          html.setAttribute('lang', i18n.getLocale());
-        }
-
-        const cssText = baseCSS + mainCSS + params.css + baseFontCSS;
-        const fullscreen = params.fullscreenable && params.isMobile;
-        const positionClasses = classNames({
-          'u-borderTransparent u-posRelative': !fullscreen,
-          'u-pullRight': this.props.position === 'right',
-          'u-pullLeft': this.props.position === 'left',
-          'u-noPrint': !fullscreen
-        });
-
-        // 1. Loop over functions in params.extend
-        // 2. Re-bind them to `this` context
-        // 3. Store in childParams
-        let childParams = _.reduce(
-          params.extend,
-          (res, val, key) => {
-            res[key] = val.bind(this);
-            return res;
-          },
-          {}
-        );
-
-        // Forcefully injects this.updateFrameSize
-        // into childParams
-        childParams = _.extend(childParams, {
-          updateFrameSize: this.updateFrameSize,
-          setFrameSize: this.setFrameSize,
-          setOffsetHorizontal: this.setOffsetHorizontal,
-          setOffsetVertical: this.setOffsetVertical
-        });
-
-        const element = doc.body.appendChild(doc.createElement('div'));
-        element.className = positionClasses;
-
-        /* eslint-enable */
-        child = ReactDOM.render(
-          <EmbedWrapper
-            back={this.back}
-            baseCSS={cssText}
-            close={this.close}
-            hideCloseButton={params.hideCloseButton}
-            childFn={childFn}
-            childParams={childParams}
-            fullscreen={fullscreen} />,
-          element
-        );
-
-        this.setState({_rendered: true});
+        this.constructEmbed(html, doc);
       } else {
         setTimeout(this.renderFrameContent, 0);
       }
-    },
+    }
 
-    componentWillUnmount() {
-      React.unmountComponentAtNode(ReactDOM.findDOMNode(this).contentDocument.body);
+    render() {
+      const iframeNamespace = 'zEWidget';
+
+      const iframeClasses = classNames({
+        [`${iframeNamespace}-${params.name}`]: true,
+        [`${iframeNamespace}-${params.name}--active`]: this.state.visible
+      });
+
+      return (
+        <iframe style={this.computeIframeStyle()} id={params.name} className={iframeClasses} />
+      );
     }
   };
 };

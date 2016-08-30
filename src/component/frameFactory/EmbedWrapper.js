@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
-import { bindMethods } from 'utility/utils';
 
 import { ButtonNav } from 'component/button/ButtonNav';
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
+import { bindMethods } from 'utility/utils';
 
 export class EmbedWrapper extends Component {
   constructor(props, context) {
