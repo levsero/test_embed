@@ -12,14 +12,12 @@ let currentLocale;
 // is a flat structure and counterpart tries to look in object
 translate.setSeparator('*');
 
-function init(locale) {
+function setCustomTranslations() {
   const customerTranslations = settings.getTranslations();
 
   if (!_.isEmpty(customerTranslations)) {
     overrideTranslations(customerTranslations);
   }
-
-  setLocale(locale);
 }
 
 // force is for the nps preview use case where multiple embeds are rendered
@@ -28,16 +26,19 @@ function setLocale(str = 'en-US', force = false) {
   if (!currentLocale || force) {
     currentLocale = parseLocale(str);
     translate.setLocale(currentLocale);
-
-    // To avoid weird encoding issues we deliver the strings uri encoded
-    // when setting the strings we then decode them in memory
-    const decodedStrings = _.reduce(translations[currentLocale], function(res, el, key) {
-      res[key] = decodeURIComponent(el);
-      return res;
-    }, {});
-
-    translate.registerTranslations(currentLocale, decodedStrings);
+    setTranslations();
   }
+}
+
+function setTranslations() {
+  // To avoid weird encoding issues we deliver the strings uri encoded
+  // when setting the strings we then decode them in memory
+  const decodedStrings = _.reduce(translations[currentLocale], function(res, el, key) {
+    res[key] = decodeURIComponent(el);
+    return res;
+  }, {});
+
+  translate.registerTranslations(currentLocale, decodedStrings);
 }
 
 function getLocale() {
@@ -137,10 +138,10 @@ function mappedTranslationsForLocale(localeOverride, translationKey) {
 }
 
 export const i18n = {
-  init: init,
   t: translate,
   getLocaleId: getLocaleId,
   setLocale: setLocale,
   getLocale: getLocale,
-  isRTL: isRTL
+  isRTL: isRTL,
+  setCustomTranslations: setCustomTranslations
 };

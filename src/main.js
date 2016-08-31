@@ -12,6 +12,7 @@ import { identity } from 'service/identity';
 import { logging } from 'service/logging';
 import { mediator } from 'service/mediator';
 import { renderer } from 'service/renderer';
+import { settings } from 'service/settings';
 import { transport } from 'service/transport';
 import { isMobileBrowser,
          isBlacklisted } from 'utility/devices';
@@ -110,6 +111,7 @@ function boot() {
     version: __EMBEDDABLE_VERSION__
   });
 
+  settings.init();
   authentication.init();
 
   const publicApi = {
