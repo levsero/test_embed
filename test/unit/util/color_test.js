@@ -1,11 +1,11 @@
-describe('color', function() {
+describe('color', () => {
   let generateUserCSS,
     validSettingsColor,
     mockSettingsValue;
 
   const colorPath = buildSrcPath('util/color');
 
-  beforeEach(function() {
+  beforeEach(() => {
     resetDOM();
 
     mockSettingsValue = null;
@@ -27,23 +27,23 @@ describe('color', function() {
     validSettingsColor = require(colorPath).validSettingsColor;
   });
 
-  afterEach(function() {
+  afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
   });
 
-  describe('generateUserCSS', function() {
-    it('uses the default value if nothing is passed in', function() {
+  describe('generateUserCSS', () => {
+    it('uses the default value if nothing is passed in', () => {
       expect(generateUserCSS())
         .toMatch('#659700');
     });
 
-    it('uses the value passed into the function if it exists', function() {
+    it('uses the value passed into the function if it exists', () => {
       expect(generateUserCSS('#ffffff'))
         .toMatch('#ffffff');
     });
 
-    it('uses the value in zESettings if it exists', function() {
+    it('uses the value in zESettings if it exists', () => {
       mockSettingsValue = '#aaaaaa';
       const cssString = generateUserCSS('#ffffff');
 
@@ -55,8 +55,8 @@ describe('color', function() {
     });
   });
 
-  describe('validSettingsColor', function() {
-    it('allows valid hex values', function() {
+  describe('validSettingsColor', () => {
+    it('allows valid hex values', () => {
       mockSettingsValue = '#aaaaaa';
 
       expect(validSettingsColor())
@@ -73,7 +73,7 @@ describe('color', function() {
         .not.toBeNull();
     });
 
-    it('wont allow non valid hex values', function() {
+    it('wont allow non valid hex values', () => {
       mockSettingsValue = '#aaaa';
 
       expect(validSettingsColor())
@@ -90,6 +90,16 @@ describe('color', function() {
         .toBeNull();
 
       mockSettingsValue = 'eee';
+
+      expect(validSettingsColor())
+        .toBeNull();
+
+      mockSettingsValue = '0xFFFFFF';
+
+      expect(validSettingsColor())
+        .toBeNull();
+
+      mockSettingsValue = 'rgb(255,123,123)';
 
       expect(validSettingsColor())
         .toBeNull();
