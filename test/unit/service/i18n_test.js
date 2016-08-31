@@ -164,6 +164,35 @@ describe('i18n', () => {
       i18n.setLocale('xx');
       expect(i18n.getLocale()).toEqual('en-US');
     });
+
+    describe('when there are custom translations', () => {
+      beforeEach(() => {
+        mockRegistry['service/settings'].settings.getTranslations = () => {
+          return {
+            launcherLabel: {
+              '*': 'Wat',
+              'de': 'Vot'
+            }
+          };
+        };
+
+        i18n.setCustomTranslations();
+      });
+
+      it('should use custom strings when some are defined for the locale', () => {
+        i18n.setLocale('de');
+
+        expect(i18n.t('embeddable_framework.launcher.label.help'))
+          .toEqual('Vot');
+      });
+
+      it('should use wildcard strings when no custom strings are defined for the locale', () => {
+        i18n.setLocale('fr');
+
+        expect(i18n.t('embeddable_framework.launcher.label.help'))
+          .toEqual('Wat');
+      });
+    });
   });
 
   describe('getLocaleId', () => {
