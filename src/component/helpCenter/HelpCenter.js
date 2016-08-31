@@ -120,7 +120,7 @@ export class HelpCenter extends Component {
       origin: null
     });
 
-    this.performSearch(query, successFn);
+    this.performContextualSearch(query, successFn);
   }
 
   manualSearch() {
@@ -234,7 +234,7 @@ export class HelpCenter extends Component {
     this.props.searchSender(query, doneFn, this.searchFail);
   }
 
-  performSearch(query, successFn) {
+  performContextualSearch(query, successFn) {
     const doneFn = (res) => {
       if (res.ok) {
         successFn(res, query);

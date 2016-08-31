@@ -524,7 +524,7 @@ describe('HelpCenter component', function() {
     describe('when performing a contextual search', () => {
       describe('when the search is successful', () => {
         beforeEach(() => {
-          helpCenter.performSearch(query, successFn);
+          helpCenter.performContextualSearch(query, successFn);
 
           expect(mockContextualSearchSender)
             .toHaveBeenCalled();
@@ -548,7 +548,7 @@ describe('HelpCenter component', function() {
 
       describe('when the search fails', () => {
         beforeEach(() => {
-          helpCenter.performSearch({});
+          helpCenter.performContextualSearch({});
 
           expect(mockContextualSearchSender)
             .toHaveBeenCalled();
