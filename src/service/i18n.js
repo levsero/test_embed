@@ -12,14 +12,6 @@ let currentLocale;
 // is a flat structure and counterpart tries to look in object
 translate.setSeparator('*');
 
-function setCustomTranslations() {
-  const customerTranslations = settings.getTranslations();
-
-  if (!_.isEmpty(customerTranslations)) {
-    overrideTranslations(customerTranslations);
-  }
-}
-
 // force is for the nps preview use case where multiple embeds are rendered
 // in multiple locales.
 function setLocale(str = 'en-US', force = false) {
@@ -39,6 +31,15 @@ function setTranslations() {
   }, {});
 
   translate.registerTranslations(currentLocale, decodedStrings);
+}
+
+function setCustomTranslations() {
+  const customerTranslations = settings.getTranslations();
+
+  if (!_.isEmpty(customerTranslations)) {
+    overrideTranslations(customerTranslations);
+    setTranslations();
+  }
 }
 
 function getLocale() {

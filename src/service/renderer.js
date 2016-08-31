@@ -66,7 +66,6 @@ function init(config) {
     beacon.trackSettings(settings.getTrackSettings());
     i18n.setLocale(config.locale);
 
-
     _.forEach(parseConfig(config), function(configItem, embedName) {
       try {
         configItem.props.visible = !hideLauncher && config.embeds && !config.embeds.zopimChat;
