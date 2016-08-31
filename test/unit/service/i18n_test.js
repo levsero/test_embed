@@ -59,7 +59,7 @@ describe('i18n', () => {
     mockery.disable();
   });
 
-  describe('#init', () => {
+  describe('#setCustomTranslations', () => {
     describe('with a specific translation override', () => {
       beforeEach(() => {
         mockRegistry['service/settings'].settings.getTranslations = () => {
@@ -68,7 +68,7 @@ describe('i18n', () => {
           };
         };
 
-        i18n.init();
+        i18n.setCustomTranslations();
       });
 
       it('should override the key for the specified locale', () => {
@@ -87,7 +87,7 @@ describe('i18n', () => {
           };
         };
 
-        i18n.init();
+        i18n.setCustomTranslations();
       });
 
       it('should override the key for the all locales', () => {

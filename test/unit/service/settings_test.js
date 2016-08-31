@@ -116,7 +116,8 @@ describe('settings', () => {
 
     describe('when web widget customisations are enabled', () => {
       beforeEach(() => {
-        settings.init(true);
+        settings.init();
+        settings.enableCustomizations();
       });
 
       it('should return user setting for helpCenter.originalArticleButton', () => {
@@ -184,7 +185,8 @@ describe('settings', () => {
           }
         }
       };
-      settings.init(true);
+      settings.init();
+      settings.enableCustomizations();
 
       expect(settings.get('offset', 'ipm'))
         .toEqual({ horizontal: 10, vertical: 10 });
@@ -213,7 +215,8 @@ describe('settings', () => {
 
     describe('when web widget customisations are enabled', () => {
       beforeEach(() => {
-        settings.init(true);
+        settings.init();
+        settings.enableCustomizations();
       });
 
       it('should return the translations', () => {

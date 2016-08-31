@@ -69,7 +69,7 @@ describe('renderer', function() {
         beacon: jasmine.createSpyObj('beacon', ['trackSettings'])
       },
       'service/i18n': {
-        i18n: jasmine.createSpyObj('i18n', ['init', 'setLocale', 't'])
+        i18n: jasmine.createSpyObj('i18n', ['setCustomTranslations', 'setLocale', 't'])
       },
       'service/mediator': {
         mediator: {
@@ -85,7 +85,7 @@ describe('renderer', function() {
       },
       'service/settings': {
         settings: {
-          init: jasmine.createSpy(),
+          enableCustomizations: jasmine.createSpy(),
           getTrackSettings: jasmine.createSpy().and.returnValue(mockTrackSettings)
         }
       },
@@ -297,9 +297,9 @@ describe('renderer', function() {
       });
     });
 
-    it('should call settings.init with config.webWidgetCustomizations', () => {
-      expect(mockSettings.init)
-        .toHaveBeenCalledWith(true);
+    it('should call settings.enableCustomizations', () => {
+      expect(mockSettings.enableCustomizations)
+        .toHaveBeenCalled();
     });
 
     it('should call beacon.trackSettings', () => {
@@ -307,8 +307,8 @@ describe('renderer', function() {
         .toHaveBeenCalledWith(mockTrackSettings);
     });
 
-    it('should call i18n.init with the correct locale', () => {
-      expect(mocki18n.init)
+    it('should call i18n.setLocale with the correct locale', () => {
+      expect(mocki18n.setLocale)
         .toHaveBeenCalledWith('en');
     });
   });
