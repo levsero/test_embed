@@ -157,7 +157,7 @@ describe('embed.automaticAnswers', () => {
   describe('when a request to fetch ticket data is received', () => {
     let instance,
       mostRecent;
-    const statusNotSolved = 2;
+    const statusPending = 2;
     const statusSolved = 3;
 
     beforeEach(() => {
@@ -190,16 +190,16 @@ describe('embed.automaticAnswers', () => {
         callback = mostRecent.args[0].callbacks.done;
       });
 
-      describe('and the ticket status is less than solved', () => {
+      describe('and the ticket status is one of open, new, pending or hold', () => {
         it('shows the embed', () => {
-          callback(resSuccess(statusNotSolved));
+          callback(resSuccess(statusPending));
 
           expect(instance.show.__reactBoundMethod)
             .toHaveBeenCalled();
         });
       });
 
-      describe('and the ticket status is greater than or equal to solved', () => {
+      describe('and the ticket status is not one of open, new, pending or hold', () => {
         it('does nothing', () => {
           callback(resSuccess(statusSolved));
 

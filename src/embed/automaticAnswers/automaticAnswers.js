@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import _ from 'lodash';
 
 import { AutomaticAnswers } from 'component/automaticAnswers/AutomaticAnswers';
 import { frameFactory } from 'embed/frameFactory';
@@ -8,7 +9,8 @@ import { transport } from 'service/transport';
 import { getURLParameterByName } from 'utility/pages';
 
 let embed;
-const statusSolved = 3;
+// 0 = New, 1 = Open, 2 = Pending, 6 = Hold
+const unsolvedStatusIds = [0, 1, 2, 6];
 
 function create(name, config) {
   const frameParams = {
@@ -54,7 +56,7 @@ function fetchTicketFn(ticketId, token) {
   const fetchTicketDone = (res) => {
     const ticket = res.body.ticket;
 
-    if (ticket.status_id < statusSolved) {
+    if (_.includes(unsolvedStatusIds, ticket.status_id)) {
       // TODO - Pass ticket data to react component;
       embed.instance.show();
     }
