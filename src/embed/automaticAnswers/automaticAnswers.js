@@ -56,7 +56,7 @@ function fetchTicketFn(ticketId, token) {
 
     if (ticket.status_id < statusSolved) {
       // TODO - Pass ticket data to react component;
-      embed.instance.show({});
+      embed.instance.show();
     }
   };
 

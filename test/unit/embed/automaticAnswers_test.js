@@ -170,19 +170,19 @@ describe('embed.automaticAnswers', () => {
     });
 
     describe('when the request is successful', () => {
-      let callback,
-        resSuccess = (statusId) => {
-          return {
-            'statusCode': 200,
-            'body': {
-              'ticket': {
-                'nice_id': 8765,
-                'status_id': statusId,
-                'title': 'Dude. What does mine say?'
-              }
+      let callback;
+      const resSuccess = (statusId) => {
+        return {
+          'statusCode': 200,
+          'body': {
+            'ticket': {
+              'nice_id': 8765,
+              'status_id': statusId,
+              'title': 'Dude. What does mine say?'
             }
-          };
+          }
         };
+      };
 
       beforeEach(() => {
         automaticAnswers.postRender();
