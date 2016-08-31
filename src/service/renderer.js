@@ -59,9 +59,12 @@ function parseConfig(config) {
 
 function init(config) {
   if (!initialised) {
-    settings.init(config.webWidgetCustomizations);
+    if (config.webWidgetCustomizations) {
+      settings.enableCustomizations();
+      i18n.setCustomTranslations();
+    }
     beacon.trackSettings(settings.getTrackSettings());
-    i18n.init(config.locale);
+    i18n.setLocale(config.locale);
 
     _.forEach(parseConfig(config), function(configItem, embedName) {
       try {

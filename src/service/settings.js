@@ -67,7 +67,7 @@ const initStore = (settings, options, defaults) => {
           .value();
 };
 
-function init(customizationsEnabled = false) {
+function init() {
   const settings = _.assign({}, win.zESettings);
 
   // for backwards compatibility with authenticate
@@ -78,7 +78,6 @@ function init(customizationsEnabled = false) {
     settings.webWidget.authenticate = settings.authenticate;
   }
 
-  webWidgetCustomizations = customizationsEnabled;
   webWidgetStore = initStore(settings.webWidget, optionWhitelist.webWidget, webWidgetStoreDefaults);
   ipmStore = initStore(settings.ipm, optionWhitelist.ipm, ipmStoreDefaults);
 }
@@ -118,9 +117,14 @@ function getTrackSettings() {
   };
 }
 
+function enableCustomizations() {
+  webWidgetCustomizations = true;
+}
+
 export const settings = {
   init: init,
   get: get,
   getTranslations,
-  getTrackSettings
+  getTrackSettings,
+  enableCustomizations
 };

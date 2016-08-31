@@ -59,7 +59,7 @@ describe('i18n', () => {
     mockery.disable();
   });
 
-  describe('#init', () => {
+  describe('#setCustomTranslations', () => {
     describe('with a specific translation override', () => {
       beforeEach(() => {
         mockRegistry['service/settings'].settings.getTranslations = () => {
@@ -68,7 +68,7 @@ describe('i18n', () => {
           };
         };
 
-        i18n.init();
+        i18n.setCustomTranslations();
       });
 
       it('should override the key for the specified locale', () => {
@@ -87,7 +87,7 @@ describe('i18n', () => {
           };
         };
 
-        i18n.init();
+        i18n.setCustomTranslations();
       });
 
       it('should override the key for the all locales', () => {
@@ -163,6 +163,35 @@ describe('i18n', () => {
     it('should use en-US when there are no translations for the specified locale', () => {
       i18n.setLocale('xx');
       expect(i18n.getLocale()).toEqual('en-US');
+    });
+
+    describe('when there are custom translations', () => {
+      beforeEach(() => {
+        mockRegistry['service/settings'].settings.getTranslations = () => {
+          return {
+            launcherLabel: {
+              '*': 'Wat',
+              'de': 'Vot'
+            }
+          };
+        };
+
+        i18n.setCustomTranslations();
+      });
+
+      it('should use custom strings when some are defined for the locale', () => {
+        i18n.setLocale('de');
+
+        expect(i18n.t('embeddable_framework.launcher.label.help'))
+          .toEqual('Vot');
+      });
+
+      it('should use wildcard strings when no custom strings are defined for the locale', () => {
+        i18n.setLocale('fr');
+
+        expect(i18n.t('embeddable_framework.launcher.label.help'))
+          .toEqual('Wat');
+      });
     });
   });
 
