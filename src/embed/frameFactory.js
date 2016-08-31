@@ -8,12 +8,12 @@ import { ButtonNav } from 'component/button/ButtonNav';
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
 import { settings } from 'service/settings';
-import { win } from 'utility/globals';
+import { generateNpsCSS } from 'utility/color';
 import { getZoomSizingRatio,
          isMobileBrowser,
          isFirefox } from 'utility/devices';
-import { clickBusterRegister,
-         generateNpsCSS } from 'utility/utils';
+import { win } from 'utility/globals';
+import { clickBusterRegister } from 'utility/utils';
 
 const baseCSS = require('baseCSS');
 const mainCSS = require('mainCSS');

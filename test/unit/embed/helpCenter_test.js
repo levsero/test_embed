@@ -100,9 +100,11 @@ describe('embed.helpCenter', function() {
           target: jasmine.createSpy('mouseTarget').and.returnValue(targetCancelHandlerSpy)
         }
       },
+      'utility/color': {
+        generateUserCSS: jasmine.createSpy().and.returnValue('')
+      },
       'utility/utils': {
         setScaleLock: noop,
-        generateUserCSS: jasmine.createSpy().and.returnValue(''),
         getPageKeywords: jasmine.createSpy().and.returnValue('foo bar'),
         cappedIntervalCall: (callback) => { callback(); }
       },

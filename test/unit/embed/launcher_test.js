@@ -16,7 +16,7 @@ describe('embed.launcher', function() {
           return document.body;
         }
       },
-      'utility/utils': {
+      'utility/color': {
         generateUserCSS: jasmine.createSpy().and.returnValue('')
       },
       'component/Launcher': {

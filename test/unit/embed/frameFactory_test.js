@@ -31,6 +31,7 @@ describe('frameFactory', function() {
       'utility/globals': {
         win: window
       },
+      'utility/color': {},
       'utility/devices': {
         getZoomSizingRatio: function() {
           return 1;

@@ -9,7 +9,7 @@ import { frameFactory } from 'embed/frameFactory';
 import { beacon } from 'service/beacon';
 import { i18n } from 'service/i18n';
 import { mediator } from 'service/mediator';
-import { generateUserCSS } from 'utility/utils';
+import { generateUserCSS } from 'utility/color';
 import { transitionFactory } from 'service/transitionFactory';
 
 const launcherCSS = require('./launcher.scss');

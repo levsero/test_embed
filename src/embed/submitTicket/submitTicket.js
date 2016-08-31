@@ -12,8 +12,8 @@ import { beacon } from 'service/beacon';
 import { transitionFactory } from 'service/transitionFactory';
 import { mediator } from 'service/mediator';
 import { settings } from 'service/settings';
-import { setScaleLock,
-         generateUserCSS } from 'utility/utils';
+import { generateUserCSS } from 'utility/color';
+import { setScaleLock } from 'utility/utils';
 import { transport } from 'service/transport';
 
 const submitTicketCSS = require('./submitTicket.scss');
