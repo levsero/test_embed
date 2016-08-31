@@ -2,6 +2,7 @@ describe('settings', () => {
   let settings,
     mockRegistry;
   const settingsPath = buildSrcPath('service/settings');
+  const maxLocaleFallbacks = 3;
 
   beforeEach(() => {
     mockery.enable();
@@ -95,7 +96,7 @@ describe('settings', () => {
         .toEqual('foo');
     });
 
-    it('should limit number of locale fallbacks to 3', () => {
+    it('should limit number of locale fallbacks', () => {
       mockRegistry['utility/globals'].win.zESettings = {
         webWidget: {
           helpCenter: {
@@ -105,7 +106,12 @@ describe('settings', () => {
       };
       settings.init(true);
 
-      expect(settings.get('helpCenter.localeFallbacks'))
+      const localeFallbacks = settings.get('helpCenter.localeFallbacks');
+
+      expect(localeFallbacks.length)
+        .toBe(maxLocaleFallbacks);
+
+      expect(localeFallbacks)
         .toEqual(['en-US', 'en-AU', 'fr']);
     });
   });

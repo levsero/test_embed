@@ -52,6 +52,7 @@ const ipmStoreDefaults = {
     vertical: 0
   }
 };
+const maxLocaleFallbacks = 3;
 let webWidgetStore = {};
 let ipmStore = {};
 let webWidgetCustomizations = false;
@@ -84,8 +85,9 @@ function init() {
   webWidgetStore = initStore(settings.webWidget, optionWhitelist.webWidget, webWidgetStoreDefaults);
   ipmStore = initStore(settings.ipm, optionWhitelist.ipm, ipmStoreDefaults);
 
-  // Limit number of fallback locales to 3.
-  webWidgetStore.helpCenter.localeFallbacks = _.take(webWidgetStore.helpCenter.localeFallbacks, 3);
+  // Limit number of fallback locales.
+  webWidgetStore.helpCenter.localeFallbacks = _.take(webWidgetStore.helpCenter.localeFallbacks,
+                                                     maxLocaleFallbacks);
 }
 
 function get(path, store = 'webWidget') {
