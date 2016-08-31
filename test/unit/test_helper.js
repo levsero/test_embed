@@ -70,6 +70,7 @@ console.warn = console.error = noop;
 global.resetDOM = function() {
   global.document.head.innerHTML = '';
   global.document.body.innerHTML = '';
+  global.window.zE = null;
 };
 
 global.initMockRegistry = function(registry) {

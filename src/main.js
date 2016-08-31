@@ -20,9 +20,6 @@ import { win,
 import { initMobileScaling } from 'utility/mobileScaling';
 import { clickBusterHandler } from 'utility/utils';
 
-// unregister lodash from window._
-_.noConflict();
-
 function boot() {
   let devApi;
   let postRenderQueue = [];

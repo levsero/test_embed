@@ -15,6 +15,11 @@ import { getZoomSizingRatio,
 import { clickBusterRegister,
          generateNpsCSS } from 'utility/utils';
 
+// Unregister lodash from window._
+if (!__DEV__) {
+  _.noConflict();
+}
+
 const baseCSS = require('baseCSS');
 const mainCSS = require('mainCSS');
 const sizingRatio = 12 * getZoomSizingRatio(false, true);
