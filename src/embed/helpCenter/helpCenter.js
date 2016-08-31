@@ -42,8 +42,7 @@ function create(name, config) {
     signInRequired: false,
     disableAutoSearch: false,
     enableMouseDrivenContextualHelp: false,
-    color: '#659700',
-    showNextButton: true
+    color: '#659700'
   };
   const onNextClick = function() {
     mediator.channel.broadcast(name + '.onNextClick');
@@ -142,7 +141,6 @@ function create(name, config) {
           contextualSearchSender={searchSenderFn('/api/v2/help_center/articles/embeddable_search.json')}
           imagesSender={imagesSenderFn}
           style={containerStyle}
-          showNextButton={config.showNextButton}
           fullscreen={isMobileBrowser()}
           updateFrameSize={params.updateFrameSize}
           disableAutoSearch={config.disableAutoSearch}
@@ -291,9 +289,15 @@ function render(name) {
     updateHelpCenterButton(name, `submitTicket.${buttonLabelKey}`);
   });
 
-  mediator.channel.subscribe(name + '.showBackButton', function() {
+  mediator.channel.subscribe(name + '.showNextButton', function(backButton = true) {
+    waitForRootComponent(name, () => {
+      getRootComponent(name).setState({ showNextButton: backButton });
+    });
+  });
+
+  mediator.channel.subscribe(name + '.showBackButton', function(backButton = true) {
     get(name).instance.getChild().setState({
-      showBackButton: true
+      showBackButton: backButton
     });
   });
 
