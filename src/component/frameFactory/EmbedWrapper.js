@@ -81,7 +81,9 @@ export class EmbedWrapper extends Component {
         <div className={closeButtonClasses}>
           {this.renderCloseButton()}
         </div>
-        {this.props.childFn(this.props.childParams)}
+        <div id='Embed'>
+          {this.props.childFn(this.props.childParams)}
+        </div>
       </div>
     );
   }

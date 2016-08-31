@@ -122,7 +122,7 @@ function create(name, config) {
   } else {
     frameStyle.width = 342;
     frameStyle.maxHeight = 500;
-    containerStyle = { width: 342, margin: settings.get('margin') };
+    containerStyle = { width: 342 };
   }
 
   const Embed = frameFactory(

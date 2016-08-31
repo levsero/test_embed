@@ -135,6 +135,7 @@ export const frameFactory = function(childFn, _params) {
 
     setOffsetVertical(offsetValue = 0) {
       ReactDOM.findDOMNode(this).style.marginBottom = `${offsetValue}px`;
+      ReactDOM.findDOMNode(this).style.marginTop = `${offsetValue}px`;
     }
 
     setFrameSize(width, height, transparent = true) {
@@ -165,7 +166,7 @@ export const frameFactory = function(childFn, _params) {
         ), 0);
     }
 
-    updateFrameSize(offsetWidth = 0, offsetHeight = 0) {
+    updateFrameSize(offsetWidth = 15, offsetHeight = 15) {
       const iframe = ReactDOM.findDOMNode(this);
       const frameWin = iframe.contentWindow;
       const frameDoc = iframe.contentDocument;
@@ -175,8 +176,8 @@ export const frameFactory = function(childFn, _params) {
       }
 
       const getDimensions = function() {
-        const el = frameDoc.body.firstChild;
-        const width  = Math.max(el.clientWidth,  el.offsetWidth);
+        const el = frameDoc.querySelector('#Embed').firstChild;
+        const width  = Math.max(el.clientWidth, el.offsetWidth);
         const height = Math.max(el.clientHeight, el.offsetHeight);
         const fullscreen = params.isMobile && params.fullscreenable;
         // FIXME shouldn't set background & zIndex in a dimensions object
@@ -189,7 +190,7 @@ export const frameFactory = function(childFn, _params) {
           zIndex: 999999
         };
         const popoverStyle = {
-          width:  (_.isFinite(width)  ? width  : 0) + offsetWidth,
+          width: (_.isFinite(width) ? width : 0) + offsetWidth,
           height: (_.isFinite(height) ? height : 0) + offsetHeight
         };
         return fullscreen
