@@ -8,7 +8,7 @@ import { transport } from 'service/transport';
 import { getURLParameterByName } from 'utility/pages';
 
 let embed;
-const STATUS_SOLVED = 3;
+const statusSolved = 3;
 
 function create(name, config) {
   const frameParams = {
@@ -42,8 +42,8 @@ function render() {
 }
 
 function postRender() {
-  const ticketId = getURLParameterByName('ticket_id'),
-    token = getURLParameterByName('token');
+  const ticketId = getURLParameterByName('ticket_id');
+  const token = getURLParameterByName('token');
 
   if (ticketId && token) {
     fetchTicketFn(ticketId, token);
@@ -51,29 +51,25 @@ function postRender() {
 }
 
 function fetchTicketFn(ticketId, token) {
+  const fetchTicketDone = (res) => {
+    const ticket = res.body.ticket;
+
+    if (ticket.status_id < statusSolved) {
+      // TODO - Pass ticket data to react component;
+      embed.instance.show({});
+    }
+  };
+
   const payload = {
     path: `/requests/automatic-answers/ticket/${ticketId}/fetch/token/${token}`,
     method: 'get',
     callbacks: {
       done: fetchTicketDone,
-      fail: fetchTicketFail
+      fail: embed.instance.hide
     }
   };
 
   transport.automaticAnswersApiRequest(payload);
-}
-
-function fetchTicketDone(res) {
-  const ticket = res.body.ticket;
-
-  if (ticket.status_id < STATUS_SOLVED) {
-    // TODO - Pass ticket data to react component;
-    embed.instance.show({});
-  }
-}
-
-function fetchTicketFail() {
-  embed.instance.hide({});
 }
 
 export const automaticAnswers = {

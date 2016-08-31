@@ -157,8 +157,8 @@ describe('embed.automaticAnswers', () => {
   describe('when a request to fetch ticket data is received', () => {
     let instance,
       mostRecent;
-    const STATUS_NOT_SOLVED = 2,
-      STATUS_SOLVED = 3;
+    const statusNotSolved = 2;
+    const statusSolved = 3;
 
     beforeEach(() => {
       mockTransport = mockRegistry['service/transport'].transport;
@@ -192,7 +192,7 @@ describe('embed.automaticAnswers', () => {
 
       describe('and the ticket status is less than solved', () => {
         it('shows the embed', () => {
-          callback(resSuccess(STATUS_NOT_SOLVED));
+          callback(resSuccess(statusNotSolved));
 
           expect(instance.show.__reactBoundMethod)
             .toHaveBeenCalled();
@@ -201,7 +201,7 @@ describe('embed.automaticAnswers', () => {
 
       describe('and the ticket status is greater than or equal to solved', () => {
         it('does nothing', () => {
-          callback(resSuccess(STATUS_SOLVED));
+          callback(resSuccess(statusSolved));
 
           expect(instance.show.__reactBoundMethod)
             .not.toHaveBeenCalled();
