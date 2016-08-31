@@ -186,15 +186,6 @@ function boot() {
         if (Math.random() <= 0.1) {
           beacon.sendConfigLoadTime(Date.now() - configLoadStart);
         }
-        if (res.body.embeds.zopimChat) {
-          // Make this the first in the queue so that subsequent
-          // user-initiated setTitle(…) calls will override this value
-          if ($zopim._) {
-            $zopim._.unshift(() => {
-              win.$zopim.livechat.window.setTitle(i18n.t('embeddable_framework.chat.title'));
-            });
-          }
-        }
 
         renderer.init(res.body);
         handlePostRenderQueue(postRenderQueue);
