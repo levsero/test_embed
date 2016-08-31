@@ -104,7 +104,8 @@ describe('settings', () => {
           }
         }
       };
-      settings.init(true);
+      settings.init();
+      settings.enableCustomizations();
 
       const localeFallbacks = settings.get('helpCenter.localeFallbacks');
 
