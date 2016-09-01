@@ -69,7 +69,7 @@ describe('webWidgetPreview entry file', () => {
           .toEqual(jasmine.any(Function));
       });
 
-      it('write to the DOM', function() {
+      it('writes the preview to the DOM', () => {
         window.zE.renderWebWidgetPreview({ element });
 
         expect(document.body.querySelectorAll('.webwidgetpreview').length)
