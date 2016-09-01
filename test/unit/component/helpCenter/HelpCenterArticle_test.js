@@ -2,7 +2,8 @@ describe('HelpCenterArticle component', function() {
   let HelpCenterArticle,
     scrollIntoView,
     mockArticle,
-    mockOauthToken;
+    mockOauthToken,
+    mockParseUrlValue;
   const helpCenterArticlePath = buildSrcPath('component/helpCenter/HelpCenterArticle');
 
   beforeEach(function() {
@@ -12,6 +13,9 @@ describe('HelpCenterArticle component', function() {
 
     global.document.zendeskHost = 'dev.zd-dev.com';
     mockOauthToken = 'abc';
+    mockParseUrlValue = {
+      hostname: global.document.zendeskHost
+    };
 
     mockery.enable({
       warnOnReplace: false
@@ -30,7 +34,7 @@ describe('HelpCenterArticle component', function() {
         ])
       },
       'utility/utils': {
-        parseUrl: () => noop
+        parseUrl: () => mockParseUrlValue
       },
       'imports?_=lodash!lodash': _,
       'component/button/ButtonPill': {
@@ -297,7 +301,7 @@ describe('HelpCenterArticle component', function() {
     const lastActiveArticleId = 2;
 
     beforeEach(function() {
-      mockZendeskHost = 'dev.zd.dev.com';
+      mockZendeskHost = 'dev.zd-dev.com';
       mockImagesSender = jasmine.createSpy('mockImagesSender');
       mockUpdateStoredImages = jasmine.createSpy('mockUpdateStoredImages');
 
@@ -320,6 +324,18 @@ describe('HelpCenterArticle component', function() {
 
         expect(helpCenterArticle.replaceArticleImages(mockArticle, lastActiveArticleId))
           .toEqual(mockArticle.body);
+      });
+    });
+
+    describe('when there are images in the article with relative `/attachments/`` paths', function() {
+      it('should add the domain to the img src', function() {
+        expect(helpCenterArticle.replaceArticleImages(mockArticle, lastActiveArticleId))
+          .toEqual(mockArticle.body);
+
+        mockArticle.body += '<img src="/attachments/img.png">';
+
+        expect(helpCenterArticle.replaceArticleImages(mockArticle, lastActiveArticleId))
+          .toContain(`//${mockZendeskHost}/attachments/img.png`);
       });
     });
 
