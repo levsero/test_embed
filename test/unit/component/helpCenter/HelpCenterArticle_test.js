@@ -326,7 +326,7 @@ describe('HelpCenterArticle component', function() {
     describe('when there is no valid oauth token', function() {
       it('should return the unmodified article body', function() {
         mockOauthToken = null;
-        mockArticle.body += `<img src="https://${mockZendeskHost}/article_attachments/img.png">`;
+        mockArticle.body += `<img src="https://${mockZendeskHost}/hc/article_attachments/img.png">`;
 
         expect(helpCenterArticle.replaceArticleImages(mockArticle, lastActiveArticleId))
           .toEqual(mockArticle.body);
@@ -336,8 +336,8 @@ describe('HelpCenterArticle component', function() {
     describe('when there are valid images and an oauth token', function() {
       beforeEach(function() {
         mockOauthToken = 'abc';
-        mockArticle.body += `<img src="https://${mockZendeskHost}/article_attachments/img0.png">
-                             <img src="https://${mockZendeskHost}/article_attachments/img1.png">`;
+        mockArticle.body += `<img src="https://${mockZendeskHost}/hc/article_attachments/img0.png">
+                             <img src="https://${mockZendeskHost}/hc/article_attachments/img1.png">`;
       });
 
       describe('when there are no images stored or already queued', function() {
@@ -348,10 +348,10 @@ describe('HelpCenterArticle component', function() {
             .toBe(2);
 
           expect(mockImagesSender.calls.argsFor(0)[0])
-            .toBe(`https://${mockZendeskHost}/article_attachments/img0.png`);
+            .toBe(`https://${mockZendeskHost}/hc/article_attachments/img0.png`);
 
           expect(mockImagesSender.calls.argsFor(1)[0])
-            .toBe(`https://${mockZendeskHost}/article_attachments/img1.png`);
+            .toBe(`https://${mockZendeskHost}/hc/article_attachments/img1.png`);
         });
       });
 
@@ -403,7 +403,7 @@ describe('HelpCenterArticle component', function() {
 
           expect(mockUpdateStoredImages)
             .toHaveBeenCalledWith({
-              [`https://${mockZendeskHost}/article_attachments/img0.png`]: `https://${mockZendeskHost}/abc/img0.png`
+              [`https://${mockZendeskHost}/hc/article_attachments/img0.png`]: `https://${mockZendeskHost}/abc/img0.png`
             });
 
           mockObjectUrl = `https://${mockZendeskHost}/abc/img1.png`;
@@ -411,14 +411,14 @@ describe('HelpCenterArticle component', function() {
 
           expect(mockUpdateStoredImages)
             .toHaveBeenCalledWith({
-              [`https://${mockZendeskHost}/article_attachments/img1.png`]: `https://${mockZendeskHost}/abc/img1.png`
+              [`https://${mockZendeskHost}/hc/article_attachments/img1.png`]: `https://${mockZendeskHost}/abc/img1.png`
             });
         });
 
         it('The url of the new downloaded image should be used in the article body', function() {
           const storedImages = {
-            [`https://${mockZendeskHost}/article_attachments/img0.png`]: `https://${mockZendeskHost}/abc/img0.png`,
-            [`https://${mockZendeskHost}/article_attachments/img1.png`]: `https://${mockZendeskHost}/abc/img1.png`
+            [`https://${mockZendeskHost}/hc/article_attachments/img0.png`]: `https://${mockZendeskHost}/abc/img0.png`,
+            [`https://${mockZendeskHost}/hc/article_attachments/img1.png`]: `https://${mockZendeskHost}/abc/img1.png`
           };
 
           helpCenterArticle = domRender(
