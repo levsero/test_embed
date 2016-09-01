@@ -522,24 +522,27 @@ describe('HelpCenter component', function() {
     });
 
     describe('when performing a contextual search', () => {
+      let recentCallArgs;
+
+      beforeEach(() => {
+        helpCenter.performContextualSearch(query, successFn);
+        recentCallArgs = mockContextualSearchSender.calls.mostRecent().args;
+      });
+
+      it('should call contextualSearchSender with corrent payload', () => {
+        expect(mockContextualSearchSender)
+          .toHaveBeenCalled();
+
+        expect(recentCallArgs[0])
+          .toEqual(jasmine.objectContaining({
+            query: searchTerm,
+            locale: 'en-us'
+          }));
+      });
+
       describe('when the search is successful', () => {
-        beforeEach(() => {
-          helpCenter.performContextualSearch(query, successFn);
-
-          expect(mockContextualSearchSender)
-            .toHaveBeenCalled();
-
-          const recentCallArgs = mockContextualSearchSender.calls.mostRecent().args;
-
-          expect(recentCallArgs[0])
-            .toEqual(jasmine.objectContaining({
-              query: searchTerm,
-              locale: 'en-us'
-            }));
-        });
-
         it('should call successFn', () => {
-          mockContextualSearchSender.calls.mostRecent().args[1](responsePayloadResults);
+          recentCallArgs[1](responsePayloadResults);
 
           expect(successFn)
             .toHaveBeenCalled();
@@ -547,16 +550,9 @@ describe('HelpCenter component', function() {
       });
 
       describe('when the search fails', () => {
-        beforeEach(() => {
-          helpCenter.performContextualSearch({});
-
-          expect(mockContextualSearchSender)
-            .toHaveBeenCalled();
-        });
-
         describe('when the response status is not 200 OK', () => {
           it('should call searchFail', () => {
-            mockContextualSearchSender.calls.mostRecent().args[1](responsePayloadError);
+            recentCallArgs[1](responsePayloadError);
 
             expect(helpCenter.searchFail)
               .toHaveBeenCalled();
@@ -565,7 +561,7 @@ describe('HelpCenter component', function() {
 
         describe('when the failFn callback is fired', () => {
           it('should call searchFail', () => {
-            mockContextualSearchSender.calls.mostRecent().args[2]();
+            recentCallArgs[2]();
 
             expect(helpCenter.searchFail)
               .toHaveBeenCalled();
@@ -575,14 +571,28 @@ describe('HelpCenter component', function() {
     });
 
     describe('when performing a regular search', () => {
+      let recentCallArgs;
+
+      beforeEach(() => {
+        helpCenter.performSearchWithLocaleFallback(query, successFn);
+        recentCallArgs = mockSearchSender.calls.mostRecent().args;
+      });
+
+      it('should call search sender with correct payload', () => {
+        expect(mockSearchSender)
+          .toHaveBeenCalled();
+
+        expect(recentCallArgs[0])
+          .toEqual(jasmine.objectContaining({
+            query: searchTerm,
+            locale: 'en-us'
+          }));
+      });
+
       describe('when there are no user defined locale fallbacks', () => {
         beforeEach(() => {
-          helpCenter.performSearchWithLocaleFallback(query, successFn);
-
           expect(mockSearchSender)
             .toHaveBeenCalled();
-
-          const recentCallArgs = mockSearchSender.calls.mostRecent().args;
 
           expect(recentCallArgs[0])
             .toEqual(jasmine.objectContaining({
@@ -593,7 +603,7 @@ describe('HelpCenter component', function() {
 
         describe('when there are results', () => {
           it('should call successFn', () => {
-            mockSearchSender.calls.mostRecent().args[1](responsePayloadResults);
+            recentCallArgs[1](responsePayloadResults);
 
             expect(successFn)
               .toHaveBeenCalled();
@@ -602,12 +612,9 @@ describe('HelpCenter component', function() {
 
         describe('when there are no results', () => {
           it('should search again with no locale', () => {
-            mockSearchSender.calls.mostRecent().args[1](responsePayloadNoResults);
+            recentCallArgs[1](responsePayloadNoResults);
 
-            expect(mockSearchSender)
-              .toHaveBeenCalled();
-
-            const recentCallArgs = mockSearchSender.calls.mostRecent().args;
+            recentCallArgs = mockSearchSender.calls.mostRecent().args;
 
             expect(recentCallArgs[0])
               .toEqual({ query: searchTerm });
@@ -634,17 +641,6 @@ describe('HelpCenter component', function() {
           helpCenter.getHelpCenterComponent().refs.searchField.getValue = () => 'valid';
 
           helpCenter.performSearchWithLocaleFallback(query, successFn);
-
-          expect(mockSearchSender)
-            .toHaveBeenCalled();
-
-          const recentCallArgs = mockSearchSender.calls.mostRecent().args;
-
-          expect(recentCallArgs[0])
-            .toEqual(jasmine.objectContaining({
-              query: searchTerm,
-              locale: 'en-us'
-            }));
         });
 
         describe('when there are results', () => {
@@ -695,14 +691,11 @@ describe('HelpCenter component', function() {
       describe('when the search fails', () => {
         beforeEach(() => {
           helpCenter.performSearchWithLocaleFallback({});
-
-          expect(mockSearchSender)
-            .toHaveBeenCalled();
         });
 
         describe('when the response status is not 200 OK', () => {
           it('should call searchFail', () => {
-            mockSearchSender.calls.mostRecent().args[1](responsePayloadError);
+            recentCallArgs[1](responsePayloadError);
 
             expect(helpCenter.searchFail)
               .toHaveBeenCalled();
@@ -711,7 +704,7 @@ describe('HelpCenter component', function() {
 
         describe('when the failFn callback is fired', () => {
           it('should call searchFail', () => {
-            mockSearchSender.calls.mostRecent().args[2]();
+            recentCallArgs[2]();
 
             expect(helpCenter.searchFail)
               .toHaveBeenCalled();
