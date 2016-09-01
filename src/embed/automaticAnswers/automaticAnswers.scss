@@ -1,0 +1,48 @@
+@import 'Container';
+@import 'Button';
+@import 'Icon';
+@import 'Animation';
+
+.AutomaticAnswersDesktop {
+  margin-top: #{45/$font-size}rem;
+  min-width: #{380/$font-size}rem;
+  max-width: #{380/$font-size}rem;
+}
+
+.AutomaticAnswersDesktop-masterIcon {
+  border-radius: 50%;
+  top: #{-32/$font-size}rem;
+  left: 50%;
+  margin-left: #{-32/$font-size}rem;
+  border: #{2/$font-size}rem solid $zendesk-color--apple-green;
+  background-color: $zendesk-color--white;
+  height: #{60/$font-size}rem;
+  width: #{60/$font-size}rem;
+}
+
+.AutomaticAnswersDesktop-message {
+  color: $zendesk-color--oil;
+  font-size: #{14/$font-size}rem;
+  line-height: #{20/$font-size}rem;
+  border-bottom: #{1/$font-size}rem solid $zendesk-color--gainsboro;
+  white-space: pre-line;
+
+  span {
+    display: block;
+    margin-bottom: #{20/$font-size}rem;
+  }
+
+  a {
+    color: $zendesk-color--curious-blue;
+  }
+}
+
+.AutomaticAnswersDesktop-footer {
+  height: #{37/$font-size}rem;
+}
+
+.closeButton {
+  .Button {
+    padding: #{15/$font-size}rem;
+  }
+}

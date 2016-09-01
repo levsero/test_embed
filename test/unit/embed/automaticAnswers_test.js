@@ -14,6 +14,7 @@ describe('embed.automaticAnswers', () => {
 
     mockRegistry = initMockRegistry({
       'React': React,
+      './automaticAnswers.scss': '',
       'embed/frameFactory': {
         frameFactory: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
         frameMethods: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
@@ -33,6 +34,9 @@ describe('embed.automaticAnswers', () => {
         getDocumentHost: function() {
           return document.body;
         }
+      },
+      'utility/color': {
+        generateUserCSS: jasmine.createSpy().and.returnValue('')
       },
       'service/transport': {
         transport: jasmine.createSpyObj('transport', ['automaticAnswersApiRequest'])

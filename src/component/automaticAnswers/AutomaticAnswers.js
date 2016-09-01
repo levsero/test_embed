@@ -61,14 +61,16 @@ export class AutomaticAnswers extends Component {
   render() {
     return (
       <AutomaticAnswersDesktop
-        {...this.state}
-        handleSolveTicket={this.handleSolveTicket} />
+        ticketNiceId={this.state.ticket.niceId}
+        handleSolveTicket={this.handleSolveTicket}
+        updateFrameSize={this.props.updateFrameSize} />
     );
   }
 }
 
 AutomaticAnswers.propTypes = {
-  solveTicket: PropTypes.func.isRequired
+  solveTicket: PropTypes.func.isRequired,
+  updateFrameSize: PropTypes.func
 };
 
 AutomaticAnswers.defaultProps = {};
