@@ -23,6 +23,7 @@ import { cappedIntervalCall,
          setScaleLock } from 'utility/utils';
 
 const helpCenterCSS = require('./helpCenter.scss');
+
 let helpCenters = {};
 let hasManuallySetContextualSuggestions = false;
 let hasAuthenticatedSuccessfully = false;
@@ -145,6 +146,7 @@ function create(name, config) {
           updateFrameSize={params.updateFrameSize}
           disableAutoSearch={config.disableAutoSearch}
           originalArticleButton={settings.get('helpCenter.originalArticleButton')}
+          localeFallbacks={settings.get('helpCenter.localeFallbacks')}
           zendeskHost={transport.getZendeskHost()} />
       );
     },

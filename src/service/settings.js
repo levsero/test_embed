@@ -14,6 +14,7 @@ const optionWhitelist = {
     'helpCenter.originalArticleButton',
     'helpCenter.suppress',
     'helpCenter.title',
+    'helpCenter.localeFallbacks',
     'launcher.chatLabel',
     'launcher.label',
     'offset'
@@ -26,14 +27,16 @@ const customizationsWhitelist = [
   'offset',
   'helpCenter.originalArticleButton',
   'chat.suppress',
-  'helpCenter.suppress'
+  'helpCenter.suppress',
+  'helpCenter.localeFallbacks'
 ];
 const webWidgetStoreDefaults = {
   contactForm: {
     attachments: true
   },
   helpCenter: {
-    originalArticleButton: true
+    originalArticleButton: true,
+    localeFallbacks: []
   },
   launcher: {},
   margin: 15,
@@ -49,6 +52,7 @@ const ipmStoreDefaults = {
     vertical: 0
   }
 };
+const maxLocaleFallbacks = 3;
 let webWidgetStore = {};
 let ipmStore = {};
 let webWidgetCustomizations = false;
@@ -70,7 +74,7 @@ const initStore = (settings, options, defaults) => {
 function init() {
   const settings = _.assign({}, win.zESettings);
 
-  // for backwards compatibility with authenticate
+  // for backwards compatibility with authenticate.
   if (settings.authenticate) {
     if (!settings.webWidget) {
       settings.webWidget = {};
@@ -80,6 +84,10 @@ function init() {
 
   webWidgetStore = initStore(settings.webWidget, optionWhitelist.webWidget, webWidgetStoreDefaults);
   ipmStore = initStore(settings.ipm, optionWhitelist.ipm, ipmStoreDefaults);
+
+  // Limit number of fallback locales.
+  webWidgetStore.helpCenter.localeFallbacks = _.take(webWidgetStore.helpCenter.localeFallbacks,
+                                                     maxLocaleFallbacks);
 }
 
 function get(path, store = 'webWidget') {
