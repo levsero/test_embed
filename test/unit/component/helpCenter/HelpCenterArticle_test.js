@@ -327,7 +327,7 @@ describe('HelpCenterArticle component', function() {
       });
     });
 
-    describe('when there are images in the article with relative `/attachments/`` paths', function() {
+    describe('when there are images in the article with relative `/attachments/` paths', function() {
       it('should add the domain to the img src', function() {
         expect(helpCenterArticle.replaceArticleImages(mockArticle, lastActiveArticleId))
           .toEqual(mockArticle.body);
