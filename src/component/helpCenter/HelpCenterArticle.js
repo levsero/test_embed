@@ -161,8 +161,8 @@ class HelpCenterArticle extends Component {
       return _.filter(imgEls, (img) => srcPattern.test(img.src));
     };
 
-    // In some cases there will be images with relative paths to the lotus/classic attachments
-    // We rewrite these to be absolute to the article domain to avoid 404 requests to parent domain
+    // In some cases there will be images with relative paths to the lotus/classic attachments.
+    // We rewrite these to be absolute to the article domain to avoid 404 requests to parent domain.
     const pattern = /src="\/attachments\//g;
     const articleBody = activeArticle.body.replace(pattern, `src="//${articleDomain}/attachments/`);
 
