@@ -22,7 +22,8 @@ class HelpCenterArticle extends Component {
     this.handleClick = this.handleClick.bind(this);
 
     this.state = {
-      queuedImages: {}
+      queuedImages: {},
+      lastActiveArticleId: null
     };
   }
 
@@ -34,7 +35,7 @@ class HelpCenterArticle extends Component {
     doc.head.appendChild(base);
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate() {
     const { activeArticle } = this.props;
     const container = ReactDOM.findDOMNode(this.refs.article);
     const sanitizeHtmlOptions = {
@@ -69,10 +70,9 @@ class HelpCenterArticle extends Component {
       },
       allowedSchemesByTag: { 'iframe': ['https'] }
     };
-    const lastActiveArticleId = prevProps.activeArticle.id;
 
     if (activeArticle.body) {
-      const body = this.replaceArticleImages(activeArticle, lastActiveArticleId);
+      const body = this.replaceArticleImages(activeArticle, this.state.lastActiveArticleId);
       let cleanHtml = sanitizeHtml(body, sanitizeHtmlOptions);
 
       // Inject a table wrapper to allow horizontal scrolling
@@ -92,10 +92,14 @@ class HelpCenterArticle extends Component {
       container.innerHTML = '';
     }
 
-    if (lastActiveArticleId !== this.props.activeArticle.id) {
+    if (this.state.lastActiveArticleId !== activeArticle.id) {
       const topNode = ReactDOM.findDOMNode(this.refs.userContent);
 
       topNode.scrollTop = 0;
+
+      /* eslint-disable react/no-did-update-set-state */
+      this.setState({ lastActiveArticleId: activeArticle.id });
+      /* eslint-enable */
     }
   }
 
@@ -144,6 +148,7 @@ class HelpCenterArticle extends Component {
 
   replaceArticleImages(activeArticle, lastActiveArticleId) {
     const { storedImages } = this.props;
+    const articleDomain = parseUrl(activeArticle.url).hostname;
     const parseHtmlString = (htmlStr) => {
       const el = document.createElement('html');
 
@@ -151,17 +156,18 @@ class HelpCenterArticle extends Component {
       return el;
     };
     const helpCenterImages = (imgEls) => {
-      const articleDomain = parseUrl(activeArticle.url).hostname;
-      const srcPattern = new RegExp(`${this.props.zendeskHost}|${articleDomain}`);
+      const srcPattern = new RegExp(`(${this.props.zendeskHost}|${articleDomain})/hc/`);
 
       return _.filter(imgEls, (img) => srcPattern.test(img.src));
     };
 
-    const htmlEl = parseHtmlString(activeArticle.body);
+    const pattern = /src="\/attachments\//g;
+    const articleBody = activeArticle.body.replace(pattern, `src="//${articleDomain}/attachments/`);
+    const htmlEl = parseHtmlString(articleBody);
     const imgEls = helpCenterImages(htmlEl.getElementsByTagName('img'));
 
     if (imgEls.length === 0 || !authentication.getToken()) {
-      return activeArticle.body;
+      return articleBody;
     }
 
     // If the image has not already been downloaded, then queue up
