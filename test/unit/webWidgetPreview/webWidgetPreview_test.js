@@ -31,6 +31,11 @@ describe('webWidgetPreview entry file', () => {
     });
 
     describe('when window.zE is already defined', () => {
+      beforeEach(() => {
+        window.zE = () => {};
+        requireUncached(webWidgetPreviewPath);
+      });
+
       it('extends it with the renderWebWidgetPreview function', () => {
         expect(window.zE.renderWebWidgetPreview)
           .toEqual(jasmine.any(Function));
