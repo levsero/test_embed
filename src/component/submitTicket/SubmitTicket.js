@@ -26,6 +26,7 @@ export class SubmitTicket extends Component {
     bindMethods(this, SubmitTicket.prototype);
 
     this.state = {
+      formTitleKey: props.formTitleKey,
       showNotification: false,
       message: '',
       fullscreen: isMobileBrowser(),
@@ -203,6 +204,10 @@ export class SubmitTicket extends Component {
     this.refs.submitTicketForm.handleOnDrop(files);
   }
 
+  setFormTitleKey(formTitleKey) {
+    this.setState({ formTitleKey });
+  }
+
   render() {
     const notifyClasses = classNames({
       'u-textCenter': true,
@@ -257,7 +262,7 @@ export class SubmitTicket extends Component {
           ref='submitTicketForm'
           hide={this.state.showNotification}
           customFields={this.props.customFields}
-          formTitleKey={this.props.formTitleKey}
+          formTitleKey={this.state.formTitleKey}
           attachmentSender={this.props.attachmentSender}
           attachmentsEnabled={this.props.attachmentsEnabled}
           maxFileCount={this.props.maxFileCount}

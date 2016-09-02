@@ -11,7 +11,7 @@ const submitTicketCSS = require('embed/submitTicket/submitTicket.scss');
 const defaultOptions = {
   locale: 'en-US',
   color: '#659700',
-  titleOption: 0
+  titleKey: 'message'
 };
 
 const renderWebWidgetPreview = (options) => {
@@ -55,7 +55,7 @@ const renderWebWidgetPreview = (options) => {
         <SubmitTicket
           ref="rootComponent"
           previewEnabled={true}
-          formTitleKey={'message'}
+          formTitleKey={options.titleKey}
           submitTicketSender={submitTicketSender}
           attachmentSender={() => {}}
           style={containerStyle} />
@@ -70,8 +70,10 @@ const renderWebWidgetPreview = (options) => {
 
   };
 
-  const setTitle = (titleOption = defaultOptions.titleOption) => {
-
+  const setTitle = (titleKey = defaultOptions.titleKey) => {
+    waitForRootComponent(preview, (rootComponent) => {
+      rootComponent.setFormTitleKey(titleKey);
+    });
   };
   /* eslint-enable no-unused-vars */
 
@@ -81,6 +83,20 @@ const renderWebWidgetPreview = (options) => {
     setColor,
     setTitle
   };
+};
+
+const getRootComponent = (preview) => {
+  return preview.getRootComponent();
+};
+
+const waitForRootComponent = (preview, callback) => {
+  const rootComponent = getRootComponent(preview);
+
+  if (rootComponent) {
+    callback(rootComponent);
+  } else {
+    setTimeout(() => waitForRootComponent(preview, callback), 0);
+  }
 };
 
 window.zE = _.extend(window.zE, { renderWebWidgetPreview });
