@@ -12,12 +12,15 @@ const submitTicketCSS = require('embed/submitTicket/submitTicket.scss');
 const defaultOptions = {
   locale: 'en-US',
   color: '#659700',
-  titleKey: 'message'
+  titleKey: 'message',
+  styles: {
+    width: 342,
+    margin: '16px'
+  }
 };
 
 const renderWebWidgetPreview = (options) => {
-  /* eslint-disable no-unused-vars */
-  options = _.defaults({}, options, defaultOptions);
+  options = _.defaultsDeep({}, options, defaultOptions);
 
   if (!options.element) {
     throw new Error('A DOM element is required to render the Web Widget Preview into.');
@@ -26,12 +29,10 @@ const renderWebWidgetPreview = (options) => {
   i18n.setLocale(options.locale);
 
   let preview;
-  const frameStyle = {
+  const frameStyle = _.extend({}, options.styles, {
     position: 'relative',
-    float: 'right',
-    width: 342,
-    'margin': '15px'
-  };
+    float: 'right'
+  });
   const containerStyle = {
     width: frameStyle.width
   };
@@ -51,7 +52,7 @@ const renderWebWidgetPreview = (options) => {
   };
 
   const Embed = React.createClass(frameFactory(
-    (params) => {
+    () => {
       return (
         <SubmitTicket
           ref="rootComponent"
@@ -76,7 +77,6 @@ const renderWebWidgetPreview = (options) => {
       rootComponent.setFormTitleKey(titleKey);
     });
   };
-  /* eslint-enable no-unused-vars */
 
   preview.updateFrameSize();
 
