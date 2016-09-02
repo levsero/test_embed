@@ -123,7 +123,10 @@ function init(submitTicketAccessible, helpCenterAccessible, params = {}) {
     c.broadcast(`${submitTicket}.hide`);
     c.broadcast(`${chat}.hide`);
     c.broadcast(`${helpCenter}.hide`);
-    c.broadcast(`${launcher}.show`);
+
+    if (helpCenterAvailable() || chatAvailable() || submitTicketAvailable()) {
+      c.broadcast(`${launcher}.show`);
+    }
   });
 
   c.intercept('.activate', (__, options = {}) => {
@@ -138,11 +141,13 @@ function init(submitTicketAccessible, helpCenterAccessible, params = {}) {
                             ? true
                             : false;
 
-      c.broadcast(`${state.activeEmbed}.show`, {
-        transition: 'upShow',
-        viaActivate: true
-      });
-      state[`${state.activeEmbed}.isVisible`] = true;
+      if (helpCenterAvailable() || chatAvailable() || submitTicketAvailable()) {
+        c.broadcast(`${state.activeEmbed}.show`, {
+          transition: 'upShow',
+          viaActivate: true
+        });
+        state[`${state.activeEmbed}.isVisible`] = true;
+      }
     }
   });
 

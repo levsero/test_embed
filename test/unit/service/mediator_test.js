@@ -728,6 +728,16 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
+      it('does not show when a show call is made if everything is suppressed', function() {
+        mockSettingsContactFormValue = true;
+        mediator.init(true, false);
+
+        c.broadcast('.show');
+
+        expect(launcherSub.show.calls.count())
+          .toEqual(0);
+      });
+
       it('hides when onClick is called on mobile', function() {
         mockRegistry['utility/devices'].isMobileBrowser
           .and.returnValue(true);
@@ -1128,6 +1138,17 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
+      it('does not show after activate is called if it is suppressed', function() {
+        mockSettingsContactFormValue = true;
+        mediator.init(true, false);
+
+        reset(submitTicketSub.show);
+        c.broadcast('.activate');
+
+        expect(submitTicketSub.show.calls.count())
+          .toEqual(0);
+      });
+
       it('hides after show is called', function() {
         reset(submitTicketSub.hide);
         c.broadcast('.show');
@@ -1472,6 +1493,21 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
+      it('does not show after activate is called if it is suppressed', function() {
+        mockSettingsChatValue = true;
+        mediator.init(false, false);
+
+        c.broadcast(`${chat}.onOnline`);
+
+        c.broadcast('.hide');
+
+        reset(chatSub.show);
+        c.broadcast('.activate');
+
+        expect(chatSub.show.calls.count())
+          .toEqual(0);
+      });
+
       it('doesn\'t hide when launcher is pressed on mobile', function() {
         mockRegistry['utility/devices'].isMobileBrowser
           .and.returnValue(true);
@@ -1805,6 +1841,17 @@ describe('mediator', function() {
 
       expect(helpCenterSub.show.calls.count())
         .toEqual(1);
+    });
+
+    it('does not show after activate is called if it is suppressed', function() {
+      mockSettingsHelpCenterValue = true;
+      mediator.init(false, true);
+
+      reset(helpCenterSub.show);
+      c.broadcast('.activate');
+
+      expect(helpCenterSub.show.calls.count())
+        .toEqual(0);
     });
 
     it('reverts setScrollKiller and setWindowScroll on mobile onClose', function() {

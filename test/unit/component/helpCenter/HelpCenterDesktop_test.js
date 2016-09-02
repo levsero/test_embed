@@ -79,23 +79,30 @@ describe('HelpCenterDesktop component', () => {
     let helpCenterDesktop;
 
     beforeEach(() => {
-      helpCenterDesktop = domRender(<HelpCenterDesktop showNextButton={true} />);
+      helpCenterDesktop = domRender(<HelpCenterDesktop hasSearched={true} />);
     });
 
     it('should not show initially', () => {
+      helpCenterDesktop = domRender(<HelpCenterDesktop hasSearched={false} />);
+
       const footerContent = helpCenterDesktop.refs.scrollContainer.props.footerContent;
 
       expect(footerContent.props.className)
         .toContain('u-isHidden');
     });
 
-    it('should show after the field is focused', () => {
-      helpCenterDesktop.focusField();
-
+    it('should show after something has been searched', () => {
       const footerContent = helpCenterDesktop.refs.scrollContainer.props.footerContent;
 
       expect(footerContent.props.className)
-        .toContain('u-isHidden');
+        .not.toContain('u-isHidden');
+    });
+
+    it('should not exist if the showNextButton prop is false', () => {
+      const footerContent = helpCenterDesktop.refs.scrollContainer.props.footerContent;
+
+      expect(TestUtils.isDOMComponent(footerContent))
+        .toBe(false);
     });
   });
 });
