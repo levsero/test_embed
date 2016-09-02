@@ -114,9 +114,9 @@ function initMediator(config) {
       'helpCenterSignInRequired': signInRequired
     };
 
-    mediator.init(!!config.embeds.helpCenterForm, params);
-  } else if (config.embeds && config.embeds.zopimChat) {
+    mediator.init(!!config.embeds.ticketSubmissionForm, !!config.embeds.helpCenterForm, params);
     // naked zopim
+  } else if (config.embeds && config.embeds.zopimChat) {
     mediator.initZopimStandalone();
   } else if (config.embeds && _.isEmpty(config.embeds)) {
     // No embeds
