@@ -5,8 +5,22 @@ export class AutomaticAnswers extends Component {
     super(props, context);
 
     this.state = {
-      automaticAnswers: {}
+      ticket: {
+        title: '',
+        niceId: null,
+        statusId: null
+      }
     };
+  }
+
+  updateTicket(ticket) {
+    this.setState({
+      ticket: {
+        title: ticket.title,
+        niceId: ticket.nice_id,
+        statusId: ticket.status_id
+      }
+    });
   }
 
   render() {

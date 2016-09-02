@@ -20,6 +20,7 @@ describe('embed.automaticAnswers', () => {
       },
       'component/automaticAnswers/AutomaticAnswers': {
         AutomaticAnswers: React.createClass({
+          updateTicket() {},
           render() {
             return (
               <div className='mock-automaticAnswers' />
@@ -188,9 +189,17 @@ describe('embed.automaticAnswers', () => {
         automaticAnswers.postRender();
         mostRecent = mockTransport.automaticAnswersApiRequest.calls.mostRecent();
         callback = mostRecent.args[0].callbacks.done;
+        spyOn(instance.getRootComponent(), 'updateTicket');
       });
 
       describe('and the ticket status is one of open, new, pending or hold', () => {
+        it('passes ticket data to the AutomaticAnswers component', () => {
+          callback(resSuccess(statusPending));
+
+          expect(instance.getRootComponent().updateTicket)
+            .toHaveBeenCalledWith(resSuccess(statusPending).body.ticket);
+        });
+
         it('shows the embed', () => {
           callback(resSuccess(statusPending));
 
