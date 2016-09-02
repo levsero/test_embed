@@ -2,7 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
+import { SubmitTicket } from 'component/submitTicket/SubmitTicket';
 import { frameFactory } from 'embed/frameFactory';
+import { i18n } from 'service/i18n';
+
+const submitTicketCSS = require('embed/submitTicket/submitTicket.scss');
 
 const defaultOptions = {
   locale: 'en-US',
@@ -18,22 +22,43 @@ const renderWebWidgetPreview = (options) => {
     throw new Error('A DOM element is required to render the Web Widget Preview into.');
   }
 
+  i18n.setLocale(options.locale);
+
   let preview;
   const frameStyle = {
     position: 'relative',
-    float: 'right'
+    float: 'right',
+    width: 342,
+    'margin': '15px'
+  };
+  const containerStyle = {
+    width: frameStyle.width
   };
   const frameParams = {
-    css: '',
+    css: submitTicketCSS,
     name: 'webWidgetPreview',
     frameStyle,
-    disableOffsetHorizontal: true
+    position: 'right',
+    disableOffsetHorizontal: true,
+    preventClose: true
+  };
+
+  const submitTicketSender = (params, done) => {
+    setTimeout(() => {
+      done();
+    }, 1500);
   };
 
   const Embed = React.createClass(frameFactory(
     (params) => {
       return (
-        <div className="webwidgetpreview" ref='rootComponent' />
+        <SubmitTicket
+          ref="rootComponent"
+          previewEnabled={true}
+          formTitleKey={'message'}
+          submitTicketSender={submitTicketSender}
+          attachmentSender={() => {}}
+          style={containerStyle} />
       );
     },
     frameParams
@@ -49,6 +74,8 @@ const renderWebWidgetPreview = (options) => {
 
   };
   /* eslint-enable no-unused-vars */
+
+  preview.updateFrameSize();
 
   return {
     setColor,

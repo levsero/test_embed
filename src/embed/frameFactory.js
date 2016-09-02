@@ -63,7 +63,8 @@ export const frameFactory = function(childFn, _params) {
     transitions: {},
     isMobile: isMobileBrowser(),
     disableSetOffsetHorizontal: false,
-    position: 'right'
+    position: 'right',
+    preventClose: false
   };
   const params = _.extend({}, defaultParams, _params);
 
@@ -233,7 +234,6 @@ export const frameFactory = function(childFn, _params) {
     },
 
     hide(options = {}) {
-
       if (params.transitions[options.transition] && !isFirefox()) {
         const transition = params.transitions[options.transition];
 
@@ -261,13 +261,15 @@ export const frameFactory = function(childFn, _params) {
         clickBusterRegister(ev.touches[0].clientX, ev.touches[0].clientY);
       }
 
-      if (params.isMobile) {
-        this.hide();
-      } else {
-        this.hide({ transition: 'close' });
-      }
+      if (!params.preventClose) {
+        if (params.isMobile) {
+          this.hide();
+        } else {
+          this.hide({ transition: 'close' });
+        }
 
-      params.onClose(this, options);
+        params.onClose(this, options);
+      }
     },
 
     back(ev) {

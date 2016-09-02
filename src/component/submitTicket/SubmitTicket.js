@@ -115,6 +115,11 @@ export class SubmitTicket extends Component {
     this.props.submitTicketSender(formParams, doneCallback, failCallback);
   }
 
+  handlePreviewSubmit(e) {
+    e.preventDefault();
+    this.props.submitTicketSender({}, this.clearForm);
+  }
+
   formatEmbeddedTicketData(data) {
     const params = {
       'name': data.value.name,
@@ -226,6 +231,9 @@ export class SubmitTicket extends Component {
                             dimensions={frameDimensions}
                             onDrop={this.handleOnDrop} />
                         : null;
+    const formHandleSubmit = !this.props.previewEnabled
+                           ? this.handleSubmit
+                           : this.handlePreviewSubmit;
 
     return (
       <Container
@@ -254,7 +262,8 @@ export class SubmitTicket extends Component {
           attachmentsEnabled={this.props.attachmentsEnabled}
           maxFileCount={this.props.maxFileCount}
           maxFileSize={this.props.maxFileSize}
-          submit={this.handleSubmit}>
+          submit={formHandleSubmit}
+          previewEnabled={this.props.previewEnabled}>
           <p className={errorClasses}>
             {this.state.errorMessage}
           </p>
@@ -269,6 +278,7 @@ SubmitTicket.propTypes = {
   formTitleKey: PropTypes.string.isRequired,
   submitTicketSender: PropTypes.func.isRequired,
   attachmentSender: PropTypes.func.isRequired,
+  previewEnabled: PropTypes.bool,
   updateFrameSize: PropTypes.func,
   hideZendeskLogo: PropTypes.bool,
   customFields: PropTypes.array,
@@ -282,6 +292,7 @@ SubmitTicket.propTypes = {
 };
 
 SubmitTicket.defaultProps = {
+  previewEnabled: false,
   updateFrameSize: () => {},
   hideZendeskLogo: false,
   customFields: [],
