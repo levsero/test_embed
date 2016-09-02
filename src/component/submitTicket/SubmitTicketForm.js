@@ -33,7 +33,7 @@ export class SubmitTicketForm extends Component {
     this.state = _.extend(initialState, {
       buttonMessage: i18n.t(buttonMessageString),
       cancelButtonMessage: i18n.t(cancelButtonMessageString),
-      isValid: this.props.previewEnabled
+      isValid: props.previewEnabled
     });
   }
 

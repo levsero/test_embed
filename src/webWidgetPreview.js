@@ -5,6 +5,7 @@ import _ from 'lodash';
 import { SubmitTicket } from 'component/submitTicket/SubmitTicket';
 import { frameFactory } from 'embed/frameFactory';
 import { i18n } from 'service/i18n';
+import { generateUserCSS } from 'utility/color';
 
 const submitTicketCSS = require('embed/submitTicket/submitTicket.scss');
 
@@ -35,7 +36,7 @@ const renderWebWidgetPreview = (options) => {
     width: frameStyle.width
   };
   const frameParams = {
-    css: submitTicketCSS,
+    css: submitTicketCSS + generateUserCSS(options.color),
     name: 'webWidgetPreview',
     frameStyle,
     position: 'right',
@@ -67,7 +68,7 @@ const renderWebWidgetPreview = (options) => {
   preview = ReactDOM.render(<Embed />, options.element);
 
   const setColor = (color = defaultOptions.color) => {
-
+    preview.setButtonColor(color);
   };
 
   const setTitle = (titleKey = defaultOptions.titleKey) => {

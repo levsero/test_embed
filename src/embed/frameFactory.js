@@ -8,7 +8,8 @@ import { ButtonNav } from 'component/button/ButtonNav';
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
 import { settings } from 'service/settings';
-import { generateNpsCSS } from 'utility/color';
+import { generateNpsCSS,
+         generateWebWidgetPreviewCSS } from 'utility/color';
 import { getZoomSizingRatio,
          isMobileBrowser,
          isFirefox } from 'utility/devices';
@@ -291,6 +292,11 @@ export const frameFactory = function(childFn, _params) {
       this.getChild().setHighlightColor(color);
     },
 
+
+    setButtonColor: function(color) {
+      this.getChild().setButtonColor(color);
+    },
+
     computeIframeStyle: function() {
       const visibilityRule = (this.state.visible && !this.state.hiddenByZoom)
                            ? null
@@ -401,6 +407,16 @@ export const frameFactory = function(childFn, _params) {
 
           setHighlightColor(color) {
             const cssClasses = generateNpsCSS({ color: color });
+
+            if (cssClasses) {
+              this.setState({
+                css: cssClasses
+              });
+            }
+          },
+
+          setButtonColor(color) {
+            const cssClasses = generateWebWidgetPreviewCSS(color);
 
             if (cssClasses) {
               this.setState({
