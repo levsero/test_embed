@@ -37,7 +37,7 @@ describe('mediator', function() {
               chat: { suppress: mockSettingsChatValue },
               helpCenter: { suppress: mockSettingsHelpCenterValue },
               contactForm: { suppress: mockSettingsContactFormValue }
-            }, value, null)
+            }, value, null);
           }
         }
       },
@@ -1498,7 +1498,6 @@ describe('mediator', function() {
         });
       });
     });
-
 
     describe('with Help Center', function() {
       beforeEach(function() {

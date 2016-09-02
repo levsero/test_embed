@@ -141,7 +141,8 @@ HelpCenterDesktop.propTypes = {
   buttonLabel:PropTypes.string,
   shadowVisible: PropTypes.bool,
   searchFieldValue: PropTypes.string,
-  disableAutoSearch: PropTypes.bool
+  disableAutoSearch: PropTypes.bool,
+  showNextButton: PropTypes.bool
 };
 
 HelpCenterDesktop.defaultProps = {
@@ -155,5 +156,6 @@ HelpCenterDesktop.defaultProps = {
   buttonLabel: 'Send a Message',
   shadowVisible: false,
   searchFieldValue: '',
-  disableAutoSearch: false
+  disableAutoSearch: false,
+  showNextButton: true
 };

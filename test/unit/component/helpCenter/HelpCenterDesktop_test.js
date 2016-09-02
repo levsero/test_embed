@@ -79,7 +79,7 @@ describe('HelpCenterDesktop component', () => {
     let helpCenterDesktop;
 
     beforeEach(() => {
-      helpCenterDesktop = domRender(<HelpCenterDesktop />);
+      helpCenterDesktop = domRender(<HelpCenterDesktop showNextButton={true} />);
     });
 
     it('should not show initially', () => {

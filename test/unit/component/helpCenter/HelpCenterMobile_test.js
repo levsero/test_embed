@@ -82,7 +82,7 @@ describe('HelpCenterMobile component', () => {
     let helpCenterMobile;
 
     beforeEach(() => {
-      helpCenterMobile = domRender(<HelpCenterMobile hasSearched={true} />);
+      helpCenterMobile = domRender(<HelpCenterMobile hasSearched={true} showNextButton={true} />);
 
       helpCenterMobile.handleSearchBoxClicked();
 
