@@ -10,11 +10,19 @@
 
   <body style='background-color:#fff'>
     <h1>Web Widget Preview live demo</h1>
-    <div id='webWidgetPreview' style="height: 480px; width: 800px; text-align:center; border:1px solid #aaa; position: relative;"></div>
+    <div id="webWidgetPreview" style="height: 480px; width: 800px; text-align:center; border:1px solid #aaa; position: relative;">
+      <div style="float:left;margin:16px">
+      Color: <input type="text" value="#659700" onchange="preview.setColor(this.value)">
+      Label: <select onchange="preview.setTitle(this.value)">
+        <option value="message">Message</option>
+        <option value="contact">Contact</option>
+      </select>
+      </div>
+    </div>
 
     <script src="/dist/webWidgetPreview.js"></script>
     <script>
-      var preview = zE.renderWebWidgetPreview({
+      preview = zE.renderWebWidgetPreview({
         element: document.getElementById('webWidgetPreview')
       });
     </script>

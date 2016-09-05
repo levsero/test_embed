@@ -66,7 +66,10 @@ const renderWebWidgetPreview = (options) => {
     frameParams
   ));
 
-  preview = ReactDOM.render(<Embed />, options.element);
+  const container = document.createElement('div');
+
+  options.element.appendChild(container);
+  preview = ReactDOM.render(<Embed />, container);
 
   const setColor = (color = defaultOptions.color) => {
     preview.setButtonColor(color);
