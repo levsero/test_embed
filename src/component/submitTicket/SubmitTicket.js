@@ -272,9 +272,9 @@ export class SubmitTicket extends Component {
 }
 
 SubmitTicket.propTypes = {
-  formTitleKey: PropTypes.string.isRequired,
   submitTicketSender: PropTypes.func.isRequired,
   attachmentSender: PropTypes.func.isRequired,
+  formTitleKey: PropTypes.string,
   previewEnabled: PropTypes.bool,
   updateFrameSize: PropTypes.func,
   hideZendeskLogo: PropTypes.bool,
@@ -289,6 +289,7 @@ SubmitTicket.propTypes = {
 };
 
 SubmitTicket.defaultProps = {
+  formTitleKey: 'message',
   previewEnabled: false,
   updateFrameSize: () => {},
   hideZendeskLogo: false,

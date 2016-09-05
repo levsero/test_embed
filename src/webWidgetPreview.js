@@ -5,7 +5,6 @@ import _ from 'lodash';
 import { SubmitTicket } from 'component/submitTicket/SubmitTicket';
 import { frameFactory } from 'embed/frameFactory';
 import { i18n } from 'service/i18n';
-import { generateUserCSS } from 'utility/color';
 
 const submitTicketCSS = require('embed/submitTicket/submitTicket.scss');
 
@@ -37,10 +36,9 @@ const renderWebWidgetPreview = (options) => {
     width: frameStyle.width
   };
   const frameParams = {
-    css: submitTicketCSS + generateUserCSS(options.color),
+    css: submitTicketCSS,
     name: 'webWidgetPreview',
     frameStyle,
-    position: 'right',
     disableOffsetHorizontal: true,
     preventClose: true
   };
@@ -51,7 +49,6 @@ const renderWebWidgetPreview = (options) => {
         <SubmitTicket
           ref="rootComponent"
           previewEnabled={true}
-          formTitleKey={options.titleKey}
           submitTicketSender={() => {}}
           attachmentSender={() => {}}
           style={containerStyle} />
@@ -76,6 +73,8 @@ const renderWebWidgetPreview = (options) => {
   };
 
   preview.updateFrameSize();
+  setColor(options.color);
+  setTitle(options.titleKey);
 
   return {
     setColor,
