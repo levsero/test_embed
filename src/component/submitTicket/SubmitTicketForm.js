@@ -110,6 +110,11 @@ export class SubmitTicketForm extends Component {
   }
 
   handleSubmit(e) {
+    if (this.props.previewEnabled) {
+      e.preventDefault();
+      return;
+    }
+
     const isFormValid = this.state.isValid;
 
     if (isFormValid) {

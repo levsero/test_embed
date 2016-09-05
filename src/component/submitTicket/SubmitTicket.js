@@ -116,11 +116,6 @@ export class SubmitTicket extends Component {
     this.props.submitTicketSender(formParams, doneCallback, failCallback);
   }
 
-  handlePreviewSubmit(e) {
-    e.preventDefault();
-    this.props.submitTicketSender({}, this.clearForm);
-  }
-
   formatEmbeddedTicketData(data) {
     const params = {
       'name': data.value.name,
@@ -236,9 +231,6 @@ export class SubmitTicket extends Component {
                             dimensions={frameDimensions}
                             onDrop={this.handleOnDrop} />
                         : null;
-    const formHandleSubmit = !this.props.previewEnabled
-                           ? this.handleSubmit
-                           : this.handlePreviewSubmit;
 
     return (
       <Container
@@ -267,7 +259,7 @@ export class SubmitTicket extends Component {
           attachmentsEnabled={this.props.attachmentsEnabled}
           maxFileCount={this.props.maxFileCount}
           maxFileSize={this.props.maxFileSize}
-          submit={formHandleSubmit}
+          submit={this.handleSubmit}
           previewEnabled={this.props.previewEnabled}>
           <p className={errorClasses}>
             {this.state.errorMessage}

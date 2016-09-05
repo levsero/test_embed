@@ -45,12 +45,6 @@ const renderWebWidgetPreview = (options) => {
     preventClose: true
   };
 
-  const submitTicketSender = (params, done) => {
-    setTimeout(() => {
-      done();
-    }, 1500);
-  };
-
   const Embed = React.createClass(frameFactory(
     () => {
       return (
@@ -58,7 +52,7 @@ const renderWebWidgetPreview = (options) => {
           ref="rootComponent"
           previewEnabled={true}
           formTitleKey={options.titleKey}
-          submitTicketSender={submitTicketSender}
+          submitTicketSender={() => {}}
           attachmentSender={() => {}}
           style={containerStyle} />
       );
