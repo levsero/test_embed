@@ -31,6 +31,15 @@ describe('AutomaticAnswers component', () => {
       },
       'utility/utils': {
         bindMethods: mockBindMethods
+      },
+      'component/automaticAnswers/AutomaticAnswersDesktop': {
+        AutomaticAnswersDesktop: React.createClass({
+          render() {
+            return (
+              <div className='automaticAnswers-desktop' />
+            );
+          }
+        })
       }
     });
 
