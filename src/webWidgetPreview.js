@@ -13,6 +13,7 @@ const defaultOptions = {
   color: '#659700',
   titleKey: 'message',
   styles: {
+    float: 'right',
     width: 342,
     margin: '16px'
   }
@@ -29,8 +30,7 @@ const renderWebWidgetPreview = (options) => {
 
   let preview;
   const frameStyle = _.extend({}, options.styles, {
-    position: 'relative',
-    float: 'right'
+    position: 'relative'
   });
   const containerStyle = {
     width: frameStyle.width
