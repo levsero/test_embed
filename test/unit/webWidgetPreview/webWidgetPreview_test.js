@@ -175,7 +175,7 @@ describe('webWidgetPreview entry file', () => {
 
       describe('when no titleKey parameter is supplied', () => {
         it('should call setFormTitleKey with the default titleKey value', () => {
-          preview.setColor();
+          preview.setTitle();
 
           expect(mockSetFormTitleKey)
             .toHaveBeenCalledWith('message');
