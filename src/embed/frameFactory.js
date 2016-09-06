@@ -256,21 +256,21 @@ export const frameFactory = function(childFn, _params) {
     },
 
     close(ev, options = {}) {
+      if (params.preventClose) return;
+
       // ev.touches added for automation testing mobile browsers
       // which is firing 'click' event on iframe close
       if (params.isMobile && ev.touches) {
         clickBusterRegister(ev.touches[0].clientX, ev.touches[0].clientY);
       }
 
-      if (!params.preventClose) {
-        if (params.isMobile) {
-          this.hide();
-        } else {
-          this.hide({ transition: 'close' });
-        }
-
-        params.onClose(this, options);
+      if (params.isMobile) {
+        this.hide();
+      } else {
+        this.hide({ transition: 'close' });
       }
+
+      params.onClose(this, options);
     },
 
     back(ev) {
