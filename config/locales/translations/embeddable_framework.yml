@@ -297,3 +297,9 @@ parts:
       title: "Error message on a failed ticket update."
       screenshot: "https://zendesk.box.com/s/ae6qmra69w1k3jpbjw3zj8lw363xtqpa"
       value: "Oops, something went wrong. Please try again."
+
+  # Channel Choice
+  - translation:
+      key: "embeddable_framework.channelChoice.chat.offline"
+      title: "A notification that appears when a user enters live chat but all agents become unavailable."
+      value: "Live chat is offline."
