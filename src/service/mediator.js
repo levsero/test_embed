@@ -46,6 +46,10 @@ const submitTicketAvailable = () => {
   return state[`${submitTicket}.isAccessible`] && !state[`${submitTicket}.isSuppressed`];
 };
 
+const embedAvailable = () => {
+  return helpCenterAvailable() || chatAvailable() || submitTicketAvailable();
+};
+
 const embedVisible = (_state) => _.some([
   _state[`${helpCenter}.isVisible`],
   _state[`${chat}.isVisible`],
@@ -68,7 +72,7 @@ const trackChatStarted = () => {
   c.broadcast('beacon.trackUserAction', 'chat', 'opened', chat);
 };
 
-function init(submitTicketAccessible, helpCenterAccessible, params = {}) {
+function init(embedsAccessible, params = {}) {
   const updateLauncherLabel = () => {
     if (chatAvailable()) {
       if (state[`${chat}.unreadMsgs`]) {
@@ -86,8 +90,8 @@ function init(submitTicketAccessible, helpCenterAccessible, params = {}) {
 
   state['.hasHidden']                   = params.hideLauncher;
   state[`${launcher}.userHidden`]       = params.hideLauncher;
-  state[`${submitTicket}.isAccessible`] = submitTicketAccessible;
-  state[`${helpCenter}.isAccessible`]   = helpCenterAccessible &&
+  state[`${submitTicket}.isAccessible`] = embedsAccessible.submitTicket;
+  state[`${helpCenter}.isAccessible`]   = embedsAccessible.helpCenter &&
                                          (!params.helpCenterSignInRequired ||
                                          isOnHelpCenterPage());
   state[`${helpCenter}.isSuppressed`]   = settings.get('helpCenter.suppress');
@@ -124,7 +128,7 @@ function init(submitTicketAccessible, helpCenterAccessible, params = {}) {
     c.broadcast(`${chat}.hide`);
     c.broadcast(`${helpCenter}.hide`);
 
-    if (helpCenterAvailable() || chatAvailable() || submitTicketAvailable()) {
+    if (embedAvailable()) {
       c.broadcast(`${launcher}.show`);
     }
   });
@@ -141,7 +145,7 @@ function init(submitTicketAccessible, helpCenterAccessible, params = {}) {
                             ? true
                             : false;
 
-      if (helpCenterAvailable() || chatAvailable() || submitTicketAvailable()) {
+      if (embedAvailable()) {
         c.broadcast(`${state.activeEmbed}.show`, {
           transition: 'upShow',
           viaActivate: true
@@ -474,7 +478,7 @@ function init(submitTicketAccessible, helpCenterAccessible, params = {}) {
     c.broadcast(`${helpCenter}.setHelpCenterSuggestions`, params);
   });
 
-  if (submitTicketAvailable() || chatAvailable() || helpCenterAvailable()) {
+  if (embedAvailable()) {
     c.subscribe(`${launcher}.show`, updateLauncherLabel);
   }
 

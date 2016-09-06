@@ -105,20 +105,26 @@ function init(config) {
 }
 
 function initMediator(config) {
-  if (config.embeds) {
-    const signInRequired = config.embeds.helpCenterForm
-                         ? config.embeds.helpCenterForm.props.signInRequired
+  const embeds = config.embeds;
+
+  if (embeds) {
+    const signInRequired = embeds.helpCenterForm
+                         ? embeds.helpCenterForm.props.signInRequired
                          : false;
     const params = {
       'hideLauncher': hideLauncher,
       'helpCenterSignInRequired': signInRequired
     };
+    const embedsAccessible = {
+      submitTicket: !!embeds.ticketSubmissionForm,
+      helpCenter: !!embeds.helpCenterForm
+    };
 
-    mediator.init(!!config.embeds.ticketSubmissionForm, !!config.embeds.helpCenterForm, params);
+    mediator.init(embedsAccessible, params);
     // naked zopim
-  } else if (config.embeds && config.embeds.zopimChat) {
+  } else if (embeds && embeds.zopimChat) {
     mediator.initZopimStandalone();
-  } else if (config.embeds && _.isEmpty(config.embeds)) {
+  } else if (embeds && _.isEmpty(config.embeds)) {
     // No embeds
     mediator.initMessaging();
   } else {

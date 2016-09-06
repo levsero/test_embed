@@ -198,7 +198,7 @@ describe('mediator', function() {
 
     beforeEach(function() {
       initSubscriptionSpies(names);
-      mediator.init(true, false);
+      mediator.init({ submitTicket: true, helpCenter: false });
     });
 
     it('should broadcast beacon.identify with given params', function() {
@@ -220,7 +220,6 @@ describe('mediator', function() {
       };
 
       c.broadcast('.onIdentify', params);
-
       expect(submitTicketSub.prefill)
         .toHaveBeenCalledWith(params);
     });
@@ -247,7 +246,7 @@ describe('mediator', function() {
 
       it('should broadcast nps.setSurvey with params', function() {
         initSubscriptionSpies(names);
-        mediator.init(true, false);
+        mediator.init({ submitTicket: true, helpCenter: false });
 
         const survey = {
           npsSurvey: {
@@ -275,7 +274,7 @@ describe('mediator', function() {
 
       it('should broadcast ipm.setIpm with params', function() {
         initSubscriptionSpies(names);
-        mediator.init(true, false);
+        mediator.init({ submitTicket: true, helpCenter: false });
 
         const response = {
           pendingCampaign: {
@@ -314,12 +313,12 @@ describe('mediator', function() {
 
     beforeEach(function() {
       initSubscriptionSpies(names);
-      mediator.init(true, false);
+      mediator.init({ submitTicket: true, helpCenter: false });
     });
 
     describe('onSuccess', function() {
       it('should set helpCenterForm to available if sign in required is passed in', function() {
-        mediator.init(true, true, { helpCenterSignInRequired: true });
+        mediator.init({ submitTicket: true, helpCenter: true }, { helpCenterSignInRequired: true });
 
         jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`);
@@ -347,7 +346,7 @@ describe('mediator', function() {
 
     beforeEach(function() {
       initSubscriptionSpies(names);
-      mediator.init(true, false);
+      mediator.init({ submitTicket: true, helpCenter: false });
     });
 
     it('should broadcast authentication.logout', function() {
@@ -365,7 +364,7 @@ describe('mediator', function() {
 
     beforeEach(function() {
       initSubscriptionSpies(names);
-      mediator.init(true, false);
+      mediator.init({ submitTicket: true, helpCenter: false });
     });
 
     it('should broadcast authentication.renew', function() {
@@ -397,7 +396,7 @@ describe('mediator', function() {
 
     beforeEach(function() {
       initSubscriptionSpies(names);
-      mediator.init(true, true);
+      mediator.init({ submitTicket: true, helpCenter: true });
     });
 
     describe('.onActivate', function() {
@@ -537,7 +536,7 @@ describe('mediator', function() {
 
     beforeEach(function() {
       initSubscriptionSpies(names);
-      mediator.init(true, true);
+      mediator.init({ submitTicket: true, helpCenter: true });
     });
 
     describe('.onActivate', function() {
@@ -656,7 +655,7 @@ describe('mediator', function() {
 
       describe('when zE.hide() has been called', function() {
         it('should not broadcast launcher.show', function() {
-          mediator.init(true, true, { hideLauncher: true });
+          mediator.init({ submitTicket: true, helpCenter: true }, { hideLauncher: true });
 
           c.broadcast('ipm.onClose');
 
@@ -704,7 +703,7 @@ describe('mediator', function() {
 
     describe('with Ticket Submission', function() {
       beforeEach(function() {
-        mediator.init(true, false);
+        mediator.init({ submitTicket: true, helpCenter: false });
       });
 
       it('hides when a hide call is made', function() {
@@ -730,7 +729,7 @@ describe('mediator', function() {
 
       it('does not show when a show call is made if everything is suppressed', function() {
         mockSettingsContactFormValue = true;
-        mediator.init(true, false);
+        mediator.init({ submitTicket: true, helpCenter: false });
 
         c.broadcast('.show');
 
@@ -786,7 +785,7 @@ describe('mediator', function() {
 
     describe('with Ticket Submission and Chat', function() {
       beforeEach(function() {
-        mediator.init(true, false);
+        mediator.init({ submitTicket: true, helpCenter: false });
       });
 
       it('shows label "Chat" if chat is online', function() {
@@ -889,7 +888,7 @@ describe('mediator', function() {
 
     describe('with Ticket Submission, Chat and Help Center', function() {
       beforeEach(function() {
-        mediator.init(true, true);
+        mediator.init({ submitTicket: true, helpCenter: true });
       });
 
       it('shows label "ChatHelp" if chat is online', function() {
@@ -1045,7 +1044,7 @@ describe('mediator', function() {
 
     describe('with authenticated help center', function() {
       it('broadcasts authentication.renew when onClick is called', function() {
-        mediator.init(true, true, { helpCenterSignInRequired: true });
+        mediator.init({ submitTicket: true, helpCenter: true }, { helpCenterSignInRequired: true });
 
         c.broadcast('authentication.onSuccess');
         c.broadcast(`${launcher}.onClick`);
@@ -1078,7 +1077,7 @@ describe('mediator', function() {
 
     describe('standalone', function() {
       beforeEach(function() {
-        mediator.init(true, false);
+        mediator.init({ submitTicket: true, helpCenter: false });
       });
 
       it('shows launcher on close', function() {
@@ -1140,7 +1139,7 @@ describe('mediator', function() {
 
       it('does not show after activate is called if it is suppressed', function() {
         mockSettingsContactFormValue = true;
-        mediator.init(true, false);
+        mediator.init({ submitTicket: true, helpCenter: false });
 
         reset(submitTicketSub.show);
         c.broadcast('.activate');
@@ -1200,7 +1199,7 @@ describe('mediator', function() {
 
     describe('with chat', function() {
       beforeEach(function() {
-        mediator.init(true, false);
+        mediator.init({ submitTicket: true, helpCenter: false });
       });
 
       it('shows ticket submission if chat goes offline', function() {
@@ -1224,7 +1223,7 @@ describe('mediator', function() {
 
     describe('with Help Center', function() {
       beforeEach(function() {
-        mediator.init(true, true);
+        mediator.init({ submitTicket: true, helpCenter: true });
       });
 
       it('goes back to help center', function() {
@@ -1300,7 +1299,7 @@ describe('mediator', function() {
 
     describe('standalone', () => {
       beforeEach(() => {
-        mediator.init(false, false);
+        mediator.init({ submitTicket: false, helpCenter: false });
         jasmine.clock().install();
       });
 
@@ -1343,7 +1342,7 @@ describe('mediator', function() {
 
     describe('with Ticket Submission', function() {
       beforeEach(function() {
-        mediator.init(true, false);
+        mediator.init({ submitTicket: true, helpCenter: false });
       });
 
       it('updates launcher with unread message count if chat is online', function() {
@@ -1495,7 +1494,7 @@ describe('mediator', function() {
 
       it('does not show after activate is called if it is suppressed', function() {
         mockSettingsChatValue = true;
-        mediator.init(false, false);
+        mediator.init({ submitTicket: false, helpCenter: false });
 
         c.broadcast(`${chat}.onOnline`);
 
@@ -1537,7 +1536,7 @@ describe('mediator', function() {
 
     describe('with Help Center', function() {
       beforeEach(function() {
-        mediator.init(true, true);
+        mediator.init({ submitTicket: true, helpCenter: true });
       });
 
       it('resets launcher label to ChatHelp when unread message count is 0', function() {
@@ -1670,12 +1669,12 @@ describe('mediator', function() {
 
     beforeEach(function() {
       initSubscriptionSpies(names);
-      mediator.init(true, true);
+      mediator.init({ submitTicket: true, helpCenter: true });
     });
 
     describe('standalone', () => {
       beforeEach(() => {
-        mediator.init(false, true);
+        mediator.init({ submitTicket: false, helpCenter: true });
         jasmine.clock().install();
       });
 
@@ -1699,7 +1698,7 @@ describe('mediator', function() {
 
     describe('with chat and without ticket submission', () => {
       beforeEach(() => {
-        mediator.init(false, true);
+        mediator.init({ submitTicket: false, helpCenter: true });
         jasmine.clock().install();
       });
 
@@ -1845,7 +1844,7 @@ describe('mediator', function() {
 
     it('does not show after activate is called if it is suppressed', function() {
       mockSettingsHelpCenterValue = true;
-      mediator.init(false, true);
+      mediator.init({ submitTicket: false, helpCenter: true });
 
       reset(helpCenterSub.show);
       c.broadcast('.activate');
@@ -1879,7 +1878,7 @@ describe('mediator', function() {
     });
 
     it('should not set helpCenterForm to available if sign in is required', function() {
-      mediator.init(true, true, { helpCenterSignInRequired: true });
+      mediator.init({ submitTicket: true, helpCenter: true }, { helpCenterSignInRequired: true });
 
       jasmine.clock().install();
       c.broadcast(`${launcher}.onClick`);
@@ -1895,7 +1894,7 @@ describe('mediator', function() {
     it('should set helpCenterForm to available if sign in is required and is on a hc page', function() {
       mockOnHelpCenterPageValue = true;
 
-      mediator.init(true, true, { helpCenterSignInRequired: true });
+      mediator.init({ submitTicket: true, helpCenter: true }, { helpCenterSignInRequired: true });
 
       jasmine.clock().install();
       c.broadcast(`${launcher}.onClick`);
@@ -1941,7 +1940,7 @@ describe('mediator', function() {
 
       describe('when there is no chat or help center', () => {
         beforeEach(() => {
-          mediator.init(true, false);
+          mediator.init({ submitTicket: true, helpCenter: false });
         });
 
         it('should not show the launcher', () => {
@@ -1952,7 +1951,7 @@ describe('mediator', function() {
 
       describe('when chat is available', () => {
         beforeEach(() => {
-          mediator.init(true, false);
+          mediator.init({ submitTicket: true, helpCenter: false });
         });
 
         it('should open to chat if it is online', () => {
@@ -1990,7 +1989,7 @@ describe('mediator', function() {
 
       describe('when help center is available', () => {
         beforeEach(() => {
-          mediator.init(true, true);
+          mediator.init({ submitTicket: true, helpCenter: true });
         });
 
         it('should open to help center', () => {
@@ -2009,7 +2008,7 @@ describe('mediator', function() {
 
       describe('when chat and help center are available', () => {
         beforeEach(() => {
-          mediator.init(true, true);
+          mediator.init({ submitTicket: true, helpCenter: true });
         });
 
         it('should open to help center', () => {
@@ -2053,7 +2052,7 @@ describe('mediator', function() {
     describe('when chat is suppressed', () => {
       beforeEach(() => {
         mockSettingsChatValue = true;
-        mediator.init(true, false);
+        mediator.init({ submitTicket: true, helpCenter: false });
 
         c.broadcast(`${chat}.onOffline`);
         c.broadcast(`${chat}.onOnline`);
@@ -2104,7 +2103,7 @@ describe('mediator', function() {
 
     it('does not display chat if it is suppressed and help center is active', () => {
       mockSettingsChatValue = true;
-      mediator.init(true, true);
+      mediator.init({ submitTicket: true, helpCenter: true });
 
       c.broadcast(`${chat}.onOnline`);
 
@@ -2122,7 +2121,7 @@ describe('mediator', function() {
 
     it('should not display help center if it is suppressed', () => {
       mockSettingsHelpCenterValue = true;
-      mediator.init(true, true);
+      mediator.init({ submitTicket: true, helpCenter: true });
 
       c.broadcast(`${launcher}.onClick`);
       jasmine.clock().tick(0);
@@ -2136,7 +2135,7 @@ describe('mediator', function() {
     it('does not display chat or helpCenter if they are suppressed', () => {
       mockSettingsChatValue = true;
       mockSettingsHelpCenterValue = true;
-      mediator.init(true, true);
+      mediator.init({ submitTicket: true, helpCenter: true });
 
       c.broadcast(`${chat}.isOnline`);
 
@@ -2171,7 +2170,7 @@ describe('mediator', function() {
 
       describe('launcher is not hidden by zE.hide() API call', function() {
         beforeEach(function() {
-          mediator.init(true, false);
+          mediator.init({ submitTicket: true, helpCenter: false });
         });
 
         it('shows launcher when chat is online', function() {
@@ -2194,7 +2193,7 @@ describe('mediator', function() {
 
       describe('launcher is hidden by zE.hide() API call', function() {
         beforeEach(function() {
-          mediator.init(true, false, { hideLauncher: true });
+          mediator.init({ submitTicket: true, helpCenter: false }, { hideLauncher: true });
         });
 
         it('does not show launcher when chat is online', function() {
@@ -2260,7 +2259,7 @@ describe('mediator', function() {
 
       c = mediator.channel;
       initSubscriptionSpies(names);
-      mediator.init(true, false);
+      mediator.init({ submitTicket: true, helpCenter: false });
 
       c.broadcast('.zopimShow');
 
