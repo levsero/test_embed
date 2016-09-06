@@ -2,6 +2,16 @@ describe('webWidgetPreview entry file', () => {
   let mockRegistry,
     mockSetFormTitleKey;
   const webWidgetPreviewPath = buildSrcPath('webWidgetPreview');
+  const defaultOptions = {
+    locale: 'en-US',
+    color: '#659700',
+    titleKey: 'message',
+    styles: {
+      float: 'right',
+      width: 342,
+      margin: '16px'
+    }
+  };
 
   beforeEach(() => {
     resetDOM();
@@ -60,10 +70,12 @@ describe('webWidgetPreview entry file', () => {
   });
 
   describe('zE.renderWebWidgetPreview', () => {
-    let element;
+    let element,
+      mockFrameFactory;
 
     beforeEach(() => {
       element = document.body.appendChild(document.createElement('div'));
+      mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
     });
 
     describe('when calling with an element property in options', () => {
@@ -96,7 +108,50 @@ describe('webWidgetPreview entry file', () => {
             window.zE.renderWebWidgetPreview({ element });
 
             expect(mockSetLocale)
-              .toHaveBeenCalledWith('en-US');
+              .toHaveBeenCalledWith(defaultOptions.locale);
+          });
+        });
+      });
+
+      it('should call frameFactory with correct frameParams', () => {
+        window.zE.renderWebWidgetPreview({ element });
+
+        const args = mockFrameFactory.calls.mostRecent().args[1];
+
+        expect(args)
+          .toEqual(jasmine.objectContaining({
+            name: 'webWidgetPreview',
+            disableOffsetHorizontal: true,
+            preventClose: true
+          }));
+      });
+
+      describe('setting the styles', () => {
+        describe('when a styles object is passed in', () => {
+          it('should call frameFactory with custom styles', () => {
+            const styles = {
+              float: 'left',
+              margin: '32px',
+              width: 1
+            };
+
+            window.zE.renderWebWidgetPreview({ element, styles });
+
+            const args = mockFrameFactory.calls.mostRecent().args[1];
+
+            expect(args.frameStyle)
+              .toEqual(jasmine.objectContaining(styles));
+          });
+        });
+
+        describe('when no styles object is passed in', () => {
+          it('should call frameFactory with default styles', () => {
+            window.zE.renderWebWidgetPreview({ element });
+
+            const args = mockFrameFactory.calls.mostRecent().args[1];
+
+            expect(args.frameStyle)
+              .toEqual(jasmine.objectContaining(defaultOptions.styles));
           });
         });
       });
@@ -152,7 +207,7 @@ describe('webWidgetPreview entry file', () => {
           preview.setColor();
 
           expect(mockSetButtonColor)
-            .toHaveBeenCalledWith('#659700');
+            .toHaveBeenCalledWith(defaultOptions.color);
         });
       });
     });
@@ -178,7 +233,7 @@ describe('webWidgetPreview entry file', () => {
           preview.setTitle();
 
           expect(mockSetFormTitleKey)
-            .toHaveBeenCalledWith('message');
+            .toHaveBeenCalledWith(defaultOptions.titleKey);
         });
       });
     });
