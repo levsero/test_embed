@@ -292,8 +292,7 @@ export const frameFactory = function(childFn, _params) {
       this.getChild().setHighlightColor(color);
     },
 
-
-    setButtonColor: function(color) {
+    setButtonColor(color) {
       this.getChild().setButtonColor(color);
     },
 
