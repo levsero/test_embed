@@ -21,7 +21,8 @@ function create(name, config) {
     () => {
       return (
         <AutomaticAnswers
-          ref='rootComponent' />
+          ref='rootComponent'
+          solveTicket={solveTicketFn} />
       );
     },
     frameParams
@@ -69,6 +70,16 @@ function fetchTicketFn(ticketId, token) {
       done: fetchTicketDone,
       fail: embed.instance.hide
     }
+  };
+
+  transport.automaticAnswersApiRequest(payload);
+}
+
+function solveTicketFn(ticketId, token, callbacks) {
+  const payload = {
+    path: `/requests/automatic-answers/ticket/${ticketId}/solve/token/${token}`,
+    method: 'post',
+    callbacks: callbacks
   };
 
   transport.automaticAnswersApiRequest(payload);
