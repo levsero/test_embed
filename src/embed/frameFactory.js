@@ -7,7 +7,6 @@ import snabbt from 'snabbt.js';
 import { EmbedWrapper } from 'component/frameFactory/EmbedWrapper';
 import { i18n } from 'service/i18n';
 import { settings } from 'service/settings';
-import { generateNpsCSS } from 'utility/color';
 import { getZoomSizingRatio,
          isMobileBrowser,
          isFirefox } from 'utility/devices';
@@ -62,6 +61,8 @@ export const frameFactory = function(childFn, _params) {
     transitions: {},
     isMobile: isMobileBrowser(),
     disableSetOffsetHorizontal: false,
+    offsetWidth: 15,
+    offsetHeight: 15,
     position: 'right'
   };
   const params = _.extend({}, defaultParams, _params);
@@ -86,23 +87,6 @@ export const frameFactory = function(childFn, _params) {
         }
       };
     }
-    //propTypes: {
-      //fullscreen: React.PropTypes.bool,
-      //visible: React.PropTypes.bool,
-      //position: React.PropTypes.string,
-      //close: React.PropTypes.func,
-      //back: React.PropTypes.func
-    //},
-
-    //getDefaultProps() {
-      //return {
-        //fullscreen: false,
-        //visible: true,
-        //position: 'right',
-        //close: () => {},
-        //back:() => {}
-      //};
-    //},
 
     componentDidMount() {
       this.renderFrameContent();
@@ -129,13 +113,7 @@ export const frameFactory = function(childFn, _params) {
     setOffsetHorizontal(offsetValue = 0) {
       if (!params.disableSetOffsetHorizontal) {
         ReactDOM.findDOMNode(this).style.marginLeft = `${offsetValue}px`;
-        ReactDOM.findDOMNode(this).style.marginRight = `${offsetValue}px`;
       }
-    }
-
-    setOffsetVertical(offsetValue = 0) {
-      ReactDOM.findDOMNode(this).style.marginBottom = `${offsetValue}px`;
-      ReactDOM.findDOMNode(this).style.marginTop = `${offsetValue}px`;
     }
 
     setFrameSize(width, height, transparent = true) {
@@ -166,7 +144,7 @@ export const frameFactory = function(childFn, _params) {
         ), 0);
     }
 
-    updateFrameSize(offsetWidth = 15, offsetHeight = 15) {
+    updateFrameSize() {
       const iframe = ReactDOM.findDOMNode(this);
       const frameWin = iframe.contentWindow;
       const frameDoc = iframe.contentDocument;
@@ -190,8 +168,8 @@ export const frameFactory = function(childFn, _params) {
           zIndex: 999999
         };
         const popoverStyle = {
-          width: (_.isFinite(width) ? width : 0) + offsetWidth,
-          height: (_.isFinite(height) ? height : 0) + offsetHeight
+          width: (_.isFinite(width) ? width : 0) + params.offsetWidth,
+          height: (_.isFinite(height) ? height : 0) + params.offsetHeight
         };
         return fullscreen
              ? fullscreenStyle
@@ -363,8 +341,7 @@ export const frameFactory = function(childFn, _params) {
       childParams = _.extend(childParams, {
         updateFrameSize: this.updateFrameSize,
         setFrameSize: this.setFrameSize,
-        setOffsetHorizontal: this.setOffsetHorizontal,
-        setOffsetVertical: this.setOffsetVertical
+        setOffsetHorizontal: this.setOffsetHorizontal
       });
 
       const element = doc.body.appendChild(doc.createElement('div'));
@@ -415,5 +392,21 @@ export const frameFactory = function(childFn, _params) {
         <iframe style={this.computeIframeStyle()} id={params.name} className={iframeClasses} />
       );
     }
+  };
+
+  Frame.propTypes = {
+    fullscreen: PropTypes.bool,
+    visible: PropTypes.bool,
+    position: PropTypes.string,
+    close: PropTypes.func,
+    back: PropTypes.func
+  };
+
+  Frame.defaultProps = {
+    fullscreen: false,
+    visible: true,
+    position: 'right',
+    close: () => {},
+    back:() => {}
   };
 };

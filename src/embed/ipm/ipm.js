@@ -23,7 +23,8 @@ function create(name, config) {
     position: 'fixed',
     top: 0,
     right: 0,
-    zIndex: 2147483647
+    zIndex: 2147483647,
+    marginRight: 15
   };
 
   const ipmSender = (params) => {
@@ -64,6 +65,8 @@ function create(name, config) {
     fullscreenable: false,
     onClose,
     onShow,
+    offsetwidth: 20,
+    offsetheight: 52, // the avatar is positioned -32 from the top so we need to account for that here.
     transitions: {
       upHide: transitionSet.upHide(),
       downShow: transitionSet.downShow(),
@@ -78,7 +81,6 @@ function create(name, config) {
           ref='rootComponent'
           setFrameSize={params.setFrameSize}
           updateFrameSize={params.updateFrameSize}
-          setOffsetHorizontal={params.setOffsetHorizontal}
           ipmSender={ipmSender}
           closeFrame={closeFrame}
           mobile={isMobileBrowser()}

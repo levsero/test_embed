@@ -33,10 +33,11 @@ function create(name, config) {
       width: '100%'
     });
   } else {
-    containerStyle = { width: 620, margin: 15 };
+    containerStyle = { width: 620 };
     frameStyle = _.extend({}, frameStyle, {
       left: '50%',
       marginLeft: -310,
+      marginBottom: 15,
       width: 620
     });
   }
@@ -82,6 +83,8 @@ function create(name, config) {
     fullscreenable: isMobileBrowser(),
     onClose,
     onShow,
+    offsetWidth: 20,
+    offsetHeight: 20,
     transitions: {
       upShow: transitionSet.upShow(),
       downHide: transitionSet.downHide(),

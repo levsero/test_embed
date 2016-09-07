@@ -18,16 +18,6 @@ export class Launcher extends Component {
     };
   }
 
-  componentDidMount() {
-    this.props.setOffsetHorizontal(offsetHorizontal);
-    this.props.setOffsetVertical(offsetVertical);
-  }
-
-  componentDidUpdate() {
-    this.props.setOffsetHorizontal(offsetHorizontal);
-    this.props.setOffsetVertical(offsetVertical);
-  }
-
   setLabel(label) {
     this.setState({
       label: label
