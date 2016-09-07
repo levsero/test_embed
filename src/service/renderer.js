@@ -124,7 +124,7 @@ function initMediator(config) {
     // naked zopim
   } else if (embeds && embeds.zopimChat) {
     mediator.initZopimStandalone();
-  } else if (embeds && _.isEmpty(config.embeds)) {
+  } else if (_.isEmpty(embeds)) {
     // No embeds
     mediator.initMessaging();
   } else {

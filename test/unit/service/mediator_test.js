@@ -10,9 +10,9 @@ describe('mediator', function() {
     helpCenterSub,
     npsSub,
     ipmSub,
-    mockSettingsChatValue,
-    mockSettingsHelpCenterValue,
-    mockSettingsContactFormValue,
+    mockChatSuppressedValue,
+    mockHelpCenterSuppressedValue,
+    mockContactFormSuppressedValue,
     mockOnHelpCenterPageValue,
     initSubscriptionSpies;
 
@@ -24,9 +24,9 @@ describe('mediator', function() {
   beforeEach(function() {
     mockery.enable();
 
-    mockSettingsChatValue = false;
-    mockSettingsHelpCenterValue = false;
-    mockSettingsContactFormValue = false;
+    mockChatSuppressedValue = false;
+    mockHelpCenterSuppressedValue = false;
+    mockContactFormSuppressedValue = false;
     mockOnHelpCenterPageValue = false;
 
     mockRegistry = initMockRegistry({
@@ -34,9 +34,9 @@ describe('mediator', function() {
         settings : {
           get: (value) => {
             return _.get({
-              chat: { suppress: mockSettingsChatValue },
-              helpCenter: { suppress: mockSettingsHelpCenterValue },
-              contactForm: { suppress: mockSettingsContactFormValue }
+              chat: { suppress: mockChatSuppressedValue },
+              helpCenter: { suppress: mockHelpCenterSuppressedValue },
+              contactForm: { suppress: mockContactFormSuppressedValue }
             }, value, null);
           }
         }
@@ -728,7 +728,7 @@ describe('mediator', function() {
       });
 
       it('does not show when a show call is made if everything is suppressed', function() {
-        mockSettingsContactFormValue = true;
+        mockContactFormSuppressedValue = true;
         mediator.init({ submitTicket: true, helpCenter: false });
 
         c.broadcast('.show');
@@ -1138,7 +1138,7 @@ describe('mediator', function() {
       });
 
       it('does not show after activate is called if it is suppressed', function() {
-        mockSettingsContactFormValue = true;
+        mockContactFormSuppressedValue = true;
         mediator.init({ submitTicket: true, helpCenter: false });
 
         reset(submitTicketSub.show);
@@ -1493,7 +1493,7 @@ describe('mediator', function() {
       });
 
       it('does not show after activate is called if it is suppressed', function() {
-        mockSettingsChatValue = true;
+        mockChatSuppressedValue = true;
         mediator.init({ submitTicket: false, helpCenter: false });
 
         c.broadcast(`${chat}.onOnline`);
@@ -1843,7 +1843,7 @@ describe('mediator', function() {
     });
 
     it('does not show after activate is called if it is suppressed', function() {
-      mockSettingsHelpCenterValue = true;
+      mockHelpCenterSuppressedValue = true;
       mediator.init({ submitTicket: false, helpCenter: true });
 
       reset(helpCenterSub.show);
@@ -1935,7 +1935,7 @@ describe('mediator', function() {
 
     describe('when contact form is suppressed', () => {
       beforeEach(() => {
-        mockSettingsContactFormValue = true;
+        mockContactFormSuppressedValue = true;
       });
 
       describe('when there is no chat or help center', () => {
@@ -2051,7 +2051,7 @@ describe('mediator', function() {
 
     describe('when chat is suppressed', () => {
       beforeEach(() => {
-        mockSettingsChatValue = true;
+        mockChatSuppressedValue = true;
         mediator.init({ submitTicket: true, helpCenter: false });
 
         c.broadcast(`${chat}.onOffline`);
@@ -2102,7 +2102,7 @@ describe('mediator', function() {
     });
 
     it('does not display chat if it is suppressed and help center is active', () => {
-      mockSettingsChatValue = true;
+      mockChatSuppressedValue = true;
       mediator.init({ submitTicket: true, helpCenter: true });
 
       c.broadcast(`${chat}.onOnline`);
@@ -2120,7 +2120,7 @@ describe('mediator', function() {
     });
 
     it('should not display help center if it is suppressed', () => {
-      mockSettingsHelpCenterValue = true;
+      mockHelpCenterSuppressedValue = true;
       mediator.init({ submitTicket: true, helpCenter: true });
 
       c.broadcast(`${launcher}.onClick`);
@@ -2133,8 +2133,8 @@ describe('mediator', function() {
     });
 
     it('does not display chat or helpCenter if they are suppressed', () => {
-      mockSettingsChatValue = true;
-      mockSettingsHelpCenterValue = true;
+      mockChatSuppressedValue = true;
+      mockHelpCenterSuppressedValue = true;
       mediator.init({ submitTicket: true, helpCenter: true });
 
       c.broadcast(`${chat}.isOnline`);
