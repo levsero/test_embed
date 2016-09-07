@@ -284,7 +284,7 @@ describe('transport', function() {
 
       it('should use the http protocol', () => {
         expect(urlArg)
-          .toContain('http');
+          .toContain('http:');
       });
 
       it('should use the hostmapped domain', () => {

@@ -87,7 +87,7 @@ describe('pages', function() {
       win.HelpCenter = { account: '', user: '' };
     });
 
-    describe('when host page is a HC page and subdomain does not include "zendesk"', () => {
+    describe('when host page is a HC page and domain is host-mapped"', () => {
       it('should return true', () => {
         expect(isOnHostMappedDomain())
           .toBe(true);
@@ -106,7 +106,7 @@ describe('pages', function() {
       });
     });
 
-    describe('when subdomain includes "zendesk"', () => {
+    describe('when domain is not host-mapped', () => {
       beforeEach(() => {
         location.hostname = 'z3nmofo.zendesk.com';
       });
