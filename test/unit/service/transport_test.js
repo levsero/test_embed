@@ -24,10 +24,9 @@ describe('transport', function() {
       }),
       'lodash': _,
       'utility/globals': {
-        win: {
-          location: {
-            href: 'http://window.location.href'
-          }
+        location: {
+          href: 'http://window.location.href',
+          hostname: 'helpme.mofo.io'
         }
       },
       'service/identity': {
@@ -99,6 +98,7 @@ describe('transport', function() {
       };
 
       config = {
+        scheme: 'https',
         zendeskHost: 'test.zendesk.host'
       };
     });
@@ -248,6 +248,50 @@ describe('transport', function() {
         callback({error: true}, undefined);
       }).not.toThrow();
     });
+
+    describe('when not forcing http', () => {
+      let urlArg;
+
+      beforeEach(() => {
+        transport.init(config);
+        transport.send(payload);
+
+        urlArg = mockRegistry.superagent.calls.mostRecent().args[1];
+      });
+
+      it('should use the http protocol', () => {
+        expect(urlArg)
+          .toContain(config.scheme);
+      });
+
+      it('should use the hostmapped domain', () => {
+        expect(urlArg)
+          .toContain(config.zendeskHost);
+      });
+    });
+
+    describe('when forcing http', () => {
+      let urlArg;
+
+      beforeEach(() => {
+        payload.forceHttp = true;
+
+        transport.init(config);
+        transport.send(payload);
+
+        urlArg = mockRegistry.superagent.calls.mostRecent().args[1];
+      });
+
+      it('should use the http protocol', () => {
+        expect(urlArg)
+          .toContain('http');
+      });
+
+      it('should use the hostmapped domain', () => {
+        expect(urlArg)
+          .toContain('helpme.mofo.io');
+      });
+    });
   });
 
   describe('#sendWithMeta', function() {
@@ -289,7 +333,7 @@ describe('transport', function() {
         .toBe('abc123');
 
       expect(params.url)
-        .toBe(mockGlobals.win.location.href);
+        .toBe(mockGlobals.location.href);
 
       expect(typeof params.timestamp)
         .toBe('string');

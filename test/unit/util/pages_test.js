@@ -1,5 +1,6 @@
 describe('pages', function() {
   let isOnHelpCenterPage,
+    isOnHostMappedDomain,
     getURLParameterByName;
   const mockGlobals = {
     win: {
@@ -26,6 +27,7 @@ describe('pages', function() {
     });
 
     isOnHelpCenterPage = require(pagePath).isOnHelpCenterPage;
+    isOnHostMappedDomain = require(pagePath).isOnHostMappedDomain;
     getURLParameterByName = require(pagePath).getURLParameterByName;
   });
 
@@ -69,6 +71,50 @@ describe('pages', function() {
 
       expect(isOnHelpCenterPage())
         .toBe(false);
+    });
+  });
+
+  describe('isOnHostMappedDomain()', () => {
+    let location,
+      win;
+
+    beforeEach(() => {
+      location = mockGlobals.location;
+      win = mockGlobals.win;
+
+      location.hostname = 'helpme.mofo.io';
+      location.pathname = '/hc/en-us';
+      win.HelpCenter = { account: '', user: '' };
+    });
+
+    describe('when host page is a HC page and subdomain does not include "zendesk"', () => {
+      it('should return true', () => {
+        expect(isOnHostMappedDomain())
+          .toBe(true);
+      });
+    });
+
+    describe('when host page is not a HC page', () => {
+      beforeEach(() => {
+        location.pathname = '/foo/bar';
+        win.HelpCenter = null;
+      });
+
+      it('should return false', () => {
+        expect(isOnHostMappedDomain())
+          .toBe(false);
+      });
+    });
+
+    describe('when subdomain includes "zendesk"', () => {
+      beforeEach(() => {
+        location.hostname = 'z3nmofo.zendesk.com';
+      });
+
+      it('should return false', () => {
+        expect(isOnHostMappedDomain())
+          .toBe(false);
+      });
     });
   });
 

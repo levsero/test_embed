@@ -3,7 +3,7 @@ import superagent from 'superagent';
 
 import { settings } from 'service/settings';
 import { identity } from 'service/identity';
-import { win, location } from 'utility/globals';
+import { location } from 'utility/globals';
 
 let config;
 
@@ -61,7 +61,7 @@ function send(payload) {
           }
         };
 
-        const loadNPS = win.location.hash === '#zd-testNps';
+        const loadNPS = location.hash === '#zd-testNps';
 
         // change body to npsSurvey to test eNPS
         payload.callbacks.done({
@@ -103,7 +103,7 @@ function send(payload) {
 
 function sendWithMeta(payload) {
   const commonParams = {
-    url: win.location.href,
+    url: location.href,
     buid: identity.getBuid(),
     suid: identity.getSuid().id || null,
     version: config.version,
@@ -164,7 +164,7 @@ function getImage(payload) {
 
 function buildFullUrl(path, forceHttp = false) {
   const scheme = forceHttp ? 'http' : config.scheme;
-  const host = forceHttp ? location.host : config.zendeskHost;
+  const host = forceHttp ? location.hostname : config.zendeskHost;
 
   return scheme + '://' + host + path;
 }
