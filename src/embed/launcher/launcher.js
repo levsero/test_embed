@@ -35,7 +35,8 @@ function create(name, config) {
 
   config = _.extend(configDefaults, config);
 
-  const Embed = frameFactory((params) => {
+  const Embed = frameFactory(
+    (params) => {
       return (
         <Launcher
           ref='rootComponent'

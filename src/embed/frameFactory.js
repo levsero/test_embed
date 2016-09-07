@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
 import classNames from 'classnames';
@@ -71,7 +71,7 @@ export const frameFactory = function(childFn, _params) {
     validateChildFn(childFn, params);
   }
 
-  return class Frame extends Component {
+  class Frame extends Component {
     constructor(props, context) {
       super(props, context);
       bindMethods(this, Frame.prototype);
@@ -171,6 +171,7 @@ export const frameFactory = function(childFn, _params) {
           width: (_.isFinite(width) ? width : 0) + params.offsetWidth,
           height: (_.isFinite(height) ? height : 0) + params.offsetHeight
         };
+
         return fullscreen
              ? fullscreenStyle
              : popoverStyle;
@@ -289,7 +290,7 @@ export const frameFactory = function(childFn, _params) {
                               bottom: 'auto'};
       const horizontalOffset = (isMobileBrowser()) ? 0 : settings.get('offset').horizontal;
       const verticalOffset = (isMobileBrowser()) ? 0 : settings.get('offset').vertical;
-      let posObj = {}
+      let posObj = {};
 
       posObj[params.position] = horizontalOffset;
 
@@ -345,6 +346,7 @@ export const frameFactory = function(childFn, _params) {
       });
 
       const element = doc.body.appendChild(doc.createElement('div'));
+
       element.className = positionClasses;
 
       child = ReactDOM.render(
@@ -392,21 +394,19 @@ export const frameFactory = function(childFn, _params) {
         <iframe style={this.computeIframeStyle()} id={params.name} className={iframeClasses} />
       );
     }
-  };
+  }
 
   Frame.propTypes = {
     fullscreen: PropTypes.bool,
     visible: PropTypes.bool,
-    position: PropTypes.string,
-    close: PropTypes.func,
-    back: PropTypes.func
+    position: PropTypes.string
   };
 
   Frame.defaultProps = {
     fullscreen: false,
     visible: true,
-    position: 'right',
-    close: () => {},
-    back:() => {}
+    position: 'right'
   };
+
+  return Frame;
 };

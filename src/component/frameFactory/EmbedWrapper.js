@@ -95,7 +95,9 @@ EmbedWrapper.propTypes = {
   baseCSS: PropTypes.string,
   close: PropTypes.func,
   fullscreen: PropTypes.bool,
-  hideCloseButton: PropTypes.bool
+  hideCloseButton: PropTypes.bool,
+  childFn: PropTypes.func.isRequired,
+  childParams: PropTypes.object
 };
 
 EmbedWrapper.defaultProps = {
@@ -103,5 +105,6 @@ EmbedWrapper.defaultProps = {
   baseCSS: '',
   close: () => {},
   fullscreen: false,
-  hideCloseButton: false
+  hideCloseButton: false,
+  childParams: {}
 };
