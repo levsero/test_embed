@@ -2,8 +2,8 @@ import _          from 'lodash';
 import superagent from 'superagent';
 
 import { settings } from 'service/settings';
-import { win } from 'utility/globals';
 import { identity } from 'service/identity';
+import { win, location } from 'utility/globals';
 
 let config;
 
@@ -80,7 +80,7 @@ function send(payload) {
   }
 
   superagent(payload.method.toUpperCase(),
-             buildFullUrl(payload.path))
+             buildFullUrl(payload.path, payload.forceHttp))
     .type('json')
     .send(payload.params || {})
     .query(payload.query || {})
@@ -162,8 +162,11 @@ function getImage(payload) {
     });
 }
 
-function buildFullUrl(path) {
-  return config.scheme + '://' + config.zendeskHost + path;
+function buildFullUrl(path, forceHttp = false) {
+  const scheme = forceHttp ? 'http' : config.scheme;
+  const host = forceHttp ? location.host : config.zendeskHost;
+
+  return scheme + '://' + host + path;
 }
 
 function getZendeskHost() {
