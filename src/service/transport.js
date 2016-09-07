@@ -9,7 +9,8 @@ let config;
 
 function init(_config) {
   const defaultConfig = {
-    scheme: 'https'
+    scheme: 'https',
+    insecureScheme: 'http'
   };
 
   config = _.extend(defaultConfig, _config);
@@ -163,7 +164,7 @@ function getImage(payload) {
 }
 
 function buildFullUrl(path, forceHttp = false) {
-  const scheme = forceHttp ? 'http' : config.scheme;
+  const scheme = forceHttp ? config.insecureScheme : config.scheme;
   const host = forceHttp ? location.hostname : config.zendeskHost;
 
   return scheme + '://' + host + path;

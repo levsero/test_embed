@@ -259,12 +259,12 @@ describe('transport', function() {
         urlArg = mockRegistry.superagent.calls.mostRecent().args[1];
       });
 
-      it('should use the http protocol', () => {
+      it('should use the protocol from the config', () => {
         expect(urlArg)
           .toContain(config.scheme);
       });
 
-      it('should use the hostmapped domain', () => {
+      it('should use the zendesk domain from the config', () => {
         expect(urlArg)
           .toContain(config.zendeskHost);
       });
