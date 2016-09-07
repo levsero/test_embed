@@ -279,7 +279,7 @@ parts:
       value: "Request #%(ticketId)s"
   - translation:
       key: "embeddable_framework.automaticAnswers.label.prompt"
-      title: "Prompt for the user to evaluate if the current article answers their question."
+      title: "Prompt for the user to evaluate if the current article answers their question. Please do not use your (possessive). You can translate as: Did this article answer the question? (or similar)"
       screenshot: "https://zendesk.box.com/s/ae6qmra69w1k3jpbjw3zj8lw363xtqpa"
       value: "Did this article answer your question?"
   - translation:
@@ -289,14 +289,14 @@ parts:
       value: "Yes, please close my request"
   - translation:
       key: "embeddable_framework.automaticAnswers.label.success"
-      title: "Confirmation message on a successful ticket update."
+      title: "Confirmation message on a successful ticket update. Please do not use your (possessive). You can translate as: Thanks, this request has been closed. (or similar)"
       screenshot: "https://zendesk.box.com/s/ae6qmra69w1k3jpbjw3zj8lw363xtqpa"
       value: "Thanks, your request has been closed."
   - translation:
       key: "embeddable_framework.automaticAnswers.label.error"
-      title: "Error message on a failed ticket update."
+      title: "Error message on a failed ticket update. You can adapt to culture/language."
       screenshot: "https://zendesk.box.com/s/ae6qmra69w1k3jpbjw3zj8lw363xtqpa"
-      value: "Oops, something went wrong. Please try again."
+      value: "Oops! Something went wrong. Please try again."
 
   # Channel Choice
   - translation:
