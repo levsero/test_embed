@@ -155,6 +155,8 @@ function create(name, config) {
       position: config.position,
       css: helpCenterCSS + generateUserCSS(config.color),
       name: name,
+      offsetHeight: 15,
+      offsetWidth: 15,
       fullscreenable: true,
       transitions: {
         close: transitionFactory.webWidget.downHide(),
@@ -256,6 +258,7 @@ function render(name) {
   const element = getDocumentHost().appendChild(document.createElement('div'));
 
   helpCenters[name].instance = ReactDOM.render(helpCenters[name].component, element);
+  console.log(helpCenters[name].instance.getChild())
 
   mediator.channel.subscribe(name + '.show', function(options = {}) {
     if (useMouseDistanceContexualSearch && options.viaActivate) {

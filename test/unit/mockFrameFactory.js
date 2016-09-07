@@ -15,40 +15,42 @@ const mockFrameFactory = jasmine.createSpy('mockFrameFactory').and.callFake(
       res[key] = val.bind(self);
       return res;
     }, {});
-    const Component = React.createClass({
+    class Component extends React.Component {
       setHighlightColor() {
         this.setState({
           css: 'setHighlightColorCSS { background-color: red; }'
         });
-      },
+      }
 
-      render: function() {
+      render() {
         return (childFn(childParams));
       }
-    });
+    };
 
     const child = domRender(<Component />);
 
-    return _.extend({
-      show: mockFrameMethods.show,
-      hide: mockFrameMethods.hide,
-      setHighlightColor: mockFrameMethods.setHighlightColor,
-      componentDidUpdate: mockFrameMethods.componentDidUpdate,
-      close: function(options = {}) {
-        params.onClose(this, options);
-      },
-      getChild: function() {
-        return child;
-      },
-      getRootComponent: function() {
-        return child.refs.rootComponent;
-      },
-      render: function() {
-        return (
-          <div ref='frame' className='mock-frame'><Component /></div>
-        );
-      }
-    }, params.extend);
+    return React.createClass(
+      _.extend({
+        show: mockFrameMethods.show,
+        hide: mockFrameMethods.hide,
+        setHighlightColor: mockFrameMethods.setHighlightColor,
+        componentDidUpdate: mockFrameMethods.componentDidUpdate,
+        close(options = {}) {
+          params.onClose(this, options);
+        },
+        getChild() {
+          return child;
+        },
+        getRootComponent() {
+          return child.refs.rootComponent;
+        },
+        render() {
+          return (
+            <div ref='frame' className='mock-frame'><Component /></div>
+          );
+        }
+      }, params.extend)
+    )
   }
 );
 

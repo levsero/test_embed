@@ -151,6 +151,8 @@ function create(name, config) {
       frameStyle: frameStyle,
       css: submitTicketCSS + generateUserCSS(config.color),
       position: config.position,
+      offsetHeight: 15,
+      offsetWidth: 15,
       fullscreenable: true,
       transitions: {
         close: transitionFactory.webWidget.downHide(),

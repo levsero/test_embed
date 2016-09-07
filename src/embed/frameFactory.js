@@ -61,8 +61,8 @@ export const frameFactory = function(childFn, _params) {
     transitions: {},
     isMobile: isMobileBrowser(),
     disableSetOffsetHorizontal: false,
-    offsetWidth: 15,
-    offsetHeight: 15,
+    offsetWidth: 0,
+    offsetHeight: 0,
     position: 'right'
   };
   const params = _.extend({}, defaultParams, _params);
@@ -113,6 +113,7 @@ export const frameFactory = function(childFn, _params) {
     setOffsetHorizontal(offsetValue = 0) {
       if (!params.disableSetOffsetHorizontal) {
         ReactDOM.findDOMNode(this).style.marginLeft = `${offsetValue}px`;
+        ReactDOM.findDOMNode(this).style.marginRight = `${offsetValue}px`;
       }
     }
 
