@@ -281,6 +281,10 @@ export class HelpCenter extends Component {
     this.refs.helpCenterMobile.resetState();
   }
 
+  showNextButton(value) {
+    this.setState({ showNextButton: value });
+  }
+
   handleArticleClick(articleIndex, e) {
     e.preventDefault();
 

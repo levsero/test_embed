@@ -289,15 +289,15 @@ function render(name) {
     updateHelpCenterButton(name, `submitTicket.${buttonLabelKey}`);
   });
 
-  mediator.channel.subscribe(name + '.showNextButton', function(backButton = true) {
+  mediator.channel.subscribe(name + '.showNextButton', function(nextButton = true) {
     waitForRootComponent(name, () => {
-      getRootComponent(name).setState({ showNextButton: backButton });
+      getRootComponent(name).showNextButton(nextButton);
     });
   });
 
-  mediator.channel.subscribe(name + '.showBackButton', function(backButton = true) {
+  mediator.channel.subscribe(name + '.showBackButton', function() {
     get(name).instance.getChild().setState({
-      showBackButton: backButton
+      showBackButton: true
     });
   });
 
