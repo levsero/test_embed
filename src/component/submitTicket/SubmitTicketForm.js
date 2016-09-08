@@ -32,7 +32,8 @@ export class SubmitTicketForm extends Component {
 
     this.state = _.extend(initialState, {
       buttonMessage: i18n.t(buttonMessageString),
-      cancelButtonMessage: i18n.t(cancelButtonMessageString)
+      cancelButtonMessage: i18n.t(cancelButtonMessageString),
+      isValid: props.previewEnabled
     });
   }
 
@@ -109,6 +110,11 @@ export class SubmitTicketForm extends Component {
   }
 
   handleSubmit(e) {
+    if (this.props.previewEnabled) {
+      e.preventDefault();
+      return;
+    }
+
     const isFormValid = this.state.isValid;
 
     if (isFormValid) {
@@ -204,21 +210,24 @@ export class SubmitTicketForm extends Component {
         <Field
           placeholder={i18n.t('embeddable_framework.submitTicket.field.name.label')}
           value={formState.name}
-          name='name' />
+          name='name'
+          disabled={this.props.previewEnabled} />
         <Field
           placeholder={i18n.t('embeddable_framework.form.field.email.label')}
           type='email'
           required={true}
           pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?" // eslint-disable-line
           value={formState.email}
-          name='email' />
+          name='email'
+          disabled={this.props.previewEnabled} />
         {customFields.fields}
         <Field
           placeholder={i18n.t('embeddable_framework.submitTicket.field.description.label')}
           required={true}
           value={formState.description}
           name='description'
-          input={<textarea rows='5' />} />
+          input={<textarea rows='5' />}
+          disabled={this.props.previewEnabled} />
         {customFields.checkboxes}
         {this.props.children}
       </div>
@@ -304,7 +313,8 @@ SubmitTicketForm.propTypes = {
   attachmentSender: PropTypes.func.isRequired,
   attachmentsEnabled: PropTypes.bool,
   maxFileCount: PropTypes.number,
-  maxFileSize: PropTypes.number
+  maxFileSize: PropTypes.number,
+  previewEnabled: PropTypes.bool
 };
 
 SubmitTicketForm.defaultProps = {
@@ -314,5 +324,6 @@ SubmitTicketForm.defaultProps = {
   onCancel: () => {},
   attachmentsEnabled: false,
   maxFileCount: 5,
-  maxFileSize: 5 * 1024 * 1024
+  maxFileSize: 5 * 1024 * 1024,
+  previewEnabled: false
 };

@@ -8,7 +8,8 @@ import { ButtonNav } from 'component/button/ButtonNav';
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
 import { settings } from 'service/settings';
-import { generateNpsCSS } from 'utility/color';
+import { generateNpsCSS,
+         generateWebWidgetPreviewCSS } from 'utility/color';
 import { getZoomSizingRatio,
          isMobileBrowser,
          isFirefox } from 'utility/devices';
@@ -63,7 +64,8 @@ export const frameFactory = function(childFn, _params) {
     transitions: {},
     isMobile: isMobileBrowser(),
     disableSetOffsetHorizontal: false,
-    position: 'right'
+    position: 'right',
+    preventClose: false
   };
   const params = _.extend({}, defaultParams, _params);
 
@@ -233,7 +235,6 @@ export const frameFactory = function(childFn, _params) {
     },
 
     hide(options = {}) {
-
       if (params.transitions[options.transition] && !isFirefox()) {
         const transition = params.transitions[options.transition];
 
@@ -255,6 +256,8 @@ export const frameFactory = function(childFn, _params) {
     },
 
     close(ev, options = {}) {
+      if (params.preventClose) return;
+
       // ev.touches added for automation testing mobile browsers
       // which is firing 'click' event on iframe close
       if (params.isMobile && ev.touches) {
@@ -287,6 +290,10 @@ export const frameFactory = function(childFn, _params) {
 
     setHighlightColor: function(color) {
       this.getChild().setHighlightColor(color);
+    },
+
+    setButtonColor(color) {
+      this.getChild().setButtonColor(color);
     },
 
     computeIframeStyle: function() {
@@ -399,6 +406,16 @@ export const frameFactory = function(childFn, _params) {
 
           setHighlightColor(color) {
             const cssClasses = generateNpsCSS({ color: color });
+
+            if (cssClasses) {
+              this.setState({
+                css: cssClasses
+              });
+            }
+          },
+
+          setButtonColor(color) {
+            const cssClasses = generateWebWidgetPreviewCSS(color);
 
             if (cssClasses) {
               this.setState({

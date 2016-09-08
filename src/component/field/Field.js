@@ -98,7 +98,8 @@ export class Field extends Component {
       required: this.props.required,
       label: this.props.label,
       type: this.props.type,
-      step: this.props.step
+      step: this.props.step,
+      disabled: this.props.disabled
     };
 
     if (isIos()) {
@@ -200,7 +201,8 @@ Field.propTypes = {
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
   step: PropTypes.string,
-  pattern: PropTypes.string
+  pattern: PropTypes.string,
+  disabled: PropTypes.bool
 };
 
 Field.defaultProps = {
@@ -216,5 +218,6 @@ Field.defaultProps = {
   onBlur: () => {},
   onChange: () => {},
   step: '',
-  pattern: ''
+  pattern: '',
+  disabled: false
 };

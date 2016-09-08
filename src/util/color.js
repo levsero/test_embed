@@ -83,6 +83,25 @@ function generateNpsCSS(params) {
   }
 }
 
+function generateWebWidgetPreviewCSS(color) {
+  if (validSettingsColor()) {
+    color = validSettingsColor();
+  }
+
+  const highlightColor = generateHighlightColor(color);
+
+  return (`
+    .u-userBackgroundColor:not([disabled]) {
+      background-color: ${color} !important;
+    }
+    .u-userBackgroundColor:not([disabled]):hover,
+    .u-userBackgroundColor:not([disabled]):active,
+    .u-userBackgroundColor:not([disabled]):focus {
+      background-color: ${highlightColor} !important;
+    }
+  `);
+}
+
 function validSettingsColor() {
   const settingsColor = settings.get('color.theme');
 
@@ -124,5 +143,6 @@ function generateHighlightColor(colorStr) {
 export {
   generateNpsCSS,
   generateUserCSS,
+  generateWebWidgetPreviewCSS,
   validSettingsColor
 };
