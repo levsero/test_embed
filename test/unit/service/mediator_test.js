@@ -1303,10 +1303,6 @@ describe('mediator', function() {
         jasmine.clock().install();
       });
 
-      afterEach(() => {
-        jasmine.clock().uninstall();
-      });
-
       it('should open to chat if it is online', () => {
         c.broadcast(`${chat}.onOffline`);
         c.broadcast(`${chat}.onOnline`);
@@ -1678,10 +1674,6 @@ describe('mediator', function() {
         jasmine.clock().install();
       });
 
-      afterEach(() => {
-        jasmine.clock().uninstall();
-      });
-
       it('should open to help center', () => {
         c.broadcast(`${launcher}.onClick`);
         jasmine.clock().tick(0);
@@ -1700,10 +1692,6 @@ describe('mediator', function() {
       beforeEach(() => {
         mediator.init({ submitTicket: false, helpCenter: true });
         jasmine.clock().install();
-      });
-
-      afterEach(() => {
-        jasmine.clock().uninstall();
       });
 
       it('should open to help center', () => {
@@ -1927,10 +1915,6 @@ describe('mediator', function() {
     beforeEach(() => {
       initSubscriptionSpies(names);
       jasmine.clock().install();
-    });
-
-    afterEach(() => {
-      jasmine.clock().uninstall();
     });
 
     describe('when contact form is suppressed', () => {

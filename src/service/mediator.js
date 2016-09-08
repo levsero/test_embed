@@ -246,11 +246,8 @@ function init(embedsAccessible, params = {}) {
         if (!state[`${launcher}.userHidden`] &&
             !state['identify.pending'] &&
             !state['nps.isVisible'] &&
-            !state['ipm.isVisible'] && (
-              submitTicketAvailable() ||
-              chatAvailable() ||
-              helpCenterAvailable()
-            )) {
+            !state['ipm.isVisible'] &&
+            embedAvailable()) {
           c.broadcast(`${launcher}.show`);
         }
       }, 3000);
