@@ -95,8 +95,10 @@ describe('embed.helpCenter', function() {
         frameFactory: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameFactory
       },
       'utility/devices': {
+        setScaleLock: noop,
         isMobileBrowser: () => mockIsMobileBrowser,
-        isIE: () => mockIsIE
+        isIE: () => mockIsIE,
+        getZoomSizingRatio: noop
       },
       'utility/mouse': {
         mouse: {
@@ -107,7 +109,6 @@ describe('embed.helpCenter', function() {
         generateUserCSS: jasmine.createSpy().and.returnValue('')
       },
       'utility/utils': {
-        setScaleLock: noop,
         getPageKeywords: jasmine.createSpy().and.returnValue('foo bar'),
         cappedIntervalCall: (callback) => { callback(); }
       },

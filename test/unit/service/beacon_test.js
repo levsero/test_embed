@@ -53,9 +53,6 @@ describe('beacon', function() {
           return {
             href: 'http://document.referrer'
           };
-        },
-        getFrameworkLoadTime: function() {
-          return 200;
         }
       },
       'utility/pages': {
@@ -208,7 +205,14 @@ describe('beacon', function() {
     });
   });
 
-  describe('#sendPageView', function() {
+  fdescribe('#sendPageView', function() {
+    const loadTime = 200;
+
+    beforeEach(() => {
+      spyOn(beacon, 'getFrameworkLoadTime')
+        .and.callFake(() => loadTime);
+    });
+
     it('sends correct payload using transport.send', function() {
       const mockTransport = mockRegistry['service/transport'];
       const mockGlobals = mockRegistry['utility/globals'];
@@ -244,7 +248,7 @@ describe('beacon', function() {
         .toBeDefined();
 
       expect(params.pageView.loadTime)
-        .toBe(mockUtils.getFrameworkLoadTime());
+        .toBe(loadTime);
 
       expect(params.pageView.helpCenterDedup)
         .toBe(mockPages.isOnHelpCenterPage());

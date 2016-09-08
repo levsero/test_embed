@@ -38,27 +38,6 @@ const sendPageView = () => {
   transport.sendWithMeta(payload);
 };
 
-const getFrameworkLoadTime = () => {
-  let entry;
-  const now = Date.now();
-  let loadTime = document.t ? now - document.t : undefined;
-
-  // https://bugzilla.mozilla.org/show_bug.cgi?id=1045096
-  try {
-    if ('performance' in window && 'getEntries' in window.performance) {
-      entry = _.find(window.performance.getEntries(), function(entry) {
-        return entry.name.indexOf('main.js') !== -1;
-      });
-
-      if (entry && entry.duration) {
-        loadTime = entry.duration;
-      }
-    }
-  } catch (e) {}
-
-  return loadTime >= 0 ? loadTime : undefined;
-};
-
 function init() {
   const now = Date.now();
 
@@ -145,10 +124,33 @@ function identify(user) {
   transport.sendWithMeta(payload);
 }
 
+function getFrameworkLoadTime() {
+  let entry;
+  const now = Date.now();
+  let loadTime = document.t ? now - document.t : undefined;
+
+  // https://bugzilla.mozilla.org/show_bug.cgi?id=1045096
+  try {
+    if ('performance' in window && 'getEntries' in window.performance) {
+      entry = _.find(window.performance.getEntries(), function(entry) {
+        return entry.name.indexOf('main.js') !== -1;
+      });
+
+      if (entry && entry.duration) {
+        loadTime = entry.duration;
+      }
+    }
+  } catch (e) {}
+
+  debugger
+  return loadTime >= 0 ? loadTime : undefined;
+}
+
 export const beacon = {
   init: init,
   trackUserAction: trackUserAction,
   trackSettings: trackSettings,
   identify: identify,
-  sendConfigLoadTime: sendConfigLoadTime
+  sendConfigLoadTime: sendConfigLoadTime,
+  getFrameworkLoadTime: getFrameworkLoadTime
 };

@@ -1,10 +1,13 @@
 /* eslint max-len:0 */
 describe('devices', function() {
-  let isBlacklisted;
-  let isLandscape;
-  let getDeviceZoom;
-  let getZoomSizingRatio;
-  let isDevice;
+  let isBlacklisted,
+    isLandscape,
+    getDeviceZoom,
+    getZoomSizingRatio,
+    isDevice,
+    setScaleLock,
+    metaStringToObj,
+    metaTag;
   const mockGlobals = {
     win: {
       innerWidth: 1,
@@ -19,15 +22,24 @@ describe('devices', function() {
     },
     navigator: {
       userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.122 Safari/537.36'
-    }
+    },
+    document: document
   };
   const devicesPath = buildSrcPath('util/devices');
 
   beforeEach(function() {
-    mockery.enable();
+    resetDOM();
+
+    mockery.enable({
+      useCleanCache: true
+    });
+
+    mockGlobals.document = document;
+    mockGlobals.document.title = 'Utils tests';
 
     initMockRegistry({
-      'utility/globals': mockGlobals
+      'utility/globals': mockGlobals,
+      'lodash': _
     });
 
     const win = mockGlobals.win;
@@ -44,6 +56,11 @@ describe('devices', function() {
     getDeviceZoom = requireUncached(devicesPath).getDeviceZoom;
     getZoomSizingRatio = requireUncached(devicesPath).getZoomSizingRatio;
     isDevice = requireUncached(devicesPath).isDevice;
+    setScaleLock = requireUncached(devicesPath).setScaleLock;
+    metaStringToObj = requireUncached(devicesPath).metaStringToObj;
+
+    metaTag = document.createElement('meta');
+    metaTag.name = 'viewport';
   });
 
   afterEach(function() {
@@ -172,6 +189,105 @@ describe('devices', function() {
         expect(getZoomSizingRatio())
           .toBeCloseTo(2, 4);
       });
+    });
+  });
+
+  describe('setScaleLock(true)', function() {
+    it('adds a <meta name="viewport" /> tag if one does not exist', function() {
+      expect(document.querySelectorAll('meta[name="viewport"]').length)
+        .toEqual(0);
+
+      setScaleLock(true);
+
+      expect(document.querySelectorAll('meta[name="viewport"]').length)
+        .toEqual(1);
+    });
+
+    it('does not add a <meta name="viewport" /> tag if one exists', function() {
+      document.head.appendChild(metaTag);
+
+      expect(document.querySelectorAll('meta[name="viewport"]').length)
+        .toEqual(1);
+
+      setScaleLock(true);
+
+      expect(document.querySelectorAll('meta[name="viewport"]').length)
+        .toEqual(1);
+    });
+
+    it('adds a "user-scalable" key/value to existing <meta name="viewport" /> if it does not exist', function() {
+      metaTag.content = 'initial-scale=1.0';
+      document.head.appendChild(metaTag);
+
+      setScaleLock(true);
+
+      const viewportContent = metaStringToObj(metaTag.content);
+
+      expect(viewportContent['user-scalable'])
+        .toEqual('no');
+
+      expect(viewportContent['initial-scale'])
+        .toEqual('1.0');
+    });
+
+    it('sets `user-scalable` to "No" if `user-scalable` does not exist', function() {
+      metaTag.content = '';
+      document.head.appendChild(metaTag);
+
+      setScaleLock(true);
+
+      const viewportContent = metaStringToObj(metaTag.content);
+
+      expect(viewportContent['user-scalable'])
+        .toEqual('no');
+    });
+  });
+
+  describe('setScaleLock(false)', function() {
+    beforeEach(() => {
+      getZoomSizingRatio = jasmine.createSpy('getZoomSizingRatio').and.returnValue(1);
+    });
+
+    it('does not add a <meta name="viewport" /> tag if one does not exist', function() {
+      expect(document.querySelectorAll('meta[name="viewport"]').length)
+        .toEqual(0);
+
+      setScaleLock(false);
+
+      expect(document.querySelectorAll('meta[name="viewport"]').length)
+        .toEqual(0);
+    });
+
+    it('resets user-scalable if `originalUserScalable` does exist', function() {
+      metaTag.content = 'user-scalable=NO_CHANGE';
+      document.head.appendChild(metaTag);
+
+      setScaleLock(true);
+
+      const viewportContentBefore = metaStringToObj(metaTag.content);
+
+      expect(viewportContentBefore['user-scalable'])
+        .toEqual('no');
+
+      setScaleLock(false);
+
+      const viewportContentAfter = metaStringToObj(metaTag.content);
+
+      expect(viewportContentAfter['user-scalable'])
+        .toEqual('NO_CHANGE');
+    });
+
+    it('unsets `user-scalable` if `originalUserScalable` is null', function() {
+      document.head.appendChild(metaTag);
+
+      setScaleLock(false);
+
+      const viewportContent = metaStringToObj(metaTag.content);
+
+      expect(viewportContent['original-user-scalable'])
+        .toBeUndefined();
+      expect(viewportContent['user-scalable'])
+        .toBeUndefined();
     });
   });
 });

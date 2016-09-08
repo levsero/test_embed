@@ -140,6 +140,21 @@ function setScaleLock(active) {
   }
 }
 
+function metaStringToObj(str) {
+  if (_.isEmpty(str)) {
+    return {};
+  } else {
+    return _.chain(str.split(','))
+      .reduce(function(res, item) {
+        const pair = item.trim().split('=');
+
+        res[pair[0]] = pair[1];
+        return res;
+      }, {})
+      .value();
+  }
+}
+
 const initViewportMeta = (active) => {
   const viewportMetas = doc.querySelectorAll('meta[name="viewport"]');
 
@@ -152,21 +167,6 @@ const initViewportMeta = (active) => {
     newViewportMeta.setAttribute('content', '');
     doc.head.appendChild(newViewportMeta);
     return newViewportMeta;
-  }
-};
-
-const metaStringToObj = (str) => {
-  if (_.isEmpty(str)) {
-    return {};
-  } else {
-    return _.chain(str.split(','))
-      .reduce(function(res, item) {
-        const pair = item.trim().split('=');
-
-        res[pair[0]] = pair[1];
-        return res;
-      }, {})
-      .value();
   }
 };
 
@@ -190,6 +190,7 @@ export {
   isDevice,
   clickBusterHandler,
   clickBusterRegister,
-  setScaleLock
+  setScaleLock,
+  metaStringToObj
 };
 

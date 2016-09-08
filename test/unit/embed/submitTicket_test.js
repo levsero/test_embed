@@ -2,6 +2,8 @@ describe('embed.submitTicket', function() {
   let submitTicket,
     mockRegistry,
     mockSettingsValue,
+    mockIsMobileBrowserValue,
+    mockIsIEValue,
     frameConfig;
   const resetTicketFormVisibility = jasmine.createSpy();
   const hideVirtualKeyboard = jasmine.createSpy();
@@ -15,6 +17,8 @@ describe('embed.submitTicket', function() {
     mockery.enable();
 
     mockSettingsValue = false;
+    mockIsMobileBrowserValue = false;
+    mockIsIEValue = false;
 
     mockRegistry = initMockRegistry({
       'React': React,
@@ -72,7 +76,6 @@ describe('embed.submitTicket', function() {
         frameMethods: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
       },
       'utility/utils': {
-        setScaleLock: jasmine.createSpy('setScaleLock'),
         setScrollKiller: jasmine.createSpy(),
         setWindowScroll: jasmine.createSpy(),
         revertWindowScroll: jasmine.createSpy()
@@ -81,12 +84,10 @@ describe('embed.submitTicket', function() {
         generateUserCSS: jasmine.createSpy().and.returnValue('')
       },
       'utility/devices': {
-        isMobileBrowser: function() {
-          return false;
-        },
-        isIE: function() {
-          return false;
-        }
+        isMobileBrowser: () => mockIsMobileBrowserValue,
+        isIE: () => mockIsIEValue,
+        setScaleLock: jasmine.createSpy('setScaleLock'),
+        getZoomSizingRatio: noop
       },
       'utility/globals': {
         document: global.document,
@@ -199,14 +200,7 @@ describe('embed.submitTicket', function() {
       });
 
       it('should call focusField in afterShowAnimate for IE browser', function() {
-        mockery.registerMock('utility/devices', {
-          isMobileBrowser: function() {
-            return false;
-          },
-          isIE: function() {
-            return true;
-          }
-        });
+        mockIsIEValue = true;
 
         submitTicket = requireUncached(submitTicketPath).submitTicket;
         submitTicket.create('bob', frameConfig);
@@ -224,13 +218,9 @@ describe('embed.submitTicket', function() {
       });
 
       it('should toggle setScaleLock with onShow/onHide', function() {
-        const mockSetScaleLock = mockRegistry['utility/utils'].setScaleLock;
+        const mockSetScaleLock = mockRegistry['utility/devices'].setScaleLock;
 
-        mockery.registerMock('utility/devices', {
-          isMobileBrowser: function() {
-            return true;
-          }
-        });
+        mockIsMobileBrowserValue = true;
 
         submitTicket = requireUncached(submitTicketPath).submitTicket;
         submitTicket.create('bob', frameConfig);
@@ -270,11 +260,7 @@ describe('embed.submitTicket', function() {
       });
 
       it('should hide virtual keyboard onHide', function() {
-        mockery.registerMock('utility/devices', {
-          isMobileBrowser: function() {
-            return true;
-          }
-        });
+        mockIsMobileBrowserValue = true;
 
         submitTicket = requireUncached(submitTicketPath).submitTicket;
         submitTicket.create('bob', frameConfig);

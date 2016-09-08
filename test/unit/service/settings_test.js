@@ -12,6 +12,9 @@ describe('settings', () => {
         win: {
           zESettings: {}
         }
+      },
+      'utility/utils': {
+        objectDifference: noop
       }
     });
     defaults = {
