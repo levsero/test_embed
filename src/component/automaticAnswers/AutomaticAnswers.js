@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react';
-import { getURLParameterByName } from 'utility/pages';
-import { i18n } from 'service/i18n';
+
 import { AutomaticAnswersDesktop } from 'component/automaticAnswers/AutomaticAnswersDesktop';
+import { i18n } from 'service/i18n';
+import { getURLParameterByName } from 'utility/pages';
 import { bindMethods } from 'utility/utils';
 
 export class AutomaticAnswers extends Component {

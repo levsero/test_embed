@@ -28,10 +28,9 @@ describe('AutomaticAnswersDesktop component', () => {
   });
 
   describe('handleSolveClick', () => {
-    const e = { preventDefault: noop };
+    const e = { preventDefault: jasmine.createSpy() };
 
     beforeEach(() => {
-      spyOn(e, 'preventDefault');
       component.handleSolveClick(e);
     });
 
