@@ -1,10 +1,8 @@
 import _ from 'lodash';
 
-import { mediator } from 'service/mediator';
 import { win,
          navigator,
          document as doc } from 'utility/globals';
-import { every } from 'lodash';
 
 let clickBusterClicks = [];
 let originalUserScalable = null;
@@ -44,7 +42,7 @@ function isIos() {
 function isDevice(...testStrings) {
   const str = navigator.userAgent;
 
-  return every(testStrings, (string) => {
+  return _.every(testStrings, (string) => {
     return (str.indexOf(string) !== -1);
   });
 }
@@ -129,10 +127,6 @@ function setScaleLock(active) {
         originalUserScalable = viewportObj['user-scalable'];
         viewportObj['user-scalable'] = 'no';
       }
-
-      setTimeout(function() {
-        mediator.channel.broadcast('.updateZoom', getZoomSizingRatio());
-      }, 0);
     } else {
       if (originalUserScalable === null) {
         delete viewportObj['user-scalable'];

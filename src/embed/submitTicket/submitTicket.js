@@ -8,7 +8,8 @@ import { SubmitTicket } from 'component/submitTicket/SubmitTicket';
 import { frameFactory } from 'embed/frameFactory';
 import { isMobileBrowser,
          isIE,
-         setScaleLock } from 'utility/devices';
+         setScaleLock,
+         getZoomSizingRatio } from 'utility/devices';
 import { beacon } from 'service/beacon';
 import { transitionFactory } from 'service/transitionFactory';
 import { mediator } from 'service/mediator';
@@ -113,6 +114,9 @@ function create(name, config) {
     if (rootComponent) {
       if (isMobileBrowser()) {
         setScaleLock(true);
+        setTimeout(() => {
+          mediator.channel.broadcast('.updateZoom', getZoomSizingRatio());
+        }, 0);
       } else {
         rootComponent.refs.submitTicketForm.focusField();
       }

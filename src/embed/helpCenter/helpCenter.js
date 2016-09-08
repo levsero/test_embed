@@ -14,7 +14,8 @@ import { transitionFactory } from 'service/transitionFactory';
 import { generateUserCSS } from 'utility/color';
 import { isIE,
          isMobileBrowser,
-         setScaleLock } from 'utility/devices';
+         setScaleLock,
+         getZoomSizingRatio } from 'utility/devices';
 import { document,
          getDocumentHost,
          location } from 'utility/globals';
@@ -69,6 +70,9 @@ function create(name, config) {
     if (rootComponent) {
       if (isMobileBrowser()) {
         setScaleLock(true);
+        setTimeout(() => {
+          mediator.channel.broadcast('.updateZoom', getZoomSizingRatio());
+        }, 0);
       } else {
         rootComponent.focusField();
       }
