@@ -17,6 +17,7 @@ const mockFrameFactory = jasmine.createSpy('mockFrameFactory').and.callFake(
       res[key] = val.bind(self);
       return res;
     }, {});
+
     class Component extends React.Component {
       setHighlightColor() {
         this.setState({
@@ -27,7 +28,7 @@ const mockFrameFactory = jasmine.createSpy('mockFrameFactory').and.callFake(
       render() {
         return (childFn(childParams));
       }
-    };
+    }
 
     const child = domRender(<Component />);
 
@@ -54,7 +55,7 @@ const mockFrameFactory = jasmine.createSpy('mockFrameFactory').and.callFake(
           );
         }
       }, params.extend)
-    )
+    );
   }
 );
 

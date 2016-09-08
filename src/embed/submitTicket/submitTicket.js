@@ -124,6 +124,8 @@ function create(name, config) {
     containerStyle = { width: '100%', height: '100%' };
   } else {
     frameStyle.width = 342;
+    frameStyle.marginLeft = 15;
+    frameStyle.marginRight = 15;
     containerStyle = { width: 342 };
   }
 

@@ -122,6 +122,8 @@ function create(name, config) {
   } else {
     frameStyle.width = 342;
     frameStyle.maxHeight = 500;
+    frameStyle.marginLeft = 15;
+    frameStyle.marginRight = 15;
     containerStyle = { width: 342 };
   }
 
@@ -258,7 +260,6 @@ function render(name) {
   const element = getDocumentHost().appendChild(document.createElement('div'));
 
   helpCenters[name].instance = ReactDOM.render(helpCenters[name].component, element);
-  console.log(helpCenters[name].instance.getChild())
 
   mediator.channel.subscribe(name + '.show', function(options = {}) {
     if (useMouseDistanceContexualSearch && options.viaActivate) {

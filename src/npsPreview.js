@@ -59,7 +59,7 @@ const renderNps = (locale, elem) => {
     }, 1500);
   };
 
-  const Embed = React.createClass(frameFactory(
+  const Embed = frameFactory(
     (params) => {
       return (
         <Nps
@@ -72,7 +72,7 @@ const renderNps = (locale, elem) => {
       );
     },
     frameParams
-  ));
+  );
 
   nps = ReactDOM.render(<Embed />, elem);
 

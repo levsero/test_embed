@@ -566,10 +566,9 @@ describe('frameFactory', function() {
         let instance;
 
         beforeEach(() => {
-          const payload = frameFactory(mockChildFn, {
+          const Embed = frameFactory(mockChildFn, {
             onClose: mockOnClose
           });
-          const Embed = React.createClass(payload);
 
           instance = domRender(<Embed />);
         });
@@ -595,11 +594,10 @@ describe('frameFactory', function() {
           mockEvent;
 
         beforeEach(() => {
-          const payload = frameFactory(mockChildFn, {
+          const Embed = frameFactory(mockChildFn, {
             isMobile: true,
             onClose: mockOnClose
           });
-          const Embed = React.createClass(payload);
 
           mockEvent = {
             touches: [{ clientX: 1, clientY: 1 }]
@@ -646,11 +644,10 @@ describe('frameFactory', function() {
       let instance;
 
       beforeEach(() => {
-        const payload = frameFactory(mockChildFn, {
+        const Embed = frameFactory(mockChildFn, {
           preventClose: true,
           onClose: mockOnClose
         });
-        const Embed = React.createClass(payload);
 
         instance = domRender(<Embed />);
       });

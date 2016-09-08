@@ -63,8 +63,8 @@ export class NpsDesktop extends Component {
     const hideZendeskLogo = this.props.hideZendeskLogo;
     const hideRatingsLegend = this.state.currentPage.addingComment;
     const containerStyles = this.state.currentPage.thankYou
-                          ? {width: 400, margin: 15}
-                          : {width: 620, margin: 15};
+                          ? { width: 400 }
+                          : { width: 620 };
 
     setTimeout(() => {
       if (this.props.setOffsetHorizontal && this.state.currentPage.thankYou) {

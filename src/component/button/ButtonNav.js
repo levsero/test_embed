@@ -8,13 +8,11 @@ export class ButtonNav extends Component {
     const isRight = (position === 'right');
     const buttonClasses = classNames({
       'Button Button--nav u-posAbsolute u-posStart--vertFlush': true,
-      'u-posStart u-paddingL': isLeft && !rtl,
-      'u-posEnd': isLeft && rtl,
-      'u-posEnd--flush': (isLeft && rtl && fullscreen) || (isRight && !rtl && fullscreen),
+      'u-posStart--flush u-paddingL': isLeft && !rtl,
+      'u-posEnd--flush': isLeft && rtl,
       'u-isActionable u-textSizeBaseMobile': fullscreen,
-      'u-posEnd u-paddingR': isRight && !rtl,
-      'u-posStart': isRight && rtl,
-      'u-posStart--flush': (isRight && rtl && fullscreen) || (isLeft && !rtl && fullscreen),
+      'u-posEnd--flush u-paddingR': isRight && !rtl,
+      'u-posStart--flush': isRight && rtl,
       'u-flipText': rtl
     });
 
