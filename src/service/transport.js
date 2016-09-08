@@ -2,14 +2,15 @@ import _          from 'lodash';
 import superagent from 'superagent';
 
 import { settings } from 'service/settings';
-import { win } from 'utility/globals';
 import { identity } from 'service/identity';
+import { location } from 'utility/globals';
 
 let config;
 
 function init(_config) {
   const defaultConfig = {
-    scheme: 'https'
+    scheme: 'https',
+    insecureScheme: 'http'
   };
 
   config = _.extend(defaultConfig, _config);
@@ -61,7 +62,7 @@ function send(payload) {
           }
         };
 
-        const loadNPS = win.location.hash === '#zd-testNps';
+        const loadNPS = location.hash === '#zd-testNps';
 
         // change body to npsSurvey to test eNPS
         payload.callbacks.done({
@@ -80,7 +81,7 @@ function send(payload) {
   }
 
   superagent(payload.method.toUpperCase(),
-             buildFullUrl(payload.path))
+             buildFullUrl(payload.path, payload.forceHttp))
     .type('json')
     .send(payload.params || {})
     .query(payload.query || {})
@@ -103,7 +104,7 @@ function send(payload) {
 
 function sendWithMeta(payload) {
   const commonParams = {
-    url: win.location.href,
+    url: location.href,
     buid: identity.getBuid(),
     suid: identity.getSuid().id || null,
     version: config.version,
@@ -162,8 +163,11 @@ function getImage(payload) {
     });
 }
 
-function buildFullUrl(path) {
-  return config.scheme + '://' + config.zendeskHost + path;
+function buildFullUrl(path, forceHttp = false) {
+  const scheme = forceHttp ? config.insecureScheme : config.scheme;
+  const host = forceHttp ? location.hostname : config.zendeskHost;
+
+  return scheme + '://' + host + path;
 }
 
 function getZendeskHost() {

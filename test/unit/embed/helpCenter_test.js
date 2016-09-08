@@ -5,6 +5,8 @@ describe('embed.helpCenter', function() {
     mockSettingsValue,
     focusField,
     mockIsOnHelpCenterPageValue,
+    mockIsOnHostMappedDomainValue,
+    mockGetTokenValue,
     mockIsMobileBrowser,
     targetCancelHandlerSpy,
     mockIsIE;
@@ -22,6 +24,8 @@ describe('embed.helpCenter', function() {
 
     mockSettingsValue = '';
     mockIsOnHelpCenterPageValue = false;
+    mockIsOnHostMappedDomainValue = false;
+    mockGetTokenValue = null;
     mockIsMobileBrowser = false;
     mockIsIE = false;
 
@@ -109,17 +113,21 @@ describe('embed.helpCenter', function() {
         cappedIntervalCall: (callback) => { callback(); }
       },
       'utility/pages': {
-        isOnHelpCenterPage: () => mockIsOnHelpCenterPageValue
+        isOnHelpCenterPage: () => mockIsOnHelpCenterPageValue,
+        isOnHostMappedDomain: () => mockIsOnHostMappedDomainValue
       },
       'utility/globals': {
         document: global.document,
         getDocumentHost: function() {
           return document.body;
+        },
+        location: {
+          protocol: 'https:'
         }
       },
       'service/authentication' : {
         authentication: {
-          getToken: noop,
+          getToken: () => mockGetTokenValue,
           authenticate: authenticateSpy,
           revoke: revokeSpy
         }
@@ -384,61 +392,114 @@ describe('embed.helpCenter', function() {
     });
   });
 
-  describe('searchSender', function() {
-    it('calls transport.send with regular search endpoint when called', () => {
-      const mockTransport = mockRegistry['service/transport'].transport;
+  describe('search senders', () => {
+    let mockTransport,
+      embed;
+
+    beforeEach(() => {
+      mockTransport = mockRegistry['service/transport'].transport;
 
       helpCenter.create('carlos');
       helpCenter.render('carlos');
 
-      const embed = helpCenter.get('carlos').instance.getRootComponent();
-
-      embed.props.searchSender();
-
-      expect(mockTransport.send)
-        .toHaveBeenCalled();
-
-      const recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
-
-      expect(recentCallArgs.path)
-        .toEqual('/api/v2/help_center/search.json');
+      embed = helpCenter.get('carlos').instance.getRootComponent();
     });
-  });
 
-  describe('contextualSearchSender', function() {
-    it('calls transport.send with contextual search endpoint when called', () => {
-      const mockTransport = mockRegistry['service/transport'].transport;
+    describe('search payload', () => {
+      it('should contain the correct properties', () => {
+        const query = {
+          locale: 'en-US',
+          query: 'help'
+        };
+        const doneFn = () => {};
+        const failFn = () => {};
 
-      helpCenter.create('carlos');
-      helpCenter.render('carlos');
+        embed.props.searchSender(query, doneFn, failFn);
 
-      const embed = helpCenter.get('carlos').instance.getRootComponent();
+        const recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
 
-      embed.props.contextualSearchSender();
+        expect(recentCallArgs)
+          .toEqual({
+            method: 'get',
+            forceHttp: false,
+            path: '/api/v2/help_center/search.json',
+            query: query,
+            authorization: '',
+            callbacks: {
+              done: doneFn,
+              fail: failFn
+            }
+          });
+      });
 
-      const recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
+      describe('when there is an oauth token', () => {
+        beforeEach(() => {
+          mockGetTokenValue = 'abc';
+        });
 
-      expect(recentCallArgs.path)
-        .toEqual('/api/v2/help_center/articles/embeddable_search.json');
+        it('should set the authorization property to the token', () => {
+          embed.props.searchSender();
+
+          const recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
+
+          expect(recentCallArgs.authorization)
+            .toBe('Bearer abc');
+        });
+      });
+
+      describe('when on a host mapped domain and not using SSL', () => {
+        beforeEach(() => {
+          mockIsOnHostMappedDomainValue = true;
+          mockRegistry['utility/globals'].location.protocol = 'http:';
+        });
+
+        it('should set the forceHttp property to true', () => {
+          embed.props.searchSender();
+
+          const recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
+
+          expect(recentCallArgs.forceHttp)
+            .toBe(true);
+        });
+      });
     });
-  });
 
-  describe('restrictedImagesSender', function() {
-    it('calls transport.send with passed in image url when called', () => {
-      const mockTransport = mockRegistry['service/transport'].transport;
+    describe('searchSender', () => {
+      it('calls transport.send with regular search endpoint when called', () => {
+        embed.props.searchSender();
 
-      helpCenter.create('carlos');
-      helpCenter.render('carlos');
+        expect(mockTransport.send)
+          .toHaveBeenCalled();
 
-      const embed = helpCenter.get('carlos').instance.getRootComponent();
-      const url = 'https://url.com/image';
+        const recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
 
-      embed.props.imagesSender(url);
+        expect(recentCallArgs.path)
+          .toEqual('/api/v2/help_center/search.json');
+      });
+    });
 
-      const recentCallArgs = mockTransport.getImage.calls.mostRecent().args[0];
+    describe('contextualSearchSender', () => {
+      it('calls transport.send with contextual search endpoint when called', () => {
+        embed.props.contextualSearchSender();
 
-      expect(recentCallArgs.path)
-        .toEqual(url);
+        const recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
+
+        expect(recentCallArgs.path)
+          .toEqual('/api/v2/help_center/articles/embeddable_search.json');
+      });
+    });
+
+    describe('restrictedImagesSender', () => {
+      it('calls transport.send with passed in image url when called', () => {
+        const url = 'https://url.com/image';
+
+        embed.props.imagesSender(url);
+
+        const recentCallArgs = mockTransport.getImage.calls.mostRecent().args[0];
+
+        expect(recentCallArgs.path)
+          .toEqual(url);
+      });
     });
   });
 

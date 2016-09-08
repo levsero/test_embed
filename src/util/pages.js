@@ -10,6 +10,11 @@ function isOnHelpCenterPage() {
          hcPattern.test(location.pathname);
 }
 
+function isOnHostMappedDomain() {
+  return isOnHelpCenterPage() &&
+         !location.hostname.includes('.zendesk');
+}
+
 function getURLParameterByName(name) {
   const half = location.search.split(`${name}=`)[1];
 
@@ -18,5 +23,6 @@ function getURLParameterByName(name) {
 
 export {
   isOnHelpCenterPage,
+  isOnHostMappedDomain,
   getURLParameterByName
 };

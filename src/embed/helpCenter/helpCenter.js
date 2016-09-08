@@ -15,9 +15,11 @@ import { generateUserCSS } from 'utility/color';
 import { isIE,
          isMobileBrowser } from 'utility/devices';
 import { document,
-         getDocumentHost } from 'utility/globals';
+         getDocumentHost,
+         location } from 'utility/globals';
 import { mouse } from 'utility/mouse';
-import { isOnHelpCenterPage } from 'utility/pages';
+import { isOnHelpCenterPage,
+         isOnHostMappedDomain } from 'utility/pages';
 import { cappedIntervalCall,
          getPageKeywords,
          setScaleLock } from 'utility/utils';
@@ -88,9 +90,11 @@ function create(name, config) {
 
   const senderPayload = (url) => (query, doneFn, failFn) => {
     const token = authentication.getToken();
+    const forceHttp = isOnHostMappedDomain() && location.protocol === 'http:';
 
     return {
       method: 'get',
+      forceHttp: forceHttp,
       path: url,
       query: query,
       authorization: token ? `Bearer ${token}` : '',
