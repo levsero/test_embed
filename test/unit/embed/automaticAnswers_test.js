@@ -235,4 +235,40 @@ describe('embed.automaticAnswers', () => {
       });
     });
   });
+
+  describe('solveTicket', () => {
+    let solveTicket,
+      mostRecent;
+    const mockTicketId = '123456';
+    const mockToken = 'abcdef';
+    const callbacks = {
+      done: () => {},
+      fail: () => {}
+    };
+
+    beforeEach(() => {
+      mockTransport = mockRegistry['service/transport'].transport;
+      automaticAnswers.create('automaticAnswers');
+      automaticAnswers.render();
+
+      solveTicket = automaticAnswers.get().instance.getRootComponent().props.solveTicket;
+      solveTicket(mockTicketId, mockToken, callbacks);
+
+      mostRecent = mockTransport.automaticAnswersApiRequest.calls.mostRecent().args[0];
+    });
+
+    it('sends a correctly configured payload to automaticAnswersApiRequest', () => {
+      expect(mostRecent.path)
+        .toBe(`/requests/automatic-answers/ticket/${mockTicketId}/solve/token/${mockToken}`);
+
+      expect(mostRecent.method)
+        .toEqual('post');
+
+      expect(mostRecent.callbacks.done)
+        .toEqual(callbacks.done);
+
+      expect(mostRecent.callbacks.fail)
+        .toEqual(callbacks.fail);
+    });
+  });
 });

@@ -26,6 +26,7 @@ export class SubmitTicket extends Component {
     bindMethods(this, SubmitTicket.prototype);
 
     this.state = {
+      formTitleKey: props.formTitleKey,
       showNotification: false,
       message: '',
       fullscreen: isMobileBrowser(),
@@ -198,6 +199,10 @@ export class SubmitTicket extends Component {
     this.refs.submitTicketForm.handleOnDrop(files);
   }
 
+  setFormTitleKey(formTitleKey) {
+    this.setState({ formTitleKey });
+  }
+
   render() {
     const notifyClasses = classNames({
       'u-textCenter': true,
@@ -249,12 +254,13 @@ export class SubmitTicket extends Component {
           ref='submitTicketForm'
           hide={this.state.showNotification}
           customFields={this.props.customFields}
-          formTitleKey={this.props.formTitleKey}
+          formTitleKey={this.state.formTitleKey}
           attachmentSender={this.props.attachmentSender}
           attachmentsEnabled={this.props.attachmentsEnabled}
           maxFileCount={this.props.maxFileCount}
           maxFileSize={this.props.maxFileSize}
-          submit={this.handleSubmit}>
+          submit={this.handleSubmit}
+          previewEnabled={this.props.previewEnabled}>
           <p className={errorClasses}>
             {this.state.errorMessage}
           </p>
@@ -269,6 +275,7 @@ SubmitTicket.propTypes = {
   formTitleKey: PropTypes.string.isRequired,
   submitTicketSender: PropTypes.func.isRequired,
   attachmentSender: PropTypes.func.isRequired,
+  previewEnabled: PropTypes.bool,
   updateFrameSize: PropTypes.func,
   hideZendeskLogo: PropTypes.bool,
   customFields: PropTypes.array,
@@ -282,6 +289,7 @@ SubmitTicket.propTypes = {
 };
 
 SubmitTicket.defaultProps = {
+  previewEnabled: false,
   updateFrameSize: () => {},
   hideZendeskLogo: false,
   customFields: [],

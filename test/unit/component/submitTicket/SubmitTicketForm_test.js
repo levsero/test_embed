@@ -257,4 +257,41 @@ describe('SubmitTicketForm component', function() {
         .toHaveBeenCalled();
     });
   });
+
+  describe('when the preview is enabled', () => {
+    let submitTicketForm;
+
+    beforeEach(() => {
+      submitTicketForm = domRender(<SubmitTicketForm submit={onSubmit} previewEnabled={true} />);
+    });
+
+    describe('when submit button is clicked', () => {
+      let mockPreventDefault;
+
+      beforeEach(() => {
+        mockPreventDefault = jasmine.createSpy('preventDefault');
+
+        submitTicketForm.setState({ isValid: true });
+        submitTicketForm.handleSubmit({ preventDefault: mockPreventDefault });
+      });
+
+      it('should call preventDefault', () => {
+        expect(mockPreventDefault)
+          .toHaveBeenCalled();
+      });
+
+      it('should not change the button label', () => {
+        expect(submitTicketForm.state.buttonMessage)
+          .toBe('embeddable_framework.submitTicket.form.submitButton.label.send');
+
+        expect(submitTicketForm.state.isSubmitting)
+          .toBe(false);
+      });
+
+      it('should not call props.submit', () => {
+        expect(onSubmit)
+          .not.toHaveBeenCalled();
+      });
+    });
+  });
 });

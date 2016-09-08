@@ -5,7 +5,8 @@ describe('frameFactory', function() {
     mockChildFn,
     mockSnabbt,
     mockSettingsValue,
-    mockSnabbtThen;
+    mockSnabbtThen,
+    mockClickBusterRegister;
 
   const frameFactoryPath = buildSrcPath('embed/frameFactory');
 
@@ -22,6 +23,7 @@ describe('frameFactory', function() {
     });
 
     mockSettingsValue = { offset: { vertical: 0, horizontal: 0 } };
+    mockClickBusterRegister = jasmine.createSpy('clickBusterRegister');
 
     class MockEmbedWrapper extends React.Component {
       render() {
@@ -36,7 +38,7 @@ describe('frameFactory', function() {
     mockRegistryMocks = {
       'React': React,
       'utility/utils': {
-        clickBusterRegister: noop,
+        clickBusterRegister: mockClickBusterRegister,
         bindMethods: mockBindMethods
       },
       'utility/globals': {
@@ -548,6 +550,124 @@ describe('frameFactory', function() {
           expect(mockSnabbtThen.calls.mostRecent().args[0].callback)
             .not.toThrow();
         });
+      });
+    });
+  });
+
+  describe('close', () => {
+    let mockOnClose;
+
+    beforeEach(() => {
+      mockOnClose = jasmine.createSpy('onClose');
+    });
+
+    describe('when preventClose option is false', () => {
+      describe('when on desktop', () => {
+        let instance;
+
+        beforeEach(() => {
+          const payload = frameFactory(mockChildFn, {
+            onClose: mockOnClose
+          });
+          const Embed = React.createClass(payload);
+
+          instance = domRender(<Embed />);
+        });
+
+        it('should call hide with close transition', () => {
+          spyOn(instance, 'hide');
+          instance.close();
+
+          expect(instance.hide)
+            .toHaveBeenCalledWith({ transition: 'close' });
+        });
+
+        it('should call the onClose handler', () => {
+          instance.close();
+
+          expect(mockOnClose)
+            .toHaveBeenCalled();
+        });
+      });
+
+      describe('when on mobile', () => {
+        let instance,
+          mockEvent;
+
+        beforeEach(() => {
+          const payload = frameFactory(mockChildFn, {
+            isMobile: true,
+            onClose: mockOnClose
+          });
+          const Embed = React.createClass(payload);
+
+          mockEvent = {
+            touches: [{ clientX: 1, clientY: 1 }]
+          };
+          instance = domRender(<Embed />);
+        });
+
+        describe('when there is a touch event', () => {
+          it('should call clickBusterRegister', () => {
+            instance.close(mockEvent);
+
+            expect(mockClickBusterRegister)
+              .toHaveBeenCalledWith(1, 1);
+          });
+        });
+
+        describe('when there is no touch event', () => {
+          it('should not call clickBusterRegister', () => {
+            instance.close({});
+
+            expect(mockClickBusterRegister)
+              .not.toHaveBeenCalledWith();
+          });
+        });
+
+        it('should call hide without the close transition', () => {
+          spyOn(instance, 'hide');
+          instance.close({});
+
+          expect(instance.hide)
+            .toHaveBeenCalled();
+        });
+
+        it('should call the onClose handler', () => {
+          instance.close({});
+
+          expect(mockOnClose)
+            .toHaveBeenCalled();
+        });
+      });
+    });
+
+    describe('when preventClose option is true', () => {
+      let instance;
+
+      beforeEach(() => {
+        const payload = frameFactory(mockChildFn, {
+          preventClose: true,
+          onClose: mockOnClose
+        });
+        const Embed = React.createClass(payload);
+
+        instance = domRender(<Embed />);
+      });
+
+      it('should not call hide with', () => {
+        spyOn(instance, 'hide');
+        instance.close();
+
+        expect(instance.hide)
+          .not.toHaveBeenCalled();
+      });
+
+      it('should call the onClose handler', () => {
+        instance.close();
+
+        expect(mockOnClose)
+          .not.toHaveBeenCalled();
       });
     });
   });

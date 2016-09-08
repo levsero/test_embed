@@ -4,7 +4,8 @@ import classNames from 'classnames';
 import { ButtonNav } from 'component/button/ButtonNav';
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
-import { generateNpsCSS } from 'utility/color';
+import { generateNpsCSS,
+         generateWebWidgetPreviewCSS } from 'utility/color';
 import { bindMethods } from 'utility/utils';
 
 export class EmbedWrapper extends Component {
@@ -21,6 +22,16 @@ export class EmbedWrapper extends Component {
 
   setHighlightColor(color) {
     const cssClasses = generateNpsCSS({ color: color });
+
+    if (cssClasses) {
+      this.setState({
+        css: cssClasses
+      });
+    }
+  }
+
+  setButtonColor(color) {
+    const cssClasses = generateWebWidgetPreviewCSS(color);
 
     if (cssClasses) {
       this.setState({

@@ -1,15 +1,21 @@
-import { Component } from 'react';
+import { Component, PropTypes } from 'react';
+import { getURLParameterByName } from 'utility/pages';
+import { i18n } from 'service/i18n';
+import { bindMethods } from 'utility/utils';
 
 export class AutomaticAnswers extends Component {
   constructor(props, context) {
     super(props, context);
+    bindMethods(this, AutomaticAnswers.prototype);
 
     this.state = {
       ticket: {
         title: '',
         niceId: null,
         statusId: null
-      }
+      },
+      solveSuccess: false,
+      errorMessage: ''
     };
   }
 
@@ -23,9 +29,40 @@ export class AutomaticAnswers extends Component {
     });
   }
 
+  handleSolveTicket() {
+    const ticketId = getURLParameterByName('ticket_id');
+    const token = getURLParameterByName('token');
+    const callbacks = {
+      done: this.solveTicketDone,
+      fail: this.solveTicketFail
+    };
+
+    if (ticketId && token) {
+      this.props.solveTicket(ticketId, token, callbacks);
+    } else {
+      // TODO - Handle edge case where Embed is visible but user changes the URL.
+    }
+  }
+
+  solveTicketDone() {
+    this.setState({
+      solveSuccess: true
+    });
+  }
+
+  solveTicketFail() {
+    this.setState({
+      errorMessage: i18n.t('embeddable_framework.automaticAnswers.label.error')
+    });
+  }
+
   render() {
     return false;
   }
 }
+
+AutomaticAnswers.propTypes = {
+  solveTicket: PropTypes.func.isRequired
+};
 
 AutomaticAnswers.defaultProps = {};

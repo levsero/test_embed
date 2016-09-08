@@ -1,5 +1,6 @@
 describe('color', () => {
   let generateUserCSS,
+    generateWebWidgetPreviewCSS,
     validSettingsColor,
     mockSettingsValue;
 
@@ -24,6 +25,7 @@ describe('color', () => {
     });
 
     generateUserCSS = require(colorPath).generateUserCSS;
+    generateWebWidgetPreviewCSS = require(colorPath).generateWebWidgetPreviewCSS;
     validSettingsColor = require(colorPath).validSettingsColor;
   });
 
@@ -52,6 +54,13 @@ describe('color', () => {
 
       expect(cssString)
         .toMatch('#aaaaaa');
+    });
+  });
+
+  describe('generateWebWidgetPreviewCSS', () => {
+    it('uses the value passed into the function', () => {
+      expect(generateWebWidgetPreviewCSS('#ffffff'))
+        .toMatch('#ffffff');
     });
   });
 

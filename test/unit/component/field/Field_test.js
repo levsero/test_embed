@@ -79,7 +79,7 @@ describe('Field component', () => {
   });
 
   it('should pass along all props to underlying input', () => {
-    const field = domRender(<Field type='email' name='alice' />);
+    const field = domRender(<Field type='email' name='alice' disabled={true} />);
     const fieldNode = ReactDOM.findDOMNode(field);
 
     expect(fieldNode.querySelector('input').name)
@@ -87,6 +87,9 @@ describe('Field component', () => {
 
     expect(fieldNode.querySelector('input').type)
       .toEqual('email');
+
+    expect(fieldNode.querySelector('input').disabled)
+      .toEqual(true);
   });
 
   it('should render input prop component instead of default input', () => {

@@ -63,7 +63,8 @@ export const frameFactory = function(childFn, _params) {
     disableSetOffsetHorizontal: false,
     offsetWidth: 0,
     offsetHeight: 0,
-    position: 'right'
+    position: 'right',
+    preventClose: false
   };
   const params = _.extend({}, defaultParams, _params);
 
@@ -248,6 +249,8 @@ export const frameFactory = function(childFn, _params) {
     }
 
     close(ev, options = {}) {
+      if (params.preventClose) return;
+
       // ev.touches added for automation testing mobile browsers
       // which is firing 'click' event on iframe close
       if (params.isMobile && ev.touches) {
@@ -280,6 +283,10 @@ export const frameFactory = function(childFn, _params) {
 
     setHighlightColor(color) {
       this.getChild().setHighlightColor(color);
+    }
+
+    setButtonColor(color) {
+      this.getChild().setButtonColor(color);
     }
 
     computeIframeStyle() {
