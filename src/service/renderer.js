@@ -42,6 +42,10 @@ function parseConfig(config) {
     }, {});
   });
 
+  if (!rendererConfig.ticketSubmissionForm && rendererConfig.helpCenterForm) {
+    rendererConfig.helpCenterForm.props.showNextButton = false;
+  }
+
   rendererConfig.nps = {
     embed: 'nps',
     props: {}
@@ -101,20 +105,26 @@ function init(config) {
 }
 
 function initMediator(config) {
-  if (config.embeds && config.embeds.ticketSubmissionForm) {
-    const signInRequired = config.embeds.helpCenterForm
-                         ? config.embeds.helpCenterForm.props.signInRequired
+  const embeds = config.embeds;
+
+  if (embeds) {
+    const signInRequired = embeds.helpCenterForm
+                         ? embeds.helpCenterForm.props.signInRequired
                          : false;
     const params = {
       'hideLauncher': hideLauncher,
       'helpCenterSignInRequired': signInRequired
     };
+    const embedsAccessible = {
+      submitTicket: !!embeds.ticketSubmissionForm,
+      helpCenter: !!embeds.helpCenterForm
+    };
 
-    mediator.init(!!config.embeds.helpCenterForm, params);
-  } else if (config.embeds && config.embeds.zopimChat) {
+    mediator.init(embedsAccessible, params);
     // naked zopim
+  } else if (embeds && embeds.zopimChat) {
     mediator.initZopimStandalone();
-  } else if (config.embeds && _.isEmpty(config.embeds)) {
+  } else if (_.isEmpty(embeds)) {
     // No embeds
     mediator.initMessaging();
   } else {

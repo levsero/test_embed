@@ -26,6 +26,7 @@ const optionWhitelist = {
 const customizationsWhitelist = [
   'offset',
   'helpCenter.originalArticleButton',
+  'contactForm.suppress',
   'chat.suppress',
   'helpCenter.suppress',
   'helpCenter.localeFallbacks'

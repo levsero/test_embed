@@ -175,8 +175,6 @@ describe('renderer', function() {
     });
 
     it('should handle dodgy config values', function() {
-      const logging = mockRegistry['service/logging'].logging;
-
       renderer.init({
         embeds: {
           'aSubmissionForm': {
@@ -205,9 +203,6 @@ describe('renderer', function() {
 
       expect(renderer.init)
         .not.toThrow();
-
-      expect(logging.error)
-        .toHaveBeenCalled();
 
       expect(mockLauncher.create)
         .toHaveBeenCalled();

@@ -106,6 +106,15 @@ describe('HelpCenterMobile component', () => {
       expect(footerContent.props.className)
         .not.toContain('u-isHidden');
     });
+
+    it('should not exist if the showNextButton prop is false', () => {
+      helpCenterMobile = domRender(<HelpCenterMobile hasSearched={true} showNextButton={false} />);
+
+      const footerContent = helpCenterMobile.refs.scrollContainer.props.footerContent;
+
+      expect(TestUtils.isDOMComponent(footerContent))
+        .toBe(false);
+    });
   });
 
   describe('searchFieldButton', () => {

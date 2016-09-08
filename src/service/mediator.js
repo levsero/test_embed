@@ -42,6 +42,14 @@ const chatAvailable = () => {
   return state[`${chat}.isOnline`] && !state[`${chat}.isSuppressed`];
 };
 
+const submitTicketAvailable = () => {
+  return state[`${submitTicket}.isAccessible`] && !state[`${submitTicket}.isSuppressed`];
+};
+
+const embedAvailable = () => {
+  return helpCenterAvailable() || chatAvailable() || submitTicketAvailable();
+};
+
 const embedVisible = (_state) => _.some([
   _state[`${helpCenter}.isVisible`],
   _state[`${chat}.isVisible`],
@@ -53,8 +61,10 @@ const resetActiveEmbed = () => {
     state.activeEmbed = helpCenter;
   } else if (chatAvailable()) {
     state.activeEmbed = chat;
-  } else {
+  } else if (submitTicketAvailable()) {
     state.activeEmbed = submitTicket;
+  } else {
+    c.broadcast(`${launcher}.hide`);
   }
 };
 
@@ -62,7 +72,7 @@ const trackChatStarted = () => {
   c.broadcast('beacon.trackUserAction', 'chat', 'opened', chat);
 };
 
-function init(helpCenterAccessible, params = {}) {
+function init(embedsAccessible, params = {}) {
   const updateLauncherLabel = () => {
     if (chatAvailable()) {
       if (state[`${chat}.unreadMsgs`]) {
@@ -78,13 +88,19 @@ function init(helpCenterAccessible, params = {}) {
     }
   };
 
-  state['.hasHidden']                 = params.hideLauncher;
-  state[`${launcher}.userHidden`]     = params.hideLauncher;
-  state[`${helpCenter}.isAccessible`] = helpCenterAccessible &&
-                                        (!params.helpCenterSignInRequired ||
-                                        isOnHelpCenterPage());
-  state[`${helpCenter}.isSuppressed`] = settings.get('helpCenter.suppress');
-  state[`${chat}.isSuppressed`]       = settings.get('chat.suppress');
+  state['.hasHidden']                   = params.hideLauncher;
+  state[`${launcher}.userHidden`]       = params.hideLauncher;
+  state[`${submitTicket}.isAccessible`] = embedsAccessible.submitTicket;
+  state[`${helpCenter}.isAccessible`]   = embedsAccessible.helpCenter &&
+                                         (!params.helpCenterSignInRequired ||
+                                         isOnHelpCenterPage());
+  state[`${helpCenter}.isSuppressed`]   = settings.get('helpCenter.suppress');
+  state[`${chat}.isSuppressed`]         = settings.get('chat.suppress');
+  state[`${submitTicket}.isSuppressed`] = settings.get('contactForm.suppress');
+
+  if (!submitTicketAvailable()) {
+    c.broadcast(`${helpCenter}.showNextButton`, false);
+  }
 
   resetActiveEmbed();
 
@@ -111,7 +127,10 @@ function init(helpCenterAccessible, params = {}) {
     c.broadcast(`${submitTicket}.hide`);
     c.broadcast(`${chat}.hide`);
     c.broadcast(`${helpCenter}.hide`);
-    c.broadcast(`${launcher}.show`);
+
+    if (embedAvailable()) {
+      c.broadcast(`${launcher}.show`);
+    }
   });
 
   c.intercept('.activate', (__, options = {}) => {
@@ -126,11 +145,13 @@ function init(helpCenterAccessible, params = {}) {
                             ? true
                             : false;
 
-      c.broadcast(`${state.activeEmbed}.show`, {
-        transition: 'upShow',
-        viaActivate: true
-      });
-      state[`${state.activeEmbed}.isVisible`] = true;
+      if (embedAvailable()) {
+        c.broadcast(`${state.activeEmbed}.show`, {
+          transition: 'upShow',
+          viaActivate: true
+        });
+        state[`${state.activeEmbed}.isVisible`] = true;
+      }
     }
   });
 
@@ -168,7 +189,11 @@ function init(helpCenterAccessible, params = {}) {
       return;
     }
 
-    if (state.activeEmbed === submitTicket && !helpCenterAvailable()) {
+    if (!submitTicketAvailable()) {
+      c.broadcast(`${helpCenter}.showNextButton`, true);
+    }
+
+    if ((state.activeEmbed === submitTicket || !state.activeEmbed) && !helpCenterAvailable()) {
       state.activeEmbed = chat;
     }
 
@@ -179,6 +204,10 @@ function init(helpCenterAccessible, params = {}) {
     }
 
     c.broadcast(`${helpCenter}.setNextToChat`);
+
+    if (!submitTicketAvailable() && !helpCenterAvailable()) {
+      c.broadcast(`${launcher}.show`);
+    }
 
     if (state[`${chat}.connectionPending`]) {
       state[`${chat}.connectionPending`] = false;
@@ -206,6 +235,10 @@ function init(helpCenterAccessible, params = {}) {
       c.broadcast(`${helpCenter}.setNextToSubmitTicket`);
     }
 
+    if (!submitTicketAvailable()) {
+      c.broadcast(`${helpCenter}.showNextButton`, false);
+    }
+
     if (state[`${chat}.connectionPending`]) {
       state[`${chat}.connectionPending`] = false;
 
@@ -213,7 +246,8 @@ function init(helpCenterAccessible, params = {}) {
         if (!state[`${launcher}.userHidden`] &&
             !state['identify.pending'] &&
             !state['nps.isVisible'] &&
-            !state['ipm.isVisible']) {
+            !state['ipm.isVisible'] &&
+            embedAvailable()) {
           c.broadcast(`${launcher}.show`);
         }
       }, 3000);
@@ -441,7 +475,9 @@ function init(helpCenterAccessible, params = {}) {
     c.broadcast(`${helpCenter}.setHelpCenterSuggestions`, params);
   });
 
-  c.subscribe(`${launcher}.show`, updateLauncherLabel);
+  if (embedAvailable()) {
+    c.subscribe(`${launcher}.show`, updateLauncherLabel);
+  }
 
   initMessaging();
 }

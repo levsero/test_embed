@@ -182,6 +182,8 @@ export class HelpCenterMobile extends Component {
   }
 
   renderFooterContent() {
+    if (!this.props.showNextButton) return;
+
     const buttonContainerClasses = classNames({
       'u-marginTA': true,
       'u-marginVM': this.props.hideZendeskLogo,
@@ -242,7 +244,8 @@ HelpCenterMobile.propTypes = {
   hasSearched: PropTypes.bool,
   buttonLabel: PropTypes.string,
   searchFieldValue: PropTypes.string,
-  disableAutoSearch: PropTypes.bool
+  disableAutoSearch: PropTypes.bool,
+  showNextButton: PropTypes.bool
 };
 
 HelpCenterMobile.defaultProps = {
@@ -254,5 +257,6 @@ HelpCenterMobile.defaultProps = {
   hasSearched: false,
   buttonLabel: 'Leave a Message',
   searchFieldValue: '',
-  disableAutoSearch: false
+  disableAutoSearch: false,
+  showNextButton: true
 };

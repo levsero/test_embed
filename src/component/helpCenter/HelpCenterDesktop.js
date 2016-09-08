@@ -95,16 +95,18 @@ export class HelpCenterDesktop extends Component {
 
     setTimeout(() => this.props.updateFrameSize(), 0);
 
-    const footerContent = (
-      <div className={buttonContainerClasses}>
-        <ButtonGroup rtl={i18n.isRTL()}>
-          <Button
-            fullscreen={false}
-            label={this.props.buttonLabel}
-            onClick={this.props.handleNextClick} />
-        </ButtonGroup>
-      </div>
-    );
+    const footerContent = this.props.showNextButton
+                        ? (
+                          <div className={buttonContainerClasses}>
+                            <ButtonGroup rtl={i18n.isRTL()}>
+                              <Button
+                                fullscreen={false}
+                                label={this.props.buttonLabel}
+                                onClick={this.props.handleNextClick} />
+                            </ButtonGroup>
+                          </div>
+                        )
+                        : null;
 
     return (
       <div>
@@ -139,7 +141,8 @@ HelpCenterDesktop.propTypes = {
   buttonLabel:PropTypes.string,
   shadowVisible: PropTypes.bool,
   searchFieldValue: PropTypes.string,
-  disableAutoSearch: PropTypes.bool
+  disableAutoSearch: PropTypes.bool,
+  showNextButton: PropTypes.bool
 };
 
 HelpCenterDesktop.defaultProps = {
@@ -153,5 +156,6 @@ HelpCenterDesktop.defaultProps = {
   buttonLabel: 'Send a Message',
   shadowVisible: false,
   searchFieldValue: '',
-  disableAutoSearch: false
+  disableAutoSearch: false,
+  showNextButton: true
 };
