@@ -1,5 +1,13 @@
-import { win, navigator } from 'utility/globals';
+import _ from 'lodash';
+
+import { mediator } from 'service/mediator';
+import { win,
+         navigator,
+         document as doc } from 'utility/globals';
 import { every } from 'lodash';
+
+let clickBusterClicks = [];
+let originalUserScalable = null;
 
 function isLandscape() {
   return Math.abs(win.orientation) === 90;
@@ -88,6 +96,93 @@ function isIE() {
   );
 }
 
+function clickBusterRegister(x, y) {
+  clickBusterClicks.push([x, y]);
+}
+
+function clickBusterHandler(ev) {
+  let x, y;
+  const radius = 25 * getZoomSizingRatio();
+
+  if (clickBusterClicks.length) {
+    [x, y] = clickBusterClicks.pop();
+    if (Math.abs(x - ev.clientX) < radius &&
+        Math.abs(y - ev.clientY) < radius) {
+      ev.stopPropagation();
+      ev.preventDefault();
+    }
+  }
+}
+
+function setScaleLock(active) {
+  let viewportObj;
+  const meta = initViewportMeta(active);
+
+  if (meta) {
+    viewportObj = metaStringToObj(meta.getAttribute('content'));
+
+    if (active) {
+      if (_.isUndefined(viewportObj['user-scalable'])) {
+        originalUserScalable = null;
+        viewportObj['user-scalable'] = 'no';
+      } else if (originalUserScalable === null) {
+        originalUserScalable = viewportObj['user-scalable'];
+        viewportObj['user-scalable'] = 'no';
+      }
+
+      setTimeout(function() {
+        mediator.channel.broadcast('.updateZoom', getZoomSizingRatio());
+      }, 0);
+    } else {
+      if (originalUserScalable === null) {
+        delete viewportObj['user-scalable'];
+      } else {
+        viewportObj['user-scalable'] = originalUserScalable;
+      }
+      originalUserScalable = null;
+    }
+
+    meta.setAttribute('content', metaObjToString(viewportObj));
+  }
+}
+
+const initViewportMeta = (active) => {
+  const viewportMetas = doc.querySelectorAll('meta[name="viewport"]');
+
+  if (viewportMetas.length > 0) {
+    return _.last(viewportMetas);
+  } else if (active) {
+    const newViewportMeta = doc.createElement('meta');
+
+    newViewportMeta.setAttribute('name', 'viewport');
+    newViewportMeta.setAttribute('content', '');
+    doc.head.appendChild(newViewportMeta);
+    return newViewportMeta;
+  }
+};
+
+const metaStringToObj = (str) => {
+  if (_.isEmpty(str)) {
+    return {};
+  } else {
+    return _.chain(str.split(','))
+      .reduce(function(res, item) {
+        const pair = item.trim().split('=');
+
+        res[pair[0]] = pair[1];
+        return res;
+      }, {})
+      .value();
+  }
+};
+
+const metaObjToString = (obj) => {
+  return _.chain(obj)
+    .map(function(v, k) { return k + '=' + v; })
+    .value()
+    .join(', ');
+};
+
 export {
   isLandscape,
   getDeviceZoom,
@@ -98,6 +193,9 @@ export {
   isIE,
   isIos,
   isFirefox,
-  isDevice
+  isDevice,
+  clickBusterHandler,
+  clickBusterRegister,
+  setScaleLock
 };
 

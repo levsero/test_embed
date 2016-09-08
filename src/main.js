@@ -15,11 +15,11 @@ import { renderer } from 'service/renderer';
 import { settings } from 'service/settings';
 import { transport } from 'service/transport';
 import { isMobileBrowser,
-         isBlacklisted } from 'utility/devices';
+         isBlacklisted,
+         clickBusterHandler } from 'utility/devices';
 import { win,
          document as doc } from 'utility/globals';
 import { initMobileScaling } from 'utility/mobileScaling';
-import { clickBusterHandler } from 'utility/utils';
 
 function boot() {
   let devApi;

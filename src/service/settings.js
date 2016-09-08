@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 import { win } from 'utility/globals';
+import { objectDifference } from 'utility/utils';
 
 const optionWhitelist = {
   webWidget: [
@@ -123,7 +124,10 @@ function getTranslations() {
 }
 
 function getTrackSettings() {
-  const widgetSettings = _.omit(webWidgetStore, 'margin', 'viaId', 'authenticate');
+  const blacklist = ['margin', 'viaId', 'authenticate'];
+  const userSettings = _.omit(webWidgetStore, blacklist);
+  const defaults = _.omit(webWidgetStoreDefaults, blacklist);
+  const widgetSettings = objectDifference(userSettings, defaults);
 
   return {
     webWidget: widgetSettings,

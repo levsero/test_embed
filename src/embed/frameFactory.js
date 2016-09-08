@@ -9,10 +9,10 @@ import { i18n } from 'service/i18n';
 import { settings } from 'service/settings';
 import { getZoomSizingRatio,
          isMobileBrowser,
-         isFirefox } from 'utility/devices';
+         isFirefox,
+         clickBusterRegister } from 'utility/devices';
 import { win } from 'utility/globals';
-import { bindMethods,
-         clickBusterRegister } from 'utility/utils';
+import { bindMethods } from 'utility/utils';
 
 // Unregister lodash from window._
 if (!__DEV__) {

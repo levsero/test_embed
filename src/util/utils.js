@@ -1,81 +1,7 @@
 import _ from 'lodash';
 
-import { mediator }  from 'service/mediator';
-import { getZoomSizingRatio } from 'utility/devices';
 import { document as doc,
          location } from 'utility/globals';
-
-let clickBusterClicks = [];
-let originalUserScalable = null;
-
-function metaStringToObj(str) {
-  if (_.isEmpty(str)) {
-    return {};
-  } else {
-    return _.chain(str.split(','))
-      .reduce(function(res, item) {
-        const pair = item.trim().split('=');
-
-        res[pair[0]] = pair[1];
-        return res;
-      }, {})
-      .value();
-  }
-}
-
-function metaObjToString(obj) {
-  return _.chain(obj)
-    .map(function(v, k) { return k + '=' + v; })
-    .value()
-    .join(', ');
-}
-
-function initViewportMeta(active) {
-  const viewportMetas = doc.querySelectorAll('meta[name="viewport"]');
-
-  if (viewportMetas.length > 0) {
-    return _.last(viewportMetas);
-  } else if (active) {
-    const newViewportMeta = doc.createElement('meta');
-
-    newViewportMeta.setAttribute('name', 'viewport');
-    newViewportMeta.setAttribute('content', '');
-    doc.head.appendChild(newViewportMeta);
-    return newViewportMeta;
-  }
-}
-
-function setScaleLock(active) {
-  let viewportObj;
-  const meta = initViewportMeta(active);
-
-  if (meta) {
-    viewportObj = metaStringToObj(meta.getAttribute('content'));
-
-    if (active) {
-      if (_.isUndefined(viewportObj['user-scalable'])) {
-        originalUserScalable = null;
-        viewportObj['user-scalable'] = 'no';
-      } else if (originalUserScalable === null) {
-        originalUserScalable = viewportObj['user-scalable'];
-        viewportObj['user-scalable'] = 'no';
-      }
-
-      setTimeout(function() {
-        mediator.channel.broadcast('.updateZoom', getZoomSizingRatio());
-      }, 0);
-    } else {
-      if (originalUserScalable === null) {
-        delete viewportObj['user-scalable'];
-      } else {
-        viewportObj['user-scalable'] = originalUserScalable;
-      }
-      originalUserScalable = null;
-    }
-
-    meta.setAttribute('content', metaObjToString(viewportObj));
-  }
-}
 
 function parseUrl(url) {
   const anchor = document.createElement('a');
@@ -96,45 +22,6 @@ function splitPath(path) {
           .replace(/\#|\:/g, ' ') // Strip out '#' and ':' characters.
           .replace(/\.[^.]{1,4}$/, '')
           .replace(/[\/\.\|_\-]/g, ' ');
-}
-
-function clickBusterRegister(x, y) {
-  clickBusterClicks.push([x, y]);
-}
-
-function clickBusterHandler(ev) {
-  let x, y;
-  const radius = 25 * getZoomSizingRatio();
-
-  if (clickBusterClicks.length) {
-    [x, y] = clickBusterClicks.pop();
-    if (Math.abs(x - ev.clientX) < radius &&
-        Math.abs(y - ev.clientY) < radius) {
-      ev.stopPropagation();
-      ev.preventDefault();
-    }
-  }
-}
-
-function getFrameworkLoadTime() {
-  let entry;
-  const now = Date.now();
-  let loadTime = document.t ? now - document.t : undefined;
-
-  // https://bugzilla.mozilla.org/show_bug.cgi?id=1045096
-  try {
-    if ('performance' in window && 'getEntries' in window.performance) {
-      entry = _.find(window.performance.getEntries(), function(entry) {
-        return entry.name.indexOf('main.js') !== -1;
-      });
-
-      if (entry && entry.duration) {
-        loadTime = entry.duration;
-      }
-    }
-  } catch (e) {}
-
-  return loadTime >= 0 ? loadTime : undefined;
 }
 
 function getPageKeywords() {
@@ -174,18 +61,30 @@ function base64decode(string) {
   return window.atob(string);
 }
 
+function objectDifference(a, b) {
+  const transformFn = (res, val, key) => {
+    if (_.isObject(val) && _.has(b, key)) {
+      const diff = objectDifference(val, b[key]);
+
+      if (!_.isEmpty(diff)) {
+        res[key] = diff;
+      }
+    } else if (!_.isEqual(val, b[key])) {
+      res[key] = val;
+    }
+  };
+
+  return _.transform(a, transformFn, {});
+}
+
 export {
-  clickBusterHandler,
-  clickBusterRegister,
-  getFrameworkLoadTime,
   getPageKeywords,
   getPageTitle,
-  metaStringToObj,
   parseUrl,
   patchReactIdAttribute,
   cappedIntervalCall,
-  setScaleLock,
   splitPath,
   bindMethods,
-  base64decode
+  base64decode,
+  objectDifference
 };

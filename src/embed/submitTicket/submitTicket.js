@@ -7,13 +7,13 @@ import { document,
 import { SubmitTicket } from 'component/submitTicket/SubmitTicket';
 import { frameFactory } from 'embed/frameFactory';
 import { isMobileBrowser,
-         isIE } from 'utility/devices';
+         isIE,
+         setScaleLock } from 'utility/devices';
 import { beacon } from 'service/beacon';
 import { transitionFactory } from 'service/transitionFactory';
 import { mediator } from 'service/mediator';
 import { settings } from 'service/settings';
 import { generateUserCSS } from 'utility/color';
-import { setScaleLock } from 'utility/utils';
 import { transport } from 'service/transport';
 
 const submitTicketCSS = require('./submitTicket.scss');

@@ -13,7 +13,8 @@ import { transport } from 'service/transport';
 import { transitionFactory } from 'service/transitionFactory';
 import { generateUserCSS } from 'utility/color';
 import { isIE,
-         isMobileBrowser } from 'utility/devices';
+         isMobileBrowser,
+         setScaleLock } from 'utility/devices';
 import { document,
          getDocumentHost,
          location } from 'utility/globals';
@@ -21,8 +22,7 @@ import { mouse } from 'utility/mouse';
 import { isOnHelpCenterPage,
          isOnHostMappedDomain } from 'utility/pages';
 import { cappedIntervalCall,
-         getPageKeywords,
-         setScaleLock } from 'utility/utils';
+         getPageKeywords } from 'utility/utils';
 
 const helpCenterCSS = require('./helpCenter.scss');
 
