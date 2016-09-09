@@ -12,7 +12,7 @@ function isOnHelpCenterPage() {
 
 function isOnHostMappedDomain() {
   return isOnHelpCenterPage() &&
-         !location.hostname.includes('.zendesk');
+         !_.includes(location.hostname, '.zendesk');
 }
 
 function getURLParameterByName(name) {
