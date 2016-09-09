@@ -91,7 +91,7 @@ window.zESettings = {
       title: {
         'en-US': 'Search for help',
         'fr': 'Recherche d'aide'
-      },
+      }
     },
     contactForm: {
       title: {
@@ -122,12 +122,12 @@ The string can't exceed 25 characters.
 ```javascript
 <script type="text/javascript">
 window.zESettings = {
-   webWidget: {
-     helpCenter: {
-       messageButton: {
-         '*': 'Contact us now.'
-       }
-    },
+  webWidget: {
+    helpCenter: {
+      messageButton: {
+        '*': 'Contact us now.'
+      }
+    }
   }
 };
 </script>
@@ -152,12 +152,12 @@ The string can't exceed 25 characters.
 ```javascript
 <script type="text/javascript">
 window.zESettings = {
-   webWidget: {
-     helpCenter: {
-       chatButton: {
-         '*': 'Chat with a person now'
-       }
-    },
+  webWidget: {
+    helpCenter: {
+      chatButton: {
+        '*': 'Chat with a person now'
+      }
+    }
   }
 };
 </script>
@@ -202,13 +202,13 @@ You can use different strings for different locales or use one string for all lo
 ```javascript
 <script type="text/javascript">
 window.zESettings = {
-   webWidget: {
-     launcher: {
-       label: {
-         'en-US': 'Need help?',
-         'fr': 'Besoin d\'aide?'
-       }
-    },
+  webWidget: {
+    launcher: {
+      label: {
+        'en-US': 'Need help?',
+        'fr': 'Besoin d\'aide?'
+      }
+    }
   }
 };
 </script>
@@ -231,16 +231,13 @@ You can use different strings for different locales or use one string for all lo
 ```javascript
 <script type="text/javascript">
 window.zESettings = {
-   webWidget: {
-     launcher: {
-       chatLabel: {
-         '*': 'Chat now'
-       }
-    },
+  webWidget: {
+    launcher: {
+      chatLabel: {
+        '*': 'Chat now'
+      }
+    }
   }
 };
 </script>
 ```
-
-
-
