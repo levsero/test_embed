@@ -90,7 +90,7 @@ window.zESettings = {
     helpCenter: {
       title: {
         'en-US': 'Search for help',
-        'fr': 'Recherche d'aide'
+        'fr': 'Recherche d\'aide'
       }
     },
     contactForm: {
