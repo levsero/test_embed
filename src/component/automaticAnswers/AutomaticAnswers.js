@@ -1,6 +1,8 @@
-import { Component, PropTypes } from 'react';
-import { getURLParameterByName } from 'utility/pages';
+import React, { Component, PropTypes } from 'react';
+
+import { AutomaticAnswersDesktop } from 'component/automaticAnswers/AutomaticAnswersDesktop';
 import { i18n } from 'service/i18n';
+import { getURLParameterByName } from 'utility/pages';
 import { bindMethods } from 'utility/utils';
 
 export class AutomaticAnswers extends Component {
@@ -57,7 +59,11 @@ export class AutomaticAnswers extends Component {
   }
 
   render() {
-    return false;
+    return (
+      <AutomaticAnswersDesktop
+        {...this.state}
+        handleSolveTicket={this.handleSolveTicket} />
+    );
   }
 }
 
