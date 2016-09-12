@@ -4,6 +4,20 @@ describe('settings', () => {
     defaults;
   const settingsPath = buildSrcPath('service/settings');
   const maxLocaleFallbacks = 3;
+  const webWidgetStoreDefaults = {
+    contactForm: {
+      attachments: true
+    },
+    helpCenter: {
+      originalArticleButton: true,
+      localeFallbacks: []
+    },
+    launcher: {},
+    offset: {
+      horizontal: 0,
+      vertical: 0
+    }
+  };
 
   beforeEach(() => {
     mockery.enable();
@@ -14,7 +28,10 @@ describe('settings', () => {
         }
       },
       'utility/utils': {
-        objectDifference: noop
+        objectDifference: jasmine.createSpy('objectDifference').and.returnValue({
+          webWidget: {},
+          ipm: {}
+        })
       }
     });
     defaults = {
@@ -291,7 +308,12 @@ describe('settings', () => {
   });
 
   describe('#getTrackSettings', () => {
+    const userSettings = _.merge({}, webWidgetStoreDefaults, {
+      helpCenter: { originalArticleButton: false }
+    });
+
     beforeEach(() => {
+      mockRegistry['utility/globals'].win.zESettings = { webWidget: userSettings };
       settings.init();
     });
 
@@ -311,6 +333,13 @@ describe('settings', () => {
 
       expect(settings.getTrackSettings().webWidget.viaId)
         .toBeUndefined();
+    });
+
+    it('should filter out default values from the store', () => {
+      settings.getTrackSettings();
+
+      expect(mockRegistry['utility/utils'].objectDifference)
+        .toHaveBeenCalledWith(userSettings, webWidgetStoreDefaults);
     });
   });
 });

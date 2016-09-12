@@ -205,12 +205,12 @@ describe('beacon', function() {
     });
   });
 
-  fdescribe('#sendPageView', function() {
-    const loadTime = 200;
+  describe('#sendPageView', function() {
+    const now = new Date(Date.now());
 
     beforeEach(() => {
-      spyOn(beacon, 'getFrameworkLoadTime')
-        .and.callFake(() => loadTime);
+      jasmine.clock().mockDate(now);
+      document.t = now - 1000;
     });
 
     it('sends correct payload using transport.send', function() {
@@ -248,7 +248,7 @@ describe('beacon', function() {
         .toBeDefined();
 
       expect(params.pageView.loadTime)
-        .toBe(loadTime);
+        .toBe(1000);
 
       expect(params.pageView.helpCenterDedup)
         .toBe(mockPages.isOnHelpCenterPage());

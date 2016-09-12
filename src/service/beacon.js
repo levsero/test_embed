@@ -128,6 +128,7 @@ function getFrameworkLoadTime() {
   let entry;
   const now = Date.now();
   let loadTime = document.t ? now - document.t : undefined;
+  debugger
 
   // https://bugzilla.mozilla.org/show_bug.cgi?id=1045096
   try {
@@ -142,7 +143,6 @@ function getFrameworkLoadTime() {
     }
   } catch (e) {}
 
-  debugger
   return loadTime >= 0 ? loadTime : undefined;
 }
 
