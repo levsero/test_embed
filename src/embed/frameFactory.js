@@ -230,16 +230,13 @@ export const frameFactory = function(childFn, _params) {
             }
           });
         } else {
-
-          console.log(ReactDOM.findDOMNode(this).id);
-          console.log(options.transition);
           const newFrameStyle = _.extend({}, this.state.frameStyle, transition);
 
           this.setState({ frameStyle: newFrameStyle });
 
-          _.each(this.computeIframeStyle(), (val, key) => {
-            ReactDOM.findDOMNode(this).style[key] = val;
-          });
+          setTimeout( () => {
+            params.afterShowAnimate(this);
+          }, cssTimeToMs(transition['transitionDuration']));
         }
 
       }
@@ -264,16 +261,9 @@ export const frameFactory = function(childFn, _params) {
             }
           });
         } else {
-
-          console.log(ReactDOM.findDOMNode(this).id);
-          console.log(options.transition);
           const newFrameStyle = _.extend({}, this.state.frameStyle, transition);
 
           this.setState({ frameStyle: newFrameStyle });
-
-          _.each(this.computeIframeStyle(), (val, key) => {
-            ReactDOM.findDOMNode(this).style[key] = val;
-          });
 
           setTimeout( () => {
             this.setState({ visible: false });
@@ -335,10 +325,12 @@ export const frameFactory = function(childFn, _params) {
     computeIframeStyle() {
       const visibilityRule = (this.state.visible && !this.state.hiddenByZoom)
                            ? null
-                           : {top: '-9999px',
+                           : _.extend({top: '-9999px',
                               [i18n.isRTL() ? 'right' : 'left']: '-9999px',
                               position: 'absolute',
-                              bottom: 'auto'};
+                              bottom: 'auto'
+                            }, params.transitions.downHide);
+
       const horizontalOffset = (isMobileBrowser()) ? 0 : settings.get('offset').horizontal;
       const verticalOffset = (isMobileBrowser()) ? 0 : settings.get('offset').vertical;
       const horizontalPos = settings.get('position.horizontal') || params.position;

@@ -9,11 +9,7 @@ const mockTransitionFactory = {
       'upHide',
       'downHide',
       'downShow',
-      'leftHide',
-      'rightShow',
       'close',
-      'leftShow',
-      'rightHide',
       'launcherUpShow',
       'launcherDownHide'
     ])
