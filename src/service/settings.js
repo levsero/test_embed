@@ -36,11 +36,16 @@ const customizationsWhitelist = [
 ];
 const webWidgetStoreDefaults = {
   contactForm: {
-    attachments: true
+    attachments: true,
+    suppress: false
   },
   helpCenter: {
     originalArticleButton: true,
-    localeFallbacks: []
+    localeFallbacks: [],
+    suppress: false
+  },
+  chat: {
+    suppress: false
   },
   launcher: {},
   margin: 15,

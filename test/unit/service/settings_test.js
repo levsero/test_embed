@@ -6,17 +6,23 @@ describe('settings', () => {
   const maxLocaleFallbacks = 3;
   const webWidgetStoreDefaults = {
     contactForm: {
-      attachments: true
+      attachments: true,
+      suppress: false
     },
     helpCenter: {
       originalArticleButton: true,
-      localeFallbacks: []
+      localeFallbacks: [],
+      suppress: false
+    },
+    chat: {
+      suppress: false
     },
     launcher: {},
     offset: {
       horizontal: 0,
       vertical: 0
-    }
+    },
+    color: '#648297'
   };
 
   beforeEach(() => {
@@ -198,10 +204,10 @@ describe('settings', () => {
 
       it('should return default setting for suppress', () => {
         expect(settings.get('helpCenter.suppress'))
-          .toBe(null);
+          .toBe(false);
 
         expect(settings.get('chat.suppress'))
-          .toBe(null);
+          .toBe(false);
       });
 
       it('should return the default setting for color', () => {
