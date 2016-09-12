@@ -77,6 +77,16 @@ function objectDifference(a, b) {
   return _.transform(a, transformFn, {});
 }
 
+function cssTimeToMs(string) {
+  const unit = string.match(/m?s$/)
+  let amount = parseInt(string, 10)
+
+  if(unit && unit[0] == 's') {
+    amount *= 1000;
+  }
+  return amount;
+}
+
 export {
   getPageKeywords,
   getPageTitle,
@@ -86,5 +96,6 @@ export {
   splitPath,
   bindMethods,
   base64decode,
-  objectDifference
+  objectDifference,
+  cssTimeToMs
 };

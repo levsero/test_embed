@@ -12,7 +12,8 @@ import { clickBusterRegister,
          isFirefox,
          isMobileBrowser } from 'utility/devices';
 import { win } from 'utility/globals';
-import { bindMethods } from 'utility/utils';
+import { bindMethods,
+         cssTimeToMs } from 'utility/utils';
 
 // Unregister lodash from window._
 if (!__DEV__) {
@@ -222,11 +223,25 @@ export const frameFactory = function(childFn, _params) {
       if (params.transitions[options.transition] && !isFirefox()) {
         const transition = params.transitions[options.transition];
 
-        snabbt(ReactDOM.findDOMNode(this), transition).then({
-          callback: () => {
-            params.afterShowAnimate(this);
-          }
-        });
+        if (!transition['transitionDuration']) {
+          snabbt(ReactDOM.findDOMNode(this), transition).then({
+            callback: () => {
+              params.afterShowAnimate(this);
+            }
+          });
+        } else {
+
+          console.log(ReactDOM.findDOMNode(this).id);
+          console.log(options.transition);
+          const newFrameStyle = _.extend({}, this.state.frameStyle, transition);
+
+          this.setState({ frameStyle: newFrameStyle });
+
+          _.each(this.computeIframeStyle(), (val, key) => {
+            ReactDOM.findDOMNode(this).style[key] = val;
+          });
+        }
+
       }
 
       params.onShow(this);
@@ -236,17 +251,36 @@ export const frameFactory = function(childFn, _params) {
       if (params.transitions[options.transition] && !isFirefox()) {
         const transition = params.transitions[options.transition];
 
-        snabbt(ReactDOM.findDOMNode(this), transition).then({
-          callback: () => {
+        if (!transition['transitionDuration']) {
+          snabbt(ReactDOM.findDOMNode(this), transition).then({
+            callback: () => {
+              this.setState({ visible: false });
+              params.onHide(this);
+
+              // Ugly, I know, but it's to undo snabbt's destructive style mutations
+              _.each(this.computeIframeStyle(), (val, key) => {
+                ReactDOM.findDOMNode(this).style[key] = val;
+              });
+            }
+          });
+        } else {
+
+          console.log(ReactDOM.findDOMNode(this).id);
+          console.log(options.transition);
+          const newFrameStyle = _.extend({}, this.state.frameStyle, transition);
+
+          this.setState({ frameStyle: newFrameStyle });
+
+          _.each(this.computeIframeStyle(), (val, key) => {
+            ReactDOM.findDOMNode(this).style[key] = val;
+          });
+
+          setTimeout( () => {
             this.setState({ visible: false });
             params.onHide(this);
+          }, cssTimeToMs(transition['transitionDuration']));
+        }
 
-            // Ugly, I know, but it's to undo snabbt's destructive style mutations
-            _.each(this.computeIframeStyle(), (val, key) => {
-              ReactDOM.findDOMNode(this).style[key] = val;
-            });
-          }
-        });
       } else {
         this.setState({ visible: false });
         params.onHide(this);
@@ -325,9 +359,9 @@ export const frameFactory = function(childFn, _params) {
           opacity: 1
         },
         posObj,
+        visibilityRule,
         this.state.frameStyle,
-        this.state.iframeDimensions,
-        visibilityRule
+        this.state.iframeDimensions
       );
     }
 

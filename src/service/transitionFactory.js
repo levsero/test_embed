@@ -34,6 +34,7 @@ export const transitionFactory = {
       duration: 300,
       easing: 'easeOut'
     }),
+
     downHide: factoryMaker({
       fromPosition: [0, 0, 0],
       position: [0, 100, 0],
@@ -62,41 +63,90 @@ export const transitionFactory = {
     })
   },
   webWidget: {
+
+
+
+
+
+
     launcherUpShow: factoryMaker({
-      fromPosition: [0, 120, 0],
-      position: [0, 0, 0],
-      fromOpacity: 0,
+      transitionProperty: 'all',
+      transitionDuration: '300ms',
+      transitionTimingFunction: 'ease',
       opacity: 1,
-      easing: 'easeOut',
-      duration: 500
+      bottom: 0
+
+
+      // fromPosition: [0, 120, 0],
+      // position: [0, 0, 0],
+      // fromOpacity: 0,
+      // opacity: 1,
+      // easing: 'easeOut',
+      // duration: 500
     }),
 
     launcherDownHide: factoryMaker({
-      fromPosition: [0, 0, 0],
-      position: [0, 120, 0],
-      fromOpacity: 1,
-      opacity: 0,
-      easing: 'linear',
-      duration: 200
+        transitionProperty: 'all',
+        transitionTimingFunction: 'linear',
+        transitionDuration: '200ms',
+        opacity: 0,
+        bottom: '-70px'
+
+      // fromPosition: [0, 0, 0],
+      // position: [0, 120, 0],
+      // fromOpacity: 1,
+      // opacity: 0,
+      // easing: 'linear',
+      // duration: 200
     }),
+
+
+
+
+
+
+
+
+
 
     downHide: factoryMaker({
-      fromPosition: [0, 0, 0],
-      position: [0, 30, 0],
-      fromOpacity: 1,
+      transitionProperty: 'all',
+      transitionDuration: '300ms',
+      transitionTimingFunction: 'ease-out',
       opacity: 0,
-      easing: 'easeOut',
-      duration: 300
+      bottom: '-30px'
+
+      // fromPosition: [0, 0, 0],
+      // position: [0, 30, 0],
+      // fromOpacity: 1,
+      // opacity: 0,
+      // easing: 'easeOut',
+      // duration: 300
     }),
 
+
+
     downShow: factoryMaker({
-      fromPosition: [0, -30, 0],
-      position: [0, 0, 0],
-      fromOpacity: 0,
+      transitionProperty: 'all',
+      transitionDuration: '300ms',
+      transitionTimingFunction: 'ease-out',
       opacity: 1,
-      easing: 'easeOut',
-      duration: 300
+      bottom: 0
+
+      // fromPosition: [0, -30, 0],
+      // position: [0, 0, 0],
+      // fromOpacity: 0,
+      // opacity: 1,
+      // easing: 'easeOut',
+      // duration: 300
     }),
+
+
+
+
+
+
+
 
     leftHide: factoryMaker({
       fromPosition: [0, 0, 0],
@@ -143,13 +193,25 @@ export const transitionFactory = {
       duration: 300
     }),
 
+
+
+
+
+
+
     upShow: factoryMaker({
-      fromPosition: [0, 30, 0],
-      position: [0, 0, 0],
-      fromOpacity: 0.5,
+      transitionProperty: 'all',
+      transitionDuration: '300ms',
+      transitionTimingFunction: 'ease-out',
       opacity: 1,
-      easing: 'easeOut',
-      duration: 300
+      bottom: 0
+
+      // fromPosition: [0, 30, 0],
+      // position: [0, 0, 0],
+      // fromOpacity: 0.5,
+      // opacity: 1,
+      // easing: 'easeOut',
+      // duration: 300
     })
 
   }
