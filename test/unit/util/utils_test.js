@@ -1,7 +1,8 @@
 describe('utils', function() {
   let splitPath,
     getPageKeywords,
-    getPageTitle;
+    getPageTitle,
+    objectDifference;
   const mockGlobals = {
     win: {},
     document: document,
@@ -36,6 +37,7 @@ describe('utils', function() {
     splitPath = require(utilPath).splitPath;
     getPageKeywords = require(utilPath).getPageKeywords;
     getPageTitle = require(utilPath).getPageTitle;
+    objectDifference = require(utilPath).objectDifference;
   });
 
   afterEach(function() {
@@ -148,6 +150,53 @@ describe('utils', function() {
 
       expect(containerDiv.outerHTML)
         .toEqual('<h1 data-ze-reactid=".0">Hello React!</h1>');
+    });
+  });
+
+  describe('objectDifference', () => {
+    let a, b;
+
+    describe('when there are no nested objects', () => {
+      it('should return the complement of the two objects', () => {
+        a = {
+          list: [],
+          hello: 'world',
+          bob: 'the builder'
+        };
+        b = {
+          list: [],
+          bob: 'the builder'
+        };
+
+        expect(objectDifference(a, b))
+          .toEqual({ hello: 'world' });
+      });
+    });
+
+    describe('when there are nested objects', () => {
+      it('should return the complement of the two objects', () => {
+        a = {
+          foo: {
+            bar: 0,
+            baz: 2
+          },
+          extra: { a: 0, b: 1 },
+          bob: 'the builder'
+        };
+        b = {
+          foo: {
+            bar: 0,
+            baz: 1
+          },
+          bob: 'the builder'
+        };
+
+        expect(objectDifference(a, b))
+          .toEqual({
+            foo: { baz: 2 },
+            extra: { a: 0, b: 1 }
+          });
+      });
     });
   });
 });
