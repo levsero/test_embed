@@ -95,7 +95,6 @@ describe('HelpCenterResults component', () => {
       });
 
       // TODO: re-enable this test when the translation string for the button is ready
-      it('renders a View More button');
       // it('renders a View More button', () => {
       //   expect(document.querySelector('.ButtonPill'))
       //     .toBeTruthy();
@@ -173,6 +172,29 @@ describe('HelpCenterResults component', () => {
         expect(mockRegistry['service/i18n'].i18n.t)
           .toHaveBeenCalledWith('embeddable_framework.helpCenter.search.error.body');
       });
+    });
+  });
+
+  describe('#borderBottom', () => {
+    it('should display if there are results', () => {
+      const component = shallowRender(<HelpCenterResults articles={articles} />);
+
+      expect(component.props.className)
+        .toMatch('u-borderBottom');
+    });
+
+    it('should not display if there are no results', () => {
+      const component = shallowRender(<HelpCenterResults />);
+
+      expect(component.props.className)
+        .not.toMatch('u-borderBottom');
+    });
+
+    it('should not display if the showBottomBorder props is false', () => {
+      const component = shallowRender(<HelpCenterResults articles={articles} showBottomBorder={false} />);
+
+      expect(component.props.className)
+        .not.toMatch('u-borderBottom');
     });
   });
 });

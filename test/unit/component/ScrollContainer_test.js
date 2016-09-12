@@ -1,8 +1,8 @@
-describe('ScrollContainer component', function() {
+describe('ScrollContainer component', () => {
   let ScrollContainer;
   const containerPath = buildSrcPath('component/ScrollContainer');
 
-  beforeEach(function() {
+  beforeEach(() => {
     resetDOM();
 
     mockery.enable();
@@ -16,19 +16,19 @@ describe('ScrollContainer component', function() {
     ScrollContainer = requireUncached(containerPath).ScrollContainer;
   });
 
-  afterEach(function() {
+  afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
   });
 
-  it('should have the `is-mobile` className when fullscreen is true', function() {
+  it('should have the `is-mobile` className when fullscreen is true', () => {
     const container = shallowRender(<ScrollContainer fullscreen={true} />);
 
     expect(container.props.children[1].props.className)
       .toMatch('is-mobile');
   });
 
-  it('should call `this.getContentContainer` when `this.scrollToBottom` is called', function() {
+  it('should call `this.getContentContainer` when `this.scrollToBottom` is called', () => {
     const scrollContainer = domRender(<ScrollContainer fullscreen={true} />);
     const spy = spyOn(scrollContainer, 'getContentContainer').and.callThrough();
 
@@ -38,7 +38,7 @@ describe('ScrollContainer component', function() {
       .toHaveBeenCalled();
   });
 
-  it('should set scrollTop to scrollHeight value when calling `this.scrollToBottom`', function() {
+  it('should set scrollTop to scrollHeight value when calling `this.scrollToBottom`', () => {
     const scrollContainer = domRender(<ScrollContainer fullscreen={true} />);
 
     spyOn(scrollContainer, 'getContentContainer')
@@ -50,7 +50,7 @@ describe('ScrollContainer component', function() {
       .toEqual(100);
   });
 
-  it('should change component state when calling `this.setScrollShadowVisible`', function() {
+  it('should change component state when calling `this.setScrollShadowVisible`', () => {
     const container = instanceRender(<ScrollContainer fullscreen={true} />);
 
     expect(container.state.scrollShadowVisible)
@@ -62,7 +62,7 @@ describe('ScrollContainer component', function() {
       .toEqual(true);
   });
 
-  it('should have shadow class on footer if content is scrollable', function() {
+  it('should have shadow class on footer if content is scrollable', () => {
     const container = domRender(<ScrollContainer fullscreen={true} />);
 
     container.setState({scrollShadowVisible: true});
@@ -71,15 +71,12 @@ describe('ScrollContainer component', function() {
       .toContain('ScrollContainer-footer--shadow');
   });
 
-  it('should not contain certain classes when `this.props.hideZendeskLogo` is true', function() {
+  it('should not contain certain classes when `this.props.hideZendeskLogo` is true', () => {
     // Should not contain
     // ScrollContainer-content - u-paddingTM
     // ScrollContainer-footer - u-paddingVM
 
     const container = domRender(<ScrollContainer hideZendeskLogo={true} />);
-
-    expect(container.props.hideZendeskLogo)
-      .toEqual(true);
 
     expect(ReactDOM.findDOMNode(container).querySelector('.ScrollContainer-content').className)
       .not.toMatch('u-paddingTM');
@@ -91,14 +88,11 @@ describe('ScrollContainer component', function() {
       .not.toMatch('u-paddingVM');
   });
 
-  it('should not contain `u-paddingTL` when `this.props.hideZendeskLogo` is false', function() {
+  it('should not contain `u-paddingTL` when `this.props.hideZendeskLogo` is false', () => {
     // Should not contain
     // ScrollContainer-content - u-paddingTL
 
     const container = domRender(<ScrollContainer hideZendeskLogo={false} />);
-
-    expect(container.props.hideZendeskLogo)
-      .toEqual(false);
 
     expect(ReactDOM.findDOMNode(container).querySelector('.ScrollContainer-content').className)
       .toMatch('u-paddingTM');
@@ -108,6 +102,13 @@ describe('ScrollContainer component', function() {
 
     expect(ReactDOM.findDOMNode(container).querySelector('.ScrollContainer-footer').className)
       .toMatch('u-paddingVM');
+  });
+
+  it('should contain `u-paddingVL` on the footer when `this.props.footerContentHidden` is true', () => {
+    const container = domRender(<ScrollContainer footerContentHidden={true} />);
+
+    expect(ReactDOM.findDOMNode(container).querySelector('.ScrollContainer-footer').className)
+      .toMatch('u-paddingVL');
   });
 });
 

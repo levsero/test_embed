@@ -46,8 +46,7 @@ export class HelpCenterResults extends Component {
       'u-marginTM u-textCenter u-textSizeMed': true,
       'u-textSizeBaseMobile': this.props.fullscreen,
       'List--noResults': !this.props.fullscreen,
-      'u-borderBottom': this.props.showBottomBorder,
-      'u-paddingBS': !this.props.showBottomBorder
+      'u-borderBottom': this.props.showBottomBorder
     });
     const noResultsParagraphClasses = classNames({
       'u-textSecondary': true,
@@ -117,7 +116,6 @@ export class HelpCenterResults extends Component {
                              this.props.articles.length < 4;
     const resultsClasses = classNames({
       'u-borderBottom': showBottomBorder,
-      'u-paddingBS': !showBottomBorder,
       'u-paddingBL': showBottomBorder && this.props.showViewMore
     });
     const legend = !(this.props.searchFailed || this.props.articles.length === 0)
