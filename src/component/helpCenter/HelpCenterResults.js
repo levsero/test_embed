@@ -45,7 +45,9 @@ export class HelpCenterResults extends Component {
     const noResultsClasses = classNames({
       'u-marginTM u-textCenter u-textSizeMed': true,
       'u-textSizeBaseMobile': this.props.fullscreen,
-      'u-borderBottom List--noResults': !this.props.fullscreen
+      'List--noResults': !this.props.fullscreen,
+      'u-borderBottom': this.props.showBottomBorder,
+      'u-paddingBS': !this.props.showBottomBorder
     });
     const noResultsParagraphClasses = classNames({
       'u-textSecondary': true,
@@ -110,9 +112,12 @@ export class HelpCenterResults extends Component {
   }
 
   render() {
-    const showBottomBorder = !this.props.fullscreen && this.props.articles.length > 0 && this.props.articles.length < 4;
+    const showBottomBorder = this.props.showBottomBorder &&
+                             this.props.articles.length > 0 &&
+                             this.props.articles.length < 4;
     const resultsClasses = classNames({
       'u-borderBottom': showBottomBorder,
+      'u-paddingBS': !showBottomBorder,
       'u-paddingBL': showBottomBorder && this.props.showViewMore
     });
     const legend = !(this.props.searchFailed || this.props.articles.length === 0)
@@ -138,6 +143,7 @@ HelpCenterResults.propTypes = {
   articles: PropTypes.array,
   fullscreen: PropTypes.bool,
   showViewMore: PropTypes.bool,
+  showBottomBorder: PropTypes.bool,
   searchFailed: PropTypes.bool,
   previousSearchTerm: PropTypes.string,
   hasContextualSearched: PropTypes.bool,
@@ -149,6 +155,7 @@ HelpCenterResults.defaultProps = {
   articles: [],
   fullscreen: false,
   showViewMore: false,
+  showBottomBorder: true,
   searchFailed: false,
   previousSearchTerm: '',
   hasContextualSearched: false,

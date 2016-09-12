@@ -347,6 +347,8 @@ export class HelpCenter extends Component {
     }
     const showViewMore = this.state.showViewMore &&
                          this.state.resultsCount > minimumSearchResults;
+    const showBottomBorder = !this.props.fullscreen &&
+                             !(!this.state.showNextButton && this.props.hideZendeskLogo);
 
     return (
       <HelpCenterResults
@@ -354,6 +356,7 @@ export class HelpCenter extends Component {
         articles={this.state.articles}
         showViewMore={showViewMore}
         searchFailed={this.state.searchFailed}
+        showBottomBorder={showBottomBorder}
         previousSearchTerm={this.state.previousSearchTerm}
         handleArticleClick={this.handleArticleClick}
         handleViewMoreClick={this.handleViewMoreClick}
