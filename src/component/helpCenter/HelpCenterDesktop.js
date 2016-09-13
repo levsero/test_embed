@@ -22,7 +22,10 @@ export class HelpCenterDesktop extends Component {
       });
     }
 
-    this.refs.scrollContainer.setScrollShadowVisible(this.props.shadowVisible);
+    const shadowVisible = this.props.shadowVisible &&
+                          !(!this.props.showNextButton && this.props.hideZendeskLogo);
+
+    this.refs.scrollContainer.setScrollShadowVisible(shadowVisible);
   }
 
   focusField() {
@@ -114,6 +117,7 @@ export class HelpCenterDesktop extends Component {
           ref='scrollContainer'
           hideZendeskLogo={this.props.hideZendeskLogo}
           title={i18n.t(`embeddable_framework.helpCenter.form.title.${this.props.formTitleKey}`)}
+          footerContentHidden={!this.props.showNextButton && this.props.hasSearched}
           headerContent={this.renderHeaderContent()}
           footerContent={footerContent}>
           {this.renderBodyForm()}

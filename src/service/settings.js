@@ -8,6 +8,7 @@ const optionWhitelist = {
     'chat.suppress',
     'color',
     'contactForm.attachments',
+    'contactForm.suppress',
     'contactForm.title',
     'helpCenter.chatButton',
     'helpCenter.messageButton',
