@@ -78,10 +78,10 @@ function objectDifference(a, b) {
 }
 
 function cssTimeToMs(string) {
-  const unit = string.match(/m?s$/)
-  let amount = parseInt(string, 10)
+  const unit = string.match(/m?s$/);
+  let amount = parseInt(string, 10);
 
-  if(unit && unit[0] == 's') {
+  if (unit && unit[0] === 's') {
     amount *= 1000;
   }
   return amount;

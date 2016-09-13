@@ -71,11 +71,11 @@ export const transitionFactory = {
       bottom: 0
     }),
     launcherDownHide: factoryMaker({
-        transitionProperty: 'all',
-        transitionTimingFunction: 'linear',
-        transitionDuration: '200ms',
-        opacity: 0,
-        bottom: '-70px'
+      transitionProperty: 'all',
+      transitionTimingFunction: 'linear',
+      transitionDuration: '200ms',
+      opacity: 0,
+      bottom: '-70px'
     }),
     downHide: factoryMaker({
       transitionProperty: 'all',

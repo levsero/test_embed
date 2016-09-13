@@ -8,7 +8,6 @@ import { i18n } from 'service/i18n';
 import { settings } from 'service/settings';
 import { clickBusterRegister,
          getZoomSizingRatio,
-         isFirefox,
          isMobileBrowser } from 'utility/devices';
 import { win } from 'utility/globals';
 import { bindMethods,
@@ -72,7 +71,8 @@ export const frameFactory = function(childFn, _params) {
   };
   const params = _.defaultsDeep({}, _params, defaultParams);
   const zIndex = settings.get('zIndex');
-  const defaultTransition = params.transitions.downHide;
+  const defaultHideTransition = params.transitions.downHide;
+  const defaultShowTransition = params.transitions.upShow;
 
   if (__DEV__) {
     validateChildFn(childFn, params);
@@ -209,7 +209,7 @@ export const frameFactory = function(childFn, _params) {
 
     show(options = {}) {
       let frameFirstChild = ReactDOM.findDOMNode(this).contentDocument.body.firstChild.firstChild;
-      const transition = params.transitions[options.transition] || defaultTransition;
+      const transition = params.transitions[options.transition] || defaultShowTransition;
 
       this.setState({ visible: true });
 
@@ -233,7 +233,7 @@ export const frameFactory = function(childFn, _params) {
     }
 
     hide(options = {}) {
-      const transition = params.transitions[options.transition] || defaultTransition;
+      const transition = params.transitions[options.transition] || defaultHideTransition;
       const newFrameStyle = _.extend({}, this.state.frameStyle, transition);
 
       this.setState({ frameStyle: newFrameStyle });
@@ -242,7 +242,7 @@ export const frameFactory = function(childFn, _params) {
         this.setState({ visible: false });
         params.onHide(this);
       }, cssTimeToMs(transition['transitionDuration']));
-    },
+    }
 
     close(ev, options = {}) {
       if (params.preventClose) return;
@@ -292,10 +292,11 @@ export const frameFactory = function(childFn, _params) {
     computeIframeStyle() {
       const visibilityRule = (this.state.visible && !this.state.hiddenByZoom)
                            ? null
-                           : _.extend({top: '-9999px',
+                           : _.extend({
+                              top: (document.body.clientWidth ? `-${document.body.clientWidth}px` :'-9999px'),
                               position: 'absolute',
                               bottom: 'auto'
-                            }, defaultTransition);
+                            }, defaultHideTransition);
 
       const horizontalOffset = (isMobileBrowser()) ? 0 : settings.get('offset').horizontal;
       const verticalOffset = (isMobileBrowser()) ? 0 : settings.get('offset').vertical;
