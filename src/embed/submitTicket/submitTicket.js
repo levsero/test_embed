@@ -6,10 +6,10 @@ import { document,
          getDocumentHost } from 'utility/globals';
 import { SubmitTicket } from 'component/submitTicket/SubmitTicket';
 import { frameFactory } from 'embed/frameFactory';
-import { isMobileBrowser,
+import { getZoomSizingRatio,
          isIE,
-         setScaleLock,
-         getZoomSizingRatio } from 'utility/devices';
+         isMobileBrowser,
+         setScaleLock } from 'utility/devices';
 import { beacon } from 'service/beacon';
 import { transitionFactory } from 'service/transitionFactory';
 import { mediator } from 'service/mediator';

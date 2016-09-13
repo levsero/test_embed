@@ -7,10 +7,12 @@ import snabbt from 'snabbt.js';
 import { EmbedWrapper } from 'component/frameFactory/EmbedWrapper';
 import { i18n } from 'service/i18n';
 import { settings } from 'service/settings';
-import { getZoomSizingRatio,
-         isMobileBrowser,
+import { generateNpsCSS,
+         generateWebWidgetPreviewCSS } from 'utility/color';
+import { clickBusterRegister,
+         getZoomSizingRatio,
          isFirefox,
-         clickBusterRegister } from 'utility/devices';
+         isMobileBrowser } from 'utility/devices';
 import { win } from 'utility/globals';
 import { bindMethods } from 'utility/utils';
 

@@ -12,10 +12,10 @@ import { settings } from 'service/settings';
 import { transport } from 'service/transport';
 import { transitionFactory } from 'service/transitionFactory';
 import { generateUserCSS } from 'utility/color';
-import { isIE,
+import { getZoomSizingRatio,
+         isIE,
          isMobileBrowser,
-         setScaleLock,
-         getZoomSizingRatio } from 'utility/devices';
+         setScaleLock } from 'utility/devices';
 import { document,
          getDocumentHost,
          location } from 'utility/globals';
