@@ -22,7 +22,9 @@ describe('settings', () => {
       horizontal: 0,
       vertical: 0
     },
-    color: '#648297'
+    color: {
+      theme: '#659700'
+    }
   };
 
   beforeEach(() => {
