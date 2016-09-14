@@ -10,6 +10,9 @@ describe('HelpCenterDesktop component', () => {
 
     initMockRegistry({
       'React': React,
+      'component/ChannelChoice': {
+        ChannelChoice: noopReactComponent()
+      },
       'component/field/SearchField': {
         SearchField: React.createClass({
           focus: noop,

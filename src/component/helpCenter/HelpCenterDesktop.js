@@ -126,7 +126,6 @@ export class HelpCenterDesktop extends Component {
                             </ButtonGroup>
                             <div className={channelChoiceClasses}>
                               <ChannelChoice
-                                buttonLabel={this.props.buttonLabel}
                                 onNextClick={this.props.onNextClick} />
                             </div>
                           </div>

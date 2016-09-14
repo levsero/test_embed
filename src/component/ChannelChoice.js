@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
 import { i18n } from 'service/i18n';
-import { mediator } from 'service/mediator';
 import { bindMethods } from 'utility/utils';
 
 export class ChannelChoice extends Component {
@@ -12,7 +11,7 @@ export class ChannelChoice extends Component {
 
   handleClick(embed) {
     return () => {
-        this.props.onNextClick(embed);
+      this.props.onNextClick(embed);
     };
   }
 
@@ -20,10 +19,10 @@ export class ChannelChoice extends Component {
     return (
       <div className='Container--channelChoice'>
         <div onClick={this.handleClick('chat')}>
-          {i18n.t("embeddable_framework.channelChoice.button.label.chat")}
+          {i18n.t('embeddable_framework.channelChoice.button.label.chat')}
         </div>
         <div onClick={this.handleClick('submitTicket')}>
-          {i18n.t("embeddable_framework.channelChoice.button.label.submitTicket")}
+          {i18n.t('embeddable_framework.channelChoice.button.label.submitTicket')}
         </div>
       </div>
     );
@@ -32,4 +31,4 @@ export class ChannelChoice extends Component {
 
 ChannelChoice.propTypes = {
   onNextClick: PropTypes.func.isRequired
-}
+};
