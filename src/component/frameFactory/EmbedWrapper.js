@@ -21,53 +21,33 @@ export class EmbedWrapper extends Component {
   }
 
   setHighlightColor(color) {
-    const cssClasses = generateNpsCSS({ color: color });
+    const css = generateNpsCSS({ color: color });
 
-    if (cssClasses) {
-      this.setState({
-        css: cssClasses
-      });
+    if (css) {
+      this.setState({ css: css });
     }
   }
 
   setButtonColor(color) {
-    const cssClasses = generateWebWidgetPreviewCSS(color);
+    const css = generateWebWidgetPreviewCSS(color);
 
-    if (cssClasses) {
-      this.setState({
-        css: cssClasses
-      });
+    if (css) {
+      this.setState({ css: css });
     }
   }
 
-  renderCloseButton() {
+  renderNavButton(options = {}) {
     return (
       <ButtonNav
-        onClick={this.props.close}
+        onClick={options.onClick}
         label={
           <Icon
-            type='Icon--close'
+            type={options.icon}
             className='u-textInheritColor'
             isMobile={this.state.isMobile} />
         }
         rtl={i18n.isRTL()}
-        position='right'
-        fullscreen={this.props.fullscreen || this.state.isMobile} />
-    );
-  }
-
-  renderBackButton() {
-    return (
-      <ButtonNav
-        onClick={this.props.back}
-        label={
-          <Icon
-            type='Icon--back'
-            className='u-textInheritColor'
-            isMobile={this.state.isMobile} />
-        }
-        rtl={i18n.isRTL()}
-        position='left'
+        position={options.position}
         fullscreen={this.props.fullscreen || this.state.isMobile} />
     );
   }
@@ -88,10 +68,18 @@ export class EmbedWrapper extends Component {
         {css}
         {styleTag}
         <div className={backButtonClasses}>
-          {this.renderBackButton()}
+          {this.renderNavButton({
+            onClick: this.props.back,
+            icon: 'Icon--back',
+            position: 'left'
+          })}
         </div>
         <div className={closeButtonClasses}>
-          {this.renderCloseButton()}
+          {this.renderNavButton({
+            onClick: this.props.close,
+            icon: 'Icon--close',
+            position: 'right'
+          })}
         </div>
         <div id='Embed'>
           {this.props.childFn(this.props.childParams)}

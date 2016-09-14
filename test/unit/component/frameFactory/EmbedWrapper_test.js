@@ -1,9 +1,9 @@
-describe('EmbedWrapper', function() {
+describe('EmbedWrapper', () => {
   let EmbedWrapper;
 
   const EmbedWrapperPath = buildSrcPath('component/frameFactory/EmbedWrapper');
 
-  beforeEach(function() {
+  beforeEach(() => {
     resetDOM();
 
     mockery.enable();
@@ -29,12 +29,12 @@ describe('EmbedWrapper', function() {
     EmbedWrapper = requireUncached(EmbedWrapperPath).EmbedWrapper;
   });
 
-  afterEach(function() {
+  afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
   });
 
-  it('adds a <style> block to the iframe document', function() {
+  it('adds a <style> block to the iframe document', () => {
     const instance = domRender(
       <EmbedWrapper
         childFn={() => {}}

@@ -369,7 +369,7 @@ export const frameFactory = function(childFn, _params) {
         element
       );
 
-      this.setState({_rendered: true});
+      this.setState({ _rendered: true });
     }
 
     renderFrameContent() {
@@ -392,7 +392,6 @@ export const frameFactory = function(childFn, _params) {
 
     render() {
       const iframeNamespace = 'zEWidget';
-
       const iframeClasses = classNames({
         [`${iframeNamespace}-${params.name}`]: true,
         [`${iframeNamespace}-${params.name}--active`]: this.state.visible
