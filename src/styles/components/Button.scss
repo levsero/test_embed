@@ -107,6 +107,10 @@ $Button-nudge: 5;
   font-size: #{13/$font-size}rem;
   border-radius: #{4/$font-size}rem;
   padding: #{11/$font-size}rem #{24/$font-size}rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 60%;
+
 
   &:hover, &:focus, &:active {
     color: $base-color;
