@@ -168,7 +168,10 @@ function create(name, config) {
         downClose: transitionFactory.webWidget.downHide(),
         downHide: transitionFactory.webWidget.downHide(),
         downShow: transitionFactory.webWidget.downShow(),
-        upShow: transitionFactory.webWidget.upShow()
+        upShow: transitionFactory.webWidget.upShow(),
+        initial: transitionFactory.webWidget.initial(
+          isMobileBrowser() ? { top: '-100%' } : {}
+        )
       },
       onShow,
       name: name,

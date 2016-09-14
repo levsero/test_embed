@@ -179,7 +179,8 @@ function create(name, config) {
         upHide: transitionFactory.webWidget.upHide(),
         upShow: transitionFactory.webWidget.upShow(),
         downHide: transitionFactory.webWidget.downHide(),
-        downShow: transitionFactory.webWidget.downShow()
+        downShow: transitionFactory.webWidget.downShow(),
+        initial: transitionFactory.webWidget.initial()
       },
       afterShowAnimate(frame) {
         const rootComponent = frame.getRootComponent();

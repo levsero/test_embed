@@ -69,7 +69,8 @@ function create(name, config) {
     transitions: {
       upHide: transitionSet.upHide(),
       downShow: transitionSet.downShow(),
-      close: transitionSet.upHide()
+      close: transitionSet.upHide(),
+      initial: transitionSet.initial()
     }
   };
 

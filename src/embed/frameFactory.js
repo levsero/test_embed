@@ -292,11 +292,7 @@ export const frameFactory = function(childFn, _params) {
     computeIframeStyle() {
       const visibilityRule = (this.state.visible && !this.state.hiddenByZoom)
                            ? null
-                           : _.extend({
-                              top: (document.body.clientWidth ? `-${document.body.clientWidth}px` :'-9999px'),
-                              position: 'absolute',
-                              bottom: 'auto'
-                            }, defaultHideTransition);
+                           : params.transitions.initial
 
       const horizontalOffset = (isMobileBrowser()) ? 0 : settings.get('offset').horizontal;
       const verticalOffset = (isMobileBrowser()) ? 0 : settings.get('offset').vertical;
