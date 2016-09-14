@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import { Button } from 'component/button/Button';
 import { ButtonGroup } from 'component/button/ButtonGroup';
-import { ChannelChoice } from 'component/ChannelChoice';
+import { ChannelChoicePopup } from 'component/ChannelChoice/ChannelChoicePopup';
 import { ScrollContainer } from 'component/ScrollContainer';
 import { SearchField } from 'component/field/SearchField';
 import { ZendeskLogo } from 'component/ZendeskLogo';
@@ -125,7 +125,7 @@ export class HelpCenterDesktop extends Component {
                                 onClick={this.handleNextButtonClick} />
                             </ButtonGroup>
                             <div className={channelChoiceClasses}>
-                              <ChannelChoice
+                              <ChannelChoicePopup
                                 onNextClick={this.props.onNextClick} />
                             </div>
                           </div>

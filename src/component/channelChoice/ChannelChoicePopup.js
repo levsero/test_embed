@@ -3,10 +3,10 @@ import React, { Component, PropTypes } from 'react';
 import { i18n } from 'service/i18n';
 import { bindMethods } from 'utility/utils';
 
-export class ChannelChoice extends Component {
+export class ChannelChoicePopup extends Component {
   constructor(props, context) {
     super(props, context);
-    bindMethods(this, ChannelChoice.prototype);
+    bindMethods(this, ChannelChoicePopup.prototype);
   }
 
   handleClick(embed) {
@@ -17,7 +17,7 @@ export class ChannelChoice extends Component {
 
   render() {
     return (
-      <div className='Container--channelChoice'>
+      <div className='Container--channelChoicePopup'>
         <div onClick={this.handleClick('chat')}>
           {i18n.t('embeddable_framework.channelChoice.button.label.chat')}
         </div>
@@ -29,6 +29,6 @@ export class ChannelChoice extends Component {
   }
 }
 
-ChannelChoice.propTypes = {
+ChannelChoicePopup.propTypes = {
   onNextClick: PropTypes.func.isRequired
 };
