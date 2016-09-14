@@ -1,6 +1,7 @@
 describe('settings', () => {
   let settings,
-    mockRegistry;
+    mockRegistry,
+    defaults;
   const settingsPath = buildSrcPath('service/settings');
   const maxLocaleFallbacks = 3;
 
@@ -13,27 +14,28 @@ describe('settings', () => {
         }
       }
     });
+    defaults = {
+      contactForm: {
+        attachments: true
+      },
+      helpCenter: {
+        originalArticleButton: true
+      },
+      margin: 15,
+      offset: { horizontal: 0, vertical: 0 },
+      viaId: 48,
+      color: {
+        theme: '#659700'
+      }
+    };
+
     mockery.registerAllowable(settingsPath);
     settings = requireUncached(settingsPath).settings;
   });
 
   describe('store', () => {
     describe('webWidget defaults', () => {
-      let defaults;
-
       beforeEach(() => {
-        defaults = {
-          contactForm: {
-            attachments: true
-          },
-          helpCenter: {
-            originalArticleButton: true
-          },
-          margin: 15,
-          offset: { horizontal: 0, vertical: 0 },
-          viaId: 48
-        };
-
         settings.init();
       });
 
@@ -60,6 +62,11 @@ describe('settings', () => {
       it('has the correct value for contactForm.attachments', () => {
         expect(settings.get('contactForm.attachments'))
           .toEqual(defaults.contactForm.attachments);
+      });
+
+      it('has the correct value for color', () => {
+        expect(settings.get('color'))
+          .toEqual(defaults.color);
       });
     });
 
@@ -128,6 +135,9 @@ describe('settings', () => {
           },
           chat: {
             suppress: true
+          },
+          color: {
+            theme: '#FF0000'
           }
         }
       };
@@ -153,12 +163,17 @@ describe('settings', () => {
         expect(settings.get('chat.suppress'))
           .toBe(true);
       });
+
+      it('should return user setting for color', () => {
+        expect(settings.get('color.theme'))
+          .toBe('#FF0000');
+      });
     });
 
     describe('when web widget customisations are disabled', () => {
       it('should return default setting for helpCenter.originalArticleButton', () => {
         expect(settings.get('helpCenter.originalArticleButton'))
-          .toBe(true);
+          .toBe(defaults.helpCenter.originalArticleButton);
       });
 
       it('should return default setting for suppress', () => {
@@ -167,6 +182,11 @@ describe('settings', () => {
 
         expect(settings.get('chat.suppress'))
           .toBe(null);
+      });
+
+      it('should return the default setting for color', () => {
+        expect(settings.get('color.theme'))
+          .toBe(defaults.color.theme);
       });
     });
 

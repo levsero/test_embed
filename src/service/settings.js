@@ -26,6 +26,7 @@ const optionWhitelist = {
 };
 const customizationsWhitelist = [
   'offset',
+  'color.theme',
   'helpCenter.originalArticleButton',
   'contactForm.suppress',
   'chat.suppress',
@@ -46,7 +47,10 @@ const webWidgetStoreDefaults = {
     horizontal: 0,
     vertical: 0
   },
-  viaId: 48
+  viaId: 48,
+  color: {
+    theme: '#659700'
+  }
 };
 const ipmStoreDefaults = {
   offset: {
