@@ -2,7 +2,9 @@ import Color from 'color';
 
 import { settings } from 'service/settings';
 
-function generateUserCSS(color = '#659700') {
+const defaultColor = '#78A300';
+
+function generateUserCSS(color = defaultColor) {
   if (validSettingsColor()) {
     color = validSettingsColor();
   }
@@ -104,10 +106,11 @@ function generateWebWidgetPreviewCSS(color) {
 
 function validSettingsColor() {
   const settingsColor = settings.get('color.theme');
+  const settingsColorValid = settingsColor !== defaultColor &&
+                             settingsColor &&
+                             isValidHex(settingsColor);
 
-  return settingsColor && isValidHex(settingsColor)
-       ? settingsColor
-       : null;
+  return settingsColorValid ? settingsColor : null;
 }
 
 function isValidHex(color) {

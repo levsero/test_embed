@@ -37,7 +37,7 @@ describe('color', () => {
   describe('generateUserCSS', () => {
     it('uses the default value if nothing is passed in', () => {
       expect(generateUserCSS())
-        .toMatch('#659700');
+        .toMatch('#78A300');
     });
 
     it('uses the value passed into the function if it exists', () => {
