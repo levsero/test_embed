@@ -298,11 +298,19 @@ function render(name) {
   });
 
   mediator.channel.subscribe(name + '.setNextToChat', function() {
+    waitForRootComponent(name, () => {
+      getRootComponent(name).setChatOnline(true);
+    });
+
     updateHelpCenterButton(name, 'chat');
   });
 
   mediator.channel.subscribe(name + '.setNextToSubmitTicket', function() {
     const buttonLabelKey = get(name).config.buttonLabelKey;
+
+    waitForRootComponent(name, () => {
+      getRootComponent(name).setChatOnline(false);
+    });
 
     updateHelpCenterButton(name, `submitTicket.${buttonLabelKey}`);
   });

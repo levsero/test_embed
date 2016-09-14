@@ -57,7 +57,7 @@ export class HelpCenterDesktop extends Component {
   handleNextButtonClick(e) {
     e.preventDefault();
 
-    if (!this.props.channelChoice) {
+    if (this.props.channelChoice) {
       this.setState({ channelChoiceShown: true });
     } else {
       this.props.onNextClick();
@@ -103,7 +103,9 @@ export class HelpCenterDesktop extends Component {
          : null;
   }
 
-  render() {
+  renderFooterContent() {
+    if (!this.props.showNextButton) return null;
+
     const buttonContainerClasses = classNames({
       'u-posRelative': true,
       'u-marginVM': this.props.hideZendeskLogo,
@@ -113,24 +115,24 @@ export class HelpCenterDesktop extends Component {
       'u-isHidden': !this.state.channelChoiceShown
     });
 
-    setTimeout(() => this.props.updateFrameSize(), 0);
+    return (
+      <div className={buttonContainerClasses}>
+        <ButtonGroup rtl={i18n.isRTL()}>
+          <Button
+            fullscreen={false}
+            label={this.props.buttonLabel}
+            onClick={this.handleNextButtonClick} />
+        </ButtonGroup>
+        <div className={channelChoiceClasses}>
+          <ChannelChoicePopup
+            onNextClick={this.props.onNextClick} />
+        </div>
+      </div>
+    );
+  }
 
-    const footerContent = this.props.showNextButton
-                        ? (
-                          <div className={buttonContainerClasses}>
-                            <ButtonGroup rtl={i18n.isRTL()}>
-                              <Button
-                                fullscreen={false}
-                                label={this.props.buttonLabel}
-                                onClick={this.handleNextButtonClick} />
-                            </ButtonGroup>
-                            <div className={channelChoiceClasses}>
-                              <ChannelChoicePopup
-                                onNextClick={this.props.onNextClick} />
-                            </div>
-                          </div>
-                        )
-                        : null;
+  render() {
+    setTimeout(() => this.props.updateFrameSize(), 0);
 
     return (
       <div>
@@ -140,7 +142,7 @@ export class HelpCenterDesktop extends Component {
           title={i18n.t(`embeddable_framework.helpCenter.form.title.${this.props.formTitleKey}`)}
           footerContentHidden={!this.props.showNextButton && this.props.hasSearched}
           headerContent={this.renderHeaderContent()}
-          footerContent={footerContent}>
+          footerContent={this.renderFooterContent()}>
           {this.renderBodyForm()}
           {this.props.children}
         </ScrollContainer>
@@ -179,7 +181,7 @@ HelpCenterDesktop.defaultProps = {
   isLoading: false,
   articleViewActive: false,
   hasSearched: false,
-  buttonLabel: 'Send a Message',
+  buttonLabel: 'message',
   shadowVisible: false,
   searchFieldValue: '',
   disableAutoSearch: false,
