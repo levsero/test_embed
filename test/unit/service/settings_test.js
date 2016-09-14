@@ -25,7 +25,7 @@ describe('settings', () => {
       offset: { horizontal: 0, vertical: 0 },
       viaId: 48,
       color: {
-        theme: '#659700'
+        theme: '#78A300'
       }
     };
 

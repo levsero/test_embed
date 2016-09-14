@@ -49,7 +49,7 @@ const webWidgetStoreDefaults = {
   },
   viaId: 48,
   color: {
-    theme: '#659700'
+    theme: '#78A300'
   }
 };
 const ipmStoreDefaults = {
