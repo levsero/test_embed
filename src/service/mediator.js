@@ -286,8 +286,22 @@ function init(embedsAccessible, params = {}) {
     updateLauncherLabel();
   });
 
-  c.intercept(`${helpCenter}.onNextClick`, () => {
-    if (chatAvailable()) {
+  c.intercept(`${helpCenter}.onNextClick`, (__, embed = '') => {
+    if (embed === 'chat') {
+      state[`${chat}.isVisible`] = true;
+      c.broadcast(`${launcher}.hide`);
+      trackChatStarted();
+
+      state.activeEmbed = chat;
+      c.broadcast(`${chat}.show`);
+    } else if (embed === 'submitTicket') {
+      state[`${submitTicket}.isVisible`] = true;
+      state.activeEmbed = submitTicket;
+
+      setTimeout(() => {
+        c.broadcast(`${submitTicket}.show`, { transition: 'upShow' });
+      }, 0);
+    } else if (chatAvailable()) {
       if (!isMobileBrowser()) {
         state[`${chat}.isVisible`] = true;
         c.broadcast(`${launcher}.hide`);

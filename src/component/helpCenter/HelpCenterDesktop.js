@@ -3,6 +3,7 @@ import classNames from 'classnames';
 
 import { Button } from 'component/button/Button';
 import { ButtonGroup } from 'component/button/ButtonGroup';
+import { ChannelChoice } from 'component/ChannelChoice';
 import { ScrollContainer } from 'component/ScrollContainer';
 import { SearchField } from 'component/field/SearchField';
 import { ZendeskLogo } from 'component/ZendeskLogo';
@@ -13,6 +14,10 @@ export class HelpCenterDesktop extends Component {
   constructor(props, context) {
     super(props, context);
     bindMethods(this, HelpCenterDesktop.prototype);
+
+    this.state = {
+      hideChannelChoice: true
+    };
   }
 
   componentDidUpdate() {
@@ -39,6 +44,10 @@ export class HelpCenterDesktop extends Component {
         searchFieldInputNode.setSelectionRange(strLength, strLength);
       }
     }
+  }
+
+  showChannelChoice() {
+    this.setState({ hideChannelChoice: false });
   }
 
   handleSubmit(e) {
@@ -95,6 +104,9 @@ export class HelpCenterDesktop extends Component {
       'u-marginVM': this.props.hideZendeskLogo,
       'u-isHidden': !this.props.hasSearched
     });
+    const channelChoiceClasses = classNames({
+      'u-isHidden': this.state.hideChannelChoice
+    });
 
     setTimeout(() => this.props.updateFrameSize(), 0);
 
@@ -105,8 +117,11 @@ export class HelpCenterDesktop extends Component {
                               <Button
                                 fullscreen={false}
                                 label={this.props.buttonLabel}
-                                onClick={this.props.handleNextClick} />
+                                onClick={this.showChannelChoice} />
                             </ButtonGroup>
+                            <div className={channelChoiceClasses}>
+                              <ChannelChoice />
+                            </div>
                           </div>
                         )
                         : null;
