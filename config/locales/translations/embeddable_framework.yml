@@ -282,21 +282,45 @@ parts:
       title: "Prompt for the user to evaluate if the current article answers their question. Please do not use your (possessive). You can translate as: Did this article answer the question? (or similar)"
       screenshot: "https://zendesk.box.com/s/ae6qmra69w1k3jpbjw3zj8lw363xtqpa"
       value: "Did this article answer your question?"
+      obsolete: "2016-09-23"
   - translation:
       key: "embeddable_framework.automaticAnswers.button.solve"
       title: "Call to action for the button to close the request."
       screenshot: "https://zendesk.box.com/s/ae6qmra69w1k3jpbjw3zj8lw363xtqpa"
       value: "Yes, please close my request"
+      obsolete: "2016-09-23"
   - translation:
       key: "embeddable_framework.automaticAnswers.label.success"
       title: "Confirmation message on a successful ticket update. Please do not use your (possessive). You can translate as: Thanks, this request has been closed. (or similar)"
       screenshot: "https://zendesk.box.com/s/ae6qmra69w1k3jpbjw3zj8lw363xtqpa"
       value: "Thanks, your request has been closed."
+      obsolete: "2016-09-23"
   - translation:
       key: "embeddable_framework.automaticAnswers.label.error"
       title: "Error message on a failed ticket update. You can adapt to culture/language."
       screenshot: "https://zendesk.box.com/s/ae6qmra69w1k3jpbjw3zj8lw363xtqpa"
       value: "Oops! Something went wrong. Please try again."
+      obsolete: "2016-09-23"
+  - translation:
+      key: "embeddable_framework.automaticAnswers.label.introduction"
+      title: "Introduction for the user to evaluate if the current article answers their question. %()s stands for string and does not need to be translated."
+      screenshot: "https://zendesk.box.com/s/6eucld6r9fukm36otcn2e0jivlycw203"
+      value: "<span>Hi there,</span> If this article answers your question, please let us know and we'll close your request %(requestIdUrl)s."
+  - translation:
+      key: "embeddable_framework.automaticAnswers.button.solve_v2"
+      title: "Call to action for the button to close the request."
+      screenshot: "https://zendesk.box.com/s/6eucld6r9fukm36otcn2e0jivlycw203"
+      value: "Yes, close my request"
+  - translation:
+      key: "embeddable_framework.automaticAnswers.label.success_v2"
+      title: "Confirmation message on a successful ticket update."
+      screenshot: "https://zendesk.box.com/s/oeal2k7q5l7l5d7dglmxlph7pkyzoxm9"
+      value: "Thank you, your request has been closed."
+  - translation:
+      key: "embeddable_framework.automaticAnswers.label.error_v2"
+      title: "Error message on a failed ticket update."
+      screenshot: "https://zendesk.box.com/s/4qxn75tpkcocycfbrf9he2ht7uz1v7hw"
+      value: There was a problem solving your request, please try again."
 
   # Channel Choice
   - translation:
