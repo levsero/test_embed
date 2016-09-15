@@ -1,6 +1,6 @@
 describe('ChannelChoicePopup component', () => {
   let ChannelChoicePopup;
-  const channelChoicePath = buildSrcPath('component/ChannelChoice/ChannelChoicePopup');
+  const channelChoicePath = buildSrcPath('component/channelChoice/ChannelChoicePopup');
 
   beforeEach(() => {
     resetDOM();
