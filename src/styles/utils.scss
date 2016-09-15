@@ -136,6 +136,11 @@ $Base-posOffset: $med + 1;
   margin-bottom: $spacing-med !important;
 }
 
+.u-marginVXL {
+  margin-top: $spacing-xl !important;
+  margin-bottom: $spacing-xl !important;
+}
+
 .u-marginRS {
   margin-right: $spacing-sml !important;
 
@@ -208,6 +213,11 @@ $Base-posOffset: $med + 1;
 .u-paddingVL {
   padding-top: $spacing-lrg !important;
   padding-bottom: $spacing-lrg !important;
+}
+
+.u-paddingVXL {
+  padding-top: $spacing-xl !important;
+  padding-bottom: $spacing-xl !important;
 }
 
 .u-paddingR {
@@ -371,6 +381,10 @@ $Base-posOffset: $med + 1;
 
 .u-isSelectable {
   cursor: text;
+}
+
+.u-isSuccessful {
+ color: $cta-color !important;
 }
 
 /**

@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import classNames from 'classnames';
 
 import { Button } from 'component/button/Button';
 import { Container } from 'component/Container';
@@ -16,12 +17,17 @@ export class AutomaticAnswersDesktop extends Component {
     this.props.updateFrameSize();
   }
 
+  componentDidUpdate() {
+    this.props.updateFrameSize();
+  }
+
   handleSolveClick(e) {
     e.preventDefault();
     this.props.handleSolveTicket();
   }
 
   renderMasterIcon() {
+    const type = this.props.solveSuccess ? 'tick' : 'article';
     const props = {
       className: 'AutomaticAnswersDesktop-masterIcon u-posAbsolute u-paddingAN u-textCenter'
     };
@@ -29,39 +35,81 @@ export class AutomaticAnswersDesktop extends Component {
     return (
       <Icon
         {...props}
-        type='Icon--article' />
+        type={`Icon--${type}`} />
     );
   }
 
   renderContent() {
+    return (!this.props.solveSuccess) ? this.renderTicketContent() : this.renderSuccessContent();
+  }
+
+  renderTicketContent() {
     return (
       <div>
-        <p className='AutomaticAnswersDesktop-message u-paddingTL u-paddingBXL'
-            dangerouslySetInnerHTML={{__html: this.renderIntroduction()}}>
-        </p>
-        <div className='AutomaticAnswersDesktop-footer u-posRelative'>
-          <Button className='u-pullRight'
-            onClick={this.handleSolveClick}
-            label={this.buttonLabel()} />
-        </div>
+        {this.renderIntroduction()}
+        {this.renderErrorMessage()}
+        {this.renderButton()}
       </div>
     );
   }
 
   renderIntroduction() {
-    // TODO - Add link to HC request page using zendeskHost
-    return i18n.t('embeddable_framework.automaticAnswers.label.introduction', {
+    const messageClasses = classNames({
+      'AutomaticAnswersDesktop-message u-paddingTL u-paddingBXL u-marginBN': true,
+      'u-borderBottom': !this.props.errorMessage
+    });
+    const introduction = i18n.t('embeddable_framework.automaticAnswers.label.introduction', {
       fallback: `<span>Hi there,</span> If this article answers your question, ` +
                 `please let us know and we'll close your request %(requestIdUrl)s.`,
       requestIdUrl: `#${this.props.ticketNiceId}`
     });
+
+    return (
+      <p className={messageClasses}
+        dangerouslySetInnerHTML={{__html: introduction}}>
+      </p>
+    );
   }
 
-  buttonLabel() {
-    // TODO - Update to 'Submitting...' when button clicked
-    return i18n.t('embeddable_framework.automaticAnswers.button.solve_v2', {
+  renderErrorMessage() {
+    const errorClasses = classNames({
+      'Error': true,
+      'u-isHidden': !this.props.errorMessage
+    });
+
+    return (
+      <p className={errorClasses}>
+        {this.props.errorMessage}
+      </p>
+    );
+  }
+
+  renderButton() {
+    const submittingLabel = i18n.t('embeddable_framework.submitTicket.form.submitButton.label.sending');
+    const ctaLabel = i18n.t('embeddable_framework.automaticAnswers.button.solve_v2', {
       fallback: 'Yes, close my request'
     });
+
+    return (
+      <div className='AutomaticAnswersDesktop-footer u-posRelative u-marginTM'>
+        <Button className='u-pullRight'
+          disabled={this.props.isSubmitting}
+          onClick={this.handleSolveClick}
+          label={(this.props.isSubmitting) ? submittingLabel : ctaLabel} />
+      </div>
+    );
+  }
+
+  renderSuccessContent() {
+    const successMessage = i18n.t('embeddable_framework.automaticAnswers.label.success_v2', {
+      fallback: 'Thank you, your request has been closed.'
+    });
+
+    return (
+      <p className={'AutomaticAnswersDesktop-message u-isSuccessful u-textCenter u-paddingVXL u-marginVXL'}>
+        {successMessage}
+      </p>
+    );
   }
 
   render() {
@@ -77,8 +125,11 @@ export class AutomaticAnswersDesktop extends Component {
 }
 
 AutomaticAnswersDesktop.propTypes = {
-  updateFrameSize: PropTypes.func.isRequired,
+  solveSuccess: PropTypes.bool.isRequired,
+  isSubmitting: PropTypes.bool.isRequired,
+  updateFrameSize: PropTypes.func,
   handleSolveTicket: PropTypes.func.isRequired,
+  errorMessage: PropTypes.string.isRequired,
   ticketNiceId: PropTypes.number
 };
 

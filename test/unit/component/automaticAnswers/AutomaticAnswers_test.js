@@ -1,6 +1,5 @@
 describe('AutomaticAnswers component', () => {
   let mockWrongURLParameter,
-    mockRegistry,
     mockSolveTicket,
     AutomaticAnswers,
     automaticAnswers;
@@ -13,7 +12,7 @@ describe('AutomaticAnswers component', () => {
 
     mockery.enable();
 
-    mockRegistry = initMockRegistry({
+    initMockRegistry({
       'service/i18n': {
         i18n: {
           t: _.identity
@@ -140,6 +139,26 @@ describe('AutomaticAnswers component', () => {
           .not.toHaveBeenCalled();
       });
     });
+
+    describe('component state', () => {
+      beforeEach(() => {
+        automaticAnswers.setState({
+          errorMessage: 'derp',
+          isSubmitting: false
+        });
+        automaticAnswers.handleSolveTicket();
+      });
+
+      it('sets errorMessage to an empty string', () => {
+        expect(automaticAnswers.state.errorMessage)
+          .toEqual('');
+      });
+
+      it('sets isSubmitting to true', () => {
+        expect(automaticAnswers.state.isSubmitting)
+          .toBe(true);
+      });
+    });
   });
 
   describe('sending a request to solve a ticket', () => {
@@ -159,23 +178,26 @@ describe('AutomaticAnswers component', () => {
         expect(automaticAnswers.state.solveSuccess)
           .toEqual(true);
       });
+
+      it('sets isSubmitting to false', () => {
+        expect(automaticAnswers.state.isSubmitting)
+          .toBe(false);
+      });
     });
 
     describe('when the request fails', () => {
-      let i18n;
-
       beforeEach(() => {
-        i18n = mockRegistry['service/i18n'].i18n;
-        spyOn(i18n, 't').and.callThrough();
         automaticAnswers.solveTicketFail();
       });
 
       it('sets errorMessage to the correct tanslation string', () => {
-        expect(i18n.t)
-          .toHaveBeenCalledWith('embeddable_framework.automaticAnswers.label.error');
-
         expect(automaticAnswers.state.errorMessage)
-          .toBe('embeddable_framework.automaticAnswers.label.error');
+          .toBe('embeddable_framework.automaticAnswers.label.error_v2');
+      });
+
+      it('sets isSubmitting to false', () => {
+        expect(automaticAnswers.state.isSubmitting)
+          .toBe(false);
       });
     });
   });

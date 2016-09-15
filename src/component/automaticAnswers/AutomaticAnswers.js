@@ -17,7 +17,8 @@ export class AutomaticAnswers extends Component {
         statusId: null
       },
       solveSuccess: false,
-      errorMessage: ''
+      errorMessage: '',
+      isSubmitting: false
     };
   }
 
@@ -39,6 +40,11 @@ export class AutomaticAnswers extends Component {
       fail: this.solveTicketFail
     };
 
+    this.setState({
+      errorMessage: '',
+      isSubmitting: true
+    });
+
     if (ticketId && token) {
       this.props.solveTicket(ticketId, token, callbacks);
     } else {
@@ -48,13 +54,17 @@ export class AutomaticAnswers extends Component {
 
   solveTicketDone() {
     this.setState({
-      solveSuccess: true
+      solveSuccess: true,
+      isSubmitting: false
     });
   }
 
   solveTicketFail() {
     this.setState({
-      errorMessage: i18n.t('embeddable_framework.automaticAnswers.label.error')
+      errorMessage: i18n.t('embeddable_framework.automaticAnswers.label.error_v2', {
+        fallback: 'There was a problem solving your request. Please try again.'
+      }),
+      isSubmitting: false
     });
   }
 
@@ -62,6 +72,9 @@ export class AutomaticAnswers extends Component {
     return (
       <AutomaticAnswersDesktop
         ticketNiceId={this.state.ticket.niceId}
+        solveSuccess={this.state.solveSuccess}
+        errorMessage={this.state.errorMessage}
+        isSubmitting={this.state.isSubmitting}
         handleSolveTicket={this.handleSolveTicket}
         updateFrameSize={this.props.updateFrameSize} />
     );
