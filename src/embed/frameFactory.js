@@ -7,8 +7,6 @@ import snabbt from 'snabbt.js';
 import { EmbedWrapper } from 'component/frameFactory/EmbedWrapper';
 import { i18n } from 'service/i18n';
 import { settings } from 'service/settings';
-import { generateNpsCSS,
-         generateWebWidgetPreviewCSS } from 'utility/color';
 import { clickBusterRegister,
          getZoomSizingRatio,
          isFirefox,

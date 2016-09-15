@@ -39,7 +39,7 @@ describe('frameFactory', function() {
       'React': React,
       'utility/utils': {
         bindMethods: mockBindMethods
-      }
+      },
       'utility/globals': {
         win: window
       },

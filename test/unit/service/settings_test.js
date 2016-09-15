@@ -23,7 +23,7 @@ describe('settings', () => {
       vertical: 0
     },
     color: {
-      theme: '#659700'
+      theme: '#78A300'
     }
   };
 
