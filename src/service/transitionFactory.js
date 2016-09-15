@@ -72,7 +72,7 @@ export const transitionFactory = {
       transitionTimingFunction: 'ease-out',
       opacity: 0,
       bottom: 'auto',
-      top: '-30px'
+      top: '-300px'
     }),
     initial: factoryMaker({
       transitionProperty: 'all',
@@ -80,7 +80,7 @@ export const transitionFactory = {
       transitionTimingFunction: 'ease-out',
       opacity: 0,
       bottom: 'auto',
-      top: offScreen('-20%')
+      top: '-300px'
     }),
   },
   webWidget: {

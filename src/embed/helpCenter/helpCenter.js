@@ -180,7 +180,9 @@ function create(name, config) {
         upShow: transitionFactory.webWidget.upShow(),
         downHide: transitionFactory.webWidget.downHide(),
         downShow: transitionFactory.webWidget.downShow(),
-        initial: transitionFactory.webWidget.initial()
+        initial: transitionFactory.webWidget.initial(
+          isMobileBrowser() ? { top: '-100%' } : {}
+        )
       },
       afterShowAnimate(frame) {
         const rootComponent = frame.getRootComponent();
