@@ -64,7 +64,7 @@ export class IpmDesktop extends Component {
     return (
       <Container
         card={true}
-        className='IpmDesktop u-paddingHXL u-marginHM u-marginBM'>
+        className='IpmDesktop u-paddingHXL u-marginBM'>
         <div className='Container-content u-paddingBM'>
           {this.getAvatarElement()}
           <p className='IpmDesktop-intro u-marginBS u-marginHN u-textCenter'>

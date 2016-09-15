@@ -34,8 +34,8 @@ let cancelTargetHandler = null;
 
 function create(name, config) {
   let containerStyle;
+  let frameStyle = {};
 
-  const frameStyle = {};
   const configDefaults = {
     position: 'right',
     contextualHelpEnabled: false,
@@ -124,12 +124,18 @@ function create(name, config) {
   if (isMobileBrowser()) {
     containerStyle = { width: '100%', height: '100%' };
   } else {
-    frameStyle.width = 342;
-    frameStyle.maxHeight = 500;
-    containerStyle = { width: 342, margin: settings.get('margin') };
+    const margin = settings.get('margin');
+
+    frameStyle = _.extend({}, frameStyle, {
+      width: 342,
+      maxHeight: 500,
+      marginLeft: margin,
+      marginRight: margin
+    });
+    containerStyle = { width: 342 };
   }
 
-  const Embed = React.createClass(frameFactory(
+  const Embed = frameFactory(
     (params) => {
       return (
         <HelpCenter
@@ -192,7 +198,7 @@ function create(name, config) {
         }
       },
       extend: {}
-    }));
+    });
 
   helpCenters[name] = {
     component: <Embed visible={false} />,

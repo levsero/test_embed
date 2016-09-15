@@ -64,32 +64,4 @@ describe('Launcher component', function() {
 
     expect(mockUpdateFrameSize).toHaveBeenCalled();
   });
-
-  describe('componentDidUpdate', function() {
-    let launcher,
-      mockSetOffsetVertical,
-      mockSetOffsetHorizontal;
-
-    beforeEach(function() {
-      mockSetOffsetHorizontal = jasmine.createSpy('mockSetOffsetHorizontal');
-      mockSetOffsetVertical = jasmine.createSpy('mockSetOffsetVertical');
-
-      launcher = domRender(
-        <Launcher
-          setOffsetVertical={mockSetOffsetVertical}
-          setOffsetHorizontal={mockSetOffsetHorizontal} />);
-    });
-
-    it('should call the setOffsetVertical', function() {
-      launcher.componentDidUpdate();
-
-      expect(mockSetOffsetVertical).toHaveBeenCalled();
-    });
-
-    it('should call the setOffsetHorizontal', function() {
-      launcher.componentDidUpdate();
-
-      expect(mockSetOffsetHorizontal).toHaveBeenCalled();
-    });
-  });
 });

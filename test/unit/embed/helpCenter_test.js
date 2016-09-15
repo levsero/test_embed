@@ -92,8 +92,7 @@ describe('embed.helpCenter', function() {
       './helpCenter.scss': '',
       './helpCenterFrame.scss': '',
       'embed/frameFactory': {
-        frameFactory: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
-        frameMethods: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
+        frameFactory: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameFactory
       },
       'utility/devices': {
         isMobileBrowser: () => mockIsMobileBrowser,

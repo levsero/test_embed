@@ -10,6 +10,16 @@ describe('frameFactory', function() {
 
   const frameFactoryPath = buildSrcPath('embed/frameFactory');
 
+  class MockEmbedWrapper extends React.Component {
+    render() {
+      return (
+        <div id='Embed'>
+          {this.props.childFn(this.props.childParams)}
+        </div>
+      );
+    }
+  }
+
   beforeEach(function() {
     global.window = jsdom.jsdom('<html><body></body></html>').defaultView;
     global.document = global.window.document;
@@ -28,7 +38,8 @@ describe('frameFactory', function() {
     mockRegistryMocks = {
       'React': React,
       'utility/utils': {
-        clickBusterRegister: mockClickBusterRegister
+        clickBusterRegister: mockClickBusterRegister,
+        bindMethods: mockBindMethods
       },
       'utility/globals': {
         win: window
@@ -53,8 +64,8 @@ describe('frameFactory', function() {
           get: (name) => mockSettingsValue[name]
         }
       },
-      'component/button/ButtonNav': {
-        ButtonNav: noopReactComponent()
+      'component/frameFactory/EmbedWrapper': {
+        EmbedWrapper: MockEmbedWrapper
       },
       'lodash': _,
       'component/Icon': {
@@ -122,29 +133,9 @@ describe('frameFactory', function() {
     });
   });
 
-  describe('getDefaultProps', function() {
-    it('has default prop value for `visible` set to true', function() {
-      const payload = frameFactory(mockChildFn);
-      const defaultProps = payload.getDefaultProps();
-
-      expect(defaultProps.visible)
-        .toEqual(true);
-    });
-  });
-
-  describe('getInitialState', function() {
-    it('picks up initial state for `visible` from the `visible` prop', function() {
-      const Embed = React.createClass(frameFactory(mockChildFn));
-      const instance = instanceRender(<Embed visible={false} />);
-
-      expect(instance.state.visible)
-        .toEqual(false);
-    });
-  });
-
   describe('getChild', function() {
     it('stores and exposes the child component via getChild()', function() {
-      const Embed = React.createClass(frameFactory(mockChildFn));
+      const Embed = frameFactory(mockChildFn);
       const instance = domRender(<Embed />);
 
       expect(function() {
@@ -159,7 +150,7 @@ describe('frameFactory', function() {
 
   describe('getRootComponent', function() {
     it('returns the rootComponent', function() {
-      const Embed = React.createClass(frameFactory(mockChildFn));
+      const Embed = frameFactory(mockChildFn);
       const instance = domRender(<Embed />);
 
       expect(instance.getRootComponent().props.className)
@@ -169,8 +160,7 @@ describe('frameFactory', function() {
 
   describe('updateFrameSize', function() {
     it('reads content dimensions and sets the state', function() {
-      const payload = frameFactory(mockChildFn);
-      const Embed = React.createClass(payload);
+      const Embed = frameFactory(mockChildFn);
       const instance = domRender(<Embed />);
       const frameContainer = global.document.body.getElementsByTagName('iframe')[0];
       const frameContainerStyle = frameContainer.style;
@@ -178,7 +168,7 @@ describe('frameFactory', function() {
       jasmine.clock().install();
 
       // This is the "dirty" state
-      instance.setState({iframeDimensions: {width:999, height: 999}});
+      instance.setState({ iframeDimensions: { width:999, height: 999 } });
 
       expect(frameContainerStyle.width)
         .toEqual('999px');
@@ -195,20 +185,17 @@ describe('frameFactory', function() {
       // best we can do is check that that the width and height
       // have been updated from 999 to 0.
       expect(frameContainerStyle.width)
-        .toEqual('0px');
+        .toEqual('15px');
 
       expect(frameContainerStyle.height)
-        .toEqual('0px');
+        .toEqual('15px');
 
       expect(dimensions)
-        .toEqual({ width: 0, height: 0 });
-
-      // TODO: real browser tests that work off client*/offset* values.
+        .toEqual({ width: 15, height: 15 });
     });
 
     it('respects the fullscreenable parameter', function() {
-      let payload,
-        frameContainer,
+      let frameContainer,
         frameContainerStyle;
 
       mockRegistry['utility/devices'].isMobileBrowser = function() {
@@ -220,11 +207,10 @@ describe('frameFactory', function() {
 
       jasmine.clock().install();
 
-      payload = frameFactory(mockChildFn, {
+      const Embed = frameFactory(mockChildFn, {
         fullscreenable: true
       });
 
-      const Embed = React.createClass(payload);
       const instance = domRender(<Embed />);
 
       frameContainer = global.document.body.getElementsByTagName('iframe')[0];
@@ -256,18 +242,14 @@ describe('frameFactory', function() {
       mockOnShow;
 
     beforeEach(function() {
-      let payload,
-        Embed;
-
       mockSnabbt.calls.reset();
 
       mockOnShow = jasmine.createSpy('onShow');
 
-      payload = frameFactory(mockChildFn, {
+      const Embed = frameFactory(mockChildFn, {
         onShow: mockOnShow
-      }),
+      });
 
-      Embed = React.createClass(payload);
       instance = domRender(<Embed />);
     });
 
@@ -291,12 +273,8 @@ describe('frameFactory', function() {
       let instance;
 
       beforeEach(function() {
-        let payload,
-          Embed;
+        const Embed = frameFactory(mockChildFn, {});
 
-        payload = frameFactory(mockChildFn, {}),
-
-        Embed = React.createClass(payload);
         instance = domRender(<Embed />);
       });
 
@@ -315,9 +293,6 @@ describe('frameFactory', function() {
         instance;
 
       beforeEach(function() {
-        let payload,
-          Embed;
-
         mockAfterShowAnimate = jasmine.createSpy('afterShowAnimate');
         mockOnShow = jasmine.createSpy('onShow');
 
@@ -331,9 +306,8 @@ describe('frameFactory', function() {
           onShow: mockOnShow
         };
 
-        payload = frameFactory(mockChildFn, mockFrameParams),
+        const Embed = frameFactory(mockChildFn, mockFrameParams);
 
-        Embed = React.createClass(payload);
         instance = domRender(<Embed />);
       });
 
@@ -394,9 +368,6 @@ describe('frameFactory', function() {
           instance;
 
         beforeEach(function() {
-          let payload,
-            Embed;
-
           mockSnabbt.calls.reset();
 
           mockFrameParams = {
@@ -407,9 +378,8 @@ describe('frameFactory', function() {
             }
           };
 
-          payload = frameFactory(mockChildFn, mockFrameParams),
+          const Embed = frameFactory(mockChildFn, mockFrameParams);
 
-          Embed = React.createClass(payload);
           instance = domRender(<Embed />);
         });
 
@@ -426,9 +396,6 @@ describe('frameFactory', function() {
           instance;
 
         beforeEach(function() {
-          let payload,
-            Embed;
-
           mockSnabbt.calls.reset();
 
           mockFrameParams = {
@@ -439,9 +406,8 @@ describe('frameFactory', function() {
             }
           };
 
-          payload = frameFactory(mockChildFn, mockFrameParams),
+          const Embed = frameFactory(mockChildFn, mockFrameParams);
 
-          Embed = React.createClass(payload);
           instance = domRender(<Embed />);
         });
 
@@ -464,11 +430,9 @@ describe('frameFactory', function() {
 
       mockOnHide = jasmine.createSpy('onHide');
 
-      const payload = frameFactory(mockChildFn, {
+      const Embed = frameFactory(mockChildFn, {
         onHide: mockOnHide
       });
-
-      const Embed = React.createClass(payload);
 
       instance = domRender(<Embed />);
     });
@@ -493,14 +457,10 @@ describe('frameFactory', function() {
       let instance;
 
       beforeEach(function() {
-        let payload,
-          Embed;
-
         mockSnabbt.calls.reset();
 
-        payload = frameFactory(mockChildFn, {}),
+        const Embed = frameFactory(mockChildFn, {});
 
-        Embed = React.createClass(payload);
         instance = domRender(<Embed />);
       });
 
@@ -526,9 +486,7 @@ describe('frameFactory', function() {
           onHide: mockOnHide
         };
 
-        const payload = frameFactory(mockChildFn, mockFrameParams);
-
-        const Embed = React.createClass(payload);
+        const Embed = frameFactory(mockChildFn, mockFrameParams);
 
         instance = domRender(<Embed />);
       });
@@ -581,9 +539,7 @@ describe('frameFactory', function() {
             }
           };
 
-          const payload = frameFactory(mockChildFn, mockFrameParams);
-
-          const Embed = React.createClass(payload);
+          const Embed = frameFactory(mockChildFn, mockFrameParams);
 
           instance = domRender(<Embed />);
         });
@@ -610,10 +566,9 @@ describe('frameFactory', function() {
         let instance;
 
         beforeEach(() => {
-          const payload = frameFactory(mockChildFn, {
+          const Embed = frameFactory(mockChildFn, {
             onClose: mockOnClose
           });
-          const Embed = React.createClass(payload);
 
           instance = domRender(<Embed />);
         });
@@ -639,11 +594,10 @@ describe('frameFactory', function() {
           mockEvent;
 
         beforeEach(() => {
-          const payload = frameFactory(mockChildFn, {
+          const Embed = frameFactory(mockChildFn, {
             isMobile: true,
             onClose: mockOnClose
           });
-          const Embed = React.createClass(payload);
 
           mockEvent = {
             touches: [{ clientX: 1, clientY: 1 }]
@@ -690,11 +644,10 @@ describe('frameFactory', function() {
       let instance;
 
       beforeEach(() => {
-        const payload = frameFactory(mockChildFn, {
+        const Embed = frameFactory(mockChildFn, {
           preventClose: true,
           onClose: mockOnClose
         });
-        const Embed = React.createClass(payload);
 
         instance = domRender(<Embed />);
       });
@@ -721,13 +674,11 @@ describe('frameFactory', function() {
 
     beforeEach(function() {
       mockSettingsValue = { offset: { vertical: 31, horizontal: 52 } };
-      const payload = frameFactory(mockChildFn, {
+      const Embed = frameFactory(mockChildFn, {
         frameStyle: {
           backgroundColor: 'rgb(1, 2, 3)'
         }
       });
-
-      const Embed = React.createClass(payload);
 
       instance = domRender(<Embed visible={false} />);
     });
@@ -844,29 +795,10 @@ describe('frameFactory', function() {
   });
 
   describe('renderFrameContent', function() {
-    it('adds a <style> block with relevant rules to the iframe document', function() {
-      const payload = frameFactory(mockChildFn, {
-        css: '.params-css {} '
-      });
-      const Embed = React.createClass(payload);
-      const instance = domRender(<Embed />);
-      const child = instance.getChild();
-      const styleBlock = child.getDOMNode().getElementsByTagName('style')[0];
-
-      expect(styleBlock.innerHTML.indexOf('.base-css-file {}') >= 0)
-        .toBeTruthy();
-
-      expect(styleBlock.innerHTML.indexOf('.main-css-file {}') >= 0)
-        .toBeTruthy();
-
-      expect(styleBlock.innerHTML.indexOf('.params-css {}') >= 0)
-        .toBeTruthy();
-    });
-
     it('injects params.extend functions into the child component', function() {
       const mockClickHandler = jasmine.createSpy('mockClickHandler');
       const mockSubmitHandler = jasmine.createSpy('mockSubmitHandler');
-      const payload = frameFactory(
+      const Embed = frameFactory(
         function(params) {
           return (
             <mockComponent
@@ -882,7 +814,6 @@ describe('frameFactory', function() {
           }
         }
       );
-      const Embed = React.createClass(payload);
       const instance = domRender(<Embed />);
       const child = instance.getRootComponent();
 
@@ -899,7 +830,7 @@ describe('frameFactory', function() {
 
     it('injects the internal updateFrameSize into the child component', function() {
       const mockUpdateFrameSize = jasmine.createSpy('mockUpdateFrameSize');
-      const payload = frameFactory(
+      const Embed = frameFactory(
         function(params) {
           return (
             <mockComponent
@@ -913,7 +844,6 @@ describe('frameFactory', function() {
           }
         }
       );
-      const Embed = React.createClass(payload);
       const instance = domRender(<Embed />);
       const child = instance.getRootComponent();
 
@@ -921,7 +851,7 @@ describe('frameFactory', function() {
 
       // setup "dirty" state
       instance.setState({
-        iframeDimensions: {width: -1, height: -1}
+        iframeDimensions: { width: -1, height: -1 }
       });
 
       child.props.updateFrameSize();
@@ -931,35 +861,15 @@ describe('frameFactory', function() {
       // should have called the internal updateFrameSize
       // which updates the iframeDimensions state
       expect(instance.state.iframeDimensions)
-        .toEqual({width: 0, height: 0});
+        .toEqual({ width: 15, height: 15 });
 
       // shouldn't call the injected updateFrameSize prop
       expect(mockUpdateFrameSize)
         .not.toHaveBeenCalled();
     });
 
-    it('setOffsetVertical sets the widgets bottom margin', function() {
-      const payload = frameFactory(
-        function(params) {
-          return (
-            <mockComponent
-              ref='rootComponent'
-              setOffsetVertical={params.setOffsetVertical} />
-          );
-        }
-      );
-      const Embed = React.createClass(payload);
-      const instance = domRender(<Embed />);
-      const child = instance.getRootComponent();
-
-      child.props.setOffsetVertical(72);
-
-      expect(ReactDOM.findDOMNode(instance).style.marginBottom)
-        .toEqual('72px');
-    });
-
     it('setOffsetHorizontal sets the widgets left and right margin', function() {
-      const payload = frameFactory(
+      const Embed = frameFactory(
         function(params) {
           return (
             <mockComponent
@@ -968,7 +878,6 @@ describe('frameFactory', function() {
           );
         }
       );
-      const Embed = React.createClass(payload);
       const instance = domRender(<Embed />);
       const child = instance.getRootComponent();
 
@@ -981,8 +890,7 @@ describe('frameFactory', function() {
     });
 
     it('renders the child component to the document', function() {
-      const payload = frameFactory(mockChildFn);
-      const Embed = React.createClass(payload);
+      const Embed = frameFactory(mockChildFn);
       const instance = domRender(<Embed />);
 
       expect(instance.getChild().refs.rootComponent)
@@ -990,12 +898,8 @@ describe('frameFactory', function() {
     });
 
     it('updates `state._rendered` at the end', function() {
-      const payload = frameFactory(mockChildFn);
-      const Embed = React.createClass(payload);
+      const Embed = frameFactory(mockChildFn);
       const instance = domRender(<Embed />);
-
-      expect(instance.getInitialState()._rendered)
-        .toEqual(false);
 
       expect(instance.state._rendered)
         .toEqual(true);
@@ -1011,8 +915,7 @@ describe('frameFactory', function() {
 
       frameFactory = requireUncached(frameFactoryPath).frameFactory;
 
-      const payload = frameFactory(mockChildFn);
-      const Embed = React.createClass(payload);
+      const Embed = frameFactory(mockChildFn);
 
       domRender(<Embed />);
 

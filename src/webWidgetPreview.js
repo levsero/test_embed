@@ -43,7 +43,7 @@ const renderWebWidgetPreview = (options) => {
     preventClose: true
   };
 
-  const Embed = React.createClass(frameFactory(
+  const Embed = frameFactory(
     () => {
       return (
         <SubmitTicket
@@ -56,7 +56,7 @@ const renderWebWidgetPreview = (options) => {
       );
     },
     frameParams
-  ));
+  );
 
   const container = document.createElement('div');
 

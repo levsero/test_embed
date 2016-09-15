@@ -26,12 +26,16 @@ function create(name, config) {
   };
   const frameStyle = {
     width: '80px',
-    height: '50px'
+    height: '50px',
+    marginTop: '10px',
+    marginBottom: '10px',
+    marginLeft: '20px',
+    marginRight: '20px'
   };
 
   config = _.extend(configDefaults, config);
 
-  const Embed = React.createClass(frameFactory(
+  const Embed = frameFactory(
     (params) => {
       return (
         <Launcher
@@ -39,8 +43,6 @@ function create(name, config) {
           onClick={params.onClickHandler}
           onTouchEnd={params.onClickHandler}
           updateFrameSize={params.updateFrameSize}
-          setOffsetHorizontal={params.setOffsetHorizontal}
-          setOffsetVertical={params.setOffsetVertical}
           position={config.position}
           label={i18n.t(`embeddable_framework.launcher.label.${config.labelKey}`)}
           icon={config.icon} />
@@ -53,6 +55,8 @@ function create(name, config) {
       name: name,
       hideCloseButton: true,
       fullscreenable: false,
+      offsetWidth: 5,
+      offsetHeight: 1,
       transitions: {
         upShow: transitionFactory.webWidget.launcherUpShow(),
         downHide: transitionFactory.webWidget.launcherDownHide()
@@ -65,7 +69,8 @@ function create(name, config) {
           mediator.channel.broadcast(name + '.onClick');
         }
       }
-    }));
+    }
+  );
 
   launchers[name] = {
     component: <Embed visible={config.visible} position={config.position} />,

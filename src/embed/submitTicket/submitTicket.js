@@ -123,11 +123,17 @@ function create(name, config) {
   if (isMobileBrowser()) {
     containerStyle = { width: '100%', height: '100%' };
   } else {
-    frameStyle.width = 342;
-    containerStyle = { width: 342, margin: settings.get('margin') };
+    const margin = settings.get('margin');
+
+    frameStyle = _.extend({}, frameStyle, {
+      width: 342,
+      marginLeft: margin,
+      marginRight: margin
+    });
+    containerStyle = { width: 342 };
   }
 
-  let Embed = React.createClass(frameFactory(
+  const Embed = frameFactory(
     (params) => {
       return (
         <SubmitTicket
@@ -185,7 +191,7 @@ function create(name, config) {
         mediator.channel.broadcast(name + '.onBackClick');
       },
       extend: {}
-    }));
+    });
 
   submitTickets[name] = {
     component: <Embed visible={false} />,
