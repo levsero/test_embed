@@ -18,6 +18,7 @@ describe('embed.helpCenter', function() {
   const authenticateSpy = jasmine.createSpy();
   const revokeSpy = jasmine.createSpy();
   const getHelpCenterComponent = jasmine.createSpy();
+  const setChatOnline = jasmine.createSpy();
 
   beforeEach(function() {
     const mockForm = noopReactComponent();
@@ -79,6 +80,7 @@ describe('embed.helpCenter', function() {
           contextualSearch: contextualSearch,
           performSearch: performSearch,
           focusField: focusField,
+          setChatOnline: setChatOnline,
           getHelpCenterComponent: getHelpCenterComponent,
           render: function() {
             return (
@@ -600,6 +602,9 @@ describe('embed.helpCenter', function() {
 
         expect(carlosHelpCenter.state.buttonLabel)
           .toEqual('chat label');
+
+        expect(setChatOnline)
+          .toHaveBeenCalledWith(true);
       });
 
       it('should subscribe to <name>.setNextToSubmitTicket', function() {
@@ -615,6 +620,9 @@ describe('embed.helpCenter', function() {
 
         expect(carlosHelpCenter.state.buttonLabel)
           .toEqual('submitTicket label');
+
+        expect(setChatOnline)
+          .toHaveBeenCalledWith(false);
       });
 
       describe('when subscribing to <name>.setHelpCenterSuggestions', () => {

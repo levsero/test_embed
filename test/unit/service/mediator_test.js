@@ -954,7 +954,7 @@ describe('mediator', function() {
         reset(chatSub.show);
         reset(helpCenterSub.show);
 
-        c.broadcast(`${helpCenter}.onClose`); // close
+        c.broadcast(`${chat}.onHide`); // close
 
         jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`); // open
@@ -1039,6 +1039,27 @@ describe('mediator', function() {
 
         expect(chatSub.show.calls.count())
          .toEqual(0);
+      });
+
+      it('launches chat if it is passed in as the next embed', function() {
+        c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${launcher}.onClick`);
+        c.broadcast(`${helpCenter}.onNextClick`, 'chat');
+
+        expect(chatSub.show.calls.count())
+         .toEqual(1);
+      });
+
+      it('launches submitTicket if it is passed in as the next embed', function() {
+        c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${launcher}.onClick`);
+
+        jasmine.clock().install();
+        c.broadcast(`${helpCenter}.onNextClick`, 'submitTicket');
+        jasmine.clock().tick(0);
+
+        expect(submitTicketSub.show.calls.count())
+          .toEqual(1);
       });
     });
 

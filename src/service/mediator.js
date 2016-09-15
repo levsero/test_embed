@@ -297,6 +297,7 @@ function init(embedsAccessible, params = {}) {
 
       trackChatStarted();
 
+      state.activeEmbed = chat;
       c.broadcast(`${chat}.show`);
     } else {
       state[`${submitTicket}.isVisible`] = true;

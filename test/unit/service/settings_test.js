@@ -18,6 +18,7 @@ describe('settings', () => {
       contactForm: {
         attachments: true
       },
+      channelChoice: false,
       helpCenter: {
         originalArticleButton: true
       },
@@ -67,6 +68,11 @@ describe('settings', () => {
       it('has the correct value for color', () => {
         expect(settings.get('color'))
           .toEqual(defaults.color);
+      });
+
+      it('has the correct value for channelChoice', () => {
+        expect(settings.get('channelChoice'))
+          .toEqual(defaults.channelChoice);
       });
     });
 

@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import { Button } from 'component/button/Button';
 import { ButtonGroup } from 'component/button/ButtonGroup';
-import { ChannelChoicePopup } from 'component/ChannelChoice/ChannelChoicePopup';
+import { ChannelChoicePopup } from 'component/channelChoice/ChannelChoicePopup';
 import { ScrollContainer } from 'component/ScrollContainer';
 import { SearchField } from 'component/field/SearchField';
 import { ZendeskLogo } from 'component/ZendeskLogo';
