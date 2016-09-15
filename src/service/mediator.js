@@ -287,33 +287,16 @@ function init(embedsAccessible, params = {}) {
   });
 
   c.intercept(`${helpCenter}.onNextClick`, (__, embed = '') => {
-    if (embed === 'chat') {
-      state[`${chat}.isVisible`] = true;
-      c.broadcast(`${launcher}.hide`);
-      trackChatStarted();
-
-      state.activeEmbed = chat;
-      c.broadcast(`${chat}.show`);
-    } else if (embed === 'submitTicket') {
-      state[`${submitTicket}.isVisible`] = true;
-      state.activeEmbed = submitTicket;
-
-      setTimeout(() => {
-        c.broadcast(`${submitTicket}.show`, { transition: 'upShow' });
-      }, 0);
-    } else if (chatAvailable()) {
+    if (embed === 'chat' || (embed === '' && chatAvailable())) {
       if (!isMobileBrowser()) {
         state[`${chat}.isVisible`] = true;
         c.broadcast(`${launcher}.hide`);
-      }
-
-      if (isMobileBrowser()) {
+      } else {
         c.broadcast(`${launcher}.show`);
       }
 
       trackChatStarted();
 
-      state.activeEmbed = chat;
       c.broadcast(`${chat}.show`);
     } else {
       state[`${submitTicket}.isVisible`] = true;

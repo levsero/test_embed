@@ -114,13 +114,16 @@ export class HelpCenterDesktop extends Component {
     const channelChoiceClasses = classNames({
       'u-isHidden': !this.state.channelChoiceShown
     });
+    const buttonLabel = this.props.channelChoice
+                      ? i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket.contact')
+                      : this.props.buttonLabel;
 
     return (
       <div className={buttonContainerClasses}>
         <ButtonGroup rtl={i18n.isRTL()}>
           <Button
             fullscreen={false}
-            label={this.props.buttonLabel}
+            label={buttonLabel}
             onClick={this.handleNextButtonClick} />
         </ButtonGroup>
         <div className={channelChoiceClasses}>

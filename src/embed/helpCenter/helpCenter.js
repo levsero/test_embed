@@ -120,10 +120,6 @@ function create(name, config) {
 
   config = _.extend(configDefaults, config);
 
-  if (channelChoice) {
-    config.buttonLabelKey = 'contact';
-  }
-
   useMouseDistanceContexualSearch = config.enableMouseDrivenContextualHelp;
 
   if (isMobileBrowser()) {
