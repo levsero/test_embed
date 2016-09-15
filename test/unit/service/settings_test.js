@@ -4,28 +4,6 @@ describe('settings', () => {
     defaults;
   const settingsPath = buildSrcPath('service/settings');
   const maxLocaleFallbacks = 3;
-  const webWidgetStoreDefaults = {
-    contactForm: {
-      attachments: true,
-      suppress: false
-    },
-    helpCenter: {
-      originalArticleButton: true,
-      localeFallbacks: [],
-      suppress: false
-    },
-    chat: {
-      suppress: false
-    },
-    launcher: {},
-    offset: {
-      horizontal: 0,
-      vertical: 0
-    },
-    color: {
-      theme: '#78A300'
-    }
-  };
 
   beforeEach(() => {
     mockery.enable();
@@ -36,10 +14,7 @@ describe('settings', () => {
         }
       },
       'utility/utils': {
-        objectDifference: jasmine.createSpy('objectDifference').and.returnValue({
-          webWidget: {},
-          ipm: {}
-        })
+        objectDifference: mockObjectDifference
       }
     });
     defaults = {
@@ -316,12 +291,20 @@ describe('settings', () => {
   });
 
   describe('#getTrackSettings', () => {
-    const userSettings = _.merge({}, webWidgetStoreDefaults, {
-      helpCenter: { originalArticleButton: false }
-    });
+    const userSettings = {
+      webWidget: {
+        helpCenter: { originalArticleButton: false }
+      },
+      ipm: {
+        offset: {
+          horizontal: 1,
+          vertical: 1
+        }
+      }
+    };
 
     beforeEach(() => {
-      mockRegistry['utility/globals'].win.zESettings = { webWidget: userSettings };
+      mockRegistry['utility/globals'].win.zESettings = userSettings;
       settings.init();
     });
 
@@ -344,10 +327,16 @@ describe('settings', () => {
     });
 
     it('should filter out default values from the store', () => {
-      settings.getTrackSettings();
+      expect(settings.getTrackSettings())
+        .toEqual(userSettings);
+    });
 
-      expect(mockRegistry['utility/utils'].objectDifference)
-        .toHaveBeenCalledWith(userSettings, webWidgetStoreDefaults);
+    it('should filter out empty objects', () => {
+      mockRegistry['utility/globals'].win.zESettings.ipm = {};
+      settings.init();
+
+      expect(settings.getTrackSettings().ipm)
+        .toBeUndefined();
     });
   });
 });

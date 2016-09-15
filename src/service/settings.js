@@ -133,11 +133,12 @@ function getTrackSettings() {
   const userSettings = _.omit(webWidgetStore, blacklist);
   const defaults = _.omit(webWidgetStoreDefaults, blacklist);
   const widgetSettings = objectDifference(userSettings, defaults);
+  const ipmSettings = objectDifference(ipmStore, ipmStoreDefaults);
 
-  return {
+  return _.omitBy({
     webWidget: widgetSettings,
-    ipm: ipmStore
-  };
+    ipm: ipmSettings
+  }, _.isEmpty);
 }
 
 function enableCustomizations() {

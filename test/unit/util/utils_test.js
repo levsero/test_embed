@@ -156,18 +156,20 @@ describe('utils', function() {
   describe('objectDifference', () => {
     let a, b;
 
+    beforeEach(() => {
+      a = {
+        list: [],
+        hello: 'world',
+        bob: 'the builder'
+      };
+      b = {
+        list: [],
+        bob: 'the builder'
+      };
+    });
+
     describe('when there are no nested objects', () => {
       it('should return the complement of the two objects', () => {
-        a = {
-          list: [],
-          hello: 'world',
-          bob: 'the builder'
-        };
-        b = {
-          list: [],
-          bob: 'the builder'
-        };
-
         expect(objectDifference(a, b))
           .toEqual({ hello: 'world' });
       });
@@ -175,24 +177,13 @@ describe('utils', function() {
 
     describe('when there are nested objects', () => {
       it('should return the complement of the two objects', () => {
-        a = {
-          foo: {
-            bar: 0,
-            baz: 2
-          },
-          extra: { a: 0, b: 1 },
-          bob: 'the builder'
-        };
-        b = {
-          foo: {
-            bar: 0,
-            baz: 1
-          },
-          bob: 'the builder'
-        };
+        a.foo = { bar: 0, baz: 2 };
+        a.extra = { a: 0, b: 1 };
+        b.foo = { bar: 0, baz: 1 };
 
         expect(objectDifference(a, b))
           .toEqual({
+            hello: 'world',
             foo: { baz: 2 },
             extra: { a: 0, b: 1 }
           });
