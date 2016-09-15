@@ -6,7 +6,7 @@ export class Button extends Component {
     const buttonClasses = classNames({
       'c-btn c-btn--medium c-btn--primary': true,
       'Anim-color u-textNoWrap u-borderTransparent u-userBackgroundColor': true,
-      'u-sizeFull u-textSizeBaseMobile': this.props.fullscreen,
+      'is-mobile u-sizeFull u-textSizeBaseMobile': this.props.fullscreen,
       [`${this.props.className}`]: true
     });
     const allowedTypes = /^(submit|button)$/i;
@@ -46,4 +46,3 @@ Button.defaultProps = {
   className: '',
   style: null
 };
-

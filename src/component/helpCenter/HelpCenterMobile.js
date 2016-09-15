@@ -142,9 +142,13 @@ export class HelpCenterMobile extends Component {
   }
 
   renderFormContainer() {
-    const linkClasses = classNames({
+    const linkContainerClasses = classNames({
       'u-textSizeBaseMobile u-textCenter u-marginTL': true,
       'u-isHidden': !this.state.showIntroScreen
+    });
+    const linkClasses = classNames({
+      'u-block u-userTextColor u-textNoWrap': true,
+      'HelpCenterMobile-cta': true
     });
     const chatButtonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.chat');
 
@@ -166,9 +170,9 @@ export class HelpCenterMobile extends Component {
          ? null
          : (<div>
              {this.renderForm()}
-             <div className={linkClasses}>
+             <div className={linkContainerClasses}>
                <p className='u-marginBN'>{linkContext}</p>
-               <a className='u-userTextColor' onClick={this.props.handleNextClick}>
+               <a className={linkClasses} onClick={this.props.handleNextClick}>
                  {linkLabel}
                </a>
              </div>
