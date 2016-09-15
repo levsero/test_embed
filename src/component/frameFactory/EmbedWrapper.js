@@ -69,14 +69,14 @@ export class EmbedWrapper extends Component {
         {styleTag}
         <div className={backButtonClasses}>
           {this.renderNavButton({
-            onClick: this.props.back,
+            onClick: this.props.handleBackClick,
             icon: 'Icon--back',
             position: 'left'
           })}
         </div>
         <div className={closeButtonClasses}>
           {this.renderNavButton({
-            onClick: this.props.close,
+            onClick: this.props.handleCloseClick,
             icon: 'Icon--close',
             position: 'right'
           })}
@@ -90,9 +90,9 @@ export class EmbedWrapper extends Component {
 }
 
 EmbedWrapper.propTypes = {
-  back: PropTypes.func,
+  handleBackClick: PropTypes.func,
   baseCSS: PropTypes.string,
-  close: PropTypes.func,
+  handleCloseClick: PropTypes.func,
   fullscreen: PropTypes.bool,
   hideCloseButton: PropTypes.bool,
   childFn: PropTypes.func.isRequired,
@@ -100,9 +100,9 @@ EmbedWrapper.propTypes = {
 };
 
 EmbedWrapper.defaultProps = {
-  back: () => {},
+  handleBackClick: () => {},
   baseCSS: '',
-  close: () => {},
+  handleCloseClick: () => {},
   fullscreen: false,
   hideCloseButton: false,
   childParams: {}

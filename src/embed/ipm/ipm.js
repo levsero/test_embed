@@ -65,7 +65,6 @@ function create(name, config) {
     fullscreenable: false,
     onClose,
     onShow,
-    offsetWidth: 15,
     offsetHeight: 52, // the avatar is positioned -32 from the top so we need to account for that here.
     transitions: {
       upHide: transitionSet.upHide(),

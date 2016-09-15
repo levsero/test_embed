@@ -37,7 +37,7 @@ describe('EmbedWrapper', () => {
   it('adds a <style> block to the iframe document', () => {
     const instance = domRender(
       <EmbedWrapper
-        childFn={() => {}}
+        childFn={noop}
         baseCSS='.base-css-file {}' />
     );
     const styleBlock = ReactDOM.findDOMNode(instance).getElementsByTagName('style')[0];

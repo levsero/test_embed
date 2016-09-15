@@ -32,8 +32,8 @@ let cancelTargetHandler = null;
 
 function create(name, config) {
   let containerStyle;
+  let frameStyle = {};
 
-  const frameStyle = {};
   const configDefaults = {
     position: 'right',
     contextualHelpEnabled: false,
@@ -120,10 +120,14 @@ function create(name, config) {
   if (isMobileBrowser()) {
     containerStyle = { width: '100%', height: '100%' };
   } else {
-    frameStyle.width = 342;
-    frameStyle.maxHeight = 500;
-    frameStyle.marginLeft = 15;
-    frameStyle.marginRight = 15;
+    const margin = settings.get('margin');
+
+    frameStyle = _.extend({}, frameStyle, {
+      width: 342,
+      maxHeight: 500,
+      marginLeft: margin,
+      marginRight: margin
+    });
     containerStyle = { width: 342 };
   }
 
@@ -157,8 +161,6 @@ function create(name, config) {
       position: config.position,
       css: helpCenterCSS + generateUserCSS(config.color),
       name: name,
-      offsetHeight: 15,
-      offsetWidth: 15,
       fullscreenable: true,
       transitions: {
         close: transitionFactory.webWidget.downHide(),

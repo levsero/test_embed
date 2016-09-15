@@ -10,6 +10,16 @@ describe('frameFactory', function() {
 
   const frameFactoryPath = buildSrcPath('embed/frameFactory');
 
+  class MockEmbedWrapper extends React.Component {
+    render() {
+      return (
+        <div id='Embed'>
+          {this.props.childFn(this.props.childParams)}
+        </div>
+      );
+    }
+  }
+
   beforeEach(function() {
     global.window = jsdom.jsdom('<html><body></body></html>').defaultView;
     global.document = global.window.document;
@@ -24,16 +34,6 @@ describe('frameFactory', function() {
 
     mockSettingsValue = { offset: { vertical: 0, horizontal: 0 } };
     mockClickBusterRegister = jasmine.createSpy('clickBusterRegister');
-
-    class MockEmbedWrapper extends React.Component {
-      render() {
-        return (
-          <div id='Embed'>
-            {this.props.childFn(this.props.childParams)}
-          </div>
-        );
-      }
-    }
 
     mockRegistryMocks = {
       'React': React,
@@ -185,13 +185,13 @@ describe('frameFactory', function() {
       // best we can do is check that that the width and height
       // have been updated from 999 to 0.
       expect(frameContainerStyle.width)
-        .toEqual('0px');
+        .toEqual('15px');
 
       expect(frameContainerStyle.height)
-        .toEqual('0px');
+        .toEqual('15px');
 
       expect(dimensions)
-        .toEqual({ width: 0, height: 0 });
+        .toEqual({ width: 15, height: 15 });
     });
 
     it('respects the fullscreenable parameter', function() {
@@ -851,7 +851,7 @@ describe('frameFactory', function() {
 
       // setup "dirty" state
       instance.setState({
-        iframeDimensions: {width: -1, height: -1}
+        iframeDimensions: { width: -1, height: -1 }
       });
 
       child.props.updateFrameSize();
@@ -861,7 +861,7 @@ describe('frameFactory', function() {
       // should have called the internal updateFrameSize
       // which updates the iframeDimensions state
       expect(instance.state.iframeDimensions)
-        .toEqual({width: 0, height: 0});
+        .toEqual({ width: 15, height: 15 });
 
       // shouldn't call the injected updateFrameSize prop
       expect(mockUpdateFrameSize)

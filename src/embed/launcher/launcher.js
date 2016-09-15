@@ -70,10 +70,10 @@ function create(name, config) {
         }
       }
     }
-    );
+  );
 
   launchers[name] = {
-    component: <Embed visible={config.visible} position={config.position} ><div ref='test'/></Embed>,
+    component: <Embed visible={config.visible} position={config.position} />,
     config: config
   };
 }

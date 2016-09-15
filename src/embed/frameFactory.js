@@ -61,8 +61,8 @@ export const frameFactory = function(childFn, _params) {
     transitions: {},
     isMobile: isMobileBrowser(),
     disableSetOffsetHorizontal: false,
-    offsetWidth: 0,
-    offsetHeight: 0,
+    offsetWidth: 15,
+    offsetHeight: 15,
     position: 'right',
     preventClose: false
   };
@@ -359,9 +359,9 @@ export const frameFactory = function(childFn, _params) {
 
       child = ReactDOM.render(
         <EmbedWrapper
-          back={this.back}
           baseCSS={cssText}
-          close={this.close}
+          handleBackClick={this.back}
+          handleCloseClick={this.close}
           hideCloseButton={params.hideCloseButton}
           childFn={childFn}
           childParams={childParams}
