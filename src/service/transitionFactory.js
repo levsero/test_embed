@@ -7,8 +7,8 @@ const factoryMaker = (defaultParams) => {
 };
 
 const offScreen = (fallback) => {
-  return screen.height ? `-${screen.height}px` : fallback
-}
+  return screen.height ? `-${screen.height}px` : fallback;
+};
 
 export const transitionFactory = {
   npsMobile: {
@@ -81,7 +81,7 @@ export const transitionFactory = {
       opacity: 0,
       bottom: 'auto',
       top: '-300px'
-    }),
+    })
   },
   webWidget: {
     launcherUpShow: factoryMaker({
