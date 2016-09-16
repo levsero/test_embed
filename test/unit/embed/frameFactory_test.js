@@ -46,7 +46,8 @@ describe('frameFactory', function() {
       'utility/utils': {
         bindMethods: mockBindMethods,
         cssTimeToMs: function(_timeString) {
-          return 300;
+          // Codeclimate doesn't like not using the param
+          return 300 || _timeString;
         }
       },
       'utility/globals': {
