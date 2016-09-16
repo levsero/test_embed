@@ -1,0 +1,5 @@
+@mixin text-limit($max-width) {
+  text-overflow: ellipsis;
+  overflow: hidden !important;
+  max-width: $max-width;
+}

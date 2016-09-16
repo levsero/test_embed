@@ -74,7 +74,9 @@ export class HelpCenter extends Component {
   }
 
   focusField() {
-    this.refs.helpCenterDesktop.focusField();
+    if (this.refs.helpCenterDesktop) {
+      this.refs.helpCenterDesktop.focusField();
+    }
   }
 
   contextualSearch(options) {
@@ -207,9 +209,7 @@ export class HelpCenter extends Component {
       searchFailed: true
     });
 
-    if (this.refs.helpCenterDesktop) {
-      this.refs.helpCenterDesktop.focusField();
-    }
+    this.focusField();
   }
 
   performSearchWithLocaleFallback(query, successFn) {

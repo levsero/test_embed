@@ -2,6 +2,7 @@
  * 1. Set to a very large number to give the pill shape
  */
 @import '../_vars.scss';
+@import '../mixins.scss';
 
 $Button-baseFontSize: #{14/$font-size}rem;
 $Button-nudge: 5;
@@ -107,6 +108,11 @@ $Button-nudge: 5;
   font-size: #{13/$font-size}rem;
   border-radius: #{4/$font-size}rem;
   padding: #{11/$font-size}rem #{24/$font-size}rem;
+  @include text-limit(75%);
+
+  &.is-mobile {
+    @include text-limit(100%);
+  }
 
   &:hover, &:focus, &:active {
     color: $base-color;
