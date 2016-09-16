@@ -14,6 +14,7 @@ const submitTicket = 'ticketSubmissionForm';
 const launcher = 'launcher';
 const chat = 'zopimChat';
 const helpCenter = 'helpCenterForm';
+const channelChoice = 'channelChoice';
 const state = {};
 
 state[`${chat}.connectionPending`]  = true;
@@ -23,6 +24,8 @@ state[`${chat}.isVisible`]          = false;
 state[`${helpCenter}.isVisible`]    = false;
 state[`${helpCenter}.isAccessible`] = false;
 state[`${helpCenter}.isSuppressed`] = false;
+state[`${channelChoice}.isVisible`] = false;
+state[`${channelChoice}.isAccessible`] = false;
 state[`${chat}.isOnline`]           = false;
 state[`${chat}.isSuppressed`]       = false;
 state[`${chat}.unreadMsgs`]         = 0;
@@ -36,6 +39,10 @@ state['identify.pending']           = false;
 
 const helpCenterAvailable = () => {
   return state[`${helpCenter}.isAccessible`] && !state[`${helpCenter}.isSuppressed`];
+};
+
+const channelChoiceAvailable = () => {
+  return state[`${channelChoice}.isAccessible`] && !state[`${helpCenter}.isAccessible`];
 };
 
 const chatAvailable = () => {
@@ -60,6 +67,7 @@ const getHideAnimation = _.memoize(
 
 const embedVisible = (_state) => _.some([
   _state[`${helpCenter}.isVisible`],
+  _state[`${channelChoice}.isVisible`],
   _state[`${chat}.isVisible`],
   _state[`${submitTicket}.isVisible`]
 ]);
@@ -67,6 +75,8 @@ const embedVisible = (_state) => _.some([
 const resetActiveEmbed = () => {
   if (helpCenterAvailable()) {
     state.activeEmbed = helpCenter;
+  } else if (channelChoiceAvailable()) {
+    state.activeEmbed = channelChoice;
   } else if (chatAvailable()) {
     state.activeEmbed = chat;
   } else if (submitTicketAvailable()) {
@@ -102,6 +112,7 @@ function init(embedsAccessible, params = {}) {
   state[`${helpCenter}.isAccessible`]   = embedsAccessible.helpCenter &&
                                          (!params.helpCenterSignInRequired ||
                                          isOnHelpCenterPage());
+  state[`${channelChoice}.isAccessible`] = embedsAccessible.channelChoice;
   state[`${helpCenter}.isSuppressed`]   = settings.get('helpCenter.suppress');
   state[`${chat}.isSuppressed`]         = settings.get('chat.suppress');
   state[`${submitTicket}.isSuppressed`] = settings.get('contactForm.suppress');

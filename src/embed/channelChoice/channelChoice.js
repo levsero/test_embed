@@ -2,12 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
+import { ChannelChoice } from 'component/channelChoice/ChannelChoice';
 import { frameFactory } from 'embed/frameFactory';
 import { mediator } from 'service/mediator';
 import { settings } from 'service/settings';
 import { generateUserCSS } from 'utility/color';
 import { isIE,
          isMobileBrowser } from 'utility/devices';
+import { document,
+         getDocumentHost,
+         location } from 'utility/globals';
 
 let channelChoices = {};
 
@@ -19,7 +23,9 @@ function create(name, config) {
   const Embed = React.createClass(frameFactory(
     (params) => {
       return (
-        <ChannelChoice />
+        <ChannelChoice
+          ref='rootComponent'
+          updateFrameSize={params.updateFrameSize} />
       );
     },
     frameParams
@@ -57,7 +63,7 @@ function waitForRootComponent(name, callback) {
 
 function render(name) {
   if (channelChoices[name] && channelChoices[name].instance) {
-    throw new Error(`HelpCenter ${name} has already been rendered.`);
+    throw new Error(`ChannelChoice ${name} has already been rendered.`);
   }
 
   const element = getDocumentHost().appendChild(document.createElement('div'));
