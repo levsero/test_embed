@@ -48,7 +48,7 @@ function create(name, config) {
     enableMouseDrivenContextualHelp: false,
     color: '#659700'
   };
-  const onNextClick = function(embed = '') {
+  const onNextClick = function(embed) {
     mediator.channel.broadcast(name + '.onNextClick', embed);
   };
   const onArticleClick = function(trackPayload) {

@@ -286,8 +286,8 @@ function init(embedsAccessible, params = {}) {
     updateLauncherLabel();
   });
 
-  c.intercept(`${helpCenter}.onNextClick`, (__, embed = '') => {
-    if (embed === 'chat' || (embed === '' && chatAvailable())) {
+  c.intercept(`${helpCenter}.onNextClick`, (__, embed) => {
+    if (embed === 'chat' || (!embed && chatAvailable())) {
       if (!isMobileBrowser()) {
         state[`${chat}.isVisible`] = true;
         c.broadcast(`${launcher}.hide`);

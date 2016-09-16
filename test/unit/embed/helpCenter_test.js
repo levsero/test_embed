@@ -268,7 +268,7 @@ describe('embed.helpCenter', function() {
           payload.props.onNextClick();
 
           expect(mockMediator.channel.broadcast)
-            .toHaveBeenCalledWith('carlos.onNextClick', '');
+            .toHaveBeenCalledWith('carlos.onNextClick', undefined);
         });
 
         it('should broadcast <name>.onSearch with onSearch', function() {

@@ -124,9 +124,11 @@ describe('HelpCenterDesktop component', () => {
     });
 
     it('should show ChannelChoicePopup if channelChoice prop is true', () => {
-      helpCenterDesktop = domRender(<HelpCenterDesktop
-                                      onNextClick={jasmine.createSpy()}
-                                      channelChoice={true} />);
+      helpCenterDesktop = domRender(
+        <HelpCenterDesktop
+          onNextClick={jasmine.createSpy()}
+          channelChoice={true} />
+      );
 
       helpCenterDesktop.handleNextButtonClick({ preventDefault: noop });
 

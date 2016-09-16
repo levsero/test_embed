@@ -10,9 +10,7 @@ export class ChannelChoicePopup extends Component {
   }
 
   handleClick(embed) {
-    return () => {
-      this.props.onNextClick(embed);
-    };
+    return () => this.props.onNextClick(embed);
   }
 
   render() {

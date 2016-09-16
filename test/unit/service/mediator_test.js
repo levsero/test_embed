@@ -1047,7 +1047,7 @@ describe('mediator', function() {
         c.broadcast(`${helpCenter}.onNextClick`, 'chat');
 
         expect(chatSub.show.calls.count())
-         .toEqual(1);
+          .toEqual(1);
       });
 
       it('launches submitTicket if it is passed in as the next embed', function() {
