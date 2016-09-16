@@ -315,7 +315,7 @@ parts:
       obsolete: "2016-09-23"
   - translation:
       key: "embeddable_framework.automaticAnswers.label.introduction"
-      title: "Introduction for the user to evaluate if the current article answers their question. %()s stands for string and does not need to be translated."
+      title: "Introduction for the user to evaluate if the current article answers their question. %()s stands for string and does not need to be translated. Please use: <span>Hi,</span> If this article answers the question, please let us know and we'll close this request %(requestIdUrl)s."
       screenshot: "https://zendesk.box.com/s/6eucld6r9fukm36otcn2e0jivlycw203"
       value: "<span>Hi there,</span> If this article answers your question, please let us know and we'll close your request %(requestIdUrl)s."
   - translation:
@@ -325,14 +325,14 @@ parts:
       value: "Yes, close my request"
   - translation:
       key: "embeddable_framework.automaticAnswers.label.success_v2"
-      title: "Confirmation message on a successful ticket update."
+      title: "Confirmation message on a successful ticket update. Please use: Thank you, the request has been closed. Avoid possessive."
       screenshot: "https://zendesk.box.com/s/oeal2k7q5l7l5d7dglmxlph7pkyzoxm9"
       value: "Thank you, your request has been closed."
   - translation:
       key: "embeddable_framework.automaticAnswers.label.error_v2"
-      title: "Error message on a failed ticket update."
+      title: "Error message on a failed ticket update. Please use: There was a problem solving this request...Avoid possessive."
       screenshot: "https://zendesk.box.com/s/4qxn75tpkcocycfbrf9he2ht7uz1v7hw"
-      value: There was a problem solving your request, please try again."
+      value: There was a problem solving your request. Please try again."
 
   # Channel Choice
   - translation:
