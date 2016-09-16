@@ -18,7 +18,8 @@ const optionWhitelist = {
     'helpCenter.localeFallbacks',
     'launcher.chatLabel',
     'launcher.label',
-    'offset'
+    'offset',
+    'channelChoice'
   ],
   ipm: [
     'offset'
@@ -37,6 +38,7 @@ const webWidgetStoreDefaults = {
   contactForm: {
     attachments: true
   },
+  channelChoice: false,
   helpCenter: {
     originalArticleButton: true,
     localeFallbacks: []

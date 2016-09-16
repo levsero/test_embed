@@ -102,6 +102,18 @@ parts:
       title: "The placeholder in a generic email field for all our forms that need it. Will get cut off if too long"
       value: "Email address"
 
+  # Channel Choice component
+  - translation:
+      key: "embeddable_framework.channelChoice.button.label.submitTicket"
+      title: "The label for the submit ticket option in the list. The same text as embeddable_framework.helpCenter.submitButton.label.submitTicket.message"
+      screenshot: "https://zendesk.box.com/s/cybiy7gshwetcw9y8yd0o40ddixfdjj6"
+      value: "Leave a message"
+  - translation:
+      key: "embeddable_framework.channelChoice.button.label.chat"
+      title: "The label for the live chat option in the list. The same text as embeddable_framework.helpCenter.submitButton.label.chat"
+      screenshot: "https://zendesk.box.com/s/cybiy7gshwetcw9y8yd0o40ddixfdjj6"
+      value: "Live Chat"
+
   # Help Center component
   - translation:
       key: "embeddable_framework.helpCenter.form.title.help"

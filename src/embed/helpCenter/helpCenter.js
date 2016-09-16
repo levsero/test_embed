@@ -36,6 +36,7 @@ function create(name, config) {
   let containerStyle;
   let frameStyle = {};
 
+  const channelChoice = settings.get('channelChoice');
   const configDefaults = {
     position: 'right',
     contextualHelpEnabled: false,
@@ -47,8 +48,8 @@ function create(name, config) {
     enableMouseDrivenContextualHelp: false,
     color: '#659700'
   };
-  const onNextClick = function() {
-    mediator.channel.broadcast(name + '.onNextClick');
+  const onNextClick = function(embed) {
+    mediator.channel.broadcast(name + '.onNextClick', embed);
   };
   const onArticleClick = function(trackPayload) {
     beacon.trackUserAction('helpCenter', 'click', name, trackPayload);
@@ -157,6 +158,7 @@ function create(name, config) {
           disableAutoSearch={config.disableAutoSearch}
           originalArticleButton={settings.get('helpCenter.originalArticleButton')}
           localeFallbacks={settings.get('helpCenter.localeFallbacks')}
+          channelChoice={channelChoice}
           zendeskHost={transport.getZendeskHost()} />
       );
     },
@@ -292,11 +294,19 @@ function render(name) {
   });
 
   mediator.channel.subscribe(name + '.setNextToChat', function() {
+    waitForRootComponent(name, () => {
+      getRootComponent(name).setChatOnline(true);
+    });
+
     updateHelpCenterButton(name, 'chat');
   });
 
   mediator.channel.subscribe(name + '.setNextToSubmitTicket', function() {
     const buttonLabelKey = get(name).config.buttonLabelKey;
+
+    waitForRootComponent(name, () => {
+      getRootComponent(name).setChatOnline(false);
+    });
 
     updateHelpCenterButton(name, `submitTicket.${buttonLabelKey}`);
   });

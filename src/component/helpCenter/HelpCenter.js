@@ -34,6 +34,7 @@ export class HelpCenter extends Component {
       searchFieldFocused: false,
       resultsPerPage: minimumSearchResults,
       showViewMore: true,
+      chatOnline: false,
       viewMoreActive: false
     };
   }
@@ -58,6 +59,10 @@ export class HelpCenter extends Component {
       searchFailed: false,
       searchResultClicked: false
     }, state);
+  }
+
+  setChatOnline(state) {
+    this.setState({ chatOnline: state });
   }
 
   interactiveSearchSuccessFn(res, query) {
@@ -397,6 +402,8 @@ export class HelpCenter extends Component {
         hideZendeskLogo={this.props.hideZendeskLogo}
         disableAutoSearch={this.props.disableAutoSearch}
         isLoading={this.state.isLoading}
+        onNextClick={this.props.onNextClick}
+        channelChoice={this.props.channelChoice && this.state.chatOnline}
         articleViewActive={this.state.articleViewActive}
         hasSearched={this.state.hasSearched}
         buttonLabel={this.state.buttonLabel}
@@ -466,6 +473,7 @@ HelpCenter.propTypes = {
   style: PropTypes.object,
   formTitleKey: PropTypes.string,
   originalArticleButton: PropTypes.bool,
+  channelChoice: PropTypes.bool,
   localeFallbacks: PropTypes.arr,
   disableAutoSearch: PropTypes.bool
 };
@@ -482,5 +490,6 @@ HelpCenter.defaultProps = {
   formTitleKey: 'help',
   originalArticleButton: true,
   localeFallbacks: [],
+  channelChoice: false,
   disableAutoSearch: false
 };

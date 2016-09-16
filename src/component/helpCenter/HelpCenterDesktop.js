@@ -3,6 +3,7 @@ import classNames from 'classnames';
 
 import { Button } from 'component/button/Button';
 import { ButtonGroup } from 'component/button/ButtonGroup';
+import { ChannelChoicePopup } from 'component/channelChoice/ChannelChoicePopup';
 import { ScrollContainer } from 'component/ScrollContainer';
 import { SearchField } from 'component/field/SearchField';
 import { ZendeskLogo } from 'component/ZendeskLogo';
@@ -13,6 +14,8 @@ export class HelpCenterDesktop extends Component {
   constructor(props, context) {
     super(props, context);
     bindMethods(this, HelpCenterDesktop.prototype);
+
+    this.state = { channelChoiceShown: false };
   }
 
   componentDidUpdate() {
@@ -49,6 +52,16 @@ export class HelpCenterDesktop extends Component {
   handleChange(e) {
     e.preventDefault();
     this.props.autoSearch();
+  }
+
+  handleNextButtonClick(e) {
+    e.preventDefault();
+
+    if (this.props.channelChoice) {
+      this.setState({ channelChoiceShown: true });
+    } else {
+      this.props.onNextClick();
+    }
   }
 
   renderForm() {
@@ -90,26 +103,39 @@ export class HelpCenterDesktop extends Component {
          : null;
   }
 
-  render() {
+  renderFooterContent() {
+    if (!this.props.showNextButton) return null;
+
     const buttonContainerClasses = classNames({
+      'u-posRelative': true,
       'u-marginVM': this.props.hideZendeskLogo,
       'u-isHidden': !this.props.hasSearched
     });
+    const channelChoiceClasses = classNames({
+      'u-isHidden': !this.state.channelChoiceShown
+    });
+    const buttonLabel = this.props.channelChoice
+                      ? i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket.contact')
+                      : this.props.buttonLabel;
 
+    return (
+      <div className={buttonContainerClasses}>
+        <ButtonGroup rtl={i18n.isRTL()}>
+          <Button
+            fullscreen={false}
+            label={buttonLabel}
+            onClick={this.handleNextButtonClick} />
+        </ButtonGroup>
+        <div className={channelChoiceClasses}>
+          <ChannelChoicePopup
+            onNextClick={this.props.onNextClick} />
+        </div>
+      </div>
+    );
+  }
+
+  render() {
     setTimeout(() => this.props.updateFrameSize(), 0);
-
-    const footerContent = this.props.showNextButton
-                        ? (
-                          <div className={buttonContainerClasses}>
-                            <ButtonGroup rtl={i18n.isRTL()}>
-                              <Button
-                                fullscreen={false}
-                                label={this.props.buttonLabel}
-                                onClick={this.props.handleNextClick} />
-                            </ButtonGroup>
-                          </div>
-                        )
-                        : null;
 
     return (
       <div>
@@ -119,7 +145,7 @@ export class HelpCenterDesktop extends Component {
           title={i18n.t(`embeddable_framework.helpCenter.form.title.${this.props.formTitleKey}`)}
           footerContentHidden={!this.props.showNextButton && this.props.hasSearched}
           headerContent={this.renderHeaderContent()}
-          footerContent={footerContent}>
+          footerContent={this.renderFooterContent()}>
           {this.renderBodyForm()}
           {this.props.children}
         </ScrollContainer>
@@ -146,6 +172,7 @@ HelpCenterDesktop.propTypes = {
   shadowVisible: PropTypes.bool,
   searchFieldValue: PropTypes.string,
   disableAutoSearch: PropTypes.bool,
+  channelChoice: PropTypes.bool,
   showNextButton: PropTypes.bool
 };
 
@@ -157,9 +184,10 @@ HelpCenterDesktop.defaultProps = {
   isLoading: false,
   articleViewActive: false,
   hasSearched: false,
-  buttonLabel: 'Send a Message',
+  buttonLabel: 'message',
   shadowVisible: false,
   searchFieldValue: '',
   disableAutoSearch: false,
+  channelChoice: false,
   showNextButton: true
 };

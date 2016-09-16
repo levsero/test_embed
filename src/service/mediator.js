@@ -286,14 +286,12 @@ function init(embedsAccessible, params = {}) {
     updateLauncherLabel();
   });
 
-  c.intercept(`${helpCenter}.onNextClick`, () => {
-    if (chatAvailable()) {
+  c.intercept(`${helpCenter}.onNextClick`, (__, embed) => {
+    if (embed === 'chat' || (!embed && chatAvailable())) {
       if (!isMobileBrowser()) {
         state[`${chat}.isVisible`] = true;
         c.broadcast(`${launcher}.hide`);
-      }
-
-      if (isMobileBrowser()) {
+      } else {
         c.broadcast(`${launcher}.show`);
       }
 
