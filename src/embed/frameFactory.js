@@ -71,8 +71,8 @@ export const frameFactory = function(childFn, _params) {
   };
   const params = _.defaultsDeep({}, _params, defaultParams);
   const zIndex = settings.get('zIndex');
-  const defaultHideTransition = params.transitions.downHide;
-  const defaultShowTransition = params.transitions.upShow;
+  const defaultHideTransition = transitionFactory.webWidget.downHide();
+  const defaultShowTransition = transitionFactory.webWidget.upShow();
 
   if (__DEV__) {
     validateChildFn(childFn, params);
