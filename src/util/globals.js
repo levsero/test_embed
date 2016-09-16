@@ -10,7 +10,6 @@ function getDocumentHost() {
 }
 
 // Shim rAF for older browsers that either don't have it or need the prefixed version.
-// Attaching to the iframe window as that's what snabbt looks at.
 (function() {
   let lastTime = 0;
   const vendors = ['webkit', 'moz'];
