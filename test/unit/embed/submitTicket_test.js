@@ -364,11 +364,9 @@ describe('embed.submitTicket', function() {
               res: {
                 body: {
                   message: 'Request #149 "bla bla" created'
-                },
-                req: {
-                  _data: { email: 'mock@email.com' }
                 }
               },
+              email: 'mock@email.com',
               searchTerm: 'a search',
               searchLocale: 'en-US'
             };
@@ -384,8 +382,8 @@ describe('embed.submitTicket', function() {
             const value = {
               query: params.searchTerm,
               locale: params.searchLocale,
-              ticketId: 149,
-              email: 'mock@email.com'
+              email: params.email,
+              ticketId: 149
             };
 
             expect(mockBeacon.trackUserAction)
@@ -397,22 +395,29 @@ describe('embed.submitTicket', function() {
         });
 
         describe('when attachments are enabled', () => {
-          it('should broadcast <name>.onSubmitted using correct params for new request endpoint', () => {
-            const params = {
+          let params,
+            value,
+            mockFrameFactoryCall,
+            payload;
+
+          beforeEach(() => {
+            params = {
               res: {
-                req: {
-                  _data: {
-                    request: {
-                      requester: { email: 'mock@email.com' }
-                    }
-                  }
-                },
                 body: {
                   request: { id: 149 }
                 }
               },
+              email: 'mock@email.com',
               searchTerm: 'a search',
               searchLocale: 'en-US',
+              attachmentsCount: 2,
+              attachmentTypes: ['image/gif', 'image/png']
+            };
+            value = {
+              query: params.searchTerm,
+              locale: params.searchLocale,
+              email: params.email,
+              ticketId: 149,
               attachmentsCount: 2,
               attachmentTypes: ['image/gif', 'image/png']
             };
@@ -420,26 +425,36 @@ describe('embed.submitTicket', function() {
             mockSettingsValue = true;
             submitTicket.create('bob', { attachmentsEnabled: true });
 
-            const mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
+            mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
+            payload = mockFrameFactoryCall[0](childFnParams);
+          });
 
-            const payload = mockFrameFactoryCall[0](childFnParams);
+          describe('when ticket is suspended', () => {
+            it('should broadcast <name>.onsubmitted using correct params for new request endpoint', () => {
+              params.res.body = {
+                suspended_ticket: { id: 149 } // eslint-disable-line camelcase
+              };
 
-            payload.props.onSubmitted(params);
+              payload.props.onSubmitted(params);
 
-            const value = {
-              query: params.searchTerm,
-              locale: params.searchLocale,
-              ticketId: 149,
-              email: 'mock@email.com',
-              attachmentsCount: 2,
-              attachmentTypes: ['image/gif', 'image/png']
-            };
+              expect(mockBeacon.trackUserAction)
+                .toHaveBeenCalledWith('submitTicket', 'send', 'bob', value);
 
-            expect(mockBeacon.trackUserAction)
-              .toHaveBeenCalledWith('submitTicket', 'send', 'bob', value);
+              expect(mockMediator.channel.broadcast)
+                .toHaveBeenCalledWith('bob.onFormSubmitted');
+            });
+          });
 
-            expect(mockMediator.channel.broadcast)
-              .toHaveBeenCalledWith('bob.onFormSubmitted');
+          describe('when ticket is not suspended', () => {
+            it('should broadcast <name>.onsubmitted using correct params for new request endpoint', () => {
+              payload.props.onSubmitted(params);
+
+              expect(mockBeacon.trackUserAction)
+                .toHaveBeenCalledWith('submitTicket', 'send', 'bob', value);
+
+              expect(mockMediator.channel.broadcast)
+                .toHaveBeenCalledWith('bob.onFormSubmitted');
+            });
           });
         });
       });

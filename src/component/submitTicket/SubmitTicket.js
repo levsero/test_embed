@@ -49,7 +49,7 @@ export class SubmitTicket extends Component {
   }
 
   showField() {
-    this.setState({showEmail: true});
+    this.setState({ showEmail: true });
   }
 
   handleSubmit(e, data) {
@@ -87,6 +87,7 @@ export class SubmitTicket extends Component {
 
       const params = {
         res: res,
+        email: formParams.email,
         searchTerm: this.state.searchTerm,
         searchLocale: this.state.searchLocale
       };
@@ -103,6 +104,7 @@ export class SubmitTicket extends Component {
                                  .value();
 
         _.extend(params, {
+          email: formParams.request.requester.email,
           attachmentsCount: attachmentsList.numUploadedAttachments(),
           attachmentTypes: attachmentTypes
         });
