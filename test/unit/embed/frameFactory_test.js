@@ -45,7 +45,7 @@ describe('frameFactory', function() {
       'React': React,
       'utility/utils': {
         bindMethods: mockBindMethods,
-        cssTimeToMs: function(timeString) {
+        cssTimeToMs: function(_timeString) {
           return 300;
         }
       },
@@ -284,7 +284,7 @@ describe('frameFactory', function() {
           }
         },
         onShow: mockOnShow
-      }
+      };
 
       const Embed = frameFactory(mockChildFn, mockFrameParams);
       instance = domRender(<Embed />);
@@ -468,7 +468,6 @@ describe('frameFactory', function() {
         mockFrameParams;
 
       beforeEach(function() {
-
         mockFrameParams = {
           transitions: {
             downHide: {
@@ -496,8 +495,8 @@ describe('frameFactory', function() {
 
         expect(instance.state.frameStyle.top)
           .toEqual('-3838px');
-          expect(instance.state.frameStyle.transitionDuration)
-            .toEqual('7777s');
+        expect(instance.state.frameStyle.transitionDuration)
+          .toEqual('7777s');
       });
 
       it('should set `visible` to false after the animation has finished', function() {
@@ -505,7 +504,6 @@ describe('frameFactory', function() {
 
         instance.hide({ transition: 'downHide' });
         jasmine.clock().tick(300);
-
 
         expect(instance.state.visible)
           .toEqual(false);
