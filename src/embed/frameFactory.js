@@ -227,7 +227,7 @@ export const frameFactory = function(childFn, _params) {
 
       setTimeout( () => {
         params.afterShowAnimate(this);
-      }, cssTimeToMs(transition['transitionDuration']));
+      }, cssTimeToMs(transition.transitionDuration));
 
       params.onShow(this);
     }
@@ -292,7 +292,7 @@ export const frameFactory = function(childFn, _params) {
     computeIframeStyle() {
       const visibilityRule = (this.state.visible && !this.state.hiddenByZoom)
                            ? null
-                           : params.transitions.initial
+                           : params.transitions.initial;
 
       const horizontalOffset = (isMobileBrowser()) ? 0 : settings.get('offset').horizontal;
       const verticalOffset = (isMobileBrowser()) ? 0 : settings.get('offset').vertical;

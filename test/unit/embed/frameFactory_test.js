@@ -288,6 +288,7 @@ describe('frameFactory', function() {
       };
 
       const Embed = frameFactory(mockChildFn, mockFrameParams);
+
       instance = domRender(<Embed />);
     });
 
