@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import _ from 'lodash';
 
 import { ChannelChoice } from 'component/channelChoice/ChannelChoice';
 import { frameFactory } from 'embed/frameFactory';
@@ -8,11 +7,9 @@ import { mediator } from 'service/mediator';
 import { settings } from 'service/settings';
 import { transitionFactory } from 'service/transitionFactory';
 import { generateUserCSS } from 'utility/color';
-import { isIE,
-         isMobileBrowser } from 'utility/devices';
+import { isMobileBrowser } from 'utility/devices';
 import { document,
-         getDocumentHost,
-         location } from 'utility/globals';
+         getDocumentHost } from 'utility/globals';
 
 let channelChoices = {};
 
@@ -36,7 +33,7 @@ function create(name, config) {
     onClose() {
       mediator.channel.broadcast(name + '.onClose');
     },
-    css: channelChoiceCSS,
+    css: channelChoiceCSS + generateUserCSS(config.color),
     fullscreenable: true,
     transitions: {
       close: transitionFactory.webWidget.downHide(),

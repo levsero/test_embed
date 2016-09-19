@@ -73,8 +73,8 @@ function init(config) {
     i18n.setLocale(config.locale);
 
     if (settings.get('channelChoice')) {
-      embedsMap['channelChoice'].create('channelChoice', {});
-      embedsMap['channelChoice'].render('channelChoice');
+      embedsMap.channelChoice.create('channelChoice', {});
+      embedsMap.channelChoice.render('channelChoice');
     }
 
     _.forEach(parseConfig(config), function(configItem, embedName) {
