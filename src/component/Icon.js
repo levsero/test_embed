@@ -14,6 +14,7 @@ const icons = {
   'Icon--search': require('icons/widget-icon_search.svg'),
   'Icon--zendesk': require('icons/widget-icon_zendesk.svg'),
   'Icon--caret': require('icons/widget-icon_caret.svg'),
+  'Icon--form': require('icons/widget-icon_form.svg'),
   'Icon--avatar': require('icons/widget-icon_avatar.svg'),
   'Icon--article': require('icons/widget-icon_article.svg'),
   'Icon--clearInput': require('icons/widget-icon_clearInput.svg'),

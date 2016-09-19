@@ -7,21 +7,22 @@ import { i18n } from 'service/i18n';
 export class ButtonIcon extends Component {
   render() {
     const buttonClasses = classNames({
-      'c-btn c-btn--medium c-btn--primary': true,
-      'Anim-color u-textNoWrap u-borderTransparent': true,
-      'u-sizeFull u-textSizeBaseMobile': this.props.fullscreen,
+      'c-btn c-btn--secondary u-userFillColor u-paddingTM': true,
+      'Anim-color u-textNoWrap u-borderTransparent u-paddingBXL': true,
       [`${this.props.className}`]: true
     });
 
-    const icon = this.props.showIcon ? <Icon type='Icon--link' /> : null;
     return (
       <div
         onClick={this.props.onClick}
         onTouchStart={this.props.onClick}
         className={buttonClasses}>
         <Icon
+          className='u-pullLeft Arrange-sizeFit'
           type={this.props.icon} />
-        <div>{this.props.label}</div>
+        <span className='u-pullLeft u-textSizeNml u-textNormal u-alignMiddle'>
+          {this.props.label}
+        </span>
       </div>
     );
   }

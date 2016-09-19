@@ -89,10 +89,9 @@ $Container-spacing: 25/$font-size;
 }
 
 .Container--channelChoicePopup {
-  background-color: $zendesk-color--white-smoke;
-  position: absolute;
+  background-color: $base-color;
   bottom: #{40/$font-size}rem;
   right: 0;
-  width: #{100/$font-size}rem;
-  border: #{1/$font-size}rem solid $base-border-color;
+  max-width: #{300/$font-size}rem;
+  padding: #{5/$font-size}rem;
 }
