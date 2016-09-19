@@ -332,6 +332,17 @@ describe('beacon', function() {
 
     describe('when there is no zESettings object on the page', () => {
       it('should not send the settings blip', () => {
+        beacon.trackSettings();
+
+        expect(mockTransport.sendWithMeta)
+          .not.toHaveBeenCalled();
+      });
+    });
+
+    describe('when no settings have been changed from the defaults', () => {
+      it('should not send the settings blip', () => {
+        beacon.trackSettings({});
+
         expect(mockTransport.sendWithMeta)
           .not.toHaveBeenCalled();
       });
