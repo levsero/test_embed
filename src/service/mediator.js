@@ -203,14 +203,6 @@ function init(embedsAccessible, params = {}) {
     resetActiveEmbed();
   });
 
-  c.intercept(`${channelChoice}.onNextClickChat`, () => {
-    console.log('load chat form');
-  });
-
-  c.intercept(`${channelChoice}.onNextClickTicket`, () => {
-    console.log('load submit ticket form');
-  });
-
   c.intercept(`${channelChoice}.onClose`, (_broadcast) => {
     state[`${channelChoice}.isVisible`] = false;
     _broadcast();
@@ -320,49 +312,58 @@ function init(embedsAccessible, params = {}) {
     updateLauncherLabel();
   });
 
-  c.intercept(`${helpCenter}.onNextClick`, (__, embed) => {
-    if (embed === 'chat' || (!embed && chatAvailable())) {
-      if (!isMobileBrowser()) {
-        state[`${chat}.isVisible`] = true;
-        c.broadcast(`${launcher}.hide`);
+  c.intercept(
+    [`${helpCenter}.onNextClick`,
+     `${channelChoice}.onNextClick`].join(','),
+    (__, embed) => {
+      const currentEmbed = state.activeEmbed;
+
+      if (embed === 'chat' || (!embed && chatAvailable())) {
+        if (!isMobileBrowser()) {
+          state[`${chat}.isVisible`] = true;
+          c.broadcast(`${launcher}.hide`);
+        } else {
+          c.broadcast(`${launcher}.show`);
+        }
+
+        trackChatStarted();
+
+        state.activeEmbed = chat;
+        c.broadcast(`${chat}.show`);
       } else {
-        c.broadcast(`${launcher}.show`);
+        state[`${submitTicket}.isVisible`] = true;
+        state.activeEmbed = submitTicket;
+
+        // Run this on a seperate `tick` from helpCenter.hide
+        // to mitigate ghost-clicking
+        setTimeout(() => {
+          if (isMobileBrowser()) {
+            c.broadcast(`${submitTicket}.show`);
+          } else {
+            c.broadcast(`${submitTicket}.show`, { transition: 'upShow' });
+          }
+        }, 0);
       }
 
-      trackChatStarted();
+      state[`${currentEmbed}.isVisible`] = false;
 
-      state.activeEmbed = chat;
-      c.broadcast(`${chat}.show`);
-    } else {
-      state[`${submitTicket}.isVisible`] = true;
-      state.activeEmbed = submitTicket;
-
-      // Run this on a seperate `tick` from helpCenter.hide
-      // to mitigate ghost-clicking
+      // Run this on a separate `tick` from submitTicket.show
       setTimeout(() => {
         if (isMobileBrowser()) {
-          c.broadcast(`${submitTicket}.show`);
+          c.broadcast(`${currentEmbed}.hide`);
         } else {
-          c.broadcast(`${submitTicket}.show`, { transition: getShowAnimation() });
+          c.broadcast(`${currentEmbed}.show`, { transition: getShowAnimation() });
         }
       }, 0);
-    }
 
-    state[`${helpCenter}.isVisible`] = false;
-
-    // Run this on a separate `tick` from submitTicket.show
-    setTimeout(() => {
       if (isMobileBrowser()) {
         c.broadcast(`${helpCenter}.hide`);
+        c.broadcast(`${submitTicket}.showBackButton`);
       } else {
         c.broadcast(`${helpCenter}.hide`, { transition: getHideAnimation() });
       }
-    }, 0);
-
-    if (isMobileBrowser()) {
-      c.broadcast(`${submitTicket}.showBackButton`);
     }
-  });
+  );
 
   c.intercept(`${helpCenter}.onSearch`, (__, params) => {
     c.broadcast(`${submitTicket}.setLastSearch`, params);
@@ -470,9 +471,11 @@ function init(embedsAccessible, params = {}) {
   );
 
   c.intercept(`${submitTicket}.onBackClick`, () => {
+    const activeEmbed = helpCenterAvailable() ? helpCenter : channelChoice;
+
     state[`${submitTicket}.isVisible`] = false;
-    state[`${helpCenter}.isVisible`]   = true;
-    state.activeEmbed = helpCenter;
+    state[`${activeEmbed}.isVisible`] = true;
+    state.activeEmbed = activeEmbed;
 
     // Run these two broadcasts on a seperate `ticks`
     // to mitigate ghost-clicking
@@ -481,7 +484,7 @@ function init(embedsAccessible, params = {}) {
     }, 10); // delay hiding so we don't see host page flashing
 
     setTimeout(() => {
-      c.broadcast(`${helpCenter}.show`);
+      c.broadcast(`${activeEmbed}.show`);
     }, 0);
   });
 
@@ -493,6 +496,10 @@ function init(embedsAccessible, params = {}) {
       state[`${helpCenter}.isVisible`] = true;
       state.activeEmbed = helpCenter;
       c.broadcast(`${helpCenter}.show`, { transition: getShowAnimation() });
+    } else if (channelChoiceAvailable()) {
+      state[`${channelChoice}.isVisible`] = true;
+      state.activeEmbed = channelChoice;
+      c.broadcast(`${channelChoice}.show`, { transition: 'downShow' });
     } else if (!state['.hideOnClose']) {
       c.broadcast(`${launcher}.show`, { transition: getShowAnimation() });
     }

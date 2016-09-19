@@ -6,6 +6,7 @@ import { ChannelChoice } from 'component/channelChoice/ChannelChoice';
 import { frameFactory } from 'embed/frameFactory';
 import { mediator } from 'service/mediator';
 import { settings } from 'service/settings';
+import { transitionFactory } from 'service/transitionFactory';
 import { generateUserCSS } from 'utility/color';
 import { isIE,
          isMobileBrowser } from 'utility/devices';
@@ -25,7 +26,9 @@ function create(name, config) {
     containerStyle = { width: '100%', height: '100%' };
   } else {
     frameStyle.width = 342;
-    containerStyle = { width: 342, margin: settings.get('margin') };
+    frameStyle.marginLeft = settings.get('margin');
+    frameStyle.marginRight = settings.get('margin');
+    containerStyle = { width: 342 };
   }
 
   const frameParams = {
@@ -34,29 +37,36 @@ function create(name, config) {
       mediator.channel.broadcast(name + '.onClose');
     },
     css: channelChoiceCSS,
+    fullscreenable: true,
+    transitions: {
+      close: transitionFactory.webWidget.downHide(),
+      downHide: transitionFactory.webWidget.downHide(),
+      downShow: transitionFactory.webWidget.downShow(),
+      upShow: transitionFactory.webWidget.upShow()
+    },
     frameStyle: frameStyle
   };
 
-  const onNextClickChat = function() {
-    mediator.channel.broadcast(name + '.onNextClickChat');
+  const onClickChat = function() {
+    mediator.channel.broadcast(name + '.onNextClick', 'chat');
   };
-  const onNextClickTicket = function() {
-    mediator.channel.broadcast(name + '.onNextClickTicket');
+  const onClickTicket = function() {
+    mediator.channel.broadcast(name + '.onNextClick', 'submitTicket');
   };
 
-  const Embed = React.createClass(frameFactory(
+  const Embed = frameFactory(
     (params) => {
       return (
         <ChannelChoice
           ref='rootComponent'
           updateFrameSize={params.updateFrameSize}
           style={containerStyle}
-          handleOnClickChat={onNextClickChat}
-          handleOnClickTicket={onNextClickTicket} />
+          handleOnClickChat={onClickChat}
+          handleOnClickTicket={onClickTicket} />
       );
     },
     frameParams
-  ));
+  );
 
   channelChoices[name] = {
     component: <Embed visible={false} />,
@@ -100,6 +110,12 @@ function render(name) {
   mediator.channel.subscribe(name + '.show', function(options = {}) {
     waitForRootComponent(name, () => {
       channelChoices[name].instance.show(options);
+    });
+  });
+
+  mediator.channel.subscribe(name + '.hide', function(options = {}) {
+    waitForRootComponent(name, () => {
+      channelChoices[name].instance.hide(options);
     });
   });
 }
