@@ -120,14 +120,10 @@ function render(name) {
   });
 }
 
-function postRender(name) {
-  // const config = get(name).config;
-}
-
 export const channelChoice = {
   create: create,
   list: list,
   get: get,
   render: render,
-  postRender: postRender
+  postRender: () => {}
 };

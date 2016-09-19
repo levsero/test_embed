@@ -42,7 +42,10 @@ const helpCenterAvailable = () => {
 };
 
 const channelChoiceAvailable = () => {
-  return state[`${channelChoice}.isAccessible`] && !state[`${helpCenter}.isAccessible`];
+  return state[`${channelChoice}.isAccessible`]
+    && !state[`${helpCenter}.isAccessible`]
+    && chatAvailable()
+    && submitTicketAvailable();
 };
 
 const chatAvailable = () => {
@@ -96,7 +99,7 @@ function init(embedsAccessible, params = {}) {
       if (state[`${chat}.unreadMsgs`]) {
         c.broadcast(`${launcher}.setLabelUnreadMsgs`, state[`${chat}.unreadMsgs`]);
       }
-      else if (helpCenterAvailable()) {
+      else if (helpCenterAvailable() || channelChoiceAvailable()) {
         c.broadcast(`${launcher}.setLabelChatHelp`);
       } else {
         c.broadcast(`${launcher}.setLabelChat`);
@@ -220,10 +223,10 @@ function init(embedsAccessible, params = {}) {
     }
 
     if ((state.activeEmbed === submitTicket || !state.activeEmbed) && !helpCenterAvailable()) {
-      state.activeEmbed = chat;
+      state.activeEmbed = channelChoiceAvailable() ? channelChoice : chat;
     }
 
-    if (helpCenterAvailable()) {
+    if (helpCenterAvailable() || channelChoiceAvailable()) {
       c.broadcast(`${launcher}.setLabelChatHelp`);
     } else {
       c.broadcast(`${launcher}.setLabelChat`);
@@ -253,7 +256,7 @@ function init(embedsAccessible, params = {}) {
     // about when chat comes offline after being online
     if (state[`${chat}.isOnline`]) {
       state[`${chat}.isOnline`] = false;
-      if (state.activeEmbed === chat) {
+      if (state.activeEmbed === chat || state.activeEmbed === channelChoice) {
         resetActiveEmbed();
       }
 
@@ -374,12 +377,9 @@ function init(embedsAccessible, params = {}) {
     if (helpCenterAvailable()) {
       c.broadcast('authentication.renew');
     }
-
     // chat opens in new window so hide isn't needed
     if (state.activeEmbed === chat && isMobileBrowser()) {
       c.broadcast(`${chat}.show`);
-
-    // TODO: don't do this for channelChoice..
     } else if (chatAvailable() && state[`${chat}.unreadMsgs`]) {
       state[`${chat}.unreadMsgs`] = 0;
       state.activeEmbed = chat;
