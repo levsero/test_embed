@@ -61,9 +61,6 @@ describe('frameFactory', function() {
         isMobileBrowser: function() {
           return false;
         },
-        isFirefox: function() {
-          return false;
-        },
         clickBusterRegister: mockClickBusterRegister
       },
       'service/i18n': {
