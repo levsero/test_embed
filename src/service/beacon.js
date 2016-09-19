@@ -94,7 +94,7 @@ function trackUserAction(category, action, label = null, value = null) {
 }
 
 function trackSettings(settings) {
-  if (!win.zESettings) return;
+  if (!win.zESettings || _.isEmpty(settings)) return;
 
   const payload = {
     method: 'POST',
