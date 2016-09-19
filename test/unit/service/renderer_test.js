@@ -4,10 +4,12 @@ describe('renderer', function() {
     mockSubmitTicket,
     mockLauncher,
     mockHelpCenter,
+    mockChannelChoice,
     mockChat,
     mockNps,
     mockIpm,
-    mockAutomaticAnswers;
+    mockAutomaticAnswers,
+    mockSettingsGet;
   const updateBaseFontSize = jasmine.createSpy();
   const updateFrameSize = jasmine.createSpy();
   const rendererPath = buildSrcPath('service/renderer');
@@ -38,10 +40,13 @@ describe('renderer', function() {
     mockSubmitTicket = embedMocker('mockSubmitTicket');
     mockLauncher = embedMocker('mockLauncher');
     mockHelpCenter = embedMocker('mockHelpCenter');
+    mockChannelChoice = embedMocker('mockChannelChoice');
     mockChat = embedMocker('mockChat');
     mockNps = embedMocker('mockNps');
     mockIpm = embedMocker('mockIpm');
     mockAutomaticAnswers = embedMocker('mockAutomaticAnswers');
+
+    mockSettingsGet = true;
 
     mockRegistry = initMockRegistry({
       'embed/submitTicket/submitTicket': {
@@ -52,6 +57,9 @@ describe('renderer', function() {
       },
       'embed/helpCenter/helpCenter': {
         helpCenter: mockHelpCenter
+      },
+      'embed/channelChoice/channelChoice': {
+        channelChoice: mockChannelChoice
       },
       'embed/chat/chat': {
         chat: mockChat
@@ -86,7 +94,8 @@ describe('renderer', function() {
       'service/settings': {
         settings: {
           enableCustomizations: jasmine.createSpy(),
-          getTrackSettings: jasmine.createSpy().and.returnValue(mockTrackSettings)
+          getTrackSettings: jasmine.createSpy().and.returnValue(mockTrackSettings),
+          get: jasmine.createSpy().and.returnValue(mockSettingsGet)
         }
       },
       'utility/globals': {

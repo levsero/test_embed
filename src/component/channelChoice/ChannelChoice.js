@@ -14,22 +14,24 @@ export class ChannelChoice extends Component {
   }
 
   renderBody() {
-    const submitTicketLabel = i18n.t(
-      `embeddable_framework.helpCenter.submitButton.label.submitTicket.${this.props.buttonLabelKey}`
-    );
-
     return (
       <div>
-        <p>Do you have a question?</p>
+        <p>{i18n.t('embeddable_framework.helpCenter.label.linkContext.submitTicket')}</p>
         <div>
           <Button
             fullscreen={false}
-            label='Live chat'
+            label={i18n.t(
+              'embeddable_framework.channelChoice.button.label.chat',
+              { fallback: 'Live chat' }
+            )}
             onClick={this.props.handleOnClickChat} />
           <br />
           <Button
             fullscreen={false}
-            label={submitTicketLabel}
+            label={i18n.t(
+              'embeddable_framework.channelChoice.button.label.submitTicket',
+              { fallback: 'Leave a message' }
+            )}
             onClick={this.props.handleOnClickTicket} />
         </div>
         <hr />
