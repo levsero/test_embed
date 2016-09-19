@@ -22,6 +22,7 @@
     "shallowRender": true,
     "instanceRender": true,
     "mockBindMethods": true,
+    "mockObjectDifference": true,
   },
   "rules": {
     "max-len": 0,

@@ -38,7 +38,6 @@ describe('frameFactory', function() {
     mockRegistryMocks = {
       'React': React,
       'utility/utils': {
-        clickBusterRegister: mockClickBusterRegister,
         bindMethods: mockBindMethods
       },
       'utility/globals': {
@@ -54,7 +53,8 @@ describe('frameFactory', function() {
         },
         isFirefox: function() {
           return false;
-        }
+        },
+        clickBusterRegister: mockClickBusterRegister
       },
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', ['t', 'isRTL', 'getLocale'])

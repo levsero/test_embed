@@ -8,8 +8,7 @@ import { win,
          document as doc,
          navigator } from 'utility/globals';
 import { isOnHelpCenterPage } from 'utility/pages';
-import { parseUrl,
-         getFrameworkLoadTime } from 'utility/utils';
+import { parseUrl } from 'utility/utils';
 
 const sendPageView = () => {
   const now = Date.now();
@@ -125,10 +124,32 @@ function identify(user) {
   transport.sendWithMeta(payload);
 }
 
+function getFrameworkLoadTime() {
+  let entry;
+  const now = Date.now();
+  let loadTime = document.t ? now - document.t : undefined;
+
+  // https://bugzilla.mozilla.org/show_bug.cgi?id=1045096
+  try {
+    if ('performance' in window && 'getEntries' in window.performance) {
+      entry = _.find(window.performance.getEntries(), function(entry) {
+        return entry.name.indexOf('main.js') !== -1;
+      });
+
+      if (entry && entry.duration) {
+        loadTime = entry.duration;
+      }
+    }
+  } catch (e) {}
+
+  return loadTime >= 0 ? loadTime : undefined;
+}
+
 export const beacon = {
   init: init,
   trackUserAction: trackUserAction,
   trackSettings: trackSettings,
   identify: identify,
-  sendConfigLoadTime: sendConfigLoadTime
+  sendConfigLoadTime: sendConfigLoadTime,
+  getFrameworkLoadTime: getFrameworkLoadTime
 };

@@ -1,10 +1,8 @@
 describe('utils', function() {
-  let setScaleLock,
-    metaStringToObj,
-    splitPath,
+  let splitPath,
     getPageKeywords,
     getPageTitle,
-    metaTag;
+    objectDifference;
   const mockGlobals = {
     win: {},
     document: document,
@@ -28,11 +26,6 @@ describe('utils', function() {
 
     initMockRegistry({
       'utility/globals': mockGlobals,
-      'service/mediator': {
-        mediator: {
-          channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
-        }
-      },
       'utility/devices': {
         getZoomSizingRatio: function() {
           return 1;
@@ -41,114 +34,15 @@ describe('utils', function() {
       'lodash': _
     });
 
-    setScaleLock = require(utilPath).setScaleLock;
-    metaStringToObj = require(utilPath).metaStringToObj;
     splitPath = require(utilPath).splitPath;
     getPageKeywords = require(utilPath).getPageKeywords;
     getPageTitle = require(utilPath).getPageTitle;
-
-    metaTag = document.createElement('meta');
-    metaTag.name = 'viewport';
+    objectDifference = require(utilPath).objectDifference;
   });
 
   afterEach(function() {
     mockery.deregisterAll();
     mockery.disable();
-  });
-
-  describe('setScaleLock(true)', function() {
-    it('adds a <meta name="viewport" /> tag if one does not exist', function() {
-      expect(document.querySelectorAll('meta[name="viewport"]').length)
-        .toEqual(0);
-
-      setScaleLock(true);
-
-      expect(document.querySelectorAll('meta[name="viewport"]').length)
-        .toEqual(1);
-    });
-
-    it('does not add a <meta name="viewport" /> tag if one exists', function() {
-      document.head.appendChild(metaTag);
-
-      expect(document.querySelectorAll('meta[name="viewport"]').length)
-        .toEqual(1);
-
-      setScaleLock(true);
-
-      expect(document.querySelectorAll('meta[name="viewport"]').length)
-        .toEqual(1);
-    });
-
-    it('adds a "user-scalable" key/value to existing <meta name="viewport" /> if it does not exist', function() {
-      metaTag.content = 'initial-scale=1.0';
-      document.head.appendChild(metaTag);
-
-      setScaleLock(true);
-
-      const viewportContent = metaStringToObj(metaTag.content);
-
-      expect(viewportContent['user-scalable'])
-        .toEqual('no');
-
-      expect(viewportContent['initial-scale'])
-        .toEqual('1.0');
-    });
-
-    it('sets `user-scalable` to "No" if `user-scalable` does not exist', function() {
-      metaTag.content = '';
-      document.head.appendChild(metaTag);
-
-      setScaleLock(true);
-
-      const viewportContent = metaStringToObj(metaTag.content);
-
-      expect(viewportContent['user-scalable'])
-        .toEqual('no');
-    });
-  });
-
-  describe('setScaleLock(false)', function() {
-    it('does not add a <meta name="viewport" /> tag if one does not exist', function() {
-      expect(document.querySelectorAll('meta[name="viewport"]').length)
-        .toEqual(0);
-
-      setScaleLock(false);
-
-      expect(document.querySelectorAll('meta[name="viewport"]').length)
-        .toEqual(0);
-    });
-
-    it('resets user-scalable if `originalUserScalable` does exist', function() {
-      metaTag.content = 'user-scalable=NO_CHANGE';
-      document.head.appendChild(metaTag);
-
-      setScaleLock(true);
-
-      const viewportContentBefore = metaStringToObj(metaTag.content);
-
-      expect(viewportContentBefore['user-scalable'])
-        .toEqual('no');
-
-      setScaleLock(false);
-
-      const viewportContentAfter = metaStringToObj(metaTag.content);
-
-      expect(viewportContentAfter['user-scalable'])
-        .toEqual('NO_CHANGE');
-    });
-
-    it('unsets `user-scalable` if `originalUserScalable` is null', function() {
-      document.head.appendChild(metaTag);
-
-      setScaleLock(false);
-
-      const viewportContent = metaStringToObj(metaTag.content);
-
-      expect(viewportContent['original-user-scalable'])
-        .toBeUndefined();
-      expect(viewportContent['user-scalable'])
-        .toBeUndefined();
-    });
   });
 
   describe('splitPath()', function() {
@@ -256,6 +150,44 @@ describe('utils', function() {
 
       expect(containerDiv.outerHTML)
         .toEqual('<h1 data-ze-reactid=".0">Hello React!</h1>');
+    });
+  });
+
+  describe('objectDifference', () => {
+    let a, b;
+
+    beforeEach(() => {
+      a = {
+        list: [],
+        hello: 'world',
+        bob: 'the builder'
+      };
+      b = {
+        list: [],
+        bob: 'the builder'
+      };
+    });
+
+    describe('when there are no nested objects', () => {
+      it('should return the complement of the two objects', () => {
+        expect(objectDifference(a, b))
+          .toEqual({ hello: 'world' });
+      });
+    });
+
+    describe('when there are nested objects', () => {
+      it('should return the complement of the two objects', () => {
+        a.foo = { bar: 0, baz: 2 };
+        a.extra = { a: 0, b: 1 };
+        b.foo = { bar: 0, baz: 1 };
+
+        expect(objectDifference(a, b))
+          .toEqual({
+            hello: 'world',
+            foo: { baz: 2 },
+            extra: { a: 0, b: 1 }
+          });
+      });
     });
   });
 });

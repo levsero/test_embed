@@ -12,6 +12,9 @@ describe('settings', () => {
         win: {
           zESettings: {}
         }
+      },
+      'utility/utils': {
+        objectDifference: mockObjectDifference
       }
     });
     defaults = {
@@ -184,10 +187,10 @@ describe('settings', () => {
 
       it('should return default setting for suppress', () => {
         expect(settings.get('helpCenter.suppress'))
-          .toBe(null);
+          .toBe(false);
 
         expect(settings.get('chat.suppress'))
-          .toBe(null);
+          .toBe(false);
       });
 
       it('should return the default setting for color', () => {
@@ -294,7 +297,20 @@ describe('settings', () => {
   });
 
   describe('#getTrackSettings', () => {
+    const userSettings = {
+      webWidget: {
+        helpCenter: { originalArticleButton: false }
+      },
+      ipm: {
+        offset: {
+          horizontal: 1,
+          vertical: 1
+        }
+      }
+    };
+
     beforeEach(() => {
+      mockRegistry['utility/globals'].win.zESettings = userSettings;
       settings.init();
     });
 
@@ -313,6 +329,19 @@ describe('settings', () => {
         .toBeUndefined();
 
       expect(settings.getTrackSettings().webWidget.viaId)
+        .toBeUndefined();
+    });
+
+    it('should filter out default values from the store', () => {
+      expect(settings.getTrackSettings())
+        .toEqual(userSettings);
+    });
+
+    it('should filter out empty objects', () => {
+      mockRegistry['utility/globals'].win.zESettings.ipm = {};
+      settings.init();
+
+      expect(settings.getTrackSettings().ipm)
         .toBeUndefined();
     });
   });

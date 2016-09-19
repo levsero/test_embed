@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 import { win } from 'utility/globals';
+import { objectDifference } from 'utility/utils';
 
 const optionWhitelist = {
   webWidget: [
@@ -36,12 +37,17 @@ const customizationsWhitelist = [
 ];
 const webWidgetStoreDefaults = {
   contactForm: {
-    attachments: true
+    attachments: true,
+    suppress: false
   },
   channelChoice: false,
   helpCenter: {
     originalArticleButton: true,
-    localeFallbacks: []
+    localeFallbacks: [],
+    suppress: false
+  },
+  chat: {
+    suppress: false
   },
   launcher: {},
   margin: 15,
@@ -125,12 +131,16 @@ function getTranslations() {
 }
 
 function getTrackSettings() {
-  const widgetSettings = _.omit(webWidgetStore, 'margin', 'viaId', 'authenticate');
+  const blacklist = ['margin', 'viaId', 'authenticate'];
+  const userSettings = _.omit(webWidgetStore, blacklist);
+  const defaults = _.omit(webWidgetStoreDefaults, blacklist);
+  const widgetSettings = objectDifference(userSettings, defaults);
+  const ipmSettings = objectDifference(ipmStore, ipmStoreDefaults);
 
-  return {
+  return _.omitBy({
     webWidget: widgetSettings,
-    ipm: ipmStore
-  };
+    ipm: ipmSettings
+  }, _.isEmpty);
 }
 
 function enableCustomizations() {

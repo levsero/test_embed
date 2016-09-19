@@ -104,4 +104,20 @@ global.mockBindMethods = (instance, prototype) => {
   });
 };
 
+global.mockObjectDifference = (a, b) => {
+  const transformFn = (res, val, key) => {
+    if (_.isObject(val) && _.has(b, key)) {
+      const diff = mockObjectDifference(val, b[key]);
+
+      if (!_.isEmpty(diff)) {
+        res[key] = diff;
+      }
+    } else if (!_.isEqual(val, b[key])) {
+      res[key] = val;
+    }
+  };
+
+  return _.transform(a, transformFn, {});
+};
+
 global.__DEV__ = true;
