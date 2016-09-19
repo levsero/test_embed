@@ -45,10 +45,7 @@ describe('frameFactory', function() {
       'React': React,
       'utility/utils': {
         bindMethods: mockBindMethods,
-        cssTimeToMs: function(_timeString) {
-          // Codeclimate doesn't like not using the param
-          return 300 || _timeString;
-        }
+        cssTimeToMs: () => 300
       },
       'utility/globals': {
         win: window
@@ -355,6 +352,7 @@ describe('frameFactory', function() {
 
       it('applies animation styles to the frame', function() {
         instance.show({ transition: 'upShow' });
+
         expect(_.keys(instance.state.frameStyle))
           .toEqual(['top', 'transitionDuration']);
       });

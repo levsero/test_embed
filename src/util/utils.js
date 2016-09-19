@@ -77,14 +77,11 @@ function objectDifference(a, b) {
   return _.transform(a, transformFn, {});
 }
 
-function cssTimeToMs(string) {
-  const unit = string.match(/m?s$/);
-  let amount = parseInt(string, 10);
+function cssTimeToMs(str) {
+  const time = parseInt(str, 10);
+  const pattern = /\d+s$/;
 
-  if (unit && unit[0] === 's') {
-    amount *= 1000;
-  }
-  return amount;
+  return pattern.test(str) ? time*1000 : time;
 }
 
 export {

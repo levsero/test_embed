@@ -3,6 +3,8 @@ describe('utils', function() {
     getPageKeywords,
     getPageTitle,
     objectDifference;
+    cssTimeToMs;
+
   const mockGlobals = {
     win: {},
     document: document,
@@ -38,6 +40,7 @@ describe('utils', function() {
     getPageKeywords = require(utilPath).getPageKeywords;
     getPageTitle = require(utilPath).getPageTitle;
     objectDifference = require(utilPath).objectDifference;
+    cssTimeToMs = require(utilPath).cssTimeToMs;
   });
 
   afterEach(function() {
@@ -187,6 +190,24 @@ describe('utils', function() {
             foo: { baz: 2 },
             extra: { a: 0, b: 1 }
           });
+      });
+    });
+  });
+
+  describe('cssTimeToMs()', function() {
+    let cssTime;
+
+    describe('when using seconds', () => {
+      it('converts to milliseconds and returns an integer', () => {
+        cssTime = '300s';
+        expect(cssTimeToMs(cssTime)).toEqual(300 * 1000);
+      });
+    });
+
+    describe('when using milliseconds', () => {
+      it('returns an integer', () => {
+        cssTime = '520ms';
+        expect(cssTimeToMs(cssTime)).toEqual(520);
       });
     });
   });

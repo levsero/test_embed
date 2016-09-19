@@ -225,7 +225,7 @@ export const frameFactory = function(childFn, _params) {
 
       this.setState({ frameStyle: newFrameStyle });
 
-      setTimeout( () => {
+      setTimeout(() => {
         params.afterShowAnimate(this);
       }, cssTimeToMs(transition.transitionDuration));
 
