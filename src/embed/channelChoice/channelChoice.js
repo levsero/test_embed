@@ -15,9 +15,33 @@ import { document,
 
 let channelChoices = {};
 
+const channelChoiceCSS = require('./channelChoice.scss');
+
 function create(name, config) {
+  let containerStyle;
+  let frameStyle = {};
+
+  if (isMobileBrowser()) {
+    containerStyle = { width: '100%', height: '100%' };
+  } else {
+    frameStyle.width = 342;
+    containerStyle = { width: 342, margin: settings.get('margin') };
+  }
+
   const frameParams = {
-    name: name
+    name: name,
+    onClose() {
+      mediator.channel.broadcast(name + '.onClose');
+    },
+    css: channelChoiceCSS,
+    frameStyle: frameStyle
+  };
+
+  const onNextClickChat = function() {
+    mediator.channel.broadcast(name + '.onNextClickChat');
+  };
+  const onNextClickTicket = function() {
+    mediator.channel.broadcast(name + '.onNextClickTicket');
   };
 
   const Embed = React.createClass(frameFactory(
@@ -25,7 +49,10 @@ function create(name, config) {
       return (
         <ChannelChoice
           ref='rootComponent'
-          updateFrameSize={params.updateFrameSize} />
+          updateFrameSize={params.updateFrameSize}
+          style={containerStyle}
+          handleOnClickChat={onNextClickChat}
+          handleOnClickTicket={onNextClickTicket} />
       );
     },
     frameParams
@@ -69,6 +96,12 @@ function render(name) {
   const element = getDocumentHost().appendChild(document.createElement('div'));
 
   channelChoices[name].instance = ReactDOM.render(channelChoices[name].component, element);
+
+  mediator.channel.subscribe(name + '.show', function(options = {}) {
+    waitForRootComponent(name, () => {
+      channelChoices[name].instance.show(options);
+    });
+  });
 }
 
 function postRender(name) {

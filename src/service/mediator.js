@@ -125,6 +125,7 @@ function init(embedsAccessible, params = {}) {
 
   c.intercept('.hide', () => {
     state[`${submitTicket}.isVisible`] = false;
+    state[`${channelChoice}.isVisible`] = false;
     state[`${chat}.isVisible`]         = false;
     state[`${helpCenter}.isVisible`]   = false;
     state['.hasHidden']                = true;
@@ -137,6 +138,7 @@ function init(embedsAccessible, params = {}) {
 
   c.intercept(`.show, ${chat}.onError`, () => {
     state[`${submitTicket}.isVisible`] = false;
+    state[`${channelChoice}.isVisible`] = false;
     state[`${chat}.isVisible`]         = false;
     state[`${helpCenter}.isVisible`]   = false;
     state['.hasHidden']                = false;
@@ -144,6 +146,7 @@ function init(embedsAccessible, params = {}) {
     resetActiveEmbed();
 
     c.broadcast(`${submitTicket}.hide`);
+    c.broadcast(`${channelChoice}.hide`);
     c.broadcast(`${chat}.hide`);
     c.broadcast(`${helpCenter}.hide`);
 
@@ -154,6 +157,7 @@ function init(embedsAccessible, params = {}) {
 
   c.intercept('.activate', (__, options = {}) => {
     if (!state[`${submitTicket}.isVisible`] &&
+        !state[`${channelChoice}.isVisible`] &&
         !state[`${chat}.isVisible`] &&
         !state[`${helpCenter}.isVisible`]) {
       resetActiveEmbed();
@@ -197,6 +201,19 @@ function init(embedsAccessible, params = {}) {
     c.broadcast(`${launcher}.show`);
     state[`${chat}.isVisible`] = false;
     resetActiveEmbed();
+  });
+
+  c.intercept(`${channelChoice}.onNextClickChat`, () => {
+    console.log('load chat form');
+  });
+
+  c.intercept(`${channelChoice}.onNextClickTicket`, () => {
+    console.log('load submit ticket form');
+  });
+
+  c.intercept(`${channelChoice}.onClose`, (_broadcast) => {
+    state[`${channelChoice}.isVisible`] = false;
+    _broadcast();
   });
 
   c.intercept(`${chat}.onOnline`, () => {
@@ -360,6 +377,8 @@ function init(embedsAccessible, params = {}) {
     // chat opens in new window so hide isn't needed
     if (state.activeEmbed === chat && isMobileBrowser()) {
       c.broadcast(`${chat}.show`);
+
+    // TODO: don't do this for channelChoice..
     } else if (chatAvailable() && state[`${chat}.unreadMsgs`]) {
       state[`${chat}.unreadMsgs`] = 0;
       state.activeEmbed = chat;
@@ -433,6 +452,7 @@ function init(embedsAccessible, params = {}) {
 
   c.subscribe(
     [`${helpCenter}.onClose`,
+     `${channelChoice}.onClose`,
      `${chat}.onHide`,
      `${submitTicket}.onClose`].join(','),
     () => {
