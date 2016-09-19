@@ -241,7 +241,7 @@ export const frameFactory = function(childFn, _params) {
       setTimeout( () => {
         this.setState({ visible: false });
         params.onHide(this);
-      }, cssTimeToMs(transition['transitionDuration']));
+      }, cssTimeToMs(transition.transitionDuration));
     }
 
     close(ev, options = {}) {
