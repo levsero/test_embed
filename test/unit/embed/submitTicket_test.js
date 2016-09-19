@@ -352,7 +352,7 @@ describe('embed.submitTicket', function() {
           updateFrameSize: noop
         };
 
-        beforeEach(function() {
+        beforeEach(() => {
           mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
           mockMediator = mockRegistry['service/mediator'].mediator;
           mockBeacon = mockRegistry['service/beacon'].beacon;
@@ -430,7 +430,7 @@ describe('embed.submitTicket', function() {
           });
 
           describe('when ticket is suspended', () => {
-            it('should broadcast <name>.onsubmitted using correct params for new request endpoint', () => {
+            it('should also broadcast <name>.onsubmitted using correct params for new request endpoint', () => {
               params.res.body = {
                 suspended_ticket: { id: 149 } // eslint-disable-line camelcase
               };
@@ -446,7 +446,7 @@ describe('embed.submitTicket', function() {
           });
 
           describe('when ticket is not suspended', () => {
-            it('should broadcast <name>.onsubmitted using correct params for new request endpoint', () => {
+            it('should also broadcast <name>.onsubmitted using correct params for new request endpoint', () => {
               payload.props.onSubmitted(params);
 
               expect(mockBeacon.trackUserAction)
