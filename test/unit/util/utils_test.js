@@ -2,7 +2,7 @@ describe('utils', function() {
   let splitPath,
     getPageKeywords,
     getPageTitle,
-    objectDifference;
+    objectDifference,
     cssTimeToMs;
 
   const mockGlobals = {

@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import { EmbedWrapper } from 'component/frameFactory/EmbedWrapper';
 import { i18n } from 'service/i18n';
 import { settings } from 'service/settings';
+import { transitionFactory } from 'service/transitionFactory';
 import { clickBusterRegister,
          getZoomSizingRatio,
          isMobileBrowser } from 'utility/devices';
