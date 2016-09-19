@@ -21,7 +21,8 @@ const optionWhitelist = {
     'launcher.label',
     'offset',
     'zIndex',
-    'channelChoice'
+    'channelChoice',
+    'position'
   ],
   ipm: [
     'offset'
@@ -35,7 +36,8 @@ const customizationsWhitelist = [
   'contactForm.suppress',
   'chat.suppress',
   'helpCenter.suppress',
-  'helpCenter.localeFallbacks'
+  'helpCenter.localeFallbacks',
+  'position'
 ];
 const webWidgetStoreDefaults = {
   contactForm: {
