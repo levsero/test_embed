@@ -172,7 +172,7 @@ export const frameFactory = function(childFn, _params) {
           height: '100%',
           top:0,
           left:0,
-          background:'#fff',
+          background:'#FFF',
           zIndex: zIndex
         };
         const popoverStyle = {
