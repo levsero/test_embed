@@ -53,7 +53,7 @@ function create(name, config) {
     frameStyle: frameStyle
   };
 
-  const onNextClick = function(embed) {
+  const onNextClick = (embed) => {
     mediator.channel.broadcast(name + '.onNextClick', embed);
   };
 
@@ -96,9 +96,7 @@ function waitForRootComponent(name, callback) {
   if (getRootComponent(name)) {
     callback();
   } else {
-    setTimeout(() => {
-      waitForRootComponent(name, callback);
-    }, 0);
+    setTimeout(() => waitForRootComponent(name, callback), 0);
   }
 }
 
@@ -111,13 +109,13 @@ function render(name) {
 
   channelChoices[name].instance = ReactDOM.render(channelChoices[name].component, element);
 
-  mediator.channel.subscribe(name + '.show', function(options = {}) {
+  mediator.channel.subscribe(name + '.show', (options = {}) => {
     waitForRootComponent(name, () => {
       channelChoices[name].instance.show(options);
     });
   });
 
-  mediator.channel.subscribe(name + '.hide', function(options = {}) {
+  mediator.channel.subscribe(name + '.hide', (options = {}) => {
     waitForRootComponent(name, () => {
       channelChoices[name].instance.hide(options);
     });

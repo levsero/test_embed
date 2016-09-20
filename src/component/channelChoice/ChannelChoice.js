@@ -50,7 +50,7 @@ export class ChannelChoice extends Component {
   }
 
   render() {
-    setTimeout( () => this.props.updateFrameSize(), 0);
+    setTimeout(() => this.props.updateFrameSize(), 0);
 
     return (
       <Container style={this.props.style}>

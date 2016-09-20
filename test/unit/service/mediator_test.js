@@ -161,7 +161,6 @@ describe('mediator', function() {
       c.subscribe(`${names.submitTicket}.update`, submitTicketSub.update);
 
       c.subscribe(`${names.channelChoice}.show`, channelChoiceSub.show);
-      c.subscribe(`${names.channelChoice}.showWithAnimation`, channelChoiceSub.showWithAnimation);
       c.subscribe(`${names.channelChoice}.hide`, channelChoiceSub.hide);
 
       c.subscribe(`${names.chat}.show`, chatSub.show);
