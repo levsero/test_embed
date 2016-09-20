@@ -10,9 +10,6 @@ export class AutomaticAnswersDesktop extends Component {
     super(props, context);
 
     this.handleSolveClick = this.handleSolveClick.bind(this);
-    this.state = {
-      buttonMessage: 'Yes, close my request'
-    };
   }
 
   componentDidMount() {
@@ -45,7 +42,7 @@ export class AutomaticAnswersDesktop extends Component {
         <div className='AutomaticAnswersDesktop-footer u-posRelative'>
           <Button className='u-pullRight'
             onClick={this.handleSolveClick}
-            label={this.state.buttonMessage} />
+            label={this.buttonLabel()} />
         </div>
       </div>
     );
@@ -57,6 +54,13 @@ export class AutomaticAnswersDesktop extends Component {
       fallback: `<span>Hi there,</span> If this article answers your question, ` +
                 `please let us know and we'll close your request %(requestIdUrl)s.`,
       requestIdUrl: `#${this.props.ticketNiceId}`
+    });
+  }
+
+  buttonLabel() {
+    // TODO - Update to 'Submitting...' when button clicked
+    return i18n.t('embeddable_framework.automaticAnswers.button.solve_v2', {
+      fallback: 'Yes, close my request'
     });
   }
 
