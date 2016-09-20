@@ -49,8 +49,11 @@ function validateChildFn(childFn, params) {
 export const frameFactory = function(childFn, _params) {
   let child;
 
+  const isPositionTop = settings.get('position.vertical') === 'top';
   const defaultParams = {
-    frameStyle: {},
+    frameStyle: {
+      marginTop: isPositionTop ? '15px' : '0px'
+    },
     css: '',
     fullscreenable: false,
     onShow: () => {},
@@ -66,7 +69,7 @@ export const frameFactory = function(childFn, _params) {
     position: 'right',
     preventClose: false
   };
-  const params = _.extend({}, defaultParams, _params);
+  const params = _.defaultsDeep({}, _params, defaultParams);
   const zIndex = settings.get('zIndex');
 
   if (__DEV__) {
@@ -261,7 +264,11 @@ export const frameFactory = function(childFn, _params) {
       if (params.isMobile) {
         this.hide();
       } else {
-        this.hide({ transition: 'close' });
+        const transition = settings.get('position.vertical') === 'top'
+                         ? 'upHide'
+                         : 'downHide';
+
+        this.hide({ transition });
       }
 
       params.onClose(this, options);

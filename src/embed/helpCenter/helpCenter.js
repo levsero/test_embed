@@ -173,7 +173,8 @@ function create(name, config) {
       name: name,
       fullscreenable: true,
       transitions: {
-        close: transitionFactory.webWidget.downHide(),
+        upClose: transitionFactory.webWidget.upHide(),
+        downClose: transitionFactory.webWidget.downHide(),
         upHide: transitionFactory.webWidget.upHide(),
         upShow: transitionFactory.webWidget.upShow(),
         downHide: transitionFactory.webWidget.downHide(),
