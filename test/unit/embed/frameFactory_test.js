@@ -34,7 +34,8 @@ describe('frameFactory', function() {
 
     mockSettingsValue = {
       offset: { vertical: 0, horizontal: 0 },
-      zIndex: 999999
+      zIndex: 999999,
+      position: { vertical: 'bottom' }
     };
     mockClickBusterRegister = jasmine.createSpy('clickBusterRegister');
 
@@ -64,7 +65,7 @@ describe('frameFactory', function() {
       },
       'service/settings': {
         settings: {
-          get: (name) => mockSettingsValue[name]
+          get: (name) => _.get(mockSettingsValue, name, null)
         }
       },
       'component/frameFactory/EmbedWrapper': {
@@ -590,14 +591,27 @@ describe('frameFactory', function() {
           });
 
           instance = domRender(<Embed />);
+          spyOn(instance, 'hide');
         });
 
-        it('should call hide with close transition', () => {
-          spyOn(instance, 'hide');
-          instance.close();
+        describe('when vertical position is top', () => {
+          it('should call hide with `upHide` transition', () => {
+            mockSettingsValue.position.vertical = 'top';
 
-          expect(instance.hide)
-            .toHaveBeenCalledWith({ transition: 'close' });
+            instance.close();
+
+            expect(instance.hide)
+              .toHaveBeenCalledWith({ transition: 'upHide' });
+          });
+        });
+
+        describe('when vertical position is bottom', () => {
+          it('should call hide with `downHide` transition', () => {
+            instance.close();
+
+            expect(instance.hide)
+              .toHaveBeenCalledWith({ transition: 'downHide' });
+          });
         });
 
         it('should call the onClose handler', () => {
