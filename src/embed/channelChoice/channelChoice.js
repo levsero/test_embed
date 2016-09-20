@@ -19,6 +19,14 @@ function create(name, config) {
   let containerStyle;
   let frameStyle = {};
 
+  const configDefaults = {
+    hideZendeskLogo: false,
+    formTitleKey: 'message',
+    color: '#659700'
+  };
+
+  config = _.extend(configDefaults, config);
+
   if (isMobileBrowser()) {
     containerStyle = { width: '100%', height: '100%' };
   } else {
@@ -54,6 +62,8 @@ function create(name, config) {
         <ChannelChoice
           ref='rootComponent'
           style={containerStyle}
+          hideZendeskLogo={config.hideZendeskLogo}
+          formTitleKey={config.formTitleKey}
           updateFrameSize={params.updateFrameSize}
           onNextClick={onNextClick} />
       );
