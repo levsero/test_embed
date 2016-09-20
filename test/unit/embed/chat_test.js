@@ -74,7 +74,7 @@ describe('embed.chat', () => {
       },
       'service/settings': {
         settings: {
-          get: (name) => mockSettingsValue[name]
+          get: (name) => _.get(mockSettingsValue, name, null)
         }
       },
       'utility/devices': {
@@ -348,6 +348,56 @@ describe('embed.chat', () => {
 
           expect(mockZopim.livechat.window.show)
             .toHaveBeenCalled();
+        });
+      });
+    });
+
+    describe('init', () => {
+      beforeEach(() => {
+        mockZopim = mockRegistry['utility/globals'].win.$zopim;
+      });
+
+      describe('when position.vertical setting is defined', () => {
+        it('should set the vertical position', () => {
+          mockSettingsValue.position = { vertical: 'top' };
+          chat.create('doge', { zopimId });
+          chat.render('doge');
+
+          expect(mockZopim.livechat.window.setPosition)
+            .toHaveBeenCalledWith('tr');
+        });
+      });
+
+      describe('when position.vertical setting is not defined', () => {
+        it('should default the vertical position to bottom', () => {
+          mockSettingsValue.position = {};
+          chat.create('doge', { zopimId });
+          chat.render('doge');
+
+          expect(mockZopim.livechat.window.setPosition)
+            .toHaveBeenCalledWith('br');
+        });
+      });
+
+      describe('when position.horizontal setting is defined', () => {
+        it('should set the horizontal position', () => {
+          mockSettingsValue.position = { horizontal: 'left' };
+          chat.create('doge', { zopimId });
+          chat.render('doge');
+
+          expect(mockZopim.livechat.window.setPosition)
+            .toHaveBeenCalledWith('bl');
+        });
+      });
+
+      describe('when position.horizontal setting is not defined', () => {
+        it('should use the position in config', () => {
+          mockSettingsValue.position = {};
+          chat.create('doge', { zopimId, position: 'left' });
+          chat.render('doge');
+
+          expect(mockZopim.livechat.window.setPosition)
+            .toHaveBeenCalledWith('bl');
         });
       });
     });
