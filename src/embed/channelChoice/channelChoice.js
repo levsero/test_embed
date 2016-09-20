@@ -12,14 +12,13 @@ import { isMobileBrowser } from 'utility/devices';
 import { document,
          getDocumentHost } from 'utility/globals';
 
-let channelChoices = {};
-
+const channelChoices = {};
 const channelChoiceCSS = require('./channelChoice.scss');
 
 function create(name, config) {
   let containerStyle;
-  let frameStyle = {};
 
+  const frameStyle = {};
   const configDefaults = {
     hideZendeskLogo: false,
     formTitleKey: 'message',
