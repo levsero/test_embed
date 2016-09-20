@@ -332,7 +332,7 @@ parts:
       key: "embeddable_framework.automaticAnswers.label.error_v2"
       title: "Error message on a failed ticket update. Please use: There was a problem solving this request...Avoid possessive."
       screenshot: "https://zendesk.box.com/s/4qxn75tpkcocycfbrf9he2ht7uz1v7hw"
-      value: There was a problem solving your request. Please try again."
+      value: "There was a problem solving your request. Please try again."
 
   # Channel Choice
   - translation:
