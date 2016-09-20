@@ -90,8 +90,10 @@ $Container-spacing: 25/$font-size;
 
 .Container--channelChoicePopup {
   background-color: $base-color;
-  bottom: #{40/$font-size}rem;
+  bottom: #{42/$font-size}rem;
   right: 0;
   max-width: #{300/$font-size}rem;
   padding: #{5/$font-size}rem;
+  border-radius: #{4/$font-size}rem;
+  box-shadow: 0 0 #{6/$font-size}rem 0 rgba($base-shadow, .2);
 }

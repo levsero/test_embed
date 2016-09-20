@@ -16,18 +16,14 @@ export class ChannelChoicePopup extends Component {
 
   render() {
     return (
-      <div className='Container--popover u-posAbsolute Container--channelChoicePopup'>
+      <div className='u-posAbsolute Container--channelChoicePopup'>
         <ButtonIcon
-          className='u-block'
           onClick={this.handleClick('chat')}
-          //label={i18n.t('embeddable_framework.channelChoice.button.label.chat')}
-          label='Live Chat'
+          label={i18n.t('embeddable_framework.channelChoice.button.label.chat')}
           icon='Icon--chat' />
         <ButtonIcon
-          className='u-block'
           onClick={this.handleClick('submitTicket')}
-          //label={i18n.t('embeddable_framework.channelChoice.button.label.submitTicket')}
-          label='Leave a Message'
+          label={i18n.t('embeddable_framework.channelChoice.button.label.submitTicket')}
           icon='Icon--form' />
       </div>
     );
