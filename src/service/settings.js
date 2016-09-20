@@ -20,6 +20,7 @@ const optionWhitelist = {
     'launcher.chatLabel',
     'launcher.label',
     'offset',
+    'zIndex',
     'channelChoice'
   ],
   ipm: [
@@ -28,6 +29,7 @@ const optionWhitelist = {
 };
 const customizationsWhitelist = [
   'offset',
+  'zIndex',
   'color.theme',
   'helpCenter.originalArticleButton',
   'contactForm.suppress',
@@ -58,7 +60,8 @@ const webWidgetStoreDefaults = {
   viaId: 48,
   color: {
     theme: '#78A300'
-  }
+  },
+  zIndex: 999999
 };
 const ipmStoreDefaults = {
   offset: {

@@ -30,7 +30,8 @@ describe('settings', () => {
       viaId: 48,
       color: {
         theme: '#78A300'
-      }
+      },
+      zIndex: 999999
     };
 
     mockery.registerAllowable(settingsPath);
@@ -76,6 +77,11 @@ describe('settings', () => {
       it('has the correct value for channelChoice', () => {
         expect(settings.get('channelChoice'))
           .toEqual(defaults.channelChoice);
+      });
+
+      it('has the correct value for zIndex', () => {
+        expect(settings.get('zIndex'))
+          .toEqual(defaults.zIndex);
       });
     });
 

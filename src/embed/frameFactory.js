@@ -126,7 +126,7 @@ export const frameFactory = function(childFn, _params) {
       const dimensions = {
         height: height,
         width: width,
-        zIndex: '999999',
+        zIndex: settings.get('zIndex'),
         // FIXME addresses combination of dropshadow & margin & white background on iframe
         background: transparent ? 'linear-gradient(transparent, #FFFFFF)' : '#fff'
       };
@@ -167,7 +167,7 @@ export const frameFactory = function(childFn, _params) {
           top:0,
           left:0,
           background:'#fff',
-          zIndex: 999999
+          zIndex: settings.get('zIndex')
         };
         const popoverStyle = {
           width: (_.isFinite(width) ? width : 0) + params.offsetWidth,
@@ -306,7 +306,7 @@ export const frameFactory = function(childFn, _params) {
         {
           border: 'none',
           background: 'transparent',
-          zIndex: 999998,
+          zIndex: settings.get('zIndex'),
           transform: 'translateZ(0)',
           position: 'fixed',
           bottom: verticalOffset,

@@ -32,7 +32,10 @@ describe('frameFactory', function() {
       then: mockSnabbtThen
     });
 
-    mockSettingsValue = { offset: { vertical: 0, horizontal: 0 } };
+    mockSettingsValue = {
+      offset: { vertical: 0, horizontal: 0 },
+      zIndex: 999999
+    };
     mockClickBusterRegister = jasmine.createSpy('clickBusterRegister');
 
     mockRegistryMocks = {
@@ -234,6 +237,22 @@ describe('frameFactory', function() {
 
       expect(frameContainerStyle.zIndex > 0)
         .toEqual(true);
+    });
+
+    it('grabs the zIndex from settings', () => {
+      mockSettingsValue.zIndex = 100;
+
+      const Embed = frameFactory(mockChildFn);
+      const instance = domRender(<Embed />);
+      const frameContainer = global.document.body.getElementsByTagName('iframe')[0];
+      const frameContainerStyle = frameContainer.style;
+
+      jasmine.clock().install();
+      instance.updateFrameSize();
+      jasmine.clock().tick(10);
+
+      expect(frameContainerStyle.zIndex)
+        .toEqual('100');
     });
   });
 
