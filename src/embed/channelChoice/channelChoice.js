@@ -44,11 +44,8 @@ function create(name, config) {
     frameStyle: frameStyle
   };
 
-  const onClickChat = function() {
-    mediator.channel.broadcast(name + '.onNextClick', 'chat');
-  };
-  const onClickTicket = function() {
-    mediator.channel.broadcast(name + '.onNextClick', 'submitTicket');
+  const onNextClick = function(embed) {
+    mediator.channel.broadcast(name + '.onNextClick', embed);
   };
 
   const Embed = frameFactory(
@@ -56,10 +53,9 @@ function create(name, config) {
       return (
         <ChannelChoice
           ref='rootComponent'
-          updateFrameSize={params.updateFrameSize}
           style={containerStyle}
-          handleOnClickChat={onClickChat}
-          handleOnClickTicket={onClickTicket} />
+          updateFrameSize={params.updateFrameSize}
+          onNextClick={onNextClick} />
       );
     },
     frameParams
