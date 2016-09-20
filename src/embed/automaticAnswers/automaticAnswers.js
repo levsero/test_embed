@@ -18,7 +18,7 @@ const unsolvedStatusIds = [0, 1, 2, 6];
 function create(name, config) {
   const frameStyle = {
     position: 'fixed',
-    bottom: 15,
+    bottom: 6,
     right: 0,
     zIndex: 2147483647,
     marginRight: 15

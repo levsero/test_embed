@@ -1,6 +1,7 @@
 @import 'Container';
 @import 'Button';
 @import 'Icon';
+@import 'Error';
 @import 'Animation';
 
 .AutomaticAnswersDesktop {
@@ -24,7 +25,6 @@
   color: $zendesk-color--oil;
   font-size: #{14/$font-size}rem;
   line-height: #{20/$font-size}rem;
-  border-bottom: #{1/$font-size}rem solid $zendesk-color--gainsboro;
   white-space: pre-line;
 
   span {
