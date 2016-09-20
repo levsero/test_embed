@@ -1,4 +1,4 @@
-describe('renderer', function() {
+describe('renderer', () => {
   let renderer,
     mockRegistry,
     mockSubmitTicket,
@@ -9,12 +9,13 @@ describe('renderer', function() {
     mockNps,
     mockIpm,
     mockAutomaticAnswers,
-    mockSettingsGet;
+    mockChannelChoiceValue;
   const updateBaseFontSize = jasmine.createSpy();
   const updateFrameSize = jasmine.createSpy();
   const rendererPath = buildSrcPath('service/renderer');
   const mockTrackSettings = { webWidget: 'foo' };
-  const embedMocker = function(name) {
+
+  const embedMocker = (name) => {
     const mock = jasmine.createSpyObj(name, [
       'create',
       'render',
@@ -34,7 +35,7 @@ describe('renderer', function() {
     return mock;
   };
 
-  beforeEach(function() {
+  beforeEach(() => {
     mockery.enable();
 
     mockSubmitTicket = embedMocker('mockSubmitTicket');
@@ -45,8 +46,6 @@ describe('renderer', function() {
     mockNps = embedMocker('mockNps');
     mockIpm = embedMocker('mockIpm');
     mockAutomaticAnswers = embedMocker('mockAutomaticAnswers');
-
-    mockSettingsGet = true;
 
     mockRegistry = initMockRegistry({
       'embed/submitTicket/submitTicket': {
@@ -95,7 +94,9 @@ describe('renderer', function() {
         settings: {
           enableCustomizations: jasmine.createSpy(),
           getTrackSettings: jasmine.createSpy().and.returnValue(mockTrackSettings),
-          get: jasmine.createSpy().and.returnValue(mockSettingsGet)
+          get: (value) => _.get({
+            channelChoice: mockChannelChoiceValue
+          }, value, null)
         }
       },
       'utility/globals': {
@@ -110,15 +111,17 @@ describe('renderer', function() {
     renderer = requireUncached(rendererPath).renderer;
   });
 
-  afterEach(function() {
+  afterEach(() => {
     jasmine.clock().uninstall();
     mockery.deregisterAll();
     mockery.disable();
   });
 
-  describe('#init', function() {
-    it('should call and render correct embeds from config', function() {
-      const configJSON = {
+  describe('#init', () => {
+    let configJSON;
+
+    beforeEach(() => {
+      configJSON = {
         embeds: {
           'helpCenterForm': {
             'embed': 'helpCenter',
@@ -145,6 +148,9 @@ describe('renderer', function() {
           }
         }
       };
+    });
+
+    it('should call and render correct embeds from config', () => {
       const launcherProps = configJSON.embeds.launcher.props;
       const mockMediator = mockRegistry['service/mediator'].mediator;
 
@@ -183,7 +189,7 @@ describe('renderer', function() {
         .toHaveBeenCalled();
     });
 
-    it('should handle dodgy config values', function() {
+    it('should handle dodgy config values', () => {
       renderer.init({
         embeds: {
           'aSubmissionForm': {
@@ -223,10 +229,11 @@ describe('renderer', function() {
         .toHaveBeenCalledWith('thingLauncher', jasmine.any(Object));
 
       expect(mockSubmitTicket.create)
-        .toHaveBeenCalledWith('thing',
-                              {visible: true,
-                               hideZendeskLogo: undefined,
-                               brand: undefined});
+        .toHaveBeenCalledWith('thing', {
+          visible: true,
+          hideZendeskLogo: undefined,
+          brand: undefined
+        });
 
       expect(mockLauncher.render)
         .toHaveBeenCalledWith('aSubmissionForm');
@@ -234,91 +241,117 @@ describe('renderer', function() {
       expect(mockLauncher.render)
         .toHaveBeenCalledWith('thingLauncher');
     });
-  });
 
-  it('should handle empty config', function() {
-    renderer.init({});
+    it('should handle empty config', () => {
+      renderer.init({});
 
-    expect(renderer.init)
-      .not.toThrow();
-  });
+      expect(renderer.init)
+        .not.toThrow();
+    });
 
-  it('should not call renderer.init more than once', function() {
-    renderer.init({
-      embeds: {
-        'thing': {
-          'embed': 'submitTicket'
-        },
-        'thingLauncher': {
-          'embed': 'launcher',
-          'props': {
-            'onDoubleClick': {
-              'name': 'thing',
-              'method': 'show'
+    it('should not call renderer.init more than once', () => {
+      renderer.init({
+        embeds: {
+          'thing': {
+            'embed': 'submitTicket'
+          },
+          'thingLauncher': {
+            'embed': 'launcher',
+            'props': {
+              'onDoubleClick': {
+                'name': 'thing',
+                'method': 'show'
+              }
             }
           }
         }
-      }
-    });
-
-    renderer.init({
-      embeds: {
-        'thing': {
-          'embed': 'submitTicket'
-        },
-        'thingLauncher': {
-          'embed': 'launcher',
-          'props': {
-            'onDoubleClick': {
-              'name': 'thing',
-              'method': 'show'
-            }
-          }
-        }
-      }
-    });
-
-    expect(mockLauncher.create.calls.count())
-      .toEqual(1);
-
-    expect(mockLauncher.render.calls.count())
-      .toEqual(1);
-  });
-
-  describe('initialising services', () => {
-    let mockSettings,
-      mockBeacon,
-      mocki18n;
-
-    beforeEach(() => {
-      mockSettings = mockRegistry['service/settings'].settings;
-      mockBeacon = mockRegistry['service/beacon'].beacon;
-      mocki18n = mockRegistry['service/i18n'].i18n;
+      });
 
       renderer.init({
-        locale: 'en',
-        webWidgetCustomizations: true
+        embeds: {
+          'thing': {
+            'embed': 'submitTicket'
+          },
+          'thingLauncher': {
+            'embed': 'launcher',
+            'props': {
+              'onDoubleClick': {
+                'name': 'thing',
+                'method': 'show'
+              }
+            }
+          }
+        }
+      });
+
+      expect(mockLauncher.create.calls.count())
+        .toEqual(1);
+
+      expect(mockLauncher.render.calls.count())
+        .toEqual(1);
+    });
+
+    describe('when channelChoice setting is false', () => {
+      beforeEach(() => {
+        mockChannelChoiceValue = false;
+
+        renderer.init(configJSON);
+      });
+
+      it('should not create a channelChoice embed', () => {
+        expect(mockChannelChoice.create)
+          .not.toHaveBeenCalled();
       });
     });
 
-    it('should call settings.enableCustomizations', () => {
-      expect(mockSettings.enableCustomizations)
-        .toHaveBeenCalled();
+    describe('when channelChoice setting is true', () => {
+      beforeEach(() => {
+        mockChannelChoiceValue = true;
+
+        renderer.init(configJSON);
+      });
+
+      it('should create a channelChoice embed', () => {
+        expect(mockChannelChoice.create)
+          .toHaveBeenCalledWith('channelChoice', jasmine.any(Object));
+      });
     });
 
-    it('should call beacon.trackSettings', () => {
-      expect(mockBeacon.trackSettings)
-        .toHaveBeenCalledWith(mockTrackSettings);
-    });
+    describe('initialising services', () => {
+      let mockSettings,
+        mockBeacon,
+        mocki18n;
 
-    it('should call i18n.setLocale with the correct locale', () => {
-      expect(mocki18n.setLocale)
-        .toHaveBeenCalledWith('en');
+      beforeEach(() => {
+        mockSettings = mockRegistry['service/settings'].settings;
+        mockBeacon = mockRegistry['service/beacon'].beacon;
+        mocki18n = mockRegistry['service/i18n'].i18n;
+
+        renderer.init({
+          locale: 'en',
+          webWidgetCustomizations: true
+        });
+      });
+
+      it('should call settings.enableCustomizations', () => {
+        expect(mockSettings.enableCustomizations)
+          .toHaveBeenCalled();
+      });
+
+      it('should call beacon.trackSettings', () => {
+        expect(mockBeacon.trackSettings)
+          .toHaveBeenCalledWith(mockTrackSettings);
+      });
+
+      it('should call i18n.setLocale with the correct locale', () => {
+        expect(mocki18n.setLocale)
+          .toHaveBeenCalledWith('en');
+      });
     });
   });
 
-  describe('#propagateFontRatio', function() {
-    it('should loop over all rendered embeds and update base font-size based on ratio', function() {
+  describe('#propagateFontRatio', () => {
+    it('should loop over all rendered embeds and update base font-size based on ratio', () => {
       renderer.init({
         embeds: {
           'thing': {
@@ -351,7 +384,7 @@ describe('renderer', function() {
         .toEqual(2);
     });
 
-    it('should trigger propagateFontRatio call on orientationchange', function() {
+    it('should trigger propagateFontRatio call on orientationchange', () => {
       renderer.init({
         embeds: {
           'thing': {
@@ -382,7 +415,7 @@ describe('renderer', function() {
         .toHaveBeenCalled();
     });
 
-    it('should trigger propagateFontRatio call on pinch zoom gesture', function() {
+    it('should trigger propagateFontRatio call on pinch zoom gesture', () => {
       renderer.init({
         embeds: {
           'thing': {
@@ -413,7 +446,7 @@ describe('renderer', function() {
         .toHaveBeenCalled();
     });
 
-    it('should trigger propagateFontRatio call on window load', function() {
+    it('should trigger propagateFontRatio call on window load', () => {
       renderer.init({
         embeds: {
           'thing': {
@@ -440,7 +473,7 @@ describe('renderer', function() {
         .toHaveBeenCalled();
     });
 
-    it('should trigger propagateFontRatio call on dom content loaded', function() {
+    it('should trigger propagateFontRatio call on dom content loaded', () => {
       renderer.init({
         embeds: {
           'thing': {

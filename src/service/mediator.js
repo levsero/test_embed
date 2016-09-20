@@ -134,6 +134,7 @@ function init(embedsAccessible, params = {}) {
     state['.hasHidden']                = true;
 
     c.broadcast(`${submitTicket}.hide`);
+    c.broadcast(`${channelChoice}.hide`);
     c.broadcast(`${chat}.hide`);
     c.broadcast(`${helpCenter}.hide`);
     c.broadcast(`${launcher}.hide`);
