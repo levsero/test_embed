@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
 import { Icon } from 'component/Icon';
-import { i18n } from 'service/i18n';
 import { isIE } from 'utility/devices';
 
 export class ButtonIcon extends Component {
@@ -10,7 +9,7 @@ export class ButtonIcon extends Component {
     const buttonClasses = classNames({
       'Button--icon u-userFillColor u-isActionable': true,
       'u-displayFlex': !isIE(),
-      'u-displayBlock u-paddingBXL': isIE()
+      'u-paddingBXL': isIE()
     });
 
     return (

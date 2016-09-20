@@ -8,6 +8,9 @@ describe('ChannelChoicePopup component', () => {
     mockery.enable();
 
     initMockRegistry({
+      'component/button/ButtonIcon': {
+        ButtonIcon: noopReactComponent()
+      },
       'service/i18n': {
         i18n: {
           init: noop,
