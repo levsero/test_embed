@@ -52,14 +52,14 @@ const embedAvailable = () => {
 
 const getShowAnimation = _.memoize(() => {
   return settings.get('position.vertical') === 'top'
-      ? 'downShow'
-      : 'upShow';
+       ? 'downShow'
+       : 'upShow';
 });
 
 const getHideAnimation = _.memoize(() => {
   return settings.get('position.vertical') === 'top'
-      ? 'upHide'
-      : 'downHide';
+       ? 'upHide'
+       : 'downHide';
 });
 
 const embedVisible = (_state) => _.some([
@@ -153,7 +153,7 @@ function init(embedsAccessible, params = {}) {
 
       c.broadcast(`${launcher}.hide`);
 
-      state['.hideOnClose'] = !!options.hideOnClose
+      state['.hideOnClose'] = !!options.hideOnClose;
 
       if (embedAvailable()) {
         c.broadcast(`${state.activeEmbed}.show`, {
