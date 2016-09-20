@@ -47,12 +47,6 @@ function isDevice(...testStrings) {
   });
 }
 
-function isFirefox() {
-  const FIREFOX_BROWSER = /Gecko\/.*\d.*Firefox/;
-
-  return FIREFOX_BROWSER.test(navigator.userAgent);
-}
-
 // Taken from Zopim Mobile.js
 // Detects mobile and tablet user agents
 function isMobileBrowser() {
@@ -186,7 +180,6 @@ export {
   isBlacklisted,
   isIE,
   isIos,
-  isFirefox,
   isDevice,
   clickBusterHandler,
   clickBusterRegister,
