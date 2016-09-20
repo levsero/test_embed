@@ -7,19 +7,37 @@ describe('AutomaticAnswersDesktop component', () => {
 
   beforeEach(() => {
     automaticAnswersProps = {
-      handleSolveTicket: jasmine.createSpy()
+      handleSolveTicket: jasmine.createSpy(),
+      ticketNiceId: 8765
     };
 
     resetDOM();
 
     mockery.enable();
 
-    AutomaticAnswersDesktop = requireUncached(automaticAnswersPath).AutomaticAnswersDesktop;
+    initMockRegistry({
+      'React': React,
+      'component/Container': {
+        Container: React.createClass({
+          render: () => <div>{this.props.children}</div>
+        })
+      },
+      'component/button/Button': {
+        Button: noopReactComponent()
+      },
+      'component/Icon': {
+        Icon: React.createClass({
+          render: () => <div className='Avatar' />
+        })
+      },
+      'service/i18n': {
+        i18n: {
+          t: _.identity
+        }
+      }
+    });
 
-    component = instanceRender(
-      <AutomaticAnswersDesktop
-        {...automaticAnswersProps} />
-    );
+    AutomaticAnswersDesktop = requireUncached(automaticAnswersPath).AutomaticAnswersDesktop;
   });
 
   afterEach(() => {
@@ -31,6 +49,10 @@ describe('AutomaticAnswersDesktop component', () => {
     const e = { preventDefault: jasmine.createSpy() };
 
     beforeEach(() => {
+      component = instanceRender(
+        <AutomaticAnswersDesktop
+          {...automaticAnswersProps} />
+      );
       component.handleSolveClick(e);
     });
 

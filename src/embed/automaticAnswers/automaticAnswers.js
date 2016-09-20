@@ -4,25 +4,41 @@ import _ from 'lodash';
 
 import { AutomaticAnswers } from 'component/automaticAnswers/AutomaticAnswers';
 import { frameFactory } from 'embed/frameFactory';
-import { getDocumentHost } from 'utility/globals';
 import { transport } from 'service/transport';
+import { generateUserCSS } from 'utility/color';
+import { getDocumentHost } from 'utility/globals';
 import { getURLParameterByName } from 'utility/pages';
+
+const automaticAnswersCSS = require('./automaticAnswers.scss');
 
 let embed;
 // 0 = New, 1 = Open, 2 = Pending, 6 = Hold
 const unsolvedStatusIds = [0, 1, 2, 6];
 
 function create(name, config) {
+  const frameStyle = {
+    position: 'fixed',
+    bottom: 15,
+    right: 0,
+    zIndex: 2147483647,
+    marginRight: 15
+  };
+
   const frameParams = {
-    name: name
+    frameStyle: frameStyle,
+    css: automaticAnswersCSS + generateUserCSS(),
+    hideCloseButton: false,
+    name: name,
+    offsetHeight: 50
   };
 
   const Embed = frameFactory(
-    () => {
+    (params) => {
       return (
         <AutomaticAnswers
           ref='rootComponent'
-          solveTicket={solveTicketFn} />
+          solveTicket={solveTicketFn}
+          updateFrameSize={params.updateFrameSize} />
       );
     },
     frameParams

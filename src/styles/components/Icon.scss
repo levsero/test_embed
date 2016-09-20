@@ -287,3 +287,22 @@
     width: #{7/$font-size}rem;
   }
 }
+
+.Icon--article {
+  box-sizing: border-box;
+
+  svg {
+    fill: $cta-color;
+    color: #999;
+    padding: 0;
+    display: inline-block;
+    position: relative;
+    top: 50%;
+    min-width: #{23/$font-size}rem;
+    min-height: #{23/$font-size}rem;
+    height: #{23/$font-size}rem;
+    width: #{23/$font-size}rem;
+    margin-top: -#{12/$font-size}rem;
+    margin-left: #{1/$font-size}rem;
+  }
+}
