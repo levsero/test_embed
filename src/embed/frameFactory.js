@@ -52,7 +52,7 @@ export const frameFactory = function(childFn, _params) {
   const isPositionTop = settings.get('position.vertical') === 'top';
   const defaultParams = {
     frameStyle: {
-      marginTop: isPositionTop ? '15px' : '0px'
+      marginTop: isPositionTop ? '15px' : 0
     },
     css: '',
     fullscreenable: false,
@@ -336,12 +336,13 @@ export const frameFactory = function(childFn, _params) {
         html.setAttribute('lang', i18n.getLocale());
       }
 
+      const position = settings.get('position.horizontal') || this.props.position;
       const cssText = baseCSS + mainCSS + params.css + baseFontCSS;
       const fullscreen = params.fullscreenable && params.isMobile;
       const positionClasses = classNames({
         'u-borderTransparent u-posRelative': !fullscreen,
-        'u-pullRight': this.props.position === 'right',
-        'u-pullLeft': this.props.position === 'left',
+        'u-pullRight': position === 'right',
+        'u-pullLeft': position === 'left',
         'u-noPrint': !fullscreen
       });
 

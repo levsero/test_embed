@@ -29,15 +29,17 @@ const optionWhitelist = {
   ]
 };
 const customizationsWhitelist = [
-  'offset',
   'zIndex',
+  'offset.horizontal',
+  'offset.vertical',
+  'position.horizontal',
+  'position.vertical',
   'color.theme',
   'helpCenter.originalArticleButton',
   'contactForm.suppress',
   'chat.suppress',
   'helpCenter.suppress',
-  'helpCenter.localeFallbacks',
-  'position'
+  'helpCenter.localeFallbacks'
 ];
 const webWidgetStoreDefaults = {
   contactForm: {
