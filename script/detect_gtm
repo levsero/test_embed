@@ -1,0 +1,198 @@
+#!/usr/bin/env node
+'use strict';
+
+/**
+ * Iterates over the supplied list of URLs, using nightmare & electron
+ * to load and test for the presence of GTM and web widget, as well as
+ * the web widget configuration. Requires the path to a CSV containing
+ * the list of URLs to test.
+ *
+ * Usage: detect_gtm ./path/to/subdomains.csv
+ * Requires nightmare: npm install nightmare@2.4.0
+ *
+ * Output is a CSV with the following columns:
+ * - {str} url:     URL tested
+ * - {int} error:   Whether or not an error occured
+ * - {int} gtm:     Whether or not GTM was detected
+ * - {int} widget:  Whether or not the widget was detected
+ * - {int} csp_gtm: Whether or not the widget was loaded with CSP/GTM support
+ *                  as outlined here:
+ *                  https://developer.zendesk.com/embeddables/docs/widget/csp
+ *                  https://developer.zendesk.com/embeddables/docs/widget/gtm
+ *
+ * Example:
+ * $ ./detect_gtm ~/urls.csv
+ * url,error,gtm,widget,csp_gtm
+ * https://www.zendesk.com/embeddables/,0,1,1,0
+ */
+
+let args = Array.from(process.argv);
+if (args.length < 3) {
+  console.log(`
+  Usage: detect_gtm ./path/to/urls.csv
+  Requires nightmare: npm install nightmare@2.4.0
+  `);
+  process.exit(0);
+}
+
+let Nightmare = require('nightmare');
+let fs        = require('fs');
+let path      = require('path');
+let os        = require('os');
+let csvPath   = args[args.length - 1];
+let urls      = getUrls();
+let client    = createClient();
+
+process
+  .on('SIGINT', exitListener)
+  .on('uncaughtException', exitListener)
+  .on('unhandledRejection', exitListener);
+
+// Print CSV columns and run
+console.log('url,error,gtm,widget,csp_gtm');
+series(urls, test).then(exitListener, exitListener);
+
+/**
+ * Reads and parses the supplied CSV, returning an array of urls.
+ *
+ * @returns {string[]}
+ */
+function getUrls() {
+  return fs
+    .readFileSync(csvPath, 'utf8')
+    .split('\n')
+    .map((line) => line.split(/[;,]/)[0]);
+}
+
+/**
+ * Tests the supplied url for GTM and web widget.
+ *
+ * @param   {string}  url
+ * @returns {Promise}
+ */
+function test(url) {
+  let absolute = url.startsWith('http') ? url : `http://${url}`;
+
+  let run = () => {
+    let promise = client
+      .goto(absolute)
+      .viewport(1024, 768)
+      .evaluate(verify)
+      .then(res => console.log(`${url},0,${res.join(',')}`));
+
+    return timeout(promise, 30000).catch((err) => {
+      client.end();
+      client = createClient();
+      throw err;
+    });
+  };
+
+  return retry(run, 3).catch((err) => {
+    console.log(`${url},1,0,0,0`);
+  });
+}
+
+/**
+ * A function that's evaluated from within the context of the electron window.
+ *
+ * @returns {int[]}
+ */
+function verify() {
+  return [window.dataLayer, window.zE, document.zendeskHost].map((prop) => {
+    return prop ? 1 : 0;
+  });
+}
+
+/**
+ * Returns a promise that resolves after applying the fn to each element of
+ * the array in series.
+ *
+ * @param  {array}    array
+ * @param  {Function} fn
+ * @return {Promise}
+ */
+function series(array, fn) {
+  let promise = Promise.resolve();
+  array.forEach((ele) => {
+    promise = promise.then(() => fn(ele));
+  });
+  return promise;
+}
+
+/**
+ * Runs the supplied promise and returns a promise that fails if the operation
+ * exceeded the supplied timeout.
+ *
+ * @param   {Promise} promise
+ * @param   {int}     timeout
+ * @returns {Promise}
+ */
+function timeout(promise, timeout) {
+  return new Promise((resolve, reject) => {
+    promise.then(resolve, reject);
+    setTimeout(() => reject(new Error('Operation timed out')), timeout);
+  });
+}
+
+/**
+ * Accepts a function returning a promise, invoking the function up to n times,
+ * or until the first successful promise resolution.
+ *
+ * @param   {function} fn
+ * @param   {int}      n
+ * @returns {Promise}
+ */
+function retry(fn, n) {
+  let i = 1;
+  let attempt = () => {
+    return fn().catch((err) => {
+      if (i++ < n) {
+        return attempt();
+      } else {
+        throw err;
+      }
+    });
+  }
+  return attempt();
+}
+
+/**
+ * Creates and returns a monkeypatched Nightmare client to prevent leaking
+ * of electron processes.
+ *
+ * @return {Nightmare}
+ */
+function createClient() {
+  let client = Nightmare({
+    show: false,
+    waitTimeout: 10000,
+    switches: {
+      'ignore-certificate-errors': true
+    },
+    webPreferences: {
+      images: false
+    }
+  });
+
+  let end = client.end.bind(client);
+  let pid = client.proc.pid;
+  let delay = 1000;
+
+  client.end = function() {
+    setTimeout(() => {
+      try {
+        process.kill(pid, 'SIGINT');
+      } catch (e) {
+        // Ignore if the process was already terminated
+      }
+    }, delay);
+    return end();
+  };
+
+  return client;
+};
+
+function exitListener(err) {
+  if (err) console.error(err.stack);
+  process.exit(err ? 1 : 0);
+}
