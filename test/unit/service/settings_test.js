@@ -87,6 +87,8 @@ describe('settings', () => {
 
     describe('ipm defaults', () => {
       it('has the correct value for offset', () => {
+        settings.init();
+
         expect(settings.get('offset'))
           .toEqual({ horizontal: 0, vertical: 0 });
       });
