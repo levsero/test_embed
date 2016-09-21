@@ -25,7 +25,7 @@ function create(name, config) {
     color: '#659700'
   };
 
-  config = _.extend(configDefaults, config);
+  config = _.defaults({}, config, configDefaults);
 
   if (isMobileBrowser()) {
     containerStyle = { width: '100%', height: '100%' };
