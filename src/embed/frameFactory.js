@@ -50,9 +50,10 @@ export const frameFactory = function(childFn, _params) {
   let child;
 
   const isPositionTop = settings.get('position.vertical') === 'top';
+  const isMobile = isMobileBrowser();
   const defaultParams = {
     frameStyle: {
-      marginTop: isPositionTop ? '15px' : 0
+      marginTop: isPositionTop && !isMobile ? '15px' : 0
     },
     css: '',
     fullscreenable: false,
@@ -62,7 +63,7 @@ export const frameFactory = function(childFn, _params) {
     onBack: () => {},
     afterShowAnimate: () => {},
     transitions: {},
-    isMobile: isMobileBrowser(),
+    isMobile,
     disableSetOffsetHorizontal: false,
     offsetWidth: 15,
     offsetHeight: 15,

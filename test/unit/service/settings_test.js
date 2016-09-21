@@ -89,7 +89,7 @@ describe('settings', () => {
       it('has the correct value for offset', () => {
         settings.init();
 
-        expect(settings.get('offset'))
+        expect(settings.get('offset', 'ipm'))
           .toEqual({ horizontal: 0, vertical: 0 });
       });
     });
