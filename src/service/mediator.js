@@ -50,6 +50,14 @@ const embedAvailable = () => {
   return helpCenterAvailable() || chatAvailable() || submitTicketAvailable();
 };
 
+const getShowAnimation = _.memoize(
+  () => settings.get('position.vertical') === 'top' ? 'downShow' : 'upShow'
+);
+
+const getHideAnimation = _.memoize(
+  () => settings.get('position.vertical') === 'top' ? 'upHide' : 'downHide'
+);
+
 const embedVisible = (_state) => _.some([
   _state[`${helpCenter}.isVisible`],
   _state[`${chat}.isVisible`],
@@ -141,13 +149,11 @@ function init(embedsAccessible, params = {}) {
 
       c.broadcast(`${launcher}.hide`);
 
-      state['.hideOnClose'] = (options.hideOnClose)
-                            ? true
-                            : false;
+      state['.hideOnClose'] = !!options.hideOnClose;
 
       if (embedAvailable()) {
         c.broadcast(`${state.activeEmbed}.show`, {
-          transition: 'upShow',
+          transition: getShowAnimation(),
           viaActivate: true
         });
         state[`${state.activeEmbed}.isVisible`] = true;
@@ -309,7 +315,7 @@ function init(embedsAccessible, params = {}) {
         if (isMobileBrowser()) {
           c.broadcast(`${submitTicket}.show`);
         } else {
-          c.broadcast(`${submitTicket}.show`, { transition: 'upShow' });
+          c.broadcast(`${submitTicket}.show`, { transition: getShowAnimation() });
         }
       }, 0);
     }
@@ -321,7 +327,7 @@ function init(embedsAccessible, params = {}) {
       if (isMobileBrowser()) {
         c.broadcast(`${helpCenter}.hide`);
       } else {
-        c.broadcast(`${helpCenter}.hide`, { transition: 'upHide' });
+        c.broadcast(`${helpCenter}.hide`, { transition: getHideAnimation() });
       }
     }, 0);
 
@@ -353,7 +359,7 @@ function init(embedsAccessible, params = {}) {
        */
       c.broadcast(`${chat}.show`);
     } else {
-      c.broadcast(`${launcher}.hide`, { transition: 'downHide' });
+      c.broadcast(`${launcher}.hide`, { transition: getHideAnimation() });
       state[`${state.activeEmbed}.isVisible`] = true;
 
       /**
@@ -367,7 +373,7 @@ function init(embedsAccessible, params = {}) {
       }
 
       setTimeout(() => {
-        c.broadcast(`${state.activeEmbed}.show`, { transition: 'upShow' });
+        c.broadcast(`${state.activeEmbed}.show`, { transition: getShowAnimation() });
         if (isMobileBrowser()) {
           /**
            * This timeout ensures the embed is displayed
@@ -427,7 +433,7 @@ function init(embedsAccessible, params = {}) {
       // Fix for when a pro-active message is recieved which opens the zopim window but the launcher
       // was previously hidden with zE.hide()
       if (!state['.hideOnClose'] && !state['.hasHidden']) {
-        c.broadcast(`${launcher}.show`, { transition: 'upShow' });
+        c.broadcast(`${launcher}.show`, { transition: getShowAnimation() });
       }
     }
   );
@@ -450,14 +456,14 @@ function init(embedsAccessible, params = {}) {
 
   c.intercept(`${submitTicket}.onCancelClick`, () => {
     state[`${submitTicket}.isVisible`] = false;
-    c.broadcast(`${submitTicket}.hide`, { transition: 'downHide' });
+    c.broadcast(`${submitTicket}.hide`, { transition: getHideAnimation() });
 
     if (helpCenterAvailable()) {
       state[`${helpCenter}.isVisible`] = true;
       state.activeEmbed = helpCenter;
-      c.broadcast(`${helpCenter}.show`, { transition: 'downShow' });
+      c.broadcast(`${helpCenter}.show`, { transition: getShowAnimation() });
     } else if (!state['.hideOnClose']) {
-      c.broadcast(`${launcher}.show`, { transition: 'upShow' });
+      c.broadcast(`${launcher}.show`, { transition: getShowAnimation() });
     }
   });
 

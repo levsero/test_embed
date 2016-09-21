@@ -22,15 +22,19 @@ const optionWhitelist = {
     'launcher.label',
     'offset',
     'zIndex',
-    'channelChoice'
+    'channelChoice',
+    'position'
   ],
   ipm: [
     'offset'
   ]
 };
 const customizationsWhitelist = [
-  'offset',
   'zIndex',
+  'offset.horizontal',
+  'offset.vertical',
+  'position.horizontal',
+  'position.vertical',
   'color.theme',
   'helpCenter.originalArticleButton',
   'helpCenter.filter',

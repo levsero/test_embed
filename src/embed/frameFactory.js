@@ -49,8 +49,12 @@ function validateChildFn(childFn, params) {
 export const frameFactory = function(childFn, _params) {
   let child;
 
+  const isPositionTop = settings.get('position.vertical') === 'top';
+  const isMobile = isMobileBrowser();
   const defaultParams = {
-    frameStyle: {},
+    frameStyle: {
+      marginTop: isPositionTop && !isMobile ? '15px' : 0
+    },
     css: '',
     fullscreenable: false,
     onShow: () => {},
@@ -59,14 +63,14 @@ export const frameFactory = function(childFn, _params) {
     onBack: () => {},
     afterShowAnimate: () => {},
     transitions: {},
-    isMobile: isMobileBrowser(),
+    isMobile,
     disableSetOffsetHorizontal: false,
     offsetWidth: 15,
     offsetHeight: 15,
     position: 'right',
     preventClose: false
   };
-  const params = _.extend({}, defaultParams, _params);
+  const params = _.defaultsDeep({}, _params, defaultParams);
   const zIndex = settings.get('zIndex');
 
   if (__DEV__) {
@@ -261,7 +265,11 @@ export const frameFactory = function(childFn, _params) {
       if (params.isMobile) {
         this.hide();
       } else {
-        this.hide({ transition: 'close' });
+        const transition = settings.get('position.vertical') === 'top'
+                         ? 'upHide'
+                         : 'downHide';
+
+        this.hide({ transition });
       }
 
       params.onClose(this, options);
@@ -299,9 +307,12 @@ export const frameFactory = function(childFn, _params) {
                               bottom: 'auto'};
       const horizontalOffset = (isMobileBrowser()) ? 0 : settings.get('offset').horizontal;
       const verticalOffset = (isMobileBrowser()) ? 0 : settings.get('offset').vertical;
-      let posObj = {};
-
-      posObj[params.position] = horizontalOffset;
+      const horizontalPos = settings.get('position.horizontal') || params.position;
+      const verticalPos = settings.get('position.vertical') || 'bottom';
+      const posObj = {
+        [horizontalPos]: horizontalOffset,
+        [verticalPos]: verticalOffset
+      };
 
       return _.extend(
         {
@@ -326,12 +337,13 @@ export const frameFactory = function(childFn, _params) {
         html.setAttribute('lang', i18n.getLocale());
       }
 
+      const position = settings.get('position.horizontal') || this.props.position;
       const cssText = baseCSS + mainCSS + params.css + baseFontCSS;
       const fullscreen = params.fullscreenable && params.isMobile;
       const positionClasses = classNames({
         'u-borderTransparent u-posRelative': !fullscreen,
-        'u-pullRight': this.props.position === 'right',
-        'u-pullLeft': this.props.position === 'left',
+        'u-pullRight': position === 'right',
+        'u-pullLeft': position === 'left',
         'u-noPrint': !fullscreen
       });
 

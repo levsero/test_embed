@@ -117,7 +117,6 @@ function init(name) {
   const zopim = win.$zopim;
   const chat = get(name);
   const config = chat.config;
-  const position = (config.position === 'right') ? 'br' : 'bl';
   const overwriteZopimApi = () => {
     if (!zopimApiOverwritten) {
       zopimShow = win.$zopim.livechat.window.show;
@@ -193,6 +192,17 @@ function init(name) {
     if (win.$zopim.livechat.mobileNotifications) {
       zopimLive.mobileNotifications.setIgnoreChatButtonVisibility(true);
     }
+
+    const getZopimPosition = (vertical = 'bottom', horizontal = 'right') => {
+      const vert = vertical === 'top' ? 't' : 'b';
+      const hor = horizontal === 'left' ? 'l' : 'r';
+
+      return vert + hor;
+    };
+    const position = getZopimPosition(
+      settings.get('position.vertical'),
+      settings.get('position.horizontal') || config.position
+    );
 
     // configure zopim window
     zopimLive.theme.setColor(config.color);
