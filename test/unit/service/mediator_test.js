@@ -1521,8 +1521,8 @@ describe('mediator', function() {
       });
     });
 
-    describe('.onClose', function() {
-      it('should broadcast launcher.show', function() {
+    describe('.onClose', () => {
+      it('should broadcast launcher.show', () => {
         reset(launcherSub.show);
 
         c.broadcast(`${channelChoice}.onClose`);

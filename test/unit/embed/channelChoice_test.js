@@ -112,13 +112,13 @@ describe('embed.channelChoice', () => {
         .toEqual('#00FF00');
     });
 
-    describe('frameFactory', function() {
+    describe('frameFactory', () => {
       let mockFrameFactory,
         mockFrameFactoryCall,
         childFn,
         params;
 
-      beforeEach(function() {
+      beforeEach(() => {
         mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
         channelChoice.create('erin');
         mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
@@ -126,7 +126,7 @@ describe('embed.channelChoice', () => {
         params = mockFrameFactoryCall[1];
       });
 
-      it('should apply the configs', function() {
+      it('should apply the configs', () => {
         const erin = channelChoice.get('erin');
         const payload = childFn({});
 
@@ -134,7 +134,7 @@ describe('embed.channelChoice', () => {
           .toEqual(erin.config.formTitleKey);
       });
 
-      it('should broadcast <name>.onClose with onClose', function() {
+      it('should broadcast <name>.onClose with onClose', () => {
         const mockMediator = mockRegistry['service/mediator'].mediator;
 
         params.onClose();
