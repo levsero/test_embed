@@ -96,12 +96,13 @@ function create(name, config) {
   const senderPayload = (url) => (query, doneFn, failFn) => {
     const token = authentication.getToken();
     const forceHttp = isOnHostMappedDomain() && location.protocol === 'http:';
+    const queryString = _.extend(query, settings.get('helpCenter.filter'));
 
     return {
       method: 'get',
       forceHttp: forceHttp,
       path: url,
-      query: query,
+      query: queryString,
       authorization: token ? `Bearer ${token}` : '',
       callbacks: {
         done: doneFn,
