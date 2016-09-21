@@ -78,15 +78,16 @@ function create(name, config) {
 
     return _.extend({}, payload, {
       ticketId: parseInt(ticketIdMatcher.exec(params.res.body.message)[1], 10),
-      email: params.res.req._data.email
+      email: params.email
     });
   };
-  const createUserActionPayloadAttachments = (payload, params) => {
-    const reqData = params.res.req._data.request;
+  const createUserActionPayloadRequests = (payload, params) => {
+    const body = params.res.body;
+    const response = body.request || body.suspended_ticket;
 
     return _.extend({}, payload, {
-      ticketId: params.res.body.request.id,
-      email: reqData.requester.email,
+      ticketId: response.id,
+      email: params.email,
       attachmentsCount: params.attachmentsCount,
       attachmentTypes: params.attachmentTypes
     });
@@ -99,7 +100,7 @@ function create(name, config) {
 
     // TODO: Remove createUserActionPayload when new endpoint is complete.
     userActionPayload = config.attachmentsEnabled
-                      ? createUserActionPayloadAttachments(userActionPayload, params)
+                      ? createUserActionPayloadRequests(userActionPayload, params)
                       : createUserActionPayload(userActionPayload, params);
 
     beacon.trackUserAction('submitTicket', 'send', name, userActionPayload);
