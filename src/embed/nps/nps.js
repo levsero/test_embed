@@ -88,7 +88,8 @@ function create(name, config) {
     transitions: {
       upShow: transitionSet.upShow(),
       downHide: transitionSet.downHide(),
-      close: transitionSet.downHide()
+      close: transitionSet.downHide(),
+      initial: transitionSet.initial()
     }
   };
 

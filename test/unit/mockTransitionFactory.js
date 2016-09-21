@@ -1,7 +1,7 @@
 const mockTransitionFactory = {
-  npsMobile: jasmine.createSpyObj('npsMobile', ['upShow', 'downHide']),
-  npsDesktop: jasmine.createSpyObj('npsDesktop', ['upShow', 'downHide']),
-  ipm: jasmine.createSpyObj('ipm', ['upHide', 'downShow']),
+  npsMobile: jasmine.createSpyObj('npsMobile', ['upShow', 'downHide', 'initial']),
+  npsDesktop: jasmine.createSpyObj('npsDesktop', ['upShow', 'downHide', 'initial']),
+  ipm: jasmine.createSpyObj('ipm', ['upHide', 'downShow', 'initial']),
   webWidget: jasmine.createSpyObj(
     'webWidget',
     [
@@ -9,13 +9,10 @@ const mockTransitionFactory = {
       'upHide',
       'downHide',
       'downShow',
-      'leftHide',
-      'rightShow',
       'close',
-      'leftShow',
-      'rightHide',
       'launcherUpShow',
-      'launcherDownHide'
+      'launcherDownHide',
+      'initial'
     ])
 };
 

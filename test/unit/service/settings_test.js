@@ -86,6 +86,10 @@ describe('settings', () => {
     });
 
     describe('ipm defaults', () => {
+      beforeEach(() => {
+        settings.init();
+      });
+
       it('has the correct value for offset', () => {
         settings.init();
 

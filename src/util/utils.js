@@ -77,6 +77,13 @@ function objectDifference(a, b) {
   return _.transform(a, transformFn, {});
 }
 
+function cssTimeToMs(str) {
+  const time = parseInt(str, 10) || 0;
+  const pattern = /\d+s$/;
+
+  return pattern.test(str) ? (time * 1000) : time;
+}
+
 export {
   getPageKeywords,
   getPageTitle,
@@ -86,5 +93,6 @@ export {
   splitPath,
   bindMethods,
   base64decode,
-  objectDifference
+  objectDifference,
+  cssTimeToMs
 };

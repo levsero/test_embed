@@ -1,8 +1,10 @@
-describe('utils', function() {
+describe('utils', () => {
   let splitPath,
     getPageKeywords,
     getPageTitle,
-    objectDifference;
+    objectDifference,
+    cssTimeToMs;
+
   const mockGlobals = {
     win: {},
     document: document,
@@ -14,7 +16,7 @@ describe('utils', function() {
   };
   const utilPath = buildSrcPath('util/utils');
 
-  beforeEach(function() {
+  beforeEach(() => {
     resetDOM();
 
     mockery.enable({
@@ -27,7 +29,7 @@ describe('utils', function() {
     initMockRegistry({
       'utility/globals': mockGlobals,
       'utility/devices': {
-        getZoomSizingRatio: function() {
+        getZoomSizingRatio: () => {
           return 1;
         }
       },
@@ -38,15 +40,16 @@ describe('utils', function() {
     getPageKeywords = require(utilPath).getPageKeywords;
     getPageTitle = require(utilPath).getPageTitle;
     objectDifference = require(utilPath).objectDifference;
+    cssTimeToMs = require(utilPath).cssTimeToMs;
   });
 
-  afterEach(function() {
+  afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
   });
 
-  describe('splitPath()', function() {
-    it('should split a path with some typical separation', function() {
+  describe('splitPath()', () => {
+    it('should split a path with some typical separation', () => {
       expect(splitPath('/this/is/a-1-path.html'))
         .toEqual(' this is a 1 path');
 
@@ -86,20 +89,20 @@ describe('utils', function() {
     });
   });
 
-  describe('getPageKeywords()', function() {
+  describe('getPageKeywords()', () => {
     let location;
 
-    beforeEach(function() {
+    beforeEach(() => {
       location = mockGlobals.location;
       location.hash = '';
     });
 
-    it('should return the pathname in the form of space seperated keywords', function() {
+    it('should return the pathname in the form of space seperated keywords', () => {
       expect(getPageKeywords())
         .toEqual('anthony is awesome');
     });
 
-    it('should still return valid keywords with weird `#` urls', function() {
+    it('should still return valid keywords with weird `#` urls', () => {
       location.pathname = '/';
       location.hash = '#/anthony/#/is/#/awesome';
 
@@ -132,15 +135,15 @@ describe('utils', function() {
     });
   });
 
-  describe('getPageTitle()', function() {
-    it('returns the document.title', function() {
+  describe('getPageTitle()', () => {
+    it('returns the document.title', () => {
       expect(getPageTitle())
         .toEqual(document.title);
     });
   });
 
-  describe('patchReactIdAttribute()', function() {
-    it('updates react data attribute to data-ze-reactid instead of data-reactid', function() {
+  describe('patchReactIdAttribute()', () => {
+    it('updates react data attribute to data-ze-reactid instead of data-reactid', () => {
       require(utilPath).patchReactIdAttribute();
 
       // we have to require react again after the ID_ATTRIBUTE is updated for change to take effect
@@ -187,6 +190,40 @@ describe('utils', function() {
             foo: { baz: 2 },
             extra: { a: 0, b: 1 }
           });
+      });
+    });
+  });
+
+  describe('cssTimeToMs()', () => {
+    let cssTime;
+
+    describe('when using seconds', () => {
+      it('converts to milliseconds and returns an integer', () => {
+        cssTime = '300s';
+        expect(cssTimeToMs(cssTime)).toEqual(300 * 1000);
+      });
+    });
+
+    describe('when using milliseconds', () => {
+      it('returns an integer', () => {
+        cssTime = '520ms';
+        expect(cssTimeToMs(cssTime)).toEqual(520);
+      });
+    });
+
+    describe('when given a malformed string', () => {
+      describe('if it cannot parse the number', () => {
+        it('falls back to 0', () => {
+          cssTime = 'three hundred';
+          expect(cssTimeToMs(cssTime)).toEqual(0);
+        });
+      });
+
+      describe('if it can parse the number, but not the unit', () => {
+        it('assumes milliseconds', () => {
+          cssTime = '666somg';
+          expect(cssTimeToMs(cssTime)).toEqual(666);
+        });
       });
     });
   });

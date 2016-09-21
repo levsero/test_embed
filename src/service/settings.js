@@ -31,10 +31,8 @@ const optionWhitelist = {
 };
 const customizationsWhitelist = [
   'zIndex',
-  'offset.horizontal',
-  'offset.vertical',
-  'position.horizontal',
   'position.vertical',
+  'position.horizontal',
   'color.theme',
   'helpCenter.originalArticleButton',
   'helpCenter.filter',
