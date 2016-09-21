@@ -8,7 +8,7 @@ export class ButtonIcon extends Component {
   render() {
     const buttonClasses = classNames({
       'Button--icon u-userFillColor u-isActionable': true,
-      'u-displayFlex': !isIE(),
+      'u-flex': !isIE(),
       'u-paddingBXL': isIE()
     });
 

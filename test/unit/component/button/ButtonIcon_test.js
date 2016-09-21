@@ -34,7 +34,7 @@ describe('ButtonIcon', () => {
     const button = shallowRender(<ButtonIcon />);
 
     expect(button.props.className)
-      .toMatch('u-displayFlex');
+      .toMatch('u-flex');
     expect(button.props.className)
       .not.toMatch('u-paddingBXL');
   });
@@ -45,7 +45,7 @@ describe('ButtonIcon', () => {
     const button = shallowRender(<ButtonIcon />);
 
     expect(button.props.className)
-      .not.toMatch('u-displayFlex');
+      .not.toMatch('u-flex');
     expect(button.props.className)
       .toMatch('u-paddingBXL');
   });
