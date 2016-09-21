@@ -83,8 +83,8 @@ describe('frameFactory', function() {
       'component/Icon': {
         Icon: noop
       },
-      'baseCSS': '.base-css-file {} ',
-      'mainCSS': '.main-css-file {} '
+      'baseCSS': '.base-css-file {}',
+      'mainCSS': '.main-css-file {}'
     };
 
     mockRegistry = initMockRegistry(mockRegistryMocks);

@@ -210,5 +210,22 @@ describe('utils', () => {
         expect(cssTimeToMs(cssTime)).toEqual(520);
       });
     });
+
+    describe('when given a malformed string', () => {
+
+      describe('if it cannot parse the number', () => {
+        it('falls back to 0', () => {
+          cssTime = 'three hundred';
+          expect(cssTimeToMs(cssTime)).toEqual(0);
+        });
+      })
+
+      describe('if it can parse the number, but not the unit', () => {
+        it('assumes milliseconds', () => {
+          cssTime = '666somg';
+          expect(cssTimeToMs(cssTime)).toEqual(666);
+        });
+      });
+    });
   });
 });

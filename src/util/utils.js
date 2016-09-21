@@ -78,10 +78,10 @@ function objectDifference(a, b) {
 }
 
 function cssTimeToMs(str) {
-  const time = parseInt(str, 10);
+  const time = parseInt(str, 10) || 0;
   const pattern = /\d+s$/;
 
-  return pattern.test(str) ? time*1000 : time;
+  return pattern.test(str) ? (time * 1000) : time;
 }
 
 export {

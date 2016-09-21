@@ -226,9 +226,10 @@ export const frameFactory = function(childFn, _params) {
 
       this.setState({ frameStyle: newFrameStyle });
 
-      setTimeout(() => {
-        params.afterShowAnimate(this);
-      }, cssTimeToMs(transition.transitionDuration));
+      setTimeout(
+        () => params.afterShowAnimate(this),
+        cssTimeToMs(transition.transitionDuration)
+      );
 
       params.onShow(this);
     }
@@ -239,7 +240,7 @@ export const frameFactory = function(childFn, _params) {
 
       this.setState({ frameStyle: newFrameStyle });
 
-      setTimeout( () => {
+      setTimeout(() => {
         this.setState({ visible: false });
         params.onHide(this);
       }, cssTimeToMs(transition.transitionDuration));
