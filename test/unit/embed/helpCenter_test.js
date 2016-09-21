@@ -417,8 +417,8 @@ describe('embed.helpCenter', function() {
           locale: 'en-US',
           query: 'help'
         };
-        doneFn = () => {};
-        failFn = () => {};
+        doneFn = noop;
+        failFn = noop;
       });
 
       it('should contain the correct properties', () => {
