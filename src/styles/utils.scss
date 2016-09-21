@@ -176,6 +176,10 @@ $Base-posOffset: $med + 1;
   padding: 0 !important;
 }
 
+.u-paddingAS {
+  padding: $spacing-sml !important;
+}
+
 .u-paddingAL {
   padding: $spacing-lrg !important;
 }
@@ -326,6 +330,10 @@ $Base-posOffset: $med + 1;
   color: #DADADA;
 }
 
+.u-textAluminum {
+  color: $zendesk-color--aluminum !important;
+}
+
 .u-fillAluminum {
   svg {
     fill: $zendesk-color--aluminum !important;
@@ -442,6 +450,14 @@ $Base-posOffset: $med + 1;
 
 .u-clearLeft {
   clear: left;
+}
+
+/**
+ * Extend display utils
+ */
+
+.u-flex {
+  display: flex;
 }
 
 /**

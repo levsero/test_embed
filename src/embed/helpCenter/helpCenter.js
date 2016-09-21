@@ -37,7 +37,7 @@ function create(name, config) {
   let containerStyle;
   let frameStyle = {};
 
-  const channelChoice = settings.get('channelChoice');
+  const channelChoice = settings.get('channelChoice') && !settings.get('contactForm.suppress');
   const configDefaults = {
     position: 'right',
     contextualHelpEnabled: false,

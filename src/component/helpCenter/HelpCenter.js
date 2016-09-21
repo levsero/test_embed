@@ -338,6 +338,12 @@ export class HelpCenter extends Component {
     });
   }
 
+  onContainerClick() {
+    if (this.refs.helpCenterDesktop) {
+      this.refs.helpCenterDesktop.hideChannelChoice();
+    }
+  }
+
   updateImages(img) {
     this.setState({
       images: _.extend({}, this.state.images, img)
@@ -450,6 +456,7 @@ export class HelpCenter extends Component {
     return (
       <Container
         style={this.props.style}
+        onClick={this.onContainerClick}
         fullscreen={this.props.fullscreen}>
         {helpCenter}
       </Container>

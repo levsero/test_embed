@@ -58,10 +58,14 @@ export class HelpCenterDesktop extends Component {
     e.preventDefault();
 
     if (this.props.channelChoice) {
-      this.setState({ channelChoiceShown: true });
+      setTimeout(() => this.setState({ channelChoiceShown: true }), 0);
     } else {
       this.props.onNextClick();
     }
+  }
+
+  hideChannelChoice() {
+    this.setState({ channelChoiceShown: false });
   }
 
   renderForm() {

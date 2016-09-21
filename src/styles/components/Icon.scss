@@ -51,6 +51,15 @@
   }
 }
 
+.Icon--form {
+  svg {
+    min-width: #{16/$font-size}rem; /* 1 */
+    min-height: #{16/$font-size}rem; /* 1 */
+    height: #{16/$font-size}rem;
+    width: #{16/$font-size}rem;
+  }
+}
+
 .Icon--zendesk {
   padding-left: $spacing-tny;
   top: #{8/$font-size}rem;

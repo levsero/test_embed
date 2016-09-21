@@ -22,6 +22,7 @@ describe('Icon component', function() {
       'icons/widget-icon_search.svg': dummyIcon,
       'icons/widget-icon_zendesk.svg': dummyIcon,
       'icons/widget-icon_icon.svg': dummyIcon,
+      'icons/widget-icon_form.svg': dummyIcon,
       'icons/widget-icon_tick.svg': dummyIcon,
       'icons/widget-icon_checkboxCheck.svg': dummyIcon,
       'icons/widget-icon_caret.svg': dummyIcon,

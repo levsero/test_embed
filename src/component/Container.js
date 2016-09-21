@@ -12,6 +12,7 @@ export class Container extends Component {
 
     return (
       <div
+        onClick={this.props.onClick}
         className={containerClasses}
         onDragEnter={this.props.onDragEnter}
         style={this.props.style}>
@@ -27,6 +28,7 @@ Container.propTypes = {
   className: PropTypes.string,
   style: PropTypes.object,
   card: PropTypes.bool,
+  onClick: PropTypes.func,
   onDragEnter: PropTypes.func
 };
 
@@ -35,5 +37,6 @@ Container.defaultProps = {
   className: '',
   style: null,
   card: false,
+  onClick: () => {},
   onDragEnter: () => {}
 };

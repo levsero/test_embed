@@ -131,6 +131,7 @@ describe('HelpCenterDesktop component', () => {
       );
 
       helpCenterDesktop.handleNextButtonClick({ preventDefault: noop });
+      jasmine.clock().tick();
 
       expect(helpCenterDesktop.state.channelChoiceShown)
         .toBe(true);
