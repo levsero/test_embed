@@ -17,25 +17,25 @@ const helpCenter = 'helpCenterForm';
 const channelChoice = 'channelChoice';
 const state = {};
 
-state[`${chat}.connectionPending`]  = true;
-state[`${launcher}.userHidden`]     = false;
-state[`${submitTicket}.isVisible`]  = false;
-state[`${chat}.isVisible`]          = false;
-state[`${helpCenter}.isVisible`]    = false;
+state[`${chat}.connectionPending`] = true;
+state[`${launcher}.userHidden`] = false;
+state[`${submitTicket}.isVisible`] = false;
+state[`${chat}.isVisible`] = false;
+state[`${helpCenter}.isVisible`] = false;
 state[`${helpCenter}.isAccessible`] = false;
 state[`${helpCenter}.isSuppressed`] = false;
 state[`${channelChoice}.isVisible`] = false;
 state[`${channelChoice}.isAccessible`] = false;
-state[`${chat}.isOnline`]           = false;
-state[`${chat}.isSuppressed`]       = false;
-state[`${chat}.unreadMsgs`]         = 0;
-state[`${chat}.userClosed`]         = false;
-state[`${chat}.chatEnded`]          = false;
-state['nps.isVisible']              = false;
-state['ipm.isVisible']              = false;
-state['.hideOnClose']               = false;
-state['.hasHidden']                 = false;
-state['identify.pending']           = false;
+state[`${chat}.isOnline`] = false;
+state[`${chat}.isSuppressed`] = false;
+state[`${chat}.unreadMsgs`] = 0;
+state[`${chat}.userClosed`] = false;
+state[`${chat}.chatEnded`] = false;
+state['nps.isVisible'] = false;
+state['ipm.isVisible'] = false;
+state['.hideOnClose'] = false;
+state['.hasHidden'] = false;
+state['identify.pending'] = false;
 
 const helpCenterAvailable = () => {
   return state[`${helpCenter}.isAccessible`] && !state[`${helpCenter}.isSuppressed`];
@@ -109,15 +109,14 @@ function init(embedsAccessible, params = {}) {
     }
   };
 
-  state['.hasHidden']                   = params.hideLauncher;
-  state[`${launcher}.userHidden`]       = params.hideLauncher;
+  state['.hasHidden'] = params.hideLauncher;
+  state[`${launcher}.userHidden`] = params.hideLauncher;
   state[`${submitTicket}.isAccessible`] = embedsAccessible.submitTicket;
-  state[`${helpCenter}.isAccessible`]   = embedsAccessible.helpCenter &&
-                                         (!params.helpCenterSignInRequired ||
-                                         isOnHelpCenterPage());
+  state[`${helpCenter}.isAccessible`] = embedsAccessible.helpCenter &&
+    (!params.helpCenterSignInRequired || isOnHelpCenterPage());
   state[`${channelChoice}.isAccessible`] = embedsAccessible.channelChoice;
-  state[`${helpCenter}.isSuppressed`]   = settings.get('helpCenter.suppress');
-  state[`${chat}.isSuppressed`]         = settings.get('chat.suppress');
+  state[`${helpCenter}.isSuppressed`] = settings.get('helpCenter.suppress');
+  state[`${chat}.isSuppressed`] = settings.get('chat.suppress');
   state[`${submitTicket}.isSuppressed`] = settings.get('contactForm.suppress');
 
   if (!submitTicketAvailable()) {
@@ -129,9 +128,9 @@ function init(embedsAccessible, params = {}) {
   c.intercept('.hide', () => {
     state[`${submitTicket}.isVisible`] = false;
     state[`${channelChoice}.isVisible`] = false;
-    state[`${chat}.isVisible`]         = false;
-    state[`${helpCenter}.isVisible`]   = false;
-    state['.hasHidden']                = true;
+    state[`${chat}.isVisible`] = false;
+    state[`${helpCenter}.isVisible`] = false;
+    state['.hasHidden'] = true;
 
     c.broadcast(`${submitTicket}.hide`);
     c.broadcast(`${channelChoice}.hide`);
@@ -143,9 +142,9 @@ function init(embedsAccessible, params = {}) {
   c.intercept(`.show, ${chat}.onError`, () => {
     state[`${submitTicket}.isVisible`] = false;
     state[`${channelChoice}.isVisible`] = false;
-    state[`${chat}.isVisible`]         = false;
-    state[`${helpCenter}.isVisible`]   = false;
-    state['.hasHidden']                = false;
+    state[`${chat}.isVisible`] = false;
+    state[`${helpCenter}.isVisible`] = false;
+    state['.hasHidden'] = false;
 
     resetActiveEmbed();
 

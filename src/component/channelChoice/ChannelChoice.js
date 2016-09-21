@@ -54,15 +54,13 @@ export class ChannelChoice extends Component {
 
     return (
       <Container style={this.props.style}>
-        <div>
-          <ScrollContainer
-            ref='scrollContainer'
-            hideZendeskLogo={this.props.hideZendeskLogo}
-            title={i18n.t(`embeddable_framework.helpCenter.form.title.${this.props.formTitleKey}`)}>
-            {this.renderBody()}
-          </ScrollContainer>
-          {this.renderZendeskLogo()}
-        </div>
+        <ScrollContainer
+          ref='scrollContainer'
+          hideZendeskLogo={this.props.hideZendeskLogo}
+          title={i18n.t(`embeddable_framework.helpCenter.form.title.${this.props.formTitleKey}`)}>
+          {this.renderBody()}
+        </ScrollContainer>
+        {this.renderZendeskLogo()}
       </Container>
     );
   }
