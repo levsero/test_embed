@@ -408,14 +408,20 @@ describe('embed.helpCenter', function() {
     });
 
     describe('search payload', () => {
-      it('should contain the correct properties', () => {
-        const query = {
+      let query,
+        doneFn,
+        failFn;
+
+      beforeEach(() => {
+        query = {
           locale: 'en-US',
           query: 'help'
         };
-        const doneFn = () => {};
-        const failFn = () => {};
+        doneFn = noop;
+        failFn = noop;
+      });
 
+      it('should contain the correct properties', () => {
         embed.props.searchSender(query, doneFn, failFn);
 
         const recentCallArgs = mockTransport.send.calls.mostRecent().args[0];
@@ -432,6 +438,22 @@ describe('embed.helpCenter', function() {
               fail: failFn
             }
           });
+      });
+
+      it('should add any filters to the query', () => {
+        mockSettingsValue = {
+          category: 'burgers',
+          section: 'beef'
+        };
+
+        embed.props.searchSender(query, doneFn, failFn);
+
+        const recentCallQuery = mockTransport.send.calls.mostRecent().args[0].query;
+
+        expect(recentCallQuery.category)
+          .toEqual('burgers');
+        expect(recentCallQuery.section)
+          .toEqual('beef');
       });
 
       describe('when there is an oauth token', () => {
