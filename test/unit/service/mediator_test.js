@@ -14,6 +14,7 @@ describe('mediator', function() {
     mockHelpCenterSuppressedValue,
     mockContactFormSuppressedValue,
     mockOnHelpCenterPageValue,
+    mockPositionValue,
     initSubscriptionSpies;
 
   const reset = function(spy) {
@@ -28,6 +29,7 @@ describe('mediator', function() {
     mockHelpCenterSuppressedValue = false;
     mockContactFormSuppressedValue = false;
     mockOnHelpCenterPageValue = false;
+    mockPositionValue = { horizontal: 'right', vertical: 'bottom' };
 
     mockRegistry = initMockRegistry({
       'service/settings': {
@@ -36,7 +38,8 @@ describe('mediator', function() {
             return _.get({
               chat: { suppress: mockChatSuppressedValue },
               helpCenter: { suppress: mockHelpCenterSuppressedValue },
-              contactForm: { suppress: mockContactFormSuppressedValue }
+              contactForm: { suppress: mockContactFormSuppressedValue },
+              position: mockPositionValue
             }, value, null);
           }
         }
@@ -737,6 +740,42 @@ describe('mediator', function() {
           .toEqual(0);
       });
 
+      describe('when onClick is called', () => {
+        beforeEach(() => {
+          launcherSub.hide.calls.reset();
+        });
+
+        describe('when position is top', () => {
+          it('calls hide with `upHide` transition', () => {
+            mockPositionValue.vertical = 'top';
+            c.broadcast(`${launcher}.onClick`);
+
+            const calls = launcherSub.hide.calls;
+
+            expect(calls.mostRecent().args[0])
+              .toEqual(jasmine.objectContaining({ transition: 'upHide' }));
+
+            expect(calls.count())
+              .toEqual(1);
+          });
+        });
+
+        describe('when position is bottom', () => {
+          it('calls hide with `upHide` transition', () => {
+            mockPositionValue.vertical = 'bottom';
+            c.broadcast(`${launcher}.onClick`);
+
+            const calls = launcherSub.hide.calls;
+
+            expect(calls.mostRecent().args[0])
+              .toEqual(jasmine.objectContaining({ transition: 'downHide' }));
+
+            expect(calls.count())
+              .toEqual(1);
+          });
+        });
+      });
+
       it('hides when onClick is called on mobile', function() {
         mockRegistry['utility/devices'].isMobileBrowser
           .and.returnValue(true);
@@ -1148,14 +1187,41 @@ describe('mediator', function() {
           .toEqual(1);
       });
 
-      it('shows after activate is called', function() {
-        c.broadcast('.hide');
+      describe('when activate is called', () => {
+        beforeEach(() => {
+          c.broadcast('.hide');
+          reset(submitTicketSub.show);
+        });
 
-        reset(submitTicketSub.show);
-        c.broadcast('.activate');
+        describe('when position is top', () => {
+          it('calls show with `downShow` transition', () => {
+            mockPositionValue.vertical = 'top';
+            c.broadcast('.activate');
 
-        expect(submitTicketSub.show.calls.count())
-          .toEqual(1);
+            const calls = submitTicketSub.show.calls;
+
+            expect(calls.mostRecent().args[0])
+              .toEqual(jasmine.objectContaining({ transition: 'downShow' }));
+
+            expect(calls.count())
+              .toEqual(1);
+          });
+        });
+
+        describe('when position is bottom', () => {
+          it('calls show with `upShow` transition', () => {
+            mockPositionValue.vertical = 'bottom';
+            c.broadcast('.activate');
+
+            const calls = submitTicketSub.show.calls;
+
+            expect(calls.mostRecent().args[0])
+              .toEqual(jasmine.objectContaining({ transition: 'upShow' }));
+
+            expect(calls.count())
+              .toEqual(1);
+          });
+        });
       });
 
       it('does not show after activate is called if it is suppressed', function() {
@@ -1195,17 +1261,44 @@ describe('mediator', function() {
           .toEqual(0);
       });
 
-      it('shows after activate is called and chat is offline', function() {
-        c.broadcast(`${chat}.onOffline`);
-        c.broadcast(`${launcher}.onClick`);
+      describe('when activate is called', () => {
+        beforeEach(() => {
+          c.broadcast(`${chat}.onOffline`);
+          c.broadcast(`${launcher}.onClick`);
+          c.broadcast('.hide');
 
-        c.broadcast('.hide');
+          reset(submitTicketSub.show);
+        });
 
-        reset(submitTicketSub.show);
-        c.broadcast('.activate');
+        describe('when position is top', () => {
+          it('calls show with `downShow` transition', () => {
+            mockPositionValue.vertical = 'top';
+            c.broadcast('.activate');
 
-        expect(submitTicketSub.show.calls.count())
-          .toEqual(1);
+            const calls = submitTicketSub.show.calls;
+
+            expect(calls.mostRecent().args[0])
+              .toEqual(jasmine.objectContaining({ transition: 'downShow' }));
+
+            expect(calls.count())
+              .toEqual(1);
+          });
+        });
+
+        describe('when position is bottom', () => {
+          it('calls show with `upShow` transition', () => {
+            mockPositionValue.vertical = 'bottom';
+            c.broadcast('.activate');
+
+            const calls = submitTicketSub.show.calls;
+
+            expect(calls.mostRecent().args[0])
+              .toEqual(jasmine.objectContaining({ transition: 'upShow' }));
+
+            expect(calls.count())
+              .toEqual(1);
+          });
+        });
       });
 
       describe('.orientationChange', function() {
@@ -1841,14 +1934,41 @@ describe('mediator', function() {
         .toEqual(1);
     });
 
-    it('shows after activate is called', function() {
-      c.broadcast('.hide');
+    describe('when activate is called', () => {
+      beforeEach(() => {
+        c.broadcast('.hide');
+        reset(helpCenterSub.show);
+      });
 
-      reset(helpCenterSub.show);
-      c.broadcast('.activate');
+      describe('when position is top', () => {
+        it('calls show with `downShow` transition', () => {
+          mockPositionValue.vertical = 'top';
+          c.broadcast('.activate');
 
-      expect(helpCenterSub.show.calls.count())
-        .toEqual(1);
+          const calls = helpCenterSub.show.calls;
+
+          expect(calls.mostRecent().args[0])
+            .toEqual(jasmine.objectContaining({ transition: 'downShow' }));
+
+          expect(calls.count())
+            .toEqual(1);
+        });
+      });
+
+      describe('when position is bottom', () => {
+        it('calls show with `upShow` transition', () => {
+          mockPositionValue.vertical = 'bottom';
+          c.broadcast('.activate');
+
+          const calls = helpCenterSub.show.calls;
+
+          expect(calls.mostRecent().args[0])
+            .toEqual(jasmine.objectContaining({ transition: 'upShow' }));
+
+          expect(calls.count())
+            .toEqual(1);
+        });
+      });
     });
 
     it('does not show after activate is called if it is suppressed', function() {
