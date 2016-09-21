@@ -354,7 +354,7 @@ describe('frameFactory', function() {
         instance.show({ transition: 'upShow' });
 
         expect(_.keys(instance.state.frameStyle))
-          .toEqual(['top', 'transitionDuration']);
+          .toEqual(['marginTop', 'top', 'transitionDuration']);
       });
 
       it('should set the frame\'s style values', function() {
@@ -484,7 +484,7 @@ describe('frameFactory', function() {
         instance.hide({ transition: 'downHide' });
 
         expect(_.keys(instance.state.frameStyle))
-          .toEqual(['top', 'transitionDuration']);
+          .toEqual(['marginTop', 'top', 'transitionDuration']);
       });
 
       it('should set the frame\'s style values', function() {
