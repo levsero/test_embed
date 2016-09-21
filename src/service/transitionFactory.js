@@ -63,6 +63,7 @@ export const transitionFactory = {
       transitionDuration: '300ms',
       transitionTimingFunction: 'ease-in',
       opacity: 0,
+      top: '-9999px',
       bottom: '-300px'
     })
   },
