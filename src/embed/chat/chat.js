@@ -201,8 +201,7 @@ function init(name) {
     };
     const position = getZopimPosition(
       settings.get('position.vertical'),
-      settings.get('position.horizontal') ||
-      config.position
+      settings.get('position.horizontal') || config.position
     );
 
     // configure zopim window

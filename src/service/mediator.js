@@ -50,17 +50,13 @@ const embedAvailable = () => {
   return helpCenterAvailable() || chatAvailable() || submitTicketAvailable();
 };
 
-const getShowAnimation = _.memoize(() => {
-  return settings.get('position.vertical') === 'top'
-       ? 'downShow'
-       : 'upShow';
-});
+const getShowAnimation = _.memoize(
+  () => settings.get('position.vertical') === 'top' ? 'downShow' : 'upShow'
+);
 
-const getHideAnimation = _.memoize(() => {
-  return settings.get('position.vertical') === 'top'
-       ? 'upHide'
-       : 'downHide';
-});
+const getHideAnimation = _.memoize(
+  () => settings.get('position.vertical') === 'top' ? 'upHide' : 'downHide'
+);
 
 const embedVisible = (_state) => _.some([
   _state[`${helpCenter}.isVisible`],
