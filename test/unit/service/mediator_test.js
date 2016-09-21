@@ -1276,6 +1276,8 @@ describe('mediator', function() {
           c.broadcast(`${launcher}.onClick`);
           c.broadcast(`${channelChoice}.onNextClick`, 'submitTicket');
           jasmine.clock().tick(0);
+
+          reset(channelChoiceSub.show);
         });
 
         it('shows channel choice on cancel if helpcenter is not available', () => {

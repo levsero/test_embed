@@ -500,7 +500,7 @@ function init(embedsAccessible, params = {}) {
     } else if (channelChoiceAvailable()) {
       state[`${channelChoice}.isVisible`] = true;
       state.activeEmbed = channelChoice;
-      c.broadcast(`${channelChoice}.show`, { transition: 'downShow' });
+      c.broadcast(`${channelChoice}.show`, { transition: getShowAnimation() });
     } else if (!state['.hideOnClose']) {
       c.broadcast(`${launcher}.show`, { transition: getShowAnimation() });
     }
