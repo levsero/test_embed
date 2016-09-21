@@ -21,7 +21,7 @@ function create(name, config) {
   const frameStyle = {};
   const configDefaults = {
     hideZendeskLogo: false,
-    formTitleKey: 'message',
+    formTitleKey: 'help',
     color: '#659700'
   };
 
