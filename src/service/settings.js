@@ -31,8 +31,6 @@ const optionWhitelist = {
 };
 const customizationsWhitelist = [
   'zIndex',
-  'offset.horizontal',
-  'offset.vertical',
   'position.horizontal',
   'position.vertical',
   'color.theme',
