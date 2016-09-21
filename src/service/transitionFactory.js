@@ -15,6 +15,7 @@ const offScreen = (fallback) => {
 
 const positionWithOffset = (base) => {
   const position = parseInt(base, 10) + parseInt(settings.get('offset.vertical'), 10);
+
   return `${position}px`;
 };
 
