@@ -4,12 +4,14 @@ import _ from 'lodash';
 
 import { AutomaticAnswers } from 'component/automaticAnswers/AutomaticAnswers';
 import { frameFactory } from 'embed/frameFactory';
+import { transitionFactory } from 'service/transitionFactory';
 import { transport } from 'service/transport';
 import { generateUserCSS } from 'utility/color';
 import { getDocumentHost } from 'utility/globals';
 import { getURLParameterByName } from 'utility/pages';
 
 const automaticAnswersCSS = require('./automaticAnswers.scss');
+const showFrameDelay = 2000;
 
 let embed;
 // 0 = New, 1 = Open, 2 = Pending, 6 = Hold
@@ -27,10 +29,16 @@ function create(name, config) {
   const frameParams = {
     frameStyle: frameStyle,
     css: automaticAnswersCSS + generateUserCSS(),
-    hideCloseButton: false,
+    hideCloseButton: true,
     name: name,
-    offsetHeight: 50
+    offsetHeight: 50,
+    transitions: {
+      close: transitionFactory.webWidget.downHide(),
+      upShow: transitionFactory.webWidget.upShow()
+    }
   };
+
+  const closeFrame = (delay) => setTimeout(embed.instance.close, delay);
 
   const Embed = frameFactory(
     (params) => {
@@ -38,7 +46,8 @@ function create(name, config) {
         <AutomaticAnswers
           ref='rootComponent'
           solveTicket={solveTicketFn}
-          updateFrameSize={params.updateFrameSize} />
+          updateFrameSize={params.updateFrameSize}
+          closeFrame={closeFrame} />
       );
     },
     frameParams
@@ -75,7 +84,8 @@ function fetchTicketFn(ticketId, token) {
 
     if (_.includes(unsolvedStatusIds, ticket.status_id)) {
       embed.instance.getRootComponent().updateTicket(ticket);
-      embed.instance.show();
+
+      setTimeout(() => embed.instance.show({transition: 'upShow'}), showFrameDelay);
     }
   };
 

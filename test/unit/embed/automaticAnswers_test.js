@@ -38,6 +38,9 @@ describe('embed.automaticAnswers', () => {
       'utility/color': {
         generateUserCSS: jasmine.createSpy().and.returnValue('')
       },
+      'service/transitionFactory' : {
+        transitionFactory: requireUncached(buildTestPath('unit/mockTransitionFactory')).mockTransitionFactory
+      },
       'service/transport': {
         transport: jasmine.createSpyObj('transport', ['automaticAnswersApiRequest'])
       },
@@ -176,6 +179,7 @@ describe('embed.automaticAnswers', () => {
 
     describe('when the request is successful', () => {
       let callback;
+      const showFrameDelay = 2000;
       const resSuccess = (statusId) => {
         return {
           'statusCode': 200,
@@ -190,10 +194,15 @@ describe('embed.automaticAnswers', () => {
       };
 
       beforeEach(() => {
+        jasmine.clock().install();
         automaticAnswers.postRender();
         mostRecent = mockTransport.automaticAnswersApiRequest.calls.mostRecent();
         callback = mostRecent.args[0].callbacks.done;
         spyOn(instance.getRootComponent(), 'updateTicket');
+      });
+
+      afterEach(() => {
+        jasmine.clock().uninstall();
       });
 
       describe('and the ticket status is one of open, new, pending or hold', () => {
@@ -204,8 +213,9 @@ describe('embed.automaticAnswers', () => {
             .toHaveBeenCalledWith(resSuccess(statusPending).body.ticket);
         });
 
-        it('shows the embed', () => {
+        it('shows the embed after a short delay', () => {
           callback(resSuccess(statusPending));
+          jasmine.clock().tick(showFrameDelay);
 
           expect(instance.show.__reactBoundMethod)
             .toHaveBeenCalled();

@@ -1,6 +1,7 @@
 describe('AutomaticAnswers component', () => {
   let mockWrongURLParameter,
     mockSolveTicket,
+    mockCloseFrame,
     AutomaticAnswers,
     automaticAnswers;
   const automaticAnswersPath = buildSrcPath('component/automaticAnswers/AutomaticAnswers');
@@ -162,11 +163,15 @@ describe('AutomaticAnswers component', () => {
   });
 
   describe('sending a request to solve a ticket', () => {
+    const closeFrameDelay = 4000;
+
     beforeEach(() => {
       mockSolveTicket = jasmine.createSpy('mockSolveTicket');
+      mockCloseFrame = jasmine.createSpy('mockCloseFrame');
       automaticAnswers = domRender(
          <AutomaticAnswers
-           solveTicket={mockSolveTicket} />);
+           solveTicket={mockSolveTicket}
+           closeFrame={mockCloseFrame} />);
     });
 
     describe('when the request is successful', () => {
@@ -182,6 +187,11 @@ describe('AutomaticAnswers component', () => {
       it('sets isSubmitting to false', () => {
         expect(automaticAnswers.state.isSubmitting)
           .toBe(false);
+      });
+
+      it('closes the frame after a short delay', () => {
+        expect(automaticAnswers.props.closeFrame)
+          .toHaveBeenCalledWith(closeFrameDelay);
       });
     });
 
