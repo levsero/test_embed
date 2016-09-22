@@ -255,6 +255,7 @@ describe('embed.automaticAnswers', () => {
       mostRecent;
     const mockTicketId = '123456';
     const mockToken = 'abcdef';
+    const mockArticleId = 23425454;
     const callbacks = {
       done: () => {},
       fail: () => {}
@@ -266,14 +267,14 @@ describe('embed.automaticAnswers', () => {
       automaticAnswers.render();
 
       solveTicket = automaticAnswers.get().instance.getRootComponent().props.solveTicket;
-      solveTicket(mockTicketId, mockToken, callbacks);
+      solveTicket(mockTicketId, mockToken, mockArticleId, callbacks);
 
       mostRecent = mockTransport.automaticAnswersApiRequest.calls.mostRecent().args[0];
     });
 
     it('sends a correctly configured payload to automaticAnswersApiRequest', () => {
       expect(mostRecent.path)
-        .toBe(`/requests/automatic-answers/ticket/${mockTicketId}/solve/token/${mockToken}`);
+        .toBe(`/requests/automatic-answers/ticket/${mockTicketId}/solve/token/${mockToken}/article/${mockArticleId}`);
 
       expect(mostRecent.method)
         .toEqual('post');

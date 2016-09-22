@@ -101,9 +101,9 @@ function fetchTicketFn(ticketId, token) {
   transport.automaticAnswersApiRequest(payload);
 }
 
-function solveTicketFn(ticketId, token, callbacks) {
+function solveTicketFn(ticketId, token, articleId, callbacks) {
   const payload = {
-    path: `/requests/automatic-answers/ticket/${ticketId}/solve/token/${token}`,
+    path: `/requests/automatic-answers/ticket/${ticketId}/solve/token/${token}/article/${articleId}`,
     method: 'post',
     callbacks: callbacks
   };

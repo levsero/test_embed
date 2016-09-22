@@ -10,6 +10,12 @@ function isOnHelpCenterPage() {
          hcPattern.test(location.pathname);
 }
 
+function getHelpCenterArticleId() {
+  const articleSegment = location.pathname.split('articles/')[1];
+
+  return parseInt(articleSegment);
+}
+
 function isOnHostMappedDomain() {
   return isOnHelpCenterPage() &&
          !_.includes(location.hostname, '.zendesk');
@@ -23,6 +29,7 @@ function getURLParameterByName(name) {
 
 export {
   isOnHelpCenterPage,
+  getHelpCenterArticleId,
   isOnHostMappedDomain,
   getURLParameterByName
 };

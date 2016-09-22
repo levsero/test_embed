@@ -1,5 +1,6 @@
 describe('pages', function() {
   let isOnHelpCenterPage,
+    getHelpCenterArticleId,
     isOnHostMappedDomain,
     getURLParameterByName;
   const mockGlobals = {
@@ -27,6 +28,7 @@ describe('pages', function() {
     });
 
     isOnHelpCenterPage = require(pagePath).isOnHelpCenterPage;
+    getHelpCenterArticleId = require(pagePath).getHelpCenterArticleId;
     isOnHostMappedDomain = require(pagePath).isOnHostMappedDomain;
     getURLParameterByName = require(pagePath).getURLParameterByName;
   });
@@ -71,6 +73,54 @@ describe('pages', function() {
 
       expect(isOnHelpCenterPage())
         .toBe(false);
+    });
+  });
+
+  describe('getHelpCenterArticleId', () => {
+    const articleId = 203662246;
+    let location;
+
+    beforeEach(() => {
+      location = mockGlobals.location;
+    });
+
+    describe('returns the help center articleId given legitimate pathnames', () => {
+      it('when the pathname only has an articleId', () =>  {
+        location = location.pathname = `/hc/articles/${articleId}`;
+
+        expect(getHelpCenterArticleId())
+          .toEqual(articleId);
+      });
+
+      it('when the pathname has an articleId with a title', () => {
+        location = location.pathname = `/hc/articles/${articleId}-Thing`;
+
+        expect(getHelpCenterArticleId())
+          .toEqual(articleId);
+      });
+
+      it('when the pathname includes a locale variation', () => {
+        location = location.pathname = `/hc/ru/articles/${articleId}-Some-Russian-Article`;
+
+        expect(getHelpCenterArticleId())
+          .toEqual(articleId);
+      });
+    });
+
+    describe('returns NaN given garbage or malformed pathnames', () => {
+      it('when no articleId provided', () =>  {
+        location = location.pathname = `/hc/articles/blah`;
+
+        expect(getHelpCenterArticleId())
+          .toEqual(NaN);
+      });
+
+      it('when the id in the wrong place', () =>  {
+        location = location.pathname = `/hc/articles/blah-23434`;
+
+        expect(getHelpCenterArticleId())
+          .toEqual(NaN);
+      });
     });
   });
 
