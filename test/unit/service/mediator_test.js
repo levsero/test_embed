@@ -6,6 +6,7 @@ describe('mediator', function() {
     beaconSub,
     launcherSub,
     submitTicketSub,
+    channelChoiceSub,
     chatSub,
     helpCenterSub,
     npsSub,
@@ -96,6 +97,12 @@ describe('mediator', function() {
        'update']
     );
 
+    channelChoiceSub = jasmine.createSpyObj(
+      'channelChoice',
+      ['show',
+       'hide']
+    );
+
     chatSub = jasmine.createSpyObj(
       'chat',
       ['show',
@@ -152,6 +159,9 @@ describe('mediator', function() {
       c.subscribe(`${names.submitTicket}.setLastSearch`, submitTicketSub.setLastSearch);
       c.subscribe(`${names.submitTicket}.prefill`, submitTicketSub.prefill);
       c.subscribe(`${names.submitTicket}.update`, submitTicketSub.update);
+
+      c.subscribe(`${names.channelChoice}.show`, channelChoiceSub.show);
+      c.subscribe(`${names.channelChoice}.hide`, channelChoiceSub.hide);
 
       c.subscribe(`${names.chat}.show`, chatSub.show);
       c.subscribe(`${names.chat}.showWithAnimation`, chatSub.show);
@@ -1122,11 +1132,13 @@ describe('mediator', function() {
   describe('Ticket Submission', function() {
     const launcher = 'launcher';
     const submitTicket = 'ticketSubmissionForm';
+    const channelChoice = 'channelChoice';
     const chat = 'zopimChat';
     const helpCenter = 'helpCenterForm';
     const names = {
       launcher: launcher,
       submitTicket: submitTicket,
+      channelChoice: channelChoice,
       chat: chat,
       helpCenter: helpCenter
     };
@@ -1249,6 +1261,31 @@ describe('mediator', function() {
 
         expect(launcherSub.show.calls.count())
           .toEqual(1);
+      });
+
+      describe('when channel choice is available', () => {
+        beforeEach(() => {
+          mediator.init({
+            submitTicket: true,
+            helpCenter: false,
+            channelChoice: true
+          });
+          jasmine.clock().install();
+
+          c.broadcast(`${chat}.onOnline`);
+          c.broadcast(`${launcher}.onClick`);
+          c.broadcast(`${channelChoice}.onNextClick`, 'submitTicket');
+          jasmine.clock().tick(0);
+
+          reset(channelChoiceSub.show);
+        });
+
+        it('shows channel choice on cancel if helpcenter is not available', () => {
+          c.broadcast(`${submitTicket}.onCancelClick`);
+
+          expect(channelChoiceSub.show.calls.count())
+            .toEqual(1);
+        });
       });
 
       it('doesn\'t show launcher on cancel if .hideOnClose is true', function() {
@@ -1387,6 +1424,113 @@ describe('mediator', function() {
 
         expect(submitTicketSub.show.calls.count())
           .toEqual(0);
+      });
+    });
+  });
+
+ /* ****************************************** *
+  *               CHANNEL CHOICE               *
+  * ****************************************** */
+
+  describe('Channel Choice', () => {
+    const launcher = 'launcher';
+    const submitTicket = 'ticketSubmissionForm';
+    const helpCenter = 'helpCenterForm';
+    const channelChoice = 'channelChoice';
+    const chat = 'zopimChat';
+    const names = {
+      launcher: launcher,
+      submitTicket: submitTicket,
+      helpCenter: helpCenter,
+      channelChoice: channelChoice,
+      chat: chat
+    };
+
+    beforeEach(() => {
+      initSubscriptionSpies(names);
+      mediator.init({
+        submitTicket: true,
+        helpCenter: false,
+        channelChoice: true
+      });
+      jasmine.clock().install();
+    });
+
+    describe('when chat is offline', () => {
+      it('should open to submit ticket form', () => {
+        c.broadcast(`${launcher}.onClick`);
+        jasmine.clock().tick(0);
+
+        expect(submitTicketSub.show.calls.count())
+          .toEqual(1);
+      });
+    });
+
+    describe('when chat is online', () => {
+      beforeEach(() => {
+        c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${launcher}.onClick`);
+        jasmine.clock().tick(0);
+      });
+
+      it('should open to channel choice', () => {
+        expect(channelChoiceSub.show.calls.count())
+          .toEqual(1);
+      });
+
+      it('launches chat if it is passed in as the next embed', () => {
+        c.broadcast(`${channelChoice}.onNextClick`, 'chat');
+
+        expect(chatSub.show.calls.count())
+          .toEqual(1);
+      });
+
+      it('launches submitTicket if it is passed in as the next embed', () => {
+        c.broadcast(`${channelChoice}.onNextClick`, 'submitTicket');
+        jasmine.clock().tick(0);
+
+        expect(submitTicketSub.show.calls.count())
+          .toEqual(1);
+      });
+
+      it('should open to submit ticket if chat goes offline', () => {
+        c.broadcast(`${channelChoice}.onClose`);
+        c.broadcast(`${chat}.onOffline`);
+        c.broadcast(`${launcher}.onClick`);
+        jasmine.clock().tick(0);
+
+        expect(submitTicketSub.show.calls.count())
+          .toEqual(1);
+      });
+    });
+
+    describe('when chat is online and submit ticket form isnt available', () => {
+      beforeEach(() => {
+        mediator.init({
+          submitTicket: false,
+          helpCenter: false,
+          channelChoice: true
+        });
+
+        c.broadcast(`${chat}.onOnline`);
+        c.broadcast(`${launcher}.onClick`);
+        jasmine.clock().tick(0);
+      });
+
+      it('should open to chat', () => {
+        expect(chatSub.show.calls.count())
+          .toEqual(1);
+      });
+    });
+
+    describe('.onClose', () => {
+      it('should broadcast launcher.show', () => {
+        reset(launcherSub.show);
+
+        c.broadcast(`${channelChoice}.onClose`);
+
+        expect(launcherSub.show)
+          .toHaveBeenCalled();
       });
     });
   });

@@ -6,6 +6,7 @@ import { objectDifference } from 'utility/utils';
 const optionWhitelist = {
   webWidget: [
     'authenticate',
+    'channelChoice',
     'chat.suppress',
     'color',
     'contactForm.attachments',

@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 import { automaticAnswers } from 'embed/automaticAnswers/automaticAnswers';
+import { channelChoice } from 'embed/channelChoice/channelChoice';
 import { chat } from 'embed/chat/chat';
 import { helpCenter } from 'embed/helpCenter/helpCenter';
 import { ipm } from 'embed/ipm/ipm';
@@ -22,6 +23,7 @@ const embedsMap = {
   'nps': nps,
   'ipm': ipm,
   'chat': chat,
+  'channelChoice': channelChoice,
   'automaticAnswers': automaticAnswers
 };
 let initialised = false;
@@ -70,6 +72,11 @@ function init(config) {
     beacon.trackSettings(settings.getTrackSettings());
     i18n.setLocale(config.locale);
 
+    if (settings.get('channelChoice')) {
+      embedsMap.channelChoice.create('channelChoice', {});
+      embedsMap.channelChoice.render('channelChoice');
+    }
+
     _.forEach(parseConfig(config), function(configItem, embedName) {
       try {
         configItem.props.visible = !hideLauncher && config.embeds && !config.embeds.zopimChat;
@@ -117,7 +124,8 @@ function initMediator(config) {
     };
     const embedsAccessible = {
       submitTicket: !!embeds.ticketSubmissionForm,
-      helpCenter: !!embeds.helpCenterForm
+      helpCenter: !!embeds.helpCenterForm,
+      channelChoice: settings.get('channelChoice')
     };
 
     mediator.init(embedsAccessible, params);
