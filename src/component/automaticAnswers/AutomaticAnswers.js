@@ -5,6 +5,8 @@ import { i18n } from 'service/i18n';
 import { getURLParameterByName } from 'utility/pages';
 import { bindMethods } from 'utility/utils';
 
+const closeFrameDelay = 4000;
+
 export class AutomaticAnswers extends Component {
   constructor(props, context) {
     super(props, context);
@@ -57,6 +59,8 @@ export class AutomaticAnswers extends Component {
       solveSuccess: true,
       isSubmitting: false
     });
+
+    this.props.closeFrame(closeFrameDelay);
   }
 
   solveTicketFail() {
@@ -83,7 +87,8 @@ export class AutomaticAnswers extends Component {
 
 AutomaticAnswers.propTypes = {
   solveTicket: PropTypes.func.isRequired,
-  updateFrameSize: PropTypes.func
+  updateFrameSize: PropTypes.func,
+  closeFrame: PropTypes.func.isRequired
 };
 
 AutomaticAnswers.defaultProps = {};
