@@ -2,7 +2,8 @@ import React, { Component, PropTypes } from 'react';
 
 import { AutomaticAnswersDesktop } from 'component/automaticAnswers/AutomaticAnswersDesktop';
 import { i18n } from 'service/i18n';
-import { getURLParameterByName } from 'utility/pages';
+import { getHelpCenterArticleId,
+         getURLParameterByName } from 'utility/pages';
 import { bindMethods } from 'utility/utils';
 
 const closeFrameDelay = 4000;
@@ -37,6 +38,7 @@ export class AutomaticAnswers extends Component {
   handleSolveTicket() {
     const ticketId = getURLParameterByName('ticket_id');
     const token = getURLParameterByName('token');
+    const articleId = getHelpCenterArticleId();
     const callbacks = {
       done: this.solveTicketDone,
       fail: this.solveTicketFail
@@ -47,8 +49,8 @@ export class AutomaticAnswers extends Component {
       isSubmitting: true
     });
 
-    if (ticketId && token) {
-      this.props.solveTicket(ticketId, token, callbacks);
+    if (ticketId && token && articleId) {
+      this.props.solveTicket(ticketId, token, articleId, callbacks);
     } else {
       // TODO - Handle edge case where Embed is visible but user changes the URL.
     }

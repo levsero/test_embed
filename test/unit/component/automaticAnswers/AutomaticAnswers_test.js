@@ -3,10 +3,12 @@ describe('AutomaticAnswers component', () => {
     mockSolveTicket,
     mockCloseFrame,
     AutomaticAnswers,
-    automaticAnswers;
+    automaticAnswers,
+    mockMissingArticleId;
   const automaticAnswersPath = buildSrcPath('component/automaticAnswers/AutomaticAnswers');
   const mockTicketId = '123456';
   const mockToken = 'abcdef';
+  const mockArticleId = 23425454;
 
   beforeEach(() => {
     resetDOM();
@@ -27,6 +29,9 @@ describe('AutomaticAnswers component', () => {
           } else if (arg === 'token') {
             return mockToken;
           }
+        }),
+        getHelpCenterArticleId: jasmine.createSpy().and.callFake(() => {
+          return (mockMissingArticleId) ? NaN : mockArticleId;
         })
       },
       'utility/utils': {
@@ -46,6 +51,7 @@ describe('AutomaticAnswers component', () => {
     AutomaticAnswers = requireUncached(automaticAnswersPath).AutomaticAnswers;
 
     mockWrongURLParameter = false;
+    mockMissingArticleId = false;
   });
 
   describe('instantiation', () => {
@@ -107,17 +113,17 @@ describe('AutomaticAnswers component', () => {
            solveTicket={mockSolveTicket} />);
     });
 
-    describe('when ticket_id and token are present in the url', () => {
+    describe('when ticketId and token are in the url, and articleId can be parsed from the pathname', () => {
       let callbacks;
 
       beforeEach(() => {
         automaticAnswers.handleSolveTicket();
-        callbacks = mockSolveTicket.calls.mostRecent().args[2];
+        callbacks = mockSolveTicket.calls.mostRecent().args[3];
       });
 
-      it('passes the ticketId, token and callbacks to the solve ticket request', () => {
+      it('passes the ticketId, token, articleId and callbacks to the solve ticket request', () => {
         expect(mockSolveTicket)
-          .toHaveBeenCalledWith(mockTicketId, mockToken, callbacks);
+          .toHaveBeenCalledWith(mockTicketId, mockToken, mockArticleId, callbacks);
       });
 
       it('defines callback behaviour for the solve ticket request', () => {
@@ -129,9 +135,21 @@ describe('AutomaticAnswers component', () => {
       });
     });
 
-    describe('when ticket_id or token are not present in the url', () => {
+    describe('when ticketId or token are not present in the url', () => {
       beforeEach(() => {
         mockWrongURLParameter = true;
+        automaticAnswers.handleSolveTicket();
+      });
+
+      it('does not make a call to solve the ticket', () => {
+        expect(mockSolveTicket)
+          .not.toHaveBeenCalled();
+      });
+    });
+
+    describe('when the Help Center articleId cannot be parsed from the pathname', () => {
+      beforeEach(() => {
+        mockMissingArticleId = true;
         automaticAnswers.handleSolveTicket();
       });
 
