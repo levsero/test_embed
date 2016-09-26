@@ -25,7 +25,7 @@ import { isOnHelpCenterPage,
 import { cappedIntervalCall,
          getPageKeywords } from 'utility/utils';
 
-const helpCenterCSS = require('./helpCenter.scss');
+const helpCenterCSS = require('./helpCenter.scss').toString();
 
 let helpCenters = {};
 let hasManuallySetContextualSuggestions = false;

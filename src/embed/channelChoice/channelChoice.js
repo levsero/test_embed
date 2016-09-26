@@ -13,7 +13,7 @@ import { document,
          getDocumentHost } from 'utility/globals';
 
 const channelChoices = {};
-const channelChoiceCSS = require('./channelChoice.scss');
+const channelChoiceCSS = require('./channelChoice.scss').toString();
 
 function create(name, config) {
   let containerStyle;

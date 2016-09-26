@@ -12,7 +12,7 @@ import { document,
          getDocumentHost,
          location } from 'utility/globals';
 
-const ipmCSS = require('./ipm.scss');
+const ipmCSS = require('./ipm.scss').toString();
 
 let ipmes = {};
 let hasSeenIpm = false;

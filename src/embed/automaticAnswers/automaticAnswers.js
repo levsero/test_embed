@@ -10,7 +10,7 @@ import { generateUserCSS } from 'utility/color';
 import { getDocumentHost } from 'utility/globals';
 import { getURLParameterByName } from 'utility/pages';
 
-const automaticAnswersCSS = require('./automaticAnswers.scss');
+const automaticAnswersCSS = require('./automaticAnswers.scss').toString();
 const showFrameDelay = 2000;
 
 let embed;
