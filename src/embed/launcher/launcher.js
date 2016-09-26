@@ -12,7 +12,7 @@ import { mediator } from 'service/mediator';
 import { generateUserCSS } from 'utility/color';
 import { transitionFactory } from 'service/transitionFactory';
 
-const launcherCSS = require('./launcher.scss');
+const launcherCSS = require('./launcher.scss').toString();
 let launchers = {};
 
 function create(name, config) {

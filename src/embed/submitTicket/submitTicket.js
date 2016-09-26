@@ -17,7 +17,7 @@ import { settings } from 'service/settings';
 import { generateUserCSS } from 'utility/color';
 import { transport } from 'service/transport';
 
-const submitTicketCSS = require('./submitTicket.scss');
+const submitTicketCSS = require('./submitTicket.scss').toString();
 let submitTickets = {};
 
 function create(name, config) {
