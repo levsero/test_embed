@@ -335,8 +335,7 @@ describe('Submit ticket component', function() {
             <SubmitTicket
               submitTicketSender={mockSubmitTicketSender}
               attachmentsEnabled={true}
-              subjectEnabled={true}
-              updateFrameSize={noop} />
+              subjectEnabled={true} />
           );
 
           submitTicket.handleSubmit({ preventDefault: noop }, mockValues);

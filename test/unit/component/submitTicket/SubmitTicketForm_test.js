@@ -246,9 +246,7 @@ describe('SubmitTicketForm component', function() {
     describe('when the subject field is enabled', () => {
       beforeEach(() => {
         submitTicketForm = domRender(
-          <SubmitTicketForm
-            attachmentsEnabled={true}
-            subjectEnabled={true} />
+          <SubmitTicketForm subjectEnabled={true} />
         );
       });
 
@@ -263,7 +261,7 @@ describe('SubmitTicketForm component', function() {
 
     describe('when the subject field is disabled', () => {
       beforeEach(() => {
-        submitTicketForm = domRender(<SubmitTicketForm attachmentsEnabled={true} />);
+        submitTicketForm = domRender(<SubmitTicketForm />);
       });
 
       it('should not render the subject field', () => {

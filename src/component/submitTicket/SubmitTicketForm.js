@@ -206,21 +206,18 @@ export class SubmitTicketForm extends Component {
       fallback: 'Subject'
     });
 
-    return this.props.subjectEnabled
-         ? (
-          <Field
+    return !this.props.subjectEnabled
+         ? null
+         : <Field
             placeholder={placeholder}
             value={this.state.formState.subject}
             name='subject'
-            disabled={this.props.previewEnabled} />
-           )
-         : null;
+            disabled={this.props.previewEnabled} />;
   }
 
   renderFormBody() {
     const { formState } = this.state;
     const customFields = getCustomFields(this.props.customFields, formState);
-    const subjectField = this.renderSubjectField();
 
     return (
       <div ref='formWrapper'>
@@ -238,7 +235,7 @@ export class SubmitTicketForm extends Component {
           name='email'
           disabled={this.props.previewEnabled} />
         {customFields.fields}
-        {subjectField}
+        {this.renderSubjectField()}
         <Field
           placeholder={i18n.t('embeddable_framework.submitTicket.field.description.label')}
           required={true}
