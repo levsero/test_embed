@@ -6,6 +6,7 @@ describe('Submit ticket component', function() {
     'name': 'bob',
     'email': 'mock@email.com',
     'description': 'Mock Description',
+    'subject': 'Mock Subject',
     'set_tags': 'web_widget',
     'via_id': 48,
     'locale_id': 'fr',
@@ -174,7 +175,8 @@ describe('Submit ticket component', function() {
         value: {
           email: formParams.email,
           description: formParams.description,
-          name: formParams.name
+          name: formParams.name,
+          subject: formParams.subject
         }
       };
 
@@ -200,9 +202,10 @@ describe('Submit ticket component', function() {
         .toHaveBeenCalled();
 
       const params = mockSubmitTicketSender.calls.mostRecent().args[0];
+      const expected = _.omit(payload.params, 'subject');
 
       expect(params)
-        .toBeJSONEqual(payload.params);
+        .toBeJSONEqual(expected);
 
       mockSubmitTicketSender.calls.mostRecent().args[1]({});
 
@@ -324,6 +327,40 @@ describe('Submit ticket component', function() {
 
         expect(params.request.comment.body)
           .toBe(`${payload.params.description}\n\n------------------\n${label}`);
+      });
+
+      describe('when the subject field is available', () => {
+        beforeEach(() => {
+          submitTicket = domRender(
+            <SubmitTicket
+              submitTicketSender={mockSubmitTicketSender}
+              attachmentsEnabled={true}
+              subjectEnabled={true}
+              updateFrameSize={noop} />
+          );
+
+          submitTicket.handleSubmit({ preventDefault: noop }, mockValues);
+          params = mockSubmitTicketSender.calls.mostRecent().args[0];
+        });
+
+        describe('when the field is empty', () => {
+          it('uses the description as the subject', () => {
+            mockValues.value.subject = '';
+
+            submitTicket.handleSubmit({ preventDefault: noop }, mockValues);
+            params = mockSubmitTicketSender.calls.mostRecent().args[0];
+
+            expect(params.request.subject)
+              .toEqual(formParams.description);
+          });
+        });
+
+        describe('when the field is not empty', () => {
+          it('uses the subject fields value', () => {
+            expect(params.request.subject)
+              .toEqual(formParams.subject);
+          });
+        });
       });
 
       it('gets the attachments from AttachmentList', function() {

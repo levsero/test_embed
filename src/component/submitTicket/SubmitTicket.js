@@ -147,8 +147,11 @@ export class SubmitTicket extends Component {
     const uploads = this.refs.submitTicketForm.refs.attachments
                   ? this.refs.submitTicketForm.refs.attachments.getAttachmentTokens()
                   : null;
+    const subject = this.props.subjectEnabled && !_.isEmpty(data.value.subject)
+                  ? data.value.subject
+                  : (desc.length <= 50) ? desc : `${desc.slice(0,50)}...`;
     const params = {
-      'subject': (desc.length <= 50) ? desc : `${desc.slice(0,50)}...`,
+      'subject': subject,
       'tags': ['web_widget'],
       'via_id': settings.get('viaId'),
       'comment': {
@@ -259,6 +262,7 @@ export class SubmitTicket extends Component {
           formTitleKey={this.state.formTitleKey}
           attachmentSender={this.props.attachmentSender}
           attachmentsEnabled={this.props.attachmentsEnabled}
+          subjectEnabled={this.props.subjectEnabled}
           maxFileCount={this.props.maxFileCount}
           maxFileSize={this.props.maxFileSize}
           submit={this.handleSubmit}
@@ -286,6 +290,7 @@ SubmitTicket.propTypes = {
   onSubmitted: PropTypes.func,
   onCancel: PropTypes.func,
   attachmentsEnabled: PropTypes.bool,
+  subjectEnabled: PropTypes.bool,
   maxFileCount: PropTypes.number,
   maxFileSize: PropTypes.number
 };
@@ -300,6 +305,7 @@ SubmitTicket.defaultProps = {
   onSubmitted: () => {},
   onCancel: () => {},
   attachmentsEnabled: false,
+  subjectEnabled: false,
   maxFileCount: 5,
   maxFileSize: 5 * 1024 * 1024
 };
