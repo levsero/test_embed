@@ -333,6 +333,21 @@ parts:
       title: "Error message on a failed ticket update. Please use: There was a problem solving this request...Avoid possessive."
       screenshot: "https://zendesk.box.com/s/4qxn75tpkcocycfbrf9he2ht7uz1v7hw"
       value: "There was a problem solving your request. Please try again."
+  - translation:
+      key: "embeddable_framework.automaticAnswers.label.prompt.mobile"
+      title: "Prompt for the user to evaluate if the current article answers their question."
+      screenshot: "https://zendesk.box.com/s/mtgpbbhx8zfmzvp1lzfjiky3dy8q6jyr"
+      value: "Does this article answer your question?"
+  - translation:
+      key: "embeddable_framework.automaticAnswers.button.mobile"
+      title: "Call to action for the button to close the request."
+      screenshot: "https://zendesk.box.com/s/mtgpbbhx8zfmzvp1lzfjiky3dy8q6jyr"
+      value: "Yes"
+  - translation:
+      key: "embeddable_framework.automaticAnswers.label.error.mobile"
+      title: "Error message on a failed ticket update, shortened for mobile."
+      screenshot: "https://zendesk.box.com/s/mtgpbbhx8zfmzvp1lzfjiky3dy8q6jyr"
+      value: "There was a problem. Please try again."
 
   # Channel Choice
   - translation:
