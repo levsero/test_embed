@@ -45,6 +45,15 @@ describe('AutomaticAnswers component', () => {
             );
           }
         })
+      },
+      'component/automaticAnswers/AutomaticAnswersMobile': {
+        AutomaticAnswersMobile: React.createClass({
+          render() {
+            return (
+              <div className='automaticAnswers-mobile' />
+            );
+          }
+        })
       }
     });
 
@@ -78,6 +87,30 @@ describe('AutomaticAnswers component', () => {
     it('sets an empty errorMessage', () => {
       expect(automaticAnswers.state.errorMessage)
         .toEqual('');
+    });
+  });
+
+  describe('render', () => {
+    describe('when mobile prop is true', () => {
+      beforeEach(() => {
+        domRender(<AutomaticAnswers mobile={true} />);
+      });
+
+      it('renders the AutomaticAnswersMobile component', function() {
+        expect(document.querySelectorAll('.automaticAnswers-mobile').length)
+          .toEqual(1);
+      });
+    });
+
+    describe('when mobile prop is false', () => {
+      beforeEach(() => {
+        domRender(<AutomaticAnswers mobile={false} />);
+      });
+
+      it('renders the AutomaticAnswersDesktop component', function() {
+        expect(document.querySelectorAll('.automaticAnswers-desktop').length)
+          .toEqual(1);
+      });
     });
   });
 

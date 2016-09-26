@@ -179,6 +179,15 @@ export const frameFactory = function(childFn, _params) {
           height: (_.isFinite(height) ? height : 0) + params.offsetHeight
         };
 
+        // Set a full width frame with a dynamic height
+        if (params.fullWidth) {
+          return {
+            width: '100%',
+            height: (_.isFinite(height) ? height : 0) + params.offsetHeight,
+            zIndex: zIndex
+          };
+        }
+
         return fullscreen
              ? fullscreenStyle
              : popoverStyle;

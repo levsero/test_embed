@@ -61,6 +61,42 @@ export const transitionFactory = {
       duration: 300
     })
   },
+  automaticAnswersMobile: {
+    upShow: factoryMaker({
+      fromPosition: [0, 100, 0],
+      position: [0, 0, 0],
+      fromOpacity: 0,
+      duration: 300,
+      opacity: 1,
+      easing: 'easeOut'
+    }),
+    downHide: factoryMaker({
+      fromPosition: [0, 0, 0],
+      position: [0, 100, 0],
+      opacity: 0,
+      fromOpacity: 1,
+      duration: 300,
+      easing: 'easeIn'
+    })
+  },
+  automaticAnswersDesktop: {
+    upShow: factoryMaker({
+      fromPosition: [0, 200, 0],
+      position: [0, 0, 0],
+      fromOpacity: 0,
+      duration: 300,
+      opacity: 1,
+      easing: 'easeOut'
+    }),
+    downHide: factoryMaker({
+      fromPosition: [0, 0, 0],
+      position: [0, 200, 0],
+      opacity: 0,
+      fromOpacity: 1,
+      duration: 300,
+      easing: 'easeIn'
+    })
+  },
   webWidget: {
     launcherUpShow: factoryMaker({
       fromPosition: [0, 120, 0],
