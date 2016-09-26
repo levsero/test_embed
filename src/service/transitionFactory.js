@@ -40,7 +40,8 @@ export const transitionFactory = {
       transitionDuration: '300ms',
       transitionTimingFunction: 'ease-in',
       opacity: 0,
-      bottom: '-52%'
+      bottom: '-52%',
+      top: 'auto'
     })
   },
   npsDesktop: {
