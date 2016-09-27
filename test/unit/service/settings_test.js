@@ -309,19 +309,23 @@ describe('settings', () => {
   });
 
   describe('#getTrackSettings', () => {
-    const userSettings = {
-      webWidget: {
-        helpCenter: { originalArticleButton: false }
-      },
-      ipm: {
-        offset: {
-          horizontal: 1,
-          vertical: 1
-        }
-      }
-    };
+    let userSettings;
 
     beforeEach(() => {
+      userSettings = {
+        webWidget: {
+          authenticate: { jwt: 'abc' },
+          contactForm: { attachments: true },
+          helpCenter: { originalArticleButton: false }
+        },
+        ipm: {
+          offset: {
+            horizontal: 1,
+            vertical: 1
+          }
+        }
+      };
+
       mockRegistry['utility/globals'].win.zESettings = userSettings;
       settings.init();
     });
@@ -345,6 +349,14 @@ describe('settings', () => {
     });
 
     it('should filter out default values from the store', () => {
+      expect(settings.getTrackSettings().webWidget.contactForm)
+        .toBeUndefined();
+    });
+
+    it('should not filter out custom values from the store', () => {
+      userSettings.webWidget.authenticate = true;
+      _.unset(userSettings, 'webWidget.contactForm');
+
       expect(settings.getTrackSettings())
         .toEqual(userSettings);
     });
