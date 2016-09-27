@@ -92,6 +92,10 @@ parts:
       title: "The placeholder in the name field of the submit ticket form. Asking for the customers name. Will get cut off if too long"
       value: "Your name"
   - translation:
+      key: "embeddable_framework.submitTicket.field.subject.label"
+      title: "The placeholder in the subject field of the submit ticket form. Asking for the subject of the customers problem."
+      value: "Subject"
+  - translation:
       key: "embeddable_framework.submitTicket.field.description.label"
       title: "The placeholder in the description field of the submit ticket form. Asking for some information on the problem the customer has. Will wrap if needed"
       value: "How can we help you?"
