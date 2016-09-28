@@ -367,6 +367,7 @@ export class HelpCenter extends Component {
         articles={this.state.articles}
         showViewMore={showViewMore}
         showNextButton={this.state.showNextButton}
+        hideZendeskLogo={this.props.hideZendeskLogo}
         searchFailed={this.state.searchFailed}
         showBottomBorder={showBottomBorder}
         previousSearchTerm={this.state.previousSearchTerm}

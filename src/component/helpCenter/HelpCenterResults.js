@@ -114,12 +114,15 @@ export class HelpCenterResults extends Component {
     const initialSearchResults = this.props.articles.length > 0 &&
                                  this.props.articles.length < 4;
     const showBottomBorder = this.props.showBottomBorder && initialSearchResults;
-    const applyBorderPadding = (showBottomBorder &&
-                               this.props.showViewMore ||
-                               (!this.props.showNextButton && initialSearchResults));
+    // TODO: apply the bottom padding for the view more button once we begin rendering it.
+    // (i.e string has been translated).
+    const applyPadding = // this.props.showViewMore ||
+                         (!this.props.showNextButton &&
+                          initialSearchResults &&
+                          !this.props.hideZendeskLogo);
     const resultsClasses = classNames({
       'u-borderBottom': showBottomBorder,
-      'u-paddingBL': applyBorderPadding
+      'u-paddingBL': applyPadding
     });
     const legend = !(this.props.searchFailed || this.props.articles.length === 0)
                  ? this.renderLegend()
@@ -145,6 +148,7 @@ HelpCenterResults.propTypes = {
   fullscreen: PropTypes.bool,
   showViewMore: PropTypes.bool,
   showNextButton: PropTypes.bool,
+  hideZendeskLogo: PropTypes.bool,
   showBottomBorder: PropTypes.bool,
   searchFailed: PropTypes.bool,
   previousSearchTerm: PropTypes.string,
@@ -158,6 +162,7 @@ HelpCenterResults.defaultProps = {
   fullscreen: false,
   showViewMore: false,
   showNextButton: true,
+  hideZendeskLogo: false,
   showBottomBorder: true,
   searchFailed: false,
   previousSearchTerm: '',
