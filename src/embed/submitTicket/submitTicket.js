@@ -106,6 +106,21 @@ function create(name, config) {
     beacon.trackUserAction('submitTicket', 'send', name, userActionPayload);
     mediator.channel.broadcast(name + '.onFormSubmitted');
   };
+  const getTicketForms = () => {
+    const ticketForms = settings.get('contactForm.ticketForms');
+
+    if (ticketForms) {
+      transport.get({
+        method: 'get',
+        path: `/api/v2/ticket_forms/show_many.json?ids=${ticketForms[0]}&include=ticket_fields`,
+        callbacks: {
+          done(res) {
+            console.log(res);
+          }
+        }
+      })
+    }
+  }
   const onCancel = function() {
     mediator.channel.broadcast(name + '.onCancelClick');
   };
@@ -124,6 +139,8 @@ function create(name, config) {
       rootComponent.refs.submitTicketForm.resetTicketFormVisibility();
     }
   };
+
+  getTicketForms();
 
   if (isMobileBrowser()) {
     containerStyle = { width: '100%', height: '100%' };
@@ -156,6 +173,7 @@ function create(name, config) {
           subjectEnabled={settings.get('contactForm.subject')}
           maxFileCount={config.maxFileCount}
           maxFileSize={config.maxFileSize}
+          getTicketForms={getTicketForms}
           updateFrameSize={params.updateFrameSize} />
       );
     },

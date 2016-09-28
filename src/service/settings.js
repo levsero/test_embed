@@ -13,6 +13,7 @@ const optionWhitelist = {
     'contactForm.attachments',
     'contactForm.suppress',
     'contactForm.title',
+    'contactForm.ticketForms',
     'helpCenter.chatButton',
     'helpCenter.messageButton',
     'helpCenter.originalArticleButton',
