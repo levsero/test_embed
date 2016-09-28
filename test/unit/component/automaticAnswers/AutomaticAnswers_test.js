@@ -159,6 +159,23 @@ describe('AutomaticAnswers component', () => {
       });
     });
 
+    describe('error behaviour when parameter condition is false', () => {
+      beforeEach(() => {
+        mockMissingArticleId = true;
+        automaticAnswers.handleSolveTicket();
+      });
+
+      it('sets an errorMessage', () => {
+        expect(automaticAnswers.state.errorMessage)
+          .toBe('embeddable_framework.automaticAnswers.label.error_v2');
+      });
+
+      it('sets isSubmitting to false', () => {
+        expect(automaticAnswers.state.isSubmitting)
+          .toBe(false);
+      });
+    });
+
     describe('component state', () => {
       beforeEach(() => {
         automaticAnswers.setState({

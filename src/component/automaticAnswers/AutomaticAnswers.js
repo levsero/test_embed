@@ -52,7 +52,7 @@ export class AutomaticAnswers extends Component {
     if (ticketId && token && articleId) {
       this.props.solveTicket(ticketId, token, articleId, callbacks);
     } else {
-      // TODO - Handle edge case where Embed is visible but user changes the URL.
+      this.solveTicketFail();
     }
   }
 
