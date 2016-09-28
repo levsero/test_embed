@@ -196,5 +196,14 @@ describe('HelpCenterResults component', () => {
       expect(component.props.className)
         .not.toMatch('u-borderBottom');
     });
+
+    describe('when next button is hidden', () => {
+      it('should apply padding to the border', () => {
+        const component = shallowRender(<HelpCenterResults articles={articles} showNextButton={false} />);
+
+        expect(component.props.className)
+          .toMatch('u-paddingBL');
+      });
+    });
   });
 });

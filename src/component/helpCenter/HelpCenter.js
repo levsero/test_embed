@@ -366,6 +366,7 @@ export class HelpCenter extends Component {
         fullscreen={this.props.fullscreen}
         articles={this.state.articles}
         showViewMore={showViewMore}
+        showNextButton={this.state.showNextButton}
         searchFailed={this.state.searchFailed}
         showBottomBorder={showBottomBorder}
         previousSearchTerm={this.state.previousSearchTerm}

@@ -111,12 +111,15 @@ export class HelpCenterResults extends Component {
   }
 
   render() {
-    const showBottomBorder = this.props.showBottomBorder &&
-                             this.props.articles.length > 0 &&
-                             this.props.articles.length < 4;
+    const initialSearchResults = this.props.articles.length > 0 &&
+                                 this.props.articles.length < 4;
+    const showBottomBorder = this.props.showBottomBorder && initialSearchResults;
+    const applyBorderPadding = (showBottomBorder &&
+                               this.props.showViewMore ||
+                               (!this.props.showNextButton && initialSearchResults));
     const resultsClasses = classNames({
       'u-borderBottom': showBottomBorder,
-      'u-paddingBL': showBottomBorder && this.props.showViewMore
+      'u-paddingBL': applyBorderPadding
     });
     const legend = !(this.props.searchFailed || this.props.articles.length === 0)
                  ? this.renderLegend()
@@ -141,6 +144,7 @@ HelpCenterResults.propTypes = {
   articles: PropTypes.array,
   fullscreen: PropTypes.bool,
   showViewMore: PropTypes.bool,
+  showNextButton: PropTypes.bool,
   showBottomBorder: PropTypes.bool,
   searchFailed: PropTypes.bool,
   previousSearchTerm: PropTypes.string,
@@ -153,6 +157,7 @@ HelpCenterResults.defaultProps = {
   articles: [],
   fullscreen: false,
   showViewMore: false,
+  showNextButton: true,
   showBottomBorder: true,
   searchFailed: false,
   previousSearchTerm: '',
