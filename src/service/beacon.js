@@ -104,9 +104,6 @@ function trackSettings(settings) {
   const validSettings = _.filter(previousSettings, (settings) => {
     return settings[1] > expiryTime;
   });
-  const shouldSend = _.findIndex(validSettings, (settings) => {
-    return settings[0] === encoded;
-  });
   const done = () => {
     const encoded = sha1(JSON.stringify(settings));
 
@@ -121,7 +118,7 @@ function trackSettings(settings) {
     callbacks: { done }
   };
 
-  if (shouldSend === -1) {
+  if (!_.find(validSettings, (s) => s[0] === encoded)) {
     transport.sendWithMeta(payload);
   }
 }
