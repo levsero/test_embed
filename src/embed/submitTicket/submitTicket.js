@@ -153,6 +153,7 @@ function create(name, config) {
           formTitleKey={config.formTitleKey}
           style={containerStyle}
           attachmentsEnabled={config.attachmentsEnabled}
+          subjectEnabled={settings.get('contactForm.subject')}
           maxFileCount={config.maxFileCount}
           maxFileSize={config.maxFileSize}
           updateFrameSize={params.updateFrameSize} />

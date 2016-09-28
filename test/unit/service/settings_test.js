@@ -19,6 +19,7 @@ describe('settings', () => {
     });
     defaults = {
       contactForm: {
+        subject: false,
         attachments: true
       },
       channelChoice: false,
@@ -67,6 +68,11 @@ describe('settings', () => {
       it('has the correct value for contactForm.attachments', () => {
         expect(settings.get('contactForm.attachments'))
           .toEqual(defaults.contactForm.attachments);
+      });
+
+      it('has the correct value for contactForm.subject', () => {
+        expect(settings.get('contactForm.subject'))
+          .toEqual(defaults.contactForm.subject);
       });
 
       it('has the correct value for color', () => {
@@ -150,6 +156,9 @@ describe('settings', () => {
       mockRegistry['utility/globals'].win.zESettings = {
         webWidget: {
           authenticate: 'foo',
+          contactForm: {
+            subject: true
+          },
           helpCenter: {
             originalArticleButton: false,
             suppress: true
@@ -189,6 +198,11 @@ describe('settings', () => {
         expect(settings.get('color.theme'))
           .toBe('#FF0000');
       });
+
+      it('should return user setting for contactForm.subject', () => {
+        expect(settings.get('contactForm.subject'))
+          .toBe(true);
+      });
     });
 
     describe('when web widget customisations are disabled', () => {
@@ -208,6 +222,11 @@ describe('settings', () => {
       it('should return the default setting for color', () => {
         expect(settings.get('color.theme'))
           .toBe(defaults.color.theme);
+      });
+
+      it('should return user default for contactForm.subject', () => {
+        expect(settings.get('contactForm.subject'))
+          .toBe(defaults.contactForm.subject);
       });
     });
 

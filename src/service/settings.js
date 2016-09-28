@@ -9,6 +9,7 @@ const optionWhitelist = {
     'channelChoice',
     'chat.suppress',
     'color',
+    'contactForm.subject',
     'contactForm.attachments',
     'contactForm.suppress',
     'contactForm.title',
@@ -32,6 +33,7 @@ const optionWhitelist = {
 };
 const customizationsWhitelist = [
   'zIndex',
+  'contactForm.subject',
   'position.vertical',
   'position.horizontal',
   'color.theme',
@@ -44,6 +46,7 @@ const customizationsWhitelist = [
 ];
 const webWidgetStoreDefaults = {
   contactForm: {
+    subject: false,
     attachments: true,
     suppress: false
   },

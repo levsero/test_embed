@@ -201,6 +201,20 @@ export class SubmitTicketForm extends Component {
     });
   }
 
+  renderSubjectField() {
+    const placeholder = i18n.t('embeddable_framework.submitTicket.field.subject.label', {
+      fallback: 'Subject'
+    });
+
+    return !this.props.subjectEnabled
+         ? null
+         : <Field
+            placeholder={placeholder}
+            value={this.state.formState.subject}
+            name='subject'
+            disabled={this.props.previewEnabled} />;
+  }
+
   renderFormBody() {
     const { formState } = this.state;
     const customFields = getCustomFields(this.props.customFields, formState);
@@ -221,6 +235,7 @@ export class SubmitTicketForm extends Component {
           name='email'
           disabled={this.props.previewEnabled} />
         {customFields.fields}
+        {this.renderSubjectField()}
         <Field
           placeholder={i18n.t('embeddable_framework.submitTicket.field.description.label')}
           required={true}
@@ -312,6 +327,7 @@ SubmitTicketForm.propTypes = {
   onCancel: PropTypes.func,
   attachmentSender: PropTypes.func.isRequired,
   attachmentsEnabled: PropTypes.bool,
+  subjectEnabled: PropTypes.bool,
   maxFileCount: PropTypes.number,
   maxFileSize: PropTypes.number,
   previewEnabled: PropTypes.bool
@@ -323,6 +339,7 @@ SubmitTicketForm.defaultProps = {
   fullscreen: false,
   onCancel: () => {},
   attachmentsEnabled: false,
+  subjectEnabled: false,
   maxFileCount: 5,
   maxFileSize: 5 * 1024 * 1024,
   previewEnabled: false
