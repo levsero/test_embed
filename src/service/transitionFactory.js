@@ -9,6 +9,15 @@ const factoryMaker = (defaultParams) => {
   };
 };
 
+const transitionMaker = (defaultStartParams, defaultEndParams) => {
+  return (startParams, endParams) => {
+    return {
+      start: _.extend({}, defaultStartParams, startParams),
+      end: _.extend({}, defaultEndParams, endParams)
+    }
+  };
+};
+
 const offScreen = (fallback) => {
   return screen.height ? `-${screen.height}px` : fallback;
 };
@@ -19,81 +28,106 @@ const positionWithOffset = (base) => {
   return `${position}px`;
 };
 
+const noAnimation = {
+  transitionProperty: 'none',
+  transitionDuration: '0',
+  transitionTimingFunction: 'unset'
+}
+
+const hiddenState = _.extend(
+  {},
+  noAnimation,
+  {
+    opacity: .2,
+    top: '-9999px',
+    bottom: '-30px',
+    position: 'absolute'
+  }
+)
+
+
 export const transitionFactory = {
-  npsMobile: {
-    upShow: factoryMaker({
-      transitionProperty: 'all',
-      transitionDuration: '300ms',
-      transitionTimingFunction: 'ease-out',
-      opacity: 1,
-      bottom: 0
-    }),
-    downHide: factoryMaker({
-      transitionProperty: 'all',
-      transitionDuration: '300ms',
-      transitionTimingFunction: 'ease-in',
-      opacity: 0,
-      bottom: '-300px'
-    }),
-    initial: factoryMaker({
-      transitionProperty: 'all',
-      transitionDuration: '300ms',
-      transitionTimingFunction: 'ease-in',
-      opacity: 0,
-      bottom: '-52%',
-      top: 'auto'
-    })
-  },
-  npsDesktop: {
-    upShow: factoryMaker({
-      transitionProperty: 'all',
-      transitionDuration: '300ms',
-      transitionTimingFunction: 'ease-out',
-      opacity: 1,
-      bottom: 0
-    }),
-    downHide: factoryMaker({
-      transitionProperty: 'all',
-      transitionDuration: '300ms',
-      transitionTimingFunction: 'ease-in',
-      opacity: 0,
-      bottom: '-100px'
-    }),
-    initial: factoryMaker({
-      transitionProperty: 'all',
-      transitionDuration: '300ms',
-      transitionTimingFunction: 'ease-in',
-      opacity: 0,
-      top: '-9999px',
-      bottom: '-300px'
-    })
-  },
-  ipm: {
-    downShow: factoryMaker({
-      transitionProperty: 'all',
-      transitionDuration: '300ms',
-      transitionTimingFunction: 'ease-out',
-      opacity: 1,
-      bottom: 'auto',
-      top: 0
-    }),
-    upHide: factoryMaker({
-      transitionProperty: 'all',
-      transitionDuration: '300ms',
-      transitionTimingFunction: 'ease-out',
-      opacity: 0,
-      bottom: 'auto',
-      top: '-300px'
-    }),
-    initial: factoryMaker({
-      transitionProperty: 'all',
-      transitionDuration: '300ms',
-      transitionTimingFunction: 'ease-out',
-      opacity: 0,
-      bottom: 'auto',
-      top: '-300px'
-    })
-  },
+  // npsMobile: {
+  //   upShow: factoryMaker({
+  //     transitionProperty: 'all',
+  //     transitionDuration: '300ms',
+  //     transitionTimingFunction: 'ease-out',
+  //     opacity: 1,
+  //     bottom: 0
+  //   }),
+  //   downHide: factoryMaker({
+  //     transitionProperty: 'all',
+  //     transitionDuration: '300ms',
+  //     transitionTimingFunction: 'ease-in',
+  //     opacity: 0,
+  //     bottom: '-300px'
+  //   }),
+  //   initial: factoryMaker({
+  //     transitionProperty: 'all',
+  //     transitionDuration: '300ms',
+  //     transitionTimingFunction: 'ease-in',
+  //     opacity: 0,
+  //     bottom: '-52%',
+  //     top: 'auto'
+  //   })
+  // },
+  // npsDesktop: {
+  //   upShow: factoryMaker({
+  //     transitionProperty: 'all',
+  //     transitionDuration: '300ms',
+  //     transitionTimingFunction: 'ease-out',
+  //     opacity: 1,
+  //     bottom: 0
+  //   }),
+  //   downHide: factoryMaker({
+  //     transitionProperty: 'all',
+  //     transitionDuration: '300ms',
+  //     transitionTimingFunction: 'ease-in',
+  //     opacity: 0,
+  //     bottom: '-100px'
+  //   }),
+  //   initial: factoryMaker({
+  //     transitionProperty: 'all',
+  //     transitionDuration: '300ms',
+  //     transitionTimingFunction: 'ease-in',
+  //     opacity: 0,
+  //     top: '-9999px',
+  //     bottom: '-300px'
+  //   })
+  // },
+  // ipm: {
+  //   downShow: factoryMaker({
+  //     transitionProperty: 'all',
+  //     transitionDuration: '300ms',
+  //     transitionTimingFunction: 'ease-out',
+  //     opacity: 1,
+  //     bottom: 'auto',
+  //     top: 0
+  //   }),
+  //   upHide: factoryMaker({
+  //     transitionProperty: 'all',
+  //     transitionDuration: '300ms',
+  //     transitionTimingFunction: 'ease-out',
+  //     opacity: 0,
+  //     bottom: 'auto',
+  //     top: '-300px'
+  //   }),
+  //   initial: factoryMaker({
+  //     transitionProperty: 'all',
+  //     transitionDuration: '300ms',
+  //     transitionTimingFunction: 'ease-out',
+  //     opacity: 0,
+  //     bottom: 'auto',
+  //     top: '-300px'
+  //   })
+  // },
+
+
+
+
+
+
+
   webWidget: {
     launcherUpShow: factoryMaker({
       transitionProperty: 'all',
@@ -146,5 +180,6 @@ export const transitionFactory = {
       bottom: '-30px',
       position: 'absolute'
     })
-  }
+  },
+  hiddenState: factoryMaker(hiddenState)
 };
