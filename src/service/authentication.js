@@ -1,11 +1,11 @@
-import crypto from 'crypto';
-import { memoize } from 'lodash';
+import _ from 'lodash';
 
 import { mediator } from 'service/mediator';
 import { store } from 'service/persistence';
 import { settings } from 'service/settings';
 import { transport } from 'service/transport';
-import { base64decode } from 'utility/utils';
+import { base64decode,
+         sha1 } from 'utility/utils';
 
 const renewTime = 20 * 60; // 20 mins in secs
 
@@ -131,7 +131,7 @@ function isTokenRevoked(token, revokedAt) {
   return token.createdAt <= revokedAt;
 }
 
-const extractTokenId = memoize(function(jwt) {
+const extractTokenId = _.memoize(function(jwt) {
   const jwtBody = jwt.split('.')[1];
 
   if (typeof jwtBody === 'undefined') {
@@ -142,7 +142,7 @@ const extractTokenId = memoize(function(jwt) {
   const message = JSON.parse(decodedBody);
 
   return message.email
-    ? crypto.createHash('sha1').update(message.email).digest('hex')
+    ? sha1(message.email)
     : null;
 });
 

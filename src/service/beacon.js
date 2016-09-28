@@ -8,7 +8,9 @@ import { win,
          document as doc,
          navigator } from 'utility/globals';
 import { isOnHelpCenterPage } from 'utility/pages';
-import { parseUrl } from 'utility/utils';
+import { nowInSeconds,
+         parseUrl,
+         sha1 } from 'utility/utils';
 
 const sendPageView = () => {
   const now = Date.now();
@@ -96,13 +98,32 @@ function trackUserAction(category, action, label = null, value = null) {
 function trackSettings(settings) {
   if (!win.zESettings || _.isEmpty(settings)) return;
 
+  const previousSettings = store.get('settings');
+  const expiryTime = nowInSeconds() - 24*60*60;
+  const encoded = sha1(JSON.stringify(settings));
+  const validSettings = _.filter(previousSettings, (settings) => {
+    return settings[1] > expiryTime;
+  });
+  const shouldSend = _.findIndex(validSettings, (settings) => {
+    return settings[0] === encoded;
+  });
+  const done = () => {
+    const encoded = sha1(JSON.stringify(settings));
+
+    validSettings.push([ encoded, nowInSeconds() ]);
+    store.set('settings', validSettings);
+  };
+
   const payload = {
     method: 'POST',
     path: '/embeddable/blips',
-    params: { settings }
+    params: { settings },
+    callbacks: { done }
   };
 
-  transport.sendWithMeta(payload);
+  if (shouldSend === -1) {
+    transport.sendWithMeta(payload);
+  }
 }
 
 function identify(user) {

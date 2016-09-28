@@ -1,4 +1,5 @@
 const jsonwebtoken = require('jsonwebtoken');
+const crypto = require('crypto');
 
 describe('authentication', function() {
   let authentication,
@@ -36,7 +37,8 @@ describe('authentication', function() {
         }
       },
       'utility/utils': {
-        base64decode: window.atob
+        base64decode: window.atob,
+        sha1: (string) => crypto.createHash('sha1').update(string).digest('hex')
       }
     });
 
