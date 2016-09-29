@@ -55,7 +55,7 @@ const hiddenState = _.extend(
   }
 )
 
-const launcherUp = {
+const launcherUpShow = {
   transitionProperty: 'all',
   transitionDuration: '300ms',
   transitionTimingFunction: 'ease',
@@ -63,7 +63,7 @@ const launcherUp = {
   bottom: positionWithOffset(0)
 }
 
-const launcherDown = {
+const launcherDownHide = {
   transitionProperty: 'all',
   transitionTimingFunction: 'linear',
   transitionDuration: '200ms',
@@ -155,9 +155,45 @@ export const transitionFactory = {
 
   webWidget: {
 
-    launcherUpShow: transitionMaker(launcherDown, launcherUp),
-    launcherDownHide: transitionMaker(launcherUp, launcherDown),
+    launcherUpShow: transitionMaker(launcherDownHide, launcherUpShow),
+    launcherDownHide: transitionMaker(launcherUpShow, launcherDownHide),
 
+
+
+    launcherDownShow: transitionMaker(_.extend(
+        {},
+        noAnimation,
+        {
+          marginLeft: '20px',
+          marginRight: '20px',
+          opacity: .2,
+          top: '-20px',
+          bottom: 'auto'
+        }
+      ),
+      {
+        transitionProperty: 'all',
+        transitionDuration: '300ms',
+        transitionTimingFunction: 'ease',
+        opacity: 1,
+        top: positionWithOffset(0),
+        bottom: 'auto'
+      }
+    ),
+
+
+
+    launcherUpHide: transitionMaker(
+      {},
+      {
+        transitionProperty: 'all',
+        transitionTimingFunction: 'linear',
+        transitionDuration: '200ms',
+        opacity: .2,
+        top: '-20px',
+        bottom: 'auto'
+      }
+    ),
 
 
 
