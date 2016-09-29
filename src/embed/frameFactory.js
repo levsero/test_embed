@@ -208,6 +208,7 @@ export const frameFactory = function(childFn, _params) {
 
     show(options = {}) {
       let frameFirstChild = ReactDOM.findDOMNode(this).contentDocument.body.firstChild.firstChild;
+
       this.setState({ visible: true });
 
       setTimeout( () => {
@@ -219,7 +220,7 @@ export const frameFactory = function(childFn, _params) {
       }, 50);
 
       if (params.transitions[options.transition] && !isFirefox()) {
-        const transition = params.transitions[options.transition]
+        const transition = params.transitions[options.transition];
 
         snabbt(ReactDOM.findDOMNode(this), transition).then({
           callback: () => {
@@ -233,7 +234,7 @@ export const frameFactory = function(childFn, _params) {
 
     hide(options = {}) {
       if (params.transitions[options.transition] && !isFirefox()) {
-        const transition = params.transitions[options.transition]
+        const transition = params.transitions[options.transition];
 
         snabbt(ReactDOM.findDOMNode(this), transition).then({
           callback: () => {
@@ -246,7 +247,6 @@ export const frameFactory = function(childFn, _params) {
             });
           }
         });
-
       } else {
         this.setState({ visible: false });
         params.onHide(this);

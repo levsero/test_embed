@@ -384,7 +384,7 @@ describe('frameFactory', function() {
 
       describe('and no afterShowAnimate', function() {
         let mockFrameParams,
-        instance;
+          instance;
 
         beforeEach(function() {
           mockSnabbt.calls.reset();
@@ -412,7 +412,7 @@ describe('frameFactory', function() {
 
       describe('and no callback', function() {
         let mockFrameParams,
-        instance;
+          instance;
 
         beforeEach(function() {
           mockSnabbt.calls.reset();
@@ -547,28 +547,28 @@ describe('frameFactory', function() {
       });
 
       describe('and no callback', function() {
-       beforeEach(function() {
-         mockSnabbt.calls.reset();
+        beforeEach(function() {
+          mockSnabbt.calls.reset();
 
-         mockFrameParams = {
-           transitions: {
-             downHide: {
-               position: [1, 2, 3]
-             }
-           }
-         };
+          mockFrameParams = {
+            transitions: {
+              downHide: {
+                position: [1, 2, 3]
+              }
+            }
+          };
 
-         const Embed = frameFactory(mockChildFn, mockFrameParams);
+          const Embed = frameFactory(mockChildFn, mockFrameParams);
 
-         instance = domRender(<Embed />);
-       });
+          instance = domRender(<Embed />);
+        });
 
-       it('should not try to call the provided callback if it\'s not available', function() {
-         instance.hide({ transition: 'downHide' });
+        it('should not try to call the provided callback if it\'s not available', function() {
+          instance.hide({ transition: 'downHide' });
 
-         expect(mockSnabbtThen.calls.mostRecent().args[0].callback)
-         .not.toThrow();
-       });
+          expect(mockSnabbtThen.calls.mostRecent().args[0].callback)
+          .not.toThrow();
+        });
       });
     });
   });
@@ -769,7 +769,7 @@ describe('frameFactory', function() {
       .toEqual('');
     });
 
-     it('has horizontal style set to `left` when isRTL() evaluates to false', function() {
+    it('has horizontal style set to `left` when isRTL() evaluates to false', function() {
       const frameContainer = global.document.body.getElementsByTagName('iframe')[0];
       const frameContainerStyle = frameContainer.style;
 
@@ -782,13 +782,13 @@ describe('frameFactory', function() {
       instance.setState({ visible: false });
 
       expect(frameContainerStyle.top)
-      .toEqual('-9999px');
+        .toEqual('-9999px');
 
       expect(frameContainerStyle.left)
-      .toEqual('-9999px');
+        .toEqual('-9999px');
 
       expect(frameContainerStyle.bottom)
-      .toEqual('');
+        .toEqual('');
     });
 
     it('has `border` css rule set to none', function() {

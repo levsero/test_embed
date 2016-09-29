@@ -48,9 +48,9 @@ function isDevice(...testStrings) {
 }
 
 function isFirefox() {
-   const FIREFOX_BROWSER = /Gecko\/.*\d.*Firefox/;
+  const FIREFOX_BROWSER = /Gecko\/.*\d.*Firefox/;
 
-   return FIREFOX_BROWSER.test(navigator.userAgent);
+  return FIREFOX_BROWSER.test(navigator.userAgent);
 }
 
 // Taken from Zopim Mobile.js
