@@ -225,7 +225,11 @@ export const frameFactory = function(childFn, _params) {
       const newFrameStyle = _.extend({}, this.state.frameStyle, transition.end);
 
       this.setState({ frameStyle: transition.start });
-      this.setState({ frameStyle: newFrameStyle });
+
+      setTimeout(
+        () => this.setState({ frameStyle: newFrameStyle }),
+        0
+      );
 
       setTimeout(
         () => params.afterShowAnimate(this),
