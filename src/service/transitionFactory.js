@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { isMobileBrowser } from 'utility/devices';
 import { settings } from 'service/settings';
 // TODO: Re-visit the boot process to avoid this
 settings.init();
@@ -27,6 +28,15 @@ const positionWithOffset = (base) => {
 
   return `${position}px`;
 };
+
+const marginSetting = () => {
+  return isMobileBrowser() ? 0 : settings.get('margin');
+}
+
+const startMargins = {
+  marginRight: marginSetting(),
+  marginLeft: marginSetting()
+}
 
 const noAnimation = {
   transitionProperty: 'none',
@@ -181,14 +191,18 @@ export const transitionFactory = {
 
 
 
-    downShow: transitionMaker({
-      transitionProperty: 'none',
-      transitionDuration: '0',
-      transitionTimingFunction: 'unset',
-      opacity: .2,
-      bottom: 'auto',
-      top: '-30px'
-    },
+    downShow: transitionMaker(_.extend(
+      {},
+      startMargins,
+      {
+        transitionProperty: 'none',
+        transitionDuration: '0',
+        transitionTimingFunction: 'unset',
+        opacity: .2,
+        bottom: 'auto',
+        top: '-30px'
+      }
+    ),
     {
       transitionProperty: 'all',
       transitionDuration: '300ms',
@@ -240,14 +254,18 @@ export const transitionFactory = {
 
 
 
-    upShow: transitionMaker({
-      transitionProperty: 'none',
-      transitionDuration: '0',
-      transitionTimingFunction: 'unset',
-      opacity: .2,
-      bottom: positionWithOffset(-30),
-      top: '300px'
-    },
+    upShow: transitionMaker(_.extend(
+      {},
+      startMargins,
+      {
+        transitionProperty: 'none',
+        transitionDuration: '0',
+        transitionTimingFunction: 'unset',
+        opacity: .2,
+        bottom: positionWithOffset(-30),
+        top: '300px'
+      }
+    ),
     {
       transitionProperty: 'all',
       transitionDuration: '300ms',
