@@ -34,8 +34,7 @@ function create(name, config) {
     offsetHeight: 50,
     transitions: {
       close: transitionFactory.webWidget.downHide(),
-      upShow: transitionFactory.webWidget.upShow(),
-      initial: transitionFactory.webWidget.initial()
+      upShow: transitionFactory.webWidget.upShow()
     }
   };
 

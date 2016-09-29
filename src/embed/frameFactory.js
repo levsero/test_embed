@@ -2,17 +2,17 @@ import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
 import classNames from 'classnames';
+import snabbt from 'snabbt.js';
 
 import { EmbedWrapper } from 'component/frameFactory/EmbedWrapper';
 import { i18n } from 'service/i18n';
 import { settings } from 'service/settings';
-import { transitionFactory } from 'service/transitionFactory';
 import { clickBusterRegister,
          getZoomSizingRatio,
-         isMobileBrowser } from 'utility/devices';
+         isMobileBrowser,
+         isFirefox } from 'utility/devices';
 import { win } from 'utility/globals';
-import { bindMethods,
-         cssTimeToMs } from 'utility/utils';
+import { bindMethods } from 'utility/utils';
 
 // Unregister lodash from window._
 if (!__DEV__) {
@@ -72,8 +72,6 @@ export const frameFactory = function(childFn, _params) {
   };
   const params = _.defaultsDeep({}, _params, defaultParams);
   const zIndex = settings.get('zIndex');
-  const defaultHideTransition = transitionFactory.webWidget.downHide();
-  const defaultShowTransition = transitionFactory.webWidget.upShow();
 
   if (__DEV__) {
     validateChildFn(childFn, params);
@@ -210,8 +208,6 @@ export const frameFactory = function(childFn, _params) {
 
     show(options = {}) {
       let frameFirstChild = ReactDOM.findDOMNode(this).contentDocument.body.firstChild.firstChild;
-      const transition = params.transitions[options.transition] || defaultShowTransition;
-
       this.setState({ visible: true });
 
       setTimeout( () => {
@@ -222,28 +218,39 @@ export const frameFactory = function(childFn, _params) {
         }
       }, 50);
 
-      const newFrameStyle = _.extend({}, this.state.frameStyle, transition);
+      if (params.transitions[options.transition] && !isFirefox()) {
+        const transition = params.transitions[options.transition]
 
-      this.setState({ frameStyle: newFrameStyle });
-
-      setTimeout(
-        () => params.afterShowAnimate(this),
-        cssTimeToMs(transition.transitionDuration)
-      );
+        snabbt(ReactDOM.findDOMNode(this), transition).then({
+          callback: () => {
+            params.afterShowAnimate(this);
+          }
+        });
+      }
 
       params.onShow(this);
     }
 
     hide(options = {}) {
-      const transition = params.transitions[options.transition] || defaultHideTransition;
-      const newFrameStyle = _.extend({}, this.state.frameStyle, transition);
+      if (params.transitions[options.transition] && !isFirefox()) {
+        const transition = params.transitions[options.transition]
 
-      this.setState({ frameStyle: newFrameStyle });
+        snabbt(ReactDOM.findDOMNode(this), transition).then({
+          callback: () => {
+            this.setState({ visible: false });
+            params.onHide(this);
 
-      setTimeout(() => {
+            // Ugly, I know, but it's to undo snabbt's destructive style mutations
+            _.each(this.computeIframeStyle(), (val, key) => {
+              ReactDOM.findDOMNode(this).style[key] = val;
+            });
+          }
+        });
+
+      } else {
         this.setState({ visible: false });
         params.onHide(this);
-      }, cssTimeToMs(transition.transitionDuration));
+      }
     }
 
     close(ev, options = {}) {
@@ -294,7 +301,10 @@ export const frameFactory = function(childFn, _params) {
     computeIframeStyle() {
       const visibilityRule = (this.state.visible && !this.state.hiddenByZoom)
                            ? null
-                           : params.transitions.initial;
+                           : {top: '-9999px',
+                              [i18n.isRTL() ? 'right' : 'left']: '-9999px',
+                              position: 'absolute',
+                              bottom: 'auto'};
 
       const horizontalOffset = (isMobileBrowser()) ? 0 : settings.get('offset').horizontal;
       const verticalOffset = (isMobileBrowser()) ? 0 : settings.get('offset').vertical;

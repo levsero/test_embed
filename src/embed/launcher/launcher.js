@@ -59,8 +59,9 @@ function create(name, config) {
       offsetHeight: 1,
       transitions: {
         upShow: transitionFactory.webWidget.launcherUpShow(),
-        downHide: transitionFactory.webWidget.launcherDownHide(),
-        initial: transitionFactory.webWidget.initial()
+        upHide: transitionFactory.webWidget.upHide(),
+        downShow: transitionFactory.webWidget.downShow(),
+        downHide: transitionFactory.webWidget.launcherDownHide()
       },
       extend: {
         onClickHandler: (e) => {
