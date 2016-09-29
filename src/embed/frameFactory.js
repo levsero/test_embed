@@ -171,7 +171,7 @@ export const frameFactory = function(childFn, _params) {
         const fullscreenStyle = {
           width: `${win.innerWidth}px`,
           height: '100%',
-          top:0,
+          // top:0,
           left:0,
           background:'#FFF',
           zIndex: zIndex
@@ -222,13 +222,14 @@ export const frameFactory = function(childFn, _params) {
         }
       }, 50);
 
-      const newFrameStyle = _.extend({}, this.state.frameStyle, transition);
+      const newFrameStyle = _.extend({}, this.state.frameStyle, transition.end);
 
+      this.setState({ frameStyle: transition.start });
       this.setState({ frameStyle: newFrameStyle });
 
       setTimeout(
         () => params.afterShowAnimate(this),
-        cssTimeToMs(transition.transitionDuration)
+        cssTimeToMs(transition.end.transitionDuration)
       );
 
       params.onShow(this);
@@ -236,14 +237,15 @@ export const frameFactory = function(childFn, _params) {
 
     hide(options = {}) {
       const transition = params.transitions[options.transition] || defaultHideTransition;
-      const newFrameStyle = _.extend({}, this.state.frameStyle, transition);
+      const newFrameStyle = _.extend({}, this.state.frameStyle, transition.end);
 
+      this.setState({ frameStyle: transition.start });
       this.setState({ frameStyle: newFrameStyle });
 
       setTimeout(() => {
         this.setState({ visible: false });
         params.onHide(this);
-      }, cssTimeToMs(transition.transitionDuration));
+      }, cssTimeToMs(transition.end.transitionDuration));
     }
 
     close(ev, options = {}) {
@@ -294,7 +296,7 @@ export const frameFactory = function(childFn, _params) {
     computeIframeStyle() {
       const visibilityRule = (this.state.visible && !this.state.hiddenByZoom)
                            ? null
-                           : params.transitions.initial;
+                           : transitionFactory.hiddenState();
 
       const horizontalOffset = (isMobileBrowser()) ? 0 : settings.get('offset').horizontal;
       const verticalOffset = (isMobileBrowser()) ? 0 : settings.get('offset').vertical;
