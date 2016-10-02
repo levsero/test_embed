@@ -1,7 +1,4 @@
 import _ from 'lodash';
-import { settings } from 'service/settings';
-// TODO: Re-visit the boot process to avoid this
-settings.init();
 
 const factoryMaker = (defaultParams) => {
   return (params) => {
@@ -9,142 +6,150 @@ const factoryMaker = (defaultParams) => {
   };
 };
 
-const offScreen = (fallback) => {
-  return screen.height ? `-${screen.height}px` : fallback;
-};
-
-const positionWithOffset = (base) => {
-  const position = parseInt(base, 10) + parseInt(settings.get('offset.vertical'), 10);
-
-  return `${position}px`;
-};
-
 export const transitionFactory = {
   npsMobile: {
     upShow: factoryMaker({
-      transitionProperty: 'all',
-      transitionDuration: '300ms',
-      transitionTimingFunction: 'ease-out',
+      fromPosition: [0, 100, 0],
+      position: [0, 0, 0],
+      fromOpacity: 0.5,
+      duration: 300,
       opacity: 1,
-      bottom: 0
+      easing: 'easeOut'
     }),
     downHide: factoryMaker({
-      transitionProperty: 'all',
-      transitionDuration: '300ms',
-      transitionTimingFunction: 'ease-in',
+      position: [0, 300, 0],
+      fromPosition: [0, 0, 0],
+      fromOpacity: 0.7,
+      duration: 300,
       opacity: 0,
-      bottom: '-300px'
-    }),
-    initial: factoryMaker({
-      transitionProperty: 'all',
-      transitionDuration: '300ms',
-      transitionTimingFunction: 'ease-in',
-      opacity: 0,
-      bottom: '-52%',
-      top: 'auto'
+      easing: 'easeIn'
     })
   },
   npsDesktop: {
     upShow: factoryMaker({
-      transitionProperty: 'all',
-      transitionDuration: '300ms',
-      transitionTimingFunction: 'ease-out',
+      fromPosition: [0, 100, 0],
+      position: [0, 0, 0],
+      fromOpacity: 0,
       opacity: 1,
-      bottom: 0
+      duration: 300,
+      easing: 'easeOut'
     }),
     downHide: factoryMaker({
-      transitionProperty: 'all',
-      transitionDuration: '300ms',
-      transitionTimingFunction: 'ease-in',
+      fromPosition: [0, 0, 0],
+      position: [0, 100, 0],
       opacity: 0,
-      bottom: '-100px'
-    }),
-    initial: factoryMaker({
-      transitionProperty: 'all',
-      transitionDuration: '300ms',
-      transitionTimingFunction: 'ease-in',
-      opacity: 0,
-      top: '-9999px',
-      bottom: '-300px'
+      fromOpacity: 0.7,
+      duration: 300,
+      easing: 'easeIn'
     })
   },
   ipm: {
     downShow: factoryMaker({
-      transitionProperty: 'all',
-      transitionDuration: '300ms',
-      transitionTimingFunction: 'ease-out',
+      fromPosition: [0, -30, 0],
+      position: [0, 0, 0],
+      fromOpacity: 0,
       opacity: 1,
-      bottom: 'auto',
-      top: 0
+      easing: 'easeOut',
+      duration: 300
     }),
     upHide: factoryMaker({
-      transitionProperty: 'all',
-      transitionDuration: '300ms',
-      transitionTimingFunction: 'ease-out',
+      fromPosition: [0, 0, 0],
+      position: [0, -30, 0],
+      fromOpacity: 1,
       opacity: 0,
-      bottom: 'auto',
-      top: '-300px'
-    }),
-    initial: factoryMaker({
-      transitionProperty: 'all',
-      transitionDuration: '300ms',
-      transitionTimingFunction: 'ease-out',
-      opacity: 0,
-      bottom: 'auto',
-      top: '-300px'
+      easing: 'easeOut',
+      duration: 300
     })
   },
   webWidget: {
     launcherUpShow: factoryMaker({
-      transitionProperty: 'all',
-      transitionDuration: '300ms',
-      transitionTimingFunction: 'ease',
+      fromPosition: [0, 120, 0],
+      position: [0, 0, 0],
+      fromOpacity: 0,
       opacity: 1,
-      bottom: positionWithOffset(0)
+      easing: 'easeOut',
+      duration: 500
     }),
+
     launcherDownHide: factoryMaker({
-      transitionProperty: 'all',
-      transitionTimingFunction: 'linear',
-      transitionDuration: '200ms',
+      fromPosition: [0, 0, 0],
+      position: [0, 120, 0],
+      fromOpacity: 1,
       opacity: 0,
-      bottom: '-70px'
+      easing: 'linear',
+      duration: 200
     }),
+
     downHide: factoryMaker({
-      transitionProperty: 'all',
-      transitionDuration: '300ms',
-      transitionTimingFunction: 'ease-out',
+      fromPosition: [0, 0, 0],
+      position: [0, 30, 0],
+      fromOpacity: 1,
       opacity: 0,
-      bottom: '-30px'
+      easing: 'easeOut',
+      duration: 300
     }),
+
     downShow: factoryMaker({
-      transitionProperty: 'all',
-      transitionDuration: '300ms',
-      transitionTimingFunction: 'ease-out',
+      fromPosition: [0, -30, 0],
+      position: [0, 0, 0],
+      fromOpacity: 0,
       opacity: 1,
-      bottom: positionWithOffset(0)
+      easing: 'easeOut',
+      duration: 300
     }),
+
+    leftHide: factoryMaker({
+      fromPosition: [0, 0, 0],
+      position: [-30, 0, 0],
+      fromOpacity: 1,
+      opacity: 0,
+      easing: 'easeOut',
+      duration: 300
+    }),
+
+    leftShow: factoryMaker({
+      fromPosition: [30, 0, 0],
+      position: [0, 0, 0],
+      fromOpacity: 0,
+      opacity: 1,
+      easing: 'easeOut',
+      duration: 300
+    }),
+
+    rightShow: factoryMaker({
+      fromPosition: [-30, 0, 0],
+      position: [0, 0, 0],
+      fromOpacity: 0,
+      opacity: 1,
+      easing: 'easeOut',
+      duration: 300
+    }),
+
+    rightHide: factoryMaker({
+      fromPosition: [0, 0, 0],
+      position: [30, 0, 0],
+      fromOpacity: 1,
+      opacity: 0,
+      easing: 'easeOut',
+      duration: 300
+    }),
+
     upHide: factoryMaker({
-      transitionProperty: 'all',
-      transitionDuration: '300ms',
-      transitionTimingFunction: 'ease-out',
+      fromPosition: [0, 0, 0],
+      position: [0, -30, 0],
+      fromOpacity: 1,
       opacity: 0,
-      bottom: '30px'
+      easing: 'easeOut',
+      duration: 300
     }),
+
     upShow: factoryMaker({
-      transitionProperty: 'all',
-      transitionDuration: '300ms',
-      transitionTimingFunction: 'ease-out',
+      fromPosition: [0, 30, 0],
+      position: [0, 0, 0],
+      fromOpacity: 0.5,
       opacity: 1,
-      bottom: positionWithOffset(0)
-    }),
-    initial: factoryMaker({
-      transitionProperty: 'none',
-      transitionDuration: '0',
-      transitionTimingFunction: 'unset',
-      opacity: 0,
-      top: offScreen('-9999px'),
-      bottom: '-30px',
-      position: 'absolute'
+      easing: 'easeOut',
+      duration: 300
     })
   }
 };

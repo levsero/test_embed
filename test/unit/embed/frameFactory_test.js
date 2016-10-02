@@ -3,9 +3,9 @@ describe('frameFactory', function() {
     mockRegistry,
     mockRegistryMocks,
     mockChildFn,
-    mockShowTransition,
-    mockHideTransition,
+    mockSnabbt,
     mockSettingsValue,
+    mockSnabbtThen,
     mockClickBusterRegister;
 
   const frameFactoryPath = buildSrcPath('embed/frameFactory');
@@ -27,11 +27,9 @@ describe('frameFactory', function() {
 
     mockery.enable();
 
-    mockShowTransition = jasmine.createSpy().and.returnValue({
-      transitionDuration: '9999ms'
-    });
-    mockHideTransition = jasmine.createSpy().and.returnValue({
-      transitionDuration: '9999ms'
+    mockSnabbtThen = jasmine.createSpy();
+    mockSnabbt = jasmine.createSpy('snabbt.js').and.returnValue({
+      then: mockSnabbtThen
     });
 
     mockSettingsValue = {
@@ -58,6 +56,9 @@ describe('frameFactory', function() {
         isMobileBrowser: function() {
           return false;
         },
+        isFirefox: function() {
+          return false;
+        },
         clickBusterRegister: mockClickBusterRegister
       },
       'service/i18n': {
@@ -71,20 +72,13 @@ describe('frameFactory', function() {
       'component/frameFactory/EmbedWrapper': {
         EmbedWrapper: MockEmbedWrapper
       },
-      'service/transitionFactory': {
-        transitionFactory: {
-          webWidget: {
-            upShow: mockShowTransition,
-            downHide: mockHideTransition
-          }
-        }
-      },
       'lodash': _,
       'component/Icon': {
         Icon: noop
       },
       'baseCSS': '.base-css-file {}',
-      'mainCSS': '.main-css-file {}'
+      'mainCSS': '.main-css-file {}',
+      'snabbt.js': mockSnabbt
     };
 
     mockRegistry = initMockRegistry(mockRegistryMocks);
@@ -266,22 +260,14 @@ describe('frameFactory', function() {
 
   describe('show', function() {
     let instance,
-      mockOnShow,
-      mockFrameParams;
+      mockOnShow;
 
     beforeEach(function() {
       mockOnShow = jasmine.createSpy('onShow');
 
-      mockFrameParams = {
-        transitions: {
-          upShow: {
-            transitionDuration: '300ms'
-          }
-        },
+      const Embed = frameFactory(mockChildFn, {
         onShow: mockOnShow
-      };
-
-      const Embed = frameFactory(mockChildFn, mockFrameParams);
+      });
 
       instance = domRender(<Embed />);
     });
@@ -308,17 +294,14 @@ describe('frameFactory', function() {
       beforeEach(function() {
         const Embed = frameFactory(mockChildFn, {});
 
-        jasmine.clock().install();
-
         instance = domRender(<Embed />);
       });
 
-      it('falls back to the default show animation', function() {
+      it('does not apply the animation if it does not exist', function() {
         instance.show();
-        jasmine.clock().tick(300);
 
-        expect(mockShowTransition)
-          .toHaveBeenCalled();
+        expect(mockSnabbt)
+          .not.toHaveBeenCalled();
       });
     });
 
@@ -335,8 +318,7 @@ describe('frameFactory', function() {
         mockFrameParams = {
           transitions: {
             upShow: {
-              top: '-1337px',
-              transitionDuration: '9999s'
+              position: [1, 2, 3]
             }
           },
           afterShowAnimate: mockAfterShowAnimate,
@@ -345,38 +327,38 @@ describe('frameFactory', function() {
 
         const Embed = frameFactory(mockChildFn, mockFrameParams);
 
-        jasmine.clock().install();
-
         instance = domRender(<Embed />);
       });
 
-      it('applies animation styles to the frame', function() {
+      it('applies snabbt animation', function() {
         instance.show({ transition: 'upShow' });
 
-        expect(_.keys(instance.state.frameStyle))
-          .toEqual(['marginTop', 'top', 'transitionDuration']);
+        expect(mockSnabbt)
+          .toHaveBeenCalled();
       });
 
-      it('should set the frame\'s style values', function() {
+      it('should call snabbt with the provided config', function() {
         instance.show({ transition: 'upShow' });
 
-        expect(instance.state.frameStyle.top)
-          .toEqual('-1337px');
-        expect(instance.state.frameStyle.transitionDuration)
-          .toEqual('9999s');
+        const config = mockSnabbt.calls.mostRecent().args[1];
+
+        expect(config.position)
+          .toEqual([1, 2, 3]);
       });
 
       it('should call onShow and afterShowAnimate if it\'s available', function() {
         instance.show({ transition: 'upShow' });
-        jasmine.clock().tick(300);
+
+        mockSnabbtThen.calls.mostRecent().args[0].callback();
 
         expect(mockFrameParams.afterShowAnimate)
           .toHaveBeenCalled();
       });
 
-      it('should call onShow after the animation has finished', function() {
+      it('should call the onShow callback', function() {
         instance.show({ transition: 'upShow' });
-        jasmine.clock().tick(300);
+
+        mockSnabbtThen.calls.mostRecent().args[0].callback();
 
         expect(mockFrameParams.onShow)
           .toHaveBeenCalled();
@@ -384,6 +366,8 @@ describe('frameFactory', function() {
 
       it('applies webkitOverflowScrolling when not set', function() {
         const frameContainer = ReactDOM.findDOMNode(instance).contentDocument.body.firstChild.firstChild;
+
+        jasmine.clock().install();
 
         instance.show();
 
@@ -397,29 +381,77 @@ describe('frameFactory', function() {
 
         jasmine.clock().uninstall();
       });
+
+      describe('and no afterShowAnimate', function() {
+        let mockFrameParams,
+          instance;
+
+        beforeEach(function() {
+          mockSnabbt.calls.reset();
+
+          mockFrameParams = {
+            transitions: {
+              upShow: {
+                position: [1, 2, 3]
+              }
+            }
+          };
+
+          const Embed = frameFactory(mockChildFn, mockFrameParams);
+
+          instance = domRender(<Embed />);
+        });
+
+        it('should not call afterShowAnimate if it\'s not available', function() {
+          instance.show({ transition: 'upShow' });
+
+          expect(mockSnabbtThen.calls.mostRecent().args[0].callback)
+          .not.toThrow();
+        });
+      });
+
+      describe('and no callback', function() {
+        let mockFrameParams,
+          instance;
+
+        beforeEach(function() {
+          mockSnabbt.calls.reset();
+
+          mockFrameParams = {
+            transitions: {
+              upShow: {
+                position: [1, 2, 3]
+              }
+            }
+          };
+
+          const Embed = frameFactory(mockChildFn, mockFrameParams);
+
+          instance = domRender(<Embed />);
+        });
+
+        it('should not try to call the provided callback if it\'s not available', function() {
+          instance.show({ transition: 'upShow' });
+
+          expect(mockSnabbtThen.calls.mostRecent().args[0].callback)
+          .not.toThrow();
+        });
+      });
     });
   });
 
   describe('hide', function() {
     let instance,
-      mockOnHide,
-      mockFrameParams;
+      mockOnHide;
 
     beforeEach(function() {
+      mockSnabbt.calls.reset();
+
       mockOnHide = jasmine.createSpy('onHide');
 
-      mockFrameParams = {
-        transitions: {
-          downHide: {
-            transitionDuration: '9999s'
-          }
-        },
+      const Embed = frameFactory(mockChildFn, {
         onHide: mockOnHide
-      };
-
-      const Embed = frameFactory(mockChildFn, mockFrameParams);
-
-      jasmine.clock().install();
+      });
 
       instance = domRender(<Embed />);
     });
@@ -428,7 +460,6 @@ describe('frameFactory', function() {
       instance.setState({ visible: true });
 
       instance.hide();
-      jasmine.clock().tick(300);
 
       expect(instance.state.visible)
         .toEqual(false);
@@ -436,7 +467,6 @@ describe('frameFactory', function() {
 
     it('triggers params.onHide if set', function() {
       instance.hide();
-      jasmine.clock().tick(300);
 
       expect(mockOnHide)
         .toHaveBeenCalled();
@@ -446,6 +476,8 @@ describe('frameFactory', function() {
       let instance;
 
       beforeEach(function() {
+        mockSnabbt.calls.reset();
+
         const Embed = frameFactory(mockChildFn, {});
 
         instance = domRender(<Embed />);
@@ -453,10 +485,9 @@ describe('frameFactory', function() {
 
       it('does not apply the animation if it does not exist', function() {
         instance.hide();
-        jasmine.clock().tick(300);
 
-        expect(mockHideTransition)
-          .toHaveBeenCalled();
+        expect(mockSnabbt)
+          .not.toHaveBeenCalled();
       });
     });
 
@@ -468,8 +499,7 @@ describe('frameFactory', function() {
         mockFrameParams = {
           transitions: {
             downHide: {
-              top: '-3838px',
-              transitionDuration: '7777s'
+              position: [1, 2, 3]
             }
           },
           onHide: mockOnHide
@@ -480,38 +510,65 @@ describe('frameFactory', function() {
         instance = domRender(<Embed />);
       });
 
-      it('applies animation styles to the frame', function() {
+      it('should call snabbt', function() {
         instance.hide({ transition: 'downHide' });
 
-        expect(_.keys(instance.state.frameStyle))
-          .toEqual(['marginTop', 'top', 'transitionDuration']);
+        expect(mockSnabbt)
+          .toHaveBeenCalled();
       });
 
-      it('should set the frame\'s style values', function() {
+      it('should call snabbt with the provided config', function() {
         instance.hide({ transition: 'downHide' });
 
-        expect(instance.state.frameStyle.top)
-          .toEqual('-3838px');
-        expect(instance.state.frameStyle.transitionDuration)
-          .toEqual('7777s');
+        const config = mockSnabbt.calls.mostRecent().args[1];
+
+        expect(config.position)
+          .toEqual([1, 2, 3]);
       });
 
-      it('should set `visible` to false after the animation has finished', function() {
+      it('should provide a callback to snabbt that sets `visible` to false', function() {
         instance.setState({ visible: true });
 
         instance.hide({ transition: 'downHide' });
-        jasmine.clock().tick(300);
+
+        mockSnabbtThen.calls.mostRecent().args[0].callback();
 
         expect(instance.state.visible)
           .toEqual(false);
       });
 
-      it('should call onHide after the animation has finished', function() {
+      it('should call the onHide callback', function() {
         instance.hide({ transition: 'downHide' });
-        jasmine.clock().tick(300);
+
+        mockSnabbtThen.calls.mostRecent().args[0].callback();
 
         expect(mockOnHide)
           .toHaveBeenCalled();
+      });
+
+      describe('and no callback', function() {
+        beforeEach(function() {
+          mockSnabbt.calls.reset();
+
+          mockFrameParams = {
+            transitions: {
+              downHide: {
+                position: [1, 2, 3]
+              }
+            }
+          };
+
+          const Embed = frameFactory(mockChildFn, mockFrameParams);
+
+          instance = domRender(<Embed />);
+        });
+
+        it('should not try to call the provided callback if it\'s not available', function() {
+          instance.hide({ transition: 'downHide' });
+
+          expect(mockSnabbtThen.calls.mostRecent().args[0].callback)
+          .not.toThrow();
+        });
       });
     });
   });
@@ -652,12 +709,6 @@ describe('frameFactory', function() {
       const Embed = frameFactory(mockChildFn, {
         frameStyle: {
           backgroundColor: 'rgb(1, 2, 3)'
-        },
-        transitions: {
-          initial: {
-            top: '-9999px',
-            bottom: 'auto'
-          }
         }
       });
 
@@ -669,7 +720,7 @@ describe('frameFactory', function() {
         .toEqual(1);
     });
 
-    it('uses the initial transition state to determine its css `display` rule', function() {
+    it('uses `state.visible` to determine its css `display` rule', function() {
       const frameContainer = global.document.body.getElementsByTagName('iframe')[0];
       const frameContainerStyle = frameContainer.style;
 
@@ -694,6 +745,50 @@ describe('frameFactory', function() {
 
       expect(frameContainerStyle.cssText)
         .not.toContain('bottom:auto');
+    });
+
+    it('has horizontal style set to `right` when isRTL() evaluates to true', function() {
+      const frameContainer = global.document.body.getElementsByTagName('iframe')[0];
+      const frameContainerStyle = frameContainer.style;
+
+      mockRegistry['service/i18n'].i18n.isRTL = function() {
+        return true;
+      };
+
+      frameFactory = requireUncached(frameFactoryPath).frameFactory;
+
+      instance.setState({ visible: false });
+
+      expect(frameContainerStyle.top)
+      .toEqual('-9999px');
+
+      expect(frameContainerStyle.right)
+      .toEqual('-9999px');
+
+      expect(frameContainerStyle.bottom)
+      .toEqual('');
+    });
+
+    it('has horizontal style set to `left` when isRTL() evaluates to false', function() {
+      const frameContainer = global.document.body.getElementsByTagName('iframe')[0];
+      const frameContainerStyle = frameContainer.style;
+
+      mockRegistry['service/i18n'].i18n.isRTL = function() {
+        return false;
+      };
+
+      frameFactory = requireUncached(frameFactoryPath).frameFactory;
+
+      instance.setState({ visible: false });
+
+      expect(frameContainerStyle.top)
+        .toEqual('-9999px');
+
+      expect(frameContainerStyle.left)
+        .toEqual('-9999px');
+
+      expect(frameContainerStyle.bottom)
+        .toEqual('');
     });
 
     it('has `border` css rule set to none', function() {
