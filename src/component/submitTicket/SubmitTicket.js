@@ -34,7 +34,8 @@ export class SubmitTicket extends Component {
       uid: _.uniqueId('submitTicketForm_'),
       searchTerm: null,
       searchLocale: null,
-      isDragActive: false
+      isDragActive: false,
+      ticketForms: {}
     };
   }
 
@@ -185,6 +186,17 @@ export class SubmitTicket extends Component {
     return params;
   }
 
+  updateTicketForms(forms) {
+    this.setState({ ticketForms: forms })
+
+    // Once the selector is in place this will be set by that instead
+    // for now I'm just setting it to the first form sent down
+    this.refs.submitTicketForm.updateTicketForm(
+      this.state.ticketForms.ticket_forms[0],
+      this.state.ticketForms.ticket_fields
+    );
+  }
+
   handleDragEnter() {
     this.setState({
       isDragActive: true
@@ -266,6 +278,7 @@ export class SubmitTicket extends Component {
           maxFileCount={this.props.maxFileCount}
           maxFileSize={this.props.maxFileSize}
           submit={this.handleSubmit}
+          ticketForms={this.state.ticketForms}
           previewEnabled={this.props.previewEnabled}>
           <p className={errorClasses}>
             {this.state.errorMessage}

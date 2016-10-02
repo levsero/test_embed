@@ -30,6 +30,8 @@ const getCustomFields = (customFields, formState) => {
 
     switch (field.type) {
     case 'text':
+    case 'description':
+    case 'subject':
       return <Field {...sharedProps} />;
     case 'tagger':
       _.forEach(field.options, (option) => {

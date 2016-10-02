@@ -115,7 +115,9 @@ function create(name, config) {
         path: `/api/v2/ticket_forms/show_many.json?ids=${ticketForms[0]}&include=ticket_fields`,
         callbacks: {
           done(res) {
-            console.log(res);
+            waitForRootComponent(name, function() {
+              getRootComponent(name).updateTicketForms(JSON.parse(res.text));
+            });
           }
         }
       })

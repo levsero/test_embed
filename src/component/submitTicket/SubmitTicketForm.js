@@ -20,6 +20,8 @@ const initialState = {
   removeTicketForm: false,
   formState: {},
   showErrorMessage: false,
+  ticketForm: null,
+  ticketFields: [],
   attachments: []
 };
 const sendButtonMessageString = 'embeddable_framework.submitTicket.form.submitButton.label.send';
@@ -150,6 +152,13 @@ export class SubmitTicketForm extends Component {
       {}).value();
   }
 
+  updateTicketForm(form, fields) {
+    this.setState({
+      ticketForm: form,
+      ticketFields: fields
+    });
+  }
+
   updateForm() {
     const form = ReactDOM.findDOMNode(this.refs.form);
     const attachmentsReady = this.props.attachmentsEnabled
@@ -214,6 +223,24 @@ export class SubmitTicketForm extends Component {
             value={this.state.formState.subject}
             name='subject'
             disabled={this.props.previewEnabled} />;
+  }
+
+  renderTicketFormBody() {
+    const ticketForm = this.state.ticketForm;
+    const ticketFields = this.state.ticketFields;
+    const formTicketFields = _.filter(ticketFields, (field) => {
+      return ticketForm.ticket_field_ids.indexOf(field.id) > -1;
+    });
+    console.log(formTicketFields)
+    const newticketFields = getCustomFields(formTicketFields, this.state);
+
+    return (
+      <div ref='formWrapper'>
+        {newticketFields.fields}
+        {newticketFields.checkboxes}
+        {this.props.children}
+      </div>
+    );
   }
 
   renderFormBody() {
@@ -284,7 +311,8 @@ export class SubmitTicketForm extends Component {
       'u-isHidden': hide
     });
 
-    const formBody = this.state.removeTicketForm ? null : this.renderFormBody();
+    const form = this.state.ticketForm ? this.renderTicketFormBody() : this.renderFormBody();
+    const formBody = this.state.removeTicketForm ? null : form;
     const buttonCancel = fullscreen ? null : this.renderCancelButton();
     const attachments = attachmentsEnabled ? this.renderAttachments() : null;
 
