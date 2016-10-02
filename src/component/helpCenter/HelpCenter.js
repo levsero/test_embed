@@ -360,14 +360,14 @@ export class HelpCenter extends Component {
                          this.state.resultsCount > minimumSearchResults;
     const showBottomBorder = !this.props.fullscreen &&
                              !(!this.state.showNextButton && this.props.hideZendeskLogo);
+    const applyPadding = !this.state.showNextButton && !this.props.hideZendeskLogo;
 
     return (
       <HelpCenterResults
         fullscreen={this.props.fullscreen}
         articles={this.state.articles}
         showViewMore={showViewMore}
-        showNextButton={this.state.showNextButton}
-        hideZendeskLogo={this.props.hideZendeskLogo}
+        applyPadding={applyPadding}
         searchFailed={this.state.searchFailed}
         showBottomBorder={showBottomBorder}
         previousSearchTerm={this.state.previousSearchTerm}

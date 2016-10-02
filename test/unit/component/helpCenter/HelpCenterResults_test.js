@@ -197,9 +197,9 @@ describe('HelpCenterResults component', () => {
         .not.toMatch('u-borderBottom');
     });
 
-    describe('when next button is hidden', () => {
+    describe('when `applyPadding` prop is true', () => {
       it('should apply padding to the border', () => {
-        const component = shallowRender(<HelpCenterResults articles={articles} showNextButton={false} />);
+        const component = shallowRender(<HelpCenterResults articles={articles} applyPadding={true} />);
 
         expect(component.props.className)
           .toMatch('u-paddingBL');
