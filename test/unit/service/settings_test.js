@@ -24,7 +24,8 @@ describe('settings', () => {
       },
       channelChoice: false,
       helpCenter: {
-        originalArticleButton: true
+        originalArticleButton: true,
+        localeFallbacks: []
       },
       margin: 15,
       offset: { horizontal: 0, vertical: 0 },
@@ -159,9 +160,11 @@ describe('settings', () => {
           contactForm: {
             subject: true
           },
+          channelChoice: true,
           helpCenter: {
             originalArticleButton: false,
-            suppress: true
+            suppress: true,
+            localeFallbacks: ['fr']
           },
           chat: {
             suppress: true
@@ -175,58 +178,54 @@ describe('settings', () => {
       settings.init();
     });
 
+    it('should return user setting for helpCenter.originalArticleButton', () => {
+      expect(settings.get('helpCenter.originalArticleButton'))
+        .toBe(false);
+    });
+
+    it('should return user setting for suppress', () => {
+      expect(settings.get('helpCenter.suppress'))
+        .toBe(true);
+
+      expect(settings.get('chat.suppress'))
+        .toBe(true);
+    });
+
+    it('should return user setting for color', () => {
+      expect(settings.get('color.theme'))
+        .toBe('#FF0000');
+    });
+
+    it('should return user setting for contactForm.subject', () => {
+      expect(settings.get('contactForm.subject'))
+        .toBe(true);
+    });
+
     describe('when web widget customisations are enabled', () => {
       beforeEach(() => {
         settings.init();
         settings.enableCustomizations();
       });
-
-      it('should return user setting for helpCenter.originalArticleButton', () => {
-        expect(settings.get('helpCenter.originalArticleButton'))
-          .toBe(false);
-      });
-
-      it('should return user setting for suppress', () => {
-        expect(settings.get('helpCenter.suppress'))
-          .toBe(true);
-
-        expect(settings.get('chat.suppress'))
+      it('should return user setting for channelChoice', () => {
+        expect(settings.get('channelChoice'))
           .toBe(true);
       });
 
-      it('should return user setting for color', () => {
-        expect(settings.get('color.theme'))
-          .toBe('#FF0000');
-      });
-
-      it('should return user setting for contactForm.subject', () => {
-        expect(settings.get('contactForm.subject'))
-          .toBe(true);
+      it('should return user setting for helpCenter.localeFallbacks', () => {
+        expect(settings.get('helpCenter.localeFallbacks'))
+          .toEqual(['fr']);
       });
     });
 
     describe('when web widget customisations are disabled', () => {
-      it('should return default setting for helpCenter.originalArticleButton', () => {
-        expect(settings.get('helpCenter.originalArticleButton'))
-          .toBe(defaults.helpCenter.originalArticleButton);
+      it('should return default setting for channelChoice', () => {
+        expect(settings.get('channelChoice'))
+          .toBe(defaults.channelChoice);
       });
 
-      it('should return default setting for suppress', () => {
-        expect(settings.get('helpCenter.suppress'))
-          .toBe(false);
-
-        expect(settings.get('chat.suppress'))
-          .toBe(false);
-      });
-
-      it('should return the default setting for color', () => {
-        expect(settings.get('color.theme'))
-          .toBe(defaults.color.theme);
-      });
-
-      it('should return user default for contactForm.subject', () => {
-        expect(settings.get('contactForm.subject'))
-          .toBe(defaults.contactForm.subject);
+      it('should return user default for helpCenter.localeFallbacks', () => {
+        expect(settings.get('helpCenter.localeFallbacks'))
+          .toEqual(defaults.helpCenter.localeFallbacks);
       });
     });
 
