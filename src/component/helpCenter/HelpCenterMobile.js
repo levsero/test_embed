@@ -143,11 +143,11 @@ export class HelpCenterMobile extends Component {
 
   renderFormContainer() {
     return this.props.articleViewActive || !this.state.showIntroScreen
-      ? null
-      : (<div>
-          {this.renderForm()}
-          {this.renderLinkContent()}
-        </div>);
+         ? null
+         : (<div>
+             {this.renderForm()}
+             {this.renderLinkContent()}
+           </div>);
   }
 
   renderLinkContent() {
