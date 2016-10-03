@@ -390,7 +390,7 @@ function init(embedsAccessible, params = {}) {
        */
       c.broadcast(`${chat}.show`);
     } else {
-      c.broadcast(`${launcher}.hide`, (isMobileBrowser()) ? {} : { transition: getHideAnimation() } );
+      c.broadcast(`${launcher}.hide`, isMobileBrowser() ? {} : { transition: getHideAnimation() } );
 
       state[`${state.activeEmbed}.isVisible`] = true;
 
