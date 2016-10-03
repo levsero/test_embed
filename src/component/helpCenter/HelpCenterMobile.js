@@ -142,6 +142,19 @@ export class HelpCenterMobile extends Component {
   }
 
   renderFormContainer() {
+    return this.props.articleViewActive || !this.state.showIntroScreen
+      ? null
+      : (<div>
+          {this.renderForm()}
+          {this.renderLinkContent()}
+        </div>);
+  }
+
+  renderLinkContent() {
+    if (!this.props.showNextButton) return null;
+
+    let linkLabel, linkContext;
+
     const linkContainerClasses = classNames({
       'u-textSizeBaseMobile u-textCenter u-marginTL': true,
       'u-isHidden': !this.state.showIntroScreen
@@ -151,8 +164,6 @@ export class HelpCenterMobile extends Component {
       'HelpCenterMobile-cta': true
     });
     const chatButtonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.chat');
-
-    let linkLabel, linkContext;
 
     if (this.props.buttonLabel === chatButtonLabel) {
       linkContext = i18n.t('embeddable_framework.helpCenter.label.linkContext.chat');
@@ -166,17 +177,14 @@ export class HelpCenterMobile extends Component {
       );
     }
 
-    return this.props.articleViewActive || !this.state.showIntroScreen
-         ? null
-         : (<div>
-             {this.renderForm()}
-             <div className={linkContainerClasses}>
-               <p className='u-marginBN'>{linkContext}</p>
-               <a className={linkClasses} onClick={this.props.handleNextClick}>
-                 {linkLabel}
-               </a>
-             </div>
-           </div>);
+    return (
+      <div className={linkContainerClasses}>
+        <p className='u-marginBN'>{linkContext}</p>
+        <a className={linkClasses} onClick={this.props.handleNextClick}>
+          {linkLabel}
+        </a>
+      </div>
+    );
   }
 
   renderHeaderContent() {
