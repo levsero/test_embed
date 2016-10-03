@@ -160,9 +160,11 @@ describe('settings', () => {
           contactForm: {
             subject: true
           },
+          channelChoice: true,
           helpCenter: {
             originalArticleButton: false,
-            suppress: true
+            suppress: true,
+            localeFallbacks: ['fr']
           },
           chat: {
             suppress: true
@@ -176,33 +178,42 @@ describe('settings', () => {
       settings.init();
     });
 
+    it('should return user setting for helpCenter.originalArticleButton', () => {
+      expect(settings.get('helpCenter.originalArticleButton'))
+        .toBe(false);
+    });
+
+    it('should return user setting for suppress', () => {
+      expect(settings.get('helpCenter.suppress'))
+        .toBe(true);
+
+      expect(settings.get('chat.suppress'))
+        .toBe(true);
+    });
+
+    it('should return user setting for color', () => {
+      expect(settings.get('color.theme'))
+        .toBe('#FF0000');
+    });
+
+    it('should return user setting for contactForm.subject', () => {
+      expect(settings.get('contactForm.subject'))
+        .toBe(true);
+    });
+
     describe('when web widget customisations are enabled', () => {
       beforeEach(() => {
         settings.init();
         settings.enableCustomizations();
       });
-
-      it('should return user setting for helpCenter.originalArticleButton', () => {
-        expect(settings.get('helpCenter.originalArticleButton'))
-          .toBe(false);
-      });
-
-      it('should return user setting for suppress', () => {
-        expect(settings.get('helpCenter.suppress'))
-          .toBe(true);
-
-        expect(settings.get('chat.suppress'))
+      it('should return user setting for channelChoice', () => {
+        expect(settings.get('channelChoice'))
           .toBe(true);
       });
 
-      it('should return user setting for color', () => {
-        expect(settings.get('color.theme'))
-          .toBe('#FF0000');
-      });
-
-      it('should return user setting for contactForm.subject', () => {
-        expect(settings.get('contactForm.subject'))
-          .toBe(true);
+      it('should return user setting for helpCenter.localeFallbacks', () => {
+        expect(settings.get('helpCenter.localeFallbacks'))
+          .toEqual(['fr']);
       });
     });
 
