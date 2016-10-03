@@ -111,7 +111,7 @@ class HelpCenterArticle extends Component {
     const nodeName = target.nodeName;
     const href = target.getAttribute('href');
     const doc = target.ownerDocument;
-    const isMailLink = href && (href.indexOf('mailto') > -1);
+    const isMailLink = href && (href.indexOf('mailto://') > -1);
 
     if (nodeName === 'A' && href.indexOf('#') === 0) {
       // You can deep link via an id or name attribute, handle both in the selector
