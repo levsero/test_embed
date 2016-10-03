@@ -1,4 +1,4 @@
-describe('HelpCenterArticle component', function() {
+describe('HelpCenterArticle component', () => {
   let HelpCenterArticle,
     scrollIntoView,
     mockArticle,
@@ -6,7 +6,7 @@ describe('HelpCenterArticle component', function() {
     mockParseUrlValue;
   const helpCenterArticlePath = buildSrcPath('component/helpCenter/HelpCenterArticle');
 
-  beforeEach(function() {
+  beforeEach(() => {
     scrollIntoView = jasmine.createSpy();
 
     resetDOM();
@@ -60,12 +60,12 @@ describe('HelpCenterArticle component', function() {
     };
   });
 
-  afterEach(function() {
+  afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
   });
 
-  describe('article body', function() {
+  describe('article body', () => {
     let helpCenterArticle,
       content;
 
@@ -78,7 +78,7 @@ describe('HelpCenterArticle component', function() {
       content = ReactDOM.findDOMNode(helpCenterArticle.refs.article);
     });
 
-    it('should inject html string on componentDidUpdate', function() {
+    it('should inject html string on componentDidUpdate', () => {
       expect(content.children.length)
         .toEqual(5);
 
@@ -86,7 +86,7 @@ describe('HelpCenterArticle component', function() {
         .toEqual('');
     });
 
-    it('should preserve ids on divs and headers', function() {
+    it('should preserve ids on divs and headers', () => {
       expect(content.querySelector('div').id)
         .toEqual('preserved');
 
@@ -94,12 +94,12 @@ describe('HelpCenterArticle component', function() {
         .toEqual('foo');
     });
 
-    it('should preserve name attribute on anchors', function() {
+    it('should preserve name attribute on anchors', () => {
       expect(content.querySelector('a[name="foo"]'))
         .not.toBeNull();
     });
 
-    it('should preserve sub/sups on divs', function() {
+    it('should preserve sub/sups on divs', () => {
       expect(content.querySelectorAll('sup, sub').length)
         .toBe(2);
 
@@ -107,7 +107,7 @@ describe('HelpCenterArticle component', function() {
         .toBe('<sup>1</sup>This explains the note');
     });
 
-    it('should inject base tag to alter relative links base url', function() {
+    it('should inject base tag to alter relative links base url', () => {
       const baseTag = global.document.querySelector('head base');
       const relativeAnchor = ReactDOM.findDOMNode(helpCenterArticle).querySelector('a[href^="/relative"]');
       const baseUrl = 'https://' + global.document.zendeskHost;
@@ -119,10 +119,38 @@ describe('HelpCenterArticle component', function() {
         .toMatch(baseUrl + '/relative/link');
     });
 
+    describe('when the article has ordered lists', () => {
+      let list;
+
+      beforeEach(() => {
+        mockArticle.body += `
+          <ol start="4" reversed="reversed">
+          <li>six</li>
+          <li>five</li>
+          <li>four</li>
+          </ol>
+        `;
+
+        helpCenterArticle = domRender(<HelpCenterArticle activeArticle={mockArticle}/>);
+        content = ReactDOM.findDOMNode(helpCenterArticle.refs.article);
+        list = content.querySelector('ol');
+      });
+
+      it('preserves the `start` attribute', () => {
+        expect(list.start)
+          .not.toBeNull;
+      });
+
+      it('preserves the `reversed` attribute', () => {
+        expect(list.reversed)
+          .not.toBeNull;
+      });
+    });
+
     describe('when the article has images', () => {
       let mockUpdateFrameSize;
 
-      beforeEach(function() {
+      beforeEach(() => {
         mockArticle.body += `
           <img src="imgur.mofo/quit-creepin.png" />
           <img src="giphy.mofo/thats-sick.jpg" />
@@ -151,12 +179,12 @@ describe('HelpCenterArticle component', function() {
       });
     });
 
-    describe('when an anchor is present', function() {
-      it('should hijack inpage anchor clicks and call scrollIntoView on correct element', function() {
+    describe('when an anchor is present', () => {
+      it('should hijack inpage anchor clicks and call scrollIntoView on correct element', () => {
         // save old version of query selector FIXME
         const oldQuerySelector = global.document.querySelector;
 
-        global.document.querySelector = function() {
+        global.document.querySelector = () => {
           return {
             scrollIntoView: scrollIntoView
           };
@@ -170,7 +198,7 @@ describe('HelpCenterArticle component', function() {
             nodeName: 'A',
             href: global.document.zendeskHost + '#foo',
             ownerDocument: global.document,
-            getAttribute: function() {
+            getAttribute: () => {
               return '#foo';
             }
           }
@@ -183,10 +211,10 @@ describe('HelpCenterArticle component', function() {
         global.document.querySelector = oldQuerySelector;
       });
 
-      describe('when clicking an external link', function() {
+      describe('when clicking an external link', () => {
         let externalAnchor;
 
-        beforeEach(function() {
+        beforeEach(() => {
           const helpCenterArticleNode = helpCenterArticle.refs.article;
 
           externalAnchor = helpCenterArticleNode.querySelector('a[href^="/relative"]');
@@ -196,19 +224,43 @@ describe('HelpCenterArticle component', function() {
           });
         });
 
-        it('adds target="_blank"  to anchor', function() {
+        it('adds target="_blank"  to anchor', () => {
           expect(externalAnchor.target)
             .toEqual('_blank');
         });
 
-        it('adds rel="noopener noreferrer" to anchor', function() {
+        it('adds rel="noopener noreferrer" to anchor', () => {
           expect(externalAnchor.rel)
             .toEqual('noopener noreferrer');
         });
       });
+
+      describe('mailto link', () => {
+        let anchor;
+
+        beforeEach(() => {
+          mockArticle.body += `
+            <a name="mailto" href="mailto:bob@example.com">mailto link</a>
+          `;
+
+          helpCenterArticle = domRender(<HelpCenterArticle activeArticle={mockArticle}/>);
+          content = ReactDOM.findDOMNode(helpCenterArticle.refs.article);
+          anchor = content.querySelector('a[name="mailto"]');
+        });
+
+        it('preserves the mailto link', () => {
+          expect(anchor.href)
+            .toBe('mailto:bob@example.com');
+        });
+
+        it('does not have target="_blank"', () => {
+          expect(anchor.target)
+            .toBeNull;
+        });
+      });
     });
 
-    it('should display an article body if a prop was passed with truthy content body', function() {
+    it('should display an article body if a prop was passed with truthy content body', () => {
       const helpCenterArticleNode = ReactDOM.findDOMNode(helpCenterArticle);
 
       expect(helpCenterArticleNode.querySelector('#foo').innerHTML)
@@ -227,8 +279,8 @@ describe('HelpCenterArticle component', function() {
         .toMatch('<sup>1</sup>This explains the note');
     });
 
-    describe('filterVideoEmbed', function() {
-      it('should return a filtered iframe object for video embeds that are from valid sources', function() {
+    describe('filterVideoEmbed', () => {
+      it('should return a filtered iframe object for video embeds that are from valid sources', () => {
         const youtubeUrl = 'https://youtube.com/embed/fooid';
         let attribs = {
           src: youtubeUrl,
@@ -260,7 +312,7 @@ describe('HelpCenterArticle component', function() {
           .toEqual(returnObj);
       });
 
-      it('should return false for video embeds that are from invalid sources', function() {
+      it('should return false for video embeds that are from invalid sources', () => {
         let url = 'https://yoVutube.com/embed/fooid';
 
         expect(helpCenterArticle.filterVideoEmbed('iframe', { src: url }))
@@ -281,8 +333,8 @@ describe('HelpCenterArticle component', function() {
     });
   });
 
-  describe('empty article body', function() {
-    it('should display an empty article body if a prop was passed with no content body', function() {
+  describe('empty article body', () => {
+    it('should display an empty article body if a prop was passed with no content body', () => {
       const helpCenterArticle = domRender(<HelpCenterArticle activeArticle={{ body: '' }} />);
 
       // componentdidupdate only fires after setState not on initial render
@@ -293,14 +345,14 @@ describe('HelpCenterArticle component', function() {
     });
   });
 
-  describe('replaceArticleImages', function() {
+  describe('replaceArticleImages', () => {
     let helpCenterArticle,
       mockZendeskHost,
       mockUpdateStoredImages,
       mockImagesSender;
     const lastActiveArticleId = 2;
 
-    beforeEach(function() {
+    beforeEach(() => {
       mockZendeskHost = 'dev.zd-dev.com';
       mockImagesSender = jasmine.createSpy('mockImagesSender');
       mockUpdateStoredImages = jasmine.createSpy('mockUpdateStoredImages');
@@ -315,8 +367,8 @@ describe('HelpCenterArticle component', function() {
       );
     });
 
-    describe('when there are no valid images in the article', function() {
-      it('should return the unmodified article body', function() {
+    describe('when there are no valid images in the article', () => {
+      it('should return the unmodified article body', () => {
         expect(helpCenterArticle.replaceArticleImages(mockArticle, lastActiveArticleId))
           .toEqual(mockArticle.body);
 
@@ -327,8 +379,8 @@ describe('HelpCenterArticle component', function() {
       });
     });
 
-    describe('when there are images in the article with relative `/attachments/` paths', function() {
-      it('should add the domain to the img src', function() {
+    describe('when there are images in the article with relative `/attachments/` paths', () => {
+      it('should add the domain to the img src', () => {
         expect(helpCenterArticle.replaceArticleImages(mockArticle, lastActiveArticleId))
           .toEqual(mockArticle.body);
 
@@ -339,8 +391,8 @@ describe('HelpCenterArticle component', function() {
       });
     });
 
-    describe('when there is no valid oauth token', function() {
-      it('should return the unmodified article body', function() {
+    describe('when there is no valid oauth token', () => {
+      it('should return the unmodified article body', () => {
         mockOauthToken = null;
         mockArticle.body += `<img src="https://${mockZendeskHost}/hc/article_attachments/img.png">`;
 
@@ -349,15 +401,15 @@ describe('HelpCenterArticle component', function() {
       });
     });
 
-    describe('when there are valid images and an oauth token', function() {
-      beforeEach(function() {
+    describe('when there are valid images and an oauth token', () => {
+      beforeEach(() => {
         mockOauthToken = 'abc';
         mockArticle.body += `<img src="https://${mockZendeskHost}/hc/article_attachments/img0.png">
                              <img src="https://${mockZendeskHost}/hc/article_attachments/img1.png">`;
       });
 
-      describe('when there are no images stored or already queued', function() {
-        it('should queue the images for download', function() {
+      describe('when there are no images stored or already queued', () => {
+        it('should queue the images for download', () => {
           helpCenterArticle.replaceArticleImages(mockArticle, lastActiveArticleId);
 
           expect(mockImagesSender.calls.count())
@@ -371,8 +423,8 @@ describe('HelpCenterArticle component', function() {
         });
       });
 
-      describe('when the same article is viewed again', function() {
-        it('should not requeue the images for download', function() {
+      describe('when the same article is viewed again', () => {
+        it('should not requeue the images for download', () => {
           helpCenterArticle.replaceArticleImages(mockArticle, 1);
 
           expect(mockImagesSender.calls.count())
@@ -380,8 +432,8 @@ describe('HelpCenterArticle component', function() {
         });
       });
 
-      describe('when there are queued images', function() {
-        it('should not requeue the images for download', function() {
+      describe('when there are queued images', () => {
+        it('should not requeue the images for download', () => {
           helpCenterArticle.replaceArticleImages(mockArticle, lastActiveArticleId);
 
           expect(mockImagesSender.calls.count())
@@ -395,15 +447,15 @@ describe('HelpCenterArticle component', function() {
         });
       });
 
-      describe('when an image successfully downloads', function() {
+      describe('when an image successfully downloads', () => {
         let mockObjectUrl;
 
-        beforeEach(function() {
+        beforeEach(() => {
           mockObjectUrl = `https://${mockZendeskHost}/abc/img0.png`;
           window.URL.createObjectURL = () => mockObjectUrl;
         });
 
-        it('should store it in HelpCenter\'s storedImages state object', function() {
+        it('should store it in HelpCenter\'s storedImages state object', () => {
           helpCenterArticle.replaceArticleImages(mockArticle, lastActiveArticleId);
 
           expect(mockImagesSender.calls.count())
@@ -431,7 +483,7 @@ describe('HelpCenterArticle component', function() {
             });
         });
 
-        it('The url of the new downloaded image should be used in the article body', function() {
+        it('The url of the new downloaded image should be used in the article body', () => {
           const storedImages = {
             [`https://${mockZendeskHost}/hc/article_attachments/img0.png`]: `https://${mockZendeskHost}/abc/img0.png`,
             [`https://${mockZendeskHost}/hc/article_attachments/img1.png`]: `https://${mockZendeskHost}/abc/img1.png`
@@ -454,15 +506,15 @@ describe('HelpCenterArticle component', function() {
     });
   });
 
-  describe('view original article button', function() {
-    it('is visible by default', function() {
+  describe('view original article button', () => {
+    it('is visible by default', () => {
       const helpCenterArticle = domRender(<HelpCenterArticle activeArticle={mockArticle} />);
 
       expect(ReactDOM.findDOMNode(helpCenterArticle).querySelector('.u-marginBM').className)
         .not.toMatch('u-isHidden');
     });
 
-    it('is hidden if originalArticleButton prop is true', function() {
+    it('is hidden if originalArticleButton prop is true', () => {
       const helpCenterArticle = domRender(
         <HelpCenterArticle
           activeArticle={mockArticle}

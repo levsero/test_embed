@@ -45,7 +45,10 @@ class HelpCenterArticle extends Component {
         'sup', 'sub', 'img', 'iframe', 'table', 'thead', 'tfoot', 'tbody', 'tr', 'th', 'td'
       ],
       transformTags: { 'iframe': this.filterVideoEmbed },
-      allowedSchemes: ['http', 'https', 'blob'],
+      allowedSchemes: ['http', 'https', 'mailto', 'blob'],
+      allowedSchemesByTag: {
+        'iframe': ['https']
+      },
       allowedAttributes: {
         'a': ['href', 'target', 'title', 'name'],
         'span': ['name'],
@@ -59,7 +62,8 @@ class HelpCenterArticle extends Component {
         'h6': ['id'],
         'iframe': allowedIframeAttribs,
         'td': ['colspan'],
-        'th': ['colspan']
+        'th': ['colspan'],
+        'ol': ['start', 'reversed']
       },
       allowedClasses: {
         'span': [
@@ -67,8 +71,7 @@ class HelpCenterArticle extends Component {
           'wysiwyg-font-size-large',
           'wysiwyg-font-size-small'
         ]
-      },
-      allowedSchemesByTag: { 'iframe': ['https'] }
+      }
     };
 
     if (activeArticle.body) {
@@ -108,6 +111,7 @@ class HelpCenterArticle extends Component {
     const nodeName = target.nodeName;
     const href = target.getAttribute('href');
     const doc = target.ownerDocument;
+    const isMailLink = href && (href.indexOf('mailto') > -1);
 
     if (nodeName === 'A' && href.indexOf('#') === 0) {
       // You can deep link via an id or name attribute, handle both in the selector
@@ -117,7 +121,7 @@ class HelpCenterArticle extends Component {
         inPageElem.scrollIntoView();
       }
       e.preventDefault();
-    } else {
+    } else if (!isMailLink) {
       target.setAttribute('target', '_blank');
       target.setAttribute('rel', 'noopener noreferrer');
     }
