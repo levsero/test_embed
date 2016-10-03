@@ -390,7 +390,8 @@ function init(embedsAccessible, params = {}) {
        */
       c.broadcast(`${chat}.show`);
     } else {
-      c.broadcast(`${launcher}.hide`, { transition: getHideAnimation() });
+      c.broadcast(`${launcher}.hide`, isMobileBrowser() ? {} : { transition: getHideAnimation() } );
+
       state[`${state.activeEmbed}.isVisible`] = true;
 
       /**
@@ -465,7 +466,10 @@ function init(embedsAccessible, params = {}) {
       // Fix for when a pro-active message is recieved which opens the zopim window but the launcher
       // was previously hidden with zE.hide()
       if (!state['.hideOnClose'] && !state['.hasHidden']) {
-        c.broadcast(`${launcher}.show`, { transition: getShowAnimation() });
+        setTimeout(
+          () => c.broadcast(`${launcher}.show`, { transition: getShowAnimation() }),
+          isMobileBrowser() ? 200 : 0
+        );
       }
     }
   );

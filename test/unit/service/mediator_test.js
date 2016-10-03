@@ -1163,6 +1163,7 @@ describe('mediator', function() {
           .toEqual(1);
 
         c.broadcast(`${submitTicket}.onClose`);
+        jasmine.clock().tick(0);
 
         expect(launcherSub.show.calls.count())
           .toEqual(1);
@@ -1528,6 +1529,7 @@ describe('mediator', function() {
         reset(launcherSub.show);
 
         c.broadcast(`${channelChoice}.onClose`);
+        jasmine.clock().tick(0);
 
         expect(launcherSub.show)
           .toHaveBeenCalled();
