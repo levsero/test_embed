@@ -1,5 +1,4 @@
 const jsonwebtoken = require('jsonwebtoken');
-const crypto = require('crypto');
 
 describe('authentication', function() {
   let authentication,
@@ -38,7 +37,7 @@ describe('authentication', function() {
       },
       'utility/utils': {
         base64decode: window.atob,
-        sha1: (string) => crypto.createHash('sha1').update(string).digest('hex')
+        sha1: () => 'abc123'
       }
     });
 
@@ -75,7 +74,7 @@ describe('authentication', function() {
 
       mockStore.get = function() {
         return {
-          id: '3498589cd03c34be6155b5a6498fe9786985da01',
+          id: 'abc123',
           expiry: Math.floor(Date.now() / 1000) + 1000
         };
       };
@@ -104,7 +103,7 @@ describe('authentication', function() {
         it('should request a new token', function() {
           mockStore.get = function() {
             return {
-              id: '3498589cd03c34be6155b5a6498fe9786985da01',
+              id: 'abc123',
               expiry: Math.floor(Date.now() / 1000) - 1000
             };
           };

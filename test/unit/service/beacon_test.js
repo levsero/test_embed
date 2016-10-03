@@ -11,7 +11,7 @@ describe('beacon', function() {
     mockery.enable();
 
     mockStore = null;
-    mockTime = Math.floor(Date.now()/1000);
+    mockTime = Math.floor(Date.now() / 1000);
     mockSha1String = '';
 
     mockRegistry = initMockRegistry({
@@ -369,7 +369,7 @@ describe('beacon', function() {
         mockStore = [['abc123', mockTime]];
       });
 
-      describe('when it contains the pages settings', () => {
+      describe('when it contains the same settings as the page', () => {
         it('should not send the settings blip', () => {
           mockSha1String = 'abc123';
 
@@ -380,7 +380,7 @@ describe('beacon', function() {
         });
       });
 
-      describe('when it does not contain the pages settings', () => {
+      describe('when it does not contain the same settings as the page', () => {
         beforeEach(() => {
           mockSha1String = 'cba123';
           beacon.trackSettings(mockSettings);
@@ -395,7 +395,7 @@ describe('beacon', function() {
           mockTransport.sendWithMeta.calls.mostRecent().args[0].callbacks.done();
 
           expect(mockPersistence.store.set)
-           .toHaveBeenCalled();
+            .toHaveBeenCalled();
 
           const newStore = mockPersistence.store.set.calls.mostRecent().args[1];
 
@@ -408,9 +408,11 @@ describe('beacon', function() {
 
       describe('when a setting in the store is expired', () => {
         beforeEach(() => {
+          const timestamp = mockTime - (24*60*60);
+
           mockStore = [
-            ['abc123', mockTime - (24*60*60)],
-            ['cba123', mockTime - (24*60*60)]
+            ['abc123', timestamp],
+            ['cba123', timestamp]
           ];
           mockSha1String = 'cba123';
           beacon.trackSettings(mockSettings);
@@ -424,7 +426,7 @@ describe('beacon', function() {
 
         it('should update the store with the new timestamp', () => {
           expect(mockPersistence.store.set)
-           .toHaveBeenCalled();
+            .toHaveBeenCalled();
 
           const newStore = mockPersistence.store.set.calls.mostRecent().args[1];
 
@@ -434,7 +436,7 @@ describe('beacon', function() {
 
         it('should remove any other invalid values from the store', () => {
           expect(mockPersistence.store.set)
-           .toHaveBeenCalled();
+            .toHaveBeenCalled();
 
           const newStore = mockPersistence.store.set.calls.mostRecent().args[1];
 

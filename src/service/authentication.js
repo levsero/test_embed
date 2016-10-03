@@ -141,9 +141,7 @@ const extractTokenId = _.memoize(function(jwt) {
   const decodedBody = base64decode(jwtBody);
   const message = JSON.parse(decodedBody);
 
-  return message.email
-    ? sha1(message.email)
-    : null;
+  return message.email ? sha1(message.email) : null;
 });
 
 export const authentication = {

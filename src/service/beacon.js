@@ -101,13 +101,9 @@ function trackSettings(settings) {
   const previousSettings = store.get('settings');
   const expiryTime = nowInSeconds() - 24*60*60;
   const encoded = sha1(JSON.stringify(settings));
-  const validSettings = _.filter(previousSettings, (settings) => {
-    return settings[1] > expiryTime;
-  });
+  const validSettings = _.filter(previousSettings, (settings) => settings[1] > expiryTime);
   const done = () => {
-    const encoded = sha1(JSON.stringify(settings));
-
-    validSettings.push([ encoded, nowInSeconds() ]);
+    validSettings.push([encoded, nowInSeconds()]);
     store.set('settings', validSettings);
   };
 
