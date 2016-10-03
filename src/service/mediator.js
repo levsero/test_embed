@@ -354,17 +354,11 @@ function init(embedsAccessible, params = {}) {
       setTimeout(() => {
         if (isMobileBrowser()) {
           c.broadcast(`${currentEmbed}.hide`);
+          c.broadcast(`${submitTicket}.showBackButton`);
         } else {
           c.broadcast(`${currentEmbed}.hide`, { transition: getHideAnimation() });
         }
       }, 0);
-
-      if (isMobileBrowser()) {
-        c.broadcast(`${helpCenter}.hide`);
-        c.broadcast(`${submitTicket}.showBackButton`);
-      } else {
-        c.broadcast(`${helpCenter}.hide`, { transition: getHideAnimation() });
-      }
     }
   );
 
