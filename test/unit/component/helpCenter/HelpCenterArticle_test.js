@@ -131,7 +131,7 @@ describe('HelpCenterArticle component', () => {
           </ol>
         `;
 
-        helpCenterArticle = domRender(<HelpCenterArticle activeArticle={mockArticle}/>);
+        helpCenterArticle = domRender(<HelpCenterArticle activeArticle={mockArticle} />);
         content = ReactDOM.findDOMNode(helpCenterArticle.refs.article);
         list = content.querySelector('ol');
       });
@@ -243,7 +243,7 @@ describe('HelpCenterArticle component', () => {
             <a name="mailto" href="mailto:bob@example.com">mailto link</a>
           `;
 
-          helpCenterArticle = domRender(<HelpCenterArticle activeArticle={mockArticle}/>);
+          helpCenterArticle = domRender(<HelpCenterArticle activeArticle={mockArticle} />);
           content = ReactDOM.findDOMNode(helpCenterArticle.refs.article);
           anchor = content.querySelector('a[name="mailto"]');
         });
