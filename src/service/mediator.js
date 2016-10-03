@@ -355,7 +355,7 @@ function init(embedsAccessible, params = {}) {
         if (isMobileBrowser()) {
           c.broadcast(`${currentEmbed}.hide`);
         } else {
-          c.broadcast(`${currentEmbed}.show`, { transition: getShowAnimation() });
+          c.broadcast(`${currentEmbed}.hide`, { transition: getHideAnimation() });
         }
       }, 0);
 
