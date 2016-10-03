@@ -258,6 +258,59 @@ describe('frameFactory', function() {
     });
   });
 
+  describe('updateFrameSize fullWidth behaviour', () => {
+    let Embed,
+      instance,
+      frameContainer,
+      frameContainerStyle;
+
+    beforeEach(() => {
+      frameFactory = requireUncached(frameFactoryPath).frameFactory;
+      jasmine.clock().install();
+    });
+
+    describe('when fullWidth prop is true', () => {
+      beforeEach(() => {
+        Embed = frameFactory(mockChildFn, { fullWidth: true });
+        instance = domRender(<Embed />);
+        frameContainer = global.document.body.getElementsByTagName('iframe')[0];
+        frameContainerStyle = frameContainer.style;
+        instance.setState({ iframeDimensions: { width: 999, height: 999 } });
+
+        instance.updateFrameSize();
+        jasmine.clock().tick(10);
+      });
+
+      it('sets width to 100%', () => {
+        expect(frameContainerStyle.width)
+          .toEqual('100%');
+      });
+
+      it('sets a dynamically calculated height', () => {
+        expect(frameContainerStyle.height)
+          .toEqual('15px');
+      });
+    });
+
+    describe('when fullWidth prop is false', () => {
+      beforeEach(() => {
+        Embed = frameFactory(mockChildFn, { fullWidth: false });
+        instance = domRender(<Embed />);
+        frameContainer = global.document.body.getElementsByTagName('iframe')[0];
+        frameContainerStyle = frameContainer.style;
+        instance.setState({ iframeDimensions: { width: 999, height: 999 } });
+
+        instance.updateFrameSize();
+        jasmine.clock().tick(10);
+      });
+
+      it('sets a dynamically calculated width', () => {
+        expect(frameContainerStyle.width)
+          .toEqual('15px');
+      });
+    });
+  });
+
   describe('show', function() {
     let instance,
       mockOnShow;

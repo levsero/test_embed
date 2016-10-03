@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
 import { AutomaticAnswersDesktop } from 'component/automaticAnswers/AutomaticAnswersDesktop';
+import { AutomaticAnswersMobile } from 'component/automaticAnswers/AutomaticAnswersMobile';
 import { i18n } from 'service/i18n';
 import { getHelpCenterArticleId,
          getURLParameterByName } from 'utility/pages';
@@ -66,15 +67,30 @@ export class AutomaticAnswers extends Component {
   }
 
   solveTicketFail() {
+    const errorKey = (this.props.mobile)
+                     ? 'embeddable_framework.automaticAnswers.label.error_mobile'
+                     : 'embeddable_framework.automaticAnswers.label.error_v2';
+
     this.setState({
-      errorMessage: i18n.t('embeddable_framework.automaticAnswers.label.error_v2', {
-        fallback: 'There was a problem solving your request. Please try again.'
+      errorMessage: i18n.t(errorKey, {
+        fallback: 'There was a problem. Please try again.'
       }),
       isSubmitting: false
     });
   }
 
-  render() {
+  renderMobile() {
+    return (
+      <AutomaticAnswersMobile
+        solveSuccess={this.state.solveSuccess}
+        errorMessage={this.state.errorMessage}
+        isSubmitting={this.state.isSubmitting}
+        handleSolveTicket={this.handleSolveTicket}
+        updateFrameSize={this.props.updateFrameSize} />
+    );
+  }
+
+  renderDesktop() {
     return (
       <AutomaticAnswersDesktop
         ticketNiceId={this.state.ticket.niceId}
@@ -85,11 +101,16 @@ export class AutomaticAnswers extends Component {
         updateFrameSize={this.props.updateFrameSize} />
     );
   }
+
+  render() {
+    return (this.props.mobile) ? this.renderMobile() : this.renderDesktop();
+  }
 }
 
 AutomaticAnswers.propTypes = {
   solveTicket: PropTypes.func.isRequired,
   updateFrameSize: PropTypes.func,
+  mobile: PropTypes.bool.isRequired,
   closeFrame: PropTypes.func.isRequired
 };
 

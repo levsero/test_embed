@@ -3,6 +3,7 @@ describe('embed.automaticAnswers', () => {
     mockRegistry,
     mockTransport,
     mockPages,
+    mockIsMobileBrowserValue,
     mockWrongURLParameter;
 
   const automaticAnswersPath = buildSrcPath('embed/automaticAnswers/automaticAnswers');
@@ -38,6 +39,9 @@ describe('embed.automaticAnswers', () => {
       'utility/color': {
         generateUserCSS: jasmine.createSpy().and.returnValue('')
       },
+      'utility/devices': {
+        isMobileBrowser: () => mockIsMobileBrowserValue
+      },
       'service/transitionFactory' : {
         transitionFactory: requireUncached(buildTestPath('unit/mockTransitionFactory')).mockTransitionFactory
       },
@@ -60,6 +64,7 @@ describe('embed.automaticAnswers', () => {
     automaticAnswers = requireUncached(automaticAnswersPath).automaticAnswers;
 
     mockWrongURLParameter = false;
+    mockIsMobileBrowserValue = false;
   });
 
   afterEach(() => {
