@@ -1,11 +1,18 @@
 describe('beacon', function() {
   let beacon,
-    mockRegistry;
+    mockRegistry,
+    mockTime,
+    mockSha1String,
+    mockStore;
   const localeId = 10;
   const beaconPath = buildSrcPath('service/beacon');
 
   beforeEach(function() {
     mockery.enable();
+
+    mockStore = null;
+    mockTime = Math.floor(Date.now() / 1000);
+    mockSha1String = '';
 
     mockRegistry = initMockRegistry({
       'service/transport': {
@@ -41,7 +48,10 @@ describe('beacon', function() {
         }
       },
       'service/persistence': {
-        store: jasmine.createSpyObj('store', ['set', 'get', 'remove'])
+        store: {
+          get: () => mockStore,
+          set: jasmine.createSpy('store.set')
+        }
       },
       'service/i18n': {
         i18n: {
@@ -53,7 +63,9 @@ describe('beacon', function() {
           return {
             href: 'http://document.referrer'
           };
-        }
+        },
+        nowInSeconds: () => mockTime,
+        sha1: () => mockSha1String
       },
       'utility/pages': {
         isOnHelpCenterPage: () => true
@@ -306,10 +318,12 @@ describe('beacon', function() {
 
   describe('#trackSettings', () => {
     const mockSettings = { webWidget: { viaId: 48 } };
-    let mockTransport;
+    let mockTransport,
+      mockPersistence;
 
     beforeEach(() => {
       mockTransport = mockRegistry['service/transport'].transport;
+      mockPersistence = mockRegistry['service/persistence'];
     });
 
     describe('when there is a zESettings object on the page', function() {
@@ -332,7 +346,7 @@ describe('beacon', function() {
 
     describe('when there is no zESettings object on the page', () => {
       it('should not send the settings blip', () => {
-        beacon.trackSettings();
+        beacon.trackSettings(mockSettings);
 
         expect(mockTransport.sendWithMeta)
           .not.toHaveBeenCalled();
@@ -345,6 +359,92 @@ describe('beacon', function() {
 
         expect(mockTransport.sendWithMeta)
           .not.toHaveBeenCalled();
+      });
+    });
+
+    describe('when there is a settings object in store', () => {
+      beforeEach(() => {
+        mockRegistry['utility/globals'].win.zESettings = mockSettings;
+
+        mockStore = [['abc123', mockTime]];
+      });
+
+      describe('when it contains the same settings as the page', () => {
+        it('should not send the settings blip', () => {
+          mockSha1String = 'abc123';
+
+          beacon.trackSettings(mockSettings);
+
+          expect(mockTransport.sendWithMeta)
+            .not.toHaveBeenCalled();
+        });
+      });
+
+      describe('when it does not contain the same settings as the page', () => {
+        beforeEach(() => {
+          mockSha1String = 'cba123';
+          beacon.trackSettings(mockSettings);
+        });
+
+        it('should send the settings blip', () => {
+          expect(mockTransport.sendWithMeta)
+            .toHaveBeenCalled();
+        });
+
+        it('should update the store with the new settings', () => {
+          mockTransport.sendWithMeta.calls.mostRecent().args[0].callbacks.done();
+
+          expect(mockPersistence.store.set)
+            .toHaveBeenCalled();
+
+          const newStore = mockPersistence.store.set.calls.mostRecent().args[1];
+
+          expect(newStore[0][0])
+            .toBe('abc123');
+          expect(newStore[1][0])
+            .toBe('cba123');
+        });
+      });
+
+      describe('when a setting in the store is expired', () => {
+        beforeEach(() => {
+          const timestamp = mockTime - (24*60*60);
+
+          mockStore = [
+            ['abc123', timestamp],
+            ['cba123', timestamp]
+          ];
+          mockSha1String = 'cba123';
+          beacon.trackSettings(mockSettings);
+          mockTransport.sendWithMeta.calls.mostRecent().args[0].callbacks.done();
+        });
+
+        it('should send the settings blip', () => {
+          expect(mockTransport.sendWithMeta)
+            .toHaveBeenCalled();
+        });
+
+        it('should update the store with the new timestamp', () => {
+          expect(mockPersistence.store.set)
+            .toHaveBeenCalled();
+
+          const newStore = mockPersistence.store.set.calls.mostRecent().args[1];
+
+          expect(newStore[0][1])
+            .toBe(mockTime);
+        });
+
+        it('should remove any other invalid values from the store', () => {
+          expect(mockPersistence.store.set)
+            .toHaveBeenCalled();
+
+          const newStore = mockPersistence.store.set.calls.mostRecent().args[1];
+
+          expect(newStore.length)
+            .toBe(1);
+          expect(newStore[0][0])
+            .not.toBe('abc123');
+        });
       });
     });
   });

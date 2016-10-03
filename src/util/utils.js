@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import crypto from 'crypto';
 
 import { document as doc,
          location } from 'utility/globals';
@@ -61,6 +62,10 @@ function base64decode(string) {
   return window.atob(string);
 }
 
+function sha1(string) {
+  return crypto.createHash('sha1').update(string).digest('hex');
+}
+
 function objectDifference(a, b) {
   const transformFn = (res, val, key) => {
     if (_.isObject(val) && _.has(b, key)) {
@@ -84,6 +89,10 @@ function cssTimeToMs(str) {
   return pattern.test(str) ? (time * 1000) : time;
 }
 
+function nowInSeconds() {
+  return Math.floor(Date.now() / 1000);
+}
+
 export {
   getPageKeywords,
   getPageTitle,
@@ -94,5 +103,7 @@ export {
   bindMethods,
   base64decode,
   objectDifference,
-  cssTimeToMs
+  cssTimeToMs,
+  nowInSeconds,
+  sha1
 };

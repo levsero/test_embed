@@ -2,6 +2,7 @@ describe('utils', () => {
   let splitPath,
     getPageKeywords,
     getPageTitle,
+    nowInSeconds,
     objectDifference,
     cssTimeToMs;
 
@@ -41,6 +42,7 @@ describe('utils', () => {
     getPageTitle = require(utilPath).getPageTitle;
     objectDifference = require(utilPath).objectDifference;
     cssTimeToMs = require(utilPath).cssTimeToMs;
+    nowInSeconds = require(utilPath).nowInSeconds;
   });
 
   afterEach(() => {
@@ -225,6 +227,13 @@ describe('utils', () => {
           expect(cssTimeToMs(cssTime)).toEqual(666);
         });
       });
+    });
+  });
+
+  describe('nowInSeconds()', () => {
+    it('should return the current time in seconds', () => {
+      expect(nowInSeconds())
+        .toEqual(Math.floor(Date.now() / 1000));
     });
   });
 });
