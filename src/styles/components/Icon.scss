@@ -195,10 +195,10 @@
 
   svg {
     fill: $zendesk-color--white;
-    min-width: auto;
-    min-height: #{8/$font-size}rem;
-    width: auto;
-    height: #{8/$font-size}rem;
+    min-width: #{12/$font-size}rem;
+    min-height: #{9/$font-size}rem;
+    width: #{12/$font-size}rem;
+    height: #{9/$font-size}rem;
   }
 }
 
