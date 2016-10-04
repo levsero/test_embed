@@ -9,7 +9,8 @@ describe('webWidgetPreview entry file', () => {
     styles: {
       float: 'right',
       width: 342,
-      margin: '16px'
+      marginTop: '16px',
+      marginRight: '16px'
     }
   };
 
@@ -131,7 +132,8 @@ describe('webWidgetPreview entry file', () => {
           it('should call frameFactory with custom styles', () => {
             const styles = {
               float: 'left',
-              margin: '32px',
+              marginTop: '32px',
+              marginLeft: '32px',
               width: 1
             };
 
