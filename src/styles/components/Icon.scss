@@ -190,6 +190,18 @@
   }
 }
 
+.Icon--tick-inline {
+  padding-right: #{8/$font-size}rem;
+
+  svg {
+    fill: $zendesk-color--white;
+    min-width: #{12/$font-size}rem;
+    min-height: #{9/$font-size}rem;
+    width: #{12/$font-size}rem;
+    height: #{9/$font-size}rem;
+  }
+}
+
 .Icon--check {
   svg {
     fill: $secondary-color;

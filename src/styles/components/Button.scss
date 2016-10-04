@@ -129,6 +129,20 @@ $Button-nudge: 5;
   }
 }
 
+.c-btn--primary--icon {
+  background: $cta-color;
+  color: rgba($base-color, .8);
+  font-size: #{13/$font-size}rem;
+  border-radius: #{4/$font-size}rem;
+  padding: #{11/$font-size}rem 0;
+  // TODO - Fix for width for wider string translations
+  min-width: #{76/$font-size}rem;
+
+  &:hover, &:focus, &:active {
+    color: $base-color;
+  }
+}
+
 .c-btn--pill {
   color: $zendesk-color--aluminum;
   padding: #{7/$font-size}rem #{14/$font-size}rem #{7/$font-size}rem #{14/$font-size}rem !important;

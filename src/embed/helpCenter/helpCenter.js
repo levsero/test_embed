@@ -25,7 +25,7 @@ import { isOnHelpCenterPage,
 import { cappedIntervalCall,
          getPageKeywords } from 'utility/utils';
 
-const helpCenterCSS = require('./helpCenter.scss');
+const helpCenterCSS = require('./helpCenter.scss').toString();
 
 let helpCenters = {};
 let hasManuallySetContextualSuggestions = false;
@@ -177,6 +177,8 @@ function create(name, config) {
         upClose: transitionFactory.webWidget.upHide(),
         downClose: transitionFactory.webWidget.downHide(),
         upHide: transitionFactory.webWidget.upHide(),
+        upShow: transitionFactory.webWidget.upShow(),
+        downHide: transitionFactory.webWidget.downHide(),
         downShow: transitionFactory.webWidget.downShow()
       },
       afterShowAnimate(frame) {

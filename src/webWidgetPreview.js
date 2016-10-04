@@ -15,7 +15,8 @@ const defaultOptions = {
   styles: {
     float: 'right',
     width: 342,
-    margin: '16px'
+    marginTop: '16px',
+    marginRight: '16px'
   }
 };
 

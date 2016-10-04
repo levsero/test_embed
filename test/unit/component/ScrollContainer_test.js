@@ -104,11 +104,20 @@ describe('ScrollContainer component', () => {
       .toMatch('u-paddingVM');
   });
 
-  it('should contain `u-paddingVL` on the footer when `this.props.footerContentHidden` is true', () => {
-    const container = domRender(<ScrollContainer footerContentHidden={true} />);
+  describe('when this.props.footerContentHidden is true', () => {
+    it('should contain `u-paddingVL` on the footer', () => {
+      const container = domRender(<ScrollContainer footerContentHidden={true} />);
 
-    expect(ReactDOM.findDOMNode(container).querySelector('.ScrollContainer-footer').className)
-      .toMatch('u-paddingVL');
+      expect(ReactDOM.findDOMNode(container).querySelector('.ScrollContainer-footer').className)
+        .toMatch('u-paddingVL');
+    });
+
+    it('should contain `u-marginVS` on the footer', () => {
+      const container = domRender(<ScrollContainer footerContentHidden={true} />);
+
+      expect(ReactDOM.findDOMNode(container).querySelector('.ScrollContainer-footer').className)
+        .toMatch('u-marginVS');
+    });
   });
 });
 

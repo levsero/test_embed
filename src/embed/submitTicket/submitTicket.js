@@ -17,7 +17,7 @@ import { settings } from 'service/settings';
 import { generateUserCSS } from 'utility/color';
 import { transport } from 'service/transport';
 
-const submitTicketCSS = require('./submitTicket.scss');
+const submitTicketCSS = require('./submitTicket.scss').toString();
 let submitTickets = {};
 
 function create(name, config) {
@@ -153,6 +153,7 @@ function create(name, config) {
           formTitleKey={config.formTitleKey}
           style={containerStyle}
           attachmentsEnabled={config.attachmentsEnabled}
+          subjectEnabled={settings.get('contactForm.subject')}
           maxFileCount={config.maxFileCount}
           maxFileSize={config.maxFileSize}
           updateFrameSize={params.updateFrameSize} />
@@ -167,7 +168,9 @@ function create(name, config) {
         upClose: transitionFactory.webWidget.upHide(),
         downClose: transitionFactory.webWidget.downHide(),
         close: transitionFactory.webWidget.downHide(),
-        downShow: transitionFactory.webWidget.downShow()
+        downShow: transitionFactory.webWidget.downShow(),
+        downHide: transitionFactory.webWidget.downHide(),
+        upShow: transitionFactory.webWidget.upShow()
       },
       onShow,
       name: name,

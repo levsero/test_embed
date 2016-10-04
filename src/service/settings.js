@@ -9,6 +9,7 @@ const optionWhitelist = {
     'channelChoice',
     'chat.suppress',
     'color',
+    'contactForm.subject',
     'contactForm.attachments',
     'contactForm.suppress',
     'contactForm.title',
@@ -21,29 +22,25 @@ const optionWhitelist = {
     'helpCenter.filter',
     'launcher.chatLabel',
     'launcher.label',
-    'offset',
+    'offset.vertical',
+    'offset.horizontal',
     'zIndex',
     'channelChoice',
-    'position'
+    'position.vertical',
+    'position.horizontal'
   ],
   ipm: [
-    'offset'
+    'offset.vertical',
+    'offset.horizontal'
   ]
 };
 const customizationsWhitelist = [
-  'zIndex',
-  'position.vertical',
-  'position.horizontal',
-  'color.theme',
-  'helpCenter.originalArticleButton',
-  'helpCenter.filter',
-  'contactForm.suppress',
-  'chat.suppress',
-  'helpCenter.suppress',
+  'channelChoice',
   'helpCenter.localeFallbacks'
 ];
 const webWidgetStoreDefaults = {
   contactForm: {
+    subject: false,
     attachments: true,
     suppress: false
   },
@@ -139,11 +136,15 @@ function getTranslations() {
 }
 
 function getTrackSettings() {
-  const blacklist = ['margin', 'viaId', 'authenticate'];
+  const blacklist = ['margin', 'viaId'];
   const userSettings = _.omit(webWidgetStore, blacklist);
   const defaults = _.omit(webWidgetStoreDefaults, blacklist);
   const widgetSettings = objectDifference(userSettings, defaults);
   const ipmSettings = objectDifference(ipmStore, ipmStoreDefaults);
+
+  if (widgetSettings.authenticate) {
+    widgetSettings.authenticate = true;
+  }
 
   return _.omitBy({
     webWidget: widgetSettings,

@@ -302,8 +302,9 @@ export const frameFactory = function(childFn, _params) {
                            ? null
                            : transitionFactory.hiddenState();
 
-      const horizontalOffset = (isMobileBrowser()) ? 0 : settings.get('offset').horizontal;
-      const verticalOffset = (isMobileBrowser()) ? 0 : settings.get('offset').vertical;
+      const offset = settings.get('offset');
+      const horizontalOffset = (isMobileBrowser() || !offset) ? 0 : offset.horizontal;
+      const verticalOffset = (isMobileBrowser() || !offset) ? 0 : offset.vertical;
       const horizontalPos = settings.get('position.horizontal') || params.position;
       const verticalPos = settings.get('position.vertical') || 'bottom';
       const posObj = {

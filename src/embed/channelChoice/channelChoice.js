@@ -13,7 +13,7 @@ import { document,
          getDocumentHost } from 'utility/globals';
 
 const channelChoices = {};
-const channelChoiceCSS = require('./channelChoice.scss');
+const channelChoiceCSS = require('./channelChoice.scss').toString();
 
 function create(name, config) {
   let containerStyle;
@@ -47,10 +47,7 @@ function create(name, config) {
       close: transitionFactory.webWidget.downHide(),
       downHide: transitionFactory.webWidget.downHide(),
       downShow: transitionFactory.webWidget.downShow(),
-      upShow: transitionFactory.webWidget.upShow(),
-      initial: transitionFactory.webWidget.initial(
-        isMobileBrowser() ? { top: '-100%' } : {}
-      )
+      upShow: transitionFactory.webWidget.upShow()
     },
     frameStyle: frameStyle
   };

@@ -240,6 +240,37 @@ describe('SubmitTicketForm component', function() {
     });
   });
 
+  describe('#renderSubjectField', () => {
+    let submitTicketForm;
+
+    describe('when the subject field is enabled', () => {
+      beforeEach(() => {
+        submitTicketForm = domRender(
+          <SubmitTicketForm subjectEnabled={true} />
+        );
+      });
+
+      it('should render the subject field', () => {
+        expect(submitTicketForm.renderSubjectField())
+          .toBeDefined();
+
+        expect(submitTicketForm.renderSubjectField().props.name)
+          .toBe('subject');
+      });
+    });
+
+    describe('when the subject field is disabled', () => {
+      beforeEach(() => {
+        submitTicketForm = domRender(<SubmitTicketForm />);
+      });
+
+      it('should not render the subject field', () => {
+        expect(submitTicketForm.renderSubjectField())
+          .toBeNull();
+      });
+    });
+  });
+
   describe('#handleAttachmentsError', () => {
     let component;
 

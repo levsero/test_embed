@@ -7,38 +7,57 @@ import { frameFactory } from 'embed/frameFactory';
 import { transitionFactory } from 'service/transitionFactory';
 import { transport } from 'service/transport';
 import { generateUserCSS } from 'utility/color';
+import { isMobileBrowser } from 'utility/devices';
 import { getDocumentHost } from 'utility/globals';
 import { getURLParameterByName } from 'utility/pages';
 
-const automaticAnswersCSS = require('./automaticAnswers.scss');
+const automaticAnswersCSS = require('./automaticAnswers.scss').toString();
 const showFrameDelay = 2000;
-
-let embed;
 // 0 = New, 1 = Open, 2 = Pending, 6 = Hold
 const unsolvedStatusIds = [0, 1, 2, 6];
 
+let embed;
+
 function create(name, config) {
-  const frameStyle = {
+  let frameStyle = {
     position: 'fixed',
-    bottom: 6,
-    right: 0,
-    zIndex: 2147483647,
-    marginRight: 15
+    bottom: 0,
+    margin: 0,
+    zIndex: 2147483647
   };
+
+  if (isMobileBrowser()) {
+    frameStyle = _.extend({}, frameStyle, {
+      left: 0
+    });
+  } else {
+    frameStyle = _.extend({}, frameStyle, {
+      right: 0,
+      marginBottom: 6,
+      marginRight: 6
+    });
+  }
+
+  const transitionSet = (isMobileBrowser())
+                      ? transitionFactory.automaticAnswersMobile
+                      : transitionFactory.automaticAnswersDesktop;
 
   const frameParams = {
     frameStyle: frameStyle,
     css: automaticAnswersCSS + generateUserCSS(),
+    fullWidth: isMobileBrowser(),
     hideCloseButton: true,
     name: name,
-    offsetHeight: 50,
+    // Add offsetHeight to allow updateFrameSize to account for the box-shadow frame margin
+    offsetHeight: (isMobileBrowser()) ? 10 : 50,
     transitions: {
-      close: transitionFactory.webWidget.downHide(),
-      upShow: transitionFactory.webWidget.upShow()
+      close: transitionSet.downHide(),
+      upShow: transitionSet.upShow(),
+      downHide: transitionSet.downHide()
     }
   };
 
-  const closeFrame = (delay) => setTimeout(embed.instance.close, delay);
+  const closeFrame = (delay) => setTimeout(() => embed.instance.close({}), delay);
 
   const Embed = frameFactory(
     (params) => {
@@ -47,14 +66,17 @@ function create(name, config) {
           ref='rootComponent'
           solveTicket={solveTicketFn}
           updateFrameSize={params.updateFrameSize}
+          mobile={isMobileBrowser()}
           closeFrame={closeFrame} />
       );
     },
     frameParams
   );
 
+  const position = (isMobileBrowser()) ? 'none' : 'right';
+
   embed = {
-    component: <Embed visible={false} />,
+    component: <Embed visible={false} position={position} />,
     config: config
   };
 }

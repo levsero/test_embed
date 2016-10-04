@@ -19,11 +19,13 @@ describe('settings', () => {
     });
     defaults = {
       contactForm: {
+        subject: false,
         attachments: true
       },
       channelChoice: false,
       helpCenter: {
-        originalArticleButton: true
+        originalArticleButton: true,
+        localeFallbacks: []
       },
       margin: 15,
       offset: { horizontal: 0, vertical: 0 },
@@ -67,6 +69,11 @@ describe('settings', () => {
       it('has the correct value for contactForm.attachments', () => {
         expect(settings.get('contactForm.attachments'))
           .toEqual(defaults.contactForm.attachments);
+      });
+
+      it('has the correct value for contactForm.subject', () => {
+        expect(settings.get('contactForm.subject'))
+          .toEqual(defaults.contactForm.subject);
       });
 
       it('has the correct value for color', () => {
@@ -150,9 +157,14 @@ describe('settings', () => {
       mockRegistry['utility/globals'].win.zESettings = {
         webWidget: {
           authenticate: 'foo',
+          contactForm: {
+            subject: true
+          },
+          channelChoice: true,
           helpCenter: {
             originalArticleButton: false,
-            suppress: true
+            suppress: true,
+            localeFallbacks: ['fr']
           },
           chat: {
             suppress: true
@@ -166,48 +178,54 @@ describe('settings', () => {
       settings.init();
     });
 
+    it('should return user setting for helpCenter.originalArticleButton', () => {
+      expect(settings.get('helpCenter.originalArticleButton'))
+        .toBe(false);
+    });
+
+    it('should return user setting for suppress', () => {
+      expect(settings.get('helpCenter.suppress'))
+        .toBe(true);
+
+      expect(settings.get('chat.suppress'))
+        .toBe(true);
+    });
+
+    it('should return user setting for color', () => {
+      expect(settings.get('color.theme'))
+        .toBe('#FF0000');
+    });
+
+    it('should return user setting for contactForm.subject', () => {
+      expect(settings.get('contactForm.subject'))
+        .toBe(true);
+    });
+
     describe('when web widget customisations are enabled', () => {
       beforeEach(() => {
         settings.init();
         settings.enableCustomizations();
       });
-
-      it('should return user setting for helpCenter.originalArticleButton', () => {
-        expect(settings.get('helpCenter.originalArticleButton'))
-          .toBe(false);
-      });
-
-      it('should return user setting for suppress', () => {
-        expect(settings.get('helpCenter.suppress'))
-          .toBe(true);
-
-        expect(settings.get('chat.suppress'))
+      it('should return user setting for channelChoice', () => {
+        expect(settings.get('channelChoice'))
           .toBe(true);
       });
 
-      it('should return user setting for color', () => {
-        expect(settings.get('color.theme'))
-          .toBe('#FF0000');
+      it('should return user setting for helpCenter.localeFallbacks', () => {
+        expect(settings.get('helpCenter.localeFallbacks'))
+          .toEqual(['fr']);
       });
     });
 
     describe('when web widget customisations are disabled', () => {
-      it('should return default setting for helpCenter.originalArticleButton', () => {
-        expect(settings.get('helpCenter.originalArticleButton'))
-          .toBe(defaults.helpCenter.originalArticleButton);
+      it('should return default setting for channelChoice', () => {
+        expect(settings.get('channelChoice'))
+          .toBe(defaults.channelChoice);
       });
 
-      it('should return default setting for suppress', () => {
-        expect(settings.get('helpCenter.suppress'))
-          .toBe(false);
-
-        expect(settings.get('chat.suppress'))
-          .toBe(false);
-      });
-
-      it('should return the default setting for color', () => {
-        expect(settings.get('color.theme'))
-          .toBe(defaults.color.theme);
+      it('should return user default for helpCenter.localeFallbacks', () => {
+        expect(settings.get('helpCenter.localeFallbacks'))
+          .toEqual(defaults.helpCenter.localeFallbacks);
       });
     });
 
@@ -309,19 +327,23 @@ describe('settings', () => {
   });
 
   describe('#getTrackSettings', () => {
-    const userSettings = {
-      webWidget: {
-        helpCenter: { originalArticleButton: false }
-      },
-      ipm: {
-        offset: {
-          horizontal: 1,
-          vertical: 1
-        }
-      }
-    };
+    let userSettings;
 
     beforeEach(() => {
+      userSettings = {
+        webWidget: {
+          authenticate: { jwt: 'abc' },
+          contactForm: { attachments: true },
+          helpCenter: { originalArticleButton: false }
+        },
+        ipm: {
+          offset: {
+            horizontal: 1,
+            vertical: 1
+          }
+        }
+      };
+
       mockRegistry['utility/globals'].win.zESettings = userSettings;
       settings.init();
     });
@@ -345,6 +367,14 @@ describe('settings', () => {
     });
 
     it('should filter out default values from the store', () => {
+      expect(settings.getTrackSettings().webWidget.contactForm)
+        .toBeUndefined();
+    });
+
+    it('should not filter out custom values from the store', () => {
+      userSettings.webWidget.authenticate = true;
+      _.unset(userSettings, 'webWidget.contactForm');
+
       expect(settings.getTrackSettings())
         .toEqual(userSettings);
     });

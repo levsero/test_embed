@@ -43,6 +43,7 @@ export class ScrollContainer extends Component {
       'u-paddingHL u-posRelative': true,
       'u-paddingVM': !this.props.hideZendeskLogo,
       'u-paddingVL': this.props.footerContentHidden && !this.props.hideZendeskLogo,
+      'u-marginVS': this.props.footerContentHidden,
       'ScrollContainer-footer--shadow': this.state.scrollShadowVisible
     });
     const titleClasses = classNames({

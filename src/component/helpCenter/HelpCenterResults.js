@@ -111,12 +111,16 @@ export class HelpCenterResults extends Component {
   }
 
   render() {
-    const showBottomBorder = this.props.showBottomBorder &&
-                             this.props.articles.length > 0 &&
-                             this.props.articles.length < 4;
+    const initialSearchResults = this.props.articles.length > 0 &&
+                                 this.props.articles.length < 4;
+    const showBottomBorder = this.props.showBottomBorder && initialSearchResults;
+    // TODO: apply the bottom padding for the view more button once we begin rendering it.
+    // (i.e string has been translated).
+    const applyPadding = // this.props.showViewMore ||
+                         (this.props.applyPadding && initialSearchResults);
     const resultsClasses = classNames({
       'u-borderBottom': showBottomBorder,
-      'u-paddingBL': showBottomBorder && this.props.showViewMore
+      'u-paddingBL': applyPadding
     });
     const legend = !(this.props.searchFailed || this.props.articles.length === 0)
                  ? this.renderLegend()
@@ -141,6 +145,7 @@ HelpCenterResults.propTypes = {
   articles: PropTypes.array,
   fullscreen: PropTypes.bool,
   showViewMore: PropTypes.bool,
+  applyPadding: PropTypes.bool,
   showBottomBorder: PropTypes.bool,
   searchFailed: PropTypes.bool,
   previousSearchTerm: PropTypes.string,
@@ -153,6 +158,7 @@ HelpCenterResults.defaultProps = {
   articles: [],
   fullscreen: false,
   showViewMore: false,
+  applyPadding: false,
   showBottomBorder: true,
   searchFailed: false,
   previousSearchTerm: '',

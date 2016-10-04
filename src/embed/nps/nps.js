@@ -14,7 +14,7 @@ import { document,
          getDocumentHost } from 'utility/globals';
 import { isMobileBrowser } from 'utility/devices';
 
-const npsCSS = require('./nps.scss');
+const npsCSS = require('./nps.scss').toString();
 
 let npses = {};
 

@@ -12,7 +12,7 @@ import { document,
          getDocumentHost,
          location } from 'utility/globals';
 
-const ipmCSS = require('./ipm.scss');
+const ipmCSS = require('./ipm.scss').toString();
 
 let ipmes = {};
 let hasSeenIpm = false;
@@ -69,8 +69,7 @@ function create(name, config) {
     transitions: {
       upHide: transitionSet.upHide(),
       downShow: transitionSet.downShow(),
-      close: transitionSet.upHide(),
-      initial: transitionSet.initial()
+      close: transitionSet.upHide()
     }
   };
 

@@ -348,8 +348,12 @@ function init(embedsAccessible, params = {}) {
 
       // Run this on a separate `tick` from submitTicket.show
       setTimeout(() => {
-        c.broadcast(`${currentEmbed}.hide`, { transition: getHideAnimation() });
-        c.broadcast(`${submitTicket}.showBackButton`);
+        if (isMobileBrowser()) {
+          c.broadcast(`${currentEmbed}.hide`);
+          c.broadcast(`${submitTicket}.showBackButton`);
+        } else {
+          c.broadcast(`${currentEmbed}.hide`, { transition: getHideAnimation() });
+        }
       }, 0);
     }
   );
@@ -376,7 +380,8 @@ function init(embedsAccessible, params = {}) {
        */
       c.broadcast(`${chat}.show`);
     } else {
-      c.broadcast(`${launcher}.hide`, { transition: getHideAnimation() });
+      c.broadcast(`${launcher}.hide`, isMobileBrowser() ? {} : { transition: getHideAnimation() } );
+
       state[`${state.activeEmbed}.isVisible`] = true;
 
       /**
@@ -451,7 +456,10 @@ function init(embedsAccessible, params = {}) {
       // Fix for when a pro-active message is recieved which opens the zopim window but the launcher
       // was previously hidden with zE.hide()
       if (!state['.hideOnClose'] && !state['.hasHidden']) {
-        c.broadcast(`${launcher}.show`, { transition: getShowAnimation() });
+        setTimeout(
+          () => c.broadcast(`${launcher}.show`, { transition: getShowAnimation() }),
+          isMobileBrowser() ? 200 : 0
+        );
       }
     }
   );

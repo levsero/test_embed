@@ -79,41 +79,59 @@ describe('HelpCenterMobile component', () => {
   });
 
   describe('nextButton', () => {
-    let helpCenterMobile;
+    let helpCenterMobile,
+      footerContent;
 
-    beforeEach(() => {
-      helpCenterMobile = domRender(<HelpCenterMobile hasSearched={true} />);
+    describe('when `hasSearched` prop is true', () => {
+      beforeEach(() => {
+        helpCenterMobile = domRender(<HelpCenterMobile hasSearched={true} />);
 
-      helpCenterMobile.handleSearchBoxClicked();
+        helpCenterMobile.handleSearchBoxClicked();
 
-      jasmine.clock().tick(1);
+        jasmine.clock().tick(1);
+      });
+
+      it('should hide when searchField is focused', () => {
+        const footerContent = helpCenterMobile.refs.scrollContainer.props.footerContent;
+
+        expect(footerContent.props.className)
+          .toContain('u-isHidden');
+      });
+
+      it('should appear when searchField is blurred', () => {
+        helpCenterMobile.handleOnBlur();
+
+        jasmine.clock().tick(1);
+
+        const footerContent = helpCenterMobile.refs.scrollContainer.props.footerContent;
+
+        expect(footerContent.props.className)
+          .not.toContain('u-isHidden');
+      });
     });
 
-    it('should hide when searchField is focused', () => {
-      const footerContent = helpCenterMobile.refs.scrollContainer.props.footerContent;
+    describe('when `showNextButton` prop is true', () => {
+      beforeEach(() => {
+        helpCenterMobile = domRender(<HelpCenterMobile showNextButton={true} />);
+        footerContent = helpCenterMobile.refs.scrollContainer.props.footerContent;
+      });
 
-      expect(footerContent.props.className)
-        .toContain('u-isHidden');
+      it('should be displayed', () => {
+        expect(TestUtils.isDOMComponent(footerContent))
+          .toBe(false);
+      });
     });
 
-    it('should appear when searchField is blurred', () => {
-      helpCenterMobile.handleOnBlur();
+    describe('when `showNextButton` prop is true', () => {
+      beforeEach(() => {
+        helpCenterMobile = domRender(<HelpCenterMobile showNextButton={false} />);
+        footerContent = helpCenterMobile.refs.scrollContainer.props.footerContent;
+      });
 
-      jasmine.clock().tick(1);
-
-      const footerContent = helpCenterMobile.refs.scrollContainer.props.footerContent;
-
-      expect(footerContent.props.className)
-        .not.toContain('u-isHidden');
-    });
-
-    it('should not exist if the showNextButton prop is false', () => {
-      helpCenterMobile = domRender(<HelpCenterMobile hasSearched={true} showNextButton={false} />);
-
-      const footerContent = helpCenterMobile.refs.scrollContainer.props.footerContent;
-
-      expect(TestUtils.isDOMComponent(footerContent))
-        .toBe(false);
+      it('should not be displayed', () => {
+        expect(TestUtils.isDOMComponent(footerContent))
+          .toBe(false);
+      });
     });
   });
 

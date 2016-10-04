@@ -136,6 +136,11 @@ $Base-posOffset: $med + 1;
   margin-bottom: $spacing-med !important;
 }
 
+.u-marginVL {
+  margin-top: $spacing-lrg !important;
+  margin-bottom: $spacing-lrg !important;
+}
+
 .u-marginVXL {
   margin-top: $spacing-xl !important;
   margin-bottom: $spacing-xl !important;
@@ -165,6 +170,16 @@ $Base-posOffset: $med + 1;
 .u-marginHM {
   margin-left: $spacing-med !important;
   margin-right: $spacing-med !important;
+}
+
+.u-marginHL {
+  margin-left: $spacing-lrg !important;
+  margin-right: $spacing-lrg !important;
+}
+
+.u-marginHXL {
+  margin-left: $spacing-xl !important;
+  margin-right: $spacing-xl !important;
 }
 
 .u-marginHN {
@@ -393,6 +408,26 @@ $Base-posOffset: $med + 1;
 
 .u-isSuccessful {
  color: $cta-color !important;
+
+ svg {
+   fill: $cta-color !important;
+ }
+}
+
+.u-isError{
+ color: $zendesk-color--cg-red !important;
+}
+
+/**
+ * Background
+ */
+
+.u-backgroundWhite {
+  background-color: $zendesk-color--white !important;
+}
+
+.u-backgroundWhiteSmoke {
+  background-color: $zendesk-color--white-smoke !important;
 }
 
 /**
@@ -459,6 +494,19 @@ $Base-posOffset: $med + 1;
 .u-flex {
   display: flex;
 }
+
+.u-flexJustifyCenter {
+  justify-content: center !important;
+}
+
+.u-flexJustifyBetween {
+  justify-content: space-between !important;
+}
+
+.u-flexAlignItemsCenter {
+  align-items: center !important;
+}
+
 
 /**
  * Used to hide the widget when printing the host page
