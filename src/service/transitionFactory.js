@@ -50,7 +50,7 @@ const hiddenState = _.extend(
   {
     opacity: .2,
     top: '-9999px',
-    bottom: '-30px',
+    bottom: 'auto',
     position: 'absolute'
   }
 )
@@ -265,14 +265,16 @@ export const transitionFactory = {
       transitionDuration: '0',
       transitionTimingFunction: 'unset',
       opacity: 1,
-      top: positionWithOffset(0)
+      top: positionWithOffset(0),
+      bottom: 'auto'
     },
     {
       transitionProperty: 'all',
       transitionDuration: '300ms',
       transitionTimingFunction: 'ease-out',
       opacity: .2,
-      top: '-30px'
+      top: '-30px',
+      bottom: 'auto'
     }),
 
 
@@ -299,7 +301,7 @@ export const transitionFactory = {
         transitionTimingFunction: 'unset',
         opacity: .2,
         bottom: positionWithOffset(-30),
-        top: '300px'
+        top: 'auto'
       }
     ),
     {
@@ -307,7 +309,8 @@ export const transitionFactory = {
       transitionDuration: '300ms',
       transitionTimingFunction: 'ease-out',
       opacity: 1,
-      bottom: positionWithOffset(0)
+      bottom: positionWithOffset(0),
+      top: 'auto'
     }),
 
 

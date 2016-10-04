@@ -225,11 +225,10 @@ export const frameFactory = function(childFn, _params) {
       const newFrameStyle = _.extend({}, this.state.frameStyle, transition.end);
 
       this.setState({ frameStyle: transition.start });
-
-      setTimeout(
-        () => this.setState({ frameStyle: newFrameStyle }),
-        0
-      );
+      if(params.name == 'helpCenterForm') {
+        // debugger;
+      }
+      setTimeout(() => this.setState({ frameStyle: newFrameStyle }), 0);
 
       setTimeout(
         () => params.afterShowAnimate(this),
@@ -261,15 +260,11 @@ export const frameFactory = function(childFn, _params) {
         clickBusterRegister(ev.touches[0].clientX, ev.touches[0].clientY);
       }
 
-      if (params.isMobile) {
-        this.hide();
-      } else {
-        const transition = settings.get('position.vertical') === 'top'
-                         ? 'upHide'
-                         : 'downHide';
+      const transition = settings.get('position.vertical') === 'top'
+                       ? 'upHide'
+                       : 'downHide';
 
-        this.hide({ transition });
-      }
+      this.hide({ transition });
 
       params.onClose(this, options);
     }
