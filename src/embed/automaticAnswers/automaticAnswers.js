@@ -48,7 +48,8 @@ function create(name, config) {
     fullWidth: isMobileBrowser(),
     hideCloseButton: true,
     name: name,
-    offsetHeight: (isMobileBrowser()) ? 30 : 50,
+    // Add offsetHeight to allow updateFrameSize to account for the box-shadow frame margin
+    offsetHeight: (isMobileBrowser()) ? 10 : 50,
     transitions: {
       close: transitionSet.downHide(),
       upShow: transitionSet.upShow(),
