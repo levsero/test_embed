@@ -18,10 +18,13 @@ The `webWidget` object has the following settings:
 
 * [authenticate](#authenticate)
 * [chat.suppress](#suppress)
+* [color](#color)
 * [contactForm.attachments](#attachments)
+* [contactForm.subject](#subject)
 * [contactForm.suppress](#suppress)
 * [contactForm.title](#title)
 * [helpCenter.chatButton](#chatButton)
+* [helpCenter.filter](#filter)
 * [helpCenter.messageButton](#messageButton)
 * [helpCenter.originalArticleButton](#originalArticleButton)
 * [helpCenter.suppress](#suppress)
@@ -29,6 +32,9 @@ The `webWidget` object has the following settings:
 * [launcher.chatLabel](#chatLabel)
 * [launcher.label](#label)
 * [offset](#offset)
+* [position](#position)
+* [zIndex](#zindex)
+
 
 
 ### attachments
@@ -137,6 +143,47 @@ window.zESettings = {
 ```
 
 
+### color
+
+Sets a color theme for the Web Widget. The `color` property consists of an object with a `theme` property with color HEX codes as possible values.
+
+```javascript
+<script type="text/javascript">
+window.zESettings = {
+  webWidget: {
+    color: { theme: '#78a300' }
+  }
+};
+</script>
+```
+
+
+### filter
+
+Limits Help Center search results to a specified category, section, or label. The `filter` property consists of an object with a `category`, `section`, or `label` property.
+
+#### Availability
+
+* helpCenter
+
+#### Example
+
+```javascript
+<script type="text/javascript">
+window.zESettings = {
+  webWidget: {
+    helpCenter: {
+      filter: {
+        section: '200154474'
+      }
+    }
+  }
+};
+</script>
+```
+
+
+
 ### label
 
 Replaces the default string on the launcher button.
@@ -236,6 +283,44 @@ window.zESettings = {
 ```
 
 
+### position
+
+Positions the Web Widget on the left side of the page instead of the right side, and on the upper side instead of the lower side. The `position` property consists of an object with `horizontal` and `vertical` properties. The possible value for `horizontal` is 'left' (the default is right). The possible value for `vertical` is 'top' (the default is bottom).
+
+```javascript
+<script type="text/javascript">
+window.zESettings = {
+  webWidget: {
+    position: { horizontal: 'left', vertical: 'top' }
+  }
+};
+</script>
+```
+
+
+### subject
+
+Inserts a Subject field in the contact form. The form doesn't have one by default to enhance the user experience and conserve space in the Web Widget.
+
+#### Availability
+
+* contactForm
+
+#### Example
+
+```javascript
+<script type="text/javascript">
+window.zESettings = {
+  webWidget: {
+    contactForm: {
+      subject: true
+    }
+  }
+};
+</script>
+```
+
+
 ### suppress
 
 Suppresses the Help Center, Chat, or contact form in the Web Widget on that page.
@@ -262,6 +347,7 @@ window.zESettings = {
 };
 </script>
 ```
+
 
 ### title
 
@@ -298,4 +384,18 @@ window.zESettings = {
 </script>
 ```
 
+
+### zIndex
+
+Specifies the stack order of the Widget on the page. When two elements overlap, the z-index values of the elements determine which one covers the other. An element with a greater z-index value covers an element with a smaller one.
+
+```javascript
+<script type="text/javascript">
+window.zESettings = {
+  webWidget: {
+    zIndex: 999999
+  }
+};
+</script>
+```
 
