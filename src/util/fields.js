@@ -24,17 +24,31 @@ const getCustomFields = (customFields, formState) => {
       key: field.title
     };
 
+    if (field.required_in_portal) {
+      field.required = field.required_in_portal;
+    }
+    if (field.title_in_portal) {
+      field.title = field.title_in_portal;
+    }
+
     if (field.variants) {
       sharedProps.placeholder = geti18nContent(field);
     }
 
     switch (field.type) {
     case 'text':
-    case 'description':
     case 'subject':
       return <Field {...sharedProps} />;
     case 'tagger':
+      if (field.custom_field_options) {
+        field.options = field.custom_field_options;
+      }
+
       _.forEach(field.options, (option) => {
+        if (option.name) {
+          option.title = option.name;
+        }
+
         if (option.variants) {
           option.title = geti18nContent(option);
         }
@@ -45,6 +59,7 @@ const getCustomFields = (customFields, formState) => {
     case 'decimal':
       return <Field {...sharedProps} pattern='\d*([.,]\d+)?' type='number' step='any' />;
     case 'textarea':
+    case 'description':
       return <Field {...sharedProps} input={<textarea rows='5' />} />;
     case 'checkbox':
       return <Field {...sharedProps} label={field.title} type='checkbox' />;
@@ -53,7 +68,8 @@ const getCustomFields = (customFields, formState) => {
 
   return {
     fields: _.reject(fields, isCheckbox),
-    checkboxes: _.filter(fields, isCheckbox)
+    checkboxes: _.filter(fields, isCheckbox),
+    allFields: fields
   };
 };
 

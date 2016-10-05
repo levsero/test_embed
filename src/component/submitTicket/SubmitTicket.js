@@ -143,7 +143,7 @@ export class SubmitTicket extends Component {
         url: location.href
       }
     );
-    const desc = data.value.description;
+    const desc = (data.value.description) ? data.value.description : data.value['10041'];
     const newDesc = `${desc}\n\n------------------\n${submittedFrom}`;
     const uploads = this.refs.submitTicketForm.refs.attachments
                   ? this.refs.submitTicketForm.refs.attachments.getAttachmentTokens()
@@ -166,7 +166,7 @@ export class SubmitTicket extends Component {
       }
     };
 
-    return this.props.customFields.length === 0
+    return this.props.customFields.length === 0 || this.state.ticketForms.length !== 0
          ? { request: params }
          : { request: _.extend(params, this.formatTicketFieldData(data)) };
   }

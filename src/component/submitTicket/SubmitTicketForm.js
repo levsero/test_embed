@@ -226,18 +226,33 @@ export class SubmitTicketForm extends Component {
   }
 
   renderTicketFormBody() {
-    const ticketForm = this.state.ticketForm;
-    const ticketFields = this.state.ticketFields;
+    const  { ticketForm, ticketFields, formState } = this.state;
     const formTicketFields = _.filter(ticketFields, (field) => {
       return ticketForm.ticket_field_ids.indexOf(field.id) > -1;
     });
-    console.log(formTicketFields)
-    const newticketFields = getCustomFields(formTicketFields, this.state);
+    const ticketFieldsElem = getCustomFields(formTicketFields, formState);
+
+    ticketFieldsElem.allFields.unshift(
+      <Field
+        placeholder={i18n.t('embeddable_framework.form.field.email.label')}
+        type='email'
+        required={true}
+        pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?" // eslint-disable-line
+        value={formState.email}
+        name='email'
+        disabled={this.props.previewEnabled} />
+    );
+    ticketFieldsElem.allFields.unshift(
+      <Field
+        placeholder={i18n.t('embeddable_framework.submitTicket.field.name.label')}
+        value={formState.name}
+        name='name'
+        disabled={this.props.previewEnabled} />
+    );
 
     return (
       <div ref='formWrapper'>
-        {newticketFields.fields}
-        {newticketFields.checkboxes}
+        {ticketFieldsElem.allFields}
         {this.props.children}
       </div>
     );
