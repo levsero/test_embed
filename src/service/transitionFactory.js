@@ -53,7 +53,6 @@ const hiddenState = _.extend(
   }
 )
 
-
 const launcherUpShow = {
   transitionProperty: 'all',
   transitionDuration: '300ms',
@@ -78,14 +77,14 @@ export const transitionFactory = {
         transitionDuration: '0',
         transitionTimingFunction: 'unset',
         opacity: 0,
-        bottom: positionWithOffset(-300)
+        bottom: '-300px'
       },
       {
         transitionProperty: 'all',
         transitionDuration: '300ms',
         transitionTimingFunction: 'ease-out',
         opacity: 1,
-        bottom: positionWithOffset(0)
+        bottom: 0
       }
     ),
     downHide: transitionMaker({},
@@ -94,7 +93,7 @@ export const transitionFactory = {
         transitionDuration: '300ms',
         transitionTimingFunction: 'ease-in',
         opacity: 0,
-        bottom: positionWithOffset(-300)
+        bottom: '-300px'
       }
     )
   },
@@ -105,14 +104,14 @@ export const transitionFactory = {
         transitionDuration: '0',
         transitionTimingFunction: 'unset',
         opacity: 0,
-        bottom: positionWithOffset(-100)
+        bottom: '-100px'
       },
       {
         transitionProperty: 'all',
         transitionDuration: '300ms',
         transitionTimingFunction: 'ease-out',
         opacity: 1,
-        bottom: positionWithOffset(0)
+        bottom: 0
       }
     ),
     downHide: transitionMaker({},
@@ -121,42 +120,37 @@ export const transitionFactory = {
         transitionDuration: '300ms',
         transitionTimingFunction: 'ease-in',
         opacity: 0,
-        bottom: positionWithOffset(-100)
+        bottom: '-100px'
       }
     )
   },
-  // ipm: {
-  //   downShow: factoryMaker({
-  //     transitionProperty: 'all',
-  //     transitionDuration: '300ms',
-  //     transitionTimingFunction: 'ease-out',
-  //     opacity: 1,
-  //     bottom: 'auto',
-  //     top: 0
-  //   }),
-  //   upHide: factoryMaker({
-  //     transitionProperty: 'all',
-  //     transitionDuration: '300ms',
-  //     transitionTimingFunction: 'ease-out',
-  //     opacity: 0,
-  //     bottom: 'auto',
-  //     top: '-300px'
-  //   }),
-  //   initial: factoryMaker({
-  //     transitionProperty: 'all',
-  //     transitionDuration: '300ms',
-  //     transitionTimingFunction: 'ease-out',
-  //     opacity: 0,
-  //     bottom: 'auto',
-  //     top: '-300px'
-  //   })
-  // },
-
-
-
-
-
-
+  ipm: {
+    downShow: transitionMaker(
+      {
+        transitionProperty: 'none',
+        transitionDuration: '0',
+        transitionTimingFunction: 'unset',
+        opacity: 0,
+        top: '-300px'
+      },
+      {
+        transitionProperty: 'all',
+        transitionDuration: '300ms',
+        transitionTimingFunction: 'ease-out',
+        opacity: 1,
+        top: 0
+      }
+    ),
+    upHide: transitionMaker({},
+      {
+        transitionProperty: 'all',
+        transitionDuration: '300ms',
+        transitionTimingFunction: 'ease-out',
+        opacity: 0,
+        top: '-300px'
+      }
+    )
+  },
 
   webWidget: {
 
