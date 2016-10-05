@@ -216,8 +216,10 @@ export const frameFactory = function(childFn, _params) {
     show(options = {}) {
       let frameFirstChild = ReactDOM.findDOMNode(this).contentDocument.body.firstChild.firstChild;
       const transition = params.transitions[options.transition] || defaultShowTransition;
+      const animateFrom = _.extend({}, this.state.frameStyle, transition.start);
+      const animateTo = _.extend({}, this.state.frameStyle, transition.end);
 
-      this.setState({ visible: true });
+      this.setState({ visible: true, frameStyle: animateFrom });
 
       setTimeout( () => {
         const existingStyle = frameFirstChild.style;
@@ -227,13 +229,7 @@ export const frameFactory = function(childFn, _params) {
         }
       }, 50);
 
-      const newFrameStyle = _.extend({}, this.state.frameStyle, transition.end);
-
-      this.setState({ frameStyle: transition.start });
-      if(params.name == 'helpCenterForm') {
-        // debugger;
-      }
-      setTimeout(() => this.setState({ frameStyle: newFrameStyle }), 0);
+      setTimeout(() => this.setState({ frameStyle: animateTo }), 0);
 
       setTimeout(
         () => params.afterShowAnimate(this),
@@ -247,7 +243,6 @@ export const frameFactory = function(childFn, _params) {
       const transition = params.transitions[options.transition] || defaultHideTransition;
       const newFrameStyle = _.extend({}, this.state.frameStyle, transition.end);
 
-      this.setState({ frameStyle: transition.start });
       this.setState({ frameStyle: newFrameStyle });
 
       setTimeout(() => {

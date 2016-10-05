@@ -340,7 +340,11 @@ function init(embedsAccessible, params = {}) {
         // Run this on a seperate `tick` from helpCenter.hide
         // to mitigate ghost-clicking
         setTimeout(() => {
-          c.broadcast(`${submitTicket}.show`, { transition: 'upShow' });
+          const transition = settings.get('position.vertical') === 'top'
+                           ? 'downShow'
+                           : 'upShow'
+
+          c.broadcast(`${submitTicket}.show`, { transition: transition });
         }, 0);
       }
 
@@ -348,12 +352,8 @@ function init(embedsAccessible, params = {}) {
 
       // Run this on a separate `tick` from submitTicket.show
       setTimeout(() => {
-        if (isMobileBrowser()) {
-          c.broadcast(`${currentEmbed}.hide`);
-          c.broadcast(`${submitTicket}.showBackButton`);
-        } else {
-          c.broadcast(`${currentEmbed}.hide`, { transition: getHideAnimation() });
-        }
+        c.broadcast(`${currentEmbed}.hide`);
+        c.broadcast(`${currentEmbed}.hide`, { transition: getHideAnimation() });
       }, 0);
     }
   );

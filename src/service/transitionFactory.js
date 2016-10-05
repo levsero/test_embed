@@ -48,12 +48,11 @@ const hiddenState = _.extend(
   {},
   noAnimation,
   {
-    opacity: .2,
-    top: '-9999px',
-    bottom: 'auto',
-    position: 'absolute'
+    opacity: 0,
+    top: '-9999px'
   }
 )
+
 
 const launcherUpShow = {
   transitionProperty: 'all',
@@ -67,8 +66,8 @@ const launcherDownHide = {
   transitionProperty: 'all',
   transitionTimingFunction: 'linear',
   transitionDuration: '200ms',
-  opacity: .2,
-  bottom: '-70px'
+  opacity: .4,
+  bottom: positionWithOffset(-70)
 }
 
 export const transitionFactory = {
@@ -159,25 +158,17 @@ export const transitionFactory = {
     launcherDownHide: transitionMaker(launcherUpShow, launcherDownHide),
 
 
-
-    launcherDownShow: transitionMaker(_.extend(
-        {},
-        noAnimation,
-        {
-          marginLeft: '20px',
-          marginRight: '20px',
-          opacity: .2,
-          top: '-20px',
-          bottom: 'auto'
-        }
-      ),
+    launcherDownShow: transitionMaker(
+      {
+        opacity: .4,
+        top: positionWithOffset(-20),
+      },
       {
         transitionProperty: 'all',
         transitionDuration: '300ms',
         transitionTimingFunction: 'ease',
         opacity: 1,
         top: positionWithOffset(0),
-        bottom: 'auto'
       }
     ),
 
@@ -189,9 +180,8 @@ export const transitionFactory = {
         transitionProperty: 'all',
         transitionTimingFunction: 'linear',
         transitionDuration: '200ms',
-        opacity: .2,
-        top: '-20px',
-        bottom: 'auto'
+        opacity: .4,
+        top: positionWithOffset(-20),
       }
     ),
 
@@ -208,15 +198,15 @@ export const transitionFactory = {
       noAnimation,
       {
         opacity: 1,
-        bottom: positionWithOffset(0)
+        bottom: positionWithOffset(400)
       }
     ),
     {
       transitionProperty: 'all',
       transitionDuration: '300ms',
       transitionTimingFunction: 'ease-out',
-      opacity: .2,
-      bottom: '-30px'
+      opacity: .4,
+      bottom: positionWithOffset(-30)
     }),
 
 
@@ -234,9 +224,8 @@ export const transitionFactory = {
         transitionProperty: 'none',
         transitionDuration: '0',
         transitionTimingFunction: 'unset',
-        opacity: .2,
-        bottom: 'auto',
-        top: '-30px'
+        opacity: .4,
+        top: positionWithOffset(-30)
       }
     ),
     {
@@ -244,7 +233,6 @@ export const transitionFactory = {
       transitionDuration: '300ms',
       transitionTimingFunction: 'ease-out',
       opacity: 1,
-      bottom: 'auto',
       top: positionWithOffset(0)
      }),
 
@@ -272,8 +260,8 @@ export const transitionFactory = {
       transitionProperty: 'all',
       transitionDuration: '300ms',
       transitionTimingFunction: 'ease-out',
-      opacity: .2,
-      top: '-30px',
+      opacity: .4,
+      top: positionWithOffset(-20),
       bottom: 'auto'
     }),
 
@@ -299,7 +287,7 @@ export const transitionFactory = {
         transitionProperty: 'none',
         transitionDuration: '0',
         transitionTimingFunction: 'unset',
-        opacity: .2,
+        opacity: .4,
         bottom: positionWithOffset(-30),
         top: 'auto'
       }
