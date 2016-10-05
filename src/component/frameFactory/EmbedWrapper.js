@@ -62,6 +62,7 @@ export class EmbedWrapper extends Component {
     });
     const styleTag = <style dangerouslySetInnerHTML={{ __html: this.state.css }} />;
     const css = <style dangerouslySetInnerHTML={{ __html: this.props.baseCSS }} />;
+
     return (
       <div>
         {css}

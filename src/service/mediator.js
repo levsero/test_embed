@@ -342,7 +342,7 @@ function init(embedsAccessible, params = {}) {
         setTimeout(() => {
           const transition = settings.get('position.vertical') === 'top'
                            ? 'downShow'
-                           : 'upShow'
+                           : 'upShow';
 
           c.broadcast(`${submitTicket}.show`, { transition: transition });
         }, 0);
@@ -352,7 +352,6 @@ function init(embedsAccessible, params = {}) {
 
       // Run this on a separate `tick` from submitTicket.show
       setTimeout(() => {
-        c.broadcast(`${currentEmbed}.hide`);
         c.broadcast(`${currentEmbed}.hide`, { transition: getHideAnimation() });
       }, 0);
     }

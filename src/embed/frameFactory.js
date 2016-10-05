@@ -176,7 +176,6 @@ export const frameFactory = function(childFn, _params) {
         const fullscreenStyle = {
           width: `${win.innerWidth}px`,
           height: '100%',
-          // top:0,
           left:0,
           background:'#FFF',
           zIndex: zIndex
@@ -185,6 +184,15 @@ export const frameFactory = function(childFn, _params) {
           width: (_.isFinite(width) ? width : 0) + params.offsetWidth,
           height: (_.isFinite(height) ? height : 0) + params.offsetHeight
         };
+
+        // Set a full width frame with a dynamic height
+        if (params.fullWidth) {
+          return {
+            width: '100%',
+            height: (_.isFinite(height) ? height : 0) + params.offsetHeight,
+            zIndex: zIndex
+          };
+        }
 
         return fullscreen
              ? fullscreenStyle
