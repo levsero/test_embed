@@ -19,24 +19,14 @@ const transitionMaker = (defaultStartParams, defaultEndParams) => {
   };
 };
 
-const offScreen = (fallback) => {
-  return screen.height ? `-${screen.height}px` : fallback;
-};
-
 const positionWithOffset = (base) => {
-  const position = parseInt(base, 10) + parseInt(settings.get('offset.vertical'), 10);
+  let position = parseInt(base, 10);
+  if(!isMobileBrowser()) {
+    position += parseInt(settings.get('offset.vertical'), 10);
+  }
 
   return `${position}px`;
 };
-
-const marginSetting = () => {
-  return isMobileBrowser() ? 0 : settings.get('margin');
-}
-
-const startMargins = {
-  marginRight: marginSetting(),
-  marginLeft: marginSetting()
-}
 
 const noAnimation = {
   transitionProperty: 'none',
@@ -219,7 +209,6 @@ export const transitionFactory = {
 
     downShow: transitionMaker(_.extend(
       {},
-      startMargins,
       {
         transitionProperty: 'none',
         transitionDuration: '0',
@@ -282,7 +271,6 @@ export const transitionFactory = {
 
     upShow: transitionMaker(_.extend(
       {},
-      startMargins,
       {
         transitionProperty: 'none',
         transitionDuration: '0',
