@@ -75,7 +75,6 @@ export const frameFactory = function(childFn, _params) {
   const defaultHideTransition = isPositionTop
                               ? transitionFactory.webWidget.upHide()
                               : transitionFactory.webWidget.downHide();
-
   const defaultShowTransition = isPositionTop
                               ? transitionFactory.webWidget.downShow()
                               : transitionFactory.webWidget.upShow();
@@ -222,7 +221,7 @@ export const frameFactory = function(childFn, _params) {
     }
 
     show(options = {}) {
-      let frameFirstChild = ReactDOM.findDOMNode(this).contentDocument.body.firstChild.firstChild;
+      const frameFirstChild = ReactDOM.findDOMNode(this).contentDocument.body.firstChild.firstChild;
       const transition = params.transitions[options.transition] || defaultShowTransition;
       const animateFrom = _.extend({}, this.state.frameStyle, transition.start);
       const animateTo = _.extend({}, this.state.frameStyle, transition.end);
@@ -249,9 +248,9 @@ export const frameFactory = function(childFn, _params) {
 
     hide(options = {}) {
       const transition = params.transitions[options.transition] || defaultHideTransition;
-      const newFrameStyle = _.extend({}, this.state.frameStyle, transition.end);
+      const frameStyle = _.extend({}, this.state.frameStyle, transition.end);
 
-      this.setState({ frameStyle: newFrameStyle });
+      this.setState({ frameStyle });
 
       setTimeout(() => {
         this.setState({ visible: false });

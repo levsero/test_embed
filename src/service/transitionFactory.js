@@ -4,34 +4,32 @@ import { settings } from 'service/settings';
 // TODO: Re-visit the boot process to avoid this
 settings.init();
 
-const applyHiddenState = () => {
-  return (frameHeight) => {
-    let topPosition = {};
-    const verticalOffset = settings.get('offset.vertical') || 0;
-    const safetyPadding = 50;
+const applyHiddenState = (frameHeight) => {
+  let topPosition = {};
+  const verticalOffset = settings.get('offset.vertical') || 0;
+  const safetyPadding = 50;
 
-    if (frameHeight > 0 && settings.get('position.vertical') === 'top') {
-      topPosition = { top: `-${frameHeight + verticalOffset + safetyPadding}px` };
-    }
+  if (frameHeight > 0 && settings.get('position.vertical') === 'top') {
+    topPosition = { top: `-${frameHeight + verticalOffset + safetyPadding}px` };
+  }
 
-    return _.extend({}, hiddenState, topPosition);
-  };
+  return _.extend({}, hiddenState, topPosition);
 };
 
 const transitionMaker = (defaultStartParams, defaultEndParams) => {
   return (startParams, endParams) => {
     return {
-      start: _.extend({}, defaultStartParams, startParams),
-      end: _.extend({}, defaultEndParams, endParams)
+      start: _.defaults({}, defaultStartParams, startParams),
+      end: _.defaults({}, defaultEndParams, endParams)
     };
   };
 };
 
-const positionWithOffset = (base) => {
-  let position = parseInt(base, 10);
+const positionWithOffset = (positionStr) => {
+  let position = parseInt(positionStr);
 
   if (!isMobileBrowser()) {
-    position += parseInt(settings.get('offset.vertical'), 10);
+    position += parseInt(settings.get('offset.vertical'));
   }
 
   return `${position}px`;
@@ -143,12 +141,9 @@ export const transitionFactory = {
       }
     )
   },
-
   webWidget: {
-
     launcherUpShow: transitionMaker(launcherDownHide, launcherUpShow),
     launcherDownHide: transitionMaker(launcherUpShow, launcherDownHide),
-
     launcherDownShow: transitionMaker(
       {
         transitionProperty: 'none',
@@ -175,7 +170,6 @@ export const transitionFactory = {
         top: positionWithOffset(-20)
       }
     ),
-
     downHide: transitionMaker(
       {
         transitionProperty: 'none',
@@ -192,7 +186,6 @@ export const transitionFactory = {
         bottom: positionWithOffset(-30)
       }
     ),
-
     downShow: transitionMaker(
       {
         transitionProperty: 'none',
@@ -209,7 +202,6 @@ export const transitionFactory = {
         top: positionWithOffset(0)
       }
     ),
-
     upHide: transitionMaker(
       {
         transitionProperty: 'none',
@@ -226,7 +218,6 @@ export const transitionFactory = {
         top: positionWithOffset(-20)
       }
     ),
-
     upShow: transitionMaker(
       {
         transitionProperty: 'none',
@@ -244,5 +235,5 @@ export const transitionFactory = {
       }
     )
   },
-  hiddenState: applyHiddenState()
+  hiddenState: applyHiddenState
 };
