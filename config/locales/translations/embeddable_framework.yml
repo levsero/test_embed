@@ -3,6 +3,7 @@ packages:
   - embeddable_framework
   - enduser
   - enduser_widget
+  - discovery
 
 parts:
   # Launcher embed
