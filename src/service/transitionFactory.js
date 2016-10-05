@@ -37,20 +37,13 @@ const positionWithOffset = (base) => {
   return `${position}px`;
 };
 
-const noAnimation = {
+const hiddenState = {
   transitionProperty: 'none',
   transitionDuration: '0',
-  transitionTimingFunction: 'unset'
+  transitionTimingFunction: 'unset',
+  opacity: 0,
+  top: '-9999px'
 };
-
-const hiddenState = _.extend(
-  {},
-  noAnimation,
-  {
-    opacity: 0,
-    top: '-9999px'
-  }
-);
 
 const launcherUpShow = {
   transitionProperty: 'all',
@@ -158,6 +151,9 @@ export const transitionFactory = {
 
     launcherDownShow: transitionMaker(
       {
+        transitionProperty: 'none',
+        transitionDuration: '0',
+        transitionTimingFunction: 'unset',
         opacity: 0,
         top: positionWithOffset(-20)
       },
@@ -170,8 +166,7 @@ export const transitionFactory = {
       }
     ),
 
-    launcherUpHide: transitionMaker(
-      {},
+    launcherUpHide: transitionMaker({},
       {
         transitionProperty: 'all',
         transitionTimingFunction: 'linear',
@@ -181,13 +176,14 @@ export const transitionFactory = {
       }
     ),
 
-    downHide: transitionMaker(_.extend(
-      {},
-      noAnimation,
+    downHide: transitionMaker(
       {
+        transitionProperty: 'none',
+        transitionDuration: '0',
+        transitionTimingFunction: 'unset',
         opacity: 1,
         bottom: positionWithOffset(400)
-      }),
+      },
       {
         transitionProperty: 'all',
         transitionDuration: '300ms',
@@ -197,15 +193,14 @@ export const transitionFactory = {
       }
     ),
 
-    downShow: transitionMaker(_.extend(
-      {},
+    downShow: transitionMaker(
       {
         transitionProperty: 'none',
         transitionDuration: '0',
         transitionTimingFunction: 'unset',
         opacity: 0,
         top: positionWithOffset(-30)
-      }),
+      },
       {
         transitionProperty: 'all',
         transitionDuration: '300ms',
@@ -221,36 +216,31 @@ export const transitionFactory = {
         transitionDuration: '0',
         transitionTimingFunction: 'unset',
         opacity: 1,
-        top: positionWithOffset(0),
-        bottom: 'auto'
+        top: positionWithOffset(0)
       },
       {
         transitionProperty: 'all',
         transitionDuration: '300ms',
         transitionTimingFunction: 'ease-out',
         opacity: 0,
-        top: positionWithOffset(-20),
-        bottom: 'auto'
+        top: positionWithOffset(-20)
       }
     ),
 
-    upShow: transitionMaker(_.extend(
-      {},
+    upShow: transitionMaker(
       {
         transitionProperty: 'none',
         transitionDuration: '0',
         transitionTimingFunction: 'unset',
         opacity: 0,
-        bottom: positionWithOffset(-30),
-        top: 'auto'
-      }),
+        bottom: positionWithOffset(-30)
+      },
       {
         transitionProperty: 'all',
         transitionDuration: '300ms',
         transitionTimingFunction: 'ease-out',
         opacity: 1,
-        bottom: positionWithOffset(0),
-        top: 'auto'
+        bottom: positionWithOffset(0)
       }
     )
   },
