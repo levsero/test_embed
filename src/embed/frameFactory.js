@@ -301,9 +301,10 @@ export const frameFactory = function(childFn, _params) {
     }
 
     computeIframeStyle() {
+      const iframeDimensions = this.state.iframeDimensions;
       const visibilityRule = (this.state.visible && !this.state.hiddenByZoom)
                            ? null
-                           : transitionFactory.hiddenState();
+                           : transitionFactory.hiddenState(iframeDimensions.height);
 
       const offset = settings.get('offset');
       const horizontalOffset = (isMobileBrowser() || !offset) ? 0 : offset.horizontal;
@@ -327,7 +328,7 @@ export const frameFactory = function(childFn, _params) {
         },
         posObj,
         this.state.frameStyle,
-        this.state.iframeDimensions,
+        iframeDimensions,
         visibilityRule
       );
     }

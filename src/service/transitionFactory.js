@@ -4,9 +4,17 @@ import { settings } from 'service/settings';
 // TODO: Re-visit the boot process to avoid this
 settings.init();
 
-const factoryMaker = (defaultParams) => {
-  return (params) => {
-    return _.extend({}, defaultParams, params);
+const applyHiddenState = () => {
+  return (frameHeight) => {
+    let topPosition = {};
+    const verticalOffset = settings.get('offset.vertical') || 0;
+    const safetyPadding = 50;
+
+    if (frameHeight > 0 && settings.get('position.vertical') === 'top') {
+      topPosition = { top: `-${frameHeight + verticalOffset + safetyPadding}px` };
+    }
+
+    return _.extend({}, hiddenState, topPosition);
   };
 };
 
@@ -246,5 +254,5 @@ export const transitionFactory = {
       }
     )
   },
-  hiddenState: factoryMaker(hiddenState)
+  hiddenState: applyHiddenState()
 };
