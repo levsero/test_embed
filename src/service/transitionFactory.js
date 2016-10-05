@@ -66,8 +66,8 @@ const launcherDownHide = {
   transitionProperty: 'all',
   transitionTimingFunction: 'linear',
   transitionDuration: '200ms',
-  opacity: .4,
-  bottom: positionWithOffset(-70)
+  opacity: 0,
+  bottom: positionWithOffset(-30)
 }
 
 export const transitionFactory = {
@@ -160,7 +160,7 @@ export const transitionFactory = {
 
     launcherDownShow: transitionMaker(
       {
-        opacity: .4,
+        opacity: 0,
         top: positionWithOffset(-20),
       },
       {
@@ -180,7 +180,7 @@ export const transitionFactory = {
         transitionProperty: 'all',
         transitionTimingFunction: 'linear',
         transitionDuration: '200ms',
-        opacity: .4,
+        opacity: 0,
         top: positionWithOffset(-20),
       }
     ),
@@ -205,7 +205,7 @@ export const transitionFactory = {
       transitionProperty: 'all',
       transitionDuration: '300ms',
       transitionTimingFunction: 'ease-out',
-      opacity: .4,
+      opacity: 0,
       bottom: positionWithOffset(-30)
     }),
 
@@ -224,7 +224,7 @@ export const transitionFactory = {
         transitionProperty: 'none',
         transitionDuration: '0',
         transitionTimingFunction: 'unset',
-        opacity: .4,
+        opacity: 0,
         top: positionWithOffset(-30)
       }
     ),
@@ -260,7 +260,7 @@ export const transitionFactory = {
       transitionProperty: 'all',
       transitionDuration: '300ms',
       transitionTimingFunction: 'ease-out',
-      opacity: .4,
+      opacity: 0,
       top: positionWithOffset(-20),
       bottom: 'auto'
     }),
@@ -287,7 +287,7 @@ export const transitionFactory = {
         transitionProperty: 'none',
         transitionDuration: '0',
         transitionTimingFunction: 'unset',
-        opacity: .4,
+        opacity: 0,
         bottom: positionWithOffset(-30),
         top: 'auto'
       }
@@ -299,35 +299,6 @@ export const transitionFactory = {
       opacity: 1,
       bottom: positionWithOffset(0),
       top: 'auto'
-    }),
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    initial: factoryMaker({
-      transitionProperty: 'none',
-      transitionDuration: '0',
-      transitionTimingFunction: 'unset',
-      opacity: 0,
-      top: offScreen('-9999px'),
-      bottom: '-30px',
-      position: 'absolute'
     })
   },
   hiddenState: factoryMaker(hiddenState)
