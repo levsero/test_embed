@@ -143,11 +143,11 @@ The method enhances the contextual help provided by the Web Widget.
 
 #### Options
 
-* `zE.setHelpCenterSuggestions({ url: true })` - In single-page apps, sets the query parameters in the URL as search terms without requiring the end user to refresh the page. This function should be called each time you want to set the suggestions. For example, navigating on a single-page app. 
+* `zE.setHelpCenterSuggestions({ url: true })` - In single-page apps, sets the query parameters in the URL as search terms without requiring the end user to refresh the page. This function should be called each time you want to set the suggestions. For example, navigating on a single-page app.
 
 * `zE.setHelpCenterSuggestions({ search: 'search string' })` - Searches the Help Center for the specified search string. If results are found, displays the results as top suggestions when users click the Web Widget.
 
-* `zE.setHelpCenterSuggestions({ labels: ['label1'] })` -  For Plus and Enterprise customers who use Help Center labels, searches the Help Center for articles with the given labels. If results are found, displays the results as top suggestions when users click the Web Widget.
+* `zE.setHelpCenterSuggestions({ labels: ['label1'] })` -  For Professional and Enterprise customers who use Help Center labels, searches the Help Center for articles with the given labels. If results are found, displays the results as top suggestions when users click the Web Widget.
 
 **Note**: If you pass both search strings and labels, the labels are ignored.
 
