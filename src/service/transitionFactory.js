@@ -71,54 +71,60 @@ const launcherDownHide = {
 }
 
 export const transitionFactory = {
-  // npsMobile: {
-  //   upShow: factoryMaker({
-  //     transitionProperty: 'all',
-  //     transitionDuration: '300ms',
-  //     transitionTimingFunction: 'ease-out',
-  //     opacity: 1,
-  //     bottom: 0
-  //   }),
-  //   downHide: factoryMaker({
-  //     transitionProperty: 'all',
-  //     transitionDuration: '300ms',
-  //     transitionTimingFunction: 'ease-in',
-  //     opacity: 0,
-  //     bottom: '-300px'
-  //   }),
-  //   initial: factoryMaker({
-  //     transitionProperty: 'all',
-  //     transitionDuration: '300ms',
-  //     transitionTimingFunction: 'ease-in',
-  //     opacity: 0,
-  //     bottom: '-52%',
-  //     top: 'auto'
-  //   })
-  // },
-  // npsDesktop: {
-  //   upShow: factoryMaker({
-  //     transitionProperty: 'all',
-  //     transitionDuration: '300ms',
-  //     transitionTimingFunction: 'ease-out',
-  //     opacity: 1,
-  //     bottom: 0
-  //   }),
-  //   downHide: factoryMaker({
-  //     transitionProperty: 'all',
-  //     transitionDuration: '300ms',
-  //     transitionTimingFunction: 'ease-in',
-  //     opacity: 0,
-  //     bottom: '-100px'
-  //   }),
-  //   initial: factoryMaker({
-  //     transitionProperty: 'all',
-  //     transitionDuration: '300ms',
-  //     transitionTimingFunction: 'ease-in',
-  //     opacity: 0,
-  //     top: '-9999px',
-  //     bottom: '-300px'
-  //   })
-  // },
+  npsMobile: {
+    upShow: transitionMaker(
+      {
+        transitionProperty: 'none',
+        transitionDuration: '0',
+        transitionTimingFunction: 'unset',
+        opacity: 0,
+        bottom: positionWithOffset(-300)
+      },
+      {
+        transitionProperty: 'all',
+        transitionDuration: '300ms',
+        transitionTimingFunction: 'ease-out',
+        opacity: 1,
+        bottom: positionWithOffset(0)
+      }
+    ),
+    downHide: transitionMaker({},
+      {
+        transitionProperty: 'all',
+        transitionDuration: '300ms',
+        transitionTimingFunction: 'ease-in',
+        opacity: 0,
+        bottom: positionWithOffset(-300)
+      }
+    )
+  },
+  npsDesktop: {
+    upShow: transitionMaker(
+      {
+        transitionProperty: 'none',
+        transitionDuration: '0',
+        transitionTimingFunction: 'unset',
+        opacity: 0,
+        bottom: positionWithOffset(-100)
+      },
+      {
+        transitionProperty: 'all',
+        transitionDuration: '300ms',
+        transitionTimingFunction: 'ease-out',
+        opacity: 1,
+        bottom: positionWithOffset(0)
+      }
+    ),
+    downHide: transitionMaker({},
+      {
+        transitionProperty: 'all',
+        transitionDuration: '300ms',
+        transitionTimingFunction: 'ease-in',
+        opacity: 0,
+        bottom: positionWithOffset(-100)
+      }
+    )
+  },
   // ipm: {
   //   downShow: factoryMaker({
   //     transitionProperty: 'all',
