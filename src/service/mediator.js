@@ -353,6 +353,7 @@ function init(embedsAccessible, params = {}) {
       // Run this on a separate `tick` from submitTicket.show
       setTimeout(() => {
         c.broadcast(`${currentEmbed}.hide`, { transition: getHideAnimation() });
+        if (isMobileBrowser()) c.broadcast(`${submitTicket}.showBackButton`);
       }, 0);
     }
   );
