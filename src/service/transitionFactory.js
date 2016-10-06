@@ -4,9 +4,9 @@ import { settings } from 'service/settings';
 // TODO: Re-visit the boot process to avoid this
 settings.init();
 
-const applyHiddenState = (frameHeight) => {
+export const applyHiddenState = (frameHeight) => {
   let topPosition = {};
-  const verticalOffset = settings.get('offset.vertical') || 0;
+  const verticalOffset = settings.get('offset.vertical');
   const safetyPadding = 50;
 
   if (frameHeight > 0 && settings.get('position.vertical') === 'top') {
@@ -16,16 +16,16 @@ const applyHiddenState = (frameHeight) => {
   return _.extend({}, hiddenState, topPosition);
 };
 
-const transitionMaker = (defaultStartParams, defaultEndParams) => {
+export const transitionMaker = (defaultStartParams, defaultEndParams) => {
   return (startParams, endParams) => {
     return {
-      start: _.defaults({}, defaultStartParams, startParams),
-      end: _.defaults({}, defaultEndParams, endParams)
+      start: _.defaults({}, startParams, defaultStartParams),
+      end: _.defaults({}, endParams, defaultEndParams)
     };
   };
 };
 
-const positionWithOffset = (positionStr) => {
+export const positionWithOffset = (positionStr) => {
   let position = parseInt(positionStr);
 
   if (!isMobileBrowser()) {
