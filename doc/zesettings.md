@@ -14,27 +14,38 @@ window.zESettings = {
 
 Make sure to specify any setting before the Web Widget snippet.
 
-The `webWidget` object has the following settings:
+The Web Widget has the following general settings:
 
 * [authenticate](#authenticate)
-* [chat.suppress](#suppress)
 * [color](#color)
-* [contactForm.attachments](#attachments)
-* [contactForm.subject](#subject)
-* [contactForm.suppress](#suppress)
-* [contactForm.title](#title)
+* [offset](#offset)
+* [position](#position)
+* [zIndex](#zindex)
+
+The contact form has the following settings:
+
+* [attachments](#attachments)
+* [subject](#subject)
+* [suppress](#suppress)
+* [title](#title)
+
+The Help Center element has the following settings:
+
 * [helpCenter.chatButton](#chatButton)
 * [helpCenter.filter](#filter)
 * [helpCenter.messageButton](#messageButton)
 * [helpCenter.originalArticleButton](#originalArticleButton)
 * [helpCenter.suppress](#suppress)
 * [helpCenter.title](#title)
+
+The Chat element has the following setting:
+
+* [suppress](#suppress)
+
+The launcher button has the following settings:
+
 * [launcher.chatLabel](#chatLabel)
 * [launcher.label](#label)
-* [offset](#offset)
-* [position](#position)
-* [zIndex](#zindex)
-
 
 
 ### attachments
