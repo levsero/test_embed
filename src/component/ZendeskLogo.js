@@ -21,7 +21,7 @@ export class ZendeskLogo extends Component {
 
     return (
       <a href={logoUrl} target='_blank' className={logoClasses}>
-        <Icon type='Icon--zendesk' className='u-posRelative' />
+        <Icon type='Icon--goLion' className='u-posRelative' />
         <span className='u-isHiddenVisually'>zendesk</span>
       </a>
     );
