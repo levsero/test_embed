@@ -3,7 +3,6 @@ packages:
   - embeddable_framework
   - enduser
   - enduser_widget
-  - discovery
 
 parts:
   # Launcher embed
@@ -64,11 +63,13 @@ parts:
       key: "embeddable_framework.submitTicket.form.title.message"
       title: "The title of the submit ticket form, will wrap as needed (tinyurl.com/o3r3uxj)"
       value: "Leave us a message"
+      packages: ["discovery"]
   - translation:
       key: "embeddable_framework.submitTicket.form.title.contact"
       title: "Alternative title of the submit ticket form, will wrap as needed (https://zendesk.box.com/s/m2pcgq75k0k6kmec757mlobk8qhxep40)"
       screenshot: "https://zendesk.box.com/s/m2pcgq75k0k6kmec757mlobk8qhxep40"
       value: "Contact us"
+      packages: ["discovery"]
   - translation:
       key: "embeddable_framework.submitTicket.form.submitButton.label.send"
       title: "The label on the button to submit the form in the submit ticket form, will wrap if needed"
