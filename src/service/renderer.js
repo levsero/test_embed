@@ -67,9 +67,9 @@ function init(config) {
   if (!initialised) {
     if (config.webWidgetCustomizations) {
       settings.enableCustomizations();
-      i18n.setCustomTranslations();
     }
     beacon.trackSettings(settings.getTrackSettings());
+    i18n.setCustomTranslations();
     i18n.setLocale(config.locale);
 
     if (settings.get('channelChoice')) {

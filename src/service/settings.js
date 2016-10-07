@@ -130,9 +130,7 @@ function getTranslations() {
     contactFormTitle: webWidgetStore.contactForm.title
   };
 
-  return webWidgetCustomizations
-       ? _.omitBy(translations, _.isUndefined)
-       : null;
+  return _.omitBy(translations, _.isUndefined);
 }
 
 function getTrackSettings() {
