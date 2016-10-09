@@ -291,38 +291,22 @@ describe('settings', () => {
           }
         }
       };
+
+      settings.init();
     });
 
-    describe('when web widget customisations are enabled', () => {
-      beforeEach(() => {
-        settings.init();
-        settings.enableCustomizations();
-      });
-
-      it('should return the translations', () => {
-        expect(settings.getTranslations())
-          .toEqual({
-            helpCenterTitle: {
-              '*': 'help center title',
-              'en-US': 'why?'
-            },
-            helpCenterMessageButton: {
-              'en-US': 'Yo',
-              'fr': ':('
-            }
-          });
-      });
-    });
-
-    describe('when web widget customisations are disabled', () => {
-      beforeEach(() => {
-        settings.init();
-      });
-
-      it('should return null', () => {
-        expect(settings.getTranslations())
-          .toBe(null);
-      });
+    it('should return the translations', () => {
+      expect(settings.getTranslations())
+        .toEqual({
+          helpCenterTitle: {
+            '*': 'help center title',
+            'en-US': 'why?'
+          },
+          helpCenterMessageButton: {
+            'en-US': 'Yo',
+            'fr': ':('
+          }
+        });
     });
   });
 
