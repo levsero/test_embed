@@ -340,11 +340,7 @@ function init(embedsAccessible, params = {}) {
         // Run this on a seperate `tick` from helpCenter.hide
         // to mitigate ghost-clicking
         setTimeout(() => {
-          const transition = settings.get('position.vertical') === 'top'
-                           ? 'downShow'
-                           : 'upShow';
-
-          c.broadcast(`${submitTicket}.show`, { transition: transition });
+          c.broadcast(`${submitTicket}.show`, { transition: getShowAnimation() });
         }, 0);
       }
 

@@ -188,8 +188,7 @@ export const frameFactory = function(childFn, _params) {
         if (params.fullWidth) {
           return {
             width: '100%',
-            height: (_.isFinite(height) ? height : 0) + params.offsetHeight,
-            zIndex: zIndex
+            height: (_.isFinite(height) ? height : 0) + params.offsetHeight
           };
         }
 

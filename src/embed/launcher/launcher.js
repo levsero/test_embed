@@ -9,6 +9,7 @@ import { frameFactory } from 'embed/frameFactory';
 import { beacon } from 'service/beacon';
 import { i18n } from 'service/i18n';
 import { mediator } from 'service/mediator';
+import { settings } from 'service/settings';
 import { generateUserCSS } from 'utility/color';
 import { transitionFactory } from 'service/transitionFactory';
 
@@ -30,7 +31,8 @@ function create(name, config) {
     marginTop: '10px',
     marginBottom: '10px',
     marginLeft: '20px',
-    marginRight: '20px'
+    marginRight: '20px',
+    zIndex: settings.get('zIndex') - 1
   };
 
   config = _.extend(configDefaults, config);
