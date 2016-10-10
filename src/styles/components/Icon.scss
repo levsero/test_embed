@@ -318,8 +318,8 @@
   }
 
   svg {
-    min-width: #{70/$font-size}rem; /* 1 */
-    width: #{70/$font-size}rem;
+    min-width: #{65/$font-size}rem; /* 1 */
+    width: #{65/$font-size}rem;
 
     &:hover, &:active, &:focus {
       path {
