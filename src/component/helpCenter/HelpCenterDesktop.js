@@ -103,7 +103,10 @@ export class HelpCenterDesktop extends Component {
 
   renderZendeskLogo() {
     return !this.props.hideZendeskLogo
-         ? <ZendeskLogo rtl={i18n.isRTL()} fullscreen={false} />
+         ? <ZendeskLogo
+             rtl={i18n.isRTL()}
+             fullscreen={false}
+             golionLogo={this.props.golionLogo} />
          : null;
   }
 
@@ -167,6 +170,7 @@ HelpCenterDesktop.propTypes = {
   children: PropTypes.node.isRequired,
   onNextClick: PropTypes.func,
   hideZendeskLogo: PropTypes.bool,
+  golionLogo: PropTypes.bool,
   updateFrameSize: PropTypes.func,
   formTitleKey: PropTypes.string,
   isLoading: PropTypes.bool,
@@ -183,6 +187,7 @@ HelpCenterDesktop.propTypes = {
 HelpCenterDesktop.defaultProps = {
   onNextClick: () => {},
   hideZendeskLogo: false,
+  golionLogo: false,
   updateFrameSize: () => {},
   formTitleKey: 'help',
   isLoading: false,

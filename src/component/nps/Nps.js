@@ -139,6 +139,7 @@ export class Nps extends Component {
           ref='mobile'
           {...this.state}
           setFrameSize={this.props.setFrameSize}
+          golionLogo={this.props.golionLogo}
           submitCommentHandler={this.submitCommentHandler}
           onCommentChangeHandler={this.onCommentChangeHandler}
           submitRatingHandler={this.submitRatingHandler}
@@ -146,6 +147,7 @@ export class Nps extends Component {
       : <NpsDesktop
           ref='desktop'
           {...this.state}
+          golionLogo={this.props.golionLogo}
           submitRatingHandler={this.submitRatingHandler}
           submitCommentHandler={this.submitCommentHandler}
           onCommentChangeHandler={this.onCommentChangeHandler}
@@ -159,11 +161,13 @@ Nps.propTypes = {
   mobile: PropTypes.bool.isRequired,
   setOffsetHorizontal: PropTypes.func,
   setFrameSize: PropTypes.func,
-  updateFrameSize: PropTypes.func
+  updateFrameSize: PropTypes.func,
+  golionLogo: PropTypes.bool
 };
 
 Nps.defaultProps = {
   setOffsetHorizontal: () => {},
   setFrameSize: () => {},
-  updateFrameSize: () => {}
+  updateFrameSize: () => {},
+  golionLogo: false
 };

@@ -74,6 +74,7 @@ export class IpmDesktop extends Component {
           <div className='IpmDesktop-footer u-posRelative'>
             <ZendeskLogo
               className='IpmDesktop-footer--logo u-posStart--flush'
+              golionLogo={this.props.golionLogo}
               utm='ipm' />
             <Button
               className='u-pullRight'
@@ -89,5 +90,10 @@ export class IpmDesktop extends Component {
 IpmDesktop.propTypes = {
   ipm: PropTypes.object.isRequired,
   updateFrameSize: PropTypes.func.isRequired,
-  closeFrame: PropTypes.func.isRequired
+  closeFrame: PropTypes.func.isRequired,
+  golionLogo: PropTypes.bool
+};
+
+IpmDesktop.defaultProps = {
+  golionLogo: false
 };

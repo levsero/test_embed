@@ -309,8 +309,7 @@
   }
 }
 
-.Icon--goLion {
-  padding-left: $spacing-tny;
+.Icon--golion {
   top: #{8/$font-size}rem;
 
   [dir='rtl'] & {
@@ -319,8 +318,8 @@
   }
 
   svg {
-    min-width: #{60/$font-size}rem; /* 1 */
-    width: #{60/$font-size}rem;
+    min-width: #{70/$font-size}rem; /* 1 */
+    width: #{70/$font-size}rem;
 
     &:hover, &:active, &:focus {
       path {
@@ -331,7 +330,6 @@
     path {
       fill: $zendesk-color--iron;
     }
-
   }
 }
 

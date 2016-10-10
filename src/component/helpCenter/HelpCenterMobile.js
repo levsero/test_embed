@@ -216,7 +216,10 @@ export class HelpCenterMobile extends Component {
 
   renderZendeskLogo(hideZendeskLogo) {
     return !hideZendeskLogo
-         ? <ZendeskLogo rtl={i18n.isRTL()} fullscreen={true} />
+         ? <ZendeskLogo
+             rtl={i18n.isRTL()}
+             fullscreen={true}
+             golionLogo={this.props.golionLogo} />
          : null;
   }
 
@@ -250,6 +253,7 @@ HelpCenterMobile.propTypes = {
   children: PropTypes.node.isRequired,
   buttonLabelKey: PropTypes.string,
   hideZendeskLogo: PropTypes.bool,
+  golionLogo: PropTypes.bool,
   formTitleKey: PropTypes.string,
   isLoading: PropTypes.bool,
   articleViewActive: PropTypes.bool,
@@ -263,6 +267,7 @@ HelpCenterMobile.propTypes = {
 HelpCenterMobile.defaultProps = {
   buttonLabelKey: 'message',
   hideZendeskLogo: false,
+  golionLogo: false,
   formTitleKey: 'help',
   isLoading: false,
   articleViewActive: false,

@@ -102,6 +102,7 @@ function create(name, config) {
           setOffsetHorizontal={params.setOffsetHorizontal}
           npsSender={npsSender}
           mobile={isMobileBrowser()}
+          golionLogo={config.golionLogo}
           style={containerStyle} />
       );
     },

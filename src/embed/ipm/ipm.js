@@ -82,6 +82,7 @@ function create(name, config) {
           updateFrameSize={params.updateFrameSize}
           ipmSender={ipmSender}
           closeFrame={closeFrame}
+          golionLogo={config.golionLogo}
           mobile={isMobileBrowser()}
           style={containerStyle} />
       );

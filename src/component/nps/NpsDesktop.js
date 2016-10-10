@@ -108,6 +108,7 @@ export class NpsDesktop extends Component {
                       ? (<div className='u-textCenter u-paddingBM'>
                            <ZendeskLogo
                              utm='embeddednps'
+                             golionLogo={this.props.golionLogo}
                              className='u-posStatic'
                              fullscreen={this.props.isMobile} />
                         </div>)
@@ -180,6 +181,7 @@ NpsDesktop.propTypes = {
   isMobile: PropTypes.bool,
   isSubmittingComment: PropTypes.bool,
   isSubmittingRating: PropTypes.bool,
+  golionLogo: PropTypes.bool,
   onCommentChangeHandler: PropTypes.func,
   submitCommentHandler: PropTypes.func,
   submitRatingHandler: PropTypes.func
@@ -190,6 +192,7 @@ NpsDesktop.defaultProps = {
   isMobile: false,
   isSubmittingComment: false,
   isSubmittingRating: false,
+  golionLogo: false,
   onCommentChangeHandler: () => {},
   submitCommentHandler: () => {},
   submitRatingHandler: () => {}
