@@ -117,6 +117,10 @@ function trackSettings(settings) {
   if (!_.find(validSettings, (s) => s[0] === encoded)) {
     transport.sendWithMeta(payload);
   }
+
+  // Clear any expired settings that exist from other pages
+  // on the customers domain.
+  store.set('settings', validSettings);
 }
 
 function identify(user) {
