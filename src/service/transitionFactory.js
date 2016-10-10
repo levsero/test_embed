@@ -4,7 +4,7 @@ import { settings } from 'service/settings';
 // TODO: Re-visit the boot process to avoid this
 settings.init();
 
-export const applyHiddenState = (frameHeight) => {
+const applyHiddenState = (frameHeight) => {
   let topPosition = {};
   const verticalOffset = settings.get('offset.vertical');
   const safetyPadding = 50;
@@ -16,7 +16,7 @@ export const applyHiddenState = (frameHeight) => {
   return _.extend({}, hiddenState, topPosition);
 };
 
-export const transitionMaker = (defaultStartParams, defaultEndParams) => {
+const transitionMaker = (defaultStartParams, defaultEndParams) => {
   return (startParams, endParams) => {
     return {
       start: _.defaults({}, startParams, defaultStartParams),
@@ -25,7 +25,7 @@ export const transitionMaker = (defaultStartParams, defaultEndParams) => {
   };
 };
 
-export const positionWithOffset = (positionStr) => {
+const positionWithOffset = (positionStr) => {
   let position = parseInt(positionStr);
 
   if (!isMobileBrowser()) {
@@ -59,7 +59,7 @@ const launcherDownHide = {
   bottom: positionWithOffset(-30)
 };
 
-export const transitionFactory = {
+const transitionFactory = {
   npsMobile: {
     upShow: transitionMaker(
       {
@@ -236,4 +236,11 @@ export const transitionFactory = {
     )
   },
   hiddenState: applyHiddenState
+};
+
+export {
+  applyHiddenState,
+  transitionMaker,
+  positionWithOffset,
+  transitionFactory
 };
