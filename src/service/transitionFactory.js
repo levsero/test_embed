@@ -141,6 +141,60 @@ const transitionFactory = {
       }
     )
   },
+  automaticAnswersMobile: {
+    upShow: transitionMaker(
+      {
+        transitionProperty: 'none',
+        transitionDuration: '0',
+        transitionTimingFunction: 'unset',
+        opacity: 0,
+        bottom: '-100px'
+      },
+      {
+        transitionProperty: 'all',
+        transitionDuration: '300ms',
+        transitionTimingFunction: 'ease-out',
+        opacity: 1,
+        bottom: 0
+      }
+    ),
+    downHide: transitionMaker({},
+      {
+        transitionProperty: 'all',
+        transitionDuration: '300ms',
+        transitionTimingFunction: 'ease-in',
+        opacity: 0,
+        bottom: '-100px'
+      }
+    )
+  },
+  automaticAnswersDesktop: {
+    upShow: transitionMaker(
+      {
+        transitionProperty: 'none',
+        transitionDuration: '0',
+        transitionTimingFunction: 'unset',
+        opacity: 0,
+        bottom: '-200px'
+      },
+      {
+        transitionProperty: 'all',
+        transitionDuration: '300ms',
+        transitionTimingFunction: 'ease-out',
+        opacity: 1,
+        bottom: 0
+      }
+    ),
+    downHide: transitionMaker({},
+      {
+        transitionProperty: 'all',
+        transitionDuration: '300ms',
+        transitionTimingFunction: 'ease-in',
+        opacity: 0,
+        bottom: '-200px'
+      }
+    )
+  },
   webWidget: {
     launcherUpShow: transitionMaker(launcherDownHide, launcherUpShow),
     launcherDownHide: transitionMaker(launcherUpShow, launcherDownHide),
