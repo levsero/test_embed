@@ -22,7 +22,7 @@ describe('transitionFactory', () => {
         }
       },
       'utility/devices': {
-        isMobileBrowser: () => { return mobileBrowser; }
+        isMobileBrowser: () => mobileBrowser
       }
     });
 

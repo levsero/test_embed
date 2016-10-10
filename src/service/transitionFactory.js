@@ -1,8 +1,6 @@
 import _ from 'lodash';
 import { isMobileBrowser } from 'utility/devices';
 import { settings } from 'service/settings';
-// TODO: Re-visit the boot process to avoid this
-settings.init();
 
 const applyHiddenState = (frameHeight) => {
   let topPosition = {};
