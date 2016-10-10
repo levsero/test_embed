@@ -2,17 +2,17 @@ import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
 import classNames from 'classnames';
-import snabbt from 'snabbt.js';
 
 import { EmbedWrapper } from 'component/frameFactory/EmbedWrapper';
 import { i18n } from 'service/i18n';
 import { settings } from 'service/settings';
+import { transitionFactory } from 'service/transitionFactory';
 import { clickBusterRegister,
          getZoomSizingRatio,
-         isMobileBrowser,
-         isFirefox } from 'utility/devices';
+         isMobileBrowser } from 'utility/devices';
 import { win } from 'utility/globals';
-import { bindMethods } from 'utility/utils';
+import { bindMethods,
+         cssTimeToMs } from 'utility/utils';
 
 // Unregister lodash from window._
 if (!__DEV__) {
@@ -72,6 +72,12 @@ export const frameFactory = function(childFn, _params) {
   };
   const params = _.defaultsDeep({}, _params, defaultParams);
   const zIndex = settings.get('zIndex');
+  const defaultHideTransition = isPositionTop
+                              ? transitionFactory.webWidget.upHide()
+                              : transitionFactory.webWidget.downHide();
+  const defaultShowTransition = isPositionTop
+                              ? transitionFactory.webWidget.downShow()
+                              : transitionFactory.webWidget.upShow();
 
   if (__DEV__) {
     validateChildFn(childFn, params);
@@ -169,7 +175,6 @@ export const frameFactory = function(childFn, _params) {
         const fullscreenStyle = {
           width: `${win.innerWidth}px`,
           height: '100%',
-          top:0,
           left:0,
           background:'#FFF',
           zIndex: zIndex
@@ -215,9 +220,12 @@ export const frameFactory = function(childFn, _params) {
     }
 
     show(options = {}) {
-      let frameFirstChild = ReactDOM.findDOMNode(this).contentDocument.body.firstChild.firstChild;
+      const frameFirstChild = ReactDOM.findDOMNode(this).contentDocument.body.firstChild.firstChild;
+      const transition = params.transitions[options.transition] || defaultShowTransition;
+      const animateFrom = _.extend({}, this.state.frameStyle, transition.start);
+      const animateTo = _.extend({}, this.state.frameStyle, transition.end);
 
-      this.setState({ visible: true });
+      this.setState({ visible: true, frameStyle: animateFrom });
 
       setTimeout( () => {
         const existingStyle = frameFirstChild.style;
@@ -227,38 +235,26 @@ export const frameFactory = function(childFn, _params) {
         }
       }, 50);
 
-      if (params.transitions[options.transition] && !isFirefox()) {
-        const transition = params.transitions[options.transition];
+      setTimeout(() => this.setState({ frameStyle: animateTo }), 0);
 
-        snabbt(ReactDOM.findDOMNode(this), transition).then({
-          callback: () => {
-            params.afterShowAnimate(this);
-          }
-        });
-      }
+      setTimeout(
+        () => params.afterShowAnimate(this),
+        cssTimeToMs(transition.end.transitionDuration)
+      );
 
       params.onShow(this);
     }
 
     hide(options = {}) {
-      if (params.transitions[options.transition] && !isFirefox()) {
-        const transition = params.transitions[options.transition];
+      const transition = params.transitions[options.transition] || defaultHideTransition;
+      const frameStyle = _.extend({}, this.state.frameStyle, transition.end);
 
-        snabbt(ReactDOM.findDOMNode(this), transition).then({
-          callback: () => {
-            this.setState({ visible: false });
-            params.onHide(this);
+      this.setState({ frameStyle });
 
-            // Ugly, I know, but it's to undo snabbt's destructive style mutations
-            _.each(this.computeIframeStyle(), (val, key) => {
-              ReactDOM.findDOMNode(this).style[key] = val;
-            });
-          }
-        });
-      } else {
+      setTimeout(() => {
         this.setState({ visible: false });
         params.onHide(this);
-      }
+      }, cssTimeToMs(transition.end.transitionDuration));
     }
 
     close(ev, options = {}) {
@@ -270,15 +266,11 @@ export const frameFactory = function(childFn, _params) {
         clickBusterRegister(ev.touches[0].clientX, ev.touches[0].clientY);
       }
 
-      if (params.isMobile) {
-        this.hide();
-      } else {
-        const transition = settings.get('position.vertical') === 'top'
-                         ? 'upHide'
-                         : 'downHide';
+      const transition = settings.get('position.vertical') === 'top'
+                       ? 'upHide'
+                       : 'downHide';
 
-        this.hide({ transition });
-      }
+      this.hide({ transition });
 
       params.onClose(this, options);
     }
@@ -307,12 +299,10 @@ export const frameFactory = function(childFn, _params) {
     }
 
     computeIframeStyle() {
+      const iframeDimensions = this.state.iframeDimensions;
       const visibilityRule = (this.state.visible && !this.state.hiddenByZoom)
                            ? null
-                           : {top: '-9999px',
-                              [i18n.isRTL() ? 'right' : 'left']: '-9999px',
-                              position: 'absolute',
-                              bottom: 'auto'};
+                           : transitionFactory.hiddenState(iframeDimensions.height);
 
       const offset = settings.get('offset');
       const horizontalOffset = (isMobileBrowser() || !offset) ? 0 : offset.horizontal;
@@ -336,7 +326,7 @@ export const frameFactory = function(childFn, _params) {
         },
         posObj,
         this.state.frameStyle,
-        this.state.iframeDimensions,
+        iframeDimensions,
         visibilityRule
       );
     }

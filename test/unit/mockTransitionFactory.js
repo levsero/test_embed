@@ -17,7 +17,9 @@ const mockTransitionFactory = {
       'leftShow',
       'rightHide',
       'launcherUpShow',
-      'launcherDownHide'
+      'launcherDownHide',
+      'launcherUpHide',
+      'launcherDownShow'
     ])
 };
 

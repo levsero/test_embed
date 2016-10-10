@@ -18,13 +18,13 @@ import { win } from 'utility/globals';
 
 const embedsMap = {
   'submitTicket': submitTicket,
-  'launcher': launcher,
   'helpCenter': helpCenter,
   'nps': nps,
   'ipm': ipm,
   'chat': chat,
   'channelChoice': channelChoice,
-  'automaticAnswers': automaticAnswers
+  'automaticAnswers': automaticAnswers,
+  'launcher': launcher
 };
 let initialised = false;
 let hideLauncher = false;

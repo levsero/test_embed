@@ -40,6 +40,11 @@ describe('embed.launcher', function() {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
         }
       },
+      'service/settings': {
+        settings: {
+          get: () => {}
+        }
+      },
       './launcher.scss': '',
       'embed/frameFactory': {
         frameFactory: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
