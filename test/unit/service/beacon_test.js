@@ -412,13 +412,14 @@ describe('beacon', function() {
 
           mockStore = [
             ['abc123', timestamp],
-            ['cba123', timestamp]
+            ['cba123', timestamp],
+            ['123abc', mockTime]
           ];
           mockSha1String = 'cba123';
           beacon.trackSettings(mockSettings);
         });
 
-        describe('when the settings are the same as the page', () => {
+        describe('when the current pages settings are expired', () => {
           beforeEach(() => {
             mockTransport.sendWithMeta.calls.mostRecent().args[0].callbacks.done();
           });
@@ -445,20 +446,27 @@ describe('beacon', function() {
             const newStore = mockPersistence.store.set.calls.mostRecent().args[1];
 
             expect(newStore.length)
-              .toBe(1);
+              .toBe(2);
             expect(newStore[0][0])
               .not.toBe('abc123');
           });
         });
 
-        it('should remove invalid values from the store', () => {
-          expect(mockPersistence.store.set)
-            .toHaveBeenCalled();
+        describe('when the current pages settings are not expired', () => {
+          beforeEach(() => {
+            mockSha1String = '123abc';
+            beacon.trackSettings(mockSettings);
+          });
 
-          const newStore = mockPersistence.store.set.calls.mostRecent().args[1];
+          it('should remove invalid values from the store', () => {
+            expect(mockPersistence.store.set)
+              .toHaveBeenCalled();
 
-          expect(newStore.length)
-            .toBe(0);
+            const newStore = mockPersistence.store.set.calls.mostRecent().args[1];
+
+            expect(newStore.length)
+              .toBe(1);
+          });
         });
       });
     });
