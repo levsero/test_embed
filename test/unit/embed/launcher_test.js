@@ -42,7 +42,7 @@ describe('embed.launcher', function() {
       },
       'service/settings': {
         settings: {
-          get: () => 10
+          get: () => {}
         }
       },
       './launcher.scss': '',
