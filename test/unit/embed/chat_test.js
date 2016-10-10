@@ -166,8 +166,11 @@ describe('embed.chat', () => {
 
       const snippetText = document.querySelectorAll('body > script')[0].innerHTML;
 
-      expect(snippetText.indexOf(zopimId))
-        .not.toBe(false);
+      expect(snippetText.indexOf(zopimId) !== -1)
+        .toBe(true);
+
+      expect(snippetText.indexOf('https:') !== -1)
+        .toBe(true);
     });
 
     it('should call zopim.livechat.mobileNotifications.setIgnoreChatButtonVisibility()', () => {
