@@ -31,12 +31,12 @@ The contact form has the following settings:
 
 The Help Center element has the following settings:
 
-* [helpCenter.chatButton](#chatButton)
-* [helpCenter.filter](#filter)
-* [helpCenter.messageButton](#messageButton)
-* [helpCenter.originalArticleButton](#originalArticleButton)
-* [helpCenter.suppress](#suppress)
-* [helpCenter.title](#title)
+* [chatButton](#chatButton)
+* [filter](#filter)
+* [messageButton](#messageButton)
+* [originalArticleButton](#originalArticleButton)
+* [suppress](#suppress)
+* [title](#title)
 
 The Chat element has the following setting:
 
@@ -44,8 +44,8 @@ The Chat element has the following setting:
 
 The launcher button has the following settings:
 
-* [launcher.chatLabel](#chatLabel)
-* [launcher.label](#label)
+* [chatLabel](#chatLabel)
+* [label](#label)
 
 
 ### attachments
