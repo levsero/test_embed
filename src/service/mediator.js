@@ -19,6 +19,7 @@ const state = {};
 
 state[`${chat}.connectionPending`] = true;
 state[`${launcher}.userHidden`] = false;
+state[`${launcher}.clickActive`] = false;
 state[`${submitTicket}.isVisible`] = false;
 state[`${chat}.isVisible`] = false;
 state[`${helpCenter}.isVisible`] = false;
@@ -359,6 +360,8 @@ function init(embedsAccessible, params = {}) {
   });
 
   c.intercept(`${launcher}.onClick`, () => {
+    if (state[`${launcher}.clickActive`] === true) return;
+
     // Re-authenticate user if their oauth token is within 20 minutes of expiring
     if (helpCenterAvailable()) {
       c.broadcast('authentication.renew');
@@ -447,6 +450,18 @@ function init(embedsAccessible, params = {}) {
       if (isMobileBrowser()) {
         setScrollKiller(false);
         revertWindowScroll();
+
+        // Fixes a condition where an unintended double click on
+        // an embed on a mobile device causes the launcher to click as well.
+        // The root cause of this is the click event is registered twice on
+        // mobile devices and needs to be handled in a similar way to
+        // clickBusterRegister/clickBusterHandler so that frameFactory#show does
+        // not get fired twice
+        state[`${launcher}.clickActive`] = true;
+        setTimeout(
+          () => state[`${launcher}.clickActive`] = false,
+          100
+        );
       }
 
       // Fix for when a pro-active message is recieved which opens the zopim window but the launcher
