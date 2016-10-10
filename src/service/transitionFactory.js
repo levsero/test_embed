@@ -6,7 +6,7 @@ settings.init();
 
 const applyHiddenState = (frameHeight) => {
   let topPosition = {};
-  const verticalOffset = settings.get('offset.vertical');
+  const verticalOffset = parseInt(settings.get('offset.vertical'));
   const safetyPadding = 50;
 
   if (frameHeight > 0 && settings.get('position.vertical') === 'top') {
