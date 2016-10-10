@@ -1,6 +1,6 @@
 describe('transitionFactory', () => {
   let mockSettingsValue,
-    mobileBrowser;
+    mockMobileBrowserValue;
 
   const transitionFactoryPath = buildSrcPath('service/transitionFactory');
 
@@ -12,7 +12,7 @@ describe('transitionFactory', () => {
       'position.vertical': 'bottom'
     };
 
-    mobileBrowser = false;
+    mockMobileBrowserValue = false;
 
     initMockRegistry({
       'service/settings': {
@@ -22,7 +22,7 @@ describe('transitionFactory', () => {
         }
       },
       'utility/devices': {
-        isMobileBrowser: () => mobileBrowser
+        isMobileBrowser: () => mockMobileBrowserValue
       }
     });
 
@@ -43,7 +43,8 @@ describe('transitionFactory', () => {
 
     describe('when the embed is positioned on the bottom', () => {
       it('returns the default value, regardless of height', () => {
-        expect(applyHiddenState(676).top).toEqual('-9999px');
+        expect(applyHiddenState(676).top)
+          .toEqual('-9999px');
       });
     });
 
@@ -54,13 +55,15 @@ describe('transitionFactory', () => {
 
       describe("and the frame's height hasn't been calculated", () => {
         it('returns the default value', () => {
-          expect(applyHiddenState(0).top).toEqual('-9999px');
+          expect(applyHiddenState(0).top)
+            .toEqual('-9999px');
         });
       });
 
       describe("and the frame's height has been calculated", () => {
         it('returns the offscreen top value', () => {
-          expect(applyHiddenState(300).top).toEqual('-365px');
+          expect(applyHiddenState(300).top)
+            .toEqual('-365px');
         });
       });
     });
@@ -88,19 +91,21 @@ describe('transitionFactory', () => {
 
     describe('when no overrides are given', () => {
       it('returns the defaults', () => {
-        expect(transitionMaker()).toEqual({
-          start: { top: '99px', bottom: '10px' },
-          end: { top: '110px', bottom: '50px' }
-        });
+        expect(transitionMaker())
+          .toEqual({
+            start: { top: '99px', bottom: '10px' },
+            end: { top: '110px', bottom: '50px' }
+          });
       });
     });
 
     describe('when overrides are given', () => {
       it('manufactures the new transition', () => {
-        expect(transitionMaker({}, { top: '-788px' })).toEqual({
-          start: { top: '99px', bottom: '10px' },
-          end: { top: '-788px', bottom: '50px' }
-        });
+        expect(transitionMaker({}, { top: '-788px' }))
+          .toEqual({
+            start: { top: '99px', bottom: '10px' },
+            end: { top: '-788px', bottom: '50px' }
+          });
       });
     });
   });
@@ -119,21 +124,23 @@ describe('transitionFactory', () => {
 
       describe('and the browser is mobile', () => {
         beforeEach(() => {
-          mobileBrowser = true;
+          mockMobileBrowserValue = true;
         });
 
         it('returns the original position', () => {
-          expect(positionWithOffset(99)).toEqual('99px');
+          expect(positionWithOffset(99))
+            .toEqual('99px');
         });
       });
 
       describe('and the browser is desktop-based', () => {
         beforeEach(() => {
-          mobileBrowser = false;
+          mockMobileBrowserValue = false;
         });
 
         it('returns the original position', () => {
-          expect(positionWithOffset(45)).toEqual('45px');
+          expect(positionWithOffset(45))
+            .toEqual('45px');
         });
       });
     });
@@ -145,21 +152,23 @@ describe('transitionFactory', () => {
 
       describe('and the browser is mobile', () => {
         beforeEach(() => {
-          mobileBrowser = true;
+          mockMobileBrowserValue = true;
         });
 
         it('returns the original position', () => {
-          expect(positionWithOffset(33)).toEqual('33px');
+          expect(positionWithOffset(33))
+            .toEqual('33px');
         });
       });
 
       describe('and the browser is desktop-based', () => {
         beforeEach(() => {
-          mobileBrowser = false;
+          mockMobileBrowserValue = false;
         });
 
         it('returns the original position', () => {
-          expect(positionWithOffset(45)).toEqual('89px');
+          expect(positionWithOffset(45))
+            .toEqual('89px');
         });
       });
     });
