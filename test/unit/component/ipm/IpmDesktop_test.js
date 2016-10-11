@@ -186,5 +186,29 @@ describe('IpmDesktop component', function() {
         });
       });
     });
+
+    describe('logoClasses', () => {
+      it('should not contain `IpmDesktop-footer--logo--golion` by default', () => {
+        const component = domRender(<IpmDesktop {...ipmProps} />);
+        const footer = TestUtils.findRenderedDOMComponentWithClass(component, 'IpmDesktop-footer');
+        const logo = footer.props.children[0];
+
+        expect(logo.props.className)
+          .not.toContain('IpmDesktop-footer--logo--golion');
+      });
+
+      it('should contain `IpmDesktop-footer--logo--golion` when golionLogo prop is true', () => {
+        const component = domRender(
+          <IpmDesktop
+            golionLogo={true}
+            {...ipmProps} />
+        );
+        const footer = TestUtils.findRenderedDOMComponentWithClass(component, 'IpmDesktop-footer');
+        const logo = footer.props.children[0];
+
+        expect(logo.props.className)
+          .toContain('IpmDesktop-footer--logo--golion');
+      });
+    });
   });
 });
