@@ -53,8 +53,6 @@ describe('IpmDesktop component', function() {
       }
     });
 
-    mockery.registerAllowable(ipmPath);
-
     IpmDesktop = requireUncached(ipmPath).IpmDesktop;
 
     closeFrameSpy = jasmine.createSpy();

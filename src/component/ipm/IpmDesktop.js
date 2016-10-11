@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import classNames from 'classNames';
+import classNames from 'classnames';
 
 import { Container } from 'component/Container';
 import { Button } from 'component/button/Button';
