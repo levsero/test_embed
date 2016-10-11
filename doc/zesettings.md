@@ -22,14 +22,14 @@ The Web Widget has the following general settings:
 * [position](#position)
 * [zIndex](#zindex)
 
-The contact form has the following settings:
+The widget's `contactForm` object, which represents the contact form, has the following settings:
 
 * [attachments](#attachments)
 * [subject](#subject)
 * [suppress](#suppress)
 * [title](#title)
 
-The Help Center element has the following settings:
+The widget's `helpCenter` object, which represents the Help Center element, has the following settings:
 
 * [chatButton](#chatButton)
 * [filter](#filter)
@@ -38,11 +38,11 @@ The Help Center element has the following settings:
 * [suppress](#suppress)
 * [title](#title)
 
-The Chat element has the following setting:
+The widget's `chat` object, which represents the Chat element, has the following setting:
 
 * [suppress](#suppress)
 
-The launcher button has the following settings:
+The widget's `launcher` object, which represents the launcher button, has the following settings:
 
 * [chatLabel](#chatLabel)
 * [label](#label)
