@@ -27,6 +27,13 @@ function create(name, config) {
     marginRight: 15
   };
 
+  const configDefaults = {
+    hideZendeskLogo: false,
+    golionLogo: false
+  };
+
+  config = _.extend(configDefaults, config);
+
   const ipmSender = (params) => {
     const payload = {
       path: '/embeddable/ipm',

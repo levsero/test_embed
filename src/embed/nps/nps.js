@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import _     from 'lodash';
+import _ from 'lodash';
 
-import { frameFactory }     from 'embed/frameFactory';
-import { Nps }              from 'component/nps/Nps';
-import { mediator }         from 'service/mediator';
-import { store }            from 'service/persistence';
-import { transport }        from 'service/transport';
+import { frameFactory } from 'embed/frameFactory';
+import { Nps } from 'component/nps/Nps';
+import { mediator } from 'service/mediator';
+import { store } from 'service/persistence';
+import { transport } from 'service/transport';
 import { setScrollKiller,
          revertWindowScroll } from 'utility/scrollHacks';
 import { transitionFactory } from 'service/transitionFactory';
@@ -25,6 +25,13 @@ function create(name, config) {
     bottom: 0,
     zIndex: 2147483647
   };
+
+  const configDefaults = {
+    hideZendeskLogo: false,
+    golionLogo: false
+  };
+
+  config = _.extend(configDefaults, config);
 
   if (isMobileBrowser()) {
     frameStyle = _.extend({}, frameStyle, {

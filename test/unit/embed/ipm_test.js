@@ -121,7 +121,7 @@ describe('embed.ipm', () => {
 
     it('passes through supplied config', () => {
       expect(result.config)
-        .toEqual(config);
+        .toEqual(jasmine.objectContaining(config));
     });
   });
 
