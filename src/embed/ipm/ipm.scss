@@ -50,6 +50,10 @@
   }
 }
 
+.IpmDesktop-footer--logo--golion {
+  left: -#{8/$font-size}rem;
+}
+
 .closeButton {
   .Button {
     padding: #{15/$font-size}rem;
