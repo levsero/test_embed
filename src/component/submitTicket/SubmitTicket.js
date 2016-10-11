@@ -63,9 +63,9 @@ export class SubmitTicket extends Component {
       return;
     }
 
-    const formParams = this.props.attachmentsEnabled
-                     ? this.formatRequestTicketData(data)
-                     : this.formatEmbeddedTicketData(data);
+    const formParams = this.state.ticketForms.ticket_forms
+                     ? this.formatTicketFormsData(data)
+                     : this.formatRequestTicketData(data)
 
     const failCallback = (err) => {
       const msg = (err.timeout)
@@ -119,20 +119,44 @@ export class SubmitTicket extends Component {
     this.props.submitTicketSender(formParams, doneCallback, failCallback);
   }
 
-  formatEmbeddedTicketData(data) {
+  formatTicketFormsData(data) {
+    const submittedFrom = i18n.t(
+      'embeddable_framework.submitTicket.form.submittedFrom.label',
+      {
+        fallback: 'Submitted from: %(url)s',
+        url: location.href
+      }
+    );
+    const descField = _.find(this.state.ticketForms.ticket_fields, (field) => {
+      return field.raw_title === "Description" && field.removable === false
+    });
+    const subjectField = _.find(this.state.ticketForms.ticket_fields, (field) => {
+      return field.raw_title === "Subject" && field.removable === false
+    });
+    const desc = data.value[descField.id];
+    const newDesc = `${desc}\n\n------------------\n${submittedFrom}`;
+    const uploads = this.refs.submitTicketForm.refs.attachments
+                  ? this.refs.submitTicketForm.refs.attachments.getAttachmentTokens()
+                  : null;
+    const subject = !_.isEmpty(data.value[subjectField.id])
+                  ? data.value[subjectField.id]
+                  : (desc.length <= 50) ? desc : `${desc.slice(0,50)}...`;
     const params = {
-      'name': data.value.name,
-      'email': data.value.email,
-      'description': data.value.description,
-      'set_tags': 'web_widget',
+      'subject': subject,
+      'tags': ['web_widget'],
       'via_id': settings.get('viaId'),
-      'locale_id': i18n.getLocaleId(),
-      'submitted_from': win.location.href
+      'comment': {
+        'body': newDesc,
+        'uploads': uploads
+      },
+      'requester': {
+        'name': data.value.name,
+        'email': data.value.email,
+        'locale_id': i18n.getLocaleId()
+      }
     };
 
-    return this.props.customFields.length === 0
-         ? params
-         : _.extend(params, this.formatTicketFieldData(data));
+    return { request: _.extend(params, this.formatTicketFieldData(data)) };
   }
 
   formatRequestTicketData(data) {
@@ -143,7 +167,7 @@ export class SubmitTicket extends Component {
         url: location.href
       }
     );
-    const desc = (data.value.description) ? data.value.description : data.value['10041'];
+    const desc = data.value.description;
     const newDesc = `${desc}\n\n------------------\n${submittedFrom}`;
     const uploads = this.refs.submitTicketForm.refs.attachments
                   ? this.refs.submitTicketForm.refs.attachments.getAttachmentTokens()
@@ -166,7 +190,7 @@ export class SubmitTicket extends Component {
       }
     };
 
-    return this.props.customFields.length === 0 || this.state.ticketForms.length !== 0
+    return this.props.customFields.length === 0
          ? { request: params }
          : { request: _.extend(params, this.formatTicketFieldData(data)) };
   }
