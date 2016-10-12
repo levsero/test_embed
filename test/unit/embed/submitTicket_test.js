@@ -16,7 +16,7 @@ describe('embed.submitTicket', function() {
 
     mockery.enable();
 
-    mockSettingsValue = false;
+    mockSettingsValue = null;
     mockIsMobileBrowserValue = false;
     mockIsIEValue = false;
 
@@ -104,7 +104,7 @@ describe('embed.submitTicket', function() {
         transitionFactory: requireUncached(buildTestPath('unit/mockTransitionFactory')).mockTransitionFactory
       },
       'service/transport': {
-        transport: jasmine.createSpyObj('transport', ['send', 'sendFile'])
+        transport: jasmine.createSpyObj('transport', ['get', 'send', 'sendFile'])
       }
     });
 

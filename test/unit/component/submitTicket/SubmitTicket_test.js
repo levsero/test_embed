@@ -195,24 +195,6 @@ describe('Submit ticket component', function() {
         .not.toHaveBeenCalled();
     });
 
-    it('should send the form when valid', function() {
-      submitTicket.handleSubmit({ preventDefault: noop }, mockValues);
-
-      expect(mockSubmitTicketSender)
-        .toHaveBeenCalled();
-
-      const params = mockSubmitTicketSender.calls.mostRecent().args[0];
-      const expected = _.omit(payload.params, 'subject');
-
-      expect(params)
-        .toBeJSONEqual(expected);
-
-      mockSubmitTicketSender.calls.mostRecent().args[1]({});
-
-      expect(mockOnSubmitted)
-        .toHaveBeenCalled();
-    });
-
     it('should clear the form on a valid submit', function() {
       spyOn(submitTicket, 'clearForm');
 
