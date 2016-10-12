@@ -412,38 +412,61 @@ describe('beacon', function() {
 
           mockStore = [
             ['abc123', timestamp],
-            ['cba123', timestamp]
+            ['cba123', timestamp],
+            ['123abc', mockTime]
           ];
           mockSha1String = 'cba123';
           beacon.trackSettings(mockSettings);
-          mockTransport.sendWithMeta.calls.mostRecent().args[0].callbacks.done();
         });
 
-        it('should send the settings blip', () => {
-          expect(mockTransport.sendWithMeta)
-            .toHaveBeenCalled();
+        describe('when the current pages settings are expired', () => {
+          beforeEach(() => {
+            mockTransport.sendWithMeta.calls.mostRecent().args[0].callbacks.done();
+          });
+
+          it('should send the settings blip', () => {
+            expect(mockTransport.sendWithMeta)
+              .toHaveBeenCalled();
+          });
+
+          it('should update the store with the new timestamp', () => {
+            expect(mockPersistence.store.set)
+              .toHaveBeenCalled();
+
+            const newStore = mockPersistence.store.set.calls.mostRecent().args[1];
+
+            expect(newStore[0][1])
+              .toBe(mockTime);
+          });
+
+          it('should remove any other invalid values from the store', () => {
+            expect(mockPersistence.store.set)
+              .toHaveBeenCalled();
+
+            const newStore = mockPersistence.store.set.calls.mostRecent().args[1];
+
+            expect(newStore.length)
+              .toBe(2);
+            expect(newStore[0][0])
+              .not.toBe('abc123');
+          });
         });
 
-        it('should update the store with the new timestamp', () => {
-          expect(mockPersistence.store.set)
-            .toHaveBeenCalled();
+        describe('when the current pages settings are not expired', () => {
+          beforeEach(() => {
+            mockSha1String = '123abc';
+            beacon.trackSettings(mockSettings);
+          });
 
-          const newStore = mockPersistence.store.set.calls.mostRecent().args[1];
+          it('should remove invalid values from the store', () => {
+            expect(mockPersistence.store.set)
+              .toHaveBeenCalled();
 
-          expect(newStore[0][1])
-            .toBe(mockTime);
-        });
+            const newStore = mockPersistence.store.set.calls.mostRecent().args[1];
 
-        it('should remove any other invalid values from the store', () => {
-          expect(mockPersistence.store.set)
-            .toHaveBeenCalled();
-
-          const newStore = mockPersistence.store.set.calls.mostRecent().args[1];
-
-          expect(newStore.length)
-            .toBe(1);
-          expect(newStore[0][0])
-            .not.toBe('abc123');
+            expect(newStore.length)
+              .toBe(1);
+          });
         });
       });
     });
