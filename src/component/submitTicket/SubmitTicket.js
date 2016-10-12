@@ -11,8 +11,7 @@ import { ZendeskLogo } from 'component/ZendeskLogo';
 import { i18n } from 'service/i18n';
 import { settings } from 'service/settings';
 import { isMobileBrowser } from 'utility/devices';
-import { location,
-         win } from 'utility/globals';
+import { location } from 'utility/globals';
 import { bindMethods } from 'utility/utils';
 
 let frameDimensions = {
@@ -65,7 +64,7 @@ export class SubmitTicket extends Component {
 
     const formParams = this.state.ticketForms.ticket_forms
                      ? this.formatTicketFormsData(data)
-                     : this.formatRequestTicketData(data)
+                     : this.formatRequestTicketData(data);
 
     const failCallback = (err) => {
       const msg = (err.timeout)
@@ -122,16 +121,13 @@ export class SubmitTicket extends Component {
   formatTicketFormsData(data) {
     const submittedFrom = i18n.t(
       'embeddable_framework.submitTicket.form.submittedFrom.label',
-      {
-        fallback: 'Submitted from: %(url)s',
-        url: location.href
-      }
+      { url: location.href }
     );
     const descField = _.find(this.state.ticketForms.ticket_fields, (field) => {
-      return field.raw_title === "Description" && field.removable === false
+      return field.raw_title === 'Description' && field.removable === false;
     });
     const subjectField = _.find(this.state.ticketForms.ticket_fields, (field) => {
-      return field.raw_title === "Subject" && field.removable === false
+      return field.raw_title === 'Subject' && field.removable === false;
     });
     const desc = data.value[descField.id];
     const newDesc = `${desc}\n\n------------------\n${submittedFrom}`;
@@ -162,10 +158,7 @@ export class SubmitTicket extends Component {
   formatRequestTicketData(data) {
     const submittedFrom = i18n.t(
       'embeddable_framework.submitTicket.form.submittedFrom.label',
-      {
-        fallback: 'Submitted from: %(url)s',
-        url: location.href
-      }
+      { url: location.href }
     );
     const desc = data.value.description;
     const newDesc = `${desc}\n\n------------------\n${submittedFrom}`;
@@ -211,7 +204,7 @@ export class SubmitTicket extends Component {
   }
 
   updateTicketForms(forms) {
-    this.setState({ ticketForms: forms })
+    this.setState({ ticketForms: forms });
 
     // Once the selector is in place this will be set by that instead
     // for now I'm just setting it to the first form sent down

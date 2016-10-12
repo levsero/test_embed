@@ -248,6 +248,18 @@ export class SubmitTicketForm extends Component {
     );
   }
 
+  renderDescriptionField() {
+    return (
+      <Field
+        placeholder={i18n.t('embeddable_framework.submitTicket.field.description.label')}
+        required={true}
+        value={this.state.formState.description}
+        name='description'
+        input={<textarea rows='5' />}
+        disabled={this.props.previewEnabled} />
+    );
+  }
+
   renderTicketFormBody() {
     const { ticketForm, ticketFields, formState } = this.state;
     const formTicketFields = _.filter(ticketFields, (field) => {
@@ -255,8 +267,7 @@ export class SubmitTicketForm extends Component {
     });
     const ticketFieldsElem = getCustomFields(formTicketFields, formState);
 
-    ticketFieldsElem.allFields.unshift(this.renderEmailField());
-    ticketFieldsElem.allFields.unshift(this.renderNameField());
+    ticketFieldsElem.allFields.unshift([this.renderNameField(), this.renderEmailField()]);
 
     return (
       <div ref='formWrapper'>
@@ -267,33 +278,15 @@ export class SubmitTicketForm extends Component {
   }
 
   renderFormBody() {
-    const { formState } = this.state;
-    const customFields = getCustomFields(this.props.customFields, formState);
+    const customFields = getCustomFields(this.props.customFields, this.state.formState);
 
     return (
       <div ref='formWrapper'>
-        <Field
-          placeholder={i18n.t('embeddable_framework.submitTicket.field.name.label')}
-          value={formState.name}
-          name='name'
-          disabled={this.props.previewEnabled} />
-        <Field
-          placeholder={i18n.t('embeddable_framework.form.field.email.label')}
-          type='email'
-          required={true}
-          pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?" // eslint-disable-line
-          value={formState.email}
-          name='email'
-          disabled={this.props.previewEnabled} />
+        {this.renderNameField()}
+        {this.renderEmailField()}
         {customFields.fields}
         {this.renderSubjectField()}
-        <Field
-          placeholder={i18n.t('embeddable_framework.submitTicket.field.description.label')}
-          required={true}
-          value={formState.description}
-          name='description'
-          input={<textarea rows='5' />}
-          disabled={this.props.previewEnabled} />
+        {this.renderDescriptionField()}
         {customFields.checkboxes}
         {this.props.children}
       </div>
