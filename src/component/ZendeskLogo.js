@@ -19,9 +19,11 @@ export class ZendeskLogo extends Component {
       `?utm_source=${this.props.utm}&utm_medium=poweredbyzendesk&utm_campaign=image`
     ].join('');
 
+    const logoType = this.props.golionLogo ? 'Icon--golion' : 'Icon--zendesk';
+
     return (
       <a href={logoUrl} target='_blank' className={logoClasses}>
-        <Icon type='Icon--zendesk' className='u-posRelative' />
+        <Icon type={logoType} className='u-posRelative' />
         <span className='u-isHiddenVisually'>zendesk</span>
       </a>
     );
@@ -33,7 +35,8 @@ ZendeskLogo.propTypes = {
   fullscreen: PropTypes.bool,
   formSuccess: PropTypes.bool,
   className: PropTypes.string,
-  utm: PropTypes.string
+  utm: PropTypes.string,
+  golionLogo: PropTypes.bool
 };
 
 ZendeskLogo.defaultProps = {
@@ -41,5 +44,6 @@ ZendeskLogo.defaultProps = {
   fullscreen: false,
   formSuccess: false,
   className: '',
-  utm: 'webwidget'
+  utm: 'webwidget',
+  golionLogo: false
 };

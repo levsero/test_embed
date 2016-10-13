@@ -28,6 +28,7 @@ function create(name, config) {
     position: 'right',
     customFields: [],
     hideZendeskLogo: false,
+    golionLogo: false,
     formTitleKey: 'message',
     attachmentsEnabled: false,
     maxFileCount: 5,
@@ -145,6 +146,7 @@ function create(name, config) {
           ref='rootComponent'
           customFields={config.customFields}
           hideZendeskLogo={config.hideZendeskLogo}
+          golionLogo={config.golionLogo}
           onCancel={onCancel}
           submitTicketSender={submitTicketSender}
           attachmentSender={attachmentSender}
