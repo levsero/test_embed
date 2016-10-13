@@ -19,7 +19,7 @@ const getCustomFields = (customFields, formState) => {
     const sharedProps = {
       name: field.id,
       value: formState[field.id],
-      required: field.required_in_portal || field.required,
+      required: _.isNil(field.required_in_portal) ? field.required : field.required_in_portal,
       placeholder: field.title_in_portal || field.title,
       key: field.title_in_portal || field.title
     };
