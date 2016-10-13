@@ -60,7 +60,7 @@ To debug in tests, run the `test:debug` task: `npm run test:debug`. This task us
 *NOTE: The node debugger will always automatically break at the first line, just run `continue` (or `c`) to resume execution.*
 
 ## Contribute
-All pull requests need two :+1:'s to be merged, at least one from a Taipan team member. Please also include a `/cc` to **@zendesk/taipan**. If a Taipan team member hasn't reviewed your PR in a reasonable amount of time, feel free to ping us on Slack in `#taipan-team` and do a group mention using `@taipan`.
+All pull requests need two :+1:'s to be merged, *at least one from a Taipan team member*. Please also include a `/cc` to **@zendesk/taipan**. If a Taipan team member hasn't reviewed your PR in a reasonable amount of time, feel free to ping us on Slack in `#taipan-team` and do a group mention using `@taipan`.
 
 See the **STYLE.md** document for more information on code style.
 
