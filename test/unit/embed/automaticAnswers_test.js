@@ -4,7 +4,8 @@ describe('embed.automaticAnswers', () => {
     mockTransport,
     mockPages,
     mockIsMobileBrowserValue,
-    mockWrongURLParameter;
+    mockWrongURLParameter,
+    mockSolvedURLParameter;
 
   const automaticAnswersPath = buildSrcPath('embed/automaticAnswers/automaticAnswers');
 
@@ -23,6 +24,7 @@ describe('embed.automaticAnswers', () => {
       'component/automaticAnswers/AutomaticAnswers': {
         AutomaticAnswers: React.createClass({
           updateTicket() {},
+          solveTicketDone() {},
           render() {
             return (
               <div className='mock-automaticAnswers' />
@@ -55,6 +57,8 @@ describe('embed.automaticAnswers', () => {
             return '123456';
           } else if (arg === 'token') {
             return 'abcdef';
+          } else if (arg === 'solved') {
+            return mockSolvedURLParameter;
           }
         })
       }
@@ -185,6 +189,7 @@ describe('embed.automaticAnswers', () => {
     describe('when the request is successful', () => {
       let callback;
       const showFrameDelay = 2000;
+      const showSolvedFrameDelay = 500;
       const resSuccess = (statusId) => {
         return {
           'statusCode': 200,
@@ -204,13 +209,14 @@ describe('embed.automaticAnswers', () => {
         mostRecent = mockTransport.automaticAnswersApiRequest.calls.mostRecent();
         callback = mostRecent.args[0].callbacks.done;
         spyOn(instance.getRootComponent(), 'updateTicket');
+        spyOn(instance.getRootComponent(), 'solveTicketDone');
       });
 
       afterEach(() => {
         jasmine.clock().uninstall();
       });
 
-      describe('and the ticket status is one of open, new, pending or hold', () => {
+      describe('given the ticket status is one of open, new, pending or hold', () => {
         it('passes ticket data to the AutomaticAnswers component', () => {
           callback(resSuccess(statusPending));
 
@@ -227,12 +233,42 @@ describe('embed.automaticAnswers', () => {
         });
       });
 
-      describe('and the ticket status is not one of open, new, pending or hold', () => {
-        it('does nothing', () => {
-          callback(resSuccess(statusSolved));
+      describe('given the ticket status is one of solved or closed', () => {
+        describe('and a solve parameter equal to "1" exists in the url', () => {
+          beforeEach(() => {
+            mockSolvedURLParameter = '1';
+          });
 
-          expect(instance.show.__reactBoundMethod)
-            .not.toHaveBeenCalled();
+          it('updates the component solveSuccess state', () => {
+            callback(resSuccess(statusSolved));
+
+            expect(instance.getRootComponent().solveTicketDone)
+              .toHaveBeenCalled();
+          });
+
+          it('shows the embed solved screen after a short delay', () => {
+            callback(resSuccess(statusSolved));
+            jasmine.clock().tick(showSolvedFrameDelay);
+
+            expect(instance.show.__reactBoundMethod)
+              .toHaveBeenCalled();
+          });
+        });
+
+        describe('and a solve parameter other than "1" exists in the url', () => {
+          beforeEach(() => {
+            mockSolvedURLParameter = '0';
+          });
+
+          it('does nothing', () => {
+            callback(resSuccess(statusSolved));
+
+            expect(instance.getRootComponent().solveTicketDone)
+              .not.toHaveBeenCalled();
+
+            expect(instance.show.__reactBoundMethod)
+              .not.toHaveBeenCalled();
+          });
         });
       });
     });

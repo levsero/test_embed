@@ -13,8 +13,11 @@ import { getURLParameterByName } from 'utility/pages';
 
 const automaticAnswersCSS = require('./automaticAnswers.scss').toString();
 const showFrameDelay = 2000;
+const showSolvedFrameDelay = 500;
 // 0 = New, 1 = Open, 2 = Pending, 6 = Hold
 const unsolvedStatusIds = [0, 1, 2, 6];
+// 3 = Solved, 4 = Closed
+const solvedStatusIds = [3, 4];
 
 let embed;
 
@@ -103,11 +106,18 @@ function postRender() {
 function fetchTicketFn(ticketId, token) {
   const fetchTicketDone = (res) => {
     const ticket = res.body.ticket;
+    const ticketUnsolved = _.includes(unsolvedStatusIds, ticket.status_id);
+    const ticketSolved = _.includes(solvedStatusIds, ticket.status_id);
+    const solvedUrlParameter = !!parseInt(getURLParameterByName('solved'));
 
-    if (_.includes(unsolvedStatusIds, ticket.status_id)) {
+    if (ticketUnsolved) {
       embed.instance.getRootComponent().updateTicket(ticket);
 
-      setTimeout(() => embed.instance.show({transition: 'upShow'}), showFrameDelay);
+      setTimeout(() => embed.instance.show({ transition: 'upShow' }), showFrameDelay);
+    } else if (ticketSolved && solvedUrlParameter) {
+      embed.instance.getRootComponent().solveTicketDone();
+
+      setTimeout(() => embed.instance.show({ transition: 'upShow' }), showSolvedFrameDelay);
     }
   };
 
