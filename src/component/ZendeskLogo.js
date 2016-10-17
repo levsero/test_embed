@@ -14,12 +14,12 @@ export class ZendeskLogo extends Component {
       'u-posEnd': rtl,
       [this.props.className]: true
     });
+    const logoType = this.props.golionLogo ? 'Icon--golion' : 'Icon--zendesk';
+
     const logoUrl = [
-      '//www.zendesk.com/embeddables/',
+      `//www.zendesk.com/${this.props.logoLink}/`,
       `?utm_source=${this.props.utm}&utm_medium=poweredbyzendesk&utm_campaign=image`
     ].join('');
-
-    const logoType = this.props.golionLogo ? 'Icon--golion' : 'Icon--zendesk';
 
     return (
       <a href={logoUrl} target='_blank' className={logoClasses}>
@@ -36,6 +36,7 @@ ZendeskLogo.propTypes = {
   formSuccess: PropTypes.bool,
   className: PropTypes.string,
   utm: PropTypes.string,
+  logoLink: PropTypes.string,
   golionLogo: PropTypes.bool
 };
 
@@ -45,5 +46,6 @@ ZendeskLogo.defaultProps = {
   formSuccess: false,
   className: '',
   utm: 'webwidget',
+  logoLink: 'embeddables',
   golionLogo: false
 };
