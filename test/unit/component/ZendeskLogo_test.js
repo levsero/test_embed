@@ -81,7 +81,7 @@ describe('ZendeskLogo component', () => {
 
         expect(logo.props.href)
           .toContain('embeddables');
-      })
+      });
 
       it('should point to Connect when utm prop is `ipm`', () => {
         const logo = shallowRender(<ZendeskLogo golionLogo={true} utm={'ipm'} />);
@@ -89,14 +89,13 @@ describe('ZendeskLogo component', () => {
         expect(logo.props.href)
           .toContain('connect');
       });
-
-    })
+    });
 
     it('should point to Embeddables when golionLogo prop is false', () => {
       const logo = shallowRender(<ZendeskLogo />);
 
       expect(logo.props.href)
         .toContain('embeddables');
-    })
-  })
+    });
+  });
 });

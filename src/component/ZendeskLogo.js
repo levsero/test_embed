@@ -15,7 +15,7 @@ export class ZendeskLogo extends Component {
       [this.props.className]: true
     });
     const logoType = golionLogo ? 'Icon--golion' : 'Icon--zendesk';
-    const logoLink = golionLogo && utm === 'ipm' ? 'connect' : 'embeddables'
+    const logoLink = golionLogo && utm === 'ipm' ? 'connect' : 'embeddables';
 
     const logoUrl = [
       `//www.zendesk.com/${logoLink}/`,
