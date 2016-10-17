@@ -5,7 +5,7 @@ import { Icon } from 'component/Icon';
 
 export class ZendeskLogo extends Component {
   render() {
-    const { fullscreen, rtl, formSuccess, golionLogo, utm } = this.props;
+    const { fullscreen, rtl, formSuccess } = this.props;
     const logoClasses = classNames({
       'u-linkClean': true,
       'u-posAbsolute u-posEnd--vert': !fullscreen || formSuccess,
@@ -14,12 +14,11 @@ export class ZendeskLogo extends Component {
       'u-posEnd': rtl,
       [this.props.className]: true
     });
-    const logoType = golionLogo ? 'Icon--golion' : 'Icon--zendesk';
-    const logoLink = golionLogo && utm === 'ipm' ? 'connect' : 'embeddables';
+    const logoType = this.props.golionLogo ? 'Icon--golion' : 'Icon--zendesk';
 
     const logoUrl = [
-      `//www.zendesk.com/${logoLink}/`,
-      `?utm_source=${utm}&utm_medium=poweredbyzendesk&utm_campaign=image`
+      `//www.zendesk.com/${this.props.logoLink}/`,
+      `?utm_source=${this.props.utm}&utm_medium=poweredbyzendesk&utm_campaign=image`
     ].join('');
 
     return (
@@ -37,6 +36,7 @@ ZendeskLogo.propTypes = {
   formSuccess: PropTypes.bool,
   className: PropTypes.string,
   utm: PropTypes.string,
+  logoLink: PropTypes.string,
   golionLogo: PropTypes.bool
 };
 
@@ -46,5 +46,6 @@ ZendeskLogo.defaultProps = {
   formSuccess: false,
   className: '',
   utm: 'webwidget',
+  logoLink: 'embeddables',
   golionLogo: false
 };

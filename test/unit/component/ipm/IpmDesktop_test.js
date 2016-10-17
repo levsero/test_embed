@@ -186,28 +186,48 @@ describe('IpmDesktop component', function() {
         });
       });
     });
+  });
 
-    describe('logoClasses', () => {
-      it('should not contain `IpmDesktop-footer--logo--golion` by default', () => {
-        const component = domRender(<IpmDesktop {...ipmProps} />);
-        const footer = TestUtils.findRenderedDOMComponentWithClass(component, 'IpmDesktop-footer');
-        const logo = footer.props.children[0];
+  describe('ZendeskLogo', () => {
+    let logo, footer, component;
 
+    describe('when the `golionLogo` prop is false', () => {
+      beforeEach(() => {
+        component = domRender(<IpmDesktop {...ipmProps} />);
+        footer = TestUtils.findRenderedDOMComponentWithClass(component, 'IpmDesktop-footer');
+        logo = footer.props.children[0];
+      });
+
+      it('logoClasses should not contain `IpmDesktop-footer--logo--golion`', () => {
         expect(logo.props.className)
           .not.toContain('IpmDesktop-footer--logo--golion');
       });
 
-      it('should contain `IpmDesktop-footer--logo--golion` when golionLogo prop is true', () => {
-        const component = domRender(
+      it('logoLink should be `embeddables`', () => {
+        expect(logo.props.logoLink)
+          .toEqual('embeddables');
+      });
+    });
+
+    describe('when the `golionLogo` prop is true', () => {
+      beforeEach(() => {
+        component = domRender(
           <IpmDesktop
             golionLogo={true}
             {...ipmProps} />
         );
-        const footer = TestUtils.findRenderedDOMComponentWithClass(component, 'IpmDesktop-footer');
-        const logo = footer.props.children[0];
+        footer = TestUtils.findRenderedDOMComponentWithClass(component, 'IpmDesktop-footer');
+        logo = footer.props.children[0];
+      });
 
+      it('logoClasses should contain `IpmDesktop-footer--logo--golion`', () => {
         expect(logo.props.className)
           .toContain('IpmDesktop-footer--logo--golion');
+      });
+
+      it('logoLink should be `connect`', () => {
+        expect(logo.props.logoLink)
+          .toEqual('connect');
       });
     });
   });

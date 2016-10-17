@@ -81,6 +81,7 @@ export class IpmDesktop extends Component {
             <ZendeskLogo
               className={logoClasses}
               golionLogo={this.props.golionLogo}
+              logoLink={this.props.golionLogo ? 'connect' : 'embeddables'}
               utm='ipm' />
             <Button
               className='u-pullRight'
