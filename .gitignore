@@ -12,3 +12,6 @@ webdrivercss/
 .node-version
 .idea
 npm-debug.log
+REVISION
+vendor/
+

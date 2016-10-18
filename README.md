@@ -48,6 +48,18 @@ The bootstrap file will do the following:
 
 To run the embeddables locally type `npm run watch` in this folder for it to kick off. This creates a dist folder with `main.js`, `boostrap.js` files and generates some example html files where you can run the framework loaded via our snippet. Visit [http://localhost:1337/example/](http://localhost:1337/example/) to test live examples.
 
+## Running in Docker
+
+- Follow above to get `npm run watch` running.
+- Run `zdi embeddable_framework -d restart` in parallel.
+
+### Building Docker image
+
+- Run `npm run build` to build static assets inside `./dist`.
+- Run `zdi embeddable_framework build`.
+- Verify the built image with `zdi embeddable_framework restart -l`.
+- To push, run `zdi embeddable_framework release --official`.
+
 ## Testing
 We use the [Jasmine](http://jasmine.github.io/) framework for all our unit tests, and [ESlint](http://eslint.org/) for Javascript linting. Please run both the test and lint npm tasks before opening a pull request.
 
