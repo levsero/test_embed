@@ -634,6 +634,27 @@ describe('AttachmentList component', () => {
       expect(_.size(component.state.attachments))
         .toBe(0);
     });
+
+    describe('when there is an error message', () => {
+      beforeEach(() => {
+        component.handleOnDrop([
+          { name: 'jim.png', size: 1024 },
+          { name: 'bar.png', size: 1024 },
+          { name: 'bob.png', size: 1024 },
+          { name: 'tim.png', size: 1024 },
+          { name: 'pat.png', size: 1024 },
+          { name: 'reachedlimit.png', size: 1024 }
+        ]);
+        jasmine.clock().tick(1);
+      });
+
+      it('should clear the error message', () => {
+        component.clear();
+
+        expect(component.state.errorMessage)
+          .toBe(null);
+      });
+    });
   });
 
   describe('attachment event handling', () => {
