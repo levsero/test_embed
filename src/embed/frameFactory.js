@@ -49,11 +49,11 @@ function validateChildFn(childFn, params) {
 export const frameFactory = function(childFn, _params) {
   let child;
 
-  const isPositionTop = settings.get('position.vertical') === 'top';
+  const isSettingsTop = settings.get('position.vertical') === 'top';
   const isMobile = isMobileBrowser();
   const defaultParams = {
     frameStyle: {
-      marginTop: isPositionTop && !isMobile ? '15px' : 0
+      marginTop: isSettingsTop && !isMobile ? '15px' : 0
     },
     css: '',
     fullscreenable: false,
@@ -71,6 +71,7 @@ export const frameFactory = function(childFn, _params) {
     preventClose: false
   };
   const params = _.defaultsDeep({}, _params, defaultParams);
+  const isPositionTop = isSettingsTop || params.name === 'ipm';
   const zIndex = settings.get('zIndex');
   const defaultHideTransition = isPositionTop
                               ? transitionFactory.webWidget.upHide()
@@ -266,7 +267,7 @@ export const frameFactory = function(childFn, _params) {
         clickBusterRegister(ev.touches[0].clientX, ev.touches[0].clientY);
       }
 
-      const transition = settings.get('position.vertical') === 'top'
+      const transition = isPositionTop
                        ? 'upHide'
                        : 'downHide';
 
@@ -302,13 +303,16 @@ export const frameFactory = function(childFn, _params) {
       const iframeDimensions = this.state.iframeDimensions;
       const visibilityRule = (this.state.visible && !this.state.hiddenByZoom)
                            ? null
-                           : transitionFactory.hiddenState(iframeDimensions.height);
+                           : transitionFactory.hiddenState(
+                              iframeDimensions.height,
+                              isPositionTop
+                            );
 
       const offset = settings.get('offset');
       const horizontalOffset = (isMobileBrowser() || !offset) ? 0 : offset.horizontal;
       const verticalOffset = (isMobileBrowser() || !offset) ? 0 : offset.vertical;
       const horizontalPos = settings.get('position.horizontal') || params.position;
-      const verticalPos = settings.get('position.vertical') || 'bottom';
+      const verticalPos = isPositionTop ? 'top' : 'bottom';
       const posObj = {
         [horizontalPos]: horizontalOffset,
         [verticalPos]: verticalOffset
@@ -321,7 +325,6 @@ export const frameFactory = function(childFn, _params) {
           zIndex: zIndex,
           transform: 'translateZ(0)',
           position: 'fixed',
-          bottom: verticalOffset,
           opacity: 1
         },
         posObj,

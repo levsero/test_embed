@@ -87,7 +87,9 @@ describe('frameFactory', function() {
         transitionFactory: {
           webWidget: {
             upShow: mockShowTransition,
-            downHide: mockHideTransition
+            downHide: mockHideTransition,
+            downShow: mockShowTransition,
+            upHide: mockHideTransition
           },
           hiddenState: mockHiddenStateTransition
         }
@@ -604,9 +606,18 @@ describe('frameFactory', function() {
         });
 
         describe('when vertical position is top', () => {
-          it('should call hide with `upHide` transition', () => {
+          beforeEach(() => {
             mockSettingsValue.position.vertical = 'top';
 
+            const Embed = frameFactory(mockChildFn, {
+              onClose: mockOnClose
+            });
+
+            instance = domRender(<Embed />);
+            spyOn(instance, 'hide');
+          });
+
+          it('should call hide with `upHide` transition', () => {
             instance.close();
 
             expect(instance.hide)

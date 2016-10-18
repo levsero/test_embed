@@ -49,20 +49,16 @@ describe('transitionFactory', () => {
     });
 
     describe('when the embed is positioned on the top', () => {
-      beforeEach(() => {
-        mockSettingsValue['position.vertical'] = 'top';
-      });
-
       describe("and the frame's height hasn't been calculated", () => {
         it('returns the default value', () => {
-          expect(applyHiddenState(0).top)
+          expect(applyHiddenState(0, true).top)
             .toEqual('-9999px');
         });
       });
 
       describe("and the frame's height has been calculated", () => {
         it('returns the offscreen top value', () => {
-          expect(applyHiddenState(300).top)
+          expect(applyHiddenState(300, true).top)
             .toEqual('-365px');
         });
       });
