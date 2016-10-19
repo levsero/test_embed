@@ -183,7 +183,10 @@ export class AttachmentList extends Component {
   }
 
   clear() {
-    this.setState({ attachments: {} });
+    this.setState({
+      attachments: {},
+      errorMessage: null
+    });
   }
 
   renderAttachments() {
