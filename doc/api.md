@@ -13,7 +13,7 @@ The API consists of the following methods:
 
 You can use the `zE.identify`, `zE.hide`, `zE.show`, and `zE.activate` methods before and after page load. For example, you can use them in click event handlers.
 
-**Note**: If you're looking for the Widget code for your pages, you can get it from the admin pages of your Zendesk Support account. After signing in to your Zendesk Support, click the Admin icon (![icon](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/manage_icon.png)) in the sidebar and select **Channels** >  **Widget**.
+**Note**: If you're looking for the Widget code for your pages, you can get it from the admin pages of your Zendesk Support account. After signing in to your Zendesk Support account, click the Admin icon (![icon](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/manage_icon.png)) in the sidebar and select **Channels** >  **Widget**.
 
 For more information on setting up the Web Widget, this [support article](https://support.zendesk.com/hc/en-us/articles/203908456-Using-Web-Widget-to-embed-customer-service-in-your-website) will guide you through your setup.
 
