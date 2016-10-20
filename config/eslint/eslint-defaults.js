@@ -2,6 +2,7 @@ module.exports = {
   'env': { 'node': true },
   'extends': 'eslint:recommended',
   'rules': {
+    'jasmine/no-spec-dupes': 0,
     'padded-blocks': [
       2,
       'never'

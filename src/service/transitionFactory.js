@@ -4,12 +4,12 @@ import { settings } from 'service/settings';
 // TODO: Re-visit the boot process to avoid this
 settings.init();
 
-const applyHiddenState = (frameHeight) => {
+const applyHiddenState = (frameHeight, isTop = false) => {
   let topPosition = {};
   const verticalOffset = parseInt(settings.get('offset.vertical'));
   const safetyPadding = 50;
 
-  if (frameHeight > 0 && settings.get('position.vertical') === 'top') {
+  if (frameHeight > 0 && isTop) {
     topPosition = { top: `-${frameHeight + verticalOffset + safetyPadding}px` };
   }
 
@@ -121,7 +121,7 @@ const transitionFactory = {
         transitionDuration: '0',
         transitionTimingFunction: 'unset',
         opacity: 0,
-        top: '-300px'
+        top: '-30px'
       },
       {
         transitionProperty: 'all',
@@ -137,7 +137,7 @@ const transitionFactory = {
         transitionDuration: '300ms',
         transitionTimingFunction: 'ease-out',
         opacity: 0,
-        top: '-300px'
+        top: '-30px'
       }
     )
   },
