@@ -310,7 +310,10 @@
 }
 
 .Icon--golion {
-  top: #{8/$font-size}rem;
+  top: #{10/$font-size}rem;
+
+  margin-left: #{4/$font-size}rem;
+  margin-right: #{13/$font-size}rem;
 
   [dir='rtl'] & {
     padding-left: #{3/$font-size}rem;
@@ -318,8 +321,8 @@
   }
 
   svg {
-    min-width: #{65/$font-size}rem; /* 1 */
-    width: #{65/$font-size}rem;
+    min-width: #{50/$font-size}rem; /* 1 */
+    width: #{50/$font-size}rem;
 
     &:hover, &:active, &:focus {
       path {
