@@ -1,11 +1,13 @@
-import accepts from 'attr-accept';
-import React from 'react';
+// original
+// import accepts from 'attr-accept';
+
+import { Component, PropTypes } from 'react';
 
 const supportMultiple = (typeof document !== 'undefined' && document && document.createElement) ?
   'multiple' in document.createElement('input') :
   true;
 
-class Dropzone extends React.Component {
+export class Dropzone extends Component {
   constructor(props, context) {
     super(props, context);
     this.onClick = this.onClick.bind(this);
@@ -116,7 +118,10 @@ class Dropzone extends React.Component {
   }
 
   allFilesAccepted(files) {
-    return files.every(file => accepts(file, this.props.accept));
+    return files;
+
+    // original
+    // return files.every(file => accepts(file, this.props.accept));
   }
 
   open() {
@@ -231,27 +236,25 @@ Dropzone.defaultProps = {
 };
 
 Dropzone.propTypes = {
-  onDrop: React.PropTypes.func,
-  onDropAccepted: React.PropTypes.func,
-  onDropRejected: React.PropTypes.func,
-  onDragEnter: React.PropTypes.func,
-  onDragLeave: React.PropTypes.func,
+  onDrop: PropTypes.func,
+  onDropAccepted: PropTypes.func,
+  onDropRejected: PropTypes.func,
+  onDragEnter: PropTypes.func,
+  onDragLeave: PropTypes.func,
 
-  children: React.PropTypes.node,
-  style: React.PropTypes.object,
-  activeStyle: React.PropTypes.object,
-  rejectStyle: React.PropTypes.object,
-  className: React.PropTypes.string,
-  activeClassName: React.PropTypes.string,
-  rejectClassName: React.PropTypes.string,
+  children: PropTypes.node,
+  style: PropTypes.object,
+  activeStyle: PropTypes.object,
+  rejectStyle: PropTypes.object,
+  className: PropTypes.string,
+  activeClassName: PropTypes.string,
+  rejectClassName: PropTypes.string,
 
-  disablePreview: React.PropTypes.bool,
-  disableClick: React.PropTypes.bool,
+  disablePreview: PropTypes.bool,
+  disableClick: PropTypes.bool,
 
-  inputProps: React.PropTypes.object,
-  multiple: React.PropTypes.bool,
-  accept: React.PropTypes.string,
-  name: React.PropTypes.string
+  inputProps: PropTypes.object,
+  multiple: PropTypes.bool,
+  accept: PropTypes.string,
+  name: PropTypes.string
 };
-
-export default Dropzone;
