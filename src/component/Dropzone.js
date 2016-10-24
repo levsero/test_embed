@@ -1,20 +1,21 @@
 // original
 // import accepts from 'attr-accept';
 
-import { Component, PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
+import _ from 'lodash';
+import { bindMethods } from 'utility/utils';
 
+const supportMultiple = true;
+/*
 const supportMultiple = (typeof document !== 'undefined' && document && document.createElement) ?
   'multiple' in document.createElement('input') :
   true;
+*/
 
 export class Dropzone extends Component {
   constructor(props, context) {
     super(props, context);
-    this.onClick = this.onClick.bind(this);
-    this.onDragEnter = this.onDragEnter.bind(this);
-    this.onDragLeave = this.onDragLeave.bind(this);
-    this.onDragOver = this.onDragOver.bind(this);
-    this.onDrop = this.onDrop.bind(this);
+    bindMethods(this, Dropzone.prototype);
 
     this.state = {
       isDragActive: false
@@ -130,23 +131,31 @@ export class Dropzone extends Component {
   }
 
   render() {
-    const {
-      accept,
-      activeClassName,
-      inputProps,
-      multiple,
-      name,
-      rejectClassName,
-      ...rest
-    } = this.props;
+    const accept = this.props.accept;
+    const activeClassName = this.props.activeClassName;
+    const inputProps = this.props.inputProps;
+    const multiple = this.props.multiple;
+    const name = this.props.name;
+    const rejectClassName = this.props.rejectClassName;
 
-    let {
-      activeStyle,
-      className,
-      rejectStyle,
-      style,
-      ...props // eslint-disable-line prefer-const
-    } = rest;
+    let activeStyle = this.props.activeStyle;
+    let className = this.props.className;
+    let rejectStyle = this.props.rejectStyle;
+    let style = this.props.style;
+
+    const omitList = [
+      'accept',
+      'activeClassName',
+      'inputProps',
+      'multiple',
+      'name',
+      'rejectClassName',
+      'activeStyle',
+      'className',
+      'rejectStyle',
+      'style'
+    ];
+    let props = _.omit(this.props, omitList);
 
     const { isDragActive, isDragReject } = this.state;
 
@@ -180,19 +189,11 @@ export class Dropzone extends Component {
 
     let appliedStyle;
     if (activeStyle && isDragActive) {
-      appliedStyle = {
-        ...style,
-        ...activeStyle
-      };
+      appliedStyle = _.extend({}, style, activeStyle);
     } else if (rejectStyle && isDragReject) {
-      appliedStyle = {
-        ...style,
-        ...rejectStyle
-      };
+      appliedStyle = _.extend({}, style, rejectStyle);
     } else {
-      appliedStyle = {
-        ...style
-      };
+      appliedStyle = _.extend({}, style);
     }
 
     const inputAttributes = {

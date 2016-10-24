@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import Dropzone from 'react-dropzone';
+import { Dropzone } from 'component/Dropzone';
 
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
