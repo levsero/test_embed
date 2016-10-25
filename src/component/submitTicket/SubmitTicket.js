@@ -62,9 +62,7 @@ export class SubmitTicket extends Component {
       return;
     }
 
-    const formParams = this.state.ticketForms.ticket_forms
-                     ? this.formatTicketFormsData(data)
-                     : this.formatRequestTicketData(data);
+    const formParams = this.formatRequestTicketData(data);
 
     const failCallback = (err) => {
       const msg = (err.timeout)
@@ -118,55 +116,30 @@ export class SubmitTicket extends Component {
     this.props.submitTicketSender(formParams, doneCallback, failCallback);
   }
 
-  formatTicketFormsData(data) {
-    const submittedFrom = i18n.t(
-      'embeddable_framework.submitTicket.form.submittedFrom.label',
-      { url: location.href }
-    );
-    const descField = _.find(this.state.ticketForms.ticket_fields, (field) => {
-      return field.raw_title === 'Description' && field.removable === false;
-    });
-    const subjectField = _.find(this.state.ticketForms.ticket_fields, (field) => {
-      return field.raw_title === 'Subject' && field.removable === false;
-    });
-    const desc = data.value[descField.id];
-    const newDesc = `${desc}\n\n------------------\n${submittedFrom}`;
-    const uploads = this.refs.submitTicketForm.refs.attachments
-                  ? this.refs.submitTicketForm.refs.attachments.getAttachmentTokens()
-                  : null;
-    const subject = !_.isEmpty(data.value[subjectField.id])
-                  ? data.value[subjectField.id]
-                  : (desc.length <= 50) ? desc : `${desc.slice(0,50)}...`;
-    const params = {
-      'subject': subject,
-      'tags': ['web_widget'],
-      'via_id': settings.get('viaId'),
-      'comment': {
-        'body': newDesc,
-        'uploads': uploads
-      },
-      'requester': {
-        'name': data.value.name,
-        'email': data.value.email,
-        'locale_id': i18n.getLocaleId()
-      }
-    };
-
-    return { request: _.extend(params, this.formatTicketFieldData(data)) };
+  findField(fieldName) {
+    return _.find(this.state.ticketForms.ticket_fields, (field) => {
+      return field.raw_title === fieldName && field.removable === false;
+    }).id;
   }
 
   formatRequestTicketData(data) {
+    const ticketFormsAvailable = !!this.state.ticketForms.ticket_forms;
     const submittedFrom = i18n.t(
       'embeddable_framework.submitTicket.form.submittedFrom.label',
       { url: location.href }
     );
-    const desc = data.value.description;
+    const desc = ticketFormsAvailable
+               ? data.value[this.findField('Description')]
+               : data.value.description;
+    const subjectData = ticketFormsAvailable
+                      ? data.value[this.findField('Subject')]
+                      : data.value.subject;
     const newDesc = `${desc}\n\n------------------\n${submittedFrom}`;
     const uploads = this.refs.submitTicketForm.refs.attachments
                   ? this.refs.submitTicketForm.refs.attachments.getAttachmentTokens()
                   : null;
-    const subject = this.props.subjectEnabled && !_.isEmpty(data.value.subject)
-                  ? data.value.subject
+    const subject = this.props.subjectEnabled && !_.isEmpty(subjectData)
+                  ? subjectData
                   : (desc.length <= 50) ? desc : `${desc.slice(0,50)}...`;
     const params = {
       'subject': subject,
@@ -183,7 +156,7 @@ export class SubmitTicket extends Component {
       }
     };
 
-    return this.props.customFields.length === 0
+    return this.props.customFields.length === 0 && !ticketFormsAvailable
          ? { request: params }
          : { request: _.extend(params, this.formatTicketFieldData(data)) };
   }
@@ -192,10 +165,12 @@ export class SubmitTicket extends Component {
     let params = {
       fields: {}
     };
+    const subjectField = this.findField('Subject');
+    const descriptionField = this.findField('Description');
 
     _.forEach(data.value, function(value, name) {
       // Custom field names are numbers so we check if name is NaN
-      if (!isNaN(parseInt(name, 10))) {
+      if (!isNaN(parseInt(name, 10)) && name !== subjectField && name !== descriptionField) {
         params.fields[name] = value;
       }
     });
