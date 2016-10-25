@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
+import classNames from 'classnames';
 import _ from 'lodash';
+
 import { bindMethods } from 'utility/utils';
 
 export class Dropzone extends Component {
@@ -21,18 +23,8 @@ export class Dropzone extends Component {
 
     // Count the dropzone and any children that are entered.
     ++this.enterCounter;
-
-    // This is tricky. During the drag even the dataTransfer.files is null
-    // But Chrome implements some drag store, which is accesible via dataTransfer.items
-    const dataTransferItems = e.dataTransfer && e.dataTransfer.items ? e.dataTransfer.items : [];
-
-    this.setState({
-      isDragActive: true
-    });
-
-    if (this.props.onDragEnter) {
-      this.props.onDragEnter.call(this, e);
-    }
+    this.setState({ isDragActive: true });
+    this.props.onDragEnter.call(this, e);
   }
 
   onDragOver(e) {
@@ -44,124 +36,75 @@ export class Dropzone extends Component {
   onDragLeave(e) {
     e.preventDefault();
 
-    // Only deactivate once the dropzone and all children was left.
+    // Only deactivate once the dropzone and all children have left.
     if (--this.enterCounter > 0) {
       return;
     }
 
-    this.setState({
-      isDragActive: false
-    });
-
-    if (this.props.onDragLeave) {
-      this.props.onDragLeave.call(this, e);
-    }
+    this.setState({ isDragActive: false });
+    this.props.onDragLeave.call(this, e);
   }
 
   onDrop(e) {
     e.preventDefault();
 
+    const droppedFiles = e.dataTransfer ? e.dataTransfer.files : e.target.files;
+
     // Reset the counter along with the drag on a drop.
     this.enterCounter = 0;
-
-    this.setState({
-      isDragActive: false
-    });
-
-    const droppedFiles = e.dataTransfer ? e.dataTransfer.files : e.target.files;
-    const max = droppedFiles.length;
-    const files = [];
-
-    for (let i = 0; i < max; i++) {
-      const file = droppedFiles[i];
-      // We might want to disable the preview creation to support big files
-      if (!this.props.disablePreview) {
-        file.preview = window.URL.createObjectURL(file);
-      }
-      files.push(file);
-    }
-
-    if (this.props.onDrop) {
-      this.props.onDrop.call(this, files, e);
-    }
+    this.setState({ isDragActive: false });
+    this.props.onDrop.call(this, _.values(droppedFiles), e);
   }
 
   onClick() {
     if (!this.props.disableClick) {
-      this.open();
+      this.fileInputEl.value = null;
+      this.fileInputEl.click();
     }
-  }
-
-  open() {
-    this.fileInputEl.value = null;
-    this.fileInputEl.click();
   }
 
   render() {
-    const activeClassName = this.props.activeClassName;
-
-    let activeStyle = this.props.activeStyle;
-    let className = this.props.className;
-    let style = this.props.style;
-
-    const omitList = [
-      'activeClassName',
-      'activeStyle',
-      'className',
-      'style'
-    ];
-
-    const { isDragActive } = this.state;
-
-    className = className || '';
-
-    if (isDragActive && activeClassName) {
-      className += ' ' + activeClassName;
-    }
-
-    let appliedStyle;
-    if (activeStyle && isDragActive) {
-      appliedStyle = _.extend({}, style, activeStyle);
-    } else {
-      appliedStyle = _.extend({}, style);
-    }
-
-    const inputAttributes = {
-      type: 'file',
-      style: { display: 'none' },
-      multiple: true,
-      ref: el => this.fileInputEl = el,
-      onChange: this.onDrop
-    };
+    const dropzoneClasses = classNames({
+      [`${this.props.className}`]: true,
+      [`${this.props.activeClassName}`]: this.state.isDragActive
+    });
+    const inputStyle = { display: 'none' };
 
     return (
       <div
-        className={className}
-        style={appliedStyle}
+        className={dropzoneClasses}
+        style={this.props.style}
         onClick={this.onClick}
         onDragEnter={this.onDragEnter}
         onDragOver={this.onDragOver}
         onDragLeave={this.onDragLeave}
-        onDrop={this.onDrop}
-      >
+        onDrop={this.onDrop} >
         {this.props.children}
         <input
-          {...inputAttributes}
-        />
+          type={'file'}
+          style={inputStyle}
+          multiple={true}
+          ref={(el) => this.fileInputEl = el}
+          onChange={this.onDrop} />
       </div>
     );
   }
 }
 
 Dropzone.defaultProps = {
+  onDragEnter: () => {},
+  onDragLeave: () => {},
+  style: {},
+  className: '',
+  activeClassName: '',
   disableClick: false
 };
 
 Dropzone.propTypes = {
-  onDrop: PropTypes.func,
+  onDrop: PropTypes.func.isRequired,
   onDragEnter: PropTypes.func,
-  onDragLeave: PropTypes.func,
   style: PropTypes.object,
+  onDragLeave: PropTypes.func,
   children: PropTypes.node,
   className: PropTypes.string,
   activeClassName: PropTypes.string,
