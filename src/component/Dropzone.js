@@ -23,7 +23,7 @@ export class Dropzone extends Component {
     // Count the dropzone and any children that are entered.
     ++this.enterCounter;
     this.setState({ isDragActive: true });
-    this.props.onDragEnter.call(this, e);
+    this.props.onDragEnter(e);
   }
 
   onDragOver(e) {
@@ -41,7 +41,7 @@ export class Dropzone extends Component {
     }
 
     this.setState({ isDragActive: false });
-    this.props.onDragLeave.call(this, e);
+    this.props.onDragLeave(e);
   }
 
   onDrop(e) {
@@ -49,10 +49,8 @@ export class Dropzone extends Component {
 
     const droppedFiles = e.dataTransfer ? e.dataTransfer.files : e.target.files;
 
-    // Reset the counter along with the drag on a drop.
-    this.enterCounter = 0;
     this.setState({ isDragActive: false });
-    this.props.onDrop.call(this, droppedFiles, e);
+    this.props.onDrop(droppedFiles, e);
   }
 
   onClick() {
