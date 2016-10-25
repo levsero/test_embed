@@ -53,7 +53,7 @@ export class Dropzone extends Component {
     // Reset the counter along with the drag on a drop.
     this.enterCounter = 0;
     this.setState({ isDragActive: false });
-    this.props.onDrop.call(this, _.values(droppedFiles), e);
+    this.props.onDrop.call(this, droppedFiles, e);
   }
 
   onClick() {
@@ -81,7 +81,8 @@ export class Dropzone extends Component {
         onDrop={this.onDrop} >
         {this.props.children}
         <input
-          type={'file'}
+          accept
+          type='file'
           style={inputStyle}
           multiple={true}
           ref={(el) => this.fileInputEl = el}
