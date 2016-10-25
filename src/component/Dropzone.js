@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
-import _ from 'lodash';
 
 import { bindMethods } from 'utility/utils';
 
@@ -81,7 +80,6 @@ export class Dropzone extends Component {
         onDrop={this.onDrop} >
         {this.props.children}
         <input
-          accept
           type='file'
           style={inputStyle}
           multiple={true}
