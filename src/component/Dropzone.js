@@ -1,16 +1,6 @@
-// original
-// import accepts from 'attr-accept';
-
 import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
 import { bindMethods } from 'utility/utils';
-
-const supportMultiple = true;
-/*
-const supportMultiple = (typeof document !== 'undefined' && document && document.createElement) ?
-  'multiple' in document.createElement('input') :
-  true;
-*/
 
 export class Dropzone extends Component {
   constructor(props, context) {
@@ -36,12 +26,8 @@ export class Dropzone extends Component {
     // But Chrome implements some drag store, which is accesible via dataTransfer.items
     const dataTransferItems = e.dataTransfer && e.dataTransfer.items ? e.dataTransfer.items : [];
 
-    // Now we need to convert the DataTransferList to Array
-    const allFilesAccepted = this.allFilesAccepted(Array.prototype.slice.call(dataTransferItems));
-
     this.setState({
-      isDragActive: allFilesAccepted,
-      isDragReject: !allFilesAccepted
+      isDragActive: true
     });
 
     if (this.props.onDragEnter) {
@@ -64,8 +50,7 @@ export class Dropzone extends Component {
     }
 
     this.setState({
-      isDragActive: false,
-      isDragReject: false
+      isDragActive: false
     });
 
     if (this.props.onDragLeave) {
@@ -80,12 +65,11 @@ export class Dropzone extends Component {
     this.enterCounter = 0;
 
     this.setState({
-      isDragActive: false,
-      isDragReject: false
+      isDragActive: false
     });
 
     const droppedFiles = e.dataTransfer ? e.dataTransfer.files : e.target.files;
-    const max = this.props.multiple ? droppedFiles.length : 1;
+    const max = droppedFiles.length;
     const files = [];
 
     for (let i = 0; i < max; i++) {
@@ -100,16 +84,6 @@ export class Dropzone extends Component {
     if (this.props.onDrop) {
       this.props.onDrop.call(this, files, e);
     }
-
-    if (this.allFilesAccepted(files)) {
-      if (this.props.onDropAccepted) {
-        this.props.onDropAccepted.call(this, files, e);
-      }
-    } else {
-      if (this.props.onDropRejected) {
-        this.props.onDropRejected.call(this, files, e);
-      }
-    }
   }
 
   onClick() {
@@ -118,102 +92,52 @@ export class Dropzone extends Component {
     }
   }
 
-  allFilesAccepted(files) {
-    return files;
-
-    // original
-    // return files.every(file => accepts(file, this.props.accept));
-  }
-
   open() {
     this.fileInputEl.value = null;
     this.fileInputEl.click();
   }
 
   render() {
-    const accept = this.props.accept;
     const activeClassName = this.props.activeClassName;
-    const inputProps = this.props.inputProps;
-    const multiple = this.props.multiple;
-    const name = this.props.name;
-    const rejectClassName = this.props.rejectClassName;
 
     let activeStyle = this.props.activeStyle;
     let className = this.props.className;
-    let rejectStyle = this.props.rejectStyle;
     let style = this.props.style;
 
     const omitList = [
-      'accept',
       'activeClassName',
-      'inputProps',
-      'multiple',
-      'name',
-      'rejectClassName',
       'activeStyle',
       'className',
-      'rejectStyle',
       'style'
     ];
-    let props = _.omit(this.props, omitList);
 
-    const { isDragActive, isDragReject } = this.state;
+    const { isDragActive } = this.state;
 
     className = className || '';
 
     if (isDragActive && activeClassName) {
       className += ' ' + activeClassName;
     }
-    if (isDragReject && rejectClassName) {
-      className += ' ' + rejectClassName;
-    }
-
-    if (!className && !style && !activeStyle && !rejectStyle) {
-      style = {
-        width: 200,
-        height: 200,
-        borderWidth: 2,
-        borderColor: '#666',
-        borderStyle: 'dashed',
-        borderRadius: 5
-      };
-      activeStyle = {
-        borderStyle: 'solid',
-        backgroundColor: '#eee'
-      };
-      rejectStyle = {
-        borderStyle: 'solid',
-        backgroundColor: '#ffdddd'
-      };
-    }
 
     let appliedStyle;
     if (activeStyle && isDragActive) {
       appliedStyle = _.extend({}, style, activeStyle);
-    } else if (rejectStyle && isDragReject) {
-      appliedStyle = _.extend({}, style, rejectStyle);
     } else {
       appliedStyle = _.extend({}, style);
     }
 
     const inputAttributes = {
-      accept,
       type: 'file',
       style: { display: 'none' },
-      multiple: supportMultiple && multiple,
+      multiple: true,
       ref: el => this.fileInputEl = el,
       onChange: this.onDrop
     };
-
-    if (name && name.length) {
-      inputAttributes.name = name;
-    }
 
     return (
       <div
         className={className}
         style={appliedStyle}
-        {...props /* expand user provided props first so event handlers are never overridden */}
         onClick={this.onClick}
         onDragEnter={this.onDragEnter}
         onDragOver={this.onDragOver}
@@ -222,7 +146,6 @@ export class Dropzone extends Component {
       >
         {this.props.children}
         <input
-          {...inputProps /* expand user provided inputProps first so inputAttributes override them */}
           {...inputAttributes}
         />
       </div>
@@ -231,31 +154,16 @@ export class Dropzone extends Component {
 }
 
 Dropzone.defaultProps = {
-  disablePreview: false,
-  disableClick: false,
-  multiple: true
+  disableClick: false
 };
 
 Dropzone.propTypes = {
   onDrop: PropTypes.func,
-  onDropAccepted: PropTypes.func,
-  onDropRejected: PropTypes.func,
   onDragEnter: PropTypes.func,
   onDragLeave: PropTypes.func,
-
-  children: PropTypes.node,
   style: PropTypes.object,
-  activeStyle: PropTypes.object,
-  rejectStyle: PropTypes.object,
+  children: PropTypes.node,
   className: PropTypes.string,
   activeClassName: PropTypes.string,
-  rejectClassName: PropTypes.string,
-
-  disablePreview: PropTypes.bool,
-  disableClick: PropTypes.bool,
-
-  inputProps: PropTypes.object,
-  multiple: PropTypes.bool,
-  accept: PropTypes.string,
-  name: PropTypes.string
+  disableClick: PropTypes.bool
 };
