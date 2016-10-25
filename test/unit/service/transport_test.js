@@ -29,6 +29,9 @@ describe('transport', function() {
           hostname: 'helpme.mofo.io'
         }
       },
+      'utility/utils': {
+        base64encode: (str) => {str}
+      },
       'service/identity': {
         identity: {
           getBuid: jasmine.createSpy('getBuid').and.returnValue('abc123'),

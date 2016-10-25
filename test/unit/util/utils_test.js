@@ -4,7 +4,8 @@ describe('utils', () => {
     getPageTitle,
     nowInSeconds,
     objectDifference,
-    cssTimeToMs;
+    cssTimeToMs,
+    base64encode;
 
   const mockGlobals = {
     win: {},
@@ -43,6 +44,7 @@ describe('utils', () => {
     objectDifference = require(utilPath).objectDifference;
     cssTimeToMs = require(utilPath).cssTimeToMs;
     nowInSeconds = require(utilPath).nowInSeconds;
+    base64encode = require(utilPath).base64encode;
   });
 
   afterEach(() => {
@@ -234,6 +236,46 @@ describe('utils', () => {
     it('should return the current time in seconds', () => {
       expect(nowInSeconds())
         .toEqual(Math.floor(Date.now() / 1000));
+    });
+  });
+
+  describe('base64encode()', () => {
+    describe('with ascii characters', () => {
+      const ascii = ''.concat(
+        'abcdefghijklmnopqrstuvwxyz',
+        'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+        '0123456789',
+        "!#$%&()*+,-./:;<=>?@[]{}^_`|~'\\\""
+      );
+
+      const base64 = ''.concat(
+        'YWJjZGVmZ2hpamtsbW5vcHFyc3',
+        'R1dnd4eXpBQkNERUZHSElKS0xN',
+        'Tk9QUVJTVFVWV1hZWjAxMjM0NT',
+        'Y3ODkhIyQlJigpKissLS4vOjs8',
+        'PT4/QFtde31eX2B8fidcIg=='
+      );
+
+      it('encodes the string properly', () => {
+        expect(base64encode(ascii))
+          .toEqual(base64);
+      });
+    });
+
+    describe('with extended utf-8 characters', () => {
+      it('encodes the string properly', () => {
+        expect(base64encode('✓ à la mode'))
+          .toEqual('4pyTIMOgIGxhIG1vZGU=');
+
+        expect(base64encode('我是一支鉛筆'))
+          .toEqual('5oiR5piv5LiA5pSv6Ymb562G');
+
+        expect(base64encode('Я карандаш'))
+          .toEqual('0K8g0LrQsNGA0LDQvdC00LDRiA==');
+
+        expect(base64encode('😂😓😥😭💩'))
+          .toEqual('8J+YgvCfmJPwn5il8J+YrfCfkqk=');
+      });
     });
   });
 });

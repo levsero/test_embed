@@ -4,6 +4,7 @@ import superagent from 'superagent';
 import { settings } from 'service/settings';
 import { identity } from 'service/identity';
 import { location } from 'utility/globals';
+import { base64encode } from 'utility/utils';
 
 let config;
 
@@ -102,7 +103,7 @@ function send(payload) {
     });
 }
 
-function sendWithMeta(payload) {
+function sendWithMeta(payload, isBase64 = false) {
   const commonParams = {
     url: location.href,
     buid: identity.getBuid(),
@@ -113,6 +114,9 @@ function sendWithMeta(payload) {
 
   payload.params = _.extend(commonParams, payload.params);
 
+  if (isBase64) {
+    payload.params = { data: JSON.stringify(payload.params) }
+  };
   send(payload);
 }
 
