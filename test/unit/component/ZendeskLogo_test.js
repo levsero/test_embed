@@ -11,6 +11,11 @@ describe('ZendeskLogo component', () => {
       'React': React,
       'component/Icon': {
         Icon: noopReactComponent()
+      },
+      'service/i18n': {
+        i18n: {
+          t: _.identity
+        }
       }
     });
     mockery.registerAllowable('utility/globals');
