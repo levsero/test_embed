@@ -7,6 +7,8 @@ FROM nginx:1.11-alpine
 # development mode, deploy the app root to `/app`.
 COPY dist /app/dist
 
+COPY REVISION /REVISION
+
 RUN ln -s /app/dist /usr/share/nginx/html/embeddable_framework
 
 # Instead of using `daemon off;` in nginx.conf, use simple hack to keep process
