@@ -13,7 +13,7 @@ The API consists of the following methods:
 
 You can use the `zE.identify`, `zE.hide`, `zE.show`, and `zE.activate` methods before and after page load. For example, you can use them in click event handlers.
 
-**Note**: If you're looking for the Widget code for your pages, you can get it from the admin pages of your Zendesk account. After signing in to your Zendesk, click the Admin icon (![icon](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/manage_icon.png)) in the sidebar and select **Channels** >  **Widget**.
+**Note**: If you're looking for the Widget code for your pages, you can get it from the admin pages of your Zendesk Support account. After signing in to your Zendesk Support account, click the Admin icon (![icon](https://zen-marketing-documentation.s3.amazonaws.com/docs/en/manage_icon.png)) in the sidebar and select **Channels** >  **Widget**.
 
 For more information on setting up the Web Widget, this [support article](https://support.zendesk.com/hc/en-us/articles/203908456-Using-Web-Widget-to-embed-customer-service-in-your-website) will guide you through your setup.
 
@@ -45,13 +45,13 @@ The following example displays the widget in German:
 
 The method takes a JavaScript object with a `name`, `email` and optionally, `organization` property.
 
-If you have access to your end user's name and email on the web page (for example, if your user is signed in), you can use `zE.identify()` to pass the details of that user to your Zendesk account, ensuring your user data is in sync.
+If you have access to your end user's name and email on the web page (for example, if your user is signed in), you can use `zE.identify()` to pass the details of that user to your Zendesk Support account, ensuring your user data is in sync.
 
-Here's how it works: If the user's email doesn't already exist in your Zendesk, a new user record with those details is created.
+Here's how it works: If the user's email doesn't already exist in your Zendesk Support account, a new user record with those details is created.
 
 The Widget also uses the information in the `zE.identify()` call to pre-populate the contact or pre-chat chat form, saving the user from having to type in the information. This is especially useful for end users using your website on a mobile device (screenshot below).
 
-Note: Passing an `organization` with `zE.identify()` only works for existing organizations in your Zendesk account. It does *not* create a new organization.
+Note: Passing an `organization` with `zE.identify()` only works for existing organizations in your Zendesk Support account. It does *not* create a new organization.
 
 ```html
 <script>
