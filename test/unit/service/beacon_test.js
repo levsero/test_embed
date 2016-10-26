@@ -1,13 +1,15 @@
-describe('beacon', function() {
+describe('beacon', () => {
   let beacon,
     mockRegistry,
     mockTime,
     mockSha1String,
-    mockStore;
+    mockStore,
+    userActionParams;
+
   const localeId = 10;
   const beaconPath = buildSrcPath('service/beacon');
 
-  beforeEach(function() {
+  beforeEach(() => {
     mockery.enable();
 
     mockStore = null;
@@ -59,7 +61,7 @@ describe('beacon', function() {
         }
       },
       'utility/utils': {
-        parseUrl: function() {
+        parseUrl: () => {
           return {
             href: 'http://document.referrer'
           };
@@ -77,19 +79,19 @@ describe('beacon', function() {
     beacon = requireUncached(beaconPath).beacon;
   });
 
-  afterEach(function() {
+  afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
   });
 
-  describe('#init', function() {
+  describe('#init', () => {
     let mockTransport;
 
-    beforeEach(function() {
+    beforeEach(() => {
       mockTransport = mockRegistry['service/transport'].transport;
     });
 
-    it('Saves the currentTime', function() {
+    it('Saves the currentTime', () => {
       const currentTime = Date.now();
       const mockPersistence = mockRegistry['service/persistence'];
 
@@ -112,16 +114,16 @@ describe('beacon', function() {
         .toBeTruthy();
     });
 
-    describe('mediator subscriptions', function() {
+    describe('mediator subscriptions', () => {
       let mockMediator;
 
-      beforeEach(function() {
+      beforeEach(() => {
         mockMediator = mockRegistry['service/mediator'].mediator;
 
         beacon.init();
       });
 
-      it('should subscribe to beacon.identify', function() {
+      it('should subscribe to beacon.identify', () => {
         const params = {
           name: 'James Dean',
           email: 'james@dean.com'
@@ -144,7 +146,7 @@ describe('beacon', function() {
           .toEqual(params.email);
       });
 
-      it('should subscribe to beacon.trackUserAction', function() {
+      it('should subscribe to beacon.trackUserAction', () => {
         const params = {
           category: 'launcher',
           action: 'clicked',
@@ -170,18 +172,28 @@ describe('beacon', function() {
           .toEqual(params);
       });
     });
+  });
 
-    describe('sending a page view blip', function() {
+  describe('#sendPageView', () => {
+    const now = new Date(Date.now());
+    let mockTransport;
+
+    beforeEach(() => {
+      jasmine.clock().mockDate(now);
+      document.t = now - 1000;
+      mockTransport = mockRegistry['service/transport'].transport;
+    });
+
+    describe('sending a page view blip', () => {
       let mockDocument;
 
-      beforeEach(function() {
+      beforeEach(() => {
         mockDocument = mockRegistry['utility/globals'].document;
       });
 
-      it('if the document has readyState `complete` it should send a pageview blip', function() {
+      it('if the document has readyState `complete` it should send a pageview blip', () => {
         mockDocument.readyState = 'complete';
 
-        beacon.init();
         beacon.sendPageView();
 
         const transportPayload = mockTransport.sendWithMeta.calls.mostRecent().args[0];
@@ -193,10 +205,9 @@ describe('beacon', function() {
           .toBeDefined();
       });
 
-      it('if the document has readyState `interactive` it should send a pageview blip', function() {
+      it('if the document has readyState `interactive` it should send a pageview blip', () => {
         mockDocument.readyState = 'interactive';
 
-        beacon.init();
         beacon.sendPageView();
 
         const transportPayload = mockTransport.sendWithMeta.calls.mostRecent().args[0];
@@ -208,7 +219,7 @@ describe('beacon', function() {
           .toBeDefined();
       });
 
-      it('if the document has readyState `loading` it should not send a pageview blip', function() {
+      it('if the document has readyState `loading` it should not send a pageview blip', () => {
         mockDocument.readyState = 'loading';
 
         beacon.init();
@@ -217,62 +228,97 @@ describe('beacon', function() {
           .not.toHaveBeenCalled();
       });
     });
+
+    describe('with base64 not turned on', () => {
+      it('sends correct payload using transport.send', () => {
+        const mockTransport = mockRegistry['service/transport'];
+        const mockGlobals = mockRegistry['utility/globals'];
+        const mockUtils = mockRegistry['utility/utils'];
+        const mockPages = mockRegistry['utility/pages'];
+
+        beacon.sendPageView();
+
+        expect(mockTransport.transport.sendWithMeta).toHaveBeenCalled();
+
+        const payload = mockTransport.transport.sendWithMeta.calls.mostRecent().args[0];
+        const isBase64 = mockTransport.transport.sendWithMeta.calls.mostRecent().args[1];
+
+        expect(payload.method)
+          .toBe('POST');
+
+        expect(payload.path)
+          .toBe('/embeddable/blips');
+
+        const params = payload.params;
+
+        expect(params.pageView.userAgent)
+          .toBe(mockGlobals.navigator.userAgent);
+
+        expect(params.pageView.referrer)
+          .toBe(mockUtils.parseUrl().href);
+
+        expect(params.pageView.navigatorLanguage)
+          .toBe(mockGlobals.navigator.language);
+
+        expect(params.pageView.pageTitle)
+          .toBe(mockGlobals.document.title);
+
+        expect(params.pageView.time)
+          .toBeDefined();
+
+        expect(params.pageView.loadTime)
+          .toBe(1000);
+
+        expect(params.pageView.helpCenterDedup)
+          .toBe(mockPages.isOnHelpCenterPage());
+
+        expect(isBase64)
+          .not.toBe(true);
+      });
+    });
+
+    describe('with base64 turned on', () => {
+      beforeEach(() => {
+        beacon.setConfig({ newBlips: true });
+      });
+
+      afterEach(() => {
+        beacon.setConfig({});
+      });
+
+      it('sends correct payload using transport.send', () => {
+        const mockTransport = mockRegistry['service/transport'];
+
+        beacon.sendPageView();
+
+        expect(mockTransport.transport.sendWithMeta).toHaveBeenCalled();
+
+        const payload = mockTransport.transport.sendWithMeta.calls.mostRecent().args[0];
+        const isBase64 = mockTransport.transport.sendWithMeta.calls.mostRecent().args[1];
+
+        expect(payload.method)
+          .toBe('GET');
+
+        expect(payload.path)
+          .toBe('/embeddable/blips');
+
+        expect(isBase64)
+          .toBe(true);
+      });
+    });
   });
 
-  describe('#sendPageView', function() {
-    const now = new Date(Date.now());
-
+  describe('#trackUserAction', () => {
     beforeEach(() => {
-      jasmine.clock().mockDate(now);
-      document.t = now - 1000;
+      userActionParams = {
+        category: 'Category01',
+        action: 'Action02',
+        label: 'Label03',
+        value: 'Value04'
+      };
     });
 
-    it('sends correct payload using transport.send', function() {
-      const mockTransport = mockRegistry['service/transport'];
-      const mockGlobals = mockRegistry['utility/globals'];
-      const mockUtils = mockRegistry['utility/utils'];
-      const mockPages = mockRegistry['utility/pages'];
-
-      beacon.init();
-      beacon.sendPageView();
-
-      expect(mockTransport.transport.sendWithMeta).toHaveBeenCalled();
-
-      const payload = mockTransport.transport.sendWithMeta.calls.mostRecent().args[0];
-
-      expect(payload.method)
-        .toBe('POST');
-
-      expect(payload.path)
-        .toBe('/embeddable/blips');
-
-      const params = payload.params;
-
-      expect(params.pageView.userAgent)
-        .toBe(mockGlobals.navigator.userAgent);
-
-      expect(params.pageView.referrer)
-        .toBe(mockUtils.parseUrl().href);
-
-      expect(params.pageView.navigatorLanguage)
-        .toBe(mockGlobals.navigator.language);
-
-      expect(params.pageView.pageTitle)
-        .toBe(mockGlobals.document.title);
-
-      expect(params.pageView.time)
-        .toBeDefined();
-
-      expect(params.pageView.loadTime)
-        .toBe(1000);
-
-      expect(params.pageView.helpCenterDedup)
-        .toBe(mockPages.isOnHelpCenterPage());
-    });
-  });
-
-  describe('#trackUserAction', function() {
-    it('should not send anything if the first two properties are not provided', function() {
+    it('should not send anything if the first two properties are not provided', () => {
       const mockTransport = mockRegistry['service/transport'];
 
       beacon.trackUserAction();
@@ -284,13 +330,7 @@ describe('beacon', function() {
         .not.toHaveBeenCalled();
     });
 
-    it('sends the correct payload', function() {
-      const userActionParams = {
-        category: 'Category01',
-        action: 'Action02',
-        label: 'Label03',
-        value: 'Value04'
-      };
+    it('sends the correct payload', () => {
       const mockTransport = mockRegistry['service/transport'];
 
       beacon.init();
@@ -318,6 +358,41 @@ describe('beacon', function() {
       expect(params.userAction)
         .toEqual(userActionParams);
     });
+
+    describe('with base64 turned on', () => {
+      beforeEach(() => {
+        beacon.setConfig({ newBlips: true });
+      });
+
+      afterEach(() => {
+        beacon.setConfig({});
+      });
+
+      it('sends correct payload using transport.send', () => {
+        const mockTransport = mockRegistry['service/transport'];
+
+        beacon.trackUserAction(
+          userActionParams.category,
+          userActionParams.action,
+          userActionParams.label,
+          userActionParams.value
+        );
+
+        expect(mockTransport.transport.sendWithMeta).toHaveBeenCalled();
+
+        const payload = mockTransport.transport.sendWithMeta.calls.mostRecent().args[0];
+        const isBase64 = mockTransport.transport.sendWithMeta.calls.mostRecent().args[1];
+
+        expect(payload.method)
+          .toBe('GET');
+
+        expect(payload.path)
+          .toBe('/embeddable/blips');
+
+        expect(isBase64)
+          .toBe(true);
+      });
+    });
   });
 
   describe('#trackSettings', () => {
@@ -330,7 +405,7 @@ describe('beacon', function() {
       mockPersistence = mockRegistry['service/persistence'];
     });
 
-    describe('when there is a zESettings object on the page', function() {
+    describe('when there is a zESettings object on the page', () => {
       beforeEach(() => {
         mockRegistry['utility/globals'].win.zESettings = mockSettings;
         beacon.trackSettings(mockSettings);
@@ -474,16 +549,47 @@ describe('beacon', function() {
         });
       });
     });
+
+    describe('with base64 turned on', () => {
+      beforeEach(() => {
+        beacon.setConfig({ newBlips: true });
+        mockTransport = mockRegistry['service/transport'].transport;
+        mockRegistry['utility/globals'].win.zESettings = mockSettings;
+        beacon.trackSettings(mockSettings);
+      });
+
+      afterEach(() => {
+        beacon.setConfig({});
+      });
+
+      it('sends correct payload using transport.send', () => {
+        const mockTransport = mockRegistry['service/transport'];
+
+        expect(mockTransport.transport.sendWithMeta).toHaveBeenCalled();
+
+        const payload = mockTransport.transport.sendWithMeta.calls.mostRecent().args[0];
+        const isBase64 = mockTransport.transport.sendWithMeta.calls.mostRecent().args[1];
+
+        expect(payload.method)
+          .toBe('GET');
+
+        expect(payload.path)
+          .toBe('/embeddable/blips');
+
+        expect(isBase64)
+          .toBe(true);
+      });
+    });
   });
 
-  describe('identify', function() {
+  describe('identify', () => {
     let mockTransport,
       mockGlobals;
 
     const name = 'John';
     const email = 'john@example.com';
 
-    beforeEach(function() {
+    beforeEach(() => {
       mockTransport = mockRegistry['service/transport'];
       mockGlobals = mockRegistry['utility/globals'];
 
@@ -491,7 +597,7 @@ describe('beacon', function() {
       beacon.identify({ name: name, email: email });
     });
 
-    it('sends the correct payload', function() {
+    it('sends the correct payload', () => {
       expect(mockTransport.transport.sendWithMeta)
         .toHaveBeenCalled();
 
