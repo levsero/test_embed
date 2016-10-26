@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
 import { Icon } from 'component/Icon';
+import { i18n } from 'service/i18n';
 
 export class ZendeskLogo extends Component {
   render() {
@@ -17,7 +18,10 @@ export class ZendeskLogo extends Component {
     const logoType = this.props.golionLogo ? 'Icon--golion' : 'Icon--zendesk';
 
     const logoUrl = [
-      `//www.zendesk.com/${this.props.logoLink}/`,
+      i18n.t(
+        `embeddable_framework.zendeskLogo.powered_by_url.${this.props.logoLink}`,
+        { fallback: `https://www.zendesk.com/${this.props.logoLink}/` }
+      ),
       `?utm_source=${this.props.utm}&utm_medium=poweredbyzendesk&utm_campaign=image`
     ].join('');
 
