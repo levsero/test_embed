@@ -355,7 +355,7 @@ describe('transport', () => {
         transport.init(config);
       });
 
-      it('changes its send method to GET', () =>{
+      it('encodes the data and sends it as a query string', () =>{
         transport.sendWithMeta(payload, true);
 
         expect(payload.query).toEqual({ data: 'MOCKBASE64' });
