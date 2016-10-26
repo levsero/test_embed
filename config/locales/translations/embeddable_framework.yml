@@ -360,3 +360,17 @@ parts:
       key: "embeddable_framework.channelChoice.chat.offline"
       title: "A notification that appears when a user enters live chat but all agents become unavailable."
       value: "Live chat is offline."
+
+  # ZendeskLogo component
+  - translation:
+      key: "embeddable_framework.zendeskLogo.powered_by_url.embeddables"
+      title: "URL for the Powered By Zendesk link in the Web Widget"
+      value: "https://www.zendesk.com/embeddables/"
+      screenshot: "https://zendesk.box.com/s/qmyogztvns6u9t8ti56g4ulbdrakvj81"
+      hidden: true
+  - translation:
+      key: "embeddable_framework.zendeskLogo.powered_by_url.connect"
+      title: "URL for the Powered By Zendesk link in the Connect IPM"
+      value: "https://www.zendesk.com/connect/"
+      screenshot: "https://zendesk.box.com/s/gbj1x0hjotrzqboq01kslqrhqq523rbk"
+      hidden: true
