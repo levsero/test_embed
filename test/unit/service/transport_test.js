@@ -30,7 +30,7 @@ describe('transport', function() {
         }
       },
       'utility/utils': {
-        base64encode: (str) => {str}
+        base64encode: (str) => { str; }
       },
       'service/identity': {
         identity: {

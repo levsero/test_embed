@@ -182,6 +182,7 @@ describe('beacon', function() {
         mockDocument.readyState = 'complete';
 
         beacon.init();
+        beacon.sendPageView();
 
         const transportPayload = mockTransport.sendWithMeta.calls.mostRecent().args[0];
 
@@ -196,6 +197,7 @@ describe('beacon', function() {
         mockDocument.readyState = 'interactive';
 
         beacon.init();
+        beacon.sendPageView();
 
         const transportPayload = mockTransport.sendWithMeta.calls.mostRecent().args[0];
 
@@ -232,6 +234,8 @@ describe('beacon', function() {
       const mockPages = mockRegistry['utility/pages'];
 
       beacon.init();
+      beacon.sendPageView();
+
       expect(mockTransport.transport.sendWithMeta).toHaveBeenCalled();
 
       const payload = mockTransport.transport.sendWithMeta.calls.mostRecent().args[0];
