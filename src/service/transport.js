@@ -103,7 +103,7 @@ function send(payload) {
     });
 }
 
-function sendWithMeta(payload, isBase64 = false) {
+function sendWithMeta(payload, useBase64 = false) {
   const commonParams = {
     url: location.href,
     buid: identity.getBuid(),
@@ -114,7 +114,7 @@ function sendWithMeta(payload, isBase64 = false) {
 
   payload.params = _.extend(commonParams, payload.params);
 
-  if (isBase64) {
+  if (useBase64) {
     payload.query = { data: base64encode(JSON.stringify(payload.params)) };
   }
   send(payload);

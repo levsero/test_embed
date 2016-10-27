@@ -62,8 +62,13 @@ function base64decode(string) {
   return window.atob(string);
 }
 
+// As per this post on MDN https://goo.gl/XzjooY:
+// > Since DOMStrings are 16-bit-encoded strings, in most browsers calling window.btoa
+// > on a Unicode string will cause a Character Out Of Range exception if a character
+// > exceeds the range of a 8-bit ASCII-encoded character.
+// So we escape the string before encoding it. A test has been added for this
 function base64encode(string) {
-  return window.btoa(encodeURIComponent(string).replace(/%([0-9A-F]{2})/g, function(match, p1) {
+  return window.btoa(encodeURIComponent(string).replace(/%([0-9A-F]{2})/g, (match, p1) => {
     return String.fromCharCode('0x' + p1);
   }));
 }
