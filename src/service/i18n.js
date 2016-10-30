@@ -1,6 +1,5 @@
 import _ from 'lodash';
 
-import { mediator } from 'service/mediator';
 import { settings } from 'service/settings';
 
 const translate = require('counterpart');
@@ -32,7 +31,6 @@ function setTranslations() {
   }, {});
 
   translate.registerTranslations(currentLocale, decodedStrings);
-  mediator.channel.broadcast('.onSetLocale', currentLocale);
 }
 
 function setCustomTranslations() {
