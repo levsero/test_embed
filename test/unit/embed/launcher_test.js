@@ -25,6 +25,7 @@ describe('embed.launcher', function() {
           setActive: jasmine.createSpy('setActive'),
           setIcon: jasmine.createSpy('setIcon'),
           setLabel: jasmine.createSpy('setLabel'),
+          setLabelOptions: jasmine.createSpy('setLabelOptions'),
           render: function() {
             return (
               <div className='mock-launcher' />
@@ -56,13 +57,6 @@ describe('embed.launcher', function() {
         }
       },
       'lodash': _,
-      'service/i18n': {
-        i18n: {
-          init: noop,
-          setLocale: noop,
-          t: _.identity
-        }
-      },
       'service/transitionFactory' : {
         transitionFactory: requireUncached(buildTestPath('unit/mockTransitionFactory')).mockTransitionFactory
       }
@@ -98,18 +92,6 @@ describe('embed.launcher', function() {
 
       expect(alice.config)
         .toBeDefined();
-    });
-
-    it('should call i18n.t with the right parameter to get the label', function() {
-      const tSpy = jasmine.createSpy('i18n.t');
-      const labelKey = 'foo bar';
-
-      mockRegistry['service/i18n'].i18n.t = tSpy;
-
-      launcher.create('alice', { labelKey: labelKey });
-
-      expect(tSpy)
-        .toHaveBeenCalledWith(`embeddable_framework.launcher.label.${labelKey}`);
     });
 
     it('changes config.labelKey if labelKey is set', function() {

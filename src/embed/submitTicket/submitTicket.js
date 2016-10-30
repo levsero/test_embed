@@ -248,6 +248,12 @@ function render(name) {
     });
   });
 
+  mediator.channel.subscribe(name + '.setLocale', (locale) => {
+    waitForRootComponent(name, () => {
+      getRootComponent(name).setState({ locale: locale });
+    });
+  });
+
   mediator.channel.subscribe(name + '.prefill', function(user) {
     prefillForm(name, user);
   });

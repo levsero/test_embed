@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
 import { Icon } from 'component/Icon';
+import { i18n } from 'service/i18n';
 import { isMobileBrowser } from 'utility/devices';
 
 export class Launcher extends Component {
@@ -11,6 +12,7 @@ export class Launcher extends Component {
     this.state = {
       icon: props.icon,
       label: props.label,
+      labelOptions: {},
       hasUnreadMessages: false
     };
   }
@@ -18,6 +20,12 @@ export class Launcher extends Component {
   setLabel(label) {
     this.setState({
       label: label
+    });
+  }
+
+  setLabelOptions(labelOptions) {
+    this.setState({
+      labelOptions: labelOptions
     });
   }
 
@@ -43,6 +51,7 @@ export class Launcher extends Component {
       'Arrange-sizeFit u-textInheritColor u-inlineBlock': true,
       'u-isHidden': isMobileBrowser() && !this.state.hasUnreadMessages
     });
+    const label = i18n.t(this.state.label, this.state.labelOptions);
 
     setTimeout( () => this.props.updateFrameSize(5, 0), 0);
 
@@ -53,7 +62,7 @@ export class Launcher extends Component {
         <Icon
           type={this.state.icon}
           className={iconClasses} />
-        <span className={labelClasses}>{this.state.label}</span>
+        <span className={labelClasses}>{label}</span>
       </div>
     );
   }

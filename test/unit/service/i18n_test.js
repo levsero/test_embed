@@ -6,6 +6,11 @@ describe('i18n', () => {
   beforeEach(() => {
     mockery.enable();
     mockRegistry = initMockRegistry({
+      'service/mediator': {
+        mediator: {
+          channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
+        }
+      },
       'service/settings': {
         'settings': { getTranslations: noop }
       },

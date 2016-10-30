@@ -522,6 +522,13 @@ function init(embedsAccessible, params = {}) {
     c.broadcast(`${helpCenter}.setHelpCenterSuggestions`, params);
   });
 
+  c.intercept('.onSetLocale', (__, locale) => {
+    c.broadcast(`${channelChoice}.setLocale`, locale);
+    c.broadcast(`${helpCenter}.setLocale`, locale);
+    c.broadcast(`${launcher}.setLocale`, locale);
+    c.broadcast(`${submitTicket}.setLocale`, locale);
+  });
+
   if (embedAvailable()) {
     c.subscribe(`${launcher}.show`, updateLauncherLabel);
   }

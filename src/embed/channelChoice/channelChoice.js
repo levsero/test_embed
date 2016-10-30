@@ -119,6 +119,12 @@ function render(name) {
       channelChoices[name].instance.hide(options);
     });
   });
+
+  mediator.channel.subscribe(name + '.setLocale', (locale) => {
+    waitForRootComponent(name, () => {
+      getRootComponent(name).setState({ locale: locale });
+    });
+  });
 }
 
 export const channelChoice = {

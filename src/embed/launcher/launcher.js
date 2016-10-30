@@ -7,7 +7,6 @@ import { document,
 import { Launcher } from 'component/Launcher';
 import { frameFactory } from 'embed/frameFactory';
 import { beacon } from 'service/beacon';
-import { i18n } from 'service/i18n';
 import { mediator } from 'service/mediator';
 import { settings } from 'service/settings';
 import { generateUserCSS } from 'utility/color';
@@ -46,7 +45,7 @@ function create(name, config) {
           onTouchEnd={params.onClickHandler}
           updateFrameSize={params.updateFrameSize}
           position={config.position}
-          label={i18n.t(`embeddable_framework.launcher.label.${config.labelKey}`)}
+          label={`embeddable_framework.launcher.label.${config.labelKey}`}
           icon={config.icon} />
       );
     },
@@ -127,14 +126,20 @@ function render(name) {
     });
   });
 
+  mediator.channel.subscribe(name + '.setLocale', (locale) => {
+    waitForRootComponent(name, () => {
+      getRootComponent(name).setState({ locale: locale });
+    });
+  });
+
   mediator.channel.subscribe(name + '.setLabelChat', () => {
     setIcon(name, 'Icon--chat');
-    setLabel(name, i18n.t('embeddable_framework.launcher.label.chat'));
+    setLabel(name, 'embeddable_framework.launcher.label.chat');
     setHasUnreadMessages(name, false);
   });
 
   mediator.channel.subscribe(name + '.setLabelHelp', () => {
-    const label = i18n.t(`embeddable_framework.launcher.label.${launchers[name].config.labelKey}`);
+    const label = `embeddable_framework.launcher.label.${launchers[name].config.labelKey}`;
 
     setIcon(name, 'Icon');
     setLabel(name, label);
@@ -142,7 +147,7 @@ function render(name) {
   });
 
   mediator.channel.subscribe(name + '.setLabelChatHelp', () => {
-    const label = i18n.t(`embeddable_framework.launcher.label.${launchers[name].config.labelKey}`);
+    const label = `embeddable_framework.launcher.label.${launchers[name].config.labelKey}`;
 
     setIcon(name, 'Icon--chat');
     setLabel(name, label);
@@ -150,22 +155,26 @@ function render(name) {
   });
 
   mediator.channel.subscribe(name + '.setLabelUnreadMsgs', (unreadMsgs) => {
-    const label = unreadMsgs > 1
-                ? i18n.t(
-                    'embeddable_framework.chat.notification_multiple',
-                    { count: unreadMsgs, fallback: `${unreadMsgs} new` }
-                )
-                // TODO: Remove the count here when the notification translations changes are swept.
-                : i18n.t('embeddable_framework.chat.notification', { count: 1 });
-
-    setLabel(name, label);
+    if (unreadMsgs > 1) {
+      setLabel(
+        name, 'embeddable_framework.chat.notification_multiple',
+        { count: unreadMsgs, fallback: `${unreadMsgs} new` }
+      );
+    } else {
+      setLabel(
+        name, 'embeddable_framework.chat.notification',
+        // TODO: Remove the count here when the notification translations changes are swept.
+        { count: 1 }
+      );
+    }
     setHasUnreadMessages(name, true);
   });
 }
 
-function setLabel(name, label) {
+function setLabel(name, label, options = {}) {
   waitForRootComponent(name, () => {
     getRootComponent(name).setLabel(label);
+    if (options.length > 0) getRootComponent(name).setLabelOptions(options);
   });
 }
 

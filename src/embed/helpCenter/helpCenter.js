@@ -336,6 +336,12 @@ function render(name) {
     performContextualHelp(name, options);
   });
 
+  mediator.channel.subscribe(name + '.setLocale', (locale) => {
+    waitForRootComponent(name, () => {
+      getRootComponent(name).setState({ locale: locale });
+    });
+  });
+
   mediator.channel.subscribe(name + '.isAuthenticated', function() {
     hasAuthenticatedSuccessfully = true;
   });
