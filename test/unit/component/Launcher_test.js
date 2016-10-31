@@ -59,6 +59,16 @@ describe('Launcher component', function() {
       expect(launcher.state.label)
         .toEqual('support');
     });
+
+    it('should change the labelOptions when setLabel is called with extra options', function() {
+      expect(launcher.state.labelOptions)
+        .toEqual({});
+
+      launcher.setLabel('support', { some: 'thing' });
+
+      expect(launcher.state.labelOptions)
+        .toEqual({ some: 'thing' });
+    });
   });
 
   it('should call the updateFrameSize prop on render if it exists', function() {

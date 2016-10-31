@@ -279,6 +279,20 @@ describe('embed.launcher', function() {
           .toHaveBeenCalled();
       });
 
+      describe('<name>.setLocale', () => {
+        it('subscribes to setLocale', () => {
+          expect(mockMediator.channel.subscribe)
+            .toHaveBeenCalledWith('alice.setLocale', jasmine.any(Function));
+        });
+
+        it('updates the locale state', () => {
+          pluckSubscribeCall(mockMediator, 'alice.setLocale')('en-US');
+
+          expect(aliceLauncher.state.locale)
+            .toEqual('en-US');
+        });
+      });
+
       it('should subscribe to <name>.setLabelHelp', function() {
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('alice.setLabelHelp', jasmine.any(Function));

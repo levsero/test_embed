@@ -83,7 +83,8 @@ describe('mediator', function() {
        'setLabelChat',
        'setLabelHelp',
        'setLabelChatHelp',
-       'setLabelUnreadMsgs']
+       'setLabelUnreadMsgs',
+       'setLocale']
     );
 
     submitTicketSub = jasmine.createSpyObj(
@@ -94,13 +95,15 @@ describe('mediator', function() {
        'showBackButton',
        'setLastSearch',
        'prefill',
-       'update']
+       'update',
+       'setLocale']
     );
 
     channelChoiceSub = jasmine.createSpyObj(
       'channelChoice',
       ['show',
-       'hide']
+       'hide',
+       'setLocale']
     );
 
     chatSub = jasmine.createSpyObj(
@@ -119,7 +122,8 @@ describe('mediator', function() {
        'hide',
        'showNextButton',
        'setNextToChat',
-       'setNextToSubmitTicket']
+       'setNextToSubmitTicket',
+       'setLocale']
     );
 
     npsSub = jasmine.createSpyObj(
@@ -151,6 +155,7 @@ describe('mediator', function() {
       c.subscribe(`${names.launcher}.setLabelHelp`, launcherSub.setLabelHelp);
       c.subscribe(`${names.launcher}.setLabelChatHelp`, launcherSub.setLabelChatHelp);
       c.subscribe(`${names.launcher}.setLabelUnreadMsgs`, launcherSub.setLabelUnreadMsgs);
+      c.subscribe(`${names.launcher}.setLocale`, launcherSub.setLocale);
 
       c.subscribe(`${names.submitTicket}.show`, submitTicketSub.show);
       c.subscribe(`${names.submitTicket}.showWithAnimation`, submitTicketSub.show);
@@ -159,9 +164,11 @@ describe('mediator', function() {
       c.subscribe(`${names.submitTicket}.setLastSearch`, submitTicketSub.setLastSearch);
       c.subscribe(`${names.submitTicket}.prefill`, submitTicketSub.prefill);
       c.subscribe(`${names.submitTicket}.update`, submitTicketSub.update);
+      c.subscribe(`${names.submitTicket}.setLocale`, submitTicketSub.setLocale);
 
       c.subscribe(`${names.channelChoice}.show`, channelChoiceSub.show);
       c.subscribe(`${names.channelChoice}.hide`, channelChoiceSub.hide);
+      c.subscribe(`${names.channelChoice}.setLocale`, channelChoiceSub.setLocale);
 
       c.subscribe(`${names.chat}.show`, chatSub.show);
       c.subscribe(`${names.chat}.showWithAnimation`, chatSub.show);
@@ -175,6 +182,7 @@ describe('mediator', function() {
       c.subscribe(`${names.helpCenter}.showNextButton`, helpCenterSub.showNextButton);
       c.subscribe(`${names.helpCenter}.setNextToChat`, helpCenterSub.setNextToChat);
       c.subscribe(`${names.helpCenter}.setNextToSubmitTicket`, helpCenterSub.setNextToSubmitTicket);
+      c.subscribe(`${names.helpCenter}.setLocale`, helpCenterSub.setLocale);
 
       c.subscribe(`${names.nps}.activate`, npsSub.activate);
       c.subscribe(`${names.nps}.setSurvey`, npsSub.setSurvey);
@@ -385,6 +393,51 @@ describe('mediator', function() {
 
       expect(authenticationSub.renew)
         .toHaveBeenCalled();
+    });
+  });
+
+ /* ****************************************** *
+  *                 SET LOCALE                 *
+  * ****************************************** */
+
+  describe('.onSetLocale', () => {
+    const launcher = 'launcher';
+    const submitTicket = 'ticketSubmissionForm';
+    const helpCenter = 'helpCenterForm';
+    const channelChoice = 'channelChoice';
+    const names = {
+      launcher: launcher,
+      submitTicket: submitTicket,
+      helpCenter: helpCenter,
+      channelChoice: channelChoice
+    };
+    const locale = 'en-US';
+
+    beforeEach(function() {
+      initSubscriptionSpies(names);
+      mediator.init({ submitTicket: true, helpCenter: false });
+
+      c.broadcast('.onSetLocale', locale);
+    });
+
+    it('should broadcast launcher.setLocale with locale param', () => {
+      expect(launcherSub.setLocale)
+        .toHaveBeenCalledWith(locale);
+    });
+
+    it('should broadcast helpCenter.setLocale with locale param', () => {
+      expect(helpCenterSub.setLocale)
+        .toHaveBeenCalledWith(locale);
+    });
+
+    it('should broadcast submitTicket.setLocale with locale param', () => {
+      expect(submitTicketSub.setLocale)
+        .toHaveBeenCalledWith(locale);
+    });
+
+    it('should broadcast channelChoice.setLocale with locale param', () => {
+      expect(channelChoiceSub.setLocale)
+        .toHaveBeenCalledWith(locale);
     });
   });
 

@@ -624,6 +624,20 @@ describe('embed.submitTicket', function() {
           .toHaveBeenCalled();
       });
 
+      describe('<name>.setLocale', () => {
+        it('subscribes to setLocale', () => {
+          expect(mockMediator.channel.subscribe)
+            .toHaveBeenCalledWith('bob.setLocale', jasmine.any(Function));
+        });
+
+        it('updates the locale state', () => {
+          pluckSubscribeCall(mockMediator, 'bob.setLocale')('en-US');
+
+          expect(bobSubmitTicket.state.locale)
+            .toEqual('en-US');
+        });
+      });
+
       it('should subscribe to <name>.showBackButton', function() {
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('bob.showBackButton', jasmine.any(Function));

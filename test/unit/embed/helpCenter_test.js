@@ -612,6 +612,20 @@ describe('embed.helpCenter', function() {
           .toHaveBeenCalled();
       });
 
+      describe('<name>.setLocale', () => {
+        it('subscribes to setLocale', () => {
+          expect(mockMediator.channel.subscribe)
+            .toHaveBeenCalledWith('carlos.setLocale', jasmine.any(Function));
+        });
+
+        it('updates the locale state', () => {
+          pluckSubscribeCall(mockMediator, 'carlos.setLocale')('en-US');
+
+          expect(carlosHelpCenter.state.locale)
+            .toEqual('en-US');
+        });
+      });
+
       it('should subscribe to <name>.setNextToChat', function() {
         mockI18n.t.and.returnValue('chat label');
 

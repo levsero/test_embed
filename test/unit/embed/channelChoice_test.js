@@ -203,13 +203,15 @@ describe('embed.channelChoice', () => {
 
     describe('mediator subscription', () => {
       let mockMediator,
-        erin;
+        erin,
+        component;
 
       beforeEach(() => {
         mockMediator = mockRegistry['service/mediator'].mediator;
         channelChoice.create('erin');
         channelChoice.render('erin');
         erin = channelChoice.get('erin');
+        component = erin.instance.getChild().refs.rootComponent;
       });
 
       it('should subscribe to <name>.show', () => {
@@ -230,6 +232,20 @@ describe('embed.channelChoice', () => {
 
         expect(erin.instance.hide.__reactBoundMethod)
           .toHaveBeenCalled();
+      });
+
+      describe('<name>.setLocale', () => {
+        it('subscribes to setLocale', () => {
+          expect(mockMediator.channel.subscribe)
+            .toHaveBeenCalledWith('erin.setLocale', jasmine.any(Function));
+        });
+
+        it('updates the locale state', () => {
+          pluckSubscribeCall(mockMediator, 'erin.setLocale')('en-US');
+
+          expect(component.state.locale)
+            .toEqual('en-US');
+        });
       });
     });
   });
