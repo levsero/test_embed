@@ -112,7 +112,8 @@ describe('mediator', function() {
        'showWithAnimation',
        'hide',
        'activate',
-       'setUser']
+       'setUser',
+       'setLocale']
     );
 
     helpCenterSub = jasmine.createSpyObj(
@@ -175,6 +176,7 @@ describe('mediator', function() {
       c.subscribe(`${names.chat}.hide`, chatSub.hide);
       c.subscribe(`${names.chat}.activate`, chatSub.activate);
       c.subscribe(`${names.chat}.setUser`, chatSub.setUser);
+      c.subscribe(`${names.chat}.setLocale`, chatSub.setLocale);
 
       c.subscribe(`${names.helpCenter}.show`, helpCenterSub.show);
       c.subscribe(`${names.helpCenter}.showWithAnimation`, helpCenterSub.show);
@@ -405,11 +407,13 @@ describe('mediator', function() {
     const submitTicket = 'ticketSubmissionForm';
     const helpCenter = 'helpCenterForm';
     const channelChoice = 'channelChoice';
+    const chat = 'zopimChat';
     const names = {
       launcher: launcher,
       submitTicket: submitTicket,
       helpCenter: helpCenter,
-      channelChoice: channelChoice
+      channelChoice: channelChoice,
+      chat: chat
     };
     const locale = 'en-US';
 
@@ -437,6 +441,11 @@ describe('mediator', function() {
 
     it('should broadcast channelChoice.setLocale with locale param', () => {
       expect(channelChoiceSub.setLocale)
+        .toHaveBeenCalledWith(locale);
+    });
+
+    it('should broadcast zopimChat.setLocale with locale param', () => {
+      expect(chatSub.setLocale)
         .toHaveBeenCalledWith(locale);
     });
   });

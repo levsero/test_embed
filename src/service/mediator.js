@@ -524,6 +524,7 @@ function init(embedsAccessible, params = {}) {
 
   c.intercept('.onSetLocale', (__, locale) => {
     c.broadcast(`${channelChoice}.setLocale`, locale);
+    c.broadcast(`${chat}.setLocale`, locale);
     c.broadcast(`${helpCenter}.setLocale`, locale);
     c.broadcast(`${launcher}.setLocale`, locale);
     c.broadcast(`${submitTicket}.setLocale`, locale);
