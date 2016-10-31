@@ -157,15 +157,12 @@ function render(name) {
   mediator.channel.subscribe(name + '.setLabelUnreadMsgs', (unreadMsgs) => {
     if (unreadMsgs > 1) {
       setLabel(
-        name, 'embeddable_framework.chat.notification_multiple',
-        { count: unreadMsgs, fallback: `${unreadMsgs} new` }
+        name,
+        'embeddable_framework.chat.notification_multiple',
+        { count: unreadMsgs }
       );
     } else {
-      setLabel(
-        name, 'embeddable_framework.chat.notification',
-        // TODO: Remove the count here when the notification translations changes are swept.
-        { count: 1 }
-      );
+      setLabel(name, 'embeddable_framework.chat.notification');
     }
     setHasUnreadMessages(name, true);
   });
