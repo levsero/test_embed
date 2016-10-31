@@ -173,8 +173,7 @@ function render(name) {
 
 function setLabel(name, label, options = {}) {
   waitForRootComponent(name, () => {
-    getRootComponent(name).setLabel(label);
-    if (options.length > 0) getRootComponent(name).setLabelOptions(options);
+    getRootComponent(name).setLabel(label, options);
   });
 }
 

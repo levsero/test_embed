@@ -17,14 +17,9 @@ export class Launcher extends Component {
     };
   }
 
-  setLabel(label) {
+  setLabel(label, labelOptions = {}) {
     this.setState({
-      label: label
-    });
-  }
-
-  setLabelOptions(labelOptions) {
-    this.setState({
+      label: label,
       labelOptions: labelOptions
     });
   }
