@@ -103,7 +103,7 @@ function render(name) {
   mediator.channel.subscribe(`${name}.hide`, () => hide());
   mediator.channel.subscribe(`${name}.activate`, () => show(name));
 
-  mediator.channel.subscribe(`${name}.setLocale`, () => {
+  mediator.channel.subscribe(`${name}.refreshLocale`, () => {
     win.$zopim && win.$zopim(() => {
       win.$zopim.livechat.setLanguage(i18n.getLocale());
     });

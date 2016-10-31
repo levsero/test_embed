@@ -248,9 +248,10 @@ function render(name) {
     });
   });
 
-  mediator.channel.subscribe(name + '.setLocale', (locale) => {
+  mediator.channel.subscribe(name + '.refreshLocale', () => {
     waitForRootComponent(name, () => {
-      getRootComponent(name).setState({ locale: locale });
+      // setting state to something random to force the component to re-render
+      getRootComponent(name).setState({ key: Math.random() });
     });
   });
 

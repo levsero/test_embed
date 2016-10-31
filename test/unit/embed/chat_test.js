@@ -302,14 +302,14 @@ describe('embed.chat', () => {
           .toHaveBeenCalledWith('dave.activate', jasmine.any(Function));
       });
 
-      describe('<name>.setLocale', () => {
-        it('subscribes to setLocale', () => {
+      describe('<name>.refreshLocale', () => {
+        it('subscribes to refreshLocale', () => {
           expect(mockMediator.channel.subscribe)
-            .toHaveBeenCalledWith('dave.setLocale', jasmine.any(Function));
+            .toHaveBeenCalledWith('dave.refreshLocale', jasmine.any(Function));
         });
 
         it('calls zopim.livechat.setLanguage', () => {
-          pluckSubscribeCall(mockMediator, 'dave.setLocale')('en-US');
+          pluckSubscribeCall(mockMediator, 'dave.refreshLocale')();
 
           expect(mockZopim.livechat.setLanguage)
             .toHaveBeenCalled();
