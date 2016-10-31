@@ -117,7 +117,7 @@ function boot() {
 
   const publicApi = {
     version: __EMBEDDABLE_VERSION__,
-    setLocale: postRenderQueueCallback.bind('setLocale'),
+    setLocale: i18n.setLocale,
     hide: renderer.hide,
     show: postRenderQueueCallback.bind('show'),
     setHelpCenterSuggestions: postRenderQueueCallback.bind('setHelpCenterSuggestions'),

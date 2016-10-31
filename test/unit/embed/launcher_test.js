@@ -289,7 +289,7 @@ describe('embed.launcher', function() {
           .toHaveBeenCalledWith('Icon');
 
         expect(aliceLauncher.setLabel.__reactBoundMethod)
-          .toHaveBeenCalledWith('embeddable_framework.launcher.label.test_label');
+          .toHaveBeenCalledWith('embeddable_framework.launcher.label.test_label', {});
       });
 
       it('should subscribe to <name>.setLabelChat', function() {
@@ -315,7 +315,7 @@ describe('embed.launcher', function() {
           .toHaveBeenCalledWith('Icon--chat');
 
         expect(aliceLauncher.setLabel.__reactBoundMethod)
-          .toHaveBeenCalledWith('embeddable_framework.launcher.label.test_label');
+          .toHaveBeenCalledWith('embeddable_framework.launcher.label.test_label', {});
       });
 
       describe('<name>.setLabelUnreadMsgs', () => {
@@ -336,7 +336,7 @@ describe('embed.launcher', function() {
             pluckSubscribeCall(mockMediator, 'alice.setLabelUnreadMsgs')(1);
 
             expect(aliceLauncher.setLabel.__reactBoundMethod)
-              .toHaveBeenCalledWith('embeddable_framework.chat.notification');
+              .toHaveBeenCalledWith('embeddable_framework.chat.notification', {});
           });
         });
 
@@ -345,7 +345,7 @@ describe('embed.launcher', function() {
             pluckSubscribeCall(mockMediator, 'alice.setLabelUnreadMsgs')(2);
 
             expect(aliceLauncher.setLabel.__reactBoundMethod)
-              .toHaveBeenCalledWith('embeddable_framework.chat.notification_multiple');
+              .toHaveBeenCalledWith('embeddable_framework.chat.notification_multiple', { count: 2 });
           });
         });
       });

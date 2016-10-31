@@ -155,15 +155,12 @@ function render(name) {
   });
 
   mediator.channel.subscribe(name + '.setLabelUnreadMsgs', (unreadMsgs) => {
-    if (unreadMsgs > 1) {
-      setLabel(
-        name,
-        'embeddable_framework.chat.notification_multiple',
-        { count: unreadMsgs }
-      );
-    } else {
-      setLabel(name, 'embeddable_framework.chat.notification');
-    }
+    const label = unreadMsgs > 1
+                ? 'embeddable_framework.chat.notification_multiple'
+                : 'embeddable_framework.chat.notification';
+    const options = unreadMsgs > 1 ? { count: unreadMsgs } : {};
+
+    setLabel(name, label, options);
     setHasUnreadMessages(name, true);
   });
 }
