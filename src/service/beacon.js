@@ -13,7 +13,7 @@ import { nowInSeconds,
          sha1 } from 'utility/utils';
 
 let config = {
-  isBase64: false,
+  useBase64: false,
   method: 'POST'
 };
 

@@ -3,8 +3,7 @@ describe('beacon', () => {
     mockRegistry,
     mockTime,
     mockSha1String,
-    mockStore,
-    userActionParams;
+    mockStore;
 
   const localeId = 10;
   const beaconPath = buildSrcPath('service/beacon');
@@ -241,7 +240,7 @@ describe('beacon', () => {
         expect(mockTransport.transport.sendWithMeta).toHaveBeenCalled();
 
         const payload = mockTransport.transport.sendWithMeta.calls.mostRecent().args[0];
-        const isBase64 = mockTransport.transport.sendWithMeta.calls.mostRecent().args[1];
+        const useBase64 = mockTransport.transport.sendWithMeta.calls.mostRecent().args[1];
 
         expect(payload.method)
           .toBe('POST');
@@ -272,7 +271,7 @@ describe('beacon', () => {
         expect(params.pageView.helpCenterDedup)
           .toBe(mockPages.isOnHelpCenterPage());
 
-        expect(isBase64)
+        expect(useBase64)
           .not.toBe(true);
       });
     });
@@ -294,7 +293,7 @@ describe('beacon', () => {
         expect(mockTransport.transport.sendWithMeta).toHaveBeenCalled();
 
         const payload = mockTransport.transport.sendWithMeta.calls.mostRecent().args[0];
-        const isBase64 = mockTransport.transport.sendWithMeta.calls.mostRecent().args[1];
+        const useBase64 = mockTransport.transport.sendWithMeta.calls.mostRecent().args[1];
 
         expect(payload.method)
           .toBe('GET');
@@ -302,13 +301,15 @@ describe('beacon', () => {
         expect(payload.path)
           .toBe('/embeddable/blips');
 
-        expect(isBase64)
+        expect(useBase64)
           .toBe(true);
       });
     });
   });
 
   describe('#trackUserAction', () => {
+    let userActionParams;
+
     beforeEach(() => {
       userActionParams = {
         category: 'Category01',
@@ -381,7 +382,7 @@ describe('beacon', () => {
         expect(mockTransport.transport.sendWithMeta).toHaveBeenCalled();
 
         const payload = mockTransport.transport.sendWithMeta.calls.mostRecent().args[0];
-        const isBase64 = mockTransport.transport.sendWithMeta.calls.mostRecent().args[1];
+        const useBase64 = mockTransport.transport.sendWithMeta.calls.mostRecent().args[1];
 
         expect(payload.method)
           .toBe('GET');
@@ -389,7 +390,7 @@ describe('beacon', () => {
         expect(payload.path)
           .toBe('/embeddable/blips');
 
-        expect(isBase64)
+        expect(useBase64)
           .toBe(true);
       });
     });
@@ -568,7 +569,7 @@ describe('beacon', () => {
         expect(mockTransport.transport.sendWithMeta).toHaveBeenCalled();
 
         const payload = mockTransport.transport.sendWithMeta.calls.mostRecent().args[0];
-        const isBase64 = mockTransport.transport.sendWithMeta.calls.mostRecent().args[1];
+        const useBase64 = mockTransport.transport.sendWithMeta.calls.mostRecent().args[1];
 
         expect(payload.method)
           .toBe('GET');
@@ -576,7 +577,7 @@ describe('beacon', () => {
         expect(payload.path)
           .toBe('/embeddable/blips');
 
-        expect(isBase64)
+        expect(useBase64)
           .toBe(true);
       });
     });
