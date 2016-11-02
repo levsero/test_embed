@@ -1,11 +1,11 @@
-describe('transport', function() {
+describe('transport', () => {
   let transport,
     mockMethods,
     mockRegistry;
 
   const transportPath = buildSrcPath('service/transport');
 
-  beforeEach(function() {
+  beforeEach(() => {
     mockery.enable();
     mockMethods = {
       type: () => mockMethods,
@@ -19,7 +19,7 @@ describe('transport', function() {
       end: () => mockMethods
     };
     mockRegistry = initMockRegistry({
-      'superagent': jasmine.createSpy().and.callFake(function() {
+      'superagent': jasmine.createSpy().and.callFake(() => {
         return mockMethods;
       }),
       'lodash': _,
@@ -28,6 +28,10 @@ describe('transport', function() {
           href: 'http://window.location.href',
           hostname: 'helpme.mofo.io'
         }
+      },
+      'utility/utils': {
+        base64encode: jasmine.createSpy('base64encode')
+          .and.returnValue('MOCKBASE64')
       },
       'service/identity': {
         identity: {
@@ -46,17 +50,17 @@ describe('transport', function() {
     transport = requireUncached(transportPath).transport;
   });
 
-  afterEach(function() {
+  afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
   });
 
-  describe('#init', function() {
-    beforeEach(function() {
+  describe('#init', () => {
+    beforeEach(() => {
       spyOn(_, 'extend').and.callThrough();
     });
 
-    it('makes use of default config values', function() {
+    it('makes use of default config values', () => {
       transport.init();
 
       const recentCall = _.extend.calls.mostRecent();
@@ -66,7 +70,7 @@ describe('transport', function() {
         .toBeUndefined();
     });
 
-    it('merges supplied config param with defaults', function() {
+    it('merges supplied config param with defaults', () => {
       const testConfig = {
         test: 'config'
       };
@@ -80,11 +84,11 @@ describe('transport', function() {
     });
   });
 
-  describe('#send', function() {
+  describe('#send', () => {
     let payload,
       config;
 
-    beforeEach(function() {
+    beforeEach(() => {
       payload = {
         method: 'get',
         path: '/test/path',
@@ -103,16 +107,16 @@ describe('transport', function() {
       };
     });
 
-    it('should throw an exception if zendeskHost is not set in config', function() {
+    it('should throw an exception if zendeskHost is not set in config', () => {
       transport.init();
 
-      expect(function() {
+      expect(() => {
         transport.send(payload);
       })
         .toThrow();
     });
 
-    it('sets the correct http method and url on superagent', function() {
+    it('sets the correct http method and url on superagent', () => {
       const mockSuperagent = mockRegistry.superagent;
 
       transport.init(config);
@@ -124,7 +128,7 @@ describe('transport', function() {
           'https://test.zendesk.host/test/path');
     });
 
-    it('sets the json type', function() {
+    it('sets the json type', () => {
       spyOn(mockMethods, 'type').and.callThrough();
 
       transport.init(config);
@@ -134,7 +138,7 @@ describe('transport', function() {
         .toHaveBeenCalledWith('json');
     });
 
-    it('sets payload.params to {} if no params are passed through', function() {
+    it('sets payload.params to {} if no params are passed through', () => {
       delete payload.params;
 
       spyOn(mockMethods, 'send').and.callThrough();
@@ -150,7 +154,7 @@ describe('transport', function() {
         .not.toBeUndefined();
     });
 
-    it('triggers the done callback if response is successful', function() {
+    it('triggers the done callback if response is successful', () => {
       spyOn(payload.callbacks, 'done');
       spyOn(payload.callbacks, 'fail');
       spyOn(mockMethods, 'end').and.callThrough();
@@ -174,7 +178,7 @@ describe('transport', function() {
         .not.toHaveBeenCalled();
     });
 
-    it('triggers the fail callback if response is unsuccessful', function() {
+    it('triggers the fail callback if response is unsuccessful', () => {
       spyOn(payload.callbacks, 'fail');
       spyOn(payload.callbacks, 'done');
       spyOn(mockMethods, 'end').and.callThrough();
@@ -198,7 +202,7 @@ describe('transport', function() {
         .not.toHaveBeenCalled();
     });
 
-    it('will not die if callbacks object is not present', function() {
+    it('will not die if callbacks object is not present', () => {
       spyOn(mockMethods, 'end').and.callThrough();
 
       delete payload.callbacks;
@@ -210,12 +214,12 @@ describe('transport', function() {
 
       const callback = recentCall.args[0];
 
-      expect(function() {
+      expect(() => {
         callback(null, {ok: true});
       }).not.toThrow();
     });
 
-    it('will not die if callbacks.done is not present', function() {
+    it('will not die if callbacks.done is not present', () => {
       spyOn(mockMethods, 'end').and.callThrough();
 
       delete payload.callbacks.done;
@@ -227,12 +231,12 @@ describe('transport', function() {
 
       const callback = recentCall.args[0];
 
-      expect(function() {
+      expect(() => {
         callback(null, {ok: true});
       }).not.toThrow();
     });
 
-    it('will not die if callbacks.fail is not present', function() {
+    it('will not die if callbacks.fail is not present', () => {
       spyOn(mockMethods, 'end').and.callThrough();
 
       delete payload.callbacks.fail;
@@ -244,7 +248,7 @@ describe('transport', function() {
 
       const callback = recentCall.args[0];
 
-      expect(function() {
+      expect(() => {
         callback({error: true}, undefined);
       }).not.toThrow();
     });
@@ -294,11 +298,11 @@ describe('transport', function() {
     });
   });
 
-  describe('#sendWithMeta', function() {
+  describe('#sendWithMeta', () => {
     let payload,
       config;
 
-    beforeEach(function() {
+    beforeEach(() => {
       payload = {
         method: 'post',
         path: '/test/path',
@@ -319,7 +323,7 @@ describe('transport', function() {
       };
     });
 
-    it('augments payload.params with blip metadata', function() {
+    it('augments payload.params with blip metadata', () => {
       const mockGlobals = mockRegistry['utility/globals'];
 
       spyOn(mockMethods, 'send').and.callThrough();
@@ -344,13 +348,26 @@ describe('transport', function() {
       expect(params.user)
         .toEqual(payload.params.user);
     });
+
+    describe('with base64 encoding for blips', () => {
+      beforeEach(() => {
+        spyOn(mockMethods, 'send').and.callThrough();
+        transport.init(config);
+      });
+
+      it('encodes the data and sends it as a query string', () =>{
+        transport.sendWithMeta(payload, true);
+
+        expect(payload.query).toEqual({ data: 'MOCKBASE64' });
+      });
+    });
   });
 
-  describe('getImage', function() {
+  describe('getImage', () => {
     let payload,
       config;
 
-    beforeEach(function() {
+    beforeEach(() => {
       payload = {
         method: 'get',
         path: 'https://url.com/image',
@@ -362,7 +379,7 @@ describe('transport', function() {
       };
     });
 
-    it('sets the correct http method and url on superagent', function() {
+    it('sets the correct http method and url on superagent', () => {
       const mockSuperagent = mockRegistry.superagent;
 
       transport.init(config);
@@ -374,7 +391,7 @@ describe('transport', function() {
           payload.path);
     });
 
-    it('sets the responseType to `blob`', function() {
+    it('sets the responseType to `blob`', () => {
       spyOn(mockMethods, 'responseType').and.callThrough();
 
       transport.init(config);
@@ -384,7 +401,7 @@ describe('transport', function() {
         .toHaveBeenCalledWith('blob');
     });
 
-    it('sets an authentication header with `Bearer <token>`', function() {
+    it('sets an authentication header with `Bearer <token>`', () => {
       spyOn(mockMethods, 'set').and.callThrough();
 
       transport.init(config);
@@ -394,7 +411,7 @@ describe('transport', function() {
         .toHaveBeenCalledWith('Authorization', payload.authorization);
     });
 
-    it('triggers the done callback if response is successful', function() {
+    it('triggers the done callback if response is successful', () => {
       spyOn(payload.callbacks, 'done');
       spyOn(payload.callbacks, 'fail');
       spyOn(mockMethods, 'end').and.callThrough();
@@ -419,11 +436,11 @@ describe('transport', function() {
     });
   });
 
-  describe('#sendFile', function() {
+  describe('#sendFile', () => {
     let payload,
       config;
 
-    beforeEach(function() {
+    beforeEach(() => {
       payload = {
         method: 'post',
         path: '/test/path',
@@ -443,21 +460,21 @@ describe('transport', function() {
       };
     });
 
-    describe('when zendeskHost is not set in config', function() {
-      beforeEach(function() {
+    describe('when zendeskHost is not set in config', () => {
+      beforeEach(() => {
         transport.init();
       });
 
-      it('should throw an exception', function() {
+      it('should throw an exception', () => {
         expect(() => transport.send(payload))
           .toThrow();
       });
     });
 
-    describe('when zendeskHost is set in config', function() {
+    describe('when zendeskHost is set in config', () => {
       let mockSuperagent;
 
-      beforeEach(function() {
+      beforeEach(() => {
         spyOn(payload.callbacks, 'done');
         spyOn(payload.callbacks, 'fail');
         spyOn(payload.callbacks, 'progress');
@@ -472,24 +489,24 @@ describe('transport', function() {
         transport.init(config);
       });
 
-      describe('when callbacks are present', function() {
-        beforeEach(function() {
+      describe('when callbacks are present', () => {
+        beforeEach(() => {
           transport.sendFile(payload);
         });
 
-        it('sets the correct http method and path', function() {
+        it('sets the correct http method and path', () => {
           expect(mockSuperagent)
             .toHaveBeenCalledWith(
               'POST',
               'https://test.zendesk.host/test/path');
         });
 
-        it('adds a query string with the filename', function() {
+        it('adds a query string with the filename', () => {
           expect(mockMethods.query)
             .toHaveBeenCalledWith({ filename: 'fakeFile' });
         });
 
-        it('adds a query string with the web_widget via_id', function() {
+        it('adds a query string with the web_widget via_id', () => {
           /* eslint camelcase:0 */
           expect(mockMethods.query)
             .toHaveBeenCalledWith({ via_id: 48 });
@@ -500,7 +517,7 @@ describe('transport', function() {
             .toHaveBeenCalledWith('uploaded_data', payload.file);
         });
 
-        it('triggers the done callback if response is successful', function() {
+        it('triggers the done callback if response is successful', () => {
           expect(mockMethods.end)
             .toHaveBeenCalled();
 
@@ -516,7 +533,7 @@ describe('transport', function() {
             .not.toHaveBeenCalled();
         });
 
-        it('triggers the fail callback if response is unsuccessful', function() {
+        it('triggers the fail callback if response is unsuccessful', () => {
           expect(mockMethods.end)
             .toHaveBeenCalled();
 
@@ -533,14 +550,14 @@ describe('transport', function() {
         });
       });
 
-      describe('when callbacks object is not present', function() {
-        beforeEach(function() {
+      describe('when callbacks object is not present', () => {
+        beforeEach(() => {
           delete payload.callbacks;
 
           transport.sendFile(payload);
         });
 
-        it('will not die', function() {
+        it('will not die', () => {
           const recentCall = mockMethods.end.calls.mostRecent();
           const callback = recentCall.args[0];
 
@@ -549,14 +566,14 @@ describe('transport', function() {
         });
       });
 
-      describe('when callbacks.done is not present', function() {
-        beforeEach(function() {
+      describe('when callbacks.done is not present', () => {
+        beforeEach(() => {
           delete payload.callbacks.done;
 
           transport.sendFile(payload);
         });
 
-        it('will not die', function() {
+        it('will not die', () => {
           const recentCall = mockMethods.end.calls.mostRecent();
           const callback = recentCall.args[0];
 
@@ -565,14 +582,14 @@ describe('transport', function() {
         });
       });
 
-      describe('when callbacks.fail is not present', function() {
-        beforeEach(function() {
+      describe('when callbacks.fail is not present', () => {
+        beforeEach(() => {
           delete payload.callbacks.fail;
 
           transport.sendFile(payload);
         });
 
-        it('will not die', function() {
+        it('will not die', () => {
           const recentCall = mockMethods.end.calls.mostRecent();
           const callback = recentCall.args[0];
 
@@ -581,14 +598,14 @@ describe('transport', function() {
         });
       });
 
-      describe('when callbacks.progress is not present', function() {
-        beforeEach(function() {
+      describe('when callbacks.progress is not present', () => {
+        beforeEach(() => {
           delete payload.callbacks.progress;
 
           transport.sendFile(payload);
         });
 
-        it('will not die', function() {
+        it('will not die', () => {
           const recentCall = mockMethods.on.calls.mostRecent();
           const callback = recentCall.args[1];
 

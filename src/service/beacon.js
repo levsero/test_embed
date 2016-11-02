@@ -12,6 +12,26 @@ import { nowInSeconds,
          parseUrl,
          sha1 } from 'utility/utils';
 
+let config = {
+  useBase64: false,
+  method: 'POST'
+};
+
+const sendPageViewWhenReady = () => {
+  // We need to invoke `sendPageView` on `DOMContentLoaded` because
+  // for help center host pages, the script that defines the `HelpCenter`
+  // global object may not be executed yet.
+  // DOMContentLoaded: https://developer.mozilla.org/en-US/docs/Web/Events/DOMContentLoaded
+  if (doc.readyState !== 'complete' &&
+      doc.readyState !== 'interactive') {
+    doc.addEventListener('DOMContentLoaded', () => {
+      sendPageView();
+    }, false);
+  } else {
+    sendPageView();
+  }
+};
+
 const sendPageView = () => {
   const now = Date.now();
   const referrer = parseUrl(doc.referrer);
@@ -32,13 +52,20 @@ const sendPageView = () => {
     }
   };
   const payload = {
-    method: 'POST',
+    method: config.method,
     path: '/embeddable/blips',
     params: params
   };
 
-  transport.sendWithMeta(payload);
+  transport.sendWithMeta(payload, config.useBase64);
 };
+
+function setConfig(_config) {
+  config = {
+    useBase64: !!_config.newBlips,
+    method: _config.newBlips ? 'GET' : 'POST'
+  };
+}
 
 function init() {
   const now = Date.now();
@@ -47,19 +74,6 @@ function init() {
 
   mediator.channel.subscribe('beacon.identify', identify);
   mediator.channel.subscribe('beacon.trackUserAction', trackUserAction);
-
-  // We need to invoke `sendPageView` on `DOMContentLoaded` because
-  // for help center host pages, the script that defines the `HelpCenter`
-  // global object may not be executed yet.
-  // DOMContentLoaded: https://developer.mozilla.org/en-US/docs/Web/Events/DOMContentLoaded
-  if (doc.readyState !== 'complete' &&
-      doc.readyState !== 'interactive') {
-    doc.addEventListener('DOMContentLoaded', () => {
-      sendPageView();
-    }, false);
-  } else {
-    sendPageView();
-  }
 }
 
 function sendConfigLoadTime(time) {
@@ -67,12 +81,12 @@ function sendConfigLoadTime(time) {
     performance: { configLoadTime: time }
   };
   const payload = {
-    method: 'POST',
+    method: config.method,
     path: '/embeddable/blips',
     params: params
   };
 
-  transport.sendWithMeta(payload);
+  transport.sendWithMeta(payload, config.useBase64);
 }
 
 function trackUserAction(category, action, label = null, value = null) {
@@ -87,12 +101,12 @@ function trackUserAction(category, action, label = null, value = null) {
     value: value
   };
   const payload = {
-    method: 'POST',
+    method: config.method,
     path: '/embeddable/blips',
     params: { userAction }
   };
 
-  transport.sendWithMeta(payload);
+  transport.sendWithMeta(payload, config.useBase64);
 }
 
 function trackSettings(settings) {
@@ -108,14 +122,14 @@ function trackSettings(settings) {
   };
 
   const payload = {
-    method: 'POST',
+    method: config.method,
     path: '/embeddable/blips',
     params: { settings },
     callbacks: { done }
   };
 
   if (!_.find(validSettings, (s) => s[0] === encoded)) {
-    transport.sendWithMeta(payload);
+    transport.sendWithMeta(payload, config.useBase64);
   } else {
     // Clear any expired settings that exist from other pages
     // on the customers domain.
@@ -169,5 +183,7 @@ export const beacon = {
   trackSettings: trackSettings,
   identify: identify,
   sendConfigLoadTime: sendConfigLoadTime,
-  getFrameworkLoadTime: getFrameworkLoadTime
+  getFrameworkLoadTime: getFrameworkLoadTime,
+  sendPageView: sendPageViewWhenReady,
+  setConfig: setConfig
 };
