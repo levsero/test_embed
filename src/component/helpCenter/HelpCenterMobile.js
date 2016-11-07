@@ -232,7 +232,7 @@ export class HelpCenterMobile extends Component {
         <ScrollContainer
           ref='scrollContainer'
           hideZendeskLogo={hideZendeskLogo}
-          title={i18n.t(`embeddable_framework.launcher.label.${this.props.formTitleKey}`)}
+          title={i18n.t(`embeddable_framework.helpCenter.form.title.${this.props.formTitleKey}`)}
           headerContent={this.renderHeaderContent()}
           footerContent={this.renderFooterContent()}
           fullscreen={true}
