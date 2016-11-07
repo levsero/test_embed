@@ -416,7 +416,7 @@ describe('mediator', function() {
       chat: chat
     };
 
-    beforeEach(function() {
+    beforeEach(() => {
       initSubscriptionSpies(names);
       mediator.init({ submitTicket: true, helpCenter: false });
 

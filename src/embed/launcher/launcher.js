@@ -128,8 +128,7 @@ function render(name) {
 
   mediator.channel.subscribe(name + '.refreshLocale', () => {
     waitForRootComponent(name, () => {
-      // setting state to something random to force the component to re-render
-      getRootComponent(name).setState({ key: Math.random() });
+      getRootComponent(name).forceUpdate();
     });
   });
 
