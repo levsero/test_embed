@@ -80,6 +80,10 @@ function boot() {
   const show = () => {
     mediator.channel.broadcast('.show');
   };
+  const setLocale = (locale) => {
+    i18n.setLocale(locale);
+    mediator.channel.broadcast('.onSetLocale', locale);
+  };
   // no "fat arrow" because it binds `this` to the scoped environment and does not allow it to be re-set with .bind()
   const postRenderQueueCallback = function(...args) {
     // "this" is bound to the method name
@@ -166,6 +170,7 @@ function boot() {
 
   // Post-render methods
   win.zE.setHelpCenterSuggestions = setHelpCenterSuggestions;
+  win.zE.setLocale = setLocale;
   win.zE.identify = identify;
   win.zE.logout = logout;
   win.zE.activate = activate;

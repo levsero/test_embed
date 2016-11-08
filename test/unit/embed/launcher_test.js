@@ -25,6 +25,7 @@ describe('embed.launcher', function() {
           setActive: jasmine.createSpy('setActive'),
           setIcon: jasmine.createSpy('setIcon'),
           setLabel: jasmine.createSpy('setLabel'),
+          setLabelOptions: jasmine.createSpy('setLabelOptions'),
           render: function() {
             return (
               <div className='mock-launcher' />
@@ -56,13 +57,6 @@ describe('embed.launcher', function() {
         }
       },
       'lodash': _,
-      'service/i18n': {
-        i18n: {
-          init: noop,
-          setLocale: noop,
-          t: _.identity
-        }
-      },
       'service/transitionFactory' : {
         transitionFactory: requireUncached(buildTestPath('unit/mockTransitionFactory')).mockTransitionFactory
       }
@@ -98,18 +92,6 @@ describe('embed.launcher', function() {
 
       expect(alice.config)
         .toBeDefined();
-    });
-
-    it('should call i18n.t with the right parameter to get the label', function() {
-      const tSpy = jasmine.createSpy('i18n.t');
-      const labelKey = 'foo bar';
-
-      mockRegistry['service/i18n'].i18n.t = tSpy;
-
-      launcher.create('alice', { labelKey: labelKey });
-
-      expect(tSpy)
-        .toHaveBeenCalledWith(`embeddable_framework.launcher.label.${labelKey}`);
     });
 
     it('changes config.labelKey if labelKey is set', function() {
@@ -297,6 +279,11 @@ describe('embed.launcher', function() {
           .toHaveBeenCalled();
       });
 
+      it('subscribes to <name>.refreshLocale', () => {
+        expect(mockMediator.channel.subscribe)
+          .toHaveBeenCalledWith('alice.refreshLocale', jasmine.any(Function));
+      });
+
       it('should subscribe to <name>.setLabelHelp', function() {
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('alice.setLabelHelp', jasmine.any(Function));
@@ -307,7 +294,7 @@ describe('embed.launcher', function() {
           .toHaveBeenCalledWith('Icon');
 
         expect(aliceLauncher.setLabel.__reactBoundMethod)
-          .toHaveBeenCalledWith('embeddable_framework.launcher.label.test_label');
+          .toHaveBeenCalledWith('embeddable_framework.launcher.label.test_label', {});
       });
 
       it('should subscribe to <name>.setLabelChat', function() {
@@ -333,7 +320,7 @@ describe('embed.launcher', function() {
           .toHaveBeenCalledWith('Icon--chat');
 
         expect(aliceLauncher.setLabel.__reactBoundMethod)
-          .toHaveBeenCalledWith('embeddable_framework.launcher.label.test_label');
+          .toHaveBeenCalledWith('embeddable_framework.launcher.label.test_label', {});
       });
 
       describe('<name>.setLabelUnreadMsgs', () => {
@@ -354,7 +341,7 @@ describe('embed.launcher', function() {
             pluckSubscribeCall(mockMediator, 'alice.setLabelUnreadMsgs')(1);
 
             expect(aliceLauncher.setLabel.__reactBoundMethod)
-              .toHaveBeenCalledWith('embeddable_framework.chat.notification');
+              .toHaveBeenCalledWith('embeddable_framework.chat.notification', {});
           });
         });
 
@@ -363,7 +350,7 @@ describe('embed.launcher', function() {
             pluckSubscribeCall(mockMediator, 'alice.setLabelUnreadMsgs')(2);
 
             expect(aliceLauncher.setLabel.__reactBoundMethod)
-              .toHaveBeenCalledWith('embeddable_framework.chat.notification_multiple');
+              .toHaveBeenCalledWith('embeddable_framework.chat.notification_multiple', { count: 2 });
           });
         });
       });

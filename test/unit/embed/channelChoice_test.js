@@ -231,6 +231,11 @@ describe('embed.channelChoice', () => {
         expect(erin.instance.hide.__reactBoundMethod)
           .toHaveBeenCalled();
       });
+
+      it('subscribes to <name>.refreshLocale', () => {
+        expect(mockMediator.channel.subscribe)
+          .toHaveBeenCalledWith('erin.refreshLocale', jasmine.any(Function));
+      });
     });
   });
 });

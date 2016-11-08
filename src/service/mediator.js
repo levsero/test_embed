@@ -522,6 +522,14 @@ function init(embedsAccessible, params = {}) {
     c.broadcast(`${helpCenter}.setHelpCenterSuggestions`, params);
   });
 
+  c.intercept('.onSetLocale', () => {
+    c.broadcast(`${channelChoice}.refreshLocale`);
+    c.broadcast(`${chat}.refreshLocale`);
+    c.broadcast(`${helpCenter}.refreshLocale`);
+    c.broadcast(`${launcher}.refreshLocale`);
+    c.broadcast(`${submitTicket}.refreshLocale`);
+  });
+
   if (embedAvailable()) {
     c.subscribe(`${launcher}.show`, updateLauncherLabel);
   }

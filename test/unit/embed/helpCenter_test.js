@@ -612,6 +612,11 @@ describe('embed.helpCenter', function() {
           .toHaveBeenCalled();
       });
 
+      it('subscribes to <name>.refreshLocale', () => {
+        expect(mockMediator.channel.subscribe)
+          .toHaveBeenCalledWith('carlos.refreshLocale', jasmine.any(Function));
+      });
+
       it('should subscribe to <name>.setNextToChat', function() {
         mockI18n.t.and.returnValue('chat label');
 

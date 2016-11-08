@@ -624,6 +624,11 @@ describe('embed.submitTicket', function() {
           .toHaveBeenCalled();
       });
 
+      it('subscribes to <name>.refreshLocale', () => {
+        expect(mockMediator.channel.subscribe)
+          .toHaveBeenCalledWith('bob.refreshLocale', jasmine.any(Function));
+      });
+
       it('should subscribe to <name>.showBackButton', function() {
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('bob.showBackButton', jasmine.any(Function));

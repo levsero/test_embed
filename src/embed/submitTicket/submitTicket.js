@@ -248,6 +248,12 @@ function render(name) {
     });
   });
 
+  mediator.channel.subscribe(name + '.refreshLocale', () => {
+    waitForRootComponent(name, () => {
+      getRootComponent(name).forceUpdate();
+    });
+  });
+
   mediator.channel.subscribe(name + '.prefill', function(user) {
     prefillForm(name, user);
   });

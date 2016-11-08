@@ -119,6 +119,12 @@ function render(name) {
       channelChoices[name].instance.hide(options);
     });
   });
+
+  mediator.channel.subscribe(name + '.refreshLocale', () => {
+    waitForRootComponent(name, () => {
+      getRootComponent(name).forceUpdate();
+    });
+  });
 }
 
 export const channelChoice = {

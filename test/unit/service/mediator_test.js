@@ -83,7 +83,8 @@ describe('mediator', function() {
        'setLabelChat',
        'setLabelHelp',
        'setLabelChatHelp',
-       'setLabelUnreadMsgs']
+       'setLabelUnreadMsgs',
+       'refreshLocale']
     );
 
     submitTicketSub = jasmine.createSpyObj(
@@ -94,13 +95,15 @@ describe('mediator', function() {
        'showBackButton',
        'setLastSearch',
        'prefill',
-       'update']
+       'update',
+       'refreshLocale']
     );
 
     channelChoiceSub = jasmine.createSpyObj(
       'channelChoice',
       ['show',
-       'hide']
+       'hide',
+       'refreshLocale']
     );
 
     chatSub = jasmine.createSpyObj(
@@ -109,7 +112,8 @@ describe('mediator', function() {
        'showWithAnimation',
        'hide',
        'activate',
-       'setUser']
+       'setUser',
+       'refreshLocale']
     );
 
     helpCenterSub = jasmine.createSpyObj(
@@ -119,7 +123,8 @@ describe('mediator', function() {
        'hide',
        'showNextButton',
        'setNextToChat',
-       'setNextToSubmitTicket']
+       'setNextToSubmitTicket',
+       'refreshLocale']
     );
 
     npsSub = jasmine.createSpyObj(
@@ -151,6 +156,7 @@ describe('mediator', function() {
       c.subscribe(`${names.launcher}.setLabelHelp`, launcherSub.setLabelHelp);
       c.subscribe(`${names.launcher}.setLabelChatHelp`, launcherSub.setLabelChatHelp);
       c.subscribe(`${names.launcher}.setLabelUnreadMsgs`, launcherSub.setLabelUnreadMsgs);
+      c.subscribe(`${names.launcher}.refreshLocale`, launcherSub.refreshLocale);
 
       c.subscribe(`${names.submitTicket}.show`, submitTicketSub.show);
       c.subscribe(`${names.submitTicket}.showWithAnimation`, submitTicketSub.show);
@@ -159,15 +165,18 @@ describe('mediator', function() {
       c.subscribe(`${names.submitTicket}.setLastSearch`, submitTicketSub.setLastSearch);
       c.subscribe(`${names.submitTicket}.prefill`, submitTicketSub.prefill);
       c.subscribe(`${names.submitTicket}.update`, submitTicketSub.update);
+      c.subscribe(`${names.submitTicket}.refreshLocale`, submitTicketSub.refreshLocale);
 
       c.subscribe(`${names.channelChoice}.show`, channelChoiceSub.show);
       c.subscribe(`${names.channelChoice}.hide`, channelChoiceSub.hide);
+      c.subscribe(`${names.channelChoice}.refreshLocale`, channelChoiceSub.refreshLocale);
 
       c.subscribe(`${names.chat}.show`, chatSub.show);
       c.subscribe(`${names.chat}.showWithAnimation`, chatSub.show);
       c.subscribe(`${names.chat}.hide`, chatSub.hide);
       c.subscribe(`${names.chat}.activate`, chatSub.activate);
       c.subscribe(`${names.chat}.setUser`, chatSub.setUser);
+      c.subscribe(`${names.chat}.refreshLocale`, chatSub.refreshLocale);
 
       c.subscribe(`${names.helpCenter}.show`, helpCenterSub.show);
       c.subscribe(`${names.helpCenter}.showWithAnimation`, helpCenterSub.show);
@@ -175,6 +184,7 @@ describe('mediator', function() {
       c.subscribe(`${names.helpCenter}.showNextButton`, helpCenterSub.showNextButton);
       c.subscribe(`${names.helpCenter}.setNextToChat`, helpCenterSub.setNextToChat);
       c.subscribe(`${names.helpCenter}.setNextToSubmitTicket`, helpCenterSub.setNextToSubmitTicket);
+      c.subscribe(`${names.helpCenter}.refreshLocale`, helpCenterSub.refreshLocale);
 
       c.subscribe(`${names.nps}.activate`, npsSub.activate);
       c.subscribe(`${names.nps}.setSurvey`, npsSub.setSurvey);
@@ -385,6 +395,57 @@ describe('mediator', function() {
 
       expect(authenticationSub.renew)
         .toHaveBeenCalled();
+    });
+  });
+
+ /* ****************************************** *
+  *                 SET LOCALE                 *
+  * ****************************************** */
+
+  describe('.onSetLocale', () => {
+    const launcher = 'launcher';
+    const submitTicket = 'ticketSubmissionForm';
+    const helpCenter = 'helpCenterForm';
+    const channelChoice = 'channelChoice';
+    const chat = 'zopimChat';
+    const names = {
+      launcher: launcher,
+      submitTicket: submitTicket,
+      helpCenter: helpCenter,
+      channelChoice: channelChoice,
+      chat: chat
+    };
+
+    beforeEach(() => {
+      initSubscriptionSpies(names);
+      mediator.init({ submitTicket: true, helpCenter: false });
+
+      c.broadcast('.onSetLocale');
+    });
+
+    it('should broadcast launcher.refreshLocale', () => {
+      expect(launcherSub.refreshLocale)
+        .toHaveBeenCalledWith();
+    });
+
+    it('should broadcast helpCenter.refreshLocale', () => {
+      expect(helpCenterSub.refreshLocale)
+        .toHaveBeenCalledWith();
+    });
+
+    it('should broadcast submitTicket.refreshLocale', () => {
+      expect(submitTicketSub.refreshLocale)
+        .toHaveBeenCalledWith();
+    });
+
+    it('should broadcast channelChoice.refreshLocale', () => {
+      expect(channelChoiceSub.refreshLocale)
+        .toHaveBeenCalledWith();
+    });
+
+    it('should broadcast zopimChat.refreshLocale', () => {
+      expect(chatSub.refreshLocale)
+        .toHaveBeenCalledWith();
     });
   });
 

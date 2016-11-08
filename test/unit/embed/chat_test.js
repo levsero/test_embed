@@ -302,6 +302,20 @@ describe('embed.chat', () => {
           .toHaveBeenCalledWith('dave.activate', jasmine.any(Function));
       });
 
+      describe('<name>.refreshLocale', () => {
+        it('subscribes to refreshLocale', () => {
+          expect(mockMediator.channel.subscribe)
+            .toHaveBeenCalledWith('dave.refreshLocale', jasmine.any(Function));
+        });
+
+        it('calls zopim.livechat.setLanguage', () => {
+          pluckSubscribeCall(mockMediator, 'dave.refreshLocale')();
+
+          expect(mockZopim.livechat.setLanguage)
+            .toHaveBeenCalled();
+        });
+      });
+
       describe('<name>.show', () => {
         it('should call zopim.button.show() if livechat window has not been opened and it is standalone', () => {
           chat.create('dave', { zopimId: zopimId, standalone: true });
