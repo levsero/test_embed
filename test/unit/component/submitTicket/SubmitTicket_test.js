@@ -188,78 +188,22 @@ describe('Submit ticket component', function() {
       );
     });
 
-    it('should not send the form when invalid', function() {
-      submitTicket.handleSubmit({ preventDefault: noop }, { isFormValid: false });
+    describe('when the form is invalid', () => {
+      it('should not send the form when invalid', function() {
+        submitTicket.handleSubmit({ preventDefault: noop }, { isFormValid: false });
 
-      expect(mockSubmitTicketSender)
-        .not.toHaveBeenCalled();
-    });
-
-    it('should clear the form on a valid submit', function() {
-      spyOn(submitTicket, 'clearForm');
-
-      submitTicket.handleSubmit({ preventDefault: noop }, mockValues);
-
-      mockSubmitTicketSender.calls.mostRecent().args[1]({});
-
-      expect(submitTicket.clearForm)
-        .toHaveBeenCalled();
-    });
-
-    it('should call onSubmitted with given last search state', function() {
-      submitTicket.setState({
-        searchTerm: 'a search',
-        searchLocale: 'en-US'
+        expect(mockSubmitTicketSender)
+          .not.toHaveBeenCalled();
       });
+    })
 
-      submitTicket.handleSubmit({ preventDefault: noop }, mockValues);
-
-      mockSubmitTicketSender.calls.mostRecent().args[1]({});
-
-      expect(mockOnSubmitted)
-        .toHaveBeenCalled();
-
-      expect(mockOnSubmitted.calls.mostRecent().args[0].searchTerm)
-        .toEqual('a search');
-
-      expect(mockOnSubmitted.calls.mostRecent().args[0].searchLocale)
-        .toEqual('en-US');
-    });
-
-    it('should correctly format custom fields', function() {
-      const mockCustomField = [
-        {
-          id: '22660514',
-          type: 'text',
-          title: 'Text',
-          required: true
-        }
-      ];
-      const mockValues = {
-        value: {
-          22660514: 'mockCustomField',
-          name: 'mockName',
-          description: 'mockDescription'
-        }
-      };
-      const expectedPayload = {
-        fields: {
-          22660514: 'mockCustomField'
-        }
-      };
-
-      const submitTicket = instanceRender(<SubmitTicket customFields={mockCustomField} />);
-      const payload = submitTicket.formatTicketFieldData(mockValues);
-
-      expect(payload)
-        .toBeJSONEqual(expectedPayload);
-    });
-
-    describe('when attachments are enabled', function() {
+    describe('when the form is valid', () => {
       let params,
         mockOnSubmitted;
 
-      beforeEach(function() {
+      beforeEach(() => {
+        spyOn(submitTicket, 'clearForm');
+
         mockOnSubmitted = jasmine.createSpy('mockOnSubmitted');
 
         submitTicket = domRender(
@@ -273,6 +217,62 @@ describe('Submit ticket component', function() {
         submitTicket.handleSubmit({ preventDefault: noop }, mockValues);
 
         params = mockSubmitTicketSender.calls.mostRecent().args[0];
+      });
+
+      it('should clear the form on a valid submit', function() {
+        mockSubmitTicketSender.calls.mostRecent().args[1]({});
+
+        expect(submitTicket.clearForm)
+          .toHaveBeenCalled();
+      });
+
+      it('should call onSubmitted with given last search state', function() {
+        submitTicket.setState({
+          searchTerm: 'a search',
+          searchLocale: 'en-US'
+        });
+
+        submitTicket.handleSubmit({ preventDefault: noop }, mockValues);
+
+        mockSubmitTicketSender.calls.mostRecent().args[1]({});
+
+        expect(mockOnSubmitted)
+          .toHaveBeenCalled();
+
+        expect(mockOnSubmitted.calls.mostRecent().args[0].searchTerm)
+          .toEqual('a search');
+
+        expect(mockOnSubmitted.calls.mostRecent().args[0].searchLocale)
+          .toEqual('en-US');
+      });
+
+      it('should correctly format custom fields', function() {
+        const mockCustomField = [
+          {
+            id: '22660514',
+            type: 'text',
+            title: 'Text',
+            required: true
+          }
+        ];
+        const mockValues = {
+          value: {
+            22660514: 'mockCustomField',
+            name: 'mockName',
+            description: 'mockDescription'
+          }
+        };
+        const expectedPayload = {
+          fields: {
+            22660514: 'mockCustomField'
+          }
+        };
+
+        const submitTicket = instanceRender(<SubmitTicket customFields={mockCustomField} />);
+        const payload = submitTicket.formatTicketFieldData(mockValues);
+
+        expect(payload)
+          .toBeJSONEqual(expectedPayload);
       });
 
       it('wraps the data in a request object', function() {
@@ -362,7 +362,6 @@ describe('Submit ticket component', function() {
 
       describe('when there is a successful response', () => {
         beforeEach(() => {
-          spyOn(submitTicket, 'clearForm');
           submitTicket.setState({
             searchTerm: 'a search',
             searchLocale: 'en-US'

@@ -119,7 +119,7 @@ export class SubmitTicket extends Component {
   findField(fieldName) {
     return _.find(this.state.ticketForms.ticket_fields, (field) => {
       return field.raw_title === fieldName && field.removable === false;
-    }).id;
+    });
   }
 
   formatRequestTicketData(data) {
@@ -129,10 +129,10 @@ export class SubmitTicket extends Component {
       { url: location.href }
     );
     const desc = ticketFormsAvailable
-               ? data.value[this.findField('Description')]
+               ? data.value[this.findField('Description').id]
                : data.value.description;
     const subjectData = ticketFormsAvailable
-                      ? data.value[this.findField('Subject')]
+                      ? data.value[this.findField('Subject').id]
                       : data.value.subject;
     const newDesc = `${desc}\n\n------------------\n${submittedFrom}`;
     const uploads = this.refs.submitTicketForm.refs.attachments
@@ -166,11 +166,13 @@ export class SubmitTicket extends Component {
       fields: {}
     };
     const subjectField = this.findField('Subject');
+    const subjectFieldId = subjectField ? subjectField.id : null;
     const descriptionField = this.findField('Description');
+    const descriptionFieldId = descriptionField ? descriptionField.id : null;
 
     _.forEach(data.value, function(value, name) {
       // Custom field names are numbers so we check if name is NaN
-      if (!isNaN(parseInt(name, 10)) && name !== subjectField && name !== descriptionField) {
+      if (!isNaN(parseInt(name, 10)) && name !== subjectFieldId && name !== descriptionFieldId) {
         params.fields[name] = value;
       }
     });

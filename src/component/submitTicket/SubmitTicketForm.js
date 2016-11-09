@@ -17,11 +17,9 @@ const initialState = {
   isValid: false,
   isSubmitting: false,
   isRTL: i18n.isRTL(),
-  removeTicketForm: false,
+  removeForm: false,
   formState: {},
   showErrorMessage: false,
-  ticketForm: null,
-  ticketFields: [],
   attachments: []
 };
 const sendButtonMessageString = 'embeddable_framework.submitTicket.form.submitButton.label.send';
@@ -33,9 +31,11 @@ export class SubmitTicketForm extends Component {
     super(props, context);
     bindMethods(this, SubmitTicketForm.prototype);
 
-    this.state = _.extend(initialState, {
+    this.state = _.extend({}, initialState, {
       buttonMessage: sendButtonMessageString,
       cancelButtonMessage: cancelButtonMessageString,
+      ticketForm: null,
+      ticketFormFields: [],
       isValid: props.previewEnabled
     });
   }
@@ -48,7 +48,7 @@ export class SubmitTicketForm extends Component {
   }
 
   componentDidUpdate() {
-    if (this.refs.formWrapper && this.state.formState && this.state.removeTicketForm) {
+    if (this.refs.formWrapper && this.state.formState && this.state.removeForm) {
       const form = ReactDOM.findDOMNode(this.refs.form);
 
       _.forEach(form.elements, function(field) {
@@ -80,7 +80,7 @@ export class SubmitTicketForm extends Component {
     // if the user closes and reopens, we need to
     // re-render the search field
     this.setState({
-      removeTicketForm: false
+      removeForm: false
     });
   }
 
@@ -99,7 +99,7 @@ export class SubmitTicketForm extends Component {
 
   hideVirtualKeyboard() {
     this.setState({
-      removeTicketForm: true
+      removeForm: true
     });
   }
 
@@ -155,7 +155,7 @@ export class SubmitTicketForm extends Component {
   updateTicketForm(form, fields) {
     this.setState({
       ticketForm: form,
-      ticketFields: fields
+      ticketFormFields: fields
     });
   }
 
@@ -172,10 +172,7 @@ export class SubmitTicketForm extends Component {
   }
 
   resetState() {
-    this.setState(_.extend(initialState, {
-      buttonMessage: sendButtonMessageString,
-      cancelButtonMessage: cancelButtonMessageString
-    }));
+    this.setState(initialState);
   }
 
   handleOnDrop(files) {
@@ -261,8 +258,8 @@ export class SubmitTicketForm extends Component {
   }
 
   renderTicketFormBody() {
-    const { ticketForm, ticketFields, formState } = this.state;
-    const formTicketFields = _.filter(ticketFields, (field) => {
+    const { ticketForm, ticketFormFields, formState } = this.state;
+    const formTicketFields = _.filter(ticketFormFields, (field) => {
       return ticketForm.ticket_field_ids.indexOf(field.id) > -1;
     });
     const ticketFieldsElem = getCustomFields(formTicketFields, formState);
@@ -328,7 +325,7 @@ export class SubmitTicketForm extends Component {
     });
 
     const form = this.state.ticketForm ? this.renderTicketFormBody() : this.renderFormBody();
-    const formBody = this.state.removeTicketForm ? null : form;
+    const formBody = this.state.removeForm ? null : form;
     const buttonCancel = fullscreen ? null : this.renderCancelButton();
     const attachments = attachmentsEnabled ? this.renderAttachments() : null;
 
