@@ -74,8 +74,10 @@ const renderWebWidgetPreview = (options) => {
     });
   };
 
-  preview.updateFrameSize();
-  setColor(options.color);
+  waitForRootComponent(preview, () => {
+    preview.updateFrameSize();
+    setColor(options.color);
+  });
 
   return {
     setColor,
