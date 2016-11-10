@@ -25,15 +25,15 @@ function createTicketForm(fieldIds) {
   options.path = '/api/v2/ticket_forms.json';
 
   const ticketFormRequest = http.request(options, (res) => {
-    console.log('STATUS: ' + res.statusCode);
+    console.log(`STATUS: ${res.statusCode}`);
     res.setEncoding('utf8');
     res.on('data', (data) => {
-      console.log('DONE! ticket form id: ' + JSON.parse(data).ticket_form.id);
+      console.log(`DONE! ticket form id: ${JSON.parse(data).ticket_form.id}`);
     });
   });
 
   ticketFormRequest.on('error', (e) => {
-    console.log('problem with ticket form request: ' + e.message);
+      console.log(`problem with ticket form request: ${e.message}`);
   });
 
   ticketFormRequest.write(`{
@@ -63,7 +63,7 @@ function createTicketFields() {
       res.on('data', (data) => {
         const id = JSON.parse(data).ticket_field.id;
 
-        console.log('STATUS: ' + res.statusCode + '  created field: ' + id);
+        console.log(`STATUS: ${res.statusCode} created field: ${id}`);
         fieldIds.push(id);
 
         if (fieldIds.length === fields.length) {
@@ -73,7 +73,7 @@ function createTicketFields() {
     });
 
     ticketFieldsRequest.on('error', (e) => {
-      console.log('problem with ticket field request: ' + e.message);
+      console.log(`problem with ticket field request: ${e.message}`);
     });
 
     ticketFieldsRequest.write(field);
