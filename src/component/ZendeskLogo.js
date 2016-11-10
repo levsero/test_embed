@@ -15,7 +15,6 @@ export class ZendeskLogo extends Component {
       'u-posEnd': rtl,
       [this.props.className]: true
     });
-    const logoType = this.props.golionLogo ? 'Icon--golion' : 'Icon--zendesk';
 
     const logoUrl = [
       i18n.t(
@@ -27,7 +26,7 @@ export class ZendeskLogo extends Component {
 
     return (
       <a href={logoUrl} target='_blank' className={logoClasses}>
-        <Icon type={logoType} className='u-posRelative' />
+        <Icon type='Icon--zendesk' className='u-posRelative' />
         <span className='u-isHiddenVisually'>zendesk</span>
       </a>
     );
@@ -40,8 +39,7 @@ ZendeskLogo.propTypes = {
   formSuccess: PropTypes.bool,
   className: PropTypes.string,
   utm: PropTypes.string,
-  logoLink: PropTypes.string,
-  golionLogo: PropTypes.bool
+  logoLink: PropTypes.string
 };
 
 ZendeskLogo.defaultProps = {
@@ -50,6 +48,5 @@ ZendeskLogo.defaultProps = {
   formSuccess: false,
   className: '',
   utm: 'webwidget',
-  logoLink: 'embeddables',
-  golionLogo: false
+  logoLink: 'embeddables'
 };

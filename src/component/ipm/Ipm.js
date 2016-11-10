@@ -55,7 +55,6 @@ export class Ipm extends Component {
       <IpmDesktop
         {...this.state}
         updateFrameSize={this.props.updateFrameSize}
-        golionLogo={this.props.golionLogo}
         closeFrame={this.props.closeFrame} />
     );
   }
@@ -66,12 +65,10 @@ Ipm.propTypes = {
   mobile: PropTypes.bool.isRequired,
   closeFrame: PropTypes.func.isRequired,
   setFrameSize: PropTypes.func,
-  updateFrameSize: PropTypes.func,
-  golionLogo: PropTypes.bool
+  updateFrameSize: PropTypes.func
 };
 
 Ipm.defaultProps = {
   setFrameSize: () => {},
-  updateFrameSize: () => {},
-  golionLogo: false
+  updateFrameSize: () => {}
 };

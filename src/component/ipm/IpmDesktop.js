@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import classNames from 'classnames';
 
 import { Container } from 'component/Container';
 import { Button } from 'component/button/Button';
@@ -60,11 +59,6 @@ export class IpmDesktop extends Component {
   }
 
   render() {
-    const logoClasses = classNames({
-      'IpmDesktop-footer--logo u-posStart--flush': true,
-      'IpmDesktop-footer--logo--golion': this.props.golionLogo
-    });
-
     this.updateFrameSize();
 
     return (
@@ -79,9 +73,8 @@ export class IpmDesktop extends Component {
           <p className='IpmDesktop-message u-paddingBL'>{this.props.ipm.message.body}</p>
           <div className='IpmDesktop-footer u-posRelative'>
             <ZendeskLogo
-              className={logoClasses}
-              golionLogo={this.props.golionLogo}
-              logoLink={this.props.golionLogo ? 'connect' : 'embeddables'}
+              className='IpmDesktop-footer--logo u-posStart--flush'
+              logoLink='connect'
               utm='ipm' />
             <Button
               className='u-pullRight'
@@ -97,10 +90,5 @@ export class IpmDesktop extends Component {
 IpmDesktop.propTypes = {
   ipm: PropTypes.object.isRequired,
   updateFrameSize: PropTypes.func.isRequired,
-  closeFrame: PropTypes.func.isRequired,
-  golionLogo: PropTypes.bool
-};
-
-IpmDesktop.defaultProps = {
-  golionLogo: false
+  closeFrame: PropTypes.func.isRequired
 };

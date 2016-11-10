@@ -229,7 +229,6 @@ export class SubmitTicket extends Component {
                       : <ZendeskLogo
                           formSuccess={this.state.showNotification}
                           rtl={i18n.isRTL()}
-                          golionLogo={this.props.golionLogo}
                           fullscreen={this.state.fullscreen} />;
     const attachmentBox = this.state.isDragActive && this.props.attachmentsEnabled
                         ? <AttachmentBox
@@ -285,7 +284,6 @@ SubmitTicket.propTypes = {
   previewEnabled: PropTypes.bool,
   updateFrameSize: PropTypes.func,
   hideZendeskLogo: PropTypes.bool,
-  golionLogo: PropTypes.bool,
   customFields: PropTypes.array,
   style: PropTypes.object,
   position: PropTypes.string,
@@ -301,7 +299,6 @@ SubmitTicket.defaultProps = {
   previewEnabled: false,
   updateFrameSize: () => {},
   hideZendeskLogo: false,
-  golionLogo: false,
   customFields: [],
   style: null,
   position: 'right',

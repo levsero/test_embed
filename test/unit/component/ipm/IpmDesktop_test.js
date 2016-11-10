@@ -191,44 +191,17 @@ describe('IpmDesktop component', function() {
   describe('ZendeskLogo', () => {
     let logo, footer, component;
 
-    describe('when the `golionLogo` prop is false', () => {
-      beforeEach(() => {
-        component = domRender(<IpmDesktop {...ipmProps} />);
-        footer = TestUtils.findRenderedDOMComponentWithClass(component, 'IpmDesktop-footer');
-        logo = footer.props.children[0];
-      });
-
-      it('logoClasses should not contain `IpmDesktop-footer--logo--golion`', () => {
-        expect(logo.props.className)
-          .not.toContain('IpmDesktop-footer--logo--golion');
-      });
-
-      it('logoLink should be `embeddables`', () => {
-        expect(logo.props.logoLink)
-          .toEqual('embeddables');
-      });
+    beforeEach(() => {
+      component = domRender(
+        <IpmDesktop {...ipmProps} />
+      );
+      footer = TestUtils.findRenderedDOMComponentWithClass(component, 'IpmDesktop-footer');
+      logo = footer.props.children[0];
     });
 
-    describe('when the `golionLogo` prop is true', () => {
-      beforeEach(() => {
-        component = domRender(
-          <IpmDesktop
-            golionLogo={true}
-            {...ipmProps} />
-        );
-        footer = TestUtils.findRenderedDOMComponentWithClass(component, 'IpmDesktop-footer');
-        logo = footer.props.children[0];
-      });
-
-      it('logoClasses should contain `IpmDesktop-footer--logo--golion`', () => {
-        expect(logo.props.className)
-          .toContain('IpmDesktop-footer--logo--golion');
-      });
-
-      it('logoLink should be `connect`', () => {
-        expect(logo.props.logoLink)
-          .toEqual('connect');
-      });
+    it('logoLink should be `connect`', () => {
+      expect(logo.props.logoLink)
+        .toEqual('connect');
     });
   });
 });

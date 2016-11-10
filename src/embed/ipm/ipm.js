@@ -28,8 +28,7 @@ function create(name, config) {
   };
 
   const configDefaults = {
-    hideZendeskLogo: false,
-    golionLogo: false
+    hideZendeskLogo: false
   };
 
   config = _.extend(configDefaults, config);
@@ -89,7 +88,6 @@ function create(name, config) {
           updateFrameSize={params.updateFrameSize}
           ipmSender={ipmSender}
           closeFrame={closeFrame}
-          golionLogo={config.golionLogo}
           mobile={isMobileBrowser()}
           style={containerStyle} />
       );

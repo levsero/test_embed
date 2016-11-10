@@ -209,10 +209,7 @@ export class NpsMobile extends Component {
                          : null;
 
     const zendeskLogo = (this.state.currentPage.thankYou)
-                      ? <ZendeskLogo
-                          utm='embeddednps'
-                          className='ZendeskLogo u-posCenter'
-                          golionLogo={this.props.golionLogo} />
+                      ? <ZendeskLogo utm='embeddednps' className='ZendeskLogo u-posCenter' />
                       : null;
 
     const notification = (this.state.currentPage.thankYou)
@@ -307,7 +304,6 @@ NpsMobile.propTypes = {
   updateRating: PropTypes.func.isRequired,
   isSubmittingComment: PropTypes.bool,
   isSubmittingRating: PropTypes.bool,
-  golionLogo: PropTypes.bool,
   onCommentChangeHandler: PropTypes.func,
   submitCommentHandler: PropTypes.func,
   submitRatingHandler: PropTypes.func
@@ -316,7 +312,6 @@ NpsMobile.propTypes = {
 NpsMobile.defaultProps = {
   isSubmittingComment: false,
   isSubmittingRating: false,
-  golionLogo: false,
   onCommentChangeHandler: () => {},
   submitCommentHandler: () => {},
   submitRatingHandler: () => {}

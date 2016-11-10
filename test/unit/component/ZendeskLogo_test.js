@@ -60,22 +60,4 @@ describe('ZendeskLogo component', () => {
         .not.toMatch('u-posStart');
     });
   });
-
-  describe('logo type', () => {
-    it('should be type `Icon--zendesk` when golionLogo prop is false', () => {
-      const logo = shallowRender(<ZendeskLogo />);
-      const icon = logo.props.children[0];
-
-      expect(icon.props.type)
-        .toMatch('Icon--zendesk');
-    });
-
-    it('should be type `Icon--golion` when golionLogo prop is true', () => {
-      const logo = shallowRender(<ZendeskLogo golionLogo={true} />);
-      const icon = logo.props.children[0];
-
-      expect(icon.props.type)
-        .toMatch('Icon--golion');
-    });
-  });
 });

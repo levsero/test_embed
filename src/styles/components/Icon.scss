@@ -61,8 +61,10 @@
 }
 
 .Icon--zendesk {
-  padding-left: $spacing-tny;
-  top: #{8/$font-size}rem;
+  top: #{10/$font-size}rem;
+
+  margin-left: #{4/$font-size}rem;
+  margin-right: #{13/$font-size}rem;
 
   [dir='rtl'] & {
     padding-left: #{3/$font-size}rem;
@@ -70,12 +72,17 @@
   }
 
   svg {
-    fill: $zendesk-color--iron;
-    min-width: #{60/$font-size}rem; /* 1 */
-    width: #{60/$font-size}rem;
+    min-width: #{50/$font-size}rem; /* 1 */
+    width: #{50/$font-size}rem;
 
     &:hover, &:active, &:focus {
-      fill: $cta-color;
+      path {
+        fill: $zendesk-color--algae;
+      }
+    }
+
+    path {
+      fill: $zendesk-color--iron;
     }
   }
 }
@@ -306,33 +313,6 @@
     min-height: #{7/$font-size}rem; /* 1 */
     height: #{7/$font-size}rem;
     width: #{7/$font-size}rem;
-  }
-}
-
-.Icon--golion {
-  top: #{10/$font-size}rem;
-
-  margin-left: #{4/$font-size}rem;
-  margin-right: #{13/$font-size}rem;
-
-  [dir='rtl'] & {
-    padding-left: #{3/$font-size}rem;
-    padding-right: #{6/$font-size}rem;
-  }
-
-  svg {
-    min-width: #{50/$font-size}rem; /* 1 */
-    width: #{50/$font-size}rem;
-
-    &:hover, &:active, &:focus {
-      path {
-        fill: $zendesk-color--algae;
-      }
-    }
-
-    path {
-      fill: $zendesk-color--iron;
-    }
   }
 }
 
