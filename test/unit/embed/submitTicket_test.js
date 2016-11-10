@@ -162,6 +162,29 @@ describe('embed.submitTicket', function() {
         .toEqual(false);
     });
 
+    describe('when ticket forms are available', () => {
+      let mockTransport;
+
+      beforeEach(() => {
+        mockTransport = mockRegistry['service/transport'].transport;
+      });
+
+      it('should call show_many', () => {
+        submitTicket.create('bob', { ticketForms: [1]} );
+
+        expect(mockTransport.get.calls.mostRecent().args[0].path)
+          .toEqual('/api/v2/ticket_forms/show_many.json?ids=1&include=ticket_fields');
+      });
+
+      it('should use the settings value over the config value', () => {
+        mockSettingsValue = [212]; // emulate settings.get('contactForm.ticketForms')
+        submitTicket.create('bob', { ticketForms: [121]} );
+
+        expect(mockTransport.get.calls.mostRecent().args[0].path)
+          .toContain('212');
+      });
+    });
+
     describe('frameFactory', function() {
       let mockFrameFactory,
         mockFrameFactoryCall,

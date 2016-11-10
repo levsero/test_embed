@@ -43,7 +43,8 @@ const webWidgetStoreDefaults = {
   contactForm: {
     subject: false,
     attachments: true,
-    suppress: false
+    suppress: false,
+    ticketForms: []
   },
   channelChoice: false,
   helpCenter: {
