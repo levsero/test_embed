@@ -138,7 +138,7 @@ export class SubmitTicket extends Component {
     const uploads = this.refs.submitTicketForm.refs.attachments
                   ? this.refs.submitTicketForm.refs.attachments.getAttachmentTokens()
                   : null;
-    const subject = this.props.subjectEnabled && !_.isEmpty(subjectData)
+    const subject = (this.props.subjectEnabled || ticketFormsAvailable) && !_.isEmpty(subjectData)
                   ? subjectData
                   : (desc.length <= 50) ? desc : `${desc.slice(0,50)}...`;
     const params = {
@@ -172,7 +172,9 @@ export class SubmitTicket extends Component {
 
     _.forEach(data.value, function(value, name) {
       // Custom field names are numbers so we check if name is NaN
-      if (!isNaN(parseInt(name, 10)) && name !== subjectFieldId && name !== descriptionFieldId) {
+      const nameInt = parseInt(name, 10);
+
+      if (!isNaN(nameInt) && nameInt !== subjectFieldId && nameInt !== descriptionFieldId) {
         params.fields[name] = value;
       }
     });
