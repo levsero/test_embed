@@ -51,6 +51,7 @@ const renderWebWidgetPreview = (options) => {
           ref="rootComponent"
           previewEnabled={true}
           formTitleKey={options.titleKey}
+          golionLogo={true}
           submitTicketSender={() => {}}
           attachmentSender={() => {}}
           style={containerStyle} />
