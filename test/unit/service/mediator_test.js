@@ -906,14 +906,8 @@ describe('mediator', function() {
         expect(setScrollKiller)
           .toHaveBeenCalledWith(true);
 
-        expect(setScrollKiller.calls.count())
-          .toEqual(1);
-
         expect(setWindowScroll)
           .toHaveBeenCalledWith(0);
-
-        expect(setWindowScroll.calls.count())
-          .toEqual(1);
       });
     });
 
