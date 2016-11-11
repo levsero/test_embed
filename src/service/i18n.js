@@ -12,12 +12,14 @@ let currentLocale;
 // is a flat structure and counterpart tries to look in object
 translate.setSeparator('*');
 
-// force is for the nps preview use case where multiple embeds are rendered
-// in multiple locales.
-function setLocale(str = 'en-US') {
-  currentLocale = parseLocale(str);
-  translate.setLocale(currentLocale);
-  setTranslations();
+// force is for post-render setLocale function so that it can
+// override if this has previously been set
+function setLocale(str = 'en-US', force = false) {
+  if (!currentLocale || force) {
+    currentLocale = parseLocale(str);
+    translate.setLocale(currentLocale);
+    setTranslations();
+  }
 }
 
 function setTranslations() {
