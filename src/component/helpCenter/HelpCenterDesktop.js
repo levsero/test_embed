@@ -123,7 +123,7 @@ export class HelpCenterDesktop extends Component {
     });
     const buttonLabel = this.props.channelChoice
                       ? i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket.contact')
-                      : this.props.buttonLabel;
+                      : i18n.t(`embeddable_framework.helpCenter.submitButton.label.submitTicket.${this.props.buttonLabelKey}`);
 
     return (
       <div className={buttonContainerClasses}>
@@ -176,7 +176,7 @@ HelpCenterDesktop.propTypes = {
   isLoading: PropTypes.bool,
   articleViewActive: PropTypes.bool,
   hasSearched: PropTypes.bool,
-  buttonLabel:PropTypes.string,
+  buttonLabelKey: PropTypes.string,
   shadowVisible: PropTypes.bool,
   searchFieldValue: PropTypes.string,
   disableAutoSearch: PropTypes.bool,
@@ -193,7 +193,7 @@ HelpCenterDesktop.defaultProps = {
   isLoading: false,
   articleViewActive: false,
   hasSearched: false,
-  buttonLabel: 'message',
+  buttonLabelKey: 'message',
   shadowVisible: false,
   searchFieldValue: '',
   disableAutoSearch: false,

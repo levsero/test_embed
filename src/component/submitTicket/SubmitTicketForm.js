@@ -22,7 +22,8 @@ const initialState = {
   showErrorMessage: false,
   attachments: []
 };
-const buttonMessageString = 'embeddable_framework.submitTicket.form.submitButton.label.send';
+const sendButtonMessageString = 'embeddable_framework.submitTicket.form.submitButton.label.send';
+const sendingButtonMessageString = 'embeddable_framework.submitTicket.form.submitButton.label.sending';
 const cancelButtonMessageString = 'embeddable_framework.submitTicket.form.cancelButton.label.cancel';
 
 export class SubmitTicketForm extends Component {
@@ -31,8 +32,8 @@ export class SubmitTicketForm extends Component {
     bindMethods(this, SubmitTicketForm.prototype);
 
     this.state = _.extend(initialState, {
-      buttonMessage: i18n.t(buttonMessageString),
-      cancelButtonMessage: i18n.t(cancelButtonMessageString),
+      buttonMessage: sendButtonMessageString,
+      cancelButtonMessage: cancelButtonMessageString,
       isValid: props.previewEnabled
     });
   }
@@ -103,7 +104,7 @@ export class SubmitTicketForm extends Component {
   failedToSubmit() {
     this.setState({
       isSubmitting: false,
-      buttonMessage: i18n.t(buttonMessageString)
+      buttonMessage: sendButtonMessageString
     });
 
     this.refs.scrollContainer.scrollToBottom();
@@ -119,7 +120,7 @@ export class SubmitTicketForm extends Component {
 
     if (isFormValid) {
       this.setState({
-        buttonMessage: i18n.t('embeddable_framework.submitTicket.form.submitButton.label.sending'),
+        buttonMessage: sendingButtonMessageString,
         isSubmitting: true
       });
     }
@@ -163,8 +164,8 @@ export class SubmitTicketForm extends Component {
 
   resetState() {
     this.setState(_.extend(initialState, {
-      buttonMessage: i18n.t(buttonMessageString),
-      cancelButtonMessage: i18n.t(cancelButtonMessageString)
+      buttonMessage: sendButtonMessageString,
+      cancelButtonMessage: cancelButtonMessageString
     }));
   }
 
@@ -254,7 +255,7 @@ export class SubmitTicketForm extends Component {
 
     return (
       <ButtonSecondary
-        label={this.state.cancelButtonMessage}
+        label={i18n.t(this.state.cancelButtonMessage)}
         onClick={onCancel}
         fullscreen={fullscreen} />
     );
@@ -303,7 +304,7 @@ export class SubmitTicketForm extends Component {
               {buttonCancel}
               <Button
                 fullscreen={fullscreen}
-                label={this.state.buttonMessage}
+                label={i18n.t(this.state.buttonMessage)}
                 disabled={!this.state.isValid || this.state.isSubmitting}
                 type='submit' />
             </ButtonGroup>
