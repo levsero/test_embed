@@ -891,6 +891,24 @@ describe('mediator', function() {
         expect(setWindowScroll.calls.count())
           .toEqual(1);
       });
+
+      it('activates setScrollKiller and setWindowScroll on mobile', function() {
+        const setScrollKiller = mockRegistry['utility/scrollHacks'].setScrollKiller;
+        const setWindowScroll = mockRegistry['utility/scrollHacks'].setWindowScroll;
+
+        mockRegistry['utility/devices'].isMobileBrowser
+          .and.returnValue(true);
+
+        jasmine.clock().install();
+        c.broadcast('.activate');
+        jasmine.clock().tick(0);
+
+        expect(setScrollKiller)
+          .toHaveBeenCalledWith(true);
+
+        expect(setWindowScroll)
+          .toHaveBeenCalledWith(0);
+      });
     });
 
     describe('with Ticket Submission and Chat', function() {
