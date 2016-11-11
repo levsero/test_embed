@@ -81,7 +81,6 @@ function init(config) {
       try {
         configItem.props.visible = !hideLauncher && config.embeds && !config.embeds.zopimChat;
         configItem.props.hideZendeskLogo = config.hideZendeskLogo;
-        configItem.props.golionLogo = config.golionLogo;
         configItem.props.brand = config.brand;
         embedsMap[configItem.embed].create(embedName, configItem.props);
         embedsMap[configItem.embed].render(embedName);

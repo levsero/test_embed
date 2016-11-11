@@ -407,7 +407,6 @@ export class HelpCenter extends Component {
         manualSearch={this.manualSearch}
         showNextButton={this.state.showNextButton}
         hideZendeskLogo={this.props.hideZendeskLogo}
-        golionLogo={this.props.golionLogo}
         disableAutoSearch={this.props.disableAutoSearch}
         isLoading={this.state.isLoading}
         onNextClick={this.props.onNextClick}
@@ -439,7 +438,6 @@ export class HelpCenter extends Component {
         disableAutoSearch={this.props.disableAutoSearch}
         searchFieldValue={this.state.searchFieldValue}
         hideZendeskLogo={this.props.hideZendeskLogo}
-        golionLogo={this.props.golionLogo}
         buttonLabelKey={this.props.buttonLabelKey}
         formTitleKey={this.props.formTitleKey}>
         {this.renderResults()}
@@ -478,7 +476,6 @@ HelpCenter.propTypes = {
   onNextClick: PropTypes.func,
   onArticleClick: PropTypes.func,
   hideZendeskLogo: PropTypes.bool,
-  golionLogo: PropTypes.bool,
   updateFrameSize: PropTypes.func,
   style: PropTypes.object,
   formTitleKey: PropTypes.string,
@@ -495,7 +492,6 @@ HelpCenter.defaultProps = {
   onNextClick: () => {},
   onArticleClick: () => {},
   hideZendeskLogo: false,
-  golionLogo: false,
   updateFrameSize: () => {},
   style: null,
   formTitleKey: 'help',

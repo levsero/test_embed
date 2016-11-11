@@ -232,7 +232,6 @@ describe('renderer', () => {
         .toHaveBeenCalledWith('thing', {
           visible: true,
           hideZendeskLogo: undefined,
-          golionLogo: undefined,
           brand: undefined
         });
 

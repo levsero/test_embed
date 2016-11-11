@@ -44,7 +44,6 @@ function create(name, config) {
     buttonLabelKey: 'message',
     formTitleKey: 'help',
     hideZendeskLogo: false,
-    golionLogo: false,
     signInRequired: false,
     disableAutoSearch: false,
     enableMouseDrivenContextualHelp: false,
@@ -148,7 +147,6 @@ function create(name, config) {
         <HelpCenter
           ref='rootComponent'
           hideZendeskLogo={config.hideZendeskLogo}
-          golionLogo={config.golionLogo}
           onNextClick={onNextClick}
           onArticleClick={onArticleClick}
           onSearch={onSearch}
