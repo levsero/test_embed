@@ -122,8 +122,8 @@ export class HelpCenterDesktop extends Component {
       'u-isHidden': !this.state.channelChoiceShown
     });
     const buttonLabel = this.props.channelChoice
-      ? i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket.contact')
-      : i18n.t(`embeddable_framework.helpCenter.submitButton.label.submitTicket.${this.props.buttonLabelKey}`);
+                      ? i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket.contact')
+                      : i18n.t(`embeddable_framework.helpCenter.submitButton.label.submitTicket.${this.props.buttonLabelKey}`); // eslint-disable-line
 
     return (
       <div className={buttonContainerClasses}>
