@@ -81,7 +81,7 @@ function boot() {
     mediator.channel.broadcast('.show');
   };
   const setLocale = (locale) => {
-    i18n.setLocale(locale);
+    i18n.setLocale(locale, true);
     mediator.channel.broadcast('.onSetLocale', locale);
   };
   // no "fat arrow" because it binds `this` to the scoped environment and does not allow it to be re-set with .bind()

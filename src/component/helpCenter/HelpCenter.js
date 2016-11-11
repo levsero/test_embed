@@ -21,7 +21,6 @@ export class HelpCenter extends Component {
       articles: [],
       resultsCount: 0,
       searchTerm: '',
-      buttonLabel: i18n.t(`embeddable_framework.helpCenter.submitButton.label.submitTicket.${props.buttonLabelKey}`),
       showNextButton: true,
       previousSearchTerm: '',
       hasSearched: false,
@@ -415,7 +414,7 @@ export class HelpCenter extends Component {
         channelChoice={this.props.channelChoice && this.state.chatOnline}
         articleViewActive={this.state.articleViewActive}
         hasSearched={this.state.hasSearched}
-        buttonLabel={this.state.buttonLabel}
+        buttonLabelKey={this.props.buttonLabelKey}
         formTitleKey={this.props.formTitleKey}
         searchFieldValue={this.state.searchFieldValue}
         shadowVisible={shadowVisible}
@@ -437,7 +436,6 @@ export class HelpCenter extends Component {
         showNextButton={this.state.showNextButton}
         articleViewActive={this.state.articleViewActive}
         hasSearched={this.state.hasSearched}
-        buttonLabel={this.state.buttonLabel}
         disableAutoSearch={this.props.disableAutoSearch}
         searchFieldValue={this.state.searchFieldValue}
         hideZendeskLogo={this.props.hideZendeskLogo}

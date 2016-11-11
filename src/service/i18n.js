@@ -9,20 +9,22 @@ const localeIdMap = require('translation/localeIdMap.json');
 let currentLocale;
 
 // Setting to something other than (.) as our translation hash
-// is a flat structure and counterpart tries to look in object
+// is a flat structure and counterpart tries to look in object.
 translate.setSeparator('*');
 
-// force is for the nps preview use case where multiple embeds are rendered
-// in multiple locales.
-function setLocale(str = 'en-US') {
-  currentLocale = parseLocale(str);
-  translate.setLocale(currentLocale);
-  setTranslations();
+// The force argument is for post-render setLocale function so that
+// it can override the locale if it has previously been set.
+function setLocale(str = 'en-US', force = false) {
+  if (!currentLocale || force) {
+    currentLocale = parseLocale(str);
+    translate.setLocale(currentLocale);
+    setTranslations();
+  }
 }
 
 function setTranslations() {
   // To avoid weird encoding issues we deliver the strings uri encoded
-  // when setting the strings we then decode them in memory
+  // when setting the strings we then decode them in memory.
   const decodedStrings = _.reduce(translations[currentLocale], function(res, el, key) {
     res[key] = decodeURIComponent(el);
     return res;
@@ -88,7 +90,7 @@ function parseLocale(str) {
 }
 
 function overrideTranslations(newTranslations) {
-  // override all locales if there are wild card translations
+  // Override all locales if there are wild card translations.
   _.forEach(newTranslations, (newTranslation, translationKey) => {
     if (newTranslation.hasOwnProperty('*')) {
       const globalOverrides = mappedTranslationsForLocale(newTranslation['*'], translationKey);
@@ -98,7 +100,7 @@ function overrideTranslations(newTranslations) {
       }
     }
 
-    // overrride any other specified locales
+    // Overrride any other specified locales.
     for (let locale in newTranslation) {
       if (locale === '*') continue;
 

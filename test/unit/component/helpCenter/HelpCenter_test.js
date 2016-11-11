@@ -1,6 +1,5 @@
 describe('HelpCenter component', function() {
   let HelpCenter,
-    mockRegistry,
     mockPageKeywords,
     trackSearch,
     updateResults,
@@ -28,7 +27,7 @@ describe('HelpCenter component', function() {
 
     mockPageKeywords = 'billy bob thorton';
 
-    mockRegistry = initMockRegistry({
+    initMockRegistry({
       'React': React,
       'component/helpCenter/HelpCenterArticle': {
         HelpCenterArticle: React.createClass({
@@ -119,22 +118,6 @@ describe('HelpCenter component', function() {
       expect(helpCenter.state.articles)
         .toEqual([]);
     });
-
-    it('has buttonLabel reflecting buttonLabelKey prop', () => {
-      expect(helpCenter.state.buttonLabel)
-        .toEqual('embeddable_framework.helpCenter.submitButton.label.submitTicket.contact');
-    });
-  });
-
-  it('should call i18n.t with the right parameter to set the label', function() {
-    const labelKey = 'foo bar';
-
-    spyOn(mockRegistry['service/i18n'].i18n, 't').and.callThrough();
-
-    shallowRender(<HelpCenter buttonLabelKey={labelKey} />);
-
-    expect(mockRegistry['service/i18n'].i18n.t)
-      .toHaveBeenCalledWith(`embeddable_framework.helpCenter.submitButton.label.submitTicket.${labelKey}`);
   });
 
   describe('updateResults', function() {
