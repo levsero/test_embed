@@ -20,7 +20,8 @@ describe('settings', () => {
     defaults = {
       contactForm: {
         subject: false,
-        attachments: true
+        attachments: true,
+        ticketForms: []
       },
       channelChoice: false,
       helpCenter: {
@@ -74,6 +75,11 @@ describe('settings', () => {
       it('has the correct value for contactForm.subject', () => {
         expect(settings.get('contactForm.subject'))
           .toEqual(defaults.contactForm.subject);
+      });
+
+      it('has the correct value for contactForm.ticketForms', () => {
+        expect(settings.get('contactForm.ticketForms'))
+          .toEqual(defaults.contactForm.ticketForms);
       });
 
       it('has the correct value for color', () => {

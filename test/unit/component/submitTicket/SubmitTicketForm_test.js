@@ -277,6 +277,7 @@ describe('SubmitTicketForm component', function() {
       formElements;
 
     beforeEach(() => {
+      /* eslint-disable camelcase */
       const mockTicketForm = {
         id: 1,
         raw_name: 'Ticket Formz',
@@ -301,8 +302,10 @@ describe('SubmitTicketForm component', function() {
         }
       ];
 
+      /* eslint-enable camelcase */
+
       component = domRender(<SubmitTicketForm />);
-      component.updateTicketForm(mockTicketForm, mockTicketFields)
+      component.updateTicketForm(mockTicketForm, mockTicketFields);
 
       formElements = component.refs.formWrapper.props.children[0];
     });
