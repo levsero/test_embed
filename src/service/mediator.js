@@ -176,6 +176,18 @@ function init(embedsAccessible, params = {}) {
           viaActivate: true
         });
         state[`${state.activeEmbed}.isVisible`] = true;
+
+        if (isMobileBrowser()) {
+          /**
+           * This timeout ensures the embed is displayed
+           * before the scrolling happens on the host page
+           * so that the user doesn't see the host page jump
+           */
+          setTimeout(() => {
+            setWindowScroll(0);
+            setScrollKiller(true);
+          }, 0);
+        }
       }
     }
   });
