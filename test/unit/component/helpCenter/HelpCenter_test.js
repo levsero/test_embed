@@ -1,6 +1,5 @@
 describe('HelpCenter component', function() {
   let HelpCenter,
-    mockRegistry,
     mockPageKeywords,
     trackSearch,
     updateResults,
@@ -28,7 +27,7 @@ describe('HelpCenter component', function() {
 
     mockPageKeywords = 'billy bob thorton';
 
-    mockRegistry = initMockRegistry({
+    initMockRegistry({
       'React': React,
       'component/helpCenter/HelpCenterArticle': {
         HelpCenterArticle: React.createClass({
