@@ -195,7 +195,7 @@ describe('fields', () => {
     });
 
     describe('props', () => {
-      it('should pass through the id', () => {
+      it('should pass through the id to name', () => {
         expect(customFields.allFields[0].props.name)
           .toEqual('22660514');
 
