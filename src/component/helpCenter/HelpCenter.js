@@ -394,7 +394,7 @@ export class HelpCenter extends Component {
     );
   }
 
-  renderHelpCenterDesktop() {
+  renderHelpCenterDesktop(buttonLabel) {
     const shadowVisible = this.state.articleViewActive ||
                           this.state.articles.length > minimumSearchResults;
 
@@ -413,7 +413,7 @@ export class HelpCenter extends Component {
         channelChoice={this.props.channelChoice && this.state.chatOnline}
         articleViewActive={this.state.articleViewActive}
         hasSearched={this.state.hasSearched}
-        buttonLabelKey={this.props.buttonLabelKey}
+        buttonLabel={buttonLabel}
         formTitleKey={this.props.formTitleKey}
         searchFieldValue={this.state.searchFieldValue}
         shadowVisible={shadowVisible}
@@ -424,7 +424,7 @@ export class HelpCenter extends Component {
     );
   }
 
-  renderHelpCenterMobile() {
+  renderHelpCenterMobile(buttonLabel) {
     return (
       <HelpCenterMobile
         ref='helpCenterMobile'
@@ -433,12 +433,13 @@ export class HelpCenter extends Component {
         manualSearch={this.manualSearch}
         isLoading={this.state.isLoading}
         showNextButton={this.state.showNextButton}
+        chatOnline={this.state.chatOnline}
         articleViewActive={this.state.articleViewActive}
         hasSearched={this.state.hasSearched}
         disableAutoSearch={this.props.disableAutoSearch}
         searchFieldValue={this.state.searchFieldValue}
         hideZendeskLogo={this.props.hideZendeskLogo}
-        buttonLabelKey={this.props.buttonLabelKey}
+        buttonLabel={buttonLabel}
         formTitleKey={this.props.formTitleKey}>
         {this.renderResults()}
         {this.renderArticles()}
@@ -447,9 +448,19 @@ export class HelpCenter extends Component {
   }
 
   render() {
+    let buttonLabel;
+
+    if (this.props.channelChoice) {
+      buttonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket.contact');
+    } else if (this.state.chatOnline) {
+      buttonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.chat');
+    } else {
+      buttonLabel = i18n.t(`embeddable_framework.helpCenter.submitButton.label.submitTicket.${this.props.buttonLabelKey}`); // eslint-disable-line
+    }
+
     const helpCenter = (this.props.fullscreen)
-                     ? this.renderHelpCenterMobile()
-                     : this.renderHelpCenterDesktop();
+                     ? this.renderHelpCenterMobile(buttonLabel)
+                     : this.renderHelpCenterDesktop(buttonLabel);
 
     setTimeout(() => this.props.updateFrameSize(), 0);
 

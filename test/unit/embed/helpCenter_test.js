@@ -574,18 +574,12 @@ describe('embed.helpCenter', function() {
     });
 
     describe('mediator subscriptions', function() {
-      let mockMediator,
-        mockI18n,
-        carlos,
-        carlosHelpCenter;
+      let mockMediator;
 
       beforeEach(function() {
         mockMediator = mockRegistry['service/mediator'].mediator;
-        mockI18n = mockRegistry['service/i18n'].i18n;
         helpCenter.create('carlos');
         helpCenter.render('carlos');
-        carlos = helpCenter.get('carlos');
-        carlosHelpCenter = carlos.instance.getChild().refs.rootComponent;
       });
 
       it('should subscribe to <name>.show', function() {
@@ -618,36 +612,20 @@ describe('embed.helpCenter', function() {
       });
 
       it('should subscribe to <name>.setNextToChat', function() {
-        mockI18n.t.and.returnValue('chat label');
-
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('carlos.setNextToChat', jasmine.any(Function));
 
         pluckSubscribeCall(mockMediator, 'carlos.setNextToChat')();
-
-        expect(mockI18n.t)
-          .toHaveBeenCalledWith('embeddable_framework.helpCenter.submitButton.label.chat');
-
-        expect(carlosHelpCenter.state.buttonLabel)
-          .toEqual('chat label');
 
         expect(setChatOnline)
           .toHaveBeenCalledWith(true);
       });
 
       it('should subscribe to <name>.setNextToSubmitTicket', function() {
-        mockI18n.t.and.returnValue('submitTicket label');
-
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('carlos.setNextToSubmitTicket', jasmine.any(Function));
 
         pluckSubscribeCall(mockMediator, 'carlos.setNextToSubmitTicket')();
-
-        expect(mockI18n.t)
-          .toHaveBeenCalledWith('embeddable_framework.helpCenter.submitButton.label.submitTicket.message');
-
-        expect(carlosHelpCenter.state.buttonLabel)
-          .toEqual('submitTicket label');
 
         expect(setChatOnline)
           .toHaveBeenCalledWith(false);
