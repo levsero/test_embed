@@ -31,9 +31,6 @@ describe('settings', () => {
       margin: 15,
       offset: { horizontal: 0, vertical: 0 },
       viaId: 48,
-      color: {
-        theme: '#78A300'
-      },
       zIndex: 999999
     };
 
@@ -80,11 +77,6 @@ describe('settings', () => {
       it('has the correct value for contactForm.ticketForms', () => {
         expect(settings.get('contactForm.ticketForms'))
           .toEqual(defaults.contactForm.ticketForms);
-      });
-
-      it('has the correct value for color', () => {
-        expect(settings.get('color'))
-          .toEqual(defaults.color);
       });
 
       it('has the correct value for channelChoice', () => {

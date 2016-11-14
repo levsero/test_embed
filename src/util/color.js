@@ -106,8 +106,7 @@ function generateWebWidgetPreviewCSS(color) {
 
 function validSettingsColor() {
   const settingsColor = settings.get('color.theme');
-  const settingsColorValid = settingsColor !== defaultColor &&
-                             settingsColor &&
+  const settingsColorValid = settingsColor &&
                              isValidHex(settingsColor);
 
   return settingsColorValid ? settingsColor : null;

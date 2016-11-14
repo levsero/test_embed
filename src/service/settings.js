@@ -62,9 +62,6 @@ const webWidgetStoreDefaults = {
     vertical: 0
   },
   viaId: 48,
-  color: {
-    theme: '#78A300'
-  },
   zIndex: 999999
 };
 const ipmStoreDefaults = {
