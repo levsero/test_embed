@@ -303,6 +303,10 @@ export class HelpCenter extends Component {
     this.setState({ showNextButton: value });
   }
 
+  setChatOnline(chatOnline) {
+    this.setState({ chatOnline });
+  }
+
   handleArticleClick(articleIndex, e) {
     e.preventDefault();
 

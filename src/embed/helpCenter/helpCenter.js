@@ -239,7 +239,7 @@ function waitForRootComponent(name, callback) {
 
 function setChatOnline(name, chatOnline) {
   waitForRootComponent(name, () => {
-    getRootComponent(name).setState({ chatOnline });
+    getRootComponent(name).setChatOnline(chatOnline);
   });
 }
 
