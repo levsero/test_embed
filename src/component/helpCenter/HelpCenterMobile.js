@@ -161,7 +161,6 @@ export class HelpCenterMobile extends Component {
       'u-block u-userTextColor u-textNoWrap': true,
       'HelpCenterMobile-cta': true
     });
-
     const linkContext = this.props.chatOnline
                       ? i18n.t('embeddable_framework.helpCenter.label.linkContext.chat')
                       : i18n.t('embeddable_framework.helpCenter.label.linkContext.submitTicket');
