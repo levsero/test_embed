@@ -17,7 +17,7 @@ const initialState = {
   isValid: false,
   isSubmitting: false,
   isRTL: i18n.isRTL(),
-  removeForm: false,
+  shouldRemoveForm: false,
   formState: {},
   showErrorMessage: false,
   attachments: []
@@ -48,7 +48,7 @@ export class SubmitTicketForm extends Component {
   }
 
   componentDidUpdate() {
-    if (this.refs.formWrapper && this.state.formState && this.state.removeForm) {
+    if (this.refs.formWrapper && this.state.formState && this.state.shouldRemoveForm) {
       const form = ReactDOM.findDOMNode(this.refs.form);
 
       _.forEach(form.elements, function(field) {
@@ -80,7 +80,7 @@ export class SubmitTicketForm extends Component {
     // if the user closes and reopens, we need to
     // re-render the search field
     this.setState({
-      removeForm: false
+      shouldRemoveForm: false
     });
   }
 
@@ -99,7 +99,7 @@ export class SubmitTicketForm extends Component {
 
   hideVirtualKeyboard() {
     this.setState({
-      removeForm: true
+      shouldRemoveForm: true
     });
   }
 
@@ -325,7 +325,7 @@ export class SubmitTicketForm extends Component {
     });
 
     const form = this.state.ticketForm ? this.renderTicketFormBody() : this.renderFormBody();
-    const formBody = this.state.removeForm ? null : form;
+    const formBody = this.state.shouldRemoveForm ? null : form;
     const buttonCancel = fullscreen ? null : this.renderCancelButton();
     const attachments = attachmentsEnabled ? this.renderAttachments() : null;
 

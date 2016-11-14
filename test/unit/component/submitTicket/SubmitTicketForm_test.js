@@ -284,22 +284,10 @@ describe('SubmitTicketForm component', function() {
         ticket_field_ids: [1, 2, 4]
       };
       const mockTicketFields = [
-        {
-          id: 1,
-          raw_title: 'Description'
-        },
-        {
-          id: 2,
-          raw_title: 'Subject'
-        },
-        {
-          id: 4,
-          raw_title: 'Favorite Burger'
-        },
-        {
-          id: 5,
-          raw_title: 'Favorite Pizza'
-        }
+        { id: 1, raw_title: 'Description' },
+        { id: 2, raw_title: 'Subject' },
+        { id: 4, raw_title: 'Favorite Burger' },
+        { id: 5, raw_title: 'Favorite Pizza' }
       ];
 
       /* eslint-enable camelcase */
@@ -311,13 +299,17 @@ describe('SubmitTicketForm component', function() {
     });
 
     it('should render the name field', () => {
-      expect(component.renderNameField())
-        .toBeDefined();
+      const nameField = formElements[0][0]; // first field in form
+
+      expect(nameField.props.name)
+        .toBe('name');
     });
 
     it('should render the email field', () => {
-      expect(component.renderEmailField())
-        .toBeDefined();
+      const emailField = formElements[0][1]; // second field in form
+
+      expect(emailField.props.name)
+        .toBe('email');
     });
 
     it('should render the extra fields defined in the ticket form', () => {

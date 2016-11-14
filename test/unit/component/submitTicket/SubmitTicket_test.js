@@ -190,9 +190,12 @@ describe('Submit ticket component', () => {
     });
 
     describe('when the form is invalid', () => {
-      it('should not send the form when invalid', () => {
-        submitTicket.handleSubmit({ preventDefault: noop }, { isFormValid: false });
+      beforeEach(() => {
+        mockValues.isFormValid = false;
+        submitTicket.handleSubmit({ preventDefault: noop }, mockValues);
+      });
 
+      it('should not send the form', () => {
         expect(mockSubmitTicketSender)
           .not.toHaveBeenCalled();
       });

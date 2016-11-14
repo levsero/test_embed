@@ -128,25 +128,25 @@ export class SubmitTicket extends Component {
       'embeddable_framework.submitTicket.form.submittedFrom.label',
       { url: location.href }
     );
-    const desc = ticketFormsAvailable
+    const descriptionData = ticketFormsAvailable
                ? data.value[this.findField('Description').id]
                : data.value.description;
     const subjectData = ticketFormsAvailable
                       ? data.value[this.findField('Subject').id]
                       : data.value.subject;
-    const newDesc = `${desc}\n\n------------------\n${submittedFrom}`;
+    const description = `${descriptionData}\n\n------------------\n${submittedFrom}`;
     const uploads = this.refs.submitTicketForm.refs.attachments
                   ? this.refs.submitTicketForm.refs.attachments.getAttachmentTokens()
                   : null;
     const subject = (this.props.subjectEnabled || ticketFormsAvailable) && !_.isEmpty(subjectData)
                   ? subjectData
-                  : (desc.length <= 50) ? desc : `${desc.slice(0,50)}...`;
+                  : (descriptionData.length <= 50) ? descriptionData : `${descriptionData.slice(0,50)}...`;
     const params = {
       'subject': subject,
       'tags': ['web_widget'],
       'via_id': settings.get('viaId'),
       'comment': {
-        'body': newDesc,
+        'body': description,
         'uploads': uploads
       },
       'requester': {
@@ -156,9 +156,9 @@ export class SubmitTicket extends Component {
       }
     };
 
-    return this.props.customFields.length === 0 && !ticketFormsAvailable
-         ? { request: params }
-         : { request: _.extend(params, this.formatTicketFieldData(data)) };
+    return this.props.customFields.length > 0 || ticketFormsAvailable
+         ? { request: _.extend(params, this.formatTicketFieldData(data)) }
+         : { request: params };
   }
 
   formatTicketFieldData(data) {
@@ -188,8 +188,8 @@ export class SubmitTicket extends Component {
     // Once the selector is in place this will be set by that instead
     // for now I'm just setting it to the first form sent down
     this.refs.submitTicketForm.updateTicketForm(
-      this.state.ticketForms.ticket_forms[0],
-      this.state.ticketForms.ticket_fields
+      forms.ticket_forms[0],
+      forms.ticket_fields
     );
   }
 

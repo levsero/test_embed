@@ -16,12 +16,14 @@ const geti18nContent = (field) => {
 const getCustomFields = (customFields, formState) => {
   const isCheckbox = (field) => field.props.type === 'checkbox';
   const fields = _.map(customFields, (field) => {
+    const isRequired = _.isNil(field.required_in_portal) ? field.required : field.required_in_portal;
+    const title = field.title_in_portal || field.title;
     const sharedProps = {
       name: field.id,
       value: formState[field.id],
-      required: _.isNil(field.required_in_portal) ? field.required : field.required_in_portal,
-      placeholder: field.title_in_portal || field.title,
-      key: field.title_in_portal || field.title
+      required: isRequired,
+      placeholder: title,
+      key: title
     };
 
     if (field.variants) {
