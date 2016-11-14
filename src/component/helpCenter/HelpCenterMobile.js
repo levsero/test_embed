@@ -153,8 +153,6 @@ export class HelpCenterMobile extends Component {
   renderLinkContent() {
     if (!this.props.showNextButton) return null;
 
-    let linkContext;
-
     const linkContainerClasses = classNames({
       'u-textSizeBaseMobile u-textCenter u-marginTL': true,
       'u-isHidden': !this.state.showIntroScreen
@@ -164,11 +162,9 @@ export class HelpCenterMobile extends Component {
       'HelpCenterMobile-cta': true
     });
 
-    if (this.props.chatOnline) {
-      linkContext = i18n.t('embeddable_framework.helpCenter.label.linkContext.chat');
-    } else {
-      linkContext = i18n.t('embeddable_framework.helpCenter.label.linkContext.submitTicket');
-    }
+    const linkContext = this.props.chatOnline
+                      ? i18n.t('embeddable_framework.helpCenter.label.linkContext.chat')
+                      : i18n.t('embeddable_framework.helpCenter.label.linkContext.submitTicket');
 
     return (
       <div className={linkContainerClasses}>
