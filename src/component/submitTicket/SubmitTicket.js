@@ -11,8 +11,7 @@ import { ZendeskLogo } from 'component/ZendeskLogo';
 import { i18n } from 'service/i18n';
 import { settings } from 'service/settings';
 import { isMobileBrowser } from 'utility/devices';
-import { location,
-         win } from 'utility/globals';
+import { location } from 'utility/globals';
 import { bindMethods } from 'utility/utils';
 
 let frameDimensions = {
@@ -34,7 +33,8 @@ export class SubmitTicket extends Component {
       uid: _.uniqueId('submitTicketForm_'),
       searchTerm: null,
       searchLocale: null,
-      isDragActive: false
+      isDragActive: false,
+      ticketForms: {}
     };
   }
 
@@ -62,9 +62,7 @@ export class SubmitTicket extends Component {
       return;
     }
 
-    const formParams = this.props.attachmentsEnabled
-                     ? this.formatRequestTicketData(data)
-                     : this.formatEmbeddedTicketData(data);
+    const formParams = this.formatRequestTicketData(data);
 
     const failCallback = (err) => {
       const msg = (err.timeout)
@@ -118,44 +116,37 @@ export class SubmitTicket extends Component {
     this.props.submitTicketSender(formParams, doneCallback, failCallback);
   }
 
-  formatEmbeddedTicketData(data) {
-    const params = {
-      'name': data.value.name,
-      'email': data.value.email,
-      'description': data.value.description,
-      'set_tags': 'web_widget',
-      'via_id': settings.get('viaId'),
-      'locale_id': i18n.getLocaleId(),
-      'submitted_from': win.location.href
-    };
-
-    return this.props.customFields.length === 0
-         ? params
-         : _.extend(params, this.formatTicketFieldData(data));
+  findField(fieldName) {
+    return _.find(this.state.ticketForms.ticket_fields, (field) => {
+      return field.raw_title === fieldName && field.removable === false;
+    });
   }
 
   formatRequestTicketData(data) {
+    const ticketFormsAvailable = !!this.state.ticketForms.ticket_forms;
     const submittedFrom = i18n.t(
       'embeddable_framework.submitTicket.form.submittedFrom.label',
-      {
-        fallback: 'Submitted from: %(url)s',
-        url: location.href
-      }
+      { url: location.href }
     );
-    const desc = data.value.description;
-    const newDesc = `${desc}\n\n------------------\n${submittedFrom}`;
+    const descriptionData = ticketFormsAvailable
+               ? data.value[this.findField('Description').id]
+               : data.value.description;
+    const subjectData = ticketFormsAvailable
+                      ? data.value[this.findField('Subject').id]
+                      : data.value.subject;
+    const description = `${descriptionData}\n\n------------------\n${submittedFrom}`;
     const uploads = this.refs.submitTicketForm.refs.attachments
                   ? this.refs.submitTicketForm.refs.attachments.getAttachmentTokens()
                   : null;
-    const subject = this.props.subjectEnabled && !_.isEmpty(data.value.subject)
-                  ? data.value.subject
-                  : (desc.length <= 50) ? desc : `${desc.slice(0,50)}...`;
+    const subject = (this.props.subjectEnabled || ticketFormsAvailable) && !_.isEmpty(subjectData)
+                  ? subjectData
+                  : (descriptionData.length <= 50) ? descriptionData : `${descriptionData.slice(0,50)}...`;
     const params = {
       'subject': subject,
       'tags': ['web_widget'],
       'via_id': settings.get('viaId'),
       'comment': {
-        'body': newDesc,
+        'body': description,
         'uploads': uploads
       },
       'requester': {
@@ -165,24 +156,41 @@ export class SubmitTicket extends Component {
       }
     };
 
-    return this.props.customFields.length === 0
-         ? { request: params }
-         : { request: _.extend(params, this.formatTicketFieldData(data)) };
+    return this.props.customFields.length > 0 || ticketFormsAvailable
+         ? { request: _.extend(params, this.formatTicketFieldData(data)) }
+         : { request: params };
   }
 
   formatTicketFieldData(data) {
     let params = {
       fields: {}
     };
+    const subjectField = this.findField('Subject');
+    const subjectFieldId = subjectField ? subjectField.id : null;
+    const descriptionField = this.findField('Description');
+    const descriptionFieldId = descriptionField ? descriptionField.id : null;
 
     _.forEach(data.value, function(value, name) {
       // Custom field names are numbers so we check if name is NaN
-      if (!isNaN(parseInt(name, 10))) {
+      const nameInt = parseInt(name, 10);
+
+      if (!isNaN(nameInt) && nameInt !== subjectFieldId && nameInt !== descriptionFieldId) {
         params.fields[name] = value;
       }
     });
 
     return params;
+  }
+
+  updateTicketForms(forms) {
+    this.setState({ ticketForms: forms });
+
+    // Once the selector is in place this will be set by that instead
+    // for now I'm just setting it to the first form sent down
+    this.refs.submitTicketForm.updateTicketForm(
+      forms.ticket_forms[0],
+      forms.ticket_fields
+    );
   }
 
   handleDragEnter() {
@@ -266,6 +274,7 @@ export class SubmitTicket extends Component {
           maxFileCount={this.props.maxFileCount}
           maxFileSize={this.props.maxFileSize}
           submit={this.handleSubmit}
+          ticketForms={this.state.ticketForms}
           previewEnabled={this.props.previewEnabled}>
           <p className={errorClasses}>
             {this.state.errorMessage}

@@ -16,12 +16,14 @@ const geti18nContent = (field) => {
 const getCustomFields = (customFields, formState) => {
   const isCheckbox = (field) => field.props.type === 'checkbox';
   const fields = _.map(customFields, (field) => {
+    const isRequired = _.isNil(field.required_in_portal) ? field.required : field.required_in_portal;
+    const title = field.title_in_portal || field.title;
     const sharedProps = {
       name: field.id,
       value: formState[field.id],
-      required: field.required,
-      placeholder: field.title,
-      key: field.title
+      required: isRequired,
+      placeholder: title,
+      key: title
     };
 
     if (field.variants) {
@@ -30,9 +32,18 @@ const getCustomFields = (customFields, formState) => {
 
     switch (field.type) {
     case 'text':
+    case 'subject':
       return <Field {...sharedProps} />;
     case 'tagger':
+      if (field.custom_field_options) {
+        field.options = field.custom_field_options;
+      }
+
       _.forEach(field.options, (option) => {
+        if (option.name) {
+          option.title = option.name;
+        }
+
         if (option.variants) {
           option.title = geti18nContent(option);
         }
@@ -43,6 +54,7 @@ const getCustomFields = (customFields, formState) => {
     case 'decimal':
       return <Field {...sharedProps} pattern='\d*([.,]\d+)?' type='number' step='any' />;
     case 'textarea':
+    case 'description':
       return <Field {...sharedProps} input={<textarea rows='5' />} />;
     case 'checkbox':
       return <Field {...sharedProps} label={field.title} type='checkbox' />;
@@ -51,7 +63,8 @@ const getCustomFields = (customFields, formState) => {
 
   return {
     fields: _.reject(fields, isCheckbox),
-    checkboxes: _.filter(fields, isCheckbox)
+    checkboxes: _.filter(fields, isCheckbox),
+    allFields: fields
   };
 };
 

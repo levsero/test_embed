@@ -17,7 +17,7 @@ const initialState = {
   isValid: false,
   isSubmitting: false,
   isRTL: i18n.isRTL(),
-  removeTicketForm: false,
+  shouldRemoveForm: false,
   formState: {},
   showErrorMessage: false,
   attachments: []
@@ -31,9 +31,11 @@ export class SubmitTicketForm extends Component {
     super(props, context);
     bindMethods(this, SubmitTicketForm.prototype);
 
-    this.state = _.extend(initialState, {
+    this.state = _.extend({}, initialState, {
       buttonMessage: sendButtonMessageString,
       cancelButtonMessage: cancelButtonMessageString,
+      ticketForm: null,
+      ticketFormFields: [],
       isValid: props.previewEnabled
     });
   }
@@ -46,7 +48,7 @@ export class SubmitTicketForm extends Component {
   }
 
   componentDidUpdate() {
-    if (this.refs.formWrapper && this.state.formState && this.state.removeTicketForm) {
+    if (this.refs.formWrapper && this.state.formState && this.state.shouldRemoveForm) {
       const form = ReactDOM.findDOMNode(this.refs.form);
 
       _.forEach(form.elements, function(field) {
@@ -78,7 +80,7 @@ export class SubmitTicketForm extends Component {
     // if the user closes and reopens, we need to
     // re-render the search field
     this.setState({
-      removeTicketForm: false
+      shouldRemoveForm: false
     });
   }
 
@@ -97,7 +99,7 @@ export class SubmitTicketForm extends Component {
 
   hideVirtualKeyboard() {
     this.setState({
-      removeTicketForm: true
+      shouldRemoveForm: true
     });
   }
 
@@ -150,6 +152,13 @@ export class SubmitTicketForm extends Component {
       {}).value();
   }
 
+  updateTicketForm(form, fields) {
+    this.setState({
+      ticketForm: form,
+      ticketFormFields: fields
+    });
+  }
+
   updateForm() {
     const form = ReactDOM.findDOMNode(this.refs.form);
     const attachmentsReady = this.props.attachmentsEnabled
@@ -163,10 +172,7 @@ export class SubmitTicketForm extends Component {
   }
 
   resetState() {
-    this.setState(_.extend(initialState, {
-      buttonMessage: sendButtonMessageString,
-      cancelButtonMessage: cancelButtonMessageString
-    }));
+    this.setState(initialState);
   }
 
   handleOnDrop(files) {
@@ -216,34 +222,68 @@ export class SubmitTicketForm extends Component {
             disabled={this.props.previewEnabled} />;
   }
 
-  renderFormBody() {
-    const { formState } = this.state;
-    const customFields = getCustomFields(this.props.customFields, formState);
+  renderEmailField() {
+    return (
+      <Field
+        placeholder={i18n.t('embeddable_framework.form.field.email.label')}
+        type='email'
+        required={true}
+        pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?" // eslint-disable-line
+        value={this.state.formState.email}
+        name='email'
+        disabled={this.props.previewEnabled} />
+    );
+  }
+
+  renderNameField() {
+    return (
+      <Field
+        placeholder={i18n.t('embeddable_framework.submitTicket.field.name.label')}
+        value={this.state.formState.name}
+        name='name'
+        disabled={this.props.previewEnabled} />
+    );
+  }
+
+  renderDescriptionField() {
+    return (
+      <Field
+        placeholder={i18n.t('embeddable_framework.submitTicket.field.description.label')}
+        required={true}
+        value={this.state.formState.description}
+        name='description'
+        input={<textarea rows='5' />}
+        disabled={this.props.previewEnabled} />
+    );
+  }
+
+  renderTicketFormBody() {
+    const { ticketForm, ticketFormFields, formState } = this.state;
+    const formTicketFields = _.filter(ticketFormFields, (field) => {
+      return ticketForm.ticket_field_ids.indexOf(field.id) > -1;
+    });
+    const ticketFieldsElem = getCustomFields(formTicketFields, formState);
+
+    ticketFieldsElem.allFields.unshift([this.renderNameField(), this.renderEmailField()]);
 
     return (
       <div ref='formWrapper'>
-        <Field
-          placeholder={i18n.t('embeddable_framework.submitTicket.field.name.label')}
-          value={formState.name}
-          name='name'
-          disabled={this.props.previewEnabled} />
-        <Field
-          placeholder={i18n.t('embeddable_framework.form.field.email.label')}
-          type='email'
-          required={true}
-          pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?" // eslint-disable-line
-          value={formState.email}
-          name='email'
-          disabled={this.props.previewEnabled} />
+        {ticketFieldsElem.allFields}
+        {this.props.children}
+      </div>
+    );
+  }
+
+  renderFormBody() {
+    const customFields = getCustomFields(this.props.customFields, this.state.formState);
+
+    return (
+      <div ref='formWrapper'>
+        {this.renderNameField()}
+        {this.renderEmailField()}
         {customFields.fields}
         {this.renderSubjectField()}
-        <Field
-          placeholder={i18n.t('embeddable_framework.submitTicket.field.description.label')}
-          required={true}
-          value={formState.description}
-          name='description'
-          input={<textarea rows='5' />}
-          disabled={this.props.previewEnabled} />
+        {this.renderDescriptionField()}
         {customFields.checkboxes}
         {this.props.children}
       </div>
@@ -284,7 +324,8 @@ export class SubmitTicketForm extends Component {
       'u-isHidden': hide
     });
 
-    const formBody = this.state.removeTicketForm ? null : this.renderFormBody();
+    const form = this.state.ticketForm ? this.renderTicketFormBody() : this.renderFormBody();
+    const formBody = this.state.shouldRemoveForm ? null : form;
     const buttonCancel = fullscreen ? null : this.renderCancelButton();
     const attachments = attachmentsEnabled ? this.renderAttachments() : null;
 

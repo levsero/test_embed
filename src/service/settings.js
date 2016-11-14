@@ -13,6 +13,7 @@ const optionWhitelist = {
     'contactForm.attachments',
     'contactForm.suppress',
     'contactForm.title',
+    'contactForm.ticketForms',
     'helpCenter.chatButton',
     'helpCenter.messageButton',
     'helpCenter.originalArticleButton',
@@ -42,7 +43,8 @@ const webWidgetStoreDefaults = {
   contactForm: {
     subject: false,
     attachments: true,
-    suppress: false
+    suppress: false,
+    ticketForms: []
   },
   channelChoice: false,
   helpCenter: {

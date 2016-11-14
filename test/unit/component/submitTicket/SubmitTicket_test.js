@@ -1,4 +1,4 @@
-describe('Submit ticket component', function() {
+describe('Submit ticket component', () => {
   let SubmitTicket,
     mockIsMobileBrowserValue;
 
@@ -34,7 +34,7 @@ describe('Submit ticket component', function() {
   });
   const submitTicketPath = buildSrcPath('component/submitTicket/SubmitTicket');
 
-  beforeEach(function() {
+  beforeEach(() => {
     resetDOM();
 
     mockIsMobileBrowserValue = false;
@@ -80,6 +80,7 @@ describe('Submit ticket component', function() {
             };
           },
           clear: noop,
+          updateTicketForm: noop,
           render: function() {
             return (
               <form ref='submitTicketForm'>
@@ -146,12 +147,12 @@ describe('Submit ticket component', function() {
     SubmitTicket = requireUncached(submitTicketPath).SubmitTicket;
   });
 
-  afterEach(function() {
+  afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
   });
 
-  it('should correctly set the initial states when created', function() {
+  it('should correctly set the initial states when created', () => {
     const submitTicket = instanceRender(<SubmitTicket />);
 
     expect(submitTicket.state.showNotification)
@@ -161,13 +162,13 @@ describe('Submit ticket component', function() {
       .toEqual('');
   });
 
-  describe('submitTicketSender', function() {
+  describe('submitTicketSender', () => {
     let submitTicket,
       mockSubmitTicketSender,
       mockOnSubmitted,
       mockValues;
 
-    beforeEach(function() {
+    beforeEach(() => {
       mockSubmitTicketSender = jasmine.createSpy('mockSubmitTicketSender');
       mockOnSubmitted = jasmine.createSpy('mockOnSubmitted');
       mockValues = {
@@ -188,96 +189,25 @@ describe('Submit ticket component', function() {
       );
     });
 
-    it('should not send the form when invalid', function() {
-      submitTicket.handleSubmit({ preventDefault: noop }, { isFormValid: false });
-
-      expect(mockSubmitTicketSender)
-        .not.toHaveBeenCalled();
-    });
-
-    it('should send the form when valid', function() {
-      submitTicket.handleSubmit({ preventDefault: noop }, mockValues);
-
-      expect(mockSubmitTicketSender)
-        .toHaveBeenCalled();
-
-      const params = mockSubmitTicketSender.calls.mostRecent().args[0];
-      const expected = _.omit(payload.params, 'subject');
-
-      expect(params)
-        .toBeJSONEqual(expected);
-
-      mockSubmitTicketSender.calls.mostRecent().args[1]({});
-
-      expect(mockOnSubmitted)
-        .toHaveBeenCalled();
-    });
-
-    it('should clear the form on a valid submit', function() {
-      spyOn(submitTicket, 'clearForm');
-
-      submitTicket.handleSubmit({ preventDefault: noop }, mockValues);
-
-      mockSubmitTicketSender.calls.mostRecent().args[1]({});
-
-      expect(submitTicket.clearForm)
-        .toHaveBeenCalled();
-    });
-
-    it('should call onSubmitted with given last search state', function() {
-      submitTicket.setState({
-        searchTerm: 'a search',
-        searchLocale: 'en-US'
+    describe('when the form is invalid', () => {
+      beforeEach(() => {
+        mockValues.isFormValid = false;
+        submitTicket.handleSubmit({ preventDefault: noop }, mockValues);
       });
 
-      submitTicket.handleSubmit({ preventDefault: noop }, mockValues);
-
-      mockSubmitTicketSender.calls.mostRecent().args[1]({});
-
-      expect(mockOnSubmitted)
-        .toHaveBeenCalled();
-
-      expect(mockOnSubmitted.calls.mostRecent().args[0].searchTerm)
-        .toEqual('a search');
-
-      expect(mockOnSubmitted.calls.mostRecent().args[0].searchLocale)
-        .toEqual('en-US');
+      it('should not send the form', () => {
+        expect(mockSubmitTicketSender)
+          .not.toHaveBeenCalled();
+      });
     });
 
-    it('should correctly format custom fields', function() {
-      const mockCustomField = [
-        {
-          id: '22660514',
-          type: 'text',
-          title: 'Text',
-          required: true
-        }
-      ];
-      const mockValues = {
-        value: {
-          22660514: 'mockCustomField',
-          name: 'mockName',
-          description: 'mockDescription'
-        }
-      };
-      const expectedPayload = {
-        fields: {
-          22660514: 'mockCustomField'
-        }
-      };
-
-      const submitTicket = instanceRender(<SubmitTicket customFields={mockCustomField} />);
-      const payload = submitTicket.formatTicketFieldData(mockValues);
-
-      expect(payload)
-        .toBeJSONEqual(expectedPayload);
-    });
-
-    describe('when attachments are enabled', function() {
+    describe('when the form is valid', () => {
       let params,
         mockOnSubmitted;
 
-      beforeEach(function() {
+      beforeEach(() => {
+        spyOn(submitTicket, 'clearForm');
+
         mockOnSubmitted = jasmine.createSpy('mockOnSubmitted');
 
         submitTicket = domRender(
@@ -293,12 +223,39 @@ describe('Submit ticket component', function() {
         params = mockSubmitTicketSender.calls.mostRecent().args[0];
       });
 
-      it('wraps the data in a request object', function() {
+      it('should clear the form on a valid submit', () => {
+        mockSubmitTicketSender.calls.mostRecent().args[1]({});
+
+        expect(submitTicket.clearForm)
+          .toHaveBeenCalled();
+      });
+
+      it('should call onSubmitted with given last search state', () => {
+        submitTicket.setState({
+          searchTerm: 'a search',
+          searchLocale: 'en-US'
+        });
+
+        submitTicket.handleSubmit({ preventDefault: noop }, mockValues);
+
+        mockSubmitTicketSender.calls.mostRecent().args[1]({});
+
+        expect(mockOnSubmitted)
+          .toHaveBeenCalled();
+
+        expect(mockOnSubmitted.calls.mostRecent().args[0].searchTerm)
+          .toEqual('a search');
+
+        expect(mockOnSubmitted.calls.mostRecent().args[0].searchLocale)
+          .toEqual('en-US');
+      });
+
+      it('wraps the data in a request object', () => {
         expect(params.request)
           .toBeTruthy();
       });
 
-      it('formats the requester correctly', function() {
+      it('formats the requester correctly', () => {
         expect(params.request.requester)
           .toBeJSONEqual({
             'name': formParams.name,
@@ -307,12 +264,12 @@ describe('Submit ticket component', function() {
           });
       });
 
-      it('uses the description as the subject', function() {
+      it('uses the description as the subject', () => {
         expect(params.request.subject)
           .toEqual(formParams.description);
       });
 
-      it('trims the subject if it is too long', function() {
+      it('trims the subject if it is too long', () => {
         mockValues.value.description = 'this text is longer then 50 characters xxxxxxxxxxxx';
         submitTicket.handleSubmit({ preventDefault: noop }, mockValues);
 
@@ -322,11 +279,100 @@ describe('Submit ticket component', function() {
           .toEqual('this text is longer then 50 characters xxxxxxxxxxx...');
       });
 
-      it('adds submitted from to the description', function() {
+      it('adds submitted from to the description', () => {
         const label = 'embeddable_framework.submitTicket.form.submittedFrom.label';
 
         expect(params.request.comment.body)
           .toBe(`${payload.params.description}\n\n------------------\n${label}`);
+      });
+
+      describe('when the form has custom ticket fields', () => {
+        beforeEach(() => {
+          const mockCustomField = [
+            {
+              id: '22660514',
+              type: 'text',
+              title: 'Text',
+              required: true
+            }
+          ];
+
+          mockValues.value['22660514'] = 'mockCustomField';
+
+          submitTicket = instanceRender(<SubmitTicket customFields={mockCustomField} />);
+          params = submitTicket.formatTicketFieldData(mockValues);
+        });
+
+        it('should correctly format custom fields', () => {
+          expect(params.fields['22660514'])
+            .toBe('mockCustomField');
+        });
+      });
+
+      describe('when the form is a user ticket form', () => {
+        beforeEach(() => {
+          const mockTicketFormParams = {
+            ticket_forms: [
+              {
+                ticket_field_ids: [ 1, 2, 4 ]
+              }
+            ],
+            ticket_fields: [
+              {
+                id: 1,
+                raw_title: 'Description',
+                removable: false
+              },
+              {
+                id: 2,
+                raw_title: 'Subject',
+                removable: false
+              },
+              {
+                id: 4,
+                raw_title: 'Favorite Burger',
+                removable: true
+              }
+            ]
+          };
+
+          mockValues = {
+            isFormValid: true,
+            value: {
+              email: formParams.email,
+              name: formParams.name,
+              1: 'Just saying Hi',
+              2: 'Hello',
+              4: 'Cheeseburger'
+            }
+          };
+
+          submitTicket = domRender(<SubmitTicket />);
+
+          submitTicket.updateTicketForms(mockTicketFormParams);
+          params = submitTicket.formatRequestTicketData(mockValues);
+        });
+
+        it('should correctly format custom fields', () => {
+          expect(params.request.fields[4])
+            .toBe('Cheeseburger');
+        });
+
+        it('should correctly format the subject field', () => {
+          expect(params.request.fields[2])
+            .not.toBe('Hello');
+
+          expect(params.request.subject)
+            .toBe('Hello');
+        });
+
+        it('should correctly format the description field', () => {
+          expect(params.request.fields[1])
+            .not.toBe('Just saying Hi');
+
+          expect(params.request.comment.body)
+            .toContain('Just saying Hi');
+        });
       });
 
       describe('when the subject field is available', () => {
@@ -362,17 +408,17 @@ describe('Submit ticket component', function() {
         });
       });
 
-      it('gets the attachments from AttachmentList', function() {
+      it('gets the attachments from AttachmentList', () => {
         expect(params.request.comment.uploads)
           .toEqual(['12345']);
       });
 
-      it('Adds the correct tag', function() {
+      it('Adds the correct tag', () => {
         expect(params.request.tags)
           .toEqual(['web_widget']);
       });
 
-      it('Adds the correct via_id', function() {
+      it('Adds the correct via_id', () => {
         /* eslint camelcase:0 */
         expect(params.request.via_id)
           .toEqual(48);
@@ -380,7 +426,6 @@ describe('Submit ticket component', function() {
 
       describe('when there is a successful response', () => {
         beforeEach(() => {
-          spyOn(submitTicket, 'clearForm');
           submitTicket.setState({
             searchTerm: 'a search',
             searchLocale: 'en-US'
@@ -393,7 +438,7 @@ describe('Submit ticket component', function() {
             .toHaveBeenCalled();
         });
 
-        it('should call onSubmitted with given last search', function() {
+        it('should call onSubmitted with given last search', () => {
           expect(mockOnSubmitted.calls.mostRecent().args[0].searchTerm)
             .toEqual('a search');
 
@@ -417,7 +462,7 @@ describe('Submit ticket component', function() {
     });
   });
 
-  it('should unhide notification element on state change', function() {
+  it('should unhide notification element on state change', () => {
     const submitTicket = domRender(<SubmitTicket />);
     const notificationElem = submitTicket.refs.notification;
 
@@ -430,8 +475,8 @@ describe('Submit ticket component', function() {
       .not.toContain('u-isHidden');
   });
 
-  describe('fullscreen state', function() {
-    it('should be true if isMobileBrowser() is true', function() {
+  describe('fullscreen state', () => {
+    it('should be true if isMobileBrowser() is true', () => {
       mockIsMobileBrowserValue = true;
 
       const submitTicket = instanceRender(<SubmitTicket />);
@@ -440,7 +485,7 @@ describe('Submit ticket component', function() {
         .toEqual(true);
     });
 
-    it('should be false if isMobileBrowser() is false', function() {
+    it('should be false if isMobileBrowser() is false', () => {
       mockIsMobileBrowserValue = false;
 
       const submitTicket = instanceRender(<SubmitTicket />);
@@ -450,7 +495,7 @@ describe('Submit ticket component', function() {
     });
   });
 
-  it('should pass on fullscreen to submitTicketForm', function() {
+  it('should pass on fullscreen to submitTicketForm', () => {
     const submitTicket = instanceRender(<SubmitTicket />);
 
     submitTicket.setState({fullscreen: 'VALUE'});
@@ -459,8 +504,8 @@ describe('Submit ticket component', function() {
       .toEqual('VALUE');
   });
 
-  describe('attachmentBox', function() {
-    it('should display the attachment box when isDragActive and attachmentsEnabled are true', function() {
+  describe('attachmentBox', () => {
+    it('should display the attachment box when isDragActive and attachmentsEnabled are true', () => {
       const submitTicket = domRender(<SubmitTicket attachmentsEnabled={true} />);
 
       submitTicket.handleDragEnter();
@@ -472,7 +517,7 @@ describe('Submit ticket component', function() {
         .toEqual(1);
     });
 
-    it('should not display the attachment box if attachmentsEnabled is false', function() {
+    it('should not display the attachment box if attachmentsEnabled is false', () => {
       const submitTicket = domRender(<SubmitTicket attachmentsEnabled={false} />);
 
       submitTicket.handleDragEnter();

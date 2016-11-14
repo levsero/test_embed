@@ -32,6 +32,7 @@ function create(name, config) {
     attachmentsEnabled: false,
     maxFileCount: 5,
     maxFileSize: 5 * 1024 * 1024, // 5 MB
+    ticketForms: [],
     color: '#659700'
   };
   const attachmentsSetting = settings.get('contactForm.attachments');
@@ -136,6 +137,25 @@ function create(name, config) {
       marginRight: margin
     });
     containerStyle = { width: 342 };
+  }
+
+  const settingTicketForms = settings.get('contactForm.ticketForms');
+  const ticketForms = _.isEmpty(settingTicketForms)
+                    ? config.ticketForms
+                    : settingTicketForms;
+
+  if (!_.isEmpty(ticketForms)) {
+    transport.get({
+      method: 'get',
+      path: `/api/v2/ticket_forms/show_many.json?ids=${ticketForms[0]}&include=ticket_fields`,
+      callbacks: {
+        done(res) {
+          waitForRootComponent(name, function() {
+            getRootComponent(name).updateTicketForms(JSON.parse(res.text));
+          });
+        }
+      }
+    });
   }
 
   const Embed = frameFactory(
