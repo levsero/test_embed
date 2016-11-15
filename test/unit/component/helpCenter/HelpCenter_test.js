@@ -1,5 +1,6 @@
 describe('HelpCenter component', function() {
   let HelpCenter,
+    mockRegistry,
     mockPageKeywords,
     trackSearch,
     updateResults,
@@ -27,7 +28,7 @@ describe('HelpCenter component', function() {
 
     mockPageKeywords = 'billy bob thorton';
 
-    initMockRegistry({
+    mockRegistry = initMockRegistry({
       'React': React,
       'component/helpCenter/HelpCenterArticle': {
         HelpCenterArticle: React.createClass({
@@ -82,7 +83,7 @@ describe('HelpCenter component', function() {
           setLocale: jasmine.createSpy(),
           getLocale: jasmine.createSpy(),
           isRTL: jasmine.createSpy(),
-          t: _.identity
+          t: jasmine.createSpy()
         }
       },
       'utility/globals': {
@@ -117,6 +118,71 @@ describe('HelpCenter component', function() {
     it('has articles set to empty', () => {
       expect(helpCenter.state.articles)
         .toEqual([]);
+    });
+
+    it('has chatOnline set to false', () => {
+      expect(helpCenter.state.chatOnline)
+        .toEqual(false);
+    });
+  });
+
+  describe('render', () => {
+    let helpCenter,
+      buttonLabelKey = 'contact';
+
+    describe('when channel choice is on', () => {
+      beforeEach(() => {
+        helpCenter = instanceRender(<HelpCenter buttonLabelKey={buttonLabelKey} channelChoice={true} />);
+        helpCenter.setChatOnline(true);
+      });
+
+      it('uses the contact us label for the button', () => {
+        expect(mockRegistry['service/i18n'].i18n.t)
+          .toHaveBeenCalledWith('embeddable_framework.helpCenter.submitButton.label.submitTicket.contact');
+      });
+    });
+
+    describe('when channelchoice is off', () => {
+      beforeEach(() => {
+        helpCenter = instanceRender(<HelpCenter buttonLabelKey={buttonLabelKey} channelChoice={false} />);
+      });
+
+      describe('when chat is online', () => {
+        beforeEach(() => {
+          helpCenter.setChatOnline(true);
+        });
+
+        it('uses the chat label for the button', () => {
+          expect(mockRegistry['service/i18n'].i18n.t)
+            .toHaveBeenCalledWith('embeddable_framework.helpCenter.submitButton.label.chat');
+        });
+      });
+
+      describe('when chat is offline', () => {
+        beforeEach(() => {
+          helpCenter.setChatOnline(false);
+        });
+
+        it('uses the buttonLabelKey label for the button', () => {
+          expect(mockRegistry['service/i18n'].i18n.t)
+            .toHaveBeenCalledWith(`embeddable_framework.helpCenter.submitButton.label.submitTicket.${buttonLabelKey}`);
+        });
+      });
+    });
+  });
+
+  describe('setChatOnline', () => {
+    let helpCenter;
+
+    beforeEach(() => {
+      helpCenter = domRender(<HelpCenter buttonLabelKey='contact' />);
+    });
+
+    it('sets chatOnline state', () => {
+      helpCenter.setChatOnline(true);
+
+      expect(helpCenter.state.chatOnline)
+        .toEqual(true);
     });
   });
 
