@@ -6,7 +6,6 @@ import { HelpCenter } from 'component/helpCenter/HelpCenter';
 import { frameFactory } from 'embed/frameFactory';
 import { authentication } from 'service/authentication';
 import { beacon } from 'service/beacon';
-import { i18n } from 'service/i18n';
 import { mediator } from 'service/mediator';
 import { settings } from 'service/settings';
 import { transport } from 'service/transport';
@@ -238,11 +237,9 @@ function waitForRootComponent(name, callback) {
   }
 }
 
-function updateHelpCenterButton(name, labelKey) {
+function setChatOnline(name, chatOnline) {
   waitForRootComponent(name, () => {
-    const label = i18n.t(`embeddable_framework.helpCenter.submitButton.label.${labelKey}`);
-
-    getRootComponent(name).setState({ buttonLabel: label });
+    getRootComponent(name).setChatOnline(chatOnline);
   });
 }
 
@@ -304,17 +301,15 @@ function render(name) {
       getRootComponent(name).setChatOnline(true);
     });
 
-    updateHelpCenterButton(name, 'chat');
+    setChatOnline(name, true);
   });
 
   mediator.channel.subscribe(name + '.setNextToSubmitTicket', function() {
-    const buttonLabelKey = get(name).config.buttonLabelKey;
-
     waitForRootComponent(name, () => {
       getRootComponent(name).setChatOnline(false);
     });
 
-    updateHelpCenterButton(name, `submitTicket.${buttonLabelKey}`);
+    setChatOnline(name, false);
   });
 
   mediator.channel.subscribe(name + '.showNextButton', function(nextButton = true) {

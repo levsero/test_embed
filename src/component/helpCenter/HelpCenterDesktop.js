@@ -118,16 +118,13 @@ export class HelpCenterDesktop extends Component {
     const channelChoiceClasses = classNames({
       'u-isHidden': !this.state.channelChoiceShown
     });
-    const buttonLabel = this.props.channelChoice
-                      ? i18n.t('embeddable_framework.helpCenter.submitButton.label.submitTicket.contact')
-                      : i18n.t(`embeddable_framework.helpCenter.submitButton.label.submitTicket.${this.props.buttonLabelKey}`); // eslint-disable-line
 
     return (
       <div className={buttonContainerClasses}>
         <ButtonGroup rtl={i18n.isRTL()}>
           <Button
             fullscreen={false}
-            label={buttonLabel}
+            label={this.props.buttonLabel}
             onClick={this.handleNextButtonClick} />
         </ButtonGroup>
         <div className={channelChoiceClasses}>
@@ -172,7 +169,7 @@ HelpCenterDesktop.propTypes = {
   isLoading: PropTypes.bool,
   articleViewActive: PropTypes.bool,
   hasSearched: PropTypes.bool,
-  buttonLabelKey: PropTypes.string,
+  buttonLabel: PropTypes.string.isRequired,
   shadowVisible: PropTypes.bool,
   searchFieldValue: PropTypes.string,
   disableAutoSearch: PropTypes.bool,
@@ -188,7 +185,6 @@ HelpCenterDesktop.defaultProps = {
   isLoading: false,
   articleViewActive: false,
   hasSearched: false,
-  buttonLabelKey: 'message',
   shadowVisible: false,
   searchFieldValue: '',
   disableAutoSearch: false,

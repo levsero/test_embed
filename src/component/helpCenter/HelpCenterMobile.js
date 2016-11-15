@@ -153,8 +153,6 @@ export class HelpCenterMobile extends Component {
   renderLinkContent() {
     if (!this.props.showNextButton) return null;
 
-    let linkLabel, linkContext;
-
     const linkContainerClasses = classNames({
       'u-textSizeBaseMobile u-textCenter u-marginTL': true,
       'u-isHidden': !this.state.showIntroScreen
@@ -163,25 +161,15 @@ export class HelpCenterMobile extends Component {
       'u-block u-userTextColor u-textNoWrap': true,
       'HelpCenterMobile-cta': true
     });
-    const chatButtonLabel = i18n.t('embeddable_framework.helpCenter.submitButton.label.chat');
-
-    if (this.props.buttonLabel === chatButtonLabel) {
-      linkContext = i18n.t('embeddable_framework.helpCenter.label.linkContext.chat');
-      linkLabel = i18n.t('embeddable_framework.helpCenter.label.link.chat');
-    } else {
-      linkContext = i18n.t('embeddable_framework.helpCenter.label.linkContext.submitTicket');
-      linkLabel = i18n.t(
-        `embeddable_framework.helpCenter.submitButton.label.submitTicket.${
-          this.props.buttonLabelKey
-        }`
-      );
-    }
+    const linkContext = this.props.chatOnline
+                      ? i18n.t('embeddable_framework.helpCenter.label.linkContext.chat')
+                      : i18n.t('embeddable_framework.helpCenter.label.linkContext.submitTicket');
 
     return (
       <div className={linkContainerClasses}>
         <p className='u-marginBN'>{linkContext}</p>
         <a className={linkClasses} onClick={this.props.handleNextClick}>
-          {linkLabel}
+          {this.props.buttonLabel}
         </a>
       </div>
     );
@@ -248,26 +236,25 @@ HelpCenterMobile.propTypes = {
   manualSearch: PropTypes.func.isRequired,
   handleOnChangeValue: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
-  buttonLabelKey: PropTypes.string,
   hideZendeskLogo: PropTypes.bool,
   formTitleKey: PropTypes.string,
+  buttonLabel: PropTypes.string.isRequired,
   isLoading: PropTypes.bool,
   articleViewActive: PropTypes.bool,
+  chatOnline: PropTypes.bool,
   hasSearched: PropTypes.bool,
-  buttonLabel: PropTypes.string,
   searchFieldValue: PropTypes.string,
   disableAutoSearch: PropTypes.bool,
   showNextButton: PropTypes.bool
 };
 
 HelpCenterMobile.defaultProps = {
-  buttonLabelKey: 'message',
   hideZendeskLogo: false,
   formTitleKey: 'help',
   isLoading: false,
   articleViewActive: false,
+  chatOnline: false,
   hasSearched: false,
-  buttonLabel: 'Leave a Message',
   searchFieldValue: '',
   disableAutoSearch: false,
   showNextButton: true
