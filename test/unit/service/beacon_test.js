@@ -299,7 +299,7 @@ describe('beacon', () => {
           .toBe('GET');
 
         expect(payload.path)
-          .toBe('/embeddable/blips');
+          .toBe('/embeddable_blip');
 
         expect(useBase64)
           .toBe(true);
@@ -388,7 +388,7 @@ describe('beacon', () => {
           .toBe('GET');
 
         expect(payload.path)
-          .toBe('/embeddable/blips');
+          .toBe('/embeddable_blip');
 
         expect(useBase64)
           .toBe(true);
@@ -575,7 +575,7 @@ describe('beacon', () => {
           .toBe('GET');
 
         expect(payload.path)
-          .toBe('/embeddable/blips');
+          .toBe('/embeddable_blip');
 
         expect(useBase64)
           .toBe(true);

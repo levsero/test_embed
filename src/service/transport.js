@@ -17,7 +17,7 @@ function init(_config) {
   config = _.extend(defaultConfig, _config);
 }
 
-function send(payload) {
+function send(payload, addType = true) {
   if (!config.zendeskHost) {
     throw 'Missing zendeskHost config param.';
   }
@@ -81,26 +81,32 @@ function send(payload) {
     }
   }
 
-  superagent(payload.method.toUpperCase(),
-             buildFullUrl(payload.path, payload.forceHttp))
-    .type('json')
-    .send(payload.params || {})
-    .query(payload.query || {})
+  let request = superagent(payload.method.toUpperCase(),
+    buildFullUrl(payload.path, payload.forceHttp))
     .timeout(60000)
-    .set('Authorization', payload.authorization)
-    .end(function(err, res) {
-      if (payload.callbacks) {
-        if (err) {
-          if (_.isFunction(payload.callbacks.fail)) {
-            payload.callbacks.fail(err);
-          }
-        } else {
-          if (_.isFunction(payload.callbacks.done)) {
-            payload.callbacks.done(res);
-          }
+    .set('Authorization', payload.authorization);
+
+  if (addType) request = request.type('json');
+
+  if (payload.params || payload.method.toUpperCase() === 'POST') {
+    request = request.send(payload.params || {});
+  }
+
+  if (payload.query) request = request.query(payload.query);
+
+  request.end(function(err, res) {
+    if (payload.callbacks) {
+      if (err) {
+        if (_.isFunction(payload.callbacks.fail)) {
+          payload.callbacks.fail(err);
+        }
+      } else {
+        if (_.isFunction(payload.callbacks.done)) {
+          payload.callbacks.done(res);
         }
       }
-    });
+    }
+  });
 }
 
 function sendWithMeta(payload, useBase64 = false) {
@@ -116,8 +122,10 @@ function sendWithMeta(payload, useBase64 = false) {
 
   if (useBase64) {
     payload.query = { data: base64encode(JSON.stringify(payload.params)) };
+    send({ method: 'get', path: payload.path, query: payload.query}, false);
+  } else {
+    send(payload);
   }
-  send(payload);
 }
 
 function sendFile(payload) {
