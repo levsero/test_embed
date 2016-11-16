@@ -134,7 +134,7 @@ function create(name, config) {
   if (!_.isEmpty(ticketForms)) {
     transport.get({
       method: 'get',
-      path: `/api/v2/ticket_forms/show_many.json?ids=${ticketForms[0]}&include=ticket_fields`,
+      path: `/api/v2/ticket_forms/show_many.json?ids=${ticketForms.join()}&include=ticket_fields`,
       callbacks: {
         done(res) {
           waitForRootComponent(name, function() {

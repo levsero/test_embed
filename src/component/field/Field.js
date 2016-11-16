@@ -58,7 +58,7 @@ export class Field extends Component {
     });
 
     if (this.props.onChange) {
-      this.props.onChange(e);
+      this.props.onChange(e, value);
     }
   }
 

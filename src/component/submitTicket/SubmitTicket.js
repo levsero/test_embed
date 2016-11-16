@@ -4,6 +4,7 @@ import classNames from 'classnames';
 
 import { AttachmentBox } from 'component/attachment/AttachmentBox';
 import { Container } from 'component/Container';
+import { SelectField } from 'component/field/SelectField';
 import { Icon } from 'component/Icon';
 import { ScrollContainer } from 'component/ScrollContainer';
 import { SubmitTicketForm } from 'component/submitTicket/SubmitTicketForm';
@@ -34,7 +35,8 @@ export class SubmitTicket extends Component {
       searchTerm: null,
       searchLocale: null,
       isDragActive: false,
-      ticketForms: {}
+      ticketForms: {},
+      selectedTicketForm: null
     };
   }
 
@@ -184,13 +186,6 @@ export class SubmitTicket extends Component {
 
   updateTicketForms(forms) {
     this.setState({ ticketForms: forms });
-
-    // Once the selector is in place this will be set by that instead
-    // for now I'm just setting it to the first form sent down
-    this.refs.submitTicketForm.updateTicketForm(
-      forms.ticket_forms[0],
-      forms.ticket_fields
-    );
   }
 
   handleDragEnter() {
@@ -214,6 +209,21 @@ export class SubmitTicket extends Component {
 
   setFormTitleKey(formTitleKey) {
     this.setState({ formTitleKey });
+  }
+
+  handleSelectorChange(e, v) {
+    const selectedTicketForm = _.find(this.state.ticketForms.ticket_forms, (f) => {
+      return f.id === parseInt(v);
+    });
+
+    this.setState({ selectedTicketForm: selectedTicketForm });
+
+    setTimeout(() => {
+      this.refs.submitTicketForm.updateTicketForm(
+        selectedTicketForm,
+        this.state.ticketForms.ticket_fields
+      );
+    }, 0);
   }
 
   renderForm() {
@@ -263,6 +273,29 @@ export class SubmitTicket extends Component {
     );
   }
 
+  renderTicketFormSelector() {
+    const { ticketForms } = this.state;
+    const options = _.map(ticketForms.ticket_forms, (form) => {
+      return {
+        title: form.display_name,
+        value: form.id
+      }
+    });
+    const title = 'Please choose your issue below';
+
+    return (
+      <ScrollContainer
+        className='u-paddingBS'>
+        <SelectField
+          name={title}
+          placeholder={title}
+          value={this.state.ticketForm}
+          onChange={this.handleSelectorChange}
+          options={options} />
+      </ScrollContainer>
+    );
+  }
+
   renderZendeskLogo() {
     return this.props.hideZendeskLogo || this.state.fullscreen
          ? null
@@ -286,6 +319,10 @@ export class SubmitTicket extends Component {
       frameDimensions = this.props.updateFrameSize();
     }, 0);
 
+    const display = (_.isEmpty(this.state.ticketForms) || this.state.selectedTicketForm)
+                  ? this.renderForm()
+                  : this.renderTicketFormSelector();
+
     return (
       <Container
         style={this.props.style}
@@ -295,7 +332,7 @@ export class SubmitTicket extends Component {
         key={this.state.uid}>
         {this.renderAttachmentBox()}
         {this.renderNotifications()}
-        {this.renderForm()}
+        {display}
         {this.renderZendeskLogo()}
       </Container>
     );
