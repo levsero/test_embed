@@ -45,6 +45,7 @@
     box-sizing: border-box;
     overflow: auto;
     height: calc(100% - #{114/$font-size}rem);
+    margin-bottom: 15px;
     max-height: initial;
     max-width: 100%;
 
