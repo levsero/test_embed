@@ -197,7 +197,7 @@ describe('transport', () => {
           .toHaveBeenCalledWith('json');
       });
 
-      it('does not send a json type', () => {
+      it('does not send a json type if explicitly omitted', () => {
         spyOn(mockMethods, 'type').and.callThrough();
 
         transport.init(config);
