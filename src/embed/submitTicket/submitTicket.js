@@ -39,7 +39,7 @@ function create(name, config) {
   const attachmentsSetting = settings.get('contactForm.attachments');
   const showBackButton = function(show = true) {
     get(name).instance.getChild().setState({ showBackButton: show });
-  }
+  };
 
   config = _.extend(configDefaults, config);
 

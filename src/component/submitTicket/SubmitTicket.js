@@ -283,7 +283,7 @@ export class SubmitTicket extends Component {
       return {
         title: form.display_name,
         value: form.id
-      }
+      };
     });
     const title = i18n.t(
       'embeddable_framework.submitTicket.ticketForms.title',
@@ -296,7 +296,9 @@ export class SubmitTicket extends Component {
         ref='ticketFormSelector'
         footerContentHidden={true}
         borderBottom={true}
-        fixHeight={true} >
+        containerClasses='ticketFormSelector--fixed'
+        footerClasses='u-borderTop u-marginHL'
+        fixHeight={true}>
         <div className='u-paddingTS'>
           <SelectField
             name={title}
@@ -367,7 +369,8 @@ SubmitTicket.propTypes = {
   attachmentsEnabled: PropTypes.bool,
   subjectEnabled: PropTypes.bool,
   maxFileCount: PropTypes.number,
-  maxFileSize: PropTypes.number
+  maxFileSize: PropTypes.number,
+  showBackButton: PropTypes.func
 };
 
 SubmitTicket.defaultProps = {
@@ -382,5 +385,6 @@ SubmitTicket.defaultProps = {
   attachmentsEnabled: false,
   subjectEnabled: false,
   maxFileCount: 5,
-  maxFileSize: 5 * 1024 * 1024
+  maxFileSize: 5 * 1024 * 1024,
+  showBackButton: () => {}
 };
