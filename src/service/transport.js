@@ -81,20 +81,20 @@ function send(payload, addType = true) {
     }
   }
 
-  let request = superagent(payload.method.toUpperCase(),
+  const request = superagent(payload.method.toUpperCase(),
     buildFullUrl(payload.path, payload.forceHttp))
     .timeout(60000)
     .set('Authorization', payload.authorization);
 
-  if (addType) request = request.type('json');
+  if (addType) request.type('json');
 
   if (payload.params || payload.method.toUpperCase() === 'POST') {
-    request = request.send(payload.params || {});
+    request.send(payload.params || {});
   }
 
-  if (payload.query) request = request.query(payload.query);
+  if (payload.query) request.query(payload.query);
 
-  request.end(function(err, res) {
+  request.end((err, res) => {
     if (payload.callbacks) {
       if (err) {
         if (_.isFunction(payload.callbacks.fail)) {
