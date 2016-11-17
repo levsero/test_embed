@@ -13,6 +13,9 @@ import { i18n } from 'service/i18n';
 import { getCustomFields } from 'utility/fields';
 import { bindMethods } from 'utility/utils';
 
+const sendButtonMessageString = 'embeddable_framework.submitTicket.form.submitButton.label.send';
+const sendingButtonMessageString = 'embeddable_framework.submitTicket.form.submitButton.label.sending';
+const cancelButtonMessageString = 'embeddable_framework.submitTicket.form.cancelButton.label.cancel';
 const initialState = {
   isValid: false,
   isSubmitting: false,
@@ -20,11 +23,10 @@ const initialState = {
   shouldRemoveForm: false,
   formState: {},
   showErrorMessage: false,
-  attachments: []
+  attachments: [],
+  buttonMessage: sendButtonMessageString,
+  cancelButtonMessage: cancelButtonMessageString
 };
-const sendButtonMessageString = 'embeddable_framework.submitTicket.form.submitButton.label.send';
-const sendingButtonMessageString = 'embeddable_framework.submitTicket.form.submitButton.label.sending';
-const cancelButtonMessageString = 'embeddable_framework.submitTicket.form.cancelButton.label.cancel';
 
 export class SubmitTicketForm extends Component {
   constructor(props, context) {
@@ -32,8 +34,6 @@ export class SubmitTicketForm extends Component {
     bindMethods(this, SubmitTicketForm.prototype);
 
     this.state = _.extend({}, initialState, {
-      buttonMessage: sendButtonMessageString,
-      cancelButtonMessage: cancelButtonMessageString,
       ticketForm: null,
       ticketFormFields: [],
       isValid: props.previewEnabled
