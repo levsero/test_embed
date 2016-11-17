@@ -36,6 +36,9 @@ function create(name, config) {
     color: '#659700'
   };
   const attachmentsSetting = settings.get('contactForm.attachments');
+  const showBackButton = function(show = true) {
+    get(name).instance.getChild().setState({ showBackButton: show });
+  }
 
   config = _.extend(configDefaults, config);
 
@@ -159,6 +162,7 @@ function create(name, config) {
           position={config.position}
           formTitleKey={config.formTitleKey}
           style={containerStyle}
+          showBackButton={showBackButton}
           attachmentsEnabled={config.attachmentsEnabled}
           subjectEnabled={settings.get('contactForm.subject')}
           maxFileCount={config.maxFileCount}
@@ -203,7 +207,15 @@ function create(name, config) {
         mediator.channel.broadcast(name + '.onClose');
       },
       onBack() {
-        mediator.channel.broadcast(name + '.onBackClick');
+        if (getRootComponent(name).state.selectedTicketForm) {
+          getRootComponent(name).setState({
+            selectedTicketForm: null
+          });
+          showBackButton(false);
+          getRootComponent(name).clearForm();
+        } else {
+          mediator.channel.broadcast(name + '.onBackClick');
+        }
       },
       extend: {}
     });
@@ -244,7 +256,11 @@ function render(name) {
   });
 
   mediator.channel.subscribe(name + '.showBackButton', function() {
-    get(name).instance.getChild().setState({ showBackButton: true });
+    waitForRootComponent(name, () => {
+      if (isMobileBrowser() || getRootComponent(name).state.ticketForms) {
+        get(name).instance.getChild().setState({ showBackButton: true });
+      }
+    });
   });
 
   mediator.channel.subscribe(name + '.setLastSearch', function(params) {

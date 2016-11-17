@@ -64,6 +64,10 @@
   }
 }
 
+.ScrollContainer-content--fixed {
+  min-height: #{350/$font-size}rem;
+}
+
 .ScrollContainer-footer {
   &--shadow {
     border-top: $thin-border-size solid $inactive-color;

@@ -40,6 +40,12 @@ export class SubmitTicket extends Component {
     };
   }
 
+  componentDidUpdate() {
+    if (this.refs.ticketFormSelector) {
+      this.refs.ticketFormSelector.setScrollShadowVisible(true);
+    }
+  }
+
   clearNotification() {
     this.setState({ showNotification: false });
   }
@@ -48,6 +54,8 @@ export class SubmitTicket extends Component {
     const submitTicketForm = this.refs.submitTicketForm;
 
     submitTicketForm.clear();
+
+    this.setState({ selectedTicketForm: null });
   }
 
   showField() {
@@ -218,6 +226,8 @@ export class SubmitTicket extends Component {
 
     this.setState({ selectedTicketForm: selectedTicketForm });
 
+    this.props.showBackButton();
+
     setTimeout(() => {
       this.refs.submitTicketForm.updateTicketForm(
         selectedTicketForm,
@@ -285,13 +295,18 @@ export class SubmitTicket extends Component {
 
     return (
       <ScrollContainer
-        className='u-paddingBS'>
-        <SelectField
-          name={title}
-          placeholder={title}
-          value={this.state.ticketForm}
-          onChange={this.handleSelectorChange}
-          options={options} />
+        title={i18n.t(`embeddable_framework.submitTicket.form.title.${this.state.formTitleKey}`)}
+        ref='ticketFormSelector'
+        footerContentHidden={true}
+        fixHeight={true} >
+        <div className='u-paddingTS'>
+          <SelectField
+            name={title}
+            placeholder={title}
+            value={this.state.ticketForm}
+            onChange={this.handleSelectorChange}
+            options={options} />
+        </div>
       </ScrollContainer>
     );
   }
