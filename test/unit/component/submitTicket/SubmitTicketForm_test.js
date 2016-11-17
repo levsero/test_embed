@@ -189,6 +189,19 @@ describe('SubmitTicketForm component', function() {
         .toEqual(expectedFormState);
     });
 
+    it("should reset the button to it's initial state", () => {
+      submitTicketForm = domRender(<SubmitTicketForm submit={onSubmit} />);
+
+      submitTicketForm.setState({
+        buttonMessage: 'embeddable_framework.submitTicket.form.submitButton.label.sending'
+      });
+
+      submitTicketForm.clear();
+
+      expect(submitTicketForm.state.buttonMessage)
+        .toEqual('embeddable_framework.submitTicket.form.submitButton.label.send');
+    });
+
     describe('when attachments are enabled', () => {
       beforeEach(() => {
         submitTicketForm = domRender(<SubmitTicketForm submit={onSubmit} attachmentsEnabled={true} />);
