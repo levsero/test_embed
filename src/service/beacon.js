@@ -14,7 +14,8 @@ import { nowInSeconds,
 
 let config = {
   useBase64: false,
-  method: 'POST'
+  method: 'POST',
+  endpoint: '/embeddable/blips'
 };
 
 const sendPageViewWhenReady = () => {
@@ -53,7 +54,7 @@ const sendPageView = () => {
   };
   const payload = {
     method: config.method,
-    path: '/embeddable/blips',
+    path: config.endpoint,
     params: params
   };
 
@@ -61,9 +62,12 @@ const sendPageView = () => {
 };
 
 function setConfig(_config) {
+  const newBlips = !!_config.newBlips;
+
   config = {
-    useBase64: !!_config.newBlips,
-    method: _config.newBlips ? 'GET' : 'POST'
+    useBase64: newBlips,
+    method: newBlips ? 'GET' : 'POST',
+    endpoint: newBlips ? '/embeddable_blip' : '/embeddable/blips'
   };
 }
 
@@ -82,7 +86,7 @@ function sendConfigLoadTime(time) {
   };
   const payload = {
     method: config.method,
-    path: '/embeddable/blips',
+    path: config.endpoint,
     params: params
   };
 
@@ -102,7 +106,7 @@ function trackUserAction(category, action, label = null, value = null) {
   };
   const payload = {
     method: config.method,
-    path: '/embeddable/blips',
+    path: config.endpoint,
     params: { userAction }
   };
 
@@ -123,7 +127,7 @@ function trackSettings(settings) {
 
   const payload = {
     method: config.method,
-    path: '/embeddable/blips',
+    path: config.endpoint,
     params: { settings },
     callbacks: { done }
   };

@@ -107,6 +107,64 @@ describe('transport', () => {
       };
     });
 
+    describe('if it is a POST request', () => {
+      it('sets payload.params to {} if no params are passed through', () => {
+        payload.method = 'post';
+        delete payload.params;
+
+        spyOn(mockMethods, 'send').and.callThrough();
+
+        transport.init(config);
+        transport.send(payload);
+
+        const recentCall = mockMethods.send.calls.mostRecent();
+
+        expect(recentCall.args[0])
+          .not.toBeUndefined();
+      });
+    });
+
+    describe('if it is a GET request', () => {
+      it('does not pass through params if they are not defined', () => {
+        payload.method = 'get';
+        delete payload.params;
+
+        spyOn(mockMethods, 'send').and.callThrough();
+
+        transport.init(config);
+        transport.send(payload);
+
+        const recentCall = mockMethods.send.calls.mostRecent();
+
+        expect(recentCall)
+          .toBeUndefined();
+      });
+    });
+
+    describe('query string', () => {
+      it('sends a query string if payload contains it', () => {
+        payload.query = { hello: 'there' };
+
+        spyOn(mockMethods, 'query').and.callThrough();
+
+        transport.init(config);
+        transport.send(payload);
+
+        expect(mockMethods.query)
+          .toHaveBeenCalledWith(payload.query);
+      });
+
+      it('does not send a query string if the payload does not contain it', () => {
+        spyOn(mockMethods, 'query').and.callThrough();
+
+        transport.init(config);
+        transport.send(payload);
+
+        expect(mockMethods.query)
+          .not.toHaveBeenCalled();
+      });
+    });
+
     it('should throw an exception if zendeskHost is not set in config', () => {
       transport.init();
 
@@ -128,30 +186,26 @@ describe('transport', () => {
           'https://test.zendesk.host/test/path');
     });
 
-    it('sets the json type', () => {
-      spyOn(mockMethods, 'type').and.callThrough();
+    describe('type header', () => {
+      it('sets the json type by default', () => {
+        spyOn(mockMethods, 'type').and.callThrough();
 
-      transport.init(config);
-      transport.send(payload);
+        transport.init(config);
+        transport.send(payload);
 
-      expect(mockMethods.type)
-        .toHaveBeenCalledWith('json');
-    });
+        expect(mockMethods.type)
+          .toHaveBeenCalledWith('json');
+      });
 
-    it('sets payload.params to {} if no params are passed through', () => {
-      delete payload.params;
+      it('does not send a json type if explicitly omitted', () => {
+        spyOn(mockMethods, 'type').and.callThrough();
 
-      spyOn(mockMethods, 'send').and.callThrough();
+        transport.init(config);
+        transport.send(payload, false);
 
-      transport.init(config);
-      transport.send(payload);
-
-      expect(mockMethods.send);
-
-      const recentCall = mockMethods.send.calls.mostRecent();
-
-      expect(recentCall.args[0])
-        .not.toBeUndefined();
+        expect(mockMethods.type)
+          .not.toHaveBeenCalled();
+      });
     });
 
     it('triggers the done callback if response is successful', () => {
