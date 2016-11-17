@@ -88,7 +88,7 @@ function send(payload, addType = true) {
 
   if (addType) request.type('json');
 
-  if (payload.params || payload.method.toUpperCase() === 'POST') {
+  if (payload.method.toUpperCase() === 'POST') {
     request.send(payload.params || {});
   }
 
