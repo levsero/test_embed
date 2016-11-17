@@ -228,7 +228,7 @@ describe('beacon', () => {
       });
     });
 
-    describe('with base64 not turned on', () => {
+    describe('with the base64-based newBlips not turned on', () => {
       it('sends correct payload using transport.send', () => {
         const mockTransport = mockRegistry['service/transport'];
         const mockGlobals = mockRegistry['utility/globals'];
@@ -276,7 +276,7 @@ describe('beacon', () => {
       });
     });
 
-    describe('with base64 turned on', () => {
+    describe('with base64-based newBlips turned on', () => {
       beforeEach(() => {
         beacon.setConfig({ newBlips: true });
       });
@@ -360,7 +360,7 @@ describe('beacon', () => {
         .toEqual(userActionParams);
     });
 
-    describe('with base64 turned on', () => {
+    describe('with base64-based newBlips turned on', () => {
       beforeEach(() => {
         beacon.setConfig({ newBlips: true });
       });
@@ -551,7 +551,7 @@ describe('beacon', () => {
       });
     });
 
-    describe('with base64 turned on', () => {
+    describe('with base64-based newBlips turned on', () => {
       beforeEach(() => {
         beacon.setConfig({ newBlips: true });
         mockTransport = mockRegistry['service/transport'].transport;
