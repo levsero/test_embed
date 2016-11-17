@@ -40,12 +40,6 @@ export class SubmitTicket extends Component {
     };
   }
 
-  componentDidUpdate() {
-    if (this.refs.ticketFormSelector) {
-      this.refs.ticketFormSelector.setScrollShadowVisible(true);
-    }
-  }
-
   clearNotification() {
     this.setState({ showNotification: false });
   }
@@ -291,13 +285,17 @@ export class SubmitTicket extends Component {
         value: form.id
       }
     });
-    const title = 'Please choose your issue below';
+    const title = i18n.t(
+      'embeddable_framework.submitTicket.ticketForms.title',
+      { fallback: 'Please choose your issue below' }
+    );
 
     return (
       <ScrollContainer
         title={i18n.t(`embeddable_framework.submitTicket.form.title.${this.state.formTitleKey}`)}
         ref='ticketFormSelector'
         footerContentHidden={true}
+        borderBottom={true}
         fixHeight={true} >
         <div className='u-paddingTS'>
           <SelectField

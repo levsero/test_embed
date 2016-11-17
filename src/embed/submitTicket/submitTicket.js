@@ -19,6 +19,7 @@ import { transport } from 'service/transport';
 
 const submitTicketCSS = require('./submitTicket.scss').toString();
 let submitTickets = {};
+let backButtonSetByHelpCenter = false;
 
 function create(name, config) {
   let containerStyle;
@@ -208,10 +209,7 @@ function create(name, config) {
       },
       onBack() {
         if (getRootComponent(name).state.selectedTicketForm) {
-          getRootComponent(name).setState({
-            selectedTicketForm: null
-          });
-          showBackButton(false);
+          showBackButton(backButtonSetByHelpCenter);
           getRootComponent(name).clearForm();
         } else {
           mediator.channel.broadcast(name + '.onBackClick');
@@ -259,6 +257,7 @@ function render(name) {
     waitForRootComponent(name, () => {
       if (isMobileBrowser() || getRootComponent(name).state.ticketForms) {
         get(name).instance.getChild().setState({ showBackButton: true });
+        backButtonSetByHelpCenter = true;
       }
     });
   });
