@@ -367,42 +367,6 @@ describe('embed.submitTicket', function() {
           mockBeacon = mockRegistry['service/beacon'].beacon;
         });
 
-        describe('when attachments are disabled', () => {
-          it('should broadcast <name>.onSubmitted using correct params for existing endpoint', () => {
-            const params = {
-              res: {
-                body: {
-                  message: 'Request #149 "bla bla" created'
-                }
-              },
-              email: 'mock@email.com',
-              searchTerm: 'a search',
-              searchLocale: 'en-US'
-            };
-
-            submitTicket.create('bob', { attachmentsEnabled: false });
-
-            const mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
-
-            const payload = mockFrameFactoryCall[0](childFnParams);
-
-            payload.props.onSubmitted(params);
-
-            const value = {
-              query: params.searchTerm,
-              locale: params.searchLocale,
-              email: params.email,
-              ticketId: 149
-            };
-
-            expect(mockBeacon.trackUserAction)
-              .toHaveBeenCalledWith('submitTicket', 'send', 'bob', value);
-
-            expect(mockMediator.channel.broadcast)
-              .toHaveBeenCalledWith('bob.onFormSubmitted');
-          });
-        });
-
         describe('when attachments are enabled', () => {
           let params,
             value,
@@ -505,19 +469,7 @@ describe('embed.submitTicket', function() {
         .toHaveBeenCalled();
     });
 
-    it('should send with the default path', () => {
-      expect(mockTransport.send.calls.mostRecent().args[0].path)
-        .toEqual('/requests/embedded/create');
-    });
-
-    it('should send with an alternative path when attachments are enabled', () => {
-      mockSettingsValue = true; // emulate settings.get('attachmentsDisabled')
-      submitTicket.create('bob', { attachmentsEnabled: true });
-      submitTicket.render('bob');
-
-      embed = submitTicket.get('bob').instance.getRootComponent();
-      embed.props.submitTicketSender(formParams, null, null);
-
+    it('should send with the correct path', () => {
       expect(mockTransport.send.calls.mostRecent().args[0].path)
         .toEqual('/api/v2/requests');
     });

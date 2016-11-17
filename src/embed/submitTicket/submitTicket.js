@@ -43,9 +43,7 @@ function create(name, config) {
     config.attachmentsEnabled = false;
   }
 
-  const ticketEndpointPath = config.attachmentsEnabled
-             ? '/api/v2/requests'
-             : '/requests/embedded/create';
+  const ticketEndpointPath = '/api/v2/requests';
   const ticketAttachmentsEndpoint = '/api/v2/uploads';
   const submitTicketSender = (params, doneFn, failFn) => {
     const payload = {
@@ -75,14 +73,6 @@ function create(name, config) {
     return transport.sendFile(payload);
   };
   const createUserActionPayload = (payload, params) => {
-    const ticketIdMatcher = /Request \#([0-9]+)/;
-
-    return _.extend({}, payload, {
-      ticketId: parseInt(ticketIdMatcher.exec(params.res.body.message)[1], 10),
-      email: params.email
-    });
-  };
-  const createUserActionPayloadRequests = (payload, params) => {
     const body = params.res.body;
     const response = body.request || body.suspended_ticket;
 
@@ -99,10 +89,7 @@ function create(name, config) {
       locale: params.searchLocale
     };
 
-    // TODO: Remove createUserActionPayload when new endpoint is complete.
-    userActionPayload = config.attachmentsEnabled
-                      ? createUserActionPayloadRequests(userActionPayload, params)
-                      : createUserActionPayload(userActionPayload, params);
+    userActionPayload = createUserActionPayload(userActionPayload, params);
 
     beacon.trackUserAction('submitTicket', 'send', name, userActionPayload);
     mediator.channel.broadcast(name + '.onFormSubmitted');
