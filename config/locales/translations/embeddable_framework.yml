@@ -102,6 +102,13 @@ parts:
       title: "The placeholder in the description field of the submit ticket form. Asking for some information on the problem the customer has. Will wrap if needed"
       value: "How can we help you?"
 
+  # Ticket Forms
+  - translation:
+      key: "embeddable_framework.submitTicket.ticketForms.title"
+      title: "The title for the ticket forms list that displays when selecting a ticket form to fill out. Will wrap if needed"
+      screenshot: "https://zendesk.box.com/s/ez705d3o0f46vm8bqkdjrzzb0pu24y6k"
+      value: "Please choose your issue below"
+
   # Form Field component
   - translation:
       key: "embeddable_framework.form.field.email.label"
