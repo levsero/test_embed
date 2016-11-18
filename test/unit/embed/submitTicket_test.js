@@ -608,6 +608,8 @@ describe('embed.submitTicket', function() {
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('bob.showBackButton', jasmine.any(Function));
 
+        mockIsMobileBrowserValue = true;
+
         bobSubmitTicket.setState({
           showBackButton: false
         });

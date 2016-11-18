@@ -37,7 +37,7 @@ function create(name, config) {
     color: '#659700'
   };
   const attachmentsSetting = settings.get('contactForm.attachments');
-  const showBackButton = function(show = true) {
+  const showBackButton = (show = true) => {
     get(name).instance.getChild().setState({ showBackButton: show });
   };
 

@@ -92,6 +92,9 @@ describe('Submit ticket component', () => {
         MessageFieldset: noop,
         EmailField: noop
       },
+      'component/field/SelectField': {
+        SelectField: noopReactComponent()
+      },
       'component/ZendeskLogo': {
         ZendeskLogo: noopReactComponent()
       },
@@ -350,6 +353,7 @@ describe('Submit ticket component', () => {
           submitTicket = domRender(<SubmitTicket />);
 
           submitTicket.updateTicketForms(mockTicketFormParams);
+          submitTicket.setState({ selectedTicketForm: mockTicketFormParams.ticket_forms[0] });
           params = submitTicket.formatRequestTicketData(mockValues);
         });
 

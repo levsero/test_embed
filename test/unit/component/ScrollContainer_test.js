@@ -119,5 +119,41 @@ describe('ScrollContainer component', () => {
         .toMatch('u-marginVS');
     });
   });
+
+  describe('props', () => {
+    let container;
+
+    describe('containerClasses', () => {
+      beforeEach(() => {
+        container = domRender(<ScrollContainer containerClasses='baz' />);
+      });
+
+      it('should apply them to container', () => {
+        expect(ReactDOM.findDOMNode(container).querySelector('.ScrollContainer-content').className)
+          .toMatch('baz');
+      });
+
+      it('should not apply them to the footer', () => {
+        expect(ReactDOM.findDOMNode(container).querySelector('.ScrollContainer-footer').className)
+          .not.toMatch('baz');
+      });
+    });
+
+    describe('footerClasses', () => {
+      beforeEach(() => {
+        container = domRender(<ScrollContainer footerClasses='baz' />);
+      });
+
+      it('should apply them to footer', () => {
+        expect(ReactDOM.findDOMNode(container).querySelector('.ScrollContainer-footer').className)
+          .toMatch('baz');
+      });
+
+      it('should not apply them to the container', () => {
+        expect(ReactDOM.findDOMNode(container).querySelector('.ScrollContainer-content').className)
+          .not.toMatch('baz');
+      });
+    });
+  });
 });
 
