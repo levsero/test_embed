@@ -24,15 +24,6 @@
   }
 }
 
-.Icon--launcher {
-  padding-right: #{8/$font-size}rem;
-
-  [dir='rtl'] & {
-    padding-left: #{8/$font-size}rem;
-    padding-right: 0;
-  }
-}
-
 .Icon--search {
   padding-left: #{6/$font-size}rem;
   padding-right: #{8/$font-size}rem;

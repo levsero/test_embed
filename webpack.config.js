@@ -35,6 +35,14 @@ module.exports = {
           '!sass?includePaths[]=src/styles/components/'
         ].join('')
       },
+      {
+        test: /\.sass$/,
+        loaders: [
+          'css?modules&importLoaders=2&localIdentName=[name]__[local]',
+          'autoprefixer?browsers=last 2 versions, Firefox ESR, ie >= 9',
+          'sass'
+        ]
+      },
       { test: /base\.css$/, loader: 'css', minimize: true },
       { test: /lodash/, loader: 'imports?define=>false' },
       { test: /\.json$/, loader: 'json' },
