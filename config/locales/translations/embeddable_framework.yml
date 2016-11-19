@@ -105,9 +105,9 @@ parts:
   # Ticket Forms
   - translation:
       key: "embeddable_framework.submitTicket.ticketForms.title"
-      title: "The title for the ticket forms list that displays when selecting a ticket form to fill out. Will wrap if needed"
+      title: "The title for the ticket forms list that displays when selecting a ticket form to fill out. Will wrap if needed. The drop dwon menu will load a list of available ticket forms. You can use: Please make a selection below (or similar) if you need in your language. Do not use possessive your!"
       screenshot: "https://zendesk.box.com/s/ez705d3o0f46vm8bqkdjrzzb0pu24y6k"
-      value: "Please choose your issue below"
+      value: "Please select your issue"
 
   # Form Field component
   - translation:
