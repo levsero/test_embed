@@ -58,7 +58,8 @@ export class Field extends Component {
     });
 
     if (this.props.onChange) {
-      this.props.onChange(e, value);
+      e.persist();
+      this.props.onChange(e);
     }
   }
 

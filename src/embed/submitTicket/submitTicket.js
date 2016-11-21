@@ -105,15 +105,21 @@ function create(name, config) {
     const rootComponent = frame.getRootComponent();
 
     if (rootComponent) {
+      const { submitTicketForm } = rootComponent.refs;
+
       if (isMobileBrowser()) {
         setScaleLock(true);
         setTimeout(() => {
           mediator.channel.broadcast('.updateZoom', getZoomSizingRatio());
         }, 0);
       } else {
-        rootComponent.refs.submitTicketForm.focusField();
+        if (submitTicketForm) {
+          submitTicketForm.focusField();
+        }
       }
-      rootComponent.refs.submitTicketForm.resetTicketFormVisibility();
+      if (submitTicketForm) {
+        submitTicketForm.resetTicketFormVisibility();
+      }
     }
   };
 
@@ -259,7 +265,7 @@ function render(name) {
 
   mediator.channel.subscribe(name + '.showBackButton', function() {
     waitForRootComponent(name, () => {
-      if (isMobileBrowser() || getRootComponent(name).state.ticketForms) {
+      if (isMobileBrowser() || !_.isEmpty(getRootComponent(name).state.ticketForms)) {
         get(name).instance.getChild().showBackButton();
         backButtonSetByHelpCenter = true;
       }

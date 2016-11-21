@@ -80,6 +80,7 @@ export class SubmitTicket extends Component {
         return;
       }
 
+      this.props.showBackButton(false);
       this.setState({
         showNotification: true,
         message: i18n.t('embeddable_framework.submitTicket.notify.message.success')
@@ -222,10 +223,11 @@ export class SubmitTicket extends Component {
     this.setState({ formTitleKey });
   }
 
-  handleSelectorChange(e, v) {
+  handleSelectorChange(e) {
+    const value = e.target.value;
     const { ticketForms } = this.state;
     const selectedTicketForm = _.find(ticketForms.ticket_forms, (f) => {
-      return f.id === parseInt(v);
+      return f.id === parseInt(value);
     });
 
     this.setState({ selectedTicketForm: selectedTicketForm });
@@ -284,6 +286,8 @@ export class SubmitTicket extends Component {
   }
 
   renderTicketFormSelector() {
+    if (this.state.showNotification) return;
+
     const { ticketForms } = this.state;
     const options = _.map(ticketForms.ticket_forms, (form) => {
       return {
