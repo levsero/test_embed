@@ -46,6 +46,7 @@ function create(name, config) {
     signInRequired: false,
     disableAutoSearch: false,
     enableMouseDrivenContextualHelp: false,
+    viewMoreEnabled: false,
     color: '#659700'
   };
   const onNextClick = function(embed) {
@@ -163,6 +164,7 @@ function create(name, config) {
           originalArticleButton={settings.get('helpCenter.originalArticleButton')}
           localeFallbacks={settings.get('helpCenter.localeFallbacks')}
           channelChoice={channelChoice}
+          viewMoreEnabled={config.viewMoreEnabled}
           zendeskHost={transport.getZendeskHost()} />
       );
     },

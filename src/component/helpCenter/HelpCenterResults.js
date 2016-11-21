@@ -114,9 +114,7 @@ export class HelpCenterResults extends Component {
     const initialSearchResults = this.props.articles.length > 0 &&
                                  this.props.articles.length < 4;
     const showBottomBorder = this.props.showBottomBorder && initialSearchResults;
-    // TODO: apply the bottom padding for the view more button once we begin rendering it.
-    // (i.e string has been translated).
-    const applyPadding = // this.props.showViewMore ||
+    const applyPadding = this.props.showViewMore ||
                          (this.props.applyPadding && initialSearchResults);
     const resultsClasses = classNames({
       'u-borderBottom': showBottomBorder,
@@ -131,11 +129,11 @@ export class HelpCenterResults extends Component {
     /* eslint no-unused-vars:0 */
     const viewMoreButton = this.props.showViewMore ? this.renderViewMoreButton() : null;
 
-    // TODO add {viewMoreButton} beneath {results} once the "View more" string has been translated
     return (
       <div className={resultsClasses}>
         {legend}
         {results}
+        {viewMoreButton}
       </div>
     );
   }

@@ -94,11 +94,10 @@ describe('HelpCenterResults component', () => {
         component = domRender(<HelpCenterResults articles={articles} showViewMore={true} />);
       });
 
-      // TODO: re-enable this test when the translation string for the button is ready
-      // it('renders a View More button', () => {
-      //   expect(document.querySelector('.ButtonPill'))
-      //     .toBeTruthy();
-      // });
+      it('renders a View More button', () => {
+        expect(document.querySelector('.ButtonPill'))
+          .toBeTruthy();
+      });
     });
 
     describe('when props.showViewMore is false', () => {
