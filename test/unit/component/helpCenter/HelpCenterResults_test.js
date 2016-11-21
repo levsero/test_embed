@@ -87,6 +87,26 @@ describe('HelpCenterResults component', () => {
         expect(document.querySelector('.Legend'))
           .toBeTruthy();
       });
+
+      describe('when hideBottomPadding is true', () => {
+        beforeEach(() => {
+          component = domRender(
+            <HelpCenterResults
+              hideBottomPadding={true}
+              articles={articles} />
+          );
+        });
+
+        it('should not apply the u-paddingBM class', () => {
+          expect(() => TestUtils.findRenderedDOMComponentWithClass(component, 'u-paddingBM')).toThrow();
+        });
+      });
+
+      describe('when hideBottomPadding is false', () => {
+        it('should apply the u-paddingBM class', () => {
+          expect(() => TestUtils.findRenderedDOMComponentWithClass(component, 'u-paddingBM')).not.toThrow();
+        });
+      });
     });
 
     describe('when props.showViewMore is true', () => {

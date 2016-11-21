@@ -1225,6 +1225,33 @@ describe('HelpCenter component', function() {
       expect(results)
         .toBeTruthy();
     });
+
+    describe('when the view more button is enabled', () => {
+      beforeEach(() => {
+        helpCenter = domRender(<HelpCenter viewMoreEnabled={true} />);
+      });
+
+      describe('when the contact form is suppressed', () => {
+        beforeEach(() => {
+          helpCenter.setState({ showNextButton: false });
+        });
+
+        describe('when the view more button has been clicked', () => {
+          beforeEach(() => {
+            helpCenter.setState({ viewMoreClicked: true });
+            helpCenter.setState({ hasSearched: true });
+          });
+
+          it('renders HelpCenterResults with hideBottomPadding prop as true', () => {
+            const HelpCenterResults = mockRegistry['component/helpCenter/HelpCenterResults'].HelpCenterResults;
+            const component = TestUtils.findRenderedComponentWithType(helpCenter, HelpCenterResults);
+
+            expect(component.props.hideBottomPadding)
+              .toBe(true);
+          });
+        });
+      });
+    });
   });
 
   describe('handleViewMoreClick', () => {
