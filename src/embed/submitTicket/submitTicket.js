@@ -38,7 +38,7 @@ function create(name, config) {
   };
   const attachmentsSetting = settings.get('contactForm.attachments');
   const showBackButton = (show = true) => {
-    get(name).instance.getChild().setState({ showBackButton: show });
+    get(name).instance.getChild().showBackButton(show);
   };
 
   config = _.extend(configDefaults, config);
@@ -256,7 +256,7 @@ function render(name) {
   mediator.channel.subscribe(name + '.showBackButton', function() {
     waitForRootComponent(name, () => {
       if (isMobileBrowser() || getRootComponent(name).state.ticketForms) {
-        get(name).instance.getChild().setState({ showBackButton: true });
+        get(name).instance.getChild().showBackButton();
         backButtonSetByHelpCenter = true;
       }
     });

@@ -20,6 +20,10 @@ export class EmbedWrapper extends Component {
     };
   }
 
+  showBackButton(show = true) {
+    this.setState({ showBackButton: show });
+  }
+
   setHighlightColor(color) {
     const css = generateNpsCSS({ color: color });
 

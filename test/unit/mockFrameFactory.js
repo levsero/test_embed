@@ -25,6 +25,10 @@ const mockFrameFactory = jasmine.createSpy('mockFrameFactory').and.callFake(
         });
       }
 
+      showBackButton() {
+        this.setState({ showBackButton: true });
+      }
+
       render() {
         return (childFn(childParams));
       }

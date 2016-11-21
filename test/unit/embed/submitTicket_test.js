@@ -1,4 +1,4 @@
-describe('embed.submitTicket', function() {
+describe('embed.submitTicket', () => {
   let submitTicket,
     mockRegistry,
     mockSettingsValue,
@@ -8,10 +8,11 @@ describe('embed.submitTicket', function() {
   const resetTicketFormVisibility = jasmine.createSpy();
   const hideVirtualKeyboard = jasmine.createSpy();
   const focusField = jasmine.createSpy();
+  const clearForm = jasmine.createSpy();
   const defaultValue = 'abc123';
   const submitTicketPath = buildSrcPath('embed/submitTicket/submitTicket');
 
-  beforeEach(function() {
+  beforeEach(() => {
     resetDOM();
 
     mockery.enable();
@@ -37,7 +38,7 @@ describe('embed.submitTicket', function() {
           resetTicketFormVisibility: resetTicketFormVisibility,
           hideVirtualKeyboard: hideVirtualKeyboard,
           focusField: focusField,
-          render: function() {
+          render: () => {
             return (
               <div />
             );
@@ -46,7 +47,7 @@ describe('embed.submitTicket', function() {
       },
       'component/submitTicket/SubmitTicket': {
         SubmitTicket: React.createClass({
-          getInitialState: function() {
+          getInitialState: () => {
             return {
               showNotification: false,
               message: '',
@@ -56,8 +57,9 @@ describe('embed.submitTicket', function() {
           show: jasmine.createSpy('show'),
           hide: jasmine.createSpy('hide'),
           clearNotification: jasmine.createSpy('clearNotification'),
+          clearForm: clearForm,
 
-          render: function() {
+          render: () => {
             const SubmitTicketForm = mockRegistry['component/submitTicket/SubmitTicketForm'].SubmitTicketForm;
 
             return (
@@ -91,7 +93,7 @@ describe('embed.submitTicket', function() {
       },
       'utility/globals': {
         document: global.document,
-        getDocumentHost: function() {
+        getDocumentHost: () => {
           return document.body;
         }
       },
@@ -119,13 +121,13 @@ describe('embed.submitTicket', function() {
     };
   });
 
-  afterEach(function() {
+  afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
   });
 
-  describe('create', function() {
-    it('show add a new submit ticket form to the submitTicket array', function() {
+  describe('create', () => {
+    it('show add a new submit ticket form to the submitTicket array', () => {
       expect(_.keys(submitTicket.list()).length)
         .toEqual(0);
 
@@ -143,7 +145,7 @@ describe('embed.submitTicket', function() {
         .toBeDefined();
     });
 
-    it('changes config.formTitleKey if formTitleKey is set', function() {
+    it('changes config.formTitleKey if formTitleKey is set', () => {
       submitTicket.create('bob', { formTitleKey: 'test_title' } );
 
       const bob = submitTicket.get('bob');
@@ -185,21 +187,30 @@ describe('embed.submitTicket', function() {
       });
     });
 
-    describe('frameFactory', function() {
+    describe('frameFactory', () => {
       let mockFrameFactory,
         mockFrameFactoryCall,
+        mockMediator,
         childFn,
+        embed,
+        submitTicketFrame,
         params;
 
-      beforeEach(function() {
+      beforeEach(() => {
         mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
+        mockMediator = mockRegistry['service/mediator'].mediator;
+
         submitTicket.create('bob', frameConfig);
+        submitTicket.render('bob');
+
         mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
         childFn = mockFrameFactoryCall[0];
         params = mockFrameFactoryCall[1];
+        embed = submitTicket.get('bob').instance.getRootComponent();
+        submitTicketFrame = submitTicket.get('bob').instance;
       });
 
-      it('should apply the configs', function() {
+      it('should apply the configs', () => {
         const bob = submitTicket.get('bob');
         const payload = childFn({});
 
@@ -207,12 +218,7 @@ describe('embed.submitTicket', function() {
           .toEqual(bob.config.formTitleKey);
       });
 
-      it('should not call focusField in afterShowAnimate for non-IE browser', function() {
-        submitTicket.create('bob', frameConfig);
-        submitTicket.render('bob');
-
-        const submitTicketFrame = submitTicket.get('bob').instance;
-
+      it('should not call focusField in afterShowAnimate for non-IE browser', () => {
         mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
         params = mockFrameFactoryCall[1];
 
@@ -222,14 +228,14 @@ describe('embed.submitTicket', function() {
           .not.toHaveBeenCalled();
       });
 
-      it('should call focusField in afterShowAnimate for IE browser', function() {
+      it('should call focusField in afterShowAnimate for IE browser', () => {
         mockIsIEValue = true;
 
         submitTicket = requireUncached(submitTicketPath).submitTicket;
         submitTicket.create('bob', frameConfig);
         submitTicket.render('bob');
 
-        const submitTicketFrame = submitTicket.get('bob').instance;
+        submitTicketFrame = submitTicket.get('bob').instance;
 
         mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
         params = mockFrameFactoryCall[1];
@@ -240,7 +246,7 @@ describe('embed.submitTicket', function() {
           .toHaveBeenCalled();
       });
 
-      it('should toggle setScaleLock with onShow/onHide', function() {
+      it('should toggle setScaleLock with onShow/onHide', () => {
         const mockSetScaleLock = mockRegistry['utility/devices'].setScaleLock;
 
         mockIsMobileBrowserValue = true;
@@ -249,7 +255,7 @@ describe('embed.submitTicket', function() {
         submitTicket.create('bob', frameConfig);
         submitTicket.render('bob');
 
-        const submitTicketFrame = submitTicket.get('bob').instance;
+        submitTicketFrame = submitTicket.get('bob').instance;
 
         mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
         params = mockFrameFactoryCall[1];
@@ -267,12 +273,7 @@ describe('embed.submitTicket', function() {
           .toHaveBeenCalledWith(false);
       });
 
-      it('should reset form state onShow', function() {
-        submitTicket.create('bob', frameConfig);
-        submitTicket.render('bob');
-
-        const submitTicketFrame = submitTicket.get('bob').instance;
-
+      it('should reset form state onShow', () => {
         mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
         params = mockFrameFactoryCall[1];
 
@@ -282,14 +283,14 @@ describe('embed.submitTicket', function() {
           .toHaveBeenCalled();
       });
 
-      it('should hide virtual keyboard onHide', function() {
+      it('should hide virtual keyboard onHide', () => {
         mockIsMobileBrowserValue = true;
 
         submitTicket = requireUncached(submitTicketPath).submitTicket;
         submitTicket.create('bob', frameConfig);
         submitTicket.render('bob');
 
-        const submitTicketFrame = submitTicket.get('bob').instance;
+        submitTicketFrame = submitTicket.get('bob').instance;
 
         mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
         params = mockFrameFactoryCall[1];
@@ -300,20 +301,49 @@ describe('embed.submitTicket', function() {
           .toHaveBeenCalled();
       });
 
-      it('should broadcast <name>.onClose with onClose', function() {
-        const mockMediator = mockRegistry['service/mediator'].mediator;
-
+      it('should broadcast <name>.onClose with onClose', () => {
         params.onClose();
 
         expect(mockMediator.channel.broadcast)
           .toHaveBeenCalledWith('bob.onClose');
       });
 
-      it('should switch iframe styles based on isMobileBrowser()', function() {
+      describe('onBack', () => {
+        describe('when there is no ticket form selected', () => {
+          it('should broadcast <name>.onBackClick', () => {
+            params.onBack();
+
+            expect(mockMediator.channel.broadcast)
+              .toHaveBeenCalledWith('bob.onBackClick');
+          });
+        });
+
+        describe('when there is a ticket form selected', () => {
+          let child;
+
+          beforeEach(() => {
+            child = submitTicketFrame.getChild();
+            embed.setState({ selectedTicketForm: 1 });
+            params.onBack();
+          });
+
+          it('should hide the back button', () => {
+            expect(child.state.showBackButton)
+              .toEqual(true);
+          });
+
+          it('should clear the form', () => {
+            expect(clearForm)
+              .toHaveBeenCalled();
+          });
+        });
+      });
+
+      it('should switch iframe styles based on isMobileBrowser()', () => {
         const mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
 
         mockery.registerMock('utility/devices', {
-          isMobileBrowser: function() {
+          isMobileBrowser: () => {
             return true;
           }
         });
@@ -331,14 +361,14 @@ describe('embed.submitTicket', function() {
           .toBeUndefined();
       });
 
-      it('should switch container styles based on isMobileBrowser()', function() {
+      it('should switch container styles based on isMobileBrowser()', () => {
         const mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
         const childFnParams = {
           updateFrameSize: noop
         };
 
         mockery.registerMock('utility/devices', {
-          isMobileBrowser: function() {
+          isMobileBrowser: () => {
             return true;
           }
         });
@@ -434,8 +464,8 @@ describe('embed.submitTicket', function() {
     });
   });
 
-  describe('get', function() {
-    it('should return the correct submitTicket form', function() {
+  describe('get', () => {
+    it('should return the correct submitTicket form', () => {
       submitTicket.create('bob');
 
       expect(submitTicket.get('bob'))
@@ -448,7 +478,7 @@ describe('embed.submitTicket', function() {
       mockTransport,
       embed;
 
-    beforeEach(function() {
+    beforeEach(() => {
       mockTransport = mockRegistry['service/transport'].transport;
       formParams = {
         'set_tags': 'web_widget',
@@ -480,7 +510,7 @@ describe('embed.submitTicket', function() {
       mockTransport,
       embed;
 
-    beforeEach(function() {
+    beforeEach(() => {
       mockTransport = mockRegistry['service/transport'].transport;
       file = {
         name: 'foo.bar'
@@ -504,14 +534,14 @@ describe('embed.submitTicket', function() {
     });
   });
 
-  describe('render', function() {
-    it('should throw an exception if SubmitTicket does not exist', function() {
-      expect(function() {
+  describe('render', () => {
+    it('should throw an exception if SubmitTicket does not exist', () => {
+      expect(() => {
         submitTicket.render('non_existent_submitTicket');
       }).toThrow();
     });
 
-    it('renders a submitTicket form to the document', function() {
+    it('renders a submitTicket form to the document', () => {
       submitTicket.create('bob');
       submitTicket.render('bob');
 
@@ -525,19 +555,19 @@ describe('embed.submitTicket', function() {
         .toEqual(true);
     });
 
-    it('should only be allowed to render an submitTicket form once', function() {
+    it('should only be allowed to render an submitTicket form once', () => {
       submitTicket.create('bob');
 
-      expect(function() {
+      expect(() => {
         submitTicket.render('bob');
       }).not.toThrow();
 
-      expect(function() {
+      expect(() => {
         submitTicket.render('bob');
       }).toThrow();
     });
 
-    it('applies submitTicket.scss to the frame', function() {
+    it('applies submitTicket.scss to the frame', () => {
       const mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
       const mockCss = mockRegistry['./submitTicket.scss'];
 
@@ -550,14 +580,14 @@ describe('embed.submitTicket', function() {
         .toEqual(mockCss);
     });
 
-    describe('mediator subscription', function() {
+    describe('mediator subscription', () => {
       let mockMediator,
         bob,
         bobFrame,
         bobSubmitTicket,
         bobSubmitTicketForm;
 
-      beforeEach(function() {
+      beforeEach(() => {
         mockMediator = mockRegistry['service/mediator'].mediator;
         submitTicket.create('bob');
         submitTicket.render('bob');
@@ -567,7 +597,7 @@ describe('embed.submitTicket', function() {
         bobSubmitTicketForm = bobSubmitTicket.refs.submitTicketForm;
       });
 
-      it('should subscribe to <name>.show', function() {
+      it('should subscribe to <name>.show', () => {
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('bob.show', jasmine.any(Function));
 
@@ -577,7 +607,7 @@ describe('embed.submitTicket', function() {
           .toHaveBeenCalled();
       });
 
-      it('should subscribe to <name>.deactivate', function() {
+      it('should subscribe to <name>.deactivate', () => {
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('bob.hide', jasmine.any(Function));
 
@@ -604,23 +634,57 @@ describe('embed.submitTicket', function() {
           .toHaveBeenCalledWith('bob.refreshLocale', jasmine.any(Function));
       });
 
-      it('should subscribe to <name>.showBackButton', function() {
+      it('should subscribe to <name>.showBackButton', () => {
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('bob.showBackButton', jasmine.any(Function));
-
-        mockIsMobileBrowserValue = true;
-
-        bobSubmitTicket.setState({
-          showBackButton: false
-        });
-
-        pluckSubscribeCall(mockMediator, 'bob.showBackButton')();
-
-        expect(bobFrame.state.showBackButton)
-          .toEqual(true);
       });
 
-      it('should subscribe to <name>.setLastSearch', function() {
+      describe('when <name>.showBackButton is broadcast', () => {
+        beforeEach(() => {
+          bobFrame.setState({
+            showBackButton: false
+          });
+        });
+
+        describe('when not on mobile and without ticketforms', () => {
+          it('should not show the button', () => {
+            pluckSubscribeCall(mockMediator, 'bob.showBackButton')();
+
+            expect(bobFrame.state.showBackButton)
+              .toEqual(false);
+          });
+        });
+
+        describe('when on mobile', () => {
+          beforeEach(() => {
+            mockIsMobileBrowserValue = true;
+          });
+
+          it('should show the button', () => {
+            pluckSubscribeCall(mockMediator, 'bob.showBackButton')();
+
+            expect(bobFrame.state.showBackButton)
+              .toEqual(true);
+          });
+        });
+
+        describe('when there are ticket forms', () => {
+          beforeEach(() => {
+            bobSubmitTicket.setState({
+              ticketForms: [1]
+            });
+          });
+
+          it('should show the button', () => {
+            pluckSubscribeCall(mockMediator, 'bob.showBackButton')();
+
+            expect(bobFrame.state.showBackButton)
+              .toEqual(true);
+          });
+        });
+      });
+
+      it('should subscribe to <name>.setLastSearch', () => {
         const params = {
           searchTerm: 'a search',
           searchLocale: 'en-US'
@@ -642,7 +706,7 @@ describe('embed.submitTicket', function() {
           .toEqual(params.searchLocale);
       });
 
-      it('should subscribe to <name>.prefill', function() {
+      it('should subscribe to <name>.prefill', () => {
         const params = {
           name: 'James Dean',
           email: 'james@dean.com'
