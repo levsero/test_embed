@@ -359,7 +359,8 @@ export class HelpCenter extends Component {
     if (this.state.articleViewActive || !hasSearched) {
       return null;
     }
-    const showViewMore = this.state.showViewMore &&
+    const showViewMore = this.props.viewMoreEnabled &&
+                         this.state.showViewMore &&
                          this.state.resultsCount > minimumSearchResults;
     const showBottomBorder = !this.props.fullscreen &&
                              !(!this.state.showNextButton && this.props.hideZendeskLogo);
@@ -497,7 +498,8 @@ HelpCenter.propTypes = {
   originalArticleButton: PropTypes.bool,
   channelChoice: PropTypes.bool,
   localeFallbacks: PropTypes.arr,
-  disableAutoSearch: PropTypes.bool
+  disableAutoSearch: PropTypes.bool,
+  viewMoreEnabled: PropTypes.bool
 };
 
 HelpCenter.defaultProps = {
@@ -513,5 +515,6 @@ HelpCenter.defaultProps = {
   originalArticleButton: true,
   localeFallbacks: [],
   channelChoice: false,
-  disableAutoSearch: false
+  disableAutoSearch: false,
+  viewMoreEnabled: false
 };
