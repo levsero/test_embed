@@ -1,4 +1,4 @@
-describe('embed.helpCenter', function() {
+describe('embed.helpCenter', () => {
   let helpCenter,
     mockRegistry,
     frameConfig,
@@ -20,7 +20,7 @@ describe('embed.helpCenter', function() {
   const getHelpCenterComponent = jasmine.createSpy();
   const setChatOnline = jasmine.createSpy();
 
-  beforeEach(function() {
+  beforeEach(() => {
     const mockForm = noopReactComponent();
 
     mockSettingsValue = '';
@@ -49,7 +49,7 @@ describe('embed.helpCenter', function() {
         transport: {
           send: jasmine.createSpy('transport.send'),
           getImage: jasmine.createSpy('transport.getImage'),
-          getZendeskHost: function() {
+          getZendeskHost: () => {
             return 'zendesk.host';
           }
         }
@@ -66,7 +66,7 @@ describe('embed.helpCenter', function() {
       },
       'component/helpCenter/HelpCenter': {
         HelpCenter: React.createClass({
-          getInitialState: function() {
+          getInitialState: () => {
             return {
               topics: [],
               searchCount: 0,
@@ -82,7 +82,7 @@ describe('embed.helpCenter', function() {
           focusField: focusField,
           setChatOnline: setChatOnline,
           getHelpCenterComponent: getHelpCenterComponent,
-          render: function() {
+          render: () => {
             return (
               <div className='mock-helpCenter'>
                 <mockForm ref='helpCenterForm' />
@@ -120,7 +120,7 @@ describe('embed.helpCenter', function() {
       },
       'utility/globals': {
         document: global.document,
-        getDocumentHost: function() {
+        getDocumentHost: () => {
           return document.body;
         },
         location: {
@@ -151,14 +151,14 @@ describe('embed.helpCenter', function() {
     };
   });
 
-  afterEach(function() {
+  afterEach(() => {
     jasmine.clock().uninstall();
     mockery.deregisterAll();
     mockery.disable();
   });
 
-  describe('create', function() {
-    it('should add a new help center component to the helpCenter array', function() {
+  describe('create', () => {
+    it('should add a new help center component to the helpCenter array', () => {
       expect(_.keys(helpCenter.list()).length)
         .toEqual(0);
 
@@ -176,7 +176,7 @@ describe('embed.helpCenter', function() {
         .toBeDefined();
     });
 
-    it('changes config.buttonLabelKey if buttonLabelKey is set', function() {
+    it('changes config.buttonLabelKey if buttonLabelKey is set', () => {
       helpCenter.create('carlos', { buttonLabelKey: 'test_label' });
 
       const carlos = helpCenter.get('carlos');
@@ -185,7 +185,7 @@ describe('embed.helpCenter', function() {
         .toEqual('test_label');
     });
 
-    it('changes config.formTitleKey if formTitleKey is set', function() {
+    it('changes config.formTitleKey if formTitleKey is set', () => {
       helpCenter.create('carlos', { formTitleKey: 'test_title' });
 
       const carlos = helpCenter.get('carlos');
@@ -194,13 +194,24 @@ describe('embed.helpCenter', function() {
         .toEqual('test_title');
     });
 
-    describe('frameFactory', function() {
+    it('changes config.viewMoreEnabled if viewMore setting is available', () => {
+      mockSettingsValue = false;
+
+      helpCenter.create('carlos', { viewMoreEnabled: true });
+
+      const carlos = helpCenter.get('carlos');
+
+      expect(carlos.config.viewMoreEnabled)
+        .toEqual(false);
+    });
+
+    describe('frameFactory', () => {
       let mockFrameFactory,
         mockFrameFactoryCall,
         childFn,
         params;
 
-      beforeEach(function() {
+      beforeEach(() => {
         mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
         helpCenter.create('carlos', frameConfig);
         mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
@@ -208,7 +219,7 @@ describe('embed.helpCenter', function() {
         params = mockFrameFactoryCall[1];
       });
 
-      it('should apply the configs', function() {
+      it('should apply the configs', () => {
         const carlos = helpCenter.get('carlos');
         const payload = childFn({});
 
@@ -218,14 +229,14 @@ describe('embed.helpCenter', function() {
         expect(payload.props.formTitleKey)
           .toEqual(carlos.config.formTitleKey);
       });
-      it('should pass in zendeskHost from transport.getZendeskHost', function() {
+      it('should pass in zendeskHost from transport.getZendeskHost', () => {
         const payload = childFn({});
 
         expect(payload.props.zendeskHost)
           .toEqual('zendesk.host');
       });
 
-      it('should the showBackButton state on the child component to false onBack', function() {
+      it('should the showBackButton state on the child component to false onBack', () => {
         const mockSetState = jasmine.createSpy();
         const mockFrame = {
           getRootComponent() {
@@ -249,21 +260,21 @@ describe('embed.helpCenter', function() {
           .toEqual(false);
       });
 
-      describe('mediator broadcasts', function() {
+      describe('mediator broadcasts', () => {
         let mockMediator;
 
-        beforeEach(function() {
+        beforeEach(() => {
           mockMediator = mockRegistry['service/mediator'].mediator;
         });
 
-        it('should broadcast <name>.onClose with onClose', function() {
+        it('should broadcast <name>.onClose with onClose', () => {
           params.onClose();
 
           expect(mockMediator.channel.broadcast)
             .toHaveBeenCalledWith('carlos.onClose');
         });
 
-        it('should broadcast <name>.onNextClick with HelpCenterForm.onNextClick', function() {
+        it('should broadcast <name>.onNextClick with HelpCenterForm.onNextClick', () => {
           const payload = childFn({});
 
           payload.props.onNextClick();
@@ -272,7 +283,7 @@ describe('embed.helpCenter', function() {
             .toHaveBeenCalledWith('carlos.onNextClick', undefined);
         });
 
-        it('should broadcast <name>.onSearch with onSearch', function() {
+        it('should broadcast <name>.onSearch with onSearch', () => {
           const payload = childFn({});
           const params = {searchString: 'searchString', searchLocale: 'en-US'};
 
@@ -282,7 +293,7 @@ describe('embed.helpCenter', function() {
             .toHaveBeenCalledWith('carlos.onSearch', params);
         });
 
-        it('should not call focusField in afterShowAnimate for non-IE browser', function() {
+        it('should not call focusField in afterShowAnimate for non-IE browser', () => {
           helpCenter = require(helpCenterPath).helpCenter;
           helpCenter.create('carlos', frameConfig);
           helpCenter.render('carlos');
@@ -297,7 +308,7 @@ describe('embed.helpCenter', function() {
             .not.toHaveBeenCalled();
         });
 
-        it('should call focusField in afterShowAnimate for IE browser', function() {
+        it('should call focusField in afterShowAnimate for IE browser', () => {
           mockIsIE = true;
 
           helpCenter.create('carlos', frameConfig);
@@ -314,7 +325,7 @@ describe('embed.helpCenter', function() {
             .toHaveBeenCalled();
         });
 
-        it('should hide virtual keyboard onHide', function() {
+        it('should hide virtual keyboard onHide', () => {
           mockIsMobileBrowser = true;
           helpCenter = require(helpCenterPath).helpCenter;
           helpCenter.create('carlos', frameConfig);
@@ -331,7 +342,7 @@ describe('embed.helpCenter', function() {
             .toHaveBeenCalled();
         });
 
-        it('should back track search on hide', function() {
+        it('should back track search on hide', () => {
           helpCenter = require(helpCenterPath).helpCenter;
           helpCenter.create('carlos', frameConfig);
           helpCenter.render('carlos');
@@ -349,7 +360,7 @@ describe('embed.helpCenter', function() {
       });
     });
 
-    it('should switch iframe styles based on isMobileBrowser()', function() {
+    it('should switch iframe styles based on isMobileBrowser()', () => {
       const mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
 
       mockIsMobileBrowser = true;
@@ -366,10 +377,10 @@ describe('embed.helpCenter', function() {
         .toBeUndefined();
     });
 
-    it('should switch container styles based on isMobileBrowser()', function() {
+    it('should switch container styles based on isMobileBrowser()', () => {
       const mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
       const childFnParams = {
-        updateFrameSize: function() {}
+        updateFrameSize: () => {}
       };
 
       mockIsMobileBrowser = true;
@@ -384,8 +395,8 @@ describe('embed.helpCenter', function() {
     });
   });
 
-  describe('get', function() {
-    it('should return the correct helpCenter form', function() {
+  describe('get', () => {
+    it('should return the correct helpCenter form', () => {
       helpCenter.create('carlos');
       const carlos = helpCenter.get('carlos');
 
@@ -527,14 +538,13 @@ describe('embed.helpCenter', function() {
     });
   });
 
-  describe('render', function() {
-    it('should throw an exception if HelpCenter does not exist', function() {
-      expect(function() {
-        helpCenter.render('non_existent_helpCenter');
-      }).toThrow();
+  describe('render', () => {
+    it('should throw an exception if HelpCenter does not exist', () => {
+      expect(() => helpCenter.render('non_existent_helpCenter'))
+        .toThrow();
     });
 
-    it('renders a helpCenter form to the document', function() {
+    it('renders a helpCenter form to the document', () => {
       helpCenter.create('carlos');
       helpCenter.render('carlos');
 
@@ -548,19 +558,17 @@ describe('embed.helpCenter', function() {
         .toEqual(true);
     });
 
-    it('should only be allowed to render an helpCenter form once', function() {
+    it('should only be allowed to render an helpCenter form once', () => {
       helpCenter.create('carlos');
 
-      expect(function() {
-        helpCenter.render('carlos');
-      }).not.toThrow();
+      expect(() => helpCenter.render('carlos'))
+        .not.toThrow();
 
-      expect(function() {
-        helpCenter.render('carlos');
-      }).toThrow();
+      expect(() => helpCenter.render('carlos'))
+        .toThrow();
     });
 
-    it('applies helpCenter.scss to the frame factory', function() {
+    it('applies helpCenter.scss to the frame factory', () => {
       const mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
       const mockCss = mockRegistry['./helpCenter.scss'];
 
@@ -573,16 +581,16 @@ describe('embed.helpCenter', function() {
         .toEqual(mockCss);
     });
 
-    describe('mediator subscriptions', function() {
+    describe('mediator subscriptions', () => {
       let mockMediator;
 
-      beforeEach(function() {
+      beforeEach(() => {
         mockMediator = mockRegistry['service/mediator'].mediator;
         helpCenter.create('carlos');
         helpCenter.render('carlos');
       });
 
-      it('should subscribe to <name>.show', function() {
+      it('should subscribe to <name>.show', () => {
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('carlos.show', jasmine.any(Function));
 
@@ -596,7 +604,7 @@ describe('embed.helpCenter', function() {
         jasmine.clock().uninstall();
       });
 
-      it('should subscribe to <name>.hide', function() {
+      it('should subscribe to <name>.hide', () => {
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('carlos.hide', jasmine.any(Function));
 
@@ -611,7 +619,7 @@ describe('embed.helpCenter', function() {
           .toHaveBeenCalledWith('carlos.refreshLocale', jasmine.any(Function));
       });
 
-      it('should subscribe to <name>.setNextToChat', function() {
+      it('should subscribe to <name>.setNextToChat', () => {
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('carlos.setNextToChat', jasmine.any(Function));
 
@@ -621,7 +629,7 @@ describe('embed.helpCenter', function() {
           .toHaveBeenCalledWith(true);
       });
 
-      it('should subscribe to <name>.setNextToSubmitTicket', function() {
+      it('should subscribe to <name>.setNextToSubmitTicket', () => {
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('carlos.setNextToSubmitTicket', jasmine.any(Function));
 
@@ -720,7 +728,7 @@ describe('embed.helpCenter', function() {
         });
       });
 
-      describe('with authenticated help center', function() {
+      describe('with authenticated help center', () => {
         let mockMediator;
 
         beforeEach(() => {
@@ -739,7 +747,7 @@ describe('embed.helpCenter', function() {
           jasmine.clock().install();
         });
 
-        it('should wait until authenticate is true before searching', function() {
+        it('should wait until authenticate is true before searching', () => {
           // Simulate the page load contextual request that is sent when mouse distance
           // is less than minimum.
           helpCenter.keywordsSearch('carlos', { url: true }, {
@@ -896,8 +904,8 @@ describe('embed.helpCenter', function() {
       });
     });
 
-    describe('postRender authentication', function() {
-      it('should call authentication.revoke if there is a tokensRevokedAt property in the config', function() {
+    describe('postRender authentication', () => {
+      it('should call authentication.revoke if there is a tokensRevokedAt property in the config', () => {
         helpCenter.create('carlos', { tokensRevokedAt: Math.floor(Date.now() / 1000) });
         helpCenter.postRender('carlos');
 
@@ -907,7 +915,7 @@ describe('embed.helpCenter', function() {
           .toHaveBeenCalledWith(carlos.config.tokensRevokedAt);
       });
 
-      it('should call authentication.authenticate if there is a jwt token in settings', function() {
+      it('should call authentication.authenticate if there is a jwt token in settings', () => {
         mockSettingsValue = { jwt: 'token' };
 
         helpCenter.create('carlos');
