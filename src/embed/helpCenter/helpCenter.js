@@ -125,6 +125,12 @@ function create(name, config) {
 
   config = _.extend(configDefaults, config);
 
+  const viewMoreSetting = settings.get('helpCenter.viewMore');
+
+  if (viewMoreSetting !== null) {
+    config.viewMoreEnabled = viewMoreSetting;
+  }
+
   useMouseDistanceContexualSearch = config.enableMouseDrivenContextualHelp;
 
   if (isMobileBrowser()) {

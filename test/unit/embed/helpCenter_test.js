@@ -194,6 +194,17 @@ describe('embed.helpCenter', function() {
         .toEqual('test_title');
     });
 
+    it('changes config.viewMoreEnabled if viewMore setting is available', function() {
+      mockSettingsValue = false;
+
+      helpCenter.create('carlos', { viewMoreEnabled: true });
+
+      const carlos = helpCenter.get('carlos');
+
+      expect(carlos.config.viewMoreEnabled)
+        .toEqual(false);
+    });
+
     describe('frameFactory', function() {
       let mockFrameFactory,
         mockFrameFactoryCall,
