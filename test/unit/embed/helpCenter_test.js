@@ -561,13 +561,11 @@ describe('embed.helpCenter', () => {
     it('should only be allowed to render an helpCenter form once', () => {
       helpCenter.create('carlos');
 
-      expect(() => {
-        helpCenter.render('carlos');
-      }).not.toThrow();
+      expect(() => helpCenter.render('carlos'))
+        .not.toThrow();
 
-      expect(() => {
-        helpCenter.render('carlos');
-      }).toThrow();
+      expect(() => helpCenter.render('carlos'))
+        .toThrow();
     });
 
     it('applies helpCenter.scss to the frame factory', () => {
