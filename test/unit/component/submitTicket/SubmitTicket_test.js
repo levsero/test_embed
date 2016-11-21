@@ -479,6 +479,33 @@ describe('Submit ticket component', () => {
       .not.toContain('u-isHidden');
   });
 
+  describe('ticket forms selector', () => {
+    let submitTicket;
+
+    beforeEach(() => {
+      submitTicket = domRender(<SubmitTicket />);
+    });
+
+    it('should not be rendered by default', () => {
+      expect(submitTicket.refs.ticketFormSelector)
+        .toBeUndefined();
+    });
+
+    it('should not be rendered when there is only one ticket form', () => {
+      submitTicket.updateTicketForms({ ticket_forms: [{ id: 1 }], ticket_fields: [] });
+
+      expect(submitTicket.refs.ticketFormSelector)
+        .toBeUndefined();
+    });
+
+    it('should be rendered when there is more then one ticket form', () => {
+      submitTicket.updateTicketForms({ ticket_forms: [1, 2], ticket_fields: [] });
+
+      expect(submitTicket.refs.ticketFormSelector)
+        .toBeDefined();
+    });
+  });
+
   describe('fullscreen state', () => {
     it('should be true if isMobileBrowser() is true', () => {
       mockIsMobileBrowserValue = true;

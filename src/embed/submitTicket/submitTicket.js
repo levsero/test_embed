@@ -190,7 +190,9 @@ function create(name, config) {
         const rootComponent = frame.getRootComponent();
 
         if (rootComponent && isIE()) {
-          rootComponent.refs.submitTicketForm.focusField();
+          if (rootComponent.refs.submitTicketForm) {
+            rootComponent.refs.submitTicketForm.focusField();
+          }
         }
       },
       onHide(frame) {

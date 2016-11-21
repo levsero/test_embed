@@ -188,6 +188,17 @@ export class SubmitTicket extends Component {
 
   updateTicketForms(forms) {
     this.setState({ ticketForms: forms });
+
+    if (forms.ticket_forms.length === 1) {
+      this.setState({ selectedTicketForm: forms.ticket_forms[0].id });
+
+      setTimeout(() => {
+        this.refs.submitTicketForm.updateTicketForm(
+          forms.ticket_forms[0],
+          forms.ticket_fields
+        );
+      }, 0);
+    }
   }
 
   handleDragEnter() {
