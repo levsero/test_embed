@@ -342,11 +342,7 @@ describe('embed.submitTicket', () => {
       it('should switch iframe styles based on isMobileBrowser()', () => {
         const mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
 
-        mockery.registerMock('utility/devices', {
-          isMobileBrowser: () => {
-            return true;
-          }
-        });
+        mockIsMobileBrowserValue = true;
 
         submitTicket = requireUncached(submitTicketPath).submitTicket;
         submitTicket.create('bob');
@@ -367,11 +363,7 @@ describe('embed.submitTicket', () => {
           updateFrameSize: noop
         };
 
-        mockery.registerMock('utility/devices', {
-          isMobileBrowser: () => {
-            return true;
-          }
-        });
+        mockIsMobileBrowserValue = true;
 
         submitTicket = requireUncached(submitTicketPath).submitTicket;
         submitTicket.create('bob');
@@ -536,9 +528,8 @@ describe('embed.submitTicket', () => {
 
   describe('render', () => {
     it('should throw an exception if SubmitTicket does not exist', () => {
-      expect(() => {
-        submitTicket.render('non_existent_submitTicket');
-      }).toThrow();
+      expect(() => submitTicket.render('non_existent_submitTicket'))
+        .toThrow();
     });
 
     it('renders a submitTicket form to the document', () => {
@@ -558,13 +549,11 @@ describe('embed.submitTicket', () => {
     it('should only be allowed to render an submitTicket form once', () => {
       submitTicket.create('bob');
 
-      expect(() => {
-        submitTicket.render('bob');
-      }).not.toThrow();
+      expect(() => submitTicket.render('bob'))
+        .not.toThrow();
 
-      expect(() => {
-        submitTicket.render('bob');
-      }).toThrow();
+      expect(() => submitTicket.render('bob'))
+        .toThrow();
     });
 
     it('applies submitTicket.scss to the frame', () => {

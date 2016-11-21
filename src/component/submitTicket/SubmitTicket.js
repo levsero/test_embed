@@ -45,9 +45,7 @@ export class SubmitTicket extends Component {
   }
 
   clearForm() {
-    const submitTicketForm = this.refs.submitTicketForm;
-
-    submitTicketForm.clear();
+    this.refs.submitTicketForm.clear();
 
     this.setState({ selectedTicketForm: null });
   }
@@ -225,7 +223,8 @@ export class SubmitTicket extends Component {
   }
 
   handleSelectorChange(e, v) {
-    const selectedTicketForm = _.find(this.state.ticketForms.ticket_forms, (f) => {
+    const { ticketForms } = this.state;
+    const selectedTicketForm = _.find(ticketForms.ticket_forms, (f) => {
       return f.id === parseInt(v);
     });
 
@@ -234,10 +233,7 @@ export class SubmitTicket extends Component {
     this.props.showBackButton();
 
     setTimeout(() => {
-      this.refs.submitTicketForm.updateTicketForm(
-        selectedTicketForm,
-        this.state.ticketForms.ticket_fields
-      );
+      this.refs.submitTicketForm.updateTicketForm(selectedTicketForm, ticketForms.ticket_fields);
     }, 0);
   }
 
@@ -278,8 +274,7 @@ export class SubmitTicket extends Component {
 
     return (
       <div className={notifyClasses} ref='notification'>
-        <ScrollContainer
-          title={this.state.message}>
+        <ScrollContainer title={this.state.message}>
           <Icon
             type='Icon--tick'
             className='u-inlineBlock u-userTextColor u-posRelative u-marginTL u-userFillColor' />
@@ -296,6 +291,7 @@ export class SubmitTicket extends Component {
         value: form.id
       };
     });
+    // TODO remove fallback once translations are in.
     const title = i18n.t(
       'embeddable_framework.submitTicket.ticketForms.title',
       { fallback: 'Please choose your issue below' }
@@ -306,15 +302,13 @@ export class SubmitTicket extends Component {
         title={i18n.t(`embeddable_framework.submitTicket.form.title.${this.state.formTitleKey}`)}
         ref='ticketFormSelector'
         footerContentHidden={true}
-        borderBottom={true}
         containerClasses='ticketFormSelector--fixed'
-        footerClasses='u-borderTop u-marginHL'
-        fixHeight={true}>
+        footerClasses='u-borderTop u-marginHL'>
         <div className='u-paddingTS'>
           <SelectField
             name={title}
             placeholder={title}
-            value={this.state.ticketForm}
+            value={this.state.selectedTicketForm}
             onChange={this.handleSelectorChange}
             options={options} />
         </div>
