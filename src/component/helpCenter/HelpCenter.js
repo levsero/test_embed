@@ -365,6 +365,9 @@ export class HelpCenter extends Component {
     const showBottomBorder = !this.props.fullscreen &&
                              !(!this.state.showNextButton && this.props.hideZendeskLogo);
     const applyPadding = !this.state.showNextButton && !this.props.hideZendeskLogo;
+    const hideBottomPadding = this.props.viewMoreEnabled &&
+                              this.state.articles.length > minimumSearchResults &&
+                              !this.state.showNextButton;
 
     return (
       <HelpCenterResults
@@ -377,7 +380,8 @@ export class HelpCenter extends Component {
         previousSearchTerm={this.state.previousSearchTerm}
         handleArticleClick={this.handleArticleClick}
         handleViewMoreClick={this.handleViewMoreClick}
-        hasContextualSearched={this.state.hasContextualSearched} />
+        hasContextualSearched={this.state.hasContextualSearched}
+        hideBottomPadding={hideBottomPadding} />
     );
   }
 

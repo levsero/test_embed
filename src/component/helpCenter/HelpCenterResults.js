@@ -27,7 +27,7 @@ export class HelpCenterResults extends Component {
   renderResults() {
     const listClasses = classNames({
       'List': true,
-      'u-paddingBM': !this.props.fullscreen,
+      'u-paddingBM': !this.props.fullscreen && !this.props.hideBottomPadding,
       'u-marginBS List--fullscreen': this.props.fullscreen
     });
     const articleLinks = _.chain(this.props.articles)
@@ -148,6 +148,7 @@ HelpCenterResults.propTypes = {
   searchFailed: PropTypes.bool,
   previousSearchTerm: PropTypes.string,
   hasContextualSearched: PropTypes.bool,
+  hideBottomPadding: PropTypes.bool,
   handleArticleClick: PropTypes.func,
   handleViewMoreClick: PropTypes.func
 };
@@ -161,6 +162,7 @@ HelpCenterResults.defaultProps = {
   searchFailed: false,
   previousSearchTerm: '',
   hasContextualSearched: false,
+  hideBottomPadding: false,
   handleArticleClick: () => {},
   handleViewMoreClick: () => {}
 };
