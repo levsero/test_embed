@@ -127,7 +127,7 @@ function create(name, config) {
 
   const viewMoreSetting = settings.get('helpCenter.viewMore');
 
-  if (viewMoreSetting !== null) {
+  if (viewMoreSetting !== null && config.viewMoreEnabled) {
     config.viewMoreEnabled = viewMoreSetting;
   }
 

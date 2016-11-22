@@ -205,6 +205,17 @@ describe('embed.helpCenter', () => {
         .toEqual(false);
     });
 
+    it('does not change config.viewMoreEnabled if config.viewMoreEnabled is false', () => {
+      mockSettingsValue = true;
+
+      helpCenter.create('carlos', { viewMoreEnabled: false });
+
+      const carlos = helpCenter.get('carlos');
+
+      expect(carlos.config.viewMoreEnabled)
+        .toEqual(false);
+    });
+
     describe('frameFactory', () => {
       let mockFrameFactory,
         mockFrameFactoryCall,
