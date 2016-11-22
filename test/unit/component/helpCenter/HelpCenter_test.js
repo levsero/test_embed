@@ -1236,9 +1236,9 @@ describe('HelpCenter component', function() {
           helpCenter.setState({ showNextButton: false });
         });
 
-        describe('when the view more button has been clicked', () => {
+        describe('when more than 3 results are to be rendered', () => {
           beforeEach(() => {
-            helpCenter.setState({ viewMoreClicked: true });
+            helpCenter.updateResults({ body: { results: [1, 2, 3, 4, 5], count: 5 }});
             helpCenter.setState({ hasSearched: true });
           });
 
@@ -1248,6 +1248,21 @@ describe('HelpCenter component', function() {
 
             expect(component.props.hideBottomPadding)
               .toBe(true);
+          });
+        });
+
+        describe('when there are 3 or less results to be rendered', () => {
+          beforeEach(() => {
+            helpCenter.updateResults({ body: { results: [1, 2, 3], count: 3 }});
+            helpCenter.setState({ hasSearched: true });
+          });
+
+          it('renders HelpCenterResults with hideBottomPadding prop as false', () => {
+            const HelpCenterResults = mockRegistry['component/helpCenter/HelpCenterResults'].HelpCenterResults;
+            const component = TestUtils.findRenderedComponentWithType(helpCenter, HelpCenterResults);
+
+            expect(component.props.hideBottomPadding)
+              .toBe(false);
           });
         });
       });

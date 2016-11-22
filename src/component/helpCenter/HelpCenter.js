@@ -34,8 +34,7 @@ export class HelpCenter extends Component {
       resultsPerPage: minimumSearchResults,
       showViewMore: true,
       chatOnline: false,
-      viewMoreActive: false,
-      viewMoreClicked: false
+      viewMoreActive: false
     };
   }
 
@@ -200,7 +199,6 @@ export class HelpCenter extends Component {
       articleViewActive: false,
       resultsPerPage: minimumSearchResults,
       showViewMore: !this.state.viewMoreActive && !this.state.hasContextualSearched,
-      viewMoreClicked: articles.length > minimumSearchResults,
       viewMoreActive: false
     });
 
@@ -368,7 +366,7 @@ export class HelpCenter extends Component {
                              !(!this.state.showNextButton && this.props.hideZendeskLogo);
     const applyPadding = !this.state.showNextButton && !this.props.hideZendeskLogo;
     const hideBottomPadding = this.props.viewMoreEnabled &&
-                              this.state.viewMoreClicked &&
+                              this.state.articles.length > minimumSearchResults &&
                               !this.state.showNextButton;
 
     return (
