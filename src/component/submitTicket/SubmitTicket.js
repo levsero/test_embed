@@ -4,6 +4,7 @@ import classNames from 'classnames';
 
 import { AttachmentBox } from 'component/attachment/AttachmentBox';
 import { Container } from 'component/Container';
+import { SelectField } from 'component/field/SelectField';
 import { Icon } from 'component/Icon';
 import { ScrollContainer } from 'component/ScrollContainer';
 import { SubmitTicketForm } from 'component/submitTicket/SubmitTicketForm';
@@ -34,7 +35,8 @@ export class SubmitTicket extends Component {
       searchTerm: null,
       searchLocale: null,
       isDragActive: false,
-      ticketForms: {}
+      ticketForms: {},
+      selectedTicketForm: null
     };
   }
 
@@ -43,9 +45,9 @@ export class SubmitTicket extends Component {
   }
 
   clearForm() {
-    const submitTicketForm = this.refs.submitTicketForm;
+    this.refs.submitTicketForm.clear();
 
-    submitTicketForm.clear();
+    this.setState({ selectedTicketForm: null });
   }
 
   showField() {
@@ -78,6 +80,7 @@ export class SubmitTicket extends Component {
         return;
       }
 
+      this.props.showBackButton(false);
       this.setState({
         showNotification: true,
         message: i18n.t('embeddable_framework.submitTicket.notify.message.success')
@@ -185,12 +188,16 @@ export class SubmitTicket extends Component {
   updateTicketForms(forms) {
     this.setState({ ticketForms: forms });
 
-    // Once the selector is in place this will be set by that instead
-    // for now I'm just setting it to the first form sent down
-    this.refs.submitTicketForm.updateTicketForm(
-      forms.ticket_forms[0],
-      forms.ticket_fields
-    );
+    if (forms.ticket_forms.length === 1) {
+      this.setState({ selectedTicketForm: forms.ticket_forms[0].id });
+
+      setTimeout(() => {
+        this.refs.submitTicketForm.updateTicketForm(
+          forms.ticket_forms[0],
+          forms.ticket_fields
+        );
+      }, 0);
+    }
   }
 
   handleDragEnter() {
@@ -216,34 +223,129 @@ export class SubmitTicket extends Component {
     this.setState({ formTitleKey });
   }
 
-  render() {
-    const notifyClasses = classNames({
-      'u-textCenter': true,
-      'u-isHidden': !this.state.showNotification
+  handleSelectorChange(e) {
+    const value = e.target.value;
+    const { ticketForms } = this.state;
+    const selectedTicketForm = _.find(ticketForms.ticket_forms, (f) => {
+      return f.id === parseInt(value);
     });
+
+    this.setState({ selectedTicketForm: selectedTicketForm });
+
+    this.props.showBackButton();
+
+    setTimeout(() => {
+      this.refs.submitTicketForm.updateTicketForm(selectedTicketForm, ticketForms.ticket_fields);
+    }, 0);
+  }
+
+  renderForm() {
     const errorClasses = classNames({
       'Error u-marginTL': true,
       'u-isHidden': !this.state.errorMessage
     });
 
-    if (this.props.updateFrameSize) {
-      setTimeout(() => {
-        frameDimensions = this.props.updateFrameSize();
-      }, 0);
-    }
+    return (
+      <SubmitTicketForm
+        onCancel={this.props.onCancel}
+        fullscreen={this.state.fullscreen}
+        ref='submitTicketForm'
+        hide={this.state.showNotification}
+        customFields={this.props.customFields}
+        formTitleKey={this.state.formTitleKey}
+        attachmentSender={this.props.attachmentSender}
+        attachmentsEnabled={this.props.attachmentsEnabled}
+        subjectEnabled={this.props.subjectEnabled}
+        maxFileCount={this.props.maxFileCount}
+        maxFileSize={this.props.maxFileSize}
+        submit={this.handleSubmit}
+        ticketForms={this.state.ticketForms}
+        previewEnabled={this.props.previewEnabled}>
+        <p className={errorClasses}>
+          {this.state.errorMessage}
+        </p>
+      </SubmitTicketForm>
+    );
+  }
 
-    const zendeskLogo = this.props.hideZendeskLogo || this.state.fullscreen
-                      ? null
-                      : <ZendeskLogo
-                          formSuccess={this.state.showNotification}
-                          rtl={i18n.isRTL()}
-                          fullscreen={this.state.fullscreen} />;
-    const attachmentBox = this.state.isDragActive && this.props.attachmentsEnabled
-                        ? <AttachmentBox
-                            onDragLeave={this.handleDragLeave}
-                            dimensions={frameDimensions}
-                            onDrop={this.handleOnDrop} />
-                        : null;
+  renderNotifications() {
+    const notifyClasses = classNames({
+      'u-textCenter': true,
+      'u-isHidden': !this.state.showNotification
+    });
+
+    return (
+      <div className={notifyClasses} ref='notification'>
+        <ScrollContainer title={this.state.message}>
+          <Icon
+            type='Icon--tick'
+            className='u-inlineBlock u-userTextColor u-posRelative u-marginTL u-userFillColor' />
+        </ScrollContainer>
+      </div>
+    );
+  }
+
+  renderTicketFormSelector() {
+    if (this.state.showNotification) return;
+
+    const { ticketForms } = this.state;
+    const options = _.map(ticketForms.ticket_forms, (form) => {
+      return {
+        title: form.display_name,
+        value: form.id
+      };
+    });
+    // TODO remove fallback once translations are in.
+    const title = i18n.t(
+      'embeddable_framework.submitTicket.ticketForms.title',
+      { fallback: 'Please choose your issue below' }
+    );
+
+    return (
+      <ScrollContainer
+        title={i18n.t(`embeddable_framework.submitTicket.form.title.${this.state.formTitleKey}`)}
+        ref='ticketFormSelector'
+        footerContentHidden={true}
+        containerClasses='ticketFormSelector--fixed'
+        footerClasses='u-borderTop u-marginHL'>
+        <div className='u-paddingTS'>
+          <SelectField
+            name={title}
+            placeholder={title}
+            value={this.state.selectedTicketForm}
+            onChange={this.handleSelectorChange}
+            options={options} />
+        </div>
+      </ScrollContainer>
+    );
+  }
+
+  renderZendeskLogo() {
+    return this.props.hideZendeskLogo || this.state.fullscreen
+         ? null
+         : <ZendeskLogo
+             formSuccess={this.state.showNotification}
+             rtl={i18n.isRTL()}
+             fullscreen={this.state.fullscreen} />;
+  }
+
+  renderAttachmentBox() {
+    return this.state.isDragActive && this.props.attachmentsEnabled
+         ? <AttachmentBox
+             onDragLeave={this.handleDragLeave}
+             dimensions={frameDimensions}
+             onDrop={this.handleOnDrop} />
+         : null;
+  }
+
+  render() {
+    setTimeout(() => {
+      frameDimensions = this.props.updateFrameSize();
+    }, 0);
+
+    const display = (_.isEmpty(this.state.ticketForms) || this.state.selectedTicketForm)
+                  ? this.renderForm()
+                  : this.renderTicketFormSelector();
 
     return (
       <Container
@@ -252,35 +354,10 @@ export class SubmitTicket extends Component {
         position={this.props.position}
         onDragEnter={this.handleDragEnter}
         key={this.state.uid}>
-        {attachmentBox}
-        <div className={notifyClasses} ref='notification'>
-          <ScrollContainer
-            title={this.state.message}>
-            <Icon
-              type='Icon--tick'
-              className='u-inlineBlock u-userTextColor u-posRelative u-marginTL u-userFillColor' />
-          </ScrollContainer>
-        </div>
-        <SubmitTicketForm
-          onCancel={this.props.onCancel}
-          fullscreen={this.state.fullscreen}
-          ref='submitTicketForm'
-          hide={this.state.showNotification}
-          customFields={this.props.customFields}
-          formTitleKey={this.state.formTitleKey}
-          attachmentSender={this.props.attachmentSender}
-          attachmentsEnabled={this.props.attachmentsEnabled}
-          subjectEnabled={this.props.subjectEnabled}
-          maxFileCount={this.props.maxFileCount}
-          maxFileSize={this.props.maxFileSize}
-          submit={this.handleSubmit}
-          ticketForms={this.state.ticketForms}
-          previewEnabled={this.props.previewEnabled}>
-          <p className={errorClasses}>
-            {this.state.errorMessage}
-          </p>
-        </SubmitTicketForm>
-        {zendeskLogo}
+        {this.renderAttachmentBox()}
+        {this.renderNotifications()}
+        {display}
+        {this.renderZendeskLogo()}
       </Container>
     );
   }
@@ -301,7 +378,8 @@ SubmitTicket.propTypes = {
   attachmentsEnabled: PropTypes.bool,
   subjectEnabled: PropTypes.bool,
   maxFileCount: PropTypes.number,
-  maxFileSize: PropTypes.number
+  maxFileSize: PropTypes.number,
+  showBackButton: PropTypes.func
 };
 
 SubmitTicket.defaultProps = {
@@ -316,5 +394,6 @@ SubmitTicket.defaultProps = {
   attachmentsEnabled: false,
   subjectEnabled: false,
   maxFileCount: 5,
-  maxFileSize: 5 * 1024 * 1024
+  maxFileSize: 5 * 1024 * 1024,
+  showBackButton: () => {}
 };

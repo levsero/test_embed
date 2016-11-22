@@ -19,6 +19,7 @@ import { transport } from 'service/transport';
 
 const submitTicketCSS = require('./submitTicket.scss').toString();
 let submitTickets = {};
+let backButtonSetByHelpCenter = false;
 
 function create(name, config) {
   let containerStyle;
@@ -36,6 +37,9 @@ function create(name, config) {
     color: '#659700'
   };
   const attachmentsSetting = settings.get('contactForm.attachments');
+  const showBackButton = (show = true) => {
+    get(name).instance.getChild().showBackButton(show);
+  };
 
   config = _.extend(configDefaults, config);
 
@@ -101,15 +105,21 @@ function create(name, config) {
     const rootComponent = frame.getRootComponent();
 
     if (rootComponent) {
+      const { submitTicketForm } = rootComponent.refs;
+
       if (isMobileBrowser()) {
         setScaleLock(true);
         setTimeout(() => {
           mediator.channel.broadcast('.updateZoom', getZoomSizingRatio());
         }, 0);
       } else {
-        rootComponent.refs.submitTicketForm.focusField();
+        if (submitTicketForm) {
+          submitTicketForm.focusField();
+        }
       }
-      rootComponent.refs.submitTicketForm.resetTicketFormVisibility();
+      if (submitTicketForm) {
+        submitTicketForm.resetTicketFormVisibility();
+      }
     }
   };
 
@@ -132,9 +142,11 @@ function create(name, config) {
                     : settingTicketForms;
 
   if (!_.isEmpty(ticketForms)) {
+    const ticketFormIds = ticketForms.join();
+
     transport.get({
       method: 'get',
-      path: `/api/v2/ticket_forms/show_many.json?ids=${ticketForms[0]}&include=ticket_fields`,
+      path: `/api/v2/ticket_forms/show_many.json?ids=${ticketFormIds}&include=ticket_fields`,
       callbacks: {
         done(res) {
           waitForRootComponent(name, function() {
@@ -159,6 +171,7 @@ function create(name, config) {
           position={config.position}
           formTitleKey={config.formTitleKey}
           style={containerStyle}
+          showBackButton={showBackButton}
           attachmentsEnabled={config.attachmentsEnabled}
           subjectEnabled={settings.get('contactForm.subject')}
           maxFileCount={config.maxFileCount}
@@ -185,7 +198,9 @@ function create(name, config) {
         const rootComponent = frame.getRootComponent();
 
         if (rootComponent && isIE()) {
-          rootComponent.refs.submitTicketForm.focusField();
+          if (rootComponent.refs.submitTicketForm) {
+            rootComponent.refs.submitTicketForm.focusField();
+          }
         }
       },
       onHide(frame) {
@@ -203,7 +218,12 @@ function create(name, config) {
         mediator.channel.broadcast(name + '.onClose');
       },
       onBack() {
-        mediator.channel.broadcast(name + '.onBackClick');
+        if (getRootComponent(name).state.selectedTicketForm) {
+          showBackButton(backButtonSetByHelpCenter);
+          getRootComponent(name).clearForm();
+        } else {
+          mediator.channel.broadcast(name + '.onBackClick');
+        }
       },
       extend: {}
     });
@@ -244,7 +264,12 @@ function render(name) {
   });
 
   mediator.channel.subscribe(name + '.showBackButton', function() {
-    get(name).instance.getChild().setState({ showBackButton: true });
+    waitForRootComponent(name, () => {
+      if (isMobileBrowser() || !_.isEmpty(getRootComponent(name).state.ticketForms)) {
+        get(name).instance.getChild().showBackButton();
+        backButtonSetByHelpCenter = true;
+      }
+    });
   });
 
   mediator.channel.subscribe(name + '.setLastSearch', function(params) {

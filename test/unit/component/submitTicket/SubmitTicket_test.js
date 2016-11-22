@@ -92,6 +92,9 @@ describe('Submit ticket component', () => {
         MessageFieldset: noop,
         EmailField: noop
       },
+      'component/field/SelectField': {
+        SelectField: noopReactComponent()
+      },
       'component/ZendeskLogo': {
         ZendeskLogo: noopReactComponent()
       },
@@ -350,6 +353,7 @@ describe('Submit ticket component', () => {
           submitTicket = domRender(<SubmitTicket />);
 
           submitTicket.updateTicketForms(mockTicketFormParams);
+          submitTicket.setState({ selectedTicketForm: mockTicketFormParams.ticket_forms[0] });
           params = submitTicket.formatRequestTicketData(mockValues);
         });
 
@@ -473,6 +477,33 @@ describe('Submit ticket component', () => {
 
     expect(notificationElem.props.className)
       .not.toContain('u-isHidden');
+  });
+
+  describe('ticket forms selector', () => {
+    let submitTicket;
+
+    beforeEach(() => {
+      submitTicket = domRender(<SubmitTicket />);
+    });
+
+    it('should not be rendered by default', () => {
+      expect(submitTicket.refs.ticketFormSelector)
+        .toBeUndefined();
+    });
+
+    it('should not be rendered when there is only one ticket form', () => {
+      submitTicket.updateTicketForms({ ticket_forms: [{ id: 1 }], ticket_fields: [] });
+
+      expect(submitTicket.refs.ticketFormSelector)
+        .toBeUndefined();
+    });
+
+    it('should be rendered when there is more then one ticket form', () => {
+      submitTicket.updateTicketForms({ ticket_forms: [1, 2], ticket_fields: [] });
+
+      expect(submitTicket.refs.ticketFormSelector)
+        .toBeDefined();
+    });
   });
 
   describe('fullscreen state', () => {

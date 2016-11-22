@@ -36,7 +36,8 @@ export class ScrollContainer extends Component {
       'u-paddingBM': this.state.scrollShadowVisible,
       'is-mobile': this.props.fullscreen,
       'is-bigheader': this.props.headerContent && !this.props.isVirtualKeyboardOpen,
-      'is-expanded': this.props.contentExpanded
+      'is-expanded': this.props.contentExpanded,
+      [`${this.props.containerClasses}`]: true
     });
     const scrollFooterClasses = classNames({
       'ScrollContainer-footer': true,
@@ -44,7 +45,8 @@ export class ScrollContainer extends Component {
       'u-paddingVM': !this.props.hideZendeskLogo,
       'u-paddingVL': this.props.footerContentHidden && !this.props.hideZendeskLogo,
       'u-marginVS': this.props.footerContentHidden,
-      'ScrollContainer-footer--shadow': this.state.scrollShadowVisible
+      'ScrollContainer-footer--shadow': this.state.scrollShadowVisible,
+      [`${this.props.footerClasses}`]: true
     });
     const titleClasses = classNames({
       'u-textSizeMed u-textBold u-extSizeMed u-textCenter u-textXHeight': true,
@@ -78,6 +80,8 @@ ScrollContainer.propTypes = {
     PropTypes.arrayOf(PropTypes.element)
   ]),
   headerContent: PropTypes.element,
+  containerClasses: PropTypes.string,
+  footerClasses: PropTypes.string,
   contentExpanded: PropTypes.bool,
   fullscreen: PropTypes.bool,
   hideZendeskLogo: PropTypes.bool,
@@ -88,6 +92,8 @@ ScrollContainer.propTypes = {
 ScrollContainer.defaultProps = {
   footerContent: [],
   headerContent: null,
+  containerClasses: '',
+  footerClasses: '',
   contentExpanded: false,
   fullscreen: false,
   hideZendeskLogo: false,
