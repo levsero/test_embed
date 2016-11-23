@@ -42,7 +42,8 @@ class HelpCenterArticle extends Component {
       allowedTags: [
         'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'a', 'ul', 'span',
         'ol', 'nl', 'li', 'b', 'i', 'strong', 'em', 'strike', 'hr', 'br', 'div',
-        'sup', 'sub', 'img', 'iframe', 'table', 'thead', 'tfoot', 'tbody', 'tr', 'th', 'td'
+        'sup', 'sub', 'img', 'iframe', 'table', 'thead', 'tfoot', 'tbody', 'tr',
+        'th', 'td', 'pre'
       ],
       transformTags: { 'iframe': this.filterVideoEmbed },
       allowedSchemes: ['http', 'https', 'mailto', 'blob'],

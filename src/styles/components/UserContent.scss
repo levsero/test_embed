@@ -114,6 +114,15 @@
     padding: #{10/$font-size}rem;
     border: #{1/$font-size}rem solid $stroke-color;
   }
+
+  pre {
+    background: #f7f7f7;
+    border: #{1/$font-size}rem solid #DDDDDD;
+    border-radius: #{3/$font-size}rem;
+    padding: #{10/$font-size}rem #{15/$font-size}rem;
+    overflow: auto;
+    white-space: pre;
+  }
 }
 
 .UserContent--mobile {
