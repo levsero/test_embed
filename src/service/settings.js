@@ -139,10 +139,11 @@ function getTrackSettings() {
   const defaults = _.omit(webWidgetStoreDefaults, blacklist);
   const widgetSettings = objectDifference(userSettings, defaults);
   const ipmSettings = objectDifference(ipmStore, ipmStoreDefaults);
-  const ticketForms = widgetSettings.contactForm.ticketForms;
 
-  if (ticketForms) {
-    widgetSettings.contactForm.ticketForms = _.size(ticketForms);
+  if (widgetSettings.contactForm && widgetSettings.contactForm.ticketForms) {
+    const ticketFormsLength = _.size(widgetSettings.contactForm.ticketForms);
+
+    widgetSettings.contactForm.ticketForms = ticketFormsLength;
   }
 
   if (widgetSettings.authenticate) {
