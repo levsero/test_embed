@@ -326,6 +326,7 @@ describe('renderer', () => {
         mockSettings = mockRegistry['service/settings'].settings;
         mockBeacon = mockRegistry['service/beacon'].beacon;
         mocki18n = mockRegistry['service/i18n'].i18n;
+        global.window.zESettings = {};
 
         renderer.init({
           locale: 'en',
