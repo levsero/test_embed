@@ -68,7 +68,9 @@ function init(config) {
     if (config.webWidgetCustomizations) {
       settings.enableCustomizations();
     }
-    beacon.trackSettings(settings.getTrackSettings());
+    if (win.zESettings) {
+      beacon.trackSettings(settings.getTrackSettings());
+    }
     i18n.setCustomTranslations();
     i18n.setLocale(config.locale);
 
