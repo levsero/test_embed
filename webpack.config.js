@@ -38,7 +38,7 @@ module.exports = {
       {
         test: /\.sass$/,
         loaders: [
-          'css?modules&importLoaders=2&localIdentName=[name]__[local]',
+          'css?modules&importLoaders=2&localIdentName=[path][name]-[local]',
           'autoprefixer?browsers=last 2 versions, Firefox ESR, ie >= 9',
           'sass'
         ]
