@@ -84,8 +84,8 @@ class HelpCenterArticle extends Component {
       cleanHtml = cleanHtml.replace('<table', '<div class="table-wrap"><table');
       cleanHtml = cleanHtml.replace('/table>', '/table></div>');
 
-      // Remove all whitespaces from start to end tags
-      cleanHtml = cleanHtml.replace(new RegExp(/>([\s]+)</, 'g'), '><');
+      // Removes a single newline from start to end tags
+      cleanHtml = cleanHtml.replace(/>\n</g, '><');
 
       container.innerHTML = cleanHtml;
 

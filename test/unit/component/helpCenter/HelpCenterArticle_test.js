@@ -119,24 +119,17 @@ describe('HelpCenterArticle component', () => {
         .toMatch(baseUrl + '/relative/link');
     });
 
-    describe('when the article has whitespaces between start and end tags', () => {
+    describe('when the article has a \\n between start and end tags', () => {
       beforeEach(() => {
-        mockArticle.body += `
-          <ul>
-            <li>One</li>
-            <li>Two</li>
-          </ul>
-        `;
+        mockArticle.body += `<ul>\n<li>\n<p>One</p></li>\n<li>Two</li>\n</ul>`;
 
         helpCenterArticle = domRender(<HelpCenterArticle activeArticle={mockArticle} />);
         content = ReactDOM.findDOMNode(helpCenterArticle.refs.article);
       });
 
-      it('removes the whitespaces between start and end tags', () => {
-        const expectation = `<ul><li>One</li><li>Two</li></ul>`;
-
+      it('removes the \\n between start and end tags', () => {
         expect(content.innerHTML)
-          .toMatch(expectation);
+          .toMatch(`<ul><li><p>One</p></li><li>Two</li></ul>`);
       });
     });
 
