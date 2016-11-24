@@ -119,6 +119,27 @@ describe('HelpCenterArticle component', () => {
         .toMatch(baseUrl + '/relative/link');
     });
 
+    describe('when the article has whitespaces between start and end tags', () => {
+      beforeEach(() => {
+        mockArticle.body += `
+          <ul>
+            <li>One</li>
+            <li>Two</li>
+          </ul>
+        `;
+
+        helpCenterArticle = domRender(<HelpCenterArticle activeArticle={mockArticle} />);
+        content = ReactDOM.findDOMNode(helpCenterArticle.refs.article);
+      });
+
+      it('removes the whitespaces between start and end tags', () => {
+        const expectation = `<ul><li>One</li><li>Two</li></ul>`;
+
+        expect(content.innerHTML)
+          .toMatch(expectation);
+      });
+    });
+
     describe('when the article has ordered lists', () => {
       let list;
 
