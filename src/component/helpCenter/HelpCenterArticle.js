@@ -84,6 +84,9 @@ class HelpCenterArticle extends Component {
       cleanHtml = cleanHtml.replace('<table', '<div class="table-wrap"><table');
       cleanHtml = cleanHtml.replace('/table>', '/table></div>');
 
+      // Remove all whitespaces from start to end tags
+      cleanHtml = cleanHtml.replace(new RegExp(/>([\s]+)</, 'g'), '><');
+
       container.innerHTML = cleanHtml;
 
       // When an article has only an image and no body content to resize it,
