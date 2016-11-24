@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
-import launcherStyles from '../../component/launcher.sass';
+import launcherStyles from 'component/Launcher.sass';
 
 import { document,
          getDocumentHost } from 'utility/globals';
