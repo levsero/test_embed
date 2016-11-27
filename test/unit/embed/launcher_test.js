@@ -47,7 +47,7 @@ describe('embed.launcher', function() {
         }
       },
       './launcher.scss': '',
-      '../../component/launcher.sass': '',
+      'component/Launcher.sass': '',
       'embed/frameFactory': {
         frameFactory: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
         frameMethods: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
