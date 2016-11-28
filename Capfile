@@ -12,6 +12,7 @@ set :email_notification, ["deploys@zendesk.com",
 set :framework_files,    ["main.js",
                           "npsPreview.js",
                           "webWidgetPreview.js",
+                          "widget.js",
                           "update.html",
                           "bootstrap.js"]
 
