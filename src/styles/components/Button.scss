@@ -59,14 +59,6 @@ $Button-nudge: 5;
   bottom: #{6/$font-size}rem;
 }
 
-.Button--launcher {
-  border-radius: 999rem; /* 1 */
-  border: 0;
-  bottom: 0;
-  letter-spacing: 0.6;
-  font-size: #{15/$font-size}rem;
-}
-
 .Button--field {
   border-top-right-radius: #{3/$font-size}rem;
   border-bottom-right-radius: #{3/$font-size}rem;

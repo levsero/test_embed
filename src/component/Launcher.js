@@ -1,9 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
+import css from './Launcher.sass';
 
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
 import { isMobileBrowser } from 'utility/devices';
+
+const styles = css.locals;
 
 export class Launcher extends Component {
   constructor(props, context) {
@@ -32,19 +35,17 @@ export class Launcher extends Component {
 
   render() {
     const buttonClasses = classNames({
-      'Button Button--launcher Button--cta': true,
-      'u-userBackgroundColor Arrange Arrange--middle': true,
-      'u-isActionable u-textLeft u-inlineBlock u-textNoWrap': true,
-      'is-mobile': isMobileBrowser()
+      [`${styles.wrapper}`]: true,
+      'u-userBackgroundColor': true,
+      [`${styles.wrapperMobile}`]: isMobileBrowser()
     });
     const iconClasses = classNames({
-      // spaces needed for class concatenation
-      'Arrange-sizeFit Icon--launcher u-textInheritColor u-inlineBlock ': true,
-      'u-paddingHN ': isMobileBrowser() && !this.state.hasUnreadMessages
+      [`${styles.icon}`]: true,
+      [`${styles.iconMobile}`]: isMobileBrowser() && !this.state.hasUnreadMessages
     });
     const labelClasses = classNames({
-      'Arrange-sizeFit u-textInheritColor u-inlineBlock': true,
-      'u-isHidden': isMobileBrowser() && !this.state.hasUnreadMessages
+      [`${styles.label}`]: true,
+      [`${styles.labelMobile}`]: isMobileBrowser() && !this.state.hasUnreadMessages
     });
     const label = i18n.t(this.state.label, this.state.labelOptions);
 
