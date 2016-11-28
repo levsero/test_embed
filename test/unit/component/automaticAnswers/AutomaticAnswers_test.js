@@ -1,14 +1,13 @@
 describe('AutomaticAnswers component', () => {
-  let mockWrongURLParameter,
-    mockSolveTicket,
+  let mockSolveTicket,
     mockCloseFrame,
     AutomaticAnswers,
     automaticAnswers,
-    mockMissingArticleId;
+    mockJwtBody,
+    mockUrlArticleId;
   const automaticAnswersPath = buildSrcPath('component/automaticAnswers/AutomaticAnswers');
-  const mockTicketId = '123456';
+  const mockTicketId = 123456;
   const mockToken = 'abcdef';
-  const mockArticleId = 23425454;
 
   beforeEach(() => {
     resetDOM();
@@ -22,20 +21,15 @@ describe('AutomaticAnswers component', () => {
         }
       },
       'utility/pages': {
-        getURLParameterByName: jasmine.createSpy().and.callFake((arg) => {
-          if (mockWrongURLParameter) return null;
-          if (arg === 'ticket_id') {
-            return mockTicketId;
-          } else if (arg === 'token') {
-            return mockToken;
-          }
-        }),
-        getHelpCenterArticleId: jasmine.createSpy().and.callFake(() => {
-          return (mockMissingArticleId) ? NaN : mockArticleId;
-        })
+        getHelpCenterArticleId: jasmine.createSpy().and.callFake(() => mockUrlArticleId)
       },
       'utility/utils': {
         bindMethods: mockBindMethods
+      },
+      'service/automaticAnswersPersistence' : {
+        automaticAnswersPersistence: {
+          getContext: jasmine.createSpy().and.callFake(() => mockJwtBody)
+        }
       },
       'component/automaticAnswers/AutomaticAnswersDesktop': {
         AutomaticAnswersDesktop: React.createClass({
@@ -59,8 +53,11 @@ describe('AutomaticAnswers component', () => {
 
     AutomaticAnswers = requireUncached(automaticAnswersPath).AutomaticAnswers;
 
-    mockWrongURLParameter = false;
-    mockMissingArticleId = false;
+    mockUrlArticleId = 23425454;
+    mockJwtBody = {
+      'ticket_id': mockTicketId,
+      'token': mockToken
+    };
   });
 
   describe('instantiation', () => {
@@ -146,7 +143,7 @@ describe('AutomaticAnswers component', () => {
            solveTicket={mockSolveTicket} />);
     });
 
-    describe('when ticketId and token are in the url, and articleId can be parsed from the pathname', () => {
+    describe('when the JWT body from local storage is valid, and articleId can be parsed from the pathname', () => {
       let callbacks;
 
       beforeEach(() => {
@@ -156,7 +153,7 @@ describe('AutomaticAnswers component', () => {
 
       it('passes the ticketId, token, articleId and callbacks to the solve ticket request', () => {
         expect(mockSolveTicket)
-          .toHaveBeenCalledWith(mockTicketId, mockToken, mockArticleId, callbacks);
+          .toHaveBeenCalledWith(mockTicketId, mockToken, mockUrlArticleId, callbacks);
       });
 
       it('defines callback behaviour for the solve ticket request', () => {
@@ -168,10 +165,16 @@ describe('AutomaticAnswers component', () => {
       });
     });
 
-    describe('when ticketId or token are not present in the url', () => {
+    describe('when the JWT body from local storage is not valid', () => {
       beforeEach(() => {
-        mockWrongURLParameter = true;
+        mockJwtBody = null;
+        spyOn(automaticAnswers, 'solveTicketFail');
         automaticAnswers.handleSolveTicket();
+      });
+
+      it('calls solveTicketFail', () => {
+        expect(automaticAnswers.solveTicketFail)
+          .toHaveBeenCalled();
       });
 
       it('does not make a call to solve the ticket', () => {
@@ -182,7 +185,7 @@ describe('AutomaticAnswers component', () => {
 
     describe('when the Help Center articleId cannot be parsed from the pathname', () => {
       beforeEach(() => {
-        mockMissingArticleId = true;
+        mockUrlArticleId = null;
         automaticAnswers.handleSolveTicket();
       });
 
@@ -194,7 +197,7 @@ describe('AutomaticAnswers component', () => {
 
     describe('error behaviour when parameter condition is false', () => {
       beforeEach(() => {
-        mockMissingArticleId = true;
+        mockUrlArticleId = NaN;
         automaticAnswers.handleSolveTicket();
       });
 

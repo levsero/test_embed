@@ -4,13 +4,13 @@ import _ from 'lodash';
 
 import { AutomaticAnswers } from 'component/automaticAnswers/AutomaticAnswers';
 import { frameFactory } from 'embed/frameFactory';
+import { automaticAnswersPersistence  } from 'service/automaticAnswersPersistence';
 import { transitionFactory } from 'service/transitionFactory';
 import { transport } from 'service/transport';
 import { generateUserCSS } from 'utility/color';
 import { isMobileBrowser } from 'utility/devices';
 import { getDocumentHost } from 'utility/globals';
-import { getURLParameterByName,
-         getDecodedJWTBody } from 'utility/pages';
+import { getURLParameterByName } from 'utility/pages';
 
 const automaticAnswersCSS = require('./automaticAnswers.scss').toString();
 const showFrameDelay = 2000;
@@ -96,12 +96,12 @@ function render() {
 }
 
 function postRender() {
-  const JWTBody = getDecodedJWTBody(getURLParameterByName('auth_token'));
+  const jwtBody = automaticAnswersPersistence.getContext();
 
-  if (!JWTBody) return;
+  if (!jwtBody) return;
 
-  const ticketId = JWTBody.ticket_id;
-  const token = JWTBody.token;
+  const ticketId = jwtBody.ticket_id;
+  const token = jwtBody.token;
 
   if (ticketId && token) {
     fetchTicketFn(ticketId, token);

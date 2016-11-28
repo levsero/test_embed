@@ -31,7 +31,7 @@ function getURLParameterByName(name) {
 function getDecodedJWTBody(jwtToken) {
   const jwtBody = jwtToken.split('.')[1];
 
-  if (typeof jwtBody === 'undefined') {
+  if (_.isUndefined(jwtBody)) {
     return null;
   }
 

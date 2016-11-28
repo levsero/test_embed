@@ -183,43 +183,43 @@ describe('pages', function() {
 
     describe('when given a key name that exists in the url', () => {
       it('returns the parameter value for a given key', () =>  {
-        expect(getURLParameterByName('ticket_id')).toBe('123');
-        expect(getURLParameterByName('token')).toBe('a1b2c3');
+        expect(getURLParameterByName('ticket_id'))
+          .toBe('123');
+        expect(getURLParameterByName('token'))
+          .toBe('a1b2c3');
       });
     });
 
     describe('when given a key name that does not exist in the url', () => {
       it('returns null', () => {
-        expect(getURLParameterByName('derp')).toBe(null);
+        expect(getURLParameterByName('derp'))
+          .toBe(null);
       });
     });
   });
 
   describe('getDecodedJWTBody', () => {
-    let jwtToken;
+    let jwtToken, jwtPayload;
 
     describe('when jwt token body is valid', () => {
       beforeEach(() => {
-        jwtToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50X2lkIjo5NTQyMywidXNlcl9pZCI6MTExNDk2NDA5MiwidGlja2V0X2lkIjoyOSwiYXJ0aWNsZXMiOlsyMzY1MzAxLDExMTQ0MjUyNTEsMjM2NTI4MSwxMTE0NDI1MjUxLDIzNjUyODFdLCJ0b2tlbiI6ImdabnY3SDJGclo5eUx6TUk3dzhlZ0swTHIiLCJleHAiOjE0ODIzNjc3OTZ9.BNj_Sh660wNGsaw5wXN40rUK2_dvzBtyXWalbSdJaPI';
+        const jsonwebtoken = require('jsonwebtoken');
+
+        jwtPayload = {
+          'account_id': 95423,
+          'user_id': 11234,
+          'ticket_id': 29,
+          'articles': [ 1,2,3],
+          'token': 'crazy-weird-token',
+          'exp': 1482367796,
+          'iat': Math.floor(Date.now() / 1000) - 30
+        };
+        jwtToken = jsonwebtoken.sign(jwtPayload, 'secret');
       });
 
       it('returns a decoded json object', () =>  {
-        const expected = {
-          'account_id': 95423,
-          'user_id': 1114964092,
-          'ticket_id': 29,
-          'articles': [
-            2365301,
-            1114425251,
-            2365281,
-            1114425251,
-            2365281
-          ],
-          'token': 'gZnv7H2FrZ9yLzMI7w8egK0Lr',
-          'exp': 1482367796
-        };
-
-        expect(expected).toEqual(getDecodedJWTBody(jwtToken));
+        expect(jwtPayload)
+          .toEqual(getDecodedJWTBody(jwtToken));
       });
     });
 
@@ -229,7 +229,8 @@ describe('pages', function() {
       });
 
       it('returns null', () => {
-        expect(null).toEqual(getDecodedJWTBody(jwtToken));
+        expect(getDecodedJWTBody(jwtToken))
+          .toBeNull();
       });
     });
   });
