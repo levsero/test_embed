@@ -4,7 +4,6 @@ import _ from 'lodash';
 
 import { ButtonPill } from 'component/button/ButtonPill';
 import { i18n } from 'service/i18n';
-import { settings } from 'service/settings';
 
 export class HelpCenterResults extends Component {
   renderResultRow(article, index) {
@@ -59,7 +58,7 @@ export class HelpCenterResults extends Component {
                 : i18n.t('embeddable_framework.helpCenter.search.noResults.title', {
                     searchTerm: this.props.previousSearchTerm
                   });
-    const body = this.props.searchFailed && !settings.get('contactForm.suppress')
+    const body = this.props.searchFailed && this.props.showContactButton
                ? i18n.t('embeddable_framework.helpCenter.search.error.body')
                : i18n.t('embeddable_framework.helpCenter.search.noResults.body');
 
@@ -151,7 +150,8 @@ HelpCenterResults.propTypes = {
   hasContextualSearched: PropTypes.bool,
   hideBottomPadding: PropTypes.bool,
   handleArticleClick: PropTypes.func,
-  handleViewMoreClick: PropTypes.func
+  handleViewMoreClick: PropTypes.func,
+  showContactButton: PropTypes.bool
 };
 
 HelpCenterResults.defaultProps = {
