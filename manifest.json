@@ -1,0 +1,8 @@
+[
+  "https://cdnjs.cloudflare.com/ajax/libs/react/0.14.6/react.min.js",
+  "https://cdnjs.cloudflare.com/ajax/libs/react/0.14.6/react-dom.min.js",
+  "https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.5.1/lodash.min.js",
+  "https://cdnjs.cloudflare.com/ajax/libs/superagent/2.0.0/superagent.min.js",
+  "https://dev.zd-dev.com/embeddable_framework/widget.js"
+]
+

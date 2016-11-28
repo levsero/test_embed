@@ -9,9 +9,7 @@ config.externals = {
   react: 'React',
   'react-dom': 'ReactDOM',
   lodash: '_',
-  'airbrake-js': 'airbrakeJs',
-  superagent: 'superagent',
-  'sanitize-html': 'sanitize-html'
+  superagent: 'superagent'
 };
 
 config.plugins.pop();

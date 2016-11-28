@@ -13,6 +13,7 @@ set :framework_files,    ["main.js",
                           "npsPreview.js",
                           "webWidgetPreview.js",
                           "widget.js",
+                          "manifest.json",
                           "update.html",
                           "bootstrap.js"]
 
