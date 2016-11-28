@@ -119,6 +119,20 @@ describe('HelpCenterArticle component', () => {
         .toMatch(baseUrl + '/relative/link');
     });
 
+    describe('when the article has a \\n between start and end tags', () => {
+      beforeEach(() => {
+        mockArticle.body += `<ul>\n<li>\n<p>One</p></li>\n<li>Two</li>\n</ul>`;
+
+        helpCenterArticle = domRender(<HelpCenterArticle activeArticle={mockArticle} />);
+        content = ReactDOM.findDOMNode(helpCenterArticle.refs.article);
+      });
+
+      it('removes the \\n between start and end tags', () => {
+        expect(content.innerHTML)
+          .toMatch(`<ul><li><p>One</p></li><li>Two</li></ul>`);
+      });
+    });
+
     describe('when the article has ordered lists', () => {
       let list;
 

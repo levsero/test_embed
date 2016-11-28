@@ -51,10 +51,10 @@ class HelpCenterArticle extends Component {
         'iframe': ['https']
       },
       allowedAttributes: {
-        'a': ['href', 'target', 'title', 'name'],
-        'span': ['name'],
+        'a': ['id', 'href', 'target', 'title', 'name'],
+        'span': ['id', 'name'],
         'div': ['id'],
-        'img': ['src', 'alt'],
+        'img': ['id', 'src', 'alt'],
         'h1': ['id'],
         'h2': ['id'],
         'h3': ['id'],
@@ -62,9 +62,10 @@ class HelpCenterArticle extends Component {
         'h5': ['id'],
         'h6': ['id'],
         'iframe': allowedIframeAttribs,
-        'td': ['colspan'],
-        'th': ['colspan'],
-        'ol': ['start', 'reversed']
+        'td': ['id', 'colspan'],
+        'th': ['id', 'colspan'],
+        'ol': ['id', 'start', 'reversed'],
+        'p': ['id']
       },
       allowedClasses: {
         'span': [
@@ -82,6 +83,9 @@ class HelpCenterArticle extends Component {
       // Inject a table wrapper to allow horizontal scrolling
       cleanHtml = cleanHtml.replace('<table', '<div class="table-wrap"><table');
       cleanHtml = cleanHtml.replace('/table>', '/table></div>');
+
+      // Removes a single newline from start to end tags
+      cleanHtml = cleanHtml.replace(/>\n</g, '><');
 
       container.innerHTML = cleanHtml;
 
