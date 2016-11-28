@@ -197,7 +197,7 @@ describe('HelpCenterResults component', () => {
 
     describe('when props.searchFailed is true and showContactButton is false', () => {
       it('displays the embeddable_framework.helpCenter.search.noResults.body label', () => {
-        domRender(<HelpCenterResults searchFailed={true} showContactButton={false} />);
+        instanceRender(<HelpCenterResults searchFailed={true} showContactButton={false} />);
 
         expect(mockRegistry['service/i18n'].i18n.t)
         .toHaveBeenCalledWith('embeddable_framework.helpCenter.search.noResults.body');
@@ -206,7 +206,7 @@ describe('HelpCenterResults component', () => {
 
     describe('when props.searchFailed and showContactButton is true', () => {
       it('displays the embeddable_framework.helpCenter.search.error.body label', () => {
-        domRender(<HelpCenterResults searchFailed={true} showContactButton={true} />);
+        instanceRender(<HelpCenterResults searchFailed={true} showContactButton={true} />);
 
         expect(mockRegistry['service/i18n'].i18n.t)
           .toHaveBeenCalledWith('embeddable_framework.helpCenter.search.error.body');
