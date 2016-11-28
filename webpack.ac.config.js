@@ -3,7 +3,7 @@ var path = require('path');
 var prefix = process.cwd();
 var Visualizer = require('webpack-visualizer-plugin');
 
-config.entry = { widget: path.join(prefix, '/src/main.js') };
+config.entry = { 'web_widget': path.join(prefix, '/src/main.js') };
 
 config.externals = {
   react: 'React',
