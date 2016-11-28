@@ -5,6 +5,7 @@ describe('embed.automaticAnswers', () => {
     mockPages,
     mockIsMobileBrowserValue,
     mockWrongURLParameter,
+    mockWrongJWT,
     mockSolvedURLParameter;
 
   const automaticAnswersPath = buildSrcPath('embed/automaticAnswers/automaticAnswers');
@@ -59,7 +60,16 @@ describe('embed.automaticAnswers', () => {
             return 'abcdef';
           } else if (arg === 'solved') {
             return mockSolvedURLParameter;
+          } else if (arg === 'auth_token') {
+            return true;
           }
+        }),
+        getDecodedJWTBody: jasmine.createSpy().and.callFake(() => {
+          if (mockWrongJWT) return null;
+          return {
+            'ticket_id': 123456,
+            'token': 'abcdef'
+          };
         })
       }
     });
@@ -68,6 +78,7 @@ describe('embed.automaticAnswers', () => {
     automaticAnswers = requireUncached(automaticAnswersPath).automaticAnswers;
 
     mockWrongURLParameter = false;
+    mockWrongJWT = false;
     mockIsMobileBrowserValue = false;
   });
 
@@ -129,18 +140,13 @@ describe('embed.automaticAnswers', () => {
         automaticAnswers.postRender('automaticAnswers');
       });
 
-      it('the ticket_id parameter', () => {
+      it('the auth_token parameter', () => {
         expect(mockPages.getURLParameterByName)
-          .toHaveBeenCalledWith('ticket_id');
-      });
-
-      it('the token parameter', () => {
-        expect(mockPages.getURLParameterByName)
-          .toHaveBeenCalledWith('token');
+          .toHaveBeenCalledWith('auth_token');
       });
     });
 
-    describe('when the URL contains ticket_id and token parameters', () => {
+    describe('when the JWT body contains ticket_id and token parameters', () => {
       let mostRecent;
 
       beforeEach(() => {
@@ -158,9 +164,9 @@ describe('embed.automaticAnswers', () => {
       });
     });
 
-    describe('when the URL does not contain ticket_id and token parameters', () => {
+    describe('when the JWT body does not contain ticket_id and token parameters', () => {
       beforeEach(() => {
-        mockWrongURLParameter = true;
+        mockWrongJWT = true;
         automaticAnswers.postRender('automaticAnswers');
       });
 

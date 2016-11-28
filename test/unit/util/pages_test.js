@@ -2,7 +2,8 @@ describe('pages', function() {
   let isOnHelpCenterPage,
     getHelpCenterArticleId,
     isOnHostMappedDomain,
-    getURLParameterByName;
+    getURLParameterByName,
+    getDecodedJWTBody;
   const mockGlobals = {
     win: {
       HelpCenter: {}
@@ -24,6 +25,9 @@ describe('pages', function() {
 
     initMockRegistry({
       'utility/globals': mockGlobals,
+      'utility/utils': {
+        base64decode: window.atob
+      },
       'lodash': _
     });
 
@@ -31,6 +35,7 @@ describe('pages', function() {
     getHelpCenterArticleId = require(pagePath).getHelpCenterArticleId;
     isOnHostMappedDomain = require(pagePath).isOnHostMappedDomain;
     getURLParameterByName = require(pagePath).getURLParameterByName;
+    getDecodedJWTBody = require(pagePath).getDecodedJWTBody;
   });
 
   afterEach(function() {
@@ -186,6 +191,45 @@ describe('pages', function() {
     describe('when given a key name that does not exist in the url', () => {
       it('returns null', () => {
         expect(getURLParameterByName('derp')).toBe(null);
+      });
+    });
+  });
+
+  describe('getDecodedJWTBody', () => {
+    let jwtToken;
+
+    describe('when jwt token body is valid', () => {
+      beforeEach(() => {
+        jwtToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50X2lkIjo5NTQyMywidXNlcl9pZCI6MTExNDk2NDA5MiwidGlja2V0X2lkIjoyOSwiYXJ0aWNsZXMiOlsyMzY1MzAxLDExMTQ0MjUyNTEsMjM2NTI4MSwxMTE0NDI1MjUxLDIzNjUyODFdLCJ0b2tlbiI6ImdabnY3SDJGclo5eUx6TUk3dzhlZ0swTHIiLCJleHAiOjE0ODIzNjc3OTZ9.BNj_Sh660wNGsaw5wXN40rUK2_dvzBtyXWalbSdJaPI';
+      });
+
+      it('returns a decoded json object', () =>  {
+        const expected = {
+          'account_id': 95423,
+          'user_id': 1114964092,
+          'ticket_id': 29,
+          'articles': [
+            2365301,
+            1114425251,
+            2365281,
+            1114425251,
+            2365281
+          ],
+          'token': 'gZnv7H2FrZ9yLzMI7w8egK0Lr',
+          'exp': 1482367796
+        };
+
+        expect(expected).toEqual(getDecodedJWTBody(jwtToken));
+      });
+    });
+
+    describe('when jwt token body is invalid', () => {
+      beforeEach(() => {
+        jwtToken = 'thing';
+      });
+
+      it('returns null', () => {
+        expect(null).toEqual(getDecodedJWTBody(jwtToken));
       });
     });
   });

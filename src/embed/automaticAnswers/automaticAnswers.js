@@ -9,7 +9,8 @@ import { transport } from 'service/transport';
 import { generateUserCSS } from 'utility/color';
 import { isMobileBrowser } from 'utility/devices';
 import { getDocumentHost } from 'utility/globals';
-import { getURLParameterByName } from 'utility/pages';
+import { getURLParameterByName,
+         getDecodedJWTBody } from 'utility/pages';
 
 const automaticAnswersCSS = require('./automaticAnswers.scss').toString();
 const showFrameDelay = 2000;
@@ -95,8 +96,12 @@ function render() {
 }
 
 function postRender() {
-  const ticketId = getURLParameterByName('ticket_id');
-  const token = getURLParameterByName('token');
+  const JWTBody = getDecodedJWTBody(getURLParameterByName('auth_token'));
+
+  if (!JWTBody) return;
+
+  const ticketId = JWTBody.ticket_id;
+  const token = JWTBody.token;
 
   if (ticketId && token) {
     fetchTicketFn(ticketId, token);

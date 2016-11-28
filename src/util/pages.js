@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 import { win, location } from 'utility/globals';
+import { base64decode } from 'utility/utils';
 
 function isOnHelpCenterPage() {
   const hcPattern = /^\/hc\//;
@@ -27,9 +28,22 @@ function getURLParameterByName(name) {
   return half ? decodeURIComponent(half.split('&')[0]) : null;
 }
 
+function getDecodedJWTBody(jwtToken) {
+  const jwtBody = jwtToken.split('.')[1];
+
+  if (typeof jwtBody === 'undefined') {
+    return null;
+  }
+
+  const decodedBody = base64decode(jwtBody);
+
+  return JSON.parse(decodedBody);
+}
+
 export {
   isOnHelpCenterPage,
   getHelpCenterArticleId,
   isOnHostMappedDomain,
-  getURLParameterByName
+  getURLParameterByName,
+  getDecodedJWTBody
 };
