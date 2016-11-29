@@ -381,7 +381,8 @@ export class HelpCenter extends Component {
         handleArticleClick={this.handleArticleClick}
         handleViewMoreClick={this.handleViewMoreClick}
         hasContextualSearched={this.state.hasContextualSearched}
-        hideBottomPadding={hideBottomPadding} />
+        hideBottomPadding={hideBottomPadding}
+        showContactButton={this.state.showNextButton} />
     );
   }
 
