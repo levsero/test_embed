@@ -200,7 +200,7 @@ describe('HelpCenterResults component', () => {
         instanceRender(<HelpCenterResults searchFailed={true} showContactButton={false} />);
 
         expect(mockRegistry['service/i18n'].i18n.t)
-        .toHaveBeenCalledWith('embeddable_framework.helpCenter.search.noResults.body');
+          .toHaveBeenCalledWith('embeddable_framework.helpCenter.search.noResults.body');
       });
     });
 

@@ -165,5 +165,6 @@ HelpCenterResults.defaultProps = {
   hasContextualSearched: false,
   hideBottomPadding: false,
   handleArticleClick: () => {},
-  handleViewMoreClick: () => {}
+  handleViewMoreClick: () => {},
+  showContactButton: true
 };
