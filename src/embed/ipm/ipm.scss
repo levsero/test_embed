@@ -58,6 +58,5 @@
 }
 
 .IpmDesktop-footer .c-btn--primary {
-  // TODO: should be $zd-color-pelorous after garden css update
-  background: #30aabc;
+  background: $ipm-cta-color;
 }
