@@ -175,6 +175,11 @@ $Base-posOffset: $med + 1;
   margin-left: $spacing-sml !important;
 }
 
+.u-marginHS {
+  margin-left: $spacing-sml !important;
+  margin-right: $spacing-sml !important;
+}
+
 .u-marginHM {
   margin-left: $spacing-med !important;
   margin-right: $spacing-med !important;
@@ -215,6 +220,11 @@ $Base-posOffset: $med + 1;
 .u-paddingHT {
   padding-left: $spacing-tny !important;
   padding-right: $spacing-tny !important;
+}
+
+.u-paddingHS {
+  padding-left: $spacing-sml !important;
+  padding-right: $spacing-sml !important;
 }
 
 .u-paddingHL {
