@@ -40,6 +40,9 @@ function generateUserCSS(color = defaultColor) {
     .u-userLinkColor a {
       color: ${color} !important;
     }
+    .u-userStrokeColor {
+      stroke: ${color} !important;
+    }
   `);
 }
 

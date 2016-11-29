@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
-import { LoadingSpinner } from 'component/Loading';
+import { LoadingSpinner } from 'component/loading/Loading';
 import { ButtonSecondary } from 'component/button/ButtonSecondary';
 
 export class ButtonRating extends Component {

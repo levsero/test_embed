@@ -1,7 +1,7 @@
 describe('Loading component', function() {
   let LoadingEllipses;
   let mockIsDeviceValue;
-  const loadingPath = buildSrcPath('component/Loading');
+  const loadingPath = buildSrcPath('component/loading/Loading');
 
   beforeEach(function() {
     resetDOM();

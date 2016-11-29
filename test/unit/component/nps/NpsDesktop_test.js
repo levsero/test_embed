@@ -60,7 +60,7 @@ describe('NpsDesktop component', function() {
           }
         })
       },
-      'component/Loading': {
+      'component/loading/Loading': {
         LoadingEllipses: noopReactComponent()
       },
       'component/nps/NpsComment': {

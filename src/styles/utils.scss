@@ -61,6 +61,13 @@ $Base-posOffset: $med + 1;
   position: static !important;
 }
 
+.u-posFill {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
 /**
  * Used to adjust the default spacing between components
  * Use with great care!
@@ -257,6 +264,10 @@ $Base-posOffset: $med + 1;
   padding-left: #{25/$font-size}rem;
 }
 
+.u-paddingLS {
+  padding-left: $spacing-sml;
+}
+
 .u-paddingLL {
   padding-left: $spacing-lrg;
 }
@@ -280,6 +291,10 @@ $Base-posOffset: $med + 1;
 
 .u-paddingRL {
   padding-right: $spacing-lrg !important;
+}
+
+.u-paddingRXL {
+  padding-right: $spacing-xl !important;
 }
 
 .u-paddingTT {

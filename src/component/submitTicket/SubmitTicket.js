@@ -5,13 +5,15 @@ import classNames from 'classnames';
 import { AttachmentBox } from 'component/attachment/AttachmentBox';
 import { Container } from 'component/Container';
 import { SelectField } from 'component/field/SelectField';
+import { LoadingSpinner } from 'component/loading/LoadingSpinner';
 import { Icon } from 'component/Icon';
 import { ScrollContainer } from 'component/ScrollContainer';
 import { SubmitTicketForm } from 'component/submitTicket/SubmitTicketForm';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { i18n } from 'service/i18n';
 import { settings } from 'service/settings';
-import { isMobileBrowser } from 'utility/devices';
+import { isMobileBrowser,
+         isIE } from 'utility/devices';
 import { location } from 'utility/globals';
 import { bindMethods } from 'utility/utils';
 
@@ -35,6 +37,7 @@ export class SubmitTicket extends Component {
       searchTerm: null,
       searchLocale: null,
       isDragActive: false,
+      loading: false,
       ticketForms: {},
       selectedTicketForm: null
     };
@@ -52,6 +55,10 @@ export class SubmitTicket extends Component {
 
   showField() {
     this.setState({ showEmail: true });
+  }
+
+  setLoading() {
+    this.setState({ loading: true });
   }
 
   handleSubmit(e, data) {
@@ -186,7 +193,10 @@ export class SubmitTicket extends Component {
   }
 
   updateTicketForms(forms) {
-    this.setState({ ticketForms: forms });
+    this.setState({
+      ticketForms: forms,
+      loading: false
+    });
 
     if (forms.ticket_forms.length === 1) {
       this.setState({ selectedTicketForm: forms.ticket_forms[0].id });
@@ -237,6 +247,23 @@ export class SubmitTicket extends Component {
     setTimeout(() => {
       this.refs.submitTicketForm.updateTicketForm(selectedTicketForm, ticketForms.ticket_fields);
     }, 0);
+  }
+
+  renderLoadingSpinner() {
+    const spinnerContainerClasses = classNames({
+      'u-flex u-posFill u-posAbsolute u-flexAlignItemsCenter u-flexJustifyCenter': true,
+      'u-paddingBXL u-paddingRXL': isIE()
+    });
+
+    return (
+      <ScrollContainer
+        title={i18n.t(`embeddable_framework.submitTicket.form.title.${this.state.formTitleKey}`)}
+        containerClasses='ticketFormSelector--fixed u-posRelative'>
+        <div className={spinnerContainerClasses}>
+          <LoadingSpinner />
+        </div>
+      </ScrollContainer>
+    );
   }
 
   renderForm() {
@@ -343,9 +370,12 @@ export class SubmitTicket extends Component {
       frameDimensions = this.props.updateFrameSize();
     }, 0);
 
-    const display = (_.isEmpty(this.state.ticketForms) || this.state.selectedTicketForm)
+    const content = (_.isEmpty(this.state.ticketForms) || this.state.selectedTicketForm)
                   ? this.renderForm()
                   : this.renderTicketFormSelector();
+    const display = this.state.loading
+                  ? this.renderLoadingSpinner()
+                  : content;
 
     return (
       <Container

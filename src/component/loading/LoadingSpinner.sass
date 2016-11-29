@@ -1,0 +1,43 @@
+@import '../../styles/_vars.scss';
+
+// stolen from Bunjil who stole from
+// http://codepen.io/jonkel/pen/zvjQOZ
+
+.circle {
+  animation: stroke 3s linear infinite, dash 3s linear infinite;
+  fill: none;
+  stroke: $zendesk-color--algae;
+  stroke-dasharray: 333; // 3 quarters of a full circle
+  stroke-width: #{4/$font-size}rem;
+}
+
+.spinner {
+  composes: u-posFixed from '../../styles/utils.scss';
+  width: #{50/$font-size}rem;
+  height: #{50/$font-size}rem;
+  animation: spin .8s linear infinite;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes stroke {
+  0% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: 888;
+  }
+}
+
+@keyframes dash {
+  0% {
+    stroke-dasharray: 444;
+  }
+  100% {
+    stroke-dasharray: 444;
+  }
+}

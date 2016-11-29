@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import { IconFieldButton } from 'component/button/IconFieldButton';
 import { SearchInput } from 'component/field/SearchInput';
-import { LoadingEllipses } from 'component/Loading';
+import { LoadingEllipses } from 'component/loading/Loading';
 import { Icon } from 'component/Icon';
 import { bindMethods } from 'utility/utils';
 
