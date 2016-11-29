@@ -140,7 +140,6 @@ function create(name, config) {
 
     frameStyle = _.extend({}, frameStyle, {
       width: 342,
-      maxHeight: 500,
       marginLeft: margin,
       marginRight: margin
     });

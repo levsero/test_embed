@@ -320,7 +320,6 @@ export const frameFactory = function(childFn, _params) {
 
       return _.extend(
         {
-          'max-height': 'none !important',
           border: 'none',
           background: 'transparent',
           zIndex: zIndex,
