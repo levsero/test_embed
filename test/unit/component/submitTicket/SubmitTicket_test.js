@@ -1,5 +1,6 @@
 describe('Submit ticket component', () => {
   let SubmitTicket,
+    mockIsIEValue,
     mockIsMobileBrowserValue;
 
   const formParams = {
@@ -38,6 +39,7 @@ describe('Submit ticket component', () => {
     resetDOM();
 
     mockIsMobileBrowserValue = false;
+    mockIsIEValue = false;
 
     mockery.enable();
 
@@ -65,10 +67,10 @@ describe('Submit ticket component', () => {
         location: location
       },
       'utility/devices': {
-        getZoomSizingRatio: function() {
-          return 1;
+        isIE: () => {
+          return mockIsIEValue;
         },
-        isMobileBrowser: function() {
+        isMobileBrowser: () => {
           return mockIsMobileBrowserValue;
         }
       },
@@ -100,6 +102,9 @@ describe('Submit ticket component', () => {
       },
       'component/button/Button': {
         Button: noopReactComponent()
+      },
+      'component/loading/LoadingSpinner': {
+        LoadingSpinner: noopReactComponent()
       },
       'component/Container': {
         Container: React.createClass({
@@ -491,6 +496,14 @@ describe('Submit ticket component', () => {
         .toBeUndefined();
     });
 
+    it('should not be rendered if the form is loading', () => {
+      submitTicket.setState({ loading: true });
+      submitTicket.updateTicketForms({ ticket_forms: [{ id: 1 }], ticket_fields: [] });
+
+      expect(submitTicket.refs.ticketFormSelector)
+        .toBeUndefined();
+    });
+
     it('should not be rendered when there is only one ticket form', () => {
       submitTicket.updateTicketForms({ ticket_forms: [{ id: 1 }], ticket_fields: [] });
 
@@ -503,6 +516,44 @@ describe('Submit ticket component', () => {
 
       expect(submitTicket.refs.ticketFormSelector)
         .toBeDefined();
+    });
+  });
+
+  describe('loading spinner', () => {
+    let submitTicket, submitTicketNode;
+
+    beforeEach(() => {
+      submitTicket = domRender(<SubmitTicket />);
+      submitTicketNode = ReactDOM.findDOMNode(submitTicket);
+    });
+
+    it('should not be rendered by default', () => {
+      expect(submitTicketNode.querySelectorAll('.u-flex.u-posFill').length)
+        .toEqual(0);
+    });
+
+    it('should be rendered when loading state is true', () => {
+      submitTicket.setState({ loading: true });
+
+      expect(submitTicketNode.querySelectorAll('.u-flex.u-posFill').length)
+        .toEqual(1);
+    });
+
+    it('should not have extra padding by default', () => {
+      submitTicket.setState({ loading: true });
+
+      expect(submitTicketNode.querySelectorAll('.u-flex.u-posFill.u-paddingBXL.u-paddingRXL').length)
+        .toEqual(0);
+    });
+
+    it('should have extra padding on IE', () => {
+      mockIsIEValue = true;
+      submitTicket = domRender(<SubmitTicket />);
+      submitTicketNode = ReactDOM.findDOMNode(submitTicket);
+      submitTicket.setState({ loading: true });
+
+      expect(submitTicketNode.querySelectorAll('.u-flex.u-posFill.u-paddingBXL.u-paddingRXL').length)
+        .toEqual(1);
     });
   });
 
