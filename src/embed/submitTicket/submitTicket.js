@@ -17,7 +17,7 @@ import { settings } from 'service/settings';
 import { generateUserCSS } from 'utility/color';
 import { transport } from 'service/transport';
 
-import LoadingSpinnerStyles from 'component/loading/LoadingSpinner.sass'
+import LoadingSpinnerStyles from 'component/loading/LoadingSpinner.sass';
 
 const submitTicketCSS = require('./submitTicket.scss').toString()
                       + LoadingSpinnerStyles.toString();
@@ -148,17 +148,27 @@ function create(name, config) {
     const ticketFormIds = ticketForms.join();
 
     waitForRootComponent(name, () => {
-      getRootComponent(name).setLoading();
+      getRootComponent(name).setLoading(true);
     });
 
     transport.get({
       method: 'get',
       path: `/api/v2/ticket_forms/show_many.json?ids=${ticketFormIds}&include=ticket_fields`,
+      timeout: 20000,
       callbacks: {
         done(res) {
           waitForRootComponent(name, () => {
             getRootComponent(name).updateTicketForms(JSON.parse(res.text));
           });
+        },
+        fail() {
+          // do this on next tick so that it never happens before
+          // the one above that sets loading to true.
+          setTimeout(() => {
+            waitForRootComponent(name, () => {
+              getRootComponent(name).setLoading(false);
+            });
+          }, 0);
         }
       }
     });

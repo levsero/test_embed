@@ -1,8 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import classNames from 'classnames';
 import css from './LoadingSpinner.sass';
-
-import { isDevice } from 'utility/devices';
 
 const styles = css.locals;
 

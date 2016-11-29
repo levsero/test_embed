@@ -57,8 +57,8 @@ export class SubmitTicket extends Component {
     this.setState({ showEmail: true });
   }
 
-  setLoading() {
-    this.setState({ loading: true });
+  setLoading(value) {
+    this.setState({ loading: value });
   }
 
   handleSubmit(e, data) {

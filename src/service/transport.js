@@ -83,7 +83,7 @@ function send(payload, addType = true) {
 
   const request = superagent(payload.method.toUpperCase(),
     buildFullUrl(payload.path, payload.forceHttp))
-    .timeout(60000)
+    .timeout(payload.timeout || 60000)
     .set('Authorization', payload.authorization);
 
   if (addType) request.type('json');
