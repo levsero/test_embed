@@ -72,10 +72,10 @@ export class IpmDesktop extends Component {
           </p>
           <p className='IpmDesktop-message u-paddingBL'>{this.props.ipm.message.body}</p>
           <div className='IpmDesktop-footer u-posRelative'>
-            <ZendeskLogo
+            {!this.props.ipm.message.hideLogo && <ZendeskLogo
               className='IpmDesktop-footer--logo u-posStart--flush'
               logoLink='connect'
-              utm='ipm' />
+              utm='ipm' />}
             <Button
               className='u-pullRight'
               onClick={this.handleOnClick}

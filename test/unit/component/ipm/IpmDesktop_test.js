@@ -191,17 +191,33 @@ describe('IpmDesktop component', function() {
   describe('ZendeskLogo', () => {
     let logo, footer, component;
 
-    beforeEach(() => {
+    function renderComponent() {
       component = domRender(
         <IpmDesktop {...ipmProps} />
       );
       footer = TestUtils.findRenderedDOMComponentWithClass(component, 'IpmDesktop-footer');
       logo = footer.props.children[0];
+    }
+
+    beforeEach(() => {
+      renderComponent();
     });
 
     it('logoLink should be `connect`', () => {
       expect(logo.props.logoLink)
         .toEqual('connect');
+    });
+
+    describe('when hideLogo is true', () => {
+      beforeEach(() => {
+        ipmProps.ipm.message.hideLogo = true;
+        renderComponent();
+      });
+
+      it('does not render logo', () => {
+        expect(logo)
+          .toEqual(false);
+      });
     });
   });
 });
