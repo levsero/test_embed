@@ -9,16 +9,15 @@
     "build-examples": "node script/build-examples.js",
     "prebuild:debug": "npm run build:version:generate && npm run build-examples",
     "prebuild:prod": "npm run lint && npm run build:cachebuster && npm run prebuild-examples && rm -rf ./dist/*.map && npm run build:version:generate",
-    "prebuild:ac": "npm run prebuild:prod",
+    "prebuild:ac": "cp manifest.json dist",
     "build:cachebuster-clean": "rm -rf ./dist/update.js",
     "build:cachebuster": "npm run build:version:generate && node ./script/cachebuster.js && npm run build:cachebuster-clean",
     "build:debug": "webpack --config=./webpack.dev.config.js",
     "build:prod": "webpack -p --config=./webpack.prod.config.js",
+    "build:ac": "webpack -p --config=./webpack.ac.config.js",
     "build:watch": "webpack --watch --config=./webpack.dev.config.js",
     "watch": "npm run build:debug && concurrent --kill-others \"npm run build:watch\" \"live-server --port=1337 --no-browser --ignore=src,test,script,config,doc,.*,./*.js\"",
-    "build": "npm run build:prod",
-    "build:ac": "webpack -p --config=./webpack.ac.config.js && npm run postbuild",
-    "postbuild": "npm run build:version:clean",
+    "build": "npm run build:prod && npm run build:ac",
     "test": "node script/jasmine-runner.js",
     "test:debug": "node debug script/jasmine-runner.js",
     "lint": "eslint src test"
@@ -80,6 +79,7 @@
     "uglify-js": "^2.6.1",
     "url-loader": "~0.5.7",
     "webpack": "^1.13.1",
+    "webpack-visualizer-plugin": "^0.1.5",
     "when": "~3.4.4"
   }
 }

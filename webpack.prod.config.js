@@ -1,5 +1,6 @@
 var config = require('./webpack.config');
 var webpack = require('webpack');
+var Visualizer = require('webpack-visualizer-plugin');
 
 config.plugins = [
   new webpack.DefinePlugin({
@@ -16,7 +17,8 @@ config.plugins = [
       'drop_debugger': true,
       'warnings': false
     }
-  })
+  }),
+  new Visualizer()
 ];
 
 module.exports = config;
