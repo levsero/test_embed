@@ -4,6 +4,7 @@ import _ from 'lodash';
 
 import { AutomaticAnswers } from 'component/automaticAnswers/AutomaticAnswers';
 import { frameFactory } from 'embed/frameFactory';
+import { automaticAnswersPersistence  } from 'service/automaticAnswersPersistence';
 import { transitionFactory } from 'service/transitionFactory';
 import { transport } from 'service/transport';
 import { generateUserCSS } from 'utility/color';
@@ -95,8 +96,12 @@ function render() {
 }
 
 function postRender() {
-  const ticketId = getURLParameterByName('ticket_id');
-  const token = getURLParameterByName('token');
+  const jwtBody = automaticAnswersPersistence.getContext();
+
+  if (!jwtBody) return;
+
+  const ticketId = jwtBody.ticket_id;
+  const token = jwtBody.token;
 
   if (ticketId && token) {
     fetchTicketFn(ticketId, token);

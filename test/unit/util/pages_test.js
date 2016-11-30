@@ -2,7 +2,8 @@ describe('pages', function() {
   let isOnHelpCenterPage,
     getHelpCenterArticleId,
     isOnHostMappedDomain,
-    getURLParameterByName;
+    getURLParameterByName,
+    getDecodedJWTBody;
   const mockGlobals = {
     win: {
       HelpCenter: {}
@@ -24,6 +25,9 @@ describe('pages', function() {
 
     initMockRegistry({
       'utility/globals': mockGlobals,
+      'utility/utils': {
+        base64decode: window.atob
+      },
       'lodash': _
     });
 
@@ -31,6 +35,7 @@ describe('pages', function() {
     getHelpCenterArticleId = require(pagePath).getHelpCenterArticleId;
     isOnHostMappedDomain = require(pagePath).isOnHostMappedDomain;
     getURLParameterByName = require(pagePath).getURLParameterByName;
+    getDecodedJWTBody = require(pagePath).getDecodedJWTBody;
   });
 
   afterEach(function() {
@@ -178,14 +183,54 @@ describe('pages', function() {
 
     describe('when given a key name that exists in the url', () => {
       it('returns the parameter value for a given key', () =>  {
-        expect(getURLParameterByName('ticket_id')).toBe('123');
-        expect(getURLParameterByName('token')).toBe('a1b2c3');
+        expect(getURLParameterByName('ticket_id'))
+          .toBe('123');
+        expect(getURLParameterByName('token'))
+          .toBe('a1b2c3');
       });
     });
 
     describe('when given a key name that does not exist in the url', () => {
       it('returns null', () => {
-        expect(getURLParameterByName('derp')).toBe(null);
+        expect(getURLParameterByName('derp'))
+          .toBe(null);
+      });
+    });
+  });
+
+  describe('getDecodedJWTBody', () => {
+    let jwtToken, jwtPayload;
+
+    describe('when jwt token body is valid', () => {
+      beforeEach(() => {
+        const jsonwebtoken = require('jsonwebtoken');
+
+        jwtPayload = {
+          'account_id': 95423,
+          'user_id': 11234,
+          'ticket_id': 29,
+          'articles': [ 1,2,3],
+          'token': 'crazy-weird-token',
+          'exp': 1482367796,
+          'iat': Math.floor(Date.now() / 1000) - 30
+        };
+        jwtToken = jsonwebtoken.sign(jwtPayload, 'secret');
+      });
+
+      it('returns a decoded json object', () =>  {
+        expect(jwtPayload)
+          .toEqual(getDecodedJWTBody(jwtToken));
+      });
+    });
+
+    describe('when jwt token body is invalid', () => {
+      beforeEach(() => {
+        jwtToken = 'thing';
+      });
+
+      it('returns null', () => {
+        expect(getDecodedJWTBody(jwtToken))
+          .toBeNull();
       });
     });
   });

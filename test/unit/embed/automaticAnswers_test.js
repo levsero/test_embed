@@ -2,9 +2,8 @@ describe('embed.automaticAnswers', () => {
   let automaticAnswers,
     mockRegistry,
     mockTransport,
-    mockPages,
+    mockJwtToken,
     mockIsMobileBrowserValue,
-    mockWrongURLParameter,
     mockSolvedURLParameter;
 
   const automaticAnswersPath = buildSrcPath('embed/automaticAnswers/automaticAnswers');
@@ -47,27 +46,26 @@ describe('embed.automaticAnswers', () => {
       'service/transitionFactory' : {
         transitionFactory: requireUncached(buildTestPath('unit/mockTransitionFactory')).mockTransitionFactory
       },
+      'service/automaticAnswersPersistence' : {
+        automaticAnswersPersistence: {
+          getContext: jasmine.createSpy().and.callFake(() => mockJwtToken)
+        }
+      },
       'service/transport': {
         transport: jasmine.createSpyObj('transport', ['automaticAnswersApiRequest'])
       },
       'utility/pages': {
-        getURLParameterByName: jasmine.createSpy().and.callFake((arg) => {
-          if (mockWrongURLParameter) return null;
-          if (arg === 'ticket_id') {
-            return '123456';
-          } else if (arg === 'token') {
-            return 'abcdef';
-          } else if (arg === 'solved') {
-            return mockSolvedURLParameter;
-          }
-        })
+        getURLParameterByName: jasmine.createSpy().and.callFake(() => mockSolvedURLParameter)
       }
     });
 
     mockery.registerAllowable(automaticAnswersPath);
     automaticAnswers = requireUncached(automaticAnswersPath).automaticAnswers;
 
-    mockWrongURLParameter = false;
+    mockJwtToken = {
+      'ticket_id': 123456,
+      'token': 'abcdef'
+    };
     mockIsMobileBrowserValue = false;
   });
 
@@ -119,28 +117,11 @@ describe('embed.automaticAnswers', () => {
   describe('postRender', () => {
     beforeEach(() => {
       mockTransport = mockRegistry['service/transport'].transport;
-      mockPages = mockRegistry['utility/pages'];
       automaticAnswers.create('automaticAnswers');
       automaticAnswers.render();
     });
 
-    describe('searches the current URL string for', () => {
-      beforeEach(() => {
-        automaticAnswers.postRender('automaticAnswers');
-      });
-
-      it('the ticket_id parameter', () => {
-        expect(mockPages.getURLParameterByName)
-          .toHaveBeenCalledWith('ticket_id');
-      });
-
-      it('the token parameter', () => {
-        expect(mockPages.getURLParameterByName)
-          .toHaveBeenCalledWith('token');
-      });
-    });
-
-    describe('when the URL contains ticket_id and token parameters', () => {
+    describe('when the JWT body contains ticket_id and token parameters', () => {
       let mostRecent;
 
       beforeEach(() => {
@@ -158,9 +139,9 @@ describe('embed.automaticAnswers', () => {
       });
     });
 
-    describe('when the URL does not contain ticket_id and token parameters', () => {
+    describe('when the JWT body does not contain ticket_id and token parameters', () => {
       beforeEach(() => {
-        mockWrongURLParameter = true;
+        mockJwtToken = null;
         automaticAnswers.postRender('automaticAnswers');
       });
 
@@ -179,7 +160,6 @@ describe('embed.automaticAnswers', () => {
 
     beforeEach(() => {
       mockTransport = mockRegistry['service/transport'].transport;
-      mockPages = mockRegistry['utility/pages'];
 
       automaticAnswers.create('automaticAnswers');
       automaticAnswers.render();
@@ -258,6 +238,22 @@ describe('embed.automaticAnswers', () => {
         describe('and a solve parameter other than "1" exists in the url', () => {
           beforeEach(() => {
             mockSolvedURLParameter = '0';
+          });
+
+          it('does nothing', () => {
+            callback(resSuccess(statusSolved));
+
+            expect(instance.getRootComponent().solveTicketDone)
+              .not.toHaveBeenCalled();
+
+            expect(instance.show.__reactBoundMethod)
+              .not.toHaveBeenCalled();
+          });
+        });
+
+        describe('and no solve parameter exists in the url', () => {
+          beforeEach(() => {
+            mockSolvedURLParameter = null;
           });
 
           it('does nothing', () => {

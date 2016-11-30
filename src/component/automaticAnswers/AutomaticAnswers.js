@@ -2,9 +2,9 @@ import React, { Component, PropTypes } from 'react';
 
 import { AutomaticAnswersDesktop } from 'component/automaticAnswers/AutomaticAnswersDesktop';
 import { AutomaticAnswersMobile } from 'component/automaticAnswers/AutomaticAnswersMobile';
+import { automaticAnswersPersistence  } from 'service/automaticAnswersPersistence';
 import { i18n } from 'service/i18n';
-import { getHelpCenterArticleId,
-         getURLParameterByName } from 'utility/pages';
+import { getHelpCenterArticleId } from 'utility/pages';
 import { bindMethods } from 'utility/utils';
 
 const closeFrameDelay = 4000;
@@ -37,8 +37,14 @@ export class AutomaticAnswers extends Component {
   }
 
   handleSolveTicket() {
-    const ticketId = getURLParameterByName('ticket_id');
-    const token = getURLParameterByName('token');
+    const jwtBody = automaticAnswersPersistence.getContext();
+
+    if (!jwtBody)  {
+      return this.solveTicketFail();
+    }
+
+    const ticketId = jwtBody.ticket_id;
+    const token = jwtBody.token;
     const articleId = getHelpCenterArticleId();
     const callbacks = {
       done: this.solveTicketDone,
