@@ -10,7 +10,8 @@ import { transport } from 'service/transport';
 import { generateUserCSS } from 'utility/color';
 import { isMobileBrowser } from 'utility/devices';
 import { getDocumentHost } from 'utility/globals';
-import { getURLParameterByName } from 'utility/pages';
+import { getURLParameterByName,
+         getHelpCenterArticleId } from 'utility/pages';
 
 const automaticAnswersCSS = require('./automaticAnswers.scss').toString();
 const showFrameDelay = 2000;
@@ -96,6 +97,10 @@ function render() {
 }
 
 function postRender() {
+  const articleId =  getHelpCenterArticleId();
+
+  if (_.isNaN(articleId)) return;
+
   const jwtBody = automaticAnswersPersistence.getContext();
 
   if (!jwtBody) return;
