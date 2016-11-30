@@ -126,7 +126,7 @@ class HelpCenterArticle extends Component {
         inPageElem.scrollIntoView();
       }
       e.preventDefault();
-    } else if (!isMailLink) {
+    } else if (nodeName === 'A' && !isMailLink) {
       target.setAttribute('target', '_blank');
       target.setAttribute('rel', 'noopener noreferrer');
     }
