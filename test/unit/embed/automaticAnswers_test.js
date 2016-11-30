@@ -4,6 +4,7 @@ describe('embed.automaticAnswers', () => {
     mockTransport,
     mockJwtToken,
     mockIsMobileBrowserValue,
+    mockArticleIdInUrl,
     mockSolvedURLParameter;
 
   const automaticAnswersPath = buildSrcPath('embed/automaticAnswers/automaticAnswers');
@@ -55,7 +56,8 @@ describe('embed.automaticAnswers', () => {
         transport: jasmine.createSpyObj('transport', ['automaticAnswersApiRequest'])
       },
       'utility/pages': {
-        getURLParameterByName: jasmine.createSpy().and.callFake(() => mockSolvedURLParameter)
+        getURLParameterByName: jasmine.createSpy().and.callFake(() => mockSolvedURLParameter),
+        getHelpCenterArticleId: jasmine.createSpy().and.callFake(() => mockArticleIdInUrl)
       }
     });
 
@@ -67,6 +69,7 @@ describe('embed.automaticAnswers', () => {
       'token': 'abcdef'
     };
     mockIsMobileBrowserValue = false;
+    mockArticleIdInUrl = 1234;
   });
 
   afterEach(() => {
@@ -147,6 +150,19 @@ describe('embed.automaticAnswers', () => {
 
       it('does nothing', () => {
         expect(mockTransport.automaticAnswersApiRequest)
+          .not.toHaveBeenCalled();
+      });
+    });
+
+    describe('when the window.location does not have article id', () => {
+      beforeEach(() => {
+        mockArticleIdInUrl = NaN;
+      });
+
+      it('does nothing', () => {
+        const instance = automaticAnswers.get().instance;
+
+        expect(instance.show.__reactBoundMethod)
           .not.toHaveBeenCalled();
       });
     });
