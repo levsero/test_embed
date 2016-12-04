@@ -46,6 +46,7 @@ function create(name, config) {
     color: '#659700'
   };
   const attachmentsSetting = settings.get('contactForm.attachments');
+  const expandedSetting = settings.get('expanded');
   const showBackButton = (show = true) => {
     get(name).instance.getChild().showBackButton(show);
   };
@@ -211,6 +212,7 @@ function create(name, config) {
       css: submitTicketCSS + generateUserCSS(config.color),
       position: config.position,
       fullscreenable: true,
+      expandable: settings.get('expandable'),
       transitions: {
         upClose: transitionFactory.webWidget.upHide(),
         downClose: transitionFactory.webWidget.downHide(),

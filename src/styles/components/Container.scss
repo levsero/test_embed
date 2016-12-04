@@ -88,6 +88,10 @@ $Container-spacing: 25/$font-size;
   }
 }
 
+.Container--expanded {
+  height: 100%;
+}
+
 .Container--channelChoicePopup {
   background-color: $base-color;
   bottom: #{42/$font-size}rem;

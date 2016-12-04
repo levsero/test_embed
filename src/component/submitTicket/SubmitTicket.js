@@ -31,6 +31,7 @@ export class SubmitTicket extends Component {
       formTitleKey: props.formTitleKey,
       showNotification: false,
       message: '',
+      expanded: false,
       fullscreen: isMobileBrowser(),
       errorMessage: null,
       uid: _.uniqueId('submitTicketForm_'),
@@ -59,6 +60,10 @@ export class SubmitTicket extends Component {
 
   setLoading(value) {
     this.setState({ loading: value });
+  }
+
+  expand(value) {
+    this.setState({ expanded: value });
   }
 
   handleSubmit(e, data) {
@@ -391,6 +396,7 @@ export class SubmitTicket extends Component {
         fullscreen={this.state.fullscreen}
         position={this.props.position}
         onDragEnter={this.handleDragEnter}
+        expanded={this.state.expanded}
         key={this.state.uid}>
         {this.renderAttachmentBox()}
         {this.renderNotifications()}

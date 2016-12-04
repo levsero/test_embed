@@ -31,6 +31,7 @@ export class HelpCenter extends Component {
       searchTracked: false,
       searchResultClicked: false,
       searchFieldFocused: false,
+      expanded: false,
       resultsPerPage: minimumSearchResults,
       showViewMore: true,
       chatOnline: false,
@@ -58,6 +59,10 @@ export class HelpCenter extends Component {
       searchFailed: false,
       searchResultClicked: false
     }, state);
+  }
+
+  expand(value) {
+    this.setState({ expanded: value });
   }
 
   setChatOnline(state) {
@@ -478,6 +483,7 @@ export class HelpCenter extends Component {
       <Container
         style={this.props.style}
         onClick={this.onContainerClick}
+        expanded={this.state.expanded}
         fullscreen={this.props.fullscreen}>
         {helpCenter}
       </Container>

@@ -14,6 +14,7 @@ const optionWhitelist = {
     'contactForm.suppress',
     'contactForm.title',
     'contactForm.ticketForms',
+    'expanded',
     'helpCenter.chatButton',
     'helpCenter.messageButton',
     'helpCenter.originalArticleButton',
@@ -38,6 +39,7 @@ const optionWhitelist = {
 };
 const customizationsWhitelist = [
   'channelChoice',
+  'expanded',
   'helpCenter.localeFallbacks'
 ];
 const webWidgetStoreDefaults = {

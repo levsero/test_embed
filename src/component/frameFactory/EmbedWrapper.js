@@ -52,6 +52,7 @@ export class EmbedWrapper extends Component {
         }
         rtl={i18n.isRTL()}
         position={options.position}
+        className={options.className}
         fullscreen={this.props.fullscreen || this.state.isMobile} />
     );
   }
@@ -63,6 +64,10 @@ export class EmbedWrapper extends Component {
     const closeButtonClasses = classNames({
       'closeButton': true,
       'u-isHidden': this.props.hideCloseButton
+    });
+    const expandButtonClasses = classNames({
+      'closeButton': true,
+      'u-isHidden': !this.props.showExpandButton
     });
     const styleTag = <style dangerouslySetInnerHTML={{ __html: this.state.css }} />;
     const css = <style dangerouslySetInnerHTML={{ __html: this.props.baseCSS }} />;
@@ -76,6 +81,14 @@ export class EmbedWrapper extends Component {
             onClick: this.props.handleBackClick,
             icon: 'Icon--back',
             position: 'left'
+          })}
+        </div>
+        <div className={expandButtonClasses}>
+          {this.renderNavButton({
+            onClick: this.props.handleExpandClick,
+            icon: 'Icon--caret',
+            position: 'right',
+            className: 'u-posEndL' // Add RTL styles
           })}
         </div>
         <div className={closeButtonClasses}>

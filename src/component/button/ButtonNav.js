@@ -13,7 +13,8 @@ export class ButtonNav extends Component {
       'u-isActionable u-textSizeBaseMobile': fullscreen,
       'u-posEnd--flush u-paddingR': isRight && !rtl,
       'u-posStart--flush': isRight && rtl,
-      'u-flipText': rtl
+      'u-flipText': rtl,
+      [`${this.props.className}`]: true
     });
 
     return (
@@ -34,13 +35,15 @@ ButtonNav.propTypes = {
   rtl: PropTypes.bool,
   fullscreen: PropTypes.bool,
   position: PropTypes.string,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  className: PropTypes.string
 };
 
 ButtonNav.defaultProps = {
   rtl: false,
   fullscreen: false,
   position: 'left',
-  onClick: () => {}
+  onClick: () => {},
+  className: ''
 };
 

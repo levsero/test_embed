@@ -92,6 +92,7 @@ export const frameFactory = function(childFn, _params) {
       this.state = {
         visible: this.props.visible,
         frameStyle: params.frameStyle,
+        expanded: false,
         hiddenByZoom: false,
         _rendered: false,
         iframeDimensions: {
@@ -209,6 +210,10 @@ export const frameFactory = function(childFn, _params) {
 
       const dimensions = getDimensions();
 
+      if (this.state.expanded) {
+        dimensions.height = '100%';
+      }
+
       frameWin.setTimeout(() => this.setState({ iframeDimensions: dimensions }), 0);
       return dimensions;
     }
@@ -279,6 +284,16 @@ export const frameFactory = function(childFn, _params) {
     back(ev) {
       ev.preventDefault();
       params.onBack(this);
+    }
+
+    expand(e) {
+      e.preventDefault();
+
+      const expanded = !this.state.expanded;
+
+      this.setState({ expanded: expanded });
+
+      this.getRootComponent().expand(expanded);
     }
 
     setHiddenByZoom(hide) {
@@ -378,6 +393,8 @@ export const frameFactory = function(childFn, _params) {
           baseCSS={cssText}
           handleBackClick={this.back}
           handleCloseClick={this.close}
+          handleExpandClick={this.expand}
+          showExpandButton={true}
           hideCloseButton={params.hideCloseButton}
           childFn={childFn}
           childParams={childParams}
