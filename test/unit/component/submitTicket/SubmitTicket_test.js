@@ -67,12 +67,8 @@ describe('Submit ticket component', () => {
         location: location
       },
       'utility/devices': {
-        isIE: () => {
-          return mockIsIEValue;
-        },
-        isMobileBrowser: () => {
-          return mockIsMobileBrowserValue;
-        }
+        isIE: () => mockIsIEValue,
+        isMobileBrowser: () => mockIsMobileBrowserValue
       },
       'component/submitTicket/SubmitTicketForm': {
         SubmitTicketForm: React.createClass({
