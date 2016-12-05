@@ -113,10 +113,26 @@ class HelpCenterArticle extends Component {
 
   handleClick(e) {
     const target = e.target;
-    const nodeName = target.nodeName;
-    const href = target.getAttribute('href');
+    let nodeName = target.nodeName;
+    let href = target.getAttribute('href');
     const doc = target.ownerDocument;
     const isMailLink = href && (href.indexOf('mailto://') > -1);
+
+    // Traverse upwards to find a parent anchor link
+    if (nodeName !== 'A') {
+      // Element.closest is currently not supported in IE & Edge
+      if (document.documentMode || /Edge/.test(navigator.userAgent)) {
+        e.preventDefault();
+        return;
+      }
+
+      const targetParent = target.closest('a');
+
+      if (targetParent) {
+        nodeName = targetParent.nodeName;
+        href = targetParent.getAttribute('href');
+      }
+    }
 
     if (nodeName === 'A' && href.indexOf('#') === 0) {
       // You can deep link via an id or name attribute, handle both in the selector
@@ -126,7 +142,7 @@ class HelpCenterArticle extends Component {
         inPageElem.scrollIntoView();
       }
       e.preventDefault();
-    } else if (!isMailLink) {
+    } else if (nodeName === 'A' && !isMailLink) {
       target.setAttribute('target', '_blank');
       target.setAttribute('rel', 'noopener noreferrer');
     }
