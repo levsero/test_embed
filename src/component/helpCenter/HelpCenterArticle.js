@@ -112,9 +112,9 @@ class HelpCenterArticle extends Component {
   }
 
   handleClick(e) {
+    const target = e.target;
     let nodeName = target.nodeName;
     let href = target.getAttribute('href');
-    const target = e.target;
     const doc = target.ownerDocument;
     const isMailLink = href && (href.indexOf('mailto://') > -1);
 
