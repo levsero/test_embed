@@ -2617,4 +2617,44 @@ describe('mediator', function() {
         .toEqual(0);
     });
   });
+
+  describe('.activate', () => {
+    const launcher = 'launcher';
+    const submitTicket = 'ticketSubmissionForm';
+    const beacon = 'beacon';
+    const names = {
+      launcher: launcher,
+      submitTicket: submitTicket,
+      beacon
+    };
+
+    beforeEach(() => {
+      initSubscriptionSpies(names);
+      mediator.init({ submitTicket: true, helpCenter: false });
+      beaconSub.trackUserAction.calls.reset();
+    });
+
+    describe('when no embed is visible', () => {
+      beforeEach(() => {
+        c.broadcast('.activate');
+      });
+
+      it('should send an activate blip', () => {
+        expect(beaconSub.trackUserAction)
+          .toHaveBeenCalledWith('api', 'activate');
+      });
+    });
+
+    describe('when an embed is visible', () => {
+      beforeEach(() => {
+        c.broadcast(`${launcher}.onClick`);
+        c.broadcast('.activate');
+      });
+
+      it('should not send an activate blip', () => {
+        expect(beaconSub.trackUserAction)
+          .not.toHaveBeenCalled();
+      });
+    });
+  });
 });

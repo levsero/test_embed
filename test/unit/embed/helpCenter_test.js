@@ -812,7 +812,7 @@ describe('embed.helpCenter', () => {
           describe('before post render', () => {
             beforeEach(() => {
               spyOn(helpCenter, 'keywordsSearch');
-              pluckSubscribeCall(mockMediator, 'carlos.show')({ viaActivate: true });
+              pluckSubscribeCall(mockMediator, 'carlos.show')({ viaApi: true });
               helpCenter.postRender('carlos');
             });
 
@@ -830,7 +830,7 @@ describe('embed.helpCenter', () => {
           describe('after post render', () => {
             beforeEach(() => {
               helpCenter.postRender('carlos');
-              pluckSubscribeCall(mockMediator, 'carlos.show')({ viaActivate: true });
+              pluckSubscribeCall(mockMediator, 'carlos.show')({ viaApi: true });
             });
 
             it('should remove the mouse target listener', () => {

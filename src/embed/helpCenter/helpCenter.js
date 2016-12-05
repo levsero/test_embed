@@ -280,7 +280,7 @@ function render(name) {
   helpCenters[name].instance = ReactDOM.render(helpCenters[name].component, element);
 
   mediator.channel.subscribe(name + '.show', function(options = {}) {
-    if (useMouseDistanceContexualSearch && options.viaActivate) {
+    if (useMouseDistanceContexualSearch && options.viaApi) {
       useMouseDistanceContexualSearch = false;
 
       if (cancelTargetHandler) {
