@@ -27,7 +27,7 @@ describe('SearchField component', () => {
           }
         })
       },
-      'component/Loading': {
+      'component/loading/Loading': {
         LoadingEllipses: React.createClass({
           render: function() {
             return (

@@ -17,7 +17,10 @@ import { settings } from 'service/settings';
 import { generateUserCSS } from 'utility/color';
 import { transport } from 'service/transport';
 
-const submitTicketCSS = require('./submitTicket.scss').toString();
+import LoadingSpinnerStyles from 'component/loading/LoadingSpinner.sass';
+
+const submitTicketCSS = require('./submitTicket.scss').toString()
+                      + LoadingSpinnerStyles.toString();
 let submitTickets = {};
 let backButtonSetByHelpCenter = false;
 
@@ -144,14 +147,28 @@ function create(name, config) {
   if (!_.isEmpty(ticketForms)) {
     const ticketFormIds = ticketForms.join();
 
+    waitForRootComponent(name, () => {
+      getRootComponent(name).setLoading(true);
+    });
+
     transport.get({
       method: 'get',
       path: `/api/v2/ticket_forms/show_many.json?ids=${ticketFormIds}&include=ticket_fields`,
+      timeout: 20000,
       callbacks: {
         done(res) {
-          waitForRootComponent(name, function() {
+          waitForRootComponent(name, () => {
             getRootComponent(name).updateTicketForms(JSON.parse(res.text));
           });
+        },
+        fail() {
+          // do this on next tick so that it never happens before
+          // the one above that sets loading to true.
+          setTimeout(() => {
+            waitForRootComponent(name, () => {
+              getRootComponent(name).setLoading(false);
+            });
+          }, 0);
         }
       }
     });
@@ -312,7 +329,7 @@ function getRootComponent(name) {
 }
 
 function waitForRootComponent(name, callback) {
-  if (getRootComponent(name)) {
+  if (get(name) && get(name).instance && getRootComponent(name)) {
     callback();
   } else {
     setTimeout(() => {

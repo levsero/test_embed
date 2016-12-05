@@ -61,6 +61,13 @@ $Base-posOffset: $med + 1;
   position: static !important;
 }
 
+.u-posFill {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
 /**
  * Used to adjust the default spacing between components
  * Use with great care!
@@ -168,6 +175,11 @@ $Base-posOffset: $med + 1;
   margin-left: $spacing-sml !important;
 }
 
+.u-marginHS {
+  margin-left: $spacing-sml !important;
+  margin-right: $spacing-sml !important;
+}
+
 .u-marginHM {
   margin-left: $spacing-med !important;
   margin-right: $spacing-med !important;
@@ -208,6 +220,11 @@ $Base-posOffset: $med + 1;
 .u-paddingHT {
   padding-left: $spacing-tny !important;
   padding-right: $spacing-tny !important;
+}
+
+.u-paddingHS {
+  padding-left: $spacing-sml !important;
+  padding-right: $spacing-sml !important;
 }
 
 .u-paddingHL {
@@ -257,6 +274,10 @@ $Base-posOffset: $med + 1;
   padding-left: #{25/$font-size}rem;
 }
 
+.u-paddingLS {
+  padding-left: $spacing-sml;
+}
+
 .u-paddingLL {
   padding-left: $spacing-lrg;
 }
@@ -280,6 +301,10 @@ $Base-posOffset: $med + 1;
 
 .u-paddingRL {
   padding-right: $spacing-lrg !important;
+}
+
+.u-paddingRXL {
+  padding-right: $spacing-xl !important;
 }
 
 .u-paddingTT {

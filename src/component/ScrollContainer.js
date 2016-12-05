@@ -30,7 +30,7 @@ export class ScrollContainer extends Component {
   render() {
     const containerClasses = classNames({
       'ScrollContainer-content': true,
-      'u-paddingLL u-marginRS u-paddingRS': true,
+      'u-paddingHS u-marginHS': true,
       'u-paddingTM': !this.props.hideZendeskLogo,
       'u-paddingTL': this.props.hideZendeskLogo,
       'u-paddingBM': this.state.scrollShadowVisible,

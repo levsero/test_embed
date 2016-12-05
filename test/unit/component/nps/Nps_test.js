@@ -55,7 +55,7 @@ describe('Nps component', function() {
       'component/FormField': {
         Field: noopReactComponent()
       },
-      'component/Loading': {
+      'component/loading/Loading': {
         LoadingEllipses: noopReactComponent()
       }
     });
