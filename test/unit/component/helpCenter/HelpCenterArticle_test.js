@@ -552,11 +552,11 @@ describe('HelpCenterArticle component', () => {
           target: {
             nodeName: 'span',
             closest: mockClosest,
-            getAttribute: mockGetAttribute,
+            getAttribute: mockGetAttribute
           }
         };
-
         const helpCenterArticle = domRender(<HelpCenterArticle activeArticle={mockArticle}/>);
+
         helpCenterArticle.handleClick(mockEvent);
       });
 
