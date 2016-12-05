@@ -538,4 +538,37 @@ describe('HelpCenterArticle component', () => {
         .toMatch('u-isHidden');
     });
   });
+
+  describe('handleClick', () => {
+    describe('when article contains <a> with nested children', () => {
+      let mockClosest;
+      let mockGetAttribute;
+
+      beforeEach(() => {
+        mockClosest = jasmine.createSpy();
+        mockGetAttribute = jasmine.createSpy();
+        const mockArticle = '<a href="foo"><span>bar</span></a>';
+        const mockEvent = {
+          target: {
+            nodeName: 'span',
+            closest: mockClosest,
+            getAttribute: mockGetAttribute,
+          }
+        };
+
+        const helpCenterArticle = domRender(<HelpCenterArticle activeArticle={mockArticle}/>);
+        helpCenterArticle.handleClick(mockEvent);
+      });
+
+      it('calls the closest with `a` element', () => {
+        expect(mockClosest)
+          .toHaveBeenCalledWith('a');
+      });
+
+      it('calls the getAttribute with `href` element', () => {
+        expect(mockGetAttribute)
+          .toHaveBeenCalledWith('href');
+      });
+    });
+  });
 });
