@@ -11,6 +11,8 @@ $thin-border-size: #{1.1/$font-size}rem; /* 1 */
 
 // Extending garden
 $zendesk-color--algae: #03363D;
+// TODO: remove and replace all with $zd-color-pelorous after garden css update
+$zendesk-color--pelorous: #30AABC;
 
 // Button colors
 $cta-color: $zendesk-color--zendesk-green;
