@@ -2,9 +2,10 @@ import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
 
+import css from './SubmitTicket.sass';
+
 import { AttachmentBox } from 'component/attachment/AttachmentBox';
 import { Container } from 'component/Container';
-import { SelectField } from 'component/field/SelectField';
 import { LoadingSpinner } from 'component/loading/LoadingSpinner';
 import { Icon } from 'component/Icon';
 import { ScrollContainer } from 'component/ScrollContainer';
@@ -21,6 +22,8 @@ let frameDimensions = {
   width: 0,
   height: 0
 };
+
+const styles = css.locals;
 
 export class SubmitTicket extends Component {
   constructor(props, context) {
@@ -233,8 +236,8 @@ export class SubmitTicket extends Component {
     this.setState({ formTitleKey });
   }
 
-  handleSelectorChange(e) {
-    const value = e.target.value;
+  handleTicketFormsListClick(e) {
+    const value = e.target.dataset.id;
     const { ticketForms } = this.state;
     const selectedTicketForm = _.find(ticketForms.ticket_forms, (f) => {
       return f.id === parseInt(value);
@@ -250,28 +253,35 @@ export class SubmitTicket extends Component {
   }
 
   renderLoadingSpinner() {
-    const spinnerContainerClasses = classNames({
-      'u-flex u-posFill u-posAbsolute u-flexAlignItemsCenter u-flexJustifyCenter': true,
-      'u-paddingBXL u-paddingRXL': isIE()
-    });
+    let spinnerClasses = styles.loadingSpinner;
+
+    if (isIE()) {
+      spinnerClasses = `${spinnerClasses} ${styles.loadingSpinnerIE}`;
+    }
 
     return (
       <ScrollContainer
         title={i18n.t(`embeddable_framework.submitTicket.form.title.${this.state.formTitleKey}`)}
-        containerClasses='ticketFormSelector--fixed u-posRelative'>
-        <div className={spinnerContainerClasses}>
+        fullscreen={this.state.fullscreen}
+        containerClasses={styles.ticketFormsContainer}>
+        <div className={styles.loadingSpinner}>
           <LoadingSpinner />
         </div>
       </ScrollContainer>
     );
   }
 
-  renderForm() {
-    const errorClasses = classNames({
-      'Error u-marginTL': true,
-      'u-isHidden': !this.state.errorMessage
-    });
+  renderErrorMessage() {
+    if (!this.state.errorMessage) return;
 
+    return (
+      <p className={styles.error}>
+        {this.state.errorMessage}
+      </p>
+    );
+  }
+
+  renderForm() {
     return (
       <SubmitTicketForm
         onCancel={this.props.onCancel}
@@ -288,60 +298,66 @@ export class SubmitTicket extends Component {
         submit={this.handleSubmit}
         ticketForms={this.state.ticketForms}
         previewEnabled={this.props.previewEnabled}>
-        <p className={errorClasses}>
-          {this.state.errorMessage}
-        </p>
+        {this.renderErrorMessage()}
       </SubmitTicketForm>
     );
   }
 
   renderNotifications() {
-    const notifyClasses = classNames({
-      'u-textCenter': true,
-      'u-isHidden': !this.state.showNotification
-    });
+    if (!this.state.showNotification) return;
+
+    const iconClasses = `${styles.notifyIcon} u-userFillColor u-userTextColor`;
 
     return (
-      <div className={notifyClasses} ref='notification'>
+      <div className={styles.notify} ref='notification'>
         <ScrollContainer title={this.state.message}>
           <Icon
             type='Icon--tick'
-            className='u-inlineBlock u-userTextColor u-posRelative u-marginTL u-userFillColor' />
+            className={iconClasses} />
         </ScrollContainer>
       </div>
     );
   }
 
-  renderTicketFormSelector() {
+  renderTicketFormList() {
     if (this.state.showNotification) return;
 
-    const { ticketForms } = this.state;
-    const options = _.map(ticketForms.ticket_forms, (form) => {
-      return {
-        title: form.display_name,
-        value: form.id
-      };
+    const { ticketForms, fullscreen } = this.state;
+    const buttonClasses = classNames({
+      [`${styles.ticketFormsList}`]: true,
+      [`${styles.ticketFormsListMobile}`]: fullscreen,
+      'u-userTextColor': true
     });
-    // TODO remove fallback once translations are in.
-    const title = i18n.t(
-      'embeddable_framework.submitTicket.ticketForms.title',
-      { fallback: 'Please choose your issue below' }
-    );
+    const options = _.map(ticketForms.ticket_forms, (form) => {
+      return (
+        <div data-id={form.id} className={buttonClasses}>
+          {form.display_name}
+        </div>
+      );
+    });
+    const containerClasses = fullscreen
+                           ? styles.ticketFormsContainerMobile
+                           : styles.ticketFormsContainer;
+    const footerClasses = fullscreen
+                           ? styles.ticketFormsFooterMobile
+                           : styles.ticketFormsFooter;
+    const titleClasses = fullscreen
+                       ? `${styles.ticketFormsListTitle} ${styles.ticketFormsListMobile}`
+                       : styles.ticketFormsListTitle;
 
     return (
       <ScrollContainer
         title={i18n.t(`embeddable_framework.submitTicket.form.title.${this.state.formTitleKey}`)}
         ref='ticketFormSelector'
         footerContentHidden={true}
-        containerClasses='ticketFormSelector--fixed'
-        footerClasses='u-borderTop u-marginHL'>
-        <div className='u-paddingTS'>
-          <SelectField
-            name={title}
-            placeholder={title}
-            value={this.state.selectedTicketForm}
-            onChange={this.handleSelectorChange}
-            options={options} />
+        fullscreen={fullscreen}
+        containerClasses={containerClasses}
+        footerClasses={footerClasses}>
+        <div className={titleClasses}>
+          {i18n.t('embeddable_framework.submitTicket.ticketForms.title')}
+        </div>
+        <div onClick={this.handleTicketFormsListClick}>
+          {options}
         </div>
       </ScrollContainer>
     );
@@ -372,7 +388,7 @@ export class SubmitTicket extends Component {
 
     const content = (_.isEmpty(this.state.ticketForms) || this.state.selectedTicketForm)
                   ? this.renderForm()
-                  : this.renderTicketFormSelector();
+                  : this.renderTicketFormList();
     const display = this.state.loading
                   ? this.renderLoadingSpinner()
                   : content;

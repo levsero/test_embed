@@ -70,6 +70,9 @@ describe('Submit ticket component', () => {
         isIE: () => mockIsIEValue,
         isMobileBrowser: () => mockIsMobileBrowserValue
       },
+      './SubmitTicket.sass': {
+        locals: ''
+      },
       'component/submitTicket/SubmitTicketForm': {
         SubmitTicketForm: React.createClass({
           getInitialState: function() {

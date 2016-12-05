@@ -73,6 +73,7 @@ describe('embed.submitTicket', () => {
       './submitTicket.scss': '',
       './submitTicketFrame.scss': '',
       'component/loading/LoadingSpinner.sass': '',
+      'component/submitTicket/SubmitTicket.sass': '',
       'embed/frameFactory': {
         frameFactory: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
         frameMethods: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
