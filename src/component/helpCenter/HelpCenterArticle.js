@@ -122,6 +122,7 @@ class HelpCenterArticle extends Component {
     if (nodeName !== 'A') {
       // Element.closest is currently not supported in IE & Edge
       if (document.documentMode || /Edge/.test(navigator.userAgent)) {
+        e.preventDefault();
         return;
       }
 
