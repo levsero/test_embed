@@ -1,0 +1,19 @@
+@import '../../styles/_vars.scss';
+
+.form {
+  composes: u-cf from '../../styles/utils.scss';
+  composes: Form from '../../styles/components/Form.scss';
+}
+
+.hidden {
+  composes: u-isHidden from '../../styles/utils.scss';
+}
+
+.ticketFormTitle {
+  composes: ticketFormsListTitle from './SubmitTicket.sass';
+  composes: u-marginBM from '../../styles/utils.scss';
+}
+
+.ticketFormContainer {
+  composes: u-paddingTN from '../../styles/utils.scss';
+}
