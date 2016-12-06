@@ -265,12 +265,13 @@ export class SubmitTicketForm extends Component {
       return ticketForm.ticket_field_ids.indexOf(field.id) > -1;
     });
     const ticketFieldsElem = getCustomFields(formTicketFields, formState);
+    const titleMobileClasses = this.props.fullscreen ? styles.ticketFormTitleMobile : '';
 
     ticketFieldsElem.allFields.unshift([this.renderNameField(), this.renderEmailField()]);
 
     return (
       <div ref='formWrapper'>
-        <div className={styles.ticketFormTitle}>
+        <div className={`${styles.ticketFormTitle} ${titleMobileClasses}`}>
           {ticketForm.display_name}
         </div>
         {ticketFieldsElem.allFields}

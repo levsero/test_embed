@@ -3,6 +3,7 @@
 .ticketFormsList {
   composes: u-borderBottom u-isActionable from '../../styles/utils.scss';
   padding: #{18/$font-size}rem 0;
+  line-height: #{18/$font-size};
 
   &:hover, &:focus, &:active {
     text-decoration: underline;
@@ -14,7 +15,13 @@
 }
 
 .ticketFormsListMobile {
-  composes: u-paddingHL from '../../styles/utils.scss';
+  composes: u-paddingHL u-textSize15 from '../../styles/utils.scss';
+  padding-top: #{24/$font-size}rem;
+  padding-bottom: #{24/$font-size}rem;
+
+  &:hover, &:focus, &:active {
+    background: $zendesk-color--snow;
+  }
 }
 
 .ticketFormsListTitle {
