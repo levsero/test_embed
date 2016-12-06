@@ -190,11 +190,6 @@ $Base-posOffset: $med + 1;
   margin-right: $spacing-lrg !important;
 }
 
-.u-marginHN {
-  margin-left: 0 !important;
-  margin-right: 0 !important;
-}
-
 .u-marginHXL {
   margin-left: $spacing-xl !important;
   margin-right: $spacing-xl !important;
@@ -418,10 +413,6 @@ $Base-posOffset: $med + 1;
 
 .u-textSizeBaseMobile {
   font-size: #{16/$font-size}rem !important;
-}
-
-.u-textBold {
-  font-weight: 700;
 }
 
 .u-textBold {

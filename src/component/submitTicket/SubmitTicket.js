@@ -1,8 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
-import classNames from 'classnames';
 
-import css from './SubmitTicket.sass';
+import { locals as styles } from './SubmitTicket.sass';
 
 import { AttachmentBox } from 'component/attachment/AttachmentBox';
 import { Container } from 'component/Container';
@@ -22,8 +21,6 @@ let frameDimensions = {
   width: 0,
   height: 0
 };
-
-const styles = css.locals;
 
 export class SubmitTicket extends Component {
   constructor(props, context) {
@@ -323,14 +320,10 @@ export class SubmitTicket extends Component {
     if (this.state.showNotification) return;
 
     const { ticketForms, fullscreen } = this.state;
-    const buttonClasses = classNames({
-      [`${styles.ticketFormsList}`]: true,
-      [`${styles.ticketFormsListMobile}`]: fullscreen,
-      'u-userTextColor': true
-    });
+    const mobileClasses = fullscreen ? styles.ticketFormsListMobile : '';
     const options = _.map(ticketForms.ticket_forms, (form) => {
       return (
-        <div data-id={form.id} className={buttonClasses}>
+        <div data-id={form.id} className={`${styles.ticketFormsList} u-userTextColor ${mobileClasses}`}>
           {form.display_name}
         </div>
       );
@@ -341,9 +334,7 @@ export class SubmitTicket extends Component {
     const footerClasses = fullscreen
                         ? styles.ticketFormsFooterMobile
                         : styles.ticketFormsFooter;
-    const titleClasses = fullscreen
-                       ? `${styles.ticketFormsListTitle} ${styles.ticketFormsListMobile}`
-                       : styles.ticketFormsListTitle;
+    const titleMobileClasses = fullscreen ? styles.ticketFormsListMobile : '';
 
     return (
       <ScrollContainer
@@ -353,7 +344,7 @@ export class SubmitTicket extends Component {
         fullscreen={fullscreen}
         containerClasses={containerClasses}
         footerClasses={footerClasses}>
-        <div className={titleClasses}>
+        <div className={`${styles.ticketFormsListTitle} ${titleMobileClasses}`}>
           {i18n.t('embeddable_framework.submitTicket.ticketForms.title')}
         </div>
         <div onClick={this.handleTicketFormsListClick}>

@@ -70,7 +70,7 @@ describe('embed.submitTicket', () => {
           }
         })
       },
-      './submitTicket.scss': '',
+      './submitTicket.scss': 'mockCSS',
       './submitTicketFrame.scss': '',
       'component/loading/LoadingSpinner.sass': '',
       'component/submitTicket/SubmitTicket.sass': '',
@@ -558,7 +558,7 @@ describe('embed.submitTicket', () => {
         .toThrow();
     });
 
-    it('applies submitTicket.scss to the frame', () => {
+    it('applies css to the frame', () => {
       const mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
       const mockCss = mockRegistry['./submitTicket.scss'];
 
@@ -568,7 +568,7 @@ describe('embed.submitTicket', () => {
       const mockFrameFactoryCss = mockFrameFactory.calls.mostRecent().args[1].css;
 
       expect(mockFrameFactoryCss)
-        .toEqual(mockCss);
+        .toContain(mockCss);
     });
 
     describe('mediator subscription', () => {

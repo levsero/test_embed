@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
-import css from './SubmitTicketForm.sass';
+import { locals as styles } from './SubmitTicketForm.sass';
 
 import { AttachmentList } from 'component/attachment/AttachmentList';
 import { Button } from 'component/button/Button';
@@ -14,7 +14,6 @@ import { i18n } from 'service/i18n';
 import { getCustomFields } from 'utility/fields';
 import { bindMethods } from 'utility/utils';
 
-const styles = css.locals;
 const sendButtonMessageString = 'embeddable_framework.submitTicket.form.submitButton.label.send';
 const sendingButtonMessageString = 'embeddable_framework.submitTicket.form.submitButton.label.sending';
 const cancelButtonMessageString = 'embeddable_framework.submitTicket.form.cancelButton.label.cancel';

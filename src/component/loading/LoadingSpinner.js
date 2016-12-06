@@ -1,7 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import css from './LoadingSpinner.sass';
-
-const styles = css.locals;
+import { locals as styles } from './LoadingSpinner.sass';
 
 export class LoadingSpinner extends Component {
   render() {
