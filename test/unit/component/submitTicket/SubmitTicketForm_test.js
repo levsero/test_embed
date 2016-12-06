@@ -30,6 +30,9 @@ describe('SubmitTicketForm component', function() {
 
     mockRegistry = initMockRegistry({
       'React': React,
+      './SubmitTicketForm.sass': {
+        locals: ''
+      },
       'component/button/Button': {
         Button: React.createClass({
           render: function() {
@@ -294,6 +297,7 @@ describe('SubmitTicketForm component', function() {
       const mockTicketForm = {
         id: 1,
         raw_name: 'Ticket Formz',
+        display_name: 'Ticket Forms',
         ticket_field_ids: [1, 2, 4]
       };
       const mockTicketFields = [
@@ -308,7 +312,7 @@ describe('SubmitTicketForm component', function() {
       component = domRender(<SubmitTicketForm />);
       component.updateTicketForm(mockTicketForm, mockTicketFields);
 
-      formElements = component.refs.formWrapper.props.children[0];
+      formElements = component.refs.formWrapper.props.children[1];
     });
 
     it('should render the name field', () => {
