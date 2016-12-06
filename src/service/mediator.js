@@ -173,7 +173,7 @@ function init(embedsAccessible, params = {}) {
       if (embedAvailable()) {
         c.broadcast(`${state.activeEmbed}.show`, {
           transition: getShowAnimation(),
-          viaActivate: true
+          viaApi: true
         });
         state[`${state.activeEmbed}.isVisible`] = true;
 
@@ -188,6 +188,8 @@ function init(embedsAccessible, params = {}) {
             setScrollKiller(true);
           }, 0);
         }
+
+        c.broadcast('beacon.trackUserAction', 'api', 'activate');
       }
     }
   });
