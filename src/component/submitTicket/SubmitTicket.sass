@@ -1,8 +1,9 @@
 @import '../../styles/_vars.scss';
 
 .ticketFormsList {
-  composes: u-borderBottom u-isActionable from '../../styles/utils.scss';
-  padding: #{18/$font-size}rem 0;
+  composes: u-borderBottom u-isActionable u-paddingHN from '../../styles/utils.scss';
+  padding-top: #{18/$font-size}rem;
+  padding-bottom: #{18/$font-size}rem;
   line-height: #{18/$font-size};
 
   &:hover, &:focus, &:active {
@@ -25,8 +26,9 @@
 }
 
 .ticketFormsListTitle {
-  composes: u-borderBottom u-textBold from '../../styles/utils.scss';
-  padding: #{16/$font-size}rem 0;
+  composes: u-borderBottom u-textBold u-paddingHN from '../../styles/utils.scss';
+  padding-top: #{16/$font-size}rem;
+  padding-bottom: #{16/$font-size}rem;
   color: $zendesk-color--dark-gray;
 }
 

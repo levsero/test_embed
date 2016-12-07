@@ -250,18 +250,14 @@ export class SubmitTicket extends Component {
   }
 
   renderLoadingSpinner() {
-    let spinnerClasses = styles.loadingSpinner;
-
-    if (isIE()) {
-      spinnerClasses = `${spinnerClasses} ${styles.loadingSpinnerIE}`;
-    }
+    const spinnerIEClasses = isIE() ? styles.loadingSpinnerIE : '';
 
     return (
       <ScrollContainer
         title={i18n.t(`embeddable_framework.submitTicket.form.title.${this.state.formTitleKey}`)}
         fullscreen={this.state.fullscreen}
         containerClasses={styles.ticketFormsContainer}>
-        <div className={spinnerClasses}>
+        <div className={`${styles.loadingSpinner} ${spinnerIEClasses}`}>
           <LoadingSpinner />
         </div>
       </ScrollContainer>
