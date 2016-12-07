@@ -518,6 +518,15 @@ describe('Submit ticket component', () => {
       expect(submitTicket.refs.ticketFormSelector)
         .toBeDefined();
     });
+
+    it('should render the correct number of list options', () => {
+      const ticketForms = { ticket_forms: [{ id: 1 }, { id: 2 }, { id: 3 }], ticket_fields: [] };
+
+      submitTicket.updateTicketForms(ticketForms);
+
+      expect(submitTicket.renderTicketFormOptions().length)
+        .toBe(3);
+    });
   });
 
   describe('loading spinner', () => {

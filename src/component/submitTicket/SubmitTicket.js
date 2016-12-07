@@ -316,18 +316,23 @@ export class SubmitTicket extends Component {
     );
   }
 
-  renderTicketFormList() {
-    if (this.state.showNotification) return;
-
+  renderTicketFormOptions() {
     const { ticketForms, fullscreen } = this.state;
     const mobileClasses = fullscreen ? styles.ticketFormsListMobile : '';
-    const options = _.map(ticketForms.ticket_forms, (form) => {
+
+    return _.map(ticketForms.ticket_forms, (form) => {
       return (
         <div data-id={form.id} className={`${styles.ticketFormsList} u-userTextColor ${mobileClasses}`}>
           {form.display_name}
         </div>
       );
     });
+  }
+
+  renderTicketFormList() {
+    if (this.state.showNotification) return;
+
+    const { fullscreen } = this.state;
     const containerClasses = fullscreen
                            ? styles.ticketFormsContainerMobile
                            : styles.ticketFormsContainer;
@@ -348,7 +353,7 @@ export class SubmitTicket extends Component {
           {i18n.t('embeddable_framework.submitTicket.ticketForms.title')}
         </div>
         <div onClick={this.handleTicketFormsListClick}>
-          {options}
+          {this.renderTicketFormOptions()}
         </div>
       </ScrollContainer>
     );
