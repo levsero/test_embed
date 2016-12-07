@@ -45,6 +45,7 @@ function create(name, config) {
     hideZendeskLogo: false,
     signInRequired: false,
     disableAutoSearch: false,
+    expandable: false,
     enableMouseDrivenContextualHelp: false,
     viewMoreEnabled: false,
     color: '#659700'
@@ -179,6 +180,7 @@ function create(name, config) {
       css: helpCenterCSS + generateUserCSS(config.color),
       name: name,
       fullscreenable: true,
+      expandable: config.expandable,
       transitions: {
         upClose: transitionFactory.webWidget.upHide(),
         downClose: transitionFactory.webWidget.downHide(),
