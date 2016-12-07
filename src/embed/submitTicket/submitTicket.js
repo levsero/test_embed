@@ -163,9 +163,13 @@ function create(name, config) {
       timeout: 20000,
       callbacks: {
         done(res) {
-          waitForRootComponent(name, () => {
-            getRootComponent(name).updateTicketForms(JSON.parse(res.text));
-          });
+          // do this on next tick so that it never happens before
+          // the one above that sets loading to true.
+          setTimeout(() => {
+            waitForRootComponent(name, () => {
+              getRootComponent(name).updateTicketForms(JSON.parse(res.text));
+            });
+          }, 0);
         },
         fail() {
           // do this on next tick so that it never happens before
