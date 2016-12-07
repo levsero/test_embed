@@ -20,7 +20,6 @@ const validateDependencies = () => {
     if (!version) {
       writeError(`${dep.name} not present in package dependencies`);
       process.exit(1);
-      return;
     }
 
     if (semver.satisfies(dep.version, version)) {
