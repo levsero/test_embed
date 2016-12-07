@@ -46,6 +46,7 @@ $Button-nudge: 5;
 
 .Button--nav {
   color: $zendesk-color--aluminum;
+  padding-top: #{16/$font-size}rem;
   border: 0;
 
   &:hover, &:active {

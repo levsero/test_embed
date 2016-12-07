@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
-import classNames from 'classnames';
+
+import { locals as styles } from './SubmitTicketForm.sass';
 
 import { AttachmentList } from 'component/attachment/AttachmentList';
 import { Button } from 'component/button/Button';
@@ -263,11 +264,15 @@ export class SubmitTicketForm extends Component {
       return ticketForm.ticket_field_ids.indexOf(field.id) > -1;
     });
     const ticketFieldsElem = getCustomFields(formTicketFields, formState);
+    const titleMobileClasses = this.props.fullscreen ? styles.ticketFormTitleMobile : '';
 
     ticketFieldsElem.allFields.unshift([this.renderNameField(), this.renderEmailField()]);
 
     return (
       <div ref='formWrapper'>
+        <div className={`${styles.ticketFormTitle} ${titleMobileClasses}`}>
+          {ticketForm.display_name}
+        </div>
         {ticketFieldsElem.allFields}
         {this.props.children}
       </div>
@@ -319,15 +324,12 @@ export class SubmitTicketForm extends Component {
   render() {
     const { attachmentsEnabled, fullscreen, formTitleKey, hide } = this.props;
 
-    const formClasses = classNames({
-      'Form u-cf': true,
-      'u-isHidden': hide
-    });
-
     const form = this.state.ticketForm ? this.renderTicketFormBody() : this.renderFormBody();
     const formBody = this.state.shouldRemoveForm ? null : form;
     const buttonCancel = fullscreen ? null : this.renderCancelButton();
     const attachments = attachmentsEnabled ? this.renderAttachments() : null;
+    const hiddenClass = hide ? styles.hidden : '';
+    const containerClasses = this.state.ticketForm ? styles.ticketFormContainer : '';
 
     return (
       <form
@@ -335,11 +337,12 @@ export class SubmitTicketForm extends Component {
         onSubmit={this.handleSubmit}
         onChange={this.updateForm}
         ref='form'
-        className={formClasses}>
+        className={`${styles.form} ${hiddenClass}`}>
         <ScrollContainer
           ref='scrollContainer'
           title={i18n.t(`embeddable_framework.submitTicket.form.title.${formTitleKey}`)}
           contentExpanded={true}
+          containerClasses={containerClasses}
           footerContent={
             <ButtonGroup rtl={i18n.isRTL()}>
               {buttonCancel}

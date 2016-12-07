@@ -70,6 +70,12 @@ describe('Submit ticket component', () => {
         isIE: () => mockIsIEValue,
         isMobileBrowser: () => mockIsMobileBrowserValue
       },
+      './SubmitTicket.sass': {
+        locals: {
+          loadingSpinnerIE: 'loadingSpinnerIEClasses',
+          loadingSpinner: 'loadingSpinnerClasses'
+        }
+      },
       'component/submitTicket/SubmitTicketForm': {
         SubmitTicketForm: React.createClass({
           getInitialState: function() {
@@ -469,18 +475,17 @@ describe('Submit ticket component', () => {
 
   it('should unhide notification element on state change', () => {
     const submitTicket = domRender(<SubmitTicket />);
-    const notificationElem = submitTicket.refs.notification;
 
-    expect(notificationElem.props.className)
-      .toContain('u-isHidden');
+    expect(submitTicket.refs.notification)
+      .toBeFalsy();
 
-    submitTicket.setState({showNotification: true});
+    submitTicket.setState({ showNotification: true });
 
-    expect(notificationElem.props.className)
-      .not.toContain('u-isHidden');
+    expect(submitTicket.refs.notification)
+      .toBeTruthy();
   });
 
-  describe('ticket forms selector', () => {
+  describe('ticket forms list', () => {
     let submitTicket;
 
     beforeEach(() => {
@@ -513,6 +518,15 @@ describe('Submit ticket component', () => {
       expect(submitTicket.refs.ticketFormSelector)
         .toBeDefined();
     });
+
+    it('should render the correct number of list options', () => {
+      const ticketForms = { ticket_forms: [{ id: 1 }, { id: 2 }, { id: 3 }], ticket_fields: [] };
+
+      submitTicket.updateTicketForms(ticketForms);
+
+      expect(submitTicket.renderTicketFormOptions().length)
+        .toBe(3);
+    });
   });
 
   describe('loading spinner', () => {
@@ -524,21 +538,21 @@ describe('Submit ticket component', () => {
     });
 
     it('should not be rendered by default', () => {
-      expect(submitTicketNode.querySelectorAll('.u-flex.u-posFill').length)
+      expect(submitTicketNode.querySelectorAll('.loadingSpinnerClasses').length)
         .toEqual(0);
     });
 
     it('should be rendered when loading state is true', () => {
       submitTicket.setState({ loading: true });
 
-      expect(submitTicketNode.querySelectorAll('.u-flex.u-posFill').length)
+      expect(submitTicketNode.querySelectorAll('.loadingSpinnerClasses').length)
         .toEqual(1);
     });
 
     it('should not have extra padding by default', () => {
       submitTicket.setState({ loading: true });
 
-      expect(submitTicketNode.querySelectorAll('.u-flex.u-posFill.u-paddingBXL.u-paddingRXL').length)
+      expect(submitTicketNode.querySelectorAll('.loadingSpinnerIEClasses').length)
         .toEqual(0);
     });
 
@@ -548,7 +562,7 @@ describe('Submit ticket component', () => {
       submitTicketNode = ReactDOM.findDOMNode(submitTicket);
       submitTicket.setState({ loading: true });
 
-      expect(submitTicketNode.querySelectorAll('.u-flex.u-posFill.u-paddingBXL.u-paddingRXL').length)
+      expect(submitTicketNode.querySelectorAll('.loadingSpinnerIEClasses').length)
         .toEqual(1);
     });
   });

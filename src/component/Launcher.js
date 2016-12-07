@@ -1,12 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
-import css from './Launcher.sass';
+import { locals as styles } from './Launcher.sass';
 
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
 import { isMobileBrowser } from 'utility/devices';
-
-const styles = css.locals;
 
 export class Launcher extends Component {
   constructor(props, context) {

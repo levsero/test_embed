@@ -1,0 +1,71 @@
+@import '../../styles/_vars.scss';
+
+.ticketFormsList {
+  composes: u-borderBottom u-isActionable u-paddingHN from '../../styles/utils.scss';
+  padding-top: #{18/$font-size}rem;
+  padding-bottom: #{18/$font-size}rem;
+  line-height: #{18/$font-size};
+
+  &:hover, &:focus, &:active {
+    text-decoration: underline;
+  }
+
+  &:last-child {
+    border: none;
+  }
+}
+
+.ticketFormsListMobile {
+  composes: u-paddingHL u-textSize15 from '../../styles/utils.scss';
+  padding-top: #{24/$font-size}rem;
+  padding-bottom: #{24/$font-size}rem;
+
+  &:hover, &:focus, &:active {
+    background: $zendesk-color--snow;
+  }
+}
+
+.ticketFormsListTitle {
+  composes: u-borderBottom u-textBold u-paddingHN from '../../styles/utils.scss';
+  padding-top: #{16/$font-size}rem;
+  padding-bottom: #{16/$font-size}rem;
+  color: $zendesk-color--dark-gray;
+}
+
+.ticketFormsContainer {
+  composes: u-paddingTN u-posRelative from '../../styles/utils.scss';
+  min-height: #{357/$font-size}rem;
+}
+
+.ticketFormsFooter {
+  composes: u-borderTop u-marginHL from '../../styles/utils.scss';
+}
+
+.ticketFormsFooterMobile {
+  composes: u-borderNone from '../../styles/utils.scss';
+}
+
+.ticketFormsContainerMobile {
+  composes: u-paddingHN u-marginHN u-paddingTN from '../../styles/utils.scss';
+}
+
+.notify {
+  composes: u-textCenter from '../../styles/utils.scss';
+}
+
+.notifyIcon {
+  composes: u-inlineBlock u-posRelative u-marginTL from '../../styles/utils.scss';
+}
+
+.error {
+  composes: u-marginTL from '../../styles/utils.scss';
+  composes: Error from '../../styles/components/Error.scss';
+}
+
+.loadingSpinner {
+  composes: u-flex u-posFill u-posAbsolute u-flexAlignItemsCenter u-flexJustifyCenter from '../../styles/utils.scss';
+}
+
+.loadingSpinnerIE {
+  composes: u-paddingBXL u-paddingRXL from '../../styles/utils.scss';
+}

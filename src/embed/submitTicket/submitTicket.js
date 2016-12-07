@@ -18,9 +18,15 @@ import { generateUserCSS } from 'utility/color';
 import { transport } from 'service/transport';
 
 import LoadingSpinnerStyles from 'component/loading/LoadingSpinner.sass';
+import SubmitTicketStyles from 'component/submitTicket/SubmitTicket.sass';
+import SubmitTicketFormStyles from 'component/submitTicket/SubmitTicketForm.sass';
 
-const submitTicketCSS = require('./submitTicket.scss').toString()
-                      + LoadingSpinnerStyles.toString();
+const submitTicketCSS = `
+  ${require('./submitTicket.scss')}
+  ${LoadingSpinnerStyles}
+  ${SubmitTicketStyles}
+  ${SubmitTicketFormStyles}
+`;
 let submitTickets = {};
 let backButtonSetByHelpCenter = false;
 
