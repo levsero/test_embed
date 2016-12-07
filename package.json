@@ -9,7 +9,7 @@
     "build-examples": "node script/build-examples.js",
     "prebuild:debug": "npm run build:version:generate && npm run build-examples",
     "prebuild:prod": "npm run lint && npm run build:cachebuster && npm run prebuild-examples && rm -rf ./dist/*.map && npm run build:version:generate",
-    "prebuild:ac": "node script/validate_manifest.js && cp manifest.json dist",
+    "prebuild:ac": "cp manifest.json dist",
     "build:cachebuster-clean": "rm -rf ./dist/update.js",
     "build:cachebuster": "npm run build:version:generate && node ./script/cachebuster.js && npm run build:cachebuster-clean",
     "build:debug": "webpack --config=./webpack.dev.config.js",
@@ -20,7 +20,8 @@
     "build": "npm run build:prod && npm run build:ac",
     "test": "node script/jasmine-runner.js",
     "test:debug": "node debug script/jasmine-runner.js",
-    "lint": "eslint src test"
+    "lint": "eslint src test",
+    "validate-manifest": "node script/validate_manifest.js"
   },
   "author": "Zendesk",
   "license": "All Rights Reserved",

@@ -7,6 +7,9 @@ const chalk = require('chalk');
 const manifest = require('../manifest.json');
 const packageJson = require('../package.json');
 
+const writeLog = (msg) => console.log(chalk.green(msg));
+const writeError = (msg) => console.error(chalk.red(msg));
+
 const validateDependencies = () => {
   const deps = _.reject(manifest.dependencies, (dep) => dep.internal);
   const packageDeps = packageJson.dependencies;
@@ -15,20 +18,20 @@ const validateDependencies = () => {
     const version = packageDeps[dep.name];
 
     if (!version) {
-      console.error(chalk.red(`${dep.name} not present in package dependencies`));
+      writeError(`${dep.name} not present in package dependencies`);
       process.exit(1);
       return;
     }
 
     if (semver.satisfies(dep.version, version)) {
-      console.log(chalk.green(`${dep.name}:${dep.version} is valid for package version ${version}`));
+      writeLog(`${dep.name}:${dep.version} is valid for package version ${version}`);
     } else {
-      console.error(chalk.red(`${dep.name}:${dep.version} is invalid for package version ${version}`));
+      writeError(`${dep.name}:${dep.version} is invalid for package version ${version}`);
       process.exit(1);
     }
   });
 
-  console.log(chalk.green('\nAll manifest.json dependencies are valid'));
+  writeLog('\nAll manifest.json dependencies are valid');
 };
 
 validateDependencies();
