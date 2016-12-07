@@ -1,8 +1,29 @@
-[
-  "https://cdnjs.cloudflare.com/ajax/libs/react/0.14.6/react.min.js",
-  "https://cdnjs.cloudflare.com/ajax/libs/react/0.14.6/react-dom.min.js",
-  "https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.5.1/lodash.min.js",
-  "https://cdnjs.cloudflare.com/ajax/libs/superagent/2.0.0/superagent.min.js",
-  "/embeddable_framework/web_widget.js"
-]
-
+{
+  "dependencies": [
+    {
+      "name": "react",
+      "version": "0.14.6",
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/react/0.14.6/react.min.js"
+    },
+    {
+      "name": "react-dom",
+      "version": "0.14.6",
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/react/0.14.6/react-dom.min.js"
+    },
+    {
+      "name": "lodash",
+      "version": "4.0.0",
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.0.0/lodash.min.js"
+    },
+    {
+      "name": "superagent",
+      "version": "2.0.0",
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/superagent/2.0.0/superagent.min.js"
+    },
+    {
+      "name": "web_widget",
+      "internal": true,
+      "url": "/embeddable_framework/web_widget.js"
+    }
+  ]
+}
