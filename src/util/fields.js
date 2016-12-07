@@ -14,7 +14,9 @@ const geti18nContent = (field) => {
 };
 
 const getCustomFields = (customFields, formState) => {
-  const isCheckbox = (field) => field.props.type === 'checkbox';
+  const isCheckbox = (field) => {
+    return field && field.props && field.props.type === 'checkbox';
+  };
   const fields = _.map(customFields, (field) => {
     const isRequired = _.isNil(field.required_in_portal) ? field.required : field.required_in_portal;
     const title = field.title_in_portal || field.title;
