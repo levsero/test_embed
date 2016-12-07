@@ -145,6 +145,7 @@ export class HelpCenterDesktop extends Component {
           hideZendeskLogo={this.props.hideZendeskLogo}
           title={i18n.t(`embeddable_framework.helpCenter.form.title.${this.props.formTitleKey}`)}
           footerContentHidden={!this.props.showNextButton && this.props.hasSearched}
+          contentExpanded={this.props.expanded}
           headerContent={this.renderHeaderContent()}
           footerContent={this.renderFooterContent()}>
           {this.renderBodyForm()}

@@ -36,7 +36,7 @@ export class ScrollContainer extends Component {
       'u-paddingBM': this.state.scrollShadowVisible,
       'is-mobile': this.props.fullscreen,
       'is-bigheader': this.props.headerContent && !this.props.isVirtualKeyboardOpen,
-      'is-expanded': this.props.contentExpanded,
+      'ScrollContainer-expanded': this.props.contentExpanded,
       [`${this.props.containerClasses}`]: true
     });
     const scrollFooterClasses = classNames({

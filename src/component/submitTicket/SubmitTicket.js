@@ -261,6 +261,7 @@ export class SubmitTicket extends Component {
       <ScrollContainer
         title={i18n.t(`embeddable_framework.submitTicket.form.title.${this.state.formTitleKey}`)}
         fullscreen={this.state.fullscreen}
+        contentExpanded={this.state.expanded}
         containerClasses={styles.ticketFormsContainer}>
         <div className={`${styles.loadingSpinner} ${spinnerIEClasses}`}>
           <LoadingSpinner />
@@ -286,6 +287,7 @@ export class SubmitTicket extends Component {
         fullscreen={this.state.fullscreen}
         ref='submitTicketForm'
         hide={this.state.showNotification}
+        expanded={this.state.expanded}
         customFields={this.props.customFields}
         formTitleKey={this.state.formTitleKey}
         attachmentSender={this.props.attachmentSender}
@@ -347,6 +349,7 @@ export class SubmitTicket extends Component {
         title={i18n.t(`embeddable_framework.submitTicket.form.title.${this.state.formTitleKey}`)}
         ref='ticketFormSelector'
         footerContentHidden={true}
+        contentExpanded={this.state.expanded}
         fullscreen={fullscreen}
         containerClasses={containerClasses}
         footerClasses={footerClasses}>

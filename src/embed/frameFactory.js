@@ -24,6 +24,8 @@ const mainCSS = require('mainCSS');
 const sizingRatio = 12 * getZoomSizingRatio(false, true);
 const baseFontCSS = `html { font-size: ${sizingRatio}px }`;
 
+let expanded = false;
+
 function validateChildFn(childFn, params) {
   if (!_.isFunction(childFn)) {
     throw 'childFn should be a function';
@@ -210,7 +212,7 @@ export const frameFactory = function(childFn, _params) {
 
       const dimensions = getDimensions();
 
-      if (this.state.expanded) {
+      if (expanded) {
         dimensions.height = '100%';
       }
 
@@ -232,6 +234,12 @@ export const frameFactory = function(childFn, _params) {
       const animateTo = _.extend({}, this.state.frameStyle, transition.end);
 
       this.setState({ visible: true, frameStyle: animateFrom });
+
+      if (expanded && params.expandable) {
+        this.getRootComponent().expand(true);
+      } else if (params.expandable) {
+        this.getRootComponent().expand(false);
+      }
 
       setTimeout( () => {
         const existingStyle = frameFirstChild.style;
@@ -289,9 +297,7 @@ export const frameFactory = function(childFn, _params) {
     expand(e) {
       e.preventDefault();
 
-      const expanded = !this.state.expanded;
-
-      this.setState({ expanded: expanded });
+      expanded = !expanded;
 
       this.getRootComponent().expand(expanded);
     }
