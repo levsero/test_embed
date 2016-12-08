@@ -11,7 +11,8 @@
     "__EMBEDDABLE_VERSION__": true,
     "addCustomCommands": true,
     "webdrivercss": true,
-    "webdriverio": true
+    "webdriverio": true,
+    "Component": true
   },
   "rules": { "no-var": 0 }
 }

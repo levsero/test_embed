@@ -132,5 +132,5 @@ export const channelChoice = {
   list: list,
   get: get,
   render: render,
-  postrender: () => {}
+  postRender: () => {}
 };

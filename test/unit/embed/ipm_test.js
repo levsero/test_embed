@@ -27,7 +27,7 @@ describe('embed.ipm', () => {
             this.ipmSender = () => {};
             this.state = {
               ipm: {}
-            }
+            };
           }
           render() {
             return (

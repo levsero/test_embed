@@ -681,6 +681,7 @@ describe('embed.submitTicket', () => {
           searchTerm: 'a search',
           searchLocale: 'en-US'
         };
+
         expect(mockMediator.channel.subscribe)
           .toHaveBeenCalledWith('bob.setLastSearch', jasmine.any(Function));
 

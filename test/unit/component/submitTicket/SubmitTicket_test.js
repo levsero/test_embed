@@ -89,7 +89,7 @@ describe('Submit ticket component', () => {
             this.updateTicketForm = noop;
             this.state = {
               formState: {}
-            }
+            };
           }
           render() {
             return (

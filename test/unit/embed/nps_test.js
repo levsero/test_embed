@@ -27,7 +27,7 @@ describe('embed.nps', () => {
             this.resetState = jasmine.createSpy('resetState');
             this.state = {
               survey: {}
-            }
+            };
           }
           render() {
             return (

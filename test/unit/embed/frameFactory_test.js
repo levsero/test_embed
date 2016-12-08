@@ -11,7 +11,7 @@ describe('frameFactory', function() {
 
   const frameFactoryPath = buildSrcPath('embed/frameFactory');
 
-  class MockEmbedWrapper extends React.Component {
+  class MockEmbedWrapper extends Component {
     render() {
       return (
         <div id='Embed'>

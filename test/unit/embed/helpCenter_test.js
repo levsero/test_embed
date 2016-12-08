@@ -98,8 +98,8 @@ describe('embed.helpCenter', () => {
       },
       'utility/devices': {
         setScaleLock: noop,
-        isMobileBrowser() { return mockIsMobileBrowser },
-        isIE() { return mockIsIE },
+        isMobileBrowser() { return mockIsMobileBrowser; },
+        isIE() { return mockIsIE; },
         getZoomSizingRatio: noop
       },
       'utility/mouse': {
