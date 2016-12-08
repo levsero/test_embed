@@ -67,8 +67,10 @@ describe('SubmitTicketForm component', function() {
       },
       'component/ScrollContainer': {
         ScrollContainer: class ScrollContainer extends Component {
-          setScrollShadowVisible() { return noop; }
-          scrollToBottom: scrollToBottomSpy
+          constructor() {
+            this.setScrollShadowVisible = noop;
+            this.scrollToBottom = scrollToBottomSpy;
+          }
           render() {
             return (
               <div>
@@ -82,8 +84,10 @@ describe('SubmitTicketForm component', function() {
       },
       'component/attachment/AttachmentList': {
         AttachmentList: class AttachmentList extends Component {
-          attachmentsReady: mockAttachmentsReadyValue
-          clear: mockAttachmentsListClear
+          constructor() {
+            this.attachmentsReady = () => mockAttachmentsReadyValue;
+            this.clear = mockAttachmentsListClear;
+          }
           render() {
             return <div ref="attachments" />;
           }

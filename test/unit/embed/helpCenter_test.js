@@ -66,8 +66,15 @@ describe('embed.helpCenter', () => {
       },
       'component/helpCenter/HelpCenter': {
         HelpCenter: class HelpCenter extends Component {
-          getInitialState() {
-            return {
+          constructor() {
+            this.resetState = resetState;
+            this.backtrackSearch = backtrackSearch;
+            this.contextualSearch = contextualSearch;
+            this.performSearch = performSearch;
+            this.focusField = focusField;
+            this.setChatOnline = setChatOnline;
+            this.getHelpCenterComponent = getHelpCenterComponent;
+            this.state = {
               topics: [],
               searchCount: 0,
               searchTerm: '',
@@ -75,13 +82,6 @@ describe('embed.helpCenter', () => {
               showIntroScreen: false
             };
           }
-          resetState: resetState
-          backtrackSearch: backtrackSearch
-          contextualSearch: contextualSearch
-          performSearch: performSearch
-          focusField: focusField
-          setChatOnline: setChatOnline
-          getHelpCenterComponent: getHelpCenterComponent
           render() {
             return (
               <div className='mock-helpCenter'>

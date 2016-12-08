@@ -84,13 +84,13 @@ describe('Submit ticket component', () => {
       },
       'component/submitTicket/SubmitTicketForm': {
         SubmitTicketForm: class SubmitTicketForm extends Component {
-          getInitialState() {
-            return {
+          constructor() {
+            this.clear = noop;
+            this.updateTicketForm = noop;
+            this.state = {
               formState: {}
-            };
+            }
           }
-          clear() { return noop; }
-          updateTicketForm() { return noop; }
           render() {
             return (
               <form ref='submitTicketForm'>
@@ -139,7 +139,7 @@ describe('Submit ticket component', () => {
         i18n: {
           init: noop,
           setLocale: noop,
-          getLocaleId: 'fr',
+          getLocaleId: () => 'fr',
           isRTL: noop,
           t: _.identity
         }

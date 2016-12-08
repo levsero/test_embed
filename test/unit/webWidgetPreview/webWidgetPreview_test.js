@@ -29,7 +29,9 @@ describe('webWidgetPreview entry file', () => {
       },
       'component/submitTicket/SubmitTicket': {
         SubmitTicket: class SubmitTicket extends Component {
-          setFormTitleKey() { return mockSetFormTitleKey; }
+          constructor() {
+            this.setFormTitleKey = mockSetFormTitleKey;
+          }
           render() {
             return <div className='webWidgetPreview'></div>;
           }
