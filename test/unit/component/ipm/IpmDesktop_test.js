@@ -30,23 +30,23 @@ describe('IpmDesktop component', function() {
     initMockRegistry({
       'React': React,
       'component/Container': {
-        Container: React.createClass({
-          render: function() {
+        Container: class Container extends Component {
+          render() {
             return <div>{this.props.children}</div>;
           }
-        })
+        }
       },
       'component/button/Button': {
         Button: noopReactComponent()
       },
       'component/Icon': {
-        Icon: React.createClass({
-          render: () => {
+        Icon: class Icon extends Component {
+          render() {
             return (
               <div className='Avatar' />
             );
           }
-        })
+        }
       },
       'component/ZendeskLogo': {
         ZendeskLogo: noopReactComponent()

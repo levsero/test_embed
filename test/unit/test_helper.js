@@ -33,13 +33,16 @@ import TestUtils from 'react-addons-test-utils';
 import ShallowTestUtils from 'react-shallow-testutils';
 
 global.React = React;
+global.Component = React.Component;
 global.ReactDOM = ReactDOM;
 global.TestUtils = TestUtils;
 
 global.noopReactComponent = function() {
-  return React.createClass({
-    render: () => <div />
-  });
+  return class noopReactComponent extends Component {
+    render() {
+      return <div />;
+    }
+  };
 };
 
 global.shallowRender = (component) => {

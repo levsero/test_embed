@@ -27,13 +27,13 @@ describe('NpsRatingsList component', () => {
     initMockRegistry({
       'React': React,
       'component/button/ButtonRating': {
-        'ButtonRating': React.createClass({
-          render: () => {
+        'ButtonRating': class ButtonRating extends Component {
+          render() {
             return (
               <div className='ButtonRating'></div>
             );
           }
-        })
+        }
       },
       'utility/utils': {
         'generateConstrastColor': jasmine.createSpy()

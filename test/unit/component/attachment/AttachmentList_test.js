@@ -16,8 +16,8 @@ describe('AttachmentList component', () => {
     initMockRegistry({
       'React': React,
       'component/attachment/Attachment': {
-        Attachment: React.createClass({
-          render: function() {
+        Attachment: class Attachment extends Component {
+          render() {
             return (
               <div
                 handleRemoveAttachment={noop}
@@ -25,7 +25,7 @@ describe('AttachmentList component', () => {
                 icon='' />
             );
           }
-        })
+        }
       },
       'component/button/ButtonDropzone': {
         ButtonDropzone: noopReactComponent()

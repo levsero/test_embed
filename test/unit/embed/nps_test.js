@@ -22,19 +22,19 @@ describe('embed.nps', () => {
         frameMethods: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
       },
       'component/nps/Nps': {
-        Nps: React.createClass({
+        Nps: class Nps extends Component {
           getInitialState() {
             return {
               survey: {}
             };
-          },
-          resetState: jasmine.createSpy('resetState'),
+          }
+          resetState() { return jasmine.createSpy('resetState'); }
           render() {
             return (
               <div className='mock-nps' />
             );
           }
-        })
+        }
       },
       'service/persistence': {
         store: jasmine.createSpyObj('store', ['set', 'get'])

@@ -11,29 +11,29 @@ describe('Nps component', function() {
       'React': React,
       'lodash': _,
       'component/nps/NpsDesktop': {
-        NpsDesktop: React.createClass({
+        NpsDesktop: class NpsDesktop extends Component {
           render() {
             return (
               <div className='nps-desktop' />
             );
           }
-        })
+        }
       },
       'component/nps/NpsMobile': {
-        NpsMobile: React.createClass({
+        NpsMobile: class NpsMobile extends Component {
           render() {
             return (
               <div className='nps-mobile' />
             );
           }
-        })
+        }
       },
       'component/Container': {
-        Container: React.createClass({
-          render: function() {
+        Container: class Container extends Component {
+          render() {
             return <div>{this.props.children}</div>;
           }
-        })
+        }
       },
       'component/button/Button': {
         Button: noopReactComponent()

@@ -22,19 +22,19 @@ describe('embed.ipm', () => {
         frameMethods: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
       },
       'component/ipm/Ipm': {
-        Ipm: React.createClass({
+        Ipm: class Ipm extends Component {
           getInitialState() {
             return {
               ipm: {}
             };
-          },
-          ipmSender() {},
+          }
+          ipmSender() {}
           render() {
             return (
               <div className='mock-ipm' />
             );
           }
-        })
+        }
       },
       'service/transport': {
         transport: {

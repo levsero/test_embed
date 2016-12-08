@@ -13,19 +13,19 @@ describe('npsPreview entry file', function() {
         frameMethods: require(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
       },
       'component/nps/Nps': {
-        Nps: React.createClass({
+        Nps: class Nps extends Component {
           getInitialState() {
             return {
               isMobile: false,
               survey: {}
             };
-          },
+          }
           render() {
             return (this.state.isMobile)
               ? <div className='nps-mobile'>{this.state.survey.question}</div>
               : <div className='nps-desktop'>{this.state.survey.question}</div>;
           }
-        })
+        }
       },
       'embed/nps/nps.scss': ''
     });

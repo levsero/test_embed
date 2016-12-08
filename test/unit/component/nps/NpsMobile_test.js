@@ -45,68 +45,68 @@ describe('NpsMobile component', () => {
     mockRegistry = initMockRegistry({
       'React': React,
       'component/Container': {
-        Container: React.createClass({
-          render: function() {
+        Container: class Container extends Component {
+          render() {
             // used function instead of () => as to not reference outter 'this'
             return <div>{this.props.children}</div>;
           }
-        })
+        }
       },
       'component/nps/NpsComment': {
-        NpsComment:  React.createClass({
-          render: function() {
+        NpsComment:  class NpsComment extends Component {
+          render() {
             return (
               <div ref='commentField' className={'NpsComment'}>
                 <input ref='field'/>
               </div>
             );
           }
-        })
+        }
       },
       'component/nps/NpsRatingsList': {
-        NpsRatingsList: React.createClass({
-          render: () => {
+        NpsRatingsList: class NpsRatingsList extends Component {
+          render() {
             return (
               <div className='RatingsList'></div>
             );
           }
-        })
+        }
       },
       'component/Icon': {
-        Icon: React.createClass({
-          render: () => {
+        Icon: class Icon extends Component {
+          render() {
             return (
               <div className='ThankYou'></div>
             );
           }
-        })
+        }
       },
       'component/ZendeskLogo': {
-        'ZendeskLogo': React.createClass({
-          render: () => {
+        'ZendeskLogo': class ZendeskLogo extends Component {
+          render() {
             return (
               <div className='ZendeskLogo'></div>
             );
           }
-        })
+        }
       },
       'component/nps/NpsSelectList': {
-        'NpsSelectList': React.createClass({
-          render: () => {
+        'NpsSelectList': class NpsSelectList extends Component {
+          render() {
             return (
               <div className='NpsSelectList'></div>
             );
           }
-        })
+        }
       },
       'component/nps/NpsCommentButton': {
-        'NpsCommentButton': React.createClass({
-          render: () => {
+        'NpsCommentButton': class NpsCommentButton extends Component {
+          render() {
             return (
               <div className='NpsCommentButton'></div>
             );
           }
-        })
+        }
       },
       'utility/devices': {
         'getZoomSizingRatio': () => 1,

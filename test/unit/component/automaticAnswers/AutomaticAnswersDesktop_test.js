@@ -18,17 +18,21 @@ describe('AutomaticAnswersDesktop component', () => {
     initMockRegistry({
       'React': React,
       'component/Container': {
-        Container: React.createClass({
-          render: () => <div>{this.props.children}</div>
-        })
+        Container: class Container extends Component {
+          render() {
+            return <div>{this.props.children}</div>;
+          }
+        }
       },
       'component/button/Button': {
         Button: noopReactComponent()
       },
       'component/Icon': {
-        Icon: React.createClass({
-          render: () => <div className='Avatar' />
-        })
+        Icon: class Icon extends Component {
+          render() {
+            return <div className='Avatar' />;
+          }
+        }
       },
       'service/i18n': {
         i18n: {

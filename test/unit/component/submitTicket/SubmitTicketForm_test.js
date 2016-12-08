@@ -34,15 +34,15 @@ describe('SubmitTicketForm component', function() {
         locals: ''
       },
       'component/button/Button': {
-        Button: React.createClass({
-          render: function() {
+        Button: class Button extends Component {
+          render() {
             return <input type='submit' disabled={this.props.disabled} />;
           }
-        })
+        }
       },
       'component/button/ButtonSecondary': {
-        ButtonSecondary: React.createClass({
-          render: function() {
+        ButtonSecondary: class ButtonSecondary extends Component {
+          render() {
             return (
               <div
                 className='c-btn--secondary'
@@ -50,14 +50,14 @@ describe('SubmitTicketForm component', function() {
                 onClick={onCancel} />
             );
           }
-        })
+        }
       },
       'component/button/ButtonGroup': {
-        ButtonGroup: React.createClass({
-          render: function() {
+        ButtonGroup: class ButtonGroup extends Component {
+          render() {
             return <div>{this.props.children}</div>;
           }
-        })
+        }
       },
       'component/button/ButtonDropzone': {
         ButtonDropzone: noopReactComponent()
@@ -66,10 +66,10 @@ describe('SubmitTicketForm component', function() {
         Field: noopReactComponent()
       },
       'component/ScrollContainer': {
-        ScrollContainer: React.createClass({
-          setScrollShadowVisible: noop,
-          scrollToBottom: scrollToBottomSpy,
-          render: function() {
+        ScrollContainer: class ScrollContainer extends Component {
+          setScrollShadowVisible() { return noop; }
+          scrollToBottom: scrollToBottomSpy
+          render() {
             return (
               <div>
                 <h1 id='formTitle'>{this.props.title}</h1>
@@ -78,14 +78,16 @@ describe('SubmitTicketForm component', function() {
               </div>
             );
           }
-        })
+        }
       },
       'component/attachment/AttachmentList': {
-        AttachmentList: React.createClass({
-          attachmentsReady: () => mockAttachmentsReadyValue,
-          clear: mockAttachmentsListClear,
-          render: () => <div ref="attachments" />
-        })
+        AttachmentList: class AttachmentList extends Component {
+          attachmentsReady: mockAttachmentsReadyValue
+          clear: mockAttachmentsListClear
+          render() {
+            return <div ref="attachments" />;
+          }
+        }
       },
       'service/i18n': {
         i18n: {

@@ -7,15 +7,17 @@ describe('HelpCenter component', function() {
     manualSearch;
 
   const helpCenterPath = buildSrcPath('component/helpCenter/HelpCenter');
-  const SearchField = React.createClass({
-    blur: jasmine.createSpy(),
-    getValue: function() {
+  const SearchField = class SearchField extends Component {
+    blur() {
+      return jasmine.createSpy();
+    }
+    getValue() {
       return '';
-    },
-    render: function() {
+    }
+    render() {
       return <input ref='searchField' value='' type='search' />;
     }
-  });
+  };
 
   beforeEach(function() {
     trackSearch = jasmine.createSpy('trackSearch');
@@ -31,23 +33,25 @@ describe('HelpCenter component', function() {
     mockRegistry = initMockRegistry({
       'React': React,
       'component/helpCenter/HelpCenterArticle': {
-        HelpCenterArticle: React.createClass({
-          render: function() {
+        HelpCenterArticle: class HelpCenterArticle extends Component {
+          render() {
             return <div className='UserContent' />;
           }
-        })
+        }
       },
       'component/helpCenter/HelpCenterResults': {
-        HelpCenterResults: React.createClass({
-          render: function() {
+        HelpCenterResults: class HelpCenterResults extends Component {
+          render() {
             return <div className='HelpCenterResults' />;
           }
-        })
+        }
       },
       'component/helpCenter/HelpCenterDesktop': {
-        HelpCenterDesktop: React.createClass({
-          focusField: noop,
-          render: function() {
+        HelpCenterDesktop: class HelpCenterDesktop extends Component {
+          focusField() {
+            return noop;
+          }
+          render() {
             return (
               <div>
                 <SearchField ref='searchField' />
@@ -55,12 +59,14 @@ describe('HelpCenter component', function() {
               </div>
             );
           }
-        })
+        }
       },
       'component/helpCenter/HelpCenterMobile': {
-        HelpCenterMobile: React.createClass({
-          hasContextualSearched: noop,
-          render: function() {
+        HelpCenterMobile: class HelpCenterMobile extends Component {
+          hasContextualSearched() {
+            return noop;
+          }
+          render() {
             return (
               <div>
                 <SearchField ref='searchField' />
@@ -68,14 +74,14 @@ describe('HelpCenter component', function() {
               </div>
             );
           }
-        })
+        }
       },
       'component/Container': {
-        Container: React.createClass({
-          render: function() {
+        Container: class Container extends Component {
+          render() {
             return <div>{this.props.children}</div>;
           }
-        })
+        }
       },
       'service/i18n': {
         i18n: {

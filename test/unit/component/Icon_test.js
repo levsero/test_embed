@@ -1,11 +1,11 @@
 describe('Icon component', function() {
   let Icon;
   const iconPath = buildSrcPath('component/Icon');
-  const dummyIcon = React.createClass({
-    render: function() {
+  const dummyIcon = class dummyIcon extends Component {
+    render() {
       return (<svg><g id="Layer_Test"><path d="M" /></g></svg>);
     }
-  });
+  };
 
   beforeEach(function() {
     resetDOM();

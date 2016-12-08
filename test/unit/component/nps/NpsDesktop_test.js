@@ -42,57 +42,59 @@ describe('NpsDesktop component', function() {
     initMockRegistry({
       'React': React,
       'component/Container': {
-        Container: React.createClass({
-          render: function() {
+        Container: class Container extends Component {
+          render() {
             return <div>{this.props.children}</div>;
           }
-        })
+        }
       },
       'component/button/Button': {
         Button: noopReactComponent()
       },
       'component/FormField': {
-        Field: React.createClass({
-          render: () => {
+        Field: class Field extends Component {
+          render() {
             return (
               <div ref='commentField'></div>
             );
           }
-        })
+        }
       },
       'component/loading/Loading': {
         LoadingEllipses: noopReactComponent()
       },
       'component/nps/NpsComment': {
-        NpsComment: React.createClass({
-          focusField: () => mockFocusField(),
-          render: () => {
+        NpsComment: class NpsComment extends Component {
+          focusField() {
+            return mockFocusField()
+          }
+          render() {
             return <div ref='NpsComment'></div>;
           }
-        })
+        }
       },
       'component/nps/NpsRatingsList': {
-        NpsRatingsList: React.createClass({
-          render: () => {
+        NpsRatingsList: class NpsRatingsList extends Component {
+          render() {
             return <div className='RatingsList'></div>;
           }
-        })
+        }
       },
       'component/Icon': {
-        Icon: React.createClass({
-          render: () => {
+        Icon: class Icon extends Component {
+          render() {
             return (
               <div className='ThankYou'></div>
             );
           }
-        })
+        }
       },
       'component/ZendeskLogo': {
-        ZendeskLogo: React.createClass({
-          render: function() {
+        ZendeskLogo: class ZendeskLogo extends Component {
+          render() {
             return <div className='ZendeskLogo'></div>;
           }
-        })
+        }
       },
       'utility/utils': {
         generateConstrastColor: noop,

@@ -19,28 +19,28 @@ describe('SearchField component', () => {
         IconFieldButton: noopReactComponent()
       },
       'component/field/SearchInput': {
-        SearchInput: React.createClass({
-          render: function() {
+        SearchInput: class SearchInput extends Component {
+          render() {
             return (
               <input onChange={this.props.onChange} />
             );
           }
-        })
+        }
       },
       'component/loading/Loading': {
-        LoadingEllipses: React.createClass({
-          render: function() {
+        LoadingEllipses: class LoadingEllipses extends Component {
+          render() {
             return (
               <div className={`Loading ${this.props.className}`}>
                 <div className='Loading-item'></div>
               </div>
             );
           }
-        })
+        }
       },
       'component/Icon': {
-        Icon: React.createClass({
-          render: function() {
+        Icon: class Icon extends Component {
+          render() {
             return (
               <span
                 className={this.props.className}
@@ -50,7 +50,7 @@ describe('SearchField component', () => {
               </span>
             );
           }
-        })
+        }
       },
       'utility/utils': {
         bindMethods: mockBindMethods
@@ -174,4 +174,3 @@ describe('SearchField component', () => {
     });
   });
 });
-

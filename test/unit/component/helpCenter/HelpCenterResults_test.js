@@ -17,11 +17,11 @@ describe('HelpCenterResults component', () => {
     mockRegistry = initMockRegistry({
       'React': React,
       'component/button/ButtonPill': {
-        ButtonPill: React.createClass({
-          render: () => {
+        ButtonPill: class ButtonPill extends Component {
+          render() {
             return <input className='ButtonPill' type='button' />;
           }
-        })
+        }
       },
       'service/i18n': {
         i18n: {

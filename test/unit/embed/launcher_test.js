@@ -20,18 +20,18 @@ describe('embed.launcher', function() {
         generateUserCSS: jasmine.createSpy().and.returnValue('')
       },
       'component/Launcher': {
-        Launcher: React.createClass({
-          changeIcon: jasmine.createSpy('mockChangeIcon'),
-          setActive: jasmine.createSpy('setActive'),
-          setIcon: jasmine.createSpy('setIcon'),
-          setLabel: jasmine.createSpy('setLabel'),
-          setLabelOptions: jasmine.createSpy('setLabelOptions'),
-          render: function() {
+        Launcher: class Launcher extends Component {
+          changeIcon() { return jasmine.createSpy('mockChangeIcon'); }
+          setActive() { return jasmine.createSpy('setActive'); }
+          setIcon() { return jasmine.createSpy('setIcon'); }
+          setLabel() { return jasmine.createSpy('setLabel'); }
+          setLabelOptions() { return jasmine.createSpy('setLabelOptions'); }
+          render() {
             return (
               <div className='mock-launcher' />
             );
           }
-        })
+        }
       },
       'service/beacon': {
         beacon: jasmine.createSpyObj('mockBeacon', ['trackUserAction'])

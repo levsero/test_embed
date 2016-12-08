@@ -34,32 +34,32 @@ describe('embed.submitTicket', () => {
         }
       },
       'component/submitTicket/SubmitTicketForm': {
-        SubmitTicketForm: React.createClass({
-          resetTicketFormVisibility: resetTicketFormVisibility,
-          hideVirtualKeyboard: hideVirtualKeyboard,
-          focusField: focusField,
-          render: () => {
+        SubmitTicketForm: class SubmitTicketForm extends Component {
+          resetTicketFormVisibility() { return resetTicketFormVisibility; }
+          hideVirtualKeyboard() { return hideVirtualKeyboard; }
+          focusField() { return focusField; }
+          render() {
             return (
               <div />
             );
           }
-        })
+        }
       },
       'component/submitTicket/SubmitTicket': {
-        SubmitTicket: React.createClass({
-          getInitialState: () => {
+        SubmitTicket: class SubmitTicket extends Component {
+          getInitialState() {
             return {
               showNotification: false,
               message: '',
               uid: defaultValue
             };
-          },
-          show: jasmine.createSpy('show'),
-          hide: jasmine.createSpy('hide'),
-          clearNotification: jasmine.createSpy('clearNotification'),
-          clearForm: clearForm,
+          }
+          show() { return jasmine.createSpy('show'); }
+          hide() { return jasmine.createSpy('hide'); }
+          clearNotification() { return jasmine.createSpy('clearNotification'); }
+          clearForm() { return clearForm; }
 
-          render: () => {
+          render() {
             const SubmitTicketForm = mockRegistry['component/submitTicket/SubmitTicketForm'].SubmitTicketForm;
 
             return (
@@ -68,7 +68,7 @@ describe('embed.submitTicket', () => {
               </div>
             );
           }
-        })
+        }
       },
       './submitTicket.scss': 'mockCSS',
       './submitTicketFrame.scss': '',
