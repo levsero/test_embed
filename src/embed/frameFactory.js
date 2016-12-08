@@ -212,7 +212,7 @@ export const frameFactory = function(childFn, _params) {
 
       const dimensions = getDimensions();
 
-      if (expanded) {
+      if (expanded && params.expandable) {
         dimensions.height = '100%';
       }
 

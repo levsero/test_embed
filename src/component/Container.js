@@ -30,7 +30,8 @@ Container.propTypes = {
   style: PropTypes.object,
   card: PropTypes.bool,
   onClick: PropTypes.func,
-  onDragEnter: PropTypes.func
+  onDragEnter: PropTypes.func,
+  expanded: PropTypes.bool
 };
 
 Container.defaultProps = {
@@ -39,5 +40,6 @@ Container.defaultProps = {
   style: null,
   card: false,
   onClick: () => {},
-  onDragEnter: () => {}
+  onDragEnter: () => {},
+  expanded: false
 };

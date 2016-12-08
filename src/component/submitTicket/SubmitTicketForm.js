@@ -375,7 +375,8 @@ SubmitTicketForm.propTypes = {
   subjectEnabled: PropTypes.bool,
   maxFileCount: PropTypes.number,
   maxFileSize: PropTypes.number,
-  previewEnabled: PropTypes.bool
+  previewEnabled: PropTypes.bool,
+  expanded: PropTypes.bool
 };
 
 SubmitTicketForm.defaultProps = {
@@ -387,5 +388,6 @@ SubmitTicketForm.defaultProps = {
   subjectEnabled: false,
   maxFileCount: 5,
   maxFileSize: 5 * 1024 * 1024,
-  previewEnabled: false
+  previewEnabled: false,
+  expanded: false
 };

@@ -71,6 +71,7 @@ export class EmbedWrapper extends Component {
     });
     const styleTag = <style dangerouslySetInnerHTML={{ __html: this.state.css }} />;
     const css = <style dangerouslySetInnerHTML={{ __html: this.props.baseCSS }} />;
+    const expandClasses = i18n.isRTL() ? 'u-posStartL' : 'u-posEndL';
 
     return (
       <div>
@@ -88,7 +89,7 @@ export class EmbedWrapper extends Component {
             onClick: this.props.handleExpandClick,
             icon: 'Icon--caret',
             position: 'right',
-            className: 'u-posEndL' // Add RTL styles
+            className: expandClasses
           })}
         </div>
         <div className={closeButtonClasses}>
@@ -110,17 +111,21 @@ EmbedWrapper.propTypes = {
   handleBackClick: PropTypes.func,
   baseCSS: PropTypes.string,
   handleCloseClick: PropTypes.func,
+  handleExpandClick: PropTypes.func,
   fullscreen: PropTypes.bool,
   hideCloseButton: PropTypes.bool,
   childFn: PropTypes.func.isRequired,
-  childParams: PropTypes.object
+  childParams: PropTypes.object,
+  showExpandButton: PropTypes.bool
 };
 
 EmbedWrapper.defaultProps = {
   handleBackClick: () => {},
   baseCSS: '',
   handleCloseClick: () => {},
+  handleExpandClick: () => {},
   fullscreen: false,
   hideCloseButton: false,
-  childParams: {}
+  childParams: {},
+  showExpandButton: false
 };
