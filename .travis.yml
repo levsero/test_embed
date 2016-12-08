@@ -12,6 +12,7 @@ before_script:
   - ./node_modules/.bin/bower install
   - ./script/fetch_i18n
   - npm run lint
+  - npm run validate-manifest
   - npm run build
 
 script:
