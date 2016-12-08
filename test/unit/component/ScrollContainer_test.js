@@ -88,6 +88,13 @@ describe('ScrollContainer component', () => {
       .not.toMatch('u-paddingVM');
   });
 
+  it('should contain expanded classes when `contentExpanded` prop is true', () => {
+    const container = domRender(<ScrollContainer contentExpanded={true} />);
+
+    expect(ReactDOM.findDOMNode(container).querySelector('.ScrollContainer-content').className)
+      .toContain('ScrollContainer-expanded');
+  });
+
   it('should not contain `u-paddingTL` when `this.props.hideZendeskLogo` is false', () => {
     // Should not contain
     // ScrollContainer-content - u-paddingTL

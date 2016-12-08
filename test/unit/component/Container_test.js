@@ -40,4 +40,11 @@ describe('Container component', function() {
     expect(container.props.className)
       .not.toMatch('Container--fullscreen');
   });
+
+  it('should have the `expanded` classnames when expanded is true', function() {
+    const container = shallowRender(<Container expanded={true} />);
+
+    expect(container.props.className)
+      .toMatch('Container--expanded');
+  });
 });
