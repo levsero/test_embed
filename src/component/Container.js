@@ -8,7 +8,7 @@ export class Container extends Component {
       'Container--popover': !this.props.fullscreen,
       'Container--fullscreen': this.props.fullscreen,
       'Container--card': this.props.card,
-      'Container--expanded': this.props.expanded
+      'Container--expanded u-marginVM': this.props.expanded
     });
 
     return (

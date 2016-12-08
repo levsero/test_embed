@@ -61,7 +61,7 @@
 }
 
 .ScrollContainer-expanded {
-  max-height: none;
+  max-height: calc(100% - #{108/$font-size}rem);
 }
 
 .ScrollContainer-footer {

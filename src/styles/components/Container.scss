@@ -89,7 +89,7 @@ $Container-spacing: 25/$font-size;
 }
 
 .Container--expanded {
-  height: 100%;
+  height: calc(100% - #{30/$font-size}rem);
 }
 
 .Container--channelChoicePopup {
