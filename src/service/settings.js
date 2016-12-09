@@ -56,6 +56,7 @@ const webWidgetStoreDefaults = {
   chat: {
     suppress: false
   },
+  expanded: false,
   launcher: {},
   margin: 15,
   offset: {

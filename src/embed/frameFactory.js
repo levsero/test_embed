@@ -23,8 +23,9 @@ const baseCSS = require('baseCSS');
 const mainCSS = require('mainCSS');
 const sizingRatio = 12 * getZoomSizingRatio(false, true);
 const baseFontCSS = `html { font-size: ${sizingRatio}px }`;
+const expandedSetting = settings.get('expanded');
 
-let expanded = false;
+let expanded = expandedSetting;
 
 function validateChildFn(childFn, params) {
   if (!_.isFunction(childFn)) {
@@ -398,7 +399,7 @@ export const frameFactory = function(childFn, _params) {
           handleBackClick={this.back}
           handleCloseClick={this.close}
           handleExpandClick={this.expand}
-          showExpandButton={params.expandable}
+          showExpandButton={params.expandable && !expandedSetting}
           hideCloseButton={params.hideCloseButton}
           childFn={childFn}
           childParams={childParams}
