@@ -8,7 +8,7 @@ import { generateNpsCSS,
          generateWebWidgetPreviewCSS } from 'utility/color';
 import { bindMethods } from 'utility/utils';
 
-import { Provider } from 'react-redux'
+import { Provider } from 'react-redux';
 
 export class EmbedWrapper extends Component {
   constructor(props, context) {

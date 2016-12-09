@@ -10,13 +10,13 @@ import { HelpCenterResults } from 'component/helpCenter/HelpCenterResults';
 import { i18n } from 'service/i18n';
 import { bindMethods } from 'utility/utils';
 
-import { updateSearchTerm, performSearch } from 'src/redux/actions/helpCenter'
+import { updateSearchTerm, performSearch } from 'src/redux/actions/helpCenter';
 
 const minimumSearchResults = 3;
 const maximumSearchResults = 9;
 
 const mapStateToProps = (state) => {
-  return { helpCenter: state.helpCenter }
+  return { helpCenter: state.helpCenter };
 };
 
 export class HelpCenter extends Component {
@@ -368,8 +368,7 @@ export class HelpCenter extends Component {
   }
 
   renderResults() {
-    const hasSearched = this.state.hasSearched || this.state.hasContextualSearched;
-    const { results, searched, searchTerm } = this.props.helpCenter;
+    const { searched, searchTerm } = this.props.helpCenter;
 
     if (this.state.articleViewActive || !searched) {
       return null;

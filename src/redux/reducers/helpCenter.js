@@ -12,6 +12,7 @@ const initialState = {
 export default function reducer(state = initialState, action = {}) {
   const { type, payload } = action;
 
+  /* eslint-disable indent */
   switch (type) {
     case 'UPDATE_SEARCH_TERM': {
       return _.extend({}, state, {
@@ -45,4 +46,4 @@ export default function reducer(state = initialState, action = {}) {
     default:
       return state;
   }
-};
+}

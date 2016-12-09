@@ -141,6 +141,7 @@ export class HelpCenterResults extends Component {
 
 HelpCenterResults.propTypes = {
   articles: PropTypes.array,
+  error: PropTypes.bool,
   fullscreen: PropTypes.bool,
   showViewMore: PropTypes.bool,
   applyPadding: PropTypes.bool,
@@ -156,6 +157,7 @@ HelpCenterResults.propTypes = {
 
 HelpCenterResults.defaultProps = {
   articles: [],
+  error: false,
   fullscreen: false,
   showViewMore: false,
   applyPadding: false,
