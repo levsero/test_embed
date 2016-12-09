@@ -94,7 +94,6 @@ export const frameFactory = function(childFn, _params) {
       this.state = {
         visible: this.props.visible,
         frameStyle: params.frameStyle,
-        expanded: false,
         hiddenByZoom: false,
         _rendered: false,
         iframeDimensions: {
@@ -298,7 +297,6 @@ export const frameFactory = function(childFn, _params) {
       e.preventDefault();
 
       expanded = !expanded;
-
       this.getRootComponent().expand(expanded);
     }
 

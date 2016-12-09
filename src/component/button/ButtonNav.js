@@ -14,7 +14,7 @@ export class ButtonNav extends Component {
       'u-posEnd--flush u-paddingR': isRight && !rtl,
       'u-posStart--flush': isRight && rtl,
       'u-flipText': rtl,
-      [`${this.props.className}`]: true
+      [this.props.className]: true
     });
 
     return (
