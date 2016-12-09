@@ -62,8 +62,8 @@ export class SubmitTicket extends Component {
     this.setState({ loading: value });
   }
 
-  expand(value) {
-    this.setState({ expanded: value });
+  expand(expanded) {
+    this.setState({ expanded });
   }
 
   handleSubmit(e, data) {

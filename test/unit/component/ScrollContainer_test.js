@@ -92,7 +92,7 @@ describe('ScrollContainer component', () => {
     const container = domRender(<ScrollContainer contentExpanded={true} />);
 
     expect(ReactDOM.findDOMNode(container).querySelector('.ScrollContainer-content').className)
-      .toContain('ScrollContainer-expanded');
+      .toContain('ScrollContainer--expanded');
   });
 
   it('should not contain `u-paddingTL` when `this.props.hideZendeskLogo` is false', () => {

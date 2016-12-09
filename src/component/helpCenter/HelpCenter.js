@@ -61,8 +61,8 @@ export class HelpCenter extends Component {
     }, state);
   }
 
-  expand(value) {
-    this.setState({ expanded: value });
+  expand(expanded) {
+    this.setState({ expanded });
   }
 
   setChatOnline(state) {
