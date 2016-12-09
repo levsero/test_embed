@@ -1062,7 +1062,6 @@ describe('HelpCenter component', function() {
 
       searchField.getValue = () => 'valid';
 
-      spyOn(searchField, 'blur');
       helpCenter.manualSearch();
 
       jasmine.clock().tick(1);
