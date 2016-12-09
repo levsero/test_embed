@@ -17,7 +17,7 @@ const ipmCSS = require('./ipm.scss').toString();
 let ipmes = {};
 let hasSeenIpm = false;
 
-function create(name, config) {
+function create(name, config, reduxStore) {
   let containerStyle;
   let frameStyle = {
     position: 'fixed',
@@ -92,7 +92,8 @@ function create(name, config) {
           style={containerStyle} />
       );
     },
-    frameParams
+    frameParams,
+    reduxStore
   );
 
   ipmes[name] = {

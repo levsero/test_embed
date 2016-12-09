@@ -32,7 +32,7 @@ let hasAuthenticatedSuccessfully = false;
 let useMouseDistanceContexualSearch = false;
 let cancelTargetHandler = null;
 
-function create(name, config) {
+function create(name, config, reduxStore) {
   let containerStyle;
   let frameStyle = {};
 
@@ -214,7 +214,9 @@ function create(name, config) {
         }
       },
       extend: {}
-    });
+    },
+    reduxStore
+  );
 
   helpCenters[name] = {
     component: <Embed visible={false} />,

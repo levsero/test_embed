@@ -30,7 +30,7 @@ const submitTicketCSS = `
 let submitTickets = {};
 let backButtonSetByHelpCenter = false;
 
-function create(name, config) {
+function create(name, config, reduxStore) {
   let containerStyle;
   let frameStyle = {};
 
@@ -255,7 +255,9 @@ function create(name, config) {
         }
       },
       extend: {}
-    });
+    },
+    reduxStore
+  );
 
   submitTickets[name] = {
     component: <Embed visible={false} />,

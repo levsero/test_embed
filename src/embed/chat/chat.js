@@ -10,7 +10,7 @@ import { cappedIntervalCall } from 'utility/utils';
 let chats = {};
 const styleTag = document.createElement('style');
 
-function create(name, config) {
+function create(name, config, reduxStore) {
   const configDefaults = {
     position: 'right',
     color: '#78A300',

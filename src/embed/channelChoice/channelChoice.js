@@ -15,7 +15,7 @@ import { document,
 const channelChoices = {};
 const channelChoiceCSS = require('./channelChoice.scss').toString();
 
-function create(name, config) {
+function create(name, config, reduxStore) {
   let containerStyle;
 
   const frameStyle = {};
@@ -68,7 +68,8 @@ function create(name, config) {
           onNextClick={onNextClick} />
       );
     },
-    frameParams
+    frameParams,
+    reduxStore
   );
 
   channelChoices[name] = {

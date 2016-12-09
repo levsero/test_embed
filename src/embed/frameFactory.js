@@ -21,16 +21,12 @@ if (!__DEV__) {
 
 import { Provider } from 'react-redux'
 
-import createStore from 'src/redux/createStore';
-
-const store = createStore();
-
-let expanded = false;
-
 const baseCSS = require('baseCSS');
 const mainCSS = require('mainCSS');
 const sizingRatio = 12 * getZoomSizingRatio(false, true);
 const baseFontCSS = `html { font-size: ${sizingRatio}px }`;
+
+let expanded = false;
 
 function validateChildFn(childFn, params) {
   if (!_.isFunction(childFn)) {
@@ -54,7 +50,7 @@ function validateChildFn(childFn, params) {
   }
 }
 
-export const frameFactory = function(childFn, _params) {
+export const frameFactory = function(childFn, _params, reduxStore) {
   let child;
 
   const isSettingsTop = settings.get('position.vertical') === 'top';
@@ -403,18 +399,16 @@ export const frameFactory = function(childFn, _params) {
       element.className = positionClasses;
 
       child = ReactDOM.render(
-        <Provider store={store}>
-          <EmbedWrapper
-            baseCSS={cssText}
-            handleBackClick={this.back}
-            handleCloseClick={this.close}
-            handleExpandClick={this.expand}
-            showExpandButton={params.expandable}
-            hideCloseButton={params.hideCloseButton}
-            childFn={childFn}
-            childParams={childParams}
-            fullscreen={fullscreen} />,
-        </Provider>,
+        <EmbedWrapper
+          baseCSS={cssText}
+          handleBackClick={this.back}
+          handleCloseClick={this.close}
+          handleExpandClick={this.expand}
+          showExpandButton={params.expandable}
+          hideCloseButton={params.hideCloseButton}
+          childFn={childFn}
+          childParams={childParams}
+          fullscreen={fullscreen} />,
         element
       );
 
@@ -447,7 +441,9 @@ export const frameFactory = function(childFn, _params) {
       });
 
       return (
-        <iframe style={this.computeIframeStyle()} id={params.name} className={iframeClasses} />
+        <Provider store={reduxStore}>
+          <iframe style={this.computeIframeStyle()} id={params.name} className={iframeClasses} />
+        </Provider>
       );
     }
   }
