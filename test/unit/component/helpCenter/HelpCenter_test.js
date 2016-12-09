@@ -7,7 +7,8 @@ describe('HelpCenter component', function() {
     manualSearch;
 
   const helpCenterPath = buildSrcPath('component/helpCenter/HelpCenter');
-  const SearchField = class SearchField extends Component {
+
+  class SearchField extends Component {
     blur() {
       return jasmine.createSpy();
     }
@@ -17,7 +18,7 @@ describe('HelpCenter component', function() {
     render() {
       return <input ref='searchField' value='' type='search' />;
     }
-  };
+  }
 
   beforeEach(function() {
     trackSearch = jasmine.createSpy('trackSearch');

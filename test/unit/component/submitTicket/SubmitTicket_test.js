@@ -22,7 +22,9 @@ describe('Submit ticket component', () => {
       fail: noop
     }
   };
-  const MockAttachmentList = class MockAttachmentList extends Component {
+  const submitTicketPath = buildSrcPath('component/submitTicket/SubmitTicket');
+
+  class MockAttachmentList extends Component {
     getAttachmentTokens() {
       return ['12345'];
     }
@@ -38,8 +40,7 @@ describe('Submit ticket component', () => {
     render() {
       return <div />;
     }
-  };
-  const submitTicketPath = buildSrcPath('component/submitTicket/SubmitTicket');
+  }
 
   beforeEach(() => {
     resetDOM();
