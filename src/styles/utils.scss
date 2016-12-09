@@ -19,6 +19,10 @@ $Base-posOffset: $med + 1;
   right: 0;
 }
 
+.u-posEndL {
+  right: #{18/$font-size}rem;
+}
+
 .u-posStart {
   left: #{$Base-posOffset/$font-size}rem;
 }

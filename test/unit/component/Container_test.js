@@ -1,8 +1,8 @@
-describe('Container component', function() {
+describe('Container component', () => {
   let Container;
   const containerPath = buildSrcPath('component/Container');
 
-  beforeEach(function() {
+  beforeEach(() => {
     resetDOM();
 
     mockery.enable();
@@ -16,12 +16,12 @@ describe('Container component', function() {
     Container = requireUncached(containerPath).Container;
   });
 
-  afterEach(function() {
+  afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
   });
 
-  it('should have the `fullscreen` classnames when fullscreen is true', function() {
+  it('should have the `fullscreen` classnames when fullscreen is true', () => {
     const container = shallowRender(<Container fullscreen={true} />);
 
     expect(container.props.className)
@@ -31,7 +31,7 @@ describe('Container component', function() {
       .not.toMatch('Container--popover');
   });
 
-  it('should have the `popover` classnames when fullscreen is false', function() {
+  it('should have the `popover` classnames when fullscreen is false', () => {
     const container = shallowRender(<Container />);
 
     expect(container.props.className)
@@ -39,5 +39,12 @@ describe('Container component', function() {
 
     expect(container.props.className)
       .not.toMatch('Container--fullscreen');
+  });
+
+  it('should have the `expanded` classnames when expanded is true', () => {
+    const container = shallowRender(<Container expanded={true} />);
+
+    expect(container.props.className)
+      .toMatch('Container--expanded');
   });
 });

@@ -52,6 +52,7 @@ export class EmbedWrapper extends Component {
         }
         rtl={i18n.isRTL()}
         position={options.position}
+        className={options.className}
         fullscreen={this.props.fullscreen || this.state.isMobile} />
     );
   }
@@ -64,8 +65,13 @@ export class EmbedWrapper extends Component {
       'closeButton': true,
       'u-isHidden': this.props.hideCloseButton
     });
+    const expandButtonClasses = classNames({
+      'closeButton': true,
+      'u-isHidden': !this.props.showExpandButton
+    });
     const styleTag = <style dangerouslySetInnerHTML={{ __html: this.state.css }} />;
     const css = <style dangerouslySetInnerHTML={{ __html: this.props.baseCSS }} />;
+    const expandClasses = i18n.isRTL() ? 'u-posStartL' : 'u-posEndL';
 
     return (
       <div>
@@ -76,6 +82,14 @@ export class EmbedWrapper extends Component {
             onClick: this.props.handleBackClick,
             icon: 'Icon--back',
             position: 'left'
+          })}
+        </div>
+        <div className={expandButtonClasses}>
+          {this.renderNavButton({
+            onClick: this.props.handleExpandClick,
+            icon: 'Icon--caret',
+            position: 'right',
+            className: expandClasses
           })}
         </div>
         <div className={closeButtonClasses}>
@@ -97,17 +111,21 @@ EmbedWrapper.propTypes = {
   handleBackClick: PropTypes.func,
   baseCSS: PropTypes.string,
   handleCloseClick: PropTypes.func,
+  handleExpandClick: PropTypes.func,
   fullscreen: PropTypes.bool,
   hideCloseButton: PropTypes.bool,
   childFn: PropTypes.func.isRequired,
-  childParams: PropTypes.object
+  childParams: PropTypes.object,
+  showExpandButton: PropTypes.bool
 };
 
 EmbedWrapper.defaultProps = {
   handleBackClick: () => {},
   baseCSS: '',
   handleCloseClick: () => {},
+  handleExpandClick: () => {},
   fullscreen: false,
   hideCloseButton: false,
-  childParams: {}
+  childParams: {},
+  showExpandButton: false
 };

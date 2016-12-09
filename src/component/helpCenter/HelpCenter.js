@@ -31,6 +31,7 @@ export class HelpCenter extends Component {
       searchTracked: false,
       searchResultClicked: false,
       searchFieldFocused: false,
+      expanded: false,
       resultsPerPage: minimumSearchResults,
       showViewMore: true,
       chatOnline: false,
@@ -58,6 +59,10 @@ export class HelpCenter extends Component {
       searchFailed: false,
       searchResultClicked: false
     }, state);
+  }
+
+  expand(expanded) {
+    this.setState({ expanded });
   }
 
   setChatOnline(state) {
@@ -424,6 +429,7 @@ export class HelpCenter extends Component {
         articleViewActive={this.state.articleViewActive}
         hasSearched={this.state.hasSearched}
         buttonLabel={buttonLabel}
+        expanded={this.state.expanded}
         formTitleKey={this.props.formTitleKey}
         searchFieldValue={this.state.searchFieldValue}
         shadowVisible={shadowVisible}
@@ -478,6 +484,7 @@ export class HelpCenter extends Component {
       <Container
         style={this.props.style}
         onClick={this.onContainerClick}
+        expanded={this.state.expanded}
         fullscreen={this.props.fullscreen}>
         {helpCenter}
       </Container>

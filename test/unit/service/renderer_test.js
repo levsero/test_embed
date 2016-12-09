@@ -232,7 +232,8 @@ describe('renderer', () => {
         .toHaveBeenCalledWith('thing', {
           visible: true,
           hideZendeskLogo: undefined,
-          brand: undefined
+          brand: undefined,
+          expandable: undefined
         });
 
       expect(mockLauncher.render)

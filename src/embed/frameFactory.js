@@ -24,6 +24,8 @@ const mainCSS = require('mainCSS');
 const sizingRatio = 12 * getZoomSizingRatio(false, true);
 const baseFontCSS = `html { font-size: ${sizingRatio}px }`;
 
+let expanded = false;
+
 function validateChildFn(childFn, params) {
   if (!_.isFunction(childFn)) {
     throw 'childFn should be a function';
@@ -209,6 +211,10 @@ export const frameFactory = function(childFn, _params) {
 
       const dimensions = getDimensions();
 
+      if (expanded && params.expandable) {
+        dimensions.height = '100%';
+      }
+
       frameWin.setTimeout(() => this.setState({ iframeDimensions: dimensions }), 0);
       return dimensions;
     }
@@ -227,6 +233,12 @@ export const frameFactory = function(childFn, _params) {
       const animateTo = _.extend({}, this.state.frameStyle, transition.end);
 
       this.setState({ visible: true, frameStyle: animateFrom });
+
+      if (expanded && params.expandable) {
+        this.getRootComponent().expand(true);
+      } else if (params.expandable) {
+        this.getRootComponent().expand(false);
+      }
 
       setTimeout( () => {
         const existingStyle = frameFirstChild.style;
@@ -279,6 +291,13 @@ export const frameFactory = function(childFn, _params) {
     back(ev) {
       ev.preventDefault();
       params.onBack(this);
+    }
+
+    expand(e) {
+      e.preventDefault();
+
+      expanded = !expanded;
+      this.getRootComponent().expand(expanded);
     }
 
     setHiddenByZoom(hide) {
@@ -378,6 +397,8 @@ export const frameFactory = function(childFn, _params) {
           baseCSS={cssText}
           handleBackClick={this.back}
           handleCloseClick={this.close}
+          handleExpandClick={this.expand}
+          showExpandButton={params.expandable}
           hideCloseButton={params.hideCloseButton}
           childFn={childFn}
           childParams={childParams}

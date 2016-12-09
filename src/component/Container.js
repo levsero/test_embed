@@ -7,7 +7,8 @@ export class Container extends Component {
       [`Container u-posRelative ${this.props.className}`]: true,
       'Container--popover': !this.props.fullscreen,
       'Container--fullscreen': this.props.fullscreen,
-      'Container--card': this.props.card
+      'Container--card': this.props.card,
+      'Container--expanded u-marginVM': this.props.expanded
     });
 
     return (
@@ -29,7 +30,8 @@ Container.propTypes = {
   style: PropTypes.object,
   card: PropTypes.bool,
   onClick: PropTypes.func,
-  onDragEnter: PropTypes.func
+  onDragEnter: PropTypes.func,
+  expanded: PropTypes.bool
 };
 
 Container.defaultProps = {
@@ -38,5 +40,6 @@ Container.defaultProps = {
   style: null,
   card: false,
   onClick: () => {},
-  onDragEnter: () => {}
+  onDragEnter: () => {},
+  expanded: false
 };
