@@ -14,6 +14,7 @@ const optionWhitelist = {
     'contactForm.suppress',
     'contactForm.title',
     'contactForm.ticketForms',
+    'expanded',
     'helpCenter.chatButton',
     'helpCenter.messageButton',
     'helpCenter.originalArticleButton',
@@ -56,6 +57,7 @@ const webWidgetStoreDefaults = {
   chat: {
     suppress: false
   },
+  expanded: false,
   launcher: {},
   margin: 15,
   offset: {
