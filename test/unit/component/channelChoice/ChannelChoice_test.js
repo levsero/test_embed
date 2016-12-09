@@ -9,16 +9,16 @@ describe('ChannelChoice component', () => {
 
     initMockRegistry({
       'component/button/Button': {
-        Button: noopReactComponent()
+        Button: NoopReactComponent()
       },
       'component/Container': {
-        Container: noopReactComponent()
+        Container: NoopReactComponent()
       },
       'component/ScrollContainer': {
-        ScrollContainer: noopReactComponent()
+        ScrollContainer: NoopReactComponent()
       },
       'component/ZendeskLogo': {
-        ZendeskLogo: noopReactComponent()
+        ZendeskLogo: NoopReactComponent()
       },
       'service/i18n': {
         i18n: {

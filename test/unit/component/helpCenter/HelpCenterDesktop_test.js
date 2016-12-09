@@ -11,7 +11,7 @@ describe('HelpCenterDesktop component', () => {
     initMockRegistry({
       'React': React,
       'component/channelChoice/ChannelChoicePopup': {
-        ChannelChoicePopup: noopReactComponent()
+        ChannelChoicePopup: NoopReactComponent()
       },
       'component/field/SearchField': {
         SearchField: class SearchField extends Component {
@@ -31,7 +31,7 @@ describe('HelpCenterDesktop component', () => {
         }
       },
       'component/ZendeskLogo': {
-        ZendeskLogo: noopReactComponent()
+        ZendeskLogo: NoopReactComponent()
       },
       'component/ScrollContainer': {
         ScrollContainer: class ScrollContainer extends Component {
@@ -50,10 +50,10 @@ describe('HelpCenterDesktop component', () => {
         }
       },
       'component/button/Button': {
-        Button: noopReactComponent()
+        Button: NoopReactComponent()
       },
       'component/button/ButtonGroup': {
-        ButtonGroup: noopReactComponent()
+        ButtonGroup: NoopReactComponent()
       },
       'service/i18n': {
         i18n: {

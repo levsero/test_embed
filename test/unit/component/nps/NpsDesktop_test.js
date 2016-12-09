@@ -49,7 +49,7 @@ describe('NpsDesktop component', function() {
         }
       },
       'component/button/Button': {
-        Button: noopReactComponent()
+        Button: NoopReactComponent()
       },
       'component/FormField': {
         Field: class Field extends Component {
@@ -61,7 +61,7 @@ describe('NpsDesktop component', function() {
         }
       },
       'component/loading/Loading': {
-        LoadingEllipses: noopReactComponent()
+        LoadingEllipses: NoopReactComponent()
       },
       'component/nps/NpsComment': {
         NpsComment: class NpsComment extends Component {

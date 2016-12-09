@@ -13,7 +13,7 @@ describe('ButtonIcon', () => {
     initMockRegistry({
       'React': React,
       'component/Icon': {
-        Icon: noopReactComponent()
+        Icon: NoopReactComponent()
       },
       'utility/devices': {
         isIE: () => mockIsIeValue

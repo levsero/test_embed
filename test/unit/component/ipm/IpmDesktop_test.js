@@ -37,7 +37,7 @@ describe('IpmDesktop component', function() {
         }
       },
       'component/button/Button': {
-        Button: noopReactComponent()
+        Button: NoopReactComponent()
       },
       'component/Icon': {
         Icon: class Icon extends Component {
@@ -49,7 +49,7 @@ describe('IpmDesktop component', function() {
         }
       },
       'component/ZendeskLogo': {
-        ZendeskLogo: noopReactComponent()
+        ZendeskLogo: NoopReactComponent()
       }
     });
 

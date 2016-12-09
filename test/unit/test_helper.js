@@ -37,8 +37,8 @@ global.Component = React.Component;
 global.ReactDOM = ReactDOM;
 global.TestUtils = TestUtils;
 
-global.noopReactComponent = function() {
-  return class noopReactComponent extends Component {
+global.NoopReactComponent = function() {
+  return class NoopReactComponent extends Component {
     render() {
       return <div />;
     }

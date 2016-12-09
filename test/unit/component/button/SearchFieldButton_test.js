@@ -12,10 +12,10 @@ describe('SearchFieldButton component', () => {
     mockRegistry = initMockRegistry({
       'React': React,
       'component/Icon': {
-        Icon: noopReactComponent()
+        Icon: NoopReactComponent()
       },
       'component/button/IconFieldButton': {
-        IconFieldButton: noopReactComponent()
+        IconFieldButton: NoopReactComponent()
       }
     });
 

@@ -104,16 +104,16 @@ describe('Submit ticket component', () => {
         EmailField: noop
       },
       'component/field/SelectField': {
-        SelectField: noopReactComponent()
+        SelectField: NoopReactComponent()
       },
       'component/ZendeskLogo': {
-        ZendeskLogo: noopReactComponent()
+        ZendeskLogo: NoopReactComponent()
       },
       'component/button/Button': {
-        Button: noopReactComponent()
+        Button: NoopReactComponent()
       },
       'component/loading/LoadingSpinner': {
-        LoadingSpinner: noopReactComponent()
+        LoadingSpinner: NoopReactComponent()
       },
       'component/Container': {
         Container: class Container extends Component {
@@ -151,7 +151,7 @@ describe('Submit ticket component', () => {
         }
       },
       'component/Icon': {
-        Icon: noopReactComponent()
+        Icon: NoopReactComponent()
       },
       'utility/utils': {
         bindMethods: mockBindMethods

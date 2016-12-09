@@ -14,7 +14,7 @@ describe('Launcher component', () => {
         }
       },
       'component/Icon': {
-        Icon: noopReactComponent()
+        Icon: NoopReactComponent()
       },
       './Launcher.sass': {
         locals: ''

@@ -130,10 +130,10 @@ describe('fields', () => {
     initMockRegistry({
       'React': React,
       'component/field/Field': {
-        Field: noopReactComponent()
+        Field: NoopReactComponent()
       },
       'component/field/SelectField': {
-        SelectField: noopReactComponent()
+        SelectField: NoopReactComponent()
       },
       'service/i18n': {
         i18n: {
