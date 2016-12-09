@@ -19,8 +19,6 @@ if (!__DEV__) {
   _.noConflict();
 }
 
-import { Provider } from 'react-redux'
-
 const baseCSS = require('baseCSS');
 const mainCSS = require('mainCSS');
 const sizingRatio = 12 * getZoomSizingRatio(false, true);
@@ -401,6 +399,7 @@ export const frameFactory = function(childFn, _params, reduxStore) {
       child = ReactDOM.render(
         <EmbedWrapper
           baseCSS={cssText}
+          reduxStore={reduxStore}
           handleBackClick={this.back}
           handleCloseClick={this.close}
           handleExpandClick={this.expand}
@@ -441,9 +440,7 @@ export const frameFactory = function(childFn, _params, reduxStore) {
       });
 
       return (
-        <Provider store={reduxStore}>
-          <iframe style={this.computeIframeStyle()} id={params.name} className={iframeClasses} />
-        </Provider>
+        <iframe style={this.computeIframeStyle()} id={params.name} className={iframeClasses} />
       );
     }
   }
