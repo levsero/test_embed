@@ -144,8 +144,10 @@ function fetchTicketFn(ticketId, token) {
 }
 
 function solveTicketFn(ticketId, token, articleId, callbacks) {
+  const path = `/requests/automatic-answers/ticket/${ticketId}/solve/token/${token}/article/${articleId}`;
+  const queryParams = `?source=embed&mobile=${isMobileBrowser()}`;
   const payload = {
-    path: `/requests/automatic-answers/ticket/${ticketId}/solve/token/${token}/article/${articleId}`,
+    path: path + queryParams,
     method: 'post',
     callbacks: callbacks
   };
