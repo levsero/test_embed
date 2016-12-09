@@ -314,7 +314,7 @@ describe('embed.automaticAnswers', () => {
       fail: () => {}
     };
 
-    beforeEach(() => {
+    const renderAndSolveTicket = () => {
       mockTransport = mockRegistry['service/transport'].transport;
       automaticAnswers.create('automaticAnswers');
       automaticAnswers.render();
@@ -323,20 +323,51 @@ describe('embed.automaticAnswers', () => {
       solveTicket(mockTicketId, mockToken, mockArticleId, callbacks);
 
       mostRecent = mockTransport.automaticAnswersApiRequest.calls.mostRecent().args[0];
+    };
+
+    describe('payload configuration and callbacks', () => {
+      beforeEach(() => {
+        renderAndSolveTicket();
+      });
+
+      it('sends a correctly configured payload to automaticAnswersApiRequest', () => {
+        expect(mostRecent.path)
+          .toBe(`/requests/automatic-answers/ticket/${mockTicketId}/solve/token/${mockToken}/article/${mockArticleId}?source=embed&mobile=false`);
+
+        expect(mostRecent.method)
+          .toEqual('post');
+      });
+
+      it('triggers the supplied callbacks', () => {
+        expect(mostRecent.callbacks.done)
+          .toEqual(callbacks.done);
+
+        expect(mostRecent.callbacks.fail)
+          .toEqual(callbacks.fail);
+      });
     });
 
-    it('sends a correctly configured payload to automaticAnswersApiRequest', () => {
-      expect(mostRecent.path)
-        .toBe(`/requests/automatic-answers/ticket/${mockTicketId}/solve/token/${mockToken}/article/${mockArticleId}`);
+    describe('query params for device tracking', () => {
+      beforeEach(() => {
+        renderAndSolveTicket();
+      });
 
-      expect(mostRecent.method)
-        .toEqual('post');
+      it('includes the source=embed query param', () => {
+        expect(mostRecent.path)
+          .toContain(`source=embed`);
+      });
 
-      expect(mostRecent.callbacks.done)
-        .toEqual(callbacks.done);
+      describe('when the device is a mobile browser', () => {
+        beforeEach(() => {
+          mockIsMobileBrowserValue = true;
+          renderAndSolveTicket();
+        });
 
-      expect(mostRecent.callbacks.fail)
-        .toEqual(callbacks.fail);
+        it('includes the mobile=true query param', () => {
+          expect(mostRecent.path)
+            .toContain(`mobile=true`);
+        });
+      });
     });
   });
 });
