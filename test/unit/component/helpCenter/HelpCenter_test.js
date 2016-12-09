@@ -9,8 +9,8 @@ describe('HelpCenter component', function() {
   const helpCenterPath = buildSrcPath('component/helpCenter/HelpCenter');
 
   class SearchField extends Component {
-    blur() {
-      return jasmine.createSpy();
+    constructor() {
+      this.blur = jasmine.createSpy();
     }
     getValue() {
       return '';

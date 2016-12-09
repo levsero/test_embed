@@ -65,8 +65,8 @@ describe('NpsDesktop component', function() {
       },
       'component/nps/NpsComment': {
         NpsComment: class NpsComment extends Component {
-          focusField() {
-            return mockFocusField();
+          constructor() {
+            this.focusField = mockFocusField;
           }
           render() {
             return <div ref='NpsComment'></div>;
