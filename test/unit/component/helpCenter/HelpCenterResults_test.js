@@ -155,11 +155,11 @@ describe('HelpCenterResults component', () => {
   });
 
   describe('#renderNoResults', () => {
-    describe('when props.searchFailed is false', () => {
+    describe('when props.error is false', () => {
       beforeEach(() => {
         component = instanceRender(
           <HelpCenterResults
-            searchFailed={false}
+            error={false}
             previousSearchTerm={'Help me!'} />
         );
         component.renderNoResults();
@@ -176,12 +176,12 @@ describe('HelpCenterResults component', () => {
       });
     });
 
-    describe('when props.searchFailed is true', () => {
+    describe('when props.error is true', () => {
       let mockI18n;
 
       beforeEach(() => {
         mockI18n = mockRegistry['service/i18n'].i18n;
-        component = instanceRender(<HelpCenterResults searchFailed={true} />);
+        component = instanceRender(<HelpCenterResults error={true} />);
         component.renderNoResults();
       });
 
@@ -191,7 +191,7 @@ describe('HelpCenterResults component', () => {
       });
 
       it('displays the embeddable_framework.helpCenter.search.error.body label', () => {
-        domRender(<HelpCenterResults searchFailed={true} showContactButton={true} />);
+        domRender(<HelpCenterResults error={true} showContactButton={true} />);
 
         expect(mockI18n.t)
           .toHaveBeenCalledWith('embeddable_framework.helpCenter.search.error.body');
@@ -200,7 +200,7 @@ describe('HelpCenterResults component', () => {
       describe('props.showContactButton is false', () => {
         it('displays the embeddable_framework.helpCenter.search.noResults.body label', () => {
           mockI18n.t.calls.reset();
-          instanceRender(<HelpCenterResults searchFailed={true} showContactButton={false} />);
+          instanceRender(<HelpCenterResults error={true} showContactButton={false} />);
 
           expect(mockI18n.t)
             .toHaveBeenCalledWith('embeddable_framework.helpCenter.search.noResults.body');
@@ -210,7 +210,7 @@ describe('HelpCenterResults component', () => {
       describe('props.showContactButton is true', () => {
         it('displays the embeddable_framework.helpCenter.search.error.body label', () => {
           mockI18n.t.calls.reset();
-          instanceRender(<HelpCenterResults searchFailed={true} showContactButton={true} />);
+          instanceRender(<HelpCenterResults error={true} showContactButton={true} />);
 
           expect(mockI18n.t)
             .toHaveBeenCalledWith('embeddable_framework.helpCenter.search.error.body');

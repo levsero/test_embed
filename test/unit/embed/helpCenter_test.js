@@ -64,33 +64,31 @@ describe('embed.helpCenter', () => {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
         }
       },
-      'component/helpCenter/HelpCenter': {
-        HelpCenter: React.createClass({
-          getInitialState: () => {
-            return {
-              topics: [],
-              searchCount: 0,
-              searchTerm: '',
-              hasSearched: false,
-              showIntroScreen: false
-            };
-          },
-          resetState: resetState,
-          backtrackSearch: backtrackSearch,
-          contextualSearch: contextualSearch,
-          performSearch: performSearch,
-          focusField: focusField,
-          setChatOnline: setChatOnline,
-          getHelpCenterComponent: getHelpCenterComponent,
-          render: () => {
-            return (
-              <div className='mock-helpCenter'>
-                <mockForm ref='helpCenterForm' />
-              </div>
-            );
-          }
-        })
-      },
+      'component/helpCenter/HelpCenter': React.createClass({
+        getInitialState: () => {
+          return {
+            topics: [],
+            searchCount: 0,
+            searchTerm: '',
+            hasSearched: false,
+            showIntroScreen: false
+          };
+        },
+        resetState: resetState,
+        backtrackSearch: backtrackSearch,
+        contextualSearch: contextualSearch,
+        performSearch: performSearch,
+        focusField: focusField,
+        setChatOnline: setChatOnline,
+        getHelpCenterComponent: getHelpCenterComponent,
+        render: () => {
+          return (
+            <div className='mock-helpCenter'>
+              <mockForm ref='helpCenterForm' />
+            </div>
+          );
+        }
+      }),
       './helpCenter.scss': '',
       './helpCenterFrame.scss': '',
       'embed/frameFactory': {
