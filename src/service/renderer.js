@@ -16,6 +16,10 @@ import { settings } from 'service/settings';
 import { isMobileBrowser } from 'utility/devices';
 import { win } from 'utility/globals';
 
+import createStore from 'src/redux/createStore';
+
+const reduxStore = createStore();
+
 const embedsMap = {
   'submitTicket': submitTicket,
   'helpCenter': helpCenter,
@@ -85,7 +89,7 @@ function init(config) {
         configItem.props.hideZendeskLogo = config.hideZendeskLogo;
         configItem.props.expandable = config.expandable;
         configItem.props.brand = config.brand;
-        embedsMap[configItem.embed].create(embedName, configItem.props);
+        embedsMap[configItem.embed].create(embedName, configItem.props, reduxStore);
         embedsMap[configItem.embed].render(embedName);
       } catch (err) {
         logging.error({

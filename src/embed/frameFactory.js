@@ -49,7 +49,7 @@ function validateChildFn(childFn, params) {
   }
 }
 
-export const frameFactory = function(childFn, _params) {
+export const frameFactory = function(childFn, _params, reduxStore) {
   let child;
 
   const isSettingsTop = settings.get('position.vertical') === 'top';
@@ -122,7 +122,11 @@ export const frameFactory = function(childFn, _params) {
 
     getRootComponent() {
       if (child) {
-        return child.refs.rootComponent;
+        const rootComponent = child.refs.rootComponent;
+
+        return rootComponent.getWrappedInstance
+             ? rootComponent.getWrappedInstance()
+             : rootComponent;
       }
     }
 
@@ -396,6 +400,7 @@ export const frameFactory = function(childFn, _params) {
       child = ReactDOM.render(
         <EmbedWrapper
           baseCSS={cssText}
+          reduxStore={reduxStore}
           handleBackClick={this.back}
           handleCloseClick={this.close}
           handleExpandClick={this.expand}

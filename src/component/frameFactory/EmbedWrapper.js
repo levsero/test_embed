@@ -8,6 +8,8 @@ import { generateNpsCSS,
          generateWebWidgetPreviewCSS } from 'utility/color';
 import { bindMethods } from 'utility/utils';
 
+import { Provider } from 'react-redux';
+
 export class EmbedWrapper extends Component {
   constructor(props, context) {
     super(props, context);
@@ -74,35 +76,37 @@ export class EmbedWrapper extends Component {
     const expandClasses = i18n.isRTL() ? 'u-posStartL' : 'u-posEndL';
 
     return (
-      <div>
-        {css}
-        {styleTag}
-        <div className={backButtonClasses}>
-          {this.renderNavButton({
-            onClick: this.props.handleBackClick,
-            icon: 'Icon--back',
-            position: 'left'
-          })}
+      <Provider store={this.props.reduxStore}>
+        <div>
+          {css}
+          {styleTag}
+          <div className={backButtonClasses}>
+            {this.renderNavButton({
+              onClick: this.props.handleBackClick,
+              icon: 'Icon--back',
+              position: 'left'
+            })}
+          </div>
+          <div className={expandButtonClasses}>
+            {this.renderNavButton({
+              onClick: this.props.handleExpandClick,
+              icon: 'Icon--caret',
+              position: 'right',
+              className: expandClasses
+            })}
+          </div>
+          <div className={closeButtonClasses}>
+            {this.renderNavButton({
+              onClick: this.props.handleCloseClick,
+              icon: 'Icon--close',
+              position: 'right'
+            })}
+          </div>
+          <div id='Embed'>
+            {this.props.childFn(this.props.childParams)}
+          </div>
         </div>
-        <div className={expandButtonClasses}>
-          {this.renderNavButton({
-            onClick: this.props.handleExpandClick,
-            icon: 'Icon--caret',
-            position: 'right',
-            className: expandClasses
-          })}
-        </div>
-        <div className={closeButtonClasses}>
-          {this.renderNavButton({
-            onClick: this.props.handleCloseClick,
-            icon: 'Icon--close',
-            position: 'right'
-          })}
-        </div>
-        <div id='Embed'>
-          {this.props.childFn(this.props.childParams)}
-        </div>
-      </div>
+      </Provider>
     );
   }
 }
@@ -110,6 +114,7 @@ export class EmbedWrapper extends Component {
 EmbedWrapper.propTypes = {
   handleBackClick: PropTypes.func,
   baseCSS: PropTypes.string,
+  reduxStore: PropTypes.object.isRequired,
   handleCloseClick: PropTypes.func,
   handleExpandClick: PropTypes.func,
   fullscreen: PropTypes.bool,
