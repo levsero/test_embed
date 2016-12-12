@@ -109,9 +109,10 @@ function create(name, config) {
     mediator.channel.broadcast('ticketSubmissionForm.onFormSubmitted');
   };
   const onCancel = function() {
-    mediator.channel.broadcast('ticketSubmissionForm.onCancelClick');
+    embed.instance.getRootComponent().setEmbed('chat');
+    //mediator.channel.broadcast('ticketSubmissionForm.onCancelClick');
   };
-  const onShow = (frame) => {
+  const onShow = () => {
     const rootComponent = getRootComponent();
 
     // TODO: Only if root component is submit ticket.
@@ -191,7 +192,8 @@ function create(name, config) {
     css: submitTicketCSS + generateUserCSS(config.color),
     position: config.position,
     fullscreenable: true,
-    expandable: config.expandable,
+    expandable: true,
+    expanded: true,
     transitions: {
       upClose: transitionFactory.webWidget.upHide(),
       downClose: transitionFactory.webWidget.downHide(),

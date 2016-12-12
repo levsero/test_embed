@@ -183,7 +183,7 @@ export const frameFactory = function(childFn, _params, reduxStore) {
         const fullscreenStyle = {
           width: `${win.innerWidth}px`,
           height: '100%',
-          left:0,
+          left: 0,
           background:'#FFF',
           zIndex: zIndex
         };
@@ -216,7 +216,7 @@ export const frameFactory = function(childFn, _params, reduxStore) {
 
       const dimensions = getDimensions();
 
-      if (expanded && params.expandable) {
+      if (expanded && params.expandable || params.expanded) {
         dimensions.height = '100%';
       }
 
