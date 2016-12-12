@@ -27,11 +27,10 @@ export class Avatar extends Component {
       [styles.avatar]: true,
       [this.props.className]: true
     });
-    const element = _.isEmpty(this.props.src)
-                  ? this.renderDefault(classes)
-                  : this.renderCustom(classes);
 
-    return element;
+    return _.isEmpty(this.props.src)
+         ? this.renderDefault(classes)
+         : this.renderCustom(classes);
   }
 }
 
