@@ -33,33 +33,33 @@ const getCustomFields = (customFields, formState) => {
     }
 
     switch (field.type) {
-    case 'text':
-    case 'subject':
-      return <Field {...sharedProps} />;
-    case 'tagger':
-      if (field.custom_field_options) {
-        field.options = field.custom_field_options;
-      }
-
-      _.forEach(field.options, (option) => {
-        if (option.name) {
-          option.title = option.name;
+      case 'text':
+      case 'subject':
+        return <Field {...sharedProps} />;
+      case 'tagger':
+        if (field.custom_field_options) {
+          field.options = field.custom_field_options;
         }
 
-        if (option.variants) {
-          option.title = geti18nContent(option);
-        }
-      });
-      return <SelectField {...sharedProps} options={field.options} />;
-    case 'integer':
-      return <Field {...sharedProps} pattern='\d+' type='number' />;
-    case 'decimal':
-      return <Field {...sharedProps} pattern='\d*([.,]\d+)?' type='number' step='any' />;
-    case 'textarea':
-    case 'description':
-      return <Field {...sharedProps} input={<textarea rows='5' />} />;
-    case 'checkbox':
-      return <Field {...sharedProps} label={field.title} type='checkbox' />;
+        _.forEach(field.options, (option) => {
+          if (option.name) {
+            option.title = option.name;
+          }
+
+          if (option.variants) {
+            option.title = geti18nContent(option);
+          }
+        });
+        return <SelectField {...sharedProps} options={field.options} />;
+      case 'integer':
+        return <Field {...sharedProps} pattern='\d+' type='number' />;
+      case 'decimal':
+        return <Field {...sharedProps} pattern='\d*([.,]\d+)?' type='number' step='any' />;
+      case 'textarea':
+      case 'description':
+        return <Field {...sharedProps} input={<textarea rows='5' />} />;
+      case 'checkbox':
+        return <Field {...sharedProps} label={field.title} type='checkbox' />;
     }
   });
 
