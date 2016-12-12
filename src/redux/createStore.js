@@ -6,9 +6,7 @@ import reducer from 'src/redux/reducers';
 
 export default function() {
   const logger = createLogger();
-  const createStoreWithMiddleware = compose(
-    applyMiddleware(thunk, logger)
-  )(createStore);
+  const createStoreWithMiddleware = compose(applyMiddleware(thunk, logger))(createStore);
 
   return createStoreWithMiddleware(reducer);
 }

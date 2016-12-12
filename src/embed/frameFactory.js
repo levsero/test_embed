@@ -124,8 +124,8 @@ export const frameFactory = function(childFn, _params, reduxStore) {
         const rootComponent = child.refs.rootComponent;
 
         return rootComponent.getWrappedInstance
-          ? rootComponent.getWrappedInstance()
-          : rootComponent;
+             ? rootComponent.getWrappedInstance()
+             : rootComponent;
       }
     }
 
