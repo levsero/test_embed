@@ -20,7 +20,7 @@ import createStore from 'src/redux/createStore';
 const reduxStore = createStore();
 
 const embedsMap = {
-  'submitTicket': submitTicket,
+  'submitTicket': webWidget,
   'helpCenter': helpCenter,
   'nps': nps,
   'ipm': ipm,
