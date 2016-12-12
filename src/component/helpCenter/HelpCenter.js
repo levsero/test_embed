@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
-import { connect } from 'react-redux';
 
 import { Container } from 'component/Container';
 import { HelpCenterArticle } from 'component/helpCenter/HelpCenterArticle';
@@ -10,14 +9,8 @@ import { HelpCenterResults } from 'component/helpCenter/HelpCenterResults';
 import { i18n } from 'service/i18n';
 import { bindMethods } from 'utility/utils';
 
-import { updateSearchTerm, performSearch } from 'src/redux/actions/helpCenter';
-
 const minimumSearchResults = 3;
 const maximumSearchResults = 9;
-
-const mapStateToProps = (state) => {
-  return { helpCenter: state.helpCenter };
-};
 
 export class HelpCenter extends Component {
   constructor(props, context) {
@@ -248,7 +241,7 @@ export class HelpCenter extends Component {
       }
     };
 
-    this.props.performSearch(query);
+    this.props.searchSender(query, doneFn, this.searchFail);
   }
 
   performContextualSearch(query, successFn) {
@@ -280,8 +273,6 @@ export class HelpCenter extends Component {
   }
 
   handleOnChangeValue(value) {
-    this.props.updateSearchTerm(value);
-
     this.setState({ searchFieldValue: value });
   }
 
@@ -325,7 +316,7 @@ export class HelpCenter extends Component {
     e.preventDefault();
 
     this.setState({
-      activeArticle: this.props.helpCenter.results[articleIndex],
+      activeArticle: this.state.articles[articleIndex],
       articleViewActive: true
     });
 
@@ -368,9 +359,9 @@ export class HelpCenter extends Component {
   }
 
   renderResults() {
-    const { searched, searchTerm } = this.props.helpCenter;
+    const hasSearched = this.state.hasSearched || this.state.hasContextualSearched;
 
-    if (this.state.articleViewActive || !searched) {
+    if (this.state.articleViewActive || !hasSearched) {
       return null;
     }
     const showViewMore = this.props.viewMoreEnabled &&
@@ -386,13 +377,12 @@ export class HelpCenter extends Component {
     return (
       <HelpCenterResults
         fullscreen={this.props.fullscreen}
-        articles={this.props.helpCenter.results}
-        error={this.props.helpCenter.error}
+        articles={this.state.articles}
         showViewMore={showViewMore}
         applyPadding={applyPadding}
         searchFailed={this.state.searchFailed}
         showBottomBorder={showBottomBorder}
-        previousSearchTerm={searchTerm}
+        previousSearchTerm={this.state.previousSearchTerm}
         handleArticleClick={this.handleArticleClick}
         handleViewMoreClick={this.handleViewMoreClick}
         hasContextualSearched={this.state.hasContextualSearched}
@@ -422,7 +412,6 @@ export class HelpCenter extends Component {
   renderHelpCenterDesktop(buttonLabel) {
     const shadowVisible = this.state.articleViewActive ||
                           this.state.articles.length > minimumSearchResults;
-    const { searched, loading, searchValue } = this.props.helpCenter;
 
     return (
       <HelpCenterDesktop
@@ -434,15 +423,15 @@ export class HelpCenter extends Component {
         showNextButton={this.state.showNextButton}
         hideZendeskLogo={this.props.hideZendeskLogo}
         disableAutoSearch={this.props.disableAutoSearch}
-        isLoading={loading}
+        isLoading={this.state.isLoading}
         onNextClick={this.props.onNextClick}
         channelChoice={this.props.channelChoice && this.state.chatOnline}
         articleViewActive={this.state.articleViewActive}
-        hasSearched={searched}
+        hasSearched={this.state.hasSearched}
         buttonLabel={buttonLabel}
         expanded={this.state.expanded}
         formTitleKey={this.props.formTitleKey}
-        searchFieldValue={searchValue}
+        searchFieldValue={this.state.searchFieldValue}
         shadowVisible={shadowVisible}
         updateFrameSize={this.props.updateFrameSize}>
         {this.renderResults()}
@@ -504,7 +493,6 @@ export class HelpCenter extends Component {
 }
 
 HelpCenter.propTypes = {
-  helpCenter: PropTypes.object.isRequired,
   searchSender: PropTypes.func.isRequired,
   contextualSearchSender: PropTypes.func.isRequired,
   imagesSender: PropTypes.func.isRequired,
@@ -523,9 +511,7 @@ HelpCenter.propTypes = {
   channelChoice: PropTypes.bool,
   localeFallbacks: PropTypes.arr,
   disableAutoSearch: PropTypes.bool,
-  viewMoreEnabled: PropTypes.bool,
-  updateSearchTerm: PropTypes.func.isRequired,
-  performSearch: PropTypes.func.isRequired
+  viewMoreEnabled: PropTypes.bool
 };
 
 HelpCenter.defaultProps = {
@@ -544,5 +530,3 @@ HelpCenter.defaultProps = {
   disableAutoSearch: false,
   viewMoreEnabled: false
 };
-
-export default connect(mapStateToProps, { updateSearchTerm, performSearch }, null, { withRef: true })(HelpCenter);
