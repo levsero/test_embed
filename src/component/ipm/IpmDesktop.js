@@ -39,7 +39,7 @@ export class IpmDesktop extends Component {
   }
 
   getAvatarElement() {
-    const className = 'IpmDesktop-avatar u-posAbsolute u-paddingAN u-textCenter';
+    const className = 'IpmDesktop-avatar u-posAbsolute';
 
     return (
       <Avatar

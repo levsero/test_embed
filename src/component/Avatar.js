@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
-import classNames from 'classnames';
 import { locals as styles } from './Avatar.sass';
 
 import { Icon } from 'component/Icon';
@@ -23,10 +22,7 @@ export class Avatar extends Component {
   }
 
   render() {
-    const classes = classNames({
-      [styles.avatar]: true,
-      [this.props.className]: true
-    });
+    const classes = `${styles.avatar} ${this.props.className}`;
 
     return _.isEmpty(this.props.src)
          ? this.renderDefault(classes)
