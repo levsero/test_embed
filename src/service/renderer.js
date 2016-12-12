@@ -21,7 +21,6 @@ const reduxStore = createStore();
 
 const embedsMap = {
   'submitTicket': webWidget,
-  'helpCenter': helpCenter,
   'nps': nps,
   'ipm': ipm,
   'chat': chat,
@@ -87,6 +86,10 @@ function init(config) {
         configItem.props.brand = config.brand;
         embedsMap[configItem.embed].create(embedName, configItem.props, reduxStore);
         embedsMap[configItem.embed].render(embedName);
+        if (configItem.embed !== 'helpCenterForm') {
+          embedsMap[configItem.embed].create(embedName, configItem.props);
+          embedsMap[configItem.embed].render(embedName);
+        }
       } catch (err) {
         logging.error({
           error: err,

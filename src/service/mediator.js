@@ -16,6 +16,8 @@ const chat = 'zopimChat';
 const helpCenter = 'helpCenterForm';
 const channelChoice = 'channelChoice';
 const state = {};
+//const webWidgetEmbed = settings.get('expanded');
+const webWidgetEmbed = true;
 
 state[`${chat}.connectionPending`] = true;
 state[`${launcher}.userHidden`] = false;
@@ -113,7 +115,7 @@ function init(embedsAccessible, params = {}) {
   state['.hasHidden'] = params.hideLauncher;
   state[`${launcher}.userHidden`] = params.hideLauncher;
   state[`${submitTicket}.isAccessible`] = embedsAccessible.submitTicket;
-  state[`${helpCenter}.isAccessible`] = embedsAccessible.helpCenter &&
+  state[`${helpCenter}.isAccessible`] = true &&
     (!params.helpCenterSignInRequired || isOnHelpCenterPage());
   state[`${channelChoice}.isAccessible`] = embedsAccessible.channelChoice;
   state[`${helpCenter}.isSuppressed`] = settings.get('helpCenter.suppress');
@@ -355,15 +357,19 @@ function init(embedsAccessible, params = {}) {
         // Run this on a seperate `tick` from helpCenter.hide
         // to mitigate ghost-clicking
         setTimeout(() => {
-          c.broadcast(`${submitTicket}.show`, { transition: getShowAnimation() });
+        c.broadcast(`${submitTicket}.show`, { transition: getShowAnimation() });
         }, 0);
       }
 
-      state[`${currentEmbed}.isVisible`] = false;
+      if (!webWidgetEmbed) {
+        state[`${currentEmbed}.isVisible`] = false;
+      }
 
       // Run this on a separate `tick` from submitTicket.show
       setTimeout(() => {
-        c.broadcast(`${currentEmbed}.hide`, { transition: getHideAnimation() });
+        if (!webWidgetEmbed) {
+          c.broadcast(`${currentEmbed}.hide`, { transition: getHideAnimation() });
+        }
         c.broadcast(`${submitTicket}.showBackButton`);
       }, 0);
     }
@@ -451,7 +457,9 @@ function init(embedsAccessible, params = {}) {
   });
 
   c.intercept(`${submitTicket}.onClose`, (_broadcast) => {
-    state[`${submitTicket}.isVisible`] = false;
+    if (!webWidgetEmbed) {
+      state[`${submitTicket}.isVisible`] = false;
+    }
     _broadcast();
   });
 
@@ -499,7 +507,9 @@ function init(embedsAccessible, params = {}) {
     // Run these two broadcasts on a seperate `ticks`
     // to mitigate ghost-clicking
     setTimeout(() => {
-      c.broadcast(`${submitTicket}.hide`);
+      if (!webWidgetEmbed) {
+        c.broadcast(`${submitTicket}.hide`);
+      }
     }, 10); // delay hiding so we don't see host page flashing
 
     setTimeout(() => {
@@ -509,7 +519,10 @@ function init(embedsAccessible, params = {}) {
 
   c.intercept(`${submitTicket}.onCancelClick`, () => {
     state[`${submitTicket}.isVisible`] = false;
-    c.broadcast(`${submitTicket}.hide`, { transition: getHideAnimation() });
+
+    if (!webWidgetEmbed) {
+      c.broadcast(`${submitTicket}.hide`, { transition: getHideAnimation() });
+    }
 
     if (helpCenterAvailable()) {
       state[`${helpCenter}.isVisible`] = true;

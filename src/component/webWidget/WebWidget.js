@@ -3,12 +3,17 @@ import classNames from 'classnames';
 
 import { Container } from 'component/Container';
 import { Chat } from 'component/chat/Chat';
+import { HelpCenter } from 'component/HelpCenter/HelpCenter';
 import { SubmitTicket } from 'component/submitTicket/SubmitTicket';
+
+const submitTicket = 'ticketSubmissionForm';
+const helpCenter = 'helpCenterForm';
+const chat = 'chat';
 
 export class WebWidget extends Component {
   constructor() {
     this.state = {
-      activeComponent: 'submitTicket'
+      activeComponent: helpCenter
     };
   }
 
@@ -22,9 +27,42 @@ export class WebWidget extends Component {
     this.setState({ activeComponent });
   }
 
+  getActiveEmbed() {
+    return this.state.activeComponent;
+  }
+
   renderChat() {
     return (
       <Chat ref='rootComponent' />
+    );
+  }
+
+  renderHelpCenter() {
+    const { helpCenterConfig } = this.props;
+
+    return (
+      <HelpCenter
+        ref='rootComponent'
+        hideZendeskLogo={this.props.hideZendeskLogo}
+        onNextClick={this.props.onNextClick}
+        onArticleClick={this.props.onArticleClick}
+        onSearch={this.props.onSearch}
+        position={this.props.position}
+        buttonLabelKey={this.props.buttonLabelKey}
+        formTitleKey={this.props.formTitleKey}
+        showBackButton={this.props.showBackButton}
+        searchSender={this.props.searchSender}
+        contextualSearchSender={this.props.searchSender}
+        imagesSender={this.props.imagesSender}
+        style={this.props.containerStyle}
+        fullscreen={this.props.fullscreen}
+        updateFrameSize={this.props.updateFrameSize}
+        disableAutoSearch={helpCenterConfig.disableAutoSearch}
+        originalArticleButton={this.props.originalArticleButton}
+        localeFallbacks={this.props.localFallbacks}
+        channelChoice={this.props.channelChoice}
+        viewMoreEnabled={helpCenterConfig.viewMoreEnabled}
+        zendeskHost={this.props.zendeskHost} />
     );
   }
 
@@ -55,9 +93,19 @@ export class WebWidget extends Component {
   render() {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
-    const component = this.state.activeComponent === 'submitTicket'
-                    ? this.renderSubmitTicket()
-                    : this.renderChat();
+    let component;
+
+    switch (this.state.activeComponent) {
+      case submitTicket:
+        component = this.renderSubmitTicket();
+        break;
+      case helpCenter:
+        component = this.renderHelpCenter();
+        break;
+      case chat:
+        component = this.renderChat();
+        break;
+    }
 
     return (
       <Container
