@@ -1,0 +1,10 @@
+@import '../styles/_vars.scss';
+
+.avatar {
+  composes: u-block u-paddingAN u-textCenter from '../styles/utils.scss';
+  border-radius: 50%;
+  border: #{2/$font-size}rem solid $zendesk-color--gainsboro;
+  background-color: $zendesk-color--white;
+  height: #{45/$font-size}rem;
+  width: #{45/$font-size}rem;
+}

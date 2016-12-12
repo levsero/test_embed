@@ -29,6 +29,9 @@ describe('IpmDesktop component', function() {
 
     initMockRegistry({
       'React': React,
+      'component/Avatar': {
+        Avatar: noopReactComponent()
+      },
       'component/Container': {
         Container: React.createClass({
           render: function() {
@@ -88,32 +91,6 @@ describe('IpmDesktop component', function() {
         .toHaveBeenCalled();
 
       jasmine.clock().uninstall();
-    });
-
-    describe('#getAvatarElement', () => {
-      it('returns an image when avatarUrl is passed', () => {
-        component = domRender(
-          <IpmDesktop
-            {...ipmProps}
-            updateFrameSize={noop} />
-        );
-
-        expect(document.querySelector('img').src)
-          .toEqual(ipmProps.ipm.message.avatarUrl);
-      });
-
-      it('returns an Icon element when avatarUrl is falsy', () => {
-        const props = _.merge({}, ipmProps, {ipm: {message:{avatarUrl: ''}}});
-
-        component = domRender(
-          <IpmDesktop
-            {...props}
-            updateFrameSize={noop} />
-        );
-
-        expect(document.querySelector('.Avatar'))
-          .toBeTruthy();
-      });
     });
   });
 

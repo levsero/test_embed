@@ -17,6 +17,7 @@ describe('embed.ipm', () => {
         }
       },
       './ipm.scss': '',
+      'component/Avatar.sass': '',
       'embed/frameFactory': {
         frameFactory: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameFactory,
         frameMethods: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
