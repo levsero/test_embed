@@ -12,7 +12,12 @@ import { document,
          getDocumentHost,
          location } from 'utility/globals';
 
-const ipmCSS = require('./ipm.scss').toString();
+import AvatarStyles from 'component/Avatar.sass';
+
+const ipmCSS = `
+  ${AvatarStyles}
+  ${require('./ipm.scss')}
+`;
 
 let ipmes = {};
 let hasSeenIpm = false;

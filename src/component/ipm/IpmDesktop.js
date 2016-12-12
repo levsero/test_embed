@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 
+import { Avatar } from 'component/Avatar';
 import { Container } from 'component/Container';
 import { Button } from 'component/button/Button';
 import { ZendeskLogo } from 'component/ZendeskLogo';
-import { Icon } from 'component/Icon';
 
 export class IpmDesktop extends Component {
   constructor(props, context) {
@@ -39,23 +39,13 @@ export class IpmDesktop extends Component {
   }
 
   getAvatarElement() {
-    const props = {
-      className: 'IpmDesktop-avatar u-posAbsolute u-paddingAN u-textCenter'
-    };
+    const className = 'IpmDesktop-avatar u-posAbsolute u-paddingAN u-textCenter';
 
-    if (this.props.ipm.message.avatarUrl) {
-      return (
-        <img
-          {...props}
-          src={this.props.ipm.message.avatarUrl} />
-      );
-    } else {
-      return (
-        <Icon
-          {...props}
-          type='Icon--avatar' />
-      );
-    }
+    return (
+      <Avatar
+        className={className}
+        src={this.props.ipm.message.avatarUrl} />
+    );
   }
 
   render() {
