@@ -77,34 +77,32 @@ export class EmbedWrapper extends Component {
 
     return (
       <Provider store={this.props.reduxStore}>
-        <div>
-          {css}
-          {styleTag}
-          <div className={backButtonClasses}>
-            {this.renderNavButton({
-              onClick: this.props.handleBackClick,
-              icon: 'Icon--back',
-              position: 'left'
-            })}
-          </div>
-          <div className={expandButtonClasses}>
-            {this.renderNavButton({
-              onClick: this.props.handleExpandClick,
-              icon: 'Icon--caret',
-              position: 'right',
-              className: expandClasses
-            })}
-          </div>
-          <div className={closeButtonClasses}>
-            {this.renderNavButton({
-              onClick: this.props.handleCloseClick,
-              icon: 'Icon--close',
-              position: 'right'
-            })}
-          </div>
-          <div id='Embed'>
-            {this.props.childFn(this.props.childParams)}
-          </div>
+        {css}
+        {styleTag}
+        <div className={backButtonClasses}>
+          {this.renderNavButton({
+            onClick: this.props.handleBackClick,
+            icon: 'Icon--back',
+            position: 'left'
+          })}
+        </div>
+        <div className={expandButtonClasses}>
+          {this.renderNavButton({
+            onClick: this.props.handleExpandClick,
+            icon: 'Icon--caret',
+            position: 'right',
+            className: expandClasses
+          })}
+        </div>
+        <div className={closeButtonClasses}>
+          {this.renderNavButton({
+            onClick: this.props.handleCloseClick,
+            icon: 'Icon--close',
+            position: 'right'
+          })}
+        </div>
+        <div id='Embed'>
+          {this.props.childFn(this.props.childParams)}
         </div>
       </Provider>
     );
