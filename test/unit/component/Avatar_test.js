@@ -35,32 +35,34 @@ describe('Avatar component', () => {
   });
 
   describe('#render', () => {
+    let component;
+
     describe('when the src prop is empty', () => {
       beforeEach(() => {
-        domRender(<Avatar />);
+        component = domRender(<Avatar />);
       });
 
       it('should render an Icon', () => {
-        expect(document.querySelector('.Avatar'))
-          .toBeTruthy();
+        expect(() => TestUtils.findRenderedComponentWithType(component, MockIcon))
+          .not.toThrow();
       });
 
       it('should not render an img', () => {
-        expect(document.querySelector('img'))
-          .toBeFalsy();
+        expect(() => TestUtils.findRenderedDOMComponentWithTag(component, 'img'))
+          .toThrow();
       });
     });
 
     describe('when the src prop is not empty', () => {
       beforeEach(() => {
-        domRender(<Avatar src='http://mofo.io/img.png' />);
+        component = domRender(<Avatar src='http://mofo.io/img.png' />);
       });
 
       it('should render an img with the correct src', () => {
-        const img = document.querySelector('img');
+        let img;
 
-        expect(img)
-          .toBeTruthy();
+        expect(() => img = TestUtils.findRenderedDOMComponentWithTag(component, 'img'))
+          .not.toThrow();
 
         expect(img.src)
           .toBe('http://mofo.io/img.png');
