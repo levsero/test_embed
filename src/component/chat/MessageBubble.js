@@ -3,7 +3,6 @@ import { locals as styles } from './MessageBubble.sass';
 
 export class MessageBubble extends Component {
   render() {
-    const classes = `${styles.messageBubble}`;
     const style = {
       color: this.props.color,
       backgroundColor: this.props.backgroundColor
@@ -11,7 +10,7 @@ export class MessageBubble extends Component {
 
     return (
       <div
-        className={classes}
+        className={styles.messageBubble}
         style={style}>
         {this.props.message}
       </div>
