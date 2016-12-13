@@ -25,17 +25,27 @@ describe('MessageBubble component', () => {
 
   describe('#render', () => {
     let component,
-      style;
+      domNode;
 
     describe('Component props', () => {
       beforeEach(() => {
-        component = domRender(<MessageBubble backgroundColor="lavender" color="purple" />);
-        style = ReactDOM.findDOMNode(component).style;
+        component = domRender(
+          <MessageBubble
+            message="Test Message"
+            backgroundColor="lavender"
+            color="purple" />
+        );
+        domNode = ReactDOM.findDOMNode(component);
       });
 
       it('sets the color', () => {
-        expect(style.color)
+        expect(domNode.style.color)
           .toEqual('purple');
+      });
+
+      it('sets the text content', () => {
+        expect(domNode.textContent)
+          .toEqual('Test Message');
       });
 
       // After much tinkering and investigation it looks like theres a bug in the
