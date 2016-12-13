@@ -52,96 +52,99 @@ export class WebWidget extends Component {
     if (this.state.helpCenterAvaliable) {
       this.setState({ activeComponent: helpCenter });
     }
-    //else if channel choice
     else {
-      this.setState({ activeComponent: launcher });
+      this.props.onCancel();
     }
   }
 
   renderChat() {
+    const classes = classNames({
+      'u-isHidden': this.state.activeComponent !== chat
+    });
+
     return (
-      <Chat
-        ref='rootComponent'
-        style={this.props.style}
-        position={this.props.position} />
+      <div className={classes}>
+        <Chat
+          ref='rootComponent'
+          style={this.props.style}
+          position={this.props.position} />
+      </div>
     );
   }
 
   renderHelpCenter() {
     const { helpCenterConfig } = this.props;
+    const classes = classNames({
+      'u-isHidden': this.state.activeComponent !== helpCenter
+    });
 
     return (
-      <HelpCenter
-        ref='rootComponent'
-        hideZendeskLogo={this.props.hideZendeskLogo}
-        onNextClick={this.onNextClick}
-        onArticleClick={this.props.onArticleClick}
-        onSearch={this.props.onSearch}
-        position={this.props.position}
-        buttonLabelKey={this.props.buttonLabelKey}
-        formTitleKey={this.props.formTitleKey}
-        showBackButton={this.props.showBackButton}
-        searchSender={this.props.searchSender}
-        contextualSearchSender={this.props.searchSender}
-        imagesSender={this.props.imagesSender}
-        style={this.props.style}
-        fullscreen={this.props.fullscreen}
-        updateFrameSize={this.props.updateFrameSize}
-        disableAutoSearch={helpCenterConfig.disableAutoSearch}
-        originalArticleButton={this.props.originalArticleButton}
-        localeFallbacks={this.props.localFallbacks}
-        channelChoice={this.props.channelChoice}
-        viewMoreEnabled={helpCenterConfig.viewMoreEnabled}
-        expanded={true}
-        zendeskHost={this.props.zendeskHost} />
+      <div className={classes}>
+        <HelpCenter
+          ref='rootComponent'
+          hideZendeskLogo={this.props.hideZendeskLogo}
+          onNextClick={this.onNextClick}
+          onArticleClick={this.props.onArticleClick}
+          onSearch={this.props.onSearch}
+          position={this.props.position}
+          buttonLabelKey={this.props.buttonLabelKey}
+          formTitleKey={this.props.formTitleKey}
+          showBackButton={this.props.showBackButton}
+          searchSender={this.props.searchSender}
+          contextualSearchSender={this.props.searchSender}
+          imagesSender={this.props.imagesSender}
+          style={this.props.style}
+          fullscreen={this.props.fullscreen}
+          updateFrameSize={this.props.updateFrameSize}
+          disableAutoSearch={helpCenterConfig.disableAutoSearch}
+          originalArticleButton={this.props.originalArticleButton}
+          localeFallbacks={this.props.localFallbacks}
+          channelChoice={this.props.channelChoice}
+          viewMoreEnabled={helpCenterConfig.viewMoreEnabled}
+          expanded={true}
+          zendeskHost={this.props.zendeskHost} />
+      </div>
     );
   }
 
   renderSubmitTicket() {
     const { submitTicketConfig } = this.props;
+    const classes = classNames({
+      'u-isHidden': this.state.activeComponent !== submitTicket
+    });
 
     return (
-      <SubmitTicket
-        ref='rootComponent'
-        customFields={submitTicketConfig.customFields}
-        hideZendeskLogo={submitTicketConfig.hideZendeskLogo}
-        onCancel={this.onCancelClick}
-        submitTicketSender={this.props.submitTicketSender}
-        attachmentSender={this.props.attachmentSender}
-        onSubmitted={this.props.onSubmitted}
-        position={submitTicketConfig.position}
-        formTitleKey={submitTicketConfig.formTitleKey}
-        style={this.props.style}
-        showBackButton={this.props.showBackButton}
-        attachmentsEnabled={submitTicketConfig.attachmentsEnabled}
-        subjectEnabled={this.props.subjectEnabled}
-        maxFileCount={submitTicketConfig.maxFileCount}
-        maxFileSize={submitTicketConfig.maxFileSize}
-        expanded={true}
-        updateFrameSize={this.props.updateFrameSize} />
+      <div className={classes}>
+        <SubmitTicket
+          ref='rootComponent'
+          customFields={submitTicketConfig.customFields}
+          hideZendeskLogo={submitTicketConfig.hideZendeskLogo}
+          onCancel={this.onCancelClick}
+          submitTicketSender={this.props.submitTicketSender}
+          attachmentSender={this.props.attachmentSender}
+          onSubmitted={this.props.onSubmitted}
+          position={submitTicketConfig.position}
+          formTitleKey={submitTicketConfig.formTitleKey}
+          style={this.props.style}
+          showBackButton={this.props.showBackButton}
+          attachmentsEnabled={submitTicketConfig.attachmentsEnabled}
+          subjectEnabled={this.props.subjectEnabled}
+          maxFileCount={submitTicketConfig.maxFileCount}
+          maxFileSize={submitTicketConfig.maxFileSize}
+          expanded={true}
+          updateFrameSize={this.props.updateFrameSize} />
+      </div>
     );
   }
 
   render() {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
-    let component;
-
-    switch (this.state.activeComponent) {
-      case submitTicket:
-        component = this.renderSubmitTicket();
-        break;
-      case helpCenter:
-        component = this.renderHelpCenter();
-        break;
-      case chat:
-        component = this.renderChat();
-        break;
-    }
-
     return (
       <div>
-        {component}
+        {this.renderSubmitTicket()}
+        {this.renderChat()}
+        {this.renderHelpCenter()}
       </div>
     );
   }

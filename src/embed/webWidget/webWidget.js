@@ -503,7 +503,6 @@ function setUpSubmitTicket(config) {
     mediator.channel.broadcast('ticketSubmissionForm.onFormSubmitted');
   };
   const onCancel = function() {
-    get().instance.getRootComponent().setEmbed('helpCenterForm');
     mediator.channel.broadcast('ticketSubmissionForm.onCancelClick');
   };
   const settingTicketForms = settings.get('contactForm.ticketForms');
