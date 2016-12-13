@@ -17,7 +17,7 @@ const helpCenter = 'helpCenterForm';
 const channelChoice = 'channelChoice';
 const state = {};
 //const webWidgetEmbed = settings.get('expanded');
-const webWidgetEmbed = true;
+const webWidgetEmbed = false;
 
 state[`${chat}.connectionPending`] = true;
 state[`${launcher}.userHidden`] = false;

@@ -41,7 +41,7 @@ let hasAuthenticatedSuccessfully = false;
 let useMouseDistanceContexualSearch = false;
 let cancelTargetHandler = null;
 
-function create(name, config) {
+function create(config) {
   let containerStyle;
   let frameStyle = {};
 

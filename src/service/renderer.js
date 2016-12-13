@@ -8,6 +8,11 @@ import { ipm } from 'embed/ipm/ipm';
 import { launcher } from 'embed/launcher/launcher';
 import { nps } from 'embed/nps/nps';
 import { submitTicket } from 'embed/submitTicket/submitTicket';
+<<<<<<< f1ab694e2f78acfbdbb81e1c7b50d158efe8a2f2
+=======
+import { webWidget } from 'embed/webWidget/webWidget';
+import { beacon } from 'service/beacon';
+>>>>>>> Make single iframe only appear if expanded is true. Otherwise it works as default
 import { i18n } from 'service/i18n';
 import { mediator } from 'service/mediator';
 import { logging } from 'service/logging';
@@ -20,13 +25,15 @@ import createStore from 'src/redux/createStore';
 const reduxStore = createStore();
 
 const embedsMap = {
-  'submitTicket': webWidget,
+  'submitTicket': submitTicket,
+  'helpCenter': helpCenter,
   'nps': nps,
   'ipm': ipm,
   'chat': chat,
   'channelChoice': channelChoice,
   'automaticAnswers': automaticAnswers,
-  'launcher': launcher
+  'launcher': launcher,
+  'webWidget': webWidget
 };
 let initialised = false;
 let hideLauncher = false;
@@ -78,7 +85,24 @@ function init(config) {
       embedsMap.channelChoice.render('channelChoice');
     }
 
-    _.forEach(parseConfig(config), function(configItem, embedName) {
+    const singleIframe = settings.get('expanded');
+    let parsedConfig = parseConfig(config);
+
+    if (singleIframe) {
+      const webWidgetEmbeds = _.pick(parsedConfig, ['ticketSubmissionForm', 'helpCenterForm']);
+      let webWidgetConfig = {};
+
+      _.forEach(webWidgetEmbeds, (embed, key) => {
+        webWidgetConfig[key] = embed.props;
+      });
+
+      webWidget.create(webWidgetConfig);
+      webWidget.render();
+
+      parsedConfig = _.omit(parsedConfig, ['ticketSubmissionForm', 'helpCenterForm']);
+    }
+
+    _.forEach(parsedConfig, function(configItem, embedName) {
       try {
         configItem.props.visible = !hideLauncher && config.embeds && !config.embeds.zopimChat;
         configItem.props.hideZendeskLogo = config.hideZendeskLogo;
@@ -90,7 +114,8 @@ function init(config) {
           embedsMap[configItem.embed].create(embedName, configItem.props);
           embedsMap[configItem.embed].render(embedName);
         }
-      } catch (err) {
+      :x
+
         logging.error({
           error: err,
           context: {
@@ -101,7 +126,7 @@ function init(config) {
       }
     });
 
-    renderedEmbeds = config.embeds;
+    renderedEmbeds = parsedConfig;
 
     initMediator(config);
 
