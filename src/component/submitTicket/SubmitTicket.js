@@ -31,7 +31,7 @@ export class SubmitTicket extends Component {
       formTitleKey: props.formTitleKey,
       showNotification: false,
       message: '',
-      expanded: false,
+      expanded: props.expanded,
       fullscreen: isMobileBrowser(),
       errorMessage: null,
       uid: _.uniqueId('submitTicketForm_'),
@@ -435,7 +435,8 @@ SubmitTicket.propTypes = {
   subjectEnabled: PropTypes.bool,
   maxFileCount: PropTypes.number,
   maxFileSize: PropTypes.number,
-  showBackButton: PropTypes.func
+  showBackButton: PropTypes.func,
+  expanded: PropTypes.bool
 };
 
 SubmitTicket.defaultProps = {
@@ -451,5 +452,6 @@ SubmitTicket.defaultProps = {
   subjectEnabled: false,
   maxFileCount: 5,
   maxFileSize: 5 * 1024 * 1024,
-  showBackButton: () => {}
+  showBackButton: () => {},
+  expanded: false
 };

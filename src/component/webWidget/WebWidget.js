@@ -5,15 +5,22 @@ import { Container } from 'component/Container';
 import { Chat } from 'component/chat/Chat';
 import { HelpCenter } from 'component/HelpCenter/HelpCenter';
 import { SubmitTicket } from 'component/submitTicket/SubmitTicket';
+import { bindMethods } from 'utility/utils';
 
 const submitTicket = 'ticketSubmissionForm';
 const helpCenter = 'helpCenterForm';
 const chat = 'chat';
+const launcher = 'launcher';
 
 export class WebWidget extends Component {
-  constructor() {
+  constructor(props, context) {
+    super(props, context);
+    bindMethods(this, WebWidget.prototype);
+
     this.state = {
-      activeComponent: helpCenter
+      activeComponent: helpCenter,
+      chatOnline: false,
+      helpCenterAvaliable: true
     };
   }
 
@@ -31,9 +38,32 @@ export class WebWidget extends Component {
     return this.state.activeComponent;
   }
 
+  onNextClick() {
+    if (this.state.chatOnline) {
+      this.setState({ activeComponent: chat });
+      //track chat started
+    } else {
+      this.setState({ activeComponent: submitTicket });
+      //Set Back Button
+    }
+  }
+
+  onCancelClick() {
+    if (this.state.helpCenterAvaliable) {
+      this.setState({ activeComponent: helpCenter });
+    }
+    //else if channel choice
+    else {
+      this.setState({ activeComponent: launcher });
+    }
+  }
+
   renderChat() {
     return (
-      <Chat ref='rootComponent' />
+      <Chat
+        ref='rootComponent'
+        style={this.props.style}
+        position={this.props.position} />
     );
   }
 
@@ -44,7 +74,7 @@ export class WebWidget extends Component {
       <HelpCenter
         ref='rootComponent'
         hideZendeskLogo={this.props.hideZendeskLogo}
-        onNextClick={this.props.onNextClick}
+        onNextClick={this.onNextClick}
         onArticleClick={this.props.onArticleClick}
         onSearch={this.props.onSearch}
         position={this.props.position}
@@ -54,7 +84,7 @@ export class WebWidget extends Component {
         searchSender={this.props.searchSender}
         contextualSearchSender={this.props.searchSender}
         imagesSender={this.props.imagesSender}
-        style={this.props.containerStyle}
+        style={this.props.style}
         fullscreen={this.props.fullscreen}
         updateFrameSize={this.props.updateFrameSize}
         disableAutoSearch={helpCenterConfig.disableAutoSearch}
@@ -62,6 +92,7 @@ export class WebWidget extends Component {
         localeFallbacks={this.props.localFallbacks}
         channelChoice={this.props.channelChoice}
         viewMoreEnabled={helpCenterConfig.viewMoreEnabled}
+        expanded={true}
         zendeskHost={this.props.zendeskHost} />
     );
   }
@@ -74,7 +105,7 @@ export class WebWidget extends Component {
         ref='rootComponent'
         customFields={submitTicketConfig.customFields}
         hideZendeskLogo={submitTicketConfig.hideZendeskLogo}
-        onCancel={this.props.onCancel}
+        onCancel={this.onCancelClick}
         submitTicketSender={this.props.submitTicketSender}
         attachmentSender={this.props.attachmentSender}
         onSubmitted={this.props.onSubmitted}
@@ -86,6 +117,7 @@ export class WebWidget extends Component {
         subjectEnabled={this.props.subjectEnabled}
         maxFileCount={submitTicketConfig.maxFileCount}
         maxFileSize={submitTicketConfig.maxFileSize}
+        expanded={true}
         updateFrameSize={this.props.updateFrameSize} />
     );
   }
@@ -108,12 +140,9 @@ export class WebWidget extends Component {
     }
 
     return (
-      <Container
-        style={this.props.style}
-        position={this.props.position}
-        expanded={true}>
+      <div>
         {component}
-      </Container>
+      </div>
     );
   }
 }

@@ -95,9 +95,9 @@ function create(config) {
       }
     }
   }
-  const submitTicketSettings = setUpSubmitTicket(config);
-  const helpCenterSettings = setUpHelpCenter(config);
-  const globalConfig = _.extend(configDefaults, config);
+  const submitTicketSettings = setUpSubmitTicket(config.ticketSubmissionForm);
+  const helpCenterSettings = setUpHelpCenter(config.helpCenterForm);
+  const globalConfig = _.extend(configDefaults, config.ticketSubmissionForm, config.helpCenterForm);
 
   if (isMobileBrowser()) {
     containerStyle = { width: '100%', height: '100%' };
@@ -184,7 +184,6 @@ function create(config) {
           showBackButton={showBackButton}
           subjectEnabled={settings.get('contactForm.subject')}
           hideZendeskLogo={globalConfig.hideZendeskLogo}
-          onNextClick={helpCenterSettings.onNextClick}
           onArticleClick={helpCenterSettings.onArticleClick}
           onSearch={helpCenterSettings.onSearch}
           helpCenterConfig={helpCenterSettings.config}
@@ -571,9 +570,6 @@ function setUpHelpCenter(config) {
     color: '#659700'
   };
 
-  const onNextClick = function(embed) {
-    mediator.channel.broadcast('helpCenterForm.onNextClick', embed);
-  };
   const onArticleClick = function(trackPayload) {
     beacon.trackUserAction('helpCenter', 'click', 'helpCenterForm', trackPayload);
   };
@@ -624,7 +620,6 @@ function setUpHelpCenter(config) {
 
   return {
     config,
-    onNextClick,
     onArticleClick,
     onSearch,
     searchSenderFn,
