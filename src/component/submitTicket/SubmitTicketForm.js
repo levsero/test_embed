@@ -357,7 +357,7 @@ export class SubmitTicketForm extends Component {
           fullscreen={fullscreen}>
           {formBody}
           {attachments}
-          {<MessageBubble />}
+          {<MessageBubble color="white" backgroundColor="rgb(20,147,209)" />}
         </ScrollContainer>
       </form>
     );
