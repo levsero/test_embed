@@ -13,7 +13,6 @@ import { ScrollContainer } from 'component/ScrollContainer';
 import { i18n } from 'service/i18n';
 import { getCustomFields } from 'utility/fields';
 import { bindMethods } from 'utility/utils';
-import { MessageBubble } from 'component/chat/MessageBubble';
 
 const sendButtonMessageString = 'embeddable_framework.submitTicket.form.submitButton.label.send';
 const sendingButtonMessageString = 'embeddable_framework.submitTicket.form.submitButton.label.sending';
@@ -357,7 +356,6 @@ export class SubmitTicketForm extends Component {
           fullscreen={fullscreen}>
           {formBody}
           {attachments}
-          {<MessageBubble color="white" backgroundColor="rgb(20,147,209)" />}
         </ScrollContainer>
       </form>
     );
