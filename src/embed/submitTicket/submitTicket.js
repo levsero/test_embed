@@ -328,9 +328,9 @@ function render(name) {
 
 function prefillForm(name, user) {
   waitForRootComponent(name, function() {
-    const submitTicketForm = getRootComponent(name).refs.submitTicketForm;
+    const submitTicket = getRootComponent(name);
 
-    submitTicketForm.setState({
+    submitTicket.setState({
       formState: _.pick(user, ['name', 'email'])
     });
   });

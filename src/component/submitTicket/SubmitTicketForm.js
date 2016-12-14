@@ -22,7 +22,6 @@ const initialState = {
   isSubmitting: false,
   isRTL: i18n.isRTL(),
   shouldRemoveForm: false,
-  formState: {},
   showErrorMessage: false,
   attachments: [],
   buttonMessage: sendButtonMessageString,
@@ -42,14 +41,14 @@ export class SubmitTicketForm extends Component {
   }
 
   componentDidMount() {
-    const customFields = getCustomFields(this.props.customFields, this.state.formState);
+    const customFields = getCustomFields(this.props.customFields, this.props.formState);
     const showShadow = customFields.fields.length > 0 || this.props.attachmentsEnabled;
 
     this.refs.scrollContainer.setScrollShadowVisible(showShadow);
   }
 
   componentDidUpdate() {
-    if (this.refs.formWrapper && this.state.formState && this.state.shouldRemoveForm) {
+    if (this.refs.formWrapper && this.props.formState && this.state.shouldRemoveForm) {
       const form = ReactDOM.findDOMNode(this.refs.form);
 
       _.forEach(form.elements, function(field) {
@@ -57,12 +56,12 @@ export class SubmitTicketForm extends Component {
           return;
         }
 
-        if (this.state.formState[field.name]) {
+        if (this.props.formState[field.name]) {
           if (field.type === 'checkbox') {
             // Based on formState set checked property
-            field.checked = !!this.state.formState[field.name];
+            field.checked = !!this.props.formState[field.name];
           } else {
-            field.value = this.state.formState[field.name];
+            field.value = this.props.formState[field.name];
           }
         } else {
           // If clearing form after submit we need to make sure
@@ -166,8 +165,8 @@ export class SubmitTicketForm extends Component {
                            ? this.refs.attachments.attachmentsReady()
                            : true;
 
+    this.props.setFormState(this.getFormState());
     this.setState({
-      formState: this.getFormState(),
       isValid: form.checkValidity() && attachmentsReady
     });
   }
@@ -187,11 +186,11 @@ export class SubmitTicketForm extends Component {
   }
 
   clear() {
-    const formData = this.state.formState;
+    const formData = this.props.formState;
     const form = this.refs.form.getDOMNode();
 
     _.forEach(form.elements, (field) => {
-      if (this.state.formState[field.name] && field.type === 'checkbox') {
+      if (this.props.formState[field.name] && field.type === 'checkbox') {
         field.checked = false;
       }
     });
@@ -201,11 +200,9 @@ export class SubmitTicketForm extends Component {
     }
 
     this.setState(initialState);
-    this.setState({
-      formState: {
-        name: formData.name,
-        email: formData.email
-      }
+    this.props.setFormState({
+      name: formData.name,
+      email: formData.email
     });
   }
 
@@ -218,7 +215,7 @@ export class SubmitTicketForm extends Component {
          ? null
          : <Field
             placeholder={placeholder}
-            value={this.state.formState.subject}
+            value={this.props.formState.subject}
             name='subject'
             disabled={this.props.previewEnabled} />;
   }
@@ -230,7 +227,7 @@ export class SubmitTicketForm extends Component {
         type='email'
         required={true}
         pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\-`']+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?" // eslint-disable-line
-        value={this.state.formState.email}
+        value={this.props.formState.email}
         name='email'
         disabled={this.props.previewEnabled} />
     );
@@ -240,7 +237,7 @@ export class SubmitTicketForm extends Component {
     return (
       <Field
         placeholder={i18n.t('embeddable_framework.submitTicket.field.name.label')}
-        value={this.state.formState.name}
+        value={this.props.formState.name}
         name='name'
         disabled={this.props.previewEnabled} />
     );
@@ -251,7 +248,7 @@ export class SubmitTicketForm extends Component {
       <Field
         placeholder={i18n.t('embeddable_framework.submitTicket.field.description.label')}
         required={true}
-        value={this.state.formState.description}
+        value={this.props.formState.description}
         name='description'
         input={<textarea rows='5' />}
         disabled={this.props.previewEnabled} />
@@ -259,11 +256,11 @@ export class SubmitTicketForm extends Component {
   }
 
   renderTicketFormBody() {
-    const { ticketForm, ticketFormFields, formState } = this.state;
+    const { ticketForm, ticketFormFields } = this.state;
     const formTicketFields = _.filter(ticketFormFields, (field) => {
       return ticketForm.ticket_field_ids.indexOf(field.id) > -1;
     });
-    const ticketFieldsElem = getCustomFields(formTicketFields, formState);
+    const ticketFieldsElem = getCustomFields(formTicketFields, this.props.formState);
     const titleMobileClasses = this.props.fullscreen ? styles.ticketFormTitleMobile : '';
 
     ticketFieldsElem.allFields.unshift([this.renderNameField(), this.renderEmailField()]);
@@ -280,7 +277,7 @@ export class SubmitTicketForm extends Component {
   }
 
   renderFormBody() {
-    const customFields = getCustomFields(this.props.customFields, this.state.formState);
+    const customFields = getCustomFields(this.props.customFields, this.props.formState);
 
     return (
       <div ref='formWrapper'>
@@ -376,6 +373,8 @@ SubmitTicketForm.propTypes = {
   maxFileCount: PropTypes.number,
   maxFileSize: PropTypes.number,
   previewEnabled: PropTypes.bool,
+  formState: PropTypes.object,
+  setFormState: PropTypes.func,
   expanded: PropTypes.bool
 };
 
@@ -389,5 +388,7 @@ SubmitTicketForm.defaultProps = {
   maxFileCount: 5,
   maxFileSize: 5 * 1024 * 1024,
   previewEnabled: false,
-  expanded: false
+  expanded: false,
+  formState: {},
+  setFormState: () => {}
 };

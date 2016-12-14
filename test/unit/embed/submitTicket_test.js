@@ -581,8 +581,7 @@ describe('embed.submitTicket', () => {
       let mockMediator,
         bob,
         bobFrame,
-        bobSubmitTicket,
-        bobSubmitTicketForm;
+        bobSubmitTicket;
 
       beforeEach(() => {
         mockMediator = mockRegistry['service/mediator'].mediator;
@@ -591,7 +590,6 @@ describe('embed.submitTicket', () => {
         bob = submitTicket.get('bob');
         bobFrame = bob.instance.getChild();
         bobSubmitTicket = bobFrame.refs.rootComponent;
-        bobSubmitTicketForm = bobSubmitTicket.refs.submitTicketForm;
       });
 
       it('should subscribe to <name>.show', () => {
@@ -714,10 +712,10 @@ describe('embed.submitTicket', () => {
 
         pluckSubscribeCall(mockMediator, 'bob.prefill')(params);
 
-        expect(bobSubmitTicketForm.state.formState.name)
+        expect(bobSubmitTicket.state.formState.name)
           .toEqual(params.name);
 
-        expect(bobSubmitTicketForm.state.formState.email)
+        expect(bobSubmitTicket.state.formState.email)
           .toEqual(params.email);
       });
     });
