@@ -30,7 +30,7 @@ describe('IpmDesktop component', function() {
     initMockRegistry({
       'React': React,
       'component/Avatar': {
-        Avatar: noopReactComponent()
+        Avatar: NoopReactComponent()
       },
       'component/Container': {
         Container: class Container extends Component {
