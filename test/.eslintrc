@@ -12,7 +12,7 @@
     "jsdom": true,
     "mockery": true,
     "noop": true,
-    "NoopReactComponent": true,
+    "noopReactComponent": true,
     "pluckSubscribeCall": true,
     "React": true,
     "TestUtils": true,
