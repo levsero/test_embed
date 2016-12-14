@@ -25,11 +25,11 @@ describe('embed.ipm', () => {
       'component/ipm/Ipm': {
         Ipm: class Ipm extends Component {
           constructor() {
-            this.ipmSender = () => {};
             this.state = {
               ipm: {}
             };
           }
+          ipmSender() {}
           render() {
             return (
               <div className='mock-ipm' />

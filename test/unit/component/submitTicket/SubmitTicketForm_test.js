@@ -85,8 +85,10 @@ describe('SubmitTicketForm component', function() {
       'component/attachment/AttachmentList': {
         AttachmentList: class AttachmentList extends Component {
           constructor() {
-            this.attachmentsReady = () => mockAttachmentsReadyValue;
             this.clear = mockAttachmentsListClear;
+          }
+          attachmentsReady() {
+            return mockAttachmentsReadyValue
           }
           render() {
             return <div ref="attachments" />;
