@@ -203,7 +203,7 @@ export class SubmitTicketForm extends Component {
     this.props.setFormState({
       name: formData.name,
       email: formData.email
-    })
+    });
   }
 
   renderSubjectField() {

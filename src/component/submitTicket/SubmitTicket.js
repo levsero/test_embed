@@ -394,7 +394,6 @@ export class SubmitTicket extends Component {
       frameDimensions = this.props.updateFrameSize();
     }, 0);
 
-    const defaultForm = this.renderForm();
     const content = (_.isEmpty(this.state.ticketForms) || this.state.selectedTicketForm)
                   ? this.renderForm()
                   : this.renderTicketFormList();

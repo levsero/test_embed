@@ -575,8 +575,7 @@ describe('embed.submitTicket', () => {
       let mockMediator,
         bob,
         bobFrame,
-        bobSubmitTicket,
-        bobSubmitTicketForm;
+        bobSubmitTicket;
 
       beforeEach(() => {
         mockMediator = mockRegistry['service/mediator'].mediator;
@@ -585,7 +584,6 @@ describe('embed.submitTicket', () => {
         bob = submitTicket.get('bob');
         bobFrame = bob.instance.getChild();
         bobSubmitTicket = bobFrame.refs.rootComponent;
-        bobSubmitTicketForm = bobSubmitTicket.refs.submitTicketForm;
       });
 
       it('should subscribe to <name>.show', () => {
