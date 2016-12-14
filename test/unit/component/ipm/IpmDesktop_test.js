@@ -162,6 +162,15 @@ describe('IpmDesktop component', function() {
             .toHaveBeenCalledWith('https://zendesk.com', '_blank');
         });
       });
+
+      describe('with a relative url specified', () => {
+        withButtonUrl('/agent/admin');
+
+        it('invokes window.open with buttonUrl as-is', () => {
+          expect(window.open)
+            .toHaveBeenCalledWith('/agent/admin', '_blank');
+        });
+      });
     });
   });
 
