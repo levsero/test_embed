@@ -168,7 +168,8 @@ export class SubmitTicket extends Component {
         'name': data.value.name,
         'email': data.value.email,
         'locale_id': i18n.getLocaleId()
-      }
+      },
+      'ticket_form_id': ticketFormsAvailable ? this.state.selectedTicketForm : null
     };
 
     return this.props.customFields.length > 0 || ticketFormsAvailable
