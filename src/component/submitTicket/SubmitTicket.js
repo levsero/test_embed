@@ -171,6 +171,10 @@ export class SubmitTicket extends Component {
       }
     };
 
+    if (ticketFormsAvailable) {
+      params.ticket_form_id = this.state.selectedTicketForm; // eslint-disable-line camelcase
+    }
+
     return this.props.customFields.length > 0 || ticketFormsAvailable
          ? { request: _.extend(params, this.formatTicketFieldData(data)) }
          : { request: params };
