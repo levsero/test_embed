@@ -2,7 +2,7 @@ describe('Icon component', function() {
   let Icon;
   const iconPath = buildSrcPath('component/Icon');
 
-  class DummyIcon extends Component {
+  class DummyIcon {
     render() {
       return (<svg><g id="Layer_Test"><path d="M" /></g></svg>);
     }

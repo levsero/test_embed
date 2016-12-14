@@ -21,7 +21,7 @@ describe('embed.channelChoice', () => {
         frameMethods: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
       },
       'component/channelChoice/ChannelChoice': {
-        ChannelChoice: class ChannelChoice extends Component {
+        ChannelChoice: class {
           render() {
             return (
               <div className='mock-channelChoice' />

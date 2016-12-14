@@ -11,7 +11,7 @@ describe('HelpCenterMobile component', () => {
     initMockRegistry({
       'React': React,
       'component/field/SearchField': {
-        SearchField: class SearchField extends Component {
+        SearchField: class extends Component {
           focus() {}
           getSearchField() {
             return this.refs.searchFieldInput;
@@ -32,7 +32,7 @@ describe('HelpCenterMobile component', () => {
         ZendeskLogo: NoopReactComponent()
       },
       'component/ScrollContainer': {
-        ScrollContainer: class ScrollContainer extends Component {
+        ScrollContainer: class {
           setScrollShadowVisible() {}
           render() {
             return (

@@ -28,7 +28,7 @@ describe('NpsComment component', () => {
         'Field': NoopReactComponent()
       },
       'component/button/Button': {
-        'Button': class Button extends Component {
+        'Button': class {
           render() {
             return (
               <div className='Button'></div>
@@ -37,7 +37,7 @@ describe('NpsComment component', () => {
         }
       },
       'component/button/ButtonSecondary': {
-        'ButtonSecondary': class ButtonSecondary extends Component {
+        'ButtonSecondary': class {
           render() {
             return (
               <div className='ButtonSecondary'></div>
@@ -49,7 +49,7 @@ describe('NpsComment component', () => {
         i18n: jasmine.createSpyObj('i18n', ['t'])
       },
       'component/loading/Loading': {
-        'LoadingSpinner': class LoadingSpinner extends Component {
+        'LoadingSpinner': class {
           render() {
             return (
               <div {...this.props}></div>

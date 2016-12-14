@@ -65,7 +65,7 @@ describe('embed.helpCenter', () => {
         }
       },
       'component/helpCenter/HelpCenter': {
-        HelpCenter: class HelpCenter extends Component {
+        HelpCenter: class {
           constructor() {
             this.resetState = resetState;
             this.backtrackSearch = backtrackSearch;

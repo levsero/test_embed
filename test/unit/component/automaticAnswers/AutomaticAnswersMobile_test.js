@@ -17,7 +17,7 @@ describe('AutomaticAnswersMobile component', () => {
     initMockRegistry({
       'React': React,
       'component/Container': {
-        Container: class Container extends Component {
+        Container: class {
           render() {
             // use of () => here breaks the domRender test due to outer 'this' context
             // use of function() here preserves 'this' context
@@ -26,7 +26,7 @@ describe('AutomaticAnswersMobile component', () => {
         }
       },
       'component/Icon': {
-        Icon: class Icon extends Component {
+        Icon: class {
           render() {
             return <div className='Icon' />;
           }

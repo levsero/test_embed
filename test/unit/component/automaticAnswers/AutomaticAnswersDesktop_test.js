@@ -18,7 +18,7 @@ describe('AutomaticAnswersDesktop component', () => {
     initMockRegistry({
       'React': React,
       'component/Container': {
-        Container: class Container extends Component {
+        Container: class {
           render() {
             return <div>{this.props.children}</div>;
           }
@@ -28,7 +28,7 @@ describe('AutomaticAnswersDesktop component', () => {
         Button: NoopReactComponent()
       },
       'component/Icon': {
-        Icon: class Icon extends Component {
+        Icon: class {
           render() {
             return <div className='Avatar' />;
           }

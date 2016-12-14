@@ -28,7 +28,7 @@ describe('Ipm component', function() {
         logging: { error: loggingErrorSpy }
       },
       'component/ipm/IpmDesktop': {
-        IpmDesktop: class IpmDesktop extends Component {
+        IpmDesktop: class {
           render() {
             return (
               <div className='ipm-desktop' />

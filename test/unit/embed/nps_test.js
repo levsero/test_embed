@@ -22,7 +22,7 @@ describe('embed.nps', () => {
         frameMethods: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
       },
       'component/nps/Nps': {
-        Nps: class Nps extends Component {
+        Nps: class extends Component {
           constructor() {
             this.resetState = jasmine.createSpy('resetState');
             this.state = {

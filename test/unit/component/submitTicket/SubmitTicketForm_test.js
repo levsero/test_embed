@@ -34,14 +34,14 @@ describe('SubmitTicketForm component', function() {
         locals: ''
       },
       'component/button/Button': {
-        Button: class Button extends Component {
+        Button: class {
           render() {
             return <input type='submit' disabled={this.props.disabled} />;
           }
         }
       },
       'component/button/ButtonSecondary': {
-        ButtonSecondary: class ButtonSecondary extends Component {
+        ButtonSecondary: class {
           render() {
             return (
               <div
@@ -53,7 +53,7 @@ describe('SubmitTicketForm component', function() {
         }
       },
       'component/button/ButtonGroup': {
-        ButtonGroup: class ButtonGroup extends Component {
+        ButtonGroup: class {
           render() {
             return <div>{this.props.children}</div>;
           }
@@ -66,7 +66,7 @@ describe('SubmitTicketForm component', function() {
         Field: NoopReactComponent()
       },
       'component/ScrollContainer': {
-        ScrollContainer: class ScrollContainer extends Component {
+        ScrollContainer: class {
           constructor() {
             this.scrollToBottom = scrollToBottomSpy;
           }
@@ -83,7 +83,7 @@ describe('SubmitTicketForm component', function() {
         }
       },
       'component/attachment/AttachmentList': {
-        AttachmentList: class AttachmentList extends Component {
+        AttachmentList: class {
           constructor() {
             this.clear = mockAttachmentsListClear;
           }

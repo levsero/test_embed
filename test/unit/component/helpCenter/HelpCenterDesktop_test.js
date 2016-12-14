@@ -14,7 +14,7 @@ describe('HelpCenterDesktop component', () => {
         ChannelChoicePopup: NoopReactComponent()
       },
       'component/field/SearchField': {
-        SearchField: class SearchField extends Component {
+        SearchField: class extends Component {
           focus() {}
           getSearchField() {
             return this.refs.searchFieldInput;
@@ -32,7 +32,7 @@ describe('HelpCenterDesktop component', () => {
         ZendeskLogo: NoopReactComponent()
       },
       'component/ScrollContainer': {
-        ScrollContainer: class ScrollContainer extends Component {
+        ScrollContainer: class {
           setScrollShadowVisible() {}
           render() {
             return (

@@ -24,7 +24,7 @@ describe('embed.submitTicket', () => {
     mockRegistry = initMockRegistry({
       'React': React,
       'service/beacon': {
-        beacon: {
+      beacon: {
           trackUserAction: jasmine.createSpy('trackUserAction')
         }
       },
@@ -34,7 +34,7 @@ describe('embed.submitTicket', () => {
         }
       },
       'component/submitTicket/SubmitTicketForm': {
-        SubmitTicketForm: class SubmitTicketForm extends Component {
+        SubmitTicketForm: class extends Component {
           constructor() {
             this.resetTicketFormVisibility = resetTicketFormVisibility;
             this.hideVirtualKeyboard = hideVirtualKeyboard;
@@ -48,7 +48,7 @@ describe('embed.submitTicket', () => {
         }
       },
       'component/submitTicket/SubmitTicket': {
-        SubmitTicket: class SubmitTicket extends Component {
+        SubmitTicket: class extends Component {
           constructor() {
             this.show = jasmine.createSpy('show');
             this.hide = jasmine.createSpy('hide');

@@ -20,7 +20,7 @@ describe('embed.launcher', function() {
         generateUserCSS: jasmine.createSpy().and.returnValue('')
       },
       'component/Launcher': {
-        Launcher: class Launcher extends Component {
+        Launcher: class extends Component {
           constructor() {
             this.changeIcon = jasmine.createSpy('changeIcon');
             this.setActive = jasmine.createSpy('setActive');

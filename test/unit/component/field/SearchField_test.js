@@ -19,7 +19,7 @@ describe('SearchField component', () => {
         IconFieldButton: NoopReactComponent()
       },
       'component/field/SearchInput': {
-        SearchInput: class SearchInput extends Component {
+        SearchInput: class {
           render() {
             return (
               <input onChange={this.props.onChange} />
@@ -28,7 +28,7 @@ describe('SearchField component', () => {
         }
       },
       'component/loading/Loading': {
-        LoadingEllipses: class LoadingEllipses extends Component {
+        LoadingEllipses: class {
           render() {
             return (
               <div className={`Loading ${this.props.className}`}>
@@ -39,7 +39,7 @@ describe('SearchField component', () => {
         }
       },
       'component/Icon': {
-        Icon: class Icon extends Component {
+        Icon: class extends Component {
           render() {
             return (
               <span

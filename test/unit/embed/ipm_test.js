@@ -23,7 +23,7 @@ describe('embed.ipm', () => {
         frameMethods: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
       },
       'component/ipm/Ipm': {
-        Ipm: class Ipm extends Component {
+        Ipm: class extends Component {
           constructor() {
             this.state = {
               ipm: {}

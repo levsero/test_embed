@@ -34,21 +34,21 @@ describe('HelpCenter component', function() {
     mockRegistry = initMockRegistry({
       'React': React,
       'component/helpCenter/HelpCenterArticle': {
-        HelpCenterArticle: class HelpCenterArticle extends Component {
+        HelpCenterArticle: class {
           render() {
             return <div className='UserContent' />;
           }
         }
       },
       'component/helpCenter/HelpCenterResults': {
-        HelpCenterResults: class HelpCenterResults extends Component {
+        HelpCenterResults: class extends Component {
           render() {
             return <div className='HelpCenterResults' />;
           }
         }
       },
       'component/helpCenter/HelpCenterDesktop': {
-        HelpCenterDesktop: class HelpCenterDesktop extends Component {
+        HelpCenterDesktop: class {
           focusField() {}
           render() {
             return (
@@ -61,7 +61,7 @@ describe('HelpCenter component', function() {
         }
       },
       'component/helpCenter/HelpCenterMobile': {
-        HelpCenterMobile: class HelpCenterMobile extends Component {
+        HelpCenterMobile: class {
           hasContextualSearched() {}
           render() {
             return (
@@ -74,7 +74,7 @@ describe('HelpCenter component', function() {
         }
       },
       'component/Container': {
-        Container: class Container extends Component {
+        Container: class {
           render() {
             return <div>{this.props.children}</div>;
           }

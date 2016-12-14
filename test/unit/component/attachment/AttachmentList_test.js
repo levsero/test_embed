@@ -16,7 +16,7 @@ describe('AttachmentList component', () => {
     initMockRegistry({
       'React': React,
       'component/attachment/Attachment': {
-        Attachment: class Attachment extends Component {
+        Attachment: class {
           render() {
             return (
               <div

@@ -33,7 +33,7 @@ describe('IpmDesktop component', function() {
         Avatar: NoopReactComponent()
       },
       'component/Container': {
-        Container: class Container extends Component {
+        Container: class {
           render() {
             return <div>{this.props.children}</div>;
           }
@@ -43,7 +43,7 @@ describe('IpmDesktop component', function() {
         Button: NoopReactComponent()
       },
       'component/Icon': {
-        Icon: class Icon extends Component {
+        Icon: class {
           render() {
             return (
               <div className='Avatar' />
