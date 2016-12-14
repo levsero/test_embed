@@ -49,9 +49,7 @@ describe('HelpCenter component', function() {
       },
       'component/helpCenter/HelpCenterDesktop': {
         HelpCenterDesktop: class HelpCenterDesktop extends Component {
-          focusField() {
-            return noop;
-          }
+          focusField() {}
           render() {
             return (
               <div>
@@ -64,9 +62,7 @@ describe('HelpCenter component', function() {
       },
       'component/helpCenter/HelpCenterMobile': {
         HelpCenterMobile: class HelpCenterMobile extends Component {
-          hasContextualSearched() {
-            return noop;
-          }
+          hasContextualSearched() {}
           render() {
             return (
               <div>

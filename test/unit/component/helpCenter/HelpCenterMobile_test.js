@@ -12,9 +12,7 @@ describe('HelpCenterMobile component', () => {
       'React': React,
       'component/field/SearchField': {
         SearchField: class SearchField extends Component {
-          focus() {
-            return noop;
-          }
+          focus() {}
           getSearchField() {
             return this.refs.searchFieldInput;
           }
@@ -35,9 +33,7 @@ describe('HelpCenterMobile component', () => {
       },
       'component/ScrollContainer': {
         ScrollContainer: class ScrollContainer extends Component {
-          setScrollShadowVisible() {
-            return noop;
-          }
+          setScrollShadowVisible() {}
           render() {
             return (
               <div>
