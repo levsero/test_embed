@@ -105,6 +105,7 @@ function init(config) {
         configItem.props.disableAutoComplete = config.disableAutoComplete;
         configItem.props.expandable = config.expandable;
         configItem.props.brand = config.brand;
+        configItem.props.zopimId = config.embeds.zopimChat ? config.embeds.zopimChat.props.zopimId : undefined;
         embedsMap[configItem.embed].create(embedName, configItem.props, reduxStore);
         embedsMap[configItem.embed].render(embedName);
       } catch (err) {

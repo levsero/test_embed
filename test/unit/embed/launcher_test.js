@@ -14,7 +14,8 @@ describe('embed.launcher', function() {
         document: global.document,
         getDocumentHost: function() {
           return document.body;
-        }
+        },
+        win: global.window
       },
       'utility/color': {
         generateUserCSS: jasmine.createSpy().and.returnValue('')
@@ -65,6 +66,12 @@ describe('embed.launcher', function() {
       'lodash': _,
       'service/transitionFactory' : {
         transitionFactory: requireUncached(buildTestPath('unit/mockTransitionFactory')).mockTransitionFactory
+      },
+      'vendor/web-sdk': {
+        init: noop,
+        getFirehose: () => {
+          return { on: noop };
+        }
       }
     });
 

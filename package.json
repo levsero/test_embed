@@ -26,6 +26,7 @@
   "dependencies": {
     "airbrake-js": "^0.5.9",
     "airwaves": "~0.3.0",
+    "collections": "^5.0.5",
     "color": "~0.7.3",
     "counterpart": "~0.16.0",
     "lodash": "~4.0.0",

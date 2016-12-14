@@ -6,7 +6,14 @@ import reducer from 'src/redux/reducers';
 
 export default function() {
   const logger = createLogger();
-  const createStoreWithMiddleware = compose(applyMiddleware(thunk, logger))(createStore);
+  const devToolsExtension = __DEV__
+                          ? window.parent.devToolsExtension && window.parent.devToolsExtension()
+                          : (a) => a;
+
+  const createStoreWithMiddleware = compose(
+    applyMiddleware(thunk, logger),
+    devToolsExtension
+  )(createStore);
 
   return createStoreWithMiddleware(reducer);
 }
