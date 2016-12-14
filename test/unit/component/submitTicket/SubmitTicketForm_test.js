@@ -60,10 +60,10 @@ describe('SubmitTicketForm component', function() {
         }
       },
       'component/button/ButtonDropzone': {
-        ButtonDropzone: NoopReactComponent()
+        ButtonDropzone: noopReactComponent()
       },
       'component/field/Field': {
-        Field: NoopReactComponent()
+        Field: noopReactComponent()
       },
       'component/ScrollContainer': {
         ScrollContainer: class {

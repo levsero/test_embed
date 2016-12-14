@@ -26,10 +26,10 @@ describe('HelpCenterMobile component', () => {
         }
       },
       'component/button/SearchFieldButton': {
-        SearchFieldButton: NoopReactComponent()
+        SearchFieldButton: noopReactComponent()
       },
       'component/ZendeskLogo': {
-        ZendeskLogo: NoopReactComponent()
+        ZendeskLogo: noopReactComponent()
       },
       'component/ScrollContainer': {
         ScrollContainer: class {
@@ -46,10 +46,10 @@ describe('HelpCenterMobile component', () => {
         }
       },
       'component/button/Button': {
-        Button: NoopReactComponent()
+        Button: noopReactComponent()
       },
       'component/button/ButtonGroup': {
-        ButtonGroup: NoopReactComponent()
+        ButtonGroup: noopReactComponent()
       },
       'service/i18n': {
         i18n: {

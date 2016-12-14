@@ -30,7 +30,7 @@ describe('IpmDesktop component', function() {
     initMockRegistry({
       'React': React,
       'component/Avatar': {
-        Avatar: NoopReactComponent()
+        Avatar: noopReactComponent()
       },
       'component/Container': {
         Container: class {
@@ -40,7 +40,7 @@ describe('IpmDesktop component', function() {
         }
       },
       'component/button/Button': {
-        Button: NoopReactComponent()
+        Button: noopReactComponent()
       },
       'component/Icon': {
         Icon: class {
@@ -52,7 +52,7 @@ describe('IpmDesktop component', function() {
         }
       },
       'component/ZendeskLogo': {
-        ZendeskLogo: NoopReactComponent()
+        ZendeskLogo: noopReactComponent()
       }
     });
 

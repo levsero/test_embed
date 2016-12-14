@@ -10,7 +10,7 @@ describe('ButtonPill component', () => {
     initMockRegistry({
       'React': React,
       'component/Icon': {
-        Icon: NoopReactComponent()
+        Icon: noopReactComponent()
       },
       'service/i18n': {
         i18n: {

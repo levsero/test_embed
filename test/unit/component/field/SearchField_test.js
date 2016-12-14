@@ -16,7 +16,7 @@ describe('SearchField component', () => {
     mockRegistry = initMockRegistry({
       'React': React,
       'component/button/IconFieldButton': {
-        IconFieldButton: NoopReactComponent()
+        IconFieldButton: noopReactComponent()
       },
       'component/field/SearchInput': {
         SearchInput: class {

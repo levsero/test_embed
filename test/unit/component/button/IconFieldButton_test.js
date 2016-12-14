@@ -11,7 +11,7 @@ describe('IconFieldButton component', () => {
     initMockRegistry({
       'React': React,
       'component/Icon': {
-        Icon: NoopReactComponent()
+        Icon: noopReactComponent()
       },
       'utility/utils': {
         bindMethods: mockBindMethods

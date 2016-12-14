@@ -36,13 +36,13 @@ describe('Nps component', function() {
         }
       },
       'component/button/Button': {
-        Button: NoopReactComponent()
+        Button: noopReactComponent()
       },
       'component/button/ButtonSecondary': {
-        ButtonSecondary: NoopReactComponent()
+        ButtonSecondary: noopReactComponent()
       },
       'component/button/ButtonGroup': {
-        ButtonGroup: NoopReactComponent()
+        ButtonGroup: noopReactComponent()
       },
       'utility/devices': {
         isMobileBrowser: function() {
@@ -53,10 +53,10 @@ describe('Nps component', function() {
         bindMethods: mockBindMethods
       },
       'component/FormField': {
-        Field: NoopReactComponent()
+        Field: noopReactComponent()
       },
       'component/loading/Loading': {
-        LoadingEllipses: NoopReactComponent()
+        LoadingEllipses: noopReactComponent()
       }
     });
     Nps = requireUncached(npsPath).Nps;

@@ -38,7 +38,7 @@ describe('HelpCenterArticle component', () => {
       },
       'imports?_=lodash!lodash': _,
       'component/button/ButtonPill': {
-        ButtonPill: NoopReactComponent()
+        ButtonPill: noopReactComponent()
       }
     });
 

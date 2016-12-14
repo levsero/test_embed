@@ -25,7 +25,7 @@ describe('NpsComment component', () => {
     mockRegistry = initMockRegistry({
       'React': React,
       'component/field/Field': {
-        'Field': NoopReactComponent()
+        'Field': noopReactComponent()
       },
       'component/button/Button': {
         'Button': class {

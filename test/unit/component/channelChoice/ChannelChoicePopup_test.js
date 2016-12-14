@@ -9,7 +9,7 @@ describe('ChannelChoicePopup component', () => {
 
     initMockRegistry({
       'component/button/ButtonIcon': {
-        ButtonIcon: NoopReactComponent()
+        ButtonIcon: noopReactComponent()
       },
       'service/i18n': {
         i18n: {

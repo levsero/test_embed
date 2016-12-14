@@ -18,7 +18,7 @@ describe('EmbedWrapper', () => {
         i18n: jasmine.createSpyObj('i18n', ['t', 'isRTL', 'getLocale'])
       },
       'component/button/ButtonNav': {
-        ButtonNav: NoopReactComponent()
+        ButtonNav: noopReactComponent()
       },
       'lodash': _,
       'component/Icon': {

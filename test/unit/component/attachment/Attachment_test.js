@@ -19,7 +19,7 @@ describe('Attachment component', function() {
     initMockRegistry({
       'React': React,
       'component/Icon': {
-        Icon: NoopReactComponent()
+        Icon: noopReactComponent()
       },
       'service/i18n': {
         i18n: {

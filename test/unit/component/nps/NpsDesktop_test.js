@@ -49,7 +49,7 @@ describe('NpsDesktop component', function() {
         }
       },
       'component/button/Button': {
-        Button: NoopReactComponent()
+        Button: noopReactComponent()
       },
       'component/FormField': {
         Field: class {
@@ -61,7 +61,7 @@ describe('NpsDesktop component', function() {
         }
       },
       'component/loading/Loading': {
-        LoadingEllipses: NoopReactComponent()
+        LoadingEllipses: noopReactComponent()
       },
       'component/nps/NpsComment': {
         NpsComment: class {

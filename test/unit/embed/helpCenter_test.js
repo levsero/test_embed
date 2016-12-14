@@ -21,7 +21,7 @@ describe('embed.helpCenter', () => {
   const setChatOnline = jasmine.createSpy();
 
   beforeEach(() => {
-    const mockForm = NoopReactComponent();
+    const mockForm = noopReactComponent();
 
     mockSettingsValue = '';
     mockIsOnHelpCenterPageValue = false;

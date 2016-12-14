@@ -25,7 +25,7 @@ describe('AutomaticAnswersDesktop component', () => {
         }
       },
       'component/button/Button': {
-        Button: NoopReactComponent()
+        Button: noopReactComponent()
       },
       'component/Icon': {
         Icon: class {
