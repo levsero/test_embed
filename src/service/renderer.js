@@ -89,7 +89,7 @@ function init(config) {
     let parsedConfig = parseConfig(config);
 
     if (singleIframe) {
-      const webWidgetEmbeds = _.pick(parsedConfig, ['ticketSubmissionForm', 'helpCenterForm']);
+      const webWidgetEmbeds = _.pick(parsedConfig, ['ticketSubmissionForm', 'helpCenterForm', 'launcher']);
       let webWidgetConfig = {};
 
       _.forEach(webWidgetEmbeds, (embed, key) => {
@@ -99,7 +99,7 @@ function init(config) {
       webWidget.create(webWidgetConfig);
       webWidget.render();
 
-      parsedConfig = _.omit(parsedConfig, ['ticketSubmissionForm', 'helpCenterForm']);
+      parsedConfig = _.omit(parsedConfig, ['ticketSubmissionForm', 'helpCenterForm', 'launcher']);
     }
 
     _.forEach(parsedConfig, function(configItem, embedName) {

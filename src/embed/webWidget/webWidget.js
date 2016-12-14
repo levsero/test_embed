@@ -27,12 +27,14 @@ import { cappedIntervalCall,
 import LoadingSpinnerStyles from 'component/loading/LoadingSpinner.sass';
 import SubmitTicketStyles from 'component/submitTicket/SubmitTicket.sass';
 import SubmitTicketFormStyles from 'component/submitTicket/SubmitTicketForm.sass';
+import LauncherStyles from 'component/Launcher.sass';
 
 const submitTicketCSS = `
   ${require('./webWidget.scss')}
   ${LoadingSpinnerStyles}
   ${SubmitTicketStyles}
   ${SubmitTicketFormStyles}
+  ${LauncherStyles}
 `;
 let embed = null;
 let backButtonSetByHelpCenter = false;
@@ -98,6 +100,7 @@ function create(config) {
   const submitTicketSettings = setUpSubmitTicket(config.ticketSubmissionForm);
   const helpCenterSettings = setUpHelpCenter(config.helpCenterForm);
   const globalConfig = _.extend(configDefaults, config.ticketSubmissionForm, config.helpCenterForm);
+  const launcherSettings = setUpLauncher(config.launcher);
 
   if (isMobileBrowser()) {
     containerStyle = { width: '100%', height: '100%' };
@@ -128,7 +131,7 @@ function create(config) {
       upShow: transitionFactory.webWidget.upShow()
     },
     onShow,
-    name: name,
+    name: 'webWidget',
     afterShowAnimate() {
       const rootComponent = getRootComponent();
 
@@ -166,6 +169,17 @@ function create(config) {
           get(name).instance.getChild().showBackButton(false);
         }
       }
+    },
+    extend: {
+      onClickHandler: (e) => {
+        e.preventDefault();
+        const name = get().instance.getRootComponent().getActiveEmbed();
+
+        if (name === 'launcher') {
+          beacon.trackUserAction('launcher', 'click', name);
+          mediator.channel.broadcast('launcher.onClick');
+        }
+      }
     }
   };
 
@@ -196,6 +210,9 @@ function create(config) {
           localeFallbacks={settings.get('helpCenter.localeFallbacks')}
           channelChoice={helpCenterSettings.channelChoice}
           zendeskHost={transport.getZendeskHost()}
+          onLauncherClick={params.onClickHandler}
+          label={`embeddable_framework.launcher.label.${launcherSettings.config.labelKey}`}
+          icon={launcherSettings.config.icon}
           updateFrameSize={params.updateFrameSize} />
       );
     },
@@ -204,7 +221,8 @@ function create(config) {
 
   embed = {
     component: <Embed visible={false} />,
-    config: helpCenterSettings.config
+    helpCenterConfig: helpCenterSettings.config,
+    launcherConfig: launcherSettings.config
   };
 
   return this;
@@ -219,7 +237,7 @@ function setChatOnline(name, chatOnline) {
 function keywordsSearch(name, options) {
   const contextualSearchFn = () => {
     const rootComponent = getRootComponent(name);
-    const isAuthenticated = get(name).config.signInRequired === false || hasAuthenticatedSuccessfully;
+    const isAuthenticated = get().helpCenterConfig.signInRequired === false || hasAuthenticatedSuccessfully;
 
     if (isAuthenticated && rootComponent) {
       if (options.url) {
@@ -360,6 +378,56 @@ function render(name) {
   mediator.channel.subscribe('helpCenterForm.isAuthenticated', function() {
     hasAuthenticatedSuccessfully = true;
   });
+
+  mediator.channel.subscribe('launcher.hide', (options = {}) => {
+    waitForRootComponent(name, () => {
+      get(name).instance.hide(options);
+    });
+  });
+
+  mediator.channel.subscribe('launcher.show', (options = {}) => {
+    waitForRootComponent(name, () => {
+      get(name).instance.show(options);
+    });
+  });
+
+  mediator.channel.subscribe('launcher.refreshLocale', () => {
+    waitForRootComponent(name, () => {
+      getRootComponent(name).forceUpdate();
+    });
+  });
+
+  mediator.channel.subscribe('launcher.setLabelChat', () => {
+    setIcon(name, 'Icon--chat');
+    setLabel(name, 'embeddable_framework.launcher.label.chat');
+    setHasUnreadMessages(name, false);
+  });
+
+  mediator.channel.subscribe('launcher.setLabelHelp', () => {
+    const label = `embeddable_framework.launcher.label.${embed.launcherConfig.labelKey}`;
+
+    setIcon(name, 'Icon');
+    setLabel(name, label);
+    setHasUnreadMessages(name, false);
+  });
+
+  mediator.channel.subscribe('launcher.setLabelChatHelp', () => {
+    const label = `embeddable_framework.launcher.label.${embed.launcherConfig.labelKey}`;
+
+    setIcon(name, 'Icon--chat');
+    setLabel(name, label);
+    setHasUnreadMessages(name, false);
+  });
+
+  mediator.channel.subscribe('launcher.setLabelUnreadMsgs', (unreadMsgs) => {
+    const label = unreadMsgs > 1
+                ? 'embeddable_framework.chat.notification_multiple'
+                : 'embeddable_framework.chat.notification';
+    const options = unreadMsgs > 1 ? { count: unreadMsgs } : {};
+
+    setLabel(name, label, options);
+    setHasUnreadMessages(name, true);
+  });
 }
 
 function performContextualHelp(name, options) {
@@ -387,6 +455,24 @@ function prefillForm(name, user) {
   });
 }
 
+function setLabel(name, label, options = {}) {
+  waitForRootComponent(name, () => {
+    getRootComponent(name).setLabel(label, options);
+  });
+}
+
+function setIcon(name, icon) {
+  waitForRootComponent(name, () => {
+    getRootComponent(name).setIcon(icon);
+  });
+}
+
+function setHasUnreadMessages(name, unread) {
+  waitForRootComponent(name, () => {
+    getRootComponent(name).setState({ hasUnreadMessages: unread });
+  });
+}
+
 function get(name) {
   return embed;
 }
@@ -410,7 +496,7 @@ function list() {
 }
 
 function postRender() {
-  const config = get().config;
+  const config = get().helpCenterConfig;
   const authSetting = settings.get('authenticate');
 
   if (config.contextualHelpEnabled &&
@@ -625,6 +711,21 @@ function setUpHelpCenter(config) {
     imagesSenderFn,
     channelChoice
   };
+}
+
+function setUpLauncher(config) {
+  const configDefaults = {
+    onClick: () => {},
+    position: 'right',
+    icon: 'Icon',
+    labelKey: 'help',
+    visible: true,
+    color: '#659700'
+  };
+
+  config = _.extend(configDefaults, config);
+
+  return { config };
 }
 
 export const webWidget = {
