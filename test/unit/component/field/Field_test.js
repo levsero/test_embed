@@ -17,15 +17,15 @@ describe('Field component', () => {
     initMockRegistry({
       'React': React,
       'component/Icon': {
-        Icon: React.createClass({
-          render: function() {
+        Icon: class {
+          render() {
             return (
               <span>
                 <svg />
               </span>
             );
           }
-        })
+        }
       },
       'utility/devices': {
         isMobileBrowser: function() {

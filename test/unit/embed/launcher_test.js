@@ -20,18 +20,20 @@ describe('embed.launcher', function() {
         generateUserCSS: jasmine.createSpy().and.returnValue('')
       },
       'component/Launcher': {
-        Launcher: React.createClass({
-          changeIcon: jasmine.createSpy('mockChangeIcon'),
-          setActive: jasmine.createSpy('setActive'),
-          setIcon: jasmine.createSpy('setIcon'),
-          setLabel: jasmine.createSpy('setLabel'),
-          setLabelOptions: jasmine.createSpy('setLabelOptions'),
-          render: function() {
+        Launcher: class extends Component {
+          constructor() {
+            this.changeIcon = jasmine.createSpy('changeIcon');
+            this.setActive = jasmine.createSpy('setActive');
+            this.setIcon = jasmine.createSpy('setIcon');
+            this.setLabel = jasmine.createSpy('setLabel');
+            this.setLabelOptions = jasmine.createSpy('setLabelOptions');
+          }
+          render() {
             return (
               <div className='mock-launcher' />
             );
           }
-        })
+        }
       },
       'service/beacon': {
         beacon: jasmine.createSpyObj('mockBeacon', ['trackUserAction'])
@@ -291,10 +293,10 @@ describe('embed.launcher', function() {
 
         pluckSubscribeCall(mockMediator, 'alice.setLabelHelp')();
 
-        expect(aliceLauncher.setIcon.__reactBoundMethod)
+        expect(aliceLauncher.setIcon)
           .toHaveBeenCalledWith('Icon');
 
-        expect(aliceLauncher.setLabel.__reactBoundMethod)
+        expect(aliceLauncher.setLabel)
           .toHaveBeenCalledWith('embeddable_framework.launcher.label.test_label', {});
       });
 
@@ -304,10 +306,10 @@ describe('embed.launcher', function() {
 
         pluckSubscribeCall(mockMediator, 'alice.setLabelChat')();
 
-        expect(aliceLauncher.setIcon.__reactBoundMethod)
+        expect(aliceLauncher.setIcon)
           .toHaveBeenCalledWith('Icon--chat');
 
-        expect(aliceLauncher.setLabel.__reactBoundMethod)
+        expect(aliceLauncher.setLabel)
           .toHaveBeenCalled();
       });
 
@@ -317,10 +319,10 @@ describe('embed.launcher', function() {
 
         pluckSubscribeCall(mockMediator, 'alice.setLabelChatHelp')();
 
-        expect(aliceLauncher.setIcon.__reactBoundMethod)
+        expect(aliceLauncher.setIcon)
           .toHaveBeenCalledWith('Icon--chat');
 
-        expect(aliceLauncher.setLabel.__reactBoundMethod)
+        expect(aliceLauncher.setLabel)
           .toHaveBeenCalledWith('embeddable_framework.launcher.label.test_label', {});
       });
 
@@ -333,7 +335,7 @@ describe('embed.launcher', function() {
         it('should call setLabel', () => {
           pluckSubscribeCall(mockMediator, 'alice.setLabelUnreadMsgs')();
 
-          expect(aliceLauncher.setLabel.__reactBoundMethod)
+          expect(aliceLauncher.setLabel)
             .toHaveBeenCalled();
         });
 
@@ -341,7 +343,7 @@ describe('embed.launcher', function() {
           it('should call setLabel with the singular notification translation', () => {
             pluckSubscribeCall(mockMediator, 'alice.setLabelUnreadMsgs')(1);
 
-            expect(aliceLauncher.setLabel.__reactBoundMethod)
+            expect(aliceLauncher.setLabel)
               .toHaveBeenCalledWith('embeddable_framework.chat.notification', {});
           });
         });
@@ -350,7 +352,7 @@ describe('embed.launcher', function() {
           it('should call setLabel with the multiple notification translation', () => {
             pluckSubscribeCall(mockMediator, 'alice.setLabelUnreadMsgs')(2);
 
-            expect(aliceLauncher.setLabel.__reactBoundMethod)
+            expect(aliceLauncher.setLabel)
               .toHaveBeenCalledWith('embeddable_framework.chat.notification_multiple', { count: 2 });
           });
         });

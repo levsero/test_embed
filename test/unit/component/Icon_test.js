@@ -1,11 +1,12 @@
 describe('Icon component', function() {
   let Icon;
   const iconPath = buildSrcPath('component/Icon');
-  const dummyIcon = React.createClass({
-    render: function() {
+
+  class DummyIcon {
+    render() {
       return (<svg><g id="Layer_Test"><path d="M" /></g></svg>);
     }
-  });
+  }
 
   beforeEach(function() {
     resetDOM();
@@ -14,34 +15,34 @@ describe('Icon component', function() {
 
     initMockRegistry({
       'React': React,
-      'icons/widget-icon_link.svg': dummyIcon,
-      'icons/widget-icon_back.svg': dummyIcon,
-      'icons/widget-icon_close.svg': dummyIcon,
-      'icons/widget-icon_chat.svg': dummyIcon,
-      'icons/widget-icon_help.svg': dummyIcon,
-      'icons/widget-icon_search.svg': dummyIcon,
-      'icons/widget-icon_zendesk.svg': dummyIcon,
-      'icons/widget-icon_icon.svg': dummyIcon,
-      'icons/widget-icon_form.svg': dummyIcon,
-      'icons/widget-icon_tick.svg': dummyIcon,
-      'icons/widget-icon_checkboxCheck.svg': dummyIcon,
-      'icons/widget-icon_caret.svg': dummyIcon,
-      'icons/widget-icon_avatar.svg': dummyIcon,
-      'icons/widget-icon_article.svg': dummyIcon,
-      'icons/widget-icon_clearInput.svg': dummyIcon,
-      'icons/widget-icon_paperclip_small.svg': dummyIcon,
-      'icons/widget-icon_paperclip_medium.svg': dummyIcon,
-      'icons/widget-icon_paperclip_large.svg': dummyIcon,
-      'icons/attach_pdf.svg': dummyIcon,
-      'icons/attach_doc.svg': dummyIcon,
-      'icons/attach_img.svg': dummyIcon,
-      'icons/attach_num.svg': dummyIcon,
-      'icons/attach_pag.svg': dummyIcon,
-      'icons/attach_ppt.svg': dummyIcon,
-      'icons/attach_txt.svg': dummyIcon,
-      'icons/attach_key.svg': dummyIcon,
-      'icons/attach_xls.svg': dummyIcon,
-      'icons/attach_unknown.svg': dummyIcon,
+      'icons/widget-icon_link.svg': DummyIcon,
+      'icons/widget-icon_back.svg': DummyIcon,
+      'icons/widget-icon_close.svg': DummyIcon,
+      'icons/widget-icon_chat.svg': DummyIcon,
+      'icons/widget-icon_help.svg': DummyIcon,
+      'icons/widget-icon_search.svg': DummyIcon,
+      'icons/widget-icon_zendesk.svg': DummyIcon,
+      'icons/widget-icon_icon.svg': DummyIcon,
+      'icons/widget-icon_form.svg': DummyIcon,
+      'icons/widget-icon_tick.svg': DummyIcon,
+      'icons/widget-icon_checkboxCheck.svg': DummyIcon,
+      'icons/widget-icon_caret.svg': DummyIcon,
+      'icons/widget-icon_avatar.svg': DummyIcon,
+      'icons/widget-icon_article.svg': DummyIcon,
+      'icons/widget-icon_clearInput.svg': DummyIcon,
+      'icons/widget-icon_paperclip_small.svg': DummyIcon,
+      'icons/widget-icon_paperclip_medium.svg': DummyIcon,
+      'icons/widget-icon_paperclip_large.svg': DummyIcon,
+      'icons/attach_pdf.svg': DummyIcon,
+      'icons/attach_doc.svg': DummyIcon,
+      'icons/attach_img.svg': DummyIcon,
+      'icons/attach_num.svg': DummyIcon,
+      'icons/attach_pag.svg': DummyIcon,
+      'icons/attach_ppt.svg': DummyIcon,
+      'icons/attach_txt.svg': DummyIcon,
+      'icons/attach_key.svg': DummyIcon,
+      'icons/attach_xls.svg': DummyIcon,
+      'icons/attach_unknown.svg': DummyIcon,
       'utility/devices': {
         isMobileBrowser: function() {
           return false;

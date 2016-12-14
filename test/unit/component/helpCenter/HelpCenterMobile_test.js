@@ -11,19 +11,19 @@ describe('HelpCenterMobile component', () => {
     initMockRegistry({
       'React': React,
       'component/field/SearchField': {
-        SearchField: React.createClass({
-          focus: noop,
-          getSearchField: function() {
+        SearchField: class extends Component {
+          focus() {}
+          getSearchField() {
             return this.refs.searchFieldInput;
-          },
-          render: function() {
+          }
+          render() {
             return (
               <div ref='searchField' type='search'>
                 <input ref='searchFieldInput' value='' type='search' />
               </div>
             );
           }
-        })
+        }
       },
       'component/button/SearchFieldButton': {
         SearchFieldButton: noopReactComponent()
@@ -32,9 +32,9 @@ describe('HelpCenterMobile component', () => {
         ZendeskLogo: noopReactComponent()
       },
       'component/ScrollContainer': {
-        ScrollContainer: React.createClass({
-          setScrollShadowVisible: noop,
-          render: function() {
+        ScrollContainer: class {
+          setScrollShadowVisible() {}
+          render() {
             return (
               <div>
                 {this.props.headerContent}
@@ -43,7 +43,7 @@ describe('HelpCenterMobile component', () => {
               </div>
             );
           }
-        })
+        }
       },
       'component/button/Button': {
         Button: noopReactComponent()

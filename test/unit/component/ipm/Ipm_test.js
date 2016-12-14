@@ -28,13 +28,13 @@ describe('Ipm component', function() {
         logging: { error: loggingErrorSpy }
       },
       'component/ipm/IpmDesktop': {
-        IpmDesktop: React.createClass({
+        IpmDesktop: class {
           render() {
             return (
               <div className='ipm-desktop' />
             );
           }
-        })
+        }
       }
     });
     Ipm = requireUncached(ipmPath).Ipm;

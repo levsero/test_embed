@@ -22,18 +22,25 @@ describe('Submit ticket component', () => {
       fail: noop
     }
   };
-  const MockAttachmentList = React.createClass({
-    getAttachmentTokens: () => ['12345'],
-    numUploadedAttachments: () => 2,
-    uploadedAttachments: () => {
+  const submitTicketPath = buildSrcPath('component/submitTicket/SubmitTicket');
+
+  class MockAttachmentList {
+    getAttachmentTokens() {
+      return ['12345'];
+    }
+    numUploadedAttachments() {
+      return 2;
+    }
+    uploadedAttachments() {
       return [
         { file: { type: 'image/png' } },
         { file: { type: '' } } // Unrecognised MIME type
       ];
-    },
-    render: () => <div />
-  });
-  const submitTicketPath = buildSrcPath('component/submitTicket/SubmitTicket');
+    }
+    render() {
+      return <div />;
+    }
+  }
 
   beforeEach(() => {
     resetDOM();
@@ -77,22 +84,22 @@ describe('Submit ticket component', () => {
         }
       },
       'component/submitTicket/SubmitTicketForm': {
-        SubmitTicketForm: React.createClass({
-          getInitialState: function() {
-            return {
+        SubmitTicketForm: class {
+          constructor() {
+            this.state = {
               formState: {}
             };
-          },
-          clear: noop,
-          updateTicketForm: noop,
-          render: function() {
+          }
+          clear() {}
+          updateTicketForm() {}
+          render() {
             return (
               <form ref='submitTicketForm'>
                 <MockAttachmentList ref='attachments' />
               </form>
             );
           }
-        }),
+        },
         MessageFieldset: noop,
         EmailField: noop
       },
@@ -109,31 +116,31 @@ describe('Submit ticket component', () => {
         LoadingSpinner: noopReactComponent()
       },
       'component/Container': {
-        Container: React.createClass({
-          render: function() {
+        Container: class {
+          render() {
             return <div>{this.props.children}</div>;
           }
-        })
+        }
       },
       'component/ScrollContainer': {
-        ScrollContainer: React.createClass({
-          render: function() {
+        ScrollContainer: class {
+          render() {
             return <div>{this.props.children}</div>;
           }
-        })
+        }
       },
       'component/attachment/AttachmentBox': {
-        AttachmentBox: React.createClass({
-          render: function() {
+        AttachmentBox: class {
+          render() {
             return <div className='attachment_box' />;
           }
-        })
+        }
       },
       'service/i18n': {
         i18n: {
           init: noop,
           setLocale: noop,
-          getLocaleId : () => 'fr',
+          getLocaleId: () => 'fr',
           isRTL: noop,
           t: _.identity
         }

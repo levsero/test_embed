@@ -32,22 +32,22 @@ describe('AutomaticAnswers component', () => {
         }
       },
       'component/automaticAnswers/AutomaticAnswersDesktop': {
-        AutomaticAnswersDesktop: React.createClass({
+        AutomaticAnswersDesktop: class {
           render() {
             return (
               <div className='automaticAnswers-desktop' />
             );
           }
-        })
+        }
       },
       'component/automaticAnswers/AutomaticAnswersMobile': {
-        AutomaticAnswersMobile: React.createClass({
+        AutomaticAnswersMobile: class {
           render() {
             return (
               <div className='automaticAnswers-mobile' />
             );
           }
-        })
+        }
       }
     });
 

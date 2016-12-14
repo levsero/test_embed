@@ -33,23 +33,23 @@ describe('IpmDesktop component', function() {
         Avatar: noopReactComponent()
       },
       'component/Container': {
-        Container: React.createClass({
-          render: function() {
+        Container: class {
+          render() {
             return <div>{this.props.children}</div>;
           }
-        })
+        }
       },
       'component/button/Button': {
         Button: noopReactComponent()
       },
       'component/Icon': {
-        Icon: React.createClass({
-          render: () => {
+        Icon: class {
+          render() {
             return (
               <div className='Avatar' />
             );
           }
-        })
+        }
       },
       'component/ZendeskLogo': {
         ZendeskLogo: noopReactComponent()

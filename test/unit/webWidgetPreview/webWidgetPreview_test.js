@@ -28,12 +28,14 @@ describe('webWidgetPreview entry file', () => {
         frameMethods: require(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
       },
       'component/submitTicket/SubmitTicket': {
-        SubmitTicket: React.createClass({
-          setFormTitleKey: mockSetFormTitleKey,
+        SubmitTicket: class SubmitTicket extends Component {
+          constructor() {
+            this.setFormTitleKey = mockSetFormTitleKey;
+          }
           render() {
             return <div className='webWidgetPreview'></div>;
           }
-        })
+        }
       },
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', ['setLocale'])

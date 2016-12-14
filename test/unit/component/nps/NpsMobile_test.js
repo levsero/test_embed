@@ -45,68 +45,68 @@ describe('NpsMobile component', () => {
     mockRegistry = initMockRegistry({
       'React': React,
       'component/Container': {
-        Container: React.createClass({
-          render: function() {
+        Container: class {
+          render() {
             // used function instead of () => as to not reference outter 'this'
             return <div>{this.props.children}</div>;
           }
-        })
+        }
       },
       'component/nps/NpsComment': {
-        NpsComment:  React.createClass({
-          render: function() {
+        NpsComment:  class {
+          render() {
             return (
               <div ref='commentField' className={'NpsComment'}>
                 <input ref='field'/>
               </div>
             );
           }
-        })
+        }
       },
       'component/nps/NpsRatingsList': {
-        NpsRatingsList: React.createClass({
-          render: () => {
+        NpsRatingsList: class {
+          render() {
             return (
               <div className='RatingsList'></div>
             );
           }
-        })
+        }
       },
       'component/Icon': {
-        Icon: React.createClass({
-          render: () => {
+        Icon: class {
+          render() {
             return (
               <div className='ThankYou'></div>
             );
           }
-        })
+        }
       },
       'component/ZendeskLogo': {
-        'ZendeskLogo': React.createClass({
-          render: () => {
+        'ZendeskLogo': class {
+          render() {
             return (
               <div className='ZendeskLogo'></div>
             );
           }
-        })
+        }
       },
       'component/nps/NpsSelectList': {
-        'NpsSelectList': React.createClass({
-          render: () => {
+        'NpsSelectList': class {
+          render() {
             return (
               <div className='NpsSelectList'></div>
             );
           }
-        })
+        }
       },
       'component/nps/NpsCommentButton': {
-        'NpsCommentButton': React.createClass({
-          render: () => {
+        'NpsCommentButton': class {
+          render() {
             return (
               <div className='NpsCommentButton'></div>
             );
           }
-        })
+        }
       },
       'utility/devices': {
         'getZoomSizingRatio': () => 1,

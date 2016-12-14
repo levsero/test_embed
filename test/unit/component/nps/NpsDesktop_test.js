@@ -42,57 +42,59 @@ describe('NpsDesktop component', function() {
     initMockRegistry({
       'React': React,
       'component/Container': {
-        Container: React.createClass({
-          render: function() {
+        Container: class {
+          render() {
             return <div>{this.props.children}</div>;
           }
-        })
+        }
       },
       'component/button/Button': {
         Button: noopReactComponent()
       },
       'component/FormField': {
-        Field: React.createClass({
-          render: () => {
+        Field: class {
+          render() {
             return (
               <div ref='commentField'></div>
             );
           }
-        })
+        }
       },
       'component/loading/Loading': {
         LoadingEllipses: noopReactComponent()
       },
       'component/nps/NpsComment': {
-        NpsComment: React.createClass({
-          focusField: () => mockFocusField(),
-          render: () => {
+        NpsComment: class {
+          constructor() {
+            this.focusField = mockFocusField;
+          }
+          render() {
             return <div ref='NpsComment'></div>;
           }
-        })
+        }
       },
       'component/nps/NpsRatingsList': {
-        NpsRatingsList: React.createClass({
-          render: () => {
+        NpsRatingsList: class {
+          render() {
             return <div className='RatingsList'></div>;
           }
-        })
+        }
       },
       'component/Icon': {
-        Icon: React.createClass({
-          render: () => {
+        Icon: class {
+          render() {
             return (
               <div className='ThankYou'></div>
             );
           }
-        })
+        }
       },
       'component/ZendeskLogo': {
-        ZendeskLogo: React.createClass({
-          render: function() {
+        ZendeskLogo: class {
+          render() {
             return <div className='ZendeskLogo'></div>;
           }
-        })
+        }
       },
       'utility/utils': {
         generateConstrastColor: noop,

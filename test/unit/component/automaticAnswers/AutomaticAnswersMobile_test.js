@@ -17,18 +17,20 @@ describe('AutomaticAnswersMobile component', () => {
     initMockRegistry({
       'React': React,
       'component/Container': {
-        Container: React.createClass({
-          render: function() {
+        Container: class {
+          render() {
             // use of () => here breaks the domRender test due to outer 'this' context
             // use of function() here preserves 'this' context
             return <div>{this.props.children}</div>;
           }
-        })
+        }
       },
       'component/Icon': {
-        Icon: React.createClass({
-          render: () => <div className='Icon' />
-        })
+        Icon: class {
+          render() {
+            return <div className='Icon' />;
+          }
+        }
       },
       'service/i18n': {
         i18n: {

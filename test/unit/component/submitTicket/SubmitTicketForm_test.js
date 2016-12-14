@@ -34,15 +34,15 @@ describe('SubmitTicketForm component', function() {
         locals: ''
       },
       'component/button/Button': {
-        Button: React.createClass({
-          render: function() {
+        Button: class {
+          render() {
             return <input type='submit' disabled={this.props.disabled} />;
           }
-        })
+        }
       },
       'component/button/ButtonSecondary': {
-        ButtonSecondary: React.createClass({
-          render: function() {
+        ButtonSecondary: class {
+          render() {
             return (
               <div
                 className='c-btn--secondary'
@@ -50,14 +50,14 @@ describe('SubmitTicketForm component', function() {
                 onClick={onCancel} />
             );
           }
-        })
+        }
       },
       'component/button/ButtonGroup': {
-        ButtonGroup: React.createClass({
-          render: function() {
+        ButtonGroup: class {
+          render() {
             return <div>{this.props.children}</div>;
           }
-        })
+        }
       },
       'component/button/ButtonDropzone': {
         ButtonDropzone: noopReactComponent()
@@ -66,10 +66,12 @@ describe('SubmitTicketForm component', function() {
         Field: noopReactComponent()
       },
       'component/ScrollContainer': {
-        ScrollContainer: React.createClass({
-          setScrollShadowVisible: noop,
-          scrollToBottom: scrollToBottomSpy,
-          render: function() {
+        ScrollContainer: class {
+          constructor() {
+            this.scrollToBottom = scrollToBottomSpy;
+          }
+          setScrollShadowVisible() {}
+          render() {
             return (
               <div>
                 <h1 id='formTitle'>{this.props.title}</h1>
@@ -78,14 +80,20 @@ describe('SubmitTicketForm component', function() {
               </div>
             );
           }
-        })
+        }
       },
       'component/attachment/AttachmentList': {
-        AttachmentList: React.createClass({
-          attachmentsReady: () => mockAttachmentsReadyValue,
-          clear: mockAttachmentsListClear,
-          render: () => <div ref="attachments" />
-        })
+        AttachmentList: class {
+          constructor() {
+            this.clear = mockAttachmentsListClear;
+          }
+          attachmentsReady() {
+            return mockAttachmentsReadyValue;
+          }
+          render() {
+            return <div ref="attachments" />;
+          }
+        }
       },
       'service/i18n': {
         i18n: {

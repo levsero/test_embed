@@ -7,15 +7,18 @@ describe('HelpCenter component', function() {
     manualSearch;
 
   const helpCenterPath = buildSrcPath('component/helpCenter/HelpCenter');
-  const SearchField = React.createClass({
-    blur: jasmine.createSpy(),
-    getValue: function() {
+
+  class SearchField extends Component {
+    constructor() {
+      this.blur = jasmine.createSpy();
+    }
+    getValue() {
       return '';
-    },
-    render: function() {
+    }
+    render() {
       return <input ref='searchField' value='' type='search' />;
     }
-  });
+  }
 
   beforeEach(function() {
     trackSearch = jasmine.createSpy('trackSearch');
@@ -31,23 +34,23 @@ describe('HelpCenter component', function() {
     mockRegistry = initMockRegistry({
       'React': React,
       'component/helpCenter/HelpCenterArticle': {
-        HelpCenterArticle: React.createClass({
-          render: function() {
+        HelpCenterArticle: class {
+          render() {
             return <div className='UserContent' />;
           }
-        })
+        }
       },
       'component/helpCenter/HelpCenterResults': {
-        HelpCenterResults: React.createClass({
-          render: function() {
+        HelpCenterResults: class extends Component {
+          render() {
             return <div className='HelpCenterResults' />;
           }
-        })
+        }
       },
       'component/helpCenter/HelpCenterDesktop': {
-        HelpCenterDesktop: React.createClass({
-          focusField: noop,
-          render: function() {
+        HelpCenterDesktop: class {
+          focusField() {}
+          render() {
             return (
               <div>
                 <SearchField ref='searchField' />
@@ -55,12 +58,12 @@ describe('HelpCenter component', function() {
               </div>
             );
           }
-        })
+        }
       },
       'component/helpCenter/HelpCenterMobile': {
-        HelpCenterMobile: React.createClass({
-          hasContextualSearched: noop,
-          render: function() {
+        HelpCenterMobile: class {
+          hasContextualSearched() {}
+          render() {
             return (
               <div>
                 <SearchField ref='searchField' />
@@ -68,14 +71,14 @@ describe('HelpCenter component', function() {
               </div>
             );
           }
-        })
+        }
       },
       'component/Container': {
-        Container: React.createClass({
-          render: function() {
+        Container: class {
+          render() {
             return <div>{this.props.children}</div>;
           }
-        })
+        }
       },
       'service/i18n': {
         i18n: {
@@ -1055,7 +1058,6 @@ describe('HelpCenter component', function() {
 
       searchField.getValue = () => 'valid';
 
-      spyOn(searchField, 'blur');
       helpCenter.manualSearch();
 
       jasmine.clock().tick(1);

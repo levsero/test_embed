@@ -21,13 +21,13 @@ describe('embed.channelChoice', () => {
         frameMethods: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
       },
       'component/channelChoice/ChannelChoice': {
-        ChannelChoice: React.createClass({
+        ChannelChoice: class {
           render() {
             return (
               <div className='mock-channelChoice' />
             );
           }
-        })
+        }
       },
       './channelChoice.scss': '',
       'service/mediator': {

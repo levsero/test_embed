@@ -34,32 +34,33 @@ describe('embed.submitTicket', () => {
         }
       },
       'component/submitTicket/SubmitTicketForm': {
-        SubmitTicketForm: React.createClass({
-          resetTicketFormVisibility: resetTicketFormVisibility,
-          hideVirtualKeyboard: hideVirtualKeyboard,
-          focusField: focusField,
-          render: () => {
+        SubmitTicketForm: class extends Component {
+          constructor() {
+            this.resetTicketFormVisibility = resetTicketFormVisibility;
+            this.hideVirtualKeyboard = hideVirtualKeyboard;
+            this.focusField = focusField;
+          }
+          render() {
             return (
               <div />
             );
           }
-        })
+        }
       },
       'component/submitTicket/SubmitTicket': {
-        SubmitTicket: React.createClass({
-          getInitialState: () => {
-            return {
+        SubmitTicket: class extends Component {
+          constructor() {
+            this.show = jasmine.createSpy('show');
+            this.hide = jasmine.createSpy('hide');
+            this.clearNotification = jasmine.createSpy('clearNotification');
+            this.clearForm = clearForm;
+            this.state = {
               showNotification: false,
               message: '',
               uid: defaultValue
             };
-          },
-          show: jasmine.createSpy('show'),
-          hide: jasmine.createSpy('hide'),
-          clearNotification: jasmine.createSpy('clearNotification'),
-          clearForm: clearForm,
-
-          render: () => {
+          }
+          render() {
             const SubmitTicketForm = mockRegistry['component/submitTicket/SubmitTicketForm'].SubmitTicketForm;
 
             return (
@@ -68,7 +69,7 @@ describe('embed.submitTicket', () => {
               </div>
             );
           }
-        })
+        }
       },
       './submitTicket.scss': 'mockCSS',
       './submitTicketFrame.scss': '',
@@ -607,7 +608,7 @@ describe('embed.submitTicket', () => {
         expect(bob.instance.hide.__reactBoundMethod)
           .toHaveBeenCalled();
 
-        expect(bobSubmitTicket.clearNotification.__reactBoundMethod)
+        expect(bobSubmitTicket.clearNotification)
           .not.toHaveBeenCalled();
 
         bobSubmitTicket.setState({
@@ -616,7 +617,7 @@ describe('embed.submitTicket', () => {
 
         pluckSubscribeCall(mockMediator, 'bob.hide')();
 
-        expect(bobSubmitTicket.clearNotification.__reactBoundMethod)
+        expect(bobSubmitTicket.clearNotification)
           .toHaveBeenCalled();
       });
 

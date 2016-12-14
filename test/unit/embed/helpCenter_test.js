@@ -65,31 +65,31 @@ describe('embed.helpCenter', () => {
         }
       },
       'component/helpCenter/HelpCenter': {
-        HelpCenter: React.createClass({
-          getInitialState: () => {
-            return {
+        HelpCenter: class {
+          constructor() {
+            this.resetState = resetState;
+            this.backtrackSearch = backtrackSearch;
+            this.contextualSearch = contextualSearch;
+            this.performSearch = performSearch;
+            this.focusField = focusField;
+            this.setChatOnline = setChatOnline;
+            this.getHelpCenterComponent = getHelpCenterComponent;
+            this.state = {
               topics: [],
               searchCount: 0,
               searchTerm: '',
               hasSearched: false,
               showIntroScreen: false
             };
-          },
-          resetState: resetState,
-          backtrackSearch: backtrackSearch,
-          contextualSearch: contextualSearch,
-          performSearch: performSearch,
-          focusField: focusField,
-          setChatOnline: setChatOnline,
-          getHelpCenterComponent: getHelpCenterComponent,
-          render: () => {
+          }
+          render() {
             return (
               <div className='mock-helpCenter'>
                 <mockForm ref='helpCenterForm' />
               </div>
             );
           }
-        })
+        }
       },
       './helpCenter.scss': '',
       './helpCenterFrame.scss': '',
@@ -98,8 +98,8 @@ describe('embed.helpCenter', () => {
       },
       'utility/devices': {
         setScaleLock: noop,
-        isMobileBrowser: () => mockIsMobileBrowser,
-        isIE: () => mockIsIE,
+        isMobileBrowser() { return mockIsMobileBrowser; },
+        isIE() { return mockIsIE; },
         getZoomSizingRatio: noop
       },
       'utility/mouse': {

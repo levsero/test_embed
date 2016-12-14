@@ -22,15 +22,15 @@ describe('embed.automaticAnswers', () => {
         frameMethods: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
       },
       'component/automaticAnswers/AutomaticAnswers': {
-        AutomaticAnswers: React.createClass({
-          updateTicket() {},
-          solveTicketDone() {},
+        AutomaticAnswers: class {
+          updateTicket() {}
+          solveTicketDone() {}
           render() {
             return (
               <div className='mock-automaticAnswers' />
             );
           }
-        })
+        }
       },
       'utility/globals': {
         document: global.document,

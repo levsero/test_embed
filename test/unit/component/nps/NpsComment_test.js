@@ -28,34 +28,34 @@ describe('NpsComment component', () => {
         'Field': noopReactComponent()
       },
       'component/button/Button': {
-        'Button': React.createClass({
-          render: () => {
+        'Button': class {
+          render() {
             return (
               <div className='Button'></div>
             );
           }
-        })
+        }
       },
       'component/button/ButtonSecondary': {
-        'ButtonSecondary': React.createClass({
-          render: () => {
+        'ButtonSecondary': class {
+          render() {
             return (
               <div className='ButtonSecondary'></div>
             );
           }
-        })
+        }
       },
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', ['t'])
       },
       'component/loading/Loading': {
-        'LoadingSpinner': React.createClass({
-          render: () => {
+        'LoadingSpinner': class {
+          render() {
             return (
               <div {...this.props}></div>
             );
           }
-        })
+        }
       },
       'utility/utils': {
         'generateConstrastColor': jasmine.createSpy()
