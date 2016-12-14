@@ -27,10 +27,10 @@ global.document = global.window.document;
 global.navigator = global.window.navigator;
 global.location = global.window.location;
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import TestUtils from 'react-addons-test-utils';
-import ShallowTestUtils from 'react-shallow-testutils';
+const React = require('react');
+const ReactDOM = require('react-dom');
+const TestUtils = require('react-addons-test-utils');
+const ShallowTestUtils = require('react-shallow-testutils');
 
 global.React = React;
 global.Component = React.Component;
