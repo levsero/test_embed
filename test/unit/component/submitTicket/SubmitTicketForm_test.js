@@ -5,13 +5,17 @@ describe('SubmitTicketForm component', function() {
     mockRegistry,
     mockAttachmentsReadyValue,
     mockAttachmentsListClear,
-    scrollToBottomSpy;
+    scrollToBottomSpy,
+    mockFormState;
   const submitTicketFormPath = buildSrcPath('component/submitTicket/SubmitTicketForm');
   const buttonPath = buildSrcPath('component/button/Button');
   const formParams = {
     'name': 'jabbathehutt',
     'email': 'mock@email.com',
     'description': 'Mock Description'
+  };
+  const mockSetFormState = (state) => {
+    mockFormState = state;
   };
 
   beforeEach(function() {
@@ -126,7 +130,7 @@ describe('SubmitTicketForm component', function() {
   });
 
   it('should display form title', function() {
-    domRender(<SubmitTicketForm formTitleKey='testTitle' />);
+    domRender(<SubmitTicketForm formTitleKey='testTitle'/>);
 
     expect(document.getElementById('formTitle').innerHTML)
       .toEqual('embeddable_framework.submitTicket.form.title.testTitle');
@@ -183,12 +187,17 @@ describe('SubmitTicketForm component', function() {
     };
 
     it('should clear all fields other then name and email', () => {
-      submitTicketForm = domRender(<SubmitTicketForm submit={onSubmit} />);
+      mockFormState = _.clone(formParams);
+      submitTicketForm = domRender(
+        <SubmitTicketForm
+          submit={onSubmit}
+          setFormState={mockSetFormState}
+          formState={mockFormState} />
+      );
 
-      submitTicketForm.state.formState = _.clone(formParams);
       submitTicketForm.clear();
 
-      expect(submitTicketForm.state.formState)
+      expect(mockFormState)
         .toEqual(expectedFormState);
     });
 
@@ -207,14 +216,19 @@ describe('SubmitTicketForm component', function() {
 
     describe('when attachments are enabled', () => {
       beforeEach(() => {
-        submitTicketForm = domRender(<SubmitTicketForm submit={onSubmit} attachmentsEnabled={true} />);
+        mockFormState = _.clone(formParams);
+        submitTicketForm = domRender(
+          <SubmitTicketForm
+            submit={onSubmit}
+            setFormState={mockSetFormState}
+            formState={mockFormState}
+            attachmentsEnabled={true} />);
 
-        submitTicketForm.state.formState = _.clone(formParams);
         submitTicketForm.clear();
       });
 
       it('should clear all fields other then name and email', () => {
-        expect(submitTicketForm.state.formState)
+        expect(mockFormState)
           .toEqual(expectedFormState);
       });
 

@@ -708,10 +708,10 @@ describe('embed.submitTicket', () => {
 
         pluckSubscribeCall(mockMediator, 'bob.prefill')(params);
 
-        expect(bobSubmitTicketForm.state.formState.name)
+        expect(bobSubmitTicket.state.formState.name)
           .toEqual(params.name);
 
-        expect(bobSubmitTicketForm.state.formState.email)
+        expect(bobSubmitTicket.state.formState.email)
           .toEqual(params.email);
       });
     });
