@@ -24,7 +24,7 @@ describe('embed.submitTicket', () => {
     mockRegistry = initMockRegistry({
       'React': React,
       'service/beacon': {
-      beacon: {
+        beacon: {
           trackUserAction: jasmine.createSpy('trackUserAction')
         }
       },

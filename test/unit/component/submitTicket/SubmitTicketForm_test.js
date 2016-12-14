@@ -88,7 +88,7 @@ describe('SubmitTicketForm component', function() {
             this.clear = mockAttachmentsListClear;
           }
           attachmentsReady() {
-            return mockAttachmentsReadyValue
+            return mockAttachmentsReadyValue;
           }
           render() {
             return <div ref="attachments" />;
