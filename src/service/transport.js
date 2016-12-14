@@ -94,6 +94,8 @@ function send(payload, addType = true) {
 
   if (payload.query) request.query(payload.query);
 
+  if (payload.locale) request.set('Accept-Language', payload.locale);
+
   request.end((err, res) => {
     if (payload.callbacks) {
       if (err) {

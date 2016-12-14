@@ -33,6 +33,11 @@ describe('embed.submitTicket', () => {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
         }
       },
+      'service/i18n': {
+        i18n: {
+          getLocale: noop
+        }
+      },
       'component/submitTicket/SubmitTicketForm': {
         SubmitTicketForm: React.createClass({
           resetTicketFormVisibility: resetTicketFormVisibility,
