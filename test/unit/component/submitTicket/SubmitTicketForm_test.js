@@ -68,9 +68,9 @@ describe('SubmitTicketForm component', function() {
       'component/ScrollContainer': {
         ScrollContainer: class ScrollContainer extends Component {
           constructor() {
-            this.setScrollShadowVisible = noop;
             this.scrollToBottom = scrollToBottomSpy;
           }
+          setScrollShadowVisible() {}
           render() {
             return (
               <div>

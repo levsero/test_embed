@@ -86,12 +86,12 @@ describe('Submit ticket component', () => {
       'component/submitTicket/SubmitTicketForm': {
         SubmitTicketForm: class SubmitTicketForm extends Component {
           constructor() {
-            this.clear = noop;
-            this.updateTicketForm = noop;
             this.state = {
               formState: {}
             };
           }
+          clear() {}
+          updateTicketForm() {}
           render() {
             return (
               <form ref='submitTicketForm'>
