@@ -165,6 +165,23 @@ describe('transport', () => {
       });
     });
 
+    describe('Accept-Language', () => {
+      beforeEach(() => {
+        payload.locale = 'fr';
+        payload.Authorization = undefined;
+
+        spyOn(mockMethods, 'set').and.callThrough();
+
+        transport.init(config);
+        transport.send(payload);
+      });
+
+      it('sends the Accept-Language if payload contains a locale', () => {
+        expect(mockMethods.set)
+          .toHaveBeenCalledWith('Accept-Language', 'fr');
+      });
+    });
+
     it('should throw an exception if zendeskHost is not set in config', () => {
       transport.init();
 
