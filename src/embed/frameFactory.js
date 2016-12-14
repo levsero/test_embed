@@ -359,11 +359,6 @@ export const frameFactory = function(childFn, _params, reduxStore) {
     }
 
     constructEmbed(html, doc) {
-      if (i18n.isRTL()) {
-        html.setAttribute('dir', 'rtl');
-        html.setAttribute('lang', i18n.getLocale());
-      }
-
       const position = settings.get('position.horizontal') || this.props.position;
       const cssText = baseCSS + mainCSS + params.css + baseFontCSS;
       const fullscreen = params.fullscreenable && params.isMobile;
@@ -424,7 +419,10 @@ export const frameFactory = function(childFn, _params, reduxStore) {
       const html = iframe.contentDocument.documentElement;
       const doc = iframe.contentWindow.document;
 
-      // In order for iframe correctly render in some browsers
+      html.setAttribute('lang', i18n.getLocale());
+      html.setAttribute('dir', 'rtl');
+
+      // In order for iframe to correctly render in some browsers
       // we need to do it on nextTick
       if (doc.readyState === 'complete') {
         this.constructEmbed(html, doc);
