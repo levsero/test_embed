@@ -1,6 +1,5 @@
 import { store } from 'service/persistence';
-import { getURLParameterByName,
-         getDecodedJWTBody } from 'utility/pages';
+import { getURLParameterByName } from 'utility/pages';
 
 const automaticAnswersLocalStorageKey = 'automaticAnswers';
 const automaticAnswersJwtUrlParameter = 'auth_token';
@@ -19,7 +18,7 @@ function getFromLocalStorage() {
   return store.get(automaticAnswersLocalStorageKey);
 }
 
-function decodedJwtAuthToken() {
+function getAuthToken() {
   const automaticAnswersConfig = getFromLocalStorage();
 
   if (!automaticAnswersConfig) return null;
@@ -28,7 +27,7 @@ function decodedJwtAuthToken() {
     return null;
   }
 
-  return getDecodedJWTBody(automaticAnswersConfig.authToken);
+  return automaticAnswersConfig.authToken;
 }
 
 function getContext() {
@@ -38,7 +37,7 @@ function getContext() {
     setLocalStorage(initialJwtToken);
   }
 
-  return decodedJwtAuthToken();
+  return getAuthToken();
 }
 
 export const automaticAnswersPersistence = {

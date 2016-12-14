@@ -102,19 +102,14 @@ function postRender() {
 
   if (_.isNaN(articleId)) return;
 
-  const jwtBody = automaticAnswersPersistence.getContext();
+  const authToken = automaticAnswersPersistence.getContext();
 
-  if (!jwtBody) return;
+  if (!authToken) return;
 
-  const ticketId = jwtBody.ticket_id;
-  const token = jwtBody.token;
-
-  if (ticketId && token) {
-    fetchTicketFn(ticketId, token);
-  }
+  fetchTicketFn(authToken);
 }
 
-function fetchTicketFn(ticketId, token) {
+function fetchTicketFn(authToken) {
   const fetchTicketDone = (res) => {
     const ticket = res.body.ticket;
     const ticketUnsolved = _.includes(unsolvedStatusIds, ticket.status_id);
@@ -133,7 +128,7 @@ function fetchTicketFn(ticketId, token) {
   };
 
   const payload = {
-    path: `/requests/automatic-answers/ticket/${ticketId}/fetch/token/${token}`,
+    path: `/requests/automatic-answers/embed/ticket/fetch?auth_token=${authToken}`,
     method: 'get',
     callbacks: {
       done: fetchTicketDone,
@@ -144,16 +139,20 @@ function fetchTicketFn(ticketId, token) {
   transport.automaticAnswersApiRequest(payload);
 }
 
-function solveTicketFn(ticketId, token, articleId, callbacks) {
-  const path = `/requests/automatic-answers/ticket/${ticketId}/solve/token/${token}/article/${articleId}`;
+function solveTicketFn(authToken, articleId, callbacks) {
+  const path = `/requests/automatic-answers/embed/ticket/solve`;
   const queryParams = `?source=embed&mobile=${isMobileBrowser()}`;
   const payload = {
     path: path + queryParams,
     method: 'post',
     callbacks: callbacks
   };
+  const formData = {
+    'auth_token' : authToken,
+    'article_id' : articleId
+  };
 
-  transport.automaticAnswersApiRequest(payload);
+  transport.automaticAnswersApiRequest(payload, formData);
 }
 
 export const automaticAnswers = {
