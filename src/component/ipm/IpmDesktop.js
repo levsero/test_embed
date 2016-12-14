@@ -18,7 +18,7 @@ export class IpmDesktop extends Component {
       return;
     }
 
-    const cleanUrl = buttonUrl.trim().match(/^https?/)
+    const cleanUrl = buttonUrl.trim().match(/^(https?|\/)/)
       ? buttonUrl
       : `//${buttonUrl}`;
 
