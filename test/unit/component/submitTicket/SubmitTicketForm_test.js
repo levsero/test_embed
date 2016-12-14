@@ -130,7 +130,7 @@ describe('SubmitTicketForm component', function() {
   });
 
   it('should display form title', function() {
-    domRender(<SubmitTicketForm formTitleKey='testTitle'/>);
+    domRender(<SubmitTicketForm formTitleKey='testTitle' />);
 
     expect(document.getElementById('formTitle').innerHTML)
       .toEqual('embeddable_framework.submitTicket.form.title.testTitle');

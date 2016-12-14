@@ -256,7 +256,7 @@ export class SubmitTicketForm extends Component {
   }
 
   renderTicketFormBody() {
-    const { ticketForm, ticketFormFields} = this.state;
+    const { ticketForm, ticketFormFields } = this.state;
     const formTicketFields = _.filter(ticketFormFields, (field) => {
       return ticketForm.ticket_field_ids.indexOf(field.id) > -1;
     });

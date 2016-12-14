@@ -67,8 +67,8 @@ export class SubmitTicket extends Component {
     this.setState({ expanded });
   }
 
-  setFormState(state) {
-    this.setState({ formState: state });
+  setFormState(formState) {
+    this.setState({ formState });
   }
 
   handleSubmit(e, data) {
