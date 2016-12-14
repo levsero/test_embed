@@ -99,6 +99,9 @@ describe('renderer', () => {
           }, value, null)
         }
       },
+      'src/redux/createStore': () => {
+        return {};
+      },
       'utility/globals': {
         win: global.window
       },
@@ -159,13 +162,13 @@ describe('renderer', () => {
       const mockLauncherRecentCall = mockLauncher.create.calls.mostRecent();
 
       expect(mockSubmitTicket.create)
-        .toHaveBeenCalledWith('ticketSubmissionForm', jasmine.any(Object));
+        .toHaveBeenCalledWith('ticketSubmissionForm', jasmine.any(Object), jasmine.any(Object));
 
       expect(mockHelpCenter.create)
-        .toHaveBeenCalledWith('helpCenterForm', jasmine.any(Object));
+        .toHaveBeenCalledWith('helpCenterForm', jasmine.any(Object), jasmine.any(Object));
 
       expect(mockChat.create)
-        .toHaveBeenCalledWith('zopimChat', jasmine.any(Object));
+        .toHaveBeenCalledWith('zopimChat', jasmine.any(Object), jasmine.any(Object));
 
       expect(mockLauncher.create.calls.count())
         .toBe(1);
@@ -223,17 +226,18 @@ describe('renderer', () => {
         .toHaveBeenCalled();
 
       expect(mockLauncher.create)
-        .toHaveBeenCalledWith('aSubmissionForm', jasmine.any(Object));
+        .toHaveBeenCalledWith('aSubmissionForm', jasmine.any(Object), jasmine.any(Object));
 
       expect(mockLauncher.create)
-        .toHaveBeenCalledWith('thingLauncher', jasmine.any(Object));
+        .toHaveBeenCalledWith('thingLauncher', jasmine.any(Object), jasmine.any(Object));
 
       expect(mockSubmitTicket.create)
         .toHaveBeenCalledWith('thing', {
           visible: true,
           hideZendeskLogo: undefined,
-          brand: undefined
-        });
+          brand: undefined,
+          expandable: undefined
+        }, jasmine.any(Object));
 
       expect(mockLauncher.render)
         .toHaveBeenCalledWith('aSubmissionForm');

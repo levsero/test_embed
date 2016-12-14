@@ -24,6 +24,7 @@ describe('settings', () => {
         ticketForms: []
       },
       channelChoice: false,
+      expanded: false,
       helpCenter: {
         originalArticleButton: true,
         localeFallbacks: []
@@ -82,6 +83,11 @@ describe('settings', () => {
       it('has the correct value for channelChoice', () => {
         expect(settings.get('channelChoice'))
           .toEqual(defaults.channelChoice);
+      });
+
+      it('has the correct value for expanded', () => {
+        expect(settings.get('expanded'))
+          .toEqual(defaults.expanded);
       });
 
       it('has the correct value for zIndex', () => {

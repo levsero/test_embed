@@ -19,7 +19,7 @@ const launcherCSS = require('./launcher.scss').toString()
 
 let launchers = {};
 
-function create(name, config) {
+function create(name, config, reduxStore) {
   const configDefaults = {
     onClick: () => {},
     position: 'right',
@@ -59,6 +59,7 @@ function create(name, config) {
       css: launcherCSS + generateUserCSS(config.color),
       name: name,
       hideCloseButton: true,
+      expandable: false,
       fullscreenable: false,
       offsetWidth: 5,
       offsetHeight: 1,
@@ -76,7 +77,8 @@ function create(name, config) {
           mediator.channel.broadcast(name + '.onClick');
         }
       }
-    }
+    },
+    reduxStore
   );
 
   launchers[name] = {

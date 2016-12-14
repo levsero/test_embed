@@ -12,12 +12,17 @@ import { document,
          getDocumentHost,
          location } from 'utility/globals';
 
-const ipmCSS = require('./ipm.scss').toString();
+import AvatarStyles from 'component/Avatar.sass';
+
+const ipmCSS = `
+  ${AvatarStyles}
+  ${require('./ipm.scss')}
+`;
 
 let ipmes = {};
 let hasSeenIpm = false;
 
-function create(name, config) {
+function create(name, config, reduxStore) {
   let containerStyle;
   let frameStyle = {
     position: 'fixed',
@@ -92,7 +97,8 @@ function create(name, config) {
           style={containerStyle} />
       );
     },
-    frameParams
+    frameParams,
+    reduxStore
   );
 
   ipmes[name] = {

@@ -23,7 +23,7 @@ const solvedStatusIds = [3, 4];
 
 let embed;
 
-function create(name, config) {
+function create(name, config, reduxStore) {
   let frameStyle = {
     position: 'fixed',
     bottom: 0,
@@ -75,7 +75,8 @@ function create(name, config) {
           closeFrame={closeFrame} />
       );
     },
-    frameParams
+    frameParams,
+    reduxStore
   );
 
   const position = (isMobileBrowser()) ? 'none' : 'right';

@@ -145,6 +145,7 @@ export class HelpCenterDesktop extends Component {
           hideZendeskLogo={this.props.hideZendeskLogo}
           title={i18n.t(`embeddable_framework.helpCenter.form.title.${this.props.formTitleKey}`)}
           footerContentHidden={!this.props.showNextButton && this.props.hasSearched}
+          contentExpanded={this.props.expanded}
           headerContent={this.renderHeaderContent()}
           footerContent={this.renderFooterContent()}>
           {this.renderBodyForm()}
@@ -174,7 +175,8 @@ HelpCenterDesktop.propTypes = {
   searchFieldValue: PropTypes.string,
   disableAutoSearch: PropTypes.bool,
   channelChoice: PropTypes.bool,
-  showNextButton: PropTypes.bool
+  showNextButton: PropTypes.bool,
+  expanded: PropTypes.bool
 };
 
 HelpCenterDesktop.defaultProps = {
@@ -189,5 +191,6 @@ HelpCenterDesktop.defaultProps = {
   searchFieldValue: '',
   disableAutoSearch: false,
   channelChoice: false,
-  showNextButton: true
+  showNextButton: true,
+  expanded: false
 };

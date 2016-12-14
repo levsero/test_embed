@@ -57,11 +57,11 @@
     &.is-bigheader {
       height: calc(100% - #{174/$font-size}rem);
     }
-
-    &.is-expanded {
-      height: auto;
-    }
   }
+}
+
+.ScrollContainer--expanded {
+  max-height: calc(100% - #{108/$font-size}rem);
 }
 
 .ScrollContainer-footer {

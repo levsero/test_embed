@@ -341,8 +341,8 @@ export class SubmitTicketForm extends Component {
         <ScrollContainer
           ref='scrollContainer'
           title={i18n.t(`embeddable_framework.submitTicket.form.title.${formTitleKey}`)}
-          contentExpanded={true}
-          containerClasses={containerClasses}
+          contentExpanded={this.props.expanded}
+          containerClasses={`${styles.container} ${containerClasses}`}
           footerContent={
             <ButtonGroup rtl={i18n.isRTL()}>
               {buttonCancel}
@@ -375,7 +375,8 @@ SubmitTicketForm.propTypes = {
   subjectEnabled: PropTypes.bool,
   maxFileCount: PropTypes.number,
   maxFileSize: PropTypes.number,
-  previewEnabled: PropTypes.bool
+  previewEnabled: PropTypes.bool,
+  expanded: PropTypes.bool
 };
 
 SubmitTicketForm.defaultProps = {
@@ -387,5 +388,6 @@ SubmitTicketForm.defaultProps = {
   subjectEnabled: false,
   maxFileCount: 5,
   maxFileSize: 5 * 1024 * 1024,
-  previewEnabled: false
+  previewEnabled: false,
+  expanded: false
 };

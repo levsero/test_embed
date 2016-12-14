@@ -18,7 +18,7 @@ const npsCSS = require('./nps.scss').toString();
 
 let npses = {};
 
-function create(name, config) {
+function create(name, config, reduxStore) {
   let containerStyle;
   let frameStyle = {
     position: 'fixed',
@@ -111,7 +111,8 @@ function create(name, config) {
           style={containerStyle} />
       );
     },
-    frameParams
+    frameParams,
+    reduxStore
   );
 
   npses[name] = {
