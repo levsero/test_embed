@@ -8,7 +8,6 @@ import { ipm } from 'embed/ipm/ipm';
 import { launcher } from 'embed/launcher/launcher';
 import { nps } from 'embed/nps/nps';
 import { submitTicket } from 'embed/submitTicket/submitTicket';
-import { beacon } from 'service/beacon';
 import { i18n } from 'service/i18n';
 import { mediator } from 'service/mediator';
 import { logging } from 'service/logging';
@@ -71,9 +70,6 @@ function init(config) {
   if (!initialised) {
     if (config.webWidgetCustomizations) {
       settings.enableCustomizations();
-    }
-    if (win.zESettings) {
-      beacon.trackSettings(settings.getTrackSettings());
     }
     i18n.setCustomTranslations();
     i18n.setLocale(config.locale);
