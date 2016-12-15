@@ -19,7 +19,9 @@ describe('pages', function() {
   beforeEach(function() {
     resetDOM();
 
-    mockery.enable();
+    mockery.enable({
+      useCleanCache: true
+    });
 
     initMockRegistry({
       'utility/globals': mockGlobals,

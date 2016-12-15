@@ -10,7 +10,6 @@ describe('HelpCenter component', function() {
 
   class SearchField extends Component {
     constructor() {
-      super();
       this.blur = jasmine.createSpy();
     }
     getValue() {

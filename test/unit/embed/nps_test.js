@@ -24,7 +24,6 @@ describe('embed.nps', () => {
       'component/nps/Nps': {
         Nps: class extends Component {
           constructor() {
-            super();
             this.resetState = jasmine.createSpy('resetState');
             this.state = {
               survey: {}
