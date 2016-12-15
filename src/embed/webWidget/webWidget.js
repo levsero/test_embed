@@ -41,7 +41,89 @@ let hasAuthenticatedSuccessfully = false;
 let useMouseDistanceContexualSearch = false;
 let cancelTargetHandler = null;
 
-function create(config) {
+const showBackButton = (show = true) => {
+  embed.instance.getChild().showBackButton(show);
+};
+const onShow = () => {
+  const rootComponent = getRootComponent();
+
+  if (rootComponent) {
+    const { submitTicketForm } = rootComponent.refs;
+
+    if (isMobileBrowser()) {
+      setScaleLock(true);
+      setTimeout(() => {
+        mediator.channel.broadcast('.updateZoom', getZoomSizingRatio());
+      }, 0);
+    } else {
+      if (submitTicketForm) {
+        submitTicketForm.focusField();
+      } else if (rootComponent.focusField) {
+        rootComponent.focusField();
+      }
+    }
+    if (submitTicketForm) {
+      submitTicketForm.resetTicketFormVisibility();
+    }
+  }
+};
+const onHide = () => {
+  const rootComponent = getRootComponent();
+
+  if (rootComponent) {
+    if (isMobileBrowser()) {
+      setScaleLock(false);
+      if (rootComponent.resetState) {
+        rootComponent.resetState();
+      }
+    }
+    if (rootComponent.clearNotification) {
+      rootComponent.clearNotification();
+    }
+    if (rootComponent.backtrackSearch) {
+      rootComponent.backtrackSearch();
+    }
+  }
+};
+const onBack = () => {
+  const name = embed.instance.getRootComponent().getActiveEmbed();
+
+  if (name === 'ticketSubmissionForm') {
+    if (getRootComponent().state.selectedTicketForm) {
+      showBackButton(backButtonSetByHelpCenter);
+      getRootComponent().clearForm();
+    } else {
+      mediator.channel.broadcast('ticketSubmissionForm.onBackClick');
+    }
+  }
+  else if (name === 'helpCenterForm') {
+    const rootComponent = getRootComponent();
+
+    if (rootComponent) {
+      rootComponent.setState({
+        articleViewActive: false
+      });
+      embed.instance.getChild().showBackButton(false);
+    }
+  }
+};
+const afterShowAnimate = () => {
+  const rootComponent = getRootComponent();
+
+  if (rootComponent && isIE()) {
+    if (rootComponent.refs.submitTicketForm) {
+      rootComponent.refs.submitTicketForm.focusField();
+    }
+    if (rootComponent.focusField) {
+      rootComponent.focusField();
+    }
+  }
+};
+const onClose = () => {
+  mediator.channel.broadcast(`${embed.instance.getRootComponent().getActiveEmbed()}.onClose`);
+};
+
+function create(name, config) {
   let containerStyle;
   let frameStyle = {};
 
@@ -51,50 +133,6 @@ function create(config) {
     expandable: false,
     color: '#659700'
   };
-  const showBackButton = (show = true) => {
-    get(name).instance.getChild().showBackButton(show);
-  };
-  const onShow = () => {
-    const rootComponent = getRootComponent();
-
-    if (rootComponent) {
-      const { submitTicketForm } = rootComponent.refs;
-
-      if (isMobileBrowser()) {
-        setScaleLock(true);
-        setTimeout(() => {
-          mediator.channel.broadcast('.updateZoom', getZoomSizingRatio());
-        }, 0);
-      } else {
-        if (submitTicketForm) {
-          submitTicketForm.focusField();
-        } else if (rootComponent.focusField) {
-          rootComponent.focusField();
-        }
-      }
-      if (submitTicketForm) {
-        submitTicketForm.resetTicketFormVisibility();
-      }
-    }
-  };
-  const onHide = () => {
-    const rootComponent = getRootComponent();
-
-    if (rootComponent) {
-      if (isMobileBrowser()) {
-        setScaleLock(false);
-        if (rootComponent.resetState) {
-          rootComponent.resetState();
-        }
-      }
-      if (rootComponent.clearNotification) {
-        rootComponent.clearNotification();
-      }
-      if (rootComponent.backtrackSearch) {
-        rootComponent.backtrackSearch();
-      }
-    }
-  }
   const submitTicketSettings = setUpSubmitTicket(config.ticketSubmissionForm);
   const helpCenterSettings = setUpHelpCenter(config.helpCenterForm);
   const globalConfig = _.extend(configDefaults, config.ticketSubmissionForm, config.helpCenterForm);
@@ -129,44 +167,10 @@ function create(config) {
     },
     onShow,
     name: name,
-    afterShowAnimate() {
-      const rootComponent = getRootComponent();
-
-      if (rootComponent && isIE()) {
-        if (rootComponent.refs.submitTicketForm) {
-          rootComponent.refs.submitTicketForm.focusField();
-        }
-        if (rootComponent.focusField) {
-          rootComponent.focusField();
-        }
-      }
-    },
+    afterShowAnimate,
     onHide,
-    onClose() {
-      mediator.channel.broadcast(`${get().instance.getRootComponent().getActiveEmbed()}.onClose`);
-    },
-    onBack() {
-      const name = get().instance.getRootComponent().getActiveEmbed();
-
-      if (name === 'ticketSubmissionForm') {
-        if (getRootComponent().state.selectedTicketForm) {
-          showBackButton(backButtonSetByHelpCenter);
-          getRootComponent().clearForm();
-        } else {
-          mediator.channel.broadcast('ticketSubmissionForm.onBackClick');
-        }
-      }
-      else if (name === 'helpCenterForm') {
-        const rootComponent = getRootComponent();
-
-        if (rootComponent) {
-          rootComponent.setState({
-            articleViewActive: false
-          });
-          get(name).instance.getChild().showBackButton(false);
-        }
-      }
-    }
+    onClose,
+    onBack
   };
 
   const Embed = frameFactory(
@@ -187,9 +191,8 @@ function create(config) {
           onArticleClick={helpCenterSettings.onArticleClick}
           onSearch={helpCenterSettings.onSearch}
           helpCenterConfig={helpCenterSettings.config}
-          showBackButton={showBackButton}
           searchSender={helpCenterSettings.searchSenderFn('/api/v2/help_center/search.json')}
-          contextualSearchSender={helpCenterSettings.searchSenderFn('/api/v2/help_center/articles/embeddable_search.json')}
+          contextualSearchSender={helpCenterSettings.searchSenderFn('/api/v2/help_center/articles/embeddable_search.json')} // eslint-disable-line
           imagesSender={helpCenterSettings.imagesSenderFn}
           fullscreen={isMobileBrowser()}
           originalArticleButton={settings.get('helpCenter.originalArticleButton')}
@@ -210,16 +213,159 @@ function create(config) {
   return this;
 }
 
-function setChatOnline(name, chatOnline) {
-  waitForRootComponent(name, () => {
-    getRootComponent(name).setChatOnline(chatOnline);
+function render() {
+  if (embed && embed.instance) {
+    throw new Error(`WebWidget has already been rendered.`);
+  }
+
+  const element = getDocumentHost().appendChild(document.createElement('div'));
+
+  embed.instance = ReactDOM.render(embed.component, element);
+
+  setUpMediator();
+}
+
+function setUpMediator() {
+  mediator.channel.subscribe('ticketSubmissionForm.show', (options = {}) => {
+    waitForRootComponent(() => {
+      embed.instance.getRootComponent().setEmbed('ticketSubmissionForm');
+
+      setTimeout(() => {
+        embed.instance.show(options);
+      }, 0);
+    });
+  });
+
+  mediator.channel.subscribe('ticketSubmissionForm.hide', (options = {}) => {
+    waitForRootComponent(() => {
+      const rootComponent = getRootComponent();
+
+      embed.instance.hide(options);
+
+      if (rootComponent.state.showNotification) {
+        rootComponent.clearNotification();
+      }
+    });
+  });
+
+  mediator.channel.subscribe('ticketSubmissionForm.showBackButton', () => {
+    waitForRootComponent(() => {
+      if (isMobileBrowser() || !_.isEmpty(getRootComponent().state.ticketForms)) {
+        showBackButton();
+        backButtonSetByHelpCenter = true;
+      }
+    });
+  });
+
+  mediator.channel.subscribe('ticketSubmissionForm.setLastSearch', (params) => {
+    waitForRootComponent(() => {
+      getRootComponent().setState(_.pick(params, ['searchTerm', 'searchLocale']));
+    });
+  });
+
+  mediator.channel.subscribe('ticketSubmissionForm.refreshLocale', () => {
+    waitForRootComponent(() => {
+      getRootComponent().forceUpdate();
+    });
+  });
+
+  mediator.channel.subscribe('ticketSubmissionForm.prefill', (user) => {
+    waitForRootComponent(() => {
+      const submitTicketForm = getRootComponent().refs.submitTicketForm;
+
+      submitTicketForm.setState({
+        formState: _.pick(user, ['name', 'email'])
+      });
+    });
+  });
+
+  mediator.channel.subscribe('ticketSubmissionForm.update', () => {
+    embed.instance.getChild().forceUpdate();
+  });
+
+  mediator.channel.subscribe('helpCenterForm.show', (options = {}) => {
+    if (useMouseDistanceContexualSearch && options.viaApi) {
+      useMouseDistanceContexualSearch = false;
+
+      if (cancelTargetHandler) {
+        cancelTargetHandler();
+      }
+    }
+
+    // Stop stupid host page scrolling
+    // when trying to focus HelpCenter's search field.
+    setTimeout(() => {
+      waitForRootComponent(() => {
+        embed.instance.show(options);
+      });
+    }, 0);
+  });
+
+  mediator.channel.subscribe('helpCenterForm.hide', (options = {}) => {
+    waitForRootComponent(() => {
+      embed.instance.hide(options);
+    });
+  });
+
+  mediator.channel.subscribe('helpCenterForm.setHelpCenterSuggestions', (options) => {
+    hasManuallySetContextualSuggestions = true;
+    performContextualHelp(options);
+  });
+
+  mediator.channel.subscribe('helpCenterForm.refreshLocale', () => {
+    waitForRootComponent(() => {
+      getRootComponent().forceUpdate();
+    });
+  });
+
+  mediator.channel.subscribe('helpCenterForm.isAuthenticated', () => {
+    hasAuthenticatedSuccessfully = true;
   });
 }
 
-function keywordsSearch(name, options) {
+function get() {
+  return embed;
+}
+
+function getRootComponent() {
+  return embed.instance.getRootComponent().refs.rootComponent;
+}
+
+function waitForRootComponent(callback) {
+  if (embed && embed.instance && getRootComponent()) {
+    callback();
+  } else {
+    setTimeout(() => {
+      waitForRootComponent(callback);
+    }, 0);
+  }
+}
+
+function postRender() {
+  const config = embed.config;
+  const authSetting = settings.get('authenticate');
+
+  if (config.contextualHelpEnabled &&
+      !hasManuallySetContextualSuggestions &&
+      !isOnHelpCenterPage()) {
+    const options = { url: true };
+
+    performContextualHelp(options);
+  }
+
+  if (config.tokensRevokedAt) {
+    authentication.revoke(config.tokensRevokedAt);
+  }
+
+  if (authSetting && authSetting.jwt) {
+    authentication.authenticate(authSetting.jwt);
+  }
+}
+
+function keywordsSearch(options) {
   const contextualSearchFn = () => {
-    const rootComponent = getRootComponent(name);
-    const isAuthenticated = get(name).config.signInRequired === false || hasAuthenticatedSuccessfully;
+    const rootComponent = getRootComponent();
+    const isAuthenticated = embed.config.signInRequired === false || hasAuthenticatedSuccessfully;
 
     if (isAuthenticated && rootComponent) {
       if (options.url) {
@@ -236,197 +382,18 @@ function keywordsSearch(name, options) {
   cappedIntervalCall(contextualSearchFn, 500, 10);
 }
 
-function render(name) {
-  if (embed && embed.instance) {
-    throw new Error(`WebWidget has already been rendered.`);
-  }
-
-  const element = getDocumentHost().appendChild(document.createElement('div'));
-
-  embed.instance = ReactDOM.render(embed.component, element);
-
-  mediator.channel.subscribe('ticketSubmissionForm.show', function(options = {}) {
-    waitForRootComponent(name, () => {
-      get().instance.getRootComponent().setEmbed('ticketSubmissionForm');
-
-      setTimeout(function() {
-        get(name).instance.show(options);
-      }, 0);
-    });
-  });
-
-  mediator.channel.subscribe('ticketSubmissionForm.hide', function(options = {}) {
-    waitForRootComponent(name, () => {
-      const rootComponent = getRootComponent(name);
-
-      embed.instance.hide(options);
-
-      if (rootComponent.state.showNotification) {
-        rootComponent.clearNotification();
-      }
-    });
-  });
-
-  mediator.channel.subscribe('ticketSubmissionForm.showBackButton', function() {
-    waitForRootComponent(name, () => {
-      if (isMobileBrowser() || !_.isEmpty(getRootComponent(name).state.ticketForms)) {
-        get(name).instance.getChild().showBackButton();
-        backButtonSetByHelpCenter = true;
-      }
-    });
-  });
-
-  mediator.channel.subscribe('ticketSubmissionForm.setLastSearch', function(params) {
-    waitForRootComponent(name, () => {
-      getRootComponent(name).setState(_.pick(params, ['searchTerm', 'searchLocale']));
-    });
-  });
-
-  mediator.channel.subscribe('ticketSubmissionForm.refreshLocale', () => {
-    waitForRootComponent(name, () => {
-      getRootComponent(name).forceUpdate();
-    });
-  });
-
-  mediator.channel.subscribe('ticketSubmissionForm.prefill', function(user) {
-    prefillForm(name, user);
-  });
-
-  mediator.channel.subscribe('ticketSubmissionForm.update', function() {
-    embed.instance.getChild().forceUpdate();
-  });
-
-  mediator.channel.subscribe('helpCenterForm.show', function(options = {}) {
-    if (useMouseDistanceContexualSearch && options.viaApi) {
-      useMouseDistanceContexualSearch = false;
-
-      if (cancelTargetHandler) {
-        cancelTargetHandler();
-      }
-    }
-
-    // Stop stupid host page scrolling
-    // when trying to focus HelpCenter's search field.
-    setTimeout(function() {
-      waitForRootComponent(name, () => {
-        get(name).instance.show(options);
-      });
-    }, 0);
-  });
-
-  mediator.channel.subscribe('helpCenterForm.hide', function(options = {}) {
-    waitForRootComponent(name, () => {
-      get(name).instance.hide(options);
-    });
-  });
-
-  mediator.channel.subscribe('helpCenterForm.setNextToChat', function() {
-    waitForRootComponent(name, () => {
-      getRootComponent(name).setChatOnline(true);
-    });
-
-    setChatOnline(name, true);
-  });
-
-  mediator.channel.subscribe('helpCenterForm.setNextToSubmitTicket', function() {
-    waitForRootComponent(name, () => {
-      getRootComponent(name).setChatOnline(false);
-    });
-
-    setChatOnline(name, false);
-  });
-
-  mediator.channel.subscribe('helpCenterForm.showNextButton', function(nextButton = true) {
-    waitForRootComponent(name, () => {
-      getRootComponent(name).showNextButton(nextButton);
-    });
-  });
-
-  mediator.channel.subscribe('helpCenterForm.showBackButton', function() {
-    get(name).instance.getChild().showBackButton();
-  });
-
-  mediator.channel.subscribe('helpCenterForm.setHelpCenterSuggestions', function(options) {
-    hasManuallySetContextualSuggestions = true;
-    performContextualHelp(name, options);
-  });
-
-  mediator.channel.subscribe('helpCenterForm.refreshLocale', () => {
-    waitForRootComponent(name, () => {
-      getRootComponent(name).forceUpdate();
-    });
-  });
-
-  mediator.channel.subscribe('helpCenterForm.isAuthenticated', function() {
-    hasAuthenticatedSuccessfully = true;
-  });
-}
-
-function performContextualHelp(name, options) {
-  const onHitFn = (name, options) => () => {
-    keywordsSearch(name, options);
+function performContextualHelp(options) {
+  const onHitFn = (options) => () => {
+    keywordsSearch(options);
     useMouseDistanceContexualSearch = false;
   };
 
   if (!isMobileBrowser() && useMouseDistanceContexualSearch) {
     const launcherElement = document.getElementById('launcher');
 
-    cancelTargetHandler = mouse.target(launcherElement, onHitFn(name, options));
+    cancelTargetHandler = mouse.target(launcherElement, onHitFn(options));
   } else {
-    helpCenter.keywordsSearch(name, options);
-  }
-}
-
-function prefillForm(name, user) {
-  waitForRootComponent(name, function() {
-    const submitTicketForm = getRootComponent(name).refs.submitTicketForm;
-
-    submitTicketForm.setState({
-      formState: _.pick(user, ['name', 'email'])
-    });
-  });
-}
-
-function get(name) {
-  return embed;
-}
-
-function getRootComponent(name) {
-  return get(name).instance.getRootComponent().refs.rootComponent;
-}
-
-function waitForRootComponent(name, callback) {
-  if (get(name) && get(name).instance && getRootComponent(name)) {
-    callback();
-  } else {
-    setTimeout(() => {
-      waitForRootComponent(name, callback);
-    }, 0);
-  }
-}
-
-function list() {
-  return { embed };
-}
-
-function postRender() {
-  const config = get().config;
-  const authSetting = settings.get('authenticate');
-
-  if (config.contextualHelpEnabled &&
-      !hasManuallySetContextualSuggestions &&
-      !isOnHelpCenterPage()) {
-    const options = { url: true };
-
-    performContextualHelp(name, options);
-  }
-
-  if (config.tokensRevokedAt) {
-    authentication.revoke(config.tokensRevokedAt);
-  }
-
-  if (authSetting && authSetting.jwt) {
-    authentication.authenticate(authSetting.jwt);
+    keywordsSearch(options);
   }
 }
 
@@ -502,7 +469,7 @@ function setUpSubmitTicket(config) {
     beacon.trackUserAction('submitTicket', 'send', 'ticketSubmissionForm', userActionPayload);
     mediator.channel.broadcast('ticketSubmissionForm.onFormSubmitted');
   };
-  const onCancel = function() {
+  const onCancel = () => {
     mediator.channel.broadcast('ticketSubmissionForm.onCancelClick');
   };
   const settingTicketForms = settings.get('contactForm.ticketForms');
@@ -513,8 +480,8 @@ function setUpSubmitTicket(config) {
   if (!_.isEmpty(ticketForms)) {
     const ticketFormIds = ticketForms.join();
 
-    waitForRootComponent(name, () => {
-      getRootComponent(name).setLoading(true);
+    waitForRootComponent(() => {
+      getRootComponent().setLoading(true);
     });
 
     transport.get({
@@ -526,8 +493,8 @@ function setUpSubmitTicket(config) {
           // do this on next tick so that it never happens before
           // the one above that sets loading to true.
           setTimeout(() => {
-            waitForRootComponent(name, () => {
-              getRootComponent(name).updateTicketForms(JSON.parse(res.text));
+            waitForRootComponent(() => {
+              getRootComponent().updateTicketForms(JSON.parse(res.text));
             });
           }, 0);
         },
@@ -535,8 +502,8 @@ function setUpSubmitTicket(config) {
           // do this on next tick so that it never happens before
           // the one above that sets loading to true.
           setTimeout(() => {
-            waitForRootComponent(name, () => {
-              getRootComponent(name).setLoading(false);
+            waitForRootComponent(() => {
+              getRootComponent().setLoading(false);
             });
           }, 0);
         }
@@ -631,5 +598,5 @@ export const webWidget = {
   create: create,
   render: render,
   get: get,
-  list: list
+  postRender: postRender
 };

@@ -96,10 +96,12 @@ function init(config) {
         webWidgetConfig[key] = embed.props;
       });
 
-      webWidget.create(webWidgetConfig);
-      webWidget.render();
-
       parsedConfig = _.omit(parsedConfig, ['ticketSubmissionForm', 'helpCenterForm']);
+
+      parsedConfig.webWidget = {
+        embed: 'webWidget',
+        props: webWidgetConfig
+      };
     }
 
     _.forEach(parsedConfig, function(configItem, embedName) {

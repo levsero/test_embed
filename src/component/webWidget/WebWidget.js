@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import { Container } from 'component/Container';
 import { Chat } from 'component/chat/Chat';
-import { HelpCenter } from 'component/HelpCenter/HelpCenter';
+import { HelpCenter } from 'component/helpCenter/HelpCenter';
 import { SubmitTicket } from 'component/submitTicket/SubmitTicket';
 import { bindMethods } from 'utility/utils';
 
