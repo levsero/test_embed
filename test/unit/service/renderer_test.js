@@ -72,9 +72,6 @@ describe('renderer', () => {
       'embed/automaticAnswers/automaticAnswers': {
         automaticAnswers: mockAutomaticAnswers
       },
-      'service/beacon': {
-        beacon: jasmine.createSpyObj('beacon', ['trackSettings'])
-      },
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', ['setCustomTranslations', 'setLocale', 't'])
       },
@@ -323,12 +320,10 @@ describe('renderer', () => {
 
     describe('initialising services', () => {
       let mockSettings,
-        mockBeacon,
         mocki18n;
 
       beforeEach(() => {
         mockSettings = mockRegistry['service/settings'].settings;
-        mockBeacon = mockRegistry['service/beacon'].beacon;
         mocki18n = mockRegistry['service/i18n'].i18n;
         global.window.zESettings = {};
 
@@ -341,11 +336,6 @@ describe('renderer', () => {
       it('should call settings.enableCustomizations', () => {
         expect(mockSettings.enableCustomizations)
           .toHaveBeenCalled();
-      });
-
-      it('should call beacon.trackSettings', () => {
-        expect(mockBeacon.trackSettings)
-          .toHaveBeenCalledWith(mockTrackSettings);
       });
 
       it('should call i18n.setLocale with the correct locale', () => {
