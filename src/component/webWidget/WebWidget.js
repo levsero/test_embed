@@ -3,9 +3,8 @@ import classNames from 'classnames';
 
 import { Container } from 'component/Container';
 import { Chat } from 'component/chat/Chat';
-import { HelpCenter } from 'component/helpCenter/HelpCenter';
+import { HelpCenter } from 'component/HelpCenter/HelpCenter';
 import { SubmitTicket } from 'component/submitTicket/SubmitTicket';
-import { Launcher } from 'component/Launcher';
 import { bindMethods } from 'utility/utils';
 
 const submitTicket = 'ticketSubmissionForm';
@@ -19,7 +18,7 @@ export class WebWidget extends Component {
     bindMethods(this, WebWidget.prototype);
 
     this.state = {
-      activeComponent: launcher,
+      activeComponent: helpCenter,
       chatOnline: false,
       helpCenterAvaliable: true
     };
@@ -69,25 +68,6 @@ export class WebWidget extends Component {
           ref='rootComponent'
           style={this.props.style}
           position={this.props.position} />
-      </div>
-    );
-  }
-
-  renderLauncher() {
-    const classes = classNames({
-      'u-isHidden': this.state.activeComponent !== launcher
-    });
-
-    return (
-      <div className={classes}>
-        <Launcher
-          ref='rootComponent'
-          onClick={this.props.onLauncherClick}
-          onTouchEnd={this.props.onLauncherClick}
-          updateFrameSize={this.props.updateFrameSize}
-          position={this.props.position}
-          label={this.props.label}
-          icon={this.props.icon} />
       </div>
     );
   }
@@ -165,7 +145,6 @@ export class WebWidget extends Component {
         {this.renderSubmitTicket()}
         {this.renderChat()}
         {this.renderHelpCenter()}
-        {this.renderLauncher()}
       </div>
     );
   }
