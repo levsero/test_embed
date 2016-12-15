@@ -147,6 +147,7 @@ describe('utils', () => {
   describe('patchReactIdAttribute()', () => {
     it('updates react data attribute to data-ze-reactid instead of data-reactid', () => {
       mockery.disable();
+      // WARNING: Usage of `useCleanCache` can drastically slow down tests
       mockery.enable({ useCleanCache: true });
       require(utilPath).patchReactIdAttribute();
 
