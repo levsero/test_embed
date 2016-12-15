@@ -368,7 +368,7 @@ describe('Submit ticket component', () => {
           submitTicket = domRender(<SubmitTicket />);
 
           submitTicket.updateTicketForms(mockTicketFormParams);
-          submitTicket.setState({ selectedTicketForm: mockTicketFormParams.ticket_forms[0].id });
+          submitTicket.setState({ selectedTicketForm: mockTicketFormParams.ticket_forms[0] });
           params = submitTicket.formatRequestTicketData(mockValues);
         });
 
