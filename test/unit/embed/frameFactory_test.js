@@ -107,7 +107,6 @@ describe('frameFactory', function() {
 
     class MockChildComponent extends React.Component {
       constructor() {
-        super();
         this.expand = expandSpy;
       }
 

@@ -15,7 +15,6 @@ describe('npsPreview entry file', function() {
       'component/nps/Nps': {
         Nps: class extends Component{
           constructor() {
-            super();
             this.state = {
               isMobile: false,
               survey: {}
