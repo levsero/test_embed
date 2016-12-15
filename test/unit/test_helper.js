@@ -27,10 +27,16 @@ global.document = global.window.document;
 global.navigator = global.window.navigator;
 global.location = global.window.location;
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import TestUtils from 'react-addons-test-utils';
-import ShallowTestUtils from 'react-shallow-testutils';
+/*
+  Tests are failing because DOM is missing or unexpectedly mutated.
+  The reason is because `import` is hoisted at the top and evaluated first before the DOM is ready.
+  If we are using modules to perform actions on the DOM that isn't ready it will blow up.
+  Source: https://gist.github.com/PrototypeAlex/0a2b9a5c3e86ee0c8ed3
+*/
+const React = require('react');
+const ReactDOM = require('react-dom');
+const TestUtils = require('react-addons-test-utils');
+const ShallowTestUtils = require('react-shallow-testutils');
 
 global.React = React;
 global.Component = React.Component;
