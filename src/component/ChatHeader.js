@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
 import { i18n } from 'service/i18n';
 import { locals as styles } from './ChatHeader.sass';
-import classNames from 'classnames';
 
 import { Avatar } from 'component/Avatar';
 

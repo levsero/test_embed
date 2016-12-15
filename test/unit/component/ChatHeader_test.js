@@ -15,10 +15,10 @@ describe('ChatHeader component', () => {
     initMockRegistry({
       'component/Avatar': {
         Avatar: MockAvatar
-      }
+      },
       'service/i18n': {
         i18n: {
-          t: (i18nKey, { fallback }) => fallback
+          t: noop
         }
       },
       './ChatHeader.sass': {
