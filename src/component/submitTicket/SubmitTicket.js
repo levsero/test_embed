@@ -174,7 +174,7 @@ export class SubmitTicket extends Component {
         'email': data.value.email,
         'locale_id': i18n.getLocaleId()
       },
-      'ticket_form_id': ticketFormsAvailable ? this.state.selectedTicketForm : null
+      'ticket_form_id': ticketFormsAvailable ? this.state.selectedTicketForm.id : null
     };
 
     return this.props.customFields.length > 0 || ticketFormsAvailable
@@ -210,7 +210,7 @@ export class SubmitTicket extends Component {
     });
 
     if (forms.ticket_forms.length === 1) {
-      this.setState({ selectedTicketForm: forms.ticket_forms[0].id });
+      this.setState({ selectedTicketForm: forms.ticket_forms[0] });
 
       setTimeout(() => {
         this.refs.submitTicketForm.updateTicketForm(
