@@ -1,6 +1,5 @@
 describe('ChatHeader component', () => {
-  let ChatHeader,
-    mockIsIE;
+  let ChatHeader;
   const chatHeaderPath = buildSrcPath('component/ChatHeader');
 
   class MockAvatar extends React.Component {
@@ -9,8 +8,6 @@ describe('ChatHeader component', () => {
     }
   }
 
-  mockIsIE = false;
-
   beforeEach(() => {
     resetDOM();
     mockery.enable();
@@ -18,10 +15,7 @@ describe('ChatHeader component', () => {
     initMockRegistry({
       'component/Avatar': {
         Avatar: MockAvatar
-      },
-      'utility/devices': {
-        isIE: () => mockIsIE
-      },
+      }
       'service/i18n': {
         i18n: {
           t: (i18nKey, { fallback }) => fallback
@@ -42,7 +36,6 @@ describe('ChatHeader component', () => {
   afterEach(() => {
     mockery.deregisterAll();
     mockery.disable();
-    mockIsIE = false;
   });
 
   describe('#render', () => {

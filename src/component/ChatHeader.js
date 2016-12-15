@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
 import { i18n } from 'service/i18n';
-import { isIE } from 'utility/devices';
 import { locals as styles } from './ChatHeader.sass';
 import classNames from 'classnames';
 
