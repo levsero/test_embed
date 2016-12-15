@@ -38,6 +38,16 @@ parts:
       title: "The notification message that appears on the launcher button when a new message is received. This is for plural notifications. Count will be the number of messages. %()s stands for string and does not need to be translated. If your language has more than one plural, please translate as: New: %(count)s"
       screenshot: "https://zendesk.box.com/s/xo1cgwawbuyf0j9sygxka8fabfv4rwbp"
       value: "%(count)s new"
+  - translation:
+      wip: true
+      key: "embeddable_framework.chat.header.title"
+      title: "The Chat's header text that displays a strong font for a string"
+      value: "Welcome"
+  - translation:
+      wip: true
+      key: "embeddable_framework.chat.header.subText"
+      title: "The Chat's header text that displays a subText that sits below the title"
+      value: "Ask us anything"
 
   # Submit Ticket component
   - translation:
