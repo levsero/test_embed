@@ -60,7 +60,7 @@ global.instanceRender = (component) => {
   const renderer = TestUtils.createRenderer();
 
   renderer.render(component);
-  return ShallowTestUtils.getMountedInstance(renderer);
+  return renderer.getMountedInstance(renderer);
 };
 
 global.domRender = (component) => {
