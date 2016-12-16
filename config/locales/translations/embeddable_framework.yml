@@ -39,14 +39,14 @@ parts:
       screenshot: "https://zendesk.box.com/s/xo1cgwawbuyf0j9sygxka8fabfv4rwbp"
       value: "%(count)s new"
   - translation:
-      wip: true
       key: "embeddable_framework.chat.header.title"
       title: "The Chat's header text that displays a strong font for a string"
+      screenshot: "https://zendesk.box.com/s/0mq2yi7sukwjn4jhbi3rkt6m82komx6h"
       value: "Welcome"
   - translation:
-      wip: true
       key: "embeddable_framework.chat.header.subText"
-      title: "The Chat's header text that displays a subText that sits below the title"
+      title: "The Chat's header text that displays a subText that sits below the title. Please match meshim.widget.controllers.defaultdatanode.defaultdatanode.livechat.settings.concierge.titlestring"
+      screenshot: "https://zendesk.box.com/s/0mq2yi7sukwjn4jhbi3rkt6m82komx6h"
       value: "Ask us anything"
 
   # Submit Ticket component
