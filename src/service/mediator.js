@@ -380,48 +380,40 @@ function init(embedsAccessible, params = {}) {
     if (helpCenterAvailable()) {
       c.broadcast('authentication.renew');
     }
-    // chat opens in new window so hide isn't needed
-    if (state.activeEmbed === chat && isMobileBrowser()) {
-      c.broadcast(`${chat}.show`);
-    } else if (chatAvailable() && state[`${chat}.unreadMsgs`]) {
+
+    if (state.activeEmbed !== chat &&
+        chatAvailable() &&
+        state[`${chat}.unreadMsgs`]) {
       state[`${chat}.unreadMsgs`] = 0;
       state.activeEmbed = chat;
-
-      /**
-       *  In case you're wondering, `launcher.hide`
-       *  is broadcasted by chat.onShow broadcast
-       */
-      c.broadcast(`${chat}.show`);
-    } else {
-      c.broadcast(`${launcher}.hide`, isMobileBrowser() ? {} : { transition: getHideAnimation() } );
-
-      state[`${state.activeEmbed}.isVisible`] = true;
-
-      /**
-       * This timeout mitigates the Ghost Click produced when the launcher
-       * button is on the left, using a mobile device with small screen
-       * e.g. iPhone4. It's not a bulletproof solution, but it helps
-       */
-
-      if (state.activeEmbed === chat) {
-        trackChatStarted();
-      }
-
-      setTimeout(() => {
-        c.broadcast(`${state.activeEmbed}.show`, { transition: getShowAnimation() });
-        if (isMobileBrowser()) {
-          /**
-           * This timeout ensures the embed is displayed
-           * before the scrolling happens on the host page
-           * so that the user doesn't see the host page jump
-           */
-          setTimeout(() => {
-            setWindowScroll(0);
-            setScrollKiller(true);
-          }, 0);
-        }
-      }, 0);
     }
+
+    c.broadcast(`${launcher}.hide`, isMobileBrowser() ? {} : { transition: getHideAnimation() } );
+    state[`${state.activeEmbed}.isVisible`] = true;
+
+    if (state.activeEmbed === chat) {
+      trackChatStarted();
+    }
+
+    /**
+     * This timeout mitigates the Ghost Click produced when the launcher
+     * button is on the left, using a mobile device with small screen
+     * e.g. iPhone4. It's not a bulletproof solution, but it helps
+     */
+    setTimeout(() => {
+      c.broadcast(`${state.activeEmbed}.show`, { transition: getShowAnimation() });
+      if (isMobileBrowser()) {
+        /**
+         * This timeout ensures the embed is displayed
+         * before the scrolling happens on the host page
+         * so that the user doesn't see the host page jump
+         */
+        setTimeout(() => {
+          setWindowScroll(0);
+          setScrollKiller(true);
+        }, 0);
+      }
+    }, 0);
   });
 
   c.intercept(`${helpCenter}.onClose`, (_broadcast) => {
