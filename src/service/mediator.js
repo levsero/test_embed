@@ -373,6 +373,28 @@ function init(embedsAccessible, params = {}) {
     c.broadcast(`${submitTicket}.setLastSearch`, params);
   });
 
+  const showEmbed = (activeEmbed) => {
+    if (activeEmbed === chat) {
+      trackChatStarted();
+    }
+
+    c.broadcast(`${launcher}.hide`, isMobileBrowser() ? {} : { transition: getHideAnimation() } );
+    state[`${activeEmbed}.isVisible`] = true;
+    c.broadcast(`${activeEmbed}.show`, { transition: getShowAnimation() });
+
+    if (isMobileBrowser()) {
+      /**
+       * This timeout ensures the embed is displayed
+       * before the scrolling happens on the host page
+       * so that the user doesn't see the host page jump
+       */
+      setTimeout(() => {
+        setWindowScroll(0);
+        setScrollKiller(true);
+      }, 0);
+    }
+  };
+
   c.intercept(`${launcher}.onClick`, () => {
     if (state[`${launcher}.clickActive`] === true) return;
 
@@ -388,32 +410,12 @@ function init(embedsAccessible, params = {}) {
       state.activeEmbed = chat;
     }
 
-    c.broadcast(`${launcher}.hide`, isMobileBrowser() ? {} : { transition: getHideAnimation() } );
-    state[`${state.activeEmbed}.isVisible`] = true;
-
-    if (state.activeEmbed === chat) {
-      trackChatStarted();
-    }
-
     /**
      * This timeout mitigates the Ghost Click produced when the launcher
      * button is on the left, using a mobile device with small screen
      * e.g. iPhone4. It's not a bulletproof solution, but it helps
      */
-    setTimeout(() => {
-      c.broadcast(`${state.activeEmbed}.show`, { transition: getShowAnimation() });
-      if (isMobileBrowser()) {
-        /**
-         * This timeout ensures the embed is displayed
-         * before the scrolling happens on the host page
-         * so that the user doesn't see the host page jump
-         */
-        setTimeout(() => {
-          setWindowScroll(0);
-          setScrollKiller(true);
-        }, 0);
-      }
-    }, 0);
+    setTimeout(() => showEmbed(state.activeEmbed), 0);
   });
 
   c.intercept(`${helpCenter}.onClose`, (_broadcast) => {
