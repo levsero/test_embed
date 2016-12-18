@@ -86,26 +86,7 @@ const onHide = () => {
   }
 };
 const onBack = () => {
-  const name = embed.instance.getRootComponent().getActiveEmbed();
-
-  if (name === 'ticketSubmissionForm') {
-    if (getRootComponent().state.selectedTicketForm) {
-      showBackButton(backButtonSetByHelpCenter);
-      getRootComponent().clearForm();
-    } else {
-      mediator.channel.broadcast('ticketSubmissionForm.onBackClick');
-    }
-  }
-  else if (name === 'helpCenterForm') {
-    const rootComponent = getRootComponent();
-
-    if (rootComponent) {
-      rootComponent.setState({
-        articleViewActive: false
-      });
-      embed.instance.getChild().showBackButton(false);
-    }
-  }
+  embed.instance.getRootComponent().onBackClick();
 };
 const afterShowAnimate = () => {
   const rootComponent = getRootComponent();
@@ -123,7 +104,7 @@ const onClose = () => {
   mediator.channel.broadcast(`${embed.instance.getRootComponent().getActiveEmbed()}.onClose`);
 };
 
-function create(name, config) {
+function create(name, config, reduxStore) {
   let containerStyle;
   let frameStyle = {};
 
@@ -202,7 +183,8 @@ function create(name, config) {
           updateFrameSize={params.updateFrameSize} />
       );
     },
-    frameParams
+    frameParams,
+    reduxStore
   );
 
   embed = {

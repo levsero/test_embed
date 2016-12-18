@@ -65,6 +65,10 @@ export class HelpCenter extends Component {
     this.setState({ expanded });
   }
 
+  setArticleView(articleViewActive) {
+    this.setState({ articleViewActive });
+  }
+
   setChatOnline(state) {
     this.setState({ chatOnline: state });
   }

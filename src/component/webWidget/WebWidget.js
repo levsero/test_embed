@@ -44,16 +44,33 @@ export class WebWidget extends Component {
       //track chat started
     } else {
       this.setState({ activeComponent: submitTicket });
-      //Set Back Button
+      this.props.showBackButton(true);
     }
   }
 
   onCancelClick() {
     if (this.state.helpCenterAvaliable) {
       this.setState({ activeComponent: helpCenter });
-    }
-    else {
+      this.props.showBackButton(false);
+    } else {
       this.props.onCancel();
+    }
+  }
+
+  onBackClick() {
+    const rootComponent = this.refs.rootComponent;
+
+    if (this.state.activeComponent === helpCenter) {
+      rootComponent.setArticleView(false);
+      this.props.showBackButton(false);
+    } else {
+      if (rootComponent.state.selectedTicketForm) {
+        showBackButton(this.state.helpCenterAvaliable);
+        rootComponent.clearForm();
+      } else {
+        this.setState({ activeComponent: helpCenter });
+        this.props.showBackButton(rootComponent.state.articleViewActive);
+      }
     }
   }
 
