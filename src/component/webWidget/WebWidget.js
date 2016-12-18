@@ -51,7 +51,7 @@ export class WebWidget extends Component {
   onCancelClick() {
     if (this.state.helpCenterAvaliable) {
       this.setState({ activeComponent: helpCenter });
-      this.props.showBackButton(false);
+      this.props.showBackButton(this.refs.rootComponent.state.articleViewActive);
     } else {
       this.props.onCancel();
     }

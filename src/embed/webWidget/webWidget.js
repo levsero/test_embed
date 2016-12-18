@@ -86,7 +86,7 @@ const onHide = () => {
   }
 };
 const onBack = () => {
-  embed.instance.getRootComponent().onBackClick();
+  getWebWidgetComponent().onBackClick();
 };
 const afterShowAnimate = () => {
   const rootComponent = getRootComponent();
@@ -101,7 +101,7 @@ const afterShowAnimate = () => {
   }
 };
 const onClose = () => {
-  mediator.channel.broadcast(`${embed.instance.getRootComponent().getActiveEmbed()}.onClose`);
+  mediator.channel.broadcast(`${getWebWidgetComponent().getActiveEmbed()}.onClose`);
 };
 
 function create(name, config, reduxStore) {
@@ -210,7 +210,7 @@ function render() {
 function setUpMediator() {
   mediator.channel.subscribe('ticketSubmissionForm.show', (options = {}) => {
     waitForRootComponent(() => {
-      embed.instance.getRootComponent().setEmbed('ticketSubmissionForm');
+      getWebWidgetComponent().setEmbed('ticketSubmissionForm');
 
       setTimeout(() => {
         embed.instance.show(options);
@@ -310,7 +310,11 @@ function get() {
 }
 
 function getRootComponent() {
-  return embed.instance.getRootComponent().refs.rootComponent;
+  return getWebWidgetComponent().refs.rootComponent;
+}
+
+function getWebWidgetComponent() {
+  return embed.instance.getRootComponent();
 }
 
 function waitForRootComponent(callback) {
