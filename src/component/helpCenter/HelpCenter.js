@@ -21,7 +21,7 @@ export class HelpCenter extends Component {
       articles: [],
       resultsCount: 0,
       searchTerm: '',
-      showNextButton: true,
+      showNextButton: this.props.showNextButton,
       previousSearchTerm: '',
       hasSearched: false,
       hasContextualSearched: false,
@@ -516,7 +516,8 @@ HelpCenter.propTypes = {
   localeFallbacks: PropTypes.arr,
   disableAutoSearch: PropTypes.bool,
   viewMoreEnabled: PropTypes.bool,
-  expanded: PropTypes.bool
+  expanded: PropTypes.bool,
+  showNextButton: PropTypes.bool
 };
 
 HelpCenter.defaultProps = {
@@ -534,5 +535,6 @@ HelpCenter.defaultProps = {
   channelChoice: false,
   disableAutoSearch: false,
   viewMoreEnabled: false,
-  expanded: false
+  expanded: false,
+  showNextButton: false
 };

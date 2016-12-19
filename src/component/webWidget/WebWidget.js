@@ -17,8 +17,7 @@ export class WebWidget extends Component {
 
     this.state = {
       activeComponent: helpCenter,
-      chatOnline: false,
-      helpCenterAvaliable: true
+      chatOnline: false
     };
   }
 
@@ -47,7 +46,7 @@ export class WebWidget extends Component {
   }
 
   onCancelClick() {
-    if (this.state.helpCenterAvaliable) {
+    if (this.props.helpCenterAvaliable) {
       this.setState({ activeComponent: helpCenter });
       this.props.showBackButton(this.refs.rootComponent.state.articleViewActive);
     } else {
@@ -105,6 +104,7 @@ export class WebWidget extends Component {
           buttonLabelKey={this.props.buttonLabelKey}
           formTitleKey={this.props.formTitleKey}
           showBackButton={this.props.showBackButton}
+          showNextButton={this.props.submitTicketAvaliable}
           searchSender={this.props.searchSender}
           contextualSearchSender={this.props.searchSender}
           imagesSender={this.props.imagesSender}
@@ -188,7 +188,9 @@ WebWidget.propTypes = {
   fullscreen: PropTypes.bool,
   originalArticleButton: PropTypes.bool,
   localeFallbacks: PropTypes.arr,
-  channelChoice: PropTypes.bool
+  channelChoice: PropTypes.bool,
+  helpCenterAvaliable: PropTypes.bool,
+  submitTicketAvaliable: PropTypes.bool
 };
 
 WebWidget.defaultProps = {
@@ -210,5 +212,7 @@ WebWidget.defaultProps = {
   fullscreen: true,
   originalArticleButton: true,
   localeFallbacks: [],
-  channelChoice: true
+  channelChoice: true,
+  helpCenterAvaliable: false,
+  submitTicketAvaliable: true
 };

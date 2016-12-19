@@ -28,7 +28,7 @@ import LoadingSpinnerStyles from 'component/loading/LoadingSpinner.sass';
 import SubmitTicketStyles from 'component/submitTicket/SubmitTicket.sass';
 import SubmitTicketFormStyles from 'component/submitTicket/SubmitTicketForm.sass';
 
-const submitTicketCSS = `
+const webWidgetCSS = `
   ${require('./webWidget.scss')}
   ${LoadingSpinnerStyles}
   ${SubmitTicketStyles}
@@ -113,6 +113,8 @@ function create(name, config, reduxStore) {
     expandable: false,
     color: '#659700'
   };
+  const helpCenterAvaliable = config.helpCenterForm;
+  const submitTicketAvaliable = config.ticketSubmissionForm;
   const submitTicketSettings = setUpSubmitTicket(config.ticketSubmissionForm);
   const helpCenterSettings = setUpHelpCenter(config.helpCenterForm);
   const globalConfig = _.extend(configDefaults, config.ticketSubmissionForm, config.helpCenterForm);
@@ -132,7 +134,7 @@ function create(name, config, reduxStore) {
 
   const frameParams = {
     frameStyle: frameStyle,
-    css: submitTicketCSS + generateUserCSS(globalConfig.color),
+    css: webWidgetCSS + generateUserCSS(globalConfig.color),
     position: globalConfig.position,
     fullscreenable: true,
     expandable: true,
@@ -164,11 +166,14 @@ function create(name, config, reduxStore) {
           onSubmitted={submitTicketSettings.onSubmitted}
           position={globalConfig.position}
           style={containerStyle}
+          helpCenterAvaliable={helpCenterAvaliable}
+          submitTicketAvaliable={submitTicketAvaliable}
           showBackButton={showBackButton}
           subjectEnabled={settings.get('contactForm.subject')}
           hideZendeskLogo={globalConfig.hideZendeskLogo}
           onArticleClick={helpCenterSettings.onArticleClick}
           onSearch={helpCenterSettings.onSearch}
+          onCancel={submitTicketSettings.onCancel}
           helpCenterConfig={helpCenterSettings.config}
           searchSender={helpCenterSettings.searchSenderFn('/api/v2/help_center/search.json')}
           contextualSearchSender={helpCenterSettings.searchSenderFn('/api/v2/help_center/articles/embeddable_search.json')} // eslint-disable-line
@@ -187,7 +192,7 @@ function create(name, config, reduxStore) {
 
   embed = {
     component: <Embed visible={false} />,
-    config: helpCenterSettings.config
+    config: globalConfig
   };
 
   return this;
@@ -381,7 +386,7 @@ function setUpSubmitTicket(config) {
   };
   const attachmentsSetting = settings.get('contactForm.attachments');
 
-  config = _.extend(submitTicketConfigDefaults, config);
+  config = _.extend({}, submitTicketConfigDefaults, config);
 
   if (attachmentsSetting === false) {
     config.attachmentsEnabled = false;
@@ -436,6 +441,9 @@ function setUpSubmitTicket(config) {
     beacon.trackUserAction('submitTicket', 'send', 'ticketSubmissionForm', userActionPayload);
     mediator.channel.broadcast('ticketSubmissionForm.onFormSubmitted');
   };
+  const onCancel = () => {
+    mediator.channel.broadcast('ticketSubmissionForm.onCancelClick');
+  };
   const settingTicketForms = settings.get('contactForm.ticketForms');
   const ticketForms = _.isEmpty(settingTicketForms)
                     ? config.ticketForms
@@ -479,7 +487,8 @@ function setUpSubmitTicket(config) {
     config,
     submitTicketSender,
     attachmentSender,
-    onSubmitted
+    onSubmitted,
+    onCancel
   };
 }
 
@@ -537,7 +546,7 @@ function setUpHelpCenter(config) {
     transport.getImage(payload);
   };
 
-  config = _.extend(helpCenterConfigDefaults, config);
+  config = _.extend({}, helpCenterConfigDefaults, config);
 
   const viewMoreSetting = settings.get('helpCenter.viewMore');
 
