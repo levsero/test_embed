@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
-import { Container } from 'component/Container';
 import { Chat } from 'component/chat/Chat';
 import { HelpCenter } from 'component/helpCenter/HelpCenter';
 import { SubmitTicket } from 'component/submitTicket/SubmitTicket';
@@ -10,7 +9,6 @@ import { bindMethods } from 'utility/utils';
 const submitTicket = 'ticketSubmissionForm';
 const helpCenter = 'helpCenterForm';
 const chat = 'chat';
-const launcher = 'launcher';
 
 export class WebWidget extends Component {
   constructor(props, context) {
@@ -41,7 +39,7 @@ export class WebWidget extends Component {
   onNextClick() {
     if (this.state.chatOnline) {
       this.setState({ activeComponent: chat });
-      //track chat started
+      // track chat started
     } else {
       this.setState({ activeComponent: submitTicket });
       this.props.showBackButton(true);
@@ -65,7 +63,7 @@ export class WebWidget extends Component {
       this.props.showBackButton(false);
     } else {
       if (rootComponent.state.selectedTicketForm) {
-        showBackButton(this.state.helpCenterAvaliable);
+        this.props.showBackButton(this.state.helpCenterAvaliable);
         rootComponent.clearForm();
       } else {
         this.setState({ activeComponent: helpCenter });
@@ -115,7 +113,7 @@ export class WebWidget extends Component {
           updateFrameSize={this.props.updateFrameSize}
           disableAutoSearch={helpCenterConfig.disableAutoSearch}
           originalArticleButton={this.props.originalArticleButton}
-          localeFallbacks={this.props.localFallbacks}
+          localeFallbacks={this.props.localeFallbacks}
           channelChoice={this.props.channelChoice}
           viewMoreEnabled={helpCenterConfig.viewMoreEnabled}
           expanded={true}
@@ -171,13 +169,26 @@ WebWidget.propTypes = {
   submitTicketConfig: PropTypes.object,
   submitTicketSender: PropTypes.func.isRequired,
   attachmentSender: PropTypes.func.isRequired,
+  zendeskHost: PropTypes.string.isRequired,
   updateFrameSize: PropTypes.func,
   style: PropTypes.object,
   position: PropTypes.string,
   onSubmitted: PropTypes.func,
   onCancel: PropTypes.func,
   subjectEnabled: PropTypes.bool,
-  showBackButton: PropTypes.func
+  showBackButton: PropTypes.func,
+  helpCenterConfig: PropTypes.object,
+  hideZendeskLogo: PropTypes.bool,
+  onArticleClick: PropTypes.func,
+  onSearch: PropTypes.func,
+  buttonLabelKey: PropTypes.string,
+  formTitleKey: PropTypes.string,
+  searchSender: PropTypes.func,
+  imagesSender: PropTypes.func,
+  fullscreen: PropTypes.bool,
+  originalArticleButton: PropTypes.bool,
+  localeFallbacks: PropTypes.arr,
+  channelChoice: PropTypes.bool
 };
 
 WebWidget.defaultProps = {
@@ -187,5 +198,17 @@ WebWidget.defaultProps = {
   position: 'right',
   onSubmitted: () => {},
   onCancel: () => {},
-  showBackButton: () => {}
+  showBackButton: () => {},
+  helpCenterConfig: {},
+  hideZendeskLogo: false,
+  onArticleClick: () => {},
+  onSearch: () => {},
+  buttonLabelKey: '',
+  formTitleKey: '',
+  searchSender: () => {},
+  imagesSender: () => {},
+  fullscreen: true,
+  originalArticleButton: true,
+  localeFallbacks: [],
+  channelChoice: true
 };

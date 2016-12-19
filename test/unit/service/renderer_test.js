@@ -9,7 +9,8 @@ describe('renderer', () => {
     mockNps,
     mockIpm,
     mockAutomaticAnswers,
-    mockChannelChoiceValue;
+    mockChannelChoiceValue,
+    mockWebWidget;
   const updateBaseFontSize = jasmine.createSpy();
   const updateFrameSize = jasmine.createSpy();
   const rendererPath = buildSrcPath('service/renderer');
@@ -46,6 +47,7 @@ describe('renderer', () => {
     mockNps = embedMocker('mockNps');
     mockIpm = embedMocker('mockIpm');
     mockAutomaticAnswers = embedMocker('mockAutomaticAnswers');
+    mockWebWidget = embedMocker('mockWebWidget');
 
     mockRegistry = initMockRegistry({
       'embed/submitTicket/submitTicket': {
@@ -71,6 +73,9 @@ describe('renderer', () => {
       },
       'embed/automaticAnswers/automaticAnswers': {
         automaticAnswers: mockAutomaticAnswers
+      },
+      'embed/webWidget/webWidget': {
+        webWidget: mockWebWidget
       },
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', ['setCustomTranslations', 'setLocale', 't'])
@@ -369,14 +374,15 @@ describe('renderer', () => {
       expect(updateBaseFontSize)
         .toHaveBeenCalledWith('24px');
 
+      // The two embeds above and IPM and NPS
       expect(updateBaseFontSize.calls.count())
-        .toEqual(2);
+        .toEqual(4);
 
       expect(updateFrameSize)
         .toHaveBeenCalled();
 
       expect(updateFrameSize.calls.count())
-        .toEqual(2);
+        .toEqual(4);
     });
 
     it('should trigger propagateFontRatio call on orientationchange', () => {
