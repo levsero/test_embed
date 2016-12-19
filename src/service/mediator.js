@@ -94,6 +94,28 @@ const trackChatStarted = () => {
   c.broadcast('beacon.trackUserAction', 'chat', 'opened', chat);
 };
 
+const showEmbed = (options = {}) => {
+  if (options.activeEmbed === chat) {
+    trackChatStarted();
+  }
+
+  c.broadcast(`${launcher}.hide`, isMobileBrowser() ? {} : options.hide);
+  state[`${options.activeEmbed}.isVisible`] = true;
+  c.broadcast(`${options.activeEmbed}.show`, options.show);
+
+  if (isMobileBrowser()) {
+    /**
+     * This timeout ensures the embed is displayed
+     * before the scrolling happens on the host page
+     * so that the user doesn't see the host page jump
+     */
+    setTimeout(() => {
+      setWindowScroll(0);
+      setScrollKiller(true);
+    }, 0);
+  }
+};
+
 function init(embedsAccessible, params = {}) {
   const updateLauncherLabel = () => {
     if (chatAvailable()) {
@@ -166,29 +188,16 @@ function init(embedsAccessible, params = {}) {
         !state[`${helpCenter}.isVisible`]) {
       resetActiveEmbed();
 
-      c.broadcast(`${launcher}.hide`);
-
       state['.hideOnClose'] = !!options.hideOnClose;
 
       if (embedAvailable()) {
-        c.broadcast(`${state.activeEmbed}.show`, {
-          transition: getShowAnimation(),
-          viaApi: true
-        });
-        state[`${state.activeEmbed}.isVisible`] = true;
+        const showOptions = {
+          activeEmbed: state.activeEmbed,
+          show: { transition: getShowAnimation(), viaApi: true },
+          hide: { transition: getHideAnimation() }
+        };
 
-        if (isMobileBrowser()) {
-          /**
-           * This timeout ensures the embed is displayed
-           * before the scrolling happens on the host page
-           * so that the user doesn't see the host page jump
-           */
-          setTimeout(() => {
-            setWindowScroll(0);
-            setScrollKiller(true);
-          }, 0);
-        }
-
+        showEmbed(showOptions);
         c.broadcast('beacon.trackUserAction', 'api', 'activate');
       }
     }
@@ -373,28 +382,6 @@ function init(embedsAccessible, params = {}) {
     c.broadcast(`${submitTicket}.setLastSearch`, params);
   });
 
-  const showEmbed = (activeEmbed) => {
-    if (activeEmbed === chat) {
-      trackChatStarted();
-    }
-
-    c.broadcast(`${launcher}.hide`, isMobileBrowser() ? {} : { transition: getHideAnimation() } );
-    state[`${activeEmbed}.isVisible`] = true;
-    c.broadcast(`${activeEmbed}.show`, { transition: getShowAnimation() });
-
-    if (isMobileBrowser()) {
-      /**
-       * This timeout ensures the embed is displayed
-       * before the scrolling happens on the host page
-       * so that the user doesn't see the host page jump
-       */
-      setTimeout(() => {
-        setWindowScroll(0);
-        setScrollKiller(true);
-      }, 0);
-    }
-  };
-
   c.intercept(`${launcher}.onClick`, () => {
     if (state[`${launcher}.clickActive`] === true) return;
 
@@ -410,12 +397,18 @@ function init(embedsAccessible, params = {}) {
       state.activeEmbed = chat;
     }
 
+    const options = {
+      activeEmbed: state.activeEmbed,
+      show: { transition: getShowAnimation() },
+      hide: { transition: getHideAnimation() }
+    };
+
     /**
      * This timeout mitigates the Ghost Click produced when the launcher
      * button is on the left, using a mobile device with small screen
      * e.g. iPhone4. It's not a bulletproof solution, but it helps
      */
-    setTimeout(() => showEmbed(state.activeEmbed), 0);
+    setTimeout(() => showEmbed(options), 0);
   });
 
   c.intercept(`${helpCenter}.onClose`, (_broadcast) => {
