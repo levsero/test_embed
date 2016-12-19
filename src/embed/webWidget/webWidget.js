@@ -35,7 +35,6 @@ const submitTicketCSS = `
   ${SubmitTicketFormStyles}
 `;
 let embed = null;
-let backButtonSetByHelpCenter = false;
 let hasManuallySetContextualSuggestions = false;
 let hasAuthenticatedSuccessfully = false;
 let useMouseDistanceContexualSearch = false;
@@ -160,7 +159,6 @@ function create(name, config, reduxStore) {
         <WebWidget
           ref='rootComponent'
           submitTicketConfig={submitTicketSettings.config}
-          onCancel={submitTicketSettings.onCancel}
           submitTicketSender={submitTicketSettings.submitTicketSender}
           attachmentSender={submitTicketSettings.attachmentSender}
           onSubmitted={submitTicketSettings.onSubmitted}
@@ -230,24 +228,19 @@ function setUpMediator() {
     });
   });
 
-  mediator.channel.subscribe('ticketSubmissionForm.showBackButton', () => {
-    waitForRootComponent(() => {
-      if (isMobileBrowser() || !_.isEmpty(getRootComponent().state.ticketForms)) {
-        showBackButton();
-        backButtonSetByHelpCenter = true;
-      }
-    });
-  });
-
   mediator.channel.subscribe('ticketSubmissionForm.setLastSearch', (params) => {
     waitForRootComponent(() => {
       getRootComponent().setState(_.pick(params, ['searchTerm', 'searchLocale']));
     });
   });
 
-  mediator.channel.subscribe('ticketSubmissionForm.refreshLocale', () => {
+  mediator.channel.subscribe([
+    'ticketSubmissionForm.refreshLocale',
+    'ticketSubmissionForm.update',
+    'helpCenterForm.refreshLocale'
+  ], () => {
     waitForRootComponent(() => {
-      getRootComponent().forceUpdate();
+      embed.instance.getChild().forceUpdate();
     });
   });
 
@@ -259,10 +252,6 @@ function setUpMediator() {
         formState: _.pick(user, ['name', 'email'])
       });
     });
-  });
-
-  mediator.channel.subscribe('ticketSubmissionForm.update', () => {
-    embed.instance.getChild().forceUpdate();
   });
 
   mediator.channel.subscribe('helpCenterForm.show', (options = {}) => {
@@ -292,12 +281,6 @@ function setUpMediator() {
   mediator.channel.subscribe('helpCenterForm.setHelpCenterSuggestions', (options) => {
     hasManuallySetContextualSuggestions = true;
     performContextualHelp(options);
-  });
-
-  mediator.channel.subscribe('helpCenterForm.refreshLocale', () => {
-    waitForRootComponent(() => {
-      getRootComponent().forceUpdate();
-    });
   });
 
   mediator.channel.subscribe('helpCenterForm.isAuthenticated', () => {
@@ -404,12 +387,10 @@ function setUpSubmitTicket(config) {
     config.attachmentsEnabled = false;
   }
 
-  const ticketEndpointPath = '/api/v2/requests';
-  const ticketAttachmentsEndpoint = '/api/v2/uploads';
   const submitTicketSender = (params, doneFn, failFn) => {
     const payload = {
       method: 'post',
-      path: ticketEndpointPath,
+      path: '/api/v2/requests',
       params: params,
       callbacks: {
         done: doneFn,
@@ -422,7 +403,7 @@ function setUpSubmitTicket(config) {
   const attachmentSender = (file, doneFn, failFn, progressFn) => {
     const payload = {
       method: 'post',
-      path: ticketAttachmentsEndpoint,
+      path: '/api/v2/uploads',
       file: file,
       callbacks: {
         done: doneFn,
@@ -454,9 +435,6 @@ function setUpSubmitTicket(config) {
 
     beacon.trackUserAction('submitTicket', 'send', 'ticketSubmissionForm', userActionPayload);
     mediator.channel.broadcast('ticketSubmissionForm.onFormSubmitted');
-  };
-  const onCancel = () => {
-    mediator.channel.broadcast('ticketSubmissionForm.onCancelClick');
   };
   const settingTicketForms = settings.get('contactForm.ticketForms');
   const ticketForms = _.isEmpty(settingTicketForms)
@@ -501,8 +479,7 @@ function setUpSubmitTicket(config) {
     config,
     submitTicketSender,
     attachmentSender,
-    onSubmitted,
-    onCancel
+    onSubmitted
   };
 }
 
