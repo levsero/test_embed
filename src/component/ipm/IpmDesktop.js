@@ -61,7 +61,7 @@ export class IpmDesktop extends Component {
             {this.props.ipm.message.secondaryText}
           </p>
           <p className='IpmDesktop-message u-paddingBL'>{this.props.ipm.message.body}</p>
-          <div className='IpmDesktop-footer u-posRelative'>
+          <div className='IpmDesktop-footer u-paddingTM u-posRelative'>
             {!this.props.ipm.message.hideLogo && <ZendeskLogo
               className='IpmDesktop-footer--logo u-posStart--flush'
               logoLink='connect'
