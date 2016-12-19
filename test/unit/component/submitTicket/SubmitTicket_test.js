@@ -331,6 +331,7 @@ describe('Submit ticket component', () => {
           const mockTicketFormParams = {
             ticket_forms: [
               {
+                id: 50,
                 ticket_field_ids: [ 1, 2, 4 ]
               }
             ],
@@ -390,6 +391,11 @@ describe('Submit ticket component', () => {
 
           expect(params.request.comment.body)
             .toContain('Just saying Hi');
+        });
+
+        it('should send through the ticket_form_id', () => {
+          expect(params.request.ticket_form_id)
+            .toBe(50);
         });
       });
 

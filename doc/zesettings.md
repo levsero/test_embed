@@ -37,6 +37,7 @@ The widget's `helpCenter` object, which represents the Help Center element, has 
 * [originalArticleButton](#originalArticleButton)
 * [suppress](#suppress)
 * [title](#title)
+* [viewMore](#viewMore)
 
 The widget's `chat` object, which represents the Chat element, has the following setting:
 
@@ -46,7 +47,6 @@ The widget's `launcher` object, which represents the launcher button, has the fo
 
 * [chatLabel](#chatLabel)
 * [label](#label)
-
 
 ### attachments
 
@@ -389,6 +389,29 @@ window.zESettings = {
       title: {
         '*': 'Feedback'
       }
+    }
+  }
+};
+</script>
+```
+
+
+### viewMore
+
+Hides the View More button that may appear after a Help Center search. The button appears when the search returns more than 3 articles.
+
+#### Availability
+
+* helpCenter
+
+#### Example
+
+```html
+<script type="text/javascript">
+window.zESettings = {
+  webWidget: {
+    helpCenter: {
+      viewMore: false
     }
   }
 };

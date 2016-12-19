@@ -21,7 +21,9 @@ describe('utils', () => {
   beforeEach(() => {
     resetDOM();
 
-    mockery.enable();
+    mockery.enable({
+      useCleanCache: true
+    });
 
     mockGlobals.document = document;
     mockGlobals.document.title = 'Utils tests';
@@ -146,9 +148,6 @@ describe('utils', () => {
 
   describe('patchReactIdAttribute()', () => {
     it('updates react data attribute to data-ze-reactid instead of data-reactid', () => {
-      mockery.disable();
-      // WARNING: Usage of `useCleanCache` can drastically slow down tests
-      mockery.enable({ useCleanCache: true });
       require(utilPath).patchReactIdAttribute();
 
       // we have to require react again after the ID_ATTRIBUTE is updated for change to take effect

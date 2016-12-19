@@ -196,6 +196,9 @@ function boot() {
         }
 
         beacon.sendPageView();
+        if (win.zESettings) {
+          beacon.trackSettings(settings.getTrackSettings());
+        }
 
         renderer.init(config);
         handlePostRenderQueue(postRenderQueue);

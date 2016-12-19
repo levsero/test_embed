@@ -33,10 +33,14 @@ describe('embed.submitTicket', () => {
           channel: jasmine.createSpyObj('channel', ['broadcast', 'subscribe'])
         }
       },
+      'service/i18n': {
+        i18n: {
+          getLocale: noop
+        }
+      },
       'component/submitTicket/SubmitTicketForm': {
         SubmitTicketForm: class extends Component {
           constructor() {
-            super();
             this.resetTicketFormVisibility = resetTicketFormVisibility;
             this.hideVirtualKeyboard = hideVirtualKeyboard;
             this.focusField = focusField;
@@ -51,7 +55,6 @@ describe('embed.submitTicket', () => {
       'component/submitTicket/SubmitTicket': {
         SubmitTicket: class extends Component {
           constructor() {
-            super();
             this.show = jasmine.createSpy('show');
             this.hide = jasmine.createSpy('hide');
             this.clearNotification = jasmine.createSpy('clearNotification');
@@ -578,8 +581,7 @@ describe('embed.submitTicket', () => {
       let mockMediator,
         bob,
         bobFrame,
-        bobSubmitTicket,
-        bobSubmitTicketForm;
+        bobSubmitTicket;
 
       beforeEach(() => {
         mockMediator = mockRegistry['service/mediator'].mediator;
@@ -588,7 +590,6 @@ describe('embed.submitTicket', () => {
         bob = submitTicket.get('bob');
         bobFrame = bob.instance.getChild();
         bobSubmitTicket = bobFrame.refs.rootComponent;
-        bobSubmitTicketForm = bobSubmitTicket.refs.submitTicketForm;
       });
 
       it('should subscribe to <name>.show', () => {
@@ -711,10 +712,10 @@ describe('embed.submitTicket', () => {
 
         pluckSubscribeCall(mockMediator, 'bob.prefill')(params);
 
-        expect(bobSubmitTicketForm.state.formState.name)
+        expect(bobSubmitTicket.state.formState.name)
           .toEqual(params.name);
 
-        expect(bobSubmitTicketForm.state.formState.email)
+        expect(bobSubmitTicket.state.formState.email)
           .toEqual(params.email);
       });
     });

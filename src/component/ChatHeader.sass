@@ -1,0 +1,21 @@
+@import '../styles/_vars.scss';
+
+.container {
+  composes: u-flex u-flexAlignItemsCenter u-posStart--flush u-posAbsolute u-sizeFull from '../styles/utils.scss';
+  background-color: $base-color;
+  border-bottom: #{1/$font-size}rem solid $zendesk-color--gainsboro;
+  box-sizing: border-box;
+  height: #{58/$font-size}rem;
+  opacity: 0.8;
+  padding: 0 #{17/$font-size}rem;
+  top: #{43/$font-size}rem;
+}
+
+.textContainer {
+  padding-left: #{8/$font-size}rem;
+}
+
+.title {
+  composes: u-textBold from '../styles/utils.scss';
+  color: $zendesk-color--pelorous;
+}

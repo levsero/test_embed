@@ -541,21 +541,28 @@ describe('HelpCenterArticle component', () => {
 
   describe('handleClick', () => {
     describe('when article contains <a> with nested children', () => {
+      let helpCenterArticle;
       let mockClosest;
       let mockGetAttribute;
+      let mockSetAttribute;
+      let mockEvent;
 
       beforeEach(() => {
-        mockClosest = jasmine.createSpy();
         mockGetAttribute = jasmine.createSpy();
-        const mockArticle = '<a href="foo"><span>bar</span></a>';
-        const mockEvent = {
+        mockSetAttribute = jasmine.createSpy();
+        mockClosest = jasmine.createSpy().and.returnValue({
+          getAttribute: mockGetAttribute,
+          setAttribute: mockSetAttribute
+        });
+        mockArticle.body = '<a href="foo"><span>bar</span></a>';
+        mockEvent = {
           target: {
             nodeName: 'span',
             closest: mockClosest,
             getAttribute: mockGetAttribute
           }
         };
-        const helpCenterArticle = domRender(<HelpCenterArticle activeArticle={mockArticle}/>);
+        helpCenterArticle = domRender(<HelpCenterArticle activeArticle={mockArticle}/>);
 
         helpCenterArticle.handleClick(mockEvent);
       });
@@ -568,6 +575,18 @@ describe('HelpCenterArticle component', () => {
       it('calls the getAttribute with `href` element', () => {
         expect(mockGetAttribute)
           .toHaveBeenCalledWith('href');
+      });
+
+      describe('when the nested children are img tags', () => {
+        beforeEach(() => {
+          mockEvent.target.nodeName = 'IMG';
+          helpCenterArticle.handleClick(mockEvent);
+        });
+
+        it('adds target="_blank" to the closest `a` element', () => {
+          expect(mockSetAttribute)
+            .toHaveBeenCalledWith('target', '_blank');
+        });
       });
     });
   });

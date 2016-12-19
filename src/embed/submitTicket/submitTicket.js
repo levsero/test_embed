@@ -1,5 +1,5 @@
-import React from 'react';
 import ReactDOM from 'react-dom';
+import React from 'react';
 import _ from 'lodash';
 
 import { document,
@@ -11,6 +11,7 @@ import { getZoomSizingRatio,
          isMobileBrowser,
          setScaleLock } from 'utility/devices';
 import { beacon } from 'service/beacon';
+import { i18n } from 'service/i18n';
 import { transitionFactory } from 'service/transitionFactory';
 import { mediator } from 'service/mediator';
 import { settings } from 'service/settings';
@@ -162,6 +163,7 @@ function create(name, config, reduxStore) {
       method: 'get',
       path: `/api/v2/ticket_forms/show_many.json?ids=${ticketFormIds}&include=ticket_fields`,
       timeout: 20000,
+      locale: i18n.getLocale(),
       callbacks: {
         done(res) {
           // do this on next tick so that it never happens before
@@ -326,9 +328,9 @@ function render(name) {
 
 function prefillForm(name, user) {
   waitForRootComponent(name, function() {
-    const submitTicketForm = getRootComponent(name).refs.submitTicketForm;
+    const submitTicket = getRootComponent(name);
 
-    submitTicketForm.setState({
+    submitTicket.setState({
       formState: _.pick(user, ['name', 'email'])
     });
   });

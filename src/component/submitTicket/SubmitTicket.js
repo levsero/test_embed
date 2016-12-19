@@ -40,6 +40,7 @@ export class SubmitTicket extends Component {
       isDragActive: false,
       loading: false,
       ticketForms: {},
+      formState: {},
       selectedTicketForm: null
     };
   }
@@ -64,6 +65,10 @@ export class SubmitTicket extends Component {
 
   expand(expanded) {
     this.setState({ expanded });
+  }
+
+  setFormState(formState) {
+    this.setState({ formState });
   }
 
   handleSubmit(e, data) {
@@ -168,7 +173,8 @@ export class SubmitTicket extends Component {
         'name': data.value.name,
         'email': data.value.email,
         'locale_id': i18n.getLocaleId()
-      }
+      },
+      'ticket_form_id': ticketFormsAvailable ? this.state.selectedTicketForm.id : null
     };
 
     return this.props.customFields.length > 0 || ticketFormsAvailable
@@ -204,7 +210,7 @@ export class SubmitTicket extends Component {
     });
 
     if (forms.ticket_forms.length === 1) {
-      this.setState({ selectedTicketForm: forms.ticket_forms[0].id });
+      this.setState({ selectedTicketForm: forms.ticket_forms[0] });
 
       setTimeout(() => {
         this.refs.submitTicketForm.updateTicketForm(
@@ -251,6 +257,7 @@ export class SubmitTicket extends Component {
 
     setTimeout(() => {
       this.refs.submitTicketForm.updateTicketForm(selectedTicketForm, ticketForms.ticket_fields);
+      this.refs.submitTicketForm.updateForm();
     }, 0);
   }
 
@@ -295,6 +302,8 @@ export class SubmitTicket extends Component {
         subjectEnabled={this.props.subjectEnabled}
         maxFileCount={this.props.maxFileCount}
         maxFileSize={this.props.maxFileSize}
+        formState={this.state.formState}
+        setFormState={this.setFormState}
         submit={this.handleSubmit}
         ticketForms={this.state.ticketForms}
         previewEnabled={this.props.previewEnabled}>

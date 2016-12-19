@@ -30,7 +30,9 @@ describe('devices', function() {
   beforeEach(function() {
     resetDOM();
 
-    mockery.enable();
+    mockery.enable({
+      useCleanCache: true
+    });
 
     mockGlobals.document = document;
     mockGlobals.document.title = 'Utils tests';
