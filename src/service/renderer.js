@@ -8,11 +8,7 @@ import { ipm } from 'embed/ipm/ipm';
 import { launcher } from 'embed/launcher/launcher';
 import { nps } from 'embed/nps/nps';
 import { submitTicket } from 'embed/submitTicket/submitTicket';
-<<<<<<< f1ab694e2f78acfbdbb81e1c7b50d158efe8a2f2
-=======
 import { webWidget } from 'embed/webWidget/webWidget';
-import { beacon } from 'service/beacon';
->>>>>>> Make single iframe only appear if expanded is true. Otherwise it works as default
 import { i18n } from 'service/i18n';
 import { mediator } from 'service/mediator';
 import { logging } from 'service/logging';
@@ -112,12 +108,7 @@ function init(config) {
         configItem.props.brand = config.brand;
         embedsMap[configItem.embed].create(embedName, configItem.props, reduxStore);
         embedsMap[configItem.embed].render(embedName);
-        if (configItem.embed !== 'helpCenterForm') {
-          embedsMap[configItem.embed].create(embedName, configItem.props);
-          embedsMap[configItem.embed].render(embedName);
-        }
-      :x
-
+      } catch (err) {
         logging.error({
           error: err,
           context: {
