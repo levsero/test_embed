@@ -129,8 +129,12 @@ class HelpCenterArticle extends Component {
       const targetParent = target.closest('a');
 
       if (targetParent) {
-        nodeName = targetParent.nodeName;
-        href = targetParent.getAttribute('href');
+        if (nodeName === 'IMG') {
+          targetParent.setAttribute('target', '_blank');
+        } else {
+          nodeName = targetParent.nodeName;
+          href = targetParent.getAttribute('href');
+        }
       }
     }
 
