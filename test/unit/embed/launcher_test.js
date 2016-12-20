@@ -22,6 +22,7 @@ describe('embed.launcher', function() {
       'component/Launcher': {
         Launcher: class extends Component {
           constructor() {
+            super();
             this.changeIcon = jasmine.createSpy('changeIcon');
             this.setActive = jasmine.createSpy('setActive');
             this.setIcon = jasmine.createSpy('setIcon');
