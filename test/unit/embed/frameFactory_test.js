@@ -105,12 +105,12 @@ describe('frameFactory', function() {
 
     mockRegistry = initMockRegistry(mockRegistryMocks);
 
-    class MockChildComponent extends React.Component {
+    class MockChildComponent extends Component {
       constructor() {
         super();
         this.expand = expandSpy;
       }
-
+      componentWillUnmount() {}
       render() {
         return (
           <div className='mock-component' />
@@ -867,10 +867,24 @@ describe('frameFactory', function() {
     it('injects params.extend functions into the child component', function() {
       const mockClickHandler = jasmine.createSpy('mockClickHandler');
       const mockSubmitHandler = jasmine.createSpy('mockSubmitHandler');
+
+      class MockComponent extends Component {
+        constructor(props) {
+          super(props);
+          this.onClick = props.onClickHandler;
+          this.onSubmit = props.onSubmitHandler;
+        }
+        render() {
+          return (
+            <div className='mock-component' />
+          );
+        }
+      }
+
       const Embed = frameFactory(
         function(params) {
           return (
-            <mockComponent
+            <MockComponent
               ref='rootComponent'
               onClick={params.onClickHandler}
               onSubmit={params.onSubmitHandler} />
@@ -899,10 +913,23 @@ describe('frameFactory', function() {
 
     it('injects the internal updateFrameSize into the child component', function() {
       const mockUpdateFrameSize = jasmine.createSpy('mockUpdateFrameSize');
+
+      class MockComponent extends Component {
+        constructor(props) {
+          super(props);
+          this.updateFrameSize = props.updateFrameSize;
+        }
+        render() {
+          return (
+            <div className='mock-component' />
+          );
+        }
+      }
+
       const Embed = frameFactory(
         function(params) {
           return (
-            <mockComponent
+            <MockComponent
               ref='rootComponent'
               updateFrameSize={params.updateFrameSize} />
           );
@@ -938,10 +965,22 @@ describe('frameFactory', function() {
     });
 
     it('setOffsetHorizontal sets the widgets left and right margin', function() {
+      class MockComponent extends Component {
+        constructor(props) {
+          super(props);
+          this.setOffsetHorizontal = props.setOffsetHorizontal;
+        }
+        render() {
+          return (
+            <div className='mock-component' />
+          );
+        }
+      }
+
       const Embed = frameFactory(
         function(params) {
           return (
-            <mockComponent
+            <MockComponent
               ref='rootComponent'
               setOffsetHorizontal={params.setOffsetHorizontal} />
           );
