@@ -1,0 +1,35 @@
+.form {
+  composes: u-cf from '../../styles/utils.scss';
+  composes: Form from '../../styles/components/Form.scss';
+}
+
+.hidden {
+  composes: u-isHidden from '../../styles/utils.scss';
+}
+
+.buttonContainer {
+  composes: u-posRelative from '../../styles/utils.scss';
+}
+
+.logoHidden {
+  composes: u-marginVM from '../../styles/utils.scss';
+}
+
+.searchTitle {
+  composes: u-textSizeBaseMobile u-marginTM u-textCenter from '../../styles/utils.scss';
+  composes: Container--fullscreen-center-vert from '../../styles/components/Container.scss';
+}
+
+.link {
+  composes: u-block u-userTextColor u-textNoWrap from '../../styles/utils.scss';
+  margin: 0 auto;
+  @include text-limit(80%);
+}
+
+.linkContext {
+  composes: u-marginBN from '../../styles/utils.scss';
+}
+
+.linkContainer {
+  composes: u-textSizeBaseMobile u-textCenter u-marginTL from '../../styles/utils.scss';
+}

@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
+import { locals as styles } from './HelpCenterDesktop.sass';
+
 import { Button } from 'component/button/Button';
 import { ButtonGroup } from 'component/button/ButtonGroup';
 import { ChannelChoicePopup } from 'component/channelChoice/ChannelChoicePopup';
@@ -73,7 +75,7 @@ export class HelpCenterDesktop extends Component {
       <form
         ref='helpCenterForm'
         noValidate={true}
-        className='Form u-cf'
+        className={styles.form}
         onChange={this.handleChange}
         onSubmit={this.handleSubmit}>
 
@@ -107,30 +109,29 @@ export class HelpCenterDesktop extends Component {
          : null;
   }
 
-  renderFooterContent() {
-    if (!this.props.showNextButton) return null;
+  renderChannelChoice() {
+    return this.state.channelChoiceShown
+         ? ( <div className={channelChoiceClasses}>
+               <ChannelChoicePopup
+                 onNextClick={this.props.onNextClick} />
+             </div> )
+         : null;
+  }
 
-    const buttonContainerClasses = classNames({
-      'u-posRelative': true,
-      'u-marginVM': this.props.hideZendeskLogo,
-      'u-isHidden': !this.props.hasSearched
-    });
-    const channelChoiceClasses = classNames({
-      'u-isHidden': !this.state.channelChoiceShown
-    });
+  renderFooterContent() {
+    if (!this.props.showNextButton || !this.props.hasSearched) return null;
+
+    const logoClasses = this.props.hideZendeskLogo ? styles.logoHidden : '';
 
     return (
-      <div className={buttonContainerClasses}>
+      <div className={`${styles.buttonContainer} ${logoClasses}`}>
         <ButtonGroup rtl={i18n.isRTL()}>
           <Button
             fullscreen={false}
             label={this.props.buttonLabel}
             onClick={this.handleNextButtonClick} />
         </ButtonGroup>
-        <div className={channelChoiceClasses}>
-          <ChannelChoicePopup
-            onNextClick={this.props.onNextClick} />
-        </div>
+        {this.renderChannelChoice()}
       </div>
     );
   }
