@@ -194,17 +194,6 @@ describe('embed.helpCenter', () => {
         .toEqual('test_title');
     });
 
-    it('changes config.viewMoreEnabled if viewMore setting is available', () => {
-      mockSettingsValue = false;
-
-      helpCenter.create('carlos', { viewMoreEnabled: true });
-
-      const carlos = helpCenter.get('carlos');
-
-      expect(carlos.config.viewMoreEnabled)
-        .toEqual(false);
-    });
-
     it('does not change config.viewMoreEnabled if config.viewMoreEnabled is false', () => {
       mockSettingsValue = true;
 

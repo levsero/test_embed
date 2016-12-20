@@ -47,7 +47,6 @@ function create(name, config, reduxStore) {
     disableAutoSearch: false,
     expandable: false,
     enableMouseDrivenContextualHelp: false,
-    viewMoreEnabled: false,
     color: '#659700'
   };
   const onNextClick = function(embed) {
@@ -126,11 +125,7 @@ function create(name, config, reduxStore) {
 
   config = _.extend(configDefaults, config);
 
-  const viewMoreSetting = settings.get('helpCenter.viewMore');
-
-  if (viewMoreSetting !== null && config.viewMoreEnabled) {
-    config.viewMoreEnabled = viewMoreSetting;
-  }
+  const viewMoreEnabled = !!settings.get('helpCenter.viewMore');
 
   useMouseDistanceContexualSearch = config.enableMouseDrivenContextualHelp;
 
@@ -170,7 +165,7 @@ function create(name, config, reduxStore) {
           originalArticleButton={settings.get('helpCenter.originalArticleButton')}
           localeFallbacks={settings.get('helpCenter.localeFallbacks')}
           channelChoice={channelChoice}
-          viewMoreEnabled={config.viewMoreEnabled}
+          viewMoreEnabled={viewMoreEnabled}
           zendeskHost={transport.getZendeskHost()} />
       );
     },
