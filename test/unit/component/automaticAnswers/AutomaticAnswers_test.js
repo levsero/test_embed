@@ -32,7 +32,7 @@ describe('AutomaticAnswers component', () => {
         }
       },
       'component/automaticAnswers/AutomaticAnswersDesktop': {
-        AutomaticAnswersDesktop: class {
+        AutomaticAnswersDesktop: class extends Component {
           render() {
             return (
               <div className='automaticAnswers-desktop' />
@@ -41,7 +41,7 @@ describe('AutomaticAnswers component', () => {
         }
       },
       'component/automaticAnswers/AutomaticAnswersMobile': {
-        AutomaticAnswersMobile: class {
+        AutomaticAnswersMobile: class extends Component {
           render() {
             return (
               <div className='automaticAnswers-mobile' />

@@ -187,7 +187,7 @@ export class SubmitTicketForm extends Component {
 
   clear() {
     const formData = this.props.formState;
-    const form = this.refs.form.getDOMNode();
+    const form = this.refs.form;
 
     _.forEach(form.elements, (field) => {
       if (this.props.formState[field.name] && field.type === 'checkbox') {

@@ -22,7 +22,7 @@ describe('embed.automaticAnswers', () => {
         frameMethods: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameMethods
       },
       'component/automaticAnswers/AutomaticAnswers': {
-        AutomaticAnswers: class {
+        AutomaticAnswers: class extends Component {
           updateTicket() {}
           solveTicketDone() {}
           render() {

@@ -32,7 +32,7 @@ describe('HelpCenterMobile component', () => {
         ZendeskLogo: noopReactComponent()
       },
       'component/ScrollContainer': {
-        ScrollContainer: class {
+        ScrollContainer: class extends Component {
           setScrollShadowVisible() {}
           render() {
             return (
