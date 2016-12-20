@@ -370,7 +370,7 @@ function performContextualHelp(options) {
 
     cancelTargetHandler = mouse.target(launcherElement, onHitFn(options));
   } else {
-    keywordsSearch(options);
+    webWidget.keywordsSearch(options);
   }
 }
 
