@@ -198,22 +198,21 @@ describe('Field component', () => {
     });
   });
 
-  // FIXME: Deprecated
-  // describe('pattern attr', () => {
-  //   it('should be used if it is passed in', () => {
-  //     const field = domRender(<Field pattern='[a-zA-Z]' />);
-  //     const fieldNode = ReactDOM.findDOMNode(field);
-  //
-  //     expect(fieldNode.querySelector('input').props.pattern)
-  //       .toEqual('[a-zA-Z]');
-  //   });
-  //
-  //   it('should not use one if it is not passed in', () => {
-  //     const field = domRender(<Field />);
-  //     const fieldNode = ReactDOM.findDOMNode(field);
-  //
-  //     expect(fieldNode.querySelector('input').props.pattern)
-  //       .toBeFalsy();
-  //   });
-  // });
+  describe('pattern attr', () => {
+    it('should be used if it is passed in', () => {
+      const field = domRender(<Field pattern='[a-zA-Z]' />);
+      const fieldNode = ReactDOM.findDOMNode(field);
+
+      expect(fieldNode.querySelector('input').getAttribute('pattern'))
+        .toEqual('[a-zA-Z]');
+    });
+
+    it('should not use one if it is not passed in', () => {
+      const field = domRender(<Field />);
+      const fieldNode = ReactDOM.findDOMNode(field);
+
+      expect(fieldNode.querySelector('input').getAttribute('pattern'))
+        .toBeFalsy();
+    });
+  });
 });

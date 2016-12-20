@@ -67,7 +67,11 @@ describe('SubmitTicketForm component', function() {
         ButtonDropzone: noopReactComponent()
       },
       'component/field/Field': {
-        Field: noopReactComponent()
+        Field: class extends Component {
+          render() {
+            return <input name={this.props.name}>{this.props.children}</input>;
+          }
+        }
       },
       'component/ScrollContainer': {
         ScrollContainer: class extends Component {
@@ -113,7 +117,7 @@ describe('SubmitTicketForm component', function() {
         getCustomFields: (fields) => {
           return {
             fields: [],
-            allFields: _.map(fields, (f) => f.id)
+            allFields: _.map(fields, (f) => <div name={f.id} />)
           };
         }
       },
@@ -316,61 +320,61 @@ describe('SubmitTicketForm component', function() {
   // React-specific properties on DOM refs (e.g. this.refs.div.props) were deprecated, and are removed now.
   // @jimfb in #5495
   //
-  // describe('When a Ticket Form is passed in', () => {
-  //   let component,
-  //     formElements;
-  //
-  //   beforeEach(() => {
-  //     /* eslint-disable camelcase */
-  //     const mockTicketForm = {
-  //       id: 1,
-  //       raw_name: 'Ticket Formz',
-  //       display_name: 'Ticket Forms',
-  //       ticket_field_ids: [1, 2, 4]
-  //     };
-  //     const mockTicketFields = [
-  //       { id: 1, raw_title: 'Description' },
-  //       { id: 2, raw_title: 'Subject' },
-  //       { id: 4, raw_title: 'Favorite Burger' },
-  //       { id: 5, raw_title: 'Favorite Pizza' }
-  //     ];
-  //
-  //     /* eslint-enable camelcase */
-  //
-  //     component = domRender(<SubmitTicketForm />);
-  //     component.updateTicketForm(mockTicketForm, mockTicketFields);
-  //
-  //     formElements = component.refs.formWrapper.children[1];
-  //   });
-  //
-  //   it('should render the name field', () => {
-  //     const nameField = formElements[0][0]; // first field in form
-  //
-  //     expect(nameField.props.name)
-  //       .toBe('name');
-  //   });
-  //
-  //   it('should render the email field', () => {
-  //     const emailField = formElements[0][1]; // second field in form
-  //
-  //     expect(emailField.props.name)
-  //       .toBe('email');
-  //   });
-  //
-  //   it('should render the extra fields defined in the ticket form', () => {
-  //     expect(formElements)
-  //       .toContain(1);
-  //     expect(formElements)
-  //       .toContain(2);
-  //     expect(formElements)
-  //       .toContain(4);
-  //   });
-  //
-  //   it('should not render any fields not defined in the ticket form', () => {
-  //     expect(formElements)
-  //       .not.toContain(5);
-  //   });
-  // });
+  describe('When a Ticket Form is passed in', () => {
+    let component,
+      formElements;
+
+    beforeEach(() => {
+      /* eslint-disable camelcase */
+      const mockTicketForm = {
+        id: 1,
+        raw_name: 'Ticket Formz',
+        display_name: 'Ticket Forms',
+        ticket_field_ids: [1, 2, 4]
+      };
+      const mockTicketFields = [
+        { id: 1, raw_title: 'Description' },
+        { id: 2, raw_title: 'Subject' },
+        { id: 4, raw_title: 'Favorite Burger' },
+        { id: 5, raw_title: 'Favorite Pizza' }
+      ];
+
+      /* eslint-enable camelcase */
+
+      component = domRender(<SubmitTicketForm />);
+      component.updateTicketForm(mockTicketForm, mockTicketFields);
+
+      formElements = component.refs.formWrapper.children;
+    });
+
+    it('should render the name field', () => {
+      const nameField = formElements[1]; // first field in form
+
+      expect(nameField.getAttribute('name'))
+        .toBe('name');
+    });
+
+    it('should render the email field', () => {
+      const emailField = formElements[2]; // second field in form
+
+      expect(emailField.getAttribute('name'))
+        .toBe('email');
+    });
+
+    it('should render the extra fields defined in the ticket form', () => {
+      expect(formElements[3].getAttribute('name'))
+        .toBe('1');
+      expect(formElements[4].getAttribute('name'))
+        .toBe('2');
+      expect(formElements[5].getAttribute('name'))
+        .toBe('4');
+    });
+
+    it('should not render any fields not defined in the ticket form', () => {
+      expect(formElements.length)
+        .not.toBe(4);
+    });
+  });
 
   describe('#handleAttachmentsError', () => {
     let component;

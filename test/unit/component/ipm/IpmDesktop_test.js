@@ -13,6 +13,7 @@ describe('IpmDesktop component', function() {
         type: 'ipm',
         name: 'My IPM',
         message: {
+          hideLogo: false,
           body: 'Hi Deborah, derpy derp derp.',
           secondaryText: 'Ryan from Zendesk',
           avatarUrl: 'http://www.example.com/avatar/',
@@ -52,7 +53,13 @@ describe('IpmDesktop component', function() {
         }
       },
       'component/ZendeskLogo': {
-        ZendeskLogo: noopReactComponent()
+        ZendeskLogo: class extends Component {
+          render() {
+            return (
+              <div className='IpmDesktop-footer--logo' />
+            );
+          }
+        }
       }
     });
 
@@ -174,40 +181,43 @@ describe('IpmDesktop component', function() {
     });
   });
 
-  // FIXME: Refactor / remove
-  // React-specific properties on DOM refs (e.g. this.refs.div.props) were deprecated, and are removed now.
-  // @jimfb in #5495
-  //
-  // describe('ZendeskLogo', () => {
-  //   let logo, footer, component;
-  //
-  //   function renderComponent() {
-  //     component = domRender(
-  //       <IpmDesktop {...ipmProps} />
-  //     );
-  //     footer = TestUtils.findRenderedDOMComponentWithClass(component, 'IpmDesktop-footer');
-  //     logo = footer.props.children[0];
-  //   }
-  //
-  //   beforeEach(() => {
-  //     renderComponent();
-  //   });
-  //
-  //   it('logoLink should be `connect`', () => {
-  //     expect(logo.props.logoLink)
-  //       .toEqual('connect');
-  //   });
-  //
-  //   describe('when hideLogo is true', () => {
-  //     beforeEach(() => {
-  //       ipmProps.ipm.message.hideLogo = true;
-  //       renderComponent();
-  //     });
-  //
-  //     it('does not render logo', () => {
-  //       expect(logo)
-  //         .toEqual(false);
-  //     });
-  //   });
-  // });
+  describe('ZendeskLogo', () => {
+    let logo, footer, component;
+
+    function renderComponent() {
+      component = domRender(
+        <IpmDesktop {...ipmProps} />
+      );
+      footer = TestUtils.findRenderedDOMComponentWithClass(component, 'IpmDesktop-footer');
+      logo = footer.children[0];
+    }
+
+    beforeEach(() => {
+      renderComponent();
+    });
+
+    describe('when hideLogo is false', () => {
+      beforeEach(() => {
+        ipmProps.ipm.message.hideLogo = false;
+        renderComponent();
+      });
+
+      it('renders logo', () => {
+        expect(logo.className)
+          .toContain('IpmDesktop-footer--logo');
+      });
+    });
+
+    describe('when hideLogo is true', () => {
+      beforeEach(() => {
+        ipmProps.ipm.message.hideLogo = true;
+        renderComponent();
+      });
+
+      it('does not render logo', () => {
+        expect(logo)
+          .not.toContain('IpmDesktop-footer--logo');
+      });
+    });
+  });
 });
