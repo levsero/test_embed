@@ -15,6 +15,10 @@
     }
   }
 
+  p {
+    margin-bottom: #{15/$font-size}rem;
+  }
+
   ul {
     white-space: pre-wrap;
   }
@@ -122,6 +126,7 @@
     padding: #{10/$font-size}rem #{15/$font-size}rem;
     overflow: auto;
     white-space: pre;
+    margin-bottom: #{15/$font-size}rem;
   }
 }
 
