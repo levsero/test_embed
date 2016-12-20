@@ -507,11 +507,12 @@ describe('mediator', function() {
         c.broadcast('identify.onSuccess', {});
 
         // open helpCenter embed
+        jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`);
+        jasmine.clock().tick(0);
 
         reset(npsSub.activate);
 
-        jasmine.clock().install();
         c.broadcast('nps.onActivate');
         jasmine.clock().tick(2000);
 
@@ -647,11 +648,12 @@ describe('mediator', function() {
         c.broadcast('identify.onSuccess', {});
 
         // open helpCenter embed
+        jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`);
+        jasmine.clock().tick(0);
 
         reset(ipmSub.activate);
 
-        jasmine.clock().install();
         c.broadcast('ipm.onActivate');
         jasmine.clock().tick(2000);
 
@@ -1852,7 +1854,10 @@ describe('mediator', function() {
         reset(chatSub.hide);
         reset(chatSub.show);
 
+        jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`);
+        jasmine.clock().tick(1);
+
         expect(chatSub.hide.calls.count())
           .toEqual(0);
         expect(chatSub.show.calls.count())
@@ -2647,7 +2652,10 @@ describe('mediator', function() {
 
     describe('when an embed is visible', () => {
       beforeEach(() => {
+        jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`);
+        jasmine.clock().tick(0);
+
         c.broadcast('.activate');
       });
 

@@ -94,14 +94,18 @@ const trackChatStarted = () => {
   c.broadcast('beacon.trackUserAction', 'chat', 'opened', chat);
 };
 
-const showEmbed = (options = {}) => {
-  if (options.activeEmbed === chat) {
+const showEmbed = (_state, viaActivate = false) => {
+  if (_state.activeEmbed === chat) {
     trackChatStarted();
   }
 
-  c.broadcast(`${launcher}.hide`, isMobileBrowser() ? {} : options.hide);
-  state[`${options.activeEmbed}.isVisible`] = true;
-  c.broadcast(`${options.activeEmbed}.show`, options.show);
+  const options = {
+    transition: getShowAnimation(),
+    viaActivate
+  };
+
+  _state[`${_state.activeEmbed}.isVisible`] = true;
+  c.broadcast(`${_state.activeEmbed}.show`, options);
 
   if (isMobileBrowser()) {
     /**
@@ -182,22 +186,14 @@ function init(embedsAccessible, params = {}) {
   });
 
   c.intercept('.activate', (__, options = {}) => {
-    if (!state[`${submitTicket}.isVisible`] &&
-        !state[`${channelChoice}.isVisible`] &&
-        !state[`${chat}.isVisible`] &&
-        !state[`${helpCenter}.isVisible`]) {
+    if (!embedVisible(state)) {
       resetActiveEmbed();
 
+      c.broadcast(`${launcher}.hide`);
       state['.hideOnClose'] = !!options.hideOnClose;
 
       if (embedAvailable()) {
-        const showOptions = {
-          activeEmbed: state.activeEmbed,
-          show: { transition: getShowAnimation(), viaApi: true },
-          hide: { transition: getHideAnimation() }
-        };
-
-        showEmbed(showOptions);
+        showEmbed(state, true);
         c.broadcast('beacon.trackUserAction', 'api', 'activate');
       }
     }
@@ -397,18 +393,16 @@ function init(embedsAccessible, params = {}) {
       state.activeEmbed = chat;
     }
 
-    const options = {
-      activeEmbed: state.activeEmbed,
-      show: { transition: getShowAnimation() },
-      hide: { transition: getHideAnimation() }
-    };
+    if (state.activeEmbed !== chat || !isMobileBrowser()) {
+      c.broadcast(`${launcher}.hide`, isMobileBrowser() ? {} : { transition: getHideAnimation() });
+    }
 
     /**
      * This timeout mitigates the Ghost Click produced when the launcher
      * button is on the left, using a mobile device with small screen
      * e.g. iPhone4. It's not a bulletproof solution, but it helps
      */
-    setTimeout(() => showEmbed(options), 0);
+    setTimeout(() => showEmbed(state), 0);
   });
 
   c.intercept(`${helpCenter}.onClose`, (_broadcast) => {
