@@ -113,7 +113,7 @@ export const frameFactory = function(childFn, _params, reduxStore) {
     }
 
     componentWillUnmount() {
-      React.unmountComponentAtNode(ReactDOM.findDOMNode(this).contentDocument.body);
+      ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode(this).contentDocument.body);
     }
 
     getChild() {
