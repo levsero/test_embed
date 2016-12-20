@@ -103,7 +103,7 @@ const onClose = () => {
   mediator.channel.broadcast(`${getWebWidgetComponent().getActiveEmbed()}.onClose`);
 };
 
-function create(name, config, reduxStore) {
+function create(name, config = {}, reduxStore = {}) {
   let containerStyle;
   let frameStyle = {};
 
@@ -117,7 +117,7 @@ function create(name, config, reduxStore) {
   const submitTicketAvaliable = config.ticketSubmissionForm;
   const submitTicketSettings = setUpSubmitTicket(config.ticketSubmissionForm);
   const helpCenterSettings = setUpHelpCenter(config.helpCenterForm);
-  const globalConfig = _.extend(configDefaults, config.ticketSubmissionForm, config.helpCenterForm);
+  const globalConfig = _.extend(configDefaults, helpCenterSettings.config);
 
   if (isMobileBrowser()) {
     containerStyle = { width: '100%', height: '100%' };
@@ -192,7 +192,10 @@ function create(name, config, reduxStore) {
 
   embed = {
     component: <Embed visible={false} />,
-    config: globalConfig
+    config: {
+      helpCenterForm: helpCenterSettings.config,
+      ticketSubmissionForm: submitTicketSettings.config
+    }
   };
 
   return this;
@@ -316,7 +319,7 @@ function waitForRootComponent(callback) {
 }
 
 function postRender() {
-  const config = embed.config;
+  const config = embed.config.helpCenterForm;
   const authSetting = settings.get('authenticate');
 
   if (config.contextualHelpEnabled &&
@@ -339,7 +342,7 @@ function postRender() {
 function keywordsSearch(options) {
   const contextualSearchFn = () => {
     const rootComponent = getRootComponent();
-    const isAuthenticated = embed.config.signInRequired === false || hasAuthenticatedSuccessfully;
+    const isAuthenticated = embed.config.helpCenterForm.signInRequired === false || hasAuthenticatedSuccessfully;
 
     if (isAuthenticated && rootComponent) {
       if (options.url) {
@@ -570,5 +573,6 @@ export const webWidget = {
   create: create,
   render: render,
   get: get,
-  postRender: postRender
+  postRender: postRender,
+  keywordsSearch: keywordsSearch
 };
