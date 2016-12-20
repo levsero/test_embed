@@ -83,7 +83,7 @@ describe('SearchField component', () => {
 
     it('should display `Loading` component when `this.props.isLoading` is truthy', () => {
       const searchField = domRender(<SearchField isLoading={true} />);
-      const loadingNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Loading');
+      // const loadingNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Loading');
 
       expect(searchField.props.isLoading)
         .toEqual(true);
@@ -95,7 +95,7 @@ describe('SearchField component', () => {
 
     it('should not display `Loading` component when `this.props.isLoading` is falsy', () => {
       const searchField = domRender(<SearchField isLoading={false} />);
-      const loadingNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Loading');
+      // const loadingNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Loading');
 
       expect(searchField.props.isLoading)
         .toEqual(false);
@@ -107,7 +107,7 @@ describe('SearchField component', () => {
 
     it('should display `clearInput` Icon when the input has text and `this.props.isLoading` is false', () => {
       const searchField = domRender(<SearchField isLoading={false} fullscreen={true} />);
-      const clearInputNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Icon--clearInput');
+      // const clearInputNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Icon--clearInput');
 
       searchField.setState({ searchInputVal: 'something' });
 
@@ -121,7 +121,7 @@ describe('SearchField component', () => {
 
     it('should not display `clearInput` Icon when the input has no text', () => {
       const searchField = domRender(<SearchField />);
-      const clearInputNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Icon--clearInput');
+      // const clearInputNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Icon--clearInput');
 
       searchField.setState({ searchInputVal: '' });
 
@@ -135,7 +135,7 @@ describe('SearchField component', () => {
 
     it('should not display `clearInput` Icon when `this.props.isLoading` is true', () => {
       const searchField = domRender(<SearchField isLoading={true} />);
-      const clearInputNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Icon--clearInput');
+      // const clearInputNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Icon--clearInput');
 
       searchField.setState({ searchInputVal: 'something' });
 
