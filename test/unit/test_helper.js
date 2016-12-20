@@ -36,7 +36,6 @@ global.location = global.window.location;
 const React = require('react');
 const ReactDOM = require('react-dom');
 const TestUtils = require('react-addons-test-utils');
-const ShallowTestUtils = require('react-shallow-testutils');
 
 global.React = React;
 global.Component = React.Component;
