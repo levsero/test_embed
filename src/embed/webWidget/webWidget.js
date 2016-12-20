@@ -100,7 +100,7 @@ const afterShowAnimate = () => {
   }
 };
 const onClose = () => {
-  mediator.channel.broadcast(`${getWebWidgetComponent().getActiveEmbed()}.onClose`);
+  mediator.channel.broadcast(`${getWebWidgetComponent().getActiveComponent()}.onClose`);
 };
 
 function create(name, config = {}, reduxStore = {}) {

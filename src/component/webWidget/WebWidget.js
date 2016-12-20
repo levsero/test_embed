@@ -31,14 +31,14 @@ export class WebWidget extends Component {
     this.setState({ activeComponent });
   }
 
-  getActiveEmbed() {
+  getActiveComponent() {
     return this.state.activeComponent;
   }
 
   onNextClick() {
     if (this.state.chatOnline) {
       this.setState({ activeComponent: chat });
-      // track chat started
+      // TODO: track chat started
     } else {
       this.setState({ activeComponent: submitTicket });
       this.props.showBackButton(true);
@@ -60,14 +60,12 @@ export class WebWidget extends Component {
     if (this.state.activeComponent === helpCenter) {
       rootComponent.setArticleView(false);
       this.props.showBackButton(false);
+    } else if (rootComponent.state.selectedTicketForm) {
+      this.props.showBackButton(this.state.helpCenterAvaliable);
+      rootComponent.clearForm();
     } else {
-      if (rootComponent.state.selectedTicketForm) {
-        this.props.showBackButton(this.state.helpCenterAvaliable);
-        rootComponent.clearForm();
-      } else {
-        this.setState({ activeComponent: helpCenter });
-        this.props.showBackButton(rootComponent.state.articleViewActive);
-      }
+      this.setState({ activeComponent: helpCenter });
+      this.props.showBackButton(rootComponent.state.articleViewActive);
     }
   }
 
@@ -133,7 +131,7 @@ export class WebWidget extends Component {
         <SubmitTicket
           ref='rootComponent'
           customFields={submitTicketConfig.customFields}
-          hideZendeskLogo={submitTicketConfig.hideZendeskLogo}
+          hideZendeskLogo={this.props.hideZendeskLogo}
           onCancel={this.onCancelClick}
           submitTicketSender={this.props.submitTicketSender}
           attachmentSender={this.props.attachmentSender}

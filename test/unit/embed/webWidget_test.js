@@ -1,4 +1,4 @@
-describe('embed.webWidget', () => {
+fdescribe('embed.webWidget', () => {
   let webWidget,
     mockRegistry,
     mockSettingsValue,
@@ -547,6 +547,7 @@ describe('embed.webWidget', () => {
         mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
 
         webWidget.create('faythe', frameConfig);
+        webWidget.render();
         mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
         webWidgetFrame = webWidget.get('faythe').instance;
         childFn = mockFrameFactoryCall[0];
@@ -578,10 +579,6 @@ describe('embed.webWidget', () => {
           mockMediator = mockRegistry['service/mediator'].mediator;
         });
 
-        // Do i need this?
-        it('should broadcast <name>.onClose with onClose', () => {
-        });
-
         it('should broadcast helpCenterForm.onSearch with onSearch', () => {
           const params = {searchString: 'searchString', searchLocale: 'en-US'};
 
@@ -592,16 +589,6 @@ describe('embed.webWidget', () => {
         });
 
         it('should not call focusField in afterShowAnimate for non-IE browser', () => {
-          // can I remove tghese?
-          webWidget = require(webWidgetPath).webWidget;
-          webWidget.create('faythe', frameConfig);
-          webWidget.render('faythe');
-
-          const webWidgetFrame = webWidget.get('faythe').instance;
-
-          mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
-          params = mockFrameFactoryCall[1];
-
           params.afterShowAnimate(webWidgetFrame);
           expect(focusField)
             .not.toHaveBeenCalled();
@@ -609,16 +596,6 @@ describe('embed.webWidget', () => {
 
         it('should call focusField in afterShowAnimate for IE browser', () => {
           mockIsIE = true;
-          webWidget = require(webWidgetPath).webWidget;
-
-          webWidget.create('faythe', frameConfig);
-          webWidget.render('faythe');
-
-          const webWidgetFrame = webWidget.get().instance;
-
-          mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
-          params = mockFrameFactoryCall[1];
-
           params.afterShowAnimate(webWidgetFrame);
 
           expect(focusField)
@@ -629,8 +606,6 @@ describe('embed.webWidget', () => {
       describe('onShow', () => {
         beforeEach(() => {
           mockIsMobileBrowser = true;
-
-          webWidget.render('faythe');
 
           params.onShow(webWidgetFrame);
         });
@@ -648,14 +623,7 @@ describe('embed.webWidget', () => {
 
       describe('onHide', () => {
         beforeEach(() => {
-          // can I rmeove these?
           mockIsMobileBrowser = true;
-          webWidget = require(webWidgetPath).webWidget;
-          webWidget.create('faythe', frameConfig);
-          webWidget.render('faythe');
-          webWidgetFrame = webWidget.get('faythe').instance;
-          mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
-          params = mockFrameFactoryCall[1];
           params.onHide(webWidgetFrame);
         });
 

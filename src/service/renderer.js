@@ -85,12 +85,10 @@ function init(config) {
     let parsedConfig = parseConfig(config);
 
     if (singleIframe) {
-      const webWidgetEmbeds = _.pick(parsedConfig, ['ticketSubmissionForm', 'helpCenterForm']);
-      let webWidgetConfig = {};
-
-      _.forEach(webWidgetEmbeds, (embed, key) => {
-        webWidgetConfig[key] = embed.props;
-      });
+      const webWidgetConfig = _.chain(parsedConfig)
+                               .pick(['ticketSubmissionForm', 'helpCenterForm'])
+                               .mapValues('props')
+                               .value();
 
       parsedConfig = _.omit(parsedConfig, ['ticketSubmissionForm', 'helpCenterForm']);
 
@@ -100,7 +98,7 @@ function init(config) {
       };
     }
 
-    _.forEach(parsedConfig, function(configItem, embedName) {
+    _.forEach(parsedConfig, (configItem, embedName) => {
       try {
         configItem.props.visible = !hideLauncher && config.embeds && !config.embeds.zopimChat;
         configItem.props.hideZendeskLogo = config.hideZendeskLogo;

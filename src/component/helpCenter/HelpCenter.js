@@ -536,5 +536,5 @@ HelpCenter.defaultProps = {
   disableAutoSearch: false,
   viewMoreEnabled: false,
   expanded: false,
-  showNextButton: false
+  showNextButton: true
 };
