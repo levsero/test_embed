@@ -29,6 +29,7 @@ state[`${channelChoice}.isVisible`] = false;
 state[`${channelChoice}.isAccessible`] = false;
 state[`${chat}.isOnline`] = false;
 state[`${chat}.isSuppressed`] = false;
+state[`${chat}.isAccessible`] = false;
 state[`${chat}.unreadMsgs`] = 0;
 state[`${chat}.userClosed`] = false;
 state[`${chat}.chatEnded`] = false;
@@ -142,6 +143,7 @@ function init(embedsAccessible, params = {}) {
   state[`${helpCenter}.isAccessible`] = embedsAccessible.helpCenter &&
     (!params.helpCenterSignInRequired || isOnHelpCenterPage());
   state[`${channelChoice}.isAccessible`] = embedsAccessible.channelChoice;
+  state[`${chat}.isAccessible`] = embedsAccessible.chat;
   state[`${helpCenter}.isSuppressed`] = settings.get('helpCenter.suppress');
   state[`${chat}.isSuppressed`] = settings.get('chat.suppress');
   state[`${submitTicket}.isSuppressed`] = settings.get('contactForm.suppress');
@@ -193,7 +195,14 @@ function init(embedsAccessible, params = {}) {
       state['.hideOnClose'] = !!options.hideOnClose;
 
       if (embedAvailable()) {
-        showEmbed(state, true);
+        if (state.activeEmbed === submitTicket &&
+            state[`${chat}.connectionPending`] &&
+            state[`${chat}.isAccessible`]) {
+          setTimeout(() => showEmbed(state, true), 3000);
+        } else {
+          showEmbed(state, true);
+        }
+
         c.broadcast('beacon.trackUserAction', 'api', 'activate');
       }
     }
