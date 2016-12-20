@@ -195,6 +195,8 @@ function init(embedsAccessible, params = {}) {
       state['.hideOnClose'] = !!options.hideOnClose;
 
       if (embedAvailable()) {
+        // When boot time zE.activate() is used with contact form & chat,
+        // delay showing the embed so that chat has time to come online.
         if (state.activeEmbed === submitTicket &&
             state[`${chat}.connectionPending`] &&
             state[`${chat}.isAccessible`]) {

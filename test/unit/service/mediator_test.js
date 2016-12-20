@@ -1679,7 +1679,7 @@ describe('mediator', function() {
 
     describe('with Ticket Submission', function() {
       beforeEach(function() {
-        mediator.init({ submitTicket: true, helpCenter: false });
+        mediator.init({ chat: true, submitTicket: true, helpCenter: false });
       });
 
       it('updates launcher with unread message count if chat is online', function() {
@@ -1870,6 +1870,46 @@ describe('mediator', function() {
 
           expect(launcherSub.show.calls.count())
             .toBe(1);
+        });
+      });
+
+      describe('when activate is called', () => {
+        describe('when connection is pending', () => {
+          beforeEach(() => {
+            jasmine.clock().install();
+          });
+
+          describe('when time to connect is too long', () => {
+            beforeEach(() => {
+              c.broadcast('.activate');
+              jasmine.clock().tick(3000);
+            });
+
+            it('should show contact form', () => {
+              expect(submitTicketSub.show.calls.count())
+                .toBe(1);
+            });
+          });
+
+          describe('when time to connect is not too long', () => {
+            beforeEach(() => {
+              c.broadcast('.activate');
+              jasmine.clock().tick(1000);
+
+              c.broadcast(`${chat}.onOnline`);
+              jasmine.clock().tick(2000);
+            });
+
+            it('should not show contact form', () => {
+              expect(submitTicketSub.show.calls.count())
+                .toBe(0);
+            });
+
+            it('should show chat', () => {
+              expect(chatSub.show.calls.count())
+                .toBe(1);
+            });
+          });
         });
       });
     });
