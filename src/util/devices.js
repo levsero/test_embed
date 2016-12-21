@@ -155,18 +155,25 @@ function metaStringToObj(str) {
   }
 }
 
+function getMetaTagsByName(_doc, name) {
+  return _doc.querySelectorAll(`meta[name="${name}"]`);
+}
+
+function appendMetaTag(_doc, name, content) {
+  const meta = _doc.createElement('meta');
+
+  meta.setAttribute('name', name);
+  meta.setAttribute('content', content);
+  return _doc.head.appendChild(meta);
+}
+
 const initViewportMeta = (active) => {
-  const viewportMetas = doc.querySelectorAll('meta[name="viewport"]');
+  const viewportMetas = getMetaTagsByName(doc, 'viewport');
 
   if (viewportMetas.length > 0) {
     return _.last(viewportMetas);
   } else if (active) {
-    const newViewportMeta = doc.createElement('meta');
-
-    newViewportMeta.setAttribute('name', 'viewport');
-    newViewportMeta.setAttribute('content', '');
-    doc.head.appendChild(newViewportMeta);
-    return newViewportMeta;
+    return appendMetaTag(doc, 'viewport', '');
   }
 };
 
@@ -191,6 +198,8 @@ export {
   clickBusterHandler,
   clickBusterRegister,
   setScaleLock,
-  metaStringToObj
+  metaStringToObj,
+  getMetaTagsByName,
+  appendMetaTag
 };
 
