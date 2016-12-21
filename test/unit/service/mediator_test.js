@@ -507,11 +507,12 @@ describe('mediator', function() {
         c.broadcast('identify.onSuccess', {});
 
         // open helpCenter embed
+        jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`);
+        jasmine.clock().tick(0);
 
         reset(npsSub.activate);
 
-        jasmine.clock().install();
         c.broadcast('nps.onActivate');
         jasmine.clock().tick(2000);
 
@@ -647,11 +648,12 @@ describe('mediator', function() {
         c.broadcast('identify.onSuccess', {});
 
         // open helpCenter embed
+        jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`);
+        jasmine.clock().tick(0);
 
         reset(ipmSub.activate);
 
-        jasmine.clock().install();
         c.broadcast('ipm.onActivate');
         jasmine.clock().tick(2000);
 
@@ -1677,7 +1679,7 @@ describe('mediator', function() {
 
     describe('with Ticket Submission', function() {
       beforeEach(function() {
-        mediator.init({ submitTicket: true, helpCenter: false });
+        mediator.init({ chat: true, submitTicket: true, helpCenter: false });
       });
 
       it('updates launcher with unread message count if chat is online', function() {
@@ -1852,7 +1854,10 @@ describe('mediator', function() {
         reset(chatSub.hide);
         reset(chatSub.show);
 
+        jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`);
+        jasmine.clock().tick(1);
+
         expect(chatSub.hide.calls.count())
           .toEqual(0);
         expect(chatSub.show.calls.count())
@@ -1865,6 +1870,46 @@ describe('mediator', function() {
 
           expect(launcherSub.show.calls.count())
             .toBe(1);
+        });
+      });
+
+      describe('when activate is called', () => {
+        describe('when connection is pending', () => {
+          beforeEach(() => {
+            jasmine.clock().install();
+          });
+
+          describe('when time to connect is too long', () => {
+            beforeEach(() => {
+              c.broadcast('.activate');
+              jasmine.clock().tick(3000);
+            });
+
+            it('should show contact form', () => {
+              expect(submitTicketSub.show.calls.count())
+                .toBe(1);
+            });
+          });
+
+          describe('when time to connect is not too long', () => {
+            beforeEach(() => {
+              c.broadcast('.activate');
+              jasmine.clock().tick(1000);
+
+              c.broadcast(`${chat}.onOnline`);
+              jasmine.clock().tick(2000);
+            });
+
+            it('should not show contact form', () => {
+              expect(submitTicketSub.show.calls.count())
+                .toBe(0);
+            });
+
+            it('should show chat', () => {
+              expect(chatSub.show.calls.count())
+                .toBe(1);
+            });
+          });
         });
       });
     });
@@ -2647,7 +2692,10 @@ describe('mediator', function() {
 
     describe('when an embed is visible', () => {
       beforeEach(() => {
+        jasmine.clock().install();
         c.broadcast(`${launcher}.onClick`);
+        jasmine.clock().tick(0);
+
         c.broadcast('.activate');
       });
 
