@@ -114,17 +114,13 @@ describe('transitionFactory', () => {
     });
 
     describe("when there's no offset", () => {
-      beforeEach(() => {
-        mockSettingsValue['offset.vertical'] = 0;
-      });
-
       describe('and the browser is mobile', () => {
         beforeEach(() => {
           mockMobileBrowserValue = true;
         });
 
         it('returns the original position', () => {
-          expect(positionWithOffset(99))
+          expect(positionWithOffset(99, 0))
             .toEqual('99px');
         });
       });
@@ -135,24 +131,20 @@ describe('transitionFactory', () => {
         });
 
         it('returns the original position', () => {
-          expect(positionWithOffset(45))
+          expect(positionWithOffset(45, 0))
             .toEqual('45px');
         });
       });
     });
 
     describe('when there is an offset', () => {
-      beforeEach(() => {
-        mockSettingsValue['offset.vertical'] = 44;
-      });
-
       describe('and the browser is mobile', () => {
         beforeEach(() => {
           mockMobileBrowserValue = true;
         });
 
         it('returns the original position', () => {
-          expect(positionWithOffset(33))
+          expect(positionWithOffset(33, 44))
             .toEqual('33px');
         });
       });
@@ -163,7 +155,7 @@ describe('transitionFactory', () => {
         });
 
         it('returns the original position', () => {
-          expect(positionWithOffset(45))
+          expect(positionWithOffset(45, 44))
             .toEqual('89px');
         });
       });
