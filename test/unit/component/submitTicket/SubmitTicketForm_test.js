@@ -316,10 +316,6 @@ describe('SubmitTicketForm component', function() {
     });
   });
 
-  // FIXME: Refactor / remove
-  // React-specific properties on DOM refs (e.g. this.refs.div.props) were deprecated, and are removed now.
-  // @jimfb in #5495
-  //
   describe('When a Ticket Form is passed in', () => {
     let component,
       formElements;
