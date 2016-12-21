@@ -25,11 +25,11 @@ const transitionMaker = (defaultStartParams, defaultEndParams) => {
   };
 };
 
-const positionWithOffset = (positionStr) => {
+const positionWithOffset = (positionStr, store = 'webWidget') => {
   let position = parseInt(positionStr);
 
   if (!isMobileBrowser()) {
-    position += parseInt(settings.get('offset.vertical'));
+    position += parseInt(settings.get('offset.vertical', store));
   }
 
   return `${position}px`;
@@ -121,14 +121,14 @@ const transitionFactory = {
         transitionDuration: '0',
         transitionTimingFunction: 'unset',
         opacity: 0,
-        top: '-30px'
+        top: positionWithOffset(-30, 'ipm')
       },
       {
         transitionProperty: 'all',
         transitionDuration: '300ms',
         transitionTimingFunction: 'ease-out',
         opacity: 1,
-        top: 0
+        top: positionWithOffset(0, 'ipm')
       }
     ),
     upHide: transitionMaker({},
@@ -137,7 +137,7 @@ const transitionFactory = {
         transitionDuration: '300ms',
         transitionTimingFunction: 'ease-out',
         opacity: 0,
-        top: '-30px'
+        top: positionWithOffset(-30, 'ipm')
       }
     )
   },
