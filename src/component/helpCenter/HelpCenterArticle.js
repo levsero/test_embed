@@ -267,7 +267,6 @@ class HelpCenterArticle extends Component {
   render() {
     const mobileClasses = this.props.fullscreen ? 'is-mobile' : '';
 
-    console.log(styles.content)
     return (
       <div className={`${styles.content} u-userLinkColor ${mobileClasses}`} ref='userContent'>
         <div className={styles.title}>{this.props.activeArticle.title}</div>

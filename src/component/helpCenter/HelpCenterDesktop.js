@@ -1,7 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import classNames from 'classnames';
-
-import { locals as styles } from './HelpCenterDesktop.sass';
 
 import { Button } from 'component/button/Button';
 import { ButtonGroup } from 'component/button/ButtonGroup';
@@ -11,6 +8,8 @@ import { SearchField } from 'component/field/SearchField';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { i18n } from 'service/i18n';
 import { bindMethods } from 'utility/utils';
+
+import { locals as styles } from './HelpCenterDesktop.sass';
 
 export class HelpCenterDesktop extends Component {
   constructor(props, context) {
@@ -111,10 +110,7 @@ export class HelpCenterDesktop extends Component {
 
   renderChannelChoice() {
     return this.state.channelChoiceShown
-         ? ( <div className={channelChoiceClasses}>
-               <ChannelChoicePopup
-                 onNextClick={this.props.onNextClick} />
-             </div> )
+         ? <ChannelChoicePopup onNextClick={this.props.onNextClick} />
          : null;
   }
 
