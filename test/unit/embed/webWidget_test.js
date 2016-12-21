@@ -118,6 +118,11 @@ describe('embed.webWidget', () => {
               showIntroScreen: false
             };
           }
+
+          getRootComponent() {
+            return this.refs.rootComponent;
+          }
+
           render() {
             return (
               <div className='mock-webWidget'>
@@ -869,10 +874,8 @@ describe('embed.webWidget', () => {
         webWidget.get().instance = {
           getRootComponent: () => {
             return {
-              refs: {
-                rootComponent: {
-                  contextualSearch: contextualSearchSpy
-                }
+              getRootComponent: () => {
+                return { contextualSearch: contextualSearchSpy };
               }
             };
           }
@@ -916,10 +919,8 @@ describe('embed.webWidget', () => {
         webWidget.get().instance = {
           getRootComponent: () => {
             return {
-              refs: {
-                rootComponent: {
-                  contextualSearch: contextualSearchSpy
-                }
+              getRootComponent: () => {
+                return { contextualSearch: contextualSearchSpy };
               }
             };
           }

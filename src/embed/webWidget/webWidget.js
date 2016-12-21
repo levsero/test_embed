@@ -216,7 +216,7 @@ function render() {
 function setUpMediator() {
   mediator.channel.subscribe('ticketSubmissionForm.show', (options = {}) => {
     waitForRootComponent(() => {
-      getWebWidgetComponent().setEmbed('ticketSubmissionForm');
+      getWebWidgetComponent().setComponent('ticketSubmissionForm');
 
       setTimeout(() => {
         embed.instance.show(options);
@@ -301,7 +301,7 @@ function get() {
 }
 
 function getRootComponent() {
-  return getWebWidgetComponent().refs.rootComponent;
+  return getWebWidgetComponent().getRootComponent();
 }
 
 function getWebWidgetComponent() {

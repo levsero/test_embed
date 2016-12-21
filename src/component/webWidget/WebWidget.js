@@ -22,17 +22,21 @@ export class WebWidget extends Component {
   }
 
   expand() {
-    if (this.refs.rootComponent.expand) {
-      this.refs.rootComponent.expand(true);
+    if (this.getRootComponent().expand) {
+      this.getRootComponent().expand(true);
     }
   }
 
-  setEmbed(activeComponent) {
+  setComponent(activeComponent) {
     this.setState({ activeComponent });
   }
 
   getActiveComponent() {
     return this.state.activeComponent;
+  }
+
+  getRootComponent() {
+    return this.refs[this.state.activeComponent];
   }
 
   onNextClick() {
@@ -48,14 +52,14 @@ export class WebWidget extends Component {
   onCancelClick() {
     if (this.props.helpCenterAvaliable) {
       this.setState({ activeComponent: helpCenter });
-      this.props.showBackButton(this.refs.rootComponent.state.articleViewActive);
+      this.props.showBackButton(this.getRootComponent().state.articleViewActive);
     } else {
       this.props.onCancel();
     }
   }
 
   onBackClick() {
-    const rootComponent = this.refs.rootComponent;
+    const rootComponent = this.getRootComponent();
 
     if (this.state.activeComponent === helpCenter) {
       rootComponent.setArticleView(false);
@@ -77,7 +81,7 @@ export class WebWidget extends Component {
     return (
       <div className={classes}>
         <Chat
-          ref='rootComponent'
+          ref={chat}
           style={this.props.style}
           position={this.props.position} />
       </div>
@@ -93,7 +97,7 @@ export class WebWidget extends Component {
     return (
       <div className={classes}>
         <HelpCenter
-          ref='rootComponent'
+          ref={helpCenter}
           hideZendeskLogo={this.props.hideZendeskLogo}
           onNextClick={this.onNextClick}
           onArticleClick={this.props.onArticleClick}
@@ -129,7 +133,7 @@ export class WebWidget extends Component {
     return (
       <div className={classes}>
         <SubmitTicket
-          ref='rootComponent'
+          ref={submitTicket}
           customFields={submitTicketConfig.customFields}
           hideZendeskLogo={this.props.hideZendeskLogo}
           onCancel={this.onCancelClick}
