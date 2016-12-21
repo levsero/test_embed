@@ -53,7 +53,7 @@ const webWidgetStoreDefaults = {
     originalArticleButton: true,
     localeFallbacks: [],
     suppress: false,
-    viewMore: false
+    viewMore: true
   },
   chat: {
     suppress: false
