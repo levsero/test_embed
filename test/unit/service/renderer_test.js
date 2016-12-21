@@ -10,6 +10,7 @@ describe('renderer', () => {
     mockIpm,
     mockAutomaticAnswers,
     mockChannelChoiceValue,
+    mockExpandedValue,
     mockWebWidget;
   const updateBaseFontSize = jasmine.createSpy();
   const updateFrameSize = jasmine.createSpy();
@@ -48,6 +49,8 @@ describe('renderer', () => {
     mockIpm = embedMocker('mockIpm');
     mockAutomaticAnswers = embedMocker('mockAutomaticAnswers');
     mockWebWidget = embedMocker('mockWebWidget');
+
+    mockExpandedValue = false;
 
     mockRegistry = initMockRegistry({
       'embed/submitTicket/submitTicket': {
@@ -97,7 +100,8 @@ describe('renderer', () => {
           enableCustomizations: jasmine.createSpy(),
           getTrackSettings: jasmine.createSpy().and.returnValue(mockTrackSettings),
           get: (value) => _.get({
-            channelChoice: mockChannelChoiceValue
+            channelChoice: mockChannelChoiceValue,
+            expanded: mockExpandedValue
           }, value, null)
         }
       },
@@ -320,6 +324,37 @@ describe('renderer', () => {
       it('should create a channelChoice embed', () => {
         expect(mockChannelChoice.create)
           .toHaveBeenCalledWith('channelChoice', jasmine.any(Object));
+      });
+    });
+
+    describe('when expanded setting is true', () => {
+      beforeEach(() => {
+        mockExpandedValue = true;
+
+        renderer.init(configJSON);
+      });
+
+      it('should create a webWidget embed', () => {
+        expect(mockWebWidget.create)
+          .toHaveBeenCalledWith('webWidget', jasmine.any(Object), jasmine.any(Object));
+      });
+
+      it('should pass through the ticketSubmissionForm and helpCenterForm config', () => {
+        const config = mockWebWidget.create.calls.mostRecent().args[1];
+
+        expect(config.ticketSubmissionForm)
+          .toBeTruthy();
+
+        expect(config.helpCenterForm)
+          .toBeTruthy();
+      });
+
+      it('should not create submitTicket and helpCenter', () => {
+        expect(mockSubmitTicket.create)
+          .not.toHaveBeenCalledWith();
+
+        expect(mockHelpCenter.create)
+          .not.toHaveBeenCalledWith();
       });
     });
 

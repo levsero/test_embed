@@ -1,4 +1,4 @@
-fdescribe('embed.webWidget', () => {
+describe('embed.webWidget', () => {
   let webWidget,
     mockRegistry,
     mockSettingsValue,
