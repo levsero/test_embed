@@ -1,20 +1,6 @@
 @import '../_vars.scss';
 
 .UserContent {
-  word-break: break-word;
-  line-height: 1.5;
-  font-size: #{13/$font-size}rem;
-  max-width: #{339/$font-size}rem;
-
-  &.is-mobile {
-    font-size: #{14/$font-size}rem;
-    max-width: 100%;
-
-    table {
-      font-size: #{14/$font-size}rem;
-    }
-  }
-
   p {
     margin-bottom: #{15/$font-size}rem;
   }
@@ -128,12 +114,4 @@
     white-space: pre;
     margin-bottom: #{15/$font-size}rem;
   }
-}
-
-.UserContent--mobile {
-  -webkit-overflow-scrolling: touch;
-  box-sizing: border-box;
-  overflow: auto;
-  height: calc(100% - #{90/$font-size}rem);
-  max-width: 100%;
 }
