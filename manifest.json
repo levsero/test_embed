@@ -2,12 +2,12 @@
   "dependencies": [
     {
       "name": "react",
-      "version": "0.14.6",
+      "version": "15.4.1",
       "url": "https://cdnjs.cloudflare.com/ajax/libs/react/0.14.6/react.min.js"
     },
     {
       "name": "react-dom",
-      "version": "0.14.6",
+      "version": "15.4.1",
       "url": "https://cdnjs.cloudflare.com/ajax/libs/react/0.14.6/react-dom.min.js"
     },
     {
