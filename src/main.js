@@ -14,11 +14,11 @@ import { mediator } from 'service/mediator';
 import { renderer } from 'service/renderer';
 import { settings } from 'service/settings';
 import { transport } from 'service/transport';
-import { clickBusterHandler,
-         isBlacklisted,
-         isMobileBrowser,
+import { appendMetaTag,
+         clickBusterHandler,
          getMetaTagsByName,
-         appendMetaTag } from 'utility/devices';
+         isBlacklisted,
+         isMobileBrowser } from 'utility/devices';
 import { win,
          document as doc } from 'utility/globals';
 import { initMobileScaling } from 'utility/mobileScaling';

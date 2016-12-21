@@ -164,6 +164,7 @@ function appendMetaTag(_doc, name, content) {
 
   meta.setAttribute('name', name);
   meta.setAttribute('content', content);
+
   return _doc.head.appendChild(meta);
 }
 
