@@ -4,6 +4,8 @@ import { settings } from 'service/settings';
 // TODO: Re-visit the boot process to avoid this
 settings.init();
 
+const webWidetOffset = settings.get('offset.vertical');
+const ipmOffset = settings.get('offset.vertical', 'ipm');
 const applyHiddenState = (frameHeight, isTop = false) => {
   let topPosition = {};
   const verticalOffset = parseInt(settings.get('offset.vertical'));
@@ -25,11 +27,11 @@ const transitionMaker = (defaultStartParams, defaultEndParams) => {
   };
 };
 
-const positionWithOffset = (positionStr, store = 'webWidget') => {
+const positionWithOffset = (positionStr, offset = webWidetOffset) => {
   let position = parseInt(positionStr);
 
   if (!isMobileBrowser()) {
-    position += parseInt(settings.get('offset.vertical', store));
+    position += parseInt(offset);
   }
 
   return `${position}px`;
@@ -121,14 +123,14 @@ const transitionFactory = {
         transitionDuration: '0',
         transitionTimingFunction: 'unset',
         opacity: 0,
-        top: positionWithOffset(-30, 'ipm')
+        top: positionWithOffset(-30, ipmOffset)
       },
       {
         transitionProperty: 'all',
         transitionDuration: '300ms',
         transitionTimingFunction: 'ease-out',
         opacity: 1,
-        top: positionWithOffset(0, 'ipm')
+        top: positionWithOffset(0, ipmOffset)
       }
     ),
     upHide: transitionMaker({},
@@ -137,7 +139,7 @@ const transitionFactory = {
         transitionDuration: '300ms',
         transitionTimingFunction: 'ease-out',
         opacity: 0,
-        top: positionWithOffset(-30, 'ipm')
+        top: positionWithOffset(-30, ipmOffset)
       }
     )
   },
