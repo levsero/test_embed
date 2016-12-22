@@ -45,7 +45,7 @@ describe('NpsMobile component', () => {
     mockRegistry = initMockRegistry({
       'React': React,
       'component/Container': {
-        Container: class {
+        Container: class extends Component {
           render() {
             // used function instead of () => as to not reference outter 'this'
             return <div>{this.props.children}</div>;
@@ -53,7 +53,7 @@ describe('NpsMobile component', () => {
         }
       },
       'component/nps/NpsComment': {
-        NpsComment:  class {
+        NpsComment:  class extends Component {
           render() {
             return (
               <div ref='commentField' className={'NpsComment'}>
@@ -64,7 +64,7 @@ describe('NpsMobile component', () => {
         }
       },
       'component/nps/NpsRatingsList': {
-        NpsRatingsList: class {
+        NpsRatingsList: class extends Component {
           render() {
             return (
               <div className='RatingsList'></div>
@@ -73,7 +73,7 @@ describe('NpsMobile component', () => {
         }
       },
       'component/Icon': {
-        Icon: class {
+        Icon: class extends Component {
           render() {
             return (
               <div className='ThankYou'></div>
@@ -82,7 +82,7 @@ describe('NpsMobile component', () => {
         }
       },
       'component/ZendeskLogo': {
-        'ZendeskLogo': class {
+        'ZendeskLogo': class extends Component {
           render() {
             return (
               <div className='ZendeskLogo'></div>
@@ -91,7 +91,7 @@ describe('NpsMobile component', () => {
         }
       },
       'component/nps/NpsSelectList': {
-        'NpsSelectList': class {
+        'NpsSelectList': class extends Component {
           render() {
             return (
               <div className='NpsSelectList'></div>
@@ -100,7 +100,7 @@ describe('NpsMobile component', () => {
         }
       },
       'component/nps/NpsCommentButton': {
-        'NpsCommentButton': class {
+        'NpsCommentButton': class extends Component {
           render() {
             return (
               <div className='NpsCommentButton'></div>

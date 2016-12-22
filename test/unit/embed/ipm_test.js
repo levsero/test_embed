@@ -28,6 +28,7 @@ describe('embed.ipm', () => {
       'component/ipm/Ipm': {
         Ipm: class extends Component {
           constructor() {
+            super();
             this.state = {
               ipm: {}
             };

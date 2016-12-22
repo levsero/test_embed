@@ -1,7 +1,3 @@
-// Addresses react namespace conflict described here:
-// https://github.com/facebook/react/issues/1939#issuecomment-100786151
-require('utility/utils').patchReactIdAttribute();
-
 import _ from 'lodash';
 
 import { authentication } from 'service/authentication';

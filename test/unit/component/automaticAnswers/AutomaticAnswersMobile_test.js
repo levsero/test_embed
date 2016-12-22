@@ -17,7 +17,7 @@ describe('AutomaticAnswersMobile component', () => {
     initMockRegistry({
       'React': React,
       'component/Container': {
-        Container: class {
+        Container: class extends Component {
           render() {
             // use of () => here breaks the domRender test due to outer 'this' context
             // use of function() here preserves 'this' context
@@ -26,7 +26,7 @@ describe('AutomaticAnswersMobile component', () => {
         }
       },
       'component/Icon': {
-        Icon: class {
+        Icon: class extends Component {
           render() {
             return <div className='Icon' />;
           }
@@ -113,8 +113,8 @@ describe('AutomaticAnswersMobile component', () => {
       });
 
       it('renders a button with a call to action string', () => {
-        expect(document.querySelector('.c-btn--primary--icon span').innerHTML)
-          .toEqual('embeddable_framework.automaticAnswers.button_mobile');
+        expect(document.querySelector('.c-btn--primary--icon').innerHTML)
+          .toContain('embeddable_framework.automaticAnswers.button_mobile');
       });
     });
 
@@ -127,8 +127,8 @@ describe('AutomaticAnswersMobile component', () => {
       });
 
       it('renders a button with a "..." string', () => {
-        expect(document.querySelector('.c-btn--primary--icon span').innerHTML)
-          .toEqual('...');
+        expect(document.querySelector('.c-btn--primary--icon').innerHTML)
+          .toContain('...');
       });
     });
   });
