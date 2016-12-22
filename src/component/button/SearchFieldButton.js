@@ -20,15 +20,14 @@ export class SearchFieldButton extends Component {
         icon='Icon--search' />
     );
 
-    const searchBar = [ searchTerm, icon ];
-
     return (
       <div className='u-cf u-paddingHN u-paddingBN Form-cta--barFullscreen'>
         <div
           className={fieldClasses}
           onClick={this.props.onClick}
           onTouch={this.props.onTouch}>
-          {searchBar}
+          {searchTerm}
+          {icon}
         </div>
       </div>
     );
