@@ -23,6 +23,17 @@ describe('HelpCenterResults component', () => {
           }
         }
       },
+      './HelpCenterResults.sass': {
+        locals: {
+          noResults: 'noResultsClasses',
+          list: 'listClasses',
+          legend: 'legendClasses',
+          resultsBorder: 'borderClasses',
+          viewMore: 'viewMoreClasses',
+          resultsPadding: 'resultsPaddingClasses',
+          listBottom: 'listBottomClasses'
+        }
+      },
       'service/i18n': {
         i18n: {
           init: jasmine.createSpy(),
@@ -53,17 +64,17 @@ describe('HelpCenterResults component', () => {
       });
 
       it('renders a noResults div', () => {
-        expect(document.querySelector('.List--noResults'))
+        expect(document.querySelector('.noResultsClasses'))
           .toBeTruthy();
       });
 
       it('does not render a results list', () => {
-        expect(document.querySelector('.List'))
+        expect(document.querySelector('.listClasses'))
           .toBeFalsy();
       });
 
       it('does not render a legend/header', () => {
-        expect(document.querySelector('.Legend'))
+        expect(document.querySelector('.legendClasses'))
           .toBeFalsy();
       });
     });
@@ -74,17 +85,17 @@ describe('HelpCenterResults component', () => {
       });
 
       it('renders a results list', () => {
-        expect(document.querySelector('.List'))
+        expect(document.querySelector('.listClasses'))
           .toBeTruthy();
       });
 
       it('does not render a noResults div', () => {
-        expect(document.querySelector('.List--noResults'))
+        expect(document.querySelector('.noResultsClasses'))
           .toBeFalsy();
       });
 
       it('renders a legend/header', () => {
-        expect(document.querySelector('.Legend'))
+        expect(document.querySelector('.legendClasses'))
           .toBeTruthy();
       });
 
@@ -98,13 +109,15 @@ describe('HelpCenterResults component', () => {
         });
 
         it('should not apply the u-paddingBM class', () => {
-          expect(() => TestUtils.findRenderedDOMComponentWithClass(component, 'u-paddingBM')).toThrow();
+          expect(document.querySelector('.listBottomClasses'))
+            .toBeFalsy();
         });
       });
 
       describe('when hideBottomPadding is false', () => {
         it('should apply the u-paddingBM class', () => {
-          expect(() => TestUtils.findRenderedDOMComponentWithClass(component, 'u-paddingBM')).not.toThrow();
+          expect(document.querySelector('.listBottomClasses'))
+            .toBeTruthy();
         });
       });
     });
@@ -115,7 +128,7 @@ describe('HelpCenterResults component', () => {
       });
 
       it('renders a View More button', () => {
-        expect(document.querySelector('.ButtonPill'))
+        expect(document.querySelector('.viewMoreClasses'))
           .toBeTruthy();
       });
     });
@@ -126,7 +139,7 @@ describe('HelpCenterResults component', () => {
       });
 
       it('does not render a View More button', () => {
-        expect(document.querySelector('.ButtonPill'))
+        expect(document.querySelector('.viewMoreClasses'))
           .toBeFalsy();
       });
     });
@@ -224,21 +237,21 @@ describe('HelpCenterResults component', () => {
       const component = shallowRender(<HelpCenterResults articles={articles} />);
 
       expect(component.props.className)
-        .toMatch('u-borderBottom');
+        .toMatch('borderClasses');
     });
 
     it('should not display if there are no results', () => {
       const component = shallowRender(<HelpCenterResults />);
 
       expect(component.props.className)
-        .not.toMatch('u-borderBottom');
+        .not.toMatch('borderClasses');
     });
 
     it('should not display if the showBottomBorder props is false', () => {
       const component = shallowRender(<HelpCenterResults articles={articles} showBottomBorder={false} />);
 
       expect(component.props.className)
-        .not.toMatch('u-borderBottom');
+        .not.toMatch('borderClasses');
     });
 
     describe('when `applyPadding` prop is true', () => {
@@ -246,7 +259,7 @@ describe('HelpCenterResults component', () => {
         const component = shallowRender(<HelpCenterResults articles={articles} applyPadding={true} />);
 
         expect(component.props.className)
-          .toMatch('u-paddingBL');
+          .toMatch('resultsPaddingClasses');
       });
     });
   });

@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import classNames from 'classnames';
 
 import { Button } from 'component/button/Button';
 import { ButtonGroup } from 'component/button/ButtonGroup';
@@ -9,6 +8,8 @@ import { SearchFieldButton } from 'component/button/SearchFieldButton';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { i18n } from 'service/i18n';
 import { bindMethods } from 'utility/utils';
+
+import { locals as styles } from './HelpCenterMobile.sass';
 
 export class HelpCenterMobile extends Component {
   constructor(props, context) {
@@ -87,9 +88,7 @@ export class HelpCenterMobile extends Component {
   renderSearchField() {
     // needs to be hidden rather then return null so the
     // field can be focused on
-    const searchFieldClasses = classNames({
-      'u-isHidden': this.state.showIntroScreen
-    });
+    const searchFieldClasses = this.state.showIntroScreen ? 'u-isHidden' : '';
 
     return (
       <div className={searchFieldClasses}>
@@ -119,19 +118,15 @@ export class HelpCenterMobile extends Component {
   }
 
   renderForm() {
-    const searchTitleClasses = classNames({
-      'u-textSizeBaseMobile u-marginTM u-textCenter': true,
-      'Container--fullscreen-center-vert': true,
-      'u-isHidden': !this.state.showIntroScreen
-    });
+    const hiddenClasses = !this.state.showIntroScreen ? 'u-isHidden' : '';
 
     return (
       <form
         ref='helpCenterForm'
-        className='Form u-cf'
+        className={styles.form}
         noValidate={true}
         onSubmit={this.handleSubmit}>
-        <h1 className={searchTitleClasses}>
+        <h1 className={`${styles.searchTitle} ${hiddenClasses}`}>
           {i18n.t('embeddable_framework.helpCenter.label.searchHelpCenter')}
         </h1>
 
@@ -151,24 +146,16 @@ export class HelpCenterMobile extends Component {
   }
 
   renderLinkContent() {
-    if (!this.props.showNextButton) return null;
+    if (!this.props.showNextButton || !this.state.showIntroScreen) return null;
 
-    const linkContainerClasses = classNames({
-      'u-textSizeBaseMobile u-textCenter u-marginTL': true,
-      'u-isHidden': !this.state.showIntroScreen
-    });
-    const linkClasses = classNames({
-      'u-block u-userTextColor u-textNoWrap': true,
-      'HelpCenterMobile-cta': true
-    });
     const linkContext = this.props.chatOnline
                       ? i18n.t('embeddable_framework.helpCenter.label.linkContext.chat')
                       : i18n.t('embeddable_framework.helpCenter.label.linkContext.submitTicket');
 
     return (
-      <div className={linkContainerClasses}>
-        <p className='u-marginBN'>{linkContext}</p>
-        <a className={linkClasses} onClick={this.props.handleNextClick}>
+      <div className={styles.linkContainer}>
+        <p className={styles.linkContext}>{linkContext}</p>
+        <a className={styles.link} onClick={this.props.handleNextClick}>
           {this.props.buttonLabel}
         </a>
       </div>
@@ -182,16 +169,13 @@ export class HelpCenterMobile extends Component {
   }
 
   renderFooterContent() {
-    if (!this.props.showNextButton) return;
+    if (!this.props.showNextButton ||
+       (this.state.showIntroScreen || this.state.searchFieldFocused)) return;
 
-    const buttonContainerClasses = classNames({
-      'u-marginTA': true,
-      'u-marginVM': this.props.hideZendeskLogo,
-      'u-isHidden': this.state.showIntroScreen || this.state.searchFieldFocused
-    });
+    const logoClasses = this.props.hideZendeskLogo ? styles.logoHidden : '';
 
     return (
-      <div className={buttonContainerClasses}>
+      <div className={`${styles.buttonContainer} ${logoClasses}`}>
         <ButtonGroup rtl={i18n.isRTL()}>
           <Button
             fullscreen={true}

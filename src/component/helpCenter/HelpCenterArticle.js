@@ -1,13 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
-import classNames from 'classnames';
 import { pick, some } from 'lodash';
 
 import { ButtonPill } from 'component/button/ButtonPill';
 import { authentication } from 'service/authentication';
 import { i18n } from 'service/i18n';
 import { parseUrl } from 'utility/utils';
+
+import { locals as styles } from './HelpCenterArticle.sass';
 
 const sanitizeHtml = require('sanitize-html');
 
@@ -246,39 +247,35 @@ class HelpCenterArticle extends Component {
     });
   }
 
-  render() {
-    const userContentClasses = classNames({
-      'UserContent u-userLinkColor': true,
-      'is-mobile': this.props.fullscreen
-    });
-    const activeArticleTitleClasses = classNames({
-      'u-textSizeLrg u-marginBT u-textBold u-textBody': true
-    });
-    const viewOriginalClasses = classNames({
-      'u-marginBM': true,
-      'u-isHidden': !this.props.originalArticleButton
-    });
+  renderOriginalArticleButton() {
+    if (!this.props.originalArticleButton) return;
 
     return (
-      <div>
-        <div className={userContentClasses} ref='userContent'>
-          <div className={activeArticleTitleClasses}>{this.props.activeArticle.title}</div>
-          <div
-            ref='article'
-            className='u-marginTM'
-            onClick={this.handleClick}
-            onTouchStart={this.handleClick} />
-          <div className={viewOriginalClasses}>
-            <a
-              className='u-linkClean'
-              href={this.props.activeArticle.html_url}
-              target='_blank'>
-              <ButtonPill
-                fullscreen={this.props.fullscreen}
-                label={i18n.t('embeddable_framework.helpCenter.article.viewLinkText')} />
-            </a>
-          </div>
-        </div>
+      <div className={styles.originalArticleButton}>
+        <a
+          className={styles.link}
+          href={this.props.activeArticle.html_url}
+          target='_blank'>
+          <ButtonPill
+            fullscreen={this.props.fullscreen}
+            label={i18n.t('embeddable_framework.helpCenter.article.viewLinkText')} />
+        </a>
+      </div>
+    );
+  }
+
+  render() {
+    const mobileClasses = this.props.fullscreen ? styles.contentMobile : '';
+
+    return (
+      <div className={`${styles.content} u-userLinkColor ${mobileClasses}`} ref='userContent'>
+        <div className={styles.title}>{this.props.activeArticle.title}</div>
+        <div
+          ref='article'
+          className={styles.article}
+          onClick={this.handleClick}
+          onTouchStart={this.handleClick} />
+          {this.renderOriginalArticleButton()}
       </div>
     );
   }
