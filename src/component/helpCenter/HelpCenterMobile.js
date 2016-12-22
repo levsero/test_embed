@@ -88,7 +88,7 @@ export class HelpCenterMobile extends Component {
   renderSearchField() {
     // needs to be hidden rather then return null so the
     // field can be focused on
-    const searchFieldClasses = this.state.showIntroScreen ? styles.hidden : '';
+    const searchFieldClasses = this.state.showIntroScreen ? 'u-isHidden' : '';
 
     return (
       <div className={searchFieldClasses}>
@@ -118,7 +118,7 @@ export class HelpCenterMobile extends Component {
   }
 
   renderForm() {
-    const hiddenClasses = !this.state.showIntroScreen ? styles.hidden : '';
+    const hiddenClasses = !this.state.showIntroScreen ? 'u-isHidden' : '';
 
     return (
       <form
