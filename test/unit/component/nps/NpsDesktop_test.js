@@ -42,7 +42,7 @@ describe('NpsDesktop component', function() {
     initMockRegistry({
       'React': React,
       'component/Container': {
-        Container: class {
+        Container: class extends Component {
           render() {
             return <div>{this.props.children}</div>;
           }
@@ -52,7 +52,7 @@ describe('NpsDesktop component', function() {
         Button: noopReactComponent()
       },
       'component/FormField': {
-        Field: class {
+        Field: class extends Component {
           render() {
             return (
               <div ref='commentField'></div>
@@ -64,8 +64,9 @@ describe('NpsDesktop component', function() {
         LoadingEllipses: noopReactComponent()
       },
       'component/nps/NpsComment': {
-        NpsComment: class {
+        NpsComment: class extends Component {
           constructor() {
+            super();
             this.focusField = mockFocusField;
           }
           render() {
@@ -74,14 +75,14 @@ describe('NpsDesktop component', function() {
         }
       },
       'component/nps/NpsRatingsList': {
-        NpsRatingsList: class {
+        NpsRatingsList: class extends Component {
           render() {
             return <div className='RatingsList'></div>;
           }
         }
       },
       'component/Icon': {
-        Icon: class {
+        Icon: class extends Component {
           render() {
             return (
               <div className='ThankYou'></div>
@@ -90,7 +91,7 @@ describe('NpsDesktop component', function() {
         }
       },
       'component/ZendeskLogo': {
-        ZendeskLogo: class {
+        ZendeskLogo: class extends Component {
           render() {
             return <div className='ZendeskLogo'></div>;
           }

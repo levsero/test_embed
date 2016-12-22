@@ -38,14 +38,14 @@ describe('SubmitTicketForm component', function() {
         locals: ''
       },
       'component/button/Button': {
-        Button: class {
+        Button: class extends Component {
           render() {
             return <input type='submit' disabled={this.props.disabled} />;
           }
         }
       },
       'component/button/ButtonSecondary': {
-        ButtonSecondary: class {
+        ButtonSecondary: class extends Component {
           render() {
             return (
               <div
@@ -57,7 +57,7 @@ describe('SubmitTicketForm component', function() {
         }
       },
       'component/button/ButtonGroup': {
-        ButtonGroup: class {
+        ButtonGroup: class extends Component {
           render() {
             return <div>{this.props.children}</div>;
           }
@@ -67,11 +67,16 @@ describe('SubmitTicketForm component', function() {
         ButtonDropzone: noopReactComponent()
       },
       'component/field/Field': {
-        Field: noopReactComponent()
+        Field: class extends Component {
+          render() {
+            return <input name={this.props.name}>{this.props.children}</input>;
+          }
+        }
       },
       'component/ScrollContainer': {
-        ScrollContainer: class {
+        ScrollContainer: class extends Component {
           constructor() {
+            super();
             this.scrollToBottom = scrollToBottomSpy;
           }
           setScrollShadowVisible() {}
@@ -87,8 +92,9 @@ describe('SubmitTicketForm component', function() {
         }
       },
       'component/attachment/AttachmentList': {
-        AttachmentList: class {
+        AttachmentList: class extends Component {
           constructor() {
+            super();
             this.clear = mockAttachmentsListClear;
           }
           attachmentsReady() {
@@ -111,7 +117,7 @@ describe('SubmitTicketForm component', function() {
         getCustomFields: (fields) => {
           return {
             fields: [],
-            allFields: _.map(fields, (f) => f.id)
+            allFields: _.map(fields, (f) => <div name={f.id} />)
           };
         }
       },
@@ -334,35 +340,35 @@ describe('SubmitTicketForm component', function() {
       component = domRender(<SubmitTicketForm />);
       component.updateTicketForm(mockTicketForm, mockTicketFields);
 
-      formElements = component.refs.formWrapper.props.children[1];
+      formElements = component.refs.formWrapper.children;
     });
 
     it('should render the name field', () => {
-      const nameField = formElements[0][0]; // first field in form
+      const nameField = formElements[1]; // first field in form
 
-      expect(nameField.props.name)
+      expect(nameField.getAttribute('name'))
         .toBe('name');
     });
 
     it('should render the email field', () => {
-      const emailField = formElements[0][1]; // second field in form
+      const emailField = formElements[2]; // second field in form
 
-      expect(emailField.props.name)
+      expect(emailField.getAttribute('name'))
         .toBe('email');
     });
 
     it('should render the extra fields defined in the ticket form', () => {
-      expect(formElements)
-        .toContain(1);
-      expect(formElements)
-        .toContain(2);
-      expect(formElements)
-        .toContain(4);
+      expect(formElements[3].getAttribute('name'))
+        .toBe('1');
+      expect(formElements[4].getAttribute('name'))
+        .toBe('2');
+      expect(formElements[5].getAttribute('name'))
+        .toBe('4');
     });
 
     it('should not render any fields not defined in the ticket form', () => {
-      expect(formElements)
-        .not.toContain(5);
+      expect(formElements.length)
+        .not.toBe(4);
     });
   });
 

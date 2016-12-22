@@ -2,13 +2,13 @@
   "dependencies": [
     {
       "name": "react",
-      "version": "0.14.6",
-      "url": "https://cdnjs.cloudflare.com/ajax/libs/react/0.14.6/react.min.js"
+      "version": "15.4.1",
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/react/15.4.1/react.min.js"
     },
     {
       "name": "react-dom",
-      "version": "0.14.6",
-      "url": "https://cdnjs.cloudflare.com/ajax/libs/react/0.14.6/react-dom.min.js"
+      "version": "15.4.1",
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/react/15.4.1/react-dom.min.js"
     },
     {
       "name": "lodash",

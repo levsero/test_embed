@@ -29,6 +29,7 @@ state[`${channelChoice}.isVisible`] = false;
 state[`${channelChoice}.isAccessible`] = false;
 state[`${chat}.isOnline`] = false;
 state[`${chat}.isSuppressed`] = false;
+state[`${chat}.isAccessible`] = false;
 state[`${chat}.unreadMsgs`] = 0;
 state[`${chat}.userClosed`] = false;
 state[`${chat}.chatEnded`] = false;
@@ -94,6 +95,32 @@ const trackChatStarted = () => {
   c.broadcast('beacon.trackUserAction', 'chat', 'opened', chat);
 };
 
+const showEmbed = (_state, viaActivate = false) => {
+  if (_state.activeEmbed === chat) {
+    trackChatStarted();
+  }
+
+  const options = {
+    transition: getShowAnimation(),
+    viaActivate
+  };
+
+  _state[`${_state.activeEmbed}.isVisible`] = true;
+  c.broadcast(`${_state.activeEmbed}.show`, options);
+
+  if (isMobileBrowser()) {
+    /**
+     * This timeout ensures the embed is displayed
+     * before the scrolling happens on the host page
+     * so that the user doesn't see the host page jump
+     */
+    setTimeout(() => {
+      setWindowScroll(0);
+      setScrollKiller(true);
+    }, 0);
+  }
+};
+
 function init(embedsAccessible, params = {}) {
   const updateLauncherLabel = () => {
     if (chatAvailable()) {
@@ -116,6 +143,7 @@ function init(embedsAccessible, params = {}) {
   state[`${helpCenter}.isAccessible`] = embedsAccessible.helpCenter &&
     (!params.helpCenterSignInRequired || isOnHelpCenterPage());
   state[`${channelChoice}.isAccessible`] = embedsAccessible.channelChoice;
+  state[`${chat}.isAccessible`] = embedsAccessible.chat;
   state[`${helpCenter}.isSuppressed`] = settings.get('helpCenter.suppress');
   state[`${chat}.isSuppressed`] = settings.get('chat.suppress');
   state[`${submitTicket}.isSuppressed`] = settings.get('contactForm.suppress');
@@ -160,33 +188,21 @@ function init(embedsAccessible, params = {}) {
   });
 
   c.intercept('.activate', (__, options = {}) => {
-    if (!state[`${submitTicket}.isVisible`] &&
-        !state[`${channelChoice}.isVisible`] &&
-        !state[`${chat}.isVisible`] &&
-        !state[`${helpCenter}.isVisible`]) {
+    if (!embedVisible(state)) {
       resetActiveEmbed();
 
       c.broadcast(`${launcher}.hide`);
-
       state['.hideOnClose'] = !!options.hideOnClose;
 
       if (embedAvailable()) {
-        c.broadcast(`${state.activeEmbed}.show`, {
-          transition: getShowAnimation(),
-          viaApi: true
-        });
-        state[`${state.activeEmbed}.isVisible`] = true;
-
-        if (isMobileBrowser()) {
-          /**
-           * This timeout ensures the embed is displayed
-           * before the scrolling happens on the host page
-           * so that the user doesn't see the host page jump
-           */
-          setTimeout(() => {
-            setWindowScroll(0);
-            setScrollKiller(true);
-          }, 0);
+        // When boot time zE.activate() is used with contact form & chat,
+        // delay showing the embed so that chat has time to come online.
+        if (state.activeEmbed === submitTicket &&
+            state[`${chat}.connectionPending`] &&
+            state[`${chat}.isAccessible`]) {
+          setTimeout(() => showEmbed(state, true), 3000);
+        } else {
+          showEmbed(state, true);
         }
 
         c.broadcast('beacon.trackUserAction', 'api', 'activate');
@@ -380,48 +396,24 @@ function init(embedsAccessible, params = {}) {
     if (helpCenterAvailable()) {
       c.broadcast('authentication.renew');
     }
-    // chat opens in new window so hide isn't needed
-    if (state.activeEmbed === chat && isMobileBrowser()) {
-      c.broadcast(`${chat}.show`);
-    } else if (chatAvailable() && state[`${chat}.unreadMsgs`]) {
+
+    if (state.activeEmbed !== chat &&
+        chatAvailable() &&
+        state[`${chat}.unreadMsgs`]) {
       state[`${chat}.unreadMsgs`] = 0;
       state.activeEmbed = chat;
-
-      /**
-       *  In case you're wondering, `launcher.hide`
-       *  is broadcasted by chat.onShow broadcast
-       */
-      c.broadcast(`${chat}.show`);
-    } else {
-      c.broadcast(`${launcher}.hide`, isMobileBrowser() ? {} : { transition: getHideAnimation() } );
-
-      state[`${state.activeEmbed}.isVisible`] = true;
-
-      /**
-       * This timeout mitigates the Ghost Click produced when the launcher
-       * button is on the left, using a mobile device with small screen
-       * e.g. iPhone4. It's not a bulletproof solution, but it helps
-       */
-
-      if (state.activeEmbed === chat) {
-        trackChatStarted();
-      }
-
-      setTimeout(() => {
-        c.broadcast(`${state.activeEmbed}.show`, { transition: getShowAnimation() });
-        if (isMobileBrowser()) {
-          /**
-           * This timeout ensures the embed is displayed
-           * before the scrolling happens on the host page
-           * so that the user doesn't see the host page jump
-           */
-          setTimeout(() => {
-            setWindowScroll(0);
-            setScrollKiller(true);
-          }, 0);
-        }
-      }, 0);
     }
+
+    if (state.activeEmbed !== chat || !isMobileBrowser()) {
+      c.broadcast(`${launcher}.hide`, isMobileBrowser() ? {} : { transition: getHideAnimation() });
+    }
+
+    /**
+     * This timeout mitigates the Ghost Click produced when the launcher
+     * button is on the left, using a mobile device with small screen
+     * e.g. iPhone4. It's not a bulletproof solution, but it helps
+     */
+    setTimeout(() => showEmbed(state), 0);
   });
 
   c.intercept(`${helpCenter}.onClose`, (_broadcast) => {

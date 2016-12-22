@@ -7,6 +7,8 @@ describe('devices', function() {
     isDevice,
     setScaleLock,
     metaStringToObj,
+    getMetaTagsByName,
+    appendMetaTag,
     metaTag;
   const mockGlobals = {
     win: {
@@ -30,9 +32,7 @@ describe('devices', function() {
   beforeEach(function() {
     resetDOM();
 
-    mockery.enable({
-      useCleanCache: true
-    });
+    mockery.enable();
 
     mockGlobals.document = document;
     mockGlobals.document.title = 'Utils tests';
@@ -58,6 +58,8 @@ describe('devices', function() {
     isDevice = requireUncached(devicesPath).isDevice;
     setScaleLock = requireUncached(devicesPath).setScaleLock;
     metaStringToObj = requireUncached(devicesPath).metaStringToObj;
+    getMetaTagsByName = requireUncached(devicesPath).getMetaTagsByName;
+    appendMetaTag = requireUncached(devicesPath).appendMetaTag;
 
     metaTag = document.createElement('meta');
     metaTag.name = 'viewport';
@@ -288,6 +290,49 @@ describe('devices', function() {
         .toBeUndefined();
       expect(viewportContent['user-scalable'])
         .toBeUndefined();
+    });
+  });
+
+  describe('getMetaTagsByName', () => {
+    describe('when there are meta tags on the document', () => {
+      beforeEach(() => {
+        metaTag.name = 'referrer';
+        metaTag.content = 'no-referrer';
+        document.head.appendChild(metaTag);
+      });
+
+      it('returns an array with all the meta tag elements', () => {
+        const expected = { name: 'referrer', content: 'no-referrer' };
+
+        expect(getMetaTagsByName(document, 'referrer')[0])
+          .toEqual(jasmine.objectContaining(expected));
+      });
+    });
+
+    describe('when there are no meta tags on the document', () => {
+      it('returns an empty array', () => {
+        expect(getMetaTagsByName(document, 'empty').length)
+          .toBe(0);
+      });
+    });
+  });
+
+  describe('appendMetaTag', () => {
+    let result;
+    const expected = { name: 'referrer', content: 'no-referrer' };
+
+    beforeEach(() => {
+      result = appendMetaTag(document, 'referrer', 'no-referrer');
+    });
+
+    it('appends a meta tag with name and content to the document head', () => {
+      expect(document.querySelectorAll('meta[name="referrer"]')[0])
+        .toEqual(jasmine.objectContaining(expected));
+    });
+
+    it('returns a reference to the meta tag element', () => {
+      expect(result)
+        .toEqual(jasmine.objectContaining(expected));
     });
   });
 });

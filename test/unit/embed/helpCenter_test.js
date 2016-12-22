@@ -65,8 +65,9 @@ describe('embed.helpCenter', () => {
         }
       },
       'component/helpCenter/HelpCenter': {
-        HelpCenter: class {
+        HelpCenter: class extends Component {
           constructor() {
+            super();
             this.resetState = resetState;
             this.backtrackSearch = backtrackSearch;
             this.contextualSearch = contextualSearch;
@@ -91,8 +92,12 @@ describe('embed.helpCenter', () => {
           }
         }
       },
-      './helpCenter.scss': '',
+      './helpCenter.scss': 'mockCss',
       './helpCenterFrame.scss': '',
+      'component/helpCenter/HelpCenterDesktop.sass': '',
+      'component/helpCenter/HelpCenterMobile.sass': '',
+      'component/helpCenter/HelpCenterArticle.sass': '',
+      'component/helpCenter/HelpCenterResults.sass': '',
       'embed/frameFactory': {
         frameFactory: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameFactory
       },
@@ -192,17 +197,6 @@ describe('embed.helpCenter', () => {
 
       expect(carlos.config.formTitleKey)
         .toEqual('test_title');
-    });
-
-    it('changes config.viewMoreEnabled if viewMore setting is available', () => {
-      mockSettingsValue = false;
-
-      helpCenter.create('carlos', { viewMoreEnabled: true });
-
-      const carlos = helpCenter.get('carlos');
-
-      expect(carlos.config.viewMoreEnabled)
-        .toEqual(false);
     });
 
     it('does not change config.viewMoreEnabled if config.viewMoreEnabled is false', () => {
@@ -581,7 +575,6 @@ describe('embed.helpCenter', () => {
 
     it('applies helpCenter.scss to the frame factory', () => {
       const mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
-      const mockCss = mockRegistry['./helpCenter.scss'];
 
       helpCenter.create('carlos');
       helpCenter.render('carlos');
@@ -589,7 +582,7 @@ describe('embed.helpCenter', () => {
       const mockFrameFactoryCss = mockFrameFactory.calls.mostRecent().args[1].css;
 
       expect(mockFrameFactoryCss)
-        .toEqual(mockCss);
+        .toContain('mockCss');
     });
 
     describe('mediator subscriptions', () => {

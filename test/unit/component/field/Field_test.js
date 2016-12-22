@@ -17,7 +17,7 @@ describe('Field component', () => {
     initMockRegistry({
       'React': React,
       'component/Icon': {
-        Icon: class {
+        Icon: class extends Component {
           render() {
             return (
               <span>
@@ -203,7 +203,7 @@ describe('Field component', () => {
       const field = domRender(<Field pattern='[a-zA-Z]' />);
       const fieldNode = ReactDOM.findDOMNode(field);
 
-      expect(fieldNode.querySelector('input').props.pattern)
+      expect(fieldNode.querySelector('input').getAttribute('pattern'))
         .toEqual('[a-zA-Z]');
     });
 
@@ -211,7 +211,7 @@ describe('Field component', () => {
       const field = domRender(<Field />);
       const fieldNode = ReactDOM.findDOMNode(field);
 
-      expect(fieldNode.querySelector('input').props.pattern)
+      expect(fieldNode.querySelector('input').getAttribute('pattern'))
         .toBeFalsy();
     });
   });

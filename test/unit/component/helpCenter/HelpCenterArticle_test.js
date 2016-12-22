@@ -36,6 +36,11 @@ describe('HelpCenterArticle component', () => {
       'utility/utils': {
         parseUrl: () => mockParseUrlValue
       },
+      './HelpCenterArticle.sass': {
+        locals: {
+          originalArticleButton: 'originalArticleButtonClasses'
+        }
+      },
       'imports?_=lodash!lodash': _,
       'component/button/ButtonPill': {
         ButtonPill: noopReactComponent()
@@ -524,8 +529,8 @@ describe('HelpCenterArticle component', () => {
     it('is visible by default', () => {
       const helpCenterArticle = domRender(<HelpCenterArticle activeArticle={mockArticle} />);
 
-      expect(ReactDOM.findDOMNode(helpCenterArticle).querySelector('.u-marginBM').className)
-        .not.toMatch('u-isHidden');
+      expect(ReactDOM.findDOMNode(helpCenterArticle).querySelector('.originalArticleButtonClasses'))
+        .toBeTruthy();
     });
 
     it('is hidden if originalArticleButton prop is true', () => {
@@ -534,28 +539,35 @@ describe('HelpCenterArticle component', () => {
           activeArticle={mockArticle}
           originalArticleButton={false} />);
 
-      expect(ReactDOM.findDOMNode(helpCenterArticle).querySelector('.u-marginBM').className)
-        .toMatch('u-isHidden');
+      expect(ReactDOM.findDOMNode(helpCenterArticle).querySelector('.originalArticleButtonClasses'))
+        .toBeFalsy();
     });
   });
 
   describe('handleClick', () => {
     describe('when article contains <a> with nested children', () => {
+      let helpCenterArticle;
       let mockClosest;
       let mockGetAttribute;
+      let mockSetAttribute;
+      let mockEvent;
 
       beforeEach(() => {
-        mockClosest = jasmine.createSpy();
         mockGetAttribute = jasmine.createSpy();
-        const mockArticle = '<a href="foo"><span>bar</span></a>';
-        const mockEvent = {
+        mockSetAttribute = jasmine.createSpy();
+        mockClosest = jasmine.createSpy().and.returnValue({
+          getAttribute: mockGetAttribute,
+          setAttribute: mockSetAttribute
+        });
+        mockArticle.body = '<a href="foo"><span>bar</span></a>';
+        mockEvent = {
           target: {
             nodeName: 'span',
             closest: mockClosest,
             getAttribute: mockGetAttribute
           }
         };
-        const helpCenterArticle = domRender(<HelpCenterArticle activeArticle={mockArticle}/>);
+        helpCenterArticle = domRender(<HelpCenterArticle activeArticle={mockArticle}/>);
 
         helpCenterArticle.handleClick(mockEvent);
       });
@@ -568,6 +580,18 @@ describe('HelpCenterArticle component', () => {
       it('calls the getAttribute with `href` element', () => {
         expect(mockGetAttribute)
           .toHaveBeenCalledWith('href');
+      });
+
+      describe('when the nested children are img tags', () => {
+        beforeEach(() => {
+          mockEvent.target.nodeName = 'IMG';
+          helpCenterArticle.handleClick(mockEvent);
+        });
+
+        it('adds target="_blank" to the closest `a` element', () => {
+          expect(mockSetAttribute)
+            .toHaveBeenCalledWith('target', '_blank');
+        });
       });
     });
   });

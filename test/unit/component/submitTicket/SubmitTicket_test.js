@@ -24,7 +24,7 @@ describe('Submit ticket component', () => {
   };
   const submitTicketPath = buildSrcPath('component/submitTicket/SubmitTicket');
 
-  class MockAttachmentList {
+  class MockAttachmentList extends Component {
     getAttachmentTokens() {
       return ['12345'];
     }
@@ -84,8 +84,9 @@ describe('Submit ticket component', () => {
         }
       },
       'component/submitTicket/SubmitTicketForm': {
-        SubmitTicketForm: class {
+        SubmitTicketForm: class extends Component {
           constructor() {
+            super();
             this.state = {
               formState: {}
             };
@@ -116,21 +117,21 @@ describe('Submit ticket component', () => {
         LoadingSpinner: noopReactComponent()
       },
       'component/Container': {
-        Container: class {
+        Container: class extends Component {
           render() {
             return <div>{this.props.children}</div>;
           }
         }
       },
       'component/ScrollContainer': {
-        ScrollContainer: class {
+        ScrollContainer: class extends Component {
           render() {
             return <div>{this.props.children}</div>;
           }
         }
       },
       'component/attachment/AttachmentBox': {
-        AttachmentBox: class {
+        AttachmentBox: class extends Component {
           render() {
             return <div className='attachment_box' />;
           }

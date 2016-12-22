@@ -1,19 +1,17 @@
 import React, { Component, PropTypes } from 'react';
-import classNames from 'classnames';
 import _ from 'lodash';
 
 import { ButtonPill } from 'component/button/ButtonPill';
 import { i18n } from 'service/i18n';
 
+import { locals as styles } from './HelpCenterResults.sass';
+
 export class HelpCenterResults extends Component {
   renderResultRow(article, index) {
-    const listItemClasses = classNames({
-      'List-item': true,
-      'u-textSizeBaseMobile': this.props.fullscreen
-    });
+    const mobileClasses = this.props.fullscreen ? styles.itemMobile : '';
 
     return (
-      <li key={_.uniqueId('article_')} className={listItemClasses}>
+      <li key={_.uniqueId('article_')} className={`${styles.item} ${mobileClasses}`}>
         <a className='u-userTextColor'
           href={article.html_url}
           target='_blank'
@@ -25,33 +23,27 @@ export class HelpCenterResults extends Component {
   }
 
   renderResults() {
-    const listClasses = classNames({
-      'List': true,
-      'u-paddingBM': !this.props.fullscreen && !this.props.hideBottomPadding,
-      'u-marginBS List--fullscreen': this.props.fullscreen
-    });
+    const showPadding = !this.props.fullscreen && !this.props.hideBottomPadding;
+    const paddingClasses = showPadding ? styles.listBottom : '';
+    const mobileClasses = this.props.fullscreen ? styles.listMobile : '';
     const articleLinks = _.chain(this.props.articles)
       .map(this.renderResultRow.bind(this))
       .value();
 
     return (
-      <ul className={listClasses}>
+      <ul className={`${styles.list} ${paddingClasses} ${mobileClasses}`}>
         {articleLinks}
       </ul>
     );
   }
 
   renderNoResults() {
-    const noResultsClasses = classNames({
-      'u-marginTM u-textCenter u-textSizeMed': true,
-      'u-textSizeBaseMobile': this.props.fullscreen,
-      'List--noResults': !this.props.fullscreen,
-      'u-borderBottom': this.props.showBottomBorder
-    });
-    const noResultsParagraphClasses = classNames({
-      'u-textSecondary': true,
-      'u-marginBL': !this.props.fullscreen
-    });
+    const noResultsClasses = this.props.fullscreen
+                           ? styles.noResultsMobile
+                           : styles.noResultsDesktop;
+    const borderClasses = this.props.showBottomBorder ? styles.noResultsBorder : '';
+    const paragraphClasses = !this.props.fullscreen ? styles.noResultsParagraphDesktop : '';
+
     /* eslint indent:0 */
     const title = this.props.searchFailed
                 ? i18n.t('embeddable_framework.helpCenter.search.error.title')
@@ -63,11 +55,11 @@ export class HelpCenterResults extends Component {
                : i18n.t('embeddable_framework.helpCenter.search.noResults.body');
 
     return (
-      <div className={noResultsClasses}>
+      <div className={`${styles.noResults} ${noResultsClasses} ${borderClasses}`}>
         <p className='u-marginBN u-marginTL'>
           {title}
         </p>
-        <p className={noResultsParagraphClasses}>
+        <p className={`${styles.noResultsParagraph} ${paragraphClasses}`}>
           {body}
         </p>
       </div>
@@ -75,35 +67,30 @@ export class HelpCenterResults extends Component {
   }
 
   renderViewMoreButton() {
-    const buttonClasses = classNames({
-      'u-pullRight': i18n.isRTL()
-    });
+    const RTLClasses = i18n.isRTL() ? styles.viewMoreRTL : '';
 
     return (
-      <div className='u-cf'>
-        <div className={buttonClasses}>
+      <div className={styles.viewMore}>
+        <div className={RTLClasses}>
           <ButtonPill
             fullscreen={this.props.fullscreen}
             showIcon={false}
             onClick={this.props.handleViewMoreClick}
-            label={i18n.t('embeddable_framework.helpCenter.results.viewMoreLinkText', { fallback: 'View more' })} />
+            label={i18n.t('embeddable_framework.helpCenter.results.viewMoreLinkText')} />
         </div>
       </div>
     );
   }
 
   renderLegend() {
-    const legendClasses = classNames({
-      'Legend u-paddingTT u-textSizeNml Arrange Arrange--middle u-textBody u-textBold': true,
-      'u-textSizeBaseMobile': this.props.fullscreen
-    });
+    const mobileClasses = this.props.fullscreen ? styles.legendMobile : '';
     const resultsLegend = this.props.hasContextualSearched
                         ? i18n.t('embeddable_framework.helpCenter.label.topSuggestions')
                         : i18n.t('embeddable_framework.helpCenter.label.results');
 
     return (
-      <div className={legendClasses}>
-        <span className='Arrange-sizeFill'>
+      <div className={`${styles.legend} ${mobileClasses}`}>
+        <span className={styles.legendContent}>
           {resultsLegend}
         </span>
       </div>
@@ -116,21 +103,18 @@ export class HelpCenterResults extends Component {
     const showBottomBorder = this.props.showBottomBorder && initialSearchResults;
     const applyPadding = this.props.showViewMore ||
                          (this.props.applyPadding && initialSearchResults);
-    const resultsClasses = classNames({
-      'u-borderBottom': showBottomBorder,
-      'u-paddingBL': applyPadding
-    });
+    const borderClasses = showBottomBorder ? styles.resultsBorder : '';
+    const paddingClasses = applyPadding ? styles.resultsPadding : '';
     const legend = !(this.props.searchFailed || this.props.articles.length === 0)
                  ? this.renderLegend()
                  : null;
     const results = this.props.articles.length > 0
                   ? this.renderResults()
                   : this.renderNoResults();
-    /* eslint no-unused-vars:0 */
     const viewMoreButton = this.props.showViewMore ? this.renderViewMoreButton() : null;
 
     return (
-      <div className={resultsClasses}>
+      <div className={`${borderClasses} ${paddingClasses}`}>
         {legend}
         {results}
         {viewMoreButton}

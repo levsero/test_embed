@@ -24,7 +24,18 @@ import { isOnHelpCenterPage,
 import { cappedIntervalCall,
          getPageKeywords } from 'utility/utils';
 
-const helpCenterCSS = require('./helpCenter.scss').toString();
+import HelpCenterDesktopStyles from 'component/helpCenter/HelpCenterDesktop.sass';
+import HelpCenterMobileStyles from 'component/helpCenter/HelpCenterMobile.sass';
+import HelpCenterArticleStyles from 'component/helpCenter/HelpCenterArticle.sass';
+import HelpCenterResultsStyles from 'component/helpCenter/HelpCenterResults.sass';
+
+const helpCenterCSS = `
+  ${require('./helpCenter.scss')}
+  ${HelpCenterDesktopStyles}
+  ${HelpCenterMobileStyles}
+  ${HelpCenterArticleStyles}
+  ${HelpCenterResultsStyles}
+`;
 
 let helpCenters = {};
 let hasManuallySetContextualSuggestions = false;
@@ -47,7 +58,6 @@ function create(name, config, reduxStore) {
     disableAutoSearch: false,
     expandable: false,
     enableMouseDrivenContextualHelp: false,
-    viewMoreEnabled: false,
     color: '#659700'
   };
   const onNextClick = function(embed) {
@@ -126,11 +136,7 @@ function create(name, config, reduxStore) {
 
   config = _.extend(configDefaults, config);
 
-  const viewMoreSetting = settings.get('helpCenter.viewMore');
-
-  if (viewMoreSetting !== null && config.viewMoreEnabled) {
-    config.viewMoreEnabled = viewMoreSetting;
-  }
+  const viewMoreEnabled = !!settings.get('helpCenter.viewMore');
 
   useMouseDistanceContexualSearch = config.enableMouseDrivenContextualHelp;
 
@@ -170,7 +176,7 @@ function create(name, config, reduxStore) {
           originalArticleButton={settings.get('helpCenter.originalArticleButton')}
           localeFallbacks={settings.get('helpCenter.localeFallbacks')}
           channelChoice={channelChoice}
-          viewMoreEnabled={config.viewMoreEnabled}
+          viewMoreEnabled={viewMoreEnabled}
           zendeskHost={transport.getZendeskHost()} />
       );
     },

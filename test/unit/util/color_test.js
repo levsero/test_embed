@@ -11,9 +11,7 @@ describe('color', () => {
 
     mockSettingsValue = null;
 
-    mockery.enable({
-      useCleanCache: true
-    });
+    mockery.enable();
 
     initMockRegistry({
       'service/settings': {

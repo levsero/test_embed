@@ -13,6 +13,7 @@ describe('IpmDesktop component', function() {
         type: 'ipm',
         name: 'My IPM',
         message: {
+          hideLogo: false,
           body: 'Hi Deborah, derpy derp derp.',
           secondaryText: 'Ryan from Zendesk',
           avatarUrl: 'http://www.example.com/avatar/',
@@ -33,7 +34,7 @@ describe('IpmDesktop component', function() {
         Avatar: noopReactComponent()
       },
       'component/Container': {
-        Container: class {
+        Container: class extends Component {
           render() {
             return <div>{this.props.children}</div>;
           }
@@ -43,7 +44,7 @@ describe('IpmDesktop component', function() {
         Button: noopReactComponent()
       },
       'component/Icon': {
-        Icon: class {
+        Icon: class extends Component {
           render() {
             return (
               <div className='Avatar' />
@@ -52,7 +53,13 @@ describe('IpmDesktop component', function() {
         }
       },
       'component/ZendeskLogo': {
-        ZendeskLogo: noopReactComponent()
+        ZendeskLogo: class extends Component {
+          render() {
+            return (
+              <div className='IpmDesktop-footer--logo' />
+            );
+          }
+        }
       }
     });
 
@@ -182,16 +189,23 @@ describe('IpmDesktop component', function() {
         <IpmDesktop {...ipmProps} />
       );
       footer = TestUtils.findRenderedDOMComponentWithClass(component, 'IpmDesktop-footer');
-      logo = footer.props.children[0];
+      logo = footer.children[0];
     }
 
     beforeEach(() => {
       renderComponent();
     });
 
-    it('logoLink should be `connect`', () => {
-      expect(logo.props.logoLink)
-        .toEqual('connect');
+    describe('when hideLogo is false', () => {
+      beforeEach(() => {
+        ipmProps.ipm.message.hideLogo = false;
+        renderComponent();
+      });
+
+      it('renders logo', () => {
+        expect(logo.className)
+          .toContain('IpmDesktop-footer--logo');
+      });
     });
 
     describe('when hideLogo is true', () => {
@@ -202,7 +216,7 @@ describe('IpmDesktop component', function() {
 
       it('does not render logo', () => {
         expect(logo)
-          .toEqual(false);
+          .not.toContain('IpmDesktop-footer--logo');
       });
     });
   });

@@ -10,6 +10,7 @@ describe('HelpCenter component', function() {
 
   class SearchField extends Component {
     constructor() {
+      super();
       this.blur = jasmine.createSpy();
     }
     getValue() {
@@ -34,7 +35,7 @@ describe('HelpCenter component', function() {
     mockRegistry = initMockRegistry({
       'React': React,
       'component/helpCenter/HelpCenterArticle': {
-        HelpCenterArticle: class {
+        HelpCenterArticle: class extends Component {
           render() {
             return <div className='UserContent' />;
           }
@@ -48,7 +49,7 @@ describe('HelpCenter component', function() {
         }
       },
       'component/helpCenter/HelpCenterDesktop': {
-        HelpCenterDesktop: class {
+        HelpCenterDesktop: class extends Component {
           focusField() {}
           render() {
             return (
@@ -61,7 +62,7 @@ describe('HelpCenter component', function() {
         }
       },
       'component/helpCenter/HelpCenterMobile': {
-        HelpCenterMobile: class {
+        HelpCenterMobile: class extends Component {
           hasContextualSearched() {}
           render() {
             return (
@@ -74,7 +75,7 @@ describe('HelpCenter component', function() {
         }
       },
       'component/Container': {
-        Container: class {
+        Container: class extends Component {
           render() {
             return <div>{this.props.children}</div>;
           }

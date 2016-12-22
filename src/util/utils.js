@@ -37,10 +37,6 @@ function getPageTitle() {
   return doc.title || '';
 }
 
-function patchReactIdAttribute() {
-  require('react/lib/DOMProperty').ID_ATTRIBUTE_NAME = 'data-ze-reactid';
-}
-
 function cappedIntervalCall(callback, delay, repetitions = 1) {
   let repCount = 0;
   const intervalId = setInterval(() => {
@@ -108,7 +104,6 @@ export {
   getPageKeywords,
   getPageTitle,
   parseUrl,
-  patchReactIdAttribute,
   cappedIntervalCall,
   splitPath,
   bindMethods,

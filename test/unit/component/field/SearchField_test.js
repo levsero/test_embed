@@ -19,7 +19,7 @@ describe('SearchField component', () => {
         IconFieldButton: noopReactComponent()
       },
       'component/field/SearchInput': {
-        SearchInput: class {
+        SearchInput: class extends Component {
           render() {
             return (
               <input onChange={this.props.onChange} />
@@ -28,7 +28,7 @@ describe('SearchField component', () => {
         }
       },
       'component/loading/Loading': {
-        LoadingEllipses: class {
+        LoadingEllipses: class extends Component {
           render() {
             return (
               <div className={`Loading ${this.props.className}`}>
@@ -88,7 +88,7 @@ describe('SearchField component', () => {
       expect(searchField.props.isLoading)
         .toEqual(true);
 
-      expect(loadingNode.props.className)
+      expect(loadingNode.className)
         .not.toMatch('u-isHidden');
     });
 
@@ -99,7 +99,7 @@ describe('SearchField component', () => {
       expect(searchField.props.isLoading)
         .toEqual(false);
 
-      expect(loadingNode.props.className)
+      expect(loadingNode.className)
         .toMatch('u-isHidden');
     });
 
@@ -112,7 +112,7 @@ describe('SearchField component', () => {
       expect(searchField.state.searchInputVal)
         .toEqual('something');
 
-      expect(clearInputNode.props.className)
+      expect(clearInputNode.className)
         .not.toMatch('u-isHidden');
     });
 
@@ -125,7 +125,7 @@ describe('SearchField component', () => {
       expect(searchField.state.searchInputVal)
         .toEqual('');
 
-      expect(clearInputNode.props.className)
+      expect(clearInputNode.className)
         .toMatch('u-isHidden');
     });
 
@@ -138,7 +138,7 @@ describe('SearchField component', () => {
       expect(searchField.state.searchInputVal)
         .toEqual('something');
 
-      expect(clearInputNode.props.className)
+      expect(clearInputNode.className)
         .toMatch('u-isHidden');
     });
   });

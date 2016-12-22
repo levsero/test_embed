@@ -11,7 +11,7 @@ describe('Nps component', function() {
       'React': React,
       'lodash': _,
       'component/nps/NpsDesktop': {
-        NpsDesktop: class {
+        NpsDesktop: class extends Component {
           render() {
             return (
               <div className='nps-desktop' />
@@ -20,7 +20,7 @@ describe('Nps component', function() {
         }
       },
       'component/nps/NpsMobile': {
-        NpsMobile: class {
+        NpsMobile: class extends Component {
           render() {
             return (
               <div className='nps-mobile' />
@@ -29,7 +29,7 @@ describe('Nps component', function() {
         }
       },
       'component/Container': {
-        Container: class {
+        Container: class extends Component {
           render() {
             return <div>{this.props.children}</div>;
           }

@@ -21,9 +21,7 @@ describe('utils', () => {
   beforeEach(() => {
     resetDOM();
 
-    mockery.enable({
-      useCleanCache: true
-    });
+    mockery.enable();
 
     mockGlobals.document = document;
     mockGlobals.document.title = 'Utils tests';
@@ -143,20 +141,6 @@ describe('utils', () => {
     it('returns the document.title', () => {
       expect(getPageTitle())
         .toEqual(document.title);
-    });
-  });
-
-  describe('patchReactIdAttribute()', () => {
-    it('updates react data attribute to data-ze-reactid instead of data-reactid', () => {
-      require(utilPath).patchReactIdAttribute();
-
-      // we have to require react again after the ID_ATTRIBUTE is updated for change to take effect
-      const { addons: { TestUtils } } = require('react/addons');
-
-      const containerDiv = TestUtils.renderIntoDocument(<h1>Hello React!</h1>).getDOMNode();
-
-      expect(containerDiv.outerHTML)
-        .toEqual('<h1 data-ze-reactid=".0">Hello React!</h1>');
     });
   });
 
