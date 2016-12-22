@@ -1,5 +1,6 @@
 describe('frameFactory', function() {
   let frameFactory,
+    MockChildComponent,
     mockRegistry,
     mockRegistryMocks,
     mockChildFn,
@@ -21,6 +22,23 @@ describe('frameFactory', function() {
       );
     }
   }
+
+  MockChildComponent = class extends Component {
+    constructor(props) {
+      super(props);
+      this.expand = expandSpy;
+      this.onClick = props.onClickHandler;
+      this.onSubmit = props.onSubmitHandler;
+      this.updateFrameSize = props.updateFrameSize;
+      this.setOffsetHorizontal = props.setOffsetHorizontal;
+    }
+    componentWillUnmount() {}
+    render() {
+      return (
+        <div className='mock-component' />
+      );
+    }
+  };
 
   beforeEach(function() {
     global.window = jsdom.jsdom('<html><body></body></html>').defaultView;
@@ -105,19 +123,6 @@ describe('frameFactory', function() {
 
     mockRegistry = initMockRegistry(mockRegistryMocks);
 
-    class MockChildComponent extends Component {
-      constructor() {
-        super();
-        this.expand = expandSpy;
-      }
-      componentWillUnmount() {}
-      render() {
-        return (
-          <div className='mock-component' />
-        );
-      }
-    }
-
     mockChildFn = function() {
       return (
         <MockChildComponent
@@ -154,7 +159,7 @@ describe('frameFactory', function() {
 
     it('should not throw if childFn returns a React component', function() {
       const childFn = function() {
-        return <mockComponent ref='rootComponent' />;
+        return <MockChildComponent ref='rootComponent' />;
       };
 
       expect(function() {
@@ -867,24 +872,10 @@ describe('frameFactory', function() {
     it('injects params.extend functions into the child component', function() {
       const mockClickHandler = jasmine.createSpy('mockClickHandler');
       const mockSubmitHandler = jasmine.createSpy('mockSubmitHandler');
-
-      class MockComponent extends Component {
-        constructor(props) {
-          super(props);
-          this.onClick = props.onClickHandler;
-          this.onSubmit = props.onSubmitHandler;
-        }
-        render() {
-          return (
-            <div className='mock-component' />
-          );
-        }
-      }
-
       const Embed = frameFactory(
         function(params) {
           return (
-            <MockComponent
+            <MockChildComponent
               ref='rootComponent'
               onClick={params.onClickHandler}
               onSubmit={params.onSubmitHandler} />
@@ -913,23 +904,10 @@ describe('frameFactory', function() {
 
     it('injects the internal updateFrameSize into the child component', function() {
       const mockUpdateFrameSize = jasmine.createSpy('mockUpdateFrameSize');
-
-      class MockComponent extends Component {
-        constructor(props) {
-          super(props);
-          this.updateFrameSize = props.updateFrameSize;
-        }
-        render() {
-          return (
-            <div className='mock-component' />
-          );
-        }
-      }
-
       const Embed = frameFactory(
         function(params) {
           return (
-            <MockComponent
+            <MockChildComponent
               ref='rootComponent'
               updateFrameSize={params.updateFrameSize} />
           );
@@ -965,22 +943,10 @@ describe('frameFactory', function() {
     });
 
     it('setOffsetHorizontal sets the widgets left and right margin', function() {
-      class MockComponent extends Component {
-        constructor(props) {
-          super(props);
-          this.setOffsetHorizontal = props.setOffsetHorizontal;
-        }
-        render() {
-          return (
-            <div className='mock-component' />
-          );
-        }
-      }
-
       const Embed = frameFactory(
         function(params) {
           return (
-            <MockComponent
+            <MockChildComponent
               ref='rootComponent'
               setOffsetHorizontal={params.setOffsetHorizontal} />
           );
