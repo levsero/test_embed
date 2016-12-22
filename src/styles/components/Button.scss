@@ -108,7 +108,7 @@ $Button-nudge: 5;
   border: #{2/$font-size}rem solid $zd-color-gainsboro;
   height: #{34/$font-size}rem;
   line-height: #{34/$font-size}rem;
-  padding: 0;
+  padding: 0 !important;
   width: #{34/$font-size}rem;
 
   &.is-disabled {
@@ -127,6 +127,9 @@ $Button-nudge: 5;
 */
 .c-btn {
   font-size: #{13/$font-size}rem;
+  padding-right: #{24/$font-size}rem;
+  padding-left: #{24/$font-size}rem;
+  min-width: 0;
 }
 
 .c-btn--primary {
@@ -148,6 +151,7 @@ $Button-nudge: 5;
   padding: #{11/$font-size}rem 0;
   // TODO - Fix for width for wider string translations
   min-width: #{76/$font-size}rem;
+  line-height: 1;
 
   &:hover, &:focus, &:active {
     color: $base-color;
@@ -155,16 +159,11 @@ $Button-nudge: 5;
 }
 
 .c-btn--pill {
-  //color: $zd-color-aluminum;
-  //border-color: $secondary-color;
   border-radius: 999rem !important; /* 1 */
-
-  &.is-mobile {
-    border-color: $secondary-color;
-  }
+  padding: #{7/$font-size}rem #{14/$font-size}rem;
+  line-height: 1;
 
   &:hover, &:active {
-    color: $zd-color-dark-gray;
     svg {
       fill: $icon-active-color;
     }
@@ -177,4 +176,12 @@ $Button-nudge: 5;
 }
 
 .c-btn--secondary {
+  color: $zd-color-aluminum;
+  border-color: $zd-color-iron;
+
+    &:hover, &:active {
+    color: $zd-color-dark-gray;
+    border-color: $zd-color-aluminum;
+    background: $zd-color-white-smoke;
+  }
 }
