@@ -1,6 +1,5 @@
 describe('SearchField component', () => {
   let onChangeValue,
-    mockRegistry,
     SearchField;
   const searchFieldPath = buildSrcPath('component/field/SearchField');
 
@@ -13,7 +12,7 @@ describe('SearchField component', () => {
       warnOnReplace: false
     });
 
-    mockRegistry = initMockRegistry({
+    initMockRegistry({
       'React': React,
       'component/button/IconFieldButton': {
         IconFieldButton: noopReactComponent()

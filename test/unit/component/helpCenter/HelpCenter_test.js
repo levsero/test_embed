@@ -1,4 +1,4 @@
-describe('HelpCenter component', function() {
+describe('HelpCenter component', () => {
   let HelpCenter,
     mockRegistry,
     mockPageKeywords,
@@ -21,7 +21,7 @@ describe('HelpCenter component', function() {
     }
   }
 
-  beforeEach(function() {
+  beforeEach(() => {
     trackSearch = jasmine.createSpy('trackSearch');
     updateResults = jasmine.createSpy('updateResults');
     search = jasmine.createSpy('search');
@@ -106,7 +106,7 @@ describe('HelpCenter component', function() {
     jasmine.clock().install();
   });
 
-  afterEach(function() {
+  afterEach(() => {
     jasmine.clock().uninstall();
     mockery.deregisterAll();
     mockery.disable();
@@ -190,12 +190,12 @@ describe('HelpCenter component', function() {
     });
   });
 
-  describe('updateResults', function() {
+  describe('updateResults', () => {
     let helpCenter,
       mockShowBackButton,
       responsePayloadResults;
 
-    beforeEach(function() {
+    beforeEach(() => {
       mockShowBackButton = jasmine.createSpy('mockShowBackButton');
 
       helpCenter = domRender(<HelpCenter showBackButton={mockShowBackButton} />);
@@ -204,7 +204,7 @@ describe('HelpCenter component', function() {
       helpCenter.updateResults(responsePayloadResults);
     });
 
-    it('should set states matching the response with results', function() {
+    it('should set states matching the response with results', () => {
       expect(helpCenter.state.articles)
         .toEqual(responsePayloadResults.body.results);
 
@@ -215,12 +215,12 @@ describe('HelpCenter component', function() {
         .toEqual(false);
     });
 
-    it('should call props.showBackButton', function() {
+    it('should call props.showBackButton', () => {
       expect(mockShowBackButton)
         .toHaveBeenCalledWith(false);
     });
 
-    it('should set states matching the response without results', function() {
+    it('should set states matching the response without results', () => {
       const responsePayloadNoResults = { ok: true, body: { results: [], count: 0 } };
 
       helpCenter.updateResults(responsePayloadNoResults);
@@ -233,8 +233,8 @@ describe('HelpCenter component', function() {
     });
   });
 
-  describe('searchFail', function() {
-    it('should set states accordingly to the search failure', function() {
+  describe('searchFail', () => {
+    it('should set states accordingly to the search failure', () => {
       const searchTerm = 'abcd';
       const helpCenter = domRender(<HelpCenter />);
 
@@ -256,27 +256,27 @@ describe('HelpCenter component', function() {
     });
   });
 
-  describe('contextualSearch', function() {
+  describe('contextualSearch', () => {
     const responsePayloadResults = {ok: true, body: {results: [1, 2, 3], count: 3}};
     const responsePayloadNoResults = {ok: true, body: {results: [], count: 0}};
 
     let helpCenter,
       mockContextualSearchSender;
 
-    beforeEach(function() {
+    beforeEach(() => {
       mockContextualSearchSender = jasmine.createSpy('mockContextualSearchSender');
 
       helpCenter = domRender(<HelpCenter contextualSearchSender={mockContextualSearchSender}/>);
     });
 
-    it('should call contextualSearchSender', function() {
+    it('should call contextualSearchSender', () => {
       helpCenter.contextualSearch({ search: 'foo bar' });
 
       expect(mockContextualSearchSender)
         .toHaveBeenCalled();
     });
 
-    it('should call contextualSearchSender with the right payload for search attribute', function() {
+    it('should call contextualSearchSender with the right payload for search attribute', () => {
       const searchOptions = { search: 'foo bar' };
 
       helpCenter.contextualSearch(searchOptions);
@@ -290,7 +290,7 @@ describe('HelpCenter component', function() {
         .toBeFalsy();
     });
 
-    it('should call contextualSearchSender with the right payload for labels attribute', function() {
+    it('should call contextualSearchSender with the right payload for labels attribute', () => {
       const searchOptions = { labels: ['foo', 'bar'] };
 
       helpCenter.contextualSearch(searchOptions);
@@ -303,7 +303,7 @@ describe('HelpCenter component', function() {
         }));
     });
 
-    it('should call contextualSearchSender with the right payload for search and labels attribute', function() {
+    it('should call contextualSearchSender with the right payload for search and labels attribute', () => {
       const searchOptions = {
         search: 'my search',
         labels: ['foo', 'bar']
@@ -319,7 +319,7 @@ describe('HelpCenter component', function() {
         }));
     });
 
-    it('should call contextualSearchSender with the right payload for search, labels and url attribute', function() {
+    it('should call contextualSearchSender with the right payload for search, labels and url attribute', () => {
       const searchOptions = {
         search: 'my search',
         labels: ['foo', 'bar'],
@@ -337,7 +337,7 @@ describe('HelpCenter component', function() {
         }));
     });
 
-    it('should call contextualSearchSender with the right payload for labels and url attribute', function() {
+    it('should call contextualSearchSender with the right payload for labels and url attribute', () => {
       const searchOptions = {
         labels: ['foo', 'bar'],
         url: true,
@@ -354,7 +354,7 @@ describe('HelpCenter component', function() {
         }));
     });
 
-    it('should call contextualSearchSender with the right payload for url attribute', function() {
+    it('should call contextualSearchSender with the right payload for url attribute', () => {
       const searchOptions = { url: true, pageKeywords: mockPageKeywords };
 
       helpCenter.contextualSearch(searchOptions);
@@ -367,7 +367,7 @@ describe('HelpCenter component', function() {
         }));
     });
 
-    it('shouldn\'t call contextualSearchSender if no valid search options were passed', function() {
+    it('shouldn\'t call contextualSearchSender if no valid search options were passed', () => {
       let searchOptions = { foo: 'bar' };
 
       helpCenter.contextualSearch(searchOptions);
@@ -411,7 +411,7 @@ describe('HelpCenter component', function() {
         .not.toHaveBeenCalled();
     });
 
-    it('shouldn\'t call contextualSearchSender if url keywords are empty', function() {
+    it('shouldn\'t call contextualSearchSender if url keywords are empty', () => {
       let searchOptions = { url: true, pageKeywords: '' };
 
       helpCenter.contextualSearch(searchOptions);
@@ -420,7 +420,7 @@ describe('HelpCenter component', function() {
         .not.toHaveBeenCalled();
     });
 
-    it('shouldn\'t call updateResults if no results', function() {
+    it('shouldn\'t call updateResults if no results', () => {
       const searchOptions = { labels: ['foo', 'bar'] };
 
       helpCenter.updateResults = updateResults;
@@ -447,7 +447,7 @@ describe('HelpCenter component', function() {
         .not.toHaveBeenCalled();
     });
 
-    it('should set states and call updateResults if results, with search', function() {
+    it('should set states and call updateResults if results, with search', () => {
       const searchOptions = { search: 'foo bar' };
 
       helpCenter.updateResults = updateResults;
@@ -479,7 +479,7 @@ describe('HelpCenter component', function() {
         }));
     });
 
-    it('should set states and call updateResults if results, with labels', function() {
+    it('should set states and call updateResults if results, with labels', () => {
       /* eslint camelcase:0 */
       const searchOptions = { labels: ['foo', 'bar'] };
 
@@ -512,7 +512,7 @@ describe('HelpCenter component', function() {
         }));
     });
 
-    it('should request 3 results', function() {
+    it('should request 3 results', () => {
       const searchOptions = { search: 'foo bar' };
 
       helpCenter.contextualSearch(searchOptions);
@@ -526,7 +526,7 @@ describe('HelpCenter component', function() {
         .toEqual(3);
     });
 
-    it('should not call focusField', function() {
+    it('should not call focusField', () => {
       const searchOptions = { search: 'foo bar' };
       const focusField = jasmine.createSpy('focusField');
 
@@ -732,7 +732,7 @@ describe('HelpCenter component', function() {
         });
       });
 
-      it('should set origin properly if search', function() {
+      it('should set origin properly if search', () => {
         helpCenter.search();
 
         const recentCallArgs = mockSearchSender.calls.mostRecent().args;
@@ -767,8 +767,8 @@ describe('HelpCenter component', function() {
     });
   });
 
-  describe('backtrack search', function() {
-    it('should send the right request params when backtracking', function() {
+  describe('backtrack search', () => {
+    it('should send the right request params when backtracking', () => {
       /* eslint camelcase:0 */
       const mockSearchSender = jasmine.createSpy('mockSearchSender');
       const helpCenter = domRender(
@@ -793,7 +793,7 @@ describe('HelpCenter component', function() {
         });
     });
 
-    it('should correctly backtrack if not done before and have searched', function() {
+    it('should correctly backtrack if not done before and have searched', () => {
       const helpCenter = domRender(<HelpCenter trackSearch={trackSearch} />);
 
       helpCenter.setState({
@@ -809,7 +809,7 @@ describe('HelpCenter component', function() {
         .toHaveBeenCalled();
     });
 
-    it('shouldn\'t backtrack if already tracked', function() {
+    it('shouldn\'t backtrack if already tracked', () => {
       const helpCenter = domRender(<HelpCenter trackSearch={trackSearch} />);
 
       helpCenter.setState({
@@ -825,7 +825,7 @@ describe('HelpCenter component', function() {
         .not.toHaveBeenCalled();
     });
 
-    it('shouldn\'t backtrack if no search has been performed', function() {
+    it('shouldn\'t backtrack if no search has been performed', () => {
       const helpCenter = domRender(<HelpCenter trackSearch={trackSearch} />);
 
       helpCenter.setState({
@@ -937,7 +937,7 @@ describe('HelpCenter component', function() {
         .toEqual(1);
     });
 
-    it('should call blur and hide the virtual keyboard', function() {
+    it('should call blur and hide the virtual keyboard', () => {
       const helpCenter = domRender(<HelpCenter searchSender={noop} fullscreen={true} />);
       const searchField = helpCenter.getHelpCenterComponent().refs.searchField;
 
@@ -1013,7 +1013,7 @@ describe('HelpCenter component', function() {
         .toEqual(1);
     });
 
-    it('should track view and render the inline article', function() {
+    it('should track view and render the inline article', () => {
       /* eslint camelcase:0 */
       // TODO: Ported over from old performSearch test to catch regression
       // Needs to be rewritten

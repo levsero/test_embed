@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
-import { Icon } from 'component/Icon';
 import { IconFieldButton } from 'component/button/IconFieldButton';
 
 export class SearchFieldButton extends Component {
@@ -15,11 +14,13 @@ export class SearchFieldButton extends Component {
         {this.props.searchTerm}
       </span>
     );
-    const icon = <IconFieldButton
-                  fullscreen={true}
-                  icon='Icon--search' />
+    const icon = (
+      <IconFieldButton
+        fullscreen={true}
+        icon='Icon--search' />
+    );
 
-    const searchBar = [ searchTerm, icon ]
+    const searchBar = [ searchTerm, icon ];
 
     return (
       <div className='u-cf u-paddingHN u-paddingBN Form-cta--barFullscreen'>
@@ -37,11 +38,11 @@ export class SearchFieldButton extends Component {
 SearchFieldButton.propTypes = {
   onClick: PropTypes.func,
   onTouch: PropTypes.func,
-  searchTerm: React.PropTypes.string,
+  searchTerm: React.PropTypes.string
 };
 
 SearchFieldButton.defaultProps = {
   onClick: () => {},
   onTouch: () => {},
-  searchTerm: '',
+  searchTerm: ''
 };

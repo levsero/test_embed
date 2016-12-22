@@ -1,6 +1,5 @@
 describe('SearchFieldButton component', () => {
-  let SearchFieldButton,
-    mockRegistry;
+  let SearchFieldButton;
 
   const searchFieldButtonPath = buildSrcPath('component/button/SearchFieldButton');
 
@@ -9,7 +8,7 @@ describe('SearchFieldButton component', () => {
 
     mockery.enable();
 
-    mockRegistry = initMockRegistry({
+    initMockRegistry({
       'React': React,
       'component/Icon': {
         Icon: noopReactComponent()

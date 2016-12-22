@@ -100,7 +100,7 @@ export class SearchField extends Component {
   renderSearchIcon() {
     const searchInputFieldIconClasses = classNames({
       'Arrange-sizeFit u-isActionable u-paddingHN': true,
-      'u-userTextColor u-userFillColor': this.state.focused,
+      'u-userTextColor u-userFillColor': this.state.focused
     });
 
     return (
