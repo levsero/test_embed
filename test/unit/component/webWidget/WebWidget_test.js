@@ -11,6 +11,7 @@ describe('WebWidget component', () => {
 
     class MockHelpCenter extends Component {
       constructor() {
+        super();
         this.state = {
           activateArticleView: false
         };
@@ -23,6 +24,7 @@ describe('WebWidget component', () => {
 
     class MockSubmitTicket extends Component {
       constructor() {
+        super();
         this.state = {
           selectedTicketForm: null
         };

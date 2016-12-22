@@ -38,6 +38,7 @@ describe('embed.webWidget', () => {
 
     class MockGrandchild extends Component {
       constructor() {
+        super();
         this.resetTicketFormVisibility = resetTicketFormVisibility;
         this.hideVirtualKeyboard = hideVirtualKeyboard;
         this.focusField = focusField;
@@ -49,8 +50,9 @@ describe('embed.webWidget', () => {
       }
     }
 
-    class WebWidgetChild {
+    class WebWidgetChild extends Component {
       constructor() {
+        super();
         this.resetState = resetState;
         this.backtrackSearch = backtrackSearch;
         this.contextualSearch = contextualSearch;
@@ -103,8 +105,9 @@ describe('embed.webWidget', () => {
         }
       },
       'component/webWidget/WebWidget': {
-        WebWidget: class {
+        WebWidget: class extends Component {
           constructor() {
+            super();
             this.resetState = resetState;
             this.backtrackSearch = backtrackSearch;
             this.contextualSearch = contextualSearch;
@@ -136,6 +139,10 @@ describe('embed.webWidget', () => {
       'component/loading/LoadingSpinner.sass': '',
       'component/submitTicket/SubmitTicket.sass': '',
       'component/submitTicket/SubmitTicketForm.sass': '',
+      'component/helpCenter/HelpCenterDesktop.sass': '',
+      'component/helpCenter/HelpCenterMobile.sass': '',
+      'component/helpCenter/HelpCenterArticle.sass': '',
+      'component/helpCenter/HelpCenterResults.sass': '',
       'embed/frameFactory': {
         frameFactory: requireUncached(buildTestPath('unit/mockFrameFactory')).mockFrameFactory
       },
