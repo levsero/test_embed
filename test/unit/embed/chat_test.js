@@ -34,6 +34,8 @@ describe('embed.chat', () => {
       setOnChatEnd: jasmine.createSpy('setOnChatEnd'),
       hideAll: jasmine.createSpy('hideAll'),
       setSize: jasmine.createSpy('setSize'),
+      setName: jasmine.createSpy('setName'),
+      setEmail: jasmine.createSpy('setEmail'),
       isChatting: jasmine.createSpy('isChatting'),
       addTags: jasmine.createSpy('addTags'),
       theme: {
@@ -302,6 +304,11 @@ describe('embed.chat', () => {
           .toHaveBeenCalledWith('dave.activate', jasmine.any(Function));
       });
 
+      it('should subscribe to chat.setUser', () => {
+        expect(mockMediator.channel.subscribe)
+          .toHaveBeenCalledWith('dave.setUser', jasmine.any(Function));
+      });
+
       describe('<name>.refreshLocale', () => {
         it('subscribes to refreshLocale', () => {
           expect(mockMediator.channel.subscribe)
@@ -365,6 +372,31 @@ describe('embed.chat', () => {
 
           expect(mockZopim.livechat.window.show)
             .toHaveBeenCalled();
+        });
+      });
+
+      describe('<name>.setUser', () => {
+        it('should call livechat.setName and livechat.setUser', () => {
+          pluckSubscribeCall(mockMediator, 'dave.setUser')({
+            name: 'david',
+            email: 'david@email.com'
+          });
+
+          expect(mockZopim.livechat.setName)
+            .toHaveBeenCalledWith('david');
+          expect(mockZopim.livechat.setEmail)
+            .toHaveBeenCalledWith('david@email.com');
+        });
+
+        it('should NOT call livechat.setName when user.name is missing', () => {
+          pluckSubscribeCall(mockMediator, 'dave.setUser')({
+            email: 'daniel@email.com'
+          });
+
+          expect(mockZopim.livechat.setEmail)
+            .toHaveBeenCalledWith('daniel@email.com');
+          expect(mockZopim.livechat.setName.calls.count())
+            .toEqual(0);
         });
       });
     });
