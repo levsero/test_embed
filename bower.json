@@ -17,8 +17,7 @@
     "tests"
   ],
   "dependencies": {
-    "suit": "https://github.com/suitcss/suit/releases/download/0.4.0/suitcss.css",
-    "zd-css-components.buttons": "git@github.com:zendeskgarden/css-components.buttons.git#1.0.3"
+    "suit": "https://github.com/suitcss/suit/releases/download/0.4.0/suitcss.css"
   },
   "resolutions": {
     "zd-css-settings.global": "~0.1.0"

@@ -3,24 +3,19 @@
  *    which computes to 0.9999px & borders can't be sub pixel
  *    we boost the calculation to do 1.1/12
  */
-@import 'bower_components/zd-css-settings.colors/settings.colors';
-
 $font-size: 12;
 
 $thin-border-size: #{1.1/$font-size}rem; /* 1 */
 
-// Extending garden
-$zendesk-color--algae: #03363D;
-// TODO: remove and replace all with $zd-color-pelorous after garden css update
-$zendesk-color--pelorous: #30AABC;
+@import '../../node_modules/zd-css-variables/dist/index';
 
 // Button colors
-$cta-color: $zendesk-color--zendesk-green;
+$cta-color: $zd-color-zendesk-green;
 $inactive-color: #DDDDDD;
 $active-color: #8e8e8e;
 
 //Scroll Container colors
-$header-stroke: $zendesk-color--gainsboro;
+$header-stroke: $zd-color-gainsboro;
 
 // Container colors
 $stroke-color: #DADADA;
@@ -28,16 +23,16 @@ $stroke-focused-color: #AEAEAE;
 $base-color: #FFFFFF;
 $base-shadow: #000000;
 $base-border-color: #E4E4E4;
-$form-cta-color: $zendesk-color--white-smoke;
+$form-cta-color: $zd-color-white-smoke;
 
 // Text colors
-$body-color: $zendesk-color--dark-gray;
+$body-color: $zd-color-dark-gray;
 $secondary-color: #939393;
 
 // Icons
 $icon-color: #BBBBBB;
-$icon-inactive-color: $zendesk-color--aluminum;
-$icon-active-color: $zendesk-color--dark-gray;
+$icon-inactive-color: $zd-color-aluminum;
+$icon-active-color: $zd-color-dark-gray;
 
 // Lists
 $list-color: #BDBDBD;

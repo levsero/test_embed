@@ -15,14 +15,14 @@
   top: #{-32/$font-size}rem;
   left: 50%;
   margin-left: #{-32/$font-size}rem;
-  border: #{2/$font-size}rem solid $zendesk-color--apple-green;
-  background-color: $zendesk-color--white;
+  border: #{2/$font-size}rem solid $zd-color-apple-green;
+  background-color: $zd-color-white;
   height: #{60/$font-size}rem;
   width: #{60/$font-size}rem;
 }
 
 .AutomaticAnswersDesktop-message {
-  color: $zendesk-color--oil;
+  color: $zd-color-oil;
   font-size: #{14/$font-size}rem;
   line-height: #{20/$font-size}rem;
   white-space: pre-line;
@@ -33,7 +33,7 @@
   }
 
   a {
-    color: $zendesk-color--curious-blue;
+    color: $zd-color-curious-blue;
   }
 }
 
@@ -48,7 +48,7 @@
 }
 
 .AutomaticAnswersMobile-message {
-  color: $zendesk-color--dark-gray;
+  color: $zd-color-dark-gray;
   font-size: #{12/$font-size}rem;
   line-height: #{18/$font-size}rem;
   font-weight: bold;

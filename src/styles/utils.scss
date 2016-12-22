@@ -380,18 +380,18 @@ $Base-posOffset: $med + 1;
 }
 
 .u-textAluminum {
-  color: $zendesk-color--aluminum !important;
+  color: $zd-color-aluminum !important;
 }
 
 .u-fillAluminum {
   svg {
-    fill: $zendesk-color--aluminum !important;
+    fill: $zd-color-aluminum !important;
   }
 }
 
 .u-fillGainsboro {
   svg {
-    fill: $zendesk-color--gainsboro !important;
+    fill: $zd-color-gainsboro !important;
   }
 }
 
@@ -449,7 +449,7 @@ $Base-posOffset: $med + 1;
 }
 
 .u-isError{
- color: $zendesk-color--cg-red !important;
+ color: $zd-color-cg-red !important;
 }
 
 /**
@@ -457,11 +457,11 @@ $Base-posOffset: $med + 1;
  */
 
 .u-backgroundWhite {
-  background-color: $zendesk-color--white !important;
+  background-color: $zd-color-white !important;
 }
 
 .u-backgroundWhiteSmoke {
-  background-color: $zendesk-color--white-smoke !important;
+  background-color: $zd-color-white-smoke !important;
 }
 
 /**
