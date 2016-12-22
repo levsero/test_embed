@@ -68,19 +68,6 @@ describe('SearchField component', () => {
   });
 
   describe('SearchField', () => {
-    it('should clear input and call props.onChangeValue when clear icon is clicked', () => {
-      const searchField = domRender(<SearchField onChangeValue={onChangeValue} />);
-      const searchFieldNode = ReactDOM.findDOMNode(searchField);
-      const searchInputNode = searchFieldNode.querySelector('input');
-
-      searchInputNode.value = 'Search string';
-
-      TestUtils.Simulate.click(searchFieldNode.querySelector('.Icon--clearInput'));
-
-      expect(onChangeValue)
-        .toHaveBeenCalledWith('');
-    });
-
     it('should display `Loading` component when `this.props.isLoading` is truthy', () => {
       const searchField = domRender(<SearchField isLoading={true} />);
       const loadingNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Loading');
@@ -103,74 +90,68 @@ describe('SearchField component', () => {
         .toMatch('u-isHidden');
     });
 
-    it('should display `clearInput` Icon when the input has text and `this.props.isLoading` is false', () => {
-      const searchField = domRender(<SearchField isLoading={false} fullscreen={true} />);
-      const clearInputNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Icon--clearInput');
+    describe('on Mobile', () => {
+      it('should clear input and call props.onChangeValue when clear icon is clicked', () => {
+        const searchField = domRender(<SearchField onChangeValue={onChangeValue} fullscreen={true} />);
+        const searchFieldNode = ReactDOM.findDOMNode(searchField);
+        const searchInputNode = searchFieldNode.querySelector('input');
 
-      searchField.setState({ searchInputVal: 'something' });
+        searchInputNode.value = 'Search string';
 
-      expect(searchField.state.searchInputVal)
-        .toEqual('something');
+        TestUtils.Simulate.click(searchFieldNode.querySelector('.Icon--clearInput'));
 
-      expect(clearInputNode.className)
-        .not.toMatch('u-isHidden');
+        expect(onChangeValue)
+          .toHaveBeenCalledWith('');
+      });
+
+      it('should display `clearInput` Icon when the input has text and `this.props.isLoading` is false', () => {
+        const searchField = domRender(<SearchField isLoading={false} fullscreen={true} />);
+        const clearInputNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Icon--clearInput');
+
+        searchField.setState({ searchInputVal: 'something' });
+
+        expect(searchField.state.searchInputVal)
+          .toEqual('something');
+
+        expect(clearInputNode.className)
+          .not.toMatch('u-isHidden');
+      });
+
+      it('should not display `clearInput` Icon when the input has no text', () => {
+        const searchField = domRender(<SearchField fullscreen={true} />);
+        const clearInputNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Icon--clearInput');
+
+        searchField.setState({ searchInputVal: '' });
+
+        expect(searchField.state.searchInputVal)
+          .toEqual('');
+
+        expect(clearInputNode.className)
+          .toMatch('u-isHidden');
+      });
+
+      it('should not display `clearInput` Icon when `this.props.isLoading` is true', () => {
+        const searchField = domRender(<SearchField isLoading={true} fullscreen={true} />);
+        const clearInputNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Icon--clearInput');
+
+        searchField.setState({ searchInputVal: 'something' });
+
+        expect(searchField.state.searchInputVal)
+          .toEqual('something');
+
+        expect(clearInputNode.className)
+          .toMatch('u-isHidden');
+      });
     });
 
-    it('should not display `clearInput` Icon when the input has no text', () => {
-      const searchField = domRender(<SearchField />);
-      const clearInputNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Icon--clearInput');
+    describe('on Desktop', () => {
+      it('should not have a clear input icon', () => {
+        const searchField = domRender(<SearchField onChangeValue={onChangeValue} />);
+        const searchFieldNode = ReactDOM.findDOMNode(searchField);
 
-      searchField.setState({ searchInputVal: '' });
-
-      expect(searchField.state.searchInputVal)
-        .toEqual('');
-
-      expect(clearInputNode.className)
-        .toMatch('u-isHidden');
-    });
-
-    it('should not display `clearInput` Icon when `this.props.isLoading` is true', () => {
-      const searchField = domRender(<SearchField isLoading={true} />);
-      const clearInputNode = TestUtils.findRenderedDOMComponentWithClass(searchField, 'Icon--clearInput');
-
-      searchField.setState({ searchInputVal: 'something' });
-
-      expect(searchField.state.searchInputVal)
-        .toEqual('something');
-
-      expect(clearInputNode.className)
-        .toMatch('u-isHidden');
-    });
-  });
-
-  describe('disableAutoSearch', () => {
-    let Icon,
-      IconFieldButton,
-      searchField;
-
-    beforeEach(() => {
-      Icon = mockRegistry['component/Icon'].Icon;
-      IconFieldButton = mockRegistry['component/button/IconFieldButton'].IconFieldButton;
-    });
-
-    it('should display the IconFieldButton component if true', () => {
-      searchField = domRender(<SearchField disableAutoSearch={true} />);
-
-      expect(TestUtils.findRenderedComponentWithType(searchField, IconFieldButton))
-        .toBeTruthy();
-
-      expect(() => TestUtils.findRenderedComponentWithType(searchField, Icon))
-        .toThrow();
-    });
-
-    it('should display the Icon component if false', () => {
-      searchField = domRender(<SearchField />);
-
-      expect(TestUtils.scryRenderedComponentsWithType(searchField, Icon).length)
-        .not.toEqual(0);
-
-      expect(() => TestUtils.findRenderedComponentWithType(searchField, IconFieldButton))
-        .toThrow();
+        expect(searchFieldNode.querySelector('.Icon--clearInput'))
+          .toBeNull();
+      });
     });
   });
 });

@@ -99,9 +99,8 @@ export class SearchField extends Component {
 
   renderSearchIcon() {
     const searchInputFieldIconClasses = classNames({
-      'Arrange-sizeFit u-isActionable': true,
+      'Arrange-sizeFit u-isActionable u-paddingHN': true,
       'u-userTextColor u-userFillColor': this.state.focused,
-      'u-paddingHN': this.props.disableAutoSearch
     });
 
     return (
@@ -158,7 +157,7 @@ export class SearchField extends Component {
   }
 
   render() {
-    const { fullscreen, hasSearched, disableAutoSearch } = this.props;
+    const { fullscreen, hasSearched } = this.props;
     const searchContainerClasses = classNames({
       'u-cf': true,
       'u-paddingTM': hasSearched,
@@ -167,9 +166,9 @@ export class SearchField extends Component {
     });
     const searchInputClasses = classNames({
       'Arrange Arrange--middle Form-field Form-field--search u-isSelectable': true,
+      'u-paddingVN u-paddingRN': true,
       'Form-field--focused': this.state.focused,
-      'is-mobile': fullscreen,
-      'u-paddingVN u-paddingRN': disableAutoSearch
+      'is-mobile': fullscreen
     });
 
     // Rendering the components without a key property into an array causes React to throw an error.
@@ -178,17 +177,13 @@ export class SearchField extends Component {
     // react warning.
     let searchElement;
 
-    if (fullscreen && disableAutoSearch) {
+    if (fullscreen) {
       searchElement = [
         this.renderSearchInput(), this.renderSearchClear(), this.renderSearchIconButton()
       ];
-    } else if (disableAutoSearch) {
-      searchElement = [
-        this.renderSearchInput(), this.renderSearchLoadingIcon()
-      ];
     } else {
       searchElement = [
-        this.renderSearchIcon(), this.renderSearchInput(), this.renderSearchClear()
+        this.renderSearchInput(), this.renderSearchLoadingIcon()
       ];
     }
 
@@ -206,7 +201,6 @@ SearchField.propTypes = {
   fullscreen: PropTypes.bool,
   isLoading: PropTypes.bool,
   hasSearched: PropTypes.bool,
-  disableAutoSearch: PropTypes.bool,
   onFocus: PropTypes.func,
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
@@ -218,7 +212,6 @@ SearchField.defaultProps = {
   fullscreen: false,
   isLoading: false,
   hasSearched: false,
-  disableAutoSearch: false,
   onFocus: () => {},
   onBlur: () => {},
   onChange: () => {},

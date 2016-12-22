@@ -47,12 +47,7 @@ export class HelpCenterDesktop extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.manualSearch();
-  }
-
-  handleChange(e) {
-    e.preventDefault();
-    this.props.autoSearch();
+    this.props.search();
   }
 
   handleNextButtonClick(e) {
@@ -75,13 +70,11 @@ export class HelpCenterDesktop extends Component {
         ref='helpCenterForm'
         noValidate={true}
         className={styles.form}
-        onChange={this.handleChange}
         onSubmit={this.handleSubmit}>
 
         <SearchField
           ref='searchField'
           fullscreen={false}
-          disableAutoSearch={this.props.disableAutoSearch}
           onChangeValue={this.props.handleOnChangeValue}
           hasSearched={this.props.hasSearched}
           onSearchIconClick={this.handleSubmit}
@@ -156,8 +149,7 @@ export class HelpCenterDesktop extends Component {
 
 HelpCenterDesktop.propTypes = {
   handleNextClick: PropTypes.func.isRequired,
-  autoSearch: PropTypes.func.isRequired,
-  manualSearch: PropTypes.func.isRequired,
+  search: PropTypes.func.isRequired,
   handleOnChangeValue: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
   onNextClick: PropTypes.func,
@@ -170,7 +162,6 @@ HelpCenterDesktop.propTypes = {
   buttonLabel: PropTypes.string.isRequired,
   shadowVisible: PropTypes.bool,
   searchFieldValue: PropTypes.string,
-  disableAutoSearch: PropTypes.bool,
   channelChoice: PropTypes.bool,
   showNextButton: PropTypes.bool,
   expanded: PropTypes.bool
@@ -186,7 +177,6 @@ HelpCenterDesktop.defaultProps = {
   hasSearched: false,
   shadowVisible: false,
   searchFieldValue: '',
-  disableAutoSearch: false,
   channelChoice: false,
   showNextButton: true,
   expanded: false

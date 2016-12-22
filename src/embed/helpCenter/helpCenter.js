@@ -55,7 +55,6 @@ function create(name, config, reduxStore) {
     formTitleKey: 'help',
     hideZendeskLogo: false,
     signInRequired: false,
-    disableAutoSearch: false,
     expandable: false,
     enableMouseDrivenContextualHelp: false,
     color: '#659700'
@@ -172,7 +171,6 @@ function create(name, config, reduxStore) {
           style={containerStyle}
           fullscreen={isMobileBrowser()}
           updateFrameSize={params.updateFrameSize}
-          disableAutoSearch={config.disableAutoSearch}
           originalArticleButton={settings.get('helpCenter.originalArticleButton')}
           localeFallbacks={settings.get('helpCenter.localeFallbacks')}
           channelChoice={channelChoice}
