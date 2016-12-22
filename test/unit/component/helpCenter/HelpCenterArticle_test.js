@@ -36,6 +36,11 @@ describe('HelpCenterArticle component', () => {
       'utility/utils': {
         parseUrl: () => mockParseUrlValue
       },
+      './HelpCenterArticle.sass': {
+        locals: {
+          originalArticleButton: 'originalArticleButtonClasses'
+        }
+      },
       'imports?_=lodash!lodash': _,
       'component/button/ButtonPill': {
         ButtonPill: noopReactComponent()
@@ -524,8 +529,8 @@ describe('HelpCenterArticle component', () => {
     it('is visible by default', () => {
       const helpCenterArticle = domRender(<HelpCenterArticle activeArticle={mockArticle} />);
 
-      expect(ReactDOM.findDOMNode(helpCenterArticle).querySelector('.u-marginBM').className)
-        .not.toMatch('u-isHidden');
+      expect(ReactDOM.findDOMNode(helpCenterArticle).querySelector('.originalArticleButtonClasses'))
+        .toBeTruthy();
     });
 
     it('is hidden if originalArticleButton prop is true', () => {
@@ -534,8 +539,8 @@ describe('HelpCenterArticle component', () => {
           activeArticle={mockArticle}
           originalArticleButton={false} />);
 
-      expect(ReactDOM.findDOMNode(helpCenterArticle).querySelector('.u-marginBM').className)
-        .toMatch('u-isHidden');
+      expect(ReactDOM.findDOMNode(helpCenterArticle).querySelector('.originalArticleButtonClasses'))
+        .toBeFalsy();
     });
   });
 

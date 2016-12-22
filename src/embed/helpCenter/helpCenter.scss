@@ -7,8 +7,3 @@
 @import 'Animation';
 @import 'Loading';
 @import 'UserContent';
-
-.HelpCenterMobile-cta {
-  margin: 0 auto;
-  @include text-limit(80%);
-}

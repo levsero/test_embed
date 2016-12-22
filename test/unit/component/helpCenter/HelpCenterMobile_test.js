@@ -51,6 +51,9 @@ describe('HelpCenterMobile component', () => {
       'component/button/ButtonGroup': {
         ButtonGroup: noopReactComponent()
       },
+      './HelpCenterMobile.sass': {
+        locals: {}
+      },
       'service/i18n': {
         i18n: {
           init: jasmine.createSpy(),
@@ -94,8 +97,8 @@ describe('HelpCenterMobile component', () => {
       it('should hide when searchField is focused', () => {
         const footerContent = helpCenterMobile.refs.scrollContainer.props.footerContent;
 
-        expect(footerContent.props.className)
-          .toContain('u-isHidden');
+        expect(footerContent)
+          .toBeFalsy();
       });
 
       it('should appear when searchField is blurred', () => {

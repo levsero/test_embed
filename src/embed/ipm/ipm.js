@@ -5,6 +5,7 @@ import _     from 'lodash';
 import { Ipm } from 'component/ipm/Ipm';
 import { frameFactory } from 'embed/frameFactory';
 import { mediator } from 'service/mediator';
+import { settings } from 'service/settings';
 import { transitionFactory } from 'service/transitionFactory';
 import { transport } from 'service/transport';
 import { isMobileBrowser } from 'utility/devices';
@@ -26,8 +27,8 @@ function create(name, config, reduxStore) {
   let containerStyle;
   let frameStyle = {
     position: 'fixed',
-    top: 0,
-    right: 0,
+    top: settings.get('offset.vertical', 'ipm'),
+    right: settings.get('offset.horizontal', 'ipm'),
     zIndex: 2147483647,
     marginRight: 15
   };

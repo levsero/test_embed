@@ -51,6 +51,9 @@ describe('HelpCenterDesktop component', () => {
       'component/button/ButtonGroup': {
         ButtonGroup: noopReactComponent()
       },
+      './HelpCenterDesktop.sass': {
+        locals: {}
+      },
       'service/i18n': {
         i18n: {
           init: jasmine.createSpy(),
@@ -90,8 +93,8 @@ describe('HelpCenterDesktop component', () => {
 
       const footerContent = helpCenterDesktop.refs.scrollContainer.props.footerContent;
 
-      expect(footerContent.props.className)
-        .toContain('u-isHidden');
+      expect(footerContent)
+        .toBeFalsy();
     });
 
     it('should show after something has been searched', () => {

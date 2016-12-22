@@ -52,7 +52,8 @@ const webWidgetStoreDefaults = {
   helpCenter: {
     originalArticleButton: true,
     localeFallbacks: [],
-    suppress: false
+    suppress: false,
+    viewMore: true
   },
   chat: {
     suppress: false

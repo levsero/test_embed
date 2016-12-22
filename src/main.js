@@ -10,12 +10,22 @@ import { mediator } from 'service/mediator';
 import { renderer } from 'service/renderer';
 import { settings } from 'service/settings';
 import { transport } from 'service/transport';
-import { clickBusterHandler,
+import { appendMetaTag,
+         clickBusterHandler,
+         getMetaTagsByName,
          isBlacklisted,
          isMobileBrowser } from 'utility/devices';
 import { win,
          document as doc } from 'utility/globals';
 import { initMobileScaling } from 'utility/mobileScaling';
+
+const setReferrerMetas = (iframe) => {
+  const metaElements = getMetaTagsByName(doc, 'referrer');
+  const referrerMetas = _.map(metaElements, (meta) => meta.content);
+  const iframeDoc = iframe.contentDocument;
+
+  _.forEach(referrerMetas, (content) => appendMetaTag(iframeDoc, 'referrer', content));
+};
 
 function boot() {
   let devApi;
@@ -86,17 +96,23 @@ function boot() {
     postRenderQueue.push([this, args]);
   };
 
+  const iframe = window.frameElement;
+
   // Firefox has an issue with calculating computed styles from within a iframe
   // with display:none. If getComputedStyle returns null we adjust the styles on
   // the iframe so when we need to query the parent document it will work.
   // http://bugzil.la/548397
   if (getComputedStyle(doc.documentElement) === null) {
-    const iframe = window.frameElement;
     const newStyle = 'width: 0; height: 0; border: 0; position: absolute; top: -9999px';
 
     iframe.removeAttribute('style');
     iframe.setAttribute('style', newStyle);
   }
+
+  // Honour any no-referrer policies on the host page by dynamically
+  // injecting the appropriate meta tags on the iframe.
+  // TODO: When main.js refactor is complete, test this.
+  setReferrerMetas(iframe);
 
   identity.init();
   logging.init();

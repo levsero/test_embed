@@ -1,5 +1,6 @@
 describe('embed.ipm', () => {
   let ipm,
+    mockSettingsValue,
     mockRegistry;
 
   const ipmPath = buildSrcPath('embed/ipm/ipm');
@@ -8,6 +9,8 @@ describe('embed.ipm', () => {
     resetDOM();
 
     mockery.enable();
+
+    mockSettingsValue = {};
 
     mockRegistry = initMockRegistry({
       'React': React,
@@ -36,6 +39,11 @@ describe('embed.ipm', () => {
               <div className='mock-ipm' />
             );
           }
+        }
+      },
+      'service/settings': {
+        settings: {
+          get: (name) => mockSettingsValue[name]
         }
       },
       'service/transport': {
@@ -186,6 +194,33 @@ describe('embed.ipm', () => {
 
       expect(mockIpmSender)
         .toHaveBeenCalledWith('clicked');
+    });
+  });
+
+  describe('frameStyle', () => {
+    let mockFrameFactory,
+      mockFrameFactoryCall,
+      params;
+
+    beforeEach(() => {
+      mockSettingsValue = {
+        'offset.horizontal': '50px',
+        'offset.vertical': '100px'
+      };
+
+      ipm.create('dan');
+      ipm.render('dan');
+
+      mockFrameFactory = mockRegistry['embed/frameFactory'].frameFactory;
+      mockFrameFactoryCall = mockFrameFactory.calls.mostRecent().args;
+      params = mockFrameFactoryCall[1];
+    });
+
+    it('gets the values for top and right from settings', () => {
+      expect(params.frameStyle.top)
+        .toEqual('100px');
+      expect(params.frameStyle.right)
+        .toEqual('50px');
     });
   });
 
