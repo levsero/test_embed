@@ -21,7 +21,7 @@ export class HelpCenter extends Component {
       articles: [],
       resultsCount: 0,
       searchTerm: '',
-      showNextButton: true,
+      showNextButton: this.props.showNextButton,
       previousSearchTerm: '',
       hasSearched: false,
       hasContextualSearched: false,
@@ -31,7 +31,7 @@ export class HelpCenter extends Component {
       searchTracked: false,
       searchResultClicked: false,
       searchFieldFocused: false,
-      expanded: false,
+      expanded: props.expanded,
       resultsPerPage: minimumSearchResults,
       showViewMore: true,
       chatOnline: false,
@@ -63,6 +63,10 @@ export class HelpCenter extends Component {
 
   expand(expanded) {
     this.setState({ expanded });
+  }
+
+  setArticleView(articleViewActive) {
+    this.setState({ articleViewActive });
   }
 
   setChatOnline(state) {
@@ -511,7 +515,9 @@ HelpCenter.propTypes = {
   channelChoice: PropTypes.bool,
   localeFallbacks: PropTypes.arr,
   disableAutoSearch: PropTypes.bool,
-  viewMoreEnabled: PropTypes.bool
+  viewMoreEnabled: PropTypes.bool,
+  expanded: PropTypes.bool,
+  showNextButton: PropTypes.bool
 };
 
 HelpCenter.defaultProps = {
@@ -528,5 +534,7 @@ HelpCenter.defaultProps = {
   localeFallbacks: [],
   channelChoice: false,
   disableAutoSearch: false,
-  viewMoreEnabled: false
+  viewMoreEnabled: false,
+  expanded: false,
+  showNextButton: true
 };

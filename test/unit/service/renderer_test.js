@@ -9,7 +9,9 @@ describe('renderer', () => {
     mockNps,
     mockIpm,
     mockAutomaticAnswers,
-    mockChannelChoiceValue;
+    mockChannelChoiceValue,
+    mockExpandedValue,
+    mockWebWidget;
   const updateBaseFontSize = jasmine.createSpy();
   const updateFrameSize = jasmine.createSpy();
   const rendererPath = buildSrcPath('service/renderer');
@@ -46,6 +48,9 @@ describe('renderer', () => {
     mockNps = embedMocker('mockNps');
     mockIpm = embedMocker('mockIpm');
     mockAutomaticAnswers = embedMocker('mockAutomaticAnswers');
+    mockWebWidget = embedMocker('mockWebWidget');
+
+    mockExpandedValue = false;
 
     mockRegistry = initMockRegistry({
       'embed/submitTicket/submitTicket': {
@@ -72,6 +77,9 @@ describe('renderer', () => {
       'embed/automaticAnswers/automaticAnswers': {
         automaticAnswers: mockAutomaticAnswers
       },
+      'embed/webWidget/webWidget': {
+        webWidget: mockWebWidget
+      },
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', ['setCustomTranslations', 'setLocale', 't'])
       },
@@ -92,7 +100,8 @@ describe('renderer', () => {
           enableCustomizations: jasmine.createSpy(),
           getTrackSettings: jasmine.createSpy().and.returnValue(mockTrackSettings),
           get: (value) => _.get({
-            channelChoice: mockChannelChoiceValue
+            channelChoice: mockChannelChoiceValue,
+            expanded: mockExpandedValue
           }, value, null)
         }
       },
@@ -318,6 +327,37 @@ describe('renderer', () => {
       });
     });
 
+    describe('when expanded setting is true', () => {
+      beforeEach(() => {
+        mockExpandedValue = true;
+
+        renderer.init(configJSON);
+      });
+
+      it('should create a webWidget embed', () => {
+        expect(mockWebWidget.create)
+          .toHaveBeenCalledWith('webWidget', jasmine.any(Object), jasmine.any(Object));
+      });
+
+      it('should pass through the ticketSubmissionForm and helpCenterForm config', () => {
+        const config = mockWebWidget.create.calls.mostRecent().args[1];
+
+        expect(config.ticketSubmissionForm)
+          .toBeTruthy();
+
+        expect(config.helpCenterForm)
+          .toBeTruthy();
+      });
+
+      it('should not create submitTicket and helpCenter', () => {
+        expect(mockSubmitTicket.create)
+          .not.toHaveBeenCalledWith();
+
+        expect(mockHelpCenter.create)
+          .not.toHaveBeenCalledWith();
+      });
+    });
+
     describe('initialising services', () => {
       let mockSettings,
         mocki18n;
@@ -369,14 +409,15 @@ describe('renderer', () => {
       expect(updateBaseFontSize)
         .toHaveBeenCalledWith('24px');
 
+      // The two embeds above and IPM and NPS
       expect(updateBaseFontSize.calls.count())
-        .toEqual(2);
+        .toEqual(4);
 
       expect(updateFrameSize)
         .toHaveBeenCalled();
 
       expect(updateFrameSize.calls.count())
-        .toEqual(2);
+        .toEqual(4);
     });
 
     it('should trigger propagateFontRatio call on orientationchange', () => {
