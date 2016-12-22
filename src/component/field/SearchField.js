@@ -156,6 +156,15 @@ export class SearchField extends Component {
     );
   }
 
+  renderMobileIcons() {
+    return (
+      <div className="u-displayInherit">
+        {this.renderSearchClear()}
+        {this.renderSearchIconButton()}
+      </div>
+    );
+  }
+
   render() {
     const { fullscreen, hasSearched } = this.props;
     const searchContainerClasses = classNames({
@@ -171,26 +180,15 @@ export class SearchField extends Component {
       'is-mobile': fullscreen
     });
 
-    // Rendering the components without a key property into an array causes React to throw an error.
-    // Related to: https://facebook.github.io/react/docs/multiple-components.html#dynamic-children.
-    // TODO: Refactor this logic when auto search is completely removed so we can remove the final
-    // react warning.
-    let searchElement;
-
-    if (fullscreen) {
-      searchElement = [
-        this.renderSearchInput(), this.renderSearchClear(), this.renderSearchIconButton()
-      ];
-    } else {
-      searchElement = [
-        this.renderSearchInput(), this.renderSearchLoadingIcon()
-      ];
-    }
+    const searchIcons = fullscreen
+                      ? this.renderMobileIcons()
+                      : this.renderSearchLoadingIcon();
 
     return (
       <div className={searchContainerClasses}>
         <label className={searchInputClasses}>
-          {searchElement}
+          {this.renderSearchInput()}
+          {searchIcons}
         </label>
       </div>
     );
