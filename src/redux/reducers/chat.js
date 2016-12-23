@@ -14,8 +14,6 @@ const initialState = {
   is_chatting: false
 };
 
-const copyMerge = (dest, src = {}) => _.extend({}, dest, src);
-
 function processFirehoseData(state, _action) {
   const action = _action.payload;
 
@@ -23,87 +21,100 @@ function processFirehoseData(state, _action) {
 
   switch (action.type) {
     case 'connection_update':
-      return copyMerge(state, { connection: action.detail });
+      return {
+        ...state,
+        connection: action.detail
+      };
     case 'account_status':
-      return copyMerge(state, { account_status: action.detail });
+      return {
+        ...state,
+        account_status: action.detail
+      };
     case 'department_update':
-      return copyMerge(state, { departments: action.detail });
-
+      return {
+        ...state,
+        departments: action.detail
+      };
     case 'visitor_update':
-      return copyMerge(state, { visitor: copyMerge(state.visitor, action.detail)});
-
+      return {
+        ...state,
+        visitor: {
+          ...state.visitor,
+          ...action.detail
+        }
+      };
     case 'agent_update':
-      return copyMerge(state, {
+      const isTyping = (state.agents[action.detail.nick] || { typing: false }).typing;
 
-        agents: copyMerge(state.agents, {
-
-          [action.detail.nick]: copyMerge(action.detail, {
-            nick: action.detail.nick, // To be removed after standardization
-            typing: (state.agents[action.detail.nick] || {typing: false}).typing
-          })
-        })
-      });
-
+      return {
+        ...state,
+        agents: {
+          ...state.agents,
+          [action.detail.nick]: {
+            ...action.detail,
+            nick: action.detail.nick,
+            typing: isTyping
+          }
+        }
+      };
     case 'chat':
-      const new_state = copyMerge(state);
+      let newState = { ...state };
 
       switch (action.detail.type) {
-        /* Web SDK events */
         case 'chat.memberjoin':
           if (isAgent(action.detail.nick)) {
-            if (!new_state.agents[action.detail.nick]) new_state.agents[action.detail.nick] = {};
-            new_state.agents[action.detail.nick].nick = action.detail.nick;
+            if (!newState.agents[action.detail.nick]) {
+              newState.agents[action.detail.nick] = {};
+            }
+            newState.agents[action.detail.nick].nick = action.detail.nick;
           }
-          else
-            new_state.visitor.nick = action.detail.nick;
+          else {
+            newState.visitor.nick = action.detail.nick;
+          }
 
           if (!isAgent(action.detail.nick)) {
-            new_state.is_chatting = true;
+            newState.is_chatting = true;
           }
 
-          // Concat this event to chats to be displayed
-          new_state.chats = copyMerge(state.chats, {
-            [action.detail.timestamp]: copyMerge(action.detail)
+          newState.chats = state.chats.concat({
+            [action.detail.timestamp]: { ...action.detail }
           });
 
-          return new_state;
-
+          return newState;
         case 'chat.memberleave':
           if (!isAgent(action.detail.nick)) {
-            new_state.is_chatting = false;
+            newState.is_chatting = false;
           }
 
-          // Concat this event to chats to be displayed
-          new_state.chats = copyMerge(state.chats, {
-            [action.detail.timestamp]: copyMerge(action.detail)
+          newState.chats = state.chats.concat({
+            [action.detail.timestamp]: { ...action.detail }
           });
-          return new_state;
 
+          return newState;
         case 'chat.file':
         case 'chat.wait_queue':
         case 'chat.request.rating':
         case 'chat.msg':
-          new_state.chats = state.chats.concat({
-            [action.detail.timestamp]: copyMerge(action.detail)
+          newState.chats = state.chats.concat({
+            [action.detail.timestamp]: { ...action.detail }
           });
-          return new_state;
 
+          return newState;
         case 'typing':
-          return copyMerge(state, {
-
-            agents: copyMerge(state.agents, {
-
-              [action.detail.nick]: copyMerge(state.agents[action.detail.nick], {
+          return {
+            ...state,
+            agents: {
+              ...state.agents,
+              [action.detail.nick]: {
+                ...state.agents[action.detail.nick],
                 typing: action.detail.typing
-              })
-            })
-          });
-
+              }
+            }
+          };
         default:
           return state;
       }
       break;
-
     default:
       return state;
   }
@@ -114,21 +125,22 @@ export default function reducer(state = initialState, action = {}) {
 
   switch (type) {
     case 'SENT_CHAT_MSG':
-      return copyMerge(state, {
+      return {
+        ...state,
         chats: state.chats.concat({
           [payload.detail.timestamp]: payload.detail
         })
-      });
-
+      };
     case 'UPDATE_CHAT_MSG':
       zChat.sendTyping(true);
       setTimeout(() => zChat.sendTyping(false), 2000);
 
-      return copyMerge(state, { currentMessage: payload });
-
+      return {
+        ...state,
+        currentMessage: payload
+      };
     case 'FIREHOSE_DATA':
-      return copyMerge(state, processFirehoseData(state, action));
-
+      return _.extend({}, state, processFirehoseData(state, action));
     default:
       return state;
   }
