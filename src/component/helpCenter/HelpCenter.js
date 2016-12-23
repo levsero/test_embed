@@ -139,7 +139,7 @@ export class HelpCenter extends Component {
     this.performContextualSearch(query, successFn);
   }
 
-  manualSearch() {
+  search() {
     const searchField = this.getHelpCenterComponent().refs.searchField;
     const searchTerm = (this.state.viewMoreActive)
                      ? this.state.previousSearchTerm
@@ -170,32 +170,6 @@ export class HelpCenter extends Component {
         searchField.blur();
       }, 1);
     }
-  }
-
-  autoSearch() {
-    const searchTerm = this.getHelpCenterComponent().refs.searchField.getValue();
-
-    if (_.isEmpty(searchTerm) ||
-        !(searchTerm.length >= 5 && _.last(searchTerm) === ' ') ||
-        this.props.disableAutoSearch) {
-      return;
-    }
-
-    const query = {
-      locale: i18n.getLocale(),
-      query: searchTerm,
-      per_page: this.state.resultsPerPage,
-      origin: null
-    };
-
-    this.setState(
-      this.searchStartState({
-        searchTerm: searchTerm,
-        searchTracked: false
-      })
-    );
-
-    this.performSearchWithLocaleFallback(query, this.interactiveSearchSuccessFn);
   }
 
   updateResults(res) {
@@ -268,7 +242,7 @@ export class HelpCenter extends Component {
       viewMoreActive: true
     });
 
-    setTimeout(() => this.manualSearch(), 0);
+    setTimeout(() => this.search(), 0);
   }
 
   handleNextClick(e) {
@@ -422,11 +396,9 @@ export class HelpCenter extends Component {
         ref='helpCenterDesktop'
         handleOnChangeValue={this.handleOnChangeValue}
         handleNextClick={this.handleNextClick}
-        autoSearch={this.autoSearch}
-        manualSearch={this.manualSearch}
+        search={this.search}
         showNextButton={this.state.showNextButton}
         hideZendeskLogo={this.props.hideZendeskLogo}
-        disableAutoSearch={this.props.disableAutoSearch}
         isLoading={this.state.isLoading}
         onNextClick={this.props.onNextClick}
         channelChoice={this.props.channelChoice && this.state.chatOnline}
@@ -450,13 +422,12 @@ export class HelpCenter extends Component {
         ref='helpCenterMobile'
         handleOnChangeValue={this.handleOnChangeValue}
         handleNextClick={this.handleNextClick}
-        manualSearch={this.manualSearch}
+        search={this.search}
         isLoading={this.state.isLoading}
         showNextButton={this.state.showNextButton}
         chatOnline={this.state.chatOnline}
         articleViewActive={this.state.articleViewActive}
         hasSearched={this.state.hasSearched}
-        disableAutoSearch={this.props.disableAutoSearch}
         searchFieldValue={this.state.searchFieldValue}
         hideZendeskLogo={this.props.hideZendeskLogo}
         buttonLabel={buttonLabel}
@@ -514,10 +485,9 @@ HelpCenter.propTypes = {
   originalArticleButton: PropTypes.bool,
   channelChoice: PropTypes.bool,
   localeFallbacks: PropTypes.arr,
-  disableAutoSearch: PropTypes.bool,
-  viewMoreEnabled: PropTypes.bool,
   expanded: PropTypes.bool,
-  showNextButton: PropTypes.bool
+  showNextButton: PropTypes.bool,
+  viewMoreEnabled: PropTypes.bool
 };
 
 HelpCenter.defaultProps = {
@@ -533,7 +503,6 @@ HelpCenter.defaultProps = {
   originalArticleButton: true,
   localeFallbacks: [],
   channelChoice: false,
-  disableAutoSearch: false,
   viewMoreEnabled: false,
   expanded: false,
   showNextButton: true

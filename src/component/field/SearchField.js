@@ -99,9 +99,8 @@ export class SearchField extends Component {
 
   renderSearchIcon() {
     const searchInputFieldIconClasses = classNames({
-      'Arrange-sizeFit u-isActionable': true,
-      'u-userTextColor u-userFillColor': this.state.focused,
-      'u-paddingHN': this.props.disableAutoSearch
+      'Arrange-sizeFit u-isActionable u-paddingHN': true,
+      'u-userTextColor u-userFillColor': this.state.focused
     });
 
     return (
@@ -157,8 +156,17 @@ export class SearchField extends Component {
     );
   }
 
+  renderMobileIcons() {
+    return (
+      <div className="u-displayInherit">
+        {this.renderSearchClear()}
+        {this.renderSearchIconButton()}
+      </div>
+    );
+  }
+
   render() {
-    const { fullscreen, hasSearched, disableAutoSearch } = this.props;
+    const { fullscreen, hasSearched } = this.props;
     const searchContainerClasses = classNames({
       'u-cf': true,
       'u-paddingTM': hasSearched,
@@ -167,35 +175,20 @@ export class SearchField extends Component {
     });
     const searchInputClasses = classNames({
       'Arrange Arrange--middle Form-field Form-field--search u-isSelectable': true,
+      'u-paddingVN u-paddingRN': true,
       'Form-field--focused': this.state.focused,
-      'is-mobile': fullscreen,
-      'u-paddingVN u-paddingRN': disableAutoSearch
+      'is-mobile': fullscreen
     });
 
-    // Rendering the components without a key property into an array causes React to throw an error.
-    // Related to: https://facebook.github.io/react/docs/multiple-components.html#dynamic-children.
-    // TODO: Refactor this logic when auto search is completely removed so we can remove the final
-    // react warning.
-    let searchElement;
-
-    if (fullscreen && disableAutoSearch) {
-      searchElement = [
-        this.renderSearchInput(), this.renderSearchClear(), this.renderSearchIconButton()
-      ];
-    } else if (disableAutoSearch) {
-      searchElement = [
-        this.renderSearchInput(), this.renderSearchLoadingIcon()
-      ];
-    } else {
-      searchElement = [
-        this.renderSearchIcon(), this.renderSearchInput(), this.renderSearchClear()
-      ];
-    }
+    const searchIcons = fullscreen
+                      ? this.renderMobileIcons()
+                      : this.renderSearchLoadingIcon();
 
     return (
       <div className={searchContainerClasses}>
         <label className={searchInputClasses}>
-          {searchElement}
+          {this.renderSearchInput()}
+          {searchIcons}
         </label>
       </div>
     );
@@ -206,7 +199,6 @@ SearchField.propTypes = {
   fullscreen: PropTypes.bool,
   isLoading: PropTypes.bool,
   hasSearched: PropTypes.bool,
-  disableAutoSearch: PropTypes.bool,
   onFocus: PropTypes.func,
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
@@ -218,7 +210,6 @@ SearchField.defaultProps = {
   fullscreen: false,
   isLoading: false,
   hasSearched: false,
-  disableAutoSearch: false,
   onFocus: () => {},
   onBlur: () => {},
   onChange: () => {},
