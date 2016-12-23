@@ -13,9 +13,6 @@ describe('Launcher component', () => {
           return false;
         }
       },
-      'component/ChatBox': {
-        ChatBox: noopReactComponent()
-      },
       'component/Icon': {
         Icon: noopReactComponent()
       },
