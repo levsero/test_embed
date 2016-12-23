@@ -12,7 +12,7 @@ import { bindMethods } from 'utility/utils';
 import { locals as styles } from './HelpCenterMobile.sass';
 
 export class HelpCenterMobile extends Component {
-  constructor = (props, context) => {
+  constructor(props, context) {
     super(props, context);
     this.state = {
       showIntroScreen: true,

@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { bindMethods } from 'utility/utils';
 
 export class Dropzone extends Component {
-  constructor = (props, context) => {
+  constructor(props, context) {
     super(props, context);
     this.state = { isDragActive: false };
   }

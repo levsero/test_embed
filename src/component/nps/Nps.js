@@ -32,7 +32,7 @@ const initialState = {
 };
 
 export class Nps extends Component {
-  constructor = (props, context) => {
+  constructor(props, context) {
     super(props, context);
 
     const state =_.extend({}, initialState, { isMobile: props.mobile });

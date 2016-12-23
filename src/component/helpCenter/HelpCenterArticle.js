@@ -18,7 +18,7 @@ const allowedIframeAttribs = [
 ];
 
 class HelpCenterArticle extends Component {
-  constructor = (props, context) => {
+  constructor(props, context) {
     super(props, context);
     this.state = {
       queuedImages: {},

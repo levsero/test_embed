@@ -30,7 +30,7 @@ const initialState = {
 };
 
 export class NpsMobile extends Component {
-  constructor = (props, context) => {
+  constructor(props, context) {
     super(props, context);
     this.state = initialState;
   }

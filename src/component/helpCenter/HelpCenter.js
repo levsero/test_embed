@@ -13,7 +13,7 @@ const minimumSearchResults = 3;
 const maximumSearchResults = 9;
 
 export class HelpCenter extends Component {
-  constructor = (props, context) => {
+  constructor(props, context) {
     super(props, context);
     this.state = {
       articles: [],
@@ -63,11 +63,11 @@ export class HelpCenter extends Component {
     this.setState({ expanded });
   }
 
-  setArticleView(articleViewActive) {
+  setArticleView = (articleViewActive) => {
     this.setState({ articleViewActive });
   }
 
-  setChatOnline(state) {
+  setChatOnline = (state) => {
     this.setState({ chatOnline: state });
   }
 
@@ -137,11 +137,7 @@ export class HelpCenter extends Component {
     this.performContextualSearch(query, successFn);
   }
 
-<<<<<<< HEAD
-  manualSearch = () => {
-=======
-  search() {
->>>>>>> master
+  search = () => {
     const searchField = this.getHelpCenterComponent().refs.searchField;
     const searchTerm = (this.state.viewMoreActive)
                      ? this.state.previousSearchTerm
@@ -174,37 +170,7 @@ export class HelpCenter extends Component {
     }
   }
 
-<<<<<<< HEAD
-  autoSearch = () => {
-    const searchTerm = this.getHelpCenterComponent().refs.searchField.getValue();
-
-    if (_.isEmpty(searchTerm) ||
-        !(searchTerm.length >= 5 && _.last(searchTerm) === ' ') ||
-        this.props.disableAutoSearch) {
-      return;
-    }
-
-    const query = {
-      locale: i18n.getLocale(),
-      query: searchTerm,
-      per_page: this.state.resultsPerPage,
-      origin: null
-    };
-
-    this.setState(
-      this.searchStartState({
-        searchTerm: searchTerm,
-        searchTracked: false
-      })
-    );
-
-    this.performSearchWithLocaleFallback(query, this.interactiveSearchSuccessFn);
-  }
-
   updateResults = (res) => {
-=======
-  updateResults(res) {
->>>>>>> master
     const json = res.body;
     const articles = json.results;
 

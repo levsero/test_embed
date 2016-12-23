@@ -7,7 +7,7 @@ import { logging } from 'service/logging';
 import { getPageTitle } from 'utility/utils';
 
 export class Ipm extends Component {
-  constructor = (props, context) => {
+  constructor(props, context) {
     super(props, context);
     this.state = {
       ipm: {

@@ -7,7 +7,7 @@ import { i18n } from 'service/i18n';
 import { isMobileBrowser } from 'utility/devices';
 
 export class Launcher extends Component {
-  constructor = (props, context) => {
+  constructor(props, context) {
     super(props, context);
 
     this.state = {

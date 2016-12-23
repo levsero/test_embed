@@ -18,7 +18,7 @@ const initialState = {
 };
 
 export class NpsDesktop extends Component {
-  constructor = (props, context) => {
+  constructor(props, context) {
     super(props, context);
     this.state = initialState;
   }

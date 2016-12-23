@@ -5,7 +5,7 @@ import { Icon } from 'component/Icon';
 import { bindMethods } from 'utility/utils';
 
 export class IconFieldButton extends Component {
-  constructor = (props, context) => {
+  constructor(props, context) {
     super(props, context);
     this.state = { hovering: false };
   }

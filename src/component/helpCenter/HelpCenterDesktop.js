@@ -12,7 +12,7 @@ import { bindMethods } from 'utility/utils';
 import { locals as styles } from './HelpCenterDesktop.sass';
 
 export class HelpCenterDesktop extends Component {
-  constructor = (props, context) => {
+  constructor(props, context) {
     super(props, context);
     this.state = { channelChoiceShown: false };
   }

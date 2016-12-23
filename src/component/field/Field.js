@@ -10,7 +10,7 @@ import { Icon } from 'component/Icon';
 import { bindMethods } from 'utility/utils';
 
 export class Field extends Component {
-  constructor = (props, context) => {
+  constructor(props, context) {
     super(props, context);
     this.state = {
       focused: false,

@@ -11,7 +11,7 @@ import { bindMethods } from 'utility/utils';
 import { Provider } from 'react-redux';
 
 export class EmbedWrapper extends Component {
-  constructor = (props, context) => {
+  constructor(props, context) {
     super(props, context);
     this.state = {
       css: '',

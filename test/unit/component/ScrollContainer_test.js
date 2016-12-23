@@ -1,4 +1,4 @@
-describe('ScrollContainer component', () => {
+fdescribe('ScrollContainer component', () => {
   let ScrollContainer;
   const containerPath = buildSrcPath('component/ScrollContainer');
 
@@ -163,4 +163,3 @@ describe('ScrollContainer component', () => {
     });
   });
 });
-

@@ -10,7 +10,7 @@ import { bindMethods } from 'utility/utils';
 const closeFrameDelay = 4000;
 
 export class AutomaticAnswers extends Component {
-  constructor = (props, context) => {
+  constructor(props, context) {
     super(props, context);
     this.state = {
       ticket: {
