@@ -8,6 +8,7 @@ import { ipm } from 'embed/ipm/ipm';
 import { launcher } from 'embed/launcher/launcher';
 import { nps } from 'embed/nps/nps';
 import { submitTicket } from 'embed/submitTicket/submitTicket';
+import { webWidget } from 'embed/webWidget/webWidget';
 import { i18n } from 'service/i18n';
 import { mediator } from 'service/mediator';
 import { logging } from 'service/logging';
@@ -27,7 +28,8 @@ const embedsMap = {
   'chat': chat,
   'channelChoice': channelChoice,
   'automaticAnswers': automaticAnswers,
-  'launcher': launcher
+  'launcher': launcher,
+  'webWidget': webWidget
 };
 let initialised = false;
 let hideLauncher = false;
@@ -79,7 +81,24 @@ function init(config) {
       embedsMap.channelChoice.render('channelChoice');
     }
 
-    _.forEach(parseConfig(config), function(configItem, embedName) {
+    const singleIframe = settings.get('expanded');
+    let parsedConfig = parseConfig(config);
+
+    if (singleIframe) {
+      const webWidgetConfig = _.chain(parsedConfig)
+                               .pick(['ticketSubmissionForm', 'helpCenterForm'])
+                               .mapValues('props')
+                               .value();
+
+      parsedConfig = _.omit(parsedConfig, ['ticketSubmissionForm', 'helpCenterForm']);
+
+      parsedConfig.webWidget = {
+        embed: 'webWidget',
+        props: webWidgetConfig
+      };
+    }
+
+    _.forEach(parsedConfig, (configItem, embedName) => {
       try {
         configItem.props.visible = !hideLauncher && config.embeds && !config.embeds.zopimChat;
         configItem.props.hideZendeskLogo = config.hideZendeskLogo;
@@ -98,7 +117,7 @@ function init(config) {
       }
     });
 
-    renderedEmbeds = config.embeds;
+    renderedEmbeds = parsedConfig;
 
     initMediator(config);
 

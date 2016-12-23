@@ -1,31 +1,24 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
-import { Icon } from 'component/Icon';
 import { IconFieldButton } from 'component/button/IconFieldButton';
 
 export class SearchFieldButton extends Component {
-  render = () => {
-    const { disableAutoSearch } = this.props;
+  render() {
     const fieldClasses = classNames({
       'Arrange Arrange--middle Form-field Form-field--search u-isSelectable is-mobile': true,
-      'u-paddingRN u-paddingVN': disableAutoSearch
+      'u-paddingRN u-paddingVN': true
     });
     const searchTerm = (
       <span className='Arrange-sizeFit u-textSizeBaseMobile u-hsizeAll u-textBody'>
         {this.props.searchTerm}
       </span>
     );
-    const icon = disableAutoSearch ? <IconFieldButton
-                                        fullscreen={true}
-                                        icon='Icon--search' />
-                                   : <Icon
-                                        className='Arrange-sizeFit u-isActionable'
-                                        type='Icon--search' />;
-
-    const searchBar = (disableAutoSearch)
-                    ? [ searchTerm, icon ]
-                    : [ icon, searchTerm ];
+    const icon = (
+      <IconFieldButton
+        fullscreen={true}
+        icon='Icon--search' />
+    );
 
     return (
       <div className='u-cf u-paddingHN u-paddingBN Form-cta--barFullscreen'>
@@ -33,7 +26,8 @@ export class SearchFieldButton extends Component {
           className={fieldClasses}
           onClick={this.props.onClick}
           onTouch={this.props.onTouch}>
-          {searchBar}
+          {searchTerm}
+          {icon}
         </div>
       </div>
     );
@@ -43,13 +37,11 @@ export class SearchFieldButton extends Component {
 SearchFieldButton.propTypes = {
   onClick: PropTypes.func,
   onTouch: PropTypes.func,
-  searchTerm: React.PropTypes.string,
-  disableAutoSearch: React.PropTypes.bool
+  searchTerm: React.PropTypes.string
 };
 
 SearchFieldButton.defaultProps = {
   onClick: () => {},
   onTouch: () => {},
-  searchTerm: '',
-  disableAutoSearch: false
+  searchTerm: ''
 };

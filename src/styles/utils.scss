@@ -541,6 +541,9 @@ $Base-posOffset: $med + 1;
   align-items: center !important;
 }
 
+.u-displayInherit {
+  display: inherit;
+}
 
 /**
  * Used to hide the widget when printing the host page

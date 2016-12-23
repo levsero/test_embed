@@ -80,7 +80,7 @@ export class HelpCenterMobile extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.manualSearch();
+    this.props.search();
   }
 
   renderSearchField = () => {
@@ -95,7 +95,6 @@ export class HelpCenterMobile extends Component {
           fullscreen={true}
           onFocus={this.handleOnFocus}
           onBlur={this.handleOnBlur}
-          disableAutoSearch={this.props.disableAutoSearch}
           onChangeValue={this.props.handleOnChangeValue}
           hasSearched={this.props.hasSearched}
           onSearchIconClick={this.handleSubmit}
@@ -110,7 +109,6 @@ export class HelpCenterMobile extends Component {
          : <SearchFieldButton
              ref='searchFieldButton'
              onClick={this.handleSearchBoxClicked}
-             disableAutoSearch={this.props.disableAutoSearch}
              onTouch={this.handleSearchBoxClicked}
              searchTerm={this.props.searchFieldValue} />;
   }
@@ -215,7 +213,7 @@ export class HelpCenterMobile extends Component {
 
 HelpCenterMobile.propTypes = {
   handleNextClick: PropTypes.func.isRequired,
-  manualSearch: PropTypes.func.isRequired,
+  search: PropTypes.func.isRequired,
   handleOnChangeValue: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
   hideZendeskLogo: PropTypes.bool,
@@ -226,7 +224,6 @@ HelpCenterMobile.propTypes = {
   chatOnline: PropTypes.bool,
   hasSearched: PropTypes.bool,
   searchFieldValue: PropTypes.string,
-  disableAutoSearch: PropTypes.bool,
   showNextButton: PropTypes.bool
 };
 
@@ -238,6 +235,5 @@ HelpCenterMobile.defaultProps = {
   chatOnline: false,
   hasSearched: false,
   searchFieldValue: '',
-  disableAutoSearch: false,
   showNextButton: true
 };
