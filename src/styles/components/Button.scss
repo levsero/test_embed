@@ -3,6 +3,7 @@
  */
 @import '../_vars.scss';
 @import '../mixins.scss';
+@import '../../../node_modules/zd-css-buttons/dist/index';
 
 $Button-baseFontSize: #{14/$font-size}rem;
 $Button-nudge: 5;
@@ -45,7 +46,7 @@ $Button-nudge: 5;
 }
 
 .Button--nav {
-  color: $zendesk-color--aluminum;
+  color: $zd-color-aluminum;
   padding-top: #{16/$font-size}rem;
   border: 0;
 
@@ -80,10 +81,10 @@ $Button-nudge: 5;
 
 .Button--fieldMobile {
   padding: #{14/$font-size}rem #{14/$font-size}rem #{10/$font-size}rem;
-  background: $zendesk-color--anti-flash-white;
+  background: $zd-color-anti-flash-white;
 
   &:focus, &:active {
-    background: $zendesk-color--gainsboro !important;
+    background: $zd-color-gainsboro !important;
   }
 }
 
@@ -93,24 +94,46 @@ $Button-nudge: 5;
 }
 
 .Button--icon {
-  color: $zendesk-color--aluminum;
+  color: $zd-color-aluminum;
   padding: #{10/$font-size}rem;
 
   &:hover, &:focus, &:active {
-    color: $zendesk-color--dark-gray;
-    background: $zendesk-color--anti-flash-white;
+    color: $zd-color-dark-gray;
+    background: $zd-color-anti-flash-white;
+  }
+}
+
+.ButtonRating {
+  border-radius: #{4/$font-size}rem;
+  border: #{2/$font-size}rem solid $zd-color-gainsboro;
+  height: #{34/$font-size}rem;
+  line-height: #{34/$font-size}rem;
+  padding: 0 !important;
+  width: #{34/$font-size}rem;
+
+  &.is-disabled {
+    color: $zd-color-iron !important;
+    background-color: $zd-color-white !important;
+  }
+
+  &:hover, &:focus {
+    background-color: $zd-color-white-smoke;
+    border: #{2/$font-size}rem solid $zd-color-iron;
   }
 }
 
 /**
 * ZendeskGarden style override
 */
-.c-btn--primary {
-  background: $cta-color;
-  color: rgba($base-color, .8);
+.c-btn {
   font-size: #{13/$font-size}rem;
-  border-radius: #{4/$font-size}rem;
-  padding: #{11/$font-size}rem #{24/$font-size}rem;
+  padding-right: #{24/$font-size}rem;
+  padding-left: #{24/$font-size}rem;
+  min-width: 0;
+}
+
+.c-btn--primary {
+  color: rgba($base-color, .8);
   @include text-limit(75%);
 
   &.is-mobile {
@@ -125,11 +148,10 @@ $Button-nudge: 5;
 .c-btn--primary--icon {
   background: $cta-color;
   color: rgba($base-color, .8);
-  font-size: #{13/$font-size}rem;
-  border-radius: #{4/$font-size}rem;
   padding: #{11/$font-size}rem 0;
   // TODO - Fix for width for wider string translations
   min-width: #{76/$font-size}rem;
+  line-height: 1;
 
   &:hover, &:focus, &:active {
     color: $base-color;
@@ -137,17 +159,11 @@ $Button-nudge: 5;
 }
 
 .c-btn--pill {
-  color: $zendesk-color--aluminum;
-  padding: #{7/$font-size}rem #{14/$font-size}rem #{7/$font-size}rem #{14/$font-size}rem !important;
-  font-size: #{13/$font-size}rem;
   border-radius: 999rem !important; /* 1 */
-
-  &.is-mobile {
-    border-color: $secondary-color;
-  }
+  padding: #{7/$font-size}rem #{14/$font-size}rem;
+  line-height: 1;
 
   &:hover, &:active {
-    color: $zendesk-color--dark-gray;
     svg {
       fill: $icon-active-color;
     }
@@ -160,26 +176,12 @@ $Button-nudge: 5;
 }
 
 .c-btn--secondary {
-  font-size: #{13/$font-size}rem;
-  border-radius: #{4/$font-size}rem;
-  padding: #{11/$font-size}rem #{24/$font-size}rem;
-}
+  color: $zd-color-aluminum;
+  border-color: $zd-color-gainsboro;
 
-.ButtonRating {
-  border-radius: #{4/$font-size}rem;
-  border: #{2/$font-size}rem solid $zendesk-color--gainsboro;
-  height: #{34/$font-size}rem;
-  line-height: #{34/$font-size}rem;
-  padding: 0;
-  width: #{34/$font-size}rem;
-
-  &.is-disabled {
-    color: $zendesk-color--iron !important;
-    background-color: $zendesk-color--white !important;
-  }
-
-  &:hover, &:focus {
-    background-color: $zendesk-color--white-smoke;
-    border: #{2/$font-size}rem solid $zendesk-color--iron;
+  &:hover, &:active {
+    color: $zd-color-dark-gray;
+    border-color: $zd-color-iron;
+    background: $zd-color-white-smoke;
   }
 }

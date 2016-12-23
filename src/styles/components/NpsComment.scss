@@ -11,7 +11,7 @@
 }
 
 .NpsComment-label {
-  color: $zendesk-color--dark-gray;
+  color: $zd-color-dark-gray;
   font-weight: 700;
   font-size: #{14/$font-size}rem !important;
   border: 0 !important;
@@ -35,7 +35,7 @@
 }
 
 .NpsComment-selectlist {
-  background-color: $zendesk-color--snow;
+  background-color: $zd-color-snow;
   border-radius: #{4/$font-size}rem;
   height: 2rem;
   padding-left: #{6/$font-size}rem;

@@ -68,12 +68,12 @@
 
     &:hover, &:active, &:focus {
       path {
-        fill: $zendesk-color--algae;
+        fill: $zd-color-algae;
       }
     }
 
     path {
-      fill: $zendesk-color--iron;
+      fill: $zd-color-iron;
     }
   }
 }
@@ -192,7 +192,7 @@
   padding-right: #{8/$font-size}rem;
 
   svg {
-    fill: $zendesk-color--white;
+    fill: $zd-color-white;
     min-width: #{12/$font-size}rem;
     min-height: #{9/$font-size}rem;
     width: #{12/$font-size}rem;

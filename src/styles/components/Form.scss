@@ -82,7 +82,7 @@ $Form-fontSize: #{13/$font-size}rem;
 }
 
 .Form-field--display {
-  background: $zendesk-color--white-smoke;
+  background: $zd-color-white-smoke;
   border: $thin-border-size solid $stroke-color;
   border-radius: #{4/$font-size}rem;
   padding: #{9/$font-size}rem $spacing-sml $spacing-sml;
@@ -193,5 +193,5 @@ $Form-fontSize: #{13/$font-size}rem;
   margin-bottom: #{7/$font-size}rem;
   font-weight: 700;
   display: block;
-  color: $zendesk-color--aluminum;
+  color: $zd-color-aluminum;
 }

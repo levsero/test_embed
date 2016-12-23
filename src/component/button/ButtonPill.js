@@ -7,7 +7,7 @@ import { i18n } from 'service/i18n';
 export class ButtonPill extends Component {
   render() {
     const buttonClasses = classNames({
-      'c-btn c-btn--medium c-btn--secondary c-btn--pill': true,
+      'c-btn c-btn--secondary c-btn--pill': true,
       'u-textNormal': true,
       'u-sizeFull u-textSizeBaseMobile is-mobile': this.props.fullscreen,
       'u-textNoWrap': i18n.isRTL()
