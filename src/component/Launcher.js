@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 import { locals as styles } from './Launcher.sass';
 
-import ChatBox from 'component/ChatBox';
 import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
 import { isMobileBrowser } from 'utility/devices';
@@ -61,16 +60,13 @@ export class Launcher extends Component {
     setTimeout( () => this.props.updateFrameSize(5, 0), 0);
 
     return (
-      <div>
-        <ChatBox />
-        <div className={buttonClasses}
-          onClick={this.props.onClick}
-          onTouchEnd={this.props.onClick}>
-          <Icon
-            type={this.state.icon}
-            className={iconClasses} />
-          <span className={labelClasses}>{label}</span>
-        </div>
+      <div className={buttonClasses}
+        onClick={this.props.onClick}
+        onTouchEnd={this.props.onClick}>
+        <Icon
+          type={this.state.icon}
+          className={iconClasses} />
+        <span className={labelClasses}>{label}</span>
       </div>
     );
   }

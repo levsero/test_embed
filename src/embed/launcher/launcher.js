@@ -5,8 +5,7 @@ import _ from 'lodash';
 import launcherStyles from 'component/Launcher.sass';
 
 import { document,
-         getDocumentHost,
-         win } from 'utility/globals';
+         getDocumentHost } from 'utility/globals';
 import { Launcher } from 'component/Launcher';
 import { frameFactory } from 'embed/frameFactory';
 import { beacon } from 'service/beacon';
@@ -14,7 +13,6 @@ import { mediator } from 'service/mediator';
 import { settings } from 'service/settings';
 import { generateUserCSS } from 'utility/color';
 import { transitionFactory } from 'service/transitionFactory';
-import zChat from 'vendor/web-sdk';
 
 const launcherCSS = require('./launcher.scss').toString()
                   + launcherStyles.toString();
@@ -22,18 +20,6 @@ const launcherCSS = require('./launcher.scss').toString()
 let launchers = {};
 
 function create(name, config, reduxStore) {
-  // temmporary setup of zChat
-  // this will move to the new chat embed
-  win.zChat = zChat;
-
-  zChat.init({
-    account_key: config ? config.zopimId : '' // eslint-disable-line camelcase
-  });
-
-  zChat.getFirehose().on('data', (data) => {
-    reduxStore.dispatch({type: 'FIREHOSE_DATA', payload: data});
-  });
-
   const configDefaults = {
     onClick: () => {},
     position: 'right',
