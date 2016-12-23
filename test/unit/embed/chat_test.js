@@ -395,8 +395,8 @@ describe('embed.chat', () => {
 
           expect(mockZopim.livechat.setEmail)
             .toHaveBeenCalledWith('daniel@email.com');
-          expect(mockZopim.livechat.setName.calls.count())
-            .toEqual(0);
+          expect(mockZopim.livechat.setName)
+            .not.toHaveBeenCalled();
         });
       });
     });
