@@ -10,9 +10,6 @@ describe('EmbedWrapper', () => {
 
     initMockRegistry({
       'React': React,
-      'utility/utils': {
-        bindMethods: mockBindMethods
-      },
       'utility/color': {},
       'service/i18n': {
         i18n: jasmine.createSpyObj('i18n', ['t', 'isRTL', 'getLocale'])
@@ -46,4 +43,3 @@ describe('EmbedWrapper', () => {
       .toBeTruthy();
   });
 });
-

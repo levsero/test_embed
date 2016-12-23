@@ -15,7 +15,6 @@ import { settings } from 'service/settings';
 import { isMobileBrowser,
          isIE } from 'utility/devices';
 import { location } from 'utility/globals';
-import { bindMethods } from 'utility/utils';
 
 let frameDimensions = {
   width: 0,
@@ -25,8 +24,6 @@ let frameDimensions = {
 export class SubmitTicket extends Component {
   constructor(props, context) {
     super(props, context);
-    bindMethods(this, SubmitTicket.prototype);
-
     this.state = {
       formTitleKey: props.formTitleKey,
       showNotification: false,
@@ -45,33 +42,33 @@ export class SubmitTicket extends Component {
     };
   }
 
-  clearNotification() {
+  clearNotification = () => {
     this.setState({ showNotification: false });
   }
 
-  clearForm() {
+  clearForm = () => {
     this.refs.submitTicketForm.clear();
 
     this.setState({ selectedTicketForm: null });
   }
 
-  showField() {
+  showField = () => {
     this.setState({ showEmail: true });
   }
 
-  setLoading(value) {
+  setLoading = (value) => {
     this.setState({ loading: value });
   }
 
-  expand(expanded) {
+  expand = (expanded) => {
     this.setState({ expanded });
   }
 
-  setFormState(formState) {
+  setFormState = (formState) => {
     this.setState({ formState });
   }
 
-  handleSubmit(e, data) {
+  handleSubmit = (e, data) => {
     e.preventDefault();
 
     this.setState({ errorMessage: null });
@@ -136,13 +133,13 @@ export class SubmitTicket extends Component {
     this.props.submitTicketSender(formParams, doneCallback, failCallback);
   }
 
-  findField(fieldName) {
+  findField = (fieldName) => {
     return _.find(this.state.ticketForms.ticket_fields, (field) => {
       return field.raw_title === fieldName && field.removable === false;
     });
   }
 
-  formatRequestTicketData(data) {
+  formatRequestTicketData = (data) => {
     const ticketFormsAvailable = !!this.state.ticketForms.ticket_forms;
     const submittedFrom = i18n.t(
       'embeddable_framework.submitTicket.form.submittedFrom.label',
@@ -182,7 +179,7 @@ export class SubmitTicket extends Component {
          : { request: params };
   }
 
-  formatTicketFieldData(data) {
+  formatTicketFieldData = (data) => {
     let params = {
       fields: {}
     };
@@ -203,7 +200,7 @@ export class SubmitTicket extends Component {
     return params;
   }
 
-  updateTicketForms(forms) {
+  updateTicketForms = (forms) => {
     this.setState({
       ticketForms: forms,
       loading: false
@@ -221,30 +218,30 @@ export class SubmitTicket extends Component {
     }
   }
 
-  handleDragEnter() {
+  handleDragEnter = () => {
     this.setState({
       isDragActive: true
     });
   }
 
-  handleDragLeave() {
+  handleDragLeave = () => {
     this.setState({
       isDragActive: false
     });
   }
 
-  handleOnDrop(files) {
+  handleOnDrop = (files) => {
     this.setState({
       isDragActive: false
     });
     this.refs.submitTicketForm.handleOnDrop(files);
   }
 
-  setFormTitleKey(formTitleKey) {
+  setFormTitleKey = (formTitleKey) => {
     this.setState({ formTitleKey });
   }
 
-  handleTicketFormsListClick(e) {
+  handleTicketFormsListClick = (e) => {
     const value = e.target.dataset.id;
     const { ticketForms } = this.state;
     const selectedTicketForm = _.find(ticketForms.ticket_forms, (f) => {
@@ -261,7 +258,7 @@ export class SubmitTicket extends Component {
     }, 0);
   }
 
-  renderLoadingSpinner() {
+  renderLoadingSpinner = () => {
     const spinnerIEClasses = isIE() ? styles.loadingSpinnerIE : '';
 
     return (
@@ -277,7 +274,7 @@ export class SubmitTicket extends Component {
     );
   }
 
-  renderErrorMessage() {
+  renderErrorMessage = () => {
     if (!this.state.errorMessage) return;
 
     return (
@@ -287,7 +284,7 @@ export class SubmitTicket extends Component {
     );
   }
 
-  renderForm() {
+  renderForm = () => {
     return (
       <SubmitTicketForm
         onCancel={this.props.onCancel}
@@ -312,7 +309,7 @@ export class SubmitTicket extends Component {
     );
   }
 
-  renderNotifications() {
+  renderNotifications = () => {
     if (!this.state.showNotification) return;
 
     const iconClasses = `${styles.notifyIcon} u-userFillColor u-userTextColor`;
@@ -328,7 +325,7 @@ export class SubmitTicket extends Component {
     );
   }
 
-  renderTicketFormOptions() {
+  renderTicketFormOptions = () => {
     const { ticketForms, fullscreen } = this.state;
     const mobileClasses = fullscreen ? styles.ticketFormsListMobile : '';
 
@@ -341,7 +338,7 @@ export class SubmitTicket extends Component {
     });
   }
 
-  renderTicketFormList() {
+  renderTicketFormList = () => {
     if (this.state.showNotification) return;
 
     const { fullscreen } = this.state;
@@ -372,7 +369,7 @@ export class SubmitTicket extends Component {
     );
   }
 
-  renderZendeskLogo() {
+  renderZendeskLogo = () => {
     return this.props.hideZendeskLogo || this.state.fullscreen
          ? null
          : <ZendeskLogo
@@ -381,7 +378,7 @@ export class SubmitTicket extends Component {
              fullscreen={this.state.fullscreen} />;
   }
 
-  renderAttachmentBox() {
+  renderAttachmentBox = () => {
     return this.state.isDragActive && this.props.attachmentsEnabled
          ? <AttachmentBox
              onDragLeave={this.handleDragLeave}
@@ -390,7 +387,7 @@ export class SubmitTicket extends Component {
          : null;
   }
 
-  render() {
+  render = () => {
     setTimeout(() => {
       frameDimensions = this.props.updateFrameSize();
     }, 0);

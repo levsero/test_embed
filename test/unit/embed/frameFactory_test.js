@@ -72,7 +72,6 @@ describe('frameFactory', function() {
     mockRegistryMocks = {
       'React': React,
       'utility/utils': {
-        bindMethods: mockBindMethods,
         cssTimeToMs: () => 300
       },
       'utility/globals': {

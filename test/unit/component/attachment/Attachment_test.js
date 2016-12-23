@@ -25,9 +25,6 @@ describe('Attachment component', function() {
         i18n: {
           t: mocki18nTranslate
         }
-      },
-      'utility/utils': {
-        bindMethods: mockBindMethods
       }
     });
 

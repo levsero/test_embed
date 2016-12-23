@@ -12,7 +12,6 @@ import { Field } from 'component/field/Field';
 import { ScrollContainer } from 'component/ScrollContainer';
 import { i18n } from 'service/i18n';
 import { getCustomFields } from 'utility/fields';
-import { bindMethods } from 'utility/utils';
 
 const sendButtonMessageString = 'embeddable_framework.submitTicket.form.submitButton.label.send';
 const sendingButtonMessageString = 'embeddable_framework.submitTicket.form.submitButton.label.sending';
@@ -31,7 +30,6 @@ const initialState = {
 export class SubmitTicketForm extends Component {
   constructor(props, context) {
     super(props, context);
-    bindMethods(this, SubmitTicketForm.prototype);
 
     this.state = _.extend({}, initialState, {
       ticketForm: null,
@@ -40,14 +38,14 @@ export class SubmitTicketForm extends Component {
     });
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     const customFields = getCustomFields(this.props.customFields, this.props.formState);
     const showShadow = customFields.fields.length > 0 || this.props.attachmentsEnabled;
 
     this.refs.scrollContainer.setScrollShadowVisible(showShadow);
   }
 
-  componentDidUpdate() {
+  componentDidUpdate = () => {
     if (this.refs.formWrapper && this.props.formState && this.state.shouldRemoveForm) {
       const form = ReactDOM.findDOMNode(this.refs.form);
 
@@ -76,7 +74,7 @@ export class SubmitTicketForm extends Component {
     }
   }
 
-  resetTicketFormVisibility() {
+  resetTicketFormVisibility = () => {
     // if the user closes and reopens, we need to
     // re-render the search field
     this.setState({
@@ -84,7 +82,7 @@ export class SubmitTicketForm extends Component {
     });
   }
 
-  focusField() {
+  focusField = () => {
     const form = ReactDOM.findDOMNode(this.refs.form);
 
     // Focus on the first empty text or textarea
@@ -97,13 +95,13 @@ export class SubmitTicketForm extends Component {
     }
   }
 
-  hideVirtualKeyboard() {
+  hideVirtualKeyboard = () => {
     this.setState({
       shouldRemoveForm: true
     });
   }
 
-  failedToSubmit() {
+  failedToSubmit = () => {
     this.setState({
       isSubmitting: false,
       buttonMessage: sendButtonMessageString
@@ -112,7 +110,7 @@ export class SubmitTicketForm extends Component {
     this.refs.scrollContainer.scrollToBottom();
   }
 
-  handleSubmit(e) {
+  handleSubmit = (e) => {
     if (this.props.previewEnabled) {
       e.preventDefault();
       return;
@@ -133,11 +131,11 @@ export class SubmitTicketForm extends Component {
     });
   }
 
-  openAttachment() {
+  openAttachment = () => {
     this.setState({ showAttachmentForm: true });
   }
 
-  getFormState() {
+  getFormState = () => {
     const form = ReactDOM.findDOMNode(this.refs.form);
 
     return _.chain(form.elements)
@@ -152,14 +150,14 @@ export class SubmitTicketForm extends Component {
       {}).value();
   }
 
-  updateTicketForm(form, fields) {
+  updateTicketForm = (form, fields) => {
     this.setState({
       ticketForm: form,
       ticketFormFields: fields
     });
   }
 
-  updateForm() {
+  updateForm = () => {
     const form = ReactDOM.findDOMNode(this.refs.form);
     const attachmentsReady = this.props.attachmentsEnabled
                            ? this.refs.attachments.attachmentsReady()
@@ -171,21 +169,21 @@ export class SubmitTicketForm extends Component {
     });
   }
 
-  resetState() {
+  resetState = () => {
     this.setState(initialState);
   }
 
-  handleOnDrop(files) {
+  handleOnDrop = (files) => {
     this.refs.attachments.handleOnDrop(files);
 
     setTimeout(() => this.refs.scrollContainer.scrollToBottom(), 0);
   }
 
-  handleAttachmentsError() {
+  handleAttachmentsError = () => {
     setTimeout(() => this.refs.scrollContainer.scrollToBottom(), 0);
   }
 
-  clear() {
+  clear = () => {
     const formData = this.props.formState;
     const form = this.refs.form;
 
@@ -206,7 +204,7 @@ export class SubmitTicketForm extends Component {
     });
   }
 
-  renderSubjectField() {
+  renderSubjectField = () => {
     const placeholder = i18n.t('embeddable_framework.submitTicket.field.subject.label', {
       fallback: 'Subject'
     });
@@ -220,7 +218,7 @@ export class SubmitTicketForm extends Component {
             disabled={this.props.previewEnabled} />;
   }
 
-  renderEmailField() {
+  renderEmailField = () => {
     return (
       <Field
         placeholder={i18n.t('embeddable_framework.form.field.email.label')}
@@ -233,7 +231,7 @@ export class SubmitTicketForm extends Component {
     );
   }
 
-  renderNameField() {
+  renderNameField = () => {
     return (
       <Field
         placeholder={i18n.t('embeddable_framework.submitTicket.field.name.label')}
@@ -243,7 +241,7 @@ export class SubmitTicketForm extends Component {
     );
   }
 
-  renderDescriptionField() {
+  renderDescriptionField = () => {
     return (
       <Field
         placeholder={i18n.t('embeddable_framework.submitTicket.field.description.label')}
@@ -255,7 +253,7 @@ export class SubmitTicketForm extends Component {
     );
   }
 
-  renderTicketFormBody() {
+  renderTicketFormBody = () => {
     const { ticketForm, ticketFormFields } = this.state;
     const formTicketFields = _.filter(ticketFormFields, (field) => {
       return ticketForm.ticket_field_ids.indexOf(field.id) > -1;
@@ -276,7 +274,7 @@ export class SubmitTicketForm extends Component {
     );
   }
 
-  renderFormBody() {
+  renderFormBody = () => {
     const customFields = getCustomFields(this.props.customFields, this.props.formState);
 
     return (
@@ -292,7 +290,7 @@ export class SubmitTicketForm extends Component {
     );
   }
 
-  renderCancelButton() {
+  renderCancelButton = () => {
     const { onCancel, fullscreen } = this.props;
 
     return (
@@ -303,7 +301,7 @@ export class SubmitTicketForm extends Component {
     );
   }
 
-  renderAttachments() {
+  renderAttachments = () => {
     const { attachmentSender, fullscreen } = this.props;
 
     return (
@@ -318,7 +316,7 @@ export class SubmitTicketForm extends Component {
     );
   }
 
-  render() {
+  render = () => {
     const { attachmentsEnabled, fullscreen, formTitleKey, hide } = this.props;
 
     const form = this.state.ticketForm ? this.renderTicketFormBody() : this.renderFormBody();

@@ -361,18 +361,3 @@ NewComponent.defaultProps = {
 <a name="headReactEvents"></a>**Event Handlers**
 
 Prepend event handler functions with *handle* (e.g `handleOnClick`, `handleSubmit`, ...).
-
-Due to the upgrade to ES6 class syntax, event handlers passed to React components require context binding. If a component has *more than 1* event handler, use the `bindMethods` function in *util/utils.js*.
-
-```javascript
-class NewComponent extends Component {
-  constructor(props, context) {
-    super(props, context);
-    bindMethods(this, NewComponent.prototype);
-
-    ...
-  }
-
-  ...
-}
-```

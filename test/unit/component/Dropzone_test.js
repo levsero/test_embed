@@ -7,12 +7,7 @@ describe('Dropzone component', () => {
 
     mockery.enable();
 
-    initMockRegistry({
-      'React': React,
-      'utility/utils': {
-        bindMethods: mockBindMethods
-      }
-    });
+    initMockRegistry({ 'React': React });
 
     mockery.registerAllowable(dropzonePath);
 

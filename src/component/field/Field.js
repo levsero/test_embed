@@ -7,7 +7,6 @@ import { isMobileBrowser,
          isLandscape,
          isIos } from 'utility/devices';
 import { Icon } from 'component/Icon';
-import { bindMethods } from 'utility/utils';
 
 export class Field extends Component {
   constructor(props, context) {

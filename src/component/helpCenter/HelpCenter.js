@@ -7,7 +7,6 @@ import { HelpCenterDesktop } from 'component/helpCenter/HelpCenterDesktop';
 import { HelpCenterMobile } from 'component/helpCenter/HelpCenterMobile';
 import { HelpCenterResults } from 'component/helpCenter/HelpCenterResults';
 import { i18n } from 'service/i18n';
-import { bindMethods } from 'utility/utils';
 
 const minimumSearchResults = 3;
 const maximumSearchResults = 9;

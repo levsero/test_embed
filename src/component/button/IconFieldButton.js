@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
 import { Icon } from 'component/Icon';
-import { bindMethods } from 'utility/utils';
 
 export class IconFieldButton extends Component {
   constructor(props, context) {

@@ -7,7 +7,6 @@ import { Icon } from 'component/Icon';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { NpsRatingsList } from 'component/nps/NpsRatingsList';
 import { NpsComment } from 'component/nps/NpsComment';
-import { bindMethods } from 'utility/utils';
 
 const initialState = {
   currentPage: {

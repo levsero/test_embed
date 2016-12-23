@@ -7,7 +7,6 @@ import { ScrollContainer } from 'component/ScrollContainer';
 import { SearchField } from 'component/field/SearchField';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { i18n } from 'service/i18n';
-import { bindMethods } from 'utility/utils';
 
 import { locals as styles } from './HelpCenterDesktop.sass';
 

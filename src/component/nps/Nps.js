@@ -3,7 +3,6 @@ import _ from 'lodash';
 
 import { NpsDesktop } from 'component/nps/NpsDesktop';
 import { NpsMobile } from 'component/nps/NpsMobile';
-import { bindMethods } from 'utility/utils';
 
 const initialState = {
   survey: {

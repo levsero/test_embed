@@ -62,9 +62,6 @@ describe('HelpCenterMobile component', () => {
           isRTL: jasmine.createSpy(),
           t: _.identity
         }
-      },
-      'utility/utils': {
-        bindMethods: mockBindMethods
       }
     });
 

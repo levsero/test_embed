@@ -5,7 +5,6 @@ import { Container } from 'component/Container';
 import { ScrollContainer } from 'component/ScrollContainer';
 import { ZendeskLogo } from 'component/ZendeskLogo';
 import { i18n } from 'service/i18n';
-import { bindMethods } from 'utility/utils';
 
 export class ChannelChoice extends Component {
   handleClick = (embed) => {

@@ -5,7 +5,6 @@ import { IconFieldButton } from 'component/button/IconFieldButton';
 import { SearchInput } from 'component/field/SearchInput';
 import { LoadingEllipses } from 'component/loading/Loading';
 import { Icon } from 'component/Icon';
-import { bindMethods } from 'utility/utils';
 
 export class SearchField extends Component {
   constructor(props, context) {
@@ -154,7 +153,7 @@ export class SearchField extends Component {
     );
   }
 
-  renderMobileIcons() {
+  renderMobileIcons = () => {
     return (
       <div className="u-displayInherit">
         {this.renderSearchClear()}
@@ -163,7 +162,7 @@ export class SearchField extends Component {
     );
   }
 
-  render() {
+  render = () => {
     const { fullscreen, hasSearched } = this.props;
     const searchContainerClasses = classNames({
       'u-cf': true,

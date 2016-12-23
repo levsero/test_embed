@@ -102,14 +102,6 @@ global.dispatchEvent = function(eventName, node) {
   node.dispatchEvent(event);
 };
 
-global.mockBindMethods = (instance, prototype) => {
-  const methods = Object.getOwnPropertyNames(prototype);
-
-  methods.forEach((method) => {
-    instance[method] = instance[method].bind(instance);
-  });
-};
-
 global.mockObjectDifference = (a, b) => {
   const transformFn = (res, val, key) => {
     if (_.isObject(val) && _.has(b, key)) {

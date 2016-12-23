@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
 import { i18n } from 'service/i18n';
-import { bindMethods } from 'utility/utils';
 import { ButtonIcon } from 'component/button/ButtonIcon';
 
 export class ChannelChoicePopup extends Component {

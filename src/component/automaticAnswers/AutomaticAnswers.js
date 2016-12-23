@@ -5,7 +5,6 @@ import { AutomaticAnswersMobile } from 'component/automaticAnswers/AutomaticAnsw
 import { automaticAnswersPersistence  } from 'service/automaticAnswersPersistence';
 import { i18n } from 'service/i18n';
 import { getHelpCenterArticleId } from 'utility/pages';
-import { bindMethods } from 'utility/utils';
 
 const closeFrameDelay = 4000;
 

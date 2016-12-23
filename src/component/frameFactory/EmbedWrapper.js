@@ -6,7 +6,6 @@ import { Icon } from 'component/Icon';
 import { i18n } from 'service/i18n';
 import { generateNpsCSS,
          generateWebWidgetPreviewCSS } from 'utility/color';
-import { bindMethods } from 'utility/utils';
 
 import { Provider } from 'react-redux';
 

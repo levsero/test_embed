@@ -154,9 +154,6 @@ describe('Submit ticket component', () => {
       'component/Icon': {
         Icon: noopReactComponent()
       },
-      'utility/utils': {
-        bindMethods: mockBindMethods
-      },
       'lodash': _
     });
 

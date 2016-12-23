@@ -4,7 +4,7 @@ import { ScrollContainer } from 'component/ScrollContainer';
 import { Container } from 'component/Container';
 
 export class Chat extends Component {
-  render() {
+  render = () => {
     return (
       <Container
         style={this.props.style}

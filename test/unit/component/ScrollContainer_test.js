@@ -1,4 +1,4 @@
-fdescribe('ScrollContainer component', () => {
+describe('ScrollContainer component', () => {
   let ScrollContainer;
   const containerPath = buildSrcPath('component/ScrollContainer');
 

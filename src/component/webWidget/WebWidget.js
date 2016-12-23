@@ -4,7 +4,6 @@ import classNames from 'classnames';
 import { Chat } from 'component/chat/Chat';
 import { HelpCenter } from 'component/helpCenter/HelpCenter';
 import { SubmitTicket } from 'component/submitTicket/SubmitTicket';
-import { bindMethods } from 'utility/utils';
 
 const submitTicket = 'ticketSubmissionForm';
 const helpCenter = 'helpCenterForm';
@@ -13,33 +12,31 @@ const chat = 'chat';
 export class WebWidget extends Component {
   constructor(props, context) {
     super(props, context);
-    bindMethods(this, WebWidget.prototype);
-
     this.state = {
       activeComponent: helpCenter,
       chatOnline: false
     };
   }
 
-  expand() {
+  expand = () => {
     if (this.getRootComponent().expand) {
       this.getRootComponent().expand(true);
     }
   }
 
-  setComponent(activeComponent) {
+  setComponent = (activeComponent) => {
     this.setState({ activeComponent });
   }
 
-  getActiveComponent() {
+  getActiveComponent = () => {
     return this.state.activeComponent;
   }
 
-  getRootComponent() {
+  getRootComponent = () => {
     return this.refs[this.state.activeComponent];
   }
 
-  onNextClick() {
+  onNextClick = () => {
     if (this.state.chatOnline) {
       this.setState({ activeComponent: chat });
       // TODO: track chat started
@@ -49,7 +46,7 @@ export class WebWidget extends Component {
     }
   }
 
-  onCancelClick() {
+  onCancelClick = () => {
     if (this.props.helpCenterAvaliable) {
       this.setState({ activeComponent: helpCenter });
       this.props.showBackButton(this.getRootComponent().state.articleViewActive);
@@ -58,7 +55,7 @@ export class WebWidget extends Component {
     }
   }
 
-  onBackClick() {
+  onBackClick = () => {
     const rootComponent = this.getRootComponent();
 
     if (this.state.activeComponent === helpCenter) {
@@ -73,7 +70,7 @@ export class WebWidget extends Component {
     }
   }
 
-  renderChat() {
+  renderChat = () => {
     const classes = classNames({
       'u-isHidden': this.state.activeComponent !== chat
     });
@@ -88,7 +85,7 @@ export class WebWidget extends Component {
     );
   }
 
-  renderHelpCenter() {
+  renderHelpCenter = () => {
     const { helpCenterConfig } = this.props;
     const classes = classNames({
       'u-isHidden': this.state.activeComponent !== helpCenter
@@ -124,7 +121,7 @@ export class WebWidget extends Component {
     );
   }
 
-  renderSubmitTicket() {
+  renderSubmitTicket = () => {
     const { submitTicketConfig } = this.props;
     const classes = classNames({
       'u-isHidden': this.state.activeComponent !== submitTicket
@@ -154,7 +151,7 @@ export class WebWidget extends Component {
     );
   }
 
-  render() {
+  render = () => {
     setTimeout(() => this.props.updateFrameSize(), 0);
 
     return (

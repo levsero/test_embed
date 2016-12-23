@@ -1,8 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
-import { bindMethods } from 'utility/utils';
-
 export class Dropzone extends Component {
   constructor(props, context) {
     super(props, context);

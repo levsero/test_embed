@@ -50,9 +50,6 @@ describe('SearchField component', () => {
             );
           }
         }
-      },
-      'utility/utils': {
-        bindMethods: mockBindMethods
       }
     });
 
